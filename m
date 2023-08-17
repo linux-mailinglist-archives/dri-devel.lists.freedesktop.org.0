@@ -2,75 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59F977EF58
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 05:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8573B77EFA4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 05:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F1410E120;
-	Thu, 17 Aug 2023 03:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58BD10E3E6;
+	Thu, 17 Aug 2023 03:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C49410E00C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 03:04:24 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- 98e67ed59e1d1-26b4a95f433so1053802a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 20:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1692241464; x=1692846264;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=j+oN2F++TrhNWLHLX+sRtmpEl+IFfl1u9TrYRTB2hEQ=;
- b=KyvQ/dasQFNGQMCjR1E3eZ9ABkzpDX7FJ/gyFZWJP35glaGjzutIqjCw5G2HgyUojO
- LgiuIQ0LiWvmNc4AYSu7qapIgigqkkhfSXg8v5erJucFUVgUZf56q2Z+ELz/y8x94wnI
- BA1u5d2TUYL93bmsR7UoGco0wbehX6jlUsJWJVWbi17oM7OFeEJkJXv7PlUkbvScnit+
- 0PyWcrWVPzSX2fDCwf2ibhdzD/QGZQacIQv+T5KzYlL0YtG6iWRcgqtklq4Z2LT1xrFj
- CWrkwpL4BkxPxTzKC3qODe/pFvzWxKZdVDV8ziu/dDM+eoysfhwoW0QHlCZosDYUKPFA
- pUyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692241464; x=1692846264;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j+oN2F++TrhNWLHLX+sRtmpEl+IFfl1u9TrYRTB2hEQ=;
- b=eNo4NwXoG7gRH/nTyD8MHQJtqja/XdP5guTf3EJGT902ckJgygs29gjUgZylJFreco
- Icih0Strs4jwHOYp3NcFTGL8AdsRSKoxT9HQAk8V6cjjdx2X/bXz3NM2Sx52fhbBitdX
- 04XWSJ5tS6FHam1B12UlNb/5WWrI5dHgnRWvFUpcYvAU0xLs84+hDFkOhl5PrNPPdbpx
- LK6Nez+6AfqbHsBE7tpRpIchH32Tn3Tao8sSyXcAmHCb/7R5ohy2OppCI8B7fPep8uHd
- +KG6H6jdP1VcghegHYt5TPpnGrBwAFwSuMv7mSAx2lKW3UbZMywpM+8F+F+h31kwSIX+
- VRYg==
-X-Gm-Message-State: AOJu0Yze9tJnZMSV7jF11c3/K/slkMazMZPC7Oirrjl8oTJr+d13lbAZ
- qP63OWrLCnl2josEYuF8IMso5A==
-X-Google-Smtp-Source: AGHT+IEXhHaOrOFf9jckj4CElIYgH9IvP2qs4Gx/s+K+/IxrJU4WPBPlbfNV2+NQpqjgJCr1yOaPzg==
-X-Received: by 2002:a17:90a:909:b0:263:2312:60c2 with SMTP id
- n9-20020a17090a090900b00263231260c2mr3384507pjn.3.1692241463669; 
- Wed, 16 Aug 2023 20:04:23 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.146])
- by smtp.gmail.com with ESMTPSA id
- ca8-20020a17090af30800b0026801e06ac1sm448211pjb.30.2023.08.16.20.04.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Aug 2023 20:04:23 -0700 (PDT)
-Message-ID: <52cc55b1-2584-9314-323d-4e407c66399a@bytedance.com>
-Date: Thu, 17 Aug 2023 11:04:10 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [PATCH 1/5] mm: move some shrinker-related function declarations
- to mm/internal.h
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA7910E3E6;
+ Thu, 17 Aug 2023 03:49:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kaITiyYCb9o6xVdQ8nuk276si+Zmcj/cZE+jD2UjeVcuztU2xtaxU6CBtfUXKy+eymX/2b6CZ5vLYWGBQfVRweFy7y0rGDor88S4SExB/2RDYIxLiy32L+tifJwYprBP73shV7eI2y7CS9fBPcHxf3+FATAYGLpsS40rkz2C4YGJRff2rlvCqAJDA1AQxKga+Jt4YShuvugx3iAd5DkIxGrT44VXCpu7VsU5tkbWYYXW57JMS6uLKduGxJYhj9kQCpNbvOnggWSb5Q5lTjxFbqVxGNf0dFbE5EkTMliotwfJrlWA4dg8pxCWLjZ63T7OZSO8giNoALh+VT/8Pops/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nxMoHM8jBuQRvs3PYArpkhlQtZBm3SG9a3LBVPnNeP4=;
+ b=RQd2hOUVq25gQA2I5hicM1o8+eDHlLCvsOkNK/7azODQSAzfqNJqDVTZroeCBBix17IbFbIteIdO3VRuQETiXjfj+RADLXPndw4x9qSv+43U/kYXYE/dVKfoYXAPAAKAUL7WWK9dvC70oZ7HJLFJMBavXTmGicb6KBPTzDYQySR+O3IrghJQibFmsWcGhxRbKrovsCuwU+4FdM7z+bPxDBwCMJTqMw82B7JcdWiLr5EMr3P7i5+PgFqhcWd0+OIKV/TYGBEW7tOxhefRXodXX5/H50YGPJK7tX8yIaIGghtYFIih9o7UXGElrguvu76swCr2BLHCvggBabKTsnMgWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nxMoHM8jBuQRvs3PYArpkhlQtZBm3SG9a3LBVPnNeP4=;
+ b=a5Db/T0D3nYjWyJpN53HtL+SsszN66SRTZh0ow8UhL7qGYuP+RwvDQOOvR2l6dIT7e6z/VaEW3PCnLFFooUxTrZyS2Ll2Dvt4BStulpGJuGzIDn63fL4URDHOdUhANdz+vitJFPRXOkfuhEaf7bpXKgsSV1Ic7pesW3VWNuDqCY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by PH7PR12MB7162.namprd12.prod.outlook.com (2603:10b6:510:201::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Thu, 17 Aug
+ 2023 03:49:15 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::af11:a0ea:b4e4:d1e0]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::af11:a0ea:b4e4:d1e0%4]) with mapi id 15.20.6678.029; Thu, 17 Aug 2023
+ 03:49:14 +0000
+Message-ID: <6e10c467-5e78-db73-6e8f-914946408033@amd.com>
+Date: Thu, 17 Aug 2023 09:19:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH] Documentation/gpu: Update amdgpu documentation
 Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
- david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz, roman.gushchin@linux.dev,
- djwong@kernel.org, brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu,
- steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
- yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev,
- joel@joelfernandes.org, christian.koenig@amd.com
-References: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
- <202308162208.cQBnGoER-lkp@intel.com>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <202308162208.cQBnGoER-lkp@intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230816035603.690383-1-lijo.lazar@amd.com>
+ <CADnq5_NwgrvS4tdwX9Tg=1nLU8iJck2tjKfRLVU_vR3Xi=NrLg@mail.gmail.com>
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <CADnq5_NwgrvS4tdwX9Tg=1nLU8iJck2tjKfRLVU_vR3Xi=NrLg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXP287CA0019.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::31) To BYAPR12MB4614.namprd12.prod.outlook.com
+ (2603:10b6:a03:a6::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|PH7PR12MB7162:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b13ca39-7bd1-4d7d-4acf-08db9ed4ec33
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RJ6F+iXCeT1lrKNSDw24VBVakG97WZf+L4cULh5eme0X3HnnAavliwk28XuLnPuFePi4MiG/6KXoCWxh4jVvbgvHScDkCkJs5h2n7aFe24sDPuJ+meLlx4CfUN9HiIHnqzd7TH7jFUhZauGJzeAOow6p7y922CGLYl3Nj2nQCdaaV0k2dsQPXiXliTd4jYqDtxA81d6/GhszVuu8P2pSwusgZyxsFZUN/cjoGjtBi6VkkDL4yFzBsSSgQx6e7oer1qWk+VPg8ZnkjdDRC0BU6reBa5okTStaFerw0CVFAikL8bNQnNV4Nh1Fy3jS33vZPGqYrHYjRf2rimsvXGDqVzvd+m6jL+HrxXX9c1nG97CUjfavq1AxRlWKG61pjdC3TceGIaS/+EVJj1Zf2mrqmxhhLA4arpDqQUblDg39Vg5oYlqHZXRdCE5OF7hW977kufhdWMqvSGu1xF/GUq45YtxK7qJztpips6CpnvaxUloF7Y3T4j8zepw7sl5ou5CWftIPIMddcWoPIEpGLZA0Nl7sQwsRmtxLOLymZBkARqae3Rel9ZuZ+4SZR8ACj8NBvAqyVjp1IqMu4rCR3E72yVZ1Ovc5ZZ1RwhRcEXnsFqoPaBItgOjhExg41Ob7RqZwnvCFWD/hZwfAftJtdabt4g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(39860400002)(346002)(136003)(366004)(376002)(451199024)(1800799009)(186009)(316002)(6916009)(66556008)(66946007)(66476007)(31686004)(5660300002)(41300700001)(38100700002)(4326008)(8936002)(8676002)(26005)(2906002)(15650500001)(83380400001)(478600001)(86362001)(53546011)(6512007)(31696002)(36756003)(6506007)(6666004)(6486002)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkxsckVpUkxqM2xLOUI1b1h0YXhjTWhCVUZaZ3pIYUJ1bG5QekIrU2s2VGMw?=
+ =?utf-8?B?clY2TE45Q1FROGxoLzdKR1EzeVRjOVpDV0FBUXdiNU01RDk0ZTJNSjBhM285?=
+ =?utf-8?B?cGRVV0xaZm9DMmpHTmdJTGQrRUx3aWtud2xYaWRrNUtvNUlCZ0hsL3QvMytv?=
+ =?utf-8?B?T2JIM2tId1AwV2RxRkFUNDQ0SjZ5L0tVdGlURVY3d1o1YlM2S1F4Wnk1OGgx?=
+ =?utf-8?B?dFNvUXordE9HdGhONzFsNEJHY2FaY244WXgzTlRNN2NiWjlaQmYwb2ZvZktF?=
+ =?utf-8?B?YmRzZ1F4S2ZUbkdwUUx6QlR5eEpLOVNsUFZwdnM2b1d3QzVhUFdrY0thM1BS?=
+ =?utf-8?B?aG8wdDFSd2FxVnhTaVBLZHdBOFdTNmhJSkxlQ2dBRnMzL0pObk5wNm1naUl3?=
+ =?utf-8?B?Uzh2YllxUFlTTGJDRFdTY2FrRmlMZmZwV0h0ZHVqdTg2aDBSTzZBelVTcjFN?=
+ =?utf-8?B?MUp5REQvN2M2UVpYSVBQNHRGUGhUdGYvaWJ3ZXk4djdKa3NwenU4QUI5ZHZJ?=
+ =?utf-8?B?NGFmYkhtQjNrUk1EdkM5dHJmV0xiNTdDcVhoUDZubjYyaUovK3pIdTd6QW00?=
+ =?utf-8?B?KzZaU0RVSmhKOXJ1NUxRRHJLVnpFQzlFZUNLREw0RXRucUJvMDd5V2QvT1kv?=
+ =?utf-8?B?UDI2aEp3WUZPUERUanUwSU9wNWtIbWpSVU9XV3l0ZG5tSWh4bHJWQnpaV3cx?=
+ =?utf-8?B?MVN3Nk9LbUFYYkZOTVkyN2ZNd3VXa0I0bm1mKzkwR1VTZXo0VUw2TFlocXA3?=
+ =?utf-8?B?ZWMwdkFOZm9HN1U4blg4RUtxcmluMjZjK1ZDNndmc1ZTTUZYMjhqSUN6NytD?=
+ =?utf-8?B?QjJBNFNubkd1OUJGQmh4Z0ZobjNuYnlvU3MwTnM4MVg5WFFvYWM4bVlOcUZn?=
+ =?utf-8?B?dWZlMDNGa1V6Y0ZqMkl0UzQrVllXcUNseEFPTU84MlNwUEVXQnNLdUd5WHV4?=
+ =?utf-8?B?WWNoOWJaSUJ4ODlnQ2RMUG5SemEwWU1FMXYvKzFGM3JxNEZ1aHVKRUJLWklK?=
+ =?utf-8?B?aFYvNDlRdnF6NDRHTStTWXRrcVhmMXhiTitaWktZOGdMWXFQTFhsRWtzVDQ2?=
+ =?utf-8?B?cjV1dVFWZGtzR25sOTg3QUpyK1VRRk9PT2ZFWU5IMUtnLzRDWDh2Vmxzc09j?=
+ =?utf-8?B?Z2ZITUQzWWlvVWhoWmRFVTh1blIraVExVE5Xd0pNZU9VMUhmWjY1N2xweExZ?=
+ =?utf-8?B?c2RtbmRGeExtWTQrL2lGcFNVMUZFWGpsSVZVOXFkOU5oRUhaRUxNVVJHcWdY?=
+ =?utf-8?B?bGt5UnpsL1dubVNha1EweEdyV3Jha3BTSVhTTUNDcnp4SDhnL05kZmlxS1ND?=
+ =?utf-8?B?eW1yS2R4MjhlWmpNaFRHL2JQMkp4RHlsL2ZrZ1ZNeTBvaHY2Q0NudGNlR2dq?=
+ =?utf-8?B?NWJWTXpMWDBSR2syVTZoZWlhUFBNTTU5RjdFYlF2OThJWDcrcDF2b3lIbTJK?=
+ =?utf-8?B?TlVFRC9iTEpIRjVqYUZnNTdSNkV0SVBxWTJrUFRnVXBDRm9iVEwzWG5BUmsx?=
+ =?utf-8?B?RktBMHZicjRIV1RrODg1Qm81YzVQb2hHaUl5ZjVUNTB2T2M5bFVIWU1wR25o?=
+ =?utf-8?B?L0FXZ25XbDM0RS9TS294VjJuVFluTlRERlRkOHNxMXhFSXI5am43KzIyY0JB?=
+ =?utf-8?B?cjhpTWc5eXliSk1GaHU2Wkc1VUdzSkZjbURqbzJSY21DdEJBWkxxNldWSHRo?=
+ =?utf-8?B?SldWZHV6SU5XaDN1SkJzaWtjcldtcjlyYUI2ZDBJOUwzSDc0RzJuWWtrTEZW?=
+ =?utf-8?B?dTF6NTc3aVlJY3FnZnNndTRzUnJBcXFSNERUaHdDWGpXVkorNFNCSStUS2xt?=
+ =?utf-8?B?bm83VmJLSUU5WFdoODlaV2ZsbkZIY1QrN2FIa2M0MTBoU0Z4V0xLc0hDQWdT?=
+ =?utf-8?B?djM3VUFZbUZ2RGNYRzhrNkY0N3pnMzdyR1VqK2VCaU12bk5YUEQwRTBVczVw?=
+ =?utf-8?B?WDUxcWdRZWFBRjE5Y2Njd211WmE5dFMwbXVSdU1UVjk5YXArSE5JN3Z1L0lF?=
+ =?utf-8?B?V0c3Und6cndBZ2dPMWd3eEdGUVl5QUJDSS91WEsveHFsWHVWbkRFbnltbWVv?=
+ =?utf-8?B?NWxWb0xJYXExSG10LzZycmE5U2JPSFdmTjRVbW9Sak1qeXNOdmhBc0w4Y2Yx?=
+ =?utf-8?Q?sm4lC9lPLqcg3++5+7iNje+Ut?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b13ca39-7bd1-4d7d-4acf-08db9ed4ec33
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2023 03:49:14.1548 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HbDTqLwTjklltnKSfVnta3ddRTg1SMOUNHasaNSNOLSZnPalrEREwe3qIYzUMd1l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,157 +125,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Muchun Song <songmuchun@bytedance.com>, linux-fsdevel@vger.kernel.org
+Cc: sfr@canb.auug.org.au, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alexander.Deucher@amd.com, airlied@redhat.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2023/8/16 23:01, kernel test robot wrote:
-> Hi Qi,
+On 8/17/2023 2:16 AM, Alex Deucher wrote:
+> On Wed, Aug 16, 2023 at 12:15 AM Lijo Lazar <lijo.lazar@amd.com> wrote:
+>>
+>> 7957ec80ef97 ("drm/amdgpu: Add FRU sysfs nodes only if needed") moved
+>> the documentation for some of the sysfs nodes to amdgpu_fru_eeprom.c.
+>> Update the documentation accordingly.
+>>
+>> Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+>> ---
+>>   Documentation/gpu/amdgpu/driver-misc.rst | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
+>> index be131e963d87..26334e54447b 100644
+>> --- a/Documentation/gpu/amdgpu/driver-misc.rst
+>> +++ b/Documentation/gpu/amdgpu/driver-misc.rst
+>> @@ -11,19 +11,19 @@ via sysfs
+>>   product_name
+>>   ------------
+>>
+>> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+>>      :doc: product_name
+>>
+>>   product_number
+>>   --------------
+>>
+>> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+>>      :doc: product_name
 > 
-> kernel test robot noticed the following build warnings:
+> I think this should be product_number
 > 
-> [auto build test WARNING on brauner-vfs/vfs.all]
-> [also build test WARNING on linus/master v6.5-rc6 next-20230816]
-> [cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next vfs-idmapping/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Alex
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-move-some-shrinker-related-function-declarations-to-mm-internal-h/20230816-163833
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> patch link:    https://lore.kernel.org/r/20230816083419.41088-2-zhengqi.arch%40bytedance.com
-> patch subject: [PATCH 1/5] mm: move some shrinker-related function declarations to mm/internal.h
-> config: x86_64-buildonly-randconfig-r003-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162208.cQBnGoER-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162208.cQBnGoER-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308162208.cQBnGoER-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> mm/shrinker_debug.c:174:5: warning: no previous declaration for 'shrinker_debugfs_add' [-Wmissing-declarations]
->      int shrinker_debugfs_add(struct shrinker *shrinker)
->          ^~~~~~~~~~~~~~~~~~~~
->>> mm/shrinker_debug.c:249:16: warning: no previous declaration for 'shrinker_debugfs_detach' [-Wmissing-declarations]
->      struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
->                     ^~~~~~~~~~~~~~~~~~~~~~~
->>> mm/shrinker_debug.c:265:6: warning: no previous declaration for 'shrinker_debugfs_remove' [-Wmissing-declarations]
->      void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
->           ^~~~~~~~~~~~~~~~~~~~~~~
 
-Compiling with W=1 will report this warning, will fix it by including
-"internal.h" in the mm/shrinker_debug.c.
+Thanks, made the change while pushing.
 
 Thanks,
-Qi
+Lijo
 
-> 
-> 
-> vim +/shrinker_debugfs_add +174 mm/shrinker_debug.c
-> 
-> bbf535fd6f06b9 Roman Gushchin     2022-05-31  173
-> 5035ebc644aec9 Roman Gushchin     2022-05-31 @174  int shrinker_debugfs_add(struct shrinker *shrinker)
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  175  {
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  176  	struct dentry *entry;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  177  	char buf[128];
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  178  	int id;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  179
-> 47a7c01c3efc65 Qi Zheng           2023-06-09  180  	lockdep_assert_held(&shrinker_rwsem);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  181
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  182  	/* debugfs isn't initialized yet, add debugfs entries later. */
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  183  	if (!shrinker_debugfs_root)
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  184  		return 0;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  185
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  186  	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  187  	if (id < 0)
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  188  		return id;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  189  	shrinker->debugfs_id = id;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  190
-> e33c267ab70de4 Roman Gushchin     2022-05-31  191  	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  192
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  193  	/* create debugfs entry */
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  194  	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  195  	if (IS_ERR(entry)) {
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  196  		ida_free(&shrinker_debugfs_ida, id);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  197  		return PTR_ERR(entry);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  198  	}
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  199  	shrinker->debugfs_entry = entry;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  200
-> 2124f79de6a909 John Keeping       2023-04-18  201  	debugfs_create_file("count", 0440, entry, shrinker,
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  202  			    &shrinker_debugfs_count_fops);
-> 2124f79de6a909 John Keeping       2023-04-18  203  	debugfs_create_file("scan", 0220, entry, shrinker,
-> bbf535fd6f06b9 Roman Gushchin     2022-05-31  204  			    &shrinker_debugfs_scan_fops);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  205  	return 0;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  206  }
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  207
-> e33c267ab70de4 Roman Gushchin     2022-05-31  208  int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-> e33c267ab70de4 Roman Gushchin     2022-05-31  209  {
-> e33c267ab70de4 Roman Gushchin     2022-05-31  210  	struct dentry *entry;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  211  	char buf[128];
-> e33c267ab70de4 Roman Gushchin     2022-05-31  212  	const char *new, *old;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  213  	va_list ap;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  214  	int ret = 0;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  215
-> e33c267ab70de4 Roman Gushchin     2022-05-31  216  	va_start(ap, fmt);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  217  	new = kvasprintf_const(GFP_KERNEL, fmt, ap);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  218  	va_end(ap);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  219
-> e33c267ab70de4 Roman Gushchin     2022-05-31  220  	if (!new)
-> e33c267ab70de4 Roman Gushchin     2022-05-31  221  		return -ENOMEM;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  222
-> 47a7c01c3efc65 Qi Zheng           2023-06-09  223  	down_write(&shrinker_rwsem);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  224
-> e33c267ab70de4 Roman Gushchin     2022-05-31  225  	old = shrinker->name;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  226  	shrinker->name = new;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  227
-> e33c267ab70de4 Roman Gushchin     2022-05-31  228  	if (shrinker->debugfs_entry) {
-> e33c267ab70de4 Roman Gushchin     2022-05-31  229  		snprintf(buf, sizeof(buf), "%s-%d", shrinker->name,
-> e33c267ab70de4 Roman Gushchin     2022-05-31  230  			 shrinker->debugfs_id);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  231
-> e33c267ab70de4 Roman Gushchin     2022-05-31  232  		entry = debugfs_rename(shrinker_debugfs_root,
-> e33c267ab70de4 Roman Gushchin     2022-05-31  233  				       shrinker->debugfs_entry,
-> e33c267ab70de4 Roman Gushchin     2022-05-31  234  				       shrinker_debugfs_root, buf);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  235  		if (IS_ERR(entry))
-> e33c267ab70de4 Roman Gushchin     2022-05-31  236  			ret = PTR_ERR(entry);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  237  		else
-> e33c267ab70de4 Roman Gushchin     2022-05-31  238  			shrinker->debugfs_entry = entry;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  239  	}
-> e33c267ab70de4 Roman Gushchin     2022-05-31  240
-> 47a7c01c3efc65 Qi Zheng           2023-06-09  241  	up_write(&shrinker_rwsem);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  242
-> e33c267ab70de4 Roman Gushchin     2022-05-31  243  	kfree_const(old);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  244
-> e33c267ab70de4 Roman Gushchin     2022-05-31  245  	return ret;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  246  }
-> e33c267ab70de4 Roman Gushchin     2022-05-31  247  EXPORT_SYMBOL(shrinker_debugfs_rename);
-> e33c267ab70de4 Roman Gushchin     2022-05-31  248
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @249  struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  250  				       int *debugfs_id)
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  251  {
-> badc28d4924bfe Qi Zheng           2023-02-02  252  	struct dentry *entry = shrinker->debugfs_entry;
-> badc28d4924bfe Qi Zheng           2023-02-02  253
-> 47a7c01c3efc65 Qi Zheng           2023-06-09  254  	lockdep_assert_held(&shrinker_rwsem);
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  255
-> e33c267ab70de4 Roman Gushchin     2022-05-31  256  	kfree_const(shrinker->name);
-> 14773bfa70e67f Tetsuo Handa       2022-07-20  257  	shrinker->name = NULL;
-> e33c267ab70de4 Roman Gushchin     2022-05-31  258
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  259  	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-> badc28d4924bfe Qi Zheng           2023-02-02  260  	shrinker->debugfs_entry = NULL;
-> badc28d4924bfe Qi Zheng           2023-02-02  261
-> badc28d4924bfe Qi Zheng           2023-02-02  262  	return entry;
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  263  }
-> 5035ebc644aec9 Roman Gushchin     2022-05-31  264
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @265  void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  266  {
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  267  	debugfs_remove_recursive(debugfs_entry);
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  268  	ida_free(&shrinker_debugfs_ida, debugfs_id);
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  269  }
-> 26e239b37ebdfd Joan Bruguera Micó 2023-05-03  270
-> 
+>>
+>>   serial_number
+>>   -------------
+>>
+>> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+>>      :doc: serial_number
+>>
+>>   unique_id
+>> --
+>> 2.25.1
+>>
