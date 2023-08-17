@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA7477F1DE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 10:10:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E955177F2E6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 11:13:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDF4B10E40A;
-	Thu, 17 Aug 2023 08:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADF410E1CD;
+	Thu, 17 Aug 2023 09:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E1110E40A;
- Thu, 17 Aug 2023 08:10:52 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3A41E40E0198; 
- Thu, 17 Aug 2023 08:10:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id dsaLMhCIx1WX; Thu, 17 Aug 2023 08:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1692259846; bh=KosVJk9TqczkP8Tl2l3dW2XQ5WUolMhM7fcHi7ojzPg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PU5ypwRfFRuvhSlxCMQUekpfoB5WweTKuJm0mBQoPMOQWdP4n0S9YrfgpFjmKuk1P
- QWNXdhccvBmrtDS8jXal1WRQ6Cs6ARpOOtfRuyO8bSmMRLWlJYmAWF/EKLPgsOov8s
- ESaeKMmD/bIe5sQkfrJ4IaDthABIwkc1h+ow5MIZoCmegbEadDfll65SI80znjUSRT
- aaUtq6C/eRKqayz7C+4hl0cySihMGitBO03J9Eh9pvrauJJRvRCKlL7weImJu+nImm
- tdqMkMVhK/ajM/RTvuEPMryu+LAR+ZfpxRaxWc/VE8L0pcbCL0ujTzZ2xTngCtnWfp
- BEOB3tCNijR+xS6C1XF5YLhNmGAWtVFitaSiCoq533MC/U/mm8oMyyR/nbquY0BJGu
- JB/cfcqAplTAsvaJHEgUmboiXtHcoZ01qJABEGFca8FEtrO/Vqx3fLFnHF8bz9II+a
- ZkpldKqr9hYrjN84jg2IjvzZ9EPw04f3odYZq6pghCoJPjwqG9DcXGoKoCEeSLKly1
- neUnP07G1Qh5UeawHGCrMz8Gr0BUzcDtXjC8FP0mFNcnvDyTEEJm/Ta33/T/af/4uN
- /pkmFrLYGksUf8qL0Y9wwnQZObCJ/scvWds7wCM+ttEmamootGP4i8yb0mepHSh1lm
- Mb1flELPwQJNd3aXYSOP+ngc=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4B8E340E0140;
- Thu, 17 Aug 2023 08:10:39 +0000 (UTC)
-Date: Thu, 17 Aug 2023 10:10:32 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
- of nouveau_connector_create
-Message-ID: <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
-References: <20230814144933.3956959-1-kherbst@redhat.com>
- <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
- <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
- <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
- <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
- <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
- <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
- <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
- <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72DEF10E1CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 09:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1692263627; x=1723799627;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=UXb9sg2LMUaA2IiZniOpQvzHPeODoB7tiHuPfvDdr0o=;
+ b=KuHunlMopOTVIpU6JjmIHpN9pLkoIsL8Yo/IBvz/M19hsmrb44hQRM/u
+ /OaFSrldHQeemBvYZnPwsMUqzAkmKTYAW8dej4dlZMLQIF5MvfUWg8nSE
+ POiCTl0rNxvUW8AfTW4F4YkYh/EATYYNvQ26klHGzPgBXL2PCqZdcWg26
+ P4SVF+1nMumqnyKxHZnC4KxOMC50yO2bgqHrNHO5N61YY+V0wcSUiQYuT
+ 3HaYARJATwqhrqGEBdpoWii9KpxWFO8qOz8bAzSRjwQWO62d3kS//HuUC
+ i8g4tt+/zoKZJNkH9TaOhw6EFeIcHG9EvxULbdwXX5tR/zvAcemrAaUvP w==;
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="166879614"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 17 Aug 2023 02:13:46 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 17 Aug 2023 02:13:20 -0700
+Received: from che-lt-i67131.microchip.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Thu, 17 Aug 2023 02:13:14 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <lee@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/8] Add support for XLCDC to sam9x7 SoC family.
+Date: Thu, 17 Aug 2023 14:42:42 +0530
+Message-ID: <20230817091250.225512-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
+ Balamanikandan.Gunasundar@microchip.com,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
+ Durai.ManickamKR@microchip.com, Hari.PrasathGE@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 17, 2023 at 01:18:12AM +0200, Karol Herbst wrote:
-> do you have one of these? https://en.wikipedia.org/wiki/DMS-59
+This patch series aims to add support for XLCDC IP of sam9x7 SoC family
+to the DRM subsystem.XLCDC IP has additional registers and new
+configuration bits compared to the existing register set of HLCDC IP.
+The new compatible string "microchip,sam9x75-xlcdc" is defined for sam9x75
+variant of the sam9x7 SoC family.The is_xlcdc flag under driver data helps
+to differentiate the XLCDC and existing HLCDC code within the same driver.
 
-Ah, DMS == Dual Monitor Solution :-)
+changes in v3:
+* Removed de-referencing the value of is_xlcdc flag multiple times in
+a single function.
+* Removed cpu_relax() call when using regmap_read_poll_timeout.
+* Updated xfactor and yfactor equations using shift operators
+* Defined CSC co-efficients in an array for code readability.
 
-Yap, that's exactly what the GPU has. And the Y-cable is 2xDVI. It is
-a Dell workstation and it came this way, meaning I haven't done any
-changes there.
+changes in v2:
+* Change the driver compatible name from "microchip,sam9x7-xlcdc" to
+"microchip,sam9x75-xlcdc".
+* Move is_xlcdc flag to driver data.
+* Remove unsed Macro definitions.
+* Add co-developed-bys tags
+* Replace regmap_read() with regmap_read_poll_timeout() call
+* Split code into two helpers for code readablitity.
 
-Thx.
+Durai Manickam KR (1):
+  drm: atmel-hlcdc: Define SAM9X7 SoC XLCDC specific registers
+
+Manikandan Muralidharan (7):
+  mfd: atmel-hlcdc: Add compatible for sam9x75 XLCD controller
+  drm: atmel-hlcdc: add flag to differentiate XLCDC and HLCDC IP
+  drm: atmel-hlcdc: add LCD controller layer definition for sam9x75
+  drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
+  drm: atmel-hlcdc: add DPI mode support for XLCDC
+  drm: atmel-hlcdc: add vertical and horizontal scaling support for
+    XLCDC
+  drm: atmel-hlcdc: add support for DSI output formats
+
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 168 +++++++--
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  99 +++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h  |  48 +++
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 353 +++++++++++++++---
+ drivers/mfd/atmel-hlcdc.c                     |   1 +
+ include/linux/mfd/atmel-hlcdc.h               |  10 +
+ 6 files changed, 584 insertions(+), 95 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
