@@ -2,51 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEA877F3DA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 11:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A849D77F3F7
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 11:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074DF10E05B;
-	Thu, 17 Aug 2023 09:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546BF10E422;
+	Thu, 17 Aug 2023 09:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83BEB10E05B;
- Thu, 17 Aug 2023 09:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692265765; x=1723801765;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=JBcHbgWZbRL2zfRL6/JAFi1jjbjVoKn9Zhv1rkwT4oE=;
- b=k2cUZGg4lYnzddpk2DFYOKzo7Ig464itYFieMyspSBx7Ysk9ba8kGgD6
- Gwuj9lt3AaHzs8Y7CwGTIgjJFSLLU6an4BUhQcLk8ZMr7iFznkLQrOnqS
- njFbiIrEhMEM7V9Okza7uOqdejZsTsf1wBJZWf5ADaRR38hz9CGIV5sjs
- rYU/pX8kGXAd9Z/qgETT0H0weqMwGjD2U6ZhJDOpDE/o/lmS9E5HtLZ1L
- oEC7UNw2IF82Py83MN3xkoEl9uhMUd3ibwWeQd3dHHbNKptFcnxZrMuFi
- +jtdvW35EG/kECpBV1v6d9zq43MQlYsbItEaue7U0bgdHkOQ4NUh/v8tK w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376502113"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="376502113"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 02:49:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684375451"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="684375451"
-Received: from yuguen-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.43.197])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 02:49:22 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 00/20] DSC misc fixes
-In-Reply-To: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
-Date: Thu, 17 Aug 2023 12:49:20 +0300
-Message-ID: <87wmxu80db.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB20F10E41E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 09:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692266334;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f8LhOrW0WUa6CT60pjE8C+ol39HJMr426zMLoqg+/dY=;
+ b=B+dqzvpmYeyHTkBI6yVuGmqWO/MNu6z4ZPF78vvVdSA/oIbnkIPxE+KtUpf7S4vECQLSFE
+ t7sllDYJpJ8AdfgtnsqhFe7MSSlW3V8sLhg8/lqxNBD4/X1cmJPPFEnYmSezRseGSLAT3C
+ rJyhbsz9h/4Oxsi/j9bpdGons+vD6rc=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-MpqpzN9hMxuv1FRxuUF86w-1; Thu, 17 Aug 2023 05:58:53 -0400
+X-MC-Unique: MpqpzN9hMxuv1FRxuUF86w-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2b04d5ed394so13710651fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 02:58:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692266331; x=1692871131;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f8LhOrW0WUa6CT60pjE8C+ol39HJMr426zMLoqg+/dY=;
+ b=ZDEsQUwWbPjlyoqEI+eSh/LE+llsU5/2kIoa5tIEm0/o+uHRVoWz3UGOeV1a+KQWKo
+ 9b1a9Uvh6awXbZvVv7nsunZjVPRQbDS+XxxVh0YytL17DmgGFhry7td57mB1jaUZb3F4
+ XQRerA/bdD/14EAl1QcXNu75SZRFf7Nah9iSCO5W9nOYKgtWNdoaXzbfwmPkKM8yF0SB
+ TrAJveZbvn52xuEo2nEx7gWvf91ku06RoCytDmmtqsVsup6rpwaRz8oD3pDG5sKPgo9+
+ VNouVDbC7wBwq8kzOkgqe9abvcbvXYfwCUJ7oEhNCNxIwXhoTKl9DQFIqTCOL7IZhZxC
+ VrSw==
+X-Gm-Message-State: AOJu0YwfyhTHe8OOYbJSbd9zxZugpyREYq+PXJLVY8e+4rR3csPDzf79
+ Z6v+DWRquBEyEPoPp8f/mI8jm1TdYmBKQLKmn5itU0OgfJTS4yF+BF9Ni+zNNK0FegL3Rgfy+8k
+ brUibbk6HZCaOZA+vLHF7TjXGIqtezTwuIWDDc84Xb6F/
+X-Received: by 2002:a2e:bba2:0:b0:2b6:7c3a:6adc with SMTP id
+ y34-20020a2ebba2000000b002b67c3a6adcmr2639039lje.5.1692266331630; 
+ Thu, 17 Aug 2023 02:58:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+OkqFqWypjUgZ0iljxcxYcRVfxwr2dkieuQVR8uoM+9sEf+VyJeMAJQEHmz2GuI9BiYnREEMjsnHLf9Gnm74=
+X-Received: by 2002:a2e:bba2:0:b0:2b6:7c3a:6adc with SMTP id
+ y34-20020a2ebba2000000b002b67c3a6adcmr2639023lje.5.1692266331198; Thu, 17 Aug
+ 2023 02:58:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230814144933.3956959-1-kherbst@redhat.com>
+ <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
+ <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
+ <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
+ <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
+ <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
+ <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
+ <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
+ <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
+ <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
+In-Reply-To: <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 17 Aug 2023 11:58:40 +0200
+Message-ID: <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling of
+ nouveau_connector_create
+To: Borislav Petkov <bp@alien8.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,97 +87,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
- navaremanasi@google.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> This series is an attempt to address multiple issues with DSC,
-> scattered in separate existing series.
+On Thu, Aug 17, 2023 at 10:10=E2=80=AFAM Borislav Petkov <bp@alien8.de> wro=
+te:
+>
+> On Thu, Aug 17, 2023 at 01:18:12AM +0200, Karol Herbst wrote:
+> > do you have one of these? https://en.wikipedia.org/wiki/DMS-59
+>
+> Ah, DMS =3D=3D Dual Monitor Solution :-)
+>
+> Yap, that's exactly what the GPU has. And the Y-cable is 2xDVI. It is
+> a Dell workstation and it came this way, meaning I haven't done any
+> changes there.
+>
+> Thx.
 
-I think it's a good idea to have one person manage the series, and
-combine it all together, because it touches the same areas.
-
-However, once you have smaller batches of patches that are all reviewed,
-send them out as smaller series, and get them merged. Re-sending and
-rebasing ready patches as part of a 19-patch series where some patches
-aren't ready has become counter-productive.
-
-Getting patches upstream is like working on a machine that has a certain
-peak throughput. Send patches one by one, and it's inefficient. Send too
-many at once, and it bogs down. Personally, I think 5-10 non-trivial
-patches at a time is about right, get them reviewed and merged, rebase
-the rest locally, and again send the next 5-10.
-
-Or you can initially send a longer series, but once the first 5-10 have
-been reviewed, send them separately.
-
-
-BR,
-Jani.
-
+right.. seems like on my GPU with such a connector I'm not seeing any
+issues... let me dig further into the vbios and see if I can figure
+something out there.
 
 >
-> Patches 1-4 are DSC fixes from series to Handle BPC for HDMI2.1 PCON
-> https://patchwork.freedesktop.org/series/107550/
+> --
+> Regards/Gruss,
+>     Boris.
 >
-> Patches 5-6 are from series DSC fixes for Bigjoiner:
-> https://patchwork.freedesktop.org/series/115773/
+> https://people.kernel.org/tglx/notes-about-netiquette
 >
-> Patches 7-17 are based on series to add DSC fractional BPP support:
-> https://patchwork.freedesktop.org/series/111391/
->
-> Patch 20 is to fix compressed bpc for MST DSC, from Stan's series :
-> https://patchwork.freedesktop.org/series/116179/
->
-> Rev2: Addressed review comments from Stan, Ville.
->
-> Rev3: Split larger patches. Separate out common helpers.
->
-> Rev4: Rebased, fixed checkpatch warnings.
->
-> Rev5: Addressed review comments from Stan.
-> Added a patch to check if forced dsc format can be used before forcing.
->
-> Rev6: Addressed review comments from Stan.
->
-> Rev7: Reordered and rebased.
->
-> Ankit Nautiyal (19):
->   drm/i915/dp: Consider output_format while computing dsc bpp
->   drm/i915/dp: Move compressed bpp check with 420 format inside the
->     helper
->   drm/i915/dp_mst: Use output_format to get the final link bpp
->   drm/i915/dp: Use consistent name for link bpp and compressed bpp
->   drm/i915/dp: Update Bigjoiner interface bits for computing compressed
->     bpp
->   drm/i915/intel_cdclk: Add vdsc with bigjoiner constraints on min_cdlck
->   drm/i915/dp: Remove extra logs for printing DSC info
->   drm/display/dp: Fix the DP DSC Receiver cap size
->   drm/i915/dp: Avoid forcing DSC BPC for MST case
->   drm/i915/dp: Add functions to get min/max src input bpc with DSC
->   drm/i915/dp: Check min bpc DSC limits for dsc_force_bpc also
->   drm/i915/dp: Avoid left shift of DSC output bpp by 4
->   drm/i915/dp: Rename helper to get DSC max pipe_bpp
->   drm/i915/dp: Separate out functions for edp/DP for computing DSC bpp
->   drm/i915/dp: Add DSC BPC/BPP constraints while selecting pipe bpp with
->     DSC
->   drm/i915/dp: Separate out function to get compressed bpp with joiner
->   drm/i915/dp: Get optimal link config to have best compressed bpp
->   drm/i915/dp: Check src/sink compressed bpp limit for edp
->   drm/i915/dp: Check if force_dsc_output_format is possible
->
-> Stanislav Lisovskiy (1):
->   drm/i915: Query compressed bpp properly using correct DPCD and DP Spec
->     info
->
->  drivers/gpu/drm/i915/display/intel_cdclk.c  |  59 +-
->  drivers/gpu/drm/i915/display/intel_dp.c     | 655 ++++++++++++++++----
->  drivers/gpu/drm/i915/display/intel_dp.h     |  20 +-
->  drivers/gpu/drm/i915/display/intel_dp_mst.c |  80 +--
->  include/drm/display/drm_dp.h                |   2 +-
->  5 files changed, 625 insertions(+), 191 deletions(-)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
