@@ -2,77 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3A777EDC1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 01:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC0077EEEA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 04:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8157110E3DB;
-	Wed, 16 Aug 2023 23:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2529E10E04A;
+	Thu, 17 Aug 2023 02:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6A010E3DB
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 23:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692227909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e27Prao+8w59knGJmOWj+3FndpKc2qgsbyaKBRsKylU=;
- b=cOr4+CLaNVRyIwly00TxfGOca2HTrvUAzMT7ZjC/tdSoBczqZVb95RHv9foCVWWVvBKzX2
- nP42+fjnG/iJPgfGBf3Kiq/B2RSmQBLmNeHq0LKRy9TSISPEJklYP8tX+AQ9Z4h+t1j+tJ
- 2wbN2/THEruTzsAj2mAzxvm+WKSfBog=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-r5KMO74sOvSfcRHo3aw2FQ-1; Wed, 16 Aug 2023 19:18:25 -0400
-X-MC-Unique: r5KMO74sOvSfcRHo3aw2FQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-4fe5c8e8a47so1420607e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 16:18:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692227904; x=1692832704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e27Prao+8w59knGJmOWj+3FndpKc2qgsbyaKBRsKylU=;
- b=Bq9KCSqeCD900+xQvVq9gtZy+l+dmioHWYLInVcz/r8Lcqou5oz4jY+Vp2IzM05Rlw
- +sCDHBfQiQ6/xu25wDFUFvxrCpMgM6II5NjbKkLdFcUXVues6Fm3eRnt00jVLOXwj6iz
- AQH5Aku+9AN04/kQsYxPlJY6UIdbbvjnZMYVAk0RIrZT5d75MjOfxlLK1mNbqFeOD3zH
- BgGLoVjEYxrkLL5qVRczUZgn/N70WJcmRxM3/bTHuxmd0qCFGg9f+iIHQ2cRj4ikahuU
- 4WukZpBcyNeKRcbq+IbexZvGl07URgRtIg5b4Kr68FCIcCQzKUo87ZbNsdmOAJ1zvP0d
- URCw==
-X-Gm-Message-State: AOJu0YzcIFHz8bTgPN9TlrLO9WH29oko6JpwLDtDGZPDcjeSiZP9aGEv
- 5Kin+Ulu5laA91vCj2l2UVPUKq2IVdge3STkrOzGlmKaylcyK2w+MtKqB3ohB5dzZmRvfKPvKvc
- 5Yynf/DR5tMJxsqwGldpShsQRpv7YLFuPjDbfoiXQsGNk
-X-Received: by 2002:a2e:535d:0:b0:2b6:af68:6803 with SMTP id
- t29-20020a2e535d000000b002b6af686803mr2442421ljd.4.1692227904015; 
- Wed, 16 Aug 2023 16:18:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1K6kBGziG4deNuHLAraS88W59a/Ay7fpQlOgwaRtMAQHHcJu47CsepbxS6R+gOkE0cHNdxbWZY06UjdNnDbI=
-X-Received: by 2002:a2e:535d:0:b0:2b6:af68:6803 with SMTP id
- t29-20020a2e535d000000b002b6af686803mr2442415ljd.4.1692227903720; Wed, 16 Aug
- 2023 16:18:23 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3783410E04A;
+ Thu, 17 Aug 2023 02:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692237956; x=1723773956;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qS88+1x1dNYl+kZ3HVtR/OE/V3f4bomUd0O5kPlz9VE=;
+ b=bB2D23mkUCYZHw29CgEMi8YHyp6Wx3pa2r4xCS3Cmy8h7Gq2kvyHIc9S
+ 5aRDw8DVKOUQ9+ndOhZLX1ruusdn08WeIs9r8etU4qYPJ5gNGVIv7G/HD
+ OgH1W8SRi4mYmdMu86bUfR9k0JaRfupLzH5rtiXo331aiV2SDQDGSK08p
+ nBxYnBV3Dlkur6bUw1O6Kv7e43RlyOq+ZiuolXzeSPN5N7p8Wx3VDnIDs
+ BNkShyGDLAnJOaj0+KeDZEtbBpyQ6r1qCJbeBY2AOvcWUdApllTnywHtA
+ LPtNxxie6LB/B1PdonzLaXyjNdjsqxye9ltAAvEZWGrC3ZleP6rvabFFZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370158837"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; d="scan'208";a="370158837"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2023 19:05:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="858037664"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; d="scan'208";a="858037664"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+ by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 19:05:53 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qWSOW-0000iX-1B;
+ Thu, 17 Aug 2023 02:05:52 +0000
+Date: Thu, 17 Aug 2023 10:05:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2] Documentation/gpu: VM_BIND locking document
+Message-ID: <202308170916.TGY7kBpM-lkp@intel.com>
+References: <20230816091547.2982-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-References: <20230814144933.3956959-1-kherbst@redhat.com>
- <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
- <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
- <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
- <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
- <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
- <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
- <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
-In-Reply-To: <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 17 Aug 2023 01:18:12 +0200
-Message-ID: <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling of
- nouveau_connector_create
-To: Borislav Petkov <bp@alien8.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230816091547.2982-1-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,26 +60,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Francois Dugast <francois.dugast@intel.com>, linux-kernel@vger.kernel.org,
+ Oak Zeng <oak.zeng@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 17, 2023 at 12:14=E2=80=AFAM Borislav Petkov <bp@alien8.de> wro=
-te:
->
-> On Wed, Aug 16, 2023 at 11:27:05PM +0200, Karol Herbst wrote:
-> > that GPU has only a `DMS-59` connector, is that right?
->
-> No clue. How do I figure that out?
->
+Hi Thomas,
 
-do you have one of these? https://en.wikipedia.org/wiki/DMS-59
+kernel test robot noticed the following build warnings:
 
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
->
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-tip/drm-tip linus/master v6.5-rc6 next-20230816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/Documentation-gpu-VM_BIND-locking-document/20230816-171911
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230816091547.2982-1-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v2] Documentation/gpu: VM_BIND locking document
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170916.TGY7kBpM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170916.TGY7kBpM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/gpu/drm-vm-bind-locking.rst: WARNING: document isn't included in any toctree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
