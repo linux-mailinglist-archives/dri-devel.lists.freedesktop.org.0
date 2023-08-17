@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE6577FA06
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D5F77FA04
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 16:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A92F10E4D9;
-	Thu, 17 Aug 2023 14:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965D110E4D3;
+	Thu, 17 Aug 2023 14:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C18F10E4BD
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 14:59:45 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-991c786369cso1054988666b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:59:45 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9238510E4D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 14:59:46 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-99cce6f7de2so1046245466b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692284383; x=1692889183;
+ d=linaro.org; s=google; t=1692284385; x=1692889185;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=etL/n3iIerD/3favPB10Vxz8tYmFCIfiw+o1s0E1jRw=;
- b=gLqQwVag4j6WLy7UPvyheHVMlmXCtSkD+1PLKE9qtrB5nVJrSAqp+0kz+xv+VDbJi1
- jKE/hGupX5oK4S0uNwwIUVEfXayuaSdhkC3FIEW8MpTvEYrScK3KVJr6aAGymjtbqLdt
- TVSg1nGsoBAtgNzBzhr4n0HZgyUr560hTiqxSMVmm6L1NEkMtaw3UmPrgiVudGyz8gzp
- UqE7ZbDlJAg82aMe15RHCiqXgHZ8aUlVUELaDmIYlqwKVTK9cg2C6cTBE9oygGXfWDJn
- HRk82p8zUrYzZvbIgSioUmpitrH4acCg5KX1QaMFfEJvYLWIhhemQSmcNuWIQvr/mLIV
- RbPw==
+ bh=e/n1mPlA3bD3cKDjIc3yPs+tXQOFq+U4vZNdJ+L1Dn4=;
+ b=occYa08R7Z8nic08JlcWH5Dp/uUHr/UUyYkQ5rR96hz+WnhSp3hTVSt18E9+OTKYId
+ eNIvG3goXUCgEe4LJIg2m0xQEGA7wF/MCbh5/UmYV0peXxZlTHR5p0K69Q+HeCjo1LAd
+ 0K/xs/epr0cIoixBNOK49GgAIuhUC9UVziTFJARX3rCB5bcKiC/1B62Wf9861kk6ONnl
+ EIp2iuSpKMOc3d5oOFvgQ/ptJOsF43Ms1wDwjj6+kaOAAjANAt0EX1HpAHYXvtp4Szie
+ FXlusP89ctKEA9XoGdNcH8ZsuclQaAX8nj1rdtbEAUCWMWbZolqNwfDgARTBUUZMldGe
+ F8vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692284383; x=1692889183;
+ d=1e100.net; s=20221208; t=1692284385; x=1692889185;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=etL/n3iIerD/3favPB10Vxz8tYmFCIfiw+o1s0E1jRw=;
- b=IBX54QBxidsziq+BxmiDDnREDKy4IBUhdoKvEPOOXUBjsTYMYNWUAuiq+krOW/uFsS
- AhiEBo+G7vOsfPA3EN0XCHpO3lYpQh1ID0ewVFuT1nAYYuC3KjyX2gD/nZJIv87fJWAW
- ZnicKc3w+6M5bzHqrnvdoA4pYQIU+P4JueBwEFZEFJaQx09WbLH1iaAaqNLK2/uW6d1L
- US0rp9ux2+JFuLJxIWm6cU5os7fG3VdvAHY+iTv90TJsWVQDrFxAQYCFO5BIcYhndQkr
- 0XW5aQB6EDwHsvOeCLjzezTHXXbIl9oq2R6tycTUuEYgpmW//+QAtBG/ob7DU8knnkHM
- r6MA==
-X-Gm-Message-State: AOJu0YzCwHZMokwW3XXcYRYhJ04/eS3vEabN6yqcSznSRtYWHVysZuO+
- KMo+fqKsfCTG3Dsi45tiNJDj1g==
-X-Google-Smtp-Source: AGHT+IHeXDSrhPybt02SUhe5x+g+/A5UCwhRAqPoHSTmVLbvzzDNwTMyaQ0YbS3gHY/Rq9LTt3h+EQ==
-X-Received: by 2002:a17:906:7fc8:b0:99b:ca24:ce33 with SMTP id
- r8-20020a1709067fc800b0099bca24ce33mr3638518ejs.31.1692284383645; 
- Thu, 17 Aug 2023 07:59:43 -0700 (PDT)
+ bh=e/n1mPlA3bD3cKDjIc3yPs+tXQOFq+U4vZNdJ+L1Dn4=;
+ b=W9y7MR3Hxd/YwHlULpYT+/R5itXoBv31yMlzhdRBjH1eGhyInISUWtyPCoqBnRtG2D
+ F4LPq5wuCxecsIiE8FnY1/2lHBDIoxVqdRImmGTd4n5dOslrmqZrLYqywyZaMPFJzsI5
+ ANIvxuL62trf/1yqmojhZHD8SoOEWcxnJDLOFEXElp2WLJryLOjCM2kPKfKoOklGxs9C
+ RPhWkfehkX6U8sDSl2olMPapn5CODlUF0iFoI3/AUYneDUYTLzWahReGKx2LOXyVl7hK
+ OtbSwe6Y0oCxGWfHq9sU6zIfIEYcqTa5fdo1tHtYUYHwKDO5CQcO9kot2ptT2T/rJVcn
+ 2Cvw==
+X-Gm-Message-State: AOJu0YxzleeX+pw8HfkNgd4+EshUMhrLXqZ+RezSaljvvmLmymHshF/7
+ g2knUvwAh+bQ0XsFE65JeyHEXQ==
+X-Google-Smtp-Source: AGHT+IF+0w+BKzzP8jEXAsFRgeM+qRBGveKGDzw5Xwja5f2AaVKGn03Fm1DGa0sPRL3l6q5Js1Wc9Q==
+X-Received: by 2002:a17:906:1013:b0:99c:f966:9ea2 with SMTP id
+ 19-20020a170906101300b0099cf9669ea2mr4459381ejm.25.1692284385125; 
+ Thu, 17 Aug 2023 07:59:45 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- lj9-20020a170906f9c900b00988be3c1d87sm10233557ejb.116.2023.08.17.07.59.42
+ lj9-20020a170906f9c900b00988be3c1d87sm10233557ejb.116.2023.08.17.07.59.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Aug 2023 07:59:43 -0700 (PDT)
+ Thu, 17 Aug 2023 07:59:44 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -58,9 +58,10 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 1/4] arm64: dts: qcom: sm8250: Add DisplayPort device node
-Date: Thu, 17 Aug 2023 17:59:37 +0300
-Message-Id: <20230817145940.9887-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 2/4] arm64: dts: qcom: qrb5165-rb5: add onboard USB-C
+ redriver
+Date: Thu, 17 Aug 2023 17:59:38 +0300
+Message-Id: <20230817145940.9887-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230817145940.9887-1-dmitry.baryshkov@linaro.org>
 References: <20230817145940.9887-1-dmitry.baryshkov@linaro.org>
@@ -84,127 +85,90 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Declare the displayport controller present on the Qualcomm SM8250 SoC.
+Add the nb7vpq904m, onboard USB-C redriver / retimer.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8250.dtsi | 89 ++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 52 +++++++++++++++++++++++-
+ 1 file changed, 50 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-index eb00bbd3e1f3..8d705a1713fb 100644
---- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-@@ -3638,6 +3638,8 @@ port@1 {
- 
- 				port@2 {
- 					reg = <2>;
+diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+index 303d07f9c6e5..a4f7a9f9c22c 100644
+--- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
++++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+@@ -610,6 +610,46 @@ lt9611_out: endpoint {
+ /* LS-I2C1 */
+ &i2c15 {
+ 	status = "okay";
 +
-+					usb_1_qmpphy_dp_in: endpoint {};
- 				};
- 			};
- 		};
-@@ -4405,6 +4407,14 @@ dpu_intf2_out: endpoint {
- 							remote-endpoint = <&mdss_dsi1_in>;
- 						};
- 					};
++	typec-mux@1c {
++		compatible = "onnn,nb7vpq904m";
++		reg = <0x1c>;
 +
-+					port@2 {
-+						reg = <2>;
++		vcc-supply = <&vreg_s4a_1p8>;
 +
-+						dpu_intf0_out: endpoint {
-+							remote-endpoint = <&mdss_dp_in>;
-+						};
-+					};
- 				};
- 
- 				mdp_opp_table: opp-table {
-@@ -4432,6 +4442,85 @@ opp-460000000 {
- 				};
- 			};
- 
-+			mdss_dp: displayport-controller@ae90000 {
-+				compatible = "qcom,sm8250-dp", "qcom,sm8350-dp";
-+				reg = <0 0xae90000 0 0x200>,
-+				      <0 0xae90200 0 0x200>,
-+				      <0 0xae90400 0 0x600>,
-+				      <0 0xae91000 0 0x400>,
-+				      <0 0xae91400 0 0x400>;
-+				interrupt-parent = <&mdss>;
-+				interrupts = <12>;
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+				clock-names = "core_iface",
-+					      "core_aux",
-+					      "ctrl_link",
-+					      "ctrl_link_iface",
-+					      "stream_pixel";
++		retimer-switch;
++		orientation-switch;
 +
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+				assigned-clock-parents = <&dp_phy 0>,
-+							 <&dp_phy 1>;
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+				phys = <&dp_phy>;
-+				phy-names = "dp";
++			port@0 {
++				reg = <0>;
 +
-+				#sound-dai-cells = <0>;
-+
-+				operating-points-v2 = <&dp_opp_table>;
-+				power-domains = <&rpmhpd SM8250_MMCX>;
-+
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						mdss_dp_in: endpoint {
-+							remote-endpoint = <&dpu_intf0_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						mdss_dp_out: endpoint {
-+						};
-+					};
-+				};
-+
-+				dp_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-160000000 {
-+						opp-hz = /bits/ 64 <160000000>;
-+						required-opps = <&rpmhpd_opp_low_svs>;
-+					};
-+
-+					opp-270000000 {
-+						opp-hz = /bits/ 64 <270000000>;
-+						required-opps = <&rpmhpd_opp_svs>;
-+					};
-+
-+					opp-540000000 {
-+						opp-hz = /bits/ 64 <540000000>;
-+						required-opps = <&rpmhpd_opp_svs_l1>;
-+					};
-+
-+					opp-810000000 {
-+						opp-hz = /bits/ 64 <810000000>;
-+						required-opps = <&rpmhpd_opp_nom>;
-+					};
++				redriver_usb_con_ss: endpoint {
++					remote-endpoint = <&pm8150b_typec_mux_in>;
 +				};
 +			};
 +
- 			mdss_dsi0: dsi@ae94000 {
- 				compatible = "qcom,sm8250-dsi-ctrl",
- 					     "qcom,mdss-dsi-ctrl";
++			port@1 {
++				reg = <1>;
++
++				redriver_phy_con_ss: endpoint {
++					remote-endpoint = <&usb_1_qmpphy_out>;
++					data-lanes = <0 1 2 3>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				redriver_usb_con_sbu: endpoint {
++					remote-endpoint = <&pm8150b_typec_sbu_out>;
++				};
++			};
++		};
++	};
+ };
+ 
+ &mdss {
+@@ -1299,7 +1339,7 @@ &usb_1_qmpphy {
+ };
+ 
+ &usb_1_qmpphy_out {
+-	remote-endpoint = <&pm8150b_typec_mux_in>;
++	remote-endpoint = <&redriver_phy_con_ss>;
+ };
+ 
+ &usb_2 {
+@@ -1388,7 +1428,15 @@ pm8150b_role_switch_in: endpoint {
+ 			port@1 {
+ 				reg = <1>;
+ 				pm8150b_typec_mux_in: endpoint {
+-					remote-endpoint = <&usb_1_qmpphy_out>;
++					remote-endpoint = <&redriver_usb_con_ss>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				pm8150b_typec_sbu_out: endpoint {
++					remote-endpoint = <&redriver_usb_con_sbu>;
+ 				};
+ 			};
+ 		};
 -- 
 2.39.2
 
