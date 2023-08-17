@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE3F77FA89
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D486C77FA8B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5051710E4DD;
-	Thu, 17 Aug 2023 15:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37DF10E4DF;
+	Thu, 17 Aug 2023 15:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5176410E4C7;
- Thu, 17 Aug 2023 15:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Xtf1+F99I69nSRhwPNidOBjKYhYnddXLhkniPjo8Y3I=; b=es0PuuDPVH2MKNnfMl/ZDt02GM
- 9cXAOntaAOHXNC884acGkSfMXTYN+a7NXzSKpOpcweUrQ3FGM6UypYf46sExKhtvV3ogl5dNnT4Rx
- K85vVs8228zE8022b37wPZraU627olxbDr179Ws4rK6fYF+ev3rUbrPskEu+MndmwGZQBDaL347kT
- hR6tMjd9YjeBYi3LkzbyyI5wMGY8r5bfCopcQuYXjNyBe+ltyxbgVGsfdcX40GY6ZHmNPBEbG48mR
- HHzgnyg1UvQtGGXuqt50bJTS+0MRCe2uxg9SbYuzkAEr3UmN1SouBUOFuTzCuHxmEMgFn7NqL00GB
- RdVRQjng==;
-Received: from [191.193.179.209] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qWekl-001xjX-IH; Thu, 17 Aug 2023 17:17:39 +0200
-Message-ID: <43f2df2f-46ff-4240-a86b-eff5f0c08888@igalia.com>
-Date: Thu, 17 Aug 2023 12:17:35 -0300
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4ABD10E066;
+ Thu, 17 Aug 2023 15:17:54 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7341740E00F4; 
+ Thu, 17 Aug 2023 15:17:52 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id QmBmwkyxKu7T; Thu, 17 Aug 2023 15:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1692285470; bh=ub9UHmv4k4n9Fnzww3zqDAiez22GxzEYG+O3pBXVSr4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DJKLdJGakm5QLV1vCz5EbOOXhQVEpm6bNC1dVTHuka1drW77i2q2EJK+4I5XyPcq1
+ f4/AjqEpE7gb7HatHtfd+HzHtigSmxV5v34Btnpq5BnBVj3c8JrY8ttSIfOCV9JTfR
+ dUg3mBiIfN2f/CBUsF8BMgYBUDDcQyeOWvy8/ke39lDBVQMSJBAZjSs3g1N2fe2xIV
+ eTFD82YLIhNSXw9ZldQSArzNJXglxT5m9uZUwg3/XgmYVTYJlPfdVH9EYwYfSh1CmX
+ wJOy/hNBn0T1rgN/45gmWhDVBDhYgtjVaQ29Tm52jphkKKl/FhTflBcaGKHBL0MRGg
+ +o4E0nlspAo1Qc7pcLgrs7WIDcC+r6FrW+ZNtl5A8Ao29I1VKVAEYtcuBL7UdUoLfl
+ eJXqYgTnLApmp/g8IGUtOxC5qQsdR5TvMW0heU2NzoD3dOl/ndjAnFZqdMlJ/rd9xG
+ R3zqnEizgvh3/N7UY5nbESEZ11kqNv12+blNLKGz9tAKwUnS+qP/K76D9i4xnbNlYw
+ n5xCfyNXxaIsR0UZRp4FxWfBgAoSwNIqMJsCedCcPvcsr/Rmu4r96D+NnKdSF0FHf+
+ IubBZQdyEBq6HgXIlTbKK1EQV3IMl3wLMrQTjWMMkNI40oTuY1Aktvr4kr6FdcWyQK
+ RylsoRsiY5MRB2GAFojCiOwY=
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 24CBE40E00B0;
+ Thu, 17 Aug 2023 15:17:43 +0000 (UTC)
+Date: Thu, 17 Aug 2023 17:17:39 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
+ of nouveau_connector_create
+Message-ID: <20230817151739.GEZN46E2T/1GS+baIZ@fat_crate.local>
+References: <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
+ <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
+ <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
+ <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
+ <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
+ <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
+ <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
+ <CACO55tuWTYngfw+MZnan+U4eYyE+SvOWgxzffaCMNGQgriq3ig@mail.gmail.com>
+ <20230817101129.GCZN3yUTWHkt22Jgec@fat_crate.local>
+ <CACO55tt9ZLKjaTyARXQ4VePgd41nYCQBn+wAGGDJRw1QV3hPBQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/amdgpu: Rework coredump to use memory
- dynamically
-Content-Language: en-US
-To: Shashank Sharma <shashank.sharma@amd.com>
-References: <20230815195100.294458-1-andrealmeid@igalia.com>
- <20230815195100.294458-3-andrealmeid@igalia.com>
- <07ef59db-da17-15cf-789a-7f5d01b2c9c9@amd.com>
- <a6e90991-91bb-4da9-ab67-d0ec28a29680@igalia.com>
- <eaef1599-4da3-ac10-a03e-4f2d8304c60d@amd.com>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <eaef1599-4da3-ac10-a03e-4f2d8304c60d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACO55tt9ZLKjaTyARXQ4VePgd41nYCQBn+wAGGDJRw1QV3hPBQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,114 +73,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Em 17/08/2023 12:04, Shashank Sharma escreveu:
+On Thu, Aug 17, 2023 at 12:24:45PM +0200, Karol Herbst wrote:
+> simply throw a
 > 
-> On 17/08/2023 15:45, André Almeida wrote:
->> Hi Shashank,
->>
->> Em 17/08/2023 03:41, Shashank Sharma escreveu:
->>> Hello Andre,
->>>
->>> On 15/08/2023 21:50, André Almeida wrote:
->>>> Instead of storing coredump information inside amdgpu_device struct,
->>>> move if to a proper separated struct and allocate it dynamically. This
->>>> will make it easier to further expand the logged information.
->>>>
->>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->>>> ---
->>>> v4: change kmalloc to kzalloc
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 14 +++--
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 63 
->>>> ++++++++++++++--------
->>>>   2 files changed, 49 insertions(+), 28 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>> index 9c6a332261ab..0d560b713948 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>> @@ -1088,11 +1088,6 @@ struct amdgpu_device {
->>>>       uint32_t                        *reset_dump_reg_list;
->>>>       uint32_t            *reset_dump_reg_value;
->>>>       int                             num_regs;
->>>> -#ifdef CONFIG_DEV_COREDUMP
->>>> -    struct amdgpu_task_info         reset_task_info;
->>>> -    bool                            reset_vram_lost;
->>>> -    struct timespec64               reset_time;
->>>> -#endif
->>>>       bool                            scpm_enabled;
->>>>       uint32_t                        scpm_status;
->>>> @@ -1105,6 +1100,15 @@ struct amdgpu_device {
->>>>       uint32_t            aid_mask;
->>>>   };
->>>> +#ifdef CONFIG_DEV_COREDUMP
->>>> +struct amdgpu_coredump_info {
->>>> +    struct amdgpu_device        *adev;
->>>> +    struct amdgpu_task_info         reset_task_info;
->>>> +    struct timespec64               reset_time;
->>>> +    bool                            reset_vram_lost;
->>>> +};
->>>
->>> The patch looks good to me in general, but I would recommend slightly 
->>> different arrangement and segregation of GPU reset information.
->>>
->>> Please consider a higher level structure adev->gpu_reset_info, and 
->>> move everything related to reset dump info into that, including this 
->>> new coredump_info structure, something like this:
->>>
->>> struct amdgpu_reset_info {
->>>
->>>      uint32_t *reset_dump_reg_list;
->>>
->>>      uint32_t *reset_dump_reg_value;
->>>
->>>      int num_regs;
->>>
->>
->> Right, I can encapsulate there reset_dump members,
->>
->>> #ifdef CONFIG_DEV_COREDUMP
->>>
->>>     struct amdgpu_coredump_info *coredump_info;/* keep this dynamic 
->>> allocation */
->>
->> but we don't need a pointer for amdgpu_coredump_info inside 
->> amdgpu_device or inside of amdgpu_device->gpu_reset_info, right?
+> printk(KERN_WARNING "nvkm_uconn_uevent %u\n", outp->info.location);
 > 
-> I think it would be better if we keep all of the GPU reset related data 
-> in the same structure, so adev->gpu_reset_info->coredump_info sounds 
-> about right to me.
-> 
+> inside drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c:104 after that
+> mentioned comment.
 
-But after patch 2/4, we don't need to store a coredump_info pointer 
-inside adev, this is what I meant. What would be the purpose of having 
-this pointer? It's freed by amdgpu_devcoredump_free(), so we don't need 
-to keep track of it.
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
+index 46b057fe1412..661fd0cf3b3b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
+@@ -101,6 +101,7 @@ nvkm_uconn_uevent(struct nvkm_object *object, void *argv, u32 argc, struct nvkm_
+        if (args->v0.types & NVIF_CONN_EVENT_V0_UNPLUG) bits |= NVKM_GPIO_LO;
+        if (args->v0.types & NVIF_CONN_EVENT_V0_IRQ) {
+                /* TODO: support DP IRQ on ANX9805 and remove this hack. */
++               printk(KERN_WARNING "nvkm_uconn_uevent %u\n", outp->info.location);
+                if (!outp->info.location)
+                        return -EINVAL;
+        }
 
-> - Shashank
-> 
->>
->>>
->>> #endif
->>>
->>> }
->>>
->>>
->>> This will make sure that all the relevant information is at the same 
->>> place.
->>>
->>> - Shashank
->>>
->>        amdgpu_inc_vram_lost(tmp_adev);
+result:
+
+[   10.566759] ACPI: bus type drm_connector registered
+[   10.591171] Console: switching to colour dummy device 80x25
+[   10.598472] nouveau 0000:03:00.0: vgaarb: deactivate vga console
+[   10.607121] nouveau 0000:03:00.0: NVIDIA GT218 (0a8c00b1)
+[   10.728361] nouveau 0000:03:00.0: bios: version 70.18.83.00.08
+[   10.742137] nouveau 0000:03:00.0: fb: 512 MiB DDR3
+[   11.059848] nouveau 0000:03:00.0: DRM: VRAM: 512 MiB
+[   11.064911] nouveau 0000:03:00.0: DRM: GART: 1048576 MiB
+[   11.070302] nouveau 0000:03:00.0: DRM: TMDS table version 2.0
+[   11.076126] nouveau 0000:03:00.0: DRM: DCB version 4.0
+[   11.081335] nouveau 0000:03:00.0: DRM: DCB outp 00: 02000360 00000000
+[   11.087865] nouveau 0000:03:00.0: DRM: DCB outp 01: 02000362 00020010
+[   11.094395] nouveau 0000:03:00.0: DRM: DCB outp 02: 028003a6 0f220010
+[   11.100912] nouveau 0000:03:00.0: DRM: DCB outp 03: 01011380 00000000
+[   11.107422] nouveau 0000:03:00.0: DRM: DCB outp 04: 08011382 00020010
+[   11.113940] nouveau 0000:03:00.0: DRM: DCB outp 05: 088113c6 0f220010
+[   11.120457] nouveau 0000:03:00.0: DRM: DCB conn 00: 00101064
+[   11.126182] nouveau 0000:03:00.0: DRM: DCB conn 01: 00202165
+[   11.138865] nouveau 0000:03:00.0: DRM: MM: using COPY for buffer copies
+[   11.151291] nvkm_uconn_uevent 0
+[   11.154643] nvkm_uconn_uevent 0
+[   11.157975] nvkm_uconn_uevent 0
+[   11.161298] nvkm_uconn_uevent 0
+[   11.164616] nvkm_uconn_uevent 0
+[   11.167943] nvkm_uconn_uevent 0
+[   11.176010] [drm] Initialized nouveau 1.3.1 20120801 for 0000:03:00.0 on minor 0
+[   11.184186] nouveau 0000:03:00.0: [drm] Cannot find any crtc or sizes
+[   11.260527] megasas: 07.725.01.00-rc1
+[   11.264555] st: Version 20160209, fixed bufsize 32768, s/g segs 256
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
