@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58A177F3FB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 12:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DD077F40A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 12:06:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970A810E41E;
-	Thu, 17 Aug 2023 10:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE7D10E424;
+	Thu, 17 Aug 2023 10:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A187210E41E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 10:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692266461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SxvFWtLfZHUU3yR6UuCUCdkToTTydlxIuObM2X2y+A0=;
- b=I74Jt8dgG2kPZwinPquctPlMt+MgCT1FuBH/yMRWbtY+Fyf55++fzz+o7NjpGREdlYfZg9
- JRNltwyI3PyNOJH9JOfJcDfYDkE2teCD5MpfUldEQpwwdQt/5ILKkKufwDoaPiRZROKtwP
- J6NPezDCNKh+hdPvMlyO+9N9dH3+siw=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-YaKJWoSDOmK9xjBLoKgcmQ-1; Thu, 17 Aug 2023 06:01:00 -0400
-X-MC-Unique: YaKJWoSDOmK9xjBLoKgcmQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2b9d5bc6161so13735451fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 03:00:59 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DF310E424
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 10:05:56 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4fe457ec6e7so12123072e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 03:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1692266755; x=1692871555;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tU1OBnu/6KxECDpM0IzJ/SgAaQcKe+fJT4+4ZHxLk2k=;
+ b=o7F1Q+VWc8vFZ8O6jibK3igZE8P/juYrKZZGxZfHPCtZBv/VveZyfn2blr+KinpS0o
+ BYsM5RQa9Vekp/1Of4n3WHI72P6R+VBCXIzL5Yi3nCjm2jApUfXOmZlRYSd+ZatQl74B
+ zwx2QQ/0hyQmoRvj+dizVxULpy3Jv0KL2KKN2sLlRLZAsUPN5rZSEKR/fa45rOL3eITm
+ DdbedVuyXLZRQRRpKs0GVKJnwxH6dwrvNmYoBZxTDgmUCbGryeK2AEgtL2GXtv2VOHlt
+ NUudH9bgGBCVBbASmSZtGH/P42s5t2qkTN2BZPq3kWaEIv2CV3PIq6FkbGqknTCjIc6G
+ +xyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692266458; x=1692871258;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SxvFWtLfZHUU3yR6UuCUCdkToTTydlxIuObM2X2y+A0=;
- b=kT1ItKMpSDq/iPTsw2K4EvGlzCA50TVy1HTa0E2xMUK4RUZhTtNnVsltVKsERRAGXU
- STyCl2qGREf5n1cEvaJ9BzHN1DU24wne3iMHsPPU2lUcJc/jWr3OxXqGGkvX5gmTdzfZ
- rCV6i35wVc9cXCsEJdcZlnVjszUTo8UbeXRAWUn4BqXXA+AXgDISnRy0gp79+DDRZchc
- s2QCENtrFkMjL6sUvUF1uMvA1lQc62uKgupH3ByGZA77PurEhlx3bzkGS9JfVqjDCiAm
- IdwuSmPLptYU5mKX4RH+C3gWWIQdgEyXvlfPK4rYsUR4PsLpX75sPmOtSu7pf2wjVPtS
- XezQ==
-X-Gm-Message-State: AOJu0YzFEx2b2Jhj/RDfm1OkGzDvy17nKZyP2x+ksP7/E0TTN7jhtHrC
- YgdtmyvdiOTiNIci6oRUbom8JLydDAVW6/h0siDIzgO7ThG+wLx0Sm7WJ8+50ZrhA77ze2qVLmY
- fYxeoTEyoXAjeAy6hZU8E/OnDlIKNRVD12jwYJ6IwHrAe
-X-Received: by 2002:a2e:9043:0:b0:2b9:e10b:a511 with SMTP id
- n3-20020a2e9043000000b002b9e10ba511mr3029746ljg.0.1692266458793; 
- Thu, 17 Aug 2023 03:00:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGX6/54OJqwhp3VR3zAVcKja7LAQ8KhRaL+hfdqOgYduGmKxKWNx/Sz3QfKQ1PMt/yuW5leDc5yD5ItStaUNh0=
-X-Received: by 2002:a2e:9043:0:b0:2b9:e10b:a511 with SMTP id
- n3-20020a2e9043000000b002b9e10ba511mr3029732ljg.0.1692266458510; Thu, 17 Aug
- 2023 03:00:58 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692266755; x=1692871555;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tU1OBnu/6KxECDpM0IzJ/SgAaQcKe+fJT4+4ZHxLk2k=;
+ b=M+mEdRSC0AuCgr46r2Vxa8hh4E2lCn5iOLurLB5NJShA75DoB5eiwCPI2OQ8C8i8az
+ vKG33UhjCt5mVK7ZohGDXIObiTavONKc72fbc+ha3u6nHNOuaOr+HKWZdk86KCzXeMq4
+ rm8XVGvJMudAj7rnMLzvddRv2jkDH3KyrdBzat2ggn4lsfM6ofOsAP8tNe8Gtfs56BWs
+ SQcXmgpk3qT9oJNN78y/ja4Oo2my3Yki5KNMcaN7GNrB7Htr9nTYB9JcMrqbbcZX+kZI
+ WwmIm0Fopiq6rychBu/ZSqJC2FYE6mHWQWZzZLu3mtLTtvDVx3Ezz7xaG8Ui/49RSXOR
+ GBuQ==
+X-Gm-Message-State: AOJu0Yw6dH/YEydCLFuMmLAVJYjBFHrhBRuX/N6viuZgXpvwTWdT/cQp
+ hLWJCJFw5E1YndkWP7r+gjogRw==
+X-Google-Smtp-Source: AGHT+IFCG5Al/QsWgxP4N4ZeswwQ4NoxpW9761uM5QnL5lXermAgUtYjDUWYz2a42K4cgDwfPj70ow==
+X-Received: by 2002:a19:915b:0:b0:4f8:8be4:8a82 with SMTP id
+ y27-20020a19915b000000b004f88be48a82mr3310881lfj.22.1692266754892; 
+ Thu, 17 Aug 2023 03:05:54 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ h24-20020a197018000000b004ff9ab6463fsm276653lfc.87.2023.08.17.03.05.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Aug 2023 03:05:54 -0700 (PDT)
+Message-ID: <c485b64e-3c83-4616-b8d8-76c2c7d56b0e@linaro.org>
+Date: Thu, 17 Aug 2023 13:05:53 +0300
 MIME-Version: 1.0
-References: <20230814144933.3956959-1-kherbst@redhat.com>
- <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
- <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
- <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
- <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
- <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
- <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
- <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
- <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
- <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
- <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
-In-Reply-To: <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 17 Aug 2023 12:00:47 +0200
-Message-ID: <CACO55tuWTYngfw+MZnan+U4eYyE+SvOWgxzffaCMNGQgriq3ig@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling of
- nouveau_connector_create
-To: Borislav Petkov <bp@alien8.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/7] phy: Add HDMI configuration options
+To: Sandor Yu <Sandor.yu@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20230808083243.3113192-1-Sandor.yu@nxp.com>
+ <20230808083243.3113192-3-Sandor.yu@nxp.com>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230808083243.3113192-3-Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,42 +84,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org,
+ linux-imx@nxp.com, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 17, 2023 at 11:58=E2=80=AFAM Karol Herbst <kherbst@redhat.com> =
-wrote:
->
-> On Thu, Aug 17, 2023 at 10:10=E2=80=AFAM Borislav Petkov <bp@alien8.de> w=
-rote:
-> >
-> > On Thu, Aug 17, 2023 at 01:18:12AM +0200, Karol Herbst wrote:
-> > > do you have one of these? https://en.wikipedia.org/wiki/DMS-59
-> >
-> > Ah, DMS =3D=3D Dual Monitor Solution :-)
-> >
-> > Yap, that's exactly what the GPU has. And the Y-cable is 2xDVI. It is
-> > a Dell workstation and it came this way, meaning I haven't done any
-> > changes there.
-> >
-> > Thx.
->
-> right.. seems like on my GPU with such a connector I'm not seeing any
-> issues... let me dig further into the vbios and see if I can figure
-> something out there.
->
+On 08/08/2023 11:32, Sandor Yu wrote:
+> Allow HDMI PHYs to be configured through the generic
+> functions through a custom structure added to the generic union.
+> 
+> The parameters added here are based on HDMI PHY
+> implementation practices.  The current set of parameters
+> should cover the potential users.
+> 
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
+>   include/linux/phy/phy.h      |  7 ++++++-
+>   2 files changed, 30 insertions(+), 1 deletion(-)
+>   create mode 100644 include/linux/phy/phy-hdmi.h
 
-btw, what would help is to know where `nvkm_uconn_uevent` actually
-fails, or rather, are you running into this "/* TODO: support DP IRQ
-on ANX9805 and remove this hack. */" condition?
+I think this looks good now, thank you!
 
-> >
-> > --
-> > Regards/Gruss,
-> >     Boris.
-> >
-> > https://people.kernel.org/tglx/notes-about-netiquette
-> >
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
 
