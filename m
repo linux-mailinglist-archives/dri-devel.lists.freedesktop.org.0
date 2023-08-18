@@ -1,75 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4684780F35
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 17:30:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA35B780F57
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 17:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3128210E540;
-	Fri, 18 Aug 2023 15:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E2410E541;
+	Fri, 18 Aug 2023 15:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFA210E540
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 15:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692372623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zgVZI/DZmKZ50KNmmRIKK+vfa2DfqpPpFcXfVL6KmW8=;
- b=dwszix5gJIvEPzCYdtQg7ld/aLp4beEtDrV9fzKmwKpLwvX9C1jK04IlSH6aif3WX2kAWi
- A27HlA/v/JvODVfoTgWLUOIeCZ1+bwU/C1LUynCcHaFPnCmnNUkkpFdKMJdj4txaley3qq
- Ja4/XtX6LEw5ynkKQAWRUvB324OSgJI=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-86JBBXDPO9KmtmO72dafIw-1; Fri, 18 Aug 2023 11:30:21 -0400
-X-MC-Unique: 86JBBXDPO9KmtmO72dafIw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-4fe3c8465e0so1216488e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 08:30:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692372620; x=1692977420;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zgVZI/DZmKZ50KNmmRIKK+vfa2DfqpPpFcXfVL6KmW8=;
- b=AuPdr7wB8UrqikOGEv8y1i/GrKQc4HBV6x5YpsbziHib7A/QxpDv/JidKsXpknkpuw
- bQe0mPp4TAQLp/FO+88paHqZlotZxGuS45Vrxk9vXMEPh2S19LAeYx1TTVoG/0oBvB/V
- LJa7r9eDPhZ/Sv8y0XDJQX9El09gMk//4Uw+nmc1zThArFBItdclT74EEswdSO2lY19E
- qzZbpehistM2tQQDzPgKai999ojU9sOOS+8ushRlnXY+YHw5EK+O0P2uF1cFHoiWxgix
- iyKTBk5IxQGEJIunLJgW2NOLNgSAVyPAfV8dJe78aYhoPP6A9gr8lg04Zj4WlQnl+A00
- OcDw==
-X-Gm-Message-State: AOJu0YwojqtWOd99bx90qkPKJmLNPTFHJQiydg4PCXdaQoRbq6pDRLos
- tYfWcIRCzieKpxIvSdW+7Dq0vTNFJwG2/qtevQk641NJU2jXf7mzdVdXc63VdAykBOVSGTYPFxJ
- ajKGFvwMEHCPYpwEhQxFlfstctuUA
-X-Received: by 2002:a05:6512:10d1:b0:4fd:d172:fc2c with SMTP id
- k17-20020a05651210d100b004fdd172fc2cmr2352441lfg.21.1692372619985; 
- Fri, 18 Aug 2023 08:30:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEje2r8B5AyMM3Kx7G0y4BkQEtLR1nChW1fUOADqxtlNU3k1zIya8eKzTnbkZgfXXP3yY3NXQ==
-X-Received: by 2002:a05:6512:10d1:b0:4fd:d172:fc2c with SMTP id
- k17-20020a05651210d100b004fdd172fc2cmr2352414lfg.21.1692372619368; 
- Fri, 18 Aug 2023 08:30:19 -0700 (PDT)
-Received: from cassiopeiae ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- e8-20020aa7d7c8000000b005231e1780aasm1176699eds.91.2023.08.18.08.30.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Aug 2023 08:30:18 -0700 (PDT)
-Date: Fri, 18 Aug 2023 17:30:15 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Sarah Walker <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v5 08/17] drm/imagination: Add GEM and VM related code
-Message-ID: <ZN+Oh8+H7V7CEgs1@cassiopeiae>
-References: <20230816082531.164695-1-sarah.walker@imgtec.com>
- <20230816082531.164695-9-sarah.walker@imgtec.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2127E10E541
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 15:37:34 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Bx5fA7kN9kfucZAA--.53392S3;
+ Fri, 18 Aug 2023 23:37:31 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx4eQtkN9kcLVdAA--.33083S3; 
+ Fri, 18 Aug 2023 23:37:27 +0800 (CST)
+Message-ID: <c882203f-3644-cb0f-cd37-04d03d167776@loongson.cn>
+Date: Fri, 18 Aug 2023 23:37:17 +0800
 MIME-Version: 1.0
-In-Reply-To: <20230816082531.164695-9-sarah.walker@imgtec.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [v2,2/2] doc: uapi: Add document describing dma-buf semantics
+To: Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
+References: <20230803154908.105124-4-daniels@collabora.com>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230803154908.105124-4-daniels@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Dx4eQtkN9kcLVdAA--.33083S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9fXoWftr4rZF15Gw1DXF45JF4rCrX_yoW8KFW3Go
+ Zavw4Ykw4ayr98CF4DKF1DCFWrWFZ3Wrs7Jw48Grs8GF97Xa15u34UAanrXF93KF4rCFy5
+ J34xX345CFnxtFn3l-sFpf9Il3svdjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf
+ 9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+ UjIYCTnIWjp_UUUY-7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+ 8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+ Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+ wI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+ 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280
+ aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+ 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
+ v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+ c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+ v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
+ pf9x07j1rWrUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,1059 +63,487 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, matthew.brost@intel.com, tzimmermann@suse.de,
- luben.tuikov@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, afd@ti.com,
- Matt Coster <matt.coster@imgtec.com>, boris.brezillon@collabora.com,
- donald.robson@imgtec.com, hns@goldelico.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sarah,
+Hi,
 
-On Wed, Aug 16, 2023 at 09:25:23AM +0100, Sarah Walker wrote:
-> Add a GEM implementation based on drm_gem_shmem, and support code for the
-> PowerVR GPU MMU. The GPU VA manager is used for address space management.
-> 
-> Changes since v4:
-> - Correct sync function in vmap/vunmap function documentation
-> - Update for upstream GPU VA manager
-> - Fix missing frees when unmapping drm_gpuva objects
-> - Always zero GEM BOs on creation
-> 
-> Changes since v3:
-> - Split MMU and VM code
-> - Register page table allocations with kmemleak
-> - Use drm_dev_{enter,exit}
-> 
-> Changes since v2:
-> - Use GPU VA manager
-> - Use drm_gem_shmem
-> 
-> Co-developed-by: Matt Coster <matt.coster@imgtec.com>
-> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-> Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+
+On 2023/8/3 23:47, Daniel Stone wrote:
+> Since there's a lot of confusion around this, document both the rules
+> and the best practice around negotiating, allocating, importing, and
+
+
+Probably, best practices?
+
+
+> using buffers when crossing context/process/device/subsystem boundaries.
+>
+> This ties up all of dma-buf, formats and modifiers, and their usage.
+>
+> Signed-off-by: Daniel Stone <daniels@collabora.com>
 > ---
->  drivers/gpu/drm/imagination/Makefile     |    5 +-
->  drivers/gpu/drm/imagination/pvr_device.c |   23 +-
->  drivers/gpu/drm/imagination/pvr_device.h |   18 +
->  drivers/gpu/drm/imagination/pvr_drv.c    |  302 ++-
->  drivers/gpu/drm/imagination/pvr_gem.c    |  396 ++++
->  drivers/gpu/drm/imagination/pvr_gem.h    |  177 ++
->  drivers/gpu/drm/imagination/pvr_mmu.c    | 2487 ++++++++++++++++++++++
->  drivers/gpu/drm/imagination/pvr_mmu.h    |  108 +
->  drivers/gpu/drm/imagination/pvr_vm.c     |  890 ++++++++
->  drivers/gpu/drm/imagination/pvr_vm.h     |   60 +
->  10 files changed, 4455 insertions(+), 11 deletions(-)
->  create mode 100644 drivers/gpu/drm/imagination/pvr_gem.c
->  create mode 100644 drivers/gpu/drm/imagination/pvr_gem.h
->  create mode 100644 drivers/gpu/drm/imagination/pvr_mmu.c
->  create mode 100644 drivers/gpu/drm/imagination/pvr_mmu.h
->  create mode 100644 drivers/gpu/drm/imagination/pvr_vm.c
->  create mode 100644 drivers/gpu/drm/imagination/pvr_vm.h
-
-<snip>
-
-> diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/imagination/pvr_vm.c
+>   Documentation/driver-api/dma-buf.rst          |   8 +
+>   Documentation/gpu/drm-uapi.rst                |   7 +
+>   .../userspace-api/dma-buf-alloc-exchange.rst  | 384 ++++++++++++++++++
+>   Documentation/userspace-api/index.rst         |   1 +
+>   4 files changed, 400 insertions(+)
+>   create mode 100644 Documentation/userspace-api/dma-buf-alloc-exchange.rst
+>
+> v2:
+>   - Moved to general uAPI section, cross-referenced from dma-buf/DRM
+>   - Added Pekka's suggested glossary with some small changes
+>   - Cleanups and clarifications from Simon and James
+>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 862dbc2759d0..0c153d79ccc4 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -22,6 +22,14 @@ interact with the three main primitives offered by dma-buf:
+>      allowing implicit (kernel-ordered) synchronization of work to
+>      preserve the illusion of coherent access
+>   
+> +
+> +Userspace API principles and use
+> +--------------------------------
+> +
+> +For more details on how to design your subsystem's API for dma-buf use, please
+> +see Documentation/userspace-api/dma-buf-alloc-exchange.rst.
+> +
+> +
+>   Shared DMA Buffers
+>   ------------------
+>   
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 65fb3036a580..eef5fd19bc92 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -486,3 +486,10 @@ and the CRTC index is its position in this array.
+>   
+>   .. kernel-doc:: include/uapi/drm/drm_mode.h
+>      :internal:
+> +
+> +
+> +dma-buf interoperability
+> +========================
+> +
+> +Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+> +information on how dma-buf is integrated and exposed within DRM.
+> diff --git a/Documentation/userspace-api/dma-buf-alloc-exchange.rst b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
 > new file mode 100644
-> index 000000000000..616fad3a3325
+> index 000000000000..090453d2ad78
 > --- /dev/null
-> +++ b/drivers/gpu/drm/imagination/pvr_vm.c
-> @@ -0,0 +1,890 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/* Copyright (c) 2023 Imagination Technologies Ltd. */
+> +++ b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
+> @@ -0,0 +1,384 @@
+> +.. Copyright 2021-2023 Collabora Ltd.
 > +
-> +#include "pvr_vm.h"
+> +========================
+> +Exchanging pixel buffers
+> +========================
 > +
-> +#include "pvr_device.h"
-> +#include "pvr_drv.h"
-> +#include "pvr_gem.h"
-> +#include "pvr_mmu.h"
-> +#include "pvr_rogue_fwif.h"
-> +#include "pvr_rogue_heap_config.h"
+> +As originally designed, the Linux graphics subsystem had extremely limited
+> +support for sharing pixel-buffer allocations between processes, devices, and
+> +subsystems. Modern systems require extensive integration between all three
+> +classes; this document details how applications and kernel subsystems should
+> +approach this sharing for two-dimensional image data.
 > +
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_gpuva_mgr.h>
+> +It is written with reference to the DRM subsystem for GPU and display devices,
+> +V4L2 for media devices, and also to Vulkan, EGL and Wayland, for userspace
+> +support, however any other subsystems should also follow this design and advice.
 > +
-> +#include <linux/container_of.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/gfp_types.h>
-> +#include <linux/kref.h>
-> +#include <linux/mutex.h>
-> +#include <linux/stddef.h>
 > +
-> +/**
-> + * DOC: Memory context
-> + *
-> + * This is the "top level" datatype in the VM code. It's exposed in the public
-> + * API as an opaque handle.
-> + */
+> +Glossary of terms
+> +=================
 > +
-> +/**
-> + * struct pvr_vm_context - Context type which encapsulates an entire page table
-> + * tree structure.
-> + * @pvr_dev: The PowerVR device to which this context is bound.
-> + *
-> + * This binding is immutable for the life of the context.
-> + * @mmu_ctx: The context for binding to physical memory.
-> + * @gpuva_mgr: GPUVA manager object associated with this context.
-> + * @lock: Global lock on this entire structure of page tables.
-> + * @fw_mem_ctx_obj: Firmware object representing firmware memory context.
-> + * @ref_count: Reference count of object.
-> + */
-> +struct pvr_vm_context {
-> +	struct pvr_device *pvr_dev;
-> +	struct pvr_mmu_context *mmu_ctx;
-> +	struct drm_gpuva_manager gpuva_mgr;
-> +	struct mutex lock;
-> +	struct pvr_fw_object *fw_mem_ctx_obj;
-> +	struct kref ref_count;
-> +};
+> +.. glossary::
 > +
-> +/**
-> + * pvr_vm_get_page_table_root_addr() - Get the DMA address of the root of the
-> + *                                     page table structure behind a VM context.
-> + * @vm_ctx: Target VM context.
-> + */
-> +dma_addr_t pvr_vm_get_page_table_root_addr(struct pvr_vm_context *vm_ctx)
-> +{
-> +	return pvr_mmu_get_root_table_dma_addr(vm_ctx->mmu_ctx);
-> +}
+> +    image:
+> +      Conceptually a two-dimensional array of pixels. The pixels may be stored
+> +      in one or more memory buffers. Has width and height in pixels, pixel
+> +      format and modifier (implicit or explicit).
 > +
-> +/**
-> + * DOC: Memory mappings
-> + */
+> +    row:
+> +      A span along a single y-axis value, e.g. from co-ordinates (0,100) to
+> +      (200,100).
 > +
-> +/**
-> + * pvr_vm_gpuva_mapping_init() - Setup a mapping object with the specified
-> + * parameters ready for mapping using pvr_vm_gpuva_mapping_map().
-> + * @va: Pointer to drm_gpuva mapping object.
-> + * @device_addr: Device-virtual address at the start of the mapping.
-> + * @size: Size of the desired mapping.
-> + * @pvr_obj: Target PowerVR memory object.
-> + * @pvr_obj_offset: Offset into @pvr_obj to begin mapping from.
-> + *
-> + * Some parameters of this function are unchecked. It is therefore the callers
-> + * responsibility to ensure certain constraints are met. Specifically:
-> + *
-> + * * @pvr_obj_offset must be less than the size of @pvr_obj,
-> + * * The sum of @pvr_obj_offset and @size must be less than or equal to the
-> + *   size of @pvr_obj,
-> + * * The range specified by @pvr_obj_offset and @size (the "CPU range") must be
-> + *   CPU page-aligned both in start position and size, and
-> + * * The range specified by @device_addr and @size (the "device range") must be
-> + *   device page-aligned both in start position and size.
-> + *
-> + * Furthermore, it is up to the caller to make sure that a reference to @pvr_obj
-> + * is taken prior to mapping @va with the drm_gpuva_manager.
-> + */
-> +static void
-> +pvr_vm_gpuva_mapping_init(struct drm_gpuva *va, u64 device_addr, u64 size,
-> +			  struct pvr_gem_object *pvr_obj, u64 pvr_obj_offset)
+> +    scanline:
+> +      Synonym for row.
+> +
+> +    column:
+> +      A span along a single x-axis value, e.g. from co-ordinates (100,0) to
+> +      (100,100).
+> +
+> +    memory buffer:
+> +      A piece of memory for storing (parts of) pixel data. Has stride and size
+> +      in bytes and at least one handle in some API. May contain one or more
+> +      planes.
+> +
+> +    plane:
+> +      A two-dimensional array of some or all of an image's color and alpha
+> +      channel values.
+> +
+> +    pixel:
+> +      A picture element. Has a single color value which is defined by one or
+> +      more color channels values, e.g. R, G and B, or Y, Cb and Cr. May also
+> +      have an alpha value as an additional channel.
+> +
+> +    pixel data:
+> +      Bytes or bits that represent some or all of the color/alpha channel values
+> +      of a pixel or an image. The data for one pixel may be spread over several
+> +      planes or memory buffers depending on format and modifier.
+> +
+> +    color value:
+> +      A tuple of numbers, representing a color. Each element in the tuple is a
+> +      color channel value.
+> +
+> +    color channel:
+> +      One of the dimensions in a color model. For example, RGB model has
+> +      channels R, G, and B. Alpha channel is sometimes counted as a color
+> +      channel as well.
+> +
+> +    pixel format:
+> +      A description of how pixel data represents the pixel's color and alpha
+> +      values.
+> +
+> +    modifier:
+> +      A description of how pixel data is laid out in memory buffers.
+> +
+> +    alpha:
+> +      A value that denotes the color coverage in a pixel. Sometimes used for
+> +      translucency instead.
+> +
+> +    stride:
+> +      A value that denotes the relationship between pixel-location co-ordinates
+> +      and byte-offset values. Typically used as the byte offset between two
+> +      pixels at the start of vertically-consecutive tiling blocks. For linear
+> +      layouts, the byte offset between two vertically-adjacent pixels.
+> +
+> +    pitch:
+> +      Synonym for stride.
+> +
+> +
+> +Formats and modifiers
+> +=====================
+> +
+> +Each buffer must have an underlying format. This format describes the color
+> +values provided for each pixel. Although each subsystem has its own format
+> +descriptions (e.g. V4L2 and fbdev), the ``DRM_FORMAT_*`` tokens should be reused
+> +wherever possible, as they are the standard descriptions used for interchange.
+> +These tokens are described in the ``drm_fourcc.h`` file, which is a part of
+> +DRM's uAPI.
+> +
+> +Each ``DRM_FORMAT_*`` token describes the translation between a pixel
+> +co-ordinate in an image, and the color values for that pixel contained within
+> +its memory buffers. The number and type of color channels are described:
+> +whether they are RGB or YUV, integer or floating-point, the size of each channel
+> +and their locations within the pixel memory, and the relationship between color
+> +planes.
+> +
+> +For example, ``DRM_FORMAT_ARGB8888`` describes a format in which each pixel has
+> +a single 32-bit value in memory. Alpha, red, green, and blue, color channels are
+> +available at 8-bit precision per channel, ordered respectively from most to
+> +least significant bits in little-endian storage. ``DRM_FORMAT_*`` is not
+> +affected by either CPU or device endianness; the byte pattern in memory is
+> +always as described in the format definition, which is usually little-endian.
+> +
+> +As a more complex example, ``DRM_FORMAT_NV12`` describes a format in which luma
+> +and chroma YUV samples are stored in separate planes, where the chroma plane is
+> +stored at half the resolution in both dimensions (i.e. one U/V chroma
+> +sample is stored for each 2x2 pixel grouping).
+> +
+> +Format modifiers describe a translation mechanism between these per-pixel memory
+> +samples, and the actual memory storage for the buffer. The most straightforward
+> +modifier is ``DRM_FORMAT_MOD_LINEAR``, describing a scheme in which each plane
+> +is laid out row-sequentially, from the top-left to the bottom-right corner.
+> +This is considered the baseline interchange format, and most convenient for CPU
+> +access.
+> +
+> +Modern hardware employs much more sophisticated access mechanisms, typically
+> +making use of tiled access and possibly also compression. For example, the
+> +``DRM_FORMAT_MOD_VIVANTE_TILED`` modifier describes memory storage where pixels
+> +are stored in 4x4 blocks arranged in row-major ordering, i.e. the first tile in
+> +a plane stores pixels (0,0) to (3,3) inclusive, and the second tile in a plane
+> +stores pixels (4,0) to (7,3) inclusive.
+> +
+> +Some modifiers may modify the number of planes required for an image; for
+> +example, the ``I915_FORMAT_MOD_Y_TILED_CCS`` modifier adds a second plane to RGB
+> +formats in which it stores data about the status of every tile, notably
+> +including whether the tile is fully populated with pixel data, or can be
+> +expanded from a single solid color.
+> +
+> +These extended layouts are highly vendor-specific, and even specific to
+> +particular generations or configurations of devices per-vendor. For this reason,
+> +support of modifiers must be explicitly enumerated and negotiated by all users
+> +in order to ensure a compatible and optimal pipeline, as discussed below.
+> +
+> +
+> +Dimensions and size
+> +===================
+> +
+> +Each pixel buffer must be accompanied by logical pixel dimensions. This refers
+> +to the number of unique samples which can be extracted from, or stored to, the
+> +underlying memory storage. For example, even though a 1920x1080
+> +``DRM_FORMAT_NV12`` buffer has a luma plane containing 1920x1080 samples for the Y
+> +component, and 960x540 samples for the U and V components, the overall buffer is
+> +still described as having dimensions of 1920x1080.
+> +
+> +The in-memory storage of a buffer is not guaranteed to begin immediately at the
+> +base address of the underlying memory, nor is it guaranteed that the memory
+> +storage is tightly clipped to either dimension.
+> +
+> +Each plane must therefore be described with an ``offset`` in bytes, which will be
+> +added to the base address of the memory storage before performing any per-pixel
+> +calculations. This may be used to combine multiple planes into a single memory
+> +buffer; for example, ``DRM_FORMAT_NV12`` may be stored in a single memory buffer
+> +where the luma plane's storage begins immediately at the start of the buffer
+> +with an offset of 0, and the chroma plane's storage follows within the same buffer
+> +beginning from the byte offset for that plane.
+> +
+> +Each plane must also have a ``stride`` in bytes, expressing the offset in memory
+> +between two contiguous row. For example, a ``DRM_FORMAT_MOD_LINEAR`` buffer
+> +with dimensions of 1000x1000 may have been allocated as if it were 1024x1000, in
+> +order to allow for aligned access patterns. In this case, the buffer will still
+> +be described with a width of 1000, however the stride will be ``1024 * bpp``,
+> +indicating that there are 24 pixels at the positive extreme of the x axis whose
+> +values are not significant.
+> +
+> +Buffers may also be padded further in the y dimension, simply by allocating a
+> +larger area than would ordinarily be required. For example, many media decoders
+> +are not able to natively output buffers of height 1080, but instead require an
+> +effective height of 1088 pixels. In this case, the buffer continues to be
+> +described as having a height of 1080, with the memory allocation for each buffer
+> +being increased to account for the extra padding.
+> +
+> +
+> +Enumeration
+> +===========
+> +
+> +Every user of pixel buffers must be able to enumerate a set of supported formats
+> +and modifiers, described together. Within KMS, this is achieved with the
+> +``IN_FORMATS`` property on each DRM plane, listing the supported DRM formats, and
+> +the modifiers supported for each format. In userspace, this is supported through
+> +the `EGL_EXT_image_dma_buf_import_modifiers`_ extension entrypoints for EGL, the
+> +`VK_EXT_image_drm_format_modifier`_ extension for Vulkan, and the
+> +`zwp_linux_dmabuf_v1`_ extension for Wayland.
+> +
+> +Each of these interfaces allows users to query a set of supported
+> +format+modifier combinations.
+> +
+> +
+> +Negotiation
+> +===========
+> +
+> +It is the responsibility of userspace to negotiate an acceptable format+modifier
+> +combination for its usage. This is performed through a simple intersection of
+> +lists. For example, if a user wants to use Vulkan to render an image to be
+> +displayed on a KMS plane, it must:
+> +
+> + - query KMS for the ``IN_FORMATS`` property for the given plane
+> + - query Vulkan for the supported formats for its physical device, making sure
+> +   to pass the ``VkImageUsageFlagBits`` and ``VkImageCreateFlagBits``
+> +   corresponding to the intended rendering use
+> + - intersect these formats to determine the most appropriate one
+> + - for this format, intersect the lists of supported modifiers for both KMS and
+> +   Vulkan, to obtain a final list of acceptable modifiers for that format
+> +
+> +This intersection must be performed for all usages. For example, if the user
+> +also wishes to encode the image to a video stream, it must query the media API
+> +it intends to use for encoding for the set of modifiers it supports, and
+> +additionally intersect against this list.
+> +
+> +If the intersection of all lists is an empty list, it is not possible to share
+> +buffers in this way, and an alternate strategy must be considered (e.g. using
+> +CPU access routines to copy data between the different uses, with the
+> +corresponding performance cost).
+> +
+> +The resulting modifier list is unsorted; the order is not significant.
+> +
+> +
+> +Allocation
+> +==========
+> +
+> +Once userspace has determined an appropriate format, and corresponding list of
+> +acceptable modifiers, it must allocate the buffer. As there is no universal
+> +buffer-allocation interface available at either kernel or userspace level, the
+> +client makes an arbitrary choice of allocation interface such as Vulkan, GBM, or
+> +a media API.
+> +
+> +Each allocation request must take, at a minimum: the pixel format, a list of
+> +acceptable modifiers, and the buffer's width and height. Each API may extend
+> +this set of properties in different ways, such as allowing allocation in more
+> +than two dimensions, intended usage patterns, etc.
+> +
+> +The component which allocates the buffer will make an arbitrary choice of what
+> +it considers the 'best' modifier within the acceptable list for the requested
+> +allocation, any padding required, and further properties of the underlying
+> +memory buffers such as whether they are stored in system or device-specific
+> +memory, whether or not they are physically contiguous, and their cache mode.
+> +These properties of the memory buffer are not visible to userspace, however the
+> +``dma-heaps`` API is an effort to address this.
+> +
+> +After allocation, the client must query the allocator to determine the actual
+> +modifier selected for the buffer, as well as the per-plane offset and stride.
+> +Allocators are not permitted to vary the format in use, to select a modifier not
+> +provided within the acceptable list, nor to vary the pixel dimensions other than
+> +the padding expressed through offset, stride, and size.
+> +
+> +Communicating additional constraints, such as alignment of stride or offset,
+> +placement within a particular memory area, etc, is out of scope of dma-buf,
+> +and is not solved by format and modifier tokens.
+> +
+> +
+> +Import
+> +======
+> +
+> +To use a buffer within a different context, device, or subsystem, the user
+> +passes these parameters (format, modifier, width, height, and per-plane offset
+> +and stride) to an importing API.
+> +
+> +Each memory buffer is referred to by a buffer handle, which may be unique or
+> +duplicated within an image. For example, a ``DRM_FORMAT_NV12`` buffer may have
+> +the luma and chroma buffers combined into a single memory buffer by use of the
+> +per-plane offset parameters, or they may be completely separate allocations in
+> +memory. For this reason, each import and allocation API must provide a separate
+> +handle for each plane.
+> +
+> +Each kernel subsystem has its own types and interfaces for buffer management.
+> +DRM uses GEM buffer objects (BOs), V4L2 has its own references, etc. These types
+> +are not portable between contexts, processes, devices, or subsystems.
+> +
+> +To address this, ``dma-buf`` handles are used as the universal interchange for
+> +buffers. Subsystem-specific operations are used to export native buffer handles
+> +to a ``dma-buf`` file descriptor, and to import those file descriptors into a
+> +native buffer handle. dma-buf file descriptors can be transferred between
+> +contexts, processes, devices, and subsystems.
+> +
+> +For example, a Wayland media player may use V4L2 to decode a video frame into a
+> +``DRM_FORMAT_NV12`` buffer. This will result in two memory planes (luma and
+> +chroma) being dequeued by the user from V4L2. These planes are then exported to
+> +one dma-buf file descriptor per plane, these descriptors are then sent along
+> +with the metadata (format, modifier, width, height, per-plane offset and stride)
+> +to the Wayland server. The Wayland server will then import these file
+> +descriptors as an EGLImage for use through EGL/OpenGL (ES), a VkImage for use
+> +through Vulkan, or a KMS framebuffer object; each of these import operations
+> +will take the same metadata and convert the dma-buf file descriptors into their
+> +native buffer handles.
+> +
+> +Having a non-empty intersection of supported modifiers does not guarantee that
+> +import will succeed into all consumers; they may have constraints beyond those
+> +impliied by modifiers which must be satisfied.
 
-There's already drm_gpuva_init() doing the same thing.
 
-> +{
-> +	va->va.addr = device_addr;
-> +	va->va.range = size;
-> +	va->gem.obj = gem_from_pvr_gem(pvr_obj);
-> +	va->gem.offset = pvr_obj_offset;
-> +}
-> +
-> +struct pvr_vm_gpuva_op_ctx {
-> +	struct pvr_vm_context *vm_ctx;
-> +	struct pvr_mmu_op_context *mmu_op_ctx;
-> +	struct drm_gpuva *new_va, *prev_va, *next_va;
-> +};
-> +
-> +/**
-> + * pvr_vm_gpuva_map() - Insert a mapping into a memory context.
-> + * @op: gpuva op containing the remap details.
-> + * @op_ctx: Operation context.
-> + *
-> + * Context: Called by drm_gpuva_sm_map following a successful mapping while
-> + * @op_ctx.vm_ctx mutex is held.
-> + *
-> + * Return:
-> + *  * 0 on success, or
-> + *  * Any error returned by pvr_mmu_map().
-> + */
-> +static int
-> +pvr_vm_gpuva_map(struct drm_gpuva_op *op, void *op_ctx)
-> +{
-> +	struct pvr_gem_object *pvr_gem = gem_to_pvr_gem(op->map.gem.obj);
-> +	struct pvr_vm_gpuva_op_ctx *ctx = op_ctx;
-> +	int err;
-> +
-> +	if ((op->map.gem.offset | op->map.va.range) & ~PVR_DEVICE_PAGE_MASK)
-> +		return -EINVAL;
-> +
-> +	err = pvr_mmu_map(ctx->mmu_op_ctx, op->map.va.range, pvr_gem->flags,
-> +			  op->map.va.addr);
-> +	if (err)
-> +		return err;
-> +
-> +	pvr_vm_gpuva_mapping_init(ctx->new_va, op->map.va.addr,
-> +				  op->map.va.range, pvr_gem, op->map.gem.offset);
-> +
-> +	drm_gpuva_map(&ctx->vm_ctx->gpuva_mgr, ctx->new_va, &op->map);
+s/impliied/implied
 
-drm_gpuva_map() does use drm_gpuva_init_from_op() internally, hence the extra
-call to pvr_vm_gpuva_mapping_init() should be unnecessary.
-
-> +	drm_gpuva_link(ctx->new_va);
-
-How is this protected?
-
-drm_gpuva_link() and drm_gpuva_unlink() require either the dma_resv lock of the
-corresponding GEM object being held or, alternatively, the driver specific lock
-indicated via drm_gem_gpuva_set_lock().
-
-> +	ctx->new_va = NULL;
-> +
-> +	/*
-> +	 * Increment the refcount on the underlying physical memory resource
-> +	 * to prevent de-allocation while the mapping exists.
-> +	 */
-> +	pvr_gem_object_get(pvr_gem);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * pvr_vm_gpuva_unmap() - Remove a mapping from a memory context.
-> + * @op: gpuva op containing the unmap details.
-> + * @op_ctx: Operation context.
-> + *
-> + * Context: Called by drm_gpuva_sm_unmap following a successful unmapping while
-> + * @op_ctx.vm_ctx mutex is held.
-> + *
-> + * Return:
-> + *  * 0 on success, or
-> + *  * Any error returned by pvr_mmu_unmap().
-> + */
-> +static int
-> +pvr_vm_gpuva_unmap(struct drm_gpuva_op *op, void *op_ctx)
-> +{
-> +	struct pvr_gem_object *pvr_gem = gem_to_pvr_gem(op->unmap.va->gem.obj);
-> +	struct pvr_vm_gpuva_op_ctx *ctx = op_ctx;
-> +
-> +	int err = pvr_mmu_unmap(ctx->mmu_op_ctx, op->unmap.va->va.addr,
-> +				op->unmap.va->va.range);
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	drm_gpuva_unmap(&op->unmap);
-> +	drm_gpuva_unlink(op->unmap.va);
-> +	kfree(op->unmap.va);
-> +
-> +	pvr_gem_object_put(pvr_gem);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * pvr_vm_gpuva_remap() - Remap a mapping within a memory context.
-> + * @op: gpuva op containing the remap details.
-> + * @op_ctx: Operation context.
-> + *
-> + * Context: Called by either drm_gpuva_sm_map or drm_gpuva_sm_unmap when a
-> + * mapping or unmapping operation causes a region to be split. The
-> + * @op_ctx.vm_ctx mutex is held.
-> + *
-> + * Return:
-> + *  * 0 on success, or
-> + *  * Any error returned by pvr_vm_gpuva_unmap() or pvr_vm_gpuva_unmap().
-> + */
-> +static int
-> +pvr_vm_gpuva_remap(struct drm_gpuva_op *op, void *op_ctx)
-> +{
-> +	struct pvr_vm_gpuva_op_ctx *ctx = op_ctx;
-> +
-> +	if (op->remap.unmap) {
-
-You can omit this check, remap operations always contain a valid unmap
-operation. However, you might want to know whether the remap operation was
-generated due to a call to drm_gpuva_sm_map() or drm_gpuva_sm_unmap(), since for
-the latter you might want to free page table structures.
-
-> +		const u64 va_start = op->remap.prev ?
-> +				     op->remap.prev->va.addr + op->remap.prev->va.range :
-> +				     op->remap.unmap->va->va.addr;
-> +		const u64 va_end = op->remap.next ?
-> +				   op->remap.next->va.addr :
-> +				   op->remap.unmap->va->va.addr + op->remap.unmap->va->va.range;
-
-This seems to be a common calculation for drivers, it is probably worth to come
-up with a helper, something like
-drm_gpuva_op_unmap_range(struct drm_gpuva_op *op, u64 *addr, u64 *range).
 
 > +
-> +		int err = pvr_mmu_unmap(ctx->mmu_op_ctx, va_start,
-> +					va_end - va_start);
 > +
-> +		if (err)
-> +			return err;
-> +	}
+> +Implicit modifiers
+> +==================
 > +
-> +	if (op->remap.prev)
-> +		pvr_vm_gpuva_mapping_init(ctx->prev_va, op->remap.prev->va.addr,
-> +					  op->remap.prev->va.range,
-> +					  gem_to_pvr_gem(op->remap.prev->gem.obj),
-> +					  op->remap.prev->gem.offset);
+> +The concept of modifiers post-dates all of the subsystems mentioned above. As
+> +such, it has been retrofitted into all of these APIs, and in order to ensure
+> +backwards compatibility, support is needed for drivers and userspace which do
+> +not (yet) support modifiers.
 > +
-> +	if (op->remap.next)
-> +		pvr_vm_gpuva_mapping_init(ctx->next_va, op->remap.next->va.addr,
-> +					  op->remap.next->va.range,
-> +					  gem_to_pvr_gem(op->remap.next->gem.obj),
-> +					  op->remap.next->gem.offset);
+> +As an example, GBM is used to allocate buffers to be shared between EGL for
+> +rendering and KMS for display. It has two entrypoints for allocating buffers:
+> +``gbm_bo_create`` which only takes the format, width, height, and a usage token,
+> +and ``gbm_bo_create_with_modifiers`` which extends this with a list of modifiers.
 > +
-> +	/* No actual remap required: the page table tree depth is fixed to 3,
-> +	 * and we use 4k page table entries only for now.
-> +	 */
-> +	drm_gpuva_remap(ctx->prev_va, ctx->next_va, &op->remap);
+> +In the latter case, the allocation is as discussed above, being provided with a
+> +list of acceptable modifiers that the implementation can choose from (or fail if
+> +it is not possible to allocate within those constraints). In the former case
+> +where modifiers are not provided, the GBM implementation must make its own
+> +choice as to what is likely to be the 'best' layout. Such a choice is entirely
+> +implementation-specific: some will internally use tiled layouts which are not
+> +CPU-accessible if the implementation decides that is a good idea through
+> +whatever heuristic. It is the implementation's responsibility to ensure that
+> +this choice is appropriate.
+> +
+> +To support this case where the layout is not known because there is no awareness
+> +of modifiers, a special ``DRM_FORMAT_MOD_INVALID`` token has been defined. This
+> +pseudo-modifier declares that the layout is not known, and that the driver
+> +should use its own logic to determine what the underlying layout may be.
+> +
+> +.. note::
+> +
+> +  ``DRM_FORMAT_MOD_INVALID`` is a non-zero value. The modifier value zero is
+> +  ``DRM_FORMAT_MOD_LINEAR``, which is an explicit guarantee that the image
+> +  has the linear layout. Care and attention should be taken to ensure that
+> +  zero as a default uninitialized value signals no modifier.
+> +
+> +There are four cases where this token may be used:
+> +  - during enumeration, an interface may return ``DRM_FORMAT_MOD_INVALID``, either
+> +    as the sole member of a modifier list to declare that explicit modifiers are
+> +    not supported, or as part of a larger list to declare that implicit modifiers
+> +    may be used
+> +  - during allocation, a user may supply ``DRM_FORMAT_MOD_INVALID``, either as the
+> +    sole member of a modifier list (equivalent to not supplying a modifier list
+> +    at all) to declare that explicit modifiers are not supported and must not be
+> +    used, or as part of a larger list to declare that an allocation using implicit
+> +    modifiers is acceptable
+> +  - in a post-allocation query, an implementation may return
+> +    ``DRM_FORMAT_MOD_INVALID`` as the modifier of the allocated buffer to declare
+> +    that the underlying layout is implementation-defined and that an explicit
+> +    modifier description is not available; per the above rules, this may only be
+> +    returned when the user has included ``DRM_FORMAT_MOD_INVALID`` as part of the
+> +    list of acceptable modifiers, or not provided a list
+> +  - when importing a buffer, the user may supply ``DRM_FORMAT_MOD_INVALID`` as the
+> +    buffer modifier (or not supply a modifier) to indicate that the modifier is
+> +    unknown for whatever reason; this is only acceptable when the buffer has
+> +    not been allocated with an explicit modifier
+> +
+> +It follows from this that for any single buffer, the complete chain of operations
+> +formed by the producer and all the consumers must be either fully implicit or fully
+> +explicit. For example, if a user wishes to allocate a buffer for use between
+> +GPU, display, and media, but the media API does not support modifiers, then the
+> +user **must not** allocate the buffer with explicit modifiers and attempt to
+> +import the buffer into the media API with no modifier, but either perform the
+> +allocation using implicit modifiers, or allocate the buffer for media use
+> +separately and copy between the two buffers.
+> +
+> +As one exception to the above, allocations may be 'upgraded' from implicit
+> +to explicit modifiers. For example, if the buffer is allocated with
+> +``gbm_bo_create`` (taking no modifiers), the user may then query the modifier with
+> +``gbm_bo_get_modifier`` and then use this modifier as an explicit modifier token
+> +if a valid modifier is returned.
+> +
+> +When allocating buffers for exchange between different users and modifiers are
+> +not available, implementations are strongly encouraged to use
+> +``DRM_FORMAT_MOD_LINEAR`` for their allocation, as this is the universal baseline
+> +for exchange. However, it is not guaranteed that this will result in the correct
+> +interpretation of buffer content, as implicit modifier operation may still be
+> +subject to driver-specific heuristics.
+> +
+> +Any new users - userspace programs and protocols, kernel subsystems, etc -
+> +wishing to exchange buffers must offer interoperability through dma-buf file
+> +descriptors for memory planes, DRM format tokens to describe the format, DRM
+> +format modifiers to describe the layout in memory, at least width and height for
+> +dimensions, and at least offset and stride for each memory plane.
+> +
+> +.. _zwp_linux_dmabuf_v1: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/blob/main/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
+> +.. _VK_EXT_image_drm_format_modifier: https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_image_drm_format_modifier.html
+> +.. _EGL_EXT_image_dma_buf_import_modifiers: https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_image_dma_buf_import_modifiers.txt
+> \ No newline at end of file
+> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+> index 72a65db0c498..031df47a7c19 100644
+> --- a/Documentation/userspace-api/index.rst
+> +++ b/Documentation/userspace-api/index.rst
+> @@ -22,6 +22,7 @@ place where this information is gathered.
+>      unshare
+>      spec_ctrl
+>      accelerators/ocxl
+> +   dma-buf-alloc-exchange
+>      ebpf/index
+>      ELF
+>      ioctl/index
 
-As above, drm_gpuva_remap() does use drm_gpuva_init_from_op() internally, hence
-the extra call to pvr_vm_gpuva_mapping_init() should be unnecessary.
 
-> +
-> +	if (op->remap.prev) {
-> +		pvr_gem_object_get(gem_to_pvr_gem(ctx->prev_va->gem.obj));
-> +		drm_gpuva_link(ctx->prev_va);
-> +		ctx->prev_va = NULL;
-> +	}
-> +
-> +	if (op->remap.next) {
-> +		pvr_gem_object_get(gem_to_pvr_gem(ctx->next_va->gem.obj));
-> +		drm_gpuva_link(ctx->next_va);
-> +		ctx->next_va = NULL;
-> +	}
-> +
-> +	if (op->remap.unmap) {
+This doc contains rich knowledge, thanks for the writing.
+I believe that this will helps to educate a crowd of newbies, including me.
+But I know part of the content inside this document is correct.
+Maybe, it need a more advance programmer to review.
+Anyway, I hope this elegant document can be merged.
 
-As above, no need for this check.
-
-- Danilo
-
-> +		struct pvr_gem_object *pvr_gem = gem_to_pvr_gem(op->remap.unmap->va->gem.obj);
-> +
-> +		drm_gpuva_unlink(op->unmap.va);
-> +		kfree(op->unmap.va);
-> +
-> +		pvr_gem_object_put(pvr_gem);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Public API
-> + *
-> + * For an overview of these functions, see *DOC: Public API* in "pvr_vm.h".
-> + */
-> +
-> +/**
-> + * pvr_device_addr_is_valid() - Tests whether a device-virtual address
-> + *                              is valid.
-> + * @device_addr: Virtual device address to test.
-> + *
-> + * Return:
-> + *  * %true if @device_addr is within the valid range for a device page
-> + *    table and is aligned to the device page size, or
-> + *  * %false otherwise.
-> + */
-> +bool
-> +pvr_device_addr_is_valid(u64 device_addr)
-> +{
-> +	return (device_addr & ~PVR_PAGE_TABLE_ADDR_MASK) == 0 &&
-> +	       (device_addr & ~PVR_DEVICE_PAGE_MASK) == 0;
-> +}
-> +
-> +/**
-> + * pvr_device_addr_and_size_are_valid() - Tests whether a device-virtual
-> + * address and associated size are both valid.
-> + * @device_addr: Virtual device address to test.
-> + * @size: Size of the range based at @device_addr to test.
-> + *
-> + * Calling pvr_device_addr_is_valid() twice (once on @size, and again on
-> + * @device_addr + @size) to verify a device-virtual address range initially
-> + * seems intuitive, but it produces a false-negative when the address range
-> + * is right at the end of device-virtual address space.
-> + *
-> + * This function catches that corner case, as well as checking that
-> + * @size is non-zero.
-> + *
-> + * Return:
-> + *  * %true if @device_addr is device page aligned; @size is device page
-> + *    aligned; the range specified by @device_addr and @size is within the
-> + *    bounds of the device-virtual address space, and @size is non-zero, or
-> + *  * %false otherwise.
-> + */
-> +bool
-> +pvr_device_addr_and_size_are_valid(u64 device_addr, u64 size)
-> +{
-> +	return pvr_device_addr_is_valid(device_addr) &&
-> +	       size != 0 && (size & ~PVR_DEVICE_PAGE_MASK) == 0 &&
-> +	       (device_addr + size <= PVR_PAGE_TABLE_ADDR_SPACE_SIZE);
-> +}
-> +
-> +static const struct drm_gpuva_fn_ops pvr_vm_gpuva_ops = {
-> +	.sm_step_map = pvr_vm_gpuva_map,
-> +	.sm_step_remap = pvr_vm_gpuva_remap,
-> +	.sm_step_unmap = pvr_vm_gpuva_unmap,
-> +};
-> +
-> +/**
-> + * pvr_vm_create_context() - Create a new VM context.
-> + * @pvr_dev: Target PowerVR device.
-> + * @is_userspace_context: %true if this context is for userspace. This will
-> + *                        create a firmware memory context for the VM context
-> + *                        and disable warnings when tearing down mappings.
-> + *
-> + * Return:
-> + *  * A handle to the newly-minted VM context on success,
-> + *  * -%EINVAL if the feature "virtual address space bits" on @pvr_dev is
-> + *    missing or has an unsupported value,
-> + *  * -%ENOMEM if allocation of the structure behind the opaque handle fails,
-> + *    or
-> + *  * Any error encountered while setting up internal structures.
-> + */
-> +struct pvr_vm_context *
-> +pvr_vm_create_context(struct pvr_device *pvr_dev, bool is_userspace_context)
-> +{
-> +	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-> +
-> +	struct pvr_vm_context *vm_ctx;
-> +	u16 device_addr_bits;
-> +
-> +	int err;
-> +
-> +	err = PVR_FEATURE_VALUE(pvr_dev, virtual_address_space_bits,
-> +				&device_addr_bits);
-> +	if (err) {
-> +		drm_err(drm_dev,
-> +			"Failed to get device virtual address space bits\n");
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	if (device_addr_bits != PVR_PAGE_TABLE_ADDR_BITS) {
-> +		drm_err(drm_dev,
-> +			"Device has unsupported virtual address space size\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	vm_ctx = kzalloc(sizeof(*vm_ctx), GFP_KERNEL);
-> +	if (!vm_ctx)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	vm_ctx->pvr_dev = pvr_dev;
-> +	kref_init(&vm_ctx->ref_count);
-> +	mutex_init(&vm_ctx->lock);
-> +
-> +	drm_gpuva_manager_init(&vm_ctx->gpuva_mgr,
-> +			       is_userspace_context ? "PowerVR-user-VM" : "PowerVR-FW-VM",
-> +			       0, 1ULL << device_addr_bits, 0, 0, &pvr_vm_gpuva_ops);
-> +
-> +	vm_ctx->mmu_ctx = pvr_mmu_context_create(pvr_dev);
-> +	err = PTR_ERR_OR_ZERO(&vm_ctx->mmu_ctx);
-> +	if (err) {
-> +		vm_ctx->mmu_ctx = NULL;
-> +		goto err_put_ctx;
-> +	}
-> +
-> +	if (is_userspace_context) {
-> +		/* TODO: Create FW mem context */
-> +		err = -ENODEV;
-> +		goto err_put_ctx;
-> +	}
-> +
-> +	return vm_ctx;
-> +
-> +err_put_ctx:
-> +	pvr_vm_context_put(vm_ctx);
-> +
-> +	return ERR_PTR(err);
-> +}
-> +
-> +/**
-> + * pvr_vm_context_release() - Teardown a VM context.
-> + * @ref_count: Pointer to reference counter of the VM context.
-> + *
-> + * This function ensures that no mappings are left dangling by unmapping them
-> + * all in order of ascending device-virtual address.
-> + */
-> +static void
-> +pvr_vm_context_release(struct kref *ref_count)
-> +{
-> +	struct pvr_vm_context *vm_ctx =
-> +		container_of(ref_count, struct pvr_vm_context, ref_count);
-> +
-> +	/* TODO: Destroy FW mem context */
-> +	WARN_ON(vm_ctx->fw_mem_ctx_obj);
-> +
-> +	WARN_ON(pvr_vm_unmap(vm_ctx, vm_ctx->gpuva_mgr.mm_start,
-> +			     vm_ctx->gpuva_mgr.mm_range));
-> +
-> +	drm_gpuva_manager_destroy(&vm_ctx->gpuva_mgr);
-> +	pvr_mmu_context_destroy(vm_ctx->mmu_ctx);
-> +	mutex_destroy(&vm_ctx->lock);
-> +
-> +	kfree(vm_ctx);
-> +}
-> +
-> +/**
-> + * pvr_vm_context_lookup() - Look up VM context from handle
-> + * @pvr_file: Pointer to pvr_file structure.
-> + * @handle: Object handle.
-> + *
-> + * Takes reference on VM context object. Call pvr_vm_context_put() to release.
-> + *
-> + * Returns:
-> + *  * The requested object on success, or
-> + *  * %NULL on failure (object does not exist in list, or is not a VM context)
-> + */
-> +struct pvr_vm_context *
-> +pvr_vm_context_lookup(struct pvr_file *pvr_file, u32 handle)
-> +{
-> +	struct pvr_vm_context *vm_ctx;
-> +
-> +	xa_lock(&pvr_file->vm_ctx_handles);
-> +	vm_ctx = xa_load(&pvr_file->vm_ctx_handles, handle);
-> +	if (vm_ctx)
-> +		kref_get(&vm_ctx->ref_count);
-> +
-> +	xa_unlock(&pvr_file->vm_ctx_handles);
-> +
-> +	return vm_ctx;
-> +}
-> +
-> +/**
-> + * pvr_vm_context_put() - Release a reference on a VM context
-> + * @vm_ctx: Target VM context.
-> + *
-> + * Returns:
-> + *  * %true if the VM context was destroyed, or
-> + *  * %false if there are any references still remaining.
-> + */
-> +bool
-> +pvr_vm_context_put(struct pvr_vm_context *vm_ctx)
-> +{
-> +	WARN_ON(!vm_ctx);
-> +
-> +	if (vm_ctx)
-> +		return kref_put(&vm_ctx->ref_count, pvr_vm_context_release);
-> +
-> +	return true;
-> +}
-> +
-> +/**
-> + * pvr_destroy_vm_contexts_for_file: Destroy any VM contexts associated with the
-> + * given file.
-> + * @pvr_file: Pointer to pvr_file structure.
-> + *
-> + * Removes all vm_contexts associated with @pvr_file from the device VM context
-> + * list and drops initial references. vm_contexts will then be destroyed once
-> + * all outstanding references are dropped.
-> + */
-> +void pvr_destroy_vm_contexts_for_file(struct pvr_file *pvr_file)
-> +{
-> +	struct pvr_vm_context *vm_ctx;
-> +	unsigned long handle;
-> +
-> +	xa_for_each(&pvr_file->vm_ctx_handles, handle, vm_ctx) {
-> +		/* vm_ctx is not used here because that would create a race with xa_erase */
-> +		pvr_vm_context_put(xa_erase(&pvr_file->vm_ctx_handles, handle));
-> +	}
-> +}
-> +
-> +/**
-> + * pvr_vm_map() - Map a section of physical memory into a section of device-virtual memory.
-> + * @vm_ctx: Target VM context.
-> + * @pvr_obj: Target PowerVR memory object.
-> + * @pvr_obj_offset: Offset into @pvr_obj to map from.
-> + * @device_addr: Virtual device address at the start of the requested mapping.
-> + * @size: Size of the requested mapping.
-> + *
-> + * No handle is returned to represent the mapping. Instead, callers should
-> + * remember @device_addr and use that as a handle.
-> + *
-> + * Return:
-> + *  * 0 on success,
-> + *  * -%EINVAL if @device_addr is not a valid page-aligned device-virtual
-> + *    address; the region specified by @pvr_obj_offset and @size does not fall
-> + *    entirely within @pvr_obj, or any part of the specified region of @pvr_obj
-> + *    is not device-virtual page-aligned,
-> + *  * Any error encountered while performing internal operations required to
-> + *    destroy the mapping (returned from pvr_vm_gpuva_map or
-> + *    pvr_vm_gpuva_remap).
-> + */
-> +int
-> +pvr_vm_map(struct pvr_vm_context *vm_ctx,
-> +	   struct pvr_gem_object *pvr_obj, u64 pvr_obj_offset,
-> +	   u64 device_addr, u64 size)
-> +{
-> +	const size_t pvr_obj_size = pvr_gem_object_size(pvr_obj);
-> +	struct pvr_vm_gpuva_op_ctx op_ctx = { .vm_ctx = vm_ctx };
-> +	struct sg_table *sgt;
-> +	int err;
-> +
-> +	if (!pvr_device_addr_and_size_are_valid(device_addr, size) ||
-> +	    pvr_obj_offset & ~PAGE_MASK || size & ~PAGE_MASK ||
-> +	    pvr_obj_offset + size > pvr_obj_size ||
-> +	    pvr_obj_offset > pvr_obj_size) {
-> +		return -EINVAL;
-> +	}
-> +
-> +	op_ctx.new_va = kzalloc(sizeof(*op_ctx.new_va), GFP_KERNEL);
-> +	op_ctx.prev_va = kzalloc(sizeof(*op_ctx.prev_va), GFP_KERNEL);
-> +	op_ctx.next_va = kzalloc(sizeof(*op_ctx.next_va), GFP_KERNEL);
-> +	if (!op_ctx.new_va || !op_ctx.prev_va || !op_ctx.next_va) {
-> +		err = -ENOMEM;
-> +		goto out_free;
-> +	}
-> +
-> +	sgt = pvr_gem_object_get_pages_sgt(pvr_obj);
-> +	err = PTR_ERR_OR_ZERO(sgt);
-> +	if (err)
-> +		goto out_free;
-> +
-> +	op_ctx.mmu_op_ctx = pvr_mmu_op_context_create(vm_ctx->mmu_ctx, sgt,
-> +						      pvr_obj_offset, size);
-> +	err = PTR_ERR_OR_ZERO(op_ctx.mmu_op_ctx);
-> +	if (err) {
-> +		op_ctx.mmu_op_ctx = NULL;
-> +		goto out_mmu_op_ctx_destroy;
-> +	}
-> +
-> +	mutex_lock(&vm_ctx->lock);
-> +	err = drm_gpuva_sm_map(&vm_ctx->gpuva_mgr, &op_ctx, device_addr, size,
-> +			       gem_from_pvr_gem(pvr_obj), pvr_obj_offset);
-> +	mutex_unlock(&vm_ctx->lock);
-> +
-> +out_mmu_op_ctx_destroy:
-> +	pvr_mmu_op_context_destroy(op_ctx.mmu_op_ctx);
-> +
-> +out_free:
-> +	kfree(op_ctx.next_va);
-> +	kfree(op_ctx.prev_va);
-> +	kfree(op_ctx.new_va);
-> +
-> +	return err;
-> +}
-> +
-> +/**
-> + * pvr_vm_unmap() - Unmap an already mapped section of device-virtual memory.
-> + * @vm_ctx: Target VM context.
-> + * @device_addr: Virtual device address at the start of the target mapping.
-> + * @size: Size of the target mapping.
-> + *
-> + * Return:
-> + *  * 0 on success,
-> + *  * -%EINVAL if @device_addr is not a valid page-aligned device-virtual
-> + *    address,
-> + *  * Any error encountered while performing internal operations required to
-> + *    destroy the mapping (returned from pvr_vm_gpuva_unmap or
-> + *    pvr_vm_gpuva_remap).
-> + */
-> +int
-> +pvr_vm_unmap(struct pvr_vm_context *vm_ctx, u64 device_addr, u64 size)
-> +{
-> +	struct pvr_vm_gpuva_op_ctx op_ctx = { .vm_ctx = vm_ctx };
-> +	int err;
-> +
-> +	if (!pvr_device_addr_and_size_are_valid(device_addr, size))
-> +		return -EINVAL;
-> +
-> +	op_ctx.prev_va = kzalloc(sizeof(*op_ctx.prev_va), GFP_KERNEL);
-> +	op_ctx.next_va = kzalloc(sizeof(*op_ctx.next_va), GFP_KERNEL);
-> +	if (!op_ctx.prev_va || !op_ctx.next_va) {
-> +		err = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	op_ctx.mmu_op_ctx =
-> +		pvr_mmu_op_context_create(vm_ctx->mmu_ctx, NULL, 0, 0);
-> +	err = PTR_ERR_OR_ZERO(op_ctx.mmu_op_ctx);
-> +	if (err) {
-> +		op_ctx.mmu_op_ctx = NULL;
-> +		goto out;
-> +	}
-> +
-> +	mutex_lock(&vm_ctx->lock);
-> +	err = drm_gpuva_sm_unmap(&vm_ctx->gpuva_mgr, &op_ctx, device_addr, size);
-> +	mutex_unlock(&vm_ctx->lock);
-> +
-> +out:
-> +	pvr_mmu_op_context_destroy(op_ctx.mmu_op_ctx);
-> +	kfree(op_ctx.next_va);
-> +	kfree(op_ctx.prev_va);
-> +
-> +	return err;
-> +}
-> +
-> +/*
-> + * Static data areas are determined by firmware.
-> + *
-> + * When adding a new static data area you will also need to update the reserved_size field for the
-> + * heap in pvr_heaps[].
-> + */
-> +static const struct drm_pvr_static_data_area static_data_areas[] = {
-> +	{
-> +		.area_usage = DRM_PVR_STATIC_DATA_AREA_FENCE,
-> +		.location_heap_id = DRM_PVR_HEAP_GENERAL,
-> +		.offset = 0,
-> +		.size = 128,
-> +	},
-> +	{
-> +		.area_usage = DRM_PVR_STATIC_DATA_AREA_YUV_CSC,
-> +		.location_heap_id = DRM_PVR_HEAP_GENERAL,
-> +		.offset = 128,
-> +		.size = 1024,
-> +	},
-> +	{
-> +		.area_usage = DRM_PVR_STATIC_DATA_AREA_VDM_SYNC,
-> +		.location_heap_id = DRM_PVR_HEAP_PDS_CODE_DATA,
-> +		.offset = 0,
-> +		.size = 128,
-> +	},
-> +	{
-> +		.area_usage = DRM_PVR_STATIC_DATA_AREA_EOT,
-> +		.location_heap_id = DRM_PVR_HEAP_PDS_CODE_DATA,
-> +		.offset = 128,
-> +		.size = 128,
-> +	},
-> +	{
-> +		.area_usage = DRM_PVR_STATIC_DATA_AREA_VDM_SYNC,
-> +		.location_heap_id = DRM_PVR_HEAP_USC_CODE,
-> +		.offset = 0,
-> +		.size = 128,
-> +	},
-> +};
-> +
-> +#define GET_RESERVED_SIZE(last_offset, last_size) round_up((last_offset) + (last_size), PAGE_SIZE)
-> +
-> +/*
-> + * The values given to GET_RESERVED_SIZE() are taken from the last entry in the corresponding
-> + * static data area for each heap.
-> + */
-> +static const struct drm_pvr_heap pvr_heaps[] = {
-> +	[DRM_PVR_HEAP_GENERAL] = {
-> +		.base = ROGUE_GENERAL_HEAP_BASE,
-> +		.size = ROGUE_GENERAL_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +	[DRM_PVR_HEAP_PDS_CODE_DATA] = {
-> +		.base = ROGUE_PDSCODEDATA_HEAP_BASE,
-> +		.size = ROGUE_PDSCODEDATA_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +	[DRM_PVR_HEAP_USC_CODE] = {
-> +		.base = ROGUE_USCCODE_HEAP_BASE,
-> +		.size = ROGUE_USCCODE_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +	[DRM_PVR_HEAP_RGNHDR] = {
-> +		.base = ROGUE_RGNHDR_HEAP_BASE,
-> +		.size = ROGUE_RGNHDR_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +	[DRM_PVR_HEAP_VIS_TEST] = {
-> +		.base = ROGUE_VISTEST_HEAP_BASE,
-> +		.size = ROGUE_VISTEST_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +	[DRM_PVR_HEAP_TRANSFER_FRAG] = {
-> +		.base = ROGUE_TRANSFER_FRAG_HEAP_BASE,
-> +		.size = ROGUE_TRANSFER_FRAG_HEAP_SIZE,
-> +		.flags = 0,
-> +		.page_size_log2 = PVR_DEVICE_PAGE_SHIFT,
-> +	},
-> +};
-> +
-> +int
-> +pvr_static_data_areas_get(const struct pvr_device *pvr_dev,
-> +			  struct drm_pvr_ioctl_dev_query_args *args)
-> +{
-> +	struct drm_pvr_dev_query_static_data_areas query = {0};
-> +	int err;
-> +
-> +	if (!args->pointer) {
-> +		args->size = sizeof(struct drm_pvr_dev_query_static_data_areas);
-> +		return 0;
-> +	}
-> +
-> +	err = PVR_UOBJ_GET(query, args->size, args->pointer);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	if (!query.static_data_areas.array) {
-> +		query.static_data_areas.count = ARRAY_SIZE(static_data_areas);
-> +		query.static_data_areas.stride = sizeof(struct drm_pvr_static_data_area);
-> +		goto copy_out;
-> +	}
-> +
-> +	if (query.static_data_areas.count > ARRAY_SIZE(static_data_areas))
-> +		query.static_data_areas.count = ARRAY_SIZE(static_data_areas);
-> +
-> +	err = PVR_UOBJ_SET_ARRAY(&query.static_data_areas, static_data_areas);
-> +	if (err < 0)
-> +		return err;
-> +
-> +copy_out:
-> +	err = PVR_UOBJ_SET(args->pointer, args->size, query);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	args->size = sizeof(query);
-> +	return 0;
-> +}
-> +
-> +int
-> +pvr_heap_info_get(const struct pvr_device *pvr_dev,
-> +		  struct drm_pvr_ioctl_dev_query_args *args)
-> +{
-> +	struct drm_pvr_dev_query_heap_info query = {0};
-> +	u64 dest;
-> +	int err;
-> +
-> +	if (!args->pointer) {
-> +		args->size = sizeof(struct drm_pvr_dev_query_heap_info);
-> +		return 0;
-> +	}
-> +
-> +	err = PVR_UOBJ_GET(query, args->size, args->pointer);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	if (!query.heaps.array) {
-> +		query.heaps.count = ARRAY_SIZE(pvr_heaps);
-> +		query.heaps.stride = sizeof(struct drm_pvr_heap);
-> +		goto copy_out;
-> +	}
-> +
-> +	if (query.heaps.count > ARRAY_SIZE(pvr_heaps))
-> +		query.heaps.count = ARRAY_SIZE(pvr_heaps);
-> +
-> +	/* Region header heap is only present if BRN63142 is present. */
-> +	dest = query.heaps.array;
-> +	for (size_t i = 0; i < query.heaps.count; i++) {
-> +		struct drm_pvr_heap heap = pvr_heaps[i];
-> +
-> +		if (i == DRM_PVR_HEAP_RGNHDR && !PVR_HAS_QUIRK(pvr_dev, 63142))
-> +			heap.size = 0;
-> +
-> +		err = PVR_UOBJ_SET(dest, query.heaps.stride, heap);
-> +		if (err < 0)
-> +			return err;
-> +
-> +		dest += query.heaps.stride;
-> +	}
-> +
-> +copy_out:
-> +	err = PVR_UOBJ_SET(args->pointer, args->size, query);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	args->size = sizeof(query);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * pvr_heap_contains_range() - Determine if a given heap contains the specified
-> + *                             device-virtual address range.
-> + * @pvr_heap: Target heap.
-> + * @start: Inclusive start of the target range.
-> + * @end: Inclusive end of the target range.
-> + *
-> + * It is an error to call this function with values of @start and @end that do
-> + * not satisfy the condition @start <= @end.
-> + */
-> +static __always_inline bool
-> +pvr_heap_contains_range(const struct drm_pvr_heap *pvr_heap, u64 start, u64 end)
-> +{
-> +	return pvr_heap->base <= start && end < pvr_heap->base + pvr_heap->size;
-> +}
-> +
-> +/**
-> + * pvr_find_heap_containing() - Find a heap which contains the specified
-> + *                              device-virtual address range.
-> + * @pvr_dev: Target PowerVR device.
-> + * @start: Start of the target range.
-> + * @size: Size of the target range.
-> + *
-> + * Return:
-> + *  * A pointer to a constant instance of struct drm_pvr_heap representing the
-> + *    heap containing the entire range specified by @start and @size on
-> + *    success, or
-> + *  * %NULL if no such heap exists.
-> + */
-> +const struct drm_pvr_heap *
-> +pvr_find_heap_containing(struct pvr_device *pvr_dev, u64 start, u64 size)
-> +{
-> +	u64 end;
-> +
-> +	if (check_add_overflow(start, size - 1, &end))
-> +		return NULL;
-> +
-> +	/*
-> +	 * There are no guarantees about the order of address ranges in
-> +	 * &pvr_heaps, so iterate over the entire array for a heap whose
-> +	 * range completely encompasses the given range.
-> +	 */
-> +	for (u32 heap_id = 0; heap_id < ARRAY_SIZE(pvr_heaps); heap_id++) {
-> +		/* Filter heaps that present only with an associated quirk */
-> +		if (heap_id == DRM_PVR_HEAP_RGNHDR &&
-> +		    !PVR_HAS_QUIRK(pvr_dev, 63142)) {
-> +			continue;
-> +		}
-> +
-> +		if (pvr_heap_contains_range(&pvr_heaps[heap_id], start, end))
-> +			return &pvr_heaps[heap_id];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * pvr_vm_find_gem_object() - Look up a buffer object from a given
-> + *                            device-virtual address.
-> + * @vm_ctx: [IN] Target VM context.
-> + * @device_addr: [IN] Virtual device address at the start of the required
-> + *               object.
-> + * @mapped_offset_out: [OUT] Pointer to location to write offset of the start
-> + *                     of the mapped region within the buffer object. May be
-> + *                     %NULL if this information is not required.
-> + * @mapped_size_out: [OUT] Pointer to location to write size of the mapped
-> + *                   region. May be %NULL if this information is not required.
-> + *
-> + * If successful, a reference will be taken on the buffer object. The caller
-> + * must drop the reference with pvr_gem_object_put().
-> + *
-> + * Return:
-> + *  * The PowerVR buffer object mapped at @device_addr if one exists, or
-> + *  * %NULL otherwise.
-> + */
-> +struct pvr_gem_object *
-> +pvr_vm_find_gem_object(struct pvr_vm_context *vm_ctx, u64 device_addr,
-> +		       u64 *mapped_offset_out, u64 *mapped_size_out)
-> +{
-> +	struct pvr_gem_object *pvr_obj;
-> +	struct drm_gpuva *va;
-> +
-> +	mutex_lock(&vm_ctx->lock);
-> +
-> +	va = drm_gpuva_find_first(&vm_ctx->gpuva_mgr, device_addr, 1);
-> +	if (!va)
-> +		goto err_unlock;
-> +
-> +	pvr_obj = gem_to_pvr_gem(va->gem.obj);
-> +	pvr_gem_object_get(pvr_obj);
-> +
-> +	if (mapped_offset_out)
-> +		*mapped_offset_out = va->gem.offset;
-> +	if (mapped_size_out)
-> +		*mapped_size_out = va->va.range;
-> +
-> +	mutex_unlock(&vm_ctx->lock);
-> +
-> +	return pvr_obj;
-> +
-> +err_unlock:
-> +	mutex_unlock(&vm_ctx->lock);
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * pvr_vm_get_fw_mem_context: Get object representing firmware memory context
-> + * @vm_ctx: Target VM context.
-> + *
-> + * Returns:
-> + *  * FW object representing firmware memory context, or
-> + *  * %NULL if this VM context does not have a firmware memory context.
-> + */
-> +struct pvr_fw_object *
-> +pvr_vm_get_fw_mem_context(struct pvr_vm_context *vm_ctx)
-> +{
-> +	return vm_ctx->fw_mem_ctx_obj;
-> +}
-> diff --git a/drivers/gpu/drm/imagination/pvr_vm.h b/drivers/gpu/drm/imagination/pvr_vm.h
-> new file mode 100644
-> index 000000000000..b98bc3981807
-> --- /dev/null
-> +++ b/drivers/gpu/drm/imagination/pvr_vm.h
-> @@ -0,0 +1,60 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +/* Copyright (c) 2023 Imagination Technologies Ltd. */
-> +
-> +#ifndef PVR_VM_H
-> +#define PVR_VM_H
-> +
-> +#include "pvr_rogue_mmu_defs.h"
-> +
-> +#include <uapi/drm/pvr_drm.h>
-> +
-> +#include <linux/types.h>
-> +
-> +/* Forward declaration from "pvr_device.h" */
-> +struct pvr_device;
-> +struct pvr_file;
-> +
-> +/* Forward declaration from "pvr_gem.h" */
-> +struct pvr_gem_object;
-> +
-> +/* Forward declaration from "pvr_vm.c" */
-> +struct pvr_vm_context;
-> +
-> +/* Forward declaration from <uapi/drm/pvr_drm.h> */
-> +struct drm_pvr_ioctl_get_heap_info_args;
-> +
-> +/* Functions defined in pvr_vm.c */
-> +
-> +bool pvr_device_addr_is_valid(u64 device_addr);
-> +bool pvr_device_addr_and_size_are_valid(u64 device_addr, u64 size);
-> +
-> +struct pvr_vm_context *pvr_vm_create_context(struct pvr_device *pvr_dev,
-> +					     bool is_userspace_context);
-> +
-> +int pvr_vm_map(struct pvr_vm_context *vm_ctx,
-> +	       struct pvr_gem_object *pvr_obj, u64 pvr_obj_offset,
-> +	       u64 device_addr, u64 size);
-> +int pvr_vm_unmap(struct pvr_vm_context *vm_ctx, u64 device_addr, u64 size);
-> +
-> +dma_addr_t pvr_vm_get_page_table_root_addr(struct pvr_vm_context *vm_ctx);
-> +
-> +int pvr_static_data_areas_get(const struct pvr_device *pvr_dev,
-> +			      struct drm_pvr_ioctl_dev_query_args *args);
-> +int pvr_heap_info_get(const struct pvr_device *pvr_dev,
-> +		      struct drm_pvr_ioctl_dev_query_args *args);
-> +const struct drm_pvr_heap *pvr_find_heap_containing(struct pvr_device *pvr_dev,
-> +						    u64 addr, u64 size);
-> +
-> +struct pvr_gem_object *pvr_vm_find_gem_object(struct pvr_vm_context *vm_ctx,
-> +					      u64 device_addr,
-> +					      u64 *mapped_offset_out,
-> +					      u64 *mapped_size_out);
-> +
-> +struct pvr_fw_object *
-> +pvr_vm_get_fw_mem_context(struct pvr_vm_context *vm_ctx);
-> +
-> +struct pvr_vm_context *pvr_vm_context_lookup(struct pvr_file *pvr_file, u32 handle);
-> +bool pvr_vm_context_put(struct pvr_vm_context *vm_ctx);
-> +void pvr_destroy_vm_contexts_for_file(struct pvr_file *pvr_file);
-> +
-> +#endif /* PVR_VM_H */
-> -- 
-> 2.41.0
-> 
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
