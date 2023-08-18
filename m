@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057B9780C9C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A6C780CAC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E577E10E516;
-	Fri, 18 Aug 2023 13:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD4110E51B;
+	Fri, 18 Aug 2023 13:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8672A10E516
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:37:34 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- 98e67ed59e1d1-26934bc3059so1470136a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 06:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692365854; x=1692970654;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
- b=OiRHoyQuAeILH8L1p9NOtXuqIhGsmUYCGmRLd3ZCTixSpbsR4SC9Vv/0LO2HlNqCaO
- f0jgV5dNXs8gzIDX9EzziuJ6hjs4HcZgfn3cFjYMhdQPbLxxu8q2DyRxeTOnqMkPTTBc
- ViKx4NpwnOOIcBZ3nisYkJtghFyJWfhUXMOOEloisHYWVP0+02dTGfdqR8BR2hXPWk4Z
- 4Jx6Nb3n6fVdwjk1qJtT0RSC8go86kSPZsgu36RwIEn/6esLdxd0HCN+evw1j7FVIkYv
- HhaPhG8fjUUwoyEyJdWr+0SiFybMvmNhuLFwK5C6LyUo2Xh3naoiBnHjKMVj48zXgfKV
- H2nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692365854; x=1692970654;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
- b=Wq6QDYNWy0el29acMqcBT+h6wFFNosX/TZZ1bLkHHm8wkjzy+ig0CqjSJ3ovGz0hyy
- LNRAeBrH7P7f7Abv7n6aDsfkH9LFUfG7IwVy9W2YNZwf4ADCFdLX2UEHhFlh7k6o7PgS
- X2zygL+xQrykVHZF91UJngfU61iSLZVnNqLc0kTe8zLIke898RaHU7WyJkW3qmskqBpL
- 4ZO6KUPQgygTQQ0ZIGZMIs5rALJcdds32zykstiJV8blVHMtdFq+ZPgcZKHGyLuilL40
- c8B2CXY61OyiHHpnoDw+VZN9W5AfL+q8nMBmL7PTSeprtvFBRc1ljZ+qkVvC8j1jlAhy
- OF2Q==
-X-Gm-Message-State: AOJu0YzU5T+p88KUFM8gPY809t2qnLETvNsBFDWqZGnj71fkREd7LZvl
- VvMjgqMLEFJdfLptr/TWjzfGM/dvIhOVwmW1Ws8=
-X-Google-Smtp-Source: AGHT+IGJucO45ZtG3erRbHMLsXdJR2CIx86aPA1L0ETefZyEQMEBv0FAMBmP7zAH+6nstox13VMTuKHX5d6z6nwSR2M=
-X-Received: by 2002:a17:90a:b015:b0:26d:5094:13ea with SMTP id
- x21-20020a17090ab01500b0026d509413eamr1756836pjq.0.1692365853797; Fri, 18 Aug
- 2023 06:37:33 -0700 (PDT)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1DB10E519
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:41:10 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37IDeqWW040473;
+ Fri, 18 Aug 2023 08:40:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1692366052;
+ bh=yVtiPTv6CeRPJ4Jb/cDPAV523O0JTgtbNjA9sWskqC4=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=Y+13QdZM5mp9tY8rZ+zB9vaH7Wa02punkkkrjk+kxhMQ7LrkfoFOzTWEGwVsAsL5O
+ aNs75QN2oWa6auHlQ5NbCtCND3pCcW4YhehUcojpTFEmQc9ilFqIDT5UuFPIisF42G
+ XSmqDTt9udHZ+RBZCWPH8w4Wo6eQZWwhF4tHEkhg=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37IDeq16023260
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 18 Aug 2023 08:40:52 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 18
+ Aug 2023 08:40:51 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 18 Aug 2023 08:40:51 -0500
+Received: from [172.24.227.132] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37IDekNs026605;
+ Fri, 18 Aug 2023 08:40:47 -0500
+Message-ID: <5def6ace-ea11-8837-ca40-81ee789e9583@ti.com>
+Date: Fri, 18 Aug 2023 19:10:46 +0530
 MIME-Version: 1.0
-References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
- <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
- <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
- <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 18 Aug 2023 08:37:22 -0500
-Message-ID: <CAHCN7xJZOSaGGQG56qmivYFAEzJayaOVF8qkhsZt5Jt_APN_nA@mail.gmail.com>
-Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
- struct adv7511_chip_info
-To: Biju Das <biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 2/2] drivers/tidss: Add support for AM62A7 DSS
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20230818131750.4779-1-a-bhatia1@ti.com>
+ <20230818131750.4779-3-a-bhatia1@ti.com>
+Content-Language: en-US
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20230818131750.4779-3-a-bhatia1@ti.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,179 +67,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Bogdan Togorean <bogdan.togorean@analog.com>
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 8:35=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Adam Ford,
->
-> Thanks for the feedback.
->
-> > Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature =
-bit
-> > to struct adv7511_chip_info
-> >
-> > On Sun, Aug 13, 2023 at 1:06=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
-s.com>
-> > wrote:
-> > >
-> > > As per spec, it is allowed to pulse the HPD signal to indicate that
-> > > the EDID information has changed. Some monitors do this when they wak=
-e
-> > > up from standby or are enabled. When the HPD goes low the adv7511 is
-> > > reset and the outputs are disabled which might cause the monitor to g=
-o
-> > > to standby again. To avoid this we ignore the HPD pin for the first
-> > > few seconds after enabling the output. On the other hand,
-> > > adv7535 require to enable HPD Override bit for proper HPD.
-> > >
-> > > Add hpd_override_enable feature bit to struct adv7511_chip_info to
-> > > handle this scenario.
-> > >
-> > > While at it, drop the enum adv7511_type as it is unused.
-> >
-> > It seems like dropping adv7511_type is unrelated to the rest of the pat=
-ch,
-> > and I think it should be split from this into its own patch
->
-> With this patch, there is no user for adv7511_type that is the
-> reason it is added here. I thought that is the common practice.
->
-I wasn't sure.
 
-> Please correct me if that is not the case.
 
-I'll defer to the maintainers.  In general I like the series because
-it reduces the number of compare evaluations.  I'll try to run some
-tests on a board that I have with a adv7535 this weekend.
+On 18-Aug-23 18:47, Aradhya Bhatia wrote:
+> Add support for the DSS controller on TI's AM62A7 SoC in the tidss
+> driver.
+> 
+> This contrller has 2 video pipelines that can render 2 video planes on
+> over a screen, using the overlay managers. The output of the DSS comes
+> from video port 2 (VP2) in the form of RGB88 DPI signals, while the VP1
+> is tied off inside the SoC.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 53 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
+>  drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
+>  3 files changed, 56 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 9d9dee7abaef..0e2d55d9a0d7 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -322,6 +322,54 @@ const struct dispc_features dispc_am625_feats = {
+>  	.vid_order = { 1, 0 },
+>  };
+>  
+> +const struct dispc_features dispc_am62a7_feats = {
+> +	.max_pclk_khz = {
+> +		[DISPC_VP_DPI] = 165000,
+> +	},
+> +
+> +	.scaling = {
+> +		.in_width_max_5tap_rgb = 1280,
+> +		.in_width_max_3tap_rgb = 2560,
+> +		.in_width_max_5tap_yuv = 2560,
+> +		.in_width_max_3tap_yuv = 4096,
+> +		.upscale_limit = 16,
+> +		.downscale_limit_5tap = 4,
+> +		.downscale_limit_3tap = 2,
+> +		/*
+> +		 * The max supported pixel inc value is 255. The value
+> +		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
+> +		 * The maximum bpp of all formats supported by the HW
+> +		 * is 8. So the maximum supported xinc value is 32,
+> +		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
+> +		 */
+> +		.xinc_max = 32,
+> +	},
+> +
+> +	.subrev = DISPC_AM62A7,
+> +
+> +	.common = "common",
+> +	.common_regs = tidss_am65x_common_regs,
+> +
+> +	.num_vps = 2,
+> +	.vp_name = { "vp1", "vp2" },
+> +	.ovr_name = { "ovr1", "ovr2" },
+> +	.vpclk_name =  { "vp1", "vp2" },
+> +	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
+> +
+> +	.vp_feat = { .color = {
+> +			.has_ctm = true,
+> +			.gamma_size = 256,
+> +			.gamma_type = TIDSS_GAMMA_8BIT,
+> +		},
+> +	},
+> +
+> +	.num_planes = 2,
+> +	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
+> +	.vid_name = { "vid", "vidl1" },
+> +	.vid_lite = { false, true, },
+> +	.vid_order = { 1, 0 },
+> +};
+> +
+>  static const u16 *dispc_common_regmap;
+>  
+>  struct dss_vp_data {
+> @@ -823,6 +871,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
+>  	switch (dispc->feat->subrev) {
+>  	case DISPC_K2G:
+>  		return dispc_k2g_read_and_clear_irqstatus(dispc);
+> +	case DISPC_AM62A7:
+>  	case DISPC_AM625:
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> @@ -839,6 +888,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+>  	case DISPC_K2G:
+>  		dispc_k2g_set_irqenable(dispc, mask);
+>  		break;
+> +	case DISPC_AM62A7:
+>  	case DISPC_AM625:
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> @@ -1330,6 +1380,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
+>  		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
+>  					x, y, layer);
+>  		break;
+> +	case DISPC_AM62A7:
+>  	case DISPC_AM625:
+>  	case DISPC_AM65X:
+>  		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
+> @@ -2249,6 +2300,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
+>  	case DISPC_K2G:
+>  		dispc_k2g_plane_init(dispc);
+>  		break;
+> +	case DISPC_AM62A7:
+>  	case DISPC_AM625:
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> @@ -2356,6 +2408,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
+>  	case DISPC_K2G:
+>  		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
+>  		break;
+> +	case DISPC_AM62A7:
+>  	case DISPC_AM625:
+>  	case DISPC_AM65X:
+>  		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 33ac5ad7a423..2aa1c814ea2a 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -59,6 +59,7 @@ enum dispc_vp_bus_type {
+>  
+>  enum dispc_dss_subrevision {
+>  	DISPC_K2G,
+> +	DISPC_AM62A7,
+>  	DISPC_AM625,
+>  	DISPC_AM65X,
+>  	DISPC_J721E,
+> @@ -88,6 +89,7 @@ struct dispc_features {
 
-adam
->
-> Cheers,
-> Biju
->
-> >
-> > adam
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
-> > >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
-> > >  2 files changed, 6 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > > b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > > index 627531f48f84..c523ac4c9bc8 100644
-> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > > @@ -325,22 +325,16 @@ struct adv7511_video_config {
-> > >         struct hdmi_avi_infoframe avi_infoframe;  };
-> > >
-> > > -enum adv7511_type {
-> > > -       ADV7511,
-> > > -       ADV7533,
-> > > -       ADV7535,
-> > > -};
-> > > -
-> > >  #define ADV7511_MAX_ADDRS 3
-> > >
-> > >  struct adv7511_chip_info {
-> > > -       enum adv7511_type type;
-> > >         unsigned long max_mode_clock;
-> > >         unsigned long max_lane_freq;
-> > >         const char * const *supply_names;
-> > >         unsigned int num_supplies;
-> > >         unsigned has_dsi:1;
-> > >         unsigned link_config:1;
-> > > +       unsigned hpd_override_enable:1;
-> > >  };
-> > >
-> > >  struct adv7511 {
-> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > index 6974c267b1d5..7b06a0a21685 100644
-> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511
-> > *adv7511)
-> > >          * first few seconds after enabling the output. On the other =
-hand
-> > >          * adv7535 require to enable HPD Override bit for proper HPD.
-> > >          */
-> > > -       if (adv7511->info->type =3D=3D ADV7535)
-> > > +       if (adv7511->info->hpd_override_enable)
-> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
-2,
-> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
-> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
-> > > @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511
-> > > *adv7511)  static void __adv7511_power_off(struct adv7511 *adv7511)  =
-{
-> > >         /* TODO: setup additional power down modes */
-> > > -       if (adv7511->info->type =3D=3D ADV7535)
-> > > +       if (adv7511->info->hpd_override_enable)
-> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
-2,
-> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
-> > > 0);
-> > >
-> > > @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct
-> > drm_connector *connector)
-> > >                         status =3D connector_status_disconnected;
-> > >         } else {
-> > >                 /* Renable HPD sensing */
-> > > -               if (adv7511->info->type =3D=3D ADV7535)
-> > > +               if (adv7511->info->hpd_override_enable)
-> > >                         regmap_update_bits(adv7511->regmap,
-> > ADV7511_REG_POWER2,
-> > >
-> > ADV7535_REG_POWER2_HPD_OVERRIDE,
-> > >
-> > > ADV7535_REG_POWER2_HPD_OVERRIDE); @@ -1360,14 +1360,12 @@ static void
-> > > adv7511_remove(struct i2c_client *i2c)  }
-> > >
-> > >  static const struct adv7511_chip_info adv7511_chip_info =3D {
-> > > -       .type =3D ADV7511,
-> > >         .supply_names =3D adv7511_supply_names,
-> > >         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
-> > >         .link_config =3D 1
-> > >  };
-> > >
-> > >  static const struct adv7511_chip_info adv7533_chip_info =3D {
-> > > -       .type =3D ADV7533,
-> > >         .max_mode_clock =3D 80000,
-> > >         .max_lane_freq =3D 800000,
-> > >         .supply_names =3D adv7533_supply_names, @@ -1376,12 +1374,12 =
-@@
-> > > static const struct adv7511_chip_info adv7533_chip_info =3D {  };
-> > >
-> > >  static const struct adv7511_chip_info adv7535_chip_info =3D {
-> > > -       .type =3D ADV7535,
-> > >         .max_mode_clock =3D 148500,
-> > >         .max_lane_freq =3D 891000,
-> > >         .supply_names =3D adv7533_supply_names,
-> > >         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
-> > > -       .has_dsi =3D 1
-> > > +       .has_dsi =3D 1,
-> > > +       .hpd_override_enable =3D 1
-> > >  };
-> > >
-> > >  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
-> > > --
-> > > 2.25.1
-> > >
+Made an oopsie and missed sorting 'DISPC_AM62A7' in above instances. It
+should be under DISPC_AM625. Please ignore this patch / series. Will
+send a v2. Apologies for the noise.
+
+Regards
+Aradhya
+
+>  
+>  extern const struct dispc_features dispc_k2g_feats;
+>  extern const struct dispc_features dispc_am625_feats;
+> +extern const struct dispc_features dispc_am62a7_feats;
+>  extern const struct dispc_features dispc_am65x_feats;
+>  extern const struct dispc_features dispc_j721e_feats;
+>  
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index 4d063eb9cd0b..edf69d020544 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -231,6 +231,7 @@ static void tidss_shutdown(struct platform_device *pdev)
+>  static const struct of_device_id tidss_of_table[] = {
+>  	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
+>  	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
+> +	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
+>  	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
+>  	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
+>  	{ }
+
