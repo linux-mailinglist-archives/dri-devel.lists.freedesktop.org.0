@@ -1,123 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD4F780C8F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:35:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 057B9780C9C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AB410E518;
-	Fri, 18 Aug 2023 13:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E577E10E516;
+	Fri, 18 Aug 2023 13:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on20726.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:700c::726])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E455410E516
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:34:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RJWzKxp8Y3MRvYzSwyOswrM9fvrDFZHAXcpomGjHySV6PYLAR/JLWnLl1PqISkYc3ML4fWcjZptwENSBL1z2XLozGRw/NoyMbfR4lYRurqn1cLuQq4nd4Tn3XPmIDIZFdw7Ll2s1ZAOTtlQR3iWJH2F/LdCCkvGIz0Qm77ED1/e2YnC6QeOoRDtAVMcazbCiBIaW8VaejcNIcypkqArZbs6P0hWZfD54og8qlz/i8g2lmf1SYjC2IeJ1KJruhLlxEO59R9vPhLawY77voiTExCsJazrtItExStqtjv74sWP3MBbpSyd7C486tKu7cZWmk2FKngpVih0p1uPYqS/zXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1R3BUO8BLAbNUrwqcIimp+QmxoMt2jrmhZ8xov/JTDg=;
- b=BexhOovVRb9WBSp4N9Of0QiMrY33uX4OtFzDHxQubcfjPL32N321deJejw6xNX1qpIdpjADiqqLLiyjsmR9YwAjfnidfPgXpm8njP2FvGtPN8MX5/bJMNYQFEr6hFT8ArnQsTbnqh6IKG6rPsytm/XsqAVxJoYSFue/5xowhe/S4imNa9uhhzW4u3OpLUGhzi5jBxp2LR5xMSRSXkH62Yb3jpwl4egdmoHX/1lCAdAKSbYBD5DtpH3TE1r3+sWe/gWR1p4HZiEQGhWdXmhATTh8rzTcGmvVtNi3PC/z2fCv6ZxPLVDozY+ExPYmzAJyvObeCccCZkzUrIwd/leKy3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1R3BUO8BLAbNUrwqcIimp+QmxoMt2jrmhZ8xov/JTDg=;
- b=vuM2Sd/JXLzMBlG0b5zXdYWd876/Rza4O/UkW2Xmokp7eKYP8Ct7WCGzJerOJ+jA0JzIjy7cnXD/+LU1bsdZKKrHmFQQ7vMu7ykckRbsoRxXgdZRG4eWHk7EdPIJklZIcXDx65ThqIQ1652HIiGCWIRh0DQYWfu5p056UPi7AbQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS7PR01MB11702.jpnprd01.prod.outlook.com (2603:1096:604:238::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Fri, 18 Aug
- 2023 13:34:56 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0%7]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 13:34:56 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Adam Ford <aford173@gmail.com>
-Subject: RE: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
- struct adv7511_chip_info
-Thread-Topic: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
- struct adv7511_chip_info
-Thread-Index: AQHZzhDVVl0EoPvANkCIEcdmuUZDTa/wBo+AgAAONtA=
-Date: Fri, 18 Aug 2023 13:34:56 +0000
-Message-ID: <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8672A10E516
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:37:34 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 98e67ed59e1d1-26934bc3059so1470136a91.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 06:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692365854; x=1692970654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
+ b=OiRHoyQuAeILH8L1p9NOtXuqIhGsmUYCGmRLd3ZCTixSpbsR4SC9Vv/0LO2HlNqCaO
+ f0jgV5dNXs8gzIDX9EzziuJ6hjs4HcZgfn3cFjYMhdQPbLxxu8q2DyRxeTOnqMkPTTBc
+ ViKx4NpwnOOIcBZ3nisYkJtghFyJWfhUXMOOEloisHYWVP0+02dTGfdqR8BR2hXPWk4Z
+ 4Jx6Nb3n6fVdwjk1qJtT0RSC8go86kSPZsgu36RwIEn/6esLdxd0HCN+evw1j7FVIkYv
+ HhaPhG8fjUUwoyEyJdWr+0SiFybMvmNhuLFwK5C6LyUo2Xh3naoiBnHjKMVj48zXgfKV
+ H2nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692365854; x=1692970654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
+ b=Wq6QDYNWy0el29acMqcBT+h6wFFNosX/TZZ1bLkHHm8wkjzy+ig0CqjSJ3ovGz0hyy
+ LNRAeBrH7P7f7Abv7n6aDsfkH9LFUfG7IwVy9W2YNZwf4ADCFdLX2UEHhFlh7k6o7PgS
+ X2zygL+xQrykVHZF91UJngfU61iSLZVnNqLc0kTe8zLIke898RaHU7WyJkW3qmskqBpL
+ 4ZO6KUPQgygTQQ0ZIGZMIs5rALJcdds32zykstiJV8blVHMtdFq+ZPgcZKHGyLuilL40
+ c8B2CXY61OyiHHpnoDw+VZN9W5AfL+q8nMBmL7PTSeprtvFBRc1ljZ+qkVvC8j1jlAhy
+ OF2Q==
+X-Gm-Message-State: AOJu0YzU5T+p88KUFM8gPY809t2qnLETvNsBFDWqZGnj71fkREd7LZvl
+ VvMjgqMLEFJdfLptr/TWjzfGM/dvIhOVwmW1Ws8=
+X-Google-Smtp-Source: AGHT+IGJucO45ZtG3erRbHMLsXdJR2CIx86aPA1L0ETefZyEQMEBv0FAMBmP7zAH+6nstox13VMTuKHX5d6z6nwSR2M=
+X-Received: by 2002:a17:90a:b015:b0:26d:5094:13ea with SMTP id
+ x21-20020a17090ab01500b0026d509413eamr1756836pjq.0.1692365853797; Fri, 18 Aug
+ 2023 06:37:33 -0700 (PDT)
+MIME-Version: 1.0
 References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
  <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
  <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
-In-Reply-To: <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS7PR01MB11702:EE_
-x-ms-office365-filtering-correlation-id: e90831e4-9476-4e28-b701-08db9fefe96d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tYUtAC2WE/OZ86jMwf5XvdpJt9pTZHXcXMvno6+CCB9LOFbEjQMpVUkRGKTAkzCWafuqvokn+Y4/MTxIKrEMN2V94tLM+utpz3x0s2IYKziiCeP0r4fs2/D73liMmomPQc6w8nrzDMeSBEr0VxG91MYIxu0wjAxVUX87z01P9syR3R4hHfD11nnd96y8/D6bTsPwBbEFx9T8lbyP8+G8FefxyilwmnKkeCi4F5pnmXjbW4xu0/1ho9R8JT3PdXYEnVts6plyNZ4Hr9XlLDl++O2ehK+7BaaRTWklBibzUvnD1/ZvA1IDluh26zomDyDmiYLcFcDttBT6d2XBK/8L5Xc2ocOdf+KFKePmN9gHT79xwGd0C7103fA6+UF0GQq2b82hqwGB0jC0O2EPZLk/YENrspNrfaa+LaTfJkZolEF+wjX5bxlkXu0BT2PE3ZWJuhaZ/2uBea9zbZ8NQ7naXO61hHYvfgAXgi0DG4PyuqJqn+5EESS6Krm/TujqPEIlBwd+sepTI5rgtKugHNVQvw6N6jLQa/ZEVLagHNGnfvmcOhFUFUWFHYw/fnq8pVCSMhGXl4aUTi7Jn02PyBohZaly1TvML7uFqOnL/f2tcUTNvVVe0NlrTa2anmeyMSLM
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(396003)(39860400002)(366004)(136003)(376002)(451199024)(1800799009)(186009)(26005)(71200400001)(7696005)(9686003)(53546011)(6506007)(83380400001)(4326008)(5660300002)(8936002)(52536014)(8676002)(2906002)(7416002)(478600001)(41300700001)(76116006)(54906003)(64756008)(316002)(66446008)(66476007)(66556008)(66946007)(6916009)(38070700005)(38100700002)(122000001)(55016003)(33656002)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OTRhTllrbGc0bDRCWlZVa3VTZXdmR3NLUU9zK3YwUkRvb2lVWk85NzhnYlZQ?=
- =?utf-8?B?cmVhV0RmdjlnTHB4NXJIY0QxSCtjZE9YZHJmSUgvdmdmcTFvQXZqVm9vUUND?=
- =?utf-8?B?cUlWdDM0MUwyWmlXalJZT1JqemNDRVFEWDA1SHM0UHA3ZzBRd0FTeEFXeEJF?=
- =?utf-8?B?OGdRWEtsUWx3ZVF6MzZzZUtBVERQOUxMR1pic2FIVnU4N0gxM0R4RlZLOVpM?=
- =?utf-8?B?NW9KWHhqbHQxTnp2cjl4ZDV4UDBvQW04M1BzdEh2Zk9XUEFMWitoTS9NUmR6?=
- =?utf-8?B?bTdTaUNBYlF0ZVRJTmtXKzR3Rk90N3dRWm5CZm5VNUtSTFNYWVBwakNQTGtY?=
- =?utf-8?B?bk9ETWRTZGRjdUdTQmZUbkxxYW1mTU9HNHRVTUp2TVhUUndZSlNDeHRkOGcz?=
- =?utf-8?B?cGVpdmRkc2hoSERQQWZIR0VWS09WV2thRm01MWVjdEh5UWg5anBIT0NBMVZS?=
- =?utf-8?B?YWI5OXhzOUFwSk5TbzkrZUMxRzAxTWVzbmQ4YlRyb2p0d3haSk1VTXg4TWZl?=
- =?utf-8?B?Zlk3a2xiV252VldQVkt5SUJYTmRtd0tyQ1pPSmEvOXJPUHdPN0tHS3FOQ3Jy?=
- =?utf-8?B?N0ZkbFhvenFmalZ2RnY3UWtZeVVwQjAycUw5ZE1zbDVoQVJqZUlEQzR6MDhR?=
- =?utf-8?B?U0VQV1E5a0JESU05UE9UZktuNURlRldtOWdneVo1QkJSbTVZVHpnUTdwcFIy?=
- =?utf-8?B?T1lHRjlaZGVXenFIb2U0QXlEdEVJNG45N0djcFV2LzNJSk1WVlhDWU44Qm40?=
- =?utf-8?B?aTlzYnZGZDBLckRmc2NXVmpCMThQbTg5U3pwZGV6ZDhITzFXQitxNWJXS3Zo?=
- =?utf-8?B?U1FpR2FkV2RXejBacDNxVUh4WVhRVVROTms4M3VOV1pUWHNDV3FLc0lPMUN4?=
- =?utf-8?B?Z051VVU4Nmc3ZDhwRzZwcFI5Qk1LeHU3M3N6Yys3R2NWSDk5eWgzS3RrbUY3?=
- =?utf-8?B?SHFUSXIwa1ZhSEJyZ3VNQkxBOTdVcEY2T29VOVVGQ0FrRmF0QkJvdS9zTTZH?=
- =?utf-8?B?WGx4aGx6dCtnN1dMbU9TRHdmVjZRZUpBVGhONGlaK2tadWt1L3U1WWwzTmhV?=
- =?utf-8?B?TlduN3BndU41M01KQjJoU0FwYUxOdmlGODZGYlF3Um5vSXY1elpZb3R4d1d5?=
- =?utf-8?B?WEVnU3NFSVQ2Yi9rMjZzRVkvbHUvUTErS0E5azVxVDRUbVF3c3dQVG84R2J0?=
- =?utf-8?B?RlkvRHlBa0pDY0YxaFdqdXhqWVp0UVM1bFZieU1nYmcxNmhtcWV6WFBHUHFE?=
- =?utf-8?B?V25UT2dIWW9id2djVitKYkZ1M0VmbENnaXNUejVjSXloa1E5WXluaGkrR293?=
- =?utf-8?B?eWxNNGRUV2tuQllWcjBuTy9oNVR3emsrWWhwZ2xmajJOLzdNVDl0d29UaVpP?=
- =?utf-8?B?OUFuWmltNDd1aWswTUZmUDBuMFdsQkdNVHpaNXdQRlZwVnlwMFdJTC9Mbmpj?=
- =?utf-8?B?UXZVUytJNEprbUp4bjh2aitKU3hRZE1KZFpIN2d2YXc1RmgwNmxkbEpzYUcy?=
- =?utf-8?B?SG4rSEM2bDhDSG9kZUJrYWpNV0FLR1ozTW5BZ2cvQWZVZ01HN2l2cHBnQUlU?=
- =?utf-8?B?U3hyMHdvUnNkbHJweTRlbDRUMjVrVUkxUGtWODRZeGN5VHVTYnIvZVVmTG1I?=
- =?utf-8?B?OGxYVytIMkFWWGp4ZjIrYVJHM3pFQmZiWDNXNHNrM3JCa3NDd0RrSDVicWV1?=
- =?utf-8?B?eTRwTVFNVmtKWnJVcHZ3T0E0K01zdHpiZ2QvTFpUNzBXbkpVQ1VOQWdOOFh6?=
- =?utf-8?B?b0NZbnJDNUpQVERCcmVjK25vWklqcWh3RXBjNGZaTnpQcmI3Z084M0NWcG4w?=
- =?utf-8?B?MG83SlNCVnp3N0JKbXRyKzYrb3o4TXR6VTJLbEduUmdJZHJwNHBPQndIY2hT?=
- =?utf-8?B?bS8wNG1kRUVPYkZXVURSTmlaU085Y2pFM2tKWktyajFUMFEwZWpFSFlCZ0pa?=
- =?utf-8?B?WWphMVExVlpsOFdFVTFNTW5wVHdzTzBMTDhWZ0FhblBNWkt2VDZva3JZVnRt?=
- =?utf-8?B?QmRSZFIxeEhXcmtOalgzeHJkVkQzN2p4ai82MlVNYklPdCt3bWdEQ0dmQWxl?=
- =?utf-8?B?ZFBTdjBCajFBZklTMXJWZStqTENpTHZPS2dya21uMU1lMmN6OHZ1V05WdGdQ?=
- =?utf-8?Q?j/jUL/rUSMgjQGFKl0J2sGHvZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e90831e4-9476-4e28-b701-08db9fefe96d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2023 13:34:56.4784 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DqAbOYYPcTOTbZiW/ci2vcbbHJXBmCz/A0sCcI4Yzl/khnoXkUJyBCHZz6W6AYLElZYQ5Q+IsHHL8ykFDt/MgO4Ef0Muq94XBi8j3LW80Og=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11702
+ <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 18 Aug 2023 08:37:22 -0500
+Message-ID: <CAHCN7xJZOSaGGQG56qmivYFAEzJayaOVF8qkhsZt5Jt_APN_nA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
+ struct adv7511_chip_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,105 +82,169 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
  Andy Shevchenko <andy.shevchenko@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Bogdan Togorean <bogdan.togorean@analog.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWRhbSBGb3JkLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiBTdWJqZWN0OiBS
-ZTogW1BBVENIIDcvN10gZHJtOiBhZHY3NTExOiBBZGQgaHBkX292ZXJyaWRlX2VuYWJsZSBmZWF0
-dXJlIGJpdA0KPiB0byBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8NCj4gDQo+IE9uIFN1biwgQXVn
-IDEzLCAyMDIzIGF0IDE6MDbigK9QTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5j
-b20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gQXMgcGVyIHNwZWMsIGl0IGlzIGFsbG93ZWQgdG8gcHVs
-c2UgdGhlIEhQRCBzaWduYWwgdG8gaW5kaWNhdGUgdGhhdA0KPiA+IHRoZSBFRElEIGluZm9ybWF0
-aW9uIGhhcyBjaGFuZ2VkLiBTb21lIG1vbml0b3JzIGRvIHRoaXMgd2hlbiB0aGV5IHdha2UNCj4g
-PiB1cCBmcm9tIHN0YW5kYnkgb3IgYXJlIGVuYWJsZWQuIFdoZW4gdGhlIEhQRCBnb2VzIGxvdyB0
-aGUgYWR2NzUxMSBpcw0KPiA+IHJlc2V0IGFuZCB0aGUgb3V0cHV0cyBhcmUgZGlzYWJsZWQgd2hp
-Y2ggbWlnaHQgY2F1c2UgdGhlIG1vbml0b3IgdG8gZ28NCj4gPiB0byBzdGFuZGJ5IGFnYWluLiBU
-byBhdm9pZCB0aGlzIHdlIGlnbm9yZSB0aGUgSFBEIHBpbiBmb3IgdGhlIGZpcnN0DQo+ID4gZmV3
-IHNlY29uZHMgYWZ0ZXIgZW5hYmxpbmcgdGhlIG91dHB1dC4gT24gdGhlIG90aGVyIGhhbmQsDQo+
-ID4gYWR2NzUzNSByZXF1aXJlIHRvIGVuYWJsZSBIUEQgT3ZlcnJpZGUgYml0IGZvciBwcm9wZXIg
-SFBELg0KPiA+DQo+ID4gQWRkIGhwZF9vdmVycmlkZV9lbmFibGUgZmVhdHVyZSBiaXQgdG8gc3Ry
-dWN0IGFkdjc1MTFfY2hpcF9pbmZvIHRvDQo+ID4gaGFuZGxlIHRoaXMgc2NlbmFyaW8uDQo+ID4N
-Cj4gPiBXaGlsZSBhdCBpdCwgZHJvcCB0aGUgZW51bSBhZHY3NTExX3R5cGUgYXMgaXQgaXMgdW51
-c2VkLg0KPiANCj4gSXQgc2VlbXMgbGlrZSBkcm9wcGluZyBhZHY3NTExX3R5cGUgaXMgdW5yZWxh
-dGVkIHRvIHRoZSByZXN0IG9mIHRoZSBwYXRjaCwNCj4gYW5kIEkgdGhpbmsgaXQgc2hvdWxkIGJl
-IHNwbGl0IGZyb20gdGhpcyBpbnRvIGl0cyBvd24gcGF0Y2gNCg0KV2l0aCB0aGlzIHBhdGNoLCB0
-aGVyZSBpcyBubyB1c2VyIGZvciBhZHY3NTExX3R5cGUgdGhhdCBpcyB0aGUNCnJlYXNvbiBpdCBp
-cyBhZGRlZCBoZXJlLiBJIHRob3VnaHQgdGhhdCBpcyB0aGUgY29tbW9uIHByYWN0aWNlLg0KDQpQ
-bGVhc2UgY29ycmVjdCBtZSBpZiB0aGF0IGlzIG5vdCB0aGUgY2FzZS4NCg0KQ2hlZXJzLA0KQmlq
-dQ0KDQo+IA0KPiBhZGFtDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
-YXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvYWR2NzUxMS9hZHY3NTExLmggICAgIHwgIDggKy0tLS0tLS0NCj4gPiAgZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMgfCAxMiArKysrKy0tLS0tLS0NCj4gPiAg
-MiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQ0KPiA+DQo+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgN
-Cj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgNCj4gPiBpbmRl
-eCA2Mjc1MzFmNDhmODQuLmM1MjNhYzRjOWJjOCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9hZHY3NTExL2Fkdjc1MTEuaA0KPiA+IEBAIC0zMjUsMjIgKzMyNSwxNiBAQCBzdHJ1
-Y3QgYWR2NzUxMV92aWRlb19jb25maWcgew0KPiA+ICAgICAgICAgc3RydWN0IGhkbWlfYXZpX2lu
-Zm9mcmFtZSBhdmlfaW5mb2ZyYW1lOyAgfTsNCj4gPg0KPiA+IC1lbnVtIGFkdjc1MTFfdHlwZSB7
-DQo+ID4gLSAgICAgICBBRFY3NTExLA0KPiA+IC0gICAgICAgQURWNzUzMywNCj4gPiAtICAgICAg
-IEFEVjc1MzUsDQo+ID4gLX07DQo+ID4gLQ0KPiA+ICAjZGVmaW5lIEFEVjc1MTFfTUFYX0FERFJT
-IDMNCj4gPg0KPiA+ICBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8gew0KPiA+IC0gICAgICAgZW51
-bSBhZHY3NTExX3R5cGUgdHlwZTsNCj4gPiAgICAgICAgIHVuc2lnbmVkIGxvbmcgbWF4X21vZGVf
-Y2xvY2s7DQo+ID4gICAgICAgICB1bnNpZ25lZCBsb25nIG1heF9sYW5lX2ZyZXE7DQo+ID4gICAg
-ICAgICBjb25zdCBjaGFyICogY29uc3QgKnN1cHBseV9uYW1lczsNCj4gPiAgICAgICAgIHVuc2ln
-bmVkIGludCBudW1fc3VwcGxpZXM7DQo+ID4gICAgICAgICB1bnNpZ25lZCBoYXNfZHNpOjE7DQo+
-ID4gICAgICAgICB1bnNpZ25lZCBsaW5rX2NvbmZpZzoxOw0KPiA+ICsgICAgICAgdW5zaWduZWQg
-aHBkX292ZXJyaWRlX2VuYWJsZToxOw0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0cnVjdCBhZHY3NTEx
-IHsNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1
-MTFfZHJ2LmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Ry
-di5jDQo+ID4gaW5kZXggNjk3NGMyNjdiMWQ1Li43YjA2YTBhMjE2ODUgMTAwNjQ0DQo+ID4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMNCj4gPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9kcnYuYw0KPiA+IEBAIC0z
-NTQsNyArMzU0LDcgQEAgc3RhdGljIHZvaWQgX19hZHY3NTExX3Bvd2VyX29uKHN0cnVjdCBhZHY3
-NTExDQo+ICphZHY3NTExKQ0KPiA+ICAgICAgICAgICogZmlyc3QgZmV3IHNlY29uZHMgYWZ0ZXIg
-ZW5hYmxpbmcgdGhlIG91dHB1dC4gT24gdGhlIG90aGVyIGhhbmQNCj4gPiAgICAgICAgICAqIGFk
-djc1MzUgcmVxdWlyZSB0byBlbmFibGUgSFBEIE92ZXJyaWRlIGJpdCBmb3IgcHJvcGVyIEhQRC4N
-Cj4gPiAgICAgICAgICAqLw0KPiA+IC0gICAgICAgaWYgKGFkdjc1MTEtPmluZm8tPnR5cGUgPT0g
-QURWNzUzNSkNCj4gPiArICAgICAgIGlmIChhZHY3NTExLT5pbmZvLT5ocGRfb3ZlcnJpZGVfZW5h
-YmxlKQ0KPiA+ICAgICAgICAgICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMoYWR2NzUxMS0+cmVn
-bWFwLCBBRFY3NTExX1JFR19QT1dFUjIsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBBRFY3NTM1X1JFR19QT1dFUjJfSFBEX09WRVJSSURFLA0KPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgQURWNzUzNV9SRUdfUE9XRVIyX0hQRF9PVkVSUklERSk7
-DQo+ID4gQEAgLTM4MSw3ICszODEsNyBAQCBzdGF0aWMgdm9pZCBhZHY3NTExX3Bvd2VyX29uKHN0
-cnVjdCBhZHY3NTExDQo+ID4gKmFkdjc1MTEpICBzdGF0aWMgdm9pZCBfX2Fkdjc1MTFfcG93ZXJf
-b2ZmKHN0cnVjdCBhZHY3NTExICphZHY3NTExKSAgew0KPiA+ICAgICAgICAgLyogVE9ETzogc2V0
-dXAgYWRkaXRpb25hbCBwb3dlciBkb3duIG1vZGVzICovDQo+ID4gLSAgICAgICBpZiAoYWR2NzUx
-MS0+aW5mby0+dHlwZSA9PSBBRFY3NTM1KQ0KPiA+ICsgICAgICAgaWYgKGFkdjc1MTEtPmluZm8t
-PmhwZF9vdmVycmlkZV9lbmFibGUpDQo+ID4gICAgICAgICAgICAgICAgIHJlZ21hcF91cGRhdGVf
-Yml0cyhhZHY3NTExLT5yZWdtYXAsIEFEVjc1MTFfUkVHX1BPV0VSMiwNCj4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIEFEVjc1MzVfUkVHX1BPV0VSMl9IUERfT1ZFUlJJREUs
-DQo+ID4gMCk7DQo+ID4NCj4gPiBAQCAtNjgyLDcgKzY4Miw3IEBAIGFkdjc1MTFfZGV0ZWN0KHN0
-cnVjdCBhZHY3NTExICphZHY3NTExLCBzdHJ1Y3QNCj4gZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
-KQ0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIHN0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNf
-ZGlzY29ubmVjdGVkOw0KPiA+ICAgICAgICAgfSBlbHNlIHsNCj4gPiAgICAgICAgICAgICAgICAg
-LyogUmVuYWJsZSBIUEQgc2Vuc2luZyAqLw0KPiA+IC0gICAgICAgICAgICAgICBpZiAoYWR2NzUx
-MS0+aW5mby0+dHlwZSA9PSBBRFY3NTM1KQ0KPiA+ICsgICAgICAgICAgICAgICBpZiAoYWR2NzUx
-MS0+aW5mby0+aHBkX292ZXJyaWRlX2VuYWJsZSkNCj4gPiAgICAgICAgICAgICAgICAgICAgICAg
-ICByZWdtYXBfdXBkYXRlX2JpdHMoYWR2NzUxMS0+cmVnbWFwLA0KPiBBRFY3NTExX1JFR19QT1dF
-UjIsDQo+ID4NCj4gQURWNzUzNV9SRUdfUE9XRVIyX0hQRF9PVkVSUklERSwNCj4gPg0KPiA+IEFE
-Vjc1MzVfUkVHX1BPV0VSMl9IUERfT1ZFUlJJREUpOyBAQCAtMTM2MCwxNCArMTM2MCwxMiBAQCBz
-dGF0aWMgdm9pZA0KPiA+IGFkdjc1MTFfcmVtb3ZlKHN0cnVjdCBpMmNfY2xpZW50ICppMmMpICB9
-DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBhZHY3NTExX2NoaXBfaW5mbyBhZHY3NTEx
-X2NoaXBfaW5mbyA9IHsNCj4gPiAtICAgICAgIC50eXBlID0gQURWNzUxMSwNCj4gPiAgICAgICAg
-IC5zdXBwbHlfbmFtZXMgPSBhZHY3NTExX3N1cHBseV9uYW1lcywNCj4gPiAgICAgICAgIC5udW1f
-c3VwcGxpZXMgPSBBUlJBWV9TSVpFKGFkdjc1MTFfc3VwcGx5X25hbWVzKSwNCj4gPiAgICAgICAg
-IC5saW5rX2NvbmZpZyA9IDENCj4gPiAgfTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0
-IGFkdjc1MTFfY2hpcF9pbmZvIGFkdjc1MzNfY2hpcF9pbmZvID0gew0KPiA+IC0gICAgICAgLnR5
-cGUgPSBBRFY3NTMzLA0KPiA+ICAgICAgICAgLm1heF9tb2RlX2Nsb2NrID0gODAwMDAsDQo+ID4g
-ICAgICAgICAubWF4X2xhbmVfZnJlcSA9IDgwMDAwMCwNCj4gPiAgICAgICAgIC5zdXBwbHlfbmFt
-ZXMgPSBhZHY3NTMzX3N1cHBseV9uYW1lcywgQEAgLTEzNzYsMTIgKzEzNzQsMTIgQEANCj4gPiBz
-dGF0aWMgY29uc3Qgc3RydWN0IGFkdjc1MTFfY2hpcF9pbmZvIGFkdjc1MzNfY2hpcF9pbmZvID0g
-eyAgfTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGFkdjc1MTFfY2hpcF9pbmZvIGFk
-djc1MzVfY2hpcF9pbmZvID0gew0KPiA+IC0gICAgICAgLnR5cGUgPSBBRFY3NTM1LA0KPiA+ICAg
-ICAgICAgLm1heF9tb2RlX2Nsb2NrID0gMTQ4NTAwLA0KPiA+ICAgICAgICAgLm1heF9sYW5lX2Zy
-ZXEgPSA4OTEwMDAsDQo+ID4gICAgICAgICAuc3VwcGx5X25hbWVzID0gYWR2NzUzM19zdXBwbHlf
-bmFtZXMsDQo+ID4gICAgICAgICAubnVtX3N1cHBsaWVzID0gQVJSQVlfU0laRShhZHY3NTMzX3N1
-cHBseV9uYW1lcyksDQo+ID4gLSAgICAgICAuaGFzX2RzaSA9IDENCj4gPiArICAgICAgIC5oYXNf
-ZHNpID0gMSwNCj4gPiArICAgICAgIC5ocGRfb3ZlcnJpZGVfZW5hYmxlID0gMQ0KPiA+ICB9Ow0K
-PiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaTJjX2RldmljZV9pZCBhZHY3NTExX2kyY19p
-ZHNbXSA9IHsNCj4gPiAtLQ0KPiA+IDIuMjUuMQ0KPiA+DQo=
+On Fri, Aug 18, 2023 at 8:35=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Adam Ford,
+>
+> Thanks for the feedback.
+>
+> > Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature =
+bit
+> > to struct adv7511_chip_info
+> >
+> > On Sun, Aug 13, 2023 at 1:06=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
+s.com>
+> > wrote:
+> > >
+> > > As per spec, it is allowed to pulse the HPD signal to indicate that
+> > > the EDID information has changed. Some monitors do this when they wak=
+e
+> > > up from standby or are enabled. When the HPD goes low the adv7511 is
+> > > reset and the outputs are disabled which might cause the monitor to g=
+o
+> > > to standby again. To avoid this we ignore the HPD pin for the first
+> > > few seconds after enabling the output. On the other hand,
+> > > adv7535 require to enable HPD Override bit for proper HPD.
+> > >
+> > > Add hpd_override_enable feature bit to struct adv7511_chip_info to
+> > > handle this scenario.
+> > >
+> > > While at it, drop the enum adv7511_type as it is unused.
+> >
+> > It seems like dropping adv7511_type is unrelated to the rest of the pat=
+ch,
+> > and I think it should be split from this into its own patch
+>
+> With this patch, there is no user for adv7511_type that is the
+> reason it is added here. I thought that is the common practice.
+>
+I wasn't sure.
+
+> Please correct me if that is not the case.
+
+I'll defer to the maintainers.  In general I like the series because
+it reduces the number of compare evaluations.  I'll try to run some
+tests on a board that I have with a adv7535 this weekend.
+
+adam
+>
+> Cheers,
+> Biju
+>
+> >
+> > adam
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
+> > >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
+> > >  2 files changed, 6 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > index 627531f48f84..c523ac4c9bc8 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > @@ -325,22 +325,16 @@ struct adv7511_video_config {
+> > >         struct hdmi_avi_infoframe avi_infoframe;  };
+> > >
+> > > -enum adv7511_type {
+> > > -       ADV7511,
+> > > -       ADV7533,
+> > > -       ADV7535,
+> > > -};
+> > > -
+> > >  #define ADV7511_MAX_ADDRS 3
+> > >
+> > >  struct adv7511_chip_info {
+> > > -       enum adv7511_type type;
+> > >         unsigned long max_mode_clock;
+> > >         unsigned long max_lane_freq;
+> > >         const char * const *supply_names;
+> > >         unsigned int num_supplies;
+> > >         unsigned has_dsi:1;
+> > >         unsigned link_config:1;
+> > > +       unsigned hpd_override_enable:1;
+> > >  };
+> > >
+> > >  struct adv7511 {
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > index 6974c267b1d5..7b06a0a21685 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511
+> > *adv7511)
+> > >          * first few seconds after enabling the output. On the other =
+hand
+> > >          * adv7535 require to enable HPD Override bit for proper HPD.
+> > >          */
+> > > -       if (adv7511->info->type =3D=3D ADV7535)
+> > > +       if (adv7511->info->hpd_override_enable)
+> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
+2,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
+> > > @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511
+> > > *adv7511)  static void __adv7511_power_off(struct adv7511 *adv7511)  =
+{
+> > >         /* TODO: setup additional power down modes */
+> > > -       if (adv7511->info->type =3D=3D ADV7535)
+> > > +       if (adv7511->info->hpd_override_enable)
+> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
+2,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > > 0);
+> > >
+> > > @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct
+> > drm_connector *connector)
+> > >                         status =3D connector_status_disconnected;
+> > >         } else {
+> > >                 /* Renable HPD sensing */
+> > > -               if (adv7511->info->type =3D=3D ADV7535)
+> > > +               if (adv7511->info->hpd_override_enable)
+> > >                         regmap_update_bits(adv7511->regmap,
+> > ADV7511_REG_POWER2,
+> > >
+> > ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > >
+> > > ADV7535_REG_POWER2_HPD_OVERRIDE); @@ -1360,14 +1360,12 @@ static void
+> > > adv7511_remove(struct i2c_client *i2c)  }
+> > >
+> > >  static const struct adv7511_chip_info adv7511_chip_info =3D {
+> > > -       .type =3D ADV7511,
+> > >         .supply_names =3D adv7511_supply_names,
+> > >         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
+> > >         .link_config =3D 1
+> > >  };
+> > >
+> > >  static const struct adv7511_chip_info adv7533_chip_info =3D {
+> > > -       .type =3D ADV7533,
+> > >         .max_mode_clock =3D 80000,
+> > >         .max_lane_freq =3D 800000,
+> > >         .supply_names =3D adv7533_supply_names, @@ -1376,12 +1374,12 =
+@@
+> > > static const struct adv7511_chip_info adv7533_chip_info =3D {  };
+> > >
+> > >  static const struct adv7511_chip_info adv7535_chip_info =3D {
+> > > -       .type =3D ADV7535,
+> > >         .max_mode_clock =3D 148500,
+> > >         .max_lane_freq =3D 891000,
+> > >         .supply_names =3D adv7533_supply_names,
+> > >         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
+> > > -       .has_dsi =3D 1
+> > > +       .has_dsi =3D 1,
+> > > +       .hpd_override_enable =3D 1
+> > >  };
+> > >
+> > >  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+> > > --
+> > > 2.25.1
+> > >
