@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC3878059D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 07:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B537F7805A2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 07:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15B2410E445;
-	Fri, 18 Aug 2023 05:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA9A10E44D;
+	Fri, 18 Aug 2023 05:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111E710E445
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 05:24:20 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-1c4de3b9072so283763fac.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 22:24:20 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B533710E44D
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 05:26:29 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1bf092a16c9so4676465ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692336259; x=1692941059;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vKY6dslgCgbpKgOXRY3KL48h9xLMusfKMnXRvr2rLHo=;
- b=QtaN/l+8H5mnKYER/RNnmyzmMYZMMoSmTd6TH0qzyrZyXiIAk5+dVtJD3CDxMQfh5p
- 0NIfJVi56WJFGS67nMsb3y4yHyWrqifWEckIDgg008QSJJp0xEHlQMW6gtUFAiaBj7F7
- UuCVctBgoYLz/s3ZNqn3JhfI5tb045Po7jCmw=
+ d=chromium.org; s=google; t=1692336389; x=1692941189;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rk4LUnZhgDX0fAzmHzqei0ex7/pVRshtevMGzPqY4to=;
+ b=UtzI73kYLFLtzKgHqDkl/JMuJGgdA2kKxVHo2p5bGwtBas2l80jjTbmLCg5AEAqSFs
+ 7pcakZl6L+WzC3/LRyPRZlqZpyXLyiecqwf0A+9dDpJBB80p5vDi0dkZNCMn+NNlbxHK
+ rOan65qNvcqmRuUWYsW+2mr0S8waWUsY6ZeKo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692336259; x=1692941059;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1692336389; x=1692941189;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vKY6dslgCgbpKgOXRY3KL48h9xLMusfKMnXRvr2rLHo=;
- b=Zmir6aWWjaB7W3QXLxnXEXkreX7G9O3c28DHIJT3VNSkMmf5wZqzlzWJt/AAYt1HEA
- 7Sysf1QxWKMmvNI/nyC58H3uCRRgB3lo8nQBtPOsKijzBxb3WKUgylKKwWTK0ERum6kU
- jiMIigHLODYrywluUjtjk/lGWKEm7yC16suoMi+wy0eKNfADXxVIEG1XSMcV4rxDphZ5
- d803DLkaGGo4sbDtFoqo293NguinvY9RsNV8h1QRJ5zHEgSBO/28ywrytJOHiv0+4yxB
- Wp9bdfqZSRndOKTpcYGyxFQDktTttLjobcXCIG7ipVCduVuOEDK+WKjT19JAfQmlIiVQ
- xe+w==
-X-Gm-Message-State: AOJu0YzmZco8hkJQ+5LW+hFcAkdsMGvWahMsLeJg5YSAz6U1ouHCQQnv
- D35hGwjst4bTUql3e26+vqRNaw==
-X-Google-Smtp-Source: AGHT+IGdqKWWvsPAFKIYxFyzP/Zx57oTaDjCVpT4tf/IFpk6B6Aczlby4uO0dVQHvfL9euKMR0rfUA==
-X-Received: by 2002:a05:6870:b52b:b0:1c8:b82b:cbdb with SMTP id
- v43-20020a056870b52b00b001c8b82bcbdbmr1854244oap.33.1692336258991; 
- Thu, 17 Aug 2023 22:24:18 -0700 (PDT)
+ bh=rk4LUnZhgDX0fAzmHzqei0ex7/pVRshtevMGzPqY4to=;
+ b=A+xD2RccbirPptKPQNDg/J60hQDVH8a13sEeHTqmNUtMQ6TEfkLt/SI/Bt3SEPhNci
+ Z2HHQToz18PvWlffZb97lgLX2oJJf/FB2+ImDtpyeY2yxRyph1OXB5fCtR24sSR77O0z
+ 9J4jKTrLRaiOQqnH/rNoQCD/ulw4PJY8JtMuggl4iACYCx+7NJ95Shd5QcSStmpimPSZ
+ H3oyii39Z5UZygtmALTA7tZZ5wX/MugQA6u5LihCvcJHAIReKYtfilIVeekbVojZ17qc
+ w8LxHfJc0aZhaB04nX92K7W0l0Jj2zuPYd8sV1w+8B/9G+d+F5XCjvRu5txP1Se9rdU6
+ ZnhQ==
+X-Gm-Message-State: AOJu0Yw9dt6K1uBkdGvBCk2b8iQq2HE39f7C8n53ICz6OfO4E0UZ7YLx
+ 3Wm8q+zYLWyDBAj1sDulyskaTA==
+X-Google-Smtp-Source: AGHT+IFgDSpPPvvRGEyBogq5IuenXl71J1nG/CyBKgfUmysleFmyTdi6pHlkTot9nJLekZ6n6DF4Iw==
+X-Received: by 2002:a17:902:ead5:b0:1bd:ec9e:59fe with SMTP id
+ p21-20020a170902ead500b001bdec9e59femr1585669pld.68.1692336389311; 
+ Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
 Received: from ?IPV6:2401:fa00:8f:203:4e9f:532f:e004:aaa1?
  ([2401:fa00:8f:203:4e9f:532f:e004:aaa1])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170902c24400b001bf10059251sm703867plg.239.2023.08.17.22.24.14
+ bi9-20020a170902bf0900b001bd99fd1114sm708552plb.288.2023.08.17.22.26.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Aug 2023 22:24:18 -0700 (PDT)
-Message-ID: <0dadd751-1546-170f-3693-7087ba6ab262@chromium.org>
-Date: Fri, 18 Aug 2023 14:24:12 +0900
+ Thu, 17 Aug 2023 22:26:29 -0700 (PDT)
+Message-ID: <62ca5d60-1b4b-d102-1a5e-50288dae4c37@chromium.org>
+Date: Fri, 18 Aug 2023 14:26:25 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.1
-Subject: Re: [PATCH v2 5/6] drm/vkms: Support enabling ConfigFS devices
-To: Marius Vlad <marius.vlad@collabora.com>, Jim Shargo <jshargo@chromium.org>
-References: <20230623222353.97283-1-jshargo@chromium.org>
- <20230623222353.97283-6-jshargo@chromium.org> <ZNuFU3VbiKhZTIWk@xpredator>
-Content-Language: en-US
+Subject: Re: [PATCH v2 2/6] drm/vkms: Support multiple DRM objects (crtcs,
+ etc.) per VKMS device
 From: Brandon Ross Pollack <brpol@chromium.org>
-In-Reply-To: <ZNuFU3VbiKhZTIWk@xpredator>
+To: marius.vlad@collabora.com
+References: <ZNthoImm48DYrBJx@xpredator>
+ <20230818033605.2910699-1-brpol@chromium.org>
+Content-Language: en-US
+In-Reply-To: <20230818033605.2910699-1-brpol@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,458 +76,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
- mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, mairacanal@riseup.net,
+ mripard@kernel.org, tzimmermann@suse.de, jshargo@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Silly addition but I need to apologize for mispelling somone's name in 
+my reply.
 
-On 8/15/23 23:01, Marius Vlad wrote:
-> Hi,
+Maira, please accept my sincere apology.
+
+On 8/18/23 12:36, Brandon Pollack wrote:
+> Thanks for taking the time, everyone! Sorry it took so long, we had some
+> internal shuffling etc going on and I was building out what we needed these
+> chagnes for in the first place, this will be the first of a few replies
+> followed by a new version of the series to be sent out.
 >
-> See below some minor comments:
+> First up is a respons to Maria, Marius to follow.
 >
-> On Fri, Jun 23, 2023 at 06:23:47PM -0400, Jim Shargo wrote:
->> VKMS now supports creating and using virtual devices!
->>
->> In addition to the enabling logic, this commit also prevents users from
->> adding new objects once a card is registered.
->>
->> Signed-off-by: Jim Shargo <jshargo@chromium.org>
->> ---
->>   drivers/gpu/drm/vkms/vkms_configfs.c |  37 +++--
->>   drivers/gpu/drm/vkms/vkms_crtc.c     |   4 +-
->>   drivers/gpu/drm/vkms/vkms_drv.c      |   3 +-
->>   drivers/gpu/drm/vkms/vkms_drv.h      |   2 +-
->>   drivers/gpu/drm/vkms/vkms_output.c   | 201 +++++++++++++++++++++++----
->>   5 files changed, 202 insertions(+), 45 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->> index 544024735d19..f5eed6d23dcd 100644
->> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->> @@ -504,29 +504,40 @@ static ssize_t device_enabled_store(struct config_item *item, const char *buf,
->>   {
->>   	struct vkms_configfs *configfs = item_to_configfs(item);
->>   	struct vkms_device *device;
->> -	int value, ret;
->> +	int enabled, ret;
->>   
->> -	ret = kstrtoint(buf, 0, &value);
->> +	ret = kstrtoint(buf, 0, &enabled);
->>   	if (ret)
->>   		return ret;
->>   
->> -	if (value != 1)
->> -		return -EINVAL;
->> -
->> -	mutex_lock(&configfs->lock);
->> -
->> -	if (configfs->vkms_device) {
->> +	if (enabled == 0) {
->> +		mutex_lock(&configfs->lock);
->> +		if (configfs->vkms_device) {
->> +			vkms_remove_device(configfs->vkms_device);
->> +			configfs->vkms_device = NULL;
->> +		}
->>   		mutex_unlock(&configfs->lock);
->> +
->>   		return len;
->>   	}
->>   
->> -	device = vkms_add_device(configfs);
->> -	mutex_unlock(&configfs->lock);
->> +	if (enabled == 1) {
->> +		mutex_lock(&configfs->lock);
->> +		if (!configfs->vkms_device) {
->> +			device = vkms_add_device(configfs);
->> +			if (IS_ERR(device)) {
->> +				mutex_unlock(&configfs->lock);
->> +				return -PTR_ERR(device);
->> +			}
->> +
->> +			configfs->vkms_device = device;
->> +		}
->> +		mutex_unlock(&configfs->lock);
->>   
->> -	if (IS_ERR(device))
->> -		return -PTR_ERR(device);
->> +		return len;
->> +	}
->>   
->> -	return len;
->> +	return -EINVAL;
->>   }
->>   
->>   CONFIGFS_ATTR(device_, enabled);
->> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
->> index d91e49c53adc..5ebb5264f6ef 100644
->> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
->> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
->> @@ -278,7 +278,7 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
->>   
->>   struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->>   				 struct drm_plane *primary,
->> -				 struct drm_plane *cursor)
->> +				 struct drm_plane *cursor, const char *name)
->>   {
->>   	struct drm_device *dev = &vkmsdev->drm;
->>   	struct vkms_crtc *vkms_crtc;
->> @@ -290,7 +290,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->>   	vkms_crtc = &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
->>   
->>   	ret = drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, cursor,
->> -					 &vkms_crtc_funcs, NULL);
->> +					 &vkms_crtc_funcs, name);
->>   	if (ret) {
->>   		DRM_ERROR("Failed to init CRTC\n");
->>   		goto out_error;
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->> index 1b5b7143792f..314a04659c5f 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->> @@ -210,7 +210,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
->>   	ret = drm_dev_register(&vkms_device->drm, 0);
->>   	if (ret) {
->>   		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
->> -		return ret;
->> +		goto out_release_group;
->>   	}
->>   
->>   	drm_fbdev_generic_setup(&vkms_device->drm, 0);
->> @@ -256,6 +256,7 @@ struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
->>   			dev, &vkms_platform_driver.driver))) {
->>   		pdev = to_platform_device(dev);
->>   		max_id = max(max_id, pdev->id);
->> +		put_device(dev);
->>   	}
->>   
->>   	pdev = platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
->> index 3634eeeb4548..3d592d085f49 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.h
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
->> @@ -239,7 +239,7 @@ void vkms_remove_device(struct vkms_device *vkms_device);
->>   /* CRTC */
->>   struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->>   				 struct drm_plane *primary,
->> -				 struct drm_plane *cursor);
->> +				 struct drm_plane *cursor, const char *name);
->>   
->>   int vkms_output_init(struct vkms_device *vkmsdev);
->>   int vkms_output_init_default(struct vkms_device *vkmsdev);
->> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
->> index c9e6c653de19..806ff01954ad 100644
->> --- a/drivers/gpu/drm/vkms/vkms_output.c
->> +++ b/drivers/gpu/drm/vkms/vkms_output.c
->> @@ -2,8 +2,10 @@
->>   
->>   #include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_connector.h>
->> +#include <drm/drm_crtc.h>
->>   #include <drm/drm_edid.h>
->>   #include <drm/drm_encoder.h>
->> +#include <drm/drm_plane.h>
->>   #include <drm/drm_probe_helper.h>
->>   #include <drm/drm_simple_kms_helper.h>
->>   
->> @@ -82,7 +84,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_device)
->>   
->>   int vkms_output_init_default(struct vkms_device *vkmsdev)
->>   {
->> -	struct vkms_output *output = &vkmsdev->output;
->>   	struct drm_device *dev = &vkmsdev->drm;
->>   	struct drm_connector *connector;
->>   	struct drm_encoder *encoder;
->> @@ -101,8 +102,7 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
->>   			struct vkms_plane *overlay = vkms_plane_init(
->>   				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
->>   			if (IS_ERR(overlay)) {
->> -				ret = PTR_ERR(overlay);
->> -				goto err_planes;
->> +				return PTR_ERR(overlay);
->>   			}
->>   		}
->>   	}
->> @@ -110,17 +110,16 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
->>   	if (vkmsdev->config.cursor) {
->>   		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->>   		if (IS_ERR(cursor)) {
->> -			ret = PTR_ERR(cursor);
->> -			goto err_planes;
->> +			return PTR_ERR(cursor);
->>   		}
->>   	}
->>   
->>   	vkms_crtc = vkms_crtc_init(vkmsdev, &primary->base,
->> -				   cursor ? &cursor->base : NULL);
->> +				   cursor ? &cursor->base : NULL,
->> +				   "crtc-default");
->>   	if (IS_ERR(vkms_crtc)) {
->>   		DRM_ERROR("Failed to init crtc\n");
->> -		ret = PTR_ERR(vkms_crtc);
->> -		goto err_planes;
->> +		return PTR_ERR(vkms_crtc);
->>   	}
->>   
->>   	for (int i = 0; i < vkmsdev->output.num_planes; i++) {
->> @@ -131,22 +130,20 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
->>   	connector = vkms_connector_init(vkmsdev);
->>   	if (IS_ERR(connector)) {
->>   		DRM_ERROR("Failed to init connector\n");
->> -		ret = PTR_ERR(connector);
->> -		goto err_connector;
->> +		return PTR_ERR(connector);
->>   	}
->>   
->>   	encoder = vkms_encoder_init(vkmsdev);
->>   	if (IS_ERR(encoder)) {
->>   		DRM_ERROR("Failed to init encoder\n");
->> -		ret = PTR_ERR(encoder);
->> -		goto err_encoder;
->> +		return PTR_ERR(encoder);
->>   	}
->>   	encoder->possible_crtcs |= drm_crtc_mask(&vkms_crtc->base);
->>   
->>   	ret = drm_connector_attach_encoder(connector, encoder);
->>   	if (ret) {
->>   		DRM_ERROR("Failed to attach connector to encoder\n");
->> -		goto err_attach;
->> +		return ret;
->>   	}
->>   
->>   	if (vkmsdev->config.writeback) {
->> @@ -158,27 +155,175 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
->>   	drm_mode_config_reset(dev);
->>   
->>   	return 0;
->> +}
->>   
->> -err_attach:
->> -	drm_encoder_cleanup(encoder);
->> +static bool is_object_linked(struct vkms_config_links *links, unsigned long idx)
->> +{
->> +	return links->linked_object_bitmap & (1 << idx);
->> +}
->>   
->> -err_encoder:
->> -	drm_connector_cleanup(connector);
->> +int vkms_output_init(struct vkms_device *vkmsdev)
->> +{
->> +	struct drm_device *dev = &vkmsdev->drm;
->> +	struct vkms_configfs *configfs = vkmsdev->configfs;
->> +	struct vkms_output *output = &vkmsdev->output;
->> +	struct plane_map {
->> +		struct vkms_config_plane *config_plane;
->> +		struct vkms_plane *plane;
->> +	} plane_map[VKMS_MAX_PLANES] = { 0 };
->> +	struct encoder_map {
->> +		struct vkms_config_encoder *config_encoder;
->> +		struct drm_encoder *encoder;
->> +	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] = { 0 };
->> +	struct config_item *item;
->> +	int map_idx = 0;
->> +
->> +	list_for_each_entry(item, &configfs->planes_group.cg_children,
->> +			    ci_entry) {
->> +		struct vkms_config_plane *config_plane =
->> +			item_to_config_plane(item);
->> +		struct vkms_plane *plane =
->> +			vkms_plane_init(vkmsdev, config_plane->type);
->> +
->> +		if (IS_ERR(plane)) {
->> +			DRM_ERROR("Unable to init plane from config: %s",
->> +				  item->ci_name);
->> +			return PTR_ERR(plane);
->> +		}
->>   
->> -err_connector:
->> -	drm_crtc_cleanup(&vkms_crtc->base);
->> +		plane_map[map_idx].config_plane = config_plane;
->> +		plane_map[map_idx].plane = plane;
->> +		map_idx += 1;
->> +	}
->>   
->> -err_planes:
->> -	for (int i = 0; i < output->num_planes; i++) {
->> -		drm_plane_cleanup(&output->planes[i].base);
->> +	map_idx = 0;
->> +	list_for_each_entry(item, &configfs->encoders_group.cg_children,
->> +			    ci_entry) {
->> +		struct vkms_config_encoder *config_encoder =
->> +			item_to_config_encoder(item);
->> +		struct drm_encoder *encoder = vkms_encoder_init(vkmsdev);
->> +
->> +		if (IS_ERR(encoder)) {
->> +			DRM_ERROR("Failed to init config encoder: %s",
->> +				  item->ci_name);
->> +			return PTR_ERR(encoder);
->> +		}
->> +		encoder_map[map_idx].config_encoder = config_encoder;
-> A two connector configuration without an encoder would have the
-> potential of blowing up if we don't create a second_encoder.
-
-What a catch!!! I tested this and sure enough BOOM!
-
-Switched to limiting based on output->num_encoders as it should be.
-
->> +		encoder_map[map_idx].encoder = encoder;
->> +		map_idx += 1;
->>   	}
->>   
->> -	memset(output, 0, sizeof(*output));
->> +	list_for_each_entry(item, &configfs->connectors_group.cg_children,
->> +			    ci_entry) {
->> +		struct vkms_config_connector *config_connector =
->> +			item_to_config_connector(item);
->> +		struct drm_connector *connector = vkms_connector_init(vkmsdev);
->>   
->> -	return ret;
->> -}
->> +		if (IS_ERR(connector)) {
->> +			DRM_ERROR("Failed to init connector from config: %s",
->> +				  item->ci_name);
->> +			return PTR_ERR(connector);
->> +		}
->>   
->> -int vkms_output_init(struct vkms_device *vkmsdev)
->> -{
->> -	return -ENOTSUPP;
->> +		for (int j = 0; j < output->num_connectors; j++) {
->> +			struct encoder_map *encoder = &encoder_map[j];
->> +
->> +			if (is_object_linked(
->> +				    &config_connector->possible_encoders,
->> +				    encoder->config_encoder
->> +					    ->encoder_config_idx)) {
-> Here encoder->config_encoder for two connectors but a single encoder
-> will give back a empty encoder.
->> +				drm_connector_attach_encoder(connector,
->> +							     encoder->encoder);
->> +			}
->> +		}
->> +	}
->> +
->> +	list_for_each_entry(item, &configfs->crtcs_group.cg_children,
->> +			    ci_entry) {
->> +		struct vkms_config_crtc *config_crtc =
->> +			item_to_config_crtc(item);
->> +		struct vkms_crtc *vkms_crtc;
->> +		struct drm_plane *primary = NULL, *cursor = NULL;
->> +
->> +		for (int j = 0; j < output->num_planes; j++) {
->> +			struct plane_map *plane_entry = &plane_map[j];
->> +			struct drm_plane *plane = &plane_entry->plane->base;
->> +
->> +			if (!is_object_linked(
->> +				    &plane_entry->config_plane->possible_crtcs,
->> +				    config_crtc->crtc_config_idx)) {
->> +				continue;
->> +			}
->> +
->> +			if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
->> +				if (primary) {
->> +					DRM_WARN(
->> +						"Too many primary planes found for crtc %s.",
->> +						item->ci_name);
->> +					return EINVAL;
->> +				}
->> +				primary = plane;
->> +			} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
->> +				if (cursor) {
->> +					DRM_WARN(
->> +						"Too many cursor planes found for crtc %s.",
->> +						item->ci_name);
->> +					return EINVAL;
->> +				}
->> +				cursor = plane;
->> +			}
->> +		}
->> +
->> +		if (!primary) {
->> +			DRM_WARN("No primary plane configured for crtc %s",
->> +				 item->ci_name);
->> +			return EINVAL;
->> +		}
->> +
->> +		vkms_crtc =
->> +			vkms_crtc_init(vkmsdev, primary, cursor, item->ci_name);
->> +		if (IS_ERR(vkms_crtc)) {
->> +			DRM_WARN("Unable to init crtc from config: %s",
->> +				 item->ci_name);
->> +			return PTR_ERR(vkms_crtc);
->> +		}
->> +
->> +		for (int j = 0; j < output->num_planes; j++) {
->> +			struct plane_map *plane_entry = &plane_map[j];
->> +
->> +			if (!plane_entry->plane)
->> +				break;
->> +
->> +			if (is_object_linked(
->> +				    &plane_entry->config_plane->possible_crtcs,
->> +				    config_crtc->crtc_config_idx)) {
->> +				plane_entry->plane->base.possible_crtcs |=
->> +					drm_crtc_mask(&vkms_crtc->base);
->> +			}
->> +		}
->> +
->> +		for (int j = 0; j < output->num_encoders; j++) {
->> +			struct encoder_map *encoder_entry = &encoder_map[j];
->> +
->> +			if (is_object_linked(&encoder_entry->config_encoder
->> +						      ->possible_crtcs,
->> +					     config_crtc->crtc_config_idx)) {
->> +				encoder_entry->encoder->possible_crtcs |=
->> +					drm_crtc_mask(&vkms_crtc->base);
->> +			}
->> +		}
->> +
->> +		if (vkmsdev->config.writeback) {
->> +			int ret = vkms_enable_writeback_connector(vkmsdev,
->> +								  vkms_crtc);
->> +			if (ret)
->> +				DRM_WARN(
->> +					"Failed to init writeback connector for config crtc: %s. Error code %d",
->> +					item->ci_name, ret);
->> +		}
->> +	}
-> I think we might be needing here a test for missing symlinks - invalid
-> configurations, like unused crtcs, encoders, connectors. I
-> suppose anything that's not matched with is_object_linked(),
-> such we avoid invalid configuration found by drm_mode_config_validate()
-> and inform users about missing them.
+> ---
 >
-> An example here would be to create a second encoder, connector, crtc and
-> not symlink them to their possible_encoders,possible_crtcs mask. An
-> i-g-t test for this very thing would be needed to stress different kind
-> of combinations.
-
-I wonder about this.  Shouldn't a user be free to create dangling files 
-to simulate some scenario?
-
-I could see a further development to publish a warning in the log, but 
-disallowing it seems overly restrictive.
-
-Either way we could accomplish this pretty easily by adding a flag to 
-each vkms object in the form of `bool is_linked` and set it when we 
-detect it's linked.  Then at the end iterate through all planes, 
-encoders, connectors, crtcs that can be linked and if they are not just 
-publish a warning saying
-
-kwarn: "crtc/plane/encoder $NAME is created but unlinked"
-
-IGT tests to test that that was done make sense to me.
-
->> +
->> +	drm_mode_config_reset(dev);
->> +
->> +	return 0;
->>   }
->> -- 
->> 2.41.0.162.gfafddb0af9-goog
->>
+> Maria,
+>
+>> -	if (vkms->output.composer_workq)
+>> -		destroy_workqueue(vkms->output.composer_workq);
+>> +	for (int i = 0; i < vkms->output.num_crtcs; i++)
+>> +		destroy_workqueue(vkms->output.crtcs[i].composer_workq);
+> I don't believe there is any need for a null check.  If you look in the
+> crtc_init, it is zero'd before returning any errors and that is the only place
+> it is set.  I don't believe that release can be called by an interrupt/async
+> (and if it did it would need a mutex/lock anyway).
+>
+>>    static const struct drm_plane_funcs vkms_plane_funcs = {
+>> -	.update_plane		= drm_atomic_helper_update_plane,
+>> -	.disable_plane		= drm_atomic_helper_disable_plane,
+>> -	.reset			= vkms_plane_reset,
+> Yeah these do seem weirdly formatted on devices that don't treat tabs well.
+> The default formatter on my editor has a few suggestions for this file, but
+> they are all optional.  I'll send an extra patch that formats stuff and see
+> what people think, but ill make it seperate after all this is done.
+> For now I reverted this.
+>
+>>> -	if (IS_ERR(plane))
+>>> -		return plane;
+>>> +	if (output->num_planes >= VKMS_MAX_PLANES)
+>>> +		return ERR_PTR(-ENOMEM);
+>>> +
+>>> +	plane = &output->planes[output->num_planes++];
+>>> +	ret = drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_funcs,
+>>> +				       vkms_formats, ARRAY_SIZE(vkms_formats),
+>>> +				       NULL, type, NULL);
+>> Wouldn't be possible to use drmm_universal_plane_alloc?
+> Maybe, but the *_init pattern allows these things to be inline in the struct as
+> they are now, and consistent with the other drm kernel objects in the
+> vkms_output struct.  There are also a few other places we could use drmm,
+> surely, but to limit the scope/risk why don't we do that as a followup?
+>
+> ---
+>
+> Marius,
+>
+> Yeah those values could safely be completely removed.  Good catch :)
