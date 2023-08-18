@@ -1,77 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D54780A2C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 12:31:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC03780A32
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 12:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA6110E4BE;
-	Fri, 18 Aug 2023 10:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C0210E4C1;
+	Fri, 18 Aug 2023 10:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3261E10E4BE
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 10:30:59 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fe48d0ab0fso1025354e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 03:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692354657; x=1692959457;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4LtmyRH3uquQa35qZEBrjYfCQfjxVyQMuxjwadVuCUE=;
- b=qq8HjUXVe1+6MOle1ON6Z8zxId8JviF3JUrcPfSleTCrvzSKdvjDMkBU6TIlonV19S
- BwQVl9Umc9Q6ci6cV+sLDKyj8qe5p2YcFyHxCxgnld7ac9NdQHCDvU5TQ/oPdpggzL0U
- NdDFes6sCMmTowWrGl+LzeZuuCq+sNOF/uO3XEuyXbBbZJuzaJK7Do4KF5tuSrK69fnK
- C/Vgm95LlW89hmRWdKEkmQm/IHDaUbZHJiFU0Ia4SoFq4SuFheTGOnN9CJpkqeIg4cLR
- /ddfNHU57zNFhzMtIRAo1ZzYC33PxrDJfilk472vCGfM84hrUqX8GopXk9lsxvAtFukw
- 11Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692354657; x=1692959457;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4LtmyRH3uquQa35qZEBrjYfCQfjxVyQMuxjwadVuCUE=;
- b=T9PSMn35hWLF+smJN1zEut+/5gnyP+X63KIpgmy+uYuUrwi2Qs6xdGd+q9iq8bYMib
- +N7GrnoiP10XQeK5z70uH4KM8uuNfXO7Gw4MR1UHvGBM/Hrtn41zd89N1DtVAqWg1Sw8
- bC9zeyi8uznFesp6zAn/f44JD18Njxz1gD7izE869loopNk0b1r5HWu3R6xKR7Bp4ZN6
- yTf5w9goGOdU8DaQV4h1pgFnFjOZ9akAUrlsFqJelLC4FOIz0D2LuwyxM12l8gF8pv/6
- ZM27MY93JSIAWfFouwMMhzMKVtDYPQJ1ng9adn2WrLwvimcih4Bjo7sfWTbd+8QRAf7a
- 4rUg==
-X-Gm-Message-State: AOJu0Yxxe+cNaiRS6dhodEgo1XTgMaeqChuPNY7/8HS3usuMMFaxsWbP
- eJVZFfT7idRYnSfcvMdlWBEFow==
-X-Google-Smtp-Source: AGHT+IHzaCo2eTE/te1HsoVUFdeT0UZnxqjK11M2NmGV8gd/927nvst3bj0UfF8wjINrubj+z1+1WQ==
-X-Received: by 2002:a19:ca1d:0:b0:4f8:586a:8af6 with SMTP id
- a29-20020a19ca1d000000b004f8586a8af6mr1224933lfg.4.1692354657346; 
- Fri, 18 Aug 2023 03:30:57 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- 16-20020ac24830000000b004ff1b5c8df3sm275637lft.211.2023.08.18.03.30.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Aug 2023 03:30:56 -0700 (PDT)
-Message-ID: <6097eb1d-6b00-4a0f-a91f-5b19f2b422eb@linaro.org>
-Date: Fri, 18 Aug 2023 13:30:56 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4C310E4C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 10:32:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 512A861BAF;
+ Fri, 18 Aug 2023 10:32:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A25C433C9;
+ Fri, 18 Aug 2023 10:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692354775;
+ bh=2TpNR24FXV8wdI1xhbKlLvv+i1pe7zzGnmmdOMKPlHQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=D5DpRaKdxnrBq9RtRGDerqJ9ZLF6aeHNJYe5Zkl/JE3/AE6kZ52RgD7UEv7lgQcwF
+ y0L4iiXKIkzaMUhbUG+N0H7eWNS5XmBxcR0H2fzjaizgnDSXKgXdTvk8/0wuGWwsYT
+ Yhba7GQrX3nS1EeECLivbu3Jj8VBHkACeA5oILw2AO/DLaLrMeKSKZGvIPU2hgDpMC
+ ELddEsHjx0dJpFyppHKOJF+pszgky4fxsjcJx6yzbQczghXFnsH1HP1jgoiIONLSTr
+ mKf2gEjKj/YciYEG526rvVH6QhiowFf1WtWMM90R14Az6sIezlqDV9ug0ifd1wg6/B
+ obIoapnjgMm0A==
+Message-ID: <f9c32a69-6399-0686-d47d-7464055e49bc@kernel.org>
+Date: Fri, 18 Aug 2023 12:32:48 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm/uapi: document the USB subconnector type
-Content-Language: en-GB
-To: Simon Ser <contact@emersion.fr>
-References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
- <a32ce695-038f-0ef8-3584-5bd1ba528131@linaro.org>
- <20230802191351.GA1407@pendragon.ideasonboard.com>
- <DE2B4523-D16C-4AFC-8352-212B23548DD5@linaro.org>
- <b6oOVz2YMIG4hJDWhq9lTh6R2HYcrpRwHENhplig9KSQMD8dIjTgC5KdH1Ij3URgV2HESp67Ax7QUsByGjMLouvbs-5q7PiPRdLkgJz6Fwk=@emersion.fr>
- <ADjuOeqA6575DKutMPaR9mW9rLhm-wjLc4ruoUkNwImf-GB90FdwDB7v7y6LFdzVG3BC4R52A0RUtStK4_smmGYTUs3UPDOX4T4Zl2YHkxE=@emersion.fr>
- <20230803204459.GD27752@pendragon.ideasonboard.com>
- <TR8IBdXbd0C4U8Z4zf9ZLEH66QMutWs0QAAkPnMlKiOvgEZCk6AfEIPcIfRC555XWs8eSzeCCCW9R-3NwxZg6hDhPvPseAgAULAdUQ6epDA=@emersion.fr>
- <d9f9c272-ce9b-4599-bb11-1c026087ead3@linaro.org>
- <gIjbz8oq8AuY8E5_XGKnJNjIyQK9SDxp2-3Ep-Dr3D9T_-iUIt-q-oFgarZor4jtdI3682ZtuvQnaQBhTrc5OR6G2sqvDxbmxGZmcRrBAio=@emersion.fr>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <gIjbz8oq8AuY8E5_XGKnJNjIyQK9SDxp2-3Ep-Dr3D9T_-iUIt-q-oFgarZor4jtdI3682ZtuvQnaQBhTrc5OR6G2sqvDxbmxGZmcRrBAio=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v5 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
+References: <20230816082531.164695-1-sarah.walker@imgtec.com>
+ <20230816082531.164695-3-sarah.walker@imgtec.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230816082531.164695-3-sarah.walker@imgtec.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,52 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Leo Li <sunpeng.li@amd.com>,
- intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: matthew.brost@intel.com, hns@goldelico.com, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, afd@ti.com, luben.tuikov@amd.com, dakr@redhat.com,
+ donald.robson@imgtec.com, tzimmermann@suse.de, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/08/2023 09:24, Simon Ser wrote:
-> On Thursday, August 17th, 2023 at 21:33, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+On 16/08/2023 10:25, Sarah Walker wrote:
+> Add the device tree binding documentation for the Series AXE GPU used in
+> TI AM62 SoCs.
 > 
->> We have been looking for a way to document that the corresponding DP
->> port is represented by the USB connector on the device.
->>
->> Consequently, I believe the best way to document it, would be to use
->> DisplayPort / USB, when there is no dongle connected, switching to
->> DisplayPort / HDMI, DisplayPort / VGA, DisplayPort / DisplayPort, etc.
->> when the actual dongle / display is connected and then switching back to
->> the DisplayPort / USB when it gets disconnected.
->>
->> If this sounds good to all parties, I'll post v2, adding this
->> explanation to the cover letter.
-> 
-> But how can user-space discover that the port is USB-C when it's
-> connected? That information is lost at this point.
+> Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> ---
+> Changes since v4:
+> - Add clocks constraint for ti,am62-gpu
 
-Yes, unfortunately.
 
-> (In addition, this clashes with the existing semantics of the
-> subconnector prop as discussed before: USB-C is not sub-, it's super-.)
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-Ok. How do we proceed then? Is it fine to add another property for DP 
-case? Do you have any particular property name in mind? I will follow 
-with addition of this property then.
+You missed at least DT list (maybe more), so this won't be tested by
+automated tooling. Performing review on untested code might be a waste
+of time, thus I will skip this patch entirely till you follow the
+process allowing the patch to be tested.
 
--- 
-With best wishes
-Dmitry
+Please kindly resend and include all necessary To/Cc entries.
+
+
+You already got this comment. I think more than once. Fix your
+processes, so finally this is resolved.
+
+Best regards,
+Krzysztof
 
