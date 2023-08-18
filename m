@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0278134D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 21:18:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F51978134E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 21:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97FDB10E0EA;
-	Fri, 18 Aug 2023 19:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E29210E0E3;
+	Fri, 18 Aug 2023 19:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 346D510E0EA
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 19:18:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.01,184,1684767600"; d="scan'208";a="173298245"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DD24B10E0E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 19:18:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.01,184,1684767600"; d="scan'208";a="176991800"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 19 Aug 2023 04:18:23 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 19 Aug 2023 04:18:28 +0900
 Received: from localhost.localdomain (unknown [10.226.93.81])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8A69F409B888;
- Sat, 19 Aug 2023 04:18:19 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9084B409B888;
+ Sat, 19 Aug 2023 04:18:24 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 0/2] Match data improvements for it66121 driver
-Date: Fri, 18 Aug 2023 20:18:15 +0100
-Message-Id: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 1/2] drm: bridge: it66121: Extend match support for OF
+ tables
+Date: Fri, 18 Aug 2023 20:18:16 +0100
+Message-Id: <20230818191817.340360-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
+References: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,26 +54,68 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series aims to add match data improvements for it66121 driver.
+The driver has OF match table, still it uses ID lookup table for
+retrieving match data. Currently the driver is working on the
+assumption that a I2C device registered via OF will always match a
+legacy I2C device ID. The correct approach is to have an OF device ID
+table using of_device_match_data() if the devices are registered via OF.
 
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
 v2->v3:
- * Removed fixes tag from patch#1 as nothing broken.
+ * Removed fixes tag as nothing broken.
  * Added Rb tag from Andy.
-v1->v2:
- * Split the patch into two.
- * patch#1 extend match support for OF tables compared to legacy ID
-   lookup and fixes tag.
- * patch#2 simplifies the probe() by using i2c_get_match_data. 
- * Dropped sentence for dropping local variable as it is integral part of
-   the patch.
+v2:
+ * New patch.
+---
+ drivers/gpu/drm/bridge/ite-it66121.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-Biju Das (2):
-  drm: bridge: it66121: Extend match support for OF tables
-  drm: bridge: it66121: Simplify probe()
-
- drivers/gpu/drm/bridge/ite-it66121.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 466641c77fe9..ba95ad46e259 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -1523,7 +1523,10 @@ static int it66121_probe(struct i2c_client *client)
+ 
+ 	ctx->dev = dev;
+ 	ctx->client = client;
+-	ctx->info = (const struct it66121_chip_info *) id->driver_data;
++	if (dev_fwnode(&client->dev))
++		ctx->info = of_device_get_match_data(&client->dev);
++	else
++		ctx->info = (const struct it66121_chip_info *) id->driver_data;
+ 
+ 	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+ 	of_node_put(ep);
+@@ -1609,13 +1612,6 @@ static void it66121_remove(struct i2c_client *client)
+ 	mutex_destroy(&ctx->lock);
+ }
+ 
+-static const struct of_device_id it66121_dt_match[] = {
+-	{ .compatible = "ite,it66121" },
+-	{ .compatible = "ite,it6610" },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(of, it66121_dt_match);
+-
+ static const struct it66121_chip_info it66121_chip_info = {
+ 	.id = ID_IT66121,
+ 	.vid = 0x4954,
+@@ -1628,6 +1624,13 @@ static const struct it66121_chip_info it6610_chip_info = {
+ 	.pid = 0x0611,
+ };
+ 
++static const struct of_device_id it66121_dt_match[] = {
++	{ .compatible = "ite,it66121", &it66121_chip_info },
++	{ .compatible = "ite,it6610", &it6610_chip_info },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, it66121_dt_match);
++
+ static const struct i2c_device_id it66121_id[] = {
+ 	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
+ 	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
 -- 
 2.25.1
 
