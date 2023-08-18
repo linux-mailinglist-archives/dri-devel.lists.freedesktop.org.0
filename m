@@ -1,93 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E468780CA6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:39:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E44A780BFB
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 14:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D66310E51C;
-	Fri, 18 Aug 2023 13:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5C4C10E503;
+	Fri, 18 Aug 2023 12:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D7610E51B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692365946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cqG4iscjLJT2yujfKZMRVXa7X34JfeQ+wVEFDVDChQU=;
- b=d/BRTrHtlAwSATbpcQtOmLCmZUyIuoI6iZUgBINnD4e3WN1LpuGtJ8y7GZTTRBBKMLeI6/
- F+myRol6oH3xNd+nuQnfpbsXmXRWd3VoYGW/HbwrHkL3vX9RkPQv6Ck13U2Pzf9zpoU9qw
- UA+AdL0D7GcZvEfsH70mdqfJn90OYkM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-CQ3tTmEiN0yjKVSunSOgKA-1; Fri, 18 Aug 2023 09:39:05 -0400
-X-MC-Unique: CQ3tTmEiN0yjKVSunSOgKA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-99c0bd2ca23so55721966b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 06:39:04 -0700 (PDT)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C89CC10E503
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 12:41:57 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id
+ d9443c01a7336-1bf0b24d925so6356235ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 05:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692362517; x=1692967317;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NPcGkJMKTWJ/sltVcSM8QBVCAQsS6nfPsbY6Vj4eudI=;
+ b=HIZEFAp3L/cMpFf85coFquQgLGdssbX6tAWHihi283X/Tz39KiNuyLRi0Klhw7bnIN
+ 7lfI7WNJsjr7zbVvYlNFSJ3CHcGCKB4k0FqpYAthLFTScff3qQd6qSSQVSKaRqjOszU5
+ prQOaQjYXT6EIsOm1JnfifI/ZyEQYKLU1N1ggKeSX4yPqZzF8TIYoeds8j/NKva/9ri/
+ 1BUDE6jj5noODXzD09SkVyw7I7lPagXEc5cPqBNRrnUGMSp9eWCgRBdpQ94nfKOuA70G
+ +XyY1DJO6S6hN54PT2i/kO7uQ/N5/jAZOsCjhWCRQFWxni0eTLuSJP/jGKeGeyqY8PaH
+ +9LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692365944; x=1692970744;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cqG4iscjLJT2yujfKZMRVXa7X34JfeQ+wVEFDVDChQU=;
- b=TupVONpM0xj4W6qurlD9H/pCk0Y4HNCw1klxzFx9Q9S7LC4mnV+ZQLP5YmOsU5Brge
- ahfsef59d0Z2fZ9oJzIp5x9orprHC23OKpoweZWELYJxMmgggO6WTSmpubaxT+lKZAUo
- 3oIPKv4VIgdkJpSd3pfJ0F5U2kpx2D70hmfamyyEr7XYGpMfdACVWWi/E+iX/1HUW17v
- AYrP/+/OD1gZviqaxudz6lF8QCjNyZ7juNSBOhxt9T/807xDiLfJ8sT1S12StaeP3TtN
- VAsrMd9sScOkxoxSvcbPbuuw57WRoBunqONNlQCJjZgtiCtF6Y6zUFV4WLtkeNLenMqO
- Y+Cg==
-X-Gm-Message-State: AOJu0YyDsppYVHipri8gX5rtYPmVKyUqpa/gUQUW+rUCkQW8eziH1ZIH
- d+LUxoDQNyDhvE4pf4JueEMzeYSbJrTiaPjooYqJD5F0S8LxHn4hVmy7B1ZM7ujJCmjrqu3ZJ0b
- ytElpoL9G1BklPfk8LoRgMhQRYPI0
-X-Received: by 2002:a17:907:2e19:b0:99b:ed53:5c12 with SMTP id
- ig25-20020a1709072e1900b0099bed535c12mr1993359ejc.17.1692365943739; 
- Fri, 18 Aug 2023 06:39:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6kI0qGSNTO3EIwKZbVUSmNGGS6SdW542Tu74a7ZpkWLspyow0r9Xb2icNWPkdNwyuniqquA==
-X-Received: by 2002:a17:907:2e19:b0:99b:ed53:5c12 with SMTP id
- ig25-20020a1709072e1900b0099bed535c12mr1993343ejc.17.1692365943430; 
- Fri, 18 Aug 2023 06:39:03 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- r1-20020a170906a20100b00997e99a662bsm1204947ejy.20.2023.08.18.06.39.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Aug 2023 06:39:03 -0700 (PDT)
-Message-ID: <f2794271-bae1-751d-eefd-73e447fa8956@redhat.com>
-Date: Fri, 18 Aug 2023 14:06:28 +0200
+ d=1e100.net; s=20221208; t=1692362517; x=1692967317;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NPcGkJMKTWJ/sltVcSM8QBVCAQsS6nfPsbY6Vj4eudI=;
+ b=MXj2VhG4NvYwwnUyMeZdAjSVdsfvJ0YJR1gIgKsUs4frYEe2mh4wVJTyKE2bRLD66n
+ rOUK1u/hZR6zIlviDgHE1glwQtdqYpFxtkDt+iWbCf1F3p3jD7mkG3rHxiZRJNKQfk4v
+ TD0MDsU0qYkyf1V11QYqxXPz7ePVFD9J/ajugFcnAXhtwzd3iK8bRENEK+f24+XQYG0E
+ BiB0WXLkto7sB+5uwLRwOyC3kd/XnzCpk2l5H7UKInCxYVCxEjy+A7fTYnYpGDGj1vdB
+ dGxAA/XdkpCvfY+ti5eiARkIUrKw0i5D71mKfjqnvRFBIhqWfvyE5X6rTVY2dYmZSou1
+ a4Sg==
+X-Gm-Message-State: AOJu0YxiqOMWSpAV8VmYL7bzOY5WJDMJSx2ekJUR2mHmSYMPpMgVCmDu
+ XgGaRjTCX8JMdqH/TDQ4nQgtDgHpAjwSz1r9Nzk=
+X-Google-Smtp-Source: AGHT+IH85gGKrwdfkAnsb745AH3X0z1EVogXcuN+wAVTrYD6qIZGo9+bx8LzvUSqDNf+4cUOTI63NEePf4+s2rxqhoc=
+X-Received: by 2002:a17:90b:f08:b0:268:a26:d9ee with SMTP id
+ br8-20020a17090b0f0800b002680a26d9eemr2231486pjb.46.1692362517023; Fri, 18
+ Aug 2023 05:41:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
- queue rather than kthread
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230811023137.659037-2-matthew.brost@intel.com>
- <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
- <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
- <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
- <982800c1-e7d3-f276-51d0-1a431f92eacb@amd.com>
- <5fdf7d59-3323-24b5-a35a-bd60b06b4ce5@redhat.com>
- <0bf839df-db7f-41fa-8b34-59792d2ba8be@amd.com>
- <e8fa305a-0ac8-ece7-efeb-f9cec2892d44@redhat.com>
- <ZN7gxBpnZD8OW9ZW@DUT025-TGLU.fm.intel.com>
- <3aa630e6-db3e-c03b-b3c2-aca517170a1c@amd.com>
- <ZN9o8paxwsYYQrb+@DUT025-TGLU.fm.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ZN9o8paxwsYYQrb+@DUT025-TGLU.fm.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
+ <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 18 Aug 2023 07:41:45 -0500
+Message-ID: <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
+Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
+ struct adv7511_chip_info
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,255 +70,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Bogdan Togorean <bogdan.togorean@analog.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/18/23 14:49, Matthew Brost wrote:
-> On Fri, Aug 18, 2023 at 07:40:41AM +0200, Christian König wrote:
->> Am 18.08.23 um 05:08 schrieb Matthew Brost:
->>> On Thu, Aug 17, 2023 at 01:13:31PM +0200, Danilo Krummrich wrote:
->>>> On 8/17/23 07:33, Christian König wrote:
->>>>> Am 16.08.23 um 18:33 schrieb Danilo Krummrich:
->>>>>> On 8/16/23 16:59, Christian König wrote:
->>>>>>> Am 16.08.23 um 14:30 schrieb Danilo Krummrich:
->>>>>>>> On 8/16/23 16:05, Christian König wrote:
->>>>>>>>> Am 16.08.23 um 13:30 schrieb Danilo Krummrich:
->>>>>>>>>> Hi Matt,
->>>>>>>>>>
->>>>>>>>>> On 8/11/23 04:31, Matthew Brost wrote:
->>>>>>>>>>> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
->>>>>>>>>>> mapping between a drm_gpu_scheduler and
->>>>>>>>>>> drm_sched_entity. At first this
->>>>>>>>>>> seems a bit odd but let us explain the reasoning below.
->>>>>>>>>>>
->>>>>>>>>>> 1. In XE the submission order from multiple drm_sched_entity is not
->>>>>>>>>>> guaranteed to be the same completion even if
->>>>>>>>>>> targeting the same hardware
->>>>>>>>>>> engine. This is because in XE we have a firmware scheduler, the GuC,
->>>>>>>>>>> which allowed to reorder, timeslice, and preempt
->>>>>>>>>>> submissions. If a using
->>>>>>>>>>> shared drm_gpu_scheduler across multiple
->>>>>>>>>>> drm_sched_entity, the TDR falls
->>>>>>>>>>> apart as the TDR expects submission order ==
->>>>>>>>>>> completion order. Using a
->>>>>>>>>>> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
->>>>>>>>>>>
->>>>>>>>>>> 2. In XE submissions are done via programming a
->>>>>>>>>>> ring buffer (circular
->>>>>>>>>>> buffer), a drm_gpu_scheduler provides a limit on
->>>>>>>>>>> number of jobs, if the
->>>>>>>>>>> limit of number jobs is set to RING_SIZE /
->>>>>>>>>>> MAX_SIZE_PER_JOB we get flow
->>>>>>>>>>> control on the ring for free.
->>>>>>>>>> In XE, where does the limitation of MAX_SIZE_PER_JOB come from?
->>>>>>>>>>
->>>>>>>>>> In Nouveau we currently do have such a limitation as
->>>>>>>>>> well, but it is derived from the RING_SIZE, hence
->>>>>>>>>> RING_SIZE / MAX_SIZE_PER_JOB would always be 1.
->>>>>>>>>> However, I think most jobs won't actually utilize
->>>>>>>>>> the whole ring.
->>>>>>>>> Well that should probably rather be RING_SIZE /
->>>>>>>>> MAX_SIZE_PER_JOB = hw_submission_limit (or even
->>>>>>>>> hw_submission_limit - 1 when the hw can't distinct full
->>>>>>>>> vs empty ring buffer).
->>>>>>>> Not sure if I get you right, let me try to clarify what I
->>>>>>>> was trying to say: I wanted to say that in Nouveau
->>>>>>>> MAX_SIZE_PER_JOB isn't really limited by anything other than
->>>>>>>> the RING_SIZE and hence we'd never allow more than 1 active
->>>>>>>> job.
->>>>>>> But that lets the hw run dry between submissions. That is
->>>>>>> usually a pretty horrible idea for performance.
->>>>>> Correct, that's the reason why I said it seems to be more efficient
->>>>>> to base ring flow control on the actual size of each incoming job
->>>>>> rather than the maximum size of a job.
->>>>>>
->>>>>>>> However, it seems to be more efficient to base ring flow
->>>>>>>> control on the actual size of each incoming job rather than
->>>>>>>> the worst case, namely the maximum size of a job.
->>>>>>> That doesn't sounds like a good idea to me. See we don't limit
->>>>>>> the number of submitted jobs based on the ring size, but rather
->>>>>>> we calculate the ring size based on the number of submitted
->>>>>>> jobs.
->>>>>>>
->>>>>> My point isn't really about whether we derive the ring size from the
->>>>>> job limit or the other way around. It's more about the job size (or
->>>>>> its maximum size) being arbitrary.
->>>>>>
->>>>>> As mentioned in my reply to Matt:
->>>>>>
->>>>>> "In Nouveau, userspace can submit an arbitrary amount of addresses
->>>>>> of indirect bufferes containing the ring instructions. The ring on
->>>>>> the kernel side takes the addresses of the indirect buffers rather
->>>>>> than the instructions themself. Hence, technically there isn't
->>>>>> really a limit on the amount of IBs submitted by a job except for
->>>>>> the ring size."
->>>>>>
->>>>>> So, my point is that I don't really want to limit the job size
->>>>>> artificially just to be able to fit multiple jobs into the ring even
->>>>>> if they're submitted at their "artificial" maximum size, but rather
->>>>>> track how much of the ring the submitted job actually occupies.
->>>>>>
->>>>>>> In other words the hw_submission_limit defines the ring size,
->>>>>>> not the other way around. And you usually want the
->>>>>>> hw_submission_limit as low as possible for good scheduler
->>>>>>> granularity and to avoid extra overhead.
->>>>>> I don't think you really mean "as low as possible", do you?
->>>>> No, I do mean as low as possible or in other words as few as possible.
->>>>>
->>>>> Ideally the scheduler would submit only the minimum amount of work to
->>>>> the hardware to keep the hardware busy. >
->>>>> The hardware seems to work mostly the same for all vendors, but you
->>>>> somehow seem to think that filling the ring is somehow beneficial which
->>>>> is really not the case as far as I can see.
->>>> I think that's a misunderstanding. I'm not trying to say that it is *always*
->>>> beneficial to fill up the ring as much as possible. But I think it is under
->>>> certain circumstances, exactly those circumstances I described for Nouveau.
->>>>
->>>> As mentioned, in Nouveau the size of a job is only really limited by the
->>>> ring size, which means that one job can (but does not necessarily) fill up
->>>> the whole ring. We both agree that this is inefficient, because it
->>>> potentially results into the HW run dry due to hw_submission_limit == 1.
->>>>
->>>> I recognize you said that one should define hw_submission_limit and adjust
->>>> the other parts of the equation accordingly, the options I see are:
->>>>
->>>> (1) Increase the ring size while keeping the maximum job size.
->>>> (2) Decrease the maximum job size while keeping the ring size.
->>>> (3) Let the scheduler track the actual job size rather than the maximum job
->>>> size.
->>>>
->>>> (1) results into potentially wasted ring memory, because we're not always
->>>> reaching the maximum job size, but the scheduler assumes so.
->>>>
->>>> (2) results into more IOCTLs from userspace for the same amount of IBs and
->>>> more jobs result into more memory allocations and more work being submitted
->>>> to the workqueue (with Matt's patches).
->>>>
->>>> (3) doesn't seem to have any of those draw backs.
->>>>
->>>> What would be your take on that?
->>>>
->>>> Actually, if none of the other drivers is interested into a more precise way
->>>> of keeping track of the ring utilization, I'd be totally fine to do it in a
->>>> driver specific way. However, unfortunately I don't see how this would be
->>>> possible.
->>>>
->>>> My proposal would be to just keep the hw_submission_limit (maybe rename it
->>>> to submission_unit_limit) and add a submission_units field to struct
->>>> drm_sched_job. By default a jobs submission_units field would be 0 and the
->>>> scheduler would behave the exact same way as it does now.
->>>>
->>>> Accordingly, jobs with submission_units > 1 would contribute more than one
->>>> unit to the submission_unit_limit.
->>>>
->>>> What do you think about that?
->>>>
->>> This seems reasonible to me and a very minimal change to the scheduler.
->>
->> If you have a good use case for this then the approach sounds sane to me as
->> well.
->>
-> 
-> Xe does not have a use case as the difference between the minimum size
-> of a job and the maximum is not all that large (maybe 100-192 bytes is
-> the range) so the accounting of a unit of 1 per job is just fine for now
-> even though it may waste space.
-> 
-> In Nouveau it seems like the min / max for size of job can vary wildly
-> so it needs finer grained units to mke effective use of the ring space.
-> Updating the scheduler to support this is rather trivial, hence no real
-> opposition from me. Also I do see this valid use case that other driver
-> or even perhaps Xe may use someday.
+On Sun, Aug 13, 2023 at 1:06=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> As per spec, it is allowed to pulse the HPD signal to indicate that the
+> EDID information has changed. Some monitors do this when they wake up
+> from standby or are enabled. When the HPD goes low the adv7511 is
+> reset and the outputs are disabled which might cause the monitor to
+> go to standby again. To avoid this we ignore the HPD pin for the
+> first few seconds after enabling the output. On the other hand,
+> adv7535 require to enable HPD Override bit for proper HPD.
+>
+> Add hpd_override_enable feature bit to struct adv7511_chip_info to handle
+> this scenario.
+>
+> While at it, drop the enum adv7511_type as it is unused.
 
-Yes, exactly that.
+It seems like dropping adv7511_type is unrelated to the rest of the
+patch, and I think it should be split from this into its own patch
 
-> 
->> My question is rather how exactly does Nouveau comes to have this use case?
->> Allowing the full ring size in the UAPI sounds a bit questionable.
->>
-> 
-> I agree allowing the user completely fill the ring is a bit
-> questionable, surely there has to be some upper limit. But lets say it
-> allows 1-64 IB, that still IMO could be used to justify finer grained
-> accouting in the DRM scheduler as stated above this make the difference
-> between the min / max job quite large.
-
-Yes, I agree that limiting the job size to at least ring size half makes 
-sense to guarantee a contiguous flow.
-
-> 
-> Matt
-> 
->> Christian.
->>
->>>
->>> Matt
->>>
->>>> Besides all that, you said that filling up the ring just enough to not let
->>>> the HW run dry rather than filling it up entirely is desirable. Why do you
->>>> think so? I tend to think that in most cases it shouldn't make difference.
->>>>
->>>> - Danilo
->>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>> Because one really is the minimum if you want to do work at all, but
->>>>>> as you mentioned above a job limit of one can let the ring run dry.
->>>>>>
->>>>>> In the end my proposal comes down to tracking the actual size of a
->>>>>> job rather than just assuming a pre-defined maximum job size, and
->>>>>> hence a dynamic job limit.
->>>>>>
->>>>>> I don't think this would hurt the scheduler granularity. In fact, it
->>>>>> should even contribute to the desire of not letting the ring run dry
->>>>>> even better. Especially for sequences of small jobs, where the
->>>>>> current implementation might wrongly assume the ring is already full
->>>>>> although actually there would still be enough space left.
->>>>>>
->>>>>>> Christian.
->>>>>>>
->>>>>>>>> Otherwise your scheduler might just overwrite the ring
->>>>>>>>> buffer by pushing things to fast.
->>>>>>>>>
->>>>>>>>> Christian.
->>>>>>>>>
->>>>>>>>>> Given that, it seems like it would be better to let
->>>>>>>>>> the scheduler keep track of empty ring "slots"
->>>>>>>>>> instead, such that the scheduler can deceide whether
->>>>>>>>>> a subsequent job will still fit on the ring and if
->>>>>>>>>> not re-evaluate once a previous job finished. Of
->>>>>>>>>> course each submitted job would be required to carry
->>>>>>>>>> the number of slots it requires on the ring.
->>>>>>>>>>
->>>>>>>>>> What to you think of implementing this as
->>>>>>>>>> alternative flow control mechanism? Implementation
->>>>>>>>>> wise this could be a union with the existing
->>>>>>>>>> hw_submission_limit.
->>>>>>>>>>
->>>>>>>>>> - Danilo
->>>>>>>>>>
->>>>>>>>>>> A problem with this design is currently a drm_gpu_scheduler uses a
->>>>>>>>>>> kthread for submission / job cleanup. This doesn't scale if a large
->>>>>>>>>>> number of drm_gpu_scheduler are used. To work
->>>>>>>>>>> around the scaling issue,
->>>>>>>>>>> use a worker rather than kthread for submission / job cleanup.
->>>>>>>>>>>
->>>>>>>>>>> v2:
->>>>>>>>>>>      - (Rob Clark) Fix msm build
->>>>>>>>>>>      - Pass in run work queue
->>>>>>>>>>> v3:
->>>>>>>>>>>      - (Boris) don't have loop in worker
->>>>>>>>>>> v4:
->>>>>>>>>>>      - (Tvrtko) break out submit ready, stop,
->>>>>>>>>>> start helpers into own patch
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>
-> 
-
+adam
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
+>  2 files changed, 6 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
+ridge/adv7511/adv7511.h
+> index 627531f48f84..c523ac4c9bc8 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -325,22 +325,16 @@ struct adv7511_video_config {
+>         struct hdmi_avi_infoframe avi_infoframe;
+>  };
+>
+> -enum adv7511_type {
+> -       ADV7511,
+> -       ADV7533,
+> -       ADV7535,
+> -};
+> -
+>  #define ADV7511_MAX_ADDRS 3
+>
+>  struct adv7511_chip_info {
+> -       enum adv7511_type type;
+>         unsigned long max_mode_clock;
+>         unsigned long max_lane_freq;
+>         const char * const *supply_names;
+>         unsigned int num_supplies;
+>         unsigned has_dsi:1;
+>         unsigned link_config:1;
+> +       unsigned hpd_override_enable:1;
+>  };
+>
+>  struct adv7511 {
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 6974c267b1d5..7b06a0a21685 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv751=
+1)
+>          * first few seconds after enabling the output. On the other hand
+>          * adv7535 require to enable HPD Override bit for proper HPD.
+>          */
+> -       if (adv7511->info->type =3D=3D ADV7535)
+> +       if (adv7511->info->hpd_override_enable)
+>                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
+> @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+>  static void __adv7511_power_off(struct adv7511 *adv7511)
+>  {
+>         /* TODO: setup additional power down modes */
+> -       if (adv7511->info->type =3D=3D ADV7535)
+> +       if (adv7511->info->hpd_override_enable)
+>                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
+>
+> @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_co=
+nnector *connector)
+>                         status =3D connector_status_disconnected;
+>         } else {
+>                 /* Renable HPD sensing */
+> -               if (adv7511->info->type =3D=3D ADV7535)
+> +               if (adv7511->info->hpd_override_enable)
+>                         regmap_update_bits(adv7511->regmap, ADV7511_REG_P=
+OWER2,
+>                                            ADV7535_REG_POWER2_HPD_OVERRID=
+E,
+>                                            ADV7535_REG_POWER2_HPD_OVERRID=
+E);
+> @@ -1360,14 +1360,12 @@ static void adv7511_remove(struct i2c_client *i2c=
+)
+>  }
+>
+>  static const struct adv7511_chip_info adv7511_chip_info =3D {
+> -       .type =3D ADV7511,
+>         .supply_names =3D adv7511_supply_names,
+>         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
+>         .link_config =3D 1
+>  };
+>
+>  static const struct adv7511_chip_info adv7533_chip_info =3D {
+> -       .type =3D ADV7533,
+>         .max_mode_clock =3D 80000,
+>         .max_lane_freq =3D 800000,
+>         .supply_names =3D adv7533_supply_names,
+> @@ -1376,12 +1374,12 @@ static const struct adv7511_chip_info adv7533_chi=
+p_info =3D {
+>  };
+>
+>  static const struct adv7511_chip_info adv7535_chip_info =3D {
+> -       .type =3D ADV7535,
+>         .max_mode_clock =3D 148500,
+>         .max_lane_freq =3D 891000,
+>         .supply_names =3D adv7533_supply_names,
+>         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
+> -       .has_dsi =3D 1
+> +       .has_dsi =3D 1,
+> +       .hpd_override_enable =3D 1
+>  };
+>
+>  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+> --
+> 2.25.1
+>
