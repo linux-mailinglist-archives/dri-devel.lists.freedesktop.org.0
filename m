@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE17F78069C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 09:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB0B780699
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 09:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9BF10E498;
-	Fri, 18 Aug 2023 07:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247BE10E491;
+	Fri, 18 Aug 2023 07:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263EC10E483
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 07:51:46 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-6887ccba675so523563b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 00:51:46 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A6310E495
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 07:51:49 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-6887918ed20so580394b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 00:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692345105; x=1692949905;
+ d=chromium.org; s=google; t=1692345108; x=1692949908;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UibU+Wd31ET9DKxhDYToQOnKhMNxhV0MyhlXlmFI9GI=;
- b=bXn58IfKTl/OaFFD27WzupSML+yBkWWDTVyyndG1TuOouYNe0+9VhpxLw98Bw2TyLS
- gYrPcuPCxrSt3gjp3OnQ7rynaNyMhp7FxhyHlr9fawAKdkaMTe3wwsNJIDnVJra/rc5o
- 1CpxQd7Lnad41+hEnBehNpIcuPWEoSKrTt8HE=
+ bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
+ b=fj3Sr39wL3fzDsfknyoIDSaX/hKw0qm2MKFHXwlW7V9t9CPsWpsqFK2rfR2EgXsszt
+ SWCQirErdL/v3nmZ72wbpZl+AR6oZm16OEK6F3AE2bLwje1DcOmrQawSHnVEKXuy/9xL
+ bZltYEqUJdjK65OUQxsdvbIr3kD8WxSK0C/E4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692345105; x=1692949905;
+ d=1e100.net; s=20221208; t=1692345108; x=1692949908;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UibU+Wd31ET9DKxhDYToQOnKhMNxhV0MyhlXlmFI9GI=;
- b=DWcP8qvOdehRYsb4KbcEsGuqPwDowofbjNHm/nEH/EmJ6AkUMfPg/3D6yND9QRxvNQ
- Eojq9vbUKKWP+nh2fL+83iw85AY0LZe+OxUe2xk7pKzEfUTbNEainTOIddI5hwni/pN2
- SqRzkFb7fP7VgfwF/jZUGqEdxQghBHIkeu4EMSdMoyNcGFK0cDfLGMZn578VvT8HY8CG
- XOyjXRj1WxRRkIpfmyUwxKbA/ULGn39+bc+z+KFDOcehMJKq4RtUMdc/a64a/Ikn1bs1
- VI40jPrAJHby5bYi1NkDji+yD2FdYz4eS3dpHkt19wbkRxa5Auvmf2k4DfJi6AP2UXTd
- p8Hw==
-X-Gm-Message-State: AOJu0YwF7c0F1tzndhlXayiRXi1mWY0/fVp6UqMtpsTodvwfH9Fevy5s
- n8DkxQu1S6m9Bq2ft+3Idx3zBg==
-X-Google-Smtp-Source: AGHT+IHTyUqshW8qDF1IGLnlwGboFoBoKGIZNB3RG7BziXH7GhgaqoD7dfGm6FUc+P73o+HSewuohg==
-X-Received: by 2002:a05:6a20:459:b0:140:2ec5:2b4c with SMTP id
- b25-20020a056a20045900b001402ec52b4cmr1909389pzb.49.1692345105777; 
- Fri, 18 Aug 2023 00:51:45 -0700 (PDT)
+ bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
+ b=JLbfdKUoSuc9rrhlvCX2TJCHtw1PRlEWHfdA3xcA+m9+ptp1363snu366aUcN2L31N
+ dTZaKLskW1itRKFtkZRUqv0mO6vtP3BjHnQIYFeBR6oXnDniZDlUejmYhLcqF9Gc+4B/
+ 0V73OraJHuPd1GGhMEOSZCrC+8niUMjqqeQbmybzOuOsvyfnzRiB9JWd0D3mc6M1Cjo0
+ /+DTNaozwhd2ugKU3mV3pwbwgcu1VgZC/y6ApHqh0sDZdVqxATgcTYlWkIIcDehWNc7Y
+ pedSBHePLHqnSMO1NUYHvD639EWhEGbRqMcHzH6Ijr/YSX0O8K2qTBRxglrYR9vVu5Ir
+ OFVA==
+X-Gm-Message-State: AOJu0Yzt/B1o7IqYrP3bTBewACpbNANTw274E+SoPQLNgWpB1+ZyIauy
+ Rog5sahhGxIvuW7FeLZTxAtDMw==
+X-Google-Smtp-Source: AGHT+IEIPfYQQOp7jsIkLFRE8mPyTRJa5CnoOzNE5/KmBJCC8jFwXhgN6gQgyfaCEuHN7j92G9EyIA==
+X-Received: by 2002:a05:6a20:8f14:b0:13d:3b4d:e4b4 with SMTP id
+ b20-20020a056a208f1400b0013d3b4de4b4mr2663291pzk.9.1692345108666; 
+ Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
 Received: from datalore.c.googlers.com.com
  (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
  by smtp.gmail.com with ESMTPSA id
- jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.43
+ jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Aug 2023 00:51:45 -0700 (PDT)
+ Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
 From: Brandon Pollack <brpol@chromium.org>
 To: marius.vlad@collabora.com,
 	jshargo@chromium.org
-Subject: [PATCH v3 6/7] drm/vkms: Add a module param to enable/disable the
- default device
-Date: Fri, 18 Aug 2023 07:43:11 +0000
-Message-ID: <20230818075057.3426088-7-brpol@chromium.org>
+Subject: [PATCH v3 7/7] drm/vkms Add hotplug support via configfs to VKMS.
+Date: Fri, 18 Aug 2023 07:43:12 +0000
+Message-ID: <20230818075057.3426088-8-brpol@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230818075057.3426088-1-brpol@chromium.org>
 References: <20230818075057.3426088-1-brpol@chromium.org>
@@ -81,112 +80,295 @@ Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jim Shargo <jshargo@chromium.org>
+This change adds the ability to read or write a "1" or a "0" to the
+newly added "connected" attribute of a connector in the vkms entry in
+configfs.
 
-In many testing circumstances, we will want to just create a new device
-and test against that. If we create a default device, it can be annoying
-to have to manually select the new device instead of choosing the only
-one that exists.
+A write will trigger a call to drm_kms_helper_hotplug_event, causing a
+hotplug uevent.
 
-The param, enable_default, is defaulted to true to maintain backwards
-compatibility.
+With this we can write virtualized multidisplay tests that involve
+hotplugging displays (eg recompositing windows when a monitor is turned
+off).
 
-Signed-off-by: Jim Shargo <jshargo@chromium.org>
 Signed-off-by: Brandon Pollack <brpol@chromium.org>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 45 ++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 15 deletions(-)
+ Documentation/gpu/vkms.rst           |  2 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
+ drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
+ 4 files changed, 123 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 6e7f20681890..293bebf8e8ce 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -42,17 +42,26 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index c3875bf66dba..7f715097539c 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
+ module. Such configuration can be added as extensions to vkms's ConfigFS
+ support. Use-cases:
  
-+static bool enable_default_device = true;
-+module_param_named(enable_default_device, enable_default_device, bool, 0444);
-+MODULE_PARM_DESC(enable_default_device,
-+		 "Enable/Disable creating the default device");
+-- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
++- Hotremove connectors on the fly (to be able to test DP MST handling
+   of compositors).
+ 
+ - Change output configuration: Plug/unplug screens, change EDID, allow changing
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+index d9c48ab3d760..94a78780af09 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ 
++#include "drm/drm_probe_helper.h"
+ #include <linux/configfs.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
+@@ -40,6 +41,7 @@
+  *   `-- vkms
+  *       `-- test
+  *           |-- connectors
++ *                `-- connected
+  *           |-- crtcs
+  *           |-- encoders
+  *           |-- planes
+@@ -92,6 +94,14 @@
+  *
+  *   echo 1 > /config/vkms/test/enabled
+  *
++ * By default no display is "connected" so to connect a connector you'll also
++ * have to write 1 to a connectors "connected" attribute::
++ *
++ *   echo 1 > /config/vkms/test/connectors/connector/connected
++ *
++ * One can verify that this is worked using the `modetest` utility or the
++ * equivalent for your platform.
++ *
+  * When you're done with the virtual device, you can clean up the device like
+  * so::
+  *
+@@ -237,7 +247,58 @@ static void add_possible_encoders(struct config_group *parent,
+ 
+ /*  Connector item, e.g. /config/vkms/device/connectors/ID */
+ 
++static ssize_t connector_connected_show(struct config_item *item, char *buf)
++{
++	struct vkms_config_connector *connector =
++		item_to_config_connector(item);
++	struct vkms_configfs *configfs = connector_item_to_configfs(item);
++	bool connected = false;
 +
- static bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
--MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
-+MODULE_PARM_DESC(enable_cursor,
-+		 "Enable/Disable cursor support for the default device");
- 
- static bool enable_writeback = true;
- module_param_named(enable_writeback, enable_writeback, bool, 0444);
--MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
-+MODULE_PARM_DESC(
-+	enable_writeback,
-+	"Enable/Disable writeback connector support for the default device");
- 
- static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
--MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
-+MODULE_PARM_DESC(enable_overlay,
-+		 "Enable/Disable overlay support for the default device");
- 
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
-@@ -99,6 +108,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	struct drm_device *dev = entry->dev;
- 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 
-+	seq_printf(m, "default_device=%d\n", enable_default_device);
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config.writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config.cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config.overlay);
-@@ -297,10 +307,7 @@ void vkms_remove_device(struct vkms_device *vkms_device)
- static int __init vkms_init(void)
- {
- 	int ret;
--	struct platform_device *pdev;
--	struct vkms_device_setup vkms_device_setup = {
--		.configfs = NULL,
--	};
-+	struct platform_device *default_pdev = NULL;
- 
- 	ret = platform_driver_register(&vkms_platform_driver);
- 	if (ret) {
-@@ -308,19 +315,27 @@ static int __init vkms_init(void)
- 		return ret;
- 	}
- 
--	pdev = platform_device_register_data(NULL, DRIVER_NAME, 0,
--					     &vkms_device_setup,
--					     sizeof(vkms_device_setup));
--	if (IS_ERR(pdev)) {
--		DRM_ERROR("Unable to register default vkms device\n");
--		platform_driver_unregister(&vkms_platform_driver);
--		return PTR_ERR(pdev);
-+	if (enable_default_device) {
-+		struct vkms_device_setup vkms_device_setup = {
-+			.configfs = NULL,
-+		};
++	mutex_lock(&configfs->lock);
++	connected = connector->connected;
++	mutex_unlock(&configfs->lock);
 +
-+		default_pdev = platform_device_register_data(
-+			NULL, DRIVER_NAME, 0, &vkms_device_setup,
-+			sizeof(vkms_device_setup));
-+		if (IS_ERR(default_pdev)) {
-+			DRM_ERROR("Unable to register default vkms device\n");
-+			platform_driver_unregister(&vkms_platform_driver);
-+			return PTR_ERR(default_pdev);
-+		}
- 	}
- 
- 	ret = vkms_init_configfs();
- 	if (ret) {
- 		DRM_ERROR("Unable to initialize configfs\n");
--		platform_device_unregister(pdev);
-+		if (default_pdev)
-+			platform_device_unregister(default_pdev);
++	return sprintf(buf, "%d\n", connected);
++}
 +
- 		platform_driver_unregister(&vkms_platform_driver);
- 	}
++static ssize_t connector_connected_store(struct config_item *item,
++					 const char *buf, size_t len)
++{
++	struct vkms_config_connector *connector =
++		item_to_config_connector(item);
++	struct vkms_configfs *configfs = connector_item_to_configfs(item);
++	int val, ret;
++
++	ret = kstrtouint(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	if (val != 1 && val != 0)
++		return -EINVAL;
++
++	mutex_lock(&configfs->lock);
++	connector->connected = val;
++	if (!connector->connector) {
++		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
++			configfs->device_group.cg_item.ci_name);
++	}
++	mutex_unlock(&configfs->lock);
++
++	if (connector->connector)
++		drm_kms_helper_hotplug_event(connector->connector->dev);
++
++	return len;
++}
++
++CONFIGFS_ATTR(connector_, connected);
++
++static struct configfs_attribute *connector_attrs[] = {
++	&connector_attr_connected,
++	NULL,
++};
++
+ static struct config_item_type connector_type = {
++	.ct_attrs = connector_attrs,
+ 	.ct_owner = THIS_MODULE,
+ };
  
+@@ -265,7 +326,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
+ 	plane_type = plane->type;
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%u", plane_type);
++	return sprintf(buf, "%u\n", plane_type);
+ }
+ 
+ static ssize_t plane_type_store(struct config_item *item, const char *buf,
+@@ -320,6 +381,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
+ 				    &connector_type);
+ 	add_possible_encoders(&connector->config_group,
+ 			      &connector->possible_encoders.group);
++	connector->connected = false;
+ 
+ 	return &connector->config_group;
+ }
+@@ -501,7 +563,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
+ 	is_enabled = configfs->vkms_device != NULL;
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%d", is_enabled);
++	return sprintf(buf, "%d\n", is_enabled);
+ }
+ 
+ static ssize_t device_enabled_store(struct config_item *item, const char *buf,
+@@ -558,7 +620,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
+ 
+ 	mutex_unlock(&configfs->lock);
+ 
+-	return sprintf(buf, "%d", id);
++	return sprintf(buf, "%d\n", id);
+ }
+ 
+ CONFIGFS_ATTR_RO(device_, id);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 9f1465b06055..a6947c24276b 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -3,6 +3,7 @@
+ #ifndef _VKMS_DRV_H_
+ #define _VKMS_DRV_H_
+ 
++#include "drm/drm_connector.h"
+ #include <linux/configfs.h>
+ #include <linux/hrtimer.h>
+ 
+@@ -147,7 +148,9 @@ struct vkms_config_links {
+ 
+ struct vkms_config_connector {
+ 	struct config_group config_group;
++	struct drm_connector *connector;
+ 	struct vkms_config_links possible_encoders;
++	bool connected;
+ };
+ 
+ struct vkms_config_crtc {
+@@ -220,6 +223,10 @@ struct vkms_device {
+ #define item_to_configfs(item) \
+ 	container_of(to_config_group(item), struct vkms_configfs, device_group)
+ 
++#define connector_item_to_configfs(item)                                     \
++	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
++		     connectors_group)
++
+ #define item_to_config_connector(item)                                    \
+ 	container_of(to_config_group(item), struct vkms_config_connector, \
+ 		     config_group)
+@@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+ int vkms_init_configfs(void);
+ void vkms_unregister_configfs(void);
+ 
++/* Connector hotplugging */
++enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
++						bool force);
++
+ #endif /* _VKMS_DRV_H_ */
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 512f147d41b8..5b23bdf7fb81 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ 
++#include <drm/drm_print.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+@@ -8,10 +9,12 @@
+ #include <drm/drm_plane.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
++#include <linux/printk.h>
+ 
+ #include "vkms_drv.h"
+ 
+ static const struct drm_connector_funcs vkms_connector_funcs = {
++	.detect = vkms_connector_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = drm_connector_cleanup,
+ 	.reset = drm_atomic_helper_connector_reset,
+@@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
++static const struct vkms_config_connector *
++find_config_for_connector(struct drm_connector *connector)
++{
++	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
++	struct vkms_configfs *configfs = vkms->configfs;
++	struct config_item *item;
++
++	if (!configfs) {
++		pr_info("Default connector has no configfs entry");
++		return NULL;
++	}
++
++	list_for_each_entry(item, &configfs->connectors_group.cg_children,
++			    ci_entry) {
++		struct vkms_config_connector *config_connector =
++			item_to_config_connector(item);
++		if (config_connector->connector == connector)
++			return config_connector;
++	}
++
++	pr_warn("Could not find config to match connector %s, but configfs was initialized",
++		connector->name);
++
++	return NULL;
++}
++
++enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
++						bool force)
++{
++	enum drm_connector_status status = connector_status_connected;
++	const struct vkms_config_connector *config_connector =
++		find_config_for_connector(connector);
++
++	if (!config_connector)
++		return connector_status_connected;
++
++	if (!config_connector->connected)
++		status = connector_status_disconnected;
++
++	return status;
++}
++
+ static const struct drm_encoder_funcs vkms_encoder_funcs = {
+ 	.destroy = drm_encoder_cleanup,
+ };
+@@ -216,12 +261,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 		struct vkms_config_connector *config_connector =
+ 			item_to_config_connector(item);
+ 		struct drm_connector *connector = vkms_connector_init(vkmsdev);
+-
+ 		if (IS_ERR(connector)) {
+ 			DRM_ERROR("Failed to init connector from config: %s",
+ 				  item->ci_name);
+ 			return PTR_ERR(connector);
+ 		}
++		config_connector->connector = connector;
+ 
+ 		for (int j = 0; j < output->num_encoders; j++) {
+ 			struct encoder_map *encoder = &encoder_map[j];
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
