@@ -1,77 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CC8780C4A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:09:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8586C780C59
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B29210E505;
-	Fri, 18 Aug 2023 13:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D18B10E509;
+	Fri, 18 Aug 2023 13:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27BA810E505
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:09:41 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4ff8a1746e0so1328798e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 06:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692364179; x=1692968979;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GOVhLvGrhBNvKfFd2PSFClkLUOZNx9FiwdY0FkF4RfI=;
- b=oDhBMnE2PzZYabJXt252jAHUFgMpIxiuZgvUH60KF7xRpHIUwtQJUllI8szngsGduQ
- mJ74hTAOFBLDHffHZOJS14l2bMswJ0L2+2flHD6xy2e9goWthd3se2wiZPiNJoVeTdYC
- GaY37OYPXmP3kVqNazDAIx1PbjkJOB2NJxb/ghCwgPqs0h9vLgfUEsgNM5KD+pCWIddI
- Eyx+V8GqN3UW0vbMzNlqQkbieQS9ugAGpN6UBaWKxLfXBi+vIWj2MB20iJO1zPH2rNPu
- QxTn0HSfNvyQvXTwiVWy7+D8drrr2c3R7SPDdRGx6lnI3lOG2FCED+LVRaH2QSz7At9r
- iVIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692364179; x=1692968979;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GOVhLvGrhBNvKfFd2PSFClkLUOZNx9FiwdY0FkF4RfI=;
- b=UpUXtf9FI/sY6J+fR9dI6yYT3UGcDRf/PGwJs6oUIv35blCH40JVILvvFkV9e3lOx1
- qVpQSKUmnZHLtYTJhtGxnG9m0+7aQdancZyh9mRyi/pe5K0qSDe9XREnbJ0avcyhTmRt
- YhvpHk/3ZdYmIoCCVRCO23S9/YzeQmHOWTY/2bvh/z8dIRSOalycf3/wWpvK7Fmd/jP+
- 7gKouwQC6NBdsqGLRAkKClSuUy0GBOKOdgIW4gPMhBoqVSWyHsaxSjhfjp0/DqolIS99
- SMEekxg+4S4a/OJRwDWRZ3K6Is5jjIVhJYpzFpJ9Sy+dJJNZq79uUyi6Z4CqVfggEHfH
- 9N3A==
-X-Gm-Message-State: AOJu0YwgYMnkDulfEbf5C8py9jfFsQNCpRd1loJfdZVauBJGQMSoc+Vm
- Znyr7F70fQp4PeROuIsMxUjwyA==
-X-Google-Smtp-Source: AGHT+IFHRB06OcJ5yOH57GQUlpgwT5Pga7gy8htvIBRiV9wXb8Pt8G/K/qyoPu8VZFK/F1q91ibotA==
-X-Received: by 2002:ac2:43ce:0:b0:4ff:9eed:b68d with SMTP id
- u14-20020ac243ce000000b004ff9eedb68dmr1559661lfl.58.1692364179141; 
- Fri, 18 Aug 2023 06:09:39 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f3-20020a19ae03000000b004fe13318aeesm334400lfc.166.2023.08.18.06.09.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Aug 2023 06:09:38 -0700 (PDT)
-Message-ID: <08019512-ef6b-43c2-badf-a848fc738463@linaro.org>
-Date: Fri, 18 Aug 2023 16:09:37 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB09B10E04E;
+ Fri, 18 Aug 2023 13:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692364494; x=1723900494;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=Z9BPhQH7VsZlyb/zpKWAFakABZCGACVF599mhwITqZg=;
+ b=Ko7DBU44R1iQr+zENyI12ejk0bgIfuE6M96fZCvqq+JYL78P3C9qgEED
+ 2sz+s7mfigEJOltE9MMpn0L3rzW9j1sPg++6E9kk2PsIneNzTfm3bdUxY
+ vC2naK1eUae1Bu80O7GPYMQb4FQ3YJuNaqd6WlLjbrdfZAKGs/x7Ef183
+ ChlbAbQIkdEE7wLlQbvK2e7tO8oSAul9Iwd2WQKGB/KQ5v0QORZ91FBjq
+ OvtHYD+OVIa0j8bJvgkQLX04kZwlh2GOzkBxPXPCT/CtrsoNWpBCP5Mvm
+ 1xVdYrPU6xwEcLyO+1P2Fc1ooamiEflYqNeOeKpg0Yj6f9XbLz8gdUqDB w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10806"; a="353401174"
+X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; d="scan'208";a="353401174"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2023 06:14:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10806"; a="684889729"
+X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; d="scan'208";a="684889729"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga003.jf.intel.com with ESMTP; 18 Aug 2023 06:14:35 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 18 Aug 2023 06:14:34 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Fri, 18 Aug 2023 06:14:34 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Fri, 18 Aug 2023 06:14:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bmH0ny04qVJf+hHB7mC6K/EAIfEihPZyP10W5/JNQYeTLJgyphr3a8vxWs7/mYwrFcFvoEmHMlS15ys12ZrvCr3ni+XxuTxeiwhmWWQWNiz5HDgzIle0NS+dx4cQJy6JD3aAapKGbMP9EpSkBbFIUjP6os0II6BRWnNmFtoTFN29ZScMlJtyq82FVG2NrnMpg3c3JjwJUbz5XueqiZa5QAYGZxNk1XJAWJ/fNL3fT75QIM1dmKXjHkFjxLmDmluaqc9bitdXzbG7UBljEGAVOihef787vS7qaA1AkqF+EPFYLad3o3rymSBwKlacO2o6RT4p6WKQ6JUTJK+OzINSYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GlEtdLLX4lTrWJH8tF+/ht8OXifQ4epdZju+ESzyK5s=;
+ b=HrtDKeuE9FzX6Wm5BZNV3TezOGvrMWfmisKC4llJMRqW3fJrT5WU2KZr2TPGazuIJXAlAw83+XPTAMAtghD6tCc+XiH+DQg+py0D8pWfI/F+6hJUienSlwdSkII/pTEOALE05VZG17E7t2X/puYRfQqJYUVDYTJUnzu0Fv6Y+flUzVIhR8TQouW7wTdivSd6ulBpPap3NrlrIZYOi5kqGBj6OnEdVAKHBn3KCTVzD5oXiYt9IJXIjT/4GMncSeYHCBAZfZNJcYMBYa/lh4rX96LCs38MUm4hQol2+/00DYoNTOAtFOmTZrc6LgGoX64sAn0s/LOk/kOgdzVwEYrF/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA3PR11MB7978.namprd11.prod.outlook.com (2603:10b6:806:2fa::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
+ 2023 13:14:32 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::b429:ee19:a001:eb69]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::b429:ee19:a001:eb69%5]) with mapi id 15.20.6678.031; Fri, 18 Aug 2023
+ 13:14:32 +0000
+Date: Fri, 18 Aug 2023 13:13:34 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
+Message-ID: <ZN9ufogOQm4xblxm@DUT025-TGLU.fm.intel.com>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-5-matthew.brost@intel.com>
+ <f6b7c246-fd87-a853-b7c4-e2c1b6727a93@amd.com>
+ <ZN5exv1IWJtKL1nJ@DUT025-TGLU.fm.intel.com>
+ <9f6554fd-8748-2613-1c90-921b670ad4d9@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9f6554fd-8748-2613-1c90-921b670ad4d9@amd.com>
+X-ClientProxiedBy: BYAPR05CA0077.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/sysfs: Link DRM connectors to corresponding Type-C
- connectors
-Content-Language: en-GB
-To: Won Chung <wonchung@google.com>, bleung@google.com, pmalani@chromium.org, 
- heikki.krogerus@linux.intel.com, imre.deak@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, jani.nikula@linux.intel.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20221108185004.2263578-1-wonchung@google.com>
- <Y2uU9YUZYqbL4uB7@phenom.ffwll.local>
- <CAOvb9yh9e0ue+=gtsy1tq306vdyRfKwmmXQ9WGRjeMDnM2XjQw@mail.gmail.com>
- <Y24bcYJKGy/gd5fV@phenom.ffwll.local>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <Y24bcYJKGy/gd5fV@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA3PR11MB7978:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a30cb7b-072b-4db7-34f2-08db9fed0fb1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /2UVePxY19NaxliT6kD98GeyPI2hpoI4nxbtWoCT1iXzNO/Xk1h1QLCqwiyP1cJFm23YQivOb9WvaJ2nfLL0iSOncZSYmPKSoWNTwCXVhC/R1dhIeCpIC3W8+P7G1x5XTTaV4LF5Ntln2+2b7bnAtJgKiVXit+gfkS4HR0aCcmigf0HxXGqugGv3648wR9OfcLHjJ1RZ/HYILptx3RMZpsD/mlxJjZmEM//Kge/oY/6bjzmiidyK/PLEcKpNvQ6DKjUJNzmJUxJJXzgITNLEA1VHK3j4iuT2UHtwnaOOsOslj5zDNiSbzT4gQYkIhvmiuKg/7nmQwwvhZXNmgOH4l6TG4/ZgSrqysfu5P+KZP//5O3mY4HSfnVXy9L8UeKAKQ6SaBfGot4fXRuFZ084L058DzGaaPj3yGXmweGXYGmFFVdNqP4uzhGHo9JbRciBFAepksA7Tr4Y0FvChvt6AYQuojln0Yo+8oK1lI5+jNJoIXw+VccA+/JUy72UKqzTiunPr+Q2rvwp0VnvymCbaNoV2Uw2u7vk8698dWnoBQkdJsnaaGr1leBQM+MrkfIUh
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(376002)(346002)(136003)(396003)(39860400002)(186009)(451199024)(1800799009)(86362001)(83380400001)(4326008)(8676002)(44832011)(5660300002)(8936002)(2906002)(41300700001)(26005)(6486002)(6506007)(30864003)(66574015)(6512007)(478600001)(7416002)(316002)(66946007)(6916009)(82960400001)(66476007)(66556008)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SKcKr2P6MfLjZP66Wwdbb3v6TuPk4xnZXyGvsoC9jDpboFy44jiPz4kEZw?=
+ =?iso-8859-1?Q?+qCct+Mh3sHO9lPz2rfiCwJvoC5vQbf+Cgz5XvW7cEh5y/WttYr6o0CpRa?=
+ =?iso-8859-1?Q?SYnlAKnelgTvHpLkrJ8eRnriNPdKSQCMFS0IF7jn1Hu2oYgjHyyj7I6jOe?=
+ =?iso-8859-1?Q?hZfeBLJ9NGgpGqXBAvhTbIy/qO0wsuFNw/8r5zfUPx9xVSY/8SJhT/ehBh?=
+ =?iso-8859-1?Q?fNlaG9p0gkPaAzS12A2r66Oxboo5Aolpxsta+KLXvwQJUCOnjwDNywRpyW?=
+ =?iso-8859-1?Q?RHT6EVrOD3QpCq3N3HUuyhXM+yHU6wQtZpKMuJudbROttCv8uwoINIbLqk?=
+ =?iso-8859-1?Q?SbFj+mziTq6vNnRiN1eocOvhek3/NdZHngH8aGq1jbXsbH8Vo3amcq3G5l?=
+ =?iso-8859-1?Q?42BFHrOV4EOR9ugh0YpuBUMfk5cbV6sgV8OVjeBOSVpn9TMRb3lZs5Gur9?=
+ =?iso-8859-1?Q?h/Ck4+ZMtXgjWV9Vz8g/dy5t1AmEJrEWNlul8tqD9W3VZQ2R/plrzscAvT?=
+ =?iso-8859-1?Q?dlvXBsvwLAL5gsHxkoChPQonyeKqdhLRu4LopVeMFaHB0wqV3UCdMVfZQ0?=
+ =?iso-8859-1?Q?JJl3CYNo5mDqWdSjUHxbIcKE/0DMakV2kvtFdFoRiuxII5PmO1KTsneYag?=
+ =?iso-8859-1?Q?iAyNgnI0hjV0H228X532u5ri10lDHoWATYDGbM0CAIcsC+VXZz6nc8ZeOA?=
+ =?iso-8859-1?Q?N1E31yV3/qmGO1JmYk+q/8OMEo5QhqQWq/fWr7ZEj/yr5rG+8g6ducBnMY?=
+ =?iso-8859-1?Q?+2KeJRf4tM5tcJp6qjl4DQgXW6bLQxIunTL51PQAnUMwwDgHxgOLN0+0pX?=
+ =?iso-8859-1?Q?f9irlMq7by+ZOkvomeRFQc5rERyHs2wPqwrS/fZ6QNbaq7UN3KIe9AAfLB?=
+ =?iso-8859-1?Q?qiUACw7YP8vtly4F9Wjk3bM43Irh02GJtiYp/HYnQistqrqJsT3Hk7GGUm?=
+ =?iso-8859-1?Q?q3pgbXtCHv60IMwPOcx72rRDA7b7/oNvWmmZx48jFAcLrugaH0BB/OjHTn?=
+ =?iso-8859-1?Q?Q+kJeFDHPGflW2KcbHvySrdo7JtL8LysSqjuRgM1NJ1Ia8kRrZZDoRYxVJ?=
+ =?iso-8859-1?Q?8HEbmc+5uY+sg5wA+nlPNb+BL/sL41QXDreJ/vagT1GyG0poADpbjxKw8u?=
+ =?iso-8859-1?Q?7bWEdysZ5hf/B8foKim3BMlyRrl9+ms7IBzqVjDXHLKibI5Xps4DuJogPt?=
+ =?iso-8859-1?Q?3BtHpxsN6pRjXLm4g8yfCAWPZfw1hO4kvXctfY0aIMHu1lMV9vpPyOhtMA?=
+ =?iso-8859-1?Q?wKpOLiTqkvn6bNlqe4On/Sr+dmB3LtFMy9vVBfYJB50RRABrbKyXF7K8vw?=
+ =?iso-8859-1?Q?8TEv2O8LM4qAh6NwgKNbwnhoflqm7wcwwBK5p92vWfBfr+vUQGhgeQRpjf?=
+ =?iso-8859-1?Q?8W4ugSpr816XgUfmJRT54QVFweC15fJ0m9VsGepkFGBH4F38au5tE60wKO?=
+ =?iso-8859-1?Q?MQEhWClOI0tA+Ig2+zhIfu8Cvphak7KlzUGSwZWVP+Qa1QIDu53s6Czl5q?=
+ =?iso-8859-1?Q?qDX9ytg3Sjq8KRa2za0ohTUOTcLk6Audzj6WmLYkwXq7M7zcGnfd5vfeBq?=
+ =?iso-8859-1?Q?y2n8IGcvmYG+D/g2CsvhkrYuHwFqKTWFWQdiUeEqVMW19KfM/eESzVK88G?=
+ =?iso-8859-1?Q?uxp8T5sHNbkUA52Fn2yV86mWajhcoiFPx6eFhR3jMjmeN9Sq0KG2ALuQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a30cb7b-072b-4db7-34f2-08db9fed0fb1
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 13:14:32.4296 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LvpjWNrukAori55waCFCEPhHEB/4Qf3ynnxpW32/Rrp8w8vywrYIW4jVhPHlEQCiGLjkio9AxdQ+eyr9sY2rjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7978
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,281 +148,378 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com, lina@asahilina.net,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/2022 11:52, Daniel Vetter wrote:
-> On Thu, Nov 10, 2022 at 11:33:11AM -0800, Won Chung wrote:
->> Hi Daniel,
->>
->> Thank you very much for a review.
->>
->> On Wed, Nov 9, 2022 at 3:54 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>>
->>> On Tue, Nov 08, 2022 at 06:50:04PM +0000, Won Chung wrote:
->>>> Create a symlink pointing to USB Type-C connector for DRM connectors
->>>> when they are created. The link will be created only if the firmware is
->>>> able to describe the connection beween the two connectors.
-
-Generic question for this patch:
-
-There can be several typec connectors and several DP connectors. Will 
-this patch handle this correctly?
-
-Moreover, if everything is bound through the fwnodes, it might be easier 
-to set connector's device fwnode pointer to point to the corresponding 
-connector's node. Then one can easily enumerate them without adding new 
-uABI.
-
-
->>>>
->>>> Currently, even if a display uses a USB Type-C port, there is no way for
->>>> the userspace to find which port is used for which display. With the
->>>> symlink, display information would be accessible from Type-C connectors
->>>> and port information would be accessible from DRM connectors.
->>>> Associating the two subsystems, userspace would have potential to expose
->>>> and utilize more complex information, such as bandwidth used for a
->>>> specific USB Type-C port.
->>>>
->>>> Signed-off-by: Won Chung <wonchung@google.com>
->>>> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
->>>> ---
->>>> Changes from v3:
->>>> - Append to the commit message on why this patch is needed
->>>>
->>>> Changes from v2:
->>>> - Resend the patch to dri-devel list
->>>>
->>>> Changes from v1:
->>>> - Fix multiple lines to single line
->>>
->>> We seem to be spinning wheels a bit here (or at least I'm missing a lot of
->>> important information from this series alone) with already at v4 but the
->>> fundamentals not answered:
->>>
->>> - where's the usb side of this, and anything we need to do in drivers?
->>>    This should all be one series, or if that's too big, then a link in the
->>>    cover letter for where to find all the other pieces
->>
->> We already have a framework in typec port-mapper.c where it goes
->> through component devices and runs the bind functions for those with
->> matching _PLD (physical location of device).
->> https://elixir.bootlin.com/linux/v5.18.1/source/drivers/usb/typec/port-mapper.c
->>
->> Currently, USB ports and USB4 ports are added as components to create
->> a symlink with Type C connector.
->> USB: https://lore.kernel.org/all/20211223082349.45616-1-heikki.krogerus@linux.intel.com/
->> USB4: https://lore.kernel.org/all/20220418175932.1809770-3-wonchung@google.com/
->>
->> Since these are already submitted, do you think it would be a good
->> idea to add the links in the commit message?
+On Fri, Aug 18, 2023 at 07:27:33AM +0200, Christian König wrote:
+> Am 17.08.23 um 19:54 schrieb Matthew Brost:
+> > On Thu, Aug 17, 2023 at 03:39:40PM +0200, Christian König wrote:
+> > > Am 11.08.23 um 04:31 schrieb Matthew Brost:
+> > > > Rather than call free_job and run_job in same work item have a dedicated
+> > > > work item for each. This aligns with the design and intended use of work
+> > > > queues.
+> > > I would rather say we should get completely rid of the free_job callback.
+> > > 
+> > Would we still have work item? e.g. Would we still want to call
+> > drm_sched_get_cleanup_job which removes the job from the pending list
+> > and adjusts the TDR? Trying to figure out out what this looks like. We
+> > probably can't do all of this from an IRQ context.
+> > 
+> > > Essentially the job is just the container which carries the information
+> > > which are necessary before you push it to the hw. The real representation of
+> > > the submission is actually the scheduler fence.
+> > > 
+> > Most of the free_jobs call plus drm_sched_job_cleanup + a put on job. In
+> > Xe this cannot be called from an IRQ context either.
+> > 
+> > I'm just confused what exactly you are suggesting here.
 > 
-> Hm yeah explaining this in the commit message with links should be good
-> enough.
+> To summarize on one sentence: Instead of the job we keep the scheduler and
+> hardware fences around after pushing the job to the hw.
 > 
-> Another thing, will this hit the component nesting problem? With this
-> change we'll have drm drivers which are both aggregates and components at
-> the same time, and last time someone tried this it all deadlocked in
-> component.c.
-
-drm/msm uses components already. It wouldn't be nice to break it in this 
-way. Not to mention that it doesn't use ACPI and so port-mapper.c is not 
-used on this platform.
-
+> The free_job callback would then be replaced by dropping the reference on
+> the scheduler and hw fence.
 > 
->>> - since I'm guessing this is for cros, will this also work on standard
->>>    acpi x86 that are built for windows? arm with dt? Might be answered with
->>>    the full picture
->>
->> Yes this is for cros, but it should work on any ACPI x86 as long as
->> _PLD field for Type C connectors and DRM connectors are correctly
->> added to the firmware.
->>
->> Since _PLD is ACPI specific, we do not have ARM with DT supported at the moment.
->> In the future, if we find something similar to _PLD in DT, I think we
->> can also use that in typec port-mapper for component matching.
->>
->> Heikki@ Can you correct me if I am incorrect or missing something?
-> 
-> Ok sounds good, would be good to include this in the commit message, too.
->>
->>
->>>
->>> - you say this helps userspace, but how? Best way here is to just point at
->>>    the userspace change set that makes use of this link, code explains
->>>    concepts much more precisely than lots of words, and it's also easier to
->>>    review for corner cases that might be missed. That link also needs to be
->>>    in the commit message/cover letter somewhere, so people can find it.
->>
->> I do not have working code in the userspace yet since there is no
->> symlink created between Type C connector and DRM connector at the
->> moment.
->> If this patch is to go through, ChromeOS will parse the symlink in DRM
->> to find which Type C port got displays connected.
-> 
-> This isn't how new uapi works, we need to have the userspace together with
-> the kernel changes. Otherwise ... how can you test that things actually
-> work before we commit to the kernel change? Freezing down uapi on the
-> promise that userspace will show up and that we're crossing fingers that
-> it'll all work is not how we roll in drm.
-> 
->> First use case is metrics collection.
->> We would like to know which port at which location is most preferred
->> to be used for displays.
->> We also want to see how many users charge the system on the same Type
->> C port as displays.
->> To answer these types of questions, we need to know which specific
->> display uses which specific Type C connector.
->>
->> Second use case is to get a better idea on USB-C pin assignments.
->> When a Type C port is in DP alt mode, there are some options on pin
->> assignments, whether to prioritize DP bandwidth vs USB Superspeed.
->> If we can find whether a display is actually being used by a Type C
->> port, we can check the cases where the port prioritizes DP bandwidth
->> over USB Superspeed while there is no display actually connected.
->>
->> This symlink can also be useful in the future with USB4 that makes use
->> of DP tunnelling.
->>
->> Benson@ Can you add on to the use cases above if something is missing?
-> 
-> Above should probably all be included somewhere in the commit message too.
-> 
->> I can try to create mock patches in ChromeOS to give an idea how
->> userspace can utilize this symlink.
->> Would this also work?
-> 
-> drm expects fully reviewed&ready for merge patches, not just mock tests.
-> Also ideally some igt uapi tests, but for a symlink I honestly don't know
-> what that should be so I guess we can skip that :-)
-
-We have had a discussion on IRC with Simon Ser and Pekka Paalanen. It 
-seems that the better way to provide this information would be through 
-the 'PATH' property. We are going to work on kernel and user-space parts 
-in the next several days.
-
-> 
-> For details see our docs:
-> 
-> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
-> 
-> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-and-validation
-> 
->> If it sounds okay, I can work on the userspace mock patches and resend
->> v5 with the links added to the commit message.
-> 
-> Sounds good!
-> 
-> Cheers, Daniel
-> 
->>
->>
->>>
->>> In principle nothing against the idea, seems reasonable (but I'm also not
->>> sure what exact problem it's solving) - but all the detail work to make
->>> this work than an RFP to kick of some discussion is missing. And I think
->>> it's not even enough to really kick off a discussion as-is since there's
->>> really no user of this at all (in-kernel or userspace) linked.
->>>
->>> Cheers, Daniel
->>>
->>>>
->>>>
->>>>   drivers/gpu/drm/drm_sysfs.c | 40 +++++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 40 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
->>>> index 430e00b16eec..6a9904fa9186 100644
->>>> --- a/drivers/gpu/drm/drm_sysfs.c
->>>> +++ b/drivers/gpu/drm/drm_sysfs.c
->>>> @@ -11,12 +11,14 @@
->>>>    */
->>>>
->>>>   #include <linux/acpi.h>
->>>> +#include <linux/component.h>
->>>>   #include <linux/device.h>
->>>>   #include <linux/err.h>
->>>>   #include <linux/export.h>
->>>>   #include <linux/gfp.h>
->>>>   #include <linux/i2c.h>
->>>>   #include <linux/kdev_t.h>
->>>> +#include <linux/property.h>
->>>>   #include <linux/slab.h>
->>>>
->>>>   #include <drm/drm_connector.h>
->>>> @@ -95,6 +97,34 @@ static char *drm_devnode(struct device *dev, umode_t *mode)
->>>>        return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
->>>>   }
->>>>
->>>> +static int typec_connector_bind(struct device *dev,
->>>> +     struct device *typec_connector, void *data)
->>>> +{
->>>> +     int ret;
->>>> +
->>>> +     ret = sysfs_create_link(&dev->kobj, &typec_connector->kobj, "typec_connector");
->>>> +     if (ret)
->>>> +             return ret;
->>>> +
->>>> +     ret = sysfs_create_link(&typec_connector->kobj, &dev->kobj, "drm_connector");
->>>> +     if (ret)
->>>> +             sysfs_remove_link(&dev->kobj, "typec_connector");
->>>> +
->>>> +     return ret;
->>>> +}
->>>> +
->>>> +static void typec_connector_unbind(struct device *dev,
->>>> +     struct device *typec_connector, void *data)
->>>> +{
->>>> +     sysfs_remove_link(&typec_connector->kobj, "drm_connector");
->>>> +     sysfs_remove_link(&dev->kobj, "typec_connector");
->>>> +}
->>>> +
->>>> +static const struct component_ops typec_connector_ops = {
->>>> +     .bind = typec_connector_bind,
->>>> +     .unbind = typec_connector_unbind,
->>>> +};
->>>> +
->>>>   static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
->>>>
->>>>   /**
->>>> @@ -355,6 +385,13 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
->>>>        if (connector->ddc)
->>>>                return sysfs_create_link(&connector->kdev->kobj,
->>>>                                 &connector->ddc->dev.kobj, "ddc");
->>>> +
->>>> +     if (dev_fwnode(kdev)) {
->>>> +             r = component_add(kdev, &typec_connector_ops);
->>>> +             if (r)
->>>> +                     drm_err(dev, "failed to add component\n");
->>>> +     }
->>>> +
->>>>        return 0;
->>>>
->>>>   err_free:
->>>> @@ -367,6 +404,9 @@ void drm_sysfs_connector_remove(struct drm_connector *connector)
->>>>        if (!connector->kdev)
->>>>                return;
->>>>
->>>> +     if (dev_fwnode(connector->kdev))
->>>> +             component_del(connector->kdev, &typec_connector_ops);
->>>> +
->>>>        if (connector->ddc)
->>>>                sysfs_remove_link(&connector->kdev->kobj, "ddc");
->>>>
->>>> --
->>>> 2.37.3.998.g577e59143f-goog
->>>>
->>>
->>> --
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> http://blog.ffwll.ch
->>
->> Thank you,
->> Won
+> Would that work for you?
 > 
 
--- 
-With best wishes
-Dmitry
+I don't think so for a few reasons.
 
+The job and hw fence are different structures (also different allocs too)
+for a reason. The job referenced until it is complete (hw fence is
+signaled) and the free_job is called. This reference is needed for the
+TDR to work properly and also some reset flows too. Also in Xe some of
+things done in free_job cannot be from an IRQ context, hence calling
+this from the scheduler worker is rather helpful.
+
+The HW fence can live for longer as it can be installed in dma-resv
+slots, syncobjs, etc... If the job and hw fence are combined now we
+holding on the memory for the longer and perhaps at the mercy of the
+user. We also run the risk of the final put being done from an IRQ
+context which again wont work in Xe as it is currently coded. Lastly 2
+jobs from the same scheduler could do the final put in parallel, so
+rather than having free_job serialized by the worker now multiple jobs
+are freeing themselves at the same time. This might not be an issue but
+adds another level of raceyness that needs to be accounted for. None of
+this sounds desirable to me.
+
+FWIW what you suggesting sounds like how the i915 did things
+(i915_request and hw fence in 1 memory alloc) and that turned out to be
+a huge mess. As rule of thumb I generally do the opposite of whatever
+the i915 did.
+
+Matt
+
+> Christian.
+> 
+> > 
+> > Matt
+> > 
+> > > All the lifetime issues we had came from ignoring this fact and I think we
+> > > should push for fixing this design up again.
+> > > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/scheduler/sched_main.c | 137 ++++++++++++++++++-------
+> > > >    include/drm/gpu_scheduler.h            |   8 +-
+> > > >    2 files changed, 106 insertions(+), 39 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > index cede47afc800..b67469eac179 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -213,11 +213,12 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> > > >     * drm_sched_rq_select_entity_rr - Select an entity which could provide a job to run
+> > > >     *
+> > > >     * @rq: scheduler run queue to check.
+> > > > + * @dequeue: dequeue selected entity
+> > > >     *
+> > > >     * Try to find a ready entity, returns NULL if none found.
+> > > >     */
+> > > >    static struct drm_sched_entity *
+> > > > -drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
+> > > > +drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq, bool dequeue)
+> > > >    {
+> > > >    	struct drm_sched_entity *entity;
+> > > > @@ -227,8 +228,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
+> > > >    	if (entity) {
+> > > >    		list_for_each_entry_continue(entity, &rq->entities, list) {
+> > > >    			if (drm_sched_entity_is_ready(entity)) {
+> > > > -				rq->current_entity = entity;
+> > > > -				reinit_completion(&entity->entity_idle);
+> > > > +				if (dequeue) {
+> > > > +					rq->current_entity = entity;
+> > > > +					reinit_completion(&entity->entity_idle);
+> > > > +				}
+> > > >    				spin_unlock(&rq->lock);
+> > > >    				return entity;
+> > > >    			}
+> > > > @@ -238,8 +241,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
+> > > >    	list_for_each_entry(entity, &rq->entities, list) {
+> > > >    		if (drm_sched_entity_is_ready(entity)) {
+> > > > -			rq->current_entity = entity;
+> > > > -			reinit_completion(&entity->entity_idle);
+> > > > +			if (dequeue) {
+> > > > +				rq->current_entity = entity;
+> > > > +				reinit_completion(&entity->entity_idle);
+> > > > +			}
+> > > >    			spin_unlock(&rq->lock);
+> > > >    			return entity;
+> > > >    		}
+> > > > @@ -257,11 +262,12 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
+> > > >     * drm_sched_rq_select_entity_fifo - Select an entity which provides a job to run
+> > > >     *
+> > > >     * @rq: scheduler run queue to check.
+> > > > + * @dequeue: dequeue selected entity
+> > > >     *
+> > > >     * Find oldest waiting ready entity, returns NULL if none found.
+> > > >     */
+> > > >    static struct drm_sched_entity *
+> > > > -drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+> > > > +drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq, bool dequeue)
+> > > >    {
+> > > >    	struct rb_node *rb;
+> > > > @@ -271,8 +277,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+> > > >    		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
+> > > >    		if (drm_sched_entity_is_ready(entity)) {
+> > > > -			rq->current_entity = entity;
+> > > > -			reinit_completion(&entity->entity_idle);
+> > > > +			if (dequeue) {
+> > > > +				rq->current_entity = entity;
+> > > > +				reinit_completion(&entity->entity_idle);
+> > > > +			}
+> > > >    			break;
+> > > >    		}
+> > > >    	}
+> > > > @@ -282,13 +290,54 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+> > > >    }
+> > > >    /**
+> > > > - * drm_sched_submit_queue - scheduler queue submission
+> > > > + * drm_sched_run_job_queue - queue job submission
+> > > >     * @sched: scheduler instance
+> > > >     */
+> > > > -static void drm_sched_submit_queue(struct drm_gpu_scheduler *sched)
+> > > > +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> > > >    {
+> > > >    	if (!READ_ONCE(sched->pause_submit))
+> > > > -		queue_work(sched->submit_wq, &sched->work_submit);
+> > > > +		queue_work(sched->submit_wq, &sched->work_run_job);
+> > > > +}
+> > > > +
+> > > > +static struct drm_sched_entity *
+> > > > +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue);
+> > > > +
+> > > > +/**
+> > > > + * drm_sched_run_job_queue_if_ready - queue job submission if ready
+> > > > + * @sched: scheduler instance
+> > > > + */
+> > > > +static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
+> > > > +{
+> > > > +	if (drm_sched_select_entity(sched, false))
+> > > > +		drm_sched_run_job_queue(sched);
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * drm_sched_free_job_queue - queue free job
+> > > > + *
+> > > > + * @sched: scheduler instance to queue free job
+> > > > + */
+> > > > +static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
+> > > > +{
+> > > > +	if (!READ_ONCE(sched->pause_submit))
+> > > > +		queue_work(sched->submit_wq, &sched->work_free_job);
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * drm_sched_free_job_queue_if_ready - queue free job if ready
+> > > > + *
+> > > > + * @sched: scheduler instance to queue free job
+> > > > + */
+> > > > +static void drm_sched_free_job_queue_if_ready(struct drm_gpu_scheduler *sched)
+> > > > +{
+> > > > +	struct drm_sched_job *job;
+> > > > +
+> > > > +	spin_lock(&sched->job_list_lock);
+> > > > +	job = list_first_entry_or_null(&sched->pending_list,
+> > > > +				       struct drm_sched_job, list);
+> > > > +	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> > > > +		drm_sched_free_job_queue(sched);
+> > > > +	spin_unlock(&sched->job_list_lock);
+> > > >    }
+> > > >    /**
+> > > > @@ -310,7 +359,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+> > > >    	dma_fence_get(&s_fence->finished);
+> > > >    	drm_sched_fence_finished(s_fence, result);
+> > > >    	dma_fence_put(&s_fence->finished);
+> > > > -	drm_sched_submit_queue(sched);
+> > > > +	drm_sched_free_job_queue(sched);
+> > > >    }
+> > > >    /**
+> > > > @@ -906,18 +955,19 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+> > > >    void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
+> > > >    {
+> > > >    	if (drm_sched_can_queue(sched))
+> > > > -		drm_sched_submit_queue(sched);
+> > > > +		drm_sched_run_job_queue(sched);
+> > > >    }
+> > > >    /**
+> > > >     * drm_sched_select_entity - Select next entity to process
+> > > >     *
+> > > >     * @sched: scheduler instance
+> > > > + * @dequeue: dequeue selected entity
+> > > >     *
+> > > >     * Returns the entity to process or NULL if none are found.
+> > > >     */
+> > > >    static struct drm_sched_entity *
+> > > > -drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+> > > > +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue)
+> > > >    {
+> > > >    	struct drm_sched_entity *entity;
+> > > >    	int i;
+> > > > @@ -935,8 +985,10 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+> > > >    	/* Kernel run queue has higher priority than normal run queue*/
+> > > >    	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> > > >    		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
+> > > > -			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
+> > > > -			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
+> > > > +			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i],
+> > > > +							dequeue) :
+> > > > +			drm_sched_rq_select_entity_rr(&sched->sched_rq[i],
+> > > > +						      dequeue);
+> > > >    		if (entity)
+> > > >    			break;
+> > > >    	}
+> > > > @@ -1024,30 +1076,44 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+> > > >    EXPORT_SYMBOL(drm_sched_pick_best);
+> > > >    /**
+> > > > - * drm_sched_main - main scheduler thread
+> > > > + * drm_sched_free_job_work - worker to call free_job
+> > > >     *
+> > > > - * @param: scheduler instance
+> > > > + * @w: free job work
+> > > >     */
+> > > > -static void drm_sched_main(struct work_struct *w)
+> > > > +static void drm_sched_free_job_work(struct work_struct *w)
+> > > >    {
+> > > >    	struct drm_gpu_scheduler *sched =
+> > > > -		container_of(w, struct drm_gpu_scheduler, work_submit);
+> > > > -	struct drm_sched_entity *entity;
+> > > > +		container_of(w, struct drm_gpu_scheduler, work_free_job);
+> > > >    	struct drm_sched_job *cleanup_job;
+> > > > -	int r;
+> > > >    	if (READ_ONCE(sched->pause_submit))
+> > > >    		return;
+> > > >    	cleanup_job = drm_sched_get_cleanup_job(sched);
+> > > > -	entity = drm_sched_select_entity(sched);
+> > > > +	if (cleanup_job) {
+> > > > +		sched->ops->free_job(cleanup_job);
+> > > > +
+> > > > +		drm_sched_free_job_queue_if_ready(sched);
+> > > > +		drm_sched_run_job_queue_if_ready(sched);
+> > > > +	}
+> > > > +}
+> > > > -	if (!entity && !cleanup_job)
+> > > > -		return;	/* No more work */
+> > > > +/**
+> > > > + * drm_sched_run_job_work - worker to call run_job
+> > > > + *
+> > > > + * @w: run job work
+> > > > + */
+> > > > +static void drm_sched_run_job_work(struct work_struct *w)
+> > > > +{
+> > > > +	struct drm_gpu_scheduler *sched =
+> > > > +		container_of(w, struct drm_gpu_scheduler, work_run_job);
+> > > > +	struct drm_sched_entity *entity;
+> > > > +	int r;
+> > > > -	if (cleanup_job)
+> > > > -		sched->ops->free_job(cleanup_job);
+> > > > +	if (READ_ONCE(sched->pause_submit))
+> > > > +		return;
+> > > > +	entity = drm_sched_select_entity(sched, true);
+> > > >    	if (entity) {
+> > > >    		struct dma_fence *fence;
+> > > >    		struct drm_sched_fence *s_fence;
+> > > > @@ -1056,9 +1122,7 @@ static void drm_sched_main(struct work_struct *w)
+> > > >    		sched_job = drm_sched_entity_pop_job(entity);
+> > > >    		if (!sched_job) {
+> > > >    			complete_all(&entity->entity_idle);
+> > > > -			if (!cleanup_job)
+> > > > -				return;	/* No more work */
+> > > > -			goto again;
+> > > > +			return;	/* No more work */
+> > > >    		}
+> > > >    		s_fence = sched_job->s_fence;
+> > > > @@ -1088,10 +1152,8 @@ static void drm_sched_main(struct work_struct *w)
+> > > >    		}
+> > > >    		wake_up(&sched->job_scheduled);
+> > > > +		drm_sched_run_job_queue_if_ready(sched);
+> > > >    	}
+> > > > -
+> > > > -again:
+> > > > -	drm_sched_submit_queue(sched);
+> > > >    }
+> > > >    /**
+> > > > @@ -1150,7 +1212,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+> > > >    	spin_lock_init(&sched->job_list_lock);
+> > > >    	atomic_set(&sched->hw_rq_count, 0);
+> > > >    	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+> > > > -	INIT_WORK(&sched->work_submit, drm_sched_main);
+> > > > +	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+> > > > +	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
+> > > >    	atomic_set(&sched->_score, 0);
+> > > >    	atomic64_set(&sched->job_id_count, 0);
+> > > >    	sched->pause_submit = false;
+> > > > @@ -1275,7 +1338,8 @@ EXPORT_SYMBOL(drm_sched_submit_ready);
+> > > >    void drm_sched_submit_stop(struct drm_gpu_scheduler *sched)
+> > > >    {
+> > > >    	WRITE_ONCE(sched->pause_submit, true);
+> > > > -	cancel_work_sync(&sched->work_submit);
+> > > > +	cancel_work_sync(&sched->work_run_job);
+> > > > +	cancel_work_sync(&sched->work_free_job);
+> > > >    }
+> > > >    EXPORT_SYMBOL(drm_sched_submit_stop);
+> > > > @@ -1287,6 +1351,7 @@ EXPORT_SYMBOL(drm_sched_submit_stop);
+> > > >    void drm_sched_submit_start(struct drm_gpu_scheduler *sched)
+> > > >    {
+> > > >    	WRITE_ONCE(sched->pause_submit, false);
+> > > > -	queue_work(sched->submit_wq, &sched->work_submit);
+> > > > +	queue_work(sched->submit_wq, &sched->work_run_job);
+> > > > +	queue_work(sched->submit_wq, &sched->work_free_job);
+> > > >    }
+> > > >    EXPORT_SYMBOL(drm_sched_submit_start);
+> > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > > > index 04eec2d7635f..fbc083a92757 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -487,9 +487,10 @@ struct drm_sched_backend_ops {
+> > > >     *                 finished.
+> > > >     * @hw_rq_count: the number of jobs currently in the hardware queue.
+> > > >     * @job_id_count: used to assign unique id to the each job.
+> > > > - * @submit_wq: workqueue used to queue @work_submit
+> > > > + * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
+> > > >     * @timeout_wq: workqueue used to queue @work_tdr
+> > > > - * @work_submit: schedules jobs and cleans up entities
+> > > > + * @work_run_job: schedules jobs
+> > > > + * @work_free_job: cleans up jobs
+> > > >     * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+> > > >     *            timeout interval is over.
+> > > >     * @pending_list: the list of jobs which are currently in the job queue.
+> > > > @@ -518,7 +519,8 @@ struct drm_gpu_scheduler {
+> > > >    	atomic64_t			job_id_count;
+> > > >    	struct workqueue_struct		*submit_wq;
+> > > >    	struct workqueue_struct		*timeout_wq;
+> > > > -	struct work_struct		work_submit;
+> > > > +	struct work_struct		work_run_job;
+> > > > +	struct work_struct		work_free_job;
+> > > >    	struct delayed_work		work_tdr;
+> > > >    	struct list_head		pending_list;
+> > > >    	spinlock_t			job_list_lock;
+> 
