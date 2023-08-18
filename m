@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A9678052F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 06:47:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0499F780591
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 07:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74BE010E435;
-	Fri, 18 Aug 2023 04:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE20210E444;
+	Fri, 18 Aug 2023 05:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 427A710E05D;
- Fri, 18 Aug 2023 04:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692334071; x=1723870071;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/XitXR+V5scyv2U34fLc4IovqB/AIf+MVOSR9z50pUw=;
- b=EGsKFNZJ+5kEY2Up10wFk9RUJLs0Mq369DdhhFq+QXIJkEupIcS3NNuF
- 6VClA94mP/hRPIcBHmROSgLrW73Ml+uFzCcPfqy6+4vaYM4TsfT0co+cA
- 3wvXsK3MKMQPNMqGnXipN/CgDqDrLLipSVf7TDTdO6ySp8pxWev56/qKK
- fFt4KUA9Axfs+FkAoK5lkA4LqkjkEdmVluW/xKQq/uZGTefwUTPePBNjk
- bDHXf9oJXkfswb94KOLECCNFc2Z8d5ZUxFdvjWFQQBQNhA9cIb0yYhhJ7
- MZp5t6+tUKNy30yqKAIjSImyh6rhQPquGMLTiTj1j4UswuBaZ0lF+lWoL g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352602367"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; d="scan'208";a="352602367"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 21:47:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="849136249"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; d="scan'208";a="849136249"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 21:47:48 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/display/dp: Fix the DP DSC Receiver cap size
-Date: Fri, 18 Aug 2023 10:14:36 +0530
-Message-Id: <20230818044436.177806-1-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9784610E444
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 05:18:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0DA9967931;
+ Fri, 18 Aug 2023 05:18:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 77399C433C9;
+ Fri, 18 Aug 2023 05:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692335901;
+ bh=Wzeqo346ORd+82hsYic/LXIlDoFPY/a8ndi52rdPnPY=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=Mls5yUE5dbEaV/16j+LbBqZrTcIbQcN2MuLlnD/gmrHBuvOAJ1Ns8tWEN1RAu0tmr
+ SZ/87l4DuhN2jV/VI4mpEtQQk66f8HN19T4ULIlHOS5k4A3cc/4VatREw4ub/VyvYA
+ kaw757mdp3kWojDaAurXuPCR9ITUKcvqiDfiThnWHlbgoF4+dxtWFXFZA+q5oBcxd6
+ 8VnDHcpq4WtUJ3ibOuJgCF+HHMkJnr3PuXu6TFXWyoYNTadtHX+ctErC8DuffRT5K/
+ 8UJUDzKVdRIyaDOCr1taEBSnH9uAR29rcdho1pr+gcGQ7AUKCZOBd3L6xnBKDQo0aR
+ Q3pk6CmM1p+NA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 64853E93B34; Fri, 18 Aug 2023 05:18:21 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.5-rc7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txN=kOYfE1a4VDrLWz+fvGuhXDuzDo7AK3-DuOEJoO41Q@mail.gmail.com>
+References: <CAPM=9txN=kOYfE1a4VDrLWz+fvGuhXDuzDo7AK3-DuOEJoO41Q@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9txN=kOYfE1a4VDrLWz+fvGuhXDuzDo7AK3-DuOEJoO41Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2023-08-18-1
+X-PR-Tracked-Commit-Id: c611589b4259ed63b9b77be6872b1ce07ec0ac16
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1ada9c07407d66679967fe5c2cbb7eda2e0addbf
+Message-Id: <169233590140.13368.7714490052708786460.pr-tracker-bot@kernel.org>
+Date: Fri, 18 Aug 2023 05:18:21 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,38 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
- navaremanasi@google.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP DSC Receiver Capabilities are exposed via DPCD 60h-6Fh.
-Fix the DSC RECEIVER CAP SIZE accordingly.
+The pull request you sent on Fri, 18 Aug 2023 07:36:16 +1000:
 
-Fixes: ffddc4363c28 ("drm/dp: Add DP DSC DPCD receiver capability size define and missing SHIFT")
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Cc: <stable@vger.kernel.org> # v5.0+
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-08-18-1
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
----
- include/drm/display/drm_dp.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1ada9c07407d66679967fe5c2cbb7eda2e0addbf
 
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index 02f2ac4dd2df..e69cece404b3 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -1537,7 +1537,7 @@ enum drm_dp_phy {
- 
- #define DP_BRANCH_OUI_HEADER_SIZE	0xc
- #define DP_RECEIVER_CAP_SIZE		0xf
--#define DP_DSC_RECEIVER_CAP_SIZE        0xf
-+#define DP_DSC_RECEIVER_CAP_SIZE        0x10 /* DSC Capabilities 0x60 through 0x6F */
- #define EDP_PSR_RECEIVER_CAP_SIZE	2
- #define EDP_DISPLAY_CTL_CAP_SIZE	3
- #define DP_LTTPR_COMMON_CAP_SIZE	8
+Thank you!
+
 -- 
-2.40.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
