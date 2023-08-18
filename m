@@ -1,137 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6D47812AD
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 20:16:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5957812DA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 20:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D410610E558;
-	Fri, 18 Aug 2023 18:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BD010E0E9;
+	Fri, 18 Aug 2023 18:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1153710E55B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 18:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692382592; x=1723918592;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=DTNR/AbAHfBKqPODinHAdqrv3j/DDjp37DYuTZ4am7I=;
- b=AlT27pUhnjK9zQayRmuVoyCzLAHDGtxKaXuFEPcWhFjHZHRB+/2iZfq3
- 08Efy9pdvKte/sw16a3z5nir7fbERBvRUD7S7e02us919EkQt4LW5QVIv
- V0RidbjdPSWXM8Rtbibzu62XMUg5+wTPa+GnMJ6yhfjyq5oZVHQ8eXiDn
- YkRyd6M4As0VMz12E53Z0ZjxSQUktXc4/wKyGzz3h/yw4i2+S4cPGXWHS
- u30HpwLqIgnnC0+cZB2b97uPOcuWYO6M/QcLpK4nNuhQNl5ykVP/18Uei
- 7VmVHAOuQ+P5WQT9tH+zt1Ht7hr/BZtaD+i2oRLKvhd/9mIdJpuXDMZzO g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10806"; a="358139566"
-X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; d="scan'208";a="358139566"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2023 11:16:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10806"; a="770210329"
-X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; d="scan'208";a="770210329"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga001.jf.intel.com with ESMTP; 18 Aug 2023 11:16:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 18 Aug 2023 11:16:30 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 18 Aug 2023 11:16:30 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 18 Aug 2023 11:16:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HTqbP4znjsy/zrg8eS+ftPJpHsZy039TkLGSeUTfeuBLKhOOKlwKWAEDJH/Np8C2g6deR8D8mzVeSfzwCYGU8BVJcb7XnQy6+zx5twLnQpLv1lfAaol1pgkHc5EXeHO7iPdpD/N0qudQ8KuJDuTyje35BUqLjRfq68P3aV6aR4tj8m2hD4bRFTHiN5d3BaN+15m8TUiclKVv8ANr41S1Bg89CZDm+S5hnR2y/c2rKkMYmUbyxOYXiHfGXEuo0LjkUSupaE9GGJQsiFexqNSlncH2vSu3jqkkRpIm+vT0Lvr+T/6lNbLu5gw4tEoXJvA2rESeeC5HpXI98GDt1FcqMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f4YLpIKNDNk/zuVv+tn+D4T+oruZE+JUrtWiy9w7FcA=;
- b=XDiQ3YoeYLCHZTvpzs3It3EGBo2AU+RAHBOjRtIKQTATvZjV25P4koJwHUWYBIeRcOFXUuAUZqfGifX2hUcjzyN3Uxlklnb2ZqpfI7/TB/oVT+XTL5nDBtZaiogx9qzXnqzDuTFinRgNvAPvFvx6T0GHGAWgGJrQa4z/u0g8fsphC0XVLQ7Xo1hr56+4WdlfWnki58lDap11ogk37i195eDGmiuWD31BzT8AJmyht+bWC2SxB2JZrmMfKsvbaOFHvvpyLBR60Vp3F+XGA0JufbWkXPmgjQrJh1wxlofJm9BhZnpWwNtPKXuTXsGtlJmqqbk5kIBLgWu2d6PDBnP1fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SA1PR11MB7109.namprd11.prod.outlook.com (2603:10b6:806:2ba::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
- 2023 18:16:28 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 18:16:28 +0000
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: <dri-devel@lists.freedesktop.org>, <airlied@gmail.com>,
- <daniel.vetter@ffwll.ch>
-Subject: [PATCH 5/5] drm/doc/rfc: Mark long running workload as complete.
-Date: Fri, 18 Aug 2023 14:16:02 -0400
-Message-ID: <20230818181604.507051-5-rodrigo.vivi@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230818181604.507051-1-rodrigo.vivi@intel.com>
-References: <20230818181604.507051-1-rodrigo.vivi@intel.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ2PR07CA0023.namprd07.prod.outlook.com
- (2603:10b6:a03:505::9) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C78610E0E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 18:25:30 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-99bcf2de59cso153076966b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 11:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1692383128; x=1692987928;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KmrWlpuNYvAdZXw8ORjpfCZeayWiqV48fxa2VIgmh5s=;
+ b=NvTPCqn+6c1P4fF3DHZyBV8NI/9FXWDyMltonSaaCC2jgWcKYFHaWbZJ50leTrKv4j
+ oFaO1JA+ZqGofyHUx1grYDLLBIzqLRUCcpYvKjeERWdiB37OsUZY3JW12OrPA8STiSPN
+ goAMMZDtjSfl6gn0r6JF85WnbvFTOAcZu4I44=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692383128; x=1692987928;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KmrWlpuNYvAdZXw8ORjpfCZeayWiqV48fxa2VIgmh5s=;
+ b=TBIDDHyMddMXc1tt2qQhXg+glhiOSqmIBJZ5ePCk4cQEANmKLHmM0A/VU3Q1azQ7Ka
+ g1ZRG9OYzgJPN/rWKutCZl+8xAZsl9gpvtaTk5VGXkzMn8yd4MEXyZse7y4dMiWyozfu
+ ShwqG8hRYgHVki/DRsrlTlcUWoSckMAxBKhVIOzGZtl5YX6FXFSlYFKnSuRL/mTtwjp+
+ Q3NLf/VJlhcQxphayETFPiS6uSjEGZ36tvvLoets3Q0x/P8XyE8hcu1FMPz3AkNromC8
+ 4zyplHr+ROdDQ5f+5TBLJhVFR3D/Q3JcCyvvITz+ypGGYyYLAc5hwLoJ5KKCDMZvKCDK
+ yIQw==
+X-Gm-Message-State: AOJu0YyEAUSx1KjXNLQkFV9K4fGb3NbuNNiHcQ/efEh/QoUQIf/o90zD
+ u3laXCvOYKhhr4V+upb7ka22sC5OgsHb48WpCku++w==
+X-Google-Smtp-Source: AGHT+IHQ0Re+RzQUHW0NfWifEIt9mlcDZtjSSUqtHSKH1jG73gAU+Hra0HKtm+7VmACa8DxrG1qlmdK+7UeeYACp1Vk=
+X-Received: by 2002:a17:906:8a55:b0:99b:4bab:2838 with SMTP id
+ gx21-20020a1709068a5500b0099b4bab2838mr32213ejc.0.1692383128520; Fri, 18 Aug
+ 2023 11:25:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA1PR11MB7109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f7c8d2b-d189-4b9c-9837-08dba0173d98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8tfy7UezRpPvLe4u93kjCfROvhGgrVMEpMwDiU2dAUmtMkeemk9zp6srhMSl5ifTDpr+x5IsUf0/SpKTi77R1Wp08f5OpUxA6UjmSPdiQBnnsfZcOxa2+UPJOKTwuM9SVej56tB9V+a8sObxDVSSNAg/eysscySfg6XmoWgEvtZgB09wdBGn79FYk3QXD+LhyMXTszw1QrdfEYuQya5MrEUFJlBvM6MkTs0hArhljBaV8Pk6gO+vdaaaE66h2BIwejPHl1hwUf/mUx1re7jpTJMrxm4yooU1nGK4MEYHtU1GVPzZHHS339bvzgepAHzc5Du3NdjufZ8n96Ea2wrbnEw7wT37yaOo+c7+/u6XXWyZlaIgTa6F+VZA2L3OIqcTDu2vGXCcVkkn1WW/C8aUgPxoRbTAdHzloobzFxva1kZ7KRL9/pUttkxdVzINJWjVp3xqPZd4Jw3w2BiuiO8OvDZpOeZjkjqPMj0ISi1D4qVJ+E6Astezgr0oEcHKPGGKqI9hf6Muf9Kvs5wai678pqTReuhY4RKbxVtq8xKn5drGeWNDs62Yn6AAQDnnHz3L
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(39860400002)(396003)(376002)(346002)(136003)(1800799009)(186009)(451199024)(66899024)(2906002)(83380400001)(66556008)(66946007)(478600001)(6666004)(316002)(6486002)(6506007)(66476007)(44832011)(2616005)(5660300002)(107886003)(6512007)(1076003)(8676002)(8936002)(41300700001)(4326008)(26005)(86362001)(36756003)(38100700002)(82960400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?P9yTn615jdNjdwaPITYsMmqdNAxdJw8bApU7hksEHVx0y9fvF+/OzOX8VUyI?=
- =?us-ascii?Q?cUooUpPgEmVTfeXDyF1QTL9Hmb8HRsQi1BUOi/f9sSEpivq7c1IyxsRcww2M?=
- =?us-ascii?Q?tslsOV/+Lp5r7/DZ/s5arao+cwXCFGEtga8duVyKoqtgVIUJhjYK9qkgS3Ib?=
- =?us-ascii?Q?rCGdaIvzntOUJf11lARM/r0OCEvgCoi1rNk3wMqn5rE/rqxE5BZi4La5kXPV?=
- =?us-ascii?Q?teEs6yyHXDLzRTbKQu1czr9CJjzbbRl9duso8FeHGgOuMTavfdybQDh7U88w?=
- =?us-ascii?Q?mfLDIWAdQPfekIbNIwWCV8l2yphohygbLFbSWWwHL7CXB6ze1/zGpIA3ZcaM?=
- =?us-ascii?Q?tGqB9SXCVGRpLKnp6SG7epQYt+prMZ1znDh6zTNP4vc17LvW2vC3NpRWkhQv?=
- =?us-ascii?Q?0STth6u9FHEqUrqVbpF77fyUoEYT8JH9K/Gk0M5fU4Q9K0HoFyfUe2s3Jk48?=
- =?us-ascii?Q?hapvDk0lSXQAX9So4gGPE3rEZtvG7uLCHnW73b1dH39OABunL3qjkNsbI3DT?=
- =?us-ascii?Q?EhXaMQ34wYV5sHROs2u1nWt6xivwuKm4HgzDE08UhENjoHW8N70dzIljrVhF?=
- =?us-ascii?Q?MM6jAMyDlSRxXZIDm91s0ZWfxthldsOw5gy14ug+neLg/x6hRa+3mXiJ7pRE?=
- =?us-ascii?Q?JiN8IumOQlU3RClkq6XT4HZqs+Y2cI0DEvDsK6CS2eTk0OXmIN/88LEi3cbs?=
- =?us-ascii?Q?iUwwENYJx4j8l+xPdyW4np2QsChjfs2ioCgk8YBa4RXkS6hrdIwHZk5+mq6M?=
- =?us-ascii?Q?GOQgh200RkJbSJeMG8hU7QqUxnMKYQ8ltXCIu3orxza9qeTq+tshW2keU/4j?=
- =?us-ascii?Q?lcbfXkxF5x4InKaNHuURn4/piaZm2kUay5bF9HaeHaTdIO6uy2Bln5HZIru1?=
- =?us-ascii?Q?j0AizqyXG8E3rbrhJEZn2jVKRPo8tz4+NTEC16NCJ+F2jR8h4KAQWQm9an8g?=
- =?us-ascii?Q?RCOaK7OsCI48yfZU/MhfCLPACEL6dOLB/h81wb2eUjnnC4qTtY4UFNUQGOny?=
- =?us-ascii?Q?L/u1kiXWFQR9DYJsrKz+Dp5KBbCk0zYlBfGlrgricn5Sg5cOxg8Khtht3trT?=
- =?us-ascii?Q?a5++yU/xguodpvCKO+OP008EaLUrilG1QoYmDuk7aa0o1efRaFzBj56lwSdN?=
- =?us-ascii?Q?GNGMMWEzHoG+L0SwLvP0xPh0LPmYfrX/pT3Y6vXyMb1r/cICxLsIthNDJ/sZ?=
- =?us-ascii?Q?/nvSsYS1kJE69pfd8oMl8BuFrjgzjesBH50yGGXw4b3FKB2bEM/Afq7WxQUh?=
- =?us-ascii?Q?IqnNiWXaz+hncCm7p8vjO+HxQTLHB6ERV6VDuEppYva8FZffXnKV+++mqckC?=
- =?us-ascii?Q?k9omLQPrmoylUnqZj7EGwCl8nOG7XF4ajtn5A7go+u02echU64Ku2T4WSVaU?=
- =?us-ascii?Q?+Y97QpfPpYFUXj/d/gdPkeYMWskwxGCPzJiaRiM0YEi7NO4RXl9E0kKHlH30?=
- =?us-ascii?Q?12c2QwUlIO/RU1Vk1W21pW8Yep+foidNbVsEXZ4Srp+vZYo1bIlwu9T8S9X7?=
- =?us-ascii?Q?sIibIBVN5btvhBBKWfLo4Wxh4c7P+lUCcWVVCoSLYoiIf+ONyjYDLcxAl45+?=
- =?us-ascii?Q?zqAZeNFjVgIwGotOvEnrrcTnHx42T4gK1m18Y8b5++TSnVzsjT5Qzm//kVw3?=
- =?us-ascii?Q?aA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f7c8d2b-d189-4b9c-9837-08dba0173d98
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 18:16:28.4643 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2/9L3hGGC4SZ5AW+6HBPRxzW7sYgCANFNiD0vwdHIvbj8/H5h6viZgp1RMPOi2X8MVsRTjz0hiwl2Z7x+zXsPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7109
-X-OriginatorOrg: intel.com
+References: <20230818170156.2194015-1-gildekel@chromium.org>
+ <20230818170156.2194015-2-gildekel@chromium.org>
+In-Reply-To: <20230818170156.2194015-2-gildekel@chromium.org>
+From: Manasi Navare <navaremanasi@chromium.org>
+Date: Fri, 18 Aug 2023 11:25:17 -0700
+Message-ID: <CAE72mN=m=eKEfF6b7sBGOBPg9KSkqcUbG-iHF+9dDbYF_A6aFQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/i915/dp_link_training: Add a final failing state
+ to link training fallback
+To: Gil Dekel <gildekel@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,62 +67,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+Thank you for the patch and all your work to improve the link training
+fallback logic and
+to correctly reflect the link status to the userspace.
 
-No DRM scheduler changes required, drivers just return NULL in run_job
-vfunc.
+Chiming in some of the findings and this logic justification below so
+it will help
+the reviewers further.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- Documentation/gpu/rfc/xe.rst | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
-index b67f8e6a1825..1e1dd6202438 100644
---- a/Documentation/gpu/rfc/xe.rst
-+++ b/Documentation/gpu/rfc/xe.rst
-@@ -127,21 +127,6 @@ Some parts of userptr like mmu_notifiers should become GPUVA or DRM helpers when
- the second driver supporting VM_BIND+userptr appears. Details to be defined when
- the time comes.
- 
--Long running compute: minimal data structure/scaffolding
----------------------------------------------------------
--The generic scheduler code needs to include the handling of endless compute
--contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
--drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
--completion fence.
--
--The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
--this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
--drm driver, including Xe, could re-use and add their own individual needs on top
--in a next stage. However, this should not block the initial merge.
--
--This is a non-blocker item since the driver without the support for the long
--running compute enabled is not a showstopper.
--
- Display integration with i915
- -----------------------------
- In order to share the display code with the i915 driver so that there is maximum
-@@ -230,3 +215,15 @@ As a key measurable result, Xe needs to be aligned with the GPU VA and working i
- our tree. Missing Nouveau patches should *not* block Xe and any needed GPUVA
- related patch should be independent and present on dri-devel or acked by
- maintainers to go along with the first Xe pull request towards drm-next.
-+
-+Long running compute: minimal data structure/scaffolding
-+--------------------------------------------------------
-+The generic scheduler code needs to include the handling of endless compute
-+contexts, with the minimal scaffolding for preempt-ctx fences (probably on the
-+drm_sched_entity) and making sure drm_scheduler can cope with the lack of job
-+completion fence.
-+
-+The goal is to achieve a consensus ahead of Xe initial pull-request, ideally with
-+this minimal drm/scheduler work, if needed, merged to drm-misc in a way that any
-+drm driver, including Xe, could re-use and add their own individual needs on top
-+in a next stage. However, this should not block the initial merge.
--- 
-2.41.0
+On Fri, Aug 18, 2023 at 10:02=E2=80=AFAM Gil Dekel <gildekel@chromium.org> =
+wrote:
+>
+> Instead of silently giving up when all link-training fallback values are
+> exhausted, this patch modifies the fallback's failure branch to reduces
+> both max_link_lane_count and max_link_rate to zero (0) and continues to
+> emit uevents until userspace stops attempting to modeset.
+>
+> By doing so, we ensure the failing connector, which is in
+> link-status=3DBad, has all its modes pruned (due to effectively having a
+> bandwidth of 0Gbps).
+>
 
+This is critical to correctly propagate the final link training
+failure to the userspace instead
+of just failing with an error message in the kernel.
+This definitely completes the link training fallback logic by making
+sure that if we have exhausted
+all the link rate/lane count combinations and the physical link is
+still failing to link train,
+then the effective available link BW is marked as 0 so that all the
+modes get pruned.
+
+This correctly reflects the state of a connector which is connected
+with essentially a bad link
+and cannot display any mode and that display remains dark.
+
+Regards
+Manasi
+
+
+> It is then the userspace's responsibility to ignore connectors with no
+> modes, even if they are marked as connected.
+>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Manasi Navare <navaremanasi@chromium.org>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Gil Dekel <gildekel@chromium.org>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 964bf0551bdc..1e4dae8aad90 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -276,8 +276,12 @@ static int intel_dp_common_len_rate_limit(const stru=
+ct intel_dp *intel_dp,
+>
+>  static int intel_dp_common_rate(struct intel_dp *intel_dp, int index)
+>  {
+> +       /* This occurs when max link rate drops to 0 via link training fa=
+llback*/
+> +       if (index < 0)
+> +               return 0;
+> +
+>         if (drm_WARN_ON(&dp_to_i915(intel_dp)->drm,
+> -                       index < 0 || index >=3D intel_dp->num_common_rate=
+s))
+> +                       index >=3D intel_dp->num_common_rates))
+>                 return 162000;
+>
+>         return intel_dp->common_rates[index];
+> @@ -318,6 +322,9 @@ static int intel_dp_max_common_lane_count(struct inte=
+l_dp *intel_dp)
+>  int intel_dp_max_lane_count(struct intel_dp *intel_dp)
+>  {
+>         switch (intel_dp->max_link_lane_count) {
+> +       /* This occurs when max link lane count drops to 0 via link train=
+ing fallback*/
+> +       case 0:
+> +               return 0;
+>         case 1:
+>         case 2:
+>         case 4:
+> @@ -672,7 +679,14 @@ int intel_dp_get_link_train_fallback_values(struct i=
+ntel_dp *intel_dp,
+>                 intel_dp->max_link_lane_count =3D lane_count >> 1;
+>         } else {
+>                 drm_err(&i915->drm, "Link Training Unsuccessful\n");
+> -               return -1;
+> +               /*
+> +                * Ensure all of the connector's modes are pruned in the =
+next
+> +                * probe by effectively reducing its bandwidth to 0 so us=
+erspace
+> +                * can ignore it within the next modeset attempt.
+> +                */
+> +               intel_dp->max_link_rate =3D 0;
+> +               intel_dp->max_link_lane_count =3D 0;
+> +               return 0;
+>         }
+>
+>         return 0;
+> --
+> Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
