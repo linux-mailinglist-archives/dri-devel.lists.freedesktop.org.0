@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9772780671
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 09:36:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84084780695
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 09:51:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E0110E471;
-	Fri, 18 Aug 2023 07:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C34D10E485;
+	Fri, 18 Aug 2023 07:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7AA310E471;
- Fri, 18 Aug 2023 07:36:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692344183; x=1723880183;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0eRTsZnod6/XUsAMMIMDypKmUjwzNPcmz88fgm4IVVc=;
- b=Xj99BPujn9iks3Cx/Pho6fEre/6rLP77Xn3vkzqfEd/fenePc0g2XDv/
- ojqmEBjuiM5odDxn8GOPdh5t4ZgaG3a8OPDCuwXwkX4YjamJsmmhg5DEw
- uiipvWsrDr4G9ZfMe9AdsnlkxJpaa193p9MDwtxVRTans2diPYs3Q+Z/1
- ybJwrjyIe5/Gll3VCB75rDZG51a8gh7Jc/XHFVzlU3MBszBcIoHGDkwJZ
- UIk6+pdTZxkrvOmgWcVroBUFOkrPlznYBMC+vOdSBIks3ZFypogpPVXxA
- mO/bqUGPoCDhD20HiXxf1zbXk47lD3reZ6Pitp1kevoQNOeESsjUg80ns Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="376794958"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; d="scan'208";a="376794958"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2023 00:36:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="738039708"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; d="scan'208";a="738039708"
-Received: from fatinf5x-mobl.gar.corp.intel.com (HELO [10.249.254.194])
- ([10.249.254.194])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2023 00:36:19 -0700
-Message-ID: <7e655c2b-211f-6ea0-9dc1-feb0131a90e4@linux.intel.com>
-Date: Fri, 18 Aug 2023 09:36:17 +0200
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE8110E47E
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 07:51:28 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1bda9207132so5326675ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 00:51:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1692345088; x=1692949888;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GNjosiFza5eZ8AzQ6EtrPFDkWUDthg2MbmBsjDUS0f4=;
+ b=OFeh6xVr4kXV6Q1jV7E46aI8kzKDR7ZLAYO0UcLqsJVApAi9zup8+PJhe62UfF+KJu
+ /WNKE9FSJsShKLLIMjT5jzLUKfni9Pv8PAa7ERNF82oCEieEKrcY/H7sFoVVKOmeSune
+ udSLWJXyeF1SfGrMZmo3JYsmWSe4uQT6uAwzU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692345088; x=1692949888;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GNjosiFza5eZ8AzQ6EtrPFDkWUDthg2MbmBsjDUS0f4=;
+ b=MBKh/73YowgDfIJ0Xp4xXNVGdqAnEly6vRTPISc1XpCcGmyIxWRAIC9rRja6Cl4ig4
+ PfTvtosarkq0wt8mE/oFQKqjXe4QMg/b7ex8R4yPCKjOdJq8e4vBOEfu592bGDavqoEI
+ k2Ud57Up+mkdW/fIZZ1ys/t/0I/K9p7vGP7M5nygjtvqhcrdHzs55RmKOCshU2yGcwWG
+ lIz023qHS8ZCpBqNIGgMIuPvi57mQbs8JfEawF+SHNAfPcqiYtTUaD58lnnmrDYF7sWY
+ hb0Y61xmFbx4YYtlGqu9oRB0nz2ANkZQKNrVgCSDP0b/wy1wpDoR9HVKRn8Kdnfw5xkN
+ FVqw==
+X-Gm-Message-State: AOJu0YwUcRanNLzytNyrBW2kQMXpCUhFIrqLgxV0UEZ/JPFIZYdv6vMk
+ oWv8EBpxYX5gaeeFpOC0FQ/xUw==
+X-Google-Smtp-Source: AGHT+IE0qUgsLAEdbNZSbOllAJUBEu6mdWYQlh4tavv+TAFALNCFVxPl8/bJqJYd/MFzx+dhzL5rUw==
+X-Received: by 2002:a17:902:e74b:b0:1b8:94f4:3e0 with SMTP id
+ p11-20020a170902e74b00b001b894f403e0mr2237474plf.14.1692345087938; 
+ Fri, 18 Aug 2023 00:51:27 -0700 (PDT)
+Received: from datalore.c.googlers.com.com
+ (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+ by smtp.gmail.com with ESMTPSA id
+ jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Aug 2023 00:51:27 -0700 (PDT)
+From: Brandon Pollack <brpol@chromium.org>
+To: marius.vlad@collabora.com,
+	jshargo@chromium.org
+Subject: [PATCH v3 0/7] Adds support for ConfigFS to VKMS!
+Date: Fri, 18 Aug 2023 07:43:05 +0000
+Message-ID: <20230818075057.3426088-1-brpol@chromium.org>
+X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Implement svm without BO concept in xe driver
-Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>, Dave Airlie <airlied@gmail.com>,
- Felix Kuehling <felix.kuehling@amd.com>
-References: <SA1PR11MB699192A66D7A2CC7305A59569214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <SA1PR11MB6991F9E3107C963BDF95E04E9214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <e0d7d6a2-5c9d-6e17-4b4b-be03deb6c130@amd.com>
- <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <3c125b60-df60-2037-c23f-918734e4973f@amd.com>
- <SA1PR11MB69916E51CE5A9217D447B91C9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <7ae5f112-d0e9-cc52-2b22-7265ea435cc2@amd.com>
- <CAPM=9tyots9C8wEU0TgGnFmLOkfqn62ngaYYjV2yuTf7jwDGFw@mail.gmail.com>
- <SA1PR11MB6991D7E239EAB23CC8A9A36B921AA@SA1PR11MB6991.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <SA1PR11MB6991D7E239EAB23CC8A9A36B921AA@SA1PR11MB6991.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,98 +69,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- Philip Yang <Philip.Yang@amd.com>, "Welty, Brian" <brian.welty@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
+ tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since Jim is busy with other work and I'm working on some things that
+rely on this, I've taken up the task of doing the iterations.  I've
+addressed the comments as best I can (those replies are to each
+individual change) and here is the patch set to go with those.
 
-On 8/17/23 04:12, Zeng, Oak wrote:
->> -----Original Message-----
->> From: Dave Airlie <airlied@gmail.com>
->> Sent: August 16, 2023 6:52 PM
->> To: Felix Kuehling <felix.kuehling@amd.com>
->> Cc: Zeng, Oak <oak.zeng@intel.com>; Christian König
->> <christian.koenig@amd.com>; Thomas Hellström
->> <thomas.hellstrom@linux.intel.com>; Brost, Matthew
->> <matthew.brost@intel.com>; maarten.lankhorst@linux.intel.com;
->> Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.com>; Welty,
->> Brian <brian.welty@intel.com>; Philip Yang <Philip.Yang@amd.com>; intel-
->> xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->> Subject: Re: Implement svm without BO concept in xe driver
->>
->> On Thu, 17 Aug 2023 at 08:15, Felix Kuehling <felix.kuehling@amd.com> wrote:
->>> On 2023-08-16 13:30, Zeng, Oak wrote:
->>>> I spoke with Thomas. We discussed two approaches:
->>>>
->>>> 1) make ttm_resource a central place for vram management functions such as
->> eviction, cgroup memory accounting. Both the BO-based driver and BO-less SVM
->> codes call into ttm_resource_alloc/free functions for vram allocation/free.
->>>>       *This way BO driver and SVM driver shares the eviction/cgroup logic, no
->> need to reimplment LRU eviction list in SVM driver. Cgroup logic should be in
->> ttm_resource layer. +Maarten.
->>>>       *ttm_resource is not a perfect match for SVM to allocate vram. It is still a
->> big overhead. The *bo* member of ttm_resource is not needed for SVM - this
->> might end up with invasive changes to ttm...need to look into more details
->>> Overhead is a problem. We'd want to be able to allocate, free and evict
->>> memory at a similar granularity as our preferred migration and page
->>> fault granularity, which defaults to 2MB in our SVM implementation.
->>>
->>>
->>>> 2) svm code allocate memory directly from drm-buddy allocator, and expose
->> memory eviction functions from both ttm and svm so they can evict memory
->> from each other. For example, expose the ttm_mem_evict_first function from
->> ttm side so hmm/svm code can call it; expose a similar function from svm side so
->> ttm can evict hmm memory.
->>> I like this option. One thing that needs some thought with this is how
->>> to get some semblance of fairness between the two types of clients.
->>> Basically how to choose what to evict. And what share of the available
->>> memory does each side get to use on average. E.g. an idle client may get
->>> all its memory evicted while a busy client may get a bigger share of the
->>> available memory.
->> I'd also like to suggest we try to write any management/generic code
->> in driver agnostic way as much as possible here. I don't really see
->> much hw difference should be influencing it.
->>
->> I do worry about having effectively 2 LRUs here, you can't really have
->> two "leasts".
->>
->> Like if we hit the shrinker paths who goes first? do we shrink one
->> object from each side in turn?
-> One way to solve this fairness problem is to create a driver agnostic drm_vram_mgr. Maintain a single LRU in drm_vram_mgr. Move the memory eviction/cgroups memory accounting logic from ttm_resource manager to drm_vram_mgr. Both BO-based driver and SVM driver calls to drm_vram_mgr to allocate/free memory.
+I added my own signoff to each commit, but I've left jshargo@ as the
+author of all the commits he wrote.  I'm sure there is still more to
+address and the ICT tests that were writtein parallel to this may also
+need some additions, but I'm hoping we're in a good enough state to get
+this in and iterate from there soon.
+
+Since V3:
+========
+I've added hotplug support in the latest patch.  This has been reviewed some
+and the notes from that review are addressed here as well.
+
+Relevant/Utilizing work:
+=======================
+I've built a while test framework based on this as proof it functions (though
+I'm sure there may be lingering bugs!).  You can check that out on
+crrev.com if you are interested and need to get started yourself (but be
+aware of any licensing that may differ from the kernel itself!  Make
+sure you understand the license:
+
+https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/tast-tests/LICENSE
+
+That said, you can see the changes in review on the crrev gerrit:
+
+https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests/+/4666669
+
+Outro:
+=====
+I really appreciate everyone's input and tolerance in getting these
+changes in.  Jim's first patch series was this, and other than some
+small cleanups and documentation, taking over it is also mine.
+
+Thank you everyone :)
+
+Original Message:
+>Usage
+>=====
 >
-> I am not sure whether this meets the 2M allocate/free/evict granularity requirement Felix mentioned above. SVM can allocate 2M size blocks. But BO driver should be able to allocate any arbitrary sized blocks - So the eviction is also arbitrary size.
-
-This is not far from what a TTM resource manager does with TTM 
-resources, only made generic at the drm level, and making the "resource" 
-as lean as possible. With 2M granularity this seems plausible.
-
+>After installing these patches, you can create a VKMS device with two
+>displays and a movable overlay like so (this is documented in the
+>patches):
 >
->> Also will we have systems where we can expose system SVM but userspace
->> may choose to not use the fine grained SVM and use one of the older
->> modes, will that path get emulated on top of SVM or use the BO paths?
+>  $ modprobe vkms enable_overlay=1 enable_cursor=1 enable_writeback=1
+>  $ mkdir -p /config/
+>  $ mount -t configfs none /config
 >
-> If by "older modes" you meant the gem_bo_create (such as xe_gem_create or amdgpu_gem_create), then today both amd and intel implement those interfaces using BO path. We don't have a plan to emulate that old mode on tope of SVM, afaict.
-
-I think we might end up emulating "older modes" on top of SVM at some 
-point, not to far out, although what immediately comes to mind would be 
-eviction based on something looking like NUMA- and CGROUP aware 
-shrinkers for integrated bo drivers if that turns out to be sufficient 
-from a memory usage starvation POW. This is IMHO indeed something to 
-start thinking about, but for the current situation trying to solve a 
-mutual SVM-TTM fair eviction problem would be a reasonable scope.
-
-Thanks,
-
-Thomas
-
-
+>  $ export DRM_PLANE_TYPE_PRIMARY=1
+>  $ export DRM_PLANE_TYPE_CURSOR=2
+>  $ export DRM_PLANE_TYPE_OVERLAY=0
 >
-> Thanks,
-> Oak
+>  $ mkdir /config/vkms/test
 >
->> Dave.
+>  $ mkdir /config/vkms/test/planes/primary
+>  $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
+>
+>  $ mkdir /config/vkms/test/planes/other_primary
+>  $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_primary/type
+>
+>  $ mkdir /config/vkms/test/planes/cursor
+>  $ echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
+>
+>  $ mkdir /config/vkms/test/planes/overlay
+>  $ echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/type
+>
+>  $ mkdir /config/vkms/test/crtcs/crtc
+>  $ mkdir /config/vkms/test/crtcs/crtc_other
+>  $ mkdir /config/vkms/test/encoders/encoder
+>  $ mkdir /config/vkms/test/connectors/connector
+>
+>  $ ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connectors/connector/possible_encoders
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/encoder/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primary/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overlay/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/overlay/possible_crtcs/
+>  $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/other_primary/possible_crtcs/
+>
+>  $ echo 1 > /config/vkms/test/enabled
+>
+>Changes within core VKMS
+>========================
+>
+>This introduces a few important changes to the overall structure of
+>VKMS:
+>
+>  - Devices are now memory managed!
+>  - Support for multiple CRTCs and other objects has been added
+>
+>Since v1
+>========
+>
+>  - Added DRMM memory management to automatically clean up resources
+>  - Added a param to disable the default device
+>  - Renamed "cards" to "devices" to improve legibility
+>  - Added a lock for the configfs setup handler
+>  - Moved all the new docs into the relevant .c file
+>  - Addressed as many of sean@poorly.run as possible
+>
+>Testing
+>=======
+>
+>  - New IGT tests (see
+>    gitlab.freedesktop.org/jshargo/igt-gpu-tools/-/merge_requests/1)
+>  - Existing IGT tests (excluding .*suspend.*, including .*kms_flip.*
+>    .*kms_writeback.* .*kms_cursor_crc.*, .*kms_plane.*)
+>
+>Outro
+>=====
+>
+>I'm excited to share these changes, it's my still my first kernel patch
+>and I've been putting a lot of love into these.
+
+Brandon Pollack (1):
+  drm/vkms Add hotplug support via configfs to VKMS.
+
+Jim Shargo (6):
+  drm/vkms: Back VKMS with DRM memory management instead of static
+    objects
+  drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
+  drm/vkms: Provide platform data when creating VKMS devices
+  drm/vkms: Add ConfigFS scaffolding to VKMS
+  drm/vkms: Support enabling ConfigFS devices
+  drm/vkms: Add a module param to enable/disable the default device
+
+ Documentation/gpu/vkms.rst            |  20 +-
+ drivers/gpu/drm/Kconfig               |   1 +
+ drivers/gpu/drm/vkms/Makefile         |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 724 ++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 103 ++--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
+ drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
+ drivers/gpu/drm/vkms/vkms_output.c    | 340 ++++++++++--
+ drivers/gpu/drm/vkms/vkms_plane.c     |  38 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  33 +-
+ 11 files changed, 1443 insertions(+), 235 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+
+-- 
+2.42.0.rc1.204.g551eb34607-goog
+
