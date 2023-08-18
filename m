@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A6C780CAC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09576780CB3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 15:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD4110E51B;
-	Fri, 18 Aug 2023 13:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44D010E519;
+	Fri, 18 Aug 2023 13:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1DB10E519
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:41:10 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37IDeqWW040473;
- Fri, 18 Aug 2023 08:40:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1692366052;
- bh=yVtiPTv6CeRPJ4Jb/cDPAV523O0JTgtbNjA9sWskqC4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Y+13QdZM5mp9tY8rZ+zB9vaH7Wa02punkkkrjk+kxhMQ7LrkfoFOzTWEGwVsAsL5O
- aNs75QN2oWa6auHlQ5NbCtCND3pCcW4YhehUcojpTFEmQc9ilFqIDT5UuFPIisF42G
- XSmqDTt9udHZ+RBZCWPH8w4Wo6eQZWwhF4tHEkhg=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37IDeq16023260
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 18 Aug 2023 08:40:52 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 18
- Aug 2023 08:40:51 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 18 Aug 2023 08:40:51 -0500
-Received: from [172.24.227.132] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37IDekNs026605;
- Fri, 18 Aug 2023 08:40:47 -0500
-Message-ID: <5def6ace-ea11-8837-ca40-81ee789e9583@ti.com>
-Date: Fri, 18 Aug 2023 19:10:46 +0530
+X-Greylist: delayed 64143 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Aug 2023 13:44:11 UTC
+Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3C710E519
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 13:44:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by domac.alu.hr (Postfix) with ESMTP id BC11A60174;
+ Fri, 18 Aug 2023 15:44:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1692366248; bh=xSfY2UzYI4RssfZmtKiJXJxurnZ4X525t6hOGi9oMWc=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=RYiV6fJdzmf+zsHGDecdSeWPpy+92DoXhE290ODsf4wK0c0UaTakO5cFdv1M85Vkn
+ S6t4YBiwk8fyPxq+LSnYPNXKxPVeh3IEXoRO9XbWgLYhemMZKp7awSEPPC5TssMEmi
+ KSFSDbvasc1x9e3fy3Nkds5nvb4eAwHeNXQSmi4PvM1vuRtDtUQEeofkSbEaurxVEh
+ MhP07CuhU1r4DDgw4F6hnpCXvqGYVRvKQCLJh1DXrnhhq9MCobiEIU1E7UKbq+Myye
+ X5GktbKqtVxL5pjpxK9RaQgN2/niOjSaGvkU8e57xS+J8yVSi/Ey5r0hyxyW7IWYBM
+ z51WGvoCbhZGg==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+ by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 89ZjR8dfquSh; Fri, 18 Aug 2023 15:44:05 +0200 (CEST)
+Received: from [192.168.1.6] (unknown [94.250.191.183])
+ by domac.alu.hr (Postfix) with ESMTPSA id 3B16A6015E;
+ Fri, 18 Aug 2023 15:44:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1692366245; bh=xSfY2UzYI4RssfZmtKiJXJxurnZ4X525t6hOGi9oMWc=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=ypkhfbw8MvudjNwAvMqAgxUgG6GhboaJ9j2Mfh3+VtT2x3kZxzrJPkjmjCXDn3zTL
+ OtZUI3CKxb0wVxnT1IDzTolP7ObX2HmcyvAPEGQ1Wsh+FBk3XalzAriqo+dD5+IWaF
+ arh0q4ilpwddr1VwE/1g4uIa1Rq5PVX/oab3XiHXUS559jLMkVvEu99rzS1QbDKUGw
+ szsapq917z/R9cxfZOM9zegci6yW+ISFjR92DRve5XPNzijuX0HB0aG0nXa1012paI
+ Co8HA5oOnVJoFFRUttkwfMPG7Nm/TM52CYlQxBdFTVVAepvvImdUe3h0+GNyXzjJBk
+ h0S1UzFQgnepg==
+Message-ID: <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
+Date: Fri, 18 Aug 2023 15:44:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH 2/2] drivers/tidss: Add support for AM62A7 DSS
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-References: <20230818131750.4779-1-a-bhatia1@ti.com>
- <20230818131750.4779-3-a-bhatia1@ti.com>
+Subject: Re: [BUG] KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] /
+ drm_sched_entity_push_job [gpu_sched]
 Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20230818131750.4779-3-a-bhatia1@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+To: linux-kernel@vger.kernel.org
+References: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
+In-Reply-To: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,169 +68,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Luben Tuikov <luben.tuikov@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 18-Aug-23 18:47, Aradhya Bhatia wrote:
-> Add support for the DSS controller on TI's AM62A7 SoC in the tidss
-> driver.
+On 8/17/23 21:54, Mirsad Todorovac wrote:
+> Hi,
 > 
-> This contrller has 2 video pipelines that can render 2 video planes on
-> over a screen, using the overlay managers. The output of the DSS comes
-> from video port 2 (VP2) in the form of RGB88 DPI signals, while the VP1
-> is tied off inside the SoC.
+> This is your friendly bug reporter.
 > 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->  drivers/gpu/drm/tidss/tidss_dispc.c | 53 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->  drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
->  3 files changed, 56 insertions(+)
+> The environment is vanilla torvalds tree kernel on Ubuntu 22.04 LTS and a Ryzen 7950X box.
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 9d9dee7abaef..0e2d55d9a0d7 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -322,6 +322,54 @@ const struct dispc_features dispc_am625_feats = {
->  	.vid_order = { 1, 0 },
->  };
->  
-> +const struct dispc_features dispc_am62a7_feats = {
-> +	.max_pclk_khz = {
-> +		[DISPC_VP_DPI] = 165000,
-> +	},
-> +
-> +	.scaling = {
-> +		.in_width_max_5tap_rgb = 1280,
-> +		.in_width_max_3tap_rgb = 2560,
-> +		.in_width_max_5tap_yuv = 2560,
-> +		.in_width_max_3tap_yuv = 4096,
-> +		.upscale_limit = 16,
-> +		.downscale_limit_5tap = 4,
-> +		.downscale_limit_3tap = 2,
-> +		/*
-> +		 * The max supported pixel inc value is 255. The value
-> +		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-> +		 * The maximum bpp of all formats supported by the HW
-> +		 * is 8. So the maximum supported xinc value is 32,
-> +		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-> +		 */
-> +		.xinc_max = 32,
-> +	},
-> +
-> +	.subrev = DISPC_AM62A7,
-> +
-> +	.common = "common",
-> +	.common_regs = tidss_am65x_common_regs,
-> +
-> +	.num_vps = 2,
-> +	.vp_name = { "vp1", "vp2" },
-> +	.ovr_name = { "ovr1", "ovr2" },
-> +	.vpclk_name =  { "vp1", "vp2" },
-> +	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
-> +
-> +	.vp_feat = { .color = {
-> +			.has_ctm = true,
-> +			.gamma_size = 256,
-> +			.gamma_type = TIDSS_GAMMA_8BIT,
-> +		},
-> +	},
-> +
-> +	.num_planes = 2,
-> +	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> +	.vid_name = { "vid", "vidl1" },
-> +	.vid_lite = { false, true, },
-> +	.vid_order = { 1, 0 },
-> +};
-> +
->  static const u16 *dispc_common_regmap;
->  
->  struct dss_vp_data {
-> @@ -823,6 +871,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
->  	switch (dispc->feat->subrev) {
->  	case DISPC_K2G:
->  		return dispc_k2g_read_and_clear_irqstatus(dispc);
-> +	case DISPC_AM62A7:
->  	case DISPC_AM625:
->  	case DISPC_AM65X:
->  	case DISPC_J721E:
-> @@ -839,6 +888,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
->  	case DISPC_K2G:
->  		dispc_k2g_set_irqenable(dispc, mask);
->  		break;
-> +	case DISPC_AM62A7:
->  	case DISPC_AM625:
->  	case DISPC_AM65X:
->  	case DISPC_J721E:
-> @@ -1330,6 +1380,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
->  		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
->  					x, y, layer);
->  		break;
-> +	case DISPC_AM62A7:
->  	case DISPC_AM625:
->  	case DISPC_AM65X:
->  		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
-> @@ -2249,6 +2300,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
->  	case DISPC_K2G:
->  		dispc_k2g_plane_init(dispc);
->  		break;
-> +	case DISPC_AM62A7:
->  	case DISPC_AM625:
->  	case DISPC_AM65X:
->  	case DISPC_J721E:
-> @@ -2356,6 +2408,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
->  	case DISPC_K2G:
->  		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
->  		break;
-> +	case DISPC_AM62A7:
->  	case DISPC_AM625:
->  	case DISPC_AM65X:
->  		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 33ac5ad7a423..2aa1c814ea2a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -59,6 +59,7 @@ enum dispc_vp_bus_type {
->  
->  enum dispc_dss_subrevision {
->  	DISPC_K2G,
-> +	DISPC_AM62A7,
->  	DISPC_AM625,
->  	DISPC_AM65X,
->  	DISPC_J721E,
-> @@ -88,6 +89,7 @@ struct dispc_features {
+> Please find attached the complete dmesg output from the ring buffer and lshw output.
+> 
+> NOTE: The kernel reports tainted kernel, but to my knowledge there are no proprietary (G) modules,
+>        but this taint is turned on by the previous bugs.
+> 
+> dmesg excerpt:
+> 
+> [ 8791.864576] ==================================================================
+> [ 8791.864648] BUG: KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
+> 
+> [ 8791.864776] write (marked) to 0xffff9b74491b7c40 of 8 bytes by task 3807 on cpu 18:
+> [ 8791.864788]  drm_sched_entity_push_job+0xf4/0x2a0 [gpu_sched]
+> [ 8791.864852]  amdgpu_cs_ioctl+0x3888/0x3de0 [amdgpu]
+> [ 8791.868731]  drm_ioctl_kernel+0x127/0x210 [drm]
+> [ 8791.869222]  drm_ioctl+0x38f/0x6f0 [drm]
+> [ 8791.869711]  amdgpu_drm_ioctl+0x7e/0xe0 [amdgpu]
+> [ 8791.873660]  __x64_sys_ioctl+0xd2/0x120
+> [ 8791.873676]  do_syscall_64+0x58/0x90
+> [ 8791.873688]  entry_SYSCALL_64_after_hwframe+0x73/0xdd
+> 
+> [ 8791.873710] read to 0xffff9b74491b7c40 of 8 bytes by task 1119 on cpu 27:
+> [ 8791.873722]  drm_sched_entity_is_ready+0x16/0x50 [gpu_sched]
+> [ 8791.873786]  drm_sched_select_entity+0x1c7/0x220 [gpu_sched]
+> [ 8791.873849]  drm_sched_main+0xd2/0x500 [gpu_sched]
+> [ 8791.873912]  kthread+0x18b/0x1d0
+> [ 8791.873924]  ret_from_fork+0x43/0x70
+> [ 8791.873939]  ret_from_fork_asm+0x1b/0x30
+> 
+> [ 8791.873955] value changed: 0x0000000000000000 -> 0xffff9b750ebcfc00
+> 
+> [ 8791.873971] Reported by Kernel Concurrency Sanitizer on:
+> [ 8791.873980] CPU: 27 PID: 1119 Comm: gfx_0.0.0 Tainted: G             L     6.5.0-rc6-net-cfg-kcsan-00038-g16931859a650 #35
+> [ 8791.873994] Hardware name: ASRock X670E PG Lightning/X670E PG Lightning, BIOS 1.21 04/26/2023
+> [ 8791.874002] ==================================================================
 
-Made an oopsie and missed sorting 'DISPC_AM62A7' in above instances. It
-should be under DISPC_AM625. Please ignore this patch / series. Will
-send a v2. Apologies for the noise.
+P.S.
 
-Regards
-Aradhya
+According to Mr. Heo's instructions, I am adding the unwound trace here:
 
->  
->  extern const struct dispc_features dispc_k2g_feats;
->  extern const struct dispc_features dispc_am625_feats;
-> +extern const struct dispc_features dispc_am62a7_feats;
->  extern const struct dispc_features dispc_am65x_feats;
->  extern const struct dispc_features dispc_j721e_feats;
->  
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 4d063eb9cd0b..edf69d020544 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -231,6 +231,7 @@ static void tidss_shutdown(struct platform_device *pdev)
->  static const struct of_device_id tidss_of_table[] = {
->  	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
->  	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
-> +	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
->  	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
->  	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
->  	{ }
+[ 1879.706518] ==================================================================
+[ 1879.706616] BUG: KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
 
+[ 1879.706737] write (marked) to 0xffff8f3672748c40 of 8 bytes by task 4087 on cpu 10:
+[ 1879.706748] drm_sched_entity_push_job (./include/drm/spsc_queue.h:74 drivers/gpu/drm/scheduler/sched_entity.c:574) gpu_sched
+[ 1879.706808] amdgpu_cs_ioctl (drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1375 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1469) amdgpu
+[ 1879.710589] drm_ioctl_kernel (drivers/gpu/drm/drm_ioctl.c:788) drm
+[ 1879.711068] drm_ioctl (drivers/gpu/drm/drm_ioctl.c:892) drm
+[ 1879.711551] amdgpu_drm_ioctl (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2748) amdgpu
+[ 1879.715319] __x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:870 fs/ioctl.c:856 fs/ioctl.c:856)
+[ 1879.715334] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80)
+[ 1879.715345] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:120)
+
+[ 1879.715365] read to 0xffff8f3672748c40 of 8 bytes by task 1098 on cpu 11:
+[ 1879.715376] drm_sched_entity_is_ready (drivers/gpu/drm/scheduler/sched_entity.c:134) gpu_sched
+[ 1879.715435] drm_sched_select_entity (drivers/gpu/drm/scheduler/sched_main.c:248 drivers/gpu/drm/scheduler/sched_main.c:893) gpu_sched
+[ 1879.715495] drm_sched_main (drivers/gpu/drm/scheduler/sched_main.c:1019) gpu_sched
+[ 1879.715554] kthread (kernel/kthread.c:389)
+[ 1879.715563] ret_from_fork (arch/x86/kernel/process.c:145)
+[ 1879.715575] ret_from_fork_asm (arch/x86/entry/entry_64.S:312)
+
+[ 1879.715590] value changed: 0x0000000000000000 -> 0xffff8f360663dc00
+
+[ 1879.715604] Reported by Kernel Concurrency Sanitizer on:
+[ 1879.715612] CPU: 11 PID: 1098 Comm: gfx_0.0.0 Tainted: G             L     6.5.0-rc6+ #47
+[ 1879.715624] Hardware name: ASRock X670E PG Lightning/X670E PG Lightning, BIOS 1.21 04/26/2023
+[ 1879.715631] ==================================================================
+
+It seems that the line in question might be:
+
+	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
+
+which expands to:
+
+static inline bool spsc_queue_push(struct spsc_queue *queue, struct spsc_node *node)
+{
+	struct spsc_node **tail;
+
+	node->next = NULL;
+
+	preempt_disable();
+
+	tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, (long)&node->next);
+	WRITE_ONCE(*tail, node);
+	atomic_inc(&queue->job_count);
+
+	/*
+	 * In case of first element verify new node will be visible to the consumer
+	 * thread when we ping the kernel thread that there is new work to do.
+	 */
+	smp_wmb();
+
+	preempt_enable();
+
+	return tail == &queue->head;
+}
+
+According to the manual, preempt_disable() only guaranteed exclusion on a single CPU/core/thread, so
+we might be plagued with the slow, old fashioned locking unless anyone had a better idea.
+
+Best regards,
+Mirsad Todorovac
