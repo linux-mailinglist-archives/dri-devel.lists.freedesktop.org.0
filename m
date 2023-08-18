@@ -2,71 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBCC7809CC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 12:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984217809E3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 12:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B57A10E080;
-	Fri, 18 Aug 2023 10:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A73A10E4B2;
+	Fri, 18 Aug 2023 10:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 605A210E545
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 18:04:26 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-52256241c50so68747a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 11:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692295465; x=1692900265;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UxvCrw/069KltoPZkQIYth4BBOJdgJ8sNaI0SyyMDnM=;
- b=LlNp+0S95wa2DHWIhxZumDFmianXTCRMJjOitpuiuyKYp0AAZb4zHQT8ZXqFwgTr3M
- TAcGjKr7A/7LbmvxCY8pqvLWzcywa017/uoZ3dhPRVfKQBpxe2Rx4JQVzmQMUv/lluNQ
- 8t/PjmueudVyVsA4+vkTHFn9Wg1EnP9GTqy6bCt1AIDvGSTkLDX8uzmkFWqf6cdFJtPf
- KRm02KV0hef2hr/xa3gZ+j3wmJGjbj9dQaAlasQmWzrxH3IJ5JCWJI2/kGrxl9CivxpV
- AvKdmfKLPT+4igVvanygECsKarn9iz35Qwe/ar6m/vTrTtCGRNAG2OY42t5fatoyv1PR
- bXLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692295465; x=1692900265;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UxvCrw/069KltoPZkQIYth4BBOJdgJ8sNaI0SyyMDnM=;
- b=TN9J2OQyEIh5qUf3JjR+bezpzgVtFPWymIEU7YudtYrKA4d0Qsa+swjvWdIQG8Ic0s
- kZGojJC00cp1LJe+dYzvobcNLkt1WjK9/ZmVKVdwh8c87i8XsmsXRQG0id+PFSa+/FvK
- WFNWEiml4QE7/wC08LBxqvSROF8a57DV6icgwX53/gCXntg68wPmuDwJ4W+xLcYZXu4u
- 0flMy/PQc3QeZf2BNry+SWHAqPFoN7ub1hyEaqAfdjb9ZIZ1uG4SHX86lZfoWZ/WMbob
- BXT9rjnyYneveG8wW12NRAaW9LEQFlCrV/uMt1bte9OQBnvAmXqoaU+Mij1KN7/4H5Zm
- x3aA==
-X-Gm-Message-State: AOJu0YzTkmc6I5hpdzPTCYOYqGxdb+JyfFfqIGxPoEzWm5ZdWX2MzPjC
- GJJIc42eSyqDHeERqsPJ4fw=
-X-Google-Smtp-Source: AGHT+IG0Woy+0POxg4sPHGGIdfrc456TaHlsCCBtEoEEY8ldQE+9Fdkgkm7V8IaZV79Aen7WtSv5Lw==
-X-Received: by 2002:a17:906:8a72:b0:99c:6692:7f76 with SMTP id
- hy18-20020a1709068a7200b0099c66927f76mr153247ejc.16.1692295464443; 
- Thu, 17 Aug 2023 11:04:24 -0700 (PDT)
-Received: from [192.168.8.100] ([148.252.129.159])
- by smtp.gmail.com with ESMTPSA id
- h6-20020a1709063c0600b0099b921de301sm27628ejg.159.2023.08.17.11.04.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Aug 2023 11:04:23 -0700 (PDT)
-Message-ID: <7889b4f8-78d9-9a0a-e2cc-aae4ed8a80fd@gmail.com>
-Date: Thu, 17 Aug 2023 19:00:35 +0100
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4F43D10E4B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 10:20:46 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxPOv8Rd9kKtgZAA--.47958S3;
+ Fri, 18 Aug 2023 18:20:44 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxHCP8Rd9kYIpdAA--.13478S3; 
+ Fri, 18 Aug 2023 18:20:44 +0800 (CST)
+Message-ID: <fb242a7e-b1ee-7be0-cbc4-be710e246279@loongson.cn>
+Date: Fri, 18 Aug 2023 18:20:44 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/11] Device Memory TCP
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
+ arch-dependent
 Content-Language: en-US
-To: David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>,
- netdev@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <7dc4427f-ee99-e401-9ff8-d554999e60ca@kernel.org>
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <7dc4427f-ee99-e401-9ff8-d554999e60ca@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+References: <20230817220853.GA328159@bhelgaas>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230817220853.GA328159@bhelgaas>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 18 Aug 2023 10:15:02 +0000
+X-CM-TRANSID: AQAAf8BxHCP8Rd9kYIpdAA--.13478S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWrWrGr4fCF15Jr4DCF1xZwc_yoW5XryfpF
+ yfua93tF4kWrs8KanFvw18WF47urZ7Aa9xArnxJry0kr43W34FgrZIkr4Yya47JFsaqFyS
+ va9Fq348t3WDAagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9Sb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
+ 67AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
+ 8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
+ CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+ 1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBI
+ daVFxhVjvjDU0xZFpf9x07jOF4_UUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,58 +64,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, David Wei <dw@davidwei.uk>,
- Sumit Semwal <sumit.semwal@linaro.org>, stephen@networkplumber.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Eric Dumazet <edumazet@google.com>,
- sdf@google.com, Andy Lutomirski <luto@kernel.org>,
- Hari Ramakrishnan <rharix@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-riscv@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/14/23 02:12, David Ahern wrote:
-> On 8/9/23 7:57 PM, Mina Almasry wrote:
->> Changes in RFC v2:
->> ------------------
-...
->> ** Test Setup
->>
->> Kernel: net-next with this RFC and memory provider API cherry-picked
->> locally.
->>
->> Hardware: Google Cloud A3 VMs.
->>
->> NIC: GVE with header split & RSS & flow steering support.
-> 
-> This set seems to depend on Jakub's memory provider patches and a netdev
-> driver change which is not included. For the testing mentioned here, you
-> must have a tree + branch with all of the patches. Is it publicly available?
-> 
-> It would be interesting to see how well (easy) this integrates with
-> io_uring. Besides avoiding all of the syscalls for receiving the iov and
-> releasing the buffers back to the pool, io_uring also brings in the
-> ability to seed a page_pool with registered buffers which provides a
-> means to get simpler Rx ZC for host memory.
+Hi,
 
-The patchset sounds pretty interesting. I've been working with David Wei
-(CC'ing) on io_uring zc rx (prototype polishing stage) all that is old
-similar approaches based on allocating an rx queue. It targets host
-memory and device memory as an extra feature, uapi is different, lifetimes
-are managed/bound to io_uring. Completions/buffers are returned to user via
-a separate queue instead of cmsg, and pushed back granularly to the kernel
-via another queue. I'll leave it to David to elaborate
 
-It sounds like we have space for collaboration here, if not merging then
-reusing internals as much as we can, but we'd need to look into the
-details deeper.
+On 2023/8/18 06:08, Bjorn Helgaas wrote:
+>> Please note that before apply this patch, vgaarb can not select the
+>> right boot vga due to weird logic introduced with the commit
+>> 57fc7323a8e7c ("LoongArch: Add PCI controller support")
+> If we need this reference to 57fc7323a8e7c, we need more specifics
+> about what the "weird logic" is.  pci_fixup_vgadev() is the only
+> obvious VGA connection, so I suppose it's related to that.
+>
+Yes, you are right.
 
-> Overall I like the intent and possibilities for extensions, but a lot of
-> details are missing - perhaps some are answered by seeing an end-to-end
-> implementation.
+The pci_fixup_vgadev() function will set the last VGA device enumerated as the default boot device.
+By "the last" VGA device, I mean that this device has the largest PCI bus, domain, and function triple.
+Thus, it is added to vgaarb in the end of all VGA device.
+So that logic expresses that the last one added will be the default.
+This probably is not what we want.
 
--- 
-Pavel Begunkov
+
+On the LS3A5000+LS7A1000 platform, the last VGA device is a S3 graphics 
+(08:00.0). This GPU has two cores. Say the log below:
+
+
+$ lspci | grep VGA
+
+  00:06.1 VGA compatible controller: Loongson Technology LLC DC (Display Controller) (rev 01)
+  03:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Caicos XT [Radeon HD 7470/8470 / R5 235/310 OEM]
+  07:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
+  08:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
+
+[    0.361781] vgaarb: loaded
+[    0.367838] pci 0000:00:06.1: Overriding boot device as 1002:6778
+[    0.367841] pci 0000:00:06.1: Overriding boot device as 5333:9070
+[    0.367843] pci 0000:00:06.1: Overriding boot device as 5333:9070
+
+1) The "weird" logic completely overrides whatever decision VGAARB ever made.
+
+It seems to say that the decision ever made by VGAARB is useless.
+Well, I think VGAARB shouldn't endure this; VGAARB has to be small.
+
+  
+
+2) The results it gives are not correct either.
+
+In the first testing example in my commit message,
+it overrides the S3 graphics as the default boot VGA instead of the AMD/ATI GPU.
+Actually, the firmware chooses the AMD/ATI GPU as the "frimware default".
+
+  
+
+3) It tries to make the decision for the end user instead of the firmware.
+
+Therefore, that function is always wrong. Again, it's a policy, not a mechanism.
+
+
+Since that already have been merge, I'm fine.
+Maybe Huacai is busy, he might don't has the time to carry on a deep thinking.
+But I think we should correct the mistake ever made,
+let's merge this patch to make vgaarb great again ?
+
+
+Well, that commit is not a dependency, I don't mind delete the referencing
+to that commit. After all, I think my patch will be effective on other architectures.
+Is additional testing on ARM64 and X86 is needed, if so I have to find the machine to
+carry on the testing.
+
