@@ -1,58 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E82B780505
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 06:09:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 291F578050A
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 06:13:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B9B10E43E;
-	Fri, 18 Aug 2023 04:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401F110E441;
+	Fri, 18 Aug 2023 04:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0EB4D10E43E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 04:09:32 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bxnuv67t5kp8cZAA--.50730S3;
- Fri, 18 Aug 2023 12:09:30 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxPCP67t5kQlxdAA--.13538S3; 
- Fri, 18 Aug 2023 12:09:30 +0800 (CST)
-Message-ID: <31ceb1b8-52e8-f57b-0e76-ea768242e26e@loongson.cn>
-Date: Fri, 18 Aug 2023 12:09:29 +0800
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1447110E441
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 04:13:15 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id C2403327CB6;
+ Fri, 18 Aug 2023 05:13:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1692331993; bh=Z90lYTsnk2rL97KwndbL2rx3/QIIQtqV4IsDi0aUcCY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nHunDvVknX/PrApH0jQ296pWMtL60PVsqYX4JdKg62mHwNOOHRBggZyKjQE+wd230
+ XiwM3MkNmqo5wPXU9zKXSbJ7VpRvm28omb8E4g6vqTMVgvOjKCFzIo159GPwtbf/Y+
+ VfMQEzHIs2Cie5oR039zOlenLwX2cNlyqJwGNq+NKY+ilezHhEkJvPrFLDhku5mtiy
+ JOipVEpHYbaLoLcsYHN/fQYctnAgXgI9nzDVzKfuM4btMHMAhy09mMhbqeHLBcJ3c+
+ wLm+Qi/i/FbSlkIi617J5JBk45kq7rTrA/C0nUOpaMju0I8z+csbYshOpUi7rL9tnV
+ oWq7StDuIMomg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Fix possible invalid drm gem put calls
+Date: Fri, 18 Aug 2023 00:13:01 -0400
+Message-Id: <20230818041301.407636-1-zack@kde.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
- arch-dependent
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230817220853.GA328159@bhelgaas>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230817220853.GA328159@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxPCP67t5kQlxdAA--.13538S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuF1UKr1xGr18Aw4DuF4rJFc_yoW5AFyUp3
- yrCF1FkF4kArnakrnrGw4kXF1rAws7Xa4FkFn0y34DA343Zrn2qrySkrWqgFyUZrs7X3W2
- vF40gwn5GayqvagCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUPIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
- xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
- 6r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxG
- rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j7BMNUUU
- UU=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,81 +45,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Limonciello,
- Mario" <Mario.Limonciello@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-riscv@lists.infradead.org, Emil Velikov <emil.velikov@collabora.com>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: stable@vger.kernel.org, krastevm@vmware.com, banackm@vmware.com,
+ iforbes@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Zack Rusin <zackr@vmware.com>
 
+vmw_bo_unreference sets the input buffer to null on exit, resulting in
+null ptr deref's on the subsequent drm gem put calls.
 
-On 2023/8/18 06:08, Bjorn Helgaas wrote:
-> On Wed, Aug 16, 2023 at 06:05:27AM +0800, Sui Jingfeng wrote:
->> Currently, the vga_is_firmware_default() function only works on x86 and
->> ia64, it is a no-op on ARM, ARM64, PPC, RISC-V, etc. This patch completes
->> the implementation for the rest of the architectures. The added code tries
->> to identify the PCI(e) VGA device that owns the firmware framebuffer
->> before PCI resource reallocation happens.
-> As far as I can tell, this is basically identical to the existing
-> vga_is_firmware_default(), except that this patch funs that code as a
-> header fixup, so it happens before any PCI BAR reallocations happen.
+This went unnoticed because only very old userspace would be exercising
+those paths but it wouldn't be hard to hit on old distros with brand
+new kernels.
 
+Introduce a new function that abstracts unrefing of user bo's to make
+the code cleaner and more explicit.
 
-Yes, what you said is right in overall.
-But I think I should mention a few tiny points that make a difference.
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reported-by: Ian Forbes <iforbes@vmware.com>
+Fixes: 9ef8d83e8e25 ("drm/vmwgfx: Do not drop the reference to the handle too soon")
+Cc: <stable@vger.kernel.org> # v6.4+
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 6 ++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h      | 8 ++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 6 ++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c     | 6 ++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c | 3 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c  | 3 +--
+ 6 files changed, 16 insertions(+), 16 deletions(-)
 
-1) My version is *less arch-dependent*
-
-
-Again, since the global screen_info is arch-dependent.
-The vga_is_firmware_default() mess up the arch-dependent part and arch-independent part.
-It's a mess and it's a bit harder to make the cleanup on the top of it.
-
-While my version is my version split the arch-dependent part and arch-independent part clearly.
-Since we decide to make it less arch-dependent, we have to bear the pain.
-Despite all other arches should always export the screen_info like the X86 and IA64 arch does,
-or at least a arch should give a Kconfig token (for example, CONFIG_ARCH_HAS_SCREEN_INFO) to
-demonstrate that an arch has the support for it.
-While currently, the fact is that the dependence just populated to everywhere.
-I think this is the hard part, you have to investigate how various arches defines and set up
-the screen_info. And then process dependency and the linkage problem across arch properly.
-
-
-2) My version focus on the address in ranges, weaken the size parameter.
-
-Which make the code easy to read and follow the canonical convention to
-express the address range. while the vga_is_firmware_default() is not.
-
-
-3) A tiny change make a big difference.
-
-
-The original vga_is_firmware_default() only works with the assumption
-that the PCI resource reallocation won't happens. While I see no clue
-that why this is true even on X86 and IA64. The original patch[1] not
-mention this assumption explicitly.
-  
-[1] 86fd887b7fe3 ('vgaarb: Don't default exclusively to first video device with mem+io')
-
-
-> That sounds like a good idea, because this is all based on the
-> framebuffer in screen_info, and screen_info was initialized before PCI
-> enumeration, and it certainly doesn't account for any BAR changes done
-> by the PCI core.
-
-
-Yes.
-
-
-> So why would we keep vga_is_firmware_default() at all?  If the header
-> fixup has already identified the firmware framebuffer, it seems
-> pointless to look again later.
->
-
-It need another patch to do the cleanup work, while my patch just add code to solve the real problem.
-It focus on provide a solution for the architectures which have a decent way set up the screen_info.
-Other things except that is secondary.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 82094c137855..c43853597776 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -497,10 +497,9 @@ static int vmw_user_bo_synccpu_release(struct drm_file *filp,
+ 		if (!(flags & drm_vmw_synccpu_allow_cs)) {
+ 			atomic_dec(&vmw_bo->cpu_writers);
+ 		}
+-		ttm_bo_put(&vmw_bo->tbo);
++		vmw_user_bo_unref(vmw_bo);
+ 	}
+ 
+-	drm_gem_object_put(&vmw_bo->tbo.base);
+ 	return ret;
+ }
+ 
+@@ -540,8 +539,7 @@ int vmw_user_bo_synccpu_ioctl(struct drm_device *dev, void *data,
+ 			return ret;
+ 
+ 		ret = vmw_user_bo_synccpu_grab(vbo, arg->flags);
+-		vmw_bo_unreference(&vbo);
+-		drm_gem_object_put(&vbo->tbo.base);
++		vmw_user_bo_unref(vbo);
+ 		if (unlikely(ret != 0)) {
+ 			if (ret == -ERESTARTSYS || ret == -EBUSY)
+ 				return -EBUSY;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+index 50a836e70994..1d433fceed3d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+@@ -195,6 +195,14 @@ static inline struct vmw_bo *vmw_bo_reference(struct vmw_bo *buf)
+ 	return buf;
+ }
+ 
++static inline void vmw_user_bo_unref(struct vmw_bo *vbo)
++{
++	if (vbo) {
++		ttm_bo_put(&vbo->tbo);
++		drm_gem_object_put(&vbo->tbo.base);
++	}
++}
++
+ static inline struct vmw_bo *to_vmw_bo(struct drm_gem_object *gobj)
+ {
+ 	return container_of((gobj), struct vmw_bo, tbo.base);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 6b9aa2b4ef54..25b96821df0f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -1164,8 +1164,7 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+ 	}
+ 	vmw_bo_placement_set(vmw_bo, VMW_BO_DOMAIN_MOB, VMW_BO_DOMAIN_MOB);
+ 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+-	ttm_bo_put(&vmw_bo->tbo);
+-	drm_gem_object_put(&vmw_bo->tbo.base);
++	vmw_user_bo_unref(vmw_bo);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+@@ -1221,8 +1220,7 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
+ 	vmw_bo_placement_set(vmw_bo, VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM,
+ 			     VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM);
+ 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+-	ttm_bo_put(&vmw_bo->tbo);
+-	drm_gem_object_put(&vmw_bo->tbo.base);
++	vmw_user_bo_unref(vmw_bo);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index b62207be3363..1489ad73c103 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -1665,10 +1665,8 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ 
+ err_out:
+ 	/* vmw_user_lookup_handle takes one ref so does new_fb */
+-	if (bo) {
+-		vmw_bo_unreference(&bo);
+-		drm_gem_object_put(&bo->tbo.base);
+-	}
++	if (bo)
++		vmw_user_bo_unref(bo);
+ 	if (surface)
+ 		vmw_surface_unreference(&surface);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+index 7e112319a23c..fb85f244c3d0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+@@ -451,8 +451,7 @@ int vmw_overlay_ioctl(struct drm_device *dev, void *data,
+ 
+ 	ret = vmw_overlay_update_stream(dev_priv, buf, arg, true);
+ 
+-	vmw_bo_unreference(&buf);
+-	drm_gem_object_put(&buf->tbo.base);
++	vmw_user_bo_unref(buf);
+ 
+ out_unlock:
+ 	mutex_unlock(&overlay->mutex);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+index e7226db8b242..1e81ff2422cf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+@@ -809,8 +809,7 @@ static int vmw_shader_define(struct drm_device *dev, struct drm_file *file_priv,
+ 				    shader_type, num_input_sig,
+ 				    num_output_sig, tfile, shader_handle);
+ out_bad_arg:
+-	vmw_bo_unreference(&buffer);
+-	drm_gem_object_put(&buffer->tbo.base);
++	vmw_user_bo_unref(buffer);
+ 	return ret;
+ }
+ 
+-- 
+2.39.2
 
