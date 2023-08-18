@@ -1,65 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB0B780699
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 09:51:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2731378071A
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 10:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247BE10E491;
-	Fri, 18 Aug 2023 07:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D08BA10E47E;
+	Fri, 18 Aug 2023 08:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A6310E495
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 07:51:49 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-6887918ed20so580394b3a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 00:51:49 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6A110E47E
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 08:25:53 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fea0640d88so6334905e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 01:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692345108; x=1692949908;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
- b=fj3Sr39wL3fzDsfknyoIDSaX/hKw0qm2MKFHXwlW7V9t9CPsWpsqFK2rfR2EgXsszt
- SWCQirErdL/v3nmZ72wbpZl+AR6oZm16OEK6F3AE2bLwje1DcOmrQawSHnVEKXuy/9xL
- bZltYEqUJdjK65OUQxsdvbIr3kD8WxSK0C/E4=
+ d=linaro.org; s=google; t=1692347152; x=1692951952;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=P94G+aGtqWqzp7JQVW55iVN3o77kNsr2r3KDiAceVkY=;
+ b=qDF12JnMRPZYLFEG68a2swDvXax4/q83Hcu0/wjWG4x2q9+yy14DhBYzZ/2k1VEWnw
+ eb+m7WyOPxXKs+UgwvK+bpq501HaMs2ATbC9Wpaatf0Pkk38OjiFCVFPp1b7LziR5+gN
+ TNG8iQ5MCu+G0vmKc6LXxy0c7dWQA6ZksA+ryWzk0H6ATsEWxvM6Wu190NVtT0JBIOIC
+ HYqr4z5yLXFN1Cxa7w4i+pg8/S9wo6u3rmKjfTgwYYRHFVIhtT3U1YMXrIpq1yNiuUkD
+ OuJF/4XPw09TJ3Sqxod7ucYKZY6UY3659oD5rXpaNnv9YGugIXVnP1wVI7NdyGyiiwJn
+ Eczg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692345108; x=1692949908;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FzLJdSBIukkN4qhyMEizJxafwoMrq+VDIPmKVmy8agI=;
- b=JLbfdKUoSuc9rrhlvCX2TJCHtw1PRlEWHfdA3xcA+m9+ptp1363snu366aUcN2L31N
- dTZaKLskW1itRKFtkZRUqv0mO6vtP3BjHnQIYFeBR6oXnDniZDlUejmYhLcqF9Gc+4B/
- 0V73OraJHuPd1GGhMEOSZCrC+8niUMjqqeQbmybzOuOsvyfnzRiB9JWd0D3mc6M1Cjo0
- /+DTNaozwhd2ugKU3mV3pwbwgcu1VgZC/y6ApHqh0sDZdVqxATgcTYlWkIIcDehWNc7Y
- pedSBHePLHqnSMO1NUYHvD639EWhEGbRqMcHzH6Ijr/YSX0O8K2qTBRxglrYR9vVu5Ir
- OFVA==
-X-Gm-Message-State: AOJu0Yzt/B1o7IqYrP3bTBewACpbNANTw274E+SoPQLNgWpB1+ZyIauy
- Rog5sahhGxIvuW7FeLZTxAtDMw==
-X-Google-Smtp-Source: AGHT+IEIPfYQQOp7jsIkLFRE8mPyTRJa5CnoOzNE5/KmBJCC8jFwXhgN6gQgyfaCEuHN7j92G9EyIA==
-X-Received: by 2002:a05:6a20:8f14:b0:13d:3b4d:e4b4 with SMTP id
- b20-20020a056a208f1400b0013d3b4de4b4mr2663291pzk.9.1692345108666; 
- Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
-Received: from datalore.c.googlers.com.com
- (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+ d=1e100.net; s=20221208; t=1692347152; x=1692951952;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=P94G+aGtqWqzp7JQVW55iVN3o77kNsr2r3KDiAceVkY=;
+ b=F7YIzH5lPSRYMVT70X20GOUdhgrweIYRmObqYGbyrvfQ9c0QSOBUVmM5pxChUmHwBO
+ OApKmioY5VKSxlQkhdGnmunf3ZRpYPqNYk3sEvyIUEFenrWZNbBS6wUKgD8N5d6f8UBt
+ ROk2wB1xtW+uwpKJl/qJTtIGjJ7vr4McgS5ILmhYg95y0qE55ESDR0odG3FO9aRR2wcr
+ NYdjSagKxpihHUf5dtu5m2LS7Hzs9nuazuyhdO+coHXuz5/nLm5M3fERXVg70gSobpSu
+ nn/rKc1gM55HtHgPZzjssH+WNdOcu+weoAqaPXadx1ZkXdASFUTIFwe0+6PaqrPKCNsS
+ cI1g==
+X-Gm-Message-State: AOJu0Yxw5B4qY+0jWZ+ixplsiWlUD4Ls6QMwV11SXYreZygIz8Bt6raT
+ E+Lw4EHBZQ9ocr3QROZ0ipBJaQ==
+X-Google-Smtp-Source: AGHT+IHiGuRAdkMZLvWSmTmWtiKwEOeQJsA+zLM1gbXkZTLmP+ZCpLbwuWawN0pefdMRH4VCdJpGBw==
+X-Received: by 2002:adf:e48c:0:b0:317:2574:c2b1 with SMTP id
+ i12-20020adfe48c000000b003172574c2b1mr1567864wrm.30.1692347151897; 
+ Fri, 18 Aug 2023 01:25:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b9f6:39b9:fff4:e741?
+ ([2a01:e0a:982:cbb0:b9f6:39b9:fff4:e741])
  by smtp.gmail.com with ESMTPSA id
- jj19-20020a170903049300b001ba066c589dsm1051834plb.137.2023.08.18.00.51.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Aug 2023 00:51:48 -0700 (PDT)
-From: Brandon Pollack <brpol@chromium.org>
-To: marius.vlad@collabora.com,
-	jshargo@chromium.org
-Subject: [PATCH v3 7/7] drm/vkms Add hotplug support via configfs to VKMS.
-Date: Fri, 18 Aug 2023 07:43:12 +0000
-Message-ID: <20230818075057.3426088-8-brpol@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
-In-Reply-To: <20230818075057.3426088-1-brpol@chromium.org>
-References: <20230818075057.3426088-1-brpol@chromium.org>
+ s12-20020adfeccc000000b00317b5c8a4f1sm1968862wro.60.2023.08.18.01.25.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Aug 2023 01:25:51 -0700 (PDT)
+Message-ID: <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+Date: Fri, 18 Aug 2023 10:25:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Content-Language: en-US, fr
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robdclark@gmail.com>
+References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
+ <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
+ <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
+ <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,303 +117,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
- linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
- corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
- tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
+Reply-To: neil.armstrong@linaro.org
+Cc: quic_parellan@quicinc.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change adds the ability to read or write a "1" or a "0" to the
-newly added "connected" attribute of a connector in the vkms entry in
-configfs.
+Hi Dmitry,
 
-A write will trigger a call to drm_kms_helper_hotplug_event, causing a
-hotplug uevent.
+On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+>> Hi Abhinav,
+>>
+>> On 14/08/2023 20:02, Abhinav Kumar wrote:
 
-With this we can write virtualized multidisplay tests that involve
-hotplugging displays (eg recompositing windows when a monitor is turned
-off).
+<snip>
 
-Signed-off-by: Brandon Pollack <brpol@chromium.org>
----
- Documentation/gpu/vkms.rst           |  2 +-
- drivers/gpu/drm/vkms/vkms_configfs.c | 68 ++++++++++++++++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++
- drivers/gpu/drm/vkms/vkms_output.c   | 47 ++++++++++++++++++-
- 4 files changed, 123 insertions(+), 5 deletions(-)
+>>
+>> Sending HS commands will always work on any controller, it's all about LP commands.
+>> The Samsung panels you listed only send HS commands so they can use prepare_prev_first
+>> and work on any controllers.
+> 
+> I think there is some misunderstanding there, supported by the description of the flag.
+> 
+> If I remember correctly, some hosts (sunxi) can not send DCS commands after enabling video stream and switching to HS mode, see [1]. Thus, as you know, most of the drivers have all DSI panel setup commands in drm_panel_funcs::prepare() / drm_bridge_funcs::pre_enable() callbacks, not paying attention whether these commands are to be sent in LP or in HS mode.
+> 
+> Previously DSI source drivers could power on the DSI link either in mode_set() or in pre_enable() callbacks, with mode_set() being the hack to make panel/bridge drivers to be able to send commands from their prepare() / pre_enable() callbacks.
+> 
+> With the prev_first flags being introduced, we have established that DSI link should be enabled in DSI host's pre_enable() callback and switched to HS mode (be it command or video) in the enable() callback.
+> 
+> So far so good.
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index c3875bf66dba..7f715097539c 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -145,7 +145,7 @@ We want to be able to manipulate vkms instances without having to reload the
- module. Such configuration can be added as extensions to vkms's ConfigFS
- support. Use-cases:
- 
--- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
-+- Hotremove connectors on the fly (to be able to test DP MST handling
-   of compositors).
- 
- - Change output configuration: Plug/unplug screens, change EDID, allow changing
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index d9c48ab3d760..94a78780af09 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
-+#include "drm/drm_probe_helper.h"
- #include <linux/configfs.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-@@ -40,6 +41,7 @@
-  *   `-- vkms
-  *       `-- test
-  *           |-- connectors
-+ *                `-- connected
-  *           |-- crtcs
-  *           |-- encoders
-  *           |-- planes
-@@ -92,6 +94,14 @@
-  *
-  *   echo 1 > /config/vkms/test/enabled
-  *
-+ * By default no display is "connected" so to connect a connector you'll also
-+ * have to write 1 to a connectors "connected" attribute::
-+ *
-+ *   echo 1 > /config/vkms/test/connectors/connector/connected
-+ *
-+ * One can verify that this is worked using the `modetest` utility or the
-+ * equivalent for your platform.
-+ *
-  * When you're done with the virtual device, you can clean up the device like
-  * so::
-  *
-@@ -237,7 +247,58 @@ static void add_possible_encoders(struct config_group *parent,
- 
- /*  Connector item, e.g. /config/vkms/device/connectors/ID */
- 
-+static ssize_t connector_connected_show(struct config_item *item, char *buf)
-+{
-+	struct vkms_config_connector *connector =
-+		item_to_config_connector(item);
-+	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-+	bool connected = false;
-+
-+	mutex_lock(&configfs->lock);
-+	connected = connector->connected;
-+	mutex_unlock(&configfs->lock);
-+
-+	return sprintf(buf, "%d\n", connected);
-+}
-+
-+static ssize_t connector_connected_store(struct config_item *item,
-+					 const char *buf, size_t len)
-+{
-+	struct vkms_config_connector *connector =
-+		item_to_config_connector(item);
-+	struct vkms_configfs *configfs = connector_item_to_configfs(item);
-+	int val, ret;
-+
-+	ret = kstrtouint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != 1 && val != 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&configfs->lock);
-+	connector->connected = val;
-+	if (!connector->connector) {
-+		pr_info("VKMS Device %s is not yet enabled, connector will be enabled on start",
-+			configfs->device_group.cg_item.ci_name);
-+	}
-+	mutex_unlock(&configfs->lock);
-+
-+	if (connector->connector)
-+		drm_kms_helper_hotplug_event(connector->connector->dev);
-+
-+	return len;
-+}
-+
-+CONFIGFS_ATTR(connector_, connected);
-+
-+static struct configfs_attribute *connector_attrs[] = {
-+	&connector_attr_connected,
-+	NULL,
-+};
-+
- static struct config_item_type connector_type = {
-+	.ct_attrs = connector_attrs,
- 	.ct_owner = THIS_MODULE,
- };
- 
-@@ -265,7 +326,7 @@ static ssize_t plane_type_show(struct config_item *item, char *buf)
- 	plane_type = plane->type;
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%u", plane_type);
-+	return sprintf(buf, "%u\n", plane_type);
- }
- 
- static ssize_t plane_type_store(struct config_item *item, const char *buf,
-@@ -320,6 +381,7 @@ static struct config_group *connectors_group_make(struct config_group *group,
- 				    &connector_type);
- 	add_possible_encoders(&connector->config_group,
- 			      &connector->possible_encoders.group);
-+	connector->connected = false;
- 
- 	return &connector->config_group;
- }
-@@ -501,7 +563,7 @@ static ssize_t device_enabled_show(struct config_item *item, char *buf)
- 	is_enabled = configfs->vkms_device != NULL;
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%d", is_enabled);
-+	return sprintf(buf, "%d\n", is_enabled);
- }
- 
- static ssize_t device_enabled_store(struct config_item *item, const char *buf,
-@@ -558,7 +620,7 @@ static ssize_t device_id_show(struct config_item *item, char *buf)
- 
- 	mutex_unlock(&configfs->lock);
- 
--	return sprintf(buf, "%d", id);
-+	return sprintf(buf, "%d\n", id);
- }
- 
- CONFIGFS_ATTR_RO(device_, id);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 9f1465b06055..a6947c24276b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -3,6 +3,7 @@
- #ifndef _VKMS_DRV_H_
- #define _VKMS_DRV_H_
- 
-+#include "drm/drm_connector.h"
- #include <linux/configfs.h>
- #include <linux/hrtimer.h>
- 
-@@ -147,7 +148,9 @@ struct vkms_config_links {
- 
- struct vkms_config_connector {
- 	struct config_group config_group;
-+	struct drm_connector *connector;
- 	struct vkms_config_links possible_encoders;
-+	bool connected;
- };
- 
- struct vkms_config_crtc {
-@@ -220,6 +223,10 @@ struct vkms_device {
- #define item_to_configfs(item) \
- 	container_of(to_config_group(item), struct vkms_configfs, device_group)
- 
-+#define connector_item_to_configfs(item)                                     \
-+	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
-+		     connectors_group)
-+
- #define item_to_config_connector(item)                                    \
- 	container_of(to_config_group(item), struct vkms_config_connector, \
- 		     config_group)
-@@ -279,4 +286,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
- int vkms_init_configfs(void);
- void vkms_unregister_configfs(void);
- 
-+/* Connector hotplugging */
-+enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-+						bool force);
-+
- #endif /* _VKMS_DRV_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 512f147d41b8..5b23bdf7fb81 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
-+#include <drm/drm_print.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
-@@ -8,10 +9,12 @@
- #include <drm/drm_plane.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-+#include <linux/printk.h>
- 
- #include "vkms_drv.h"
- 
- static const struct drm_connector_funcs vkms_connector_funcs = {
-+	.detect = vkms_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
-@@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
-+static const struct vkms_config_connector *
-+find_config_for_connector(struct drm_connector *connector)
-+{
-+	struct vkms_device *vkms = drm_device_to_vkms_device(connector->dev);
-+	struct vkms_configfs *configfs = vkms->configfs;
-+	struct config_item *item;
-+
-+	if (!configfs) {
-+		pr_info("Default connector has no configfs entry");
-+		return NULL;
-+	}
-+
-+	list_for_each_entry(item, &configfs->connectors_group.cg_children,
-+			    ci_entry) {
-+		struct vkms_config_connector *config_connector =
-+			item_to_config_connector(item);
-+		if (config_connector->connector == connector)
-+			return config_connector;
-+	}
-+
-+	pr_warn("Could not find config to match connector %s, but configfs was initialized",
-+		connector->name);
-+
-+	return NULL;
-+}
-+
-+enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
-+						bool force)
-+{
-+	enum drm_connector_status status = connector_status_connected;
-+	const struct vkms_config_connector *config_connector =
-+		find_config_for_connector(connector);
-+
-+	if (!config_connector)
-+		return connector_status_connected;
-+
-+	if (!config_connector->connected)
-+		status = connector_status_disconnected;
-+
-+	return status;
-+}
-+
- static const struct drm_encoder_funcs vkms_encoder_funcs = {
- 	.destroy = drm_encoder_cleanup,
- };
-@@ -216,12 +261,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		struct vkms_config_connector *config_connector =
- 			item_to_config_connector(item);
- 		struct drm_connector *connector = vkms_connector_init(vkmsdev);
--
- 		if (IS_ERR(connector)) {
- 			DRM_ERROR("Failed to init connector from config: %s",
- 				  item->ci_name);
- 			return PTR_ERR(connector);
- 		}
-+		config_connector->connector = connector;
- 
- 		for (int j = 0; j < output->num_encoders; j++) {
- 			struct encoder_map *encoder = &encoder_map[j];
--- 
-2.42.0.rc1.204.g551eb34607-goog
+It seems coherent, I would like first to have a state of all DSI host drivers and make this would actually work first before adding the prev_first flag to all the required panels.
+
+> 
+> Unfortunately this change is not fully backwards-compatible. This requires that all DSI panels sending commands from prepare() should have the prepare_prev_first flag. In some sense, all such patches might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to drm_panel").
+
+This kind of migration should be done *before* any possible regression, not the other way round.
+
+If all panels sending commands from prepare() should have the prepare_prev_first flag, then it should be first, check for regressions then continue.
+
+<snip>
+
+>>
+>> I understand, but this patch doesn't qualify as a fix for 9e15123eca79 and is too late to be merged in drm-misc-next for v6.6,
+>> and since 9e15123eca79 actually breaks some support it should be reverted (+ deps) since we are late in the rc cycles.
+> 
+> If we go this way, we can never reapply these patches. There will be no guarantee that all panel drivers are completely converted. We already have a story without an observable end - DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+
+I don't understand this point, who would block re-applying the patches ?
+
+The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple Linux version and went smoothly because we reverted
+regressing patches and restarted when needed, I don't understand why we can't do this here aswell.
+
+> 
+> I'd consider that the DSI driver is correct here and it is about the panel drivers that require fixes patches. If you care about the particular Fixes tag, I have provided one several lines above.
+
+Unfortunately it should be done in the other way round, prepare for migration, then migrate,
+
+I mean if it's a required migration, then it should be done and I'll support it from both bridge and panel PoV.
+
+So, first this patch has the wrong Fixes tag, and I would like a better explanation on the commit message in any case.
+Then I would like to have an ack from some drm-misc maintainers before applying it because it fixes a patch that
+was sent via the msm tree thus per the drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+
+Neil
+
+<snip>
 
