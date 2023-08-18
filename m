@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B611278037F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 03:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD7C780389
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Aug 2023 03:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E11D10E046;
-	Fri, 18 Aug 2023 01:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B06DE10E2EF;
+	Fri, 18 Aug 2023 01:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6DB5010E046
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 01:48:48 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bxd+j+zd5k470ZAA--.16857S3;
- Fri, 18 Aug 2023 09:48:46 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx7yP+zd5kaEddAA--.57387S3; 
- Fri, 18 Aug 2023 09:48:46 +0800 (CST)
-Message-ID: <9fb7ace8-2f07-17b6-10ce-7116b05b0148@loongson.cn>
-Date: Fri, 18 Aug 2023 09:48:46 +0800
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A3F10E2EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Aug 2023 01:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1692323607;
+ bh=3f0zBTiA//5gGXx/qQ6dBzFcQCrtR5703PUhKpUb/WU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=SxlucnBtkFrel1BIAzdK0fUNyASUo5Ha22yxge1VUmeUCo8NJumyGzsyVtmeHkrj2
+ wi4cQ85qT3Tu+m8Iw1zCJNfIwStzSE05R7O/vI0BKoP28f4YZdcPFLROqb2tW402r7
+ mu7NIJZ28TeKrRwf5U1uM8REOL58/Y0R8v6e5O9mKKqV+NH5JBZRFsAM3agqzwxTJQ
+ Xy73WB870HiQMFs7rie7KHJN/BsILjRxKvco/DnIi/yE+hjfux42wVPI8Lrt0g1vIa
+ ZoOWuC0lE3X5jNwE+wlXnIE7eN0bqbf6EYplcVF9VvPrzzf3+m9nexcsEK3XlnybG2
+ /oOTcfZ9z/hlQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4RRlJk2yrkz4wxR;
+ Fri, 18 Aug 2023 11:53:26 +1000 (AEST)
+Date: Fri, 18 Aug 2023 11:53:25 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
+Message-ID: <20230818115325.3ea01fcd@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
- arch-dependent
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230817220853.GA328159@bhelgaas>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230817220853.GA328159@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Cx7yP+zd5kaEddAA--.57387S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7JryDCF4fZr17XryUJw48KrX_yoWkZwbE9F
- W8ta4xGa4UJa47JanFkF4ruasY9rW5W3WxG34DJr4xX3yfurZ3X3yDtryxtr4ag3WjkrnI
- g34Utw48KwnY9osvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbf8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
- JVW8Jr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
- x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
- McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
- I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
- JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
+Content-Type: multipart/signed; boundary="Sig_/tnlWL.mShAsRT1uVsLdIvzg";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +48,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-riscv@lists.infradead.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Evan Quan <evan.quan@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/tnlWL.mShAsRT1uVsLdIvzg
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-On 2023/8/18 06:08, Bjorn Helgaas wrote:
->> +		if (resource_type(res) != IORESOURCE_MEM)
->> +			continue;
->> +
->> +		if (!res->start || !res->end)
->> +			continue;
->> +
->> +		if (res->start <= fb_start && fb_end <= res->end) {
->> +			pdev_boot_vga = pdev;
->> +
->> +			vgaarb_info(&pdev->dev,
->> +				    "BAR %d contains firmware FB\n", i);
-> Print the BAR with %pR and include the framebuffer region from
-> screen_info in the same format.
->
+Today's linux-next merge of the drm tree got a conflict in:
 
-I do remember that you already told me to do this in V3, sorry for not 
-replying to you at V3. Most of the time, what you tell me is right.But 
-here, I think I need to explain. Because doing it that way will make the 
-code line too long,and it will exceed 80 characters in the column if we 
-print too much.
-I believe that the vgaarb_info() at here is already the most compact and 
-simplest form. Printing the BAR with %pR is not absolute necessary, 
-because we can get the additional information by: $ lspci | grep VGA
+  drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
 
-$ dmesg | grep 05:00.0
-$ dmesg | grep 0000:03:00.0
-$ dmesg | grep PCI
+between commits:
 
+  61319b8e3b58 ("drm/amd/pm: disable the SMU13 OD feature support temporari=
+ly")
+  b6360a5ec31d ("drm/amd/pm: disallow the fan setting if there is no fan on=
+ smu 13.0.0")
 
-Actually, I only add something that is absolute necessary.
-Printing BAR with %pR and/or Printing the framebuffer region
-is consider to only for *debugging* purpose.
+from the drm-fixes tree and commit:
 
+  510d242f498a ("drm/amd/pm: disable the SMU13 OD feature support temporari=
+ly")
+
+from the drm tree.
+
+The git automatic resolution got this wrong by adding an extra "#if 0"
+above the duplicated "PPTable_t *pptable =3D smu->smu_table.driver_pptable;"
+from b6360a5ec31d.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+index 0fb6be11a0cc,fddcd834bcec..000000000000
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+@@@ -331,9 -331,8 +331,8 @@@ static int smu_v13_0_0_check_powerplay_
+  	struct smu_13_0_0_powerplay_table *powerplay_table =3D
+  		table_context->power_play_table;
+  	struct smu_baco_context *smu_baco =3D &smu->smu_baco;
+ -#if 0
+  	PPTable_t *pptable =3D smu->smu_table.driver_pptable;
+ +#if 0
+- 	PPTable_t *pptable =3D smu->smu_table.driver_pptable;
+  	const OverDriveLimits_t * const overdrive_upperlimits =3D
+  				&pptable->SkuTable.OverDriveLimitsBasicMax;
+  	const OverDriveLimits_t * const overdrive_lowerlimits =3D
+
+--Sig_/tnlWL.mShAsRT1uVsLdIvzg
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmTezxUACgkQAVBC80lX
+0GzF/Af+Nt+9/9xhWuwJKrEtj3ryaT8z7KoZO34segjVj9XIcw91BOZDIGzviAH1
+D8havbc3mEcHQLpWl87rC2eB2vtLPIFTLUx8niVoMpZ/dapMIxuVd7+x85++Eyjn
+LtBARv0ND4fzGEmGHkCYwcG5yN/T2nMppTpncW698uPggJDH6gb8FFOzV4PEC3XM
+VTL5N/taf1quCOclg90d0DuborZqt1M3OUQi7VuVMLCIoKOv12P/vyCUpZusi0Rk
+hMsDT2Lm77vnrbGMTStvuyFVTVWIaPXrZmxJ6qkOe40EV2NLpyK/MuzK8vEapy9Z
+/yp8e9Hr6JKx5z0V9+miEgahSJ8XDg==
+=+TFw
+-----END PGP SIGNATURE-----
+
+--Sig_/tnlWL.mShAsRT1uVsLdIvzg--
