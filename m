@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47881781A93
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Aug 2023 19:04:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D464781A96
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Aug 2023 19:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF45010E008;
-	Sat, 19 Aug 2023 17:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3342610E052;
+	Sat, 19 Aug 2023 17:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70AE710E008
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:04:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2BB10E052
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A1B926191D
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:04:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 070E4C433C9
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:04:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CD30960B3E
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 312C1C433C8
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692464644;
- bh=enYzqUV8TLLrFnZREOKnxmxsAYi/5W1wtqOaR/Ka920=;
+ s=k20201202; t=1692465212;
+ bh=1M8pArTwAPq7OQd0MIaldt6ort3OUqp3lnRswhtEQWI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=jFRLhM3ox6C9CVOwGgK6/AQSMjTPtXKnR19nxvVfQFV/Yq8nfCAy70YigcNtdaM8O
- NSptWVC/H06dwi6RYJSJMbtvpoJNAwkyN+nknMjDOifW0xBRcGSZzPuiCa8JgxNfKC
- erllP6JRrUjKljyfXy06WBrypASrTacmjm6NzLQuAxur/mp7zemorMzpfYCcD7Qsn6
- OyhWyEMJojxWtgZVMmG8oIlO1O7DnCq+GwL4/LIBGaHHoBDzuo1qqYvwPs98VFMaTz
- FWxw7d6J7x7Rkn032PsmBtrchYFfP345vgE5U0guAANXEngnX5pfl71yebnOXhyprx
- wZVkOeUnswiJw==
+ b=VhNlcGNZ1mCfOCnTQ//8IK1VKCD3v7smYk/iKor2ddwVkzPfTshuMpF6MGPYXVFfR
+ OGB09bOO5z7oJkPEkbLsblDN1YZVPPw4UBGG84Vl3oYewZUvLMhFa1lXhhlIILH8nx
+ 9arMxb0hxEUhhQer++t4gSMxh+YsK42h3QecsBl6KGLOvM/rxALQ62hD3OAEN5xAgX
+ sak7J4/oa/ldQ3muz8JZwHE7qN7ytdiVuFw4+Tf9RiOnzNYGqe0zqwAgqwy+AeMO+a
+ OKPNcOoI5G8WN+WfXQD/ih2rGe2imOtwT9nVAORPn1sxPU4cavnCJgXvBjRyAMoWMZ
+ uuPtUoCVunb5w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E27BBC53BD3; Sat, 19 Aug 2023 17:04:03 +0000 (UTC)
+ from userid 48) id 1B299C53BD3; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Sat, 19 Aug 2023 17:04:03 +0000
+Date: Sat, 19 Aug 2023 17:13:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217664-2300-a0sIqv5L8y@https.bugzilla.kernel.org/>
+Message-ID: <bug-217664-2300-iMo6cGA8SM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
 References: <bug-217664-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,16 +76,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
---- Comment #21 from popus_czy_to_ty (penteljapan@o2.pl) ---
-Now on those backup drivers? vesa?
-doesnt go to suspend, reacts on mouse clicks(touchpad), and touchpad moveme=
-nts,
-but not keyboard.
-im not good in linux but for some reason tty hangs up i need to run that fr=
-om
-second tty after disabling amdgpu.
-i made video how to it looks like to show it
-https://www.youtube.com/watch?v=3DHqxWxdpFVFU
+--- Comment #22 from popus_czy_to_ty (penteljapan@o2.pl) ---
+https://mega.nz/file/rkwHSRrb#MGBASmlT95wzofl5ZCg6PjyU4Y6CYTC5yl4bc03Hjik -
+kernel log
+
+dmesg - https://pastebin.com/jBgktfa1
+
+[on vesa drivers]
 
 --=20
 You may reply to this email to add a comment.
