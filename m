@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D464781A96
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Aug 2023 19:13:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C042781ABF
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Aug 2023 20:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3342610E052;
-	Sat, 19 Aug 2023 17:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D068B10E085;
+	Sat, 19 Aug 2023 18:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2BB10E052
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CD30960B3E
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 312C1C433C8
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692465212;
- bh=1M8pArTwAPq7OQd0MIaldt6ort3OUqp3lnRswhtEQWI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=VhNlcGNZ1mCfOCnTQ//8IK1VKCD3v7smYk/iKor2ddwVkzPfTshuMpF6MGPYXVFfR
- OGB09bOO5z7oJkPEkbLsblDN1YZVPPw4UBGG84Vl3oYewZUvLMhFa1lXhhlIILH8nx
- 9arMxb0hxEUhhQer++t4gSMxh+YsK42h3QecsBl6KGLOvM/rxALQ62hD3OAEN5xAgX
- sak7J4/oa/ldQ3muz8JZwHE7qN7ytdiVuFw4+Tf9RiOnzNYGqe0zqwAgqwy+AeMO+a
- OKPNcOoI5G8WN+WfXQD/ih2rGe2imOtwT9nVAORPn1sxPU4cavnCJgXvBjRyAMoWMZ
- uuPtUoCVunb5w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 1B299C53BD3; Sat, 19 Aug 2023 17:13:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Sat, 19 Aug 2023 17:13:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: ACPI
-X-Bugzilla-Component: Power-Sleep-Wake
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: penteljapan@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217664-2300-iMo6cGA8SM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
-References: <bug-217664-2300@https.bugzilla.kernel.org/>
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B4410E085
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 18:07:05 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-d690c9fbda3so1967334276.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 11:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1692468425; x=1693073225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Im9rn1XEuwbyffzZDItPeZZsQa5Vg8fNdLieMg4PvkE=;
+ b=NqMsziR1/EDlqx71St7nvNdRyteFMBEqqaxhW89YDlLNFPiQgX5P3Vt0yz01wXnnK1
+ XFYrZaEWsUW/Wg2gp1hJ8l5DWaLhfWAwcJfWThJdKjedv7MtlrvAT9yAzyJ99MXHqepn
+ caqDAwRIYe5p5np/BAT5EGNkDF6n7ZCqnLaqZglDDh7IUuMDEbXWyJou4c4beI839p8h
+ FtCgohkfYGVItgUrXzNwr28ZteciY4ynQ7kSRHZZya6TxpAx8Q57a+7UOytmeIu/7nnd
+ UrOP/5tIS/VsSWq2DS88XAEo6hxE0JYpwyIv7DAAwrxU+XQQYQY+bwT9vJTu5Me6dJNg
+ e4jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692468425; x=1693073225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Im9rn1XEuwbyffzZDItPeZZsQa5Vg8fNdLieMg4PvkE=;
+ b=AV4JzEyK6uUOy8YiOh6bC6Tvt/pz2mirGcl9gJYa8GacI9hEUCq/BfzlOIZhNZAvS/
+ K+vV/sspzgFJ6z5RUWi688sU1rgR785o+K6i9liL9WPnD0ZhnFlR1U6cWJ1ZbPwJJYPq
+ lVKIcmmJpKAropDgmkwLptVhZlDyHF9j7OooGED/VHN5kymXJ2ZGNu5qelOQif3s6UAy
+ 7uyVFauSeyTNsRoYYxkDZKPRnGZCC9sVe1zaPVT/tWP8gwb85BWIcbpfnty4EmDR377j
+ VogWHF7aIBQro/dhTEC6/ijQZVmWX0nmg9oP2sG9NzusGWLwVG7iAyBpu3gyaqt9NY+z
+ TlmQ==
+X-Gm-Message-State: AOJu0YzbT0Qi8I7aVxZlNLBBnB0B4GsgLrmmSNM8C7ne2xClEWQtfuAR
+ KTpr1mtSuaDG29URCmgQALvElrUZVsixNVbXdzJGIfM0Zsf3p5Ro
+X-Google-Smtp-Source: AGHT+IF0LX11cfweHZRJ7yrA4EhpK+oGgZzcdgUhtRV7ilI3RMGxIIUstzyeikU5K4C9AUCsbgaSk6ebzRIVM/ddFBs=
+X-Received: by 2002:a25:c505:0:b0:d46:a995:ea7 with SMTP id
+ v5-20020a25c505000000b00d46a9950ea7mr2649730ybe.21.1692468424799; Sat, 19 Aug
+ 2023 11:07:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230807133307.27456-1-diogo.ivo@tecnico.ulisboa.pt>
+ <20230807133307.27456-3-diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <20230807133307.27456-3-diogo.ivo@tecnico.ulisboa.pt>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 19 Aug 2023 20:06:53 +0200
+Message-ID: <CACRpkdaCS6CNj6EdRWkf_27gHB43MN2ysTYAycXPixiKxjaLWQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] drm/panel: Add driver for JDI LPM102A188A
+To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +69,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
+On Mon, Aug 7, 2023 at 3:41=E2=80=AFPM Diogo Ivo <diogo.ivo@tecnico.ulisboa=
+.pt> wrote:
 
---- Comment #22 from popus_czy_to_ty (penteljapan@o2.pl) ---
-https://mega.nz/file/rkwHSRrb#MGBASmlT95wzofl5ZCg6PjyU4Y6CYTC5yl4bc03Hjik -
-kernel log
+> The JDI LPM102A188A is a 2560x1800 IPS panel found in the Google Pixel C.
+> This driver is based on the downstream GPLv2 driver released by Google
+> written by Sean Paul [1], which was then adapted to the newer kernel APIs=
+.
+>
+> [1]: https://android.googlesource.com/kernel/tegra/+/refs/heads/android-t=
+egra-dragon-3.18-oreo/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+>
+> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 
-dmesg - https://pastebin.com/jBgktfa1
+That's a nice driver.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-[on vesa drivers]
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Yours,
+Linus Walleij
