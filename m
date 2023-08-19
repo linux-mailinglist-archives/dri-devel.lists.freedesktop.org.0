@@ -2,141 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFFA781C4B
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Aug 2023 05:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17C5781C7F
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Aug 2023 07:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8554910E0A0;
-	Sun, 20 Aug 2023 03:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4797C10E109;
+	Sun, 20 Aug 2023 05:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6929010E0A0;
- Sun, 20 Aug 2023 03:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692503724; x=1724039724;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=EGRgogYnF4GDb+owhiWhdZ+0F8sBfNBGRJlJ4zIgOqY=;
- b=VaSGsO+YebWZtwAdTe42eBHq2YCmQpmWt2nBXd1idBPn4g7Wmcy1O3qw
- exl3JsoVLiyOS7DZHUivCQxHTVNXHQqah+saZy7A9hix7Nhk6UqMpj0Ab
- L364G4rNECxlwHTI77RxRV7gpwrGqymrEzQ3vbnRzCLsXr9FrChEn0sS7
- zK95Rr0nsuYZdOdDpUTfdwnK/lazlzUAQnb6y7YIxxy2LLSMOjurMbWdq
- KxYnMJPr/DUUjQMsJGraBP7Qv60nDOCwj1hbKl6HWlUpT9wXESMj4SeXC
- pF3/AOVzHQovKsBvY+LCnqd+KUnzTftmqfoQTT3Q79v/zg0VSktguB8Xo A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10807"; a="377103044"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="377103044"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2023 20:55:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10807"; a="825537791"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="825537791"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2023 20:55:22 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sat, 19 Aug 2023 20:55:22 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sat, 19 Aug 2023 20:55:21 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Sat, 19 Aug 2023 20:55:21 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Sat, 19 Aug 2023 20:55:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DzAPB04vf4T36q+D4QJl3ONd60e9Z/LS/3rrOmTIIwMyXDWQlCk+bcoYcwiebeDlw6AIb0tMaj+4iRhKDckJdv44FhDpJfNhbr3di95OzYIJ365dlCpH86O+gilixRmVrmUz2ziNmtTyZRi4b1KBzwtWTq5Ot3LXOppPL5W9fjNbRIZhobc49qQev+D+gW5mhgWXC27BphvAQo2mV5kS5/zVwk4EQhS2LvE3zOmZZOjV/vyfrd9JmNCkkXtpK4Y4qY9EVq6KiDemGhRVewDlmHqrjYEx5chm8GVlXdql4q/+YuU50wl/cmAfpmVoBa40R3i8tRmNyMfdV3atUrlV4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f8O0slwcPzSQsnX0plntBnnPN1lp6gLtI0CP+51Ft0Y=;
- b=IJEI7L4CyzEqiXXetdhSblgJDZ6dKKz+A4LT7jUB5zwvODk5tareC9LBbAp4QCpaAM+O6bUsupYuoULo7EiL047SVdZm2v0ln3mnFXZkOhECX0CNQOLdBhp8QsRIWWxFhNMP9EgkovGTrMZEYFLeV9SNfLdjqtVEGTEUSHcOSAId35s2sPcsv8fZzrbg/IdgGA4/+sd7sxvSpStbw649p0JRo1p21/5nqPrjeyhNhzgMXYW+dQycTccoHwWXh6af92+EIPRHP++4/eQvE+N4qFUv9pVQnvfHcaQ5c6Csn8E1h7vfrdBljH28/SLqL9TaAIbyZjEtYM6SCq70z5vT+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CY5PR11MB6512.namprd11.prod.outlook.com (2603:10b6:930:40::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Sun, 20 Aug
- 2023 03:55:19 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69%5]) with mapi id 15.20.6699.020; Sun, 20 Aug 2023
- 03:55:19 +0000
-Date: Sun, 20 Aug 2023 03:54:14 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 4/4] drm/xe/uapi: Support pinning of userptr vmas
-Message-ID: <ZOGOZsqw8+/VjxDs@DUT025-TGLU.fm.intel.com>
-References: <20230818150845.96679-1-thomas.hellstrom@linux.intel.com>
- <20230818150845.96679-5-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230818150845.96679-5-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: BY3PR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:a03:254::7) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF3310E034
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 12:43:21 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id
+ e9e14a558f8ab-34bae82b2ffso6058925ab.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Aug 2023 05:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20221208.gappssmtp.com; s=20221208; t=1692449001; x=1693053801;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3lPt9bOjFivDo87V3ytl/FnY4Rf+fYowvMDHnMldtPU=;
+ b=I5Pg84JnHDLPV3xfwn1iyQ3F+tW2ky5RnzoGGq+FiYHrrM5ztW3qK1R3AOOLRPz+w2
+ u0QaYSQ3SLeTmz0Tw+vjcb7pC9TYt4xUej4VepvyWvN1cVfGzJSKcmkj5sH5T7Z2EB1o
+ fLgHPrYJrSFr6OboEMT1QPzICElK25G/2jdovRl3wqN1oN+jal5C8cUZ0rajI54+zxbh
+ q0mYXD9vfQ6shzR502SckT4iiYudB3PRwUUt0Cri0vuU2QzbZpqNVui8CuycgcxbkXo4
+ HY3Jpkzz2jex2jWOmHqKOS2X11o4Xgcn6sEpzZfZPXdfwXQ2zmA70NS6eFn29w7ALaGt
+ AZog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692449001; x=1693053801;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3lPt9bOjFivDo87V3ytl/FnY4Rf+fYowvMDHnMldtPU=;
+ b=J8G3KVaip25BlkfvO0cuONrMAKAlAlowJPRsiEXXyWWMF/aosb4HxPegtW7g1ZYc66
+ cuZxwM6NQf3aWUQ5yxYeaysVeXIqDczifBGhInYxYkPRH6+d1gNzPWqCet4tBy0HDaBB
+ QGorimccDsJRq4FQC7k+Sl9x/9pcbkZ00rQFo4FJ3J0oIsEFgkTjwZNMfaUsoXS54Bl0
+ c+8bR6z3tHq/H1ignFsiiQmfR+9guzS18XiyZP9RBn+o0rt+66TlaWkiTaOxtrYGpeRV
+ UWZDGoo00jsJtQ6BF9ENwMd1kXQTsQWFJCB7DXldd0TXU2+LtRufWctsx3VxYNaje+Iz
+ p2hg==
+X-Gm-Message-State: AOJu0YyaPm4scoHm8NZrZZqNAJjY5UGz8l6b2mq42tCfo/ceu8UPfpfX
+ Qs9IbQu68rdeIbq9liBcRLnFaw==
+X-Google-Smtp-Source: AGHT+IErDWBWM6urJLWVW030sV6IIJWZ4eVZz3kS4uCCmdfwb3GjG5pDZPeLMVtsW75y8rvFbwnNZw==
+X-Received: by 2002:a05:6e02:caf:b0:349:983c:493b with SMTP id
+ 15-20020a056e020caf00b00349983c493bmr2493565ilg.8.1692449000572; 
+ Sat, 19 Aug 2023 05:43:20 -0700 (PDT)
+Received: from nixos.tailf4e9e.ts.net ([47.75.78.161])
+ by smtp.googlemail.com with ESMTPSA id
+ m30-20020a63711e000000b0056365ee8603sm3220511pgc.67.2023.08.19.05.43.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Aug 2023 05:43:20 -0700 (PDT)
+From: Xueshi Hu <xueshi.hu@smartx.com>
+To: dan.j.williams@intel.com, vishal.l.verma@intel.com, dave.jiang@intel.com,
+ jayalk@intworks.biz, daniel@ffwll.ch, deller@gmx.de, bcrl@kvack.org,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.com, tytso@mit.edu,
+ adilger.kernel@dilger.ca, miklos@szeredi.hu, mike.kravetz@oracle.com,
+ muchun.song@linux.dev, djwong@kernel.org, willy@infradead.org,
+ akpm@linux-foundation.org, hughd@google.com
+Subject: [PATCH] fs: clean up usage of noop_dirty_folio
+Date: Sat, 19 Aug 2023 20:42:25 +0800
+Message-Id: <20230819124225.1703147-1-xueshi.hu@smartx.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY5PR11MB6512:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40404812-6cbe-46ac-f88f-08dba1314545
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dII/4axfJWTq7j32UikAepWb4JvICxVFD5nXuO9VoNLShta27v9F/r86lDi2PuurDmaR1L84eNIi4VhOuddIoU4pnJEREuGQX5qJbxAUjSCqNhDJX/l2MpEkL92G/pvrmYQNZC3STyNIVKx3NYLEJagyPlnr/20MU/DyxIsud+OR8+XU0jxZYT8DnICrs72tSLIbfDUbXM5+vEWEQewTxFfn6h1p0pebl2H2xC7sCrnL1/hLa/IfNzIlH0S3XhBD0lcxh39CgaM0/ekdzfrzZltHpTPzJI1v1J4/4+YXK2d6BgNJWfhWZ5mpHGCfMbCxYs5zIq0qdip53tk7kBtwkoCYv+HQQD/rVFBsJU+6kF/Z34qxc43mm8n6Gop1uHcm9LIVTp+lrcCV6v6mg0ZO/iCWKOtBj3YluTvMZ+jyH8JIfT02tgPr5tjZ/zm1TkrG91xnqwO0hWxalh3GfEC5Q9cV96DNKOHPJ8okGYLO0kAzBiVhMQp+9x4/yX3aVNJDF2SJLbjLD9lty6dl88W/lJ1c5KaynZx5u4uzveuujHu7tR34VpiDGO9F3jYgDP7V
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(396003)(366004)(136003)(346002)(451199024)(1800799009)(186009)(86362001)(44832011)(5660300002)(41300700001)(316002)(2906002)(66946007)(6916009)(66556008)(54906003)(66476007)(8936002)(4326008)(8676002)(478600001)(82960400001)(6666004)(6486002)(38100700002)(6506007)(6512007)(26005)(66574015)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?LnYZg2oQXR5qPKFOKSdlYxmsO7mLAhs89EaWAM2TqyP1NVQVx+9hBEcj25?=
- =?iso-8859-1?Q?RCZRUOpuSPd2GR59Ylr88QObqM/Pcx3RT3UOlf70D6jpQcurUxm2tqvOaO?=
- =?iso-8859-1?Q?2kkv/A+DCgpKWQYfpW/PCgNc7t/9HuD14g5FVKsI97Ntc4AlekUHpXozsr?=
- =?iso-8859-1?Q?3OZ9EP16A0mSkExT4yd0hanrF7dLMBnwk9GnWQLqNlFdXEGxJ8DK4a508h?=
- =?iso-8859-1?Q?gVc3RdG464ZRuiHpzgwlQgAZZFkcPzcQwH4EwGaO6JlIcNjrW6I6z3TfRD?=
- =?iso-8859-1?Q?KeYX47y9LgRofLj0Od3ebiFTJ+w6UHkFmgQxBF6IuZFrJlzrV5i8/L5cn7?=
- =?iso-8859-1?Q?YpzdTkPEhM6Mz+254E9K3jOq/cByy+xDoqSTmtBZOGr2z0yC8AAFMyzieP?=
- =?iso-8859-1?Q?SDc5MV+EtXIUBsTuG6bd9JpPzU7rQYY9zyEXWt9qt9rD4ygdZYCBbKEv2h?=
- =?iso-8859-1?Q?y8O4U6STQ2nzqnmZ81HkcX/QwG8QrZdIF67RUspQ+tnhYv2ymmLs37XhRn?=
- =?iso-8859-1?Q?t3hUqaPKBGF32xo5nyYMQMJl3Fff+JJywHZ6HDbDe+SVe9FpFZKP+8rs/a?=
- =?iso-8859-1?Q?gEoyY87nZ80rIuKhptwMGnAtOHO7sDlRqz3yZM+Rv8WlePfEeFPRnYzQq1?=
- =?iso-8859-1?Q?nCq/So1HhbA7cJyy/S832ux2VVcvVbceJBnD+ho1aTKsgUuUTM4iz9vO8d?=
- =?iso-8859-1?Q?wAYYsHO9ptoxzbD622h2GMtGpqMCVAPLYNunCZkAj7Hqjd/aWJRbbxWP0y?=
- =?iso-8859-1?Q?hOIdM4nbRH22+nTUVp/ISROeJWDo55QbNAlZIHxW1qFtkOqE3RxzOoCYPl?=
- =?iso-8859-1?Q?542sZ7FHZtwnmxUAhV6sLfy7xzCk+Fz50DwE4re9QH4Kv6oIs844hIYFge?=
- =?iso-8859-1?Q?IPvDcOcqUIYcCVwZBhh7An/JsvKykDq7S7MFTjx6RV7kTxOhwvUDIs/c8G?=
- =?iso-8859-1?Q?+VPetkpqIE4UXaJRQjgtIg5vW2LDAlLZOelkqkg25FKqxjNr1jUpvwo0z1?=
- =?iso-8859-1?Q?gZuK6Mgd7Hd10DE48ADP6hcErUWkNWBXIeUFi23CqQb1BpxOHDx1qsgjlI?=
- =?iso-8859-1?Q?AgkY3Vm0IVTxTZQLagB+ic/qL1itIAPcn9b3NDj+f/Z17NqUsjzK9CijZU?=
- =?iso-8859-1?Q?FkIcVIRKTEkvZukAPS0XfRABD6XP7Dtw67dpxJV2CJLALuRiQZv5o6Shsu?=
- =?iso-8859-1?Q?laL6Uki3OHrSyAnrqW4uY8e2q+ryUvhwQLVqT0ceYP/z3osF6UgCU4ZYnT?=
- =?iso-8859-1?Q?Sqb3B4fbjzdgv0IdAeyl30cgeFfcDENtxdWtNg8FOsUR0XD7xAIzYJN4GF?=
- =?iso-8859-1?Q?FwX2x8HB8XQ2ozViqUM1mb3GGZlkoPvlMNrmS4jRFfj6sGoiIh+TPK4DH1?=
- =?iso-8859-1?Q?tT4UQ/D3eYcqnHaOUpLhVo5OtXwzsEK0BHc8HPPLFCSmdnx55NqmCHp0Dl?=
- =?iso-8859-1?Q?DlNXbsulY+wO8BTxJDH3iocvCsRy/Q5nK6T/f8/OtAd6exjtey/DJVNBQr?=
- =?iso-8859-1?Q?77maZvgq0mvgXr9lHdOP/J4HqedUhR7tKDVa/GJUuDG3ffjfTYKKbO1Pjp?=
- =?iso-8859-1?Q?2EmIyzCS3SIs93j96q3K8jXcA+WpEHuWWTQ5fdAfjtgK8Hdx6EoJaXgpb4?=
- =?iso-8859-1?Q?l7yEaZop7C+5mOdXMrRkJ8GX0kOKKVae4q5qIjq1UQOOpQhXhiBZ8+Vw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40404812-6cbe-46ac-f88f-08dba1314545
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2023 03:55:19.2247 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dVL5cBtYCuVNn804t2JsYQ2hvC4WhLSw6TjJzjkMqkEluKCuu5DrXAsrm0M6TWDPN9arCuM85GQR6TGjE9UJmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6512
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 20 Aug 2023 05:17:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,217 +76,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: nvdimm@lists.linux.dev, linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xueshi Hu <xueshi.hu@smartx.com>, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 05:08:45PM +0200, Thomas Hellström wrote:
-> Support pinning of vmas using XE_VM_BIND_FLAG_PIN, initially for userptr
-> only. Pinned memory becomes accounted against RLIMIT_MEMLOCK and processes
-> with CAP_IPC_LOCK will not apply the limit. This is pretty similar to
-> mlock()'ing userptr memory with the added benefit that the driver is
-> aware and can ignore some actions in the MMU invalidation notifier.
-> 
-> This will initially become useful for compute VMs on hardware without
-> mid-thread-preemption capability since with pinned pages, the MMU
-> invalidation notifier never tries to preempt a running compute kernel.
-> 
-> If that were the only usage we could restrict this to a flag that always
-> pins userptr VMAs on compute VMs on such hardware, but there are
-> indications that this may become needed in other situations as well.
-> 
-> From a more general point of view, the usage pattern of a system may be
-> such that in most cases it only ever runs a single workload per system
-> and then the sysadmin would want to configure the system to allow
-> extensive pinning for performance reasons.
-> 
-> Hence we might want to extend the pinning capability to bo-backed VMAs
-> as well. How that pinning will be accounted remains an open but to build
-> on the current drm CGROUP work would be an option.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+In folio_mark_dirty(), it will automatically fallback to
+noop_dirty_folio() if a_ops->dirty_folio is not registered.
 
-Patch LGTM but a few comments that are currently out of scope but want
-to get out there for future work.
+As anon_aops, dev_dax_aops and fb_deferred_io_aops becames empty, remove
+them too.
 
-> ---
->  drivers/gpu/drm/xe/xe_vm.c       | 33 +++++++++++++++++++++++++-------
->  drivers/gpu/drm/xe/xe_vm_types.h |  2 ++
->  include/uapi/drm/xe_drm.h        | 18 +++++++++++++++++
->  3 files changed, 46 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index d9c000689002..3832f1f21def 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -936,6 +936,7 @@ static struct xe_vma *xe_vma_create(struct xe_vm *vm,
->  				    u64 start, u64 end,
->  				    bool read_only,
->  				    bool is_null,
-> +				    bool pin,
->  				    u8 tile_mask)
->  {
->  	struct xe_vma *vma;
-> @@ -967,6 +968,8 @@ static struct xe_vma *xe_vma_create(struct xe_vm *vm,
->  		vma->gpuva.flags |= XE_VMA_READ_ONLY;
->  	if (is_null)
->  		vma->gpuva.flags |= DRM_GPUVA_SPARSE;
-> +	if (pin)
-> +		vma->gpuva.flags |= XE_VMA_PINNED;
->  
->  	if (tile_mask) {
->  		vma->tile_mask = tile_mask;
-> @@ -2367,6 +2370,7 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_bo *bo,
->  			op->map.read_only =
->  				operation & XE_VM_BIND_FLAG_READONLY;
->  			op->map.is_null = operation & XE_VM_BIND_FLAG_NULL;
-> +			op->map.pin = operation & XE_VM_BIND_FLAG_PIN;
->  		}
->  		break;
->  	case XE_VM_BIND_OP_UNMAP:
-> @@ -2431,7 +2435,8 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_bo *bo,
->  }
->  
->  static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
-> -			      u8 tile_mask, bool read_only, bool is_null)
-> +			      u8 tile_mask, bool read_only, bool is_null,
-> +			      bool pin)
->  {
->  	struct xe_bo *bo = op->gem.obj ? gem_to_xe_bo(op->gem.obj) : NULL;
->  	struct xe_vma *vma;
-> @@ -2447,7 +2452,7 @@ static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
->  	}
->  	vma = xe_vma_create(vm, bo, op->gem.offset,
->  			    op->va.addr, op->va.addr +
-> -			    op->va.range - 1, read_only, is_null,
-> +			    op->va.range - 1, read_only, is_null, pin,
->  			    tile_mask);
->  	if (bo)
->  		xe_bo_unlock(bo, &ww);
-> @@ -2562,7 +2567,7 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct xe_exec_queue *q,
->  
->  				vma = new_vma(vm, &op->base.map,
->  					      op->tile_mask, op->map.read_only,
-> -					      op->map.is_null);
-> +					      op->map.is_null, op->map.pin);
->  				if (IS_ERR(vma)) {
->  					err = PTR_ERR(vma);
->  					goto free_fence;
-> @@ -2587,10 +2592,13 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct xe_exec_queue *q,
->  					bool is_null =
->  						op->base.remap.unmap->va->flags &
->  						DRM_GPUVA_SPARSE;
-> +					bool pin =
-> +						op->base.remap.unmap->va->flags &
-> +						XE_VMA_PINNED;
+Signed-off-by: Xueshi Hu <xueshi.hu@smartx.com>
+---
+ drivers/dax/device.c                | 5 -----
+ drivers/video/fbdev/core/fb_defio.c | 5 -----
+ fs/aio.c                            | 1 -
+ fs/ext2/inode.c                     | 1 -
+ fs/ext4/inode.c                     | 1 -
+ fs/fuse/dax.c                       | 1 -
+ fs/hugetlbfs/inode.c                | 1 -
+ fs/libfs.c                          | 5 -----
+ fs/xfs/xfs_aops.c                   | 1 -
+ include/linux/pagemap.h             | 1 -
+ mm/page-writeback.c                 | 6 +++---
+ mm/secretmem.c                      | 1 -
+ mm/shmem.c                          | 1 -
+ mm/swap_state.c                     | 1 -
+ 14 files changed, 3 insertions(+), 28 deletions(-)
 
-We probably should move the read_only, is_null, and pin check out of the
-next / prev if statements to just below the DRM_GPUVA_OP_REMAP case
-statement. 
+diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+index 30665a3ff6ea..018aa9f88ec7 100644
+--- a/drivers/dax/device.c
++++ b/drivers/dax/device.c
+@@ -345,10 +345,6 @@ static unsigned long dax_get_unmapped_area(struct file *filp,
+ 	return current->mm->get_unmapped_area(filp, addr, len, pgoff, flags);
+ }
+ 
+-static const struct address_space_operations dev_dax_aops = {
+-	.dirty_folio	= noop_dirty_folio,
+-};
+-
+ static int dax_open(struct inode *inode, struct file *filp)
+ {
+ 	struct dax_device *dax_dev = inode_dax(inode);
+@@ -358,7 +354,6 @@ static int dax_open(struct inode *inode, struct file *filp)
+ 	dev_dbg(&dev_dax->dev, "trace\n");
+ 	inode->i_mapping = __dax_inode->i_mapping;
+ 	inode->i_mapping->host = __dax_inode;
+-	inode->i_mapping->a_ops = &dev_dax_aops;
+ 	filp->f_mapping = inode->i_mapping;
+ 	filp->f_wb_err = filemap_sample_wb_err(filp->f_mapping);
+ 	filp->f_sb_err = file_sample_sb_err(filp);
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index 274f5d0fa247..08be3592281f 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -221,10 +221,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+ 	.page_mkwrite	= fb_deferred_io_mkwrite,
+ };
+ 
+-static const struct address_space_operations fb_deferred_io_aops = {
+-	.dirty_folio	= noop_dirty_folio,
+-};
+-
+ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	vma->vm_ops = &fb_deferred_io_vm_ops;
+@@ -307,7 +303,6 @@ void fb_deferred_io_open(struct fb_info *info,
+ {
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+ 
+-	file->f_mapping->a_ops = &fb_deferred_io_aops;
+ 	fbdefio->open_count++;
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+diff --git a/fs/aio.c b/fs/aio.c
+index 77e33619de40..4cf386f9cb1c 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -484,7 +484,6 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
+ #endif
+ 
+ static const struct address_space_operations aio_ctx_aops = {
+-	.dirty_folio	= noop_dirty_folio,
+ 	.migrate_folio	= aio_migrate_folio,
+ };
+ 
+diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
+index 75983215c7a1..ce191bdf1c78 100644
+--- a/fs/ext2/inode.c
++++ b/fs/ext2/inode.c
+@@ -971,7 +971,6 @@ const struct address_space_operations ext2_aops = {
+ static const struct address_space_operations ext2_dax_aops = {
+ 	.writepages		= ext2_dax_writepages,
+ 	.direct_IO		= noop_direct_IO,
+-	.dirty_folio		= noop_dirty_folio,
+ };
+ 
+ /*
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 43775a6ca505..67c1710c01b0 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3561,7 +3561,6 @@ static const struct address_space_operations ext4_da_aops = {
+ static const struct address_space_operations ext4_dax_aops = {
+ 	.writepages		= ext4_dax_writepages,
+ 	.direct_IO		= noop_direct_IO,
+-	.dirty_folio		= noop_dirty_folio,
+ 	.bmap			= ext4_bmap,
+ 	.swap_activate		= ext4_iomap_swap_activate,
+ };
+diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+index 8e74f278a3f6..50ca767cbd5e 100644
+--- a/fs/fuse/dax.c
++++ b/fs/fuse/dax.c
+@@ -1326,7 +1326,6 @@ bool fuse_dax_inode_alloc(struct super_block *sb, struct fuse_inode *fi)
+ static const struct address_space_operations fuse_dax_file_aops  = {
+ 	.writepages	= fuse_dax_writepages,
+ 	.direct_IO	= noop_direct_IO,
+-	.dirty_folio	= noop_dirty_folio,
+ };
+ 
+ static bool fuse_should_enable_dax(struct inode *inode, unsigned int flags)
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 7b17ccfa039d..5404286f0c13 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1266,7 +1266,6 @@ static void hugetlbfs_destroy_inode(struct inode *inode)
+ static const struct address_space_operations hugetlbfs_aops = {
+ 	.write_begin	= hugetlbfs_write_begin,
+ 	.write_end	= hugetlbfs_write_end,
+-	.dirty_folio	= noop_dirty_folio,
+ 	.migrate_folio  = hugetlbfs_migrate_folio,
+ 	.error_remove_page	= hugetlbfs_error_remove_page,
+ };
+diff --git a/fs/libfs.c b/fs/libfs.c
+index 5b851315eeed..982f220a9ee3 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -627,7 +627,6 @@ const struct address_space_operations ram_aops = {
+ 	.read_folio	= simple_read_folio,
+ 	.write_begin	= simple_write_begin,
+ 	.write_end	= simple_write_end,
+-	.dirty_folio	= noop_dirty_folio,
+ };
+ EXPORT_SYMBOL(ram_aops);
+ 
+@@ -1231,16 +1230,12 @@ EXPORT_SYMBOL(kfree_link);
+ 
+ struct inode *alloc_anon_inode(struct super_block *s)
+ {
+-	static const struct address_space_operations anon_aops = {
+-		.dirty_folio	= noop_dirty_folio,
+-	};
+ 	struct inode *inode = new_inode_pseudo(s);
+ 
+ 	if (!inode)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	inode->i_ino = get_next_ino();
+-	inode->i_mapping->a_ops = &anon_aops;
+ 
+ 	/*
+ 	 * Mark the inode dirty from the very beginning,
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index 451942fb38ec..300acea9ee63 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -590,6 +590,5 @@ const struct address_space_operations xfs_address_space_operations = {
+ 
+ const struct address_space_operations xfs_dax_aops = {
+ 	.writepages		= xfs_dax_writepages,
+-	.dirty_folio		= noop_dirty_folio,
+ 	.swap_activate		= xfs_iomap_swapfile_activate,
+ };
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 716953ee1ebd..9de3be51dee2 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -1074,7 +1074,6 @@ bool folio_clear_dirty_for_io(struct folio *folio);
+ bool clear_page_dirty_for_io(struct page *page);
+ void folio_invalidate(struct folio *folio, size_t offset, size_t length);
+ int __set_page_dirty_nobuffers(struct page *page);
+-bool noop_dirty_folio(struct address_space *mapping, struct folio *folio);
+ 
+ #ifdef CONFIG_MIGRATION
+ int filemap_migrate_folio(struct address_space *mapping, struct folio *dst,
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index d3f42009bb70..638ec965cf0b 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2588,13 +2588,12 @@ int do_writepages(struct address_space *mapping, struct writeback_control *wbc)
+ /*
+  * For address_spaces which do not use buffers nor write back.
+  */
+-bool noop_dirty_folio(struct address_space *mapping, struct folio *folio)
++static bool noop_dirty_folio(struct address_space *mapping, struct folio *folio)
+ {
+ 	if (!folio_test_dirty(folio))
+ 		return !folio_test_set_dirty(folio);
+ 	return false;
+ }
+-EXPORT_SYMBOL(noop_dirty_folio);
+ 
+ /*
+  * Helper function for set_page_dirty family.
+@@ -2799,7 +2798,8 @@ bool folio_mark_dirty(struct folio *folio)
+ 		 */
+ 		if (folio_test_reclaim(folio))
+ 			folio_clear_reclaim(folio);
+-		return mapping->a_ops->dirty_folio(mapping, folio);
++		if (mapping->a_ops->dirty_folio)
++			return mapping->a_ops->dirty_folio(mapping, folio);
+ 	}
+ 
+ 	return noop_dirty_folio(mapping, folio);
+diff --git a/mm/secretmem.c b/mm/secretmem.c
+index 86442a15d12f..3fe1c35f9c8d 100644
+--- a/mm/secretmem.c
++++ b/mm/secretmem.c
+@@ -157,7 +157,6 @@ static void secretmem_free_folio(struct folio *folio)
+ }
+ 
+ const struct address_space_operations secretmem_aops = {
+-	.dirty_folio	= noop_dirty_folio,
+ 	.free_folio	= secretmem_free_folio,
+ 	.migrate_folio	= secretmem_migrate_folio,
+ };
+diff --git a/mm/shmem.c b/mm/shmem.c
+index f5af4b943e42..90a7c046894a 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -4088,7 +4088,6 @@ static int shmem_error_remove_page(struct address_space *mapping,
+ 
+ const struct address_space_operations shmem_aops = {
+ 	.writepage	= shmem_writepage,
+-	.dirty_folio	= noop_dirty_folio,
+ #ifdef CONFIG_TMPFS
+ 	.write_begin	= shmem_write_begin,
+ 	.write_end	= shmem_write_end,
+diff --git a/mm/swap_state.c b/mm/swap_state.c
+index f8ea7015bad4..3666439487db 100644
+--- a/mm/swap_state.c
++++ b/mm/swap_state.c
+@@ -30,7 +30,6 @@
+  */
+ static const struct address_space_operations swap_aops = {
+ 	.writepage	= swap_writepage,
+-	.dirty_folio	= noop_dirty_folio,
+ #ifdef CONFIG_MIGRATION
+ 	.migrate_folio	= migrate_folio,
+ #endif
+-- 
+2.40.1
 
->  
->  					vma = new_vma(vm, op->base.remap.prev,
->  						      op->tile_mask, read_only,
-> -						      is_null);
-> +						      is_null, pin);
->  					if (IS_ERR(vma)) {
->  						err = PTR_ERR(vma);
->  						goto free_fence;
-> @@ -2623,10 +2631,13 @@ static int vm_bind_ioctl_ops_parse(struct xe_vm *vm, struct xe_exec_queue *q,
->  					bool is_null =
->  						op->base.remap.unmap->va->flags &
->  						DRM_GPUVA_SPARSE;
-> +					bool pin =
-> +						op->base.remap.unmap->va->flags &
-> +						XE_VMA_PINNED;
->  
->  					vma = new_vma(vm, op->base.remap.next,
->  						      op->tile_mask, read_only,
-> -						      is_null);
-> +						      is_null, pin);
->  					if (IS_ERR(vma)) {
->  						err = PTR_ERR(vma);
->  						goto free_fence;
-> @@ -3131,11 +3142,12 @@ static void vm_bind_ioctl_ops_unwind(struct xe_vm *vm,
->  #define SUPPORTED_FLAGS	\
->  	(FORCE_ASYNC_OP_ERROR | XE_VM_BIND_FLAG_ASYNC | \
->  	 XE_VM_BIND_FLAG_READONLY | XE_VM_BIND_FLAG_IMMEDIATE | \
-> -	 XE_VM_BIND_FLAG_NULL | 0xffff)
-> +	 XE_VM_BIND_FLAG_NULL | XE_VM_BIND_FLAG_PIN | 0xffff)
->  #else
->  #define SUPPORTED_FLAGS	\
->  	(XE_VM_BIND_FLAG_ASYNC | XE_VM_BIND_FLAG_READONLY | \
-> -	 XE_VM_BIND_FLAG_IMMEDIATE | XE_VM_BIND_FLAG_NULL | 0xffff)
-> +	 XE_VM_BIND_FLAG_IMMEDIATE | XE_VM_BIND_FLAG_NULL | \
-> +	 XE_VM_BIND_FLAG_PIN | 0xffff)
->  #endif
->  #define XE_64K_PAGE_MASK 0xffffull
->  
-> @@ -3205,6 +3217,13 @@ static int vm_bind_ioctl_check_args(struct xe_device *xe,
->  			goto free_bind_ops;
->  		}
->  
-> +		/* TODO: Support OP_PREFETCH, OP_MAP */
-> +		if (XE_IOCTL_DBG(xe, (op & XE_VM_BIND_FLAG_PIN) &&
-> +				 VM_BIND_OP(op) != XE_VM_BIND_OP_MAP_USERPTR)) {
-> +			err = -EINVAL;
-> +			goto free_bind_ops;
-> +		}
-> +
->  		if (XE_IOCTL_DBG(xe, VM_BIND_OP(op) >
->  				 XE_VM_BIND_OP_PREFETCH) ||
->  		    XE_IOCTL_DBG(xe, op & ~SUPPORTED_FLAGS) ||
-> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-> index 9b90e649cd69..024ccabadd12 100644
-> --- a/drivers/gpu/drm/xe/xe_vm_types.h
-> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-> @@ -360,6 +360,8 @@ struct xe_vma_op_map {
->  	bool read_only;
->  	/** @is_null: is NULL binding */
->  	bool is_null;
-> +	/** @pin: pin underlying memory */
-> +	bool pin;
->  };
->  
->  /** struct xe_vma_op_remap - VMA remap operation */
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index 86f16d50e9cc..fc3d9cd4f8d0 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -631,6 +631,24 @@ struct drm_xe_vm_bind_op {
->  	 * intended to implement VK sparse bindings.
->  	 */
->  #define XE_VM_BIND_FLAG_NULL		(0x1 << 19)
-> +	 /*
-> +	  * When the PIN flag is set, the user requests the underlying
-> +	  * backing store of the vma to be pinned, that is, it will be
-> +	  * resident while bound and the underlying physical memory
-> +	  * will not change. For userptr VMAs this means that if the
-> +	  * user performs an operation that changes the underlying
-> +	  * pages of the CPU virtual space, the corresponding pinned
-> +	  * GPU virtual space will not pick up the new memory unless
-> +	  * an OP_UNMAP followed by a OP_MAP_USERPTR is performed.
-> +	  * Pinned userptr memory is accounted in the same way as
-> +	  * mlock(2), and if pinning fails the following error codes
-> +	  * may be returned:
-> +	  * -EINVAL: The memory region does not support pinning.
-> +	  * -EPERM: The process is not permitted to pin.
-> +	  * -ENOMEM: The pinning limit does not allow pinning.
-> +	  * For userptr memory, CAP_IPC_LOCK will bypass the limit checking.
-> +	  */
-> +#define XE_VM_BIND_FLAG_PIN		(0x1 << 20)
-
-We are quickly using a lot of the upper bits, maybe we change the op
-field to a __u64 soon? We have to break the VM bind api when removing
-the async worker + updating sync mode to align with VM bind doc, maybe
-we change this then too?
-
-Anyways this patch LGTM:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
->  	/** @op: Operation to perform (lower 16 bits) and flags (upper 16 bits) */
->  	__u32 op;
->  
-> -- 
-> 2.41.0
-> 
