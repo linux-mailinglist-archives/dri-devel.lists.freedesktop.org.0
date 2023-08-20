@@ -1,69 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9E6782099
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 00:21:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595FD78209C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 00:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D75A10E160;
-	Sun, 20 Aug 2023 22:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A42DC10E035;
+	Sun, 20 Aug 2023 22:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15BB910E160;
- Sun, 20 Aug 2023 22:21:41 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-991c786369cso359461566b.1; 
- Sun, 20 Aug 2023 15:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692570099; x=1693174899;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/fO+DzwvYyS7ty51jaKKc7uhLpWol4NpPa1fM34YjiI=;
- b=kDf35+n76ZHlFyloB7ru5PEgo6xfYAc/pN2hdlVFyD9WVYTrURVeo97mlakGmR63rh
- BdRQrR8YacX/kMe+dpWoJyxop7n6H0FP2gFFjXDrs7Doqi0CIS1Htpq87LxrQrfaJsjg
- nDHEF3IpUcN6sTGSsRFihxbCVtdDX3ROXNfDOSqZ2B1UL9x+gRSG7IxS/SswGjpKs/vB
- vQ9/By3vYqXcWMHdzzJXU/jmqJZlXC7aPEXLbvaVvGGduruT2ajD8l5d5R6oQvvxRfFF
- YlqR6qwDb5HqIxkp9NfnHcjnjaUXyMl3aZdcGSkLTKaqC+HGfazFPjCSEuYyQeLHsnAB
- jMMw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5464910E169
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 22:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692570568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YPhQSl7EkHeXJaVSqjtUG2Pb7auEbNHbcpRSgSMEH1A=;
+ b=BXP2QRaU88EbCkO1+AhujWfV+uQsxCOdA/j4ADvCYREU9c2eRaPUx6iBwV3X3O5+LVWDgq
+ JCyRNOOoefHioXUM6fpC85KQvU1IpR7Dfmrecl6y36j5cT/F/YesTrXS4XmE7VzJelw/+h
+ ciSuIE12qdY/ypm9LeIP5EWb21VtNWU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-pBLt-p0hPOiL7vCSmFBmEA-1; Sun, 20 Aug 2023 18:29:26 -0400
+X-MC-Unique: pBLt-p0hPOiL7vCSmFBmEA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-99bca0b9234so160328766b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 15:29:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692570099; x=1693174899;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/fO+DzwvYyS7ty51jaKKc7uhLpWol4NpPa1fM34YjiI=;
- b=aRZKIK2Hny67Z90gHcxbrinIZwFmUjJlgOkr3uoLiJ7HP6GT7Az/mXlZ2v+Lwh5dje
- 8d6b7ljhvEoAcBxMElOqguZILQy/2Z1WDEeJedYsyreDnSdl8RKpBwTYx3D1kadw1qEe
- 1wqWvTC5qGhfr7t/LbCosUz/3+SPnGb26McmYFLwPijqxs+Thip2dTk7CLOovlb8mPAy
- C36AcncnIroJUF9YpcKoSYjJzJANZGy0Hh3MA5A20z29H3IDHxrQLPlZ2xJg67ekWP0Z
- TdwNePzSY8VgKkU1M/E/CNzPGRWDZ1dD+xJw8vdz+YxMcuubpYccihehmZUjpkv5YKzb
- oIaQ==
-X-Gm-Message-State: AOJu0Yxq324NUQ9qqs5GVX3YMN+DVFYn79YgWahFgcjFJXfW8fQAMt7E
- aOb0AtAW40NGtSWDKUNNMvPOHzcxTJ8Iol6CPe0=
-X-Google-Smtp-Source: AGHT+IGYja4fgpmlb3lsJ4H7NFfqHYCj7KSV3ffEzZ0PnNy0qHSe28NrukOhnRseaMq9qCqlz00xJ0uYW7uD5MS1k5o=
-X-Received: by 2002:a17:907:2712:b0:96f:8439:6143 with SMTP id
- w18-20020a170907271200b0096f84396143mr3575005ejk.40.1692570099261; Sun, 20
- Aug 2023 15:21:39 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692570565; x=1693175365;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YPhQSl7EkHeXJaVSqjtUG2Pb7auEbNHbcpRSgSMEH1A=;
+ b=K2Uq43Cv7Xgcl5U0huR7UcEZnCsD3+DfgRIwXxijsTRdIgKweg6xXVHFN1qga1b4U4
+ jdJsdhtZQNSv3jFnw6bwKFtqfYKaf2sbkpH7fDA6P6ZRavultFu9mliQGDMn3fwssjFg
+ c0HE1W2+5Bqeoyc7nTc9R8ZtAHr43wA2Ltr4Jj8c4/zarNwPOJG9MtsqiTXsWmYHA56Y
+ UAkspJE9sbkx8pYTbcnA8sdEyLoPbWYTl7GO4gzCd2T030K4bm1lXILPHm0v9tErKRes
+ F3nBcV3/dHiF9afZea1vBFd7kTQVRpwjmuLQimml21ZMDswYRbiKjDHDhQwTPl/nxlZ7
+ e19w==
+X-Gm-Message-State: AOJu0Yzd9p2mwRUhtFeqQQGAw48Ro2+3IWE3sWla6ZlvMOHEgJIBhcPq
+ YZNv9E9XiscCqY2K7KPzuCyBBvd5Wv7TbDzRW7vu9eBO76OsJTzpv0g7NsMH15RojtzemIxlAFA
+ JUkSBdoC9nDhe8Iq/AaSd0ff9k+eu
+X-Received: by 2002:a17:907:77c4:b0:993:d536:3cb7 with SMTP id
+ kz4-20020a17090777c400b00993d5363cb7mr4188734ejc.11.1692570565800; 
+ Sun, 20 Aug 2023 15:29:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3E66CloZzC5H6aCpbP5SgT88XUYTNuLaQ2K+qLz0CTNXQrDXDaUTKDGZiMqAUR3LIjhbRIw==
+X-Received: by 2002:a17:907:77c4:b0:993:d536:3cb7 with SMTP id
+ kz4-20020a17090777c400b00993d5363cb7mr4188726ejc.11.1692570565517; 
+ Sun, 20 Aug 2023 15:29:25 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a170906a10300b00993860a6d37sm5324078ejy.40.2023.08.20.15.29.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Aug 2023 15:29:24 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com
+Subject: [PATCH drm-misc-next] drm/nouveau: uvmm: fix unset region pointer on
+ remap
+Date: Mon, 21 Aug 2023 00:29:16 +0200
+Message-ID: <20230820222920.2344-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <SA1PR11MB699192A66D7A2CC7305A59569214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <SA1PR11MB6991F9E3107C963BDF95E04E9214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <e0d7d6a2-5c9d-6e17-4b4b-be03deb6c130@amd.com>
- <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <3c125b60-df60-2037-c23f-918734e4973f@amd.com>
- <SA1PR11MB69916E51CE5A9217D447B91C9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <7ae5f112-d0e9-cc52-2b22-7265ea435cc2@amd.com>
- <CAPM=9tyots9C8wEU0TgGnFmLOkfqn62ngaYYjV2yuTf7jwDGFw@mail.gmail.com>
- <SA1PR11MB6991D7E239EAB23CC8A9A36B921AA@SA1PR11MB6991.namprd11.prod.outlook.com>
-In-Reply-To: <SA1PR11MB6991D7E239EAB23CC8A9A36B921AA@SA1PR11MB6991.namprd11.prod.outlook.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 21 Aug 2023 08:21:27 +1000
-Message-ID: <CAPM=9tw3wGhZ3ByfizM8+G4Ny5wQLwf4fw8pD4sySVk08355tg@mail.gmail.com>
-Subject: Re: Implement svm without BO concept in xe driver
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,133 +82,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- "Welty, Brian" <brian.welty@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Aug 2023 at 12:13, Zeng, Oak <oak.zeng@intel.com> wrote:
->
-> > -----Original Message-----
-> > From: Dave Airlie <airlied@gmail.com>
-> > Sent: August 16, 2023 6:52 PM
-> > To: Felix Kuehling <felix.kuehling@amd.com>
-> > Cc: Zeng, Oak <oak.zeng@intel.com>; Christian K=C3=B6nig
-> > <christian.koenig@amd.com>; Thomas Hellstr=C3=B6m
-> > <thomas.hellstrom@linux.intel.com>; Brost, Matthew
-> > <matthew.brost@intel.com>; maarten.lankhorst@linux.intel.com;
-> > Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.com>; Welty=
-,
-> > Brian <brian.welty@intel.com>; Philip Yang <Philip.Yang@amd.com>; intel=
--
-> > xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> > Subject: Re: Implement svm without BO concept in xe driver
-> >
-> > On Thu, 17 Aug 2023 at 08:15, Felix Kuehling <felix.kuehling@amd.com> w=
-rote:
-> > >
-> > > On 2023-08-16 13:30, Zeng, Oak wrote:
-> > > > I spoke with Thomas. We discussed two approaches:
-> > > >
-> > > > 1) make ttm_resource a central place for vram management functions =
-such as
-> > eviction, cgroup memory accounting. Both the BO-based driver and BO-les=
-s SVM
-> > codes call into ttm_resource_alloc/free functions for vram allocation/f=
-ree.
-> > > >      *This way BO driver and SVM driver shares the eviction/cgroup =
-logic, no
-> > need to reimplment LRU eviction list in SVM driver. Cgroup logic should=
- be in
-> > ttm_resource layer. +Maarten.
-> > > >      *ttm_resource is not a perfect match for SVM to allocate vram.=
- It is still a
-> > big overhead. The *bo* member of ttm_resource is not needed for SVM - t=
-his
-> > might end up with invasive changes to ttm...need to look into more deta=
-ils
-> > >
-> > > Overhead is a problem. We'd want to be able to allocate, free and evi=
-ct
-> > > memory at a similar granularity as our preferred migration and page
-> > > fault granularity, which defaults to 2MB in our SVM implementation.
-> > >
-> > >
-> > > >
-> > > > 2) svm code allocate memory directly from drm-buddy allocator, and =
-expose
-> > memory eviction functions from both ttm and svm so they can evict memor=
-y
-> > from each other. For example, expose the ttm_mem_evict_first function f=
-rom
-> > ttm side so hmm/svm code can call it; expose a similar function from sv=
-m side so
-> > ttm can evict hmm memory.
-> > >
-> > > I like this option. One thing that needs some thought with this is ho=
-w
-> > > to get some semblance of fairness between the two types of clients.
-> > > Basically how to choose what to evict. And what share of the availabl=
-e
-> > > memory does each side get to use on average. E.g. an idle client may =
-get
-> > > all its memory evicted while a busy client may get a bigger share of =
-the
-> > > available memory.
-> >
-> > I'd also like to suggest we try to write any management/generic code
-> > in driver agnostic way as much as possible here. I don't really see
-> > much hw difference should be influencing it.
-> >
-> > I do worry about having effectively 2 LRUs here, you can't really have
-> > two "leasts".
-> >
-> > Like if we hit the shrinker paths who goes first? do we shrink one
-> > object from each side in turn?
->
-> One way to solve this fairness problem is to create a driver agnostic drm=
-_vram_mgr. Maintain a single LRU in drm_vram_mgr. Move the memory eviction/=
-cgroups memory accounting logic from ttm_resource manager to drm_vram_mgr. =
-Both BO-based driver and SVM driver calls to drm_vram_mgr to allocate/free =
-memory.
->
-> I am not sure whether this meets the 2M allocate/free/evict granularity r=
-equirement Felix mentioned above. SVM can allocate 2M size blocks. But BO d=
-river should be able to allocate any arbitrary sized blocks - So the evicti=
-on is also arbitrary size.
->
-> >
-> > Also will we have systems where we can expose system SVM but userspace
-> > may choose to not use the fine grained SVM and use one of the older
-> > modes, will that path get emulated on top of SVM or use the BO paths?
->
->
-> If by "older modes" you meant the gem_bo_create (such as xe_gem_create or=
- amdgpu_gem_create), then today both amd and intel implement those interfac=
-es using BO path. We don't have a plan to emulate that old mode on tope of =
-SVM, afaict.
+Transfer the region pointer of a uvma to the new uvma(s) on re-map to
+prevent potential shader faults when the re-mapped uvma(s) are unmapped.
 
-I'm not sure how the older modes manifest in the kernel I assume as bo
-creates (but they may use userptr), SVM isn't a specific thing, it's a
-group of 3 things.
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-coarse-grained SVM which I think is BO
-fine-grained SVM which is page level
-fine-grained system SVM which is HMM
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index 3a1e8538f205..aae780e4a4aa 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -639,6 +639,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+ 			struct drm_gpuva *va = r->unmap->va;
+ 			struct uvmm_map_args remap_args = {
+ 				.kind = uvma_from_va(va)->kind,
++				.region = uvma_from_va(va)->region,
+ 			};
+ 			u64 ustart = va->va.addr;
+ 			u64 urange = va->va.range;
 
-I suppose I'm asking about the previous versions and how they would
-operate in a system SVM capable system.
+base-commit: 25205087df1ffe06ccea9302944ed1f77dc68c6f
+-- 
+2.41.0
 
-Dave.
->
-> Thanks,
-> Oak
->
-> >
-> > Dave.
