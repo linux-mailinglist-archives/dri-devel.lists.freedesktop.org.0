@@ -1,75 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595FD78209C
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 00:29:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E7D7820A5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 00:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A42DC10E035;
-	Sun, 20 Aug 2023 22:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45E310E05F;
+	Sun, 20 Aug 2023 22:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5464910E169
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 22:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692570568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YPhQSl7EkHeXJaVSqjtUG2Pb7auEbNHbcpRSgSMEH1A=;
- b=BXP2QRaU88EbCkO1+AhujWfV+uQsxCOdA/j4ADvCYREU9c2eRaPUx6iBwV3X3O5+LVWDgq
- JCyRNOOoefHioXUM6fpC85KQvU1IpR7Dfmrecl6y36j5cT/F/YesTrXS4XmE7VzJelw/+h
- ciSuIE12qdY/ypm9LeIP5EWb21VtNWU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-pBLt-p0hPOiL7vCSmFBmEA-1; Sun, 20 Aug 2023 18:29:26 -0400
-X-MC-Unique: pBLt-p0hPOiL7vCSmFBmEA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-99bca0b9234so160328766b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 15:29:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692570565; x=1693175365;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YPhQSl7EkHeXJaVSqjtUG2Pb7auEbNHbcpRSgSMEH1A=;
- b=K2Uq43Cv7Xgcl5U0huR7UcEZnCsD3+DfgRIwXxijsTRdIgKweg6xXVHFN1qga1b4U4
- jdJsdhtZQNSv3jFnw6bwKFtqfYKaf2sbkpH7fDA6P6ZRavultFu9mliQGDMn3fwssjFg
- c0HE1W2+5Bqeoyc7nTc9R8ZtAHr43wA2Ltr4Jj8c4/zarNwPOJG9MtsqiTXsWmYHA56Y
- UAkspJE9sbkx8pYTbcnA8sdEyLoPbWYTl7GO4gzCd2T030K4bm1lXILPHm0v9tErKRes
- F3nBcV3/dHiF9afZea1vBFd7kTQVRpwjmuLQimml21ZMDswYRbiKjDHDhQwTPl/nxlZ7
- e19w==
-X-Gm-Message-State: AOJu0Yzd9p2mwRUhtFeqQQGAw48Ro2+3IWE3sWla6ZlvMOHEgJIBhcPq
- YZNv9E9XiscCqY2K7KPzuCyBBvd5Wv7TbDzRW7vu9eBO76OsJTzpv0g7NsMH15RojtzemIxlAFA
- JUkSBdoC9nDhe8Iq/AaSd0ff9k+eu
-X-Received: by 2002:a17:907:77c4:b0:993:d536:3cb7 with SMTP id
- kz4-20020a17090777c400b00993d5363cb7mr4188734ejc.11.1692570565800; 
- Sun, 20 Aug 2023 15:29:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH3E66CloZzC5H6aCpbP5SgT88XUYTNuLaQ2K+qLz0CTNXQrDXDaUTKDGZiMqAUR3LIjhbRIw==
-X-Received: by 2002:a17:907:77c4:b0:993:d536:3cb7 with SMTP id
- kz4-20020a17090777c400b00993d5363cb7mr4188726ejc.11.1692570565517; 
- Sun, 20 Aug 2023 15:29:25 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a170906a10300b00993860a6d37sm5324078ejy.40.2023.08.20.15.29.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Aug 2023 15:29:24 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
- lyude@redhat.com
-Subject: [PATCH drm-misc-next] drm/nouveau: uvmm: fix unset region pointer on
- remap
-Date: Mon, 21 Aug 2023 00:29:16 +0200
-Message-ID: <20230820222920.2344-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B888310E05F
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 22:52:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5805FA2;
+ Mon, 21 Aug 2023 00:51:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1692571861;
+ bh=a4e8VEKO1ZA5st0zk5K/VQkJiIOaA/nfBXzO6me1iPI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XEosBF2EgHsLU6QSEJT+Wxq/PI+Hq7bGsRI5Yfee2Olbe3ETxK8OCoK91AQcWg3qb
+ 38zkUJoGJkBpTde2F3K+VmRQY9wZa7DmbMEpP22fIoP1TuzBkUdULQiCDhuT0oVjnk
+ Sr2Gjj8putVXuQSPSMtWDac1o4ar3Pp7hJgYswqQ=
+Date: Mon, 21 Aug 2023 01:52:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH v11 3/8] drm: Remove usage of deprecated DRM_INFO in DRM
+ core
+Message-ID: <20230820225223.GA10135@pendragon.ideasonboard.com>
+References: <cover.1692531217.git.code@siddh.me>
+ <434cb488766d6c8fb596acc0caea245fc9c115d3.1692531217.git.code@siddh.me>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <434cb488766d6c8fb596acc0caea245fc9c115d3.1692531217.git.code@siddh.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,33 +48,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Suraj Upadhyay <usuraj35@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Transfer the region pointer of a uvma to the new uvma(s) on re-map to
-prevent potential shader faults when the re-mapped uvma(s) are unmapped.
+Hi Siddh,
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_uvmm.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 3a1e8538f205..aae780e4a4aa 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -639,6 +639,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 			struct drm_gpuva *va = r->unmap->va;
- 			struct uvmm_map_args remap_args = {
- 				.kind = uvma_from_va(va)->kind,
-+				.region = uvma_from_va(va)->region,
- 			};
- 			u64 ustart = va->va.addr;
- 			u64 urange = va->va.range;
+On Sun, Aug 20, 2023 at 05:10:39PM +0530, Siddh Raman Pant wrote:
+> drm_print.h says DRM_INFO is deprecated in favor of drm_info().
+> 
+> Signed-off-by: Siddh Raman Pant <code@siddh.me>
 
-base-commit: 25205087df1ffe06ccea9302944ed1f77dc68c6f
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/drm_client_modeset.c | 2 +-
+>  drivers/gpu/drm/drm_connector.c      | 7 ++++---
+>  drivers/gpu/drm/drm_drv.c            | 2 +-
+>  drivers/gpu/drm/drm_pci.c            | 2 +-
+>  4 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index 1b12a3c201a3..ae19734974b5 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -331,7 +331,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>  		DRM_DEBUG_KMS("can clone using 1024x768\n");
+>  		return true;
+>  	}
+> -	DRM_INFO("kms: can't enable cloning when we probably wanted to.\n");
+> +	drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n");
+>  	return false;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index bf8371dc2a61..1145d9e64c24 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -168,13 +168,14 @@ static void drm_connector_get_cmdline_mode(struct drm_connector *connector)
+>  		return;
+>  
+>  	if (mode->force) {
+> -		DRM_INFO("forcing %s connector %s\n", connector->name,
+> -			 drm_get_connector_force_name(mode->force));
+> +		drm_info(connector->dev, "forcing %s connector %s\n",
+> +			 connector->name, drm_get_connector_force_name(mode->force));
+>  		connector->force = mode->force;
+>  	}
+>  
+>  	if (mode->panel_orientation != DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
+> -		DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
+> +		drm_info(connector->dev,
+> +			 "cmdline forces connector %s panel_orientation to %d\n",
+>  			 connector->name, mode->panel_orientation);
+>  		drm_connector_set_panel_orientation(connector,
+>  						    mode->panel_orientation);
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 3eda026ffac6..d457f2053c05 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -943,7 +943,7 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+>  	if (drm_core_check_feature(dev, DRIVER_MODESET))
+>  		drm_modeset_register_all(dev);
+>  
+> -	DRM_INFO("Initialized %s %d.%d.%d %s for %s on minor %d\n",
+> +	drm_info(dev, "Initialized %s %d.%d.%d %s for %s on minor %d\n",
+>  		 driver->name, driver->major, driver->minor,
+>  		 driver->patchlevel, driver->date,
+>  		 dev->dev ? dev_name(dev->dev) : "virtual device",
+> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+> index 39d35fc3a43b..7dfb837d1325 100644
+> --- a/drivers/gpu/drm/drm_pci.c
+> +++ b/drivers/gpu/drm/drm_pci.c
+> @@ -262,7 +262,7 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
+>  		}
+>  		mutex_unlock(&legacy_dev_list_lock);
+>  	}
+> -	DRM_INFO("Module unloaded\n");
+> +	drm_info(NULL, "Module unloaded\n");
+>  }
+>  EXPORT_SYMBOL(drm_legacy_pci_exit);
+>  
+
 -- 
-2.41.0
+Regards,
 
+Laurent Pinchart
