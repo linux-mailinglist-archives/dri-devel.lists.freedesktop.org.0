@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C81781DA1
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Aug 2023 13:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BB9781DA4
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Aug 2023 13:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED43910E128;
-	Sun, 20 Aug 2023 11:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5AD210E13F;
+	Sun, 20 Aug 2023 11:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28EC010E128
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 11:56:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9527F10E13A
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Aug 2023 11:56:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; t=1692531658; cv=none; d=zohomail.in; s=zohoarc; 
- b=NaWNHzaAdHtnFVYfIrqgpW6it2UCZ2Roxrkbn2YwvkQm+yh10sbjOmF+OjMTxQKqYxb+q1zDxweEoZ5gDXYgugNtP3dItHRShFCzkEURytwx/DbJfcgo4sXW6kXremDdOT/cDXKBdeKf7Zo6EbqCQawJNY08udAChM6EUN//huo=
+ b=Q4JvUNgBDPIl/inw6uBrU3tIAJamGCgaPUwvRqId1Ny7kwPOCx2Yk87HFI22LOr9Ad6KB+4hci6LAmhNHjoXykM5A35f6lxY3s3E+10qIVPQllmPNH0fQHt12D8HQDr1VqqAiai3NieU5K+mShifeKk9WOJEjTn5/fG+CQekL/c=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
  s=zohoarc; t=1692531658;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=AyVAOzx0vIDJe/JH+5SrKEle3PbnAVQrs27ue9idxk8=; 
- b=DIDjTQ/l0GG8NS4s+aFCl4GximBT2/DvhRDwjZQM18Fi56fgoKMdQRgA4luCgNt3eMrJoA+X8+ByfoBMCwTP2/D8qcD9vJVXDmuALxxYjLOEH5jjsG2W5cWD/vsp0eVuO55nM9lQYSB2Nph/oCrilZEQYoSk8vEFgWkJgZB4WGY=
+ bh=aPBFMGsG0PZ6NpKEdwaKLiBPSTux2mJYgqc9686AUR4=; 
+ b=D9FeX2fwaJREGZnWfBO2YGLgfz8/0BxsPZGbwjiL/fnpVdfCIoqjhBqtcBDpoCHWAU1NV5GzApMntb+mKeNwKby5kGYZ57Ggj5B5F8JJxNbmGUmdqQ2zaH9Ie8XjdnDQKy+mQ1diVmcjWS1fe/Fes029FSQeML/nezE2dA7tPME=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1692531658; 
  s=zmail; d=siddh.me; i=code@siddh.me;
  h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=AyVAOzx0vIDJe/JH+5SrKEle3PbnAVQrs27ue9idxk8=;
- b=BggA42to2GaKNYY8lCsnVa2X/QmRMeHUDK7r9CeEg6s3Uq0y8YeTrTenPe+c+lYz
- rcGxuGJXuWPyQlgcWOrLkhZet4hx/zsGELxQKNWhLF/rQfnNIPC3HbpFOQcSPV1txnh
- nfZ7Y2GfxIVRV/lEiyRqYv17spKG6nm+ZEUiVmbQ=
+ bh=aPBFMGsG0PZ6NpKEdwaKLiBPSTux2mJYgqc9686AUR4=;
+ b=A4DOtB/fVcL34paRf5rVU8DOzddttHcFcqiwKeZ5Uks9wk6nkaUkXyDwSr61UQPj
+ GL25PvfOVyTin3g/Bca8yD3vPjqQ/5oEBMhr2ZtpkK5CXvVy3R49bccE9FpiaSPAjlP
+ ntxdn6sb+YO7kd4jtkF6MblVavmIhEnm6adIS8JQ=
 Received: from kampyooter.. (110.226.17.164 [110.226.17.164]) by mx.zoho.in
- with SMTPS id 1692531655956561.6786783497813;
- Sun, 20 Aug 2023 17:10:55 +0530 (IST)
+ with SMTPS id 1692531656530545.0954471206264;
+ Sun, 20 Aug 2023 17:10:56 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -42,10 +42,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <d1b2c13cbb151fc9fe3a58e0a6118ac3a9cb8bc1.1692531217.git.code@siddh.me>
-Subject: [PATCH v11 2/8] drm/print: Fix and add support for NULL as first
- argument in drm_* macros
-Date: Sun, 20 Aug 2023 17:10:38 +0530
+Message-ID: <434cb488766d6c8fb596acc0caea245fc9c115d3.1692531217.git.code@siddh.me>
+Subject: [PATCH v11 3/8] drm: Remove usage of deprecated DRM_INFO in DRM core
+Date: Sun, 20 Aug 2023 17:10:39 +0530
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <cover.1692531217.git.code@siddh.me>
 References: <cover.1692531217.git.code@siddh.me>
@@ -70,183 +69,84 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Comments say macros DRM_DEBUG_* are deprecated in favor of
-drm_dbg_*(NULL, ...), but they have broken support for it,
-as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
+drm_print.h says DRM_INFO is deprecated in favor of drm_info().
 
-Thus, fix them by separating logic to get dev ptr in a new
-function, which will return the dev ptr if arg is not NULL.
-Use it in drm_dbg_*, and also in __DRM_DEFINE_DBG_RATELIMITED,
-where a similar (but correct) NULL check was in place.
-
-Also, add support for NULL in __drm_printk, so that all the
-drm_* macros will hence support NULL as the first argument.
-This also means that deprecation comments mentioning pr_()*
-can now be changed to the drm equivalents.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
- include/drm/drm_print.h | 79 +++++++++++++++++++++++++++--------------
- 1 file changed, 52 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/drm_client_modeset.c | 2 +-
+ drivers/gpu/drm/drm_connector.c      | 7 ++++---
+ drivers/gpu/drm/drm_drv.c            | 2 +-
+ drivers/gpu/drm/drm_pci.c            | 2 +-
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index a93a387f8a1a..4b8532cf2ae6 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -34,6 +34,7 @@
- #include <linux/dynamic_debug.h>
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_cli=
+ent_modeset.c
+index 1b12a3c201a3..ae19734974b5 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -331,7 +331,7 @@ static bool drm_client_target_cloned(struct drm_device =
+*dev,
+ =09=09DRM_DEBUG_KMS("can clone using 1024x768\n");
+ =09=09return true;
+ =09}
+-=09DRM_INFO("kms: can't enable cloning when we probably wanted to.\n");
++=09drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n"=
+);
+ =09return false;
+ }
 =20
- #include <drm/drm.h>
-+#include <drm/drm_device.h>
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
+r.c
+index bf8371dc2a61..1145d9e64c24 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -168,13 +168,14 @@ static void drm_connector_get_cmdline_mode(struct drm=
+_connector *connector)
+ =09=09return;
 =20
- /* Do *not* use outside of drm_print.[ch]! */
- extern unsigned long __drm_debug;
-@@ -451,9 +452,32 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct =
-device *dev,
-  * Prefer drm_device based logging over device or prink based logging.
-  */
+ =09if (mode->force) {
+-=09=09DRM_INFO("forcing %s connector %s\n", connector->name,
+-=09=09=09 drm_get_connector_force_name(mode->force));
++=09=09drm_info(connector->dev, "forcing %s connector %s\n",
++=09=09=09 connector->name, drm_get_connector_force_name(mode->force));
+ =09=09connector->force =3D mode->force;
+ =09}
 =20
-+/* Helpers for struct drm_device based logging. */
-+
-+/**
-+ * __drm_dev_ptr - Helper function to get drm->dev pointer.
-+ * @drm: struct drm_device pointer.
-+ *
-+ * RETURNS:
-+ * The struct device pointer (NULL if @drm is NULL).
-+ */
-+static inline struct device *__drm_dev_ptr(const struct drm_device *drm)
-+{
-+=09if (drm)
-+=09=09return drm->dev;
-+
-+=09return NULL;
-+}
-+
- /* Helper for struct drm_device based logging. */
- #define __drm_printk(drm, level, type, fmt, ...)=09=09=09\
--=09dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-+({=09=09=09=09=09=09=09=09=09\
-+=09struct device *__dev_ =3D __drm_dev_ptr(drm);=09=09=09\
-+=09if (__dev_)=09=09=09=09=09=09=09\
-+=09=09dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__);=09\
-+=09else=09=09=09=09=09=09=09=09\
-+=09=09pr_##level##type("[drm] " fmt, ##__VA_ARGS__);=09=09\
-+})
+ =09if (mode->panel_orientation !=3D DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
+-=09=09DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
++=09=09drm_info(connector->dev,
++=09=09=09 "cmdline forces connector %s panel_orientation to %d\n",
+ =09=09=09 connector->name, mode->panel_orientation);
+ =09=09drm_connector_set_panel_orientation(connector,
+ =09=09=09=09=09=09    mode->panel_orientation);
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 3eda026ffac6..d457f2053c05 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -943,7 +943,7 @@ int drm_dev_register(struct drm_device *dev, unsigned l=
+ong flags)
+ =09if (drm_core_check_feature(dev, DRIVER_MODESET))
+ =09=09drm_modeset_register_all(dev);
 =20
+-=09DRM_INFO("Initialized %s %d.%d.%d %s for %s on minor %d\n",
++=09drm_info(dev, "Initialized %s %d.%d.%d %s for %s on minor %d\n",
+ =09=09 driver->name, driver->major, driver->minor,
+ =09=09 driver->patchlevel, driver->date,
+ =09=09 dev->dev ? dev_name(dev->dev) : "virtual device",
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index 39d35fc3a43b..7dfb837d1325 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -262,7 +262,7 @@ void drm_legacy_pci_exit(const struct drm_driver *drive=
+r,
+ =09=09}
+ =09=09mutex_unlock(&legacy_dev_list_lock);
+ =09}
+-=09DRM_INFO("Module unloaded\n");
++=09drm_info(NULL, "Module unloaded\n");
+ }
+ EXPORT_SYMBOL(drm_legacy_pci_exit);
 =20
- #define drm_info(drm, fmt, ...)=09=09=09=09=09\
-@@ -487,25 +511,25 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct=
- device *dev,
-=20
-=20
- #define drm_dbg_core(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
--#define drm_dbg_driver(drm, fmt, ...)=09=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS_=
-_)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
-+#define drm_dbg_driver(drm, fmt, ...)=09=09=09=09=09\
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
- #define drm_dbg_kms(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
- #define drm_dbg_prime(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__=
-)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
- #define drm_dbg_atomic(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS_=
-_)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
- #define drm_dbg_vbl(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
- #define drm_dbg_state(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__=
-)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
- #define drm_dbg_lease(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__=
-)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
- #define drm_dbg_dp(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
- #define drm_dbg_drmres(drm, fmt, ...)=09=09=09=09=09\
--=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS_=
-_)
-+=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-=20
- #define drm_dbg(drm, fmt, ...)=09drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-=20
-@@ -533,31 +557,31 @@ void __drm_err(const char *format, ...);
- #define _DRM_PRINTK(once, level, fmt, ...)=09=09=09=09\
- =09printk##once(KERN_##level "[" DRM_NAME "] " fmt, ##__VA_ARGS__)
-=20
--/* NOTE: this is deprecated in favor of pr_info(). */
-+/* NOTE: this is deprecated in favor of drm_info(NULL, ...). */
- #define DRM_INFO(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(, INFO, fmt, ##__VA_ARGS__)
--/* NOTE: this is deprecated in favor of pr_notice(). */
-+/* NOTE: this is deprecated in favor of drm_notice(NULL, ...). */
- #define DRM_NOTE(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(, NOTICE, fmt, ##__VA_ARGS__)
--/* NOTE: this is deprecated in favor of pr_warn(). */
-+/* NOTE: this is deprecated in favor of drm_warn(NULL, ...). */
- #define DRM_WARN(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(, WARNING, fmt, ##__VA_ARGS__)
-=20
--/* NOTE: this is deprecated in favor of pr_info_once(). */
-+/* NOTE: this is deprecated in favor of drm_info_once(NULL, ...). */
- #define DRM_INFO_ONCE(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(_once, INFO, fmt, ##__VA_ARGS__)
--/* NOTE: this is deprecated in favor of pr_notice_once(). */
-+/* NOTE: this is deprecated in favor of drm_notice_once(NULL, ...). */
- #define DRM_NOTE_ONCE(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(_once, NOTICE, fmt, ##__VA_ARGS__)
--/* NOTE: this is deprecated in favor of pr_warn_once(). */
-+/* NOTE: this is deprecated in favor of drm_warn_once(NULL, ...). */
- #define DRM_WARN_ONCE(fmt, ...)=09=09=09=09=09=09\
- =09_DRM_PRINTK(_once, WARNING, fmt, ##__VA_ARGS__)
-=20
--/* NOTE: this is deprecated in favor of pr_err(). */
-+/* NOTE: this is deprecated in favor of drm_err(NULL, ...). */
- #define DRM_ERROR(fmt, ...)=09=09=09=09=09=09\
- =09__drm_err(fmt, ##__VA_ARGS__)
-=20
--/* NOTE: this is deprecated in favor of pr_err_ratelimited(). */
-+/* NOTE: this is deprecated in favor of drm_err_ratelimited(NULL, ...). */
- #define DRM_ERROR_RATELIMITED(fmt, ...)=09=09=09=09=09\
- =09DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
-=20
-@@ -593,13 +617,14 @@ void __drm_err(const char *format, ...);
- #define DRM_DEBUG_DP(fmt, ...)=09=09=09=09=09=09\
- =09__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
-=20
--#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)=09=09=09=09=
-=09\
--({=09=09=09=09=09=09=09=09=09=09=09=09\
--=09static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_=
-RATELIMIT_BURST);\
--=09const struct drm_device *drm_ =3D (drm);=09=09=09=09=09=09=09\
--=09=09=09=09=09=09=09=09=09=09=09=09\
--=09if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))=09=09=
-=09\
--=09=09drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARG=
-S__);=09\
-+#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)=09=09\
-+({=09=09=09=09=09=09=09=09=09\
-+=09static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL,=09\
-+=09=09=09=09      DEFAULT_RATELIMIT_BURST);=09=09\
-+=09=09=09=09=09=09=09=09=09\
-+=09if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))\
-+=09=09drm_dev_printk(__drm_dev_ptr(drm), KERN_DEBUG,=09=09\
-+=09=09=09       fmt, ## __VA_ARGS__);=09=09=09\
- })
-=20
- #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
 --=20
 2.40.1
 
