@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA447821DC
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 05:36:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E20707821E3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 05:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656B310E16F;
-	Mon, 21 Aug 2023 03:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85C610E17C;
+	Mon, 21 Aug 2023 03:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04on2060.outbound.protection.outlook.com [40.107.6.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3CA10E16F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 03:36:45 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2060a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1a::60a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8152C10E17C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 03:36:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zn8F1uaiBjdbkVhMv/sBNqzFJsGimYf85ioxBbL642QJv4CS9UZrkM0k5ucOwGIvq3h7JjCtOL7qV7SrZ4kw0TvL1UOYMR0caOcdvW34MTj0DI5kNQ7kASfmvaiPFom50o673bqaREuGy3aBrH9N6G333jB9v4zig4qK+pyunjcrV+mrNC60xH2v3sjZCfF4K1VvFapQRLDm91429N7XpagURjqItTv9sIPHGhnPtHVFGcfWgFnA9wjFmeNjDfSJ09d0pr3dBAJXhuG+09RJFTHR9wDYnxRZ0v5bWj3WP9YZQ6Br9CiUEB4QlcvOYbieI1ucEo8Waod3jI4Mn6KTgg==
+ b=IdhnjfnCXoVYydT9ETAJMpifa3I2PKtLMJKtHed8+CqC9mgZmH/HBEeKN1FXi9V3c+K7TGwsO33hzulsRt/orASGj9mSW17vYkXnBoefxB7xR6m0IO0AwL0DEA93YeSpi8FV3ah1Sx8gw/FgzoLjnKRtQDMtfeMdAACbvJ6bQFveqz7/n/1CtcAZ8fTlnMaw47+4XHxtqEsi7bFIZWNSWojVoze00T6HfBgIFrImfn+Wgpwf8NstKT5aruuQTzQcyP+eob7SX0/PsJFcAbtVw5s+dMcKmdXtmJSeWsow+/+GJyjKxIhefwQHZbw0blp8H0Go3AWWP/ZMoxEe4j9IAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6bhD1OyOCk/b7xDxt1Sh/+n1tKYgcSDjTVOJ/0h9TnU=;
- b=ApsS6AZihdiT125Kfo/J9KE+alk4ulVakvvNPIXgT/55XsP+cISDi6/DTmPRv0rWeQhkoHr43P5ziH/A6fc9zNvpozKR1pVRM3/60orMofCZaaDyCMx0wX+f7K/f3uCc+3g86pb8VFtXwlfuQXjqH4PK/Mok846BZ//NJhvDdDyek4GixHYXXjYc2lcizNOloYNNi8HoRbqE/R2l9ASCWkd7KMkXTZH2Z5RO767+glY7wzTASuFA4LwSBygyJ6jLX1PkgF4W7nyFWfzyXaEfa902Ny7guGTENV/zeRuplXPetAdPPJlBT9YloCPZlIUG0BV2zETmW5mFGCPtE7iuIQ==
+ bh=Yc60TojKkm+EG/yrr5xESHmoBhVpoVUMN1IQ2c9MLKY=;
+ b=E5030RfHOYe1I2AgS/RTqDqsxFD261QswQMUVBTqyDl9IHnTSIRTHBEseg1GJ+reVQPsHMBw0UyRl6cXpanE5XDR7lfPSuWN+ziD9KFn59k5t62CaEDanB0ht2xoZNZ+mMYm2POVKoCeW528mbCv1GtTPexTs0BK9rl/QIcLrMZHg9dRvERIYxgea+9O6jqRJXYY6nFZ712o4ikM3fq7ShL4cp15G/NNwuAkKN8U0MxfhMRT+eFowYZIoWaWx0HSapjGmNJoc/rvh2eQkTZLqEYJgk8eISMntOWCkw2Vz0BATS6+MW6nOoJ9J+k74kcuPxT6jlRjcjAAZ/Dx5mDx6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6bhD1OyOCk/b7xDxt1Sh/+n1tKYgcSDjTVOJ/0h9TnU=;
- b=B38AK5OoTcwLJ0eZYJfmvC49kwM7vj+ccj2uplv6pBlMEfi7N3RIa6vL2tFyxFOMgRJXd6cVTPFBaLKv842tXq943IyWQWnd5ca5jPYTAGLMg4TUiQkOZwOUInoihWptYq8G4sihYTU8hqFzOUgg3TADfZDaEpi77+ZoxoKKmRQ=
+ bh=Yc60TojKkm+EG/yrr5xESHmoBhVpoVUMN1IQ2c9MLKY=;
+ b=BKFXi+VPLAT1Dj0n3SDWp188xohnhp7T9EEvpPS82DMEqkJjDu+qfk9APxRnoAwplnI/3YxVlWhVFeiQj5N+bfX0uyzEV5/3qgrqljZJvOaar+Vk9RidfXsxprlJ/n/PpdkRmcmxHM1D/o8CYOLc4Csv0f2OmHVY7wkJfJxHahc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by PA4PR04MB7758.eurprd04.prod.outlook.com (2603:10a6:102:c4::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
- 2023 03:36:42 +0000
+ 2023 03:36:49 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 03:36:42 +0000
+ 03:36:49 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 RESEND 0/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
-Date: Mon, 21 Aug 2023 11:39:59 +0800
-Message-Id: <20230821034008.3876938-1-victor.liu@nxp.com>
+Subject: [PATCH v3 RESEND 1/9] drm/bridge: synopsys: dw-mipi-dsi: Add
+ dw_mipi_dsi_get_bridge() helper
+Date: Mon, 21 Aug 2023 11:40:00 +0800
+Message-Id: <20230821034008.3876938-2-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230821034008.3876938-1-victor.liu@nxp.com>
+References: <20230821034008.3876938-1-victor.liu@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SI2P153CA0025.APCP153.PROD.OUTLOOK.COM
@@ -53,52 +57,52 @@ X-ClientProxiedBy: SI2P153CA0025.APCP153.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB7758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 457c5798-8a49-4f74-c020-08dba1f7d5a3
+X-MS-Office365-Filtering-Correlation-Id: 321a1688-cc56-4618-a0f8-08dba1f7da4b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GW0jEmyJiOBXvkubE3AmAz5CSKr8r1AkdLJrW9bmbLomT4WbnB6lrjXoHSTzA3SqXylUyQkYKHvt40HoPXVaEpBYSZt29Rlv4CYToVS+qR+uz6YGsTrWFO/VoCtC3cjcJK6deZ6unEO48rO4e8WDKRWKC2ezY3OZIugrjWt+/iHXVC8vzf3umoS771hqyOkg3ybiHRaDWO684K/3yMuboXN5OI3v5UibNWC8cgnS+d1NaO8R8ZrPlLqALmDSdWJoVDQRklbooCVTUD1mMDF26bYy0pvGM8Dy4zaEVhFbOYEbQ6ZWHSirr7wENeyXx7vHk/pmpriQ5BGaaU0O2TvHpjk2zZAk9ygJPfMw1fGi0lEIawABWAYOpV90aS8+CU0pnAtEoOD/a/ICQ5VPUg960Oqh7/Pe626gJ1kbkUwPPSuC+PQaXXGKnn7NxxV+fH8gW150HWg4BIXM1klYWK/lA8VQ3APSI8LCWEU6SNNN9TD2yAmHnXn1s2Q5CtjzT4VLz+ZYo4ng1dIQ1Wxmj+diSaZlu5oqfiSlJfyS275oBSmfNYp5IST/T6UeKBqx6wxVzUE8yuLwK9sk8fKtaGJlyCWrP7aq7bn0UW0WwohWlaK1lmWAtsKQHY3qGG/Mgd4J
+X-Microsoft-Antispam-Message-Info: hugMRF/1SJ8l3zzqokBk/ePyERPfMPjJu28gYWeiR5fIMVw28Pnln1m5S60HO4UP/3bDA9M0DKyXqBki0tj0zmmWhZPzu2T8/ktKcw7qk4oXJzWB7ElsfX/pe0hMW32kmwqQRAH5CZZI1q9fPhDw7xYVJPQvBfVmDTZYq4sOvdWDC0Yr8jRVNjnKUQF1qXadKIa+RktuLg9DijfKaS/KiDWFQsMEFfd4Q6m3wALlXky3Y4pxJi0aLsA8mxJgQVpkPQl9VN7ONXdgbR3V3HxWfdeq7K5SpMlt+hD1yc3ae6TeRakieCLmZAYrY6q8TtjfZaEU6Zc+LCdmIoKhRzipZV7O/s+JJDV2qEpMqmcQxGkRdNWI6qLJsLiepfybmrCm0J6EjARHKvqo6R4iBTLz7KF7KgBkIMRzzWRLOr3GJQDLMU6I2txod8vzV7bRX+Oivl2p5e4pUkivXuFxcJMxFR59wMWEROoJNoE3mFmLVAMSGONePVac7+jtOQzXuPHR/xgHf4zRI96kjHuMeXRBH/Z0+PdzWofsHUbBbzImfb4x+rxvMZJei442JfHMfYLE2FXL5qhmGuTvvO+0umvWCek2AkrGFgBtozUIHhnFIzufyAPYrR0elu1QL9nZtC+v
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(186009)(1800799009)(451199024)(1076003)(2616005)(26005)(6512007)(38350700002)(38100700002)(36756003)(86362001)(83380400001)(316002)(8936002)(8676002)(41300700001)(66476007)(66556008)(66946007)(2906002)(4326008)(478600001)(7416002)(6506007)(6486002)(6666004)(52116002)(5660300002);
+ SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(186009)(1800799009)(451199024)(1076003)(2616005)(26005)(6512007)(38350700002)(38100700002)(36756003)(86362001)(316002)(8936002)(8676002)(41300700001)(66476007)(66556008)(66946007)(2906002)(4326008)(478600001)(7416002)(6506007)(6486002)(6666004)(52116002)(5660300002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QrWdUlQ0vTNALiNJWMiJ+RnLFALido9kbq/NnKdW23Cs/pRGgEEvgtz+4+2u?=
- =?us-ascii?Q?jFHHuJWweh0zXCdLqhhug7tc+raIeZnYGyFthBYwayzJ63NVC8F0j1R1gxxA?=
- =?us-ascii?Q?7GMVdsKDH5szgU0wvHZliVwdcFBZPM82fBlGQfOiZFy1aZMieksHJvpN0qBW?=
- =?us-ascii?Q?5gZ84ZlHZzWD6gP/qZTysCycV2P2hIiUtaIUWdT1tt2W2uAF/QDrp4BiENJE?=
- =?us-ascii?Q?ahd84SdiOsGSuOm29IzUaoxObHliwCvLb8tT0kjLajdM8Vh+dvp/00MWL0Et?=
- =?us-ascii?Q?YXbK9cgqj+fC3sqbm5rZJ0GdZCXv3FCPwTnVVlZT2noSTLamXzpluOw8KKOL?=
- =?us-ascii?Q?v5pdrGPYazV8BjmoL9m3eqoqNyT8hvBrQfT1nTPXuOscrHlrWACrDRMdzQ4U?=
- =?us-ascii?Q?KMngr/DVbKJyBGkKVLQubEThPhgxvFSPAQTGNVZhnq7IxRGbRvkjQUGM6E9q?=
- =?us-ascii?Q?he8H2XC53amagj221pAJDW3Fs5MHg0mtXLI84ewUT6+Ua9ZKkPhveqe3Bp34?=
- =?us-ascii?Q?bODh4L6RpYVBK1UapVJeTCIX1skkMnJl5AldzCElB6bNTCWabjZwqrY1fwXk?=
- =?us-ascii?Q?WHlH3S6YmLkUkBYoY/ZnAo+nlyu5SH1RJusDfGB2oR+iZgYJ6dev8/lMXQB/?=
- =?us-ascii?Q?+4QCiXtbzpiOmoxnIyuSamM33CgCPsndiObcsCOhE/nhdWGanJfJHRozUW31?=
- =?us-ascii?Q?cP9MWMRIfL6E5Xce2tWQh/gXMrRGpOvQOt3DjW6weegFinHNES15XVJCDsEO?=
- =?us-ascii?Q?vXOZKWDcPv39vJXvppnsZz6iXcT1JfShNxu2mOvv2IQ6UBFdc16n9F6rowem?=
- =?us-ascii?Q?IlKX/TUMcCQB8k8S7NB5dptlhRQixF1x1dbalBBAZyhEma03ooRRfSih2+ay?=
- =?us-ascii?Q?Ofwtsj0BWkrFBEBCG6CRaLQ6EiOoA2YD434qtpoGnvBnq/vuIG99rCTtiA3l?=
- =?us-ascii?Q?7ub4GPFRCJ4LIL/kbOif6cJsXjdvO9AZP+rVPszo465t3XgzsRpT98vnt8Fg?=
- =?us-ascii?Q?VzSjDURZbWg7T1Hsp+JQQKXsFZf1VCf4XYLevfrwlnh53CYXwn1W65Kqdcmm?=
- =?us-ascii?Q?mW8dAZC3+HhGP8tt461+tzg04V9+H1f2qQqfuqXwq4X6Z25JBiWEn6QL2ts1?=
- =?us-ascii?Q?KFkM2CXUxgGMGeSljrlrBi77NbVwjJRGb9UVlxw/6pD5JJTNmrx4/9JfuFC2?=
- =?us-ascii?Q?23hKkTBN0RMf25DqMTLQTUt+yu9Ly2mFseITle0wAEjbZW7hMouiv01Xx3EG?=
- =?us-ascii?Q?aqxrnCtdSStTACxvkxzDaWdIVNnXSv1ON2f6hvSKzroATeP7yc/b7L3s9A1E?=
- =?us-ascii?Q?BBq8xb7MF++HSkdPM0C7z1o2MGsyapqTCthmU9hW7JkABOq/l97zU2hGDhJN?=
- =?us-ascii?Q?bC+4T1TtdrB/NJmk2A5Ty4F8yEXM0Sp9Z4SJuc8uqTf4Xk4h3Bk3Fh8VD7tu?=
- =?us-ascii?Q?EjCuroMHUD7izitAOe3moA7nydGVQTmVZVPACjvlbnghiz5qO2pQL2ay2Lut?=
- =?us-ascii?Q?GwkkMS5LSo7g/pkCHncqoIF4e0JC+fkGtFC+ZAXEygDRjjHsSco1/6a9Xm6D?=
- =?us-ascii?Q?IaM0z9AQwb5YGbenB+MmE6PLCCZzQyIlvgCg4Gx1?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rORPkrwB5t1oYnqZWVXao1euERUkOSbUdo6V7B3Ri0HyI92xI89rh8RCCcYN?=
+ =?us-ascii?Q?EfQBT4OoTVJ2JRA/SCKIaqMeAQyfkFUvOLsh8RDDJT7rmSaafxR39pVIoEmB?=
+ =?us-ascii?Q?w5kmldNoiP4okjpBhsYidc3BslGfBEOijg1sSW/Q8aU8ErK+L2mmImIUyuVM?=
+ =?us-ascii?Q?rh8rYJugvsPmLKhYj15/Kl/+0je6YKLVnfbqfLLIf8H/P/sOU9TzznL1oYJN?=
+ =?us-ascii?Q?nKXJA/T5zuBFmVMDd1n97ih6vWTuznoZPNyha5xcXJ8N2BVsoRWogxt88IZP?=
+ =?us-ascii?Q?iTcV9/QiKCxGgQUow0edLNG+0vlNy6Z/n+j7q1op5iLtVS9UkN4H1NuVkNOP?=
+ =?us-ascii?Q?f6Z4t/OdxEWpRfI3yAsNr0+wTN+VqhjIdIkBUlVy+BvmBcuH2zmSgf2MBHZX?=
+ =?us-ascii?Q?zSX/NlBFNEle36GgAzNGuIv+JmOOaCOC8z8YHH72LujmYd2k5QxEtuoHcQAA?=
+ =?us-ascii?Q?nonrN6SK7m6nmFf2jQ93mOmk1n4Whz5CztqNBxdoaXeHV0+K5Rjradgh9tq8?=
+ =?us-ascii?Q?0MTU0RZpxJGaZVIdoMqHzKcgDN9Bxpini1vJodVcW2SdPX8bZ5x2vhR3hAAK?=
+ =?us-ascii?Q?onbCtf37AIf5B7bznkyIIv4VJ2Vkzs/ON7cWUo3WI2KhKu8Ov4GP1s4FCbYP?=
+ =?us-ascii?Q?ygwlmpza2a8ptwmVaP/a9y29niP2dCehF/d78vQWKI0M6D/hQLCgFsVvP6PG?=
+ =?us-ascii?Q?nPD4yuxR7CAbPTr8/Xs7/vGjMFxQTGh3Jlx+Uw7uQKNrfj7IiHV6DNMA/Jm7?=
+ =?us-ascii?Q?acj9HbsZFFe9dCUad7lLc4z9cxry8r9l2mmiqWkSJvRy0FWajUYNkeQgPySr?=
+ =?us-ascii?Q?3rTbvu1yYBST+7a6a7yGlhVULJxeJpufYjnGfudoAm1ZDn6lsGLAwYzQDWTF?=
+ =?us-ascii?Q?QM/O4bwFiSA3AJQ7eJf9AU58Sgf3nYtJ5mDxMFsZbnohUpk3S15b+QyRrTBF?=
+ =?us-ascii?Q?WMCft7AliIw45MUpae1DzibNiMPETUK/aytrym+p1YT9WqPQvmTCoBAsPx3l?=
+ =?us-ascii?Q?CUbrSQyxIcIZpXdc6VWJis3H0BC3FZD7JNUCsbzkQVD1QoQ1RM/OVqcPF7nq?=
+ =?us-ascii?Q?eblgC66XC27f3tdh9a+ZBEx07m54tpbvpwdZExodWfeHOCesAOGmxZyPVaxR?=
+ =?us-ascii?Q?trtW8OrDTh/5qr3dabgmwGO8fd/SP2QrMcZJ4pP3DPDVm29AdB+CO4LkcMox?=
+ =?us-ascii?Q?T7dSIvXR8ZrwzkBIcPY/6HgpI5kdJVZU9MWDP5ipNvklYDqwGjUwkiej9jRM?=
+ =?us-ascii?Q?uRQ7Vd66wmWTcw9UgpOIzZbET8RBJijIDmGMPsSVIDd1mVBUAKV1W+ffGiJo?=
+ =?us-ascii?Q?WNYOBNN7aoMK/NMvMu7j/o7vAR5kYhPp5A/Xtk7KnWQsan8EIP4RjuY/u5a5?=
+ =?us-ascii?Q?0FO6/r+5+qL/1HnpTnuJ7DF6y6LHUOBEbbN6Yo1kdA7elis/0FggYdeTb9Ma?=
+ =?us-ascii?Q?/qT9LcVQebG209cL+NiFwZ5rjQ6ycpxPDqy/8qcUoo0N5ra55YDWfP/tstQd?=
+ =?us-ascii?Q?A9au+5VP3HoX6whro4i+aqIzEFQhz2NVsGPcafuDkTK5xS7IWwlypjZMEize?=
+ =?us-ascii?Q?hcpasQZtFEC+2mhvmoPTUI2kpz4lHcJfZaPtzIC/?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 457c5798-8a49-4f74-c020-08dba1f7d5a3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 321a1688-cc56-4618-a0f8-08dba1f7da4b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 03:36:41.9069 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 03:36:49.6828 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gJ772wq5VXKf9zwvbiLuHdIWEzufqgH56pLBlPWvBt3Qf1GXkPUXz2lp60rnX7Oqt/CWLwBJMvk+BvNCUoahnA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1cRgsS8TrLFqUiUQYy3o3Wsw/T6QoCed/YS7nKPHpIAKmYAJD0BWfFbXKWWL01WO3+9LLfw87AzBYcHyCw52gw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7758
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,67 +127,54 @@ Cc: andrzej.hajda@intel.com, alexander.stein@ew.tq-group.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add dw_mipi_dsi_get_bridge() helper so that it can be used by vendor
+drivers which implement vendor specific extensions to Synopsys DW MIPI DSI.
 
-This series aims to add MIPI DSI support for Freescale i.MX93 SoC.
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v1->v3:
+* No change.
 
-There is a Synopsys DesignWare MIPI DSI host controller and a Synopsys
-Designware MIPI DPHY embedded in i.MX93.  Some configurations and
-extensions to them are controlled by i.MX93 media blk-ctrl.
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 6 ++++++
+ include/drm/bridge/dw_mipi_dsi.h              | 2 ++
+ 2 files changed, 8 insertions(+)
 
-Add a DRM bridge for i.MX93 MIPI DSI by using existing DW MIPI DSI
-bridge helpers and implementing i.MX93 MIPI DSI specific extensions.
-
-Note that since this series touches the dw-mipi-dsi driver, tests are
-needed to be done for meson, rockchip and stm.
-
-Patch 1 ~ 7 do preparation work for adding i.MX93 MIPI DSI DRM bridge driver.
-
-Patch 8 adds DT-binding documentation for i.MX93 MIPI DSI.
-
-Patch 9 adds i.MX93 MIPI DSI DRM bridge.
-
-v2->v3:
-* Add Neil's R-b tags from v1 on patch 5/6/7.
-* Select GENERIC_PHY to fix Kconfig warning for GENERIC_PHY_MIPI_DPHY
-  dependency in patch 9.
-* Cc stm and rockchip folks.
-* Resend based on the latest drm-misc-next.
-
-v1->v2:
-* Add Rob's R-b tag on patch 8.
-* Use dev_err_probe() to replace DRM_DEV_ERROR() in patch 9.  (Sam and Alexander)
-* Use dev_*() to replace DRM_*() in patch 9.  (Sam)
-* Fix build for arm architecture in patch 9.
-  (Reported-by: kernel test robot <lkp@intel.com>)
-* Improve error messages for imx93_dsi_phy_init() in patch 9.
-
-Liu Ying (9):
-  drm/bridge: synopsys: dw-mipi-dsi: Add dw_mipi_dsi_get_bridge() helper
-  drm/bridge: synopsys: dw-mipi-dsi: Add input bus format negotiation
-    support
-  drm/bridge: synopsys: dw-mipi-dsi: Force input bus flags
-  drm/bridge: synopsys: dw-mipi-dsi: Add mode fixup support
-  drm/bridge: synopsys: dw-mipi-dsi: Use pixel clock rate to calculate
-    lbcc
-  drm/bridge: synopsys: dw-mipi-dsi: Set minimum lane byte clock cycles
-    for HSA and HBP
-  drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and LPRX timeout check
-  dt-bindings: display: bridge: Document Freescale i.MX93 MIPI DSI
-  drm/bridge: imx: Add i.MX93 MIPI DSI support
-
- .../display/bridge/fsl,imx93-mipi-dsi.yaml    | 115 +++
- drivers/gpu/drm/bridge/imx/Kconfig            |  11 +
- drivers/gpu/drm/bridge/imx/Makefile           |   1 +
- drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   | 917 ++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |  91 +-
- include/drm/bridge/dw_mipi_dsi.h              |  16 +
- 6 files changed, 1147 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
- create mode 100644 drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-
- base-commit: 25205087df1ffe06ccea9302944ed1f77dc68c6f
-
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 04d4a1a10698..ba3cd2a3e339 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -1211,6 +1211,12 @@ void dw_mipi_dsi_set_slave(struct dw_mipi_dsi *dsi, struct dw_mipi_dsi *slave)
+ }
+ EXPORT_SYMBOL_GPL(dw_mipi_dsi_set_slave);
+ 
++struct drm_bridge *dw_mipi_dsi_get_bridge(struct dw_mipi_dsi *dsi)
++{
++	return &dsi->bridge;
++}
++EXPORT_SYMBOL_GPL(dw_mipi_dsi_get_bridge);
++
+ /*
+  * Probe/remove API, used from platforms based on the DRM bridge API.
+  */
+diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
+index 5286a53a1875..f54621b17a69 100644
+--- a/include/drm/bridge/dw_mipi_dsi.h
++++ b/include/drm/bridge/dw_mipi_dsi.h
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/types.h>
+ 
++#include <drm/drm_bridge.h>
+ #include <drm/drm_modes.h>
+ 
+ struct drm_display_mode;
+@@ -68,5 +69,6 @@ void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
+ int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
+ void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
+ void dw_mipi_dsi_set_slave(struct dw_mipi_dsi *dsi, struct dw_mipi_dsi *slave);
++struct drm_bridge *dw_mipi_dsi_get_bridge(struct dw_mipi_dsi *dsi);
+ 
+ #endif /* __DW_MIPI_DSI__ */
 -- 
 2.37.1
 
