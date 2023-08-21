@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A58782F40
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:14:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 251B1782F44
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A8F010E28F;
-	Mon, 21 Aug 2023 17:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D42E10E292;
+	Mon, 21 Aug 2023 17:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDFC10E28F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 17:14:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9632F10E291
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 17:15:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 94A8662D54;
- Mon, 21 Aug 2023 17:14:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4524C433C8;
- Mon, 21 Aug 2023 17:14:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F013F64067;
+ Mon, 21 Aug 2023 17:15:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32B5EC433C7;
+ Mon, 21 Aug 2023 17:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692638083;
- bh=MH0wQLIkGLHxG2U7ZihHzC9EFeKAg1wwbkNonW9+XmQ=;
+ s=k20201202; t=1692638114;
+ bh=moX1NDNRIw8jZEhzXh/VvYgaJynBFa9IjTOZmpRM6FI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JlLRBRlXU3TpIsrE1LNM4eOtfxC+6aFHGYBH060E6Qw4p3+SZfOLXGNYYik8y2DWR
- oI6LJ8ANM5iIvFhjpKnWrII6XRSSJN1G70BkaqgWhl9U1D15Kgt6oDUIDMF5suE2vl
- /tVHdi67TSjo+yLa5BL53T+JWWyIEgsOHKYl3U4qSDp2e6JhjUqJVQgCrEIok1T0LT
- Jrl6o2rF9Mq3eYWQRr4v45EMGMTrXS0XfLcGVlqve59tAi+e0l1aqUnLhcH5iK20EE
- ZnerxQ9HY7A0CPw6ryh604PXvajLCmPMz8FRUzMZAD1mKWwveFBymOBTkxINkYhOOp
- HPPDVM//gRGYA==
-Received: (nullmailer pid 1978426 invoked by uid 1000);
- Mon, 21 Aug 2023 17:14:39 -0000
-Date: Mon, 21 Aug 2023 12:14:39 -0500
+ b=q5rju92Kh4lU1L6z7wg4kSVd4xT8r5IdF27ap5RgXT+Wmwqn0nrXtUDMvXoUV2Nki
+ VQ77gyf8z+mOXIpJrmDz/JLWHR0WmGyzsGyMx9T8bBZv824ueq3mz8Q66PwZ3LQZ6B
+ gIw7B449eeVOthZaIIXXULOK4PWSlsc8SUJbuBRrNZM1klN9hmgXFJc4M+izI4sN82
+ 6d0O8vPFRKUxhbnQDDqNd7xGVoulVygoTeWMuu62k0vU0RiQIOlqdvIaWD+4o5Eghs
+ fG+jH8Xrdf5M4vUO6nJlGaW/9ayMH8OHSGdeNscOFgcba7ZXUS9tP2sN20+81u3iyv
+ EoOFuyKK3VpMQ==
+Received: (nullmailer pid 1979228 invoked by uid 1000);
+ Mon, 21 Aug 2023 17:15:11 -0000
+Date: Mon, 21 Aug 2023 12:15:11 -0500
 From: Rob Herring <robh@kernel.org>
 To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 4/6] dt-bindings: net: microchip: Allow nvmem-cell usage
-Message-ID: <169263807888.1978386.16316859459152478945.robh@kernel.org>
+Subject: Re: [PATCH 5/6] dt-bindings: timer: add imx7d compatible
+Message-ID: <169263811048.1979170.9429510140636771779.robh@kernel.org>
 References: <20230810144451.1459985-1-alexander.stein@ew.tq-group.com>
- <20230810144451.1459985-5-alexander.stein@ew.tq-group.com>
+ <20230810144451.1459985-6-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230810144451.1459985-5-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20230810144451.1459985-6-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,17 +71,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 10 Aug 2023 16:44:49 +0200, Alexander Stein wrote:
-> MAC address can be provided by a nvmem-cell, thus allow referencing a
-> source for the address. Fixes the warning:
-> arch/arm/boot/dts/nxp/imx/imx6q-mba6a.dtb: ethernet@1: 'nvmem-cell-names',
->  'nvmem-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
->  From schema: Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+On Thu, 10 Aug 2023 16:44:50 +0200, Alexander Stein wrote:
+> Currently the dtbs_check for imx6ul generates warnings like this:
+> 
+> ['fsl,imx7d-gpt', 'fsl,imx6sx-gpt'] is too long
+> 
+> The driver has no special handling for fsl,imx7d-gpt, so fsl,imx6sx-gpt is
+> used. Therefore make imx7d GPT compatible to the imx6sx one to fix the
+> warning.
 > 
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  Documentation/devicetree/bindings/net/microchip,lan95xx.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
