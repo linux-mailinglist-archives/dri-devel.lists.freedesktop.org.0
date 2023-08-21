@@ -1,38 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A270D7827F8
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 13:31:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A8578280E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 13:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE74F10E229;
-	Mon, 21 Aug 2023 11:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E70B10E08B;
+	Mon, 21 Aug 2023 11:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A114210E229
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 11:31:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1306B2F4;
- Mon, 21 Aug 2023 04:32:11 -0700 (PDT)
-Received: from [10.57.34.4] (unknown [10.57.34.4])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1F973F762;
- Mon, 21 Aug 2023 04:31:27 -0700 (PDT)
-Message-ID: <3dce4ef5-77d0-3502-2f6c-3a44b6f63b15@arm.com>
-Date: Mon, 21 Aug 2023 12:31:29 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D191710E08B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 11:36:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3DEBD631C0;
+ Mon, 21 Aug 2023 11:36:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A74C433C9;
+ Mon, 21 Aug 2023 11:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692617799;
+ bh=s4tqcywFY5x1xGLeQKFZevnSfrIFMKwbbnMDg6Jc8Fw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A2W7gJBzoEw+B7iH/bPkybSUxVGzK2rgbPbYdD/aJPiZDUu7WB4+DsNuJDcnmtaq2
+ h9ji5rU+BCw34ddba8x95xa4VB/HyquWE+Fxo/DIX/wB6w8uOzNlSwVPV1fC3KYtpE
+ QEMX5uVZURRb/Vg8K1rNWhUIkqsFQbyev2ZLBawGbJzBdpbz+xs0gZz7zVIRicCuWy
+ 03yj+TlZEpAsl+0Pt/GILSvbi6pc/DRFNdJgAQyvJdSwn7obu0LXXdJcakLfCBz56N
+ RbWpYOsKvk538cmB/kMM2oDIRgGB6+w8XwvBCAI6qTL9wmuhVlB20Vr5EAmHVfaHUi
+ 26GwOU13TO4BQ==
+Date: Mon, 21 Aug 2023 13:36:36 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Message-ID: <kfslzajqd3y3zjreivjbku7lhtqgook7r24mvkcm2dre6yzrsh@6w4iprh7qqbx>
+References: <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
+ <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
+ <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+ <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+ <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
+ <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 12/15] drm/panthor: Add the driver frontend block
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-13-boris.brezillon@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230809165330.2451699-13-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="puzmiyi66lskaags"
+Content-Disposition: inline
+In-Reply-To: <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,1741 +63,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, quic_parellan@quicinc.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/08/2023 17:53, Boris Brezillon wrote:
-> This is the last piece missing to expose the driver to the outside
-> world.
-> 
-> This is basically a wrapper between the ioctls and the other logical
-> blocks.
-> 
-> v2:
-> - Rename the driver (pancsf -> panthor)
-> - Change the license (GPL2 -> MIT + GPL2)
-> - Split the driver addition commit
-> - Document the code
-> - Use drm_dev_{unplug,enter,exit}() to provide safe device removal
-> - Fix various bugs
-> - Refactored the code to make job submission re-usable for VM_BIND
->   jobs
-> - Add user object copy helpers
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 1540 +++++++++++++++++++++++++
->  1 file changed, 1540 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> new file mode 100644
-> index 000000000000..377ebea4c0e8
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -0,0 +1,1540 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> +/* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
-> +/* Copyright 2019 Collabora ltd. */
-> +
-> +#include <linux/module.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/xarray.h>
-> +
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_ioctl.h>
-> +#include <drm/drm_syncobj.h>
-> +#include <drm/drm_utils.h>
-> +#include <drm/drm_debugfs.h>
-> +#include <drm/gpu_scheduler.h>
-> +#include <drm/panthor_drm.h>
-> +
-> +#include "panthor_sched.h"
-> +#include "panthor_device.h"
-> +#include "panthor_gem.h"
-> +#include "panthor_heap.h"
-> +#include "panthor_fw.h"
-> +#include "panthor_mmu.h"
-> +#include "panthor_gpu.h"
-> +#include "panthor_regs.h"
-> +
-> +/**
-> + * DOC: user <-> kernel object copy helpers.
-> + */
-> +
-> +/**
-> + * panthor_set_uobj() - Copy kernel object to user object.
-> + * @usr_ptr: Users pointer.
-> + * @usr_size: Size of the user object.
-> + * @min_size: Minimum size for this object.
-> + * @kern_size: Size of the kernel object.
-> + * @in: Address of the kernel object to copy.
-> + *
-> + * Helper automating kernel -> user object copies.
-> + *
-> + * Don't use this function directly, use PANTHOR_UOBJ_SET() instead.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const void *in)
-> +{
-> +	/* User size shouldn't be smaller than the minimal object size. */
-> +	if (usr_size < min_size)
-> +		return -EINVAL;
-> +
-> +	if (copy_to_user(u64_to_user_ptr(usr_ptr), in, min_t(u32, usr_size, kern_size)))
-> +		return -EFAULT;
-> +
-> +	/* When the kernel object is smaller than the user object, we fill the gap with
-> +	 * zeros.
-> +	 */
-> +	if (usr_size > kern_size &&
-> +	    clear_user(u64_to_user_ptr(usr_ptr + kern_size), usr_size - kern_size)) {
-> +		return -EFAULT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
-> + * @in: The object array to copy.
-> + * @min_stride: Minimum array stride.
-> + * @obj_kernel: Kernel object size.
-> + * @out: Pointer to a variable that will hold the newly allocated object array.
-> + *
-> + * Helper automating user -> kernel object copies.
-> + *
-> + * Don't use this function directly, use PANTHOR_UOBJ_ARRAY_GET() instead.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
-> +		       u32 obj_size, void **out)
 
-Instead of having 'out' as a return parameter you could use ERR_PTR()s 
-for the error cases. I know why you haven't, but see below.
+--puzmiyi66lskaags
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +{
-> +	int ret = 0;
-> +	void *out_alloc;
-> +
-> +	/* User stride must be at least the minimum object size, otherwise it might
-> +	 * lack useful information.
-> +	 */
-> +	if (in->stride < min_stride)
-> +		return -EINVAL;
-> +
-> +	if (!in->count)
-> +		return 0;
-> +
-> +	out_alloc = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
-> +	if (!out_alloc)
-> +		return -ENOMEM;
-> +
-> +	if (obj_size == in->stride) {
-> +		/* Fast path when user/kernel have the same uAPI header version. */
-> +		if (copy_from_user(out_alloc, u64_to_user_ptr(in->array),
-> +				   (unsigned long)obj_size * in->count))
-> +			ret = -EFAULT;
-> +	} else {
-> +		void __user *in_ptr = u64_to_user_ptr(in->array);
-> +		void *out_ptr = out_alloc;
-> +
-> +		/* If the sizes differ, we need to copy elements one by one. */
-> +		for (u32 i = 0; i < in->count; i++) {
-> +			ret = copy_struct_from_user(out_ptr, obj_size, in_ptr, in->stride);
-> +			if (ret)
-> +				break;
-> +
-> +			out_ptr += obj_size;
-> +			in_ptr += in->stride;
-> +		}
-> +	}
-> +
-> +	if (ret) {
-> +		kvfree(out_alloc);
-> +		return ret;
-> +	}
-> +
-> +	*out = out_alloc;
-> +	return 0;
-> +}
-> +
-> +/**
-> + * PANTHOR_UOBJ_MIN_SIZE_INTERNAL() - Get the minimum user object size
-> + * @_typename: Object type.
-> + * @_last_mandatory_field: Last mandatory field.
-> + *
-> + * Get the minimum user object size based on the last mandatory field name,
-> + * A.K.A, the name of the last field of the structure at the time this
-> + * structure was added to the uAPI.
-> + *
-> + * Don't use directly, use PANTHOR_UOBJ_DECL() instead.
-> + */
-> +#define PANTHOR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field) \
-> +	(offsetof(_typename, _last_mandatory_field) + \
-> +	 sizeof(((_typename *)NULL)->_last_mandatory_field))
-> +
-> +/**
-> + * PANTHOR_UOBJ_DECL() - Declare a new uAPI object whose subject to
-> + * evolutions.
-> + * @_typename: Object type.
-> + * @_last_mandatory_field: Last mandatory field.
-> + *
-> + * Should be used to extend the PANTHOR_UOBJ_MIN_SIZE() list.
-> + */
-> +#define PANTHOR_UOBJ_DECL(_typename, _last_mandatory_field) \
-> +	_typename : PANTHOR_UOBJ_MIN_SIZE_INTERNAL(_typename, _last_mandatory_field)
-> +
-> +/**
-> + * PANTHOR_UOBJ_MIN_SIZE() - Get the minimum size of a given uAPI object
-> + * @_obj_name: Object to get the minimum size of.
-> + *
-> + * Don't use this macro directly, it's automatically called by
-> + * PANTHOR_UOBJ_{SET,GET_ARRAY}().
-> + */
-> +#define PANTHOR_UOBJ_MIN_SIZE(_obj_name) \
-> +	_Generic(_obj_name, \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_gpu_info, tiler_present), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_csif_info, pad), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
-> +
-> +/**
-> + * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-> + * @_dest_usr_ptr: User pointer to copy to.
-> + * @_usr_size: Size of the user object.
-> + * @_src_obj: Kernel object to copy (not a pointer).
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +#define PANTHOR_UOBJ_SET(_dest_usr_ptr, _usr_size, _src_obj) \
-> +	panthor_set_uobj(_dest_usr_ptr, _usr_size, \
-> +			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
-> +			 sizeof(_src_obj), &(_src_obj))
-> +
-> +/**
-> + * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
-> + * object array.
-> + * @_dest_array: Local variable that will hold the newly allocated kernel
-> + * object array.
-> + * @_uobj_array: The drm_panthor_obj_array object describing the user object
-> + * array.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +#define PANTHOR_UOBJ_GET_ARRAY(_dest_array, _uobj_array) \
-> +	panthor_get_uobj_array(_uobj_array, \
-> +			       PANTHOR_UOBJ_MIN_SIZE((_dest_array)[0]), \
-> +			       sizeof((_dest_array)[0]), (void **)&(_dest_array))
+On Mon, Aug 21, 2023 at 12:01:19PM +0200, neil.armstrong@linaro.org wrote:
+> Hi Maxime,
+>=20
+> On 21/08/2023 10:17, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wro=
+te:
+> > > On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+> > > > On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+> > > > > Sending HS commands will always work on any controller, it's all
+> > > > > about LP commands. The Samsung panels you listed only send HS
+> > > > > commands so they can use prepare_prev_first and work on any
+> > > > > controllers.
+> > > >=20
+> > > > I think there is some misunderstanding there, supported by the
+> > > > description of the flag.
+> > > >=20
+> > > > If I remember correctly, some hosts (sunxi) can not send DCS
+> > > > commands after enabling video stream and switching to HS mode, see
+> > > > [1]. Thus, as you know, most of the drivers have all DSI panel setup
+> > > > commands in drm_panel_funcs::prepare() /
+> > > > drm_bridge_funcs::pre_enable() callbacks, not paying attention
+> > > > whether these commands are to be sent in LP or in HS mode.
+> > > >=20
+> > > > Previously DSI source drivers could power on the DSI link either in
+> > > > mode_set() or in pre_enable() callbacks, with mode_set() being the
+> > > > hack to make panel/bridge drivers to be able to send commands from
+> > > > their prepare() / pre_enable() callbacks.
+> > > >=20
+> > > > With the prev_first flags being introduced, we have established that
+> > > > DSI link should be enabled in DSI host's pre_enable() callback and
+> > > > switched to HS mode (be it command or video) in the enable()
+> > > > callback.
+> > > >=20
+> > > > So far so good.
+> > >=20
+> > > It seems coherent, I would like first to have a state of all DSI host
+> > > drivers and make this would actually work first before adding the
+> > > prev_first flag to all the required panels.
+> >=20
+> > This is definitely what we should do in an ideal world, but at least for
+> > sunxi there's no easy way for it at the moment. There's no documentation
+> > for it and the driver provided doesn't allow this to happen.
+> >=20
+> > Note that I'm not trying to discourage you or something here, I'm simply
+> > pointing out that this will be something that we will have to take into
+> > account. And it's possible that other drivers are in a similar
+> > situation.
+> >=20
+> > > > Unfortunately this change is not fully backwards-compatible. This
+> > > > requires that all DSI panels sending commands from prepare() should
+> > > > have the prepare_prev_first flag. In some sense, all such patches
+> > > > might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
+> > > > flag to drm_panel").
+> > >=20
+> > > This kind of migration should be done *before* any possible
+> > > regression, not the other way round.
+> > >=20
+> > > If all panels sending commands from prepare() should have the
+> > > prepare_prev_first flag, then it should be first, check for
+> > > regressions then continue.
+> > >=20
+> > > <snip>
+> > >=20
+> > > > >=20
+> > > > > I understand, but this patch doesn't qualify as a fix for
+> > > > > 9e15123eca79 and is too late to be merged in drm-misc-next for
+> > > > > v6.6, and since 9e15123eca79 actually breaks some support it
+> > > > > should be reverted (+ deps) since we are late in the rc cycles.
+> > > >=20
+> > > > If we go this way, we can never reapply these patches. There will be
+> > > > no guarantee that all panel drivers are completely converted. We
+> > > > already have a story without an observable end -
+> > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+> > >=20
+> > > I don't understand this point, who would block re-applying the patche=
+s ?
+> > >=20
+> > > The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
+> > > Linux version and went smoothly because we reverted regressing patches
+> > > and restarted when needed, I don't understand why we can't do this
+> > > here aswell.
+> > >=20
+> > > > I'd consider that the DSI driver is correct here and it is about the
+> > > > panel drivers that require fixes patches. If you care about the
+> > > > particular Fixes tag, I have provided one several lines above.
+> > >=20
+> > > Unfortunately it should be done in the other way round, prepare for
+> > > migration, then migrate,
+> > >=20
+> > > I mean if it's a required migration, then it should be done and I'll
+> > > support it from both bridge and panel PoV.
+> > >=20
+> > > So, first this patch has the wrong Fixes tag, and I would like a
+> > > better explanation on the commit message in any case. Then I would
+> > > like to have an ack from some drm-misc maintainers before applying it
+> > > because it fixes a patch that was sent via the msm tree thus per the
+> > > drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+> >=20
+> > Sorry, it's not clear to me what you'd like our feedback on exactly?
+>=20
+> So let me resume the situation:
+>=20
+> - pre_enable_prev_first was introduced in [1]
+> - some panels made use of pre_enable_prev_first
+> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kerne=
+ls and before
+> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 s=
+ystems (and probably other Video mode panels on Qcom platforms)
+> - this fix was sent late, and is now too late to be merged via drm-misc-n=
+ext
+>=20
+> I do not consider it's the right way to fix regression caused by [2] I
+> consider [2] should be reverted, panels migrated to
+> pre_enable_prev_first when needed, tested and the [2] applied again
+>=20
+> I have no objection about [2] and it should be done widely over the
+> whole DSI controllers and DSI Video panels.
+>
+> I also object about the Fixes tag of this patch, which is wrong, and
+> Dmitry considers [1] should be used but it's even more wrong since [2]
+> really caused the regression.
 
-Here you have an ugly cast to make the output pointer work. The below 
-patch avoids this by changing panthor_get_uobj_array() to return an 
-ERR_PTR:
+Ok.
 
-----8<----
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 377ebea4c0e8..ff749832f344 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -79,9 +79,9 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
-  *
-  * Return: 0 on success, a negative error code otherwise.
-  */
--static int
-+static void *
- panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
--		       u32 obj_size, void **out)
-+		       u32 obj_size)
- {
- 	int ret = 0;
- 	void *out_alloc;
-@@ -90,14 +90,14 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 	 * lack useful information.
- 	 */
- 	if (in->stride < min_stride)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	if (!in->count)
--		return 0;
-+		return NULL;
- 
- 	out_alloc = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
- 	if (!out_alloc)
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 
- 	if (obj_size == in->stride) {
- 		/* Fast path when user/kernel have the same uAPI header version. */
-@@ -121,11 +121,10 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 
- 	if (ret) {
- 		kvfree(out_alloc);
--		return ret;
-+		return ERR_PTR(ret);
- 	}
- 
--	*out = out_alloc;
--	return 0;
-+	return out_alloc;
- }
- 
- /**
-@@ -193,10 +192,12 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
-  *
-  * Return: 0 on success, a negative error code otherwise.
-  */
--#define PANTHOR_UOBJ_GET_ARRAY(_dest_array, _uobj_array) \
--	panthor_get_uobj_array(_uobj_array, \
-+#define PANTHOR_UOBJ_GET_ARRAY(_dest_array, _uobj_array) ({\
-+	_dest_array = panthor_get_uobj_array(_uobj_array, \
- 			       PANTHOR_UOBJ_MIN_SIZE((_dest_array)[0]), \
--			       sizeof((_dest_array)[0]), (void **)&(_dest_array))
-+			       sizeof((_dest_array)[0])); \
-+	IS_ERR(_dest_array) ? PTR_ERR(_dest_array) : 0; \
-+	})
- 
- /**
-  * DOC: Job submission helpers.
----8<----
+> And if [2] was to correct one to use, it was pushed via the MSM tree so i=
+t couldn't be
+> applied via drm-misc-next-fixes, right ?
 
-TBH, I'd also be tempted to make PANTHOR_UOBJ_GET_ARRAY simply return 
-the ERR_PTR and change the call sites appropriately. That way you avoid 
-the 'magic' of passing an lvalue.
+AFAICT, 2 is in 6.5 now, so it would be drm-misc-fixes. But yeah, it
+would make more sense to take it through the MSM tree.
 
-> +
-> +/**
-> + * DOC: Job submission helpers.
-> + *
-> + * Here is the workflow for atomic submission of multiple jobs. By atomic,
-> + * we mean that we either submit the whole batch, or nothing. This requires
-> + * doing things in multiple steps, each step operating on all jobs belonging
-> + * to a batch.
-> + *
-> + * int xxx_submit_ioctl(...)
-> + * {
-> + *	...
-> + *
-> + *	// Initialize the submission context.
-> + *	ret = panthor_submit_ctx_init(&ctx, file, job_count);
-> + *	if (ret)
-> + *		return ret;
-> + *
-> + *	// Create jobs and attach sync operations.
-> + *	for (u32 i = 0; i < job_count; i++) {
-> + *		...
-> + *
-> + *		// Create job
-> + *		job = job_create(pfile, ...);
-> + *		if (IS_ERR(job)) {
-> + *			ret = PTR_ERR(job);
-> + *			goto out_cleanup_submit_ctx;
-> + *		}
-> + *
-> + *		// Add job to the submit context
-> + *		ret = panthor_submit_ctx_add_job(&ctx, i, job, sync_ops);
-> + *		if (ret)
-> + *			goto out_cleanup_submit_ctx;
-> + *	}
-> + *
-> + *	// Collect signal operations on all jobs, such that each job can pick
-> + *	// from it for its dependencies and update the fence to signal when
-> + *	// the job is submitted.
+Maxime
 
-I can't figure out here how we avoid depedency loops within a batch. 
-What stops two jobs from each depending on each other?
+--puzmiyi66lskaags
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Or do we "allow" this but rely on the loop in panthor_submit_ctx_add_deps_and_arm_jobs()
-to effectively enforce that a job cannot actually depend on a job
-which is later in the batch. In which case why bother with this
-complexity rather than just performing all the steps on each job
-in order?
+-----BEGIN PGP SIGNATURE-----
 
-Being able to submit a forward dependency, but then having it
-ignored seems like an odd design. So I feel like I must be
-missing something.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZONMRAAKCRDj7w1vZxhR
+xdAAAQC8k6mwvjiPF0bwlparlXC2d1HvJZEGd+BDvNZYQuAD9gD/VWvY/lZjqtf7
+XK1hEg2W7jitmdtigOE4XxRm45JdRgo=
+=sZ74
+-----END PGP SIGNATURE-----
 
-> + *	ret = panthor_submit_ctx_collect_jobs_signal_ops(&ctx);
-> + *	if (ret)
-> + *		goto out_cleanup_submit_ctx;
-> + *
-> + *	// We acquire/prepare revs on all jobs before proceeding with the
-> + *	// dependency registration.
-> + *	//
-> + *	// This is solving two problems:
-> + *	// 1. drm_sched_job_arm() and drm_sched_entity_push_job() must be protected
-> + *	//    by a lock to make sure no concurrent access to the same entity get
-> + *	//    interleaved, which would mess up with the fence seqno ordering.
-> + *	//    Luckily, one of the resv being acquired is the VM resv, and a scheduling
-> + *	//    entity is only bound to a single VM. As soon as we acquire the VM resv,
-> + *	//    we should be safe.
-> + *	// 2. Jobs might depend on fences that were issued by previous jobs in the
-> + *	//    same batch, so we can't add dependencies on all jobs before arming
-> + *	//    previous jobs and registering the fence to the signal array, otherwise
-> + *	//    we might miss dependencies, or point to an outdated fence.
-> + *	ret = panthor_submit_ctx_prepare_resvs(&ctx, panthor_job_prepare_resvs);
-> + *	if (ret)
-> + *		goto out_cleanup_submit_ctx;
-> + *
-> + *	// Now that resvs are locked/prepared, we can iterate over each job to add
-> + *	// the dependencies, arm the job fence, register the job fence to the signal
-> + *	// array.
-> + *	ret = panthor_submit_ctx_add_deps_and_arm_jobs(&ctx, panthor_job_add_resvs_deps);
-> + *	if (ret)
-> + *		goto out_cleanup_submit_ctx;
-> + *
-> + *	// Nothing can fail after that point, so we can make our job fences visible to the
-> + *	// outside world. Push jobs and set the job fences to the resv slots we reserved.
-> + *	// This also pushes the fences to the syncobjs that are part of the signal array.
-> + *	panthor_submit_ctx_push_jobs(&ctx, panthor_job_update_resvs);
-> + *
-> + * out_cleanup_submit_ctx:
-> + *	// Cleanup the context.
-> + *	panthor_submit_ctx_cleanup(&ctx, panthor_job_put);
-> + *	...
-> + *	return ret;
-> + *}
-
-I'm not sure it's beneficial to have this 'pseudo-code' version of the 
-submit function here. Can we not have the relevant comments in the 
-panthor_ioctl_group_submit() function instead. My main concern is that 
-this is going to get out of sync with the code over time - the function 
-names are already not a complete match.
-
-> + */
-> +
-> +/**
-> + * struct panthor_sync_signal - Represent a synchronization object point to attach
-> + * our job fence to.
-> + *
-> + * This structure is here to keep track of fences that are currently bound to
-> + * a specific syncobj point.
-> + *
-> + * At the beginning of a job submission, the fence
-> + * is retrieved from the syncobj itself, and can be NULL if no fence was attached
-> + * to this point.
-> + *
-> + * At the end, it points to the fence of the last job that had a
-> + * %DRM_PANTHOR_SYNC_OP_SIGNAL on this syncobj.
-> + *
-> + * With jobs being submitted in batches, the fence might change several times during
-> + * the process, allowing one job to wait on a job that's part of the same submission
-> + * be appears earlier in the drm_panthor_group_submit::queue_submits array.
-
-s/be/but/
-
-> + */
-> +struct panthor_sync_signal {
-> +	/** @handle: The syncobj handle. */
-> +	u32 handle;
-> +
-> +	/**
-> +	 * @point: The syncobj point.
-> +	 *
-> +	 * Zero for regular syncobjs, and non-zero for timeline syncobjs.
-> +	 */
-> +	u64 point;
-> +
-> +	/**
-> +	 * @syncobj: The sync object pointed by @handle.
-> +	 */
-> +	struct drm_syncobj *syncobj;
-> +
-> +	/**
-> +	 * @chain: Chain object used to link the new fence to an existing
-> +	 * timeline syncobj.
-> +	 *
-> +	 * NULL for regular syncobj, non-NULL for timeline syncobjs.
-> +	 */
-> +	struct dma_fence_chain *chain;
-> +
-> +	/**
-> +	 * @fence: The fence to assign to the syncobj or syncobj-point.
-> +	 */
-> +	struct dma_fence *fence;
-> +};
-> +
-> +/**
-> + * struct panthor_job_ctx - Job context
-> + */
-> +struct panthor_job_ctx {
-> +	/** @job: The job that is about to be submitted to drm_sched. */
-> +	struct drm_sched_job *job;
-> +
-> +	/** @syncobjs: Array of sync operations. */
-> +	struct drm_panthor_sync_op *syncops;
-> +
-> +	/** @syncop_count: Number of sync operations. */
-> +	u32 syncop_count;
-> +};
-> +
-> +/**
-> + * struct panthor_submit_ctx - Submission context
-> + *
-> + * Anything that's related to a submission (%DRM_IOCTL_PANTHOR_VM_BIND or
-> + * %DRM_IOCTL_PANTHOR_GROUP_SUBMIT) is kept here, so we can automate the
-> + * initialization and cleanup steps.
-> + */
-> +struct panthor_submit_ctx {
-> +	/** @file: DRM file this submission happens on. */
-> +	struct drm_file *file;
-> +
-> +	/**
-> +	 * @signal: Array of panthor_sync_signal objects.
-> +	 *
-> +	 * %DRM_PANTHOR_SYNC_OP_SIGNAL operations will be recorded here,
-> +	 * and %DRM_PANTHOR_SYNC_OP_WAIT will first check if an entry
-> +	 * matching the syncobj+point exists before calling
-> +	 * drm_syncobj_find_fence(). This allows us to describe dependencies
-> +	 * existing between jobs that are part of the same batch.
-> +	 */
-> +	struct xarray signal;
-
-This feels like the wrong data structure - it's simply used as a list. I 
-suspect it would be better to simple add a list_head to struct 
-panthor_sync_signal.
-
-> +
-> +	/** @jobs: Array of jobs. */
-> +	struct panthor_job_ctx *jobs;
-> +
-> +	/** @job_count: Number of entries in the @jobs array. */
-> +	u32 job_count;
-> +
-> +	/** @exec: drm_exec context used to acquire and prepare resv objects. */
-> +	struct drm_exec exec;
-> +};
-> +
-> +#define PANTHOR_SYNC_OP_FLAGS_MASK \
-> +	(DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK | DRM_PANTHOR_SYNC_OP_SIGNAL)
-> +
-> +/**
-> + * panthor_check_sync_op() - Check drm_panthor_sync_op fields
-> + * @sync_op: The sync operation to check.
-> + *
-> + * Return: 0 on success, -EINVAL otherwise.
-> + */
-> +static int
-> +panthor_check_sync_op(const struct drm_panthor_sync_op *sync_op)
-> +{
-> +	u8 handle_type;
-> +
-> +	if (sync_op->flags & ~PANTHOR_SYNC_OP_FLAGS_MASK)
-> +		return -EINVAL;
-> +
-> +	handle_type = sync_op->flags & DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK;
-> +	if (handle_type != DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ &&
-> +	    handle_type != DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ)
-> +		return -EINVAL;
-> +
-> +	if (handle_type == DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ &&
-> +	    sync_op->timeline_value != 0)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_sync_signal_free() - Release resources and free a panthor_sync_signal object
-> + * @sig_sync: Signal object to free.
-> + */
-> +static void
-> +panthor_sync_signal_free(struct panthor_sync_signal *sig_sync)
-> +{
-> +	if (!sig_sync)
-> +		return;
-> +
-> +	drm_syncobj_put(sig_sync->syncobj);
-> +	dma_fence_chain_free(sig_sync->chain);
-> +	dma_fence_put(sig_sync->fence);
-> +	kfree(sig_sync);
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_add_sync_signal() - Add a signal operation to a submit context
-> + * @ctx: Context to add the signal operation to.
-> + * @handle: Syncobj handle.
-> + * @point: Syncobj point.
-> + *
-> + * Return: A valid panthor_sync_signal object on success, an ERR_PTR() otherwise.
-
-The only part of the return used is the ERR_PTR() part, so make this a simple int.
-
-> + */
-> +static struct panthor_sync_signal *
-> +panthor_submit_ctx_add_sync_signal(struct panthor_submit_ctx *ctx, u32 handle, u64 point)
-> +{
-> +	struct panthor_sync_signal *sig_sync;
-> +	struct dma_fence *cur_fence;
-> +	int ret;
-> +	u32 id;
-> +
-> +	sig_sync = kzalloc(sizeof(*sig_sync), GFP_KERNEL);
-> +	if (!sig_sync)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	sig_sync->handle = handle;
-> +	sig_sync->point = point;
-> +
-> +	if (point > 0) {
-> +		sig_sync->chain = dma_fence_chain_alloc();
-> +		if (!sig_sync->chain) {
-> +			ret = -ENOMEM;
-> +			goto err_free_sig_sync;
-> +		}
-> +	}
-> +
-> +	sig_sync->syncobj = drm_syncobj_find(ctx->file, handle);
-> +	if (!sig_sync->syncobj) {
-> +		ret = -EINVAL;
-> +		goto err_free_sig_sync;
-> +	}
-> +
-> +	/* Retrieve the current fence attached to that point. It's
-> +	 * perfectly fine to get a NULL fence here, it just means there's
-> +	 * no fence attached to that point yet.
-> +	 */
-> +	if (!drm_syncobj_find_fence(ctx->file, handle, point, 0, &cur_fence))
-> +		sig_sync->fence = cur_fence;
-> +
-> +	ret = xa_alloc(&ctx->signal, &id, sig_sync, xa_limit_32b, GFP_KERNEL);
-> +	if (ret)
-> +		goto err_free_sig_sync;
-> +
-> +	return sig_sync;
-> +
-> +err_free_sig_sync:
-> +	panthor_sync_signal_free(sig_sync);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_search_sync_signal() - Search an existing signal operation in a
-> + * submit context.
-> + * @ctx: Context to search the signal operation in.
-> + * @handle: Syncobj handle.
-> + * @point: Syncobj point.
-> + *
-> + * Return: A valid panthor_sync_signal object if found, NULL otherwise.
-> + */
-> +static struct panthor_sync_signal *
-> +panthor_submit_ctx_search_sync_signal(struct panthor_submit_ctx *ctx, u32 handle, u64 point)
-> +{
-> +	struct panthor_sync_signal *sig_sync;
-> +	unsigned long i;
-> +
-> +	xa_for_each(&ctx->signal, i, sig_sync) {
-> +		if (handle == sig_sync->handle && point == sig_sync->point)
-> +			return sig_sync;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_add_job() - Add a job to a submit context
-> + * @ctx: Context to search the signal operation in.
-> + * @idx: Index of the job in the context.
-> + * @job: Job to add.
-> + * @syncs: Sync operations provided by userspace.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_add_job(struct panthor_submit_ctx *ctx, u32 idx,
-> +			   struct drm_sched_job *job,
-> +			   const struct drm_panthor_obj_array *syncs)
-> +{
-> +	struct panthor_device *ptdev = container_of(ctx->file->minor->dev,
-> +						    struct panthor_device,
-> +						    base);
-> +	int ret;
-> +
-> +	if (drm_WARN_ON(&ptdev->base,
-> +			idx >= ctx->job_count ||
-> +			ctx->jobs[idx].job ||
-> +			ctx->jobs[idx].syncops ||
-> +			ctx->jobs[idx].syncop_count))
-> +		return -EINVAL;
-> +
-> +	ctx->jobs[idx].job = job;
-
-While the WARN_ON obviously shouldn't happen, this positioning of the 
-ctx->jobs[].job assignment means the caller has no idea if the 
-assignment has happened. AFAICT in the case of the WARN_ON the job isn't 
-cleaned up properly.
-
-The options I can see are to move this line further down (and make the 
-caller clean up that one job if this function fails), or to clean up the 
-job in the case where the WARN_ON fails.
-
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(ctx->jobs[idx].syncops, syncs);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctx->jobs[idx].syncop_count = syncs->count;
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_get_sync_signal() - Search signal operation and add one if none was found.
-> + * @ctx: Context to search the signal operation in.
-> + * @handle: Syncobj handle.
-> + * @point: Syncobj point.
-> + *
-> + * Return: A valid panthor_sync_signal object on success, an ERR_PTR() otherwise.
-
-As above, no need to return the object just an int error code.
-
-> + */
-> +static struct panthor_sync_signal *
-> +panthor_submit_ctx_get_sync_signal(struct panthor_submit_ctx *ctx, u32 handle, u64 point)
-> +{
-> +	struct panthor_sync_signal *sig_sync;
-> +
-> +	sig_sync = panthor_submit_ctx_search_sync_signal(ctx, handle, point);
-> +	if (sig_sync)
-> +		return sig_sync;
-> +
-> +	return panthor_submit_ctx_add_sync_signal(ctx, handle, point);
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_update_job_sync_signal_fences() - Update fences
-> + * on the signal operations specified by a job.
-> + * @ctx: Context to search the signal operation in.
-> + * @job_idx: Index of the job to operate on.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_update_job_sync_signal_fences(struct panthor_submit_ctx *ctx,
-> +						 u32 job_idx)
-> +{
-> +	struct panthor_device *ptdev = container_of(ctx->file->minor->dev,
-> +						    struct panthor_device,
-> +						    base);
-> +	struct dma_fence *done_fence = &ctx->jobs[job_idx].job->s_fence->finished;
-> +	const struct drm_panthor_sync_op *sync_ops = ctx->jobs[job_idx].syncops;
-> +	u32 sync_op_count = ctx->jobs[job_idx].syncop_count;
-> +
-> +	for (u32 i = 0; i < sync_op_count; i++) {
-> +		struct dma_fence *old_fence;
-> +		struct panthor_sync_signal *sig_sync;
-> +
-> +		if (!(sync_ops[i].flags & DRM_PANTHOR_SYNC_OP_SIGNAL))
-> +			continue;
-> +
-> +		sig_sync = panthor_submit_ctx_search_sync_signal(ctx, sync_ops[i].handle,
-> +								 sync_ops[i].timeline_value);
-> +		if (drm_WARN_ON(&ptdev->base, !sig_sync))
-> +			return -EINVAL;
-> +
-> +		old_fence = sig_sync->fence;
-> +		sig_sync->fence = dma_fence_get(done_fence);
-> +		dma_fence_put(old_fence);
-> +
-> +		if (drm_WARN_ON(&ptdev->base, !sig_sync->fence))
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_collect_job_signal_ops() - Iterate over all job signal operations
-> + * and add them to the context.
-> + * @ctx: Context to search the signal operation in.
-> + * @job_idx: Index of the job to operate on.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_collect_job_signal_ops(struct panthor_submit_ctx *ctx,
-> +					  u32 job_idx)
-> +{
-> +	const struct drm_panthor_sync_op *sync_ops = ctx->jobs[job_idx].syncops;
-> +	u32 sync_op_count = ctx->jobs[job_idx].syncop_count;
-> +
-> +	for (u32 i = 0; i < sync_op_count; i++) {
-> +		struct panthor_sync_signal *sig_sync;
-> +		int ret;
-> +
-> +		if (!(sync_ops[i].flags & DRM_PANTHOR_SYNC_OP_SIGNAL))
-> +			continue;
-> +
-> +		ret = panthor_check_sync_op(&sync_ops[i]);
-> +		if (ret)
-> +			return ret;
-> +
-> +		sig_sync = panthor_submit_ctx_get_sync_signal(ctx,
-> +							      sync_ops[i].handle,
-> +							      sync_ops[i].timeline_value);
-> +		if (IS_ERR(sig_sync))
-> +			return PTR_ERR(sig_sync);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_push_fences() - Iterate over the signal array, and for each entry, push
-> + * the currently assigned fence to the associated syncobj.
-> + * @ctx: Context to push fences on.
-> + *
-> + * This is the last step of a submission procedure, and is done once we know the submission
-> + * is effective and job fences are guaranteed to be signaled in finite time.
-> + */
-> +static void
-> +panthor_submit_ctx_push_fences(struct panthor_submit_ctx *ctx)
-> +{
-> +	struct panthor_sync_signal *sig_sync;
-> +	unsigned long i;
-> +
-> +	xa_for_each(&ctx->signal, i, sig_sync) {
-> +		if (sig_sync->chain) {
-> +			drm_syncobj_add_point(sig_sync->syncobj, sig_sync->chain,
-> +					      sig_sync->fence, sig_sync->point);
-> +			sig_sync->chain = NULL;
-> +		} else {
-> +			drm_syncobj_replace_fence(sig_sync->syncobj, sig_sync->fence);
-> +		}
-> +	}
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_add_sync_deps_to_job() - Add sync wait operations as
-> + * job dependencies.
-> + * @ctx: Submit context.
-> + * @job_idx: Index of the job to operate on.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_add_sync_deps_to_job(struct panthor_submit_ctx *ctx,
-> +					u32 job_idx)
-> +{
-> +	struct panthor_device *ptdev = container_of(ctx->file->minor->dev,
-> +						    struct panthor_device,
-> +						    base);
-> +	const struct drm_panthor_sync_op *sync_ops = ctx->jobs[job_idx].syncops;
-> +	struct drm_sched_job *job = ctx->jobs[job_idx].job;
-> +	u32 sync_op_count = ctx->jobs[job_idx].syncop_count;
-> +	int ret = 0;
-> +
-> +	if (!sync_op_count)
-> +		return 0;
-
-Not needed - the for loop will be skipped in this case anyway.
-
-> +
-> +	for (u32 i = 0; i < sync_op_count; i++) {
-> +		struct panthor_sync_signal *sig_sync;
-> +		struct dma_fence *fence;
-> +
-> +		if (sync_ops[i].flags & DRM_PANTHOR_SYNC_OP_SIGNAL)
-> +			continue;
-
-NIT: It might be worth having a helper for the operation type. It's a 
-little confusing that we have !(flags & SIGNAL) and (flags & SIGNAL) but 
-not (flags & WAIT) - obviously looking at the definition shows why. Also 
-there'll be a lot of careful refactoring needed if a third operation is 
-ever added.
-
-> +
-> +		ret = panthor_check_sync_op(&sync_ops[i]);
-> +		if (ret)
-> +			return ret;
-> +
-> +		sig_sync = panthor_submit_ctx_search_sync_signal(ctx, sync_ops[i].handle,
-> +								 sync_ops[i].timeline_value);
-> +		if (sig_sync) {
-> +			if (drm_WARN_ON(&ptdev->base, !sig_sync->fence))
-> +				return -EINVAL;
-> +
-> +			fence = dma_fence_get(sig_sync->fence);
-> +		} else {
-> +			ret = drm_syncobj_find_fence(ctx->file, sync_ops[i].handle,
-> +						     sync_ops[i].timeline_value,
-> +						     0, &fence);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +		ret = drm_sched_job_add_dependency(job, fence);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_collect_jobs_signal_ops() - Collect all signal operations
-> + * and add them to the submit context.
-> + * @ctx: Submit context.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_collect_jobs_signal_ops(struct panthor_submit_ctx *ctx)
-> +{
-> +	for (u32 i = 0; i < ctx->job_count; i++) {
-> +		int ret;
-> +
-> +		ret = panthor_submit_ctx_collect_job_signal_ops(ctx, i);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_add_deps_and_arm_jobs() - Add jobs dependencies and arm jobs
-> + * @ctx: Submit context.
-> + * @add_resvs_deps: Callback used to add implicit job dependencies.
-> + *
-> + * Must be called after panthor_submit_ctx_prepare_resvs().
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_add_deps_and_arm_jobs(struct panthor_submit_ctx *ctx,
-> +					 int (*add_resvs_deps)(struct drm_sched_job *))
-> +{
-> +	for (u32 i = 0; i < ctx->job_count; i++) {
-> +		int ret;
-> +
-> +		ret = add_resvs_deps(ctx->jobs[i].job);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = panthor_submit_ctx_add_sync_deps_to_job(ctx, i);
-> +		if (ret)
-> +			return ret;
-> +
-> +		drm_sched_job_arm(ctx->jobs[i].job);
-> +
-> +		ret = panthor_submit_ctx_update_job_sync_signal_fences(ctx, i);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_prepare_resvs() - Lock/prepare reservation objects for all jobs.
-> + * @ctx: Submit context.
-> + * @prep_resvs: Callback used to prepare reservation objects associated to a job.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int
-> +panthor_submit_ctx_prepare_resvs(struct panthor_submit_ctx *ctx,
-> +				 int (*prep_resvs)(struct drm_exec *, struct drm_sched_job *))
-> +{
-> +	drm_exec_until_all_locked(&ctx->exec) {
-> +		for (u32 i = 0; i < ctx->job_count; i++) {
-> +			int ret = prep_resvs(&ctx->exec, ctx->jobs[i].job);
-> +
-> +			drm_exec_retry_on_contention(&ctx->exec);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_push_jobs() - Push jobs to their scheduling entities.
-> + * @ctx: Submit context.
-> + * @upd_resvs: Callback used to update reservation objects that were prepared in
-> + * panthor_submit_ctx_prepare_resvs().
-> + */
-> +static void
-> +panthor_submit_ctx_push_jobs(struct panthor_submit_ctx *ctx,
-> +			     void (*upd_resvs)(struct drm_sched_job *))
-> +{
-> +	for (u32 i = 0; i < ctx->job_count; i++) {
-> +		upd_resvs(ctx->jobs[i].job);
-> +		drm_sched_entity_push_job(ctx->jobs[i].job);
-> +
-> +		/* Job is owned by the scheduler now. */
-> +		ctx->jobs[i].job = NULL;
-> +	}
-> +
-> +	panthor_submit_ctx_push_fences(ctx);
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_init() - Initializes a submission context
-> + * @ctx: Submit context to initialize.
-> + * @file: drm_file this submission happens on.
-> + * @job_count: Number of jobs that will be submitted.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
-> + */
-> +static int panthor_submit_ctx_init(struct panthor_submit_ctx *ctx,
-> +				   struct drm_file *file, u32 job_count)
-> +{
-> +	ctx->jobs = kvmalloc_array(job_count, sizeof(*ctx->jobs),
-> +				   GFP_KERNEL | __GFP_ZERO);
-> +	if (!ctx->jobs)
-> +		return -ENOMEM;
-> +
-> +	ctx->file = file;
-> +	ctx->job_count = job_count;
-> +	xa_init_flags(&ctx->signal, XA_FLAGS_ALLOC);
-> +	drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_submit_ctx_cleanup() - Cleanup a submission context
-> + * @ctx: Submit context to cleanup.
-> + */
-> +static void panthor_submit_ctx_cleanup(struct panthor_submit_ctx *ctx,
-> +				       void (*job_put)(struct drm_sched_job *))
-> +{
-> +	struct panthor_sync_signal *sig_sync;
-> +	unsigned long i;
-> +
-> +	drm_exec_fini(&ctx->exec);
-> +
-> +	xa_for_each(&ctx->signal, i, sig_sync)
-> +		panthor_sync_signal_free(sig_sync);
-> +
-> +	xa_destroy(&ctx->signal);
-> +
-> +	for (i = 0; i < ctx->job_count; i++) {
-> +		job_put(ctx->jobs[i].job);
-> +		kvfree(ctx->jobs[i].syncops);
-> +	}
-> +
-> +	kvfree(ctx->jobs);
-> +}
-> +
-> +static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	struct drm_panthor_dev_query *args = data;
-> +
-> +	if (!args->pointer) {
-> +		switch (args->type) {
-> +		case DRM_PANTHOR_DEV_QUERY_GPU_INFO:
-> +			args->size = sizeof(ptdev->gpu_info);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
-> +			args->size = sizeof(ptdev->csif_info);
-> +			return 0;
-> +
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	switch (args->type) {
-> +	case DRM_PANTHOR_DEV_QUERY_GPU_INFO:
-> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->gpu_info);
-> +
-> +	case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
-> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->csif_info);
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +#define PANTHOR_VM_CREATE_FLAGS			0
-> +
-> +static int panthor_ioctl_vm_create(struct drm_device *ddev, void *data,
-> +				   struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_vm_create *args = data;
-> +	u64 kernel_va_start = 0;
-> +	int cookie, ret;
-> +
-> +	if (!drm_dev_enter(ddev, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (args->flags & ~PANTHOR_VM_CREATE_FLAGS) {
-> +		ret = -EINVAL;
-> +		goto out_dev_exit;
-> +	}
-> +
-> +	if (drm_WARN_ON(ddev, !va_bits) || args->kernel_va_range > (1ull << (va_bits - 1))) {
-
-The check for !va_bits would be better done at probe time. I'd also be 
-tempted to move the change for kernel_va_range down to 
-panthor_vm_create() as that has to repeat the va_bits calculation.
-
-> +		ret = -EINVAL;
-> +		goto out_dev_exit;
-> +	}
-> +
-> +	if (args->kernel_va_range)
-> +		kernel_va_start = (1 << (va_bits - 1)) - args->kernel_va_range;
-
-And also push the calculation of va_start down to 
-panthor_vm_create() as well.
-
-> +
-> +	ret = panthor_vm_pool_create_vm(ptdev, pfile->vms,
-> +					kernel_va_start, args->kernel_va_range);
-> +	if (ret >= 0) {
-> +		args->id = ret;
-> +		ret = 0;
-> +	}
-> +
-> +out_dev_exit:
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
-> +				    struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_vm_destroy *args = data;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
-> +}
-> +
-> +#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
-> +
-> +static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
-> +				   struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct panthor_gem_object *bo;
-> +	struct drm_panthor_bo_create *args = data;
-> +	struct panthor_vm *vm = NULL;
-> +	int cookie, ret;
-> +
-> +	if (!drm_dev_enter(ddev, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (!args->size || args->pad ||
-> +	    (args->flags & ~PANTHOR_BO_FLAGS)) {
-> +		ret = -EINVAL;
-> +		goto out_dev_exit;
-> +	}
-> +
-> +	if (args->exclusive_vm_id) {
-> +		vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
-> +		if (!vm) {
-> +			ret = -EINVAL;
-> +			goto out_dev_exit;
-> +		}
-> +	}
-> +
-> +	bo = panthor_gem_create_with_handle(file, ddev, vm, args->size, args->flags,
-> +					    &args->handle);
-
-As mentioned before, we should have a function which just returns the 
-handle, we don't need/want the BO here.
-
-> +
-> +	panthor_vm_put(vm);
-> +
-> +	if (IS_ERR(bo))
-> +		ret = PTR_ERR(bo);
-> +	else
-> +		ret = 0;
-> +
-> +out_dev_exit:
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
-> +					struct drm_file *file)
-> +{
-> +	struct drm_panthor_bo_mmap_offset *args = data;
-> +	struct drm_gem_object *obj;
-> +	int ret;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	obj = drm_gem_object_lookup(file, args->handle);
-> +	if (!obj)
-> +		return -ENOENT;
-> +
-> +	ret = drm_gem_create_mmap_offset(obj);
-> +	if (ret)
-> +		goto out;
-> +
-> +	args->offset = drm_vma_node_offset_addr(&obj->vma_node);
-> +
-> +out:
-> +	drm_gem_object_put(obj);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_group_submit(struct drm_device *ddev, void *data,
-> +				      struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_group_submit *args = data;
-> +	struct drm_panthor_queue_submit *jobs_args;
-> +	struct panthor_submit_ctx ctx;
-> +	int ret = 0, cookie;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	if (!drm_dev_enter(ddev, &cookie))
-> +		return -ENODEV;
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(jobs_args, &args->queue_submits);
-> +	if (ret)
-> +		goto out_dev_exit;
-> +
-> +	ret = panthor_submit_ctx_init(&ctx, file, args->queue_submits.count);
-> +	if (ret)
-> +		goto out_free_jobs_args;
-> +
-> +	for (u32 i = 0; i < args->queue_submits.count; i++) {
-> +		const struct drm_panthor_queue_submit *qsubmit = &jobs_args[i];
-> +		struct drm_sched_job *job;
-> +
-> +		job = panthor_job_create(pfile, args->group_handle, qsubmit);
-> +		if (IS_ERR(job)) {
-> +			ret = PTR_ERR(job);
-> +			goto out_cleanup_submit_ctx;
-> +		}
-> +
-> +		ret = panthor_submit_ctx_add_job(&ctx, i, job, &qsubmit->syncs);
-> +		if (ret)
-> +			goto out_cleanup_submit_ctx;
-> +	}
-> +
-> +	ret = panthor_submit_ctx_collect_jobs_signal_ops(&ctx);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	ret = panthor_submit_ctx_prepare_resvs(&ctx, panthor_job_prepare_resvs);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	ret = panthor_submit_ctx_add_deps_and_arm_jobs(&ctx, panthor_job_add_resvs_deps);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	/* Nothing can fail after that point. */
-> +	panthor_submit_ctx_push_jobs(&ctx, panthor_job_update_resvs);
-> +
-> +out_cleanup_submit_ctx:
-> +	panthor_submit_ctx_cleanup(&ctx, panthor_job_put);
-> +
-> +out_free_jobs_args:
-> +	kvfree(jobs_args);
-> +
-> +out_dev_exit:
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_group_destroy(struct drm_device *ddev, void *data,
-> +				       struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_group_destroy *args = data;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	return panthor_group_destroy(pfile, args->group_handle);
-> +}
-> +
-> +static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
-> +				      struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_group_create *args = data;
-> +	struct drm_panthor_queue_create *queue_args;
-> +	int ret;
-> +
-> +	if (!args->queues.count)
-> +		return -EINVAL;
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(queue_args, &args->queues);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = panthor_group_create(pfile, args, queue_args);
-> +	if (ret >= 0) {
-> +		args->group_handle = ret;
-> +		ret = 0;
-> +	}
-> +
-> +	kvfree(queue_args);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_group_get_state(struct drm_device *ddev, void *data,
-> +					 struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_group_get_state *args = data;
-> +
-> +	return panthor_group_get_state(pfile, args);
-> +}
-> +
-> +static int panthor_ioctl_tiler_heap_create(struct drm_device *ddev, void *data,
-> +					   struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_tiler_heap_create *args = data;
-> +	struct panthor_heap_pool *pool;
-> +	struct panthor_vm *vm;
-> +	int ret;
-> +
-> +	vm = panthor_vm_pool_get_vm(pfile->vms, args->vm_id);
-> +	if (!vm)
-> +		return -EINVAL;
-> +
-> +	pool = panthor_vm_get_heap_pool(vm, true);
-> +	if (IS_ERR(pool)) {
-> +		ret = PTR_ERR(pool);
-> +		goto out_put_vm;
-> +	}
-> +
-> +	ret = panthor_heap_create(pool,
-> +				  args->initial_chunk_count,
-> +				  args->chunk_size,
-> +				  args->max_chunks,
-> +				  args->target_in_flight,
-> +				  &args->tiler_heap_ctx_gpu_va,
-> +				  &args->first_heap_chunk_gpu_va);
-> +	if (ret < 0)
-> +		goto out_put_heap_pool;
-> +
-> +	/* Heap pools are per-VM. We combine the VM and HEAP id to make
-> +	 * a unique heap handle.
-> +	 */
-> +	args->handle = (args->vm_id << 16) | ret;
-> +	ret = 0;
-> +
-> +out_put_heap_pool:
-> +	panthor_heap_pool_put(pool);
-> +
-> +out_put_vm:
-> +	panthor_vm_put(vm);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_tiler_heap_destroy(struct drm_device *ddev, void *data,
-> +					    struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_tiler_heap_destroy *args = data;
-> +	struct panthor_heap_pool *pool;
-> +	struct panthor_vm *vm;
-> +	int ret;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	vm = panthor_vm_pool_get_vm(pfile->vms, args->handle >> 16);
-> +	if (!vm)
-> +		return -EINVAL;
-> +
-> +	pool = panthor_vm_get_heap_pool(vm, false);
-> +	if (!pool) {
-> +		ret = -EINVAL;
-> +		goto out_put_vm;
-> +	}
-> +
-> +	ret = panthor_heap_destroy(pool, args->handle & GENMASK(15, 0));
-> +	panthor_heap_pool_put(pool);
-> +
-> +out_put_vm:
-> +	panthor_vm_put(vm);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_vm_bind_async(struct drm_device *ddev,
-> +				       struct drm_panthor_vm_bind *args,
-> +				       struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_vm_bind_op *jobs_args;
-> +	struct panthor_submit_ctx ctx;
-> +	struct panthor_vm *vm;
-> +	int ret = 0;
-> +
-> +	vm = panthor_vm_pool_get_vm(pfile->vms, args->vm_id);
-> +	if (!vm)
-> +		return -EINVAL;
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(jobs_args, &args->ops);
-> +	if (ret)
-> +		goto out_put_vm;
-> +
-> +	ret = panthor_submit_ctx_init(&ctx, file, args->ops.count);
-> +	if (ret)
-> +		goto out_free_jobs_args;
-> +
-> +	for (u32 i = 0; i < args->ops.count; i++) {
-> +		struct drm_panthor_vm_bind_op *op = &jobs_args[i];
-> +		struct drm_sched_job *job;
-> +
-> +		job = panthor_vm_bind_job_create(file, vm, op);
-> +		if (IS_ERR(job)) {
-> +			ret = PTR_ERR(job);
-> +			goto out_cleanup_submit_ctx;
-> +		}
-> +
-> +		ret = panthor_submit_ctx_add_job(&ctx, i, job, &op->syncs);
-> +		if (ret)
-> +			goto out_cleanup_submit_ctx;
-> +	}
-> +
-> +	ret = panthor_submit_ctx_collect_jobs_signal_ops(&ctx);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	ret = panthor_submit_ctx_prepare_resvs(&ctx, panthor_vm_bind_job_prepare_resvs);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	ret = panthor_submit_ctx_add_deps_and_arm_jobs(&ctx, panthor_vm_bind_job_add_resvs_deps);
-> +	if (ret)
-> +		goto out_cleanup_submit_ctx;
-> +
-> +	/* Nothing can fail after that point. */
-> +	panthor_submit_ctx_push_jobs(&ctx, panthor_vm_bind_job_update_resvs);
-> +
-> +out_cleanup_submit_ctx:
-> +	panthor_submit_ctx_cleanup(&ctx, panthor_vm_bind_job_put);
-> +
-> +out_free_jobs_args:
-> +	kvfree(jobs_args);
-> +
-> +out_put_vm:
-> +	panthor_vm_put(vm);
-> +	return ret;
-> +}
-> +
-> +static int panthor_ioctl_vm_bind_sync(struct drm_device *ddev,
-> +				      struct drm_panthor_vm_bind *args,
-> +				      struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_vm_bind_op *jobs_args;
-> +	struct panthor_vm *vm;
-> +	int ret;
-> +
-> +	vm = panthor_vm_pool_get_vm(pfile->vms, args->vm_id);
-> +	if (!vm)
-> +		return -EINVAL;
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(jobs_args, &args->ops);
-> +	if (ret)
-> +		goto out_put_vm;
-> +
-> +	for (u32 i = 0; i < args->ops.count; i++) {
-> +		ret = panthor_vm_bind_exec_sync_op(file, vm, &jobs_args[i]);
-> +		if (ret) {
-> +			/* Update ops.count so the user knows where things failed. */
-
-It might be worth mentioning this in the UAPI header as the array count
-wouldn't usually be modified.
-
-> +			args->ops.count = i;
-> +			break;
-> +		}
-> +	}
-> +
-> +	kvfree(jobs_args);
-> +
-> +out_put_vm:
-> +	panthor_vm_put(vm);
-> +	return ret;
-> +}
-> +
-> +#define PANTHOR_VM_BIND_FLAGS DRM_PANTHOR_VM_BIND_ASYNC
-> +
-> +static int panthor_ioctl_vm_bind(struct drm_device *ddev, void *data,
-> +				 struct drm_file *file)
-> +{
-> +	struct drm_panthor_vm_bind *args = data;
-> +	int cookie, ret;
-> +
-> +	if (!drm_dev_enter(ddev, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (args->flags & DRM_PANTHOR_VM_BIND_ASYNC)
-> +		ret = panthor_ioctl_vm_bind_async(ddev, args, file);
-> +	else
-> +		ret = panthor_ioctl_vm_bind_sync(ddev, args, file);
-> +
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-> +
-> +static int
-> +panthor_open(struct drm_device *ddev, struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	struct panthor_file *pfile;
-> +	int ret;
-> +
-> +	if (!try_module_get(THIS_MODULE))
-> +		return -EINVAL;
-> +
-> +	pfile = kzalloc(sizeof(*pfile), GFP_KERNEL);
-> +	if (!pfile) {
-> +		ret = -ENOMEM;
-> +		goto err_put_mod;
-> +	}
-> +
-> +	pfile->ptdev = ptdev;
-> +
-> +	ret = panthor_vm_pool_create(pfile);
-> +	if (ret)
-> +		goto err_free_file;
-> +
-> +	ret = panthor_group_pool_create(pfile);
-> +	if (ret)
-> +		goto err_destroy_vm_pool;
-> +
-> +	file->driver_priv = pfile;
-> +	return 0;
-> +
-> +err_destroy_vm_pool:
-> +	panthor_vm_pool_destroy(pfile);
-> +
-> +err_free_file:
-> +	kfree(pfile);
-> +
-> +err_put_mod:
-> +	module_put(THIS_MODULE);
-> +	return ret;
-> +}
-> +
-> +static void
-> +panthor_postclose(struct drm_device *ddev, struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +
-> +	panthor_group_pool_destroy(pfile);
-> +	panthor_vm_pool_destroy(pfile);
-> +
-> +	kfree(pfile);
-> +	module_put(THIS_MODULE);
-> +}
-> +
-> +static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
-> +#define PANTHOR_IOCTL(n, func, flags) \
-> +	DRM_IOCTL_DEF_DRV(PANTHOR_##n, panthor_ioctl_##func, flags)
-> +
-> +	PANTHOR_IOCTL(DEV_QUERY, dev_query, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(VM_CREATE, vm_create, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(VM_DESTROY, vm_destroy, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(VM_BIND, vm_bind, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(BO_CREATE, bo_create, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(GROUP_CREATE, group_create, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(GROUP_DESTROY, group_destroy, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(GROUP_GET_STATE, group_get_state, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
-> +};
-> +
-> +static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +	struct drm_file *file = filp->private_data;
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct panthor_device *ptdev = pfile->ptdev;
-> +	int ret, cookie;
-> +
-> +	if (!drm_dev_enter(file->minor->dev, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (vma->vm_pgoff >= (DRM_PANTHOR_USER_MMIO_OFFSET >> PAGE_SHIFT))
-> +		ret = panthor_device_mmap_io(ptdev, vma);
-> +	else
-> +		ret = drm_gem_mmap(filp, vma);
-> +
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-> +
-> +static const struct file_operations panthor_drm_driver_fops = {
-> +	.open = drm_open,
-> +	.release = drm_release,
-> +	.unlocked_ioctl = drm_ioctl,
-> +	.compat_ioctl = drm_compat_ioctl,
-> +	.poll = drm_poll,
-> +	.read = drm_read,
-> +	.llseek = noop_llseek,
-> +	.mmap = panthor_mmap,
-> +};
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +void panthor_debugfs_init(struct drm_minor *minor)
-> +{
-> +	panthor_mmu_debugfs_init(minor);
-> +}
-> +#endif
-> +
-> +/*
-> + * PanCSF driver version:
-> + * - 1.0 - initial interface
-> + */
-> +static const struct drm_driver panthor_drm_driver = {
-> +	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> +			   DRIVER_SYNCOBJ_TIMELINE | DRIVER_GEM_GPUVA,
-> +	.open = panthor_open,
-> +	.postclose = panthor_postclose,
-> +	.ioctls = panthor_drm_driver_ioctls,
-> +	.num_ioctls = ARRAY_SIZE(panthor_drm_driver_ioctls),
-> +	.fops = &panthor_drm_driver_fops,
-> +	.name = "panthor",
-> +	.desc = "Panthor DRM driver",
-> +	.date = "20230801",
-> +	.major = 1,
-> +	.minor = 0,
-> +
-> +	.gem_create_object = panthor_gem_create_object,
-> +	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> +#ifdef CONFIG_DEBUG_FS
-> +	.debugfs_init = panthor_debugfs_init,
-> +#endif
-> +};
-> +
-> +static int panthor_probe(struct platform_device *pdev)
-> +{
-> +	struct panthor_device *ptdev;
-> +	int ret;
-> +
-> +	ptdev = devm_drm_dev_alloc(&pdev->dev, &panthor_drm_driver,
-> +				   struct panthor_device, base);
-> +	if (!ptdev)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, ptdev);
-> +
-> +	ret = panthor_device_init(ptdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_dev_register(&ptdev->base, 0);
-> +}
-> +
-> +static void panthor_remove(struct platform_device *pdev)
-> +{
-> +	struct panthor_device *ptdev = platform_get_drvdata(pdev);
-> +
-> +	panthor_device_unplug(ptdev);
-> +}
-> +
-> +static const struct of_device_id dt_match[] = {
-> +	{ .compatible = "rockchip,rk3588-mali" },
-> +	{ .compatible = "arm,mali-valhall-csf" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, dt_match);
-> +
-> +static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
-> +				 panthor_device_suspend,
-> +				 panthor_device_resume,
-> +				 NULL);
-> +
-> +static struct platform_driver panthor_driver = {
-> +	.probe = panthor_probe,
-> +	.remove_new = panthor_remove,
-> +	.driver = {
-> +		.name = "panthor",
-> +		.pm = &panthor_pm_ops,
-> +		.of_match_table = dt_match,
-> +	},
-> +};
-> +
-> +/**
-> + * @cleanup_wq: Workqueue used to cleanup stuff.
-> + *
-> + * We create a dedicated workqueue so we can drain on unplug and
-> + * make sure all resources are freed before the module is unloaded.
-> + */
-> +struct workqueue_struct *panthor_cleanup_wq;
-> +
-> +static int __init panthor_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = panthor_mmu_pt_cache_init();
-> +	if (ret)
-> +		return ret;
-> +
-> +	panthor_cleanup_wq = alloc_workqueue("panthor-cleanup", WQ_UNBOUND, 0);
-> +	if (!panthor_cleanup_wq) {
-> +		pr_err("panthor: Failed to allocate the workqueues");
-> +		ret = -ENOMEM;
-> +		goto err_mmu_pt_cache_fini;
-> +	}
-> +
-> +	ret = platform_driver_register(&panthor_driver);
-> +	if (ret)
-> +		goto err_destroy_cleanup_wq;
-> +
-> +	return ret;
-> +
-> +err_mmu_pt_cache_fini:
-> +	panthor_mmu_pt_cache_fini();
-> +
-> +err_destroy_cleanup_wq:
-> +	destroy_workqueue(panthor_cleanup_wq);
-
-This cleanup looks backwards.
-
-Steve
-
-> +	return ret;
-> +}
-> +module_init(panthor_init);
-> +
-> +static void __exit panthor_exit(void)
-> +{
-> +	platform_driver_unregister(&panthor_driver);
-> +	destroy_workqueue(panthor_cleanup_wq);
-> +	panthor_mmu_pt_cache_fini();
-> +}
-> +module_exit(panthor_exit);
-> +
-> +MODULE_AUTHOR("Panthor Project Developers");
-> +MODULE_DESCRIPTION("Panthor DRM Driver");
-> +MODULE_LICENSE("Dual MIT/GPL");
-
+--puzmiyi66lskaags--
