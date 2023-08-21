@@ -2,44 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1A97825CD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 10:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F248782604
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 11:05:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECA510E150;
-	Mon, 21 Aug 2023 08:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8174010E07B;
+	Mon, 21 Aug 2023 09:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358F610E150
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 08:49:56 +0000 (UTC)
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A2CCA6607033;
- Mon, 21 Aug 2023 09:49:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692607794;
- bh=PUmxT93lOOVUqxLbjiylhwoZal4cx83WD9LxN2kyqaI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=J3FNo9xgPnE6uHN2ThWVmCr8LTvNlTkZE7joHdaVBRVE2HdhwHmRO4azTDcNe2mDA
- hHTNA8CLAiwX2NokhnSQMbVDWQ7PXes24guwLJZKiou0FYOmXXT1UvpRUZ4O8mkDz6
- h5ikKrmZ0ayfe98GmB/GGyUuih5sCoWRRzKGx3JwJds4iFmErDra5Wnc0s4EfxEYIT
- fkzKJ0a5qv+byrzl6Bj+KyH0DIFdTADyOiudZqbQRZHh7vlIXG0gd8o/h0AMu7b1US
- K1c4HnpVGSgBMYNWDHADS/awT7Loi7RR7oaaPJBDiYUNZfQKkQDGrbV3CKiX3P85Is
- bT3yRhPsohfAw==
-Date: Mon, 21 Aug 2023 11:49:43 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/doc: document DRM_IOCTL_MODE_CREATE_DUMB
-Message-ID: <20230821114943.5899aab9.pekka.paalanen@collabora.com>
-In-Reply-To: <20230803100041.387404-1-contact@emersion.fr>
-References: <20230803100041.387404-1-contact@emersion.fr>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on20619.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe59::619])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1AF210E07B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 09:05:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fY1AcVSAnkT3v49vD4Px74i4xkGwOe1XMGkT7wVwudfp7pOqEOQg0/X8EyHER/VbmfgYsV7WLuH7iOOdHmgLs2Q6NNzw9Sxs0/PMib9ylI10VtnLKE8dkeUKzFtqIdJqUPk1sY4u/2lzQkR4FkT0j4MzfPOPlZjfsmHbSHduQ02wLC6cFNyU+/Tm79RmMlf8FxkiYSOnIWJXSB061owKxQTlvZOU/OdKPzTpM8p7PHvhit7zjmzokrshXmLSUN52EdRysaD92XrriHzlxKAeQT9Eoy3prA7IVILuyob+8qq3gP8oAbTJd8FcTDfEuiwwRPx2lcpaScHk0Ni323NTlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0xyI8hsorToWOTWGMrK4/iiXa2KDML5RIksR5cGfz3Y=;
+ b=U5TZ2IZyXUxmr95ozuza8JSIwAnEDiMRRhN+y+NRJFyW3fdr7jC/dt4clrsPNZP97wEV7KR6jY5BZpRBIGlYVc9MBcnSCxuhUTIyDrsCAZkmpquFGPYhxC/tW0pvw5wUas9yB0Sd8BjU2CMxiAs0MZRAiwodhn5ySXvyFIOPNzJg0QhLPRIhymb+tKz3RSQgEj3ATBDVunJgx7QIHqnHtOds6n0uHz4JxEmiXF0swRDMwIBPyGRDi5vISy0rdmwNXuBcVIkesfKxTJXTHEEMq29V0ubW7bGIj05WNoMb8e0ECuDQDth6lUcVsFjKmHx1V0h6IkXY2yvFxfSlKYEbHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0xyI8hsorToWOTWGMrK4/iiXa2KDML5RIksR5cGfz3Y=;
+ b=Fjs2s81IVwBc9GVLCeU2dbZVwG01JHkqtInQUlMvhWwW6iw7yz1p59XeD5uN2MedNtEvu7lZn6uHzkIeGXg3RV0aCGvGuKjzbqX0CtjXAgOfImFGBH/4cPzkOiQiZ2IVb0hkPpwLahpAcozd20buFVGXzfsNkOETQI0tIhjCu9eSlLUDYtK/YNrEjQmbUZUfLNWvPMfj1fEo+Wn1JJ/dyfo9BqEDuVR2gm4Tz9ccUXfi45K5q3B6I/20TE0KOeObqgs826R4Nnl8+aPz1LeRyUmdXRGl9zjZBSg4Ox7zkPghfAQOdZhlcXUQBOYxOUgzFsTfqWEuc3LEWgShmcChkA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by CH3PR12MB8481.namprd12.prod.outlook.com (2603:10b6:610:157::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
+ 2023 09:05:36 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::3bf6:11f3:64d7:2475]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::3bf6:11f3:64d7:2475%7]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
+ 09:05:36 +0000
+References: <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMzz2OKbmiD6SKPE@nvidia.com>
+ <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZNI4KV+Z7CvffiHI@nvidia.com>
+ <IA0PR11MB71857FDD99CAC23C88C9F27CF815A@IA0PR11MB7185.namprd11.prod.outlook.com>
+User-agent: mu4e 1.8.13; emacs 28.2
+From: Alistair Popple <apopple@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Date: Mon, 21 Aug 2023 19:02:28 +1000
+In-reply-to: <IA0PR11MB71857FDD99CAC23C88C9F27CF815A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Message-ID: <87h6oswysm.fsf@nvdebian.thelocal>
+Content-Type: text/plain
+X-ClientProxiedBy: SYAPR01CA0030.ausprd01.prod.outlook.com (2603:10c6:1:1::18)
+ To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/q.iL7T/5BQz6qFd_IX5HuSg";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|CH3PR12MB8481:EE_
+X-MS-Office365-Filtering-Correlation-Id: 070f403e-5163-47da-c73f-08dba225c822
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0R6ap5iTBQo7X5pgZzMNR3N5KZOCyNEQAMvHK3MZMFayN7vkwfnA2drlGnqokm555sMML7qs42Lj8kReXZ3CJwWD6QNDZdRHXq/adsYZuWcrrggGhqXQ26d6O4EBm+nlbkt0KJcyMtceCy859grWmZXAetlGf8N7edS/pEfmofRPZTRN91MByye981FeTPXtIJ9aANGTmzQMg1SPfxDWpQWNen+IvBD3x7Z8CHtsckvz7m0U6hwolV7RZQQRsH1G9eMwVw3uDVJ08xdJn/iMRTNEA/PG7N93yz4eqCio6SH5igJ5R25rkq4GEO/mAbsvMfu8Gb1oNFj/tV0T+vwFR0Z3EJwvDurdVYTAjbBXMsw3knpU+t8WUbu932tZKWRKNSPNEaYVtH6RyQyL5s2hCpBfio+QVZcQ7j7QRgAjKOJFTTB1w8c6DoG9aR0HJItXOx1J+L2GgD4Ao/ET0PGxSf9rgWep7RLgnUvTrOhC2UqTqGtvbepEpVMVsG1qPf/iNrhoM7zQ591J1S7lPUPXqvUXNaNKq5VfOkhcpezpy/itFHRi1rYyg+E5Lyr1iYwY
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(346002)(136003)(396003)(376002)(451199024)(186009)(1800799009)(2906002)(83380400001)(7416002)(38100700002)(6506007)(6486002)(15650500001)(5660300002)(26005)(86362001)(8676002)(8936002)(4326008)(316002)(9686003)(6512007)(66946007)(6916009)(54906003)(66556008)(66476007)(478600001)(6666004)(41300700001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Pxr3Hnelp/PegbnSETZbks0D1W3smH/nyVcr/iA2leX9dsh2PaxlDm7OTAB5?=
+ =?us-ascii?Q?Kelk1024mgUonJQcEL6H9+EyM0zOsYmnkw0f1UDL1VFzj0am5sFmU2oy3Acg?=
+ =?us-ascii?Q?WWS/zRMN48A7IxcP0pivXdFZXjLW2SRxZ3+bJ/dLcFYcaAHztMo6SPS5+0o3?=
+ =?us-ascii?Q?zv3+PicRQ3LyoPYPGtJSrDtkqUE8OvI201C9ues8gHRyvKjs8+DUkOBUrKY3?=
+ =?us-ascii?Q?qmo8hbYPRor2wnPORWA2/s36wdC3vlujm55/bfGKmDuf8IrLcCaR861GsFEY?=
+ =?us-ascii?Q?UFU2fymgZJEO/sg8oBMSIlxbt/Nw0UQ1RFVj+n/jPwcpFOMyi6tcjAKQAo7l?=
+ =?us-ascii?Q?bzejmRKd3ocoFtAHKMNbzJTPbAlq4D9wyIN3upYMWca6B/zeyEUkmqMk9dCI?=
+ =?us-ascii?Q?rMcCv60dXKPv3GRHvejedbceoQVX6yseW1LQYOFTxmRIdR6PsVuymeMc1Psc?=
+ =?us-ascii?Q?5x06cUgEMTz3Fy/4pNEs0UwS7XwSOt5C1y5HXhC8s0yU4PJidWx5iWdLu+bS?=
+ =?us-ascii?Q?BWb9KyeuRLNIwVx20mS0jlUATSE1vxaIbJFHAoguM5UIaOgmkit8jyiy0XTe?=
+ =?us-ascii?Q?s4pNLH+jOHgMDJ9IqMfpBqqu4YOkfX8CQ1qIiH/ayeSiB33bl/fjTnkdlnpE?=
+ =?us-ascii?Q?L8jVlFT4UmwoSA0T37qauGT7Ng8AGpNRwAlAA1H0mZGhfXRR+lSByh/aVSuH?=
+ =?us-ascii?Q?xRlPcYRVevrtt9n3joRfbC32lf9dejMNK67NXHa9vVdwRcF2Kv3e9zNLBa59?=
+ =?us-ascii?Q?g32UyotizxgUyOBEQg1Qm66hbpvJipITfThyAHCc4s4RhosSAt2bJVETB3bm?=
+ =?us-ascii?Q?MWp4GMGOqdGaoUE0MPYByagkELk0qusOkmpJsghBwmHFQlHfZvrRRBanJAat?=
+ =?us-ascii?Q?n9PGyZxzu9DiPONPIzDbd1KT5V6jQQJidO3VnZGOIUdwm7n5qrrluipGzWNO?=
+ =?us-ascii?Q?Xg51WWjA0ggk6fxVYXG3Z69pcpjrASE7+LwOxnFlrECgGpRuF3yytjWvAvvP?=
+ =?us-ascii?Q?tsmsi2/lV3B0vdelbpFdidiG0/iQuLmq0/JeW67WjHtxAAGi/LbcZmS28JU0?=
+ =?us-ascii?Q?ygAaHemJ0nhF8eg204/Qm2NU41ic0PZslZrZomGB8mOx31T8vrJtRlE6aS51?=
+ =?us-ascii?Q?EweyEq/RtnwShvVX70WzEzQGl/GofhwAR8V2GCkLrTwWh4TdolwxK9dZ/z1Q?=
+ =?us-ascii?Q?DAkGmlZobFgsSQYpaqPspyMKQCmMl8M6iDF7uAM4UIqQm+fiBduC/Y7qseB4?=
+ =?us-ascii?Q?zzPiiOsIqDkAL79jjO3Qnu2sYuEbwumQvJXU/bOc7difVbnQZ50fVoK6wp6I?=
+ =?us-ascii?Q?+iDg8XFC2GPQzHLTsPMKZGsGqqFYIlWqeUCt+OPjNs2sCto+b7e9UIyYIODQ?=
+ =?us-ascii?Q?XaZXJ2JMQ7hbO2gRRV7ipn8XsQK04aIz0j74pM/p1Ksct9fPHETnx93m6STB?=
+ =?us-ascii?Q?EQPfhMbGmu7HgDHqiTIKCmWgtBvAvyWDdB4g59OsX4NE/zzLe8a6nOt4kInv?=
+ =?us-ascii?Q?Yinx63TKuAPahYv4ZtW4YH33HZ4CjaWeSqhCvbXn5S94KGe7AdPH+QzVn6tL?=
+ =?us-ascii?Q?du7ugbQ9GHVziNDRNcD9G+m5MT0h5/caFaFAl7c/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 070f403e-5163-47da-c73f-08dba225c822
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 09:05:36.0199 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EopV6KN29lpJnB8TeJf+JPUGkot/haN8exjngp0klgbAELZZ5u9qf2OuZfYkJHTNe7yup2ZCZS2ru91D9YtEMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8481
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,145 +126,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/q.iL7T/5BQz6qFd_IX5HuSg
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 03 Aug 2023 10:00:44 +0000
-Simon Ser <contact@emersion.fr> wrote:
+"Kasireddy, Vivek" <vivek.kasireddy@intel.com> writes:
 
-> The main motivation is to repeat that dumb buffers should not be
-> abused for anything else than basic software rendering with KMS.
-> User-space devs are more likely to look at the IOCTL docs than to
-> actively search for the driver-oriented "Dumb Buffer Objects"
-> section.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> ---
->  Documentation/gpu/drm-kms.rst |  2 ++
->  include/uapi/drm/drm.h        | 15 +++++++++++++++
->  include/uapi/drm/drm_mode.h   | 16 ++++++++++++++--
->  3 files changed, 31 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index c92d425cb2dd..ca9210e47266 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -360,6 +360,8 @@ Format Functions Reference
->  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
->     :export:
-> =20
-> +.. _kms_dumb_buffer_objects:
-> +
->  Dumb Buffer Objects
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 863e47200911..625dba7ddbfe 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1128,6 +1128,21 @@ extern "C" {
->  #define DRM_IOCTL_MODE_PAGE_FLIP	DRM_IOWR(0xB0, struct drm_mode_crtc_pag=
-e_flip)
->  #define DRM_IOCTL_MODE_DIRTYFB		DRM_IOWR(0xB1, struct drm_mode_fb_dirty_=
-cmd)
-> =20
-> +/**
-> + * DRM_IOCTL_MODE_CREATE_DUMB - Create a new dumb buffer object.
-> + *
-> + * KMS dumb buffers provide a very primitive way to allocate a buffer ob=
-ject
-> + * suitable for scanout and map it for software rendering. KMS dumb buff=
-ers are
-> + * not suitable for hardware-accelerated rendering nor video decoding. K=
-MS dumb
-> + * buffers are not suitable to be displayed without KMS. Also see
-> + * :ref:`kms_dumb_buffer_objects`.
-> + *
-> + * The IOCTL argument is a struct drm_mode_create_dumb.
-> + *
-> + * User-space is expected to create a KMS dumb buffer via this IOCTL, th=
-en add
-> + * it as a KMS framebuffer via &DRM_IOCTL_MODE_ADDFB and map it via
-> + * &DRM_IOCTL_MODE_MAP_DUMB.
-> + */
->  #define DRM_IOCTL_MODE_CREATE_DUMB DRM_IOWR(0xB2, struct drm_mode_create=
-_dumb)
->  #define DRM_IOCTL_MODE_MAP_DUMB    DRM_IOWR(0xB3, struct drm_mode_map_du=
-mb)
->  #define DRM_IOCTL_MODE_DESTROY_DUMB    DRM_IOWR(0xB4, struct drm_mode_de=
-stroy_dumb)
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 92d96a2b6763..8a7e747f0564 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -1029,13 +1029,25 @@ struct drm_mode_crtc_page_flip_target {
->  	__u64 user_data;
->  };
-> =20
-> -/* create a dumb scanout buffer */
-> +/**
-> + * struct drm_mode_create_dumb - Create a KMS dumb buffer for scanout.
-> + * @height: buffer height in pixels
-> + * @width: buffer width in pixels
-> + * @bpp: bits per pixel
-> + * @flags: must be zero
-> + * @handle: buffer object handle
-> + * @pitch: number of bytes between two consecutive lines
-> + * @size: size of the whole buffer in bytes
-> + *
-> + * User-space fills @height, @width, @bpp and @flags. If the IOCTL succe=
-eds,
-> + * the kernel fills @handle, @pitch and @size.
-> + */
->  struct drm_mode_create_dumb {
->  	__u32 height;
->  	__u32 width;
->  	__u32 bpp;
->  	__u32 flags;
-> -	/* handle, pitch, size will be returned */
-> +
->  	__u32 handle;
->  	__u32 pitch;
->  	__u64 size;
+> Hi Jason,
+>
+>> > >
+>> > > > No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
+>> > > > Although, I do not have THP enabled (or built-in), shmem does not evict
+>> > > > the pages after hole punch as noted in the comment in
+>> shmem_fallocate():
+>> > >
+>> > > This is the source of all your problems.
+>> > >
+>> > > Things that are mm-centric are supposed to track the VMAs and changes
+>> to
+>> > > the PTEs. If you do something in userspace and it doesn't cause the
+>> > > CPU page tables to change then it certainly shouldn't cause any mmu
+>> > > notifiers or hmm_range_fault changes.
+>> > I am not doing anything out of the blue in the userspace. I think the
+>> behavior
+>> > I am seeing with shmem (where an invalidation event
+>> (MMU_NOTIFY_CLEAR)
+>> > does occur because of a hole punch but the PTEs don't really get updated)
+>> > can arguably be considered an optimization.
+>> 
+>> Your explanations don't make sense.
+>> 
+>> If MMU_NOTIFER_CLEAR was sent but the PTEs were left present then:
+>> 
+>> > > There should still be an invalidation notifier at some point when the
+>> > > CPU tables do eventually change, whenever that is. Missing that
+>> > > notification would be a bug.
+>> > I clearly do not see any notification getting triggered (from both
+>> shmem_fault()
+>> > and hugetlb_fault()) when the PTEs do get updated as the hole is refilled
+>> > due to writes. Are you saying that there needs to be an invalidation event
+>> > (MMU_NOTIFY_CLEAR?) dispatched at this point?
+>> 
+>> You don't get to get shmem_fault in the first place.
+> What I am observing is that even after MMU_NOTIFY_CLEAR (hole punch) is sent,
+> hmm_range_fault() finds that the PTEs associated with the hole are still pte_present().
+> I think it remains this way as long as there are reads on the hole. Once there are
+> writes, it triggers shmem_fault() which results in PTEs getting updated but without
+> any notification.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Oh wait, this is shmem. The read from hmm_range_fault() (assuming you
+specified HMM_PFN_REQ_FAULT) will trigger shmem_fault() due to the
+missing PTE. Subsequent writes will just upgrade PTE permissions
+assuming the read didn't map them RW to begin with. If you want to
+actually see the hole with hmm_range_fault() don't specify
+HMM_PFN_REQ_FAULT (or _WRITE).
 
-Should there be a mention of DRM_CAP_DUMB_PREFER_SHADOW at the ioctl
-doc too?
+>> 
+>> If they were marked non-prsent during the CLEAR then the shadow side
+>> remains non-present until it gets its own fault.
+>> 
+>> If they were made non-present without an invalidation then that is a
+>> bug.
+>> 
+>> > > hmm_range_fault() is the correct API to use if you are working with
+>> > > notifiers. Do not hack something together using pin_user_pages.
+>> 
+>> > I noticed that hmm_range_fault() does not seem to be working as expected
+>> > given that it gets stuck(hangs) while walking hugetlb pages.
+>> 
+>> You are the first to report that, it sounds like a serious bug. Please
+>> try to fix it.
+>> 
+>> > Regardless, as I mentioned above, the lack of notification when PTEs
+>> > do get updated due to writes is the crux of the issue
+>> > here. Therefore, AFAIU, triggering an invalidation event or some
+>> > other kind of notification would help in fixing this issue.
+>> 
+>> You seem to be facing some kind of bug in the mm, it sounds pretty
+>> serious, and it almost certainly is a missing invalidation.
+>> 
+>> Basically, anything that changes a PTE must eventually trigger an
+>> invalidation. It is illegal to change a PTE from one present value to
+>> another present value without invalidation notification.
+>> 
+>> It is not surprising something would be missed here.
+> As you suggest, it looks like the root-cause of this issue is the missing
+> invalidation notification when the PTEs are changed from one present
 
-DRM_CAP_DUMB_BUFFER?
-DRM_CAP_DUMB_PREFERRED_DEPTH?
+I don't think there's a missing invalidation here. You say you're seeing
+the MMU_NOTIFY_CLEAR when hole punching which is when the PTE is
+cleared. When else do you expect a notification?
 
+> value to another. I'd like to fix this issue eventually but I first need to
+> focus on addressing udmabuf page migration (out of movable zone)
+> and also look into the locking concerns Daniel mentioned about pairing
+> static and dynamic dmabuf exporters and importers.
+>
+> Thanks,
+> Vivek
 
-Thanks,
-pq
-
---Sig_/q.iL7T/5BQz6qFd_IX5HuSg
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmTjJScACgkQI1/ltBGq
-qqdzYg//bNc3i+CfPWyw/7gssGAyTMvdZcnR8NIY0yOE+fEr4NTJHN1kH+vba8Ar
-f5vP780Qo9zwgi+Z3Vy7B2+WnFMS+ycMh7zwy/joxJofzfed/LIrJu2sMB+45wP0
-sYe7t9PVMiuB4EpHkSKIISCB4ZCVOtSMHu8vrIcu3z4UdXl+ILR9P9BSbepUMZRL
-k4L7xPVVb4P2MM9uc5/EPuhZxUGxyl5F9xd3XgpwQ+zt980SxhQn57CvgYjN7vEK
-gD5Kin0RPNDTupdtad+PwUXlKdIAC58bdMhusScMYj0lIQvcFiEE0TdlbSAPn7eJ
-/F1WZCsz5vx0nhQV20iGD6ZTHpjTiZOD6b8V4eoitawX8LyCExUFy3lt5WquGVSP
-aitjlgjwbJ7+lOi6EyHsiv3lUGjWlTNAmyc/7OI+iqlBlH+K9B7PpT9eB9J/veVi
-19cf3O/tbYeMs2l4Kl6UT2K5ld60lplR2+SR5bz/8JBL1AitvhKLj6Djn4fXQY3m
-c3FX+Fm9ZVfSxicxOyb4Lv9dgjsuNtQxEqeYGmxT+nMDYS+SZWY0TyXr5ogDhrK0
-R7dQQThy0aysKLKiC+RQt2JgtQzOrg3KgpFT3SzOWWshcX6Gs4G5aMawPAGrUHOh
-aT7+yA5s3SwrDyJcPmCC6zKjOliKHBBYS97mPFl21GMRICdQk+o=
-=tdrA
------END PGP SIGNATURE-----
-
---Sig_/q.iL7T/5BQz6qFd_IX5HuSg--
