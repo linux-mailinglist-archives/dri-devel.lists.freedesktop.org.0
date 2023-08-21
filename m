@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0192782F92
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:38:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 256B8782F9A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:46:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C02410E294;
-	Mon, 21 Aug 2023 17:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8688C10E265;
+	Mon, 21 Aug 2023 17:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA5310E294
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 17:38:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8866E640EC;
- Mon, 21 Aug 2023 17:38:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7921C433C7;
- Mon, 21 Aug 2023 17:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692639502;
- bh=fbEtKOok6iuPCXKRBpZwCrq9lsiy0DSR8lgdSafnjw8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=C0lQglTspaHZ1oa/VUKgzTZF9Rfw+B2BowWpN1tE8W4NcQ9g0X1DoRYL07/kqjQqt
- apGo/K9YgDqSSjwx8ZQk00fWD3gunjaMVgQIX57EUeKUELJTkCYdW6CTUj3/dR7z0U
- PzZXHe5jDxGtSI4nW8RJpUgQBAihMKmlrT9hShf0LzYzvZaQWbonij2HTlV9Ibp1q3
- 9X+LUlK0DAK8P4JwjSX23F7VeKBhIm+hkPu/gZeDEgRaTakjjpEIvijzoV13bCUYMe
- FSkqToxreoGiH1ANMeDikD/oZwV4o5yq7RuzpZb5Lu4GFiO+EvZOYdO5ti+U1qWNos
- co5pZrhxzHDsw==
-Date: Mon, 21 Aug 2023 12:38:19 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: suijingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
- arch-dependent
-Message-ID: <20230821173819.GA362570@bhelgaas>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7262810E265;
+ Mon, 21 Aug 2023 17:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692639972; x=1724175972;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vn8EEKlH8sncfWztyhPqD/idQFrOO4QPxQvNWIs8FFo=;
+ b=hFljYuS1hkWAcfSejEY3KQMSyo/HzR1Z8dSlDKf8FnTRakM17RbVXneL
+ iexaXqVuDf4gFmOdlEU1FqmKrtAjHpqooOAQ05FB6JQ72XIk+6aveO1G1
+ 8s2Urf5/MyoXjhPCHRoFnkP56BJFlDQxATv1IXIgA078c4dl4QeLTMX/3
+ qIxS6MRqj7jslqG5LQEoPLYeVONO7kJemeSrsKx/LCHFnabiuVgDwi1jK
+ Q/J0aDO+8Zvx4+WyD8Sz8DB17dsET7MtL5i/ZOLye6Aklr3GfpY4G2FpZ
+ OMgY6ZFix9wkxI3otNzvrv9aBHsjKPcXicMDwkTZWs5suXhEtMk65FZA+ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376400115"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="376400115"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 10:46:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850268836"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="850268836"
+Received: from gpcorr-mobl.ger.corp.intel.com (HELO [10.252.20.153])
+ ([10.252.20.153])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 10:46:09 -0700
+Message-ID: <bfe1e810-e3b9-775c-8b25-ceb0324f5b6b@intel.com>
+Date: Mon, 21 Aug 2023 18:46:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <31ceb1b8-52e8-f57b-0e76-ea768242e26e@loongson.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH 1/3] drm/buddy: Fix contiguous memory allocation issues
+Content-Language: en-GB
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20230821101444.119601-1-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20230821101444.119601-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,71 +63,421 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Limonciello,
- Mario" <Mario.Limonciello@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-riscv@lists.infradead.org, Emil Velikov <emil.velikov@collabora.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 12:09:29PM +0800, suijingfeng wrote:
-> On 2023/8/18 06:08, Bjorn Helgaas wrote:
-> > On Wed, Aug 16, 2023 at 06:05:27AM +0800, Sui Jingfeng wrote:
-> > > Currently, the vga_is_firmware_default() function only works on x86 and
-> > > ia64, it is a no-op on ARM, ARM64, PPC, RISC-V, etc. This patch completes
-> > > the implementation for the rest of the architectures. The added code tries
-> > > to identify the PCI(e) VGA device that owns the firmware framebuffer
-> > > before PCI resource reallocation happens.
-> >
-> > As far as I can tell, this is basically identical to the existing
-> > vga_is_firmware_default(), except that this patch funs that code as a
-> > header fixup, so it happens before any PCI BAR reallocations happen.
-> 
-> Yes, what you said is right in overall.
-> But I think I should mention a few tiny points that make a difference.
-> 
-> 1) My version is *less arch-dependent*
+Hi,
 
-Of course.  If we make the patch simple and the commit log simple by
-removing extraneous details, this will all be obvious.
+On 21/08/2023 11:14, Arunpravin Paneer Selvam wrote:
+> The way now contiguous requests are implemented such that
+> the size rounded up to power of 2 and the corresponding order
+> block picked from the freelist.
+> 
+> In addition to the older method, the new method will rounddown
+> the size to power of 2 and the corresponding order block picked
+> from the freelist. And for the remaining size we traverse the
+> tree and try to allocate either from the freelist block's buddy
+> or from the peer block. If the remaining size from peer/buddy
+> block is not free, we pick the next freelist block and repeat
+> the same method.
+> 
+> Moved contiguous/alignment size computation part and trim
+> function to the drm buddy manager.
 
-> 2) My version focus on the address in ranges, weaken the size parameter.
-> 
-> Which make the code easy to read and follow the canonical convention to
-> express the address range. while the vga_is_firmware_default() is not.
+I think we should also mention somewhere what issue this is trying to 
+solve. IIUC the roundup_power_of_two() might in some cases trigger 
+-ENOSPC even though there might be enough free space, and so to help 
+with that we introduce a try harder mechanism.
 
-Whether it's start/size or start/end is a trivial question.  We don't
-need to waste time on it now.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 253 ++++++++++++++++++++++++++++++++++--
+>   include/drm/drm_buddy.h     |   6 +-
+>   2 files changed, 248 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 7098f125b54a..220f60c08a03 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -569,6 +569,197 @@ static int __drm_buddy_alloc_range(struct drm_buddy *mm,
+>   	return __alloc_range(mm, &dfs, start, size, blocks);
+>   }
+>   
+> +static int __alloc_contiguous_block_from_buddy(struct drm_buddy *mm,
+> +					       u64 size,
+> +					       u64 min_block_size,
+> +					       struct drm_buddy_block *block,
+> +					       struct list_head *blocks)
+> +{
+> +	struct drm_buddy_block *buddy, *parent = NULL;
+> +	u64 start, offset = 0;
+> +	LIST_HEAD(dfs);
+> +	int err;
+> +
+> +	if (!block)
+> +		return -EINVAL;
+> +
+> +	buddy = __get_buddy(block);
+> +	if (!buddy)
+> +		return -ENOSPC;
+> +
+> +	if (drm_buddy_block_is_allocated(buddy))
+> +		return -ENOSPC;
+> +
+> +	parent = block->parent;
+> +	if (!parent)
+> +		return -ENOSPC;
+> +
+> +	if (block->parent->right == block) {
+> +		u64 remaining;
+> +
+> +		/* Compute the leftover size for allocation */
+> +		remaining = max((size - drm_buddy_block_size(mm, buddy)),
+> +				min_block_size);
+> +		if (!IS_ALIGNED(remaining, min_block_size))
+> +			remaining = round_up(remaining, min_block_size);
+> +
+> +		/* Check if remaining size is greater than buddy block size */
+> +		if (drm_buddy_block_size(mm, buddy) < remaining)
+> +			return -ENOSPC;
+> +
+> +		offset = drm_buddy_block_size(mm, buddy) - remaining;
+> +	}
+> +
+> +	list_add(&parent->tmp_link, &dfs);
+> +	start = drm_buddy_block_offset(parent) + offset;
+> +
+> +	err = __alloc_range(mm, &dfs, start, size, blocks);
+> +	if (err)
+> +		return -ENOSPC;
+> +
+> +	return 0;
+> +}
+> +
+> +static int __alloc_contiguous_block_from_peer(struct drm_buddy *mm,
+> +					      u64 size,
+> +					      u64 min_block_size,
+> +					      struct drm_buddy_block *block,
+> +					      struct list_head *blocks)
+> +{
+> +	struct drm_buddy_block *first, *peer, *tmp;
+> +	struct drm_buddy_block *parent = NULL;
+> +	u64 start, offset = 0;
+> +	unsigned int order;
+> +	LIST_HEAD(dfs);
+> +	int err;
+> +
+> +	if (!block)
+> +		return -EINVAL;
+> +
+> +	order = drm_buddy_block_order(block);
+> +	/* Add freelist block to dfs list */
+> +	list_add(&block->tmp_link, &dfs);
+> +
+> +	tmp = block;
+> +	parent = block->parent;
+> +	while (parent) {
+> +		if (block->parent->left == block) {
+> +			if (parent->left != tmp) {
+> +				peer = parent->left;
+> +				break;
+> +			}
+> +		} else {
+> +			if (parent->right != tmp) {
+> +				peer = parent->right;
+> +				break;
+> +			}
+> +		}
+> +
+> +		tmp = parent;
+> +		parent = tmp->parent;
+> +	}
+> +
+> +	if (!parent)
+> +		return -ENOSPC;
+> +
+> +	do {
+> +		if (drm_buddy_block_is_allocated(peer))
+> +			return -ENOSPC;
+> +		/* Exit loop if peer block order is equal to block order */
+> +		if (drm_buddy_block_order(peer) == order)
+> +			break;
+> +
+> +		if (drm_buddy_block_is_split(peer)) {
+> +			/* Traverse down to the block order level */
+> +			if (block->parent->left == block)
+> +				peer = peer->right;
+> +			else
+> +				peer = peer->left;
+> +		} else {
+> +			break;
+> +		}
+> +	} while (1);
+> +
+> +	if (block->parent->left == block) {
+> +		u64 remaining;
+> +
+> +		/* Compute the leftover size for allocation */
+> +		remaining = max((size - drm_buddy_block_size(mm, block)),
+> +				min_block_size);
+> +		if (!IS_ALIGNED(remaining, min_block_size))
+> +			remaining = round_up(remaining, min_block_size);
+> +
+> +		/* Check if remaining size is greater than peer block size */
+> +		if (drm_buddy_block_size(mm, peer) < remaining)
+> +			return -ENOSPC;
+> +
+> +		offset = drm_buddy_block_size(mm, peer) - remaining;
+> +		/* Add left peer block to dfs list */
+> +		list_add(&peer->tmp_link, &dfs);
+> +	} else {
+> +		/* Add right peer block to dfs list */
+> +		list_add_tail(&peer->tmp_link, &dfs);
+> +	}
+> +
+> +	first = list_first_entry_or_null(&dfs,
+> +					 struct drm_buddy_block,
+> +					 tmp_link);
+> +	if (!first)
+> +		return -EINVAL;
+> +
+> +	start = drm_buddy_block_offset(first) + offset;
+> +	err = __alloc_range(mm, &dfs, start, size, blocks);
+> +	if (err)
+> +		return -ENOSPC;
+> +
+> +	return 0;
+> +}
+> +
+> +static int __drm_buddy_alloc_contiguous_blocks(struct drm_buddy *mm,
+> +					       u64 size,
+> +					       u64 min_block_size,
+> +					       struct list_head *blocks)
+> +{
+> +	struct drm_buddy_block *block;
+> +	struct list_head *list;
+> +	unsigned long pages;
+> +	unsigned int order;
+> +	u64 modify_size;
+> +	int err;
+> +
+> +	modify_size = rounddown_pow_of_two(size);
+> +	pages = modify_size >> ilog2(mm->chunk_size);
+> +	order = fls(pages) - 1;
+> +	if (order == 0)
+> +		return -ENOSPC;
+> +
+> +	list = &mm->free_list[order];
+> +	if (list_empty(list))
+> +		return -ENOSPC;
+> +
+> +	list_for_each_entry_reverse(block, list, link) {
+> +		/* Allocate contiguous blocks from the buddy */
+> +		err = __alloc_contiguous_block_from_buddy(mm,
+> +							  size,
+> +							  min_block_size,
+> +							  block,
+> +							  blocks);
+> +		if (!err)
+> +			return 0;
+> +
+> +		/* Allocate contiguous blocks from tree traversal method */
+> +		err = __alloc_contiguous_block_from_peer(mm,
+> +							 size,
+> +							 min_block_size,
+> +							 block,
+> +							 blocks);
+> +		if (!err)
+> +			return 0;
+> +	}
+> +
+> +	return -ENOSPC;
+> +}
 
-> 3) A tiny change make a big difference.
-> 
-> The original vga_is_firmware_default() only works with the assumption
-> that the PCI resource reallocation won't happens. While I see no clue
-> that why this is true even on X86 and IA64. The original patch[1] not
-> mention this assumption explicitly.
-> [1] 86fd887b7fe3 ('vgaarb: Don't default exclusively to first video device with mem+io')
-> 
-> > That sounds like a good idea, because this is all based on the
-> > framebuffer in screen_info, and screen_info was initialized before PCI
-> > enumeration, and it certainly doesn't account for any BAR changes done
-> > by the PCI core.
-> 
-> Yes.
-> 
-> > So why would we keep vga_is_firmware_default() at all?  If the header
-> > fixup has already identified the firmware framebuffer, it seems
-> > pointless to look again later.
-> 
-> It need another patch to do the cleanup work, while my patch just
-> add code to solve the real problem.  It focus on provide a solution
-> for the architectures which have a decent way set up the
-> screen_info.  Other things except that is secondary.
+Wondering if this would be a lot simpler if we can tweak alloc_range() 
+to support allocating as much as it can up to some size? If it runs out 
+of space it still returns an error but doesn't actually free what it has 
+successfully allocated. It then also tells us how much it allocated. We 
+can then allocate the rhs first and then from whatever is left we can 
+figure out the precise offset we need for the lhs? I think that looks 
+sort of similar to what the above does, but here we can for the most 
+part just re-use alloc_range()? So maybe something like:
 
-I don't want both mechanisms when only one of them is useful.  PCI BAR
-reassignment is completely fine, and keeping the assumption in
-vga_is_firmware_default() that we can compare reassigned BAR values to
-the pre-reassignment screen_info range is a trap that we should
-remove.
+__alloc_range(..., u64 *total_allocated_on_err)
+{
+     ....
+     err_free:
+         if (err == -ENOSPC && total_allocated_on_err)
+             *total_allocated_on_err = total_allocated;
+         else
+             drm_buddy_free_list(mm, &allocated);
+         return err;
+}
 
-Bjorn
+alloc_contig_try_harder()
+{
+      ....
+      list_for_each_entry_reverse(b, list, link) {
+          .....
+
+          rhs_offset = block_offset(b);
+          err =  __drm_buddy_alloc_range(mm, rhs_offset,
+                                         size, &filled,
+                                         blocks);
+          if (!err || err != -ENOSPC)
+              break;
+
+          lhs_size = size - filled;
+          lhs_offset = block_offset(b) - lhs_size;
+          err =  __drm_buddy_alloc_range(mm, lhs_offset,
+                                         lhs_size, NULL,
+                                         blocks_lhs);
+          list_splice(blocks_lhs, blocks);
+
+          ....
+      }
+}
+
+?
+
+> +
+>   /**
+>    * drm_buddy_block_trim - free unused pages
+>    *
+> @@ -645,7 +836,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+>    * @start: start of the allowed range for this block
+>    * @end: end of the allowed range for this block
+>    * @size: size of the allocation
+> - * @min_page_size: alignment of the allocation
+> + * @min_block_size: alignment of the allocation
+>    * @blocks: output list head to add allocated blocks
+>    * @flags: DRM_BUDDY_*_ALLOCATION flags
+>    *
+> @@ -660,23 +851,24 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+>    */
+>   int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   			   u64 start, u64 end, u64 size,
+> -			   u64 min_page_size,
+> +			   u64 min_block_size,
+>   			   struct list_head *blocks,
+>   			   unsigned long flags)
+>   {
+>   	struct drm_buddy_block *block = NULL;
+> +	u64 original_size, original_min_size;
+>   	unsigned int min_order, order;
+> -	unsigned long pages;
+>   	LIST_HEAD(allocated);
+> +	unsigned long pages;
+>   	int err;
+>   
+>   	if (size < mm->chunk_size)
+>   		return -EINVAL;
+>   
+> -	if (min_page_size < mm->chunk_size)
+> +	if (min_block_size < mm->chunk_size)
+>   		return -EINVAL;
+>   
+> -	if (!is_power_of_2(min_page_size))
+> +	if (!is_power_of_2(min_block_size))
+>   		return -EINVAL;
+>   
+>   	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
+> @@ -692,12 +884,21 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   	if (start + size == end)
+>   		return __drm_buddy_alloc_range(mm, start, size, blocks);
+>   
+> -	if (!IS_ALIGNED(size, min_page_size))
+> -		return -EINVAL;
+> +	original_size = size;
+> +	original_min_size = min_block_size;
+> +
+> +	/* Roundup the size to power of 2 */
+> +	if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) {
+> +		size = roundup_pow_of_two(size);
+> +		min_block_size = size;
+> +	/* Align size value to min_block_size */
+> +	} else if (!IS_ALIGNED(size, min_block_size)) {
+> +		size = round_up(size, min_block_size);
+> +	}
+>   
+>   	pages = size >> ilog2(mm->chunk_size);
+>   	order = fls(pages) - 1;
+> -	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
+> +	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
+>   
+>   	do {
+>   		order = min(order, (unsigned int)fls(pages) - 1);
+> @@ -716,6 +917,17 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   				break;
+>   
+>   			if (order-- == min_order) {
+> +				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
+> +				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
+> +					/*
+> +					 * Try contiguous block allocation through
+> +					 * tree traversal method
+> +					 */
+> +					return __drm_buddy_alloc_contiguous_blocks(mm,
+> +										   original_size,
+> +										   original_min_size,
+> +										   blocks);
+> +
+>   				err = -ENOSPC;
+>   				goto err_free;
+>   			}
+> @@ -732,6 +944,31 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   			break;
+>   	} while (1);
+>   
+> +	/* Trim the allocated block to the required size */
+> +	if (original_size != size) {
+> +		struct list_head *trim_list;
+> +		LIST_HEAD(temp);
+> +		u64 trim_size;
+> +
+> +		trim_list = &allocated;
+> +		trim_size = original_size;
+> +
+> +		if (!list_is_singular(&allocated)) {
+> +			block = list_last_entry(&allocated, typeof(*block), link);
+> +			list_move(&block->link, &temp);
+> +			trim_list = &temp;
+> +			trim_size = drm_buddy_block_size(mm, block) -
+> +				(size - original_size);
+> +		}
+> +
+> +		drm_buddy_block_trim(mm,
+> +				     trim_size,
+> +				     trim_list);
+> +
+> +		if (!list_empty(&temp))
+> +			list_splice_tail(trim_list, &allocated);
+> +	}
+> +
+>   	list_splice_tail(&allocated, blocks);
+>   	return 0;
+>   
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 572077ff8ae7..a5b39fc01003 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -22,8 +22,9 @@
+>   	start__ >= max__ || size__ > max__ - start__; \
+>   })
+>   
+> -#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
+> -#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
+> +#define DRM_BUDDY_RANGE_ALLOCATION		BIT(0)
+> +#define DRM_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
+> +#define DRM_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+>   
+>   struct drm_buddy_block {
+>   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+> @@ -155,5 +156,4 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+>   void drm_buddy_block_print(struct drm_buddy *mm,
+>   			   struct drm_buddy_block *block,
+>   			   struct drm_printer *p);
+> -
+>   #endif
