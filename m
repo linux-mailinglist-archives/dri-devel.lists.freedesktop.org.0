@@ -1,46 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C87830B5
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 21:13:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51927830E1
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 21:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D2B10E099;
-	Mon, 21 Aug 2023 19:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20F810E09C;
+	Mon, 21 Aug 2023 19:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086A410E070;
- Mon, 21 Aug 2023 19:13:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7228962D24;
- Mon, 21 Aug 2023 19:12:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95652C433C8;
- Mon, 21 Aug 2023 19:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692645178;
- bh=OOZ4kFfEqbg85LKt+jWFAAcHUoGmUO/aZufE4dL7PEw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=BHuUivl6+HAwmJnI+mMIejsRhIAqOV+IeMIteekVUPdu51rGqJOihfDqrVly55315
- Uq3knRP9sn8+UBW+5qkLefayRIJz5XJsNB6puUHe6PLtBa2vnQtgIdyVXVRs2vjxGu
- f1+F3RSV7mDp6N+faLdEhmhZeg8/WpLVhnykRg0Hb6HjIYvoZfO8NjUcKXfIrHGh3X
- y/s4W6cAaMryAXuYZqEkLZ3udYwbmufJyj4LlcU3vm0uUgm97DnFaGyDbdI2PmYIle
- mGzEYnKMR5yaFYDIF3W+S72RxuU9hHu8LvgkpoTjBGUVRovZ2wx3Rjwh4mpdclx6FT
- 1qhdSUD+JoUoQ==
-Date: Mon, 21 Aug 2023 14:12:56 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Subject: Re: [PATCH v5 06/11] drm/radeon: Use RMW accessors for changing LNKCTL
-Message-ID: <20230821191256.GA365126@bhelgaas>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA5110E09C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 19:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692645277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QhOSpxI2PDYs2OJIu7QJVbJYNk9LCU0AkkLRkJu15pg=;
+ b=MXftNqwvIKpJuCKSFEWsl1vMcrfzH3y1eKnXz6T7BNBjRyLYYYLGPY938i9ZzCnBBYFSPQ
+ MxZ/c06/EE4oFNPrz7QxtZOVzyCiON3us9bMlTUr2nJc2hCxlY7NMMtWNd/FGdugM3TKdC
+ 6tC7WbGPugjpASURuDuTSHzm8LTLSFI=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-tyIRGgMBOMaaq6o3u-b9JA-1; Mon, 21 Aug 2023 15:14:36 -0400
+X-MC-Unique: tyIRGgMBOMaaq6o3u-b9JA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-4ff8d9fdf11so3387577e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:14:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692645275; x=1693250075;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QhOSpxI2PDYs2OJIu7QJVbJYNk9LCU0AkkLRkJu15pg=;
+ b=DxReYyG0YC7Lz/vWFHnw4SzCHD28BPo9k88UWww3Jj7YqeCszMJ7lEnl+ulZnvau9L
+ bdmFK7SMkYbOU/fmoofJWmBNQz6hd/szweTNk39rbfQCTE3ngJw0e/QtdLfs9coPwCY9
+ exRXkFTPzdQpGC2KCTggsQJQx/zZUNu6nDwRhDrd9PgN8zGD6GyyOR0KPAauLjmJtXla
+ DGIFjtB1lgZ5C67Gh+Vgf+4Exm2Q9zAcY7W/k8q1zPX3kqbVY1vZ6XluRyaJkKDtigFQ
+ 5IFsWDMKwbqtIR0WUzljUn6wNme0UilXW92oLoMblGlPM7MtK0s9MHQOXVp+nXZLhViy
+ 6LYg==
+X-Gm-Message-State: AOJu0YzNFYEds4nIr3121QbVqBK+aPTfibZuMssNCgUN9AcUhO3L8tzr
+ Ea7Zmxue6wck19YbxGiIxknQU0SeCfbc+V5dimTWlKsWZ7RLTKhnstXxuhuCBUdok0OVzfdCZeG
+ BhTnDcRNu9C89zQXUHReYO92uV0nu
+X-Received: by 2002:a05:6512:1192:b0:4fd:f85d:f67a with SMTP id
+ g18-20020a056512119200b004fdf85df67amr6657046lfr.61.1692645275104; 
+ Mon, 21 Aug 2023 12:14:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkPlo4TwcFOenNEUGpTvSs1j7u5WzB1RXf9hPFdX9z12+DHZYiX3tXqtVjXcSZ23fl8469ww==
+X-Received: by 2002:a05:6512:1192:b0:4fd:f85d:f67a with SMTP id
+ g18-20020a056512119200b004fdf85df67amr6657036lfr.61.1692645274807; 
+ Mon, 21 Aug 2023 12:14:34 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ mb12-20020a170906eb0c00b0099bd5b72d93sm6980949ejb.43.2023.08.21.12.14.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Aug 2023 12:14:34 -0700 (PDT)
+Message-ID: <3b841ef8-e361-5775-168b-fc6a4417415a@redhat.com>
+Date: Mon, 21 Aug 2023 21:14:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next 1/3] drm: drm_exec: build always builtin
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ faith.ekstrand@collabora.com, bskeggs@redhat.com, Liam.Howlett@oracle.com
+References: <20230820215320.4187-1-dakr@redhat.com>
+ <20230820215320.4187-2-dakr@redhat.com>
+ <3462dfaa-96a4-61fd-b31b-fb8d8eb6104c@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <3462dfaa-96a4-61fd-b31b-fb8d8eb6104c@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <BL1PR12MB5144FF7542426AB3B4C66082F71BA@BL1PR12MB5144.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,64 +94,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dean Luick <dean.luick@cornelisnetworks.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Jonas =?iso-8859-1?Q?Dre=DFler?= <verdre@v0yd.nl>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 04:12:57PM +0000, Deucher, Alexander wrote:
-> > -----Original Message-----
-> > From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > Sent: Monday, July 17, 2023 8:05 AM
-> > To: linux-pci@vger.kernel.org; Bjorn Helgaas <bhelgaas@google.com>; Lorenzo
-> > Pieralisi <lorenzo.pieralisi@arm.com>; Rob Herring <robh@kernel.org>;
-> > Krzysztof Wilczyński <kw@linux.com>; Emmanuel Grumbach
-> > <emmanuel.grumbach@intel.com>; Rafael J . Wysocki <rafael@kernel.org>;
-> > Heiner Kallweit <hkallweit1@gmail.com>; Lukas Wunner <lukas@wunner.de>;
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com>; Deucher, Alexander
-> > <Alexander.Deucher@amd.com>; Koenig, Christian
-> > <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
-> > Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; amd-
-> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
-> > kernel@vger.kernel.org
-> > Cc: Dean Luick <dean.luick@cornelisnetworks.com>; Jonas Dreßler
-> > <verdre@v0yd.nl>; Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>;
-> > stable@vger.kernel.org
-> > Subject: [PATCH v5 06/11] drm/radeon: Use RMW accessors for changing
-> > LNKCTL
-> >
-> > Don't assume that only the driver would be accessing LNKCTL. ASPM policy
-> > changes can trigger write to LNKCTL outside of driver's control.
-> > And in the case of upstream bridge, the driver does not even own the device
-> > it's changing the registers for.
-> >
-> > Use RMW capability accessors which do proper locking to avoid losing
-> > concurrent updates to the register value.
-> >
-> > Fixes: 8a7cd27679d0 ("drm/radeon/cik: add support for pcie gen1/2/3
-> > switching")
-> > Fixes: b9d305dfb66c ("drm/radeon: implement pcie gen2/3 support for SI")
-> > Suggested-by: Lukas Wunner <lukas@wunner.de>
-> > Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > Cc: stable@vger.kernel.org
+On 8/21/23 11:49, Christian König wrote:
+> Am 20.08.23 um 23:53 schrieb Danilo Krummrich:
+>> drm_exec must always be builtin for the DRM GPUVA manager to depend on
+>> it.
 > 
-> For this and the amdgpu patch:
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> I'm not sure if this is stable material however.  Is there some issue today?
+> You should probably go the other way around and not always build in the 
+> GPUVA manager.
 
-Added your ack, thanks!  I dropped the stable tag on the whole series.
+Yes, I think that's reasonable. Currently, I don't see any core 
+dependencies preventing that.
 
-Bjorn
+> 
+> We have intentionally and with quite a bit of work moved the DRM_EXEC 
+> and DRM_BUDDY into separate modules.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>> ---
+>>   drivers/gpu/drm/Kconfig         | 6 ------
+>>   drivers/gpu/drm/Makefile        | 3 +--
+>>   drivers/gpu/drm/nouveau/Kconfig | 1 -
+>>   3 files changed, 1 insertion(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index ab9ef1c20349..85122d4bb1e7 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -210,12 +210,6 @@ config DRM_TTM_KUNIT_TEST
+>>             If in doubt, say "N".
+>> -config DRM_EXEC
+>> -    tristate
+>> -    depends on DRM
+>> -    help
+>> -      Execution context for command submissions
+>> -
+>>   config DRM_BUDDY
+>>       tristate
+>>       depends on DRM
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index 215e78e79125..388e0964a875 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -23,6 +23,7 @@ drm-y := \
+>>       drm_dumb_buffers.o \
+>>       drm_edid.o \
+>>       drm_encoder.o \
+>> +    drm_exec.o \
+>>       drm_file.o \
+>>       drm_fourcc.o \
+>>       drm_framebuffer.o \
+>> @@ -80,8 +81,6 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += 
+>> drm_panel_orientation_quirks.o
+>>   # Memory-management helpers
+>>   #
+>>   #
+>> -obj-$(CONFIG_DRM_EXEC) += drm_exec.o
+>> -
+>>   obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
+>>   drm_dma_helper-y := drm_gem_dma_helper.o
+>> diff --git a/drivers/gpu/drm/nouveau/Kconfig 
+>> b/drivers/gpu/drm/nouveau/Kconfig
+>> index c52e8096cca4..2dddedac125b 100644
+>> --- a/drivers/gpu/drm/nouveau/Kconfig
+>> +++ b/drivers/gpu/drm/nouveau/Kconfig
+>> @@ -10,7 +10,6 @@ config DRM_NOUVEAU
+>>       select DRM_KMS_HELPER
+>>       select DRM_TTM
+>>       select DRM_TTM_HELPER
+>> -    select DRM_EXEC
+>>       select DRM_SCHED
+>>       select I2C
+>>       select I2C_ALGOBIT
+> 
+
