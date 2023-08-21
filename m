@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F6B782619
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 11:14:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C15D78263C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 11:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5B010E20F;
-	Mon, 21 Aug 2023 09:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D18F210E213;
+	Mon, 21 Aug 2023 09:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13DB310E20F;
- Mon, 21 Aug 2023 09:14:20 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-58fb8963617so19491347b3.3; 
- Mon, 21 Aug 2023 02:14:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692609259; x=1693214059;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Fvin6/Z51yU4WmEQS2O93Vp8CO3v+hhjM9dfyAYYpkQ=;
- b=RskIK1iST5h4FHYVgbo3Yib7hFojaHev6HjQovJ9vDFLe81v2PNBeTzBBFvtaJWIPN
- l7LuXJTbykEeGzRF06ntmbQsp3WE5eVtPShsO7138sBQKI67+QmxuxfbecavSbd2H36I
- WFvuyRWejkKPUsMlquBrXnnvnDdU3x+z48opQ6GTK5T6C4j9uKAXIOewA4woNVs7bOwD
- 9q9EdrD6CcOO0pEcwnyWckficSd/LCXGuB2nSOGH5Uccj6ptQ52taul9oaTb+gTUf5zg
- hcUIPo+1BB6ftBV1MNGRBY6uMRrgRRU2bWRjWVlZjb54ZXye6cex+z9PVu/zqTw5Gx0z
- jqoQ==
-X-Gm-Message-State: AOJu0Yxy14Lf3yBa4WkxgTpPtV4HLzo7j86Bywqv/NJZ1CWFvtamgNE4
- LHzl16HwHwb/BjRkhtJAwOJFOHI1fNS2vg==
-X-Google-Smtp-Source: AGHT+IHYoDtvtUkyLX58KxgVJCvCLwMWYBM7nL7lds0tY8gBw8prLVRkwJ39sxlQS4QBqMvNi+oTLg==
-X-Received: by 2002:a81:6e89:0:b0:58c:8b7e:a1ce with SMTP id
- j131-20020a816e89000000b0058c8b7ea1cemr6726199ywc.46.1692609259050; 
- Mon, 21 Aug 2023 02:14:19 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
- d15-20020a814f0f000000b00584554be59dsm2133964ywb.85.2023.08.21.02.14.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Aug 2023 02:14:18 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-d665467e134so3208881276.2; 
- Mon, 21 Aug 2023 02:14:18 -0700 (PDT)
-X-Received: by 2002:a05:6902:50d:b0:d62:be1e:1622 with SMTP id
- x13-20020a056902050d00b00d62be1e1622mr6706413ybs.38.1692609258435; Mon, 21
- Aug 2023 02:14:18 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5AA10E073;
+ Mon, 21 Aug 2023 09:27:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 93AD062DC8;
+ Mon, 21 Aug 2023 09:27:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6766FC433C7;
+ Mon, 21 Aug 2023 09:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692610051;
+ bh=NW4Ycp3M+pHTjemza+su3ZhshTvZ9JFW/Vsro3BLEpM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZBTKJR0KBWIG4VuMcSVzQjw+2J53sX+IJt7Rq5hwg7pdrBU3PkmdQocsBZxi8jTqY
+ aNBrdHTkq+SxVsWSM66H84S9RA4QHMm2dzgbe5BGjvzepijWQmqyDJ+hqzykISNru+
+ VhIQyiWAKACU/4SWR7nlSJgWhVZjMdYLGzspKbNP3Niik9X01iHC8Cv+ANjbk0/Y8l
+ M976tPJivUsAGX7V4dLvysawBRqqJ53F4gyv8lQ39Z38MhmgAuAA3IPB03aBiCjtWK
+ Z6n9IgLMyQkNDHal279iJmTQLxPgy4KT7VG5lnqSQpSk349HnqVBZ6+x4aiRV7jyHp
+ bzHp8p3FxyN+w==
+Date: Mon, 21 Aug 2023 11:27:29 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [REGRESSION] HDMI connector detection broken in 6.3 on Intel(R)
+ Celeron(R) N3060 integrated graphics
+Message-ID: <2xlfp5bz77tyoffqvr7orvmo45wcb7uz6nbpl7jbv6zhnqvlx3@2hxa4ltb3s3y>
+References: <87v8dmr6ty.fsf@gmail.com>
+ <f32b4636-969c-3b9e-6802-5991f511739e@leemhuis.info>
+ <87il9l2ymf.fsf@gmail.com>
+ <3df95e6d-8237-1c43-e220-a9bdb5d6e044@leemhuis.info>
+ <ZNo7oXeH0JK+4GPG@ideak-desk.fi.intel.com>
+ <87edk4d8qp.fsf@intel.com>
 MIME-Version: 1.0
-References: <8ffa3be3dc7b27345dde3bb32498c4cd3af050fa.1688632590.git.geert+renesas@glider.be>
- <c13c9974-8903-904a-55a8-4065b43a437b@gmail.com>
- <CAMuHMdW226aZY_Nx9nfbS-ivsW2oarbNAjZB10O60W0SUQzmYg@mail.gmail.com>
-In-Reply-To: <CAMuHMdW226aZY_Nx9nfbS-ivsW2oarbNAjZB10O60W0SUQzmYg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 21 Aug 2023 11:14:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUzqTF9hfe91QN2woV=ycUjLJ-WsODYG8_jH5ABkNk8mQ@mail.gmail.com>
-Message-ID: <CAMuHMdUzqTF9hfe91QN2woV=ycUjLJ-WsODYG8_jH5ABkNk8mQ@mail.gmail.com>
-Subject: Re: [PATCH libdrm v2] amdgpu: Use PRI?64 to format uint64_t
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5ueyegkogb3zpaqt"
+Content-Disposition: inline
+In-Reply-To: <87edk4d8qp.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,67 +60,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ intel-gfx@lists.freedesktop.org, Mikhail Rudenko <mike.rudenko@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-On Fri, Jul 7, 2023 at 9:36=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
-> On Fri, Jul 7, 2023 at 2:06=E2=80=AFPM Christian K=C3=B6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> > Am 06.07.23 um 10:36 schrieb Geert Uytterhoeven:
-> > > On 32-bit:
-> > >
-> > >      ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98alloc_bo=
-=E2=80=99:
-> > >      ../tests/amdgpu/amdgpu_stress.c:178:49: warning: format =E2=80=
-=98%lx=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=
-=99, but argument 4 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long =
-long unsigned int=E2=80=99} [-Wformat=3D]
-> > >        fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x,=
- size %lu\n",
-> > >                                                     ~~^
-> > >                                                     %llx
-> > >         num_buffers++, addr, domain, size);
-> > >                        ~~~~
->
-> [...]
->
-> > > Fix this by using the proper "PRI?64" format specifiers.
-> > >
-> > > Fixes: d77ccdf3ba6f5a39 ("amdgpu: add amdgpu_stress utility v2")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--5ueyegkogb3zpaqt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Aug 15, 2023 at 11:12:46AM +0300, Jani Nikula wrote:
+> On Mon, 14 Aug 2023, Imre Deak <imre.deak@intel.com> wrote:
+> > On Sun, Aug 13, 2023 at 03:41:30PM +0200, Linux regression tracking (Th=
+orsten Leemhuis) wrote:
+> > Hi,
 > >
-> > Well generally good patch, but libdrm changes are now reviewed by merge
-> > request and not on the mailing list any more.
->
-> I heard such a rumor, too ;-)
->
-> Unfortunately one year later, that process is still not documented in
-> https://gitlab.freedesktop.org/mesa/drm/-/blob/main/CONTRIBUTING.rst
-> which still instructs me (a casual drive-by developer) to just submit
-> my patches to the mailing list...
+> >> On 11.08.23 20:10, Mikhail Rudenko wrote:
+> >> > On 2023-08-11 at 08:45 +02, Thorsten Leemhuis <regressions@leemhuis.=
+info> wrote:
+> >> >> On 10.08.23 21:33, Mikhail Rudenko wrote:
+> >> >>> The following is a copy an issue I posted to drm/i915 gitlab [1] t=
+wo
+> >> >>> months ago. I repost it to the mailing lists in hope that it will =
+help
+> >> >>> the right people pay attention to it.
+> >> >>
+> >> >> Thx for your report. Wonder why Dmitry (who authored a4e771729a51) =
+or
+> >> >> Thomas (who committed it) it didn't look into this, but maybe the i=
+915
+> >> >> devs didn't forward the report to them.
+> >>=20
+> >> For the record: they did, and Jani mentioned already. Sorry, should ha=
+ve
+> >> phrased this differently.
+> >>=20
+> >> >> Let's see if these mails help. Just wondering: does reverting
+> >> >> a4e771729a51 from 6.5-rc5 or drm-tip help as well?
+> >> >=20
+> >> > I've redone my tests with 6.5-rc5, and here are the results:
+> >> > (1) 6.5-rc5 -> still affected
+> >> > (2) 6.5-rc5 + revert a4e771729a51 -> not affected
+> >> > (3) 6.5-rc5 + two patches [1][2] suggested on i915 gitlab by @ideak =
+-> not affected (!)
+> >> >=20
+> >> > Should we somehow tell regzbot about (3)?
+> >>=20
+> >> That's good to know, thx. But the more important things are:
+> >>=20
+> >> * When will those be merged? They are not yet in next yet afaics, so it
+> >> might take some time to mainline them, especially at this point of the
+> >> devel cycle. Imre, could you try to prod the right people so that these
+> >> are ideally upstreamed rather sooner than later, as they fix a regress=
+ion?
+> >
+> > I think the patches ([1] and [2]) could be merged via the drm-intel-next
+> > (drm-intel-fixes) tree Cc'ing also stable. Jani, is this ok?
+>=20
+> It's fine by me, but need drm-misc maintainer ack to merge [1] via
+> drm-intel.
 
-So a few weeks ago I created gitlab PRs for all my pending libdrm
-patch series, and I rebased them regularly when needed.
-What needs to be done to get them merged?
+That's fine for me
 
-Thanks!
+Maxime
 
-Gr{oetje,eeting}s,
+--5ueyegkogb3zpaqt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOMuAAAKCRDj7w1vZxhR
+xcY1AQDOKN6ASHLZWMlRtYX09Ur6wy9cO7kZRFg47cHR2T7F0AEAstd/HKTbxG6t
+B+77nQxr4KI6tALgEwk6/twhOWMDcgw=
+=dD+q
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--5ueyegkogb3zpaqt--
