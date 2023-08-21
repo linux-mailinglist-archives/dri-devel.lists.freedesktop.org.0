@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E234782393
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 08:21:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A97AB78239C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 08:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1361D10E1D0;
-	Mon, 21 Aug 2023 06:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5205610E1D8;
+	Mon, 21 Aug 2023 06:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4718F10E1C7;
- Mon, 21 Aug 2023 06:21:00 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- 98e67ed59e1d1-26b7bf38f53so179962a91.0; 
- Sun, 20 Aug 2023 23:21:00 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B67CC10E1D0;
+ Mon, 21 Aug 2023 06:21:02 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-68a56ed12c0so77054b3a.0; 
+ Sun, 20 Aug 2023 23:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692598859; x=1693203659;
+ d=gmail.com; s=20221208; t=1692598862; x=1693203662;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Fr3/zx/1/mwG0XIIQAkV8/bN6FVmc6iezYoOjzmg46U=;
- b=UFRzU4tij81CImjlYMxUo1jGNcXa4+9kPlVETglPuSbKCaM752rWCd3Oqt13cIRWy+
- p3FX75LHKagnaJTOC+i3OubXf1zLhwPmQkIzMbXYYV4Sg8WumqADZAn0UGBCfMmNx35j
- xgdqHmGGoi+wDpIDRXHpUWq9dEyw3sZzgj3I2bx1f68y4wOVKJWelCKGeVCXzv3kqEdV
- v7V/qKOzH9PcKpgkvfCqXF45Mf5GKhzmXS+c7JcjIJC1m7pDy0EWj2qO+l9yxh2++3qC
- IEZKRFSwaUK1S8mK3Cvd+HCLNhfv208yzbL19QkOVx97Qk11dil9tHYUiOLH07xuoTZD
- nZvQ==
+ bh=f7zNtx1npcyt6rHphdv4uT7irT8bAyzRl0M6M2dMjgk=;
+ b=ajYlXTb+JOShhXkQlEyz206rkV9OlxQV9+ukfLmuZn9NlC0xy+8VrUWHRkqiqvQdJE
+ pFJyf1B8/N/Tnv8L4vvQx3CYkC9c1uZN600RdSnymseySEo4pDdUSWikN8OdTM5oFgzR
+ 4nXKZr9Z1AHjrB3PsA5wH7TyZ5UvT5d95A4WEE8fhwA1qQksrBV8sw6YijphF6z9H9QZ
+ wnmvJsyONU1ufr2VK1CXNSs60mV6inaPMyn12Jq2O/F+7YUMtFBzV2lC9FNFWcPhNNqR
+ +ONZNTnm4gAR1i0di7VV3/vSN0GAG2wo7Mc1qQMqwfYBFPN5spZ4NQbjgzMF9FeU1EVh
+ ZIEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692598859; x=1693203659;
+ d=1e100.net; s=20221208; t=1692598862; x=1693203662;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Fr3/zx/1/mwG0XIIQAkV8/bN6FVmc6iezYoOjzmg46U=;
- b=NtgB6EAV6uWom9KQrGehfjCwTBJDNXsELSVn2zV+h6qFxSlZXqnWr3J10Fuxo4cGYx
- ecGPglOO2CaYv05wqAhIUXBicW8bL38fzlQph1uCU0vLzWW4nCEPolN9H8vxciNk8gna
- 4tJhCQeRSr03QtDk/vc9QtS3xtC04mwhBQE9bTeVgdGy3VJqydSoASllt8QqDEoE8WrO
- ee9m5CeAhWZbUip5XdtgX0I8FxwteOQVb3lxAkD6TssM/ILLFu9K6NGp9c6tJSNZ3HTK
- QSo2CFoGiDToai+5VsyyK+ghLzd9PlFv6Gy2wv2ENlt/gEeVyyK+EQt4Vx2gy56E/JeW
- ISIA==
-X-Gm-Message-State: AOJu0Yz5hjTUDMndRhivA2KYpMkQP6vRjhpvXNfIsmf7vpY1a3E2PyWf
- mqM+5WTCXKDmR3KRCgxMNEfgxRaFEfd8iAxJ
-X-Google-Smtp-Source: AGHT+IFx3fr356Lp3puLhWPFqRyUER0LW5zfx4MDXQENjHdDM86EMSOrZdjvmZtchxT4khdujoE4Fg==
-X-Received: by 2002:a17:90a:7524:b0:26b:27f6:9027 with SMTP id
- q33-20020a17090a752400b0026b27f69027mr5099617pjk.1.1692598859303; 
- Sun, 20 Aug 2023 23:20:59 -0700 (PDT)
+ bh=f7zNtx1npcyt6rHphdv4uT7irT8bAyzRl0M6M2dMjgk=;
+ b=NxxKig9L6XxfUN9hXoU19+OUGX/jT7pWlkfSib+i82SRaOCzo/oAPLBLIQFOnZqYw4
+ mXW63HKVXD9LC3uFnatssPYspR5MQQWV8fR011ciQFUw3XiUzGNlrrLFUmCVroWEHki8
+ fWmMwxzLcVDT1McGLc2DHz7/L1LutHGMNTBNzyLnQfOLbyBpj9GGKuIONeGfHnlgko/7
+ K3JGhmJZQVgxRiwjTpAe2yhrmhseckIp1lsiFQbT8SeYHX5AEZyeLpMSdacmQEEPi+GB
+ ebXjAk2YGaLhb95zH2pTRFNn6HYtbZCdbB21l0IlB+klRBjCLP7k98a3Zi5QeaeVgZPg
+ BGxQ==
+X-Gm-Message-State: AOJu0YybUMcd/4Ap7AC4Yc5uTwhfZN6ku2S5Wc3Q5pOTyWUztf/1EbTp
+ q5rp9mqUyY8GHL4Gja4nJQeZ+BrPZ+Y8yelt
+X-Google-Smtp-Source: AGHT+IFLtBRsV54dk8YwvAEx33Iu8ETlOW/VdzwRGtD54sT+fErJpTX4AxsrGRKLLJNIEwF0cwdEFA==
+X-Received: by 2002:a17:902:e746:b0:1b8:35fa:cdcc with SMTP id
+ p6-20020a170902e74600b001b835facdccmr7269102plf.5.1692598861722; 
+ Sun, 20 Aug 2023 23:21:01 -0700 (PDT)
 Received: from localhost (zz20184013906F627101.userreverse.dion.ne.jp.
  [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
- d24-20020a17090ac25800b00263e1db8460sm7155225pjx.9.2023.08.20.23.20.58
+ ja1-20020a170902efc100b001b8c6662094sm6124172plb.188.2023.08.20.23.21.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Aug 2023 23:20:58 -0700 (PDT)
+ Sun, 20 Aug 2023 23:21:01 -0700 (PDT)
 From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/4] drm/amdgpu: Allow explicit sync for VM ops.
-Date: Mon, 21 Aug 2023 15:20:03 +0900
-Message-ID: <20230821062005.109771-3-ishitatsuyuki@gmail.com>
+Subject: [PATCH v2 3/4] drm/amdgpu: Add option to disable implicit sync for a
+ context.
+Date: Mon, 21 Aug 2023 15:20:04 +0900
+Message-ID: <20230821062005.109771-4-ishitatsuyuki@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230821062005.109771-1-ishitatsuyuki@gmail.com>
 References: <20230821062005.109771-1-ishitatsuyuki@gmail.com>
@@ -80,48 +81,140 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 
-This should be okay because moves themselves use KERNEL usage and
-hence still sync with BOOKKEEP usage. Then any later submits still
-wait on any pending VM operations.
+This changes all BO usages in a submit to BOOKKEEP instead of READ,
+which effectively disables implicit sync for these submits.
 
-(i.e. we only made VM ops not wait on BOOKKEEP submits, not the other
- way around)
+This is configured at a context level using the existing IOCTL.
 
 Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Co-developed-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
 Signed-off-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c  | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  | 16 +++++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 30 +++++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  1 +
+ include/uapi/drm/amdgpu_drm.h           |  4 ++++
+ 4 files changed, 47 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-index f10332e1c6c0..e898a549f86d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-@@ -51,7 +51,8 @@ static int amdgpu_vm_cpu_prepare(struct amdgpu_vm_update_params *p,
- 	if (!resv)
- 		return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 2cb814de0149..008547f97fd1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1200,8 +1200,11 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
+ 		struct dma_resv *resv = bo->tbo.base.resv;
+ 		enum amdgpu_sync_mode sync_mode;
  
--	return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, sync_mode, p->vm, true);
-+	return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode,
-+					AMDGPU_SYNC_EXPLICIT, p->vm, true);
+-		sync_mode = amdgpu_bo_explicit_sync(bo) ?
+-			AMDGPU_SYNC_EXPLICIT : AMDGPU_SYNC_NE_OWNER;
++		if (amdgpu_bo_explicit_sync(bo) || p->ctx->disable_implicit_sync)
++			sync_mode = AMDGPU_SYNC_EXPLICIT;
++		else
++			sync_mode = AMDGPU_SYNC_NE_OWNER;
++
+ 		r = amdgpu_sync_resv(p->adev, &p->sync, resv, sync_mode,
+ 				     AMDGPU_SYNC_EXPLICIT, &fpriv->vm);
+ 		if (r)
+@@ -1322,11 +1325,16 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 
+ 			dma_resv_add_fence(gobj->resv,
+ 					   &p->jobs[i]->base.s_fence->finished,
+-					   DMA_RESV_USAGE_READ);
++					   p->ctx->disable_implicit_sync ?
++						   DMA_RESV_USAGE_BOOKKEEP :
++						   DMA_RESV_USAGE_READ);
+ 		}
+ 
+ 		/* The gang leader as remembered as writer */
+-		dma_resv_add_fence(gobj->resv, p->fence, DMA_RESV_USAGE_WRITE);
++		dma_resv_add_fence(gobj->resv, p->fence,
++				   p->ctx->disable_implicit_sync ?
++					   DMA_RESV_USAGE_BOOKKEEP :
++					   DMA_RESV_USAGE_WRITE);
+ 	}
+ 
+ 	seq = amdgpu_ctx_add_fence(p->ctx, p->entities[p->gang_leader_idx],
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+index 0dc9c655c4fb..fe6f30d8fd70 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -661,6 +661,30 @@ static int amdgpu_ctx_stable_pstate(struct amdgpu_device *adev,
+ 	return r;
  }
  
- /**
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-index e259a51e7c56..8cb427710d66 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-@@ -98,7 +98,8 @@ static int amdgpu_vm_sdma_prepare(struct amdgpu_vm_update_params *p,
- 		return 0;
++static int amdgpu_ctx_set_implicit_sync(struct amdgpu_device *adev,
++					struct amdgpu_fpriv *fpriv, uint32_t id,
++					bool enable)
++{
++	struct amdgpu_ctx *ctx;
++	struct amdgpu_ctx_mgr *mgr;
++
++	if (!fpriv)
++		return -EINVAL;
++
++	mgr = &fpriv->ctx_mgr;
++	mutex_lock(&mgr->lock);
++	ctx = idr_find(&mgr->ctx_handles, id);
++	if (!ctx) {
++		mutex_unlock(&mgr->lock);
++		return -EINVAL;
++	}
++
++	ctx->disable_implicit_sync = !enable;
++
++	mutex_unlock(&mgr->lock);
++	return 0;
++}
++
+ int amdgpu_ctx_ioctl(struct drm_device *dev, void *data,
+ 		     struct drm_file *filp)
+ {
+@@ -709,6 +733,12 @@ int amdgpu_ctx_ioctl(struct drm_device *dev, void *data,
+ 			return -EINVAL;
+ 		r = amdgpu_ctx_stable_pstate(adev, fpriv, id, true, &stable_pstate);
+ 		break;
++	case AMDGPU_CTX_OP_SET_IMPLICIT_SYNC:
++		if ((args->in.flags & ~AMDGPU_CTX_IMPLICIT_SYNC_ENABLED) || args->in.priority)
++			return -EINVAL;
++		r = amdgpu_ctx_set_implicit_sync(adev, fpriv, id,
++						 args->in.flags & ~AMDGPU_CTX_IMPLICIT_SYNC_ENABLED);
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+index 85376baaa92f..a330e5b65d30 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+@@ -58,6 +58,7 @@ struct amdgpu_ctx {
+ 	unsigned long			ras_counter_ue;
+ 	uint32_t			stable_pstate;
+ 	struct amdgpu_ctx_mgr		*ctx_mgr;
++	bool				disable_implicit_sync;
+ };
  
- 	amdgpu_sync_create(&sync);
--	r = amdgpu_sync_resv(p->adev, &sync, resv, sync_mode, sync_mode, p->vm);
-+	r = amdgpu_sync_resv(p->adev, &sync, resv, sync_mode,
-+				AMDGPU_SYNC_EXPLICIT, p->vm);
- 	if (!r)
- 		r = amdgpu_sync_push_to_job(&sync, p->job);
- 	amdgpu_sync_free(&sync);
+ struct amdgpu_ctx_mgr {
+diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+index 79b14828d542..6a0168436c31 100644
+--- a/include/uapi/drm/amdgpu_drm.h
++++ b/include/uapi/drm/amdgpu_drm.h
+@@ -226,6 +226,7 @@ union drm_amdgpu_bo_list {
+ #define AMDGPU_CTX_OP_QUERY_STATE2	4
+ #define AMDGPU_CTX_OP_GET_STABLE_PSTATE	5
+ #define AMDGPU_CTX_OP_SET_STABLE_PSTATE	6
++#define AMDGPU_CTX_OP_SET_IMPLICIT_SYNC	7
+ 
+ /* GPU reset status */
+ #define AMDGPU_CTX_NO_RESET		0
+@@ -268,6 +269,9 @@ union drm_amdgpu_bo_list {
+ #define AMDGPU_CTX_STABLE_PSTATE_MIN_MCLK  3
+ #define AMDGPU_CTX_STABLE_PSTATE_PEAK  4
+ 
++/* opt-out of implicit sync */
++#define AMDGPU_CTX_IMPLICIT_SYNC_ENABLED  1
++
+ struct drm_amdgpu_ctx_in {
+ 	/** AMDGPU_CTX_OP_* */
+ 	__u32	op;
 -- 
 2.41.0
 
