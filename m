@@ -1,121 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BDC782FB3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:54:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CD0782FBE
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 19:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0A810E29A;
-	Mon, 21 Aug 2023 17:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7F610E296;
+	Mon, 21 Aug 2023 17:56:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2060f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::60f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9B010E298;
- Mon, 21 Aug 2023 17:54:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZPMSeDDU6+aH28QGLebbDZVMiNBqj7oFNFwGkxUb1ToXzJXKLidPScfMP/X7F/IU8Ws92BhwhI5tn5QzdwCEqPSXTq+3EkG6sqjKLfEKl+XE3RzsXaRhFSm0Xed1AGybwIDAiu8fkyRwQ71ChFPxj8eNNO2gbOlpNoUG7+kJIULEIQ2YnBGiZFLMQVL/bXzB8uF7ylbE9LVg3vDNmZWiJuHpSruV7rMZT0F9RKmmfRgoJDi9T5Cz/PC4zymTibWCI0zk9vSOHw1DlmdNyoCwEVCPag+lY1n9joJ5Fxv2N96P6euJkLAIwe7T4eFldkgJ5+ai/akn8jzVhyJCuaZPnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n1DSp0JNVl68fgqDRIBuXNwPYR+sJeZ8incHaJKyNVM=;
- b=CybhMaKlV/7s2xxHXWKDJKCriD4Vblz+7i/LyzAW+4qhH6bUymU+JABJsHPSPXyUPa8ciGgwQOFTmAtiyNTSWVPhXgKcdZZdzpuPkfJeZqATGa/vTYTe6uvOMoFkTwNLnEV1/Ut5NYzVaqfnnlGtNbWbOaEumX/src5I7Xhzmx8IM+LsR9U0SwRUyYvcsUjT2ELp+TxmHBL4/ohVC6u2j/iHDhshwHd6MW2PLJSMJvaI/rfU4TB6tjIw/0yKsEwOE78vCOjpLSRcP3MfzOGm+HwU3U7OAu0WOf4GJtc5wyKznSKFoeTLmz/0tOw73j5iwpaeZeL0csmDMlTGu5IVhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n1DSp0JNVl68fgqDRIBuXNwPYR+sJeZ8incHaJKyNVM=;
- b=x4BKI43+rDdur9WtOvUYh1JGEwYzlrXI6lWYcbij7/F3jg9Wf5QQStqsVKZrDjL2GuQP+OqnJ3KVWu26JhVdimWrA7cgqHbl3nRHYd+P2yzsVBcRuOBpDT8ez6iSWoJThkjlffhBmbr/hxxPLc/xUAAbXdEvwU1YgS4LNjLWSr4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
- by MW4PR12MB7015.namprd12.prod.outlook.com (2603:10b6:303:218::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 17:53:58 +0000
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4]) by PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4%7]) with mapi id 15.20.6699.020; Mon, 21 Aug 2023
- 17:53:58 +0000
-Message-ID: <fff2391b-fc18-af9f-6fe0-7b4c6650dcdd@amd.com>
-Date: Mon, 21 Aug 2023 23:23:43 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/7] drm/amdgpu: Add new function to set GPU power
- profile
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Arvind Yadav <Arvind.Yadav@amd.com>
-References: <20230821064759.94223-1-Arvind.Yadav@amd.com>
- <20230821064759.94223-3-Arvind.Yadav@amd.com>
- <CADnq5_OBLh=fzsifOEhV3F2F1XGOcCujtVAba3KZ75MkY+tKHg@mail.gmail.com>
-From: "Yadav, Arvind" <arvyadav@amd.com>
-In-Reply-To: <CADnq5_OBLh=fzsifOEhV3F2F1XGOcCujtVAba3KZ75MkY+tKHg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0180.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::35) To PH7PR12MB6000.namprd12.prod.outlook.com
- (2603:10b6:510:1dc::15)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 39FA510E29B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 17:56:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F5502F4;
+ Mon, 21 Aug 2023 10:57:08 -0700 (PDT)
+Received: from [10.57.3.137] (unknown [10.57.3.137])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EFA6C3F762;
+ Mon, 21 Aug 2023 10:56:25 -0700 (PDT)
+Message-ID: <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
+Date: Mon, 21 Aug 2023 18:56:21 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6000:EE_|MW4PR12MB7015:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12dbae70-c387-4a76-cb44-08dba26f9836
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 817m/UcBxx5w9XkFOd53Ffz3WFxvrRYifbI/X1JsD94siqi/ADYPsPFTrga9vWCoYuuTT+DEfahIv1PVVXwzwfuGIge8vH+Cavf4h6uuOtO4nM2dtT/wKYi95WNGYVT80cW+A0Lnh06N9RHQhnuRRyPIjUPuOXd1dLxYrP0g2Gt/akDYQ7zf7myxjYvbcAbXEirsOF0kMY9PVu4OMwWQRoD9elRILOkY3hgIDZYEtCR+cuGrwfyUcb1ctfJgdD4120hkWkt+ndeCZ/iVGaRhvFww/t7soVe+33CQFEqlQbdfUDEDZ9M6R9GhGopOTzn/e/LwAm3vHrKg1q/bFCwMaqj5BHkG1jjjdjZFPuYbCJ8JkleEOSLwLQ1aYL7K9ush7zm4Sh2T53AWlyGkMtH5mPImm1BdHW9HNJG0Rn/0x+ezaQqcdXp6e0kGlwgBFTRmPbpNey+k6d0iVHjwZ/kVs2TY8r1it2zEfxdPX3qjKKgKlysUYsV+xqgVfSJ1DzEhAD4jt9mxRyIHEdFYhJoMHLpJ2TBFyiLkGBWX1rkzxevymCMithbACwhelINxNQhlWWrwUKq3W/254FKnxb722GSwrDdEJg4zqHdec8nxsdu67AV9qlw17SarIyhVPTZSCEmfMf8dpTlBNciUJZ8evw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB6000.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(1800799009)(451199024)(6636002)(66476007)(66556008)(316002)(66946007)(6512007)(110136005)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(2906002)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUJva2ZkUHFLUlNUeUpHVEZEOTZGNjFSRndJU2dtUzF3R25ZTTYwUktDR1ZU?=
- =?utf-8?B?YTVDdlhYV3ZwRDJKWkYrd0RQV3N4Q2lYV0tpNldVeG5yQTkrcXVQTytnQUhx?=
- =?utf-8?B?YUFVcTR2Q05URUV0MWQ0MFVnbnpjSS81Zm8wblByeUpkWE95SHllNVpzRU9W?=
- =?utf-8?B?U1YrYm1reW9KNUQxa0RrRmVDc2FLR0I1ck9GcndPZTVMYjdJa0JPRWNjTFhR?=
- =?utf-8?B?WUwvZ3NyZEF0NHplNFpFQ2tVMDd3TUpjS2NvczU2K2p4RDVMaFNoQlBSWkJD?=
- =?utf-8?B?RmtZL0Z0ZGVIRVEzZHJJbFZpUWN6aVoyelkrcU56ZEdHVnVKdUIxMGF2M2lC?=
- =?utf-8?B?eUxSRnZSTGU4Nmk0V0RzdGhrK1dKSGpwZjI1bDErRnZFRU85TjN6RGxCT3Fu?=
- =?utf-8?B?TVc4a0lPWnNOSFRWaG1GMUE5allXTy9KbzhsdXk3YkU5U1QzOGZYZGkrWS9M?=
- =?utf-8?B?cGFhbHJFaFFVN3ZTSU5Tb25vekpnaElTMDA1aG0zV2xwYmxtTTRyLzJSaURN?=
- =?utf-8?B?Q0JMcHdPQmNQVUgvdDdZeUlUNC9NNnR4OVI5TFA5ZzY4Y3FtSXFJbkhCWTJx?=
- =?utf-8?B?azJ3dGc5N0xwWjBUeE8ycHYvU1FvNGsvZGV0ay9tSnpOMnNvM1VscUtTbWNR?=
- =?utf-8?B?cUIxTjZHMGhUYnFndHpUSWlKcURQTkZQWkJkR2d1NkxibTF5TE9SUW5OMDk0?=
- =?utf-8?B?d0lEVHFMaGFGMWNoY2xibmo4QnA0TkdtYVFRb2xYdjE5S290ZVVzejVrU1VI?=
- =?utf-8?B?Y2VrZ3RFZDB2UlNwN3RZVGVGTzZaOW53bXBwZTJtYkVwQ1JmODV1M1N5WjlS?=
- =?utf-8?B?QkVFWjJSRzJFampEeTliQmJTMnRiYUlXYnl4R09laXlRZGdUTFI4SWphd0kr?=
- =?utf-8?B?TmRycEJ5Y25VL3VSMkhXS2VyV21EaGZMY1J0YkttUnBxVVpteTNmdXRnMTAz?=
- =?utf-8?B?QnBmd0I3U3FnZVowZWVHYThYRkFhYW9hWjM4S3YydEJ6SGN0OUFMUTc3S2lv?=
- =?utf-8?B?OXFJM2xjdHdIR3Iwclk0KzlOVjdzc0txWXlMUHZaVFVkeENaWlhEQ0pHODdC?=
- =?utf-8?B?K3BWQmJmYTV1MHZLVEd2Zkg0S3FMWFcvd09WRjNZenR1K3BweXdVQmxXVHZ3?=
- =?utf-8?B?N2hsMUtYU0Y3cUdUeW51cEZKK0NDcEtnWFFaL0xhS2xNdTMzY2RVMVpoRmFG?=
- =?utf-8?B?UHlFcmtDeGYvejFoc01RZGd4RG5YTm8rSExlNlJYNWNrSHErdkYzUzlwblVj?=
- =?utf-8?B?a1VUVjRQNnB1QWx5ZzVMQ1E0T3Q2YjRJUWJSbkQ3RjBhS1AyQk15RzIza0FI?=
- =?utf-8?B?S0M1Y0tCcysxencxNDZJZ1ZDVlNvdzlvY2JsSUhWTzNyYW9pYTRpajZOdWw0?=
- =?utf-8?B?Z1pXQUJYdEdEbWo5WXJuUWZtUnkxWGF6cTNhRHVMWHNjSXZ0dEFMRmF1WndS?=
- =?utf-8?B?NFIyRWV0YWxqNHNqQlpUNWF3cytpOTRKVXZRNGJqUHdQdVBQMFRQRW84NW9Z?=
- =?utf-8?B?cmtSVm9mQVJlU1VxVG9ONkxMVXNobGFwdStGdTJTNHdZYlhjVDBUemNXU2Qz?=
- =?utf-8?B?N2FsbGhQcUYwcDU0RHROa3IvRFBleW8wdFNWWGQ4WFgzWENRS2NvVURidmNZ?=
- =?utf-8?B?OThTbXBBb21uZUxSbnJoTW1oNTJQbEdDQStkTnc2MmZPWDVxM3FFUGRCZTI1?=
- =?utf-8?B?Mk9VZFh3b3Q4eFFRWVZ2TEx5V2dId0lURzVXam9CeDNoZ1RKWDBrVytPbHFX?=
- =?utf-8?B?WWNuUkZzVDdTKzlZaWlzbjdvWVB5YWRSdy9yK3k2dkZBUVgwakV2NEcxY2xQ?=
- =?utf-8?B?c3hBUkVudHNwSEdtMm1FamNMaE40R2RMNFN4aTA4U0NNWGt4ZG5tZmJvT29L?=
- =?utf-8?B?RmJ6Q1A3YUhweEQzSTc4a2R3K0w1OVBnM29YZnlTbTY5TEZIUzg3YkJYWm9y?=
- =?utf-8?B?dkM4OHNROGxhM0tlSDZTay9rdE91TmFVelBCcjRRSS9KOFRDemxrdVhwbUpV?=
- =?utf-8?B?K01XajVBSTVaMjhsNVI1Nmk3RGMwME11RUtNUkR6ZkYzRXFoVW04SU0wdXRX?=
- =?utf-8?B?VFM3OHpjNUxha20razNDalVsMTFaMTVxcUhGVEFmcWxiZHFFRHZuVi9GZWhr?=
- =?utf-8?Q?3284/fIBiUiTT2Jcg2jOR5ZG3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12dbae70-c387-4a76-cb44-08dba26f9836
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 17:53:58.5918 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZX4dqrkSS0PWP7TEt1q3oj3gEVfUQMkXxa3nJq7BPjgsIZgaMF4WRk3za8qP+al9Y1a66VunNj8Uzz/vi8lzSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7015
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v2 13/15] drm/panthor: Allow driver compilation
+Content-Language: en-GB
+To: Steven Price <steven.price@arm.com>, Daniel Stone
+ <daniels@collabora.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-14-boris.brezillon@collabora.com>
+ <abed970e-db59-9eef-c4b6-dee49718f582@arm.com>
+ <fa757894-f501-4114-ba7c-e46c59904300@collabora.com>
+ <71e8c55c-049f-688a-b97e-bdfbb54d18cb@arm.com>
+ <60720747-5f03-2766-0d5f-e102097308e7@arm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <60720747-5f03-2766-0d5f-e102097308e7@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,147 +50,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shashank.sharma@amd.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- Christian.Koenig@amd.com
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-08-14 12:18, Steven Price wrote:
+> On 11/08/2023 20:26, Robin Murphy wrote:
+>> On 2023-08-11 17:56, Daniel Stone wrote:
+>>> Hi,
+>>>
+>>> On 11/08/2023 17:35, Robin Murphy wrote:
+>>>> On 2023-08-09 17:53, Boris Brezillon wrote:
+>>>>> +obj-$(CONFIG_DRM_PANTHOR) += panthor.o
+>>>>
+>>>> FWIW I still think it would be nice to have a minor
+>>>> directory/Kconfig/Makefile reshuffle and a trivial bit of extra
+>>>> registration glue to build both drivers into a single module. It
+>>>> seems like it could be a perpetual source of confusion to end users
+>>>> where Mesa "panfrost" is the right option but kernel "panfrost" is
+>>>> the wrong one. Especially when pretty much every other GPU driver is
+>>>> also just one big top-level module to load for many different
+>>>> generations of hardware. Plus it would mean that if someone did want
+>>>> to have a go at deduplicating the resource-wrangling boilerplate for
+>>>> OPPs etc. in future, there's more chance of being able to do so
+>>>> meaningfully.
+>>>
+>>> It might be nice to point it out, but to be fair Intel and AMD both
+>>> have two (or more) drivers, as does Broadcom/RPi. As does, err ... Mali.
+>>
+>> Indeed, I didn't mean to imply that I'm not aware that e.g. gma500 is to
+>> i915 what lima is to panfrost. It was more that unlike the others where
+>> there's a pretty clear line in the sand between "driver for old
+>> hardware" and "driver for the majority of recent hardware", this one
+>> happens to fall splat in the middle of the current major generation such
+>> that panfrost is the correct module for Mali Bifrost but also the wrong
+>> one for Mali Bifrost... :/
+> 
+> Well panfrost.ko is the correct module for all Bifrost ;) It's Valhall
+> that's the confusing one.
 
-On 8/21/2023 9:52 PM, Alex Deucher wrote:
-> On Mon, Aug 21, 2023 at 2:55 AM Arvind Yadav <Arvind.Yadav@amd.com> wrote:
->> This patch adds a function which will change the GPU
->> power profile based on a submitted job. This can optimize
->> the power performance when the workload is on.
->>
->> v2:
->> - Splitting workload_profile_set and workload_profile_put
->>    into two separate patches.
->> - Addressed review comment.
->>
->> Cc: Shashank Sharma <shashank.sharma@amd.com>
->> Cc: Christian Koenig <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c  | 56 +++++++++++++++++++
->>   drivers/gpu/drm/amd/include/amdgpu_workload.h |  3 +
->>   2 files changed, 59 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->> index 32166f482f77..e661cc5b3d92 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->> @@ -24,6 +24,62 @@
->>
->>   #include "amdgpu.h"
->>
->> +static enum PP_SMC_POWER_PROFILE
->> +ring_to_power_profile(uint32_t ring_type)
->> +{
->> +       switch (ring_type) {
->> +       case AMDGPU_RING_TYPE_GFX:
->> +               return PP_SMC_POWER_PROFILE_FULLSCREEN3D;
->> +       case AMDGPU_RING_TYPE_COMPUTE:
->> +               return PP_SMC_POWER_PROFILE_COMPUTE;
->> +       case AMDGPU_RING_TYPE_UVD:
->> +       case AMDGPU_RING_TYPE_VCE:
->> +       case AMDGPU_RING_TYPE_UVD_ENC:
->> +       case AMDGPU_RING_TYPE_VCN_DEC:
->> +       case AMDGPU_RING_TYPE_VCN_ENC:
->> +       case AMDGPU_RING_TYPE_VCN_JPEG:
->> +               return PP_SMC_POWER_PROFILE_VIDEO;
->> +       default:
->> +               return PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT;
->> +       }
->> +}
->> +
->> +static int
->> +amdgpu_power_profile_set(struct amdgpu_device *adev,
->> +                        enum PP_SMC_POWER_PROFILE profile)
->> +{
->> +       int ret = amdgpu_dpm_switch_power_profile(adev, profile, true);
->> +
->> +       if (!ret) {
->> +               /* Set the bit for the submitted workload profile */
->> +               adev->smu_workload.submit_workload_status |= (1 << profile);
->> +               atomic_inc(&adev->smu_workload.power_profile_ref[profile]);
->> +       }
->> +
->> +       return ret;
->> +}
->> +
->> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
->> +                                uint32_t ring_type)
->> +{
->> +       struct amdgpu_smu_workload *workload = &adev->smu_workload;
->> +       enum PP_SMC_POWER_PROFILE profile = ring_to_power_profile(ring_type);
->> +       int ret;
->> +
->> +       if (profile == PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT)
->> +               return;
-> Why is this one skipped?  How do we get back to the boot up profile?
+Bah, you see? If even developers sufficiently involved to be CCed on the 
+patches can't remember what's what, what hope does Joe User have? :D
 
-Hi Alex,
+> I would hope that for most users they can just build both panfrost and
+> panthor and everything will "Just Work (tm)". I'm not sure how much
+> users are actually aware of the architecture family of their GPU.
+> 
+> I think at the moment (until marketing mess it up) there's also the
+> 'simple' rule:
+> 
+> * Mali T* is Midgard and supported by panfrost.ko
+> * Mali Gxx (two digits) is Bifrost or first-generation Valhall and
+> supported by panfrost.ko
+> * Mali Gxxx (three digits) is Valhall CSF and supported by panthor.
+> 
+> (and Immortalis is always three digits and Valhall CSF).
 
-enum PP_SMC_POWER_PROFILE {
-     PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT = 0x0,
-     PP_SMC_POWER_PROFILE_FULLSCREEN3D = 0x1,
-     PP_SMC_POWER_PROFILE_POWERSAVING  = 0x2,
-     PP_SMC_POWER_PROFILE_VIDEO        = 0x3,
-     PP_SMC_POWER_PROFILE_VR           = 0x4,
-     PP_SMC_POWER_PROFILE_COMPUTE      = 0x5,
-     PP_SMC_POWER_PROFILE_CUSTOM       = 0x6,
-     PP_SMC_POWER_PROFILE_WINDOW3D     = 0x7,
-     PP_SMC_POWER_PROFILE_COUNT,
-};
+With brain now engaged, indeed that sounds right. However if the 
+expectation is that most people would steer clear even of marketing's 
+alphabet soup and just enable everything, that could also be seen as 
+somewhat of an argument for just putting it all together and not 
+bothering with a separate option.
 
-These are all the profiles. We are using which is > 
-PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT.
-Now suppose the profile was DEFAULT and we set it to VIDEO, SMU will 
-move the profile to a higher level.
-When we reset the VIDEO profile then SMU will move back to the DEFAULT one.
-
-Our job is to set the profile and reset it after the job is done.
-SMU will take care to move to a higher profile and after reset, it will 
-move back to DEFAULT.
-
-ThankYou,
-~Arvind
-
->
-> Alex
->
->> +
->> +       mutex_lock(&workload->workload_lock);
->> +
->> +       ret = amdgpu_power_profile_set(adev, profile);
->> +       if (ret) {
->> +               DRM_WARN("Failed to set workload profile to %s, error = %d\n",
->> +                        amdgpu_workload_mode_name[profile], ret);
->> +       }
->> +
->> +       mutex_unlock(&workload->workload_lock);
->> +}
->> +
->>   void amdgpu_workload_profile_init(struct amdgpu_device *adev)
->>   {
->>          adev->smu_workload.adev = adev;
->> diff --git a/drivers/gpu/drm/amd/include/amdgpu_workload.h b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->> index 5d0f068422d4..5022f28fc2f9 100644
->> --- a/drivers/gpu/drm/amd/include/amdgpu_workload.h
->> +++ b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->> @@ -46,6 +46,9 @@ static const char * const amdgpu_workload_mode_name[] = {
->>          "Window3D"
->>   };
+>>> I can see the point, but otoh if someone's managed to build all the
+>>> right regulator/clock/etc modules to get a working system, they'll
+>>> probably manage to figure teh GPU side out?
 >>
->> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
->> +                                uint32_t ring_type);
->> +
->>   void amdgpu_workload_profile_init(struct amdgpu_device *adev);
->>
->>   void amdgpu_workload_profile_fini(struct amdgpu_device *adev);
->> --
->> 2.34.1
->>
+>> Maybe; either way I guess it's not really my concern, since I'm the only
+>> user that *I* have to support, and I do already understand it. From the
+>> upstream perspective I mostly just want to hold on to the hope of not
+>> having to write my io-pgtable bugs twice over if at all possible :)
+> 
+> I agree it would be nice to merge some of the common code, I'm hoping
+> this is something that might be possible in the future. But at the
+> moment the focus is on trying to get basic support for the new GPUs
+> without the danger of regressing the old GPUs.
+
+Yup, I get that, it's just the niggling concern I have is whether what 
+we do at the moment might paint us into a corner with respect to what 
+we're then able to change later; I know KConfig symbols are explicitly 
+not ABI, but module names and driver names might be more of a grey area.
+
+> And, to be honest, for a fair bit of the common code in
+> panfrost/panthorm it's common to a few other drivers too. So the correct
+> answer might well be to try to add more generic helpers (devfreq,
+> clocks, power domains all spring to mind - there's a lot of boiler plate
+> and nothing very special about Mali).
+
+That much is true, however I guess there's also stuff like perf counter 
+support which is less likely to be DRM-level generic but perhaps still 
+sufficiently similar between JM and CSF. The main thing I don't know, 
+and thus feel compelled to poke at, is whether there's any possibility 
+that once the new UAPI is mature, it might eventually become preferable 
+to move Job Manager support over to some subset of that rather than 
+maintain two whole UAPIs in parallel (particularly at the Mesa end). My 
+(limited) understanding is that all the BO-wrangling and MMU code is 
+primarily different here for the sake of supporting new shiny UAPI 
+features, not because of anything inherent to CSF itself (other than CSF 
+being the thing which makes supporting said features feasible). If 
+that's a preposterous idea and absolutely never ever going to be 
+realistic, then fine, but if not, then it feels like the kind of thing 
+that my all-too-great experience of technical debt and bad short-term 
+decisions tells me is worth planning around from the very start.
+
+Thanks,
+Robin.
