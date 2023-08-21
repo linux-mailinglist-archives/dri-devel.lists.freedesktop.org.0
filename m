@@ -1,51 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0E8782B30
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 16:10:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEB5782B33
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 16:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8986B10E26E;
-	Mon, 21 Aug 2023 14:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D0310E0D2;
+	Mon, 21 Aug 2023 14:11:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC0510E26C;
- Mon, 21 Aug 2023 14:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692626996; x=1724162996;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Vl/iB9e3YJjMLmUFh8K+TnFsMKGI4oNQZH9zI9Q08NY=;
- b=gOQOd+/BZFCpqugUhofUm4gbWbag7pO/x1pJn7O1lEoROucIPsPKtlnt
- Hn9EXp2K/mXbr2tNwJ0caxHZ4yrbyTEmcEsPBoMSWxHogo9Gjx/j0p6ON
- Y5GrJUDuom3cp1TD+jeQidNcaa4pQq+az8M1jbQGaW3vBmfr4f5LKbGvF
- 1HcHRO20Q3bCVYcXmUVHqemznBBifDVrsFPvCnhk3aiM1+yfcZaKEqdHE
- yip6aQO2FzoBfOZNBnz9WTL61y8kzbrxGxWu4A/ztJu+/oAnZpbkQ6qoi
- 4Y16E7Xo+aza+zHa+lh2R5idSPTTFTpNfO3KVlnc1omhVCs2DiR4INxGT Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376348419"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="376348419"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2023 07:09:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="770963020"
-X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="770963020"
-Received: from ashyti-mobl2.igk.intel.com (HELO intel.com) ([172.28.180.108])
- by orsmga001-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:09:54 -0700
-Date: Mon, 21 Aug 2023 16:09:51 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Zhanjun Dong <zhanjun.dong@intel.com>
-Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when
- flush delayed work on gt reset
-Message-ID: <ZONwL4mCwIlxne/X@ashyti-mobl2.lan>
-References: <20230811182011.546026-1-zhanjun.dong@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5406710E0D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 14:11:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 886412F4;
+ Mon, 21 Aug 2023 07:11:56 -0700 (PDT)
+Received: from [10.57.34.4] (unknown [10.57.34.4])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E125C3F740;
+ Mon, 21 Aug 2023 07:11:13 -0700 (PDT)
+Message-ID: <562371e2-ef8f-0bc0-835b-23975e5e7a6d@arm.com>
+Date: Mon, 21 Aug 2023 15:11:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230811182011.546026-1-zhanjun.dong@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next v2 1/2] drm/panfrost: Do not check for 0 return
+ after calling platform_get_irq_byname()
+Content-Language: en-GB
+To: Ruan Jinjie <ruanjinjie@huawei.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ robh@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20230803040401.3067484-1-ruanjinjie@huawei.com>
+ <20230803040401.3067484-2-ruanjinjie@huawei.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230803040401.3067484-2-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,75 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhanjun,
-
-On Fri, Aug 11, 2023 at 11:20:11AM -0700, Zhanjun Dong wrote:
-> This attempts to avoid circular locking dependency between flush delayed
-> work and intel_gt_reset.
-> When intel_gt_reset was called, task will hold a lock.
-> To cacel delayed work here, the _sync version will also acquire a lock,
-
-/cacel/cancel
-
-> which might trigger the possible cirular locking dependency warning.
-> When intel_gt_reset called, reset_in_progress flag will be set, add code
-> to check the flag, call async verion if reset is in progress.
-
-/verion/version/
-
-> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
-
-There is no changelog here :/
-
-Can you please add the changelog after the '---' section?
-
-The commit log has changed and...
-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+On 03/08/2023 05:03, Ruan Jinjie wrote:
+> It is not possible for platform_get_irq_byname() to return 0.
+> Use the return value from platform_get_irq_byname().
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index a0e3ef1c65d2..600388c849f7 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1359,7 +1359,16 @@ static void guc_enable_busyness_worker(struct intel_guc *guc)
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+I'll push this to drm-misc-next.
+
+Thanks,
+
+Steve
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 4 ++--
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 4 ++--
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index d28b99732dde..2faa344d89ee 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -390,8 +390,8 @@ int panfrost_gpu_init(struct panfrost_device *pfdev)
+>  	dma_set_max_seg_size(pfdev->dev, UINT_MAX);
 >  
->  static void guc_cancel_busyness_worker(struct intel_guc *guc)
->  {
-> -	cancel_delayed_work_sync(&guc->timestamp.work);
-> +	/*
-> +	 * When intel_gt_reset was called, task will hold a lock.
-> +	 * To cacel delayed work here, the _sync version will also acquire a lock, which might
-> +	 * trigger the possible cirular locking dependency warning.
-> +	 * Check the reset_in_progress flag, call async verion if reset is in progress.
-> +	 */
-> +	if (guc_to_gt(guc)->uc.reset_in_progress)
-> +		cancel_delayed_work(&guc->timestamp.work);
-> +	else
-> +		cancel_delayed_work_sync(&guc->timestamp.work);
-
-... now you are checking out of reset_in_progress.
-
-Normally the convention here is to have the *_locked() version of
-the function. But I'm OK with this, as well... John, any opinion?
-
-Anyway, comparing with your previous patch the decision is made
-out of different elements and only __reset_guc_busyness_stats()
-needed this change.
-
-Andi
-
->  }
+>  	irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "gpu");
+> -	if (irq <= 0)
+> -		return -ENODEV;
+> +	if (irq < 0)
+> +		return irq;
 >  
->  static void __reset_guc_busyness_stats(struct intel_guc *guc)
-> -- 
-> 2.34.1
+>  	err = devm_request_irq(pfdev->dev, irq, panfrost_gpu_irq_handler,
+>  			       IRQF_SHARED, KBUILD_MODNAME "-gpu", pfdev);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index dbc597ab46fb..3322b3024937 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -794,8 +794,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  	spin_lock_init(&js->job_lock);
+>  
+>  	js->irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
+> -	if (js->irq <= 0)
+> -		return -ENODEV;
+> +	if (js->irq < 0)
+> +		return js->irq;
+>  
+>  	ret = devm_request_threaded_irq(pfdev->dev, js->irq,
+>  					panfrost_job_irq_handler,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index c0123d09f699..d54d4e7b2195 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -755,8 +755,8 @@ int panfrost_mmu_init(struct panfrost_device *pfdev)
+>  	int err, irq;
+>  
+>  	irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "mmu");
+> -	if (irq <= 0)
+> -		return -ENODEV;
+> +	if (irq < 0)
+> +		return irq;
+>  
+>  	err = devm_request_threaded_irq(pfdev->dev, irq,
+>  					panfrost_mmu_irq_handler,
+
