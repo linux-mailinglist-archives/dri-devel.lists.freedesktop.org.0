@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC317783D1C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 11:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4965D783D22
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 11:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2648810E1C8;
-	Tue, 22 Aug 2023 09:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A00210E2EC;
+	Tue, 22 Aug 2023 09:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC09C10E283;
- Mon, 21 Aug 2023 15:04:18 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id
- 5614622812f47-3a7d4030621so2045941b6e.3; 
- Mon, 21 Aug 2023 08:04:18 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C89610E0EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 15:26:20 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-686be3cbea0so2996863b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 08:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692630258; x=1693235058;
+ d=gmail.com; s=20221208; t=1692631580; x=1693236380;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4nsDNl9d4lshcExFhxOmfvT78+yT9J12bXqiEl8z3Wk=;
- b=Nsqjc+xPmg9p6wrzEXmKeYc+RXEIVfrxs6JTs/wnImB8BHukr5xyEHkwYJFuXv7hFW
- XzRcJumjO7r3YPqNwzsVd9JeY63M2FZixYGmD04Dzz/WvUSF8bQI23Ob9tsS+cEH/Kyb
- 5zXlnkTKokCbvjME5SwTPRdZCiCYXKoEojY56VfZncFa4MOqkcqnFUbSWAZW29XddIy/
- KMJjSIC698zTe8H8TqeFsyvM1Ou9Wg76bq/twCq/6k7uAFxO+lLizVj+p9nPO6K2JOHQ
- J0xaH+sqNFv2s2FTCgdYL7QroY1qGz8gzakmhotueEOQdsqrEzBhHfIu3ph74Y9Seipp
- RT1g==
+ bh=dRNVXVCFNY+UAp3a/7xKqvOgphTENTBOPiaI1Ml0pY8=;
+ b=RCbqm+rF2yaI4yacjZbgZLO+iclVWqLpoMdHPQ5uG6qjCecueeGi5XHOP/Lq99DID6
+ OXpd01nQ/QFbPNCcj2nCJbAs1ebNTcgxfr92qawsKDoZmeDIvaXoFutZoj9EJBBGV4rr
+ SEcoOtmuuT134F4NzOVziWRt+LlvVbao81lV+vYCKA1+67OcGyxFbCOPkYksLqZ1sWxj
+ wU3KIry3h11QkfMaErrUr9UC9wL1sYboSX270peT2/Go/OrYhonLAFHBBr7DpJ92Q4ep
+ UnVvknnuXY+fWJSCgSTKWwNwpqe6cQssL/bfA5EXoPPDcLXdlUvIzrXkhpQqfb6psM6G
+ 26Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692630258; x=1693235058;
+ d=1e100.net; s=20221208; t=1692631580; x=1693236380;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4nsDNl9d4lshcExFhxOmfvT78+yT9J12bXqiEl8z3Wk=;
- b=Ci5/8gF+dDNF1FPP7s18Wwbc2OGlP+245nfUVtKh5IxlH2zFqqmMeXgaUIjAmcsryt
- QzuXRtVWSF4vNxahitG4dMjxgDr0Wc/BUA+qNobkZa4EUCWO0B7Bk+kCj3vSp0rpQry3
- yRdL5gKAuzvMpAdG791gGWOgmWjL4rg48qO/Q68u8jz0QKguhJClDsBDvt3jk2DbHEhj
- AqvmxlWStvCFkNxpGO9j3s6+bkusHschYU8t+mg3S4tWALB8BU14JTkfUNjbLy8aUT2T
- ikq8Lhmz4qLnUxEHnCGN6alyfzcqP4AF8Ypg+TjQhFymx4Fkz3R5yG9tL6WQ7yVYFhqn
- xquw==
-X-Gm-Message-State: AOJu0YwShsWHFKA29x5CncmlxhTc0vj7g+Un/AcdZ6CMLBEPjufXJbIQ
- ptFYDoHfbeVmh+Jdd4jrJAI=
-X-Google-Smtp-Source: AGHT+IEAyShw7iDgkxpkmRqpOp+aVd74/ixWDlZbrKwshzv0+M8osDNdld8yOX26K6C1jLh/G0bLNw==
-X-Received: by 2002:a05:6808:219d:b0:3a7:543d:9102 with SMTP id
- be29-20020a056808219d00b003a7543d9102mr8171406oib.39.1692630257879; 
- Mon, 21 Aug 2023 08:04:17 -0700 (PDT)
-Received: from debian.lan ([168.227.196.240]) by smtp.gmail.com with ESMTPSA id
- bg12-20020a056808178c00b003a7a34a4ed8sm3650000oib.33.2023.08.21.08.04.13
+ bh=dRNVXVCFNY+UAp3a/7xKqvOgphTENTBOPiaI1Ml0pY8=;
+ b=KvVvtVBXueehBoBHN0fggpPrLYuP6bgTn2Q/+SXDwxKpoV2njzcjWmOi7ZErYtbDez
+ 8l5P8nGbf45DMFRimmHun2hD5eOcLBK4qGdbmo9hn9sZerSO/y63JL5bs7s8y/nbBbsc
+ weKZe9IhO08uKfeEkXhuZ4nOtJAhZVCyP5UnKcIq/eARBBFSBKQ2meTyAiPJHoapM6xZ
+ JDvLZdCmEle4uapePa1rfpRW1lEc4q1LW2lbwncwD40OKd5XaKmkDmdLhHpUhVfF9yaf
+ A+DZi0oSqG3GCjJvAujr0QkqgoWFPsWojCyU9AI61j6c+cC317lgHnH0hgVCcEd4T4Le
+ W6mg==
+X-Gm-Message-State: AOJu0YxockeGog8YbA3nGlHRE8Scmetiz9toEs6SXo1+9aEkCzfNMQ7n
+ +OLnDnzdXzg2QkxBN4kxE1E=
+X-Google-Smtp-Source: AGHT+IHVjVgqofdmH1MW157zPEVBDYtOITySPcuMe25EjXsQbquQ+ng+hIi/VKApxARhJ+H3qeMIIg==
+X-Received: by 2002:a05:6a20:8f1e:b0:133:31a5:51e7 with SMTP id
+ b30-20020a056a208f1e00b0013331a551e7mr10088503pzk.15.1692631579772; 
+ Mon, 21 Aug 2023 08:26:19 -0700 (PDT)
+Received: from vinayak-ubuntu.. ([2406:7400:81:e7e8:c1a2:4b35:18c4:443d])
+ by smtp.gmail.com with ESMTPSA id
+ p27-20020a63741b000000b005651c9351e1sm6434860pgc.64.2023.08.21.08.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Aug 2023 08:04:17 -0700 (PDT)
-From: "Ricardo B. Marliere" <rbmarliere@gmail.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, daniele.ceraolospurio@intel.com,
- John.C.Harrison@Intel.com, alan.previn.teres.alexis@intel.com,
- harshit.m.mogalapalli@oracle.com, michal.wajdeczko@intel.com,
- gregkh@linuxfoundation.org
-Subject: [PATCH] gpu: drm: i915: fix documentation style
-Date: Mon, 21 Aug 2023 15:02:42 +0000
-Message-Id: <20230821150241.40047-1-rbmarliere@gmail.com>
-X-Mailer: git-send-email 2.40.1
+ Mon, 21 Aug 2023 08:26:19 -0700 (PDT)
+From: Vinayak Hegde <vinayakph123@gmail.com>
+To: sumit.semwal@linaro.org,
+	gustavo@padovan.org
+Subject: [PATCH] Remove the parameter not described warning
+Date: Mon, 21 Aug 2023 20:56:06 +0530
+Message-Id: <20230821152606.10325-1-vinayakph123@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 22 Aug 2023 09:41:06 +0000
@@ -75,43 +72,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ricardo B. Marliere" <rbmarliere@gmail.com>, skhan@linuxfoundation.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Vinayak Hegde <vinayakph123@gmail.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes the following sphinx warnings in the htmldocs make target:
-
-Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:29: ERROR: Unexpected indentation.
-Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:30: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:35: WARNING: Bullet list ends without a blank line; unexpected unindent.
-
-Signed-off-by: Ricardo B. Marliere <rbmarliere@gmail.com>
+Signed-off-by: Vinayak Hegde <vinayakph123@gmail.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_huc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index ddd146265beb..fa70defcb5b2 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -26,6 +26,7 @@
-  * The kernel driver is only responsible for loading the HuC firmware and
-  * triggering its security authentication. This is done differently depending
-  * on the platform:
-+ *
-  * - older platforms (from Gen9 to most Gen12s): the load is performed via DMA
-  *   and the authentication via GuC
-  * - DG2: load and authentication are both performed via GSC.
-@@ -33,6 +34,7 @@
-  *   not-DG2 older platforms), while the authentication is done in 2-steps,
-  *   a first auth for clear-media workloads via GuC and a second one for all
-  *   workloads via GSC.
-+ *
-  * On platforms where the GuC does the authentication, to correctly do so the
-  * HuC binary must be loaded before the GuC one.
-  * Loading the HuC is optional; however, not using the HuC might negatively
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index 7e42a5b7558b..ff0a931833e2 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
 -- 
-2.40.1
+2.34.1
 
