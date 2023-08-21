@@ -1,122 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50A0783034
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 20:22:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E39783084
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 21:07:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD8310E104;
-	Mon, 21 Aug 2023 18:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2DF010E087;
+	Mon, 21 Aug 2023 19:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2069.outbound.protection.outlook.com [40.107.95.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9441410E104
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 18:22:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nn6NZEsgSlwemVJV1m8W8K3+Hx5NrdWgxxysyYOEHbiw8ndg/jOAenV6KA9RGsbApJ4eW51aw2a+yZdhqNwansv8P9F540HWxNevl0Rd1uiiDEfrle0SjXZcYKqLT6sNVc/Q1kOcnJ5ilT0U3NXToJEbf3ZPzDfYb22osa1z1F4NwcA68yx1kQuJqWPtjuYiwSUebxx25d5mb1NDTA57IctH5hUvvTGYSvY+AOKsAHcqzOWWHChgWfcjZ+0vt+5FYXcAcd0NurKmpYnd8ywh1qV46y3LPaCBlVoJR+mTst7cWI/n/GrbkSbxsBfandb84PYuW7cKIElrZxsxeK6CJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xaFNWz/aAyeG1dDukOxCeSdR2IGQE/FxnlLNT0zRJ0Q=;
- b=ISXN1KkVZzY3i7dWsOLtWKULaRiSk/HuC6hNKX5/FpB0DAPjrpH/NKXVgABnGygd22hlpe9rp2tfrSid/FImSFh2osnAj8ZyCLOsAeXBlqNMLmfwsCmx9a8PyI/GiC/xiBDsAciBtJB9A4FPO8AxpxJnj/wK06Z1pdNoYpclS0Ipo2SotTQGSVsOEgYRdbERRldBU0LIm12PmsHogiJO40qUs8VZcfQpxZLuovHEXEF1RNpXgYTASIAeoGC46Qoyv6M01kAyXZcO8y0LsqCh2GuKhcmvr/Mqp2LJiERAan1o4KMFoUzTicYMZVtapLWbxQNlBZuNiVPVvRwemghIoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xaFNWz/aAyeG1dDukOxCeSdR2IGQE/FxnlLNT0zRJ0Q=;
- b=td5wsx59JG+wZ9PtANchVsTEQcQcqCPYyuZwvHUVLSq8RXizXAFtF1c9sN5tIrZPbKtzMQFNx3XW7ER2HAZjSecAZXGVqHSbbW54Roq0cB5MM6hC9+7P9IBwHqQs8l90ythQPUMdeBbQyqq0SQ0UHDOJSubTFjgTU4A5Y5vg5X8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA0PR12MB4447.namprd12.prod.outlook.com (2603:10b6:806:9b::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 18:22:18 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 18:22:18 +0000
-Message-ID: <d321918e-6f3b-4984-9163-427b579dc57e@amd.com>
-Date: Mon, 21 Aug 2023 20:22:12 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9B710E070
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 19:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692644867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lGSgoldDF7M1+mO5xuhb4fHy0+md46F06pChJvfr4Qg=;
+ b=Ga3Ov29WHeWqptFvRjH4HY196Lby207/aHZL/N4oWAI6qLsdpixDCJGGr2TrHL62xji0A7
+ wTMIxqVm+6gqgOEzm/1lGKHcqrZOZuru64iax03VPVQnp868SLKi8YXjsjzgaAi3GhADcY
+ uW39d7MAiebqfjjZwiuSi7n/iNxkqCI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-411-FkdcGvLVMUWfBqPeTktyaw-1; Mon, 21 Aug 2023 15:07:44 -0400
+X-MC-Unique: FkdcGvLVMUWfBqPeTktyaw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-99bcf6ae8e1so248783966b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:07:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692644863; x=1693249663;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lGSgoldDF7M1+mO5xuhb4fHy0+md46F06pChJvfr4Qg=;
+ b=a56i0Wpg3fUCUml8qHGwIVWsr2ZU330UWfdjpDuyk6k20O04X6d0hVSmj59fjijvAG
+ 0mD96HTVoPRh1gdQmKezUhpHXZ9xCKCV6JUbcGzlKKEg6lPrJJBdtWi98cpHcIArnLXk
+ 0p7yasCzuh3yq1mowrbASBvVBrZeGI5iTD+H7hz/Y6PxDL9WqQp0N5d7P45JBVhOVmPu
+ i4/IsH2vNjrV9ALRaQaXiIbPwaswux25B9WBkKLEPJhKvh0GBC5mTxhRQ8Wy/88LBYO0
+ DJbYynhKaXMNlG+YGJaoKmUldHXlcoK62hs+IFJYndlWFFqHpiYgB5okpLXCgHCUSjHm
+ v1lg==
+X-Gm-Message-State: AOJu0YyQ8HmegjIHyyeIl16OKzfeVXQlWpojGeS8xXnAq3UI8+EGsU6K
+ Q42WFpnVqdn0tzcTTOtg80zuht8W1LX3qtqxWB0w8crAbkvtKOvB8ecFk/U5mZmOWmVwTG78Ed0
+ 4LwuyVeY/DmdQs27FofSDy3vVXcRP
+X-Received: by 2002:a17:907:1ddd:b0:99e:68ce:b245 with SMTP id
+ og29-20020a1709071ddd00b0099e68ceb245mr5435302ejc.27.1692644863255; 
+ Mon, 21 Aug 2023 12:07:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGfIz50MIpwg5OfAJd8IzvtNA87LoS1sVEbLYqYGM3K7FSWmfn4tOh9OA+CdwNRGqC67f50Tw==
+X-Received: by 2002:a17:907:1ddd:b0:99e:68ce:b245 with SMTP id
+ og29-20020a1709071ddd00b0099e68ceb245mr5435286ejc.27.1692644862936; 
+ Mon, 21 Aug 2023 12:07:42 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ jt11-20020a170906dfcb00b0098921e1b064sm6929371ejc.181.2023.08.21.12.07.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Aug 2023 12:07:42 -0700 (PDT)
+Message-ID: <faecd15e-020b-6b06-acf7-1dd4c5a2b4fc@redhat.com>
+Date: Mon, 21 Aug 2023 21:07:40 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [BUG] KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] /
- drm_sched_entity_push_job [gpu_sched]
+Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-2-matthew.brost@intel.com>
+ <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
+ <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
+ <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
+ <982800c1-e7d3-f276-51d0-1a431f92eacb@amd.com>
+ <5fdf7d59-3323-24b5-a35a-bd60b06b4ce5@redhat.com>
+ <0bf839df-db7f-41fa-8b34-59792d2ba8be@amd.com>
+ <e8fa305a-0ac8-ece7-efeb-f9cec2892d44@redhat.com>
+ <ef4d2c78-6927-3d3b-7aac-27d013af7ea6@amd.com>
+ <a80be2c1-132e-5ee1-4278-47655916494a@redhat.com>
+ <0d5af79a-ba3a-d4be-938f-81627db65b50@amd.com>
+ <a3937c17-eaa5-e0e9-e0ac-1610e0652982@redhat.com>
+ <1820cb54-5f1e-d2e6-38fa-7161465ed061@amd.com>
+ <9072642e-f4f6-4ff1-e11f-9bda8730750c@redhat.com>
+ <85107169-8a24-441f-6631-d99472d810f0@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <85107169-8a24-441f-6631-d99472d810f0@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
- linux-kernel@vger.kernel.org
-References: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
- <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
- <b74a5cc3-8174-67f3-17ab-2e8a7d8fa1a6@amd.com>
- <5d83d59a-3c49-aae7-61ca-de9c2f3ba9c9@alu.unizg.hr>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5d83d59a-3c49-aae7-61ca-de9c2f3ba9c9@alu.unizg.hr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0006.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4447:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c341d8f-ef08-4d36-3d22-08dba2738cf7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d0fVBhzD/NSz4ycugjPswXih/cXHVwgjJBoa8RU+6/JrAaUd676gLVumJLWdQPLJhWHh94DQLCJb+s9Y/EkplXxFXMlHGRP/DPqPue/bxsQ8ZFdRnvcOlnxNDxhrOUbdf1v82+VsviiMSt+fLiJRAb6V7HtDmhkdwmZCl0wqaH08a25V95TU9J9HeoX+vrVNqPzRv0ejUDMyNhLCmq5b5zxKRrpANowpEbdRiy59SS727KCStcIwHD5gow1nIxZ0RR0DQdS/EBv5S1umEq7xVQ9K4C96JdQOvQzvn8UpGdfD9BKJo8+DwtypKZJStQ/sGlt/oqaPgFBqJ7nzxjo1jv8+Mu04WjruRsUvlaS2snHs654S3qxePUhts4r2XdeJQ92qhQgqls3zeqnfH2vzD1jtvrnoZmkgCDBXvOwMrGorooTXfXLJ5CBdhrJ/+IOfnUwc7VZuXcpSI80qAB13AmZYWY68d0Q2yxoPnEzmIPmOTIkBJpfmCek7NKypeXv5M90inqpaqbILwHt4ibOud7L01W/AAxn1i2u8YnsGlhVbH7z+D016senbMNhBHGtOGvaLwV1XH9clZrLCj3fU7vHU0GlBtSP3JakeaIa4oFJ41vqy0iQaQvT5yKoh/a34cYrrI6KfhBFKs9rD8bhICA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(39860400002)(136003)(346002)(366004)(376002)(186009)(1800799009)(451199024)(54906003)(66946007)(66556008)(6512007)(66476007)(316002)(8936002)(8676002)(2616005)(4326008)(41300700001)(36756003)(478600001)(6666004)(38100700002)(6486002)(53546011)(6506007)(66574015)(2906002)(83380400001)(86362001)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djNWdzVrVytCSStLcWJ5TDJoWHBzVHhCZmtub3RKeGU0ZFRUSHEvTFpsOGVq?=
- =?utf-8?B?THBMNDVIRjNkbjYwNkF6cGV6b1dSa1F6RWkxZFcxZW9Sb05KV3N4WlZKOGVQ?=
- =?utf-8?B?MzkzYmpkWEh2MnBGVnVLYXpzMHdSUlFYREZodUF5R2JoSlN6bWUwL0M4UjVZ?=
- =?utf-8?B?K3k2aWJaQ1c0MGxhVGNkZUt4aXRMRXpwbWROQXFyODAveGZXdVRlMm4yeEcz?=
- =?utf-8?B?RVR5TWE5VXNNLy9LTmRqczJWZmJXUGVVblVjS3BvRll1a1lEZ1ZkYWxERDhN?=
- =?utf-8?B?OGN1QjYrWVRabTdCeGgzc0hFb2lpQy85THlIN1E0NGNNMFlPV3R3L2l3ZXFJ?=
- =?utf-8?B?L1QwNU1jcXJXOGdOVTJCZ2V1VWJhd2x3Mm1FOGZobFdsaEJGV0daNHdwTk1T?=
- =?utf-8?B?NGVMdjcwVDBaMUdyNkVFMG5HYUxycVR2VERyNjNBWVBYaGxVdjBySnVZVkJj?=
- =?utf-8?B?M3dTQVBzQTdFaVdvZHJOQi8yUXYxQS8yNnZBSVdoY0VNeng3eTBXdzNacHo0?=
- =?utf-8?B?Nm1jQzRId3l1Y25xUExRUTFwa3FCREp3WmU5TGIyUlVBOHFvQVhCNGVMbVpo?=
- =?utf-8?B?OGxKbitHbDUwQjBmbU1qZjJXU1RSRjgvRk14K1RLZlZOSGgzOFJ6dGtqT0dX?=
- =?utf-8?B?bkdGbzU3WkNhWHh2eHBVWFNSVG1pRk9WcmdLd2tocmJ5ZU9keDQ4aHdVQnFS?=
- =?utf-8?B?bGMyNDlXZ2hNMHpnUzV6YzhtcFFuUjJmbE0vMU51Y3FEV3E5b0U4RysweUJs?=
- =?utf-8?B?eUMzcjJPb0J2TVU0YW1Eb3lyT2VhbVlCTHJmWkV1N21QRVVqWXpYVGRLcXYv?=
- =?utf-8?B?Njh2eWhaaUdSRnpVVHJ0cG1BN1JNZUtNNnIzYkx5ZHpodGNoc0RnbFB3eEF2?=
- =?utf-8?B?eGtJZWg3ZE11eG9lQmhid2VBbSs3MjRUdVFGVFVydlF4SVBUS2NSbkxxVzJN?=
- =?utf-8?B?T3hWaUtoRnN4YlBRdG04M2xQTFZoVWV3aVdVWkRScEUzakZRY2FSWU45Z1ps?=
- =?utf-8?B?dEl2bmpqSVgrQjJpZ01mKzgzbVo4UGtJaHR1cHg1SkIxNHNOM2FDcitwUTFP?=
- =?utf-8?B?R2h4RUgyUkY0R01tV1dRV2lOdVNSTXlmRzdNdnVoeEozR1lYSU81OTdXV1FK?=
- =?utf-8?B?RGhQY1BzZ2RjcmQvTjZlSkR5b2kxV3hMK0FQa2hPNGJGS3BaQWJzZERWVU1I?=
- =?utf-8?B?dklLRTZid2R1T2RXZ3VSb20ySU9RYXdCdWRRVW5VYjdDaERocHJoSytMeS91?=
- =?utf-8?B?L0w1TDM3QnlUT1MwSjFkdmRoYWFoalNiRXRlQ29nblk3Y1pGZXkvSmtMY0R6?=
- =?utf-8?B?NHRtWGxJd0RrRjlPZURuenI0alZZd2ZYUW02U1QyZlZkaGN0ZU1OcEdWakN4?=
- =?utf-8?B?aFMyRHd2OEprUmtDdkZnOG5hQ0U1eDc2Qmo2alJhSkRsb0sza2U0ZzFOMm9m?=
- =?utf-8?B?WDRWWHBySFVkcEpKL01YR0FnSHUxUkZJOC9OeHpiNTk4T3p4T2JjdzlFTmVZ?=
- =?utf-8?B?TE5oV2JwYW9mZWNTc0YwVGZWdSs3anVHcHpKN0VsNUtmdUlxa3gxZStqOU5y?=
- =?utf-8?B?OUFUQmRjNXlMQjIvdFB1Q0lpYUtVL1FaZVhyK0l4YkxhS2xnQmxvcjYrTzVP?=
- =?utf-8?B?S25NMnZmd1Z3NWFiWjlzTXZURXo0WExpUFNueTNQeFhpTFd2Z08yVTk1SHlE?=
- =?utf-8?B?LzlEMHB6eTdhWHFHS2t4eEdudkFmUG9PWEhzM1oxTXNUd25FcHpRRFBwQW5Y?=
- =?utf-8?B?aEQxdVN4eEdZSHJvUmk5WG96ZGg2SnNQYXVKYVhQVjRhUVVWSWJlazNKd3hv?=
- =?utf-8?B?cXR0YzBaS2RYTW1YSXZURUk1L1FOaUs2cU1CTG5SVjlsU1EvblpNN01Ka0JB?=
- =?utf-8?B?STYzdEVuSW1tcDNmcDU5L2tHQXh4bXlYamZtcU0xa1VJblVlNXQxZjVmeGlM?=
- =?utf-8?B?OGJSbkxic3k0V3lZTmlvNm4wY29DYjIvc3poU29GMjlpUkN4RUVOYVAreVFl?=
- =?utf-8?B?QVF0NjNPTUxMaXRQU3VEdHFGSnJuOG5SNUJXdDg2d2RTdDZpZDl3RThrbU54?=
- =?utf-8?B?c0tjd2VBZ1ZENzRkQ0tIZTY4NHdMd0J2TDVna2owbGY4WTVsUjZuLzJtQ3kx?=
- =?utf-8?Q?gg4zIdk8TBKMzdWq9BwFR1Gif?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c341d8f-ef08-4d36-3d22-08dba2738cf7
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 18:22:18.0858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cMYVtrZp7+SJcL986NhL2Z4G/WK38Uu5hxUJ+axSVT027cNIvtKzK1lCozm2pzRe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4447
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,192 +105,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not sure about that.
-
-On the one hand it might generate some noise. I know tons of cases where 
-logic is: Ok if we see the updated value immediately it will optimize 
-things, but if not it's unproblematic because there is another check 
-after the next memory barrier.
-
-On the other hand we probably have cases where this is not correctly 
-implemented. So double checking those would most like be good idea.
-
-Regards,
-Christian.
-
-Am 21.08.23 um 16:28 schrieb Mirsad Todorovac:
-> Hi Christian,
->
-> Thank you for the update.
->
-> Should I continue reporting what KCSAN gives? I will try to filter 
-> these to save your time for
-> evaluation ...
->
-> Kind regards,
-> Mirsad
->
-> On 8/21/23 15:20, Christian König wrote:
->> Hi Mirsad,
+On 8/21/23 20:12, Christian König wrote:
+> Am 21.08.23 um 20:01 schrieb Danilo Krummrich:
+>> On 8/21/23 16:07, Christian König wrote:
+>>> Am 18.08.23 um 13:58 schrieb Danilo Krummrich:
+>>>> [SNIP]
+>>>>> I only see two possible outcomes:
+>>>>> 1. You return -EBUSY (or similar) error code indicating the the hw 
+>>>>> can't receive more commands.
+>>>>> 2. Wait on previously pushed commands to be executed.
+>>>>> (3. Your driver crash because you accidentally overwrite stuff in 
+>>>>> the ring buffer which is still executed. I just assume that's 
+>>>>> prevented).
+>>>>>
+>>>>> Resolution #1 with -EBUSY is actually something the UAPI should not 
+>>>>> do, because your UAPI then depends on the specific timing of 
+>>>>> submissions which is a really bad idea.
+>>>>>
+>>>>> Resolution #2 is usually bad because it forces the hw to run dry 
+>>>>> between submission and so degrade performance.
+>>>>
+>>>> I agree, that is a good reason for at least limiting the maximum job 
+>>>> size to half of the ring size.
+>>>>
+>>>> However, there could still be cases where two subsequent jobs are 
+>>>> submitted with just a single IB, which as is would still block 
+>>>> subsequent jobs to be pushed to the ring although there is still 
+>>>> plenty of space. Depending on the (CPU) scheduler latency, such a 
+>>>> case can let the HW run dry as well.
+>>>
+>>> Yeah, that was intentionally not done as well. The crux here is that 
+>>> the more you push to the hw the worse the scheduling granularity 
+>>> becomes. It's just that neither Xe nor Nouveau relies that much on 
+>>> the scheduling granularity at all (because of hw queues).
+>>>
+>>> But Xe doesn't seem to need that feature and I would still try to 
+>>> avoid it because the more you have pushed to the hw the harder it is 
+>>> to get going again after a reset.
+>>>
+>>>>
+>>>> Surely, we could just continue decrease the maximum job size even 
+>>>> further, but this would result in further overhead on user and 
+>>>> kernel for larger IB counts. Tracking the actual job size seems to 
+>>>> be the better solution for drivers where the job size can vary over 
+>>>> a rather huge range.
+>>>
+>>> I strongly disagree on that. A larger ring buffer is trivial to allocate 
 >>
->> well this is a false positive.
+>> That sounds like a workaround to me. The problem, in the case above, 
+>> isn't that the ring buffer does not have enough space, the problem is 
+>> that we account for the maximum job size although the actual job size 
+>> is much smaller. And enabling the scheduler to track the actual job 
+>> size is trivial as well.
+> 
+> That's what I agree on, so far I just didn't see the reason for doing it 
+> but at least a few reason for not doing it.
+> 
 >>
->> That drm_sched_entity_is_ready() doesn't see the data written by 
->> drm_sched_entity_push_job() is part of the logic here.
+>>> and if userspace submissions are so small that the scheduler can't 
+>>> keep up submitting them then your ring buffer size is your smallest 
+>>> problem.
+>>>
+>>> In other words the submission overhead will completely kill your 
+>>> performance and you should probably consider stuffing more into a 
+>>> single submission.
 >>
->> Regards,
->> Christian.
+>> I fully agree and that is also the reason why I want to keep the 
+>> maximum job size as large as possible.
 >>
->> Am 18.08.23 um 15:44 schrieb Mirsad Todorovac:
->>> On 8/17/23 21:54, Mirsad Todorovac wrote:
->>>> Hi,
+>> However, afaik with Vulkan it's the applications themselves deciding 
+>> when and with how many command buffers a queue is submitted (@Faith: 
+>> please correct me if I'm wrong). Hence, why not optimize for this case 
+>> as well? It's not that it would make another case worse, right?
+> 
+> As I said it does make both the scheduling granularity as well as the 
+> reset behavior worse.
+
+As you already mentioned Nouveau (and XE) don't really rely much on 
+scheduling granularity. For Nouveau, the same is true for the reset 
+behavior; if things go south the channel is killed anyway. Userspace 
+would just request a new ring in this case.
+
+Hence, I think Nouveau would profit from accounting the actual job size. 
+And at the same time, other drivers having a benefit of always 
+accounting for the maximum job size would still do so, by default.
+
+Arbitrary ratios of how much the job size contributes to the ring being 
+considered as full would also be possible.
+
+- Danilo
+
+> 
+> In general I think we should try to push just enough work to the 
+> hardware to keep it busy and not as much as possible.
+> 
+> So as long as nobody from userspace comes and says we absolutely need to 
+> optimize this use case I would rather not do it.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> - Danilo
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
 >>>>
->>>> This is your friendly bug reporter.
->>>>
->>>> The environment is vanilla torvalds tree kernel on Ubuntu 22.04 LTS 
->>>> and a Ryzen 7950X box.
->>>>
->>>> Please find attached the complete dmesg output from the ring buffer 
->>>> and lshw output.
->>>>
->>>> NOTE: The kernel reports tainted kernel, but to my knowledge there 
->>>> are no proprietary (G) modules,
->>>>        but this taint is turned on by the previous bugs.
->>>>
->>>> dmesg excerpt:
->>>>
->>>> [ 8791.864576] 
->>>> ==================================================================
->>>> [ 8791.864648] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
->>>> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->>>>
->>>> [ 8791.864776] write (marked) to 0xffff9b74491b7c40 of 8 bytes by 
->>>> task 3807 on cpu 18:
->>>> [ 8791.864788]  drm_sched_entity_push_job+0xf4/0x2a0 [gpu_sched]
->>>> [ 8791.864852]  amdgpu_cs_ioctl+0x3888/0x3de0 [amdgpu]
->>>> [ 8791.868731]  drm_ioctl_kernel+0x127/0x210 [drm]
->>>> [ 8791.869222]  drm_ioctl+0x38f/0x6f0 [drm]
->>>> [ 8791.869711]  amdgpu_drm_ioctl+0x7e/0xe0 [amdgpu]
->>>> [ 8791.873660]  __x64_sys_ioctl+0xd2/0x120
->>>> [ 8791.873676]  do_syscall_64+0x58/0x90
->>>> [ 8791.873688]  entry_SYSCALL_64_after_hwframe+0x73/0xdd
->>>>
->>>> [ 8791.873710] read to 0xffff9b74491b7c40 of 8 bytes by task 1119 
->>>> on cpu 27:
->>>> [ 8791.873722]  drm_sched_entity_is_ready+0x16/0x50 [gpu_sched]
->>>> [ 8791.873786]  drm_sched_select_entity+0x1c7/0x220 [gpu_sched]
->>>> [ 8791.873849]  drm_sched_main+0xd2/0x500 [gpu_sched]
->>>> [ 8791.873912]  kthread+0x18b/0x1d0
->>>> [ 8791.873924]  ret_from_fork+0x43/0x70
->>>> [ 8791.873939]  ret_from_fork_asm+0x1b/0x30
->>>>
->>>> [ 8791.873955] value changed: 0x0000000000000000 -> 0xffff9b750ebcfc00
->>>>
->>>> [ 8791.873971] Reported by Kernel Concurrency Sanitizer on:
->>>> [ 8791.873980] CPU: 27 PID: 1119 Comm: gfx_0.0.0 Tainted: 
->>>> G             L 6.5.0-rc6-net-cfg-kcsan-00038-g16931859a650 #35
->>>> [ 8791.873994] Hardware name: ASRock X670E PG Lightning/X670E PG 
->>>> Lightning, BIOS 1.21 04/26/2023
->>>> [ 8791.874002] 
->>>> ==================================================================
+>>>> - Danilo
 >>>
->>> P.S.
->>>
->>> According to Mr. Heo's instructions, I am adding the unwound trace 
->>> here:
->>>
->>> [ 1879.706518] 
->>> ==================================================================
->>> [ 1879.706616] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
->>> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->>>
->>> [ 1879.706737] write (marked) to 0xffff8f3672748c40 of 8 bytes by 
->>> task 4087 on cpu 10:
->>> [ 1879.706748] drm_sched_entity_push_job 
->>> (./include/drm/spsc_queue.h:74 
->>> drivers/gpu/drm/scheduler/sched_entity.c:574) gpu_sched
->>> [ 1879.706808] amdgpu_cs_ioctl 
->>> (drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1375 
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1469) amdgpu
->>> [ 1879.710589] drm_ioctl_kernel (drivers/gpu/drm/drm_ioctl.c:788) drm
->>> [ 1879.711068] drm_ioctl (drivers/gpu/drm/drm_ioctl.c:892) drm
->>> [ 1879.711551] amdgpu_drm_ioctl 
->>> (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2748) amdgpu
->>> [ 1879.715319] __x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:870 
->>> fs/ioctl.c:856 fs/ioctl.c:856)
->>> [ 1879.715334] do_syscall_64 (arch/x86/entry/common.c:50 
->>> arch/x86/entry/common.c:80)
->>> [ 1879.715345] entry_SYSCALL_64_after_hwframe 
->>> (arch/x86/entry/entry_64.S:120)
->>>
->>> [ 1879.715365] read to 0xffff8f3672748c40 of 8 bytes by task 1098 on 
->>> cpu 11:
->>> [ 1879.715376] drm_sched_entity_is_ready 
->>> (drivers/gpu/drm/scheduler/sched_entity.c:134) gpu_sched
->>> [ 1879.715435] drm_sched_select_entity 
->>> (drivers/gpu/drm/scheduler/sched_main.c:248 
->>> drivers/gpu/drm/scheduler/sched_main.c:893) gpu_sched
->>> [ 1879.715495] drm_sched_main 
->>> (drivers/gpu/drm/scheduler/sched_main.c:1019) gpu_sched
->>> [ 1879.715554] kthread (kernel/kthread.c:389)
->>> [ 1879.715563] ret_from_fork (arch/x86/kernel/process.c:145)
->>> [ 1879.715575] ret_from_fork_asm (arch/x86/entry/entry_64.S:312)
->>>
->>> [ 1879.715590] value changed: 0x0000000000000000 -> 0xffff8f360663dc00
->>>
->>> [ 1879.715604] Reported by Kernel Concurrency Sanitizer on:
->>> [ 1879.715612] CPU: 11 PID: 1098 Comm: gfx_0.0.0 Tainted: 
->>> G             L     6.5.0-rc6+ #47
->>> [ 1879.715624] Hardware name: ASRock X670E PG Lightning/X670E PG 
->>> Lightning, BIOS 1.21 04/26/2023
->>> [ 1879.715631] 
->>> ==================================================================
->>>
->>> It seems that the line in question might be:
->>>
->>>     first = spsc_queue_push(&entity->job_queue, 
->>> &sched_job->queue_node);
->>>
->>> which expands to:
->>>
->>> static inline bool spsc_queue_push(struct spsc_queue *queue, struct 
->>> spsc_node *node)
->>> {
->>>     struct spsc_node **tail;
->>>
->>>     node->next = NULL;
->>>
->>>     preempt_disable();
->>>
->>>     tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, 
->>> (long)&node->next);
->>>     WRITE_ONCE(*tail, node);
->>>     atomic_inc(&queue->job_count);
->>>
->>>     /*
->>>      * In case of first element verify new node will be visible to 
->>> the consumer
->>>      * thread when we ping the kernel thread that there is new work 
->>> to do.
->>>      */
->>>     smp_wmb();
->>>
->>>     preempt_enable();
->>>
->>>     return tail == &queue->head;
->>> }
->>>
->>> According to the manual, preempt_disable() only guaranteed exclusion 
->>> on a single CPU/core/thread, so
->>> we might be plagued with the slow, old fashioned locking unless 
->>> anyone had a better idea.
->>>
->>> Best regards,
->>> Mirsad Todorovac
+>>
+> 
 
