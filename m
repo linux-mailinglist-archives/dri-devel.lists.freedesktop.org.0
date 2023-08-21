@@ -2,157 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E23783100
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 21:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713A8783107
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 21:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2024E10E270;
-	Mon, 21 Aug 2023 19:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163AB10E295;
+	Mon, 21 Aug 2023 19:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C356810E21B;
- Mon, 21 Aug 2023 19:41:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692646887; x=1724182887;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=1XqHyKbiriwUwOPB4xwgNaghtqhTPGqtJRbnTW8Lxs8=;
- b=MLv+ON8Vse23miyyAIqA7RfpoUtAoUthm2amq2P14MbMKs91dQ3aEAHX
- kvtmPARhSj9xyhHYSWFMZlW3fcvSZk+hW6Mvu/Xk3FEeDeOjLRTpZdROs
- lGNBAk3bvT7Zx8yPc9vKEaDoIKBQEMoebvFd+ljfF03nNWihIup26x0dj
- VnWULI8oWn1e/2Ag2V5WE4RCG3CFCyX4J8QMQoiib5RzJl/aJreVlk0yE
- uHNK72PEXOe3ydf2AIZJXP9UC+ScHKwZ4er6WEVtYDjrKJQekDbJkRJqC
- ZzwF3sXrUhHqcpuW+YeB9s0tITnPrb6ubhqK4hCiR7mB35b5lRFa0guJm Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="460051889"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="460051889"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2023 12:41:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="771075342"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="771075342"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga001.jf.intel.com with ESMTP; 21 Aug 2023 12:41:24 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 21 Aug 2023 12:41:24 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 21 Aug 2023 12:41:24 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 21 Aug 2023 12:41:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F16H6WcGwf6V/1lKfqOdPo7Dk+zYJdkW2FwOv/AhIQ+5D5o6j0spc7oSS+qfAM0Vj+9d8C+bWoZudmNTxk/zxnN3qPzL4bATch8uvGXplbU4/aVcajXlnGJToDZtsc6KWMUuWz9/HOQ27D/srv6VX3HiZIQBbxlTZ6gjUpGYlyhS3gYNwzB3fzHdEq+M6Jdwn7+mP4TImaoOOhACI1Ti43n1Fqfwvhcu3yTNZAFU5sKCTcTwOR4L+7c8ZlgwIocUCZISVhpHqrMc33cHe3Xv6+PCyyz4CK+nSvH8ug5s7rRmTRrQs2kS6kLsXzRxwshUL0qWFz9t/zhd+AFGt889/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1XqHyKbiriwUwOPB4xwgNaghtqhTPGqtJRbnTW8Lxs8=;
- b=AFMSardxsIBSQLTNpsw8+lsL6MXrsfRguA+cqoLVf6rib9BWmLrRgSL5XUiB7neNsn68QkZ5SU8zV6vYrUVU8aT1aICygrw6YMvVo8FUngfTJyoPJ6ZkJAZlcBfrflsuX9SAJlvj3WQiGkLeErhko7af+3F1hBgev0J3aly+9KgyVso2HVyeBEG1+ofDvsLLOAkNsPW/yaXvtqwFusalIujQeap/dWBALXWAm2X8jsqmS7vnoAPMJ8SUmc+2vYOzH+2BwWFmIY4us3R+zuUw8GcHroOn2/BqF8tF/USKyMdM2oK00OH/g0VWGFTrZhLdiECUp+aRzIsIdi+fHoDbFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
- by CH0PR11MB5492.namprd11.prod.outlook.com (2603:10b6:610:d7::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 19:41:20 +0000
-Received: from SA1PR11MB6991.namprd11.prod.outlook.com
- ([fe80::27f1:a7a0:b6db:6c99]) by SA1PR11MB6991.namprd11.prod.outlook.com
- ([fe80::27f1:a7a0:b6db:6c99%3]) with mapi id 15.20.6699.020; Mon, 21 Aug 2023
- 19:41:19 +0000
-From: "Zeng, Oak" <oak.zeng@intel.com>
-To: Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
-Subject: RE: Implement svm without BO concept in xe driver
-Thread-Topic: Implement svm without BO concept in xe driver
-Thread-Index: AdnPImk6MOYV1wEITTKbUW99JKTN8AAlN1TAAAO9foAACdAN4AAGjR0AABKlsyAADoTWgAAB+b6AAAYiLxAAwfeKgAAgzF1wAAJu8xAACKUJAAAAOz8Q
-Date: Mon, 21 Aug 2023 19:41:19 +0000
-Message-ID: <SA1PR11MB6991E632AFE2684CEC231321921EA@SA1PR11MB6991.namprd11.prod.outlook.com>
-References: <SA1PR11MB699192A66D7A2CC7305A59569214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <SA1PR11MB6991F9E3107C963BDF95E04E9214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <e0d7d6a2-5c9d-6e17-4b4b-be03deb6c130@amd.com>
- <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <3c125b60-df60-2037-c23f-918734e4973f@amd.com>
- <SA1PR11MB69916E51CE5A9217D447B91C9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <7ae5f112-d0e9-cc52-2b22-7265ea435cc2@amd.com>
- <CAPM=9tyots9C8wEU0TgGnFmLOkfqn62ngaYYjV2yuTf7jwDGFw@mail.gmail.com>
- <SA1PR11MB6991D7E239EAB23CC8A9A36B921AA@SA1PR11MB6991.namprd11.prod.outlook.com>
- <CAPM=9tw3wGhZ3ByfizM8+G4Ny5wQLwf4fw8pD4sySVk08355tg@mail.gmail.com>
- <SA1PR11MB69911D8AB895EEC13A64EBCE921EA@SA1PR11MB6991.namprd11.prod.outlook.com>
- <SA1PR11MB69912B9C5363E40A50B74B35921EA@SA1PR11MB6991.namprd11.prod.outlook.com>
- <637ce3f5-a7a9-6a1f-812a-5987211f84f7@amd.com>
-In-Reply-To: <637ce3f5-a7a9-6a1f-812a-5987211f84f7@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|CH0PR11MB5492:EE_
-x-ms-office365-filtering-correlation-id: faa24d47-cd43-4ead-5339-08dba27e97bd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xYHJK2kowosr2IWIEUrdfQ9dk0Oz+eqa99WWroUllJUxSu52YyBqVsm1CRaKwUbrC/S8KyzAt/xBHYelMer1I0fRMbRW4VOUC4poMFIdWj6fFZ9YSpxUj+FjvuUqaGVxPx2sWDqipu2RvxgCtCRo/AlGIOFE9419wL7Hh/CVTPTZ0/cNS6EkcHsOsHTx+2esauY+tKGjs4tHPwIVQpV2feKkOAQQT7KvcBF7gd7X8XmGwmRRnoQuo1F3CJTXA2ySxhkJObLZzNuYk3IvWrTajZZlZjOjFmmWFlgW5Bj2GsYLRvh4r2gM0eRgA48QQIjq7Xf4ZRs1I5Oax84nhh3b7vTDE2tGitZ+iivh8saRT4XzXZuRvZPwsr01pG8vrn3dW4WXUjM7Xbh+7ygZzQW3UsWU+W/hesPrzzj9A9U6pxNh9UMKdzd4yGG4qbLi0oJq305pXnxH0wDfRGfKV1JSgHUfns951s3dXpC5AkaPhbRKLKu87FzAuZxZV9oRl4EmJGFocqcZb+lLmjAo72BJ1sTE6TCKc6Dt5NEFXlvoj8NsfCAfaYv2IEHT/VMu9YTKehOqNXJBR9CsZhWsV1GyTAcqaUQY3AYxskSprMI3bIx77W5YD7HjH1XHpscpyCLV
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(1800799009)(451199024)(54906003)(66446008)(66476007)(76116006)(66556008)(64756008)(316002)(9686003)(66946007)(82960400001)(110136005)(8676002)(8936002)(4326008)(41300700001)(122000001)(478600001)(71200400001)(55016003)(38100700002)(38070700005)(53546011)(6506007)(83380400001)(66574015)(2906002)(86362001)(7696005)(5660300002)(33656002)(26005)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TlhRUS9GTEc1akZMWExSdmdEd09GMEhPWWlMajY3RXJEVlJkU3dvL1lKVkRt?=
- =?utf-8?B?RTZ0d0NoSGRCdStxR2trNHgzMXFmQ3ZDR1RocVZVaFZETE42cHRKY2I4Yk4v?=
- =?utf-8?B?RlF5SzBPNERPR3JDTDRLS1lpOGYyTDB0UmpvNTl4UG1ZMzV1SVJXUHN1aFhw?=
- =?utf-8?B?WXlwWllWOVNXN0k2Rzc3RnVWdm1sYjRyd1VVQjB2LzVlTlo4dGxjU0loLzBs?=
- =?utf-8?B?b242aVI1Z3gzdXVMSXVPZ1ZwRTF6eDZCZEd6WnlIa0FjWFBvREh5SHFsVTZF?=
- =?utf-8?B?QWRWVXRYakE4VlU0WGVPV0xKSHJKeXBaU0F6YkprZHZZbnp1Z3lkdDJSeHVq?=
- =?utf-8?B?bjJlZzZaL2M3RU56UjhJWWdZYUtiNjgwd29MSTVCVXJMUG8zUWMzcUZXRWFK?=
- =?utf-8?B?UUpUYXNqaHlJdEdPS3d3N1lpSnQzaWMyMEpZaFcvdGgyK2FnOXlJOXhPeWtv?=
- =?utf-8?B?ZkJRYW1MTzZ0UmV4UjM0QXJEb2hjQkR0aExkaUFEZm1scFNyYzViTEUyOThi?=
- =?utf-8?B?VDVyb2F0bkRHdVNuaGgxM1kxRE1DTHNpK0J3WkJ5N1dHd1k0aFZOZ0UxMXpN?=
- =?utf-8?B?Z1VMMHduajV6SnprVnFUMUY2VCs4SGYwTU5EbXlqWW1YOGM0UjZJTUpJcWVm?=
- =?utf-8?B?dHRQcFVQZkFlaU5McjgwRmd5V3RkbGxTOHA1V3hycnpoalNmWDdhRjRDemcz?=
- =?utf-8?B?S1pLNmVBcDZKSWc3dEo0OWNjUzZMUmc1UitaSGxJbmpocXI0ZWNmaEF4OEFh?=
- =?utf-8?B?SlJaRmM4azE5aVNSdEpuVDJlNkZQWjdaVEpTd3l4OGgvUk1SWkdoYnd2UmRY?=
- =?utf-8?B?NWFhU0NXM1phbHlVVmlWaWFNcHlha3B3aDg0S2hBMnZPZXVQZVE5R2p6WGJC?=
- =?utf-8?B?L3dWcmcxVGgrTTRvbDlNR1BHbDI4aFJOMTVUa1lYbnRzZHhGZmpKRjZtaGxm?=
- =?utf-8?B?Y2psUnJsWlE4OWhyWVlwcGRUVXlTWnZLWXcyaHNOMVpqZ3Z4RXhUVzZPZk94?=
- =?utf-8?B?L1ZvMEt5bHZ6TEdhSG9yNTF0clp0cmhVQXR5K0RNdDhiaFVOSFJlcFE0Tyts?=
- =?utf-8?B?azBBZHU1SnlhWTBuYjZ0NVh2bkxydWZLc3lsTjcveDM0T0lLazZyK2luTUdy?=
- =?utf-8?B?WDN3VDR5OHdrbEFlcm8xOXFOVTVNc3NSTXprRXpqM2xLQ0pmbldUM0x1KzUr?=
- =?utf-8?B?UDdtM2xZcVNYaHd3SFhKT1ZGbVNtYU83cHpKd0ZpQVpEWVZvcDhtRURzZU5W?=
- =?utf-8?B?dEhQeWVpSGdnWVJjREVxNmVXWU1BYTJ0dTZRQTNaSXRpZVpCMU9TTERYRUVD?=
- =?utf-8?B?Q1R5Vmo3MUJ1WEJOcUZGNzRlTjJxQXlMU3dvdkUvc1dBL0cxMzlyc0lYcHNz?=
- =?utf-8?B?cmZ0aDE1dHRNcmtlRGV3SlFCN1EzdFYwcUdZTVVGb01nVktUdnFVOXl6aUZH?=
- =?utf-8?B?TW5KSnJTL1V2WElRSlBBSHFBdjF4T0M4Z3VLcW53QWRNSjFyVHJyN1YyWG1Y?=
- =?utf-8?B?WkZLanBIZUxKdzFrbFpYUGJBWWhRWlBjaG85bThrSDZRajJnd3EzWFVCRm9I?=
- =?utf-8?B?eFd5TURVS1BMN0FZd2xFb1FWTlQyV2pTY1dmNjAxcUEwbHUrZmdiOWovTCtS?=
- =?utf-8?B?OU1adXpwUWVEdmpHRUhtRkhZVVNod1dOQVF0L2FtZ2FtaVh1SXdTUVFtQ3A0?=
- =?utf-8?B?N1ZlWVBWWm5LeXJLRnZERFViWHBBeEpYSXNiODN5NFJIVnU0VU9ZVWJYYm8r?=
- =?utf-8?B?Kzh1Y2taOUc2OTYrVk55bFF1cDUvRzJWZC9DQ2JZR2V4alJPMWdpYTRZVXV3?=
- =?utf-8?B?TENWL2xISkxPdXhabXRKSXBZa2NPUDVHUGtmM1JNSGErc1VLeHMyRUNGQTdr?=
- =?utf-8?B?a1IrK1hIcElaTXd6Q29jOFdIcGVqTVNvSDRDTHdxLzZGUWtEcm5sSkt1cEhz?=
- =?utf-8?B?ZGk5SEI2a2xDVVNKVDc5bVcySjdvUGo1UWtSd1BuZ096K2VBbVUzZTIrRVlN?=
- =?utf-8?B?TEw1MDJFeVo0blllYTJEQTRYZ1g1OTF1MTh4SEZieHpOZkxnQ1kzQTVraTVC?=
- =?utf-8?B?ZkppaGlnMElxYmlmQ3NmdFFzWThBcGdyRXhEamhFN1c2dzFwMTVxc2d2Q3Yw?=
- =?utf-8?Q?CvfY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2088710E295
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 19:46:28 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4fe61ae020bso5547424e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1692647186; x=1693251986;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VH/LIB2BBl9Xhwi9WvZVYemx6cbW4NSMo7wfC5sW4/U=;
+ b=4lugpclUh6TGrOj/5r/ZpWy9qvRbxn+AVfyrfqJVd4x/iFGt58A9UPDlDN4TUk8bKc
+ puBOh2kbF1JB3UIOGAYDWLoyDo390trTLn9vf6gjdWJM6Mao4lmeDSsxSQYAvovNPSvX
+ 2ZWfXVcYjA8sP0aHHTn9PSJS2fyLOdkLlw0ZdNhvNgp7eSbBK2dCxTKdrri7kT8QdG28
+ wVOZNAD/ZFu6y1PIPwXSqBuNUJG3VtnTF4EN9CTEudmos0K8bka/AMbspuFpG1zVuMZr
+ uCuqKPBZq8xF690+u98wJ/YWrI2hXE0VR9r5pjrzM37ULrYs+6s1gsZTaitWOOoMbJob
+ ErBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692647186; x=1693251986;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VH/LIB2BBl9Xhwi9WvZVYemx6cbW4NSMo7wfC5sW4/U=;
+ b=SLUu6K/wqCWeBG7mkE0tQQcdvUVkNS5OTLrplifUlHxn5qqXE9bpdT0GprBUfENbv1
+ KqkwJef6bvwKodvxKKnPX1ikXtCs1nI9ssTCsz9sPdTpoYBiUzio+P6umDWhilYo7Qkh
+ hDqrPti1Ce8AZHdaixoOxMLvCb24PdH7Mx2sgwcXHMQjYyJzrvZiapLRA0y6Msx3mDZ+
+ g5hC8GzXxFW1nEN2fA5VvXtmCMzLy1Xndf18LG3EUaCi5HmN7ZTv2hZnyvgObCezcpS7
+ RNQdVcY40lFQv/sFAy/xLusYuo5AeVbd7KGWGmPCruIE9mwldFKvndUd5rIb4NGmq7TB
+ owFg==
+X-Gm-Message-State: AOJu0Yzwzqu4UPHax7eONscEyWu67NeZhfgy3JQD5dr7WvGPxaUHKqaA
+ LeR6V2U3M9Y8CgdpK90aTwsWZngsYJ+39DILmqsr3Q==
+X-Google-Smtp-Source: AGHT+IHZLI+rqqFi2GPtentGkSlxA7d7hS9xSHP8Tp++QKx+EH7Mwgia6K4BbFUz1JQ9+d4unHseC43vDh1rkRehVeg=
+X-Received: by 2002:a05:6512:2114:b0:4fe:79c:7269 with SMTP id
+ q20-20020a056512211400b004fe079c7269mr5305265lfr.67.1692647185853; Mon, 21
+ Aug 2023 12:46:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faa24d47-cd43-4ead-5339-08dba27e97bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2023 19:41:19.7851 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HfPP5wM3wU51KUfwXnjwagQ/2zoElDG7WDE3TBRc5n8CbOfUROrgtwjwQG93lQ/NKMO8gkfKT2Dm4ledOR4qlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5492
-X-OriginatorOrg: intel.com
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-2-matthew.brost@intel.com>
+ <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
+ <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
+ <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
+ <982800c1-e7d3-f276-51d0-1a431f92eacb@amd.com>
+ <5fdf7d59-3323-24b5-a35a-bd60b06b4ce5@redhat.com>
+ <0bf839df-db7f-41fa-8b34-59792d2ba8be@amd.com>
+ <e8fa305a-0ac8-ece7-efeb-f9cec2892d44@redhat.com>
+ <ef4d2c78-6927-3d3b-7aac-27d013af7ea6@amd.com>
+ <a80be2c1-132e-5ee1-4278-47655916494a@redhat.com>
+ <0d5af79a-ba3a-d4be-938f-81627db65b50@amd.com>
+ <a3937c17-eaa5-e0e9-e0ac-1610e0652982@redhat.com>
+ <1820cb54-5f1e-d2e6-38fa-7161465ed061@amd.com>
+ <9072642e-f4f6-4ff1-e11f-9bda8730750c@redhat.com>
+ <85107169-8a24-441f-6631-d99472d810f0@amd.com>
+In-Reply-To: <85107169-8a24-441f-6631-d99472d810f0@amd.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Mon, 21 Aug 2023 14:46:14 -0500
+Message-ID: <CAOFGe94JC8V2GS5L2iCaD9=X-sbbcvrvijck8ivieko=LGBSbg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/alternative; boundary="0000000000003e498106037422ec"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,197 +82,299 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
- Philip Yang <Philip.Yang@amd.com>, "Welty, Brian" <brian.welty@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Ruhl, 
- Michael J" <michael.j.ruhl@intel.com>, "Vishwanathapura,
- Niranjana" <niranjana.vishwanathapura@intel.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
+ sarah.walker@imgtec.com, thomas.hellstrom@linux.intel.com,
+ ketil.johnsen@arm.com, lina@asahilina.net, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
+ Danilo Krummrich <dakr@redhat.com>, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IGRyaS1kZXZlbCA8ZHJpLWRl
-dmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhhbGYgT2YgRmVsaXgNCj4g
-S3VlaGxpbmcNCj4gU2VudDogQXVndXN0IDIxLCAyMDIzIDM6MTggUE0NCj4gVG86IFplbmcsIE9h
-ayA8b2FrLnplbmdAaW50ZWwuY29tPjsgRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPg0K
-PiBDYzogQnJvc3QsIE1hdHRoZXcgPG1hdHRoZXcuYnJvc3RAaW50ZWwuY29tPjsgVGhvbWFzIEhl
-bGxzdHLDtm0NCj4gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPjsgUGhpbGlwIFlh
-bmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+Ow0KPiBXZWx0eSwgQnJpYW4gPGJyaWFuLndlbHR5QGlu
-dGVsLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IENocmlzdGlhbg0KPiBL
-w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT47IFZpc2h3YW5hdGhhcHVyYSwgTmlyYW5q
-YW5hDQo+IDxuaXJhbmphbmEudmlzaHdhbmF0aGFwdXJhQGludGVsLmNvbT47IGludGVsLXhlQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBTdWJqZWN0OiBSZTogSW1wbGVtZW50IHN2bSB3aXRob3V0
-IEJPIGNvbmNlcHQgaW4geGUgZHJpdmVyDQo+IA0KPiANCj4gT24gMjAyMy0wOC0yMSAxMToxMCwg
-WmVuZywgT2FrIHdyb3RlOg0KPiA+IEFjY2lkZW50bHkgZGVsZXRlZCBCcmlhbi4gQWRkIGJhY2su
-DQo+ID4NCj4gPiBUaGFua3MsDQo+ID4gT2FrDQo+ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gPj4gRnJvbTogWmVuZywgT2FrDQo+ID4+IFNlbnQ6IEF1Z3VzdCAyMSwgMjAy
-MyAxMTowNyBBTQ0KPiA+PiBUbzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPg0KPiA+
-PiBDYzogQnJvc3QsIE1hdHRoZXcgPG1hdHRoZXcuYnJvc3RAaW50ZWwuY29tPjsgVGhvbWFzIEhl
-bGxzdHLDtm0NCj4gPj4gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPjsgUGhpbGlw
-IFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+Ow0KPiBGZWxpeA0KPiA+PiBLdWVobGluZyA8ZmVs
-aXgua3VlaGxpbmdAYW1kLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGlu
-dGVsLQ0KPiA+PiB4ZUBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IFZpc2h3YW5hdGhhcHVyYSwgTmly
-YW5qYW5hDQo+ID4+IDxuaXJhbmphbmEudmlzaHdhbmF0aGFwdXJhQGludGVsLmNvbT47IENocmlz
-dGlhbiBLw7ZuaWcNCj4gPj4gPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gPj4gU3ViamVj
-dDogUkU6IEltcGxlbWVudCBzdm0gd2l0aG91dCBCTyBjb25jZXB0IGluIHhlIGRyaXZlcg0KPiA+
-Pg0KPiA+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+IEZyb206IGRyaS1kZXZl
-bCA8ZHJpLWRldmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhhbGYgT2YN
-Cj4gRGF2ZQ0KPiA+Pj4gQWlybGllDQo+ID4+PiBTZW50OiBBdWd1c3QgMjAsIDIwMjMgNjoyMSBQ
-TQ0KPiA+Pj4gVG86IFplbmcsIE9hayA8b2FrLnplbmdAaW50ZWwuY29tPg0KPiA+Pj4gQ2M6IEJy
-b3N0LCBNYXR0aGV3IDxtYXR0aGV3LmJyb3N0QGludGVsLmNvbT47IFRob21hcyBIZWxsc3Ryw7Zt
-DQo+ID4+PiA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+OyBQaGlsaXAgWWFuZyA8
-UGhpbGlwLllhbmdAYW1kLmNvbT47DQo+ID4+IEZlbGl4DQo+ID4+PiBLdWVobGluZyA8ZmVsaXgu
-a3VlaGxpbmdAYW1kLmNvbT47IFdlbHR5LCBCcmlhbiA8YnJpYW4ud2VsdHlAaW50ZWwuY29tPjsN
-Cj4gPj4gZHJpLQ0KPiA+Pj4gZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBpbnRlbC14ZUBs
-aXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+IFZpc2h3YW5hdGhhcHVyYSwNCj4gPj4+IE5pcmFuamFu
-YSA8bmlyYW5qYW5hLnZpc2h3YW5hdGhhcHVyYUBpbnRlbC5jb20+OyBDaHJpc3RpYW4gS8O2bmln
-DQo+ID4+PiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiA+Pj4gU3ViamVjdDogUmU6IElt
-cGxlbWVudCBzdm0gd2l0aG91dCBCTyBjb25jZXB0IGluIHhlIGRyaXZlcg0KPiA+Pj4NCj4gPj4+
-IE9uIFRodSwgMTcgQXVnIDIwMjMgYXQgMTI6MTMsIFplbmcsIE9hayA8b2FrLnplbmdAaW50ZWwu
-Y29tPiB3cm90ZToNCj4gPj4+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+Pj4g
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPg0KPiA+Pj4+PiBTZW50OiBBdWd1
-c3QgMTYsIDIwMjMgNjo1MiBQTQ0KPiA+Pj4+PiBUbzogRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1
-ZWhsaW5nQGFtZC5jb20+DQo+ID4+Pj4+IENjOiBaZW5nLCBPYWsgPG9hay56ZW5nQGludGVsLmNv
-bT47IENocmlzdGlhbiBLw7ZuaWcNCj4gPj4+Pj4gPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT47
-IFRob21hcyBIZWxsc3Ryw7ZtDQo+ID4+Pj4+IDx0aG9tYXMuaGVsbHN0cm9tQGxpbnV4LmludGVs
-LmNvbT47IEJyb3N0LCBNYXR0aGV3DQo+ID4+Pj4+IDxtYXR0aGV3LmJyb3N0QGludGVsLmNvbT47
-IG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbTsNCj4gPj4+Pj4gVmlzaHdhbmF0aGFw
-dXJhLCBOaXJhbmphbmEgPG5pcmFuamFuYS52aXNod2FuYXRoYXB1cmFAaW50ZWwuY29tPjsNCj4g
-Pj4gV2VsdHksDQo+ID4+Pj4+IEJyaWFuIDxicmlhbi53ZWx0eUBpbnRlbC5jb20+OyBQaGlsaXAg
-WWFuZyA8UGhpbGlwLllhbmdAYW1kLmNvbT47DQo+IGludGVsLQ0KPiA+Pj4+PiB4ZUBsaXN0cy5m
-cmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gPj4+Pj4g
-U3ViamVjdDogUmU6IEltcGxlbWVudCBzdm0gd2l0aG91dCBCTyBjb25jZXB0IGluIHhlIGRyaXZl
-cg0KPiA+Pj4+Pg0KPiA+Pj4+PiBPbiBUaHUsIDE3IEF1ZyAyMDIzIGF0IDA4OjE1LCBGZWxpeCBL
-dWVobGluZyA8ZmVsaXgua3VlaGxpbmdAYW1kLmNvbT4NCj4gPj4+IHdyb3RlOg0KPiA+Pj4+Pj4g
-T24gMjAyMy0wOC0xNiAxMzozMCwgWmVuZywgT2FrIHdyb3RlOg0KPiA+Pj4+Pj4+IEkgc3Bva2Ug
-d2l0aCBUaG9tYXMuIFdlIGRpc2N1c3NlZCB0d28gYXBwcm9hY2hlczoNCj4gPj4+Pj4+Pg0KPiA+
-Pj4+Pj4+IDEpIG1ha2UgdHRtX3Jlc291cmNlIGEgY2VudHJhbCBwbGFjZSBmb3IgdnJhbSBtYW5h
-Z2VtZW50IGZ1bmN0aW9ucw0KPiA+Pj4gc3VjaCBhcw0KPiA+Pj4+PiBldmljdGlvbiwgY2dyb3Vw
-IG1lbW9yeSBhY2NvdW50aW5nLiBCb3RoIHRoZSBCTy1iYXNlZCBkcml2ZXIgYW5kIEJPLQ0KPiBs
-ZXNzDQo+ID4+PiBTVk0NCj4gPj4+Pj4gY29kZXMgY2FsbCBpbnRvIHR0bV9yZXNvdXJjZV9hbGxv
-Yy9mcmVlIGZ1bmN0aW9ucyBmb3IgdnJhbSBhbGxvY2F0aW9uL2ZyZWUuDQo+ID4+Pj4+Pj4gICAg
-ICAgKlRoaXMgd2F5IEJPIGRyaXZlciBhbmQgU1ZNIGRyaXZlciBzaGFyZXMgdGhlIGV2aWN0aW9u
-L2Nncm91cCBsb2dpYywNCj4gPj4gbm8NCj4gPj4+Pj4gbmVlZCB0byByZWltcGxtZW50IExSVSBl
-dmljdGlvbiBsaXN0IGluIFNWTSBkcml2ZXIuIENncm91cCBsb2dpYyBzaG91bGQgYmUNCj4gPj4g
-aW4NCj4gPj4+Pj4gdHRtX3Jlc291cmNlIGxheWVyLiArTWFhcnRlbi4NCj4gPj4+Pj4+PiAgICAg
-ICAqdHRtX3Jlc291cmNlIGlzIG5vdCBhIHBlcmZlY3QgbWF0Y2ggZm9yIFNWTSB0byBhbGxvY2F0
-ZSB2cmFtLiBJdCBpcw0KPiA+PiBzdGlsbA0KPiA+Pj4gYQ0KPiA+Pj4+PiBiaWcgb3ZlcmhlYWQu
-IFRoZSAqYm8qIG1lbWJlciBvZiB0dG1fcmVzb3VyY2UgaXMgbm90IG5lZWRlZCBmb3IgU1ZNIC0N
-Cj4gPj4+IHRoaXMNCj4gPj4+Pj4gbWlnaHQgZW5kIHVwIHdpdGggaW52YXNpdmUgY2hhbmdlcyB0
-byB0dG0uLi5uZWVkIHRvIGxvb2sgaW50byBtb3JlIGRldGFpbHMNCj4gPj4+Pj4+IE92ZXJoZWFk
-IGlzIGEgcHJvYmxlbS4gV2UnZCB3YW50IHRvIGJlIGFibGUgdG8gYWxsb2NhdGUsIGZyZWUgYW5k
-IGV2aWN0DQo+ID4+Pj4+PiBtZW1vcnkgYXQgYSBzaW1pbGFyIGdyYW51bGFyaXR5IGFzIG91ciBw
-cmVmZXJyZWQgbWlncmF0aW9uIGFuZCBwYWdlDQo+ID4+Pj4+PiBmYXVsdCBncmFudWxhcml0eSwg
-d2hpY2ggZGVmYXVsdHMgdG8gMk1CIGluIG91ciBTVk0gaW1wbGVtZW50YXRpb24uDQo+ID4+Pj4+
-Pg0KPiA+Pj4+Pj4NCj4gPj4+Pj4+PiAyKSBzdm0gY29kZSBhbGxvY2F0ZSBtZW1vcnkgZGlyZWN0
-bHkgZnJvbSBkcm0tYnVkZHkgYWxsb2NhdG9yLCBhbmQNCj4gPj4+IGV4cG9zZQ0KPiA+Pj4+PiBt
-ZW1vcnkgZXZpY3Rpb24gZnVuY3Rpb25zIGZyb20gYm90aCB0dG0gYW5kIHN2bSBzbyB0aGV5IGNh
-biBldmljdA0KPiA+PiBtZW1vcnkNCj4gPj4+Pj4gZnJvbSBlYWNoIG90aGVyLiBGb3IgZXhhbXBs
-ZSwgZXhwb3NlIHRoZSB0dG1fbWVtX2V2aWN0X2ZpcnN0IGZ1bmN0aW9uDQo+ID4+PiBmcm9tDQo+
-ID4+Pj4+IHR0bSBzaWRlIHNvIGhtbS9zdm0gY29kZSBjYW4gY2FsbCBpdDsgZXhwb3NlIGEgc2lt
-aWxhciBmdW5jdGlvbiBmcm9tIHN2bQ0KPiA+PiBzaWRlDQo+ID4+PiBzbw0KPiA+Pj4+PiB0dG0g
-Y2FuIGV2aWN0IGhtbSBtZW1vcnkuDQo+ID4+Pj4+PiBJIGxpa2UgdGhpcyBvcHRpb24uIE9uZSB0
-aGluZyB0aGF0IG5lZWRzIHNvbWUgdGhvdWdodCB3aXRoIHRoaXMgaXMgaG93DQo+ID4+Pj4+PiB0
-byBnZXQgc29tZSBzZW1ibGFuY2Ugb2YgZmFpcm5lc3MgYmV0d2VlbiB0aGUgdHdvIHR5cGVzIG9m
-IGNsaWVudHMuDQo+ID4+Pj4+PiBCYXNpY2FsbHkgaG93IHRvIGNob29zZSB3aGF0IHRvIGV2aWN0
-LiBBbmQgd2hhdCBzaGFyZSBvZiB0aGUgYXZhaWxhYmxlDQo+ID4+Pj4+PiBtZW1vcnkgZG9lcyBl
-YWNoIHNpZGUgZ2V0IHRvIHVzZSBvbiBhdmVyYWdlLiBFLmcuIGFuIGlkbGUgY2xpZW50IG1heSBn
-ZXQNCj4gPj4+Pj4+IGFsbCBpdHMgbWVtb3J5IGV2aWN0ZWQgd2hpbGUgYSBidXN5IGNsaWVudCBt
-YXkgZ2V0IGEgYmlnZ2VyIHNoYXJlIG9mIHRoZQ0KPiA+Pj4+Pj4gYXZhaWxhYmxlIG1lbW9yeS4N
-Cj4gPj4+Pj4gSSdkIGFsc28gbGlrZSB0byBzdWdnZXN0IHdlIHRyeSB0byB3cml0ZSBhbnkgbWFu
-YWdlbWVudC9nZW5lcmljIGNvZGUNCj4gPj4+Pj4gaW4gZHJpdmVyIGFnbm9zdGljIHdheSBhcyBt
-dWNoIGFzIHBvc3NpYmxlIGhlcmUuIEkgZG9uJ3QgcmVhbGx5IHNlZQ0KPiA+Pj4+PiBtdWNoIGh3
-IGRpZmZlcmVuY2Ugc2hvdWxkIGJlIGluZmx1ZW5jaW5nIGl0Lg0KPiA+Pj4+Pg0KPiA+Pj4+PiBJ
-IGRvIHdvcnJ5IGFib3V0IGhhdmluZyBlZmZlY3RpdmVseSAyIExSVXMgaGVyZSwgeW91IGNhbid0
-IHJlYWxseSBoYXZlDQo+ID4+Pj4+IHR3byAibGVhc3RzIi4NCj4gPj4+Pj4NCj4gPj4+Pj4gTGlr
-ZSBpZiB3ZSBoaXQgdGhlIHNocmlua2VyIHBhdGhzIHdobyBnb2VzIGZpcnN0PyBkbyB3ZSBzaHJp
-bmsgb25lDQo+ID4+Pj4+IG9iamVjdCBmcm9tIGVhY2ggc2lkZSBpbiB0dXJuPw0KPiA+Pj4+IE9u
-ZSB3YXkgdG8gc29sdmUgdGhpcyBmYWlybmVzcyBwcm9ibGVtIGlzIHRvIGNyZWF0ZSBhIGRyaXZl
-ciBhZ25vc3RpYw0KPiA+Pj4gZHJtX3ZyYW1fbWdyLiBNYWludGFpbiBhIHNpbmdsZSBMUlUgaW4g
-ZHJtX3ZyYW1fbWdyLiBNb3ZlIHRoZSBtZW1vcnkNCj4gPj4+IGV2aWN0aW9uL2Nncm91cHMgbWVt
-b3J5IGFjY291bnRpbmcgbG9naWMgZnJvbSB0dG1fcmVzb3VyY2UgbWFuYWdlciB0bw0KPiA+Pj4g
-ZHJtX3ZyYW1fbWdyLiBCb3RoIEJPLWJhc2VkIGRyaXZlciBhbmQgU1ZNIGRyaXZlciBjYWxscyB0
-bw0KPiBkcm1fdnJhbV9tZ3INCj4gPj4gdG8NCj4gPj4+IGFsbG9jYXRlL2ZyZWUgbWVtb3J5Lg0K
-PiA+Pj4+IEkgYW0gbm90IHN1cmUgd2hldGhlciB0aGlzIG1lZXRzIHRoZSAyTSBhbGxvY2F0ZS9m
-cmVlL2V2aWN0IGdyYW51bGFyaXR5DQo+ID4+PiByZXF1aXJlbWVudCBGZWxpeCBtZW50aW9uZWQg
-YWJvdmUuIFNWTSBjYW4gYWxsb2NhdGUgMk0gc2l6ZSBibG9ja3MuIEJ1dA0KPiBCTw0KPiA+Pj4g
-ZHJpdmVyIHNob3VsZCBiZSBhYmxlIHRvIGFsbG9jYXRlIGFueSBhcmJpdHJhcnkgc2l6ZWQgYmxv
-Y2tzIC0gU28gdGhlIGV2aWN0aW9uIGlzDQo+ID4+IGFsc28NCj4gPj4+IGFyYml0cmFyeSBzaXpl
-Lg0KPiA+Pj4+PiBBbHNvIHdpbGwgd2UgaGF2ZSBzeXN0ZW1zIHdoZXJlIHdlIGNhbiBleHBvc2Ug
-c3lzdGVtIFNWTSBidXQNCj4gdXNlcnNwYWNlDQo+ID4+Pj4+IG1heSBjaG9vc2UgdG8gbm90IHVz
-ZSB0aGUgZmluZSBncmFpbmVkIFNWTSBhbmQgdXNlIG9uZSBvZiB0aGUgb2xkZXINCj4gPj4+Pj4g
-bW9kZXMsIHdpbGwgdGhhdCBwYXRoIGdldCBlbXVsYXRlZCBvbiB0b3Agb2YgU1ZNIG9yIHVzZSB0
-aGUgQk8gcGF0aHM/DQo+ID4+Pj4gSWYgYnkgIm9sZGVyIG1vZGVzIiB5b3UgbWVhbnQgdGhlIGdl
-bV9ib19jcmVhdGUgKHN1Y2ggYXMNCj4geGVfZ2VtX2NyZWF0ZQ0KPiA+PiBvcg0KPiA+Pj4gYW1k
-Z3B1X2dlbV9jcmVhdGUpLCB0aGVuIHRvZGF5IGJvdGggYW1kIGFuZCBpbnRlbCBpbXBsZW1lbnQg
-dGhvc2UNCj4gPj4+IGludGVyZmFjZXMgdXNpbmcgQk8gcGF0aC4gV2UgZG9uJ3QgaGF2ZSBhIHBs
-YW4gdG8gZW11bGF0ZSB0aGF0IG9sZCBtb2RlIG9uDQo+ID4+IHRvcGUNCj4gPj4+IG9mIFNWTSwg
-YWZhaWN0Lg0KPiA+Pj4NCj4gPj4+IEknbSBub3Qgc3VyZSBob3cgdGhlIG9sZGVyIG1vZGVzIG1h
-bmlmZXN0IGluIHRoZSBrZXJuZWwgSSBhc3N1bWUgYXMgYm8NCj4gPj4+IGNyZWF0ZXMgKGJ1dCB0
-aGV5IG1heSB1c2UgdXNlcnB0ciksIFNWTSBpc24ndCBhIHNwZWNpZmljIHRoaW5nLCBpdCdzIGEN
-Cj4gPj4+IGdyb3VwIG9mIDMgdGhpbmdzLg0KPiA+Pj4NCj4gPj4+IDEpIGNvYXJzZS1ncmFpbmVk
-IFNWTSB3aGljaCBJIHRoaW5rIGlzIEJPDQo+ID4+PiAyKSBmaW5lLWdyYWluZWQgU1ZNIHdoaWNo
-IGlzIHBhZ2UgbGV2ZWwNCj4gPj4+IDMpIGZpbmUtZ3JhaW5lZCBzeXN0ZW0gU1ZNIHdoaWNoIGlz
-IEhNTQ0KPiA+Pj4NCj4gPj4+IEkgc3VwcG9zZSBJJ20gYXNraW5nIGFib3V0IHRoZSBwcmV2aW91
-cyB2ZXJzaW9ucyBhbmQgaG93IHRoZXkgd291bGQNCj4gPj4+IG9wZXJhdGUgaW4gYSBzeXN0ZW0g
-U1ZNIGNhcGFibGUgc3lzdGVtLg0KPiA+PiBJIGdvdCB5b3VyIHF1ZXN0aW9uIG5vdy4NCj4gPj4N
-Cj4gPj4gQXMgSSB1bmRlcnN0YW5kIGl0LCB0aGUgc3lzdGVtIFNWTSBwcm92aWRlcyBzaW1pbGFy
-IGZ1bmN0aW9uYWxpdHkgYXMgQk8tYmFzZWQNCj4gPj4gU1ZNIChpLmUuLCBzaGFyZSB2aXJ0dWFs
-IGFkZHJlc3Mgc3BhY2UgYi90IGNwdSBhbmQgZ3B1IHByb2dyYW0sIG5vIGV4cGxpY2l0DQo+ID4+
-IG1lbW9yeSBwbGFjZW1lbnQgZm9yIGdwdSBwcm9ncmFtKSwgYnV0IHRoZXkgaGF2ZSBkaWZmZXJl
-bnQgdXNlciBpbnRlcmZhY2UNCj4gPj4gKG1hbGxvYywgbW1hcCB2cyBibyBjcmVhdGUsIHZtIGJp
-bmQpLg0KPiA+Pg0KPiA+PiAgRnJvbSBmdW5jdGlvbmFsaXR5IHBlcnNwZWN0aXZlLCBvbiBhIHN5
-c3RlbSBTVk0gY2FwYWJsZSBzeXN0ZW0sIHdlIGRvbid0DQo+IG5lZWQNCj4gPj4gIzEvIzIuIE9u
-Y2UgIzMgaXMgaW1wbGVtZW50ZWQgYW5kIHR1cm5lZCBvdXQgYmUgYXMgcGVyZm9ybWFudCBhcyAj
-MS8jMiwgd2UNCj4gPj4gY2FuIGFzayB1c2VyIHNwYWNlIHRvIHN3aXRjaCB0byAjMy4NCj4gPj4N
-Cj4gPj4gQXMgZmFyIGFzIEkga25vdywgQU1EIGRvZXNuJ3QgaGF2ZSAjMS8jMiAtIHRoZWlyIEJP
-LWJhc2VkIGRyaXZlciAqcmVxdWlyZXMqDQo+IGFsbA0KPiA+PiB2YWxpZCBHUFUgdmlydHVhbCBh
-ZGRyZXNzIGJlIG1hcHBlZCB0byBHUFUgcGFnZSB0YWJsZSAqYmVmb3JlKiBHUFUga2VybmVsDQo+
-ID4+IHN1Ym1pc3Npb24sIGFrYSBhIEdQVSBwYWdlIGZhdWx0IGlzIHRyZWF0ZWQgYXMgZmF0YWwu
-IEZlbGl4IHBsZWFzZSBmaXggbWUsIGFzIG15DQo+ID4+IEFNRCBrbm93bGVkZ2UgaXMgZmFkaW5n
-IGF3YXkuLi4NCj4gDQo+IFRoaXMgaXMgY29ycmVjdC4gVGhlIEFNRCBkcml2ZXIgY2FuIG9ubHkg
-aGFuZGxlIHJlY292ZXJhYmxlIHBhZ2UgZmF1bHRzDQo+IGZvciB2aXJ0dWFsIGFkZHJlc3MgcmFu
-Z2VzIG1hbmFnZWQgYnkgc3lzdGVtIFNWTS4NCj4gDQo+IFRoYXQgc2FpZCwgaWYgeW91IHdhbnQg
-cGVyZm9ybWFuY2UgcGFyaXR5IHdpdGggIzEvIzIsIHlvdSBiYXNpY2FsbHkgbmVlZA0KPiB0byBw
-cmUtZmF1bHQgdGhpbmdzIGV2ZW4gZm9yICMzLiBEZXZpY2UgcGFnZSBmYXVsdHMganVzdCBhZGQg
-dG9vIG11Y2gNCj4gbGF0ZW5jeS4NCj4gDQo+IA0KPiA+Pg0KPiA+PiAgRnJvbSBpbnRlcmZhY2Ug
-cGVyc3BlY3RpdmUsIGkuZS4sIHRvIGtlZXAgVU1EIHdoaWNoIHVzaW5nICMxLyMyIGNvbnRpbnVl
-IHRvDQo+IHJ1bg0KPiA+PiB3aXRob3V0IG1vZGlmaWNhdGlvbiwgd2UgbmVlZCAjMS8jMiB0byBj
-b250aW51ZSBleGlzdC4NCj4gDQo+IEFncmVlZC4NCj4gDQo+IA0KPiA+Pg0KPiA+PiBTaG91bGQg
-d2UgZW11bGF0ZSAjMS8jMiBvbiB0b3Agb2YgIzM/IEkgZmVlbCB0aGUgQk8tYmFzZWQgbWVtb3J5
-DQo+ID4+IG1hbmFnZW1lbnQgYW5kIHRoZSBzdHJ1Y3QgcGFnZS9obW0gYmFzZWQgbWVtb3J5IG1h
-bmFnZW1lbnQgYXJlDQo+IHF1aXRlDQo+ID4+IGRpZmZlcmVudCBkZXNpZ24gcGhpbG9zb3BoeS4g
-VHJ5aW5nIHRvIGVtdWxhdGUgb25lIG9uIHRvcCBvZiBhbm90aGVyIGNhbiBydW4NCj4gaW50bw0K
-PiA+PiBzZXJpb3VzIGRpZmZpY3VsdHkuIEZvciBleGFtcGxlLCBob3cgZG8gd2UgZW11bGF0ZSBh
-IHZtX2JpbmQgb24gdG9wIG9mICMzPw0KPiA+PiBSZW1lbWJlciBmb3IgIzEvIzIgdmlydHVhbCBh
-ZGRyZXNzIHNwYWNlIGlzIG1hbmFnZWQgYnkgdXNlciBzcGFjZSB3aGlsZSAjMw0KPiANCj4gPj4g
-dmlydHVhbCBhZGRyZXNzIHNwYWNlIGlzIG1hbmFnZWQgYnkga2VybmVsIGNvcmUgbW0gKHZtYSBz
-dHJ1Y3QuLi4pLiBJdCBpcyBhIGhhcmQNCj4gPj4gY29uZmxpY3QgaGVyZS4uLg0KPiANCj4gSSBo
-YXZlIHRob3VnaHQgYWJvdXQgZW11bGF0aW5nIEJPIGFsbG9jYXRpb24gQVBJcyBvbiB0b3Agb2Yg
-c3lzdGVtIFNWTS4NCj4gVGhpcyB3YXMgaW4gdGhlIGNvbnRleHQgb2YgS0ZEIHdoZXJlIG1lbW9y
-eSBtYW5hZ2VtZW50IGlzIG5vdCB0aWVkIGludG8NCj4gY29tbWFuZCBzdWJtaXNzaW9ucyBBUElz
-LCB3aGljaCB3b3VsZCBhZGQgYSB3aG9sZSBvdGhlciBsYXllciBvZg0KPiBjb21wbGV4aXR5LiBU
-aGUgbWFpbiB1bnNvbHZlZCAodW5zb2x2YWJsZT8pIHByb2JsZW0gSSByYW4gaW50byB3YXMsIHRo
-YXQNCj4gdGhlcmUgaXMgbm8gd2F5IHRvIHNoYXJlIFNWTSBtZW1vcnkgYXMgRE1BQnVmcy4gU28g
-dGhlcmUgaXMgbm8gZ29vZCB3YXkNCj4gdG8gc3VwcG9ydCBhcHBsaWNhdGlvbnMgdGhhdCBleHBl
-Y3QgdG8gc2hhcmUgbWVtb3J5IGluIHRoYXQgd2F5Lg0KDQpHcmVhdCBwb2ludC4gSSBhbHNvIGRp
-c2N1c3NlZCB0aGUgZG1hYnVmIHRoaW5nIHdpdGggTWlrZSAoY2MnZWQpLiBkbWFidWYgaXMgYSBw
-YXJ0aWN1bGFyIHRlY2hub2xvZ3kgY3JlYXRlZCBzcGVjaWFsbHkgZm9yIHRoZSBCTyBkcml2ZXIg
-KGFuZCBvdGhlciBkcml2ZXIpIHRvIHNoYXJlIGJ1ZmZlciBiL3QgZGV2aWNlcy4gSG1tL3N5c3Rl
-bSBTVk0gZG9lc24ndCBuZWVkIHRoaXMgdGVjaG5vbG9neTogbWFsbG9jJ2VkIG1lbW9yeSBieSB0
-aGUgbmF0dXJlIGlzIGFscmVhZHkgc2hhcmVkIGIvdCBkaWZmZXJlbnQgZGV2aWNlcyAoaW4gb25l
-IHByb2Nlc3MpIGFuZCBDUFUuIFdlIGp1c3QgY2FuIHNpbXBseSBzdWJtaXQgR1BVIGtlcm5lbCB0
-byBhbGwgZGV2aWNlcyB3aXRoIG1hbGxvYydlZCBtZW1vcnkgYW5kIGxldCBrbWQgZGVjaWRlIHRo
-ZSBtZW1vcnkgcGxhY2VtZW50IChzdWNoIGFzIG1hcCBpbiBwbGFjZSBvciBtaWdyYXRlKS4gTm8g
-bmVlZCBvZiBidWZmZXIgZXhwb3J0L2ltcG9ydCBpbiBobW0vc3lzdGVtIFNWTSB3b3JsZC4NCg0K
-U28geWVzIGZyb20gYnVmZmVyIHNoYXJpbmcgcGVyc3BlY3RpdmUsIHRoZSBkZXNpZ24gcGhpbG9z
-b3BoeSBpcyBhbHNvIHZlcnkgZGlmZmVyZW50Lg0KDQpUaGFua3MsDQpPYWsNCg0KPiANCj4gWW91
-IG1heSBiZSBhYmxlIHRvIGVtdWxhdGUgdGhhdCB3aXRoIGZpbGUtYmFja2VkIG1lbW9yeSAoZS5n
-LiBQT1NJWA0KPiBJUEMpLCBidXQgaXQgYWRkcyBvdmVyaGVhZCBhdCBhbGxvY2F0aW9uIHRpbWUg
-YW5kIEhNTSBtaWdyYXRpb24NCj4gY3VycmVudGx5IGRvZXNuJ3Qgd29yayB3aXRoIGZpbGUtYmFj
-a2VkIG1lbW9yeS4NCj4gDQo+IFJlZ2FyZHMsDQo+ICDCoCBGZWxpeA0KPiANCj4gDQo+ID4+DQo+
-ID4+IFRoYW5rcyBhZ2FpbiBmb3IgdGhlIGdyZWF0IHF1ZXN0aW9uIQ0KPiA+PiBPYWsNCj4gPj4N
-Cj4gPj4+IERhdmUuDQo+ID4+Pj4gVGhhbmtzLA0KPiA+Pj4+IE9haw0KPiA+Pj4+DQo+ID4+Pj4+
-IERhdmUuDQo=
+--0000000000003e498106037422ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Aug 21, 2023 at 1:13=E2=80=AFPM Christian K=C3=B6nig <christian.koe=
+nig@amd.com>
+wrote:
+
+> Am 21.08.23 um 20:01 schrieb Danilo Krummrich:
+> > On 8/21/23 16:07, Christian K=C3=B6nig wrote:
+> >> Am 18.08.23 um 13:58 schrieb Danilo Krummrich:
+> >>> [SNIP]
+> >>>> I only see two possible outcomes:
+> >>>> 1. You return -EBUSY (or similar) error code indicating the the hw
+> >>>> can't receive more commands.
+> >>>> 2. Wait on previously pushed commands to be executed.
+> >>>> (3. Your driver crash because you accidentally overwrite stuff in
+> >>>> the ring buffer which is still executed. I just assume that's
+> >>>> prevented).
+> >>>>
+> >>>> Resolution #1 with -EBUSY is actually something the UAPI should not
+> >>>> do, because your UAPI then depends on the specific timing of
+> >>>> submissions which is a really bad idea.
+> >>>>
+> >>>> Resolution #2 is usually bad because it forces the hw to run dry
+> >>>> between submission and so degrade performance.
+> >>>
+> >>> I agree, that is a good reason for at least limiting the maximum job
+> >>> size to half of the ring size.
+> >>>
+> >>> However, there could still be cases where two subsequent jobs are
+> >>> submitted with just a single IB, which as is would still block
+> >>> subsequent jobs to be pushed to the ring although there is still
+> >>> plenty of space. Depending on the (CPU) scheduler latency, such a
+> >>> case can let the HW run dry as well.
+> >>
+> >> Yeah, that was intentionally not done as well. The crux here is that
+> >> the more you push to the hw the worse the scheduling granularity
+> >> becomes. It's just that neither Xe nor Nouveau relies that much on
+> >> the scheduling granularity at all (because of hw queues).
+> >>
+> >> But Xe doesn't seem to need that feature and I would still try to
+> >> avoid it because the more you have pushed to the hw the harder it is
+> >> to get going again after a reset.
+> >>
+> >>>
+> >>> Surely, we could just continue decrease the maximum job size even
+> >>> further, but this would result in further overhead on user and
+> >>> kernel for larger IB counts. Tracking the actual job size seems to
+> >>> be the better solution for drivers where the job size can vary over
+> >>> a rather huge range.
+> >>
+> >> I strongly disagree on that. A larger ring buffer is trivial to
+> allocate
+> >
+> > That sounds like a workaround to me. The problem, in the case above,
+> > isn't that the ring buffer does not have enough space, the problem is
+> > that we account for the maximum job size although the actual job size
+> > is much smaller. And enabling the scheduler to track the actual job
+> > size is trivial as well.
+>
+> That's what I agree on, so far I just didn't see the reason for doing it
+> but at least a few reason for not doing it.
+>
+> >
+> >> and if userspace submissions are so small that the scheduler can't
+> >> keep up submitting them then your ring buffer size is your smallest
+> >> problem.
+> >>
+> >> In other words the submission overhead will completely kill your
+> >> performance and you should probably consider stuffing more into a
+> >> single submission.
+> >
+> > I fully agree and that is also the reason why I want to keep the
+> > maximum job size as large as possible.
+> >
+> > However, afaik with Vulkan it's the applications themselves deciding
+> > when and with how many command buffers a queue is submitted (@Faith:
+> > please correct me if I'm wrong). Hence, why not optimize for this case
+> > as well? It's not that it would make another case worse, right?
+>
+> As I said it does make both the scheduling granularity as well as the
+> reset behavior worse.
+>
+> In general I think we should try to push just enough work to the
+> hardware to keep it busy and not as much as possible.
+>
+> So as long as nobody from userspace comes and says we absolutely need to
+> optimize this use case I would rather not do it.
+>
+
+This is a place where nouveau's needs are legitimately different from AMD
+or Intel, I think.  NVIDIA's command streamer model is very different from
+AMD and Intel.  On AMD and Intel, each EXEC turns into a single small
+packet (on the order of 16B) which kicks off a command buffer.  There may
+be a bit of cache management or something around it but that's it.  From
+there, it's userspace's job to make one command buffer chain to another
+until it's finally done and then do a "return", whatever that looks like.
+
+NVIDIA's model is much more static.  Each packet in the HW/FW ring is an
+address and a size and that much data is processed and then it grabs the
+next packet and processes. The result is that, if we use multiple buffers
+of commands, there's no way to chain them together.  We just have to pass
+the whole list of buffers to the kernel.  A single EXEC ioctl / job may
+have 500 such addr+size packets depending on how big the command buffer
+is.  It gets worse on pre-Turing hardware where we have to split the batch
+for every single DrawIndirect or DispatchIndirect.
+
+Lest you think NVIDIA is just crazy here, it's a perfectly reasonable model
+if you assume that userspace is feeding the firmware.  When that's
+happening, you just have a userspace thread that sits there and feeds the
+ringbuffer with whatever is next and you can marshal as much data through
+as you want. Sure, it'd be nice to have a 2nd level batch thing that gets
+launched from the FW ring and has all the individual launch commands but
+it's not at all necessary.
+
+What does that mean from a gpu_scheduler PoV? Basically, it means a
+variable packet size.
+
+What does this mean for implementation? IDK.  One option would be to teach
+the scheduler about actual job sizes. Another would be to virtualize it and
+have another layer underneath the scheduler that does the actual feeding of
+the ring. Another would be to decrease the job size somewhat and then have
+the front-end submit as many jobs as it needs to service userspace and only
+put the out-fences on the last job. All the options kinda suck.
+
+~Faith
+
+--0000000000003e498106037422ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, Aug 21, 2023 at 1:13=E2=80=AFPM Christian K=C3=B6nig &lt;<a =
+href=3D"mailto:christian.koenig@amd.com">christian.koenig@amd.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 21.08.2=
+3 um 20:01 schrieb Danilo Krummrich:<br>
+&gt; On 8/21/23 16:07, Christian K=C3=B6nig wrote:<br>
+&gt;&gt; Am 18.08.23 um 13:58 schrieb Danilo Krummrich:<br>
+&gt;&gt;&gt; [SNIP]<br>
+&gt;&gt;&gt;&gt; I only see two possible outcomes:<br>
+&gt;&gt;&gt;&gt; 1. You return -EBUSY (or similar) error code indicating th=
+e the hw <br>
+&gt;&gt;&gt;&gt; can&#39;t receive more commands.<br>
+&gt;&gt;&gt;&gt; 2. Wait on previously pushed commands to be executed.<br>
+&gt;&gt;&gt;&gt; (3. Your driver crash because you accidentally overwrite s=
+tuff in <br>
+&gt;&gt;&gt;&gt; the ring buffer which is still executed. I just assume tha=
+t&#39;s <br>
+&gt;&gt;&gt;&gt; prevented).<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Resolution #1 with -EBUSY is actually something the UAPI s=
+hould not <br>
+&gt;&gt;&gt;&gt; do, because your UAPI then depends on the specific timing =
+of <br>
+&gt;&gt;&gt;&gt; submissions which is a really bad idea.<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Resolution #2 is usually bad because it forces the hw to r=
+un dry <br>
+&gt;&gt;&gt;&gt; between submission and so degrade performance.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I agree, that is a good reason for at least limiting the maxim=
+um job <br>
+&gt;&gt;&gt; size to half of the ring size.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; However, there could still be cases where two subsequent jobs =
+are <br>
+&gt;&gt;&gt; submitted with just a single IB, which as is would still block=
+ <br>
+&gt;&gt;&gt; subsequent jobs to be pushed to the ring although there is sti=
+ll <br>
+&gt;&gt;&gt; plenty of space. Depending on the (CPU) scheduler latency, suc=
+h a <br>
+&gt;&gt;&gt; case can let the HW run dry as well.<br>
+&gt;&gt;<br>
+&gt;&gt; Yeah, that was intentionally not done as well. The crux here is th=
+at <br>
+&gt;&gt; the more you push to the hw the worse the scheduling granularity <=
+br>
+&gt;&gt; becomes. It&#39;s just that neither Xe nor Nouveau relies that muc=
+h on <br>
+&gt;&gt; the scheduling granularity at all (because of hw queues).<br>
+&gt;&gt;<br>
+&gt;&gt; But Xe doesn&#39;t seem to need that feature and I would still try=
+ to <br>
+&gt;&gt; avoid it because the more you have pushed to the hw the harder it =
+is <br>
+&gt;&gt; to get going again after a reset.<br>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Surely, we could just continue decrease the maximum job size e=
+ven <br>
+&gt;&gt;&gt; further, but this would result in further overhead on user and=
+ <br>
+&gt;&gt;&gt; kernel for larger IB counts. Tracking the actual job size seem=
+s to <br>
+&gt;&gt;&gt; be the better solution for drivers where the job size can vary=
+ over <br>
+&gt;&gt;&gt; a rather huge range.<br>
+&gt;&gt;<br>
+&gt;&gt; I strongly disagree on that. A larger ring buffer is trivial to al=
+locate <br>
+&gt;<br>
+&gt; That sounds like a workaround to me. The problem, in the case above, <=
+br>
+&gt; isn&#39;t that the ring buffer does not have enough space, the problem=
+ is <br>
+&gt; that we account for the maximum job size although the actual job size =
+<br>
+&gt; is much smaller. And enabling the scheduler to track the actual job <b=
+r>
+&gt; size is trivial as well.<br>
+<br>
+That&#39;s what I agree on, so far I just didn&#39;t see the reason for doi=
+ng it <br>
+but at least a few reason for not doing it.<br>
+<br>
+&gt;<br>
+&gt;&gt; and if userspace submissions are so small that the scheduler can&#=
+39;t <br>
+&gt;&gt; keep up submitting them then your ring buffer size is your smalles=
+t <br>
+&gt;&gt; problem.<br>
+&gt;&gt;<br>
+&gt;&gt; In other words the submission overhead will completely kill your <=
+br>
+&gt;&gt; performance and you should probably consider stuffing more into a =
+<br>
+&gt;&gt; single submission.<br>
+&gt;<br>
+&gt; I fully agree and that is also the reason why I want to keep the <br>
+&gt; maximum job size as large as possible.<br>
+&gt;<br>
+&gt; However, afaik with Vulkan it&#39;s the applications themselves decidi=
+ng <br>
+&gt; when and with how many command buffers a queue is submitted (@Faith: <=
+br>
+&gt; please correct me if I&#39;m wrong). Hence, why not optimize for this =
+case <br>
+&gt; as well? It&#39;s not that it would make another case worse, right?<br=
+>
+<br>
+As I said it does make both the scheduling granularity as well as the <br>
+reset behavior worse.<br>
+<br>
+In general I think we should try to push just enough work to the <br>
+hardware to keep it busy and not as much as possible.<br>
+<br>
+So as long as nobody from userspace comes and says we absolutely need to <b=
+r>
+optimize this use case I would rather not do it.<br></blockquote><div><br><=
+/div><div>This is a place where nouveau&#39;s needs are legitimately differ=
+ent from AMD or Intel, I think.=C2=A0 NVIDIA&#39;s command streamer model i=
+s very different from AMD and Intel.=C2=A0 On AMD and Intel, each EXEC turn=
+s into a single small packet (on the order of 16B) which kicks off a comman=
+d buffer.=C2=A0 There may be a bit of cache management or something around =
+it but that&#39;s it.=C2=A0 From there, it&#39;s userspace&#39;s job to mak=
+e one command buffer chain to another until it&#39;s finally done and then =
+do a &quot;return&quot;, whatever that looks like.=C2=A0</div><div><br></di=
+v><div>NVIDIA&#39;s model is much more static.=C2=A0 Each packet in the HW/=
+FW ring is an address and a size and that much data is processed and then i=
+t grabs the next packet and processes. The result is that, if we use multip=
+le buffers of commands, there&#39;s no way to chain them together.=C2=A0 We=
+ just have to pass the whole list of buffers to the kernel.=C2=A0 A single =
+EXEC ioctl / job may have 500 such addr+size packets depending on how big t=
+he command buffer is.=C2=A0 It gets worse on pre-Turing hardware where we h=
+ave to split the batch for every single DrawIndirect or DispatchIndirect.</=
+div><div><br></div><div>Lest you think NVIDIA is just crazy here, it&#39;s =
+a perfectly reasonable model if you assume that userspace is feeding the fi=
+rmware.=C2=A0 When that&#39;s happening, you just have a userspace thread t=
+hat sits there and feeds the ringbuffer with whatever is next and you can m=
+arshal as much data through as you want. Sure, it&#39;d be nice to have a 2=
+nd level batch thing that gets launched from the FW ring and has all the in=
+dividual launch commands but it&#39;s not at all necessary.</div><div><br><=
+/div><div>What does that mean from a gpu_scheduler PoV? Basically, it means=
+ a variable packet size.<br></div><div><br></div><div>What does this mean f=
+or implementation? IDK.=C2=A0 One option would be to teach the scheduler ab=
+out actual job sizes. Another would be to virtualize it and have another la=
+yer underneath the scheduler that does the actual feeding of the ring. Anot=
+her would be to decrease the job size somewhat and then have the front-end =
+submit as many jobs as it needs to service userspace and only put the out-f=
+ences on the last job. All the options kinda suck.</div><div><br></div><div=
+>~Faith<br></div></div></div>
+
+--0000000000003e498106037422ec--
