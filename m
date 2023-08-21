@@ -2,108 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EA978296E
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1541D782986
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CFD10E244;
-	Mon, 21 Aug 2023 12:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE6610E240;
+	Mon, 21 Aug 2023 12:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2041.outbound.protection.outlook.com [40.107.237.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69FFF10E244;
- Mon, 21 Aug 2023 12:47:50 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA4E010E240;
+ Mon, 21 Aug 2023 12:51:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dUmLK/nmIMWHYgvdCuAf//JphfntRaXlUEjVbnjbHt/PUruU8tFzJhjoGbf2dsqtDCyueD47QuO7dq+obzHSmFeUdCwxDNfC81lSrQ5umnO+ahr73MdgancaVvxym4vsLDzIUk1dCy3gmBDub25NPcAAQxWnCb5U1yWqRFHNc38LHcyW7dRXOqIkli45lCWgLrsyoYLen1BC5qp1x990d740tAuakyxOVZpfff6lCuKKuBXwIZOIKXNMgoSksx5I9uVV8YFqU6dWYaDuXEavasPA5jo8nCSlwFjQBVcyq5D3DNzRiBSKiMMVxpkyjStVzsUp4HG3R2dbLQUZ/uIjWg==
+ b=H7BQAzKPrgxwRngTKBIFi4+8d4w3WY8Fz5oE+M3hYVFWGIRBA/V3H16gZJ1I3XzV+5LQNGrbsdLFsJfuVah0XJW0b3jnZm3A3+uNWbqIwuKSfhjCpcnpUwaCh2oIe+4mQhXyAWsi3YM0I6r0NVlSC+nRluk9aTfFNUPHtXoPWwJER+HIN/DX2/nLsA+CGB0PJQ4JbsDUP7vttA6rCX2KxVmUj6Z3W2RL72S+tuFPw8JxAITWlRsNYWBGIr3OQYnv/z5ApZPMPY4ao/9vxl8WvlR/EjMq5tfVdCkpxW4hEYgj8+rRZeeLysXp9L4puAqpqyleQ9Cgwclrbq1f7pfZZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i5GsFyI5GJmuujrW0DUtJ8taZ70zjMgaQ0pdfSIUmQI=;
- b=MSmZsTn0suSrDgkHKmD4Nn3Vo+YNcMXsbx3uVMAOOc/dZc33r01kJO/m5WL3T1sl/ZmOjuPYoB2g6ymrhpxXlOUcn/PX5m5YfytBRCQX5ht9MKbUsZ/EyjEMikEX5QLQl516QTjefaVUbHPYmjfJtyI7gRqpTmjKqtiSvD/zV6LHIDxT+3NKxAQ28dKtgpY5270pbo9YsZMJmTJza6oHAnTZg0ZlT3DVm0DcNsH6vA23vmQ0haptQUbuozhn4xngHNmkL3hI2P4RybmtzarXKI997d3894g/zBb+sXF7lltQUuxFJbACy33FiworplFpApIa2Nt3tUQ2XbP6p6IhHg==
+ bh=qNuaXDjHiLTHoXA1rCLSHzrfqpYj+Qp6ClJy4a+iF3s=;
+ b=fPKVj7ZdDYd5jTcEmgPeyJL8kNeHtoS1Ecu+nuL1hEZTR46woWWTZ6vZjNl/snd+x/DkJMXi9+iCdr3oISzGmo2uKpH3QtY/raAGiRMlr5Ucq/B9S3tTN7kD69/GmqLgunc4Ek6cE6/0TE3LyiD7QD/sGFh92tLdDaEOQZAmPueQT+krR7hN9PQNJw9pYFmcV4mWRJ2C8SFOV2Sdk6DIqp8mZkmoomw3R5k9eT4TGGrNRp9JcpNa+FQbsmj74HxelPGWqt72Ly9SMZ4WrrIQWLp7HJ8I1AARpzSI1QXAkr0bY+LOqHbfzcAF1RoFZDDL+l03icr81tXDAG48Azk7kA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i5GsFyI5GJmuujrW0DUtJ8taZ70zjMgaQ0pdfSIUmQI=;
- b=dKCEZ9XMExO+U64YpfZ899mI38wOmX1KZg5I0QsUt9dDR2XIz6fljoqIozNO88agt9bmrgdbuDiCM+jYlZyawimAu6zchOlUT1v3fX5uG6gnGBLXe6tfqJzJR0cj6q/jP8j6ZPGYMd24lT1Md1yO7M6Aei5iPG3NGTgYQx2MgOX2WddCi2juZ3GJpWBACTpeJDPZWRe3NPgeBs8/wXIYiKfS7S8cDMUZ3gqpkeZe81QXX9U8i4ALow4uQut7mFgdLDyL8bPyH6wOzZ0m9BSOxfAnrhL71iEOliogbmGbdeZFHZZVnt85RlMNFk29c4Sgvu5BoOmcU7A9BfOv6MxnwA==
+ bh=qNuaXDjHiLTHoXA1rCLSHzrfqpYj+Qp6ClJy4a+iF3s=;
+ b=nEY/xqeRZOYs1fPi/IBTRm9Qwk13YtTo3/euHfWyYKYMFQ1xFwVXBspHrM3jKPl/3A8Iv9RutwCxq9TkW0SLjLgldeUFEH6+8Bcrf/kQnHunEkEV8LNrSs9HW8upkrxx5idkU8cat08jZQFmU5RJUsD6uB4rrxqgbTo1w2KWVim+QlPCqoT73M+SHofjLs1rOlxI77GZw9b90GSRqO97Lh5NOsC21dlKxq2/4UCDNyzs+FJwOxjkALkxMHUw/sGB7GAzUfJ+0fjon6vNUKugLroB+IJIuRot4818fKueVWYa9vYeG3igp64Bo9GdVF6hqBxReZQV9tMNm74HKcRQfQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DS0PR12MB8341.namprd12.prod.outlook.com (2603:10b6:8:f8::10) with
- Microsoft SMTP Server (version=TLS1_2,
+ by MW4PR12MB6850.namprd12.prod.outlook.com (2603:10b6:303:1ed::14)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 12:47:47 +0000
+ 2023 12:51:14 +0000
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6699.020; Mon, 21 Aug 2023
- 12:47:47 +0000
-Date: Mon, 21 Aug 2023 09:47:46 -0300
+ 12:51:14 +0000
+Date: Mon, 21 Aug 2023 09:51:13 -0300
 From: Jason Gunthorpe <jgg@nvidia.com>
-To: Joerg Roedel <joro@8bytes.org>
+To: Robin Murphy <robin.murphy@arm.com>
 Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
  __iommu_probe_device()
-Message-ID: <ZONc8myQKuBceAMf@nvidia.com>
+Message-ID: <ZONdwclGOBaxxqtq@nvidia.com>
 References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
  <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
- <ZONYQyMSG17YMc_b@8bytes.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZONYQyMSG17YMc_b@8bytes.org>
-X-ClientProxiedBy: MN2PR20CA0065.namprd20.prod.outlook.com
- (2603:10b6:208:235::34) To LV2PR12MB5869.namprd12.prod.outlook.com
+In-Reply-To: <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
+X-ClientProxiedBy: BL1PR13CA0014.namprd13.prod.outlook.com
+ (2603:10b6:208:256::19) To LV2PR12MB5869.namprd12.prod.outlook.com
  (2603:10b6:408:176::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS0PR12MB8341:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5aa5770-4f00-429f-1466-08dba244d248
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|MW4PR12MB6850:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22a4b79b-00ea-433c-9893-08dba2454dc7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CGF8zel1taRlADL03+zpPzjaQXOoChnNhkSfrWMPOxDtKVuRhd1RtIocUOvCPW0Gnki0Zd+tURdQvBZVGt0wNmYeANR0Dl9BsHNm0MuklqaYI7UgyWMrVuXVahDUyb/dLkHEaB3JY05fqnvntop1/MZezqfTCTXwDBn5pfHgb/BZiC0OxI52/LO1g/1m5IpHsXr+ozrH1ZVwOtApgVV7z9w/cxNhKGNjGqYU8WdcpCDOwyDLvSsvCP16l3faRlGWF2iUjE7Xy3UDkc51q7QxjszqJ/zqZ+jaQmUUWubEi4hsOzVENB/7vLRgoZdiy10wrRt+AaXjN0/6xnXCVqO/E3+3qU6wPfSNOBT2ivoJzNQaCQC6WPPdQZC8/TdfzhHpe4+eNrs4+AjZ5JAe/DPJny1rmxB4d3pM8J43srXWKTRrTTgqVf8Yn0VPzs+pMw4Nc4yfG8lD1ITlWbP36BLClxuMqJr8eKCDPJhcMFMWE1RJjM6Y3TSqMyu6qWKmeUbVEkozxUYwUOdCvg/us5AuGhGh23Hk7tCZbvTAiqOJcTrGhyArKozypA2/lbXvgSm0
+X-Microsoft-Antispam-Message-Info: NmrlHYkggJ2nHAKVj3phCceisxZjgFBWKPZGEdbGXIrb/Dn6Jz1MTkbJ+UtrEms0c1T7E40uC6M3aKBda2ZxT7aRbwd9U7F/weLPJBD8ZQZ6JGVW80ofrYpNuUIGlIlQQ/OPWPE/gC77LxyW+Ylke5fYRpBv4wKQQGBWlw5284LxFT+I7HkfIAzrWteRCIRUYr8Ts2xTG3hbFFnWd1ijt6REYiN1J5xyrv/JUuOmNVAdINGN+t4CQNDe6+azMvzgDCmXKQM/0CSU/Yce/DdAwCwUqykOoeDUzgR1MbIJF/8NNGx0yCfXdFPc6B8lMSqOQk0LQH5bTuelBxa1ZsPVzfoFqqHYdHaQbStL6Q6oAOnSo9mRxAKZ7ZDK0HIqN1nCy6YnWl5FKAE4GrKgSpTYnEGxMQ6bc+ms3Qznv/tk37/0Rdm3KfdzQnStaXPIWcAo9ch8ZshT501iHBIGQyvSclxWYOzltSKXGrBc1qXAFj00K6nrsN0w9BH+jl8Mb4BnxXVf1vaFToVwlV8wvYwc0rfTa7N9qYr4S/U82NgJ/LZd4dySrUtuohdvQOreiAAi
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199024)(186009)(1800799009)(2906002)(4744005)(7416002)(7366002)(7406005)(38100700002)(6506007)(6486002)(83380400001)(5660300002)(26005)(86362001)(8676002)(2616005)(8936002)(4326008)(316002)(66946007)(6512007)(54906003)(6916009)(66556008)(66476007)(478600001)(36756003)(41300700001);
+ SFS:(13230031)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199024)(186009)(1800799009)(2906002)(7416002)(7366002)(7406005)(53546011)(38100700002)(6506007)(6486002)(83380400001)(5660300002)(26005)(86362001)(8676002)(2616005)(8936002)(4326008)(316002)(66946007)(6512007)(54906003)(6916009)(66556008)(66476007)(66899024)(478600001)(36756003)(41300700001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W8ahnWSFdLqj3/2FrxKcJRUBtTV+iTAW5m9zZr18g1KUns9xgwW1e1A5VRVT?=
- =?us-ascii?Q?x5fUDGPYJGgEIfOsaVqqIr86tfLoBzzZqzGASpypPIiRzafvbnD/FEdeOeTe?=
- =?us-ascii?Q?JF+GMm9rz2elCO8lJ59TRStXeS9IPTlbGX7xVj/XfgIevhoTSYNHsM/+jUKx?=
- =?us-ascii?Q?eIVkGRnQEf4QmqbqomeTDhQswcTCM+BLyAh8NmV5E0WLQYHR7djpdesjHkAU?=
- =?us-ascii?Q?WaTNsUIM5nHZFwrF6uTBwkSHCSBRbcYmggFh7rstw6KXfpiK49VB8lNlr3TZ?=
- =?us-ascii?Q?dLUFd1SmmCDmLaGiWmwCwD2p+J43Jilg8OdczFx9q/KudByJa2Gut+6MnctP?=
- =?us-ascii?Q?T2H9epO9edOn7s9/zltqsVuT1JsxnZK24Om7nbPeHnPxdrEzWumPai/BkO/f?=
- =?us-ascii?Q?eMtjhcUs9XPznRIjl2AJzDGxm19sih5EZQ5JCmCUtoSiqaZIp5CLo7cnaUWV?=
- =?us-ascii?Q?s++B2KVmww2Bv5MOYVBg8UyajVfwEbx0/b/QZ3vwJeudZQ/fS5y1Wmov+wmN?=
- =?us-ascii?Q?9q0aABLaRFeSmeEBmR0l+KltrJOsZ/cdum8d8BOm2dOX5TZhhyqdL1lQEuRx?=
- =?us-ascii?Q?POAv1guAfwEOV+gWe4wR7MjeApPEnqKohodtHAPuzkTWm1mQXnIpvgXtNsPA?=
- =?us-ascii?Q?t2wAz9HxRbAbyXXao2GcoeNgVJK+xVvjhjity/mdyNC117ZWrSMBYaEGyePb?=
- =?us-ascii?Q?sPIybVXSTlT9iDelE07U85c7KrkOvgliv2kM77fj1hg8k3DMCVQyKmnzY/yo?=
- =?us-ascii?Q?yv8pQMoRzdU4wemAZ0i4Aw4Lrszr8aoWOMY0hG/Xf1wr5OXDITzXOmKmoWOZ?=
- =?us-ascii?Q?Od0/Y81XTXYJ7cSKedn6sUbTGz8VfX4UMNG8tlSkqgcKBkNdXbRI9rFn1g0j?=
- =?us-ascii?Q?jXx8gSpWXqNGIcvfA6SSnN7G7NOGevMxF3WD45wvzZXieW6p1y2NUCWaDixM?=
- =?us-ascii?Q?48IhP2fpqvDRUx79zZrBFchLf58wZzqZ8dm2qMdrLJczD/0RRhgs1VVvULhM?=
- =?us-ascii?Q?TUBI3CdojgxxLLfoxAyYr+ZACZtlNRRcZV/bGUdEQaTjEmmhtf4nLGhrhjEY?=
- =?us-ascii?Q?K9uue4dEJH7k5CDiSdOAFkidpTi6uRLfvdO+cTYfEf9m1IOxmPvaL993uVlb?=
- =?us-ascii?Q?QMueK6OzFgvxV2rNJe5Dsee1lXWVXMcf6/YR8wQTio+3KtAOKz7MKR0UZYXp?=
- =?us-ascii?Q?2cvrb3KJflAzdxivD470bJZg+X7UFoJttkoy5fI2SHTlovYc3uAE2skmZZ3v?=
- =?us-ascii?Q?xi4yKDuKYej1mgiS+tac97uvgpRFL6CBWcT7DYkJ9URRLiA/GZAYLB1h4BzO?=
- =?us-ascii?Q?KfBYpzgGUUSBoEDw7r6GnLnZHq1ntP8DKmEYYei3xNk120DtHRRfEqR9RsQq?=
- =?us-ascii?Q?PZIbhgG5+6m5utQBP87o6Cxdj7haMxTJ+xcdaL2C9AB4JgEAGNI6m2AveaUX?=
- =?us-ascii?Q?dKwXWOH7HG2HWgS9sIdHTgBpbH38Lh9ud21yvoyFv9jedabbDJBdHU9Ibtmp?=
- =?us-ascii?Q?bO6MPmfKFv3pnh68MlcT95ORcuJp4nhCWlDGFQL/jDmQeLdR/sVKxHq6xDP1?=
- =?us-ascii?Q?PwzaOa8VVCG2HmRQOwKw1ROZY93Duo6WOvWAtJw7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QyYxkkE3o5nnOsinGeWKraNyp7F/ly8111ZXt/Apzu/dIyuyU1VHdEpfZbe2?=
+ =?us-ascii?Q?3AXfinDTVEGRcbzzxmbcHClfnkarHt5zhCEQUFh6AsdK5+FNy8fzIhXMW74p?=
+ =?us-ascii?Q?0DWJINg79XKnutBQY7uRSHclHGpWzjQVxLWZwcfeXfmjotdKIpxiTUczpc+R?=
+ =?us-ascii?Q?ewky8YThyjT/1FFKrullofYydPUR6RKAb34DpnhIlQX+kR8mdDfvcpEdGbJy?=
+ =?us-ascii?Q?qKyQgXD3yFqP5icje6t0Gl0a7WV4SoHAbmoII8+/CsOUkhmYERrvEdCgSx8C?=
+ =?us-ascii?Q?k9VrMUVFQsDt4GjLrY1xgpbu8KSviWQkIVhN6gjXKAKb5QCSXHxNIU7loBo0?=
+ =?us-ascii?Q?+HYVmTZxJPF4yYZu5o5twgEy6m75ldrLHZx6tdAUiW0sCtSL0NP18+TT7CXB?=
+ =?us-ascii?Q?dpVKv+6DuQZd14u4FdNTRIzygPFi7wTgGzeQkNWYtrjwyjYCc/hA9dcxdWe2?=
+ =?us-ascii?Q?c8ALaRS/pm2KGUHVdBmAUAAgRv+u6U/kTVb6hyYw4N5E8ALFaC+Mvk3bMmGx?=
+ =?us-ascii?Q?PpTWsHV+0+kM0kblTTGjYKfBqA4/ePG1cfozdhNibwJdqtAJE6GzaApydHjA?=
+ =?us-ascii?Q?7rzkqxt2ZFSjbRKNk1ox1Gd6x01rTzbP05db/wXr8WFNo4PBi2DTzmkbkCtU?=
+ =?us-ascii?Q?zCCGg9mEifgIyVyScNsjvpGUEW0EYOeoGzB6+YsH9e96Ls8EchDtj+/HV1WS?=
+ =?us-ascii?Q?c9mbBMx/WauKwUe/hj0JN05o2KCtKe6aqWQGafg2c0X534dM2p0WHq26kyX0?=
+ =?us-ascii?Q?LGZ5ph9xGWTCExNzrl6F+/ufk8e0t0E2CfrFKJC/x0rXpEOSuE21oF9J8XG9?=
+ =?us-ascii?Q?7+2bQ5u8uPKu3R5zZSdyvhEV7oigUbDeaO1TMJ/7C8ZPae5v4MjQSmqlTtJK?=
+ =?us-ascii?Q?jgn0tj9/LVu4m/0mKRI0bU5OBl0RW6i6+JoHT+vTHpnqD1zcsxv77Vh0j9nt?=
+ =?us-ascii?Q?YQWhBf+JO2cQBV5xwIc3DIX5WnaM0AqTMO9FKixncc45zGqmQvt7vLK3+w5l?=
+ =?us-ascii?Q?JPgZzcerqLPD8+T1bj7p0i2ns9y1kXSbzoD4VH5IHohSDfXczZf4ncg04jWD?=
+ =?us-ascii?Q?nKS4GoZ1aOQr3qgU2dOmeHoifsUj/rbP+tSB+Tl0jO251srLVaHvXJBSGwN0?=
+ =?us-ascii?Q?E1q2J4P+ueacY4o3uoUCgKlTqPFB1QlUeqtFEuysULd9E0ZdY0cFzzpB1rQ0?=
+ =?us-ascii?Q?QhoAwYqkKiqtSA6qLzOH7WjMbugev7mzixBGH+ZiWGhIGzyIMfThd//gngZC?=
+ =?us-ascii?Q?w9ZUILIMTuy/o5pQn3TEMIKRwMOpZxMaOwChcwkfAJCKoCFQiPdl5C5DMP75?=
+ =?us-ascii?Q?AqZWHp9DI3QaDmm6oFsdsjhUVs9wtJ8Ys8cG1OQIwNJ6sj7pJ+i3nVc5UuCx?=
+ =?us-ascii?Q?NDtoE4a/wrQiAg2NzhgsPHlUrPbiQYhck0rUPipUcNesIafZcZoDhm5D411p?=
+ =?us-ascii?Q?Tb+ZcI8YD1aYmATgeMlTh+sTJF/HjIZoNmn2gA54QiyZTqVMj7CdZ38Vbmx1?=
+ =?us-ascii?Q?DX7k5gnQJLXKuATibwv9Yvp2TDvjFQCrTQ+aBx5AL2m11beCroNgzox32An8?=
+ =?us-ascii?Q?3DjhuSH+E3B8pFE6CxGtwnFrNWg7XRXv40FyPLtN?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5aa5770-4f00-429f-1466-08dba244d248
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22a4b79b-00ea-433c-9893-08dba2454dc7
 X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 12:47:47.5545 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 12:51:14.7494 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j9LDXsRLWNFEJxLIhFjHq/MXAkLThR3n/3J7GHPZ13/ftt9AIhg4pymIazkmRRfo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8341
+X-MS-Exchange-CrossTenant-UserPrincipalName: aDWV5dP5qf0J2bIIwmISU7r9iWwbX7ZHaYBaOMnqZq4awKkP8i1jm5Sof6FA5faL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6850
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,17 +119,17 @@ Cc: alsa-devel@alsa-project.org,
  =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
  Emma Anholt <emma@anholt.net>, Kevin Tian <kevin.tian@intel.com>,
  dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Jeff Johnson <quic_jjohnson@quicinc.com>, Chen-Yu Tsai <wens@csie.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>, Chen-Yu Tsai <wens@csie.org>,
  Thierry Reding <thierry.reding@gmail.com>, ath10k@lists.infradead.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Frank Rowand <frowand.list@gmail.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
- Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
- Sinan Kaya <okaya@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, iommu@lists.linux.dev,
- Andy Gross <agross@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Samuel Holland <samuel@sholland.org>, Joerg Roedel <joro@8bytes.org>,
+ Takashi Iwai <tiwai@suse.com>, Sinan Kaya <okaya@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ iommu@lists.linux.dev, Andy Gross <agross@kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, ath11k@lists.infradead.org,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <jroedel@suse.de>,
@@ -140,28 +139,78 @@ Cc: alsa-devel@alsa-project.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dmaengine@vger.kernel.org,
  Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Jeff Johnson <quic_jjohnson@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
  linux-wireless@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
  linux-sunxi@lists.linux.dev, Konrad Dybcio <konrad.dybcio@linaro.org>,
  Rob Herring <robh+dt@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>
+ Lu Baolu <baolu.lu@linux.intel.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 21, 2023 at 02:27:47PM +0200, Joerg Roedel wrote:
-> On Mon, Aug 21, 2023 at 12:06:40PM +0100, Robin Murphy wrote:
-> > The solution is to drop those locking patches entirely and rethink the whole
-> > thing.
+On Mon, Aug 21, 2023 at 12:06:40PM +0100, Robin Murphy wrote:
+> On 2023-08-18 22:32, Jason Gunthorpe wrote:
+> > It is subtle and was never documented or enforced, but there has always
+> > been an assumption that of_dma_configure_id() is not concurrent. It makes
+> > several calls into the iommu layer that require this, including
+> > dev_iommu_get(). The majority of cases have been preventing concurrency
+> > using the device_lock().
+> > 
+> > Thus the new lock debugging added exposes an existing problem in
+> > drivers. On inspection this looks like a theoretical locking problem as
+> > generally the cases are already assuming they are the exclusive (single
+> > threaded) user of the target device.
 > 
-> Agreed, that was exactly what I thought when looking at this patch.
-> 
-> I dropped the original 10 patches and the 4 fixes on-top from the IOMMU
-> tree. This needs more investigation and adaption of the actual API users
-> before it can be reconsidered.
+> Sorry to be blunt, but the only problem is that you've introduced an
+> idealistic new locking scheme which failed to take into account how things
+> currently actually work, and is broken and achieving nothing but causing
+> problems.
 
-Why did you drop the whole series? The group changes are fine
+That's pretty dramatic. I would have prefered this series have some
+more testing before Joerg took it, but this is certainly not
+"achieving nothing but causing problems". Introducing a real scheme
+for how locking is supposed to work here is going to cause some
+strain.  We've had a long period where the lack of any locking rules
+has yielded a big mess held together with hope and dreams.
+
+Of course there will be crazy stuff. If these 13 drivers are the only
+problem then we've done pretty well.
+
+And at the end we get *actual rules about how locking works* Wow!
+Certainly not nothing.
+
+What I want to hear from you is a concrete reason why device_lock() is
+the *wrong* lock here. I can't think of any reason why we can't obtain
+the device_lock in all the places that want to probe the iommu driver.
+
+Nor, can I see a reason why it would be a bad choice of lock after all
+the dma_configure logic is reworked someday.
+
+> When their sole purpose was to improve the locking and make it
+> easier to reason about, and now the latest "fix" is now to remove
+> one of the assertions which forms the fundamental basis for that
+> reasoning, then the point has clearly been lost.
+
+I do not want to remove the assertion, I think the assertion should
+stay so people running debug kernels on these drivers can get warnings
+about the existing problems in these drivers.
+
+It is removed mostly because we are at rc7, otherwise I'd play wack a
+mole adding the device_lock and a nasty comment to the drivers. We can
+tackle that in the next cycle and put the assertion back.
+
+> All we've done is churned a dodgy and incomplete locking scheme into
+
+Well, at least we agree what we have today is not great.
+
+> And on the subject of idealism, the fact is that doing IOMMU configuration
+> based on driver probe via bus->dma_configure is *fundamentally wrong* and
+> breaking a bunch of other IOMMU API assumptions, so it is not a robust
+> foundation to build anything upon in the first place. 
+
+So now that Joerg has dropped it - what is your big idea to make the
+locking actually work right?
 
 Jason
