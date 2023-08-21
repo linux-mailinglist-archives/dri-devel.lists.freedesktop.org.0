@@ -1,120 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC2D782A5B
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 15:21:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 126F1782A97
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 15:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 767E810E251;
-	Mon, 21 Aug 2023 13:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD1B510E255;
+	Mon, 21 Aug 2023 13:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6FF10E251
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 13:21:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dcJcXCaECjE3teyhM/lTUi3M216Yfwy/QwdBdDU6tRGI3iD3uoDAPXxyPJU+JDTrLbhx2a5LU1qkr/YVRM4Hi8bwWdyqc+y3/V7v5wifbDd/SFtRKsc8FC2MJN1PYgyMu+Y2cagSRw7uHcVirDmoCcbQ1EIMZLCVupSD0qYGZ5vYogkYtWY06zaOtLsvK7lMfUGNgHuLAQm16HiNY8FRHzJH8Ftd8dNIKmzS43g3mt/gGgBIvUgdwC4KRtjdkheB2tuNIVSKQvJq71clFKVhlLpIaHp8WYJZdBkzvdoHDbpcbRZT52pCbvcqVI2hWAYmky/5FH2Xs1dlxHgjssUkqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8NaH/Yy7wU8L8b1kcl187ouhYT2KU/G5D157CVusWrA=;
- b=FXqGS7zDaseIW2omCW4EsL7g47JrxL+2y2w4u2HkQ86gpJ/eY6Zv/7xMpfdivKhoGxD0tqoj8de1exp8MhHFF3SrtARMiQJTUfRtNH9gr0uJYZvTBiea5FrFNDnRrwPGkgl3Vu18aS5Z9i3iLbWr8bIEpHY5tsPpfpcf8iXUCyWr1Zs8AMtfLebFgxCkyZe2PUWOrpHmcsLy1ZD2JmojDX9cFZP4R8xaJ9eKOW/SWTp9twrgEuzmUwa8ZZPq9A68KjlvJn9IAkSqMIqN8R1zAQ2rni1xUgbWu16lQ3+MYTlKr1SFpmOVe9RV6jl6VW3ghQBAoHnrq+p0VCnkjra8EA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8NaH/Yy7wU8L8b1kcl187ouhYT2KU/G5D157CVusWrA=;
- b=vPRHOtyFkTm4HmG/Nr2emjEbRy/HAhiRe71LdGLXdalGVR6/oI/LM6iyvObvvkYkQQ28HOirnezfRuJLpp5BvonwOzQooqTbP0cJ8e35485QNx20f74mB/qCvk2VYwvsAwz2Hygb9+n1mJ/OdHCY/RUqYS+Wxxqz01FHUPxbVGQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB8224.namprd12.prod.outlook.com (2603:10b6:208:3f9::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
- 2023 13:20:59 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 13:20:59 +0000
-Message-ID: <b74a5cc3-8174-67f3-17ab-2e8a7d8fa1a6@amd.com>
-Date: Mon, 21 Aug 2023 15:20:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [BUG] KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] /
- drm_sched_entity_push_job [gpu_sched]
-Content-Language: en-US
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
- linux-kernel@vger.kernel.org
-References: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
- <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0255.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:af::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F58710E253
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 13:33:39 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-3159b524c56so675994f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 06:33:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1692624818; x=1693229618;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0GElaOsI7inGXeWY9tHV4a2729vYTIQjqdirGP3tICw=;
+ b=CA3FhAsGLgzOPvAW1meKo3pirLSW22BYI15QF6ehWP6nqcr9hhIvNZeSTSHynogc2s
+ wDoDLtjfACHxG2oe2ginzLzE0yx3ve+GB0rAz65gueOJhwU93eB1JjEMPaXeMXHuk5a3
+ oAHGqqfi5WWUmgqH1d4FlhqJa/82QloH8T4Vw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692624818; x=1693229618;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0GElaOsI7inGXeWY9tHV4a2729vYTIQjqdirGP3tICw=;
+ b=DzOBd+1TxRPJCds/LKk1D6JvzGbi6UncAPBzGPf+sLO3Hii15inkjTF9YsaiN9qI81
+ 3oT8QpQR/oFXCty+ej9dZy1K05pXWp3rySIwaSO4uHXmYlPbygKaMgZOulH8if0BQpoS
+ 2l+tJhaAw76XE1tH6ajoNoU7oXT2Q1TCj2BFu/2vXAouGlnKdJMvmtOumbZxn8fwvIFa
+ asn3Pzf36QcvsIclIic352BcQY0Vd+14tvFRx+e1duWWrRfU98F7THMSgjs0kKmoKHzV
+ Nl33LtevqlID8nnghedm2ftiRSM0JSUAv962SOkNUB7U+RYoqmToVoJsGOyEt+iXojdM
+ LGCA==
+X-Gm-Message-State: AOJu0YwE2nDz9I/Hqa4p79fh+9RCHTYAeneMS/aujWOSy4+6oMA2zGQQ
+ Zih7xptRfpDXssLvDv0H48F51g==
+X-Google-Smtp-Source: AGHT+IHL2tYDzLKyeQcYtn0cwjZICejUB6ciSSEXo3473AB9oyRewbdeBGWQ8sOY2Z8XrjmShrCrkA==
+X-Received: by 2002:a5d:690f:0:b0:319:7c84:c1bc with SMTP id
+ t15-20020a5d690f000000b003197c84c1bcmr4281652wru.4.1692624817290; 
+ Mon, 21 Aug 2023 06:33:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020a5d68c6000000b00317f70240afsm12726045wrw.27.2023.08.21.06.33.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Aug 2023 06:33:36 -0700 (PDT)
+Date: Mon, 21 Aug 2023 15:33:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v2 2/2] doc: uapi: Add document describing dma-buf
+ semantics
+Message-ID: <ZONnrvrBzWmuuHVl@phenom.ffwll.local>
+References: <20210905122742.86029-1-daniels@collabora.com>
+ <20230803154908.105124-4-daniels@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB8224:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2f72d68-6d2c-4b66-359e-08dba24975c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xshn3j28xDuH0DkyFNeuPLBddYxR3MN+P944xt16h5Zd0AEgl3D8eHi57XW/hcr8bbtqzCpYAOxIgsw952Ik0Kc8hScN7OI6VtVK95k+Io9zO1kVDIvbK+mls5rDksp/rrpCRS1w3Lq0H86KRzot8vVos1Uknv78i6U0ReH1mqtQwJoVoj5QdiWC1Z+j3ei5OFDt0UrttNXLm2ZvbXcMJGOU91Tn23MMgWK93RCPuWtmmnM6jMB6ID/0NF6avzGo0QdRbKc6XZnFScVFt8/+tge9GQoRt4KaA1NFBV3hi9II1g+aJu0Avujc1veRe0oY2ykIi/UPeNLHtnlaeGnQoUdjSjJ+v4eZvAfHDOF/f4JPk7RrExHGL/QHA3qaDfSBzcBX89qazs8dCiVe5vpv2WbvM22D9bpoy/RBvn1A5Nw1SaHdFDntnLhBkg3luxCmS6puQaSHSVo0Vr4yffOrgn0qkeDaqCm4ZnbaTTJxsdMQMks4lsxEpepKKDbN815jvw05XMAiU+q9OJJVbwd6rCJSreNVt1dYEVNs5dx74ANrh0MRtBFTpDV2ajXCzdQ1StXlFfcK2XoeXq2171s+zAjsgjaO753nM6mvZ5zt0k+MV8Hkp0G+s9HzKWfEECo4tKnlpuKdYaP8Tdyjt+saIA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(346002)(376002)(39860400002)(366004)(396003)(1800799009)(186009)(451199024)(6666004)(6486002)(6506007)(38100700002)(6512007)(53546011)(31696002)(83380400001)(36756003)(26005)(2616005)(41300700001)(66556008)(316002)(2906002)(66946007)(54906003)(66476007)(86362001)(5660300002)(8676002)(478600001)(4326008)(8936002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blNBOGdCOEtpNS9VRmJDdTg1Q2ZPZ2FUQWphRUJlN0VIeGI1Y3lYMnoyWWxG?=
- =?utf-8?B?TmJya0NvVGJtMlBqd1p6QzJkRlQ1M2V6UVVMbVNYQ3I3NENBODBsb29WbTZW?=
- =?utf-8?B?all1bUEzbEhveGQvVU1HbkN5NmVLT3NJMnNOUUsveTArZjBTZDF1QzRDb1hh?=
- =?utf-8?B?ck90S0hPS3RoZkE0RmVRMGpGZHVPamJBUFA3cDhvNEU4TnRtNlRmUkJtOEU1?=
- =?utf-8?B?RFZQZW00K2toWWdOOEdzM2RNMlcySmZGMXc5ZDFCUEtrT0FqeFVDb2NPV2pG?=
- =?utf-8?B?RytHZVlZZ1NZTkUxY05Ga0NsQmV4dm9WZ3htbi82SzBZN0lQVHFLamUvZVpX?=
- =?utf-8?B?eWZsM1BOMHN3VHUvbWpwZEd3cFVlbHpYbmRSZ0htVUNTclYzZW84NVhTWHlu?=
- =?utf-8?B?ZVV3KzhscG5TdVBlWXQ4dm0zVTg1TmFZTnRNN0RxOGRxU0dnTktxejZpNEl1?=
- =?utf-8?B?QnY1Q2FZakxrOXRaWUhyejhGWXJJOERyVXQySktudXFVa2t2OXYrKzBEeFJq?=
- =?utf-8?B?d2ZRUjdubjlSaW5ycFEwenZZV3JFUVhWclliYVJMbDdXWW9IZFE3cWFHQ2FS?=
- =?utf-8?B?M3M1VWhHK3N6cXhNY0RrQ1B3WG84T0lwb0VOV1dINGorQVhXR0FWVmtYREN3?=
- =?utf-8?B?Uk0yWktlaC8vUElIOEJiZHE5N0N0RGRIQmQzK3ZNOU1QL2ZHNm1NaFFVNTg1?=
- =?utf-8?B?MXZST3hwL1g0TER6L2c3dGZSYVljWDRSNjFiWFV1MC9nRFJZODdnTVBoK082?=
- =?utf-8?B?eWo3QXVQK21mcmg5OHVkTStocTdlNkE2V0pqQWlLbm42d1EzcFArT1pGSEJX?=
- =?utf-8?B?d01OVm5LZXIzcGsxcngrK2dmU2x5S0pTVEZBTmtWemRoN1crOEM3TGd0SFY0?=
- =?utf-8?B?UTY1TDVONFNwK0NJZEJkdTc1QVQ1Y3Z4eHdxdEdGMnFkalJuc3JXS0RzRUkr?=
- =?utf-8?B?U25TSUxCVHVsNW40MFFmTDQvOEozM29sWVQyNFBFektwTTJJNVRKVkl5bmtO?=
- =?utf-8?B?Ym5OMk1idWl4OTlpVjhxM3hSQmlHNFFHQ2Rka1Y5ZlV2OG5PakcxeDlEbjNk?=
- =?utf-8?B?emc2Z1Avamo2UHJkRGsxa0FzZWVKMS9vNSt2dFpQVEEvdkZjUlRPS0htcVUx?=
- =?utf-8?B?OFlQdWpCOFUzbmdoS0c5V0EzM2o3NUgxeUlEZURmNkQxQnBMQnJnamhITWxn?=
- =?utf-8?B?aXZhWTZoRitpbFVmSEM0TjloZm9oRTlpTC8xQU41Qk4yMmozc0M2MStXZTJV?=
- =?utf-8?B?ZmpLWW1EZ3RVUnJreHlGd3NJcytkODlqdXBobytFWnNuZ3lMczE4UzR6QWNS?=
- =?utf-8?B?QWFva1RXTDVXeFJrbkNqMEhoTXlqb1F3bFhRSmNhZSt4WDVDcy9ubUE1QVBM?=
- =?utf-8?B?ZlVtVTlwaTAyR2ZDSjQxT3IrUGZNM3FoVnE5cUcrYll1bEZQL0N4a1dPbnY2?=
- =?utf-8?B?Yy9Zc2tvOGdwVEtWbHZXWnkzbXBNVDllenNiaGVDUGcvdGk2akxKUlFVVTVD?=
- =?utf-8?B?MklidXh5bUgyWDZvdVZ0Sm0vQUJBYTI3aTN5dkRFcHJ5eDN6d1FINmU5TFVj?=
- =?utf-8?B?Q1lkMSs4ck0rT0VRMGJUVllTeDJmSCs2b1BidjVHOHB1VlB0Zll0d3Z4b1BD?=
- =?utf-8?B?V0d3clpzcUtobTNTSUg0SytwNE81dXZsZlBvbHZTbkZtMjNjQUlxd1F5cCtD?=
- =?utf-8?B?cEVhQ2dPcEVlV2hETVVVYVl2cXFFUzQ1TVdxUFErSDFxZVYrdWQyR3FGUm85?=
- =?utf-8?B?SVhBb0FEQ3p3VWJUUUd6bTB3Y3gvTWx0czRzM0o0aHZRUSt1MHh4Qlc5ZXRJ?=
- =?utf-8?B?bGRNVnpDd2xlZ2crNG1DYUNObWNxOWFhUDBkclVOUDQwUDhrNzJDK0VhRnlV?=
- =?utf-8?B?alowa0hpVXRRQjc5YS91MGFhWXIrTmgxRFFxeFV0Y3l5S2l3UkliV0pjNjdw?=
- =?utf-8?B?WFdzRDE1akpHbWRBM0R4TkVwVmlNczRia0p2emIrSnoxOFhreEluWDBKRzlL?=
- =?utf-8?B?M2VMTks2RUJLOFIwaE8wSzRyUWdTcnpSYXZPTHR3Z2x0eDU0eXE1R1ZuZ3hu?=
- =?utf-8?B?RnhmVEZoSEMxak1FZkxrRGlMdjJsOUNmY2RhRzJnNWdrMmtmTGJOeEJ4REdQ?=
- =?utf-8?Q?V3dFnCoMbUV3MqC5ICQJkZQ0M?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2f72d68-6d2c-4b66-359e-08dba24975c6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 13:20:59.6703 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q9hvEbqiNkIIYSyiomY6Hemzhg/LM2eskO/iqEUyVh0sSQzyHNv38BSZ/yxZKs+S
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8224
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803154908.105124-4-daniels@collabora.com>
+X-Operating-System: Linux phenom 6.3.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,164 +72,499 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mirsad,
+On Thu, Aug 03, 2023 at 04:47:29PM +0100, Daniel Stone wrote:
+> Since there's a lot of confusion around this, document both the rules
+> and the best practice around negotiating, allocating, importing, and
+> using buffers when crossing context/process/device/subsystem boundaries.
+> 
+> This ties up all of dma-buf, formats and modifiers, and their usage.
+> 
+> Signed-off-by: Daniel Stone <daniels@collabora.com>
 
-well this is a false positive.
+On both patches Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> with the
+minor nits on this one here address while applying or something like that.
 
-That drm_sched_entity_is_ready() doesn't see the data written by 
-drm_sched_entity_push_job() is part of the logic here.
+> ---
+>  Documentation/driver-api/dma-buf.rst          |   8 +
+>  Documentation/gpu/drm-uapi.rst                |   7 +
+>  .../userspace-api/dma-buf-alloc-exchange.rst  | 384 ++++++++++++++++++
+>  Documentation/userspace-api/index.rst         |   1 +
+>  4 files changed, 400 insertions(+)
+>  create mode 100644 Documentation/userspace-api/dma-buf-alloc-exchange.rst
+> 
+> v2:
+>  - Moved to general uAPI section, cross-referenced from dma-buf/DRM
+>  - Added Pekka's suggested glossary with some small changes
+>  - Cleanups and clarifications from Simon and James
+> 
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 862dbc2759d0..0c153d79ccc4 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -22,6 +22,14 @@ interact with the three main primitives offered by dma-buf:
+>     allowing implicit (kernel-ordered) synchronization of work to
+>     preserve the illusion of coherent access
+>  
+> +
+> +Userspace API principles and use
+> +--------------------------------
+> +
+> +For more details on how to design your subsystem's API for dma-buf use, please
+> +see Documentation/userspace-api/dma-buf-alloc-exchange.rst.
+> +
+> +
+>  Shared DMA Buffers
+>  ------------------
+>  
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 65fb3036a580..eef5fd19bc92 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -486,3 +486,10 @@ and the CRTC index is its position in this array.
+>  
+>  .. kernel-doc:: include/uapi/drm/drm_mode.h
+>     :internal:
+> +
+> +
+> +dma-buf interoperability
+> +========================
+> +
+> +Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+> +information on how dma-buf is integrated and exposed within DRM.
+> diff --git a/Documentation/userspace-api/dma-buf-alloc-exchange.rst b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
+> new file mode 100644
+> index 000000000000..090453d2ad78
+> --- /dev/null
+> +++ b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
+> @@ -0,0 +1,384 @@
+> +.. Copyright 2021-2023 Collabora Ltd.
+> +
+> +========================
+> +Exchanging pixel buffers
+> +========================
+> +
+> +As originally designed, the Linux graphics subsystem had extremely limited
+> +support for sharing pixel-buffer allocations between processes, devices, and
+> +subsystems. Modern systems require extensive integration between all three
+> +classes; this document details how applications and kernel subsystems should
+> +approach this sharing for two-dimensional image data.
+> +
+> +It is written with reference to the DRM subsystem for GPU and display devices,
+> +V4L2 for media devices, and also to Vulkan, EGL and Wayland, for userspace
+> +support, however any other subsystems should also follow this design and advice.
+> +
+> +
+> +Glossary of terms
+> +=================
+> +
+> +.. glossary::
+> +
+> +    image:
+> +      Conceptually a two-dimensional array of pixels. The pixels may be stored
+> +      in one or more memory buffers. Has width and height in pixels, pixel
+> +      format and modifier (implicit or explicit).
+> +
+> +    row:
+> +      A span along a single y-axis value, e.g. from co-ordinates (0,100) to
+> +      (200,100).
+> +
+> +    scanline:
+> +      Synonym for row.
+> +
+> +    column:
+> +      A span along a single x-axis value, e.g. from co-ordinates (100,0) to
+> +      (100,100).
+> +
+> +    memory buffer:
+> +      A piece of memory for storing (parts of) pixel data. Has stride and size
+> +      in bytes and at least one handle in some API. May contain one or more
+> +      planes.
+> +
+> +    plane:
+> +      A two-dimensional array of some or all of an image's color and alpha
+> +      channel values.
+> +
+> +    pixel:
+> +      A picture element. Has a single color value which is defined by one or
+> +      more color channels values, e.g. R, G and B, or Y, Cb and Cr. May also
+> +      have an alpha value as an additional channel.
+> +
+> +    pixel data:
+> +      Bytes or bits that represent some or all of the color/alpha channel values
+> +      of a pixel or an image. The data for one pixel may be spread over several
+> +      planes or memory buffers depending on format and modifier.
+> +
+> +    color value:
+> +      A tuple of numbers, representing a color. Each element in the tuple is a
+> +      color channel value.
+> +
+> +    color channel:
+> +      One of the dimensions in a color model. For example, RGB model has
+> +      channels R, G, and B. Alpha channel is sometimes counted as a color
+> +      channel as well.
+> +
+> +    pixel format:
+> +      A description of how pixel data represents the pixel's color and alpha
+> +      values.
+> +
+> +    modifier:
+> +      A description of how pixel data is laid out in memory buffers.
+> +
+> +    alpha:
+> +      A value that denotes the color coverage in a pixel. Sometimes used for
+> +      translucency instead.
+> +
+> +    stride:
+> +      A value that denotes the relationship between pixel-location co-ordinates
+> +      and byte-offset values. Typically used as the byte offset between two
+> +      pixels at the start of vertically-consecutive tiling blocks. For linear
+> +      layouts, the byte offset between two vertically-adjacent pixels.
 
-Regards,
-Christian.
+Maybe add here:
 
-Am 18.08.23 um 15:44 schrieb Mirsad Todorovac:
-> On 8/17/23 21:54, Mirsad Todorovac wrote:
->> Hi,
->>
->> This is your friendly bug reporter.
->>
->> The environment is vanilla torvalds tree kernel on Ubuntu 22.04 LTS 
->> and a Ryzen 7950X box.
->>
->> Please find attached the complete dmesg output from the ring buffer 
->> and lshw output.
->>
->> NOTE: The kernel reports tainted kernel, but to my knowledge there 
->> are no proprietary (G) modules,
->>        but this taint is turned on by the previous bugs.
->>
->> dmesg excerpt:
->>
->> [ 8791.864576] 
->> ==================================================================
->> [ 8791.864648] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
->> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->>
->> [ 8791.864776] write (marked) to 0xffff9b74491b7c40 of 8 bytes by 
->> task 3807 on cpu 18:
->> [ 8791.864788]  drm_sched_entity_push_job+0xf4/0x2a0 [gpu_sched]
->> [ 8791.864852]  amdgpu_cs_ioctl+0x3888/0x3de0 [amdgpu]
->> [ 8791.868731]  drm_ioctl_kernel+0x127/0x210 [drm]
->> [ 8791.869222]  drm_ioctl+0x38f/0x6f0 [drm]
->> [ 8791.869711]  amdgpu_drm_ioctl+0x7e/0xe0 [amdgpu]
->> [ 8791.873660]  __x64_sys_ioctl+0xd2/0x120
->> [ 8791.873676]  do_syscall_64+0x58/0x90
->> [ 8791.873688]  entry_SYSCALL_64_after_hwframe+0x73/0xdd
->>
->> [ 8791.873710] read to 0xffff9b74491b7c40 of 8 bytes by task 1119 on 
->> cpu 27:
->> [ 8791.873722]  drm_sched_entity_is_ready+0x16/0x50 [gpu_sched]
->> [ 8791.873786]  drm_sched_select_entity+0x1c7/0x220 [gpu_sched]
->> [ 8791.873849]  drm_sched_main+0xd2/0x500 [gpu_sched]
->> [ 8791.873912]  kthread+0x18b/0x1d0
->> [ 8791.873924]  ret_from_fork+0x43/0x70
->> [ 8791.873939]  ret_from_fork_asm+0x1b/0x30
->>
->> [ 8791.873955] value changed: 0x0000000000000000 -> 0xffff9b750ebcfc00
->>
->> [ 8791.873971] Reported by Kernel Concurrency Sanitizer on:
->> [ 8791.873980] CPU: 27 PID: 1119 Comm: gfx_0.0.0 Tainted: 
->> G             L     6.5.0-rc6-net-cfg-kcsan-00038-g16931859a650 #35
->> [ 8791.873994] Hardware name: ASRock X670E PG Lightning/X670E PG 
->> Lightning, BIOS 1.21 04/26/2023
->> [ 8791.874002] 
->> ==================================================================
->
-> P.S.
->
-> According to Mr. Heo's instructions, I am adding the unwound trace here:
->
-> [ 1879.706518] 
-> ==================================================================
-> [ 1879.706616] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
-> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->
-> [ 1879.706737] write (marked) to 0xffff8f3672748c40 of 8 bytes by task 
-> 4087 on cpu 10:
-> [ 1879.706748] drm_sched_entity_push_job 
-> (./include/drm/spsc_queue.h:74 
-> drivers/gpu/drm/scheduler/sched_entity.c:574) gpu_sched
-> [ 1879.706808] amdgpu_cs_ioctl 
-> (drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1375 
-> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1469) amdgpu
-> [ 1879.710589] drm_ioctl_kernel (drivers/gpu/drm/drm_ioctl.c:788) drm
-> [ 1879.711068] drm_ioctl (drivers/gpu/drm/drm_ioctl.c:892) drm
-> [ 1879.711551] amdgpu_drm_ioctl 
-> (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2748) amdgpu
-> [ 1879.715319] __x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:870 
-> fs/ioctl.c:856 fs/ioctl.c:856)
-> [ 1879.715334] do_syscall_64 (arch/x86/entry/common.c:50 
-> arch/x86/entry/common.c:80)
-> [ 1879.715345] entry_SYSCALL_64_after_hwframe 
-> (arch/x86/entry/entry_64.S:120)
->
-> [ 1879.715365] read to 0xffff8f3672748c40 of 8 bytes by task 1098 on 
-> cpu 11:
-> [ 1879.715376] drm_sched_entity_is_ready 
-> (drivers/gpu/drm/scheduler/sched_entity.c:134) gpu_sched
-> [ 1879.715435] drm_sched_select_entity 
-> (drivers/gpu/drm/scheduler/sched_main.c:248 
-> drivers/gpu/drm/scheduler/sched_main.c:893) gpu_sched
-> [ 1879.715495] drm_sched_main 
-> (drivers/gpu/drm/scheduler/sched_main.c:1019) gpu_sched
-> [ 1879.715554] kthread (kernel/kthread.c:389)
-> [ 1879.715563] ret_from_fork (arch/x86/kernel/process.c:145)
-> [ 1879.715575] ret_from_fork_asm (arch/x86/entry/entry_64.S:312)
->
-> [ 1879.715590] value changed: 0x0000000000000000 -> 0xffff8f360663dc00
->
-> [ 1879.715604] Reported by Kernel Concurrency Sanitizer on:
-> [ 1879.715612] CPU: 11 PID: 1098 Comm: gfx_0.0.0 Tainted: 
-> G             L     6.5.0-rc6+ #47
-> [ 1879.715624] Hardware name: ASRock X670E PG Lightning/X670E PG 
-> Lightning, BIOS 1.21 04/26/2023
-> [ 1879.715631] 
-> ==================================================================
->
-> It seems that the line in question might be:
->
->     first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
->
-> which expands to:
->
-> static inline bool spsc_queue_push(struct spsc_queue *queue, struct 
-> spsc_node *node)
-> {
->     struct spsc_node **tail;
->
->     node->next = NULL;
->
->     preempt_disable();
->
->     tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, 
-> (long)&node->next);
->     WRITE_ONCE(*tail, node);
->     atomic_inc(&queue->job_count);
->
->     /*
->      * In case of first element verify new node will be visible to the 
-> consumer
->      * thread when we ping the kernel thread that there is new work to 
-> do.
->      */
->     smp_wmb();
->
->     preempt_enable();
->
->     return tail == &queue->head;
-> }
->
-> According to the manual, preempt_disable() only guaranteed exclusion 
-> on a single CPU/core/thread, so
-> we might be plagued with the slow, old fashioned locking unless anyone 
-> had a better idea.
->
-> Best regards,
-> Mirsad Todorovac
+"For non-linear formats the stride must be computed in a consistent way,
+which usually is done as-if the linear."
 
+This has resulted in some absolutely epic bikesheds since iirc arm fbc
+spec defines the stride differently, and the resulting compat issues would
+have been hilarious. This took almost forever to agree on.
+
+> +
+> +    pitch:
+> +      Synonym for stride.
+> +
+> +
+> +Formats and modifiers
+> +=====================
+> +
+> +Each buffer must have an underlying format. This format describes the color
+> +values provided for each pixel. Although each subsystem has its own format
+> +descriptions (e.g. V4L2 and fbdev), the ``DRM_FORMAT_*`` tokens should be reused
+> +wherever possible, as they are the standard descriptions used for interchange.
+> +These tokens are described in the ``drm_fourcc.h`` file, which is a part of
+> +DRM's uAPI.
+> +
+> +Each ``DRM_FORMAT_*`` token describes the translation between a pixel
+> +co-ordinate in an image, and the color values for that pixel contained within
+> +its memory buffers. The number and type of color channels are described:
+> +whether they are RGB or YUV, integer or floating-point, the size of each channel
+> +and their locations within the pixel memory, and the relationship between color
+> +planes.
+> +
+> +For example, ``DRM_FORMAT_ARGB8888`` describes a format in which each pixel has
+> +a single 32-bit value in memory. Alpha, red, green, and blue, color channels are
+> +available at 8-bit precision per channel, ordered respectively from most to
+> +least significant bits in little-endian storage. ``DRM_FORMAT_*`` is not
+> +affected by either CPU or device endianness; the byte pattern in memory is
+> +always as described in the format definition, which is usually little-endian.
+> +
+> +As a more complex example, ``DRM_FORMAT_NV12`` describes a format in which luma
+> +and chroma YUV samples are stored in separate planes, where the chroma plane is
+> +stored at half the resolution in both dimensions (i.e. one U/V chroma
+> +sample is stored for each 2x2 pixel grouping).
+> +
+> +Format modifiers describe a translation mechanism between these per-pixel memory
+> +samples, and the actual memory storage for the buffer. The most straightforward
+> +modifier is ``DRM_FORMAT_MOD_LINEAR``, describing a scheme in which each plane
+> +is laid out row-sequentially, from the top-left to the bottom-right corner.
+> +This is considered the baseline interchange format, and most convenient for CPU
+> +access.
+> +
+> +Modern hardware employs much more sophisticated access mechanisms, typically
+> +making use of tiled access and possibly also compression. For example, the
+> +``DRM_FORMAT_MOD_VIVANTE_TILED`` modifier describes memory storage where pixels
+> +are stored in 4x4 blocks arranged in row-major ordering, i.e. the first tile in
+> +a plane stores pixels (0,0) to (3,3) inclusive, and the second tile in a plane
+> +stores pixels (4,0) to (7,3) inclusive.
+> +
+> +Some modifiers may modify the number of planes required for an image; for
+> +example, the ``I915_FORMAT_MOD_Y_TILED_CCS`` modifier adds a second plane to RGB
+> +formats in which it stores data about the status of every tile, notably
+> +including whether the tile is fully populated with pixel data, or can be
+> +expanded from a single solid color.
+> +
+> +These extended layouts are highly vendor-specific, and even specific to
+> +particular generations or configurations of devices per-vendor. For this reason,
+> +support of modifiers must be explicitly enumerated and negotiated by all users
+> +in order to ensure a compatible and optimal pipeline, as discussed below.
+> +
+> +
+> +Dimensions and size
+> +===================
+> +
+> +Each pixel buffer must be accompanied by logical pixel dimensions. This refers
+> +to the number of unique samples which can be extracted from, or stored to, the
+> +underlying memory storage. For example, even though a 1920x1080
+> +``DRM_FORMAT_NV12`` buffer has a luma plane containing 1920x1080 samples for the Y
+> +component, and 960x540 samples for the U and V components, the overall buffer is
+> +still described as having dimensions of 1920x1080.
+> +
+> +The in-memory storage of a buffer is not guaranteed to begin immediately at the
+> +base address of the underlying memory, nor is it guaranteed that the memory
+> +storage is tightly clipped to either dimension.
+> +
+> +Each plane must therefore be described with an ``offset`` in bytes, which will be
+> +added to the base address of the memory storage before performing any per-pixel
+> +calculations. This may be used to combine multiple planes into a single memory
+> +buffer; for example, ``DRM_FORMAT_NV12`` may be stored in a single memory buffer
+> +where the luma plane's storage begins immediately at the start of the buffer
+> +with an offset of 0, and the chroma plane's storage follows within the same buffer
+> +beginning from the byte offset for that plane.
+> +
+> +Each plane must also have a ``stride`` in bytes, expressing the offset in memory
+> +between two contiguous row. For example, a ``DRM_FORMAT_MOD_LINEAR`` buffer
+> +with dimensions of 1000x1000 may have been allocated as if it were 1024x1000, in
+> +order to allow for aligned access patterns. In this case, the buffer will still
+> +be described with a width of 1000, however the stride will be ``1024 * bpp``,
+> +indicating that there are 24 pixels at the positive extreme of the x axis whose
+> +values are not significant.
+> +
+> +Buffers may also be padded further in the y dimension, simply by allocating a
+> +larger area than would ordinarily be required. For example, many media decoders
+> +are not able to natively output buffers of height 1080, but instead require an
+> +effective height of 1088 pixels. In this case, the buffer continues to be
+> +described as having a height of 1080, with the memory allocation for each buffer
+> +being increased to account for the extra padding.
+> +
+> +
+> +Enumeration
+> +===========
+> +
+> +Every user of pixel buffers must be able to enumerate a set of supported formats
+> +and modifiers, described together. Within KMS, this is achieved with the
+> +``IN_FORMATS`` property on each DRM plane, listing the supported DRM formats, and
+> +the modifiers supported for each format. In userspace, this is supported through
+> +the `EGL_EXT_image_dma_buf_import_modifiers`_ extension entrypoints for EGL, the
+> +`VK_EXT_image_drm_format_modifier`_ extension for Vulkan, and the
+> +`zwp_linux_dmabuf_v1`_ extension for Wayland.
+> +
+> +Each of these interfaces allows users to query a set of supported
+> +format+modifier combinations.
+> +
+> +
+> +Negotiation
+> +===========
+> +
+> +It is the responsibility of userspace to negotiate an acceptable format+modifier
+> +combination for its usage. This is performed through a simple intersection of
+> +lists. For example, if a user wants to use Vulkan to render an image to be
+> +displayed on a KMS plane, it must:
+> +
+> + - query KMS for the ``IN_FORMATS`` property for the given plane
+> + - query Vulkan for the supported formats for its physical device, making sure
+> +   to pass the ``VkImageUsageFlagBits`` and ``VkImageCreateFlagBits``
+> +   corresponding to the intended rendering use
+> + - intersect these formats to determine the most appropriate one
+> + - for this format, intersect the lists of supported modifiers for both KMS and
+> +   Vulkan, to obtain a final list of acceptable modifiers for that format
+> +
+> +This intersection must be performed for all usages. For example, if the user
+> +also wishes to encode the image to a video stream, it must query the media API
+> +it intends to use for encoding for the set of modifiers it supports, and
+> +additionally intersect against this list.
+> +
+> +If the intersection of all lists is an empty list, it is not possible to share
+> +buffers in this way, and an alternate strategy must be considered (e.g. using
+> +CPU access routines to copy data between the different uses, with the
+> +corresponding performance cost).
+> +
+> +The resulting modifier list is unsorted; the order is not significant.
+> +
+> +
+> +Allocation
+> +==========
+> +
+> +Once userspace has determined an appropriate format, and corresponding list of
+> +acceptable modifiers, it must allocate the buffer. As there is no universal
+> +buffer-allocation interface available at either kernel or userspace level, the
+> +client makes an arbitrary choice of allocation interface such as Vulkan, GBM, or
+> +a media API.
+> +
+> +Each allocation request must take, at a minimum: the pixel format, a list of
+> +acceptable modifiers, and the buffer's width and height. Each API may extend
+> +this set of properties in different ways, such as allowing allocation in more
+> +than two dimensions, intended usage patterns, etc.
+> +
+> +The component which allocates the buffer will make an arbitrary choice of what
+> +it considers the 'best' modifier within the acceptable list for the requested
+> +allocation, any padding required, and further properties of the underlying
+> +memory buffers such as whether they are stored in system or device-specific
+> +memory, whether or not they are physically contiguous, and their cache mode.
+> +These properties of the memory buffer are not visible to userspace, however the
+> +``dma-heaps`` API is an effort to address this.
+> +
+> +After allocation, the client must query the allocator to determine the actual
+> +modifier selected for the buffer, as well as the per-plane offset and stride.
+> +Allocators are not permitted to vary the format in use, to select a modifier not
+> +provided within the acceptable list, nor to vary the pixel dimensions other than
+> +the padding expressed through offset, stride, and size.
+> +
+> +Communicating additional constraints, such as alignment of stride or offset,
+> +placement within a particular memory area, etc, is out of scope of dma-buf,
+> +and is not solved by format and modifier tokens.
+> +
+> +
+> +Import
+> +======
+> +
+> +To use a buffer within a different context, device, or subsystem, the user
+> +passes these parameters (format, modifier, width, height, and per-plane offset
+> +and stride) to an importing API.
+> +
+> +Each memory buffer is referred to by a buffer handle, which may be unique or
+> +duplicated within an image. For example, a ``DRM_FORMAT_NV12`` buffer may have
+> +the luma and chroma buffers combined into a single memory buffer by use of the
+> +per-plane offset parameters, or they may be completely separate allocations in
+> +memory. For this reason, each import and allocation API must provide a separate
+> +handle for each plane.
+> +
+> +Each kernel subsystem has its own types and interfaces for buffer management.
+> +DRM uses GEM buffer objects (BOs), V4L2 has its own references, etc. These types
+> +are not portable between contexts, processes, devices, or subsystems.
+> +
+> +To address this, ``dma-buf`` handles are used as the universal interchange for
+> +buffers. Subsystem-specific operations are used to export native buffer handles
+> +to a ``dma-buf`` file descriptor, and to import those file descriptors into a
+> +native buffer handle. dma-buf file descriptors can be transferred between
+> +contexts, processes, devices, and subsystems.
+> +
+> +For example, a Wayland media player may use V4L2 to decode a video frame into a
+> +``DRM_FORMAT_NV12`` buffer. This will result in two memory planes (luma and
+> +chroma) being dequeued by the user from V4L2. These planes are then exported to
+> +one dma-buf file descriptor per plane, these descriptors are then sent along
+> +with the metadata (format, modifier, width, height, per-plane offset and stride)
+> +to the Wayland server. The Wayland server will then import these file
+> +descriptors as an EGLImage for use through EGL/OpenGL (ES), a VkImage for use
+> +through Vulkan, or a KMS framebuffer object; each of these import operations
+> +will take the same metadata and convert the dma-buf file descriptors into their
+> +native buffer handles.
+> +
+> +Having a non-empty intersection of supported modifiers does not guarantee that
+> +import will succeed into all consumers; they may have constraints beyond those
+> +impliied by modifiers which must be satisfied.
+> +
+> +
+> +Implicit modifiers
+> +==================
+> +
+> +The concept of modifiers post-dates all of the subsystems mentioned above. As
+> +such, it has been retrofitted into all of these APIs, and in order to ensure
+> +backwards compatibility, support is needed for drivers and userspace which do
+> +not (yet) support modifiers.
+> +
+> +As an example, GBM is used to allocate buffers to be shared between EGL for
+> +rendering and KMS for display. It has two entrypoints for allocating buffers:
+> +``gbm_bo_create`` which only takes the format, width, height, and a usage token,
+> +and ``gbm_bo_create_with_modifiers`` which extends this with a list of modifiers.
+> +
+> +In the latter case, the allocation is as discussed above, being provided with a
+> +list of acceptable modifiers that the implementation can choose from (or fail if
+> +it is not possible to allocate within those constraints). In the former case
+> +where modifiers are not provided, the GBM implementation must make its own
+> +choice as to what is likely to be the 'best' layout. Such a choice is entirely
+> +implementation-specific: some will internally use tiled layouts which are not
+> +CPU-accessible if the implementation decides that is a good idea through
+> +whatever heuristic. It is the implementation's responsibility to ensure that
+> +this choice is appropriate.
+> +
+> +To support this case where the layout is not known because there is no awareness
+> +of modifiers, a special ``DRM_FORMAT_MOD_INVALID`` token has been defined. This
+> +pseudo-modifier declares that the layout is not known, and that the driver
+> +should use its own logic to determine what the underlying layout may be.
+> +
+> +.. note::
+> +
+> +  ``DRM_FORMAT_MOD_INVALID`` is a non-zero value. The modifier value zero is
+> +  ``DRM_FORMAT_MOD_LINEAR``, which is an explicit guarantee that the image
+> +  has the linear layout. Care and attention should be taken to ensure that
+> +  zero as a default uninitialized value signals no modifier.
+
+I think the last sentence here got a bit confused, and probably should be
+replaced with:
+
+Care and attention should be taken to ensure that zero as a default
+uninitialized value is not mixed up with either no modifier or the linear
+modifier. Also note that in some API the invalid modifier value is
+specified with an out-of-band flag, like in the ADDFB2 IOCTL.
+
+Cheers, Sima
+
+
+> +
+> +There are four cases where this token may be used:
+> +  - during enumeration, an interface may return ``DRM_FORMAT_MOD_INVALID``, either
+> +    as the sole member of a modifier list to declare that explicit modifiers are
+> +    not supported, or as part of a larger list to declare that implicit modifiers
+> +    may be used
+> +  - during allocation, a user may supply ``DRM_FORMAT_MOD_INVALID``, either as the
+> +    sole member of a modifier list (equivalent to not supplying a modifier list
+> +    at all) to declare that explicit modifiers are not supported and must not be
+> +    used, or as part of a larger list to declare that an allocation using implicit
+> +    modifiers is acceptable
+> +  - in a post-allocation query, an implementation may return
+> +    ``DRM_FORMAT_MOD_INVALID`` as the modifier of the allocated buffer to declare
+> +    that the underlying layout is implementation-defined and that an explicit
+> +    modifier description is not available; per the above rules, this may only be
+> +    returned when the user has included ``DRM_FORMAT_MOD_INVALID`` as part of the
+> +    list of acceptable modifiers, or not provided a list
+> +  - when importing a buffer, the user may supply ``DRM_FORMAT_MOD_INVALID`` as the
+> +    buffer modifier (or not supply a modifier) to indicate that the modifier is
+> +    unknown for whatever reason; this is only acceptable when the buffer has
+> +    not been allocated with an explicit modifier
+> +
+> +It follows from this that for any single buffer, the complete chain of operations
+> +formed by the producer and all the consumers must be either fully implicit or fully
+> +explicit. For example, if a user wishes to allocate a buffer for use between
+> +GPU, display, and media, but the media API does not support modifiers, then the
+> +user **must not** allocate the buffer with explicit modifiers and attempt to
+> +import the buffer into the media API with no modifier, but either perform the
+> +allocation using implicit modifiers, or allocate the buffer for media use
+> +separately and copy between the two buffers.
+> +
+> +As one exception to the above, allocations may be 'upgraded' from implicit
+> +to explicit modifiers. For example, if the buffer is allocated with
+> +``gbm_bo_create`` (taking no modifiers), the user may then query the modifier with
+> +``gbm_bo_get_modifier`` and then use this modifier as an explicit modifier token
+> +if a valid modifier is returned.
+> +
+> +When allocating buffers for exchange between different users and modifiers are
+> +not available, implementations are strongly encouraged to use
+> +``DRM_FORMAT_MOD_LINEAR`` for their allocation, as this is the universal baseline
+> +for exchange. However, it is not guaranteed that this will result in the correct
+> +interpretation of buffer content, as implicit modifier operation may still be
+> +subject to driver-specific heuristics.
+> +
+> +Any new users - userspace programs and protocols, kernel subsystems, etc -
+> +wishing to exchange buffers must offer interoperability through dma-buf file
+> +descriptors for memory planes, DRM format tokens to describe the format, DRM
+> +format modifiers to describe the layout in memory, at least width and height for
+> +dimensions, and at least offset and stride for each memory plane.
+> +
+> +.. _zwp_linux_dmabuf_v1: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/blob/main/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
+> +.. _VK_EXT_image_drm_format_modifier: https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_image_drm_format_modifier.html
+> +.. _EGL_EXT_image_dma_buf_import_modifiers: https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_image_dma_buf_import_modifiers.txt
+> \ No newline at end of file
+> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+> index 72a65db0c498..031df47a7c19 100644
+> --- a/Documentation/userspace-api/index.rst
+> +++ b/Documentation/userspace-api/index.rst
+> @@ -22,6 +22,7 @@ place where this information is gathered.
+>     unshare
+>     spec_ctrl
+>     accelerators/ocxl
+> +   dma-buf-alloc-exchange
+>     ebpf/index
+>     ELF
+>     ioctl/index
+> -- 
+> 2.41.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
