@@ -2,131 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D5A783003
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 20:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB6B78301E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 20:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8D610E12A;
-	Mon, 21 Aug 2023 18:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A93A10E111;
+	Mon, 21 Aug 2023 18:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2068.outbound.protection.outlook.com [40.107.95.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE2F010E12A;
- Mon, 21 Aug 2023 18:13:04 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on20619.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe59::619])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB33C10E111;
+ Mon, 21 Aug 2023 18:17:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EgMNuzoar/M7dLQkGv0g/Ar1DnWcGJN12Ns3KwPAFQw+gOPrMWpk5bUEVobDPVe6pZ8/jlQzw67I9enDxB8KRj7cPlIzenLHx/qP5efLLgYA/SLXNWMeEvqYCG8AK24vHSLp5mos81I3PivzR0cqEwIWrBIjabZf6ELHQXrrtnrkbPCLNzNb4hWlVDUlyOSds8TzRROq6D+vKuvSYPPJE2rPAPJBDdBftFxK+k8c2jSE/JLUMVhhvTSpc9B1KO8/9i7XHgcd0NH2bzepNFNkqyGaPu/VG7M709EWYzzS2EEk3ZVnAG1RzHI+FZwY/hw6epw1ZyfYdZgV8yPwd4jlUA==
+ b=DKP8CgoFZxrcbLrhNvR19pWVuktQkQPhR/o13SoYXIKgLvTfqp0eiBsSgp6zcaNJ3Cxp5xrl9q85QKzjjnDuQhPjBGO01N7KCVMU2fbeSvuDM0R4gcAOjbuK1KgR3IlvoEDewsfzcvF/aO8KQE+Lp0DCQ9IszfupMasWDy5Na06pDenQDfmPnZ58228LLJR6BR9KKU/2b2MfB9JnokL4go72y91RmJt2vlIaRfopuQu6NiceAhklgpNJM5tWrMVrUuYn6BfV6Bb/vBdkUN+RBBD0gUUK0slMzxP0oZQv3g+PXv2Bfb51EyjrtKJX9jZEdlr9eTe/Zun8Ki2VMxeD7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kQkd2l5rpLG93TiltggGdmWnPYz3IyfZ6Aycm4a9llA=;
- b=JU4Ysb9SXuQsuFQuWnkaFO3Y8VOCNaykE7rTwZ1O6m2qW5dktnhzqTdj/lQoohr0eI/2BhlhiYKpAd3HEgCAUNYmpZEP/g9BlnLnGm/Ty+NJAqjy113uthss4tzZnzppCi1lnAsyu1w58ijmVcL+ucFW4DD0ofxZtW5S+nzkS15VQmmctsmj9eF1g1yqwdpplj710UlUrq8YpGstRjgR7KT5xT4jN7d2rxBkTIvKy0OFoBC136wH/zAoOXLsL610wLly3u8OmagW6Y5AWIwYsqb4KfmWdW5EGLWIndIIwQMxUs5jd2uPOSsSnsYziM6ido3tdlEtR39zEuzClx9eFA==
+ bh=XYys7ee6K78uJ4ZYJ9Arec6AQuk5adHfwVNDLTAIajU=;
+ b=b1j7f2Fm/IsQv6DKZwY5+oKiBTD4uB9+raKKhvrAs3s/fRpF38DlH9qWZ5I4MoMYEXlA/ONJyYUmJ3goxbnjutCVGR2Gbc7Rm6XkRLEek1mHdgKqXPmZpSZOs65ZTSiNdbX6wG/wS9gchwoZJDCKQm1qzokyqCDprHL8r1PtqvCVJ9fdPA76uUprYd0Nrw8RM5Dr3/K+P65kpGYOcw1WEJYmPFXlokRKmPcHRS6mUH0CcNpxe5mD8OG8TKIuC1jxupQvw0bf6QnD0RVeJpLeONiRWn9KdtpK2zBs/Y2shT6naJoTbjc2+h5+B4pezQ5x0xu4xrkI0jnbtbhIJFVrAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kQkd2l5rpLG93TiltggGdmWnPYz3IyfZ6Aycm4a9llA=;
- b=QuH3pbt80beM94z1KPiMNV86GcSZGVJWNEsZthg3s3Ar2vD1K52iMq2XOwdnYUjDqnluPDPtpDX96DbmGaD+92hDId1VCCffYmA3Ed+JDmA8a/7H5oiiB90fT59yCFyzIMloU//iC0arIQplIqRKeQCz9R9HWEN2kU3TLa+aDlE=
+ bh=XYys7ee6K78uJ4ZYJ9Arec6AQuk5adHfwVNDLTAIajU=;
+ b=SQTz4Sl1L4d8NQJqF1toaZ7CG5ObBYi0yxajSZZZsLZcmXNaDFY5tsBdR3EoxQgH3HIkfHa3j/Nw7ArfpKpwyGgcHHF+gX+4Kq+7wqilpAVT8Bvs0ND5AnzIuA9EHqSsc4TuYyvI1+78x2CobFepoNxokdevVOM8xCc0tUJFPYo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN7PR12MB6909.namprd12.prod.outlook.com (2603:10b6:806:263::18)
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by SN7PR12MB7935.namprd12.prod.outlook.com (2603:10b6:806:349::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
- 2023 18:13:01 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 18:13:01 +0000
-Message-ID: <85107169-8a24-441f-6631-d99472d810f0@amd.com>
-Date: Mon, 21 Aug 2023 20:12:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
- queue rather than kthread
+ 2023 18:17:10 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6787:e196:b8dc:93a1]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6787:e196:b8dc:93a1%7]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
+ 18:17:10 +0000
+Message-ID: <1ab95561-cfd2-f278-7dfd-fb35b00b7371@amd.com>
+Date: Mon, 21 Aug 2023 23:46:58 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/4] drm/amdgpu: Explicitly add a flexible array at the
+ end of 'struct amdgpu_bo_list' and simplify amdgpu_bo_list_create()
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-2-matthew.brost@intel.com>
- <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
- <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
- <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
- <982800c1-e7d3-f276-51d0-1a431f92eacb@amd.com>
- <5fdf7d59-3323-24b5-a35a-bd60b06b4ce5@redhat.com>
- <0bf839df-db7f-41fa-8b34-59792d2ba8be@amd.com>
- <e8fa305a-0ac8-ece7-efeb-f9cec2892d44@redhat.com>
- <ef4d2c78-6927-3d3b-7aac-27d013af7ea6@amd.com>
- <a80be2c1-132e-5ee1-4278-47655916494a@redhat.com>
- <0d5af79a-ba3a-d4be-938f-81627db65b50@amd.com>
- <a3937c17-eaa5-e0e9-e0ac-1610e0652982@redhat.com>
- <1820cb54-5f1e-d2e6-38fa-7161465ed061@amd.com>
- <9072642e-f4f6-4ff1-e11f-9bda8730750c@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <9072642e-f4f6-4ff1-e11f-9bda8730750c@redhat.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>
+References: <cover.1692524665.git.christophe.jaillet@wanadoo.fr>
+ <5d52550a-92a1-55e7-69ad-92f18330ff48@amd.com>
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <5d52550a-92a1-55e7-69ad-92f18330ff48@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0195.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ab::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-ClientProxiedBy: PN3PR01CA0081.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::20) To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6909:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1330bae0-67b2-4329-f5d3-08dba27241a1
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|SN7PR12MB7935:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e993aeb-32a5-49ff-9c4a-08dba272d605
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9eqO76rpor66FsDbBOPRbjOF4P4ppSKohs/oCJKcRqFc7YiE1BZPgVxPT1AeRSSZSaym/Qyq+8PV2tr9ENnxSLaYMMiCXztB5ymHNGSlvl39OPbSSJrB9j5WPlv2cp9fzjZ0ee2fX/AQbATCgYxN9ZJxzkSJjGUdjdFpxvivDPU4BiTo2l1KzFCBMr+YHQ4zHVQuKnImlDLfJOlX3AEwM9etr9QSyCSnmURZc021RMW8CA+gFyNuCLnsrNib8YviALchabwMW0+16rw7NFeqlcxcbUwqMb2Jca+kCMFCZRXmcONHpBQF4kFvg/1FZDviD/FKLz24iMQi31i682RofSbcbl0evijGVL8otUIqayFFU2zObSwnmWjZfdQAFnsqbSbxqRs1B7nQgnbZL01A+Osh+k/CQZjepfMD7jGi9UC4n8UDntF5Wz77dDd6UcWHYxe1NKM4AYH8wqfGKf0UA2nkuQ/uPjRIS7guowYWjdSIte+lEBByc/RrdVXYhkCsZSBZ5fH4U6CQD+Rd5UtLDFNNnuwAQ9NkB9gitslD0/3vH12Rgw+bH9dO5g6/Sr5u1LiHzM41Qpxd8TA7G8QQdVfyfee/g2EM6iOjYaGfgxtC1RE6+6CS39A4JvjNR8XWTYxLWNVvww2KcuVNuRpnig==
+X-Microsoft-Antispam-Message-Info: Y04ZHIk8Dk3aHCQI3Iy3ZDzHzexLUUgXvCHNEP44JuAP6lWequ01d10GhieC+W8FuiA/cDowxM1lNYVMZwUaZqdDlUjNFQw5OvCOkiKO5EOAW2h/t3/cOXUl61wTSgWIaFN0l6a9DRzFiYbmcUkJuCnCtIG/Sbz/dgJy0z8kN4QZM6GPWq9x4XGEG+vK2teUJVfqXeYAJpYvBaRatI6iYIvPDt0XdVdF6p4o0kWOH8Wlr3VkML12W2ssw2zZhSnkFIHNsn1XrVS0LAoifZVjT8ANcsRKW05rqleZNDkbEwoxAIEegOAZLr8kJi2ajE6WKF1SoL9wknKdBT9yY355Ti8GoH7ORTZtHM2F4SzH3I/aFl8I2jEgvGohvAnE5TFhLwKX0tCslHwBNqpug5eqA5uiXqd8qtFUmdtLT96l9wNXvd2MIPQxBa62epYfp4aXe2T7tWfb7bHRPySHUYSXv/EWLJiAaf7QVYny/7wR+NABaC16CoaNr7d2/WeYj17nJ1/DPVaT74ZNTaHHyEuez8s5i11elMwMTR610grpXo3O1YJt0RhQhCRTrsSv2GlivjJJH8n4Dj0KcdzcOWWtUCiHhRmCl8bGLjMozAPbaHp647JPdhd/sTu7rk1oGeVGdXSjktonBaZ/skFSBhX3RQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(1800799009)(451199024)(66476007)(66556008)(316002)(66946007)(6512007)(110136005)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(66574015)(2906002)(7416002)(86362001)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(1800799009)(451199024)(6636002)(66476007)(66556008)(316002)(66946007)(6512007)(110136005)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(2906002)(86362001)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkhQZVJoYWJTMWNCKzNZVmdEZzhvQjc1UXBnSTdTd1JPekI5a3h2MHZwL1RW?=
- =?utf-8?B?TlIyV2s4a0hpeS9TZk9zWXdZYy9xbDlpcXRFNjlCV1R3Zi91MnFHOUlZb2tr?=
- =?utf-8?B?UDEwc0FXNDdMOUdRd3l2eE15aWxjSXhXYWtCMnFLQlUzU2doNGpMd3BxczRY?=
- =?utf-8?B?Y1FqRW15YzdjZVN5UFhuaFQ0VHMyQ3RtaDhlTnJkY0xwRld1U25BQnFFYjB2?=
- =?utf-8?B?Z3Y3ZXhlWUJ2TDhOWmp0RUdUbkNjU1IzUUl5MFFNMnoyWm1NTzVNa2NIQ0JV?=
- =?utf-8?B?Unl2N0pQR0o0MTFnS0t2TUs4bFBXNTRoNTBNMVZzS052NmZvVi9yYU8vN1NS?=
- =?utf-8?B?TXd1U2p2K05LY3NGZEN1NHkyY2pFWksyVXBSNldlQVJxUWhBc0FxMUh2ck8w?=
- =?utf-8?B?YXpGcHFTREJ4eWt2dFRSNmNXSDlMTTJ1MFE3d1M1b0JSak01S0lpRzR6TkJZ?=
- =?utf-8?B?QWRmNFZSTUViUmdLa1VvYkxpVTAwTEUvdVhmejVSbDRmbmpmNmJiSTJrcGt0?=
- =?utf-8?B?MXBlZTJKaTFZcXZXc0V1V0o3OHIxZ1N6TTQ1R1ZxYTcrUFBXaDVzc0N1VXFP?=
- =?utf-8?B?Y1h3STRPYi9idTdWbTE3WXBLTGlveGJISzQ4VndIbFhxclJiMXUvSXoxVnZi?=
- =?utf-8?B?M0lyZ2g5Vy9oZmdGKy9JQ3JVRUIzNVZSalR1OWgyY3ZVQmY3aEtnTlEwdlo2?=
- =?utf-8?B?OERFZmZHd2hwQ0E1eUx3OW9tZlBJY1BONFo2OFhKUUU1RmRlYlVMSjd6Rm53?=
- =?utf-8?B?NVo4TWFuandTMkZpeUk4VStvVjllby8vSHdLM3BnS0pRNTE2T1BwV21SQVgw?=
- =?utf-8?B?ZGV0WFU4Z0Nnc2REbFlaYjIyT25pUnRzYkd3ajFRR3d1S2NRU2V6UHROTW9y?=
- =?utf-8?B?aGRxa2VWQlErTW1yNzdIV3d1ZjJZc09YRDlFWkJab0pwNVhRdGdSQ213ZVM4?=
- =?utf-8?B?YndzbjJlKzVJUjE5dEw1WDNiV3ROQ0dONDhXbDhCRW56a3k0REtjYnh3aXZk?=
- =?utf-8?B?aVhGOTNIazQxaXpnRzNQVnBxNnhxZ1pHZXVVdTBHZGRjOGpxWTU2Q0dJZU5n?=
- =?utf-8?B?ZTFIUWxaTXVNOTJDNDkxQmJXdUZHVk9kOXJxWWgvc2kweGNGUzFyWCtwenIz?=
- =?utf-8?B?M1JjS3Nja3huaWNKOWQ4L21HSEdJdGtmWWFmWE93bGhzNjNTY2JVTEZtK0Vt?=
- =?utf-8?B?bHhVTFhGVkFrWWZ0ZkRjRkQwOXBzTCtvQ3B4SHhxYitJQ3BUWEZKQ3JSQ3pr?=
- =?utf-8?B?TmlqSzJvSTRvbTNuWUFmUTNGZTAyNExlWGN0RU5Ia1k0ZUZuR1I0N3JPemd6?=
- =?utf-8?B?WmlybU9tNkRILzZBN243dVhVU3RNY2dEQ21HOU0ycHNpeGpJVGpoWS9iVWZo?=
- =?utf-8?B?MTVKclRlSlVIWEZzTGt1QUdVL0dlWXptVWZCU2VjaERldjFEbkZoZFJnRXNw?=
- =?utf-8?B?WDdtbmdWVzdMYXpabzQrb3ZjSCt2VmFqQ21lbndZVVhsOFpQQ0lmck5JNmg3?=
- =?utf-8?B?YUF0MXdPU1FaaXJGeDZZQ0RqRllzRjFrOU5KSEx4UEtHbjB1MXJ5L2NkMVFk?=
- =?utf-8?B?QWJBVzZLK1dCa0dnK0ZvMzd0ajQ0di9YTkdMQ1lOT3ErQThIa2puSUI3akNs?=
- =?utf-8?B?UVgzd2lUOGtSelhXZ2JFQzJnRGgwQkdmbE9EOE1VL0pUTjhENHVoRmEvNlJy?=
- =?utf-8?B?Wnd5dTg1OGFrUXpMMEJjRUN2Y0k4SWw2L3NkYUo1cVB6STlRbzRPUWF4ZVFK?=
- =?utf-8?B?N3VNVHBkNXVjamNXczFtQURMNWtYTWhHVjJpeDJESXFmZU01TGdHTXlCOXR0?=
- =?utf-8?B?WFFkQWZ2WGlkQytFYU9kRDE4ZFRTUTRnd3BGYmdZVzU5NFRHRm1vaUx6Yllx?=
- =?utf-8?B?SEsvWkRZeVpSMTZYc0I5SVdUcFIyc05lOWI4VGRqV2VLYjhhWVUxeFFQTXE4?=
- =?utf-8?B?cEdKc0RZRVBoaVVkYjJLVVBjaThrYmMvSXloYzR3Slk0TFd1c2VGazRQdnR4?=
- =?utf-8?B?bzZsaGJXYzVnUGswVGJEZW9uNTBTZmtnUi8ycnlrTlJHZVRNS2FoTmJpaFhO?=
- =?utf-8?B?VDR1SlN4d05zSERaaG1uaXFRWGZRa2JEMkYycWxZbjY5a25wMGxUamxjVHFj?=
- =?utf-8?Q?3d6mFqlDbh1QCv/ODDYpMRjrA?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWsraWRieXhpZk5YREZkejZnQW5lUnVDRGpaNG9KN2JsV1FYZjFhOGhRU21x?=
+ =?utf-8?B?WkwvSWg4d3pjVmsrZWorUW5iZzdvRmgvN2cxWkM5SzUxN201VjhmVUkzWWpS?=
+ =?utf-8?B?U25lQnlEWHU3WlNYL3hXNm52S2pyb0x5RHUwUTAvZUg1a09SNjVNenBHcmdT?=
+ =?utf-8?B?b1BWdzJ5NlpiM0ZrcWtudnJoZkp0UUgrMnkyOWxsc2RKeVJkaDhOTnZxUVFS?=
+ =?utf-8?B?N2t5eDUxRjJmeEpVdjBxSks5eVhzeURwNThFamw2RW44RWsvajRTYVkrZ3Qv?=
+ =?utf-8?B?UHRBZmZhTG45RnpmSDZhb3IvaGU2UUkxb29lTlhxY3dHUTZiL1VrdHJpbHBw?=
+ =?utf-8?B?UVY2T0R0d0lsNWU0azYvaDA0SHhudjBaSm5qWmZrY1d0UW44NFphYU95TnhE?=
+ =?utf-8?B?UWFtOElhUXcvbDNPanlNbDRqd2dYaFB6bW5CUlN4K0hGQ3BSWWZvemc3WlUw?=
+ =?utf-8?B?ZGJUWUNBaFVzd3N6SFlUS2t1a2trRTR2b3NoNS8vbnBOYWVtVE5wVGhvWXpF?=
+ =?utf-8?B?RFhodjNDbi80RHA0dkRWdjZSakIwdm9Wdis4TVkwbGN3K25TdDY4eGdyZ0NM?=
+ =?utf-8?B?UklMaWJTc0RTOWY5SElwa0VrM0N4NGxabE02RGYrRHV3SjNCRGxyMGxMUmdS?=
+ =?utf-8?B?VHZlbVRPR0JyNXNqcDJ5SHpCb0ZiSjhTSHpOQzlvV2k0aEJ0cnRWaEN4MWVH?=
+ =?utf-8?B?QVNPdjJ1eU9sOGh2Mnd0STcvbW1WK0dSbGtKS2RGZ21OdllUOTY2R20yMld5?=
+ =?utf-8?B?QU5xaC9YQlBteHFiKy96RHN5NjBsbmxJV3VDNGFsbHBLV3cxU01SZXZsZ0RD?=
+ =?utf-8?B?SEJ5Z0hiTDdvZTdreVd1TWhrTkJpMUYrSlV1MlBsdCtRYUtUSkRPc0J6NTMr?=
+ =?utf-8?B?QXl0RjR6c1NNR1FjWDEwaEZOdVBNQlRXNjIzUW9RdDEvYTc4cXp5L3VIdzVa?=
+ =?utf-8?B?SHg3MDNkeFd3VFpnZGlXVFU2T2FnMzBKdzFwZ2VVbE5DMlVIeFlFMHd3b0lE?=
+ =?utf-8?B?RlN5TS9VdThENkhKT3RQanVIQWNXU0U3VU5sRGVEMlkxTkJXZ2tKR1BNY3lU?=
+ =?utf-8?B?Ykg2Y1FuRWdWdXhKYTBreWRXdjNJek54TmsrU3JuOUMvelZ1S2lCM04wNENC?=
+ =?utf-8?B?TktCekVkWDhGT1hYUUVRbnJXMkdJUTkyWEtLN21ic1I3NFJJcVdnZ3Vucllk?=
+ =?utf-8?B?ZXNuRzV4TXF2a0NiMXN1dkpUMDRQLy9DL2pyYi84Wk1ScWhXejVJa0VhcU1M?=
+ =?utf-8?B?MVZ3M2N1eVRIazlxRkkrSlYyNElkbUJBNERFSG5oWXhmWHJXWDllT0JwQXVs?=
+ =?utf-8?B?Yk9BWG50Vk5aOUVPNVliU1ZoelZhN2VUcUl2VkZFVGRER2NLZ2diUWVobGZY?=
+ =?utf-8?B?TWJ2SGZoQmJwSnpYcVNZT3lxUUVQU3Bxd0pqaU1PQm81dkF5RHBlVlpGZlZs?=
+ =?utf-8?B?UVBEa3M1LzRVa1lRaFhyWWdpK1ZNS05VTnYvczlRMFNxd0RDOFRvbHB0V2Nh?=
+ =?utf-8?B?YXBYQlNUM2JENnNwcllzaFNJWXgzQ3ZBdGlrMStKcVJ6SEp2RWh4T1ZJZEs4?=
+ =?utf-8?B?bFo0Y2o3Q3NxVjVJL0FZd2NIUzBsbC9KSmR2b0gyNW1BVElScUNUMjlHeW1y?=
+ =?utf-8?B?RGlBTjBxOTlQMTdNbjBUYVpuWVFGM3hQUjR5NE5tZ1hvY3ZXamcxK0s4K1Zt?=
+ =?utf-8?B?YjRhc2UyTzE2ZG43WDcyWStpT1hyV29IRk8zTFpQNzJhQkpXaXNKejZJTmJk?=
+ =?utf-8?B?TzJ3VDJPRFdEM0dhcHR2akFuWk0vOUZRN3gwNWxjTEZUdHBzc1U1VnhGSnhB?=
+ =?utf-8?B?cGI0eVNBRktTaGxmTDVTeVdFYk85U2g0RWw0V055blJNZGZLU0kzYzFIMGh2?=
+ =?utf-8?B?Slo4bnlaSUlqSUYwS0lUbUlUVzdybmpBNnQ2eXRJakZwVUVCUnZUdExxMmFQ?=
+ =?utf-8?B?aFpsT2VnVUdYOU5mVGlPeWxuNTVFYVM1QXI2MHAxUDZhRUpueHkvaHpZdjlx?=
+ =?utf-8?B?V3pNL1ZGaHF3ai9mN25Xem1GNS9TakpMMUdYY01rRnpacE9rQWFHcWhyNVRG?=
+ =?utf-8?B?OVpIU0dMTGUrT2FtVWN0WEsySG1paFhzbERkUUI0dG9BUnJBUHFjV0gvYWR4?=
+ =?utf-8?Q?EKqpIfExlLcZ6i9JhuzTXeSNa?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1330bae0-67b2-4329-f5d3-08dba27241a1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e993aeb-32a5-49ff-9c4a-08dba272d605
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 18:13:01.6219 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 18:17:10.5805 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s19suUpOS1H5XhW8RJq38IJZ9Ykkou7TZjzEahm5Ezmy8qaG/D/WVRgjOCTSvcd2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6909
+X-MS-Exchange-CrossTenant-UserPrincipalName: ySkLLQn6DEQV07Zn4JkHqQpVCGaNfveM0RIE+vgaBSbQTkzDmvdcTYbwRi89wGApEGgfRlG/vUL10n7cJ3XeWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7935
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,107 +130,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.08.23 um 20:01 schrieb Danilo Krummrich:
-> On 8/21/23 16:07, Christian König wrote:
->> Am 18.08.23 um 13:58 schrieb Danilo Krummrich:
->>> [SNIP]
->>>> I only see two possible outcomes:
->>>> 1. You return -EBUSY (or similar) error code indicating the the hw 
->>>> can't receive more commands.
->>>> 2. Wait on previously pushed commands to be executed.
->>>> (3. Your driver crash because you accidentally overwrite stuff in 
->>>> the ring buffer which is still executed. I just assume that's 
->>>> prevented).
->>>>
->>>> Resolution #1 with -EBUSY is actually something the UAPI should not 
->>>> do, because your UAPI then depends on the specific timing of 
->>>> submissions which is a really bad idea.
->>>>
->>>> Resolution #2 is usually bad because it forces the hw to run dry 
->>>> between submission and so degrade performance.
->>>
->>> I agree, that is a good reason for at least limiting the maximum job 
->>> size to half of the ring size.
->>>
->>> However, there could still be cases where two subsequent jobs are 
->>> submitted with just a single IB, which as is would still block 
->>> subsequent jobs to be pushed to the ring although there is still 
->>> plenty of space. Depending on the (CPU) scheduler latency, such a 
->>> case can let the HW run dry as well.
->>
->> Yeah, that was intentionally not done as well. The crux here is that 
->> the more you push to the hw the worse the scheduling granularity 
->> becomes. It's just that neither Xe nor Nouveau relies that much on 
->> the scheduling granularity at all (because of hw queues).
->>
->> But Xe doesn't seem to need that feature and I would still try to 
->> avoid it because the more you have pushed to the hw the harder it is 
->> to get going again after a reset.
->>
->>>
->>> Surely, we could just continue decrease the maximum job size even 
->>> further, but this would result in further overhead on user and 
->>> kernel for larger IB counts. Tracking the actual job size seems to 
->>> be the better solution for drivers where the job size can vary over 
->>> a rather huge range.
->>
->> I strongly disagree on that. A larger ring buffer is trivial to allocate 
->
-> That sounds like a workaround to me. The problem, in the case above, 
-> isn't that the ring buffer does not have enough space, the problem is 
-> that we account for the maximum job size although the actual job size 
-> is much smaller. And enabling the scheduler to track the actual job 
-> size is trivial as well.
+Hi Christian,
 
-That's what I agree on, so far I just didn't see the reason for doing it 
-but at least a few reason for not doing it.
-
->
->> and if userspace submissions are so small that the scheduler can't 
->> keep up submitting them then your ring buffer size is your smallest 
->> problem.
->>
->> In other words the submission overhead will completely kill your 
->> performance and you should probably consider stuffing more into a 
->> single submission.
->
-> I fully agree and that is also the reason why I want to keep the 
-> maximum job size as large as possible.
->
-> However, afaik with Vulkan it's the applications themselves deciding 
-> when and with how many command buffers a queue is submitted (@Faith: 
-> please correct me if I'm wrong). Hence, why not optimize for this case 
-> as well? It's not that it would make another case worse, right?
-
-As I said it does make both the scheduling granularity as well as the 
-reset behavior worse.
-
-In general I think we should try to push just enough work to the 
-hardware to keep it busy and not as much as possible.
-
-So as long as nobody from userspace comes and says we absolutely need to 
-optimize this use case I would rather not do it.
+I ran GLMark2, unigine heaven and Tomb Raider on steam. I didn't observe 
+any issues.
 
 Regards,
-Christian.
+Arun.
 
+On 8/21/2023 4:33 PM, Christian König wrote:
+> Am 20.08.23 um 11:51 schrieb Christophe JAILLET:
+>> This serie simplifies amdgpu_bo_list_create() and usage of the 'struct
+>> amdgpu_bo_list'.
 >
-> - Danilo
+> Oh, yes please. That's something I always wanted to cleanup as well.
+>
+>> It is compile tested only.
+>
+> That bothers me a bit. Arun, Vitaly, Shashank can anybody with time 
+> run a quick test on this? Preferable the IGT tests, but this just some 
+> game should probably do as well.
+>
+> Apart from that looks good to me,
+> Christian.
 >
 >>
->> Regards,
->> Christian.
+>> Christophe JAILLET (4):
+>>    drm/amdgpu: Explicitly add a flexible array at the end of 'struct
+>>      amdgpu_bo_list'
+>>    drm/amdgpu: Remove a redundant sanity check
+>>    drm/amdgpu: Remove amdgpu_bo_list_array_entry()
+>>    drm/amdgpu: Use kvzalloc() to simplify code
 >>
->>>
->>> - Danilo
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c | 15 ++-------------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h | 18 ++++++------------
+>>   2 files changed, 8 insertions(+), 25 deletions(-)
 >>
 >
 
