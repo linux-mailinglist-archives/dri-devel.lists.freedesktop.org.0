@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E747828B1
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:12:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C667828E3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24CFB10E169;
-	Mon, 21 Aug 2023 12:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B7710E234;
+	Mon, 21 Aug 2023 12:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5022510E169
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:12:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BED626D5;
- Mon, 21 Aug 2023 14:11:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692619891;
- bh=wQ56MmYc4s3k/U5yMVZgSxazW0HtmwTXQNoLH5iCaCs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KEeNqNqE7S43KBNGEFF7cgotD5k5tevDKZwmWDhM0B9ByEpD/2Ep8IBZpl2AXInYA
- pXv64BZwx4vVu7N+pyBFZsQMfbk2+o9AxOYsr9UcfJPZnWSMgQIA++jNd8jZaiPnIY
- l4cM8JHTlEjVmMUAN/aRCSb9q+eENfiOIKG05YL8=
-Date: Mon, 21 Aug 2023 15:12:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] drm: bridge: it66121: Extend match support for OF tables
-Message-ID: <20230821121254.GC10135@pendragon.ideasonboard.com>
-References: <20230813080520.65813-1-biju.das.jz@bp.renesas.com>
- <20230813172715.GA19398@pendragon.ideasonboard.com>
- <OS0PR01MB592291F889F1BE13981169D78617A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C9910E250
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=5IiWcS1pGUM8RhlF+xFAzuOei17PLjfs94NmDiNvo6g=; b=MR/QHwNqCgmOxVS7c6EPkcvTOM
+ ewCAH+I5VyIrZrxJzwYfZLZdCgL8s90TQvZ+npslaTk64GCHlebjy/zTEFSP1XKvpvz0F1mp04dGb
+ Q4Mw4xNqTcDxevU3YZo9ZuZG7u7901KOLFAZQFBrfJj6DTvFoLmKqeOrbe9EGAWJD80G+5oUvjC9E
+ GE7/tDN7WYGjkchDeLjeoEXqx63p+j9VqmffpAwOVP34B8h7G2NH+m2Ijbr5WZl9m60lEmymGlSTH
+ 3KMB/ugwe8njVx8yVWKJI7O8kZmYJA5QdxgWpCri1u728bx/fA3oJh+UCaWAdHAzd3/DRUeZhFvtJ
+ MESTOvHA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1qY3tZ-00A7pc-KQ; Mon, 21 Aug 2023 12:20:33 +0000
+Date: Mon, 21 Aug 2023 13:20:33 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH] fs: clean up usage of noop_dirty_folio
+Message-ID: <ZONWka8NpDVGzI8h@casper.infradead.org>
+References: <20230819124225.1703147-1-xueshi.hu@smartx.com>
+ <20230821111643.5vxtktznjqk42cak@quack3>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB592291F889F1BE13981169D78617A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <20230821111643.5vxtktznjqk42cak@quack3>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,129 +48,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: nvdimm@lists.linux.dev, linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
+ djwong@kernel.org, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+ adilger.kernel@dilger.ca, dave.jiang@intel.com, miklos@szeredi.hu,
+ vishal.l.verma@intel.com, deller@gmx.de, hughd@google.com,
+ Xueshi Hu <xueshi.hu@smartx.com>, linux-ext4@vger.kernel.org,
+ jayalk@intworks.biz, viro@zeniv.linux.org.uk, dan.j.williams@intel.com,
+ brauner@kernel.org, tytso@mit.edu, dri-devel@lists.freedesktop.org,
+ muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ bcrl@kvack.org, jack@suse.com, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, mike.kravetz@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
-
-On Mon, Aug 14, 2023 at 09:06:46AM +0000, Biju Das wrote:
-> Hi Laurent Pinchart,
-> 
-> Thanks for the feedback.
-> 
-> > Subject: Re: [PATCH] drm: bridge: it66121: Extend match support for OF
-> > tables
+On Mon, Aug 21, 2023 at 01:16:43PM +0200, Jan Kara wrote:
+> On Sat 19-08-23 20:42:25, Xueshi Hu wrote:
+> > In folio_mark_dirty(), it will automatically fallback to
+> > noop_dirty_folio() if a_ops->dirty_folio is not registered.
 > > 
-> > Hi Biju,
+> > As anon_aops, dev_dax_aops and fb_deferred_io_aops becames empty, remove
+> > them too.
 > > 
-> > Thank you for the patch.
-> > 
-> > On Sun, Aug 13, 2023 at 09:05:20AM +0100, Biju Das wrote:
-> > > The driver has OF match table, still it uses ID lookup table for
-> > > retrieving match data. Replace ID look up with i2c_get_match_data()
-> > > for retrieving OF/ACPI/I2C match data by adding similar match data for
-> > > OF table.
-> > 
-> > Could you please explain in the commit message *why* this is desired ?
+> > Signed-off-by: Xueshi Hu <xueshi.hu@smartx.com>
 > 
-> Currently the driver is working on the assumption that a
-> I2C device registered via OF will always match a legacy
-> I2C device ID. The correct approach is to have an
-> OF device ID table using of_device_match_data()/device_match_data()/
-> I2c_get_match_data() if the devices are registered via OF.
+> Yeah, looks sensible to me but for some callbacks we are oscilating between
+> all users having to provide some callback and providing some default
+> behavior for NULL callback. I don't have a strong opinion either way so
+> feel free to add:
 > 
-> Basically, it is fixing
+> Reviewed-by: Jan Kara <jack@suse.cz>
 > 
-> Fixes: 9a9f4a01bdae ("drm: bridge: it66121: Move VID/PID to new it66121_chip_info structure")
-> 
-> But i2c_get_match_data() is recently introduced.
+> But I guess let's see what Matthew thinks about this and what plans he has
+> so that we don't switch back again in the near future. Matthew?
 
-Thanks for the explanation. Could you record this in the commit message
-(if not done already) ?
+I was hoping Christoph would weigh in ;-)  I don't have a strong
+feeling here, but it seems to me that a NULL ->dirty_folio() should mean
+"do the noop thing" rather than "do the buffer_head thing" or "do the
+filemap thing".  In 0af573780b0b, the buffer_head default was removed.
+I think enough time has passed that we're OK to change what a NULL
+->dirty_folio means (plus we also changed the name of ->set_page_dirty()
+to ->dirty_folio())
 
-It would be really nice if we could drop the i2c_device_id...
+So Ack to the concept.  One minor change I'd request:
 
-> Maybe one patch with fixes tag using of_device_get_match_data and
-> ID lookup for retrieving match data from OF/I2C tables
-> 
-> and another patch to simplify using i2c_get_match_data() by replacing
-> of_device_get_match_data and ID lookup.
+-bool noop_dirty_folio(struct address_space *mapping, struct folio *folio)
++static bool noop_dirty_folio(struct address_space *mapping, struct folio *folio)
+ {
+ 	if (!folio_test_dirty(folio))
+ 		return !folio_test_set_dirty(folio);
+ 	return false;
+ }
+-EXPORT_SYMBOL(noop_dirty_folio);
 
-I'm fine with a single patch.
-
-> > > While at it, drop unused local varibale id from probe().
-> > 
-> > I'd drop this sentence, that's not a "while at it" change but an integral
-> > part of this patch.
-> 
-> Agreed.
-> 
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  This patch is only compile tested.
-> > > ---
-> > >  drivers/gpu/drm/bridge/ite-it66121.c | 17 ++++++++---------
-> > >  1 file changed, 8 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c
-> > > b/drivers/gpu/drm/bridge/ite-it66121.c
-> > > index 466641c77fe9..a80246ef4ffe 100644
-> > > --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> > > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> > > @@ -1501,7 +1501,6 @@ static const char * const it66121_supplies[] = {
-> > >
-> > >  static int it66121_probe(struct i2c_client *client)  {
-> > > -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> > >  	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
-> > >  	struct device_node *ep;
-> > >  	int ret;
-> > > @@ -1523,7 +1522,7 @@ static int it66121_probe(struct i2c_client
-> > > *client)
-> > >
-> > >  	ctx->dev = dev;
-> > >  	ctx->client = client;
-> > > -	ctx->info = (const struct it66121_chip_info *) id->driver_data;
-> > > +	ctx->info = i2c_get_match_data(client);
-> > >
-> > >  	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
-> > >  	of_node_put(ep);
-> > > @@ -1609,13 +1608,6 @@ static void it66121_remove(struct i2c_client *client)
-> > >  	mutex_destroy(&ctx->lock);
-> > >  }
-> > >
-> > > -static const struct of_device_id it66121_dt_match[] = {
-> > > -	{ .compatible = "ite,it66121" },
-> > > -	{ .compatible = "ite,it6610" },
-> > > -	{ }
-> > > -};
-> > > -MODULE_DEVICE_TABLE(of, it66121_dt_match);
-> > > -
-> > >  static const struct it66121_chip_info it66121_chip_info = {
-> > >  	.id = ID_IT66121,
-> > >  	.vid = 0x4954,
-> > > @@ -1628,6 +1620,13 @@ static const struct it66121_chip_info it6610_chip_info = {
-> > >  	.pid = 0x0611,
-> > >  };
-> > >
-> > > +static const struct of_device_id it66121_dt_match[] = {
-> > > +	{ .compatible = "ite,it66121", &it66121_chip_info },
-> > > +	{ .compatible = "ite,it6610", &it6610_chip_info },
-> > > +	{ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, it66121_dt_match);
-> > > +
-> > >  static const struct i2c_device_id it66121_id[] = {
-> > >  	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
-> > >  	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
-
--- 
-Regards,
-
-Laurent Pinchart
+Please inline this into folio_mark_dirty() instead of calling it.
