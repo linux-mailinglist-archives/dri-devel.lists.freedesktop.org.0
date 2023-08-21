@@ -1,120 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE671782BA0
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 16:23:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E767782BB1
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 16:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B0710E27F;
-	Mon, 21 Aug 2023 14:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38D3710E275;
+	Mon, 21 Aug 2023 14:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2089.outbound.protection.outlook.com [40.107.100.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8DD510E278;
- Mon, 21 Aug 2023 14:23:10 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2060b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::60b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCB2B10E272;
+ Mon, 21 Aug 2023 14:24:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V4Vy67fpjXFl81U3yqZyv1cRqOVF7CDznxU6ipWKNZwsMtAFj1f3GERIoQd4U2bcWKqu8xMXJ96zdxsaorBKEZJpDapnrBQ071q3f4IMlRvSKNw2IpgkZDnNoL0zRtvAAc46FimxyqWfubqiuJfA2FVHGATBeOyc3NeCwACaTnZ2VKsD/6LbM7D6D5p1jZk+Kz+6NDhL8YDYVbu7+lsflYovzfSu6IMgU4MA18U0kBLOriLeUB9JNxBqTAeS3+fyFMAXctPFQO9Skb4PAx/eMR8hi1PlmOJL9HawdyofeQgPSJMw2DU9w5MYeIEBA126I4mQ8doHR3D8NDSiqs/aEA==
+ b=Ao9sw0L3eOCK9UMa7rZ2qToNEkpNIpY82C/w3xLGp0X8h2ZwbgJtyiaZ9LbFoTuLas2DU4DbXSXx+7Wtt9inbvZpPXbWCcYBw/CcglR0D0lMZI/bqXTUBP5edF4R8HiZvLaAtrzxGD4DxPt9lce/VEO6jdY0dIG0bjGk0X7qohiRxxOcrGdeAqwMVY/1Kn/cooaRky8hF4gENFmcnt4b67gOsH3XKW3/jmbMCId5SM+JxRtYBZ0rjgvZfltDwpU05DPvy1xTjslTB66U4HuuPSjFcB0dSsaO9ID3UU/HXfNz9IxhJkZimhAwq7g2u0vz7yGuZV8va+GQT8ur+zPbIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LBS0/doGbWu38g+8092ACQHgwhtkLBDohox39dB3fK4=;
- b=OzHxyvvB9l0qth/ab9YVQs2KeuccRhIbmmsYbGbG09XAe82/MNCY+pUUjjj9ci9Y1IpT/fpXe/Tbfs8gV+8iCb59K8/JjkwQOOXhYoao9qSLXXL1OTzmVZkhP4Y2A3C9/yXMWVUp47QjkBMVxc1PdMisVcYNTPhIth/WFEp/W6Dir9u2DB7Y2unSjd7OrnNpsC7eY/IjJQgM8CpOPqK0pA1tcMq1Ex1YrJkwlc8fP3KXC1kmCVrbGTMF6C8D3Ty1pug+CDD6ZezLztcXb/xBM2niZv5Qu3cvgk8wYwsftqZMF5dfDvSJqESSYA9Z3cYrIewrVNPlZS7ffbhW6Xg1gg==
+ bh=GtYl5IDdajQKhFjmDXewKUAyS0MK/paX6MDhCf+m8qw=;
+ b=ebwqmmsOMPA1UQGLo+xJYRSY1oCo+EReaAb587+uTq+/dFOi9KG7/CHzOw3N57IKILCUmGcwSpM3pUWpo5DtWYZWeOcg1QdnDtGGgn2Fc9pYoIvYna2cXLNT7dFFXRKqzAi6Xv72twCJaLDCSyWj8KvnlfNjAvxNU+sVeDn+AzlUETqlWJ2HTqGj1TIBGLLQTBWEzwnLnQt+bjthBNS5aa+tz9owpjSenMBo2jYibquoFzHh5SE7Aj8vzUe+9m00ljvyf5iMQpohl/tfmRjc75ohPhtibCCPFkgygzNeuTpnJWWRbdr1ikYzjUCxj4jMN36XK08t/djzybsEkDmwfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LBS0/doGbWu38g+8092ACQHgwhtkLBDohox39dB3fK4=;
- b=NN6QrHKmG59LIND9IVL/nQxWvpU02L397zdNHmL/r4plEDhwffPcJLAEEVLzMn2sM+ojKEye2TiylvIsJvmnFPp8YThsklgND380Lx3rmEIqFzfLO5ecJ+35P6VMmZYhG1j2SNgHBW3+KQp7Sk26RSje3I9uSy0vNxmW5ntra2g=
+ bh=GtYl5IDdajQKhFjmDXewKUAyS0MK/paX6MDhCf+m8qw=;
+ b=d63VZG2l9kdNUyxiDwyktj1bYO5U08sQawDeu6p+clGYqZPGIaRIWtVAvhH9cKz+wvHfDjI70rFU+rnFzhSeHAoh8//0Rhgst5+AbELde8B9i/qRVkVm+HnVBuYtsIzmXnz4zyR3XUQmthsy4uoYdesR9OMlPAFIQpGdu3cmmZ4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
- by DS7PR12MB6360.namprd12.prod.outlook.com (2603:10b6:8:93::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 14:23:06 +0000
+ by MN0PR12MB5834.namprd12.prod.outlook.com (2603:10b6:208:379::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Mon, 21 Aug
+ 2023 14:24:50 +0000
 Received: from MW4PR12MB5667.namprd12.prod.outlook.com
  ([fe80::dc06:ffb3:46ec:6b86]) by MW4PR12MB5667.namprd12.prod.outlook.com
  ([fe80::dc06:ffb3:46ec:6b86%3]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
- 14:23:06 +0000
-Message-ID: <7e785b0a-aa1e-b733-2521-694941b7593f@amd.com>
-Date: Mon, 21 Aug 2023 16:22:55 +0200
+ 14:24:50 +0000
+Message-ID: <a0267db8-101b-e691-02f4-7bd1d13fb40e@amd.com>
+Date: Mon, 21 Aug 2023 16:24:39 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v5 4/5] drm/amdgpu: Move coredump code to amdgpu_reset file
+Subject: Re: [PATCH v5 5/5] drm/amdgpu: Create version number for coredumps
 Content-Language: en-US
 To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20230817182050.205925-1-andrealmeid@igalia.com>
- <20230817182050.205925-5-andrealmeid@igalia.com>
+ <20230817182050.205925-6-andrealmeid@igalia.com>
 From: Shashank Sharma <shashank.sharma@amd.com>
-In-Reply-To: <20230817182050.205925-5-andrealmeid@igalia.com>
+In-Reply-To: <20230817182050.205925-6-andrealmeid@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BE1P281CA0176.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:66::19) To MW4PR12MB5667.namprd12.prod.outlook.com
+X-ClientProxiedBy: BE1P281CA0166.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:66::11) To MW4PR12MB5667.namprd12.prod.outlook.com
  (2603:10b6:303:18a::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB5667:EE_|DS7PR12MB6360:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45c14085-4a45-4405-be56-08dba2522322
+X-MS-TrafficTypeDiagnostic: MW4PR12MB5667:EE_|MN0PR12MB5834:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e622c74-2513-4b2d-0750-08dba2526105
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0/bMSnqNYslR63z6jOQYXv9JxSglXaaLIsJl0+bg0zaSRRQ9L1M1bDpSgnRNF2kl/TA+iUvSe1PR3QcVJFVnoK82Jt83sq++H9jlCWFEtNV8m6QzYWoxfvCU1/1QVVwasA5lbKDBw40s7EAjnJ7yEB0ZNS9mZmVCGQEghZm1rcHlGUjpvBKhgtIzG3HLZKAK6USFdSLtNXImpkxC/95JGir/050BEKOTJP/RvRaT9ZmQQ/NwgdrWm+35cE410KCw0xVVqw0pCp+NsH1UM2/qFeteYtlAcFsmWjMx7kkc1PpOiZoRtOwsQLoOLVMaxDx6EGXNzMvgBJrdtAw9ZwjAq7gFMyudQlinlGYOMTUk3y9tNCV2CXKx40dyOauU8yDtw4rO4qRkuNCb2A0Msq43nGgcrth4h2xCF6mvBr9fVjvfm7adCo13d/egfRDhNT5knLxSLGgK74qWfghLTHhBIGn+xWtudlGhQKMnKqBNQXH+YRr4s6PqHTmIFIuYdxL7AfLOu/Qf4Vy5HNH0KyTVoy1Y+wf4iE13WqyjK2iYxlNzFKBWDH8WxuCbWCw6IlHlVXcl9YP7aCQ+CZOknEJ4a6RXspIC2lmIomYrIXBTtnjGpS/masZQgoBtQHR9E0wbP7hV6bcqRJ/JTob9USGwKg==
+X-Microsoft-Antispam-Message-Info: 0o1QgcZNXjv5sgcNLwbEQgIkuBRQNHfUG2fArFTIfmJY6CkIcVU/HAn1lhRChj3KBIHCu7VImrsKhRui+MxYRITYbqPg1TgmXNn1++0+dS1Ym5sLZ6YzJLzr2AQaIKiM59oKE3GM+cHRSxA3AyL8Cxv/zzuyeLsjk6RrgNErczpB7OZ3AkKfiz3G+nrsWEO36YJwSnz212fmdGc537Tsh4IrRttY0dXpeev4zJKj7GvZoDorZctOmIeiFGhCbt2q8PFSRwsp7XzGZtxbWaWZcruWfLA+AfuZg8ChjwLmvzUdfRrPAbZQFkMOEfw6kR6KQY1hRRiFH0NnXqCTCYc5qlifBKbhBDhUV4RG6UZilc3huMFzNM87Bm2+HT1UmbGDKJ+ot6HGZv6PROuVRiyVB/gk7EFX1aAgFxSIpYv9oBhCxzt2Vy9zvPnq81NhB+Nnt6WN+T990n8JWvFBDgsJokzm+2CdxOVq8UPzM+ziX2x3+AiTaBGkGdkpD3I/a30f6pLoWYsClsvG0euu5cHr1UUox9JnAhMgpUv63H/L5FCkPW0P3M9LFjT1nzf2ieESfQXDAh/nJIjesdnaN0KtkcEiGifq4Xng9gFGzENFojiA+KEDmWE6WrOoacBRSMu6LYneI2QPiXCX7nmdSC/gHA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW4PR12MB5667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(39860400002)(376002)(366004)(346002)(186009)(1800799009)(451199024)(54906003)(66556008)(66946007)(66476007)(316002)(6512007)(8936002)(8676002)(2616005)(4326008)(41300700001)(36756003)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(2906002)(83380400001)(86362001)(31696002)(31686004)(44832011)(5660300002)(26005)(43740500002)(45980500001);
+ SFS:(13230031)(136003)(366004)(376002)(39860400002)(396003)(346002)(186009)(451199024)(1800799009)(31696002)(2906002)(26005)(86362001)(478600001)(6486002)(2616005)(6506007)(6666004)(36756003)(6512007)(53546011)(44832011)(5660300002)(41300700001)(66556008)(66476007)(316002)(54906003)(66946007)(31686004)(4326008)(8936002)(8676002)(38100700002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFVwUWo5bTRTU0k0Z2oyc0tIK00vWWtiYlNLTjlRRERRVm9hZXJxOVRlWkxo?=
- =?utf-8?B?Y2lEWXFURms0UWNiZ0Q1dHpnZFBSeFZYZ2dWWjZKelpqTUdJclc0ck5sbmQ0?=
- =?utf-8?B?VnNSMElhZnFKZElQRGw2OXNnN1FCVm5UbmJmdHRKYjA1L3VhOFJGR2JIOFZk?=
- =?utf-8?B?WUlHd09iTVBhZlJHUDJUNU1yTWFpMU5Kd2I2U0twRG1CZk15QUpzdFBPWE45?=
- =?utf-8?B?Uk0yNkRoQWI4RlFBenVZL3FoYkZ6V1Y4TG9TNUZYZElsTmpjcXk3VjYwZDk5?=
- =?utf-8?B?TWZjSWp4aTFtWlozQWR3cmd3K0RUZTBQdk1YUXVjejlITEt3Tm5jWHZjdVhF?=
- =?utf-8?B?SE9reU9WOTN1bUpGekNsUlJBNTZTMlNnUk83UVRXdm5sbzJUdkJvMWkyUVhh?=
- =?utf-8?B?dU90YTZFMHpGTXE0RVNHK3NaMmdLYUR3dDkyekk2ODAvTVNpcGs2bkFxbUN0?=
- =?utf-8?B?TTBJcEx2ZkJLQlhLTTIrUzUyUlQyZldKVHlMd24rYUp0NGxYb2JkTjJIKytJ?=
- =?utf-8?B?NVgrVThDWTh2amFOWEQxKytLRXovV21yZnVTRTZQbVFtYVF2TjFDZkxmbjN0?=
- =?utf-8?B?Qk5Vc09EZitZSWwrNzRGM2ZPTW41NjVGWTRYZjQveEZCRk9TeENoUG5ZVFVM?=
- =?utf-8?B?YzlBU3VSaEdxOC9qTnhycFVXM1V1Rk9Ram5pa2FBZjNBVVVmaUZJMWlib0Ex?=
- =?utf-8?B?UU1PYnM1L01oay92VUdhWjBjTUI2VmR2Q01wNGFpV245U1Z3N3pzc29ZeHM2?=
- =?utf-8?B?eFN0ZTNRdFl4enlyK2g4MVZDSnBGdFZSdkdzRWd4Mm1JUjdVQ3p1YUJ6NTAy?=
- =?utf-8?B?empETXVvU2dyeUg2Zk84SXdjdDY3amxNSmh2ZHd3a1oxOXFseksrWHZ3REZO?=
- =?utf-8?B?eFkzZjQwSjMzZVlmQndmckxOYmdURDhTY21mY3N6djF2ODBkNFZUaUQzWi9R?=
- =?utf-8?B?Ymt0MTFYZmc0TUN0MCtGNXQ5bCtDdzc5b1Mzdi9YTFpwM1pDbDRLV0UyVHJh?=
- =?utf-8?B?ZGNkeG8xVGN2Szd3WUtMUGRzNUp0OEU0VmJxTGphSlBnT1F3bERvS2liOWxo?=
- =?utf-8?B?R1EzQWlGRWlkRmhZeEgwbnBOZi94ZFVnMjBodUZRelVVME9TQkY0dmN0MW4y?=
- =?utf-8?B?WVpmaFFhT2dzRmlGZ2lXbjFLWDFJbFhCNEdveXQ3RFJ1NDdKV1hzRnEwd3lj?=
- =?utf-8?B?Zm5nTEhPbEZ2dDFKbUUwRldtbXpKVmswa3YwRXByUnlHWEJkd1UxRWxIT1Nq?=
- =?utf-8?B?dTRnajNTVFp4aE82SDdPbWJtaFhJdW5pdWJVOWhPOSs4dE4yY1lYM21md056?=
- =?utf-8?B?aVhOOGJlazVzS3had1doc2taZWF1aW1mbGRXcktyUy9KM0dLaHZlU1hNVWtW?=
- =?utf-8?B?ZENEemt2S3kyTUxpbE5DTEtUWmVlaGk4TnRTeVZIRmhya2F5ZlN5TlFLUmc2?=
- =?utf-8?B?dTRWdWZpVWFma0grS2IvVHBGd3RDSk94ZjJmQm9WWi9DL2RXSjJxQllyY0h0?=
- =?utf-8?B?T1Q0U2NXUW9ZQ0E0WC8xNUZ5UDB0a3FFMElJRHpmWVQzUzB6ci85OHFmcjJX?=
- =?utf-8?B?bDh6U1k1TFlCRUVJYmc1VUxGdk5qWDI5Zkxia2NQZzk0QnIvaDVoU1ZNV3JI?=
- =?utf-8?B?ZGhES2RTazkxMjJmMU1SbzdDWStzaUtwRlVoZm9zUE5GdmV4WW9YZlliODlm?=
- =?utf-8?B?MkRsZlZ2QUxsMHZOYjBCMXNyUUVzUmVwSWdYVW1PT2h3c3Vhbm5ORnlrYVdK?=
- =?utf-8?B?UXhSYzkrNlhHU29HRGhnWGtDeWd1NXMrQ0s1R1drNGkwV1pjdSszUFpIcUxw?=
- =?utf-8?B?RERsMTEwN2RPdkhjcEZPc0JlWG11VGU0R1F3S1JKUndlNmNKOEoxRUJMejN1?=
- =?utf-8?B?Z1JBYjBIMlVOL0Z3TXFISU9UclRWemRtUUNsWTNoY3ZpOWJJT1JSbTcwVVY1?=
- =?utf-8?B?N3BRZzAwZG5RREt1Y08vbGxzYU8rcFN6UkNKbTRaRzRtckpoRzltdEVhSlZu?=
- =?utf-8?B?NDErVFQ3cDArR1J3ak9wQnhqVnJqckIyWXFtd214UForUHcvUjlpN2dVZFJ5?=
- =?utf-8?B?VGMyeXErNnZTamJrSjlHZ3MrU0lNYTAvSitPM3NnUkdIODY1R0hYNVhzT09L?=
- =?utf-8?Q?hYDxTWjDSTmDrGCNg8S0W5GyU?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVJ1QmVZdkZPVjF1T3hYWnFYZWwvMGYzUW1lSlZQbVNWMFBsbHk5cERjVkdw?=
+ =?utf-8?B?RE5iNGZQaDBPazBVYVZMakJzeDNmd0gvZ2tiakMyWTlFMTh4UlBMNTRHWlBY?=
+ =?utf-8?B?SzhzT2tobmtGd3JTNnM4b3RoSEhnQnBleERDelVQaEFJNm9BQUoyV05MV0Jr?=
+ =?utf-8?B?bXpEbzdFY2Z4VkNvRUJtSmIwRDNzb3V3OGVIRVVRR2k1RWc0Q0R1Y3NXNmlI?=
+ =?utf-8?B?cUk1N2IyQmZhQW45dEswa0NNd21KZ3RWeTdtaVY5MDZCSk16Q3BSUjVZOGVp?=
+ =?utf-8?B?NXYzTzlOUUY0WURUaGJpWGNNQ2VDL054V0lIZjlGOHdGWTAzMmlnd3hHUlA5?=
+ =?utf-8?B?Q1hjWEJqOUFYendYY0JOT0dPWHpQdThRd3hSWmdlc2cvR1R3UzQ4dE9EZWxP?=
+ =?utf-8?B?T1R3K2hUeldDd2dldDM4SHdLQzBVMGlsUjBST0ZhQTI5dFM2WWtKb256MWIr?=
+ =?utf-8?B?bTBGZ3BSUHhWRWc0VWtoMVVkWXlRMG8yR3lVQnBmelpDaXJNN1hFdWM4NDFW?=
+ =?utf-8?B?U2w1cHlNMnk1WkFxaHMrbmQ2K0o3WmdETUxWV2NrQmI0aGpHY3BLRTdCRExL?=
+ =?utf-8?B?SWhJSjVhZHE5MEtHelJpRklkV1dKTUxCV3k5aXAyTTV4THp4LzU1Y2NTNXlk?=
+ =?utf-8?B?QmVYYlg3RlB3dDlnM3lKbndKSEZiY0Y4Ym9jNUtsQjMrek54RE83QjNuOXNr?=
+ =?utf-8?B?OU9xMUNLMXVzcnJhcG9sTkkvaG9jYjlqb1lCUkJHVk1GS2NIZkwzcDRCTGgr?=
+ =?utf-8?B?N1RSQmZ3bktST3M3YW5MZ05QM0IzTXN5ZWdKKzN4TGRIZytPenVzSTQ3MUh1?=
+ =?utf-8?B?ZENMQjFudmcwMm9pT3ZKeFhFYmhzaFhkclVOZWFVWk5WN3JOZHl5Tms3ZXU0?=
+ =?utf-8?B?NWdYSDF6M3Z3ZTJ0YXdvMGF6dG5KQkNMT3R5dStMdG5oZ3MvTFRLYlhDS25S?=
+ =?utf-8?B?WTVhZjVrYm1pVTcrS1ExM3Z2QWJQTFV5NTRGN1BXNHNvZ0VwdXh0TmFDU2xW?=
+ =?utf-8?B?bm41RUxWeTEvZVJ2NlpoaUxRYzhBblp4c0pzZ3J1OURKSmlSeTc2WUhuLytn?=
+ =?utf-8?B?aTFDNU95QVJndzlVWk42R2hiMnhCRWtOam9uMU4zQlQ2dHQ2aUdhYUJIcWFp?=
+ =?utf-8?B?a2FNT1E2ekFIRU5jeGUxL3NpM2hHRnVUNkE4RUduKzh1VnBvZGJCZFpmNFlI?=
+ =?utf-8?B?cXRXMXQ1dnYvZzJrS2tzeTZIZjNBL3NaVVdtMTNZRDVRVGJTQVN0N3N5NzI1?=
+ =?utf-8?B?ZjhsbStWOFdxSUlXcHJHaURpVGx1N0ZwRDNPdGMyVlZROFBvU0JEKzcrR3Bt?=
+ =?utf-8?B?eWVYczEvTCtiTnBwUlRIc2FVN0xmQnpMVnpocGluamkzMmhVK0xpTE9tRWZo?=
+ =?utf-8?B?WGNUU1JYdGVZY3lDa2ttUkVDUXo5MEdpNEtqSXcrR3g4RDVSWkpXeVZTMWc4?=
+ =?utf-8?B?RzJsb3p2ZGZscEFoVzZIMEtuckRGNGRBKzQ5QzU0dXAvenZBK2Z6aklUNHRq?=
+ =?utf-8?B?bGNOaElwL0VML0JIWVZTVUZ5SjlLZ1ZxZURBY1lMNEV5RnQvcEpiY29HNk82?=
+ =?utf-8?B?ZVVaNFUxZFdKcFVBRE82NE1KWk02ODJuL1o3Y3c2aWhqKzdqa00wZkRoMWRT?=
+ =?utf-8?B?cEp3ZVhpUDBJdXpMSHlhSjQwV2FMMUNmblRJUmNub2swb1dsYTVBSjNCWHJw?=
+ =?utf-8?B?UHVHZ0tUTU51Y0I1WDdocWdSaVkrYTY4TGo1ckZwSFB6RS9RQUtKUFBCeDFT?=
+ =?utf-8?B?MjZhUS9rSUo1VzBMRzhwU1pRd0phSW5wVW95L0ZHeEdjOXJRSUMyREFGWGFo?=
+ =?utf-8?B?b0s1azNoMFJla3Y2cXFkZ2xBZFlqL29nYzB4cHpuOXErM3VVWHBiMzViQ1F6?=
+ =?utf-8?B?Vk5HSUR1OURhTTVQTFhWdW9zeTVKUW1hQlBIOEczQU5QMlBMaGNyU01yNXk1?=
+ =?utf-8?B?NmJSNWF0ZFV2KysybUt3S3BWK1Y0UldFME9xWXQ1S092Wjk1L2N2YVBSeTE0?=
+ =?utf-8?B?WFB5TE5vSjdiNi9RQ0NGa3RycDNYcEVwVExrRlhBemVQK09VSytOV1JPVVZL?=
+ =?utf-8?B?cnhEcnRPK0dOUFBRbHpIcy9DRDIvRWdqZ1pYMkM2Yi8xU2J1YUxybytxcjJ1?=
+ =?utf-8?Q?EJmcZDJgyFNInUkqDvedr4Py3?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45c14085-4a45-4405-be56-08dba2522322
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e622c74-2513-4b2d-0750-08dba2526105
 X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5667.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 14:23:06.6854 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 14:24:50.4821 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k7p26FiC6c+BoSsjA3Uzaf1vl5o9uylkEmg/kBDTBM0i3A8YoH3OY5PvIKeLswJ7UazgMLHXr6NNQiOxB1L1Qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6360
+X-MS-Exchange-CrossTenant-UserPrincipalName: pPNgoKZmImitH24GDBUsIfM0/6sl05H2ZMMYWPbgBU9LX8RUEt94bULerMkUCjYDiGgPBoiNJqv1+JtjU2Gr8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5834
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,255 +138,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 17/08/2023 20:20, André Almeida wrote:
-> Giving that we use codedump just for device resets, move it's functions
-> and structs to a more semantic file, the amdgpu_reset.{c, h}.
+> Even if there's nothing currently parsing amdgpu's coredump files, if
+> we eventually have such tools they will be glad to find a version field
+> to properly read the file.
+>
+> Create a version number to be displayed on top of coredump file, to be
+> incremented when the file format or content get changed.
 >
 > Signed-off-by: André Almeida <andrealmeid@igalia.com>
 > ---
-> v5: no change
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  9 ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 78 ----------------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 76 +++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h  | 10 +++
->   4 files changed, 86 insertions(+), 87 deletions(-)
+> v5: new patch
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 1 +
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h | 3 +++
+>   2 files changed, 4 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 56d78ca6e917..b11187d153ef 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -781,15 +781,6 @@ struct amdgpu_mqd {
->   #define AMDGPU_PRODUCT_NAME_LEN 64
->   struct amdgpu_reset_domain;
->   
-> -#ifdef CONFIG_DEV_COREDUMP
-> -struct amdgpu_coredump_info {
-> -	struct amdgpu_device	*adev;
-> -	struct amdgpu_task_info reset_task_info;
-> -	struct timespec64	reset_time;
-> -	bool			reset_vram_lost;
-> -};
-> -#endif
-> -
->   struct amdgpu_reset_info {
->   	/* reset dump register */
->   	u32 *reset_dump_reg_list;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 96975591841d..883953f2ae53 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -32,8 +32,6 @@
->   #include <linux/slab.h>
->   #include <linux/iommu.h>
->   #include <linux/pci.h>
-> -#include <linux/devcoredump.h>
-> -#include <generated/utsrelease.h>
->   #include <linux/pci-p2pdma.h>
->   #include <linux/apple-gmux.h>
->   
-> @@ -4799,82 +4797,6 @@ static int amdgpu_reset_reg_dumps(struct amdgpu_device *adev)
->   	return 0;
->   }
->   
-> -#ifndef CONFIG_DEV_COREDUMP
-> -static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> -			    struct amdgpu_reset_context *reset_context)
-> -{
-> -}
-> -#else
-> -static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
-> -		size_t count, void *data, size_t datalen)
-> -{
-> -	struct drm_printer p;
-> -	struct amdgpu_coredump_info *coredump = data;
-> -	struct drm_print_iterator iter;
-> -	int i;
-> -
-> -	iter.data = buffer;
-> -	iter.offset = 0;
-> -	iter.start = offset;
-> -	iter.remain = count;
-> -
-> -	p = drm_coredump_printer(&iter);
-> -
-> -	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
-> -	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> -	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> -	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
-> -	if (coredump->reset_task_info.pid)
-> -		drm_printf(&p, "process_name: %s PID: %d\n",
-> -			   coredump->reset_task_info.process_name,
-> -			   coredump->reset_task_info.pid);
-> -
-> -	if (coredump->reset_vram_lost)
-> -		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
-> -	if (coredump->adev->reset_info.num_regs) {
-> -		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n");
-> -
-> -		for (i = 0; i < coredump->adev->reset_info.num_regs; i++)
-> -			drm_printf(&p, "0x%08x: 0x%08x\n",
-> -				   coredump->adev->reset_info.reset_dump_reg_list[i],
-> -				   coredump->adev->reset_info.reset_dump_reg_value[i]);
-> -	}
-> -
-> -	return count - iter.remain;
-> -}
-> -
-> -static void amdgpu_devcoredump_free(void *data)
-> -{
-> -	kfree(data);
-> -}
-> -
-> -static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> -			    struct amdgpu_reset_context *reset_context)
-> -{
-> -	struct amdgpu_coredump_info *coredump;
-> -	struct drm_device *dev = adev_to_drm(adev);
-> -
-> -	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
-> -
-> -	if (!coredump) {
-> -		DRM_ERROR("%s: failed to allocate memory for coredump\n", __func__);
-> -		return;
-> -	}
-> -
-> -	coredump->reset_vram_lost = vram_lost;
-> -
-> -	if (reset_context->job && reset_context->job->vm)
-> -		coredump->reset_task_info = reset_context->job->vm->task_info;
-> -
-> -	coredump->adev = adev;
-> -
-> -	ktime_get_ts64(&coredump->reset_time);
-> -
-> -	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> -		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> -}
-> -#endif
-> -
->   int amdgpu_do_asic_reset(struct list_head *device_list_handle,
->   			 struct amdgpu_reset_context *reset_context)
->   {
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> index 5fed06ffcc6b..579b70a3cdab 100644
+> index 579b70a3cdab..e92c81ff27be 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -21,6 +21,9 @@
->    *
->    */
+> @@ -192,6 +192,7 @@ static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
+>   	p = drm_coredump_printer(&iter);
 >   
-> +#include <linux/devcoredump.h>
-> +#include <generated/utsrelease.h>
-> +
->   #include "amdgpu_reset.h"
->   #include "aldebaran.h"
->   #include "sienna_cichlid.h"
-> @@ -167,5 +170,78 @@ void amdgpu_device_unlock_reset_domain(struct amdgpu_reset_domain *reset_domain)
->   	up_write(&reset_domain->sem);
->   }
->   
-> +#ifndef CONFIG_DEV_COREDUMP
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +		     struct amdgpu_reset_context *reset_context)
-> +{
-> +}
-> +#else
-> +static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
-> +		size_t count, void *data, size_t datalen)
-> +{
-> +	struct drm_printer p;
-> +	struct amdgpu_coredump_info *coredump = data;
-> +	struct drm_print_iterator iter;
-> +	int i;
-> +
-> +	iter.data = buffer;
-> +	iter.offset = 0;
-> +	iter.start = offset;
-> +	iter.remain = count;
-> +
-> +	p = drm_coredump_printer(&iter);
-> +
-> +	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
-> +	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> +	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> +	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
-> +	if (coredump->reset_task_info.pid)
-> +		drm_printf(&p, "process_name: %s PID: %d\n",
-> +			   coredump->reset_task_info.process_name,
-> +			   coredump->reset_task_info.pid);
-> +
-> +	if (coredump->reset_vram_lost)
-> +		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
-> +	if (coredump->adev->reset_info.num_regs) {
-> +		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n");
-> +
-> +		for (i = 0; i < coredump->adev->reset_info.num_regs; i++)
-> +			drm_printf(&p, "0x%08x: 0x%08x\n",
-> +				   coredump->adev->reset_info.reset_dump_reg_list[i],
-> +				   coredump->adev->reset_info.reset_dump_reg_value[i]);
-> +	}
-> +
-> +	return count - iter.remain;
-> +}
->   
-> +static void amdgpu_devcoredump_free(void *data)
-> +{
-> +	kfree(data);
-> +}
->   
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +			    struct amdgpu_reset_context *reset_context)
-> +{
-> +	struct amdgpu_coredump_info *coredump;
-> +	struct drm_device *dev = adev_to_drm(adev);
-> +
-> +	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
-> +
-> +	if (!coredump) {
-> +		DRM_ERROR("%s: failed to allocate memory for coredump\n", __func__);
-> +		return;
-> +	}
-> +
-> +	coredump->reset_vram_lost = vram_lost;
-> +
-> +	if (reset_context->job && reset_context->job->vm)
-> +		coredump->reset_task_info = reset_context->job->vm->task_info;
-> +
-> +	coredump->adev = adev;
-> +
-> +	ktime_get_ts64(&coredump->reset_time);
-> +
-> +	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> +		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> +}
-> +#endif
+>   	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
+> +	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
+>   	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
+>   	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
+>   	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> index f4a501ff87d9..01e8183ade4b 100644
+> index 01e8183ade4b..ec3a409ec509 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> @@ -87,6 +87,14 @@ struct amdgpu_reset_domain {
->   	atomic_t reset_res;
+> @@ -88,6 +88,9 @@ struct amdgpu_reset_domain {
 >   };
 >   
-> +#ifdef CONFIG_DEV_COREDUMP
-> +struct amdgpu_coredump_info {
-> +	struct amdgpu_device		*adev;
-> +	struct amdgpu_task_info         reset_task_info;
-> +	struct timespec64               reset_time;
-> +	bool                            reset_vram_lost;
-> +};
-> +#endif
->   
->   int amdgpu_reset_init(struct amdgpu_device *adev);
->   int amdgpu_reset_fini(struct amdgpu_device *adev);
-> @@ -126,4 +134,6 @@ void amdgpu_device_lock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
->   void amdgpu_device_unlock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +		     struct amdgpu_reset_context *reset_context);
->   #endif
+>   #ifdef CONFIG_DEV_COREDUMP
+> +
+> +#define AMDGPU_COREDUMP_VERSION "1"
+> +
 
 Reviewed-by: Shashank Sharma <shashank.sharma@amd.com>
 
 - Shashank
+
+>   struct amdgpu_coredump_info {
+>   	struct amdgpu_device		*adev;
+>   	struct amdgpu_task_info         reset_task_info;
