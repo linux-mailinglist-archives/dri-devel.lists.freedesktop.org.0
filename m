@@ -1,105 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B957826B9
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 12:01:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 751807826D8
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 12:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B46910E222;
-	Mon, 21 Aug 2023 10:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDBA510E223;
+	Mon, 21 Aug 2023 10:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE3C10E222
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 10:01:24 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3fe4a89e8c4so30010125e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 03:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692612082; x=1693216882;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=RmpCqNuwBY73OVYPi/BmCG3N0jxacFrq7im2IRCj57Q=;
- b=buHtt9R6p1UT0kFR+SZvrhqJc1VC7erDPw8zlc8waNmuc2h+o5FQ4vm6/4TJD1Jlne
- up2315BphlsJtnFWQ3c3nNiI7YPBEOgoVfNGS9eq5kPjme4d1G+XgAHds8pswK84Pn9x
- YX+QUtEqlZtZaJcGWlNoraFi9e1xzeeagTgFx/x9M26fjwvTvaOwKgyBT9af6osdWlCd
- OKbmMt3NY170Dz3rICNYPnfTULb7nEsgyQpyoxPQfO+zO6jJXhaXARN5H7t4bac1bA/m
- rw+bYtK3fR10xoyfrqUcjw+H5sWae2sZYKQDI5RHVqGCPpwxUq4gVrh2bIkeKRHEejxx
- rz7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692612082; x=1693216882;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=RmpCqNuwBY73OVYPi/BmCG3N0jxacFrq7im2IRCj57Q=;
- b=hACzZ2YjrEs0Jm+wzJbVcQfn1nCDsmxamYuL18XuepRKSa0CBcIICtVjZs1arZnohV
- vG6hbbZuTFoXXPH52r34fRZ8MRVLGp22+aFjLfvGVyISksD9js3UpE6FSgLjxpWMWfSX
- KHW1DheL/r7A8+/zT0GfhocCgLn1TREgPgmruQFtN54M2X1676SdzqkSiKWi1brJyyfz
- UnH4pgPbxeabvQ58q9KhK0n7sTBLNPZ3U7acbn/UF8uLqpJ2ZCmBNjf8wmRsOlHCBk3s
- xtPA2V5MaicmvEd6foPT2Vh3ZwMARjio5PshEW+QswDQ07e0hxFxm6kpt/lwMqBWo0Kv
- /PhA==
-X-Gm-Message-State: AOJu0YyKsnmXzMHhawtqAx4qrDQd+ZHs8yrv3A447TJ5wVK6kbEy3W8z
- jzMrYk18KY8FwqLgi4LlQAbKbw==
-X-Google-Smtp-Source: AGHT+IFeFxim5iwfMKEO2kJ5I14LCZUo8h/2g2Y7SpUdqfbUVwVaEgpWd2VeAyqr3B0v8aNlQsd5wQ==
-X-Received: by 2002:a05:600c:2291:b0:3fe:2a98:a24c with SMTP id
- 17-20020a05600c229100b003fe2a98a24cmr4887407wmf.26.1692612082568; 
- Mon, 21 Aug 2023 03:01:22 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:8418:651e:836e:2521?
- ([2a01:e0a:cad:2140:8418:651e:836e:2521])
- by smtp.gmail.com with ESMTPSA id
- x1-20020a05600c2a4100b003fe1630a8f0sm15569169wme.24.2023.08.21.03.01.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Aug 2023 03:01:21 -0700 (PDT)
-Message-ID: <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
-Date: Mon, 21 Aug 2023 12:01:19 +0200
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2062f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA3210E0D3;
+ Mon, 21 Aug 2023 10:15:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JywUsqvbBuAarh9TGsDqXR3goolHhUC1NIlDyCPcSe3zrZdA/XkAbu7Tgua4W1ecRv+yCX9z/IF8wjoHM2JdY8Y5J/8YKdC+3cZ21Sq0hmn/jizRf/TTIHfegDcvi558SKzKwCt80KZ1uyAvAr/H3OMQHIPhwZMcl59IJ85fznLT2frwrq2BIM01MlnoRvfkwfB45LtsBf3/YHwEKFI/Cln7wBVztFtRwZkhbA9YwkOp2UEIwRG6Bc1xVlR6ohhHCuCYufB6vOKPCHpD1QxtOaxt3bo5rMijc9sm6xyGMwymu5z2btnRZjy2veNiehobejemtYWPwDTi/Mcc8W6jYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nhv+QcCt7Md3mpm0qLnQqnrZazmPaTdWQQZ2ePttbPg=;
+ b=mTA9KFKRksU4Y5TprfV/w86V0O5lnEgzBJicQuM950QAYAqWEc7uhQXpfcnF2DiC3Sw5VKxGaoqfMZ9Pn6D/al2++DWz8yGjTzvVB0vGrQSjgxgIPGHZdQ33VcvjUCJavLegb2pLP9D7TzftN/YdZfZleYgJ01lsuznaBHMBpptKxwLBX9OHlurUzSCsZBlr9KSMYC+zVWKE/GSuqIp+OoM8EVJsH7z1SEqU6BgZ1HpJOhXie3++QG8SiojaD6ARNGnv7rUneEL4tcNAPkrlivGMwIgtMxqvYWiQPcXodK9L4OvRgZ1jkeTHnKtHOQFo2Kuw+dBm32ELwk7Ek68k8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nhv+QcCt7Md3mpm0qLnQqnrZazmPaTdWQQZ2ePttbPg=;
+ b=1kkvrDVPa2eVH1o8J4uAvjoWomOTyX1dch6jpEEfrX2QobnknFouSzlekMxv0HbU95F5vx2p2hZVPs0O5dUnKTgwc4KL1xuzSeWlwFWD52qf1GsKqvSKt0hntrQLjDiERvkpcHq6CYqJY7CAeui/kAdDtGjgu+61/cziJfKw3iM=
+Received: from DS7PR05CA0082.namprd05.prod.outlook.com (2603:10b6:8:57::23) by
+ DM4PR12MB6207.namprd12.prod.outlook.com (2603:10b6:8:a6::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.24; Mon, 21 Aug 2023 10:15:07 +0000
+Received: from CY4PEPF0000E9D8.namprd05.prod.outlook.com
+ (2603:10b6:8:57:cafe::5e) by DS7PR05CA0082.outlook.office365.com
+ (2603:10b6:8:57::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6723.11 via Frontend
+ Transport; Mon, 21 Aug 2023 10:15:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000E9D8.mail.protection.outlook.com (10.167.241.83) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6699.15 via Frontend Transport; Mon, 21 Aug 2023 10:15:06 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 21 Aug 2023 05:15:03 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH 1/3] drm/buddy: Fix contiguous memory allocation issues
+Date: Mon, 21 Aug 2023 03:14:42 -0700
+Message-ID: <20230821101444.119601-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
- VTDR6130
-Content-Language: en-US, fr
-To: Maxime Ripard <mripard@kernel.org>
-References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
- <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
- <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
- <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
- <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
- <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
- <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
- <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
- <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
- <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D8:EE_|DM4PR12MB6207:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83e79976-b89a-4692-72fe-08dba22f7e49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 00Iv5cCDMXJYRedOfHz6NOoG/6LBZkDhbjXcQVcjUjVPW9318wjvf8marhdMgTBMijenviI318EDwkSURBsvsJAHM9QOtWrmOqOqjMzb7DVjFo8pwmJtjFL8+LBOwVvjsIZpqgEApYsrvxTwgguwMNtdv4WL0yiNE1u1S9SUh0qMIpey9YfQmUK9fcTmE35PRwRLRbblUN7wyxcuo+0GcZLPKpPxRwKXfmEuRUy+fFwMDObTifMHz+9KF1kvIjmyOAqy/+Tibc/0avXE7uz+JoMhoc4/K7RSOaER6W+JM34xhfEuohMkqciSII8W5zesmqljV0Nh6HMwDvaGu4EZy18IQseeUgbfOKboytmwMnffIHILNtbPgV6vYQJ9AudkDs1pvBZgp9LPFOvJ2ILHP4FRd0YI44tFTrapLQqQfWxIDd0aa+zunO1hnkQY2E2FYh2N2rnxBB24Jm+4498dsi4Qj2QnWXuZSLxJ91dGZkf8YW2xyjeS9EZTc0Ew12Zsz816PdyLF8DT1GwJ5vftL2IVpyh92HEPT8wF19amm2Pu+lx5wsfBibRGJvuyxJkMnSQzYLK67zoTADdl0ARVX5GXpD8VB8jfKY5o8p7NERVMf329WzouwaWfk75f7wpYiiZ3GuW1GMm7b+UT/p56OdBvfWGf7l9Fcw1JYAc6QJFdI5CqgkjP839c/7JONAJ5w+Z+/JxnI1KR5E29AmyCCcxjBY36NiLmlSVox3g/GydQh5Kk/nA/fjvkvQovxLv1ZWUDNg+lL8wuwqJduG3UUw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(346002)(136003)(39860400002)(396003)(82310400011)(451199024)(186009)(1800799009)(36840700001)(40470700004)(46966006)(2906002)(83380400001)(7696005)(40480700001)(5660300002)(336012)(426003)(16526019)(26005)(86362001)(36860700001)(47076005)(8676002)(2616005)(8936002)(4326008)(70206006)(316002)(54906003)(70586007)(110136005)(478600001)(82740400003)(356005)(81166007)(6666004)(40460700003)(41300700001)(36756003)(1076003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 10:15:06.7868 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83e79976-b89a-4692-72fe-08dba22f7e49
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9D8.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,140 +100,370 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, quic_parellan@quicinc.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, linux-kernel@vger.kernel.org
+Cc: alexander.deucher@amd.com,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+The way now contiguous requests are implemented such that
+the size rounded up to power of 2 and the corresponding order
+block picked from the freelist.
 
-On 21/08/2023 10:17, Maxime Ripard wrote:
-> Hi,
-> 
-> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wrote:
->> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
->>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
->>>> Sending HS commands will always work on any controller, it's all
->>>> about LP commands. The Samsung panels you listed only send HS
->>>> commands so they can use prepare_prev_first and work on any
->>>> controllers.
->>>
->>> I think there is some misunderstanding there, supported by the
->>> description of the flag.
->>>
->>> If I remember correctly, some hosts (sunxi) can not send DCS
->>> commands after enabling video stream and switching to HS mode, see
->>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
->>> commands in drm_panel_funcs::prepare() /
->>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
->>> whether these commands are to be sent in LP or in HS mode.
->>>
->>> Previously DSI source drivers could power on the DSI link either in
->>> mode_set() or in pre_enable() callbacks, with mode_set() being the
->>> hack to make panel/bridge drivers to be able to send commands from
->>> their prepare() / pre_enable() callbacks.
->>>
->>> With the prev_first flags being introduced, we have established that
->>> DSI link should be enabled in DSI host's pre_enable() callback and
->>> switched to HS mode (be it command or video) in the enable()
->>> callback.
->>>
->>> So far so good.
->>
->> It seems coherent, I would like first to have a state of all DSI host
->> drivers and make this would actually work first before adding the
->> prev_first flag to all the required panels.
-> 
-> This is definitely what we should do in an ideal world, but at least for
-> sunxi there's no easy way for it at the moment. There's no documentation
-> for it and the driver provided doesn't allow this to happen.
-> 
-> Note that I'm not trying to discourage you or something here, I'm simply
-> pointing out that this will be something that we will have to take into
-> account. And it's possible that other drivers are in a similar
-> situation.
-> 
->>> Unfortunately this change is not fully backwards-compatible. This
->>> requires that all DSI panels sending commands from prepare() should
->>> have the prepare_prev_first flag. In some sense, all such patches
->>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
->>> flag to drm_panel").
->>
->> This kind of migration should be done *before* any possible
->> regression, not the other way round.
->>
->> If all panels sending commands from prepare() should have the
->> prepare_prev_first flag, then it should be first, check for
->> regressions then continue.
->>
->> <snip>
->>
->>>>
->>>> I understand, but this patch doesn't qualify as a fix for
->>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
->>>> v6.6, and since 9e15123eca79 actually breaks some support it
->>>> should be reverted (+ deps) since we are late in the rc cycles.
->>>
->>> If we go this way, we can never reapply these patches. There will be
->>> no guarantee that all panel drivers are completely converted. We
->>> already have a story without an observable end -
->>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
->>
->> I don't understand this point, who would block re-applying the patches ?
->>
->> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
->> Linux version and went smoothly because we reverted regressing patches
->> and restarted when needed, I don't understand why we can't do this
->> here aswell.
->>
->>> I'd consider that the DSI driver is correct here and it is about the
->>> panel drivers that require fixes patches. If you care about the
->>> particular Fixes tag, I have provided one several lines above.
->>
->> Unfortunately it should be done in the other way round, prepare for
->> migration, then migrate,
->>
->> I mean if it's a required migration, then it should be done and I'll
->> support it from both bridge and panel PoV.
->>
->> So, first this patch has the wrong Fixes tag, and I would like a
->> better explanation on the commit message in any case. Then I would
->> like to have an ack from some drm-misc maintainers before applying it
->> because it fixes a patch that was sent via the msm tree thus per the
->> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
-> 
-> Sorry, it's not clear to me what you'd like our feedback on exactly?
+In addition to the older method, the new method will rounddown
+the size to power of 2 and the corresponding order block picked
+from the freelist. And for the remaining size we traverse the
+tree and try to allocate either from the freelist block's buddy
+or from the peer block. If the remaining size from peer/buddy
+block is not free, we pick the next freelist block and repeat
+the same method.
 
-So let me resume the situation:
+Moved contiguous/alignment size computation part and trim
+function to the drm buddy manager.
 
-- pre_enable_prev_first was introduced in [1]
-- some panels made use of pre_enable_prev_first
-- Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kernels and before
-- patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 systems (and probably other Video mode panels on Qcom platforms)
-- this fix was sent late, and is now too late to be merged via drm-misc-next
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 253 ++++++++++++++++++++++++++++++++++--
+ include/drm/drm_buddy.h     |   6 +-
+ 2 files changed, 248 insertions(+), 11 deletions(-)
 
-I do not consider it's the right way to fix regression caused by [2]
-I consider [2] should be reverted, panels migrated to pre_enable_prev_first when needed, tested and the [2] applied again
-
-I have no objection about [2] and it should be done widely over the whole DSI controllers
-and DSI Video panels.
-
-I also object about the Fixes tag of this patch, which is wrong, and Dmitry considers [1]
-should be used but it's even more wrong since [2] really caused the regression.
-
-And if [2] was to correct one to use, it was pushed via the MSM tree so it couldn't be
-applied via drm-misc-next-fixes, right ?
-
-[1] 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
-[2] 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts at modeset")
-
-Thanks,
-Neil
-
-> 
-> Maxime
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 7098f125b54a..220f60c08a03 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -569,6 +569,197 @@ static int __drm_buddy_alloc_range(struct drm_buddy *mm,
+ 	return __alloc_range(mm, &dfs, start, size, blocks);
+ }
+ 
++static int __alloc_contiguous_block_from_buddy(struct drm_buddy *mm,
++					       u64 size,
++					       u64 min_block_size,
++					       struct drm_buddy_block *block,
++					       struct list_head *blocks)
++{
++	struct drm_buddy_block *buddy, *parent = NULL;
++	u64 start, offset = 0;
++	LIST_HEAD(dfs);
++	int err;
++
++	if (!block)
++		return -EINVAL;
++
++	buddy = __get_buddy(block);
++	if (!buddy)
++		return -ENOSPC;
++
++	if (drm_buddy_block_is_allocated(buddy))
++		return -ENOSPC;
++
++	parent = block->parent;
++	if (!parent)
++		return -ENOSPC;
++
++	if (block->parent->right == block) {
++		u64 remaining;
++
++		/* Compute the leftover size for allocation */
++		remaining = max((size - drm_buddy_block_size(mm, buddy)),
++				min_block_size);
++		if (!IS_ALIGNED(remaining, min_block_size))
++			remaining = round_up(remaining, min_block_size);
++
++		/* Check if remaining size is greater than buddy block size */
++		if (drm_buddy_block_size(mm, buddy) < remaining)
++			return -ENOSPC;
++
++		offset = drm_buddy_block_size(mm, buddy) - remaining;
++	}
++
++	list_add(&parent->tmp_link, &dfs);
++	start = drm_buddy_block_offset(parent) + offset;
++
++	err = __alloc_range(mm, &dfs, start, size, blocks);
++	if (err)
++		return -ENOSPC;
++
++	return 0;
++}
++
++static int __alloc_contiguous_block_from_peer(struct drm_buddy *mm,
++					      u64 size,
++					      u64 min_block_size,
++					      struct drm_buddy_block *block,
++					      struct list_head *blocks)
++{
++	struct drm_buddy_block *first, *peer, *tmp;
++	struct drm_buddy_block *parent = NULL;
++	u64 start, offset = 0;
++	unsigned int order;
++	LIST_HEAD(dfs);
++	int err;
++
++	if (!block)
++		return -EINVAL;
++
++	order = drm_buddy_block_order(block);
++	/* Add freelist block to dfs list */
++	list_add(&block->tmp_link, &dfs);
++
++	tmp = block;
++	parent = block->parent;
++	while (parent) {
++		if (block->parent->left == block) {
++			if (parent->left != tmp) {
++				peer = parent->left;
++				break;
++			}
++		} else {
++			if (parent->right != tmp) {
++				peer = parent->right;
++				break;
++			}
++		}
++
++		tmp = parent;
++		parent = tmp->parent;
++	}
++
++	if (!parent)
++		return -ENOSPC;
++
++	do {
++		if (drm_buddy_block_is_allocated(peer))
++			return -ENOSPC;
++		/* Exit loop if peer block order is equal to block order */
++		if (drm_buddy_block_order(peer) == order)
++			break;
++
++		if (drm_buddy_block_is_split(peer)) {
++			/* Traverse down to the block order level */
++			if (block->parent->left == block)
++				peer = peer->right;
++			else
++				peer = peer->left;
++		} else {
++			break;
++		}
++	} while (1);
++
++	if (block->parent->left == block) {
++		u64 remaining;
++
++		/* Compute the leftover size for allocation */
++		remaining = max((size - drm_buddy_block_size(mm, block)),
++				min_block_size);
++		if (!IS_ALIGNED(remaining, min_block_size))
++			remaining = round_up(remaining, min_block_size);
++
++		/* Check if remaining size is greater than peer block size */
++		if (drm_buddy_block_size(mm, peer) < remaining)
++			return -ENOSPC;
++
++		offset = drm_buddy_block_size(mm, peer) - remaining;
++		/* Add left peer block to dfs list */
++		list_add(&peer->tmp_link, &dfs);
++	} else {
++		/* Add right peer block to dfs list */
++		list_add_tail(&peer->tmp_link, &dfs);
++	}
++
++	first = list_first_entry_or_null(&dfs,
++					 struct drm_buddy_block,
++					 tmp_link);
++	if (!first)
++		return -EINVAL;
++
++	start = drm_buddy_block_offset(first) + offset;
++	err = __alloc_range(mm, &dfs, start, size, blocks);
++	if (err)
++		return -ENOSPC;
++
++	return 0;
++}
++
++static int __drm_buddy_alloc_contiguous_blocks(struct drm_buddy *mm,
++					       u64 size,
++					       u64 min_block_size,
++					       struct list_head *blocks)
++{
++	struct drm_buddy_block *block;
++	struct list_head *list;
++	unsigned long pages;
++	unsigned int order;
++	u64 modify_size;
++	int err;
++
++	modify_size = rounddown_pow_of_two(size);
++	pages = modify_size >> ilog2(mm->chunk_size);
++	order = fls(pages) - 1;
++	if (order == 0)
++		return -ENOSPC;
++
++	list = &mm->free_list[order];
++	if (list_empty(list))
++		return -ENOSPC;
++
++	list_for_each_entry_reverse(block, list, link) {
++		/* Allocate contiguous blocks from the buddy */
++		err = __alloc_contiguous_block_from_buddy(mm,
++							  size,
++							  min_block_size,
++							  block,
++							  blocks);
++		if (!err)
++			return 0;
++
++		/* Allocate contiguous blocks from tree traversal method */
++		err = __alloc_contiguous_block_from_peer(mm,
++							 size,
++							 min_block_size,
++							 block,
++							 blocks);
++		if (!err)
++			return 0;
++	}
++
++	return -ENOSPC;
++}
++
+ /**
+  * drm_buddy_block_trim - free unused pages
+  *
+@@ -645,7 +836,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+  * @start: start of the allowed range for this block
+  * @end: end of the allowed range for this block
+  * @size: size of the allocation
+- * @min_page_size: alignment of the allocation
++ * @min_block_size: alignment of the allocation
+  * @blocks: output list head to add allocated blocks
+  * @flags: DRM_BUDDY_*_ALLOCATION flags
+  *
+@@ -660,23 +851,24 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+  */
+ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 			   u64 start, u64 end, u64 size,
+-			   u64 min_page_size,
++			   u64 min_block_size,
+ 			   struct list_head *blocks,
+ 			   unsigned long flags)
+ {
+ 	struct drm_buddy_block *block = NULL;
++	u64 original_size, original_min_size;
+ 	unsigned int min_order, order;
+-	unsigned long pages;
+ 	LIST_HEAD(allocated);
++	unsigned long pages;
+ 	int err;
+ 
+ 	if (size < mm->chunk_size)
+ 		return -EINVAL;
+ 
+-	if (min_page_size < mm->chunk_size)
++	if (min_block_size < mm->chunk_size)
+ 		return -EINVAL;
+ 
+-	if (!is_power_of_2(min_page_size))
++	if (!is_power_of_2(min_block_size))
+ 		return -EINVAL;
+ 
+ 	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
+@@ -692,12 +884,21 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 	if (start + size == end)
+ 		return __drm_buddy_alloc_range(mm, start, size, blocks);
+ 
+-	if (!IS_ALIGNED(size, min_page_size))
+-		return -EINVAL;
++	original_size = size;
++	original_min_size = min_block_size;
++
++	/* Roundup the size to power of 2 */
++	if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) {
++		size = roundup_pow_of_two(size);
++		min_block_size = size;
++	/* Align size value to min_block_size */
++	} else if (!IS_ALIGNED(size, min_block_size)) {
++		size = round_up(size, min_block_size);
++	}
+ 
+ 	pages = size >> ilog2(mm->chunk_size);
+ 	order = fls(pages) - 1;
+-	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
++	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
+ 
+ 	do {
+ 		order = min(order, (unsigned int)fls(pages) - 1);
+@@ -716,6 +917,17 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 				break;
+ 
+ 			if (order-- == min_order) {
++				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
++				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
++					/*
++					 * Try contiguous block allocation through
++					 * tree traversal method
++					 */
++					return __drm_buddy_alloc_contiguous_blocks(mm,
++										   original_size,
++										   original_min_size,
++										   blocks);
++
+ 				err = -ENOSPC;
+ 				goto err_free;
+ 			}
+@@ -732,6 +944,31 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 			break;
+ 	} while (1);
+ 
++	/* Trim the allocated block to the required size */
++	if (original_size != size) {
++		struct list_head *trim_list;
++		LIST_HEAD(temp);
++		u64 trim_size;
++
++		trim_list = &allocated;
++		trim_size = original_size;
++
++		if (!list_is_singular(&allocated)) {
++			block = list_last_entry(&allocated, typeof(*block), link);
++			list_move(&block->link, &temp);
++			trim_list = &temp;
++			trim_size = drm_buddy_block_size(mm, block) -
++				(size - original_size);
++		}
++
++		drm_buddy_block_trim(mm,
++				     trim_size,
++				     trim_list);
++
++		if (!list_empty(&temp))
++			list_splice_tail(trim_list, &allocated);
++	}
++
+ 	list_splice_tail(&allocated, blocks);
+ 	return 0;
+ 
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index 572077ff8ae7..a5b39fc01003 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -22,8 +22,9 @@
+ 	start__ >= max__ || size__ > max__ - start__; \
+ })
+ 
+-#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
+-#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
++#define DRM_BUDDY_RANGE_ALLOCATION		BIT(0)
++#define DRM_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
++#define DRM_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+ 
+ struct drm_buddy_block {
+ #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+@@ -155,5 +156,4 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+ void drm_buddy_block_print(struct drm_buddy *mm,
+ 			   struct drm_buddy_block *block,
+ 			   struct drm_printer *p);
+-
+ #endif
+-- 
+2.25.1
 
