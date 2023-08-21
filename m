@@ -1,43 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C917828F4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:26:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2D678293A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 14:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDAFC10E243;
-	Mon, 21 Aug 2023 12:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7F310E23D;
+	Mon, 21 Aug 2023 12:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9DE10E22F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 12:26:43 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A46B7B1;
- Mon, 21 Aug 2023 14:25:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692620725;
- bh=AeM0vymLEQ1ydhPj1y5Sd2rz6iY4noUbZhk5WYIN28Y=;
+X-Greylist: delayed 464 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Aug 2023 12:35:35 UTC
+Received: from mail.8bytes.org (mail.8bytes.org
+ [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 00E0210E23D;
+ Mon, 21 Aug 2023 12:35:35 +0000 (UTC)
+Received: from 8bytes.org (pd9fe95be.dip0.t-ipconnect.de [217.254.149.190])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPSA id 14D6D28194F;
+ Mon, 21 Aug 2023 14:27:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1692620870;
+ bh=FixGPDbY1JGUzoXJGnGCpBH8LX7vfPyc85NTwmVIvZk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RT29bdsgQi9L1QXtdAV9rlYCDMFLYTL0EqYnK8GZigf0iyxSw/FvrxuANaezcVrw8
- xkgxNnWkJcZbKI2MgnSotSI8bitqDJBfKz6QMies+Ie80aey0y9pU2hDDYc4fWIMww
- pRcKQOQ6Ws0W6RV8smvZfJaYCp0/hSgxyPrH9hwc=
-Date: Mon, 21 Aug 2023 15:26:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] drm: bridge: it66121: Extend match support for OF tables
-Message-ID: <20230821122649.GE10135@pendragon.ideasonboard.com>
-References: <20230813080520.65813-1-biju.das.jz@bp.renesas.com>
- <20230813172715.GA19398@pendragon.ideasonboard.com>
- <OS0PR01MB592291F889F1BE13981169D78617A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230821121254.GC10135@pendragon.ideasonboard.com>
- <OS0PR01MB59227BFDEF59DBB5D6C96109861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ b=1GNfM2qXUHu69LlGLcBH8KY7o7o7XmY+SCrGkW/UUIs2KGTpDHXZZbMpPGz6QSYZs
+ UPnFUxDcsVEY3pjS1DruthDw9f83ySojUQCSB+rWg+GUD0/AhHwU/y7CvGp4ChZNfv
+ PF0U1t4Yrw0S3cKVt3Z1VBJMi6C4Yubn+JBgQ0h8akaCgHt2/SoukE6zqp52PyQtal
+ mSBFlaAtIaUSfX6biqD/5UJPh1qGAUoCalqefQ1b2bqiPcVjHwugqG0e+YrG5Eef+K
+ UDBnBPokoAbTS28F+RA/gZgu4I/tGuWG+hC4PlSSGwOqv9iwEYEE1WLsVZflD78r+Z
+ CJt+ubMPFXzmw==
+Date: Mon, 21 Aug 2023 14:27:47 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
+ __iommu_probe_device()
+Message-ID: <ZONYQyMSG17YMc_b@8bytes.org>
+References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
+ <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59227BFDEF59DBB5D6C96109861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,133 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+Cc: alsa-devel@alsa-project.org,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>, Chen-Yu Tsai <wens@csie.org>,
+ Thierry Reding <thierry.reding@gmail.com>, ath10k@lists.infradead.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>,
+ Sinan Kaya <okaya@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, iommu@lists.linux.dev,
+ Andy Gross <agross@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, ath11k@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <jroedel@suse.de>,
+ Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Kalle Valo <kvalo@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
+ etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dmaengine@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ linux-wireless@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-sunxi@lists.linux.dev, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On Mon, Aug 21, 2023 at 12:06:40PM +0100, Robin Murphy wrote:
+> The solution is to drop those locking patches entirely and rethink the whole
+> thing.
 
-On Mon, Aug 21, 2023 at 12:20:39PM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH] drm: bridge: it66121: Extend match support for OF tables
-> > On Mon, Aug 14, 2023 at 09:06:46AM +0000, Biju Das wrote:
-> > > > Subject: Re: [PATCH] drm: bridge: it66121: Extend match support for OF tables
-> > > > On Sun, Aug 13, 2023 at 09:05:20AM +0100, Biju Das wrote:
-> > > > > The driver has OF match table, still it uses ID lookup table for
-> > > > > retrieving match data. Replace ID look up with
-> > > > > i2c_get_match_data() for retrieving OF/ACPI/I2C match data by
-> > > > > adding similar match data for OF table.
-> > > >
-> > > > Could you please explain in the commit message *why* this is desired ?
-> > >
-> > > Currently the driver is working on the assumption that a I2C device
-> > > registered via OF will always match a legacy I2C device ID. The
-> > > correct approach is to have an OF device ID table using
-> > > of_device_match_data()/device_match_data()/
-> > > I2c_get_match_data() if the devices are registered via OF.
-> > >
-> > > Basically, it is fixing
-> > >
-> > > Fixes: 9a9f4a01bdae ("drm: bridge: it66121: Move VID/PID to new
-> > > it66121_chip_info structure")
-> > >
-> > > But i2c_get_match_data() is recently introduced.
-> > 
-> > Thanks for the explanation. Could you record this in the commit message (if
-> > not done already) ?
-> > 
-> > It would be really nice if we could drop the i2c_device_id...
-> 
-> The above suggestions are taken care in subsequent version [1]
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20230818191817.340360-1-biju.das.jz@bp.renesas.com/T/#t
+Agreed, that was exactly what I thought when looking at this patch.
 
-Thank you.
+I dropped the original 10 patches and the 4 fixes on-top from the IOMMU
+tree. This needs more investigation and adaption of the actual API users
+before it can be reconsidered.
 
-> > > Maybe one patch with fixes tag using of_device_get_match_data and ID
-> > > lookup for retrieving match data from OF/I2C tables
-> > >
-> > > and another patch to simplify using i2c_get_match_data() by replacing
-> > > of_device_get_match_data and ID lookup.
-> > 
-> > I'm fine with a single patch.
-> 
-> Are you ok with [1] or want to squash with single patch?
-
-I'm also OK with two patches, there's no need to go back and forth just
-for this.
-
-> > > > > While at it, drop unused local varibale id from probe().
-> > > >
-> > > > I'd drop this sentence, that's not a "while at it" change but an
-> > > > integral part of this patch.
-> > >
-> > > Agreed.
-> > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > ---
-> > > > >  This patch is only compile tested.
-> > > > > ---
-> > > > >  drivers/gpu/drm/bridge/ite-it66121.c | 17 ++++++++---------
-> > > > >  1 file changed, 8 insertions(+), 9 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c
-> > > > > b/drivers/gpu/drm/bridge/ite-it66121.c
-> > > > > index 466641c77fe9..a80246ef4ffe 100644
-> > > > > --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> > > > > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> > > > > @@ -1501,7 +1501,6 @@ static const char * const it66121_supplies[]
-> > > > > = {
-> > > > >
-> > > > >  static int it66121_probe(struct i2c_client *client)  {
-> > > > > -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> > > > >  	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
-> > > > >  	struct device_node *ep;
-> > > > >  	int ret;
-> > > > > @@ -1523,7 +1522,7 @@ static int it66121_probe(struct i2c_client *client)
-> > > > >
-> > > > >  	ctx->dev = dev;
-> > > > >  	ctx->client = client;
-> > > > > -	ctx->info = (const struct it66121_chip_info *) id->driver_data;
-> > > > > +	ctx->info = i2c_get_match_data(client);
-> > > > >
-> > > > >  	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
-> > > > >  	of_node_put(ep);
-> > > > > @@ -1609,13 +1608,6 @@ static void it66121_remove(struct i2c_client *client)
-> > > > >  	mutex_destroy(&ctx->lock);
-> > > > >  }
-> > > > >
-> > > > > -static const struct of_device_id it66121_dt_match[] = {
-> > > > > -	{ .compatible = "ite,it66121" },
-> > > > > -	{ .compatible = "ite,it6610" },
-> > > > > -	{ }
-> > > > > -};
-> > > > > -MODULE_DEVICE_TABLE(of, it66121_dt_match);
-> > > > > -
-> > > > >  static const struct it66121_chip_info it66121_chip_info = {
-> > > > >  	.id = ID_IT66121,
-> > > > >  	.vid = 0x4954,
-> > > > > @@ -1628,6 +1620,13 @@ static const struct it66121_chip_info it6610_chip_info = {
-> > > > >  	.pid = 0x0611,
-> > > > >  };
-> > > > >
-> > > > > +static const struct of_device_id it66121_dt_match[] = {
-> > > > > +	{ .compatible = "ite,it66121", &it66121_chip_info },
-> > > > > +	{ .compatible = "ite,it6610", &it6610_chip_info },
-> > > > > +	{ }
-> > > > > +};
-> > > > > +MODULE_DEVICE_TABLE(of, it66121_dt_match);
-> > > > > +
-> > > > >  static const struct i2c_device_id it66121_id[] = {
-> > > > >  	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
-> > > > >  	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
-
--- 
 Regards,
 
-Laurent Pinchart
+	Joerg
+
