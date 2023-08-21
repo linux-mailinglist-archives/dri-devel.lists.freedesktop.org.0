@@ -1,34 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D0378243E
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 09:16:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8742678249E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 09:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7847610E1F8;
-	Mon, 21 Aug 2023 07:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C7310E1FC;
+	Mon, 21 Aug 2023 07:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.nfschina.com (unknown [42.101.60.195])
- by gabe.freedesktop.org (Postfix) with SMTP id 4F9A410E1F8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 07:16:24 +0000 (UTC)
-Received: from [172.30.11.106] (unknown [180.167.10.98])
- by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id D8355606212E9; 
- Mon, 21 Aug 2023 15:16:21 +0800 (CST)
-Message-ID: <07ffd0f9-853c-8aca-d2b6-8f643f83c940@nfschina.com>
-Date: Mon, 21 Aug 2023 15:16:21 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/ast: Avoid possible NULL dereference
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, airlied@redhat.com,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+ by gabe.freedesktop.org (Postfix) with SMTP id DCEA010E1FD;
+ Mon, 21 Aug 2023 07:39:42 +0000 (UTC)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+ by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id AED8C6062130A;
+ Mon, 21 Aug 2023 15:39:37 +0800 (CST)
 X-MD-Sfrom: suhui@nfschina.com
 X-MD-SrcIP: 180.167.10.98
 From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <38503377-ec27-09dd-dc6b-836a9ac0a5df@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH v2] drm/amdgpu: Avoid possible buffer overflow
+Date: Mon, 21 Aug 2023 15:37:28 +0800
+Message-Id: <20230821073727.225341-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,58 +38,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eich@suse.de, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: yifan1.zhang@amd.com, Su Hui <suhui@nfschina.com>, guchun.chen@amd.com,
+ lijo.lazar@amd.com, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, le.ma@amd.com,
+ christophe.jaillet@wanadoo.fr, dri-devel@lists.freedesktop.org,
+ Yuliang.Shi@amd.com, candice.li@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/8/21 15:04, Christophe JAILLET wrote:
-> Le 21/08/2023 à 08:22, Su Hui a écrit :
->> smatch error:
->> drivers/gpu/drm/ast/ast_dp501.c:227 ast_launch_m68k() error:
->> we previously assumed 'ast->dp501_fw' could be null (see line 223)
->>
->> when "!ast->dp501_fw" and "ast_load_dp501_microcode(dev) >= 0" is true,
->> there will be a NULL dereference of 'ast->dp501_fw'.
->>
->> Fixes: 12f8030e05c6 ("drm/ast: Actually load DP501 firmware when 
->> required")
->> Signed-off-by: Su Hui <suhui@nfschina.com>
->> ---
->>   drivers/gpu/drm/ast/ast_dp501.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp501.c 
->> b/drivers/gpu/drm/ast/ast_dp501.c
->> index 1bc35a992369..d9f3a0786a6f 100644
->> --- a/drivers/gpu/drm/ast/ast_dp501.c
->> +++ b/drivers/gpu/drm/ast/ast_dp501.c
->> @@ -224,8 +224,10 @@ static bool ast_launch_m68k(struct drm_device *dev)
->>                   ast_load_dp501_microcode(dev) < 0)
->>                   return false;
->>   -            fw_addr = (u8 *)ast->dp501_fw->data;
->> -            len = ast->dp501_fw->size;
->> +            if (ast->dp501_fw) {
->> +                fw_addr = (u8 *)ast->dp501_fw->data;
->> +                len = ast->dp501_fw->size;
->> +            }
->>           }
->>           /* Get BootAddress */
->>           ast_moutdwm(ast, 0x1e6e2000, 0x1688a8a8);
->
-> Hi,
->
-> this looks like a false positive.
->
-> If "!ast->dp501_fw", and ast_load_dp501_microcode()>=0, then 
-> ast_load_dp501_microcode() will set a valid value in ast->dp501_fw.
+smatch error:
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1257 amdgpu_discovery_reg_base_init() error:
+testing array offset 'adev->vcn.num_vcn_inst' after use.
 
-Hi,
+change the assignment order to avoid buffer overflow.
 
-Sorry for the noise, you are right, this is a false positive.
-I will take more careful next time.
+Fixes: c40bdfb2ffa4 ("drm/amdgpu: fix incorrect VCN revision in SRIOV")
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+changes in v2:
+ - fix the error about ip->revision (thanks to Christophe JAILLET).
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Su Hui
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+index 8e1cfc87122d..b07bfd106a9b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+@@ -1250,11 +1250,10 @@ static int amdgpu_discovery_reg_base_init(struct amdgpu_device *adev)
+ 				 *     0b10 : encode is disabled
+ 				 *     0b01 : decode is disabled
+ 				 */
+-				adev->vcn.vcn_config[adev->vcn.num_vcn_inst] =
+-					ip->revision & 0xc0;
+-				ip->revision &= ~0xc0;
+ 				if (adev->vcn.num_vcn_inst <
+ 				    AMDGPU_MAX_VCN_INSTANCES) {
++					adev->vcn.vcn_config[adev->vcn.num_vcn_inst] =
++						ip->revision & 0xc0;
+ 					adev->vcn.num_vcn_inst++;
+ 					adev->vcn.inst_mask |=
+ 						(1U << ip->instance_number);
+@@ -1265,6 +1264,7 @@ static int amdgpu_discovery_reg_base_init(struct amdgpu_device *adev)
+ 						adev->vcn.num_vcn_inst + 1,
+ 						AMDGPU_MAX_VCN_INSTANCES);
+ 				}
++				ip->revision &= ~0xc0;
+ 			}
+ 			if (le16_to_cpu(ip->hw_id) == SDMA0_HWID ||
+ 			    le16_to_cpu(ip->hw_id) == SDMA1_HWID ||
+-- 
+2.30.2
 
->
-> CJ
