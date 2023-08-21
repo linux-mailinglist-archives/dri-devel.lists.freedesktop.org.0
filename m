@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B6F7823E3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 08:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727F17823E2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 08:48:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD8CD10E1DE;
-	Mon, 21 Aug 2023 06:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08D310E1E6;
+	Mon, 21 Aug 2023 06:47:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 050E510E1E3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 06:48:10 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxV_GnCONk7oIaAA--.54648S3;
- Mon, 21 Aug 2023 14:48:07 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_yONCONkWUxfAA--.60821S3; 
- Mon, 21 Aug 2023 14:48:07 +0800 (CST)
-Message-ID: <520723e3-ca6e-a55d-cbd0-132b2991c9bc@loongson.cn>
-Date: Mon, 21 Aug 2023 14:47:41 +0800
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr
+ [80.12.242.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A75810E1E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 06:47:56 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id XyhbqE06S8hXQXyhcqw3V8; Mon, 21 Aug 2023 08:47:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1692600473;
+ bh=VKY79l4BMS+XNL5J3gXH51QA4MGqOn2fyIFQ894irYI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=oNAWQvmZI2xUCvFd5vsfvc4Rg0xT2d57oXjSqUqVl4pql2iZjSkXoNLUed4xgtROS
+ lMtOos2PRov4AvnMnHY3xputg8PHPn6P1PPDAF/JczkmsBgoGlYjAg46MdS/DsZ8xd
+ Zu7nxgmgu3aG98h+TmKWs0qboDrUkArStJLQF4YcQzl/DjMsU9IryeQfJEENWxlBVL
+ jOLsBDjvexg3I+bBvEyALisDOBRSqYBIz2kGHLko2gokb8cLE/noTRfU7rhg/OAP4x
+ GcIDw2ZbeOAPMVq1waCs0uyCnzYsbkm7uKrrJmm76cJvt7AWCcM9G1oWg9DcQ5S4UV
+ 3qgzUpWmE2JVQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 21 Aug 2023 08:47:53 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <7ac675b6-a000-6ad7-36f3-a3ce186414b6@wanadoo.fr>
+Date: Mon, 21 Aug 2023 08:47:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
- arch-dependent
-From: suijingfeng <suijingfeng@loongson.cn>
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230817220853.GA328159@bhelgaas>
- <fb242a7e-b1ee-7be0-cbc4-be710e246279@loongson.cn>
-Content-Language: en-US
-In-Reply-To: <fb242a7e-b1ee-7be0-cbc4-be710e246279@loongson.cn>
+Subject: Re: [PATCH] drm/amdgpu: Avoid possible buffer overflow
+Content-Language: fr
+To: Su Hui <suhui@nfschina.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20230821061944.197934-1-suhui@nfschina.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230821061944.197934-1-suhui@nfschina.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Dx_yONCONkWUxfAA--.60821S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
- 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
- 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
- 0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
- c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
- v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
- U8j-e5UUUUU==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,25 +56,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- Bjorn Helgaas <bhelgaas@google.com>, linux-riscv@lists.infradead.org
+Cc: yifan1.zhang@amd.com, guchun.chen@amd.com, lijo.lazar@amd.com,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, le.ma@amd.com, dri-devel@lists.freedesktop.org,
+ Yuliang.Shi@amd.com, candice.li@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Le 21/08/2023 à 08:19, Su Hui a écrit :
+> smatch error:
+> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1257 amdgpu_discovery_reg_base_init() error:
+> testing array offset 'adev->vcn.num_vcn_inst' after use.
+> 
+> change the assignment order to avoid buffer overflow.
+> 
+> Fixes: c40bdfb2ffa4 ("drm/amdgpu: fix incorrect VCN revision in SRIOV")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> index 8e1cfc87122d..ba95526c3d45 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> @@ -1250,11 +1250,12 @@ static int amdgpu_discovery_reg_base_init(struct amdgpu_device *adev)
+>   				 *     0b10 : encode is disabled
+>   				 *     0b01 : decode is disabled
+>   				 */
+> -				adev->vcn.vcn_config[adev->vcn.num_vcn_inst] =
+> -					ip->revision & 0xc0;
+> +
+>   				ip->revision &= ~0xc0;
+>   				if (adev->vcn.num_vcn_inst <
+>   				    AMDGPU_MAX_VCN_INSTANCES) {
+> +					adev->vcn.vcn_config[adev->vcn.num_vcn_inst] =
+> +						ip->revision & 0xc0;
+
 Hi,
+I don't think that the patch is correct.
+
+Because of the "ip->revision &= ~0xc0" which is now above it, 
+"ip->revision & 0xc0" should now always be 0.
+
+Maybe both lines should be moved within the "if"?
+
+CJ
 
 
-On 2023/8/18 18:20, suijingfeng wrote:
->
-> 1) The "weird" logic completely overrides whatever decision VGAARB 
-> ever made.
->
-> It seems to say that the decision ever made by VGAARB is useless.
-> Well, I think VGAARB shouldn't endure this; VGAARB has to be small. 
 
 
-VGAARB have to be smart!
 
-The "weird logic" here refer to the weird pci_fixup_vgadev() function.
+>   					adev->vcn.num_vcn_inst++;
+>   					adev->vcn.inst_mask |=
+>   						(1U << ip->instance_number);
 
