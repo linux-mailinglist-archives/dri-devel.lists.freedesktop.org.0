@@ -1,65 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126F1782A97
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 15:33:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CFF782A9C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 15:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD1B510E255;
-	Mon, 21 Aug 2023 13:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1161A10E253;
+	Mon, 21 Aug 2023 13:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F58710E253
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 13:33:39 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-3159b524c56so675994f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 06:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1692624818; x=1693229618;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0GElaOsI7inGXeWY9tHV4a2729vYTIQjqdirGP3tICw=;
- b=CA3FhAsGLgzOPvAW1meKo3pirLSW22BYI15QF6ehWP6nqcr9hhIvNZeSTSHynogc2s
- wDoDLtjfACHxG2oe2ginzLzE0yx3ve+GB0rAz65gueOJhwU93eB1JjEMPaXeMXHuk5a3
- oAHGqqfi5WWUmgqH1d4FlhqJa/82QloH8T4Vw=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BE1510E253
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 13:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692624896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fgYCBKJwwlMQi8AzmXE/cpxLIs8JaOLzYg4HzBfwWyc=;
+ b=Oq9IF/rUKvsp4Vp8/JjWv8A6tYpG6s8H56fv1NJEhEKIYOb4R3F97xTLdD0eMjJsrpAyn9
+ Mft/HNf9vPAD8S905zgI97n/ZyWub5QlkqRcloZxJqbm7AfHkcgmCCfaFfLd6/Xk/MxOQQ
+ hr4JkEUGcIAERPer1YsFloaeZ4fHY9o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-685-5KWLUbsFOxOhwZjxJnVg5A-1; Mon, 21 Aug 2023 09:34:55 -0400
+X-MC-Unique: 5KWLUbsFOxOhwZjxJnVg5A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3fe517ca810so22255325e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 06:34:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692624818; x=1693229618;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0GElaOsI7inGXeWY9tHV4a2729vYTIQjqdirGP3tICw=;
- b=DzOBd+1TxRPJCds/LKk1D6JvzGbi6UncAPBzGPf+sLO3Hii15inkjTF9YsaiN9qI81
- 3oT8QpQR/oFXCty+ej9dZy1K05pXWp3rySIwaSO4uHXmYlPbygKaMgZOulH8if0BQpoS
- 2l+tJhaAw76XE1tH6ajoNoU7oXT2Q1TCj2BFu/2vXAouGlnKdJMvmtOumbZxn8fwvIFa
- asn3Pzf36QcvsIclIic352BcQY0Vd+14tvFRx+e1duWWrRfU98F7THMSgjs0kKmoKHzV
- Nl33LtevqlID8nnghedm2ftiRSM0JSUAv962SOkNUB7U+RYoqmToVoJsGOyEt+iXojdM
- LGCA==
-X-Gm-Message-State: AOJu0YwE2nDz9I/Hqa4p79fh+9RCHTYAeneMS/aujWOSy4+6oMA2zGQQ
- Zih7xptRfpDXssLvDv0H48F51g==
-X-Google-Smtp-Source: AGHT+IHL2tYDzLKyeQcYtn0cwjZICejUB6ciSSEXo3473AB9oyRewbdeBGWQ8sOY2Z8XrjmShrCrkA==
-X-Received: by 2002:a5d:690f:0:b0:319:7c84:c1bc with SMTP id
- t15-20020a5d690f000000b003197c84c1bcmr4281652wru.4.1692624817290; 
- Mon, 21 Aug 2023 06:33:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ d=1e100.net; s=20221208; t=1692624893; x=1693229693;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fgYCBKJwwlMQi8AzmXE/cpxLIs8JaOLzYg4HzBfwWyc=;
+ b=C4WOP6dzh5JnkYt/PewkVZNYGoTVozriIqoAO24AQBCT15mAYEMs8jLBJTv5i1DVKm
+ MMcqlu3KmAcOMty0YZgUugh+FlFs0hHO06kCpBpjl0Pz9qFQZDUnEf7XuPc1FRTdcMYO
+ wbXpiHwwsFpgDQ52h0WSxO7hCiskcGPnlOJBUi06TFqSEBUDuYMi/Fc1IRR3sIKBe9mx
+ 0O2tJzrD0Dq6zJ1HBTkbkFou4b242MUmXMcQh6/1+kl8dTQfQeTJMPUIza4T26YctOp3
+ OTmKrwL4vR3lsl3l43UGjXLj4Wpysm1g7UyFoQdLCzoxIXMBdxaPI4gW5quYKL/n4uby
+ Q6xw==
+X-Gm-Message-State: AOJu0YwWLd7buptEmS8aD6H+Euybdsjf3lIDncB8WdO1EkAIGwD6nN7I
+ ql/ZV82Q+kMkEqxQP7fUo9fQiMjxMzMcZgJ4l7cuf5yGVyVhnp5STA8harbtpeq5wOXPHL9azlv
+ DF97i9ZctfEWD/Ji3Hv26+CKxGqyz
+X-Received: by 2002:a1c:4c0a:0:b0:3fe:f12d:4d4 with SMTP id
+ z10-20020a1c4c0a000000b003fef12d04d4mr2017082wmf.30.1692624893746; 
+ Mon, 21 Aug 2023 06:34:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZQU9BYWwbQc7CJ1dw5DsX0yr8to6Uc5UhMeqKOGZZocpeeLu4qlqTA/06A/SE0eZc8j2WHg==
+X-Received: by 2002:a1c:4c0a:0:b0:3fe:f12d:4d4 with SMTP id
+ z10-20020a1c4c0a000000b003fef12d04d4mr2017068wmf.30.1692624893460; 
+ Mon, 21 Aug 2023 06:34:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:329d:db81:ed0c:c9cd?
+ ([2a01:e0a:d5:a000:329d:db81:ed0c:c9cd])
  by smtp.gmail.com with ESMTPSA id
- p6-20020a5d68c6000000b00317f70240afsm12726045wrw.27.2023.08.21.06.33.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Aug 2023 06:33:36 -0700 (PDT)
-Date: Mon, 21 Aug 2023 15:33:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v2 2/2] doc: uapi: Add document describing dma-buf
- semantics
-Message-ID: <ZONnrvrBzWmuuHVl@phenom.ffwll.local>
-References: <20210905122742.86029-1-daniels@collabora.com>
- <20230803154908.105124-4-daniels@collabora.com>
+ y6-20020a05600c364600b003fee0741b8csm9386956wmq.23.2023.08.21.06.34.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Aug 2023 06:34:52 -0700 (PDT)
+Message-ID: <d37338e6-94cb-0005-3a0c-4bdfcb87141f@redhat.com>
+Date: Mon, 21 Aug 2023 15:34:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803154908.105124-4-daniels@collabora.com>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
+To: nerdopolis <bluescreen_avenger@verizon.net>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com
+References: <20230809192514.158062-1-jfalempe@redhat.com>
+ <3182767.5fSG56mABF@nerdopolis2>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <3182767.5fSG56mABF@nerdopolis2>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,499 +90,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 03, 2023 at 04:47:29PM +0100, Daniel Stone wrote:
-> Since there's a lot of confusion around this, document both the rules
-> and the best practice around negotiating, allocating, importing, and
-> using buffers when crossing context/process/device/subsystem boundaries.
+On 13/08/2023 04:20, nerdopolis wrote:
+> On Wednesday, August 9, 2023 3:17:27 PM EDT Jocelyn Falempe wrote:
+>> This introduces a new drm panic handler, which displays a message when a panic occurs.
+>> So when fbcon is disabled, you can still see a kernel panic.
+>>
+>> This is one of the missing feature, when disabling VT/fbcon in the kernel:
+>> https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+>> Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
+>>
+>> This is a proof of concept, and works only with simpledrm, using the drm_client API.
+>> This implementation with the drm client API, allocates new framebuffers, and looks a bit too complex to run in a panic handler.
+>> Maybe we should add an API to "steal" the current framebuffer instead, because in a panic handler user-space is already stopped.
+>>
+>> To test it, make sure you're using the simpledrm driver, and trigger a panic:
+>> echo c > /proc/sysrq-trigger
+>>
+>> There is one thing I don't know how to do, is to unregister the drm_panic when the graphic driver is unloaded.
+>> drm_client_register() says it will automatically unregister on driver unload. But then I don't know how to remove it from my linked list, and free the drm_client_dev struct.
+>>
+>> This is a first draft, so let me know what do you think about it.
+> Hi,
 > 
-> This ties up all of dma-buf, formats and modifiers, and their usage.
+> Oh wow, that's my post. I'm sorry about the late reply, I only saw this late yesterday, and I wanted to test it first.
+> I had to edit my test QEMU script a bit to use TianoCore for virtual UEFI boot as there is no gfxmode=keep for SimpleDRM to work otherwise when specifying -kernel to qemu AFAIK
 > 
-> Signed-off-by: Daniel Stone <daniels@collabora.com>
+> I tested it, and it works! That's pretty cool, although is it possible to show the message, such as "attempted to kill init"?
 
-On both patches Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> with the
-minor nits on this one here address while applying or something like that.
-
-> ---
->  Documentation/driver-api/dma-buf.rst          |   8 +
->  Documentation/gpu/drm-uapi.rst                |   7 +
->  .../userspace-api/dma-buf-alloc-exchange.rst  | 384 ++++++++++++++++++
->  Documentation/userspace-api/index.rst         |   1 +
->  4 files changed, 400 insertions(+)
->  create mode 100644 Documentation/userspace-api/dma-buf-alloc-exchange.rst
+Thanks for taking time to test it. Yes it's possible to show the panic 
+reason, as it's a parameter in the panic callback.
 > 
-> v2:
->  - Moved to general uAPI section, cross-referenced from dma-buf/DRM
->  - Added Pekka's suggested glossary with some small changes
->  - Cleanups and clarifications from Simon and James
+> I like the little ASCII Tux. Maybe an ASCII /!\ or [X] on the belly would make it more obvious to users that it is an error condition.
+> Especially for non-English speaking users
+
+That's a good idea. It's also probably possible to re-use the tux boot 
+logo, but I didn't try it yet.
+
+But currently, my priority is to see if it can get accepted, and if it 
+can work with a wide range of drivers.
+
 > 
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 862dbc2759d0..0c153d79ccc4 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -22,6 +22,14 @@ interact with the three main primitives offered by dma-buf:
->     allowing implicit (kernel-ordered) synchronization of work to
->     preserve the illusion of coherent access
->  
-> +
-> +Userspace API principles and use
-> +--------------------------------
-> +
-> +For more details on how to design your subsystem's API for dma-buf use, please
-> +see Documentation/userspace-api/dma-buf-alloc-exchange.rst.
-> +
-> +
->  Shared DMA Buffers
->  ------------------
->  
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 65fb3036a580..eef5fd19bc92 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -486,3 +486,10 @@ and the CRTC index is its position in this array.
->  
->  .. kernel-doc:: include/uapi/drm/drm_mode.h
->     :internal:
-> +
-> +
-> +dma-buf interoperability
-> +========================
-> +
-> +Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
-> +information on how dma-buf is integrated and exposed within DRM.
-> diff --git a/Documentation/userspace-api/dma-buf-alloc-exchange.rst b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
-> new file mode 100644
-> index 000000000000..090453d2ad78
-> --- /dev/null
-> +++ b/Documentation/userspace-api/dma-buf-alloc-exchange.rst
-> @@ -0,0 +1,384 @@
-> +.. Copyright 2021-2023 Collabora Ltd.
-> +
-> +========================
-> +Exchanging pixel buffers
-> +========================
-> +
-> +As originally designed, the Linux graphics subsystem had extremely limited
-> +support for sharing pixel-buffer allocations between processes, devices, and
-> +subsystems. Modern systems require extensive integration between all three
-> +classes; this document details how applications and kernel subsystems should
-> +approach this sharing for two-dimensional image data.
-> +
-> +It is written with reference to the DRM subsystem for GPU and display devices,
-> +V4L2 for media devices, and also to Vulkan, EGL and Wayland, for userspace
-> +support, however any other subsystems should also follow this design and advice.
-> +
-> +
-> +Glossary of terms
-> +=================
-> +
-> +.. glossary::
-> +
-> +    image:
-> +      Conceptually a two-dimensional array of pixels. The pixels may be stored
-> +      in one or more memory buffers. Has width and height in pixels, pixel
-> +      format and modifier (implicit or explicit).
-> +
-> +    row:
-> +      A span along a single y-axis value, e.g. from co-ordinates (0,100) to
-> +      (200,100).
-> +
-> +    scanline:
-> +      Synonym for row.
-> +
-> +    column:
-> +      A span along a single x-axis value, e.g. from co-ordinates (100,0) to
-> +      (100,100).
-> +
-> +    memory buffer:
-> +      A piece of memory for storing (parts of) pixel data. Has stride and size
-> +      in bytes and at least one handle in some API. May contain one or more
-> +      planes.
-> +
-> +    plane:
-> +      A two-dimensional array of some or all of an image's color and alpha
-> +      channel values.
-> +
-> +    pixel:
-> +      A picture element. Has a single color value which is defined by one or
-> +      more color channels values, e.g. R, G and B, or Y, Cb and Cr. May also
-> +      have an alpha value as an additional channel.
-> +
-> +    pixel data:
-> +      Bytes or bits that represent some or all of the color/alpha channel values
-> +      of a pixel or an image. The data for one pixel may be spread over several
-> +      planes or memory buffers depending on format and modifier.
-> +
-> +    color value:
-> +      A tuple of numbers, representing a color. Each element in the tuple is a
-> +      color channel value.
-> +
-> +    color channel:
-> +      One of the dimensions in a color model. For example, RGB model has
-> +      channels R, G, and B. Alpha channel is sometimes counted as a color
-> +      channel as well.
-> +
-> +    pixel format:
-> +      A description of how pixel data represents the pixel's color and alpha
-> +      values.
-> +
-> +    modifier:
-> +      A description of how pixel data is laid out in memory buffers.
-> +
-> +    alpha:
-> +      A value that denotes the color coverage in a pixel. Sometimes used for
-> +      translucency instead.
-> +
-> +    stride:
-> +      A value that denotes the relationship between pixel-location co-ordinates
-> +      and byte-offset values. Typically used as the byte offset between two
-> +      pixels at the start of vertically-consecutive tiling blocks. For linear
-> +      layouts, the byte offset between two vertically-adjacent pixels.
-
-Maybe add here:
-
-"For non-linear formats the stride must be computed in a consistent way,
-which usually is done as-if the linear."
-
-This has resulted in some absolutely epic bikesheds since iirc arm fbc
-spec defines the stride differently, and the resulting compat issues would
-have been hilarious. This took almost forever to agree on.
-
-> +
-> +    pitch:
-> +      Synonym for stride.
-> +
-> +
-> +Formats and modifiers
-> +=====================
-> +
-> +Each buffer must have an underlying format. This format describes the color
-> +values provided for each pixel. Although each subsystem has its own format
-> +descriptions (e.g. V4L2 and fbdev), the ``DRM_FORMAT_*`` tokens should be reused
-> +wherever possible, as they are the standard descriptions used for interchange.
-> +These tokens are described in the ``drm_fourcc.h`` file, which is a part of
-> +DRM's uAPI.
-> +
-> +Each ``DRM_FORMAT_*`` token describes the translation between a pixel
-> +co-ordinate in an image, and the color values for that pixel contained within
-> +its memory buffers. The number and type of color channels are described:
-> +whether they are RGB or YUV, integer or floating-point, the size of each channel
-> +and their locations within the pixel memory, and the relationship between color
-> +planes.
-> +
-> +For example, ``DRM_FORMAT_ARGB8888`` describes a format in which each pixel has
-> +a single 32-bit value in memory. Alpha, red, green, and blue, color channels are
-> +available at 8-bit precision per channel, ordered respectively from most to
-> +least significant bits in little-endian storage. ``DRM_FORMAT_*`` is not
-> +affected by either CPU or device endianness; the byte pattern in memory is
-> +always as described in the format definition, which is usually little-endian.
-> +
-> +As a more complex example, ``DRM_FORMAT_NV12`` describes a format in which luma
-> +and chroma YUV samples are stored in separate planes, where the chroma plane is
-> +stored at half the resolution in both dimensions (i.e. one U/V chroma
-> +sample is stored for each 2x2 pixel grouping).
-> +
-> +Format modifiers describe a translation mechanism between these per-pixel memory
-> +samples, and the actual memory storage for the buffer. The most straightforward
-> +modifier is ``DRM_FORMAT_MOD_LINEAR``, describing a scheme in which each plane
-> +is laid out row-sequentially, from the top-left to the bottom-right corner.
-> +This is considered the baseline interchange format, and most convenient for CPU
-> +access.
-> +
-> +Modern hardware employs much more sophisticated access mechanisms, typically
-> +making use of tiled access and possibly also compression. For example, the
-> +``DRM_FORMAT_MOD_VIVANTE_TILED`` modifier describes memory storage where pixels
-> +are stored in 4x4 blocks arranged in row-major ordering, i.e. the first tile in
-> +a plane stores pixels (0,0) to (3,3) inclusive, and the second tile in a plane
-> +stores pixels (4,0) to (7,3) inclusive.
-> +
-> +Some modifiers may modify the number of planes required for an image; for
-> +example, the ``I915_FORMAT_MOD_Y_TILED_CCS`` modifier adds a second plane to RGB
-> +formats in which it stores data about the status of every tile, notably
-> +including whether the tile is fully populated with pixel data, or can be
-> +expanded from a single solid color.
-> +
-> +These extended layouts are highly vendor-specific, and even specific to
-> +particular generations or configurations of devices per-vendor. For this reason,
-> +support of modifiers must be explicitly enumerated and negotiated by all users
-> +in order to ensure a compatible and optimal pipeline, as discussed below.
-> +
-> +
-> +Dimensions and size
-> +===================
-> +
-> +Each pixel buffer must be accompanied by logical pixel dimensions. This refers
-> +to the number of unique samples which can be extracted from, or stored to, the
-> +underlying memory storage. For example, even though a 1920x1080
-> +``DRM_FORMAT_NV12`` buffer has a luma plane containing 1920x1080 samples for the Y
-> +component, and 960x540 samples for the U and V components, the overall buffer is
-> +still described as having dimensions of 1920x1080.
-> +
-> +The in-memory storage of a buffer is not guaranteed to begin immediately at the
-> +base address of the underlying memory, nor is it guaranteed that the memory
-> +storage is tightly clipped to either dimension.
-> +
-> +Each plane must therefore be described with an ``offset`` in bytes, which will be
-> +added to the base address of the memory storage before performing any per-pixel
-> +calculations. This may be used to combine multiple planes into a single memory
-> +buffer; for example, ``DRM_FORMAT_NV12`` may be stored in a single memory buffer
-> +where the luma plane's storage begins immediately at the start of the buffer
-> +with an offset of 0, and the chroma plane's storage follows within the same buffer
-> +beginning from the byte offset for that plane.
-> +
-> +Each plane must also have a ``stride`` in bytes, expressing the offset in memory
-> +between two contiguous row. For example, a ``DRM_FORMAT_MOD_LINEAR`` buffer
-> +with dimensions of 1000x1000 may have been allocated as if it were 1024x1000, in
-> +order to allow for aligned access patterns. In this case, the buffer will still
-> +be described with a width of 1000, however the stride will be ``1024 * bpp``,
-> +indicating that there are 24 pixels at the positive extreme of the x axis whose
-> +values are not significant.
-> +
-> +Buffers may also be padded further in the y dimension, simply by allocating a
-> +larger area than would ordinarily be required. For example, many media decoders
-> +are not able to natively output buffers of height 1080, but instead require an
-> +effective height of 1088 pixels. In this case, the buffer continues to be
-> +described as having a height of 1080, with the memory allocation for each buffer
-> +being increased to account for the extra padding.
-> +
-> +
-> +Enumeration
-> +===========
-> +
-> +Every user of pixel buffers must be able to enumerate a set of supported formats
-> +and modifiers, described together. Within KMS, this is achieved with the
-> +``IN_FORMATS`` property on each DRM plane, listing the supported DRM formats, and
-> +the modifiers supported for each format. In userspace, this is supported through
-> +the `EGL_EXT_image_dma_buf_import_modifiers`_ extension entrypoints for EGL, the
-> +`VK_EXT_image_drm_format_modifier`_ extension for Vulkan, and the
-> +`zwp_linux_dmabuf_v1`_ extension for Wayland.
-> +
-> +Each of these interfaces allows users to query a set of supported
-> +format+modifier combinations.
-> +
-> +
-> +Negotiation
-> +===========
-> +
-> +It is the responsibility of userspace to negotiate an acceptable format+modifier
-> +combination for its usage. This is performed through a simple intersection of
-> +lists. For example, if a user wants to use Vulkan to render an image to be
-> +displayed on a KMS plane, it must:
-> +
-> + - query KMS for the ``IN_FORMATS`` property for the given plane
-> + - query Vulkan for the supported formats for its physical device, making sure
-> +   to pass the ``VkImageUsageFlagBits`` and ``VkImageCreateFlagBits``
-> +   corresponding to the intended rendering use
-> + - intersect these formats to determine the most appropriate one
-> + - for this format, intersect the lists of supported modifiers for both KMS and
-> +   Vulkan, to obtain a final list of acceptable modifiers for that format
-> +
-> +This intersection must be performed for all usages. For example, if the user
-> +also wishes to encode the image to a video stream, it must query the media API
-> +it intends to use for encoding for the set of modifiers it supports, and
-> +additionally intersect against this list.
-> +
-> +If the intersection of all lists is an empty list, it is not possible to share
-> +buffers in this way, and an alternate strategy must be considered (e.g. using
-> +CPU access routines to copy data between the different uses, with the
-> +corresponding performance cost).
-> +
-> +The resulting modifier list is unsorted; the order is not significant.
-> +
-> +
-> +Allocation
-> +==========
-> +
-> +Once userspace has determined an appropriate format, and corresponding list of
-> +acceptable modifiers, it must allocate the buffer. As there is no universal
-> +buffer-allocation interface available at either kernel or userspace level, the
-> +client makes an arbitrary choice of allocation interface such as Vulkan, GBM, or
-> +a media API.
-> +
-> +Each allocation request must take, at a minimum: the pixel format, a list of
-> +acceptable modifiers, and the buffer's width and height. Each API may extend
-> +this set of properties in different ways, such as allowing allocation in more
-> +than two dimensions, intended usage patterns, etc.
-> +
-> +The component which allocates the buffer will make an arbitrary choice of what
-> +it considers the 'best' modifier within the acceptable list for the requested
-> +allocation, any padding required, and further properties of the underlying
-> +memory buffers such as whether they are stored in system or device-specific
-> +memory, whether or not they are physically contiguous, and their cache mode.
-> +These properties of the memory buffer are not visible to userspace, however the
-> +``dma-heaps`` API is an effort to address this.
-> +
-> +After allocation, the client must query the allocator to determine the actual
-> +modifier selected for the buffer, as well as the per-plane offset and stride.
-> +Allocators are not permitted to vary the format in use, to select a modifier not
-> +provided within the acceptable list, nor to vary the pixel dimensions other than
-> +the padding expressed through offset, stride, and size.
-> +
-> +Communicating additional constraints, such as alignment of stride or offset,
-> +placement within a particular memory area, etc, is out of scope of dma-buf,
-> +and is not solved by format and modifier tokens.
-> +
-> +
-> +Import
-> +======
-> +
-> +To use a buffer within a different context, device, or subsystem, the user
-> +passes these parameters (format, modifier, width, height, and per-plane offset
-> +and stride) to an importing API.
-> +
-> +Each memory buffer is referred to by a buffer handle, which may be unique or
-> +duplicated within an image. For example, a ``DRM_FORMAT_NV12`` buffer may have
-> +the luma and chroma buffers combined into a single memory buffer by use of the
-> +per-plane offset parameters, or they may be completely separate allocations in
-> +memory. For this reason, each import and allocation API must provide a separate
-> +handle for each plane.
-> +
-> +Each kernel subsystem has its own types and interfaces for buffer management.
-> +DRM uses GEM buffer objects (BOs), V4L2 has its own references, etc. These types
-> +are not portable between contexts, processes, devices, or subsystems.
-> +
-> +To address this, ``dma-buf`` handles are used as the universal interchange for
-> +buffers. Subsystem-specific operations are used to export native buffer handles
-> +to a ``dma-buf`` file descriptor, and to import those file descriptors into a
-> +native buffer handle. dma-buf file descriptors can be transferred between
-> +contexts, processes, devices, and subsystems.
-> +
-> +For example, a Wayland media player may use V4L2 to decode a video frame into a
-> +``DRM_FORMAT_NV12`` buffer. This will result in two memory planes (luma and
-> +chroma) being dequeued by the user from V4L2. These planes are then exported to
-> +one dma-buf file descriptor per plane, these descriptors are then sent along
-> +with the metadata (format, modifier, width, height, per-plane offset and stride)
-> +to the Wayland server. The Wayland server will then import these file
-> +descriptors as an EGLImage for use through EGL/OpenGL (ES), a VkImage for use
-> +through Vulkan, or a KMS framebuffer object; each of these import operations
-> +will take the same metadata and convert the dma-buf file descriptors into their
-> +native buffer handles.
-> +
-> +Having a non-empty intersection of supported modifiers does not guarantee that
-> +import will succeed into all consumers; they may have constraints beyond those
-> +impliied by modifiers which must be satisfied.
-> +
-> +
-> +Implicit modifiers
-> +==================
-> +
-> +The concept of modifiers post-dates all of the subsystems mentioned above. As
-> +such, it has been retrofitted into all of these APIs, and in order to ensure
-> +backwards compatibility, support is needed for drivers and userspace which do
-> +not (yet) support modifiers.
-> +
-> +As an example, GBM is used to allocate buffers to be shared between EGL for
-> +rendering and KMS for display. It has two entrypoints for allocating buffers:
-> +``gbm_bo_create`` which only takes the format, width, height, and a usage token,
-> +and ``gbm_bo_create_with_modifiers`` which extends this with a list of modifiers.
-> +
-> +In the latter case, the allocation is as discussed above, being provided with a
-> +list of acceptable modifiers that the implementation can choose from (or fail if
-> +it is not possible to allocate within those constraints). In the former case
-> +where modifiers are not provided, the GBM implementation must make its own
-> +choice as to what is likely to be the 'best' layout. Such a choice is entirely
-> +implementation-specific: some will internally use tiled layouts which are not
-> +CPU-accessible if the implementation decides that is a good idea through
-> +whatever heuristic. It is the implementation's responsibility to ensure that
-> +this choice is appropriate.
-> +
-> +To support this case where the layout is not known because there is no awareness
-> +of modifiers, a special ``DRM_FORMAT_MOD_INVALID`` token has been defined. This
-> +pseudo-modifier declares that the layout is not known, and that the driver
-> +should use its own logic to determine what the underlying layout may be.
-> +
-> +.. note::
-> +
-> +  ``DRM_FORMAT_MOD_INVALID`` is a non-zero value. The modifier value zero is
-> +  ``DRM_FORMAT_MOD_LINEAR``, which is an explicit guarantee that the image
-> +  has the linear layout. Care and attention should be taken to ensure that
-> +  zero as a default uninitialized value signals no modifier.
-
-I think the last sentence here got a bit confused, and probably should be
-replaced with:
-
-Care and attention should be taken to ensure that zero as a default
-uninitialized value is not mixed up with either no modifier or the linear
-modifier. Also note that in some API the invalid modifier value is
-specified with an out-of-band flag, like in the ADDFB2 IOCTL.
-
-Cheers, Sima
-
-
-> +
-> +There are four cases where this token may be used:
-> +  - during enumeration, an interface may return ``DRM_FORMAT_MOD_INVALID``, either
-> +    as the sole member of a modifier list to declare that explicit modifiers are
-> +    not supported, or as part of a larger list to declare that implicit modifiers
-> +    may be used
-> +  - during allocation, a user may supply ``DRM_FORMAT_MOD_INVALID``, either as the
-> +    sole member of a modifier list (equivalent to not supplying a modifier list
-> +    at all) to declare that explicit modifiers are not supported and must not be
-> +    used, or as part of a larger list to declare that an allocation using implicit
-> +    modifiers is acceptable
-> +  - in a post-allocation query, an implementation may return
-> +    ``DRM_FORMAT_MOD_INVALID`` as the modifier of the allocated buffer to declare
-> +    that the underlying layout is implementation-defined and that an explicit
-> +    modifier description is not available; per the above rules, this may only be
-> +    returned when the user has included ``DRM_FORMAT_MOD_INVALID`` as part of the
-> +    list of acceptable modifiers, or not provided a list
-> +  - when importing a buffer, the user may supply ``DRM_FORMAT_MOD_INVALID`` as the
-> +    buffer modifier (or not supply a modifier) to indicate that the modifier is
-> +    unknown for whatever reason; this is only acceptable when the buffer has
-> +    not been allocated with an explicit modifier
-> +
-> +It follows from this that for any single buffer, the complete chain of operations
-> +formed by the producer and all the consumers must be either fully implicit or fully
-> +explicit. For example, if a user wishes to allocate a buffer for use between
-> +GPU, display, and media, but the media API does not support modifiers, then the
-> +user **must not** allocate the buffer with explicit modifiers and attempt to
-> +import the buffer into the media API with no modifier, but either perform the
-> +allocation using implicit modifiers, or allocate the buffer for media use
-> +separately and copy between the two buffers.
-> +
-> +As one exception to the above, allocations may be 'upgraded' from implicit
-> +to explicit modifiers. For example, if the buffer is allocated with
-> +``gbm_bo_create`` (taking no modifiers), the user may then query the modifier with
-> +``gbm_bo_get_modifier`` and then use this modifier as an explicit modifier token
-> +if a valid modifier is returned.
-> +
-> +When allocating buffers for exchange between different users and modifiers are
-> +not available, implementations are strongly encouraged to use
-> +``DRM_FORMAT_MOD_LINEAR`` for their allocation, as this is the universal baseline
-> +for exchange. However, it is not guaranteed that this will result in the correct
-> +interpretation of buffer content, as implicit modifier operation may still be
-> +subject to driver-specific heuristics.
-> +
-> +Any new users - userspace programs and protocols, kernel subsystems, etc -
-> +wishing to exchange buffers must offer interoperability through dma-buf file
-> +descriptors for memory planes, DRM format tokens to describe the format, DRM
-> +format modifiers to describe the layout in memory, at least width and height for
-> +dimensions, and at least offset and stride for each memory plane.
-> +
-> +.. _zwp_linux_dmabuf_v1: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/blob/main/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
-> +.. _VK_EXT_image_drm_format_modifier: https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_EXT_image_drm_format_modifier.html
-> +.. _EGL_EXT_image_dma_buf_import_modifiers: https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_image_dma_buf_import_modifiers.txt
-> \ No newline at end of file
-> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-> index 72a65db0c498..031df47a7c19 100644
-> --- a/Documentation/userspace-api/index.rst
-> +++ b/Documentation/userspace-api/index.rst
-> @@ -22,6 +22,7 @@ place where this information is gathered.
->     unshare
->     spec_ctrl
->     accelerators/ocxl
-> +   dma-buf-alloc-exchange
->     ebpf/index
->     ELF
->     ioctl/index
-> -- 
-> 2.41.0
 > 
+> I will tweak my script a bit so I can test it more quickly in the future too.
+
+
+Best Regards,
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Jocelyn
+> 
+> Thanks!
+>>
+>> Best regards,
+>>
+>>
+>>
+>>
+>> Jocelyn Falempe (2):
+>>    drm/panic: Add a drm panic handler
+>>    drm/simpledrm: Add drm_panic support
+>>
+>>   drivers/gpu/drm/Kconfig          |  11 ++
+>>   drivers/gpu/drm/Makefile         |   1 +
+>>   drivers/gpu/drm/drm_drv.c        |   3 +
+>>   drivers/gpu/drm/drm_panic.c      | 286 +++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/tiny/simpledrm.c |   2 +
+>>   include/drm/drm_panic.h          |  26 +++
+>>   6 files changed, 329 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/drm_panic.c
+>>   create mode 100644 include/drm/drm_panic.h
+>>
+>>
+>> base-commit: 6995e2de6891c724bfeb2db33d7b87775f913ad1
+>>
+> 
+> 
+> 
+> 
+
