@@ -1,50 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FA6782E09
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 18:14:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF34782E4A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Aug 2023 18:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B719110E1E0;
-	Mon, 21 Aug 2023 16:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A878D10E281;
+	Mon, 21 Aug 2023 16:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 141FB10E1E0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 16:14:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5939B63D49;
- Mon, 21 Aug 2023 16:14:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C80C433C9;
- Mon, 21 Aug 2023 16:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692634483;
- bh=HaFkRLw39AyOlg5LKd8SotMyWHrCrbNB/b2ma+dX5y8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=myuDm5eSozfKEjyhuaqU7d0d4v22QuzKSsoALDNAcO0PQsZxqSM5MqFcAAmaUA3ZP
- bORAcnrX2DkATzZL14uUuXGLoAWj5fvoIeSrvawx+9hHgchfk9pwiMMNQsnbzer5Nh
- wu1lv+Y4Qqt71o7uejj6YTHKTj8tp5Z0NwKWm9/pG6ixpZF6GZ8aOSrIlqyftbpHCD
- WVVX4Y1+oiad4C/0e7D60pV/0vDsyouUgLTGHFDzwNcUlr8Ix4dtnxEG3ChJCAAqXT
- 56v5gNOukSk0clim19s/DWuu4wXoGVOYeZBJcg0W5Jil88IbmRULxNAiCBiGnsV+L/
- NZq12WSVw2RXw==
-Received: (nullmailer pid 1830598 invoked by uid 1000);
- Mon, 21 Aug 2023 16:14:41 -0000
-Date: Mon, 21 Aug 2023 11:14:41 -0500
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: Re: [PATCH v3 2/5] dt-bindings: display: tegra: nvidia,tegra20-dc:
- Add parallel RGB output port node
-Message-ID: <20230821161441.GA1743870-robh@kernel.org>
-References: <20230807143515.7882-1-clamor95@gmail.com>
- <20230807143515.7882-3-clamor95@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1763710E281;
+ Mon, 21 Aug 2023 16:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692634981; x=1724170981;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=O0pNsFU/G/Clw2QlAdEPiWlO2xLuv7a/zk/i6lTE4bM=;
+ b=joh0joWFabNha1H8mySzllMht8hNNng2Aj1xgTywTlNqUVito1/+u0M1
+ nn8s/r+T3XjvIeI+grTNiPQpiYC5e/OybqrN/k34TdIu7zPGLsLF9HWis
+ 8EHiheQVuBjbwSMeQEAdgDjRPwXawALr2d7WzIUaIpephEF61xYNmEzuz
+ J8EY44E85oanj7vOVLpIZhzKrqWYzX2cDmgbh/LavfldvHc8Vyc7O9Md2
+ zoCS5mQD/uUT6G4hTRIlCEyPlHMnEq81wneBkO8VXrfDgFlFiwangWXCD
+ QED5QdAGY0B5uhdEKHOFpSCrY0EUyqTG62psoqcZR4ysMmgqdLqi/GsYh w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440015441"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="440015441"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 09:22:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="735879957"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; d="scan'208";a="735879957"
+Received: from hpabst-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.190])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 09:22:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Ricardo B. Marliere" <rbmarliere@gmail.com>,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
+ daniele.ceraolospurio@intel.com, John.C.Harrison@Intel.com,
+ alan.previn.teres.alexis@intel.com, harshit.m.mogalapalli@oracle.com,
+ michal.wajdeczko@intel.com, gregkh@linuxfoundation.org
+Subject: Re: [PATCH] gpu: drm: i915: fix documentation style
+In-Reply-To: <20230821150241.40047-1-rbmarliere@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230821150241.40047-1-rbmarliere@gmail.com>
+Date: Mon, 21 Aug 2023 19:22:04 +0300
+Message-ID: <87il9874cz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230807143515.7882-3-clamor95@gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,83 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: "Ricardo B. Marliere" <rbmarliere@gmail.com>, skhan@linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 07, 2023 at 05:35:12PM +0300, Svyatoslav Ryhel wrote:
-> From: Maxim Schwalm <maxim.schwalm@gmail.com>
-> 
-> Either this node, which is optional, or the nvidia,panel property can be
-> present.
-> 
-> Signed-off-by: Maxim Schwalm <maxim.schwalm@gmail.com>
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+On Mon, 21 Aug 2023, "Ricardo B. Marliere" <rbmarliere@gmail.com> wrote:
+> This patch fixes the following sphinx warnings in the htmldocs make target:
+>
+> Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:29: ERROR: Unexpected indentation.
+> Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:30: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/gpu/i915:546: ./drivers/gpu/drm/i915/gt/uc/intel_huc.c:35: WARNING: Bullet list ends without a blank line; unexpected unindent.
+>
+> Signed-off-by: Ricardo B. Marliere <rbmarliere@gmail.com>
+
+Already fixed by commit 175b036472f6 ("drm/i915: fix Sphinx indentation
+warning") in drm-next.
+
+BR,
+Jani.
+
 > ---
->  .../display/tegra/nvidia,tegra20-dc.yaml      | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-> index 69be95afd562..102304703062 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-> @@ -127,6 +127,37 @@ allOf:
->                $ref: /schemas/types.yaml#/definitions/phandle
->                description: phandle of a display panel
->  
-> +            port:
-> +              $ref: /schemas/graph.yaml#/$defs/port-base
-> +              description: Parallel RGB output port
-> +
-> +              properties:
-> +                endpoint:
-> +                  $ref: /schemas/media/video-interfaces.yaml#
+>  drivers/gpu/drm/i915/gt/uc/intel_huc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> index ddd146265beb..fa70defcb5b2 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> @@ -26,6 +26,7 @@
+>   * The kernel driver is only responsible for loading the HuC firmware and
+>   * triggering its security authentication. This is done differently depending
+>   * on the platform:
+> + *
+>   * - older platforms (from Gen9 to most Gen12s): the load is performed via DMA
+>   *   and the authentication via GuC
+>   * - DG2: load and authentication are both performed via GSC.
+> @@ -33,6 +34,7 @@
+>   *   not-DG2 older platforms), while the authentication is done in 2-steps,
+>   *   a first auth for clear-media workloads via GuC and a second one for all
+>   *   workloads via GSC.
+> + *
+>   * On platforms where the GuC does the authentication, to correctly do so the
+>   * HuC binary must be loaded before the GuC one.
+>   * Loading the HuC is optional; however, not using the HuC might negatively
 
-Just to make sure, what properties are you using from this? Usually 
-we'll list them though not a hard requirement. If none, then you just 
-need to ref graph.yaml#/properties/port instead and can drop the rest.
-
-> +                  unevaluatedProperties: false
-> +
-> +              unevaluatedProperties: false
-
-In the indented cases, it's easier to read if this is before 
-properties/patternProperties.
-
-> +
-> +          anyOf:
-> +            - if:
-> +                not:
-> +                  properties:
-> +                    nvidia,panel: false
-> +              then:
-> +                not:
-> +                  properties:
-> +                    port: true
-> +            - if:
-> +                not:
-> +                  properties:
-> +                    port: false
-> +              then:
-> +                not:
-> +                  properties:
-> +                    nvidia,panel: true
-
-I would prefer to drop this and mark "nvidia,panel" as deprecated. 
-Eventually I plan to add a mode to the tools to warn on using deprecated 
-properties. Having both could be perfectly fine too. You have the 
-"nvidia,panel" for compatibility with an old OS version and 'port' to 
-work with newer users.
-
-> +
-> +          additionalProperties: false
-
-Move this up too.
-
-Rob
+-- 
+Jani Nikula, Intel Open Source Graphics Center
