@@ -1,123 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901867839C5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 08:13:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAA17839C7
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 08:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A85F10E2DC;
-	Tue, 22 Aug 2023 06:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DBB10E2D6;
+	Tue, 22 Aug 2023 06:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2062f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FE310E2D6;
- Tue, 22 Aug 2023 06:13:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE0A510E2D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 06:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692684895; x=1724220895;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=mOBYRrsN3r1VEs+L++uygfjeYTltxD9EC2cC62arMh8=;
+ b=n6Ab2SO0LFUUgZ/NdfzU8i7tbg2hpO36X8cuLQ5RMuBZJwPwgu+5M8VQ
+ O08B6U8f65qM/JfAIHS3UtnQxTJ+6ySvqYSbmaFEMuy2ubiA8yaILAEVQ
+ 5KvC7o2J6HFoxgS4D9o4jWD1EFuwaJRgqwPiHXqkZg21yqJovAGrWIby+
+ F5sVsp6BA7E+KxBKLjhlb4lN2srlnp8US52739dXRu7W7M+I8ICIYZrIB
+ HKVuQS5sbzLCdydtuY2s9zZR3qUYnjLnH7FaIBVoMMdcZUEaEGPz23oUQ
+ qYX4IHKLH0vINagTASnu8k2Dic6DEpTE9QqQSzTc3ZS8muLxQTG23pZeR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376523214"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; d="scan'208";a="376523214"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 23:14:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="771235921"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; d="scan'208";a="771235921"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga001.jf.intel.com with ESMTP; 21 Aug 2023 23:14:54 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 21 Aug 2023 23:14:54 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 21 Aug 2023 23:14:48 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 21 Aug 2023 23:14:48 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 21 Aug 2023 23:14:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hQUIfzYO/d4cE6BIuyQ6qI+L2zu/KUCoLoV95AuTRCTiHOGlwnMyNfEMgjBc0cYBIn1wD1U9NsXlK2XtjaHFcGbVGj7+PsF1NKDnYActZoB52G51il7iV+CVrsgx61gBAThxl46LEtqBl0PovvnxHNfq0v8Ygs+3QYy2Zf2uHowmyf7GMg5mAGNPzZ6hyP2Z7dm8UXFU9u671MuQoA4ADUwNuI/cyXK6JmJu552lJZPqdJAQxhf85iqqSjx6YP0Bqbq5t8UZuGsOuhqI1+kHZd6964CNC6XX1Rghxm2Hupxr0tPMK+H/3SV1UyAa6NDiLPpJsHETALeJueNw1eR4ng==
+ b=QeTwP/dEYuuM5Kl3xx/45Y0QpUAPq0gjXcDB4zzXDUpqvPdnl5/KYKspRp8PIjoKuNg3sgr7fpo8YL0Q7AMcHnedBb3eZgOUjIAJGdwDP1FcDu6KDXx1pmwN9gyTGI1+NG8FuRdPo5rEkSgcsub85//p/yIqf8s+nCXMYaPQIFa994HNgGORlN1NE9iaFqVmo+d+fY7Z/SzJGjqWS8M7iTcZwGvfsK5C8Qkx6xEYylCH1S8TKdNdusIQ+va1g9eDtJth5L2kQliLH23xlOvNeSx5nZTg/JhDlCSy88VOFnp02u8C7OPpIGWFKsk0WYuNg6lJG+b2iTN+AWW+xaFnsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rqQvajFHBnj+YXKq7O1T6nGj43S6SPxplK0nrlK1svk=;
- b=PyfrYTS5BRIcCM6fqOmLeq6nRwdAmVh+hYDwt1/lFoTd/3sVCLgdZccRJ6f2al0yzfvtRvXIwbXAqtmiApdYFSnleUMKchHSAC0GCwiyvigTxExn1eAYEvjO8xAztIsixHYTa6rqaQ6G3wRUrd/IIFTL6BHzLMxdhwnziIVt2BUjCozjax7l9Th9y/n+nvBAy7hkBXLhw2iAgWkJLsQqA6HZAka+BOC4FQsK8pxGGDA13aswFl3bs22l7A0Ibevc7NiTBhRdaLmAMjrr4dXFldX/gh6+txrciz1Y1IUHhQxf55Ii8s2mSIMEveyCUyetCbU6VS0T6hhBWpJ2DWqdBA==
+ bh=H4U1DK7fi8tmv4fDWkILNhRX4KNUifUNg13/oC99k8w=;
+ b=aNOwlHfsQLGbo3WIEoRjA2KUoYk0KiZJxyA+QOh+d6DQMx2Yg77JPVEPpLMA3bgwbiwtjUh9NAKgrHnWuci1KiPHUexiMwpQyDdjw9EAs5KaOXNj2MdVEuJNRpl19Lub9L1VAtbwSLV3naxQjyC3sv2+mmS5J57Cqr2EQ9v2x/b3OKT0VFr4Y3/E75hDHtbuyMcq3CoqW2xkkMdEUPcBpsfIP2MWnHHh0D9xgBuJKl0y6n1AnG4HolcfALzF1hM4R2gPHiw7UsgWPjyfH+Y5c3mjK82uWltvizt32kzV2cH4YhijNoGTQC1eMjGw5XBbCpD9/ktQC8DnFL1wGF8/VA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rqQvajFHBnj+YXKq7O1T6nGj43S6SPxplK0nrlK1svk=;
- b=1MY/s7W/KEkaNoIMUjV4u3rmSMb14K9Fuv4t/trwW9ZLeuIyitWX8CYAQdtIhbtI7PAWN/BeeiNZMs4mjZaiIqEow3zMPjnTR8XNECYWbfcjLQLHpqfV/T2VgWDMK5dwIXjU7/LBtAjVlYAr8sBDjUtxVO9fg77RSa2fNqxYBXs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
- by PH7PR12MB6394.namprd12.prod.outlook.com (2603:10b6:510:1fe::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Tue, 22 Aug
- 2023 06:13:32 +0000
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4]) by PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4%7]) with mapi id 15.20.6699.020; Tue, 22 Aug 2023
- 06:13:31 +0000
-Message-ID: <cccd1cd1-28ec-5fb0-e3a3-07caa4bf1b07@amd.com>
-Date: Tue, 22 Aug 2023 11:43:18 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/7] drm/amdgpu: Add new function to set GPU power
- profile
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by DM4PR11MB5533.namprd11.prod.outlook.com (2603:10b6:5:38a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
+ 2023 06:14:44 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b%3]) with mapi id 15.20.6699.020; Tue, 22 Aug 2023
+ 06:14:44 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Alistair Popple <apopple@nvidia.com>
+Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6ECAAEZHgIABcLAQgAD86oCAAQfUEIAEas2AgAGbU1CAANOWAIAAAN4AgAAASgCAAADJgIAAACaAgAAAiQCAAFefQIAACl6AgAICCrCAALzcgIAABQIAgADEKYCAAD264IAAlRIAgAVz8QCAANNhgIALoJuwgAiQSQCAAMiegA==
+Date: Tue, 22 Aug 2023 06:14:43 +0000
+Message-ID: <IA0PR11MB71853FB79625A4F2399FFD79F81FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMzz2OKbmiD6SKPE@nvidia.com>
+ <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZNI4KV+Z7CvffiHI@nvidia.com>
+ <IA0PR11MB71857FDD99CAC23C88C9F27CF815A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87h6oswysm.fsf@nvdebian.thelocal>
+In-Reply-To: <87h6oswysm.fsf@nvdebian.thelocal>
+Accept-Language: en-US
 Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>
-References: <20230821064759.94223-1-Arvind.Yadav@amd.com>
- <20230821064759.94223-3-Arvind.Yadav@amd.com>
- <CADnq5_OBLh=fzsifOEhV3F2F1XGOcCujtVAba3KZ75MkY+tKHg@mail.gmail.com>
- <fff2391b-fc18-af9f-6fe0-7b4c6650dcdd@amd.com>
- <CADnq5_PYYy6D__49h6jud9vpbzhnyHh8wossNmzDqryxkcRnqQ@mail.gmail.com>
-From: "Yadav, Arvind" <arvyadav@amd.com>
-In-Reply-To: <CADnq5_PYYy6D__49h6jud9vpbzhnyHh8wossNmzDqryxkcRnqQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0163.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::18) To PH7PR12MB6000.namprd12.prod.outlook.com
- (2603:10b6:510:1dc::15)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|DM4PR11MB5533:EE_
+x-ms-office365-filtering-correlation-id: 8b8e9caf-2ad6-477b-fd7b-08dba2d71407
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: B8urnUlR1ZEODo3E02xcJihOjl2BSl873Vg+2PT2KrxR1+omrEOgyCDqYo3UpJGG6qkNwTieU6tTP7HvUUSeXb6gQEqx1QEMG1YY5A5u6OXPTJqviJPjV9dSGQaK6s3bYfLLb79cDhDKhLVhc+4U+IbhuOuvhVR+N4TezNegHvGHiMdK6Fsz7ozn8Oq05j6HzSRLnFsTrBarlZREkZfBS/QK6Cpnyc35/nn7Km5BqjFbkO4B7ssFCk2lFxvDfVB7ufQPzmvgDndDm5CDbK9ZDflfEXnH5INQOZqPjAhK+lpA3UJcq1KdbZ7byTwq02XAzjAZaTswlspdbsrjwBAa5HsFNq6fWgR2T9Tf6q/N2bC+lV28/LtUhVgu1QCF/GUyhWyAoDymvajbqRmYfZAMgmb+CIVyR8WlciCdemhtoybOVpKxxe8FTjYPDMHG2/15TvaLSU9ZdvtjS+Y++Vx+aWM8XEhiJ8eW0b96rTUqxUyyVYYtikQ1u2QAabSeijiJ2jYqIrIEwMX5k75wnRVd+AyqCTBdR/DU3UI0heVCl0RmcGwgIQIG99eVZDl2zjq3fZalYgmPvyow5dZmBJGc2vrrNawzEUBiVqOlmP7bwRgYoowuFnGgNVui9imfKYHn
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(1800799009)(186009)(451199024)(66446008)(54906003)(38070700005)(66476007)(76116006)(9686003)(66946007)(64756008)(316002)(6916009)(66556008)(82960400001)(8676002)(4326008)(8936002)(41300700001)(122000001)(478600001)(71200400001)(55016003)(38100700002)(6506007)(15650500001)(2906002)(83380400001)(86362001)(7696005)(5660300002)(33656002)(26005)(52536014);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?itMyZv69hxtKyKigP3AY1F4dnaf7xxI7v7KkUkwz7ChXqowqToKnN4qrBckN?=
+ =?us-ascii?Q?9GHhkXBqOvNl6Lnh2QQXuAcjbRO56+JYOTR6NoB+Iqq9CmlG/7vM7hEpmnly?=
+ =?us-ascii?Q?UOrZ7CEF+0qPLxWauYDMFjOM16dWjvRX7VL2kn+s9o/pnYQlBm9APiYeQaac?=
+ =?us-ascii?Q?en0RMLww5LsPDZ15b6VMqiNPCeOSX4DRgP4auHUVSrofE9mrraYv/eOnv7eM?=
+ =?us-ascii?Q?+2toKgMWdwEFj0OnXB9q8SyBSEcTXxVUr0fK2xSRWD6qWbY1mJEWBRJkJRxF?=
+ =?us-ascii?Q?tbRJyUmCzbpm9DrK/Pe3InUTqlaTofLRq6fhJGMKiaknMrBE6g71cQoiL9Kq?=
+ =?us-ascii?Q?hldk4m18m+7zJtN2ZugZHU4MXYBpRpPIs5yOF0Fqpm10Z1Ryq3ygXBiomqo6?=
+ =?us-ascii?Q?w/6rX63cozu2/HS2far7mmdlNhRTfYnH12FKLL7bwKTH7mvJQCA36Z8NChD4?=
+ =?us-ascii?Q?ld7Qdg72HcvNnp6k/d/a3tepuoJ/cR/542GYqwlko8d5qFd5Z7j++98vDgtv?=
+ =?us-ascii?Q?w4C6KocNH+6W233aSIABgtkAEbl2B6JuhI0IqvXXt7m0lpRZTMCtu2HTLAHO?=
+ =?us-ascii?Q?taRIP5eXc0N/yvvioXArEbMZDtzsvie4SVN4jix2qeP3cP+w8TFTqcD8TIXz?=
+ =?us-ascii?Q?rl7B+DFuPHdYimK9p1NxjvXvW8vTs0SFQ+fKNbgsswwG3u+z45Kk9NTv9p6P?=
+ =?us-ascii?Q?LFQTRxPtrWGjIa7qtpxCqtz5Tx/l2JBX+j12uRUydrNBFe/UoM6+IwTB1HTh?=
+ =?us-ascii?Q?ryzqng02SsZ/mLqIhRXgQxvL+s6DeLd7e0nnPw26NQRU0+I+hqYArfyM4clX?=
+ =?us-ascii?Q?pPRtXjjksRPDwnleE/CJQqqFmhtOYuuV3oRR8GsXzDVfiXXKN7D6C0/WSrCv?=
+ =?us-ascii?Q?0uJmhjelHmVcYFPNXYmws7qAaRXj8UAVSBV2Gid28Urzer5+V7wBmuzaORwT?=
+ =?us-ascii?Q?veEyhcyi4oaoo6zgB4R9Uvg9gWAR+TPOXGPUs6/C7cSuUUgm5YZrIHSgmxa1?=
+ =?us-ascii?Q?CFSd/mFxkMD6lADFudlVBmQxvnmOnTGCMWIhZ5vYxt947VAvnCBb/09ZNGwb?=
+ =?us-ascii?Q?+ls+TvLScyqS/1DdakdsLKfD9cU+nAGyuVeiy/6fZvOio4nzBBd0erWHFkwx?=
+ =?us-ascii?Q?Yf2Ep7i24T7Ak5sRaECwl9WORqGGYt/gxLoElXdqxxbKHJdRo7+YpKUEMGfc?=
+ =?us-ascii?Q?AjIjeJPK5vC8/YpL5EVC6LULPchQdKZhfuw10zyqyHgsDi5gh46S6mAWgu+e?=
+ =?us-ascii?Q?upz+IE7ZIdF8TSi152/55zKuqmSVv/cZcwjJoNrbkur+pAkDE7srolgf5O6w?=
+ =?us-ascii?Q?eRYm0EGXDkSN6Uj0PUwkQFleEe6b8syTQo+anrJe9GJv8qjY+KbNKWeT0QYZ?=
+ =?us-ascii?Q?NhSRe1+bjeYr2EVQIfZRad9KFeGq/1pY4l29PApg1mcVk01DNDw5UBMfk17w?=
+ =?us-ascii?Q?ryHqVuGYxTZ1fpzQbnJEarUqArCQTVjN6+mUccV0kShMQmIs4rLuP4QjN2Jk?=
+ =?us-ascii?Q?QK05uqTmm/LTpO+BzHFT+QOrhQBvhxKZxwn4nGrfuuhjZPKh9b0VP+iKN3+1?=
+ =?us-ascii?Q?J30X6mqG7mZjTVMoDHfbSaSvBVSFbgYH5yUMLh16?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6000:EE_|PH7PR12MB6394:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e6978e8-5f0f-4952-7470-08dba2d6e884
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: brSFkvT6l3fix1b2Wh9+ASDeQCcbnpxACZFfudTCM+40PcpF1QHktJOA/ZKh1kM/hzbs+jf2BGh3QAoVIfGSolqGZeor1XlqaJqhnj5dMN7iJPDAqEuWDX48S0/vU/MxMYhrGaFk6uRVKqE6Jb1xl4tzaaKxU8gv7LfXFrjWeFN6EguvRbwJAMgKQxNsUb4QHk1ka2GAXzvYcTGZ6kfjIKByV7YJXww5XG50v7gx0WIbV4gXlXjcTTEJRGJU9SNdXRMqlXdX21DK+u+b7UMNZo8QPEdLuyLZHKPGUnkw1bCcMmkA9CphBX2CQQEfsQGhqsqnO1ukWICiOKfKQUA2c/4pzmBBT0uSQxJrMZQuN+3J+fzVo7IWxn2Yi/R131cnBNOh0OxkLQL2UmXCqjWzOF86EgRSYwmwK08gZ9mzRdPGLQqkBsfQW3ehh6R1iK6UDR0OrubVdrc4PbbWDrFwQRo7bgtdm3aRXXuQq3fd7A3Sv0vWa6VQaIaOn66bdLxA2MD3vmT5Q4RNHli7IcAE44PlrEA5qT+vpD3UZswRU4eO6YDzpAgduvXu+Se6TINafaSt7j9JiflNNZ6HqFQRsEzBNt5uXTN4Cc4sxYuWuMy9lNl9cTH+RHs0r12I/8drVtlZFtN2wNHNydFkAtR8rw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB6000.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(39860400002)(396003)(366004)(346002)(376002)(186009)(1800799009)(451199024)(6916009)(66476007)(66556008)(316002)(6512007)(66946007)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(2906002)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3FIVkdLM1dYVjBmWUVSRnlhYk81MnRTZGtwcXBFTUFtNENaQkdpZEhQdUwy?=
- =?utf-8?B?WktVbjBpVldSZG40Nk95a2Z1UGc5NVA5SkdJMjV6MWJvNU0zN0JjNjVsUG9i?=
- =?utf-8?B?eWdJc3poMTNnYitWMWxEUUZGbTFkb01mZHZNWngrNVdmZzRLcW16T0pHM1BP?=
- =?utf-8?B?QkswY2lSTHEvMm5la2g3SmJrYmRySDhWd0lRWWlPQm5sMEJkdGlidmIwendF?=
- =?utf-8?B?eHZEUkdIeGdoUW5nQWpUeWdxT25JR2R2TUFPMEFRVGRLNVBqN0wyUWtOVW4v?=
- =?utf-8?B?OG8yM09seUV2dnB0M1U2WWV4em9ZeGsrdytKbEZ4Sy9BaloyRzg3KzNMdXB2?=
- =?utf-8?B?SVdHL29sT0RzbUZIdytZSWd6Q3VpNy9jQTdHVGd0V2JRdFBlOVIrUHU3WnlB?=
- =?utf-8?B?NHhiZ1oza0tBRmNjak5kL3ZZWVJrTlZhckFYRld6ODUySDhMeTgxckt5bmh0?=
- =?utf-8?B?dUljaDYwdnNNU1BmZEc1MVZjMU14am16ZEdDQ0ZFTDR0L1VzeE1ONHA3U3pX?=
- =?utf-8?B?SkFKS0hvSnErVi9Ob2FkeVkyMS8rUmtHMGpkMTdFNG9DSi9hSFc0NTEvZHlM?=
- =?utf-8?B?Q0Q1QW5rOGg5akdqeTRkcVJ6RmVlYmVMdEx2ZUNSV2E4YlRCTmJnaythMkIy?=
- =?utf-8?B?THFvTUNqdXplSVplUnU1alkvWmRlUW5rOG9ZRXU0K204UWxQTzBDdE1XcHVk?=
- =?utf-8?B?YVlCZnJLR09aM29SRkFIb1ZZeXNEOWhtVWErcEJoSWVwZHQrRi9DV1NIYjZV?=
- =?utf-8?B?V1ducjI2RlJ2RXZaOXhDRUZxNVR5UEZtL1U4d1lOOGZsVUphKzJEVkNIb3pB?=
- =?utf-8?B?QWdqdmtGeEdoQjNBN2lveEFZNnRzdXpmUkFKeEd6aEQvOGhkRXA4bzB2eXBF?=
- =?utf-8?B?bTFGVTRzWGdZNldkN3hCa1FQWDFzeHhxRkxNTmorOTNZR0lXR3VGWnJnNzZV?=
- =?utf-8?B?NkRSTmEyMEtmMmJUK3E5anYyVjFPTGc0dDRFQU1FTDExR0dxT0o2SnluRlp6?=
- =?utf-8?B?bk54VHFSTE9KdGV6RW5DNnRVb1lvNy9qZ3JwT09sL3RHR2Q5UE13d0Y3VnRW?=
- =?utf-8?B?bGVvRmtURWNpSmNSYW1BS0hZRmZ1cXlOVlYxeDNzUHhRVU5tVHAvSEN3TThS?=
- =?utf-8?B?VXR0TWRCL3lpRFlQWG5sR3NMZkM3aHZnNVJyZWtYYmxOYnhLMG1Mb1JDRzQ2?=
- =?utf-8?B?WUlxbmd1VVFjK09VY05FQlVvUTYvbENnd1ROSVpBbHZoc1F3Q09SZWJWUFla?=
- =?utf-8?B?K1FwVXFyV0huOWd1aHdUQlJHaHdNY2lpd2xkdzFZZnpLT3JNSGFXZS90azhy?=
- =?utf-8?B?ZWpzM254RFdiZXRPenIrcGpOWUQ3bUlVR2kzc04zbUJ1ZHlIRlY4d2lVaGJk?=
- =?utf-8?B?VCtJTTRUejhwQkE1dStXOHk4MUIyU2JvOXQxQlB0Sjd3Q3RzcjhaMms3eWZR?=
- =?utf-8?B?Wm9GVG1kNUJTL2FOMUdJR0svVlRtWWxDTHNLejlSM2R0Q2x3a044Nmo3Sysx?=
- =?utf-8?B?OVNGTnlHNGxzbFhjck40SUN1S0ZldWd3RDNxSzRUdlROMzNEYmhmNG01dG5J?=
- =?utf-8?B?VGNva2ZhNUpWOXRmaEZ4MDZGYnF4MGgzOC9Ebk0zSDVkU2xEeXhybFBGK2gv?=
- =?utf-8?B?ODl1elJ0ZVJvTnRTK3YvQUVQZnU2QlJpWWp4RURVTjJKNFNDREY2c3V5UEF6?=
- =?utf-8?B?bjl5bzdzejY3cXhSWlpwdWdlTnZnN2w1MWJXbEdRNk8yYzQ4TzJFTVJKYUJ6?=
- =?utf-8?B?SjdDTVlYcnkwMDIxS1NFY05Gd3ZlSHhPcG9EREUycjZRaWF2SGVPMDE4emx0?=
- =?utf-8?B?SmZYNG9zWmdlTTdtL3lFNXpyZUg2Y2FoZGNXWXE1U1J3bmxNaHA0cXpJclZw?=
- =?utf-8?B?ejBKbnducTdXZXJ1QWhqUDBTckFJL1JkcUZmLzhMalVKblBUVXJjaFpqbHhP?=
- =?utf-8?B?aWREWE96RGZNLzNHS0Y2a3RLdnczd29tcnc2UjV5MFJVQk5VRlo3WHcrT0Qw?=
- =?utf-8?B?elYwemZmbzdoendBQ2RmeEtEeWhHQnNNM2luanlYaDRHSStKclh2NmtlRkY0?=
- =?utf-8?B?czlNTWFuVS9mVVpjRFBveTdCaXhBYkZXK0NyMXZKTldYUnpXY3RCOXdaZjRx?=
- =?utf-8?Q?PFMasUCvBfxC2jKd/WkXo9j3h?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e6978e8-5f0f-4952-7470-08dba2d6e884
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 06:13:31.4921 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iIBzxErC2n64+aybySYVCuwbxEaPd4hKAYAiqjiuUk/3AXty9u+GQLt03XD2yuV4ThmonzRJZxr06UmKoPMCCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6394
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b8e9caf-2ad6-477b-fd7b-08dba2d71407
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 06:14:44.0273 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: V3shv8AzS6VuZ/5lBD1NfvWxg3oy8NckAaOvG8yr4k0/9LtjACtnJsvqhsPl4ttkOkM87b9UyMUTJutjlzOuOx9+hiRnsD0y0+Tg3fsp+/Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5533
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,196 +162,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, shashank.sharma@amd.com,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- Arvind Yadav <Arvind.Yadav@amd.com>, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, Christian.Koenig@amd.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Alistair,
 
-On 8/21/2023 11:40 PM, Alex Deucher wrote:
-> On Mon, Aug 21, 2023 at 1:54 PM Yadav, Arvind <arvyadav@amd.com> wrote:
->>
->> On 8/21/2023 9:52 PM, Alex Deucher wrote:
->>> On Mon, Aug 21, 2023 at 2:55 AM Arvind Yadav <Arvind.Yadav@amd.com> wrote:
->>>> This patch adds a function which will change the GPU
->>>> power profile based on a submitted job. This can optimize
->>>> the power performance when the workload is on.
->>>>
->>>> v2:
->>>> - Splitting workload_profile_set and workload_profile_put
->>>>     into two separate patches.
->>>> - Addressed review comment.
->>>>
->>>> Cc: Shashank Sharma <shashank.sharma@amd.com>
->>>> Cc: Christian Koenig <christian.koenig@amd.com>
->>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c  | 56 +++++++++++++++++++
->>>>    drivers/gpu/drm/amd/include/amdgpu_workload.h |  3 +
->>>>    2 files changed, 59 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> index 32166f482f77..e661cc5b3d92 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> @@ -24,6 +24,62 @@
->>>>
->>>>    #include "amdgpu.h"
->>>>
->>>> +static enum PP_SMC_POWER_PROFILE
->>>> +ring_to_power_profile(uint32_t ring_type)
->>>> +{
->>>> +       switch (ring_type) {
->>>> +       case AMDGPU_RING_TYPE_GFX:
->>>> +               return PP_SMC_POWER_PROFILE_FULLSCREEN3D;
->>>> +       case AMDGPU_RING_TYPE_COMPUTE:
->>>> +               return PP_SMC_POWER_PROFILE_COMPUTE;
->>>> +       case AMDGPU_RING_TYPE_UVD:
->>>> +       case AMDGPU_RING_TYPE_VCE:
->>>> +       case AMDGPU_RING_TYPE_UVD_ENC:
->>>> +       case AMDGPU_RING_TYPE_VCN_DEC:
->>>> +       case AMDGPU_RING_TYPE_VCN_ENC:
->>>> +       case AMDGPU_RING_TYPE_VCN_JPEG:
->>>> +               return PP_SMC_POWER_PROFILE_VIDEO;
->>>> +       default:
->>>> +               return PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT;
->>>> +       }
->>>> +}
->>>> +
->>>> +static int
->>>> +amdgpu_power_profile_set(struct amdgpu_device *adev,
->>>> +                        enum PP_SMC_POWER_PROFILE profile)
->>>> +{
->>>> +       int ret = amdgpu_dpm_switch_power_profile(adev, profile, true);
->>>> +
->>>> +       if (!ret) {
->>>> +               /* Set the bit for the submitted workload profile */
->>>> +               adev->smu_workload.submit_workload_status |= (1 << profile);
->>>> +               atomic_inc(&adev->smu_workload.power_profile_ref[profile]);
->>>> +       }
->>>> +
->>>> +       return ret;
->>>> +}
->>>> +
->>>> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
->>>> +                                uint32_t ring_type)
->>>> +{
->>>> +       struct amdgpu_smu_workload *workload = &adev->smu_workload;
->>>> +       enum PP_SMC_POWER_PROFILE profile = ring_to_power_profile(ring_type);
->>>> +       int ret;
->>>> +
->>>> +       if (profile == PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT)
->>>> +               return;
->>> Why is this one skipped?  How do we get back to the boot up profile?
->> Hi Alex,
->>
->> enum PP_SMC_POWER_PROFILE {
->>       PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT = 0x0,
->>       PP_SMC_POWER_PROFILE_FULLSCREEN3D = 0x1,
->>       PP_SMC_POWER_PROFILE_POWERSAVING  = 0x2,
->>       PP_SMC_POWER_PROFILE_VIDEO        = 0x3,
->>       PP_SMC_POWER_PROFILE_VR           = 0x4,
->>       PP_SMC_POWER_PROFILE_COMPUTE      = 0x5,
->>       PP_SMC_POWER_PROFILE_CUSTOM       = 0x6,
->>       PP_SMC_POWER_PROFILE_WINDOW3D     = 0x7,
->>       PP_SMC_POWER_PROFILE_COUNT,
->> };
->>
->> These are all the profiles. We are using which is >
->> PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT.
->> Now suppose the profile was DEFAULT and we set it to VIDEO, SMU will
->> move the profile to a higher level.
->> When we reset the VIDEO profile then SMU will move back to the DEFAULT one.
->>
->> Our job is to set the profile and reset it after the job is done.
->> SMU will take care to move to a higher profile and after reset, it will
->> move back to DEFAULT.
-> I guess that is the part I'm missing.  How does the call to the SMU to
-> set the profile back to DEFAULT actually happen?  It seems that both
-> the put and get functions return early in this case.
-SMU is calculating a workload for given the profile and setting it when 
-we call the *get and *put function.
-When we call *set function for VIDEO then SMU will calculate a workload 
-for VIDEO and set it. Now We call
-*put function for the same profile then SMU calculates a workload which 
-will be lower or DEFAULT (0)
-and then it will set it.
-
-Suppose we have called *set function for VIDEO profile then SMU will 
-calculate the workload = 4 and set it.
-Now we have called *put function for the same profile then SMU will 
-calculate the workload = 0 and set it.
-
-please see the below smu code where index will be DEFAULT (0) or lower 
-for *put function.
-
-if (!en) { // put function
-         smu->workload_mask &= ~(1 << smu->workload_prority[type]);
-         index = fls(smu->workload_mask);
-         index = index > 0 && index <= WORKLOAD_POLICY_MAX ? index - 1 : 0;
-         workload = smu->workload_setting[index];
-} else { // set function.
-         smu->workload_mask |= (1 << smu->workload_prority[type]);
-         index = fls(smu->workload_mask);
-         index = index <= WORKLOAD_POLICY_MAX ? index - 1 : 0;
-         workload = smu->workload_setting[index];
+> >> > > > No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the
+> issue.
+> >> > > > Although, I do not have THP enabled (or built-in), shmem does no=
+t
+> evict
+> >> > > > the pages after hole punch as noted in the comment in
+> >> shmem_fallocate():
+> >> > >
+> >> > > This is the source of all your problems.
+> >> > >
+> >> > > Things that are mm-centric are supposed to track the VMAs and
+> changes
+> >> to
+> >> > > the PTEs. If you do something in userspace and it doesn't cause th=
+e
+> >> > > CPU page tables to change then it certainly shouldn't cause any mm=
+u
+> >> > > notifiers or hmm_range_fault changes.
+> >> > I am not doing anything out of the blue in the userspace. I think th=
+e
+> >> behavior
+> >> > I am seeing with shmem (where an invalidation event
+> >> (MMU_NOTIFY_CLEAR)
+> >> > does occur because of a hole punch but the PTEs don't really get
+> updated)
+> >> > can arguably be considered an optimization.
+> >>
+> >> Your explanations don't make sense.
+> >>
+> >> If MMU_NOTIFER_CLEAR was sent but the PTEs were left present then:
+> >>
+> >> > > There should still be an invalidation notifier at some point when =
+the
+> >> > > CPU tables do eventually change, whenever that is. Missing that
+> >> > > notification would be a bug.
+> >> > I clearly do not see any notification getting triggered (from both
+> >> shmem_fault()
+> >> > and hugetlb_fault()) when the PTEs do get updated as the hole is ref=
+illed
+> >> > due to writes. Are you saying that there needs to be an invalidation
+> event
+> >> > (MMU_NOTIFY_CLEAR?) dispatched at this point?
+> >>
+> >> You don't get to get shmem_fault in the first place.
+> > What I am observing is that even after MMU_NOTIFY_CLEAR (hole punch)
+> is sent,
+> > hmm_range_fault() finds that the PTEs associated with the hole are stil=
+l
+> pte_present().
+> > I think it remains this way as long as there are reads on the hole. Onc=
+e
+> there are
+> > writes, it triggers shmem_fault() which results in PTEs getting updated=
+ but
+> without
+> > any notification.
+>=20
+> Oh wait, this is shmem. The read from hmm_range_fault() (assuming you
+> specified HMM_PFN_REQ_FAULT) will trigger shmem_fault() due to the
+> missing PTE.=20
+When running one of the udmabuf subtests (introduced in the third patch of
+this series), I see that MMU_NOTIFY_CLEAR is sent when a hole is punched.
+As a response, hmm_range_fault() is called from the udmabuf invalidate call=
+back,
+to walk over the PTEs associated with the hole. When this happens, I notice=
+d that
+the below function returns HMM_PFN_VALID | HMM_PFN_WRITE for all the
+PTEs associated with the hole.=20
+static inline unsigned long pte_to_hmm_pfn_flags(struct hmm_range *range,
+                                                 pte_t pte)
+{
+        if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
+                return 0;
+        return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_V=
+ALID;
 }
 
-In our case the *set function will set the GPU  power profile and the 
-*put function will schedule
-the smu_delayed_work task after 100ms delay. This smu_delayed_work task 
-will clear a GPU power profile if any
-new jobs are not scheduled within 100 ms. But if any new job comes 
-within 100ms then the *set function
-will cancel this work and set the GPU power profile based on preferences.
+As a result, hmm_pte_need_fault() always returns 0 and shmem_fault()
+never gets triggered despite specifying HMM_PFN_REQ_FAULT | HMM_PFN_REQ_WRI=
+TE.
+And, the set of PFNs returned by hmm_range_fault() are the same ones
+that existed before the hole was punched.
 
-Thank You
-~Arvind
+> Subsequent writes will just upgrade PTE permissions
+> assuming the read didn't map them RW to begin with. If you want to
+> actually see the hole with hmm_range_fault() don't specify
+> HMM_PFN_REQ_FAULT (or _WRITE).
+>=20
+> >>
+> >> If they were marked non-prsent during the CLEAR then the shadow side
+> >> remains non-present until it gets its own fault.
+> >>
+> >> If they were made non-present without an invalidation then that is a
+> >> bug.
+> >>
+> >> > > hmm_range_fault() is the correct API to use if you are working wit=
+h
+> >> > > notifiers. Do not hack something together using pin_user_pages.
+> >>
+> >> > I noticed that hmm_range_fault() does not seem to be working as
+> expected
+> >> > given that it gets stuck(hangs) while walking hugetlb pages.
+> >>
+> >> You are the first to report that, it sounds like a serious bug. Please
+> >> try to fix it.
+> >>
+> >> > Regardless, as I mentioned above, the lack of notification when PTEs
+> >> > do get updated due to writes is the crux of the issue
+> >> > here. Therefore, AFAIU, triggering an invalidation event or some
+> >> > other kind of notification would help in fixing this issue.
+> >>
+> >> You seem to be facing some kind of bug in the mm, it sounds pretty
+> >> serious, and it almost certainly is a missing invalidation.
+> >>
+> >> Basically, anything that changes a PTE must eventually trigger an
+> >> invalidation. It is illegal to change a PTE from one present value to
+> >> another present value without invalidation notification.
+> >>
+> >> It is not surprising something would be missed here.
+> > As you suggest, it looks like the root-cause of this issue is the missi=
+ng
+> > invalidation notification when the PTEs are changed from one present
+>=20
+> I don't think there's a missing invalidation here. You say you're seeing
+> the MMU_NOTIFY_CLEAR when hole punching which is when the PTE is
+> cleared. When else do you expect a notification?
+Oh, given that we are finding PTEs that are still pte_present() even after
+MMU_NOTIFY_CLEAR is sent, the theory is that another MMU_NOTIFY_CLEAR
+needs to be sent after the PTEs are updated when new pages are faulted-in.
 
->
-> Alex
->
->
-> Alex
->
->
->> ThankYou,
->> ~Arvind
->>
->>> Alex
->>>
->>>> +
->>>> +       mutex_lock(&workload->workload_lock);
->>>> +
->>>> +       ret = amdgpu_power_profile_set(adev, profile);
->>>> +       if (ret) {
->>>> +               DRM_WARN("Failed to set workload profile to %s, error = %d\n",
->>>> +                        amdgpu_workload_mode_name[profile], ret);
->>>> +       }
->>>> +
->>>> +       mutex_unlock(&workload->workload_lock);
->>>> +}
->>>> +
->>>>    void amdgpu_workload_profile_init(struct amdgpu_device *adev)
->>>>    {
->>>>           adev->smu_workload.adev = adev;
->>>> diff --git a/drivers/gpu/drm/amd/include/amdgpu_workload.h b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> index 5d0f068422d4..5022f28fc2f9 100644
->>>> --- a/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> +++ b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> @@ -46,6 +46,9 @@ static const char * const amdgpu_workload_mode_name[] = {
->>>>           "Window3D"
->>>>    };
->>>>
->>>> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
->>>> +                                uint32_t ring_type);
->>>> +
->>>>    void amdgpu_workload_profile_init(struct amdgpu_device *adev);
->>>>
->>>>    void amdgpu_workload_profile_fini(struct amdgpu_device *adev);
->>>> --
->>>> 2.34.1
->>>>
+However, it just occurred to me that maybe the behavior I am seeing is not
+unexpected as it might be a timing issue that has to do with when the PTEs
+are walked. Let me explain. Here is what shmem does when a hole is punched:
+                if ((u64)unmap_end > (u64)unmap_start)
+                        unmap_mapping_range(mapping, unmap_start,
+                                            1 + unmap_end - unmap_start, 0)=
+;
+                shmem_truncate_range(inode, offset, offset + len - 1);
+
+IIUC, the invalidate callback is called from unmap_mapping_range() but
+the page removal does not happen until shmem_truncate_range() gets
+called. So, if I were to call hmm_range_fault() after shmem_truncate_range(=
+),
+I might see different results as the PTEs would probably no longer be prese=
+nt.
+In order to test this theory, I would have to schedule a wq thread func fro=
+m the
+invalidate callback (to walk the PTEs after a slight delay). I'll try this =
+out when
+I get a chance after addressing some of the locking concerns associated wit=
+h
+pairing static/dynamic dmabuf exporters and importers.
+
+Thanks,
+Vivek
+
+>=20
+> > value to another. I'd like to fix this issue eventually but I first nee=
+d to
+> > focus on addressing udmabuf page migration (out of movable zone)
+> > and also look into the locking concerns Daniel mentioned about pairing
+> > static and dynamic dmabuf exporters and importers.
+> >
+> > Thanks,
+> > Vivek
+
