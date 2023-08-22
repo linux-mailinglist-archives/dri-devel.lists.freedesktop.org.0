@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20137846F3
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF777846E9
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:20:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4F310E3A8;
-	Tue, 22 Aug 2023 16:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F3C10E3A3;
+	Tue, 22 Aug 2023 16:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB1010E3A3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:20:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE90B10E3A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:20:03 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97E941211;
- Tue, 22 Aug 2023 18:18:43 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1C7836B0;
+ Tue, 22 Aug 2023 18:18:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692721124;
- bh=JrwUDETZB5eMPJTDxOAxu4s6pxxmetjU3ZvnBP+Q+9E=;
+ s=mail; t=1692721125;
+ bh=H9tKJAtqfyF3Tg+LrApw0c7XP90L7b2wllmYTxOJ35w=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=vJCLO2P3ohgUmaam0xE6l1KCAYaD3FrRslzzklUiA5Wp+RShHzpR4rb24GZVqF7pg
- 7Ibeoh7tBvPXepmxKVCAnYpjdu6siLD7siFNlp1ZVZu07QjyJAyRMJWzr1TPa1V7Cj
- QZC0hTiB9bifah6hDKoWHYlHFU4NR/+N2lfVvcdk=
+ b=ndqigfXnut1kEzuR/hcGMtal8PW1O0+gCoO2JCZrG8aUGdUb+qWy2CzWOeDtmtGWX
+ gxVf/QzytMw0j0KXQ91XB7Fq2LIrIGJCXJwqYY7TjbuOPDzk9OT2d/XdZP5cPRIzY/
+ DIkd5seolSSoC6tkaAJNMI8ufn5eVeGmQf3ztbWE=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 22 Aug 2023 19:19:34 +0300
-Subject: [PATCH v3 01/12] drm/tegra: rgb: Parameterize V- and H-sync polarities
+Date: Tue, 22 Aug 2023 19:19:35 +0300
+Subject: [PATCH v3 02/12] drm/bridge: tc358768: Fix use of uninitialized
+ variable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230822-tc358768-v3-1-c82405dac0c1@ideasonboard.com>
+Message-Id: <20230822-tc358768-v3-2-c82405dac0c1@ideasonboard.com>
 References: <20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com>
 In-Reply-To: <20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -41,21 +42,21 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, 
  Francesco Dolcini <francesco@dolcini.it>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1899;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=965;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=sL6zTXqRvJeIplRfAhFNbyY7r8WIKADc5W6NZoL5o+U=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk5OAqU5MuEmEFpSME7lAO3Fy/cQBYySuCZUqj/
- aasICiJWvyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZOTgKgAKCRD6PaqMvJYe
- 9Wa2D/9dsXKpNX70WeLAUVLc4MA8l2ppNEaZn495yXdwRF+kWbUwDjoy50fm3mUCXWE+A5p2nXh
- AyfCv33a6DtYOtWAE9kvmxypkBojQQLcO7tvpJJyy3HKXQFX651ybDvbEeHJbCZo74UXl9Wso8W
- 0/Rji29G/dYvf7EFr+iy6BbPebSUO5m4cg1sqLDkq+ekhFCVgYK+fj7acmYknIQwMLgKF6Yv8s8
- TvTKY08VDE6I/V5kuF5ut44bfmkLyJ7i/XLrQ75P0EevKWE/+qCCm+/B5G+3vsovhq5zb/LMyN3
- 8puYiYSEqqhh66xGysr4W/jERE1xSaauQwTLOgCpQ4XnZrCy0ApytfhxfZHQgWRy1ApXwqhSnbZ
- PzRkOcvHEl4jNo7E6+8nVCqv9XtfuikZvzMWqtTCqBRbwq+4L5Elxnv1skoHneo2zz7Sh0nG55N
- P4vckn3Rj5FIH4nP8DyEJkSTcJKEsSlwkNrQdbcBXaXBUtn+kSFLNErnq4B9VPl0oXU8My8RDlZ
- 0YU9wOpHGaAkc4Zi68yd3aCnW213mKVKubVUlAPL25+/MhJeprBS8YGuzKoSljx9ei4njz1FDPg
- G0UUvCNrV1BbGNXtgxIHnomHi4KwYxPKRvxg/PMg8k50z/lBwiJqffXZNKcOSD/1RTD552DEHAV
- yPCJJz5uQ1eTRBA==
+ bh=H9tKJAtqfyF3Tg+LrApw0c7XP90L7b2wllmYTxOJ35w=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk5OAr2Jb15icUZGZo0Hl9/ue+3pkcbi4HlgH7B
+ Tmv48jgIBGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZOTgKwAKCRD6PaqMvJYe
+ 9V6VEACakcIJsHgJjcr2+GAA7F7X27NlUhZEIzY77K8qGEdkCdBckE7GllkTNo2qoXMhv80njGS
+ 5ZC/E7QxEAWWjZzfjJsg2cMgf1zIrXr8b6GAJlXxHpJjwQj/9KLA4hmEUqpAsctmMx0QOD/5P9j
+ SZ2ozfGiZIRzQgESVtBgWWzye/kqVzW98RnMa1Ztyv9OeMo58xrAgzW0t8JW3sbFGdLI1n/x8l3
+ dZ832wby6NrY/h7ZA/g1RlzlLFFT7yXScL3xz+009iOt2ehFi112/jdzoDkXalxhT5dymyhpSCM
+ N1sRcex+HiZCtKBS7ghqspNj8u86YZdBQwUC2q6/DeXEFYBww834jOhZhUS9cW9vwzFj5ozpMpg
+ mvUHe+y1DMiWcGDebJd77UksSQMUKtgjlZs7OxBH3a5pg0DXlFPW+lpdkVLZdDUFCJaXeHsI2ns
+ fWs/YR39+1w/WvpyLhUShEcVoaRehtF3tzg1qvsXYnd662rUEl8LxzSeqNTQ5NRRHhXuG6fmvLE
+ g0manHm5v8CKSo5I043WDOrS+JVxic5/ZBqes6zKmtcHMoTArvhT3Y2+2asbwnYKbEZISSQAVtH
+ 5qepUgw3uEPF5JVi4p1bbdlLby86b9PIfYSmS+bRb/VMLHJ04pguEpoGuI7jsdUD2PVc/bmHMBX
+ lMfxCCmCfdYz0dw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,63 +71,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Aradhya Bhatia <a-bhatia1@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+smatch reports:
 
-The polarities of the V- and H-sync signals are encoded as flags in the
-display mode, so use the existing information to setup the signals for
-the RGB interface.
+drivers/gpu/drm/bridge/tc358768.c:223 tc358768_update_bits() error: uninitialized symbol 'orig'.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-[tomi.valkeinen@ideasonboard.com: default to positive sync]
+Fix this by bailing out from tc358768_update_bits() if the
+tc358768_read() produces an error.
+
+Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
 Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tegra/rgb.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index 79566c9ea8ff..fc66bbd913b2 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -99,6 +99,7 @@ static void tegra_rgb_encoder_disable(struct drm_encoder *encoder)
+diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+index 819a4b6ec2a0..bc97a837955b 100644
+--- a/drivers/gpu/drm/bridge/tc358768.c
++++ b/drivers/gpu/drm/bridge/tc358768.c
+@@ -216,6 +216,10 @@ static void tc358768_update_bits(struct tc358768_priv *priv, u32 reg, u32 mask,
+ 	u32 tmp, orig;
  
- static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- {
-+	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct tegra_output *output = encoder_to_output(encoder);
- 	struct tegra_rgb *rgb = to_rgb(output);
- 	u32 value;
-@@ -108,10 +109,19 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	value = DE_SELECT_ACTIVE | DE_CONTROL_NORMAL;
- 	tegra_dc_writel(rgb->dc, value, DC_DISP_DATA_ENABLE_OPTIONS);
- 
--	/* XXX: parameterize? */
-+	/* configure H- and V-sync signal polarities */
- 	value = tegra_dc_readl(rgb->dc, DC_COM_PIN_OUTPUT_POLARITY(1));
--	value &= ~LVS_OUTPUT_POLARITY_LOW;
--	value &= ~LHS_OUTPUT_POLARITY_LOW;
+ 	tc358768_read(priv, reg, &orig);
 +
-+	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-+		value |= LHS_OUTPUT_POLARITY_LOW;
-+	else
-+		value &= ~LHS_OUTPUT_POLARITY_LOW;
++	if (priv->error)
++		return;
 +
-+	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-+		value |= LVS_OUTPUT_POLARITY_LOW;
-+	else
-+		value &= ~LVS_OUTPUT_POLARITY_LOW;
-+
- 	tegra_dc_writel(rgb->dc, value, DC_COM_PIN_OUTPUT_POLARITY(1));
- 
- 	/* XXX: parameterize? */
+ 	tmp = orig & ~mask;
+ 	tmp |= val & mask;
+ 	if (tmp != orig)
 
 -- 
 2.34.1
