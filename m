@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBF1784019
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C346F78402B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D7C810E327;
-	Tue, 22 Aug 2023 11:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2639A10E328;
+	Tue, 22 Aug 2023 11:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACEE10E327
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 11:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1692705125; x=1724241125;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Pu2JihUeZ+Xsrrg0HNxh/onY2ikC55PTrTYgkaTJU2s=;
- b=gVTAysNH5B7fODiBzjiWgoAe9eeCkrNS2hIH5Mmkcp1nl0jJ0VT0bBc1
- +/fh/OcGf+DHqnVYD9iuMGr4bH8pwmGith7l+BCeMES7F4INsUAnE7jRL
- wPgCzIx4rPC7mX7c+uisCJibSdgi8RKUf7I4hdWRQkYOyvY7WwaDJU+Ah
- E+MDf1xJ5oWpNvF0F44Mtp5YTFGluGFUO0wez+hGhLhra5uDx2gQr+qye
- kceqlVELXhrU8FMP2VzJwPUR69txiakKHZXaGwRAUgdXRQDIQ1WFWx62L
- NmrF1ZhWDEpSrtrHxDS8gIEVqPZbPM6I8AnxjilHZO7mi2/8Vi8gSy2th g==;
-X-IronPort-AV: E=Sophos;i="6.01,192,1684792800"; d="scan'208";a="32562485"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 22 Aug 2023 13:52:03 +0200
-Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.21])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065AB10E328;
+ Tue, 22 Aug 2023 11:55:06 +0000 (UTC)
+Received: from eldfell (unknown [194.136.85.206])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 328A4280075;
- Tue, 22 Aug 2023 13:52:03 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/1] drm/bridge: Silence error messages upon probe deferral
-Date: Tue, 22 Aug 2023 13:52:00 +0200
-Message-Id: <20230822115200.712231-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FC72660720C;
+ Tue, 22 Aug 2023 12:55:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692705304;
+ bh=rc4RZeWeRenqX67jr1ytBFPmAwa003ttuhCagDublUE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=iAc84DiVtMtOtOr5hOeMBL52YF4J0od97uHsOwbyNwNVzqOwk82CH+i/V5pn8od3c
+ f4163qNDohHI3aJ8TL34sQ9LuI2OlBIin6x7RolaeDIgRS7h7Vm9JvEcivEDSBd7nc
+ kegBzMbJFqfKrqx65U9DbqrmQmAR05d3434mzDuE3yQkLntGPcXEOefdxor33j74WB
+ S10qpnJ1uDTEdQT9kvFWyF8qvMHDKF+5xutoYwIRimN3nQEfs322S6OtRJVtNV0eMG
+ YrrTtej2qfFKJUyNYQNqERacm+bgW2jhDw4I7aDSzpNxTMhGLd8ENzjQ4rJMeSyox7
+ cElNUmZeaFXvQ==
+Date: Tue, 22 Aug 2023 14:54:59 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Melissa Wen <mwen@igalia.com>
+Subject: Re: [PATCH v2 09/34] drm/amd/display: add plane HDR multiplier
+ driver-specific property
+Message-ID: <20230822145459.66b986ef.pekka.paalanen@collabora.com>
+In-Reply-To: <20230810160314.48225-10-mwen@igalia.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-10-mwen@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,55 +53,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Shashank Sharma <Shashank.Sharma@amd.com>,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When -EPROBE_DEFER is returned do not raise an error, but silently return
-this error instead. Fixes error like this:
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+On Thu, 10 Aug 2023 15:02:49 -0100
+Melissa Wen <mwen@igalia.com> wrote:
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Changes in v2:
-* Adjust the indentation
+> From: Joshua Ashton <joshua@froggi.es>
+> 
+> Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
+> transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
+> least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
+> nits for SDR content. So if you want, 203 nits for SDR content, pass in
+> (203.0 / 80.0).
 
-Considering Laurent's input IMHO -517 should not occur when using component
-framework, e.g. drivers/gpu/drm/mcde/mcde_drv.c. This should warrant to only
-print an error if it is not deferred probe.
-dev_err_probe() sounds reasonable, but this is something which should be done
-in drivers. It is also arguable if this message is "hidden" within a debug
-statement.
+Does this mean that the fixed-function PQ EOTF is
+actually [0, 128] -> [0, 10000]?
 
- drivers/gpu/drm/drm_bridge.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+How do you decode an integer pixel format into [0, 128] so it can be
+fed through PQ EOTF?
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 39e68e45bb124..132180a03c0eb 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -352,13 +352,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	bridge->encoder = NULL;
- 	list_del(&bridge->chain_node);
- 
-+	if (ret != -EPROBE_DEFER) {
- #ifdef CONFIG_OF
--	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
--		  bridge->of_node, encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-+			bridge->of_node, encoder->name, ret);
- #else
--	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
--		  encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-+			encoder->name, ret);
- #endif
-+	}
- 
- 	return ret;
- }
--- 
-2.34.1
+And how do blocks after the PQ EOTF deal with the [0, 10000] domain,
+when any other EOTF would produce [0, 1]?
+
+
+Thanks,
+pq
+
+> 
+> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+> Co-developed-by: Melissa Wen <mwen@igalia.com>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |  4 ++++
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  | 14 ++++++++++++++
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |  6 ++++++
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 13 +++++++++++++
+>  4 files changed, 37 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> index 6ef958a14e16..66bae0eed80c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> @@ -359,6 +359,10 @@ struct amdgpu_mode_info {
+>  	 * to go from scanout/encoded values to linear values.
+>  	 */
+>  	struct drm_property *plane_degamma_tf_property;
+> +	/**
+> +	 * @plane_hdr_mult_property:
+> +	 */
+> +	struct drm_property *plane_hdr_mult_property;
+>  };
+>  
+>  #define AMDGPU_MAX_BL_LEVEL 0xFF
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index f6251ed89684..44f17ac11a5f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -54,6 +54,9 @@
+>  #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
+>  #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
+>  #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_VERSION_3 0x3
+> +
+> +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
+> +
+>  /*
+>  #include "include/amdgpu_dal_power_if.h"
+>  #include "amdgpu_dm_irq.h"
+> @@ -755,6 +758,17 @@ struct dm_plane_state {
+>  	 * linearize.
+>  	 */
+>  	enum amdgpu_transfer_function degamma_tf;
+> +	/**
+> +	 * @hdr_mult:
+> +	 *
+> +	 * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
+> +	 * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
+> +	 * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
+> +	 * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
+> +	 * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
+> +	 * S31.32 sign-magnitude.
+> +	 */
+> +	__u64 hdr_mult;
+>  };
+>  
+>  struct dm_crtc_state {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index 7f13bcdaf016..b891aaf5f7c1 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -203,6 +203,12 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+>  		return -ENOMEM;
+>  	adev->mode_info.plane_degamma_tf_property = prop;
+>  
+> +	prop = drm_property_create_range(adev_to_drm(adev),
+> +					 0, "AMD_PLANE_HDR_MULT", 0, U64_MAX);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	adev->mode_info.plane_hdr_mult_property = prop;
+> +
+>  	return 0;
+>  }
+>  #endif
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 0a955abb1abf..ab7f0332c431 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1331,6 +1331,7 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
+>  
+>  	__drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
+>  	amdgpu_state->degamma_tf = AMDGPU_TRANSFER_FUNCTION_DEFAULT;
+> +	amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
+>  }
+>  
+>  static struct drm_plane_state *
+> @@ -1354,6 +1355,7 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+>  		drm_property_blob_get(dm_plane_state->degamma_lut);
+>  
+>  	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
+> +	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+>  
+>  	return &dm_plane_state->base;
+>  }
+> @@ -1450,6 +1452,10 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+>  					   dm->adev->mode_info.plane_degamma_tf_property,
+>  					   AMDGPU_TRANSFER_FUNCTION_DEFAULT);
+>  	}
+> +	/* HDR MULT is always available */
+> +	drm_object_attach_property(&plane->base,
+> +				   dm->adev->mode_info.plane_hdr_mult_property,
+> +				   AMDGPU_HDR_MULT_DEFAULT);
+>  }
+>  
+>  static int
+> @@ -1476,6 +1482,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+>  			dm_plane_state->degamma_tf = val;
+>  			dm_plane_state->base.color_mgmt_changed = 1;
+>  		}
+> +	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+> +		if (dm_plane_state->hdr_mult != val) {
+> +			dm_plane_state->hdr_mult = val;
+> +			dm_plane_state->base.color_mgmt_changed = 1;
+> +		}
+>  	} else {
+>  		drm_dbg_atomic(plane->dev,
+>  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+> @@ -1501,6 +1512,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+>  			dm_plane_state->degamma_lut->base.id : 0;
+>  	} else if (property == adev->mode_info.plane_degamma_tf_property) {
+>  		*val = dm_plane_state->degamma_tf;
+> +	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+> +		*val = dm_plane_state->hdr_mult;
+>  	} else {
+>  		return -EINVAL;
+>  	}
 
