@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08896784041
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:02:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884ED78403A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB610E32C;
-	Tue, 22 Aug 2023 12:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA2010E334;
+	Tue, 22 Aug 2023 12:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03E2F10E32C;
- Tue, 22 Aug 2023 12:02:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD25210E334;
+ Tue, 22 Aug 2023 12:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692705768; x=1724241768;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8+cwU/WconM5vRP1J4pvZXPwxkqU0WDUGLdSnnM/Ce4=;
- b=hHERWe4z0wRgFNwhKaH7Azc3R0sOowKSHX6tT3ZAC15SY/v2GPtgzmj/
- Zj7Gcg3VvRBLX4eCtat1Hk2d/cb+XbWyNyKJ8thKkJghs6qt0KKlQfrcv
- ODe9M+Xji9RaEEhuozVp0t0eBhdWrlKM7c+3TSzf5eKiVuB+qHpizg7Rq
- DUeYpJMqPZjfDxCwrbYfhP2y8EhNlw2ds10Am1albkxP9OHZkdkCklEga
- XhBjakNACTlg477e1W7OSIgqlZHQ3J7Viyvmg8TzSSrLHVZEBPiDCyDiO
- nRJHuNMQW6q16/T6zFcojvkVnLe73RY+ch0Ym3zHO7nGIJ4v6C3w7+EiF A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="364022987"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="364022987"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 05:02:03 -0700
+ t=1692705718; x=1724241718;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=hbLWwqAMtEUbuE7b/pMMVY9k3Y9bSqZEWMUgQEGGXZA=;
+ b=WBTD9zXBDjT5GXjLJ1dfbyT5YnQnzY5/Ouc6gmmRlHjPXXCkO/yIqyVm
+ t03+hrTWvsTSr9gwjEFuTRd7yALRqpTs83BqMsI5IenFayCFI8a5rfUAo
+ yUFBylUG3RcEP2mvMrMplpG/QJgtmGo8CqIizEI3xTSjG1X5g8YSfE1Et
+ XGR1L85bvwXfOZLuo04MAXJTQywZY7WUaCth9mxIV7d0xxfjAec7UU518
+ q12ynaV6+uWAKYIrlC6c8eXiB1fRZXmaJT4IlB6nRTpcqBq2qz3+vJSI5
+ zJ+Bwp3L+8wsnD5jH19GSfW2/tButofUsE2EeD2Zcfew4+eqgTxYL/7cY g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354198179"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="354198179"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2023 05:01:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="729794702"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="729794702"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="910070621"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="910070621"
 Received: from kainaats-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.42.230])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 05:01:46 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2023 05:01:53 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 0/4] drm/amd/display: stop using
- drm_edid_override_connector_update()
-Date: Tue, 22 Aug 2023 15:01:36 +0300
-Message-Id: <cover.1692705543.git.jani.nikula@intel.com>
+Subject: [PATCH 1/4] Revert "drm/amd/display: drop unused count variable in
+ create_eml_sink()"
+Date: Tue, 22 Aug 2023 15:01:37 +0300
+Message-Id: <e3fabd6e619b258ae10d89a09da79f8e71b99b64.1692705543.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1692705543.git.jani.nikula@intel.com>
+References: <cover.1692705543.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
@@ -68,13 +70,9 @@ Cc: Chao-kai Wang <Stylon.Wang@amd.com>, jani.nikula@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Over the past years I've been trying to unify the override and firmware
-EDID handling as well as EDID property updates. It won't work if drivers
-do their own random things.
+This reverts commit 8789989b476b5f3bb0bf1a63b5223f6e76cfd13d.
 
-BR,
-Jani.
-
+Dependency for reverting the next commit cleanly.
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Alex Hung <alex.hung@amd.com>
@@ -87,18 +85,26 @@ Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Cc: Wenchieh Chien <wenchieh.chien@amd.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Jani Nikula (4):
-  Revert "drm/amd/display: drop unused count variable in
-    create_eml_sink()"
-  Revert "drm/amd/display: assign edid_blob_ptr with edid from debugfs"
-  Revert "drm/amd/display: mark amdgpu_dm_connector_funcs_force static"
-  Revert "drm/amd/display: implement force function in
-    amdgpu_dm_connector_funcs"
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 44 +++----------------
- 1 file changed, 5 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 268cb99a4c4b..3e132438bc13 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6373,8 +6373,9 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+ 		/* if connector->edid_override valid, pass
+ 		 * it to edid_override to edid_blob_ptr
+ 		 */
++		int count;
+ 
+-		drm_edid_override_connector_update(&aconnector->base);
++		count = drm_edid_override_connector_update(&aconnector->base);
+ 
+ 		if (!aconnector->base.edid_blob_ptr) {
+ 			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
 -- 
 2.39.2
 
