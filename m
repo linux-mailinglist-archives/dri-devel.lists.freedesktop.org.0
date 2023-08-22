@@ -1,73 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02F078448D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 16:41:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD51D7844BC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 16:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C4410E38A;
-	Tue, 22 Aug 2023 14:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC09410E1D7;
+	Tue, 22 Aug 2023 14:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB6210E1D7
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 14:41:22 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-500772c7889so1111185e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 07:41:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1692715280; x=1693320080;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DjPSXU9vRFZmzcE0RnI7FKpj3y4XibRxN7JQdeXEp4M=;
- b=U8lomFMdmh65X/Z05DVugAI/HIW2IZ6SA+VXKoHhtWkeaJ4IWbZlj8hRRlolIc9PVq
- ex/kzt5kWAX6N7iAyuwdPzdGy8F714BPwcduqQg8KsJ5MVwFZBkNMCfS958BGWNOQfz3
- azTD7cTawpFksFrO9XajyOMn16GCyFNqpZYCA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692715280; x=1693320080;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DjPSXU9vRFZmzcE0RnI7FKpj3y4XibRxN7JQdeXEp4M=;
- b=OGfaw2fjLs4QwddGiFypQM/rVkbwvunHi0xdmmFnyK20f0yexONxM2E13ESVOdMFbK
- Zhz70Jx0S07nlU6b9w8BAvpr41fUsHJfV8syUXt3LJuUyzU+asZ/BnH947DfyVXZGrBl
- ERkOFj33W02aytXDycjrVqr7pWhXSqlkBEtr8whfKyo36GQ1SIMoO2E+hTik06BOYIc6
- KNEL1rOOeloAUIg84kAtsHcb9rkft8R7OS+FM1Hwz/igrA2lDN3UBkARg/Uh8uJwZ9HW
- PXqHLv6JdlASPaqBqVtemJycnQiTchx8qO32v5nNMTuAYiJnoONzV+hxe7dX0ZM5+dSb
- CYmw==
-X-Gm-Message-State: AOJu0YzCCJIpDaffnMCA1ikj8/oDPHrhSA7nzCTg3kvIfXVCjxlZiTyw
- I+rl44CIpxCyeknR0u2caX/ZRrHtDXavo5x+uqM=
-X-Google-Smtp-Source: AGHT+IGWAYDi69QV43DfY/Bg0MVqNhkMQYtcGEEfawQ6qCRP6mHqo370ttAQV/MSmDAFTYOpZIboWA==
-X-Received: by 2002:a19:c512:0:b0:4fd:d0f7:5b90 with SMTP id
- w18-20020a19c512000000b004fdd0f75b90mr6247947lfe.4.1692715280130; 
- Tue, 22 Aug 2023 07:41:20 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- d19-20020a056402517300b005272523b162sm7603460ede.69.2023.08.22.07.41.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Aug 2023 07:41:19 -0700 (PDT)
-Date: Tue, 22 Aug 2023 16:41:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646FC10E1D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 14:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692715905; x=1724251905;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=OX7Pj2Q2LK76Q8Stxn/xyJU6l2MEuoC2QmDhxxoblig=;
+ b=gADo1f8BYtKtbuIFfC1EtCHgNwH/JTRP37J7Odzbph3hEC9M+zIcgfU4
+ yfUZQx5okD5gGeQqMxvugee6g1J4WTeBf4T1mqpUut5Rg+uznZ18Xdg1n
+ +twlREEkCN1gqKw7qUBq6D6v0i1/bwgZAugMnjYsd91gsAKKbxh6eMtbU
+ Uhp8KbzWK3jQu46Rc0WSr3Mng+j8gLOK7N5ifgtvdkqF9MZ+2y79MystO
+ /PEMHfsLZAi2BcI26EN8E+51TZMFF9W6FDMm7BCnW6EyjByv25awZQ0P1
+ PieYNZdyDWxNHxSZcbGrZDg8Vieop6Hy9qlSBQgJGQCrnVVkTmcnG8hPm w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="353468281"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="353468281"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2023 07:51:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="739330839"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="739330839"
+Received: from kainaats-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.230])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2023 07:51:42 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Emma Anholt
+ <emma@anholt.net>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH RFC 00/13] drm/connector: Create HDMI Connector
  infrastructure
-Message-ID: <ZOTJDXQMc0+h8nWt@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Emma Anholt <emma@anholt.net>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+In-Reply-To: <sh3f7nuks7cww43ajz2iwrgzkxbqpk7752iu4pj4vtwaiv76x4@itnf6f2mnbgn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org>
  <ZOTDKHxn2bOg+Xmg@phenom.ffwll.local>
  <sh3f7nuks7cww43ajz2iwrgzkxbqpk7752iu4pj4vtwaiv76x4@itnf6f2mnbgn>
+Date: Tue, 22 Aug 2023 17:51:39 +0300
+Message-ID: <87pm3f5dvo.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sh3f7nuks7cww43ajz2iwrgzkxbqpk7752iu4pj4vtwaiv76x4@itnf6f2mnbgn>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,103 +64,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 22, 2023 at 04:35:55PM +0200, Maxime Ripard wrote:
+On Tue, 22 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
 > Hi,
-> 
+>
 > On Tue, Aug 22, 2023 at 04:16:08PM +0200, Daniel Vetter wrote:
-> > On Mon, Aug 14, 2023 at 03:56:12PM +0200, Maxime Ripard wrote:
-> > > Here's a series that creates a subclass of drm_connector specifically
-> > > targeted at HDMI controllers.
-> > > 
-> > > The idea behind this series came from a recent discussion on IRC during
-> > > which we discussed infoframes generation of i915 vs everything else. 
-> > > 
-> > > Infoframes generation code still requires some decent boilerplate, with
-> > > each driver doing some variation of it.
-> > > 
-> > > In parallel, while working on vc4, we ended up converting a lot of i915
-> > > logic (mostly around format / bpc selection, and scrambler setup) to
-> > > apply on top of a driver that relies only on helpers.
-> > > 
-> > > While currently sitting in the vc4 driver, none of that logic actually
-> > > relies on any driver or hardware-specific behaviour.
-> > > 
-> > > The only missing piec to make it shareable are a bunch of extra
-> > > variables stored in a state (current bpc, format, RGB range selection,
-> > > etc.).
-> > > 
-> > > Thus, I decided to create some generic subclass of drm_connector to
-> > > address HDMI connectors, with a bunch of helpers that will take care of
-> > > all the "HDMI Spec" related code. Scrambler setup is missing at the
-> > > moment but can easily be plugged in.
-> > > 
-> > > Last week, Hans Verkuil also expressed interest in retrieving the
-> > > infoframes generated from userspace to create an infoframe-decode tool.
-> > > This series thus leverages the infoframe generation code to expose it
-> > > through debugfs.
-> > > 
-> > > This entire series is only build-tested at the moment. Let me know what
-> > > you think,
-> >
-> > I think the idea overall makes sense, we we probably need it to roll out
-> > actual hdmi support to all the hdmi drivers we have. But there's the
-> > eternal issue of "C sucks at multiple inheritance".
-> > 
-> > Which means if you have a driver that subclasses drm_connector already for
-> > it's driver needs it defacto cannot, or only under some serious pains, use
-> > this.
-> 
+>> On Mon, Aug 14, 2023 at 03:56:12PM +0200, Maxime Ripard wrote:
+>> > Here's a series that creates a subclass of drm_connector specifically
+>> > targeted at HDMI controllers.
+>> > 
+>> > The idea behind this series came from a recent discussion on IRC during
+>> > which we discussed infoframes generation of i915 vs everything else. 
+>> > 
+>> > Infoframes generation code still requires some decent boilerplate, with
+>> > each driver doing some variation of it.
+>> > 
+>> > In parallel, while working on vc4, we ended up converting a lot of i915
+>> > logic (mostly around format / bpc selection, and scrambler setup) to
+>> > apply on top of a driver that relies only on helpers.
+>> > 
+>> > While currently sitting in the vc4 driver, none of that logic actually
+>> > relies on any driver or hardware-specific behaviour.
+>> > 
+>> > The only missing piec to make it shareable are a bunch of extra
+>> > variables stored in a state (current bpc, format, RGB range selection,
+>> > etc.).
+>> > 
+>> > Thus, I decided to create some generic subclass of drm_connector to
+>> > address HDMI connectors, with a bunch of helpers that will take care of
+>> > all the "HDMI Spec" related code. Scrambler setup is missing at the
+>> > moment but can easily be plugged in.
+>> > 
+>> > Last week, Hans Verkuil also expressed interest in retrieving the
+>> > infoframes generated from userspace to create an infoframe-decode tool.
+>> > This series thus leverages the infoframe generation code to expose it
+>> > through debugfs.
+>> > 
+>> > This entire series is only build-tested at the moment. Let me know what
+>> > you think,
+>>
+>> I think the idea overall makes sense, we we probably need it to roll out
+>> actual hdmi support to all the hdmi drivers we have. But there's the
+>> eternal issue of "C sucks at multiple inheritance".
+>> 
+>> Which means if you have a driver that subclasses drm_connector already for
+>> it's driver needs it defacto cannot, or only under some serious pains, use
+>> this.
+>
 > That's what vc4 is doing, and it went fine I think? it was mostly a
 > matter of subclassing drm_hdmi_connector instead of drm_connector, and
 > adjusting the various pointers and accessors here and there.
-> 
+>
 > It does create a fairly big diffstat, but nothing too painful.
 
-Yeah it's the massive churn that's the pain for refactoring existing
-bigger drivers.
+The main pain point is not the diffstat per se, but that *all* casts to
+subclass need to check what the connector type is before doing
+so. You'll also get fun NULL conditions that you need to check and
+handle if the type isn't what you'd like it to be.
 
-Plus what do you do when you both need a hdmi connector and a dp connector
-(or a writeback connector).
+Currently i915 can just assume all drm_connectors it encounters are
+intel_connectors that it created, always.
 
-> > Which is kinda why in practice we tend to not subclass, but stuff
-> > subclass fields into a name sub-structure. So essentially struct
-> > drm_connector.hdmi and struct drm_connector_state.hdmi instead of
-> > drm_hdmi_connector and drm_hdmi_connector_state. The helper functions to
-> > set it all up would all still be the same roughly. It's less typesafe but
-> > I think the gain in practical use (like you could make i915 use the
-> > helpers probably, which with this approach here is practically
-> > impossible).
-> 
+Basically this has blocked the writeback connector stuff for a few years
+now in i915, because writeback forces a different subclassing, and what
+should be a small change in i915 turns into huge churn.
+
+BR,
+Jani.
+
+
+>
+>> Which is kinda why in practice we tend to not subclass, but stuff
+>> subclass fields into a name sub-structure. So essentially struct
+>> drm_connector.hdmi and struct drm_connector_state.hdmi instead of
+>> drm_hdmi_connector and drm_hdmi_connector_state. The helper functions to
+>> set it all up would all still be the same roughly. It's less typesafe but
+>> I think the gain in practical use (like you could make i915 use the
+>> helpers probably, which with this approach here is practically
+>> impossible).
+>
 > Ack.
-> 
-> > The only other nit is that we probably want to put some of the hdmi
-> > properties into struct drm_mode_config because there's no reason to have
-> > per-connector valid values.
-> 
+>
+>> The only other nit is that we probably want to put some of the hdmi
+>> properties into struct drm_mode_config because there's no reason to have
+>> per-connector valid values.
+>
 > What property would you want to move?
-
-The rgb broadcast property looked very much like it's connector invariant.
-Just the one I noticed, I didn't check all the others.
-
-> > Also, it might be really good if you can find a co-conspirator who also
-> > wants to use this in their driver, then with some i915 extracting we'd
-> > have three, which should ensure the helper api is solid.
-> 
+>
+>> Also, it might be really good if you can find a co-conspirator who also
+>> wants to use this in their driver, then with some i915 extracting we'd
+>> have three, which should ensure the helper api is solid.
+>
 > I can convert sunxi (old) HDMI driver if needed. I'm not sure how
 > helpful it would be since it doesn't support bpc > 8, but it could be a
 > nice showcase still for "simple" HDMI controllers.
+>
+> Maxime
 
-Yeah that might be good. Or perhaps poke Rob Clark whether msm is
-interested and someone could do a conversion for dpu5 or so?
-
-Cheers, Sima
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
