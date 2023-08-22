@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C168C783F59
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42531783F5A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F5D10E312;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D072210E318;
 	Tue, 22 Aug 2023 11:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0CDD10E315;
- Tue, 22 Aug 2023 11:36:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EEB510E316;
+ Tue, 22 Aug 2023 11:36:58 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3DB7265391;
- Tue, 22 Aug 2023 11:36:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56497C433C7;
- Tue, 22 Aug 2023 11:36:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0162B630FE;
+ Tue, 22 Aug 2023 11:36:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D2B1C433CC;
+ Tue, 22 Aug 2023 11:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692704215;
- bh=RtM9u0uoMbgmNToEvBrFSxc6qVE4GpINtMqKgqKlNZs=;
+ s=k20201202; t=1692704217;
+ bh=HQ5QJJSN08885TpSRXm2hpmGX0bb7s0BUTyJfKB4e4g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nlCO8JILx2/sQU223bAHldomQVM4w/IogwmDZw5LZAafaJXhk5gwHMtl2U/mKmi2O
- o8PGj9NthuLDD9ueSxuM+Yr8xzLhHprMv+F18YRj9Nh9Uo8DwFrBUwza/F1b5PZ9Of
- Tr88vSSF9JEZJ4oBILgx+80anzfw0MQUSqgYoV0ks+xXa+VivImR7tkrYfk5U/dAuk
- 8XhkZSaquEQUZc+E4fvCD3SVoI9VVhzDfMvvz4AWoEWBlw7DvOG+E6r6Bcjwi5fSKy
- pARUs6I8dMPwrrUizUQVrJnxctoszOk45WRPnmJ608C53B01NXpEFLlAvJT2K6yn0D
- b4ZpbOfzEyYKw==
+ b=aZDfW2o8DD10haGwV8Wa0KtdqTK9HRuzF1F2cP5YCyQZLnjGE2zxdvSDbkVXiL5HO
+ yytBSkOZw3nQW0vlDtFlZ51G+NeqhqVKmqeoZa9D15UkLqGOGJikum8DSvn2w929Iu
+ aBAx4FU7lJPT9S1aZ7iYk+thSWrSYzfhaVZLJTLZ85cDIP27sKvgEMhjtmofoqQeQ/
+ 8+RwJoueg2LiLegKec41EIreqiP6ZLZMAz62CzFkkYM01u62EJuP//Ra6DwJwvH242
+ eNZHw7vvUqJDOpsZaSxEMd+7iFQHul07XMHft48nsJtJY7g7yHsIllPZKdIaS0N9wE
+ OtzjXTuy5D7tA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 09/10] drm/amdkfd: disable IOMMUv2 support for
- KV/CZ
-Date: Tue, 22 Aug 2023 07:36:27 -0400
-Message-Id: <20230822113628.3551393-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/10] drm/amdkfd: disable IOMMUv2 support for
+ Raven
+Date: Tue, 22 Aug 2023 07:36:28 -0400
+Message-Id: <20230822113628.3551393-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230822113628.3551393-1-sashal@kernel.org>
 References: <20230822113628.3551393-1-sashal@kernel.org>
@@ -68,7 +67,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 616f92d188ee7142a95a52068efdbea82645f859 ]
+[ Upstream commit 091ae5473f96ced844af6ba39b94757359b12348 ]
 
 Use the dGPU path instead.  There were a lot of platform
 issues with IOMMU in general on these chips due to windows
@@ -76,73 +75,47 @@ not enabling IOMMU at the time.  The dGPU path has been
 used for a long time with newer APUs and works fine.  This
 also paves the way to simplify the driver significantly.
 
-v2: use the dGPU queue manager functions
-
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Acked-by: Christian König <christian.koenig@amd.com>
 Tested-by: Mike Lothian <mike@fireburn.co.uk>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c               | 6 ------
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 8 +-------
- 2 files changed, 1 insertion(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 27820f0a282d1..4cc5debdd119b 100644
+index 4cc5debdd119b..af18378e58d9f 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -216,10 +216,6 @@ static void kfd_device_info_init(struct kfd_dev *kfd,
- 		    asic_type != CHIP_TONGA)
- 			kfd->device_info.supports_cwsr = true;
+@@ -185,11 +185,6 @@ static void kfd_device_info_init(struct kfd_dev *kfd,
  
--		if (asic_type == CHIP_KAVERI ||
--		    asic_type == CHIP_CARRIZO)
+ 		kfd_device_info_set_event_interrupt_class(kfd);
+ 
+-		/* Raven */
+-		if (gc_version == IP_VERSION(9, 1, 0) ||
+-		    gc_version == IP_VERSION(9, 2, 2))
 -			kfd->device_info.needs_iommu_device = true;
 -
- 		if (asic_type != CHIP_HAWAII && !vf)
- 			kfd->device_info.needs_pci_atomics = true;
- 	}
-@@ -233,7 +229,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
- 	uint32_t gfx_target_version = 0;
- 
- 	switch (adev->asic_type) {
+ 		if (gc_version < IP_VERSION(11, 0, 0)) {
+ 			/* Navi2x+, Navi1x+ */
+ 			if (gc_version == IP_VERSION(10, 3, 6))
+@@ -287,7 +282,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
+ 			gfx_target_version = 90000;
+ 			f2g = &gfx_v9_kfd2kgd;
+ 			break;
 -#ifdef KFD_SUPPORT_IOMMU_V2
- #ifdef CONFIG_DRM_AMDGPU_CIK
- 	case CHIP_KAVERI:
- 		gfx_target_version = 70000;
-@@ -246,7 +241,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
- 		if (!vf)
- 			f2g = &gfx_v8_kfd2kgd;
- 		break;
+ 		/* Raven */
+ 		case IP_VERSION(9, 1, 0):
+ 		case IP_VERSION(9, 2, 2):
+@@ -295,7 +289,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
+ 			if (!vf)
+ 				f2g = &gfx_v9_kfd2kgd;
+ 			break;
 -#endif
- #ifdef CONFIG_DRM_AMDGPU_CIK
- 	case CHIP_HAWAII:
- 		gfx_target_version = 70001;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index c06ada0844ba1..5616a722578f5 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -2335,18 +2335,12 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_dev *dev)
- 	}
- 
- 	switch (dev->adev->asic_type) {
--	case CHIP_CARRIZO:
--		device_queue_manager_init_vi(&dqm->asic_ops);
--		break;
--
- 	case CHIP_KAVERI:
--		device_queue_manager_init_cik(&dqm->asic_ops);
--		break;
--
- 	case CHIP_HAWAII:
- 		device_queue_manager_init_cik_hawaii(&dqm->asic_ops);
- 		break;
- 
-+	case CHIP_CARRIZO:
- 	case CHIP_TONGA:
- 	case CHIP_FIJI:
- 	case CHIP_POLARIS10:
+ 		/* Vega12 */
+ 		case IP_VERSION(9, 2, 1):
+ 			gfx_target_version = 90004;
 -- 
 2.40.1
 
