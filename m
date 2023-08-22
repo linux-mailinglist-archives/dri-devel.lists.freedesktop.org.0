@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0977846F6
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:20:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9557F7846FC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4569D10E058;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C58610E38D;
 	Tue, 22 Aug 2023 16:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E1B10E3A5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:20:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03ABF10E3A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:20:14 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9F0336B0;
- Tue, 22 Aug 2023 18:18:53 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0181187F4;
+ Tue, 22 Aug 2023 18:18:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692721134;
- bh=UQfbU8kmQ1NMbV6210va0bTKM4DlJntc4Wr7ZDriq80=;
+ s=mail; t=1692721135;
+ bh=LO6DVrF7Wy//586q71JqmvhJ6yqjCtp6tNE4HEdX3hc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=doP/yVgRkwP/1Jbnzf0ctCJUKWITMmRBv7kjRWotm8NXjLrbuyL+URW5F1p8eM1aI
- 5svFvlDinzCzjnJ49XZpnkwqnOK8k3l5EYxATv6uH0RXiyVoUjjtq9PUgsN5hBgPSM
- UtNlfJ9ftw1ZaCIA+iX6UoY+0P19RHdPtevcitS4=
+ b=CQNJQdUewY94WUFp9YPll+PZlDY1phdM4tVllfLf9tWDLtfljBMn7CgXk95lIJeMJ
+ VqFB/z4vpcxTbOBRpsaIfxiBFu2iqUrU2RohOpTOegdhKeCDlTBxtnWf7drjLPMgKh
+ jMK9q0I4Spa4gups2zh4fGRoadXnLpbgVtQg6SEI=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 22 Aug 2023 19:19:43 +0300
-Subject: [PATCH v3 10/12] drm/bridge: tc358768: Clean up clock period code
+Date: Tue, 22 Aug 2023 19:19:44 +0300
+Subject: [PATCH v3 11/12] drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230822-tc358768-v3-10-c82405dac0c1@ideasonboard.com>
+Message-Id: <20230822-tc358768-v3-11-c82405dac0c1@ideasonboard.com>
 References: <20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com>
 In-Reply-To: <20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -41,21 +41,21 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, 
  Francesco Dolcini <francesco@dolcini.it>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6559;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=956;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=UQfbU8kmQ1NMbV6210va0bTKM4DlJntc4Wr7ZDriq80=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk5OAuN8ne0D1+aW0NtJ5yYT7ESoXj2mJwaDJ7K
- lg0E5jwV4yJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZOTgLgAKCRD6PaqMvJYe
- 9casD/9QRxPXhZMK2eSaLMw26lLfc4RH2Y3zT2n6Xbfdvq9k7Omcq4SHH8UuxQ2Ra5PNNpbablM
- g089d9QUrKHWR8I2mi+sbYNvnl2/bn4R/zfpKfAVXorF6PjM/XOGYrV9SlNhX20gc0HUNMyqm3o
- xH6rjoYBMXpBpCE8gKfXU7A4G6/E2myRhm4U4TheohUfzahgJBgKNuFSHvScz0EaxJSCaFY8qnH
- 2ZEDN0rF+XqmIQlbnlZYB7T2JHxgqpjmhWH8BZz9JbBBzcowevFWp0TL/gmJ41AuXDG9NfsalAc
- LFON6dBDhQMeZO89XFjTs91TYOo1heouXhGYD0YVFUALVd/a2pxg+4c5JoPijEyjjWQ2fmi11fz
- VMupbDy/s7KCilF3OrjpaV8shfIybHm5ehPenYvqd8Mh6rw2U653cZ/1CPzy+SCBRrtdw/J56/O
- z23q2pHfseE+kr7dJs7Daltef7jackQloiGPvy7eZTOfNrrx2+puzkSNRoCfcg1jP3jY/fXiwvb
- vK4RhyS6hDjtNLAZt9XXmU/R9BVKEpOPTzM4Fv6iJom3GIZg/66vqt2qTX7ZivDrUle430qauwC
- vanQaTNHNuWSzZihSwGRq/S21nobCNVVHQsXVYaF8x7hK0EaQaXY5+0rYk8KdGrcckuquM4Gfyw
- mhLfEJNqI6FsZGg==
+ bh=LO6DVrF7Wy//586q71JqmvhJ6yqjCtp6tNE4HEdX3hc=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk5OAuWjKWskwExcfKQDmgn/U8rq857fNH5jATm
+ ZR/kqZaJDiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZOTgLgAKCRD6PaqMvJYe
+ 9ZwAEACr5jOQagaCCvcZpT8sfneYHY7YPSelKldZoR04bQCAK7S5k5aa3SpTIQ/EeTBc53dOjkq
+ ewlV4E2veNj+RKf5HA8f243swDg9tdU4WBj60XglDh1JCKwEgkaWDSYzgZnKtXuH2pz9MGv5oKd
+ VbBaBkEiU3f+AxL+tLLHS5fifFJIJ08ZMSjhLuo82pQYJ9BSOGQPzmDFLkW3kQUgE38rgrHh3mw
+ jEAKEqSbd6c5EejvSEq7ynzJDVB0I4i6iJtiIJuXdVh7uIBwqRdtvRXrpRRHIza2Kg/LRRCwGV4
+ /OB8+3sRs1HaQzT1o75L+Zro0IJlJBlkDNgJ2DZAkISO1Yfk+83vFod1nhDow5Nmvg7L+rW9fqN
+ RVImT2DTJb9H297Xf9TFVrg96UWwUd9pI2OTsc0xnDo5lNYV45Nq5w6KOacgvfT9v42Zf9c9oC1
+ mglS612hxEXQg1q3ES2jiwHWpPVp8EaP0qLSryjMKhaVD18dsClBh779ZCG2jNbrx6wakpfHLf4
+ 4DEl1eRGAFULetw0heN5UGHyiw+6J+CGbCQVtX+T6xQHNO0DFSaovXA4twlKXtHdHVHzQ8YVTEG
+ u6xJOQtqgQO/cjNe8MDQQaRt0A2hMoooMU9wqyd4I3OOf2U94/WccXaKBsFzr3SriP+GMOdsiNj
+ LimPFRnaGpghTFQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,163 +76,31 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver defines TC358768_PRECISION as 1000, and uses "nsk" to refer
-to clock periods. The original author does not remember where all this
-came from. Effectively the driver is using picoseconds as the unit for
-clock periods, yet referring to them by "nsk".
+The tc358768_ns_to_cnt() is, most likely, supposed to do a div-round-up
+operation, but it misses subtracting one from the dividend.
 
-Clean this up by just saying the periods are in picoseconds.
+Fix this by just using DIV_ROUND_UP().
 
+Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
 Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 60 +++++++++++++++++++--------------------
- 1 file changed, 29 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 0f117d673b14..9ce8d120b50c 100644
+index 9ce8d120b50c..f41bf56b7d6b 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -15,6 +15,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
-+#include <linux/units.h>
+@@ -630,7 +630,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-@@ -627,15 +628,14 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
- 	return tc358768_clear_error(priv);
- }
- 
--#define TC358768_PRECISION	1000
--static u32 tc358768_ns_to_cnt(u32 ns, u32 period_nsk)
-+static u32 tc358768_ns_to_cnt(u32 ns, u32 period_ps)
+ static u32 tc358768_ns_to_cnt(u32 ns, u32 period_ps)
  {
--	return (ns * TC358768_PRECISION + period_nsk) / period_nsk;
-+	return (ns * 1000 + period_ps) / period_ps;
+-	return (ns * 1000 + period_ps) / period_ps;
++	return DIV_ROUND_UP(ns * 1000, period_ps);
  }
  
--static u32 tc358768_to_ns(u32 nsk)
-+static u32 tc358768_ps_to_ns(u32 ps)
- {
--	return (nsk / TC358768_PRECISION);
-+	return ps / 1000;
- }
- 
- static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
-@@ -646,7 +646,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	u32 val, val2, lptxcnt, hact, data_type;
- 	s32 raw_val;
- 	const struct drm_display_mode *mode;
--	u32 hsbyteclk_nsk, dsiclk_nsk, ui_nsk;
-+	u32 hsbyteclk_ps, dsiclk_ps, ui_ps;
- 	u32 dsiclk, hsbyteclk, video_start;
- 	const u32 internal_delay = 40;
- 	int ret, i;
-@@ -730,67 +730,65 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		tc358768_write(priv, TC358768_D0W_CNTRL + i * 4, 0x0000);
- 
- 	/* DSI Timings */
--	hsbyteclk_nsk = (u32)div_u64((u64)1000000000 * TC358768_PRECISION,
--				  hsbyteclk);
--	dsiclk_nsk = (u32)div_u64((u64)1000000000 * TC358768_PRECISION, dsiclk);
--	ui_nsk = dsiclk_nsk / 2;
--	dev_dbg(dev, "dsiclk_nsk: %u\n", dsiclk_nsk);
--	dev_dbg(dev, "ui_nsk: %u\n", ui_nsk);
--	dev_dbg(dev, "hsbyteclk_nsk: %u\n", hsbyteclk_nsk);
-+	hsbyteclk_ps = (u32)div_u64(PICO, hsbyteclk);
-+	dsiclk_ps = (u32)div_u64(PICO, dsiclk);
-+	ui_ps = dsiclk_ps / 2;
-+	dev_dbg(dev, "dsiclk: %u ps, ui %u ps, hsbyteclk %u ps\n", dsiclk_ps,
-+		ui_ps, hsbyteclk_ps);
- 
- 	/* LP11 > 100us for D-PHY Rx Init */
--	val = tc358768_ns_to_cnt(100 * 1000, hsbyteclk_nsk) - 1;
-+	val = tc358768_ns_to_cnt(100 * 1000, hsbyteclk_ps) - 1;
- 	dev_dbg(dev, "LINEINITCNT: %u\n", val);
- 	tc358768_write(priv, TC358768_LINEINITCNT, val);
- 
- 	/* LPTimeCnt > 50ns */
--	val = tc358768_ns_to_cnt(50, hsbyteclk_nsk) - 1;
-+	val = tc358768_ns_to_cnt(50, hsbyteclk_ps) - 1;
- 	lptxcnt = val;
- 	dev_dbg(dev, "LPTXTIMECNT: %u\n", val);
- 	tc358768_write(priv, TC358768_LPTXTIMECNT, val);
- 
- 	/* 38ns < TCLK_PREPARE < 95ns */
--	val = tc358768_ns_to_cnt(65, hsbyteclk_nsk) - 1;
-+	val = tc358768_ns_to_cnt(65, hsbyteclk_ps) - 1;
- 	dev_dbg(dev, "TCLK_PREPARECNT %u\n", val);
- 	/* TCLK_PREPARE + TCLK_ZERO > 300ns */
--	val2 = tc358768_ns_to_cnt(300 - tc358768_to_ns(2 * ui_nsk),
--				  hsbyteclk_nsk) - 2;
-+	val2 = tc358768_ns_to_cnt(300 - tc358768_ps_to_ns(2 * ui_ps),
-+				  hsbyteclk_ps) - 2;
- 	dev_dbg(dev, "TCLK_ZEROCNT %u\n", val2);
- 	val |= val2 << 8;
- 	tc358768_write(priv, TC358768_TCLK_HEADERCNT, val);
- 
- 	/* TCLK_TRAIL > 60ns AND TEOT <= 105 ns + 12*UI */
--	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(2 * ui_nsk), hsbyteclk_nsk) - 5;
-+	raw_val = tc358768_ns_to_cnt(60 + tc358768_ps_to_ns(2 * ui_ps), hsbyteclk_ps) - 5;
- 	val = clamp(raw_val, 0, 127);
- 	dev_dbg(dev, "TCLK_TRAILCNT: %u\n", val);
- 	tc358768_write(priv, TC358768_TCLK_TRAILCNT, val);
- 
- 	/* 40ns + 4*UI < THS_PREPARE < 85ns + 6*UI */
--	val = 50 + tc358768_to_ns(4 * ui_nsk);
--	val = tc358768_ns_to_cnt(val, hsbyteclk_nsk) - 1;
-+	val = 50 + tc358768_ps_to_ns(4 * ui_ps);
-+	val = tc358768_ns_to_cnt(val, hsbyteclk_ps) - 1;
- 	dev_dbg(dev, "THS_PREPARECNT %u\n", val);
- 	/* THS_PREPARE + THS_ZERO > 145ns + 10*UI */
--	raw_val = tc358768_ns_to_cnt(145 - tc358768_to_ns(3 * ui_nsk), hsbyteclk_nsk) - 10;
-+	raw_val = tc358768_ns_to_cnt(145 - tc358768_ps_to_ns(3 * ui_ps), hsbyteclk_ps) - 10;
- 	val2 = clamp(raw_val, 0, 127);
- 	dev_dbg(dev, "THS_ZEROCNT %u\n", val2);
- 	val |= val2 << 8;
- 	tc358768_write(priv, TC358768_THS_HEADERCNT, val);
- 
- 	/* TWAKEUP > 1ms in lptxcnt steps */
--	val = tc358768_ns_to_cnt(1020000, hsbyteclk_nsk);
-+	val = tc358768_ns_to_cnt(1020000, hsbyteclk_ps);
- 	val = val / (lptxcnt + 1) - 1;
- 	dev_dbg(dev, "TWAKEUP: %u\n", val);
- 	tc358768_write(priv, TC358768_TWAKEUP, val);
- 
- 	/* TCLK_POSTCNT > 60ns + 52*UI */
--	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(52 * ui_nsk),
--				 hsbyteclk_nsk) - 3;
-+	val = tc358768_ns_to_cnt(60 + tc358768_ps_to_ns(52 * ui_ps),
-+				 hsbyteclk_ps) - 3;
- 	dev_dbg(dev, "TCLK_POSTCNT: %u\n", val);
- 	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
- 
- 	/* max(60ns + 4*UI, 8*UI) < THS_TRAILCNT < 105ns + 12*UI */
--	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(18 * ui_nsk),
--				     hsbyteclk_nsk) - 4;
-+	raw_val = tc358768_ns_to_cnt(60 + tc358768_ps_to_ns(18 * ui_ps),
-+				     hsbyteclk_ps) - 4;
- 	val = clamp(raw_val, 0, 15);
- 	dev_dbg(dev, "THS_TRAILCNT: %u\n", val);
- 	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
-@@ -804,11 +802,11 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		       (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) ? 0 : BIT(0));
- 
- 	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
--	val = tc358768_to_ns((lptxcnt + 1) * hsbyteclk_nsk * 4);
--	val = tc358768_ns_to_cnt(val, hsbyteclk_nsk) / 4 - 1;
-+	val = tc358768_ps_to_ns((lptxcnt + 1) * hsbyteclk_ps * 4);
-+	val = tc358768_ns_to_cnt(val, hsbyteclk_ps) / 4 - 1;
- 	dev_dbg(dev, "TXTAGOCNT: %u\n", val);
--	val2 = tc358768_ns_to_cnt(tc358768_to_ns((lptxcnt + 1) * hsbyteclk_nsk),
--				  hsbyteclk_nsk) - 2;
-+	val2 = tc358768_ns_to_cnt(tc358768_ps_to_ns((lptxcnt + 1) * hsbyteclk_ps),
-+				  hsbyteclk_ps) - 2;
- 	dev_dbg(dev, "RXTASURECNT: %u\n", val2);
- 	val = val << 16 | val2;
- 	tc358768_write(priv, TC358768_BTACNTRL1, val);
+ static u32 tc358768_ps_to_ns(u32 ps)
 
 -- 
 2.34.1
