@@ -1,70 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47DB784178
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 15:02:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BBC784202
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 15:27:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5CF210E356;
-	Tue, 22 Aug 2023 13:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7E810E1DC;
+	Tue, 22 Aug 2023 13:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498FD10E356
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 13:01:54 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-99bf8e5ab39so604732566b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 06:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692709312; x=1693314112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Y7uRU2yw0+QtivPyEBeooJ4wrCrosqZ6/dwHcBFdBSs=;
- b=SxYBFdhM+FN23Ke1aROld8E/mnXIfOwf5+fRpRypDygmsbtwQNFtsig/wbuvh9sjUN
- L2G5i+mPvvugxVV35FJxdLwOCJR/qhzoSUIMkAVoyX1+oMvJFBQdjIWKvbnu4pmKtljj
- v5rOTduUITSQa2eqYwHNgEKPmaClMxMhjfeJDe5pfHHJGbBKuIYmhzHh/f86RBq5U9vD
- HRqZQyJJVFsD7WkBt1gHW8mGmq1ciGbhS89jfS3df1aBJglggcDOTXdobDvJTfE2DgWu
- OYLiuL2+P/sSIP0zWYfJ27SksOKF037+poDkPRE+JLJezZijHS2CFstFD8fWsV2ssv7A
- ag+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692709312; x=1693314112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y7uRU2yw0+QtivPyEBeooJ4wrCrosqZ6/dwHcBFdBSs=;
- b=J34F1LUSmBhBvZbvMzqCP7FGc2HIugaPIDtojPMcElgs6w2YLGiVN4n9oR9uxeZv28
- CPLn2za1bKUhUMJwFcc47wiAURhWJwqANqZnTVJMPqXCZHxmGZglpLFbDHZS9s3mRFO/
- N5zwt1rK8ySA/faeVRKYL2+axTp9bflfeJ2OdiueBg2Ofwg/8ehdTg9q9ZKlFkdj6bnh
- z4ZQL0ZuHPcwZu4PRMUq8CYUO0nrMVj2Z9nMjIWpd2b2/AX5vPMiVilQy3Uhp/auFkzq
- yAnaEzpwu9NnCMg0QvaglESXzUqQOH7gYPzbs4XQef0Bl510FhOXp9ijiLZuGal+dtJa
- GcaQ==
-X-Gm-Message-State: AOJu0YzJtnOGCPGGDF4HaFL1wn2a1u4aKskdXHt1O8hZi0FOnklgkZ4Z
- V3C5o2rJwrt5pAtvqIRg4ss=
-X-Google-Smtp-Source: AGHT+IFmuCYEzWICY1O6jlC2x150UebiypigGJwRb0YaxYsFDA+/ZkpjfqzxgUL6KbUmgjyqPmqpzQ==
-X-Received: by 2002:a17:906:51cb:b0:99c:6bc8:e84b with SMTP id
- v11-20020a17090651cb00b0099c6bc8e84bmr8155533ejk.58.1692709312343; 
- Tue, 22 Aug 2023 06:01:52 -0700 (PDT)
-Received: from [192.168.178.25] ([185.254.126.155])
- by smtp.gmail.com with ESMTPSA id
- v18-20020a170906b01200b0098e78ff1a87sm8221693ejy.120.2023.08.22.06.01.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Aug 2023 06:01:51 -0700 (PDT)
-Message-ID: <a05e0c2e-fd62-4a8e-9fa4-dffaf86f7730@gmail.com>
-Date: Tue, 22 Aug 2023 15:01:50 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A123510E1DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 13:26:57 +0000 (UTC)
+X-UUID: 8c9289c840ef11ee9cb5633481061a41-20230822
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=XmBYoWGzylVDV1lmlCTNWMBiGwgRTxQyh02g5UOnlF4=; 
+ b=Vc8rElcems0pss9uScf2ngO2oHlmN4uBhE+7X7Jn+025m0ZxU3vTuw1/0CpYSvr0A8MjTrpA6zgSyh4dH4rL4LRG+hwnJ8FAafxcy3JEq8Njaia/bSteANHqozhpSMBnxNoh94n+5nMlf9Dgov5zNxx1VPX21MUN5PhqFW9Ezws=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:66a13e43-cbb0-42c6-8ec6-f76c216ae769, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:0ad78a4, CLOUDID:845e25c2-1e57-4345-9d31-31ad9818b39f,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 8c9289c840ef11ee9cb5633481061a41-20230822
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 131545390; Tue, 22 Aug 2023 21:26:49 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 22 Aug 2023 21:26:48 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 22 Aug 2023 21:26:48 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH] drm/mediatek: Add spinlock for setting vblank event in
+ atomic_begin
+Date: Tue, 22 Aug 2023 21:26:46 +0800
+Message-ID: <20230822132646.9811-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Linaro-mm-sig] [PATCH v2] dma-buf/sw_sync: Avoid recursive lock
- during fence signal
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230818145939.39697-1-robdclark@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230818145939.39697-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,83 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- open list <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, dri-devel@lists.freedesktop.org,
+ Shawn Sung <shawn.sung@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.08.23 um 16:59 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
->
-> If a signal callback releases the sw_sync fence, that will trigger a
-> deadlock as the timeline_fence_release recurses onto the fence->lock
-> (used both for signaling and the the timeline tree).
->
-> To avoid that, temporarily hold an extra reference to the signalled
-> fences until after we drop the lock.
->
-> (This is an alternative implementation of https://patchwork.kernel.org/patch/11664717/
-> which avoids some potential UAF issues with the original patch.)
->
-> v2: Remove now obsolete comment, use list_move_tail() and
->      list_del_init()
->
-> Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt free")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Add spinlock protection to avoid race condition on vblank event
+between mtk_drm_crtc_atomic_begin() and mtk_drm_finish_page_flip().
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> ---
->   drivers/dma-buf/sw_sync.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index 63f0aeb66db6..f0a35277fd84 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
->    */
->   static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   {
-> +	LIST_HEAD(signalled);
->   	struct sync_pt *pt, *next;
->   
->   	trace_sync_timeline(obj);
-> @@ -203,21 +204,20 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   		if (!timeline_fence_signaled(&pt->base))
->   			break;
->   
-> -		list_del_init(&pt->link);
-> +		dma_fence_get(&pt->base);
-> +
-> +		list_move_tail(&pt->link, &signalled);
->   		rb_erase(&pt->node, &obj->pt_tree);
->   
-> -		/*
-> -		 * A signal callback may release the last reference to this
-> -		 * fence, causing it to be freed. That operation has to be
-> -		 * last to avoid a use after free inside this loop, and must
-> -		 * be after we remove the fence from the timeline in order to
-> -		 * prevent deadlocking on timeline->lock inside
-> -		 * timeline_fence_release().
-> -		 */
->   		dma_fence_signal_locked(&pt->base);
->   	}
->   
->   	spin_unlock_irq(&obj->lock);
-> +
-> +	list_for_each_entry_safe(pt, next, &signalled, link) {
-> +		list_del_init(&pt->link);
-> +		dma_fence_put(&pt->base);
-> +	}
->   }
->   
->   /**
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d40142842f85..128a672fe3c9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -746,6 +746,9 @@ static void mtk_drm_crtc_atomic_begin(struct drm_crtc *crtc,
+ 									  crtc);
+ 	struct mtk_crtc_state *mtk_crtc_state = to_mtk_crtc_state(crtc_state);
+ 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
++	unsigned long flags;
++
++	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+ 
+ 	if (mtk_crtc->event && mtk_crtc_state->base.event)
+ 		DRM_ERROR("new event while there is still a pending event\n");
+@@ -756,6 +759,8 @@ static void mtk_drm_crtc_atomic_begin(struct drm_crtc *crtc,
+ 		mtk_crtc->event = mtk_crtc_state->base.event;
+ 		mtk_crtc_state->base.event = NULL;
+ 	}
++
++	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+ }
+ 
+ static void mtk_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+-- 
+2.18.0
 
