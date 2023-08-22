@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F6C783F62
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:37:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C282783F64
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A299410E31B;
-	Tue, 22 Aug 2023 11:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAF1510E31C;
+	Tue, 22 Aug 2023 11:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7981F10E31A;
- Tue, 22 Aug 2023 11:37:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B47CE10E31C;
+ Tue, 22 Aug 2023 11:37:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D31F1653A8;
- Tue, 22 Aug 2023 11:37:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C044BC43391;
- Tue, 22 Aug 2023 11:37:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 34CAC6539A;
+ Tue, 22 Aug 2023 11:37:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A886C433C7;
+ Tue, 22 Aug 2023 11:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692704236;
- bh=yas2AAYdfPDd1W2apONW9wBdu6JDTaaH2Wn96PMhMbQ=;
+ s=k20201202; t=1692704238;
+ bh=RT2yH3IRbxVwpbXO8souw3b1hiBtsDsDo2KMzcNbGls=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QyFDTmG/90qoU2rfbmzLcG+eNVXAEgQtrfvqrlAThQSsjSx6pALT/QlibxbEQqcxM
- aLE8PMaOb7xJcP/UbZIa9bj1CDYyU4sGNkmh/x7+uClCcKIhqsEfvJvpUbXAUOVNRS
- +lgqtx+bt7pPhweJTLidnhRKvsge9hOb8FEgzr8V0ssjRDloKwyNjW0QkyZhSRJvoX
- Kf1YYkxC2zcmKpkQdWfg25MNm9B7PnQO6EnP6JD+R+o5O7bhQqrxBh1aUNFOtocDp1
- JE2T5+LB2zh7e5PefpxhwoqhCf6ON8m+wUgV3MhaNdGRboesl2Ow8ieq/KlY5oOpJx
- NzSYKNCm7RacA==
+ b=sN7QL1NY5WHd9Gk3AV0135FVWHzU0jzjmB2yGfe/cU8pldSlYKRgXgSIi3hoaXVM9
+ /ZSZ47Jz24kgRp4BBl121qJxbXmaJsDRTlxPHzthWhR/xImAv+F0xdCYH3HnXQUKrd
+ yGzVCvPZzSZq4xOUrDiAmQ6CRR03EdvgjnOWKbIOkW677CjbUjqm9oI4nmlOmQctHB
+ 4/+/HhOh4PBIRMzdB/q3cnAS9pvEewXTE0BGTp5M6g1IiXU6jcIaXPUAbHeheWsUTB
+ CUG8cZHabM45u54O6l4BXPBzlqUofKL3LdQu0UhsDg3ymxfTYm6nCVtwaoJw2oKeEB
+ prTQe0kSOl4PA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 5/6] drm/amdgpu: Match against exact bootloader
- status
-Date: Tue, 22 Aug 2023 07:36:57 -0400
-Message-Id: <20230822113658.3551550-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 6/6] drm/amdkfd: ignore crat by default
+Date: Tue, 22 Aug 2023 07:36:58 -0400
+Message-Id: <20230822113658.3551550-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230822113658.3551550-1-sashal@kernel.org>
 References: <20230822113658.3551550-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.127
@@ -57,59 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, john.clements@amd.com,
- dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com,
- candice.li@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lijo Lazar <lijo.lazar@amd.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit d3de41ee5febe5c2d9989fe9810bce2bb54a3a8e ]
+[ Upstream commit a6dea2d64ff92851e68cd4e20a35f6534286e016 ]
 
-On PSP v13.x ASICs, boot loader will set only the MSB to 1 and clear the
-least significant bits for any command submission. Hence match against
-the exact register value, otherwise a register value of all 0xFFs also
-could falsely indicate that boot loader is ready. Also, from PSP v13.0.6
-and newer, bits[7:0] will be used to indicate command error status.
+We are dropping the IOMMUv2 path, so no need to enable this.
+It's often buggy on consumer platforms anyway.
 
-Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Tested-by: Mike Lothian <mike@fireburn.co.uk>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/psp_v13_0.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-index 47a500f64db20..bcf356df1ef33 100644
---- a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-@@ -101,14 +101,15 @@ static int psp_v13_0_wait_for_bootloader(struct psp_context *psp)
- 	int ret;
- 	int retry_loop;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+index e574aa32a111d..46dfd9baeb013 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+@@ -1523,11 +1523,7 @@ static bool kfd_ignore_crat(void)
+ 	if (ignore_crat)
+ 		return true;
  
-+	/* Wait for bootloader to signify that it is ready having bit 31 of
-+	 * C2PMSG_35 set to 1. All other bits are expected to be cleared.
-+	 * If there is an error in processing command, bits[7:0] will be set.
-+	 * This is applicable for PSP v13.0.6 and newer.
-+	 */
- 	for (retry_loop = 0; retry_loop < 10; retry_loop++) {
--		/* Wait for bootloader to signify that is
--		    ready having bit 31 of C2PMSG_35 set to 1 */
--		ret = psp_wait_for(psp,
--				   SOC15_REG_OFFSET(MP0, 0, regMP0_SMN_C2PMSG_35),
--				   0x80000000,
--				   0x80000000,
--				   false);
-+		ret = psp_wait_for(
-+			psp, SOC15_REG_OFFSET(MP0, 0, regMP0_SMN_C2PMSG_35),
-+			0x80000000, 0xffffffff, false);
+-#ifndef KFD_SUPPORT_IOMMU_V2
+ 	ret = true;
+-#else
+-	ret = false;
+-#endif
  
- 		if (ret == 0)
- 			return 0;
+ 	return ret;
+ }
 -- 
 2.40.1
 
