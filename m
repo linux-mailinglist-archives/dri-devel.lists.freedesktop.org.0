@@ -1,128 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4117845E4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 17:42:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D853784627
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 17:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2DC10E3A0;
-	Tue, 22 Aug 2023 15:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D705210E3A1;
+	Tue, 22 Aug 2023 15:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF36D10E394;
- Tue, 22 Aug 2023 15:41:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sgadn9vZAxo1mGT+cYYOjco1DW5JBS4v3ykamXwYf3RQS8dwghEsVKJotSdDeRHR40p9/Yd3/PAwontf9Ba8nkms4y5OKucggof6cGhkUFF6AvdaC+ncMrIaaNbjS7zBi5F+BDPp2YQxEXjb9Cb3YFHq4Y9gMIEJB6WJk8xp+EeQCHnqK93CNFRnKPODutculAWH6y7K9xRYPsHEIo7CF4s5vvy1h1iwd0P26newkxwmydpps/UzfcqD8MgzzRTNun8NW2HVLl+vP2mf5qFLY4cNoY3Bmt06QnZdARn6UuZqTj8U1KJvVXye492jE2JU8YswvLRdxw2+3LMlqxAwoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q8L5DvE871j3pfSVk5uwkV6MZboh468aXyeSwEG6Qf4=;
- b=EyJhNBJ81hOxDKDDF5ktcjrYq7QM1Paym7s6PUrjl5oXTxd4L7nN3AKIRJH6ka/VywkpPk2zoKkzHrczvjeLxPssc77gj0ntMRZN3G+/a1LnobdZcndReC1tUPQ6EEw/ha5D7fHeS3PYS7Tzxgsd5XVTyvVQ5+e3a4TRjEejH+0g3jepTeqqC9E4SoBhZDoT4Tk/i7jO1zf/c+eJbkxKEAaAHFXv9LI2PlXMluHmfiwb/qCFP1TaJVnlVJ83Mq2BXnXeGopgYU+3+6Js3SacW/M3GHP9L5/BBTlpsw4eMpiEW6hdLvgAUeR2d8v4qSqIuvwmAI3dbliBfb4ZlAHjVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q8L5DvE871j3pfSVk5uwkV6MZboh468aXyeSwEG6Qf4=;
- b=ceNKdkoivIy93u/hBGyeaSmeZnIE/+CVYkt9gpRapM3kQqchbcOtlA6E6zJN7MI6TaZ1lxZ8txT5IrFczXZYAQqRq4TzeoBBfi/l9f6LaKM7/FXK7HzsVgduR6fs9RNIos85JV/HgYNHSX9k2tcO6uFBmlwYrBPCnHIX9GW5HjA=
-Received: from BN9PR12MB5146.namprd12.prod.outlook.com (2603:10b6:408:137::16)
- by LV3PR12MB9188.namprd12.prod.outlook.com (2603:10b6:408:19b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
- 2023 15:41:58 +0000
-Received: from BN9PR12MB5146.namprd12.prod.outlook.com
- ([fe80::858f:e2c1:3f1e:fefe]) by BN9PR12MB5146.namprd12.prod.outlook.com
- ([fe80::858f:e2c1:3f1e:fefe%4]) with mapi id 15.20.6699.022; Tue, 22 Aug 2023
- 15:41:57 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Sasha Levin <sashal@kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>
-Subject: RE: [PATCH AUTOSEL 5.10 3/3] drm/amdkfd: ignore crat by default
-Thread-Topic: [PATCH AUTOSEL 5.10 3/3] drm/amdkfd: ignore crat by default
-Thread-Index: AQHZ1O0I1eo5JC1hBkypehDTQqHqCa/2dG5A
-Date: Tue, 22 Aug 2023 15:41:57 +0000
-Message-ID: <BN9PR12MB514680D55C89BECDA7895348F71FA@BN9PR12MB5146.namprd12.prod.outlook.com>
-References: <20230822113719.3551639-1-sashal@kernel.org>
- <20230822113719.3551639-3-sashal@kernel.org>
-In-Reply-To: <20230822113719.3551639-3-sashal@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=ea822615-2f3c-4fc9-8b5f-1e08bdbb5052;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
- 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-08-22T15:41:48Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR12MB5146:EE_|LV3PR12MB9188:EE_
-x-ms-office365-filtering-correlation-id: a5de7e39-b2a8-4887-1dd1-08dba32651c4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: A6+9e3fDp6A97A2GE1GnP8VYANNG/PhCMeIoUmE62FRaWIx/qS8Ei/AI7EddwUo7LQNm1mO3cMG/H7ott+IeC/9d8cyWGoL0nzpWiCQ6RHe84wl63R9BXsjy82fK0etVr0gnNkgUs2pDHvCx5cnqOCIbEinH4XcAPXYDBm9DNPHwKm9WsdBogNqKcphp6MFKt02mtbISCdbFPq+qSZ4MrX68fwnq2/9R2F86WL6TwNOX8Hc6CkNEs+1LVwp9QIFLWTGmwc/51E/li1Xucge96QJo2COo8StXPayF3RwH/SQVk3Evkj4uDeuNOFWZwzs7psqhiZLZO9gqurk1Q/CDDM1pOVeGfbJC645dKvftxDZ2vl3ygsnGZjyKrACk2+wfXa26FJh4zkutrasJGASdElI0UfLwmnYYiUQZpXnnZHERycCVzVqzP5bYB6/BYhz867A/Qz2XWuJTcMYTeELzx5HWx/Q4LRsqKWw+qgiJcgsJ9/Wrr/uJuoDDPelkoedAnQkndyBv7r8zPwRpmq6Gcv5zqBAna3l/QdoqNbZR1W6iN90Gyde2yedm2fS6EmbyZmrYFUiGlsReFngfUtJc5cYhq3L2G+ARftFIXqcRgnfYX59Czp+YE/BXXcmwaYEF
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5146.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(136003)(376002)(346002)(366004)(39860400002)(1800799009)(186009)(451199024)(66446008)(54906003)(66476007)(64756008)(66556008)(76116006)(316002)(9686003)(110136005)(8676002)(4326008)(8936002)(41300700001)(122000001)(478600001)(55016003)(71200400001)(66946007)(38100700002)(53546011)(6506007)(66574015)(2906002)(83380400001)(86362001)(7696005)(38070700005)(5660300002)(26005)(33656002)(52536014);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YmtVY21zZFdjNjVRWEpkWG13Rk5ocVhDRWkvdGdYSW55bC9lL0w4V1dYWW44?=
- =?utf-8?B?bXk1QWs0ZDBFVnZCajZUUEYrOXZCazNmdHVwekxoM0lsbEd2T2NsMVlxRHh4?=
- =?utf-8?B?SEgzRit5N2lpZzUydmJoNHZoTnl0RVJ0U0pucEorWjBKM3RDeUd5WHRicVRs?=
- =?utf-8?B?bHFpVGZWdHdwczdZaWNVQkdYRzJ2WE0yK29KUnFha2dpMjhBQkQ0OFVwVWM1?=
- =?utf-8?B?MzNwS3hjLzlnSmJUUWN2NWdmSEdiM3l1T0JlWnF6dFBEYkpFQUZEamo3b0tN?=
- =?utf-8?B?NHJndktXN1ZkOGk2ZU5wQzhkYjZKV2dlVXlHcGphbTFXWjJvMnNpWmhZVTM1?=
- =?utf-8?B?T0ZOejUxNmpGck9URm8xdDVKQW05Mnh5QTRrUXkyckRGTnhIbXFVVmlWTjIy?=
- =?utf-8?B?L3N6eDF3VXdqM0I1ZktuQUVjNElEeG5tOXJTWForM2tPSUJ0LytJS2lGSU9U?=
- =?utf-8?B?NFhTTmJsaFZBRXJGR3RYblFwc2NYbmtubWVoZ2FBaDhGN09OWGhBdkh0V0Q2?=
- =?utf-8?B?b0RIaGp3cHZHaHRMczFyQVB2cE1EbEZ3Q3lyWHlTMUkvNWtJKzg2WXNyUk8y?=
- =?utf-8?B?OXVySkdXazNoSU5RL1lPUnhWQVg5UmJmVU9LWEpISzN1UzIxcmU4UUszL0ZL?=
- =?utf-8?B?QU85VjhmTlBzY0h1c0NIcVkrWEQwQ2xKTUtCbm1NQ0NNUzFRWSt3bVV6VWlP?=
- =?utf-8?B?QS9pZFl0amIxNFE1aGNDaExnWHRMMmxWYmIwYi83WHhBVDg4b28yVnoyMjN6?=
- =?utf-8?B?dVhDSGFLWEVQWGdmYzNKeXZDc09QZ0lTTkNqQld2c3lKZENhRTlMU2lPOU51?=
- =?utf-8?B?ZmlUOFN6NENIaGxlVEtqQVo4WnA2Sjg2UXRYblFxN1lNcnZnMmRmYzd6dysw?=
- =?utf-8?B?MG1aUXhpeWNmTkxNNGFRc3dTZytmNWZ2c0UwMEZaTTNsMGNRclNYWEk4enZP?=
- =?utf-8?B?aXZva1JFRk12WnNpSDBiWmlycmFySU5vU2QrVTJCc05MdWxTbkRpNm4zMGpG?=
- =?utf-8?B?MzEvd2FqNTdWa2NFVnFjNFJjVHBqUVVEa3JrcnMweDRqRmZmMGkxQkxNbWJL?=
- =?utf-8?B?TFU5L0VVb2VkblJIcnpMU3FPOXlmdUlmUHltTjRMUW5iUGVOMUNpSFJMK3Fo?=
- =?utf-8?B?TU9jK0wzaVY4amtTM3JweTFPbUpGYzAyTWliOUEzbmRWUWxVajB1azA2bWt4?=
- =?utf-8?B?T2szZklaOEZPMmlqV1JseUR1ZUFRVUFDdkxpZUJMWjJ1YkIvUDJKNFBOTGxw?=
- =?utf-8?B?dEk4TnVwcnBNaHo2ZEZBUHBWSHoyZ0ozVmJLNkRuNm5pWVdWenN6MWZmWFVZ?=
- =?utf-8?B?SUI0NmtBZFNYdXVteHM2dmJMT01tdG9CVFNPUW9nUTRNTTBBaU9WTzlzZTBv?=
- =?utf-8?B?bnFsY0tFaVV5VzJDZ0NYOWpza0svQlZ3aEowbFd6aVR5c2JWTEhZZUxVTmF3?=
- =?utf-8?B?TE0raVQ3KzB2L3lhams2U0d4NjlhS05Zb1R3ak1RdUF2Z3NjcVlYaDNjTWxp?=
- =?utf-8?B?T3gySlBWT2hSZGovZkExemF6em10bU1UMVlxLzFObHg5Sm5mcVZQaUhkMkJV?=
- =?utf-8?B?c1FzL1B4WnlkZDQwZ09XYXM0ZVNxUG5uRjU4Uit6dThNcGVoWWpGR1g0Nm9a?=
- =?utf-8?B?eGdTRHF5MUU2WjVodnNORTF6bHNZcTh1VExpS1dGWjR4dmFrcmdsODJpOU9E?=
- =?utf-8?B?V2UrbjUzQ1EzYy9WRjhNSFllWWVWeU4wczNSaXdaS3RBQUd5VTNTYUlqUWlo?=
- =?utf-8?B?c09iZHdtWHhDYnBTTGhPbTQzR2dmTGFqcGVVdVpTaVAxRFpHMW41akVlaGlm?=
- =?utf-8?B?SlZ1bmNnOUhsR1BuYXdIRjZqamgyeUtWSDNqdE5abStNYlFHVnp2SUprQXFD?=
- =?utf-8?B?Q2doQ25mcE1oc0V4K000ck1McjYzKytTZDhzUHhVbHJ3YzlqVytKM3JBckhy?=
- =?utf-8?B?amVKK2ZpN0NLVHl0QldGQWZtSVJTZmQ5bmE1V2szWGVkMGR6ZCszMU1YK0xN?=
- =?utf-8?B?NFhRS0V1cEhxdEdGSi9MTURSeEhyTkVkNXE1ZFU2YmRkVndqUGZKeFNEZmNr?=
- =?utf-8?B?d2Q2cEw3ek9HdTBlWlZmc0dzbjZYY2dSeVVUZ3djVStUVVhsWHNMS29JK0hM?=
- =?utf-8?Q?jYJc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A89E10E3A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 15:49:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692719355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aCUIuN77mVkrFQtJjww1TislQYuqFEqvYeKP/hvXMys=;
+ b=Uy8S68eRaenvkf4xV8iD2YsCq4hEp/IEdC8ixK/YMcG7j+yNdwQHZL0qw1ry09+2GJx5Yq
+ nlKqkGKCZqAiwGWmbUB0+lC67gmJsrvRqcOpSqz9ZTQLZcYzLdZIryLU+5qic8ngeRvQal
+ fRKKj36wXo+OVF1b1JYvuZI/zh5nnIs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-474-GGQ1HGhPOSup1S428GmWkQ-1; Tue, 22 Aug 2023 11:49:12 -0400
+X-MC-Unique: GGQ1HGhPOSup1S428GmWkQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-31c5c762f97so1103388f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 08:49:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692719351; x=1693324151;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aCUIuN77mVkrFQtJjww1TislQYuqFEqvYeKP/hvXMys=;
+ b=LIyH4XOTi6j3f88Otzh012IajL30fQh5f/7futE2SN+dMBHyn12SXxd+FO87p9lbRK
+ hXZIqUf0WnMs2F82vZDUr+LiUqAGEPNDHrZCfz/mXGKokP+90HCOcJ0PT/OvFYDHRZxm
+ 0xMpSopUazuw3trAWoGxcS1Oa5yN8hFtXsKMXY/l320OJogntaymXFirMB6uSH6iHlSO
+ okFiU9M/nKglNmguuND7f6mTmq757+piYs9OAkxC6lFGOlzz0i2xZm9eeW1aFhYzquIC
+ Vkpgx3g1BOcURN26TcaJnluQXv3ENqNWNdbvsDxwYh/nUGbCNTMicBYaoFree1OPWKbX
+ hDJg==
+X-Gm-Message-State: AOJu0YyG/XPo/vLHYlzFn6jNTlgHaYWs9iFrDK0aPvK848BSBiaPAe9c
+ Eru4O2ObeAKIkntP3GYKfyMfq3Jg+ILIXSOarhwc7Nx9iCm9Ujxrqo4zHzMVtrf/uUWftNruWx6
+ Q7KRuZSMRklE1sCnupaOEM40w2c2r
+X-Received: by 2002:adf:fb87:0:b0:317:5ece:e169 with SMTP id
+ a7-20020adffb87000000b003175ecee169mr7358269wrr.68.1692719350833; 
+ Tue, 22 Aug 2023 08:49:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG4YTvBR0uwcfkHQX5tzcpEu5iNqjmUnhjRHaXdlW80xrcl9S3YgkNbbNALcNF8I3Rd6EfeoA==
+X-Received: by 2002:adf:fb87:0:b0:317:5ece:e169 with SMTP id
+ a7-20020adffb87000000b003175ecee169mr7358254wrr.68.1692719350411; 
+ Tue, 22 Aug 2023 08:49:10 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:329d:db81:ed0c:c9cd?
+ ([2a01:e0a:d5:a000:329d:db81:ed0c:c9cd])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020adfe790000000b0030ae53550f5sm16079660wrm.51.2023.08.22.08.49.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Aug 2023 08:49:09 -0700 (PDT)
+Message-ID: <b2074198-2176-5e63-ce18-02bb14ea5749@redhat.com>
+Date: Tue, 22 Aug 2023 17:49:08 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5146.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5de7e39-b2a8-4887-1dd1-08dba32651c4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 15:41:57.8565 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VXaHqlr2nWK8Q95nKZsyjWKQO0x6lXcaNzFl4jMAdzkuNIX2Jtz9e5hcac3Qct63w3t56oMlfNZ/wIj4/quvXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9188
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/1] drm/fourcc: Add documentation about software color
+ conversion.
+To: Pekka Paalanen <ppaalanen@gmail.com>, Maxime Ripard <mripard@kernel.org>
+References: <20230807140317.26146-1-jfalempe@redhat.com>
+ <20230807140317.26146-2-jfalempe@redhat.com>
+ <iadbqczfvboqyxebbnjkjef3dttcaa76vu3e4ylve6cxaypbqf@oz5hhu3xrryr>
+ <20230818162415.2185f8e3@eldfell>
+ <36prxupvl72tmamorquaunss27kckoq5zegmrwxdr3v3ynqz4s@xiypdbs4pbga>
+ <20230822112004.3599df53@eldfell>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20230822112004.3599df53@eldfell>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,42 +92,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: tzimmermann@suse.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBTYXNoYSBM
-ZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCAyMiwgMjAy
-MyA3OjM3IEFNDQo+IFRvOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBzdGFibGVAdmdl
-ci5rZXJuZWwub3JnDQo+IENjOiBEZXVjaGVyLCBBbGV4YW5kZXIgPEFsZXhhbmRlci5EZXVjaGVy
-QGFtZC5jb20+OyBLdWVobGluZywgRmVsaXgNCj4gPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+OyBL
-b2VuaWcsIENocmlzdGlhbiA8Q2hyaXN0aWFuLktvZW5pZ0BhbWQuY29tPjsNCj4gTWlrZSBMb3Ro
-aWFuIDxtaWtlQGZpcmVidXJuLmNvLnVrPjsgU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3Jn
-PjsgUGFuLA0KPiBYaW5odWkgPFhpbmh1aS5QYW5AYW1kLmNvbT47IGFpcmxpZWRAZ21haWwuY29t
-OyBkYW5pZWxAZmZ3bGwuY2g7IGFtZC0NCj4gZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBTdWJqZWN0OiBbUEFUQ0ggQVVUT1NFTCA1
-LjEwIDMvM10gZHJtL2FtZGtmZDogaWdub3JlIGNyYXQgYnkgZGVmYXVsdA0KPg0KPiBGcm9tOiBB
-bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+DQo+DQo+IFsgVXBzdHJlYW0g
-Y29tbWl0IGE2ZGVhMmQ2NGZmOTI4NTFlNjhjZDRlMjBhMzVmNjUzNDI4NmUwMTYgXQ0KPg0KPiBX
-ZSBhcmUgZHJvcHBpbmcgdGhlIElPTU1VdjIgcGF0aCwgc28gbm8gbmVlZCB0byBlbmFibGUgdGhp
-cy4NCj4gSXQncyBvZnRlbiBidWdneSBvbiBjb25zdW1lciBwbGF0Zm9ybXMgYW55d2F5Lg0KDQpU
-aGlzIGlzIG5vdCBuZWVkZWQgZm9yIHN0YWJsZS4NCg0KQWxleA0KDQo+DQo+IFJldmlld2VkLWJ5
-OiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4NCj4gQWNrZWQtYnk6IENo
-cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gVGVzdGVkLWJ5OiBN
-aWtlIExvdGhpYW4gPG1pa2VAZmlyZWJ1cm4uY28udWs+DQo+IFNpZ25lZC1vZmYtYnk6IEFsZXgg
-RGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogU2Fz
-aGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1ka2ZkL2tmZF9jcmF0LmMgfCA0IC0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGRlbGV0
-aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2Zk
-X2NyYXQuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jcmF0LmMNCj4gaW5k
-ZXggODZiNGRhZGY3NzJlMy4uNjFmZWEwZDI2OGI5NiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRrZmQva2ZkX2NyYXQuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGtmZC9rZmRfY3JhdC5jDQo+IEBAIC03NDksMTEgKzc0OSw3IEBAIHN0YXRpYyBib29sIGtm
-ZF9pZ25vcmVfY3JhdCh2b2lkKQ0KPiAgICAgICBpZiAoaWdub3JlX2NyYXQpDQo+ICAgICAgICAg
-ICAgICAgcmV0dXJuIHRydWU7DQo+DQo+IC0jaWZuZGVmIEtGRF9TVVBQT1JUX0lPTU1VX1YyDQo+
-ICAgICAgIHJldCA9IHRydWU7DQo+IC0jZWxzZQ0KPiAtICAgICByZXQgPSBmYWxzZTsNCj4gLSNl
-bmRpZg0KPg0KPiAgICAgICByZXR1cm4gcmV0Ow0KPiAgfQ0KPiAtLQ0KPiAyLjQwLjENCg0K
+On 22/08/2023 10:20, Pekka Paalanen wrote:
+> On Mon, 21 Aug 2023 17:55:33 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+> 
+>> Hi Pekka,
+>>
+>> Thanks for answering
+>>
+>> On Fri, Aug 18, 2023 at 04:24:15PM +0300, Pekka Paalanen wrote:
+>>> On Thu, 10 Aug 2023 09:45:27 +0200
+>>> Maxime Ripard <mripard@kernel.org> wrote:
+>>>> On Mon, Aug 07, 2023 at 03:45:15PM +0200, Jocelyn Falempe wrote:
+>>>>> After discussions on IRC, the consensus is that the DRM drivers should
+>>>>> not do software color conversion, and only advertise the supported formats.
+>>>>> Update the doc accordingly so that the rule and exceptions are clear for
+>>>>> everyone.
+>>>>>
+>>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>>> ---
+>>>>>   include/uapi/drm/drm_fourcc.h | 7 +++++++
+>>>>>   1 file changed, 7 insertions(+)
+>>>>>
+>>>>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>>>>> index 8db7fd3f743e..00a29152da9f 100644
+>>>>> --- a/include/uapi/drm/drm_fourcc.h
+>>>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>>>> @@ -38,6 +38,13 @@ extern "C" {
+>>>>>    * fourcc code, a Format Modifier may optionally be provided, in order to
+>>>>>    * further describe the buffer's format - for example tiling or compression.
+>>>>>    *
+>>>>> + * DRM drivers should not do software color conversion, and only advertise the
+>>>>> + * format they support in hardware. But there are two exceptions:
+>>>>
+>>>> I would do a bullet list here:
+>>>> https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
+>>>>    
+>>>>> + * The first is to support XRGB8888 if the hardware doesn't support it, because
+>>>>> + * it's the de facto standard for userspace applications.
+>>>>
+>>>> We can also provide a bit more context here, something like:
+>>>>
+>>>> All drivers must support XRGB8888, even if the hardware cannot support
+>>>> it. This has become the de-facto standard and a lot of user-space assume
+>>>> it will be present.
+>>>>    
+>>>>> + * The second is to drop the unused bits when sending the data to the hardware,
+>>>>> + * to improve the bandwidth, like dropping the "X" in XRGB8888.
+>>>>
+>>>> I think it can be made a bit more generic, with something like:
+>>>>
+>>>> Any driver is free to modify its internal representation of the format,
+>>>> as long as it doesn't alter the visible content in any way. An example
+>>>> would be to drop the padding component from a format to save some memory
+>>>> bandwidth.
+>>>
+>>> to my understanding and desire, the rule to not "fake" pixel format
+>>> support is strictly related to performance. When a KMS client does a
+>>> page flip, it usually does not expect a massive amount of CPU or GPU
+>>> work to occur just because of the flip. A name for such work is "copy",
+>>> referring to any kind of copying of large amounts of pixel data,
+>>> including a format conversion or not.
+>>
+>> Should we add that to the suggested documentation that it shouldn't
+>> degrade performance and shouldn't be something that the userspace can
+>> notice?
+> 
+> I would let Sima (or Simon Ser) answer that, and verify my
+> understanding too.
+> 
+>>> This is especially important with GPU rendering and hardware video
+>>> playback systems, where any such copy could destroy the usability of
+>>> the whole system. This is the main reason why KMS must not do any
+>>> expensive processing unexpectedly (as in, not documented in UAPI).
+>>> Doing any kind of copy could cause a vblank to be missed, ruining
+>>> display timings.
+>>>
+>>> I believe the above is the spirit of the rule.
+>>
+>> That's totally reasonable to me :)
+>>
+>>> Then there will be exceptions. I'd like to think that everything below
+>>> (except for XRGB8888) can be derived from the above with common sense
+>>> - that's what I did.
+>>>
+>>> XRGB8888 support is the prime exception. I suspect it originates from
+>>> the legacy KMS UAPI, and the practise that XRGB8888 has been widely
+>>> supported always. This makes it plausible for userspace to exist that
+>>> cannot produce any other format. Hence, it is good to support XRGB8888
+>>> through a conversion (copy) in the kernel for dumb buffers (that is,
+>>> for software rendered framebuffers). I would be very hesitant to extend
+>>> this exception to GPU rendered buffers, but OTOH if you have a GPU,
+>>> presumably you also have a display controller capable of scanning out
+>>> what the GPU renders, so you wouldn't even consider copying under the
+>>> hood.
+>>>
+>>> DRM devices that cannot directly scan out buffers at all are a whole
+>>> category of exceptions. They include USB display adapters (literal USB,
+>>> not USB-C alt mode), perhaps networked and wireless displays, VKMS
+>>> which does everything in software, and so on. They simply have to
+>>> process the bulk pixel data with a CPU one way or another, and
+>>> hopefully they make use of damage rectangles to minimise the work.
+>>>
+>>> Old-school special cursor planes may have been using special pixel
+>>> formats that may not be supported by userspace. Cursors are usually
+>>> small images and they can make a huge performance impact, so it makes
+>>> sense to support ARGB8888 even with a CPU conversion.
+>>>
+>>> Then we have display controllers without GPUs. Everything is
+>>> software-rendered. If it so happens that software rendering into sysram
+>>> and then copying (with conversion) into VRAM is more performant than
+>>> rendering into VRAM, then the copy is well justified.
+>>>
+>>> Software-rendering into sysram and then copying into VRAM is actually
+>>> so commonly preferred, that KMS has a special flag to suggest userspace
+>>> does it: DRM_CAP_DUMB_PREFER_SHADOW [1]. A well-behaved
+>>> software-rendering KMS client checks this flag and honours it. If a
+>>> driver both sets the flag, and copies itself, then that's two copies
+>>> for each flip. The driver's copy is unexpected, but is there a good
+>>> reason for the driver to do it?
+>>>
+>>> I can only think one reason: hardware scanout pixel format being one
+>>> that userspace cannot reasonably be expected to produce. I think
+>>> nowadays RGB888 (the literally 3 bytes per pixel) format counts as one.
+>>
+>> I guess any tiled format would count there too, right?
+> 
+> Only if the display controller is unable to read a linear format, or
+> some other extremely pressing reason that makes the use of a linear
+> format infeasible, e.g. hardware bugs or prohibitive memory bandwidth
+> usage. That would be very surprising though, given that all video
+> signal formats I know about scan in a linear fashion, meaning that any
+> other framebuffer layout would cause complications like needing lots of
+> CRTC pixel buffer memory.
+> 
+> In short, I think not.
+> 
+> Sub-sampled YUV is another matter, but I assume you meant non-linear
+> DRM format modifiers rather than just YUV layouts.
+> 
+> Again, there could be exceptions in ancient hardware. I recall hearing
+> that some hardware might have stored pixels as "bit planes", meaning
+> that in memory you have a bit plane after a bit plane, and each bit
+> plane contains one specific bit of all pixels in the image. We do not
+> have DRM format codes nor modifiers to express such layout that I know
+> of, so under-the-hood driver conversion would be appropriate since I
+> don't think any software would want to produce such images today.
+> 
+>>> If hardware requires RGB888 to e.g. reach a specific resolution, should
+>>> the driver set DRM_CAP_DUMB_PREFER_SHADOW or not? If the driver always
+>>> allocates sysram as dumb buffers because there simply is not enough
+>>> VRAM to give out, then definitely not. That is a very good reason for
+>>> the driver to do a copy/conversion with damage under the hood. It
+>>> sucks, but it's the only way it can work.
+>>>
+>>> But if the dumb buffers are allocated in VRAM, then
+>>> DRM_CAP_DUMB_PREFER_SHADOW should likely be set because direct VRAM
+>>> access tends to be slow, and the driver should not copy - unless maybe
+>>> for XRGB8888 and cursors. A CPU copy from VRAM into VRAM is the worst.
+>>>
+>>> For RGB888 hardware and software rendering, it would be best if:
+>>>
+>>> - Dumb buffers are allocated from VRAM, making them directly
+>>>    scanout-able for RGB888.
+>>>
+>>> - DRM_CAP_DUMB_PREFER_SHADOW is set, telling userspace to render into a
+>>>    shadow and then copy into a dumb buffer.
+>>>
+>>> - Userspace's copy into a dumb buffer produces RGB888, while the shadow
+>>>    buffer can be of any format userspace likes.
+>>>
+>>> This minimises the amount of work done, and page flips are literal
+>>> flips without a hidden copy in the driver.
+>>>
+>>> If userspace does not support RGB888, things get hairy. If XRGB8888 is
+>>> faked via a driver copy, then you would not want to be copying from
+>>> VRAM into VRAM. Create-dumb ioctl passes in bpp, so the driver could
+>>> special-case 24 vs. 32 I guess, allocating 24 from VRAM and 32 from
+>>> sysram. But do you set DRM_CAP_DUMB_PREFER_SHADOW? It would always be
+>>> wrong for the other format.
+>>>
+>>> Ideally, XRGB8888 would be supported without artificially crippling
+>>> more optimal pixel formats by lack of DRM_CAP_DUMB_PREFER_SHADOW, even
+>>> if XRGB8888 support is fake and hurt by DRM_CAP_DUMB_PREFER_SHADOW. But
+>>> that also depends on the expected userspace, which format does it use.
+>>
+>> Jocelyn, I think we should have a link to that mail too in the doc
+>> you've written.
+>>
+>> Pekka, it's not clear to me though if what you wrote here are changes
+>> you would like on the original patch, or if it's just general thoughts?
+> 
+> It is my understanding of the matter and of the background. Take from it
+> what you feel is important. The proposed patch is not wrong, but it is
+> perhaps a bit too simple description, like not limiting CPU conversions
+> to dumb buffers, and ignoring the worst case: dumb buffers in VRAM +
+> CPU conversion which would have utterly horrible performance. I feel
+> the interaction with DRM_CAP_DUMB_PREFER_SHADOW is important to note.
+
+Yes, I will add the dumb buffer limitation, and a paragraph about 
+DRM_CAP_DUMB_PREFER_SHADOW in v2.
+I can also add a link to this mail thread.
+
+> 
+> I'm not sure what should be documented of it.
+> 
+> Also, things like the Pixman library support conversions between tons
+> of pixel formats, and is able to use hand-tuned SSE, vector and whatnot
+> instructions in order to optimise conversions. I doubt you could reach
+> that level of flexibility and performance in-kernel.
+> 
+> In the XRGB8888 to RGB888 case, the kernel doing the conversion may
+> allow for higher resolutions, but it may also hurt framerate more than
+> userspace doing conversion, theoretically. For lower resolution where
+> XRGB8888 could be scanned out directly from VRAM, the conversion would
+> be strictly hurting.
+> 
+I think that depends on the hardware. For the Matrox, the bandwidth 
+between system RAM and VRAM is so low, that doing the conversion is much 
+faster than copying XRGB8888 to the VRAM. It also uses less CPU cycles, 
+because the copy is done with memcpy(), (DMA is broken or even slower on 
+most mgag200 hardware).
+To get numbers, on my test machine, copying the 5MB framebuffer XRGB8888 
+to VRAM takes 125ms. Copying 3.75MB RGB888 framebuffer takes 95ms. The 
+conversion has no measurable impact, as it is done on the fly during the 
+memcpy, when the CPU is waiting for the bus to accept more data.
+Doing the conversion in user-space would actually be slower, even with 
+SSE, because they won't use the "wasted" cpu cycle. But anyway the 
+conversion can take a few micro-seconds on the CPU, which is still 
+negligible compared to the memory transfer.
+
+> 
+> Thanks,
+> pq
+
+Before sending the v2, Simon Ser proposed to move the paragraph to 
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_plane.c#L132 
+instead of fourcc.h.
+I'm wondering what other thinks about this.
+
+Thanks,
+
+-- 
+
+Jocelyn
+
