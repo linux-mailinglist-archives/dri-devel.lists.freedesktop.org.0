@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25C6784702
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3347784703
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 18:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA1B10E3A5;
-	Tue, 22 Aug 2023 16:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2D210E3AB;
+	Tue, 22 Aug 2023 16:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 370A610E377;
- Tue, 22 Aug 2023 16:21:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB81910E377;
+ Tue, 22 Aug 2023 16:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692721319; x=1724257319;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tVVcP5u927vaTVd4NhjN0Y1TJHNfHm2x0YpRpOg4N0M=;
- b=bkWkabhDZop8rll6XZZycC08ZNSqTEyGpRyzvmWSCu5xTYfjf2zZwf47
- 4vtphsH7y5mHY+26b7gvQLSF3AJ+XYBrJ5yRxjT/Nuplt9454sdk1z3cF
- JTwzDOpfiWKJbvLRY4h5OlwR/UABnnnyFtZHd+0blJwjSUB+ZI1da4B2S
- vDYnJI8h1K4cprucELBpgDvaCOlOM9B0xqugVl57Pl6JjhQtC4o6Rwf8r
- dN6xVABqJHAH72I465cbVNPLWwThIDn1Jh+F/vi2Ti3MshX5DK7Umb/RC
- 8OMWDGGa4HZOHIvU1zd/5tM564uSA2QU8dt/sBSe3JgDNNnvHSVWMGQ0h A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354260378"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="354260378"
+ t=1692721320; x=1724257320;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0jD/51uCMBhvag5p0cWlk8xZ35i+sBa63wjjnRG+2/k=;
+ b=XwzxfzfJo+8gB/f/0bqbOMosX92HLGRdbzzvVU/AdxpkUtPuR/27AL9t
+ jYamJrjyvkjrUrHRkL4wn8oE+bD37i/+FnuPVV44dsGsOx0n/BmJfdEOd
+ l9kVSfDOGJDGtALuOGw1bC9/E93iiQS/xVcy5DdKPcaqY1cFHdHXSjjB8
+ cvw/kbKIUK7mZE/kOB6EDy0W00+zHaKoQ4ssnClwB1mxEpdp3yzOxWeFm
+ ucbUZT8Dy0IJ3blo+sQ2/DRv5FLXfAaEhqfoHGJVEGOjmIfazHpvAxAg2
+ pUydW2WW0ZSLNGuCHkns+jQjSYcWAgOWOPoroO9CgmoTwnLGHoUQhDOgT g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354260384"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="354260384"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 09:21:58 -0700
+ 22 Aug 2023 09:22:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="826373900"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="826373900"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="826373911"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="826373911"
 Received: from kahchuno-mobl.gar.corp.intel.com (HELO fedora..)
  ([10.249.254.65])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 09:21:55 -0700
+ 22 Aug 2023 09:21:58 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
-Subject: [PATCH v2 0/4] drm/xe: Support optional pinning of userptr pages
-Date: Tue, 22 Aug 2023 18:21:32 +0200
-Message-ID: <20230822162136.25895-1-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/4] drm/xe/vm: Use onion unwind for
+ xe_vma_userptr_pin_pages()
+Date: Tue, 22 Aug 2023 18:21:33 +0200
+Message-ID: <20230822162136.25895-2-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230822162136.25895-1-thomas.hellstrom@linux.intel.com>
+References: <20230822162136.25895-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,34 +66,88 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds a flag at VM_BIND time to pin the memory backing a VMA.
-Initially this is needed for long-running workloads on hardware that
-neither support mid-thread preemption nor pagefaults, since without it
-the userptr MMU notifier will wait for preemption until preemption times
-out.
+Use onion error unwind since that makes the function easier to read
+and extend. No functional change.
 
-Moving forward this could be supported also for bo-backed VMAs given
-a proper accounting takes place. A sysadmin could then optionally configure
-a system to be optimized for dealing with a single GPU application
-at a time.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/xe/xe_vm.c | 37 +++++++++++++++++++------------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-The series will be followed up with an igt series to exercise the uAPI.
-
-v2:
-- Address review comments by Matthew Brost.
-
-Thomas Hellström (4):
-  drm/xe/vm: Use onion unwind for xe_vma_userptr_pin_pages()
-  drm/xe/vm: Implement userptr page pinning
-  drm/xe/vm: Perform accounting of userptr pinned pages
-  drm/xe/uapi: Support pinning of userptr vmas
-
- drivers/gpu/drm/xe/xe_vm.c       | 194 ++++++++++++++++++++++++-------
- drivers/gpu/drm/xe/xe_vm.h       |   9 ++
- drivers/gpu/drm/xe/xe_vm_types.h |  14 +++
- include/uapi/drm/xe_drm.h        |  18 +++
- 4 files changed, 190 insertions(+), 45 deletions(-)
-
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index 2e99f865d7ec..8bf7f62e6548 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -116,19 +116,17 @@ int xe_vma_userptr_pin_pages(struct xe_vma *vma)
+ 		kthread_unuse_mm(vma->userptr.notifier.mm);
+ 		mmput(vma->userptr.notifier.mm);
+ 	}
+-mm_closed:
+ 	if (ret)
+-		goto out;
++		goto out_release_pages;
+ 
+ 	ret = sg_alloc_table_from_pages_segment(&vma->userptr.sgt, pages,
+ 						pinned, 0,
+ 						(u64)pinned << PAGE_SHIFT,
+ 						xe_sg_segment_size(xe->drm.dev),
+ 						GFP_KERNEL);
+-	if (ret) {
+-		vma->userptr.sg = NULL;
+-		goto out;
+-	}
++	if (ret)
++		goto out_release_pages;
++
+ 	vma->userptr.sg = &vma->userptr.sgt;
+ 
+ 	ret = dma_map_sgtable(xe->drm.dev, vma->userptr.sg,
+@@ -136,11 +134,8 @@ int xe_vma_userptr_pin_pages(struct xe_vma *vma)
+ 			      DMA_BIDIRECTIONAL,
+ 			      DMA_ATTR_SKIP_CPU_SYNC |
+ 			      DMA_ATTR_NO_KERNEL_MAPPING);
+-	if (ret) {
+-		sg_free_table(vma->userptr.sg);
+-		vma->userptr.sg = NULL;
+-		goto out;
+-	}
++	if (ret)
++		goto out_free_sg;
+ 
+ 	for (i = 0; i < pinned; ++i) {
+ 		if (!read_only) {
+@@ -152,17 +147,23 @@ int xe_vma_userptr_pin_pages(struct xe_vma *vma)
+ 		mark_page_accessed(pages[i]);
+ 	}
+ 
+-out:
+ 	release_pages(pages, pinned);
+ 	kvfree(pages);
+ 
+-	if (!(ret < 0)) {
+-		vma->userptr.notifier_seq = notifier_seq;
+-		if (xe_vma_userptr_check_repin(vma) == -EAGAIN)
+-			goto retry;
+-	}
++	vma->userptr.notifier_seq = notifier_seq;
++	if (xe_vma_userptr_check_repin(vma) == -EAGAIN)
++		goto retry;
++
++	return 0;
+ 
+-	return ret < 0 ? ret : 0;
++out_free_sg:
++	sg_free_table(vma->userptr.sg);
++	vma->userptr.sg = NULL;
++out_release_pages:
++	release_pages(pages, pinned);
++mm_closed:
++	kvfree(pages);
++	return ret;
+ }
+ 
+ static bool preempt_fences_waiting(struct xe_vm *vm)
 -- 
 2.41.0
 
