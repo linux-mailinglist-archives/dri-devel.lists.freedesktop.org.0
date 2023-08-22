@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B46A783F4B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:36:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0426E783F50
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B285D10E310;
-	Tue, 22 Aug 2023 11:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCC210E30F;
+	Tue, 22 Aug 2023 11:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81DF10E30B;
- Tue, 22 Aug 2023 11:36:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E66610E30F;
+ Tue, 22 Aug 2023 11:36:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 25E8765380;
- Tue, 22 Aug 2023 11:36:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4EE7C433CB;
- Tue, 22 Aug 2023 11:36:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CB17965389;
+ Tue, 22 Aug 2023 11:36:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB4CC433C9;
+ Tue, 22 Aug 2023 11:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692704186;
- bh=BUn+ZG7l7mvWNRrnhgObu6L6qmyW5XyOD9l/p3KAUn4=;
+ s=k20201202; t=1692704208;
+ bh=FPb85KBsLtIuV93aWYRoqyPZudRHIE7GTm0niEodijU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ai4z5zHWUuVZdD1iwgV1n562Uh0KSaZwt5q39InwE+WxYPcTWpHTTWxuJ0zTuCeX8
- lqfiZi5zskrE6HOb3TcdN4vxUkObzPIoTB0krokcCUxbmejuu05Wk+GcLiyaNOjz6j
- 2xc598akMGhvBB1B4NOy0GAvmfA3L6XH/1ImFcSoZ+KOzLuWmQPwhap91gxA1Dx1Ev
- PWyae0Se13K2o1C3XIoCBJCag3niQNXnjbzz/5yx58YcH1BsWvOc8HfSto5wsXnWIS
- xlujIAjDAlygcFATtXjkUX/yDi+UDkvJXUdRIz+I+Qa6zr0AlvBG915TgbQLjlwC2H
- wJACVx52eZllg==
+ b=mgY9XXlPwfB1oHLxsEcOHSjkNNYtz2KTMAv6efMfawx4HcZvuUZIVvLcYGjIzbOkw
+ H7uJCZnZ8HUHRQuQDBKQFb9uptplp19JYPtwAapKAxmytBOtoxLbOxvUOxM3sNmAJT
+ vN2cE/pHw/RcRuXOlD2RrxHF6NzZx/kU6Q0HPser+YjoUnI1izkGBdzQHP9AyftNbp
+ ntVuPMZI41J2sjb5YTFjpKuRg89awP55Zu/kwOAoeGcNOVpwst+hVrcsZdDFbHzbuU
+ bo/GM/L1uHJsl1OmO9LO/9A3el8/MNOb988P54fpWMXaL1pmmMR7wBLBuUbhkTvWZ5
+ /YUik8WVjWRyg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 11/11] drm/amdkfd: disable IOMMUv2 support for
- Raven
-Date: Tue, 22 Aug 2023 07:35:53 -0400
-Message-Id: <20230822113553.3551206-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/10] drm/amd/pm: skip the RLC stop when S0i3
+ suspend for SMU v13.0.4/11
+Date: Tue, 22 Aug 2023 07:36:24 -0400
+Message-Id: <20230822113628.3551393-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230822113553.3551206-1-sashal@kernel.org>
-References: <20230822113553.3551206-1-sashal@kernel.org>
+In-Reply-To: <20230822113628.3551393-1-sashal@kernel.org>
+References: <20230822113628.3551393-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.11
+X-stable-base: Linux 6.1.46
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,64 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Tim Huang <Tim.Huang@amd.com>,
+ lijo.lazar@amd.com, kenneth.feng@amd.com, dri-devel@lists.freedesktop.org,
  Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Mario Limonciello <mario.limonciello@amd.com>, trix@redhat.com,
+ Alex Deucher <alexander.deucher@amd.com>, Kun.Liu2@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Tim Huang <Tim.Huang@amd.com>
 
-[ Upstream commit 091ae5473f96ced844af6ba39b94757359b12348 ]
+[ Upstream commit 730d44e1fa306a20746ad4a85da550662aed9daa ]
 
-Use the dGPU path instead.  There were a lot of platform
-issues with IOMMU in general on these chips due to windows
-not enabling IOMMU at the time.  The dGPU path has been
-used for a long time with newer APUs and works fine.  This
-also paves the way to simplify the driver significantly.
+For SMU v13.0.4/11, driver does not need to stop RLC for S0i3,
+the firmwares will handle that properly.
 
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Tested-by: Mike Lothian <mike@fireburn.co.uk>
+Signed-off-by: Tim Huang <Tim.Huang@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 9c8197573dee7..224e057d2dbbf 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -185,11 +185,6 @@ static void kfd_device_info_init(struct kfd_dev *kfd,
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index d191ff52d4f06..a664a0a284784 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -1562,9 +1562,9 @@ static int smu_disable_dpms(struct smu_context *smu)
  
- 		kfd_device_info_set_event_interrupt_class(kfd);
- 
--		/* Raven */
--		if (gc_version == IP_VERSION(9, 1, 0) ||
--		    gc_version == IP_VERSION(9, 2, 2))
--			kfd->device_info.needs_iommu_device = true;
--
- 		if (gc_version < IP_VERSION(11, 0, 0)) {
- 			/* Navi2x+, Navi1x+ */
- 			if (gc_version == IP_VERSION(10, 3, 6))
-@@ -283,7 +278,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
- 			gfx_target_version = 90000;
- 			f2g = &gfx_v9_kfd2kgd;
- 			break;
--#ifdef KFD_SUPPORT_IOMMU_V2
- 		/* Raven */
- 		case IP_VERSION(9, 1, 0):
- 		case IP_VERSION(9, 2, 2):
-@@ -291,7 +285,6 @@ struct kfd_dev *kgd2kfd_probe(struct amdgpu_device *adev, bool vf)
- 			if (!vf)
- 				f2g = &gfx_v9_kfd2kgd;
- 			break;
--#endif
- 		/* Vega12 */
- 		case IP_VERSION(9, 2, 1):
- 			gfx_target_version = 90004;
+ 	/*
+ 	 * For SMU 13.0.4/11, PMFW will handle the features disablement properly
+-	 * for gpu reset case. Driver involvement is unnecessary.
++	 * for gpu reset and S0i3 cases. Driver involvement is unnecessary.
+ 	 */
+-	if (amdgpu_in_reset(adev)) {
++	if (amdgpu_in_reset(adev) || adev->in_s0ix) {
+ 		switch (adev->ip_versions[MP1_HWIP][0]) {
+ 		case IP_VERSION(13, 0, 4):
+ 		case IP_VERSION(13, 0, 11):
 -- 
 2.40.1
 
