@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79866784425
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 16:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DF1784473
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 16:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C1110E381;
-	Tue, 22 Aug 2023 14:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFD110E384;
+	Tue, 22 Aug 2023 14:36:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E388E10E377
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 14:28:51 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-52a1c58ef30so167873a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 07:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1692714530; x=1693319330;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=x1z3oj15aWVBfA1AbgwNk3JNTKQtrQ1wLjBwqO7l50k=;
- b=iWIvBDyvyaYh0WH9CS3AxO3LBKjLUTKjK/CuwnyMCdcgxo50ue6QG2Umui7oAKbXst
- 5Pb59KgG3E1hQcU7SWoh7EQTY4jXHVlntQU3/Mnvu6HzuzoI3c5z+ICqOuxTlnYBWd+s
- eL5NwTYK45a0uVx04sQ6pvo+uClK81Ir3tdI0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692714530; x=1693319330;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x1z3oj15aWVBfA1AbgwNk3JNTKQtrQ1wLjBwqO7l50k=;
- b=YCnliPmZRF/7j3h5jEQ/z3xExDTPeKb2iciMsBeJOm+ByNGUnPLR7DxcS7VXxalrQx
- qkDIpyCbGn+PQ97KNxeOrPuFDZ80jDD6tNi7XgGEtm2qqujpfb/etctkrJjFPijOx5NK
- gtV8rDMUOUTyiuza9NZfdhDmvZ2jWoKMOjGwVfMJdZmNzdnu9QZoGiypGP1goXCLB5oM
- ULNcanQpiZJ9dY/Y/nhA7H1zb0pkpwz5cjpJM7PTgyOl4X+TzoeTHGv4hchzPgn8OESy
- dNKXWsTpDp3/23xh0R3cshq/jcgK1mHacAu1Lk0II0LtKQf8yXFs9bujnYs2SVsWqmIU
- 6fkQ==
-X-Gm-Message-State: AOJu0Yy8ZeZ8QIbx403WN9kku2VeU5QhY+wuNfDmgvR74W5BsMqEAruo
- wyDbrBEht33tO/ZQ4RhL1MetAw==
-X-Google-Smtp-Source: AGHT+IHCX0NsokHSCnMwwATqRGa9GSMwVHb7gwwK45CLkQrFK+GM3NJs0CfPvMOt2fTBtjHAvKkqcA==
-X-Received: by 2002:a17:906:10cc:b0:9a1:c4ce:65b8 with SMTP id
- v12-20020a17090610cc00b009a1c4ce65b8mr577913ejv.4.1692714530381; 
- Tue, 22 Aug 2023 07:28:50 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- f26-20020a170906391a00b0099d798a6bb5sm8249289eje.67.2023.08.22.07.28.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Aug 2023 07:28:49 -0700 (PDT)
-Date: Tue, 22 Aug 2023 16:28:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Dong, Zhanjun" <zhanjun.dong@intel.com>
-Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when
- flush delayed work on gt reset
-Message-ID: <ZOTGH4yg0/wvvws1@phenom.ffwll.local>
-References: <20230811182011.546026-1-zhanjun.dong@intel.com>
- <ZOS9NURIoBK1lyi8@phenom.ffwll.local>
- <SN6PR11MB26223C5DDEE01B6CF285532C8F1FA@SN6PR11MB2622.namprd11.prod.outlook.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6356B10E380
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 14:35:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A466063513;
+ Tue, 22 Aug 2023 14:35:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2466C433C8;
+ Tue, 22 Aug 2023 14:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692714958;
+ bh=le831erP2b4h/R+WeU1ellkn4/Bp6Wll7cO9bPqLnXM=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=JjvqcWLFaFAoFLcNk6IPTR5mCO+oGSvCthsf5eaSr7ZVcAaZJjWVAwjlK4PNZt9YU
+ xfSPGFcZ86DiDOaYODOPyQrPUD+oYX4q5mgfCbXRO4q8dSsu+WOOD08fOBu1ohsx35
+ aou3yrBfxFw/E+BskpBHy45TrioqwTYUvF11homWtzsM3l60olmljwSHLbsIQXe5CL
+ rly/DlPHUKUykX5Y2yQl5smDW3fvH3MAvcJcKdzADA721wTsM1sI8FnjTktZrcUHIX
+ dyGgmnBSeTxmc3E565/Sxj5tO8Vc3rjblGvcKTGfMx9UwUBoskG+YWuTphqP3czQ98
+ dRRTJGYJKLdWQ==
+Date: Tue, 22 Aug 2023 16:35:55 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Emma Anholt <emma@anholt.net>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH RFC 00/13] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <sh3f7nuks7cww43ajz2iwrgzkxbqpk7752iu4pj4vtwaiv76x4@itnf6f2mnbgn>
+References: <20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org>
+ <ZOTDKHxn2bOg+Xmg@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="s4lnbs6jvqvssmma"
 Content-Disposition: inline
-In-Reply-To: <SN6PR11MB26223C5DDEE01B6CF285532C8F1FA@SN6PR11MB2622.namprd11.prod.outlook.com>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+In-Reply-To: <ZOTDKHxn2bOg+Xmg@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,103 +60,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Harrison,
- John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 22, 2023 at 02:14:28PM +0000, Dong, Zhanjun wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Daniel Vetter <daniel@ffwll.ch>
-> > Sent: August 22, 2023 9:51 AM
-> > To: Dong, Zhanjun <zhanjun.dong@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Harrison,
-> > John C <john.c.harrison@intel.com>; Andi Shyti <andi.shyti@linux.intel.com>;
-> > Daniel Vetter <daniel@ffwll.ch>
-> > Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when
-> > flush delayed work on gt reset
-> > 
-> > On Fri, Aug 11, 2023 at 11:20:11AM -0700, Zhanjun Dong wrote:
-> > > This attempts to avoid circular locking dependency between flush delayed
-> > > work and intel_gt_reset.
-> > > When intel_gt_reset was called, task will hold a lock.
-> > > To cacel delayed work here, the _sync version will also acquire a lock,
-> > > which might trigger the possible cirular locking dependency warning.
-> > > When intel_gt_reset called, reset_in_progress flag will be set, add code
-> > > to check the flag, call async verion if reset is in progress.
-> > >
-> > > Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
-> > > Cc: John Harrison <John.C.Harrison@Intel.com>
-> > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++++++++++-
-> > >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > index a0e3ef1c65d2..600388c849f7 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > @@ -1359,7 +1359,16 @@ static void guc_enable_busyness_worker(struct
-> > intel_guc *guc)
-> > >
-> > >  static void guc_cancel_busyness_worker(struct intel_guc *guc)
-> > >  {
-> > > -	cancel_delayed_work_sync(&guc->timestamp.work);
-> > > +	/*
-> > > +	 * When intel_gt_reset was called, task will hold a lock.
-> > > +	 * To cacel delayed work here, the _sync version will also acquire a lock,
-> > which might
-> > > +	 * trigger the possible cirular locking dependency warning.
-> > 
-> > This is not even close to a locking bugfix. Consider this a formal nack,
-> > because the issue here is not even close to "needs more comments to
-> > explain what's going on".
-> > -Daniel
-> 
-> The purpose of the comment here it is to explain locking issue condition
-> > 
-> > > +	 * Check the reset_in_progress flag, call async verion if reset is in
-> > progress.
-> 
-> 
-> The comment here explains check with the flag to avoid locking condition.
-> The reset process is not considered to be complete in short time, other than that, do we missed anything?
 
-Either the _sync is not needed at all, in case you need to explain why.
-Which this patch doesn't. And if the _sync isn't needed, then it's
-probably not needed in all/most cases?
+--s4lnbs6jvqvssmma
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Or the _sync is needed, and in that case you just replace a potential
-deadlock scenario with a potential race condition.
+Hi,
 
-In neither case should this patch here be merged.
--Daniel
+On Tue, Aug 22, 2023 at 04:16:08PM +0200, Daniel Vetter wrote:
+> On Mon, Aug 14, 2023 at 03:56:12PM +0200, Maxime Ripard wrote:
+> > Here's a series that creates a subclass of drm_connector specifically
+> > targeted at HDMI controllers.
+> >=20
+> > The idea behind this series came from a recent discussion on IRC during
+> > which we discussed infoframes generation of i915 vs everything else.=20
+> >=20
+> > Infoframes generation code still requires some decent boilerplate, with
+> > each driver doing some variation of it.
+> >=20
+> > In parallel, while working on vc4, we ended up converting a lot of i915
+> > logic (mostly around format / bpc selection, and scrambler setup) to
+> > apply on top of a driver that relies only on helpers.
+> >=20
+> > While currently sitting in the vc4 driver, none of that logic actually
+> > relies on any driver or hardware-specific behaviour.
+> >=20
+> > The only missing piec to make it shareable are a bunch of extra
+> > variables stored in a state (current bpc, format, RGB range selection,
+> > etc.).
+> >=20
+> > Thus, I decided to create some generic subclass of drm_connector to
+> > address HDMI connectors, with a bunch of helpers that will take care of
+> > all the "HDMI Spec" related code. Scrambler setup is missing at the
+> > moment but can easily be plugged in.
+> >=20
+> > Last week, Hans Verkuil also expressed interest in retrieving the
+> > infoframes generated from userspace to create an infoframe-decode tool.
+> > This series thus leverages the infoframe generation code to expose it
+> > through debugfs.
+> >=20
+> > This entire series is only build-tested at the moment. Let me know what
+> > you think,
+>
+> I think the idea overall makes sense, we we probably need it to roll out
+> actual hdmi support to all the hdmi drivers we have. But there's the
+> eternal issue of "C sucks at multiple inheritance".
+>=20
+> Which means if you have a driver that subclasses drm_connector already for
+> it's driver needs it defacto cannot, or only under some serious pains, use
+> this.
 
-> 
-> > > +	 */
-> > > +	if (guc_to_gt(guc)->uc.reset_in_progress)
-> > > +		cancel_delayed_work(&guc->timestamp.work);
-> > > +	else
-> > > +		cancel_delayed_work_sync(&guc->timestamp.work);
-> > >  }
-> > >
-> > >  static void __reset_guc_busyness_stats(struct intel_guc *guc)
-> > > --
-> > > 2.34.1
-> > >
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+That's what vc4 is doing, and it went fine I think? it was mostly a
+matter of subclassing drm_hdmi_connector instead of drm_connector, and
+adjusting the various pointers and accessors here and there.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It does create a fairly big diffstat, but nothing too painful.
+
+> Which is kinda why in practice we tend to not subclass, but stuff
+> subclass fields into a name sub-structure. So essentially struct
+> drm_connector.hdmi and struct drm_connector_state.hdmi instead of
+> drm_hdmi_connector and drm_hdmi_connector_state. The helper functions to
+> set it all up would all still be the same roughly. It's less typesafe but
+> I think the gain in practical use (like you could make i915 use the
+> helpers probably, which with this approach here is practically
+> impossible).
+
+Ack.
+
+> The only other nit is that we probably want to put some of the hdmi
+> properties into struct drm_mode_config because there's no reason to have
+> per-connector valid values.
+
+What property would you want to move?
+
+> Also, it might be really good if you can find a co-conspirator who also
+> wants to use this in their driver, then with some i915 extracting we'd
+> have three, which should ensure the helper api is solid.
+
+I can convert sunxi (old) HDMI driver if needed. I'm not sure how
+helpful it would be since it doesn't support bpc > 8, but it could be a
+nice showcase still for "simple" HDMI controllers.
+
+Maxime
+
+--s4lnbs6jvqvssmma
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOTHywAKCRDj7w1vZxhR
+xQyZAQCy1klQDVl1VrpljAbWWce0q3jdUvFd36DTtxArJSMz2AEAreIIVONHXkfa
+KYsAmvsZKcNViqWYVqDGSepMLP0vHAo=
+=yR/w
+-----END PGP SIGNATURE-----
+
+--s4lnbs6jvqvssmma--
