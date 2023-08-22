@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58DD783FCD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:44:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9443B783FD2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 13:45:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15EE10E321;
-	Tue, 22 Aug 2023 11:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14F910E323;
+	Tue, 22 Aug 2023 11:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269EB10E322;
- Tue, 22 Aug 2023 11:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692704642; x=1724240642;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=NhLbpMBB+lX2f+xyEl+B8376ASkcAco+ugMB0R+Q15o=;
- b=aFdNEgF+YKEt2EHZjXVEjKAsqALEMoSThCiSPrnUiQz5hLl9Plue4HeK
- zEBI54q/4n4xs1KlM7Va6pE1SqTJMV6iuAY8fjsz2fihRcQjrRwVXmfMu
- 0v4WL2Ap+FfX+rct5Xusryp2t8j+rFv7iW+fJEZBBW03wT0PW9xh4bsSF
- ck8jccOScaLpWOBdlnjrdLbZfHDJF5TmqT/Veet6kbxQ1BoKTC/cDxBBH
- q0nGJVQJoOQDpXv/RH5bYFdbM8Aw2t+fkd5OxQbDlrBWCewtjUATlJWEo
- 4qzP2sv6vtAx+u4pkktgBjbbepaIJT7BEyOVOi9hHYjIJuLQ3risYRvCq g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="372751660"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; d="scan'208";a="372751660"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 04:44:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850580730"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; d="scan'208";a="850580730"
-Received: from kainaats-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.42.230])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 04:43:55 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] drm/amd/display: drop unused count variable in
- create_eml_sink()
-In-Reply-To: <20230517183350.314082-3-hamza.mahfooz@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230517183350.314082-1-hamza.mahfooz@amd.com>
- <20230517183350.314082-3-hamza.mahfooz@amd.com>
-Date: Tue, 22 Aug 2023 14:43:53 +0300
-Message-ID: <87a5uj7152.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41C910E323;
+ Tue, 22 Aug 2023 11:45:40 +0000 (UTC)
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9AB71660722B;
+ Tue, 22 Aug 2023 12:45:38 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692704739;
+ bh=MiJSYH5aW1TpyRdaUDOPV16m9eaLpiLtrZPWgi287yk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RpVt+bSRSdhckPdWvAGEnbs9W/bbR3uDHl2LTJsedZInchLCm/QmsZgBLt3+mMEnf
+ jtVoec8DsojWdcLVcapjdcbRgSfXwZrbDvGDTLU9k78pU5L5GbbwQGrxC6s24PNUvR
+ h+atZn/jTBla3G76X05rjAEHrjwdviZ4KhanVaiDK9SUCAqq2On5m6ZHWLY34BEswQ
+ gBpnUnnbE72twMhnN2f7S+Ii2AePNzrySDbW325jNgSn1VFlJBTnzKnxcA3XDDbUIi
+ Xeu0TaLF6Zk9o/kXTc4LwJusgWxX2NCdM621kQ1l1BAyFNQKkT9tYs1MfXBdniEayc
+ tJApRTgSFUevw==
+Date: Tue, 22 Aug 2023 14:45:35 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Melissa Wen <mwen@igalia.com>
+Subject: Re: [PATCH v2 08/34] drm/amd/display: document AMDGPU pre-defined
+ transfer functions
+Message-ID: <20230822144535.2105ac46.pekka.paalanen@collabora.com>
+In-Reply-To: <20230810160314.48225-9-mwen@igalia.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-9-mwen@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Mike Hsieh <Mike.Hsieh@amd.com>,
- kernel test robot <lkp@intel.com>, Hans de Goede <hdegoede@redhat.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, 
- Xinhui" <Xinhui.Pan@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Leon Huang <Leon.Huang1@amd.com>, pengfuyuan <pengfuyuan@kylinos.cn>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Nasir Osman <nasir.osman@amd.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Shashank Sharma <Shashank.Sharma@amd.com>,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 May 2023, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
-> Since, we are only interested in having
-> drm_edid_override_connector_update(), update the value of
-> connector->edid_blob_ptr. We don't care about the return value of
-> drm_edid_override_connector_update() here. So, drop count.
->
-> Fixes: 068553e14f86 ("drm/amd/display: assign edid_blob_ptr with edid from debugfs")
+On Thu, 10 Aug 2023 15:02:48 -0100
+Melissa Wen <mwen@igalia.com> wrote:
 
-The *real* problems with that commit are:
-
-1) It uses drm_edid_override_connector_update() *at all*. Its
-   documentation says:
-
-	Only to be used from drm_helper_probe_single_connector_modes()
-	as a fallback for when DDC probe failed during drm_get_edid()
-	and caused the override/firmware EDID to be skipped.
-
-2) It messes with edid_blob_ptr directly. All drivers should stop doing
-   that. It just complicates all the logic in the overrides and the
-   property updates.
-
-
-BR,
-Jani.
-
-
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> Brief documentation about pre-defined transfer function usage on AMD
+> display driver and standardized EOTFs and inverse EOTFs.
+> 
+> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 14b296e1d0f6..5a2d04f47276 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6396,9 +6396,8 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
->  		/* if connector->edid_override valid, pass
->  		 * it to edid_override to edid_blob_ptr
->  		 */
-> -		int count;
+>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index cc2187c0879a..7f13bcdaf016 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -85,6 +85,45 @@ void amdgpu_dm_init_color_mod(void)
+>  }
 >  
-> -		count = drm_edid_override_connector_update(&aconnector->base);
-> +		drm_edid_override_connector_update(&aconnector->base);
->  
->  		if (!aconnector->base.edid_blob_ptr) {
->  			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
+>  #ifdef AMD_PRIVATE_COLOR
+> +/* Pre-defined Transfer Functions (TF)
+> + *
+> + * AMD driver supports pre-defined mathematical functions for transferring
+> + * between encoded values and optical/linear space. Depending on HW color caps,
+> + * ROMs and curves built by the AMD color module support these transforms.
+> + *
+> + * The driver-specific color implementation exposes properties for pre-blending
+> + * degamma TF, shaper TF (before 3D LUT), and blend(dpp.ogam) TF and
+> + * post-blending regamma (mpc.ogam) TF. However, only pre-blending degamma
+> + * supports ROM curves. AMD color module uses pre-defined coefficients to build
+> + * curves for the other blocks. What can be done by each color block is
+> + * described by struct dpp_color_capsand struct mpc_color_caps.
+> + *
+> + * AMD driver-specific color API exposes the following pre-defined transfer
+> + * functions:
+> + *
+> + * - Linear/Unity: linear/identity relationship between pixel value and
+> + *   luminance value;
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+I asked about linear/unity on the previous patch.
+
+> + * - Gamma 2.2, Gamma 2.4, Gamma 2.6: pure gamma functions;
+
+I'd explain these as pure power functions. Gamma function is
+something completely different:
+https://en.wikipedia.org/wiki/Gamma_function
+
+> + * - sRGB: 2.4 gamma with small initial linear section as standardized by IEC
+> + *   61966-2-1:1999;
+
+I'd leave out the mention of "2.4 gamma". Yes, the value of the gamma
+parameter is 2.4, but the curve is actually an approximation of the
+pure 2.2 power function suitable for integer arithmetic[1].
+
+One could call it "The piece-wise transfer function from IEC ...".
+
+[1] https://www.w3.org/Graphics/Color/sRGB.html
+
+> + * - BT.709 (BT.1886): 2.4 gamma with differences in the dark end of the scale.
+> + *   Used in HD-TV and standardized by ITU-R BT.1886;
+
+BT.1886 has two more parameters (a.k.a contrast and brightness). What
+are their values?
+
+It's also quite different from BT.709 inverse OETF. BT.1886 uses
+exponent 2.4 while inverse of BT.709 OETF has exponent approximately
+2.22. This difference is intentional and accounts for shooting vs.
+viewing environment differences.
+
+Either the curve comes from BT.709 or BT.1886. Which one is it?
+
+Would be nice to spell out the mathematical formula in these cases.
+
+> + * - PQ (Perceptual Quantizer): used for HDR display, allows luminance range
+> + *   capability of 0 to 10,000 nits; standardized by SMPTE ST 2084.
+
+Right, but since we are working on numbers here,
+is the PQ EOTF [0, 1] -> [0, 1] or [0, 10000]?
+
+
+Thanks,
+pq
+
+> + *
+> + * In the driver-specific API, color block names attached to TF properties
+> + * suggest the intention regarding non-linear encoding pixel's luminance
+> + * values. As some newer encodings don't use gamma curve, we make encoding and
+> + * decoding explicit by defining an enum list of transfer functions supported
+> + * in terms of EOTF and inverse EOTF, where:
+> + *
+> + * - EOTF (electro-optical transfer function): is the transfer function to go
+> + *   from the encoded value to an optical (linear) value. De-gamma functions
+> + *   traditionally do this.
+> + * - Inverse EOTF (simply the inverse of the EOTF): is usually intended to go
+> + *   from an optical/linear space (which might have been used for blending)
+> + *   back to the encoded values. Gamma functions traditionally do this. 
+> + */
+>  static const char * const
+>  amdgpu_transfer_function_names[] = {
+>  	[AMDGPU_TRANSFER_FUNCTION_DEFAULT]		= "Default",
+
