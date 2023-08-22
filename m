@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47389784929
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 20:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB5378492C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 20:03:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8CF910E3D6;
-	Tue, 22 Aug 2023 18:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3C710E3D2;
+	Tue, 22 Aug 2023 18:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14A510E3CF;
- Tue, 22 Aug 2023 18:02:51 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-68a3e943762so2499631b3a.1; 
- Tue, 22 Aug 2023 11:02:51 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D91EA10E3C4;
+ Tue, 22 Aug 2023 18:02:53 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1bba48b0bd2so31271515ad.3; 
+ Tue, 22 Aug 2023 11:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692727370; x=1693332170;
+ d=gmail.com; s=20221208; t=1692727373; x=1693332173;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=27p7IUrBUbclutUTfVSGUQESAA2avJiwqyRR2x+l1m0=;
- b=qJl84xabqxGctlufYYzZ0tK+WdNRFigoyJ87qxZpQtgmA+acOyhabn8gTemh9n05ni
- PrFKzld/dpUV6jdQXKKsGoyh37PRNJhie8iLPhyiFPcWEq46TDJEfqp8lPkrajyI02vb
- HcjSrnk3+Sb78LFi913m990ox8rpRBjj6EvC3aT626z9mBc48paFjfRvBtT+Vyx5+6Ta
- syzF8lGdPeM36rMkVtwdG+qTDIk31NAbDyzMyPKkxCiumGT0nkwDVWSkZBRo4T2DM98g
- akQz/jtPABwezTKc+bkP7VpNcSkPW93u7DkZpycYu07E5Tfgd2Zzu7KG0IOkMPvpnrfd
- Uw0g==
+ bh=EWTFCIAZmBfA/MXBTibsw5+lmGqMuDYbvZM3o5ozilI=;
+ b=sIVmrjcxitFg4JJkvgu3n9lZfj+ZSoymmV8gHVUoJnc+FzgpSsasuqzAXhGRBrljDK
+ DEIkTj8WkF7AizHnQWUzvOjfQJfbnSs0d/tkzbs2tK73XP+c7L0CvkBD/Y3OKA5EYVdq
+ EUwL1J5uSulGu8DxFtG01OFb64dwzI57BkYCDnd1E15xGR/cKqQAxtiF89wZ1RlnkaVy
+ 3upuoiMg2Tl9TmjGpaPZvByfpvcu5DVWFfIY/ss86Jj0DG77M7K3kXLLUoYBu6auFJmE
+ i7dUEUj7qduUDX7ihwu6sKvV9bjU+vUH44d9oAST7+HcJ7MwI0FChfLRYMMNbpDsqtRX
+ AhkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692727370; x=1693332170;
+ d=1e100.net; s=20221208; t=1692727373; x=1693332173;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=27p7IUrBUbclutUTfVSGUQESAA2avJiwqyRR2x+l1m0=;
- b=bA/3uoocSxpdU7CSJ5RDo9wBFSP+7GDfD60FB4+LFIERfI+2fmZKgf2i66oPKuRte1
- anGI7FkVxzTqm1t9CctNDqibwcESzm6HuIXw4GangWd0Dilf1N/SynNIB7rppVNXp41w
- m/HsiHWJLzQZGDc5BMVOuR6GWEUuDHRy7KnQ2G2MncUzNNVJWWQZRVV8cSHHGyGx4kwZ
- +fndIm6ezpby3n11ApQ7sSkvAeUsvvgm0pEQ/ZxRFNSypxtHc9ir1ArW2G4/Z35Ct/4x
- FgSQAikbac4A53c4FxiIHKGC4gmmz/xHaM2L0uTxkNOS4WBjZbhrl6C4wwA8xCW9zU0A
- MBjg==
-X-Gm-Message-State: AOJu0YwSNs7vKxC6lWrlKDKC5+b6uF1E/HRqppitrGzcC3Icsl8Xlvx8
- MqK81ZY3jSanPDSWy9hrW0mYXAkoAlg=
-X-Google-Smtp-Source: AGHT+IFbzkBQEmwWFyVgVJJbK2lNicqTu/4XV7Sr++rA7JFjJhZHCsZjniDhF+EF9SEPv+aSjlrV1w==
-X-Received: by 2002:a05:6a20:7da9:b0:134:1011:8582 with SMTP id
- v41-20020a056a207da900b0013410118582mr12765394pzj.47.1692727370533; 
- Tue, 22 Aug 2023 11:02:50 -0700 (PDT)
+ bh=EWTFCIAZmBfA/MXBTibsw5+lmGqMuDYbvZM3o5ozilI=;
+ b=dLmqWUuoclQOy/AyfIhuVK4+ubh39wEs+Xe4ZA1ZrppiQCcZFDS+X27H/wLh+34LYu
+ dcdBYEvLBs2UT213Dv+sntuyGN8gE68KGSKDP8CbMPWZTz02zCsHd5WvMRdRLN8numh0
+ Nm087QCnx6xi1DWb75QC0syzChKqZgqr7C7zJNuvd+8KWwtte7VD+1HQawPXF5NuyhS0
+ Z4KA6gpN1SshWyjEThk8NGakP29niVEV9RTDlJECPvpYBZgYq1HhTPhpZti453rkGRew
+ UK4X5+/eXn8fDOvrd7+52rvplwTeFP32js0LXw14mrj/n5cZdKxdf6aTBDNIJKSO28pO
+ MJag==
+X-Gm-Message-State: AOJu0YzbNV/jJxirmg1rui6jokphtCwnK/GerDt1n6C9APoInu2dH3Ux
+ T2ptpoJ0be4oEpM+lOj3suAubRW5BJM=
+X-Google-Smtp-Source: AGHT+IHqlGWpSm+itCsmoVu7dzoE8tI7bdalCAnDaQMOyO+v4DHR0mT7LaS+Ix96c8+CTKvupoRMMA==
+X-Received: by 2002:a17:902:d345:b0:1bb:1e69:28be with SMTP id
+ l5-20020a170902d34500b001bb1e6928bemr7341664plk.42.1692727372807; 
+ Tue, 22 Aug 2023 11:02:52 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- r5-20020a638f45000000b00528db73ed70sm8145026pgn.3.2023.08.22.11.02.49
+ h9-20020a170902748900b001ac7f583f72sm9303844pll.209.2023.08.22.11.02.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Aug 2023 11:02:49 -0700 (PDT)
+ Tue, 22 Aug 2023 11:02:52 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 09/11] drm/msm: Move runpm enable in submit path
-Date: Tue, 22 Aug 2023 11:01:56 -0700
-Message-ID: <20230822180208.95556-10-robdclark@gmail.com>
+Subject: [PATCH v5 10/11] drm/sched: Add (optional) fence signaling annotation
+Date: Tue, 22 Aug 2023 11:01:57 -0700
+Message-ID: <20230822180208.95556-11-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230822180208.95556-1-robdclark@gmail.com>
 References: <20230822180208.95556-1-robdclark@gmail.com>
@@ -73,58 +73,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ Luben Tuikov <luben.tuikov@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Move runpm enable to just before we enqueue the job to the scheduler,
-rather than job_run().  This has the disadvantage of potentially
-powering up the GPU before waiting for fences, but it is the only
-feasible way to move things like clk_prepare() out of the fence
-signalling path.  Ideally runpm would have separate prepare and enable
-steps so we could just move the prepare step.  But attempting to
-separate these without support in runpm doesn't play nicely with
-autosuspend.
+Based on
+https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ffwll.ch/
+but made to be optional.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
 ---
- drivers/gpu/drm/msm/msm_gem_submit.c | 2 ++
- drivers/gpu/drm/msm/msm_gpu.c        | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 9 +++++++++
+ include/drm/gpu_scheduler.h            | 2 ++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 99744de6c05a..a908373cf34b 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -981,6 +981,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 23afd70e41ea..6dda18639ac9 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1018,10 +1018,15 @@ static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
+ static int drm_sched_main(void *param)
+ {
+ 	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
++	const bool fence_signalling = sched->fence_signalling;
++	bool fence_cookie;
+ 	int r;
  
- 	msm_rd_dump_submit(priv->rd, submit, NULL);
+ 	sched_set_fifo_low(current);
  
-+	pm_runtime_get_sync(&gpu->pdev->dev);
++	if (fence_signalling)
++		fence_cookie = dma_fence_begin_signalling();
 +
- 	drm_sched_entity_push_job(&submit->base);
+ 	while (!kthread_should_stop()) {
+ 		struct drm_sched_entity *entity = NULL;
+ 		struct drm_sched_fence *s_fence;
+@@ -1077,6 +1082,10 @@ static int drm_sched_main(void *param)
  
- 	args->fence = submit->fence_id;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 243f988c65b7..819140d85205 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -751,8 +751,6 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 		wake_up(&sched->job_scheduled);
+ 	}
++
++	if (fence_signalling)
++		dma_fence_end_signalling(fence_cookie);
++
+ 	return 0;
+ }
  
- 	WARN_ON(!mutex_is_locked(&gpu->lock));
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index e95b4837e5a3..58d958ad31a1 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -493,6 +493,7 @@ struct drm_sched_backend_ops {
+  * @ready: marks if the underlying HW is ready to work
+  * @free_guilty: A hit to time out handler to free the guilty job.
+  * @dev: system &struct device
++ * @fence_signalling: Opt in to fence signalling annotations
+  *
+  * One scheduler is implemented for each hardware ring.
+  */
+@@ -517,6 +518,7 @@ struct drm_gpu_scheduler {
+ 	bool				ready;
+ 	bool				free_guilty;
+ 	struct device			*dev;
++	bool 				fence_signalling;
+ };
  
--	pm_runtime_get_sync(&gpu->pdev->dev);
--
- 	msm_gpu_hw_init(gpu);
- 
- 	submit->seqno = submit->hw_fence->seqno;
+ int drm_sched_init(struct drm_gpu_scheduler *sched,
 -- 
 2.41.0
 
