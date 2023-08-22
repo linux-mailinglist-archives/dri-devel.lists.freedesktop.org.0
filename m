@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E3E78490D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 20:02:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F03B678490E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 20:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0254F10E3DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E2010E3D3;
 	Tue, 22 Aug 2023 18:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF6910E3BF;
- Tue, 22 Aug 2023 18:02:39 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id
- 41be03b00d2f7-5654051b27fso3065300a12.0; 
- Tue, 22 Aug 2023 11:02:39 -0700 (PDT)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A45A610E3BF;
+ Tue, 22 Aug 2023 18:02:41 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1bc0d39b52cso31429575ad.2; 
+ Tue, 22 Aug 2023 11:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692727358; x=1693332158;
+ d=gmail.com; s=20221208; t=1692727360; x=1693332160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+XShSbqbLSjOdDhersXOLs7lzCQuSfnKt14AX57BEfg=;
- b=pUZ+14WTjGDCf1BQn529IVVAU3hq39BWMLQDcxyh3ZnNRBdW80UywIS+1pmIIApzlC
- qwS842G1JCCQnTm2GE6oMZBJelvEJUhgD2Vt6d+kHraK7Dnkl31KoMaN4WQv2KPpm59X
- 7MZU2Ldos4yc3gUepBLpO9lBcwusarlG6zxLEYeX6CEbONCv3dq6NYXvPJNGCVz2TlEF
- 8IDQFIcKMxuxoF8DTAbGfanLO9KXBeSmSHFjrWlyJLnWnxFR5OMc7gC1wmwHSesOW1y9
- 4VgfyDskCki8nCRAB6ulGOZbQL7awkJoyYTayPWZF9yyiFx8tdwu5nGGw1vPvf66bNRo
- FFIQ==
+ bh=pQPrHId/lCHDPLFw57GJfdnbAiLt5erdzCNTXGSDhdo=;
+ b=Ie2ANdwPuvvaJZxkLtrV0mygSDZzPCCbtaixTP8JhVB/Dc8l9V7ZwtmGdhFz5nHUp8
+ 0pwhfQZmLpaJW8iDA2VwHvcAgkKpV0TMqB9fKSlHP7RDEocY2yvNGjhM95DxrPb8fidf
+ FlIJaGh+hNfhxNGHXNRMtQy2Bwu71FYUO/2lsS+d0iD75UwGCdHdk+430CWP03moOP/g
+ vh1w62NFiGunZUR5wq3X8AXFQHYj7/ZNM0nvpnAGGzLB7biAnJZAKd/hS/75nPJidBRd
+ wyB7HRXthbT3p8bRWgKtAX5Wh9DXBfund8EKANorutH3NVpoOehVuli/wxpVea/0kRs9
+ FAUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692727358; x=1693332158;
+ d=1e100.net; s=20221208; t=1692727360; x=1693332160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+XShSbqbLSjOdDhersXOLs7lzCQuSfnKt14AX57BEfg=;
- b=Zrz69X8uz+pNlt6O95Pklqo+zTKnIlQosg44llUQ6H6KNNjeGbSFGPPToqqLJmDL+3
- +Cd97KG7LQX071Jx4Wdk/RR1eTvaBDqeXEnne1DlCRNI+61i47a4rwSlOzdgCwg38ygl
- onr+Td6+rE4bs623GJ+HiPOHtAnvjiBeoylAsprXBNGioSzlRikfIp7XJ/NNLyoXhs09
- 4xdeddA4gxFx7U/w/S3DInHRgiIomVt4FEan6XLFWt+nI7ySKbDXtnJ1rUvVkQ0XYHo0
- RKCZSdaKP3GscGKiCTrXHUKgtWhQoS6lRHVTyTi0cRaE0NqACjIdlNJtFRNIgBbwi6SN
- Rklg==
-X-Gm-Message-State: AOJu0YyC36YfCXPWjsDxX93PWddXsJ0vGqLJVZzBDLORCI5WO4w1jTyF
- zzDuSnxLpgKKHFNJzgMwj4IwVkJDZWg=
-X-Google-Smtp-Source: AGHT+IGU2q4GqtMlWZay5JuzPmetg/Z4r0XDExQ7OUUvf4EpBFUGF1s2dS8kYHGsXJw0CZke5NhQ/g==
-X-Received: by 2002:a17:90b:2304:b0:269:46d7:f1db with SMTP id
- mt4-20020a17090b230400b0026946d7f1dbmr9862231pjb.32.1692727358080; 
- Tue, 22 Aug 2023 11:02:38 -0700 (PDT)
+ bh=pQPrHId/lCHDPLFw57GJfdnbAiLt5erdzCNTXGSDhdo=;
+ b=TTSrfw5w85KHzLVtNeXCfk3hmzw00Rmt53QTakpr7qvaPzqqiRmsi2hvlG8b+GE6gf
+ Lm8bEJ4hImE0aKhmd5z89P5D0cr9siYTQmnLPuf/juqH1axltWBs0XnV/sxqRWDt//+p
+ uIQQnefNqn29kCWwf3u4HbrorBic86ur8nxRLfANciu7fcRPN8wclKk2p8aTdLNEz8PL
+ nuHGFIuZBq5HR743IBJM/bQ78+zSM7s+0dAtzhdUzr5CdpTIyZjwSXGls15pjvRYOCCP
+ WvNIn3UBwUho4D/wWYCFjHOcYfrW0pQp5dA8g9ZxZGG/cSurGqiRPe7PxPQVvTZD6NW4
+ tpOQ==
+X-Gm-Message-State: AOJu0Yw6L7AGbESUqzNORktrxeCua/dgdVC6XXlBmAjxzzp1kW7rIYN3
+ JxBiHhSWrHAFEDyU8Ywwzgr1zjPb+JY=
+X-Google-Smtp-Source: AGHT+IGraTUb9fjtbBbpbEedDJNHXKDUjifcWUB+DLrPWbQJCnkqOHt2z8O4M1Y+WpOEnMa46nzFqw==
+X-Received: by 2002:a17:902:c086:b0:1bc:5924:2da2 with SMTP id
+ j6-20020a170902c08600b001bc59242da2mr8036097pld.56.1692727360397; 
+ Tue, 22 Aug 2023 11:02:40 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- cm1-20020a17090afa0100b0026940eb686bsm9910775pjb.20.2023.08.22.11.02.37
+ f5-20020a170902684500b001bf6ea340b3sm5744775pln.116.2023.08.22.11.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Aug 2023 11:02:37 -0700 (PDT)
+ Tue, 22 Aug 2023 11:02:39 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 04/11] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-Date: Tue, 22 Aug 2023 11:01:51 -0700
-Message-ID: <20230822180208.95556-5-robdclark@gmail.com>
+Subject: [PATCH v5 05/11] PM / QoS: Teach lockdep about dev_pm_qos_mtx locking
+ order
+Date: Tue, 22 Aug 2023 11:01:52 -0700
+Message-ID: <20230822180208.95556-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230822180208.95556-1-robdclark@gmail.com>
 References: <20230822180208.95556-1-robdclark@gmail.com>
@@ -85,70 +86,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Similar to the previous patch, move the allocation out from under
-dev_pm_qos_mtx, by speculatively doing the allocation and handle
-any race after acquiring dev_pm_qos_mtx by freeing the redundant
-allocation.
+Annotate dev_pm_qos_mtx to teach lockdep to scream about allocations
+that could trigger reclaim under dev_pm_qos_mtx.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/base/power/qos.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/base/power/qos.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-index 7e95760d16dc..09834f3354d7 100644
+index 09834f3354d7..2018c805a6f1 100644
 --- a/drivers/base/power/qos.c
 +++ b/drivers/base/power/qos.c
-@@ -930,8 +930,12 @@ s32 dev_pm_qos_get_user_latency_tolerance(struct device *dev)
- int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
- {
- 	struct dev_pm_qos *qos = dev_pm_qos_constraints_allocate(dev);
-+	struct dev_pm_qos_request *req = NULL;
- 	int ret = 0;
- 
-+	if (!qos->latency_tolerance_req)
-+		req = kzalloc(sizeof(*req), GFP_KERNEL);
-+
- 	mutex_lock(&dev_pm_qos_mtx);
- 
- 	dev_pm_qos_constraints_set(dev, qos);
-@@ -945,8 +949,6 @@ int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
- 		goto out;
- 
- 	if (!dev->power.qos->latency_tolerance_req) {
--		struct dev_pm_qos_request *req;
--
- 		if (val < 0) {
- 			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
- 				ret = 0;
-@@ -954,17 +956,15 @@ int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
- 				ret = -EINVAL;
- 			goto out;
- 		}
--		req = kzalloc(sizeof(*req), GFP_KERNEL);
- 		if (!req) {
- 			ret = -ENOMEM;
- 			goto out;
- 		}
- 		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
--		if (ret < 0) {
--			kfree(req);
-+		if (ret < 0)
- 			goto out;
--		}
- 		dev->power.qos->latency_tolerance_req = req;
-+		req = NULL;
- 	} else {
- 		if (val < 0) {
- 			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-@@ -976,6 +976,7 @@ int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
- 
-  out:
- 	mutex_unlock(&dev_pm_qos_mtx);
-+	kfree(req);
- 	return ret;
+@@ -1017,3 +1017,14 @@ void dev_pm_qos_hide_latency_tolerance(struct device *dev)
+ 	pm_runtime_put(dev);
  }
- EXPORT_SYMBOL_GPL(dev_pm_qos_update_user_latency_tolerance);
+ EXPORT_SYMBOL_GPL(dev_pm_qos_hide_latency_tolerance);
++
++static int __init dev_pm_qos_init(void)
++{
++	/* Teach lockdep about lock ordering wrt. shrinker: */
++	fs_reclaim_acquire(GFP_KERNEL);
++	might_lock(&dev_pm_qos_mtx);
++	fs_reclaim_release(GFP_KERNEL);
++
++	return 0;
++}
++early_initcall(dev_pm_qos_init);
 -- 
 2.41.0
 
