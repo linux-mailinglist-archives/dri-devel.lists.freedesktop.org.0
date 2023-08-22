@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DC878374E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 03:19:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B19A783766
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 03:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA27010E2BE;
-	Tue, 22 Aug 2023 01:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5B210E2C2;
+	Tue, 22 Aug 2023 01:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E3A810E2BE
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 01:19:45 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxVugvDeRkfMIaAA--.19188S3;
- Tue, 22 Aug 2023 09:19:43 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxvM4gDeRkSe1fAA--.37428S3; 
- Tue, 22 Aug 2023 09:19:43 +0800 (CST)
-Message-ID: <bc1e31ca-eb54-9696-792c-9749c0582167@loongson.cn>
-Date: Tue, 22 Aug 2023 09:19:28 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3B010E2C0;
+ Tue, 22 Aug 2023 01:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692667963; x=1724203963;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HdoVJOe6WW5DpqEDgj81IB0yoiTd7hbmfF33SK2xsoE=;
+ b=NUXDaCP8T9e5BYgajhdyHSlIaR6Twy5E1JpQRZ08x7yDg0gLy2M4jNKR
+ mi8K7dXbovhdUEKHnneCL9jp18IyKAV1fO7zBY5EosFJEdvsPIebPy5Ih
+ pD22twCLLl3ZuTQSk3OV+lFkcTbclgoyj9Gd3+2hZiOBZajyrlZeC6qR0
+ q+/3ijaWsf2AxebGbowqqtxjmkMtf6EofJRvqBb6y4gpCT2SYt8CQTrZZ
+ 4zo7CTiREJX+gsMONqApIFHpE+eKbP7hdVf76QPq+ImY2C9cx5A1P92yt
+ 96pOtnt2MRwpgOU33wA28Wxh29CFjwCQyrCL8Wj78vm+uT6Bp2rB1wP/p w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="460120041"
+X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="460120041"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2023 18:32:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="685865351"
+X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="685865351"
+Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 21 Aug 2023 18:32:19 -0700
+Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qYGFi-0001AB-0F;
+ Tue, 22 Aug 2023 01:32:15 +0000
+Date: Tue, 22 Aug 2023 09:31:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com, bskeggs@redhat.com, Liam.Howlett@oracle.com
+Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
+ dma_resv/extobj handling and GEM validation
+Message-ID: <202308220935.ik8QPkf4-lkp@intel.com>
+References: <20230820215320.4187-3-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
- arch-dependent
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230821173320.GA362442@bhelgaas>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230821173320.GA362442@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxvM4gDeRkSe1fAA--.37428S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CF1xAw1ruFy8ury3uFWfWFX_yoW8CFWxpa
- yfWFn8Cr4DAwnrArn2v3W8XF9avayrXrWUGrs8tr1rAF98uryF9r1rJw15Cwn3Z39rJa1j
- vrs8Jw1kGrs0qagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
- xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1EksDUU
- UUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230820215320.4187-3-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,60 +64,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-riscv@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Danilo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 25205087df1ffe06ccea9302944ed1f77dc68c6f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-drm_exec-build-always-builtin/20230821-123143
+base:   25205087df1ffe06ccea9302944ed1f77dc68c6f
+patch link:    https://lore.kernel.org/r/20230820215320.4187-3-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize dma_resv/extobj handling and GEM validation
+config: i386-randconfig-r024-20230822 (https://download.01.org/0day-ci/archive/20230822/202308220935.ik8QPkf4-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220935.ik8QPkf4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220935.ik8QPkf4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_gpuva_mgr.c:750:1: warning: no previous prototype for function 'drm_gpuva_manager_prepare_objects' [-Wmissing-prototypes]
+   drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
+   ^
+   drivers/gpu/drm/drm_gpuva_mgr.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int
+   ^
+   static 
+   drivers/gpu/drm/drm_gpuva_mgr.c:1744:32: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+           struct drm_gpuva *va, *next, *prev = NULL;
+                                         ^
+   2 warnings generated.
+--
+>> drivers/gpu/drm/drm_gpuva_mgr.c:1091: warning: Function parameter or member '__vm_bo' not described in 'drm_gpuva_gem_obtain_prealloc'
 
 
-On 2023/8/22 01:33, Bjorn Helgaas wrote:
-> On Fri, Aug 18, 2023 at 09:48:46AM +0800, suijingfeng wrote:
->> On 2023/8/18 06:08, Bjorn Helgaas wrote:
->>>> +		if (resource_type(res) != IORESOURCE_MEM)
->>>> +			continue;
->>>> +
->>>> +		if (!res->start || !res->end)
->>>> +			continue;
->>>> +
->>>> +		if (res->start <= fb_start && fb_end <= res->end) {
->>>> +			pdev_boot_vga = pdev;
->>>> +
->>>> +			vgaarb_info(&pdev->dev,
->>>> +				    "BAR %d contains firmware FB\n", i);
->>> Print the BAR with %pR and include the framebuffer region from
->>> screen_info in the same format.
->> I do remember that you already told me to do this in V3, sorry for not
->> replying to you at V3. Most of the time, what you tell me is right.But here,
->> I think I need to explain. Because doing it that way will make the code line
->> too long,and it will exceed 80 characters in the column if we print too
->> much.
->> I believe that the vgaarb_info() at here is already the most compact and
->> simplest form. Printing the BAR with %pR is not absolute necessary, because
->> we can get the additional information by: $ lspci | grep VGA
->>
->> $ dmesg | grep 05:00.0
->> $ dmesg | grep 0000:03:00.0
->> $ dmesg | grep PCI
-> Fair enough.  The BAR info is already there.  But I don't think the
-> screen_info framebuffer data is in the dmesg log anywhere, and I think
-> that would be useful.
->
-> It's fine if dmesg lines or kernel printk lines exceed 80 columns.
->
->> Actually, I only add something that is absolute necessary.
->> Printing BAR with %pR and/or Printing the framebuffer region
->> is consider to only for *debugging* purpose.
-> I think printing the framebuffer region is important because it makes
-> it clear *why* we're selecting the device as the default VGA device.
-> It's more than just debugging; it helps make the system more
-> transparent and more understandable.
+vim +/drm_gpuva_manager_prepare_objects +750 drivers/gpu/drm/drm_gpuva_mgr.c
 
-OK, I'm clear what to do next.
-The printing will be added at the next version.
+   734	
+   735	/**
+   736	 * drm_gpuva_manager_prepare_objects() - prepare all assoiciated BOs
+   737	 * @mgr: the &drm_gpuva_manager
+   738	 * @num_fences: the amount of &dma_fences to reserve
+   739	 *
+   740	 * Calls drm_exec_prepare_obj() for all &drm_gem_objects the given
+   741	 * &drm_gpuva_manager contains mappings of.
+   742	 *
+   743	 * Drivers can obtain the corresponding &drm_exec instance through
+   744	 * DRM_GPUVA_EXEC(). It is the drivers responsibility to call drm_exec_init()
+   745	 * and drm_exec_fini() accordingly.
+   746	 *
+   747	 * Returns: 0 on success, negative error code on failure.
+   748	 */
+   749	int
+ > 750	drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
+   751					  unsigned int num_fences)
+   752	{
+   753		struct drm_exec *exec = DRM_GPUVA_EXEC(mgr);
+   754		MA_STATE(mas, &mgr->mt_ext, 0, 0);
+   755		union {
+   756			void *ptr;
+   757			uintptr_t cnt;
+   758		} ref;
+   759		int ret;
+   760	
+   761		ret = drm_exec_prepare_obj(exec, &mgr->d_obj, num_fences);
+   762		if (ret)
+   763			goto out;
+   764	
+   765		rcu_read_lock();
+   766		mas_for_each(&mas, ref.ptr, ULONG_MAX) {
+   767			struct drm_gem_object *obj;
+   768	
+   769			mas_pause(&mas);
+   770			rcu_read_unlock();
+   771	
+   772			obj = (struct drm_gem_object *)(uintptr_t)mas.index;
+   773			ret = drm_exec_prepare_obj(exec, obj, num_fences);
+   774			if (ret)
+   775				goto out;
+   776	
+   777			rcu_read_lock();
+   778		}
+   779		rcu_read_unlock();
+   780	
+   781	out:
+   782		return ret;
+   783	}
+   784	EXPORT_SYMBOL_GPL(drm_gpuva_manager_prepare_objects);
+   785	
 
-> Bjorn
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
