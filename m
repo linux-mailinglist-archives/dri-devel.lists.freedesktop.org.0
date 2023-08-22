@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AD578403C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:02:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BEB78403E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:02:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D20A10E337;
-	Tue, 22 Aug 2023 12:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD1910E32A;
+	Tue, 22 Aug 2023 12:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAC5F10E32A;
- Tue, 22 Aug 2023 12:02:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7220510E32D;
+ Tue, 22 Aug 2023 12:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692705725; x=1724241725;
+ t=1692705732; x=1724241732;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iEE3gFYgIvOtnPfnbrq1fdhKUUxUxXK3HPwffxlpaT0=;
- b=QKk8LcEYvtIhLilnWFDWTxifuL9iG37oyv9ZK5ivr+AzXvTD9UoZvHXE
- WxMwNIfLUfo9iB/5iSylWLaUiExyhPP3us5yUQJmSr4+3PFhAGw3gMvmC
- wADlQulViry484BUOMLK/2VPAmrs9ENQuAOBekZf+d08kWWhjc3oGbK8e
- c/RbXGlzGfggoIkFrH5oYuZO8zgdD3irfHnbIkZvYXsseonSEEEjLBndc
- gRUZzUfnr12Rn5CQSabxeiKtWHeAx1kghnGWWcL2X/nAEK2jhrEG51AIZ
- 5KCvXcvaBu+5LBg8/lTca0tI2ebkSfA6HmaV+uRmnjVW5QJihbf0BMMI/ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354198202"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="354198202"
+ bh=UC5RLP3zFIp6p0wMHvcyOWjC1Peksea74OCjlTqooPg=;
+ b=nFAwjqBpGdfhI86UxnhSODbE5dQ3o13SEt0CLazmZCSWI4fEhupbGQ9R
+ GqlN4RwMRFHmnEbJ+iYoMNdwXv16T+ztfjGqgIm9gHF8FHqEdQFLUMNML
+ 0NbbMjX6WJqBuYfzAQWbmVn92uXTJh/nU5Pex723KFT0hMUT+RXoJIL1a
+ vcb6HlzX6wn5d0m3Ju4cHccprtWu2NEbR1fY6g4LbJXAgahyI9pgShkS+
+ 7LC+w/buyygNOh4uFOMZ6IYIl3+UA0al1mK3rj7rmZShDPOEX+ntjXmbd
+ QV6TuQt8yqmJN7xR5qK+xH2kR3M1VwH17zdyVouz0WGhsC5emeT98L6n7 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354198222"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="354198222"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 05:02:04 -0700
+ 22 Aug 2023 05:02:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="910070645"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="910070645"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="910070667"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="910070667"
 Received: from kainaats-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.42.230])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2023 05:02:00 -0700
+ 22 Aug 2023 05:02:06 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/4] Revert "drm/amd/display: assign edid_blob_ptr with edid
- from debugfs"
-Date: Tue, 22 Aug 2023 15:01:38 +0300
-Message-Id: <3dc80275904322ca7066a96dbc46b6e8c1b9f76d.1692705543.git.jani.nikula@intel.com>
+Subject: [PATCH 3/4] Revert "drm/amd/display: mark
+ amdgpu_dm_connector_funcs_force static"
+Date: Tue, 22 Aug 2023 15:01:39 +0300
+Message-Id: <64f3580fdb6546c177839e40bf6b223c4549b519.1692705543.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1692705543.git.jani.nikula@intel.com>
 References: <cover.1692705543.git.jani.nikula@intel.com>
@@ -70,19 +70,9 @@ Cc: Chao-kai Wang <Stylon.Wang@amd.com>, jani.nikula@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 550e5d23f14784e2a625c25fe0c9d498589c9256.
+This reverts commit dae343b343ff741d727312b2a9b03d86e64b31c5.
 
-drm_edid_override_connector_update() is *not* supposed to be used by
-drivers directly.
-
-From the documentation:
-
-  Only to be used from drm_helper_probe_single_connector_modes() as a
-  fallback for when DDC probe failed during drm_get_edid() and caused
-  the override/firmware EDID to be skipped.
-
-It's impossible to unify firmare and override EDID handling and property
-updates if drivers mess with this directly.
+Dependency for reverting the next commit cleanly.
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Alex Hung <alex.hung@amd.com>
@@ -97,38 +87,22 @@ Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3e132438bc13..c7c1260b7b6e 100644
+index c7c1260b7b6e..adfe2fcb915c 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6370,20 +6370,11 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 	struct edid *edid;
+@@ -6317,7 +6317,7 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+ 	return 0;
+ }
  
- 	if (!aconnector->base.edid_blob_ptr) {
--		/* if connector->edid_override valid, pass
--		 * it to edid_override to edid_blob_ptr
--		 */
--		int count;
--
--		count = drm_edid_override_connector_update(&aconnector->base);
--
--		if (!aconnector->base.edid_blob_ptr) {
--			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
--					aconnector->base.name);
-+		DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
-+				aconnector->base.name);
- 
--			aconnector->base.force = DRM_FORCE_OFF;
--			return;
--		}
-+		aconnector->base.force = DRM_FORCE_OFF;
-+		return;
- 	}
- 
- 	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
+-static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
++void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+ {
+ 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+ 	struct dc_link *dc_link = aconnector->dc_link;
 -- 
 2.39.2
 
