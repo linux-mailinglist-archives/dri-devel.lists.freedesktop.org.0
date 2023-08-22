@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963C37837D1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 04:19:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49623783807
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 04:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7A210E0C8;
-	Tue, 22 Aug 2023 02:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7186010E2C6;
+	Tue, 22 Aug 2023 02:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0BF10E030;
- Tue, 22 Aug 2023 02:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692670740; x=1724206740;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=59W+lMeV0W1rOuTl6I7R3yHzdGEmYFfi5zODViwOKR8=;
- b=ChDq4RzswOmIXL8+bNStTbzPWSbW6gsgg/hUAkc/H6mWjhURVDhY2UT2
- Qv7aQMeYQADA4myseHqPPxNry9Oxm/v550S+KS1sJemim+w/XjNAQR6oO
- CqLVI3K67kv5BqPAdP7L5uhOXtMH9tGIrPW6uhBB89tey27VYGWOUTA6W
- VN1uZU1G0LcUpvaoWxwKP+tlKmCVc/+NkJUqKOKnls0lVnpzPNWCz8665
- qsIcvahaYujLZqByUUp9GjaFZ7cumr8S98d+F6+LyxPCoW7fd5itIO/5B
- wMYhPxKU4kBLapaQD7P2fsJamhWq45CJ+loHhfewzhx9BvOA55YC00uIH g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="372651399"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="372651399"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2023 19:18:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="826160291"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="826160291"
-Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 21 Aug 2023 19:18:55 -0700
-Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qYGys-0001E5-1U;
- Tue, 22 Aug 2023 02:18:54 +0000
-Date: Tue, 22 Aug 2023 10:18:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com, bskeggs@redhat.com, Liam.Howlett@oracle.com
-Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <202308221021.jCZejWoy-lkp@intel.com>
-References: <20230820215320.4187-3-dakr@redhat.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A59910E2C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 02:37:59 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxXOqFH+RkNccaAA--.27583S3;
+ Tue, 22 Aug 2023 10:37:57 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxX8+EH+RkBPhfAA--.37065S3; 
+ Tue, 22 Aug 2023 10:37:56 +0800 (CST)
+Message-ID: <79c3b66a-61b0-aafb-0935-975b0ce1ecb3@loongson.cn>
+Date: Tue, 22 Aug 2023 10:37:56 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230820215320.4187-3-dakr@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
+ arch-dependent
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>
+References: <20230821173819.GA362570@bhelgaas>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230821173819.GA362570@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8AxX8+EH+RkBPhfAA--.37065S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFy8Cr13Cw1rGw17Gw4rJFc_yoW5WF4xpr
+ WrJFs5KF4kJr4Syrs7Gw1kXF1Fyw4rXas0kFn0vwn8A345urnaqFW0yrZ09FnrWrs7J3W2
+ vF4Fg34rWFWYvagCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4j6r4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+ Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+ Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ CYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+ 6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+ 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+ v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+ xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8uuWJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,97 +64,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Limonciello,
+ Mario" <Mario.Limonciello@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-riscv@lists.infradead.org, Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 2023/8/22 01:38, Bjorn Helgaas wrote:
+> On Fri, Aug 18, 2023 at 12:09:29PM +0800, suijingfeng wrote:
+>> On 2023/8/18 06:08, Bjorn Helgaas wrote:
+>>> On Wed, Aug 16, 2023 at 06:05:27AM +0800, Sui Jingfeng wrote:
+>>>> Currently, the vga_is_firmware_default() function only works on x86 and
+>>>> ia64, it is a no-op on ARM, ARM64, PPC, RISC-V, etc. This patch completes
+>>>> the implementation for the rest of the architectures. The added code tries
+>>>> to identify the PCI(e) VGA device that owns the firmware framebuffer
+>>>> before PCI resource reallocation happens.
+>>> As far as I can tell, this is basically identical to the existing
+>>> vga_is_firmware_default(), except that this patch funs that code as a
+>>> header fixup, so it happens before any PCI BAR reallocations happen.
+>> Yes, what you said is right in overall.
+>> But I think I should mention a few tiny points that make a difference.
+>>
+>> 1) My version is *less arch-dependent*
+> Of course.  If we make the patch simple and the commit log simple by
+> removing extraneous details, this will all be obvious.
+>
+>> 2) My version focus on the address in ranges, weaken the size parameter.
+>>
+>> Which make the code easy to read and follow the canonical convention to
+>> express the address range. while the vga_is_firmware_default() is not.
+> Whether it's start/size or start/end is a trivial question.  We don't
+> need to waste time on it now.
+>
+>> 3) A tiny change make a big difference.
+>>
+>> The original vga_is_firmware_default() only works with the assumption
+>> that the PCI resource reallocation won't happens. While I see no clue
+>> that why this is true even on X86 and IA64. The original patch[1] not
+>> mention this assumption explicitly.
+>> [1] 86fd887b7fe3 ('vgaarb: Don't default exclusively to first video device with mem+io')
+>>
+>>> That sounds like a good idea, because this is all based on the
+>>> framebuffer in screen_info, and screen_info was initialized before PCI
+>>> enumeration, and it certainly doesn't account for any BAR changes done
+>>> by the PCI core.
+>> Yes.
+>>
+>>> So why would we keep vga_is_firmware_default() at all?  If the header
+>>> fixup has already identified the firmware framebuffer, it seems
+>>> pointless to look again later.
+>> It need another patch to do the cleanup work, while my patch just
+>> add code to solve the real problem.  It focus on provide a solution
+>> for the architectures which have a decent way set up the
+>> screen_info.  Other things except that is secondary.
+> I don't want both mechanisms when only one of them is useful.  PCI BAR
+> reassignment is completely fine, and keeping the assumption in
+> vga_is_firmware_default() that we can compare reassigned BAR values to
+> the pre-reassignment screen_info range is a trap that we should
+> remove.
 
-[auto build test WARNING on 25205087df1ffe06ccea9302944ed1f77dc68c6f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-drm_exec-build-always-builtin/20230821-123143
-base:   25205087df1ffe06ccea9302944ed1f77dc68c6f
-patch link:    https://lore.kernel.org/r/20230820215320.4187-3-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize dma_resv/extobj handling and GEM validation
-config: sparc-randconfig-r022-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221021.jCZejWoy-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221021.jCZejWoy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221021.jCZejWoy-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gpuva_mgr.c:750:1: warning: no previous prototype for 'drm_gpuva_manager_prepare_objects' [-Wmissing-prototypes]
-     750 | drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gpuva_mgr.c: In function '__drm_gpuva_sm_map':
-   drivers/gpu/drm/drm_gpuva_mgr.c:1744:39: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1744 |         struct drm_gpuva *va, *next, *prev = NULL;
-         |                                       ^~~~
+OK,it's clear now.  I know what to do next.
+Thanks.
 
 
-vim +/drm_gpuva_manager_prepare_objects +750 drivers/gpu/drm/drm_gpuva_mgr.c
+> Bjorn
 
-   734	
-   735	/**
-   736	 * drm_gpuva_manager_prepare_objects() - prepare all assoiciated BOs
-   737	 * @mgr: the &drm_gpuva_manager
-   738	 * @num_fences: the amount of &dma_fences to reserve
-   739	 *
-   740	 * Calls drm_exec_prepare_obj() for all &drm_gem_objects the given
-   741	 * &drm_gpuva_manager contains mappings of.
-   742	 *
-   743	 * Drivers can obtain the corresponding &drm_exec instance through
-   744	 * DRM_GPUVA_EXEC(). It is the drivers responsibility to call drm_exec_init()
-   745	 * and drm_exec_fini() accordingly.
-   746	 *
-   747	 * Returns: 0 on success, negative error code on failure.
-   748	 */
-   749	int
- > 750	drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
-   751					  unsigned int num_fences)
-   752	{
-   753		struct drm_exec *exec = DRM_GPUVA_EXEC(mgr);
-   754		MA_STATE(mas, &mgr->mt_ext, 0, 0);
-   755		union {
-   756			void *ptr;
-   757			uintptr_t cnt;
-   758		} ref;
-   759		int ret;
-   760	
-   761		ret = drm_exec_prepare_obj(exec, &mgr->d_obj, num_fences);
-   762		if (ret)
-   763			goto out;
-   764	
-   765		rcu_read_lock();
-   766		mas_for_each(&mas, ref.ptr, ULONG_MAX) {
-   767			struct drm_gem_object *obj;
-   768	
-   769			mas_pause(&mas);
-   770			rcu_read_unlock();
-   771	
-   772			obj = (struct drm_gem_object *)(uintptr_t)mas.index;
-   773			ret = drm_exec_prepare_obj(exec, obj, num_fences);
-   774			if (ret)
-   775				goto out;
-   776	
-   777			rcu_read_lock();
-   778		}
-   779		rcu_read_unlock();
-   780	
-   781	out:
-   782		return ret;
-   783	}
-   784	EXPORT_SYMBOL_GPL(drm_gpuva_manager_prepare_objects);
-   785	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
