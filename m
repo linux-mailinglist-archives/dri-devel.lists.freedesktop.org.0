@@ -2,64 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C90C784D5B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 01:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC409784D6C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 01:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565A810E038;
-	Tue, 22 Aug 2023 23:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C81D10E078;
+	Tue, 22 Aug 2023 23:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
- [IPv6:2607:f8b0:4864:20::e36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B0C10E038
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 23:33:40 +0000 (UTC)
-Received: by mail-vs1-xe36.google.com with SMTP id
- ada2fe7eead31-44d45391e84so1126900137.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1692747219; x=1693352019;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jrDWaCBQ1sWLUoVnt/HCli5/wouIl1yCYP/wbQLKWo4=;
- b=umHqhmqs0XKPhEqBSsHRPg3LaKwSf8YMcsdhG7UrN5wE3V3d8uOCo1rGKzKFfmghyR
- lJJgLzArNPSf/j005RDOc52IPjrW1i5O4ihEhqS83H5kXa4GXoRutPquvcrvadLIdscw
- 6fneE3vQSexW5JjBo9M8bN0Q8dgkxv20TKMVrsbucpBLTsrumpCBdVV4GKmaqxuhaRht
- DHOjYMs4l6pZbYPSLjQMf0BSORiTi54r9QIS5aOGHxxupZkAsVR9owV1fvNgNfUd30cR
- RYjR7FFx3NpoHhOZhHBTMTRL2zKVCZEkXcE9VOV2GzOqAxR/Ox3/+NV4clkbBQr3ZUlI
- 4DEA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2FFB10E078
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 23:41:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692747705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nsnxJk65dFpflCIpKgOgUQnHPy3UkHdJC4ely2iIRmI=;
+ b=eLCL2o1jPiEsta08Wm+ZnzjEtIwyzqtP44s9/beenrbdOKw6PnwNuPkdkduVFuLNcQCmWL
+ SOjQoUfw3GAj/8UEFsn1EPyz+DSJspbn5fen/vC9VfCWJm9TqaCUG/6u8ERzxR2psclOLb
+ j0ush99u7oRAtGaH8Z2p8ZJRvO8KXbk=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-696-9JaHs2JYMUa5hfLuraDtwA-1; Tue, 22 Aug 2023 19:41:44 -0400
+X-MC-Unique: 9JaHs2JYMUa5hfLuraDtwA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-9a0955ac1dcso322576666b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 16:41:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692747219; x=1693352019;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jrDWaCBQ1sWLUoVnt/HCli5/wouIl1yCYP/wbQLKWo4=;
- b=JX+SzeNXPoHBOLyzGO35YLyy3XImI89qxWJXqOIwwokWa7QLWW8HE78LZhRzvXFC1N
- ExWRdoXxcRG2jNYz1CtaVchO1RMSKnc0oQ4FfNU0HSfRUQG0nhIFXNkvof1OxyLArcNF
- fsDEghyks0BP/FtyBlcd8yo06tl2CK01bLUxpUSF7ShjKf93E+Iq5TENpFvW2KvzWFdr
- HC2/ZnP2MTpRFI6MUrHHUbChMiL6hd7nzxhsxawZwFkpx7lJwLVhDnSa90JiVbPt9vZc
- CA/0P8xbGFUGdpdny4SpfNp2ZjHouHZwy5t1nSZuMA0OIfPGXltyTIgUJvVnQDBPjs17
- OU9A==
-X-Gm-Message-State: AOJu0YxS8QUS9CY+NTqYDRI7Ryywt3Y/f4q0klVolsMoozSj85ufcF1f
- 68LyHDTWFB5JKpjRiruTeS04gBcePTtdH6QvSD9sPg==
-X-Google-Smtp-Source: AGHT+IEbIpKzyM58YiqourBSkiz6n74NcVgIaFtnI5P/WCZpuUx1AqRdpsd74TbX1sw0f9QLei6Oiwd6yzf8tHoj6pM=
-X-Received: by 2002:a67:f3c6:0:b0:44d:5105:b143 with SMTP id
- j6-20020a67f3c6000000b0044d5105b143mr5895400vsn.27.1692747218736; Tue, 22 Aug
- 2023 16:33:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692747703; x=1693352503;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nsnxJk65dFpflCIpKgOgUQnHPy3UkHdJC4ely2iIRmI=;
+ b=Y9WOK0S6wpwfGLKQyhzYl6chYDDg2Wx6AMkHIO+u0KtJfg1MpVLJlwzC9HXwCPbPeu
+ 5JadTEHdjGZxhxPUI8XHzLe222qjGbAqsJKG9uE6WJYCkGxSUy6CkLYkadF2qNmDvXJE
+ PHlKxWymJQxcvs7JApW8wte/oROu8OAgssYFQjf4AZY6Xv6KNRQbKjoUNxEoTq4dVJeu
+ P0KSjISsqKIf8qFu+9jLy/YPbmC9XiBvJqqndG7gxcxzWvpcgdVevTmdsQKYBAlQBJzJ
+ oHya5vXQ5AYsuQHoaommqJgxe7y/lfxAqLde63rgzREMPxcy5lvNiVfOzJhyNxPY8WZE
+ AfKQ==
+X-Gm-Message-State: AOJu0YytY++nGvp9tVIb+wrudjc4++uM4GhkOyuC2u+NyfxnnNv7y7Yp
+ gweisxsrYSSLAa7UdQL9Bcef9MJZOo9uvx7oeVqg8vrnG4haOseCfFL66hyIl0Kbbl9rtgpLdzj
+ YUVNItS3O6p33WNGkEl6yFEKgoF0H
+X-Received: by 2002:a17:906:3187:b0:9a1:8812:a8a6 with SMTP id
+ 7-20020a170906318700b009a18812a8a6mr3915015ejy.73.1692747703217; 
+ Tue, 22 Aug 2023 16:41:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHTK0EjRJ9Yi8oW74L8VpAZuHS3eGC1iNYy3R9uNrDphgrWEnm2dsd/M85riAnQThkGZg2rhw==
+X-Received: by 2002:a17:906:3187:b0:9a1:8812:a8a6 with SMTP id
+ 7-20020a170906318700b009a18812a8a6mr3915007ejy.73.1692747702887; 
+ Tue, 22 Aug 2023 16:41:42 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ u22-20020a170906409600b009929ab17be0sm8947280ejj.162.2023.08.22.16.41.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Aug 2023 16:41:42 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, faith.ekstrand@collabora.com
+Subject: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH flag
+ implicitly
+Date: Wed, 23 Aug 2023 01:41:36 +0200
+Message-ID: <20230822234139.11185-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-7-almasrymina@google.com>
- <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
- <CAHS8izM4w2UETAwfnV7w+ZzTMxLkz+FKO+xTgRdtYKzV8RzqXw@mail.gmail.com>
- <7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com>
-In-Reply-To: <7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 22 Aug 2023 16:33:27 -0700
-Message-ID: <CAHS8izMqHkPUma4WPr-Ao-foTzBY30vi-qH+BOFOrny5=Y0iKg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/11] page-pool: add device memory support
-To: Jesper Dangaard Brouer <jbrouer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,570 +82,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- stephen@networkplumber.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Eric Dumazet <edumazet@google.com>, Hari Ramakrishnan <rharix@google.com>,
- sdf@google.com, Andy Lutomirski <luto@kernel.org>, brouer@redhat.com,
- Jakub Kicinski <kuba@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- linux-media@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 22, 2023 at 5:24=E2=80=AFAM Jesper Dangaard Brouer
-<jbrouer@redhat.com> wrote:
->
->
->
-> On 22/08/2023 08.05, Mina Almasry wrote:
-> > On Sat, Aug 19, 2023 at 2:51=E2=80=AFAM Jesper Dangaard Brouer
-> > <jbrouer@redhat.com> wrote:
-> >>
-> >> On 10/08/2023 03.57, Mina Almasry wrote:
-> >>> Overload the LSB of struct page* to indicate that it's a page_pool_io=
-v.
-> >>>
-> >>> Refactor mm calls on struct page * into helpers, and add page_pool_io=
-v
-> >>> handling on those helpers. Modify callers of these mm APIs with calls=
- to
-> >>> these helpers instead.
-> >>>
-> >>
-> >> I don't like of this approach.
-> >> This is adding code to the PP (page_pool) fast-path in multiple places=
-.
-> >>
-> >> I've not had time to run my usual benchmarks, which are here:
-> >>
-> >> https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/li=
-b/bench_page_pool_simple.c
-> >>
-> >
-> > I ported over this benchmark to my tree and ran it, my results:
-> >
->
-> What CPU is this and GHz?  (I guess 2.6 GHz based on results).
->
-> (It looks like this CPU is more efficient, instructions per cycles, than
-> my E5-1650 v4 @ 3.60GHz).
->
+Currently, NO_PREFETCH is passed implicitly through
+drm_nouveau_gem_pushbuf_push::length and drm_nouveau_exec_push::va_len.
 
-cat /proc/cpuinfo
-...
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 143
-model name      : Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz
-stepping        : 8
-microcode       : 0xffffffff
-cpu MHz         : 2699.998
-```
+Since this is a direct representation of how the HW is programmed it
+isn't really future proof for a uAPI. Hence, fix this up for the new
+uAPI and split up the va_len field of struct drm_nouveau_exec_push,
+such that we keep 32bit for va_len and 32bit for flags.
 
-This is a vCPU on the Google Cloud A3 VMs.
+For drm_nouveau_gem_pushbuf_push::length at least provide
+NOUVEAU_GEM_PUSHBUF_NO_PREFETCH to indicate the bit shift.
 
-> > net-next @ b44693495af8
-> > https://pastebin.com/raw/JuU7UQXe
-> >
-> > + Jakub's memory-provider APIs:
-> > https://pastebin.com/raw/StMBhetn
-> >
-> > + devmem TCP changes:
-> > https://pastebin.com/raw/mY1L6U4r
-> >
->
-> Only a single cycle slowdown for "page_pool01_fast_path".
->  From 10 cycles to 11 cycles.
->
-> > + intentional regression just to make sure the benchmark is working:
-> > https://pastebin.com/raw/wqWhcJdG
-> >
-> > I don't seem to be able to detect a regression with this series as-is,
-> > but I'm not that familiar with the test and may be doing something
-> > wrong or misinterpreting the results. Does this look ok to you?
-> >
->
-> The performance results are better than I expected.  The small
-> regression from 10 cycles to 11 cycles is actually 10%, but I expect
-> with some likely/unlikely instrumentation we can "likely" remove this aga=
-in.
->
+While at it, fix up nv50_dma_push() as well, such that the caller
+doesn't need to encode the NO_PREFETCH flag into the length parameter.
 
-So the patch is already optimized carefully (I hope) to put all the
-devmem processing in the default unlikely path. Willem showed me that:
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_dma.c  |  7 +++++--
+ drivers/gpu/drm/nouveau/nouveau_dma.h  |  8 ++++++--
+ drivers/gpu/drm/nouveau/nouveau_exec.c | 15 ++++++++++++---
+ drivers/gpu/drm/nouveau/nouveau_gem.c  |  6 ++++--
+ include/uapi/drm/nouveau_drm.h         |  8 +++++++-
+ 5 files changed, 34 insertions(+), 10 deletions(-)
 
-if (page_pool_iov())
-   return handle_page_pool_iov();
-
-return handle_page();
-
-The handle_page() will be 'likely' by default, which removes the need
-for explicit likely/unlikely. I'm not sure we can get better perf with
-explicit likely/unlikey, but I can try.
-
-> So, this change actually looks acceptable from a performance PoV.
-> I still think this page_pool_iov is very invasive to page_pool, but
-> maybe it is better to hide this "uglyness" inside page_pool.
->
-> The test primarily tests fast-path, and you also add "if" statements to
-> all the DMA operations, which is not part of this benchmark.  Perhaps we
-> can add unlikely statements, or inspect (objdump) the ASM to check code
-> priorities the original page based "provider".
->
-> >> But I'm sure it will affect performance.
-> >>
->
-> Guess, I was wrong ;-)
->
-> --Jesper
->
->
-> >> Regardless of performance, this approach is using ptr-LSB-bits, to hid=
-e
-> >> that page-pointer are not really struct-pages, feels like force feedin=
-g
-> >> a solution just to use the page_pool APIs.
-> >>
-> >>
-> >>> In areas where struct page* is dereferenced, add a check for special
-> >>> handling of page_pool_iov.
-> >>>
-> >>> The memory providers producing page_pool_iov can set the LSB on the
-> >>> struct page* returned to the page pool.
-> >>>
-> >>> Note that instead of overloading the LSB of page pointers, we can
-> >>> instead define a new union between struct page & struct page_pool_iov=
- and
-> >>> compact it in a new type. However, we'd need to implement the code ch=
-urn
-> >>> to modify the page_pool & drivers to use this new type. For this POC
-> >>> that is not implemented (feedback welcome).
-> >>>
-> >>
-> >> I've said before, that I prefer multiplexing on page->pp_magic.
-> >> For your page_pool_iov the layout would have to match the offset of
-> >> pp_magic, to do this. (And if insisting on using PP infra the refcnt
-> >> would also need to align).
-> >>
-> >> On the allocation side, all drivers already use a driver helper
-> >> page_pool_dev_alloc_pages() or we could add another (better named)
-> >> helper to multiplex between other types of allocators, e.g. a devmem
-> >> allocator.
-> >>
-> >> On free/return/recycle the functions napi_pp_put_page or skb_pp_recycl=
-e
-> >> could multiplex on pp_magic and call another API.  The API could be an
-> >> extension to PP helpers, but it could also be a devmap allocator helpe=
-r.
-> >>
-> >> IMHO forcing/piggy-bagging everything into page_pool is not the right
-> >> solution.  I really think netstack need to support different allocator
-> >> types. The page pool have been leading the way, yes, but perhaps it is
-> >> time to add an API layer that e.g. could be named netmem, that gives u=
-s
-> >> the multiplexing between allocators.  In that process some of page_poo=
-l
-> >> APIs would be lifted out as common blocks and others remain.
-> >>
-> >> --Jesper
-> >>
-> >>> I have a sample implementation of adding a new page_pool_token type
-> >>> in the page_pool to give a general idea here:
-> >>> https://github.com/torvalds/linux/commit/3a7628700eb7fd02a117db036003=
-bca50779608d
-> >>>
-> >>> Full branch here:
-> >>> https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevm=
-em-pp-tokens
-> >>>
-> >>> (In the branches above, page_pool_iov is called devmem_slice).
-> >>>
-> >>> Could also add static_branch to speed up the checks in page_pool_iov
-> >>> memory providers are being used.
-> >>>
-> >>> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >>> ---
-> >>>    include/net/page_pool.h | 74 ++++++++++++++++++++++++++++++++++-
-> >>>    net/core/page_pool.c    | 85 ++++++++++++++++++++++++++++---------=
-----
-> >>>    2 files changed, 131 insertions(+), 28 deletions(-)
-> >>>
-> >>> diff --git a/include/net/page_pool.h b/include/net/page_pool.h
-> >>> index 537eb36115ed..f08ca230d68e 100644
-> >>> --- a/include/net/page_pool.h
-> >>> +++ b/include/net/page_pool.h
-> >>> @@ -282,6 +282,64 @@ static inline struct page_pool_iov *page_to_page=
-_pool_iov(struct page *page)
-> >>>        return NULL;
-> >>>    }
-> >>>
-> >>> +static inline int page_pool_page_ref_count(struct page *page)
-> >>> +{
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return page_pool_iov_refcount(page_to_page_pool_iov(pag=
-e));
-> >>> +
-> >>> +     return page_ref_count(page);
-> >>> +}
-> >>> +
-> >>> +static inline void page_pool_page_get_many(struct page *page,
-> >>> +                                        unsigned int count)
-> >>> +{
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return page_pool_iov_get_many(page_to_page_pool_iov(pag=
-e),
-> >>> +                                           count);
-> >>> +
-> >>> +     return page_ref_add(page, count);
-> >>> +}
-> >>> +
-> >>> +static inline void page_pool_page_put_many(struct page *page,
-> >>> +                                        unsigned int count)
-> >>> +{
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return page_pool_iov_put_many(page_to_page_pool_iov(pag=
-e),
-> >>> +                                           count);
-> >>> +
-> >>> +     if (count > 1)
-> >>> +             page_ref_sub(page, count - 1);
-> >>> +
-> >>> +     put_page(page);
-> >>> +}
-> >>> +
-> >>> +static inline bool page_pool_page_is_pfmemalloc(struct page *page)
-> >>> +{
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return false;
-> >>> +
-> >>> +     return page_is_pfmemalloc(page);
-> >>> +}
-> >>> +
-> >>> +static inline bool page_pool_page_is_pref_nid(struct page *page, int=
- pref_nid)
-> >>> +{
-> >>> +     /* Assume page_pool_iov are on the preferred node without actua=
-lly
-> >>> +      * checking...
-> >>> +      *
-> >>> +      * This check is only used to check for recycling memory in the=
- page
-> >>> +      * pool's fast paths. Currently the only implementation of page=
-_pool_iov
-> >>> +      * is dmabuf device memory. It's a deliberate decision by the u=
-ser to
-> >>> +      * bind a certain dmabuf to a certain netdev, and the netdev rx=
- queue
-> >>> +      * would not be able to reallocate memory from another dmabuf t=
-hat
-> >>> +      * exists on the preferred node, so, this check doesn't make mu=
-ch sense
-> >>> +      * in this case. Assume all page_pool_iovs can be recycled for =
-now.
-> >>> +      */
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return true;
-> >>> +
-> >>> +     return page_to_nid(page) =3D=3D pref_nid;
-> >>> +}
-> >>> +
-> >>>    struct page_pool {
-> >>>        struct page_pool_params p;
-> >>>
-> >>> @@ -434,6 +492,9 @@ static inline long page_pool_defrag_page(struct p=
-age *page, long nr)
-> >>>    {
-> >>>        long ret;
-> >>>
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return -EINVAL;
-> >>> +
-> >>>        /* If nr =3D=3D pp_frag_count then we have cleared all remaini=
-ng
-> >>>         * references to the page. No need to actually overwrite it, i=
-nstead
-> >>>         * we can leave this to be overwritten by the calling function=
-.
-> >>> @@ -494,7 +555,12 @@ static inline void page_pool_recycle_direct(stru=
-ct page_pool *pool,
-> >>>
-> >>>    static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
-> >>>    {
-> >>> -     dma_addr_t ret =3D page->dma_addr;
-> >>> +     dma_addr_t ret;
-> >>> +
-> >>> +     if (page_is_page_pool_iov(page))
-> >>> +             return page_pool_iov_dma_addr(page_to_page_pool_iov(pag=
-e));
-> >>> +
-> >>> +     ret =3D page->dma_addr;
-> >>>
-> >>>        if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
-> >>>                ret |=3D (dma_addr_t)page->dma_addr_upper << 16 << 16;
-> >>> @@ -504,6 +570,12 @@ static inline dma_addr_t page_pool_get_dma_addr(=
-struct page *page)
-> >>>
-> >>>    static inline void page_pool_set_dma_addr(struct page *page, dma_a=
-ddr_t addr)
-> >>>    {
-> >>> +     /* page_pool_iovs are mapped and their dma-addr can't be modifi=
-ed. */
-> >>> +     if (page_is_page_pool_iov(page)) {
-> >>> +             DEBUG_NET_WARN_ON_ONCE(true);
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>>        page->dma_addr =3D addr;
-> >>>        if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
-> >>>                page->dma_addr_upper =3D upper_32_bits(addr);
-> >>> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> >>> index 0a7c08d748b8..20c1f74fd844 100644
-> >>> --- a/net/core/page_pool.c
-> >>> +++ b/net/core/page_pool.c
-> >>> @@ -318,7 +318,7 @@ static struct page *page_pool_refill_alloc_cache(=
-struct page_pool *pool)
-> >>>                if (unlikely(!page))
-> >>>                        break;
-> >>>
-> >>> -             if (likely(page_to_nid(page) =3D=3D pref_nid)) {
-> >>> +             if (likely(page_pool_page_is_pref_nid(page, pref_nid)))=
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dma.c b/drivers/gpu/drm/nouveau/nouveau_dma.c
+index b90cac6d5772..059925e5db6a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dma.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dma.c
+@@ -69,16 +69,19 @@ READ_GET(struct nouveau_channel *chan, uint64_t *prev_get, int *timeout)
+ }
+ 
+ void
+-nv50_dma_push(struct nouveau_channel *chan, u64 offset, int length)
++nv50_dma_push(struct nouveau_channel *chan, u64 offset, u32 length,
++	      bool prefetch)
  {
-> >>>                        pool->alloc.cache[pool->alloc.count++] =3D pag=
-e;
-> >>>                } else {
-> >>>                        /* NUMA mismatch;
-> >>> @@ -363,7 +363,15 @@ static void page_pool_dma_sync_for_device(struct=
- page_pool *pool,
-> >>>                                          struct page *page,
-> >>>                                          unsigned int dma_sync_size)
-> >>>    {
-> >>> -     dma_addr_t dma_addr =3D page_pool_get_dma_addr(page);
-> >>> +     dma_addr_t dma_addr;
-> >>> +
-> >>> +     /* page_pool_iov memory provider do not support PP_FLAG_DMA_SYN=
-C_DEV */
-> >>> +     if (page_is_page_pool_iov(page)) {
-> >>> +             DEBUG_NET_WARN_ON_ONCE(true);
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>> +     dma_addr =3D page_pool_get_dma_addr(page);
-> >>>
-> >>>        dma_sync_size =3D min(dma_sync_size, pool->p.max_len);
-> >>>        dma_sync_single_range_for_device(pool->p.dev, dma_addr,
-> >>> @@ -375,6 +383,12 @@ static bool page_pool_dma_map(struct page_pool *=
-pool, struct page *page)
-> >>>    {
-> >>>        dma_addr_t dma;
-> >>>
-> >>> +     if (page_is_page_pool_iov(page)) {
-> >>> +             /* page_pool_iovs are already mapped */
-> >>> +             DEBUG_NET_WARN_ON_ONCE(true);
-> >>> +             return true;
-> >>> +     }
-> >>> +
-> >>>        /* Setup DMA mapping: use 'struct page' area for storing DMA-a=
-ddr
-> >>>         * since dma_addr_t can be either 32 or 64 bits and does not a=
-lways fit
-> >>>         * into page private data (i.e 32bit cpu with 64bit DMA caps)
-> >>> @@ -398,14 +412,24 @@ static bool page_pool_dma_map(struct page_pool =
-*pool, struct page *page)
-> >>>    static void page_pool_set_pp_info(struct page_pool *pool,
-> >>>                                  struct page *page)
-> >>>    {
-> >>> -     page->pp =3D pool;
-> >>> -     page->pp_magic |=3D PP_SIGNATURE;
-> >>> +     if (!page_is_page_pool_iov(page)) {
-> >>> +             page->pp =3D pool;
-> >>> +             page->pp_magic |=3D PP_SIGNATURE;
-> >>> +     } else {
-> >>> +             page_to_page_pool_iov(page)->pp =3D pool;
-> >>> +     }
-> >>> +
-> >>>        if (pool->p.init_callback)
-> >>>                pool->p.init_callback(page, pool->p.init_arg);
-> >>>    }
-> >>>
-> >>>    static void page_pool_clear_pp_info(struct page *page)
-> >>>    {
-> >>> +     if (page_is_page_pool_iov(page)) {
-> >>> +             page_to_page_pool_iov(page)->pp =3D NULL;
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>>        page->pp_magic =3D 0;
-> >>>        page->pp =3D NULL;
-> >>>    }
-> >>> @@ -615,7 +639,7 @@ static bool page_pool_recycle_in_cache(struct pag=
-e *page,
-> >>>                return false;
-> >>>        }
-> >>>
-> >>> -     /* Caller MUST have verified/know (page_ref_count(page) =3D=3D =
-1) */
-> >>> +     /* Caller MUST have verified/know (page_pool_page_ref_count(pag=
-e) =3D=3D 1) */
-> >>>        pool->alloc.cache[pool->alloc.count++] =3D page;
-> >>>        recycle_stat_inc(pool, cached);
-> >>>        return true;
-> >>> @@ -638,9 +662,10 @@ __page_pool_put_page(struct page_pool *pool, str=
-uct page *page,
-> >>>         * refcnt =3D=3D 1 means page_pool owns page, and can recycle =
-it.
-> >>>         *
-> >>>         * page is NOT reusable when allocated when system is under
-> >>> -      * some pressure. (page_is_pfmemalloc)
-> >>> +      * some pressure. (page_pool_page_is_pfmemalloc)
-> >>>         */
-> >>> -     if (likely(page_ref_count(page) =3D=3D 1 && !page_is_pfmemalloc=
-(page))) {
-> >>> +     if (likely(page_pool_page_ref_count(page) =3D=3D 1 &&
-> >>> +                !page_pool_page_is_pfmemalloc(page))) {
-> >>>                /* Read barrier done in page_ref_count / READ_ONCE */
-> >>>
-> >>>                if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> >>> @@ -741,7 +766,8 @@ static struct page *page_pool_drain_frag(struct p=
-age_pool *pool,
-> >>>        if (likely(page_pool_defrag_page(page, drain_count)))
-> >>>                return NULL;
-> >>>
-> >>> -     if (page_ref_count(page) =3D=3D 1 && !page_is_pfmemalloc(page))=
+ 	struct nvif_user *user = &chan->drm->client.device.user;
+ 	struct nouveau_bo *pb = chan->push.buffer;
+ 	int ip = (chan->dma.ib_put * 2) + chan->dma.ib_base;
+ 
+ 	BUG_ON(chan->dma.ib_free < 1);
++	WARN_ON(length > NV50_DMA_PUSH_MAX_LENGTH);
+ 
+ 	nouveau_bo_wr32(pb, ip++, lower_32_bits(offset));
+-	nouveau_bo_wr32(pb, ip++, upper_32_bits(offset) | length << 8);
++	nouveau_bo_wr32(pb, ip++, upper_32_bits(offset) | length << 8 |
++			(prefetch ? 0 : (1 << 31)));
+ 
+ 	chan->dma.ib_put = (chan->dma.ib_put + 1) & chan->dma.ib_max;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dma.h b/drivers/gpu/drm/nouveau/nouveau_dma.h
+index 035a709c7be1..fb471c357336 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dma.h
++++ b/drivers/gpu/drm/nouveau/nouveau_dma.h
+@@ -31,7 +31,8 @@
+ #include "nouveau_chan.h"
+ 
+ int nouveau_dma_wait(struct nouveau_channel *, int slots, int size);
+-void nv50_dma_push(struct nouveau_channel *, u64 addr, int length);
++void nv50_dma_push(struct nouveau_channel *, u64 addr, u32 length,
++		   bool prefetch);
+ 
+ /*
+  * There's a hw race condition where you can't jump to your PUT offset,
+@@ -45,6 +46,9 @@ void nv50_dma_push(struct nouveau_channel *, u64 addr, int length);
+  */
+ #define NOUVEAU_DMA_SKIPS (128 / 4)
+ 
++/* Maximum push buffer size. */
++#define NV50_DMA_PUSH_MAX_LENGTH 0x7fffff
++
+ /* Object handles - for stuff that's doesn't use handle == oclass. */
+ enum {
+ 	NvDmaFB		= 0x80000002,
+@@ -89,7 +93,7 @@ FIRE_RING(struct nouveau_channel *chan)
+ 
+ 	if (chan->dma.ib_max) {
+ 		nv50_dma_push(chan, chan->push.addr + (chan->dma.put << 2),
+-			      (chan->dma.cur - chan->dma.put) << 2);
++			      (chan->dma.cur - chan->dma.put) << 2, true);
+ 	} else {
+ 		WRITE_PUT(chan->dma.cur);
+ 	}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+index 0f927adda4ed..a123b07b2adf 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.c
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+@@ -164,8 +164,10 @@ nouveau_exec_job_run(struct nouveau_job *job)
+ 	}
+ 
+ 	for (i = 0; i < exec_job->push.count; i++) {
+-		nv50_dma_push(chan, exec_job->push.s[i].va,
+-			      exec_job->push.s[i].va_len);
++		struct drm_nouveau_exec_push *p = &exec_job->push.s[i];
++		bool prefetch = !(p->flags & DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH);
++
++		nv50_dma_push(chan, p->va, p->va_len, prefetch);
+ 	}
+ 
+ 	ret = nouveau_fence_emit(fence, chan);
+@@ -223,7 +225,14 @@ nouveau_exec_job_init(struct nouveau_exec_job **pjob,
  {
-> >>> +     if (page_pool_page_ref_count(page) =3D=3D 1 &&
-> >>> +         !page_pool_page_is_pfmemalloc(page)) {
-> >>>                if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> >>>                        page_pool_dma_sync_for_device(pool, page, -1);
-> >>>
-> >>> @@ -818,9 +844,9 @@ static void page_pool_empty_ring(struct page_pool=
- *pool)
-> >>>        /* Empty recycle ring */
-> >>>        while ((page =3D ptr_ring_consume_bh(&pool->ring))) {
-> >>>                /* Verify the refcnt invariant of cached pages */
-> >>> -             if (!(page_ref_count(page) =3D=3D 1))
-> >>> +             if (!(page_pool_page_ref_count(page) =3D=3D 1))
-> >>>                        pr_crit("%s() page_pool refcnt %d violation\n"=
-,
-> >>> -                             __func__, page_ref_count(page));
-> >>> +                             __func__, page_pool_page_ref_count(page=
-));
-> >>>
-> >>>                page_pool_return_page(pool, page);
-> >>>        }
-> >>> @@ -977,19 +1003,24 @@ bool page_pool_return_skb_page(struct page *pa=
-ge, bool napi_safe)
-> >>>        struct page_pool *pp;
-> >>>        bool allow_direct;
-> >>>
-> >>> -     page =3D compound_head(page);
-> >>> +     if (!page_is_page_pool_iov(page)) {
-> >>> +             page =3D compound_head(page);
-> >>>
-> >>> -     /* page->pp_magic is OR'ed with PP_SIGNATURE after the allocati=
-on
-> >>> -      * in order to preserve any existing bits, such as bit 0 for th=
-e
-> >>> -      * head page of compound page and bit 1 for pfmemalloc page, so
-> >>> -      * mask those bits for freeing side when doing below checking,
-> >>> -      * and page_is_pfmemalloc() is checked in __page_pool_put_page(=
-)
-> >>> -      * to avoid recycling the pfmemalloc page.
-> >>> -      */
-> >>> -     if (unlikely((page->pp_magic & ~0x3UL) !=3D PP_SIGNATURE))
-> >>> -             return false;
-> >>> +             /* page->pp_magic is OR'ed with PP_SIGNATURE after the
-> >>> +              * allocation in order to preserve any existing bits, s=
-uch as
-> >>> +              * bit 0 for the head page of compound page and bit 1 f=
-or
-> >>> +              * pfmemalloc page, so mask those bits for freeing side=
- when
-> >>> +              * doing below checking, and page_pool_page_is_pfmemall=
-oc() is
-> >>> +              * checked in __page_pool_put_page() to avoid recycling=
- the
-> >>> +              * pfmemalloc page.
-> >>> +              */
-> >>> +             if (unlikely((page->pp_magic & ~0x3UL) !=3D PP_SIGNATUR=
-E))
-> >>> +                     return false;
-> >>>
-> >>> -     pp =3D page->pp;
-> >>> +             pp =3D page->pp;
-> >>> +     } else {
-> >>> +             pp =3D page_to_page_pool_iov(page)->pp;
-> >>> +     }
-> >>>
-> >>>        /* Allow direct recycle if we have reasons to believe that we =
-are
-> >>>         * in the same context as the consumer would run, so there's
-> >>> @@ -1273,9 +1304,9 @@ static bool mp_huge_busy(struct mp_huge *hu, un=
-signed int idx)
-> >>>
-> >>>        for (j =3D 0; j < (1 << MP_HUGE_ORDER); j++) {
-> >>>                page =3D hu->page[idx] + j;
-> >>> -             if (page_ref_count(page) !=3D 1) {
-> >>> +             if (page_pool_page_ref_count(page) !=3D 1) {
-> >>>                        pr_warn("Page with ref count %d at %u, %u. Can=
-'t safely destory, leaking memory!\n",
-> >>> -                             page_ref_count(page), idx, j);
-> >>> +                             page_pool_page_ref_count(page), idx, j)=
-;
-> >>>                        return true;
-> >>>                }
-> >>>        }
-> >>> @@ -1330,7 +1361,7 @@ static struct page *mp_huge_alloc_pages(struct =
-page_pool *pool, gfp_t gfp)
-> >>>                        continue;
-> >>>
-> >>>                if ((page->pp_magic & ~0x3UL) =3D=3D PP_SIGNATURE ||
-> >>> -                 page_ref_count(page) !=3D 1) {
-> >>> +                 page_pool_page_ref_count(page) !=3D 1) {
-> >>>                        atomic_inc(&mp_huge_ins_b);
-> >>>                        continue;
-> >>>                }
-> >>> @@ -1458,9 +1489,9 @@ static void mp_huge_1g_destroy(struct page_pool=
- *pool)
-> >>>        free =3D true;
-> >>>        for (i =3D 0; i < MP_HUGE_1G_CNT; i++) {
-> >>>                page =3D hu->page + i;
-> >>> -             if (page_ref_count(page) !=3D 1) {
-> >>> +             if (page_pool_page_ref_count(page) !=3D 1) {
-> >>>                        pr_warn("Page with ref count %d at %u. Can't s=
-afely destory, leaking memory!\n",
-> >>> -                             page_ref_count(page), i);
-> >>> +                             page_pool_page_ref_count(page), i);
-> >>>                        free =3D false;
-> >>>                        break;
-> >>>                }
-> >>> @@ -1489,7 +1520,7 @@ static struct page *mp_huge_1g_alloc_pages(stru=
-ct page_pool *pool, gfp_t gfp)
-> >>>                page =3D hu->page + page_i;
-> >>>
-> >>>                if ((page->pp_magic & ~0x3UL) =3D=3D PP_SIGNATURE ||
-> >>> -                 page_ref_count(page) !=3D 1) {
-> >>> +                 page_pool_page_ref_count(page) !=3D 1) {
-> >>>                        atomic_inc(&mp_huge_ins_b);
-> >>>                        continue;
-> >>>                }
-> >>> --
-> >>> 2.41.0.640.ga95def55d0-goog
-> >>>
-> >>
-> >
-> >
-> > --
-> > Thanks,
-> > Mina
-> >
->
+ 	struct nouveau_exec_job *job;
+ 	struct nouveau_job_args args = {};
+-	int ret;
++	int i, ret;
++
++	for (i = 0; i < __args->push.count; i++) {
++		struct drm_nouveau_exec_push *p = &__args->push.s[i];
++
++		if (p->va_len > NV50_DMA_PUSH_MAX_LENGTH)
++			return -EINVAL;
++	}
+ 
+ 	job = *pjob = kzalloc(sizeof(*job), GFP_KERNEL);
+ 	if (!job)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index f39360870c70..2f3dc4d71657 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -856,9 +856,11 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
+ 		for (i = 0; i < req->nr_push; i++) {
+ 			struct nouveau_vma *vma = (void *)(unsigned long)
+ 				bo[push[i].bo_index].user_priv;
++			u64 addr = vma->addr + push[i].offset;
++			u32 length = push[i].length & ~NOUVEAU_GEM_PUSHBUF_NO_PREFETCH;
++			bool prefetch = !(push[i].length & NOUVEAU_GEM_PUSHBUF_NO_PREFETCH);
+ 
+-			nv50_dma_push(chan, vma->addr + push[i].offset,
+-				      push[i].length);
++			nv50_dma_push(chan, addr, length, prefetch);
+ 		}
+ 	} else
+ 	if (drm->client.device.info.chipset >= 0x25) {
+diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+index b1ad9d5ffce8..8f16724b5d05 100644
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -138,6 +138,7 @@ struct drm_nouveau_gem_pushbuf_push {
+ 	__u32 pad;
+ 	__u64 offset;
+ 	__u64 length;
++#define NOUVEAU_GEM_PUSHBUF_NO_PREFETCH (1 << 23)
+ };
+ 
+ struct drm_nouveau_gem_pushbuf {
+@@ -338,7 +339,12 @@ struct drm_nouveau_exec_push {
+ 	/**
+ 	 * @va_len: the length of the push buffer mapping
+ 	 */
+-	__u64 va_len;
++	__u32 va_len;
++	/**
++	 * flags: the flags for this push buffer mapping
++	 */
++	__u32 flags;
++#define DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH 0x1
+ };
+ 
+ /**
 
+base-commit: ad1367f831f8743746a1f49705c28e36a7c95525
+-- 
+2.41.0
 
---
-Thanks,
-Mina
