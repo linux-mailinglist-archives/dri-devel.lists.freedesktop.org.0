@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD7E78484B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 19:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CCE78485A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 19:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9EC10E3B4;
-	Tue, 22 Aug 2023 17:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B0A10E3B7;
+	Tue, 22 Aug 2023 17:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AC710E3B4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 17:16:06 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-99c3d3c3db9so629858566b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 10:16:06 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F5F10E3B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 17:22:15 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id
+ 3f1490d57ef6-d650a22abd7so4775672276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 10:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692724565; x=1693329365;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n40OSQ1aOHwb0xjPdR9jQ6wxnoOkYuHmQ4PP3H0EIQU=;
- b=lySY5a8lyrGGnlYYXmf1l1ocOBL9p7YeIXrDkyjNrsw/anYfz+6MrKn1NRW7rt0Ny1
- KihWqC/l79F/2GTS93KM2VYg0m+/U4ZVc6uNlRpIjmnSZ0Sut5sNdvCRogdQcnP1Jwjc
- HaVZ93SoZcSeQMmHWgJdoPfeVJAbkvtXKctBEytkDo8/yyOSFyWLNukLQCZ22UcVLcw9
- S9oIJ8C5urTiccIpXY4yjOWXK/FgflI2yb/rxybAUkaM2Tg4mU0dn4uJ8eecyyW0k7N1
- QTNad9C61A1jPmghWekm/9TE/GUQZqqUJr/zFssq50uYC8EQlJ98t5Se/kpQvL2a3A9J
- 5AFw==
+ d=linaro.org; s=google; t=1692724935; x=1693329735;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Que2yIbRJrk/qAKPnu985gDCHaDuWM2c+IiMxTSOqFo=;
+ b=iXf3z4PpDI16KmgLfqdzWF1xg8whrVf+mqjrNLmygLnJwi6YuRYvpVxzRrTBVuMIOf
+ 2/JRDNjZ/5hLV11p2A0Xj3oF2S6V3V+qZJikfyG9JhBiMNdm4jVM1YP56QbgTfx0n/XB
+ a/O93HWoxixX6hzNKB10ghZU/McnvWF265/Qlj+RUTngsouCFk/e+5lzMxJSybtObVbJ
+ lxFhbWg2R8ZwJ//d8PhmAi1b/vTGdF1C3jZV95AaAxg+UsgTepvW/tKR/KJIeMryJ+hS
+ 8dMhoo59ZNIEELkBnhkS5jO1vtzhmEDEbXDxygTCGKf1fX4qPJZnZM/fHf9Hs4GMexEW
+ Dvug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692724565; x=1693329365;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n40OSQ1aOHwb0xjPdR9jQ6wxnoOkYuHmQ4PP3H0EIQU=;
- b=TBb3lPnTtdUUZMuEaPjMUp+Q2rKNadzxVNSzfw2aVEd5qKfLy3jvDXoqYb1wQjJu/d
- n8mzqI+UsGdZnW7EAOGD8uj+k4vAlFeGtasI5fUXHS5yzJw5xcxIKlC0yThLhAjwtXUj
- antjxxPDpWRpymcOl5mzG72HfFeR+pq+I6yoPfXdJmFlux72z3Q4gaz/UMNUABkg6lWK
- uUM08uOaiQglY0bPrCzGWt2RmZn2Gz4rDE9zBGhiwlsQn2gr0lKroNXiAX/VyjO+koTn
- At2h7snC5sjV3qMoP4FS6LAzKrs6thiLWC+A6UlZ9pyhKdy+6B6DiO5aF90ZM1Y6gwcR
- 2Scg==
-X-Gm-Message-State: AOJu0Ywmdf2w6BYVBglwVWw1pfWdWUx6R3O2hbiXbDiuim3OntKVSI9t
- +XFEmJMk0HcqhuPDK2/WTxeMiks6dP1tDyQf5L0=
-X-Google-Smtp-Source: AGHT+IFI95FHGpr6x2Y7yipCMx8Cu+PjNr67/q+7Cwc3a0nItV0XK4fS+gMtRy1kJ5SZXKsg6cGwBCClIR0xrahkDBI=
-X-Received: by 2002:a17:906:28d:b0:99c:3b4:940f with SMTP id
- 13-20020a170906028d00b0099c03b4940fmr8855243ejf.27.1692724564539; Tue, 22 Aug
- 2023 10:16:04 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692724935; x=1693329735;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Que2yIbRJrk/qAKPnu985gDCHaDuWM2c+IiMxTSOqFo=;
+ b=f3hRKBEP0p/dq/YIfT59O2UyVcPLpcescPp+AYgbH0sBHqE8178afYxrSIyd8CKnpp
+ 36cuLfKbE2Oe3wA5nrmDIhE20g8OjmoXv1+eBGxdHz+qkD/syab++PZl3KUamdof3h7V
+ Q9pkZjlZAmnnTtcLj+r5TpkKKlxSuoGzb/Kc3zkiI9xOOwhIr3Fe7NQT+OMw9Kiw7rzA
+ 0CabkbcXQmw0bOxjb3hHEasplKOmrzsJEINxq4XOMSjoov83s9EXHZCZFmaom3eKjRz6
+ aaRGCS5EIdXjRBhBVM8Byv8r7eq7IaYbnXD0MzjOJxuC2qNG7PhB481CUoSAq74kWpcD
+ AzCw==
+X-Gm-Message-State: AOJu0YxW7PcJ8u/IEyTmB3LgvOOQFMuNSMm7bbMLViFNxs02JOSj+j4Z
+ L1amKQu7A4s27FM+DUKyLh/wQ5iJ7uq+1YKDUvWVgQ==
+X-Google-Smtp-Source: AGHT+IGl3KL+2s+dmYMMSJu5+XMxTurRENZU4VmX6zHmymyLIA+9IDxMCbHBbSaAqr/Q/s2izbtmiLqSIM5T8l0q6DI=
+X-Received: by 2002:a25:f606:0:b0:c6f:b843:c502 with SMTP id
+ t6-20020a25f606000000b00c6fb843c502mr11502039ybd.25.1692724934702; Tue, 22
+ Aug 2023 10:22:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230818145939.39697-1-robdclark@gmail.com>
- <a05e0c2e-fd62-4a8e-9fa4-dffaf86f7730@gmail.com>
-In-Reply-To: <a05e0c2e-fd62-4a8e-9fa4-dffaf86f7730@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 22 Aug 2023 10:15:52 -0700
-Message-ID: <CAF6AEGs+6cveKbv=onEJSZJERk8m56YJzza6A2+eLd3+6MuWMg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v2] dma-buf/sw_sync: Avoid recursive lock
- during fence signal
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20230808083243.3113192-1-Sandor.yu@nxp.com>
+ <20230808083243.3113192-3-Sandor.yu@nxp.com>
+ <c485b64e-3c83-4616-b8d8-76c2c7d56b0e@linaro.org> <ZOS+IQgFZYxN503B@matsya>
+In-Reply-To: <ZOS+IQgFZYxN503B@matsya>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 22 Aug 2023 20:22:03 +0300
+Message-ID: <CAA8EJpokkjw_Q36YMh4p6NR+r4JGgM7_b+_QXtbmcPr6GzA=ug@mail.gmail.com>
+Subject: Re: [PATCH v8 2/7] phy: Add HDMI configuration options
+To: Vinod Koul <vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,100 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: andrzej.hajda@intel.com, sam@ravnborg.org, alexander.stein@ew.tq-group.com,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
+ Sandor Yu <Sandor.yu@nxp.com>, jernej.skrabec@gmail.com, linux-imx@nxp.com,
+ devicetree@vger.kernel.org, kernel@pengutronix.de, jonas@kwiboo.se,
+ s.hauer@pengutronix.de, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, oliver.brown@nxp.com,
+ neil.armstrong@linaro.org, linux-kernel@vger.kernel.org, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 22, 2023 at 6:01=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On 22/08/2023 16:54, Vinod Koul wrote:
+> On 17-08-23, 13:05, Dmitry Baryshkov wrote:
+>> On 08/08/2023 11:32, Sandor Yu wrote:
+>>> Allow HDMI PHYs to be configured through the generic
+>>> functions through a custom structure added to the generic union.
+>>>
+>>> The parameters added here are based on HDMI PHY
+>>> implementation practices.  The current set of parameters
+>>> should cover the potential users.
+>>>
+>>> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+>>> ---
+>>>    include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
+>>>    include/linux/phy/phy.h      |  7 ++++++-
+>>>    2 files changed, 30 insertions(+), 1 deletion(-)
+>>>    create mode 100644 include/linux/phy/phy-hdmi.h
+>>
+>> I think this looks good now, thank you!
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 >
-> Am 18.08.23 um 16:59 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > If a signal callback releases the sw_sync fence, that will trigger a
-> > deadlock as the timeline_fence_release recurses onto the fence->lock
-> > (used both for signaling and the the timeline tree).
-> >
-> > To avoid that, temporarily hold an extra reference to the signalled
-> > fences until after we drop the lock.
-> >
-> > (This is an alternative implementation of https://patchwork.kernel.org/=
-patch/11664717/
-> > which avoids some potential UAF issues with the original patch.)
-> >
-> > v2: Remove now obsolete comment, use list_move_tail() and
-> >      list_del_init()
-> >
-> > Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt fre=
-e")
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Should this go thru drm or phy...?
 
-Thanks, any chance you could take this via drm-misc?
+I'd say, PHY, together with the other PHY patches. If you can merge
+them into an immutable branch, then it can also be merged into
+drm-misc (?) to provide the dependency between drm and phy parts.
 
-BR,
--R
 
->
-> > ---
-> >   drivers/dma-buf/sw_sync.c | 18 +++++++++---------
-> >   1 file changed, 9 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> > index 63f0aeb66db6..f0a35277fd84 100644
-> > --- a/drivers/dma-buf/sw_sync.c
-> > +++ b/drivers/dma-buf/sw_sync.c
-> > @@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_op=
-s =3D {
-> >    */
-> >   static void sync_timeline_signal(struct sync_timeline *obj, unsigned =
-int inc)
-> >   {
-> > +     LIST_HEAD(signalled);
-> >       struct sync_pt *pt, *next;
-> >
-> >       trace_sync_timeline(obj);
-> > @@ -203,21 +204,20 @@ static void sync_timeline_signal(struct sync_time=
-line *obj, unsigned int inc)
-> >               if (!timeline_fence_signaled(&pt->base))
-> >                       break;
-> >
-> > -             list_del_init(&pt->link);
-> > +             dma_fence_get(&pt->base);
-> > +
-> > +             list_move_tail(&pt->link, &signalled);
-> >               rb_erase(&pt->node, &obj->pt_tree);
-> >
-> > -             /*
-> > -              * A signal callback may release the last reference to th=
-is
-> > -              * fence, causing it to be freed. That operation has to b=
-e
-> > -              * last to avoid a use after free inside this loop, and m=
-ust
-> > -              * be after we remove the fence from the timeline in orde=
-r to
-> > -              * prevent deadlocking on timeline->lock inside
-> > -              * timeline_fence_release().
-> > -              */
-> >               dma_fence_signal_locked(&pt->base);
-> >       }
-> >
-> >       spin_unlock_irq(&obj->lock);
-> > +
-> > +     list_for_each_entry_safe(pt, next, &signalled, link) {
-> > +             list_del_init(&pt->link);
-> > +             dma_fence_put(&pt->base);
-> > +     }
-> >   }
-> >
-> >   /**
->
+--
+With best wishes
+Dmitry
