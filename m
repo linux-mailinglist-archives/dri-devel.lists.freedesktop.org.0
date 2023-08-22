@@ -2,62 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59DB7839B7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 08:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901867839C5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 08:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4E710E2DA;
-	Tue, 22 Aug 2023 06:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A85F10E2DC;
+	Tue, 22 Aug 2023 06:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
- [IPv6:2607:f8b0:4864:20::e34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D41210E2DA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 06:06:04 +0000 (UTC)
-Received: by mail-vs1-xe34.google.com with SMTP id
- ada2fe7eead31-44d3fceb567so1448507137.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 23:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1692684363; x=1693289163;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=96PAr/ZKdMv2+Os9IV3Xbt2ZP288+QT1rrqfr7FmrOU=;
- b=IJDiTjAeGAyJ/4v+6yRZ0Dczs1hvAAYjI0NGvmfIJer5b9MNhWRYjXm06nhHUNLB1D
- Qfe9gPlHjEr0Eo3/G+BGb+bF61xVTLzVwNiZCDRRA7PQJ4GwPBnuCfAuRL7/l3mhS7XP
- mPT0JKrpzt1v28Bfg/SbnIyg1YMZa7Ibd6q+hu12FsBSjrvNPUlt4lXmW4P4vENdqO4/
- yLydp7lGe+qK3dyza2zr3g7+zKfCh2hxsqMVVESpN6obRHxfL7RPTb2UHIIZAf8ZF2Cq
- 4w9CKtnqRyIT0JPnwJiD6ZPKnouBBEUN9CAK91DbvJny16uE00Tx3YffPDcQFU40FxoE
- VAZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692684363; x=1693289163;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=96PAr/ZKdMv2+Os9IV3Xbt2ZP288+QT1rrqfr7FmrOU=;
- b=TGUKH8wcUlsSy6OMqZQlD9SUCpVTRi8KSObap2GJTjGtOrhY73rAzPl4ivfX9yKH6+
- U4an92ItbKSakG5J72tGHjajG8ddq5Bof0zAyxXY6lAwAp3jCOmZY6EQ97yAT+Hcgb6A
- tHfxuTMRNW2ZuCRT2gnmUNlvhYnaT8sYVuK5mpjmjggITVHXRIqQ60rWipwv2VSSdwIA
- bTYEKzXteU2ltYbb7bjaFfelfmDr6LqhinFS91sDXUu6rDJg2xMh1j4DCOj9nzBLk+Cx
- +qWx5A8PV6vJMrOaves9E0xEGfIss4up5V9EGq+TAJxzLT+QFvdKC8F3N8R8HwKHWGYX
- DXjw==
-X-Gm-Message-State: AOJu0YzjBl3KyqbmoM3VQw+tWqmnzEEl2WzoGXC9nGsch/ghRWBOJtT1
- vqqEdzNRkrF0JJUTPxKBFhRxjGXQ4ng4n7Tk+OZCwg==
-X-Google-Smtp-Source: AGHT+IFPjPglggVAFjlide5m+mn7HoVFzA/jDolI+RailJQq2VaayvEQFWJzjNa7Zg17QcOhYhc1OZHohW/GCYlclM0=
-X-Received: by 2002:a05:6102:320b:b0:44b:f502:148d with SMTP id
- r11-20020a056102320b00b0044bf502148dmr4725729vsf.6.1692684363159; Mon, 21 Aug
- 2023 23:06:03 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2062f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FE310E2D6;
+ Tue, 22 Aug 2023 06:13:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hQUIfzYO/d4cE6BIuyQ6qI+L2zu/KUCoLoV95AuTRCTiHOGlwnMyNfEMgjBc0cYBIn1wD1U9NsXlK2XtjaHFcGbVGj7+PsF1NKDnYActZoB52G51il7iV+CVrsgx61gBAThxl46LEtqBl0PovvnxHNfq0v8Ygs+3QYy2Zf2uHowmyf7GMg5mAGNPzZ6hyP2Z7dm8UXFU9u671MuQoA4ADUwNuI/cyXK6JmJu552lJZPqdJAQxhf85iqqSjx6YP0Bqbq5t8UZuGsOuhqI1+kHZd6964CNC6XX1Rghxm2Hupxr0tPMK+H/3SV1UyAa6NDiLPpJsHETALeJueNw1eR4ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rqQvajFHBnj+YXKq7O1T6nGj43S6SPxplK0nrlK1svk=;
+ b=PyfrYTS5BRIcCM6fqOmLeq6nRwdAmVh+hYDwt1/lFoTd/3sVCLgdZccRJ6f2al0yzfvtRvXIwbXAqtmiApdYFSnleUMKchHSAC0GCwiyvigTxExn1eAYEvjO8xAztIsixHYTa6rqaQ6G3wRUrd/IIFTL6BHzLMxdhwnziIVt2BUjCozjax7l9Th9y/n+nvBAy7hkBXLhw2iAgWkJLsQqA6HZAka+BOC4FQsK8pxGGDA13aswFl3bs22l7A0Ibevc7NiTBhRdaLmAMjrr4dXFldX/gh6+txrciz1Y1IUHhQxf55Ii8s2mSIMEveyCUyetCbU6VS0T6hhBWpJ2DWqdBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rqQvajFHBnj+YXKq7O1T6nGj43S6SPxplK0nrlK1svk=;
+ b=1MY/s7W/KEkaNoIMUjV4u3rmSMb14K9Fuv4t/trwW9ZLeuIyitWX8CYAQdtIhbtI7PAWN/BeeiNZMs4mjZaiIqEow3zMPjnTR8XNECYWbfcjLQLHpqfV/T2VgWDMK5dwIXjU7/LBtAjVlYAr8sBDjUtxVO9fg77RSa2fNqxYBXs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
+ by PH7PR12MB6394.namprd12.prod.outlook.com (2603:10b6:510:1fe::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Tue, 22 Aug
+ 2023 06:13:32 +0000
+Received: from PH7PR12MB6000.namprd12.prod.outlook.com
+ ([fe80::f78e:33f4:56d2:1ef4]) by PH7PR12MB6000.namprd12.prod.outlook.com
+ ([fe80::f78e:33f4:56d2:1ef4%7]) with mapi id 15.20.6699.020; Tue, 22 Aug 2023
+ 06:13:31 +0000
+Message-ID: <cccd1cd1-28ec-5fb0-e3a3-07caa4bf1b07@amd.com>
+Date: Tue, 22 Aug 2023 11:43:18 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 2/7] drm/amdgpu: Add new function to set GPU power
+ profile
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230821064759.94223-1-Arvind.Yadav@amd.com>
+ <20230821064759.94223-3-Arvind.Yadav@amd.com>
+ <CADnq5_OBLh=fzsifOEhV3F2F1XGOcCujtVAba3KZ75MkY+tKHg@mail.gmail.com>
+ <fff2391b-fc18-af9f-6fe0-7b4c6650dcdd@amd.com>
+ <CADnq5_PYYy6D__49h6jud9vpbzhnyHh8wossNmzDqryxkcRnqQ@mail.gmail.com>
+From: "Yadav, Arvind" <arvyadav@amd.com>
+In-Reply-To: <CADnq5_PYYy6D__49h6jud9vpbzhnyHh8wossNmzDqryxkcRnqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2PR01CA0163.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26::18) To PH7PR12MB6000.namprd12.prod.outlook.com
+ (2603:10b6:510:1dc::15)
 MIME-Version: 1.0
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-7-almasrymina@google.com>
- <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
-In-Reply-To: <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 21 Aug 2023 23:05:50 -0700
-Message-ID: <CAHS8izM4w2UETAwfnV7w+ZzTMxLkz+FKO+xTgRdtYKzV8RzqXw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/11] page-pool: add device memory support
-To: Jesper Dangaard Brouer <jbrouer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB6000:EE_|PH7PR12MB6394:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e6978e8-5f0f-4952-7470-08dba2d6e884
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: brSFkvT6l3fix1b2Wh9+ASDeQCcbnpxACZFfudTCM+40PcpF1QHktJOA/ZKh1kM/hzbs+jf2BGh3QAoVIfGSolqGZeor1XlqaJqhnj5dMN7iJPDAqEuWDX48S0/vU/MxMYhrGaFk6uRVKqE6Jb1xl4tzaaKxU8gv7LfXFrjWeFN6EguvRbwJAMgKQxNsUb4QHk1ka2GAXzvYcTGZ6kfjIKByV7YJXww5XG50v7gx0WIbV4gXlXjcTTEJRGJU9SNdXRMqlXdX21DK+u+b7UMNZo8QPEdLuyLZHKPGUnkw1bCcMmkA9CphBX2CQQEfsQGhqsqnO1ukWICiOKfKQUA2c/4pzmBBT0uSQxJrMZQuN+3J+fzVo7IWxn2Yi/R131cnBNOh0OxkLQL2UmXCqjWzOF86EgRSYwmwK08gZ9mzRdPGLQqkBsfQW3ehh6R1iK6UDR0OrubVdrc4PbbWDrFwQRo7bgtdm3aRXXuQq3fd7A3Sv0vWa6VQaIaOn66bdLxA2MD3vmT5Q4RNHli7IcAE44PlrEA5qT+vpD3UZswRU4eO6YDzpAgduvXu+Se6TINafaSt7j9JiflNNZ6HqFQRsEzBNt5uXTN4Cc4sxYuWuMy9lNl9cTH+RHs0r12I/8drVtlZFtN2wNHNydFkAtR8rw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB6000.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(39860400002)(396003)(366004)(346002)(376002)(186009)(1800799009)(451199024)(6916009)(66476007)(66556008)(316002)(6512007)(66946007)(8676002)(8936002)(2616005)(4326008)(36756003)(41300700001)(478600001)(6666004)(38100700002)(53546011)(6506007)(6486002)(83380400001)(2906002)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3FIVkdLM1dYVjBmWUVSRnlhYk81MnRTZGtwcXBFTUFtNENaQkdpZEhQdUwy?=
+ =?utf-8?B?WktVbjBpVldSZG40Nk95a2Z1UGc5NVA5SkdJMjV6MWJvNU0zN0JjNjVsUG9i?=
+ =?utf-8?B?eWdJc3poMTNnYitWMWxEUUZGbTFkb01mZHZNWngrNVdmZzRLcW16T0pHM1BP?=
+ =?utf-8?B?QkswY2lSTHEvMm5la2g3SmJrYmRySDhWd0lRWWlPQm5sMEJkdGlidmIwendF?=
+ =?utf-8?B?eHZEUkdIeGdoUW5nQWpUeWdxT25JR2R2TUFPMEFRVGRLNVBqN0wyUWtOVW4v?=
+ =?utf-8?B?OG8yM09seUV2dnB0M1U2WWV4em9ZeGsrdytKbEZ4Sy9BaloyRzg3KzNMdXB2?=
+ =?utf-8?B?SVdHL29sT0RzbUZIdytZSWd6Q3VpNy9jQTdHVGd0V2JRdFBlOVIrUHU3WnlB?=
+ =?utf-8?B?NHhiZ1oza0tBRmNjak5kL3ZZWVJrTlZhckFYRld6ODUySDhMeTgxckt5bmh0?=
+ =?utf-8?B?dUljaDYwdnNNU1BmZEc1MVZjMU14am16ZEdDQ0ZFTDR0L1VzeE1ONHA3U3pX?=
+ =?utf-8?B?SkFKS0hvSnErVi9Ob2FkeVkyMS8rUmtHMGpkMTdFNG9DSi9hSFc0NTEvZHlM?=
+ =?utf-8?B?Q0Q1QW5rOGg5akdqeTRkcVJ6RmVlYmVMdEx2ZUNSV2E4YlRCTmJnaythMkIy?=
+ =?utf-8?B?THFvTUNqdXplSVplUnU1alkvWmRlUW5rOG9ZRXU0K204UWxQTzBDdE1XcHVk?=
+ =?utf-8?B?YVlCZnJLR09aM29SRkFIb1ZZeXNEOWhtVWErcEJoSWVwZHQrRi9DV1NIYjZV?=
+ =?utf-8?B?V1ducjI2RlJ2RXZaOXhDRUZxNVR5UEZtL1U4d1lOOGZsVUphKzJEVkNIb3pB?=
+ =?utf-8?B?QWdqdmtGeEdoQjNBN2lveEFZNnRzdXpmUkFKeEd6aEQvOGhkRXA4bzB2eXBF?=
+ =?utf-8?B?bTFGVTRzWGdZNldkN3hCa1FQWDFzeHhxRkxNTmorOTNZR0lXR3VGWnJnNzZV?=
+ =?utf-8?B?NkRSTmEyMEtmMmJUK3E5anYyVjFPTGc0dDRFQU1FTDExR0dxT0o2SnluRlp6?=
+ =?utf-8?B?bk54VHFSTE9KdGV6RW5DNnRVb1lvNy9qZ3JwT09sL3RHR2Q5UE13d0Y3VnRW?=
+ =?utf-8?B?bGVvRmtURWNpSmNSYW1BS0hZRmZ1cXlOVlYxeDNzUHhRVU5tVHAvSEN3TThS?=
+ =?utf-8?B?VXR0TWRCL3lpRFlQWG5sR3NMZkM3aHZnNVJyZWtYYmxOYnhLMG1Mb1JDRzQ2?=
+ =?utf-8?B?WUlxbmd1VVFjK09VY05FQlVvUTYvbENnd1ROSVpBbHZoc1F3Q09SZWJWUFla?=
+ =?utf-8?B?K1FwVXFyV0huOWd1aHdUQlJHaHdNY2lpd2xkdzFZZnpLT3JNSGFXZS90azhy?=
+ =?utf-8?B?ZWpzM254RFdiZXRPenIrcGpOWUQ3bUlVR2kzc04zbUJ1ZHlIRlY4d2lVaGJk?=
+ =?utf-8?B?VCtJTTRUejhwQkE1dStXOHk4MUIyU2JvOXQxQlB0Sjd3Q3RzcjhaMms3eWZR?=
+ =?utf-8?B?Wm9GVG1kNUJTL2FOMUdJR0svVlRtWWxDTHNLejlSM2R0Q2x3a044Nmo3Sysx?=
+ =?utf-8?B?OVNGTnlHNGxzbFhjck40SUN1S0ZldWd3RDNxSzRUdlROMzNEYmhmNG01dG5J?=
+ =?utf-8?B?VGNva2ZhNUpWOXRmaEZ4MDZGYnF4MGgzOC9Ebk0zSDVkU2xEeXhybFBGK2gv?=
+ =?utf-8?B?ODl1elJ0ZVJvTnRTK3YvQUVQZnU2QlJpWWp4RURVTjJKNFNDREY2c3V5UEF6?=
+ =?utf-8?B?bjl5bzdzejY3cXhSWlpwdWdlTnZnN2w1MWJXbEdRNk8yYzQ4TzJFTVJKYUJ6?=
+ =?utf-8?B?SjdDTVlYcnkwMDIxS1NFY05Gd3ZlSHhPcG9EREUycjZRaWF2SGVPMDE4emx0?=
+ =?utf-8?B?SmZYNG9zWmdlTTdtL3lFNXpyZUg2Y2FoZGNXWXE1U1J3bmxNaHA0cXpJclZw?=
+ =?utf-8?B?ejBKbnducTdXZXJ1QWhqUDBTckFJL1JkcUZmLzhMalVKblBUVXJjaFpqbHhP?=
+ =?utf-8?B?aWREWE96RGZNLzNHS0Y2a3RLdnczd29tcnc2UjV5MFJVQk5VRlo3WHcrT0Qw?=
+ =?utf-8?B?elYwemZmbzdoendBQ2RmeEtEeWhHQnNNM2luanlYaDRHSStKclh2NmtlRkY0?=
+ =?utf-8?B?czlNTWFuVS9mVVpjRFBveTdCaXhBYkZXK0NyMXZKTldYUnpXY3RCOXdaZjRx?=
+ =?utf-8?Q?PFMasUCvBfxC2jKd/WkXo9j3h?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e6978e8-5f0f-4952-7470-08dba2d6e884
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 06:13:31.4921 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iIBzxErC2n64+aybySYVCuwbxEaPd4hKAYAiqjiuUk/3AXty9u+GQLt03XD2yuV4ThmonzRJZxr06UmKoPMCCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6394
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,478 +130,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- stephen@networkplumber.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Eric Dumazet <edumazet@google.com>, Hari Ramakrishnan <rharix@google.com>,
- sdf@google.com, Andy Lutomirski <luto@kernel.org>, brouer@redhat.com,
- Jakub Kicinski <kuba@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, shashank.sharma@amd.com,
+ Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ Arvind Yadav <Arvind.Yadav@amd.com>, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, Christian.Koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 19, 2023 at 2:51=E2=80=AFAM Jesper Dangaard Brouer
-<jbrouer@redhat.com> wrote:
->
->
->
-> On 10/08/2023 03.57, Mina Almasry wrote:
-> > Overload the LSB of struct page* to indicate that it's a page_pool_iov.
-> >
-> > Refactor mm calls on struct page * into helpers, and add page_pool_iov
-> > handling on those helpers. Modify callers of these mm APIs with calls t=
-o
-> > these helpers instead.
-> >
->
-> I don't like of this approach.
-> This is adding code to the PP (page_pool) fast-path in multiple places.
->
-> I've not had time to run my usual benchmarks, which are here:
->
-> https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/b=
-ench_page_pool_simple.c
->
 
-I ported over this benchmark to my tree and ran it, my results:
+On 8/21/2023 11:40 PM, Alex Deucher wrote:
+> On Mon, Aug 21, 2023 at 1:54 PM Yadav, Arvind <arvyadav@amd.com> wrote:
+>>
+>> On 8/21/2023 9:52 PM, Alex Deucher wrote:
+>>> On Mon, Aug 21, 2023 at 2:55 AM Arvind Yadav <Arvind.Yadav@amd.com> wrote:
+>>>> This patch adds a function which will change the GPU
+>>>> power profile based on a submitted job. This can optimize
+>>>> the power performance when the workload is on.
+>>>>
+>>>> v2:
+>>>> - Splitting workload_profile_set and workload_profile_put
+>>>>     into two separate patches.
+>>>> - Addressed review comment.
+>>>>
+>>>> Cc: Shashank Sharma <shashank.sharma@amd.com>
+>>>> Cc: Christian Koenig <christian.koenig@amd.com>
+>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c  | 56 +++++++++++++++++++
+>>>>    drivers/gpu/drm/amd/include/amdgpu_workload.h |  3 +
+>>>>    2 files changed, 59 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
+>>>> index 32166f482f77..e661cc5b3d92 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
+>>>> @@ -24,6 +24,62 @@
+>>>>
+>>>>    #include "amdgpu.h"
+>>>>
+>>>> +static enum PP_SMC_POWER_PROFILE
+>>>> +ring_to_power_profile(uint32_t ring_type)
+>>>> +{
+>>>> +       switch (ring_type) {
+>>>> +       case AMDGPU_RING_TYPE_GFX:
+>>>> +               return PP_SMC_POWER_PROFILE_FULLSCREEN3D;
+>>>> +       case AMDGPU_RING_TYPE_COMPUTE:
+>>>> +               return PP_SMC_POWER_PROFILE_COMPUTE;
+>>>> +       case AMDGPU_RING_TYPE_UVD:
+>>>> +       case AMDGPU_RING_TYPE_VCE:
+>>>> +       case AMDGPU_RING_TYPE_UVD_ENC:
+>>>> +       case AMDGPU_RING_TYPE_VCN_DEC:
+>>>> +       case AMDGPU_RING_TYPE_VCN_ENC:
+>>>> +       case AMDGPU_RING_TYPE_VCN_JPEG:
+>>>> +               return PP_SMC_POWER_PROFILE_VIDEO;
+>>>> +       default:
+>>>> +               return PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT;
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +static int
+>>>> +amdgpu_power_profile_set(struct amdgpu_device *adev,
+>>>> +                        enum PP_SMC_POWER_PROFILE profile)
+>>>> +{
+>>>> +       int ret = amdgpu_dpm_switch_power_profile(adev, profile, true);
+>>>> +
+>>>> +       if (!ret) {
+>>>> +               /* Set the bit for the submitted workload profile */
+>>>> +               adev->smu_workload.submit_workload_status |= (1 << profile);
+>>>> +               atomic_inc(&adev->smu_workload.power_profile_ref[profile]);
+>>>> +       }
+>>>> +
+>>>> +       return ret;
+>>>> +}
+>>>> +
+>>>> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
+>>>> +                                uint32_t ring_type)
+>>>> +{
+>>>> +       struct amdgpu_smu_workload *workload = &adev->smu_workload;
+>>>> +       enum PP_SMC_POWER_PROFILE profile = ring_to_power_profile(ring_type);
+>>>> +       int ret;
+>>>> +
+>>>> +       if (profile == PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT)
+>>>> +               return;
+>>> Why is this one skipped?  How do we get back to the boot up profile?
+>> Hi Alex,
+>>
+>> enum PP_SMC_POWER_PROFILE {
+>>       PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT = 0x0,
+>>       PP_SMC_POWER_PROFILE_FULLSCREEN3D = 0x1,
+>>       PP_SMC_POWER_PROFILE_POWERSAVING  = 0x2,
+>>       PP_SMC_POWER_PROFILE_VIDEO        = 0x3,
+>>       PP_SMC_POWER_PROFILE_VR           = 0x4,
+>>       PP_SMC_POWER_PROFILE_COMPUTE      = 0x5,
+>>       PP_SMC_POWER_PROFILE_CUSTOM       = 0x6,
+>>       PP_SMC_POWER_PROFILE_WINDOW3D     = 0x7,
+>>       PP_SMC_POWER_PROFILE_COUNT,
+>> };
+>>
+>> These are all the profiles. We are using which is >
+>> PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT.
+>> Now suppose the profile was DEFAULT and we set it to VIDEO, SMU will
+>> move the profile to a higher level.
+>> When we reset the VIDEO profile then SMU will move back to the DEFAULT one.
+>>
+>> Our job is to set the profile and reset it after the job is done.
+>> SMU will take care to move to a higher profile and after reset, it will
+>> move back to DEFAULT.
+> I guess that is the part I'm missing.  How does the call to the SMU to
+> set the profile back to DEFAULT actually happen?  It seems that both
+> the put and get functions return early in this case.
+SMU is calculating a workload for given the profile and setting it when 
+we call the *get and *put function.
+When we call *set function for VIDEO then SMU will calculate a workload 
+for VIDEO and set it. Now We call
+*put function for the same profile then SMU calculates a workload which 
+will be lower or DEFAULT (0)
+and then it will set it.
 
-net-next @ b44693495af8
-https://pastebin.com/raw/JuU7UQXe
+Suppose we have called *set function for VIDEO profile then SMU will 
+calculate the workload = 4 and set it.
+Now we have called *put function for the same profile then SMU will 
+calculate the workload = 0 and set it.
 
-+ Jakub's memory-provider APIs:
-https://pastebin.com/raw/StMBhetn
+please see the below smu code where index will be DEFAULT (0) or lower 
+for *put function.
 
-+ devmem TCP changes:
-https://pastebin.com/raw/mY1L6U4r
+if (!en) { // put function
+         smu->workload_mask &= ~(1 << smu->workload_prority[type]);
+         index = fls(smu->workload_mask);
+         index = index > 0 && index <= WORKLOAD_POLICY_MAX ? index - 1 : 0;
+         workload = smu->workload_setting[index];
+} else { // set function.
+         smu->workload_mask |= (1 << smu->workload_prority[type]);
+         index = fls(smu->workload_mask);
+         index = index <= WORKLOAD_POLICY_MAX ? index - 1 : 0;
+         workload = smu->workload_setting[index];
+}
 
-+ intentional regression just to make sure the benchmark is working:
-https://pastebin.com/raw/wqWhcJdG
+In our case the *set function will set the GPU  power profile and the 
+*put function will schedule
+the smu_delayed_work task after 100ms delay. This smu_delayed_work task 
+will clear a GPU power profile if any
+new jobs are not scheduled within 100 ms. But if any new job comes 
+within 100ms then the *set function
+will cancel this work and set the GPU power profile based on preferences.
 
-I don't seem to be able to detect a regression with this series as-is,
-but I'm not that familiar with the test and may be doing something
-wrong or misinterpreting the results. Does this look ok to you?
+Thank You
+~Arvind
 
-> But I'm sure it will affect performance.
 >
-> Regardless of performance, this approach is using ptr-LSB-bits, to hide
-> that page-pointer are not really struct-pages, feels like force feeding
-> a solution just to use the page_pool APIs.
+> Alex
 >
 >
-> > In areas where struct page* is dereferenced, add a check for special
-> > handling of page_pool_iov.
-> >
-> > The memory providers producing page_pool_iov can set the LSB on the
-> > struct page* returned to the page pool.
-> >
-> > Note that instead of overloading the LSB of page pointers, we can
-> > instead define a new union between struct page & struct page_pool_iov a=
-nd
-> > compact it in a new type. However, we'd need to implement the code chur=
-n
-> > to modify the page_pool & drivers to use this new type. For this POC
-> > that is not implemented (feedback welcome).
-> >
+> Alex
 >
-> I've said before, that I prefer multiplexing on page->pp_magic.
-> For your page_pool_iov the layout would have to match the offset of
-> pp_magic, to do this. (And if insisting on using PP infra the refcnt
-> would also need to align).
 >
-> On the allocation side, all drivers already use a driver helper
-> page_pool_dev_alloc_pages() or we could add another (better named)
-> helper to multiplex between other types of allocators, e.g. a devmem
-> allocator.
->
-> On free/return/recycle the functions napi_pp_put_page or skb_pp_recycle
-> could multiplex on pp_magic and call another API.  The API could be an
-> extension to PP helpers, but it could also be a devmap allocator helper.
->
-> IMHO forcing/piggy-bagging everything into page_pool is not the right
-> solution.  I really think netstack need to support different allocator
-> types. The page pool have been leading the way, yes, but perhaps it is
-> time to add an API layer that e.g. could be named netmem, that gives us
-> the multiplexing between allocators.  In that process some of page_pool
-> APIs would be lifted out as common blocks and others remain.
->
-> --Jesper
->
-> > I have a sample implementation of adding a new page_pool_token type
-> > in the page_pool to give a general idea here:
-> > https://github.com/torvalds/linux/commit/3a7628700eb7fd02a117db036003bc=
-a50779608d
-> >
-> > Full branch here:
-> > https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem=
--pp-tokens
-> >
-> > (In the branches above, page_pool_iov is called devmem_slice).
-> >
-> > Could also add static_branch to speed up the checks in page_pool_iov
-> > memory providers are being used.
-> >
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > ---
-> >   include/net/page_pool.h | 74 ++++++++++++++++++++++++++++++++++-
-> >   net/core/page_pool.c    | 85 ++++++++++++++++++++++++++++------------=
--
-> >   2 files changed, 131 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/include/net/page_pool.h b/include/net/page_pool.h
-> > index 537eb36115ed..f08ca230d68e 100644
-> > --- a/include/net/page_pool.h
-> > +++ b/include/net/page_pool.h
-> > @@ -282,6 +282,64 @@ static inline struct page_pool_iov *page_to_page_p=
-ool_iov(struct page *page)
-> >       return NULL;
-> >   }
-> >
-> > +static inline int page_pool_page_ref_count(struct page *page)
-> > +{
-> > +     if (page_is_page_pool_iov(page))
-> > +             return page_pool_iov_refcount(page_to_page_pool_iov(page)=
-);
-> > +
-> > +     return page_ref_count(page);
-> > +}
-> > +
-> > +static inline void page_pool_page_get_many(struct page *page,
-> > +                                        unsigned int count)
-> > +{
-> > +     if (page_is_page_pool_iov(page))
-> > +             return page_pool_iov_get_many(page_to_page_pool_iov(page)=
-,
-> > +                                           count);
-> > +
-> > +     return page_ref_add(page, count);
-> > +}
-> > +
-> > +static inline void page_pool_page_put_many(struct page *page,
-> > +                                        unsigned int count)
-> > +{
-> > +     if (page_is_page_pool_iov(page))
-> > +             return page_pool_iov_put_many(page_to_page_pool_iov(page)=
-,
-> > +                                           count);
-> > +
-> > +     if (count > 1)
-> > +             page_ref_sub(page, count - 1);
-> > +
-> > +     put_page(page);
-> > +}
-> > +
-> > +static inline bool page_pool_page_is_pfmemalloc(struct page *page)
-> > +{
-> > +     if (page_is_page_pool_iov(page))
-> > +             return false;
-> > +
-> > +     return page_is_pfmemalloc(page);
-> > +}
-> > +
-> > +static inline bool page_pool_page_is_pref_nid(struct page *page, int p=
-ref_nid)
-> > +{
-> > +     /* Assume page_pool_iov are on the preferred node without actuall=
-y
-> > +      * checking...
-> > +      *
-> > +      * This check is only used to check for recycling memory in the p=
-age
-> > +      * pool's fast paths. Currently the only implementation of page_p=
-ool_iov
-> > +      * is dmabuf device memory. It's a deliberate decision by the use=
-r to
-> > +      * bind a certain dmabuf to a certain netdev, and the netdev rx q=
-ueue
-> > +      * would not be able to reallocate memory from another dmabuf tha=
-t
-> > +      * exists on the preferred node, so, this check doesn't make much=
- sense
-> > +      * in this case. Assume all page_pool_iovs can be recycled for no=
-w.
-> > +      */
-> > +     if (page_is_page_pool_iov(page))
-> > +             return true;
-> > +
-> > +     return page_to_nid(page) =3D=3D pref_nid;
-> > +}
-> > +
-> >   struct page_pool {
-> >       struct page_pool_params p;
-> >
-> > @@ -434,6 +492,9 @@ static inline long page_pool_defrag_page(struct pag=
-e *page, long nr)
-> >   {
-> >       long ret;
-> >
-> > +     if (page_is_page_pool_iov(page))
-> > +             return -EINVAL;
-> > +
-> >       /* If nr =3D=3D pp_frag_count then we have cleared all remaining
-> >        * references to the page. No need to actually overwrite it, inst=
-ead
-> >        * we can leave this to be overwritten by the calling function.
-> > @@ -494,7 +555,12 @@ static inline void page_pool_recycle_direct(struct=
- page_pool *pool,
-> >
-> >   static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
-> >   {
-> > -     dma_addr_t ret =3D page->dma_addr;
-> > +     dma_addr_t ret;
-> > +
-> > +     if (page_is_page_pool_iov(page))
-> > +             return page_pool_iov_dma_addr(page_to_page_pool_iov(page)=
-);
-> > +
-> > +     ret =3D page->dma_addr;
-> >
-> >       if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
-> >               ret |=3D (dma_addr_t)page->dma_addr_upper << 16 << 16;
-> > @@ -504,6 +570,12 @@ static inline dma_addr_t page_pool_get_dma_addr(st=
-ruct page *page)
-> >
-> >   static inline void page_pool_set_dma_addr(struct page *page, dma_addr=
-_t addr)
-> >   {
-> > +     /* page_pool_iovs are mapped and their dma-addr can't be modified=
-. */
-> > +     if (page_is_page_pool_iov(page)) {
-> > +             DEBUG_NET_WARN_ON_ONCE(true);
-> > +             return;
-> > +     }
-> > +
-> >       page->dma_addr =3D addr;
-> >       if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
-> >               page->dma_addr_upper =3D upper_32_bits(addr);
-> > diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> > index 0a7c08d748b8..20c1f74fd844 100644
-> > --- a/net/core/page_pool.c
-> > +++ b/net/core/page_pool.c
-> > @@ -318,7 +318,7 @@ static struct page *page_pool_refill_alloc_cache(st=
-ruct page_pool *pool)
-> >               if (unlikely(!page))
-> >                       break;
-> >
-> > -             if (likely(page_to_nid(page) =3D=3D pref_nid)) {
-> > +             if (likely(page_pool_page_is_pref_nid(page, pref_nid))) {
-> >                       pool->alloc.cache[pool->alloc.count++] =3D page;
-> >               } else {
-> >                       /* NUMA mismatch;
-> > @@ -363,7 +363,15 @@ static void page_pool_dma_sync_for_device(struct p=
-age_pool *pool,
-> >                                         struct page *page,
-> >                                         unsigned int dma_sync_size)
-> >   {
-> > -     dma_addr_t dma_addr =3D page_pool_get_dma_addr(page);
-> > +     dma_addr_t dma_addr;
-> > +
-> > +     /* page_pool_iov memory provider do not support PP_FLAG_DMA_SYNC_=
-DEV */
-> > +     if (page_is_page_pool_iov(page)) {
-> > +             DEBUG_NET_WARN_ON_ONCE(true);
-> > +             return;
-> > +     }
-> > +
-> > +     dma_addr =3D page_pool_get_dma_addr(page);
-> >
-> >       dma_sync_size =3D min(dma_sync_size, pool->p.max_len);
-> >       dma_sync_single_range_for_device(pool->p.dev, dma_addr,
-> > @@ -375,6 +383,12 @@ static bool page_pool_dma_map(struct page_pool *po=
-ol, struct page *page)
-> >   {
-> >       dma_addr_t dma;
-> >
-> > +     if (page_is_page_pool_iov(page)) {
-> > +             /* page_pool_iovs are already mapped */
-> > +             DEBUG_NET_WARN_ON_ONCE(true);
-> > +             return true;
-> > +     }
-> > +
-> >       /* Setup DMA mapping: use 'struct page' area for storing DMA-addr
-> >        * since dma_addr_t can be either 32 or 64 bits and does not alwa=
-ys fit
-> >        * into page private data (i.e 32bit cpu with 64bit DMA caps)
-> > @@ -398,14 +412,24 @@ static bool page_pool_dma_map(struct page_pool *p=
-ool, struct page *page)
-> >   static void page_pool_set_pp_info(struct page_pool *pool,
-> >                                 struct page *page)
-> >   {
-> > -     page->pp =3D pool;
-> > -     page->pp_magic |=3D PP_SIGNATURE;
-> > +     if (!page_is_page_pool_iov(page)) {
-> > +             page->pp =3D pool;
-> > +             page->pp_magic |=3D PP_SIGNATURE;
-> > +     } else {
-> > +             page_to_page_pool_iov(page)->pp =3D pool;
-> > +     }
-> > +
-> >       if (pool->p.init_callback)
-> >               pool->p.init_callback(page, pool->p.init_arg);
-> >   }
-> >
-> >   static void page_pool_clear_pp_info(struct page *page)
-> >   {
-> > +     if (page_is_page_pool_iov(page)) {
-> > +             page_to_page_pool_iov(page)->pp =3D NULL;
-> > +             return;
-> > +     }
-> > +
-> >       page->pp_magic =3D 0;
-> >       page->pp =3D NULL;
-> >   }
-> > @@ -615,7 +639,7 @@ static bool page_pool_recycle_in_cache(struct page =
-*page,
-> >               return false;
-> >       }
-> >
-> > -     /* Caller MUST have verified/know (page_ref_count(page) =3D=3D 1)=
- */
-> > +     /* Caller MUST have verified/know (page_pool_page_ref_count(page)=
- =3D=3D 1) */
-> >       pool->alloc.cache[pool->alloc.count++] =3D page;
-> >       recycle_stat_inc(pool, cached);
-> >       return true;
-> > @@ -638,9 +662,10 @@ __page_pool_put_page(struct page_pool *pool, struc=
-t page *page,
-> >        * refcnt =3D=3D 1 means page_pool owns page, and can recycle it.
-> >        *
-> >        * page is NOT reusable when allocated when system is under
-> > -      * some pressure. (page_is_pfmemalloc)
-> > +      * some pressure. (page_pool_page_is_pfmemalloc)
-> >        */
-> > -     if (likely(page_ref_count(page) =3D=3D 1 && !page_is_pfmemalloc(p=
-age))) {
-> > +     if (likely(page_pool_page_ref_count(page) =3D=3D 1 &&
-> > +                !page_pool_page_is_pfmemalloc(page))) {
-> >               /* Read barrier done in page_ref_count / READ_ONCE */
-> >
-> >               if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> > @@ -741,7 +766,8 @@ static struct page *page_pool_drain_frag(struct pag=
-e_pool *pool,
-> >       if (likely(page_pool_defrag_page(page, drain_count)))
-> >               return NULL;
-> >
-> > -     if (page_ref_count(page) =3D=3D 1 && !page_is_pfmemalloc(page)) {
-> > +     if (page_pool_page_ref_count(page) =3D=3D 1 &&
-> > +         !page_pool_page_is_pfmemalloc(page)) {
-> >               if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> >                       page_pool_dma_sync_for_device(pool, page, -1);
-> >
-> > @@ -818,9 +844,9 @@ static void page_pool_empty_ring(struct page_pool *=
-pool)
-> >       /* Empty recycle ring */
-> >       while ((page =3D ptr_ring_consume_bh(&pool->ring))) {
-> >               /* Verify the refcnt invariant of cached pages */
-> > -             if (!(page_ref_count(page) =3D=3D 1))
-> > +             if (!(page_pool_page_ref_count(page) =3D=3D 1))
-> >                       pr_crit("%s() page_pool refcnt %d violation\n",
-> > -                             __func__, page_ref_count(page));
-> > +                             __func__, page_pool_page_ref_count(page))=
-;
-> >
-> >               page_pool_return_page(pool, page);
-> >       }
-> > @@ -977,19 +1003,24 @@ bool page_pool_return_skb_page(struct page *page=
-, bool napi_safe)
-> >       struct page_pool *pp;
-> >       bool allow_direct;
-> >
-> > -     page =3D compound_head(page);
-> > +     if (!page_is_page_pool_iov(page)) {
-> > +             page =3D compound_head(page);
-> >
-> > -     /* page->pp_magic is OR'ed with PP_SIGNATURE after the allocation
-> > -      * in order to preserve any existing bits, such as bit 0 for the
-> > -      * head page of compound page and bit 1 for pfmemalloc page, so
-> > -      * mask those bits for freeing side when doing below checking,
-> > -      * and page_is_pfmemalloc() is checked in __page_pool_put_page()
-> > -      * to avoid recycling the pfmemalloc page.
-> > -      */
-> > -     if (unlikely((page->pp_magic & ~0x3UL) !=3D PP_SIGNATURE))
-> > -             return false;
-> > +             /* page->pp_magic is OR'ed with PP_SIGNATURE after the
-> > +              * allocation in order to preserve any existing bits, suc=
-h as
-> > +              * bit 0 for the head page of compound page and bit 1 for
-> > +              * pfmemalloc page, so mask those bits for freeing side w=
-hen
-> > +              * doing below checking, and page_pool_page_is_pfmemalloc=
-() is
-> > +              * checked in __page_pool_put_page() to avoid recycling t=
-he
-> > +              * pfmemalloc page.
-> > +              */
-> > +             if (unlikely((page->pp_magic & ~0x3UL) !=3D PP_SIGNATURE)=
-)
-> > +                     return false;
-> >
-> > -     pp =3D page->pp;
-> > +             pp =3D page->pp;
-> > +     } else {
-> > +             pp =3D page_to_page_pool_iov(page)->pp;
-> > +     }
-> >
-> >       /* Allow direct recycle if we have reasons to believe that we are
-> >        * in the same context as the consumer would run, so there's
-> > @@ -1273,9 +1304,9 @@ static bool mp_huge_busy(struct mp_huge *hu, unsi=
-gned int idx)
-> >
-> >       for (j =3D 0; j < (1 << MP_HUGE_ORDER); j++) {
-> >               page =3D hu->page[idx] + j;
-> > -             if (page_ref_count(page) !=3D 1) {
-> > +             if (page_pool_page_ref_count(page) !=3D 1) {
-> >                       pr_warn("Page with ref count %d at %u, %u. Can't =
-safely destory, leaking memory!\n",
-> > -                             page_ref_count(page), idx, j);
-> > +                             page_pool_page_ref_count(page), idx, j);
-> >                       return true;
-> >               }
-> >       }
-> > @@ -1330,7 +1361,7 @@ static struct page *mp_huge_alloc_pages(struct pa=
-ge_pool *pool, gfp_t gfp)
-> >                       continue;
-> >
-> >               if ((page->pp_magic & ~0x3UL) =3D=3D PP_SIGNATURE ||
-> > -                 page_ref_count(page) !=3D 1) {
-> > +                 page_pool_page_ref_count(page) !=3D 1) {
-> >                       atomic_inc(&mp_huge_ins_b);
-> >                       continue;
-> >               }
-> > @@ -1458,9 +1489,9 @@ static void mp_huge_1g_destroy(struct page_pool *=
-pool)
-> >       free =3D true;
-> >       for (i =3D 0; i < MP_HUGE_1G_CNT; i++) {
-> >               page =3D hu->page + i;
-> > -             if (page_ref_count(page) !=3D 1) {
-> > +             if (page_pool_page_ref_count(page) !=3D 1) {
-> >                       pr_warn("Page with ref count %d at %u. Can't safe=
-ly destory, leaking memory!\n",
-> > -                             page_ref_count(page), i);
-> > +                             page_pool_page_ref_count(page), i);
-> >                       free =3D false;
-> >                       break;
-> >               }
-> > @@ -1489,7 +1520,7 @@ static struct page *mp_huge_1g_alloc_pages(struct=
- page_pool *pool, gfp_t gfp)
-> >               page =3D hu->page + page_i;
-> >
-> >               if ((page->pp_magic & ~0x3UL) =3D=3D PP_SIGNATURE ||
-> > -                 page_ref_count(page) !=3D 1) {
-> > +                 page_pool_page_ref_count(page) !=3D 1) {
-> >                       atomic_inc(&mp_huge_ins_b);
-> >                       continue;
-> >               }
-> > --
-> > 2.41.0.640.ga95def55d0-goog
-> >
->
-
-
---
-Thanks,
-Mina
+>> ThankYou,
+>> ~Arvind
+>>
+>>> Alex
+>>>
+>>>> +
+>>>> +       mutex_lock(&workload->workload_lock);
+>>>> +
+>>>> +       ret = amdgpu_power_profile_set(adev, profile);
+>>>> +       if (ret) {
+>>>> +               DRM_WARN("Failed to set workload profile to %s, error = %d\n",
+>>>> +                        amdgpu_workload_mode_name[profile], ret);
+>>>> +       }
+>>>> +
+>>>> +       mutex_unlock(&workload->workload_lock);
+>>>> +}
+>>>> +
+>>>>    void amdgpu_workload_profile_init(struct amdgpu_device *adev)
+>>>>    {
+>>>>           adev->smu_workload.adev = adev;
+>>>> diff --git a/drivers/gpu/drm/amd/include/amdgpu_workload.h b/drivers/gpu/drm/amd/include/amdgpu_workload.h
+>>>> index 5d0f068422d4..5022f28fc2f9 100644
+>>>> --- a/drivers/gpu/drm/amd/include/amdgpu_workload.h
+>>>> +++ b/drivers/gpu/drm/amd/include/amdgpu_workload.h
+>>>> @@ -46,6 +46,9 @@ static const char * const amdgpu_workload_mode_name[] = {
+>>>>           "Window3D"
+>>>>    };
+>>>>
+>>>> +void amdgpu_workload_profile_set(struct amdgpu_device *adev,
+>>>> +                                uint32_t ring_type);
+>>>> +
+>>>>    void amdgpu_workload_profile_init(struct amdgpu_device *adev);
+>>>>
+>>>>    void amdgpu_workload_profile_fini(struct amdgpu_device *adev);
+>>>> --
+>>>> 2.34.1
+>>>>
