@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E84783725
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 02:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DC878374E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 03:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC3E10E2BA;
-	Tue, 22 Aug 2023 00:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA27010E2BE;
+	Tue, 22 Aug 2023 01:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com
- [IPv6:2607:f8b0:4864:20::a29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCC6A10E2BA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 00:58:38 +0000 (UTC)
-Received: by mail-vk1-xa29.google.com with SMTP id
- 71dfb90a1353d-48d0bc6a834so738191e0c.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Aug 2023 17:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692665918; x=1693270718;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=etbwJkjZ+47EGwO43n7nBgUqgoF0Y+SqornaZjC52hI=;
- b=Q2MCju5n2Fs0gJAbnAMSN/TSkiK5/IJ2nWz59TWWBqyOI60mBhj2IgPSq2JMb+hgV+
- zXo47RElxE+valBU6k7puzGdW6mMO6xi+ZOaeWuPRcPwEnyMEva0FxJDL8K6wUchnzW9
- f+DoWDlQl+F7D2BVJ9QKnEFfyKOgMQ6WM5xuxUg7tAmu8byNXEYyrxMo0v1oWjls/qok
- 5FEg2ENmiksG86m49zNL+A3UAFn2JqegA0PIGCU5XxrgwAL4gcA/PyY3WJ9F+v/UnpJx
- 6JZsMAYk9Gr90+NW6WSJdtz9qOTVb+X52xZ5G/GsQKoD0pgy+BThzKL12y/yLhjUFmLd
- Iujg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692665918; x=1693270718;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=etbwJkjZ+47EGwO43n7nBgUqgoF0Y+SqornaZjC52hI=;
- b=hmKKkJArKc7Y9S6EPEPQyZwwy8GUzRJ0sVO46CohrO2qmTzEh6L+JieUhmkbeNv4az
- RGVYmBlGlNHbk1bVU3Tefcs95zf0OU2vUFAtDLG/72WvgEqMQyOGSzdFGNbuEJI8sMh+
- 4c54pTwC30JN8IR4HZq6TneYzFATfjRENcAqOyTJsxivx8MFDIOZG10ESHhcAuC5sn5d
- vzkhE+ngw7cfcQH3zELfWgOVw4KDIsCfItgI1itFVYL+kUG9QnWmfTzMUtKWeIxBDW/n
- Ko7+ExDJ3LNFxwnzEB6dKqIFSAxTuOY841lEsiqjPG9+jRkHx8p2Ra6ISx/pp60RD0oN
- SsbQ==
-X-Gm-Message-State: AOJu0YzCNPdavoBJjS2NzmBwR4k5Nsxv6A8Sy6//3DokV+QCwdOI2a/K
- R3a58ddXbpgEhm4QkVhHVkql8MTCt+FpLAbqrmQ=
-X-Google-Smtp-Source: AGHT+IFbiTGbud9q6eccm4P8fsg6Je3YqRd5e1SAJ+GMoopHX50V7bFswnzPZw2yl8U7370OXqMsItCFCtZl/DFPHOI=
-X-Received: by 2002:a1f:e2c1:0:b0:488:23bc:6d0f with SMTP id
- z184-20020a1fe2c1000000b0048823bc6d0fmr6383439vkg.16.1692665917754; Mon, 21
- Aug 2023 17:58:37 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0E3A810E2BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 01:19:45 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxVugvDeRkfMIaAA--.19188S3;
+ Tue, 22 Aug 2023 09:19:43 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxvM4gDeRkSe1fAA--.37428S3; 
+ Tue, 22 Aug 2023 09:19:43 +0800 (CST)
+Message-ID: <bc1e31ca-eb54-9696-792c-9749c0582167@loongson.cn>
+Date: Tue, 22 Aug 2023 09:19:28 +0800
 MIME-Version: 1.0
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-7-almasrymina@google.com>
- <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
- <CAF=yD-L0ajGVrexnOVvvhC-A7vw6XP9tq5T3HCDTjQMS0mXdTQ@mail.gmail.com>
- <8f4d276e-470d-6ce8-85d5-a6c08fa22147@redhat.com>
- <4f19143d-5975-05d4-3697-0218ed2881c6@kernel.org>
- <CAF=yD-+wXynvcntVccUAM2+PAumZbRE9E6f3MS6X6qkGrG7_Ow@mail.gmail.com>
- <20230821143131.47de8f8f@kernel.org>
-In-Reply-To: <20230821143131.47de8f8f@kernel.org>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Mon, 21 Aug 2023 20:58:00 -0400
-Message-ID: <CAF=yD-LB1XCfihbFfGkn8seUCq9h6FLyMy94ZYQSTGsN2hVsjQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/11] page-pool: add device memory support
-To: Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4] PCI/VGA: Make the vga_is_firmware_default() less
+ arch-dependent
+To: Bjorn Helgaas <helgaas@kernel.org>
+References: <20230821173320.GA362442@bhelgaas>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230821173320.GA362442@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxvM4gDeRkSe1fAA--.37428S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7CF1xAw1ruFy8ury3uFWfWFX_yoW8CFWxpa
+ yfWFn8Cr4DAwnrArn2v3W8XF9avayrXrWUGrs8tr1rAF98uryF9r1rJw15Cwn3Z39rJa1j
+ vrs8Jw1kGrs0qagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
+ xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1EksDUU
+ UUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,69 +64,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mina Almasry <almasrymina@google.com>, sdf@google.com,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Jesper Dangaard Brouer <jbrouer@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, stephen@networkplumber.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Eric Dumazet <edumazet@google.com>,
- dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@kernel.org>,
- brouer@redhat.com, Hari Ramakrishnan <rharix@google.com>,
- Dan Williams <dan.j.williams@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, linux-media@vger.kernel.org
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-riscv@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 21, 2023 at 5:31=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+Hi,
+
+
+On 2023/8/22 01:33, Bjorn Helgaas wrote:
+> On Fri, Aug 18, 2023 at 09:48:46AM +0800, suijingfeng wrote:
+>> On 2023/8/18 06:08, Bjorn Helgaas wrote:
+>>>> +		if (resource_type(res) != IORESOURCE_MEM)
+>>>> +			continue;
+>>>> +
+>>>> +		if (!res->start || !res->end)
+>>>> +			continue;
+>>>> +
+>>>> +		if (res->start <= fb_start && fb_end <= res->end) {
+>>>> +			pdev_boot_vga = pdev;
+>>>> +
+>>>> +			vgaarb_info(&pdev->dev,
+>>>> +				    "BAR %d contains firmware FB\n", i);
+>>> Print the BAR with %pR and include the framebuffer region from
+>>> screen_info in the same format.
+>> I do remember that you already told me to do this in V3, sorry for not
+>> replying to you at V3. Most of the time, what you tell me is right.But here,
+>> I think I need to explain. Because doing it that way will make the code line
+>> too long,and it will exceed 80 characters in the column if we print too
+>> much.
+>> I believe that the vgaarb_info() at here is already the most compact and
+>> simplest form. Printing the BAR with %pR is not absolute necessary, because
+>> we can get the additional information by: $ lspci | grep VGA
+>>
+>> $ dmesg | grep 05:00.0
+>> $ dmesg | grep 0000:03:00.0
+>> $ dmesg | grep PCI
+> Fair enough.  The BAR info is already there.  But I don't think the
+> screen_info framebuffer data is in the dmesg log anywhere, and I think
+> that would be useful.
 >
-> On Sat, 19 Aug 2023 12:12:16 -0400 Willem de Bruijn wrote:
-> > :-) For the record, there is a prior version that added a separate type=
-.
-> >
-> > I did not like the churn it brought and asked for this.
+> It's fine if dmesg lines or kernel printk lines exceed 80 columns.
 >
-> It does end up looking cleaner that I personally expected, FWIW.
->
-> > > Use of the LSB (or bits depending on alignment expectations) is a com=
-mon
-> > > trick and already done in quite a few places in the networking stack.
-> > > This trick is essential to any realistic change here to incorporate g=
-pu
-> > > memory; way too much code will have unnecessary churn without it.
->
-> We'll end up needing the LSB trick either way, right? The only question
-> is whether the "if" is part of page pool or the caller of page pool.
+>> Actually, I only add something that is absolute necessary.
+>> Printing BAR with %pR and/or Printing the framebuffer region
+>> is consider to only for *debugging* purpose.
+> I think printing the framebuffer region is important because it makes
+> it clear *why* we're selecting the device as the default VGA device.
+> It's more than just debugging; it helps make the system more
+> transparent and more understandable.
 
-Indeed. Adding layering does not remove this.
+OK, I'm clear what to do next.
+The printing will be added at the next version.
 
-> Having seen zctap I'm afraid if we push this out of pp every provider
-> will end up re-implementing page pool's recycling/caching functionality
-> :(
->
-> Maybe we need to "fork" the API? The device memory "ifs" are only needed
-> for data pages. Which means that we can retain a faster, "if-less" API
-> for headers and XDP. Or is that too much duplication?
+> Bjorn
 
-I don't think that would be faster. Just a different structuring of
-the code. We still need to take one of multiple paths for, say, page
-allocation (page_pool_alloc_pages).
-
-If having a struct page_pool and struct mem_pool, there would still be
-a type-based branch. But now either in every caller (yech), or in some
-thin shim layer. Why not just have it behind the existing API? That is
-what your memory provider does. The only difference now is that one of
-the providers really does not deal with pages.
-
-I think this multiplexing does not have to introduce performance
-regressions with well placed static_branch. Benchmarks and
-side-by-side comparison of assembly will have to verify that.
-
-Indirect function calls need to be avoided, of course, in favor of a
-type based switch. And unless the non_default_providers static branch
-is enabled, the default path is taken unconditionally.
-
-If it no longer is a pure page pool, maybe it can be renamed. I
-personally don't care.
