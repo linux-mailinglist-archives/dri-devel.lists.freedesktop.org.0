@@ -2,124 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED04784155
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7394D784165
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Aug 2023 14:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABB710E351;
-	Tue, 22 Aug 2023 12:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9225510E355;
+	Tue, 22 Aug 2023 12:59:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E24E10E353;
- Tue, 22 Aug 2023 12:57:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BHoSwf9Znc7bw9SsJ8NOaROBhFMskhdiLhFQ4ObE53eTlWF+uaJ0pTROW2McBsl4yjKIGRk0Jovz4fNq1aJ0g5sxcaWJ6R2h7ppmJ8IbrdjhaOqhMy7MpgvEyeFWII0Zr4rkPR4xuGNVos2sa5+vh9iPVsgtfWKQQ5YBBSKAK8s7WtBbFXa3hDAMBlC7VIEZZuF+nMopZt0gW23hTzHSfbfvShVBW4Gn3PUH3qtO5xKq7A/Y/mGM4i4XheoD/MWGP8HcJUB6nhGx0Qrlwz01H3tZUbNIqsS7Ydw4tAspa421kqmTXXK5cY4a44ToU0oE5Yig96pWrygp24HgkCc9Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O3Ia3yiArulSaLsyWv9EFObCH2fv20u0bCKoQ61IPoE=;
- b=N0Kx3tbjn4ZxJdsxnnVVt62laF7XIf+URD0Ue/MoaWrAmZyeHhwbQwi4PkdUX8+DIfSLlM7tdT3I1lVsM8dl/xhwtBNnlI9WAd+eKABIADBRLPk//qm77SHLL/boZtaba9pLPj+uTGlTxli9ia5Ujms38fj4UwWAbubsn9ugvafgiZSNxyOlZYXTUQWtXnENgkE6IOganxPaZwTkpLmN24cuMKbvlisU3Bztra2/Q/nrOZIQOEVNHTIG3pmMoB7l5f+dyQpcwaswHoF3FEcgzOdjgGJePAl3LCmTkBoyhstXTCmKtCVc/LT3F6ZolRZi7VlcEIaSdlZn7kjGUi1Y/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O3Ia3yiArulSaLsyWv9EFObCH2fv20u0bCKoQ61IPoE=;
- b=xbnjbOlITpO5TL64+E3AegvlxBRWHeUapgI7z18Rcx7qpyHFls53U2bCId2t1cMnaKQGqmvPCCLokfH9kAA9T1ejdHZluVE/C5q9mag5vkgVYYbmfll6fx40SC/aKGxahCAfr9fD8KVXDw1FM4WpA801Ns3yhiiW39QfePDkOsQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
- by CH0PR12MB5370.namprd12.prod.outlook.com (2603:10b6:610:d5::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.25; Tue, 22 Aug
- 2023 12:57:11 +0000
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4]) by PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::f78e:33f4:56d2:1ef4%7]) with mapi id 15.20.6699.020; Tue, 22 Aug 2023
- 12:57:11 +0000
-Message-ID: <4e88d913-ae0d-6746-a839-6525874afa5d@amd.com>
-Date: Tue, 22 Aug 2023 18:26:57 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 4/7] drm/amdgpu: Add suspend function to clear the GPU
- power profile.
-Content-Language: en-US
-To: "Lazar, Lijo" <lijo.lazar@amd.com>, Arvind Yadav <Arvind.Yadav@amd.com>,
- Christian.Koenig@amd.com, alexander.deucher@amd.com,
- shashank.sharma@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org
-References: <20230821064759.94223-1-Arvind.Yadav@amd.com>
- <20230821064759.94223-5-Arvind.Yadav@amd.com>
- <fdcfe7f2-05b9-c144-1b4a-74889bcb0555@amd.com>
- <d178212d-65ee-a1a0-323b-b9b91931db33@amd.com>
- <aeca86ab-9c5b-4011-7622-1954df1b961d@amd.com>
-From: "Yadav, Arvind" <arvyadav@amd.com>
-In-Reply-To: <aeca86ab-9c5b-4011-7622-1954df1b961d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0086.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:23::31) To PH7PR12MB6000.namprd12.prod.outlook.com
- (2603:10b6:510:1dc::15)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E79D810E355
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Aug 2023 12:59:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 448EF6563E;
+ Tue, 22 Aug 2023 12:59:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1152AC433C9;
+ Tue, 22 Aug 2023 12:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692709157;
+ bh=NQnhsHYpEv0+wR6qYs89EorxUXngM3591u/SXhXnpPA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NU+NjR2QBirg2yiQcLKcEeJPPlKzQlnyqnFpax4rg/sjpJ7Kyomn8+flnySjkToDa
+ VH/7OSAe0ewPkiTra6TUNbgl4SfrsmOuJGq0JQba2tlzvDFsGY/P/RPq/1yyjxIX46
+ QzjXRJeH3rru6VzMBTBGGy1JV6DkIxGQCktQlV0k1Dh7U4heVQpRczjxQVtG7J/+dH
+ 94tTcZj7ezySR4iPHucakIyaYZd+/LyEgD6gtb4HdCSBa7fp7BgJZVoBgFYv51V2RV
+ t5FmQH/77qbmJCZOciFQvgdhynQxUDDrg0oFZYTcFSDOfL9tbSwFUXaSLlCSRs9W9V
+ elxA5zMpzgFIA==
+Date: Tue, 22 Aug 2023 14:59:14 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v14 RESEND 5/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
+Message-ID: <22parqvy44hkd2ypkglfwk6bafi5ov4qfhpvd6qnt36us7odec@iebwnwtwvnnf>
+References: <20230822085949.816844-1-victor.liu@nxp.com>
+ <20230822085949.816844-6-victor.liu@nxp.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6000:EE_|CH0PR12MB5370:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20f0ee65-47de-4ca8-0983-08dba30f4cde
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tbt431d/ZYa0EGVEtDWX20B39hRDTXak2JtHYm2uxEjqaWGi+BZqDAUcZiqCL02OYjab0efXIuh+0yQdXMULRhgWGPeI9Ep/9RNHw98dxmUPUkihzmFr9TKw/2qAyr2qazwoTY3gFDgmS0+ArY/gMbQvQsEk4cLuyVDQmkLJpSBgBXbhxnY1KXUS8Q1yj5bjUqaU3nCylBF2YUiSmoVDvC1/7vWmDYhFKxXMiOUgynU3HuYj+qfRPprz3rj4W4XhKh/Ul6qWLDHrO8Byi4kjiNewoRuZPRnvVDt91DaoO8wOyzo+OqzQIRrXriZsKJVBJcGKB4It5NWaQMbTWKSK4m28oAafUH5UOdQGVm6OL8axxskQPZPd9lii59hh9WtAX+n1Pyoa3PZP93n1QpDIWnC81EZZdA8Sp62PxUkGl2v0vXaAeD+TguATZDIELz/yi8wUx7e7fwzMBl1ue/z/x2RJ0J25srCpMy2XqZY8ihCqZtdkU0Kr+fcJ8VeEN74dxFRwQDbzTm44Lc5VvIT0FrYj8wCH74eGLK2rxu6waMGZZEN0/ONadjvT/xhi/kumxjRkysQWVxNRNLQ93StD3kh8+hlfJIRNxSWmnxmsyzDQtEZr6Bg+yLAyNKjn+s7sKs3KJ7/nCxNY6Fn8F4oMxWlY80J/QXTsUexirYEgh10=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB6000.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(136003)(346002)(376002)(39860400002)(366004)(451199024)(186009)(1800799009)(31686004)(6486002)(478600001)(6666004)(110136005)(83380400001)(38100700002)(921005)(15650500001)(2906002)(26005)(6506007)(2616005)(6512007)(53546011)(36756003)(31696002)(66556008)(66946007)(316002)(41300700001)(8676002)(4326008)(8936002)(5660300002)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGt3NXBLcWtIdTRlcUduTnNPYm1Naytkb0x1eHhTU0lpK251emd0TC9nblhQ?=
- =?utf-8?B?MVBiczYwdC9KNVZLdVhtRkRKUWRsTTh0WmtRbXBiM2paSzhCZi9EbENsVnBC?=
- =?utf-8?B?ZHkwa09tenlJNC8wSUp2R3NkcmI0QXdIR3NkVkZuendCY2lmSTBMMy9ROFAv?=
- =?utf-8?B?cGgzRWZiWEhPL2NyR0xOMEl4TG0wTlhSMU5tc2x2dzdOclZLZVRMZnltVjE3?=
- =?utf-8?B?SUsydVBnY0duWUI4d2IwMmdPZnBiOEZwYjU0cHMvaUlsVlZ5Nk9yNk5zRDFN?=
- =?utf-8?B?R0ttNW4rc2Q2ZWpaMUZ2Yk02YzRkdEVCcGo1MGtBTGM0M2o3QnZLWnZyQ2xC?=
- =?utf-8?B?QjZqd1B6bGFxanNYdVZpNHI4bFFHL1FXUVIzdk5EcUdyUnoxd0J6M0dOLytJ?=
- =?utf-8?B?Vk9SbXBUems1djJ3bVd0UjJZUTd2MS96K1VNWk5LdGJxNWpaaTNCa1JyUEc3?=
- =?utf-8?B?d25EeWI1Q2ZMaDRyT2pKRjRrUGR5MXQ0M3VucHNEUUZpSjZYSmZ4V3pPQm10?=
- =?utf-8?B?TEJnUFQrQ3BmUDE0aXlGUERYTy9adjQ4ZDRRWmZFeURtM09xVmdJME5nd0lu?=
- =?utf-8?B?TTVpRVBoQy9Nd2xWd2YyaTczWm5SY091UnU1RXhLT0ZLcUhyVENHSUdROHV1?=
- =?utf-8?B?eXBTWmJmRXlMdi9PcXU1NStvcWxRVUhLdWp2TWpMNlVKSmZva3RCSkxjcTIz?=
- =?utf-8?B?R0dsbXMveEFOdzdEMXZ1S2pBMVl6MVpjYW9ETmdvcGVmR01PWDNFVk5TdXZJ?=
- =?utf-8?B?U0JqbS90c3pMVFI3TXVwZis0YTV1RXYxc0ZFSkNpak1VOFd0QnMyQlZZcVBK?=
- =?utf-8?B?KzBLZngzcWVsdHZ3TVJQNXhHQlBIbDdUZ1llTUQxbzBvZEdnWVJITVlDdmZu?=
- =?utf-8?B?N2ZGZmR6NVFHc2t5VStDR2doVnVEN1ZFS0pWZ1ZiSWlETFZPNEhJNDNxN3pz?=
- =?utf-8?B?WUsrSm9JNGIwNWhaazJuNlpETzhxUFRFZFY3MHdvMTZ1L05zT3RNVFMwSldu?=
- =?utf-8?B?RWN1MzV4WVozN0ZMM1MrN0F5RFVpVEc0N1FQb054dUVaVGVZT3pRZjk1SVVI?=
- =?utf-8?B?UENHWS9US2F4MTNsVzV4aWxXSG95YTJGTTZhQU9MU0ZpQVBmWDBGZlZmdTlq?=
- =?utf-8?B?VmxBUTM1UkU2bmxnWWN6ZTZSU2o0K1hNeThDMVc5WFVRMDZVR0w0cGd2dVVz?=
- =?utf-8?B?bXV1Ris3YnZaNitKQUtGTE42WVYxNXVEUUIvRWF6SFNIV0RtWDVNT2l6U1Rh?=
- =?utf-8?B?QXRFTzQ0TC8wdTUyNkNUTmRwREh4SkpxOVBMMlVXaTRqTlBjR2JCZjhUWFk2?=
- =?utf-8?B?L3VVM1FQSjRrRDdESVVaVG5IYkVFc01RcXJ0R0tNRXJjdmoxc29nbkgxcldS?=
- =?utf-8?B?L2JXRDdxc1I1ZFlzYnJ0RTl3ZmN1ejduaytVREp0ZldobEE4c2dsQ2tPR0t2?=
- =?utf-8?B?MWZwd2pxZHpxWmdEanVpcTY1aVBrV1czUHp5U0tTSEhBdEtySVFJWW1DTzZR?=
- =?utf-8?B?MS9zTTNrYnZHKzNqanV6anVSMTNpVzltUW9GVlRRM2NmdmhsOVM0WDRya0Mr?=
- =?utf-8?B?OGNKOHhRYnhjT0MvYTNJOGt0ZTkwWTFFVHpDUlBiMHhKbGsyYnByQnZUeC9q?=
- =?utf-8?B?bG1RNlArY1cwSkUwQjQ1RTRMZHBZd2tMR1ExTnpvODg5TUJGZEFWUWtSRVJk?=
- =?utf-8?B?MVVpd05IU3E3WmZHZlErTkpPOVplc053TnBVUmNvMDFER2gxd291dEs3dEpH?=
- =?utf-8?B?TlhrcnhEZXdzbjZtYW1ZcjllZjkvTjhrcDJNL3hZNEQ0SlJOUlRKanpGcHpD?=
- =?utf-8?B?U0dxazdVU2xmZ1RaTjZVa0dXR3Vpa1lzMXNrSU9RblJwZWEwblpTMGJ4TlJk?=
- =?utf-8?B?enVURG1qa080dzlEOU9WWm1QT1F3L3JjTEJjc2tkVzdBbXQ4Qm15Y3REN1VW?=
- =?utf-8?B?dkpUZXNzeE9PaEhnMlJLV0tqODBWMnFIVUQ0d2tEWTNUMU04NS9XQVlHS0c5?=
- =?utf-8?B?UkxIcG5HZ0wyNTZNcUxOc08raWs1REFlVkxUWG1sU3U5T0VUN1R2VDZrcWZo?=
- =?utf-8?B?cnY0clY1NUhYREd5ZUhPV1dxNUhpV2swVThiblJ5anprQ1V5ZWFEVEZoeWhn?=
- =?utf-8?Q?h6l+xW+FjATqrczdp+Ul9+ngC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20f0ee65-47de-4ca8-0983-08dba30f4cde
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 12:57:11.6351 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KRIYwmfFOdbEhYARmWLOZYtvjk82Qkr7b2hH6ud6zpk4qBBVgbCSGVm0IbqwlqoJJxR09oV4C+jInvHrbhzRtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5370
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wky7filj2ecrfgcp"
+Content-Disposition: inline
+In-Reply-To: <20230822085949.816844-6-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,122 +55,340 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de,
+ marcel.ziswiler@toradex.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, linux-imx@nxp.com, laurentiu.palcu@oss.nxp.com,
+ guido.gunther@puri.sm, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/22/2023 6:24 PM, Lazar, Lijo wrote:
->
->
-> On 8/22/2023 5:52 PM, Yadav, Arvind wrote:
->>
->> On 8/22/2023 12:01 PM, Lazar, Lijo wrote:
->>>
->>>
->>> On 8/21/2023 12:17 PM, Arvind Yadav wrote:
->>>> This patch adds a suspend function that will clear the GPU
->>>> power profile before going into suspend state.
->>>>
->>>> v2:
->>>> - Add the new suspend function based on review comment.
->>>>
->>>> Cc: Shashank Sharma <shashank.sharma@amd.com>
->>>> Cc: Christian Koenig <christian.koenig@amd.com>
->>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  2 ++
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c  | 23 
->>>> +++++++++++++++++++
->>>>   drivers/gpu/drm/amd/include/amdgpu_workload.h |  2 ++
->>>>   3 files changed, 27 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> index cd3bf641b630..3b70e657b439 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> @@ -4212,6 +4212,8 @@ int amdgpu_device_suspend(struct drm_device 
->>>> *dev, bool fbcon)
->>>>         amdgpu_ras_suspend(adev);
->>>>   +    amdgpu_workload_profile_suspend(adev);
->>>> +
->>>>       amdgpu_device_ip_suspend_phase1(adev);
->>>>         if (!adev->in_s0ix)
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> index 6367eb88a44d..44ca8e986984 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_workload.c
->>>> @@ -174,6 +174,29 @@ void amdgpu_workload_profile_set(struct 
->>>> amdgpu_device *adev,
->>>>       mutex_unlock(&workload->workload_lock);
->>>>   }
->>>>   +void amdgpu_workload_profile_suspend(struct amdgpu_device *adev)
->>>> +{
->>>> +    struct amdgpu_smu_workload *workload = &adev->smu_workload;
->>>> +    int ret;
->>>> +
->>>> +    mutex_lock(&workload->workload_lock);
->>>> + cancel_delayed_work_sync(&workload->smu_delayed_work);
->>>
->>> Another deadlock candidate. Between fini() and suspend(), the only 
->>> difference probably could be initialization status. If so, just use 
->>> a helper that is used during fini() and suspend().
->>>
->> Before going to suspend(), we need to cancel the work and clear all 
->> the profiles but in fini() we are destroying the mutex. also it will 
->> be called when we are unloading everything.
->>
->
-> What I meant is for both suspend/fini, you need to cancel any work 
-> scheduled, clear refcounts and set the profile back to default 
-> profile. Keep this in a helper and reuse.
->
-Noted.
+--wky7filj2ecrfgcp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you,
-~Arvind
+Hi,
 
-> Thanks,
-> Lijo
->
->> ~Arvind
->>
->>> Thanks,
->>> Lijo
->>>
->>>> +
->>>> +    /* Clear all the set GPU power profile*/
->>>> +    for (int index = fls(workload->submit_workload_status);
->>>> +         index > 0; index--) {
->>>> +        if (workload->submit_workload_status & (1 << index)) {
->>>> + atomic_set(&workload->power_profile_ref[index], 0);
->>>> +            ret = amdgpu_power_profile_clear(adev, index);
->>>> +            if (ret)
->>>> +                DRM_WARN("Failed to clear power profile %s, err = 
->>>> %d\n",
->>>> +                     amdgpu_workload_mode_name[index], ret);
->>>> +        }
->>>> +    }
->>>> +    workload->submit_workload_status = 0;
->>>> +    mutex_unlock(&workload->workload_lock);
->>>> +}
->>>> +
->>>>   void amdgpu_workload_profile_init(struct amdgpu_device *adev)
->>>>   {
->>>>       adev->smu_workload.adev = adev;
->>>> diff --git a/drivers/gpu/drm/amd/include/amdgpu_workload.h 
->>>> b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> index ee1f87257f2d..0acd8769ec52 100644
->>>> --- a/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> +++ b/drivers/gpu/drm/amd/include/amdgpu_workload.h
->>>> @@ -52,6 +52,8 @@ void amdgpu_workload_profile_put(struct 
->>>> amdgpu_device *adev,
->>>>   void amdgpu_workload_profile_set(struct amdgpu_device *adev,
->>>>                    uint32_t ring_type);
->>>>   +void amdgpu_workload_profile_suspend(struct amdgpu_device *adev);
->>>> +
->>>>   void amdgpu_workload_profile_init(struct amdgpu_device *adev);
->>>>     void amdgpu_workload_profile_fini(struct amdgpu_device *adev);
+Aside from the discussion on the binding and the general architecture, I
+have some comments there.
+
+On Tue, Aug 22, 2023 at 04:59:48PM +0800, Liu Ying wrote:
+> +int dpu_cf_init(struct dpu_soc *dpu, unsigned int index,
+> +		unsigned int id, enum dpu_unit_type type,
+> +		unsigned long pec_base, unsigned long base)
+> +{
+> +	struct dpu_constframe *cf;
+> +
+> +	cf =3D devm_kzalloc(dpu->dev, sizeof(*cf), GFP_KERNEL);
+> +	if (!cf)
+> +		return -ENOMEM;
+> +
+> +	dpu->cf_priv[index] =3D cf;
+
+You can't store structures related to KMS in a device managed structure.
+The DRM KMS device will stick around (and be accessible from userspace)
+after the device has been removed until the last application closed its
+file descriptor to the device.
+
+This can be checked by enabling KASAN and manually unbinding the driver
+through sysfs.
+
+> +	cf->pec_base =3D devm_ioremap(dpu->dev, pec_base, SZ_16);
+> +	if (!cf->pec_base)
+> +		return -ENOMEM;
+> +
+> +	cf->base =3D devm_ioremap(dpu->dev, base, SZ_32);
+> +	if (!cf->base)
+> +		return -ENOMEM;
+
+For the same reason, you need to protect any access to a device managed
+resource (so clocks, registers, regulators, etc.) by a call to
+drm_dev_enter/drm_dev_exit and you need to call drm_dev_unplug instead
+of drm_dev_unregister.
+
+> +static int dpu_crtc_pm_runtime_get_sync(struct dpu_crtc *dpu_crtc)
+> +{
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_get_sync(dpu_crtc->dev->parent);
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(dpu_crtc->dev->parent);
+> +		dpu_crtc_err(&dpu_crtc->base,
+> +			     "failed to get parent device RPM sync: %d\n", ret);
+> +	}
+> +
+> +	return ret;
+> +}
+
+That's pm_runtime_resume_and_get.
+
+> +static int dpu_crtc_pm_runtime_put(struct dpu_crtc *dpu_crtc)
+> +{
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_put(dpu_crtc->dev->parent);
+> +	if (ret < 0)
+> +		dpu_crtc_err(&dpu_crtc->base,
+> +			     "failed to put parent device RPM: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static void dpu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+> +{
+> +	struct dpu_crtc *dpu_crtc =3D to_dpu_crtc(crtc);
+> +	struct drm_display_mode *adj =3D &crtc->state->adjusted_mode;
+> +	enum dpu_link_id cf_link;
+> +
+> +	dpu_crtc_dbg(crtc, "mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(adj));
+> +
+> +	/* request power-on when we start to set mode for CRTC */
+> +	dpu_crtc_pm_runtime_get_sync(dpu_crtc);
+
+=46rom the drm_crtc_helper_funcs documentation:
+
+"""
+	 * Note that the display pipe is completely off when this function is
+	 * called. Atomic drivers which need hardware to be running before they
+	 * program the new display mode (e.g. because they implement runtime PM)
+	 * should not use this hook. This is because the helper library calls
+	 * this hook only once per mode change and not every time the display
+	 * pipeline is suspended using either DPMS or the new "ACTIVE" property.
+	 * Which means register values set in this callback might get reset when
+	 * the CRTC is suspended, but not restored.  Such drivers should instead
+	 * move all their CRTC setup into the @atomic_enable callback.
+"""
+
+> +static void dpu_crtc_atomic_enable(struct drm_crtc *crtc,
+> +				   struct drm_atomic_state *state)
+> +{
+> +	struct dpu_crtc *dpu_crtc =3D to_dpu_crtc(crtc);
+> +	unsigned long flags;
+> +
+> +	drm_crtc_vblank_on(crtc);
+> +
+> +	enable_irq(dpu_crtc->dec_shdld_irq);
+> +	enable_irq(dpu_crtc->ed_cont_shdld_irq);
+> +	enable_irq(dpu_crtc->ed_safe_shdld_irq);
+> +
+> +	dpu_fg_enable_clock(dpu_crtc->fg);
+> +	dpu_ed_pec_sync_trigger(dpu_crtc->ed_cont);
+> +	dpu_ed_pec_sync_trigger(dpu_crtc->ed_safe);
+> +	if (crtc->state->gamma_lut)
+> +		dpu_crtc_set_gammacor(dpu_crtc);
+> +	else
+> +		dpu_crtc_disable_gammacor(dpu_crtc);
+> +	dpu_fg_shdtokgen(dpu_crtc->fg);
+> +
+> +	/* don't relinquish CPU until TCON is set to operation mode */
+> +	local_irq_save(flags);
+> +	preempt_disable();
+> +	dpu_fg_enable(dpu_crtc->fg);
+
+That's super fishy. You shouldn't need that, at all. What is going on
+there?
+
+> +
+> +	/*
+> +	 * TKT320590:
+
+Those are NXP internal references as far as as I can tell. They
+shouldn't be here.
+
+> +	 * Turn TCON into operation mode as soon as the first dumb
+> +	 * frame is generated by DPU(we don't relinquish CPU to ensure
+> +	 * this).  This makes DPR/PRG be able to evade the frame.
+> +	 */
+> +	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
+> +	dpu_tcon_set_operation_mode(dpu_crtc->tcon);
+> +	local_irq_restore(flags);
+> +	preempt_enable();
+> +
+> +	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_safe_shdld_done);
+> +	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdld_done);
+> +	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_shdld_done);
+> +
+> +	disable_irq(dpu_crtc->ed_safe_shdld_irq);
+> +	disable_irq(dpu_crtc->ed_cont_shdld_irq);
+> +	disable_irq(dpu_crtc->dec_shdld_irq);
+> +
+> +	DPU_CRTC_WAIT_FOR_FRAMEGEN_SECONDARY_SYNCUP(dpu_crtc->fg);
+
+The dance around the interrupts doesn't look great either. This need a
+proper description of the problem this was trying to solve. Also, what
+happens if any of those interrupts fail to trigger before you timeout?
+
+> +	DPU_CRTC_CHECK_FRAMEGEN_FIFO(dpu_crtc->fg);
+> +
+> +	dpu_crtc_queue_state_event(crtc);
+> +}
+> +
+> +static void dpu_crtc_atomic_disable(struct drm_crtc *crtc,
+> +				    struct drm_atomic_state *state)
+> +{
+> +	struct dpu_crtc *dpu_crtc =3D to_dpu_crtc(crtc);
+> +	struct drm_plane *plane;
+> +	struct drm_plane_state *old_plane_state;
+> +	struct dpu_plane_state *old_dpstate;
+> +	struct dpu_fetchunit *fu;
+> +	struct dpu_dprc *dprc;
+> +	const struct dpu_fetchunit_ops *fu_ops;
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	enable_irq(dpu_crtc->dec_seq_complete_irq);
+> +
+> +	/* don't relinquish CPU until DPRC repeat_en is disabled */
+> +	local_irq_save(flags);
+> +	preempt_disable();
+> +	/*
+> +	 * Sync to FrameGen frame counter moving so that
+> +	 * FrameGen can be disabled in the next frame.
+> +	 */
+> +	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
+> +	dpu_fg_disable(dpu_crtc->fg);
+> +	/*
+> +	 * There is one frame leftover after FrameGen disablement.
+> +	 * Sync to FrameGen frame counter moving so that
+> +	 * DPRC repeat_en can be disabled in the next frame.
+> +	 */
+> +	DPU_CRTC_WAIT_FOR_FRAMEGEN_FRAME_CNT_MOVING(dpu_crtc->fg);
+> +
+> +	for_each_old_plane_in_state(state, plane, old_plane_state, i) {
+> +		old_dpstate =3D to_dpu_plane_state(old_plane_state);
+> +
+> +		if (!old_plane_state->fb)
+> +			continue;
+> +
+> +		if (old_plane_state->crtc !=3D crtc)
+> +			continue;
+> +
+> +		fu =3D old_dpstate->source;
+> +
+> +		fu_ops =3D dpu_fu_get_ops(fu);
+> +
+> +		dprc =3D fu_ops->get_dprc(fu);
+> +		dpu_dprc_disable_repeat_en(dprc);
+> +	}
+> +
+> +	local_irq_restore(flags);
+> +	preempt_enable();
+> +
+> +	DPU_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seq_complete_done);
+> +
+> +	disable_irq(dpu_crtc->dec_seq_complete_irq);
+> +
+> +	dpu_fg_disable_clock(dpu_crtc->fg);
+> +
+> +	drm_crtc_vblank_off(crtc);
+> +
+> +	spin_lock_irq(&crtc->dev->event_lock);
+> +	if (crtc->state->event && !crtc->state->active) {
+> +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +		crtc->state->event =3D NULL;
+> +	}
+> +	spin_unlock_irq(&crtc->dev->event_lock);
+> +
+> +	/* request power-off when CRTC is disabled */
+> +	dpu_crtc_pm_runtime_put(dpu_crtc);
+> +}
+
+Same story than in atomic_enable here.
+
+
+> +static int legacyfb_depth =3D 32;
+> +module_param(legacyfb_depth, uint, 0444);
+
+No custom module parameter
+
+> +static void dpu_atomic_put_plane_state(struct drm_atomic_state *state,
+> +				       struct drm_plane *plane)
+> +{
+> +	int index =3D drm_plane_index(plane);
+> +
+> +	plane->funcs->atomic_destroy_state(plane, state->planes[index].state);
+> +	state->planes[index].ptr =3D NULL;
+> +	state->planes[index].state =3D NULL;
+> +	state->planes[index].old_state =3D NULL;
+> +	state->planes[index].new_state =3D NULL;
+> +
+> +	drm_modeset_unlock(&plane->mutex);
+> +
+> +	dpu_plane_dbg(plane, "put state\n");
+> +}
+> +
+> +static void dpu_atomic_put_crtc_state(struct drm_atomic_state *state,
+> +				      struct drm_crtc *crtc)
+> +{
+> +	int index =3D drm_crtc_index(crtc);
+> +
+> +	crtc->funcs->atomic_destroy_state(crtc, state->crtcs[index].state);
+> +	state->crtcs[index].ptr =3D NULL;
+> +	state->crtcs[index].state =3D NULL;
+> +	state->crtcs[index].old_state =3D NULL;
+> +	state->crtcs[index].new_state =3D NULL;
+> +
+> +	drm_modeset_unlock(&crtc->mutex);
+> +
+> +	dpu_crtc_dbg(crtc, "put state\n");
+> +}
+> +
+> +static void
+> +dpu_atomic_put_possible_states_per_crtc(struct drm_crtc_state *crtc_stat=
+e)
+> +{
+> +	struct drm_atomic_state *state =3D crtc_state->state;
+> +	struct drm_crtc *crtc =3D crtc_state->crtc;
+> +	struct drm_plane *plane;
+> +	struct drm_plane_state *old_plane_state, *new_plane_state;
+> +	struct dpu_plane_state *old_dpstate, *new_dpstate;
+> +
+> +	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
+> +		old_plane_state =3D drm_atomic_get_old_plane_state(state, plane);
+> +		new_plane_state =3D drm_atomic_get_new_plane_state(state, plane);
+> +
+> +		old_dpstate =3D to_dpu_plane_state(old_plane_state);
+> +		new_dpstate =3D to_dpu_plane_state(new_plane_state);
+> +
+> +		/* Should be enough to check the below HW plane resources. */
+> +		if (old_dpstate->stage.ptr !=3D new_dpstate->stage.ptr ||
+> +		    old_dpstate->source !=3D new_dpstate->source ||
+> +		    old_dpstate->blend !=3D new_dpstate->blend)
+> +			return;
+> +	}
+> +
+> +	drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
+> +		dpu_atomic_put_plane_state(state, plane);
+> +
+> +	dpu_atomic_put_crtc_state(state, crtc);
+> +}
+
+That's super suspicious too. Are you really going around and dropping
+and destroying plane and crtc states in a global state?
+
+At the very least, you need to describe what this addresses and why you
+think it's a good solution.
+
+I kind of skimmed over the last part of the driver, but we should really
+address these first comments. There's a larger discussion on the fact
+that this driver does much more that it should and needs to (especially in
+atomic_check, but not only), and this applies to the rest of patch.
+
+Maxime
+
+--wky7filj2ecrfgcp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOSxIgAKCRDj7w1vZxhR
+xRPKAQDfGQujKvGGeiil+w1sRh6m1U2aSqMZHU9v1P2C53IbdgD/ZAf/ThWDMcCL
+TM81+DKBwG9rd0p0F0AqOcmmT4N7aw0=
+=oLV3
+-----END PGP SIGNATURE-----
+
+--wky7filj2ecrfgcp--
