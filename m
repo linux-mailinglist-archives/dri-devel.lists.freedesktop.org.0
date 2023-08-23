@@ -1,79 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45D078585D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 14:56:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFEB7858B5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 15:15:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 055FC10E434;
-	Wed, 23 Aug 2023 12:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9601910E419;
+	Wed, 23 Aug 2023 13:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE90010E42F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 12:56:16 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2bba6fc4339so86130121fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 05:56:16 -0700 (PDT)
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
+ [IPv6:2607:f8b0:4864:20::932])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000D110E435
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 13:15:32 +0000 (UTC)
+Received: by mail-ua1-x932.google.com with SMTP id
+ a1e0cc1a2514c-79aa1f24ba2so1924647241.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 06:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692795375; x=1693400175;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WML/yephaQhDmSkYaQilPoOdlfPN/mMwj3HRzRGa9sQ=;
- b=ceQgV3ViQC6BYsSciNJ8Sb77oNmOUxrP42TGeRQVplyv0/Syln37fBYK6c/1XoLIeu
- 2sXKIHaSaKzH2Q7veoq6uznglB/64POjlU2WXtLLQLB9pG74trW5upvv1N6aB94BOKmu
- GiU2Ed1qsR3mlHR5JUyHicD4KUe3VhL5MD/7emkgO6L38RrQ+B7g3+0qvE3Xl8daue5S
- DaEq+vghyPCFt/NlsFQURtG0L3I8SSWqH9NXVlYjbEeJjM4t4+NFwZ4zY5i/o/53S7pH
- r3ldO5XfIaFcVUUKWxZAFZXoxhDQW00IR1vw3YU/YxeR0v1j0rWTERimzU8ZFD0c76SL
- pjwQ==
+ d=chromium.org; s=google; t=1692796530; x=1693401330;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/G4PBhoXP1LYQ2AlkCcJ3ZNZ43XaQmRKac+McL4CLhE=;
+ b=USkM1wPnbKAO9A1ucEyk5mzrVyjGOHAlWrDkX0ej6NRS7PXcnImyFy/ipTLZcBeEof
+ AzJNhc0fciwjeA/z6TiZe6ecKZQy4PGEEXAe2JWSSQ+0pZmZkizYS+GKwbfDLg6/ggCd
+ NuwXkw+aDJxq4kFi8yqGWIwKjLSL3Y52/MREo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692795375; x=1693400175;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1692796530; x=1693401330;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WML/yephaQhDmSkYaQilPoOdlfPN/mMwj3HRzRGa9sQ=;
- b=Y619JKRDczlif/1JHibwApoxzNXp3+OX+dmf8Gri5JHnb6wSFLebk0gQEwnzyoiJ1R
- ocTZVmEfiGVcwm4Pd4kyTMJnh/eLyjTjDKaNYQVo3uNeKLDE3KN3Xvi3LDuK4z80a4Kl
- LSYAElI62z/SdFozX7cv3XrzW/CJQYo/S2d1uHvdKBeHci2h9hzAjAlY/jeYbwRi9S24
- r/QAhjufTAvHLyljvd2RuocFfusRoO3VzIyvHJexRfnc9sU6FYpxzm/CvGadHSgDFmHZ
- k6ZjZrdw3M8pjpup0V14yGoQ/hN/quDN1lCADIeFk9AW5kZyp9jhmTl18jJxgeGg70xU
- wO/w==
-X-Gm-Message-State: AOJu0Yz6dnNF00IxMrNNpf0ft9QsC9e4HLr5Y+b0D8CtfqLqLSWrOMse
- gkHiwVX8LrP8/cI6t2VncSS/Fg==
-X-Google-Smtp-Source: AGHT+IEuUJpmZVu+/uPNhfKbdCCkm0GkQTrh1fP5WTUuymrLJwbuyLzlFyb6c6K3+SohT5jzeUQAsg==
-X-Received: by 2002:a2e:3208:0:b0:2bc:d5c3:e86e with SMTP id
- y8-20020a2e3208000000b002bcd5c3e86emr3279689ljy.4.1692795375196; 
- Wed, 23 Aug 2023 05:56:15 -0700 (PDT)
-Received: from [192.168.1.101] (abyj76.neoplus.adsl.tpnet.pl. [83.9.29.76])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a05651c011200b002b6db0ed72fsm3220256ljb.48.2023.08.23.05.56.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 05:56:14 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 23 Aug 2023 14:56:03 +0200
-Subject: [PATCH v3 10/10] drm/msm/a6xx: Poll for GBIF unhalt status in hw_init
+ bh=/G4PBhoXP1LYQ2AlkCcJ3ZNZ43XaQmRKac+McL4CLhE=;
+ b=P/N/0gWWPDh4poArRRlnA8lDgSRURAEnme4gVAitk4v2sCoZroFrgri7CquJpuzLBc
+ hTytRBuhn3DPUAAeeTIpHYy+1K1xEHULCAMhKqqB2ooUBaIbHVHhgax+b2sxU7/8ZtS4
+ W8eNUQOc+PGr+WOFWQS1zDetWobwL3PbQYWcHUe/rrg3LpqAgpu0aA3DER78AwYOylMu
+ vJCkyqMWNesPUCibyEkCZ6TbsEUIj8GKBv3M0a5kcvz8lGJnLRekG1rMTIzYx2K/E0XF
+ gR7amuwQYRaL2CJAks3lKLI2VoHXb2da4P1B+fcj6CDQ9i4riNavDcklH6ccYvaYEXi0
+ yWEA==
+X-Gm-Message-State: AOJu0YzxugH8ObW3fLJcFtFJXh4zxLuHKpR8KHCwcYdIcA+tyuvWmVnZ
+ mzOwOO5pesZ0vbELZ8Bi+rO0HKjdJnPeoDHigG++tQ==
+X-Google-Smtp-Source: AGHT+IGBHu76v9G/Lt6D8XQthOdRRJi6xB9FWWOzz1bWkWufJQofYmc+deSWI2Wbng7OHVBBKUY9iw==
+X-Received: by 2002:a05:6102:45a:b0:44d:6290:e425 with SMTP id
+ e26-20020a056102045a00b0044d6290e425mr4145742vsq.28.1692796530380; 
+ Wed, 23 Aug 2023 06:15:30 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
+ [209.85.222.46]) by smtp.gmail.com with ESMTPSA id
+ r1-20020a9f3481000000b0079407293668sm1935179uab.16.2023.08.23.06.15.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Aug 2023 06:15:29 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id
+ a1e0cc1a2514c-79aa1f24ba2so1924628241.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 06:15:29 -0700 (PDT)
+X-Received: by 2002:a67:f988:0:b0:44d:63a3:4be4 with SMTP id
+ b8-20020a67f988000000b0044d63a34be4mr4337218vsq.29.1692796528899; Wed, 23 Aug
+ 2023 06:15:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230628-topic-a7xx_drmmsm-v3-10-4ee67ccbaf9d@linaro.org>
-References: <20230628-topic-a7xx_drmmsm-v3-0-4ee67ccbaf9d@linaro.org>
-In-Reply-To: <20230628-topic-a7xx_drmmsm-v3-0-4ee67ccbaf9d@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692795358; l=1394;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=S69YtysEIHJMxY5KNnuCyMTYR/1rqHR9OdffW35mR5k=;
- b=C+vhtS17NfkOlAy63aCz44wrp4s5iNe+t3ePly8Xm3w/2HTmaNPacD2OedVXggpsO/jOlFh+w
- dVmnJNP5eMbDggeTQAkCqDDvoveGRVe/ElqK1WiZmLPox+EHCX5SA+Z
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+References: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
+ <CAAFQd5CqAvr7ZUdDSYPEOWSgvbttTBjHa0YWDomxJJSaiZxGog@mail.gmail.com>
+ <f8a168e8-1a23-c6b3-0f68-baa73396d594@synaptics.com>
+In-Reply-To: <f8a168e8-1a23-c6b3-0f68-baa73396d594@synaptics.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 23 Aug 2023 22:15:11 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A3YKjt03zLQBRvw1QNNqbCyhVzHNo+2mG6uhXJvGv-Wg@mail.gmail.com>
+Message-ID: <CAAFQd5A3YKjt03zLQBRvw1QNNqbCyhVzHNo+2mG6uhXJvGv-Wg@mail.gmail.com>
+Subject: Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
+To: Hsia-Jun Li <Randy.Li@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +80,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: daniels@collabora.com, ayaka <ayaka@soulik.info>, hughd@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linux-mm@kvack.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, akpm@linux-foundation.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some GPUs - particularly A7xx ones - are really really stubborn and
-sometimes take a longer-than-expected time to finish unhalting GBIF.
+On Wed, Aug 23, 2023 at 4:11=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+>
+>
+>
+> On 8/23/23 12:46, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > Hi Hsia-Jun,
+> >
+> > On Tue, Aug 22, 2023 at 8:14=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics=
+.com> wrote:
+> >>
+> >> Hello
+> >>
+> >> I would like to introduce a usage of SHMEM slimier to DMA-buf, the maj=
+or
+> >> purpose of that is sharing metadata or just a pure container for cross
+> >> drivers.
+> >>
+> >> We need to exchange some sort of metadata between drivers, likes dynam=
+ic
+> >> HDR data between video4linux2 and DRM.
+> >
+> > If the metadata isn't too big, would it be enough to just have the
+> > kernel copy_from_user() to a kernel buffer in the ioctl code?
+> >
+> >> Or the graphics frame buffer is
+> >> too complex to be described with plain plane's DMA-buf fd.
+> >> An issue between DRM and V4L2 is that DRM could only support 4 planes
+> >> while it is 8 for V4L2. It would be pretty hard for DRM to expend its
+> >> interface to support that 4 more planes which would lead to revision o=
+f
+> >> many standard likes Vulkan, EGL.
+> >
+> > Could you explain how a shmem buffer could be used to support frame
+> > buffers with more than 4 planes?
+> > If you are asking why we need this:
 
-Note that this is not caused by the request a few lines above.
+I'm asking how your proposal to use shmem FD solves the problem for those c=
+ases.
 
-Poll for the unhalt ack to make sure we're not trying to write bits to
-an essentially dead GPU that can't receive data on its end of the bus.
-Failing to do this will result in inexplicable GMU timeouts or worse.
+> 1. metadata likes dynamic HDR tone data
+> 2. DRM also challenges with this problem, let me quote what sima said:
+> "another trick that we iirc used for afbc is that sometimes the planes
+> have a fixed layout
+> like nv12
+> and so logically it's multiple planes, but you only need one plane slot
+> to describe the buffer
+> since I think afbc had the "we need more than 4 planes" issue too"
+>
+> Unfortunately, there are vendor pixel formats are not fixed layout.
+>
+> 3. Secure(REE, trusted video piepline) info.
+>
+> For how to assign such metadata data.
+> In case with a drm fb_id, it is simple, we just add a drm plane property
+> for it. The V4L2 interface is not flexible, we could only leave into
+> CAPTURE request_fd as a control.
+> >>
+> >> Also, there is no reason to consume a device's memory for the content
+> >> that device can't read it, or wasting an entry of IOMMU for such data.
+> >
+> > That's right, but DMA-buf doesn't really imply any of those. DMA-buf
+> > is just a kernel object with some backing memory. It's up to the
+> > allocator to decide how the backing memory is allocated and up to the
+> > importer on whether it would be mapped into an IOMMU.
+> >
+> I just want to say it can't be allocated at the same place which was for
+> those DMA bufs(graphics or compressed bitstream).
+> This also could be answer for your first question, if we place this kind
+> of buffer in a plane for DMABUF(importing) in V4L2, V4L2 core would try
+> to prepare it, which could map it into IOMMU.
+>
 
-This is a rather ugly hack which introduces a whole lot of latency.
+V4L2 core will prepare it according to the struct device that is given
+to it. For the planes that don't have to go to the hardware a struct
+device could be given that doesn't require any DMA mapping. Also you
+can check how the uvcvideo driver handles it. It doesn't use the vb2
+buffers directly, but always writes to them using CPU (due to how the
+UVC protocol is designed).
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # sm8450
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> >> Usually, such a metadata would be the value should be written to a
+> >> hardware's registers, a 4KiB page would be 1024 items of 32 bits regis=
+ters.
+> >>
+> >> Still, I have some problems with SHMEM:
+> >> 1. I don't want the userspace modify the context of the SHMEM allocate=
+d
+> >> by the kernel, is there a way to do so?
+> >
+> > This is generally impossible without doing any of the two:
+> > 1) copying the contents to an internal buffer not accessible to the
+> > userspace, OR
+> > 2) modifying any of the buffer mappings to read-only
+> >
+> > 2) can actually be more costly than 1) (depending on the architecture,
+> > data size, etc.), so we shouldn't just discard the option of a simple
+> > copy_from_user() in the ioctl.
+> >
+> I don't want the userspace access it at all. So that won't be a problem.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 2313620084b6..11cb410e0ac7 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1629,6 +1629,10 @@ static int hw_init(struct msm_gpu *gpu)
- 		mb();
- 	}
- 
-+	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
-+	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
-+		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
-+
- 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
- 
- 	if (adreno_is_a619_holi(adreno_gpu))
+In this case, wouldn't it be enough to have a DMA-buf exporter that
+doesn't provide the mmap op?
 
--- 
-2.42.0
+> >> 2. Should I create a helper function for installing the SHMEM file as =
+a fd?
+> >
+> > We already have the udmabuf device [1] to turn a memfd into a DMA-buf,
+> > so maybe that would be enough?
+> >
+> > [1] https://elixir.bootlin.com/linux/v6.5-rc7/source/drivers/dma-buf/ud=
+mabuf.c
+> >
+> It is the kernel driver that allocate this buffer. For example, v4l2
+> CAPTURE allocate a buffer for metadata when VIDIOC_REQBUFS.
+> Or GBM give you a fd which is assigned with a surface.
+>
+> So we need a kernel interface.
 
+Sorry, I'm confused. If we're talking about buffers allocated by the
+specific allocators like V4L2 or GBM, why do we need SHMEM at all?
+
+Best,
+Tomasz
+
+> > Best,
+> > Tomasz
+> >
+> >>
+> >> --
+> >> Hsia-Jun(Randy) Li
+>
+> --
+> Hsia-Jun(Randy) Li
