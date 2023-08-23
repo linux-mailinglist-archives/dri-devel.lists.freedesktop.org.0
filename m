@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DBA785948
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 15:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D378E785964
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 15:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6AB10E032;
-	Wed, 23 Aug 2023 13:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00E710E41F;
+	Wed, 23 Aug 2023 13:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD5A10E032
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 13:28:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D21D10E41F
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 13:32:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F277C662E5;
- Wed, 23 Aug 2023 13:28:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ABDBC433C7;
- Wed, 23 Aug 2023 13:28:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0F12660F98
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 13:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C44EC433CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 13:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692797338;
- bh=4S6Dk3MvfyLnIMCYyIMYZa7VyYaWFKn+GW5De/l6gb4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lmWEM5kMysx6okcHxfvdYNKoLGlgk7dAfV8gYV08JGtY0LZkmIQtlhj2K+/BJ9cdq
- HA00wzfCi2fB1af7R1Rz9zf6NnTZ+9ZYMlKbyoI91Z9JOJH779sXSiX/S2UJZU4IW2
- t+sxf2lOfREPzgjdVMMCOpwfuptbHWiA+RkDxvpRs44Lu98ev6YXuqvJq0dis4Qst1
- W/Wv2GtnkGleAuhVWHD5kYiV9GDs5OapSj8YCSr3Ls2a4+8EyihYYfWggnHA7mOmin
- sYnyQAGShxeFzAZCVARMYAo+Bchkjhq6WKXk27Qc98ZL1jZKJ4DSJPEexY8SHG4N8p
- ayku6VhCvPt2Q==
-Received: (nullmailer pid 2214579 invoked by uid 1000);
- Wed, 23 Aug 2023 13:28:56 -0000
-Date: Wed, 23 Aug 2023 08:28:56 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: advantech,idk-2121wr: reference
- common panel
-Message-ID: <169279733533.2214500.4453589931480944144.robh@kernel.org>
-References: <20230823081107.82967-1-krzysztof.kozlowski@linaro.org>
+ s=k20201202; t=1692797570;
+ bh=PqChREVA/jvLVphyqOE78SJHGEZjzLmYH0xm+s1lpZo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=E7B+TdCNOhQYaXQVFq4kJPC7IqTpIHwKU0qzeZGsSZNVCZhI4rxCjdZ4PB3wpuwJr
+ 6aotjHDBVWkSWZ+u8pRhghBFC6Mcy2dmsWNG5VWmtkfs2CBdsqSexM3icJE/wIsToI
+ krqhsPzOP32NaT34VIAgx/IOGKNemYFjG5I/orISxzTq4dFuZxb8Y4gcAWnpbmRVnM
+ oXEpB/9YwsfXiRaE+vP5ELeSMPu4gpf3qhNnqZ58HsnA4g4d+hwHPxk6JtTs5AoaLs
+ cBIU1V8SHovYhquZKbtgyys457+K2wWDUBF/SzxLNVKTy7HNyx1bwancObMyBIsZhp
+ 0uFD4MPWXKCKg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 3613BC53BD4; Wed, 23 Aug 2023 13:32:50 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
+Date: Wed, 23 Aug 2023 13:32:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: ACPI
+X-Bugzilla-Component: Power-Sleep-Wake
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-217664-2300-tUhnofP7OL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
+References: <bug-217664-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823081107.82967-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,26 +71,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
-On Wed, 23 Aug 2023 10:11:07 +0200, Krzysztof Kozlowski wrote:
-> Reference common panel bindings to bring descriptions of common fields
-> like panel-timing.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/display/panel/advantech,idk-2121wr.yaml           | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
-Applied, thanks!
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mario.limonciello@amd.com
 
+--- Comment #24 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+> Kernel Version: 6.2.0-25-generic (64-bit)
+
+This is the upstream kernel bug tracker and you're filing a bug on a distro
+kernel.
+
+Can you please try against a supported upstream mainline kernel not a distro
+kernel?  This might be missing patches.
+
+You can find mainline kernel builds for Ubuntu here:
+https://kernel.ubuntu.com/~kernel-ppa/mainline/
+
+I suggest trying 6.4.11.
+
+> [  145.070506] PM: suspend entry (s2idle)
+> [  152.723268] amd_pmc AMDI0005:00: Last suspend didn't reach deepest sta=
+te
+
+This system is using s2idle.  In this case, disabling amdgpu won't be usefu=
+l to
+identify a platform issue because the system won't reach the deepest state
+without it.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
