@@ -1,49 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D02278537D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:08:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E56978539A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1168F10E3FF;
-	Wed, 23 Aug 2023 09:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156F810E3FE;
+	Wed, 23 Aug 2023 09:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1808310E3FF
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:08:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4D7AF60DC4;
- Wed, 23 Aug 2023 09:08:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0160C433C8;
- Wed, 23 Aug 2023 09:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692781720;
- bh=H4akoTsFqgDveGtXgAv0yH52y77xn/v60Efi9ZHUW+o=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=lEvfAdLHwqQIfmwZEt7iDPX5wRYFubMK/7NWmhTfAq1HWhIpEky0F1l6hiyXcHgfP
- Qk6kdt6NHjs/lgL27WisLr5Sd3eqYIvURXjtMxN01TIoX0SOaQb9e+TZjAJPZcqWk8
- +7x4JOt8S3lYUXwLEfVIj2oLyQm7Zf+3vXkFh5CUCYO1HhJIyYFnvzuSQMw3LOeLUF
- SWyjXAuIigv/VP+4XN9RULymXb/zL/5pxGNvQl+QGFuruFb67YrQA0DecF9UWHlSD0
- GriuVtEkZK6xfydSfIOlgUjnul3VsfGqov+kyu8+nPqhuYEOcLAm5Q40XkoxLQo3pW
- dZz8lsgjelfOw==
-Received: (nullmailer pid 1524828 invoked by uid 1000);
- Wed, 23 Aug 2023 09:08:37 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E9F10E3FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:15:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692782101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZmqnwyIiUpOS3f9HwLOK3gfHdtolAiT6g24hP2gfNPY=;
+ b=VXD9WGyOejuhXdIyei+tPxHJt7MbifGkTTgCbq3Yy5/VfCJQuiFvhJMA06lNOBJzEG08I2
+ K2Zvy05bBu07sSN+yMRuzM8Lda95Q+HGMyyqXJsn+ppPM5smyWkwvA6tbqCILxntmcgSdF
+ c8TxzhmO6J0vJotT2elDCMj4IVdZuso=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-u0805TkdMHaFOEykWPO98Q-1; Wed, 23 Aug 2023 05:14:59 -0400
+X-MC-Unique: u0805TkdMHaFOEykWPO98Q-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2b9fa64dba8so58136711fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 02:14:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692782098; x=1693386898;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZmqnwyIiUpOS3f9HwLOK3gfHdtolAiT6g24hP2gfNPY=;
+ b=UpuXSn+37guVRKI0POFEy+Hnesgv5RyExrp+L9OckFO2AN/XfNkQptvKHAaIN3JE0z
+ g3WsE9uH/KURx7c6KmVJWs0xE7T5KziI4pQrCA8RL9QEFEvTPLcYNxjVwegGjmyH7VjC
+ 0uo2MXDv4kmvH9eKwBQNNrMoLv7EhsVw3TNW/umgvPwFXU5Nhec5KeIiOBo2lwmPUxX0
+ DBLnY+pduH05PWChDN/f/J4nMDAMScAPqI5KEB2ASJ4l1yBqj0UpqJlnAmNFLRXlPqpE
+ FF+CegZLxpMMezqzL7H3gmvjdmSFL8jTq63KDrW8y/3dij47pOHxCmtFj9IoDtYYF2z6
+ +dQQ==
+X-Gm-Message-State: AOJu0YzmDIIFe/6ERIB3/fUAvuzQGpOJoJoTa7HJsgiF4F7Si+wl9UcD
+ 8whW0pAVfGRbWuJt1nY/+rjmZ8STyE2fAuNLqzGQtsDmJ2aPQ/Y41/Xxl/AcOgDeiteVcExslRS
+ piv/rUS8EA+6q45Bwm9BWqnSOJv3/
+X-Received: by 2002:a2e:9851:0:b0:2b9:f1ad:94f5 with SMTP id
+ e17-20020a2e9851000000b002b9f1ad94f5mr8997303ljj.40.1692782098388; 
+ Wed, 23 Aug 2023 02:14:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIQk+KFKd33U8Jna9CjTcSP0kWhirK7CyX95540LD/JFVgIQFVsCHPCx/oUz7dRemNHrAGLg==
+X-Received: by 2002:a2e:9851:0:b0:2b9:f1ad:94f5 with SMTP id
+ e17-20020a2e9851000000b002b9f1ad94f5mr8997293ljj.40.1692782098053; 
+ Wed, 23 Aug 2023 02:14:58 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:329d:db81:ed0c:c9cd?
+ ([2a01:e0a:d5:a000:329d:db81:ed0c:c9cd])
+ by smtp.gmail.com with ESMTPSA id
+ q15-20020a7bce8f000000b003feef82bbefsm10164225wmj.29.2023.08.23.02.14.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Aug 2023 02:14:57 -0700 (PDT)
+Message-ID: <0336b4cd-1557-3fff-c8df-cf21ee123e34@redhat.com>
+Date: Wed, 23 Aug 2023 11:14:56 +0200
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
-References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
- <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
-Message-Id: <169278171739.1524810.6441506448861500441.robh@kernel.org>
-Subject: Re: [PATCH v3 2/3] dt-bindings: display: novatek,nt35950: define ports
-Date: Wed, 23 Aug 2023 04:08:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/1] drm/fourcc: Add documentation about software color
+ conversion.
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230807140317.26146-1-jfalempe@redhat.com>
+ <20230807140317.26146-2-jfalempe@redhat.com>
+ <iadbqczfvboqyxebbnjkjef3dttcaa76vu3e4ylve6cxaypbqf@oz5hhu3xrryr>
+ <20230818162415.2185f8e3@eldfell>
+ <36prxupvl72tmamorquaunss27kckoq5zegmrwxdr3v3ynqz4s@xiypdbs4pbga>
+ <20230822112004.3599df53@eldfell>
+ <b2074198-2176-5e63-ce18-02bb14ea5749@redhat.com>
+ <20230823111105.1281a980@eldfell>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20230823111105.1281a980@eldfell>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +94,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Jianhua Lu <lujianhua000@gmail.com>
+Cc: tzimmermann@suse.de, javierm@redhat.com, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Wed, 23 Aug 2023 10:14:59 +0200, Krzysztof Kozlowski wrote:
-> The panel-common schema does not define what "ports" property is, so
-> bring the definition by referencing the panel-common-dual.yaml. Panels
-> can be single- or dual-link, thus require only one port@0.
+On 23/08/2023 10:11, Pekka Paalanen wrote:
+> On Tue, 22 Aug 2023 17:49:08 +0200
+> Jocelyn Falempe <jfalempe@redhat.com> wrote:
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> On 22/08/2023 10:20, Pekka Paalanen wrote:
+>>> On Mon, 21 Aug 2023 17:55:33 +0200
+>>> Maxime Ripard <mripard@kernel.org> wrote:
+>>>    
+>>>> Hi Pekka,
+>>>>
+>>>> Thanks for answering
+>>>>
+>>>> On Fri, Aug 18, 2023 at 04:24:15PM +0300, Pekka Paalanen wrote:
+>>>>> On Thu, 10 Aug 2023 09:45:27 +0200
+>>>>> Maxime Ripard <mripard@kernel.org> wrote:
+>>>>>> On Mon, Aug 07, 2023 at 03:45:15PM +0200, Jocelyn Falempe wrote:
+>>>>>>> After discussions on IRC, the consensus is that the DRM drivers should
+>>>>>>> not do software color conversion, and only advertise the supported formats.
+>>>>>>> Update the doc accordingly so that the rule and exceptions are clear for
+>>>>>>> everyone.
+>>>>>>>
+>>>>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>>>>> ---
+>>>>>>>    include/uapi/drm/drm_fourcc.h | 7 +++++++
+>>>>>>>    1 file changed, 7 insertions(+)
 > 
-> ---
+> ...
 > 
-> Changes since v2:
-> 1. Use panel-common-dual
+>>> In the XRGB8888 to RGB888 case, the kernel doing the conversion may
+>>> allow for higher resolutions, but it may also hurt framerate more than
+>>> userspace doing conversion, theoretically. For lower resolution where
+>>> XRGB8888 could be scanned out directly from VRAM, the conversion would
+>>> be strictly hurting.
+>>>    
+>> I think that depends on the hardware. For the Matrox, the bandwidth
+>> between system RAM and VRAM is so low, that doing the conversion is much
+>> faster than copying XRGB8888 to the VRAM. It also uses less CPU cycles,
+>> because the copy is done with memcpy(), (DMA is broken or even slower on
+>> most mgag200 hardware).
+>> To get numbers, on my test machine, copying the 5MB framebuffer XRGB8888
+>> to VRAM takes 125ms. Copying 3.75MB RGB888 framebuffer takes 95ms. The
+>> conversion has no measurable impact, as it is done on the fly during the
+>> memcpy, when the CPU is waiting for the bus to accept more data.
+>> Doing the conversion in user-space would actually be slower, even with
+>> SSE, because they won't use the "wasted" cpu cycle. But anyway the
+>> conversion can take a few micro-seconds on the CPU, which is still
+>> negligible compared to the memory transfer.
 > 
-> Changes since v1:
-> 1. Rework to add ports to device schema, not to panel-common.
-> ---
->  .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> I stand corrected!
 > 
+> Always exceptions. :-)
+> 
+> I suppose you have dumb alloc returning sysmem, and PREFER_SHADOW set
+> to false to go with that? Sounds good for XRGB8888. I guess there is
+> not enough VRAM to alloc dumb buffers from there anyway?
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Yes VRAM is between 4MB to 16MB, so the driver only expose dumb buffers 
+in system RAM, and PREFER_SHADOW is set to false.
 
-yamllint warnings/errors:
+> 
+>> Before sending the v2, Simon Ser proposed to move the paragraph to
+>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_plane.c#L132
+>> instead of fourcc.h.
+>> I'm wondering what other thinks about this.
+> 
+> I like moving it out of drm_fourcc.h. drm_fourcc.h is about format
+> definitions which are used by things like EGL, Wayland, and whatnot
+> which are not KMS specific.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml:
-Error in referenced schema matching $id: http://devicetree.org/schemas/display/panel/panel-common-dual.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/novatek,nt35950.example.dtb: panel@0: False schema does not allow {'compatible': ['sharp,ls055d1sx04', 'novatek,nt35950'], 'reg': [[0]], 'backlight': [[4294967295]], 'reset-gpios': [[4294967295, 94, 0]], 'avdd-supply': [[4294967295]], 'avee-supply': [[4294967295]], 'dvdd-supply': [[4294967295]], 'vddio-supply': [[4294967295]], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}}}, '$nodename': ['panel@0']}
-	from schema $id: http://devicetree.org/schemas/display/panel/novatek,nt35950.yaml#
+Ok thanks, I will move it to drm_plane then.
 
-doc reference errors (make refcheckdocs):
+> 
+> 
+> Thanks,
+> pq
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230823081500.84005-2-krzysztof.kozlowski@linaro.org
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+Best regards,
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+-- 
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Jocelyn
 
