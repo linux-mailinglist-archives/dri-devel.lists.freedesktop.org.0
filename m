@@ -1,145 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A28785C09
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 17:26:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FC1785C26
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 17:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4EC10E002;
-	Wed, 23 Aug 2023 15:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E962410E02E;
+	Wed, 23 Aug 2023 15:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D66810E002;
- Wed, 23 Aug 2023 15:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692804382; x=1724340382;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=3xzOZxq1XuGFYhOoQ7gY/247nP+z/wXZq6UiscggP5E=;
- b=eZhhsJnR7CEF3Gxn0JY9mSD/F9voWfT8YJxXtDt6c3+5NCZkAOUj8eeH
- +8VsslHeM6L6j7QYpoKjHYe5GN51a7J3ITp9rkiztDWF5hUUKyKlsETOm
- 2A+B5BFtzxdQO8kvrWbn0sDd6CIe4elM4nn/0p9aDbwpke5ut2hoVWJHc
- ZyM3SueFUN8oTl4TctXTuKwmPxhmbxGCRZ7LN7ggcN8VzN8ApBVt8pyEk
- AU3g0EdqZD3gAbm+yRmtSsKhkCZTp+cyBNoXuPQt6amwxGM4uZ6z1Le/Z
- HSG9nZV4TVqqJW8o1p/U14yx5KFpe90DCnXF3oJh5yg7adgmYN7imJfo8 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="364365521"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="364365521"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2023 08:25:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802144790"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="802144790"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 08:25:29 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 23 Aug 2023 08:25:29 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 23 Aug 2023 08:25:29 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.44) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 23 Aug 2023 08:25:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h4Hk/ihmRevJFGaYKF5cljIoDziOg3o0Nt6elgo5UUGr2rMyVusRvLfnuy6psHBpVpg53U/pXby6Y7RBtS4n1XO0avfjYzOrxxM8litvzuKIRnqOxKZNZtDhEdKcv6U88trWMm1kQFIwhfdRBLrWNRTzHG5uIdynMXFsdWNATaVrnoSz3GGi1xaav3X7Ww1T5+r8MYbwYgNkxZvyMCvXlh7CSHUpeouPZsZlSypoRY3LCxCPORRirpabvdlh5cXxZ7xUPu4WWtCs8K9481h5yDlMcdvFSFmT0oEwYA6XZ/DcYyh46jcpT2GIodyOO/e9KKR62DoFamgp0um110SQJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GrS+Kdv836WTJ5eSXUUZidS65a5Hg/PcIab36JaUIxM=;
- b=O87LfpQkQ3F7sGLg2Xy+rHDBWGqjRIMWNYRNn6eBF7Z/IantUjFDFLY27ivIONqCs5gmZ9Z38TnuBat0w/Mz3sOQUlwqR+lDIEmcBvM/SZOWSlxsqQvT820mnqZvhrvaVir3Zn7sBlmQvwR5DT6FAnstm8PaV8W1A6G3bmVVno7qVxlLkNLbj2d3NxgdKGPapqSOJxcmgl/qFyJdalMXnOWA4GDX5p1c7UxFaaxhOs8elp0meYgpOcil37pehh7MMnY7OyeiIGMw0/A8O35TpGV+7GVJF8ECcUkbcuwYFMHydkzwyc7p7scCYp7+9/SK31u2W1K4I0/9q8yNI8OVSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by BL1PR11MB5464.namprd11.prod.outlook.com (2603:10b6:208:319::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.25; Wed, 23 Aug
- 2023 15:25:26 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69%5]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
- 15:25:26 +0000
-Date: Wed, 23 Aug 2023 15:24:08 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
-Message-ID: <ZOYkmAbzRFZzzQKK@DUT025-TGLU.fm.intel.com>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-5-matthew.brost@intel.com>
- <f6b7c246-fd87-a853-b7c4-e2c1b6727a93@amd.com>
- <ZN5exv1IWJtKL1nJ@DUT025-TGLU.fm.intel.com>
- <9f6554fd-8748-2613-1c90-921b670ad4d9@amd.com>
- <ZN9ufogOQm4xblxm@DUT025-TGLU.fm.intel.com>
- <c7c32797-9ca1-9f78-d3e6-07f827731ee6@amd.com>
- <ZOV8l08PZ/lqfGx9@DUT025-TGLU.fm.intel.com>
- <eb95b02f-7ffa-0cff-eac4-2bd8d12da730@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb95b02f-7ffa-0cff-eac4-2bd8d12da730@amd.com>
-X-ClientProxiedBy: SJ2PR07CA0016.namprd07.prod.outlook.com
- (2603:10b6:a03:505::16) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D73610E02E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 15:32:02 +0000 (UTC)
+Received: from [IPV6:2a02:2f08:ed0c:7100:2bab:cf35:4185:1f5c] (unknown
+ [IPv6:2a02:2f08:ed0c:7100:2bab:cf35:4185:1f5c])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0AFF36607267;
+ Wed, 23 Aug 2023 16:31:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692804720;
+ bh=j2r5UeppeTQwPxNzifmIhMThvQSCPkTJ/Qe9WAZJOgE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mTIplE7cc9VT6D3gPOPOZhxU/UcPrez4wqxt4IfMVelTymmBX38a+8HP3kgFLYmoe
+ 5a1j8mV8o4ht6eAMhqW3kaKTkQbaP6gAIHc7NMiRI1f6GQVxVpk4xKi9aWHsAUh8rC
+ ut9tWsOng8yKzus3O35ckwCoI/RfVt7T/BT67JE3pijwnqlG3GbcTsjnS9SqKX28i5
+ GrKpQs2pV9gdOQXXY4Bfp5CgyQ0r9idohM2XUovewdopo/N0LQBM2ZZtSEaYgLULf8
+ k+h/flpyttl9/RaaSOIqde+C3FMJsut5mZe8z0nETpeDFq/I93KJas47cGFxBNeB6r
+ KveIY2ai4NE6g==
+Message-ID: <2a79ea30-e9bd-99c6-9842-b476eb281fbd@collabora.com>
+Date: Wed, 23 Aug 2023 18:31:56 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|BL1PR11MB5464:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1399daf-3add-492b-4257-08dba3ed2d34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L5B3Ln2wxwpuFKYpeQKSvdpgnUfNSKiODgmB73n0V5FXojVOQFWP+oIw/HrIGhPG77eLFRWXJ38dbp0PpsKuB1KeLnMN/pPkU94rzRio3SMSsj5G0gdxUtXZcjoKfeG+Q5FnxmXq0oVW2GZAebofEuNE4depqbVNliYjLDxfMsDcZeLWjlAAHlB4dk0TLkbAJHji/wJrAlfWyF+6q/lMOrtYhnh6kZWJXso3YgRgL/PR01ECRyhwKAMhn/lEJieEzyEfllEo9BZ6uk+SMqA115j1d5FRzcxnWAiTLUhnH+PsTrEtEMnD8pyxvk07Q66E9ci2x41vRURUZ0z7mDqDW50GFfhc0kcgUb2Yj2wg3Ihtmylw+8wchnYGVKzgj1b9+nIA7/KEJD2reJICL/Y/JsdYx5GLPLrDm3RT14/eTHOMtBbGDjMsoNIuiIxNfrVrmt3QxdLnukp701i7hu8eDoNeMbxqV9FdkGqeTxn5PlqA9fou6wm93jo9lobwbSaSXOV3uyTkmjjZPR6dTZHctFZm8f645nxGwE9cP4r7K0k=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(396003)(39860400002)(376002)(346002)(136003)(451199024)(1800799009)(186009)(83380400001)(478600001)(966005)(26005)(66574015)(6486002)(6506007)(6512007)(6666004)(4326008)(5660300002)(7416002)(44832011)(2906002)(30864003)(66556008)(316002)(82960400001)(38100700002)(41300700001)(66476007)(6916009)(8936002)(8676002)(66946007)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?VTJf1lou1Db5+IrIufvlpN0ijFW1fdh3YThRX64GQrOlQn4fccDtBHmAk4?=
- =?iso-8859-1?Q?D1JcesdDXjvgjwjUE/VvgkmfD63aYe71mf/YUxhJfMwUfAuLQAxXUEgi7R?=
- =?iso-8859-1?Q?zQMMWp0t3qi5VzedNaF/FOkV21yb6LEyWipoTF8PUdFbUd94bEy7cIWNTM?=
- =?iso-8859-1?Q?L1pw7DWwzhMUumvB+tL95hj1AN51YMTjsIbEHSt4MihGFev6Gzwc8Yof8S?=
- =?iso-8859-1?Q?SeVHeVBKgxR0LiVrLlu7NdIaKFh/WTqBjbLjMeMwCGOKLh+qFDOAvh8k5c?=
- =?iso-8859-1?Q?ZavjZua8sCxTFe9G14ju/ZmwueRvIwGCJNEXv1ziD5o7SK28yDkFawhVmT?=
- =?iso-8859-1?Q?h3Hbu8l1Ck5q4XNVh2KasQl5BO8t44kmeMZimJYO6SbTuchJsBGgIaGuGJ?=
- =?iso-8859-1?Q?DCTfk9N/2ZbhTMgGuUmvogQxmNM/Hy21Cn7wialHjKrMp5vudco45B/y/q?=
- =?iso-8859-1?Q?2DJdv77qMIPMCI4Qc5AIIWvTyxIwmRvR8KWZf28E6zCj6X9ir5wbHF581h?=
- =?iso-8859-1?Q?aiCL3wfdSQftlSbRweT5CwNVJ/dGqTAvOobgsOwduQ2GIIJ3U6NdgitvpZ?=
- =?iso-8859-1?Q?sR4k2PZjPjrPn4P8rW1DuHms2yRgrnWEWJy8nj3Ar8IaBcfaNDEwsZehfU?=
- =?iso-8859-1?Q?sKTGM2JoWyFsiAU7gYsRtnalof1vb5YIlipjIp7tdhqi/J5DiGHuvJs1Eb?=
- =?iso-8859-1?Q?qkVW3rtt4fttKCZMZq22fe1zwVvMtc/bDg4c1Z2dumTXdNR2AAyB810th6?=
- =?iso-8859-1?Q?vs3dn9AYbFB23tbx69GuCi0vNHwc7tRcrcbFif3eaU95Km/f8Jmlyvhtep?=
- =?iso-8859-1?Q?vgccjV9f3/fHksxUUtYUDExAMlBKRNvPw2YjngiPTvHvHZddnz29KZTK4V?=
- =?iso-8859-1?Q?EoP4//gqKPAjuuhfsvXZMJqLWX95MnWwHgENOhN1OdwVEiVzWhbbTa+Hc6?=
- =?iso-8859-1?Q?AY7AiEc/eCOl1klfzZQ9PEjT69E3TrgcYN8/cq3VWmuanyi3rBwo4wJe8B?=
- =?iso-8859-1?Q?aolzrqZzAdRvNlDQx5pQvjVuh6+yTYUmWb2fzLVuzN1OdoCoOYx8DfmyWy?=
- =?iso-8859-1?Q?ijZQyR0hZFfY5BDPBkme2atOes3aEfquNjLkyysDH9OkHkuE9cz40H9mB3?=
- =?iso-8859-1?Q?hOtkaFHqQxUlnkHnAgXGk/WOvXCmZ4oXJxv1UMjrzDiI5hJZwskH/zB7d6?=
- =?iso-8859-1?Q?KzFz8L0l2HV4Lh85cPHqvbNIe0WgO1y4DZkNPCn2KetVDn9SE1Ip6NHSbm?=
- =?iso-8859-1?Q?uipobGD2XcbpnbRqsHdk7JS4OjduEnhZjLxL8hRlSdKvnR9cLJDF2tdmam?=
- =?iso-8859-1?Q?C2xTkSeYiBTJznQEgqxWHliezFIiHoIfik61+YZO5TZurIzsylNJA3G1iy?=
- =?iso-8859-1?Q?0y+mq/dMXGZUsUwaZetY29e22nFnBz4TVSLDr7RIZcEYH/JOaUyFfSZYRx?=
- =?iso-8859-1?Q?yNVDQBY+3Tv8gHda1nP1qwMokVjQ5vKWhKqtpZkawRZxEQD+BEELt5ayNA?=
- =?iso-8859-1?Q?YC8+diNd2oNmelmFQGNdvDMe79x4UOBbByG3NAFN6PNxWEoH7wTe31xfKD?=
- =?iso-8859-1?Q?gXsVrN80CnZVWMxpeiguSIYhCto5uwE4KwEaT8Y7x02d6J+NVYejcn6TNo?=
- =?iso-8859-1?Q?iJAn1/svlzNCzzffFi7nNlurPtUSrXfgsPfwLqnLcTQf8Akv+IrGHKwg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1399daf-3add-492b-4257-08dba3ed2d34
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 15:25:26.7206 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cQEyFzgIhYhVmpW3/eb86itufhPXvTzNmrQjtHKRhobr/G1OECWaMFXaoZgXmoGsIy14WbUoLSh0ib9YN4Mgsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5464
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH v3 4/7] drm/vkms: Add ConfigFS scaffolding to VKMS
+Content-Language: en-US
+To: Brandon Pollack <brpol@chromium.org>, jshargo@chromium.org
+References: <20230818075057.3426088-1-brpol@chromium.org>
+ <20230818075057.3426088-5-brpol@chromium.org>
+From: Marius Vlad <marius.vlad@collabora.com>
+In-Reply-To: <20230818075057.3426088-5-brpol@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,530 +56,1056 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, luben.tuikov@amd.com, lina@asahilina.net,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 23, 2023 at 09:10:51AM +0200, Christian König wrote:
-> Am 23.08.23 um 05:27 schrieb Matthew Brost:
-> > [SNIP]
-> > > That is exactly what I want to avoid, tying the TDR to the job is what some
-> > > AMD engineers pushed for because it looked like a simple solution and made
-> > > the whole thing similar to what Windows does.
-> > > 
-> > > This turned the previous relatively clean scheduler and TDR design into a
-> > > complete nightmare. The job contains quite a bunch of things which are not
-> > > necessarily available after the application which submitted the job is torn
-> > > down.
-> > > 
-> > Agree the TDR shouldn't be accessing anything application specific
-> > rather just internal job state required to tear the job down on the
-> > hardware.
-> > > So what happens is that you either have stale pointers in the TDR which can
-> > > go boom extremely easily or we somehow find a way to keep the necessary
-> > I have not experenced the TDR going boom in Xe.
-> > 
-> > > structures (which include struct thread_info and struct file for this driver
-> > > connection) alive until all submissions are completed.
-> > > 
-> > In Xe we keep everything alive until all submissions are completed. By
-> > everything I mean the drm job, entity, scheduler, and VM via a reference
-> > counting scheme. All of these structures are just kernel state which can
-> > safely be accessed even if the application has been killed.
+Hi Brandon,
+
+On 8/18/23 10:43, Brandon Pollack wrote:
+> From: Jim Shargo <jshargo@chromium.org>
 > 
-> Yeah, but that might just not be such a good idea from memory management
-> point of view.
+> This change adds the basic scaffolding for ConfigFS, including setting
+> up the default directories. It does not allow for the registration of
+> configfs-backed devices, which is complex and provided in a follow-up
+> commit.
 > 
-> When you (for example) kill a process all resource from that progress should
-> at least be queued to be freed more or less immediately.
+> This CL includes docs about using ConfigFS with VKMS, but I'll summarize
+> in brief here as well (assuming ConfigFS is mounted at /config/):
 > 
-
-We do this, the TDR kicks jobs off the hardware as fast as the hw
-interface allows and signals all pending hw fences immediately after.
-Free jobs then is immediately called and the reference count goes to
-zero. I think max time for all of this to occur is a handful of ms.
-
-> What Linux is doing for other I/O operations is to keep the relevant pages
-> alive until the I/O operation is completed, but for GPUs that usually means
-> keeping most of the memory of the process alive and that in turn is really
-> not something you can do.
+> To create a new device, you can do so via `mkdir
+> /config/vkms/my-device`.
 > 
-> You can of course do this if your driver has a reliable way of killing your
-> submissions and freeing resources in a reasonable amount of time. This
-> should then be done in the flush callback.
+> This will create a number of directories and files automatically:
 > 
-
-'flush callback' - Do you mean drm_sched_entity_flush? I looked at that
-and think that function doesn't even work for what I tell. It flushes
-the spsc queue but what about jobs on the hardware, how do those get
-killed?
-
-As stated we do via the TDR which is rather clean design and fits with
-our reference couting scheme.
-
-> > If we need to teardown on demand we just set the TDR to a minimum value and
-> > it kicks the jobs off the hardware, gracefully cleans everything up and
-> > drops all references. This is a benefit of the 1 to 1 relationship, not
-> > sure if this works with how AMDGPU uses the scheduler.
-> > 
-> > > Delaying application tear down is also not an option because then you run
-> > > into massive trouble with the OOM killer (or more generally OOM handling).
-> > > See what we do in drm_sched_entity_flush() as well.
-> > > 
-> > Not an issue for Xe, we never call drm_sched_entity_flush as our
-> > referencing counting scheme is all jobs are finished before we attempt
-> > to tear down entity / scheduler.
+> 	/config
+> 	`-- vkms
+> 	    `-- my-device
+> 		|-- connectors
+> 		|-- crtcs
+> 		|-- encoders
+> 		|-- planes
+> 		`-- enabled
 > 
-> I don't think you can do that upstream. Calling drm_sched_entity_flush() is
-> a must have from your flush callback for the file descriptor.
+> You can then configure objects by mkdir'ing in each of the directories.
 > 
-
-Again 'flush callback'? What are you refering too.
-
-And why does drm_sched_entity_flush need to be called, doesn't seem to
-do anything useful.
-
-> Unless you have some other method for killing your submissions this would
-> give a path for a deny of service attack vector when the Xe driver is in
-> use.
+> When you're satisfied, you can `echo 1 > /config/vkms/my-device/enabled`.
+> This will create a new device according to your configuration.
 > 
-
-Yes, once th TDR fires is disallows all new submissions at the exec
-IOCTL plus flushes any pending submissions as fast as possible.
-
-> > > Since adding the TDR support we completely exercised this through in the
-> > > last two or three years or so. And to sum it up I would really like to get
-> > > away from this mess again.
-> > > 
-> > > Compared to that what i915 does is actually rather clean I think.
-> > > 
-> > Not even close, resets where a nightmare in the i915 (I spend years
-> > trying to get this right and probably still completely work) and in Xe
-> > basically got it right on the attempt.
-> > 
-> > > >    Also in Xe some of
-> > > > things done in free_job cannot be from an IRQ context, hence calling
-> > > > this from the scheduler worker is rather helpful.
-> > > Well putting things for cleanup into a workitem doesn't sounds like
-> > > something hard.
-> > > 
-> > That is exactly what we doing in the scheduler with the free_job
-> > workitem.
+> For now, this will fail, but the next change will add support for it.
 > 
-> Yeah, but I think that we do it in the scheduler and not the driver is
-> problematic.
->
-
-Disagree, a common clean callback from a non-irq contexts IMO is a good
-design rather than each driver possibly having its own worker for
-cleanup.
-
-> For the scheduler it shouldn't care about the job any more as soon as the
-> driver takes over.
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
+> ---
+>   Documentation/gpu/vkms.rst           |  18 +-
+>   drivers/gpu/drm/Kconfig              |   1 +
+>   drivers/gpu/drm/vkms/Makefile        |   1 +
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 651 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_drv.c      |  56 ++-
+>   drivers/gpu/drm/vkms/vkms_drv.h      |  92 +++-
+>   drivers/gpu/drm/vkms/vkms_output.c   |   5 +
+>   7 files changed, 807 insertions(+), 17 deletions(-)
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
 > 
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index ba04ac7c2167..c3875bf66dba 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -51,6 +51,12 @@ To disable the driver, use ::
+>   
+>     sudo modprobe -r vkms
+>   
+> +Configuration With ConfigFS
+> +===========================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/vkms/vkms_configfs.c
+> +   :doc: ConfigFS Support for VKMS
+> +
+>   Testing With IGT
+>   ================
+>   
+> @@ -135,22 +141,16 @@ project.
+>   Runtime Configuration
+>   ---------------------
+>   
+> -We want to be able to reconfigure vkms instance without having to reload the
+> -module. Use/Test-cases:
+> +We want to be able to manipulate vkms instances without having to reload the
+> +module. Such configuration can be added as extensions to vkms's ConfigFS
+> +support. Use-cases:
+>   
+>   - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
+>     of compositors).
+>   
+> -- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
+> -  them first).
+> -
+>   - Change output configuration: Plug/unplug screens, change EDID, allow changing
+>     the refresh rate.
+>   
+> -The currently proposed solution is to expose vkms configuration through
+> -configfs. All existing module options should be supported through configfs
+> -too.
+> -
+>   Writeback support
+>   -----------------
+>   
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index ab9ef1c20349..e39ee0e8ca06 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -284,6 +284,7 @@ config DRM_VKMS
+>   	depends on DRM && MMU
+>   	select DRM_KMS_HELPER
+>   	select DRM_GEM_SHMEM_HELPER
+> +	select CONFIGFS_FS
+>   	select CRC32
+>   	default n
+>   	help
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 1b28a6a32948..6b83907ad554 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -1,5 +1,6 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   vkms-y := \
+> +	vkms_configfs.o \
+>   	vkms_drv.o \
+>   	vkms_plane.o \
+>   	vkms_output.o \
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> new file mode 100644
+> index 000000000000..72723427a1ac
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -0,0 +1,651 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +#include <linux/configfs.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "vkms_drv.h"
+> +
+> +/**
+> + * DOC: ConfigFS Support for VKMS
+> + *
+> + * VKMS is instrumented with support for configuration via :doc:`ConfigFS
+> + * <../filesystems/configfs>`.
+> + *
+> + * With VKMS installed, you can mount ConfigFS at ``/config/`` like so::
+> + *
+> + *   mkdir -p /config/
+> + *   sudo mount -t configfs none /config
+> + *
+> + * This allows you to configure multiple virtual devices. Note
+> + * that the default device which can be enabled in the module params with::
+> + *
+> + *  modprobe vkms default_device=1
+> + *
+> + * is immutable because we cannot pre-populate ConfigFS directories with normal
+> + * files.
+> + *
+> + * To set up a new device, create a new directory under the VKMS configfs
+> + * directory::
+> + *
+> + *   mkdir /config/vkms/test
+> + *
+> + * With your device created you'll find an new directory ready to be
+> + * configured::
+> + *
+> + *   /config
+> + *   `-- vkms
+> + *       `-- test
+> + *           |-- connectors
+> + *           |-- crtcs
+> + *           |-- encoders
+> + *           |-- planes
+> + *           `-- enabled
+> + *
+> + * Each directory you add within the connectors, crtcs, encoders, and planes
+> + * directories will let you configure a new object of that type. Adding new
+> + * objects will automatically create a set of default files and folders you can
+> + * use to configure that object.
+> + *
+> + * For instance, we can set up a two-output device like so::
+Shouldn't we have two connectors and encoders here? And symlink the 
+second encoder to the second connector. crtc_other would also need a 
+symlink to the second encoder possible_crtc to actually gain a second 
+output....
 
-This a massive rewrite for all users of the DRM scheduler, I'm saying
-for Xe what you are suggesting makes little to no sense. 
-
-I'd like other users of the DRM scheduler to chime in on what you
-purposing. The scope of this change affects 8ish drivers that would
-require buy in each of the stakeholders. I certainly can't change of
-these drivers as I don't feel comfortable in all of those code bases nor
-do I have hardware to test all of these drivers.
-
-> > 
-> > > Question is what do you really need for TDR which is not inside the hardware
-> > > fence?
-> > > 
-> > A reference to the entity to be able to kick the job off the hardware.
-> > A reference to the entity, job, and VM for error capture.
-> > 
-> > We also need a reference to the job for recovery after a GPU reset so
-> > run_job can be called again for innocent jobs.
-> 
-> Well exactly that's what I'm massively pushing back. Letting the scheduler
-> call run_job() for the same job again is *NOT* something you can actually
-> do.
-> 
-
-But lots of drivers do this already and the DRM scheduler documents
-this.
-
-> This pretty clearly violates some of the dma_fence constrains and has cause
-> massively headaches for me already.
-> 
-
-Seems to work fine in Xe.
-
-> What you can do is to do this inside your driver, e.g. take the jobs and
-> push them again to the hw ring or just tell the hw to start executing again
-> from a previous position.
-> 
-
-Again this now is massive rewrite of many drivers.
-
-> BTW that re-submitting of jobs seems to be a no-go from userspace
-> perspective as well. Take a look at the Vulkan spec for that, at least Marek
-> pretty much pointed out that we should absolutely not do this inside the
-> kernel.
-> 
-
-Yes if the job causes the hang, we ban the queue. Typcially only per
-entity (queue) resets are done in Xe but occasionally device level
-resets are done (issues with hardware) and innocent jobs / entities call
-run_job again.
-
-> The generally right approach seems to be to cleanly signal to userspace that
-> something bad happened and that userspace then needs to submit things again
-> even for innocent jobs.
-> 
-
-I disagree that innocent jobs should be banned. What you are suggesting
-is if a device reset needs to be done we kill / ban every user space queue.
-Thats seems like overkill. Not seeing where that is stated in this doc
-[1], it seems to imply that only jobs that are stuck results in bans.
-
-Matt
-
-[1] https://patchwork.freedesktop.org/patch/553465/?series=119883&rev=3
-
-> Regards,
-> Christian.
-> 
-> > 
-> > All of this leads to believe we need to stick with the design.
-> > 
-> > Matt
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > The HW fence can live for longer as it can be installed in dma-resv
-> > > > slots, syncobjs, etc... If the job and hw fence are combined now we
-> > > > holding on the memory for the longer and perhaps at the mercy of the
-> > > > user. We also run the risk of the final put being done from an IRQ
-> > > > context which again wont work in Xe as it is currently coded. Lastly 2
-> > > > jobs from the same scheduler could do the final put in parallel, so
-> > > > rather than having free_job serialized by the worker now multiple jobs
-> > > > are freeing themselves at the same time. This might not be an issue but
-> > > > adds another level of raceyness that needs to be accounted for. None of
-> > > > this sounds desirable to me.
-> > > > 
-> > > > FWIW what you suggesting sounds like how the i915 did things
-> > > > (i915_request and hw fence in 1 memory alloc) and that turned out to be
-> > > > a huge mess. As rule of thumb I generally do the opposite of whatever
-> > > > the i915 did.
-> > > > 
-> > > > Matt
-> > > > 
-> > > > > Christian.
-> > > > > 
-> > > > > > Matt
-> > > > > > 
-> > > > > > > All the lifetime issues we had came from ignoring this fact and I think we
-> > > > > > > should push for fixing this design up again.
-> > > > > > > 
-> > > > > > > Regards,
-> > > > > > > Christian.
-> > > > > > > 
-> > > > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > > > > > ---
-> > > > > > > >      drivers/gpu/drm/scheduler/sched_main.c | 137 ++++++++++++++++++-------
-> > > > > > > >      include/drm/gpu_scheduler.h            |   8 +-
-> > > > > > > >      2 files changed, 106 insertions(+), 39 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > index cede47afc800..b67469eac179 100644
-> > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > @@ -213,11 +213,12 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
-> > > > > > > >       * drm_sched_rq_select_entity_rr - Select an entity which could provide a job to run
-> > > > > > > >       *
-> > > > > > > >       * @rq: scheduler run queue to check.
-> > > > > > > > + * @dequeue: dequeue selected entity
-> > > > > > > >       *
-> > > > > > > >       * Try to find a ready entity, returns NULL if none found.
-> > > > > > > >       */
-> > > > > > > >      static struct drm_sched_entity *
-> > > > > > > > -drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
-> > > > > > > > +drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq, bool dequeue)
-> > > > > > > >      {
-> > > > > > > >      	struct drm_sched_entity *entity;
-> > > > > > > > @@ -227,8 +228,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
-> > > > > > > >      	if (entity) {
-> > > > > > > >      		list_for_each_entry_continue(entity, &rq->entities, list) {
-> > > > > > > >      			if (drm_sched_entity_is_ready(entity)) {
-> > > > > > > > -				rq->current_entity = entity;
-> > > > > > > > -				reinit_completion(&entity->entity_idle);
-> > > > > > > > +				if (dequeue) {
-> > > > > > > > +					rq->current_entity = entity;
-> > > > > > > > +					reinit_completion(&entity->entity_idle);
-> > > > > > > > +				}
-> > > > > > > >      				spin_unlock(&rq->lock);
-> > > > > > > >      				return entity;
-> > > > > > > >      			}
-> > > > > > > > @@ -238,8 +241,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
-> > > > > > > >      	list_for_each_entry(entity, &rq->entities, list) {
-> > > > > > > >      		if (drm_sched_entity_is_ready(entity)) {
-> > > > > > > > -			rq->current_entity = entity;
-> > > > > > > > -			reinit_completion(&entity->entity_idle);
-> > > > > > > > +			if (dequeue) {
-> > > > > > > > +				rq->current_entity = entity;
-> > > > > > > > +				reinit_completion(&entity->entity_idle);
-> > > > > > > > +			}
-> > > > > > > >      			spin_unlock(&rq->lock);
-> > > > > > > >      			return entity;
-> > > > > > > >      		}
-> > > > > > > > @@ -257,11 +262,12 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
-> > > > > > > >       * drm_sched_rq_select_entity_fifo - Select an entity which provides a job to run
-> > > > > > > >       *
-> > > > > > > >       * @rq: scheduler run queue to check.
-> > > > > > > > + * @dequeue: dequeue selected entity
-> > > > > > > >       *
-> > > > > > > >       * Find oldest waiting ready entity, returns NULL if none found.
-> > > > > > > >       */
-> > > > > > > >      static struct drm_sched_entity *
-> > > > > > > > -drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
-> > > > > > > > +drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq, bool dequeue)
-> > > > > > > >      {
-> > > > > > > >      	struct rb_node *rb;
-> > > > > > > > @@ -271,8 +277,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
-> > > > > > > >      		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
-> > > > > > > >      		if (drm_sched_entity_is_ready(entity)) {
-> > > > > > > > -			rq->current_entity = entity;
-> > > > > > > > -			reinit_completion(&entity->entity_idle);
-> > > > > > > > +			if (dequeue) {
-> > > > > > > > +				rq->current_entity = entity;
-> > > > > > > > +				reinit_completion(&entity->entity_idle);
-> > > > > > > > +			}
-> > > > > > > >      			break;
-> > > > > > > >      		}
-> > > > > > > >      	}
-> > > > > > > > @@ -282,13 +290,54 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
-> > > > > > > >      }
-> > > > > > > >      /**
-> > > > > > > > - * drm_sched_submit_queue - scheduler queue submission
-> > > > > > > > + * drm_sched_run_job_queue - queue job submission
-> > > > > > > >       * @sched: scheduler instance
-> > > > > > > >       */
-> > > > > > > > -static void drm_sched_submit_queue(struct drm_gpu_scheduler *sched)
-> > > > > > > > +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-> > > > > > > >      {
-> > > > > > > >      	if (!READ_ONCE(sched->pause_submit))
-> > > > > > > > -		queue_work(sched->submit_wq, &sched->work_submit);
-> > > > > > > > +		queue_work(sched->submit_wq, &sched->work_run_job);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static struct drm_sched_entity *
-> > > > > > > > +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue);
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * drm_sched_run_job_queue_if_ready - queue job submission if ready
-> > > > > > > > + * @sched: scheduler instance
-> > > > > > > > + */
-> > > > > > > > +static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
-> > > > > > > > +{
-> > > > > > > > +	if (drm_sched_select_entity(sched, false))
-> > > > > > > > +		drm_sched_run_job_queue(sched);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * drm_sched_free_job_queue - queue free job
-> > > > > > > > + *
-> > > > > > > > + * @sched: scheduler instance to queue free job
-> > > > > > > > + */
-> > > > > > > > +static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
-> > > > > > > > +{
-> > > > > > > > +	if (!READ_ONCE(sched->pause_submit))
-> > > > > > > > +		queue_work(sched->submit_wq, &sched->work_free_job);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * drm_sched_free_job_queue_if_ready - queue free job if ready
-> > > > > > > > + *
-> > > > > > > > + * @sched: scheduler instance to queue free job
-> > > > > > > > + */
-> > > > > > > > +static void drm_sched_free_job_queue_if_ready(struct drm_gpu_scheduler *sched)
-> > > > > > > > +{
-> > > > > > > > +	struct drm_sched_job *job;
-> > > > > > > > +
-> > > > > > > > +	spin_lock(&sched->job_list_lock);
-> > > > > > > > +	job = list_first_entry_or_null(&sched->pending_list,
-> > > > > > > > +				       struct drm_sched_job, list);
-> > > > > > > > +	if (job && dma_fence_is_signaled(&job->s_fence->finished))
-> > > > > > > > +		drm_sched_free_job_queue(sched);
-> > > > > > > > +	spin_unlock(&sched->job_list_lock);
-> > > > > > > >      }
-> > > > > > > >      /**
-> > > > > > > > @@ -310,7 +359,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
-> > > > > > > >      	dma_fence_get(&s_fence->finished);
-> > > > > > > >      	drm_sched_fence_finished(s_fence, result);
-> > > > > > > >      	dma_fence_put(&s_fence->finished);
-> > > > > > > > -	drm_sched_submit_queue(sched);
-> > > > > > > > +	drm_sched_free_job_queue(sched);
-> > > > > > > >      }
-> > > > > > > >      /**
-> > > > > > > > @@ -906,18 +955,19 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
-> > > > > > > >      void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
-> > > > > > > >      {
-> > > > > > > >      	if (drm_sched_can_queue(sched))
-> > > > > > > > -		drm_sched_submit_queue(sched);
-> > > > > > > > +		drm_sched_run_job_queue(sched);
-> > > > > > > >      }
-> > > > > > > >      /**
-> > > > > > > >       * drm_sched_select_entity - Select next entity to process
-> > > > > > > >       *
-> > > > > > > >       * @sched: scheduler instance
-> > > > > > > > + * @dequeue: dequeue selected entity
-> > > > > > > >       *
-> > > > > > > >       * Returns the entity to process or NULL if none are found.
-> > > > > > > >       */
-> > > > > > > >      static struct drm_sched_entity *
-> > > > > > > > -drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-> > > > > > > > +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue)
-> > > > > > > >      {
-> > > > > > > >      	struct drm_sched_entity *entity;
-> > > > > > > >      	int i;
-> > > > > > > > @@ -935,8 +985,10 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-> > > > > > > >      	/* Kernel run queue has higher priority than normal run queue*/
-> > > > > > > >      	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
-> > > > > > > >      		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
-> > > > > > > > -			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
-> > > > > > > > -			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
-> > > > > > > > +			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i],
-> > > > > > > > +							dequeue) :
-> > > > > > > > +			drm_sched_rq_select_entity_rr(&sched->sched_rq[i],
-> > > > > > > > +						      dequeue);
-> > > > > > > >      		if (entity)
-> > > > > > > >      			break;
-> > > > > > > >      	}
-> > > > > > > > @@ -1024,30 +1076,44 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
-> > > > > > > >      EXPORT_SYMBOL(drm_sched_pick_best);
-> > > > > > > >      /**
-> > > > > > > > - * drm_sched_main - main scheduler thread
-> > > > > > > > + * drm_sched_free_job_work - worker to call free_job
-> > > > > > > >       *
-> > > > > > > > - * @param: scheduler instance
-> > > > > > > > + * @w: free job work
-> > > > > > > >       */
-> > > > > > > > -static void drm_sched_main(struct work_struct *w)
-> > > > > > > > +static void drm_sched_free_job_work(struct work_struct *w)
-> > > > > > > >      {
-> > > > > > > >      	struct drm_gpu_scheduler *sched =
-> > > > > > > > -		container_of(w, struct drm_gpu_scheduler, work_submit);
-> > > > > > > > -	struct drm_sched_entity *entity;
-> > > > > > > > +		container_of(w, struct drm_gpu_scheduler, work_free_job);
-> > > > > > > >      	struct drm_sched_job *cleanup_job;
-> > > > > > > > -	int r;
-> > > > > > > >      	if (READ_ONCE(sched->pause_submit))
-> > > > > > > >      		return;
-> > > > > > > >      	cleanup_job = drm_sched_get_cleanup_job(sched);
-> > > > > > > > -	entity = drm_sched_select_entity(sched);
-> > > > > > > > +	if (cleanup_job) {
-> > > > > > > > +		sched->ops->free_job(cleanup_job);
-> > > > > > > > +
-> > > > > > > > +		drm_sched_free_job_queue_if_ready(sched);
-> > > > > > > > +		drm_sched_run_job_queue_if_ready(sched);
-> > > > > > > > +	}
-> > > > > > > > +}
-> > > > > > > > -	if (!entity && !cleanup_job)
-> > > > > > > > -		return;	/* No more work */
-> > > > > > > > +/**
-> > > > > > > > + * drm_sched_run_job_work - worker to call run_job
-> > > > > > > > + *
-> > > > > > > > + * @w: run job work
-> > > > > > > > + */
-> > > > > > > > +static void drm_sched_run_job_work(struct work_struct *w)
-> > > > > > > > +{
-> > > > > > > > +	struct drm_gpu_scheduler *sched =
-> > > > > > > > +		container_of(w, struct drm_gpu_scheduler, work_run_job);
-> > > > > > > > +	struct drm_sched_entity *entity;
-> > > > > > > > +	int r;
-> > > > > > > > -	if (cleanup_job)
-> > > > > > > > -		sched->ops->free_job(cleanup_job);
-> > > > > > > > +	if (READ_ONCE(sched->pause_submit))
-> > > > > > > > +		return;
-> > > > > > > > +	entity = drm_sched_select_entity(sched, true);
-> > > > > > > >      	if (entity) {
-> > > > > > > >      		struct dma_fence *fence;
-> > > > > > > >      		struct drm_sched_fence *s_fence;
-> > > > > > > > @@ -1056,9 +1122,7 @@ static void drm_sched_main(struct work_struct *w)
-> > > > > > > >      		sched_job = drm_sched_entity_pop_job(entity);
-> > > > > > > >      		if (!sched_job) {
-> > > > > > > >      			complete_all(&entity->entity_idle);
-> > > > > > > > -			if (!cleanup_job)
-> > > > > > > > -				return;	/* No more work */
-> > > > > > > > -			goto again;
-> > > > > > > > +			return;	/* No more work */
-> > > > > > > >      		}
-> > > > > > > >      		s_fence = sched_job->s_fence;
-> > > > > > > > @@ -1088,10 +1152,8 @@ static void drm_sched_main(struct work_struct *w)
-> > > > > > > >      		}
-> > > > > > > >      		wake_up(&sched->job_scheduled);
-> > > > > > > > +		drm_sched_run_job_queue_if_ready(sched);
-> > > > > > > >      	}
-> > > > > > > > -
-> > > > > > > > -again:
-> > > > > > > > -	drm_sched_submit_queue(sched);
-> > > > > > > >      }
-> > > > > > > >      /**
-> > > > > > > > @@ -1150,7 +1212,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
-> > > > > > > >      	spin_lock_init(&sched->job_list_lock);
-> > > > > > > >      	atomic_set(&sched->hw_rq_count, 0);
-> > > > > > > >      	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
-> > > > > > > > -	INIT_WORK(&sched->work_submit, drm_sched_main);
-> > > > > > > > +	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
-> > > > > > > > +	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
-> > > > > > > >      	atomic_set(&sched->_score, 0);
-> > > > > > > >      	atomic64_set(&sched->job_id_count, 0);
-> > > > > > > >      	sched->pause_submit = false;
-> > > > > > > > @@ -1275,7 +1338,8 @@ EXPORT_SYMBOL(drm_sched_submit_ready);
-> > > > > > > >      void drm_sched_submit_stop(struct drm_gpu_scheduler *sched)
-> > > > > > > >      {
-> > > > > > > >      	WRITE_ONCE(sched->pause_submit, true);
-> > > > > > > > -	cancel_work_sync(&sched->work_submit);
-> > > > > > > > +	cancel_work_sync(&sched->work_run_job);
-> > > > > > > > +	cancel_work_sync(&sched->work_free_job);
-> > > > > > > >      }
-> > > > > > > >      EXPORT_SYMBOL(drm_sched_submit_stop);
-> > > > > > > > @@ -1287,6 +1351,7 @@ EXPORT_SYMBOL(drm_sched_submit_stop);
-> > > > > > > >      void drm_sched_submit_start(struct drm_gpu_scheduler *sched)
-> > > > > > > >      {
-> > > > > > > >      	WRITE_ONCE(sched->pause_submit, false);
-> > > > > > > > -	queue_work(sched->submit_wq, &sched->work_submit);
-> > > > > > > > +	queue_work(sched->submit_wq, &sched->work_run_job);
-> > > > > > > > +	queue_work(sched->submit_wq, &sched->work_free_job);
-> > > > > > > >      }
-> > > > > > > >      EXPORT_SYMBOL(drm_sched_submit_start);
-> > > > > > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > > > > > > > index 04eec2d7635f..fbc083a92757 100644
-> > > > > > > > --- a/include/drm/gpu_scheduler.h
-> > > > > > > > +++ b/include/drm/gpu_scheduler.h
-> > > > > > > > @@ -487,9 +487,10 @@ struct drm_sched_backend_ops {
-> > > > > > > >       *                 finished.
-> > > > > > > >       * @hw_rq_count: the number of jobs currently in the hardware queue.
-> > > > > > > >       * @job_id_count: used to assign unique id to the each job.
-> > > > > > > > - * @submit_wq: workqueue used to queue @work_submit
-> > > > > > > > + * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
-> > > > > > > >       * @timeout_wq: workqueue used to queue @work_tdr
-> > > > > > > > - * @work_submit: schedules jobs and cleans up entities
-> > > > > > > > + * @work_run_job: schedules jobs
-> > > > > > > > + * @work_free_job: cleans up jobs
-> > > > > > > >       * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
-> > > > > > > >       *            timeout interval is over.
-> > > > > > > >       * @pending_list: the list of jobs which are currently in the job queue.
-> > > > > > > > @@ -518,7 +519,8 @@ struct drm_gpu_scheduler {
-> > > > > > > >      	atomic64_t			job_id_count;
-> > > > > > > >      	struct workqueue_struct		*submit_wq;
-> > > > > > > >      	struct workqueue_struct		*timeout_wq;
-> > > > > > > > -	struct work_struct		work_submit;
-> > > > > > > > +	struct work_struct		work_run_job;
-> > > > > > > > +	struct work_struct		work_free_job;
-> > > > > > > >      	struct delayed_work		work_tdr;
-> > > > > > > >      	struct list_head		pending_list;
-> > > > > > > >      	spinlock_t			job_list_lock;
-> 
+Alternatively maybe drop the two-ouput and crtc_other?
+> + *
+> + *   DRM_PLANE_TYPE_PRIMARY=1
+> + *   DRM_PLANE_TYPE_CURSOR=2
+> + *   DRM_PLANE_TYPE_OVERLAY=0
+> + *
+> + *   mkdir /config/vkms/test/planes/primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
+> + *
+> + *   mkdir /config/vkms/test/planes/other_primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_primary/type
+> + *
+> + *   mkdir /config/vkms/test/planes/cursor
+> + *   echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
+> + *
+> + *   mkdir /config/vkms/test/planes/overlay
+> + *   echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/type
+> + *
+> + *   mkdir /config/vkms/test/crtcs/crtc
+> + *   mkdir /config/vkms/test/crtcs/crtc_other
+> + *   mkdir /config/vkms/test/encoders/encoder
+> + *   mkdir /config/vkms/test/connectors/connector
+> + *
+> + * You can see that specific attributes, such as ``.../<plane>/type``, can be
+> + * configured by writing into them. Associating objects together can be done via
+> + * symlinks::
+> + *
+> + *   ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connectors/connector/possible_encoders
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/encoder/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primary/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overlay/possible_crtcs/
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/overlay/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/other_primary/possible_crtcs/
+> + *
+> + * Finally, to enable your configured device, just write 1 to the ``enabled``
+> + * file::
+> + *
+> + *   echo 1 > /config/vkms/test/enabled
+> + *
+> + * When you're done with the virtual device, you can clean up the device like
+> + * so::
+> + *
+> + *   echo 0 > /config/vkms/test/enabled
+> + *
+> + *   rm /config/vkms/test/connectors/connector/possible_encoders/encoder
+> + *   rm /config/vkms/test/encoders/encoder/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/primary/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/cursor/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc_other
+> + *   rm /config/vkms/test/planes/other_primary/possible_crtcs/crtc_other
+> + *
+> + *   rmdir /config/vkms/test/planes/primary
+> + *   rmdir /config/vkms/test/planes/other_primary
+> + *   rmdir /config/vkms/test/planes/cursor
+> + *   rmdir /config/vkms/test/planes/overlay
+> + *   rmdir /config/vkms/test/crtcs/crtc
+> + *   rmdir /config/vkms/test/crtcs/crtc_other
+> + *   rmdir /config/vkms/test/encoders/encoder
+> + *   rmdir /config/vkms/test/connectors/connector
+> + *
+> + *   rmdir /config/vkms/test
+> + */
+> +
+> +/*
+> + * Common helpers (i.e. common sub-groups)
+> + */
+> +
+> +/* Possible CRTCs, e.g. /config/vkms/device/<object>/possible_crtcs/<symlink> */
+> +
+> +static struct config_item_type crtc_type;
+> +
+> +static int possible_crtcs_allow_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	if (target->ci_type != &crtc_type) {
+> +		DRM_ERROR("Unable to link non-CRTCs.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	crtc = item_to_config_crtc(target);
+> +
+> +	if (links->linked_object_bitmap & BIT(crtc->crtc_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same CRTC from the same object\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	links->linked_object_bitmap |= BIT(crtc->crtc_config_idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static void possible_crtcs_drop_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc = item_to_config_crtc(target);
+> +
+> +	links->linked_object_bitmap &= ~BIT(crtc->crtc_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_crtcs_item_ops = {
+> +	.allow_link = &possible_crtcs_allow_link,
+> +	.drop_link = &possible_crtcs_drop_link,
+> +};
+> +
+> +static struct config_item_type possible_crtcs_group_type = {
+> +	.ct_item_ops = &possible_crtcs_item_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void add_possible_crtcs(struct config_group *parent,
+> +			       struct config_group *possible_crtcs)
+> +{
+> +	config_group_init_type_name(possible_crtcs, "possible_crtcs",
+> +				    &possible_crtcs_group_type);
+> +	configfs_add_default_group(possible_crtcs, parent);
+> +}
+> +
+> +/* Possible encoders, e.g. /config/vkms/device/connector/possible_encoders/<symlink> */
+> +
+> +static struct config_item_type encoder_type;
+> +
+> +static int possible_encoders_allow_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	if (target->ci_type != &encoder_type) {
+> +		DRM_ERROR("Unable to link non-encoders.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	encoder = item_to_config_encoder(target);
+> +
+> +	if (links->linked_object_bitmap & BIT(encoder->encoder_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same encoder from the same object\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	links->linked_object_bitmap |= BIT(encoder->encoder_config_idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static void possible_encoders_drop_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder = item_to_config_encoder(target);
+> +
+> +	links->linked_object_bitmap &= ~BIT(encoder->encoder_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_encoders_item_ops = {
+> +	.allow_link = &possible_encoders_allow_link,
+> +	.drop_link = &possible_encoders_drop_link,
+> +};
+> +
+> +static struct config_item_type possible_encoders_group_type = {
+> +	.ct_item_ops = &possible_encoders_item_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void add_possible_encoders(struct config_group *parent,
+> +				  struct config_group *possible_encoders)
+> +{
+> +	config_group_init_type_name(possible_encoders, "possible_encoders",
+> +				    &possible_encoders_group_type);
+> +	configfs_add_default_group(possible_encoders, parent);
+> +}
+> +
+> +/*
+> + * Individual objects (connectors, crtcs, encoders, planes):
+> + */
+> +
+> +/*  Connector item, e.g. /config/vkms/device/connectors/ID */
+> +
+> +static struct config_item_type connector_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Crtc item, e.g. /config/vkms/device/crtcs/ID */
+> +
+> +static struct config_item_type crtc_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Encoder item, e.g. /config/vkms/device/encoder/ID */
+> +
+> +static struct config_item_type encoder_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Plane item, e.g. /config/vkms/device/planes/ID */
+> +
+> +static ssize_t plane_type_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +	struct vkms_configfs *configfs = plane_item_to_configfs(item);
+> +	enum drm_plane_type plane_type;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane_type = plane->type;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%u", plane_type);
+> +}
+> +
+> +static ssize_t plane_type_store(struct config_item *item, const char *buf,
+> +				size_t len)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +	struct vkms_configfs *configfs = plane_item_to_configfs(item);
+> +	int val, ret;
+> +
+> +	ret = kstrtouint(buf, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != DRM_PLANE_TYPE_PRIMARY && val != DRM_PLANE_TYPE_CURSOR &&
+> +	    val != DRM_PLANE_TYPE_OVERLAY)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane->type = val;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(plane_, type);
+> +
+> +static struct configfs_attribute *plane_attrs[] = {
+> +	&plane_attr_type,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type plane_type = {
+> +	.ct_attrs = plane_attrs,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*
+> + * Directory groups, e.g. /config/vkms/device/{planes, crtcs, ...}
+> + */
+> +
+> +/* Connectors group: /config/vkms/device/connectors/ */
+> +
+> +static struct config_group *connectors_group_make(struct config_group *group,
+> +						  const char *name)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		kzalloc(sizeof(*connector), GFP_KERNEL);
+> +	if (!connector)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&connector->config_group, name,
+> +				    &connector_type);
+> +	add_possible_encoders(&connector->config_group,
+> +			      &connector->possible_encoders.group);
+> +
+> +	return &connector->config_group;
+> +}
+> +
+> +static void connectors_group_drop(struct config_group *group,
+> +				  struct config_item *item)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		item_to_config_connector(item);
+> +	kfree(connector);
+> +}
+> +
+> +static struct configfs_group_operations connectors_group_ops = {
+> +	.make_group = &connectors_group_make,
+> +	.drop_item = &connectors_group_drop,
+> +};
+> +
+> +static struct config_item_type connectors_group_type = {
+> +	.ct_group_ops = &connectors_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* CRTCs group: /config/vkms/device/crtcs/ */
+> +
+> +static struct config_group *crtcs_group_make(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, crtcs_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx = find_first_zero_bit(&configfs->allocated_crtcs,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
+> +
+> +	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
+> +	if (!crtc) {
+> +		DRM_ERROR("Unable to allocate CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&crtc->config_group, name, &crtc_type);
+> +	crtc->crtc_config_idx = next_idx;
+> +
+> +	set_bit(next_idx, &configfs->allocated_crtcs);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &crtc->config_group;
+> +}
+> +
+> +static void crtcs_group_drop(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_crtc *crtc = item_to_config_crtc(item);
+> +
+> +	kfree(crtc);
+> +}
+> +
+> +static struct configfs_group_operations crtcs_group_ops = {
+> +	.make_group = &crtcs_group_make,
+> +	.drop_item = &crtcs_group_drop,
+> +};
+> +
+> +static struct config_item_type crtcs_group_type = {
+> +	.ct_group_ops = &crtcs_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Encoders group: /config/vkms/device/encoders/ */
+> +
+> +static struct config_group *encoders_group_make(struct config_group *group,
+> +						const char *name)
+> +{
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, encoders_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx = find_first_zero_bit(&configfs->allocated_encoders,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
+> +
+> +	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
+> +	if (!encoder) {
+> +		DRM_ERROR("Unable to allocate encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&encoder->config_group, name,
+> +				    &encoder_type);
+> +	add_possible_crtcs(&encoder->config_group,
+> +			   &encoder->possible_crtcs.group);
+> +	encoder->encoder_config_idx = next_idx;
+> +	set_bit(next_idx, &configfs->allocated_encoders);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &encoder->config_group;
+> +}
+> +
+> +static void encoders_group_drop(struct config_group *group,
+> +				struct config_item *item)
+> +{
+> +	struct vkms_config_encoder *encoder = item_to_config_encoder(item);
+> +
+> +	kfree(encoder);
+> +}
+> +
+> +static struct configfs_group_operations encoders_group_ops = {
+> +	.make_group = &encoders_group_make,
+> +	.drop_item = &encoders_group_drop,
+> +};
+> +
+> +static struct config_item_type encoders_group_type = {
+> +	.ct_group_ops = &encoders_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Planes group: /config/vkms/device/planes/ */
+> +
+> +static struct config_group *make_plane_group(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_config_plane *plane = kzalloc(sizeof(*plane), GFP_KERNEL);
+> +
+> +	if (!plane)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&plane->config_group, name, &plane_type);
+> +	add_possible_crtcs(&plane->config_group, &plane->possible_crtcs.group);
+> +
+> +	return &plane->config_group;
+> +}
+> +
+> +static void drop_plane_group(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +
+> +	kfree(plane);
+> +}
+> +
+> +static struct configfs_group_operations plane_group_ops = {
+> +	.make_group = &make_plane_group,
+> +	.drop_item = &drop_plane_group,
+> +};
+> +
+> +static struct config_item_type planes_group_type = {
+> +	.ct_group_ops = &plane_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Root directory group, e.g. /config/vkms/device */
+> +
+> +static ssize_t device_enabled_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	bool is_enabled;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	is_enabled = configfs->vkms_device != NULL;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", is_enabled);
+> +}
+> +
+> +static ssize_t device_enabled_store(struct config_item *item, const char *buf,
+> +				    size_t len)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	struct vkms_device *device;
+> +	int value, ret;
+> +
+> +	ret = kstrtoint(buf, 0, &value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value != 1)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	if (configfs->vkms_device) {
+> +		mutex_unlock(&configfs->lock);
+> +		return len;
+> +	}
+> +
+> +	device = vkms_add_device(configfs);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	if (IS_ERR(device))
+> +		return -PTR_ERR(device);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(device_, enabled);
+> +
+> +static ssize_t device_id_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	int id = -1;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		id = configfs->vkms_device->platform->id;
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", id);
+> +}
+> +
+> +CONFIGFS_ATTR_RO(device_, id);
+> +
+> +static struct configfs_attribute *device_group_attrs[] = {
+> +	&device_attr_id,
+> +	&device_attr_enabled,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type device_group_type = {
+> +	.ct_attrs = device_group_attrs,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void vkms_configfs_setup_default_groups(struct vkms_configfs *configfs,
+> +					       const char *name)
+> +{
+> +	config_group_init_type_name(&configfs->device_group, name,
+> +				    &device_group_type);
+> +
+> +	config_group_init_type_name(&configfs->connectors_group, "connectors",
+> +				    &connectors_group_type);
+> +	configfs_add_default_group(&configfs->connectors_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->crtcs_group, "crtcs",
+> +				    &crtcs_group_type);
+> +	configfs_add_default_group(&configfs->crtcs_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->encoders_group, "encoders",
+> +				    &encoders_group_type);
+> +	configfs_add_default_group(&configfs->encoders_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->planes_group, "planes",
+> +				    &planes_group_type);
+> +	configfs_add_default_group(&configfs->planes_group,
+> +				   &configfs->device_group);
+> +}
+> +
+> +/* Root directory group and subsystem, e.g. /config/vkms/ */
+> +
+> +static struct config_group *make_root_group(struct config_group *group,
+> +					    const char *name)
+> +{
+> +	struct vkms_configfs *configfs = kzalloc(sizeof(*configfs), GFP_KERNEL);
+> +
+> +	if (!configfs)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	vkms_configfs_setup_default_groups(configfs, name);
+> +	mutex_init(&configfs->lock);
+> +
+> +	return &configfs->device_group;
+> +}
+> +
+> +static void drop_root_group(struct config_group *group,
+> +			    struct config_item *item)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		vkms_remove_device(configfs->vkms_device);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	kfree(configfs);
+> +}
+> +
+> +static struct configfs_group_operations root_group_ops = {
+> +	.make_group = &make_root_group,
+> +	.drop_item = &drop_root_group,
+> +};
+> +
+> +static struct config_item_type vkms_type = {
+> +	.ct_group_ops = &root_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static struct configfs_subsystem vkms_subsys = {
+> +	.su_group = {
+> +		.cg_item = {
+> +			.ci_name = "vkms",
+> +			.ci_type = &vkms_type,
+> +		},
+> +	},
+> +	.su_mutex = __MUTEX_INITIALIZER(vkms_subsys.su_mutex),
+> +};
+> +
+> +int vkms_init_configfs(void)
+> +{
+> +	config_group_init(&vkms_subsys.su_group);
+> +	return configfs_register_subsystem(&vkms_subsys);
+> +}
+> +
+> +void vkms_unregister_configfs(void)
+> +{
+> +	configfs_unregister_subsystem(&vkms_subsys);
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 6c94c2b5d529..819e880a8cf7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,8 +9,10 @@
+>    * the GPU in DRM API tests.
+>    */
+>   
+> -#include "asm-generic/errno-base.h"
+> +#include <linux/configfs.h>
+>   #include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+>   #include <linux/module.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/dma-mapping.h>
+> @@ -172,8 +174,8 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>   	dev->mode_config.preferred_depth = 0;
+>   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>   
+> -	return vkmsdev->is_default ? vkms_output_init_default(vkmsdev) :
+> -				     -EINVAL;
+> +	return vkmsdev->configfs ? vkms_output_init(vkmsdev) :
+> +				   vkms_output_init_default(vkmsdev);
+>   }
+>   
+>   static int vkms_platform_probe(struct platform_device *pdev)
+> @@ -184,8 +186,10 @@ static int vkms_platform_probe(struct platform_device *pdev)
+>   	void *grp;
+>   
+>   	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> -	if (!grp)
+> +	if (!grp) {
+> +		DRM_ERROR("Could not open devres group\n");
+>   		return -ENOMEM;
+> +	}
+>   
+>   	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+>   					 struct vkms_device, drm);
+> @@ -198,7 +202,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
+>   	vkms_device->config.cursor = enable_cursor;
+>   	vkms_device->config.writeback = enable_writeback;
+>   	vkms_device->config.overlay = enable_overlay;
+> -	vkms_device->is_default = vkms_device_setup->is_default;
+> +	vkms_device->configfs = vkms_device_setup->configfs;
+>   
+>   	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>   					   DMA_BIT_MASK(64));
+> @@ -258,12 +262,43 @@ static struct platform_driver vkms_platform_driver = {
+>   	.driver.name = DRIVER_NAME,
+>   };
+>   
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
+> +{
+> +	struct device *dev = NULL;
+> +	struct platform_device *pdev;
+> +	int max_id = 1;
+> +	struct vkms_device_setup vkms_device_setup = {
+> +		.configfs = configfs,
+> +	};
+> +
+> +	while ((dev = platform_find_device_by_driver(
+> +			dev, &vkms_platform_driver.driver))) {
+> +		pdev = to_platform_device(dev);
+> +		max_id = max(max_id, pdev->id);
+> +	}
+> +
+> +	pdev = platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
+> +					     &vkms_device_setup,
+> +					     sizeof(vkms_device_setup));
+> +	if (IS_ERR(pdev)) {
+> +		DRM_ERROR("Unable to register vkms device'\n");
+> +		return ERR_PTR(PTR_ERR(pdev));
+> +	}
+> +
+> +	return platform_get_drvdata(pdev);
+> +}
+> +
+> +void vkms_remove_device(struct vkms_device *vkms_device)
+> +{
+> +	platform_device_unregister(vkms_device->platform);
+> +}
+> +
+>   static int __init vkms_init(void)
+>   {
+>   	int ret;
+>   	struct platform_device *pdev;
+>   	struct vkms_device_setup vkms_device_setup = {
+> -		.is_default = true,
+> +		.configfs = NULL,
+>   	};
+>   
+>   	ret = platform_driver_register(&vkms_platform_driver);
+> @@ -281,6 +316,13 @@ static int __init vkms_init(void)
+>   		return PTR_ERR(pdev);
+>   	}
+>   
+> +	ret = vkms_init_configfs();
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize configfs\n");
+> +		platform_device_unregister(pdev);
+> +		platform_driver_unregister(&vkms_platform_driver);
+> +	}
+> +
+>   	return 0;
+>   }
+>   
+> @@ -288,6 +330,8 @@ static void __exit vkms_exit(void)
+>   {
+>   	struct device *dev;
+>   
+> +	vkms_unregister_configfs();
+> +
+>   	while ((dev = platform_find_device_by_driver(
+>   			NULL, &vkms_platform_driver.driver))) {
+>   		// platform_find_device_by_driver increments the refcount. Drop
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 4262dcffd7e1..8cdd7949f661 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -3,6 +3,7 @@
+>   #ifndef _VKMS_DRV_H_
+>   #define _VKMS_DRV_H_
+>   
+> +#include <linux/configfs.h>
+>   #include <linux/hrtimer.h>
+>   
+>   #include <drm/drm.h>
+> @@ -10,6 +11,7 @@
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+>   #include <drm/drm_writeback.h>
+>   
+>   #define XRES_MIN    10
+> @@ -138,14 +140,65 @@ struct vkms_config {
+>   	bool overlay;
+>   };
+>   
+> +struct vkms_config_links {
+> +	struct config_group group;
+> +	unsigned long linked_object_bitmap;
+> +};
+> +
+> +struct vkms_config_connector {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_encoders;
+> +};
+> +
+> +struct vkms_config_crtc {
+> +	struct config_group config_group;
+> +	unsigned long crtc_config_idx;
+> +};
+> +
+> +struct vkms_config_encoder {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	unsigned long encoder_config_idx;
+> +};
+> +
+> +struct vkms_config_plane {
+> +	struct vkms_configfs *configfs;
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	enum drm_plane_type type;
+> +};
+> +
+> +struct vkms_configfs {
+> +	/* Directory group containing connector configs, e.g. /config/vkms/device/ */
+> +	struct config_group device_group;
+> +	/* Directory group containing connector configs, e.g. /config/vkms/device/connectors/ */
+> +	struct config_group connectors_group;
+> +	/* Directory group containing CRTC configs, e.g. /config/vkms/device/crtcs/ */
+> +	struct config_group crtcs_group;
+> +	/* Directory group containing encoder configs, e.g. /config/vkms/device/encoders/ */
+> +	struct config_group encoders_group;
+> +	/* Directory group containing plane configs, e.g. /config/vkms/device/planes/ */
+> +	struct config_group planes_group;
+> +
+> +	unsigned long allocated_crtcs;
+> +	unsigned long allocated_encoders;
+> +
+> +	struct mutex lock;
+> +
+> +	/* The platform device if this is registered, otherwise NULL */
+> +	struct vkms_device *vkms_device;
+> +};
+> +
+>   struct vkms_device_setup {
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>   };
+>   
+>   struct vkms_device {
+>   	struct drm_device drm;
+>   	struct platform_device *platform;
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>   	struct vkms_output output;
+>   	struct vkms_config config;
+>   };
+> @@ -164,11 +217,42 @@ struct vkms_device {
+>   #define to_vkms_plane_state(target)\
+>   	container_of(target, struct vkms_plane_state, base.base)
+>   
+> +#define item_to_configfs(item) \
+> +	container_of(to_config_group(item), struct vkms_configfs, device_group)
+> +
+> +#define item_to_config_connector(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_connector, \
+> +		     config_group)
+> +
+> +#define item_to_config_crtc(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_crtc, \
+> +		     config_group)
+> +
+> +#define item_to_config_encoder(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_encoder, \
+> +		     config_group)
+> +
+> +#define item_to_config_plane(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_plane, \
+> +		     config_group)
+> +
+> +#define item_to_config_links(item) \
+> +	container_of(to_config_group(item), struct vkms_config_links, group)
+> +
+> +#define plane_item_to_configfs(item)                                         \
+> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
+> +		     planes_group)
+> +
+> +/* Devices */
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs);
+> +void vkms_remove_device(struct vkms_device *vkms_device);
+> +
+>   /* CRTC */
+>   struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
+>   				 struct drm_plane *primary,
+>   				 struct drm_plane *cursor);
+>   
+> +int vkms_output_init(struct vkms_device *vkmsdev);
+>   int vkms_output_init_default(struct vkms_device *vkmsdev);
+>   
+>   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> @@ -191,4 +275,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+>   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   				    struct vkms_crtc *vkms_crtc);
+>   
+> +/* ConfigFS Support */
+> +int vkms_init_configfs(void);
+> +void vkms_unregister_configfs(void);
+> +
+>   #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index bfc2e2362c6d..dc69959c5e1d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -176,3 +176,8 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
+>   
+>   	return ret;
+>   }
+> +
+> +int vkms_output_init(struct vkms_device *vkmsdev)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
