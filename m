@@ -1,74 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF40778527D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 10:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4B37852A5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 10:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6794510E3E8;
-	Wed, 23 Aug 2023 08:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E351410E3EA;
+	Wed, 23 Aug 2023 08:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAFCA10E3E8
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 08:15:16 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-522bd411679so6552762a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 01:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692778515; x=1693383315;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PqRFfyB6fBH2NjSEwbcQneI6aytxmQl02N3y/cGFN8Q=;
- b=iHZOl1PZKN62nlsynpyoDx9vyDVvVCO3NcP7oVnW1ecm5RD1cdHMaDNM7ltaET90RA
- Vi4eXQ3am5DKBisey3XxfvShn7luVkBBqhzdHaCwrUOJd3eVloo3kjHXyvoWcQl4wYcT
- lYgGSSBLqjKK+S3uBCa4qOTBmYzuhRtBiES0iwlTYNelE4vEPEYov512pXM+F8rPZcDd
- J0Glv/qMM16RjQPcEaO3HApk4tr+2NdUqV31dQOjAiyZ5FEG05la6qSdjAVYrpjEa3Oe
- YQjxNTHUUr43V6ZHFxEVjAsNgK8UqS5TqhY0Ey/T+Y8Ca152aX2QnXOR0J9E7lo8Qh/V
- VB7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692778515; x=1693383315;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PqRFfyB6fBH2NjSEwbcQneI6aytxmQl02N3y/cGFN8Q=;
- b=QrSiyABpH4HODpgHrTmGWeEmhU2p842ZvHqes1vwrtgA7f8mkzXMUSAV3/ERAWif+/
- CUSAYtju2HTihi+3jjgLusXXmbkaV5UM79EXRxugOb6BwZP8esngsoUC42yzyITuSJl0
- pSpvJIgwFctoyyqhYqVJYts8icRphf1Cl0UTpPHJbsH2/rqVXtiBRGrem800qYND76kE
- 83A5X7+MbcX48tQIwlaJXCJ6HkhNYtzVUYpMa/jhNs2jXHLZ/5aR//Ykdgh1DsUOTrmn
- z3V7FxXnbhEknY9u1Gh799lOeHVaLyQwA8Pl9UWP+LeERzloxhGvrVDyg77iHwDUVjmD
- mtZg==
-X-Gm-Message-State: AOJu0Ywp59caUvlfIqc5pIPGD8lfMbiSufSzz3a3ZC7TcAnUnP6RFLaV
- lTgj8y7hrVD6B25vaAql4tqUmQ==
-X-Google-Smtp-Source: AGHT+IGoWKgMFpxZ9BF5pSIbrht5kIRNqx7e0/bgz0+0hiqpzXF3RpNK5nrnWgjZRC4fE/5RdArPcQ==
-X-Received: by 2002:a17:907:2cf7:b0:99c:d05d:7b50 with SMTP id
- hz23-20020a1709072cf700b0099cd05d7b50mr8958826ejc.2.1692778515235; 
- Wed, 23 Aug 2023 01:15:15 -0700 (PDT)
-Received: from krzk-bin.. ([77.252.47.198]) by smtp.gmail.com with ESMTPSA id
- v18-20020a170906b01200b0098e78ff1a87sm9539730ejy.120.2023.08.23.01.15.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 01:15:14 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jianhua Lu <lujianhua000@gmail.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] dt-bindings: display: novatek,nt36523: define ports
-Date: Wed, 23 Aug 2023 10:15:00 +0200
-Message-Id: <20230823081500.84005-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
-References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62EF310E3EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 08:25:45 +0000 (UTC)
+X-UUID: a3a48036418e11ee9cb5633481061a41-20230823
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=6jPHQ8/ihfSwFIDrR+mTFdxoHGqeLjAmqmbiTOz4wI0=; 
+ b=q2zF0Ad9Jp2yPa2T8m9TLMmbPs5rVu6Zu/SAXzv1hTYoaHVL8oSnSSkDFc9rC9DfbvjbgdnBTB+qLnLOeatej9W/ZAICFLoJotDAqfmFoAh3UOGvjhnTMDndKqnYpmmBXCsrydPu9WguGJcHM+vsxZC+0rKFGm/2C+61AwGhkiY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:91ff13b9-a71f-43c7-a5c7-a3ae5f334473, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.31, REQID:91ff13b9-a71f-43c7-a5c7-a3ae5f334473, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:0ad78a4, CLOUDID:37f0a71f-33fd-4aaa-bb43-d3fd68d9d5ae,
+ B
+ ulkID:230823162540Y05U1C5O,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+ L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_SDM, TF_CID_SPAM_ASC,
+ TF_CID_SPAM_FAS, TF_CID_SPAM_FSD,TF_CID_SPAM_ULN
+X-UUID: a3a48036418e11ee9cb5633481061a41-20230823
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 245059849; Wed, 23 Aug 2023 16:25:38 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 23 Aug 2023 16:25:36 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 23 Aug 2023 16:25:36 +0800
+From: Shuijing Li <shuijing.li@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] drm/mediatek: Support IGT in dp driver
+Date: Wed, 23 Aug 2023 16:25:49 +0800
+Message-ID: <20230823082549.24756-1-shuijing.li@mediatek.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,79 +72,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel-common schema does not define what "ports" property is, so
-bring the definition by referencing the panel-common-dual.yaml. Panels
-can be single- or dual-link, depending on the compatible, thus add
-if:then:else: block narrowing ports per variant.
+Support IGT (Intel GPU Tools) in Mediatek DisplayPort driver
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
 ---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Changes since v2:
-1. Use panel-common-dual.
-2. Add if:then:else:
-
-Changes since v1:
-1. Rework to add ports to device schema, not to panel-common.
----
- .../display/panel/novatek,nt36523.yaml        | 25 +++++++++++++++----
- 1 file changed, 20 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-index 5f7e4c486094..bbeea8cfa5fb 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-@@ -14,9 +14,6 @@ description: |
-   panels. Support video mode panels from China Star Optoelectronics
-   Technology (CSOT) and BOE Technology.
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 7d5250351193..a494e04f0ddf 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -806,6 +806,25 @@ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 	mtk_dsi_poweroff(dsi);
+ }
  
--allOf:
--  - $ref: panel-common.yaml#
--
- properties:
-   compatible:
-     oneOf:
-@@ -38,7 +35,6 @@ properties:
-     description: regulator that supplies the I/O voltage
- 
-   reg: true
--  ports: true
-   rotation: true
-   backlight: true
- 
-@@ -47,7 +43,26 @@ required:
-   - reg
-   - vddio-supply
-   - reset-gpios
--  - ports
++static enum drm_mode_status
++mtk_dsi_bridge_mode_valid(struct drm_bridge *bridge,
++			  const struct drm_display_info *info,
++			  const struct drm_display_mode *mode)
++{
++	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
++	u32 bpp;
 +
-+allOf:
-+  - $ref: panel-common-dual.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - novatek,nt36523w
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@1: false
-+    else:
-+      properties:
-+        port: false
-+        ports:
-+          required:
-+            - port@1
- 
- unevaluatedProperties: false
++	if (dsi->format == MIPI_DSI_FMT_RGB565)
++		bpp = 16;
++	else
++		bpp = 24;
++
++	if (mode->clock * bpp / dsi->lanes > 1500000)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
++}
++
+ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.attach = mtk_dsi_bridge_attach,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+@@ -815,6 +834,7 @@ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
+ 	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.mode_valid = mtk_dsi_bridge_mode_valid,
+ 	.mode_set = mtk_dsi_bridge_mode_set,
+ };
  
 -- 
-2.34.1
+2.40.1
 
