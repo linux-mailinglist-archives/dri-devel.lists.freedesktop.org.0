@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46C078531C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 10:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118E578536B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:03:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D3F10E3F9;
-	Wed, 23 Aug 2023 08:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180C910E3FD;
+	Wed, 23 Aug 2023 09:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A26D10E3FA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 08:53:32 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-5009969be25so275558e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 01:53:32 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065F010E3FD;
+ Wed, 23 Aug 2023 09:03:28 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-31c3726cc45so2969303f8f.0; 
+ Wed, 23 Aug 2023 02:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692780811; x=1693385611;
+ d=gmail.com; s=20221208; t=1692781407; x=1693386207;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6rtQaBEI7tcum+ap0HtQIWPfUh5EA2GW0hFh/JypvjU=;
- b=ousd/9SnCNrM7UrVLsSp0ud5aQ//23wl/uzIK+EDEqgxreLiEngAgHDxq0emhhQrk0
- l9+Hd+pKJayIcIJR8zpA1DEk2H+6eltlic8h+1OF56BKlB3x+UfMTQMR2VMFtIzKo9F7
- N7A8jdVQg+nSxYwl75ZANi4s+PFwWJuLfuCLHkHjiU5iPFuIUWqYsSXSgBvhE40TWM4E
- oyo6qu7FEw99Qq/i8nxXkqMCMjAwT+T6YG9WW8oz9zgA4+m6Ko24Unez/2Xbok1GlXIg
- lrky1QbVLf8Wa+/Dk/1OhQ8Gh5t/GGoHXgwy+cBjR/djwYvCUob4cmC23OdbhierDAT6
- P/HA==
+ bh=YO/WOkrwEXYf9n89IX0yKt/64CcuxWDD6IgoTDcbvZU=;
+ b=b3TPtVV9WYnVP0xc3bm0CU3iTUNE4KW7L5RqP4CYb5zhdjsYLySfJvr/0KwkB9mt9R
+ u79Kz+ubf5bdQ2me/46UEEBotz2scDU0bLBG4ELIVxSq3r3vKn2vnYTbu5tormD6pZLt
+ N38g6lBYPIF3IfnO8fl6Rrrk/YiJdtwfEHCI5y8R47dh0L5sgVGvDJ8ueYVedGFqkaNn
+ DiE7kklDPD9+G6eh61kcIc8lOKG0Pw6CYwek8Qzl9TGkw2QyYyUDU9zyo/fFufH/qEpl
+ F4zfzPYmgDR/UaEJggDUoRTtG6R9JrjyohrkbEOe0GUKS6hpr9eXV/6lET+8MTaG9Pm8
+ F6Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692780811; x=1693385611;
+ d=1e100.net; s=20221208; t=1692781407; x=1693386207;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=6rtQaBEI7tcum+ap0HtQIWPfUh5EA2GW0hFh/JypvjU=;
- b=OULNQfvnlgy97C++3R+jqdXjp4ynAO7V0P3/+Wq6jg+eP/cYgYkaIjdhVsVRKbot4T
- 0n1uY3+sMzfpPpz9yYG1s3GGspK5nET+pqGqBcv66nT6tKGMagVNuTfmNI+Oz6rInOzV
- cv5+3EcNZn7/1Q/nKzpTy9ZNI8FqHbIhwYnoRhIqcjbShGoA6Gr9DwHAX85VFswSyZAU
- topMFL1dNqETj9z+4AgFQL+3xAonEp5+ZLZ4vBf6qt/mxW/bk3//x+rinz7Zn0sVXh0b
- gHTM1+0UbmQHqEwPBd6Q99tTjDakRPEOmNaSQB9eXX5LhJnECwt/F+9U8iaJaHJg5Ntd
- +Bgw==
-X-Gm-Message-State: AOJu0Yx9EbTWeeewOeoVsPjTudwuj6MLZcjJkmmsvVkqWZHjG5FeEShm
- CJj9RKkMb3u8xp76tpL6yz+ebQ==
-X-Google-Smtp-Source: AGHT+IHE3Y3ECLsbSn1t48rbWWmPSFBaDbfM70ZDZzl2s39mgCNO5GszDrC+GL+RkbUyVOXmaIhYzg==
-X-Received: by 2002:a05:6512:689:b0:4fd:d64f:c0a6 with SMTP id
- t9-20020a056512068900b004fdd64fc0a6mr10560928lfe.48.1692780810728; 
- Wed, 23 Aug 2023 01:53:30 -0700 (PDT)
-Received: from krzk-bin.. ([77.252.47.198]) by smtp.gmail.com with ESMTPSA id
- k9-20020a056402048900b0052540e85390sm8940966edv.43.2023.08.23.01.53.29
+ bh=YO/WOkrwEXYf9n89IX0yKt/64CcuxWDD6IgoTDcbvZU=;
+ b=YfLJPIMAgrcwlJe4Bjgfzw+yEHzoaIK8clNTrhfxMaVpuyK+1V52jEr3wvgd/AMyU1
+ LJRWIKttHMsb1qRaBadJDxOberBRr6g6JbsdhuVam3UJ1H7LJGW9Yw37bw2VECRGa8R9
+ 9S2VEX70OYQ/FmnObZjFPFHENTBHNWzySCXgSiZWsOtFuFkx4wdeuvUiOYK4gykAz9+P
+ l/Luazr5MyZeKSV0+z6czOzaL3cx3uyfF8t7j8LLXj1WSMBmhkwMWQhMCWVr24eUpdFX
+ 8R1uAnNVc7Hl22OLnK0m3rMN2Isft+OlXqe/6pHBZHc9BHq0maStBcO1WJu4izK9oIOb
+ vT0g==
+X-Gm-Message-State: AOJu0YwUo7xI87kVPCj5pGXJHFw3tokuKhiMWD1yxocScZmDE8+F6Cv8
+ lBzzr6zeHhcWAnx9qkap67Q=
+X-Google-Smtp-Source: AGHT+IFIdpNbTfUs35kdTucR7rl6DKkzbkWnSECKpU83/iZ4E/M4zKtWK+korKF4tt75GGbwFpXXPA==
+X-Received: by 2002:a5d:4f0f:0:b0:319:89ce:da0b with SMTP id
+ c15-20020a5d4f0f000000b0031989ceda0bmr8759387wru.68.1692781407079; 
+ Wed, 23 Aug 2023 02:03:27 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ w16-20020a5d6810000000b003197b85bad2sm18292924wru.79.2023.08.23.02.03.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 01:53:30 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: use capital "OR" for multiple licenses in SPDX
-Date: Wed, 23 Aug 2023 10:53:11 +0200
-Message-Id: <20230823085311.113751-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Wed, 23 Aug 2023 02:03:25 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd: Fix spelling mistake "throtting" ->
+ "throttling"
+Date: Wed, 23 Aug 2023 10:03:23 +0100
+Message-Id: <20230823090323.184121-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,51 +76,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation/process/license-rules.rst and checkpatch expect the SPDX
-identifier syntax for multiple licenses to use capital "OR".  Correct it
-to keep consistent format and avoid copy-paste issues.
+There is a spelling mistake in variable throtting_events, rename
+it to throttling_events.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/gpu/drm/drm_client.c        | 2 +-
- drivers/gpu/drm/drm_format_helper.c | 2 +-
- include/drm/drm_client.h            | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c    | 6 +++---
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c   | 6 +++---
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 6 +++---
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 037e36f2049c..a67db38cb4e5 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0 or MIT
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright 2018 Noralf Trønnes
-  */
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index f93a4efcee90..ffb09938b0f9 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0 or MIT
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
- /*
-  * Copyright (C) 2016 Noralf Trønnes
-  *
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index c0a14b40c039..3b396567691a 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
+index 704a2b577a0e..fbcff154b1d0 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
+@@ -2313,7 +2313,7 @@ static const struct throttling_logging_label {
+ static void arcturus_log_thermal_throttling_event(struct smu_context *smu)
+ {
+ 	int ret;
+-	int throttler_idx, throtting_events = 0, buf_idx = 0;
++	int throttler_idx, throttling_events = 0, buf_idx = 0;
+ 	struct amdgpu_device *adev = smu->adev;
+ 	uint32_t throttler_status;
+ 	char log_buf[256];
+@@ -2328,11 +2328,11 @@ static void arcturus_log_thermal_throttling_event(struct smu_context *smu)
+ 	for (throttler_idx = 0; throttler_idx < ARRAY_SIZE(logging_label);
+ 	     throttler_idx++) {
+ 		if (throttler_status & logging_label[throttler_idx].feature_mask) {
+-			throtting_events++;
++			throttling_events++;
+ 			buf_idx += snprintf(log_buf + buf_idx,
+ 					    sizeof(log_buf) - buf_idx,
+ 					    "%s%s",
+-					    throtting_events > 1 ? " and " : "",
++					    throttling_events > 1 ? " and " : "",
+ 					    logging_label[throttler_idx].label);
+ 			if (buf_idx >= sizeof(log_buf)) {
+ 				dev_err(adev->dev, "buffer overflow!\n");
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+index cc3169400c9b..bed5a9df1c06 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+@@ -1674,7 +1674,7 @@ static const struct throttling_logging_label {
+ static void aldebaran_log_thermal_throttling_event(struct smu_context *smu)
+ {
+ 	int ret;
+-	int throttler_idx, throtting_events = 0, buf_idx = 0;
++	int throttler_idx, throttling_events = 0, buf_idx = 0;
+ 	struct amdgpu_device *adev = smu->adev;
+ 	uint32_t throttler_status;
+ 	char log_buf[256];
+@@ -1689,11 +1689,11 @@ static void aldebaran_log_thermal_throttling_event(struct smu_context *smu)
+ 	for (throttler_idx = 0; throttler_idx < ARRAY_SIZE(logging_label);
+ 	     throttler_idx++) {
+ 		if (throttler_status & logging_label[throttler_idx].feature_mask) {
+-			throtting_events++;
++			throttling_events++;
+ 			buf_idx += snprintf(log_buf + buf_idx,
+ 					    sizeof(log_buf) - buf_idx,
+ 					    "%s%s",
+-					    throtting_events > 1 ? " and " : "",
++					    throttling_events > 1 ? " and " : "",
+ 					    logging_label[throttler_idx].label);
+ 			if (buf_idx >= sizeof(log_buf)) {
+ 				dev_err(adev->dev, "buffer overflow!\n");
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+index d3b578e6bc2a..fa4ad08099ef 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+@@ -1888,7 +1888,7 @@ static const char *const throttling_logging_label[] = {
  
- #ifndef _DRM_CLIENT_H_
- #define _DRM_CLIENT_H_
+ static void smu_v13_0_6_log_thermal_throttling_event(struct smu_context *smu)
+ {
+-	int throttler_idx, throtting_events = 0, buf_idx = 0;
++	int throttler_idx, throttling_events = 0, buf_idx = 0;
+ 	struct amdgpu_device *adev = smu->adev;
+ 	uint32_t throttler_status;
+ 	char log_buf[256];
+@@ -1902,10 +1902,10 @@ static void smu_v13_0_6_log_thermal_throttling_event(struct smu_context *smu)
+ 	     throttler_idx < ARRAY_SIZE(throttling_logging_label);
+ 	     throttler_idx++) {
+ 		if (throttler_status & (1U << throttler_idx)) {
+-			throtting_events++;
++			throttling_events++;
+ 			buf_idx += snprintf(
+ 				log_buf + buf_idx, sizeof(log_buf) - buf_idx,
+-				"%s%s", throtting_events > 1 ? " and " : "",
++				"%s%s", throttling_events > 1 ? " and " : "",
+ 				throttling_logging_label[throttler_idx]);
+ 			if (buf_idx >= sizeof(log_buf)) {
+ 				dev_err(adev->dev, "buffer overflow!\n");
 -- 
-2.34.1
+2.39.2
 
