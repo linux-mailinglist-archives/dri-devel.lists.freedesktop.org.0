@@ -2,82 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0FD785A8A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 16:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C46785A05
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 16:06:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37DF10E436;
-	Wed, 23 Aug 2023 14:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A32010E430;
+	Wed, 23 Aug 2023 14:06:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A2C10E42E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 14:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692801121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GzdoCs2Mn27/sh3oWYgFmEgOxiDPY2yxYeRmbUpWAOY=;
- b=Ul+fLz6cwzESlZIgU9/+1gAJ+F+pwvRic/ILmLJLMYcR4QKw6NL+KMlN3esdcbrCqBTRh9
- E1PednEjmHM0bNLJ22ybM90cR8hpygHHGTYIvYEXm2fLCwbrhP9dnsLXXHb2LUPrnXSNG+
- uhr+qGGr7LmL8TzC8Oa5ursfDVGK2S4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-3QPQYcItOJq4d3KYclRMrg-1; Wed, 23 Aug 2023 10:31:59 -0400
-X-MC-Unique: 3QPQYcItOJq4d3KYclRMrg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-94a35b0d4ceso420405066b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 07:31:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692801118; x=1693405918;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GzdoCs2Mn27/sh3oWYgFmEgOxiDPY2yxYeRmbUpWAOY=;
- b=Es41x4FVO3Rm83Q5dPOq+3+J81A9Z927od2bkWiHT6u0uqDeXhwFQVYsfgfOxr7oq0
- ebXohuWndhn5PUBO5PiQfqnJeXpf8Gtx3f09WJoPS32FUTg3L/kjRLPLQIk1Cv3bQrqp
- sZ449uFnb3TpEKnQfe3z2q4gyPsuiKwnVrjteuo/6WCjaexhAUqAmbOZ1aT5mRvBmh2/
- iNUdAf40UGGzKKSEy2APePlA4549Gzo9HwnhRnx9leyRVzyRdBD+8bOYGFXuNgcdbv11
- ZSwUoNkEXs2ST7ltdd1v3YW//fhX0oIMrNlvzQrXXPFa1oRNATMLTHs7fZRpbDdS68wK
- OxdQ==
-X-Gm-Message-State: AOJu0YxKabRPC0+LgQwrUoG9weoU4MF4jxr7meq5iThPHII/CVrMf4v3
- H3DbFmX7LLm1r7BOvTjmI2mjYqC96/VJr//sqaYX8PG06pRDuVNMed9YenIuUJMQP14JhaDf8lw
- OljbiRtrzleSpJHG351maEKBD9hl7
-X-Received: by 2002:a17:907:b15:b0:99b:ddac:d9d9 with SMTP id
- h21-20020a1709070b1500b0099bddacd9d9mr9977997ejl.53.1692801118496; 
- Wed, 23 Aug 2023 07:31:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHZe+M+2IV0Biir6gicbEcM3wtv1kibH9AhosiD4ierXNGvPNyLBv2sq9vftQipzU9U4NlSog==
-X-Received: by 2002:a17:907:b15:b0:99b:ddac:d9d9 with SMTP id
- h21-20020a1709070b1500b0099bddacd9d9mr9977977ejl.53.1692801118169; 
- Wed, 23 Aug 2023 07:31:58 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- mj14-20020a170906af8e00b0099c53c4407dsm9835727ejb.78.2023.08.23.07.31.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Aug 2023 07:31:57 -0700 (PDT)
-Message-ID: <19d68804-87f4-5f89-4a63-b85a9b204cd0@redhat.com>
-Date: Wed, 23 Aug 2023 14:36:02 +0200
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on20617.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe59::617])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3101310E0AD;
+ Wed, 23 Aug 2023 14:06:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W1UTYIpdJAyFMga6GMiaA2Sy1uHazSJRsYPcuCwIR1nYbw7PcFYUeui3oAXj4llJMK/ZqLFhZI/I1H3Dbd9dx+vQBtwua5DKCVoLbjz8cTOHYh+mvfdA+n0w7r0LWa63anNOs6jbRD4hUC3hvXVzWgTEPxq8WX/lGLj6o3PrT8ParQ5+zXPAI57+kiZNna5uZmh5cKMKsc+PMGNj2GAZhvyUaO0K3p3gK6VrqSzJU8uu88rlvMCYUxVVvZxDNu0eIVOFRl7cOo+xEJYfnFf5tMVjqpDboyrkIQkxl4pCzjV9WG5ViX4A5jBmmT+TWnxk2vtnoMfI9T+r5QA340745Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VzqfBrUCXib9KW0S/Jb0vvECxWNse/yX8I0NKU+3j0k=;
+ b=kp5dw2/o/HDMUcC/rcWEE5V6xcBX2H3z6yAF5AyMmUbM1okPdJBZZ52it86PJrMMxQDnYTOFrunWhLVz2zfQeGlyV8xBqz6vB+IWzpEOsTIoZfp7Ib87bI+sXdOzEdG/ahz+zhVZhzkxbrQIo1+KcRAprrokePeYBT6UbZeOKxHdefzXwR41KvnrnT8IEh32t+k6iZqaF7Hw1h24fHmKOGvbcyCaTvgFrdWU812QzngYl32dPu1xkR6cjXb63s860qrNRXxSfUps4XKzMQLRuy8eHgG70gmW3O55F1PQdatr4J6s7NUIYbQGwyuEfsdeFVJYwUHlpKYPd4zIs1LXOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VzqfBrUCXib9KW0S/Jb0vvECxWNse/yX8I0NKU+3j0k=;
+ b=ZWy/0rcbKiSXcl/Zfm4Tf2z64n3Mje1fwE2zNNDqHyTeDwJ7rYYJ5I/sInN+FmT0EiR/CwwZfdZ4nMoN8p3La8CvOZzzv4Unl1Oz6apXxDoFOLP8OUz1Bh2WXh9S2CSIgyQanpvpSABOY+TGvle0KV8BvedFvAXsqi7yN2vtT3U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18)
+ by CY5PR12MB6204.namprd12.prod.outlook.com (2603:10b6:930:23::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.26; Wed, 23 Aug
+ 2023 14:06:42 +0000
+Received: from SJ0PR12MB6760.namprd12.prod.outlook.com
+ ([fe80::6b2:a798:b3f7:66f5]) by SJ0PR12MB6760.namprd12.prod.outlook.com
+ ([fe80::6b2:a798:b3f7:66f5%5]) with mapi id 15.20.6699.025; Wed, 23 Aug 2023
+ 14:06:42 +0000
+Message-ID: <5860bfcf-d3f7-b090-f9de-a486963e7985@amd.com>
+Date: Wed, 23 Aug 2023 10:06:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH
- flag implicitly
-To: Faith Ekstrand <faith@gfxstrand.net>
-References: <20230822234139.11185-1-dakr@redhat.com>
- <CAOFGe978DoPqTqoFAMv84fcuyLR47fkGZ3NCn4dyD69i4QoobQ@mail.gmail.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <CAOFGe978DoPqTqoFAMv84fcuyLR47fkGZ3NCn4dyD69i4QoobQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v6 3/4] drm: Expand max DRM device number to full MINORBITS
+To: Simon Ser <contact@emersion.fr>
+References: <20230724211428.3831636-1-michal.winiarski@intel.com>
+ <20230724211428.3831636-4-michal.winiarski@intel.com>
+ <83s0YPWEdYE6C2a8pa6UAa3EaWZ2zG-q7IL9M-y6W1ucF9V54VnZtigKj3BGKUA2FZpIrs0VVxmpHO2RAhs_FdOnss9vNLQNSHySY8uH7YA=@emersion.fr>
+ <69801f61-37b0-3e46-cbef-31ff80ae9a34@amd.com>
+ <TAdBP5BOy3cy7VnUb4t7ZkDOMK6wI_gPCjXanItN3TOsA1TbSk_6yrlcPTqvk3AZjamo96yHlEhjpfNUPFF6tA_9K8iRoie3h_z5Jf6zNtc=@emersion.fr>
+ <ad26d275-4373-429f-ecaa-3e35978f1fb0@amd.com>
+ <61efe587-9a7a-063c-a388-eed9f51958d4@amd.com>
+ <f1Cwh796fW9-Sse4KkXw1Xpgaknx9yWMP3bi-8mGhNOmZ2_aeqg5unzrBNuHiNCPzvXTs6B2tH-XxNH7jVWDzg3PnVmCa5XaXTe3xhxyTM8=@emersion.fr>
 Content-Language: en-US
+From: James Zhu <jamesz@amd.com>
+Organization: AMD RTG
+In-Reply-To: <f1Cwh796fW9-Sse4KkXw1Xpgaknx9yWMP3bi-8mGhNOmZ2_aeqg5unzrBNuHiNCPzvXTs6B2tH-XxNH7jVWDzg3PnVmCa5XaXTe3xhxyTM8=@emersion.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0081.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:84::8) To SJ0PR12MB6760.namprd12.prod.outlook.com
+ (2603:10b6:a03:44c::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB6760:EE_|CY5PR12MB6204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23940e72-9e2a-4343-89b8-08dba3e22d51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xdAANTWMAulJeA7yBXEoNzfw+2dNQ3mBH0jkqm71xkxkqddxFoVardLXzD9Ks3aEcr7PLf5CQfuC19FgvnmGwriWPXqrMKaEzAtLvdO1ORkIFJDkZJbp4/J4VaFqfmglKZqa2JjQ2ph/N5CqAkHm6XDflrgn2iS80wPhTswUqsq1Rha/+ZriVcOU4SJrfdGMeAREAuxIe7OL2GDd/f67mLyBpZIvT4L9fWlUGZh4P6Oozs2prsMVEupTu0vDpcMa7F12fWfcd2/Wy6hkBsmraocBG+3m9g/5RQoN3jNg2NZMhkcT/w0G3EbJJo8Ddtb2dlteTHCpgNIePWiQkjcI2NdXbhwt5u7mJrfFhmW4iYG8A44McGo2a1AecRPD0QHSBodvzGGgaEG/m1b7f7/b+fpM8VZSwtR0YJG5kzP/Wqbl+eo/WBliETAVeVSXv1CkaAuQXvd3OPqf0PtAyMCkISxjLnHjDHQKzLoyO/W/fLt0UZmShtcmlq9pbg7gGiB1j7vjOpZRSQ1mM9KL4MCmXqK/pRpous+cEFAe1SVcBPOIVFI555qKAg72I0aEyu+i4AxjdepLHwq4RVD4yg11fJDuVxcwGBppIrwhUNe6BYPA1X1Wm2+PKhFQ1+YPvDzQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB6760.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(366004)(396003)(346002)(136003)(39860400002)(186009)(451199024)(1800799009)(36916002)(2616005)(6506007)(6486002)(53546011)(316002)(6916009)(4326008)(8936002)(8676002)(66946007)(54906003)(66476007)(66556008)(41300700001)(6512007)(26005)(7416002)(6666004)(478600001)(966005)(31686004)(83380400001)(4744005)(5660300002)(36756003)(31696002)(2906002)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUVJYlJLZTV1QkJNT0hNR3FoT1BLTy9Dc2oxVzdGZWIveUlKM1J3REh6c0J0?=
+ =?utf-8?B?ckFURzdPRVZyaVFPQ0I3TnZXSUZ5UU1lMHFXS25TS3pubE5pb21ONTNTRS92?=
+ =?utf-8?B?bHB1S3U5UnFSeDlnTXlrMW04TGlqekd6Q2xvY1dvN2tLajV0UEJyRDdwOENm?=
+ =?utf-8?B?Uld4YzdxOG1mVS9NQytTWjVibnpTcXpBZ0Jmd0NUVmkyNHlpY2lRdzZWdWlG?=
+ =?utf-8?B?Nnk4OEJOTXZSZ013cDhzemV1Zlg5cVpMUVJTSVQ3c0pJLzRINzJiMENWYXcv?=
+ =?utf-8?B?a3ZTZlpPcHRWblBaaFhycFhqNVFFYjhxSDhZcGxhZVpxazhNTnVmOTl0clNK?=
+ =?utf-8?B?NTcwN2FnTDY2N0VrODcxRjVIYkNDdkE4THBsWWdvbTdEbStyQW96b1BCZi8v?=
+ =?utf-8?B?YTBGREU1N0JRYWd4anhxRU1LVnJwcXUyMFpweUQydXBjWVZVV0t5NHp5QzB3?=
+ =?utf-8?B?a2ozaEczdjlLRDRITTBFVnNNYVZTMVlyaHRGd1A4MFduWDFxYjBlL2hFbE1H?=
+ =?utf-8?B?eC9EVnVmbklOUzkvc1RudEFaOXVjalJJajdiVXZialRYZnlHcjNwQkMwUnVK?=
+ =?utf-8?B?aG9YWU5FdmV4bjRNeVZPL251RG5aL20wYnhtWFQzeDFzbVU2S1VpTW1zTzdU?=
+ =?utf-8?B?N1BVNzJLU1p3YjdGbEtkcHhvTWRBUXAvN3YzZUxqVDhibDZjWWp3TnQxaW9V?=
+ =?utf-8?B?WmR5YjYydjZXZUROTVNLTnVQOUdKdnhGaVJMdnkrSCtRTVdZZzZKSFlNMk1z?=
+ =?utf-8?B?c3Z5NU1ybkJMVmlNZ1JUSWo1dUlOLzRmcFhlZTRobmxCZVErem1pUm5QYkhn?=
+ =?utf-8?B?MnhrQUZyeWxFVTRXWWw1NjBSaVhZUkkzVGp0WEU2Q0xtM3AxelhXQmtnY29a?=
+ =?utf-8?B?TGlISFlsdHhGVWNEa0xSSXBycHYzdU10bW9iRmw0b3JtYUtrNjZxVW9ZQU5K?=
+ =?utf-8?B?OWpQWTNzNGRQc01uN0NtSU1TK0w0NVZQSG9icGxTcjgxZ1JzcEFjV2h4WUxt?=
+ =?utf-8?B?VzVCdHFMZkVDY1JPL3pSYWptZjNkbVE3N1gxWFNPU2JGMUdJbU5CMDh2R1JY?=
+ =?utf-8?B?WXJyWUNycnkxRFk2NFNSLzgvcVkyKy8vbkorVVk5cU8veXR6UnlXK2xiYkFU?=
+ =?utf-8?B?NHRRdkRIWHFjeW9JdGw2MjFpbEhsRTVOTGgySUlNS2tDVGpDVHAyZFZvVGwx?=
+ =?utf-8?B?ZWd5czk0N1FDejNKMEc0YUE0Wkk5MlBid0VUYU1SbS9INFFjdnloQjNqTEFz?=
+ =?utf-8?B?a3dHVW1SU3czTmJsMGhzQnFZWnFwVmNyWFUrZVdxbHA0c2RUZC9wOEc0aXpn?=
+ =?utf-8?B?TDdGYlJhRWxHZFcyQUZUM08rUkJqYjFncm1xZnBRUFF3QWovQ1BZNWh4ZWRL?=
+ =?utf-8?B?eEdaTGk3dHAxY1lRUWZHRnJXamF0UThja3M5MjhOZWJkUkJVNzc5ZUNONFNH?=
+ =?utf-8?B?aFhOUmxJeTRqQjZHUkRNUU5NOW4vQnd6TTVDSFVodTlNb2JEcWcrR3BmdFZj?=
+ =?utf-8?B?OXZlN2EyTHA4WHZsKzZqaUJnUGNNUXpTdnZYcUtVRjQvaTE1OTBKRjVrTFdM?=
+ =?utf-8?B?ZDZKL2lmbUlkMnFEQytUMjA4SlpyeEREdTllSWZkTjBSVEVPeW5xQXF4enpY?=
+ =?utf-8?B?M3JtOWs2L2ZVZXY5ait6ODRDVHpNVDExZERpZGt0bEVuUm5KSXpDVU9lZmN3?=
+ =?utf-8?B?dEVIdGlpVVNUQ05reU1UTVN3bkgxb1FHZEs3WTBCVGhyRnFkTnhGZEg3VnFq?=
+ =?utf-8?B?U1RMWkxtam5uWk1VTXRsUU5VdnMxOC9LQmhIdm1xZmlFNEpOdDkxR3dWR0x4?=
+ =?utf-8?B?T01oOUZwR1FpMURlcFN0bitqdmJtN0xDQjVUcXFQbnZUL1RhU1hvdHFzUXox?=
+ =?utf-8?B?aGJCWWxZVkVjb29lOW9XM2xQajk0SXQyOXdXQVFVUDNSL0lEOEZMdXA5d2tQ?=
+ =?utf-8?B?UkFWUFMyWEd6a1lXZVpORzM4b2pPNzEySnNNZksvR0J3QjN3V3hMc05RUXZk?=
+ =?utf-8?B?MlNSLzFYdC93SGdKbUc4RTlmOUY3aFdkVy8wQ09GYmtlQXlZZGphcHMzcmlk?=
+ =?utf-8?B?b2tJa2gwWFExdFE5UkswNUFBaXYyZUpvTjl0SmNKS2Rva2J6dEFMTkZtOTE2?=
+ =?utf-8?Q?cnMF6CC6lqwWQaJODrVCWwYF/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23940e72-9e2a-4343-89b8-08dba3e22d51
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB6760.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 14:06:42.3991 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fZh5tFC0tCwJo2U/zl1t3S+itP6/185AE4BQqPNOm6omG/SmMvx3JrFNFYxXChCu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,195 +133,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+Cc: Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com, faith.ekstrand@collabora.com
+ Oded Gabbay <ogabbay@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, James Zhu <James.Zhu@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/23/23 04:53, Faith Ekstrand wrote:
-> On Tue, Aug 22, 2023 at 6:41 PM Danilo Krummrich <dakr@redhat.com <mailto:dakr@redhat.com>> wrote:
-> 
->     Currently, NO_PREFETCH is passed implicitly through
->     drm_nouveau_gem_pushbuf_push::length and drm_nouveau_exec_push::va_len.
-> 
->     Since this is a direct representation of how the HW is programmed it
->     isn't really future proof for a uAPI. Hence, fix this up for the new
->     uAPI and split up the va_len field of struct drm_nouveau_exec_push,
->     such that we keep 32bit for va_len and 32bit for flags.
-> 
->     For drm_nouveau_gem_pushbuf_push::length at least provide
->     NOUVEAU_GEM_PUSHBUF_NO_PREFETCH to indicate the bit shift.
-> 
->     While at it, fix up nv50_dma_push() as well, such that the caller
->     doesn't need to encode the NO_PREFETCH flag into the length parameter.
-> 
->     Signed-off-by: Danilo Krummrich <dakr@redhat.com <mailto:dakr@redhat.com>>
->     ---
->       drivers/gpu/drm/nouveau/nouveau_dma.c  |  7 +++++--
->       drivers/gpu/drm/nouveau/nouveau_dma.h  |  8 ++++++--
->       drivers/gpu/drm/nouveau/nouveau_exec.c | 15 ++++++++++++---
->       drivers/gpu/drm/nouveau/nouveau_gem.c  |  6 ++++--
->       include/uapi/drm/nouveau_drm.h         |  8 +++++++-
->       5 files changed, 34 insertions(+), 10 deletions(-)
-> 
->     diff --git a/drivers/gpu/drm/nouveau/nouveau_dma.c b/drivers/gpu/drm/nouveau/nouveau_dma.c
->     index b90cac6d5772..059925e5db6a 100644
->     --- a/drivers/gpu/drm/nouveau/nouveau_dma.c
->     +++ b/drivers/gpu/drm/nouveau/nouveau_dma.c
->     @@ -69,16 +69,19 @@ READ_GET(struct nouveau_channel *chan, uint64_t *prev_get, int *timeout)
->       }
-> 
->       void
->     -nv50_dma_push(struct nouveau_channel *chan, u64 offset, int length)
->     +nv50_dma_push(struct nouveau_channel *chan, u64 offset, u32 length,
->     +             bool prefetch)
->       {
->              struct nvif_user *user = &chan->drm->client.device.user;
->              struct nouveau_bo *pb = chan->push.buffer;
->              int ip = (chan->dma.ib_put * 2) + chan->dma.ib_base;
-> 
->              BUG_ON(chan->dma.ib_free < 1);
->     +       WARN_ON(length > NV50_DMA_PUSH_MAX_LENGTH);
-> 
->              nouveau_bo_wr32(pb, ip++, lower_32_bits(offset));
->     -       nouveau_bo_wr32(pb, ip++, upper_32_bits(offset) | length << 8);
->     +       nouveau_bo_wr32(pb, ip++, upper_32_bits(offset) | length << 8 |
->     +                       (prefetch ? 0 : (1 << 31)));
-> 
-> 
-> It feels a bit weird to be inverting this bit twice. IDK that it matters, though.
+Hi Simon,
 
-I usually avoid negated argument names, in this case it kinda makes sense though.
+Thanks! Yes, this kernel patch should work with latest libdrm.
 
-> 
-> 
->              chan->dma.ib_put = (chan->dma.ib_put + 1) & chan->dma.ib_max;
-> 
->     diff --git a/drivers/gpu/drm/nouveau/nouveau_dma.h b/drivers/gpu/drm/nouveau/nouveau_dma.h
->     index 035a709c7be1..fb471c357336 100644
->     --- a/drivers/gpu/drm/nouveau/nouveau_dma.h
->     +++ b/drivers/gpu/drm/nouveau/nouveau_dma.h
->     @@ -31,7 +31,8 @@
->       #include "nouveau_chan.h"
-> 
->       int nouveau_dma_wait(struct nouveau_channel *, int slots, int size);
->     -void nv50_dma_push(struct nouveau_channel *, u64 addr, int length);
->     +void nv50_dma_push(struct nouveau_channel *, u64 addr, u32 length,
->     +                  bool prefetch);
-> 
->       /*
->        * There's a hw race condition where you can't jump to your PUT offset,
->     @@ -45,6 +46,9 @@ void nv50_dma_push(struct nouveau_channel *, u64 addr, int length);
->        */
->       #define NOUVEAU_DMA_SKIPS (128 / 4)
-> 
->     +/* Maximum push buffer size. */
->     +#define NV50_DMA_PUSH_MAX_LENGTH 0x7fffff
->     +
->       /* Object handles - for stuff that's doesn't use handle == oclass. */
->       enum {
->              NvDmaFB         = 0x80000002,
->     @@ -89,7 +93,7 @@ FIRE_RING(struct nouveau_channel *chan)
-> 
->              if (chan->dma.ib_max) {
->                      nv50_dma_push(chan, chan->push.addr + (chan->dma.put << 2),
->     -                             (chan->dma.cur - chan->dma.put) << 2);
->     +                             (chan->dma.cur - chan->dma.put) << 2, true);
->              } else {
->                      WRITE_PUT(chan->dma.cur);
->              }
->     diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
->     index 0f927adda4ed..a123b07b2adf 100644
->     --- a/drivers/gpu/drm/nouveau/nouveau_exec.c
->     +++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
->     @@ -164,8 +164,10 @@ nouveau_exec_job_run(struct nouveau_job *job)
->              }
-> 
->              for (i = 0; i < exec_job->push.count; i++) {
->     -               nv50_dma_push(chan, exec_job->push.s[i].va,
->     -                             exec_job->push.s[i].va_len);
->     +               struct drm_nouveau_exec_push *p = &exec_job->push.s[i];
->     +               bool prefetch = !(p->flags & DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH);
->     +
->     +               nv50_dma_push(chan, p->va, p->va_len, prefetch);
->              }
-> 
->              ret = nouveau_fence_emit(fence, chan);
->     @@ -223,7 +225,14 @@ nouveau_exec_job_init(struct nouveau_exec_job **pjob,
->       {
->              struct nouveau_exec_job *job;
->              struct nouveau_job_args args = {};
->     -       int ret;
->     +       int i, ret;
->     +
->     +       for (i = 0; i < __args->push.count; i++) {
->     +               struct drm_nouveau_exec_push *p = &__args->push.s[i];
->     +
->     +               if (p->va_len > NV50_DMA_PUSH_MAX_LENGTH)
->     +                       return -EINVAL;
-> 
-> 
-> This can probably be wrapped in unlikely().  Also, it'd be nice if we printed an error message like we do if you try to push too many things.
+Best regards!
 
-Yep, will do.
+James Zhu
 
-> 
-> Looks good. Thanks!
-> 
-> Reviewed-by: Faith Ekstrand <faith.ekstrand@collabora.com <mailto:faith.ekstrand@collabora.com>>
-> 
->     +       }
-> 
->              job = *pjob = kzalloc(sizeof(*job), GFP_KERNEL);
->              if (!job)
->     diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
->     index f39360870c70..2f3dc4d71657 100644
->     --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->     +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->     @@ -856,9 +856,11 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
->                      for (i = 0; i < req->nr_push; i++) {
->                              struct nouveau_vma *vma = (void *)(unsigned long)
->                                      bo[push[i].bo_index].user_priv;
->     +                       u64 addr = vma->addr + push[i].offset;
->     +                       u32 length = push[i].length & ~NOUVEAU_GEM_PUSHBUF_NO_PREFETCH;
->     +                       bool prefetch = !(push[i].length & NOUVEAU_GEM_PUSHBUF_NO_PREFETCH);
-> 
->     -                       nv50_dma_push(chan, vma->addr + push[i].offset,
->     -                                     push[i].length);
->     +                       nv50_dma_push(chan, addr, length, prefetch);
->                      }
->              } else
->              if (drm->client.device.info <http://client.device.info>.chipset >= 0x25) {
->     diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
->     index b1ad9d5ffce8..8f16724b5d05 100644
->     --- a/include/uapi/drm/nouveau_drm.h
->     +++ b/include/uapi/drm/nouveau_drm.h
->     @@ -138,6 +138,7 @@ struct drm_nouveau_gem_pushbuf_push {
->              __u32 pad;
->              __u64 offset;
->              __u64 length;
->     +#define NOUVEAU_GEM_PUSHBUF_NO_PREFETCH (1 << 23)
->       };
-> 
->       struct drm_nouveau_gem_pushbuf {
->     @@ -338,7 +339,12 @@ struct drm_nouveau_exec_push {
->              /**
->               * @va_len: the length of the push buffer mapping
->               */
->     -       __u64 va_len;
->     +       __u32 va_len;
->     +       /**
->     +        * flags: the flags for this push buffer mapping
->     +        */
->     +       __u32 flags;
->     +#define DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH 0x1
->       };
-> 
->       /**
-> 
->     base-commit: ad1367f831f8743746a1f49705c28e36a7c95525
->     -- 
->     2.41.0
-> 
-
+On 2023-08-23 06:53, Simon Ser wrote:
+> On Tuesday, August 8th, 2023 at 17:04, James Zhu <jamesz@amd.com> wrote:
+>
+>> I have a MR for libdrm to support drm nodes type up to 2^MINORBITS
+>> nodes which can work with these patches,
+>>
+>> https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/305
+> FWIW, this MR has been merged, so in theory this kernel patch should
+> work fine with latest libdrm.
