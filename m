@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E47785806
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 14:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2C5785809
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 14:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E3410E41B;
-	Wed, 23 Aug 2023 12:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB1FB10E41D;
+	Wed, 23 Aug 2023 12:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20CAB10E41B;
- Wed, 23 Aug 2023 12:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692794886; x=1724330886;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CbXqawBEj7B2MEs7M6/kZuQALHKhJDp66dmB2oKp/CY=;
- b=DoEye+2qicHxD2xkLBrqVh8Cwz7prDddRCoN0gUNrYM6oajPZFJnGLe1
- Bs8YZQmMuhfK5pY6S52Hrh4mVAikGCOZYgCn4nB/vV1gwRJ0SasjK8oIp
- l7Dr+keRi+0rZpAAVSLniDViwx8sMYspFGBxOArzQgFeU0yjQ0o8OTPya
- XD6yJXBpP7WtIScEmQmkEkSq6DGGtpg2VpKhgnBnYh9oMiqqz/F53NF07
- ADeecG5zk0CWt2KkJDgtvizTp1M5cPZD3zw0RKt2A2Cj7BjA375DL/4VK
- gxzgYYcDj3swxj2LzDnux8Z3UDriQguWn4jJotcRCaJMF2+sLvMxkEfVw w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="376875974"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="376875974"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2023 05:47:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="771707188"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="771707188"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
- by orsmga001.jf.intel.com with ESMTP; 23 Aug 2023 05:47:04 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qYnGJ-0001Cl-36;
- Wed, 23 Aug 2023 12:47:03 +0000
-Date: Wed, 23 Aug 2023 20:46:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
- faith.ekstrand@collabora.com
-Subject: Re: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH
- flag implicitly
-Message-ID: <202308232030.0r1irPMu-lkp@intel.com>
-References: <20230822234139.11185-1-dakr@redhat.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7272E10E41D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 12:48:21 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5BA1B60FBD;
+ Wed, 23 Aug 2023 12:48:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42453C433C7;
+ Wed, 23 Aug 2023 12:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692794899;
+ bh=hjen39C6ClFSUIbbViuLUmhXBL1KKbVLgLrYh3YC6l8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PrrmAVQUiUEcYhkXKySTgC9Zf52cjf70qkf+zaKQCtcN4BW39ZiO/XNWAdW/qkmzN
+ YwMDhbRSBjUJMEZ79nBD4LVpazKA9MMMLmQC/Pqu02tJ9aJMfV/vBYHjH5Tg6zVEs0
+ NKcohXDXKD5sUp0r9cyOvZudG82Vvwl8IIaJ4At74c1ky6c/WX7/BUBXGD7BoWO3xQ
+ IMqnunuIQi4B21c8HraDLxX2BDoicsLQm5vJeQGrSYRKgc5b2dLKqvP6BAWpGddSAF
+ Uxg2Df/Qh9CrZ6Sk0kvZNGTWqR6slVgvk+7ci7vLbjpIbQKynz4Dtc9lOZ6stStvvX
+ v6usD8pzv9pZw==
+Received: (nullmailer pid 2036422 invoked by uid 1000);
+ Wed, 23 Aug 2023 12:48:17 -0000
+Date: Wed, 23 Aug 2023 07:48:17 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: display: novatek,nt35950: define ports
+Message-ID: <20230823124817.GA2034925-robh@kernel.org>
+References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
+ <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
+ <169278171739.1524810.6441506448861500441.robh@kernel.org>
+ <32667691-ec7f-0dd3-b3ba-fdcd40f1fbca@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230822234139.11185-1-dakr@redhat.com>
+In-Reply-To: <32667691-ec7f-0dd3-b3ba-fdcd40f1fbca@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,60 +57,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+ Thierry Reding <thierry.reding@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Del Regno <angelogioacchino.delregno@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+On Wed, Aug 23, 2023 at 11:53:56AM +0200, Krzysztof Kozlowski wrote:
+> On 23/08/2023 11:08, Rob Herring wrote:
+> > 
+> > On Wed, 23 Aug 2023 10:14:59 +0200, Krzysztof Kozlowski wrote:
+> >> The panel-common schema does not define what "ports" property is, so
+> >> bring the definition by referencing the panel-common-dual.yaml. Panels
+> >> can be single- or dual-link, thus require only one port@0.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> ---
+> >>
+> >> Changes since v2:
+> >> 1. Use panel-common-dual
+> >>
+> >> Changes since v1:
+> >> 1. Rework to add ports to device schema, not to panel-common.
+> >> ---
+> >>  .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> > 
+> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > 
+> > yamllint warnings/errors:
+> 
+> Previous patch seems to be missing in Patchwork, thus this error.
+> 
+> https://patchwork.ozlabs.org/project/devicetree-bindings/list/?submitter=83726&archive=both&state=*
 
-kernel test robot noticed the following build warnings:
+Must have been some delay on that one as it is there now.
 
-[auto build test WARNING on ad1367f831f8743746a1f49705c28e36a7c95525]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-nouveau-uapi-don-t-pass-NO_PREFETCH-flag-implicitly/20230823-074237
-base:   ad1367f831f8743746a1f49705c28e36a7c95525
-patch link:    https://lore.kernel.org/r/20230822234139.11185-1-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH flag implicitly
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232030.0r1irPMu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232030.0r1irPMu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> ./include/uapi/drm/nouveau_drm.h:344: warning: Incorrect use of kernel-doc format:          * flags: the flags for this push buffer mapping
->> ./include/uapi/drm/nouveau_drm.h:348: warning: Function parameter or member 'flags' not described in 'drm_nouveau_exec_push'
-
-vim +344 ./include/uapi/drm/nouveau_drm.h
-
-   327	
-   328	/**
-   329	 * struct drm_nouveau_exec_push - EXEC push operation
-   330	 *
-   331	 * This structure represents a single EXEC push operation. UMDs should pass an
-   332	 * array of this structure via struct drm_nouveau_exec's &push_ptr field.
-   333	 */
-   334	struct drm_nouveau_exec_push {
-   335		/**
-   336		 * @va: the virtual address of the push buffer mapping
-   337		 */
-   338		__u64 va;
-   339		/**
-   340		 * @va_len: the length of the push buffer mapping
-   341		 */
-   342		__u32 va_len;
-   343		/**
- > 344		 * flags: the flags for this push buffer mapping
-   345		 */
-   346		__u32 flags;
-   347	#define DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH 0x1
- > 348	};
-   349	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob
