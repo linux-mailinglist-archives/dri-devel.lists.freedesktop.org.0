@@ -2,70 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EEC7854A7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76A47854C8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 12:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A74810E405;
-	Wed, 23 Aug 2023 09:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0861410E0BA;
+	Wed, 23 Aug 2023 10:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C780D10E407
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:53:59 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-9a18a4136a9so467329466b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 02:53:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692784438; x=1693389238;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=snyW6QooaPXxRKq026Bpqwbivey9Dhp9wOAD4tTxaMM=;
- b=JhXVDWs3XswyJo84RMqihcUmZtWcGYewSOz3Ew/Leb8e0w/FeAsxS/y8N1HLPvHRLd
- gNnfUE9ZoiBmpfHTIWdqAlZpGoxIIp9D+XgrtFc865nMWes3h7XWvYDvBKvW82qdRGvo
- E0u6bt45VhUdzCe4nZ0gZbTxQkO5ScaE84EJP8V38xGOcqYEUgqqR2zm5h0zvkV8XcNi
- ly2HHZbHq2Y+Ae89nPuUnqu0gNRXVzHmJZaX6y/jfw4bLubPo9FN+th2jjddDI03ogzF
- 572jIhTTpKB/dUQzBTY3Nd5M1TTI+Ceulg0tpSGTmY8uKwaOrF9AqnwjCLjMBfGFNfLA
- rr2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692784438; x=1693389238;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=snyW6QooaPXxRKq026Bpqwbivey9Dhp9wOAD4tTxaMM=;
- b=cUiPOJ8QCv9Ic+MUcJVZ8TjrWPJYxA+q9OvRCh8+gwsrpLkORtJ6582OJcOFeOa8Jy
- aUo8M07rlJAcGminVxaQ3Qt7uTx8ohf9i/kth7D+kyHkcEh2/VeGbwccARiV7LqmtUz+
- 6i9tbvZD+TPAj80f8djopVzVSdhb8WuudTC36lwnX8prQ5fnzgqVOlkvdU3DlixrxEpL
- MFejNDfioUezJAISOu8MyU+J4gIDkAzOqUcev9SGHAN9q9nbQ6kqqNSlE3ubamnIYztY
- MPxiksV7K2Eb77oFhdF8KScNHM819AZ2RsOFSxEqBaXuFvcirms2oHRRHCuEt/br5BP3
- 1DZg==
-X-Gm-Message-State: AOJu0Ywhn+8u1lTGTSsNjAf+3n0be5a7HQG+Mm7ImQjNazIE3sxDemU4
- gJxJSAZ46RsaOHKJV1LZlXpQ6Q==
-X-Google-Smtp-Source: AGHT+IFD76c4FCTBYsFBDjJ4/evxGKRAuH6eb0Ylbul3hf6RYEUkGvi2jH6NKTEN/9TGRqlQYHdctQ==
-X-Received: by 2002:a17:906:2d0:b0:9a1:cb3c:ba5c with SMTP id
- 16-20020a17090602d000b009a1cb3cba5cmr2244200ejk.68.1692784438286; 
- Wed, 23 Aug 2023 02:53:58 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.198])
- by smtp.gmail.com with ESMTPSA id
- w20-20020a170906b19400b0098f33157e7dsm9562610ejy.82.2023.08.23.02.53.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Aug 2023 02:53:57 -0700 (PDT)
-Message-ID: <32667691-ec7f-0dd3-b3ba-fdcd40f1fbca@linaro.org>
-Date: Wed, 23 Aug 2023 11:53:56 +0200
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9423410E0BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 10:00:55 +0000 (UTC)
+Date: Wed, 23 Aug 2023 10:00:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1692784849; x=1693044049;
+ bh=Mf40cWEMPjsejxcoX0JSekZCBlHOZDBJLL1ZnX/TK+I=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=N2dz+BellOOnEKm4rkzUIFGkMurVAVGO1ce8egWPrsdOZCSl8vw57zpMaNVdXcxrm
+ YSyTMfd2aWkYDO4eTvrNN1Od5wGboWc79MtGdWPWMKto3feHuydyxII0F+9ei91NRx
+ w1rEK6lb7bnp05Xakp2weIG5S2fSC/k6KVxzBHGAMtzFaqWYpOa45y1EQfV9Du4AG0
+ ChN8Qg1HTcha7nJNBs2EMO1NFyLeAk/azHA+YGD99qJrtl9xQdHXegJmxsgBNDFN7Q
+ /KZ/UKLU1E5HsyTKgyoVprF1vHtElZR/WoPiw6Hh+K7BAN3ukm9VfATkU1knlfIgzQ
+ SAxAhHCC84JNQ==
+To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: [ANNOUNCE] libdrm 2.4.116
+Message-ID: <n4aXxvbmx4ZaFOlPixDwmNd6muZIiD5lsPJH8RzZQR3YHzMCCxM9OpWsJtLiGo6UAPcEv5zZkZQBzHuiDHyBmtj9D3-6I7BMhEJgjxB47F8=@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 2/3] dt-bindings: display: novatek,nt35950: define ports
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
- <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
- <169278171739.1524810.6441506448861500441.robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <169278171739.1524810.6441506448861500441.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +44,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Jianhua Lu <lujianhua000@gmail.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/08/2023 11:08, Rob Herring wrote:
-> 
-> On Wed, 23 Aug 2023 10:14:59 +0200, Krzysztof Kozlowski wrote:
->> The panel-common schema does not define what "ports" property is, so
->> bring the definition by referencing the panel-common-dual.yaml. Panels
->> can be single- or dual-link, thus require only one port@0.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Changes since v2:
->> 1. Use panel-common-dual
->>
->> Changes since v1:
->> 1. Rework to add ports to device schema, not to panel-common.
->> ---
->>  .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
+Dor Askayo (1):
+      nouveau: add interface to make buffer objects global
 
-Previous patch seems to be missing in Patchwork, thus this error.
+James Zhu (2):
+      xf86drm: update DRM_NODE_NAME_MAX supporting more nodes
+      xf86drm: use drm device name to identify drm node type
 
-https://patchwork.ozlabs.org/project/devicetree-bindings/list/?submitter=83726&archive=both&state=*
+Jan Beich (1):
+      meson: drop pthread-stubs dependency on BSDs
 
-Best regards,
-Krzysztof
+Jonathan Gray (1):
+      amdgpu: add marketing names from amd-5.4.3 (22.40.3)
 
+Luben Tuikov (3):
+      tests/amdgpu: Fix Usage string
+      tests/amdgpu: Add all 9 options to the help output
+      tests/amdgpu: Allow to exclude a test or a suite of tests
+
+Marek Ol=C5=A1=C3=A1k (1):
+      amdgpu: add an environment variable that overrides the context priori=
+ty
+
+Pierre-Eric Pelloux-Prayer (1):
+      amdgpu: remove va::dev member
+
+Ruijing Dong (3):
+      tests/amdgpu/vcn: change vbv_buffer name to input
+      tests/amdgpu/vcn: fix drm test failure
+      tests/amdgpu/vcn: fix session buffer issue for vcn1-vcn3
+
+Saleemkhan Jamadar (1):
+      tests/amdgpu/vcn:update decoder unit test
+
+Simon Ser (5):
+      xf86drm: bump DRM_MAX_MINOR to 64
+      xf86drm: drop control nodes implementation
+      Sync headers with drm-next
+      xf86drm: add drmSyncobjEventfd
+      build: bump version to 2.4.116
+
+Xaver Hugl (1):
+      xf86drmMode: constify drmModeCrtcSetGamma
+
+Yi Xie (1):
+      tests/util: Add vkms driver
+
+jie zhang (1):
+      test/amdgpu/hotunplug: add apu check for hotplug test
+
+git tag: libdrm-2.4.116
+
+https://dri.freedesktop.org/libdrm/libdrm-2.4.116.tar.xz
+SHA256: 46c53f40735ea3d26d614297f155f6131a510624a24274f654f6469ca905339a  l=
+ibdrm-2.4.116.tar.xz
+SHA512: 1287d1896deeb8cfb4532c6750eb43493dcefbfaaa598a73bbb682aa749594eaad3=
+ed1fa2fe73d06280350f365a92a0c20cad8be76f3da2ed59b04aa008de911  libdrm-2.4.1=
+16.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.116.tar.xz.sig
