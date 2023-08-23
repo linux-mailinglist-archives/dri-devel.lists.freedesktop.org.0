@@ -2,68 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118E578536B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D02278537D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 180C910E3FD;
-	Wed, 23 Aug 2023 09:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1168F10E3FF;
+	Wed, 23 Aug 2023 09:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 065F010E3FD;
- Wed, 23 Aug 2023 09:03:28 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-31c3726cc45so2969303f8f.0; 
- Wed, 23 Aug 2023 02:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692781407; x=1693386207;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YO/WOkrwEXYf9n89IX0yKt/64CcuxWDD6IgoTDcbvZU=;
- b=b3TPtVV9WYnVP0xc3bm0CU3iTUNE4KW7L5RqP4CYb5zhdjsYLySfJvr/0KwkB9mt9R
- u79Kz+ubf5bdQ2me/46UEEBotz2scDU0bLBG4ELIVxSq3r3vKn2vnYTbu5tormD6pZLt
- N38g6lBYPIF3IfnO8fl6Rrrk/YiJdtwfEHCI5y8R47dh0L5sgVGvDJ8ueYVedGFqkaNn
- DiE7kklDPD9+G6eh61kcIc8lOKG0Pw6CYwek8Qzl9TGkw2QyYyUDU9zyo/fFufH/qEpl
- F4zfzPYmgDR/UaEJggDUoRTtG6R9JrjyohrkbEOe0GUKS6hpr9eXV/6lET+8MTaG9Pm8
- F6Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692781407; x=1693386207;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YO/WOkrwEXYf9n89IX0yKt/64CcuxWDD6IgoTDcbvZU=;
- b=YfLJPIMAgrcwlJe4Bjgfzw+yEHzoaIK8clNTrhfxMaVpuyK+1V52jEr3wvgd/AMyU1
- LJRWIKttHMsb1qRaBadJDxOberBRr6g6JbsdhuVam3UJ1H7LJGW9Yw37bw2VECRGa8R9
- 9S2VEX70OYQ/FmnObZjFPFHENTBHNWzySCXgSiZWsOtFuFkx4wdeuvUiOYK4gykAz9+P
- l/Luazr5MyZeKSV0+z6czOzaL3cx3uyfF8t7j8LLXj1WSMBmhkwMWQhMCWVr24eUpdFX
- 8R1uAnNVc7Hl22OLnK0m3rMN2Isft+OlXqe/6pHBZHc9BHq0maStBcO1WJu4izK9oIOb
- vT0g==
-X-Gm-Message-State: AOJu0YwUo7xI87kVPCj5pGXJHFw3tokuKhiMWD1yxocScZmDE8+F6Cv8
- lBzzr6zeHhcWAnx9qkap67Q=
-X-Google-Smtp-Source: AGHT+IFIdpNbTfUs35kdTucR7rl6DKkzbkWnSECKpU83/iZ4E/M4zKtWK+korKF4tt75GGbwFpXXPA==
-X-Received: by 2002:a5d:4f0f:0:b0:319:89ce:da0b with SMTP id
- c15-20020a5d4f0f000000b0031989ceda0bmr8759387wru.68.1692781407079; 
- Wed, 23 Aug 2023 02:03:27 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- w16-20020a5d6810000000b003197b85bad2sm18292924wru.79.2023.08.23.02.03.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 02:03:25 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amd: Fix spelling mistake "throtting" ->
- "throttling"
-Date: Wed, 23 Aug 2023 10:03:23 +0100
-Message-Id: <20230823090323.184121-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1808310E3FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:08:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4D7AF60DC4;
+ Wed, 23 Aug 2023 09:08:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0160C433C8;
+ Wed, 23 Aug 2023 09:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692781720;
+ bh=H4akoTsFqgDveGtXgAv0yH52y77xn/v60Efi9ZHUW+o=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=lEvfAdLHwqQIfmwZEt7iDPX5wRYFubMK/7NWmhTfAq1HWhIpEky0F1l6hiyXcHgfP
+ Qk6kdt6NHjs/lgL27WisLr5Sd3eqYIvURXjtMxN01TIoX0SOaQb9e+TZjAJPZcqWk8
+ +7x4JOt8S3lYUXwLEfVIj2oLyQm7Zf+3vXkFh5CUCYO1HhJIyYFnvzuSQMw3LOeLUF
+ SWyjXAuIigv/VP+4XN9RULymXb/zL/5pxGNvQl+QGFuruFb67YrQA0DecF9UWHlSD0
+ GriuVtEkZK6xfydSfIOlgUjnul3VsfGqov+kyu8+nPqhuYEOcLAm5Q40XkoxLQo3pW
+ dZz8lsgjelfOw==
+Received: (nullmailer pid 1524828 invoked by uid 1000);
+ Wed, 23 Aug 2023 09:08:37 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
+References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
+ <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
+Message-Id: <169278171739.1524810.6441506448861500441.robh@kernel.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: display: novatek,nt35950: define ports
+Date: Wed, 23 Aug 2023 04:08:37 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,100 +56,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Jianhua Lu <lujianhua000@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in variable throtting_events, rename
-it to throttling_events.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c    | 6 +++---
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c   | 6 +++---
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 6 +++---
- 3 files changed, 9 insertions(+), 9 deletions(-)
+On Wed, 23 Aug 2023 10:14:59 +0200, Krzysztof Kozlowski wrote:
+> The panel-common schema does not define what "ports" property is, so
+> bring the definition by referencing the panel-common-dual.yaml. Panels
+> can be single- or dual-link, thus require only one port@0.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes since v2:
+> 1. Use panel-common-dual
+> 
+> Changes since v1:
+> 1. Rework to add ports to device schema, not to panel-common.
+> ---
+>  .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-index 704a2b577a0e..fbcff154b1d0 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-@@ -2313,7 +2313,7 @@ static const struct throttling_logging_label {
- static void arcturus_log_thermal_throttling_event(struct smu_context *smu)
- {
- 	int ret;
--	int throttler_idx, throtting_events = 0, buf_idx = 0;
-+	int throttler_idx, throttling_events = 0, buf_idx = 0;
- 	struct amdgpu_device *adev = smu->adev;
- 	uint32_t throttler_status;
- 	char log_buf[256];
-@@ -2328,11 +2328,11 @@ static void arcturus_log_thermal_throttling_event(struct smu_context *smu)
- 	for (throttler_idx = 0; throttler_idx < ARRAY_SIZE(logging_label);
- 	     throttler_idx++) {
- 		if (throttler_status & logging_label[throttler_idx].feature_mask) {
--			throtting_events++;
-+			throttling_events++;
- 			buf_idx += snprintf(log_buf + buf_idx,
- 					    sizeof(log_buf) - buf_idx,
- 					    "%s%s",
--					    throtting_events > 1 ? " and " : "",
-+					    throttling_events > 1 ? " and " : "",
- 					    logging_label[throttler_idx].label);
- 			if (buf_idx >= sizeof(log_buf)) {
- 				dev_err(adev->dev, "buffer overflow!\n");
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index cc3169400c9b..bed5a9df1c06 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -1674,7 +1674,7 @@ static const struct throttling_logging_label {
- static void aldebaran_log_thermal_throttling_event(struct smu_context *smu)
- {
- 	int ret;
--	int throttler_idx, throtting_events = 0, buf_idx = 0;
-+	int throttler_idx, throttling_events = 0, buf_idx = 0;
- 	struct amdgpu_device *adev = smu->adev;
- 	uint32_t throttler_status;
- 	char log_buf[256];
-@@ -1689,11 +1689,11 @@ static void aldebaran_log_thermal_throttling_event(struct smu_context *smu)
- 	for (throttler_idx = 0; throttler_idx < ARRAY_SIZE(logging_label);
- 	     throttler_idx++) {
- 		if (throttler_status & logging_label[throttler_idx].feature_mask) {
--			throtting_events++;
-+			throttling_events++;
- 			buf_idx += snprintf(log_buf + buf_idx,
- 					    sizeof(log_buf) - buf_idx,
- 					    "%s%s",
--					    throtting_events > 1 ? " and " : "",
-+					    throttling_events > 1 ? " and " : "",
- 					    logging_label[throttler_idx].label);
- 			if (buf_idx >= sizeof(log_buf)) {
- 				dev_err(adev->dev, "buffer overflow!\n");
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-index d3b578e6bc2a..fa4ad08099ef 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-@@ -1888,7 +1888,7 @@ static const char *const throttling_logging_label[] = {
- 
- static void smu_v13_0_6_log_thermal_throttling_event(struct smu_context *smu)
- {
--	int throttler_idx, throtting_events = 0, buf_idx = 0;
-+	int throttler_idx, throttling_events = 0, buf_idx = 0;
- 	struct amdgpu_device *adev = smu->adev;
- 	uint32_t throttler_status;
- 	char log_buf[256];
-@@ -1902,10 +1902,10 @@ static void smu_v13_0_6_log_thermal_throttling_event(struct smu_context *smu)
- 	     throttler_idx < ARRAY_SIZE(throttling_logging_label);
- 	     throttler_idx++) {
- 		if (throttler_status & (1U << throttler_idx)) {
--			throtting_events++;
-+			throttling_events++;
- 			buf_idx += snprintf(
- 				log_buf + buf_idx, sizeof(log_buf) - buf_idx,
--				"%s%s", throtting_events > 1 ? " and " : "",
-+				"%s%s", throttling_events > 1 ? " and " : "",
- 				throttling_logging_label[throttler_idx]);
- 			if (buf_idx >= sizeof(log_buf)) {
- 				dev_err(adev->dev, "buffer overflow!\n");
--- 
-2.39.2
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml:
+Error in referenced schema matching $id: http://devicetree.org/schemas/display/panel/panel-common-dual.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/novatek,nt35950.example.dtb: panel@0: False schema does not allow {'compatible': ['sharp,ls055d1sx04', 'novatek,nt35950'], 'reg': [[0]], 'backlight': [[4294967295]], 'reset-gpios': [[4294967295, 94, 0]], 'avdd-supply': [[4294967295]], 'avee-supply': [[4294967295]], 'dvdd-supply': [[4294967295]], 'vddio-supply': [[4294967295]], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}}}, '$nodename': ['panel@0']}
+	from schema $id: http://devicetree.org/schemas/display/panel/novatek,nt35950.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230823081500.84005-2-krzysztof.kozlowski@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
