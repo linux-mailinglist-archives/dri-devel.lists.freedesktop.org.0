@@ -1,47 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C3E785F37
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 20:07:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D181785F5A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 20:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550FB10E09F;
-	Wed, 23 Aug 2023 18:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB8210E095;
+	Wed, 23 Aug 2023 18:13:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D4410E09F;
- Wed, 23 Aug 2023 18:07:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=U9L60WSoH5EjFYNUcZxoJPo5M2F16vkqWzOx0XRJXvg=; b=l3TrSNUBhx+X/rJslIVVfmQIM5
- BoP//9c8bETnX4jXYYGOQn3CI2nWzuvWmB/sN/4f3tvlYSspOAyX+dthy0ImIAiyURMtx0jGLe6Ik
- 561gCf7Ft8cBcyCNxKOo3oHlm8jNnCuEhgMhSnpMZEbzp6zR6EZjXmmTnF+4ak5O8qKpDJQ2FkkzU
- 329//R+IhbGvzcT5LvhXGVRzzQaFEf0+mbB0mUqgAkdYsSp4o2qzlaT4yCIJS1qoUcVKiiqWpow1Y
- 3fA90tLPgTlYPPT7PQxZgcm17Re/socciEX8zGT2LWwxsTVkKv4gVJN/28gJBaC3+KrE+UTx7xQ0P
- okZkCQYg==;
-Received: from [187.35.42.59] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qYsGM-00EZWC-Sp; Wed, 23 Aug 2023 20:07:27 +0200
-Message-ID: <4b85a79e-bfb3-4e38-bb10-212539e45126@igalia.com>
-Date: Wed, 23 Aug 2023 15:07:21 -0300
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D6110E095
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 18:13:45 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ 006d021491bc7-570f6c17c55so1172147eaf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 11:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692814425; x=1693419225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/Pd+nY7qFI+JVDVu42WXavNzAf+eijnePwIwfDKRrn4=;
+ b=JB1GQa3vfyEOHTWHZV2Q95iLFCSKbY/eJHLr7yL66pa86xJ2/eEUI9RY+cMnuLXRNu
+ URSG9nCGhlqqB9drf8oEE3O0AHk2mbe+X4Vmj1aAw1H+d81ansAlHDsR1XA1mLj2koeH
+ ufsikJvlYHbSxCVoDkKUsMkg1Fm5+OfVnLf3JsQ/yEOeNvz3UJa8uTVInLyGA2EvrIXU
+ wxHEfg5t7aJ1bex+6hYc8Op10c3/10aNF8Jo+ikOztHQnaeRZ0pRmT2MtZcxAvoBac7c
+ CbhtW0skVnmuh7xpg2vQOIbSQUjkIkXo0QlckRl9M+5L5xURpu0+dqVufH6tjuWXm0gP
+ 8o7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692814425; x=1693419225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/Pd+nY7qFI+JVDVu42WXavNzAf+eijnePwIwfDKRrn4=;
+ b=Qhe3B4uHh/aNNzQRaww9Cvn5wGChXPxHGI/QnA3iTw5D32KmrdY3uwZYxwWayq8t33
+ xoty8/BjYcaYNJumQC5UJ3rcQwJZUM+b7EJbSllzBfnoxLKAobXUSBNU5AI08z5yoXWB
+ Vy6uaR3y5aF9PXsZGizGHoIUAo9JgL72b5HOCU+/iE6WmJIkGJX1Nt3sP+raMk+ht3Dj
+ s48oWW6pwWGKgZHNfztF5fXBERzvxLOFi9fejPSo7fvOb24vnfp6ISJFbct5aK5hApI0
+ f1ngHPybOerOzFrIbi2g8RyV11NVaQOLWl2AvgQIvPaurURAJekOH3+TUEWNdWRIHraQ
+ WfjQ==
+X-Gm-Message-State: AOJu0YyyL0UaKt/WKyLCWwPBKSWVTg1XlOQJ8mQm25DU33jLvaRHpR2U
+ PHCXs2qMLnCMj3UPqUmDt2HjstwDVupUp5QD6+c=
+X-Google-Smtp-Source: AGHT+IE+37tPaVddj+DiWfkLmSyxnc+h2o1Iej1yxesDIC0ATIw03wlLu3SeiY4j4g8bQX80VAJ+BPM127ysjehW7O4=
+X-Received: by 2002:a4a:d216:0:b0:56c:cd04:9083 with SMTP id
+ c22-20020a4ad216000000b0056ccd049083mr108834oos.1.1692814424826; Wed, 23 Aug
+ 2023 11:13:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] drm/doc: Document DRM device reset expectations
-Content-Language: en-US
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20230818200642.276735-1-andrealmeid@igalia.com>
- <ZOZCcnwu3IOHGoJ/@intel.com>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <ZOZCcnwu3IOHGoJ/@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
+ <CAD=FV=W6aoaUuMx5OvG2xMX+fBG6B-c5Fmvmit4f2CTZq=x1vQ@mail.gmail.com>
+ <OS0PR01MB5922E0300F53BED1AFFD916E861CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75VcjA-99ckLWNczNuP5f2FGx67o1=O8MFVThBTVzPzJBdA@mail.gmail.com>
+ <CAD=FV=Uwg9AuKuKpUAbfnzfm5wTRtYqhg5f24Y7cPSDugWz1wg@mail.gmail.com>
+In-Reply-To: <CAD=FV=Uwg9AuKuKpUAbfnzfm5wTRtYqhg5f24Y7cPSDugWz1wg@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 23 Aug 2023 21:13:08 +0300
+Message-ID: <CAHp75VchMj7hwOJ6oO=mRx7vnn9XUeT_XXsaCJc7hBfwh1m9nw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
+ for ID table
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,94 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+On Wed, Aug 23, 2023 at 8:14=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+> On Wed, Aug 23, 2023 at 9:53=E2=80=AFAM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wed, Aug 23, 2023 at 5:36=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
+s.com> wrote:
 
-Em 23/08/2023 14:31, Rodrigo Vivi escreveu:
-> On Fri, Aug 18, 2023 at 05:06:42PM -0300, André Almeida wrote:
->> Create a section that specifies how to deal with DRM device resets for
->> kernel and userspace drivers.
->>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->>
->> ---
->>
->> v7 changes:
->>   - s/application/graphical API contex/ in the robustness part (Michel)
->>   - Grammar fixes (Randy)
->>
->> v6: https://lore.kernel.org/lkml/20230815185710.159779-1-andrealmeid@igalia.com/
->>
->> v6 changes:
->>   - Due to substantial changes in the content, dropped Pekka's Acked-by
->>   - Grammar fixes (Randy)
->>   - Add paragraph about disabling device resets
->>   - Add note about integrating reset tracking in drm/sched
->>   - Add note that KMD should return failure for contexts affected by
->>     resets and UMD should check for this
->>   - Add note about lack of consensus around what to do about non-robust
->>     apps
->>
->> v5: https://lore.kernel.org/dri-devel/20230627132323.115440-1-andrealmeid@igalia.com/
->> ---
->>   Documentation/gpu/drm-uapi.rst | 77 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 77 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
->> index 65fb3036a580..3694bdb977f5 100644
->> --- a/Documentation/gpu/drm-uapi.rst
->> +++ b/Documentation/gpu/drm-uapi.rst
->> @@ -285,6 +285,83 @@ for GPU1 and GPU2 from different vendors, and a third handler for
->>   mmapped regular files. Threads cause additional pain with signal
->>   handling as well.
->>   
->> +Device reset
->> +============
->> +
->> +The GPU stack is really complex and is prone to errors, from hardware bugs,
->> +faulty applications and everything in between the many layers. Some errors
->> +require resetting the device in order to make the device usable again. This
->> +section describes the expectations for DRM and usermode drivers when a
->> +device resets and how to propagate the reset status.
->> +
->> +Device resets can not be disabled without tainting the kernel, which can lead to
->> +hanging the entire kernel through shrinkers/mmu_notifiers. Userspace role in
->> +device resets is to propagate the message to the application and apply any
->> +special policy for blocking guilty applications, if any. Corollary is that
->> +debugging a hung GPU context require hardware support to be able to preempt such
->> +a GPU context while it's stopped.
->> +
->> +Kernel Mode Driver
->> +------------------
->> +
->> +The KMD is responsible for checking if the device needs a reset, and to perform
->> +it as needed. Usually a hang is detected when a job gets stuck executing. KMD
->> +should keep track of resets, because userspace can query any time about the
->> +reset status for a specific context. This is needed to propagate to the rest of
->> +the stack that a reset has happened. Currently, this is implemented by each
->> +driver separately, with no common DRM interface. Ideally this should be properly
->> +integrated at DRM scheduler to provide a common ground for all drivers. After a
->> +reset, KMD should reject new command submissions for affected contexts.
-> 
-> is there any consensus around what exactly 'affected contexts' might mean?
-> I see i915 pin-point only the context that was at execution with head pointing
-> at it and doesn't blame the queued ones, while on Xe it looks like we are
-> blaming all the queued context. Not sure what other drivers are doing for the
-> 'affected contexts'.
-> 
+...
 
-"Affected contexts" is a generic term indeed, giving the differences 
-from each driver as you already pointed out. amdgpu also tends to affect 
-all queued contexts during a reset. This wording was used to fit how 
-different drivers works.
+> > No. Please, do not remove the I2C ID table. It had already been
+> > discussed a few years ago.
+>
+> If you really want the table kept then it's no skin off my teeth. I
+> just happened to see that nobody was responding to the patch and I was
+> trying to be helpful. My analysis above showed that the I2C table must
+> not be used, but if you feel strongly that we need to add code then
+> feel free to provide a Reviewed-by tag to Biju's patch! :-)
+
+Have you seen my reply to my reply?
+I agree with your above analysis.
+
+--=20
+With Best Regards,
+Andy Shevchenko
