@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CDE785840
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 14:56:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3BE785861
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 14:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0E510E426;
-	Wed, 23 Aug 2023 12:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD21D10E42A;
+	Wed, 23 Aug 2023 12:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF2FE10E423
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 12:56:02 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2bcc846fed0so33049901fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 05:56:02 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF12010E423
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 12:56:03 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2bccda76fb1so31548891fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 05:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692795361; x=1693400161;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oqJeHpeX/4m5NxynYAumdAwjnVZQoGDC/Sl39nPHglI=;
- b=ZCMHLOIX2pQY8hVPp//5SGcXKK7dF2GxOtqphy8JJbl9yjsoZzNYw+NPKtVgLILYes
- T5ALtgTL70OH0DekGKVkfoN0A/pWI9sgdgjD+E5cpVjK0+aqsrI4wCZoz8PUm0MyfQqf
- 7j29v1GHHiKjkDJtsDx0XSDwxvbEqI8hAwMH5EZG9XyOZTg434ZtBNlW23iKZmOL+K4a
- Ispr/DeN18IMerhn2kuJpeOIEJmhG3RmO0TqqYqUF/d9WVmaQ1zRoBTJkaZ1lqGxSDJM
- qKHoZ82wxU7uk6yujcWMUI3Xy9UtA2by4oSbXUUO36Qo6U7wz9vglJrdYVktNo1iyyDR
- 3CMQ==
+ d=linaro.org; s=google; t=1692795362; x=1693400162;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=oBaJ5OsgfXs2kkcWusba2RO2Avkk4yo/xOTdTxq4iI8=;
+ b=nFwEETn78mwFOweFwubXHwB/C+P7qrmJHrgLWAdf4o+b0utAvC65FBdmYaPMg+97JC
+ Sj0soxpIMmmMNDaQpyIH2m3mDRjghpxeG6mChYdZX4C2ymOqCbGomsSFYSRPOgEXFxcK
+ VC3+ScZpKy0/bft4yKV/j4TDzfMb9KeyzAWejjGQfRJ+pWOpALssQ6ghZix7HZ09wtab
+ lHpNTHiuw2ONDZUVu7ECh34B57z9zLmCcLeS+EVejaMSynErA9YmavniFyVooH6NdXbu
+ vrA+8lZw/pMaxsi7BzySyj0Fqu8Rh41zvCdP67nVBdCVKwO2elUBNnYu6Bfut1Xmpd8Q
+ 1DcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692795361; x=1693400161;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oqJeHpeX/4m5NxynYAumdAwjnVZQoGDC/Sl39nPHglI=;
- b=kyb1KpGbl96FJAmcehdx0474RhDx4+qYNd82i/HBCPY4PQIFhbl4k7hJaNEB3YQ+HE
- VVX7wbgPrp+XcI+wN9n4hQJ2OB/LpnkCJYv5V2mia9aOltzArdOjhUMvk3ZYQdHSvcM2
- MvYk2bdl4XTXTnN5DFVquht7bMwyIYnKWZNmHQDGS8KvG8RWd2QtfgQyo4QOJI6G+Dce
- EL3ypO027pFMOE2fhSKtZiCYwf9vhaYmfS1F2j7xSVfmefzJ4CIwFBJl/Uok+YxYdSTr
- kRzGZTG9n2n5FmJYJ49hPyd+QX11l9agBsGwDc7Yawot/2GDLQO2Mrgn9nCWoJEo9Paz
- x2ig==
-X-Gm-Message-State: AOJu0Yy/vfnk1o6rlht51+rM5jWvWEOE9M8tqGXNxBVaFsftWOO9bl0H
- zXcNZ9UPdA0mH1FR0nM1xVgw4A==
-X-Google-Smtp-Source: AGHT+IHwNrUI3VbaCReiY6q33DuTK2TQeY+Uz2VFt8Z8kRQ5HOimymlhi+B/px2Ye6SkjwnqEXHmvQ==
-X-Received: by 2002:a2e:3503:0:b0:2bc:b75e:b88 with SMTP id
- z3-20020a2e3503000000b002bcb75e0b88mr8075729ljz.18.1692795360226; 
- Wed, 23 Aug 2023 05:56:00 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692795362; x=1693400162;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oBaJ5OsgfXs2kkcWusba2RO2Avkk4yo/xOTdTxq4iI8=;
+ b=eTUv2viwi7VWQk0+8HxfIsbCTsigmtmxVvqDuDkLewlc/HZz8NYyU8d3RO9etdL745
+ i4+aRpbdkfr0gCacWverkYQqQmoeT2SBomUW6gQ/z+e/BExYX3VtzuV5GzAsPVSxEXoJ
+ 1OyHEWJ3bYyTv3CgzsZOLoQZ+GWLWYl6az7LFH3+S2VModga6eSs3jWvbE421Voi+Tgr
+ 0RogQ2OQVXx9FFS+9MwlefQ0btODuOHsXuhE6EB45krTpHwdXU4qutq2py99NU8rG3EN
+ jS6arW/iIiNuo7hhnXpKCN/X096L6A2ANjRe8HvohzQzAPqVaOIYOt/ws9Ll1HhUkjFV
+ 1VgA==
+X-Gm-Message-State: AOJu0YzYFQt8BnDfL+p4bvVL1EU9uar2gaD+cwGmoHfb8XlRD6wOsZ3y
+ G3T0/LZyfdiMNl7mUkgmWdOIjg==
+X-Google-Smtp-Source: AGHT+IFQSUpVtDlkA3Qtiu0IIzwzYYR6P8TkdBvNyd1xjlg7sp7x2+BrOapUKG0oxhkxYmgoBboi6Q==
+X-Received: by 2002:a05:651c:cf:b0:2bc:bdbd:1542 with SMTP id
+ 15-20020a05651c00cf00b002bcbdbd1542mr6804744ljr.11.1692795361697; 
+ Wed, 23 Aug 2023 05:56:01 -0700 (PDT)
 Received: from [192.168.1.101] (abyj76.neoplus.adsl.tpnet.pl. [83.9.29.76])
  by smtp.gmail.com with ESMTPSA id
- a18-20020a05651c011200b002b6db0ed72fsm3220256ljb.48.2023.08.23.05.55.58
+ a18-20020a05651c011200b002b6db0ed72fsm3220256ljb.48.2023.08.23.05.56.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 05:55:59 -0700 (PDT)
+ Wed, 23 Aug 2023 05:56:01 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH v3 00/10] A7xx support
-Date: Wed, 23 Aug 2023 14:55:53 +0200
-Message-Id: <20230628-topic-a7xx_drmmsm-v3-0-4ee67ccbaf9d@linaro.org>
+Date: Wed, 23 Aug 2023 14:55:54 +0200
+Subject: [PATCH v3 01/10] dt-bindings: display/msm/gmu: Add Adreno 7[34]0 GMU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANkB5mQC/32NWwqDMBAAr1Ly3ZQ8RNt+9R5FSowbXdBENlYs4
- t279QD9nIFhNpGBELK4nzZBsGDGFBns+SR872IHEltmYZSxqjRXOacJvXTVur5aGsc8Sm1ssKq
- tSh8qwV3jMsiGXPQ9l/E9DCwngoDrMXrWzD3mOdHn+C76Z/8tFi0Vi1AUtxKU1+YxYHSULok6U
- e/7/gWjU6wRyAAAAA==
+Message-Id: <20230628-topic-a7xx_drmmsm-v3-1-4ee67ccbaf9d@linaro.org>
+References: <20230628-topic-a7xx_drmmsm-v3-0-4ee67ccbaf9d@linaro.org>
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v3-0-4ee67ccbaf9d@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -69,11 +67,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692795358; l=4076;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1692795358; l=2826;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=1C4mbkYEO8JAVDJ8cizgufp3TfvEPNQ4yZ8RIY8Lh1o=;
- b=M16HvvoVRE7y0ktf2CwMlRTO8Y99aYa9zyrtbWT0qgSvGyCUlsrGe+fP7cnfmh0r5Lq/gB1Bb
- bS0Y1JJ08IfD4HSxbd7N/sZ3Y1CmEtFgC8jzK34qS9atf5cUc2CFNyK
+ bh=HNK2SS799OXNh7iy5vESf+h2uwh6BGHa1r43G7UvIKE=;
+ b=/DAwVATtw+vn+n8shtTbBONnwNRjmULTiU2IxtoBwvSmEXIwhcDqCUfaleCW2fgNtM8NHwn6q
+ ikU/lRY9xDHAgUmZU2+KFF9YXbJEByM+k+FDbj5jyrlIkvSttpKAAI8
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,95 +95,85 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series attempts to introduce Adreno 700 support (with A730 and A740
-found on SM8450 and SM8550 respectively), reusing much of the existing
-A6xx code. This submission largely lays the groundwork for expansion and
-more or less gives us feature parity (on the kernel side, that is) with
-existing A6xx parts.
+The GMU on the A7xx series is pretty much the same as on the A6xx parts.
+It's now "smarter", needs a bit less register writes and controls more
+things (like inter-frame power collapse) mostly internally (instead of
+us having to write to G[PM]U_[CG]X registers from APPS)
 
-On top of introducing a very messy set of three (!) separate and
-obfuscated deivce identifiers for each 7xx part, this generation
-introduces very sophisticated hardware multi-threading and (on some SKUs)
-hardware ray-tracing (not supported yet).
+The only difference worth mentioning is the now-required DEMET clock,
+which is strictly required for things like asserting reset lines, not
+turning it on results in GMU not being fully functional (all OOB requests
+would fail and HFI would hang after the first submitted OOB).
 
-After this series, a long-overdue cleanup of drm/msm/adreno is planned
-in preparation for adding more features and removing some hardcoding.
+Describe the A730 and A740 GMU.
 
-The last patch is a hack that may or may not be necessary depending
-on your board's humour.. eh.. :/
-
-Developed atop (and hence depends on) [1]
-
-The corresponding devicetree patches are initially available at [2] and
-will be posted after this series gets merged. To test it, you'll also need
-firmware that you need to obtain from your board (there's none with a
-redistributable license, sorry..). Most likely it will be in one of
-these directories on your stock android installation:
-
-* /vendor/firmware
-* /vendor/firmware_mnt
-* /system
-
-..but some vendors make it hard and you have to do some grepping ;)
-
-Requires [3] to work on the userspace side. You'll almost cerainly want
-to test it alongside Zink with a lot of debug flags (early impl), like:
-
-TU_DEBUG=sysmem,nolrz,flushall,noubwc MESA_LOADER_DRIVER_OVERRIDE=zink kmscube
-
-[1] https://lore.kernel.org/linux-arm-msm/20230517-topic-a7xx_prep-v4-0-b16f273a91d4@linaro.org/
-[2] https://github.com/SoMainline/linux/commits/topic/a7xx_dt
-[3] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23217
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # sm8450
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Changes in v3:
-- Pick up tags
-- Drop "increase HFI timeout", will revisit another day
-- Use family identifiers in "add skeleton a7xx support"
-- Drop patches that Rob already picked up
-- Retest on A730, didn't explode
-- Link to v2: https://lore.kernel.org/linux-arm-msm/20230628-topic-a7xx_drmmsm-v2-0-1439e1b2343f@linaro.org/#t
+ .../devicetree/bindings/display/msm/gmu.yaml       | 40 +++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Rebase on chipid changes
-- Reuse existing description for qcom,aoss in patch 2
-- Pick up tags
-- Link to v1: https://lore.kernel.org/r/20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org
+diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+index 5fc4106110ad..20ddb89a4500 100644
+--- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+@@ -21,7 +21,7 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-          - pattern: '^qcom,adreno-gmu-6[0-9][0-9]\.[0-9]$'
++          - pattern: '^qcom,adreno-gmu-[67][0-9][0-9]\.[0-9]$'
+           - const: qcom,adreno-gmu
+       - const: qcom,adreno-gmu-wrapper
+ 
+@@ -213,6 +213,44 @@ allOf:
+             - const: axi
+             - const: memnoc
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,adreno-gmu-730.1
++              - qcom,adreno-gmu-740.1
++    then:
++      properties:
++        reg:
++          items:
++            - description: Core GMU registers
++            - description: Resource controller registers
++            - description: GMU PDC registers
++        reg-names:
++          items:
++            - const: gmu
++            - const: rscc
++            - const: gmu_pdc
++        clocks:
++          items:
++            - description: GPU AHB clock
++            - description: GMU clock
++            - description: GPU CX clock
++            - description: GPU AXI clock
++            - description: GPU MEMNOC clock
++            - description: GMU HUB clock
++            - description: GPUSS DEMET clock
++        clock-names:
++          items:
++            - const: ahb
++            - const: gmu
++            - const: cxo
++            - const: axi
++            - const: memnoc
++            - const: hub
++            - const: demet
++
+   - if:
+       properties:
+         compatible:
 
----
-Konrad Dybcio (10):
-      dt-bindings: display/msm/gmu: Add Adreno 7[34]0 GMU
-      dt-bindings: display/msm/gmu: Allow passing QMP handle
-      dt-bindings: display/msm/gpu: Allow A7xx SKUs
-      drm/msm/a6xx: Add missing regs for A7XX
-      drm/msm/a6xx: Add skeleton A7xx support
-      drm/msm/a6xx: Send ACD state to QMP at GMU resume
-      drm/msm/a6xx: Mostly implement A7xx gpu_state
-      drm/msm/a6xx: Add A730 support
-      drm/msm/a6xx: Add A740 support
-      drm/msm/a6xx: Poll for GBIF unhalt status in hw_init
-
- .../devicetree/bindings/display/msm/gmu.yaml       |  47 +-
- .../devicetree/bindings/display/msm/gpu.yaml       |   4 +-
- drivers/gpu/drm/msm/adreno/a6xx.xml.h              |   9 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 204 +++++--
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   3 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   8 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 653 +++++++++++++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  52 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  61 +-
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  88 +++
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  30 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   7 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  32 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h               |   2 +
- 14 files changed, 1078 insertions(+), 122 deletions(-)
----
-base-commit: c26a0f88bc21bf52303b5a5fbf8edb0cc7723037
-change-id: 20230628-topic-a7xx_drmmsm-123f30d76cf7
-
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.42.0
 
