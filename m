@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5F97862CC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 23:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7423D7862CE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 23:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C096210E47C;
-	Wed, 23 Aug 2023 21:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B68110E480;
+	Wed, 23 Aug 2023 21:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8128510E479;
- Wed, 23 Aug 2023 21:56:13 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1bdaeb0f29aso40708445ad.2; 
- Wed, 23 Aug 2023 14:56:13 -0700 (PDT)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFCD10E479;
+ Wed, 23 Aug 2023 21:56:15 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ 98e67ed59e1d1-26d1e5f2c35so4199181a91.2; 
+ Wed, 23 Aug 2023 14:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692827772; x=1693432572;
+ d=gmail.com; s=20221208; t=1692827774; x=1693432574;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5ibetm8ezVxMofhImFts6YcVXwL2Xfoyep52+quRJPs=;
- b=h7rpa44W00jCBLB+H0+dgHbhMUy9/8pP4XMmasDQfFPYtQVgXKPscSqpkllN7uZmcl
- 1GZrzUcxPhjqRmoaoF/EjyTCg/6vBfV84AKVcM5ao3/9suXbBnCoLMfbHjNXq/7ixlIA
- 1NQAm+LgSDzudUv9HNk31E6u6yoy74U/1Bvho9L+spd9TfQJAaK27uPaUqbrJLKI8keG
- V6RjpSxHcjpyk32zCcz9hASC9sT0YzI7VAP7nRiY8ZV8jlviR80RIBRkmiJ+gUPnvS0a
- 7SojHR3EYahlWEFMjfuQBR8sF9DgevTIQTWjoAlQgJfBkg2PmQMGHVrQWwVvkRjznpVv
- BgTA==
+ bh=U38bdq29Dgw0wCI6R6HBdmbsK4pnEF7143GlmYr1GwQ=;
+ b=Mrp6jmUu4GpWFoHogKWjjzeO8Ax1IMjdXWlBJAyGzSAElDqk5H7ZtCmITp4Sqe+vny
+ j6iUs/esYyj3bXbRkTT5SbVQoqkrYQZGOpsIQmhySD/rpljYsfMrd3tkYpMNDvMYTAZi
+ WACdRZ/DJll+s+LvToCsB45E+xQdGvQvDwb12Q8C1Clo9AHvrlgUgzF1YHeCvhEe2Lom
+ jdsyFO7ARX169jOQOcId8oFe7lZthRfWJ+IBIL5H/BA3QmypSNyccRSmpjPsxibGsX2e
+ cz+DNLYhO8WlbsPY2NMwrso3/OTGR+Mi4kLoSqMSO3al8DTWJgpU2Ct8I4vLXXQJxLhy
+ AqSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692827772; x=1693432572;
+ d=1e100.net; s=20221208; t=1692827774; x=1693432574;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5ibetm8ezVxMofhImFts6YcVXwL2Xfoyep52+quRJPs=;
- b=MmlYXnNC5kijh81zefYlGTaxqv63JoloZp+sI30xgJOTwHAShKwD5jq9DbuohmY6Sy
- cv9MNE1ANowO5e+mS8PcIr+bH5iMgHIx0JZVyzjUVI3K9hGtxhdbEVg+65lBwVPgALTd
- +TIlky6szwPrnw0O9JxmxVfmbm1H+oY4rEeDrucpafZndwqi1bqmTX1/HSrpB96Wc0LQ
- kjdSQTZAHKb/JMsjQRDzFaPV/GekJR0cnQ22fDs7qeHJL1N4Nh7N71J71XiPnX2PdZOs
- Thgvfjz9m7T3q+DDEsSEESg+4lv9Pl2X0vwY0B++C65b+/0LJlvmp/Py1zcrPgXC2VY/
- XRaw==
-X-Gm-Message-State: AOJu0YwOazG3bB6B5D5C3m9TsiuhAQWUJEHLepy54YsWVrgKdmoG8NNX
- uEGTtAdPu3lO68ZsXw/9G+gGh80BsL4=
-X-Google-Smtp-Source: AGHT+IFHiIos3OoNG1LacTprRX50FGWPXiggjOvhh+wEUavEYDQhZZMxvYbwBSrkgrVGzQDc/nsF2Q==
-X-Received: by 2002:a17:903:22cf:b0:1bf:1320:9743 with SMTP id
- y15-20020a17090322cf00b001bf13209743mr13431464plg.45.1692827772362; 
- Wed, 23 Aug 2023 14:56:12 -0700 (PDT)
+ bh=U38bdq29Dgw0wCI6R6HBdmbsK4pnEF7143GlmYr1GwQ=;
+ b=iwOXId3dnZz/zt3e80isMNmfbUpkuVsQAW7BTBQxFMg03/nrP/z4puzFDmDP4njtpC
+ ZrOd7w4UNy3fu6hfm3L5x4aDIkoEEyep/KIWQtUtCeFqy5PuliwL5XEAXQ/SVyZt/4YY
+ iHrPPSlTuuadC37SgNhIAQJi9vJ/HhuDqWuq0fmfQn4fCUu/EJWQh24xOq0NFYHaj8/L
+ f64tiEc3ufm9y8ZGrg0/enfTSgnQSROVAK426J2vzPUCzJU0XfumyGkgs7yaP904h3vx
+ tizZAoCBVhdsQoDT+UbKGbzJI/Mf2jKc4y67T6vyQNEOD8Rvq3UwZb4//7J1vGDxluGC
+ 6QAQ==
+X-Gm-Message-State: AOJu0Yw4FveTulvnIpsJeUfdMdnP0xghzTEy3GiOEBsAAbnmuqHLfQ8E
+ 1IBTp/zee+UnUxlNWWeRUVGSOPLh0gY=
+X-Google-Smtp-Source: AGHT+IEK9f5kg8gg9H6xaZEI7BweoTyMRpa0VDsD1a1KvfcF409tN8lu1SQutdkpLIAzoxCQZvZB/A==
+X-Received: by 2002:a17:90a:bc98:b0:268:b682:23de with SMTP id
+ x24-20020a17090abc9800b00268b68223demr13483090pjr.28.1692827774403; 
+ Wed, 23 Aug 2023 14:56:14 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- q10-20020a17090311ca00b001b83dc8649dsm11338705plh.250.2023.08.23.14.56.11
+ 23-20020a17090a1a1700b00263e4dc33aasm271029pjk.11.2023.08.23.14.56.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 14:56:11 -0700 (PDT)
+ Wed, 23 Aug 2023 14:56:13 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 2/3] dma-buf/sync_file: Add SET_DEADLINE ioctl
-Date: Wed, 23 Aug 2023 14:54:55 -0700
-Message-ID: <20230823215458.203366-3-robdclark@gmail.com>
+Subject: [PATCH v9 3/3] dma-buf/sw_sync: Add fence deadline support
+Date: Wed, 23 Aug 2023 14:54:56 -0700
+Message-ID: <20230823215458.203366-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230823215458.203366-1-robdclark@gmail.com>
 References: <20230823215458.203366-1-robdclark@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,116 +87,170 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The initial purpose is for igt tests, but this would also be useful for
-compositors that wait until close to vblank deadline to make decisions
-about which frame to show.
+This consists of simply storing the most recent deadline, and adding an
+ioctl to retrieve the deadline.  This can be used in conjunction with
+the SET_DEADLINE ioctl on a fence fd for testing.  Ie. create various
+sw_sync fences, merge them into a fence-array, set deadline on the
+fence-array and confirm that it is propagated properly to each fence.
 
-The igt tests can be found at:
-
-https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
-
-v2: Clarify the timebase, add link to igt tests
-v3: Use u64 value in ns to express deadline.
-v4: More doc
+v2: Switch UABI to express deadline as u64
+v3: More verbose UAPI docs, show how to convert from timespec
+v4: Better comments, track the soonest deadline, as a normal fence
+    implementation would, return an error if no deadline set.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 ---
- drivers/dma-buf/dma-fence.c    |  3 ++-
- drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
- include/uapi/linux/sync_file.h | 22 ++++++++++++++++++++++
- 3 files changed, 43 insertions(+), 1 deletion(-)
+ drivers/dma-buf/sw_sync.c    | 82 ++++++++++++++++++++++++++++++++++++
+ drivers/dma-buf/sync_debug.h |  2 +
+ 2 files changed, 84 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index f177c56269bb..74e36f6d05b0 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -933,7 +933,8 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-  *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-  *   needed.
-  *
-- * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-+ * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline
-+ * (or indirectly via userspace facing ioctls like &sync_set_deadline).
-  * The deadline hint provides a way for the waiting driver, or userspace, to
-  * convey an appropriate sense of urgency to the signaling driver.
-  *
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index af57799c86ce..418021cfb87c 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -350,6 +350,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
- 	return ret;
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index f0a35277fd84..c353029789cf 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -52,12 +52,33 @@ struct sw_sync_create_fence_data {
+ 	__s32	fence; /* fd of new fence */
+ };
+ 
++/**
++ * struct sw_sync_get_deadline - get the deadline hint of a sw_sync fence
++ * @deadline_ns: absolute time of the deadline
++ * @pad:	must be zero
++ * @fence_fd:	the sw_sync fence fd (in)
++ *
++ * Return the earliest deadline set on the fence.  The timebase for the
++ * deadline is CLOCK_MONOTONIC (same as vblank).  If there is no deadline
++ * set on the fence, this ioctl will return -ENOENT.
++ */
++struct sw_sync_get_deadline {
++	__u64	deadline_ns;
++	__u32	pad;
++	__s32	fence_fd;
++};
++
+ #define SW_SYNC_IOC_MAGIC	'W'
+ 
+ #define SW_SYNC_IOC_CREATE_FENCE	_IOWR(SW_SYNC_IOC_MAGIC, 0,\
+ 		struct sw_sync_create_fence_data)
+ 
+ #define SW_SYNC_IOC_INC			_IOW(SW_SYNC_IOC_MAGIC, 1, __u32)
++#define SW_SYNC_GET_DEADLINE		_IOWR(SW_SYNC_IOC_MAGIC, 2, \
++		struct sw_sync_get_deadline)
++
++
++#define SW_SYNC_HAS_DEADLINE_BIT	DMA_FENCE_FLAG_USER_BITS
+ 
+ static const struct dma_fence_ops timeline_fence_ops;
+ 
+@@ -171,6 +192,22 @@ static void timeline_fence_timeline_value_str(struct dma_fence *fence,
+ 	snprintf(str, size, "%d", parent->value);
  }
  
-+static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
-+					unsigned long arg)
++static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
 +{
-+	struct sync_set_deadline ts;
++	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
++	unsigned long flags;
 +
-+	if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
++	spin_lock_irqsave(fence->lock, flags);
++	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
++		if (ktime_before(deadline, pt->deadline))
++			pt->deadline = deadline;
++	} else {
++		pt->deadline = deadline;
++		__set_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags);
++	}
++	spin_unlock_irqrestore(fence->lock, flags);
++}
++
+ static const struct dma_fence_ops timeline_fence_ops = {
+ 	.get_driver_name = timeline_fence_get_driver_name,
+ 	.get_timeline_name = timeline_fence_get_timeline_name,
+@@ -179,6 +216,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
+ 	.release = timeline_fence_release,
+ 	.fence_value_str = timeline_fence_value_str,
+ 	.timeline_value_str = timeline_fence_timeline_value_str,
++	.set_deadline = timeline_fence_set_deadline,
+ };
+ 
+ /**
+@@ -387,6 +425,47 @@ static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned long arg)
+ 	return 0;
+ }
+ 
++static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long arg)
++{
++	struct sw_sync_get_deadline data;
++	struct dma_fence *fence;
++	unsigned long flags;
++	struct sync_pt *pt;
++	int ret = 0;
++
++	if (copy_from_user(&data, (void __user *)arg, sizeof(data)))
 +		return -EFAULT;
 +
-+	if (ts.pad)
++	if (data.deadline_ns || data.pad)
 +		return -EINVAL;
 +
-+	dma_fence_set_deadline(sync_file->fence, ns_to_ktime(ts.deadline_ns));
++	fence = sync_file_get_fence(data.fence_fd);
++	if (!fence)
++		return -EINVAL;
++
++	pt = dma_fence_to_sync_pt(fence);
++	if (!pt)
++		return -EINVAL;
++
++	spin_lock_irqsave(fence->lock, flags);
++	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
++		data.deadline_ns = ktime_to_ns(pt->deadline);
++	} else {
++		ret = -ENOENT;
++	}
++	spin_unlock_irqrestore(fence->lock, flags);
++
++	dma_fence_put(fence);
++
++	if (ret)
++		return ret;
++
++	if (copy_to_user((void __user *)arg, &data, sizeof(data)))
++		return -EFAULT;
 +
 +	return 0;
 +}
 +
- static long sync_file_ioctl(struct file *file, unsigned int cmd,
- 			    unsigned long arg)
+ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
+ 			  unsigned long arg)
  {
-@@ -362,6 +378,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
- 	case SYNC_IOC_FILE_INFO:
- 		return sync_file_ioctl_fence_info(sync_file, arg);
+@@ -399,6 +478,9 @@ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
+ 	case SW_SYNC_IOC_INC:
+ 		return sw_sync_ioctl_inc(obj, arg);
  
-+	case SYNC_IOC_SET_DEADLINE:
-+		return sync_file_ioctl_set_deadline(sync_file, arg);
++	case SW_SYNC_GET_DEADLINE:
++		return sw_sync_ioctl_get_deadline(obj, arg);
 +
  	default:
  		return -ENOTTY;
  	}
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index ff0a931833e2..ff1f38889dcf 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -76,6 +76,27 @@ struct sync_file_info {
- 	__u64	sync_fence_info;
+diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
+index 6176e52ba2d7..a1bdd62efccd 100644
+--- a/drivers/dma-buf/sync_debug.h
++++ b/drivers/dma-buf/sync_debug.h
+@@ -55,11 +55,13 @@ static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
+  * @base: base fence object
+  * @link: link on the sync timeline's list
+  * @node: node in the sync timeline's tree
++ * @deadline: the earliest fence deadline hint
+  */
+ struct sync_pt {
+ 	struct dma_fence base;
+ 	struct list_head link;
+ 	struct rb_node node;
++	ktime_t deadline;
  };
  
-+/**
-+ * struct sync_set_deadline - SYNC_IOC_SET_DEADLINE - set a deadline hint on a fence
-+ * @deadline_ns: absolute time of the deadline
-+ * @pad:	must be zero
-+ *
-+ * Allows userspace to set a deadline on a fence, see &dma_fence_set_deadline
-+ *
-+ * The timebase for the deadline is CLOCK_MONOTONIC (same as vblank).  For
-+ * example
-+ *
-+ *     clock_gettime(CLOCK_MONOTONIC, &t);
-+ *     deadline_ns = (t.tv_sec * 1000000000L) + t.tv_nsec + ns_until_deadline
-+ */
-+struct sync_set_deadline {
-+	__u64	deadline_ns;
-+	/* Not strictly needed for alignment but gives some possibility
-+	 * for future extension:
-+	 */
-+	__u64	pad;
-+};
-+
- #define SYNC_IOC_MAGIC		'>'
- 
- /*
-@@ -87,5 +108,6 @@ struct sync_file_info {
- 
- #define SYNC_IOC_MERGE		_IOWR(SYNC_IOC_MAGIC, 3, struct sync_merge_data)
- #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
-+#define SYNC_IOC_SET_DEADLINE	_IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
- 
- #endif /* _UAPI_LINUX_SYNC_H */
+ extern const struct file_operations sw_sync_debugfs_fops;
 -- 
 2.41.0
 
