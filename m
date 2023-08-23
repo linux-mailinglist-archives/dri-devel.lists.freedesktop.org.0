@@ -2,135 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656BF785E9B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 19:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD595785EC2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 19:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19AF910E083;
-	Wed, 23 Aug 2023 17:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A64510E0A7;
+	Wed, 23 Aug 2023 17:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F13B10E083;
- Wed, 23 Aug 2023 17:31:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84B1E10E09F;
+ Wed, 23 Aug 2023 17:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692811914; x=1724347914;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=04nc97Wkx1NIHwfk6ejBCs6u3AmjKRP2U42LQB+t5kc=;
- b=NCmAJMAuJDafLnatQQKFPJhvRpLjp1iAwwdycwb2zueunhMEoI4aK7ne
- XHI3YoKkOlsfBx4/lI8kyw1WC5BvDPxP2v5tNOS5EpgawApnqSsA9y+eA
- 1ikya5UUvf/gZeJzl0J0q+pOaSrBehVpAK8FYYl/Znu4lP2rYL6qLNkcB
- P74FdpM/plnIwhDKTNmdamLtMNu+bDYsG/bc/2SkDjWPSJBGX8ZNBh4N8
- rENCeClDfQpaXlRVnfuFpPwIU/bEI+iq7XSa89nNXnAOmlcI4nwXe2AK2
- 8C1Tzp1VJdLGGAcX4QwOCkT90Q7rZaRpQVhc3XVwdEcRutkwhXmj5ibVk Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="371640964"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="371640964"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2023 10:31:48 -0700
+ t=1692812244; x=1724348244;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=GD44jnqIx7v21Zl3HijERQVpE35jMJXYdKVlMpEK7AU=;
+ b=a9EYz/7jQ4eRdkO7sfCO9exHLyy6zrGYGtuZhfSJgF0E0tX8bjC9sv7m
+ wty1kUY6K4RePFVR+trChk07F5n0wj0BzNF15ioTA47BOUGhqLfM7OPBw
+ lu5quGNo5xR9asTLjDJXZBvpYWnGSgQctHGgUCp0tzGi6dfoSa4gW8MhS
+ +4MJj6DhvB1XCSooogj9bjtNUjH3TUlPKDKmZ+kFhghqBBvoSx7FvjtrH
+ XxGVb9fY21Y6EqbK95Lmq2aFxSwnPF/S3lSfJRoFZzcFUvvNqZkmWojlA
+ bJXKMS7TjFAGcgv0E0gZ0ZMBxQkSv/wQIGmnZkYRw936etG1Q13hT9ewZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="374201454"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="374201454"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2023 10:37:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="806790572"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="806790572"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga004.fm.intel.com with ESMTP; 23 Aug 2023 10:31:46 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="766216575"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="766216575"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 23 Aug 2023 10:37:23 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 23 Aug 2023 10:31:40 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ 15.1.2507.27; Wed, 23 Aug 2023 10:37:23 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 23 Aug 2023 10:31:40 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.27; Wed, 23 Aug 2023 10:37:22 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Wed, 23 Aug 2023 10:37:22 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 23 Aug 2023 10:31:38 -0700
+ 15.1.2507.27; Wed, 23 Aug 2023 10:37:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MvcZMiiWTPWD31zI0Y6j6kKkiJzz86wh61+VksA5I5zaY61yNHS+O56LlRDCy8Wy8V9GfHtk2m1fYNutxRJrQFb3awZhdzqYqd+dgIX1eJuLMFdzToPHvxCi3Dnjf0VQyGDrCl695e29LfbzQVeLeouVWWM7u67UoTjLBB2flU4gP4Geoyo36aUlGWiZqQzCcaJk3OFZbRqbn/R1baY0Uq3pjipbp4bw4wjaTTeLQ1Lyk93w814TtlKu1x4EwoL1Rgs9E6s6NEcNTYiXmQDPk8a8J2WQWhBVLi3ch8rqwXqvxsvKq2ZWQ7EPKSkfn57Gmjd/o8WQLId2+EoItZpZEg==
+ b=msTonfuPh5Oxotroe6VDa7/nENK8itOWtV+PRH9J/nVZMu8vf5OA9WqlNe8/vb/yMYkgYfD/moxyC9nIdf1AhqfkA8YF5p13IlUtOUTpASxW4DdSoOpqCW8SL9fKoalEibxhlSJI9qGfBI5O7q5fP92mH++PwfIhEC0X9Fg6db2q2ruwaXru1Jwf/RZIzXqRR7Ndt5ZGE/cimU4WcqUC3BHATY0CenPexpolaX03Xt74g6SBMvSK/P/9+Avu3cE0KT1g3nuF1TOlsqap0dQ7ZZeuQMY9gtialMQR19RdCFmkGJW1a8eNIA4p4PPXOWE35K92qDHlNL0N1Po25ji3kA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GvxlNqqLk0TjMvemPzQakPjxiBQoDHQ2lrAyiXLSFy8=;
- b=N4pUlM4Qr9g4/mEnojVTdu7qpaHGRGYt9W8XkukC/IRdwb8t6BfJJ58jWunkupBGeL16HuNAdNahtgLx//Ikysz9bekbkJmn9P6brVKsVQKgWm5TyhKbIKltlsJjQScjUUSYUeiE5rbUlfILCKXRFWifPB9/FK3ULoGwCBs+pEsDO1r32cAYHHCCScM0ru9Cih/8NTJVquKq+UzIA0YhW5eT39AJnYQn4cLN1b7CHJnzrBu+Yzv5ijUHWG6O83QLE/dLRHeoWZUtSVDknVcLUmZI+sctOODxAzwJP19nAE/iSeh4H46K/ARbLlX4YyJvW41eOTT7pvvMS7diyAcbxA==
+ bh=HzPwBXlH/niP5CwDEiUIHaKEzzvyuVB6TFpv4qkj1UE=;
+ b=OalUX12Ok2u3QwfLFp/yVeHUMhg8o2ozpeSr+KJ0pXZxPbuezrO58ikoCVSwSZH36smzTUTUqA+A9e377hVwYkPaj97oJEHIuif7IK4a0eEsFQWQOZNEuKB/6zVd4WPgKAaQtkFJFSskl49Sl52izHm0aSILEaIS7YJ+hhO9HUOXVL0UpKHPmKOztobtO2KdfpRIJJpyCIYnhXg7voKQSMOwq3nSM1kBJ/+dos3m7kenVfJO4FNI7KxCfqhtXkb4ckKgbF9kzLN4eGmH5SzU18uTAVqvUZ0TNqmrGh35+wpDi9uNJbMCHq3MkUamrIth4tp75K2LgjmI5YFrAWV7BA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by DM4PR11MB5357.namprd11.prod.outlook.com (2603:10b6:5:394::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.26; Wed, 23 Aug
- 2023 17:31:36 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
- 17:31:36 +0000
-Date: Wed, 23 Aug 2023 13:31:30 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v7] drm/doc: Document DRM device reset expectations
-Message-ID: <ZOZCcnwu3IOHGoJ/@intel.com>
-References: <20230818200642.276735-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230818200642.276735-1-andrealmeid@igalia.com>
-X-ClientProxiedBy: SJ0PR05CA0157.namprd05.prod.outlook.com
- (2603:10b6:a03:339::12) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by SJ0PR11MB4879.namprd11.prod.outlook.com (2603:10b6:a03:2da::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Wed, 23 Aug
+ 2023 17:37:20 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f%6]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
+ 17:37:20 +0000
+Message-ID: <e31b1f49-88cd-d6e4-abbe-51f27712ff83@intel.com>
+Date: Wed, 23 Aug 2023 10:37:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when flush
+ delayed work on gt reset
+Content-Language: en-GB
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230811182011.546026-1-zhanjun.dong@intel.com>
+ <3a745c83-e7cf-6a24-5556-8c0c019adfec@intel.com>
+ <ZOYtNyqfvqJPeqq2@phenom.ffwll.local>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <ZOYtNyqfvqJPeqq2@phenom.ffwll.local>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0148.namprd04.prod.outlook.com
+ (2603:10b6:303:84::33) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM4PR11MB5357:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e5828a5-f061-48e9-4f5a-08dba3feccd7
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SJ0PR11MB4879:EE_
+X-MS-Office365-Filtering-Correlation-Id: dea0e577-6cb3-4bf7-cac3-08dba3ff99f5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KfKslJyGa7luT674oM2KB9Q7CLsvkVt0SOFR0BMTrQRFX4wV+YfywOFa/9x25btpSaQt5IUtnqF05IAFSaMIB8ZnzuRlr65T6HnYjE5OLylHqIoAcn/+lpjjTCGNluYgedI4hIxQojGawCVHRnWDWuGTqseF0WLmlL0PimcdNqiaYyu3NG2nie5whbwUsUOkV/F6ppLWiG6RBHW9ha4xkLMI5urEkN8ItDJ7upXt3JnNx6lvXbOrJlcbhmrRuYfIQE2CxXqRvNsYbI91i508xskH8DSkMPmicAuJSX/2PoCCqD92NuUBf+Ou++bo9KV4L+XpW/VuFUCcRDBiVh1WKLUscHBJn7ILWL9s4szdiBTu4hpvl0Pm4aXjgzqTbWHCGcih7fLkqlfXQkTg6t/K/vKdsgsmesQb6SZT0sXEoyVdd7XEkpoZNhHLZCjxSfDvcwsNrqYA0osPqalM8tAcUxO7AA9gBdi1E/I9FClfY1NNhFj2yod/0aBaJkDS6QnMmQkjQuc/NlPKHPXbG2C8dZSfizRl3oLCGVWqJnfhKhf8ZFUCw8bE7c/PY3RBkKb4GoAsH8Jo7d/pQvde8Ekahw==
+X-Microsoft-Antispam-Message-Info: tX+ohys9HIr4+UX4WynPFi3mZ8n6k9TA+0ZbReo8boC41ldH9tPb+IaPEaFPIXxTNdcE7QPc/p2x/3cns3waXUSeCBLWGHdydZW8QuYGB+ziiKkuU4pkYndumq1BfP6GfqDvQF1nKBlfNLrG2deZMMRY7sAwzoSyt5yE/aM722snS+UyG0hWePcoqi3EDNuVR3GsdfYqYIOKSEuW4MI9xEsI80Tl7o40cal8gwim8+aw7fKuEOHoNQsnPQKb/sHyNn855CDR0STWH4EOyDNGlrE/yN2Gy80Ye3OsV4aQtzrbpe6rd2raVcwcPiD2XgdpBbgabOqNAECgAabhsPD+tmcfAA7Ms8XKKbdueZeedd+ICcSJwRFWfyPDwfJi3Lu+Uu7bwXMcHbNK1tVbqfm++5bY6UxDxj+NUMS2+LCHaphOPGDPuKtnecJf5wdm37nAaVTr7OIQyFq+LNW50x2wdKuWcrK6eC6VXqXQ8f8ymmBZbXXmBZX7SZDfFA8WYP42rQOdaZav+1Ury3erPrcDkG1jCi/3irwcYiamJBIcmmaLAgSHkLxQqaTLSzskN8Vt7iKV0f2d3221O8B9Xrdpvjzd2jGeaTbZUt1BA+03FsKiimzZTU8zgkLleKDZzYy+/aD5H6WA8nvYmIh5AfJAag==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(376002)(136003)(396003)(346002)(39860400002)(451199024)(1800799009)(186009)(66946007)(66556008)(66476007)(54906003)(5660300002)(44832011)(2616005)(41300700001)(316002)(6916009)(2906002)(966005)(478600001)(86362001)(8936002)(4326008)(8676002)(7416002)(38100700002)(6666004)(6512007)(6506007)(6486002)(82960400001)(66899024)(36756003)(83380400001)(26005);
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(366004)(136003)(396003)(39860400002)(451199024)(186009)(1800799009)(2906002)(83380400001)(6506007)(53546011)(6486002)(38100700002)(5660300002)(26005)(31696002)(86362001)(31686004)(8676002)(8936002)(82960400001)(2616005)(4326008)(6512007)(316002)(66476007)(66556008)(54906003)(66946007)(6916009)(478600001)(6666004)(36756003)(41300700001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?dbFy7gYQY3NtU+E5yru0n+gOt99EcTgHxL5dNfiCXt48DNR9eV14JxkcjH?=
- =?iso-8859-1?Q?Yg+YysYwOm3Ai7x0jEip41icgdol6VF156tB+2vOQ0Y/KMdZxDC0KZhyg4?=
- =?iso-8859-1?Q?LGWGKT/QwFVEqtKawPXdL0rAL9RA3Fj47Q2izY3Icjs05UfUnsGQX/hYV9?=
- =?iso-8859-1?Q?0szGaGHLB0K9dj9lUs881MWwYnzBbkB5qHQ4dNoTTEp62jBS07wpNGPwOP?=
- =?iso-8859-1?Q?JGx/N/of0Uf0T3tq6cZYmxm5BeO+x0Lwqd8TTUrlp9MjFShLDwgYN/yT8s?=
- =?iso-8859-1?Q?7gJEZBbwWG/21BhlNkxjhsOIsfPQzLxFOixYUnFoa/XjbIVpjRvX27go5V?=
- =?iso-8859-1?Q?OMWfcRSp5qzmsWxCixIBBiGCkE/QiNK93WIhIQvl4V3+NvJakREXbNueCE?=
- =?iso-8859-1?Q?QYox6oxsOo8ZJ1LP+pzpZMUMnSSXJ8egwILdd6KzDoWsOv+1Tl1CauQHZf?=
- =?iso-8859-1?Q?VJ7na5Zff6stFdNVBJm5aqOsIg3Uqbvz1Ksm0pg8C7spdRIx/Wmrq5ISG5?=
- =?iso-8859-1?Q?4sJv3DPl3xJDTMQI2xlTsi5DNDoV9CMGGpSaBBqw0gRYbQgoEFkV9giUxC?=
- =?iso-8859-1?Q?bRERwMeajU6eSUxezj0jmWmRc8HZID2/X6X8PGva2098l+eVcp/8PXRApl?=
- =?iso-8859-1?Q?jvgGib84hKlgmbq5etznYHdCCk1MYl5zkWOw6d/nGt13kuy96QEtCPvN2n?=
- =?iso-8859-1?Q?pUsXHSjblY0KTPse72Amc1j0CFYapaMh+fcc1FVeuhyiH1OLeXsb4a55mS?=
- =?iso-8859-1?Q?5UDdK0dqQ/Ft2MDaJQJt/GWrfoiGImaI7cUX/X6GdTPu6aIzjhlDvYBy9J?=
- =?iso-8859-1?Q?vrBHsXUZpYMOB1iS/QNLLkQ/3g41W//VhOowk1aIx0xiTkePx6nF/ulolE?=
- =?iso-8859-1?Q?WzHmbXF9laqd2xfKDv2Q9r2hYGyjqaRIRKsw9ubSCX/WYTRr/ZtfbFMs37?=
- =?iso-8859-1?Q?QxTkAfSnjl69KAvTuLfyXY5htj9/iDINpQuWF3nH4eNQnW3pckdHNRjIVn?=
- =?iso-8859-1?Q?zEkvpez4lUnu76KHan9f82wmr1S7qTzgQOx05xnHQ3XOzoZeKqr0yEwmmQ?=
- =?iso-8859-1?Q?SL8D3Qpk6NgGg70FA1xH3UyJHI1os+yC72JqGAgqGpHDnEa0//cJB+K8H3?=
- =?iso-8859-1?Q?XfmluSEEa/wOPRPO1wCk1joUFm/PjVRIYxcawXxDS33t2BTty9kaLZ1Xtm?=
- =?iso-8859-1?Q?WYOkKKuLaIwcljyHUR0Dav6Jv4pPsOW7ZCkAbSduv8GiN+mN+/bPOjdY5g?=
- =?iso-8859-1?Q?9ADL3Oz39Kb2W+urN+iop2QiPH4lpzl/C8AryUnRNGfFlDdHCGAufP6FIj?=
- =?iso-8859-1?Q?GHZqydssAOnYsKBjPodrHgMrHOaJvgEogbIiZJWiWxYWUv0wh2k96cLOlw?=
- =?iso-8859-1?Q?wGjsnDd2eL3hxXvT6IcLjjPjinub5htLv0uCPtmqxohF7lUAbIUYm7A08j?=
- =?iso-8859-1?Q?dCK/rAfLQvBLqtfjiZr0dHPrJSFYo4IFJQJ7CKHRGSi9mCMShN3FTGdJod?=
- =?iso-8859-1?Q?eZSY84v9aL594K1Bo1G6U5EjsOYjXCf53CHgIl0Nmfyl8KuTTmJt1ujr3Z?=
- =?iso-8859-1?Q?HS5ZWmOr86bkvNpbOa27sHrbNzi8V3gqJbpsGjnncjt3DcDd5VxtlnADSy?=
- =?iso-8859-1?Q?7hId9CP9F/7CfXf4qNGVHiCSTHFjielR7QlZW8pL1ga9DuE+8ICA5rkQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e5828a5-f061-48e9-4f5a-08dba3feccd7
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjFVb3BqRk9rMjcrTTJiTVUydjJ5UmtYMHpjMm1YL041SERiU09maWRnSmV6?=
+ =?utf-8?B?d1hsS2taWUY0di90dTNyWlZsajBOdE04UXZZNnc2Y1VtRUg3a1hVREYzUmYw?=
+ =?utf-8?B?Y0ZQdm1OQURnbERRUDZiYmZ5Zk9CUlhzRW9OeExqZVR2UGVGSkh2Zis1ZDVZ?=
+ =?utf-8?B?ZGpXN0I3cWR6eXpKN1htb0kwZVlZSkFZVDlYTnFrT1R5NmVFanVkZGtpZWE0?=
+ =?utf-8?B?dTNMUzdHUjFBVDZuNVBTcjVYVkR3Z2VlaDZjSGlPNTVsSGN4WW1UUXBlOVhp?=
+ =?utf-8?B?eGJCQnFrZlZ1QXF5ckIrSUFBQzhid2tVMVRUZUdtaGtXUjRxejFvSlVmM1Zw?=
+ =?utf-8?B?Z2M2RnJYNFdTTVh5VnNyZEtXWlJPNm5DK3VPRVNNSEd6YXB5NXR3NEhLVmRI?=
+ =?utf-8?B?bVREOHBscG9BVWlSRTlWQmdFS0U4ODBEeHhvRUd4S2ZYZzF4aFRROWZYaVB6?=
+ =?utf-8?B?L01tWjgxR3JvMTdKdlpzdVhCY1h3YkhjOUFEam0yVHYwQ21VVW1SbGROd25j?=
+ =?utf-8?B?NE9SR3N0TnJseWtxYUhpM0lycEVRZ3RhZHhDMzdWN3BueThYWm8yYTdxQnNw?=
+ =?utf-8?B?ZTR6RUV2TERNbE44dWJaQnJaN1J6cFozQUgwbzdjamx2dEwyUVlKMjU1Tmt0?=
+ =?utf-8?B?SHBVMzE2RTRZRTQ0UXNxNDBiTStLUVN4WjJ2U2FqQ2NDZDl2MmZVWmNVVU4x?=
+ =?utf-8?B?by9ZaEJhckdid2c3My9STWU2TERidHU4cUxtZm5CMHhwMC9HaCt0NmNwSTBC?=
+ =?utf-8?B?a0wyMXpOZENhcmNPODJjVlhPZzNrOCs4d2VDZWo0NFdaY2o1eDMwdFBvSWVi?=
+ =?utf-8?B?VlppTTBWelVYc253SXNiRmMyTXBSWEhBVlBkZkQ1VHNhR25qc0I0Tld1Y1o3?=
+ =?utf-8?B?UEpuYWY5YlpsN0xibDJSL3d2SXFzd0ZDcFVJMEpzNUp6b0VTNVJGeDdzdnoy?=
+ =?utf-8?B?VThXenNrVE1TVEpBM0VyWjM4STN5bnJVY0hhQXBwMUltZUlnNDRQTjQ3b3Fo?=
+ =?utf-8?B?SW5kVzgxTlBzb3hMYTN1MU4rWUJ4YW1nbE1sRWk4c1dyRG05d3QvQVNwZzlD?=
+ =?utf-8?B?M01ZWEh4T2ZiY2drZ01HeUFuZEM0MzZyVjNUdnhqSUpaVDFLM2RNVkdnUTEv?=
+ =?utf-8?B?OUVjWmNrWVpBdCsxSjFueHN0TWNwY1JNaE5mVUc5SlYyR2xQWWloNFlKSzF2?=
+ =?utf-8?B?UWM3RzdGbFRmN2tldnVUcVE0d0JjdG81OG12M0pKdXNkeWE5a0NPd1RWYnk0?=
+ =?utf-8?B?MGkyamJ1YSs1cWJ1Z0gzL2VVRVI3Uyt2RENZWFBEUUFhYWVJVFBWMnBMaVhL?=
+ =?utf-8?B?Rlkxb3I4c0xzWERLZHRMSWVIRkpGZktDMjdlTHRWUUpoMVZrRVdGZWZJWUdP?=
+ =?utf-8?B?T0o3d1piNmxWN2Zibk1uclpFcnd6eDAyZlN1Wm9wRFpFaWZDeWVVakxuT3JJ?=
+ =?utf-8?B?cW1iZWE4M0VGTkJmWHQrNHNPZjdRY3R2Q0RzaklOLzhuTm9HK3NFQnY1c0xl?=
+ =?utf-8?B?bGROeFI4M08xZk5VcUJEUkdoMUhKb21VbEErNStlOWFFOUdpL0xvL0lKVVR5?=
+ =?utf-8?B?ZjhuTUdocWZaU28vME9kVm14NHBkcklhbzA4SzVjZVBaYldOcE4zVmFCWWQ2?=
+ =?utf-8?B?eVZIeFFNc2dkb2ZFaHV5NEJOM2kzRnEyWlRGOTVheWJ3ak9xRS9rL045YkFm?=
+ =?utf-8?B?TDFEcHduRGVHbG9oNGdnWFFtcVlURXZQUjZyZmFhUS9kMloya1ArV3QrSU9G?=
+ =?utf-8?B?NWtHdnQwVG4zTXF1dktzeXpBQ2lOeGNUT0lqbXEvcURuWVRRakx2T3pNeVU0?=
+ =?utf-8?B?cW9JYml4b0Y4WkZna0VkWUNMbnBqZERjNXl0d1ZyRThtd1p4Wk43Z3pXS1dj?=
+ =?utf-8?B?aWhqY2pESHR5c2pVSjArRzJFdGF6b2M5Y09oS2s0KzFXVDByd3pOdW9KR3k1?=
+ =?utf-8?B?c3greEMrdWNrSVlLKzZKZS9ESUZHZ2dRcDlUczVjekV6NUtCSG8zM1JVTmRK?=
+ =?utf-8?B?WkdLc1RlTzVFY3dUSCtVdnBRL0cwV3FPL3d4NEgxSHZxSUFqakJGQzJXc1lP?=
+ =?utf-8?B?bnI5K3FUUXJiRDhhY1NjNkhabTVsdk9sbjhzb0VKeC9rS3htNEprN2s0elc5?=
+ =?utf-8?B?NXNkNUE2UlE5V2wvYTdtMjJhUUVFRk9pUXpoYWg5OTNEWDNEdmRCZWpSSURM?=
+ =?utf-8?B?MUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dea0e577-6cb3-4bf7-cac3-08dba3ff99f5
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 17:31:36.3630 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 17:37:19.9646 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tqJFkV5GZYqE5zrdXdY7lXIUS876p+5pY26MyKg9t2YX6Aotzx1UujAkJzyOrXOyOX0Ge9/pABFZg7TqpZp0hQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5357
+X-MS-Exchange-CrossTenant-UserPrincipalName: YXQtTeuHSIrIfWFbTfSWX0NVPYrVuY1XNsbV5S++V2TwFREoFFeDahvBwNFKfo26bs0/NunvvtdUNINyr0Ibo+8T8uXesXSiyGWjMw/kL1c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4879
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -144,142 +161,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com, Samuel
- Pitoiset <samuel.pitoiset@gmail.com>,
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>, Randy
- Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>, intel-gfx@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 05:06:42PM -0300, André Almeida wrote:
-> Create a section that specifies how to deal with DRM device resets for
-> kernel and userspace drivers.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> 
-> ---
-> 
-> v7 changes:
->  - s/application/graphical API contex/ in the robustness part (Michel)
->  - Grammar fixes (Randy)
-> 
-> v6: https://lore.kernel.org/lkml/20230815185710.159779-1-andrealmeid@igalia.com/
-> 
-> v6 changes:
->  - Due to substantial changes in the content, dropped Pekka's Acked-by
->  - Grammar fixes (Randy)
->  - Add paragraph about disabling device resets
->  - Add note about integrating reset tracking in drm/sched
->  - Add note that KMD should return failure for contexts affected by
->    resets and UMD should check for this
->  - Add note about lack of consensus around what to do about non-robust
->    apps
-> 
-> v5: https://lore.kernel.org/dri-devel/20230627132323.115440-1-andrealmeid@igalia.com/
-> ---
->  Documentation/gpu/drm-uapi.rst | 77 ++++++++++++++++++++++++++++++++++
->  1 file changed, 77 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 65fb3036a580..3694bdb977f5 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -285,6 +285,83 @@ for GPU1 and GPU2 from different vendors, and a third handler for
->  mmapped regular files. Threads cause additional pain with signal
->  handling as well.
->  
-> +Device reset
-> +============
-> +
-> +The GPU stack is really complex and is prone to errors, from hardware bugs,
-> +faulty applications and everything in between the many layers. Some errors
-> +require resetting the device in order to make the device usable again. This
-> +section describes the expectations for DRM and usermode drivers when a
-> +device resets and how to propagate the reset status.
-> +
-> +Device resets can not be disabled without tainting the kernel, which can lead to
-> +hanging the entire kernel through shrinkers/mmu_notifiers. Userspace role in
-> +device resets is to propagate the message to the application and apply any
-> +special policy for blocking guilty applications, if any. Corollary is that
-> +debugging a hung GPU context require hardware support to be able to preempt such
-> +a GPU context while it's stopped.
-> +
-> +Kernel Mode Driver
-> +------------------
-> +
-> +The KMD is responsible for checking if the device needs a reset, and to perform
-> +it as needed. Usually a hang is detected when a job gets stuck executing. KMD
-> +should keep track of resets, because userspace can query any time about the
-> +reset status for a specific context. This is needed to propagate to the rest of
-> +the stack that a reset has happened. Currently, this is implemented by each
-> +driver separately, with no common DRM interface. Ideally this should be properly
-> +integrated at DRM scheduler to provide a common ground for all drivers. After a
-> +reset, KMD should reject new command submissions for affected contexts.
+On 8/23/2023 09:00, Daniel Vetter wrote:
+> On Tue, Aug 22, 2023 at 11:53:24AM -0700, John Harrison wrote:
+>> On 8/11/2023 11:20, Zhanjun Dong wrote:
+>>> This attempts to avoid circular locking dependency between flush delayed
+>>> work and intel_gt_reset.
+>>> When intel_gt_reset was called, task will hold a lock.
+>>> To cacel delayed work here, the _sync version will also acquire a lock,
+>>> which might trigger the possible cirular locking dependency warning.
+>>> When intel_gt_reset called, reset_in_progress flag will be set, add code
+>>> to check the flag, call async verion if reset is in progress.
+>>>
+>>> Signed-off-by: Zhanjun Dong<zhanjun.dong@intel.com>
+>>> Cc: John Harrison<John.C.Harrison@Intel.com>
+>>> Cc: Andi Shyti<andi.shyti@linux.intel.com>
+>>> Cc: Daniel Vetter<daniel@ffwll.ch>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++++++++++-
+>>>    1 file changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index a0e3ef1c65d2..600388c849f7 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -1359,7 +1359,16 @@ static void guc_enable_busyness_worker(struct intel_guc *guc)
+>>>    static void guc_cancel_busyness_worker(struct intel_guc *guc)
+>>>    {
+>>> -	cancel_delayed_work_sync(&guc->timestamp.work);
+>>> +	/*
+>>> +	 * When intel_gt_reset was called, task will hold a lock.
+>>> +	 * To cacel delayed work here, the _sync version will also acquire a lock, which might
+>>> +	 * trigger the possible cirular locking dependency warning.
+>>> +	 * Check the reset_in_progress flag, call async verion if reset is in progress.
+>>> +	 */
+>> This needs to explain in much more detail what is going on and why it is not
+>> a problem. E.g.:
+>>
+>>     The busyness worker needs to be cancelled. In general that means
+>>     using the synchronous cancel version to ensure that an in-progress
+>>     worker will not keep executing beyond whatever is happening that
+>>     needs the cancel. E.g. suspend, driver unload, etc. However, in the
+>>     case of a reset, the synchronous version is not required and can
+>>     trigger a false deadlock detection warning.
+>>
+>>     The business worker takes the reset mutex to protect against resets
+>>     interfering with it. However, it does a trylock and bails out if the
+>>     reset lock is already acquired. Thus there is no actual deadlock or
+>>     other concern with the worker running concurrently with a reset. So
+>>     an asynchronous cancel is safe in the case of a reset rather than a
+>>     driver unload or suspend type operation. On the other hand, if the
+>>     cancel_sync version is used when a reset is in progress then the
+>>     mutex deadlock detection sees the mutex being acquired through
+>>     multiple paths and complains.
+>>
+>>     So just don't bother. That keeps the detection code happy and is
+>>     safe because of the trylock code described above.
+> So why do we even need to cancel anything if it doesn't do anything while
+> the reset is in progress?
+It still needs to be cancelled. The worker only aborts if it is actively 
+executing concurrently with the reset. It might not start to execute 
+until after the reset has completed. And there is presumably a reason 
+why the cancel is being called, a reason not necessarily related to 
+resets at all. Leaving the worker to run arbitrarily after the driver is 
+expecting it to be stopped will lead to much worse things than a fake 
+lockdep splat, e.g. a use after free pointer deref.
 
-is there any consensus around what exactly 'affected contexts' might mean?
-I see i915 pin-point only the context that was at execution with head pointing
-at it and doesn't blame the queued ones, while on Xe it looks like we are
-blaming all the queued context. Not sure what other drivers are doing for the
-'affected contexts'.
+John.
 
-> +
-> +User Mode Driver
-> +----------------
-> +
-> +After command submission, UMD should check if the submission was accepted or
-> +rejected. After a reset, KMD should reject submissions, and UMD can issue an
-> +ioctl to the KMD to check the reset status, and this can be checked more often
-> +if the UMD requires it. After detecting a reset, UMD will then proceed to report
-> +it to the application using the appropriate API error code, as explained in the
-> +section below about robustness.
-> +
-> +Robustness
-> +----------
-> +
-> +The only way to try to keep a graphical API context working after a reset is if
-> +it complies with the robustness aspects of the graphical API that it is using.
-> +
-> +Graphical APIs provide ways to applications to deal with device resets. However,
-> +there is no guarantee that the app will use such features correctly, and a
-> +userspace that doesn't support robust interfaces (like a non-robust
-> +OpenGL context or API without any robustness support like libva) leave the
-> +robustness handling entirely to the userspace driver. There is no strong
-> +community consensus on what the userspace driver should do in that case,
-> +since all reasonable approaches have some clear downsides.
-> +
-> +OpenGL
-> +~~~~~~
-> +
-> +Apps using OpenGL should use the available robust interfaces, like the
-> +extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
-> +interface tells if a reset has happened, and if so, all the context state is
-> +considered lost and the app proceeds by creating new ones. There's no consensus
-> +on what to do to if robustness is not in use.
-> +
-> +Vulkan
-> +~~~~~~
-> +
-> +Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
-> +This error code means, among other things, that a device reset has happened and
-> +it needs to recreate the contexts to keep going.
-> +
-> +Reporting causes of resets
-> +--------------------------
-> +
-> +Apart from propagating the reset through the stack so apps can recover, it's
-> +really useful for driver developers to learn more about what caused the reset in
-> +the first place. DRM devices should make use of devcoredump to store relevant
-> +information about the reset, so this information can be added to user bug
-> +reports.
-> +
->  .. _drm_driver_ioctl:
->  
->  IOCTL Support on Device Nodes
-> -- 
-> 2.41.0
-> 
+>
+> Just remove the cancel from the reset path as uneeded instead, and explain
+> why that's ok? Because that's defacto what the cancel_work with a
+> potential deadlock scenario for cancel_work_sync does, you either don't
+> need it at all, or the replacement creates a bug.
+> -Daniel
+>
+>>
+>> John.
+>>
+>>
+>>> +	if (guc_to_gt(guc)->uc.reset_in_progress)
+>>> +		cancel_delayed_work(&guc->timestamp.work);
+>>> +	else
+>>> +		cancel_delayed_work_sync(&guc->timestamp.work);
+>>>    }
+>>>    static void __reset_guc_busyness_stats(struct intel_guc *guc)
+
