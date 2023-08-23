@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E4C7853A9
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:18:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AE87853B9
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Aug 2023 11:20:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6899110E0C9;
-	Wed, 23 Aug 2023 09:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADECA10E3F2;
+	Wed, 23 Aug 2023 09:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5556510E0C9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:18:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32DAF11FB;
- Wed, 23 Aug 2023 02:18:40 -0700 (PDT)
-Received: from [10.57.90.206] (unknown [10.57.90.206])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 40AD63F740;
- Wed, 23 Aug 2023 02:17:57 -0700 (PDT)
-Message-ID: <6974e1a3-2642-63f4-f5d9-606b114ac60d@arm.com>
-Date: Wed, 23 Aug 2023 10:17:59 +0100
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5856010E3F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 09:20:41 +0000 (UTC)
+X-UUID: 514216f2419611ee9cb5633481061a41-20230823
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=uetrbrfWrgD400OH1ojtvDiq8JdXohR2zwXYZOz9U4I=; 
+ b=EaTd+3oXhGAg3ImJSZ03o5sJ8bG3Cyn++9YVsciV0iUqNvxSdekYi5RbAFD1KdB2GId1fedJ1cxd7eeRX8kHyz/oYVUOoiEeUG9p0eu9NBapcTlwMrH2wVbNCQuzY0lGIxUA5t/5P4E5STfEIixsJpXq3yNdba5TbocLJ40vBYw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:c8c4894b-af02-4e88-b8e9-0876ce9f5bb6, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.31, REQID:c8c4894b-af02-4e88-b8e9-0876ce9f5bb6, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:0ad78a4, CLOUDID:c996a81f-33fd-4aaa-bb43-d3fd68d9d5ae,
+ B
+ ulkID:23082317203649PNTAB8,BulkQuantity:1,Recheck:0,SF:38|29|28|17|19|48,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SDM, TF_CID_SPAM_ASC, TF_CID_SPAM_FAS,
+ TF_CID_SPAM_FSD, TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
+X-UUID: 514216f2419611ee9cb5633481061a41-20230823
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 513278503; Wed, 23 Aug 2023 17:20:35 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 23 Aug 2023 17:20:34 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 23 Aug 2023 17:20:34 +0800
+From: Shuijing Li <shuijing.li@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2] drm/mediatek: dsi: Add mode_valid callback to DSI bridge
+Date: Wed, 23 Aug 2023 17:20:47 +0800
+Message-ID: <20230823092047.32258-1-shuijing.li@mediatek.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 13/15] drm/panthor: Allow driver compilation
-Content-Language: en-GB
-To: Robin Murphy <robin.murphy@arm.com>, Daniel Stone
- <daniels@collabora.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-14-boris.brezillon@collabora.com>
- <abed970e-db59-9eef-c4b6-dee49718f582@arm.com>
- <fa757894-f501-4114-ba7c-e46c59904300@collabora.com>
- <71e8c55c-049f-688a-b97e-bdfbb54d18cb@arm.com>
- <60720747-5f03-2766-0d5f-e102097308e7@arm.com>
- <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,150 +72,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/08/2023 18:56, Robin Murphy wrote:
-> On 2023-08-14 12:18, Steven Price wrote:
->> On 11/08/2023 20:26, Robin Murphy wrote:
->>> On 2023-08-11 17:56, Daniel Stone wrote:
->>>> Hi,
->>>>
->>>> On 11/08/2023 17:35, Robin Murphy wrote:
->>>>> On 2023-08-09 17:53, Boris Brezillon wrote:
->>>>>> +obj-$(CONFIG_DRM_PANTHOR) += panthor.o
->>>>>
->>>>> FWIW I still think it would be nice to have a minor
->>>>> directory/Kconfig/Makefile reshuffle and a trivial bit of extra
->>>>> registration glue to build both drivers into a single module. It
->>>>> seems like it could be a perpetual source of confusion to end users
->>>>> where Mesa "panfrost" is the right option but kernel "panfrost" is
->>>>> the wrong one. Especially when pretty much every other GPU driver is
->>>>> also just one big top-level module to load for many different
->>>>> generations of hardware. Plus it would mean that if someone did want
->>>>> to have a go at deduplicating the resource-wrangling boilerplate for
->>>>> OPPs etc. in future, there's more chance of being able to do so
->>>>> meaningfully.
->>>>
->>>> It might be nice to point it out, but to be fair Intel and AMD both
->>>> have two (or more) drivers, as does Broadcom/RPi. As does, err ...
->>>> Mali.
->>>
->>> Indeed, I didn't mean to imply that I'm not aware that e.g. gma500 is to
->>> i915 what lima is to panfrost. It was more that unlike the others where
->>> there's a pretty clear line in the sand between "driver for old
->>> hardware" and "driver for the majority of recent hardware", this one
->>> happens to fall splat in the middle of the current major generation such
->>> that panfrost is the correct module for Mali Bifrost but also the wrong
->>> one for Mali Bifrost... :/
->>
->> Well panfrost.ko is the correct module for all Bifrost ;) It's Valhall
->> that's the confusing one.
-> 
-> Bah, you see? If even developers sufficiently involved to be CCed on the
-> patches can't remember what's what, what hope does Joe User have? :D
-> 
->> I would hope that for most users they can just build both panfrost and
->> panthor and everything will "Just Work (tm)". I'm not sure how much
->> users are actually aware of the architecture family of their GPU.
->>
->> I think at the moment (until marketing mess it up) there's also the
->> 'simple' rule:
->>
->> * Mali T* is Midgard and supported by panfrost.ko
->> * Mali Gxx (two digits) is Bifrost or first-generation Valhall and
->> supported by panfrost.ko
->> * Mali Gxxx (three digits) is Valhall CSF and supported by panthor.
->>
->> (and Immortalis is always three digits and Valhall CSF).
-> 
-> With brain now engaged, indeed that sounds right. However if the
-> expectation is that most people would steer clear even of marketing's
-> alphabet soup and just enable everything, that could also be seen as
-> somewhat of an argument for just putting it all together and not
-> bothering with a separate option.
-> 
->>>> I can see the point, but otoh if someone's managed to build all the
->>>> right regulator/clock/etc modules to get a working system, they'll
->>>> probably manage to figure teh GPU side out?
->>>
->>> Maybe; either way I guess it's not really my concern, since I'm the only
->>> user that *I* have to support, and I do already understand it. From the
->>> upstream perspective I mostly just want to hold on to the hope of not
->>> having to write my io-pgtable bugs twice over if at all possible :)
->>
->> I agree it would be nice to merge some of the common code, I'm hoping
->> this is something that might be possible in the future. But at the
->> moment the focus is on trying to get basic support for the new GPUs
->> without the danger of regressing the old GPUs.
-> 
-> Yup, I get that, it's just the niggling concern I have is whether what
-> we do at the moment might paint us into a corner with respect to what
-> we're then able to change later; I know KConfig symbols are explicitly
-> not ABI, but module names and driver names might be more of a grey area.
-> 
->> And, to be honest, for a fair bit of the common code in
->> panfrost/panthorm it's common to a few other drivers too. So the correct
->> answer might well be to try to add more generic helpers (devfreq,
->> clocks, power domains all spring to mind - there's a lot of boiler plate
->> and nothing very special about Mali).
-> 
-> That much is true, however I guess there's also stuff like perf counter
-> support which is less likely to be DRM-level generic but perhaps still
-> sufficiently similar between JM and CSF. The main thing I don't know,
-> and thus feel compelled to poke at, is whether there's any possibility
-> that once the new UAPI is mature, it might eventually become preferable
-> to move Job Manager support over to some subset of that rather than
-> maintain two whole UAPIs in parallel (particularly at the Mesa end). My
-> (limited) understanding is that all the BO-wrangling and MMU code is
-> primarily different here for the sake of supporting new shiny UAPI
-> features, not because of anything inherent to CSF itself (other than CSF
-> being the thing which makes supporting said features feasible). If
-> that's a preposterous idea and absolutely never ever going to be
-> realistic, then fine, but if not, then it feels like the kind of thing
-> that my all-too-great experience of technical debt and bad short-term
-> decisions tells me is worth planning around from the very start.
+Support IGT (Intel GPU Tools) in Mediatek DSI driver.
+According to the description of MIPI Alliance Specification for D-PHY 
+Version 1.1, the maximum supported data rate is 1.5Gbps, so add mode_valid
+callback to dsi bridge to filter out the data rate exceeding the
+Specification.
 
-I agree this seems to be more a "political" decision rather than a
-technical one. There is an attempt to start supporting Mali CSF GPUs
-better and hopefully have more engagement from within Arm as well as Arm
-backing Collabora[1]. This means there's some desire to be able to work
-on panthor without having to worry about the potential of regressing
-panfrost.
+Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+---
+Changes in v2:
+Correct descriptions of title and commit message.
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-But CSF also provides some fairly radical changes to the way the GPU is
-driven: firmware scheduling being the obvious one, and user-mode
-submission being something that is hopefully coming soon. So to some
-extent there's going to be two UAPIs because the GPU interface has changed.
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 7d5250351193..a494e04f0ddf 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -806,6 +806,25 @@ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 	mtk_dsi_poweroff(dsi);
+ }
+ 
++static enum drm_mode_status
++mtk_dsi_bridge_mode_valid(struct drm_bridge *bridge,
++			  const struct drm_display_info *info,
++			  const struct drm_display_mode *mode)
++{
++	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
++	u32 bpp;
++
++	if (dsi->format == MIPI_DSI_FMT_RGB565)
++		bpp = 16;
++	else
++		bpp = 24;
++
++	if (mode->clock * bpp / dsi->lanes > 1500000)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
++}
++
+ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.attach = mtk_dsi_bridge_attach,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+@@ -815,6 +834,7 @@ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
+ 	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.mode_valid = mtk_dsi_bridge_mode_valid,
+ 	.mode_set = mtk_dsi_bridge_mode_set,
+ };
+ 
+-- 
+2.40.1
 
-However, there are definitely aspects of panthor that could apply to
-panfrost - VM_BIND *could* be implemented for panfrost and potentially
-could be useful. And the control of the GPU's VA space that panthor
-provides is something that's lacking in panfrost. The question that I
-see is, if panfrost was extended to include these APIs, would anyone use
-them? If no-one is going to work on the Mesa side to make use of these
-features in panfrost then it's likely to be untested (buggy) code; we'd
-be relying on it "being the same as CSF" while not quite being.
-
-In terms of the question of one kernel module or two: it's a good
-question. There's a patch that moves panfrost over to using drm_exec[2]
-which requires loading a new kernel module - it broke my test setup, but
-I don't think we generally consider this ABI that we mustn't break. So I
-think there is scope for changing our minds in the future if necessary.
-
-Given that the two drivers are currently not at all combined it seems
-sensible to me to build separate kernel modules, but I've no strong
-views on that. And it might make sharing code in the future harder.
-
-Steve
-
-[1]
-https://www.arm.com/company/news/2023/07/arm-expands-open-source-partnerships
-
-[2]
-https://lore.kernel.org/r/20230712124704.333004-6-christian.koenig%40amd.com
