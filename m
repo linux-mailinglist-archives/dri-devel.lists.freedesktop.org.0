@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5EF787595
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E307875B9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C122410E025;
-	Thu, 24 Aug 2023 16:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6370910E0B1;
+	Thu, 24 Aug 2023 16:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4CF810E025
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 16:40:06 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482CD10E0B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 16:42:42 +0000 (UTC)
 Received: from ginger.. (unknown [189.115.8.42])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3F9916607276;
- Thu, 24 Aug 2023 17:40:03 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 18F956607273;
+ Thu, 24 Aug 2023 17:42:38 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692895205;
- bh=J8b2QT9rrJ018sKXflFL3FjdhNbqyS9w7fXnjXrLUcM=;
+ s=mail; t=1692895360;
+ bh=KEyNwtYYO4BSXGKpu8cyHNwnu4krA5gnS4naNjnuc2M=;
  h=From:To:Cc:Subject:Date:From;
- b=ROoNObRj3jfoWAYldXHpGfSLSdoQL0iecq4jjC3aAMkDzvlfJf2j0KKhKC8dTCUXx
- JVmPBX4RUoJxu7m9UWOJwaMH6iyvO1lvxAEjYRyTpodLJovyHP7L8UjICJFSQzn5OL
- ko1+HLg9AfvzY3TfqoSsPeu9Dsuezfo5I5J0VgIQMRqY7oLkslDARqwOft+KNdMwzI
- WD+93mbT9JraJwmKrtxoROYdj3bb7jb6QPvcvqplnYg4TVozPi9nr8zYyfo0H/4YqG
- VVWUqSkwCHJNJEXPjDaFCc2oIAaw9AmDFz4py4LTA8WJE9bs9zgBaxm0j0M3eTyRON
- U8mgzqBI6QLww==
+ b=cR5YHUWiS5gT/bLp5SNr+AGlSISCof/y63WV89l2QZF0ajLiaHtxGbPWJgnv/xOQR
+ v/8HkWQRqNbXnznf2uIwb2hEKhOFrrahAXlywrcVepldXtC6Xw0GAiOgP1irS8dtTu
+ csO5B/Kx6wjFLtFeaJTs333QYI1TUjnEcJwP5BeDieddArrqsSdweSFxGVjDWe6ld1
+ QahCCJSRTUDdInOBjm3iHyG/bu46fOwXBQGdkH4UCsPx+m2WNV+3M9TIAilTDdZJFj
+ r8OfNFNYiPklZ+rQn6seWLA5TF0B5TCW5/K0naIlnG3vdP3ETT+PX3xBtnwq2qH/fK
+ 9G+Cc8gIs4DzQ==
 From: Helen Koike <helen.koike@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: ci: docs: fix build warning - add missing scape
-Date: Thu, 24 Aug 2023 13:39:54 -0300
-Message-Id: <20230824163954.47881-1-helen.koike@collabora.com>
+Subject: [PATCH v2] drm: ci: docs: fix build warning - add missing escape
+Date: Thu, 24 Aug 2023 13:42:30 -0300
+Message-Id: <20230824164230.48470-1-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,6 +64,10 @@ Signed-off-by: Helen Koike <helen.koike@collabora.com>
 ---
 
 Patch for topic/drm-ci
+
+V2:
+- Fix typo s/scape/escape
+
 ---
  Documentation/gpu/automated_testing.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
