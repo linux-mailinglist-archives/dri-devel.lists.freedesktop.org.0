@@ -2,53 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3CA787785
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 20:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071AF78778E
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 20:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C398C10E5A6;
-	Thu, 24 Aug 2023 18:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12B810E5A5;
+	Thu, 24 Aug 2023 18:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F10A10E5A5;
- Thu, 24 Aug 2023 18:12:45 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BBA601F88D;
- Thu, 24 Aug 2023 18:12:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1692900763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=3TsU1yntOcLfQEdmbiYR6I1PAJVr0+hAEAzQVuCq110=;
- b=qU243DmJ0YBO43A96oM7G6JRgs/7w8T/V0YQQzAMakZ7Z2YdW9ZKptK3xPKjHpMn/8kXud
- WWAlqGicHaBtNVZYiCZb6vBfLYb/ovi58hjBFrSDQD0COp8btAClXsfoawGQUStXm9/nO1
- Lw35v4yUGRXY4IAxuzVOm97zcodwj/I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1692900763;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=3TsU1yntOcLfQEdmbiYR6I1PAJVr0+hAEAzQVuCq110=;
- b=S7Ekwu92RNwInluegTV9grHsL8ya7gseEv+Ta+bPPLcPP0aQShsuzw1yK1sAbBFfvsSi7Q
- pxvohd3dpFMUZ/AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 58341132F2;
- Thu, 24 Aug 2023 18:12:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fELnE5ud52QXDAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Aug 2023 18:12:43 +0000
-Date: Thu, 24 Aug 2023 20:12:41 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20230824181241.GA6386@linux-uq9g.hotspot.internet-for-guests.com>
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0D28410E5A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 18:15:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,195,1688396400"; d="scan'208";a="173861742"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2023 03:15:54 +0900
+Received: from localhost.localdomain (unknown [10.226.93.115])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id B1A7B404B0EF;
+ Fri, 25 Aug 2023 03:15:48 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3] drm/bridge/analogix/anx78xx: Drop ID table
+Date: Thu, 24 Aug 2023 19:15:46 +0100
+Message-Id: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +41,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Zhu Wang <wangzhu9@huawei.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+The driver has an ID table, but it uses the wrong API for retrieving match
+data and that will lead to a crash, if it is instantiated by user space or
+using ID. From this, there is no user for the ID table and let's drop it
+from the driver as it saves some memory.
 
-here is this week's PR for drm-misc-next. One of the patches is a
-change to nouveau's UAPI.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v2->v3:
+ * Updated commit header.
+v1->v2:
+ * Dropped ID table support.
+---
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-Best regards
-Thomas
-
-drm-misc-next-fixes-2023-08-24:
-Short summary of fixes pull:
-
- * gpuva: Cleanups
-
- * kunit: Documentation fixes
-
- * nouveau:
-   * UAPI: Avoid implicit NO_PREFETCH flag
-   * Scheduler fixes
-   * Fix remap
-
- * ttm: Fix type conversion in tests
-The following changes since commit ff065eaf5502384c0d0a3bd3a9459eb5eb0811e1:
-
-  drm/ttm/tests: Require MMU when testing (2023-08-17 15:05:51 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-08-24
-
-for you to fetch changes up to cdf4100eaa1f4107fcf7c95b5eccca96cca6c777:
-
-  drm/gpuva_mgr: remove unused prev pointer in __drm_gpuva_sm_map() (2023-08-24 14:27:14 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * gpuva: Cleanups
-
- * kunit: Documentation fixes
-
- * nouveau:
-   * UAPI: Avoid implicit NO_PREFETCH flag
-   * Scheduler fixes
-   * Fix remap
-
- * ttm: Fix type conversion in tests
-
-----------------------------------------------------------------
-Danilo Krummrich (4):
-      drm/nouveau: sched: avoid job races between entities
-      drm/nouveau: uvmm: fix unset region pointer on remap
-      drm/nouveau: uapi: don't pass NO_PREFETCH flag implicitly
-      drm/gpuva_mgr: remove unused prev pointer in __drm_gpuva_sm_map()
-
-Karolina Stolarek (1):
-      drm/ttm/tests: Fix type conversion in ttm_pool_test
-
-Lee Jones (1):
-      drm/tests/drm_kunit_helpers: Place correct function name in the comment header
-
- drivers/gpu/drm/drm_gpuva_mgr.c           | 10 ++++------
- drivers/gpu/drm/nouveau/nouveau_dma.c     |  7 +++++--
- drivers/gpu/drm/nouveau/nouveau_dma.h     |  8 ++++++--
- drivers/gpu/drm/nouveau/nouveau_exec.c    | 19 ++++++++++++++++---
- drivers/gpu/drm/nouveau/nouveau_gem.c     |  6 ++++--
- drivers/gpu/drm/nouveau/nouveau_sched.c   | 22 ++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_uvmm.c    |  1 +
- drivers/gpu/drm/tests/drm_kunit_helpers.c |  2 +-
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c |  4 ++--
- include/uapi/drm/nouveau_drm.h            |  8 +++++++-
- 10 files changed, 68 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 800555aef97f..6169db73d2fe 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
+ 	kfree(anx78xx->edid);
+ }
+ 
+-static const struct i2c_device_id anx78xx_id[] = {
+-	{ "anx7814", 0 },
+-	{ /* sentinel */ }
+-};
+-MODULE_DEVICE_TABLE(i2c, anx78xx_id);
+-
+ static const struct of_device_id anx78xx_match_table[] = {
+ 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
+ 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
+@@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
+ 		  },
+ 	.probe = anx78xx_i2c_probe,
+ 	.remove = anx78xx_i2c_remove,
+-	.id_table = anx78xx_id,
+ };
+ module_i2c_driver(anx78xx_driver);
+ 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.25.1
+
