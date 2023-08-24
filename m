@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E93787369
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:03:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32689787367
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2781E10E57D;
-	Thu, 24 Aug 2023 15:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C0810E57E;
+	Thu, 24 Aug 2023 15:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 496EF10E57D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:03:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C596810E57B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:03:37 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Dx_+tFcedklJAbAA--.55285S3;
- Thu, 24 Aug 2023 23:03:34 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Dxg_BFcedklpAbAA--.56614S3;
+ Thu, 24 Aug 2023 23:03:33 +0800 (CST)
 Received: from openarena.loongson.cn (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx_c5EcedkEYBiAA--.42989S2; 
- Thu, 24 Aug 2023 23:03:32 +0800 (CST)
+ AQAAf8Cx_c5EcedkEYBiAA--.42989S3; 
+ Thu, 24 Aug 2023 23:03:33 +0800 (CST)
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v5 0/2] PCI/VGA: Make the vga_is_firmware_default() less
+Subject: [PATCH v5 1/2] PCI/VGA: Make the vga_is_firmware_default() less
  arch-dependent
-Date: Thu, 24 Aug 2023 23:03:30 +0800
-Message-Id: <20230824150332.6434-1-suijingfeng@loongson.cn>
+Date: Thu, 24 Aug 2023 23:03:31 +0800
+Message-Id: <20230824150332.6434-2-suijingfeng@loongson.cn>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230824150332.6434-1-suijingfeng@loongson.cn>
+References: <20230824150332.6434-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx_c5EcedkEYBiAA--.42989S2
+X-CM-TRANSID: AQAAf8Cx_c5EcedkEYBiAA--.42989S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Ww48Xr1ftFyUtrW8uFyxCrX_yoW3AFW8pr
- 18Wa13Ww4kG3WrKrW7XF15CF1YgrW8Ca97Jr1Igr48Cw4xKw18CF9IqF4jg347ArnFqw17
- X3Z7Aa4rtw17JagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxCFWrCF1xXr4xWFWUZw1kJFc_yoW5tF4kpr
+ WfGFyrtrZ5Gw4fGrW3tF4jqF15Ar93Cry0kFW29wn3CF13JrykWr1FyFZ0qryUJ397XF43
+ JF4ayF1DGayDJFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ 0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
  e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
  0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
- x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
- McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
- 1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_
- JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
- CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0
- I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
- 8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
- UjIFyTuYvjxU4xR6UUUUU
+ GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+ xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+ 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
+ xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+ Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7
+ IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
+ 6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+ AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU88HUDUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,155 +68,117 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Currently, the vga_is_firmware_default() function only works on x86 and
 ia64, it is a no-op on the rest of the architectures. This patch completes
 the implementation for it, the added code tries to capture the PCI (e) VGA
-device that owns the firmware framebuffer address range before the PCI
-resource relocation. Since only one GPU could owns the firmware fb in
-normal case, things are almost done once we have determined the boot VGA
-successfully.
+device that owns the firmware framebuffer, since only one GPU could own
+the firmware fb, things are almost done once we have determined the boot
+VGA device. As the PCI resource relocation do have a influence on the
+results of identification, we make it available on architectures where PCI
+resource relocation does happen at first. Because this patch is more
+important for those architectures(such as arm, arm64, loongarch, mips and
+risc-v etc).
 
-Note that this patch requires the target platform has a way to set up the
-kernel's screen_info. On muiltiple GPU co-exist machines, the firmware
-framebuffer should be put into the VRAM BAR of the primary GPU. While
-changing PCI class code of the GPU to be non-primary is not required for
-the arbitration purpose.
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/pci/vgaarb.c | 76 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 75 insertions(+), 1 deletion(-)
 
-The provided method is effective at least on x86, arm64 and loongarch, see
-below for more testing information.
-
-
-1) LS3A5000+LS7A1000 platform with three video cards:
-
-$ lspci | grep VGA
-
-00:06.1 VGA compatible controller: Loongson Technology LLC DC (Display Controller) (rev 01)
-03:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Caicos XT [Radeon HD 7470/8470 / R5 235/310 OEM]
-07:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
-08:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
-
-Before apply this series:
-
- pci 0000:00:06.1: vgaarb: setting as boot VGA device
- pci 0000:00:06.1: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
- pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:07:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:08:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
-
-After apply this series:
-
- pci 0000:03:00.0: vgaarb: BAR 0: [mem 0xe0050000000-0xe005fffffff 64bit pref] contains firmware FB [0xe0050000000-0xe00500ea5ff]
- pci 0000:00:06.1: vgaarb: setting as boot VGA device
- pci 0000:00:06.1: vgaarb: bridge control possible
- pci 0000:03:00.0: vgaarb: setting as boot VGA device (overriding previous)
- pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:07:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:08:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
-
-$ dmesg | grep 0000:03:00.0
-
- pci 0000:03:00.0: [1002:6778] type 00 class 0x030000
- pci 0000:03:00.0: reg 0x10: [mem 0xe0050000000-0xe005fffffff 64bit pref]
- pci 0000:03:00.0: reg 0x18: [mem 0xe0065300000-0xe006531ffff 64bit]
- pci 0000:03:00.0: reg 0x20: [io  0x20000-0x200ff]
- pci 0000:03:00.0: reg 0x30: [mem 0xfffe0000-0xffffffff pref]
- pci 0000:03:00.0: vgaarb: BAR 0: [mem 0xe0050000000-0xe005fffffff 64bit pref] contains firmware FB [0xe0050000000-0xe00500ea5ff]
- pci 0000:03:00.0: BAR 0: assigned [mem 0xe0030000000-0xe003fffffff 64bit pref]
- pci 0000:03:00.0: BAR 2: assigned [mem 0xe0065200000-0xe006521ffff 64bit]
- pci 0000:03:00.0: BAR 6: assigned [mem 0xe0065220000-0xe006523ffff pref]
- pci 0000:03:00.0: BAR 4: assigned [io  0x5000-0x50ff]
- pci 0000:03:00.0: vgaarb: setting as boot VGA device (overriding previous)
- pci 0000:03:00.0: vgaarb: bridge control possible
- pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
-
-Loongson UEFI firmware does not support specify which GPU to be the primary,
-the firmware set the ATI GPU(03:00.0) as the primary GPU with this hardware
-configuration by hardcode. However, the firmware do support passing the
-screen_into the to kernel. The problem is that VGAARB can not override the
-platform integrated one(00:06.1) before apply this series.
-
-Please note that BAR 0 of the ATI GPU moved by PCI core from
-[0xe0050000000-0xe005fffffff] to [0xe0030000000-0xe003fffffff], the
-vga_is_firmware_default() function will return wrong results by simply
-remove #ifdefs while without take relocation into account.
-
-
-2) ARM64 (Kunpeng 920) with three video card:
-
-Before apply this series:
-
- pci 0000:02:00.0: vgaarb: setting as boot VGA device
- pci 0000:02:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:05:00.0: vgaarb: setting as boot VGA device (overriding previous) <--- (Because it has IO or MEM enabled)
- pci 0000:05:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:06:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
-
-After apply this series:
-
- pci 0000:05:00.0: vgaarb: BAR 0: [mem 0x80010000000-0x8001fffffff 64bit pref] contains firmware FB [0x80010000000-0x800101e77ff]
- pci 0000:02:00.0: vgaarb: setting as boot VGA device
- pci 0000:02:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:05:00.0: vgaarb: Boot VGA selected by firmware
- pci 0000:05:00.0: vgaarb: setting as boot VGA device (overriding previous) <--- (Because it owns firmware framebuffer)
- pci 0000:05:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:06:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
-
-3) x86 with three video card
-
-lspci | grep VGA
-05:00.0 VGA compatible controller: Silicon Motion, Inc. SM750 (rev a1)
-0c:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Navi 10 [Radeon RX 5600 OEM/5600 XT / 5700/5700 XT] (rev c1)
-0d:00.0 VGA compatible controller: Jingjia Microelectronics Co Ltd Device 9100 (rev 01)
-
-Before apply this series:
-
- pci 0000:05:00.0: vgaarb: setting as boot VGA device
- pci 0000:05:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:0c:00.0: vgaarb: setting as boot VGA device (overriding previous)
- pci 0000:0c:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
- pci 0000:0d:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
- amdgpu 0000:0c:00.0: vgaarb: deactivate vga console
- amdgpu 0000:0c:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=io+me
-
-After apply this series:
-
- pci 0000:0c:00.0: vgaarb: BAR 0: [mem 0xa0000000-0xafffffff 64bit pref] contains firmware FB [0xa0000000-0xa1fa3fff]
- pci 0000:05:00.0: vgaarb: setting as boot VGA device
- pci 0000:05:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- pci 0000:0c:00.0: vgaarb: Boot VGA selected by firmware
- pci 0000:0c:00.0: vgaarb: setting as boot VGA device (overriding previous)
- pci 0000:0c:00.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
- pci 0000:0d:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
- vgaarb: loaded
- amdgpu 0000:0c:00.0: vgaarb: deactivate vga console
- amdgpu 0000:0c:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=io+mem
-
-
-v2:
-	* Fix test robot warnnings and fix typos
-v3:
-	* Fix linkage problems if the global screen_info is not exported
-v4:
-	* Handle linkage problems by hiding behind of CONFIG_SYSFB,
-	* Drop side-effects and simplify.
-v5:
-	* Print the BAR and the framebuffer region (Bjorn)
-	* Use pci_dev_for_each_resource() (Bjorn)
-	* Cleanup the old mechanisms (Bjorn)
-	* Make the commit log simple by moving the extraneous details to cover letter (Bjorn)
-	* Carry on test on arm64
-
-Sui Jingfeng (2):
-  PCI/VGA: Make the vga_is_firmware_default() less arch-dependent
-  PCI/VGA: Remove vga_is_firmware_default() function
-
- drivers/pci/vgaarb.c | 116 ++++++++++++++++++++++++++++---------------
- 1 file changed, 75 insertions(+), 41 deletions(-)
-
-
-base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 5a696078b382..bc5fcc855513 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -60,7 +60,8 @@ static int vga_count, vga_decode_count;
+ static bool vga_arbiter_used;
+ static DEFINE_SPINLOCK(vga_lock);
+ static DECLARE_WAIT_QUEUE_HEAD(vga_wait_queue);
+-
++/* The PCI(e) device who owns the firmware framebuffer */
++static struct pci_dev *pdev_boot_vga;
+ 
+ static const char *vga_iostate_to_str(unsigned int iostate)
+ {
+@@ -571,6 +572,9 @@ static bool vga_is_firmware_default(struct pci_dev *pdev)
+ 
+ 		return true;
+ 	}
++#else
++	if (pdev_boot_vga && pdev_boot_vga == pdev)
++		return true;
+ #endif
+ 	return false;
+ }
+@@ -1555,3 +1559,73 @@ static int __init vga_arb_device_init(void)
+ 	return rc;
+ }
+ subsys_initcall_sync(vga_arb_device_init);
++
++/*
++ * Get the physical address range that the firmware framebuffer occupies.
++ *
++ * Note that the global screen_info is arch-specific, thus CONFIG_SYSFB is
++ * chosen as compile-time conditional to suppress linkage problems on non-x86
++ * architectures.
++ *
++ * Returns true on success, otherwise return false.
++ */
++static bool vga_arb_get_firmware_fb_range(u64 *start, u64 *end)
++{
++	u64 fb_start = 0;
++	u64 fb_size = 0;
++	u64 fb_end;
++
++#if defined(CONFIG_X86) || defined(CONFIG_IA64) || defined(CONFIG_SYSFB)
++	fb_start = screen_info.lfb_base;
++	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
++		fb_start |= (u64)screen_info.ext_lfb_base << 32;
++
++	fb_size = screen_info.lfb_size;
++#endif
++
++	/* No firmware framebuffer support */
++	if (!fb_start || !fb_size)
++		return false;
++
++	fb_end = fb_start + fb_size - 1;
++
++	*start = fb_start;
++	*end = fb_end;
++
++	return true;
++}
++
++/*
++ * Identify the PCI VGA device that contains the firmware framebuffer
++ */
++static void pci_boot_vga_capturer(struct pci_dev *pdev)
++{
++	u64 fb_start, fb_end;
++	struct resource *res;
++	unsigned int i;
++
++	if (pdev_boot_vga)
++		return;
++
++	if (!vga_arb_get_firmware_fb_range(&fb_start, &fb_end))
++		return;
++
++	pci_dev_for_each_resource(pdev, res, i) {
++		if (resource_type(res) != IORESOURCE_MEM)
++			continue;
++
++		if (!res->start || !res->end)
++			continue;
++
++		if (res->start <= fb_start && fb_end <= res->end) {
++			pdev_boot_vga = pdev;
++
++			vgaarb_info(&pdev->dev,
++				    "BAR %u: %pR contains firmware FB [0x%llx-0x%llx]\n",
++				    i, res, fb_start, fb_end);
++			break;
++		}
++	}
++}
++DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_CLASS_DISPLAY_VGA,
++			       8, pci_boot_vga_capturer);
 -- 
 2.34.1
 
