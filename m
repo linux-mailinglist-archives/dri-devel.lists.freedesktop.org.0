@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A8B7865DB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 05:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C443C7865DC
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 05:36:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7563B10E4CD;
-	Thu, 24 Aug 2023 03:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD19F10E4CE;
+	Thu, 24 Aug 2023 03:36:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E39C89BA3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 03:36:14 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-68824a0e747so1236736b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 20:36:14 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB7310E4CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 03:36:24 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-68a56ed12c0so754621b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Aug 2023 20:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1692848174; x=1693452974;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0JbfRyB2vcpbgEbI5bcL+aaH/pKOG9tfRLOJc/3sbjg=;
- b=AmQeV5ugpfZZk/4usllkCaeo1yH+UEXJG7jnjRc8qsNsDjPHxzLvzK5kA+yWBZeygJ
- QCqKnO1KHf3+eaN6ECbGrfa0j2v5LKRtFyUEy/g2RLEfv+j6XgMptGwJuiJlZXgRctDR
- 1nnjangfvZWRxM22knmOQhBjMh5+8kZXKYFdw6kEqV40Y7puFZ+EPVN5qqZqX1CCDlXK
- NX2tu+NjcfQnBPGwpvzf+O6OeU6GMUuaWrUR8aBMKqTlTLnD8yNu3RGk0KaXEBdC74Xr
- 0NM+Tlk2UHZgkp5BBPIerGy6xK/sweDwCZE9YbGgyUcwE7V2RgWUkzgPwzp5TYYR7s7D
- Q9dw==
+ d=bytedance.com; s=google; t=1692848183; x=1693452983;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GrI/X5Yh7LcU5jmS4qIzMzIMVvFD9p+WXlgnh63DuQo=;
+ b=bi91mAkWfHF+ZGYrAGi8fSfP1rZgaQ9UJQma4R2GISMfzIMSepcMEEtmQfvpPwQ6sZ
+ 52K3xo34HKG6b4Tb0EhiNBVsZ9PyIACSu80NiXODexlSiTfsepdidiPEL6ktcGMDBKkH
+ CWpSVA/inH6bwziARO2vWCSnFe3pz89phQgHiYKVDAZf74s4T/6V3tF34JyKaqboDMmH
+ SESxt5Qwuo7Pdz2vKABn2yS97A32aC1lsl9BQ3K0Wakrgi/UtYf3bF0wCw1wYDKP5wJG
+ GOFGVNp3DQTv8FP9lay3DWqR5HarnFkL1KQcm6aePLHP9ZUkzjnAXDUEXu0QaA+19pee
+ Q3Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692848174; x=1693452974;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0JbfRyB2vcpbgEbI5bcL+aaH/pKOG9tfRLOJc/3sbjg=;
- b=Uw8AlGmKhueEXqoSWmTeTCEf/ZvrNUGjf0elWQSMk8B4InTaXe4nBje/SkCn/FwYp/
- L/d8tVhK22ufw6rp+2pPP+tJcF8mJXurE5eZV8lIAMXu/ChbcChMRpypBB4O1W5Ethsy
- 2TGNXAM+IPv/ohHoeW4FlO75PwY2/RJ3AELH0x/jEvuukjTWeIG66woplsgFcFWma/UO
- VwRJYw56J+FEhIZPYj6jBrHuQ1qU0PL9mTVYm2lgztP0uBl11WzWopoImrIdjYnZ9sIX
- EG/2+AsCSSV/K7BNHp0XUrwiYzsI1XJIO8eCFSu53p4bD/fdaWUuRivBex4roy8pEmYZ
- 9VtA==
-X-Gm-Message-State: AOJu0YzmdplqXtr80VV81qem+ZTYcymYT3L53A3A32Q873+nPILK5Ewt
- W4GTM1po6USOL9tC612jPRLfvw==
-X-Google-Smtp-Source: AGHT+IGrTGKA8Ukg4Uzs0bSKtsW+ppGLKZSPF9YJn/x2SceKMjMMpmj5eKgpoHo48YWv/+BWfzDTow==
-X-Received: by 2002:a05:6a21:788b:b0:13d:fff1:c672 with SMTP id
- bf11-20020a056a21788b00b0013dfff1c672mr19904947pzc.4.1692848173825; 
- Wed, 23 Aug 2023 20:36:13 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692848183; x=1693452983;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GrI/X5Yh7LcU5jmS4qIzMzIMVvFD9p+WXlgnh63DuQo=;
+ b=dFzx0z8RYgkUNkVrW5fXXGtQCAkxXPW24MRTNB1F5Gl2xwzB19x7l+4OZzjWKWt6OQ
+ pPHr3kUe+HICrLr1KgMBPyZJuhVLWTYVAQYb0mFduWlCXijKgUVEH4kfv4Ohpzp+qeZW
+ 6L39ykxDaVMiIEDR/gSb/+JA9/STT9dJaeG92vDm1rB4VlgkEAOLMybz7lcjsK0fiaOQ
+ vfG/4H2PHeBS4llNWRgIKFvao7YiVdcbU3tV7O/KtVNc44u8Y+KQQKRveFDqGYIbiL69
+ dO7xCBGqP3ydFTPyRj2NE11wmfqxnaxKrYGhwRxcMLviE4Zp0Y9Sub9lqGPWxFBLa9Pk
+ Du7w==
+X-Gm-Message-State: AOJu0Yz/BLIo6M34ic1h7MoOkXXMhwmTiNXZmxRw+hU+XQefQ1oWoopE
+ 1ufxI+aaKSWev0FJrUCwhzCMMg==
+X-Google-Smtp-Source: AGHT+IHygFMFVjr3jXqgDVchpFeZd7tEZ1ZJUV56jgY+zNR9KGBBKA6XO9KnSRG3Wm4xupEdPrToWQ==
+X-Received: by 2002:a05:6a20:938d:b0:13c:bda3:79c3 with SMTP id
+ x13-20020a056a20938d00b0013cbda379c3mr17537865pzh.4.1692848183684; 
+ Wed, 23 Aug 2023 20:36:23 -0700 (PDT)
 Received: from C02DW0BEMD6R.bytedance.net ([203.208.167.146])
  by smtp.gmail.com with ESMTPSA id
- p16-20020a62ab10000000b0068b6137d144sm2996570pff.30.2023.08.23.20.36.04
+ p16-20020a62ab10000000b0068b6137d144sm2996570pff.30.2023.08.23.20.36.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 20:36:13 -0700 (PDT)
+ Wed, 23 Aug 2023 20:36:23 -0700 (PDT)
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
@@ -57,12 +58,14 @@ To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
  yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev,
  joel@joelfernandes.org, christian.koenig@amd.com, daniel@ffwll.ch
-Subject: [PATCH v3 0/4] cleanups for lockless slab shrink
-Date: Thu, 24 Aug 2023 11:35:35 +0800
-Message-Id: <20230824033539.34570-1-zhengqi.arch@bytedance.com>
+Subject: [PATCH v3 1/4] mm: move some shrinker-related function declarations
+ to mm/internal.h
+Date: Thu, 24 Aug 2023 11:35:36 +0800
+Message-Id: <20230824033539.34570-2-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20230824033539.34570-1-zhengqi.arch@bytedance.com>
+References: <20230824033539.34570-1-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,61 +79,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Qi Zheng <zhengqi.arch@bytedance.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
+ Muchun Song <songmuchun@bytedance.com>, linux-fsdevel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+The following functions are only used inside the mm subsystem, so it's
+better to move their declarations to the mm/internal.h file.
 
-This series is some cleanups split from the previous patchset[1], I dropped the
-[PATCH v2 5/5] which is more related to the main lockless patch.
+1. shrinker_debugfs_add()
+2. shrinker_debugfs_detach()
+3. shrinker_debugfs_remove()
 
-This series is based on the next-20230823.
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+---
+ include/linux/shrinker.h | 19 -------------------
+ mm/internal.h            | 26 ++++++++++++++++++++++++++
+ mm/shrinker_debug.c      |  2 ++
+ 3 files changed, 28 insertions(+), 19 deletions(-)
 
-Comments and suggestions are welcome.
-
-[1]. https://lore.kernel.org/lkml/20230807110936.21819-1-zhengqi.arch@bytedance.com/
-
-Thanks,
-Qi
-
-Changlog in part 1 v2 -> part 1 v3:
- - drop [PATCH v2 5/5]
- - collect Acked-by
- - rebase onto the next-20230823
-
-Changlog in part 1 v1 -> part 1 v2:
- - fix compilation warning in [PATCH 1/5]
- - rename synchronize_shrinkers() to ttm_pool_synchronize_shrinkers()
-   (pointed by Christian König)
- - collect Reviewed-by
-
-Changlog in v4 -> part 1 v1:
- - split from the previous large patchset
- - fix comment format in [PATCH v4 01/48] (pointed by Muchun Song)
- - change to use kzalloc_node() and fix typo in [PATCH v4 44/48]
-   (pointed by Dave Chinner)
- - collect Reviewed-bys
- - rebase onto the next-20230815
-
-Qi Zheng (4):
-  mm: move some shrinker-related function declarations to mm/internal.h
-  mm: vmscan: move shrinker-related code into a separate file
-  mm: shrinker: remove redundant shrinker_rwsem in debugfs operations
-  drm/ttm: introduce pool_shrink_rwsem
-
- drivers/gpu/drm/ttm/ttm_pool.c |  17 +-
- include/linux/shrinker.h       |  20 -
- mm/Makefile                    |   4 +-
- mm/internal.h                  |  28 ++
- mm/shrinker.c                  | 694 ++++++++++++++++++++++++++++++++
- mm/shrinker_debug.c            |  18 +-
- mm/vmscan.c                    | 701 ---------------------------------
- 7 files changed, 743 insertions(+), 739 deletions(-)
- create mode 100644 mm/shrinker.c
-
+diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
+index 224293b2dd06..8dc15aa37410 100644
+--- a/include/linux/shrinker.h
++++ b/include/linux/shrinker.h
+@@ -106,28 +106,9 @@ extern void free_prealloced_shrinker(struct shrinker *shrinker);
+ extern void synchronize_shrinkers(void);
+ 
+ #ifdef CONFIG_SHRINKER_DEBUG
+-extern int shrinker_debugfs_add(struct shrinker *shrinker);
+-extern struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
+-					      int *debugfs_id);
+-extern void shrinker_debugfs_remove(struct dentry *debugfs_entry,
+-				    int debugfs_id);
+ extern int __printf(2, 3) shrinker_debugfs_rename(struct shrinker *shrinker,
+ 						  const char *fmt, ...);
+ #else /* CONFIG_SHRINKER_DEBUG */
+-static inline int shrinker_debugfs_add(struct shrinker *shrinker)
+-{
+-	return 0;
+-}
+-static inline struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
+-						     int *debugfs_id)
+-{
+-	*debugfs_id = -1;
+-	return NULL;
+-}
+-static inline void shrinker_debugfs_remove(struct dentry *debugfs_entry,
+-					   int debugfs_id)
+-{
+-}
+ static inline __printf(2, 3)
+ int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
+ {
+diff --git a/mm/internal.h b/mm/internal.h
+index 7499b5ea1cf6..f30bb60e7790 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1155,4 +1155,30 @@ struct vma_prepare {
+ 	struct vm_area_struct *remove;
+ 	struct vm_area_struct *remove2;
+ };
++
++/* shrinker related functions */
++
++#ifdef CONFIG_SHRINKER_DEBUG
++extern int shrinker_debugfs_add(struct shrinker *shrinker);
++extern struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
++					      int *debugfs_id);
++extern void shrinker_debugfs_remove(struct dentry *debugfs_entry,
++				    int debugfs_id);
++#else /* CONFIG_SHRINKER_DEBUG */
++static inline int shrinker_debugfs_add(struct shrinker *shrinker)
++{
++	return 0;
++}
++static inline struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
++						     int *debugfs_id)
++{
++	*debugfs_id = -1;
++	return NULL;
++}
++static inline void shrinker_debugfs_remove(struct dentry *debugfs_entry,
++					   int debugfs_id)
++{
++}
++#endif /* CONFIG_SHRINKER_DEBUG */
++
+ #endif	/* __MM_INTERNAL_H */
+diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
+index 3ab53fad8876..ee0cddb4530f 100644
+--- a/mm/shrinker_debug.c
++++ b/mm/shrinker_debug.c
+@@ -6,6 +6,8 @@
+ #include <linux/shrinker.h>
+ #include <linux/memcontrol.h>
+ 
++#include "internal.h"
++
+ /* defined in vmscan.c */
+ extern struct rw_semaphore shrinker_rwsem;
+ extern struct list_head shrinker_list;
 -- 
 2.30.2
 
