@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A0D78710E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 16:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC1D787110
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 16:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FAE10E559;
-	Thu, 24 Aug 2023 14:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1800C10E55B;
+	Thu, 24 Aug 2023 14:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315FF10E557;
- Thu, 24 Aug 2023 14:07:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D058E10E559;
+ Thu, 24 Aug 2023 14:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692886046; x=1724422046;
+ t=1692886050; x=1724422050;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MglY81mYDGaMoyIFxCair+EvjWxNiFw45aMMSA3BClI=;
- b=Oe6Ys1WAcTvH8H3e1hthRtwmOJiFTeUROS7+MWe1ZJe7RGZilzTHeVZn
- xA0CE2FcNu6Ttivznn7viqDb2pNPeKsS8MXqgFNoK8MV1vphSekdjs5Cf
- wb9ziu5Ry7RboffJB8bqLoB1QronIANizrED06eWQ94WZs+wfBJjTmuQ7
- R+K8zIhxb4dQZig3LWiB0pYUQ9Rm8Xj4l6JiXHuB4TirV/nK5NovhPklD
- j/2q+usHECdbZmZAB1bbTzJUDEvv3wDQm8mxPdiYuF+pORU6kFOlmvMy2
- 2OnZ9LaNa5Gbv91PloTOOsiamUrUzPKOtmA2PLkb7OJMyuShXClV+1AFn Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="364633857"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="364633857"
+ bh=Iu/suKih6SvO7K41LZZhTb67gFMYH9kGQGspb4lizg4=;
+ b=Y+4iHHC04un8r/6oHGM6FYHPhs0I1N5tSvP3AP5CDoaisTiCQUN/3QRS
+ uHIjqt0APbbuxSDAV0/sGvi8rTBPRHgaqv8qORVQ7erFQZJkwPtexGF00
+ xZRRuKeEqTd0W42WK7Fq2Lkq0SQoPpqYsj0jUB5jthV3LgsBzQCWlHARf
+ YsA7XIJcuYLqG0kPa9FYeszA+ddSqazG/U1fkCm4dsE+0dRyRmE6IWGLa
+ ps9UuFo9iwtwWxE7iW5RdHovqG/jJrRqT2m6NdvG5qLJjdDMXz1APvn/z
+ i00vthvvj9BJCpe1eWRMNLnqzroyH17iVojMJuMbYSYrZwRxIQJGM2j4L Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="364633911"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="364633911"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 06:46:42 -0700
+ 24 Aug 2023 06:46:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="766545246"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="766545246"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="766545261"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="766545261"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 06:46:39 -0700
+ 24 Aug 2023 06:46:46 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/i915/cec: switch to setting physical address directly
-Date: Thu, 24 Aug 2023 16:46:06 +0300
-Message-Id: <01a90c82c8a4f2fd945e0181ffeaca595928d19e.1692884619.git.jani.nikula@intel.com>
+Subject: [PATCH 6/6] media: cec: core: add note about *_from_edid() function
+ usage in drm
+Date: Thu, 24 Aug 2023 16:46:07 +0300
+Message-Id: <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1692884619.git.jani.nikula@intel.com>
 References: <cover.1692884619.git.jani.nikula@intel.com>
@@ -64,58 +65,48 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid parsing the EDID again for source physical address. Also gets rids
-of a few remaining raw EDID usages.
+In the drm subsystem, the source physical address is, in most cases,
+available without having to parse the EDID again. Add notes about
+preferring to use the pre-parsed address instead.
 
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: linux-media@vger.kernel.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c   | 7 ++-----
- drivers/gpu/drm/i915/display/intel_hdmi.c | 5 ++---
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/media/cec/core/cec-adap.c     | 4 ++++
+ drivers/media/cec/core/cec-notifier.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7067ee3a4bd3..c4b8e0e74c15 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5198,7 +5198,6 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	struct intel_connector *connector = intel_dp->attached_connector;
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 	bool vrr_capable;
- 
- 	intel_dp_unset_edid(intel_dp);
-@@ -5216,10 +5215,8 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
- 	intel_dp_update_dfp(intel_dp, drm_edid);
- 	intel_dp_update_420(intel_dp);
- 
--	/* FIXME: Get rid of drm_edid_raw() */
--	edid = drm_edid_raw(drm_edid);
--
--	drm_dp_cec_set_edid(&intel_dp->aux, edid);
-+	drm_dp_cec_attach(&intel_dp->aux,
-+			  connector->base.display_info.source_physical_address);
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 241b1621b197..2c627ed611ed 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -1688,6 +1688,10 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
  }
+ EXPORT_SYMBOL_GPL(cec_s_phys_addr);
  
- static void
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index aa9915098dda..5d6255ee8b54 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -2482,9 +2482,8 @@ intel_hdmi_set_edid(struct drm_connector *connector)
- 
- 	intel_display_power_put(dev_priv, POWER_DOMAIN_GMBUS, wakeref);
- 
--	/* FIXME: Get rid of drm_edid_raw() */
--	cec_notifier_set_phys_addr_from_edid(intel_hdmi->cec_notifier,
--					     drm_edid_raw(drm_edid));
-+	cec_notifier_set_phys_addr(intel_hdmi->cec_notifier,
-+				   connector->display_info.source_physical_address);
- 
- 	return connected;
++/*
++ * Note: In the drm subsystem, prefer calling cec_s_phys_addr() with
++ * connector->display_info.source_physical_address if possible.
++ */
+ void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
+ 			       const struct edid *edid)
+ {
+diff --git a/drivers/media/cec/core/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
+index 389dc664b211..13f043b3025b 100644
+--- a/drivers/media/cec/core/cec-notifier.c
++++ b/drivers/media/cec/core/cec-notifier.c
+@@ -195,6 +195,10 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
  }
+ EXPORT_SYMBOL_GPL(cec_notifier_set_phys_addr);
+ 
++/*
++ * Note: In the drm subsystem, prefer calling cec_notifier_set_phys_addr() with
++ * connector->display_info.source_physical_address if possible.
++ */
+ void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
+ 					  const struct edid *edid)
+ {
 -- 
 2.39.2
 
