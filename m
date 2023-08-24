@@ -2,33 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071AF78778E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 20:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993BE7877B8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 20:23:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12B810E5A5;
-	Thu, 24 Aug 2023 18:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40FF410E5AA;
+	Thu, 24 Aug 2023 18:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D28410E5A5
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 18:15:54 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,195,1688396400"; d="scan'208";a="173861742"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2023 03:15:54 +0900
-Received: from localhost.localdomain (unknown [10.226.93.115])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id B1A7B404B0EF;
- Fri, 25 Aug 2023 03:15:48 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/bridge/analogix/anx78xx: Drop ID table
-Date: Thu, 24 Aug 2023 19:15:46 +0100
-Message-Id: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C2210E5AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 18:23:44 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-52a250aa012so252801a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 11:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1692901423; x=1693506223;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rPas7Wif5nIjow68vkOqqHoz5PSF9sPjZXPo/r5vhhg=;
+ b=j+AgbByUUAC9roKaDemGIW88Oo3tXcPvIeqn5W51zml3S2IcmMzABuYFuQLnHRvE4H
+ DB2YTf1MCbrsxa3njCa9k0iQAoiJrfl13mCvCG07zqfD7t20rtZF18348aR05P2qdoi8
+ FCnT1YXKnydDMKwHfU/SLL0Ows4xHVbUiovoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692901423; x=1693506223;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rPas7Wif5nIjow68vkOqqHoz5PSF9sPjZXPo/r5vhhg=;
+ b=EJutDcT/J5Q4dskAwlIMsT/cYsuG4XTzdv0Loir4KQnkYsfQZLmMhm7vJ6RoMAPsUQ
+ XlPEb3Vbbvng6JI4YU6YRKUzJn0QgyDUPhfLX2/fbx0ER8F8WQb6s1CQ3YPrrHgXkEKa
+ qhPvY7LEmzkqDuPp+gYWDl3Ur/86Gy62uoOK1Be9aJ5yYiXlSI8UrIXGWMBTLD5ZA92V
+ mKsdAJprpuHz2PHrOd+EDo9GihR5idbPUn0W8LcCBP/XjP0lNlcVUKFq16gY2v+SBck0
+ rlEFTS4/ZYMukW0L5f3LivUDeJJmw/ZN3Ye7ZWMqDqQ0hSdtUt00BPr+xRdIyqp4LQ4R
+ 7PNA==
+X-Gm-Message-State: AOJu0YznpZGrzbyF2WL0OKVcRK3nKiiJPnS/szKQozwjq3gFeScuXcGx
+ bDCNwd+swWV5abDVJNb6eU4FzSE24qgPnAZnPiTS+w4h
+X-Google-Smtp-Source: AGHT+IG/iXs7GTx37MxQeuzpQDsiZtbcPMvlvh8o9LluHkkNkJpAPUd/ZYa3YUFJwydWP9OpBZgffw==
+X-Received: by 2002:a05:6402:1610:b0:525:5886:2f69 with SMTP id
+ f16-20020a056402161000b0052558862f69mr13830550edv.36.1692901422810; 
+ Thu, 24 Aug 2023 11:23:42 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
+ be20-20020a0564021a3400b0052a1d98618bsm35975edb.54.2023.08.24.11.23.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Aug 2023 11:23:42 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-3fef2fafee2so14745e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 11:23:42 -0700 (PDT)
+X-Received: by 2002:a50:a6d4:0:b0:525:573c:6444 with SMTP id
+ f20-20020a50a6d4000000b00525573c6444mr12956edc.1.1692901047044; Thu, 24 Aug
+ 2023 11:17:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 24 Aug 2023 11:17:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W20En+k_FhakGVEFQTSPAUujJhB-UE0SyEK67nLgVVWg@mail.gmail.com>
+Message-ID: <CAD=FV=W20En+k_FhakGVEFQTSPAUujJhB-UE0SyEK67nLgVVWg@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge/analogix/anx78xx: Drop ID table
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,60 +78,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhu Wang <wangzhu9@huawei.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-renesas-soc@vger.kernel.org,
  Andy Shevchenko <andy.shevchenko@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Guenter Roeck <groeck@chromium.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver has an ID table, but it uses the wrong API for retrieving match
-data and that will lead to a crash, if it is instantiated by user space or
-using ID. From this, there is no user for the ID table and let's drop it
-from the driver as it saves some memory.
+Hi,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Updated commit header.
-v1->v2:
- * Dropped ID table support.
----
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
- 1 file changed, 7 deletions(-)
+On Thu, Aug 24, 2023 at 11:15=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
+>
+> The driver has an ID table, but it uses the wrong API for retrieving matc=
+h
+> data and that will lead to a crash, if it is instantiated by user space o=
+r
+> using ID. From this, there is no user for the ID table and let's drop it
+> from the driver as it saves some memory.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Updated commit header.
+> v1->v2:
+>  * Dropped ID table support.
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
+>  1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 800555aef97f..6169db73d2fe 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
- 	kfree(anx78xx->edid);
- }
- 
--static const struct i2c_device_id anx78xx_id[] = {
--	{ "anx7814", 0 },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(i2c, anx78xx_id);
--
- static const struct of_device_id anx78xx_match_table[] = {
- 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
- 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
-@@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
- 		  },
- 	.probe = anx78xx_i2c_probe,
- 	.remove = anx78xx_i2c_remove,
--	.id_table = anx78xx_id,
- };
- module_i2c_driver(anx78xx_driver);
- 
--- 
-2.25.1
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+Unless there are objections, I'm happy to apply this late next week to
+drm-misc-next.
+
+-Doug
