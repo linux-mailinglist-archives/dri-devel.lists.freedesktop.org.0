@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E996B78663F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 05:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4552078664C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 05:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250CC10E4DB;
-	Thu, 24 Aug 2023 03:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1805310E4DC;
+	Thu, 24 Aug 2023 03:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E05810E4DB;
- Thu, 24 Aug 2023 03:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692849017; x=1724385017;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=gfdooW3BWd+cwTfR8taRfX3TOSIpgbXsHr1jVz9nWag=;
- b=G1Ouhtht/65ASn1d92iBcw+ZJyl6xIL3kDvFBhDYK6u1tz/tT1MKZg1s
- KpmPPRKjpac5/mqNztHb0/t92N9ubRu6MPBV951EYC38/IdzyUN4MIiwS
- WYWWDIxQ4TyoKTt/+JSzqJU52MqfhI4n3a5buVBaX36Fhv8W3zrv3XzEm
- mgFnT2l+VEA5LaLINbzqZGloLZs+U0hhEHbzSm2Ghx7INvedug0c0EWBK
- ZGhm9pA4lpw6v8y9BUd7ogfA6KfR9jrBQQV9mw9u8VbosxO91QbENq/oZ
- P1xbs49SzJXBAW2RhbxsGTcWYrHR9uvifRvQtcZjZ8qmU4ntgFzY5P748 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="373221432"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="373221432"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2023 20:50:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="686704084"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="686704084"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2023 20:50:15 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/display/dp: Default 8 bpc support when DSC is
- supported
-Date: Thu, 24 Aug 2023 09:17:05 +0530
-Message-Id: <20230824034705.755243-1-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
-References: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4712B10E4DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 03:52:41 +0000 (UTC)
+Received: from [192.168.2.140] (109-252-153-31.dynamic.spd-mgts.ru
+ [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 870806606F7E;
+ Thu, 24 Aug 2023 04:52:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692849159;
+ bh=aiizSf7cqexCebKr3P/0O6hFaSD8hMGdv6+zNqXvdLU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Bg7l0AYDVB6WgpDo5zRv//faUBuwIn7NVF81s47kpjZ0/duIoXPnwiQgz0EPP7Njo
+ OFhN4/glNzvJyxafs1B8ebZpAW0PZPko+7/jfQ5qnYG0mcWrlGRYEOp0ZQVH715atC
+ vgEZCQ+FdHjpWcDtg/jzUD4fLz9hiWlH1TQpGnJOXC15mQn5l3bUSaV9SGeSGNbYIO
+ Qw89eC+upwxG0N6ldgjeSTA5k755hbgyLou8fFF4CC8iKENLTmmSpWxlR/sVIT82L3
+ BQW1tZ4GkKKIYCsVZa7/anvp5qpsAHGvHLYEAbgVFEdGq3eXCnSvKAABzmZHJI/Cr/
+ Cufi6uZ9lgrqA==
+Message-ID: <535626da-0958-7c42-7bc1-6f7c0f805634@collabora.com>
+Date: Thu, 24 Aug 2023 06:52:36 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC PATCH 3/3] drm/virtio: drm_gem_plane_helper_prepare_fb for
+ obj synchronization
+To: "Kim, Dongwon" <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org
+References: <20230712224424.30158-1-dongwon.kim@intel.com>
+ <20230712224424.30158-4-dongwon.kim@intel.com>
+ <04181690-adc2-fc30-d1b4-b6ca5b02a142@collabora.com>
+ <8689536c-4760-a32b-76f4-65c022b5eadc@intel.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <8689536c-4760-a32b-76f4-65c022b5eadc@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,49 +59,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>, kraxel@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per DP v1.4, a DP DSC Sink device shall support 8bpc in DPCD 6Ah.
-Apparently some panels that do support DSC, are not setting the bit for
-8bpc.
+On 8/20/23 23:58, Kim, Dongwon wrote:
+> On 8/17/2023 7:33 PM, Dmitry Osipenko wrote:
+>> On 7/13/23 01:44, Dongwon Kim wrote:
+>>> This helper is needed for framebuffer synchronization. Old
+>>> framebuffer data
+>>> is often displayed on the guest display without this helper.
+>>>
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>>> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/virtio/virtgpu_plane.c | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c
+>>> b/drivers/gpu/drm/virtio/virtgpu_plane.c
+>>> index a063f06ab6c5..e197299489ce 100644
+>>> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+>>> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+>>> @@ -26,6 +26,7 @@
+>>>   #include <drm/drm_atomic_helper.h>
+>>>   #include <drm/drm_damage_helper.h>
+>>>   #include <drm/drm_fourcc.h>
+>>> +#include <drm/drm_gem_atomic_helper.h>
+>>>     #include "virtgpu_drv.h"
+>>>   @@ -271,6 +272,9 @@ static int virtio_gpu_plane_prepare_fb(struct
+>>> drm_plane *plane,
+>>>       vgfb = to_virtio_gpu_framebuffer(new_state->fb);
+>>>       vgplane_st = to_virtio_gpu_plane_state(new_state);
+>>>       bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+>>> +
+>>> +    drm_gem_plane_helper_prepare_fb(plane, new_state);
+>> The implicit display BO sync should happen on a host side, unless you're
+>> rendering with Venus and then displaying with virgl. Doing it on guest
+>> side should be a major performance hit. Please provide a complete
+>> description of your setup: what VMM you use, config options, what tests
+>> you're running.
+> 
+> We use virtio-gpu as a kms device while using i915 as the render device
+> in our setup.
+> And we use QEMU as VMM. Virtio-gpu driver flushes the scanout to QEMU as
+> a blob resource
+> (reference to the buffer). QEMU then creates a dmabuf using udmabuf for
+> the blob
+> then renders it as a texture using OGL. The test I ran is simple. Just
+> starting terminal
+> app and typing things to see if there is any frame regression. I believe
+> this helper is
+> required since the BO on the guest is basically dmabuf that is being
+> shared between i915
+> and virtio-gpu driver. I didn't think about the performance impact. If
+> the impact is
+> too much and that is not acceptable, is there any other suggestions or
+> some tests I can try?
 
-So always assume 8bpc support by DSC decoder, when DSC is claimed to be
-supported.
+You can do fence-wait in the guest userspace/Mesa after blitting/drawing
+to the udmabuf.
 
-v2: Use helper to check dsc support. (Ankit)
+You may run popular vk/gl gfx benchmarks using gl/sdl outputs to see the
+fps impact.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/display/drm_dp_helper.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Virglrender today supports native contexts. The method you're using for
+GPU priming was proven to be slow in comparison to multi-gpu native
+contexts. There is ongoing work for supporting fence passing from guest
+to host [1] that allows to do fence-syncing on host. You'll find links
+to the WIP virtio-intel native context in [1] as well. You won't find
+GPU priming support using native context in [1], patches hasn't been
+published yet.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index e6a78fd32380..309fc10cde78 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2447,14 +2447,19 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
- 					 u8 dsc_bpc[3])
- {
- 	int num_bpc = 0;
-+
-+	if(!drm_dp_sink_supports_dsc(dsc_dpcd))
-+		return 0;
-+
- 	u8 color_depth = dsc_dpcd[DP_DSC_DEC_COLOR_DEPTH_CAP - DP_DSC_SUPPORT];
- 
- 	if (color_depth & DP_DSC_12_BPC)
- 		dsc_bpc[num_bpc++] = 12;
- 	if (color_depth & DP_DSC_10_BPC)
- 		dsc_bpc[num_bpc++] = 10;
--	if (color_depth & DP_DSC_8_BPC)
--		dsc_bpc[num_bpc++] = 8;
-+
-+	/* A DP DSC Sink devices shall support 8 bpc. */
-+	dsc_bpc[num_bpc++] = 8;
- 
- 	return num_bpc;
- }
+[1]
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1138
+
+Note that in general it's not acceptable to upstream patches that serve
+downstream only. Yours display sync issue is irrelevant to the upstream
+stack unless you're going to upstream all the VMM and guest userspace
+patches, and in such case you should always publish all the patches and
+provide links.
+
+So, you need to check the performance impact and publish all the patches
+to the relevant upstream projects.
+
 -- 
-2.40.1
+Best regards,
+Dmitry
 
