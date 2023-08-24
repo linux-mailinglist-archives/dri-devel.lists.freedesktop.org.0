@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC905786A52
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 10:42:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D0F786A53
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 10:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C0E10E4EE;
-	Thu, 24 Aug 2023 08:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D543610E4EF;
+	Thu, 24 Aug 2023 08:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC58110E4EE
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:42:08 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A28710E4F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692866528;
+ s=mimecast20190719; t=1692866536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YKYRtl5Yx0hEY4pWR4M/Uy6QWBRCM4DzVDpLi45xd5M=;
- b=QTuAbSaXmMUsFMQ4n2JrIqeIuhkJX1zl1Q30OFUOjzvJDMGBh0Yv6tsa5sfAZL0gzbp5yc
- UP6CGUGYIHjqr+Pw4WANPS7AIIaV0xfoprs/2PbKaOMIzRc0BHJlmbLVQjMBUqUl+SX6yT
- jvycW1UezZv4K7Vu5Pd1ey4ZksxCYOs=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zbW1FngvFUK7KWlxfPdST+Zwcl1JxZSoJl2PteoHaDs=;
+ b=G5iM+VJwol/JxIC0faEYlwNrC9c+sdp+1HRjue1YT/3kIeQQpGcOZ2Lukuu76njBc2X1lc
+ Mm0KjflpEbnzVXRDZ4ElXy0at37PV6O+AF3rHNtKPtnXnHqq/4FemtgYv86cBQ1JKOhJ8q
+ PeOX23532ZOV/xVK1Z3ZwOewD1h8sqI=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-304-XbRotc_eO5GTWEhTQJqr-A-1; Thu, 24 Aug 2023 04:42:06 -0400
-X-MC-Unique: XbRotc_eO5GTWEhTQJqr-A-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2b9cca3c395so18862951fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 01:42:06 -0700 (PDT)
+ us-mta-645-fP4KHaPTPSSZ7obMliL5ww-1; Thu, 24 Aug 2023 04:42:15 -0400
+X-MC-Unique: fP4KHaPTPSSZ7obMliL5ww-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-2bbafb70ecbso14129641fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 01:42:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692866525; x=1693471325;
+ d=1e100.net; s=20221208; t=1692866533; x=1693471333;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YKYRtl5Yx0hEY4pWR4M/Uy6QWBRCM4DzVDpLi45xd5M=;
- b=AfDXoAJ2PJNAZtVw0gip/5qY0KXasljjzvbT7Emuzl2hi4j/QgyEiJj8RC+0HqkelM
- pYHT33d8Xx4GV27s5IK/PZTG8WzDy8gon4mZW5Tu4NtJB49n6fJaElEZNow1IeoRPdYG
- D3BAwbdZ9NdfBkP+10SITq5BtZFlFgAX+DBEHNRRgqM7rQIRyCpu/CPL+EXczkqPFOPB
- emKgXVnCnlSSaM4M7Gr660lVp8JjGnfpyW8jj+mtUjFfkAsR8JLYvl6spfKFf9blrBla
- VfD/Cn2ldQxyiO6te4rq+roau8Hqi/jlFRBkYiYUGYLWqVGuwq35HrDGntUuMnC+UTah
- zKGQ==
-X-Gm-Message-State: AOJu0YzgqcDxsKReX5FegFcfMS4So1S/GJRtDvX6K2a3RtXiU86StP9a
- E/a4Z1ylar5wiNjJ/w636a46svClb+9gOL+8ETeK7ERdD5eYxjqhiO4fstZEHVbuBunvVPdNKnB
- xYBoFlqkj/kq9AGagSnnW98UKySmoHUHQG7fEQCYpdvRQ
-X-Received: by 2002:a05:651c:1506:b0:2bb:8d47:9d95 with SMTP id
- e6-20020a05651c150600b002bb8d479d95mr12650903ljf.2.1692866525167; 
- Thu, 24 Aug 2023 01:42:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnemdgzgB9fzCa20Hz7riOR9wmLV3H2dIzPUxCYkPMXh0k1lqvvJuOT31QecoQlOKl2ZqKX8XN+RV2GKh0lM4=
-X-Received: by 2002:a05:651c:1506:b0:2bb:8d47:9d95 with SMTP id
- e6-20020a05651c150600b002bb8d479d95mr12650891ljf.2.1692866525008; Thu, 24 Aug
- 2023 01:42:05 -0700 (PDT)
+ bh=zbW1FngvFUK7KWlxfPdST+Zwcl1JxZSoJl2PteoHaDs=;
+ b=LQMvzUA3qXHv+zO/YnugI/ILnMoKUphQGJroh3Yl/+JuHetqGmNztpbP0i2QTxMe23
+ m0DbbTG1+U5VfMj2rjcskrjFhgRkx9C2wRhm2TkXkQbHD6CaUxQr38C8FG9Mh1uKxnwc
+ 2aK3WumJS53LgohGB3DCLxsyGlal8YC+NAEuuN7qDErusIi/px5MVyrrHAcJ87Ao/90G
+ JgN76UhpzUKR0eN2bRafgTC0n/3Fh5awXHffnYhu2hGxGi+PJCVJTn0FTTd8Qr3aBlF6
+ P427KSTyOQt+Yf10jfS13/8ixPr6P9VVGC3+6wlrSZH+KPqeHyitmu4FLMkjvSIuMAQt
+ sY7w==
+X-Gm-Message-State: AOJu0Yydp3VknSRaHyFhsYPlCiHrzlW+a48maupRbAG7pmFQX21HPbBD
+ AItKFHcxlXM352e8RZb5w1a7O2BCJoDlWa91qb+D/nZBHG/RknlIBKflOQSkfQG+lzzsfjYDQ3g
+ bYy3BgFmikl4XKb5F8QrxpEKp5zcSNwGxEPd12Dxw750R
+X-Received: by 2002:a05:651c:102f:b0:2b7:34c0:a03a with SMTP id
+ w15-20020a05651c102f00b002b734c0a03amr10216701ljm.3.1692866533699; 
+ Thu, 24 Aug 2023 01:42:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IElJNjBNGCil9PiBaG5sCBxmyOojBV3da4X7jH+b9AMAG6B3VNG1VxewojaAZwNQ4H48vofhmQ8taWfMFeXp1c=
+X-Received: by 2002:a05:651c:102f:b0:2b7:34c0:a03a with SMTP id
+ w15-20020a05651c102f00b002b734c0a03amr10216692ljm.3.1692866533551; Thu, 24
+ Aug 2023 01:42:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-6-lee@kernel.org>
-In-Reply-To: <20230824073710.2677348-6-lee@kernel.org>
+ <20230824073710.2677348-7-lee@kernel.org>
+In-Reply-To: <20230824073710.2677348-7-lee@kernel.org>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 24 Aug 2023 10:41:53 +0200
-Message-ID: <CACO55tv6tqSH-xaM_5iyjJSsaKgeksGD8NXdU6AWi8iVhjhEEg@mail.gmail.com>
-Subject: Re: [PATCH 05/20] drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc
- abuse
+Date: Thu, 24 Aug 2023 10:42:02 +0200
+Message-ID: <CACO55ttW6gmTLNOW+Ty34s77yOBw-FhL6gWZnuXYqQYjw4WxOQ@mail.gmail.com>
+Subject: Re: [PATCH 06/20] drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
 To: Lee Jones <lee@kernel.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -88,9 +87,12 @@ On Thu, Aug 24, 2023 at 9:37=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:1044: warning: This comme=
-nt starts with '/**', but isn't a kernel-doc comment. Refer Documentation/d=
-oc-guide/kernel-doc.rst
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:453: warning: This comment start=
+s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
+/kernel-doc.rst
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:629: warning: This comment start=
+s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
+/kernel-doc.rst
 >
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
@@ -102,24 +104,34 @@ oc-guide/kernel-doc.rst
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: nouveau@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu=
-/drm/nouveau/nvkm/engine/gr/gf100.c
-> index 3648868bb9fc5..788b1773c46a7 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-> @@ -1040,7 +1040,7 @@ gf100_gr_zbc_init(struct gf100_gr *gr)
->         }
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/no=
+uveau/dispnv04/crtc.c
+> index a34924523133c..5454dbb669566 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> @@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct dr=
+m_display_mode *mode)
+>         regp->Attribute[NV_CIO_AR_CSEL_INDEX] =3D 0x00;
 >  }
 >
 > -/**
 > +/*
->   * Wait until GR goes idle. GR is considered idle if it is disabled by t=
-he
->   * MC (0x200) register, or GR is not busy and a context switch is not in
->   * progress.
+>   * Sets up registers for the given mode/adjusted_mode pair.
+>   *
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
+> @@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_fr=
+amebuffer *old_fb)
+>         return ret;
+>  }
+>
+> -/**
+> +/*
+>   * Sets up registers for the given mode/adjusted_mode pair.
+>   *
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
 > --
 > 2.42.0.rc1.204.g551eb34607-goog
 >
