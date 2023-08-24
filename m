@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66BE786C37
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:44:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDEA786C3B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39B2010E518;
-	Thu, 24 Aug 2023 09:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5746010E51E;
+	Thu, 24 Aug 2023 09:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08ED010E517;
- Thu, 24 Aug 2023 09:44:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F7C10E51D;
+ Thu, 24 Aug 2023 09:46:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692870245; x=1724406245;
+ t=1692870366; x=1724406366;
  h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=KcEs7AkWZnu2K0bINbHNS2kEw5hRNT7/aym9uh+lCRw=;
- b=N+rBn+6OgRqb31qo8I2FyOd8lkA5ccOYjbwKHqdF9yJyT3RdyG0v+kmt
- 3aEAwarVAYQLEZa7rTxXtDZgA6CzOAcxWYoo0a0idu+ze8aW2e8zimPl9
- 65cfwtri7IKzTAJFh6NqK4NZlNL+uhJC+SLEZx4BNq84sUf7y2I7yHwSA
- EgfhBM9z2/DMKc7N5HKyylUPOpIyI16EHag2a9kFfBV4PlQ3tT3xJcZj+
- a90S3sMrbKl+L8sB3LUtU1sdrkfFsJkJ7u8bz2yexp8k6R4aquu/evOtn
- vUiPXRHA+wndqoJAySCvMmInKwN4N1dx1hyi44ErZwZYS+eHmnMx+dnec Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="374361943"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="374361943"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:44:04 -0700
+ mime-version; bh=9EHU9YybOEdKc0AyKFyh5bPOsUOiowlUmHJWuaoZYas=;
+ b=AklFwQkk3g3kI4grB2c4PF70XwFJFOeBpmmj6aJMWyxu9XygVmAAib8Q
+ kLKlqX/evMHdowsbD3RuliSFkLiUJBpJj4F74HYO2AOc9MRcE7IyvMC+A
+ mnAHscvz1nseFgDK/BhB/R3ScnMIJg9hWwisJVr+obp+dk9InvkLnQ4Qp
+ G3boWdLfesfswXiiY9dlN6HIt+H3cm4j/jjhKqZ4xEHnDvhLzs92IokHt
+ EJLMoNYBea4qEg/NsQYja1jfCaDe/WiNp4R6Za7sHSq8fZXoh1Xj4Y1f/
+ 0bhztJTBEkY/m1tIkxG/VVHGwfj9J1ulOWoia849WCOVviFEtHn4wHSuH g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="440741826"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="440741826"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 02:45:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="1067760311"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="1067760311"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802484082"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="802484082"
 Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.46.90])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:44:02 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 02:45:47 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 2/2] drivers/drm/i915: Honor limits->max_bpp
- while computing DSC max input bpp
-In-Reply-To: <20230823115425.715644-3-ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 1/2] drm/display/dp: Default 8 bpc support when DSC is
+ supported
+In-Reply-To: <20230824034705.755243-1-ankit.k.nautiyal@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230823115425.715644-1-ankit.k.nautiyal@intel.com>
- <20230823115425.715644-3-ankit.k.nautiyal@intel.com>
-Date: Thu, 24 Aug 2023 12:44:00 +0300
-Message-ID: <87o7iw4vxb.fsf@intel.com>
+References: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
+ <20230824034705.755243-1-ankit.k.nautiyal@intel.com>
+Date: Thu, 24 Aug 2023 12:45:44 +0300
+Message-ID: <87lee04vuf.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,40 +63,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> Edid specific BPC constraints are stored in limits->max_bpp. Honor these
-> limits while computing the input bpp for DSC.
+On Thu, 24 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
+> As per DP v1.4, a DP DSC Sink device shall support 8bpc in DPCD 6Ah.
+> Apparently some panels that do support DSC, are not setting the bit for
+> 8bpc.
+>
+> So always assume 8bpc support by DSC decoder, when DSC is claimed to be
+> supported.
+>
+> v2: Use helper to check dsc support. (Ankit)
 >
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/display/drm_dp_helper.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 5b48bfe09d0e..2a7f6cfe2832 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2061,9 +2061,11 @@ static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
->  	if (forced_bpp) {
->  		pipe_bpp = forced_bpp;
->  	} else {
-> +		u8 max_bpc = limits->max_bpp / 3;
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index e6a78fd32380..309fc10cde78 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2447,14 +2447,19 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+>  					 u8 dsc_bpc[3])
+>  {
+>  	int num_bpc = 0;
 > +
+> +     if(!drm_dp_sink_supports_dsc(dsc_dpcd))
+          ^
 
-		int max_bpc = min_t(int, limits->max_bpp / 3, conn_state->max_requested_bpc);
+Missing space.
 
->  		/* For eDP use max bpp that can be supported with DSC. */
->  		pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_dp, max_bbc);
+> +		return 0;
+> +
+>  	u8 color_depth = dsc_dpcd[DP_DSC_DEC_COLOR_DEPTH_CAP - DP_DSC_SUPPORT];
 
-Nitpick, IMO looks cleaner this way, as well as uses int instead of u8
-for computations.
+All declarations should be before code.
 
-BR,
-Jani.
+>  
+>  	if (color_depth & DP_DSC_12_BPC)
+>  		dsc_bpc[num_bpc++] = 12;
+>  	if (color_depth & DP_DSC_10_BPC)
+>  		dsc_bpc[num_bpc++] = 10;
+> -	if (color_depth & DP_DSC_8_BPC)
+> -		dsc_bpc[num_bpc++] = 8;
+> +
+> +	/* A DP DSC Sink devices shall support 8 bpc. */
 
->  		if (!is_dsc_pipe_bpp_sufficient(i915, conn_state, limits, pipe_bpp)) {
->  			drm_dbg_kms(&i915->drm,
->  				    "Computed BPC is not in DSC BPC limits\n");
+Mixed singular and plural, a ... devices.
+
+> +	dsc_bpc[num_bpc++] = 8;
+>  
+>  	return num_bpc;
+>  }
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
