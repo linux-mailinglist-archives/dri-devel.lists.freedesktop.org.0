@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8028B786882
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F684786889
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CC310E495;
-	Thu, 24 Aug 2023 07:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B57E010E497;
+	Thu, 24 Aug 2023 07:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E436510E491;
- Thu, 24 Aug 2023 07:37:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E4910E491;
+ Thu, 24 Aug 2023 07:37:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4F226658D1;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D3E5565D08;
+ Thu, 24 Aug 2023 07:37:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 317FFC433C9;
  Thu, 24 Aug 2023 07:37:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBEA2C433CA;
- Thu, 24 Aug 2023 07:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692862659;
- bh=v/AsjaKWfWVhXTGpgXaAI49klDCaIH1NNnxOWSMbYmY=;
+ s=k20201202; t=1692862662;
+ bh=bCtu9rh36yZVVyJcfPWI0y1vMiUsotu0ZqQMMBIYRRw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OZNLfe/KSEvMsAA5hbcGr9Mqq1YEPQ+1+i5ePoJyaR78t7++3X1c33azZ3xVfoWxM
- 9Tn25eBotEU3Ns/K+AtANpWkZuQU+LN8e397JmpcLuDLdTkrS1+RsHutnlXv4vxFCl
- qmOuTw0M0ByLN/ecQpGPxS6d0yzNcq3lC+SUh0lUq9tZtwMo7PM9xWZFHhDk1xO0dN
- dppOFLTpXeqNFKomhoAcY+Fj290bkNGOawp/YYT4VsJhU1brxmm16bCmH5xSgGhbko
- XRV3QJ5/pn5LA+jx9wcG2sydQaYPg16QE1shDCk8Rj1auKPLbqDgRZq0snkrHrWzFJ
- gHaRViBKTk4wg==
+ b=RLBw448BgDNLUBevsrEluKx5TMsHtCbaRFX/3iR1cj2c/ZtHKdQzYIcR+c44oP5nX
+ nORTmAuvq4lIjHAzLMISrq1vEBbK1cy6DJHqMUoeMzpkNhCi7K6urXHK0+/aJxxJDs
+ nNZeafEB/17lEFwNg7wPNyJyeaXfnUUtg8y0cpw+TWQhxUQaAfkZ07YrazxbIdKC+H
+ DOg1ESStGBF5tBcKr/hPQA8gI6u+kzvZChlfjdkvq4J2OfCjC2reQ7bGe2X7XqT3ts
+ dv2QEpq6LaJtQ5f7YBhbuGZrXqizuf2EDajyFOgRK3R+UcpflzCqhTvNpyzfdHj1Vi
+ agVZPaU18n+/A==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org
-Subject: [PATCH 05/20] drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
-Date: Thu, 24 Aug 2023 08:36:50 +0100
-Message-ID: <20230824073710.2677348-6-lee@kernel.org>
+Subject: [PATCH 06/20] drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+Date: Thu, 24 Aug 2023 08:36:51 +0100
+Message-ID: <20230824073710.2677348-7-lee@kernel.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230824073710.2677348-1-lee@kernel.org>
 References: <20230824073710.2677348-1-lee@kernel.org>
@@ -61,7 +61,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:1044: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c:629: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
@@ -73,22 +74,31 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Cc: nouveau@lists.freedesktop.org
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-index 3648868bb9fc5..788b1773c46a7 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-@@ -1040,7 +1040,7 @@ gf100_gr_zbc_init(struct gf100_gr *gr)
- 	}
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+index a34924523133c..5454dbb669566 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+@@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ 	regp->Attribute[NV_CIO_AR_CSEL_INDEX] = 0x00;
  }
  
 -/**
 +/*
-  * Wait until GR goes idle. GR is considered idle if it is disabled by the
-  * MC (0x200) register, or GR is not busy and a context switch is not in
-  * progress.
+  * Sets up registers for the given mode/adjusted_mode pair.
+  *
+  * The clocks, CRTCs and outputs attached to this CRTC must be off.
+@@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_framebuffer *old_fb)
+ 	return ret;
+ }
+ 
+-/**
++/*
+  * Sets up registers for the given mode/adjusted_mode pair.
+  *
+  * The clocks, CRTCs and outputs attached to this CRTC must be off.
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
