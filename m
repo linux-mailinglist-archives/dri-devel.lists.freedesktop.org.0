@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BB3787422
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:27:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E3F787421
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1163510E59B;
-	Thu, 24 Aug 2023 15:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4947E10E599;
+	Thu, 24 Aug 2023 15:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC8010E58F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:26:57 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id
- 5614622812f47-3a88ef9444bso560542b6e.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:26:57 -0700 (PDT)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A445610E598
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:27:00 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id
+ d75a77b69052e-41206fd9717so3172111cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692890816; x=1693495616;
+ d=chromium.org; s=google; t=1692890819; x=1693495619;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7q+LPo8wQuO9waVaIWLhDfmh6Cdz2EIXcP8cExW2KaQ=;
- b=m8zDdFTLklxWkFTPCxaeSJW7tjCEi6PIfbeC9T4nU+8P2qZF9CKv0r4ERXglOY8PTj
- Jdgn7vlaiVXSvnDZMIKi0iAMFlMLNR2PAD0ya3xzQmv5l1xReIKeRGiGF+jQhGZ1mGeH
- 6Px/mCB983eX2gdbups4X76L6Xjq4BX4scO5A=
+ bh=01nSo9lW06Ie1zgGOaW5x+E+AW55sJ9KmNuJshzlZXg=;
+ b=lHfZIxl9yUE40HhYuPlxp50bMBUWgN/2mbz4zM4Rcmu5xR3SAfwmj88e72fMnr4/SD
+ ZBvdukiLj0YhvDfd2jkl4BJQKGp0uFyPeHeIVXhD0nYxQeSGUC2VhbdrzQxCTLXl+4Wl
+ dv/oV6bSOOl2qR4tTZ3J3w/X60ZITvqI+uIaA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692890816; x=1693495616;
+ d=1e100.net; s=20221208; t=1692890819; x=1693495619;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7q+LPo8wQuO9waVaIWLhDfmh6Cdz2EIXcP8cExW2KaQ=;
- b=UcksEzrxidhV964FSVL2+uv+OJmS2YRC5yGxl7JVrBXvjXU7NF9j10ikhYKV0PetJh
- c9bSFtgfGwBKsrU70Ju8j4+KiXZbvhK9h5W6j/jGg6TZ/KqYk9WIz7XZBc6Yef+6cnm4
- 5AnP4t/L0I+I7C68B3IXFUyaUrIIUbHXmmWhpV0KX6dpjn2r63t4miUwGKvUr+SJzMsr
- BJp+qfjl0boizLrYdcDg2UHoBnXfKlktZteLzuDoZxO/eZdIXkgmGsdmee7Y+JgQwzh8
- nUV+O2lueLuSmA4ybzwfPU6+AY3PSwqBB8AVT2blfNZjxTiL+cSRw2MHazeT9+XBnAzu
- rM0g==
-X-Gm-Message-State: AOJu0Yy3vJ9eRzmD5Q1yAX5errSTH1LATf3SzxF26tbZZtTIlbCG/SXP
- G0Rn029eKna+3w+46YpP1d80fQ==
-X-Google-Smtp-Source: AGHT+IHk6MdYUWn1Jn9JiUjWBApcQu6PTR5pHH7Nb5YjgBZIR1JeY0+Vy1k8oA+tBC3qsMa2Z85Q/w==
-X-Received: by 2002:a05:6358:5283:b0:13a:a85b:c373 with SMTP id
- g3-20020a056358528300b0013aa85bc373mr17352191rwa.18.1692890816558; 
- Thu, 24 Aug 2023 08:26:56 -0700 (PDT)
+ bh=01nSo9lW06Ie1zgGOaW5x+E+AW55sJ9KmNuJshzlZXg=;
+ b=G2/lucSpcgOlOEGka83olmYhzME3GaAPnpU6NRV3HBFBSO1NdRr1lPwPtoNCIQVCxT
+ ND5KVF0c8EEx+h+IM38AQtKhE3w4xTJxOFub5tMB6VgblWYfJVOcBXPOYcix5DKu6yGY
+ ev4oAYjrmqsza6XsxS9dlxwZoC1ET5ai2p+Fdd886W/ix/THc2ty90gI5uLpACbjQ7fH
+ xjUnIhBs34RjP4yPHBeLV/9Xd5koEEnv8CBZr/A3YmUifIE8gm+r26iAD0kH+KuJ4T+m
+ PiT9t2Qt7q+Tlb4o96c0oABdEiYDlEnBMyffHo66UYQpJNQ/Hr1GRorEIsUMP2atENHQ
+ 1Z9A==
+X-Gm-Message-State: AOJu0Yy5rdBn7dCCi0MsHjGTmQo4yEaNR7s9G1wAidSz5arJZZTqKcCU
+ AkVcRYOgRa5rLh0OEkG2FnUQOA==
+X-Google-Smtp-Source: AGHT+IGaRH3VStaRfMi6Db4BY/0cBnHez6zFGVFM/BHVKaqZh59iqft5FTlzqUgfqtKhj1UYWXLXDg==
+X-Received: by 2002:ac8:7c44:0:b0:40f:a358:46b4 with SMTP id
+ o4-20020ac87c44000000b0040fa35846b4mr20457000qtv.13.1692890819707; 
+ Thu, 24 Aug 2023 08:26:59 -0700 (PDT)
 Received: from gildekel.nyc.corp.google.com
  ([2620:0:1003:314:321d:e6f5:6dbd:3e5])
  by smtp.gmail.com with ESMTPSA id
- v10-20020ac83d8a000000b0041079ba4f6bsm4423014qtf.12.2023.08.24.08.26.55
+ v10-20020ac83d8a000000b0041079ba4f6bsm4423014qtf.12.2023.08.24.08.26.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Aug 2023 08:26:56 -0700 (PDT)
+ Thu, 24 Aug 2023 08:26:59 -0700 (PDT)
 From: Gil Dekel <gildekel@chromium.org>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 4/6] drm/i915: Move DP modeset_retry_work into intel_dp
-Date: Thu, 24 Aug 2023 11:25:20 -0400
-Message-ID: <20230824152631.401621-5-gildekel@chromium.org>
+Subject: [PATCH v3 5/6] drm/i915/dp_link_training: Set all downstream MST
+ ports to BAD before retrying
+Date: Thu, 24 Aug 2023 11:25:21 -0400
+Message-ID: <20230824152631.401621-6-gildekel@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230824152631.401621-1-gildekel@chromium.org>
 References: <20230824152631.401621-1-gildekel@chromium.org>
@@ -77,134 +78,51 @@ Cc: seanpaul@chromium.org, Gil Dekel <gildekel@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, link-training fallback is only implemented for SST, so having
-modeset_retry_work in intel_connector makes sense. However, we hope to
-implement link training fallback for MST in a follow-up patchset, so
-moving modeset_retry_work to indel_dp will make handling both SST and
-MST connectors simpler. This patch does exactly that, and updates all
-modeset_retry_work dependencies to use an intel_dp instead.
+Before sending a uevent to userspace in order to trigger a corrective
+modeset, we change the failing connector's link-status to BAD. However,
+the downstream MST branch ports are left in their original GOOD state.
 
-Credit: this patch is a rebase of Lyude Pual's original patch:
-https://patchwork.freedesktop.org/patch/216627/?series=41576&rev=3
+This patch utilizes the drm helper function
+drm_dp_set_mst_topology_link_status() to rectify this and set all
+downstream MST connectors' link-status to BAD before emitting the uevent
+to userspace.
 
-Change-Id: I3d80d58b05efe7b07450fb800c438c6e2a34f30c
+Change-Id: Iaae8f0b12b8bce4b16ecad63063c04d3c8ec93a8
 Signed-off-by: Gil Dekel <gildekel@chromium.org>
 ---
- drivers/gpu/drm/i915/display/intel_display.c       | 14 +++++++++++---
- drivers/gpu/drm/i915/display/intel_display_types.h |  6 +++---
- drivers/gpu/drm/i915/display/intel_dp.c            | 11 ++++-------
- .../gpu/drm/i915/display/intel_dp_link_training.c  |  3 +--
- 4 files changed, 19 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index f387215f713af..8e3c7abda3193 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -8937,20 +8937,28 @@ void intel_display_resume(struct drm_device *dev)
-
- static void intel_hpd_poll_fini(struct drm_i915_private *i915)
- {
--	struct intel_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
-+	struct intel_connector *connector;
-+	struct intel_dp *intel_dp;
-+	struct intel_encoder *encoder;
-
- 	/* Kill all the work that may have been queued by hpd. */
- 	drm_connector_list_iter_begin(&i915->drm, &conn_iter);
- 	for_each_intel_connector_iter(connector, &conn_iter) {
--		if (connector->modeset_retry_work.func)
--			cancel_work_sync(&connector->modeset_retry_work);
- 		if (connector->hdcp.shim) {
- 			cancel_delayed_work_sync(&connector->hdcp.check_work);
- 			cancel_work_sync(&connector->hdcp.prop_work);
- 		}
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
-+
-+	for_each_intel_dp(&i915->drm, encoder) {
-+		if (encoder->type == DRM_MODE_CONNECTOR_eDP ||
-+		    encoder->type == DRM_MODE_CONNECTOR_DisplayPort) {
-+			intel_dp = enc_to_intel_dp(encoder);
-+			cancel_work_sync(&intel_dp->modeset_retry_work);
-+		}
-+	}
- }
-
- /* part #1: call before irq uninstall */
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 4b88f4d60a81f..9181a2fef81e0 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -608,9 +608,6 @@ struct intel_connector {
-
- 	struct intel_dp *mst_port;
-
--	/* Work struct to schedule a uevent on link train failure */
--	struct work_struct modeset_retry_work;
--
- 	struct intel_hdcp hdcp;
- };
-
-@@ -1724,6 +1721,9 @@ struct intel_dp {
- 	/* Displayport compliance testing */
- 	struct intel_dp_compliance compliance;
-
-+	/* Work struct to schedule a uevent on link train failure */
-+	struct work_struct modeset_retry_work;
-+
- 	/* Downstream facing port caps */
- 	struct {
- 		int min_tmds_clock, max_tmds_clock;
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 9a5bcd630068e..2e562e09c704e 100644
+index 2e562e09c704e..71f54e56c4434 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5323,12 +5323,9 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+@@ -5326,16 +5326,20 @@ static void intel_dp_modeset_retry_work_fn(struct work_struct *work)
+ 	struct intel_dp *intel_dp =
+ 		container_of(work, typeof(*intel_dp), modeset_retry_work);
+ 	struct drm_connector *connector = &intel_dp->attached_connector->base;
+-	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s]\n", connector->base.id,
+-		    connector->name);
 
- static void intel_dp_modeset_retry_work_fn(struct work_struct *work)
- {
--	struct intel_connector *intel_connector;
--	struct drm_connector *connector;
--
--	intel_connector = container_of(work, typeof(*intel_connector),
--				       modeset_retry_work);
--	connector = &intel_connector->base;
-+	struct intel_dp *intel_dp =
-+		container_of(work, typeof(*intel_dp), modeset_retry_work);
-+	struct drm_connector *connector = &intel_dp->attached_connector->base;
- 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s]\n", connector->base.id,
- 		    connector->name);
-
-@@ -5358,7 +5355,7 @@ intel_dp_init_connector(struct intel_digital_port *dig_port,
- 	int type;
-
- 	/* Initialize the work for modeset in case of link train failure */
--	INIT_WORK(&intel_connector->modeset_retry_work,
-+	INIT_WORK(&intel_dp->modeset_retry_work,
- 		  intel_dp_modeset_retry_work_fn);
-
- 	if (drm_WARN(dev, dig_port->max_lanes < 1,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 720af16a654c9..6f16609a0820b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -1107,7 +1107,6 @@ intel_dp_link_train_phy(struct intel_dp *intel_dp,
- static void intel_dp_schedule_fallback_link_training(struct intel_dp *intel_dp,
- 						     const struct intel_crtc_state *crtc_state)
- {
--	struct intel_connector *intel_connector = intel_dp->attached_connector;
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-
- 	if (intel_dp->hobl_active) {
-@@ -1123,7 +1122,7 @@ static void intel_dp_schedule_fallback_link_training(struct intel_dp *intel_dp,
- 	}
-
- 	/* Schedule a Hotplug Uevent to userspace to start modeset */
--	schedule_work(&intel_connector->modeset_retry_work);
-+	schedule_work(&intel_dp->modeset_retry_work);
- }
-
- /* Perform the link training on all LTTPRs and the DPRX on a link. */
+-	/* Grab the locks before changing connector property*/
+-	mutex_lock(&connector->dev->mode_config.mutex);
+-	/* Set connector link status to BAD and send a Uevent to notify
+-	 * userspace to do a modeset.
++	/* Set the connector's (and possibly all its downstream MST ports') link
++	 * status to BAD.
+ 	 */
++	mutex_lock(&connector->dev->mode_config.mutex);
++	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] link status %d -> %d\n",
++		    connector->base.id, connector->name,
++		    connector->state->link_status, DRM_MODE_LINK_STATUS_BAD);
+ 	drm_connector_set_link_status_property(connector,
+ 					       DRM_MODE_LINK_STATUS_BAD);
++	if (intel_dp->is_mst) {
++		drm_dp_set_mst_topology_link_status(&intel_dp->mst_mgr,
++						    DRM_MODE_LINK_STATUS_BAD);
++	}
+ 	mutex_unlock(&connector->dev->mode_config.mutex);
+ 	/* Send Hotplug uevent so userspace can reprobe */
+ 	drm_kms_helper_connector_hotplug_event(connector);
 --
 Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
