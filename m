@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E85787368
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769ED7873AB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:09:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA7B10E57B;
-	Thu, 24 Aug 2023 15:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2722D10E589;
+	Thu, 24 Aug 2023 15:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2751210E57B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:03:39 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxPOtGcedkm5AbAA--.51093S3;
- Thu, 24 Aug 2023 23:03:34 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx_c5EcedkEYBiAA--.42989S4; 
- Thu, 24 Aug 2023 23:03:33 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v5 2/2] PCI/VGA: Remove vga_is_firmware_default() function
-Date: Thu, 24 Aug 2023 23:03:32 +0800
-Message-Id: <20230824150332.6434-3-suijingfeng@loongson.cn>
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2492B10E58D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:08:55 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:3c6b:f703:5ab5:f36d])
+ by albert.telenet-ops.be with bizsmtp
+ id dT8t2A00X01sfPQ06T8tx8; Thu, 24 Aug 2023 17:08:53 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qZBwx-001dh3-Df;
+ Thu, 24 Aug 2023 17:08:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qZBx7-000Vyh-1D;
+ Thu, 24 Aug 2023 17:08:53 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/8] drm: fb-helper/ssd130x: Add support for DRM_FORMAT_R1
+Date: Thu, 24 Aug 2023 17:08:38 +0200
+Message-Id: <cover.1692888745.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230824150332.6434-1-suijingfeng@loongson.cn>
-References: <20230824150332.6434-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx_c5EcedkEYBiAA--.42989S4
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWr1UKry5tw43Cry3KryxtFc_yoW5GFW8pF
- s3tFWxJrW8Wr45C3s0yF48ZF15ZwsY9aykKFWq93s3Ga45Arn7XrW3ArZYyry7JrZ2q3W3
- AF13Jr10qFyDJagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1a6r1DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
- xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v2
- 6r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
- xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
- Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7
- IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
- 6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07Ul4E_UUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,95 +47,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new implemented pci_boot_vga_capturer() function is also effective on
-X86 and IA64, it can determine the default boot VGA device before VRAM BAR
-relocations done by the PCI core. Since the fixup handler has already
-identified the firmware framebuffer, there no need to look again later. So,
-switch to using the pci_boot_vga_capturer() on X86 and IA64 also, remove
-vga_is_firmware_default() and its relevant codes.
+        Hi all,
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/pci/vgaarb.c | 46 +++-----------------------------------------
- 1 file changed, 3 insertions(+), 43 deletions(-)
+The native display format of ssd1306 OLED displays is monochrome
+light-on-dark (R1).  This patch series adds support for the R1 buffer
+format to both the ssd130x DRM driver and the FB helpers, so monochrome
+applications (including fbdev emulation and the text console) not only
+look better, but also avoid the overhead of back-and-forth conversions
+between R1 and XR24.
 
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index bc5fcc855513..1dff74f778cd 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -51,7 +51,6 @@ struct vga_device {
- 	unsigned int io_norm_cnt;	/* normal IO count */
- 	unsigned int mem_norm_cnt;	/* normal MEM count */
- 	bool bridge_has_one_vga;
--	bool is_firmware_default;	/* device selected by firmware */
- 	unsigned int (*set_decode)(struct pci_dev *pdev, bool decode);
- };
- 
-@@ -544,41 +543,6 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
- }
- EXPORT_SYMBOL(vga_put);
- 
--static bool vga_is_firmware_default(struct pci_dev *pdev)
--{
--#if defined(CONFIG_X86) || defined(CONFIG_IA64)
--	u64 base = screen_info.lfb_base;
--	u64 size = screen_info.lfb_size;
--	struct resource *r;
--	u64 limit;
--
--	/* Select the device owning the boot framebuffer if there is one */
--
--	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
--		base |= (u64)screen_info.ext_lfb_base << 32;
--
--	limit = base + size;
--
--	/* Does firmware framebuffer belong to us? */
--	pci_dev_for_each_resource(pdev, r) {
--		if (resource_type(r) != IORESOURCE_MEM)
--			continue;
--
--		if (!r->start || !r->end)
--			continue;
--
--		if (base < r->start || limit >= r->end)
--			continue;
--
--		return true;
--	}
--#else
--	if (pdev_boot_vga && pdev_boot_vga == pdev)
--		return true;
--#endif
--	return false;
--}
--
- static bool vga_arb_integrated_gpu(struct device *dev)
- {
- #if defined(CONFIG_ACPI)
-@@ -610,14 +574,10 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
- 	 */
- 
- 	/*
--	 * We always prefer a firmware default device, so if we've already
--	 * found one, there's no need to consider vgadev.
-+	 * We always prefer a firmware default device.
- 	 */
--	if (boot_vga && boot_vga->is_firmware_default)
--		return false;
--
--	if (vga_is_firmware_default(pdev)) {
--		vgadev->is_firmware_default = true;
-+	if (pdev == pdev_boot_vga) {
-+		vgaarb_dbg(&pdev->dev, "Boot VGA selected by firmware\n");
- 		return true;
- 	}
- 
+This series consists of 4 parts:
+  - Patches 1-2 contain fixes,
+  - Patch 3 contains a small improvement,
+  - Patch 4 adds R1 support to the ssd130x DRM driver,
+  - Patches 5-6 update the DRM client and FB helper code to avoid
+    calling drm_mode_legacy_fb_format() where the exact buffer format is
+    already known, to prepare for R1 support,
+  - Patch 7 adds support for R1 to fbdev emulation and the text console,
+  - Patch 8 switches ssd130x to R1 for fbdev emulation and the text
+    console.
+
+Changes compared to v1[1]:
+  - Drop "[PATCH 1/8] drm/ssd130x: Fix pitch calculation in
+    ssd130x_fb_blit_rect()" (already applied),
+  - Drop "[PATCH/RFC 3/8] drm/ssd130x: Bail out early if data_array is
+    not yet available" (no longer needed),
+  - New patch "[PATCH v2 2/8] drm/ssd130x: Fix screen clearing",
+  - New patch "[PATCH v2 3/8] drm/ssd130x: Use bool for
+    ssd130x_deviceinfo flags",
+  - Add Reviewed-by, Tested-by,
+  - Rework on top op commit 8c3926367ac9df6c ("drm/ssd130x: Use
+    shadow-buffer helpers when managing plane's state") in drm/drm-next,
+  - Do not allocate intermediate buffer when not needed,
+  - s/drm_mode_create_dumb/drm_client_buffer_addfb/ in one-line summary,
+  - Fix accidental debug level increase.
+
+This has been tested on an Adafruit FeatherWing 128x32 OLED, connected
+to an OrangeCrab ECP5 FPGA board running a 64 MHz VexRiscv RISC-V
+softcore, using the fbdev text console.
+
+Thanks for your comments!
+
+P.S. Note that the biggest hurdle was the copious use of the
+     drm_mode_legacy_fb_format() helper in various places.  This helper
+     cannot decide between C1 and R1 without knowledge of the
+     capabilities of the full display pipeline.  Instead of
+     special-casing its return value in three callers, I did so in only
+     one place, and got rid of two of these calls in the call chain.
+     I think Thomas' grand plan is to replace preferred_{bpp,depth} by a
+     preferred fourcc format? That would simplify things a lot...
+
+[1] "[PATCH 0/8] drm: fb-helper/ssd130x: Add support for DRM_FORMAT_R1"
+    https://lore.kernel.org/r/cover.1689252746.git.geert@linux-m68k.org
+
+Geert Uytterhoeven (8):
+  drm/dumb-buffers: Fix drm_mode_create_dumb() for bpp < 8
+  drm/ssd130x: Fix screen clearing
+  drm/ssd130x: Use bool for ssd130x_deviceinfo flags
+  drm/ssd130x: Add support for DRM_FORMAT_R1
+  drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()
+  drm/fb-helper: Pass buffer format via drm_fb_helper_surface_size
+  drm/fb-helper: Add support for DRM_FORMAT_R1
+  drm/ssd130x: Switch preferred_bpp/depth to 1
+
+ drivers/gpu/drm/drm_client.c        |  13 ++-
+ drivers/gpu/drm/drm_dumb_buffers.c  |   3 +-
+ drivers/gpu/drm/drm_fb_helper.c     |  42 ++++++---
+ drivers/gpu/drm/drm_fbdev_generic.c |   9 +-
+ drivers/gpu/drm/solomon/ssd130x.c   | 127 ++++++++++++++++++++--------
+ drivers/gpu/drm/solomon/ssd130x.h   |   4 +-
+ include/drm/drm_fb_helper.h         |   2 +
+ 7 files changed, 138 insertions(+), 62 deletions(-)
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
