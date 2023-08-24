@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3701A787427
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7498B78749B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:52:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E1810E59C;
-	Thu, 24 Aug 2023 15:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E056510E58D;
+	Thu, 24 Aug 2023 15:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81BA10E59D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:27:03 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id
- d75a77b69052e-40ffa784eaeso39448111cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692890823; x=1693495623;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3rt6pB7aPeFnvM0um6shDl4ptArbJcOoIOPa13o3miM=;
- b=H9fbAMya95a0tdVqITRxCG98PHUGWy0mxJSyaCJ1oWoTmxZHAMsk7Ctwta2+IFFGFZ
- Gg7AnkV3/wsG4zWLjTU1Ubbao0gNsDQTXtDdhDwOzbYSZvovbyfPrh2Oj9ZK27BYbB0w
- +OGf/fdIrhvUcHKUR9sSpxm15tYFrlv78cXrc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692890823; x=1693495623;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3rt6pB7aPeFnvM0um6shDl4ptArbJcOoIOPa13o3miM=;
- b=S/s9JogVfuVSfVb5MUmF/ti6H6RI2j2fYHLxJN0jJG/2DyaPtJxC4rHjAeInet93kH
- eJnNOtjSOS9wm3ajyGr2Gina8WtVNlAT/JKC8SsFAuv0mTT4oRONGD9hcs8Wg9ZlbURf
- CoDUSi+dNY182iXQRjBsfDQtlhdn2hBPTZGLVcSLndQ56/3HuPrPWKgYr6py03/h/WdT
- OeitJTLc6KhU2k+EyuKtGEs9AisZqiXwHiGGaRsfuDBv0xqwuzgiGAezWnACEfvsTS7a
- TcJ9mZf7UhqBr5UgL43FhJ7iavTFgNhyvmTohA5oROIzFvC2NnlXEipwejwU8EfQTr7D
- AkYg==
-X-Gm-Message-State: AOJu0YwPm9RwmZ12S9kce/nVMwGqPA8mc5vepPVFqMZrYdW9XJS6JOXC
- 1qtl+JU3wlcXfF+cgPCCi0TdOg==
-X-Google-Smtp-Source: AGHT+IHD43buU/3etSBsSxhHjbm9ooSj6JxY6ecMb64UALTutemAUqT3TcNXQE5iorGplYPJlNAXYQ==
-X-Received: by 2002:a05:622a:13cc:b0:40f:dcda:ea2f with SMTP id
- p12-20020a05622a13cc00b0040fdcdaea2fmr17727365qtk.29.1692890822882; 
- Thu, 24 Aug 2023 08:27:02 -0700 (PDT)
-Received: from gildekel.nyc.corp.google.com
- ([2620:0:1003:314:321d:e6f5:6dbd:3e5])
- by smtp.gmail.com with ESMTPSA id
- v10-20020ac83d8a000000b0041079ba4f6bsm4423014qtf.12.2023.08.24.08.27.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Aug 2023 08:27:02 -0700 (PDT)
-From: Gil Dekel <gildekel@chromium.org>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 6/6] drm/i915/dp_link_training: Emit a link-status=Bad
- uevent with trigger property
-Date: Thu, 24 Aug 2023 11:25:22 -0400
-Message-ID: <20230824152631.401621-7-gildekel@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
-In-Reply-To: <20230824152631.401621-1-gildekel@chromium.org>
-References: <20230824152631.401621-1-gildekel@chromium.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7913210E58D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DBB8A65D76
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ACACBC433CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692892373;
+ bh=iEHrDrWTIldIwcHIejNDW1fFJ/Mxmj26uyj0zuXyxao=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=rxOfG+kwDnJi9nOPxjT5dODACNdHWipj33H83ShaLRmfh8BJkZmHdjMvZOjp9HDIM
+ lVO2p7hVeQiobSwuMsMuZNsGTueLpI4Z2icQYbhatoGKwYjsG1NyoUXyFwLo2NLUeo
+ kXiWYI13k5kNiPDsa1qtG3BM4yw+FQzE/HAYUVXWvnaFZPYE2kkxqkG8AFkgmyXYC5
+ tXP+OgcKJdkzpEN7/BJuhwIEnr2Rvbr2u/u2CudfMiMeVDtDv3fFk8kW3ILCSkG/1n
+ nah5GPsFe/Z+EMA/Cjbu+eoudlSC+P0WUAFBErs7KdyPOKDrFovpvLFeqOFremBo4z
+ W4j90Ft/yaMOg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9C33BC53BCD; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Thu, 24 Aug 2023 15:52:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: priit@ww.ee
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-LrpCAFBk7p@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +72,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: seanpaul@chromium.org, Gil Dekel <gildekel@chromium.org>,
- navaremanasi@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a link-training attempt fails, emit a uevent to user space that
-includes the trigger property, which in this case will be
-link-statue=Bad.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-This will allow userspace to parse the uevent property and better
-understand the reason for the previous modeset failure.
+Priit O. (priit@ww.ee) changed:
 
-Change-Id: I6170e2755121adf04621ae4fff06985bf4b26d3a
-Signed-off-by: Gil Dekel <gildekel@chromium.org>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |priit@ww.ee
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 71f54e56c4434..f45c3bab743cc 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -42,6 +42,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_sysfs.h>
+--- Comment #89 from Priit O. (priit@ww.ee) ---
+AMD Vega 64 (vega10 chip)
+kernel: 6.4.9
 
- #include "g4x_dp.h"
- #include "i915_debugfs.h"
-@@ -5326,6 +5327,8 @@ static void intel_dp_modeset_retry_work_fn(struct work_struct *work)
- 	struct intel_dp *intel_dp =
- 		container_of(work, typeof(*intel_dp), modeset_retry_work);
- 	struct drm_connector *connector = &intel_dp->attached_connector->base;
-+	struct drm_property *link_status_property =
-+		connector->dev->mode_config.link_status_property;
+linux-firmware: 20230724
 
- 	/* Set the connector's (and possibly all its downstream MST ports') link
- 	 * status to BAD.
-@@ -5342,7 +5345,7 @@ static void intel_dp_modeset_retry_work_fn(struct work_struct *work)
- 	}
- 	mutex_unlock(&connector->dev->mode_config.mutex);
- 	/* Send Hotplug uevent so userspace can reprobe */
--	drm_kms_helper_connector_hotplug_event(connector);
-+	drm_sysfs_connector_status_event(connector, link_status_property);
- }
+# graphical session died and had to log in again, computer didn't boot
+though...
+aug   20 02:11:06 Zen kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ri=
+ng
+gfx_low timeout, signaled seq=3D368426139, emitted seq=3D368426141
+aug   20 02:11:06 Zen kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+Process information: process firefox pid 414636 thread firefox:cs0 pid 4147=
+12
 
- bool
---
-Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
+linux-firmware: 20230810 (upgraded it... although there was no "vega10" cha=
+nges
+inbetween)
+
+# just freeze for like 30s and then it got unstuck again.
+aug   23 23:09:24 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
+[CRTC:60:crtc-0] hw_done or flip_done timed out
+aug   23 23:09:34 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
+[CRTC:63:crtc-1] hw_done or flip_done timed out
+aug   23 23:09:44 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
+[CRTC:66:crtc-2] hw_done or flip_done timed out
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
