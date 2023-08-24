@@ -2,70 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D0F786A53
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 10:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A55786AC3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 10:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D543610E4EF;
-	Thu, 24 Aug 2023 08:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5058B10E4FA;
+	Thu, 24 Aug 2023 08:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A28710E4F2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692866536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zbW1FngvFUK7KWlxfPdST+Zwcl1JxZSoJl2PteoHaDs=;
- b=G5iM+VJwol/JxIC0faEYlwNrC9c+sdp+1HRjue1YT/3kIeQQpGcOZ2Lukuu76njBc2X1lc
- Mm0KjflpEbnzVXRDZ4ElXy0at37PV6O+AF3rHNtKPtnXnHqq/4FemtgYv86cBQ1JKOhJ8q
- PeOX23532ZOV/xVK1Z3ZwOewD1h8sqI=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-fP4KHaPTPSSZ7obMliL5ww-1; Thu, 24 Aug 2023 04:42:15 -0400
-X-MC-Unique: fP4KHaPTPSSZ7obMliL5ww-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2bbafb70ecbso14129641fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 01:42:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692866533; x=1693471333;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zbW1FngvFUK7KWlxfPdST+Zwcl1JxZSoJl2PteoHaDs=;
- b=LQMvzUA3qXHv+zO/YnugI/ILnMoKUphQGJroh3Yl/+JuHetqGmNztpbP0i2QTxMe23
- m0DbbTG1+U5VfMj2rjcskrjFhgRkx9C2wRhm2TkXkQbHD6CaUxQr38C8FG9Mh1uKxnwc
- 2aK3WumJS53LgohGB3DCLxsyGlal8YC+NAEuuN7qDErusIi/px5MVyrrHAcJ87Ao/90G
- JgN76UhpzUKR0eN2bRafgTC0n/3Fh5awXHffnYhu2hGxGi+PJCVJTn0FTTd8Qr3aBlF6
- P427KSTyOQt+Yf10jfS13/8ixPr6P9VVGC3+6wlrSZH+KPqeHyitmu4FLMkjvSIuMAQt
- sY7w==
-X-Gm-Message-State: AOJu0Yydp3VknSRaHyFhsYPlCiHrzlW+a48maupRbAG7pmFQX21HPbBD
- AItKFHcxlXM352e8RZb5w1a7O2BCJoDlWa91qb+D/nZBHG/RknlIBKflOQSkfQG+lzzsfjYDQ3g
- bYy3BgFmikl4XKb5F8QrxpEKp5zcSNwGxEPd12Dxw750R
-X-Received: by 2002:a05:651c:102f:b0:2b7:34c0:a03a with SMTP id
- w15-20020a05651c102f00b002b734c0a03amr10216701ljm.3.1692866533699; 
- Thu, 24 Aug 2023 01:42:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElJNjBNGCil9PiBaG5sCBxmyOojBV3da4X7jH+b9AMAG6B3VNG1VxewojaAZwNQ4H48vofhmQ8taWfMFeXp1c=
-X-Received: by 2002:a05:651c:102f:b0:2b7:34c0:a03a with SMTP id
- w15-20020a05651c102f00b002b734c0a03amr10216692ljm.3.1692866533551; Thu, 24
- Aug 2023 01:42:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-7-lee@kernel.org>
-In-Reply-To: <20230824073710.2677348-7-lee@kernel.org>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 24 Aug 2023 10:42:02 +0200
-Message-ID: <CACO55ttW6gmTLNOW+Ty34s77yOBw-FhL6gWZnuXYqQYjw4WxOQ@mail.gmail.com>
-Subject: Re: [PATCH 06/20] drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D3910E4FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 08:53:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E8C6865F33;
+ Thu, 24 Aug 2023 08:53:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12631C433C7;
+ Thu, 24 Aug 2023 08:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692867233;
+ bh=qWBfAY/syTaBh0XOs7U/kFl7+ZFgl//it3TsuYVk3Js=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=a3HtM/Myu/NikqDjIvsJhKNZhK8eMdJPnf3zEnGOVX8l44HmR0MT0K20ousjFOr/P
+ xAw/MQqXWBgZ2mJ1+51R8Yds05yXPGUDOJjnPEA34oSTBSPSB8RK9AR6hq741bEisf
+ PqRo/bVaOGLCJiE/FWvALh0m+iwGwC4w4Y/mEXE/dDaJNea61V/TD396RH3DYz+pqZ
+ u6Gb4Ym8ofa7voDr9Sfb8JjFnfg8EECLcP5n2hpBwD163HJUbXL4rQ8N6Pm0c1tHe8
+ 036vsL6OvKv6UY7rMT4/tUrs9K2nEbKFDx6gNnJ7uQuqyvEv/FzUiYiUGS4S+TgUot
+ tagDftE9FADOA==
+Date: Thu, 24 Aug 2023 10:53:50 +0200
+From: Maxime Ripard <mripard@kernel.org>
 To: Lee Jones <lee@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 13/20] drm/tests/drm_kunit_helpers: Correct possible
+ double-entry typo in 'ddrm_kunit_helper_acquire_ctx_alloc'
+Message-ID: <b67sjdnlltxlg5qjeebbocgmpdsxv6qvyzpjwjqy5pkyeovaiv@76snvdcewxmo>
+References: <20230824073710.2677348-1-lee@kernel.org>
+ <20230824073710.2677348-14-lee@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vir4vd3mpfmkkxjr"
+Content-Disposition: inline
+In-Reply-To: <20230824073710.2677348-14-lee@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,63 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 24, 2023 at 9:37=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
->
+
+--vir4vd3mpfmkkxjr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Thu, Aug 24, 2023 at 08:36:58AM +0100, Lee Jones wrote:
 > Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c:453: warning: This comment start=
-s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
-/kernel-doc.rst
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c:629: warning: This comment start=
-s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
-/kernel-doc.rst
->
+>=20
+>  drivers/gpu/drm/tests/drm_kunit_helpers.c:172: warning: expecting protot=
+ype for ddrm_kunit_helper_acquire_ctx_alloc(). Prototype was for drm_kunit_=
+helper_acquire_ctx_alloc() instead
+>=20
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
 > Cc: David Airlie <airlied@gmail.com>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: "Ma=EDra Canal" <mairacanal@riseup.net>
 > Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/no=
-uveau/dispnv04/crtc.c
-> index a34924523133c..5454dbb669566 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> @@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct dr=
-m_display_mode *mode)
->         regp->Attribute[NV_CIO_AR_CSEL_INDEX] =3D 0x00;
+>  drivers/gpu/drm/tests/drm_kunit_helpers.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/=
+tests/drm_kunit_helpers.c
+> index f102c23eee1dd..c1dfbfcaa0001 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> @@ -156,7 +156,7 @@ static void action_drm_release_context(void *ptr)
 >  }
->
-> -/**
-> +/*
->   * Sets up registers for the given mode/adjusted_mode pair.
+> =20
+>  /**
+> - * ddrm_kunit_helper_acquire_ctx_alloc - Allocates an acquire context
+> + * drm_kunit_helper_acquire_ctx_alloc - Allocates an acquire context
+>   * @test: The test context object
 >   *
->   * The clocks, CRTCs and outputs attached to this CRTC must be off.
-> @@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_fr=
-amebuffer *old_fb)
->         return ret;
->  }
->
-> -/**
-> +/*
->   * Sets up registers for the given mode/adjusted_mode pair.
->   *
->   * The clocks, CRTCs and outputs attached to this CRTC must be off.
-> --
-> 2.42.0.rc1.204.g551eb34607-goog
->
+>   * Allocates and initializes a modeset acquire context.
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+The typo was added by your patch 9.
 
+I've applied and squashed them both
+
+Maxime
+
+--vir4vd3mpfmkkxjr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOcangAKCRDj7w1vZxhR
+xapKAQDJgAtGJxi7Oa75js6tCobx04IEkX4GiDBAlghE/1LpTwD+N9eWXmGWC8Oq
+hncke8txx2Wdo0/ownwXK744E0ArxwM=
+=g15R
+-----END PGP SIGNATURE-----
+
+--vir4vd3mpfmkkxjr--
