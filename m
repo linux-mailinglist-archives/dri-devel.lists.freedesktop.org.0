@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA29786EC1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 14:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE73A786EC6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 14:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBCA10E516;
-	Thu, 24 Aug 2023 12:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CAC10E538;
+	Thu, 24 Aug 2023 12:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E44C110E516;
- Thu, 24 Aug 2023 12:10:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9544B10E538
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 12:11:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3BDB860DF2;
- Thu, 24 Aug 2023 12:10:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05851C433C8;
- Thu, 24 Aug 2023 12:10:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E765961FA5;
+ Thu, 24 Aug 2023 12:11:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EF8CC433C8;
+ Thu, 24 Aug 2023 12:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692879029;
- bh=CSd7vG2+yNbJmLSmxOK+LsxZvdAIs3DMqKIQeuztz18=;
+ s=k20201202; t=1692879084;
+ bh=w0EtY0V42ap7xNdrb9LVuX4xxUWvo184EQMRJ30AxBQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tFJbBINOq8JmJtKGPhs0L1Tw3WTJBWJTDl4a4w7RTYJGEaNX/Q783RjyHyKeT9Asc
- SNprwNp4Fpq2UruIWGxPe0BToLjLbqOgVy3nUrd6pshQHuQGwNomGKQN6Qu0+m7bSd
- v52CdmPFULl8ZaGEzVr3yG9n3NlzcB6wczuvtrkjCwsrDU7X7c6z9wRDOec3Cszd6X
- oKOefxOE8+zH9Fb1Q9h1QxXi+fC+5vGtWf5cMqBOPqO8RWh8ROkPp1QbJ77LnY6IVd
- qbCr4GM1ioU36JXHCbYmzQ3lR5Vxodq55YFiMpZJLRCX4xbL2rW4H0a27iAroMsm7k
- yyv6rvjRhvkZw==
-Date: Thu, 24 Aug 2023 13:10:19 +0100
+ b=TD6vsq4x8nJfHJW5vQPCWvMawEscvAWes8lyEZ0QsxdwxnxWld9b5RsOSvc2FuQSl
+ 0plqeDSe3iC4lt9fFMnxDgsRrzt3YWT8WL80CM3fTe/svnjr5oiRhKp8vZpZHtYdWa
+ QPUYstn7vfVe+vpf3Vj+rfyfA5BkdiB4D6NYApdAEi8OV0l2TWZBSsiTnKnLE0+ac1
+ HY8k7zLM0lQEAieYQpGxPS5J8sfsM/ZubuFLxzHGD7awK2wKGxvTFBqdVjot1qoEpZ
+ QgK3nMgh9if+OFPVdnSnxIHoi6EylMfDiRo0yLuFSepiyz8PdAPbw7+l13XdO6Tfmn
+ AF9ODrgioUzVw==
+Date: Thu, 24 Aug 2023 13:11:20 +0100
 From: Lee Jones <lee@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH (set 1) 00/20] Rid W=1 warnings from GPU
-Message-ID: <20230824121019.GU1380343@google.com>
+Subject: Re: [PATCH 13/20] drm/tests/drm_kunit_helpers: Correct possible
+ double-entry typo in 'ddrm_kunit_helper_acquire_ctx_alloc'
+Message-ID: <20230824121120.GV1380343@google.com>
 References: <20230824073710.2677348-1-lee@kernel.org>
- <169286759481.453038.12943953579128536191.b4-ty@kernel.org>
- <pkjgu5hfazblvlnolvsbzo6zt7yq4zldjmmuoufgv5txvzdiyc@2vplkaitfypc>
+ <20230824073710.2677348-14-lee@kernel.org>
+ <b67sjdnlltxlg5qjeebbocgmpdsxv6qvyzpjwjqy5pkyeovaiv@76snvdcewxmo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <pkjgu5hfazblvlnolvsbzo6zt7yq4zldjmmuoufgv5txvzdiyc@2vplkaitfypc>
+In-Reply-To: <b67sjdnlltxlg5qjeebbocgmpdsxv6qvyzpjwjqy5pkyeovaiv@76snvdcewxmo>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,28 +57,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>, NXP Linux Team <linux-imx@nxp.com>,
- amd-gfx@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Danilo Krummrich <dakr@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, linux-media@vger.kernel.org,
- Stanley Yang <Stanley.Yang@amd.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, linaro-mm-sig@lists.linaro.org,
- linux-tegra@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Hyun Kwon <hyun.kwon@xilinx.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Jerome Glisse <glisse@freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Gourav Samaiya <gsamaiya@nvidia.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -85,63 +66,43 @@ On Thu, 24 Aug 2023, Maxime Ripard wrote:
 
 > Hi,
 > 
-> On Thu, Aug 24, 2023 at 10:59:54AM +0200, Maxime Ripard wrote:
-> > On Thu, 24 Aug 2023 08:36:45 +0100, Lee Jones wrote:
-> > > This set is part of a larger effort attempting to clean-up W=1
-> > > kernel builds, which are currently overwhelmingly riddled with
-> > > niggly little warnings.
-> > > 
-> > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > Cc: amd-gfx@lists.freedesktop.org
-> > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: Danilo Krummrich <dakr@redhat.com>
-> > > Cc: David Airlie <airlied@gmail.com>
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: Fabio Estevam <festevam@gmail.com>
-> > > Cc: Gourav Samaiya <gsamaiya@nvidia.com>
-> > > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> > > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> > > Cc: Jerome Glisse <glisse@freedesktop.org>
-> > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > > Cc: Karol Herbst <kherbst@redhat.com>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: linaro-mm-sig@lists.linaro.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linux-tegra@vger.kernel.org
-> > > Cc: Luben Tuikov <luben.tuikov@amd.com>
-> > > Cc: Lyude Paul <lyude@redhat.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: "Maíra Canal" <mairacanal@riseup.net>
-> > > Cc: Mario Limonciello <mario.limonciello@amd.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Michal Simek <michal.simek@xilinx.com>
-> > > Cc: Mikko Perttunen <mperttunen@nvidia.com>
-> > > Cc: nouveau@lists.freedesktop.org
-> > > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > > Cc: Shashank Sharma <shashank.sharma@amd.com>
-> > > Cc: Shawn Guo <shawnguo@kernel.org>
-> > > Cc: Stanley Yang <Stanley.Yang@amd.com>
-> > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > 
-> > > [...]
+> On Thu, Aug 24, 2023 at 08:36:58AM +0100, Lee Jones wrote:
+> > Fixes the following W=1 kernel build warning(s):
 > > 
-> > Applied to drm/drm-misc (drm-misc-fixes).
+> >  drivers/gpu/drm/tests/drm_kunit_helpers.c:172: warning: expecting prototype for ddrm_kunit_helper_acquire_ctx_alloc(). Prototype was for drm_kunit_helper_acquire_ctx_alloc() instead
+> > 
+> > Signed-off-by: Lee Jones <lee@kernel.org>
+> > ---
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: "Maíra Canal" <mairacanal@riseup.net>
+> > Cc: dri-devel@lists.freedesktop.org
+> > ---
+> >  drivers/gpu/drm/tests/drm_kunit_helpers.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> > index f102c23eee1dd..c1dfbfcaa0001 100644
+> > --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> > +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> > @@ -156,7 +156,7 @@ static void action_drm_release_context(void *ptr)
+> >  }
+> >  
+> >  /**
+> > - * ddrm_kunit_helper_acquire_ctx_alloc - Allocates an acquire context
+> > + * drm_kunit_helper_acquire_ctx_alloc - Allocates an acquire context
+> >   * @test: The test context object
+> >   *
+> >   * Allocates and initializes a modeset acquire context.
 > 
-> I got confused with b4 usage, but that wasn't actually applied. Only the
-> three patches I explicitly mentioned were, sorry for the confusion.
+> The typo was added by your patch 9.
 
-:)
+Whoops!  Good catch.
+> 
+> I've applied and squashed them both
 
-Thanks Maxime.
+Perfect, thank you.
 
 -- 
 Lee Jones [李琼斯]
