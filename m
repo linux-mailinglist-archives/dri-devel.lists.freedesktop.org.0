@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE4C787542
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:25:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 382A4787541
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1675D10E5A2;
-	Thu, 24 Aug 2023 16:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1FD010E5A1;
+	Thu, 24 Aug 2023 16:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7BB10E092;
- Thu, 24 Aug 2023 16:25:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A36810E592;
+ Thu, 24 Aug 2023 16:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,22 +19,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=3/0b7JXGS9XrZOsXFanYgxYNoT+LwI1FiFNHzgEUytE=; b=mWaPQckYc4uemicdtao+9SFjpk
- ETgaE5ADGTuvH9gxzLVXfJrBdQUuRn905awg5gNRKYhuLIKePXG8uvGp1cH9DnyF1uUOgR0f8vJgL
- u+hM2F2JvDrGV8XL+Ldq2Ssjr9lMtD+HE9xX8COkalEKZjb3yjIuHjo51y69XPFVBk//fzmiXWmMc
- 0xJ3TCvW6YQMNgodbp+wvfIUOIPpNs+foRZRSDhdpy2moC4RfqtHlblRsvmHT2UxLbJTcyLnWnKAs
- ffM83PD1PXREhdw5lFvaCgLw1bP9UnsU2OiCTf2MV8fqZ7ReI+ReIZUrMLFaX4YzPqHVCfZkKPnPd
- 5ThAG3QQ==;
+ bh=/kdAy1qPc5Qv0WtsGr5qezqfWH6QagnMlc4kAqWcRsc=; b=jFHYD6T3RJNHsiFU1LISCK8BPj
+ B1IQnPZ1gUZ/0BHWRrILHIxdpGwK5jGEBfH847fetowQeTbHW87nZwCzx/xJhg4apbZDGBgFEQL9S
+ eFvhwbnzHoIh1t3SgiNHwB+LJ6SjqB7HuIwO7fVgw0naoeZfFnte2KqJ88G8QYj27LHjZtqeQRqB9
+ ItSLjNdLxE3JOJJpT0OkzIIR5FSPrWbEwV5875TwwyBdV5pQfWkcnA2ts9gjnnwc/CcrMFnCJqXKe
+ ij0M0iyg2cudgI/elUGctQMSCUPnp3pfJkd1+OYoOXP5UXMl7WyTft6jNxc4I8InKKSnBySjdVvi7
+ aEnhG/bA==;
 Received: from [187.35.42.59] (helo=steammachine.lan)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qZD97-00F0DK-EZ; Thu, 24 Aug 2023 18:25:21 +0200
+ id 1qZD99-00F0DK-Um; Thu, 24 Aug 2023 18:25:24 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/amdgpu: Merge debug module parameters
-Date: Thu, 24 Aug 2023 13:25:04 -0300
-Message-ID: <20230824162505.173399-2-andrealmeid@igalia.com>
+Subject: [PATCH 2/2] drm/amdgpu: Create an option to disable soft recovery
+Date: Thu, 24 Aug 2023 13:25:05 -0300
+Message-ID: <20230824162505.173399-3-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230824162505.173399-1-andrealmeid@igalia.com>
 References: <20230824162505.173399-1-andrealmeid@igalia.com>
@@ -60,91 +60,84 @@ Cc: pierre-eric.pelloux-prayer@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merge all developer debug options available as separated module
-parameters in one, making it obvious that are for developers.
+Create a module option to disable soft recoveries on amdgpu, making
+every recovery go through the device reset path. This option makes
+easier to force device resets for testing and debugging purposes.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 24 ++++++++++++++++++++++++
- drivers/gpu/drm/amd/include/amd_shared.h |  9 +++++++++
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h      | 1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 6 +++++-
+ drivers/gpu/drm/amd/include/amd_shared.h | 1 +
+ 4 files changed, 13 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 4de074243c4d..8f4a93890345 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -189,6 +189,7 @@ extern uint amdgpu_force_long_training;
+ extern int amdgpu_lbpw;
+ extern int amdgpu_compute_multipipe;
+ extern int amdgpu_gpu_recovery;
++extern bool amdgpu_soft_recovery;
+ extern int amdgpu_emu_mode;
+ extern uint amdgpu_smu_memory_pool_size;
+ extern int amdgpu_smu_pptable_id;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index f5856b82605e..d53e4097acc0 100644
+index d53e4097acc0..7d6c39b547cf 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -194,6 +194,7 @@ int amdgpu_use_xgmi_p2p = 1;
- int amdgpu_vcnfw_log;
- int amdgpu_sg_display = -1; /* auto */
- int amdgpu_user_partt_mode = AMDGPU_AUTO_COMPUTE_PARTITION_MODE;
-+uint amdgpu_debug_mask;
- 
- static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
- 
-@@ -938,6 +939,9 @@ module_param_named(user_partt_mode, amdgpu_user_partt_mode, uint, 0444);
- module_param(enforce_isolation, bool, 0444);
- MODULE_PARM_DESC(enforce_isolation, "enforce process isolation between graphics and compute . enforce_isolation = on");
- 
-+MODULE_PARM_DESC(debug_mask, "debug options for amdgpu, disabled by default");
-+module_param_named(debug_mask, amdgpu_debug_mask, uint, 0444);
+@@ -163,6 +163,7 @@ uint amdgpu_force_long_training;
+ int amdgpu_lbpw = -1;
+ int amdgpu_compute_multipipe = -1;
+ int amdgpu_gpu_recovery = -1; /* auto */
++bool amdgpu_soft_recovery = true;
+ int amdgpu_emu_mode;
+ uint amdgpu_smu_memory_pool_size;
+ int amdgpu_smu_pptable_id = -1;
+@@ -2891,6 +2892,11 @@ static void amdgpu_init_debug_options(void)
+ 		pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
+ 		debug_largebar = true;
+ 	}
 +
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-@@ -2871,6 +2875,24 @@ static struct pci_driver amdgpu_kms_pci_driver = {
- 	.dev_groups = amdgpu_sysfs_groups,
- };
- 
-+static void amdgpu_init_debug_options(void)
-+{
-+	if (amdgpu_debug_mask & DEBUG_VERBOSE_EVICTIONS) {
-+		pr_info("debug: eviction debug messages enabled\n");
-+		debug_evictions = true;
++	if (amdgpu_debug_mask & DEBUG_DISABLE_GPU_SOFT_RECOVERY) {
++		pr_info("debug: soft reset for GPU recovery disabled\n");
++		amdgpu_soft_recovery = false;
 +	}
-+
-+	if (amdgpu_debug_mask & DEBUG_VM) {
-+		pr_info("debug: VM handling debug enabled\n");
-+		amdgpu_vm_debug = true;
-+	}
-+
-+	if (amdgpu_debug_mask & DEBUG_LARGEBAR) {
-+		pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
-+		debug_largebar = true;
-+	}
-+}
-+
+ }
+ 
  static int __init amdgpu_init(void)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+index 80d6e132e409..40678d9fb17e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+@@ -434,8 +434,12 @@ bool amdgpu_ring_soft_recovery(struct amdgpu_ring *ring, unsigned int vmid,
+ 			       struct dma_fence *fence)
  {
- 	int r;
-@@ -2893,6 +2915,8 @@ static int __init amdgpu_init(void)
- 	/* Ignore KFD init failures. Normal when CONFIG_HSA_AMD is not set. */
- 	amdgpu_amdkfd_init();
+ 	unsigned long flags;
++	ktime_t deadline;
  
-+	amdgpu_init_debug_options();
+-	ktime_t deadline = ktime_add_us(ktime_get(), 10000);
++	if (!amdgpu_soft_recovery)
++		return false;
 +
- 	/* let modprobe override vga console setting */
- 	return pci_register_driver(&amdgpu_kms_pci_driver);
++	deadline = ktime_add_us(ktime_get(), 10000);
  
+ 	if (amdgpu_sriov_vf(ring->adev) || !ring->funcs->soft_recovery || !fence)
+ 		return false;
 diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-index 67d7b7ee8a2a..6fa644c249a5 100644
+index 6fa644c249a5..afcbacce0a13 100644
 --- a/drivers/gpu/drm/amd/include/amd_shared.h
 +++ b/drivers/gpu/drm/amd/include/amd_shared.h
-@@ -257,6 +257,15 @@ enum DC_DEBUG_MASK {
+@@ -264,6 +264,7 @@ enum AMDGPU_DEBUG_MASK {
+ 	DEBUG_VERBOSE_EVICTIONS = (1 << 0),		// 0x1
+ 	DEBUG_VM = (1 << 1),				// 0x2
+ 	DEBUG_LARGEBAR = (1 << 2),			// 0x4
++	DEBUG_DISABLE_GPU_SOFT_RECOVERY = (1 << 3),	// 0x8
+ };
  
- enum amd_dpm_forced_level;
- 
-+/*
-+ * amdgpu.debug module options. Are all disabled by default
-+ */
-+enum AMDGPU_DEBUG_MASK {
-+	DEBUG_VERBOSE_EVICTIONS = (1 << 0),		// 0x1
-+	DEBUG_VM = (1 << 1),				// 0x2
-+	DEBUG_LARGEBAR = (1 << 2),			// 0x4
-+};
-+
  /**
-  * struct amd_ip_funcs - general hooks for managing amdgpu IP Blocks
-  * @name: Name of IP block
 -- 
 2.41.0
 
