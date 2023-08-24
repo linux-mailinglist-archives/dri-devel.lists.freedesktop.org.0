@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FBB78689E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAC27868A3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:38:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFEDF10E496;
-	Thu, 24 Aug 2023 07:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E2A10E4B0;
+	Thu, 24 Aug 2023 07:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9846410E49D;
- Thu, 24 Aug 2023 07:38:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CCCB10E496
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 07:38:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0A6E965E75;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2276A65AF5;
+ Thu, 24 Aug 2023 07:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CD6C433CA;
  Thu, 24 Aug 2023 07:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95478C433CC;
- Thu, 24 Aug 2023 07:38:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692862694;
- bh=80DhO1S3sF1BIZV94LCoe8Y0glyR6Eq4m/W3GG03lhI=;
+ s=k20201202; t=1692862698;
+ bh=qTc11hboeB2aZlOqkN91NN/Dw5CZWbyrOr80wSzYNm4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MdYAOt3x5bIFGk28KKdnxKbh+kGPhHh60bkIKzpksJYyOLUKw2A1yO0oaPZfkF0Xj
- KN/dHWFrQppoB82d2dD2yAvPz/pxA5kNdcOzT/yn0KsPTwgf+F2MmFQNV5uUkbS1Gn
- TGKIkobVYCrHkXU6si5gmVjEOIehdCmv0ZlK7zsqF/ZhfC65mLef33db4K2NW0VLyw
- 9m9Gt4gTuv/WOzRHokUr3+A4kkH23VI3Aqp4D2kAQo5/HCa8KNWMAbfh2qAR6d/oNQ
- qFtu3IfYp2IFz51LxpmzlDj1+90Yb+5S2c3gWGOgK5W+2czqmbbbbwixuP60o2CH0f
- XhBi3QOs9EbCg==
+ b=JvZadWCEBYotqkspkGwfoN/lfsikJ/T6fYB+lxsBQ4+b/7xuDAS+euYAqFWJjjorV
+ nJaf7bDOyNhZLRm3jEvgi+JdXdxxzS9roTINN1HfZo41vRV8EC4z/4GLmh1r3q/RAT
+ gwV4hMG5CwA6dEYGxHZe7CV7AYsnuIf7L1K2fVUfHwsFcPxScxjf8LE9ya9ZtVuewB
+ 7I8t1tgs8gXolFV3dApvgXNSvl5c9lqSMMkqraj0/2d3Werd/kFOz6G6cKvASlNYXe
+ uJw42JOzUyihKE3BMX638v9Uw9GDCzksJVdFaGOIElhLbpHTxhaocarxF+4KPLuNti
+ pOPqUkbedTifg==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org
-Subject: [PATCH 17/20] drm/amd/amdgpu/amdgpu_ras: Increase buffer size to
- account for all possible values
-Date: Thu, 24 Aug 2023 08:37:02 +0100
-Message-ID: <20230824073710.2677348-18-lee@kernel.org>
+Subject: [PATCH 18/20] drm/drm_gpuva_mgr: Remove set but unused variable 'prev'
+Date: Thu, 24 Aug 2023 08:37:03 +0100
+Message-ID: <20230824073710.2677348-19-lee@kernel.org>
 X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 In-Reply-To: <20230824073710.2677348-1-lee@kernel.org>
 References: <20230824073710.2677348-1-lee@kernel.org>
@@ -55,47 +53,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@redhat.com>,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c: In function ‘amdgpu_ras_sysfs_create’:
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1406:20: warning: ‘_err_count’ directive output may be truncated writing 10 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1405:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
+ drivers/gpu/drm/drm_gpuva_mgr.c: In function ‘__drm_gpuva_sm_map’:
+ drivers/gpu/drm/drm_gpuva_mgr.c:1079:39: warning: variable ‘prev’ set but not used [-Wunused-but-set-variable]
 
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gpuva_mgr.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-index ffb49b2d533ad..7999d202c9bc5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-@@ -436,7 +436,7 @@ struct amdgpu_ras {
- };
+diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+index f86bfad74ff8a..ad99c9cfedac7 100644
+--- a/drivers/gpu/drm/drm_gpuva_mgr.c
++++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+@@ -1076,7 +1076,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+ 		   u64 req_addr, u64 req_range,
+ 		   struct drm_gem_object *req_obj, u64 req_offset)
+ {
+-	struct drm_gpuva *va, *next, *prev = NULL;
++	struct drm_gpuva *va, *next;
+ 	u64 req_end = req_addr + req_range;
+ 	int ret;
  
- struct ras_fs_data {
--	char sysfs_name[32];
-+	char sysfs_name[48];
- 	char debugfs_name[32];
- };
+@@ -1106,7 +1106,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+ 				ret = op_unmap_cb(ops, priv, va, merge);
+ 				if (ret)
+ 					return ret;
+-				goto next;
++				continue;
+ 			}
  
+ 			if (end > req_end) {
+@@ -1151,7 +1151,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+ 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
+ 				if (ret)
+ 					return ret;
+-				goto next;
++				continue;
+ 			}
+ 
+ 			if (end > req_end) {
+@@ -1184,7 +1184,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+ 				ret = op_unmap_cb(ops, priv, va, merge);
+ 				if (ret)
+ 					return ret;
+-				goto next;
++				continue;
+ 			}
+ 
+ 			if (end > req_end) {
+@@ -1205,8 +1205,6 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+ 				break;
+ 			}
+ 		}
+-next:
+-		prev = va;
+ 	}
+ 
+ 	return op_map_cb(ops, priv,
 -- 
 2.42.0.rc1.204.g551eb34607-goog
 
