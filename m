@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDEA786C3B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F91786C3C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5746010E51E;
-	Thu, 24 Aug 2023 09:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B3610E51D;
+	Thu, 24 Aug 2023 09:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F7C10E51D;
- Thu, 24 Aug 2023 09:46:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692870366; x=1724406366;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=9EHU9YybOEdKc0AyKFyh5bPOsUOiowlUmHJWuaoZYas=;
- b=AklFwQkk3g3kI4grB2c4PF70XwFJFOeBpmmj6aJMWyxu9XygVmAAib8Q
- kLKlqX/evMHdowsbD3RuliSFkLiUJBpJj4F74HYO2AOc9MRcE7IyvMC+A
- mnAHscvz1nseFgDK/BhB/R3ScnMIJg9hWwisJVr+obp+dk9InvkLnQ4Qp
- G3boWdLfesfswXiiY9dlN6HIt+H3cm4j/jjhKqZ4xEHnDvhLzs92IokHt
- EJLMoNYBea4qEg/NsQYja1jfCaDe/WiNp4R6Za7sHSq8fZXoh1Xj4Y1f/
- 0bhztJTBEkY/m1tIkxG/VVHGwfj9J1ulOWoia849WCOVviFEtHn4wHSuH g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="440741826"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="440741826"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:45:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802484082"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="802484082"
-Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.46.90])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:45:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/display/dp: Default 8 bpc support when DSC is
- supported
-In-Reply-To: <20230824034705.755243-1-ankit.k.nautiyal@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
- <20230824034705.755243-1-ankit.k.nautiyal@intel.com>
-Date: Thu, 24 Aug 2023 12:45:44 +0300
-Message-ID: <87lee04vuf.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D46110E51D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 09:47:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A658D643AA;
+ Thu, 24 Aug 2023 09:47:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87AA9C433C7;
+ Thu, 24 Aug 2023 09:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692870455;
+ bh=jpIcgpyOmQBzytNpmhA45q0sBknQ9noZJX6C0UvzR4E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PQH56xIeRfV6F2rA9n/tCd1UEoKryH/JWeMK7zcwllISQnpd1I+3U7YpvYq2WTyhB
+ 5AuKGAaeu3vqXvBIdxKm3uBAoMnWmrlBdpBVGRKLtsFVl0+xZfT+vFog/A/xSYivIO
+ eZznYwXL0dLIiNsY0jKAV62+8llPViJjf2iM+d6le+vW18pCV8c3zsqSYY/9zjzj5N
+ bXIs9BlFtrHBRpS6ueidHHwfKlIqnhH2GGrocbXLgVkY5oiCAaDJEMgOfJzYXHxYmm
+ uM9hEzYC1I1EbZxhGBcx1ybfmrs9SH4tW6iawSKgq87r+J2dbL83i+XOWEkZsLv+rf
+ EA4K/6fa0Y3DQ==
+Date: Thu, 24 Aug 2023 11:47:32 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Ying Liu <victor.liu@nxp.com>
+Subject: Re: [PATCH v14 RESEND 1/6] dt-bindings: display: imx: Add
+ i.MX8qxp/qm DPU binding
+Message-ID: <2k3cc3yfwqlpquxrdmzmaafz55b3lnqomzxjsvtetfriliqj3k@tv6uh7dzc2ea>
+References: <20230822085949.816844-1-victor.liu@nxp.com>
+ <20230822085949.816844-2-victor.liu@nxp.com>
+ <scbtbu4cdjlsmbr6ugkpqslvfywidvbuqyekxuttfe4rmbp2st@lev2zfqe4h62>
+ <AM7PR04MB70469E94D5FCFC46F51A72F3981CA@AM7PR04MB7046.eurprd04.prod.outlook.com>
+ <64bpiz5nt3xgboxya26gcdh6d7nyyflm2m56orgjwwwibh52n7@yk4ogdcierho>
+ <AM7PR04MB7046E8DD816FC99193B07E07981CA@AM7PR04MB7046.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6rb56x6m6vahizvh"
+Content-Disposition: inline
+In-Reply-To: <AM7PR04MB7046E8DD816FC99193B07E07981CA@AM7PR04MB7046.eurprd04.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,60 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, dl-linux-imx <linux-imx@nxp.com>,
+ "Laurentiu Palcu \(OSS\)" <laurentiu.palcu@oss.nxp.com>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <guido.gunther@puri.sm>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> As per DP v1.4, a DP DSC Sink device shall support 8bpc in DPCD 6Ah.
-> Apparently some panels that do support DSC, are not setting the bit for
-> 8bpc.
->
-> So always assume 8bpc support by DSC decoder, when DSC is claimed to be
-> supported.
->
-> v2: Use helper to check dsc support. (Ankit)
->
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index e6a78fd32380..309fc10cde78 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2447,14 +2447,19 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
->  					 u8 dsc_bpc[3])
->  {
->  	int num_bpc = 0;
-> +
-> +     if(!drm_dp_sink_supports_dsc(dsc_dpcd))
-          ^
 
-Missing space.
+--6rb56x6m6vahizvh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +		return 0;
-> +
->  	u8 color_depth = dsc_dpcd[DP_DSC_DEC_COLOR_DEPTH_CAP - DP_DSC_SUPPORT];
+On Wed, Aug 23, 2023 at 08:47:51AM +0000, Ying Liu wrote:
+> > > This dt-binding just follows generic dt-binding rule to describe the =
+DPU IP
+> > > hardware, not the software implementation.  DPU internal units do not
+> > > constitute separate devices.
+> >=20
+> > I mean, your driver does split them into separate devices so surely it
+> > constitutes separate devices.
+>=20
+> My driver treats them as DPU internal units, especially not Linux devices.
+>=20
+> Let's avoid Linuxisms when implementing this dt-binding and just be simple
+> to describe necessary stuff exposing to DPU's embodying system/SoC, like
+> reg, interrupts, clocks and power-domains.
 
-All declarations should be before code.
+Let's focus the conversation here, because it's redundant with the rest.
 
->  
->  	if (color_depth & DP_DSC_12_BPC)
->  		dsc_bpc[num_bpc++] = 12;
->  	if (color_depth & DP_DSC_10_BPC)
->  		dsc_bpc[num_bpc++] = 10;
-> -	if (color_depth & DP_DSC_8_BPC)
-> -		dsc_bpc[num_bpc++] = 8;
-> +
-> +	/* A DP DSC Sink devices shall support 8 bpc. */
+Your driver registers two additional devices, that have a different
+register space, different clocks, different interrupts, different power
+domains, etc. That has nothing to do with Linux, it's hardware
+properties.
 
-Mixed singular and plural, a ... devices.
+That alone is a very good indication to me that these devices should be
+modeled as such. And your driver agrees.
 
-> +	dsc_bpc[num_bpc++] = 8;
->  
->  	return num_bpc;
->  }
+Whether or not the other internal units need to be described as separate
+devices, I can't really tell, I don't have the datasheet.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+But at least the CRTC and the interrupt controller should be split away,
+or explained and detailed far better than "well it's just convenient".
+
+Maxime
+
+--6rb56x6m6vahizvh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOcnNAAKCRDj7w1vZxhR
+xbJhAQDZaTkwwHUSQvHmPGZpRlOyyyziNVb6jv9YxbU1HZ0pywD/WigGDCjifkiR
+8nfYBdnZbrK5UeFqdTRPOCdu3I0hEgw=
+=X+lc
+-----END PGP SIGNATURE-----
+
+--6rb56x6m6vahizvh--
