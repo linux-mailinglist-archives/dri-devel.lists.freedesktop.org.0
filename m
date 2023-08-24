@@ -1,54 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6373786C5D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:56:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EE4786C76
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 12:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29C010E517;
-	Thu, 24 Aug 2023 09:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26DDA10E519;
+	Thu, 24 Aug 2023 09:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5079210E513;
- Thu, 24 Aug 2023 09:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692871001; x=1724407001;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Dq3vNpFC1F5bykIlFCLoZe/p9z2kWBfnkUf6/oAtiVg=;
- b=KRE1bjqxw7fYmrfvfNmk5At3LIJwrRNSDFasjiv2foccj7CTYkmdEtih
- 5yiLqEsOapb5AX0BKGJ931WfzmMOfhczxemM74fwm+u/KYqkOq5D5dwE5
- zuxzggj3g2s2R/tptXkXE4sozwSFrjOJAUh+Qu5eNshNGxlIsyJeWVyJG
- Q29Dd70J5lFNF56BEiDg6wyrIaINtkJbSh7G4Z2apAvsIiPtRxEZc/Q7P
- klQra5VpNRF9or+86xOQYZU8l+IbhL2ywrEfigRuAjDyXyC9OvAX2sOY1
- 5Xcny6+DtRyAhzjg0kgOBCwMqq2Wk4kGrnf1WZVDac6vm+VDuXhwBxF1O g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="378150331"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="378150331"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:56:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="736987258"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="736987258"
-Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.46.90])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:56:38 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Gil Dekel <gildekel@chromium.org>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/6] drm/i915/dp_link_training: Define a final
- failure state when link training fails
-In-Reply-To: <20230824043240.323564-1-gildekel@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230818170156.2194015-1-gildekel@chromium.org>
- <20230824043240.323564-1-gildekel@chromium.org>
-Date: Thu, 24 Aug 2023 12:56:36 +0300
-Message-ID: <87il944vcb.fsf@intel.com>
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2666A10E519
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 09:59:56 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1c4dd644cf8so4395601fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 02:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692871195; x=1693475995;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7aA6C8SFUJVAZifyUeFXfLFXlX8WoF+XRY6UYD5KTo8=;
+ b=DS0bTfg6BS/kfbsxitSQlwLHW8R2C6ew2IPlFVpEGuMz7rYBdJNrNz/WTLIY9cD5gs
+ mog1z0cWD6Oxm2mMLsCVMdjQfNOfynIFIUvBvNhaSXCZo3uXZhorWUJ2udDQGqBM6PnA
+ 6EqgXUotPZjq/H/PTZKYZnOdhkGc1GgfwrgoS9Ep+uNNCgRfq6Vq0cPwJiUX19pguzPe
+ hmQ4qSn01ERpLomFk7Urk+kPVuaNdRc0DUQwmAy851DivHOxwJrV27Gz8OzBWPkebqS8
+ +q+1zRgAl2PDTjOPW9HfIMr26KKSwSpIzu23f/s1zNzEeNu94Vfcw6OShT1VCmkMhwDj
+ egnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692871195; x=1693475995;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7aA6C8SFUJVAZifyUeFXfLFXlX8WoF+XRY6UYD5KTo8=;
+ b=WgWDlexcl56TONfh/zpWa+QMei1/la9hgRB1brOfFlejLVrkX2kcnNOZjZhOq+j1Ke
+ pVqrvByXQcr1tsaj/aBJ6CzP85Mm75kMaWwIyaVsZRe4UEr+zUQgOdAO4fTIpQPtolT5
+ 4Z5BDLm0KAiunX/aYOK7ChD4f3v93JT55MBgWo2kdmLyDGi5INk/ED1bt3ahkX99mpDr
+ S1VFDNOzA+9/mnNyj2ManeY4HP1dPAyoKFc2YNtPSbriCjQdGuPc0Q6d0I87QwkdfREc
+ AtcOZ7g1nSP+thposmJE5aJWJ7abfatFV2ceKOPOYjdQwAv77zz8D3bzi/6GQDkAbqhp
+ gMWw==
+X-Gm-Message-State: AOJu0YzjGEG4sPkWHqj6ptKfYOnjqw9BiOISLcdCkKLTsK7pPMuFZkHi
+ Al5oqg3rWHuUsQORX8ldvthbFT6aIOVdiNGgbRs=
+X-Google-Smtp-Source: AGHT+IF/MMua9KNx318MWjDbEeXx0TKoPkLZpzb0TX3RNLV2py5bYh7ErX9ZTwsFRh3daYGlAx4ftH1X94KqSJZLaz8=
+X-Received: by 2002:a05:6871:551:b0:1c0:a784:cf7e with SMTP id
+ t17-20020a056871055100b001c0a784cf7emr21206970oal.51.1692871195368; Thu, 24
+ Aug 2023 02:59:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
+ <CAD=FV=W6aoaUuMx5OvG2xMX+fBG6B-c5Fmvmit4f2CTZq=x1vQ@mail.gmail.com>
+ <OS0PR01MB5922E0300F53BED1AFFD916E861CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75VcjA-99ckLWNczNuP5f2FGx67o1=O8MFVThBTVzPzJBdA@mail.gmail.com>
+ <CAHp75VeJ-JjcrfLZd2dyisBmq5r66j=Sq5ubSLpK=kFrodzb-g@mail.gmail.com>
+ <CAD=FV=VbsfAc4Pb3LY3w3-krqfkmmaZLiBxcxjgea+4S0HU1Vw@mail.gmail.com>
+In-Reply-To: <CAD=FV=VbsfAc4Pb3LY3w3-krqfkmmaZLiBxcxjgea+4S0HU1Vw@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 24 Aug 2023 12:59:19 +0300
+Message-ID: <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
+ for ID table
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,51 +74,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: seanpaul@chromium.org, Gil Dekel <gildekel@chromium.org>,
- navaremanasi@chromium.org
+Cc: =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Aug 2023, Gil Dekel <gildekel@chromium.org> wrote:
-> Next version of https://patchwork.freedesktop.org/series/122643/
+On Wed, Aug 23, 2023 at 9:39=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+> On Wed, Aug 23, 2023 at 10:10=E2=80=AFAM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> >
+> > > No. Please, do not remove the I2C ID table. It had already been
+> > > discussed a few years ago.
+> > >
+> > > > Yes, it make sense, as it saves some memory
+> >
+> > Okay, reading code a bit, it seems that it won't work with purely i2c
+> > ID matching.
 >
-> Reorganize into:
-> 1) Add for final failure state for SST and MST link training fallback.
-> 2) Add a DRM helper for setting downstream MST ports' link-status state.
-> 3) Make handling SST and MST connectors simpler via intel_dp.
-> 4) Update link-status for downstream MST ports.
-> 5) Emit a uevent with the "link-status" trigger property.
+> OK, so you are in agreement that it would be OK to drop the I2C ID table?
 
-Please don't send series in-reply-to other series. It'll confuse the
-patchwork/CI doohickey trying to apply the patches for testing.
+Yes.
 
-Thanks,
-Jani.
-
+> > So the question here is "Do we want to allow enumeration via sysfs or n=
+ot?"
 >
-> Gil Dekel (6):
->   drm/i915/dp_link_training: Add a final failing state to link training
->     fallback
->   drm/i915/dp_link_training: Add a final failing state to link training
->     fallback for MST
->   drm/dp_mst: Add drm_dp_set_mst_topology_link_status()
->   drm/i915: Move DP modeset_retry_work into intel_dp
->   drm/i915/dp_link_training: Set all downstream MST ports to BAD before
->     retrying
->   drm/i915/dp_link_training: Emit a link-status=Bad uevent with trigger
->     property
->
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 39 ++++++++++
->  drivers/gpu/drm/i915/display/intel_display.c  | 14 +++-
->  .../drm/i915/display/intel_display_types.h    |  6 +-
->  drivers/gpu/drm/i915/display/intel_dp.c       | 75 ++++++++++++-------
->  drivers/gpu/drm/i915/display/intel_dp.h       |  2 +-
->  .../drm/i915/display/intel_dp_link_training.c | 11 ++-
->  include/drm/display/drm_dp_mst_helper.h       |  3 +
->  7 files changed, 110 insertions(+), 40 deletions(-)
->
-> --
-> Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
+> Is there some pressing need for it? If not, I guess I'd tend to wait
+> until someone needs this support before adding it.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Depends. Is this device anyhow useful IRL as standalone if
+instantiated via sysfs? I think it may be not, so it's unlikely we
+want to have sysfs option for it.
+
+--=20
+With Best Regards,
+Andy Shevchenko
