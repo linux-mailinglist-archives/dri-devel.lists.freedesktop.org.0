@@ -1,71 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9FF786C2F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:42:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66BE786C37
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF7210E511;
-	Thu, 24 Aug 2023 09:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B2010E518;
+	Thu, 24 Aug 2023 09:44:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F225010E515
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 09:42:21 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-51bece5d935so8319083a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 02:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692870140; x=1693474940;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
- b=sePIHjLQiTnleOV5GoSLYhUfJFrfCxpJXhIB9zbk67whQZHbpN8qokQ5usK23OMfQT
- araDscwvMtKVxYqkgH2unppqRTai0xCKgCKUmuRdRb29nYgeu2mkNFqxSTxGwVauoBxq
- zaScxgfi0YtXTYDWIiHmP+BcwSpDy5ME7rEJBAw+RO9LUhQHmhnM0uhQ7pPkax0g+Xmy
- LkmXjPlv6JOPXVCnp50OUkmELNyNfqX1Xcge1cl6BwODCsOOJV8NWq34FnMKbjf/j55O
- 6uUtqUYwalEfw3vLB0/aWt5+nUZQeOHnGmJzJmH0TFDsMBdezCEPsNXDImldpCPm7YPe
- IQ2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692870140; x=1693474940;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
- b=QK7C+YulIWTzKtXs0M935to/NM4NsTx0pk5bwG2nqApFspihpwvQMnhLarvYQ+Xqz9
- ovnRgpEnURXDBdeTlp3XlAufwG2bDJbumu7DrpSCOIm9tzeIolaUXAnzc0yg8i4AYOFZ
- CCKPoJvv/zQcFWcyGNJAtkEHJalquDRUSWh9MsGFwU17i9ciCgHqHKE0adGNKZiFxWGr
- NCGhNy/zTsE+hKZ+JSEkWfT1Y0T2iPxYt6biaVuXoXiG+mrJjyOx2VA8MTDIhkuDLj4T
- 9BTgOVNIR3qTNbhqxi1cB/1kuOI5/sUcQm+ZtxTFRhDBMRLiKcl6rlWmu2jfRifULffk
- NkxQ==
-X-Gm-Message-State: AOJu0YxDIkwro7wudnvEw93owKVCAMZQxhSzT4q4dkJLCkjyAs6Q7PEY
- RGfnSqXXN6K5UmVr7Ezgh58=
-X-Google-Smtp-Source: AGHT+IHHj0Z4GE4VEpBXOqxHymqAxmvG7gD4sWN1EVfNANnc4VAKwXJAvMT1o/1+L1vUGkYCIDbXCg==
-X-Received: by 2002:aa7:c54f:0:b0:523:47cf:5034 with SMTP id
- s15-20020aa7c54f000000b0052347cf5034mr10061173edr.34.1692870140139; 
- Thu, 24 Aug 2023 02:42:20 -0700 (PDT)
-Received: from [192.168.178.25] ([134.19.100.78])
- by smtp.gmail.com with ESMTPSA id
- i15-20020a50fc0f000000b0051e1660a34esm10229017edr.51.2023.08.24.02.42.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Aug 2023 02:42:19 -0700 (PDT)
-Message-ID: <d085c6e4-36d2-cd69-bb43-3c8d46da5239@gmail.com>
-Date: Thu, 24 Aug 2023 11:42:18 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08ED010E517;
+ Thu, 24 Aug 2023 09:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692870245; x=1724406245;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=KcEs7AkWZnu2K0bINbHNS2kEw5hRNT7/aym9uh+lCRw=;
+ b=N+rBn+6OgRqb31qo8I2FyOd8lkA5ccOYjbwKHqdF9yJyT3RdyG0v+kmt
+ 3aEAwarVAYQLEZa7rTxXtDZgA6CzOAcxWYoo0a0idu+ze8aW2e8zimPl9
+ 65cfwtri7IKzTAJFh6NqK4NZlNL+uhJC+SLEZx4BNq84sUf7y2I7yHwSA
+ EgfhBM9z2/DMKc7N5HKyylUPOpIyI16EHag2a9kFfBV4PlQ3tT3xJcZj+
+ a90S3sMrbKl+L8sB3LUtU1sdrkfFsJkJ7u8bz2yexp8k6R4aquu/evOtn
+ vUiPXRHA+wndqoJAySCvMmInKwN4N1dx1hyi44ErZwZYS+eHmnMx+dnec Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="374361943"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="374361943"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 02:44:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="1067760311"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="1067760311"
+Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.90])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 02:44:02 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 2/2] drivers/drm/i915: Honor limits->max_bpp
+ while computing DSC max input bpp
+In-Reply-To: <20230823115425.715644-3-ankit.k.nautiyal@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230823115425.715644-1-ankit.k.nautiyal@intel.com>
+ <20230823115425.715644-3-ankit.k.nautiyal@intel.com>
+Date: Thu, 24 Aug 2023 12:44:00 +0300
+Message-ID: <87o7iw4vxb.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Linaro-mm-sig] [PATCH 10/20] drm/scheduler/sched_main: Provide
- short description of missing param 'result'
-Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-11-lee@kernel.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230824073710.2677348-11-lee@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +60,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.08.23 um 09:36 schrieb Lee Jones:
-> Fixes the following W=1 kernel build warning(s):
+On Wed, 23 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
+> Edid specific BPC constraints are stored in limits->max_bpp. Honor these
+> limits while computing the input bpp for DSC.
 >
->   drivers/gpu/drm/scheduler/sched_main.c:266: warning: Function parameter or member 'result' not described in 'drm_sched_job_done'
->
-> Signed-off-by: Lee Jones <lee@kernel.org>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 1 +
->   1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 506371c427451..1ef558cda60ce 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -259,6 +259,7 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->   /**
->    * drm_sched_job_done - complete a job
->    * @s_job: pointer to the job which is done
-> + * @result: fence error to forward and set
->    *
->    * Finish the job's fence and wake up the worker thread.
->    */
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 5b48bfe09d0e..2a7f6cfe2832 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2061,9 +2061,11 @@ static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
+>  	if (forced_bpp) {
+>  		pipe_bpp = forced_bpp;
+>  	} else {
+> +		u8 max_bpc = limits->max_bpp / 3;
+> +
 
+		int max_bpc = min_t(int, limits->max_bpp / 3, conn_state->max_requested_bpc);
+
+>  		/* For eDP use max bpp that can be supported with DSC. */
+>  		pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_dp, max_bbc);
+
+Nitpick, IMO looks cleaner this way, as well as uses int instead of u8
+for computations.
+
+BR,
+Jani.
+
+>  		if (!is_dsc_pipe_bpp_sufficient(i915, conn_state, limits, pipe_bpp)) {
+>  			drm_dbg_kms(&i915->drm,
+>  				    "Computed BPC is not in DSC BPC limits\n");
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
