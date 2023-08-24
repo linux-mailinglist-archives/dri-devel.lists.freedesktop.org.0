@@ -2,53 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9F0786C02
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9FF786C2F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 11:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BED10E514;
-	Thu, 24 Aug 2023 09:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF7210E511;
+	Thu, 24 Aug 2023 09:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7AC10E514
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 09:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692869618; x=1724405618;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=2vFCU4cKjzROt9iNRAPD3gq42jmR3vOwCKOXq570yeM=;
- b=JIBfTkpBHIsA37slPaUluFSeNaKkcXJNDzLpgOwCfo8vzzymvZyQPDyZ
- iu//EPqpfGzPAXovKZcb4X2CCfWQaCTNGBpj2rejgUEVKVLCdj044WXkP
- RVNzg8canes5Ri9OZnZp/IXD8/A+JMPRNI9bOvpbpu5iQqeRvMXPDeZNV
- LnCuEaZ9m3Y4JWHDFtyS04MWWSLvnHVUkoguNOhaXFNlEqsF+hXnOkJry
- Vr40I8apGoMn05d8Y2TwOpUy785XcT6zRleLGvxKS0hsKJTVPhxB45CFJ
- tKz2cGRRZIaz1rHce7UciL/jdz8Iv2HE5qHIVMQOXVVPa2lIoG9vz3hPA A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="353934197"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="353934197"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:33:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="730548687"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="730548687"
-Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.46.90])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 02:33:35 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH 15/20] drm/tegra/hub: Increase buffer size to ensure all
- possible values can be stored
-In-Reply-To: <ZOciEaJlHhp4xnFv@orome>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-16-lee@kernel.org> <ZOciEaJlHhp4xnFv@orome>
-Date: Thu, 24 Aug 2023 12:33:33 +0300
-Message-ID: <87r0ns4weq.fsf@intel.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F225010E515
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 09:42:21 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-51bece5d935so8319083a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 02:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692870140; x=1693474940;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
+ b=sePIHjLQiTnleOV5GoSLYhUfJFrfCxpJXhIB9zbk67whQZHbpN8qokQ5usK23OMfQT
+ araDscwvMtKVxYqkgH2unppqRTai0xCKgCKUmuRdRb29nYgeu2mkNFqxSTxGwVauoBxq
+ zaScxgfi0YtXTYDWIiHmP+BcwSpDy5ME7rEJBAw+RO9LUhQHmhnM0uhQ7pPkax0g+Xmy
+ LkmXjPlv6JOPXVCnp50OUkmELNyNfqX1Xcge1cl6BwODCsOOJV8NWq34FnMKbjf/j55O
+ 6uUtqUYwalEfw3vLB0/aWt5+nUZQeOHnGmJzJmH0TFDsMBdezCEPsNXDImldpCPm7YPe
+ IQ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692870140; x=1693474940;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
+ b=QK7C+YulIWTzKtXs0M935to/NM4NsTx0pk5bwG2nqApFspihpwvQMnhLarvYQ+Xqz9
+ ovnRgpEnURXDBdeTlp3XlAufwG2bDJbumu7DrpSCOIm9tzeIolaUXAnzc0yg8i4AYOFZ
+ CCKPoJvv/zQcFWcyGNJAtkEHJalquDRUSWh9MsGFwU17i9ciCgHqHKE0adGNKZiFxWGr
+ NCGhNy/zTsE+hKZ+JSEkWfT1Y0T2iPxYt6biaVuXoXiG+mrJjyOx2VA8MTDIhkuDLj4T
+ 9BTgOVNIR3qTNbhqxi1cB/1kuOI5/sUcQm+ZtxTFRhDBMRLiKcl6rlWmu2jfRifULffk
+ NkxQ==
+X-Gm-Message-State: AOJu0YxDIkwro7wudnvEw93owKVCAMZQxhSzT4q4dkJLCkjyAs6Q7PEY
+ RGfnSqXXN6K5UmVr7Ezgh58=
+X-Google-Smtp-Source: AGHT+IHHj0Z4GE4VEpBXOqxHymqAxmvG7gD4sWN1EVfNANnc4VAKwXJAvMT1o/1+L1vUGkYCIDbXCg==
+X-Received: by 2002:aa7:c54f:0:b0:523:47cf:5034 with SMTP id
+ s15-20020aa7c54f000000b0052347cf5034mr10061173edr.34.1692870140139; 
+ Thu, 24 Aug 2023 02:42:20 -0700 (PDT)
+Received: from [192.168.178.25] ([134.19.100.78])
+ by smtp.gmail.com with ESMTPSA id
+ i15-20020a50fc0f000000b0051e1660a34esm10229017edr.51.2023.08.24.02.42.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Aug 2023 02:42:19 -0700 (PDT)
+Message-ID: <d085c6e4-36d2-cd69-bb43-3c8d46da5239@gmail.com>
+Date: Thu, 24 Aug 2023 11:42:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [Linaro-mm-sig] [PATCH 10/20] drm/scheduler/sched_main: Provide
+ short description of missing param 'result'
+Content-Language: en-US
+To: Lee Jones <lee@kernel.org>
+References: <20230824073710.2677348-1-lee@kernel.org>
+ <20230824073710.2677348-11-lee@kernel.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230824073710.2677348-11-lee@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +78,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Aug 2023, Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Thu, Aug 24, 2023 at 08:37:00AM +0100, Lee Jones wrote:
->> When converting from int to string, we must allow for up to 10-chars (21=
-47483647).
->>=20
->> Fixes the following W=3D1 kernel build warning(s):
->>=20
->>  drivers/gpu/drm/tegra/hub.c: In function =E2=80=98tegra_display_hub_pro=
-be=E2=80=99:
->>  drivers/gpu/drm/tegra/hub.c:1106:47: warning: =E2=80=98%u=E2=80=99 dire=
-ctive output may be truncated writing between 1 and 10 bytes into a region =
-of size 4 [-Wformat-truncation=3D]
->>  drivers/gpu/drm/tegra/hub.c:1106:42: note: directive argument in the ra=
-nge [0, 4294967294]
->>  drivers/gpu/drm/tegra/hub.c:1106:17: note: =E2=80=98snprintf=E2=80=99 o=
-utput between 6 and 15 bytes into a destination of size 8
+Am 24.08.23 um 09:36 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
 >
-> I wish there was (perhaps there is?) a better way to annotate that i
-> will always be within a given range. In practice this is always going to
-> be smaller than 10 and even in future hardware I wouldn't expect this to
-> ever exceed anything like 32 or 64, so 8 characters is already generous.
-
-I assume you could do
-
-	snprintf(id, sizeof(id), "wgrp%u", (unsigned char)i);
-
-but it's perhaps less obvious than just increasing the size of the
-buffer.
-
-BR,
-Jani.
-
+>   drivers/gpu/drm/scheduler/sched_main.c:266: warning: Function parameter or member 'result' not described in 'drm_sched_job_done'
 >
-> Thierry
->
->>=20
->> Signed-off-by: Lee Jones <lee@kernel.org>
->> ---
->> Cc: Thierry Reding <thierry.reding@gmail.com>
->> Cc: Mikko Perttunen <mperttunen@nvidia.com>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Jonathan Hunter <jonathanh@nvidia.com>
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-tegra@vger.kernel.org
->> ---
->>  drivers/gpu/drm/tegra/hub.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
->> index 1af5f8318d914..f21e57e8599ee 100644
->> --- a/drivers/gpu/drm/tegra/hub.c
->> +++ b/drivers/gpu/drm/tegra/hub.c
->> @@ -1101,7 +1101,7 @@ static int tegra_display_hub_probe(struct platform=
-_device *pdev)
->>=20=20
->>  	for (i =3D 0; i < hub->soc->num_wgrps; i++) {
->>  		struct tegra_windowgroup *wgrp =3D &hub->wgrps[i];
->> -		char id[8];
->> +		char id[16];
->>=20=20
->>  		snprintf(id, sizeof(id), "wgrp%u", i);
->>  		mutex_init(&wgrp->lock);
->> --=20
->> 2.42.0.rc1.204.g551eb34607-goog
->>=20
+> Signed-off-by: Lee Jones <lee@kernel.org>
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+> ---
+> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 506371c427451..1ef558cda60ce 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -259,6 +259,7 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+>   /**
+>    * drm_sched_job_done - complete a job
+>    * @s_job: pointer to the job which is done
+> + * @result: fence error to forward and set
+>    *
+>    * Finish the job's fence and wake up the worker thread.
+>    */
+
