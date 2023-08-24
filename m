@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7AA7870C5
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 15:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAC27870C0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 15:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479D210E55E;
-	Thu, 24 Aug 2023 13:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B006D10E550;
+	Thu, 24 Aug 2023 13:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D36410E554;
- Thu, 24 Aug 2023 13:46:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8381D10E54F;
+ Thu, 24 Aug 2023 13:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692884791; x=1724420791;
+ t=1692884785; x=1724420785;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0FHIscgRXePmKPmD1dsB7+E3vvTEootsCqgP1lp9Lrk=;
- b=Hi6qzFVk8mB2yY+j54U+ltuCxkAQU4g5i+XC0mvhqKZLAEwr7MfgEytF
- 4wXkr6564/3YQ9jxqXWp+QBf8L2stKc9lrF9MupqF7N4fyf++j8yO6ZbZ
- 6c2jMYoqGqB+I4jvMXIIFnCIOXuLiH5/mPEf9h2O7TyGkkjar6crMS3DG
- Zt2VNwxKJEbJUcj319zdFGwoogqQ14RVfhEVr6AIqbDaqA43F0YOOl4j9
- 0flfN2w3VTaVMtrnAXyUQ1KbN+ZLUfpI5jWawYjBi2Y2BiXZsTmlaOBhA
- xearHZeFX3q1Y5OkC4BbaDux/wqhwSsO6JAH9I1Z8MBoh8mWegbNExkqp g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="405447535"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="405447535"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 06:46:19 -0700
+ bh=CaoHY4p+qUgm3IS7tBRqBO4KNsX3ZdXL70kJayIFbdc=;
+ b=JTrAco2RPuBQQYrBn8pgXVYzRj9EMY4sk1GEgc349+Q4E5Sq0J1uzo5L
+ 60DOGZ7VypU1BXfFCsOSibJ6k9BPtujFKMAPd2O4N/bZrIN1HfsBTy04e
+ l89B8qYP3E7Bc55wmwTcafOcH8rod+hfokSEvdLrpipyAA3D1nf947nWL
+ PwBOHLQ76eoF2KGEWU1jz1/MK4N7JLJ82kcfG8InRHFo8pP9TajsJ5cSh
+ VkvNJj44BVmcF2+QJzGWMJEMNgcgWVccZXUCEoD6DuZWmpIUN+/PiSeZq
+ WVClsqUJ9NUt6McyTvqZ+NDWBS4hWOnWxJKamCaADuAJ8xNxy/sFies4H A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="354773212"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="354773212"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 06:46:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="802550948"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="802550948"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="983706472"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="983706472"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2023 06:46:17 -0700
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 06:46:22 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/6] drm/edid: add drm_edid_is_digital()
-Date: Thu, 24 Aug 2023 16:46:02 +0300
-Message-Id: <4bdb407bf189fd922be022eb2f9564692377c81d.1692884619.git.jani.nikula@intel.com>
+Subject: [PATCH 2/6] drm/i915/display: use drm_edid_is_digital()
+Date: Thu, 24 Aug 2023 16:46:03 +0300
+Message-Id: <dbc0269d34f3140aff410eefae8a2711c59299b3.1692884619.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1692884619.git.jani.nikula@intel.com>
 References: <cover.1692884619.git.jani.nikula@intel.com>
@@ -64,66 +64,105 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Checking edid->input & DRM_EDID_INPUT_DIGITAL is common enough to
-deserve a helper that also lets us abstract the raw EDID a bit better.
+Reduce the use of struct edid and drm_edid_raw().
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 17 +++++++++++++++--
- include/drm/drm_edid.h     |  1 +
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_crt.c  | 11 ++++-------
+ drivers/gpu/drm/i915/display/intel_hdmi.c |  9 ++++-----
+ drivers/gpu/drm/i915/display/intel_sdvo.c |  7 ++-----
+ 3 files changed, 10 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 340da8257b51..1dbb15439468 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3110,7 +3110,7 @@ drm_monitor_supports_rb(const struct drm_edid *drm_edid)
- 		return ret;
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+index f66340b4caf0..310670bb6c25 100644
+--- a/drivers/gpu/drm/i915/display/intel_crt.c
++++ b/drivers/gpu/drm/i915/display/intel_crt.c
+@@ -657,21 +657,18 @@ static bool intel_crt_detect_ddc(struct drm_connector *connector)
+ 	drm_edid = intel_crt_get_edid(connector, i2c);
  
--	return ((drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
-+	return drm_edid_is_digital(drm_edid);
+ 	if (drm_edid) {
+-		const struct edid *edid = drm_edid_raw(drm_edid);
+-		bool is_digital = edid->input & DRM_EDID_INPUT_DIGITAL;
+-
+ 		/*
+ 		 * This may be a DVI-I connector with a shared DDC
+ 		 * link between analog and digital outputs, so we
+ 		 * have to check the EDID input spec of the attached device.
+ 		 */
+-		if (!is_digital) {
++		if (drm_edid_is_digital(drm_edid)) {
+ 			drm_dbg_kms(&dev_priv->drm,
+-				    "CRT detected via DDC:0x50 [EDID]\n");
+-			ret = true;
++				    "CRT not detected via DDC:0x50 [EDID reports a digital panel]\n");
+ 		} else {
+ 			drm_dbg_kms(&dev_priv->drm,
+-				    "CRT not detected via DDC:0x50 [EDID reports a digital panel]\n");
++				    "CRT detected via DDC:0x50 [EDID]\n");
++			ret = true;
+ 		}
+ 	} else {
+ 		drm_dbg_kms(&dev_priv->drm,
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 9442bf43550e..aa9915098dda 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2452,7 +2452,6 @@ intel_hdmi_set_edid(struct drm_connector *connector)
+ 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
+ 	intel_wakeref_t wakeref;
+ 	const struct drm_edid *drm_edid;
+-	const struct edid *edid;
+ 	bool connected = false;
+ 	struct i2c_adapter *i2c;
+ 
+@@ -2475,9 +2474,7 @@ intel_hdmi_set_edid(struct drm_connector *connector)
+ 
+ 	to_intel_connector(connector)->detect_edid = drm_edid;
+ 
+-	/* FIXME: Get rid of drm_edid_raw() */
+-	edid = drm_edid_raw(drm_edid);
+-	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
++	if (drm_edid_is_digital(drm_edid)) {
+ 		intel_hdmi_dp_dual_mode_detect(connector);
+ 
+ 		connected = true;
+@@ -2485,7 +2482,9 @@ intel_hdmi_set_edid(struct drm_connector *connector)
+ 
+ 	intel_display_power_put(dev_priv, POWER_DOMAIN_GMBUS, wakeref);
+ 
+-	cec_notifier_set_phys_addr_from_edid(intel_hdmi->cec_notifier, edid);
++	/* FIXME: Get rid of drm_edid_raw() */
++	cec_notifier_set_phys_addr_from_edid(intel_hdmi->cec_notifier,
++					     drm_edid_raw(drm_edid));
+ 
+ 	return connected;
  }
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index 7d25a64698e2..917771e19e38 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -2094,10 +2094,8 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
  
- static void
-@@ -6519,7 +6519,7 @@ static void update_display_info(struct drm_connector *connector,
- 	if (edid->revision < 3)
- 		goto out;
+ 	status = connector_status_unknown;
+ 	if (drm_edid) {
+-		const struct edid *edid = drm_edid_raw(drm_edid);
+-
+ 		/* DDC bus is shared, match EDID to connector type */
+-		if (edid && edid->input & DRM_EDID_INPUT_DIGITAL)
++		if (drm_edid_is_digital(drm_edid))
+ 			status = connector_status_connected;
+ 		else
+ 			status = connector_status_disconnected;
+@@ -2111,8 +2109,7 @@ static bool
+ intel_sdvo_connector_matches_edid(struct intel_sdvo_connector *sdvo,
+ 				  const struct drm_edid *drm_edid)
+ {
+-	const struct edid *edid = drm_edid_raw(drm_edid);
+-	bool monitor_is_digital = !!(edid->input & DRM_EDID_INPUT_DIGITAL);
++	bool monitor_is_digital = drm_edid_is_digital(drm_edid);
+ 	bool connector_is_digital = !!IS_DIGITAL(sdvo);
  
--	if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
-+	if (!drm_edid_is_digital(drm_edid))
- 		goto out;
- 
- 	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
-@@ -7335,3 +7335,16 @@ static void _drm_update_tile_info(struct drm_connector *connector,
- 		connector->tile_group = NULL;
- 	}
- }
-+
-+/**
-+ * drm_edid_is_digital - is digital?
-+ * @drm_edid: The EDID
-+ *
-+ * Return true if input is digital.
-+ */
-+bool drm_edid_is_digital(const struct drm_edid *drm_edid)
-+{
-+	return drm_edid && drm_edid->edid &&
-+		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
-+}
-+EXPORT_SYMBOL(drm_edid_is_digital);
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 48e93f909ef6..882d2638708e 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -612,6 +612,7 @@ const struct drm_edid *drm_edid_read_switcheroo(struct drm_connector *connector,
- int drm_edid_connector_update(struct drm_connector *connector,
- 			      const struct drm_edid *edid);
- int drm_edid_connector_add_modes(struct drm_connector *connector);
-+bool drm_edid_is_digital(const struct drm_edid *drm_edid);
- 
- const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
- 				  int ext_id, int *ext_index);
+ 	DRM_DEBUG_KMS("connector_is_digital? %d, monitor_is_digital? %d\n",
 -- 
 2.39.2
 
