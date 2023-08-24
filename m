@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B51B786802
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:01:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A4A786878
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 09:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C8710E00A;
-	Thu, 24 Aug 2023 07:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0253C10E0D8;
+	Thu, 24 Aug 2023 07:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f207.google.com (mail-pf1-f207.google.com
- [209.85.210.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C131310E00A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 07:01:13 +0000 (UTC)
-Received: by mail-pf1-f207.google.com with SMTP id
- d2e1a72fcca58-68a48df712bso6102706b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 00:01:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692860473; x=1693465273;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=g8QLJ93H/zrO//rMAevhu8RWkecEt3CkKbeVnQwZKcc=;
- b=kXKRPXs3d2NZ0ciL+o30bSKEn0DUQMF7Tkeg24x/0k49GX2Qq7CC9YtmxTfvOvGMF8
- +dl059+zR20Fd7z/XpE/f39GHnKY0/2TRLNlEeaW5ulK/rT2O7Y7yXfEtnuExBJVrusP
- k9UxNq0Txo6wW7Wc1hnnFeT00VqNrOK2TBi70/RXbkW3pRJHilf915v/8jl+Gpgm3cRv
- Q1a2eC5LepYIN4KZ/wDxXwJd6LKhw5ZE2lNHDmC9CLdNO5nHbaE7Ofwq/wTm8JFYq5SP
- 0UFjUOhYffDYPQ9Y4djP8Wh5d7tn13ONq77CQdLzWvsQ0rAKGRTPzXQLSKNVPb9KZp9+
- 5tmw==
-X-Gm-Message-State: AOJu0Yz2Srux/J/pLQCiUnJflbhj1qPuUZyUZBlcrwuv+HJOmUBZW0qD
- sdO5rpf1Ugx35QotfmwtUZxLmfj3gL4Gmzd99JzrIEgc6Ryw
-X-Google-Smtp-Source: AGHT+IF5s8TGinkAiQnXtWBdxCLtRr8vJbFKfzTX0KZYjlH1RVf3WytudqydgLn/voM2m7jKbRBavCab/QbB0lVdRkzNY8/HWR1+
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C8110E0D8;
+ Thu, 24 Aug 2023 07:37:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4582E6449B;
+ Thu, 24 Aug 2023 07:37:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E109C433C9;
+ Thu, 24 Aug 2023 07:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692862645;
+ bh=apVo29quPAJNJ5zBNsotHOwD/sJ5HhXMBXuZaLSVig8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=t6Uje6qsOtieNhKUK3PZ0NhYuVib0TYmuGgGXn/SM+BGz5yDI7Yv6Ic7/Q9SIMUoM
+ 75jPH2B3yCqjB3etVZHJUsItPk+uS+QXbwFon6ZWnUHV0WvtOs0kOkmr/o9C48sf22
+ 81r6ukOs+zNlnQuf4jGA8hYZhqmMf6Mc5DhcJNo4+uYaZOIMlCMSk8ezNAjSNX3y1r
+ L8ZsdtuEADnpUNzDfLQVv48w19gXSemSY9q/ESnKx2YKJwvrQoCFzyxlX1vA0+rsjp
+ EvLKEudsnhcXwz+dcCssbhSPSkdTNL+XLYFIzHsS7Jx93dkGS/l/b1fPNoO6EGgv3R
+ vFR2L2MSGRfYw==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org
+Subject: [PATCH (set 1) 00/20] Rid W=1 warnings from GPU
+Date: Thu, 24 Aug 2023 08:36:45 +0100
+Message-ID: <20230824073710.2677348-1-lee@kernel.org>
+X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 MIME-Version: 1.0
-X-Received: by 2002:a05:6a00:180c:b0:686:2ad5:d132 with SMTP id
- y12-20020a056a00180c00b006862ad5d132mr7930789pfa.5.1692860473296; Thu, 24 Aug
- 2023 00:01:13 -0700 (PDT)
-Date: Thu, 24 Aug 2023 00:01:13 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002a4da90603a5cbbf@google.com>
-Subject: [syzbot] [dri?] kernel BUG in vmf_insert_pfn_prot (2)
-From: syzbot <syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com>
-To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,151 +51,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Michal Simek <michal.simek@xilinx.com>, amd-gfx@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-media@vger.kernel.org, Stanley Yang <Stanley.Yang@amd.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ linaro-mm-sig@lists.linaro.org, linux-tegra@vger.kernel.org,
+ NXP Linux Team <linux-imx@nxp.com>, linux-arm-kernel@lists.infradead.org,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Jerome Glisse <glisse@freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Gourav Samaiya <gsamaiya@nvidia.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-syzbot found the following issue on:
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Jerome Glisse <glisse@freedesktop.org>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: "Maíra Canal" <mairacanal@riseup.net>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shashank Sharma <shashank.sharma@amd.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Stanley Yang <Stanley.Yang@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 
-HEAD commit:    9e6c269de404 Merge tag 'i2c-for-6.5-rc7' of git://git.kern..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=110b32d3a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aa796b6080b04102
-dashboard link: https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14284307a80000
+Lee Jones (20):
+  drm/xlnx/zynqmp_disp: Use correct kerneldoc formatting in zynqmp_disp
+  drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused variable 'loc'
+  drm/nouveau/nvkm/subdev/bios/init: Demote a bunch of kernel-doc abuses
+  drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
+  drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+  drm/radeon/radeon_ttm: Remove unused variable 'rbo' from
+    radeon_bo_move()
+  drm/amd/amdgpu/sdma_v6_0: Demote a bunch of half-completed function
+    headers
+  drm/tests/drm_kunit_helpers: Place correct function name in the
+    comment header
+  drm/scheduler/sched_main: Provide short description of missing param
+    'result'
+  drm/amd/amdgpu/amdgpu_doorbell_mgr: Correct misdocumented param
+    'doorbell_index'
+  drm/amd/amdgpu/amdgpu_device: Provide suitable description for param
+    'xcc_id'
+  drm/tests/drm_kunit_helpers: Correct possible double-entry typo in
+    'ddrm_kunit_helper_acquire_ctx_alloc'
+  drm/imx/ipuv3/imx-ldb: Increase buffer size to ensure all possible
+    values can be stored
+  drm/tegra/hub: Increase buffer size to ensure all possible values can
+    be stored
+  drm/drm_connector: Provide short description of param
+    'supported_colorspaces'
+  drm/amd/amdgpu/amdgpu_ras: Increase buffer size to account for all
+    possible values
+  drm/drm_gpuva_mgr: Remove set but unused variable 'prev'
+  drm/amd/amdgpu/amdgpu_sdma: Increase buffer size to account for all
+    possible values
+  drm/amd/amdgpu/imu_v11_0: Increase buffer size to ensure all possible
+    values can be stored
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/481d8421bfb2/disk-9e6c269d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5ec626f94634/vmlinux-9e6c269d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ab1e59619bd6/bzImage-9e6c269d.xz
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c  |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h       |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c      |   2 +-
+ drivers/gpu/drm/amd/amdgpu/imu_v11_0.c        |   2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |   8 +-
+ drivers/gpu/drm/drm_connector.c               |   2 +
+ drivers/gpu/drm/drm_gpuva_mgr.c               |  10 +-
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |   2 +-
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
+ .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |   3 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 136 +++++++++---------
+ .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           |   2 -
+ drivers/gpu/drm/scheduler/sched_main.c        |   1 +
+ drivers/gpu/drm/tegra/hub.c                   |   2 +-
+ drivers/gpu/drm/tests/drm_kunit_helpers.c     |   2 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |   6 +-
+ 19 files changed, 96 insertions(+), 97 deletions(-)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com
+-- 
+2.42.0.rc1.204.g551eb34607-goog
 
-------------[ cut here ]------------
-kernel BUG at mm/memory.c:2214!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 0 PID: 5157 Comm: syz-executor.3 Not tainted 6.5.0-rc6-syzkaller-00253-g9e6c269de404 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
-RIP: 0010:vmf_insert_pfn_prot+0x247/0x430 mm/memory.c:2214
-Code: 0f 0b e8 0c 4f c0 ff 49 89 ef bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 88 4a c0 ff 49 83 ff 20 0f 85 aa fe ff ff e8 e9 4e c0 ff <0f> 0b 48 bd ff ff ff ff ff ff 0f 00 e8 d8 4e c0 ff 4c 89 f6 48 89
-RSP: 0018:ffffc9000415f750 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8880275a0d00 RCX: 0000000000000000
-RDX: ffff888018379dc0 RSI: ffffffff81c5b9b7 RDI: 0000000000000007
-RBP: 000000000c140477 R08: 0000000000000007 R09: 0000000000000020
-R10: 0000000000000020 R11: 000000000000001f R12: 0000000020ffc000
-R13: 1ffff9200082beeb R14: 000000000007e79e R15: 0000000000000020
-FS:  00007f235bd9a6c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020ffc000 CR3: 0000000022a32000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- drm_gem_shmem_fault+0x1ea/0x3a0 drivers/gpu/drm/drm_gem_shmem_helper.c:563
- __do_fault+0x107/0x5f0 mm/memory.c:4198
- do_read_fault mm/memory.c:4547 [inline]
- do_fault mm/memory.c:4670 [inline]
- do_pte_missing mm/memory.c:3664 [inline]
- handle_pte_fault mm/memory.c:4939 [inline]
- __handle_mm_fault+0x27e0/0x3b80 mm/memory.c:5079
- handle_mm_fault+0x2ab/0x9d0 mm/memory.c:5233
- do_user_addr_fault+0x446/0xfc0 arch/x86/mm/fault.c:1392
- handle_page_fault arch/x86/mm/fault.c:1486 [inline]
- exc_page_fault+0x5c/0xd0 arch/x86/mm/fault.c:1542
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:570
-RIP: 0010:rep_movs_alternative+0x4a/0xb0 arch/x86/lib/copy_user_64.S:71
-Code: 75 f1 c3 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 8b 06 48 89 07 48 83 c6 08 48 83 c7 08 83 e9 08 74 df 83 f9 08 73 e8 eb c9 <f3> a4 c3 0f 1f 00 4c 8b 06 4c 8b 4e 08 4c 8b 56 10 4c 8b 5e 18 4c
-RSP: 0018:ffffc9000415fb50 EFLAGS: 00050206
-RAX: 0000000000000001 RBX: 0000000020ffc000 RCX: 0000000000001000
-RDX: 0000000000000000 RSI: 0000000020ffc000 RDI: ffff88807b764000
-RBP: 0000000000001000 R08: 0000000000000001 R09: ffffed100f6ec9ff
-R10: ffff88807b764fff R11: 0000000000000000 R12: 0000000020ffd000
-R13: ffff88807b764000 R14: 0000000000000000 R15: 0000000020ffc000
- copy_user_generic arch/x86/include/asm/uaccess_64.h:112 [inline]
- raw_copy_from_user arch/x86/include/asm/uaccess_64.h:127 [inline]
- _copy_from_user+0xc2/0xf0 lib/usercopy.c:23
- copy_from_user include/linux/uaccess.h:183 [inline]
- snd_rawmidi_kernel_write1+0x360/0x860 sound/core/rawmidi.c:1618
- snd_rawmidi_write+0x278/0xc10 sound/core/rawmidi.c:1687
- vfs_write+0x2a4/0xe40 fs/read_write.c:582
- ksys_write+0x1f0/0x250 fs/read_write.c:637
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f235b07cae9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f235bd9a0c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f235b19bf80 RCX: 00007f235b07cae9
-RDX: 00000000fffffd2c RSI: 0000000020000000 RDI: 0000000000000005
-RBP: 00007f235b0c847a R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000000b R14: 00007f235b19bf80 R15: 00007ffd9cdf0fe8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:vmf_insert_pfn_prot+0x247/0x430 mm/memory.c:2214
-Code: 0f 0b e8 0c 4f c0 ff 49 89 ef bf 20 00 00 00 41 83 e7 28 4c 89 fe e8 88 4a c0 ff 49 83 ff 20 0f 85 aa fe ff ff e8 e9 4e c0 ff <0f> 0b 48 bd ff ff ff ff ff ff 0f 00 e8 d8 4e c0 ff 4c 89 f6 48 89
-RSP: 0018:ffffc9000415f750 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8880275a0d00 RCX: 0000000000000000
-RDX: ffff888018379dc0 RSI: ffffffff81c5b9b7 RDI: 0000000000000007
-RBP: 000000000c140477 R08: 0000000000000007 R09: 0000000000000020
-R10: 0000000000000020 R11: 000000000000001f R12: 0000000020ffc000
-R13: 1ffff9200082beeb R14: 000000000007e79e R15: 0000000000000020
-FS:  00007f235bd9a6c0(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f93c20ffac1 CR3: 0000000022a32000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	75 f1                	jne    0xfffffff3
-   2:	c3                   	ret
-   3:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-   a:	00 00 00 00
-   e:	66 90                	xchg   %ax,%ax
-  10:	48 8b 06             	mov    (%rsi),%rax
-  13:	48 89 07             	mov    %rax,(%rdi)
-  16:	48 83 c6 08          	add    $0x8,%rsi
-  1a:	48 83 c7 08          	add    $0x8,%rdi
-  1e:	83 e9 08             	sub    $0x8,%ecx
-  21:	74 df                	je     0x2
-  23:	83 f9 08             	cmp    $0x8,%ecx
-  26:	73 e8                	jae    0x10
-  28:	eb c9                	jmp    0xfffffff3
-* 2a:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi) <-- trapping instruction
-  2c:	c3                   	ret
-  2d:	0f 1f 00             	nopl   (%rax)
-  30:	4c 8b 06             	mov    (%rsi),%r8
-  33:	4c 8b 4e 08          	mov    0x8(%rsi),%r9
-  37:	4c 8b 56 10          	mov    0x10(%rsi),%r10
-  3b:	4c 8b 5e 18          	mov    0x18(%rsi),%r11
-  3f:	4c                   	rex.WR
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
