@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A55786D60
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 13:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F340786D84
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 13:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39DF10E51A;
-	Thu, 24 Aug 2023 11:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335D510E524;
+	Thu, 24 Aug 2023 11:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F282810E520
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 11:05:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 40A056152C;
- Thu, 24 Aug 2023 11:05:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E25C433C7;
- Thu, 24 Aug 2023 11:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692875143;
- bh=nPjOxjZZcTevjlfl94HJgpkhz5t8USny22T5xsJdqaI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dpHRQAaO2BhsxC5y8s4oloQHDiAzK8wRWb4AA4Lc51Kf0uU4wIyxSsIfII59N5NwN
- RMgnAg7vk2G/o3tpXcPmWExDYa3EpIkUtUqhht10xiARttHTj7IDfF9OAitp2CsQUz
- vdnZZzr4uBH5Y6rAJv+/UqcghnXEKg1bFCoSCXEasXgoRJe74wbOMN0J8BCXixvipD
- BGNxqLkWKEqxf9dwzCCtJpGGe92PNVueOWY1fmRHBkNh0/LpiI7p7cHM2ks9l27Apk
- 27HYS9mu5YHQEib6VlM5moMdi8ABvSw513QFsGz0S+lo0E+Sn4lEC7YHh//N+OC8hl
- nJEQEy7mo5fhw==
-Date: Thu, 24 Aug 2023 13:05:37 +0200
-From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
- for ID table
-Message-ID: <20230824130537.5d4028c2@dellmb>
-In-Reply-To: <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
-References: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
- <CAD=FV=W6aoaUuMx5OvG2xMX+fBG6B-c5Fmvmit4f2CTZq=x1vQ@mail.gmail.com>
- <OS0PR01MB5922E0300F53BED1AFFD916E861CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75VcjA-99ckLWNczNuP5f2FGx67o1=O8MFVThBTVzPzJBdA@mail.gmail.com>
- <CAHp75VeJ-JjcrfLZd2dyisBmq5r66j=Sq5ubSLpK=kFrodzb-g@mail.gmail.com>
- <CAD=FV=VbsfAc4Pb3LY3w3-krqfkmmaZLiBxcxjgea+4S0HU1Vw@mail.gmail.com>
- <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9327410E524;
+ Thu, 24 Aug 2023 11:15:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692875701; x=1724411701;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=CtK1R/zQ6fsYubBUoIg4emRPJbgoJXj1/hZIVxAHWHw=;
+ b=YV2t4b9GBw7eyuX+blxqXajmwmtTo5M2Rl7RAckpOS0/sJbgtylhmxBT
+ a5Euql5mGEiTs5rfQVOTfcPaQiCwC+3dSTwHo7fog4ClDmSTaO4Sn0p1L
+ BZr/7pJ6qfX8xUgjwAotyb/wewVf/Lt8je4mbOEIanLypEGs7Kfl+VoO6
+ 94BiTfdP7zJeOMGKL0JucRAPP/pdw1SPIZSvOt+/ftcROnOOGV2/PwTge
+ 66SLppA3u9kYnopxjJBnn/yhKyjU9etfBQnhHCCmrTjNUn1oDaCY1FqXB
+ fxQULUG2UU+PhfeGZvapI6BuaIWytLk0AX2a+/foe4v97i6EVKJcgqb8D g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="378164704"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="378164704"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2023 04:15:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="766502137"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; d="scan'208";a="766502137"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+ by orsmga008.jf.intel.com with ESMTP; 24 Aug 2023 04:14:55 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qZ8IX-0001ye-2N;
+ Thu, 24 Aug 2023 11:14:48 +0000
+Date: Thu, 24 Aug 2023 19:13:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
+Subject: Re: [PATCH v2 5/6] drm/panfrost: Implement generic DRM object RSS
+ reporting function
+Message-ID: <202308241850.UjqyDaGz-lkp@intel.com>
+References: <20230824013604.466224-6-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230824013604.466224-6-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +66,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>
+Cc: linux-arm-msm@vger.kernel.org, adrian.larumbe@collabora.com,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ kernel@collabora.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Aug 2023 12:59:19 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Hi Adrián,
 
-> On Wed, Aug 23, 2023 at 9:39=E2=80=AFPM Doug Anderson <dianders@chromium.=
-org> wrote:
-> > On Wed, Aug 23, 2023 at 10:10=E2=80=AFAM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote: =20
-> > > =20
-> > > > No. Please, do not remove the I2C ID table. It had already been
-> > > > discussed a few years ago.
-> > > > =20
-> > > > > Yes, it make sense, as it saves some memory =20
-> > >
-> > > Okay, reading code a bit, it seems that it won't work with purely i2c
-> > > ID matching. =20
-> >
-> > OK, so you are in agreement that it would be OK to drop the I2C ID tabl=
-e? =20
->=20
-> Yes.
->=20
-> > > So the question here is "Do we want to allow enumeration via sysfs or=
- not?" =20
-> >
-> > Is there some pressing need for it? If not, I guess I'd tend to wait
-> > until someone needs this support before adding it. =20
->=20
-> Depends. Is this device anyhow useful IRL as standalone if
-> instantiated via sysfs? I think it may be not, so it's unlikely we
-> want to have sysfs option for it.
->=20
+kernel test robot noticed the following build warnings:
 
-So this is what the id table is about :D I guess I should remove it for
-leds-turris-omnia :D
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.5-rc7 next-20230824]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230824013604.466224-6-adrian.larumbe%40collabora.com
+patch subject: [PATCH v2 5/6] drm/panfrost: Implement generic DRM object RSS reporting function
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308241850.UjqyDaGz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241850.UjqyDaGz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308241850.UjqyDaGz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/panfrost/panfrost_gem.c:210:8: warning: no previous prototype for 'panfrost_gem_rss' [-Wmissing-prototypes]
+     210 | size_t panfrost_gem_rss(struct drm_gem_object *obj)
+         |        ^~~~~~~~~~~~~~~~
+
+
+vim +/panfrost_gem_rss +210 drivers/gpu/drm/panfrost/panfrost_gem.c
+
+   209	
+ > 210	size_t panfrost_gem_rss(struct drm_gem_object *obj)
+   211	{
+   212		struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+   213	
+   214		if (!bo->base.pages)
+   215			return 0;
+   216	
+   217		return bo->rss_size;
+   218	}
+   219	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
