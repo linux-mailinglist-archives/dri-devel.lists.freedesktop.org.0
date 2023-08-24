@@ -2,81 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0447786FAA
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 14:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB2E787064
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 15:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE87510E077;
-	Thu, 24 Aug 2023 12:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FEAE10E54A;
+	Thu, 24 Aug 2023 13:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0DE110E077
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 12:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692881589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kKQ9WOE2Aragce0+o/m7aVIS5d41CLufSWNbA4ImA4I=;
- b=WRt5zKUTGlcojPdLnACz3yPSCroIzUfEXO9JpFxVVofqHSmDzrr8s843YmvRf/IM3d0vnv
- lOJ6xTKFBBpGL461Ne9ADT5NFOi7m5LF6I4PZXeOk2bXKZ/FhWJtYQw0MzH2DMXelnRhYP
- mweOQfuHmtxaQMxLtppZbuHI1LFEWfk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-DSpPkNtfNaChZpQLtkcqTw-1; Thu, 24 Aug 2023 08:53:07 -0400
-X-MC-Unique: DSpPkNtfNaChZpQLtkcqTw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a35b0d4ceso506528266b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 05:53:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692881584; x=1693486384;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kKQ9WOE2Aragce0+o/m7aVIS5d41CLufSWNbA4ImA4I=;
- b=W8NeVYNhHshN+Jnshg57ZUkh1A626l4Ke/YUm8lJB67JsfJVTuQhqqUhr9m9jn+qRS
- Sh4YMr2mv5h0KTfBlN8ttFFlQnek40CNc2igZMo9BzsP0VbtQqit/2KEkbjV2T+pWtKd
- hupWuuD+jvpliv24r2zAsNAft50JGcwGisPiHvJgKmp12/iFN9x8n82gZ+zeWQ9dTRwK
- Q/yPB3s5roE/AA3fw0pA4l2Zrfdp0QGXTUYLGaHBFfe1GoRUFLftY3gdrvRVos9enLcJ
- YFNn6j+B00VeDdVfrCAP/GN1mSIBW+RRK88H+BTVl/npnn6Ieb0VI4FEjC4V5dysknSP
- eRfg==
-X-Gm-Message-State: AOJu0YwR44W4MXXH9sZv+GRaenzVIOBdVpaGWKHRSMa3mNq1ty5gBgj/
- RE79e+QUAaApihmcskskGLPaxh03nc/Mcsj7T3dlkf1hfihT1IQaM6O4vFxZwbmAQ9SE0fCGIOB
- phJTGD0+Whow9ne88WDfU+h+7pOR3
-X-Received: by 2002:a17:907:778d:b0:9a1:d7cd:603a with SMTP id
- ky13-20020a170907778d00b009a1d7cd603amr4013268ejc.58.1692881584346; 
- Thu, 24 Aug 2023 05:53:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHX6wkHtTAdCUwl5KxmFYb257JKgY0QOHqKG5XpgYEz7M1IInC82odlL1o5XG742djsg7RGlA==
-X-Received: by 2002:a17:907:778d:b0:9a1:d7cd:603a with SMTP id
- ky13-20020a170907778d00b009a1d7cd603amr4013249ejc.58.1692881584054; 
- Thu, 24 Aug 2023 05:53:04 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- lv27-20020a170906bc9b00b0099cb349d570sm10915871ejb.185.2023.08.24.05.53.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Aug 2023 05:53:03 -0700 (PDT)
-Message-ID: <03804681-51f1-0840-6583-1753bd0a18d3@redhat.com>
-Date: Thu, 24 Aug 2023 14:53:02 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD81E10E118;
+ Thu, 24 Aug 2023 13:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=GtX3uWe6SyhGZS9UiD7VVl7pKZgtrwMNbJIDvFqXd/g=; b=UEDBpYlukLNga5oW7Gft8qIKDI
+ 8WK6r1vvSe6igJkeQhLvzqnknZXAZouqJ1akgA1XZv4iNNmD9PlB78fQttNMKfNSeuVbB2JunnHAB
+ HWsKWZjJ0YzmMZ0UmgWxO0urKOfiLPJXlkbY/RqzMl5RRNwU1wYCNItBRpF8z2R1YgT3HEANTJsr8
+ 0qX2Lt2Iy70wjRy8b9YcZozHF8YcZfHEcu3bDdmqPESo9qCblPAOkiiTYbhRikIrW96daoWIU7hzr
+ FbeQvIHKrh48sFQu6ftCwSwh0psomna2jNf1ipgz0EZKCb/7+2hRDTYN2VdYFUBJ3z0hRb+IwrDIq
+ zFJTHW0A==;
+Received: from [38.44.68.151] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qZAXM-00Ex8o-3q; Thu, 24 Aug 2023 15:38:12 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: enable cursor degamma for DCN3+ DRM legacy
+ gamma
+Date: Thu, 24 Aug 2023 12:38:09 -0100
+Message-Id: <20230824133810.10627-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 18/20] drm/drm_gpuva_mgr: Remove set but unused variable
- 'prev'
-To: Lee Jones <lee@kernel.org>
-References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-19-lee@kernel.org>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230824073710.2677348-19-lee@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,94 +54,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
+For DRM legacy gamma, AMD display manager applies implicit sRGB degamma
+using a pre-defined sRGB transfer function. It works fine for DCN2
+family where degamma ROM and custom curves go to the same color block.
+But, on DCN3+, degamma is split into two blocks: degamma ROM for
+pre-defined TFs and `gamma correction` for user/custom curves and
+degamma ROM settings doesn't apply to cursor plane. To get DRM legacy
+gamma working as expected, enable cursor degamma ROM for implict sRGB
+degamma on HW with this configuration.
 
-On 8/24/23 09:37, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->   drivers/gpu/drm/drm_gpuva_mgr.c: In function ‘__drm_gpuva_sm_map’:
->   drivers/gpu/drm/drm_gpuva_mgr.c:1079:39: warning: variable ‘prev’ set but not used [-Wunused-but-set-variable]
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2803
+Fixes: 96b020e2163f ("drm/amd/display: check attr flag before set cursor degamma on DCN3+")
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
 
-Thanks for fixing this up.
+Hi,
 
-However, I already had a patch in the queue addressing the warning,
-which I already applied to drm-misc/drm-misc-next-fixes.
+It seems that the previous color fix for atomic API brought out a
+difference in behavior of degamma color blocks between DCN2 and DCN3, as
+reported in the link.
 
-- Danilo
+AFAIU, settings of the `degamma ROM` block for pre-defined TF doesn't
+apply to cursor plane. So, whenever we wants degamma ROM for cursor
+plane, we have to explicitly enable it using the attribute flag. This is
+the case when we do an implicit sRGB degamma to match DRM legacy gamma
+requirements.
 
-> 
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->   drivers/gpu/drm/drm_gpuva_mgr.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
-> index f86bfad74ff8a..ad99c9cfedac7 100644
-> --- a/drivers/gpu/drm/drm_gpuva_mgr.c
-> +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
-> @@ -1076,7 +1076,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
->   		   u64 req_addr, u64 req_range,
->   		   struct drm_gem_object *req_obj, u64 req_offset)
->   {
-> -	struct drm_gpuva *va, *next, *prev = NULL;
-> +	struct drm_gpuva *va, *next;
->   	u64 req_end = req_addr + req_range;
->   	int ret;
->   
-> @@ -1106,7 +1106,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
->   				ret = op_unmap_cb(ops, priv, va, merge);
->   				if (ret)
->   					return ret;
-> -				goto next;
-> +				continue;
->   			}
->   
->   			if (end > req_end) {
-> @@ -1151,7 +1151,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
->   				ret = op_remap_cb(ops, priv, &p, NULL, &u);
->   				if (ret)
->   					return ret;
-> -				goto next;
-> +				continue;
->   			}
->   
->   			if (end > req_end) {
-> @@ -1184,7 +1184,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
->   				ret = op_unmap_cb(ops, priv, va, merge);
->   				if (ret)
->   					return ret;
-> -				goto next;
-> +				continue;
->   			}
->   
->   			if (end > req_end) {
-> @@ -1205,8 +1205,6 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
->   				break;
->   			}
->   		}
-> -next:
-> -		prev = va;
->   	}
->   
->   	return op_map_cb(ops, priv,
+Another option would be changing the legacy gamma approach to use the
+`gamma correction` block where the pre-defined sRGB curve is calculated
+by AMD color module. I think that keeping degamma ROM usage on legacy
+gamma is better for performance, this is why I opted for this patch. But
+let me know if changing legacy gamma implementation in amdgpu_dm_color
+is better for consistence or any other thing to take into account.
+
+Thanks,
+
+Melissa
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 8eeca160d434..2aa7efd798e2 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1269,6 +1269,13 @@ void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+ 	attributes.rotation_angle    = 0;
+ 	attributes.attribute_flags.value = 0;
+ 
++	/* Enable cursor degamma ROM on DCN3+ for implicit sRGB degamma in DRM
++	 * legacy gamma setup.
++	 */
++	if (crtc_state->cm_is_degamma_srgb &&
++	    adev->dm.dc->caps.color.dpp.gamma_corr)
++		attributes.attribute_flags.bits.ENABLE_CURSOR_DEGAMMA = 1;
++
+ 	attributes.pitch = afb->base.pitches[0] / afb->base.format->cpp[0];
+ 
+ 	if (crtc_state->stream) {
+-- 
+2.40.1
 
