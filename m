@@ -1,65 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7498B78749B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 17:52:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5C878753F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:25:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E056510E58D;
-	Thu, 24 Aug 2023 15:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D25310E11B;
+	Thu, 24 Aug 2023 16:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7913210E58D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DBB8A65D76
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ACACBC433CC
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692892373;
- bh=iEHrDrWTIldIwcHIejNDW1fFJ/Mxmj26uyj0zuXyxao=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rxOfG+kwDnJi9nOPxjT5dODACNdHWipj33H83ShaLRmfh8BJkZmHdjMvZOjp9HDIM
- lVO2p7hVeQiobSwuMsMuZNsGTueLpI4Z2icQYbhatoGKwYjsG1NyoUXyFwLo2NLUeo
- kXiWYI13k5kNiPDsa1qtG3BM4yw+FQzE/HAYUVXWvnaFZPYE2kkxqkG8AFkgmyXYC5
- tXP+OgcKJdkzpEN7/BJuhwIEnr2Rvbr2u/u2CudfMiMeVDtDv3fFk8kW3ILCSkG/1n
- nah5GPsFe/Z+EMA/Cjbu+eoudlSC+P0WUAFBErs7KdyPOKDrFovpvLFeqOFremBo4z
- W4j90Ft/yaMOg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9C33BC53BCD; Thu, 24 Aug 2023 15:52:53 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Thu, 24 Aug 2023 15:52:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: priit@ww.ee
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201957-2300-LrpCAFBk7p@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5D6410E092;
+ Thu, 24 Aug 2023 16:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4WCvUtoFCzfEaXTzDHEDx1Go5TnHh8xSA7VOtwux7Hc=; b=Z/P7jfA+3uYmzGkm9ZCk+mf5tN
+ ZlqdaVcNcElZXD5ffqCKLbgyl6WSJWmPIW2v6G4CHAtsaBh/JDb5VwpDGqsTIZHW9p5Ga59cx592i
+ /yvF+m1utkowhKBIbk+Yr/2Cl+CMcNW/VALJA5Nid9LicPCUHCf6KdRIM6Ge8B2CABeThr0I8773g
+ TPNvDKg/1GuEGKDL+plOKVx7h8yFOLCEVESFeNat8Cwpf3S2hpB99hC2BOjVMZuYi3v0CA+ToowZ4
+ jbJezR5GtJ9dO2T1Fosuwzd+HX/iwVAjVDkFt2vcllwu7n93NL8Tytn1CV6/XPtvRtvF52HPvBpmq
+ dTI/GVJg==;
+Received: from [187.35.42.59] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qZD94-00F0DK-Ra; Thu, 24 Aug 2023 18:25:19 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/amdgpu: Merge all debug module parameters
+Date: Thu, 24 Aug 2023 13:25:03 -0300
+Message-ID: <20230824162505.173399-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+As suggested by Christian at [0], this patchset merges all debug modules
+parameters and creates a new one for disabling soft recovery:
 
-Priit O. (priit@ww.ee) changed:
+> Maybe we can overload the amdgpu_gpu_recovery module option with this. 
+> Or even better merge all the developer module parameter into a 
+> amdgpu_debug option. This way it should be pretty obvious that this 
+> isn't meant to be used by someone who doesn't know how to use it.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |priit@ww.ee
+[0] https://lore.kernel.org/dri-devel/55f69184-1aa2-55d6-4a10-1560d75c7324@amd.com/
 
---- Comment #89 from Priit O. (priit@ww.ee) ---
-AMD Vega 64 (vega10 chip)
-kernel: 6.4.9
+André Almeida (2):
+  drm/amdgpu: Merge debug module parameters
+  drm/amdgpu: Create an option to disable soft recovery
 
-linux-firmware: 20230724
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 30 ++++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c |  6 ++++-
+ drivers/gpu/drm/amd/include/amd_shared.h | 10 ++++++++
+ 4 files changed, 46 insertions(+), 1 deletion(-)
 
-# graphical session died and had to log in again, computer didn't boot
-though...
-aug   20 02:11:06 Zen kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ri=
-ng
-gfx_low timeout, signaled seq=3D368426139, emitted seq=3D368426141
-aug   20 02:11:06 Zen kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process firefox pid 414636 thread firefox:cs0 pid 4147=
-12
+-- 
+2.41.0
 
-linux-firmware: 20230810 (upgraded it... although there was no "vega10" cha=
-nges
-inbetween)
-
-# just freeze for like 30s and then it got unstuck again.
-aug   23 23:09:24 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
-[CRTC:60:crtc-0] hw_done or flip_done timed out
-aug   23 23:09:34 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
-[CRTC:63:crtc-1] hw_done or flip_done timed out
-aug   23 23:09:44 Zen kernel: [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR*
-[CRTC:66:crtc-2] hw_done or flip_done timed out
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
