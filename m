@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C9D7864A1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 03:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78577864A5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 03:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6836B10E4AA;
-	Thu, 24 Aug 2023 01:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483A710E4BE;
+	Thu, 24 Aug 2023 01:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C074D10E4B6;
- Thu, 24 Aug 2023 01:36:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9B710E4AA;
+ Thu, 24 Aug 2023 01:36:22 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 24F47660729C;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5EF536607272;
  Thu, 24 Aug 2023 02:36:20 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1692840980;
- bh=NmBKtjSJaclz3aHw+CBzB5JLLh5eQKpD6C3CftDI6DY=;
+ bh=GUXvdyR6u3Xe6oaqA/WtFkOugeqKUkkyoFDijY6U+8I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=icQ11nPvNfMhjWZBW/mniGRKTwMGWBUqBiHBO0E2PjIYHUU1jTVG41woWJhNfZq+I
- SzVABXZJpM0UhyQoHcFchDL+6apmZD67q6Pdqwflhuuc2zEPELIMvi3mvNVKGE77gb
- vFipYa1ci2PHposkRbz73d79PVkwWVykSumL7DoU2UsH+lbzgA37v1zv4Ag90Vw+6c
- SqQNq8kAnr5NN9pwM5bVJezl+mDllq65fvNNLn9hNZgCS/icIj8u79B4xStpQMz0WK
- f0jzqlwzkdeaYo/sLbGCwefJPIk7dmvpUSw5th7PzCu1q8wHm/8tTZvLSRtlydyPxf
- MhJgbsmQnYeAA==
+ b=l+fzzt0MqDOAUXOKFl4MwiQCSs8owdjOV7Mxo43xwn4YvkqmC6tBO4lKY5pi97spz
+ Vo17Q/bHg5E8peRiB9Yqs4/wpRrSNUmbhmBb6+JwF06a5YMDiMg4tvEzuuUad6uHNO
+ 7zw+bncpEf5lPYTv/yla5k/gxu44xdCRWepb5FyHTjDXtbWTdnfypWqnofm3jy7oox
+ t3CCM1v9HS1mZc4z6mjzEdEZsMdR0AiH+2ppExvymIByoxh2DLgxRKbWFZMFLCOxHk
+ y+S2+yhrDn9bVukI4Upuq8lBCUaEAYCwKpM7A1AJhCBz4/WF6/dA2b3KiicwlIA11S
+ ji8XJerdJkyVg==
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
  marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
-Subject: [PATCH v2 4/6] drm/drm_file: Add DRM obj's RSS reporting function for
- fdinfo
-Date: Thu, 24 Aug 2023 02:34:47 +0100
-Message-ID: <20230824013604.466224-5-adrian.larumbe@collabora.com>
+Subject: [PATCH v2 5/6] drm/panfrost: Implement generic DRM object RSS
+ reporting function
+Date: Thu, 24 Aug 2023 02:34:48 +0100
+Message-ID: <20230824013604.466224-6-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230824013604.466224-1-adrian.larumbe@collabora.com>
 References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
@@ -63,63 +63,166 @@ Cc: linux-arm-msm@vger.kernel.org, adrian.larumbe@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some BO's might be mapped onto physical memory chunkwise and on demand,
-like Panfrost's tiler heap. In this case, even though the
-drm_gem_shmem_object page array might already be allocated, only a very
-small fraction of the BO is currently backed by system memory, but
-drm_show_memory_stats will then proceed to add its entire virtual size to
-the file's total resident size regardless.
+BO's RSS is updated every time new pages are allocated and mapped for the
+object, either in its entirety at creation time for non-heap buffers, or
+else on demand for heap buffers at GPU page fault's IRQ handler.
 
-This led to very unrealistic RSS sizes being reckoned for Panfrost, where
-said tiler heap buffer is initially allocated with a virtual size of 128
-MiB, but only a small part of it will eventually be backed by system memory
-after successive GPU page faults.
-
-Provide a new DRM object generic function that would allow drivers to
-return a more accurate RSS size for their BOs.
+Same calculations had to be done for imported PRIME objects, since backing
+storage for it might have already been allocated by the exporting driver.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/drm_file.c | 5 ++++-
- include/drm/drm_gem.h      | 9 +++++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  5 +++++
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 16 +++++++++++-----
+ 3 files changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 883d83bc0e3d..762965e3d503 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -944,7 +944,10 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
- 		}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index aea16b0e4dda..c6bd1f16a6d4 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -206,6 +206,17 @@ static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj
  
- 		if (s & DRM_GEM_OBJECT_RESIDENT) {
--			status.resident += obj->size;
-+			if (obj->funcs && obj->funcs->rss)
-+				status.resident += obj->funcs->rss(obj);
-+			else
-+				status.resident += obj->size;
- 		} else {
- 			/* If already purged or not yet backed by pages, don't
- 			 * count it as purgeable:
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index c0b13c43b459..78ed9fab6044 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -208,6 +208,15 @@ struct drm_gem_object_funcs {
- 	 */
- 	enum drm_gem_object_status (*status)(struct drm_gem_object *obj);
- 
-+	/**
-+	 * @rss:
-+	 *
-+	 * Return resident size of the object in physical memory.
-+	 *
-+	 * Called by drm_show_memory_stats().
-+	 */
-+	size_t (*rss)(struct drm_gem_object *obj);
+ 	return res;
+ }
 +
- 	/**
- 	 * @vm_ops:
- 	 *
++size_t panfrost_gem_rss(struct drm_gem_object *obj)
++{
++	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
++
++	if (!bo->base.pages)
++		return 0;
++
++	return bo->rss_size;
++}
++
+ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+ 	.free = panfrost_gem_free_object,
+ 	.open = panfrost_gem_open,
+@@ -218,6 +229,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+ 	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = drm_gem_shmem_object_mmap,
+ 	.status = panfrost_gem_status,
++	.rss = panfrost_gem_rss,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ };
+ 
+@@ -274,13 +286,23 @@ panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+ {
+ 	struct drm_gem_object *obj;
+ 	struct panfrost_gem_object *bo;
++	struct scatterlist *sgl;
++	unsigned int count;
++	size_t total = 0;
+ 
+ 	obj = drm_gem_shmem_prime_import_sg_table(dev, attach, sgt);
+ 	if (IS_ERR(obj))
+ 		return ERR_CAST(obj);
+ 
++	for_each_sgtable_dma_sg(sgt, sgl, count) {
++		size_t len = sg_dma_len(sgl);
++
++		total += len;
++	}
++
+ 	bo = to_panfrost_bo(obj);
+ 	bo->noexec = true;
++	bo->rss_size = total;
+ 
+ 	return obj;
+ }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index e06f7ceb8f73..e2a7c46403c7 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -36,6 +36,11 @@ struct panfrost_gem_object {
+ 	 */
+ 	atomic_t gpu_usecount;
+ 
++	/*
++	 * Object chunk size currently mapped onto physical memory
++	 */
++	size_t rss_size;
++
+ 	bool noexec		:1;
+ 	bool is_heap		:1;
+ 	bool is_purgable	:1;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index c0123d09f699..e03a5a9da06f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -285,17 +285,19 @@ static void panfrost_mmu_flush_range(struct panfrost_device *pfdev,
+ 	pm_runtime_put_autosuspend(pfdev->dev);
+ }
+ 
+-static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
++static size_t mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+ 		      u64 iova, int prot, struct sg_table *sgt)
+ {
+ 	unsigned int count;
+ 	struct scatterlist *sgl;
+ 	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
+ 	u64 start_iova = iova;
++	size_t total = 0;
+ 
+ 	for_each_sgtable_dma_sg(sgt, sgl, count) {
+ 		unsigned long paddr = sg_dma_address(sgl);
+ 		size_t len = sg_dma_len(sgl);
++		total += len;
+ 
+ 		dev_dbg(pfdev->dev, "map: as=%d, iova=%llx, paddr=%lx, len=%zx", mmu->as, iova, paddr, len);
+ 
+@@ -315,7 +317,7 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+ 
+ 	panfrost_mmu_flush_range(pfdev, mmu, start_iova, iova - start_iova);
+ 
+-	return 0;
++	return total;
+ }
+ 
+ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+@@ -326,6 +328,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
+ 	struct sg_table *sgt;
+ 	int prot = IOMMU_READ | IOMMU_WRITE;
++	size_t mapped_size;
+ 
+ 	if (WARN_ON(mapping->active))
+ 		return 0;
+@@ -337,9 +340,10 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	if (WARN_ON(IS_ERR(sgt)))
+ 		return PTR_ERR(sgt);
+ 
+-	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
++	mapped_size = mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+ 		   prot, sgt);
+ 	mapping->active = true;
++	bo->rss_size += mapped_size;
+ 
+ 	return 0;
+ }
+@@ -447,6 +451,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	pgoff_t page_offset;
+ 	struct sg_table *sgt;
+ 	struct page **pages;
++	size_t mapped_size;
+ 
+ 	bomapping = addr_to_mapping(pfdev, as, addr);
+ 	if (!bomapping)
+@@ -518,10 +523,11 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	if (ret)
+ 		goto err_map;
+ 
+-	mmu_map_sg(pfdev, bomapping->mmu, addr,
+-		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
++	mapped_size = mmu_map_sg(pfdev, bomapping->mmu, addr,
++				 IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+ 
+ 	bomapping->active = true;
++	bo->rss_size += mapped_size;
+ 
+ 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
+ 
 -- 
 2.42.0
 
