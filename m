@@ -2,41 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E307875B9
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 18:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A4F7876D8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Aug 2023 19:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6370910E0B1;
-	Thu, 24 Aug 2023 16:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D0A10E008;
+	Thu, 24 Aug 2023 17:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482CD10E0B1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 16:42:42 +0000 (UTC)
-Received: from ginger.. (unknown [189.115.8.42])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5FEF10E008
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 17:20:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 18F956607273;
- Thu, 24 Aug 2023 17:42:38 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692895360;
- bh=KEyNwtYYO4BSXGKpu8cyHNwnu4krA5gnS4naNjnuc2M=;
- h=From:To:Cc:Subject:Date:From;
- b=cR5YHUWiS5gT/bLp5SNr+AGlSISCof/y63WV89l2QZF0ajLiaHtxGbPWJgnv/xOQR
- v/8HkWQRqNbXnznf2uIwb2hEKhOFrrahAXlywrcVepldXtC6Xw0GAiOgP1irS8dtTu
- csO5B/Kx6wjFLtFeaJTs333QYI1TUjnEcJwP5BeDieddArrqsSdweSFxGVjDWe6ld1
- QahCCJSRTUDdInOBjm3iHyG/bu46fOwXBQGdkH4UCsPx+m2WNV+3M9TIAilTDdZJFj
- r8OfNFNYiPklZ+rQn6seWLA5TF0B5TCW5/K0naIlnG3vdP3ETT+PX3xBtnwq2qH/fK
- 9G+Cc8gIs4DzQ==
-From: Helen Koike <helen.koike@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm: ci: docs: fix build warning - add missing escape
-Date: Thu, 24 Aug 2023 13:42:30 -0300
-Message-Id: <20230824164230.48470-1-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.34.1
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 15EDA6245D;
+ Thu, 24 Aug 2023 17:20:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443E9C433C9;
+ Thu, 24 Aug 2023 17:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692897656;
+ bh=sExzA+ev19jx8Yh8PaMathy8y9f6OIK5w1nNHVQbmFw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AafaxhcCblZ3clnb1PBmWA0uKBBoteyLZbLCfslw8RPL69r7co5T59kXxI5X0qymV
+ 0mIL4j46su5fd0/NDKGtp9u2MMQRs4Kv7o20HsCcAKb5RD3K4RVUSR5kWncDYzKmsg
+ lWkH2F6Fnf17GWpF39ZjZokvEQIooQQOZwkGybMM0m0DScHfHfnT+3TsoS6erObRAj
+ 6qtzxb+jsQustVq+PKlEd6MQrUutrDndX0isGq46Maa2JrlOcQGZGiASfoxLgiUfQW
+ tpeyI2DqbFYCTqPg7Zk6A//8tTlaWk6XW5hbetk8UCKp2Bt++p5Eu2Q1/cMFUkPNRU
+ DUsNbbz91HWrg==
+Received: (nullmailer pid 1066767 invoked by uid 1000);
+ Thu, 24 Aug 2023 17:20:54 -0000
+Date: Thu, 24 Aug 2023 12:20:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: display: novatek,nt35950: define ports
+Message-ID: <20230824172054.GA1065406-robh@kernel.org>
+References: <20230823081500.84005-1-krzysztof.kozlowski@linaro.org>
+ <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230823081500.84005-2-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux-next@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Del Regno <angelogioacchino.delregno@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following warning:
+On Wed, Aug 23, 2023 at 10:14:59AM +0200, Krzysztof Kozlowski wrote:
+> The panel-common schema does not define what "ports" property is, so
+> bring the definition by referencing the panel-common-dual.yaml. Panels
+> can be single- or dual-link, thus require only one port@0.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes since v2:
+> 1. Use panel-common-dual
+> 
+> Changes since v1:
+> 1. Rework to add ports to device schema, not to panel-common.
+> ---
+>  .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Documentation/gpu/automated_testing.rst:55: WARNING: Inline emphasis start-string without end-string.
-
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
-
----
-
-Patch for topic/drm-ci
-
-V2:
-- Fix typo s/scape/escape
-
----
- Documentation/gpu/automated_testing.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-index 1b87b802ac7f..469b6fb65c30 100644
---- a/Documentation/gpu/automated_testing.rst
-+++ b/Documentation/gpu/automated_testing.rst
-@@ -52,7 +52,7 @@ IGT_VERSION
- drivers/gpu/drm/ci/testlist.txt
- -------------------------------
- 
--IGT tests to be run on all drivers (unless mentioned in a driver's *-skips.txt
-+IGT tests to be run on all drivers (unless mentioned in a driver's \*-skips.txt
- file, see below).
- 
- drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-fails.txt
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
