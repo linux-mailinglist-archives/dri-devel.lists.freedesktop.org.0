@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A4B787F4D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 07:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA05787F50
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 07:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0232410E0B7;
-	Fri, 25 Aug 2023 05:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0325410E5FB;
+	Fri, 25 Aug 2023 05:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1E510E0B7
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 05:37:14 +0000 (UTC)
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
+ [IPv6:2001:67c:2050:0:465::102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B7410E105
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 05:37:16 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org
  [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RX7xd5McCz9sVh;
- Fri, 25 Aug 2023 07:37:09 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RX7xh5rQxz9sqj;
+ Fri, 25 Aug 2023 07:37:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1692941829;
+ s=MBO0001; t=1692941832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=raND4v3dGybD2pwR1R6rFbF7+8fbr2do4bPMeBjRsOY=;
- b=Buplbt0gjtUak1iEx+X+aMeOErM/LZGyp2nUpGKci865AOTJ6lqtJ58vjPGvevC45XWDBv
- 7atvRWZhjKP38GAt9vSv3cARQbo48+a75Y0n0iR6Y71kj/i3fMGHSBijr71V5FSwER6GvI
- UwGNeF8KZ92YOb+P3NBxXdGHp8ZlAcMpeI/GbzuF8YK/1R6+mTXYHcE9L3bz+Rn+D/5H5f
- 0/7bi9gVh3LCDvtTU/T1ZZbE2kFQTfkisvHrUtXLWJncLUFMgETTOjiXQnpjJeN9w4nW4o
- 0Dt+W74guViHZQ6eZnmcgArZrTUVGGVJVGfBQYFVvKHS7xj6lZ7WYHcLoWS9mA==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iPHLL1UUhYZsTXyQb6T77PLKveGd3jXYY4KZZGm0dps=;
+ b=omHr2p3euwtV+CzskMan98nKSCb+sYCGIsojFn/e3ytPgoo5vTOID4v7XHO0ePAKOHxA3O
+ Ea5EicbcEXukAPTNaPC6Fxpmem5gJsmwmoDD3lCiWsww2LQ3MLdR2QPk+pcWe13wkc1FwL
+ qhUky9LrDLiTOWnxKpctc/VQK6XS+b0ArRcdPN4N+DtZkB/JGQcznnQiRXRmOq79XkfCOY
+ UTQyfY0r002hNjw9nPSWfmisLFpHEhgYEFL0Q+/qCmcs6DJaptAGJQu8YT2DiQf++A+2ux
+ oqwPG3kc4bbyHnYt+ItEPJMETX81aQvQN1at9eDDaSqxFZFHb8iYHoLZrdWKjg==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Subject: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
- parent rate changes
-Date: Fri, 25 Aug 2023 07:36:36 +0200
-Message-Id: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+Date: Fri, 25 Aug 2023 07:36:37 +0200
+Subject: [PATCH 1/3] clk: keep clock rate when parent rate changes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOQ96GQC/x3MQQqAIBBA0avErBNMi6KrRIjYWENWohGBePek5
- Vv8nyBiIIwwVgkCPhTpOguaugKz6XNFRksxCC4kH0TLvHPsIE9qR/Qq6BsZ11LzRXZ9ayyU0Ae
- 09P7Tac75A+BiGU1kAAAA
+Message-Id: <20230825-pll-mipi_keep_rate-v1-1-35bc43570730@oltmanns.dev>
+References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
+In-Reply-To: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Ondrej Jirman <x@xnux.eu>, Icenowy Zheng <uwu@icenowy.me>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2979; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=JMuBxwJiUoYL4s/aSZd2Q/iqhb52ZQ6LgFc8dVJKLuk=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk6D3/HKxkcw/h/IrlclfYMC+/z+GqQTlVuhUqD
- MptvmVeGQWJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZOg9/wAKCRCaaaIIlErT
- x8ztC/0ZU6MRcwRuNfK9kP6ePsAGRWZZmm956pntap0kH7VSYErzh7wAwehys3nBF54oR7os7xS
- UZMfWbC1/uH3vjweHxUa0xWZ/RZnhbWKPYNSx1y3olhtr3+a5+vJo3jCr7uECQp3ez3cG+oclJj
- FjQ2EPqe7V9vR2vlxSwU/cfJR9AsfQdB/DxpCvFngEBWqjxqBc3zvGzsI1CnrxE44gqE8LKpZUw
- jSBz+6gmNMiwkzdayL40xU2+ltHqTw5Z4nbK2cjKGm1I53WhZc8MQ2FUiwY8V4dfCYsPntLDXsM
- Eyk9OsGYa70V3FBBY9OJHXbgyBU+znhjRDRCC2KwXZ8noqUu2+tvzTE+wfKYCizMc/XwMdVHIG1
- gFSKQ2dPnBNH9kJhwknWqKVhlDF6kBfNlmahf9gNTiJo/gIhypxiPy8JmA1gIAUwe0GxRPaS7IP
- fTv2nVSj7YE+MreXv3mLY+/v8zZU6r0bGAjwqRtAmnysHnZVXf27Q8deGTngPPySCccvk=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3502; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=80xP2Zwrfz9jaekYXLfx5hxdKlG+OoXLq1zx4Dy6QHI=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk6D3/0TGvDCocHkkmhaW/tOVVXzq99FoYRjzrU
+ D/LC1jBMwGJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZOg9/wAKCRCaaaIIlErT
+ xwyUC/0Z++DjhBG0lMGjHJrVGh5w2hr4a1L8Drw1Aq+jGicU2jrthCldTL3ZtcCaOg1XFrqTRBm
+ tXVmNaI+I/ru98HF9GvTh05Gx94Hx9AesXYToGHGB1hpNQkzzhPWVKJrWZaSZG9dS7fRdin8r0Q
+ XcJExe4D66B7A93UNqypB+jclL0dvAJFmRHVCsD+aJe79/R1fazHvE0s3xCV5oVX8rjLX/AFSXD
+ Y3knkRABJcivDX69FJ/Gu6DgPKCNHDKJwrSGhW2jNefcqFNo2V0B7maKRQxQIcbf5XKAl9LU+B5
+ G1Bz2QvJoF7pIvtmVc/Bdtfva+j+WkPM7DX9yOz6LNooL6t0attnGLfpWlrjRbyQDrW4Tsx3aPR
+ 29kBwkDPn3XNeWADoHsRDeUquxzSFtX8mzVSqdUKvFObK6193oiWPOgv2wlUUDsYH63s9CTTDA9
+ H4WBtIdkum+unXp3VdGMohIG9UYQ+zjAfmMy3mACUjRkUCdh1i67V1IUaLGE4BbVB0cTI=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4RX7xd5McCz9sVh
+X-Rspamd-Queue-Id: 4RX7xh5rQxz9sqj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +75,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, Frank Oltmanns <frank@oltmanns.dev>,
  dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I would like to make the Allwinner A64's pll-mipi to keep its rate when
-its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
-required, to let the A64 drive both an LCD and HDMI display at the same
-time, because both have pll-video0 as an ancestor.
-
-PATCH 1 adds this functionality as a feature into the clk framework (new
-flag: CLK_KEEP_RATE).
-
-Cores that use this flag, store a rate as req_rate when it or one of its
-descendants requests a new rate.
-
-That rate is then restored in the clk_change_rate recursion, which walks
-through the tree. It will reach the flagged core (e.g. pll-mipi) after
-the parent's rate (e.g. pll-video0) has already been set to the new
-rate. It will then call determine_rate (which requests the parent's
-current, i.e. new, rate) to determine a rate that is close to the
-flagged core's previous rate. Afterward it will re-calculate the rates
-for the flagged core's subtree.
-
-PATCH 2 & 3 demonstrate how the new flag can be used for A64's pll-mipi.
-By setting this flag, it is no longer required to get an exclusive lock
-when setting tcon0's rate, because the rate will be restored when its
-parent's (pll-mipi) rate is restored.
-
-This work is inspired by an out-of-tree patchset [1] [2] [3].
-Unfortunately, the patchset uses clk_set_rate() in a notifier callback,
-which the following comment on clk_notifier_register() forbids: "The
-callbacks associated with the notifier must not re-enter into the clk
-framework by calling any top-level clk APIs." [4] Furthermore, that
-out-of-tree patchset no longer works with the current linux-next,
-because setting pll-mipi is now also resetting pll-video0 [5].
-
-Thank you for considering this contribution,
-  Frank
-
-[1] https://github.com/megous/linux/commit/4124e115de82797f604808aaa5caad4512a9a1ed
-[2] https://github.com/megous/linux/commit/edc93fd70ee759fd989664fcb85996cb48a006e6
-[3] https://github.com/megous/linux/commit/40f5fc5b08b21142931662147d039ec217c9ba2f
-[4] https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/clk.c#L4578
-[5] https://lore.kernel.org/linux-kernel/20230807-pll-mipi_set_rate_parent-v6-0-f173239a4b59@oltmanns.dev/
+Allow clocks to keep their rate when parent (or grandparent) rate
+changes.
 
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
-Frank Oltmanns (2):
-      clk: keep clock rate when parent rate changes
-      clk: sunxi-ng: a64: keep rate of pll-mipi stable across parent rate changes
+ drivers/clk/clk.c            | 48 +++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/clk-provider.h |  2 ++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
 
-Icenowy Zheng (1):
-      drm/sun4i: tcon: parent keeps TCON0 clock stable on A64
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index c249f9791ae8..a382876c18da 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -2245,6 +2245,9 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 	    best_parent_rate != parent->rate)
+ 		top = clk_calc_new_rates(parent, best_parent_rate);
+ 
++	if ((core->flags & CLK_KEEP_RATE))
++		core->req_rate = new_rate;
++
+ out:
+ 	clk_calc_subtree(core, new_rate, parent, p_index);
+ 
+@@ -2343,9 +2346,51 @@ static void clk_change_rate(struct clk_core *core)
+ 		clk_core_prepare_enable(parent);
+ 
+ 	trace_clk_set_rate(core, core->new_rate);
++	if (!skip_set_rate && core->ops->set_rate) {
++		if (core->flags & CLK_KEEP_RATE && clk_core_can_round(core)) {
++			struct clk_rate_request req;
++			unsigned long flags;
++			int ret;
++
++			clk_core_init_rate_req(core, &req, core->req_rate);
+ 
+-	if (!skip_set_rate && core->ops->set_rate)
++			/*
++			 * Re-determine the new rate for the clock based on the requested rate.
++			 *
++			 * In this stage, the clock must not set a new parent rate or try a
++			 * different parent, so temporarily prevent that from happening.
++			 */
++			flags = core->flags;
++			core->flags &= ~(CLK_SET_RATE_PARENT);
++			core->flags |= CLK_SET_RATE_NO_REPARENT;
++			ret = clk_core_determine_round_nolock(core, &req);
++			core->flags = flags;
++
++			/*
++			 * If necessary, store the new rate and propagate to the subtree.
++			 *
++			 * The previously calculated rates (new_rate) of this core's subtree are no
++			 * longer correct, because this clock will be set to a rate that differs
++			 * from the rate that was used to calculate the subtree.
++			 *
++			 * FIXME: This means that the rate also differs from the new_rate that was
++			 *        announced in the PRE_RATE_CHANGE notification. Be careful when
++			 *        applying this flag, that the subtree does not depend on the
++			 *        correct new rate being propagated.
++			 */
++			if (ret >= 0 && req.rate != core->new_rate) {
++				core->new_rate = req.rate;
++				pr_debug("%s: clk %s: keeping rate %lu as %lu\n",
++				       __func__, core->name, core->req_rate, core->new_rate);
++
++				hlist_for_each_entry(child, &core->children, child_node) {
++					child->new_rate = clk_recalc(child, core->new_rate);
++					clk_calc_subtree(child, child->new_rate, NULL, 0);
++				}
++			}
++		}
+ 		core->ops->set_rate(core->hw, core->new_rate, best_parent_rate);
++	}
+ 
+ 	trace_clk_set_rate_complete(core, core->new_rate);
+ 
+@@ -3388,6 +3433,7 @@ static const struct {
+ 	ENTRY(CLK_IS_CRITICAL),
+ 	ENTRY(CLK_OPS_PARENT_ENABLE),
+ 	ENTRY(CLK_DUTY_CYCLE_PARENT),
++	ENTRY(CLK_KEEP_RATE),
+ #undef ENTRY
+ };
+ 
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index ec32ec58c59f..fba78a99ac56 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -32,6 +32,8 @@
+ #define CLK_OPS_PARENT_ENABLE	BIT(12)
+ /* duty cycle call may be forwarded to the parent clock */
+ #define CLK_DUTY_CYCLE_PARENT	BIT(13)
++/* try to keep rate, if parent rate changes */
++#define CLK_KEEP_RATE		BIT(14)
+ 
+ struct clk;
+ struct clk_hw;
 
- drivers/clk/clk.c                     | 48 ++++++++++++++++++++++++++++++++++-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c |  3 ++-
- drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++--
- drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
- include/linux/clk-provider.h          |  2 ++
- 5 files changed, 65 insertions(+), 4 deletions(-)
----
-base-commit: c539c5c0a7ccafe7169c02564cceeb50317b540b
-change-id: 20230824-pll-mipi_keep_rate-0a3a0d3574cf
-
-Best regards,
 -- 
-Frank Oltmanns <frank@oltmanns.dev>
+2.41.0
 
