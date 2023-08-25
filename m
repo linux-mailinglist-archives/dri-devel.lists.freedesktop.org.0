@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5D1788BA2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 16:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189E0788BA9
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 16:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8560510E6BE;
-	Fri, 25 Aug 2023 14:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B37010E173;
+	Fri, 25 Aug 2023 14:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B212210E6B3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 14:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692973511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iLe7Hz9hIvArCvNjGaVsDlE5GwrR7kyLDrkGz589rRg=;
- b=M7yS+KIPZyDDiEfwt7R5+qxCsNQi2A2FjXirw82yo739nI187jZRo1F/a0CdZIrkU/0FEJ
- a4psVim0tKVNmwMYAIC3h0Cpm6qVzWSxFjbBlAO2efRTx+052+OuhrjeV8dMhy2Bw/fs2O
- SrGrgvur6cckku8w+u87M/MHY0Dc0eI=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-PlTizo4qPGq_UWjq947WDA-1; Fri, 25 Aug 2023 10:25:10 -0400
-X-MC-Unique: PlTizo4qPGq_UWjq947WDA-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-1ad17b9fcd8so974322fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 07:25:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692973509; x=1693578309;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iLe7Hz9hIvArCvNjGaVsDlE5GwrR7kyLDrkGz589rRg=;
- b=QzH1W2qRyL8W7STRA3XuvMFLMrrguDRBEH7/fv/iY85K+eMxlqu1+YUAlb1Vg4/1mt
- Cg+ZMESxLAHBQY7CMXM+1NXFi3AKxStxHS5XiMtb+EY1JciTSWLZkT/jJGyQW2+TNq37
- avlm+bN7OWoODjpdLRsXM9KDX6rJDaJdIn+8f9EZZY+aWBrLumpdYNsEDkQVyKDrA1zG
- Xj1QttpVzi7XbBCuxI6k06+y30w+tJcfkAxBMnotly83ZULPiqdlZw8y56YBMw9MXle2
- OPOgsWVtwexwS+mVFXC+0zq6mQb4+ZE6O46KoankzH/mH4AcWlImVu0mBLICu0CGi85d
- Hbxw==
-X-Gm-Message-State: AOJu0YxUCncaetvlKO4fGC8a2BQgxfHa+A0IpBJCD0Ng5ZcjHs7C610R
- ailqu3Jdxe+0Fk5SSDzfynND5zWChz6fS7YZsG5THctt3d+qg3aXbxsJ05+AfUzyZCLL7MiDCN+
- aYy7uK8ldCeVM1X/lHVF1eUH6QdS8
-X-Received: by 2002:a05:6871:71f:b0:1b3:d39a:9684 with SMTP id
- f31-20020a056871071f00b001b3d39a9684mr3141852oap.47.1692973509716; 
- Fri, 25 Aug 2023 07:25:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFCZ3cOiyh3rqxLUmSkbdvU4HLHH2P6U6gbTQ218akkzaXDKY5j8LTayP4XO/pP/qOpjq0Mw==
-X-Received: by 2002:a05:6871:71f:b0:1b3:d39a:9684 with SMTP id
- f31-20020a056871071f00b001b3d39a9684mr3141831oap.47.1692973509489; 
- Fri, 25 Aug 2023 07:25:09 -0700 (PDT)
-Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
- p62-20020a4a4841000000b00569478f2d83sm989700ooa.23.2023.08.25.07.25.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Aug 2023 07:25:09 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, tzimmermann@suse.de,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, ppaalanen@gmail.com, contact@emersion.fr
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-In-Reply-To: <20230825140434.182664-1-jfalempe@redhat.com>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
-Date: Fri, 25 Aug 2023 16:25:05 +0200
-Message-ID: <87v8d3urlq.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B1510E6AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 14:27:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CCB4E61B0D;
+ Fri, 25 Aug 2023 14:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD22AC433C7;
+ Fri, 25 Aug 2023 14:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692973666;
+ bh=UksBdrJBzm/E55qDKqtkZMez6Zo0v+Z97iw2xCA3TEk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LyZP72FBnStze+r9BnWyPApB1h7vLsXBKgwj5SOM62pRh892THuUfVJmFjcSERomT
+ UN2YBoMdNNbvaJGrPgGwj/Vw3PYx3amtGKZGeFHeU4Vpem/NFeFF7cH+YEazBTsx0T
+ +CSPYYEMxo9j9g0eEvFJRMcu4EaFjRP5fkAGCD1a8Cy7q1dKyN1cPrpWYagRTOHfjk
+ vBtgySlby3pkTX1E1zhiynTYIyxthE2T6nIwUZ6LElorgVPCr/89BkTNynwJ5IlzMx
+ SAi2tjLW9N7ZtthyI733S0lREiTHCTRbSfxxXaax4/HWXYgaSie6M6emrXmt2VjGxI
+ N7Zmo0VEOHb0A==
+Date: Fri, 25 Aug 2023 16:27:43 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Subject: Re: [PATCH 2/6] drm: ci: Force db410c to host mode
+Message-ID: <5xlfrdnutrncqdyal36222ka7qkgbtrixm3cpjk6reb7xu6zwu@nyiowsjng5k6>
+References: <87pm3b2pkz.fsf@intel.com>
+ <29c7-64e8b600-1-6afffd8@162524228>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uahdtp2khpso5z52"
+Content-Disposition: inline
+In-Reply-To: <29c7-64e8b600-1-6afffd8@162524228>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,32 +55,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: emma@anholt.net, linux-doc@vger.kernel.org,
+ Vignesh Raman <vignesh.raman@collabora.com>, dri-devel@lists.freedesktop.org,
+ jbrunet@baylibre.com, robdclark@google.com, corbet@lwn.net,
+ khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+ david.heidelberg@collabora.com, linux-rockchip@lists.infradead.org,
+ daniels@collabora.com, martin.blumenstingl@googlemail.com,
+ robclark@freedesktop.org, anholt@google.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-Hello Jocelyn,
+--uahdtp2khpso5z52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> After discussions on IRC, the consensus is that the DRM drivers should
-> avoid software color conversion, and only advertise the formats supported
-> by hardware.
-> Update the doc accordingly so that the rule and exceptions are clear for
-> everyone.
->
-> Acked-by: Simon Ser <contact@emersion.fr>
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
+Hi Helen,
 
-Thanks a lot for writing this!
+On Fri, Aug 25, 2023 at 03:09:04PM +0100, Helen Mae Koike Fornazier wrote:
+> Hi Jani, thanks for your comments
+>=20
+> On Friday, August 25, 2023 10:56 -03, Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>=20
+> > On Fri, 25 Aug 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> > > Force db410c to host mode to fix network issue which results in failu=
+re
+> > > to mount root fs via NFS.
+> > > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c1=
+5c80a54dda510743cefd1c4b65b8
+> > >
+> > > Since this fix is not sent upstream, add it to build.sh script
+> > > before building the kernel and dts. Better approach would be
+> > > to use devicetree overlays.
+> > >
+> > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/ci/build.sh | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> > > index 7b014287a041..c39834bd6bd7 100644
+> > > --- a/drivers/gpu/drm/ci/build.sh
+> > > +++ b/drivers/gpu/drm/ci/build.sh
+> > > @@ -70,6 +70,10 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
+> > >      fi
+> > >  fi
+> > > =20
+> > > +# Force db410c to host mode to fix network issue which results in fa=
+ilure to mount root fs via NFS.
+> > > +# See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b=
+8c15c80a54dda510743cefd1c4b65b8
+> > > +sed -i '/&usb {/,/status =3D "okay";/s/status =3D "okay";/&\n\tdr_mo=
+de =3D "host";/' arch/arm64/boot/dts/qcom/apq8016-sbc.dts
+> > > +
+> >=20
+> > It seems like a really bad idea to me to have the CI build modify the
+> > source tree before building.
+> >=20
+> > The kernel being built will have a dirty git repo, and the localversion
+> > will have -dirty in it.
+>=20
+> Is it bad?
+>=20
+> The other option was to work with device tree overlays (but we still
+> need to spend some time to see how to fit it all together)
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+That would be much better. libfdt provides an fdtoverlay command to
+merge a base device tree with an overlay.
 
--- 
-Best regards,
+Do that while setting up the DUT and you're done :)
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Maxime
 
+--uahdtp2khpso5z52
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZOi6XwAKCRDj7w1vZxhR
+xSBKAQDfFOVdXMCZ/9a7sggeX0OzQ2xZtgSgfdTEVanD/QmKiAEAo93ffgaueCJa
+HBQKGvHTkvdsjLQGuuPJdVW683tzXAU=
+=kd8L
+-----END PGP SIGNATURE-----
+
+--uahdtp2khpso5z52--
