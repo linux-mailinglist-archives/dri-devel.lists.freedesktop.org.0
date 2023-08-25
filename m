@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE33788A06
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 16:03:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B436788A51
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 16:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B0D10E697;
-	Fri, 25 Aug 2023 14:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D11B10E6A2;
+	Fri, 25 Aug 2023 14:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7B3510E697
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 14:03:02 +0000 (UTC)
-Received: from notapiano (unknown
- [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D326966071BE;
- Fri, 25 Aug 2023 15:02:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692972181;
- bh=Tf0lRvLk4egxaG6ZSwOtjS0aVzUEep0x+fFK3VC8laM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bpsA+ZN1hxW5O80D1U5sVzFN2ALmtNalrJ2+D2NfBXy/Yak3TYoY2Ye9xBdwBkg9l
- nfK+B8Dvskeud9iRprmTOPiRaSrRvODue8tiAajdVq6VgY0bolTnHicKfaWjsrFTH4
- OTZ03Q9O5YT7zwoBoviGtuadsZWlPsTr7qX1UeCUS3jUI4Cyhd6qBE7i8tSVC0LWoU
- 32QFdqMB9HneZuZgdqY6fEMHb2z5Mzf2rN+6MTzcXHlBnuNQSw33EOcUjJpeyFuzqH
- 62EhZgjDEiE4pMcfSxHFObTo3AdPEZqn87SvvIU9CZQFcYJ18YYJGTQmfhuucl6XA7
- hlsqHbc2UrVbw==
-Date: Fri, 25 Aug 2023 10:02:56 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH v7 09/11] drm/mediatek: dp: Add support for embedded
- DisplayPort aux-bus
-Message-ID: <5b438dba-9b85-4448-bc89-08a11ddb822a@notapiano>
-References: <20230725073234.55892-10-angelogioacchino.delregno@collabora.com>
- <20230825120109.3132209-1-mwalle@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D93110E69E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 14:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692972301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PZcQJmbReuZBIGa40lyisLqH1Cgx0u4XC0qCQf6B+gY=;
+ b=ZqwC8LlRm4XxKK8rLRZeedfixmEqiBI5LX74+sfFhqGBl8b0h2Lx9HX6GcKsF9doNj8aYh
+ VNEeW5iXV0P5KI8iY6necfGvYMtAOCo+OJzTpLa4jla2EdiGATu7jCGwnFKzhRuDLPeXWe
+ EPFW0FTF5k/VhPNIkNMyBaMh1h04LoU=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-454-isEWmhWEMcCJtRqJZc-jrA-1; Fri, 25 Aug 2023 10:04:58 -0400
+X-MC-Unique: isEWmhWEMcCJtRqJZc-jrA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7008B3804529;
+ Fri, 25 Aug 2023 14:04:57 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B59621121319;
+ Fri, 25 Aug 2023 14:04:55 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: tzimmermann@suse.de, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, ppaalanen@gmail.com,
+ javierm@redhat.com, contact@emersion.fr
+Subject: [PATCH v3] drm/plane: Add documentation about software color
+ conversion.
+Date: Fri, 25 Aug 2023 16:04:18 +0200
+Message-ID: <20230825140434.182664-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230825120109.3132209-1-mwalle@kernel.org>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,110 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, amergnat@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
- ehristev@collabora.com, wenst@chromium.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+After discussions on IRC, the consensus is that the DRM drivers should
+avoid software color conversion, and only advertise the formats supported
+by hardware.
+Update the doc accordingly so that the rule and exceptions are clear for
+everyone.
 
-On Fri, Aug 25, 2023 at 02:01:09PM +0200, Michael Walle wrote:
-> Hi AngeloGioacchino,
-> 
-> > For the eDP case we can support using aux-bus on MediaTek DP: this
-> > gives us the possibility to declare our panel as generic "panel-edp"
-> > which will automatically configure the timings and available modes
-> > via the EDID that we read from it.
-> > 
-> > To do this, move the panel parsing at the end of the probe function
-> > so that the hardware is initialized beforehand and also initialize
-> > the DPTX AUX block and power both on as, when we populate the
-> > aux-bus, the panel driver will trigger an EDID read to perform
-> > panel detection.
-> > 
-> > Last but not least, since now the AUX transfers can happen in the
-> > separated aux-bus, it was necessary to add an exclusion for the
-> > cable_plugged_in check in `mtk_dp_aux_transfer()` and the easiest
-> > way to do this is to simply ignore checking that when the bridge
-> > type is eDP.
-> 
-> This patch breaks my board based on the MT8195 which only has one
-> DisplayPort output port. I suspect it might also break the mt8195-cherry
-> board.
+Acked-by: Simon Ser <contact@emersion.fr>
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_plane.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-Do you mean that your board does not have an internal display, only the one
-output port? If so, why are you enabling the nodes for the internal display path
-in your board specific DT?
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 24e7998d1731..d05642033202 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -140,6 +140,30 @@
+  *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+  *     various bugs in this area with inconsistencies between the capability
+  *     flag and per-plane properties.
++ *
++ *     All drivers should support XRGB8888, even if the hardware cannot support
++ *     it. This has become the de-facto standard and a lot of user-space assume
++ *     it will be present. If XRGB8888 is not natively supported, then it
++ *     shouldn't be the default for preferred depth or fbdev emulation.
++ *
++ *     DRM drivers should not do software color conversion, and
++ *     only advertise the formats they support in hardware. This is for
++ *     performance reason, and to avoid multiple conversions in userspace and
++ *     kernel space. KMS page flips are generally expected to be very cheap
++ *     operations.
++ *
++ *     But there are two exceptions only for dumb buffers:
++ *     * To support XRGB8888 if it's not supported by the hardware.
++ *     * Any driver is free to modify its internal representation of the format,
++ *       as long as it doesn't alter the visible content in any way, and doesn't
++ *       modify the user-provided buffer. An example would be to drop the
++ *       padding component from a format to save some memory bandwidth.
++ *     On most hardware, VRAM read access are slow, so when doing the software
++ *     conversion, the dumb buffer should be allocated in system RAM in order to
++ *     have decent performance.
++ *     Extra care should be taken when doing software conversion with
++ *     DRM_CAP_DUMB_PREFER_SHADOW, there are more detailed explanations here:
++ *     https://lore.kernel.org/dri-devel/20230818162415.2185f8e3@eldfell/
+  */
+ 
+ static unsigned int drm_num_planes(struct drm_device *dev)
 
-> 
-> While the mediatek-dpi driver finds the DP port:
-> [    3.131645] mediatek-dpi 1c113000.dp-intf: Found bridge node: /soc/dp-tx@1c600000
-> 
-> The probing of the eDP is deferred:
-> [   13.289009] platform 1c015000.dp-intf: deferred probe pending
-> 
-> So I don't know why, but to make dp_intf1 work, it seems that dp_intf0
-> must be probed successfully. After this patch, the edp (which is
-> connected to the dp_intf1) probe will return with an -ENODEV and
-> the previous call to devm_drm_bridge_add() will be rolled back.
+base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
+-- 
+2.41.0
 
-The MediaTek DRM driver uses the component framework, so it waits for all of its
-components to register until it binds them all (which includes both intf0 and
-intf1, unless they're disabled on the DT).
-
-It's true that before this patch no panel being found for edp-tx wouldn't
-prevent it to probe, but it really should.
-
-Thanks,
-Nícolas
-
-> 
-> Before this patch, bridge_add() was called in any case (in the
-> error case with next_bridge = NULL) and the mediatek-dpi probed
-> like that:
-> 
-> [    3.121011] mediatek-dpi 1c015000.dp-intf: Found bridge node: /soc/edp-tx@1c500000
-> [    3.122111] mediatek-dpi 1c113000.dp-intf: Found bridge node: /soc/dp-tx@1c600000
-> 
-> Eventually resulting in a framebuffer device:
-> [    4.451081] mediatek-drm mediatek-drm.8.auto: [drm] fb0: mediatekdrmfb frame buffer device
-> 
-> 
-> NB, somehow this series broke the initial display output. I always have
-> to replug the DisplayPort to get some output. I'll dig deeper into that
-> later.
-> 
-> ..
-> 
-> > @@ -2519,21 +2553,14 @@ static int mtk_dp_probe(struct platform_device *pdev)
-> >  		return dev_err_probe(dev, mtk_dp->irq,
-> >  				     "failed to request dp irq resource\n");
-> >  
-> > -	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> > -	if (IS_ERR(mtk_dp->next_bridge) &&
-> > -	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
-> > -		mtk_dp->next_bridge = NULL;
-> 
-> In my case, this branch was taken.
-> 
-> -michael
-> 
-> > -	else if (IS_ERR(mtk_dp->next_bridge))
-> > -		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
-> > -				     "Failed to get bridge\n");
-> > -
-> >  	ret = mtk_dp_dt_parse(mtk_dp, pdev);
-> >  	if (ret)
-> >  		return dev_err_probe(dev, ret, "Failed to parse dt\n");
-> >  
-> > -	drm_dp_aux_init(&mtk_dp->aux);
-> >  	mtk_dp->aux.name = "aux_mtk_dp";
-> > +	mtk_dp->aux.dev = dev;
-> >  	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
-> > +	drm_dp_aux_init(&mtk_dp->aux);
-> >  
-> >  	spin_lock_init(&mtk_dp->irq_thread_lock);
-> >  
