@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE63B7887AF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF477887B0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A317210E677;
-	Fri, 25 Aug 2023 12:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127C510E67B;
+	Fri, 25 Aug 2023 12:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE43410E677
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:42:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026DC10E677
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692967324; x=1724503324;
+ t=1692967328; x=1724503328;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iEF0vNMqNL/cTq/RPMvFNskszgPZA3eNeHxRTw+6vg4=;
- b=Iw22XTnmJHtHLGOW+6IUH4IfA00s21y6skN7up524FlxrHs3I3lCGz+S
- 6vU9qyC9kGWNXxbonYNpvNBKb49VgubWoaB64zN8ZbSfPpNmoYayaSCid
- jfEaoFsNdBBXG5yzxYhZSWTQGFbKZHj5SiIU5WU8DFZvmDz1fiVu7NkeN
- 5YETad2PiiTy6sDpIL0ZChmrp6JrdBob+eNnWl3Oxw+RuBwhYV/wJb6lX
- 3VeLGwofDXUFkD7glBuoB937U6CqWGQinSPFmv7AAwCstPKFAS5kJJLIC
- XMpMz59vTH94OVAJfjEjHg/nbY6k5d0mUVbTc7rDpEdPMeww/h7kEjkMK Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373573919"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="373573919"
+ bh=pTMiGJjjV/H4Ggbz2r84h6k6qaLC9ebh9k5a5qubPlg=;
+ b=Iq5FN44Wgvw2gyBN0YE+8EKaEPp1riamtw4Lryk+yzO0aoxNt00nnwP+
+ LFHZ6/0XHpWSw31ToceZmHdBQJ0Y6j4H2rQd0d/owOhx9zNISTxCvElPQ
+ QQkZdpK55ocwkXdvN7SA5na/yEiE4O4twKRwJGER6yUaZdsh+adew0oPV
+ PGFv7Q/qlqJSD00NAH3Lnq9J3D615uGOjvCykrpkgz/FHaWmSlcxb0g4y
+ MNx716YJAH+tmBZE93qTfGA9iRKLsrdhTXcslfZUV/KtN+t9XXO8/prVP
+ kohIJtLXWUyD5n3iE+QJn9hmSCc8AHPin5tBGged/CFCCDIcwBRoF0YFE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373573931"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="373573931"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 05:42:04 -0700
+ 25 Aug 2023 05:42:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="911272303"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="911272303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="911272340"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="911272340"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 05:42:01 -0700
+ 25 Aug 2023 05:42:05 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/9] accel/ivpu: Add ivpu_bo_vaddr() and ivpu_bo_size()
-Date: Fri, 25 Aug 2023 14:41:32 +0200
-Message-Id: <20230825124135.4086628-7-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 7/9] accel/ivpu/37xx: Change register rename leftovers
+Date: Fri, 25 Aug 2023 14:41:33 +0200
+Message-Id: <20230825124135.4086628-8-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230825124135.4086628-1-stanislaw.gruszka@linux.intel.com>
 References: <20230825124135.4086628-1-stanislaw.gruszka@linux.intel.com>
@@ -59,352 +59,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Change remaining MTL_VPU_ register names to generation based names.
 
-Use:
-  - ivpu_bo_vaddr(bo) instead of bo->kvaddr
-  - ivpu_bo_size(bo) instead of bo->base.size
-
-This is a preparation for switch to a drm_gem_shmem_object as a base for
-ivpu_bo, where:
-  - bo->kvaddr becomes bo->base.vaddr
-  - bo->base.size becomes bo->base.base.size
-
-Using ivpu_bo_vaddr() and ivpu_bo_size() increases the readability of
-the code.
-
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_fw.c     | 18 +++++++++---------
- drivers/accel/ivpu/ivpu_fw_log.c |  6 +++---
- drivers/accel/ivpu/ivpu_gem.c    | 30 +++++++++++++++---------------
- drivers/accel/ivpu/ivpu_gem.h    | 22 ++++++++++++++++------
- drivers/accel/ivpu/ivpu_ipc.c    |  6 +++---
- drivers/accel/ivpu/ivpu_job.c    |  8 ++++----
- drivers/accel/ivpu/ivpu_pm.c     |  2 +-
- 7 files changed, 51 insertions(+), 41 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_37xx.c     | 68 ++++++++++++-------------
+ drivers/accel/ivpu/ivpu_hw_37xx_reg.h | 72 +++++++++++++--------------
+ 2 files changed, 70 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 32a1ea322ca2..2fef9fe154aa 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -321,13 +321,13 @@ void ivpu_fw_load(struct ivpu_device *vdev)
- 	struct ivpu_fw_info *fw = vdev->fw;
- 	u64 image_end_offset = fw->image_load_offset + fw->image_size;
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index bf3432b68879..edd4d860f135 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -352,10 +352,10 @@ static int ivpu_boot_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
  
--	memset(fw->mem->kvaddr, 0, fw->image_load_offset);
--	memcpy(fw->mem->kvaddr + fw->image_load_offset,
-+	memset(ivpu_bo_vaddr(fw->mem), 0, fw->image_load_offset);
-+	memcpy(ivpu_bo_vaddr(fw->mem) + fw->image_load_offset,
- 	       fw->file->data + FW_FILE_IMAGE_OFFSET, fw->image_size);
- 
- 	if (IVPU_WA(clear_runtime_mem)) {
--		u8 *start = fw->mem->kvaddr + image_end_offset;
--		u64 size = fw->mem->base.size - image_end_offset;
-+		u8 *start = ivpu_bo_vaddr(fw->mem) + image_end_offset;
-+		u64 size = ivpu_bo_size(fw->mem) - image_end_offset;
- 
- 		memset(start, 0, size);
- 	}
-@@ -450,10 +450,10 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 					  vdev->hw->ranges.global.start;
- 
- 	boot_params->ipc_header_area_start = ipc_mem_rx->vpu_addr;
--	boot_params->ipc_header_area_size = ipc_mem_rx->base.size / 2;
-+	boot_params->ipc_header_area_size = ivpu_bo_size(ipc_mem_rx) / 2;
- 
--	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ipc_mem_rx->base.size / 2;
--	boot_params->ipc_payload_area_size = ipc_mem_rx->base.size / 2;
-+	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ivpu_bo_size(ipc_mem_rx) / 2;
-+	boot_params->ipc_payload_area_size = ivpu_bo_size(ipc_mem_rx) / 2;
- 
- 	boot_params->global_aliased_pio_base = vdev->hw->ranges.user.start;
- 	boot_params->global_aliased_pio_size = ivpu_hw_range_size(&vdev->hw->ranges.user);
-@@ -485,9 +485,9 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	boot_params->trace_destination_mask = vdev->fw->trace_destination_mask;
- 	boot_params->trace_hw_component_mask = vdev->fw->trace_hw_component_mask;
- 	boot_params->crit_tracing_buff_addr = vdev->fw->mem_log_crit->vpu_addr;
--	boot_params->crit_tracing_buff_size = vdev->fw->mem_log_crit->base.size;
-+	boot_params->crit_tracing_buff_size = ivpu_bo_size(vdev->fw->mem_log_crit);
- 	boot_params->verbose_tracing_buff_addr = vdev->fw->mem_log_verb->vpu_addr;
--	boot_params->verbose_tracing_buff_size = vdev->fw->mem_log_verb->base.size;
-+	boot_params->verbose_tracing_buff_size = ivpu_bo_size(vdev->fw->mem_log_verb);
- 
- 	boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
- 	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
-diff --git a/drivers/accel/ivpu/ivpu_fw_log.c b/drivers/accel/ivpu/ivpu_fw_log.c
-index 95065cac9fbd..f6770f5e82a2 100644
---- a/drivers/accel/ivpu/ivpu_fw_log.c
-+++ b/drivers/accel/ivpu/ivpu_fw_log.c
-@@ -31,10 +31,10 @@ static int fw_log_ptr(struct ivpu_device *vdev, struct ivpu_bo *bo, u32 *offset,
+ static int ivpu_boot_top_noc_qrenqn_check(struct ivpu_device *vdev, u32 exp_val)
  {
- 	struct vpu_tracing_buffer_header *log;
+-	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QREQN);
++	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QREQN);
  
--	if ((*offset + sizeof(*log)) > bo->base.size)
-+	if ((*offset + sizeof(*log)) > ivpu_bo_size(bo))
- 		return -EINVAL;
+-	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, exp_val, val) ||
+-	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, exp_val, val))
++	if (!REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QREQN, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, exp_val, val))
+ 		return -EIO;
  
--	log = bo->kvaddr + *offset;
-+	log = ivpu_bo_vaddr(bo) + *offset;
+ 	return 0;
+@@ -363,10 +363,10 @@ static int ivpu_boot_top_noc_qrenqn_check(struct ivpu_device *vdev, u32 exp_val)
  
- 	if (log->vpu_canary_start != VPU_TRACING_BUFFER_CANARY)
- 		return -EINVAL;
-@@ -43,7 +43,7 @@ static int fw_log_ptr(struct ivpu_device *vdev, struct ivpu_bo *bo, u32 *offset,
- 		ivpu_dbg(vdev, FW_BOOT, "Invalid header size 0x%x\n", log->header_size);
- 		return -EINVAL;
- 	}
--	if ((char *)log + log->size > (char *)bo->kvaddr + bo->base.size) {
-+	if ((char *)log + log->size > (char *)ivpu_bo_vaddr(bo) + ivpu_bo_size(bo)) {
- 		ivpu_dbg(vdev, FW_BOOT, "Invalid log size 0x%x\n", log->size);
- 		return -EINVAL;
- 	}
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index d09f13b35902..c91852f2edc8 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -69,7 +69,7 @@ static const struct ivpu_bo_ops prime_ops = {
- 
- static int __must_check shmem_alloc_pages_locked(struct ivpu_bo *bo)
+ static int ivpu_boot_top_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
  {
--	int npages = bo->base.size >> PAGE_SHIFT;
-+	int npages = ivpu_bo_size(bo) >> PAGE_SHIFT;
- 	struct page **pages;
+-	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QACCEPTN);
++	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QACCEPTN);
  
- 	pages = drm_gem_get_pages(&bo->base);
-@@ -88,7 +88,7 @@ static int __must_check shmem_alloc_pages_locked(struct ivpu_bo *bo)
- static void shmem_free_pages_locked(struct ivpu_bo *bo)
+-	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QACCEPTN, CPU_CTRL, exp_val, val) ||
+-	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QACCEPTN, HOSTIF_L2CACHE, exp_val, val))
++	if (!REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QACCEPTN, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QACCEPTN, HOSTIF_L2CACHE, exp_val, val))
+ 		return -EIO;
+ 
+ 	return 0;
+@@ -374,10 +374,10 @@ static int ivpu_boot_top_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_va
+ 
+ static int ivpu_boot_top_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
  {
- 	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
--		set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
-+		set_pages_array_wb(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT);
+-	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QDENY);
++	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QDENY);
  
- 	drm_gem_put_pages(&bo->base, bo->pages, true, false);
- 	bo->pages = NULL;
-@@ -96,7 +96,7 @@ static void shmem_free_pages_locked(struct ivpu_bo *bo)
+-	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QDENY, CPU_CTRL, exp_val, val) ||
+-	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QDENY, HOSTIF_L2CACHE, exp_val, val))
++	if (!REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QDENY, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QDENY, HOSTIF_L2CACHE, exp_val, val))
+ 		return -EIO;
  
- static int ivpu_bo_map_pages_locked(struct ivpu_bo *bo)
- {
--	int npages = bo->base.size >> PAGE_SHIFT;
-+	int npages = ivpu_bo_size(bo) >> PAGE_SHIFT;
- 	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
- 	struct sg_table *sgt;
+ 	return 0;
+@@ -430,15 +430,15 @@ static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable
  	int ret;
-@@ -142,7 +142,7 @@ static const struct ivpu_bo_ops shmem_ops = {
+ 	u32 val;
  
- static int __must_check internal_alloc_pages_locked(struct ivpu_bo *bo)
- {
--	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
-+	unsigned int i, npages = ivpu_bo_size(bo) >> PAGE_SHIFT;
- 	struct page **pages;
- 	int ret;
- 
-@@ -171,10 +171,10 @@ static int __must_check internal_alloc_pages_locked(struct ivpu_bo *bo)
- 
- static void internal_free_pages_locked(struct ivpu_bo *bo)
- {
--	unsigned int i, npages = bo->base.size >> PAGE_SHIFT;
-+	unsigned int i, npages = ivpu_bo_size(bo) >> PAGE_SHIFT;
- 
- 	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
--		set_pages_array_wb(bo->pages, bo->base.size >> PAGE_SHIFT);
-+		set_pages_array_wb(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT);
- 
- 	for (i = 0; i < npages; i++)
- 		put_page(bo->pages[i]);
-@@ -291,7 +291,7 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
+-	val = REGV_RD32(MTL_VPU_TOP_NOC_QREQN);
++	val = REGV_RD32(VPU_37XX_TOP_NOC_QREQN);
+ 	if (enable) {
+-		val = REG_SET_FLD(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, val);
+-		val = REG_SET_FLD(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
++		val = REG_SET_FLD(VPU_37XX_TOP_NOC_QREQN, CPU_CTRL, val);
++		val = REG_SET_FLD(VPU_37XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
+ 	} else {
+-		val = REG_CLR_FLD(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, val);
+-		val = REG_CLR_FLD(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
++		val = REG_CLR_FLD(VPU_37XX_TOP_NOC_QREQN, CPU_CTRL, val);
++		val = REG_CLR_FLD(VPU_37XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
  	}
+-	REGV_WR32(MTL_VPU_TOP_NOC_QREQN, val);
++	REGV_WR32(VPU_37XX_TOP_NOC_QREQN, val);
  
- 	mutex_lock(&ctx->lock);
--	ret = ivpu_mmu_context_insert_node_locked(ctx, range, bo->base.size, &bo->mm_node);
-+	ret = ivpu_mmu_context_insert_node_locked(ctx, range, ivpu_bo_size(bo), &bo->mm_node);
- 	if (!ret) {
- 		bo->ctx = ctx;
- 		bo->vpu_addr = bo->mm_node.start;
-@@ -438,7 +438,7 @@ static int ivpu_bo_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
- 
- 	ivpu_dbg(vdev, BO, "mmap: ctx %u handle %u vpu_addr 0x%llx size %zu type %s",
--		 bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size, bo->ops->name);
-+		 bo->ctx->id, bo->handle, bo->vpu_addr, ivpu_bo_size(bo), bo->ops->name);
- 
- 	if (obj->import_attach) {
- 		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-@@ -553,7 +553,7 @@ ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	drm_gem_object_put(&bo->base);
- 
- 	ivpu_dbg(vdev, BO, "alloc shmem: ctx %u vpu_addr 0x%llx size %zu flags 0x%x\n",
--		 file_priv->ctx.id, bo->vpu_addr, bo->base.size, bo->flags);
-+		 file_priv->ctx.id, bo->vpu_addr, ivpu_bo_size(bo), bo->flags);
- 
- 	return ret;
- }
-@@ -590,22 +590,22 @@ ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 fla
- 		goto err_put;
- 
- 	if (ivpu_bo_cache_mode(bo) != DRM_IVPU_BO_CACHED)
--		drm_clflush_pages(bo->pages, bo->base.size >> PAGE_SHIFT);
-+		drm_clflush_pages(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT);
- 
- 	if (bo->flags & DRM_IVPU_BO_WC)
--		set_pages_array_wc(bo->pages, bo->base.size >> PAGE_SHIFT);
-+		set_pages_array_wc(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT);
- 	else if (bo->flags & DRM_IVPU_BO_UNCACHED)
--		set_pages_array_uc(bo->pages, bo->base.size >> PAGE_SHIFT);
-+		set_pages_array_uc(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT);
- 
- 	prot = ivpu_bo_pgprot(bo, PAGE_KERNEL);
--	bo->kvaddr = vmap(bo->pages, bo->base.size >> PAGE_SHIFT, VM_MAP, prot);
-+	bo->kvaddr = vmap(bo->pages, ivpu_bo_size(bo) >> PAGE_SHIFT, VM_MAP, prot);
- 	if (!bo->kvaddr) {
- 		ivpu_err(vdev, "Failed to map BO into kernel virtual memory\n");
- 		goto err_put;
- 	}
- 
- 	ivpu_dbg(vdev, BO, "alloc internal: ctx 0 vpu_addr 0x%llx size %zu flags 0x%x\n",
--		 bo->vpu_addr, bo->base.size, flags);
-+		 bo->vpu_addr, ivpu_bo_size(bo), flags);
- 
- 	return bo;
- 
-@@ -718,7 +718,7 @@ static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
- 		dma_refcount = atomic_long_read(&bo->base.dma_buf->file->f_count);
- 
- 	drm_printf(p, "%5u %6d %16llx %10lu %10u %12lu %14s\n",
--		   bo->ctx->id, bo->handle, bo->vpu_addr, bo->base.size,
-+		   bo->ctx->id, bo->handle, bo->vpu_addr, ivpu_bo_size(bo),
- 		   kref_read(&bo->base.refcount), dma_refcount, bo->ops->name);
- }
- 
-diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
-index 6b0ceda5f253..a0b4d4a32b3b 100644
---- a/drivers/accel/ivpu/ivpu_gem.h
-+++ b/drivers/accel/ivpu/ivpu_gem.h
-@@ -68,9 +68,19 @@ static inline struct ivpu_bo *to_ivpu_bo(struct drm_gem_object *obj)
- 	return container_of(obj, struct ivpu_bo, base);
- }
- 
-+static inline void *ivpu_bo_vaddr(struct ivpu_bo *bo)
-+{
-+	return bo->kvaddr;
-+}
-+
-+static inline size_t ivpu_bo_size(struct ivpu_bo *bo)
-+{
-+	return bo->base.size;
-+}
-+
- static inline struct page *ivpu_bo_get_page(struct ivpu_bo *bo, u64 offset)
- {
--	if (offset > bo->base.size || !bo->pages)
-+	if (offset > ivpu_bo_size(bo) || !bo->pages)
- 		return NULL;
- 
- 	return bo->pages[offset / PAGE_SIZE];
-@@ -107,21 +117,21 @@ static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
- 	if (vpu_addr < bo->vpu_addr)
- 		return NULL;
- 
--	if (vpu_addr >= (bo->vpu_addr + bo->base.size))
-+	if (vpu_addr >= (bo->vpu_addr + ivpu_bo_size(bo)))
- 		return NULL;
- 
--	return bo->kvaddr + (vpu_addr - bo->vpu_addr);
-+	return ivpu_bo_vaddr(bo) + (vpu_addr - bo->vpu_addr);
- }
- 
- static inline u32 cpu_to_vpu_addr(struct ivpu_bo *bo, void *cpu_addr)
- {
--	if (cpu_addr < bo->kvaddr)
-+	if (cpu_addr < ivpu_bo_vaddr(bo))
- 		return 0;
- 
--	if (cpu_addr >= (bo->kvaddr + bo->base.size))
-+	if (cpu_addr >= (ivpu_bo_vaddr(bo) + ivpu_bo_size(bo)))
- 		return 0;
- 
--	return bo->vpu_addr + (cpu_addr - bo->kvaddr);
-+	return bo->vpu_addr + (cpu_addr - ivpu_bo_vaddr(bo));
- }
- 
- #endif /* __IVPU_GEM_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 6b2e9dbb284a..c2541035a30f 100644
---- a/drivers/accel/ivpu/ivpu_ipc.c
-+++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -449,7 +449,7 @@ int ivpu_ipc_init(struct ivpu_device *vdev)
- 		goto err_free_rx;
- 	}
- 
--	ret = gen_pool_add(ipc->mm_tx, ipc->mem_tx->vpu_addr, ipc->mem_tx->base.size, -1);
-+	ret = gen_pool_add(ipc->mm_tx, ipc->mem_tx->vpu_addr, ivpu_bo_size(ipc->mem_tx), -1);
+ 	ret = ivpu_boot_top_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
  	if (ret) {
- 		ivpu_err(vdev, "gen_pool_add failed, ret %d\n", ret);
- 		goto err_free_rx;
-@@ -505,8 +505,8 @@ void ivpu_ipc_reset(struct ivpu_device *vdev)
- 
- 	mutex_lock(&ipc->lock);
- 
--	memset(ipc->mem_tx->kvaddr, 0, ipc->mem_tx->base.size);
--	memset(ipc->mem_rx->kvaddr, 0, ipc->mem_rx->base.size);
-+	memset(ivpu_bo_vaddr(ipc->mem_tx), 0, ivpu_bo_size(ipc->mem_tx));
-+	memset(ivpu_bo_vaddr(ipc->mem_rx), 0, ivpu_bo_size(ipc->mem_rx));
- 	wmb(); /* Flush WC buffers for TX and RX rings */
- 
- 	mutex_unlock(&ipc->lock);
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index de9e69f70af7..689dc0d13b8f 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -48,10 +48,10 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 e
- 		goto cmdq_free;
- 
- 	cmdq->db_id = file_priv->ctx.id + engine * ivpu_get_context_count(vdev);
--	cmdq->entry_count = (u32)((cmdq->mem->base.size - sizeof(struct vpu_job_queue_header)) /
-+	cmdq->entry_count = (u32)((ivpu_bo_size(cmdq->mem) - sizeof(struct vpu_job_queue_header)) /
- 				  sizeof(struct vpu_job_queue_entry));
- 
--	cmdq->jobq = (struct vpu_job_queue *)cmdq->mem->kvaddr;
-+	cmdq->jobq = (struct vpu_job_queue *)ivpu_bo_vaddr(cmdq->mem);
- 	jobq_header = &cmdq->jobq->header;
- 	jobq_header->engine_idx = engine;
- 	jobq_header->head = 0;
-@@ -93,7 +93,7 @@ static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u16
- 		return cmdq;
- 
- 	ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
--				   cmdq->mem->vpu_addr, cmdq->mem->base.size);
-+				   cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
- 	if (ret)
- 		return NULL;
- 
-@@ -453,7 +453,7 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
- 		return -EBUSY;
- 	}
- 
--	if (commands_offset >= bo->base.size) {
-+	if (commands_offset >= ivpu_bo_size(bo)) {
- 		ivpu_warn(vdev, "Invalid command buffer offset %u\n", commands_offset);
- 		return -EINVAL;
- 	}
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 54c59f9cbae7..4d359b3d4d3a 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -37,7 +37,7 @@ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
- static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
+@@ -570,17 +570,17 @@ static void ivpu_boot_soc_cpu_boot(struct ivpu_device *vdev)
  {
- 	struct ivpu_fw_info *fw = vdev->fw;
--	struct vpu_boot_params *bp = fw->mem->kvaddr;
-+	struct vpu_boot_params *bp = ivpu_bo_vaddr(fw->mem);
+ 	u32 val;
  
- 	if (!bp->save_restore_ret_address) {
- 		ivpu_pm_prepare_cold_boot(vdev);
+-	val = REGV_RD32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC);
+-	val = REG_SET_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTRUN0, val);
++	val = REGV_RD32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC);
++	val = REG_SET_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTRUN0, val);
+ 
+-	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTVEC, val);
+-	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
++	val = REG_CLR_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTVEC, val);
++	REGV_WR32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
+ 
+-	val = REG_SET_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
+-	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
++	val = REG_SET_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
++	REGV_WR32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
+ 
+-	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
+-	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
++	val = REG_CLR_FLD(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
++	REGV_WR32(VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
+ 
+ 	val = vdev->fw->entry_point >> 9;
+ 	REGV_WR32(VPU_37XX_HOST_SS_LOADING_ADDRESS_LO, val);
+@@ -784,17 +784,17 @@ static void ivpu_hw_37xx_wdt_disable(struct ivpu_device *vdev)
+ 	u32 val;
+ 
+ 	/* Enable writing and set non-zero WDT value */
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_WATCHDOG, TIM_WATCHDOG_RESET_VALUE);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_WATCHDOG, TIM_WATCHDOG_RESET_VALUE);
+ 
+ 	/* Enable writing and disable watchdog timer */
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_WDOG_EN, 0);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_WDOG_EN, 0);
+ 
+ 	/* Now clear the timeout interrupt */
+-	val = REGV_RD32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG);
+-	val = REG_CLR_FLD(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, WDOG_TO_INT_CLR, val);
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, val);
++	val = REGV_RD32(VPU_37XX_CPU_SS_TIM_GEN_CONFIG);
++	val = REG_CLR_FLD(VPU_37XX_CPU_SS_TIM_GEN_CONFIG, WDOG_TO_INT_CLR, val);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_GEN_CONFIG, val);
+ }
+ 
+ static u32 ivpu_hw_37xx_pll_to_freq(u32 ratio, u32 config)
+@@ -841,10 +841,10 @@ static u32 ivpu_hw_37xx_reg_telemetry_enable_get(struct ivpu_device *vdev)
+ 
+ static void ivpu_hw_37xx_reg_db_set(struct ivpu_device *vdev, u32 db_id)
+ {
+-	u32 reg_stride = MTL_VPU_CPU_SS_DOORBELL_1 - MTL_VPU_CPU_SS_DOORBELL_0;
+-	u32 val = REG_FLD(MTL_VPU_CPU_SS_DOORBELL_0, SET);
++	u32 reg_stride = VPU_37XX_CPU_SS_DOORBELL_1 - VPU_37XX_CPU_SS_DOORBELL_0;
++	u32 val = REG_FLD(VPU_37XX_CPU_SS_DOORBELL_0, SET);
+ 
+-	REGV_WR32I(MTL_VPU_CPU_SS_DOORBELL_0, reg_stride, db_id, val);
++	REGV_WR32I(VPU_37XX_CPU_SS_DOORBELL_0, reg_stride, db_id, val);
+ }
+ 
+ static u32 ivpu_hw_37xx_reg_ipc_rx_addr_get(struct ivpu_device *vdev)
+@@ -861,7 +861,7 @@ static u32 ivpu_hw_37xx_reg_ipc_rx_count_get(struct ivpu_device *vdev)
+ 
+ static void ivpu_hw_37xx_reg_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr)
+ {
+-	REGV_WR32(MTL_VPU_CPU_SS_TIM_IPC_FIFO, vpu_addr);
++	REGV_WR32(VPU_37XX_CPU_SS_TIM_IPC_FIFO, vpu_addr);
+ }
+ 
+ static void ivpu_hw_37xx_irq_clear(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
+index 6e4e915948f9..0f106f192f7c 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
++++ b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
+@@ -3,8 +3,8 @@
+  * Copyright (C) 2020-2023 Intel Corporation
+  */
+ 
+-#ifndef __IVPU_HW_MTL_REG_H__
+-#define __IVPU_HW_MTL_REG_H__
++#ifndef __IVPU_HW_37XX_REG_H__
++#define __IVPU_HW_37XX_REG_H__
+ 
+ #include <linux/bits.h>
+ 
+@@ -113,17 +113,17 @@
+ #define VPU_37XX_HOST_SS_NOC_QDENY					0x0000015cu
+ #define VPU_37XX_HOST_SS_NOC_QDENY_TOP_SOCMMIO_MASK			BIT_MASK(0)
+ 
+-#define MTL_VPU_TOP_NOC_QREQN						0x00000160u
+-#define MTL_VPU_TOP_NOC_QREQN_CPU_CTRL_MASK				BIT_MASK(0)
+-#define MTL_VPU_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
++#define VPU_37XX_TOP_NOC_QREQN						0x00000160u
++#define VPU_37XX_TOP_NOC_QREQN_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_37XX_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
+ 
+-#define MTL_VPU_TOP_NOC_QACCEPTN					0x00000164u
+-#define MTL_VPU_TOP_NOC_QACCEPTN_CPU_CTRL_MASK				BIT_MASK(0)
+-#define MTL_VPU_TOP_NOC_QACCEPTN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
++#define VPU_37XX_TOP_NOC_QACCEPTN					0x00000164u
++#define VPU_37XX_TOP_NOC_QACCEPTN_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_37XX_TOP_NOC_QACCEPTN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
+ 
+-#define MTL_VPU_TOP_NOC_QDENY						0x00000168u
+-#define MTL_VPU_TOP_NOC_QDENY_CPU_CTRL_MASK				BIT_MASK(0)
+-#define MTL_VPU_TOP_NOC_QDENY_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
++#define VPU_37XX_TOP_NOC_QDENY						0x00000168u
++#define VPU_37XX_TOP_NOC_QDENY_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_37XX_TOP_NOC_QDENY_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
+ 
+ #define VPU_37XX_HOST_SS_FW_SOC_IRQ_EN					0x00000170u
+ #define VPU_37XX_HOST_SS_FW_SOC_IRQ_EN_CSS_ROM_CMX_MASK			BIT_MASK(0)
+@@ -246,36 +246,36 @@
+ #define VPU_37XX_HOST_IF_TBU_MMUSSIDV_TBU4_AWMMUSSIDV_MASK		BIT_MASK(8)
+ #define VPU_37XX_HOST_IF_TBU_MMUSSIDV_TBU4_ARMMUSSIDV_MASK		BIT_MASK(9)
+ 
+-#define MTL_VPU_CPU_SS_DSU_LEON_RT_BASE					0x04000000u
+-#define MTL_VPU_CPU_SS_DSU_LEON_RT_DSU_CTRL				0x04000000u
+-#define MTL_VPU_CPU_SS_DSU_LEON_RT_PC_REG				0x04400010u
+-#define MTL_VPU_CPU_SS_DSU_LEON_RT_NPC_REG				0x04400014u
+-#define MTL_VPU_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG				0x04400020u
++#define VPU_37XX_CPU_SS_DSU_LEON_RT_BASE					0x04000000u
++#define VPU_37XX_CPU_SS_DSU_LEON_RT_DSU_CTRL				0x04000000u
++#define VPU_37XX_CPU_SS_DSU_LEON_RT_PC_REG				0x04400010u
++#define VPU_37XX_CPU_SS_DSU_LEON_RT_NPC_REG				0x04400014u
++#define VPU_37XX_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG				0x04400020u
+ 
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_CLK_SET				0x06010004u
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_CLK_SET_CPU_DSU_MASK			BIT_MASK(1)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_CLK_SET				0x06010004u
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_CLK_SET_CPU_DSU_MASK			BIT_MASK(1)
+ 
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_RST_CLR				0x06010018u
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_RST_CLR_CPU_DSU_MASK			BIT_MASK(1)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_RST_CLR				0x06010018u
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_RST_CLR_CPU_DSU_MASK			BIT_MASK(1)
+ 
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC				0x06010040u
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN0_MASK		BIT_MASK(0)
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME0_MASK		BIT_MASK(1)
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN1_MASK		BIT_MASK(2)
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME1_MASK		BIT_MASK(3)
+-#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTVEC_MASK		GENMASK(31, 4)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC				0x06010040u
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN0_MASK		BIT_MASK(0)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME0_MASK		BIT_MASK(1)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN1_MASK		BIT_MASK(2)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME1_MASK		BIT_MASK(3)
++#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTVEC_MASK		GENMASK(31, 4)
+ 
+-#define MTL_VPU_CPU_SS_TIM_WATCHDOG					0x0602009cu
+-#define MTL_VPU_CPU_SS_TIM_WDOG_EN					0x060200a4u
+-#define MTL_VPU_CPU_SS_TIM_SAFE						0x060200a8u
+-#define MTL_VPU_CPU_SS_TIM_IPC_FIFO					0x060200f0u
++#define VPU_37XX_CPU_SS_TIM_WATCHDOG					0x0602009cu
++#define VPU_37XX_CPU_SS_TIM_WDOG_EN					0x060200a4u
++#define VPU_37XX_CPU_SS_TIM_SAFE						0x060200a8u
++#define VPU_37XX_CPU_SS_TIM_IPC_FIFO					0x060200f0u
+ 
+-#define MTL_VPU_CPU_SS_TIM_GEN_CONFIG					0x06021008u
+-#define MTL_VPU_CPU_SS_TIM_GEN_CONFIG_WDOG_TO_INT_CLR_MASK		BIT_MASK(9)
++#define VPU_37XX_CPU_SS_TIM_GEN_CONFIG					0x06021008u
++#define VPU_37XX_CPU_SS_TIM_GEN_CONFIG_WDOG_TO_INT_CLR_MASK		BIT_MASK(9)
+ 
+-#define MTL_VPU_CPU_SS_DOORBELL_0					0x06300000u
+-#define MTL_VPU_CPU_SS_DOORBELL_0_SET_MASK				BIT_MASK(0)
++#define VPU_37XX_CPU_SS_DOORBELL_0					0x06300000u
++#define VPU_37XX_CPU_SS_DOORBELL_0_SET_MASK				BIT_MASK(0)
+ 
+-#define MTL_VPU_CPU_SS_DOORBELL_1					0x06301000u
++#define VPU_37XX_CPU_SS_DOORBELL_1					0x06301000u
+ 
+-#endif /* __IVPU_HW_MTL_REG_H__ */
++#endif /* __IVPU_HW_37XX_REG_H__ */
 -- 
 2.25.1
 
