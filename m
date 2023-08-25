@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E3E78865C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 13:51:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 814B5788685
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:01:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38D4310E65A;
-	Fri, 25 Aug 2023 11:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86B2710E661;
+	Fri, 25 Aug 2023 12:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6467E10E65E;
- Fri, 25 Aug 2023 11:51:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692964291; x=1724500291;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CGFA7cVOFIYfuUhtWfapoqZZyr0cpZq5xvDFfc0NSRg=;
- b=np2RiRP4Sju5nvEmtzvgYoOrHiltzPktpiNxeAUXdmtCKXPYcDV9jD61
- iepBkv0H8Wyzov+ZLbcMFke4UCHyZhaGsFL0bnmPAtczEfpZfb4cEr0Az
- ftsoXhR6Om7Z8UJgd7WUChj2DsoQG10cEIEF+C9lxdl2XIvEWVFehpE3T
- OkHNUK1lKXaxDIdthDxNJW9o8/RjplMgvSiSGFSFlRcaKEveMNql0LthV
- M9C8/182w3t5VOIecha+m4VPf7TkByzWotXersH2t0UDWXiYVlLObipn7
- zyap4zKdjvfYzjxzEJ1uloig/awQuz3Bw9oNEidL4BJ7CuczfZ8S2+PAx A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359694753"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="359694753"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 04:51:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="881153541"
-Received: from aravind-dev.iind.intel.com ([10.145.162.80])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 04:51:34 -0700
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [RFC v2 5/5] drm/xe/RAS: send multicast event on occurrence of an
- error
-Date: Fri, 25 Aug 2023 17:25:31 +0530
-Message-Id: <20230825115531.800574-6-aravind.iddamsetty@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230825115531.800574-1-aravind.iddamsetty@linux.intel.com>
-References: <20230825115531.800574-1-aravind.iddamsetty@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 622F210E661
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:01:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C97166323D;
+ Fri, 25 Aug 2023 12:01:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043B1C433C8;
+ Fri, 25 Aug 2023 12:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1692964886;
+ bh=DkaQY49NCfEp3URelzQqFMcnMc9cI/W/Kd4KxUDsdP8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kpxFzYXNwWgfxY8NNYJlMX4BJy36WR3HvNPFBufzFvuc+1G+3dkUXzrHL7ecq6mrA
+ S+KFw5hGxzStAZDEnRnBk4WifvWMZuoZBBrcmgn/Dn9+zQa078bUaJyvGrejf9V6X5
+ RWyFIhHXbppXCO/spDu7kvAEYcLk29nfQ88Rm6z74iJbixllna1t3ik3LHDEt+IONO
+ iesMsfH9UMEvHZ6Z21UZ1aTtRRKDc85QPw8bHHYeUViA3BA3OwHDK67vDf5tgiYaUx
+ 0I7ShYr0Jd6zDxGifpdP/+pP3ynXQg+ReQY+kywslBe73Q49XNTLzNZqZDjulJNQ1w
+ NBTKCDVjyc/KQ==
+From: Michael Walle <mwalle@kernel.org>
+To: angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH v7 09/11] drm/mediatek: dp: Add support for embedded
+ DisplayPort aux-bus
+Date: Fri, 25 Aug 2023 14:01:09 +0200
+Message-Id: <20230825120109.3132209-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230725073234.55892-10-angelogioacchino.delregno@collabora.com>
+References: <20230725073234.55892-10-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,68 +53,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, Michael Walle <mwalle@kernel.org>,
+ nfraprado@collabora.com, amergnat@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
+ linux-mediatek@lists.infradead.org, ehristev@collabora.com, wenst@chromium.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever a correctable or an uncorrectable error happens an event is sent
-to the corresponding listeners of these groups.
+Hi AngeloGioacchino,
 
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_irq.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+> For the eDP case we can support using aux-bus on MediaTek DP: this
+> gives us the possibility to declare our panel as generic "panel-edp"
+> which will automatically configure the timings and available modes
+> via the EDID that we read from it.
+> 
+> To do this, move the panel parsing at the end of the probe function
+> so that the hardware is initialized beforehand and also initialize
+> the DPTX AUX block and power both on as, when we populate the
+> aux-bus, the panel driver will trigger an EDID read to perform
+> panel detection.
+> 
+> Last but not least, since now the AUX transfers can happen in the
+> separated aux-bus, it was necessary to add an exclusion for the
+> cable_plugged_in check in `mtk_dp_aux_transfer()` and the easiest
+> way to do this is to simply ignore checking that when the bridge
+> type is eDP.
 
-diff --git a/drivers/gpu/drm/xe/xe_irq.c b/drivers/gpu/drm/xe/xe_irq.c
-index 226be96e341a..5eb041d7e07c 100644
---- a/drivers/gpu/drm/xe/xe_irq.c
-+++ b/drivers/gpu/drm/xe/xe_irq.c
-@@ -1073,6 +1073,37 @@ xe_gsc_hw_error_handler(struct xe_gt *gt, const enum hardware_error hw_err)
- 	xe_mmio_write32(gt, GSC_HEC_CORR_UNCORR_ERR_STATUS(base, hw_err).reg, err_status);
- }
- 
-+static void generate_netlink_event(struct xe_gt *gt, const enum hardware_error hw_err)
-+{
-+	struct xe_device *xe = gt->xe;
-+	struct sk_buff *msg;
-+	void *hdr;
-+
-+	if (!xe->drm.drm_genl_family.module)
-+		return;
-+
-+	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_ATOMIC);
-+	if (!msg) {
-+		drm_dbg_driver(&xe->drm, "couldn't allocate memory for error multicast event\n");
-+		return;
-+	}
-+
-+	hdr = genlmsg_put(msg, 0, 0, &xe->drm.drm_genl_family, 0, DRM_RAS_CMD_ERROR_EVENT);
-+	if (!hdr) {
-+		drm_dbg_driver(&xe->drm, "mutlicast msg buffer is small\n");
-+		nlmsg_free(msg);
-+		return;
-+	}
-+
-+	genlmsg_end(msg, hdr);
-+
-+	genlmsg_multicast(&xe->drm.drm_genl_family, msg, 0,
-+			  hw_err ?
-+			  DRM_GENL_MCAST_UNCORR_ERR
-+			  : DRM_GENL_MCAST_CORR_ERR,
-+			  GFP_ATOMIC);
-+}
-+
- static void
- xe_hw_error_source_handler(struct xe_gt *gt, const enum hardware_error hw_err)
- {
-@@ -1103,6 +1134,7 @@ xe_hw_error_source_handler(struct xe_gt *gt, const enum hardware_error hw_err)
- 
- 	xe_mmio_write32(gt, DEV_ERR_STAT_REG(hw_err).reg, errsrc);
- 
-+	generate_netlink_event(gt, hw_err);
- out_unlock:
- 	spin_unlock_irqrestore(&gt_to_xe(gt)->irq.lock, flags);
- }
--- 
-2.25.1
+This patch breaks my board based on the MT8195 which only has one
+DisplayPort output port. I suspect it might also break the mt8195-cherry
+board.
 
+While the mediatek-dpi driver finds the DP port:
+[    3.131645] mediatek-dpi 1c113000.dp-intf: Found bridge node: /soc/dp-tx@1c600000
+
+The probing of the eDP is deferred:
+[   13.289009] platform 1c015000.dp-intf: deferred probe pending
+
+So I don't know why, but to make dp_intf1 work, it seems that dp_intf0
+must be probed successfully. After this patch, the edp (which is
+connected to the dp_intf1) probe will return with an -ENODEV and
+the previous call to devm_drm_bridge_add() will be rolled back.
+
+Before this patch, bridge_add() was called in any case (in the
+error case with next_bridge = NULL) and the mediatek-dpi probed
+like that:
+
+[    3.121011] mediatek-dpi 1c015000.dp-intf: Found bridge node: /soc/edp-tx@1c500000
+[    3.122111] mediatek-dpi 1c113000.dp-intf: Found bridge node: /soc/dp-tx@1c600000
+
+Eventually resulting in a framebuffer device:
+[    4.451081] mediatek-drm mediatek-drm.8.auto: [drm] fb0: mediatekdrmfb frame buffer device
+
+
+NB, somehow this series broke the initial display output. I always have
+to replug the DisplayPort to get some output. I'll dig deeper into that
+later.
+
+..
+
+> @@ -2519,21 +2553,14 @@ static int mtk_dp_probe(struct platform_device *pdev)
+>  		return dev_err_probe(dev, mtk_dp->irq,
+>  				     "failed to request dp irq resource\n");
+>  
+> -	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> -	if (IS_ERR(mtk_dp->next_bridge) &&
+> -	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
+> -		mtk_dp->next_bridge = NULL;
+
+In my case, this branch was taken.
+
+-michael
+
+> -	else if (IS_ERR(mtk_dp->next_bridge))
+> -		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
+> -				     "Failed to get bridge\n");
+> -
+>  	ret = mtk_dp_dt_parse(mtk_dp, pdev);
+>  	if (ret)
+>  		return dev_err_probe(dev, ret, "Failed to parse dt\n");
+>  
+> -	drm_dp_aux_init(&mtk_dp->aux);
+>  	mtk_dp->aux.name = "aux_mtk_dp";
+> +	mtk_dp->aux.dev = dev;
+>  	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
+> +	drm_dp_aux_init(&mtk_dp->aux);
+>  
+>  	spin_lock_init(&mtk_dp->irq_thread_lock);
+>  
