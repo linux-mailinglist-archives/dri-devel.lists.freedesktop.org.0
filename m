@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049457887A7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:41:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0F27887A8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDF6110E66B;
-	Fri, 25 Aug 2023 12:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8520610E672;
+	Fri, 25 Aug 2023 12:41:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54FB10E66B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:41:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEFC010E66B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692967303; x=1724503303;
+ t=1692967307; x=1724503307;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=py9UYIoiD/UbjwwSBGuPKpMm133oUpL4h5Xxm6zhV3c=;
- b=d3ry//+CEdj8xRYbL2yxgC+lEhLpxYUaRchEaU/vYxsPOGUoeH64Jjo5
- zAmsAw0sBXKtGwziQf53tPE+6cJFbW1NVd3kwt64k/bS+3WhI63bffI7Z
- oAd10qCeKVCC5ujXFkCBXcYbZesnpHyRMHbFlaBvZwA8nde8ncCzWSf1D
- iy4OOpCk4kLnGZLs8E1Vnyh1/S6CZFecv8jh8TVd4RxefGLoHaDAEh2re
- l52VRa7eaqslCrp8gQ6Lt3sZzoebphkv8x/zDgx+C6Ak01Gq20oIBsniV
- gjpF53q6JgdHV6H0FVgxZw2LO0ajriRkYxn91grtS8Va+TjIvRRolpRS8 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373573879"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="373573879"
+ bh=MEGVIwUkXTLPLnzdlLr+qvvsCi4QAcrExdkGWfJBxYk=;
+ b=Xzu5adw790KslXcCGoHQX71XU9dCdZLwLIjO2wuMeOTpfpRRItyhnIpz
+ P68yyTpm5nn4jEBlqX8d9OfrZfMyP4GyT+DN1PSIAtDryRUyi9emdG32O
+ wEtO86LZnxYXCWQIUVfVmqf1i6aUZMXpckXkHzvNFS04gN7GfwiPyfuHh
+ 6SFk2DTzpGrOnrAgybKFAyn9DQWm29/BtTyjnRnjUfEjQhO8/dTdz0gEm
+ f5WMkOkZVeT8WTfyUplFb0EeMkODqRe5qJco1F3k5wdXl/VbnX86fBIQI
+ TvASeaDCULBLkZe3nJvrwSmmV7QWqKOV0ujEkB7cawnHknTNx50IKoS+h Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373573888"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="373573888"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 05:41:43 -0700
+ 25 Aug 2023 05:41:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="911272249"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="911272249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="911272257"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="911272257"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 05:41:41 -0700
+ 25 Aug 2023 05:41:45 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/9] accel/ivpu: Move set autosuspend delay to HW specific code
-Date: Fri, 25 Aug 2023 14:41:27 +0200
-Message-Id: <20230825124135.4086628-2-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 2/9] accel/ivpu: Remove duplicated error messages
+Date: Fri, 25 Aug 2023 14:41:28 +0200
+Message-Id: <20230825124135.4086628-3-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230825124135.4086628-1-stanislaw.gruszka@linux.intel.com>
 References: <20230825124135.4086628-1-stanislaw.gruszka@linux.intel.com>
@@ -59,100 +59,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Configure autosuspend values per HW generation and per platform.
+Reduce the number of error messages per single failure in
+ivpu_dev_init(). Error messages are already printed by functions
+called from ivpu_dev_init().
 
-For non silicon platforms disable autosuspend for now, for silicon
-reduce it to 10 ms.
-
-Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.h     | 1 +
- drivers/accel/ivpu/ivpu_hw_37xx.c | 2 ++
- drivers/accel/ivpu/ivpu_hw_40xx.c | 3 +++
- drivers/accel/ivpu/ivpu_pm.c      | 6 +++---
- 4 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c         | 54 +++++++--------------------
+ drivers/accel/ivpu/ivpu_fw.c          |  2 +-
+ drivers/accel/ivpu/ivpu_ipc.c         | 13 +++++--
+ drivers/accel/ivpu/ivpu_mmu_context.c |  6 ++-
+ drivers/accel/ivpu/ivpu_pm.c          |  4 +-
+ drivers/accel/ivpu/ivpu_pm.h          |  2 +-
+ 6 files changed, 29 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 9e8c075fe9ef..44d857094bbc 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -117,6 +117,7 @@ struct ivpu_device {
- 		int jsm;
- 		int tdr;
- 		int reschedule_suspend;
-+		int autosuspend;
- 	} timeout;
- };
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index ba79f397c9e8..b10b2909f05f 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -518,78 +518,52 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	lockdep_set_class(&vdev->submitted_jobs_xa.xa_lock, &submitted_jobs_xa_lock_class_key);
  
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 9eae1c241bc0..1090c91e1ba3 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -113,11 +113,13 @@ static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
- 		vdev->timeout.jsm = 50000;
- 		vdev->timeout.tdr = 2000000;
- 		vdev->timeout.reschedule_suspend = 1000;
-+		vdev->timeout.autosuspend = -1;
- 	} else {
- 		vdev->timeout.boot = 1000;
- 		vdev->timeout.jsm = 500;
- 		vdev->timeout.tdr = 2000;
- 		vdev->timeout.reschedule_suspend = 10;
-+		vdev->timeout.autosuspend = 10;
+ 	ret = ivpu_pci_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize PCI device: %d\n", ret);
++	if (ret)
+ 		goto err_xa_destroy;
+-	}
+ 
+ 	ret = ivpu_irq_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize IRQs: %d\n", ret);
++	if (ret)
+ 		goto err_xa_destroy;
+-	}
+ 
+ 	/* Init basic HW info based on buttress registers which are accessible before power up */
+ 	ret = ivpu_hw_info_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize HW info: %d\n", ret);
++	if (ret)
+ 		goto err_xa_destroy;
+-	}
+ 
+ 	/* Power up early so the rest of init code can access VPU registers */
+ 	ret = ivpu_hw_power_up(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to power up HW: %d\n", ret);
++	if (ret)
+ 		goto err_xa_destroy;
+-	}
+ 
+ 	ret = ivpu_mmu_global_context_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize global MMU context: %d\n", ret);
++	if (ret)
+ 		goto err_power_down;
+-	}
+ 
+ 	ret = ivpu_mmu_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize MMU device: %d\n", ret);
++	if (ret)
+ 		goto err_mmu_gctx_fini;
+-	}
+ 
+ 	ret = ivpu_fw_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize firmware: %d\n", ret);
++	if (ret)
+ 		goto err_mmu_gctx_fini;
+-	}
+ 
+ 	ret = ivpu_ipc_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize IPC: %d\n", ret);
++	if (ret)
+ 		goto err_fw_fini;
+-	}
+ 
+-	ret = ivpu_pm_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize PM: %d\n", ret);
+-		goto err_ipc_fini;
+-	}
++	ivpu_pm_init(vdev);
+ 
+ 	ret = ivpu_job_done_thread_init(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize job done thread: %d\n", ret);
++	if (ret)
+ 		goto err_ipc_fini;
+-	}
+ 
+ 	ret = ivpu_fw_load(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
++	if (ret)
+ 		goto err_job_done_thread_fini;
+-	}
+ 
+ 	ret = ivpu_boot(vdev);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to boot: %d\n", ret);
++	if (ret)
+ 		goto err_job_done_thread_fini;
+-	}
+ 
+ 	ivpu_pm_enable(vdev);
+ 
+@@ -651,10 +625,8 @@ static int ivpu_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	pci_set_drvdata(pdev, vdev);
+ 
+ 	ret = ivpu_dev_init(vdev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Failed to initialize VPU device: %d\n", ret);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	ret = drm_dev_register(&vdev->drm, 0);
+ 	if (ret) {
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 9827ea4d7b83..9b6ecd3e9537 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -78,7 +78,7 @@ static int ivpu_fw_request(struct ivpu_device *vdev)
+ 		}
  	}
+ 
+-	ivpu_err(vdev, "Failed to request firmware: %d\n", ret);
++	ivpu_err(vdev, "Failed to load firmware: %d\n", ret);
+ 	return ret;
  }
  
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 00c5dbbe6847..2c824358be31 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -135,16 +135,19 @@ static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
- 		vdev->timeout.jsm = 50000;
- 		vdev->timeout.tdr = 2000000;
- 		vdev->timeout.reschedule_suspend = 1000;
-+		vdev->timeout.autosuspend = -1;
- 	} else if (ivpu_is_simics(vdev)) {
- 		vdev->timeout.boot = 50;
- 		vdev->timeout.jsm = 500;
- 		vdev->timeout.tdr = 10000;
- 		vdev->timeout.reschedule_suspend = 10;
-+		vdev->timeout.autosuspend = -1;
- 	} else {
- 		vdev->timeout.boot = 1000;
- 		vdev->timeout.jsm = 500;
- 		vdev->timeout.tdr = 2000;
- 		vdev->timeout.reschedule_suspend = 10;
-+		vdev->timeout.autosuspend = 10;
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index fa0af59e39ab..6b2e9dbb284a 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -426,15 +426,20 @@ int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+ int ivpu_ipc_init(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
+-	int ret = -ENOMEM;
++	int ret;
+ 
+ 	ipc->mem_tx = ivpu_bo_alloc_internal(vdev, 0, SZ_16K, DRM_IVPU_BO_WC);
+-	if (!ipc->mem_tx)
+-		return ret;
++	if (!ipc->mem_tx) {
++		ivpu_err(vdev, "Failed to allocate mem_tx\n");
++		return -ENOMEM;
++	}
+ 
+ 	ipc->mem_rx = ivpu_bo_alloc_internal(vdev, 0, SZ_16K, DRM_IVPU_BO_WC);
+-	if (!ipc->mem_rx)
++	if (!ipc->mem_rx) {
++		ivpu_err(vdev, "Failed to allocate mem_rx\n");
++		ret = -ENOMEM;
+ 		goto err_free_tx;
++	}
+ 
+ 	ipc->mm_tx = devm_gen_pool_create(vdev->drm.dev, __ffs(IVPU_IPC_ALIGNMENT),
+ 					  -1, "TX_IPC_JSM");
+diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+index 1d2e554e2c4a..1144d6eb5120 100644
+--- a/drivers/accel/ivpu/ivpu_mmu_context.c
++++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+@@ -427,8 +427,10 @@ ivpu_mmu_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u3
+ 	INIT_LIST_HEAD(&ctx->bo_list);
+ 
+ 	ret = ivpu_mmu_pgtable_init(vdev, &ctx->pgtable);
+-	if (ret)
++	if (ret) {
++		ivpu_err(vdev, "Failed to initialize pgtable for ctx %u: %d\n", context_id, ret);
+ 		return ret;
++	}
+ 
+ 	if (!context_id) {
+ 		start = vdev->hw->ranges.global.start;
+@@ -488,7 +490,7 @@ int ivpu_mmu_user_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context
+ 
+ 	ret = ivpu_mmu_context_init(vdev, ctx, ctx_id);
+ 	if (ret) {
+-		ivpu_err(vdev, "Failed to initialize context: %d\n", ret);
++		ivpu_err(vdev, "Failed to initialize context %u: %d\n", ctx_id, ret);
+ 		return ret;
  	}
- }
  
 diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index e6f27daf5560..b3a422305141 100644
+index b3a422305141..54c59f9cbae7 100644
 --- a/drivers/accel/ivpu/ivpu_pm.c
 +++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -297,10 +297,10 @@ int ivpu_pm_init(struct ivpu_device *vdev)
- 
- 	if (ivpu_disable_recovery)
- 		pm_runtime_set_autosuspend_delay(dev, -1);
--	else if (ivpu_is_silicon(vdev))
--		pm_runtime_set_autosuspend_delay(dev, 100);
- 	else
--		pm_runtime_set_autosuspend_delay(dev, 60000);
-+		pm_runtime_set_autosuspend_delay(dev, vdev->timeout.autosuspend);
-+
-+	ivpu_dbg(vdev, PM, "Autosuspend delay = %d\n", dev->power.autosuspend_delay);
- 
- 	return 0;
+@@ -282,7 +282,7 @@ void ivpu_pm_reset_done_cb(struct pci_dev *pdev)
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
  }
+ 
+-int ivpu_pm_init(struct ivpu_device *vdev)
++void ivpu_pm_init(struct ivpu_device *vdev)
+ {
+ 	struct device *dev = vdev->drm.dev;
+ 	struct ivpu_pm_info *pm = vdev->pm;
+@@ -301,8 +301,6 @@ int ivpu_pm_init(struct ivpu_device *vdev)
+ 		pm_runtime_set_autosuspend_delay(dev, vdev->timeout.autosuspend);
+ 
+ 	ivpu_dbg(vdev, PM, "Autosuspend delay = %d\n", dev->power.autosuspend_delay);
+-
+-	return 0;
+ }
+ 
+ void ivpu_pm_cancel_recovery(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
+index fd4eada1290f..f41c30a14a40 100644
+--- a/drivers/accel/ivpu/ivpu_pm.h
++++ b/drivers/accel/ivpu/ivpu_pm.h
+@@ -19,7 +19,7 @@ struct ivpu_pm_info {
+ 	u32 suspend_reschedule_counter;
+ };
+ 
+-int ivpu_pm_init(struct ivpu_device *vdev);
++void ivpu_pm_init(struct ivpu_device *vdev);
+ void ivpu_pm_enable(struct ivpu_device *vdev);
+ void ivpu_pm_disable(struct ivpu_device *vdev);
+ void ivpu_pm_cancel_recovery(struct ivpu_device *vdev);
 -- 
 2.25.1
 
