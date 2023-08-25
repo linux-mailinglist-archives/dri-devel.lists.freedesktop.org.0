@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB57278871C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:25:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 034DC78871D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04FF10E13A;
-	Fri, 25 Aug 2023 12:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC4210E13E;
+	Fri, 25 Aug 2023 12:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0868610E13A
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:24:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B69BC10E13E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:25:06 +0000 (UTC)
 Received: from localhost.localdomain (unknown [171.76.83.99])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1819A6607283;
- Fri, 25 Aug 2023 13:24:51 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0DE23660319E;
+ Fri, 25 Aug 2023 13:24:58 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692966298;
- bh=KTW2XkA7TENvlUjtZxVgz0cTJt8BRHSoHLAxDPCe3/M=;
- h=From:To:Cc:Subject:Date:From;
- b=atR3yLJW3d4/PabzFRiwGIHVX5yPIRv3bnIJQpvAaxuB1jWhWikx9Rkc7j2ZFJn4d
- b73hUkhgzynNX8aEiXefftccC/IKE8gKQ7GAsmwBhpKhvzxJTVzi0OViisAtSg4LAU
- Ozr8OLVfH9ZbsTgvSRZ99RdWR4aByxBqbuvK6Sfzg4IojwEXR/4d30coZHDrJq+8YF
- tBK4niVms8OfEcUo9BK1nFBuOSwqFJ2/oNZo2yNDI+b2OJHvChJwX5Q0pBJTlG4LSx
- 7ZAcPq8tCEQAC66520N4XYo6jVIUyLao0SU6VN8nAy2qbaboSWx0uDioZ9K8nxI2HI
- oqtqq8AyWLwVQ==
+ s=mail; t=1692966305;
+ bh=x4lq+tbR066pnVQGeJjEJAxiYr3tkgjX1Xjly0l74rI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Wi+smrECNXlcnUOBI7muZ/8Nm8As7l8y6nvRVAqrMSZgU8xWkdOzhvNJ1TL2rVRhV
+ ablXvIcmLPu01xDlOLUujge/fRUGoYyfbaMnP8OzGLVRWu4uNvbLUi72C+BIEC7IHn
+ SmwjvI3b0cokzv+aOFSSS6t5++foVeu6fhuBewNDxrwj4wOouQAoCbczYw+GL9faM2
+ dsdEDuy32afZqIehx19Ir2PfDFDxoJlt5EBHg/5d3C5GcxgRq/PqPk4RHTMU8viPzL
+ f9zUHPHN10hz9hxR3tDpz682Sgh+7HwXDx7f9dLpOIJ5csTx1kiIlNDT0j2nPAtHqF
+ 4dnfo7WtXwSdA==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/6] drm: ci: fixes
-Date: Fri, 25 Aug 2023 17:54:29 +0530
-Message-Id: <20230825122435.316272-1-vignesh.raman@collabora.com>
+Subject: [PATCH 1/6] drm: ci: igt_runner: remove todo
+Date: Fri, 25 Aug 2023 17:54:30 +0530
+Message-Id: <20230825122435.316272-2-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230825122435.316272-1-vignesh.raman@collabora.com>
+References: <20230825122435.316272-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,36 +64,26 @@ Cc: emma@anholt.net, linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch series contains improvements, enabling new ci jobs which
-enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
-fixing issues with the ci jobs and updating the expectation files.
-This series is intended for drm branch topic/drm-ci.
+/sys/kernel/debug/dri/*/state exist for every atomic KMS driver.
+We do not test non-atomic drivers, so remove the todo.
 
-Vignesh Raman (6):
-  drm: ci: igt_runner: remove todo
-  drm: ci: Force db410c to host mode
-  drm: ci: virtio: update ci variables
-  drm: ci: Enable configs to fix mt8173 boot hang issue
-  drm: ci: Update xfails
-  drm: ci: Remove rules
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
+ drivers/gpu/drm/ci/igt_runner.sh | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/gpu/drm/ci/arm64.config                  |  2 ++
- drivers/gpu/drm/ci/build.sh                      |  4 ++++
- drivers/gpu/drm/ci/gitlab-ci.yml                 |  2 +-
- drivers/gpu/drm/ci/igt_runner.sh                 |  1 -
- drivers/gpu/drm/ci/test.yml                      | 14 ++++----------
- .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt    |  1 -
- drivers/gpu/drm/ci/xfails/i915-cml-fails.txt     |  1 -
- drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt    |  2 ++
- drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt    |  1 +
- .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt  |  2 --
- .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt | 16 ++++++++++++++++
- drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt |  2 ++
- .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt |  1 +
- .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt  |  4 ++--
- .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt |  3 +++
- 15 files changed, 38 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+index 2bb759165063..5bf130ac57c9 100755
+--- a/drivers/gpu/drm/ci/igt_runner.sh
++++ b/drivers/gpu/drm/ci/igt_runner.sh
+@@ -15,7 +15,6 @@ cat /sys/kernel/debug/device_component/*
+ '
+ 
+ # Dump drm state to confirm that kernel was able to find a connected display:
+-# TODO this path might not exist for all drivers.. maybe run modetest instead?
+ set +e
+ cat /sys/kernel/debug/dri/*/state
+ set -e
 -- 
 2.40.1
 
