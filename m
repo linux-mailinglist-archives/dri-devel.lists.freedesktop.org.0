@@ -1,68 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BF4788629
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 13:41:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934F8788658
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 13:51:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6BC10E659;
-	Fri, 25 Aug 2023 11:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF70D10E652;
+	Fri, 25 Aug 2023 11:51:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4562510E659
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 11:41:26 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-5007c8308c3so1268545e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 04:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692963684; x=1693568484;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=7XB8gnfeXwz3PBP03jcAxDaUlg2aSuMcd4cXYoa7Jfk=;
- b=l3dZTosl7Hz9yo3uNyJ027jBuQwNpn0tO07C3kMRvb3/ali/t2h/STlmvOWPZo1AcK
- Man4yRSr/uFPCpRgEeU0oiaZC3h07S6tgb0mWNSTwh64YH8vgpOT7r56TfrTxjDO8LTL
- chQAjdC0bsG5BFxHD4lTiKupBryWo8HJd6ayTu7fHX4feT/qjQcPtxVKxnkTCUGPODe/
- VQq/BVKZVSjHMHV7ePch7Je1mrieoy0jjWqQNz+F9t6aL7sbvhak4VP+D9IoMMOZoFvA
- NeQP+QwUCImDD+Xl2iSaR97g8TdOS+UUE+2HITfg2lrBbScs4rYLaLNQTCewIHe7HVvl
- F5Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692963684; x=1693568484;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7XB8gnfeXwz3PBP03jcAxDaUlg2aSuMcd4cXYoa7Jfk=;
- b=cKpoB1gAW2XLIP5zEs5l+cSCnAVuI1DYex4s1ZRH24HLwPzHnzLFFMiB8Tc5j6eYCl
- wwLzLA/n7/YO8LHWgatfpkcHa4XnbkdMpBPbUvpW14gs9GNVYpWzNBBhosyuB6uq3nVH
- Cq6EhPqKLYY+/a9ooUhYWl6OhgDpIS7bDHYuzbdcF3NZquOFrTqAjhM9RHQFtIB75ol9
- 5A/3ljJPcIFDhija1gQY21G0f4LQhMQVNbB8ndfFESN8Co3Jx54RG7GV2ylT8Ua6Gbzx
- 3rFJe7+e7fPCRJnAUrymRSuNrrhdNsz8Ftbr1+61EJvvH92WdUuNHWbY7iRLl02x0iHH
- zcqw==
-X-Gm-Message-State: AOJu0Yz+YXxCruhsPyqMAJ85Wri1YyXG+Pd03PSTnXpoZMNuJye3ErvN
- DsVcTlRW4Lvv2uObeFO8HyI=
-X-Google-Smtp-Source: AGHT+IHDgb5Yhbcq9kfuhmnzC36PS1dJtyuRMhZs4ZKUIbWW5GhJVTYMYUihVW8mlau0avuqzWNPNw==
-X-Received: by 2002:a05:6512:ba0:b0:500:882b:e55a with SMTP id
- b32-20020a0565120ba000b00500882be55amr11342373lfv.45.1692963683929; 
- Fri, 25 Aug 2023 04:41:23 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- v9-20020a197409000000b004ff91dde4b4sm257584lfe.93.2023.08.25.04.41.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Aug 2023 04:41:23 -0700 (PDT)
-Date: Fri, 25 Aug 2023 14:41:10 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Hsia-Jun Li <Randy.Li@synaptics.com>
-Subject: Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
-Message-ID: <20230825144110.1c58928f@eldfell>
-In-Reply-To: <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-References: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
- <CAAFQd5CqAvr7ZUdDSYPEOWSgvbttTBjHa0YWDomxJJSaiZxGog@mail.gmail.com>
- <f8a168e8-1a23-c6b3-0f68-baa73396d594@synaptics.com>
- <20230825104052.4573ab7b@eldfell>
- <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD9A410E652;
+ Fri, 25 Aug 2023 11:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692964285; x=1724500285;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PAS9NabjFqrUrSSQsCDos1WbWOfw5xiBf7+ecBmOrHM=;
+ b=TGTQkivogcbr54QCLCQ2qFeFPOux2HwSWcPMQ6f73/tjDMRV6qjTcgMX
+ QEppWXNNx7xbwa5iHppvu4lN1MbmxKUk8R1i8HzVKbYQIY7/hP00F9r5d
+ slXgZaDrREPvhuRyN/v/2eb8lgoY2Ywu6NJAyLjxNtt/lsXO45IduXOEY
+ IDGq5vQXNCHzWsXiHsQze+b1a3mjh5PAZLITYWhwDbok9cIDLe7ZMy7tE
+ 2l9wyWOF1v/O0Ln8icv5Kgfe4aSLmok7bFrparTuggNjxyH5zMVNpNsvZ
+ oo0XrfVIeFKDDFl8iOSSpl8DP4E65FY0KshXNbZIeQQpq+uWN52L69Frb g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359694697"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="359694697"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2023 04:51:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="881153533"
+Received: from aravind-dev.iind.intel.com ([10.145.162.80])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2023 04:51:24 -0700
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [RFC v2 0/5] Proposal to use netlink for RAS and Telemetry across drm
+ subsystem
+Date: Fri, 25 Aug 2023 17:25:26 +0530
+Message-Id: <20230825115531.800574-1-aravind.iddamsetty@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=7wEatCdcP1mozuK9z20Vy1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,244 +55,375 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, ayaka <ayaka@soulik.info>, hughd@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, akpm@linux-foundation.org,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
+ dri-devel@lists.freedesktop.org, Tuikov Luben <Luben.Tuikov@amd.com>,
+ Tomer Tayar <ttayar@habana.ai>, Alex Deucher <alexander.deucher@amd.com>,
+ Kuehling Felix <Felix.Kuehling@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/=7wEatCdcP1mozuK9z20Vy1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Respin on old xe base, would like to get agreement on the design first.
+ 
+Our hardware supports RAS(Reliability, Availability, Serviceability) by
+reporting the errors to the host, which the KMD processes and exposes a
+set of error counters which can be used by observability tools to take 
+corrective actions or repairs. Traditionally there were being exposed 
+via PMU (for relative counters) and sysfs interface (for absolute 
+value) in our internal branch. But, due to the limitations in this 
+approach to use two interfaces and also not able to have an event based 
+reporting or configurability, an alternative approach to try netlink 
+was suggested by community for drm subsystem wide UAPI for RAS and 
+telemetry as discussed in [1]. 
 
-On Fri, 25 Aug 2023 15:56:18 +0800
-Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+This [1] is the inspiration to this series. It uses the generic
+netlink(genl) family subsystem and exposes a set of commands that can
+be used by every drm driver, the framework provides a means to have
+custom commands too. Each drm driver instance in this example xe driver
+instance registers a family and operations to the genl subsystem through
+which it enumerates and reports the error counters. An event based
+notification is also supported to which userpace can subscribe to and
+be notified when any error occurs and read the error counter this avoids
+continuous polling on error counter. This can also be extended to
+threshold based notification.
 
-> On 8/25/23 15:40, Pekka Paalanen wrote:
-> > Subject:
-> > Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
-> > From:
-> > Pekka Paalanen <ppaalanen@gmail.com>
-> > Date:
-> > 8/25/23, 15:40
-> >=20
-> > To:
-> > Hsia-Jun Li <Randy.Li@synaptics.com>
-> > CC:
-> > Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org,=20
-> > dri-devel@lists.freedesktop.org, Linux Media Mailing List=20
-> > <linux-media@vger.kernel.org>, hughd@google.com,=20
-> > akpm@linux-foundation.org, Simon Ser <contact@emersion.fr>, Hans Verkui=
-l=20
-> > <hverkuil-cisco@xs4all.nl>, daniels@collabora.com, ayaka=20
-> > <ayaka@soulik.info>, linux-kernel@vger.kernel.org, Nicolas Dufresne=20
-> > <nicolas@ndufresne.ca>
-> >=20
-> >=20
-> > On Wed, 23 Aug 2023 15:11:23 +0800
-> > Hsia-Jun Li<Randy.Li@synaptics.com>  wrote:
-> >  =20
-> >> On 8/23/23 12:46, Tomasz Figa wrote: =20
-> >>> CAUTION: Email originated externally, do not click links or open atta=
-chments unless you recognize the sender and know the content is safe.
-> >>>
-> >>>
-> >>> Hi Hsia-Jun,
-> >>>
-> >>> On Tue, Aug 22, 2023 at 8:14=E2=80=AFPM Hsia-Jun Li<Randy.Li@synaptic=
-s.com>  wrote: =20
-> >>>> Hello
-> >>>>
-> >>>> I would like to introduce a usage of SHMEM slimier to DMA-buf, the m=
-ajor
-> >>>> purpose of that is sharing metadata or just a pure container for cro=
-ss
-> >>>> drivers.
-> >>>>
-> >>>> We need to exchange some sort of metadata between drivers, likes dyn=
-amic
-> >>>> HDR data between video4linux2 and DRM. =20
-> >>> If the metadata isn't too big, would it be enough to just have the
-> >>> kernel copy_from_user() to a kernel buffer in the ioctl code?
-> >>>     =20
-> >>>> Or the graphics frame buffer is
-> >>>> too complex to be described with plain plane's DMA-buf fd.
-> >>>> An issue between DRM and V4L2 is that DRM could only support 4 planes
-> >>>> while it is 8 for V4L2. It would be pretty hard for DRM to expend its
-> >>>> interface to support that 4 more planes which would lead to revision=
- of
-> >>>> many standard likes Vulkan, EGL. =20
-> >>> Could you explain how a shmem buffer could be used to support frame
-> >>> buffers with more than 4 planes?
-> >>> If you are asking why we need this: =20
-> >> 1. metadata likes dynamic HDR tone data
-> >> 2. DRM also challenges with this problem, let me quote what sima said:
-> >> "another trick that we iirc used for afbc is that sometimes the planes
-> >> have a fixed layout
-> >> like nv12
-> >> and so logically it's multiple planes, but you only need one plane slot
-> >> to describe the buffer
-> >> since I think afbc had the "we need more than 4 planes" issue too"
-> >>
-> >> Unfortunately, there are vendor pixel formats are not fixed layout.
-> >>
-> >> 3. Secure(REE, trusted video piepline) info.
-> >>
-> >> For how to assign such metadata data.
-> >> In case with a drm fb_id, it is simple, we just add a drm plane proper=
-ty
-> >> for it. The V4L2 interface is not flexible, we could only leave into
-> >> CAPTURE request_fd as a control. =20
-> >>>> Also, there is no reason to consume a device's memory for the content
-> >>>> that device can't read it, or wasting an entry of IOMMU for such dat=
-a. =20
-> >>> That's right, but DMA-buf doesn't really imply any of those. DMA-buf
-> >>> is just a kernel object with some backing memory. It's up to the
-> >>> allocator to decide how the backing memory is allocated and up to the
-> >>> importer on whether it would be mapped into an IOMMU.
-> >>>     =20
-> >> I just want to say it can't be allocated at the same place which was f=
-or
-> >> those DMA bufs(graphics or compressed bitstream).
-> >> This also could be answer for your first question, if we place this ki=
-nd
-> >> of buffer in a plane for DMABUF(importing) in V4L2, V4L2 core would try
-> >> to prepare it, which could map it into IOMMU.
-> >> =20
-> >>>> Usually, such a metadata would be the value should be written to a
-> >>>> hardware's registers, a 4KiB page would be 1024 items of 32 bits reg=
-isters.
-> >>>>
-> >>>> Still, I have some problems with SHMEM:
-> >>>> 1. I don't want the userspace modify the context of the SHMEM alloca=
-ted
-> >>>> by the kernel, is there a way to do so? =20
-> >>> This is generally impossible without doing any of the two:
-> >>> 1) copying the contents to an internal buffer not accessible to the
-> >>> userspace, OR
-> >>> 2) modifying any of the buffer mappings to read-only
-> >>>
-> >>> 2) can actually be more costly than 1) (depending on the architecture,
-> >>> data size, etc.), so we shouldn't just discard the option of a simple
-> >>> copy_from_user() in the ioctl.
-> >>>     =20
-> >> I don't want the userspace access it at all. So that won't be a proble=
-m. =20
-> > Hi,
-> >=20
-> > if userspace cannot access things like an image's HDR metadata, then it
-> > will be impossible for userspace to program KMS to have the correct
-> > color pipeline, or to send intended HDR metadata to a video sink.
-> >=20
-> > You cannot leave userspace out of HDR metadata handling, because quite
-> > probably the V4L2 buffer is not the only thing on screen. That means
-> > there must composition of multiple sources with different image
-> > properties and metadata, which means it is no longer obvious what HDR
-> > metadata should be sent to the video sink.
-> >=20
-> > Even if it is a TV-like application rather than a windowed desktop, you
-> > will still have other contents to composite: OSD (volume indicators,
-> > channels indicators, program guide, ...), sub-titles, channel logos,
-> > notifications... These components ideally should not change their
-> > appearance arbitrarily with the main program content and metadata
-> > changes. Either the metadata sent to the video sink is kept static and
-> > the main program adapted on the fly, or main program metadata is sent
-> > to the video sink and the additional content is adapted on the fly.
-> >=20
-> > There is only one set of HDR metadata and one composited image that can
-> > be sent to a video sink, so both must be chosen and produced correctly
-> > at the source side. This cannot be done automatically inside KMS kernel
-> > drivers.
-> >  =20
-> There may be some misunderstanding.
-> Let suppose this HDR data is in a vendor specific format.
-> Both upstream(decoder) and downstream(DRM) hardware devices are coming=20
-> from the same vendor.
-> Then we just need to delivery the reference to this metadata buffer from=
-=20
-> the upstream to downstream, both of drivers know how to handle it.
->=20
-> Despite the userspace, we just need to extend a wayland protocol that=20
-> making wayland compositor know how to receive the reference to the=20
-> metadata and set it to the DRM plane.
+[1]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
 
-Hi,
+this series is on top of https://patchwork.freedesktop.org/series/116181/
 
-FWIW, I don't think Wayland upstream (wayland-protocols) would be any
-more welcoming to opaque vendor-specific proprietary data blobs than the
-upstream Linux.
+v2: define common interfaces to genl netlink subsystem that all drm drivers
+can leverage.
 
-(To everyone not following #dri-devel: There was a fairly long IRC
-discussion about how HDR metadata is an exceptionally poor use case
-example for "hidden" ancillary data blobs, and then continuing to how a
-mechanism to pass proprietary data blobs around would not be accepted
-upstream:
-https://oftc.irclog.whitequark.org/dri-devel/2023-08-25#1692950883-16929604=
-35;
-)
+Below is an example tool drm_ras which demonstrates the use of the
+supported commands. The tool will be sent to ML with the subject
+"[RFC i-g-t v2 0/1] A tool to demonstrate use of netlink sockets to read RAS error counters"
 
-> If you want a common HDR formats for all HDR variants(HDR10+, DV), I am=20
-> not against it. But it won't make the userspace be able to fill the HDR=20
-> metadata even the HDR data comes from the bitstream(likes SEI). We must=20
-> consider the case of Secure Video Path(Digital Right), the bitstream is=20
-> not accessible from (REE) userspace nor linux kernel, the downstream=20
-> must take what the upstream feed.
+read single error counter:
 
-In that case, Secure Video Path is simply not possible to have (in
-upstream). Keeping actual pixels restricted is one thing, and
-understandable given they are the essence of the copyrighted material
-that the providers want to keep inaccessible. Not being able to deliver
-the metadata to userspace OTOH does not seem to have any justification
-in comparison.
+$ ./drm_ras READ_ONE --device=drm:/dev/dri/card1 --error_id=0x0000000000000005
+counter value 0
+
+read all error counters:
+
+$ ./drm_ras READ_ALL --device=drm:/dev/dri/card1
+name                                                    config-id               counter
+
+error-gt0-correctable-guc                               0x0000000000000001      0
+error-gt0-correctable-slm                               0x0000000000000003      0
+error-gt0-correctable-eu-ic                             0x0000000000000004      0
+error-gt0-correctable-eu-grf                            0x0000000000000005      0
+error-gt0-fatal-guc                                     0x0000000000000009      0
+error-gt0-fatal-slm                                     0x000000000000000d      0
+error-gt0-fatal-eu-grf                                  0x000000000000000f      0
+error-gt0-fatal-fpu                                     0x0000000000000010      0
+error-gt0-fatal-tlb                                     0x0000000000000011      0
+error-gt0-fatal-l3-fabric                               0x0000000000000012      0
+error-gt0-correctable-subslice                          0x0000000000000013      0
+error-gt0-correctable-l3bank                            0x0000000000000014      0
+error-gt0-fatal-subslice                                0x0000000000000015      0
+error-gt0-fatal-l3bank                                  0x0000000000000016      0
+error-gt0-sgunit-correctable                            0x0000000000000017      0
+error-gt0-sgunit-nonfatal                               0x0000000000000018      0
+error-gt0-sgunit-fatal                                  0x0000000000000019      0
+error-gt0-soc-fatal-psf-csc-0                           0x000000000000001a      0
+error-gt0-soc-fatal-psf-csc-1                           0x000000000000001b      0
+error-gt0-soc-fatal-psf-csc-2                           0x000000000000001c      0
+error-gt0-soc-fatal-punit                               0x000000000000001d      0
+error-gt0-soc-fatal-psf-0                               0x000000000000001e      0
+error-gt0-soc-fatal-psf-1                               0x000000000000001f      0
+error-gt0-soc-fatal-psf-2                               0x0000000000000020      0
+error-gt0-soc-fatal-cd0                                 0x0000000000000021      0
+error-gt0-soc-fatal-cd0-mdfi                            0x0000000000000022      0
+error-gt0-soc-fatal-mdfi-east                           0x0000000000000023      0
+error-gt0-soc-fatal-mdfi-south                          0x0000000000000024      0
+error-gt0-soc-fatal-hbm-ss0-0                           0x0000000000000025      0
+error-gt0-soc-fatal-hbm-ss0-1                           0x0000000000000026      0
+error-gt0-soc-fatal-hbm-ss0-2                           0x0000000000000027      0
+error-gt0-soc-fatal-hbm-ss0-3                           0x0000000000000028      0
+error-gt0-soc-fatal-hbm-ss0-4                           0x0000000000000029      0
+error-gt0-soc-fatal-hbm-ss0-5                           0x000000000000002a      0
+error-gt0-soc-fatal-hbm-ss0-6                           0x000000000000002b      0
+error-gt0-soc-fatal-hbm-ss0-7                           0x000000000000002c      0
+error-gt0-soc-fatal-hbm-ss1-0                           0x000000000000002d      0
+error-gt0-soc-fatal-hbm-ss1-1                           0x000000000000002e      0
+error-gt0-soc-fatal-hbm-ss1-2                           0x000000000000002f      0
+error-gt0-soc-fatal-hbm-ss1-3                           0x0000000000000030      0
+error-gt0-soc-fatal-hbm-ss1-4                           0x0000000000000031      0
+error-gt0-soc-fatal-hbm-ss1-5                           0x0000000000000032      0
+error-gt0-soc-fatal-hbm-ss1-6                           0x0000000000000033      0
+error-gt0-soc-fatal-hbm-ss1-7                           0x0000000000000034      0
+error-gt0-soc-fatal-hbm-ss2-0                           0x0000000000000035      0
+error-gt0-soc-fatal-hbm-ss2-1                           0x0000000000000036      0
+error-gt0-soc-fatal-hbm-ss2-2                           0x0000000000000037      0
+error-gt0-soc-fatal-hbm-ss2-3                           0x0000000000000038      0
+error-gt0-soc-fatal-hbm-ss2-4                           0x0000000000000039      0
+error-gt0-soc-fatal-hbm-ss2-5                           0x000000000000003a      0
+error-gt0-soc-fatal-hbm-ss2-6                           0x000000000000003b      0
+error-gt0-soc-fatal-hbm-ss2-7                           0x000000000000003c      0
+error-gt0-soc-fatal-hbm-ss3-0                           0x000000000000003d      0
+error-gt0-soc-fatal-hbm-ss3-1                           0x000000000000003e      0
+error-gt0-soc-fatal-hbm-ss3-2                           0x000000000000003f      0
+error-gt0-soc-fatal-hbm-ss3-3                           0x0000000000000040      0
+error-gt0-soc-fatal-hbm-ss3-4                           0x0000000000000041      0
+error-gt0-soc-fatal-hbm-ss3-5                           0x0000000000000042      0
+error-gt0-soc-fatal-hbm-ss3-6                           0x0000000000000043      0
+error-gt0-soc-fatal-hbm-ss3-7                           0x0000000000000044      0
+error-gt0-gsc-correctable-sram-ecc                      0x0000000000000045      0
+error-gt0-gsc-nonfatal-mia-shutdown                     0x0000000000000046      0
+error-gt0-gsc-nonfatal-mia-int                          0x0000000000000047      0
+error-gt0-gsc-nonfatal-sram-ecc                         0x0000000000000048      0
+error-gt0-gsc-nonfatal-wdg-timeout                      0x0000000000000049      0
+error-gt0-gsc-nonfatal-rom-parity                       0x000000000000004a      0
+error-gt0-gsc-nonfatal-ucode-parity                     0x000000000000004b      0
+error-gt0-gsc-nonfatal-glitch-det                       0x000000000000004c      0
+error-gt0-gsc-nonfatal-fuse-pull                        0x000000000000004d      0
+error-gt0-gsc-nonfatal-fuse-crc-check                   0x000000000000004e      0
+error-gt0-gsc-nonfatal-selfmbist                        0x000000000000004f      0
+error-gt0-gsc-nonfatal-aon-parity                       0x0000000000000050      0
+error-gt1-correctable-guc                               0x1000000000000001      0
+error-gt1-correctable-slm                               0x1000000000000003      0
+error-gt1-correctable-eu-ic                             0x1000000000000004      0
+error-gt1-correctable-eu-grf                            0x1000000000000005      0
+error-gt1-fatal-guc                                     0x1000000000000009      0
+error-gt1-fatal-slm                                     0x100000000000000d      0
+error-gt1-fatal-eu-grf                                  0x100000000000000f      0
+error-gt1-fatal-fpu                                     0x1000000000000010      0
+error-gt1-fatal-tlb                                     0x1000000000000011      0
+error-gt1-fatal-l3-fabric                               0x1000000000000012      0
+error-gt1-correctable-subslice                          0x1000000000000013      0
+error-gt1-correctable-l3bank                            0x1000000000000014      0
+error-gt1-fatal-subslice                                0x1000000000000015      0
+error-gt1-fatal-l3bank                                  0x1000000000000016      0
+error-gt1-sgunit-correctable                            0x1000000000000017      0
+error-gt1-sgunit-nonfatal                               0x1000000000000018      0
+error-gt1-sgunit-fatal                                  0x1000000000000019      0
+error-gt1-soc-fatal-psf-csc-0                           0x100000000000001a      0
+error-gt1-soc-fatal-psf-csc-1                           0x100000000000001b      0
+error-gt1-soc-fatal-psf-csc-2                           0x100000000000001c      0
+error-gt1-soc-fatal-punit                               0x100000000000001d      0
+error-gt1-soc-fatal-psf-0                               0x100000000000001e      0
+error-gt1-soc-fatal-psf-1                               0x100000000000001f      0
+error-gt1-soc-fatal-psf-2                               0x1000000000000020      0
+error-gt1-soc-fatal-cd0                                 0x1000000000000021      0
+error-gt1-soc-fatal-cd0-mdfi                            0x1000000000000022      0
+error-gt1-soc-fatal-mdfi-east                           0x1000000000000023      0
+error-gt1-soc-fatal-mdfi-south                          0x1000000000000024      0
+error-gt1-soc-fatal-hbm-ss0-0                           0x1000000000000025      0
+error-gt1-soc-fatal-hbm-ss0-1                           0x1000000000000026      0
+error-gt1-soc-fatal-hbm-ss0-2                           0x1000000000000027      0
+error-gt1-soc-fatal-hbm-ss0-3                           0x1000000000000028      0
+error-gt1-soc-fatal-hbm-ss0-4                           0x1000000000000029      0
+error-gt1-soc-fatal-hbm-ss0-5                           0x100000000000002a      0
+error-gt1-soc-fatal-hbm-ss0-6                           0x100000000000002b      0
+error-gt1-soc-fatal-hbm-ss0-7                           0x100000000000002c      0
+error-gt1-soc-fatal-hbm-ss1-0                           0x100000000000002d      0
+error-gt1-soc-fatal-hbm-ss1-1                           0x100000000000002e      0
+error-gt1-soc-fatal-hbm-ss1-2                           0x100000000000002f      0
+error-gt1-soc-fatal-hbm-ss1-3                           0x1000000000000030      0
+error-gt1-soc-fatal-hbm-ss1-4                           0x1000000000000031      0
+error-gt1-soc-fatal-hbm-ss1-5                           0x1000000000000032      0
+error-gt1-soc-fatal-hbm-ss1-6                           0x1000000000000033      0
+error-gt1-soc-fatal-hbm-ss1-7                           0x1000000000000034      0
+error-gt1-soc-fatal-hbm-ss2-0                           0x1000000000000035      0
+error-gt1-soc-fatal-hbm-ss2-1                           0x1000000000000036      0
+error-gt1-soc-fatal-hbm-ss2-2                           0x1000000000000037      0
+error-gt1-soc-fatal-hbm-ss2-3                           0x1000000000000038      0
+error-gt1-soc-fatal-hbm-ss2-4                           0x1000000000000039      0
+error-gt1-soc-fatal-hbm-ss2-5                           0x100000000000003a      0
+error-gt1-soc-fatal-hbm-ss2-6                           0x100000000000003b      0
+error-gt1-soc-fatal-hbm-ss2-7                           0x100000000000003c      0
+error-gt1-soc-fatal-hbm-ss3-0                           0x100000000000003d      0
+error-gt1-soc-fatal-hbm-ss3-1                           0x100000000000003e      0
+error-gt1-soc-fatal-hbm-ss3-2                           0x100000000000003f      0
+error-gt1-soc-fatal-hbm-ss3-3                           0x1000000000000040      0
+error-gt1-soc-fatal-hbm-ss3-4                           0x1000000000000041      0
+error-gt1-soc-fatal-hbm-ss3-5                           0x1000000000000042      0
+error-gt1-soc-fatal-hbm-ss3-6                           0x1000000000000043      0
+error-gt1-soc-fatal-hbm-ss3-7                           0x1000000000000044      0
+
+wait on a error event:
+
+$ ./drm_ras WAIT_ON_EVENT --device=drm:/dev/dri/card1
+waiting for error event
+error event received
+counter value 0
+
+list all errors:
+
+$ ./drm_ras LIST_ERRORS --device=drm:/dev/dri/card1
+name                                                    config-id
+
+error-gt0-correctable-guc                               0x0000000000000001
+error-gt0-correctable-slm                               0x0000000000000003
+error-gt0-correctable-eu-ic                             0x0000000000000004
+error-gt0-correctable-eu-grf                            0x0000000000000005
+error-gt0-fatal-guc                                     0x0000000000000009
+error-gt0-fatal-slm                                     0x000000000000000d
+error-gt0-fatal-eu-grf                                  0x000000000000000f
+error-gt0-fatal-fpu                                     0x0000000000000010
+error-gt0-fatal-tlb                                     0x0000000000000011
+error-gt0-fatal-l3-fabric                               0x0000000000000012
+error-gt0-correctable-subslice                          0x0000000000000013
+error-gt0-correctable-l3bank                            0x0000000000000014
+error-gt0-fatal-subslice                                0x0000000000000015
+error-gt0-fatal-l3bank                                  0x0000000000000016
+error-gt0-sgunit-correctable                            0x0000000000000017
+error-gt0-sgunit-nonfatal                               0x0000000000000018
+error-gt0-sgunit-fatal                                  0x0000000000000019
+error-gt0-soc-fatal-psf-csc-0                           0x000000000000001a
+error-gt0-soc-fatal-psf-csc-1                           0x000000000000001b
+error-gt0-soc-fatal-psf-csc-2                           0x000000000000001c
+error-gt0-soc-fatal-punit                               0x000000000000001d
+error-gt0-soc-fatal-psf-0                               0x000000000000001e
+error-gt0-soc-fatal-psf-1                               0x000000000000001f
+error-gt0-soc-fatal-psf-2                               0x0000000000000020
+error-gt0-soc-fatal-cd0                                 0x0000000000000021
+error-gt0-soc-fatal-cd0-mdfi                            0x0000000000000022
+error-gt0-soc-fatal-mdfi-east                           0x0000000000000023
+error-gt0-soc-fatal-mdfi-south                          0x0000000000000024
+error-gt0-soc-fatal-hbm-ss0-0                           0x0000000000000025
+error-gt0-soc-fatal-hbm-ss0-1                           0x0000000000000026
+error-gt0-soc-fatal-hbm-ss0-2                           0x0000000000000027
+error-gt0-soc-fatal-hbm-ss0-3                           0x0000000000000028
+error-gt0-soc-fatal-hbm-ss0-4                           0x0000000000000029
+error-gt0-soc-fatal-hbm-ss0-5                           0x000000000000002a
+error-gt0-soc-fatal-hbm-ss0-6                           0x000000000000002b
+error-gt0-soc-fatal-hbm-ss0-7                           0x000000000000002c
+error-gt0-soc-fatal-hbm-ss1-0                           0x000000000000002d
+error-gt0-soc-fatal-hbm-ss1-1                           0x000000000000002e
+error-gt0-soc-fatal-hbm-ss1-2                           0x000000000000002f
+error-gt0-soc-fatal-hbm-ss1-3                           0x0000000000000030
+error-gt0-soc-fatal-hbm-ss1-4                           0x0000000000000031
+error-gt0-soc-fatal-hbm-ss1-5                           0x0000000000000032
+error-gt0-soc-fatal-hbm-ss1-6                           0x0000000000000033
+error-gt0-soc-fatal-hbm-ss1-7                           0x0000000000000034
+error-gt0-soc-fatal-hbm-ss2-0                           0x0000000000000035
+error-gt0-soc-fatal-hbm-ss2-1                           0x0000000000000036
+error-gt0-soc-fatal-hbm-ss2-2                           0x0000000000000037
+error-gt0-soc-fatal-hbm-ss2-3                           0x0000000000000038
+error-gt0-soc-fatal-hbm-ss2-4                           0x0000000000000039
+error-gt0-soc-fatal-hbm-ss2-5                           0x000000000000003a
+error-gt0-soc-fatal-hbm-ss2-6                           0x000000000000003b
+error-gt0-soc-fatal-hbm-ss2-7                           0x000000000000003c
+error-gt0-soc-fatal-hbm-ss3-0                           0x000000000000003d
+error-gt0-soc-fatal-hbm-ss3-1                           0x000000000000003e
+error-gt0-soc-fatal-hbm-ss3-2                           0x000000000000003f
+error-gt0-soc-fatal-hbm-ss3-3                           0x0000000000000040
+error-gt0-soc-fatal-hbm-ss3-4                           0x0000000000000041
+error-gt0-soc-fatal-hbm-ss3-5                           0x0000000000000042
+error-gt0-soc-fatal-hbm-ss3-6                           0x0000000000000043
+error-gt0-soc-fatal-hbm-ss3-7                           0x0000000000000044
+error-gt0-gsc-correctable-sram-ecc                      0x0000000000000045
+error-gt0-gsc-nonfatal-mia-shutdown                     0x0000000000000046
+error-gt0-gsc-nonfatal-mia-int                          0x0000000000000047
+error-gt0-gsc-nonfatal-sram-ecc                         0x0000000000000048
+error-gt0-gsc-nonfatal-wdg-timeout                      0x0000000000000049
+error-gt0-gsc-nonfatal-rom-parity                       0x000000000000004a
+error-gt0-gsc-nonfatal-ucode-parity                     0x000000000000004b
+error-gt0-gsc-nonfatal-glitch-det                       0x000000000000004c
+error-gt0-gsc-nonfatal-fuse-pull                        0x000000000000004d
+error-gt0-gsc-nonfatal-fuse-crc-check                   0x000000000000004e
+error-gt0-gsc-nonfatal-selfmbist                        0x000000000000004f
+error-gt0-gsc-nonfatal-aon-parity                       0x0000000000000050
+error-gt1-correctable-guc                               0x1000000000000001
+error-gt1-correctable-slm                               0x1000000000000003
+error-gt1-correctable-eu-ic                             0x1000000000000004
+error-gt1-correctable-eu-grf                            0x1000000000000005
+error-gt1-fatal-guc                                     0x1000000000000009
+error-gt1-fatal-slm                                     0x100000000000000d
+error-gt1-fatal-eu-grf                                  0x100000000000000f
+error-gt1-fatal-fpu                                     0x1000000000000010
+error-gt1-fatal-tlb                                     0x1000000000000011
+error-gt1-fatal-l3-fabric                               0x1000000000000012
+error-gt1-correctable-subslice                          0x1000000000000013
+error-gt1-correctable-l3bank                            0x1000000000000014
+error-gt1-fatal-subslice                                0x1000000000000015
+error-gt1-fatal-l3bank                                  0x1000000000000016
+error-gt1-sgunit-correctable                            0x1000000000000017
+error-gt1-sgunit-nonfatal                               0x1000000000000018
+error-gt1-sgunit-fatal                                  0x1000000000000019
+error-gt1-soc-fatal-psf-csc-0                           0x100000000000001a
+error-gt1-soc-fatal-psf-csc-1                           0x100000000000001b
+error-gt1-soc-fatal-psf-csc-2                           0x100000000000001c
+error-gt1-soc-fatal-punit                               0x100000000000001d
+error-gt1-soc-fatal-psf-0                               0x100000000000001e
+error-gt1-soc-fatal-psf-1                               0x100000000000001f
+error-gt1-soc-fatal-psf-2                               0x1000000000000020
+error-gt1-soc-fatal-cd0                                 0x1000000000000021
+error-gt1-soc-fatal-cd0-mdfi                            0x1000000000000022
+error-gt1-soc-fatal-mdfi-east                           0x1000000000000023
+error-gt1-soc-fatal-mdfi-south                          0x1000000000000024
+error-gt1-soc-fatal-hbm-ss0-0                           0x1000000000000025
+error-gt1-soc-fatal-hbm-ss0-1                           0x1000000000000026
+error-gt1-soc-fatal-hbm-ss0-2                           0x1000000000000027
+error-gt1-soc-fatal-hbm-ss0-3                           0x1000000000000028
+error-gt1-soc-fatal-hbm-ss0-4                           0x1000000000000029
+error-gt1-soc-fatal-hbm-ss0-5                           0x100000000000002a
+error-gt1-soc-fatal-hbm-ss0-6                           0x100000000000002b
+error-gt1-soc-fatal-hbm-ss0-7                           0x100000000000002c
+error-gt1-soc-fatal-hbm-ss1-0                           0x100000000000002d
+error-gt1-soc-fatal-hbm-ss1-1                           0x100000000000002e
+error-gt1-soc-fatal-hbm-ss1-2                           0x100000000000002f
+error-gt1-soc-fatal-hbm-ss1-3                           0x1000000000000030
+error-gt1-soc-fatal-hbm-ss1-4                           0x1000000000000031
+error-gt1-soc-fatal-hbm-ss1-5                           0x1000000000000032
+error-gt1-soc-fatal-hbm-ss1-6                           0x1000000000000033
+error-gt1-soc-fatal-hbm-ss1-7                           0x1000000000000034
+error-gt1-soc-fatal-hbm-ss2-0                           0x1000000000000035
+error-gt1-soc-fatal-hbm-ss2-1                           0x1000000000000036
+error-gt1-soc-fatal-hbm-ss2-2                           0x1000000000000037
+error-gt1-soc-fatal-hbm-ss2-3                           0x1000000000000038
+error-gt1-soc-fatal-hbm-ss2-4                           0x1000000000000039
+error-gt1-soc-fatal-hbm-ss2-5                           0x100000000000003a
+error-gt1-soc-fatal-hbm-ss2-6                           0x100000000000003b
+error-gt1-soc-fatal-hbm-ss2-7                           0x100000000000003c
+error-gt1-soc-fatal-hbm-ss3-0                           0x100000000000003d
+error-gt1-soc-fatal-hbm-ss3-1                           0x100000000000003e
+error-gt1-soc-fatal-hbm-ss3-2                           0x100000000000003f
+error-gt1-soc-fatal-hbm-ss3-3                           0x1000000000000040
+error-gt1-soc-fatal-hbm-ss3-4                           0x1000000000000041
+error-gt1-soc-fatal-hbm-ss3-5                           0x1000000000000042
+error-gt1-soc-fatal-hbm-ss3-6                           0x1000000000000043
+error-gt1-soc-fatal-hbm-ss3-7                           0x1000000000000044
+
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+Cc: Kuehling Felix <Felix.Kuehling@amd.com>
+Cc: Tuikov Luben <Luben.Tuikov@amd.com>
 
 
-Thanks,
-pq
+Aravind Iddamsetty (5):
+  drm/netlink: Add netlink infrastructure
+  drm/xe/RAS: Register netlink capability
+  drm/xe/RAS: Expose the error counters
+  drm/netlink: Define multicast groups
+  drm/xe/RAS: send multicast event on occurrence of an error
 
-> >>>> 2. Should I create a helper function for installing the SHMEM file a=
-s a fd? =20
-> >>> We already have the udmabuf device [1] to turn a memfd into a DMA-buf,
-> >>> so maybe that would be enough?
-> >>>
-> >>> [1]https://elixir.bootlin.com/linux/v6.5-rc7/source/drivers/dma-buf/u=
-dmabuf.c
-> >>>     =20
-> >> It is the kernel driver that allocate this buffer. For example, v4l2
-> >> CAPTURE allocate a buffer for metadata when VIDIOC_REQBUFS.
-> >> Or GBM give you a fd which is assigned with a surface.
-> >>
-> >> So we need a kernel interface. =20
-> >>> Best,
-> >>> Tomasz
-> >>>     =20
-> >>>> --
-> >>>> Hsia-Jun(Randy) Li =20
-> >  =20
->=20
+ drivers/gpu/drm/Makefile             |   1 +
+ drivers/gpu/drm/drm_drv.c            |   7 +
+ drivers/gpu/drm/drm_netlink.c        | 177 +++++++++++
+ drivers/gpu/drm/xe/Makefile          |   1 +
+ drivers/gpu/drm/xe/xe_device.c       |   6 +-
+ drivers/gpu/drm/xe/xe_device_types.h |   1 +
+ drivers/gpu/drm/xe/xe_irq.c          |  32 ++
+ drivers/gpu/drm/xe/xe_netlink.c      | 419 +++++++++++++++++++++++++++
+ include/drm/drm_device.h             |   8 +
+ include/drm/drm_drv.h                |  14 +
+ include/drm/drm_netlink.h            |  49 ++++
+ include/uapi/drm/drm_netlink.h       |  66 +++++
+ include/uapi/drm/xe_drm.h            |  64 ++++
+ 13 files changed, 844 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/drm_netlink.c
+ create mode 100644 drivers/gpu/drm/xe/xe_netlink.c
+ create mode 100644 include/drm/drm_netlink.h
+ create mode 100644 include/uapi/drm/drm_netlink.h
 
+-- 
+2.25.1
 
---Sig_/=7wEatCdcP1mozuK9z20Vy1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmTok1YACgkQI1/ltBGq
-qqeJTQ//YMiq0BxH7MunqPu+HKNs+EQYCnO4e82D4TNR96frJ7j9Nyd1ru8ZFSav
-vdgXX0LN/mt682PDcZHIPLle/83LjpNwfD33ed/P3czpu9NMjhQHQ5wLu1kvvSv2
-SINZnCmH8KitLvJsu51jWhI0mxEt74u/YjACIpgnxXLvsvZoyx+FOCF5XDm94qEi
-TAAbMdaFA5LBDFlHiarSbF17aM8aFm/XSJWPQZU9KHTv5ZCIiiU83CyDXIpV78OY
-FfxBhCCefD8NS11UUjqkEWb8VGQ97O5ZTtyl8Dio6A5lMcohWHnCFZr6bqGSG8kA
-OEPnm8WPEITW2nVUT3TMmJrPZFp3YPWZ3K/I0U7+KOzbI8FRl4nelg4jv5875eXi
-isQZ3iivpYLf2/0l7WKvu9ca50SFKxK6qsGy9qsi6jxph7PDQ0KaPz7E7iF15oQB
-z4rJY8cBfHSV0AVT7FQPiE0w8z7fWfvqzgtaVwk6fIkorxdHE32IdSsHOGjBnwWC
-EOmF96euDy/IG7eYatqN3Dld5sZyj4IZagRg2iQuMFnDpd++GdjZFUyvkkLjBVMP
-AdgaIM7sfLxPQNJDv5dqfhRGeFQrLWSGkXg7S40gY/9G1oqc3RtCu4XWbjR9ZrMm
-sGdU/4fFgELc4T+9oYTU5d7Cl6IwHKn1u2Kvdoa4hrFg8ynP5zI=
-=ltBp
------END PGP SIGNATURE-----
-
---Sig_/=7wEatCdcP1mozuK9z20Vy1--
