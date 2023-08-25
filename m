@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9D5788CF1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 18:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AE6788D0C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 18:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E4C10E6CC;
-	Fri, 25 Aug 2023 16:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E0710E6D3;
+	Fri, 25 Aug 2023 16:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D44510E6CC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 16:08:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 0DBFE40EFD;
- Fri, 25 Aug 2023 18:08:45 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UeHYGLQuw__G; Fri, 25 Aug 2023 18:08:44 +0200 (CEST)
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1692979724; bh=0LF+ZkkGQUjuFnbTwCUUcP0NI72TB7o23qw7MoB3BMc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=U0DD2sFI0EctTVizCGH08AdJs9blM+FCYoPyZTcrXzm+t89wQmZTyO2VZpLHz7qvG
- pFn8xl7CNZZqKHNxeJCx0qncS0193DX3iRFIzWRhxW9I1Evw5l3W/wVttuP1bjRPGd
- A25WZTOQ9RfxJDHjMQ0iNjDy+hopthK7Apn2kDF/VsYUjGGLI+0h3RYBwngsGojWkY
- ijctRpJ+kTTu6UQoW7fVwf8IcbJ+MvU5xvv/2gdzki8D/L5qyTl8Dzjp5O4dJ8J7Kn
- lvIu8ADt/P3f2oCNmnBuYixf334RsdU/c4VIBNKkA5zyQUlndQTO+UZXGW74PPuHHO
- yGNE1zoOMIkbg==
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/10] drm/tests: Add test for drm_framebuffer_lookup()
-Date: Fri, 25 Aug 2023 13:07:21 -0300
-Message-ID: <20230825160725.12861-7-gcarlos@disroot.org>
-In-Reply-To: <20230825160725.12861-1-gcarlos@disroot.org>
-References: <20230825160725.12861-1-gcarlos@disroot.org>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE38310E6D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 16:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692980122; x=1724516122;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rwr6PSTgN8wp4klUyHHPGoINVGER8BObj2gS+V7ZX38=;
+ b=A4QulLF8ViSrAPXCivJkS5cjKXaN9a8FiPyi0pkVS4Z+VWTumXWlIrUf
+ 5t1e0EADw4BBHUMcys4NzUhudBNFcmN4yv6gTlmifUp3JmQOGGrcvw5Ul
+ 2ZKDh+qMDhgk/ZEBmCXv9I2CFiPNYCihZL4WEsH9H6ATfAbqlfBe34xDV
+ tNgJgssoiSQCqTasDUzfmq+Fwyv9s0A6ULdwCCE05yvhhQQf3M9DZy7R2
+ 168Og22IxSa1x5K2qdNcdPwF960gBNxxtdWPN9DyVx2fZNR3SC0btICSq
+ TgQEDJe8WFEEO1xk6BgJNGjfUxbtIPlPivwG5eTnM5RBv18vd+pXsObym w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="364942524"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; d="scan'208";a="364942524"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2023 09:10:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068283943"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; d="scan'208";a="1068283943"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 09:10:47 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qZZOY-0003nL-17;
+ Fri, 25 Aug 2023 16:10:46 +0000
+Date: Sat, 26 Aug 2023 00:09:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/9] accel/ivpu: Move set autosuspend delay to HW
+ specific code
+Message-ID: <202308260057.5bVOUnNo-lkp@intel.com>
+References: <20230825124135.4086628-2-stanislaw.gruszka@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230825124135.4086628-2-stanislaw.gruszka@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- David Gow <davidgow@google.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a single KUnit test case for the drm_framebuffer_lookup function.
+Hi Stanislaw,
 
-Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
----
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 28 ++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index 16d9cf4bed88..3d14d35b4c4d 100644
---- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
-+++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -8,6 +8,7 @@
- #include <kunit/test.h>
- 
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_fourcc.h>
-@@ -370,6 +371,10 @@ static int drm_framebuffer_test_init(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
- 	dev = &mock->dev;
- 
-+	dev->driver = kunit_kzalloc(test, sizeof(*dev->driver), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev->driver);
-+
-+	idr_init_base(&dev->mode_config.object_idr, 1);
- 	mutex_init(&dev->mode_config.fb_lock);
- 	INIT_LIST_HEAD(&dev->mode_config.fb_list);
- 	dev->mode_config.num_fb = 0;
-@@ -530,8 +535,31 @@ static void drm_test_framebuffer_cleanup(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, dev->mode_config.num_fb, 0);
- }
- 
-+static void drm_test_framebuffer_lookup(struct kunit *test)
-+{
-+	struct drm_mock *mock = test->priv;
-+	struct drm_device *dev = &mock->dev;
-+	struct drm_framebuffer fb1 = { };
-+	struct drm_framebuffer *fb2;
-+	uint32_t id = 0;
-+	int ret;
-+
-+	ret = drm_mode_object_add(dev, &fb1.base, DRM_MODE_OBJECT_FB);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	id = fb1.base.id;
-+
-+	/* Looking for fb1 */
-+	fb2 = drm_framebuffer_lookup(dev, NULL, id);
-+	KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
-+
-+	/* Looking for an inexistent framebuffer */
-+	fb2 = drm_framebuffer_lookup(dev, NULL, id + 1);
-+	KUNIT_EXPECT_NULL(test, fb2);
-+}
-+
- static struct kunit_case drm_framebuffer_tests[] = {
- 	KUNIT_CASE(drm_test_framebuffer_cleanup),
-+	KUNIT_CASE(drm_test_framebuffer_lookup),
- 	KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coords_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on next-20230825]
+[cannot apply to drm-misc/drm-misc-next linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislaw-Gruszka/accel-ivpu-Move-set-autosuspend-delay-to-HW-specific-code/20230825-204444
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230825124135.4086628-2-stanislaw.gruszka%40linux.intel.com
+patch subject: [PATCH 1/9] accel/ivpu: Move set autosuspend delay to HW specific code
+config: x86_64-randconfig-004-20230825 (https://download.01.org/0day-ci/archive/20230826/202308260057.5bVOUnNo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260057.5bVOUnNo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260057.5bVOUnNo-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/pci.h:37,
+                    from drivers/accel/ivpu/ivpu_pm.c:8:
+   drivers/accel/ivpu/ivpu_pm.c: In function 'ivpu_pm_init':
+>> drivers/accel/ivpu/ivpu_pm.c:303:66: error: 'struct dev_pm_info' has no member named 'autosuspend_delay'
+     303 |         ivpu_dbg(vdev, PM, "Autosuspend delay = %d\n", dev->power.autosuspend_delay);
+         |                                                                  ^
+   include/linux/dev_printk.h:129:48: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                                ^~~~~~~~~~~
+   drivers/accel/ivpu/ivpu_drv.h:73:17: note: in expansion of macro 'dev_dbg'
+      73 |                 dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
+         |                 ^~~~~~~
+   drivers/accel/ivpu/ivpu_pm.c:303:9: note: in expansion of macro 'ivpu_dbg'
+     303 |         ivpu_dbg(vdev, PM, "Autosuspend delay = %d\n", dev->power.autosuspend_delay);
+         |         ^~~~~~~~
+
+
+vim +303 drivers/accel/ivpu/ivpu_pm.c
+
+   284	
+   285	int ivpu_pm_init(struct ivpu_device *vdev)
+   286	{
+   287		struct device *dev = vdev->drm.dev;
+   288		struct ivpu_pm_info *pm = vdev->pm;
+   289	
+   290		pm->vdev = vdev;
+   291		pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
+   292	
+   293		atomic_set(&pm->in_reset, 0);
+   294		INIT_WORK(&pm->recovery_work, ivpu_pm_recovery_work);
+   295	
+   296		pm_runtime_use_autosuspend(dev);
+   297	
+   298		if (ivpu_disable_recovery)
+   299			pm_runtime_set_autosuspend_delay(dev, -1);
+   300		else
+   301			pm_runtime_set_autosuspend_delay(dev, vdev->timeout.autosuspend);
+   302	
+ > 303		ivpu_dbg(vdev, PM, "Autosuspend delay = %d\n", dev->power.autosuspend_delay);
+   304	
+   305		return 0;
+   306	}
+   307	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
