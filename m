@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAA6787FF5
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 08:33:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A9D788057
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 08:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7F8B10E608;
-	Fri, 25 Aug 2023 06:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B54910E616;
+	Fri, 25 Aug 2023 06:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A06710E608
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:33:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EFD9764DA3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6379AC433CC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692945195;
- bh=OWP7L+o6Rn3Ocavi1Knj4PpGtVn9d4NbZLnF0h0K51I=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hVtWbLaw+Zamnu6V5VOAShbUW5WLQ/ldlsikvtgYXCzTxRbF6n+8H3agUrVYvkaKY
- c5qyxVal5pHOMOjPDfYGM9dXyFT/K3UkZElqzVFq8hcC4bxLtfFX3Ng5ls/MmYEcs1
- wkjRuEiyFQZmzWCpkmpDBRC4Kzq3CQ0y6rMmADT04gWQ/KdMn8AE812V3VVb+CXoK2
- WpqMO7rn0/5Y9THFSvGpMHDCpDLXs1UKMNNpBUe1mv9jCfxOS/klfyyus59Na5ODaU
- 3PhdvRxIdbJmKNFgNAAkdybQsrsK7Isqxw/zdEfr+6NSQoI2d86Av3QMASAexgjDa4
- a0RP9anU02E6Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4FEE0C53BC6; Fri, 25 Aug 2023 06:33:15 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Fri, 25 Aug 2023 06:33:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: ACPI
-X-Bugzilla-Component: Power-Sleep-Wake
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: penteljapan@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217664-2300-JSh3PlTNTg@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
-References: <bug-217664-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E50610E612
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:52:46 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id
+ 41be03b00d2f7-56c2e840e70so321288a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Aug 2023 23:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692946366; x=1693551166;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zyeeHky36HOFsNAx3muIoihxDyePLkMN46mCRR53eHo=;
+ b=UgxRTZTmdk17KlhXVbou5F5azvrooO9UdaXdH+JK+LkDp52hAhd6bdWhF6H1vGBJJG
+ MW7wWQ8WvMHIic2YnxsVe9usrByBQFMhzQvFKMRhdWOV2rQQL3v0Q/BXRGQQ4Wim2Zlq
+ YdeoIHsTQPXSHb199RH+fxKRyKhkXxuy4RSwgBLB8jBs9RE2weyIobNDkW/Bh1SxmSLy
+ CBuUj/gBP/V3XD4ObOi3eLdHwLt7c8UDE116sjDzQ7sSvNX8/YDW13/fN1zJignj0uBb
+ WnRTclXMAusRgQZMn5qJ6VfohH92sd9+lXrhHqRZ1tmQ8vc2cWwbv8Z8LL7U7b2+hJUg
+ lwow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692946366; x=1693551166;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zyeeHky36HOFsNAx3muIoihxDyePLkMN46mCRR53eHo=;
+ b=fM7V35GVu2VIwlgLZYo8UieaPJwg0RrTbw9JGaSXHTW4pxbNEhdrhCoHLpzq9gd2w5
+ 9u1cBzVFTt2gxL8h49FUflWD53I8zS17es6dWrWU2h8aHPPij03dfNx9xY6OrW/JJsrF
+ WBtc9DcY3B7Sb630ZX4GPxicpyX6VtmfYtOf131MjSlLf1VwdB+aBktR3a6cxUyQ1HbU
+ zE/8DaXsAvIqCwl8gq1RzIrTRv9cg7z1Q1Ztxn0pzNaKQ8t5pLycVbNvWqvnBesZFndB
+ RyHMIGJ4PZYYly8ggsYqnLlYLfXu3d4Nu4rhjj/50qW68NxaCrgC64sivBHA4zW5KaR3
+ cEfQ==
+X-Gm-Message-State: AOJu0Yx4A/f7/t/YtKre1cYHtSqdLIGyitQJzVWGmZwHlCNH4egfewkq
+ kuOUUVf8ssYtJhuXzHNTWKkS6TwZaKU=
+X-Google-Smtp-Source: AGHT+IHXvwHWoF7Y9aZZKfj1eYyEhMQ/jfnzdTKlK2GYWy5xd5Hc88EkwXEkcLnOsBz8BrkBTtmn4w==
+X-Received: by 2002:a05:6a20:199:b0:13b:7848:9515 with SMTP id
+ 25-20020a056a20019900b0013b78489515mr19768114pzy.13.1692946365852; 
+ Thu, 24 Aug 2023 23:52:45 -0700 (PDT)
+Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
+ [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
+ x3-20020aa784c3000000b0068c006dd5c1sm798714pfn.115.2023.08.24.23.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Aug 2023 23:52:45 -0700 (PDT)
+Date: Fri, 25 Aug 2023 08:52:39 +0200
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+To: Jorge Maidana <jorgem.linux@gmail.com>
+Subject: Re: [PATCH] drm/gma500: remove duplicate macro definitions
+Message-ID: <yohcjzdwlgw4an5zopirykpj4jllquxncaigif4yfyjrobe7uz@2xwd3l62ryf3>
+Mail-Followup-To: Jorge Maidana <jorgem.linux@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+References: <20230725173107.9593-1-jorgem.linux@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230725173107.9593-1-jorgem.linux@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,43 +75,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
+On Tue, Jul 25, 2023 at 02:31:07PM -0300, Jorge Maidana wrote:
+> Remove identical duplicate block of macro definitions in
+> drivers/gpu/drm/gma500/psb_drv.h.
+> 
+> Signed-off-by: Jorge Maidana <jorgem.linux@gmail.com>
 
---- Comment #34 from popus_czy_to_ty (penteljapan@o2.pl) ---
-banned nouveau by nvidia guide -->
-https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/nouveau=
-.html
+Applied to drm-misc-next
 
-lsd@Crawler-E25:~$ lspci -k | grep -EA3 'VGA|3D|Display'
-01:00.0 VGA compatible controller: NVIDIA Corporation GA107M [GeForce RTX 3=
-050
-Mobile] (rev a1)
-        Subsystem: CLEVO/KAPOK Computer GA107M [GeForce RTX 3050 Mobile]
-        Kernel modules: nvidiafb, nouveau
-01:00.1 Audio device: NVIDIA Corporation Device 2291 (rev a1)
---
-05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Cezanne [Radeon Vega Series / Radeon Vega Mobile Series] (rev c6)
-        Subsystem: CLEVO/KAPOK Computer Cezanne [Radeon Vega Series / Radeon
-Vega Mobile Series]
-        Kernel driver in use: amdgpu
-        Kernel modules: amdgpu
+Thanks
+Patrik
 
-----
-/var/lib/systemd/pstore  is empty,
-
-doesnt return back from suspend on your script (im trying to do it manually=
- but
-doesnt do anything as before)
-
-a) before baning nouveau
-b) after
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> ---
+>  drivers/gpu/drm/gma500/psb_drv.h | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+> index f7f709df9..6204a745d 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_drv.h
+> @@ -161,14 +161,6 @@
+>  
+>  #define PSB_NUM_VBLANKS 2
+>  
+> -
+> -#define PSB_2D_SIZE (256*1024*1024)
+> -#define PSB_MAX_RELOC_PAGES 1024
+> -
+> -#define PSB_LOW_REG_OFFS 0x0204
+> -#define PSB_HIGH_REG_OFFS 0x0600
+> -
+> -#define PSB_NUM_VBLANKS 2
+>  #define PSB_WATCHDOG_DELAY (HZ * 2)
+>  #define PSB_LID_DELAY (HZ / 10)
+>  
+> -- 
+> 2.30.2
+> 
