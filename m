@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC9D7886AF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4AD7886B0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFC910E65C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD77C10E664;
 	Fri, 25 Aug 2023 12:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A828F10E65C
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:11:54 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-5007c8308c3so1314828e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 05:11:54 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A050610E65C
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:11:55 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-52a4737a08fso1197564a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 05:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692965513; x=1693570313;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qhIkzsyTKm670j6OXVUadyYcO048MWKmieMFi0kdsqU=;
- b=oZ2Ey6AHeynFNLLoCwmcpV/iHUNu/GVg4qpIbNpwiA7oe1toexTbxTXhSQQD7/zQ98
- 5MIGiFL1oH/UueBNsNFT/tSN4BR06ivWpe0xbrVCjctcGYbzzlWnWW9pNxjZY/WLY4lV
- AQFykQ78Qh0+ZsM6slzxVKSDWkm0Ht/v6+C8r2U3Qu0LTb6B5SNHymM90EK4PUbnXOkA
- yl1ZP2Tc64Iy9EebcB0I4Ih6gzuG3fqtoX3N2gfYi8ni/JPawTPxuxfi1UWX45qQ01Ue
- qZMvc5K/174DINLVkmoI62PtCDyU+xD6jl5GX/WiJxmqFCVfIuA+nhaBwV55ICa/9rLs
- D2rQ==
+ d=linaro.org; s=google; t=1692965514; x=1693570314;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W09M8JIJtZCbNBhGe/AHRCcrRIGkrBwh+HJVwKRzmpo=;
+ b=qy/k8F4E2HnvzsVd4KmFJ9w+Is3DiCU8cReyo3hylHEak4SVWOjMPSvhS4/qaaCgvA
+ gy6RFInVgy/huM+JuWnN+G2wXg7OC7gFuYVwGr7WH//qN5CgjPciVrBKR6q7Tju6Gx7t
+ 7nBqvHwBincOZ3iQXO8cWUDH+fMLTGv49kSthzS0o/vsrTWMYKP4p/VMFxqe4Xre01+w
+ Vsx+JAOobalOWf4KG7OwC0jqltoRkxFpPV9wtKcos2Bpcm3J68urwbix3l5LFKaXZmM5
+ xwl3TTxDMLEcJrmF0JAHKjV0tP7kWfLK23KvpMX/v5o3CAKQK7bznbZhI4KMuEixrXB6
+ gquA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692965513; x=1693570313;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qhIkzsyTKm670j6OXVUadyYcO048MWKmieMFi0kdsqU=;
- b=BSue+rXWPfDauZoTGL8GR2EsrfGUkkxih5Hz5vMl8rBFYbh3ipTU6kTcmloe8sFGy6
- UOpd5VKVifwDYU5/ejb+DUK5H89pOzXyuK4d7Ehj4e9CAqq2cRZ2uWH57TCWG8ySiWjV
- 8vcLLX4TGJJskkuMFiwgmUNDr1SY/7i1rwVbjQEiSG36Tdhq8juZAiMSyU5PoYeHfqe8
- n0N6cwSme46Svf6dmET4AAa3h+Y3k+wNT6JjPpjyG8TZVaJ3B1EWfdDjNzfGjtXxBBL7
- Yid6zMYWc14LpOuEHCzSUIxOPQ+Xyz/0tKlZlqHmuAoICqVh+OkTrykIMAAfz7tfq3+w
- +wTg==
-X-Gm-Message-State: AOJu0YypSJ7AFrzBhPZmHDuGd72s2hPIV/WqTx2yJ9U18Ln26xsI+6Lw
- ky5/7xthC/QQXYcibrTzG9RjKA==
-X-Google-Smtp-Source: AGHT+IELNGy+ZJX03ObKjQP+MzDwqRIy5Q5gtBaOdGmbJfuToQbeiU29jbARS+FjeuGm36A8/pxAhw==
-X-Received: by 2002:a05:6512:36d2:b0:500:9524:f733 with SMTP id
- e18-20020a05651236d200b005009524f733mr5221093lfs.20.1692965512717; 
- Fri, 25 Aug 2023 05:11:52 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692965514; x=1693570314;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W09M8JIJtZCbNBhGe/AHRCcrRIGkrBwh+HJVwKRzmpo=;
+ b=ADos7gZsCA8VDpo2gNwOg+LXlVMCW5pksQZLfZTnaL2hQxteVOyId49gL5slCwrumO
+ nODcetPCh8JilMZHtzjexmd4AB/TzuqegUP+BnloOmkDRjAwGey32uwcwdpV5fQorx+M
+ GUIh8SGd8UqXTLie6909jjH0jZRyoHFiqdL944IMCpzyTO6HkwaQfBTconfT3tUzVDBL
+ 3HBsma9PqUdVs97Uv0zBjd+r7r8n8o0HeRd3hRkTPxdlIFEh2QTBOgyUTPOanle/Q7/S
+ 4u83XVo8+5+6T6uyDffPglAaKRjzisbXN8QslzyFWrm/psbZ1pXUpLF6CQmUtEwPvQu7
+ RpVQ==
+X-Gm-Message-State: AOJu0YzoY0xTZvgfvsAo1OLOy8N1RCH2MkALNGIIifZ0c04yWKMILSoz
+ zHToExV0uEi+KCyIQm6CfD89kQ==
+X-Google-Smtp-Source: AGHT+IGeaaxzgQU3D9ocJw3HPTByA322ZOhgy6e3l3Q+GdmYumf8G9Xf+6/gcGtQ7Yrnsa53Y5ZIkg==
+X-Received: by 2002:a50:ef08:0:b0:523:3e77:7eb5 with SMTP id
+ m8-20020a50ef08000000b005233e777eb5mr14091316eds.2.1692965514049; 
+ Fri, 25 Aug 2023 05:11:54 -0700 (PDT)
 Received: from krzk-bin.. ([77.252.47.198]) by smtp.gmail.com with ESMTPSA id
- l5-20020a056402124500b005222c6fb512sm952311edw.1.2023.08.25.05.11.51
+ l5-20020a056402124500b005222c6fb512sm952311edw.1.2023.08.25.05.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Aug 2023 05:11:52 -0700 (PDT)
+ Fri, 25 Aug 2023 05:11:53 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
@@ -60,11 +61,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/3] dt-bindings: display: panel: add common dual-link
- schema
-Date: Fri, 25 Aug 2023 14:11:40 +0200
-Message-Id: <20230825121142.101759-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 2/3] dt-bindings: display: novatek,nt35950: define ports
+Date: Fri, 25 Aug 2023 14:11:41 +0200
+Message-Id: <20230825121142.101759-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230825121142.101759-1-krzysztof.kozlowski@linaro.org>
+References: <20230825121142.101759-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,78 +85,48 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add schema with common properties shared among dual-link panel ICs.
+The panel-common schema does not define what "ports" property is, so
+bring the definition by referencing the panel-common-dual.yaml. Panels
+can be single- or dual-link, thus require only one port@0.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
 Changes since v3:
-1. Re-phrase description of binding and ports (Laurent)
-v3: https://lore.kernel.org/all/20230823081500.84005-1-krzysztof.kozlowski@linaro.org/
+1. Rb tag
 
 Changes since v2:
-1. New Patch
-v2: https://lore.kernel.org/all/20230502120036.47165-1-krzysztof.kozlowski@linaro.org/
-v1: https://lore.kernel.org/all/20230416153929.356330-1-krzysztof.kozlowski@linaro.org/
----
- .../display/panel/panel-common-dual.yaml      | 47 +++++++++++++++++++
- 1 file changed, 47 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-common-dual.yaml
+1. Use panel-common-dual
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-common-dual.yaml b/Documentation/devicetree/bindings/display/panel/panel-common-dual.yaml
-new file mode 100644
-index 000000000000..cc7ea3c35c77
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-common-dual.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-common-dual.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Common Properties for Dual-Link Display Panels
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description:
-+  Properties common for Panel IC supporting dual link panels.  Devices might
-+  support also single link.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    additionalProperties: false
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: First link
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Second link
-+
-+      "#address-cells": true
-+      "#size-cells": true
-+
-+    required:
-+      - port@0
-+
-+# Single-panel setups are still allowed.
-+oneOf:
-+  - required:
-+      - ports
-+  - required:
-+      - port
-+
-+additionalProperties: true
+Changes since v1:
+1. Rework to add ports to device schema, not to panel-common.
+---
+ .../devicetree/bindings/display/panel/novatek,nt35950.yaml     | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
+index 377a05d48a02..7cac93b20944 100644
+--- a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
+@@ -19,7 +19,7 @@ description: |
+   either bilinear interpolation or pixel duplication.
+ 
+ allOf:
+-  - $ref: panel-common.yaml#
++  - $ref: panel-common-dual.yaml#
+ 
+ properties:
+   compatible:
+@@ -59,6 +59,7 @@ required:
+   - avee-supply
+   - dvdd-supply
+   - vddio-supply
++  - ports
+ 
+ additionalProperties: false
+ 
 -- 
 2.34.1
 
