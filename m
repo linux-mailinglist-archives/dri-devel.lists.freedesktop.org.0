@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F1F787F89
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 08:06:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6C4787F8A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 08:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3710510E0EC;
-	Fri, 25 Aug 2023 06:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3A1D10E600;
+	Fri, 25 Aug 2023 06:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D693210E0EC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:06:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7D010E600
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:07:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C7C7763185
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:06:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B27CDC433CC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:06:28 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 83CA1617BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA46BC433C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 06:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692943588;
- bh=iSslF6aHCTQg+pIrQJ/dHW2mq1MfvL2fKkabfrE4MTk=;
+ s=k20201202; t=1692943642;
+ bh=vx2lu2ZIpgrxx4aGwHsdIF/pj2TpbZ86k2n4w9PQb5U=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cclocrGCVaMcR7NWQbVKh7iZXSrTP9izUVM1ILqXlWeBnKdXX7TJUxka+9nNE0Rpu
- 5MABKQyxBpHjpzQvkSjOVFW0GPfRVccfU49Q0xPfXA31KwXLwEiNgXm5MVErvefT5k
- c2rByQ8JmpIDEFG1GD2mEdw1Clp62/M6eL2pQ+SB/bCjlZbJVSwttjjvEnyQ54z2B/
- iSSNDf55mZBYYdldBZ9GJuy3ipg4+cu+IxEg4vkIkWUBvvrB0pWSC69vPQu87/RnXA
- Jp//4S6x0Xoxodj7yoMmq7/5nI0iHxG2hWmaIxYEN84018sI+OkRxWvcYgt3RtFFrD
- 9G5FcxW7fyoeQ==
+ b=uawL3fkzERaOn5Wgue8cYGZImzbFGAKZU4K3XWOBM7+2tE/vkjMxISaMKHMrV7nih
+ +hn06uGiCOdr8Ti6zG9d0dT4Cr+IIq5MR+WDAiT/DvWLUFWQ+PKT8CeQsFgEp0RkUq
+ VP6M6RR5qCpEXm/OuAk7/P+XD5vunmo3H4w7BD5itZpyj0ScegtHTsrwMQu/qeyzC9
+ b9kwgbaoTzga4dJl78/4TVTJlKkl+IFFO0N5+J5jNB9ZPILcm8t33r55n3p060aSTF
+ sh+dVWzB4rbGPkoED582zuK63jenz6tV1lzNjH/P2Gi1uE0wFNm7a1iag7dh7Siwoy
+ tcZnbz6Foqrcw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id A2463C53BD4; Fri, 25 Aug 2023 06:06:28 +0000 (UTC)
+ from userid 48) id DA815C53BD4; Fri, 25 Aug 2023 06:07:21 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Fri, 25 Aug 2023 06:06:28 +0000
+Date: Fri, 25 Aug 2023 06:07:21 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +52,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217664-2300-YaVlIbRFaL@https.bugzilla.kernel.org/>
+Message-ID: <bug-217664-2300-x0OITxo78B@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
 References: <bug-217664-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
---- Comment #29 from popus_czy_to_ty (penteljapan@o2.pl) ---
-Created attachment 304936
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304936&action=3Dedit
-kernel 6.4.11 install
+--- Comment #30 from popus_czy_to_ty (penteljapan@o2.pl) ---
+Created attachment 304937
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304937&action=3Dedit
+kernel log
 
 --=20
 You may reply to this email to add a comment.
