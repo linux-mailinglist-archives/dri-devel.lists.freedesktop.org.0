@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38FF788365
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 11:19:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBB6788367
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 11:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2333210E0A4;
-	Fri, 25 Aug 2023 09:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1310910E647;
+	Fri, 25 Aug 2023 09:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8375610E0A4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 09:19:38 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE4D10E647
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 09:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692955178; x=1724491178;
+ t=1692955217; x=1724491217;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=arD+8plaFcQa1QmO7uQcY+oZeKgXilhGtFgiWUGy3U4=;
- b=DWkPh2vfUmfDUbfQGEoVEZUUHGBOXcriw8T52TUXBKfVuj5pWVoZ+PNY
- HH6RnRKo9kTAZc6+brE8krR8nDCzu6C+V16wB9CRa/6OmjhJziVwqeGvz
- eMDErhcr7e4+94PKDauQiXAUouII+YfBHLSQWya2+0vA2aJzRmBIpd5r3
- EOW+86LAOzWX0jvZyc0ys/HJhghI5mtE9HTG2RyCI1Ty7dCAHW2Br8uZ+
- wxzhsE3918rdb/VFUswTkajcla7ze+bzSQhVk2PR98tXxuc82iDkPi6ma
- 74w4mUIpplAQdMCy1V40vXM5dZ9S5hMJxFcVfdedsf/feaCAir+PyRUUP w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="438613021"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="438613021"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 02:19:37 -0700
+ bh=FDMl+onuToDyEOluRAGKzyB6iREgmusYLPjxALDtjeU=;
+ b=gOylUTwJeMv53CVutmmdrBENHVMQFh5Pvve6G77uMFdRcSholTbj9mKJ
+ pFswJ6OmUGfygtxVDirzxku1OCAuuF2IMEoC5zX2EkyAPucP/caaWrV4e
+ TGht/MNqBBcvQH4eZ25Jy3lWCD+WwRkbTz55zoI5XiiBzjqbMf8IPyzND
+ Mn81SBQIusq/vIt6b08cgwnwc6Vjh3r/EzZ2Xo76U60c6yr2/Vp1jdCZP
+ bWdOuGaajGsQ0ClYen//nW/OxDnepuY2PDBaCRCMNh8ikgJcry+eX5JPC
+ HWpkhMPnWwQXqvAv7i6AiWUcLcoobA/SDo1uaJQ/pO8I+hBwzU9aRG5x4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="377412580"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="377412580"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2023 02:20:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="737417108"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="737417108"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="911228524"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; d="scan'208";a="911228524"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2023 02:19:36 -0700
-Date: Fri, 25 Aug 2023 11:19:34 +0200
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2023 02:20:13 -0700
+Date: Fri, 25 Aug 2023 11:20:11 +0200
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH] habanalabs/gaudi: refactor deprecated strncpy
-Message-ID: <20230825091934.GC3748525@linux.intel.com>
-References: <20230824-strncpy-drivers-accel-habanalabs-gaudi-gaudi-c-v1-1-a7fb9054734c@google.com>
+Subject: Re: [PATCH] habanalabs/gaudi2: refactor deprecated strncpy
+Message-ID: <20230825092011.GD3748525@linux.intel.com>
+References: <20230824-strncpy-drivers-accel-habanalabs-gaudi2-gaudi2-c-v1-1-1a37b65576b4@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824-strncpy-drivers-accel-habanalabs-gaudi-gaudi-c-v1-1-a7fb9054734c@google.com>
+In-Reply-To: <20230824-strncpy-drivers-accel-habanalabs-gaudi2-gaudi2-c-v1-1-1a37b65576b4@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,7 +62,7 @@ Cc: Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 24, 2023 at 08:41:26PM +0000, Justin Stitt wrote:
+On Thu, Aug 24, 2023 at 08:45:08PM +0000, Justin Stitt wrote:
 > `strncpy` is deprecated for use on NUL-terminated destination strings [1].
 > 
 > A suitable replacement is `strscpy` [2] due to the fact that it
