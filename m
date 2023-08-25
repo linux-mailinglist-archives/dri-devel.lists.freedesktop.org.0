@@ -1,80 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A3E788FF4
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 22:45:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9076D789032
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 23:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C73C10E6E9;
-	Fri, 25 Aug 2023 20:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3B210E163;
+	Fri, 25 Aug 2023 21:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0859310E6E6;
- Fri, 25 Aug 2023 20:45:03 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37PKIG0F028065; Fri, 25 Aug 2023 20:44:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=rCbT+9n5oZd2fu4/AHpTd1uvnXAylvuuPvz5cdeX7To=;
- b=Sx+a9DMnEXz7b5bgezSZt8ZwcQ2pGwkhaGTUlsDpoYdb/EElVNiJOJik0T2uRGGaDdGd
- kanEHiByoEw847vOsPJ4XNvPpPB8kUGTOfufVt9lQHt5s1mVbNd1kJhxbnXe5UlCf81t
- 6Tz1zdOZFR6oWWrSrUyqjmY7Q6yd8o8zvJDso1dcvagAHM3/SuGUj3BJlx6/aFOqAgl2
- 5MNGr4TEQE3weQRg4VjEIMroSd1hngx+3jU2rGBZnC4vVXLqEKTDa3n//UghLmd3IfYA
- Xpz1hpNt5L443G9QFLygiJQppYWuvKo3QYalKBbE86UWqMzzMBEPp5hUeoZB09qIK9FT Wg== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3spmm69xxd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Aug 2023 20:44:49 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
- [10.52.223.231])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37PKimSG007359
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Aug 2023 20:44:48 GMT
-Received: from [10.110.6.4] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 25 Aug
- 2023 13:44:47 -0700
-Message-ID: <832a55a6-9914-a5f1-5bef-30421e47181d@quicinc.com>
-Date: Fri, 25 Aug 2023 13:44:46 -0700
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D72510E163
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 21:11:23 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4ff9abf18f9so2089411e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 14:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1692997881; x=1693602681;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kya4VCOyGVlh2JiHxWE9QAp8dwJuU5ZWnBug4TSNcmc=;
+ b=rUshhZIsDiBo7WCfwqNHWQsr1qW1f+nm7pBGYXNACMHqnRCANX6kz9d/0PDcrGwBBh
+ HaTa+xgMW0xEMMcNCcly+PlLMX/GUkfDn+dQ4+NIclI765ieTygGxQDoN9vwNeaay8sT
+ g8ZC5Dh4C7YHMv8AwjM31Viq4x0dnu2ICZkvvIljkteBcJwlHGdrNW31R7vC9dLVEeW5
+ 2EMxPASS96KLCda+WjGTkSIxaGR1RjjMG4XpL0g6ZG0qObCKr7vfJRH5ON+zPSOQBNoC
+ 4vVWcpWflHap26Nw8FIR5FOzfYLHdA7Bru+HpZINh4xTPWKuwadBZPhgJpZtIfz1P4e+
+ M2DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692997881; x=1693602681;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kya4VCOyGVlh2JiHxWE9QAp8dwJuU5ZWnBug4TSNcmc=;
+ b=jYdsVjeY9modx6QqM8MkSxBqaoHDhAN0AMCXwSe7FPVCjg1dOIPOULwY4JnLwy+Xvx
+ ttnScMAgVQ/tvu5UVl2XAGkXMCauBOlqTmp/mIWATcHthOF40IeC/Dyxbyjt+RFpHOFk
+ OyDDfsJaOD5RmeMdvQFLM5kgD4jdBZpmGp2tp7Es1wdBJLyCVpfv4d1JttdbjkMAfHrI
+ TxGoPoAhR2p7zK8n5VPkrZ0hINEcwVJbBfRoxK0AAthTJQYmDtcxxPXOWv29u72773QW
+ V5hmWZUHB6BybKnJLM5KPnetVyw5zXJBZejsUXCK94bVR1ZXsU2PO/2dcmo1d4cUeiku
+ qKcg==
+X-Gm-Message-State: AOJu0YxRCR+DOwZU2IumStiicRyAf5sJr7/bmpgCKT5fBSAxk6ywEfiC
+ 4qHH16KWb/dfEjhydBM4a6JD5Q==
+X-Google-Smtp-Source: AGHT+IFCHIc2JcxoyfDle7JrH6QpkCqTl6D+tQn/CBxZH9wBJ8SwrNvY6pRv0pSZWS3KOnX9Yjq7lg==
+X-Received: by 2002:a05:6512:2395:b0:4fb:73ce:8e7d with SMTP id
+ c21-20020a056512239500b004fb73ce8e7dmr18072250lfv.15.1692997881664; 
+ Fri, 25 Aug 2023 14:11:21 -0700 (PDT)
+Received: from [192.168.1.101] (abxh59.neoplus.adsl.tpnet.pl. [83.9.1.59])
+ by smtp.gmail.com with ESMTPSA id
+ a9-20020ac25209000000b004fba077e654sm419947lfl.194.2023.08.25.14.11.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Aug 2023 14:11:21 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Fri, 25 Aug 2023 23:11:19 +0200
+Subject: [PATCH] drm/msm/adreno: Fix SM6375 GPU ID
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v1] drm/msm/dp: do not reinitialize phy unless retry
- during link training
-Content-Language: en-US
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <andersson@kernel.org>, <marijn.suijten@somainline.org>
-References: <1691533190-19335-1-git-send-email-quic_khsieh@quicinc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <1691533190-19335-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: NFxw4VKgL6xi8hVhddxdorYnjj4U6Uxg
-X-Proofpoint-GUID: NFxw4VKgL6xi8hVhddxdorYnjj4U6Uxg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_19,2023-08-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 phishscore=0
- clxscore=1011 mlxscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308250185
+Message-Id: <20230825-topic-6375_gpu_id-v1-1-e24f46d7f139@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAPYY6WQC/x2NQQqDMBAAvyJ7dsFEo61fKUWSuOqCxJDUIoh/d
+ /E4A8OckCkxZeiLExL9OfMWBFRZgF9smAl5FAZd6bp6aYO/LbLHtu7MMMd94BH9pMy7Je1U04F
+ 0zmZCl2zwi5RhX1eRMdHExzP6fK/rBtiaTD54AAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1692997880; l=998;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=a6ePufxP5h1WTj5TbQcKiSyADMI68Z8zNnOB43e2WE0=;
+ b=dwUoiS3miQJ8RFJu8BQ2LZjqZuPBTyXEv3x93TNYv38hpwzXFKGCWybgzrkRoG11fbheSogbw
+ c23YzyPOeqsBUEECLSnh3lRscEBvWd0Yhh9fjcapUO0IcoJNkEaIQuO
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,83 +84,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SM6375 comes with a patchlevel=1. Fix the chipid up to reflect that.
 
+Fixes: 90b593ce1c9e ("drm/msm/adreno: Switch to chip-id for identifying GPU")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 8/8/2023 3:19 PM, Kuogee Hsieh wrote:
-> DP PHY re-initialization done using dp_ctrl_reinitialize_mainlink() will
-> cause PLL unlocked initially and then PLL gets locked at the end of
-> initialization. PLL_UNLOCKED interrupt will fire during this time if the
-> interrupt mask is enabled.
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 575e7c56219f..f2d9d34ed50f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -331,7 +331,7 @@ static const struct adreno_info gpulist[] = {
+ 		),
+ 	}, {
+ 		.machine = "qcom,sm6375",
+-		.chip_ids = ADRENO_CHIP_IDS(0x06010900),
++		.chip_ids = ADRENO_CHIP_IDS(0x06010901),
+ 		.family = ADRENO_6XX_GEN1,
+ 		.revn = 619,
+ 		.fw = {
 
-There should be a line break here.
+---
+base-commit: 6269320850097903b30be8f07a5c61d9f7592393
+change-id: 20230825-topic-6375_gpu_id-cf1596e2b147
 
-> However currently DP driver link training implementation incorrectly
-> re-initializes PHY unconditionally during link training as the PHY was
-> already configured in dp_ctrl_enable_mainlink_clocks().
-> 
-> Fix this by re-initializing the PHY only if the previous link training
-> failed.
-> 
-> [drm:dp_aux_isr] *ERROR* Unexpected DP AUX IRQ 0x01000000 when not busy
-> 
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/30
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
-I tested and confirm that without this patch, I see this spam atleast 
-once per reboot but after this patch, I have not seen this for 5 
-consecutive reboots.
-
-Hence,
-
-Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
-
-Looking at the code flow, the dp_ctrl_reinitialize_mainlink() certainly 
-looks redundant where it is, considering that the clks were enabled just 
-a couple of lines above in dp_ctrl_enable_mainlink_clocks().
-
-Hence with the minor fix in the commit,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> ---
->   drivers/gpu/drm/msm/dp/dp_ctrl.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index a7a5c7e..77a8d93 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1774,13 +1774,6 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->   		return rc;
->   
->   	while (--link_train_max_retries) {
-> -		rc = dp_ctrl_reinitialize_mainlink(ctrl);
-> -		if (rc) {
-> -			DRM_ERROR("Failed to reinitialize mainlink. rc=%d\n",
-> -					rc);
-> -			break;
-> -		}
-> -
->   		training_step = DP_TRAINING_NONE;
->   		rc = dp_ctrl_setup_main_link(ctrl, &training_step);
->   		if (rc == 0) {
-> @@ -1832,6 +1825,12 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->   			/* stop link training before start re training  */
->   			dp_ctrl_clear_training_pattern(ctrl);
->   		}
-> +
-> +		rc = dp_ctrl_reinitialize_mainlink(ctrl);
-> +		if (rc) {
-> +			DRM_ERROR("Failed to reinitialize mainlink. rc=%d\n", rc);
-> +			break;
-> +		}
->   	}
->   
->   	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
