@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E4678871F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:25:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77669788726
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:25:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFDB10E148;
-	Fri, 25 Aug 2023 12:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C50310E669;
+	Fri, 25 Aug 2023 12:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8DD10E148
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:25:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C92AD10E669
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:25:27 +0000 (UTC)
 Received: from localhost.localdomain (unknown [171.76.83.99])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0FE3A66003AF;
- Fri, 25 Aug 2023 13:25:12 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D081660728C;
+ Fri, 25 Aug 2023 13:25:19 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692966319;
- bh=TpGrWMGej0KBkC2cyx/cKNP7OiA71j36BN5VYiAV3VQ=;
+ s=mail; t=1692966326;
+ bh=NyIn73BQxUrufKyWq8BDAMtc8SZCd6gx2Lk9WFhK3Lc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lLD0NsYOtZxkf6mo7eBz2gg4lh/Hts/J+xwR0xidciO0+8t6vmsW6mU5cIWp0RorF
- uYA2DJ2b+S6KG+U2G011MxglW9/LR4+7ccKk4lh3PB2CABk4JjO4USHA+iqKAn2/Gp
- Ti7gBCddTdOeNo5uYyS8nnYqPguYXthsgD0UN19xFJqkJMd1fnvIRFCzUchjcydB1t
- eHeCpes/MnmqAp4bMjLCxLK+ZF+FCfEvcnWhxXV2E3c52uRnOPsJZI+cRLWVGsjR7A
- Wg+DISGx2Q8555JPHiV0I56CzPnwwbOAi+AQWZdq1kSCYYd1lRl+R2ZAxJPyF3ja4j
- nC8AITdtXb1iw==
+ b=F8QshP2U5DJiUF7YueJ5M3UMGb/xy1qVTBpLqtvCvmRHlJ9Sev0qybWHNGqqfkqLh
+ C+I8ZNkkUyuEOMVh+3pbLiP4PdBVFVxDHfyqF4GBcoR8WdQPcDZo0cmrBruIBH9du9
+ 5oaQf5x3Sva4vXLBt1fp5qlFm7by3HfwXc5zJWK05PAUi+Mj9fHICeO1ZH6uEXiXaQ
+ UqyC/9VxpCRwt88OxRoBNt3DJhGnRcTB0Qw6aay2ovu08IwdcyvPOUnGvntLwAtbMr
+ WWp3wPbhPwA9WH3D4/7HMPIKnjAJWhdJFTs8TuF/F5GvTXGFzWiWDkVAK/9haRwGfb
+ jn9JQhk1DSqxQ==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/6] drm: ci: virtio: update ci variables
-Date: Fri, 25 Aug 2023 17:54:32 +0530
-Message-Id: <20230825122435.316272-4-vignesh.raman@collabora.com>
+Subject: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
+Date: Fri, 25 Aug 2023 17:54:33 +0530
+Message-Id: <20230825122435.316272-5-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230825122435.316272-1-vignesh.raman@collabora.com>
 References: <20230825122435.316272-1-vignesh.raman@collabora.com>
@@ -64,34 +64,27 @@ Cc: emma@anholt.net, linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update ci variables to fix the below error,
-ERROR - Igt error: malloc(): corrupted top size
-ERROR - Igt error: Received signal SIGABRT.
-ERROR - Igt error: Stack trace:
-ERROR - Igt error:  #0 [fatal_sig_handler+0x17b]
+Enable regulator
+Enable MT6397 RTC driver
 
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
- drivers/gpu/drm/ci/test.yml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ci/arm64.config | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 6473cddaa7a9..d85add39f425 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -316,8 +316,11 @@ virtio_gpu:none:
-   stage: virtio-gpu
-   variables:
-     CROSVM_GALLIUM_DRIVER: llvmpipe
--    DRIVER_NAME: virtio_gpu
-+    DRIVER_NAME: virtio
-     GPU_VERSION: none
-+    CROSVM_MEMORY: 12288
-+    CROSVM_CPU: $FDO_CI_CONCURRENT
-+    CROSVM_GPU_ARGS: "vulkan=true,gles=false,backend=virglrenderer,egl=true,surfaceless=true"
-   extends:
-     - .test-gl
-   tags:
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index 817e18ddfd4f..ea7a6cceff40 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
+ CONFIG_MTK_DEVAPC=y
+ CONFIG_PWM_MTK_DISP=y
+ CONFIG_MTK_CMDQ=y
++CONFIG_REGULATOR_DA9211=y
++CONFIG_RTC_DRV_MT6397=y
+ 
+ # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+ CONFIG_ARCH_TEGRA=y
 -- 
 2.40.1
 
