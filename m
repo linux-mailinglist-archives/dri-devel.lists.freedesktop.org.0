@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5182B788702
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:20:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB57278871C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Aug 2023 14:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B612D10E128;
-	Fri, 25 Aug 2023 12:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04FF10E13A;
+	Fri, 25 Aug 2023 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3E610E128
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:20:24 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9a1de3417acso405314766b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 05:20:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20221208.gappssmtp.com; s=20221208; t=1692966023; x=1693570823;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kWYyngDJ3qSSpaOwkQKw/6S3U2XYLWWAXr/ethxyWfY=;
- b=fWg8e+jR7J7GfrbzGYj+LejpRt6q8kD5MdO+pdHY0xIB0Y/p2244yhesvkI73MD8SW
- KuTlzEdwoX1d5TdleWVRkYyvjUdAZ8FxqjAP8Px6CgSSyDWmMSaKzWIgYNMNKd1fTszr
- ma8rdIxjXD+QIuwdkV5IgjS+/HdBPmY/9l+sGmVTatchUiVSRC4VmQG34lRPMrIj8uEH
- KFW2vJMnZkPFqML2Qsd3K1+qpz4N+FYXUP8iRpORRpKmsVuSGC1PVfHsJ2IL5HNK1XyK
- qofYpV/Rc7LlYZghHxTQBiO8b3trAn5cuc15cfdhzSsydx0Gj3nFYvYmdsyOzdvcTHE8
- IpkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692966023; x=1693570823;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kWYyngDJ3qSSpaOwkQKw/6S3U2XYLWWAXr/ethxyWfY=;
- b=Qwn6mpK9vsytjBKJMv/hZdTuDbnZ5NQEl7b18DW9zI/E81mZiZG74SCiTW8V/Yg0Bh
- 6uzmQkOC2eS06ZK2GJ0Bni4FlRg8vUKQMy15wRBAb1zZTsNxu6qpz50AJqP/EpRQmdHB
- PrBv06IMFG+G66ZcCDh7ysmMGoG6RB0rZBWa33iCNh9oHKkC57SeSENSFJ0WWGl330u7
- WYp3yeUteYg+6nGFP/1NPfLmCrn3JonC1bdM1AQZbdB88i8JijTqcgFmb0PoW2PobDoq
- WpIswgqlSsRC6VF/d1lZEiqPRX3kutFyxzG8F8Dqkvj2MticX4HQxNPv2k7YOvfDy1iw
- wlbA==
-X-Gm-Message-State: AOJu0YwL3LVKlAR/LKM3y38CliKkNmM4SQWgAYk5UFYa6q4BE3B6yM+o
- qqNltd3q4RzHMnt6FQShtmCxCWdabQebXZu1gOqDxA==
-X-Google-Smtp-Source: AGHT+IErw8qnClNuZp9zL2W3R5DxEJmB8WAy3evsgCLSL46uQHxCzXGTVd96j/AToUUTTaIwJ1VU4czxprtRlgB5e0w=
-X-Received: by 2002:a17:907:7da3:b0:982:a022:a540 with SMTP id
- oz35-20020a1709077da300b00982a022a540mr19879140ejc.11.1692966022330; Fri, 25
- Aug 2023 05:20:22 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0868610E13A
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 12:24:59 +0000 (UTC)
+Received: from localhost.localdomain (unknown [171.76.83.99])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1819A6607283;
+ Fri, 25 Aug 2023 13:24:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692966298;
+ bh=KTW2XkA7TENvlUjtZxVgz0cTJt8BRHSoHLAxDPCe3/M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=atR3yLJW3d4/PabzFRiwGIHVX5yPIRv3bnIJQpvAaxuB1jWhWikx9Rkc7j2ZFJn4d
+ b73hUkhgzynNX8aEiXefftccC/IKE8gKQ7GAsmwBhpKhvzxJTVzi0OViisAtSg4LAU
+ Ozr8OLVfH9ZbsTgvSRZ99RdWR4aByxBqbuvK6Sfzg4IojwEXR/4d30coZHDrJq+8YF
+ tBK4niVms8OfEcUo9BK1nFBuOSwqFJ2/oNZo2yNDI+b2OJHvChJwX5Q0pBJTlG4LSx
+ 7ZAcPq8tCEQAC66520N4XYo6jVIUyLao0SU6VN8nAy2qbaboSWx0uDioZ9K8nxI2HI
+ oqtqq8AyWLwVQ==
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/6] drm: ci: fixes
+Date: Fri, 25 Aug 2023 17:54:29 +0530
+Message-Id: <20230825122435.316272-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
- <CAAFQd5CqAvr7ZUdDSYPEOWSgvbttTBjHa0YWDomxJJSaiZxGog@mail.gmail.com>
- <f8a168e8-1a23-c6b3-0f68-baa73396d594@synaptics.com>
- <20230825104052.4573ab7b@eldfell>
- <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-In-Reply-To: <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 25 Aug 2023 13:20:09 +0100
-Message-ID: <CAPj87rPQzRUmLAnu09wm8K6Skjb6KTGwL63b4DXPuwdsYXzbSw@mail.gmail.com>
-Subject: Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
-To: Hsia-Jun Li <Randy.Li@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, ayaka <ayaka@soulik.info>, hughd@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- akpm@linux-foundation.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: emma@anholt.net, linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+ linux-amlogic@lists.infradead.org, jbrunet@baylibre.com, robdclark@google.com,
+ corbet@lwn.net, khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+ gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+ daniels@collabora.com, martin.blumenstingl@googlemail.com,
+ robclark@freedesktop.org, helen.koike@collabora.com, anholt@google.com,
+ linux-mediatek@lists.infradead.org, mripard@kernel.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The patch series contains improvements, enabling new ci jobs which
+enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
+fixing issues with the ci jobs and updating the expectation files.
+This series is intended for drm branch topic/drm-ci.
 
-On Fri, 25 Aug 2023 at 08:56, Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
-> On 8/25/23 15:40, Pekka Paalanen wrote:
-> > if userspace cannot access things like an image's HDR metadata, then it
-> > will be impossible for userspace to program KMS to have the correct
-> > color pipeline, or to send intended HDR metadata to a video sink.
-> >
-> > You cannot leave userspace out of HDR metadata handling, because quite
-> > probably the V4L2 buffer is not the only thing on screen. That means
-> > there must composition of multiple sources with different image
-> > properties and metadata, which means it is no longer obvious what HDR
-> > metadata should be sent to the video sink.
-> >
-> > Even if it is a TV-like application rather than a windowed desktop, you
-> > will still have other contents to composite: OSD (volume indicators,
-> > channels indicators, program guide, ...), sub-titles, channel logos,
-> > notifications... These components ideally should not change their
-> > appearance arbitrarily with the main program content and metadata
-> > changes. Either the metadata sent to the video sink is kept static and
-> > the main program adapted on the fly, or main program metadata is sent
-> > to the video sink and the additional content is adapted on the fly.
-> >
-> > There is only one set of HDR metadata and one composited image that can
-> > be sent to a video sink, so both must be chosen and produced correctly
-> > at the source side. This cannot be done automatically inside KMS kernel
-> > drivers.
->
-> There may be some misunderstanding.
-> Let suppose this HDR data is in a vendor specific format.
-> Both upstream(decoder) and downstream(DRM) hardware devices are coming
-> from the same vendor.
-> Then we just need to delivery the reference to this metadata buffer from
-> the upstream to downstream, both of drivers know how to handle it.
->
-> Despite the userspace, we just need to extend a wayland protocol that
-> making wayland compositor know how to receive the reference to the
-> metadata and set it to the DRM plane.
->
-> If you want a common HDR formats for all HDR variants(HDR10+, DV), I am
-> not against it. But it won't make the userspace be able to fill the HDR
-> metadata even the HDR data comes from the bitstream(likes SEI). We must
-> consider the case of Secure Video Path(Digital Right), the bitstream is
-> not accessible from (REE) userspace nor linux kernel, the downstream
-> must take what the upstream feed.
+Vignesh Raman (6):
+  drm: ci: igt_runner: remove todo
+  drm: ci: Force db410c to host mode
+  drm: ci: virtio: update ci variables
+  drm: ci: Enable configs to fix mt8173 boot hang issue
+  drm: ci: Update xfails
+  drm: ci: Remove rules
 
-To summarise from IRC, so it's properly documented: the community will
-not accept this.
+ drivers/gpu/drm/ci/arm64.config                  |  2 ++
+ drivers/gpu/drm/ci/build.sh                      |  4 ++++
+ drivers/gpu/drm/ci/gitlab-ci.yml                 |  2 +-
+ drivers/gpu/drm/ci/igt_runner.sh                 |  1 -
+ drivers/gpu/drm/ci/test.yml                      | 14 ++++----------
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt    |  1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt     |  1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt    |  2 ++
+ drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt    |  1 +
+ .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt  |  2 --
+ .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt | 16 ++++++++++++++++
+ drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt |  2 ++
+ .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt |  1 +
+ .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt  |  4 ++--
+ .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt |  3 +++
+ 15 files changed, 38 insertions(+), 18 deletions(-)
 
-The mechanism (shmem, dmabuf, copy_from_user, whatever) is _not_ the
-problem. The problem is the concept.
+-- 
+2.40.1
 
-There have been incredibly extensive discussions on this list about
-colour management and HDR, summarised in documentation in the DRM
-repository, as well as three talks at the last XDC. This design is the
-result of discussion between many community participants - including
-hardware vendors - who have all come up with a design which
-prioritises transparency and explicit operation.
-
-What you are suggesting is exactly the opposite of this. A design in
-which opaque magic blobs are passed around and the kernel does unknown
-things based on the contents of those blobs, contradicts this design.
-(This is different to compression, where even if the format is
-proprietary, the effect is well-understood - for the current
-compression mechanisms, it is a lossless transform.)
-
-The old Android Display Framework (ADF) was based around the same
-design with blobs of opaque driver-specific data, where generic code -
-either in the kernel or in userspace - could not understand the effect
-of these blobs. This design was rejected, and we made a clear choice
-to follow the DRM design principles instead.
-
-Upstream will not accept any design which hides magic away. 'GKI is
-hard', 'other vendors won't let us', etc, are not good enough reasons
-to change our mind on this fundamental principle.
-
-Cheers,
-Daniel
