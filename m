@@ -2,30 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E78B789431
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 09:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB625789432
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 09:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE3CF10E17C;
-	Sat, 26 Aug 2023 07:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7401810E17D;
+	Sat, 26 Aug 2023 07:19:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 426EF10E17C
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 07:19:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,203,1688396400"; d="scan'208";a="177732758"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 40A0A10E17D
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 07:19:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,203,1688396400"; d="scan'208";a="174025565"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 26 Aug 2023 16:19:16 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 26 Aug 2023 16:19:22 +0900
 Received: from localhost.localdomain (unknown [10.226.92.24])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id DE9874167444;
- Sat, 26 Aug 2023 16:19:10 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id BDACC4167444;
+ Sat, 26 Aug 2023 16:19:16 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v4 1/2] drm/bridge/analogix/anx78xx: Drop ID table
-Date: Sat, 26 Aug 2023 08:19:00 +0100
-Message-Id: <20230826071901.29420-2-biju.das.jz@bp.renesas.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 2/2] drm/bridge: Drop conditionals around of_node pointers
+Date: Sat, 26 Aug 2023 08:19:01 +0100
+Message-Id: <20230826071901.29420-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230826071901.29420-1-biju.das.jz@bp.renesas.com>
 References: <20230826071901.29420-1-biju.das.jz@bp.renesas.com>
@@ -44,7 +46,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Zhu Wang <wangzhu9@huawei.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
  dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -57,50 +58,48 @@ Cc: Zhu Wang <wangzhu9@huawei.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver has an ID table, but it uses the wrong API for retrieving match
-data and that will lead to a crash, if it is instantiated by user space or
-using ID. From this, there is no user for the ID table and let's drop it
-from the driver as it saves some memory.
+Having conditional around the of_node pointers turns out to make driver
+code use ugly #ifdef and #if blocks. So drop the conditionals.
 
+Suggested-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-v3->v4:
- * Added Rb tag from Laurent and Douglas Anderson.
-v2->v3:
- * Updated commit header.
-v1->v2:
- * Dropped ID table support.
+v4:
+ * New patch
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
+ include/drm/drm_bridge.h                           | 2 --
+ 2 files changed, 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 800555aef97f..6169db73d2fe 100644
+index 6169db73d2fe..ad8241758896 100644
 --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
 +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
- 	kfree(anx78xx->edid);
- }
+@@ -1231,9 +1231,7 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
  
--static const struct i2c_device_id anx78xx_id[] = {
--	{ "anx7814", 0 },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(i2c, anx78xx_id);
--
- static const struct of_device_id anx78xx_match_table[] = {
- 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
- 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
-@@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
- 		  },
- 	.probe = anx78xx_i2c_probe,
- 	.remove = anx78xx_i2c_remove,
--	.id_table = anx78xx_id,
- };
- module_i2c_driver(anx78xx_driver);
+ 	mutex_init(&anx78xx->lock);
  
+-#if IS_ENABLED(CONFIG_OF)
+ 	anx78xx->bridge.of_node = client->dev.of_node;
+-#endif
+ 
+ 	anx78xx->client = client;
+ 	i2c_set_clientdata(client, anx78xx);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index c339fc85fd07..d49d5c03df3e 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -716,10 +716,8 @@ struct drm_bridge {
+ 	struct drm_encoder *encoder;
+ 	/** @chain_node: used to form a bridge chain */
+ 	struct list_head chain_node;
+-#ifdef CONFIG_OF
+ 	/** @of_node: device node pointer to the bridge */
+ 	struct device_node *of_node;
+-#endif
+ 	/** @list: to keep track of all added bridges */
+ 	struct list_head list;
+ 	/**
 -- 
 2.25.1
 
