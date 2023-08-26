@@ -1,78 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27E6789C15
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 10:16:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA27789C16
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 10:16:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBC810E183;
-	Sun, 27 Aug 2023 08:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD9710E190;
+	Sun, 27 Aug 2023 08:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 9045 seconds by postgrey-1.36 at gabe;
- Fri, 25 Aug 2023 13:34:05 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86AFE10E157
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Aug 2023 13:34:05 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37PB30el008638;
- Fri, 25 Aug 2023 06:03:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1692961380;
- bh=pFsncRId2Li4lFUoNT42s+0VDtLf48JGN1Hoc7R28Z4=;
- h=From:Date:Subject:To:CC;
- b=f4Wi1u470XsMHu2whcmfwwlT4btS3MhorHLLvGaJH7o8tpSAOlVftoFA1zuXTqF9f
- ivkJBwGZ+zSerzCBhH2VHoW5KykEnbXWPyRQ/DmMxGlJbG919ICelrYL2wR+KgmTSw
- hzblHRe7CiNnRyqefYWD1NTlApqsRp5QcMEdIhP4=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37PB30hd031045
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 25 Aug 2023 06:03:00 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 25
- Aug 2023 06:03:00 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 25 Aug 2023 06:03:00 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37PB2xpf129788;
- Fri, 25 Aug 2023 06:02:59 -0500
-From: Jai Luthra <j-luthra@ti.com>
-Date: Fri, 25 Aug 2023 16:32:14 +0530
-Subject: [PATCH] drm: bridge: it66121: Fix invalid connector dereference
+X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
+ Sat, 26 Aug 2023 10:04:47 UTC
+Received: from mail.mimoja.de (mail.mimoja.de [IPv6:2a00:17d8:100::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DAB9F10E02B
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 10:04:47 +0000 (UTC)
+Received: from Mimoja-Datenschleuder.. (ip-185-104-138-32.ptr.icomera.net
+ [185.104.138.32])
+ by mail.mimoja.de (Postfix) with ESMTPSA id CDE1A24C09;
+ Sat, 26 Aug 2023 11:55:31 +0200 (CEST)
+From: Mimoja <git@mimoja.de>
+To: dri-devel@lists.freedesktop.org,
+	mimoja@aachen.ccc.de,
+	alu@fffuego.com
+Subject: [PATCH] drm/panel/panel-sitronix-st7701: Move init sequence from
+ prepare() to enable()
+Date: Sat, 26 Aug 2023 11:55:16 +0200
+Message-Id: <20230826095516.81387-1-git@mimoja.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
-X-B4-Tracking: v=1; b=H4sIADWK6GQC/x3MQQqAIBBA0avErBN0QrOuEhGVU83GQiMC8e5Jy
- 7f4P0GkwBShrxIEejjy6QtUXcF6zH4nwa4YUGIjLWrBtzEK1USOnTBEndWqtdIuUJIr0Mbvvxv
- GnD9fTW9WXgAAAA==
-To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Nicolas Belin
- <nbelin@baylibre.com>, "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1271; i=j-luthra@ti.com;
- h=from:subject:message-id; bh=kY/mIB6mrYJ/fDB8nsf4jCfUQ4TGTeiTF0gmX+Q1uqs=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBk6IpigIQx52k+CRuU8WRogDuAGfZVyc2Zzv7Ku
- rt1Ysi8vHaJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZOiKYgAKCRBD3pH5JJpx
- RWmZEACd6dZsgfGKvaRljr69D0wWnNir9wuEqt1VHKsk3xC93MR+AqxNJh+xUftyibbG6PRqwkM
- 0Mi9KeUvNURcDPV8qRKxa9Mg7mO81I55fIuG7dZx+t3WdvGQvzl6/40Z8Jyt9/4yA+fM1oCIWxQ
- YzIY18S+HbrVmNlXI/X1zU1lkTKgIjAXlH+/wh+NtXXBMbyC6zlN5e5jl2TTUU2QYDP0aUW1tUS
- rgC8yD2/xApHZsuRNEVKZuC05mFuXs5Pp4E1l24U67C+WKGPWExs5pMfURIc7juv+Sf+s84MfLR
- 2L56efyro6hXSLRhTGHwkTTtm2q1HHvVoJgoBaIqw5IQcKwZYOJJxobpgJf6t9LWlf4NTMEO955
- 5YSnqD4hYrwDYrj53sE49hXwnQOdQtjZiHvKMJ0L8VUW1hSIl5eACOEXdfQcf1FlH7ea3FXjKOv
- uCBBNGLvvORqpWbL8/HATpBK0hSutDadI1lHlqEzN38WMPbLfJQ49IooNVEeAROdTiBrhwSHAVh
- 9ngJ3xaofZDcT81GxFLxLwMWoUODMmbRH/qmhYNlRwAhABVJP/0CXbWsJbAOGU7C5RRnzyOD3rX
- SRdhNLK6p/RdK4h2XxroGeIRjC6MPTTU/YU8F5NA6Rnt2oBnGkgnoYsdwfJ/xIpwrs7qltyVhsG
- fyanZHL5pbY3cTg==
-X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 27 Aug 2023 08:16:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,48 +43,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, Jai Luthra <j-luthra@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- devarsht@ti.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Mimoja <git@mimoja.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the NULL pointer dereference when no monitor is connected, and the
-sound card is opened from userspace.
+The struct drm_panel_funcs are offering a prepare() and an enable()
+entrypoint for panels. According to drm/panel.h:
 
-Instead return an error as EDID information cannot be provided to
-the sound framework if there is no connector attached.
+"The .prepare() function is typically called before the display controller
+starts to transmit video data."
+and
+"After the display controller has started transmitting video data, it's safe
+ to call the .enable() function."
 
-Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
-Reported-by: Nishanth Menon <nm@ti.com>
-Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
+The st7701 driver currently does not respect this, queing DSI control commands
+during enable.
+While generally fine this can lead to a fillup of the transmission queue before
+the transmission is set up on certain dsi bridges.
+This issue can also be seen on downstream imx8m* kernels.
+By moving the init sequence into the enable function we not only circumvent the issue
+but also properly soft-reset the panel on enable().
+
+Signed-off-by: Mimoja <git@mimoja.de>
+
+Cc: Marek Vasut <marex@denx.de>
+Cc: Guido Günther <agx@sigxcpu.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 466641c77fe9..d6fa00dea464 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1446,6 +1446,11 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
- {
- 	struct it66121_ctx *ctx = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
+index 7eae83aa0ea1..18c5a8d97cc8 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
+@@ -439,6 +439,13 @@ static int st7701_prepare(struct drm_panel *panel)
+ 	gpiod_set_value(st7701->reset, 1);
+ 	msleep(150);
  
-+	if (!ctx->connector) {
-+		dev_dbg(dev, "No connector present, cannot provide EDID data");
-+		return -EINVAL;
-+	}
++	return 0;
++}
 +
- 	mutex_lock(&ctx->lock);
++static int st7701_enable(struct drm_panel *panel)
++{
++	struct st7701 *st7701 = panel_to_st7701(panel);
++
+ 	st7701_init_sequence(st7701);
  
- 	memcpy(buf, ctx->connector->eld,
-
----
-base-commit: 6269320850097903b30be8f07a5c61d9f7592393
-change-id: 20230825-it66121_edid-6ee98517808b
-
-Best regards,
+ 	if (st7701->desc->gip_sequence)
+@@ -447,13 +454,6 @@ static int st7701_prepare(struct drm_panel *panel)
+ 	/* Disable Command2 */
+ 	st7701_switch_cmd_bkx(st7701, false, 0);
+ 
+-	return 0;
+-}
+-
+-static int st7701_enable(struct drm_panel *panel)
+-{
+-	struct st7701 *st7701 = panel_to_st7701(panel);
+-
+ 	ST7701_DSI(st7701, MIPI_DCS_SET_DISPLAY_ON, 0x00);
+ 
+ 	return 0;
 -- 
-Jai Luthra <j-luthra@ti.com>
+2.39.2
 
