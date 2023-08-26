@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EBF789708
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 15:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D651078970D
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 15:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0D3A10E0A2;
-	Sat, 26 Aug 2023 13:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA9410E0E5;
+	Sat, 26 Aug 2023 13:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE48B10E0A2
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 13:56:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBADB10E0E5
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 13:58:24 +0000 (UTC)
 Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4RXyz31ySXzDqdy;
- Sat, 26 Aug 2023 13:56:15 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RXz1X1nTfzDqNj;
+ Sat, 26 Aug 2023 13:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1693058175; bh=K9zjB4SGxMMF55yrRCbkbCXNloSv7qGE80EWeywOcms=;
+ t=1693058304; bh=9gWRnmtspJTE+4Dl8ikhA5ssthrDcwfJ8Q5ZJkSObT8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=prntFsQfi0y+JVb/8vyyqxWjeJ4yxWP8QhzSJt6tnZozRAGfaHi3EVgVDuvqAdrwJ
- 6xRD7i4hJYIXNop6b7fQvgm81b/Exp1R8xqWZp06diFHruEflK95xsK6TJQy/lCSff
- IrEkzeykouB/CBP4VIY44/squeF8naim2oqXij+Y=
-X-Riseup-User-ID: C01FCAD6DED26A080B2AEFAFE8EA2CA30D6D2579FA585B3820653956D6F4D17D
+ b=MSiHQH/xOVuF/g9WYC/I9SXNkpLrw179ji3XtALBrnizqRQSzzGbZoMyds8ebLNfE
+ w5giSebVJsnxiX45TLDsqbrscNCjQgdGf82CSdcwvjHZEmyquDIPbb0j65qdergH5y
+ TiWfIAQ7L6VGuexLhStAy86wUPwVDBNZBKs4fSkw=
+X-Riseup-User-ID: B09C6D3F3B76B610E07D49F860B319EE9EC9563A161B9CE2C3E25FB472881C26
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RXyz0202szJq70;
- Sat, 26 Aug 2023 13:56:12 +0000 (UTC)
-Message-ID: <94353212-7636-0556-253f-7b1d9d1762de@riseup.net>
-Date: Sat, 26 Aug 2023 10:56:10 -0300
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RXz1T284jzJq70;
+ Sat, 26 Aug 2023 13:58:21 +0000 (UTC)
+Message-ID: <59f0c24e-6483-3242-2af8-a2fac5697425@riseup.net>
+Date: Sat, 26 Aug 2023 10:58:19 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 02/10] drm/tests: Add parameters to the
- drm_test_framebuffer_create test
+Subject: Re: [PATCH 03/10] drm/tests: Add test case for
+ drm_internal_framebuffer_create()
 Content-Language: en-US
 To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
  dri-devel@lists.freedesktop.org
 References: <20230825160725.12861-1-gcarlos@disroot.org>
- <20230825160725.12861-3-gcarlos@disroot.org>
+ <20230825160725.12861-4-gcarlos@disroot.org>
 From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20230825160725.12861-3-gcarlos@disroot.org>
+In-Reply-To: <20230825160725.12861-4-gcarlos@disroot.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,77 +66,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Carlos,
 
 On 8/25/23 13:07, Carlos Eduardo Gallo Filho wrote:
-> Extend the existing test case to cover:
-> 1. Invalid flag atribute in the struct drm_mode_fb_cmd2.
-> 2. Pixel format which requires non-linear modifier with
-> DRM_FORMAT_MOD_LINEAR set.
-> 3. Non-zero buffer offset for an unused plane
-> 
-> Also replace strcpy to strscpy on test_to_desc for improved security
-> and reliability.
+> Introduce a test to cover the creation of framebuffer with
+> modifier on a device that doesn't support it.
 > 
 > Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 > ---
->   drivers/gpu/drm/tests/drm_framebuffer_test.c | 23 +++++++++++++++++++-
->   1 file changed, 22 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 28 ++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-> index 173d42b145ed..aeaf2331f9cc 100644
+> index aeaf2331f9cc..b20871e88995 100644
 > --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 > +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-> @@ -19,6 +19,8 @@
->   #define MIN_HEIGHT 4
->   #define MAX_HEIGHT 4096
+> @@ -396,7 +396,35 @@ static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, c
+>   KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
+>   		  drm_framebuffer_test_to_desc);
 >   
-> +#define DRM_MODE_FB_INVALID BIT(2)
+> +/*
+> + * This test is very similar to drm_test_framebuffer_create, except that it
+> + * set mock->mode_config.fb_modifiers_not_supported member to 1, covering
+> + * the case of trying to create a framebuffer with modifiers without the
+> + * device really supporting it.
+> + */
+> +static void drm_test_framebuffer_modifiers_not_supported(struct kunit *test)
+> +{
+> +	struct drm_mock *mock = test->priv;
+> +	struct drm_device *dev = &mock->dev;
+> +	int buffer_created = 0;
 > +
->   struct drm_framebuffer_test {
->   	int buffer_created;
->   	struct drm_mode_fb_cmd2 cmd;
-> @@ -83,6 +85,18 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
->   		 .pitches = { 4 * MAX_WIDTH, 0, 0 },
->   	}
->   },
-> +{ .buffer_created = 0, .name = "ABGR8888 Non-zero buffer offset for unused plane",
-> +	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
-> +		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, UINT_MAX / 2, 0 },
-> +		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
-> +	}
-> +},
-> +{ .buffer_created = 0, .name = "ABGR8888 Invalid flag",
-> +	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
-> +		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
-> +		 .pitches = { 4 * MAX_WIDTH, 0, 0 }, .flags = DRM_MODE_FB_INVALID,
-> +	}
-> +},
->   { .buffer_created = 1, .name = "ABGR8888 Set DRM_MODE_FB_MODIFIERS without modifiers",
->   	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_ABGR8888,
->   		 .handles = { 1, 0, 0 }, .offsets = { UINT_MAX / 2, 0, 0 },
-> @@ -262,6 +276,13 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
->   		 .pitches = { MAX_WIDTH, DIV_ROUND_UP(MAX_WIDTH, 2), DIV_ROUND_UP(MAX_WIDTH, 2) },
->   	}
->   },
-> +{ .buffer_created = 0, .name = "YUV420_10BIT Invalid modifier(DRM_FORMAT_MOD_LINEAR)",
-> +	.cmd = { .width = MAX_WIDTH, .height = MAX_HEIGHT, .pixel_format = DRM_FORMAT_YUV420_10BIT,
-> +		 .handles = { 1, 0, 0 }, .flags = DRM_MODE_FB_MODIFIERS,
-> +		 .modifier = { DRM_FORMAT_MOD_LINEAR, 0, 0 },
-> +		 .pitches = { MAX_WIDTH, 0, 0 },
-> +	}
-> +},
->   { .buffer_created = 1, .name = "X0L2 Normal sizes",
->   	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_X0L2,
->   		 .handles = { 1, 0, 0 }, .pitches = { 1200, 0, 0 }
-> @@ -369,7 +390,7 @@ static void drm_test_framebuffer_create(struct kunit *test)
->   
->   static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, char *desc)
->   {
-> -	strcpy(desc, t->name);
-> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
-I believe this change should be done in a separate patch.
+> +	/* A valid cmd with modifier */
+> +	struct drm_mode_fb_cmd2 cmd = {
+> +		.width = MAX_WIDTH, .height = MAX_HEIGHT,
+> +		.pixel_format = DRM_FORMAT_ABGR8888, .handles = { 1, 0, 0 },
+> +		.offsets = { UINT_MAX / 2, 0, 0 }, .pitches = { 4 * MAX_WIDTH, 0, 0 },
+> +		.flags = DRM_MODE_FB_MODIFIERS,
+> +	};
+> +
+> +	mock->private = &buffer_created;
+> +	dev->mode_config.fb_modifiers_not_supported = 1;
+> +
+> +	drm_internal_framebuffer_create(dev, &cmd, NULL);
+> +	KUNIT_EXPECT_EQ(test, 0, buffer_created);
+> +}
+> +
+>   static struct kunit_case drm_framebuffer_tests[] = {
+> +	KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
+
+Could we preserve alphabetical order?
 
 Best Regards,
 - Maíra
 
->   }
->   
->   KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
+>   	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
+>   	{ }
+>   };
