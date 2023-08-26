@@ -1,53 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28BF789924
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 23:02:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7A878994C
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 23:54:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5DA10E09C;
-	Sat, 26 Aug 2023 21:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5543D10E0FC;
+	Sat, 26 Aug 2023 21:54:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4591810E09C
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 21:02:09 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 37AC18063E;
- Sat, 26 Aug 2023 23:02:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1693083727;
- bh=7tH92aOPbx9tMb4qq4wmL8XZXnyx+/7sFp1S4nsRNCs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kwmV627RieZeLvNwpWclAfWd29YYM3CZ8w0JjooWlGhRVujAbkzTxwOLylKjrj0eh
- lHEQdDj0+hGUqY36EnqokkPH3FHntXcRWpe6nP19Qi6GKwpYrGm6PqNMhnYkgr2Wmj
- 5mR7+zb69QIzR7Qj5IzTwnW39oFhP0YHv37nUBpPnQJUbOVRJwnDyawTwCt2ULV8y2
- KBPbGbuCu5wdXQ29nFAKCON8M7gr1s7OdwUckGqrAlt1iAlHQNYasC5sHotiUVWXJt
- JIF8FJUtKvT2F06aCidyX6tWaHcUzkSvMU/L5venqHOc4ILmfr9wBgpqgEGH9pYVn1
- CklWXaIapBwJg==
-Message-ID: <1ef18921-2f21-9970-3cd4-aa9680d44127@denx.de>
-Date: Sat, 26 Aug 2023 23:02:05 +0200
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFD210E0FC
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 21:54:33 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4ff8f2630e3so3121388e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 14:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693086871; x=1693691671;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hFp0Ejmw6gkggNlBSTHSqCPnLpG/phbaprHF2ZM9Jhc=;
+ b=LF+YjHv9WrkNwVqh+xE+Z3vrAFFIjRKQ4HkzBD0wXrPewZFwJOnjqBxe9/o0bR7i4V
+ w8SFwWcScli2rbVkKWkg+2PFrZOjqZKKykvUWEqzFfzWQSvmFMtZAOFRhO4q27elekWP
+ hG7AYbfw27Th9c0TMvtH3CJD+yButAgbTPEJu0ERlVh3mQb62q0I7EekXAWyHRU3+Tle
+ uErQTQ30+V2kwbyAQomah+YwvHUlWr+V9PkHnQrteUqFqIbKqmqPqExqrwvr89PDixR9
+ V0dc/X647EyxP4s9ATbPSOf8GggYRgOY2KRUTeq66k038RWAzD3uK5BHc8Pti3k924c3
+ XJ7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693086871; x=1693691671;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hFp0Ejmw6gkggNlBSTHSqCPnLpG/phbaprHF2ZM9Jhc=;
+ b=FFA2dKuIMCdcwCFOW0jflTsShMWn+5Pz3FDhD71soPSSBE2OVDxViFH/xEzmHQViwL
+ H2IZDR+J9Wz4vas+8ljQkzQFs4HMNJoRXOH90jqKJOubS8FcM/MpNmQ7lqexATGCgMCe
+ RJ6FW2zrK5etIRYvbJkLq01xHB9Ou0V58A1qS4Cc0ZmU8HZDHapy5NaY80tOYcIhezIv
+ dUv7ApX+ECsR/BP9g8kvzDDM9lQLLhZ/+uiA3wrqooI6LgG88MugR4r3WgvZIgzMu+HC
+ i0QUCP48f72g3/OJ8K66xa1+qsmvZG8uNGZsUVBCecqF5a1uFLw+NtZLlhaQIyI3EKt2
+ rKfg==
+X-Gm-Message-State: AOJu0Yx26nHAi8cQ0Bssy+hT78FSYh+2/C4kd0O6qWViziJCRPkHxj5A
+ B875Ha9/WiTz7z6o11DXW5miPg==
+X-Google-Smtp-Source: AGHT+IGascxwKGPMG4xR8OOD8rypHcWvLZUV0L6ylxVlRbob9jFAgm0JjKKPq/xTBNTWVTSzczdwQQ==
+X-Received: by 2002:a05:6512:114d:b0:4fc:3756:754e with SMTP id
+ m13-20020a056512114d00b004fc3756754emr20506684lfg.56.1693086871586; 
+ Sat, 26 Aug 2023 14:54:31 -0700 (PDT)
+Received: from lothlorien.lan (dzdqv0yyyyyyyyyyybm5y-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::ab2]) by smtp.gmail.com with ESMTPSA id
+ d17-20020ac244d1000000b0050096cc3ba1sm860280lfm.255.2023.08.26.14.54.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Aug 2023 14:54:30 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH 1/2] dt-bindings: display/lvds-codec: add ti,sn65lvds94
+Date: Sun, 27 Aug 2023 00:54:28 +0300
+Message-Id: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] drm/panel/panel-sitronix-st7701: Move init sequence from
- prepare() to enable()
-To: Mimoja <mimoja@mimoja.de>, Mimoja <git@mimoja.de>,
- dri-devel@lists.freedesktop.org, mimoja@aachen.ccc.de, alu@fffuego.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20230826095516.81387-1-git@mimoja.de>
- <f8d2bbfd-0f9c-31d8-729c-b316025b5b65@denx.de>
- <cccbcec8-b6e5-58e2-2197-f97cc434aa43@mimoja.de>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <cccbcec8-b6e5-58e2-2197-f97cc434aa43@mimoja.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,94 +80,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/26/23 20:33, Mimoja wrote:
+Add compatible strings for TI sn65lvds94, LVDS serdes receiver.
 
-Hi,
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-+CC Dave , he might be able to help with the last part.
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 84aafcbf0919..6ceeed76e88e 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -41,6 +41,7 @@ properties:
+           - enum:
+               - ti,ds90cf364a # For the DS90CF364A FPD-Link LVDS Receiver
+               - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
++              - ti,sn65lvds94 # For the SN65DS94 LVDS serdes
+           - const: lvds-decoder # Generic LVDS decoders compatible fallback
+       - enum:
+           - thine,thc63lvdm83d # For the THC63LVDM83D LVDS serializer
+-- 
+2.39.2
 
-> I appreciate you taking the time to respond!
-> 
-> On 26.08.23 17:18, Marek Vasut wrote:
->> On 8/26/23 11:55, Mimoja wrote:
->>> "The .prepare() function is typically called before the display 
->>> controller
->>> starts to transmit video data."
->>> and
->>> "After the display controller has started transmitting video data, 
->>> it's safe
->>>   to call the .enable() function."
->>
->> DSI commands are not DSI video, so this should be OK ?
-> 
-> You are correct, my commit message is mixing things up here. I wanted to 
-> emphasize roughly the thought of
-> "when enable() is called the dsi core is expected to have its clock 
-> initialized". Will take note to clarify this if I succeed to
-> make a case for this patch below :)
-
-I vaguely recall there was this flag in include/drm/drm_bridge.h which 
-might be related:
-
-748 /**
-749  * @pre_enable_prev_first: The bridge requires that the prev
-750  * bridge @pre_enable function is called before its @pre_enable,
-751  * and conversely for post_disable. This is most frequently a
-752  * requirement for DSI devices which need the host to be initialised
-753  * before the peripheral.
-754  */
-755 bool pre_enable_prev_first;
-
-Could it be, this is what you need ?
-
->>> While generally fine this can lead to a fillup of the transmission 
->>> queue before
->>> the transmission is set up on certain dsi bridges.
->>> This issue can also be seen on downstream imx8m* kernels.
->>
->> Can you reproduce this with current mainline Linux or linux-next tree ?
->> I recall the display pipeline in the NXP downstream stuff is very 
->> different from mainline .
-> 
-> You are very much correct. The NXP downstream kernel is completely 
-> different from the upstream one
-> and is really a great example to show the issue (code cleaned up for 
-> readability):
-> 
-> https://github.com/varigit/linux-imx/blob/5.15-2.0.x-imx_var01/drivers/gpu/drm/bridge/sec-dsim.c#L1368
-> ```
->      ret = drm_panel_prepare(dsim->panel);
->      if (unlikely(ret)) [...]
-> 
->      /* config esc clock, byte clock and etc */
->      sec_mipi_dsim_config_clkctrl(dsim);
-> 
->      ret = drm_panel_enable(dsim->panel);
->      if (unlikely(ret)) [...]
-> 
-> ```
-> 
->> Which SoC does have this problem ?
-> Sadly I don't have any SoCs available which would work perfectly with 
-> linux-next, let alone are confirmed affected :/
-> 
-> I were able to make my Kingway Panel work (Custom one and so far 
-> unsupported by the st7701 driver) with this
-> patch on downstream 5.4 and 5.15 imx8mn as well as on a raspberry pi CM4 
-> with 6.1. However raspberrypi/linux brings
-> SPI support to the st7701 driver which should not affect this but I 
-> would just like to document it here.
-> I could not find any success story with st7701 and the rpi on 6.1 online 
-> after a short search (and only one
-> reference with 5.10 which seems to me a bit different in a short 
-> comparison)  but again I can only offer
-> circumstantial evidence. Sorry :/
-
-Maybe Dave can help with this part .
