@@ -2,54 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F627789C13
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 10:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C13789C14
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 10:16:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A66F10E011;
-	Sun, 27 Aug 2023 08:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41F810E174;
+	Sun, 27 Aug 2023 08:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 779 seconds by postgrey-1.36 at gabe;
- Sat, 26 Aug 2023 10:28:34 UTC
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com
- [203.205.221.239])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0AE210E02B
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 10:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1693045709;
- bh=E32l48gh74u0wKPcn5axJaB36BSlQqywiLukbAdXIo0=;
- h=From:To:Cc:Subject:Date;
- b=RPtg03lhGW1Os0SWcIdelvT7bxIj4E1jEzo+U44JZGPrLNqNlMst34oZZpYJvxNiC
- PBdm5GuUzfzXr5l0l6zWuuRbCeLSO1KYNVvczuG07B5N2yQGX6DG/xS4ZsPvJYE37C
- GXywJ4kMhYbD1bf2hBqexoP2sVq2Z42wQUAyEB8k=
-Received: from KernelDevBox.byted.org ([180.184.49.4])
- by newxmesmtplogicsvrszb1-0.qq.com (NewEsmtp) with SMTP
- id B702291; Sat, 26 Aug 2023 18:02:55 +0800
-X-QQ-mid: xmsmtpt1693044175tknomh8m9
-Message-ID: <tencent_73FCC06A3D1C14EE5175253C6FB46A07B709@qq.com>
-X-QQ-XMAILINFO: NMGzQWUSIfvTZp3i9LCvKYDbI9UtNovodc1zIJP/gvVV0C9AiP/tkwAKzErV5Z
- 875prIgdlkbQpLlKuuDWJuSxiNTe9ZpBCF6bvFBCPFOYAQEqYccrDWb4p4UIUKm2SJbS2L7BCwaT
- aoVnREjC45OyNfRG5LdTdi2S6Sj8kgyNIvuq5tdodzK1sZv+ovLK1ct+MfiqkEqQZ2F5LSgZPe7P
- VRSTirdwNI0Xr6j6ZCEK3iE0U4PUChNDVVd26cGBOdWBh6/kjJG/URi+TIt57uVcwSg1fwZ5KGRq
- zg4881cK67nDMhzeVGvxsq/sWPLIAv5zUrO+Zu/h4Q+xcAKy7FCBuJaBEtQux0Y2MYCCQcZ+71CO
- 49nIUnRSRUsASYy9w0tb78mXeHeSiSe75vFhx63/JDOhGY2t/jvAFioCZgg85EKQsZvcPplEKQGX
- Dd9YGOmaibSR3xNvjFYq1mfq2X23vAp8SrMxlDvVP2LCc/wrN7R4Zb9V6BEtMEYvzrF0sc6jqwlk
- C1hEvrPG1k7yblUPaW5Eafvgp5naHYNqr4ezrlcXyGHHZEMd0+rhi3CV0ewzxqm4/V6+WcIrihao
- rdoY7D4lSPlCF9YPzcXm896zLv5AXU0aNfIbLaBlW7LyKJVKeG6gLVywVx3ROtFoXEFLerSX1fCY
- NXtsngpac08po6cZhVWu8HwL33gWUOyfDP5DoOO7jZ950JRf39/DXdu/CdaT3jQykKVE2rPbXSQm
- TTBxOU0tNz4p+LL+ovIRisVZXr1qWadcmoiVegik36K3YAoZGfM0XuJLfxh//8LoRTIhYG85P9oR
- bpqqvbp+uzSRPUh9cfJXUkbbl2bVXBK+h5Gs+D/cKn3s1Ds+pB94TUjFOnF8fR3QJILE4axHRcKs
- OmWWj85kO/riG3TJQ0AyGoT/r+sboldviGFALGxtnsNJ9UA4OKrbS2ViJOBG7vHkJHsm6yE+x1im
- F8sxgLGCb1a0DMBZ82MDtEspBUhtVJ51bruqFEHr5UbCEGYe8TD2si4XQWpQizhWNDDL4OnHI=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-To: ldewangan@nvidia.com
-Subject: [PATCH] spi: tegra: Fix missing IRQ check in tegra_slink_probe()
-Date: Sat, 26 Aug 2023 18:02:54 +0800
-X-OQ-MSGID: <20230826100254.2197256-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476EA10E02B
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 10:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+ t=1693044950; bh=PnvzGxtclCb9TxkP/3PB4DGO6+FyzrMczE9z63c14OU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c8YfexUMXelmyffaROif3m7Hs/CoMOPtfjOxzp/pvJ2H4SDV1NESIuOa1LWwJK0p7
+ BvrwbwmYpOWXzMmN7/dMIkXZpyi/nVE8gZjffUtJmF0gIlfDQhzn8JxQVislnikCNU
+ ylclk5xx3BYNGm2fmkxs5ElXZtfaSBDodqJcCWOs=
+Date: Sat, 26 Aug 2023 12:15:49 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Julius Zint <julius@zint.sh>
+Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
+ driver
+Message-ID: <9f7475eb-7e57-45cf-9854-90fb4e8da8a0@t-8ch.de>
+References: <20230820094118.20521-1-julius@zint.sh>
+ <20230820094118.20521-2-julius@zint.sh>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230820094118.20521-2-julius@zint.sh>
 X-Mailman-Approved-At: Sun, 27 Aug 2023 08:16:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,40 +43,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, broonie@kernel.org, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, jonathanh@nvidia.com,
- Zhang Shurong <zhang_shurong@foxmail.com>, christian.koenig@amd.com,
- linux-media@vger.kernel.org
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jiri Kosina <jikos@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This func misses checking for platform_get_irq()'s call and may passes the
-negative error codes to request_irq(), which takes unsigned IRQ #,
-causing it to fail with -EINVAL, overriding an original error code.
+On 2023-08-20 11:41:18+0200, Julius Zint wrote:
+> [..]
 
-Fix this by stop calling request_irq() with invalid IRQ #s.
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..b964a820956d 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -472,6 +472,14 @@ config BACKLIGHT_LED
+>  	  If you have a LCD backlight adjustable by LED class driver, say Y
+>  	  to enable this driver.
+>  
+> +config BACKLIGHT_HID
+> +	tristate "VESA VCP HID Backlight Driver"
+> +	depends on HID
+> +	help
+> +	  If you have an external display with VESA compliant HID brightness
+> +	  controls then say Y to enable this backlight driver. Currently the
+> +	  only supported device is the Apple Studio Display.
 
-Fixes: dc4dc3605639 ("spi: tegra: add spi driver for SLINK controller")
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
----
- drivers/spi/spi-tegra20-slink.c | 2 ++
- 1 file changed, 2 insertions(+)
+Is the last sentence needed?
+It will go out of date soon, requiring updates to the Kconfig.
 
-diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index 4d6db6182c5e..f5cd365c913a 100644
---- a/drivers/spi/spi-tegra20-slink.c
-+++ b/drivers/spi/spi-tegra20-slink.c
-@@ -1086,6 +1086,8 @@ static int tegra_slink_probe(struct platform_device *pdev)
- 	reset_control_deassert(tspi->rst);
- 
- 	spi_irq = platform_get_irq(pdev, 0);
-+	if (spi_irq < 0)
-+		return spi_irq;
- 	tspi->irq = spi_irq;
- 	ret = request_threaded_irq(tspi->irq, tegra_slink_isr,
- 				   tegra_slink_isr_thread, IRQF_ONESHOT,
--- 
-2.30.2
+> +
+>  endif # BACKLIGHT_CLASS_DEVICE
+>  
+>  endmenu
 
+> [..]
+
+> diff --git a/drivers/video/backlight/hid_bl.c b/drivers/video/backlight/hid_bl.c
+> new file mode 100644
+> index 000000000000..b40f8f412ee2
+> --- /dev/null
+> +++ b/drivers/video/backlight/hid_bl.c
+> @@ -0,0 +1,269 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/module.h>
+> +#include <linux/backlight.h>
+> +
+> +#define APPLE_STUDIO_DISPLAY_VENDOR_ID  0x05ac
+> +#define APPLE_STUDIO_DISPLAY_PRODUCT_ID 0x1114
+
+Use hid-ids.h.  The vendor ID already has an entry.
+
+> +
+> +#define HID_USAGE_MONITOR_CTRL			0x800001
+> +#define HID_USAGE_VESA_VCP_BRIGHTNESS		0x820010
+
+> [..]
+
+> +static int hid_bl_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+
+> [..]
+
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+
+Wouldn't this be more a BACKLIGHT_FIRMWARE?
+
+> +	props.max_brightness = data->max_brightness - data->min_brightness;
+> +
+> +	bl = devm_backlight_device_register(&hdev->dev, "vesa_vcp",
+
+It's non-obvious that the "vesa_vcp" backlight comes from the
+"hid_backlight" driver. Maybe align the names.
+
+What happens when multiple compatible devices are used?
+That seems to be possible with external monitors.
+
+Can existing userspace figure out which display the backlight device
+belongs to?
+(I don't know either)
+
+> +					    &hdev->dev, data,
+> +					    &hid_bl_ops,
+> +					    &props);
+
+> [..]
