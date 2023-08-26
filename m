@@ -1,51 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B41B7897B0
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 17:18:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C99578985A
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Aug 2023 19:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5182310E0D5;
-	Sat, 26 Aug 2023 15:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C10E10E1A0;
+	Sat, 26 Aug 2023 17:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6755810E0D5
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 15:18:23 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1F910E1A0
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 17:15:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 55F978620C;
- Sat, 26 Aug 2023 17:18:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1693063101;
- bh=y0N2srksY3HhqZlflju+nVO6NB5Apxm1yc3eEVolUq4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YrnIEQoGuDj4TNd+XUkdnhcatV5S7/MsFsiKSuvDTZ5G3jwqq7eXjC/fscGbCKnp6
- 8VEjdECCZdE5gDC2WylZjRuWkcCqLqXEptwER1Pq0crOjuYcNM8fmVz5uxGrQKorxS
- scj92CE7U2kg+D+DXbi+9lF4uX+3SfMSr1G8GnUPILTmojGag/HkuUz1RUaj3+WGkp
- 1yIiRD4T8gAF0Vnp8yF8Zc8K+vTRGtGuVSZqb69zeWr0uD/o1gIooZgktammblOBsO
- UZ8pj1cwvMsI9UUV+PFvzJ7cVo8uhTczgqL8ggM2lhjVkBeXQumbLu+72jRRRePkUS
- 8Amq5BT0G0P0A==
-Message-ID: <f8d2bbfd-0f9c-31d8-729c-b316025b5b65@denx.de>
-Date: Sat, 26 Aug 2023 17:18:19 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2200961712
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 17:15:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 89183C433CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Aug 2023 17:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693070124;
+ bh=5OuL/tb6MXMAyUtfAkjbVZvMu4tf6QgED422b6uzY/w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=VuZQlmzufEXs2gH0ZUoLTBrdY7E/yadDCv9xG59GQy8ueUdixeyaIna0K3IulbXdO
+ 4Ekd+hFOT7S5sC/xQriNeBY5uv4vUd2PsTh2muA4PR2+zEv0yto9T2FTzJWDVbIijM
+ M+Nyshaq5/CtFgUEvW6hzKJCrQyDaDZDBFHBYPs2GnArZZqTOVK1/rfbb7BKr9l1k4
+ 2J/dHyPp/rsKdUAW3DJXHoErqtbDmwFlj15kHJsr0q4PnVQ7+uHSGGhcXIV856TxJa
+ ncLeVYziyABiGbD3OK3LsHEjV0Io8SJCnW5XIpPbNwC46Q10rBlnqwb/mRu+LTofOI
+ X0REutU+Q/FYA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 730A2C53BD4; Sat, 26 Aug 2023 17:15:24 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
+Date: Sat, 26 Aug 2023 17:15:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: ACPI
+X-Bugzilla-Component: Power-Sleep-Wake
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: penteljapan@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-217664-2300-Zg8HsvCGJ5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
+References: <bug-217664-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] drm/panel/panel-sitronix-st7701: Move init sequence from
- prepare() to enable()
-To: Mimoja <git@mimoja.de>, dri-devel@lists.freedesktop.org,
- mimoja@aachen.ccc.de, alu@fffuego.com
-References: <20230826095516.81387-1-git@mimoja.de>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230826095516.81387-1-git@mimoja.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +71,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/26/23 11:55, Mimoja wrote:
-> The struct drm_panel_funcs are offering a prepare() and an enable()
-> entrypoint for panels. According to drm/panel.h:
-> 
-> "The .prepare() function is typically called before the display controller
-> starts to transmit video data."
-> and
-> "After the display controller has started transmitting video data, it's safe
->   to call the .enable() function."
-> 
-> The st7701 driver currently does not respect this, queing DSI control commands
-> during enable.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
-DSI commands are not DSI video, so this should be OK ?
+--- Comment #36 from popus_czy_to_ty (penteljapan@o2.pl) ---
+Created attachment 304944
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304944&action=3Dedit
+journalctl from 26/08/23
 
-> While generally fine this can lead to a fillup of the transmission queue before
-> the transmission is set up on certain dsi bridges.
-> This issue can also be seen on downstream imx8m* kernels.
+doesnt work now, when im trying to it doesnt want go suspend for first time,
+then i repeat and it goes but not recovers
 
-Can you reproduce this with current mainline Linux or linux-next tree ?
-I recall the display pipeline in the NXP downstream stuff is very 
-different from mainline .
+--=20
+You may reply to this email to add a comment.
 
-Which SoC does have this problem ?
+You are receiving this mail because:
+You are watching the assignee of the bug.=
