@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AF678A0A5
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 19:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7154E78A0AA
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 19:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 563D810E1E6;
-	Sun, 27 Aug 2023 17:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028E510E1EC;
+	Sun, 27 Aug 2023 17:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF4910E1D8;
- Sun, 27 Aug 2023 17:56:10 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC4C10E1D8;
+ Sun, 27 Aug 2023 17:56:12 +0000 (UTC)
 Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 07E93660729C;
- Sun, 27 Aug 2023 18:56:07 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C9C3066072AA;
+ Sun, 27 Aug 2023 18:56:09 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693158969;
- bh=M5/xgmgYN0s36JVYHmGw/X427TQVf2NMGXsEGCVdXvc=;
+ s=mail; t=1693158971;
+ bh=2p4cHgA5Rx3A3NQCkFX1jrZwlzZfozBw87OZzukNw+A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=auSupVBWNLHWAWDVXWjgaW/AZJUx8stY7+syvdibV1xVrcSxOL5j4DHNZBO9JXHKJ
- iqALbtRa7tjggEC4KHp+M0/5uS+w0FnG1c6zwai1Eois9bFQRHq6ZxJlIz/gEvbwxV
- xIwLk4Nqs0yutZZ0BVs4gyRz6O2inG8QTQi01tA4D4Ov/q2H1DbjmY32nfDYDEToim
- yDj3RQSqElgNj+9SRbx0D9FS0IKfT+SoH59si8XXKTmqVo5OrGJenUBhVs7U1EcGZw
- LI1VPszTF93y5GByRJxiEzLnp6xM/g2rEJb3yLQ1gRu3j41GNIMmRzTLDgnLwBQkFM
- 9rzLK43Ye7clw==
+ b=jftUNFCa8Ei+fwTjpJd10zv1K/ITAyEDxBz4PtwU5RmQz1WqV5Zlmi7lL87/rxTYH
+ ksaywQMhubqu3GmvBESOvFEsAOCvO9gsVSWycZm1F8BDV83hj7trHIncywLjrgL6gT
+ uNZbQM/L/WwghJX3C2sPCJMjFRprEFHUShIfAjLB9laxhngaAShQVV4wt2Vp4nx0CF
+ og+SGzxPDU1U93IsskKI/c4FDwWZ8PHjquX34Z0TTFQQWFWi+CeZKPagI5633k4inw
+ 3ZgJrpgPTMX3LN37qOfYRhdhuK5X0BKMG8EZExSRtCVibamcLTs73+99IYYPC9BJNp
+ 85c5OFX/JD7Cg==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -42,9 +43,9 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
  Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v15 11/23] dma-resv: Add kref_put_dma_resv()
-Date: Sun, 27 Aug 2023 20:54:37 +0300
-Message-ID: <20230827175449.1766701-12-dmitry.osipenko@collabora.com>
+Subject: [PATCH v15 12/23] drm/shmem-helper: Add and use pages_pin_count
+Date: Sun, 27 Aug 2023 20:54:38 +0300
+Message-ID: <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
@@ -68,44 +69,93 @@ Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add simple kref_put_dma_resv() helper that wraps around kref_put_ww_mutex()
-for drivers that needs to lock dma-resv on kref_put().
+Add separate pages_pin_count for tracking of whether drm-shmem pages are
+moveable or not. With the addition of memory shrinker support to drm-shmem,
+the pages_use_count will no longer determine whether pages are hard-pinned
+in memory, but whether pages exit and are soft-pinned (and could be swapped
+out). The pages_pin_count > 1 will hard-pin pages in memory.
 
-It's not possible to easily add this helper to kref.h because of the
-headers inclusion dependency, hence add it to dma-resv.h.
-
+Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- include/linux/dma-resv.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 22 +++++++++++++++++-----
+ include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
+ 2 files changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 8d0e34dad446..c5cf302e4194 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -41,6 +41,7 @@
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index d545d3d227d7..1a7e5c332fd8 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -234,14 +234,22 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
  
- #include <linux/ww_mutex.h>
- #include <linux/dma-fence.h>
-+#include <linux/kref.h>
- #include <linux/slab.h>
- #include <linux/seqlock.h>
- #include <linux/rcupdate.h>
-@@ -464,6 +465,14 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
- 	ww_mutex_unlock(&obj->lock);
+ 	dma_resv_assert_held(shmem->base.resv);
+ 
++	if (kref_get_unless_zero(&shmem->pages_pin_count))
++		return 0;
++
+ 	ret = drm_gem_shmem_get_pages_locked(shmem);
++	if (!ret)
++		kref_init(&shmem->pages_pin_count);
+ 
+ 	return ret;
  }
  
-+static inline int kref_put_dma_resv(struct kref *kref,
-+				    void (*release)(struct kref *kref),
-+				    struct dma_resv *resv,
-+				    struct ww_acquire_ctx *ctx)
-+{
-+	return kref_put_ww_mutex(kref, release, &resv->lock, ctx);
-+}
+-static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
++static void drm_gem_shmem_kref_unpin_pages(struct kref *kref)
+ {
+-	dma_resv_assert_held(shmem->base.resv);
++	struct drm_gem_shmem_object *shmem;
 +
- void dma_resv_init(struct dma_resv *obj);
- void dma_resv_fini(struct dma_resv *obj);
- int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences);
++	shmem = container_of(kref, struct drm_gem_shmem_object,
++			     pages_pin_count);
+ 
+ 	drm_gem_shmem_put_pages_locked(shmem);
+ }
+@@ -263,6 +271,9 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
+ 
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
++	if (kref_get_unless_zero(&shmem->pages_pin_count))
++		return 0;
++
+ 	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
+ 	if (ret)
+ 		return ret;
+@@ -286,9 +297,10 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+ 
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
+-	dma_resv_lock(shmem->base.resv, NULL);
+-	drm_gem_shmem_unpin_locked(shmem);
+-	dma_resv_unlock(shmem->base.resv);
++	if (kref_put_dma_resv(&shmem->pages_pin_count,
++			      drm_gem_shmem_kref_unpin_pages,
++			      obj->resv, NULL))
++		dma_resv_unlock(obj->resv);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
+ 
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index ec2d8b24e3cf..afb7cd671e2a 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -39,6 +39,16 @@ struct drm_gem_shmem_object {
+ 	 */
+ 	unsigned int pages_use_count;
+ 
++	/**
++	 * @pages_pin_count:
++	 *
++	 * Reference count on the pinned pages table.
++	 * The pages allowed to be evicted and purged by memory
++	 * shrinker only when the count is zero, otherwise pages
++	 * are hard-pinned in memory.
++	 */
++	struct kref pages_pin_count;
++
+ 	/**
+ 	 * @madv: State for madvise
+ 	 *
 -- 
 2.41.0
 
