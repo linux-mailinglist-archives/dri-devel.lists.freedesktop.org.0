@@ -1,47 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FBC789DD5
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 14:20:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEFE789DE8
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 14:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E201610E1AD;
-	Sun, 27 Aug 2023 12:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B9310E051;
+	Sun, 27 Aug 2023 12:45:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 989B410E1AD
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 12:20:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 781D661234;
- Sun, 27 Aug 2023 12:20:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C9FC433C8;
- Sun, 27 Aug 2023 12:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693138802;
- bh=HhxglvFxdy4JGa0XB+/DZKPFXAniIq8/vq4aNLO6Lxc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uwQBJVYTyIQvxX+Wt0k4rAwIAzYy/BoEM7OU1S5h1v54sBO8BAlwITx39Hsoo9ikf
- +V7ndNtcK8MR5aizx5Bg9kX/r3m66Vsgpwac+9tH6KCOLu+SWWKKmlH3obss1atQ9N
- OY5fWsGnFhfbuoJX/cbufzy89EalVGB1mdCFqavGeFkNtOJIX6zVmET0INeuq/r+/t
- aLFIJTi3t5Jr8cO66Imju8fT0zmDboFhlNtQqOflAMDQkuhseGYCLYuULq2TiAJRGV
- OWYK92NC43hSUmnPt3ypduzpVgZXJfIlGubcyTtGqUiTFHF+O6JXAwrGCGWIRwEvj2
- sz7O3ye1B3uGA==
-Date: Sun, 27 Aug 2023 13:19:57 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display/lvds-codec: add ti,sn65lvds94
-Message-ID: <20230827-drum-food-09e417962032@spud>
-References: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F90010E051
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 12:45:34 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-99bfcf4c814so294904566b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 05:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693140333; x=1693745133;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J4nrGHQXWGJOJy96+djCX01NUNDs5EjnDz65MkIXeAk=;
+ b=irPSjeDok07WKVwrCNH3KFcyAfhvLcbGW0nLPAwWCYwXZX3OpYtbARmfewUya61lYL
+ nUI6X0482t/MWn+UODgdExMEl80k/exS12DSJJKDY05DxdorjdR2/36d42plLF0Wh1JW
+ qFW8HhJL/GlNTR3pEcHxVhiMU3+2CPjZvbmx0TAH7hnQ48y02nQCDk5+Fd8pfkbDcFGm
+ 733pQvZIrLz3+Nta6yQvi3UfStp3YABCgdKs6IChTDocRUou5XeIbs5yWHjOcuaY3d2M
+ /VrN6yABB9yuqi9l7WQzvPtSbCuCJfun+d7Bzx4DnNHv9s5lvnvFvo11swfnkmspVNqn
+ pBsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693140333; x=1693745133;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J4nrGHQXWGJOJy96+djCX01NUNDs5EjnDz65MkIXeAk=;
+ b=idJQbq+9Fe1qIhH7FzKTOrToPgyC5n5Nd2CGyQNsMUKyis3xgA1cT4ox8t7rldd+R1
+ o0HKDBCN6w1nNMtgohvAhz6pa9aYVvHycsNZw3/mZU9HMW1+MfL4PCtNvdC+dZxB2LOY
+ 2m/7PnkOLPbXn8r7k2yJMNoHIE5We0Q5wxZQiG8e3QaiZbJijka+y6Dt1XE6DlSgD9Hq
+ JpyulEM/FMSTYNHqO/9b25fYgApZD9ZUhc6sGONWV61psMyzwydb04oJIr+K1uPxOEmz
+ 740o0q+Ub34+0TlnzvJx/F26Ghv4vJg0IsyIaYsc7pz22jRxv/T6bp6jOW0aPoLf4ACM
+ PXig==
+X-Gm-Message-State: AOJu0YyK4zsIPAjQuGLnhBfreujKTP6KWadWlyOgWy0L4ksvT6PUiIN7
+ CHnVitukdvxORr5zU7k1rdnRbQ==
+X-Google-Smtp-Source: AGHT+IEWKDRa6IsELYTXk9QKcuouqJY4xo8YWM4wjKKvFH6kB2tEu09aYM06gnXU22x0Y0pkU3cddQ==
+X-Received: by 2002:a17:907:2c4b:b0:9a2:16e2:353 with SMTP id
+ hf11-20020a1709072c4b00b009a216e20353mr6902277ejc.6.1693140332935; 
+ Sun, 27 Aug 2023 05:45:32 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.225])
+ by smtp.gmail.com with ESMTPSA id
+ mh2-20020a170906eb8200b0099b76c3041csm3365057ejb.7.2023.08.27.05.45.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Aug 2023 05:45:32 -0700 (PDT)
+Message-ID: <4411dbf4-a7f5-7608-6b93-3eef2f4fcb90@linaro.org>
+Date: Sun, 27 Aug 2023 14:45:30 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HDCjkBIVdY6Zlu4d"
-Content-Disposition: inline
-In-Reply-To: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 1/2] dt-bindings: display/lvds-codec: add ti,sn65lvds94
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
+ <20230827-drum-food-09e417962032@spud>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230827-drum-food-09e417962032@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +91,17 @@ Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 27/08/2023 14:19, Conor Dooley wrote:
+> On Sun, Aug 27, 2023 at 12:54:28AM +0300, Dmitry Baryshkov wrote:
+>> Add compatible strings for TI sn65lvds94, LVDS serdes receiver.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---HDCjkBIVdY6Zlu4d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the record, patch looks good, but was not tested by automation.
+Missing Cc-list.
 
-On Sun, Aug 27, 2023 at 12:54:28AM +0300, Dmitry Baryshkov wrote:
-> Add compatible strings for TI sn65lvds94, LVDS serdes receiver.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Best regards,
+Krzysztof
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
-> ---
->  Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.=
-yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index 84aafcbf0919..6ceeed76e88e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -41,6 +41,7 @@ properties:
->            - enum:
->                - ti,ds90cf364a # For the DS90CF364A FPD-Link LVDS Receiver
->                - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
-> +              - ti,sn65lvds94 # For the SN65DS94 LVDS serdes
->            - const: lvds-decoder # Generic LVDS decoders compatible fallb=
-ack
->        - enum:
->            - thine,thc63lvdm83d # For the THC63LVDM83D LVDS serializer
-> --=20
-> 2.39.2
->=20
-
---HDCjkBIVdY6Zlu4d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOs/bAAKCRB4tDGHoIJi
-0gsHAQDlI///5Onx3bopmXNOAnIMexMaTQ+jgHpAawK/tZfHggD/UMK8I3uyVz18
-XqVtMM+RIZK821kKR5URtkcvV6uxAgM=
-=8shM
------END PGP SIGNATURE-----
-
---HDCjkBIVdY6Zlu4d--
