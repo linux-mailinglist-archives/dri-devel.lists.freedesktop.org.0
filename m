@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5341A78A0A2
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 19:56:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AF678A0A5
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 19:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9A6A10E1E1;
-	Sun, 27 Aug 2023 17:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563D810E1E6;
+	Sun, 27 Aug 2023 17:56:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E059C10E1D8;
- Sun, 27 Aug 2023 17:56:08 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF4910E1D8;
+ Sun, 27 Aug 2023 17:56:10 +0000 (UTC)
 Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3CE0D6603102;
- Sun, 27 Aug 2023 18:56:06 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 07E93660729C;
+ Sun, 27 Aug 2023 18:56:07 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693158967;
- bh=n0kkcz8juKwSjNPbXLfDiIJlOKY0+tcGaJqGLsx5hTs=;
+ s=mail; t=1693158969;
+ bh=M5/xgmgYN0s36JVYHmGw/X427TQVf2NMGXsEGCVdXvc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Alg5JnsKjDIWjT6Aixw2aHXpBSqCqXy2+Ld4MIuRsWqHHxbUtCVRj7trHoq3wWblp
- oH8AfzkEZmEx3D+wXq+hXvIVU/qP/i0np8yK4SXRPeoJm7SQR4SnjAachAknuwYMtl
- s8eMuuR8I89BrP4ims1nhUn1/HcuIv0S+kJRufKPfxth0yN05hTwaIJnF4H5LdmC4f
- Nc40AnviggFijAcxyRSYhCJG34AhburJoG/83P8gQXTEvyBmoTpxAm8jmEVFJQ5SlV
- dmQsVfWs/wBLJdmin/+Q2EzhrvS7fYpilIgPK5oMzzGXbLQXkGvNDRdjno+LlEq5Dw
- /6UsLJdSonicw==
+ b=auSupVBWNLHWAWDVXWjgaW/AZJUx8stY7+syvdibV1xVrcSxOL5j4DHNZBO9JXHKJ
+ iqALbtRa7tjggEC4KHp+M0/5uS+w0FnG1c6zwai1Eois9bFQRHq6ZxJlIz/gEvbwxV
+ xIwLk4Nqs0yutZZ0BVs4gyRz6O2inG8QTQi01tA4D4Ov/q2H1DbjmY32nfDYDEToim
+ yDj3RQSqElgNj+9SRbx0D9FS0IKfT+SoH59si8XXKTmqVo5OrGJenUBhVs7U1EcGZw
+ LI1VPszTF93y5GByRJxiEzLnp6xM/g2rEJb3yLQ1gRu3j41GNIMmRzTLDgnLwBQkFM
+ 9rzLK43Ye7clw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -43,9 +42,9 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
  Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v15 10/23] locking/refcount, kref: Add kref_put_ww_mutex()
-Date: Sun, 27 Aug 2023 20:54:36 +0300
-Message-ID: <20230827175449.1766701-11-dmitry.osipenko@collabora.com>
+Subject: [PATCH v15 11/23] dma-resv: Add kref_put_dma_resv()
+Date: Sun, 27 Aug 2023 20:54:37 +0300
+Message-ID: <20230827175449.1766701-12-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
@@ -69,110 +68,44 @@ Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce kref_put_ww_mutex() helper that will handle the wait-wound
-mutex auto-locking on kref_put(). This helper is wanted by DRM drivers
-that extensively use dma-reservation locking which in turns uses ww-mutex.
+Add simple kref_put_dma_resv() helper that wraps around kref_put_ww_mutex()
+for drivers that needs to lock dma-resv on kref_put().
+
+It's not possible to easily add this helper to kref.h because of the
+headers inclusion dependency, hence add it to dma-resv.h.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- include/linux/kref.h     | 12 ++++++++++++
- include/linux/refcount.h |  5 +++++
- lib/refcount.c           | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ include/linux/dma-resv.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/linux/kref.h b/include/linux/kref.h
-index d32e21a2538c..b2d8dc6e9ae0 100644
---- a/include/linux/kref.h
-+++ b/include/linux/kref.h
-@@ -90,6 +90,18 @@ static inline int kref_put_lock(struct kref *kref,
- 	return 0;
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 8d0e34dad446..c5cf302e4194 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -41,6 +41,7 @@
+ 
+ #include <linux/ww_mutex.h>
+ #include <linux/dma-fence.h>
++#include <linux/kref.h>
+ #include <linux/slab.h>
+ #include <linux/seqlock.h>
+ #include <linux/rcupdate.h>
+@@ -464,6 +465,14 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
+ 	ww_mutex_unlock(&obj->lock);
  }
  
-+static inline int kref_put_ww_mutex(struct kref *kref,
++static inline int kref_put_dma_resv(struct kref *kref,
 +				    void (*release)(struct kref *kref),
-+				    struct ww_mutex *lock,
++				    struct dma_resv *resv,
 +				    struct ww_acquire_ctx *ctx)
 +{
-+	if (refcount_dec_and_ww_mutex_lock(&kref->refcount, lock, ctx)) {
-+		release(kref);
-+		return 1;
-+	}
-+	return 0;
++	return kref_put_ww_mutex(kref, release, &resv->lock, ctx);
 +}
 +
- /**
-  * kref_get_unless_zero - Increment refcount for object unless it is zero.
-  * @kref: object.
-diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-index a62fcca97486..be9ad272bc77 100644
---- a/include/linux/refcount.h
-+++ b/include/linux/refcount.h
-@@ -99,6 +99,8 @@
- #include <linux/spinlock_types.h>
- 
- struct mutex;
-+struct ww_mutex;
-+struct ww_acquire_ctx;
- 
- /**
-  * typedef refcount_t - variant of atomic_t specialized for reference counts
-@@ -366,4 +368,7 @@ extern __must_check bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)
- extern __must_check bool refcount_dec_and_lock_irqsave(refcount_t *r,
- 						       spinlock_t *lock,
- 						       unsigned long *flags) __cond_acquires(lock);
-+extern __must_check bool refcount_dec_and_ww_mutex_lock(refcount_t *r,
-+							struct ww_mutex *lock,
-+							struct ww_acquire_ctx *ctx) __cond_acquires(&lock->base);
- #endif /* _LINUX_REFCOUNT_H */
-diff --git a/lib/refcount.c b/lib/refcount.c
-index a207a8f22b3c..3f6fd0ceed02 100644
---- a/lib/refcount.c
-+++ b/lib/refcount.c
-@@ -6,6 +6,7 @@
- #include <linux/mutex.h>
- #include <linux/refcount.h>
- #include <linux/spinlock.h>
-+#include <linux/ww_mutex.h>
- #include <linux/bug.h>
- 
- #define REFCOUNT_WARN(str)	WARN_ONCE(1, "refcount_t: " str ".\n")
-@@ -184,3 +185,36 @@ bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,
- 	return true;
- }
- EXPORT_SYMBOL(refcount_dec_and_lock_irqsave);
-+
-+/**
-+ * refcount_dec_and_ww_mutex_lock - return holding ww-mutex if able to
-+ *                                  decrement refcount to 0
-+ * @r: the refcount
-+ * @lock: the ww-mutex to be locked
-+ * @ctx: wait-wound context
-+ *
-+ * Similar to atomic_dec_and_lock(), it will WARN on underflow and fail to
-+ * decrement when saturated at REFCOUNT_SATURATED.
-+ *
-+ * Provides release memory ordering, such that prior loads and stores are done
-+ * before, and provides a control dependency such that free() must come after.
-+ * See the comment on top.
-+ *
-+ * Return: true and hold ww-mutex lock if able to decrement refcount to 0,
-+ *         false otherwise
-+ */
-+bool refcount_dec_and_ww_mutex_lock(refcount_t *r, struct ww_mutex *lock,
-+				    struct ww_acquire_ctx *ctx)
-+{
-+	if (refcount_dec_not_one(r))
-+		return false;
-+
-+	ww_mutex_lock(lock, ctx);
-+	if (!refcount_dec_and_test(r)) {
-+		ww_mutex_unlock(lock);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(refcount_dec_and_ww_mutex_lock);
+ void dma_resv_init(struct dma_resv *obj);
+ void dma_resv_fini(struct dma_resv *obj);
+ int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences);
 -- 
 2.41.0
 
