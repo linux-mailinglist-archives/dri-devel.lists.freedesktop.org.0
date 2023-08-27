@@ -1,71 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEFE789DE8
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 14:45:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B64789FB5
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Aug 2023 16:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B9310E051;
-	Sun, 27 Aug 2023 12:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED6D10E062;
+	Sun, 27 Aug 2023 14:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F90010E051
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 12:45:34 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-99bfcf4c814so294904566b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 05:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693140333; x=1693745133;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=J4nrGHQXWGJOJy96+djCX01NUNDs5EjnDz65MkIXeAk=;
- b=irPSjeDok07WKVwrCNH3KFcyAfhvLcbGW0nLPAwWCYwXZX3OpYtbARmfewUya61lYL
- nUI6X0482t/MWn+UODgdExMEl80k/exS12DSJJKDY05DxdorjdR2/36d42plLF0Wh1JW
- qFW8HhJL/GlNTR3pEcHxVhiMU3+2CPjZvbmx0TAH7hnQ48y02nQCDk5+Fd8pfkbDcFGm
- 733pQvZIrLz3+Nta6yQvi3UfStp3YABCgdKs6IChTDocRUou5XeIbs5yWHjOcuaY3d2M
- /VrN6yABB9yuqi9l7WQzvPtSbCuCJfun+d7Bzx4DnNHv9s5lvnvFvo11swfnkmspVNqn
- pBsw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 770E010E062
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 14:06:05 +0000 (UTC)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-1bf08cf3365so21269955ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Aug 2023 07:06:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693140333; x=1693745133;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J4nrGHQXWGJOJy96+djCX01NUNDs5EjnDz65MkIXeAk=;
- b=idJQbq+9Fe1qIhH7FzKTOrToPgyC5n5Nd2CGyQNsMUKyis3xgA1cT4ox8t7rldd+R1
- o0HKDBCN6w1nNMtgohvAhz6pa9aYVvHycsNZw3/mZU9HMW1+MfL4PCtNvdC+dZxB2LOY
- 2m/7PnkOLPbXn8r7k2yJMNoHIE5We0Q5wxZQiG8e3QaiZbJijka+y6Dt1XE6DlSgD9Hq
- JpyulEM/FMSTYNHqO/9b25fYgApZD9ZUhc6sGONWV61psMyzwydb04oJIr+K1uPxOEmz
- 740o0q+Ub34+0TlnzvJx/F26Ghv4vJg0IsyIaYsc7pz22jRxv/T6bp6jOW0aPoLf4ACM
- PXig==
-X-Gm-Message-State: AOJu0YyK4zsIPAjQuGLnhBfreujKTP6KWadWlyOgWy0L4ksvT6PUiIN7
- CHnVitukdvxORr5zU7k1rdnRbQ==
-X-Google-Smtp-Source: AGHT+IEWKDRa6IsELYTXk9QKcuouqJY4xo8YWM4wjKKvFH6kB2tEu09aYM06gnXU22x0Y0pkU3cddQ==
-X-Received: by 2002:a17:907:2c4b:b0:9a2:16e2:353 with SMTP id
- hf11-20020a1709072c4b00b009a216e20353mr6902277ejc.6.1693140332935; 
- Sun, 27 Aug 2023 05:45:32 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.225])
- by smtp.gmail.com with ESMTPSA id
- mh2-20020a170906eb8200b0099b76c3041csm3365057ejb.7.2023.08.27.05.45.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Aug 2023 05:45:32 -0700 (PDT)
-Message-ID: <4411dbf4-a7f5-7608-6b93-3eef2f4fcb90@linaro.org>
-Date: Sun, 27 Aug 2023 14:45:30 +0200
+ d=1e100.net; s=20221208; t=1693145165; x=1693749965;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g8j55cLkIbZIaBh5Di7cu1MVcAsQCeGemB32jmMtS2o=;
+ b=DqelTJkGyAuiOt4lLkauJLF4oZbItiuxjfPb0PufAqd3qmbeaPRXM7bIHMDFSRYCrR
+ T1uyIPqE4NinJU+r6JzYe8/qMC2SltZ0IhUfcweAcKiKw94tR0Mt21GtjoJwg6RcJlZX
+ 2PTnxayrPVenROjX6GKSFg0Yr/y07Gaidiu+2NlXpZTTsSKJJlfUh1n9VorKcK6Qz6FV
+ QXem+ZY4ZoyjCGH39u85AihM4N+wdNC5i1EFvKk/s40shbHoWphKuSHQMZ1fwPPUo8S+
+ +Qs4ORcukwJqrAIW4OjVkvjX3PtQgZOqvrPt62Tqo+ShBVFO3JXH6pbbQXBJVMhdL+uR
+ g8sg==
+X-Gm-Message-State: AOJu0Yzg8agtr4I9VNQGaSEqFQKlWlTcrMqxgKO/KyhiHELo/ujDUF20
+ tG/NjrW2Gu/L108LvekoOSD45FBIfeagm8/7MUGVL5W0I2uqiyg=
+X-Google-Smtp-Source: AGHT+IFz36RY6aJ1+m79ScTz3kSLlWL8ftzo288g9xZHVsEY5M7VDZJNbZ6B07rm/zhJdg6TJvcfnVGBXBaekIhUIjFiJ1wdZcOG
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 1/2] dt-bindings: display/lvds-codec: add ti,sn65lvds94
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
- <20230827-drum-food-09e417962032@spud>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230827-drum-food-09e417962032@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a17:902:f54f:b0:1c0:d7a9:1c42 with SMTP id
+ h15-20020a170902f54f00b001c0d7a91c42mr1410146plf.13.1693145164887; Sun, 27
+ Aug 2023 07:06:04 -0700 (PDT)
+Date: Sun, 27 Aug 2023 07:06:04 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001b3c5c0603e814ab@google.com>
+Subject: [syzbot] Monthly dri report (Aug 2023)
+From: syzbot <syzbot+list483e8258d68797e99c17@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,30 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/08/2023 14:19, Conor Dooley wrote:
-> On Sun, Aug 27, 2023 at 12:54:28AM +0300, Dmitry Baryshkov wrote:
->> Add compatible strings for TI sn65lvds94, LVDS serdes receiver.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Hello dri maintainers/developers,
 
-For the record, patch looks good, but was not tested by automation.
-Missing Cc-list.
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-Best regards,
-Krzysztof
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 11 issues are still open and 30 have been fixed so far.
 
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 345     Yes   WARNING in drm_wait_one_vblank
+                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
+<2> 62      Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<3> 33      Yes   inconsistent lock state in sync_info_debugfs_show
+                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
+<4> 4       Yes   divide error in drm_mode_vrefresh
+                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
