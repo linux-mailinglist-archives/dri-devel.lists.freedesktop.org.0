@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFE078B572
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 18:39:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D7278B57C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 18:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063FC10E316;
-	Mon, 28 Aug 2023 16:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D4610E317;
+	Mon, 28 Aug 2023 16:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8DB710E316
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 16:39:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49E7D5AA;
- Mon, 28 Aug 2023 18:37:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1693240674;
- bh=l1xYuLhYKsgSs0UaqJUnGbUJuxaauT0l+VB86QnqciI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U2LXTCRDc4Cc9G+ZJ+vVF5paaE0JAC4bRkYgtLDR64dUEfJ4cEZxmTn1ybF/PIXWf
- taDlSuB0RkLmQ/9cDcemc9y5K7zImS2WTkQ26/m2A7BtNYV3hjI1bu6KwuMZa0vW6n
- 1Gp7sSDtdsRDNMXPINO/ca1/Y3b0iqqAB115maAI=
-Date: Mon, 28 Aug 2023 19:39:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH 01/20] drm/xlnx/zynqmp_disp: Use correct kerneldoc
- formatting in zynqmp_disp
-Message-ID: <20230828163925.GU14596@pendragon.ideasonboard.com>
-References: <20230824073710.2677348-1-lee@kernel.org>
- <20230824073710.2677348-2-lee@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4B410E317
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 16:42:06 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1qafJH-0003M3-Bj; Mon, 28 Aug 2023 18:41:51 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1qafJF-00053a-0M; Mon, 28 Aug 2023 18:41:49 +0200
+Date: Mon, 28 Aug 2023 18:41:48 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Michael Tretter <m.tretter@pengutronix.de>
+Subject: Re: [PATCH 3/5] drm/bridge: samsung-dsim: update PLL reference clock
+Message-ID: <20230828164148.tm23yudt76eqefzh@pengutronix.de>
+References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
+ <20230818-samsung-dsim-v1-3-b39716db6b7a@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824073710.2677348-2-lee@kernel.org>
+In-Reply-To: <20230818-samsung-dsim-v1-3-b39716db6b7a@pengutronix.de>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,62 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Michal Simek <michal.simek@xilinx.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
-
-Thank you for the patch.
-
-On Thu, Aug 24, 2023 at 08:36:46AM +0100, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
+On 23-08-28, Michael Tretter wrote:
+> The PLL requires a clock between 2 MHz and 30 MHz after the pre-divider.
+> The reference clock for the PLL may change due to changes to it's parent
+> clock. Thus, the frequency may be out of range or unsuited for
+> generating the high speed clock for MIPI DSI.
 > 
->  drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or member 'blend' not described in 'zynqmp_disp'
->  drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or member 'avbuf' not described in 'zynqmp_disp'
->  drivers/gpu/drm/xlnx/zynqmp_disp.c:151: warning: Function parameter or member 'audio' not described in 'zynqmp_disp'
+> Try to keep the pre-devider small, and set the reference clock close to
+> 30 MHz before recalculating the PLL configuration. Use a divider with a
+> power of two for the reference clock as this seems to work best in
+> my tests.
 > 
-> Signed-off-by: Lee Jones <lee@kernel.org>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 407bc07cec69a..7c64ab11fe2b0 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -128,9 +128,9 @@ struct zynqmp_disp_layer {
->   * struct zynqmp_disp - Display controller
->   * @dev: Device structure
->   * @dpsub: Display subsystem
-> - * @blend.base: Register I/O base address for the blender
-> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
-> - * @audio.base: Registers I/O base address for the audio mixer
-> + * @blend: .base: Register I/O base address for the blender
-> + * @avbuf: .base: Register I/O base address for the audio/video buffer manager
-> + * @audio: .base: Registers I/O base address for the audio mixer
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index da90c2038042..4de6e4f116db 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -611,10 +611,21 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+>  	u16 m;
+>  	u32 reg;
+>  
+> -	if (dsi->pll_clk)
+> +	if (dsi->pll_clk) {
+> +		/*
+> +		 * Ensure that the reference clock is generated with a power of
+> +		 * two divider from its parent, but close to the PLLs upper
+> +		 * limit of the valid range of 2 MHz to 30 MHz.
+> +		 */
+> +		fin = clk_get_rate(clk_get_parent(dsi->pll_clk));
+> +		while (fin > 30 * MHZ)
+> +			fin = fin / 2;
 
-This is really a hack to work around the warning, and not a clean fix.
-kerneldoc is still today unable, as far as I understand, to document
-nested structures. That's annoying, and the warning is a good way to
-remind us that it needs to be fixed. I'd be tempted to keep the warning
-for that reason.
+Really just a cosmetic nit: fin /= 2;
 
->   * @layers: Layers (planes)
->   */
->  struct zynqmp_disp {
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
--- 
-Regards,
-
-Laurent Pinchart
+> +		clk_set_rate(dsi->pll_clk, fin);
+> +
+>  		fin = clk_get_rate(dsi->pll_clk);
+> -	else
+> +	} else {
+>  		fin = dsi->pll_clk_rate;
+> +	}
+>  	dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
+>  
+>  	fout = samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
+> 
+> -- 
+> 2.39.2
+> 
+> 
+> 
