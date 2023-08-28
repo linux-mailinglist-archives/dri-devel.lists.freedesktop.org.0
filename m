@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7F578A90A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D8178A932
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:47:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F2B10E262;
-	Mon, 28 Aug 2023 09:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E54610E266;
+	Mon, 28 Aug 2023 09:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376D910E261;
- Mon, 28 Aug 2023 09:38:36 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 16EBA660719F;
- Mon, 28 Aug 2023 10:38:34 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693215514;
- bh=xNMyWokm068wowm7PBLRXVEkKpUJiarJWqqqpBLI9vs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CoJYyz7XHczKOPC18Kap7wWKCoi8DSh+JbLJLzAdY30QkSF7CpzwFCS4peVuI6G4G
- E7+34r2HSpN8c75/T5E+JerwJj7FDJVxVcsqOQDBLE9OAiPzykAnk2LDC3CBBdI9t1
- 19y/XuWEFFEzbK+ULKya4X6BWf5wz5eaaciNvw3tzcrZLf+QmD94Iulx+znm7wPm5x
- jt1O4h9vZvYLEKvD4g3FRu8gr2Kux5K9z3LPPoN4hZBg3+CMZ7Ep3RB1MYbP51Kav5
- bDOjgufY3XVQ8LnH23OhbnA1+obEbJUnNLloj3fWzKnM2riEXzO/QN156CuMMasyys
- uLDu3YpVUgGqQ==
-Date: Mon, 28 Aug 2023 11:38:31 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v15 12/23] drm/shmem-helper: Add and use pages_pin_count
-Message-ID: <20230828113831.0e31c5d0@collabora.com>
-In-Reply-To: <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
-References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C275310E266
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 09:47:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693216060; x=1724752060;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=es8Sla09cCwF6lvHsbSc31I6p3KWKijHBz6f1z/SRiA=;
+ b=O3Uj3BZMq8ZKBwLR7PaP12np71rbVXEweuXr6Cm2L11bRIeK61yjqMOW
+ eseDMoqVTIkTrp5hTKoTltwdrB+qbBWgdAs4jaET2rHwY+1Lib/Z/wchK
+ 1V1+BUDrfFkJwL1rnAcvBoCrt6j+WasuryYGXDWZpmHLuVILABJS2UsNn
+ /pZWO5WK9dpTGIAwuvSWZAIaCt761MKLS6yLMuVzlkpAM72cMTv45J4EI
+ NcyRs5/aGiXQLHR/D2jF7TGm73slKYK/fviIKWqJFLmeGsM66X88AKtC3
+ OpiGnzL+1K77zulNz7bMJnjo6VGJewxawrQOC5CAsXAT4q9k4cYpKuhWG A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="439011737"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="439011737"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2023 02:47:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="852778780"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="852778780"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2023 02:47:38 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/9] accel/ivpu: Update for -next 2023.08.25
+Date: Mon, 28 Aug 2023 11:47:27 +0200
+Message-Id: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,110 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
- intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Aug 2023 20:54:38 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+Update for -next:
+ - various cleanups
+ - begin preparation for conversion to GEM SHMEM
+ - print information about used workarounds
 
-> Add separate pages_pin_count for tracking of whether drm-shmem pages are
-> moveable or not. With the addition of memory shrinker support to drm-shmem,
-> the pages_use_count will no longer determine whether pages are hard-pinned
-> in memory, but whether pages exit and are soft-pinned (and could be swapped
+v2: Fix compilation without CONFIG_PM
 
-				^exist
+Jacek Lawrynowicz (4):
+  accel/ivpu: Remove duplicated error messages
+  accel/ivpu: Move ivpu_fw_load() to ivpu_fw_init()
+  accel/ivpu: Add ivpu_bo_vaddr() and ivpu_bo_size()
+  accel/ivpu: Move MMU register definitions to ivpu_mmu.c
 
-> out). The pages_pin_count > 1 will hard-pin pages in memory.
-> 
-> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 22 +++++++++++++++++-----
->  include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
->  2 files changed, 27 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index d545d3d227d7..1a7e5c332fd8 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -234,14 +234,22 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
->  
->  	dma_resv_assert_held(shmem->base.resv);
->  
-> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
-> +		return 0;
-> +
->  	ret = drm_gem_shmem_get_pages_locked(shmem);
-> +	if (!ret)
-> +		kref_init(&shmem->pages_pin_count);
->  
->  	return ret;
->  }
->  
-> -static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
-> +static void drm_gem_shmem_kref_unpin_pages(struct kref *kref)
->  {
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	struct drm_gem_shmem_object *shmem;
-> +
-> +	shmem = container_of(kref, struct drm_gem_shmem_object,
-> +			     pages_pin_count);
->  
->  	drm_gem_shmem_put_pages_locked(shmem);
->  }
-> @@ -263,6 +271,9 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
->  
->  	drm_WARN_ON(obj->dev, obj->import_attach);
->  
-> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
-> +		return 0;
-> +
->  	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
->  	if (ret)
->  		return ret;
-> @@ -286,9 +297,10 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
->  
->  	drm_WARN_ON(obj->dev, obj->import_attach);
->  
-> -	dma_resv_lock(shmem->base.resv, NULL);
-> -	drm_gem_shmem_unpin_locked(shmem);
-> -	dma_resv_unlock(shmem->base.resv);
-> +	if (kref_put_dma_resv(&shmem->pages_pin_count,
-> +			      drm_gem_shmem_kref_unpin_pages,
-> +			      obj->resv, NULL))
-> +		dma_resv_unlock(obj->resv);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
->  
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index ec2d8b24e3cf..afb7cd671e2a 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -39,6 +39,16 @@ struct drm_gem_shmem_object {
->  	 */
->  	unsigned int pages_use_count;
->  
-> +	/**
-> +	 * @pages_pin_count:
-> +	 *
-> +	 * Reference count on the pinned pages table.
-> +	 * The pages allowed to be evicted and purged by memory
-> +	 * shrinker only when the count is zero, otherwise pages
-> +	 * are hard-pinned in memory.
-> +	 */
-> +	struct kref pages_pin_count;
-> +
->  	/**
->  	 * @madv: State for madvise
->  	 *
+Karol Wachowski (1):
+  accel/ivpu: Initialize context with SSID = 1
+
+Krystian Pradzynski (1):
+  accel/ivpu: Move set autosuspend delay to HW specific code
+
+Stanislaw Gruszka (3):
+  accel/ivpu: Print information about used workarounds
+  accel/ivpu/37xx: Change register rename leftovers
+  accel/ivpu/37xx: White space cleanup
+
+ drivers/accel/ivpu/ivpu_drv.c         |  65 +++------
+ drivers/accel/ivpu/ivpu_drv.h         |  18 ++-
+ drivers/accel/ivpu/ivpu_fw.c          |  26 ++--
+ drivers/accel/ivpu/ivpu_fw.h          |   2 +-
+ drivers/accel/ivpu/ivpu_fw_log.c      |   6 +-
+ drivers/accel/ivpu/ivpu_gem.c         |  30 ++---
+ drivers/accel/ivpu/ivpu_gem.h         |  22 ++-
+ drivers/accel/ivpu/ivpu_hw_37xx.c     |  75 ++++++-----
+ drivers/accel/ivpu/ivpu_hw_37xx_reg.h | 187 +++++++++++---------------
+ drivers/accel/ivpu/ivpu_hw_40xx.c     |   7 +
+ drivers/accel/ivpu/ivpu_ipc.c         |  19 ++-
+ drivers/accel/ivpu/ivpu_job.c         |   8 +-
+ drivers/accel/ivpu/ivpu_mmu.c         | 117 ++++++++++------
+ drivers/accel/ivpu/ivpu_mmu_context.c |  16 ++-
+ drivers/accel/ivpu/ivpu_mmu_context.h |   2 +
+ drivers/accel/ivpu/ivpu_pm.c          |  18 +--
+ drivers/accel/ivpu/ivpu_pm.h          |   2 +-
+ 17 files changed, 323 insertions(+), 297 deletions(-)
+
+-- 
+2.25.1
 
