@@ -2,49 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186F678A79E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:25:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC8978A7FC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:45:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE2110E244;
-	Mon, 28 Aug 2023 08:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001DA10E24B;
+	Mon, 28 Aug 2023 08:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC610E244
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:25:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3A9C2629B7;
- Mon, 28 Aug 2023 08:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2603FC433C8;
- Mon, 28 Aug 2023 08:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693211104;
- bh=AzIl8R+mLlfk4QDKcU1VNTjiQMbFxq1oXdZ0jzRVpyQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c5+sn0c3TV9IQhaynyIaq5MGo7M/nYbuv3UH/13KyfVhu3G6XMWK48tKY5+KmEDkF
- iCt+VmtLCFAkfAn21TBAZPqDiM99YiGzPAaRfoBA72bLBOzxz1wQJYO8L0o6zd2UZ/
- g8W5QGaTbT+O8f8+kiNUZBqHJdINdYWx5fJmljJA48mmzbz4XLHwOZekwrTd5UR7Gl
- UwZQhXKYV2YdMOtNli3lypeqbPunhwhsIkzzZ5wrWaIKfb3JCIDfSMHY0EGnbyvBQ5
- tXvsjNZ8mAMGoHeO8YHywe6XbZytQw1nDK2y/FWwPeg1RMg7S7qM3J/xpFDgMJr0cQ
- 6DbOonxeyzDRg==
-Date: Mon, 28 Aug 2023 10:25:01 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
- parent rate changes
-Message-ID: <yblg37fisgmuveiuxsxcvls4uoxjv5wkvsztm6zpelxv7quuz5@zbsqfcn2z34v>
-References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
- <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
- <87ledzqhwx.fsf@oltmanns.dev> <878r9yb21b.fsf@oltmanns.dev>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33FBC10E24B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:45:47 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-50091b91a83so4418489e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 01:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=froggi.es; s=google; t=1693212345; x=1693817145;
+ h=cc:to:subject:message-id:date:from:references:in-reply-to
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bgtKJ6JG028uzitdv2BANG++TBn+0S2HAATaukIgA3o=;
+ b=RFESEAkaE0WsGbmAwVUbbXSu2QEpYYUDd190Eq3l0YgxI7RTFoWDvSC1ADWd7vozff
+ CANlFpsbHlm2iKJJEq8tgfPW49rJbp49D9D0/fBU5Fgiyj3l0KQwzNrRYxe/52JAmDZH
+ +PfoRxLn6wKGavbI/So8/GOUkRF0/CKGaZlued1PZT3QxPvN+mhBO4IYBEeouRJGdIU0
+ hL6KViwZrFbXKTwWYd2KnFlKpE4G5bQaGFf6n07NXn2HBTZ88Dul6M1Bqf7SP3Uex+Lx
+ 9z5acITqfOO5ldGdZTNH3IfOPMKUhDMbrceyJ2BXTS0wIm5UnSNQg/6MDGNMkRybWUex
+ cJWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693212345; x=1693817145;
+ h=cc:to:subject:message-id:date:from:references:in-reply-to
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bgtKJ6JG028uzitdv2BANG++TBn+0S2HAATaukIgA3o=;
+ b=g17zwW7uX87Rn/Kcwi76tan5l4xq+cexQSml3vDgMakazNVAuDd5cHOBOC5PKN+lK2
+ jVmXR8lOkE4wUTbuEWcRTvSCp4Q5Z9WsKCBpkDF+uCesSWBNkXI0NwYz3GKUy0osq1sR
+ 379IqQp0FPdGXMyn+am0FRos06thwXymXA4SO4iSD0m7s6NcOProO/x9lBw0OLCuQvlv
+ dObwNy4jC1/HcZmAzaq+bp6B9B6CyD6uTF1K4EtMIAci8WHTOikHSzP5DykHHLn5PA7n
+ QebvZkgdEP8HfdePsY8iTI+uJune5G9C9Ng7v2z7NUTe/GYrY9+Do9Vrn/+o4lMCRN7W
+ q3VA==
+X-Gm-Message-State: AOJu0YwI5L+SvZz9NjVyZEumzV2IQ41Lp3MNvV6xErZrYkaxU7EWW3iC
+ uqXWIY1tM2v1AR6FAuBANDDSxk4RoHytG+HsUailuw==
+X-Google-Smtp-Source: AGHT+IF4z7kmCYYRBFplG38so2/LZkucAx7xlrlOW+e6qKFzbBpFQuyP3vJmirj8x36Eufe4MEkyhCeprex2gFefbfE=
+X-Received: by 2002:a19:3845:0:b0:500:9de4:5966 with SMTP id
+ d5-20020a193845000000b005009de45966mr7509608lfj.62.1693212345181; Mon, 28 Aug
+ 2023 01:45:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <878r9yb21b.fsf@oltmanns.dev>
+Received: by 2002:a05:6f02:c05f:b0:57:31f:17bc with HTTP; Mon, 28 Aug 2023
+ 01:45:44 -0700 (PDT)
+In-Reply-To: <20230822151110.3107b745.pekka.paalanen@collabora.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-20-mwen@igalia.com>
+ <20230822151110.3107b745.pekka.paalanen@collabora.com>
+From: Joshua Ashton <joshua@froggi.es>
+Date: Mon, 28 Aug 2023 09:45:44 +0100
+Message-ID: <CAEZNXZCfvc909iFZQMdNEz=P_T=rYEYKq1Tdrt+8RNQpBSNt_g@mail.gmail.com>
+Subject: Re: [PATCH v2 19/34] drm/amd/display: decouple steps for mapping CRTC
+ degamma to DC plane
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Content-Type: multipart/alternative; boundary="0000000000005d44af0603f7b88f"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,192 +71,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Icenowy Zheng <uwu@icenowy.me>,
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <x@xnux.eu>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "sungjoon.kim@amd.com" <sungjoon.kim@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 26, 2023 at 11:12:16AM +0200, Frank Oltmanns wrote:
->=20
-> On 2023-08-25 at 17:07:58 +0200, Frank Oltmanns <frank@oltmanns.dev> wrot=
-e:
-> > Thank you for your feedback, Maxime!
-> >
-> > On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wro=
-te:
-> >> [[PGP Signed Part:Undecided]]
-> >> Hi,
-> >>
-> >> On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
-> >>> I would like to make the Allwinner A64's pll-mipi to keep its rate wh=
-en
-> >>> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
-> >>> required, to let the A64 drive both an LCD and HDMI display at the sa=
-me
-> >>> time, because both have pll-video0 as an ancestor.
-> >>>
-> >>> PATCH 1 adds this functionality as a feature into the clk framework (=
-new
-> >>> flag: CLK_KEEP_RATE).
-> >>>
-> >>> Cores that use this flag, store a rate as req_rate when it or one of =
-its
-> >>> descendants requests a new rate.
-> >>>
-> >>> That rate is then restored in the clk_change_rate recursion, which wa=
-lks
-> >>> through the tree. It will reach the flagged core (e.g. pll-mipi) after
-> >>> the parent's rate (e.g. pll-video0) has already been set to the new
-> >>> rate. It will then call determine_rate (which requests the parent's
-> >>> current, i.e. new, rate) to determine a rate that is close to the
-> >>> flagged core's previous rate. Afterward it will re-calculate the rates
-> >>> for the flagged core's subtree.
-> >>
-> >> I don't think it's the right way forward. It makes the core logic more
-> >> complicated, for something that is redundant with the notifiers
-> >> mechanism that has been the go-to for that kind of things so far.
-> >
-> > Yeah, that was my initial idea as well. But I couldn't get it to work.
-> > See details below.
-> >
-> > Do you have an example of a clock that restores its previous rate after
-> > the parent rate has changed? I've looked left and right, but to me it
-> > seems that notifiers are mainly used for setting clocks into some kind
-> > of "safe mode" prior to the rate change. Examples:
-> >
-> > sunxi-ng:
-> > https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/cc=
-u_mux.c#L273
-> > https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/cc=
-u_common.c#L60
-> >
-> > but also others:
-> > https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-ma=
-ster.c#L248
-> > https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson=
-8b.c#L3755
-> > https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cp=
-u-8996.c#L546
-> >
-> >> It's not really obvious to me why the notifiers don't work there.
-> >>
-> >>> This work is inspired by an out-of-tree patchset [1] [2] [3].
-> >>> Unfortunately, the patchset uses clk_set_rate() in a notifier callbac=
-k,
-> >>> which the following comment on clk_notifier_register() forbids: "The
-> >>> callbacks associated with the notifier must not re-enter into the clk
-> >>> framework by calling any top-level clk APIs." [4] Furthermore, that
-> >>> out-of-tree patchset no longer works with the current linux-next,
-> >>> because setting pll-mipi is now also resetting pll-video0 [5].
-> >>
-> >> Is it because of the "The callbacks associated with the notifier must
-> >> not re-enter into the clk framework by calling any top-level clk APIs."
-> >> comment?
-> >
-> > I don't think that's the reason. I'm fairly certain that the problem is,
-> > that pll-mipi tries to set the parent rate. Maybe it should check if the
-> > parent is locked, before determining a rate that requires the parent
-> > rate to change. =F0=9F=A4=94 Currently, it only calls clk_hw_can_set_ra=
-te_parent()
-> > which only checks the flag, but does not check if it is really possible
-> > to change the parent's rate.
-> >
-> > Regardless, please don't prematurely dismiss my proposal. It has the
-> > advantage that it is not specific for sunxi-ng, but could be used for
-> > other drivers as well. Maybe there other instances of exclusive locks
-> > today where the CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
-> >
-> >> If so, I think the thing we should emphasize is that it's about *any
-> >> top-level clk API*, as in clk_set_rate() or clk_set_parent().
-> >>
-> >> The issue is that any consumer-facing API is taking the clk_prepare lo=
-ck
-> >> and thus we would have reentrancy. But we're a provider there, and none
-> >> of the clk_hw_* functions are taking that lock. Neither do our own fun=
-ction.
-> >>
-> >> So we could call in that notifier our set_rate callback directly, or we
-> >> could create a clk_hw_set_rate() function.
-> >>
-> >> The first one will create cache issue between the actual rate that the
-> >> common clock framework is running and the one we actually enforced, but
-> >> we could create a function to flush the CCF cache.
-> >>
-> >> The second one is probably simpler.
-> >
-> > I'm probably missing something, because I don't think this would work.
-> > For reference, this is our tree:
-> >
-> >     pll-video0
-> >        hdmi-phy-clk
-> >        hdmi
-> >        tcon1
-> >        pll-mipi
-> >           tcon0
-> >              tcon-data-clock
-> >
-> > When pll-video0's rate is changed (e.g. because a HDMI monitor is
-> > plugged in), the rates of the complete subtree for pll-video0 are
-> > recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
-> > based on the rate that was recalculated for pll-mipi, which - in turn -
-> > was of course recalculated based on the pll-video0's new rate. These
-> > values are stored by the clk framework in a private struct. They are
-> > calculated before actually performing any rate changes.
-> >
-> > So, if a notifier sets pll-mipi's rate to something else than was
-> > previously recalculated, the clk framework would still try to set tcon0
-> > to the value that it previously calculated.
-> >
-> > So, we would have to recalculate pll-mipi's subtree after changing its
-> > rate (that's what PATCH 1 is doing).
->=20
-> Sorry, I forgot that this actually was possible by flagging pll-mipi
-> with CLK_RECALC_NEW_RATES. But the real problem I was fighting with when
-> trying to use the notifiers is something else.
->=20
-> Initially, pll-video0 is set by the bootloader. In my case uboot sets it
-> to 294 MHz. pll-mipi is set to 588 MHz.
->=20
-> Afterward, there are actually two types of calls for setting pll-mipi in
-> my scenario:
->  1. during boot when tcon-data-clock is set to drive the LCD panel
->  2. when the HDMI cable is plugged in
+--0000000000005d44af0603f7b88f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Not really. Both of those clocks can change (or not) at any point in
-time. What triggers the rate set is a modeset which might never happen
-(if the display driver or output is disabled, if the fbdev emulation is
-disabled or if there's never a compositor starting) or possibly happen
-each frame on both output for all you know.
+Degamma has always been on the plane on AMD. CRTC DEGAMMA_LUT has actually
+just been applying it to every plane pre-blend.
 
-> In the first case, the rate for pll-mipi is based on the rate that
-> tcon-data-clock requests. In that case, we do not want to restore the
-> previous rate.
->=20
-> In the second case, pll-mipi should try to remain running at the
-> previous rate (the one that was requested by tcon-data-clock). That's
-> the reason for setting core->req_rate in PATCH 1.
->=20
-> Unfortunately, the notifier does not provide us with enough context to
-> distinguish the two cases.
+Degamma makes no sense after blending anyway.
+The entire point is for it to happen before blending to blend in linear
+space. Otherwise DEGAMMA_LUT and REGAMMA_LUT are the exact same thing...
 
-I don't think any piece of code will be able to, really.
+- Joshie =F0=9F=90=B8
 
-Your definition of CLK_KEEP_RATE is that it will "try to keep rate, if
-parent rate changes"
+On Tuesday, 22 August 2023, Pekka Paalanen <pekka.paalanen@collabora.com>
+wrote:
+> On Thu, 10 Aug 2023 15:02:59 -0100
+> Melissa Wen <mwen@igalia.com> wrote:
+>
+>> The next patch adds pre-blending degamma to AMD color mgmt pipeline, but
+>> pre-blending degamma caps (DPP) is currently in use to provide DRM CRTC
+>> atomic degamma or implict degamma on legacy gamma. Detach degamma usage
+>> regarging CRTC color properties to manage plane and CRTC color
+>> correction combinations.
+>>
+>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> ---
+>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 59 +++++++++++++------
+>>  1 file changed, 41 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>> index 68e9f2c62f2e..74eb02655d96 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>> @@ -764,20 +764,9 @@ int amdgpu_dm_update_crtc_color_mgmt(struct
+dm_crtc_state *crtc)
+>>       return 0;
+>>  }
+>>
+>> -/**
+>> - * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC
+plane.
+>> - * @crtc: amdgpu_dm crtc state
+>> - * @dc_plane_state: target DC surface
+>> - *
+>> - * Update the underlying dc_stream_state's input transfer function
+(ITF) in
+>> - * preparation for hardware commit. The transfer function used depends
+on
+>> - * the preparation done on the stream for color management.
+>> - *
+>> - * Returns:
+>> - * 0 on success. -ENOMEM if mem allocation fails.
+>> - */
+>> -int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>> -                                   struct dc_plane_state
+*dc_plane_state)
+>> +static int
+>> +map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>> +                          struct dc_plane_state *dc_plane_state)
+>>  {
+>>       const struct drm_color_lut *degamma_lut;
+>>       enum dc_transfer_func_predefined tf =3D TRANSFER_FUNCTION_SRGB;
+>> @@ -800,8 +789,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct
+dm_crtc_state *crtc,
+>>                                                &degamma_size);
+>>               ASSERT(degamma_size =3D=3D MAX_COLOR_LUT_ENTRIES);
+>>
+>> -             dc_plane_state->in_transfer_func->type =3D
+>> -                     TF_TYPE_DISTRIBUTED_POINTS;
+>> +             dc_plane_state->in_transfer_func->type =3D
+TF_TYPE_DISTRIBUTED_POINTS;
+>>
+>>               /*
+>>                * This case isn't fully correct, but also fairly
+>> @@ -837,7 +825,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct
+dm_crtc_state *crtc,
+>>                                  degamma_lut, degamma_size);
+>>               if (r)
+>>                       return r;
+>> -     } else if (crtc->cm_is_degamma_srgb) {
+>> +     } else {
+>>               /*
+>>                * For legacy gamma support we need the regamma input
+>>                * in linear space. Assume that the input is sRGB.
+>> @@ -847,8 +835,43 @@ int amdgpu_dm_update_plane_color_mgmt(struct
+dm_crtc_state *crtc,
+>>
+>>               if (tf !=3D TRANSFER_FUNCTION_SRGB &&
+>>                   !mod_color_calculate_degamma_params(NULL,
+>> -                         dc_plane_state->in_transfer_func, NULL, false)=
+)
+>> +
+ dc_plane_state->in_transfer_func,
+>> +                                                     NULL, false))
+>>                       return -ENOMEM;
+>> +     }
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +/**
+>> + * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC
+plane.
+>> + * @crtc: amdgpu_dm crtc state
+>> + * @dc_plane_state: target DC surface
+>> + *
+>> + * Update the underlying dc_stream_state's input transfer function
+(ITF) in
+>> + * preparation for hardware commit. The transfer function used depends
+on
+>> + * the preparation done on the stream for color management.
+>> + *
+>> + * Returns:
+>> + * 0 on success. -ENOMEM if mem allocation fails.
+>> + */
+>> +int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>> +                                   struct dc_plane_state
+*dc_plane_state)
+>> +{
+>> +     bool has_crtc_cm_degamma;
+>> +     int ret;
+>> +
+>> +     has_crtc_cm_degamma =3D (crtc->cm_has_degamma ||
+crtc->cm_is_degamma_srgb);
+>> +     if (has_crtc_cm_degamma){
+>> +             /* AMD HW doesn't have post-blending degamma caps. When DR=
+M
+>> +              * CRTC atomic degamma is set, we maps it to DPP degamma
+block
+>> +              * (pre-blending) or, on legacy gamma, we use DPP degamma
+to
+>> +              * linearize (implicit degamma) from sRGB/BT709 according
+to
+>> +              * the input space.
+>
+> Uhh, you can't just move degamma before blending if KMS userspace
+> wants it after blending. That would be incorrect behaviour. If you
+> can't implement it correctly, reject it.
+>
+> I hope that magical unexpected linearization is not done with atomic,
+> either.
+>
+> Or maybe this is all a lost cause, and only the new color-op pipeline
+> UAPI will actually work across drivers.
+>
+>
+> Thanks,
+> pq
+>
+>> +              */
+>> +             ret =3D map_crtc_degamma_to_dc_plane(crtc, dc_plane_state)=
+;
+>> +             if (ret)
+>> +                     return ret;
+>>       } else {
+>>               /* ...Otherwise we can just bypass the DGM block. */
+>>               dc_plane_state->in_transfer_func->type =3D TF_TYPE_BYPASS;
+>
+>
 
-What happens if it fails, possibly because of rounding like you
-mentioned already?
+--0000000000005d44af0603f7b88f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fundamentally, the problem is that you need different rates on two
-subtrees, and we set both to have CLK_SET_RATE_PARENT and allow both to
-change the parent rate if needed.
+Degamma has always been on the plane on AMD. CRTC DEGAMMA_LUT has actually =
+just been applying it to every plane pre-blend.<br><br>Degamma makes no sen=
+se after blending anyway.<br>The entire point is for it to happen before bl=
+ending to blend in linear space. Otherwise DEGAMMA_LUT and REGAMMA_LUT are =
+the exact same thing...<br><br>- Joshie =F0=9F=90=B8<br><br>On Tuesday, 22 =
+August 2023, Pekka Paalanen &lt;<a href=3D"mailto:pekka.paalanen@collabora.=
+com">pekka.paalanen@collabora.com</a>&gt; wrote:<br>&gt; On Thu, 10 Aug 202=
+3 15:02:59 -0100<br>&gt; Melissa Wen &lt;<a href=3D"mailto:mwen@igalia.com"=
+>mwen@igalia.com</a>&gt; wrote:<br>&gt;<br>&gt;&gt; The next patch adds pre=
+-blending degamma to AMD color mgmt pipeline, but<br>&gt;&gt; pre-blending =
+degamma caps (DPP) is currently in use to provide DRM CRTC<br>&gt;&gt; atom=
+ic degamma or implict degamma on legacy gamma. Detach degamma usage<br>&gt;=
+&gt; regarging CRTC color properties to manage plane and CRTC color<br>&gt;=
+&gt; correction combinations.<br>&gt;&gt;<br>&gt;&gt; Reviewed-by: Harry We=
+ntland &lt;<a href=3D"mailto:harry.wentland@amd.com">harry.wentland@amd.com=
+</a>&gt;<br>&gt;&gt; Signed-off-by: Melissa Wen &lt;<a href=3D"mailto:mwen@=
+igalia.com">mwen@igalia.com</a>&gt;<br>&gt;&gt; ---<br>&gt;&gt;=C2=A0 .../a=
+md/display/amdgpu_dm/amdgpu_dm_color.c=C2=A0 =C2=A0| 59 +++++++++++++------=
+<br>&gt;&gt;=C2=A0 1 file changed, 41 insertions(+), 18 deletions(-)<br>&gt=
+;&gt;<br>&gt;&gt; diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu=
+_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&g=
+t;&gt; index 68e9f2c62f2e..74eb02655d96 100644<br>&gt;&gt; --- a/drivers/gp=
+u/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&gt;&gt; +++ b/drivers/gpu=
+/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&gt;&gt; @@ -764,20 +764,9 =
+@@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)<br>&gt;=
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>&gt;&gt;=C2=A0 }<br>&gt;&gt;=C2=
+=A0<br>&gt;&gt; -/**<br>&gt;&gt; - * amdgpu_dm_update_plane_color_mgmt: Map=
+s DRM color management to DC plane.<br>&gt;&gt; - * @crtc: amdgpu_dm crtc s=
+tate<br>&gt;&gt; - * @dc_plane_state: target DC surface<br>&gt;&gt; - *<br>=
+&gt;&gt; - * Update the underlying dc_stream_state&#39;s input transfer fun=
+ction (ITF) in<br>&gt;&gt; - * preparation for hardware commit. The transfe=
+r function used depends on<br>&gt;&gt; - * the preparation done on the stre=
+am for color management.<br>&gt;&gt; - *<br>&gt;&gt; - * Returns:<br>&gt;&g=
+t; - * 0 on success. -ENOMEM if mem allocation fails.<br>&gt;&gt; - */<br>&=
+gt;&gt; -int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,<=
+br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dc_pl=
+ane_state *dc_plane_state)<br>&gt;&gt; +static int<br>&gt;&gt; +map_crtc_de=
+gamma_to_dc_plane(struct dm_crtc_state *crtc,<br>&gt;&gt; +=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 struct dc_plane_state *dc_plane_state)<br>&gt;&gt;=C2=A0 {<br>&gt;&gt;=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_color_lut *degamma_lut;<br>&gt;=
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0enum dc_transfer_func_predefined tf =3D TRAN=
+SFER_FUNCTION_SRGB;<br>&gt;&gt; @@ -800,8 +789,7 @@ int amdgpu_dm_update_pl=
+ane_color_mgmt(struct dm_crtc_state *crtc,<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
+amp;degamma_size);<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ASSERT(degamma_size =3D=3D MAX_COLOR_LUT_ENTRIES);<br>&gt;&gt;=C2=
+=A0<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_s=
+tate-&gt;in_transfer_func-&gt;type =3D<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TF_TYPE_DISTRIBUTED_=
+POINTS;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_pla=
+ne_state-&gt;in_transfer_func-&gt;type =3D TF_TYPE_DISTRIBUTED_POINTS;<br>&=
+gt;&gt;=C2=A0<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0/*<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ * This case isn&#39;t fully correct, but also fairly<br>&gt;&gt; @@ -837,7=
+ +825,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc=
+,<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 degamma_lut, degam=
+ma_size);<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if (r)<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0}=
+ else if (crtc-&gt;cm_is_degamma_srgb) {<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0}=
+ else {<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/=
+*<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * For =
+legacy gamma support we need the regamma input<br>&gt;&gt;=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in linear space. Assume that the i=
+nput is sRGB.<br>&gt;&gt; @@ -847,8 +835,43 @@ int amdgpu_dm_update_plane_c=
+olor_mgmt(struct dm_crtc_state *crtc,<br>&gt;&gt;=C2=A0<br>&gt;&gt;=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (tf !=3D TRANSFER_FUNCTI=
+ON_SRGB &amp;&amp;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0!mod_color_calculate_degamma_params(NULL,<br>&gt;&g=
+t; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt;in_transfer_func, NULL, false))<br>&=
+gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt;in_trans=
+fer_func,<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, false))=
+<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0}<br>&=
+gt;&gt; +<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>&gt;&gt; +}<br>&gt;=
+&gt; +<br>&gt;&gt; +/**<br>&gt;&gt; + * amdgpu_dm_update_plane_color_mgmt: =
+Maps DRM color management to DC plane.<br>&gt;&gt; + * @crtc: amdgpu_dm crt=
+c state<br>&gt;&gt; + * @dc_plane_state: target DC surface<br>&gt;&gt; + *<=
+br>&gt;&gt; + * Update the underlying dc_stream_state&#39;s input transfer =
+function (ITF) in<br>&gt;&gt; + * preparation for hardware commit. The tran=
+sfer function used depends on<br>&gt;&gt; + * the preparation done on the s=
+tream for color management.<br>&gt;&gt; + *<br>&gt;&gt; + * Returns:<br>&gt=
+;&gt; + * 0 on success. -ENOMEM if mem allocation fails.<br>&gt;&gt; + */<b=
+r>&gt;&gt; +int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crt=
+c,<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dc=
+_plane_state *dc_plane_state)<br>&gt;&gt; +{<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=
+=A0bool has_crtc_cm_degamma;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>&=
+gt;&gt; +<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0has_crtc_cm_degamma =3D (crtc-&g=
+t;cm_has_degamma || crtc-&gt;cm_is_degamma_srgb);<br>&gt;&gt; +=C2=A0 =C2=
+=A0 =C2=A0if (has_crtc_cm_degamma){<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0/* AMD HW doesn&#39;t have post-blending degamma ca=
+ps. When DRM<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+* CRTC atomic degamma is set, we maps it to DPP degamma block<br>&gt;&gt; +=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (pre-blending) or, on le=
+gacy gamma, we use DPP degamma to<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 * linearize (implicit degamma) from sRGB/BT709 accordi=
+ng to<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the i=
+nput space.<br>&gt;<br>&gt; Uhh, you can&#39;t just move degamma before ble=
+nding if KMS userspace<br>&gt; wants it after blending. That would be incor=
+rect behaviour. If you<br>&gt; can&#39;t implement it correctly, reject it.=
+<br>&gt;<br>&gt; I hope that magical unexpected linearization is not done w=
+ith atomic,<br>&gt; either.<br>&gt;<br>&gt; Or maybe this is all a lost cau=
+se, and only the new color-op pipeline<br>&gt; UAPI will actually work acro=
+ss drivers.<br>&gt;<br>&gt;<br>&gt; Thanks,<br>&gt; pq<br>&gt;<br>&gt;&gt; =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>&gt;&gt; +=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D map_crtc_degamma_to_dc_pla=
+ne(crtc, dc_plane_state);<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0if (ret)<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>&gt;&gt;=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0} else {<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/* ...Otherwise we can just bypass the DGM block. */<br>&gt;&g=
+t;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt=
+;in_transfer_func-&gt;type =3D TF_TYPE_BYPASS;<br>&gt;<br>&gt;
 
-What would happen if we force pll-video0 to a known, fixed, value and
-remove CLK_SET_RATE_PARENT from both the pll-mipi and hdmi clocks?
-
-Maxime
+--0000000000005d44af0603f7b88f--
