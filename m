@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8751D78A703
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB21578A754
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F19910E229;
-	Mon, 28 Aug 2023 08:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C5A10E063;
+	Mon, 28 Aug 2023 08:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBF710E225
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:04:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BC4FE63305;
- Mon, 28 Aug 2023 08:04:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A39C9C433C7;
- Mon, 28 Aug 2023 08:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693209894;
- bh=21GDsKWpLyozjrrpuCacWmWY2wJcf8Nk1npOku7xMFw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZFMhvoAW56IXhXLpf2nwmmhjFpUMpVqp3hE4v1bjYw8J7bwUBzfE32nEMPoin5f8C
- 7jawMFhFgIzRKFE+SoBCYDSEO54cWXpWLeYC4plGzrj5ZLStJM1TvoNAwGC/mX9GbK
- 2Umi4UVrPyF1XlVRHpt2njOVxGFaoJ0kc21gpDzw7C/Zosil2sSiIPIW47Gs0VKz6A
- /AsCx3COVmrRGPR6X1FOmrw5z6J/nqW1GICnLD7PO3dOvpdWbLjoneI+V8nQwmSAsU
- OPMIfgbPl76xdGBr4AnDWf1uKfUgVqbhfVCPkWWB0d348v74kdsaub1pqHgfLbUSIf
- bYw8f3ekxXPGg==
-Date: Mon, 28 Aug 2023 10:04:51 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
- parent rate changes
-Message-ID: <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
-References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
- <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
- <87ledzqhwx.fsf@oltmanns.dev>
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6181A10E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:16:20 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1bf3a2f44ffso22538105ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 01:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1693210580; x=1693815380;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hD5oyc91zexss8iplnmDih5E3tUKOUqVxVKR2VyNeyI=;
+ b=ftU2e2RdnDVfMD3FFMtiZay9w1igiZJvdLHjDzCZh2mDV2QjnqogxSUgA6/k6VGMhq
+ EeCSYBef2LnimoHeQ5Lqv4gF/OkvVzBkDiQP1lux4TIzjYdg/cyozutpMmCBOA5zHA8O
+ tpjXilUIrGqCYS6rPg1dfCtvezEQ4qRhoS1Pg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693210580; x=1693815380;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hD5oyc91zexss8iplnmDih5E3tUKOUqVxVKR2VyNeyI=;
+ b=ODpgxaaES/KZ6PETPpouxV/JstcJ4zU4mc9lBz18+ItkkyuzNrwzzQDUF9/7/wq+Gr
+ 4U3whBJtNu7sj4SKPYAjA/xGg7W3NIwk7dXoMq62Tj/py5X3S62nsWFvnHD21K8CgJ3V
+ 9GVOq+q6aJPUMqiVsbb8EBJPAUiTcPcHslMYWTZXCbpQaYpazkVEA5IJ8OVHvVtwTL8d
+ C+Pz6rVGzHLmUds2fDFOiXParIhddg8VN2YMwPQHF0eF4K613CfID+dfcXNk0XekpLIb
+ x2EC7XM4T/4hiSNHc8ibcu1wRFd9SrD30cZekTbF02Zgr8Vfa1M6ov/nSVI/qThYqrkB
+ A19w==
+X-Gm-Message-State: AOJu0Yy8+ZY30H2AnCXfVI9n8084l0bPNhTgTNtb39ud2ePnm3Zd8+iE
+ 6gYQ4i4K0xftLOxJpMxmNE9Tvw==
+X-Google-Smtp-Source: AGHT+IHBCRkOdvz3bICLpxgNzt2TpU53Ks2o85GsbfP1PoYC+pS6KkoDT91ML3hyAlpG+R91OrKFyw==
+X-Received: by 2002:a17:903:4c5:b0:1bd:ec9e:59fe with SMTP id
+ jm5-20020a17090304c500b001bdec9e59femr23569151plb.68.1693210579906; 
+ Mon, 28 Aug 2023 01:16:19 -0700 (PDT)
+Received: from datalore.c.googlers.com.com
+ (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+ by smtp.gmail.com with ESMTPSA id
+ jh12-20020a170903328c00b001bf5c12e9fesm6676568plb.125.2023.08.28.01.16.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Aug 2023 01:16:19 -0700 (PDT)
+From: Brandon Pollack <brpol@chromium.org>
+To: marius.vlad@collabora.com,
+	jshargo@chromium.org
+Subject: [v5,0/7] Adds support for ConfigFS to VKMS!
+Date: Mon, 28 Aug 2023 08:14:42 +0000
+Message-ID: <20230828081609.3572937-1-brpol@chromium.org>
+X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <87ledzqhwx.fsf@oltmanns.dev>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,168 +69,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Icenowy Zheng <uwu@icenowy.me>,
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <x@xnux.eu>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
+ tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 25, 2023 at 05:07:58PM +0200, Frank Oltmanns wrote:
-> Thank you for your feedback, Maxime!
->=20
-> On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> > [[PGP Signed Part:Undecided]]
-> > Hi,
-> >
-> > On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
-> >> I would like to make the Allwinner A64's pll-mipi to keep its rate when
-> >> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
-> >> required, to let the A64 drive both an LCD and HDMI display at the same
-> >> time, because both have pll-video0 as an ancestor.
-> >>
-> >> PATCH 1 adds this functionality as a feature into the clk framework (n=
-ew
-> >> flag: CLK_KEEP_RATE).
-> >>
-> >> Cores that use this flag, store a rate as req_rate when it or one of i=
-ts
-> >> descendants requests a new rate.
-> >>
-> >> That rate is then restored in the clk_change_rate recursion, which wal=
-ks
-> >> through the tree. It will reach the flagged core (e.g. pll-mipi) after
-> >> the parent's rate (e.g. pll-video0) has already been set to the new
-> >> rate. It will then call determine_rate (which requests the parent's
-> >> current, i.e. new, rate) to determine a rate that is close to the
-> >> flagged core's previous rate. Afterward it will re-calculate the rates
-> >> for the flagged core's subtree.
-> >
-> > I don't think it's the right way forward. It makes the core logic more
-> > complicated, for something that is redundant with the notifiers
-> > mechanism that has been the go-to for that kind of things so far.
->=20
-> Yeah, that was my initial idea as well. But I couldn't get it to work.
-> See details below.
->=20
-> Do you have an example of a clock that restores its previous rate after
-> the parent rate has changed? I've looked left and right, but to me it
-> seems that notifiers are mainly used for setting clocks into some kind
-> of "safe mode" prior to the rate change. Examples:
->=20
-> sunxi-ng:
-> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_=
-mux.c#L273
-> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu_=
-common.c#L60
->=20
-> but also others:
-> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-mast=
-er.c#L248
-> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson8b=
-=2Ec#L3755
-> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cpu-=
-8996.c#L546
+Since Jim is busy with other work and I'm working on some things that
+rely on this, I've taken up the task of doing the iterations.  I've
+addressed the comments as best I can (those replies are to each
+individual change) and here is the patch set to go with those.
 
-There's examples for phases and parents, but not for rates afaics. We
-shouldn't behave any differently though.
+I added my own signoff to each commit, but I've left jshargo@ as the
+author of all the commits he wrote.  I'm sure there is still more to
+address and the ICT tests that were writtein parallel to this may also
+need some additions, but I'm hoping we're in a good enough state to get
+this in and iterate from there soon.
 
-> > It's not really obvious to me why the notifiers don't work there.
-> >
-> >> This work is inspired by an out-of-tree patchset [1] [2] [3].
-> >> Unfortunately, the patchset uses clk_set_rate() in a notifier callback,
-> >> which the following comment on clk_notifier_register() forbids: "The
-> >> callbacks associated with the notifier must not re-enter into the clk
-> >> framework by calling any top-level clk APIs." [4] Furthermore, that
-> >> out-of-tree patchset no longer works with the current linux-next,
-> >> because setting pll-mipi is now also resetting pll-video0 [5].
-> >
-> > Is it because of the "The callbacks associated with the notifier must
-> > not re-enter into the clk framework by calling any top-level clk APIs."
-> > comment?
->=20
-> I don't think that's the reason.
+Since V5:
+========
+Fixed some bad merge conflicts and locking behaviours as well as
+clarified some documentation, should be good to go now :)
 
-I'm not sure I follow you there. How can we find a solution to a problem
-you don't know about or can't know for sure?
+Since V4:
+========
+Fixed up some documentation as suggested by Marius
+Fixed up some bad locking as suggested by Marius
+Small fixes here and there (most have email responses to previous chain
+emails)
 
-> I'm fairly certain that the problem is, that pll-mipi tries to set the
-> parent rate. Maybe it should check if the parent is locked, before
-> determining a rate that requires the parent rate to change. =F0=9F=A4=94
+Since V3:
+========
+I've added hotplug support in the latest patch.  This has been reviewed some
+and the notes from that review are addressed here as well.
 
-Why would the clock framework documentation mention an issue that only
-arises with a single clock on a single SoC?
+Relevant/Utilizing work:
+=======================
+I've built a while test framework based on this as proof it functions (though
+I'm sure there may be lingering bugs!).  You can check that out on
+crrev.com if you are interested and need to get started yourself (but be
+aware of any licensing that may differ from the kernel itself!  Make
+sure you understand the license:
 
-That comment in the clock framework you linked to clearly stated that
-you can't use a top-level clock function in a notifier, and that's
-because of the locking.
+https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/tast-tests/LICENSE
 
-If it's not what you're trying to fix, then I'd really like to know what
-issue you're trying to fix *in the framework* (so, not on the pll-mipi
-clock, or the A64).
+That said, you can see the changes in review on the crrev gerrit:
 
-> Currently, it only calls clk_hw_can_set_rate_parent() which only
-> checks the flag, but does not check if it is really possible to change
-> the parent's rate.
->=20
-> Regardless, please don't prematurely dismiss my proposal. It has the
-> advantage that it is not specific for sunxi-ng, but could be used for
-> other drivers as well.
+https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests/+/4666669
 
-Just like the two solutions I provided.
+Outro:
+=====
+I really appreciate everyone's input and tolerance in getting these
+changes in.  Jim's first patch series was this, and other than some
+small cleanups and documentation, taking over it is also mine.
 
-> Maybe there other instances of exclusive locks today where the
-> CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
+Thank you everyone :)
 
-If exclusive locks work equally well, why would we need CLK_KEEP_RATE?
+Brandon Pollack (1):
+  drm/vkms Add hotplug support via configfs to VKMS.
 
-> > If so, I think the thing we should emphasize is that it's about *any
-> > top-level clk API*, as in clk_set_rate() or clk_set_parent().
-> >
-> > The issue is that any consumer-facing API is taking the clk_prepare lock
-> > and thus we would have reentrancy. But we're a provider there, and none
-> > of the clk_hw_* functions are taking that lock. Neither do our own func=
-tion.
-> >
-> > So we could call in that notifier our set_rate callback directly, or we
-> > could create a clk_hw_set_rate() function.
-> >
-> > The first one will create cache issue between the actual rate that the
-> > common clock framework is running and the one we actually enforced, but
-> > we could create a function to flush the CCF cache.
-> >
-> > The second one is probably simpler.
->=20
-> I'm probably missing something, because I don't think this would work.
-> For reference, this is our tree:
->=20
->     pll-video0
->        hdmi-phy-clk
->        hdmi
->        tcon1
->        pll-mipi
->           tcon0
->              tcon-data-clock
->=20
-> When pll-video0's rate is changed (e.g. because a HDMI monitor is
-> plugged in), the rates of the complete subtree for pll-video0 are
-> recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
-> based on the rate that was recalculated for pll-mipi, which - in turn -
-> was of course recalculated based on the pll-video0's new rate. These
-> values are stored by the clk framework in a private struct. They are
-> calculated before actually performing any rate changes.
->=20
-> So, if a notifier sets pll-mipi's rate to something else than was
-> previously recalculated, the clk framework would still try to set tcon0
-> to the value that it previously calculated.
->
-> So, we would have to recalculate pll-mipi's subtree after changing its
-> rate (that's what PATCH 1 is doing).
+Jim Shargo (6):
+  drm/vkms: Back VKMS with DRM memory management instead of static
+    objects
+  drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
+  drm/vkms: Provide platform data when creating VKMS devices
+  drm/vkms: Add ConfigFS scaffolding to VKMS
+  drm/vkms: Support enabling ConfigFS devices
+  drm/vkms: Add a module param to enable/disable the default device
 
-Then we should make that function I was telling you about deal with all
-this.
+ Documentation/gpu/vkms.rst            |  20 +-
+ drivers/gpu/drm/Kconfig               |   1 +
+ drivers/gpu/drm/vkms/Makefile         |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 721 ++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 102 ++--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
+ drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
+ drivers/gpu/drm/vkms/vkms_output.c    | 405 +++++++++++++--
+ drivers/gpu/drm/vkms/vkms_plane.c     |  44 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  31 +-
+ 11 files changed, 1508 insertions(+), 235 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
 
-Maxime
+-- 
+2.42.0.rc1.204.g551eb34607-goog
+
