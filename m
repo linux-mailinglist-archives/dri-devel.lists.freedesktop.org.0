@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B0078A8E5
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:26:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7F578A90A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E38A10E256;
-	Mon, 28 Aug 2023 09:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F2B10E262;
+	Mon, 28 Aug 2023 09:38:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF64810E256;
- Mon, 28 Aug 2023 09:26:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376D910E261;
+ Mon, 28 Aug 2023 09:38:36 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 82E3B660719F;
- Mon, 28 Aug 2023 10:26:06 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 16EBA660719F;
+ Mon, 28 Aug 2023 10:38:34 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693214767;
- bh=NTDOelTiWBYU9tc8wqDN3s9YQi6RLHJHso4kMH0H3TE=;
+ s=mail; t=1693215514;
+ bh=xNMyWokm068wowm7PBLRXVEkKpUJiarJWqqqpBLI9vs=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FI51Z7bvKrol8eTZTpY6PbAC5O8LbMps1y9e2Qqr/jDnW/Ag54+G+wg5KhJ/hjD6+
- cmmRgvQlLfJmoQVeb8NYVS9w5arpCQpOSpzyc90ohzrgihHr7ECY0VOvAXHZSeCdqY
- clH6Ry/HCDhevpS/7g80siA7Ugd7sYGJSjboQ0tFwauCRfFB1hEnS7QPB8npXuUnmd
- Z2KhcH+A99vOZZ2mUzpMm+jFMDLWy5WxNtgk1SzMAuyFGAKutFWZDBJtQMK0UBBsUl
- 0aw3R31RrE9Nd10Oh9Voa4gNAaIlafws47Eb1CuSRKFtZg1UID1ETSKaNgbkSDGelz
- fY6412pZBqIyA==
-Date: Mon, 28 Aug 2023 11:26:04 +0200
+ b=CoJYyz7XHczKOPC18Kap7wWKCoi8DSh+JbLJLzAdY30QkSF7CpzwFCS4peVuI6G4G
+ E7+34r2HSpN8c75/T5E+JerwJj7FDJVxVcsqOQDBLE9OAiPzykAnk2LDC3CBBdI9t1
+ 19y/XuWEFFEzbK+ULKya4X6BWf5wz5eaaciNvw3tzcrZLf+QmD94Iulx+znm7wPm5x
+ jt1O4h9vZvYLEKvD4g3FRu8gr2Kux5K9z3LPPoN4hZBg3+CMZ7Ep3RB1MYbP51Kav5
+ bDOjgufY3XVQ8LnH23OhbnA1+obEbJUnNLloj3fWzKnM2riEXzO/QN156CuMMasyys
+ uLDu3YpVUgGqQ==
+Date: Mon, 28 Aug 2023 11:38:31 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v15 10/23] locking/refcount, kref: Add kref_put_ww_mutex()
-Message-ID: <20230828112604.297db23a@collabora.com>
-In-Reply-To: <20230827175449.1766701-11-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v15 12/23] drm/shmem-helper: Add and use pages_pin_count
+Message-ID: <20230828113831.0e31c5d0@collabora.com>
+In-Reply-To: <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-11-dmitry.osipenko@collabora.com>
+ <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,119 +66,97 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Aug 2023 20:54:36 +0300
+On Sun, 27 Aug 2023 20:54:38 +0300
 Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> Introduce kref_put_ww_mutex() helper that will handle the wait-wound
-> mutex auto-locking on kref_put(). This helper is wanted by DRM drivers
-> that extensively use dma-reservation locking which in turns uses ww-mutex.
+> Add separate pages_pin_count for tracking of whether drm-shmem pages are
+> moveable or not. With the addition of memory shrinker support to drm-shmem,
+> the pages_use_count will no longer determine whether pages are hard-pinned
+> in memory, but whether pages exit and are soft-pinned (and could be swapped
+
+				^exist
+
+> out). The pages_pin_count > 1 will hard-pin pages in memory.
 > 
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  include/linux/kref.h     | 12 ++++++++++++
->  include/linux/refcount.h |  5 +++++
->  lib/refcount.c           | 34 ++++++++++++++++++++++++++++++++++
->  3 files changed, 51 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 22 +++++++++++++++++-----
+>  include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
+>  2 files changed, 27 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/linux/kref.h b/include/linux/kref.h
-> index d32e21a2538c..b2d8dc6e9ae0 100644
-> --- a/include/linux/kref.h
-> +++ b/include/linux/kref.h
-> @@ -90,6 +90,18 @@ static inline int kref_put_lock(struct kref *kref,
->  	return 0;
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index d545d3d227d7..1a7e5c332fd8 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -234,14 +234,22 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
+> +		return 0;
+> +
+>  	ret = drm_gem_shmem_get_pages_locked(shmem);
+> +	if (!ret)
+> +		kref_init(&shmem->pages_pin_count);
+>  
+>  	return ret;
 >  }
 >  
-> +static inline int kref_put_ww_mutex(struct kref *kref,
-> +				    void (*release)(struct kref *kref),
-> +				    struct ww_mutex *lock,
-> +				    struct ww_acquire_ctx *ctx)
-> +{
-> +	if (refcount_dec_and_ww_mutex_lock(&kref->refcount, lock, ctx)) {
-> +		release(kref);
-> +		return 1;
-> +	}
-> +	return 0;
-> +}
+> -static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+> +static void drm_gem_shmem_kref_unpin_pages(struct kref *kref)
+>  {
+> -	dma_resv_assert_held(shmem->base.resv);
+> +	struct drm_gem_shmem_object *shmem;
 > +
->  /**
->   * kref_get_unless_zero - Increment refcount for object unless it is zero.
->   * @kref: object.
-> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-> index a62fcca97486..be9ad272bc77 100644
-> --- a/include/linux/refcount.h
-> +++ b/include/linux/refcount.h
-> @@ -99,6 +99,8 @@
->  #include <linux/spinlock_types.h>
+> +	shmem = container_of(kref, struct drm_gem_shmem_object,
+> +			     pages_pin_count);
 >  
->  struct mutex;
-> +struct ww_mutex;
-> +struct ww_acquire_ctx;
->  
->  /**
->   * typedef refcount_t - variant of atomic_t specialized for reference counts
-> @@ -366,4 +368,7 @@ extern __must_check bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)
->  extern __must_check bool refcount_dec_and_lock_irqsave(refcount_t *r,
->  						       spinlock_t *lock,
->  						       unsigned long *flags) __cond_acquires(lock);
-> +extern __must_check bool refcount_dec_and_ww_mutex_lock(refcount_t *r,
-> +							struct ww_mutex *lock,
-> +							struct ww_acquire_ctx *ctx) __cond_acquires(&lock->base);
->  #endif /* _LINUX_REFCOUNT_H */
-> diff --git a/lib/refcount.c b/lib/refcount.c
-> index a207a8f22b3c..3f6fd0ceed02 100644
-> --- a/lib/refcount.c
-> +++ b/lib/refcount.c
-> @@ -6,6 +6,7 @@
->  #include <linux/mutex.h>
->  #include <linux/refcount.h>
->  #include <linux/spinlock.h>
-> +#include <linux/ww_mutex.h>
->  #include <linux/bug.h>
->  
->  #define REFCOUNT_WARN(str)	WARN_ONCE(1, "refcount_t: " str ".\n")
-> @@ -184,3 +185,36 @@ bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,
->  	return true;
+>  	drm_gem_shmem_put_pages_locked(shmem);
 >  }
->  EXPORT_SYMBOL(refcount_dec_and_lock_irqsave);
+> @@ -263,6 +271,9 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
+> +		return 0;
 > +
-> +/**
-> + * refcount_dec_and_ww_mutex_lock - return holding ww-mutex if able to
-> + *                                  decrement refcount to 0
-> + * @r: the refcount
-> + * @lock: the ww-mutex to be locked
-> + * @ctx: wait-wound context
-> + *
-> + * Similar to atomic_dec_and_lock(), it will WARN on underflow and fail to
-> + * decrement when saturated at REFCOUNT_SATURATED.
-> + *
-> + * Provides release memory ordering, such that prior loads and stores are done
-> + * before, and provides a control dependency such that free() must come after.
-> + * See the comment on top.
-> + *
-> + * Return: true and hold ww-mutex lock if able to decrement refcount to 0,
-> + *         false otherwise
-> + */
-> +bool refcount_dec_and_ww_mutex_lock(refcount_t *r, struct ww_mutex *lock,
-> +				    struct ww_acquire_ctx *ctx)
-> +{
-> +	if (refcount_dec_not_one(r))
-> +		return false;
+>  	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
+>  	if (ret)
+>  		return ret;
+> @@ -286,9 +297,10 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> -	dma_resv_lock(shmem->base.resv, NULL);
+> -	drm_gem_shmem_unpin_locked(shmem);
+> -	dma_resv_unlock(shmem->base.resv);
+> +	if (kref_put_dma_resv(&shmem->pages_pin_count,
+> +			      drm_gem_shmem_kref_unpin_pages,
+> +			      obj->resv, NULL))
+> +		dma_resv_unlock(obj->resv);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
+>  
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index ec2d8b24e3cf..afb7cd671e2a 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -39,6 +39,16 @@ struct drm_gem_shmem_object {
+>  	 */
+>  	unsigned int pages_use_count;
+>  
+> +	/**
+> +	 * @pages_pin_count:
+> +	 *
+> +	 * Reference count on the pinned pages table.
+> +	 * The pages allowed to be evicted and purged by memory
+> +	 * shrinker only when the count is zero, otherwise pages
+> +	 * are hard-pinned in memory.
+> +	 */
+> +	struct kref pages_pin_count;
 > +
-> +	ww_mutex_lock(lock, ctx);
-
-Unless I'm wrong, ww_mutex_lock() can return -EDEADLK when ctx !=
-NULL, in which case, the lock is not held when it returns. Question is,
-do we really have a use case for ctx != NULL in that kref_put_ww_mutex()
-path. If we need to acquire other ww_locks, this lock, and the other
-locks should have been acquired beforehand, and we can simply call
-kref_put() when we want to release the ref on the resource.
-
-> +	if (!refcount_dec_and_test(r)) {
-> +		ww_mutex_unlock(lock);
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(refcount_dec_and_ww_mutex_lock);
+>  	/**
+>  	 * @madv: State for madvise
+>  	 *
 
