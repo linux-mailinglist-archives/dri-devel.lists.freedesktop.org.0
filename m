@@ -2,63 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC8978A7FC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8801D78A81E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 10:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 001DA10E24B;
-	Mon, 28 Aug 2023 08:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8E610E24E;
+	Mon, 28 Aug 2023 08:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FBC10E24B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:45:47 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50091b91a83so4418489e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 01:45:47 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE0410E24E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 08:49:44 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-313e742a787so1803024f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 01:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=froggi.es; s=google; t=1693212345; x=1693817145;
- h=cc:to:subject:message-id:date:from:references:in-reply-to
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bgtKJ6JG028uzitdv2BANG++TBn+0S2HAATaukIgA3o=;
- b=RFESEAkaE0WsGbmAwVUbbXSu2QEpYYUDd190Eq3l0YgxI7RTFoWDvSC1ADWd7vozff
- CANlFpsbHlm2iKJJEq8tgfPW49rJbp49D9D0/fBU5Fgiyj3l0KQwzNrRYxe/52JAmDZH
- +PfoRxLn6wKGavbI/So8/GOUkRF0/CKGaZlued1PZT3QxPvN+mhBO4IYBEeouRJGdIU0
- hL6KViwZrFbXKTwWYd2KnFlKpE4G5bQaGFf6n07NXn2HBTZ88Dul6M1Bqf7SP3Uex+Lx
- 9z5acITqfOO5ldGdZTNH3IfOPMKUhDMbrceyJ2BXTS0wIm5UnSNQg/6MDGNMkRybWUex
- cJWQ==
+ d=linaro.org; s=google; t=1693212582; x=1693817382;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=yKPKRFt3ZyH53OPo/QehnO2mWQmnGuhYdCnoCPtQqT8=;
+ b=HWri3WcVTAbMdx2b7sBU50yDwWNYBUAZvSWEiC2Tamlx7k1/66NtShJkD7AjsFN76B
+ 07SEy4y8scVccuL87i8RI1Uq8ImU9ZBPzg6TGGqF27H9jOV0qNs9T7vVPAf1QLobUm20
+ uLXj7KK/GVQKj7VvB2gZVe+jVn620nx5gg0YCsEpxn7JGSs0LYPNX8asixJuwfCUm0Uj
+ CDBrOC4u6IM1yLKZUD6gpBw5F0NiDwH5x3pkeFjtSFGGD5o59Fd4X9oVmjEuZKKwoDQz
+ V+DJVh9P3ePb2Qz7eORLumPgJLCVygB6CRLePQqECed5eg3wDXAjH179bU4k/0SXJDvy
+ wuUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693212345; x=1693817145;
- h=cc:to:subject:message-id:date:from:references:in-reply-to
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bgtKJ6JG028uzitdv2BANG++TBn+0S2HAATaukIgA3o=;
- b=g17zwW7uX87Rn/Kcwi76tan5l4xq+cexQSml3vDgMakazNVAuDd5cHOBOC5PKN+lK2
- jVmXR8lOkE4wUTbuEWcRTvSCp4Q5Z9WsKCBpkDF+uCesSWBNkXI0NwYz3GKUy0osq1sR
- 379IqQp0FPdGXMyn+am0FRos06thwXymXA4SO4iSD0m7s6NcOProO/x9lBw0OLCuQvlv
- dObwNy4jC1/HcZmAzaq+bp6B9B6CyD6uTF1K4EtMIAci8WHTOikHSzP5DykHHLn5PA7n
- QebvZkgdEP8HfdePsY8iTI+uJune5G9C9Ng7v2z7NUTe/GYrY9+Do9Vrn/+o4lMCRN7W
- q3VA==
-X-Gm-Message-State: AOJu0YwI5L+SvZz9NjVyZEumzV2IQ41Lp3MNvV6xErZrYkaxU7EWW3iC
- uqXWIY1tM2v1AR6FAuBANDDSxk4RoHytG+HsUailuw==
-X-Google-Smtp-Source: AGHT+IF4z7kmCYYRBFplG38so2/LZkucAx7xlrlOW+e6qKFzbBpFQuyP3vJmirj8x36Eufe4MEkyhCeprex2gFefbfE=
-X-Received: by 2002:a19:3845:0:b0:500:9de4:5966 with SMTP id
- d5-20020a193845000000b005009de45966mr7509608lfj.62.1693212345181; Mon, 28 Aug
- 2023 01:45:45 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693212582; x=1693817382;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=yKPKRFt3ZyH53OPo/QehnO2mWQmnGuhYdCnoCPtQqT8=;
+ b=Usv/mHa3RyRtGpVxM+4RL+W7mbcdZBB9c8HunwX47W+ENUGAfjuqD1vQhbidgmVgty
+ jTIVbdM/dLrjCZi3lvMBRMSK8nLuWoAHPmNDFdBpEwORk3QiwT4BrnH6VeZwAdr9h/Bb
+ wN3k3o2IncYR2ciXbCpx+BXRiqOUtzV6xt8fUIFOVUP+xABWUlZTSDvzSe810NzO+1DE
+ tnhSSg/4fRKkuevVTfaQonC40poantXVW4q+Ve42gokW9r3AQbnIq4IW4stwaARspZ5/
+ gEXnHWqo7VNMkfaeTVhpio23Eosu86axeoYwMSIagfedVq1Zi4gnbyOQJb469twmUaQZ
+ pfVg==
+X-Gm-Message-State: AOJu0YxFsn8ep5WqAJPQGuoWH9/1sHxYYHU7jXHX0zxZzAArS29Rihmf
+ nUt1C9PgQffJSjH9uY2MT2917Q==
+X-Google-Smtp-Source: AGHT+IF/I4tMWHM/TDa+Cw3UZa69daV4EtqQ7nL/k6vgM9WXygXYJlpHEuOTlNM10qFzqZNUJgiRJw==
+X-Received: by 2002:a5d:6188:0:b0:319:55f9:d50d with SMTP id
+ j8-20020a5d6188000000b0031955f9d50dmr20013359wru.33.1693212582461; 
+ Mon, 28 Aug 2023 01:49:42 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:5e59:c27b:747a:3f52?
+ ([2a01:e0a:982:cbb0:5e59:c27b:747a:3f52])
+ by smtp.gmail.com with ESMTPSA id
+ x16-20020a5d6510000000b003143c9beeaesm9877481wru.44.2023.08.28.01.49.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Aug 2023 01:49:41 -0700 (PDT)
+Message-ID: <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
+Date: Mon, 28 Aug 2023 10:49:40 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:6f02:c05f:b0:57:31f:17bc with HTTP; Mon, 28 Aug 2023
- 01:45:44 -0700 (PDT)
-In-Reply-To: <20230822151110.3107b745.pekka.paalanen@collabora.com>
-References: <20230810160314.48225-1-mwen@igalia.com>
- <20230810160314.48225-20-mwen@igalia.com>
- <20230822151110.3107b745.pekka.paalanen@collabora.com>
-From: Joshua Ashton <joshua@froggi.es>
-Date: Mon, 28 Aug 2023 09:45:44 +0100
-Message-ID: <CAEZNXZCfvc909iFZQMdNEz=P_T=rYEYKq1Tdrt+8RNQpBSNt_g@mail.gmail.com>
-Subject: Re: [PATCH v2 19/34] drm/amd/display: decouple steps for mapping CRTC
- degamma to DC plane
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Content-Type: multipart/alternative; boundary="0000000000005d44af0603f7b88f"
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Content-Language: en-US, fr
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
+ <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
+ <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
+ <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+ <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+ <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
+ <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
+ <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,311 +115,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
- "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "sungjoon.kim@amd.com" <sungjoon.kim@amd.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, quic_parellan@quicinc.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000005d44af0603f7b88f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Jessica,
 
-Degamma has always been on the plane on AMD. CRTC DEGAMMA_LUT has actually
-just been applying it to every plane pre-blend.
+On 25/08/2023 20:37, Jessica Zhang wrote:
+> 
+> 
+> On 8/21/2023 3:01 AM, neil.armstrong@linaro.org wrote:
+>> Hi Maxime,
+>>
+>> On 21/08/2023 10:17, Maxime Ripard wrote:
+>>> Hi,
+>>>
+>>> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wrote:
+>>>> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+>>>>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+>>>>>> Sending HS commands will always work on any controller, it's all
+>>>>>> about LP commands. The Samsung panels you listed only send HS
+>>>>>> commands so they can use prepare_prev_first and work on any
+>>>>>> controllers.
+>>>>>
+>>>>> I think there is some misunderstanding there, supported by the
+>>>>> description of the flag.
+>>>>>
+>>>>> If I remember correctly, some hosts (sunxi) can not send DCS
+>>>>> commands after enabling video stream and switching to HS mode, see
+>>>>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
+>>>>> commands in drm_panel_funcs::prepare() /
+>>>>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
+>>>>> whether these commands are to be sent in LP or in HS mode.
+>>>>>
+>>>>> Previously DSI source drivers could power on the DSI link either in
+>>>>> mode_set() or in pre_enable() callbacks, with mode_set() being the
+>>>>> hack to make panel/bridge drivers to be able to send commands from
+>>>>> their prepare() / pre_enable() callbacks.
+>>>>>
+>>>>> With the prev_first flags being introduced, we have established that
+>>>>> DSI link should be enabled in DSI host's pre_enable() callback and
+>>>>> switched to HS mode (be it command or video) in the enable()
+>>>>> callback.
+>>>>>
+>>>>> So far so good.
+>>>>
+>>>> It seems coherent, I would like first to have a state of all DSI host
+>>>> drivers and make this would actually work first before adding the
+>>>> prev_first flag to all the required panels.
+>>>
+>>> This is definitely what we should do in an ideal world, but at least for
+>>> sunxi there's no easy way for it at the moment. There's no documentation
+>>> for it and the driver provided doesn't allow this to happen.
+>>>
+>>> Note that I'm not trying to discourage you or something here, I'm simply
+>>> pointing out that this will be something that we will have to take into
+>>> account. And it's possible that other drivers are in a similar
+>>> situation.
+>>>
+>>>>> Unfortunately this change is not fully backwards-compatible. This
+>>>>> requires that all DSI panels sending commands from prepare() should
+>>>>> have the prepare_prev_first flag. In some sense, all such patches
+>>>>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
+>>>>> flag to drm_panel").
+>>>>
+>>>> This kind of migration should be done *before* any possible
+>>>> regression, not the other way round.
+>>>>
+>>>> If all panels sending commands from prepare() should have the
+>>>> prepare_prev_first flag, then it should be first, check for
+>>>> regressions then continue.
+>>>>
+>>>> <snip>
+>>>>
+>>>>>>
+>>>>>> I understand, but this patch doesn't qualify as a fix for
+>>>>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
+>>>>>> v6.6, and since 9e15123eca79 actually breaks some support it
+>>>>>> should be reverted (+ deps) since we are late in the rc cycles.
+>>>>>
+>>>>> If we go this way, we can never reapply these patches. There will be
+>>>>> no guarantee that all panel drivers are completely converted. We
+>>>>> already have a story without an observable end -
+>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+>>>>
+>>>> I don't understand this point, who would block re-applying the patches ?
+>>>>
+>>>> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
+>>>> Linux version and went smoothly because we reverted regressing patches
+>>>> and restarted when needed, I don't understand why we can't do this
+>>>> here aswell.
+>>>>
+>>>>> I'd consider that the DSI driver is correct here and it is about the
+>>>>> panel drivers that require fixes patches. If you care about the
+>>>>> particular Fixes tag, I have provided one several lines above.
+>>>>
+>>>> Unfortunately it should be done in the other way round, prepare for
+>>>> migration, then migrate,
+>>>>
+>>>> I mean if it's a required migration, then it should be done and I'll
+>>>> support it from both bridge and panel PoV.
+>>>>
+>>>> So, first this patch has the wrong Fixes tag, and I would like a
+>>>> better explanation on the commit message in any case. Then I would
+>>>> like to have an ack from some drm-misc maintainers before applying it
+>>>> because it fixes a patch that was sent via the msm tree thus per the
+>>>> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+>>>
+>>> Sorry, it's not clear to me what you'd like our feedback on exactly?
+>>
+>> So let me resume the situation:
+>>
+>> - pre_enable_prev_first was introduced in [1]
+>> - some panels made use of pre_enable_prev_first
+>> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kernels and before
+>> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 systems (and probably other Video mode panels on Qcom platforms)
+>> - this fix was sent late, and is now too late to be merged via drm-misc-next
+> 
+> Hi Neil and Maxime,
+> 
+> I agree with Neil that 9e15123eca79 was the commit that introduced the issue (since it changed the MSM DSI host behavior).
+> 
+> However, I'm not too keen on simply reverting that patch because
+> 
+> 1) it's not wrong to have the dsi_power_on in pre_enable. Arguably, it actually makes more sense to power on DSI host in pre_enable than in modeset (since modeset is meant for setting the bridge mode), and
 
-Degamma makes no sense after blending anyway.
-The entire point is for it to happen before blending to blend in linear
-space. Otherwise DEGAMMA_LUT and REGAMMA_LUT are the exact same thing...
+I never objected that, it's the right path to go.
 
-- Joshie =F0=9F=90=B8
+> 
+> 2) I think it would be good practice to keep specific bridge chip checks out of the DSI host driver.
 
-On Tuesday, 22 August 2023, Pekka Paalanen <pekka.paalanen@collabora.com>
-wrote:
-> On Thu, 10 Aug 2023 15:02:59 -0100
-> Melissa Wen <mwen@igalia.com> wrote:
->
->> The next patch adds pre-blending degamma to AMD color mgmt pipeline, but
->> pre-blending degamma caps (DPP) is currently in use to provide DRM CRTC
->> atomic degamma or implict degamma on legacy gamma. Detach degamma usage
->> regarging CRTC color properties to manage plane and CRTC color
->> correction combinations.
->>
->> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 59 +++++++++++++------
->>  1 file changed, 41 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> index 68e9f2c62f2e..74eb02655d96 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> @@ -764,20 +764,9 @@ int amdgpu_dm_update_crtc_color_mgmt(struct
-dm_crtc_state *crtc)
->>       return 0;
->>  }
->>
->> -/**
->> - * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC
-plane.
->> - * @crtc: amdgpu_dm crtc state
->> - * @dc_plane_state: target DC surface
->> - *
->> - * Update the underlying dc_stream_state's input transfer function
-(ITF) in
->> - * preparation for hardware commit. The transfer function used depends
-on
->> - * the preparation done on the stream for color management.
->> - *
->> - * Returns:
->> - * 0 on success. -ENOMEM if mem allocation fails.
->> - */
->> -int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
->> -                                   struct dc_plane_state
-*dc_plane_state)
->> +static int
->> +map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
->> +                          struct dc_plane_state *dc_plane_state)
->>  {
->>       const struct drm_color_lut *degamma_lut;
->>       enum dc_transfer_func_predefined tf =3D TRANSFER_FUNCTION_SRGB;
->> @@ -800,8 +789,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct
-dm_crtc_state *crtc,
->>                                                &degamma_size);
->>               ASSERT(degamma_size =3D=3D MAX_COLOR_LUT_ENTRIES);
->>
->> -             dc_plane_state->in_transfer_func->type =3D
->> -                     TF_TYPE_DISTRIBUTED_POINTS;
->> +             dc_plane_state->in_transfer_func->type =3D
-TF_TYPE_DISTRIBUTED_POINTS;
->>
->>               /*
->>                * This case isn't fully correct, but also fairly
->> @@ -837,7 +825,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct
-dm_crtc_state *crtc,
->>                                  degamma_lut, degamma_size);
->>               if (r)
->>                       return r;
->> -     } else if (crtc->cm_is_degamma_srgb) {
->> +     } else {
->>               /*
->>                * For legacy gamma support we need the regamma input
->>                * in linear space. Assume that the input is sRGB.
->> @@ -847,8 +835,43 @@ int amdgpu_dm_update_plane_color_mgmt(struct
-dm_crtc_state *crtc,
->>
->>               if (tf !=3D TRANSFER_FUNCTION_SRGB &&
->>                   !mod_color_calculate_degamma_params(NULL,
->> -                         dc_plane_state->in_transfer_func, NULL, false)=
-)
->> +
- dc_plane_state->in_transfer_func,
->> +                                                     NULL, false))
->>                       return -ENOMEM;
->> +     }
->> +
->> +     return 0;
->> +}
->> +
->> +/**
->> + * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC
-plane.
->> + * @crtc: amdgpu_dm crtc state
->> + * @dc_plane_state: target DC surface
->> + *
->> + * Update the underlying dc_stream_state's input transfer function
-(ITF) in
->> + * preparation for hardware commit. The transfer function used depends
-on
->> + * the preparation done on the stream for color management.
->> + *
->> + * Returns:
->> + * 0 on success. -ENOMEM if mem allocation fails.
->> + */
->> +int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
->> +                                   struct dc_plane_state
-*dc_plane_state)
->> +{
->> +     bool has_crtc_cm_degamma;
->> +     int ret;
->> +
->> +     has_crtc_cm_degamma =3D (crtc->cm_has_degamma ||
-crtc->cm_is_degamma_srgb);
->> +     if (has_crtc_cm_degamma){
->> +             /* AMD HW doesn't have post-blending degamma caps. When DR=
-M
->> +              * CRTC atomic degamma is set, we maps it to DPP degamma
-block
->> +              * (pre-blending) or, on legacy gamma, we use DPP degamma
-to
->> +              * linearize (implicit degamma) from sRGB/BT709 according
-to
->> +              * the input space.
->
-> Uhh, you can't just move degamma before blending if KMS userspace
-> wants it after blending. That would be incorrect behaviour. If you
-> can't implement it correctly, reject it.
->
-> I hope that magical unexpected linearization is not done with atomic,
-> either.
->
-> Or maybe this is all a lost cause, and only the new color-op pipeline
-> UAPI will actually work across drivers.
->
->
+We discussed about a plan with Maxime and Dmitry about that, and it would require adding
+a proper atomic panel API to handle a "negociation" with the host controller.
+
+> 
+> 
+> That being said, what do you think about setting the default value of prepare_prev_first to true (possibly in panel_bridge_attach)?
+
+As Dmitry pointed, all panels sending LP commands in pre_enable() should have prepare_prev_first to true.
+
+> 
+> It seems to me that most panel drivers send DCS commands during pre_enable, so maybe it would make more sense to power on DSI host before panel enable() by default. Any panel that needs DSI host to be powered on later could then explicitly set the flag to false in their respective drivers.
+
+A proper migration should be done, yes, but not as a fix on top of v6.5.
+
+Neil
+
+> 
 > Thanks,
-> pq
->
->> +              */
->> +             ret =3D map_crtc_degamma_to_dc_plane(crtc, dc_plane_state)=
-;
->> +             if (ret)
->> +                     return ret;
->>       } else {
->>               /* ...Otherwise we can just bypass the DGM block. */
->>               dc_plane_state->in_transfer_func->type =3D TF_TYPE_BYPASS;
->
->
+> 
+> Jessica Zhang
+> 
+> 
+>>
+>> I do not consider it's the right way to fix regression caused by [2]
+>> I consider [2] should be reverted, panels migrated to pre_enable_prev_first when needed, tested and the [2] applied again
+>>
+>> I have no objection about [2] and it should be done widely over the whole DSI controllers
+>> and DSI Video panels.
+>>
+>> I also object about the Fixes tag of this patch, which is wrong, and Dmitry considers [1]
+>> should be used but it's even more wrong since [2] really caused the regression.
+>>
+>> And if [2] was to correct one to use, it was pushed via the MSM tree so it couldn't be
+>> applied via drm-misc-next-fixes, right ?
+>>
+>> [1] 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
+>> [2] 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts at modeset")
+>>
+>> Thanks,
+>> Neil
+>>
+>>>
+>>> Maxime
+>>
 
---0000000000005d44af0603f7b88f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Degamma has always been on the plane on AMD. CRTC DEGAMMA_LUT has actually =
-just been applying it to every plane pre-blend.<br><br>Degamma makes no sen=
-se after blending anyway.<br>The entire point is for it to happen before bl=
-ending to blend in linear space. Otherwise DEGAMMA_LUT and REGAMMA_LUT are =
-the exact same thing...<br><br>- Joshie =F0=9F=90=B8<br><br>On Tuesday, 22 =
-August 2023, Pekka Paalanen &lt;<a href=3D"mailto:pekka.paalanen@collabora.=
-com">pekka.paalanen@collabora.com</a>&gt; wrote:<br>&gt; On Thu, 10 Aug 202=
-3 15:02:59 -0100<br>&gt; Melissa Wen &lt;<a href=3D"mailto:mwen@igalia.com"=
->mwen@igalia.com</a>&gt; wrote:<br>&gt;<br>&gt;&gt; The next patch adds pre=
--blending degamma to AMD color mgmt pipeline, but<br>&gt;&gt; pre-blending =
-degamma caps (DPP) is currently in use to provide DRM CRTC<br>&gt;&gt; atom=
-ic degamma or implict degamma on legacy gamma. Detach degamma usage<br>&gt;=
-&gt; regarging CRTC color properties to manage plane and CRTC color<br>&gt;=
-&gt; correction combinations.<br>&gt;&gt;<br>&gt;&gt; Reviewed-by: Harry We=
-ntland &lt;<a href=3D"mailto:harry.wentland@amd.com">harry.wentland@amd.com=
-</a>&gt;<br>&gt;&gt; Signed-off-by: Melissa Wen &lt;<a href=3D"mailto:mwen@=
-igalia.com">mwen@igalia.com</a>&gt;<br>&gt;&gt; ---<br>&gt;&gt;=C2=A0 .../a=
-md/display/amdgpu_dm/amdgpu_dm_color.c=C2=A0 =C2=A0| 59 +++++++++++++------=
-<br>&gt;&gt;=C2=A0 1 file changed, 41 insertions(+), 18 deletions(-)<br>&gt=
-;&gt;<br>&gt;&gt; diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu=
-_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&g=
-t;&gt; index 68e9f2c62f2e..74eb02655d96 100644<br>&gt;&gt; --- a/drivers/gp=
-u/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&gt;&gt; +++ b/drivers/gpu=
-/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c<br>&gt;&gt; @@ -764,20 +764,9 =
-@@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)<br>&gt;=
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>&gt;&gt;=C2=A0 }<br>&gt;&gt;=C2=
-=A0<br>&gt;&gt; -/**<br>&gt;&gt; - * amdgpu_dm_update_plane_color_mgmt: Map=
-s DRM color management to DC plane.<br>&gt;&gt; - * @crtc: amdgpu_dm crtc s=
-tate<br>&gt;&gt; - * @dc_plane_state: target DC surface<br>&gt;&gt; - *<br>=
-&gt;&gt; - * Update the underlying dc_stream_state&#39;s input transfer fun=
-ction (ITF) in<br>&gt;&gt; - * preparation for hardware commit. The transfe=
-r function used depends on<br>&gt;&gt; - * the preparation done on the stre=
-am for color management.<br>&gt;&gt; - *<br>&gt;&gt; - * Returns:<br>&gt;&g=
-t; - * 0 on success. -ENOMEM if mem allocation fails.<br>&gt;&gt; - */<br>&=
-gt;&gt; -int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,<=
-br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dc_pl=
-ane_state *dc_plane_state)<br>&gt;&gt; +static int<br>&gt;&gt; +map_crtc_de=
-gamma_to_dc_plane(struct dm_crtc_state *crtc,<br>&gt;&gt; +=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 struct dc_plane_state *dc_plane_state)<br>&gt;&gt;=C2=A0 {<br>&gt;&gt;=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_color_lut *degamma_lut;<br>&gt;=
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0enum dc_transfer_func_predefined tf =3D TRAN=
-SFER_FUNCTION_SRGB;<br>&gt;&gt; @@ -800,8 +789,7 @@ int amdgpu_dm_update_pl=
-ane_color_mgmt(struct dm_crtc_state *crtc,<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-amp;degamma_size);<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0ASSERT(degamma_size =3D=3D MAX_COLOR_LUT_ENTRIES);<br>&gt;&gt;=C2=
-=A0<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_s=
-tate-&gt;in_transfer_func-&gt;type =3D<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TF_TYPE_DISTRIBUTED_=
-POINTS;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_pla=
-ne_state-&gt;in_transfer_func-&gt;type =3D TF_TYPE_DISTRIBUTED_POINTS;<br>&=
-gt;&gt;=C2=A0<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0/*<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- * This case isn&#39;t fully correct, but also fairly<br>&gt;&gt; @@ -837,7=
- +825,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc=
-,<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 degamma_lut, degam=
-ma_size);<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0if (r)<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>&gt;&gt; -=C2=A0 =C2=A0 =C2=A0}=
- else if (crtc-&gt;cm_is_degamma_srgb) {<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0}=
- else {<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/=
-*<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * For =
-legacy gamma support we need the regamma input<br>&gt;&gt;=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in linear space. Assume that the i=
-nput is sRGB.<br>&gt;&gt; @@ -847,8 +835,43 @@ int amdgpu_dm_update_plane_c=
-olor_mgmt(struct dm_crtc_state *crtc,<br>&gt;&gt;=C2=A0<br>&gt;&gt;=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (tf !=3D TRANSFER_FUNCTI=
-ON_SRGB &amp;&amp;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0!mod_color_calculate_degamma_params(NULL,<br>&gt;&g=
-t; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt;in_transfer_func, NULL, false))<br>&=
-gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt;in_trans=
-fer_func,<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, false))=
-<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0}<br>&=
-gt;&gt; +<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>&gt;&gt; +}<br>&gt;=
-&gt; +<br>&gt;&gt; +/**<br>&gt;&gt; + * amdgpu_dm_update_plane_color_mgmt: =
-Maps DRM color management to DC plane.<br>&gt;&gt; + * @crtc: amdgpu_dm crt=
-c state<br>&gt;&gt; + * @dc_plane_state: target DC surface<br>&gt;&gt; + *<=
-br>&gt;&gt; + * Update the underlying dc_stream_state&#39;s input transfer =
-function (ITF) in<br>&gt;&gt; + * preparation for hardware commit. The tran=
-sfer function used depends on<br>&gt;&gt; + * the preparation done on the s=
-tream for color management.<br>&gt;&gt; + *<br>&gt;&gt; + * Returns:<br>&gt=
-;&gt; + * 0 on success. -ENOMEM if mem allocation fails.<br>&gt;&gt; + */<b=
-r>&gt;&gt; +int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crt=
-c,<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dc=
-_plane_state *dc_plane_state)<br>&gt;&gt; +{<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=
-=A0bool has_crtc_cm_degamma;<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>&=
-gt;&gt; +<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0has_crtc_cm_degamma =3D (crtc-&g=
-t;cm_has_degamma || crtc-&gt;cm_is_degamma_srgb);<br>&gt;&gt; +=C2=A0 =C2=
-=A0 =C2=A0if (has_crtc_cm_degamma){<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0/* AMD HW doesn&#39;t have post-blending degamma ca=
-ps. When DRM<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-* CRTC atomic degamma is set, we maps it to DPP degamma block<br>&gt;&gt; +=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (pre-blending) or, on le=
-gacy gamma, we use DPP degamma to<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 * linearize (implicit degamma) from sRGB/BT709 accordi=
-ng to<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * the i=
-nput space.<br>&gt;<br>&gt; Uhh, you can&#39;t just move degamma before ble=
-nding if KMS userspace<br>&gt; wants it after blending. That would be incor=
-rect behaviour. If you<br>&gt; can&#39;t implement it correctly, reject it.=
-<br>&gt;<br>&gt; I hope that magical unexpected linearization is not done w=
-ith atomic,<br>&gt; either.<br>&gt;<br>&gt; Or maybe this is all a lost cau=
-se, and only the new color-op pipeline<br>&gt; UAPI will actually work acro=
-ss drivers.<br>&gt;<br>&gt;<br>&gt; Thanks,<br>&gt; pq<br>&gt;<br>&gt;&gt; =
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>&gt;&gt; +=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D map_crtc_degamma_to_dc_pla=
-ne(crtc, dc_plane_state);<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0if (ret)<br>&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>&gt;&gt;=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0} else {<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0/* ...Otherwise we can just bypass the DGM block. */<br>&gt;&g=
-t;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_plane_state-&gt=
-;in_transfer_func-&gt;type =3D TF_TYPE_BYPASS;<br>&gt;<br>&gt;
-
---0000000000005d44af0603f7b88f--
