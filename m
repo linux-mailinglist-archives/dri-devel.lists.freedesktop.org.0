@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5965B78A870
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B0078A8E5
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21C010E258;
-	Mon, 28 Aug 2023 09:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E38A10E256;
+	Mon, 28 Aug 2023 09:26:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2DD410E258
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 09:03:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF64810E256;
+ Mon, 28 Aug 2023 09:26:08 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4400966071A0;
- Mon, 28 Aug 2023 10:03:34 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 82E3B660719F;
+ Mon, 28 Aug 2023 10:26:06 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693213414;
- bh=drqAFnqWfVpwd4BgooS2hUpj52Jys3+NKl+rfbILzy8=;
+ s=mail; t=1693214767;
+ bh=NTDOelTiWBYU9tc8wqDN3s9YQi6RLHJHso4kMH0H3TE=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=berChXpSpRbk64HOF4q2xgLTj371rfb1gm7iW6SB5lw7Q1tFNR5wEcOML62tzYPJa
- wS9gdsXeHlZkXTssNIrejk3vkLG6PmUBp6a+O7lTE7bt9SNFcyB6bWgYZUb31XHWb0
- ZARp0aRmeUx9YRu9coKCdO3llTjOZGdvv2OtY1v0KI85Q5NaDK1U1WIw4X9Sl2Zr5D
- vvubhVJ6cBUkxhbfYEzS4pUdb5fHWIg/QN62keCY5yItON+jSiB+KkWLjYPuyVgbgl
- 9LVFJMjuswk6dRPdkI67Vh8igWwlvpPJ0LuP/z1VPm6+Re61X7A6q+m+qp/nnUtiQA
- R/dw3RQjQhD1w==
-Date: Mon, 28 Aug 2023 11:03:31 +0200
+ b=FI51Z7bvKrol8eTZTpY6PbAC5O8LbMps1y9e2Qqr/jDnW/Ag54+G+wg5KhJ/hjD6+
+ cmmRgvQlLfJmoQVeb8NYVS9w5arpCQpOSpzyc90ohzrgihHr7ECY0VOvAXHZSeCdqY
+ clH6Ry/HCDhevpS/7g80siA7Ugd7sYGJSjboQ0tFwauCRfFB1hEnS7QPB8npXuUnmd
+ Z2KhcH+A99vOZZ2mUzpMm+jFMDLWy5WxNtgk1SzMAuyFGAKutFWZDBJtQMK0UBBsUl
+ 0aw3R31RrE9Nd10Oh9Voa4gNAaIlafws47Eb1CuSRKFtZg1UID1ETSKaNgbkSDGelz
+ fY6412pZBqIyA==
+Date: Mon, 28 Aug 2023 11:26:04 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v2 01/15] drm/shmem-helper: Make pages_use_count an
- atomic_t
-Message-ID: <20230828110331.0c17976d@collabora.com>
-In-Reply-To: <7327e03f-2ce9-f35b-4281-d2cfb57d2bf3@collabora.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-2-boris.brezillon@collabora.com>
- <b6bf9a39-0b61-363c-324b-eb6789a24b74@arm.com>
- <7327e03f-2ce9-f35b-4281-d2cfb57d2bf3@collabora.com>
+Subject: Re: [PATCH v15 10/23] locking/refcount, kref: Add kref_put_ww_mutex()
+Message-ID: <20230828112604.297db23a@collabora.com>
+In-Reply-To: <20230827175449.1766701-11-dmitry.osipenko@collabora.com>
+References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
+ <20230827175449.1766701-11-dmitry.osipenko@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -56,128 +53,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
+ intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 19 Aug 2023 05:13:06 +0300
+On Sun, 27 Aug 2023 20:54:36 +0300
 Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> On 8/11/23 16:08, Steven Price wrote:
-> > On 09/08/2023 17:53, Boris Brezillon wrote:  
-> >> This way we can grab a pages ref without acquiring the resv lock when
-> >> pages_use_count > 0. Need to implement asynchronous map using the  
-> > 
-> > NIT: s/Need/This is needed/
-> >   
-> >> drm_gpuva_mgr when the map/unmap operation triggers a mapping split,
-> >> requiring the new left/right regions to grab an additional page ref
-> >> to guarantee that the pages stay pinned when the middle section is
-> >> unmapped.
-> >>
-> >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 28 +++++++++++++------------
-> >>  drivers/gpu/drm/lima/lima_gem.c         |  2 +-
-> >>  drivers/gpu/drm/panfrost/panfrost_mmu.c |  2 +-
-> >>  include/drm/drm_gem_shmem_helper.h      |  2 +-
-> >>  4 files changed, 18 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> index a783d2245599..ca6938ea1b82 100644
-> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> @@ -155,7 +155,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
-> >>  		if (shmem->pages)
-> >>  			drm_gem_shmem_put_pages(shmem);
-> >>  
-> >> -		drm_WARN_ON(obj->dev, shmem->pages_use_count);
-> >> +		drm_WARN_ON(obj->dev, atomic_read(&shmem->pages_use_count));
-> >>  
-> >>  		dma_resv_unlock(shmem->base.resv);
-> >>  	}
-> >> @@ -172,14 +172,14 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-> >>  
-> >>  	dma_resv_assert_held(shmem->base.resv);
-> >>  
-> >> -	if (shmem->pages_use_count++ > 0)
-> >> +	if (atomic_inc_return(&shmem->pages_use_count) > 1)
-> >>  		return 0;
-> >>  
-> >>  	pages = drm_gem_get_pages(obj);
-> >>  	if (IS_ERR(pages)) {
-> >>  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
-> >>  			    PTR_ERR(pages));
-> >> -		shmem->pages_use_count = 0;
-> >> +		atomic_set(&shmem->pages_use_count, 0);
-> >>  		return PTR_ERR(pages);
-> >>  	}
-> >>  
-> >> @@ -210,10 +210,10 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
-> >>  
-> >>  	dma_resv_assert_held(shmem->base.resv);
-> >>  
-> >> -	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
-> >> +	if (drm_WARN_ON_ONCE(obj->dev, !atomic_read(&shmem->pages_use_count)))
-> >>  		return;
-> >>  
-> >> -	if (--shmem->pages_use_count > 0)
-> >> +	if (atomic_dec_return(&shmem->pages_use_count) > 0)
-> >>  		return;
-> >>  
-> >>  #ifdef CONFIG_X86
-> >> @@ -263,6 +263,10 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
-> >>  
-> >>  	drm_WARN_ON(obj->dev, obj->import_attach);
-> >>  
-> >> +	/* If we are the first owner, we need to grab the lock. */
-> >> +	if (atomic_inc_not_zero(&shmem->pages_use_count))
-> >> +		return 0;
-> >> +  
-> > 
-> > Unless I'm misunderstanding I think this introduces a race where two
-> > threads call drm_gem_shmem_pin() at the same time:
-> > 
-> > Thread1				| Thread 2
-> > --------------------------------+------------------------------
-> > drm_gem_shmem_pin()		|
-> >  - pages_use_count == 0 so not  |
-> >    incremented                  |
-> >  - lock taken			|
-> > drm_gem_shmem_pin_locked()	|
-> > drm_gem_shmem_get_pages()	|
-> >  - pages_use_count incremented	|
-> > <thread descheduled>            | drm_gem_shmem_pin()
-> >                                 |  - pages_use_count == 1 so is it
-> > 				|    incremented and returns early
-> > 				|    without taking the lock
-> > 				| Code tries to use shmem->pages
-> > <thread rescheduled>		| and blows up
-> > drm_gem_get_pages()		|
-> > shmem->pages populated		|
-> > lock released			|
-> > 
-> > I think you need to modify drm_gem_shmem_get_pages() to only increment
-> > pages_use_count when shmem->pages has been populated.
-
-Oops, didn't spot that race. Thanks for pointing it out.
-
+> Introduce kref_put_ww_mutex() helper that will handle the wait-wound
+> mutex auto-locking on kref_put(). This helper is wanted by DRM drivers
+> that extensively use dma-reservation locking which in turns uses ww-mutex.
 > 
-> This is correct, both pin() and get_pages() should use
-> atomic_inc_not_zero().
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  include/linux/kref.h     | 12 ++++++++++++
+>  include/linux/refcount.h |  5 +++++
+>  lib/refcount.c           | 34 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 51 insertions(+)
 > 
-> Note that we shouldn't use atomic functions open-coded, there is kref
-> helper for that which uses refcount_t underneath and has additional
-> checks/warnings for count underflow/overflow. I'm going to post patches
-> converting drm-shmem to kref around next week, Boris is aware about it
-> and we should then sync shrinker/panthor patchsets to the common
-> drm-shmem base.
+> diff --git a/include/linux/kref.h b/include/linux/kref.h
+> index d32e21a2538c..b2d8dc6e9ae0 100644
+> --- a/include/linux/kref.h
+> +++ b/include/linux/kref.h
+> @@ -90,6 +90,18 @@ static inline int kref_put_lock(struct kref *kref,
+>  	return 0;
+>  }
+>  
+> +static inline int kref_put_ww_mutex(struct kref *kref,
+> +				    void (*release)(struct kref *kref),
+> +				    struct ww_mutex *lock,
+> +				    struct ww_acquire_ctx *ctx)
+> +{
+> +	if (refcount_dec_and_ww_mutex_lock(&kref->refcount, lock, ctx)) {
+> +		release(kref);
+> +		return 1;
+> +	}
+> +	return 0;
+> +}
+> +
+>  /**
+>   * kref_get_unless_zero - Increment refcount for object unless it is zero.
+>   * @kref: object.
+> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> index a62fcca97486..be9ad272bc77 100644
+> --- a/include/linux/refcount.h
+> +++ b/include/linux/refcount.h
+> @@ -99,6 +99,8 @@
+>  #include <linux/spinlock_types.h>
+>  
+>  struct mutex;
+> +struct ww_mutex;
+> +struct ww_acquire_ctx;
+>  
+>  /**
+>   * typedef refcount_t - variant of atomic_t specialized for reference counts
+> @@ -366,4 +368,7 @@ extern __must_check bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)
+>  extern __must_check bool refcount_dec_and_lock_irqsave(refcount_t *r,
+>  						       spinlock_t *lock,
+>  						       unsigned long *flags) __cond_acquires(lock);
+> +extern __must_check bool refcount_dec_and_ww_mutex_lock(refcount_t *r,
+> +							struct ww_mutex *lock,
+> +							struct ww_acquire_ctx *ctx) __cond_acquires(&lock->base);
+>  #endif /* _LINUX_REFCOUNT_H */
+> diff --git a/lib/refcount.c b/lib/refcount.c
+> index a207a8f22b3c..3f6fd0ceed02 100644
+> --- a/lib/refcount.c
+> +++ b/lib/refcount.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/refcount.h>
+>  #include <linux/spinlock.h>
+> +#include <linux/ww_mutex.h>
+>  #include <linux/bug.h>
+>  
+>  #define REFCOUNT_WARN(str)	WARN_ONCE(1, "refcount_t: " str ".\n")
+> @@ -184,3 +185,36 @@ bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,
+>  	return true;
+>  }
+>  EXPORT_SYMBOL(refcount_dec_and_lock_irqsave);
+> +
+> +/**
+> + * refcount_dec_and_ww_mutex_lock - return holding ww-mutex if able to
+> + *                                  decrement refcount to 0
+> + * @r: the refcount
+> + * @lock: the ww-mutex to be locked
+> + * @ctx: wait-wound context
+> + *
+> + * Similar to atomic_dec_and_lock(), it will WARN on underflow and fail to
+> + * decrement when saturated at REFCOUNT_SATURATED.
+> + *
+> + * Provides release memory ordering, such that prior loads and stores are done
+> + * before, and provides a control dependency such that free() must come after.
+> + * See the comment on top.
+> + *
+> + * Return: true and hold ww-mutex lock if able to decrement refcount to 0,
+> + *         false otherwise
+> + */
+> +bool refcount_dec_and_ww_mutex_lock(refcount_t *r, struct ww_mutex *lock,
+> +				    struct ww_acquire_ctx *ctx)
+> +{
+> +	if (refcount_dec_not_one(r))
+> +		return false;
+> +
+> +	ww_mutex_lock(lock, ctx);
 
-Thanks, I'll have a look at these patches pretty soon.
+Unless I'm wrong, ww_mutex_lock() can return -EDEADLK when ctx !=
+NULL, in which case, the lock is not held when it returns. Question is,
+do we really have a use case for ctx != NULL in that kref_put_ww_mutex()
+path. If we need to acquire other ww_locks, this lock, and the other
+locks should have been acquired beforehand, and we can simply call
+kref_put() when we want to release the ref on the resource.
+
+> +	if (!refcount_dec_and_test(r)) {
+> +		ww_mutex_unlock(lock);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL(refcount_dec_and_ww_mutex_lock);
+
