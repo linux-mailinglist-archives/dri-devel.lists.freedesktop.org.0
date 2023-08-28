@@ -1,48 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC77B78B2D7
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 16:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB7D78B33E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 16:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2869310E2EB;
-	Mon, 28 Aug 2023 14:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED0710E2F0;
+	Mon, 28 Aug 2023 14:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12F310E2EC
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 14:17:15 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RZCLH3MqCz9scf;
- Mon, 28 Aug 2023 16:17:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1693232231;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s+8pHBapEaGXy1jvUtl21Qsxu+aNw3OPEPZ0IC0tfoU=;
- b=KhQU8OSWRXoTxFuCN9bgCewsVz5vGYuF5TgU4KK0f6QdpC0tD/0Zeh3CgehSpAO7HpQdNP
- FG62G59jyF1WWcPDprdzP9XkXI8VYyKV1zsRwG+JjDA0qRGMr+13zoffDYByQlinby7kNu
- kDrzCtahTq4Du7tkBCwDVbWC56w7TbSscOymVeYii8G0QF3qGbbxIyA0Ha5jc3iFajYfpb
- v6r+Zu/iPhopSb3cHyeWRYgC74qzjJpPJFjAmHuB06sIHe0us7z+G2RQ1hQmDbc4FXO+mh
- gG1N92rlyJZat0jtul2Va4h7G2or2X255lmv6qSdDl+WyYPLts7O0P9OyRk0Dg==
-References: <20230825-pll-mipi_keep_rate-v1-0-35bc43570730@oltmanns.dev>
- <zrjpbtf7qwaj2tjvfz2no534tmz5j4yudp45tung2w5x2zcl6y@bal3bclzze4e>
- <87ledzqhwx.fsf@oltmanns.dev>
- <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 0/3] Make Allwinner A64's pll-mipi keep its rate when
- parent rate changes
-In-reply-to: <fd4beguej6ijxpo2hri56pes25re5gdwytxkbvllq4mskffolh@uyxe4j3eorq4>
-Date: Mon, 28 Aug 2023 16:17:08 +0200
-Message-ID: <87cyz7uu8r.fsf@oltmanns.dev>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0C210E04E;
+ Mon, 28 Aug 2023 14:37:16 +0000 (UTC)
+Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk
+ [IPv6:2a01:4f8:1c1c:f269::1])
+ by madras.collabora.co.uk (Postfix) with ESMTP id 2B6C966003AC;
+ Mon, 28 Aug 2023 15:37:13 +0100 (BST)
+From: "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
+In-Reply-To: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+Date: Mon, 28 Aug 2023 15:37:12 +0100
+To: "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Message-ID: <55db-64ecb100-57-403f1500@96946290>
+Subject: =?utf-8?q?Re=3A?= [PATCH v15 00/23] Add generic memory shrinker to 
+ VirtIO-GPU and Panfrost DRM drivers
+User-Agent: SOGoMail 5.8.4
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,209 +41,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Icenowy Zheng <uwu@icenowy.me>,
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <x@xnux.eu>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
+Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
+ intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sunday, August 27, 2023 14:54 -03, Dmitry Osipenko <dmitry.osipenko@=
+collabora.com> wrote:
 
-On 2023-08-28 at 10:04:51 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> On Fri, Aug 25, 2023 at 05:07:58PM +0200, Frank Oltmanns wrote:
->> Thank you for your feedback, Maxime!
->>
->> On 2023-08-25 at 10:13:53 +0200, Maxime Ripard <mripard@kernel.org> wrot=
-e:
->> > [[PGP Signed Part:Undecided]]
->> > Hi,
->> >
->> > On Fri, Aug 25, 2023 at 07:36:36AM +0200, Frank Oltmanns wrote:
->> >> I would like to make the Allwinner A64's pll-mipi to keep its rate wh=
-en
->> >> its parent's (pll-video0) rate changes. Keeping pll-mipi's rate is
->> >> required, to let the A64 drive both an LCD and HDMI display at the sa=
-me
->> >> time, because both have pll-video0 as an ancestor.
->> >>
->> >> PATCH 1 adds this functionality as a feature into the clk framework (=
-new
->> >> flag: CLK_KEEP_RATE).
->> >>
->> >> Cores that use this flag, store a rate as req_rate when it or one of =
-its
->> >> descendants requests a new rate.
->> >>
->> >> That rate is then restored in the clk_change_rate recursion, which wa=
-lks
->> >> through the tree. It will reach the flagged core (e.g. pll-mipi) after
->> >> the parent's rate (e.g. pll-video0) has already been set to the new
->> >> rate. It will then call determine_rate (which requests the parent's
->> >> current, i.e. new, rate) to determine a rate that is close to the
->> >> flagged core's previous rate. Afterward it will re-calculate the rates
->> >> for the flagged core's subtree.
->> >
->> > I don't think it's the right way forward. It makes the core logic more
->> > complicated, for something that is redundant with the notifiers
->> > mechanism that has been the go-to for that kind of things so far.
->>
->> Yeah, that was my initial idea as well. But I couldn't get it to work.
->> See details below.
->>
->> Do you have an example of a clock that restores its previous rate after
->> the parent rate has changed? I've looked left and right, but to me it
->> seems that notifiers are mainly used for setting clocks into some kind
->> of "safe mode" prior to the rate change. Examples:
->>
->> sunxi-ng:
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu=
-_mux.c#L273
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/sunxi-ng/ccu=
-_common.c#L60
->>
->> but also others:
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/at91/clk-mas=
-ter.c#L248
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/meson/meson8=
-b.c#L3755
->> https://elixir.bootlin.com/linux/v6.4.11/source/drivers/clk/qcom/clk-cpu=
--8996.c#L546
+> This series:
+>=20
+>   1. Adds common drm-shmem memory shrinker
+>   2. Enables shrinker for VirtIO-GPU driver
+>   3. Switches Panfrost driver to the common shrinker
+
+Hi Dmitry,=20
+
+Would you mind testing with drm-ci? We virt-io tests there and it would=
+ be
+really great to get your feedback of it.
+
+https://cgit.freedesktop.org/drm/drm/log/?h=3Dtopic/drm-ci
+
+You need to merge your changes with the above tree.
+To configure it, you just need to have a tree on gitlab.freedesktop.org=
+,
+go to the settings and change the CI/CD configuration file from .gitlab=
+-ci.yml
+to drivers/gpu/drm/ci/gitlab-ci.yml, and you can start a pipeline
+on your branch.
+
+at the time of this writting, gitlab.freedesktop.org is under maintenan=
+ce,
+but it should be back soon.
+
+Thank you!
+Helen
+
+>=20
+> Changelog:
+>=20
+> v15:- Moved drm-shmem reference counters to use kref that allows to
+>       optimize unlocked functions, like was suggested by Boris Brezil=
+lon.
+>=20
+>     - Changed drm/gem/shmem function names to use =5Flocked postfix a=
+nd
+>       dropped the =5Funlocked, making the naming scheme consistent ac=
+ross
+>       DRM code, like was suggested by Boris Brezillon.
+>=20
+>     - Added patch that fixes UAF in drm-shmem for drivers that import
+>       dma-buf and then release buffer in the import error code path.
+>=20
+>     - Added patch that makes drm-shmem use new flag for SGT's get=5Fp=
+ages()
+>       refcounting, preventing unbalanced refcounting when GEM is free=
+d.
+>=20
+>     - Fixed guest blob pinning in virtio-gpu driver that was missed
+>       previously in the shrinker patch.
+>=20
+>     - Moved VC4 and virtio-gpu drivers to use drm=5Fgem=5Fput() in
+>       GEM-creation error code paths, which is now required by drm-shm=
+em
+>       and was missed in a previous patch versions.
+>=20
+>     - Virtio-GPU now attaches shmem pages to host on first use and no=
+t
+>       when BO is created. In older patch versions there was a potenti=
+al
+>       race condition in the BO creation code path where both
+>       get=5Fsgt()+object=5Fattach() should've been made under same re=
+sv lock,
+>       otherwise pages could be evicted before attachment is invoked.
+>=20
+>     - Virtio-GPU and drm-shmem shrinker patches are split into smalle=
+r
+>       ones.
+>=20
+> v14:- All the prerequisite reservation locking patches landed upstrea=
+m,
+>       previously were a part of this series in v13 and older.
+>=20
+>         https://lore.kernel.org/dri-devel/20230529223935.2672495-1-dm=
+itry.osipenko@collabora.com/
+>=20
+>     - Added patches to improve locked/unlocked function names, like w=
+as
+>       suggested by Boris Brezillon for v13.
+>=20
+>     - Made all exported drm-shmem symbols GPL, like was previously
+>       discussed with Thomas Zimmermann on this series.
+>=20
+>     - Improved virtio-gpu shrinker patch. Now it won't detach purged =
+BO
+>       when userspace closes GEM. Crosvm (and not qemu) checks res=5Fi=
+d on
+>       CMD=5FCTX=5FDETACH=5FRESOURCE and prints noisy error message if=
+ ID is
+>       invalid, which wasn't noticed before.
+>=20
+> v13:- Updated virtio-gpu shrinker patch to use drm=5Fgem=5Fshmem=5Fob=
+ject=5Fpin()
+>       directly instead of drm=5Fgem=5Fpin() and dropped patch that ex=
+ported
+>       drm=5Fgem=5Fpin() functions, like was requested by Thomas Zimme=
+rmann in
+>       v12.
+>=20
+> v12:- Fixed the "no previous prototype for function" warning reported=
+ by
+>       kernel build bot for v11.
+>=20
+>     - Fixed the missing reservation lock reported by Intel CI for VGE=
+M
+>       driver. Other drivers using drm-shmem were affected similarly t=
+o
+>       VGEM. The problem was in the dma-buf attachment code path that =
+led
+>       to drm-shmem pinning function which assumed the held reservatio=
+n lock
+>       by drm=5Fgem=5Fpin(). In the past that code path was causing tr=
+ouble for
+>       i915 driver and we've changed the locking scheme for the attach=
+ment
+>       code path in the dma-buf core to let exporters to handle the lo=
+cking
+>       themselves. After a closer investigation, I realized that my as=
+sumption
+>       about testing of dma-buf export code path using Panfrost driver=
+ was
+>       incorrect. Now I created additional local test to exrecise the =
+Panfrost
+>       export path. I also reproduced the issue reported by the Intel =
+CI for
+>       v10. It's all fixed now by making the drm=5Fgem=5Fshmem=5Fpin()=
+ to take the
+>       resv lock by itself.
+>=20
+>     - Patches are based on top of drm-tip, CC'd intel-gfx CI for test=
+ing.
+>=20
+> v11:- Rebased on a recent linux-next. Added new patch as a result:
+>=20
+>         drm/shmem-helper: Export drm=5Fgem=5Fshmem=5Fget=5Fpages=5Fsg=
+t=5Flocked()
+>=20
+>         It's needed by the virtio-gpu driver to swap-in/unevict shmem
+>         object, previously get=5Fpages=5Fsgt() didn't use locking.
+>=20
+>     - Separated the "Add memory shrinker" patch into smaller parts to=
+ ease
+>       the reviewing, as was requested by Thomas Zimmermann:
+>=20
+>         drm/shmem-helper: Factor out pages alloc/release from
+>           drm=5Fgem=5Fshmem=5Fget/put=5Fpages()
+>         drm/shmem-helper: Add pages=5Fpin=5Fcount field
+>         drm/shmem-helper: Switch drm=5Fgem=5Fshmem=5Fvmap/vunmap to u=
+se pin/unpin
+>         drm/shmem-helper: Factor out unpinning part from drm=5Fgem=5F=
+shmem=5Fpurge()
+>=20
+>     - Addessed the v10 review comments from Thomas Zimmermann: return=
+ errno
+>       instead of bool, sort code alphabetically, rename function and =
+etc
+>       minor changes.
+>=20
+>     - Added new patch to remove the "map->is=5Fiomem" from drm-shmem,=
+ as
+>       was suggested by Thomas Zimmermann.
+>=20
+>     - Added acks and r-b's that were given to v10.
+>=20
+> v10:- Was partially applied to misc-fixes/next.
+>=20
+>       https://lore.kernel.org/dri-devel/6c16f303-81df-7ebe-85e9-51bb4=
+0a8b301@collabora.com/T/
+>=20
+> Dmitry Osipenko (23):
+>   drm/shmem-helper: Fix UAF in error path when freeing SGT of importe=
+d
+>     GEM
+>   drm/shmem-helper: Use flag for tracking page count bumped by
+>     get=5Fpages=5Fsgt()
+>   drm/gem: Change locked/unlocked postfix of drm=5Fgem=5Fv/unmap() fu=
+nction
+>     names
+>   drm/gem: Add =5Flocked postfix to functions that have unlocked
+>     counterpart
+>   drm/v3d: Replace open-coded drm=5Fgem=5Fshmem=5Ffree() with
+>     drm=5Fgem=5Fobject=5Fput()
+>   drm/virtio: Replace drm=5Fgem=5Fshmem=5Ffree() with drm=5Fgem=5Fobj=
+ect=5Fput()
+>   drm/shmem-helper: Make all exported symbols GPL
+>   drm/shmem-helper: Refactor locked/unlocked functions
+>   drm/shmem-helper: Remove obsoleted is=5Fiomem test
+>   locking/refcount, kref: Add kref=5Fput=5Fww=5Fmutex()
+>   dma-resv: Add kref=5Fput=5Fdma=5Fresv()
+>   drm/shmem-helper: Add and use pages=5Fpin=5Fcount
+>   drm/shmem-helper: Use kref for pages=5Fuse=5Fcount
+>   drm/shmem-helper: Add and use lockless drm=5Fgem=5Fshmem=5Fget=5Fpa=
+ges()
+>   drm/shmem-helper: Switch drm=5Fgem=5Fshmem=5Fvmap/vunmap to use pin=
+/unpin
+>   drm/shmem-helper: Use kref for vmap=5Fuse=5Fcount
+>   drm/shmem-helper: Add and use drm=5Fgem=5Fshmem=5Fresv=5Fassert=5Fh=
+eld() helper
+>   drm/shmem-helper: Add memory shrinker
+>   drm/shmem-helper: Export drm=5Fgem=5Fshmem=5Fget=5Fpages=5Fsgt=5Flo=
+cked()
+>   drm/virtio: Pin display framebuffer BO
+>   drm/virtio: Attach shmem BOs dynamically
+>   drm/virtio: Support memory shrinking
+>   drm/panfrost: Switch to generic memory shrinker
+>=20
+>  drivers/gpu/drm/drm=5Fclient.c                  |   6 +-
+>  drivers/gpu/drm/drm=5Fgem.c                     |  26 +-
+>  drivers/gpu/drm/drm=5Fgem=5Fframebuffer=5Fhelper.c  |   6 +-
+>  drivers/gpu/drm/drm=5Fgem=5Fshmem=5Fhelper.c        | 616 ++++++++++=
++++++---
+>  drivers/gpu/drm/drm=5Finternal.h                |   4 +-
+>  drivers/gpu/drm/drm=5Fprime.c                   |   4 +-
+>  drivers/gpu/drm/lima/lima=5Fgem.c               |  11 +-
+>  drivers/gpu/drm/lima/lima=5Fsched.c             |   4 +-
+>  drivers/gpu/drm/panfrost/Makefile             |   1 -
+>  drivers/gpu/drm/panfrost/panfrost=5Fdevice.h    |   4 -
+>  drivers/gpu/drm/panfrost/panfrost=5Fdrv.c       |  29 +-
+>  drivers/gpu/drm/panfrost/panfrost=5Fdump.c      |   4 +-
+>  drivers/gpu/drm/panfrost/panfrost=5Fgem.c       |  36 +-
+>  drivers/gpu/drm/panfrost/panfrost=5Fgem.h       |   9 -
+>  .../gpu/drm/panfrost/panfrost=5Fgem=5Fshrinker.c  | 122 ----
+>  drivers/gpu/drm/panfrost/panfrost=5Fjob.c       |  18 +-
+>  drivers/gpu/drm/panfrost/panfrost=5Fmmu.c       |   4 +-
+>  drivers/gpu/drm/panfrost/panfrost=5Fperfcnt.c   |   6 +-
+>  drivers/gpu/drm/v3d/v3d=5Fbo.c                  |  26 +-
+>  drivers/gpu/drm/virtio/virtgpu=5Fdrv.h          |  22 +-
+>  drivers/gpu/drm/virtio/virtgpu=5Fgem.c          |  80 +++
+>  drivers/gpu/drm/virtio/virtgpu=5Fioctl.c        |  57 +-
+>  drivers/gpu/drm/virtio/virtgpu=5Fkms.c          |   8 +
+>  drivers/gpu/drm/virtio/virtgpu=5Fobject.c       | 147 ++++-
+>  drivers/gpu/drm/virtio/virtgpu=5Fplane.c        |  17 +-
+>  drivers/gpu/drm/virtio/virtgpu=5Fsubmit.c       |  15 +-
+>  drivers/gpu/drm/virtio/virtgpu=5Fvq.c           |  40 ++
+>  include/drm/drm=5Fdevice.h                      |  10 +-
+>  include/drm/drm=5Fgem.h                         |   6 +-
+>  include/drm/drm=5Fgem=5Fshmem=5Fhelper.h            | 141 +++-
+>  include/linux/dma-resv.h                      |   9 +
+>  include/linux/kref.h                          |  12 +
+>  include/linux/refcount.h                      |   5 +
+>  include/uapi/drm/virtgpu=5Fdrm.h                |  14 +
+>  lib/refcount.c                                |  34 +
+>  35 files changed, 1167 insertions(+), 386 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/panfrost/panfrost=5Fgem=5Fshrinke=
+r.c
+>=20
+> --=20
+> 2.41.0
 >
-> There's examples for phases and parents, but not for rates afaics. We
-> shouldn't behave any differently though.
->
->> > It's not really obvious to me why the notifiers don't work there.
->> >
->> >> This work is inspired by an out-of-tree patchset [1] [2] [3].
->> >> Unfortunately, the patchset uses clk_set_rate() in a notifier callbac=
-k,
->> >> which the following comment on clk_notifier_register() forbids: "The
->> >> callbacks associated with the notifier must not re-enter into the clk
->> >> framework by calling any top-level clk APIs." [4] Furthermore, that
->> >> out-of-tree patchset no longer works with the current linux-next,
->> >> because setting pll-mipi is now also resetting pll-video0 [5].
->> >
->> > Is it because of the "The callbacks associated with the notifier must
->> > not re-enter into the clk framework by calling any top-level clk APIs."
->> > comment?
->>
->> I don't think that's the reason.
->
-> I'm not sure I follow you there. How can we find a solution to a problem
-> you don't know about or can't know for sure?
 
-I was hoping that the discussion here would give me some clues (and it
-does). You have already explained, that the issue is the locks. I'm
-still confused why Icenowy's patches work. They use clk_set_rate() in a
-notifier callback and despite that they work (up until kernel 6.5). The
-only thing that has changed here (that I'm aware of), is that pll-mipi
-now sets the parent rate in clk-next.
-
->> I'm fairly certain that the problem is, that pll-mipi tries to set the
->> parent rate. Maybe it should check if the parent is locked, before
->> determining a rate that requires the parent rate to change. =F0=9F=A4=94
->
-> Why would the clock framework documentation mention an issue that only
-> arises with a single clock on a single SoC?
-
-No, sorry, that's not what I said or meant. I was wondering if
-ccu_nkm_determine_rate should check if the parent rate has no exclusive
-lock, before assuming it can change the parent rate, so that Icenowy's
-patches still work.
-
-> That comment in the clock framework you linked to clearly stated that
-> you can't use a top-level clock function in a notifier, and that's
-> because of the locking.
-
-Yes, it does. And that's why I thought that calling clk_set_rate() in
-the notifier callback was never the right choice.
-
-> If it's not what you're trying to fix, then I'd really like to know what
-> issue you're trying to fix *in the framework* (so, not on the pll-mipi
-> clock, or the A64).
-
-I'm not trying to "fix" anything in the framework in the sense that the
-framework has a bug. I propose to add a new feature to the framework, so
-that I can extend pll-mipi, so that the A64 can drive both an LCD and
-HDMI at the same time.
-
->> Currently, it only calls clk_hw_can_set_rate_parent() which only
->> checks the flag, but does not check if it is really possible to change
->> the parent's rate.
->>
->> Regardless, please don't prematurely dismiss my proposal. It has the
->> advantage that it is not specific for sunxi-ng, but could be used for
->> other drivers as well.
->
-> Just like the two solutions I provided.
->
->> Maybe there other instances of exclusive locks today where the
->> CLK_KEEP_RATE flag might work equally well. =F0=9F=A4=B7
->
-> If exclusive locks work equally well, why would we need CLK_KEEP_RATE?
-
-As I wrote in my other mail. The word "keep" was apparently a bad
-choice. Maybe CLK_RESTORE_RATE_CLOSELY? The difference is that an
-exclusive lock prevents other clocks from changing the parent, whereas
-"CLK_KEEP_RATE" (sic) allows those changes to happen and deal with it by
-restoring the previous rate as closely as possible after the parent rate
-changed.
-
->> > If so, I think the thing we should emphasize is that it's about *any
->> > top-level clk API*, as in clk_set_rate() or clk_set_parent().
->> >
->> > The issue is that any consumer-facing API is taking the clk_prepare lo=
-ck
->> > and thus we would have reentrancy. But we're a provider there, and none
->> > of the clk_hw_* functions are taking that lock. Neither do our own fun=
-ction.
->> >
->> > So we could call in that notifier our set_rate callback directly, or we
->> > could create a clk_hw_set_rate() function.
->> >
->> > The first one will create cache issue between the actual rate that the
->> > common clock framework is running and the one we actually enforced, but
->> > we could create a function to flush the CCF cache.
->> >
->> > The second one is probably simpler.
->>
->> I'm probably missing something, because I don't think this would work.
->> For reference, this is our tree:
->>
->>     pll-video0
->>        hdmi-phy-clk
->>        hdmi
->>        tcon1
->>        pll-mipi
->>           tcon0
->>              tcon-data-clock
->>
->> When pll-video0's rate is changed (e.g. because a HDMI monitor is
->> plugged in), the rates of the complete subtree for pll-video0 are
->> recalculated, including tcon0 and tcon-data-clock. The rate of tcon0 is
->> based on the rate that was recalculated for pll-mipi, which - in turn -
->> was of course recalculated based on the pll-video0's new rate. These
->> values are stored by the clk framework in a private struct. They are
->> calculated before actually performing any rate changes.
->>
->> So, if a notifier sets pll-mipi's rate to something else than was
->> previously recalculated, the clk framework would still try to set tcon0
->> to the value that it previously calculated.
->>
->> So, we would have to recalculate pll-mipi's subtree after changing its
->> rate (that's what PATCH 1 is doing).
->
-> Then we should make that function I was telling you about deal with all
-> this.
-
-See my other mail. I mis-remembered. That is already available via the
-CLK_RECALC_NEW_RATES flag.
-
-Best regards,
-  Frank
-
->
-> Maxime
