@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A8478A93B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:48:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7E278A93C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CA710E270;
-	Mon, 28 Aug 2023 09:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F14A10E26F;
+	Mon, 28 Aug 2023 09:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 824F910E26E
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 09:48:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFF7910E26E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 09:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693216087; x=1724752087;
+ t=1693216090; x=1724752090;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=du5SAiupyvuggP+xV7Ky9yopFp1Tlpoe9ngl18M4oxc=;
- b=ho0gKYKnQSfg618Mc9wuCh9FO+9HUV8rwxqngQtBjKk4QrWV4jPW9lqD
- kNHsKM6FvLY3AL8BdRryQLk8jJzMpF9Zvik2cLJqwc9DxWwIOvxtY3lL2
- m3xlGwpa5Zh0bZSEYZx38TZkNpeO8H1RUAT7s1xFyO7U526TXQm8ksQQg
- TegF4o+n8UX4ISDIdRH9i5OuPSCpvQnc/AXkF7b/7e+X4F9gJewdsYqLQ
- VdP/3H8t+GpskMyJgobq9rUXoY4Nu6nODa5+slcTv3bADsNRB6rPHX7tf
- 5b5h9uRPYoEkN+BKokJZcnOcd6Grk3/1txs3tXxLR62L/XBE7ZITO2BqX g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377791748"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="377791748"
+ bh=IQCgha+hUo0d7o/BVAc+pQv/FIeaX8Y+EXwnIlRgn7w=;
+ b=hijv4rK7Hmz60YSzHOW+JN2pO4+3c4wqA8BJA0bUuWf4PfCV0QDiP+6f
+ 2V/fdnJpTj9tO8wx8UGGRj4NTkfBH3/5Q1pjeFTaL8aah/ZkTFFGld9oq
+ ZmuK67pzZWDNKgSFsPjWuNxLaqKioWVIbOB+N81PrwYzifLhcwmNq4iCM
+ 1dHm4tTG0DWcMAZo6BeZw47M5jgRsbH4jNqERoGLdoaXYtsEvL6NGCMEU
+ zS46awgbFJLm5jtCg4eHMOWKo36bAeQlHhlLEibaF9JPE8uP3WfSDwOGq
+ GZ9HdtcpdouTsD3E2tGeuFaTuCyNHtTko5OeLjUmGkonmdWq97AUJ0UbP A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377791765"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="377791765"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2023 02:48:07 -0700
+ 28 Aug 2023 02:48:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068972115"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="1068972115"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068972119"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="1068972119"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2023 02:48:05 -0700
+ 28 Aug 2023 02:48:08 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 8/9] accel/ivpu/37xx: White space cleanup
-Date: Mon, 28 Aug 2023 11:47:35 +0200
-Message-Id: <20230828094736.4137092-9-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 9/9] accel/ivpu: Move MMU register definitions to ivpu_mmu.c
+Date: Mon, 28 Aug 2023 11:47:36 +0200
+Message-Id: <20230828094736.4137092-10-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
 References: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
@@ -59,233 +59,327 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional change, adjust code formatting after previous changes.
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+MMU registers are not platform specific so they should be defined
+separate to platform regs.
+
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx_reg.h | 100 +++++++++++++-------------
- 1 file changed, 50 insertions(+), 50 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_37xx_reg.h |  33 --------
+ drivers/accel/ivpu/ivpu_mmu.c         | 117 +++++++++++++++++---------
+ 2 files changed, 75 insertions(+), 75 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-index 0f106f192f7c..531a68c1cce8 100644
+index 531a68c1cce8..4083beb5e9db 100644
 --- a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
 +++ b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-@@ -8,65 +8,65 @@
- 
- #include <linux/bits.h>
- 
--#define VPU_37XX_BUTTRESS_INTERRUPT_TYPE					0x00000000u
-+#define VPU_37XX_BUTTRESS_INTERRUPT_TYPE				0x00000000u
- 
--#define VPU_37XX_BUTTRESS_INTERRUPT_STAT					0x00000004u
--#define VPU_37XX_BUTTRESS_INTERRUPT_STAT_FREQ_CHANGE_MASK			BIT_MASK(0)
-+#define VPU_37XX_BUTTRESS_INTERRUPT_STAT				0x00000004u
-+#define VPU_37XX_BUTTRESS_INTERRUPT_STAT_FREQ_CHANGE_MASK		BIT_MASK(0)
- #define VPU_37XX_BUTTRESS_INTERRUPT_STAT_ATS_ERR_MASK			BIT_MASK(1)
- #define VPU_37XX_BUTTRESS_INTERRUPT_STAT_UFI_ERR_MASK			BIT_MASK(2)
- 
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0					0x00000008u
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0_MIN_RATIO_MASK			GENMASK(15, 0)
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0_MAX_RATIO_MASK			GENMASK(31, 16)
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0				0x00000008u
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0_MIN_RATIO_MASK		GENMASK(15, 0)
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD0_MAX_RATIO_MASK		GENMASK(31, 16)
- 
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1					0x0000000cu
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1_TARGET_RATIO_MASK			GENMASK(15, 0)
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1_EPP_MASK				GENMASK(31, 16)
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1				0x0000000cu
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1_TARGET_RATIO_MASK		GENMASK(15, 0)
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD1_EPP_MASK			GENMASK(31, 16)
- 
--#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD2					0x00000010u
-+#define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD2				0x00000010u
- #define VPU_37XX_BUTTRESS_WP_REQ_PAYLOAD2_CONFIG_MASK			GENMASK(15, 0)
- 
--#define VPU_37XX_BUTTRESS_WP_REQ_CMD						0x00000014u
-+#define VPU_37XX_BUTTRESS_WP_REQ_CMD					0x00000014u
- #define VPU_37XX_BUTTRESS_WP_REQ_CMD_SEND_MASK				BIT_MASK(0)
- 
- #define VPU_37XX_BUTTRESS_WP_DOWNLOAD					0x00000018u
- #define VPU_37XX_BUTTRESS_WP_DOWNLOAD_TARGET_RATIO_MASK			GENMASK(15, 0)
- 
- #define VPU_37XX_BUTTRESS_CURRENT_PLL					0x0000001cu
--#define VPU_37XX_BUTTRESS_CURRENT_PLL_RATIO_MASK				GENMASK(15, 0)
-+#define VPU_37XX_BUTTRESS_CURRENT_PLL_RATIO_MASK			GENMASK(15, 0)
- 
--#define VPU_37XX_BUTTRESS_PLL_ENABLE						0x00000020u
-+#define VPU_37XX_BUTTRESS_PLL_ENABLE					0x00000020u
- 
--#define VPU_37XX_BUTTRESS_FMIN_FUSE						0x00000024u
--#define VPU_37XX_BUTTRESS_FMIN_FUSE_MIN_RATIO_MASK				GENMASK(7, 0)
--#define VPU_37XX_BUTTRESS_FMIN_FUSE_PN_RATIO_MASK				GENMASK(15, 8)
-+#define VPU_37XX_BUTTRESS_FMIN_FUSE					0x00000024u
-+#define VPU_37XX_BUTTRESS_FMIN_FUSE_MIN_RATIO_MASK			GENMASK(7, 0)
-+#define VPU_37XX_BUTTRESS_FMIN_FUSE_PN_RATIO_MASK			GENMASK(15, 8)
- 
--#define VPU_37XX_BUTTRESS_FMAX_FUSE						0x00000028u
--#define VPU_37XX_BUTTRESS_FMAX_FUSE_MAX_RATIO_MASK				GENMASK(7, 0)
-+#define VPU_37XX_BUTTRESS_FMAX_FUSE					0x00000028u
-+#define VPU_37XX_BUTTRESS_FMAX_FUSE_MAX_RATIO_MASK			GENMASK(7, 0)
- 
--#define VPU_37XX_BUTTRESS_TILE_FUSE						0x0000002cu
-+#define VPU_37XX_BUTTRESS_TILE_FUSE					0x0000002cu
- #define VPU_37XX_BUTTRESS_TILE_FUSE_VALID_MASK				BIT_MASK(0)
--#define VPU_37XX_BUTTRESS_TILE_FUSE_SKU_MASK					GENMASK(3, 2)
-+#define VPU_37XX_BUTTRESS_TILE_FUSE_SKU_MASK				GENMASK(3, 2)
- 
--#define VPU_37XX_BUTTRESS_LOCAL_INT_MASK					0x00000030u
--#define VPU_37XX_BUTTRESS_GLOBAL_INT_MASK					0x00000034u
-+#define VPU_37XX_BUTTRESS_LOCAL_INT_MASK				0x00000030u
-+#define VPU_37XX_BUTTRESS_GLOBAL_INT_MASK				0x00000034u
- 
--#define VPU_37XX_BUTTRESS_PLL_STATUS						0x00000040u
-+#define VPU_37XX_BUTTRESS_PLL_STATUS					0x00000040u
- #define VPU_37XX_BUTTRESS_PLL_STATUS_LOCK_MASK				BIT_MASK(1)
- 
--#define VPU_37XX_BUTTRESS_VPU_STATUS						0x00000044u
-+#define VPU_37XX_BUTTRESS_VPU_STATUS					0x00000044u
- #define VPU_37XX_BUTTRESS_VPU_STATUS_READY_MASK				BIT_MASK(0)
- #define VPU_37XX_BUTTRESS_VPU_STATUS_IDLE_MASK				BIT_MASK(1)
- 
--#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL					0x00000060u
--#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL_INPROGRESS_MASK			BIT_MASK(0)
--#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL_I3_MASK				BIT_MASK(2)
-+#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL				0x00000060u
-+#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL_INPROGRESS_MASK		BIT_MASK(0)
-+#define VPU_37XX_BUTTRESS_VPU_D0I3_CONTROL_I3_MASK			BIT_MASK(2)
- 
- #define VPU_37XX_BUTTRESS_VPU_IP_RESET					0x00000050u
--#define VPU_37XX_BUTTRESS_VPU_IP_RESET_TRIGGER_MASK				BIT_MASK(0)
-+#define VPU_37XX_BUTTRESS_VPU_IP_RESET_TRIGGER_MASK			BIT_MASK(0)
- 
- #define VPU_37XX_BUTTRESS_VPU_TELEMETRY_OFFSET				0x00000080u
--#define VPU_37XX_BUTTRESS_VPU_TELEMETRY_SIZE					0x00000084u
-+#define VPU_37XX_BUTTRESS_VPU_TELEMETRY_SIZE				0x00000084u
- #define VPU_37XX_BUTTRESS_VPU_TELEMETRY_ENABLE				0x00000088u
- 
- #define VPU_37XX_BUTTRESS_ATS_ERR_LOG_0					0x000000a0u
-@@ -74,9 +74,9 @@
- #define VPU_37XX_BUTTRESS_ATS_ERR_CLEAR					0x000000a8u
- 
- #define VPU_37XX_BUTTRESS_UFI_ERR_LOG					0x000000b0u
--#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_CQ_ID_MASK				GENMASK(11, 0)
--#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_AXI_ID_MASK				GENMASK(19, 12)
--#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_OPCODE_MASK				GENMASK(24, 20)
-+#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_CQ_ID_MASK			GENMASK(11, 0)
-+#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_AXI_ID_MASK			GENMASK(19, 12)
-+#define VPU_37XX_BUTTRESS_UFI_ERR_LOG_OPCODE_MASK			GENMASK(24, 20)
- 
- #define VPU_37XX_BUTTRESS_UFI_ERR_CLEAR					0x000000b4u
- 
-@@ -140,9 +140,9 @@
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_TIMER_2_INT_MASK			BIT_MASK(2)
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_TIMER_3_INT_MASK			BIT_MASK(3)
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_HOST_IPC_FIFO_INT_MASK		BIT_MASK(4)
--#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_0_INT_MASK			BIT_MASK(5)
--#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_1_INT_MASK			BIT_MASK(6)
--#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_2_INT_MASK			BIT_MASK(7)
-+#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_0_INT_MASK		BIT_MASK(5)
-+#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_1_INT_MASK		BIT_MASK(6)
-+#define VPU_37XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_2_INT_MASK		BIT_MASK(7)
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_NOC_FIREWALL_INT_MASK		BIT_MASK(8)
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_0_INT_MASK	BIT_MASK(30)
- #define VPU_37XX_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_1_INT_MASK	BIT_MASK(31)
-@@ -164,14 +164,14 @@
- #define VPU_37XX_HOST_SS_TIM_IPC_FIFO_STAT_FILL_LEVEL_MASK		GENMASK(23, 16)
- #define VPU_37XX_HOST_SS_TIM_IPC_FIFO_STAT_RSVD0_MASK			GENMASK(31, 24)
- 
--#define VPU_37XX_HOST_SS_AON_PWR_ISO_EN0					0x00030020u
-+#define VPU_37XX_HOST_SS_AON_PWR_ISO_EN0				0x00030020u
- #define VPU_37XX_HOST_SS_AON_PWR_ISO_EN0_MSS_CPU_MASK			BIT_MASK(3)
- 
- #define VPU_37XX_HOST_SS_AON_PWR_ISLAND_EN0				0x00030024u
--#define VPU_37XX_HOST_SS_AON_PWR_ISLAND_EN0_MSS_CPU_MASK			BIT_MASK(3)
-+#define VPU_37XX_HOST_SS_AON_PWR_ISLAND_EN0_MSS_CPU_MASK		BIT_MASK(3)
- 
- #define VPU_37XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0			0x00030028u
--#define VPU_37XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0_MSS_CPU_MASK		BIT_MASK(3)
-+#define VPU_37XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0_MSS_CPU_MASK	BIT_MASK(3)
- 
- #define VPU_37XX_HOST_SS_AON_PWR_ISLAND_STATUS0				0x0003002cu
- #define VPU_37XX_HOST_SS_AON_PWR_ISLAND_STATUS0_MSS_CPU_MASK		BIT_MASK(3)
-@@ -187,7 +187,7 @@
- #define VPU_37XX_HOST_SS_LOADING_ADDRESS_LO_IOSF_RS_ID_MASK		GENMASK(2, 1)
- #define VPU_37XX_HOST_SS_LOADING_ADDRESS_LO_IMAGE_LOCATION_MASK		GENMASK(31, 3)
- 
--#define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR				0x00082020u
-+#define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR			0x00082020u
+@@ -191,39 +191,6 @@
  #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_FINAL_PLL_FREQ_MASK	GENMASK(15, 0)
  #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_CONFIG_ID_MASK		GENMASK(31, 16)
  
-@@ -196,13 +196,13 @@
- #define VPU_37XX_HOST_MMU_IDR3						0x0020000cu
- #define VPU_37XX_HOST_MMU_IDR5						0x00200014u
- #define VPU_37XX_HOST_MMU_CR0						0x00200020u
--#define VPU_37XX_HOST_MMU_CR0ACK						0x00200024u
-+#define VPU_37XX_HOST_MMU_CR0ACK					0x00200024u
- #define VPU_37XX_HOST_MMU_CR1						0x00200028u
- #define VPU_37XX_HOST_MMU_CR2						0x0020002cu
- #define VPU_37XX_HOST_MMU_IRQ_CTRL					0x00200050u
- #define VPU_37XX_HOST_MMU_IRQ_CTRLACK					0x00200054u
- 
--#define VPU_37XX_HOST_MMU_GERROR						0x00200060u
-+#define VPU_37XX_HOST_MMU_GERROR					0x00200060u
- #define VPU_37XX_HOST_MMU_GERROR_CMDQ_MASK				BIT_MASK(0)
- #define VPU_37XX_HOST_MMU_GERROR_EVTQ_ABT_MASK				BIT_MASK(2)
- #define VPU_37XX_HOST_MMU_GERROR_PRIQ_ABT_MASK				BIT_MASK(3)
-@@ -226,8 +226,8 @@
- 
+-#define VPU_37XX_HOST_MMU_IDR0						0x00200000u
+-#define VPU_37XX_HOST_MMU_IDR1						0x00200004u
+-#define VPU_37XX_HOST_MMU_IDR3						0x0020000cu
+-#define VPU_37XX_HOST_MMU_IDR5						0x00200014u
+-#define VPU_37XX_HOST_MMU_CR0						0x00200020u
+-#define VPU_37XX_HOST_MMU_CR0ACK					0x00200024u
+-#define VPU_37XX_HOST_MMU_CR1						0x00200028u
+-#define VPU_37XX_HOST_MMU_CR2						0x0020002cu
+-#define VPU_37XX_HOST_MMU_IRQ_CTRL					0x00200050u
+-#define VPU_37XX_HOST_MMU_IRQ_CTRLACK					0x00200054u
+-
+-#define VPU_37XX_HOST_MMU_GERROR					0x00200060u
+-#define VPU_37XX_HOST_MMU_GERROR_CMDQ_MASK				BIT_MASK(0)
+-#define VPU_37XX_HOST_MMU_GERROR_EVTQ_ABT_MASK				BIT_MASK(2)
+-#define VPU_37XX_HOST_MMU_GERROR_PRIQ_ABT_MASK				BIT_MASK(3)
+-#define VPU_37XX_HOST_MMU_GERROR_MSI_CMDQ_ABT_MASK			BIT_MASK(4)
+-#define VPU_37XX_HOST_MMU_GERROR_MSI_EVTQ_ABT_MASK			BIT_MASK(5)
+-#define VPU_37XX_HOST_MMU_GERROR_MSI_PRIQ_ABT_MASK			BIT_MASK(6)
+-#define VPU_37XX_HOST_MMU_GERROR_MSI_ABT_MASK				BIT_MASK(7)
+-
+-#define VPU_37XX_HOST_MMU_GERRORN					0x00200064u
+-
+-#define VPU_37XX_HOST_MMU_STRTAB_BASE					0x00200080u
+-#define VPU_37XX_HOST_MMU_STRTAB_BASE_CFG				0x00200088u
+-#define VPU_37XX_HOST_MMU_CMDQ_BASE					0x00200090u
+-#define VPU_37XX_HOST_MMU_CMDQ_PROD					0x00200098u
+-#define VPU_37XX_HOST_MMU_CMDQ_CONS					0x0020009cu
+-#define VPU_37XX_HOST_MMU_EVTQ_BASE					0x002000a0u
+-#define VPU_37XX_HOST_MMU_EVTQ_PROD					0x002000a8u
+-#define VPU_37XX_HOST_MMU_EVTQ_CONS					0x002000acu
+-#define VPU_37XX_HOST_MMU_EVTQ_PROD_SEC					(0x002000a8u + SZ_64K)
+-#define VPU_37XX_HOST_MMU_EVTQ_CONS_SEC					(0x002000acu + SZ_64K)
+-
  #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES				0x00360000u
  #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_CACHE_OVERRIDE_EN_MASK	BIT_MASK(0)
--#define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK		BIT_MASK(1)
--#define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_ARCACHE_OVERRIDE_MASK		BIT_MASK(2)
-+#define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK	BIT_MASK(1)
-+#define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_ARCACHE_OVERRIDE_MASK	BIT_MASK(2)
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_NOSNOOP_OVERRIDE_EN_MASK	BIT_MASK(3)
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AW_NOSNOOP_OVERRIDE_MASK	BIT_MASK(4)
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AR_NOSNOOP_OVERRIDE_MASK	BIT_MASK(5)
-@@ -246,11 +246,11 @@
- #define VPU_37XX_HOST_IF_TBU_MMUSSIDV_TBU4_AWMMUSSIDV_MASK		BIT_MASK(8)
- #define VPU_37XX_HOST_IF_TBU_MMUSSIDV_TBU4_ARMMUSSIDV_MASK		BIT_MASK(9)
+ #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK	BIT_MASK(1)
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index baefaf7bb3cb..473e1fc686a7 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -7,12 +7,45 @@
+ #include <linux/highmem.h>
  
--#define VPU_37XX_CPU_SS_DSU_LEON_RT_BASE					0x04000000u
-+#define VPU_37XX_CPU_SS_DSU_LEON_RT_BASE				0x04000000u
- #define VPU_37XX_CPU_SS_DSU_LEON_RT_DSU_CTRL				0x04000000u
- #define VPU_37XX_CPU_SS_DSU_LEON_RT_PC_REG				0x04400010u
- #define VPU_37XX_CPU_SS_DSU_LEON_RT_NPC_REG				0x04400014u
--#define VPU_37XX_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG				0x04400020u
-+#define VPU_37XX_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG			0x04400020u
+ #include "ivpu_drv.h"
+-#include "ivpu_hw_37xx_reg.h"
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_mmu.h"
+ #include "ivpu_mmu_context.h"
+ #include "ivpu_pm.h"
  
- #define VPU_37XX_CPU_SS_MSSCPU_CPR_CLK_SET				0x06010004u
- #define VPU_37XX_CPU_SS_MSSCPU_CPR_CLK_SET_CPU_DSU_MASK			BIT_MASK(1)
-@@ -259,15 +259,15 @@
- #define VPU_37XX_CPU_SS_MSSCPU_CPR_RST_CLR_CPU_DSU_MASK			BIT_MASK(1)
++#define IVPU_MMU_REG_IDR0		      0x00200000u
++#define IVPU_MMU_REG_IDR1		      0x00200004u
++#define IVPU_MMU_REG_IDR3		      0x0020000cu
++#define IVPU_MMU_REG_IDR5		      0x00200014u
++#define IVPU_MMU_REG_CR0		      0x00200020u
++#define IVPU_MMU_REG_CR0ACK		      0x00200024u
++#define IVPU_MMU_REG_CR1		      0x00200028u
++#define IVPU_MMU_REG_CR2		      0x0020002cu
++#define IVPU_MMU_REG_IRQ_CTRL		      0x00200050u
++#define IVPU_MMU_REG_IRQ_CTRLACK	      0x00200054u
++
++#define IVPU_MMU_REG_GERROR		      0x00200060u
++#define IVPU_MMU_REG_GERROR_CMDQ_MASK	      BIT_MASK(0)
++#define IVPU_MMU_REG_GERROR_EVTQ_ABT_MASK     BIT_MASK(2)
++#define IVPU_MMU_REG_GERROR_PRIQ_ABT_MASK     BIT_MASK(3)
++#define IVPU_MMU_REG_GERROR_MSI_CMDQ_ABT_MASK BIT_MASK(4)
++#define IVPU_MMU_REG_GERROR_MSI_EVTQ_ABT_MASK BIT_MASK(5)
++#define IVPU_MMU_REG_GERROR_MSI_PRIQ_ABT_MASK BIT_MASK(6)
++#define IVPU_MMU_REG_GERROR_MSI_ABT_MASK      BIT_MASK(7)
++
++#define IVPU_MMU_REG_GERRORN		      0x00200064u
++
++#define IVPU_MMU_REG_STRTAB_BASE	      0x00200080u
++#define IVPU_MMU_REG_STRTAB_BASE_CFG	      0x00200088u
++#define IVPU_MMU_REG_CMDQ_BASE		      0x00200090u
++#define IVPU_MMU_REG_CMDQ_PROD		      0x00200098u
++#define IVPU_MMU_REG_CMDQ_CONS		      0x0020009cu
++#define IVPU_MMU_REG_EVTQ_BASE		      0x002000a0u
++#define IVPU_MMU_REG_EVTQ_PROD		      0x002000a8u
++#define IVPU_MMU_REG_EVTQ_CONS		      0x002000acu
++#define IVPU_MMU_REG_EVTQ_PROD_SEC	      (0x002000a8u + SZ_64K)
++#define IVPU_MMU_REG_EVTQ_CONS_SEC	      (0x002000acu + SZ_64K)
++#define IVPU_MMU_REG_CMDQ_CONS_ERR_MASK	      GENMASK(30, 24)
++
+ #define IVPU_MMU_IDR0_REF		0x080f3e0f
+ #define IVPU_MMU_IDR0_REF_SIMICS	0x080f3e1f
+ #define IVPU_MMU_IDR1_REF		0x0e739d18
+@@ -186,13 +219,13 @@
+ #define IVPU_MMU_REG_TIMEOUT_US		(10 * USEC_PER_MSEC)
+ #define IVPU_MMU_QUEUE_TIMEOUT_US	(100 * USEC_PER_MSEC)
  
- #define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC				0x06010040u
--#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN0_MASK		BIT_MASK(0)
--#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME0_MASK		BIT_MASK(1)
--#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN1_MASK		BIT_MASK(2)
--#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME1_MASK		BIT_MASK(3)
-+#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN0_MASK	BIT_MASK(0)
-+#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME0_MASK	BIT_MASK(1)
-+#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN1_MASK	BIT_MASK(2)
-+#define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME1_MASK	BIT_MASK(3)
- #define VPU_37XX_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTVEC_MASK		GENMASK(31, 4)
+-#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT)) | \
+-				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT)))
++#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(IVPU_MMU_REG_GERROR, CMDQ)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT)) | \
++				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_ABT)))
  
- #define VPU_37XX_CPU_SS_TIM_WATCHDOG					0x0602009cu
- #define VPU_37XX_CPU_SS_TIM_WDOG_EN					0x060200a4u
--#define VPU_37XX_CPU_SS_TIM_SAFE						0x060200a8u
-+#define VPU_37XX_CPU_SS_TIM_SAFE					0x060200a8u
- #define VPU_37XX_CPU_SS_TIM_IPC_FIFO					0x060200f0u
+ static char *ivpu_mmu_event_to_str(u32 cmd)
+ {
+@@ -250,15 +283,15 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
+ 	else
+ 		val_ref = IVPU_MMU_IDR0_REF;
  
- #define VPU_37XX_CPU_SS_TIM_GEN_CONFIG					0x06021008u
+-	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR0);
++	val = REGV_RD32(IVPU_MMU_REG_IDR0);
+ 	if (val != val_ref)
+ 		ivpu_dbg(vdev, MMU, "IDR0 0x%x != IDR0_REF 0x%x\n", val, val_ref);
+ 
+-	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR1);
++	val = REGV_RD32(IVPU_MMU_REG_IDR1);
+ 	if (val != IVPU_MMU_IDR1_REF)
+ 		ivpu_dbg(vdev, MMU, "IDR1 0x%x != IDR1_REF 0x%x\n", val, IVPU_MMU_IDR1_REF);
+ 
+-	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR3);
++	val = REGV_RD32(IVPU_MMU_REG_IDR3);
+ 	if (val != IVPU_MMU_IDR3_REF)
+ 		ivpu_dbg(vdev, MMU, "IDR3 0x%x != IDR3_REF 0x%x\n", val, IVPU_MMU_IDR3_REF);
+ 
+@@ -269,7 +302,7 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
+ 	else
+ 		val_ref = IVPU_MMU_IDR5_REF;
+ 
+-	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR5);
++	val = REGV_RD32(IVPU_MMU_REG_IDR5);
+ 	if (val != val_ref)
+ 		ivpu_dbg(vdev, MMU, "IDR5 0x%x != IDR5_REF 0x%x\n", val, val_ref);
+ }
+@@ -396,18 +429,18 @@ static int ivpu_mmu_irqs_setup(struct ivpu_device *vdev)
+ 	u32 irq_ctrl = IVPU_MMU_IRQ_EVTQ_EN | IVPU_MMU_IRQ_GERROR_EN;
+ 	int ret;
+ 
+-	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, 0);
++	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, 0);
+ 	if (ret)
+ 		return ret;
+ 
+-	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, irq_ctrl);
++	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, irq_ctrl);
+ }
+ 
+ static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
+ 
+-	return REGV_POLL(VPU_37XX_HOST_MMU_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
++	return REGV_POLL(IVPU_MMU_REG_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
+ 			 IVPU_MMU_QUEUE_TIMEOUT_US);
+ }
+ 
+@@ -447,7 +480,7 @@ static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
+ 		return ret;
+ 
+ 	clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
+-	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, q->prod);
++	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, q->prod);
+ 
+ 	ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
+ 	if (ret)
+@@ -495,7 +528,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	mmu->evtq.prod = 0;
+ 	mmu->evtq.cons = 0;
+ 
+-	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, 0);
++	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, 0);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -505,17 +538,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_SH, IVPU_MMU_SH_ISH) |
+ 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_OC, IVPU_MMU_CACHE_WB) |
+ 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_IC, IVPU_MMU_CACHE_WB);
+-	REGV_WR32(VPU_37XX_HOST_MMU_CR1, val);
++	REGV_WR32(IVPU_MMU_REG_CR1, val);
+ 
+-	REGV_WR64(VPU_37XX_HOST_MMU_STRTAB_BASE, mmu->strtab.dma_q);
+-	REGV_WR32(VPU_37XX_HOST_MMU_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
++	REGV_WR64(IVPU_MMU_REG_STRTAB_BASE, mmu->strtab.dma_q);
++	REGV_WR32(IVPU_MMU_REG_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
+ 
+-	REGV_WR64(VPU_37XX_HOST_MMU_CMDQ_BASE, mmu->cmdq.dma_q);
+-	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, 0);
+-	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_CONS, 0);
++	REGV_WR64(IVPU_MMU_REG_CMDQ_BASE, mmu->cmdq.dma_q);
++	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, 0);
++	REGV_WR32(IVPU_MMU_REG_CMDQ_CONS, 0);
+ 
+ 	val = IVPU_MMU_CR0_CMDQEN;
+-	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
++	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -531,17 +564,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	REGV_WR64(VPU_37XX_HOST_MMU_EVTQ_BASE, mmu->evtq.dma_q);
+-	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC, 0);
+-	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, 0);
++	REGV_WR64(IVPU_MMU_REG_EVTQ_BASE, mmu->evtq.dma_q);
++	REGV_WR32(IVPU_MMU_REG_EVTQ_PROD_SEC, 0);
++	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, 0);
+ 
+ 	val |= IVPU_MMU_CR0_EVTQEN;
+-	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
++	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
+ 	if (ret)
+ 		return ret;
+ 
+ 	val |= IVPU_MMU_CR0_ATSCHK;
+-	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
++	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -550,7 +583,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 		return ret;
+ 
+ 	val |= IVPU_MMU_CR0_SMMUEN;
+-	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
++	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
+ }
+ 
+ static void ivpu_mmu_strtab_link_cd(struct ivpu_device *vdev, u32 sid)
+@@ -801,14 +834,14 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+ 	u32 idx = IVPU_MMU_Q_IDX(evtq->cons);
+ 	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
+ 
+-	evtq->prod = REGV_RD32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC);
++	evtq->prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
+ 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
+ 		return NULL;
+ 
+ 	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
+ 
+ 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
+-	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
++	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
+ 
+ 	return evt;
+ }
+@@ -841,35 +874,35 @@ void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
+ 
+ 	ivpu_dbg(vdev, IRQ, "MMU error\n");
+ 
+-	gerror_val = REGV_RD32(VPU_37XX_HOST_MMU_GERROR);
+-	gerrorn_val = REGV_RD32(VPU_37XX_HOST_MMU_GERRORN);
++	gerror_val = REGV_RD32(IVPU_MMU_REG_GERROR);
++	gerrorn_val = REGV_RD32(IVPU_MMU_REG_GERRORN);
+ 
+ 	active = gerror_val ^ gerrorn_val;
+ 	if (!(active & IVPU_MMU_GERROR_ERR_MASK))
+ 		return;
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_ABT, active))
+ 		ivpu_warn_ratelimited(vdev, "MMU MSI ABT write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT, active))
+ 		ivpu_warn_ratelimited(vdev, "MMU PRIQ MSI ABT write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT, active))
+ 		ivpu_warn_ratelimited(vdev, "MMU EVTQ MSI ABT write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT, active))
+ 		ivpu_warn_ratelimited(vdev, "MMU CMDQ MSI ABT write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT, active))
+ 		ivpu_err_ratelimited(vdev, "MMU PRIQ write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT, active))
+ 		ivpu_err_ratelimited(vdev, "MMU EVTQ write aborted\n");
+ 
+-	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ, active))
++	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, CMDQ, active))
+ 		ivpu_err_ratelimited(vdev, "MMU CMDQ write aborted\n");
+ 
+-	REGV_WR32(VPU_37XX_HOST_MMU_GERRORN, gerror_val);
++	REGV_WR32(IVPU_MMU_REG_GERRORN, gerror_val);
+ }
+ 
+ int ivpu_mmu_set_pgtable(struct ivpu_device *vdev, int ssid, struct ivpu_mmu_pgtable *pgtable)
 -- 
 2.25.1
 
