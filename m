@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8822178AE3A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 12:58:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3896678AE64
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 13:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D2510E288;
-	Mon, 28 Aug 2023 10:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A77010E28A;
+	Mon, 28 Aug 2023 11:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C8A10E288
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 10:58:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 642301F460;
- Mon, 28 Aug 2023 10:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1693220331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aSHjLwT5621N2H5F+CG6iKU6rfMRGgSjnRTgBYipbyw=;
- b=mWumK8FuOisRNmZyfmZpOv3XsthQ/mF2rhApCLjO5TMZYwWbw2VR+wDJanQl2j6pkLgULq
- fHBCxvmJhdH/AuBN5dLSTjtwIBjWoEVaMW4dxZaScToSK773ikHuHh/do6tHR6GWSs/x5Q
- BOtizqLgFrp1VcJuzOEWzsFUhwTLNmc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1693220331;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aSHjLwT5621N2H5F+CG6iKU6rfMRGgSjnRTgBYipbyw=;
- b=C1GThFEIJHinMmhS4iXrgLbawwYVhAsEF2CAqofe3AFSXtdWDtFD8jhGISozgz+QLY0Wg0
- 38NG2+mvoYANkRAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4BA7413A11;
- Mon, 28 Aug 2023 10:58:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IlJuEut97GTYYwAAMHmgww
- (envelope-from <jack@suse.cz>); Mon, 28 Aug 2023 10:58:51 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
- id B3720A0774; Mon, 28 Aug 2023 12:58:50 +0200 (CEST)
-Date: Mon, 28 Aug 2023 12:58:50 +0200
-From: Jan Kara <jack@suse.cz>
-To: Xueshi Hu <xueshi.hu@smartx.com>
-Subject: Re: [PATCH v2] fs: clean up usage of noop_dirty_folio
-Message-ID: <20230828105850.6g772iayb26odocx@quack3>
-References: <20230828075449.262510-1-xueshi.hu@smartx.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9215310E28A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 11:04:51 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37SB4aIC113761;
+ Mon, 28 Aug 2023 06:04:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1693220676;
+ bh=Wg5gLNloF2HPALm7TXuVipHiVIXcFi/HXierxrbJZJg=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=pV4kqEFk4DaIWp9X3lNVyJDl2XyqWC4hfAKgEUWp7jrrXakRaJKlhN4nugKEnYxwl
+ W/+hpEQWG8k3iVv6qMO3Yo0k2y+dRzhgwNRTm9k/8OBzXNKIy06utMi7ZObMRb1sRU
+ ocIP+ZpKMuOu/dGx/Wg2I2FM2Lee/SZDr99s7L7I=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37SB4aI9090914
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 28 Aug 2023 06:04:36 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 28
+ Aug 2023 06:04:36 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 28 Aug 2023 06:04:36 -0500
+Received: from [172.24.227.132] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37SB4U9T020731;
+ Mon, 28 Aug 2023 06:04:31 -0500
+Message-ID: <d2deac24-d5ab-e1c4-81c5-4874c2f5ea07@ti.com>
+Date: Mon, 28 Aug 2023 16:34:30 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230828075449.262510-1-xueshi.hu@smartx.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] drm: bridge: it66121: Fix invalid connector dereference
+To: Jai Luthra <j-luthra@ti.com>, Phong LE <ple@baylibre.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Nicolas Belin <nbelin@baylibre.com>, "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
+References: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
+Content-Language: en-US
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,290 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
- djwong@kernel.org, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
- adilger.kernel@dilger.ca, dave.jiang@intel.com, miklos@szeredi.hu,
- vishal.l.verma@intel.com, deller@gmx.de, hughd@google.com, willy@infradead.org,
- hch@infradead.org, linux-ext4@vger.kernel.org, jayalk@intworks.biz,
- viro@zeniv.linux.org.uk, dan.j.williams@intel.com, brauner@kernel.org,
- tytso@mit.edu, dri-devel@lists.freedesktop.org, muchun.song@linux.dev,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, bcrl@kvack.org,
- jack@suse.com, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- mike.kravetz@oracle.com
+Cc: linux-arm-kernel@lists.infradead.org, nm@ti.com, devarsht@ti.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 28-08-23 15:54:49, Xueshi Hu wrote:
-> In folio_mark_dirty(), it can automatically fallback to
-> noop_dirty_folio() if a_ops->dirty_folio is not registered.
+Hi Jai,
+
+Thanks for debugging the issue.
+
+On 25-Aug-23 16:32, Jai Luthra wrote:
+> Fix the NULL pointer dereference when no monitor is connected, and the
+> sound card is opened from userspace.
 > 
-> As anon_aops, dev_dax_aops and fb_deferred_io_aops becames empty, remove
-> them too.
+> Instead return an error as EDID information cannot be provided to
+> the sound framework if there is no connector attached.
 > 
-> Signed-off-by: Xueshi Hu <xueshi.hu@smartx.com>
-
-Looks good to me. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
+> Reported-by: Nishanth Menon <nm@ti.com>
+> Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > ---
-> Changes in v2:
-> - make noop_dirty_folio() inline as suggested by Matthew
-> - v1: https://lore.kernel.org/linux-mm/ZOxAfrz9etoVUfLQ@infradead.org/T/#m073d45909b1df03ff09f382557dc4e84d0607c49
+>  drivers/gpu/drm/bridge/ite-it66121.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
->  drivers/dax/device.c                |  5 -----
->  drivers/video/fbdev/core/fb_defio.c |  5 -----
->  fs/aio.c                            |  1 -
->  fs/ext2/inode.c                     |  1 -
->  fs/ext4/inode.c                     |  1 -
->  fs/fuse/dax.c                       |  1 -
->  fs/hugetlbfs/inode.c                |  1 -
->  fs/libfs.c                          |  5 -----
->  fs/xfs/xfs_aops.c                   |  1 -
->  include/linux/pagemap.h             |  1 -
->  mm/page-writeback.c                 | 18 +++++-------------
->  mm/secretmem.c                      |  1 -
->  mm/shmem.c                          |  1 -
->  mm/swap_state.c                     |  1 -
->  14 files changed, 5 insertions(+), 38 deletions(-)
+> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+> index 466641c77fe9..d6fa00dea464 100644
+> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> @@ -1446,6 +1446,11 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
+>  {
+>  	struct it66121_ctx *ctx = dev_get_drvdata(dev);
+>  
+> +	if (!ctx->connector) {
+> +		dev_dbg(dev, "No connector present, cannot provide EDID data");
+> +		return -EINVAL;
+> +	}
+> +
+
+There are not many HDMI bridges that support codecs in the kernel, but
+upon a quick look, bridge/analogix/anx7625.c and
+bridge/synopsys/dw-hdmi* gracefully return a buffer of 0s when the
+connector is unavailable.
+
+I am not sure why that is done, but I also don't see the hdmi-codec
+driver handle the 0s situation properly. It is business as usual for the
+hdmi-codec.
+
+Did you come across some observation when you were testing?
+
+Regards
+Aradhya
+
+>  	mutex_lock(&ctx->lock);
+>  
+>  	memcpy(buf, ctx->connector->eld,
 > 
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index 30665a3ff6ea..018aa9f88ec7 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -345,10 +345,6 @@ static unsigned long dax_get_unmapped_area(struct file *filp,
->  	return current->mm->get_unmapped_area(filp, addr, len, pgoff, flags);
->  }
->  
-> -static const struct address_space_operations dev_dax_aops = {
-> -	.dirty_folio	= noop_dirty_folio,
-> -};
-> -
->  static int dax_open(struct inode *inode, struct file *filp)
->  {
->  	struct dax_device *dax_dev = inode_dax(inode);
-> @@ -358,7 +354,6 @@ static int dax_open(struct inode *inode, struct file *filp)
->  	dev_dbg(&dev_dax->dev, "trace\n");
->  	inode->i_mapping = __dax_inode->i_mapping;
->  	inode->i_mapping->host = __dax_inode;
-> -	inode->i_mapping->a_ops = &dev_dax_aops;
->  	filp->f_mapping = inode->i_mapping;
->  	filp->f_wb_err = filemap_sample_wb_err(filp->f_mapping);
->  	filp->f_sb_err = file_sample_sb_err(filp);
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index 274f5d0fa247..08be3592281f 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -221,10 +221,6 @@ static const struct vm_operations_struct fb_deferred_io_vm_ops = {
->  	.page_mkwrite	= fb_deferred_io_mkwrite,
->  };
->  
-> -static const struct address_space_operations fb_deferred_io_aops = {
-> -	.dirty_folio	= noop_dirty_folio,
-> -};
-> -
->  int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
->  {
->  	vma->vm_ops = &fb_deferred_io_vm_ops;
-> @@ -307,7 +303,6 @@ void fb_deferred_io_open(struct fb_info *info,
->  {
->  	struct fb_deferred_io *fbdefio = info->fbdefio;
->  
-> -	file->f_mapping->a_ops = &fb_deferred_io_aops;
->  	fbdefio->open_count++;
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
-> diff --git a/fs/aio.c b/fs/aio.c
-> index 77e33619de40..4cf386f9cb1c 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -484,7 +484,6 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
->  #endif
->  
->  static const struct address_space_operations aio_ctx_aops = {
-> -	.dirty_folio	= noop_dirty_folio,
->  	.migrate_folio	= aio_migrate_folio,
->  };
->  
-> diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
-> index 75983215c7a1..ce191bdf1c78 100644
-> --- a/fs/ext2/inode.c
-> +++ b/fs/ext2/inode.c
-> @@ -971,7 +971,6 @@ const struct address_space_operations ext2_aops = {
->  static const struct address_space_operations ext2_dax_aops = {
->  	.writepages		= ext2_dax_writepages,
->  	.direct_IO		= noop_direct_IO,
-> -	.dirty_folio		= noop_dirty_folio,
->  };
->  
->  /*
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 43775a6ca505..67c1710c01b0 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -3561,7 +3561,6 @@ static const struct address_space_operations ext4_da_aops = {
->  static const struct address_space_operations ext4_dax_aops = {
->  	.writepages		= ext4_dax_writepages,
->  	.direct_IO		= noop_direct_IO,
-> -	.dirty_folio		= noop_dirty_folio,
->  	.bmap			= ext4_bmap,
->  	.swap_activate		= ext4_iomap_swap_activate,
->  };
-> diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-> index 8e74f278a3f6..50ca767cbd5e 100644
-> --- a/fs/fuse/dax.c
-> +++ b/fs/fuse/dax.c
-> @@ -1326,7 +1326,6 @@ bool fuse_dax_inode_alloc(struct super_block *sb, struct fuse_inode *fi)
->  static const struct address_space_operations fuse_dax_file_aops  = {
->  	.writepages	= fuse_dax_writepages,
->  	.direct_IO	= noop_direct_IO,
-> -	.dirty_folio	= noop_dirty_folio,
->  };
->  
->  static bool fuse_should_enable_dax(struct inode *inode, unsigned int flags)
-> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-> index 7b17ccfa039d..5404286f0c13 100644
-> --- a/fs/hugetlbfs/inode.c
-> +++ b/fs/hugetlbfs/inode.c
-> @@ -1266,7 +1266,6 @@ static void hugetlbfs_destroy_inode(struct inode *inode)
->  static const struct address_space_operations hugetlbfs_aops = {
->  	.write_begin	= hugetlbfs_write_begin,
->  	.write_end	= hugetlbfs_write_end,
-> -	.dirty_folio	= noop_dirty_folio,
->  	.migrate_folio  = hugetlbfs_migrate_folio,
->  	.error_remove_page	= hugetlbfs_error_remove_page,
->  };
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 5b851315eeed..982f220a9ee3 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -627,7 +627,6 @@ const struct address_space_operations ram_aops = {
->  	.read_folio	= simple_read_folio,
->  	.write_begin	= simple_write_begin,
->  	.write_end	= simple_write_end,
-> -	.dirty_folio	= noop_dirty_folio,
->  };
->  EXPORT_SYMBOL(ram_aops);
->  
-> @@ -1231,16 +1230,12 @@ EXPORT_SYMBOL(kfree_link);
->  
->  struct inode *alloc_anon_inode(struct super_block *s)
->  {
-> -	static const struct address_space_operations anon_aops = {
-> -		.dirty_folio	= noop_dirty_folio,
-> -	};
->  	struct inode *inode = new_inode_pseudo(s);
->  
->  	if (!inode)
->  		return ERR_PTR(-ENOMEM);
->  
->  	inode->i_ino = get_next_ino();
-> -	inode->i_mapping->a_ops = &anon_aops;
->  
->  	/*
->  	 * Mark the inode dirty from the very beginning,
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index 451942fb38ec..300acea9ee63 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -590,6 +590,5 @@ const struct address_space_operations xfs_address_space_operations = {
->  
->  const struct address_space_operations xfs_dax_aops = {
->  	.writepages		= xfs_dax_writepages,
-> -	.dirty_folio		= noop_dirty_folio,
->  	.swap_activate		= xfs_iomap_swapfile_activate,
->  };
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 716953ee1ebd..9de3be51dee2 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -1074,7 +1074,6 @@ bool folio_clear_dirty_for_io(struct folio *folio);
->  bool clear_page_dirty_for_io(struct page *page);
->  void folio_invalidate(struct folio *folio, size_t offset, size_t length);
->  int __set_page_dirty_nobuffers(struct page *page);
-> -bool noop_dirty_folio(struct address_space *mapping, struct folio *folio);
->  
->  #ifdef CONFIG_MIGRATION
->  int filemap_migrate_folio(struct address_space *mapping, struct folio *dst,
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index d3f42009bb70..d2d739109bfe 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -2585,17 +2585,6 @@ int do_writepages(struct address_space *mapping, struct writeback_control *wbc)
->  	return ret;
->  }
->  
-> -/*
-> - * For address_spaces which do not use buffers nor write back.
-> - */
-> -bool noop_dirty_folio(struct address_space *mapping, struct folio *folio)
-> -{
-> -	if (!folio_test_dirty(folio))
-> -		return !folio_test_set_dirty(folio);
-> -	return false;
-> -}
-> -EXPORT_SYMBOL(noop_dirty_folio);
-> -
->  /*
->   * Helper function for set_page_dirty family.
->   *
-> @@ -2799,10 +2788,13 @@ bool folio_mark_dirty(struct folio *folio)
->  		 */
->  		if (folio_test_reclaim(folio))
->  			folio_clear_reclaim(folio);
-> -		return mapping->a_ops->dirty_folio(mapping, folio);
-> +		if (mapping->a_ops->dirty_folio)
-> +			return mapping->a_ops->dirty_folio(mapping, folio);
->  	}
->  
-> -	return noop_dirty_folio(mapping, folio);
-> +	if (!folio_test_dirty(folio))
-> +		return !folio_test_set_dirty(folio);
-> +	return false;
->  }
->  EXPORT_SYMBOL(folio_mark_dirty);
->  
-> diff --git a/mm/secretmem.c b/mm/secretmem.c
-> index 86442a15d12f..3fe1c35f9c8d 100644
-> --- a/mm/secretmem.c
-> +++ b/mm/secretmem.c
-> @@ -157,7 +157,6 @@ static void secretmem_free_folio(struct folio *folio)
->  }
->  
->  const struct address_space_operations secretmem_aops = {
-> -	.dirty_folio	= noop_dirty_folio,
->  	.free_folio	= secretmem_free_folio,
->  	.migrate_folio	= secretmem_migrate_folio,
->  };
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index d963c747dabc..9bdef68a088a 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -4090,7 +4090,6 @@ static int shmem_error_remove_page(struct address_space *mapping,
->  
->  const struct address_space_operations shmem_aops = {
->  	.writepage	= shmem_writepage,
-> -	.dirty_folio	= noop_dirty_folio,
->  #ifdef CONFIG_TMPFS
->  	.write_begin	= shmem_write_begin,
->  	.write_end	= shmem_write_end,
-> diff --git a/mm/swap_state.c b/mm/swap_state.c
-> index f8ea7015bad4..3666439487db 100644
-> --- a/mm/swap_state.c
-> +++ b/mm/swap_state.c
-> @@ -30,7 +30,6 @@
->   */
->  static const struct address_space_operations swap_aops = {
->  	.writepage	= swap_writepage,
-> -	.dirty_folio	= noop_dirty_folio,
->  #ifdef CONFIG_MIGRATION
->  	.migrate_folio	= migrate_folio,
->  #endif
-> -- 
-> 2.40.1
+> ---
+> base-commit: 6269320850097903b30be8f07a5c61d9f7592393
+> change-id: 20230825-it66121_edid-6ee98517808b
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Best regards,
+
