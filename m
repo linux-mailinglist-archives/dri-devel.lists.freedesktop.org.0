@@ -2,42 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3346E78B57F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 18:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B141978B5D8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 19:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAD210E318;
-	Mon, 28 Aug 2023 16:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A0410E00E;
+	Mon, 28 Aug 2023 17:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B5C10E318
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 16:42:44 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1qafJw-0003St-3U; Mon, 28 Aug 2023 18:42:32 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1qafJu-00054D-Rv; Mon, 28 Aug 2023 18:42:30 +0200
-Date: Mon, 28 Aug 2023 18:42:30 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Subject: Re: [PATCH 0/5] drm/bridge: samsung-dsim: fix various modes with
- ADV7535 bridge
-Message-ID: <20230828164230.e2qnh4qe7w6xy6rn@pengutronix.de>
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
+Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com
+ [203.205.221.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE5610E00E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 17:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1693242198;
+ bh=cPNK+81IGn0TQpKkotv2WdAq+z2m9yPGmO2U+lmiC/M=;
+ h=From:To:Cc:Subject:Date;
+ b=k6mj2tZD5lRWmNptkA4ffLB1Ne8aTyVQwnlgpgAmkr/NBdUEHHFV2QO4F5uUePWBL
+ 2JV0n6oY2E2nh5VQdFMJ7xb14UDcFKcBJR/OJf80BQdCc+uefFxDAuluaztLtiQUoU
+ aEC7+qQR6BgKGF5SOKIL4fqNy1pce5RcCJPHOT4c=
+Received: from KernelDevBox.byted.org ([180.184.51.142])
+ by newxmesmtplogicsvrszc2-1.qq.com (NewEsmtp) with SMTP
+ id DC3048EC; Tue, 29 Aug 2023 00:55:03 +0800
+X-QQ-mid: xmsmtpt1693241703t8cvcq53r
+Message-ID: <tencent_026E4B04ACDCE341411EF54862F8C6AB1605@qq.com>
+X-QQ-XMAILINFO: NvKyM24IHTKSlKGvWHJ9FbVaOla+tcVA5EuhPy5wgmj14mHAPCI21r+zyzFvbC
+ zEbP4kTEBCIhYXMIdpd0itwzVmo11tKwlAlvVEkMha0Uf69Fv2/OQaW9CB/5o1NJzW8baPjVLqyU
+ gGNXDozJjClOkxKfNl6oJYTesrUOqTZ+WdMKzy/RgoVO2yt9MHtzIGEwCCPAP3kJsgLMt3qTNUZj
+ 5wbxFWohVoX6qVxv9CUtUf7wHIYcURdSJPaWD0YnRGIm6Q0zLwFw2YHui9uqrNzOqcr07sf7SHN+
+ sWZ6lREn9Mq+Yi8FXmkeLduQvGIkQf0fCr/SC2/mKF2uRTPcE56V3yEuYUhY13nv7/e/VfHijjIA
+ b/Bi15BkmZpIqN/JfPYdplsD1rF8XOcWZkzT6DV0+yUach2at0h69uJmk0HjRS4h2CnFgk+0WJOu
+ okqdhU4K4zDzTklAbpe6Bc8jPq9UMAIl3H8J9pVmj/1hAX/LvTMPGx0CMbcrfY+jT7qqzw9MAdG+
+ xJDhkvRDaOqfFJmnveJRbKLmIxmujZpD5VEPhJchxV1GWaGpNeGlB6FT9fg0fyVC2HRCz2ULKTdR
+ SV8dGOJVw0QRgz0kywGEIE3zrUXeaYFeIKolOXcbZW0YBC3y3n9ggOnqnREeqGXChwf9jeg5Au76
+ Pido6M5mKdLmQzV17D2TghvoKLt/+avD/+CRRRrVdk4djLkYtw7kxs6z2TEriYqXCsGjWq3Tlfu4
+ PMzEjDUvLRcMold6fp/DSNxtjdXXahNnPYYER8j44XhyGWJOYj0hfpqhgU0QAaXHcaLPASwvv+Gj
+ jBCCS43yEZj7zAKunAt7z4QfYYk+MW+pWDNSumcIXhxSbg7k+6SjTaRlt2jm9ERck9NboBwc7VW+
+ aCevBuldn7Dbi1ZkcG+zfJR7MFTKFAEtmHzzR7dZyA7zliFvxHvP8eQhkT7JvJNpaf4DWM3S74yy
+ aOaappAagmeL8su1R0mweeLcG7UsOeKMdKXubs1v8lnAOgnRVK2HtLwmBz8RBjmoqKNPZXaOM=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: victor.liu@nxp.com
+Subject: [PATCH] drm/bridge: imx: fix potential NULL pointer dereference in
+ imx8qxp_ldb_parse_dt_companion()
+Date: Tue, 29 Aug 2023 00:55:01 +0800
+X-OQ-MSGID: <20230828165501.2887816-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,90 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, neil.armstrong@linaro.org,
+ rfoss@kernel.org, jonas@kwiboo.se, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ Zhang Shurong <zhang_shurong@foxmail.com>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23-08-28, Michael Tretter wrote:
-> I tested the i.MX8M Nano EVK with the NXP supplied MIPI-DSI adapter,
-> which uses an ADV7535 MIPI-DSI to HDMI converter. I found that a few
-> modes were working, but in many modes my monitor stayed dark.
-> 
-> This series fixes the Samsung DSIM bridge driver to bring up a few more
-> modes:
-> 
-> The driver read the rate of the PLL ref clock only during probe.
-> However, if the clock is re-parented to the VIDEO_PLL, changes to the
-> pixel clock have an effect on the PLL ref clock. Therefore, the driver
-> must read and potentially update the PLL ref clock on every modeset.
-> 
-> I also found that the rounding mode of the porches and active area has
-> an effect on the working modes. If the driver rounds up instead of
-> rounding down and be calculates them in Hz instead of kHz, more modes
-> start to work.
-> 
-> The following table shows the modes that were working in my test without
-> this patch set and the modes that are working now:
-> 
-> |            Mode | Before | Now |
-> | 1920x1080-60.00 | X      | X   |
-> | 1920x1080-59.94 |        | X   |
-> | 1920x1080-50.00 |        | X   |
-> | 1920x1080-30.00 |        | X   |
-> | 1920x1080-29.97 |        | X   |
-> | 1920x1080-25.00 |        | X   |
-> | 1920x1080-24.00 |        |     |
-> | 1920x1080-23.98 |        |     |
-> | 1680x1050-59.88 |        | X   |
-> | 1280x1024-75.03 | X      | X   |
-> | 1280x1024-60.02 | X      | X   |
-> |  1200x960-59.99 |        | X   |
-> |  1152x864-75.00 | X      | X   |
-> |  1280x720-60.00 |        |     |
-> |  1280x720-59.94 |        |     |
-> |  1280x720-50.00 |        | X   |
-> |  1024x768-75.03 |        | X   |
-> |  1024x768-60.00 |        | X   |
-> |   800x600-75.00 | X      | X   |
-> |   800x600-60.32 | X      | X   |
-> |   720x576-50.00 | X      | X   |
-> |   720x480-60.00 |        |     |
-> |   720x480-59.94 | X      |     |
-> |   640x480-75.00 | X      | X   |
-> |   640x480-60.00 |        | X   |
-> |   640x480-59.94 |        | X   |
-> |   720x400-70.08 |        |     |
-> 
-> Interestingly, the 720x480-59.94 mode stopped working. However, I am
-> able to bring up the 720x480 modes by manually hacking the active area
-> (hsa) to 40 and carefully adjusting the clocks, but something still
-> seems to be off.
-> 
-> Unfortunately, a few more modes are still not working at all. The NXP
-> downstream kernel has some quirks to handle some of the modes especially
-> wrt. to the porches, but I cannot figure out, what the driver should
-> actually do in these cases. Maybe there is still an error in the
-> calculation of the porches and someone at NXP can chime in.
-> 
-> Michael
-> 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
-> Marco Felsch (1):
->       drm/bridge: samsung-dsim: add more mipi-dsi device debug information
-> 
-> Michael Tretter (4):
->       drm/bridge: samsung-dsim: reread ref clock before configuring PLL
->       drm/bridge: samsung-dsim: update PLL reference clock
->       drm/bridge: samsung-dsim: adjust porches by rounding up
->       drm/bridge: samsung-dsim: calculate porches in Hz
+of_match_device() may fail and returns a NULL pointer.
 
-Feel free to add my r-b for your patches.
+Fix this by checking the return value of of_match_device().
 
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Fixes: 3818715f62b4 ("drm/bridge: imx: Add LDB support for i.MX8qxp")
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+index 7984da9c0a35..d272f35c8eac 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
+@@ -488,6 +488,8 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
+ 	 * string.
+ 	 */
+ 	match = of_match_device(dev->driver->of_match_table, dev);
++	if (!match)
++		return -ENODEV;
+ 	if (!of_device_is_compatible(companion, match->compatible)) {
+ 		DRM_DEV_ERROR(dev, "companion LDB is incompatible\n");
+ 		ret = -ENXIO;
+-- 
+2.30.2
+
