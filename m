@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE0678B47B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 17:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6001A78B48B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 17:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51AEA10E300;
-	Mon, 28 Aug 2023 15:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D4610E302;
+	Mon, 28 Aug 2023 15:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D530510E300
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 15:32:38 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82B010E302
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 15:35:39 +0000 (UTC)
 Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk
  [IPv6:2a01:4f8:1c1c:f269::1])
- by madras.collabora.co.uk (Postfix) with ESMTP id 332E2660716E;
- Mon, 28 Aug 2023 16:32:36 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTP id 033C0660716E;
+ Mon, 28 Aug 2023 16:35:36 +0100 (BST)
 From: "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
-In-Reply-To: <tencent_73FCC06A3D1C14EE5175253C6FB46A07B709@qq.com>
+In-Reply-To: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
 Content-Type: text/plain; charset="utf-8"
 X-Forward: 127.0.0.1
-Date: Mon, 28 Aug 2023 16:32:35 +0100
-To: "Zhang Shurong" <zhang_shurong@foxmail.com>
+Date: Mon, 28 Aug 2023 16:35:36 +0100
+To: "Jai Luthra" <j-luthra@ti.com>
 MIME-Version: 1.0
-Message-ID: <6fd4-64ecbe00-3-213b7840@157890307>
-Subject: =?utf-8?q?Re=3A?= [PATCH] =?utf-8?q?spi=3A?==?utf-8?q?_tegra=3A?= Fix
- missing IRQ check in =?utf-8?q?tegra=5Fslink=5Fprobe()?=
+Message-ID: <6fd4-64ecbf00-7-213b7840@157890373>
+Subject: =?utf-8?q?Re=3A?= [PATCH] =?utf-8?q?drm=3A?==?utf-8?q?_bridge=3A?=
+ =?utf-8?q?_it66121=3A?= Fix invalid connector dereference
 User-Agent: SOGoMail 5.8.4
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,50 +41,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, broonie@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, ldewangan@nvidia.com, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, jonathanh@nvidia.com, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: nm@ti.com, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, devarsht@ti.com,
+ Nicolas Belin <nbelin@baylibre.com>,
+ =?utf-8?q?Andy=2EHsieh?= <Andy.Hsieh@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday, August 26, 2023 07:02 -03, Zhang Shurong <zhang=5Fshurong@=
-foxmail.com> wrote:
+On Friday, August 25, 2023 08:02 -03, Jai Luthra <j-luthra@ti.com> wrot=
+e:
 
-> This func misses checking for platform=5Fget=5Firq()'s call and may p=
-asses the
-> negative error codes to request=5Firq(), which takes unsigned IRQ #,
-> causing it to fail with -EINVAL, overriding an original error code.
+> Fix the NULL pointer dereference when no monitor is connected, and th=
+e
+> sound card is opened from userspace.
 >=20
-> Fix this by stop calling request=5Firq() with invalid IRQ #s.
+> Instead return an error as EDID information cannot be provided to
+> the sound framework if there is no connector attached.
 >=20
-> Fixes: dc4dc3605639 ("spi: tegra: add spi driver for SLINK controller=
-")
-> Signed-off-by: Zhang Shurong <zhang=5Fshurong@foxmail.com>
+> Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
+> Reported-by: Nishanth Menon <nm@ti.com>
+> Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@g=
+ondola/
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 
 Reviewed-by: Helen Koike <helen.koike@collabora.com>
 
 > ---
->  drivers/spi/spi-tegra20-slink.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/bridge/ite-it66121.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
-> diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra2=
-0-slink.c
-> index 4d6db6182c5e..f5cd365c913a 100644
-> --- a/drivers/spi/spi-tegra20-slink.c
-> +++ b/drivers/spi/spi-tegra20-slink.c
-> @@ -1086,6 +1086,8 @@ static int tegra=5Fslink=5Fprobe(struct platfor=
-m=5Fdevice *pdev)
->  	reset=5Fcontrol=5Fdeassert(tspi->rst);
+> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/b=
+ridge/ite-it66121.c
+> index 466641c77fe9..d6fa00dea464 100644
+> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> @@ -1446,6 +1446,11 @@ static int it66121=5Faudio=5Fget=5Feld(struct =
+device *dev, void *data,
+>  {
+>  	struct it66121=5Fctx *ctx =3D dev=5Fget=5Fdrvdata(dev);
 > =20
->  	spi=5Firq =3D platform=5Fget=5Firq(pdev, 0);
-> +	if (spi=5Firq < 0)
-> +		return spi=5Firq;
->  	tspi->irq =3D spi=5Firq;
->  	ret =3D request=5Fthreaded=5Firq(tspi->irq, tegra=5Fslink=5Fisr,
->  				   tegra=5Fslink=5Fisr=5Fthread, IRQF=5FONESHOT,
+> +	if (!ctx->connector) {
+> +		dev=5Fdbg(dev, "No connector present, cannot provide EDID data");
+> +		return -EINVAL;
+> +	}
+> +
+>  	mutex=5Flock(&ctx->lock);
+> =20
+>  	memcpy(buf, ctx->connector->eld,
+>=20
+> ---
+> base-commit: 6269320850097903b30be8f07a5c61d9f7592393
+> change-id: 20230825-it66121=5Fedid-6ee98517808b
+>=20
+> Best regards,
 > --=20
-> 2.30.2
+> Jai Luthra <j-luthra@ti.com>
 >
 
