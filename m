@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323E978B4B8
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 17:45:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CED0C78B4EE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 17:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC68B10E308;
-	Mon, 28 Aug 2023 15:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC91310E306;
+	Mon, 28 Aug 2023 15:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B859A10E308
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 15:45:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2178A61F6A;
- Mon, 28 Aug 2023 15:45:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE142C433C7;
- Mon, 28 Aug 2023 15:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693237528;
- bh=22zan3LNz2H33JhtkJSkiYBWNyPOb6W/h/TpkacBBaw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B11atfqZ0gIHkh6C+4j+EXmlYdTpFYCoConGTrbTUwXRskY0SI3o8QesluLVR9NKs
- xrNU71Dqu24nbsmnZ7csybOKdeXN2QiD4RGdpFAAQM03RW6/NLGKJoxaaedH2yJflX
- d9/xhx7tEK+3BqG38uJgrK0+WxrKorPGLGBhu65SkNO8PNQNGLQlT4CfTcT4Fa+sFC
- JN2hHicAs5A2yhB28/G6gpWAXkTEPfXZG1u3aLDtbXS8RUl3Eoa/BsTu59cFIgqS4X
- V3p1CPz3dsnDaCejTSjlVtRoMx5CR85BinDobk1fEupS4SfpiiQXNW5Z3H5pZ6ORAM
- C+Y9CirFskpGQ==
-Date: Mon, 28 Aug 2023 16:45:22 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display/lvds-codec: add ti,sn65lvds94
-Message-ID: <20230828-rants-corporate-99f98395c0d4@spud>
-References: <20230826215429.1905599-1-dmitry.baryshkov@linaro.org>
- <20230827-drum-food-09e417962032@spud>
- <4411dbf4-a7f5-7608-6b93-3eef2f4fcb90@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DEE10E306
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 15:59:12 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <m.tretter@pengutronix.de>)
+ id 1qaedy-0005pk-8R; Mon, 28 Aug 2023 17:59:10 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH 0/5] drm/bridge: samsung-dsim: fix various modes with
+ ADV7535 bridge
+Date: Mon, 28 Aug 2023 17:59:05 +0200
+Message-Id: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u9mpOLpTBY4mK3QK"
-Content-Disposition: inline
-In-Reply-To: <4411dbf4-a7f5-7608-6b93-3eef2f4fcb90@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEnE7GQC/1XNyw6CQAyF4VchXTsCQyHEVzEu5lKhixlIq8SE8
+ O4O7lz+yflydlASJoVbtYPQxspLLtFeKgizyxMZjqXBNrZrxnY06pK+82SicjJoOxwQ0QfqoRD
+ vlIwXl8N8om249vVrWTnUUdIfPder0JM/v/P74zi+48xx7owAAAA=
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,52 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: kernel@pengutronix.de, Marco Felsch <m.felsch@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michael Tretter <m.tretter@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I tested the i.MX8M Nano EVK with the NXP supplied MIPI-DSI adapter,
+which uses an ADV7535 MIPI-DSI to HDMI converter. I found that a few
+modes were working, but in many modes my monitor stayed dark.
 
---u9mpOLpTBY4mK3QK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series fixes the Samsung DSIM bridge driver to bring up a few more
+modes:
 
-On Sun, Aug 27, 2023 at 02:45:30PM +0200, Krzysztof Kozlowski wrote:
-> On 27/08/2023 14:19, Conor Dooley wrote:
-> > On Sun, Aug 27, 2023 at 12:54:28AM +0300, Dmitry Baryshkov wrote:
-> >> Add compatible strings for TI sn65lvds94, LVDS serdes receiver.
-> >>
-> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >=20
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> For the record, patch looks good, but was not tested by automation.
-> Missing Cc-list.
+The driver read the rate of the PLL ref clock only during probe.
+However, if the clock is re-parented to the VIDEO_PLL, changes to the
+pixel clock have an effect on the PLL ref clock. Therefore, the driver
+must read and potentially update the PLL ref clock on every modeset.
 
-Ah crap, I saw it land in the wrong place the night prior but didn't
-remember while going back through my queue the following morning. Sorry
-about that!
+I also found that the rounding mode of the porches and active area has
+an effect on the working modes. If the driver rounds up instead of
+rounding down and be calculates them in Hz instead of kHz, more modes
+start to work.
 
---u9mpOLpTBY4mK3QK
-Content-Type: application/pgp-signature; name="signature.asc"
+The following table shows the modes that were working in my test without
+this patch set and the modes that are working now:
 
------BEGIN PGP SIGNATURE-----
+|            Mode | Before | Now |
+| 1920x1080-60.00 | X      | X   |
+| 1920x1080-59.94 |        | X   |
+| 1920x1080-50.00 |        | X   |
+| 1920x1080-30.00 |        | X   |
+| 1920x1080-29.97 |        | X   |
+| 1920x1080-25.00 |        | X   |
+| 1920x1080-24.00 |        |     |
+| 1920x1080-23.98 |        |     |
+| 1680x1050-59.88 |        | X   |
+| 1280x1024-75.03 | X      | X   |
+| 1280x1024-60.02 | X      | X   |
+|  1200x960-59.99 |        | X   |
+|  1152x864-75.00 | X      | X   |
+|  1280x720-60.00 |        |     |
+|  1280x720-59.94 |        |     |
+|  1280x720-50.00 |        | X   |
+|  1024x768-75.03 |        | X   |
+|  1024x768-60.00 |        | X   |
+|   800x600-75.00 | X      | X   |
+|   800x600-60.32 | X      | X   |
+|   720x576-50.00 | X      | X   |
+|   720x480-60.00 |        |     |
+|   720x480-59.94 | X      |     |
+|   640x480-75.00 | X      | X   |
+|   640x480-60.00 |        | X   |
+|   640x480-59.94 |        | X   |
+|   720x400-70.08 |        |     |
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZOzBEgAKCRB4tDGHoIJi
-0n++AQDSSQiPfhzwlF7qmxeuaH+H1BwvVyFy/Ql6swEjFZOzoAD/ciLEB38pw4E8
-8hL/jtIIJwVR2dp/rmgaYNnGJcjkoAw=
-=JY2e
------END PGP SIGNATURE-----
+Interestingly, the 720x480-59.94 mode stopped working. However, I am
+able to bring up the 720x480 modes by manually hacking the active area
+(hsa) to 40 and carefully adjusting the clocks, but something still
+seems to be off.
 
---u9mpOLpTBY4mK3QK--
+Unfortunately, a few more modes are still not working at all. The NXP
+downstream kernel has some quirks to handle some of the modes especially
+wrt. to the porches, but I cannot figure out, what the driver should
+actually do in these cases. Maybe there is still an error in the
+calculation of the porches and someone at NXP can chime in.
+
+Michael
+
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
+Marco Felsch (1):
+      drm/bridge: samsung-dsim: add more mipi-dsi device debug information
+
+Michael Tretter (4):
+      drm/bridge: samsung-dsim: reread ref clock before configuring PLL
+      drm/bridge: samsung-dsim: update PLL reference clock
+      drm/bridge: samsung-dsim: adjust porches by rounding up
+      drm/bridge: samsung-dsim: calculate porches in Hz
+
+ drivers/gpu/drm/bridge/samsung-dsim.c | 42 +++++++++++++++++++++++++----------
+ include/drm/bridge/samsung-dsim.h     |  1 +
+ 2 files changed, 31 insertions(+), 12 deletions(-)
+---
+base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+change-id: 20230818-samsung-dsim-42346444bce5
+
+Best regards,
+-- 
+Michael Tretter <m.tretter@pengutronix.de>
+
