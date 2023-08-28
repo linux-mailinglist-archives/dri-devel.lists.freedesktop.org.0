@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F7D78BB7C
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 01:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47BBD78BBB9
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 01:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 542EC10E0F5;
-	Mon, 28 Aug 2023 23:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A165F10E373;
+	Mon, 28 Aug 2023 23:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C0F10E0F5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 23:28:00 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-52bcd4db4cbso404764a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 16:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693265279; x=1693870079;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5TWzEPy7n/hJTzvwMksJzXheL1K4sP/ALkXhLWvcN+w=;
- b=Zx/O856yYntfnHXu1w0z8eQV8peBxmz2Jwpit3J9IRCJOV5Kn8KE7TIlwpt0VsmIiX
- H/K6ZsYGJ8bYtBwl6TIDFPn/4Hsae+7BnLLo/3phsjvQ049gje/G7VGa6F0Dt1O9gs2k
- fDBjXGy7oXusHFVNHeWLG/RUVEcu3vEHPjHQW8CHs7oJh9H74dWiyRTOAaDWegus7AFN
- sRuhmYCsk3RUH7+JyNjPmbK0pUtdkv6Z463WiY6kzCczJP3XbwEIo5+dvDIaheG69lTn
- Iw2v/m8jM88erwt5UBJeimd2A48OlSqsGoD42oQ3eOr584gnls33fgSSOdMRpYl/vfcU
- +dXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693265279; x=1693870079;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5TWzEPy7n/hJTzvwMksJzXheL1K4sP/ALkXhLWvcN+w=;
- b=dUnQkcf/DVWOfg/K4UOPSjC0d0ss7BZhi/G2bWVfsaXNVRvqQOVI6I1uVL+bjnrj+g
- SSylMRF1D0zTbU6j6z+Dq+tn67JJvV1km+Su89bWxcKwbdEGq7hwHYp62NLN1r31/XfZ
- GLQP3j7pUtfRARz6oiHpcMKS4cWmgCWebl3lm6wfIOnYrioCmgsFOUqZQg0Ey9VGoysX
- rIEuUhG8l8YHtdY0BL8oeTbfcbKTT+tdvmviCsYgB3+ZubJ7oGpVZB6Epopyj3ef7QB2
- eLra6I5NSVyJpJF5ZHJFsSoJ3UMhRv6So60zFkurfmAPl4aZWXNzq0+1GEIeUvRV+nP6
- Xpgg==
-X-Gm-Message-State: AOJu0YxIaOW4rVppnI8n176h8iYhB+a2jXBZLD63V2uovb1gzTHu6Xfh
- 0YACvVHedlq4Gwdj7ITIfGJ99uWjCkhdl8nVFy4=
-X-Google-Smtp-Source: AGHT+IHRoiwRSinTgL2coE8VHY/Wu1FLKUVJCsgSP9s6pGoAppuLnA4Eb03+Fp7w5RedAaxJH2236EuWtEOYPxy6VL4=
-X-Received: by 2002:a50:ec8c:0:b0:525:4471:6b59 with SMTP id
- e12-20020a50ec8c000000b0052544716b59mr22414447edr.7.1693265278715; Mon, 28
- Aug 2023 16:27:58 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE1C10E370;
+ Mon, 28 Aug 2023 23:45:45 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37SNN4xO031541; Mon, 28 Aug 2023 23:45:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=KzpLzC0OmLztcMVqXQpb/mV3LqixUhSoPm43iK/1Ih4=;
+ b=LeCUUQad8+VjaLeEqIf74gD1af6xhu0vVFipb9XHwX/64MyCvncn3evEDwKAWIMFZrbO
+ TWFDbx3aXFJvbDAh7rQCqArZfnHHfCuKrZsLpShlCYUrJ9hJWjFfHH4BKRr7mbGKOFO6
+ 2uHkBVD80kUmsoJ7aZgfHkBCrLpWN1l9FP0H9wrt2rp41HV3meEPOe13hbYIcyRWK1+5
+ YnnIu5Ug5A18HxvhmenOWU+ZQqS/Uh7K6xHrvYVR+0GKpkx63IzNTve24UOSogajbhso
+ DN4HUYPiGwDEHgwkVwAmVFz1sY4qEsyg2sMAXqNfxNH49v39jc6JA0zqbgTQDvtqygf0 0g== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq8ddmmb3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Aug 2023 23:45:19 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SNjIVq001735
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Aug 2023 23:45:18 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 28 Aug
+ 2023 16:45:17 -0700
+Message-ID: <ae98c379-2ddb-6b4e-0de3-2b1c68a99ee7@quicinc.com>
+Date: Mon, 28 Aug 2023 16:45:17 -0700
 MIME-Version: 1.0
-References: <20230812062748.2223414-1-xiangyang@huaweicloud.com>
-In-Reply-To: <20230812062748.2223414-1-xiangyang@huaweicloud.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Tue, 29 Aug 2023 08:27:46 +0900
-Message-ID: <CAAQKjZPOh69=_fxmW0ePYM6c5aaqjNTB1=gVpL1=pR_-bx8C9g@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/exynos: fix a potential error pointer
- dereference
-To: Xiang Yang <xiangyang@huaweicloud.com>
-Content-Type: multipart/alternative; boundary="00000000000072cd3e0604040bbf"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v5 02/10] drm: Introduce solid fill DRM plane property
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
+ <20230728-solid-fill-v5-2-053dbefa909c@quicinc.com>
+ <CAA8EJpq=pbDoYc9wqKKrX+RahXp8zWTPFqVqA=S-0TkWXXJUjQ@mail.gmail.com>
+ <26b4bb91-8786-c7cf-a821-eb2b881a42ab@quicinc.com>
+ <656526F6-C123-4A5A-9E62-6ED092474113@linaro.org>
+ <1dfcd37e-11a6-fa77-6440-f0e6bd06998d@quicinc.com>
+In-Reply-To: <1dfcd37e-11a6-fa77-6440-f0e6bd06998d@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: yfA8ljycEPFAuUUYHS3pkUhtW2-BmOnO
+X-Proofpoint-GUID: yfA8ljycEPFAuUUYHS3pkUhtW2-BmOnO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_18,2023-08-28_04,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ mlxlogscore=999 impostorscore=0 mlxscore=0 clxscore=1011 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308280202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,117 +86,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- "kyungmin.park@samsung.com" <kyungmin.park@samsung.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, xiangyang3@huawei.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000072cd3e0604040bbf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-2023=EB=85=84 8=EC=9B=94 12=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 4:17, X=
-iang Yang <xiangyang@huaweicloud.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 
-> From: Xiang Yang <xiangyang3@huawei.com>
->
-> Smatch reports the warning below:
-> drivers/gpu/drm/exynos/exynos_hdmi.c:1864 hdmi_bind()
-> error: 'crtc' dereferencing possible ERR_PTR()
->
-> The return value of exynos_drm_crtc_get_by_type maybe ERR_PTR(-ENODEV),
-> which can not be used directly. Fix this by checking the return value
-> before using it.
->
+On 8/8/2023 3:57 PM, Jessica Zhang wrote:
+> 
+> 
+> On 8/7/2023 6:07 PM, Dmitry Baryshkov wrote:
+>>
+>>
+>> On 8 August 2023 00:41:07 GMT+03:00, Jessica Zhang 
+>> <quic_jesszhan@quicinc.com> wrote:
+>>>
+>>>
+>>> On 8/4/2023 6:27 AM, Dmitry Baryshkov wrote:
+>>>> On Fri, 28 Jul 2023 at 20:03, Jessica Zhang 
+>>>> <quic_jesszhan@quicinc.com> wrote:
+>>>>>
+>>>>> Document and add support for solid_fill property to drm_plane. In
+>>>>> addition, add support for setting and getting the values for 
+>>>>> solid_fill.
+>>>>>
+>>>>> To enable solid fill planes, userspace must assign a property blob to
+>>>>> the "solid_fill" plane property containing the following information:
+>>>>>
+>>>>> struct drm_mode_solid_fill {
+>>>>>           u32 version;
+>>>>>           u32 r, g, b;
+>>>>> };
+>>>>>
+>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/drm_atomic_state_helper.c |  9 +++++
+>>>>>    drivers/gpu/drm/drm_atomic_uapi.c         | 55 
+>>>>> +++++++++++++++++++++++++++++++
+>>>>>    drivers/gpu/drm/drm_blend.c               | 30 +++++++++++++++++
+>>>>>    include/drm/drm_blend.h                   |  1 +
+>>>>>    include/drm/drm_plane.h                   | 35 ++++++++++++++++++++
+>>>>>    include/uapi/drm/drm_mode.h               | 24 ++++++++++++++
+>>>>>    6 files changed, 154 insertions(+)
+>>>>>
+>>>>
+>>>> [skipped most of the patch]
+>>>>
+>>>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>>>>> index 43691058d28f..53c8efa5ad7f 100644
+>>>>> --- a/include/uapi/drm/drm_mode.h
+>>>>> +++ b/include/uapi/drm/drm_mode.h
+>>>>> @@ -259,6 +259,30 @@ struct drm_mode_modeinfo {
+>>>>>           char name[DRM_DISPLAY_MODE_LEN];
+>>>>>    };
+>>>>>
+>>>>> +/**
+>>>>> + * struct drm_mode_solid_fill - User info for solid fill planes
+>>>>> + *
+>>>>> + * This is the userspace API solid fill information structure.
+>>>>> + *
+>>>>> + * Userspace can enable solid fill planes by assigning the plane 
+>>>>> "solid_fill"
+>>>>> + * property to a blob containing a single drm_mode_solid_fill 
+>>>>> struct populated with an RGB323232
+>>>>> + * color and setting the pixel source to "SOLID_FILL".
+>>>>> + *
+>>>>> + * For information on the plane property, see 
+>>>>> drm_plane_create_solid_fill_property()
+>>>>> + *
+>>>>> + * @version: Version of the blob. Currently, there is only support 
+>>>>> for version == 1
+>>>>> + * @r: Red color value of single pixel
+>>>>> + * @g: Green color value of single pixel
+>>>>> + * @b: Blue color value of single pixel
+>>>>> + */
+>>>>> +struct drm_mode_solid_fill {
+>>>>> +       __u32 version;
+>>>>> +       __u32 r;
+>>>>> +       __u32 g;
+>>>>> +       __u32 b;
+>>>>
+>>>> Another thought about the drm_mode_solid_fill uABI. I still think we
+>>>> should add alpha here. The reason is the following:
+>>>>
+>>>> It is true that we have  drm_plane_state::alpha and the plane's
+>>>> "alpha" property. However it is documented as "the plane-wide opacity
+>>>> [...] It can be combined with pixel alpha. The pixel values in the
+>>>> framebuffers are expected to not be pre-multiplied by the global alpha
+>>>> associated to the plane.".
+>>>>
+>>>> I can imagine a use case, when a user might want to enable plane-wide
+>>>> opacity, set "pixel blend mode" to "Coverage" and then switch between
+>>>> partially opaque framebuffer and partially opaque solid-fill without
+>>>> touching the plane's alpha value.
+>>>
+>>> Hi Dmitry,
+>>>
+>>> I don't really agree that adding a solid fill alpha would be a good 
+>>> idea. Since the intent behind solid fill is to have a single color 
+>>> for the entire plane, I think it makes more sense to have solid fill 
+>>> rely on the global plane alpha.
+>>>
+>>> As stated in earlier discussions, I think having both a 
+>>> solid_fill.alpha and a plane_state.alpha would be redundant and serve 
+>>> to confuse the user as to which one to set.
+>>
+>> That depends on the blending mode: in Coverage mode one has 
+>> independent plane and contents alpha values. And I consider alpha 
+>> value to be a part of the colour in the rgba/bgra modes.
+> 
+> Acked -- taking Sebastian's concern into consideration, I think I'll 
+> have "PIXEL_SOURCE_SOLID_FILL_RGB" and add a separate 
+> "PIXEL_SOURCE_SOLID_FILL_RGBA".
 
-Applied.
+Hi Dmitry,
+
+Since it looks like there's still some ongoing discussion with Pekka 
+about whether to support an RGBA solid fill source, I'll just leave a 
+note to add an RGBA source in the future.
 
 Thanks,
-Inki Dae
 
->
-> Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> index f3aaa4ea3e68..dd9903eab563 100644
-> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> @@ -1861,6 +1861,8 @@ static int hdmi_bind(struct device *dev, struct
-> device *master, void *data)
->                 return ret;
->
->         crtc =3D exynos_drm_crtc_get_by_type(drm_dev,
-> EXYNOS_DISPLAY_TYPE_HDMI);
-> +       if (IS_ERR(crtc))
-> +               return PTR_ERR(crtc);
->         crtc->pipe_clk =3D &hdata->phy_clk;
->
->         ret =3D hdmi_create_connector(encoder);
-> --
-> 2.34.1
->
->
+Jessica Zhang
 
---00000000000072cd3e0604040bbf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">2023=EB=85=84 8=EC=9B=94 12=EC=9D=BC (=ED=86=A0) =EC=
-=98=A4=ED=9B=84 4:17, Xiang Yang &lt;<a href=3D"mailto:xiangyang@huaweiclou=
-d.com">xiangyang@huaweicloud.com</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">From: Xiang Yang &lt;<a href=
-=3D"mailto:xiangyang3@huawei.com" target=3D"_blank" rel=3D"noreferrer">xian=
-gyang3@huawei.com</a>&gt;<br>
-<br>
-Smatch reports the warning below:<br>
-drivers/gpu/drm/exynos/exynos_hdmi.c:1864 hdmi_bind()<br>
-error: &#39;crtc&#39; dereferencing possible ERR_PTR()<br>
-<br>
-The return value of exynos_drm_crtc_get_by_type maybe ERR_PTR(-ENODEV),<br>
-which can not be used directly. Fix this by checking the return value<br>
-before using it.<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Applied.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->Thanks,</div><div dir=3D"auto">Inki Dae</div><div dir=3D"auto"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Signed-off-by: Xiang Yang &lt;<a href=3D"mailto:xiangyang3@huawei.com" targ=
-et=3D"_blank" rel=3D"noreferrer">xiangyang3@huawei.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/=
-exynos_hdmi.c<br>
-index f3aaa4ea3e68..dd9903eab563 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
-@@ -1861,6 +1861,8 @@ static int hdmi_bind(struct device *dev, struct devic=
-e *master, void *data)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 crtc =3D exynos_drm_crtc_get_by_type(drm_dev, E=
-XYNOS_DISPLAY_TYPE_HDMI);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(crtc))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(crtc=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 crtc-&gt;pipe_clk =3D &amp;hdata-&gt;phy_clk;<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D hdmi_create_connector(encoder);<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000072cd3e0604040bbf--
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+>>
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Jessica Zhang
+>>>
+>>>>
+>>>> -- 
+>>>> With best wishes
+>>>> Dmitry
+>>
+>> -- 
+>> With best wishes
+>> Dmitry
