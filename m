@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7E278A93C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 11:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B514378A980
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 12:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F14A10E26F;
-	Mon, 28 Aug 2023 09:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD40D10E06C;
+	Mon, 28 Aug 2023 10:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFF7910E26E
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 09:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693216090; x=1724752090;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IQCgha+hUo0d7o/BVAc+pQv/FIeaX8Y+EXwnIlRgn7w=;
- b=hijv4rK7Hmz60YSzHOW+JN2pO4+3c4wqA8BJA0bUuWf4PfCV0QDiP+6f
- 2V/fdnJpTj9tO8wx8UGGRj4NTkfBH3/5Q1pjeFTaL8aah/ZkTFFGld9oq
- ZmuK67pzZWDNKgSFsPjWuNxLaqKioWVIbOB+N81PrwYzifLhcwmNq4iCM
- 1dHm4tTG0DWcMAZo6BeZw47M5jgRsbH4jNqERoGLdoaXYtsEvL6NGCMEU
- zS46awgbFJLm5jtCg4eHMOWKo36bAeQlHhlLEibaF9JPE8uP3WfSDwOGq
- GZ9HdtcpdouTsD3E2tGeuFaTuCyNHtTko5OeLjUmGkonmdWq97AUJ0UbP A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377791765"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="377791765"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2023 02:48:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068972119"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; d="scan'208";a="1068972119"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2023 02:48:08 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 9/9] accel/ivpu: Move MMU register definitions to ivpu_mmu.c
-Date: Mon, 28 Aug 2023 11:47:36 +0200
-Message-Id: <20230828094736.4137092-10-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
-References: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D182F10E06C;
+ Mon, 28 Aug 2023 10:00:37 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B9A226607181;
+ Mon, 28 Aug 2023 11:00:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693216836;
+ bh=jdAjlOCLEGq6B7K+3PQcFTyPGl+kF+eJra2e4ngwQ80=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=K/P3ciXuWQaaWe6Go8PTEApuBCeuYZPOKw+5md6zEo71hJz13EVK7Or7Yu9BfIWSF
+ DdeV8YttKG6m7IO6gMq/5lVE8rapts5wzeU+Af5RcW1f0OcndggGBW5tQzKzV7y308
+ SVY3uplFsar4hPSUf9VP5RDSCjfWyZK+XpxDAvDAjx95+GlJmB+AI5c+hk7XMf1C/0
+ T23/sLygho0vj72iAYzmXpPlfaxAL81+RoEtjVSisRIiWbvQepx0D6YXBI/RZBfnls
+ 8F1cxbx507UIXI+EXjCJAJN99mBnw5Pj+eiPuUInJ881rGdlifNDHhTVfhA7mBeExT
+ C/wF73u5SiB0Q==
+Date: Mon, 28 Aug 2023 12:00:32 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v15 16/23] drm/shmem-helper: Use kref for vmap_use_count
+Message-ID: <20230828120032.3d86cb15@collabora.com>
+In-Reply-To: <20230827175449.1766701-17-dmitry.osipenko@collabora.com>
+References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
+ <20230827175449.1766701-17-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,329 +54,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
+ intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Sun, 27 Aug 2023 20:54:42 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-MMU registers are not platform specific so they should be defined
-separate to platform regs.
+> Use kref helper for vmap_use_count to make refcounting consistent with
+> pages_use_count and pages_pin_count that use kref. This will allow to
+> optimize unlocked vmappings by skipping reservation locking if refcnt > 1.
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_hw_37xx_reg.h |  33 --------
- drivers/accel/ivpu/ivpu_mmu.c         | 117 +++++++++++++++++---------
- 2 files changed, 75 insertions(+), 75 deletions(-)
+The core is taking the resv lock before calling ->v[un]map(), so
+switching to a kref sounds a bit premature/useless, unless there are
+plans to delegate the locking to the drivers. The only thing it brings
+is standard overflow/underflow checks. Not really sure it's worth
+transitioning to a kref for this field until we have a real use case.
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-index 531a68c1cce8..4083beb5e9db 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-@@ -191,39 +191,6 @@
- #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_FINAL_PLL_FREQ_MASK	GENMASK(15, 0)
- #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_CONFIG_ID_MASK		GENMASK(31, 16)
- 
--#define VPU_37XX_HOST_MMU_IDR0						0x00200000u
--#define VPU_37XX_HOST_MMU_IDR1						0x00200004u
--#define VPU_37XX_HOST_MMU_IDR3						0x0020000cu
--#define VPU_37XX_HOST_MMU_IDR5						0x00200014u
--#define VPU_37XX_HOST_MMU_CR0						0x00200020u
--#define VPU_37XX_HOST_MMU_CR0ACK					0x00200024u
--#define VPU_37XX_HOST_MMU_CR1						0x00200028u
--#define VPU_37XX_HOST_MMU_CR2						0x0020002cu
--#define VPU_37XX_HOST_MMU_IRQ_CTRL					0x00200050u
--#define VPU_37XX_HOST_MMU_IRQ_CTRLACK					0x00200054u
--
--#define VPU_37XX_HOST_MMU_GERROR					0x00200060u
--#define VPU_37XX_HOST_MMU_GERROR_CMDQ_MASK				BIT_MASK(0)
--#define VPU_37XX_HOST_MMU_GERROR_EVTQ_ABT_MASK				BIT_MASK(2)
--#define VPU_37XX_HOST_MMU_GERROR_PRIQ_ABT_MASK				BIT_MASK(3)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_CMDQ_ABT_MASK			BIT_MASK(4)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_EVTQ_ABT_MASK			BIT_MASK(5)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_PRIQ_ABT_MASK			BIT_MASK(6)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_ABT_MASK				BIT_MASK(7)
--
--#define VPU_37XX_HOST_MMU_GERRORN					0x00200064u
--
--#define VPU_37XX_HOST_MMU_STRTAB_BASE					0x00200080u
--#define VPU_37XX_HOST_MMU_STRTAB_BASE_CFG				0x00200088u
--#define VPU_37XX_HOST_MMU_CMDQ_BASE					0x00200090u
--#define VPU_37XX_HOST_MMU_CMDQ_PROD					0x00200098u
--#define VPU_37XX_HOST_MMU_CMDQ_CONS					0x0020009cu
--#define VPU_37XX_HOST_MMU_EVTQ_BASE					0x002000a0u
--#define VPU_37XX_HOST_MMU_EVTQ_PROD					0x002000a8u
--#define VPU_37XX_HOST_MMU_EVTQ_CONS					0x002000acu
--#define VPU_37XX_HOST_MMU_EVTQ_PROD_SEC					(0x002000a8u + SZ_64K)
--#define VPU_37XX_HOST_MMU_EVTQ_CONS_SEC					(0x002000acu + SZ_64K)
--
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES				0x00360000u
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_CACHE_OVERRIDE_EN_MASK	BIT_MASK(0)
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK	BIT_MASK(1)
-diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index baefaf7bb3cb..473e1fc686a7 100644
---- a/drivers/accel/ivpu/ivpu_mmu.c
-+++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -7,12 +7,45 @@
- #include <linux/highmem.h>
- 
- #include "ivpu_drv.h"
--#include "ivpu_hw_37xx_reg.h"
- #include "ivpu_hw_reg_io.h"
- #include "ivpu_mmu.h"
- #include "ivpu_mmu_context.h"
- #include "ivpu_pm.h"
- 
-+#define IVPU_MMU_REG_IDR0		      0x00200000u
-+#define IVPU_MMU_REG_IDR1		      0x00200004u
-+#define IVPU_MMU_REG_IDR3		      0x0020000cu
-+#define IVPU_MMU_REG_IDR5		      0x00200014u
-+#define IVPU_MMU_REG_CR0		      0x00200020u
-+#define IVPU_MMU_REG_CR0ACK		      0x00200024u
-+#define IVPU_MMU_REG_CR1		      0x00200028u
-+#define IVPU_MMU_REG_CR2		      0x0020002cu
-+#define IVPU_MMU_REG_IRQ_CTRL		      0x00200050u
-+#define IVPU_MMU_REG_IRQ_CTRLACK	      0x00200054u
-+
-+#define IVPU_MMU_REG_GERROR		      0x00200060u
-+#define IVPU_MMU_REG_GERROR_CMDQ_MASK	      BIT_MASK(0)
-+#define IVPU_MMU_REG_GERROR_EVTQ_ABT_MASK     BIT_MASK(2)
-+#define IVPU_MMU_REG_GERROR_PRIQ_ABT_MASK     BIT_MASK(3)
-+#define IVPU_MMU_REG_GERROR_MSI_CMDQ_ABT_MASK BIT_MASK(4)
-+#define IVPU_MMU_REG_GERROR_MSI_EVTQ_ABT_MASK BIT_MASK(5)
-+#define IVPU_MMU_REG_GERROR_MSI_PRIQ_ABT_MASK BIT_MASK(6)
-+#define IVPU_MMU_REG_GERROR_MSI_ABT_MASK      BIT_MASK(7)
-+
-+#define IVPU_MMU_REG_GERRORN		      0x00200064u
-+
-+#define IVPU_MMU_REG_STRTAB_BASE	      0x00200080u
-+#define IVPU_MMU_REG_STRTAB_BASE_CFG	      0x00200088u
-+#define IVPU_MMU_REG_CMDQ_BASE		      0x00200090u
-+#define IVPU_MMU_REG_CMDQ_PROD		      0x00200098u
-+#define IVPU_MMU_REG_CMDQ_CONS		      0x0020009cu
-+#define IVPU_MMU_REG_EVTQ_BASE		      0x002000a0u
-+#define IVPU_MMU_REG_EVTQ_PROD		      0x002000a8u
-+#define IVPU_MMU_REG_EVTQ_CONS		      0x002000acu
-+#define IVPU_MMU_REG_EVTQ_PROD_SEC	      (0x002000a8u + SZ_64K)
-+#define IVPU_MMU_REG_EVTQ_CONS_SEC	      (0x002000acu + SZ_64K)
-+#define IVPU_MMU_REG_CMDQ_CONS_ERR_MASK	      GENMASK(30, 24)
-+
- #define IVPU_MMU_IDR0_REF		0x080f3e0f
- #define IVPU_MMU_IDR0_REF_SIMICS	0x080f3e1f
- #define IVPU_MMU_IDR1_REF		0x0e739d18
-@@ -186,13 +219,13 @@
- #define IVPU_MMU_REG_TIMEOUT_US		(10 * USEC_PER_MSEC)
- #define IVPU_MMU_QUEUE_TIMEOUT_US	(100 * USEC_PER_MSEC)
- 
--#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT)))
-+#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(IVPU_MMU_REG_GERROR, CMDQ)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_ABT)))
- 
- static char *ivpu_mmu_event_to_str(u32 cmd)
- {
-@@ -250,15 +283,15 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
- 	else
- 		val_ref = IVPU_MMU_IDR0_REF;
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR0);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR0);
- 	if (val != val_ref)
- 		ivpu_dbg(vdev, MMU, "IDR0 0x%x != IDR0_REF 0x%x\n", val, val_ref);
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR1);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR1);
- 	if (val != IVPU_MMU_IDR1_REF)
- 		ivpu_dbg(vdev, MMU, "IDR1 0x%x != IDR1_REF 0x%x\n", val, IVPU_MMU_IDR1_REF);
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR3);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR3);
- 	if (val != IVPU_MMU_IDR3_REF)
- 		ivpu_dbg(vdev, MMU, "IDR3 0x%x != IDR3_REF 0x%x\n", val, IVPU_MMU_IDR3_REF);
- 
-@@ -269,7 +302,7 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
- 	else
- 		val_ref = IVPU_MMU_IDR5_REF;
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR5);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR5);
- 	if (val != val_ref)
- 		ivpu_dbg(vdev, MMU, "IDR5 0x%x != IDR5_REF 0x%x\n", val, val_ref);
- }
-@@ -396,18 +429,18 @@ static int ivpu_mmu_irqs_setup(struct ivpu_device *vdev)
- 	u32 irq_ctrl = IVPU_MMU_IRQ_EVTQ_EN | IVPU_MMU_IRQ_GERROR_EN;
- 	int ret;
- 
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, 0);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, 0);
- 	if (ret)
- 		return ret;
- 
--	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, irq_ctrl);
-+	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, irq_ctrl);
- }
- 
- static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
- {
- 	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
- 
--	return REGV_POLL(VPU_37XX_HOST_MMU_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
-+	return REGV_POLL(IVPU_MMU_REG_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
- 			 IVPU_MMU_QUEUE_TIMEOUT_US);
- }
- 
-@@ -447,7 +480,7 @@ static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
- 		return ret;
- 
- 	clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, q->prod);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, q->prod);
- 
- 	ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
- 	if (ret)
-@@ -495,7 +528,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	mmu->evtq.prod = 0;
- 	mmu->evtq.cons = 0;
- 
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, 0);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, 0);
- 	if (ret)
- 		return ret;
- 
-@@ -505,17 +538,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_SH, IVPU_MMU_SH_ISH) |
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_OC, IVPU_MMU_CACHE_WB) |
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_IC, IVPU_MMU_CACHE_WB);
--	REGV_WR32(VPU_37XX_HOST_MMU_CR1, val);
-+	REGV_WR32(IVPU_MMU_REG_CR1, val);
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_STRTAB_BASE, mmu->strtab.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
-+	REGV_WR64(IVPU_MMU_REG_STRTAB_BASE, mmu->strtab.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_CMDQ_BASE, mmu->cmdq.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, 0);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_CONS, 0);
-+	REGV_WR64(IVPU_MMU_REG_CMDQ_BASE, mmu->cmdq.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, 0);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_CONS, 0);
- 
- 	val = IVPU_MMU_CR0_CMDQEN;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
-@@ -531,17 +564,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	if (ret)
- 		return ret;
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_EVTQ_BASE, mmu->evtq.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC, 0);
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, 0);
-+	REGV_WR64(IVPU_MMU_REG_EVTQ_BASE, mmu->evtq.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_PROD_SEC, 0);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, 0);
- 
- 	val |= IVPU_MMU_CR0_EVTQEN;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
- 	val |= IVPU_MMU_CR0_ATSCHK;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
-@@ -550,7 +583,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 		return ret;
- 
- 	val |= IVPU_MMU_CR0_SMMUEN;
--	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- }
- 
- static void ivpu_mmu_strtab_link_cd(struct ivpu_device *vdev, u32 sid)
-@@ -801,14 +834,14 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	u32 idx = IVPU_MMU_Q_IDX(evtq->cons);
- 	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
- 
--	evtq->prod = REGV_RD32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC);
-+	evtq->prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
- 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
- 		return NULL;
- 
- 	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
- 
- 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
- 
- 	return evt;
- }
-@@ -841,35 +874,35 @@ void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
- 
- 	ivpu_dbg(vdev, IRQ, "MMU error\n");
- 
--	gerror_val = REGV_RD32(VPU_37XX_HOST_MMU_GERROR);
--	gerrorn_val = REGV_RD32(VPU_37XX_HOST_MMU_GERRORN);
-+	gerror_val = REGV_RD32(IVPU_MMU_REG_GERROR);
-+	gerrorn_val = REGV_RD32(IVPU_MMU_REG_GERRORN);
- 
- 	active = gerror_val ^ gerrorn_val;
- 	if (!(active & IVPU_MMU_GERROR_ERR_MASK))
- 		return;
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU PRIQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU EVTQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU CMDQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT, active))
- 		ivpu_err_ratelimited(vdev, "MMU PRIQ write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT, active))
- 		ivpu_err_ratelimited(vdev, "MMU EVTQ write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, CMDQ, active))
- 		ivpu_err_ratelimited(vdev, "MMU CMDQ write aborted\n");
- 
--	REGV_WR32(VPU_37XX_HOST_MMU_GERRORN, gerror_val);
-+	REGV_WR32(IVPU_MMU_REG_GERRORN, gerror_val);
- }
- 
- int ivpu_mmu_set_pgtable(struct ivpu_device *vdev, int ssid, struct ivpu_mmu_pgtable *pgtable)
--- 
-2.25.1
+> 
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 37 ++++++++++++++------------
+>  include/drm/drm_gem_shmem_helper.h     |  2 +-
+>  2 files changed, 21 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 17a0177acb5d..d96fee3d6166 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -144,7 +144,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  	} else if (!shmem->imported_sgt) {
+>  		dma_resv_lock(shmem->base.resv, NULL);
+>  
+> -		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
+> +		drm_WARN_ON(obj->dev, kref_read(&shmem->vmap_use_count));
+>  
+>  		if (shmem->sgt) {
+>  			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+> @@ -359,23 +359,25 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+>  
+>  		dma_resv_assert_held(shmem->base.resv);
+>  
+> -		if (shmem->vmap_use_count++ > 0) {
+> +		if (kref_get_unless_zero(&shmem->vmap_use_count)) {
+>  			iosys_map_set_vaddr(map, shmem->vaddr);
+>  			return 0;
+>  		}
+>  
+>  		ret = drm_gem_shmem_pin_locked(shmem);
+>  		if (ret)
+> -			goto err_zero_use;
+> +			return ret;
+>  
+>  		if (shmem->map_wc)
+>  			prot = pgprot_writecombine(prot);
+>  		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+>  				    VM_MAP, prot);
+> -		if (!shmem->vaddr)
+> +		if (!shmem->vaddr) {
+>  			ret = -ENOMEM;
+> -		else
+> +		} else {
+>  			iosys_map_set_vaddr(map, shmem->vaddr);
+> +			kref_init(&shmem->vmap_use_count);
+> +		}
+>  	}
+>  
+>  	if (ret) {
+> @@ -388,13 +390,22 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+>  err_put_pages:
+>  	if (!obj->import_attach)
+>  		drm_gem_shmem_unpin_locked(shmem);
+> -err_zero_use:
+> -	shmem->vmap_use_count = 0;
+>  
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_vmap_locked);
+>  
+> +static void drm_gem_shmem_kref_vunmap(struct kref *kref)
+> +{
+> +	struct drm_gem_shmem_object *shmem;
+> +
+> +	shmem = container_of(kref, struct drm_gem_shmem_object,
+> +			     vmap_use_count);
+> +
+> +	vunmap(shmem->vaddr);
+> +	drm_gem_shmem_unpin_locked(shmem);
+> +}
+> +
+>  /*
+>   * drm_gem_shmem_vunmap_locked - Unmap a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+> @@ -416,15 +427,7 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+>  	} else {
+>  		dma_resv_assert_held(shmem->base.resv);
+> -
+> -		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
+> -			return;
+> -
+> -		if (--shmem->vmap_use_count > 0)
+> -			return;
+> -
+> -		vunmap(shmem->vaddr);
+> -		drm_gem_shmem_unpin_locked(shmem);
+> +		kref_put(&shmem->vmap_use_count, drm_gem_shmem_kref_vunmap);
+>  	}
+>  
+>  	shmem->vaddr = NULL;
+> @@ -663,7 +666,7 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+>  		return;
+>  
+>  	drm_printf_indent(p, indent, "pages_use_count=%u\n", kref_read(&shmem->pages_use_count));
+> -	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
+> +	drm_printf_indent(p, indent, "vmap_use_count=%u\n", kref_read(&shmem->vmap_use_count));
+>  	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_print_info);
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 400ecd63f45f..0e0ccd380f66 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -81,7 +81,7 @@ struct drm_gem_shmem_object {
+>  	 * Reference count on the virtual address.
+>  	 * The address are un-mapped when the count reaches zero.
+>  	 */
+> -	unsigned int vmap_use_count;
+> +	struct kref vmap_use_count;
+>  
+>  	/**
+>  	 * @got_sgt:
 
