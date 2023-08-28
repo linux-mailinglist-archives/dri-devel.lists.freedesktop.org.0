@@ -2,47 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFCC78A9AC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 12:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC1078AA48
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 12:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7E610E0BA;
-	Mon, 28 Aug 2023 10:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA2C10E074;
+	Mon, 28 Aug 2023 10:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA82610E0BA;
- Mon, 28 Aug 2023 10:12:44 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C03AE6607181;
- Mon, 28 Aug 2023 11:12:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693217563;
- bh=8VxF/Zh3lcDahMBvxQgvdgpueUTKgY5p3OuJRZFv2TI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=degu/FMjBsTpOjLuM74t3Lew4KY74VhueEVgDUPC8dNb5RXlvt9bqrW4oFqRXlVck
- rdnBIawv7jS5BTtN9Kn3EtUCL7nbianiihDTPAteaWT4zy/pdVb+w1T/RgU2ORbky3
- 8MVFUGGNyF0xHtueLkSYFIE8VzdsClHeildj8WER5U8dIQEVVTAmfSg6EWQv7xsCJp
- QDKCX0D0b6uzweZK68Uj2eaaoVML5eX3x/kgeh85BeQcOseq4qm827inHHwEv6/JRa
- p/tIXOaTgz6ILjJsb1ZabJqfdjD2bekXIMO3VXDKvV8g1UrkXBMCIc9dlyMNBWPedX
- aqvpnqF5euzzQ==
-Date: Mon, 28 Aug 2023 12:12:39 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v15 17/23] drm/shmem-helper: Add and use
- drm_gem_shmem_resv_assert_held() helper
-Message-ID: <20230828121239.78a180e6@collabora.com>
-In-Reply-To: <20230827175449.1766701-18-dmitry.osipenko@collabora.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2054.outbound.protection.outlook.com [40.107.220.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0879510E074;
+ Mon, 28 Aug 2023 10:21:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X0A14wj41fLfZH9yI0CrmYO3IGk3iA77WxqoPLtvBB+dBYXO09GqkiQJOFmbGgNhdRoyyIXmDE2e9wPRHfGrFOzUayHUhuAZ9uuEUHcF5yYjQ+v5pcT1nm2XYt57J4m7ddP1Ex+5otyeoo/TxFq+fZOhD8+u/3GIlOm2ZNaDlhvWJv+P4sU9i22evXng56XuLAZNI61fAqj6zBo0DSh5ye+8/pvD2nvcTdTGK5HeA8CD/ZiDqKX3VAscstqT3xk5usZZKmjw1Vpkf9pIoFNW4cRWn3Bfhm1rhQklZgw1dXGSxqrbq/PNPTYlm0GiVFC3SbwUbnjGD70kZLF+91PrIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OVGdi4Uf91g+pLirn0cEIGiDETD61OgVgS5+hO4lkhs=;
+ b=Ci4xarekzn4o1fV3JLlMnMD1/9pWWRFf4wWPNyGXOlhMeY97KIUaBWwEpi41xmtIhVRbNM0/PBs/FHfKs7PkICO3qn1VYSNeS1oU8+IMkAPTUPqNajGH/CP4DSC0xBkdY1sDdSE4u4G65ueU6z2N34kQ9+frDRDebPJ6wkyXID5V/HhuCXZYnzGr/qGT89Pm//aqhOc+92ExN0v9ovBM0Co1gXoEF+kf20MfwilYnz/DkWsxFpXIrlLhoMATQghLma7D2bgjFeiRGbNHwgU4pYXO0hIZEiWKEhPcH/KSkksOc9/O/WO3i7tpKbSW5LFi4jXMJMb89NEFIjeLDCG1Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OVGdi4Uf91g+pLirn0cEIGiDETD61OgVgS5+hO4lkhs=;
+ b=ajQokBdhqr1TyQHcDpT5hdZ6iOOkFNcPE8eNdY8/tKG9EXAkF+OaY6AkxkifaO2pgTTkuaxfpGM4I63mJXYmCnxd9rGy1bd8P80kCi9FKVE9QcLjlA2kLjt7HcqCjUPiFiiSQfCNLXhoitKaHFpp9hvWdKsPko934yrhloEdY+Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY5PR12MB6552.namprd12.prod.outlook.com (2603:10b6:930:40::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
+ 2023 10:21:31 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.035; Mon, 28 Aug 2023
+ 10:21:31 +0000
+Message-ID: <92449ad6-25b0-b28e-97b3-b947d5ff963c@amd.com>
+Date: Mon, 28 Aug 2023 12:21:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v15 11/23] dma-resv: Add kref_put_dma_resv()
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-18-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <20230827175449.1766701-12-dmitry.osipenko@collabora.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230827175449.1766701-12-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0055.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY5PR12MB6552:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c22e8dc-8df3-4c10-f775-08dba7b08c1e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gaA60E6Vh/6elLhYn9mw/ZW+Sjf4uYrRykIAzTc5pKndqKHCk8z4Yuf9zhcAfbH3A0Xw6mKEBidm+Lj4X+DQgI47z2+41X2qzDao3rSXJZsWnmLAYM7hRwuC7Kk3EXuuvdcH91/tb4AFHKx0m2dXHMoXImlgHwmXOLkqAfX0P65N5PcCbMGeiiJ0kHjIXZLAZ5vsPM3y6h1ZcRLp/cDtX7/8DcVmP9xYNU63q764S7ziFVLLSKq7RUvcyTRkxhkrNPSL5D+jXDgscWIiWJtNa285QDMgW7Afai3oF2PJ6I1LY1CIcQaumzS6QNn8L89nLJcsBp2mFL6rNotgCD8JM605SOU271taISpRWN1ZtlGAuid3dwqOKjax4DXRPOGXDFapoMbPO3T5nuAd6CbqvhW0E5Cwl0846ZTGK4DLSal3y7Tp/fOWuS3IrUW3ROpe1S5sDw0ZQdU6RpxC4z+Ako4wkzFeRijU7rtqR5yvTt9NFxUalxXBiFTXAWUmbZ8Cn5TUbf6NQ73ik14bdc0jxk9X+jBHspix2L9C+VnUQbWtSSEIqFyMFP+EzICt7wqtpQ7PdwPyfO3Fm/4bSZy/pyyPKFVciTghedaJdFkWz5+YHmEw3zt2pHrx4O8nwYXHO3QOKfAnu7nsMq5SpLplezdwrQSrr9brm/qXhNfLXQs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199024)(186009)(1800799009)(6512007)(6666004)(6506007)(6486002)(83380400001)(478600001)(2616005)(2906002)(7416002)(316002)(66476007)(41300700001)(66946007)(110136005)(66556008)(5660300002)(8676002)(4326008)(8936002)(36756003)(38100700002)(86362001)(31696002)(921005)(26005)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QlFpdStPZHZHMDl3M0tmaWpWL2lZSXFjUEVSYldLMkIzSU1CbUVyODNyazJu?=
+ =?utf-8?B?bXk4SVpRa3JENjJBUlpDYngvSnhXZEZEaTRYampVRFZUYWpCTU1rNXhoSktp?=
+ =?utf-8?B?SUQxR0VXWVhjeS95bkNMK2xOUXhxaXRqaWI3UkRuNGF3Y0hqODAxeXVPbGRZ?=
+ =?utf-8?B?WEpFMUEreVZtcHpNM1hHL2JNdFdhbTI4YVVZbndjYjVWN2VETC94SDhwaDVw?=
+ =?utf-8?B?RFBDL1ZCNlBzS3B1NWZyTC8wZUpzY0pjSnN1ekJnNE9tQWNCMFI4RFhkSnpQ?=
+ =?utf-8?B?SHhOMXUzOGRyeEtjUWFlYVNMckdzT2xBdjZEOFJiMHhuR2xJcWNxemVPU1lD?=
+ =?utf-8?B?djVyUkhQOXl5QVhHR01WdUY2ck1mL1dJOUhTVTdZdWgyM01QN2FuUjRaaStX?=
+ =?utf-8?B?YlJxVTRWQmJueFNmV2VhRW9Ca3FaQ3I4cGdOakhQQmcvdXcwemY2VnJjQ2l6?=
+ =?utf-8?B?YThCd0xBR2FTRUsvekZJTVVmWGhjTWprY1o4VE9sOGgrTWZLK1ZsZndvazY3?=
+ =?utf-8?B?R3llWVY5R2RBYzJvSjVYZXpVTXNITU94ZWJLbnhkVStZVGo1OThxMk1HejBv?=
+ =?utf-8?B?US8rdkxQbkh6RVdMQTZXUkdyTzN0RDBhaFdrcEhkZWU3NTdGcmlMTHg0Rzlx?=
+ =?utf-8?B?c1Q4bVpadXB0Unl4VzNsK1BJbHo5S3B5TTg0enRLM2JZZjZSMlFIcW0ySFds?=
+ =?utf-8?B?TUY0WEZLN0JKTjJzMXVlNFkzRU1qaGE0b0lVM1NWZkhDaVQyRVJZTUJGYWZq?=
+ =?utf-8?B?R2VidzdvdTVVak5zVzBuWjNuS1l5THByZnBVUGtMOFliOTNWM2JURWEzNy9y?=
+ =?utf-8?B?SDFoV2VGNGFCd0JUV1drd2JoMTZlTEEyR1BHbDhJV3lvK3F2Zy9wcmdOOThS?=
+ =?utf-8?B?TDBsYVhjOVFMWGlHenltQWIyZVdlOVVDMVh2dGlhQXZGdGVJTTU5L2MvVHhB?=
+ =?utf-8?B?bkQ0VlJWMnZ4cy91VVhPSkgrcWZwcjFXWUwxSEQvdUZjV0lEdDcwNStPWjFw?=
+ =?utf-8?B?cGd3cUFKRnFYS0QrNUYxSmdnQ0JYNWZSMkU2c3loWWh1bnlpdXRkYks2T1lX?=
+ =?utf-8?B?WjZaU1FmNm5CbzJoaFExL24vQUNUZkNNU210MzRVWjdaUmJKSG5vMnVRRXRo?=
+ =?utf-8?B?QkZWWGpNMW02RmpJc2JmZDNlWFJOb1VoNm1wbFIzS3RpSDZRa1lXdGRvTW1i?=
+ =?utf-8?B?MHF1MjlOYmNwTFN5a09VNUpaT1B2bElnbm9xYWJJeXZpQzJvb2JZVm1vaUNU?=
+ =?utf-8?B?SnRnV2UvSm03TEJsb3dGbTlsVmd2ZVJWK0ZxdXAzdCtHbWE0aDVlRXlVbXZN?=
+ =?utf-8?B?N0FicXMzdEE1cGw5LzR1RHdsd0pZaFNwYkdkU1ZiTlVSZVVEREFhcmNhZmtN?=
+ =?utf-8?B?QmRQbzViL1YvcFhKcWIxb0EzTUxnanI0VFhCNU04aGlOYm82MHBPQ3F0RXRt?=
+ =?utf-8?B?dnZpQWdKNG54VEtuSjE0dXBWcGxDdVJBT2VSRVNoVS84TmFuWXRidnkzM3k1?=
+ =?utf-8?B?cnFCTVFBS2s2NHh3eXNJeVRQMUdwcmJTQnA4Q2tlNExpbHVjZWtYVWQ1dHRH?=
+ =?utf-8?B?MWFnUFRIVXU2bFY2TXFVODYxQ1NuQlJnRXUxaFpjNDY1SVJwNHpTMWFQTFpX?=
+ =?utf-8?B?YXdRR1Q3NWJMMUpIcjBiOXJYNi9rSlVkNDlRbUQ1RjNwZWt4TEZYaC9aYjZK?=
+ =?utf-8?B?TTJFSEdxSHZobHhiSGZJL0FWcFpEUXllamNjcy9POGs3azFydk5qbWFsK0lI?=
+ =?utf-8?B?K1FSdVVhU2F2eHpNNm5lVXJpSkN6R2dZeER0emMzV25jb3YzcFIrWWIxRjBU?=
+ =?utf-8?B?TWV0NENrOG5qMlo5UlcxVDdTWk9lODZOdC9rdG1FQ0p4MjBaWVpoQmdnOFB0?=
+ =?utf-8?B?eEFBUjZScTJnOEtvK1Jta3kvSjhiQ3lsRmZDNE90Vk9WYUxYd0lSbStERjZt?=
+ =?utf-8?B?MkIrWGVObXY0aHROVFhrNXEzTFV1dk5uMTVLQ2dIZ0orZVA0dUJzb01KWnZT?=
+ =?utf-8?B?bm5EVFduYlpaY2ZEc2FZTThwUXA5bmMvdVFVWXRHZDJYNlB4L3hreHZZWVZT?=
+ =?utf-8?B?dEFxTmZpOWRsc3NOekdzc1BZS2hKbS9HZkVkNGRwWXBoZUV3RGROV25pQ0Jt?=
+ =?utf-8?Q?Pt6znbPa7xCG4+dnaKb3SoCXz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c22e8dc-8df3-4c10-f775-08dba7b08c1e
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2023 10:21:31.2551 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8yN8Dhb578y9pPtgCvgAofCkn8W8hfxo0Bz/PaKOqoKLpF7khzB0j/12JLOcnABg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6552
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,160 +135,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
- intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 27 Aug 2023 20:54:43 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+Am 27.08.23 um 19:54 schrieb Dmitry Osipenko:
+> Add simple kref_put_dma_resv() helper that wraps around kref_put_ww_mutex()
+> for drivers that needs to lock dma-resv on kref_put().
+>
+> It's not possible to easily add this helper to kref.h because of the
+> headers inclusion dependency, hence add it to dma-resv.h.
 
-> In a preparation of adding drm-shmem memory shrinker, move all reservation
-> locking lockdep checks to use new drm_gem_shmem_resv_assert_held() that
-> will resolve spurious lockdep warning about wrong locking order vs
-> fs_reclam code paths during freeing of shmem GEM, where lockdep isn't
-> aware that it's impossible to have locking contention with the fs_reclam
-> at this special time.
-> 
+I was never really a big fan of kref_put_mutex() in the first place.
+
+The main advantage comes from the included memory barrier, but this 
+actually doesn't work like most people think it works and is usually 
+pretty dangerous.
+
+And IIRC this was done because of the some special behavior mutexes have 
+with memory barriers and that isn't necessary with ww-mutex.
+
+Christian.
+
+>
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 37 +++++++++++++++++---------
->  1 file changed, 25 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index d96fee3d6166..ca5da976aafa 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -128,6 +128,23 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
->  
-> +static void drm_gem_shmem_resv_assert_held(struct drm_gem_shmem_object *shmem)
+>   include/linux/dma-resv.h | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 8d0e34dad446..c5cf302e4194 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -41,6 +41,7 @@
+>   
+>   #include <linux/ww_mutex.h>
+>   #include <linux/dma-fence.h>
+> +#include <linux/kref.h>
+>   #include <linux/slab.h>
+>   #include <linux/seqlock.h>
+>   #include <linux/rcupdate.h>
+> @@ -464,6 +465,14 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
+>   	ww_mutex_unlock(&obj->lock);
+>   }
+>   
+> +static inline int kref_put_dma_resv(struct kref *kref,
+> +				    void (*release)(struct kref *kref),
+> +				    struct dma_resv *resv,
+> +				    struct ww_acquire_ctx *ctx)
 > +{
-> +	/*
-> +	 * Destroying the object is a special case.. drm_gem_shmem_free()
-> +	 * calls many things that WARN_ON if the obj lock is not held.  But
-> +	 * acquiring the obj lock in drm_gem_shmem_free() can cause a locking
-> +	 * order inversion between reservation_ww_class_mutex and fs_reclaim.
-> +	 *
-> +	 * This deadlock is not actually possible, because no one should
-> +	 * be already holding the lock when drm_gem_shmem_free() is called.
-> +	 * Unfortunately lockdep is not aware of this detail.  So when the
-> +	 * refcount drops to zero, we pretend it is already locked.
-> +	 */
-> +	if (kref_read(&shmem->base.refcount))
-> +		drm_gem_shmem_resv_assert_held(shmem);
+> +	return kref_put_ww_mutex(kref, release, &resv->lock, ctx);
 > +}
 > +
->  /**
->   * drm_gem_shmem_free - Free resources associated with a shmem GEM object
->   * @shmem: shmem GEM object to free
-> @@ -142,8 +159,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  	if (obj->import_attach) {
->  		drm_prime_gem_destroy(obj, shmem->sgt);
->  	} else if (!shmem->imported_sgt) {
-> -		dma_resv_lock(shmem->base.resv, NULL);
-> -
->  		drm_WARN_ON(obj->dev, kref_read(&shmem->vmap_use_count));
->  
->  		if (shmem->sgt) {
-> @@ -156,8 +171,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  			drm_gem_shmem_put_pages_locked(shmem);
-
-AFAICT, drm_gem_shmem_put_pages_locked() is the only function that's
-called in the free path and would complain about resv-lock not being
-held. I think I'd feel more comfortable if we were adding a
-drm_gem_shmem_free_pages() function that did everything
-drm_gem_shmem_put_pages_locked() does except for the lock_held() check
-and the refcount dec, and have it called here (and in
-drm_gem_shmem_put_pages_locked()). This way we can keep using
-dma_resv_assert_held() instead of having our own variant.
-
->  
->  		drm_WARN_ON(obj->dev, kref_read(&shmem->pages_use_count));
-> -
-> -		dma_resv_unlock(shmem->base.resv);
->  	}
->  
->  	drm_gem_object_release(obj);
-> @@ -170,7 +183,7 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->  	struct drm_gem_object *obj = &shmem->base;
->  	struct page **pages;
->  
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	if (kref_get_unless_zero(&shmem->pages_use_count))
->  		return 0;
-> @@ -228,7 +241,7 @@ static void drm_gem_shmem_kref_release_pages(struct kref *kref)
->   */
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->  {
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	kref_put(&shmem->pages_use_count, drm_gem_shmem_kref_release_pages);
->  }
-> @@ -252,7 +265,7 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
->  {
->  	int ret;
->  
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	if (kref_get_unless_zero(&shmem->pages_pin_count))
->  		return 0;
-> @@ -276,7 +289,7 @@ static void drm_gem_shmem_kref_unpin_pages(struct kref *kref)
->  
->  static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
->  {
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	kref_put(&shmem->pages_pin_count, drm_gem_shmem_kref_unpin_pages);
->  }
-> @@ -357,7 +370,7 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
->  	} else {
->  		pgprot_t prot = PAGE_KERNEL;
->  
-> -		dma_resv_assert_held(shmem->base.resv);
-> +		drm_gem_shmem_resv_assert_held(shmem);
->  
->  		if (kref_get_unless_zero(&shmem->vmap_use_count)) {
->  			iosys_map_set_vaddr(map, shmem->vaddr);
-> @@ -426,7 +439,7 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
->  	if (obj->import_attach) {
->  		dma_buf_vunmap(obj->import_attach->dmabuf, map);
->  	} else {
-> -		dma_resv_assert_held(shmem->base.resv);
-> +		drm_gem_shmem_resv_assert_held(shmem);
->  		kref_put(&shmem->vmap_use_count, drm_gem_shmem_kref_vunmap);
->  	}
->  
-> @@ -462,7 +475,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->   */
->  int drm_gem_shmem_madvise_locked(struct drm_gem_shmem_object *shmem, int madv)
->  {
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	if (shmem->madv >= 0)
->  		shmem->madv = madv;
-> @@ -478,7 +491,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
->  	struct drm_gem_object *obj = &shmem->base;
->  	struct drm_device *dev = obj->dev;
->  
-> -	dma_resv_assert_held(shmem->base.resv);
-> +	drm_gem_shmem_resv_assert_held(shmem);
->  
->  	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
->  
+>   void dma_resv_init(struct dma_resv *obj);
+>   void dma_resv_fini(struct dma_resv *obj);
+>   int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences);
 
