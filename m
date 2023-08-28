@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D8F78B9B2
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 22:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE4278B9B4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 22:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2881210E350;
-	Mon, 28 Aug 2023 20:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49FB810E351;
+	Mon, 28 Aug 2023 20:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393B910E350
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 20:44:56 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C43E10E351
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 20:47:21 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37SJVpxw012269; Mon, 28 Aug 2023 20:44:52 GMT
+ 37SKSS0e030258; Mon, 28 Aug 2023 20:47:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=O8GsrmZH8sX0SXwzenlhansRIUiDHhjDArRBQkustYY=;
- b=eLFobEbR0rKDL9Q5AzMRWYpdH049okYHTRegp4Nu03q4VJOSTTJNH4HReeizFCRq9qGH
- urb88LzpcPbHjcXzY4h6ijNQpcgPL5DOjNrvgiygReNXGGoi+haVtmDhnFmTtJkTUBv3
- p87XfddiQfoyqZ4dPWETAfsAnwXjUPuHSFD3g5PGhDReJn8O+VKAsgPm9MMfdMMUCTAi
- aGgizwbHfF4CWIhY7lfWXnt4nh8kzaSvdgmZ8bVYwhEhUu6a+XAQqQhiS3S0rWz5rP1f
- pa26vhl78javaVVr0oUOPODPCMEQZoiRYY17pk77LoSejdAmZ2rnW6lV5wFvPYYFXjbv mQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=yRIjXKUiafg9tme+wkEEX7O7i5ZoHuVqg7wvwgfG7a0=;
+ b=m+bB+oMc3H4kll0PK2CPCYy+V8DtJOQAFtse61KNL/602K+2tqozMw3xbtWJVpL2z7EO
+ jN4uSpjNf3zcmwMejGFaFvRh+ouet+5nRqm/ml9tMl+SFBTUgOWixRv94gjElPBnioPJ
+ ESUQvc4BKm4Ig8KKxhADU5CztJjCwwnjR0aa7Qf6/CsWlBLLYpI8dTN7DRbO/WdZbx0T
+ RCU/G40kiRBkpBE6ZfhduIafY4dzqYWufaiKgTfLTgqBtmi8xrrVN2bRa8ft5kV9mB6S
+ WlTg9ny9gyz67FDBTYuziMrBnon7QoNLTnUIKVAfiO7Z0/8MsGdB2mDz2EFVdca2l1WZ sg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq9m8vphs-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq73n4w64-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Aug 2023 20:44:52 +0000
+ Mon, 28 Aug 2023 20:47:18 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SKipjY022463
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SKlHSs010435
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Aug 2023 20:44:51 GMT
+ Mon, 28 Aug 2023 20:47:17 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 28 Aug
- 2023 13:44:51 -0700
-Message-ID: <48394a48-e2fc-0e80-3285-96513fb3c112@quicinc.com>
-Date: Mon, 28 Aug 2023 14:44:50 -0600
+ 2023 13:47:17 -0700
+Message-ID: <579b503c-31a5-12b9-bec2-fad6379eb1d9@quicinc.com>
+Date: Mon, 28 Aug 2023 14:47:16 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v2 3/9] accel/ivpu: Print information about used
- workarounds
+Subject: Re: [PATCH v2 4/9] accel/ivpu: Initialize context with SSID = 1
 Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
- <20230828094736.4137092-4-stanislaw.gruszka@linux.intel.com>
+ <20230828094736.4137092-5-stanislaw.gruszka@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230828094736.4137092-4-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20230828094736.4137092-5-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 8GcLAU8_SCBo8kB7k_1njeNK6ptYWorv
-X-Proofpoint-GUID: 8GcLAU8_SCBo8kB7k_1njeNK6ptYWorv
+X-Proofpoint-GUID: P2jIiwP5UOZj6r6cA2D4sMXAMkr4QRLw
+X-Proofpoint-ORIG-GUID: P2jIiwP5UOZj6r6cA2D4sMXAMkr4QRLw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-28_18,2023-08-28_04,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- bulkscore=0 clxscore=1015 mlxscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=835
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
+ mlxscore=0 mlxlogscore=962 lowpriorityscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2308280180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,9 +91,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 8/28/2023 3:47 AM, Stanislaw Gruszka wrote:
-> Use ivpu_dbg(MISC) to print information about workarounds.
+> From: Karol Wachowski <karol.wachowski@linux.intel.com>
 > 
-> Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Context with SSID = 1 is reserved and accesses on that context happen
+> only when context is uninitialized on the VPU side. Such access triggers
+> MMU fault (0xa) "Invalid CD Fetch", which doesn't contain any useful
+> information besides context ID.
+> 
+> This commit will change that state, now (0x10) "Translation fault" will
+> be triggered and accessed address will shown in the log.
+> 
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
