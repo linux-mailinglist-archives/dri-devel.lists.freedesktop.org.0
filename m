@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AB378B7EA
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 21:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5DC78B7EB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 21:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E9E10E095;
-	Mon, 28 Aug 2023 19:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A5810E0CB;
+	Mon, 28 Aug 2023 19:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042B210E095
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00FDB10E0CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5ED8863403
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C6E8CC433CA
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6AF9A64375
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1B81C433CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 19:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693249984;
- bh=wCIwWPVdxc2DytkHTkIUYYVoNYnkJAMnmps58dBxfzU=;
+ s=k20201202; t=1693249993;
+ bh=cJJ7rIww4yWtvghw1/BTvZm1oc7piB9qI+BZufLEssw=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=gS5RrPC1tD//ti4tHiA1qXb2++JJTlhnhtdmLlFywDBicEfSqFmGhLgRHWuEKBTSs
- 2wzrYgTYq3Y5fmBsEcykeJoUxbcZr60TZV34azmwV8/3xk4nRITGwlFwddeTfM7ta6
- iE0Ccq5jH5Un55tYrnGTn7uFe3hpSWQOPJuqQN59H1oe0acRFUcIiTfbKPJbDjojJg
- 3g01CvhcPkxrYhrW1SWihtquV1sH8uIL+p0VqfBy5Dc2gsuI+iKWlzz9qMRON3KVD+
- 7VsaQOT4DmrsfANsbQ+KPcMfHaXrN+BoI8Qu9Smf46Af0F9lvyzxQUx7Lr1emadqN0
- ghfSd75jewsEg==
+ b=PSEZrX6XkmUjWU8FWeb5jXMl15OOxPNSuRX3R/ypt7xhz1A2Sbth2ng4LRVO45VdB
+ emCyw6lmAJ/scjNLedC0DyEL3CTdrpIeyb2vt9QHGVXn77/WQv9d+1A4IiTXDDRxtu
+ y2OLPOvlCCqrNWbjb4PZYtusAFQprBG3RKbIMIdW14nu2a6LmRdVEU3tvmh7biSbh7
+ JiV/AA+pWfmf98A19xntIK55ccbin5c54LLTo309h0UC258Ab584FWztdrVk/KTF8a
+ F+8cyIr8/rYJOVNH/6xERLNm+8Zx8O6+Fqg65lJ3Vs/A89sUee1jGQdWJ2jz2ZnTfL
+ X8H+yPkoTC8Xw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AF948C53BD4; Mon, 28 Aug 2023 19:13:04 +0000 (UTC)
+ from userid 48) id BCA4FC53BD4; Mon, 28 Aug 2023 19:13:13 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Mon, 28 Aug 2023 19:13:04 +0000
+Date: Mon, 28 Aug 2023 19:13:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217664-2300-OBXHZ3Zbr2@https.bugzilla.kernel.org/>
+Message-ID: <bug-217664-2300-Iwqt60ciHH@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
 References: <bug-217664-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,22 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
---- Comment #41 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
-Was that NVME something you added to the system or it came with it?
-
-I am suspecting that your platform or the NVME doesn't end up activating a
-feature needed for s2idle to work properly called DevSlp at all or at the r=
-ight
-timing.
-
-Can you please share to me an acpidump?  I want to check if you have some _=
-DSD
-properties set up appropriately.  You can see more about this in
-7c5f641a5914 ("ata: libahci: Adjust behavior when StorageD3Enable _DSD is s=
-et")
-
-If it's a missing _DSD but the system and disk both support DevSlp we can
-probably find a way to work around that in the kernel.
+--- Comment #42 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+s/NVME/SATA/
 
 --=20
 You may reply to this email to add a comment.
