@@ -1,54 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B141978B5D8
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 19:03:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3931078B5FC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 19:07:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A0410E00E;
-	Mon, 28 Aug 2023 17:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F0B10E319;
+	Mon, 28 Aug 2023 17:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com
- [203.205.221.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE5610E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 17:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1693242198;
- bh=cPNK+81IGn0TQpKkotv2WdAq+z2m9yPGmO2U+lmiC/M=;
- h=From:To:Cc:Subject:Date;
- b=k6mj2tZD5lRWmNptkA4ffLB1Ne8aTyVQwnlgpgAmkr/NBdUEHHFV2QO4F5uUePWBL
- 2JV0n6oY2E2nh5VQdFMJ7xb14UDcFKcBJR/OJf80BQdCc+uefFxDAuluaztLtiQUoU
- aEC7+qQR6BgKGF5SOKIL4fqNy1pce5RcCJPHOT4c=
-Received: from KernelDevBox.byted.org ([180.184.51.142])
- by newxmesmtplogicsvrszc2-1.qq.com (NewEsmtp) with SMTP
- id DC3048EC; Tue, 29 Aug 2023 00:55:03 +0800
-X-QQ-mid: xmsmtpt1693241703t8cvcq53r
-Message-ID: <tencent_026E4B04ACDCE341411EF54862F8C6AB1605@qq.com>
-X-QQ-XMAILINFO: NvKyM24IHTKSlKGvWHJ9FbVaOla+tcVA5EuhPy5wgmj14mHAPCI21r+zyzFvbC
- zEbP4kTEBCIhYXMIdpd0itwzVmo11tKwlAlvVEkMha0Uf69Fv2/OQaW9CB/5o1NJzW8baPjVLqyU
- gGNXDozJjClOkxKfNl6oJYTesrUOqTZ+WdMKzy/RgoVO2yt9MHtzIGEwCCPAP3kJsgLMt3qTNUZj
- 5wbxFWohVoX6qVxv9CUtUf7wHIYcURdSJPaWD0YnRGIm6Q0zLwFw2YHui9uqrNzOqcr07sf7SHN+
- sWZ6lREn9Mq+Yi8FXmkeLduQvGIkQf0fCr/SC2/mKF2uRTPcE56V3yEuYUhY13nv7/e/VfHijjIA
- b/Bi15BkmZpIqN/JfPYdplsD1rF8XOcWZkzT6DV0+yUach2at0h69uJmk0HjRS4h2CnFgk+0WJOu
- okqdhU4K4zDzTklAbpe6Bc8jPq9UMAIl3H8J9pVmj/1hAX/LvTMPGx0CMbcrfY+jT7qqzw9MAdG+
- xJDhkvRDaOqfFJmnveJRbKLmIxmujZpD5VEPhJchxV1GWaGpNeGlB6FT9fg0fyVC2HRCz2ULKTdR
- SV8dGOJVw0QRgz0kywGEIE3zrUXeaYFeIKolOXcbZW0YBC3y3n9ggOnqnREeqGXChwf9jeg5Au76
- Pido6M5mKdLmQzV17D2TghvoKLt/+avD/+CRRRrVdk4djLkYtw7kxs6z2TEriYqXCsGjWq3Tlfu4
- PMzEjDUvLRcMold6fp/DSNxtjdXXahNnPYYER8j44XhyGWJOYj0hfpqhgU0QAaXHcaLPASwvv+Gj
- jBCCS43yEZj7zAKunAt7z4QfYYk+MW+pWDNSumcIXhxSbg7k+6SjTaRlt2jm9ERck9NboBwc7VW+
- aCevBuldn7Dbi1ZkcG+zfJR7MFTKFAEtmHzzR7dZyA7zliFvxHvP8eQhkT7JvJNpaf4DWM3S74yy
- aOaappAagmeL8su1R0mweeLcG7UsOeKMdKXubs1v8lnAOgnRVK2HtLwmBz8RBjmoqKNPZXaOM=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-To: victor.liu@nxp.com
-Subject: [PATCH] drm/bridge: imx: fix potential NULL pointer dereference in
- imx8qxp_ldb_parse_dt_companion()
-Date: Tue, 29 Aug 2023 00:55:01 +0800
-X-OQ-MSGID: <20230828165501.2887816-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68F910E319
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 17:07:51 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37SCvbaY028458; Mon, 28 Aug 2023 17:07:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=xEccys44Fa+AJGa9f2dY+rdMM3FMR0fIeCsJUZ5s5tQ=;
+ b=Ll6RCeOF23jaLgtc4cr3toiBM0Zpj7caCmpNkam7y5KXs0EENXG8zE4iQPd1RnYnl/0n
+ 2dYPAQqL7T3gRaWAhxl+uR2VCAKFVfjrXgJJ4EKpBI3c35aR0FVKtPtRhiUbox++qMfm
+ 4cZZtepTIJm/jMau5AWDr1j5ZGWoYMTLhf1VwCEy1n3OktmRf56L4Xsz4F/3hZ0nzNPg
+ qxKmZHPcExsWgfc/7WBZnRByF1nnFCJaZHtOFkh8APRvA9RltMLVdyYT/ToCJOQj1FB+
+ ilfmK5JPG1T9u04Tdn2A8uCnYsEmeHC233leN2MohGlDDnsbj5uk8Bgk1ztmxT3UHsME EQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sqapfm685-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Aug 2023 17:07:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37SH7Ysf007515
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Aug 2023 17:07:34 GMT
+Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 28 Aug
+ 2023 10:07:33 -0700
+Message-ID: <7571be78-5560-13bf-d754-cabc8ad6140d@quicinc.com>
+Date: Mon, 28 Aug 2023 10:07:33 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Content-Language: en-US
+To: <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
+ <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
+ <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
+ <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+ <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+ <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
+ <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
+ <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
+ <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: _DN47vvQS2ZocwQv_MbTX0YZQUSCADuS
+X-Proofpoint-GUID: _DN47vvQS2ZocwQv_MbTX0YZQUSCADuS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_14,2023-08-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 clxscore=1011 impostorscore=0 mlxscore=0 malwarescore=0
+ mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308280151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +96,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, neil.armstrong@linaro.org,
- rfoss@kernel.org, jonas@kwiboo.se, shawnguo@kernel.org, s.hauer@pengutronix.de,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- Zhang Shurong <zhang_shurong@foxmail.com>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_parellan@quicinc.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_match_device() may fail and returns a NULL pointer.
+Hi Neil
 
-Fix this by checking the return value of of_match_device().
+Sorry I didnt respond earlier on this thread.
 
-Fixes: 3818715f62b4 ("drm/bridge: imx: Add LDB support for i.MX8qxp")
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
----
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 8/28/2023 1:49 AM, neil.armstrong@linaro.org wrote:
+> Hi Jessica,
+> 
+> On 25/08/2023 20:37, Jessica Zhang wrote:
+>>
+>>
+>> On 8/21/2023 3:01 AM, neil.armstrong@linaro.org wrote:
+>>> Hi Maxime,
+>>>
+>>> On 21/08/2023 10:17, Maxime Ripard wrote:
+>>>> Hi,
+>>>>
+>>>> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org 
+>>>> wrote:
+>>>>> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+>>>>>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+>>>>>>> Sending HS commands will always work on any controller, it's all
+>>>>>>> about LP commands. The Samsung panels you listed only send HS
+>>>>>>> commands so they can use prepare_prev_first and work on any
+>>>>>>> controllers.
+>>>>>>
+>>>>>> I think there is some misunderstanding there, supported by the
+>>>>>> description of the flag.
+>>>>>>
+>>>>>> If I remember correctly, some hosts (sunxi) can not send DCS
+>>>>>> commands after enabling video stream and switching to HS mode, see
+>>>>>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
+>>>>>> commands in drm_panel_funcs::prepare() /
+>>>>>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
+>>>>>> whether these commands are to be sent in LP or in HS mode.
+>>>>>>
+>>>>>> Previously DSI source drivers could power on the DSI link either in
+>>>>>> mode_set() or in pre_enable() callbacks, with mode_set() being the
+>>>>>> hack to make panel/bridge drivers to be able to send commands from
+>>>>>> their prepare() / pre_enable() callbacks.
+>>>>>>
+>>>>>> With the prev_first flags being introduced, we have established that
+>>>>>> DSI link should be enabled in DSI host's pre_enable() callback and
+>>>>>> switched to HS mode (be it command or video) in the enable()
+>>>>>> callback.
+>>>>>>
+>>>>>> So far so good.
+>>>>>
+>>>>> It seems coherent, I would like first to have a state of all DSI host
+>>>>> drivers and make this would actually work first before adding the
+>>>>> prev_first flag to all the required panels.
+>>>>
+>>>> This is definitely what we should do in an ideal world, but at least 
+>>>> for
+>>>> sunxi there's no easy way for it at the moment. There's no 
+>>>> documentation
+>>>> for it and the driver provided doesn't allow this to happen.
+>>>>
+>>>> Note that I'm not trying to discourage you or something here, I'm 
+>>>> simply
+>>>> pointing out that this will be something that we will have to take into
+>>>> account. And it's possible that other drivers are in a similar
+>>>> situation.
+>>>>
+>>>>>> Unfortunately this change is not fully backwards-compatible. This
+>>>>>> requires that all DSI panels sending commands from prepare() should
+>>>>>> have the prepare_prev_first flag. In some sense, all such patches
+>>>>>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
+>>>>>> flag to drm_panel").
+>>>>>
+>>>>> This kind of migration should be done *before* any possible
+>>>>> regression, not the other way round.
+>>>>>
+>>>>> If all panels sending commands from prepare() should have the
+>>>>> prepare_prev_first flag, then it should be first, check for
+>>>>> regressions then continue.
+>>>>>
+>>>>> <snip>
+>>>>>
+>>>>>>>
+>>>>>>> I understand, but this patch doesn't qualify as a fix for
+>>>>>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
+>>>>>>> v6.6, and since 9e15123eca79 actually breaks some support it
+>>>>>>> should be reverted (+ deps) since we are late in the rc cycles.
+>>>>>>
+>>>>>> If we go this way, we can never reapply these patches. There will be
+>>>>>> no guarantee that all panel drivers are completely converted. We
+>>>>>> already have a story without an observable end -
+>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+>>>>>
+>>>>> I don't understand this point, who would block re-applying the 
+>>>>> patches ?
+>>>>>
+>>>>> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
+>>>>> Linux version and went smoothly because we reverted regressing patches
+>>>>> and restarted when needed, I don't understand why we can't do this
+>>>>> here aswell.
+>>>>>
+>>>>>> I'd consider that the DSI driver is correct here and it is about the
+>>>>>> panel drivers that require fixes patches. If you care about the
+>>>>>> particular Fixes tag, I have provided one several lines above.
+>>>>>
+>>>>> Unfortunately it should be done in the other way round, prepare for
+>>>>> migration, then migrate,
+>>>>>
+>>>>> I mean if it's a required migration, then it should be done and I'll
+>>>>> support it from both bridge and panel PoV.
+>>>>>
+>>>>> So, first this patch has the wrong Fixes tag, and I would like a
+>>>>> better explanation on the commit message in any case. Then I would
+>>>>> like to have an ack from some drm-misc maintainers before applying it
+>>>>> because it fixes a patch that was sent via the msm tree thus per the
+>>>>> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+>>>>
+>>>> Sorry, it's not clear to me what you'd like our feedback on exactly?
+>>>
+>>> So let me resume the situation:
+>>>
+>>> - pre_enable_prev_first was introduced in [1]
+>>> - some panels made use of pre_enable_prev_first
+>>> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 
+>>> kernels and before
+>>> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on 
+>>> SM8550 systems (and probably other Video mode panels on Qcom platforms)
+>>> - this fix was sent late, and is now too late to be merged via 
+>>> drm-misc-next
+>>
+>> Hi Neil and Maxime,
+>>
+>> I agree with Neil that 9e15123eca79 was the commit that introduced the 
+>> issue (since it changed the MSM DSI host behavior).
+>>
+>> However, I'm not too keen on simply reverting that patch because
+>>
+>> 1) it's not wrong to have the dsi_power_on in pre_enable. Arguably, it 
+>> actually makes more sense to power on DSI host in pre_enable than in 
+>> modeset (since modeset is meant for setting the bridge mode), and
+> 
+> I never objected that, it's the right path to go.
+> 
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-index 7984da9c0a35..d272f35c8eac 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-@@ -488,6 +488,8 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
- 	 * string.
- 	 */
- 	match = of_match_device(dev->driver->of_match_table, dev);
-+	if (!match)
-+		return -ENODEV;
- 	if (!of_device_is_compatible(companion, match->compatible)) {
- 		DRM_DEV_ERROR(dev, "companion LDB is incompatible\n");
- 		ret = -ENXIO;
--- 
-2.30.2
+Ack.
 
+>>
+>> 2) I think it would be good practice to keep specific bridge chip 
+>> checks out of the DSI host driver.
+> 
+> We discussed about a plan with Maxime and Dmitry about that, and it 
+> would require adding
+> a proper atomic panel API to handle a "negociation" with the host 
+> controller.
+> 
+
+May I know what type of negotiation is needed here?
+
+>>
+>>
+>> That being said, what do you think about setting the default value of 
+>> prepare_prev_first to true (possibly in panel_bridge_attach)?
+> 
+> As Dmitry pointed, all panels sending LP commands in pre_enable() should 
+> have prepare_prev_first to true.
+> 
+
+I wanted to respond to this earlier but didnt get a chance.
+
+ From the documentation of this flag, this has nothing to do whether 
+panels are sending the LP commands (commands sent in LP mode) OR HS 
+commands (commands sent in HS mode).
+
+This is more about sending the commands whether the lanes are in LP11 
+state before sending the ON commands.
+
+195 	 * The previous controller should be prepared first, before the prepare
+196 	 * for the panel is called. This is largely required for DSI panels
+197 	 * where the DSI host controller should be initialised to LP-11 before
+198 	 * the panel is powered up.
+199 	 */
+200 	bool prepare_prev_first;
+
+These are conceptually different and thats what I explained Dmitry in 
+our call.
+
+Sending ON commands in LP11 state is a requirement I have seen with many 
+panels and its actually the right expectation as well to send the 
+commands when the lanes are in a well-defined LP11 state.
+
+ From the panels which I have seen, the opposite is never true (OR i 
+have never seen it this way).
+
+The parade chip was the only exception and that issue was never 
+root-caused leading us to have bridge specific handling in MSM driver.
+
+In other words, it would be very unlikely that a panel should be broken 
+or shouldn't work when the ON commands are sent when the lanes are in 
+LP11 state.
+
+So I agree with Jessica, that we should set the default value of this 
+flag to true in the framework so that only the bridges/panels which need 
+this to be false do that explicitly. From the examples I pointed out 
+including MTK, even those vendors are powering on their DSI in 
+pre_enable() which means none of these panels will work there too.
+
+>>
+>> It seems to me that most panel drivers send DCS commands during 
+>> pre_enable, so maybe it would make more sense to power on DSI host 
+>> before panel enable() by default. Any panel that needs DSI host to be 
+>> powered on later could then explicitly set the flag to false in their 
+>> respective drivers.
+> 
+> A proper migration should be done, yes, but not as a fix on top of v6.5.
+> 
+
+I am fine to drop this fix in favor of making the prepare_prev_first as 
+default true but we need an agreement first. From what I can see, parade 
+chip will be the only one which will need this to be set to false and we 
+can make that change.
+
+Let me know if this works as a migration plan.
+
+> Neil
+> 
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>
+>>>
+>>> I do not consider it's the right way to fix regression caused by [2]
+>>> I consider [2] should be reverted, panels migrated to 
+>>> pre_enable_prev_first when needed, tested and the [2] applied again
+>>>
+>>> I have no objection about [2] and it should be done widely over the 
+>>> whole DSI controllers
+>>> and DSI Video panels.
+>>>
+>>> I also object about the Fixes tag of this patch, which is wrong, and 
+>>> Dmitry considers [1]
+>>> should be used but it's even more wrong since [2] really caused the 
+>>> regression.
+>>>
+>>> And if [2] was to correct one to use, it was pushed via the MSM tree 
+>>> so it couldn't be
+>>> applied via drm-misc-next-fixes, right ?
+>>>
+>>> [1] 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to 
+>>> alter bridge init order")
+>>> [2] 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI 
+>>> hosts at modeset")
+>>>
+>>> Thanks,
+>>> Neil
+>>>
+>>>>
+>>>> Maxime
+>>>
+> 
