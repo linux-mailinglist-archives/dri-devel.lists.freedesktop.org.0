@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F22778B297
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 16:08:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363F878B2B3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 16:11:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5C210E2E7;
-	Mon, 28 Aug 2023 14:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D249E10E2E9;
+	Mon, 28 Aug 2023 14:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3071F10E2E6
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 14:07:51 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D0B10E2E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 14:10:54 +0000 (UTC)
 Received: from xpredator (unknown
  [IPv6:2a02:2f08:4c00:5d00:7656:3cff:fe3f:7ce9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
  (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B5F6660719F;
- Mon, 28 Aug 2023 15:07:48 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 18FF566003AE;
+ Mon, 28 Aug 2023 15:10:52 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693231669;
- bh=Ng4szc0m7uekGnq4xBvQlJ/ABNCUFGp7+7rzcJBxFqc=;
+ s=mail; t=1693231853;
+ bh=qNT9bjwBwzbdfijWWQBiPp1qJ5+LhBT+GkoAfTEoB/o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MBq3Q1pMU44t+9GEoIRQPgqyh8HKjx3JfpRT2w4cF5n64TiiBUtD3o0jwLW9XDG0A
- 7pmlb+iKsN/tXDhbBMdOEazPup7pfqj8vB30CEJ4lVGvATwxRFnUNQVNa47FHf88D+
- WA2fXFNn36nr0qxszlEpaca14PG4sxJRgMRC8kiPpj7qtymgdGT380Pj5pm/q7aMrv
- xAx12A8wyqDZdOEaHwopKMKz6EITQS5L0WImDOSbwjsNPHxdTN3+4lnRUafyEL/uyA
- X0tYa5HVEyWVq3ZkAgJzAFVeAb7jBxHiiOM+v4UCH54eQFKuEj3OwImUO4KWyUX/je
- ESCPQkpu/KiGQ==
-Date: Mon, 28 Aug 2023 17:07:45 +0300
+ b=ZFTQqSY+bfdj4rU+jglmrDBBnR2Bco4yCveJBfGaoVM8aN75IvmpyzsHIJADsk11k
+ piPn/cXeL//ttUOhMPjUuqzl37v2jgpD71Z94V0+yEJbb6ykyclCBQ/AYW2GIYjKJ6
+ tM92jhyieH1WuM8SCQ5mpeBduwsen65vzw1bGS7qhErinKnOkZfgbn5o57O52PLTjZ
+ I6rpvEmrUkuPjq5y0Vrm0TQZnDnMzP0aJF/VlpP7JVj49QHToO7oLfDDb6pVvHif2q
+ YpNC6LKA7sJIua4ToIkcKBMHqtsGwlVFNyIHK5L7oYg29Uet7YbjmeH8oRVDrxr71q
+ mQeA60nkOx2QQ==
+Date: Mon, 28 Aug 2023 17:10:48 +0300
 From: Marius Vlad <marius.vlad@collabora.com>
 To: Brandon Pollack <brpol@chromium.org>
-Subject: Re: [PATCH v5 2/7] drm/vkms: Support multiple DRM objects (crtcs,
- etc.) per VKMS device
-Message-ID: <ZOyqMZzHjMI/a8Gs@xpredator>
+Subject: Re: [PATCH v5 4/7] drm/vkms: Add ConfigFS scaffolding to VKMS
+Message-ID: <ZOyq6B+xkrjP8BnM@xpredator>
 References: <20230828081929.3574228-1-brpol@chromium.org>
- <20230828081929.3574228-3-brpol@chromium.org>
+ <20230828081929.3574228-5-brpol@chromium.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Q3B6CuiNNRy3fiNg"
+ protocol="application/pgp-signature"; boundary="XKHxjJeNr/LLLTmV"
 Content-Disposition: inline
-In-Reply-To: <20230828081929.3574228-3-brpol@chromium.org>
+In-Reply-To: <20230828081929.3574228-5-brpol@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,941 +56,1130 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
- linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
- corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
- tzimmermann@suse.de, jshargo@chromium.org
+ linux-doc@vger.kernel.org, mduggan@chromium.org, corbet@lwn.net,
+ hirono@chromium.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, mairacanal@riseup.net,
+ mripard@kernel.org, tzimmermann@suse.de, jshargo@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---Q3B6CuiNNRy3fiNg
+--XKHxjJeNr/LLLTmV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Brandon,
 
-See a bottom comment about writeback connectors creation/initalization.
+See some minor missing rmdirs for connector_other and encoder_other.
 
-On Mon, Aug 28, 2023 at 08:17:04AM +0000, Brandon Pollack wrote:
+On Mon, Aug 28, 2023 at 08:17:06AM +0000, Brandon Pollack wrote:
 > From: Jim Shargo <jshargo@chromium.org>
 >=20
-> This change supports multiple CRTCs, encoders, connectors instead of one
-> of each per device.
+> This change adds the basic scaffolding for ConfigFS, including setting
+> up the default directories. It does not allow for the registration of
+> configfs-backed devices, which is complex and provided in a follow-up
+> commit.
 >=20
-> Since ConfigFS-based devices will support multiple crtcs, it's useful to
-> move all of the writeback/composition data from being per-"output" to
-> being per-CRTC.
+> This CL includes docs about using ConfigFS with VKMS, but I'll summarize
+> in brief here as well (assuming ConfigFS is mounted at /config/):
 >=20
-> Since there's still only ever one CRTC, this should be a no-op refactor.
+> To create a new device, you can do so via `mkdir
+> /config/vkms/my-device`.
+>=20
+> This will create a number of directories and files automatically:
+>=20
+> 	/config
+> 	`-- vkms
+> 	    `-- my-device
+> 		|-- connectors
+> 		|-- crtcs
+> 		|-- encoders
+> 		|-- planes
+> 		`-- enabled
+>=20
+> You can then configure objects by mkdir'ing in each of the directories.
+>=20
+> When you're satisfied, you can `echo 1 > /config/vkms/my-device/enabled`.
+> This will create a new device according to your configuration.
+>=20
+> For now, this will fail, but the next change will add support for it.
 >=20
 > Signed-off-by: Jim Shargo <jshargo@chromium.org>
 > Signed-off-by: Brandon Pollack <brpol@chromium.org>
 > ---
->  drivers/gpu/drm/vkms/vkms_composer.c  |  30 +++----
->  drivers/gpu/drm/vkms/vkms_crtc.c      | 100 ++++++++++++---------
->  drivers/gpu/drm/vkms/vkms_drv.c       |  12 +--
->  drivers/gpu/drm/vkms/vkms_drv.h       |  70 +++++++++------
->  drivers/gpu/drm/vkms/vkms_output.c    | 122 ++++++++++++++++++--------
->  drivers/gpu/drm/vkms/vkms_plane.c     |  38 ++++++--
->  drivers/gpu/drm/vkms/vkms_writeback.c |  31 +++----
->  7 files changed, 256 insertions(+), 147 deletions(-)
+>  Documentation/gpu/vkms.rst           |  18 +-
+>  drivers/gpu/drm/Kconfig              |   1 +
+>  drivers/gpu/drm/vkms/Makefile        |   1 +
+>  drivers/gpu/drm/vkms/vkms_configfs.c | 648 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.c      |  56 ++-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  92 +++-
+>  drivers/gpu/drm/vkms/vkms_output.c   |   5 +
+>  7 files changed, 804 insertions(+), 17 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
 >=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index d5d4f642d367..a59eb75a21c4 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -300,13 +300,13 @@ void vkms_composer_worker(struct work_struct *work)
->  						composer_work);
->  	struct drm_crtc *crtc =3D crtc_state->base.crtc;
->  	struct vkms_writeback_job *active_wb =3D crtc_state->active_writeback;
-> -	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
->  	bool crc_pending, wb_pending;
->  	u64 frame_start, frame_end;
->  	u32 crc32 =3D 0;
->  	int ret;
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index ba04ac7c2167..c3875bf66dba 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -51,6 +51,12 @@ To disable the driver, use ::
 > =20
-> -	spin_lock_irq(&out->composer_lock);
-> +	spin_lock_irq(&vkms_crtc->composer_lock);
->  	frame_start =3D crtc_state->frame_start;
->  	frame_end =3D crtc_state->frame_end;
->  	crc_pending =3D crtc_state->crc_pending;
-> @@ -330,7 +330,7 @@ void vkms_composer_worker(struct work_struct *work)
->  		crtc_state->gamma_lut.base =3D NULL;
->  	}
+>    sudo modprobe -r vkms
 > =20
-> -	spin_unlock_irq(&out->composer_lock);
-> +	spin_unlock_irq(&vkms_crtc->composer_lock);
+> +Configuration With ConfigFS
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +.. kernel-doc:: drivers/gpu/drm/vkms/vkms_configfs.c
+> +   :doc: ConfigFS Support for VKMS
+> +
+>  Testing With IGT
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > =20
->  	/*
->  	 * We raced with the vblank hrtimer and previous work already computed
-> @@ -348,10 +348,10 @@ void vkms_composer_worker(struct work_struct *work)
->  		return;
+> @@ -135,22 +141,16 @@ project.
+>  Runtime Configuration
+>  ---------------------
 > =20
->  	if (wb_pending) {
-> -		drm_writeback_signal_completion(&out->wb_connector, 0);
-> -		spin_lock_irq(&out->composer_lock);
-> +		drm_writeback_signal_completion(&vkms_crtc->wb_connector, 0);
-> +		spin_lock_irq(&vkms_crtc->composer_lock);
->  		crtc_state->wb_pending =3D false;
-> -		spin_unlock_irq(&out->composer_lock);
-> +		spin_unlock_irq(&vkms_crtc->composer_lock);
->  	}
+> -We want to be able to reconfigure vkms instance without having to reload=
+ the
+> -module. Use/Test-cases:
+> +We want to be able to manipulate vkms instances without having to reload=
+ the
+> +module. Such configuration can be added as extensions to vkms's ConfigFS
+> +support. Use-cases:
 > =20
->  	/*
-> @@ -401,30 +401,30 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, c=
-onst char *src_name,
->  	return 0;
->  }
+>  - Hotplug/hotremove connectors on the fly (to be able to test DP MST han=
+dling
+>    of compositors).
 > =20
-> -void vkms_set_composer(struct vkms_output *out, bool enabled)
-> +void vkms_set_composer(struct vkms_crtc *vkms_crtc, bool enabled)
->  {
->  	bool old_enabled;
+> -- Configure planes/crtcs/connectors (we'd need some code to have more th=
+an 1 of
+> -  them first).
+> -
+>  - Change output configuration: Plug/unplug screens, change EDID, allow c=
+hanging
+>    the refresh rate.
 > =20
->  	if (enabled)
-> -		drm_crtc_vblank_get(&out->crtc);
-> +		drm_crtc_vblank_get(&vkms_crtc->base);
+> -The currently proposed solution is to expose vkms configuration through
+> -configfs. All existing module options should be supported through config=
+fs
+> -too.
+> -
+>  Writeback support
+>  -----------------
 > =20
-> -	mutex_lock(&out->enabled_lock);
-> -	old_enabled =3D out->composer_enabled;
-> -	out->composer_enabled =3D enabled;
-> +	mutex_lock(&vkms_crtc->enabled_lock);
-> +	old_enabled =3D vkms_crtc->composer_enabled;
-> +	vkms_crtc->composer_enabled =3D enabled;
-> =20
->  	/* the composition wasn't enabled, so unlock the lock to make sure the =
-lock
->  	 * will be balanced even if we have a failed commit
->  	 */
-> -	if (!out->composer_enabled)
-> -		mutex_unlock(&out->enabled_lock);
-> +	if (!vkms_crtc->composer_enabled)
-> +		mutex_unlock(&vkms_crtc->enabled_lock);
-> =20
->  	if (old_enabled)
-> -		drm_crtc_vblank_put(&out->crtc);
-> +		drm_crtc_vblank_put(&vkms_crtc->base);
->  }
-> =20
->  int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->  {
-> -	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_crtc *out =3D drm_crtc_to_vkms_crtc(crtc);
->  	bool enabled =3D false;
->  	int ret =3D 0;
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index 3c5ebf106b66..74bbd675464b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index ab9ef1c20349..e39ee0e8ca06 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -284,6 +284,7 @@ config DRM_VKMS
+>  	depends on DRM && MMU
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_SHMEM_HELPER
+> +	select CONFIGFS_FS
+>  	select CRC32
+>  	default n
+>  	help
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 1b28a6a32948..6b83907ad554 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
 > @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
-> +#include "linux/mutex.h"
->  #include <linux/dma-fence.h>
-> =20
->  #include <drm/drm_atomic.h>
-> @@ -11,17 +12,16 @@
-> =20
->  static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->  {
-> -	struct vkms_output *output =3D container_of(timer, struct vkms_output,
-> -						  vblank_hrtimer);
-> -	struct drm_crtc *crtc =3D &output->crtc;
-> +	struct vkms_crtc *vkms_crtc =3D timer_to_vkms_crtc(timer);
-> +	struct drm_crtc *crtc =3D &vkms_crtc->base;
->  	struct vkms_crtc_state *state;
->  	u64 ret_overrun;
->  	bool ret, fence_cookie, composer_enabled;
-> =20
->  	fence_cookie =3D dma_fence_begin_signalling();
-> =20
-> -	ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
-> -					  output->period_ns);
-> +	ret_overrun =3D hrtimer_forward_now(&vkms_crtc->vblank_hrtimer,
-> +					  vkms_crtc->period_ns);
->  	if (ret_overrun !=3D 1)
->  		pr_warn("%s: vblank timer overrun\n", __func__);
-> =20
-> @@ -29,9 +29,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct=
- hrtimer *timer)
->  	if (!ret)
->  		DRM_ERROR("vkms failure on handling vblank");
-> =20
-> -	state =3D output->composer_state;
-> -	composer_enabled =3D output->composer_enabled;
-> -	mutex_unlock(&output->enabled_lock);
-> +	state =3D vkms_crtc->composer_state;
-> +	composer_enabled =3D vkms_crtc->composer_enabled;
-> +	mutex_unlock(&vkms_crtc->enabled_lock);
-> =20
->  	if (state && composer_enabled) {
->  		u64 frame =3D drm_crtc_accurate_vblank_count(crtc);
-> @@ -39,7 +39,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct=
- hrtimer *timer)
->  		/* update frame_start only if a queued vkms_composer_worker()
->  		 * has read the data
->  		 */
-> -		spin_lock(&output->composer_lock);
-> +		spin_lock(&vkms_crtc->composer_lock);
->  		if (!state->crc_pending)
->  			state->frame_start =3D frame;
->  		else
-> @@ -47,9 +47,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struc=
-t hrtimer *timer)
->  					 state->frame_start, frame);
->  		state->frame_end =3D frame;
->  		state->crc_pending =3D true;
-> -		spin_unlock(&output->composer_lock);
-> +		spin_unlock(&vkms_crtc->composer_lock);
-> =20
-> -		ret =3D queue_work(output->composer_workq, &state->composer_work);
-> +		ret =3D queue_work(vkms_crtc->composer_workq,
-> +				 &state->composer_work);
->  		if (!ret)
->  			DRM_DEBUG_DRIVER("Composer worker already queued\n");
->  	}
-> @@ -62,25 +63,27 @@ static enum hrtimer_restart vkms_vblank_simulate(stru=
-ct hrtimer *timer)
->  static int vkms_enable_vblank(struct drm_crtc *crtc)
->  {
->  	struct drm_device *dev =3D crtc->dev;
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
->  	unsigned int pipe =3D drm_crtc_index(crtc);
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
-> -	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
-> =20
->  	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> =20
-> -	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> -	out->vblank_hrtimer.function =3D &vkms_vblank_simulate;
-> -	out->period_ns =3D ktime_set(0, vblank->framedur_ns);
-> -	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
-> +	hrtimer_init(&vkms_crtc->vblank_hrtimer, CLOCK_MONOTONIC,
-> +		     HRTIMER_MODE_REL);
-> +	vkms_crtc->vblank_hrtimer.function =3D &vkms_vblank_simulate;
-> +	vkms_crtc->period_ns =3D ktime_set(0, vblank->framedur_ns);
-> +	hrtimer_start(&vkms_crtc->vblank_hrtimer, vkms_crtc->period_ns,
-> +		      HRTIMER_MODE_REL);
-> =20
->  	return 0;
->  }
-> =20
->  static void vkms_disable_vblank(struct drm_crtc *crtc)
->  {
-> -	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
-> =20
-> -	hrtimer_cancel(&out->vblank_hrtimer);
-> +	hrtimer_cancel(&vkms_crtc->vblank_hrtimer);
->  }
-> =20
->  static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
-> @@ -88,9 +91,8 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *=
-crtc,
->  				      bool in_vblank_irq)
->  {
->  	struct drm_device *dev =3D crtc->dev;
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
->  	unsigned int pipe =3D crtc->index;
-> -	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(dev);
-> -	struct vkms_output *output =3D &vkmsdev->output;
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
-> =20
->  	if (!READ_ONCE(vblank->enabled)) {
-> @@ -98,7 +100,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc =
-*crtc,
->  		return true;
->  	}
-> =20
-> -	*vblank_time =3D READ_ONCE(output->vblank_hrtimer.node.expires);
-> +	*vblank_time =3D READ_ONCE(vkms_crtc->vblank_hrtimer.node.expires);
-> =20
->  	if (WARN_ON(*vblank_time =3D=3D vblank->time))
->  		return true;
-> @@ -110,7 +112,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc=
- *crtc,
->  	 * the vblank core expects. Therefore we need to always correct the
->  	 * timestampe by one frame.
->  	 */
-> -	*vblank_time -=3D output->period_ns;
-> +	*vblank_time -=3D vkms_crtc->period_ns;
-> =20
->  	return true;
->  }
-> @@ -236,18 +238,18 @@ static void vkms_crtc_atomic_disable(struct drm_crt=
-c *crtc,
->  static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
->  				   struct drm_atomic_state *state)
->  {
-> -	struct vkms_output *vkms_output =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
-> =20
->  	/* This lock is held across the atomic commit to block vblank timer
->  	 * from scheduling vkms_composer_worker until the composer is updated
->  	 */
-> -	spin_lock_irq(&vkms_output->lock);
-> +	spin_lock_irq(&vkms_crtc->lock);
->  }
-> =20
->  static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
->  				   struct drm_atomic_state *state)
->  {
-> -	struct vkms_output *vkms_output =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_crtc *vkms_crtc =3D drm_crtc_to_vkms_crtc(crtc);
-> =20
->  	if (crtc->state->event) {
->  		spin_lock(&crtc->dev->event_lock);
-> @@ -262,9 +264,9 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *c=
-rtc,
->  		crtc->state->event =3D NULL;
->  	}
-> =20
-> -	vkms_output->composer_state =3D to_vkms_crtc_state(crtc->state);
-> +	vkms_crtc->composer_state =3D to_vkms_crtc_state(crtc->state);
-> =20
-> -	spin_unlock_irq(&vkms_output->lock);
-> +	spin_unlock_irq(&vkms_crtc->lock);
->  }
-> =20
->  static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs =3D {
-> @@ -275,31 +277,45 @@ static const struct drm_crtc_helper_funcs vkms_crtc=
-_helper_funcs =3D {
->  	.atomic_disable	=3D vkms_crtc_atomic_disable,
->  };
-> =20
-> -int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
-> -		   struct drm_plane *primary, struct drm_plane *cursor)
-> +struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
-> +				 struct drm_plane *primary,
-> +				 struct drm_plane *cursor)
->  {
-> -	struct vkms_output *vkms_out =3D drm_crtc_to_vkms_output(crtc);
-> +	struct drm_device *dev =3D &vkmsdev->drm;
-> +	struct vkms_crtc *vkms_crtc;
->  	int ret;
-> =20
-> -	ret =3D drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
-> +	if (vkmsdev->output.num_crtcs >=3D VKMS_MAX_OUTPUT_OBJECTS)
-> +		return ERR_PTR(-ENOMEM);
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  vkms-y :=3D \
+> +	vkms_configfs.o \
+>  	vkms_drv.o \
+>  	vkms_plane.o \
+>  	vkms_output.o \
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/=
+vkms_configfs.c
+> new file mode 100644
+> index 000000000000..f2439629b37b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -0,0 +1,648 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +
-> +	vkms_crtc =3D &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
+> +#include <linux/configfs.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
 > +
-> +	ret =3D drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, curs=
-or,
->  					 &vkms_crtc_funcs, NULL);
->  	if (ret) {
->  		DRM_ERROR("Failed to init CRTC\n");
-> -		return ret;
-> +		goto out_error;
->  	}
-> =20
-> -	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-> +	drm_crtc_helper_add(&vkms_crtc->base, &vkms_crtc_helper_funcs);
-> =20
-> -	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-> -	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-> +	drm_mode_crtc_set_gamma_size(&vkms_crtc->base, VKMS_LUT_SIZE);
-> +	drm_crtc_enable_color_mgmt(&vkms_crtc->base, 0, false, VKMS_LUT_SIZE);
-> =20
-> -	spin_lock_init(&vkms_out->lock);
-> -	spin_lock_init(&vkms_out->composer_lock);
-> -	mutex_init(&vkms_out->enabled_lock);
-> +	spin_lock_init(&vkms_crtc->lock);
-> +	spin_lock_init(&vkms_crtc->composer_lock);
-> +	mutex_init(&vkms_crtc->enabled_lock);
-> =20
-> -	vkms_out->composer_workq =3D alloc_ordered_workqueue("vkms_composer", 0=
-);
-> -	if (!vkms_out->composer_workq)
-> -		return -ENOMEM;
-> +	vkms_crtc->composer_workq =3D alloc_ordered_workqueue("vkms_composer", =
-0);
-> +	if (!vkms_crtc->composer_workq) {
-> +		ret =3D -ENOMEM;
-> +		goto out_error;
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "vkms_drv.h"
+> +
+> +/**
+> + * DOC: ConfigFS Support for VKMS
+> + *
+> + * VKMS is instrumented with support for configuration via :doc:`ConfigFS
+> + * <../filesystems/configfs>`.
+> + *
+> + * With VKMS installed, you can mount ConfigFS at ``/config/`` like so::
+> + *
+> + *   mkdir -p /config/
+> + *   sudo mount -t configfs none /config
+> + *
+> + * This allows you to configure multiple virtual devices. Note
+> + * that the default device which can be enabled in the module params wit=
+h::
+> + *
+> + *  modprobe vkms default_device=3D1
+> + *
+> + * is immutable because we cannot pre-populate ConfigFS directories with=
+ normal
+> + * files.
+> + *
+> + * To set up a new device, create a new directory under the VKMS configfs
+> + * directory::
+> + *
+> + *   mkdir /config/vkms/test
+> + *
+> + * With your device created you'll find an new directory ready to be
+> + * configured::
+> + *
+> + *   /config
+> + *   `-- vkms
+> + *       `-- test
+> + *           |-- connectors
+> + *           |-- crtcs
+> + *           |-- encoders
+> + *           |-- planes
+> + *           `-- enabled
+> + *
+> + * Each directory you add within the connectors, crtcs, encoders, and pl=
+anes
+> + * directories will let you configure a new object of that type. Adding =
+new
+> + * objects will automatically create a set of default files and folders =
+you can
+> + * use to configure that object.
+> + *
+> + * For instance, we can set up a two-output device like so::
+> + *
+> + *   DRM_PLANE_TYPE_PRIMARY=3D1
+> + *   DRM_PLANE_TYPE_CURSOR=3D2
+> + *   DRM_PLANE_TYPE_OVERLAY=3D0
+> + *
+> + *   mkdir /config/vkms/test/planes/primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
+> + *
+> + *   mkdir /config/vkms/test/planes/other_primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_prima=
+ry/type
+> + *
+> + *   mkdir /config/vkms/test/crtcs/crtc
+> + *   mkdir /config/vkms/test/crtcs/crtc_other
+> + *
+> + *   mkdir /config/vkms/test/encoders/encoder
+> + *   mkdir /config/vkms/test/encoders/encoder_other
+> + *
+> + *   mkdir /config/vkms/test/connectors/connector
+> + *   mkdir /config/vkms/test/connectors/connector_other
+> + *
+> + * You can see that specific attributes, such as ``.../<plane>/type``, c=
+an be
+> + * configured by writing into them. Associating objects together can be =
+done via
+> + * symlinks::
+> + *
+> + *   ln -s /config/vkms/test/encoders/encoder       /config/vkms/test/co=
+nnectors/connector/possible_encoders
+> + *   ln -s /config/vkms/test/encoders/encoder_other /config/vkms/test/co=
+nnectors/connector_other/possible_encoders
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc             /config/vkms/test/pl=
+anes/primary/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc_other       /config/vkms/test/pl=
+anes/other_primary/possible_crtcs/
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc             /config/vkms/test/en=
+coders/encoder/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc_other       /config/vkms/test/en=
+coders/encoder_other/possible_crtcs/
+> + *
+> + * Finally, to enable your configured device, just write 1 to the ``enab=
+led``
+> + * file::
+> + *
+> + *   echo 1 > /config/vkms/test/enabled
+> + *
+> + * When you're done with the virtual device, you can clean up the device=
+ like
+> + * so::
+> + *
+> + *   echo 0 > /config/vkms/test/enabled
+> + *
+> + *   rm /config/vkms/test/connectors/connector/possible_encoders/encoder
+> + *   rm /config/vkms/test/encoders/encoder/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/primary/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/cursor/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc_other
+> + *   rm /config/vkms/test/planes/other_primary/possible_crtcs/crtc_other
+> + *
+> + *   rmdir /config/vkms/test/planes/primary
+> + *   rmdir /config/vkms/test/planes/other_primary
+> + *   rmdir /config/vkms/test/planes/cursor
+> + *   rmdir /config/vkms/test/planes/overlay
+> + *   rmdir /config/vkms/test/crtcs/crtc
+> + *   rmdir /config/vkms/test/crtcs/crtc_other
+> + *   rmdir /config/vkms/test/encoders/encoder
+rmdir /config/vkms/test/encoders/encoder_other
+> + *   rmdir /config/vkms/test/connectors/connector
+rmdir /config/vkms/test/connectors/connector_other
+> + *
+> + *   rmdir /config/vkms/test
+> + */
+> +
+> +/*
+> + * Common helpers (i.e. common sub-groups)
+> + */
+> +
+> +/* Possible CRTCs, e.g. /config/vkms/device/<object>/possible_crtcs/<sym=
+link> */
+> +
+> +static struct config_item_type crtc_type;
+> +
+> +static int possible_crtcs_allow_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links =3D item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	if (target->ci_type !=3D &crtc_type) {
+> +		DRM_ERROR("Unable to link non-CRTCs.\n");
+> +		return -EINVAL;
 > +	}
 > +
-> +	return vkms_crtc;
-> =20
-> -	return ret;
-> +out_error:
-> +	memset(vkms_crtc, 0, sizeof(*vkms_crtc));
-> +	vkmsdev->output.num_crtcs -=3D 1;
-> +	return ERR_PTR(ret);
->  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 387c832f5dc9..65b1e2c52106 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -57,8 +57,8 @@ static void vkms_release(struct drm_device *dev)
->  {
->  	struct vkms_device *vkms =3D drm_device_to_vkms_device(dev);
-> =20
-> -	if (vkms->output.composer_workq)
-> -		destroy_workqueue(vkms->output.composer_workq);
-> +	for (int i =3D 0; i < vkms->output.num_crtcs; i++)
-> +		destroy_workqueue(vkms->output.crtcs[i].composer_workq);
->  }
-> =20
->  static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-> @@ -203,15 +203,15 @@ static int vkms_platform_probe(struct platform_devi=
-ce *pdev)
->  		goto out_release_group;
->  	}
-> =20
-> -	ret =3D drm_vblank_init(&vkms_device->drm, 1);
-> +	ret =3D vkms_modeset_init(vkms_device);
->  	if (ret) {
-> -		DRM_ERROR("Failed to vblank\n");
-> +		DRM_ERROR("Unable to initialize modesetting\n");
->  		goto out_release_group;
->  	}
-> =20
-> -	ret =3D vkms_modeset_init(vkms_device);
-> +	ret =3D drm_vblank_init(&vkms_device->drm, vkms_device->output.num_crtc=
-s);
->  	if (ret) {
-> -		DRM_ERROR("Unable to initialize modesetting\n");
-> +		DRM_ERROR("Failed to vblank\n");
->  		goto out_release_group;
->  	}
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 4c35d6305f2a..761cd809617e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -23,6 +23,10 @@
-> =20
->  #define NUM_OVERLAY_PLANES 8
-> =20
+> +	crtc =3D item_to_config_crtc(target);
 > +
-> +#define VKMS_MAX_OUTPUT_OBJECTS 16
-> +#define VKMS_MAX_PLANES (3 * VKMS_MAX_OUTPUT_OBJECTS)
+> +	if (links->linked_object_bitmap & BIT(crtc->crtc_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same CRTC from the same object\n");
+> +		return -EINVAL;
+> +	}
 > +
->  #define VKMS_LUT_SIZE 256
-> =20
->  struct vkms_frame_info {
-> @@ -66,6 +70,27 @@ struct vkms_plane {
->  	struct drm_plane base;
->  };
-> =20
-> +struct vkms_crtc {
-> +	struct drm_crtc base;
+> +	links->linked_object_bitmap |=3D BIT(crtc->crtc_config_idx);
 > +
-> +	struct drm_writeback_connector wb_connector;
-> +	struct hrtimer vblank_hrtimer;
-> +	ktime_t period_ns;
-> +	struct drm_pending_vblank_event *event;
-> +	/* ordered wq for composer_work */
-> +	struct workqueue_struct *composer_workq;
-> +	/* protects concurrent access to composer */
-> +	spinlock_t lock;
-> +	/* guarantees that if the composer is enabled, a job will be queued */
-> +	struct mutex enabled_lock;
+> +	return 0;
+> +}
 > +
-> +	/* protected by @enabled_lock */
-> +	bool composer_enabled;
-> +	struct vkms_crtc_state *composer_state;
+> +static void possible_crtcs_drop_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links =3D item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc =3D item_to_config_crtc(target);
 > +
-> +	spinlock_t composer_lock;
+> +	links->linked_object_bitmap &=3D ~BIT(crtc->crtc_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_crtcs_item_ops =3D {
+> +	.allow_link =3D &possible_crtcs_allow_link,
+> +	.drop_link =3D &possible_crtcs_drop_link,
 > +};
 > +
->  struct vkms_color_lut {
->  	struct drm_color_lut *base;
->  	size_t lut_length;
-> @@ -97,25 +122,14 @@ struct vkms_crtc_state {
+> +static struct config_item_type possible_crtcs_group_type =3D {
+> +	.ct_item_ops =3D &possible_crtcs_item_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +static void add_possible_crtcs(struct config_group *parent,
+> +			       struct config_group *possible_crtcs)
+> +{
+> +	config_group_init_type_name(possible_crtcs, "possible_crtcs",
+> +				    &possible_crtcs_group_type);
+> +	configfs_add_default_group(possible_crtcs, parent);
+> +}
+> +
+> +/* Possible encoders, e.g. /config/vkms/device/connector/possible_encode=
+rs/<symlink> */
+> +
+> +static struct config_item_type encoder_type;
+> +
+> +static int possible_encoders_allow_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links =3D item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	if (target->ci_type !=3D &encoder_type) {
+> +		DRM_ERROR("Unable to link non-encoders.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	encoder =3D item_to_config_encoder(target);
+> +
+> +	if (links->linked_object_bitmap & BIT(encoder->encoder_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same encoder from the same object\n=
+");
+> +		return -EINVAL;
+> +	}
+> +
+> +	links->linked_object_bitmap |=3D BIT(encoder->encoder_config_idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static void possible_encoders_drop_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links =3D item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder =3D item_to_config_encoder(target);
+> +
+> +	links->linked_object_bitmap &=3D ~BIT(encoder->encoder_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_encoders_item_ops =3D {
+> +	.allow_link =3D &possible_encoders_allow_link,
+> +	.drop_link =3D &possible_encoders_drop_link,
+> +};
+> +
+> +static struct config_item_type possible_encoders_group_type =3D {
+> +	.ct_item_ops =3D &possible_encoders_item_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +static void add_possible_encoders(struct config_group *parent,
+> +				  struct config_group *possible_encoders)
+> +{
+> +	config_group_init_type_name(possible_encoders, "possible_encoders",
+> +				    &possible_encoders_group_type);
+> +	configfs_add_default_group(possible_encoders, parent);
+> +}
+> +
+> +/*
+> + * Individual objects (connectors, crtcs, encoders, planes):
+> + */
+> +
+> +/*  Connector item, e.g. /config/vkms/device/connectors/ID */
+> +
+> +static struct config_item_type connector_type =3D {
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/*  Crtc item, e.g. /config/vkms/device/crtcs/ID */
+> +
+> +static struct config_item_type crtc_type =3D {
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/*  Encoder item, e.g. /config/vkms/device/encoder/ID */
+> +
+> +static struct config_item_type encoder_type =3D {
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/*  Plane item, e.g. /config/vkms/device/planes/ID */
+> +
+> +static ssize_t plane_type_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_config_plane *plane =3D item_to_config_plane(item);
+> +	struct vkms_configfs *configfs =3D plane_item_to_configfs(item);
+> +	enum drm_plane_type plane_type;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane_type =3D plane->type;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%u", plane_type);
+> +}
+> +
+> +static ssize_t plane_type_store(struct config_item *item, const char *bu=
+f,
+> +				size_t len)
+> +{
+> +	struct vkms_config_plane *plane =3D item_to_config_plane(item);
+> +	struct vkms_configfs *configfs =3D plane_item_to_configfs(item);
+> +	int val, ret;
+> +
+> +	ret =3D kstrtouint(buf, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val !=3D DRM_PLANE_TYPE_PRIMARY && val !=3D DRM_PLANE_TYPE_CURSOR &&
+> +	    val !=3D DRM_PLANE_TYPE_OVERLAY)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane->type =3D val;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(plane_, type);
+> +
+> +static struct configfs_attribute *plane_attrs[] =3D {
+> +	&plane_attr_type,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type plane_type =3D {
+> +	.ct_attrs =3D plane_attrs,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/*
+> + * Directory groups, e.g. /config/vkms/device/{planes, crtcs, ...}
+> + */
+> +
+> +/* Connectors group: /config/vkms/device/connectors/ */
+> +
+> +static struct config_group *connectors_group_make(struct config_group *g=
+roup,
+> +						  const char *name)
+> +{
+> +	struct vkms_config_connector *connector =3D
+> +		kzalloc(sizeof(*connector), GFP_KERNEL);
+> +	if (!connector)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&connector->config_group, name,
+> +				    &connector_type);
+> +	add_possible_encoders(&connector->config_group,
+> +			      &connector->possible_encoders.group);
+> +
+> +	return &connector->config_group;
+> +}
+> +
+> +static void connectors_group_drop(struct config_group *group,
+> +				  struct config_item *item)
+> +{
+> +	struct vkms_config_connector *connector =3D
+> +		item_to_config_connector(item);
+> +	kfree(connector);
+> +}
+> +
+> +static struct configfs_group_operations connectors_group_ops =3D {
+> +	.make_group =3D &connectors_group_make,
+> +	.drop_item =3D &connectors_group_drop,
+> +};
+> +
+> +static struct config_item_type connectors_group_type =3D {
+> +	.ct_group_ops =3D &connectors_group_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/* CRTCs group: /config/vkms/device/crtcs/ */
+> +
+> +static struct config_group *crtcs_group_make(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_configfs *configfs =3D
+> +		container_of(group, struct vkms_configfs, crtcs_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx =3D find_first_zero_bit(&configfs->allocated_crtcs,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
+> +
+> +	if (next_idx =3D=3D VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	crtc =3D kzalloc(sizeof(*crtc), GFP_KERNEL);
+> +	if (!crtc) {
+> +		DRM_ERROR("Unable to allocate CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&crtc->config_group, name, &crtc_type);
+> +	crtc->crtc_config_idx =3D next_idx;
+> +
+> +	set_bit(next_idx, &configfs->allocated_crtcs);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &crtc->config_group;
+> +}
+> +
+> +static void crtcs_group_drop(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_crtc *crtc =3D item_to_config_crtc(item);
+> +
+> +	kfree(crtc);
+> +}
+> +
+> +static struct configfs_group_operations crtcs_group_ops =3D {
+> +	.make_group =3D &crtcs_group_make,
+> +	.drop_item =3D &crtcs_group_drop,
+> +};
+> +
+> +static struct config_item_type crtcs_group_type =3D {
+> +	.ct_group_ops =3D &crtcs_group_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/* Encoders group: /config/vkms/device/encoders/ */
+> +
+> +static struct config_group *encoders_group_make(struct config_group *gro=
+up,
+> +						const char *name)
+> +{
+> +	struct vkms_configfs *configfs =3D
+> +		container_of(group, struct vkms_configfs, encoders_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx =3D find_first_zero_bit(&configfs->allocated_encoders,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
+> +
+> +	if (next_idx =3D=3D VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	encoder =3D kzalloc(sizeof(*encoder), GFP_KERNEL);
+> +	if (!encoder) {
+> +		DRM_ERROR("Unable to allocate encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&encoder->config_group, name,
+> +				    &encoder_type);
+> +	add_possible_crtcs(&encoder->config_group,
+> +			   &encoder->possible_crtcs.group);
+> +	encoder->encoder_config_idx =3D next_idx;
+> +	set_bit(next_idx, &configfs->allocated_encoders);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &encoder->config_group;
+> +}
+> +
+> +static void encoders_group_drop(struct config_group *group,
+> +				struct config_item *item)
+> +{
+> +	struct vkms_config_encoder *encoder =3D item_to_config_encoder(item);
+> +
+> +	kfree(encoder);
+> +}
+> +
+> +static struct configfs_group_operations encoders_group_ops =3D {
+> +	.make_group =3D &encoders_group_make,
+> +	.drop_item =3D &encoders_group_drop,
+> +};
+> +
+> +static struct config_item_type encoders_group_type =3D {
+> +	.ct_group_ops =3D &encoders_group_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/* Planes group: /config/vkms/device/planes/ */
+> +
+> +static struct config_group *make_plane_group(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_config_plane *plane =3D kzalloc(sizeof(*plane), GFP_KERNEL);
+> +
+> +	if (!plane)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&plane->config_group, name, &plane_type);
+> +	add_possible_crtcs(&plane->config_group, &plane->possible_crtcs.group);
+> +
+> +	return &plane->config_group;
+> +}
+> +
+> +static void drop_plane_group(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_plane *plane =3D item_to_config_plane(item);
+> +
+> +	kfree(plane);
+> +}
+> +
+> +static struct configfs_group_operations plane_group_ops =3D {
+> +	.make_group =3D &make_plane_group,
+> +	.drop_item =3D &drop_plane_group,
+> +};
+> +
+> +static struct config_item_type planes_group_type =3D {
+> +	.ct_group_ops =3D &plane_group_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +/* Root directory group, e.g. /config/vkms/device */
+> +
+> +static ssize_t device_enabled_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs =3D item_to_configfs(item);
+> +	bool is_enabled;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	is_enabled =3D configfs->vkms_device !=3D NULL;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", is_enabled);
+> +}
+> +
+> +static ssize_t device_enabled_store(struct config_item *item, const char=
+ *buf,
+> +				    size_t len)
+> +{
+> +	struct vkms_configfs *configfs =3D item_to_configfs(item);
+> +	struct vkms_device *device;
+> +	int value, ret;
+> +
+> +	ret =3D kstrtoint(buf, 0, &value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value !=3D 1)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	if (configfs->vkms_device) {
+> +		mutex_unlock(&configfs->lock);
+> +		return len;
+> +	}
+> +
+> +	device =3D vkms_add_device(configfs);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	if (IS_ERR(device))
+> +		return -PTR_ERR(device);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(device_, enabled);
+> +
+> +static ssize_t device_id_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs =3D item_to_configfs(item);
+> +	int id =3D -1;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		id =3D configfs->vkms_device->platform->id;
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", id);
+> +}
+> +
+> +CONFIGFS_ATTR_RO(device_, id);
+> +
+> +static struct configfs_attribute *device_group_attrs[] =3D {
+> +	&device_attr_id,
+> +	&device_attr_enabled,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type device_group_type =3D {
+> +	.ct_attrs =3D device_group_attrs,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +static void vkms_configfs_setup_default_groups(struct vkms_configfs *con=
+figfs,
+> +					       const char *name)
+> +{
+> +	config_group_init_type_name(&configfs->device_group, name,
+> +				    &device_group_type);
+> +
+> +	config_group_init_type_name(&configfs->connectors_group, "connectors",
+> +				    &connectors_group_type);
+> +	configfs_add_default_group(&configfs->connectors_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->crtcs_group, "crtcs",
+> +				    &crtcs_group_type);
+> +	configfs_add_default_group(&configfs->crtcs_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->encoders_group, "encoders",
+> +				    &encoders_group_type);
+> +	configfs_add_default_group(&configfs->encoders_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->planes_group, "planes",
+> +				    &planes_group_type);
+> +	configfs_add_default_group(&configfs->planes_group,
+> +				   &configfs->device_group);
+> +}
+> +
+> +/* Root directory group and subsystem, e.g. /config/vkms/ */
+> +
+> +static struct config_group *make_root_group(struct config_group *group,
+> +					    const char *name)
+> +{
+> +	struct vkms_configfs *configfs =3D kzalloc(sizeof(*configfs), GFP_KERNE=
+L);
+> +
+> +	if (!configfs)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	vkms_configfs_setup_default_groups(configfs, name);
+> +	mutex_init(&configfs->lock);
+> +
+> +	return &configfs->device_group;
+> +}
+> +
+> +static void drop_root_group(struct config_group *group,
+> +			    struct config_item *item)
+> +{
+> +	struct vkms_configfs *configfs =3D item_to_configfs(item);
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		vkms_remove_device(configfs->vkms_device);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	kfree(configfs);
+> +}
+> +
+> +static struct configfs_group_operations root_group_ops =3D {
+> +	.make_group =3D &make_root_group,
+> +	.drop_item =3D &drop_root_group,
+> +};
+> +
+> +static struct config_item_type vkms_type =3D {
+> +	.ct_group_ops =3D &root_group_ops,
+> +	.ct_owner =3D THIS_MODULE,
+> +};
+> +
+> +static struct configfs_subsystem vkms_subsys =3D {
+> +	.su_group =3D {
+> +		.cg_item =3D {
+> +			.ci_name =3D "vkms",
+> +			.ci_type =3D &vkms_type,
+> +		},
+> +	},
+> +	.su_mutex =3D __MUTEX_INITIALIZER(vkms_subsys.su_mutex),
+> +};
+> +
+> +int vkms_init_configfs(void)
+> +{
+> +	config_group_init(&vkms_subsys.su_group);
+> +	return configfs_register_subsystem(&vkms_subsys);
+> +}
+> +
+> +void vkms_unregister_configfs(void)
+> +{
+> +	configfs_unregister_subsystem(&vkms_subsys);
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
+drv.c
+> index 6c94c2b5d529..819e880a8cf7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,8 +9,10 @@
+>   * the GPU in DRM API tests.
+>   */
+> =20
+> -#include "asm-generic/errno-base.h"
+> +#include <linux/configfs.h>
+>  #include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/dma-mapping.h>
+> @@ -172,8 +174,8 @@ static int vkms_modeset_init(struct vkms_device *vkms=
+dev)
+>  	dev->mode_config.preferred_depth =3D 0;
+>  	dev->mode_config.helper_private =3D &vkms_mode_config_helpers;
+> =20
+> -	return vkmsdev->is_default ? vkms_output_init_default(vkmsdev) :
+> -				     -EINVAL;
+> +	return vkmsdev->configfs ? vkms_output_init(vkmsdev) :
+> +				   vkms_output_init_default(vkmsdev);
+>  }
+> =20
+>  static int vkms_platform_probe(struct platform_device *pdev)
+> @@ -184,8 +186,10 @@ static int vkms_platform_probe(struct platform_devic=
+e *pdev)
+>  	void *grp;
+> =20
+>  	grp =3D devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> -	if (!grp)
+> +	if (!grp) {
+> +		DRM_ERROR("Could not open devres group\n");
+>  		return -ENOMEM;
+> +	}
+> =20
+>  	vkms_device =3D devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+>  					 struct vkms_device, drm);
+> @@ -198,7 +202,7 @@ static int vkms_platform_probe(struct platform_device=
+ *pdev)
+>  	vkms_device->config.cursor =3D enable_cursor;
+>  	vkms_device->config.writeback =3D enable_writeback;
+>  	vkms_device->config.overlay =3D enable_overlay;
+> -	vkms_device->is_default =3D vkms_device_setup->is_default;
+> +	vkms_device->configfs =3D vkms_device_setup->configfs;
+> =20
+>  	ret =3D dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>  					   DMA_BIT_MASK(64));
+> @@ -258,12 +262,43 @@ static struct platform_driver vkms_platform_driver =
+=3D {
+>  	.driver.name =3D DRIVER_NAME,
 >  };
 > =20
->  struct vkms_output {
-> -	struct drm_crtc crtc;
-> -	struct drm_encoder encoder;
-> -	struct drm_connector connector;
-> -	struct drm_writeback_connector wb_connector;
-> -	struct hrtimer vblank_hrtimer;
-> -	ktime_t period_ns;
-> -	struct drm_pending_vblank_event *event;
-> -	/* ordered wq for composer_work */
-> -	struct workqueue_struct *composer_workq;
-> -	/* protects concurrent access to composer */
-> -	spinlock_t lock;
-> -	/* guarantees that if the composer is enabled, a job will be queued */
-> -	struct mutex enabled_lock;
-> -
-> -	/* protected by @enabled_lock */
-> -	bool composer_enabled;
-> -	struct vkms_crtc_state *composer_state;
-> -
-> -	spinlock_t composer_lock;
-> +	int num_crtcs;
-> +	struct vkms_crtc crtcs[VKMS_MAX_OUTPUT_OBJECTS];
-> +	int num_encoders;
-> +	struct drm_encoder encoders[VKMS_MAX_OUTPUT_OBJECTS];
-> +	int num_connectors;
-> +	struct drm_connector connectors[VKMS_MAX_OUTPUT_OBJECTS];
-> +	int num_planes;
-> +	struct vkms_plane planes[VKMS_MAX_PLANES];
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
+> +{
+> +	struct device *dev =3D NULL;
+> +	struct platform_device *pdev;
+> +	int max_id =3D 1;
+> +	struct vkms_device_setup vkms_device_setup =3D {
+> +		.configfs =3D configfs,
+> +	};
+> +
+> +	while ((dev =3D platform_find_device_by_driver(
+> +			dev, &vkms_platform_driver.driver))) {
+> +		pdev =3D to_platform_device(dev);
+> +		max_id =3D max(max_id, pdev->id);
+> +	}
+> +
+> +	pdev =3D platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
+> +					     &vkms_device_setup,
+> +					     sizeof(vkms_device_setup));
+> +	if (IS_ERR(pdev)) {
+> +		DRM_ERROR("Unable to register vkms device'\n");
+> +		return ERR_PTR(PTR_ERR(pdev));
+> +	}
+> +
+> +	return platform_get_drvdata(pdev);
+> +}
+> +
+> +void vkms_remove_device(struct vkms_device *vkms_device)
+> +{
+> +	platform_device_unregister(vkms_device->platform);
+> +}
+> +
+>  static int __init vkms_init(void)
+>  {
+>  	int ret;
+>  	struct platform_device *pdev;
+>  	struct vkms_device_setup vkms_device_setup =3D {
+> -		.is_default =3D true,
+> +		.configfs =3D NULL,
+>  	};
+> =20
+>  	ret =3D platform_driver_register(&vkms_platform_driver);
+> @@ -281,6 +316,13 @@ static int __init vkms_init(void)
+>  		return PTR_ERR(pdev);
+>  	}
+> =20
+> +	ret =3D vkms_init_configfs();
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize configfs\n");
+> +		platform_device_unregister(pdev);
+> +		platform_driver_unregister(&vkms_platform_driver);
+> +	}
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -288,6 +330,8 @@ static void __exit vkms_exit(void)
+>  {
+>  	struct device *dev;
+> =20
+> +	vkms_unregister_configfs();
+> +
+>  	while ((dev =3D platform_find_device_by_driver(
+>  			NULL, &vkms_platform_driver.driver))) {
+>  		// platform_find_device_by_driver increments the refcount. Drop
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 4262dcffd7e1..8cdd7949f661 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -3,6 +3,7 @@
+>  #ifndef _VKMS_DRV_H_
+>  #define _VKMS_DRV_H_
+> =20
+> +#include <linux/configfs.h>
+>  #include <linux/hrtimer.h>
+> =20
+>  #include <drm/drm.h>
+> @@ -10,6 +11,7 @@
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+>  #include <drm/drm_writeback.h>
+> =20
+>  #define XRES_MIN    10
+> @@ -138,14 +140,65 @@ struct vkms_config {
+>  	bool overlay;
 >  };
 > =20
->  struct vkms_device;
-> @@ -133,12 +147,14 @@ struct vkms_device {
+> +struct vkms_config_links {
+> +	struct config_group group;
+> +	unsigned long linked_object_bitmap;
+> +};
+> +
+> +struct vkms_config_connector {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_encoders;
+> +};
+> +
+> +struct vkms_config_crtc {
+> +	struct config_group config_group;
+> +	unsigned long crtc_config_idx;
+> +};
+> +
+> +struct vkms_config_encoder {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	unsigned long encoder_config_idx;
+> +};
+> +
+> +struct vkms_config_plane {
+> +	struct vkms_configfs *configfs;
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	enum drm_plane_type type;
+> +};
+> +
+> +struct vkms_configfs {
+> +	/* Directory group containing connector configs, e.g. /config/vkms/devi=
+ce/ */
+> +	struct config_group device_group;
+> +	/* Directory group containing connector configs, e.g. /config/vkms/devi=
+ce/connectors/ */
+> +	struct config_group connectors_group;
+> +	/* Directory group containing CRTC configs, e.g. /config/vkms/device/cr=
+tcs/ */
+> +	struct config_group crtcs_group;
+> +	/* Directory group containing encoder configs, e.g. /config/vkms/device=
+/encoders/ */
+> +	struct config_group encoders_group;
+> +	/* Directory group containing plane configs, e.g. /config/vkms/device/p=
+lanes/ */
+> +	struct config_group planes_group;
+> +
+> +	unsigned long allocated_crtcs;
+> +	unsigned long allocated_encoders;
+> +
+> +	struct mutex lock;
+> +
+> +	/* The platform device if this is registered, otherwise NULL */
+> +	struct vkms_device *vkms_device;
+> +};
+> +
+>  struct vkms_device_setup {
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>  };
+> =20
+>  struct vkms_device {
+>  	struct drm_device drm;
+>  	struct platform_device *platform;
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>  	struct vkms_output output;
 >  	struct vkms_config config;
 >  };
-> =20
-> -#define drm_crtc_to_vkms_output(target) \
-> -	container_of(target, struct vkms_output, crtc)
-> +#define drm_crtc_to_vkms_crtc(crtc) container_of(crtc, struct vkms_crtc,=
- base)
-> =20
->  #define drm_device_to_vkms_device(target) \
->  	container_of(target, struct vkms_device, drm)
-> =20
-> +#define timer_to_vkms_crtc(timer) \
-> +	container_of(timer, struct vkms_crtc, vblank_hrtimer)
-> +
->  #define to_vkms_crtc_state(target)\
->  	container_of(target, struct vkms_crtc_state, base)
-> =20
-> @@ -146,13 +162,14 @@ struct vkms_device {
+> @@ -164,11 +217,42 @@ struct vkms_device {
+>  #define to_vkms_plane_state(target)\
 >  	container_of(target, struct vkms_plane_state, base.base)
 > =20
+> +#define item_to_configfs(item) \
+> +	container_of(to_config_group(item), struct vkms_configfs, device_group)
+> +
+> +#define item_to_config_connector(item)                                  =
+  \
+> +	container_of(to_config_group(item), struct vkms_config_connector, \
+> +		     config_group)
+> +
+> +#define item_to_config_crtc(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_crtc, \
+> +		     config_group)
+> +
+> +#define item_to_config_encoder(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_encoder, \
+> +		     config_group)
+> +
+> +#define item_to_config_plane(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_plane, \
+> +		     config_group)
+> +
+> +#define item_to_config_links(item) \
+> +	container_of(to_config_group(item), struct vkms_config_links, group)
+> +
+> +#define plane_item_to_configfs(item)                                    =
+     \
+> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
+> +		     planes_group)
+> +
+> +/* Devices */
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs);
+> +void vkms_remove_device(struct vkms_device *vkms_device);
+> +
 >  /* CRTC */
-> -int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
-> -		   struct drm_plane *primary, struct drm_plane *cursor);
-> +struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
-> +				 struct drm_plane *primary,
-> +				 struct drm_plane *cursor);
+>  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
+>  				 struct drm_plane *primary,
+>  				 struct drm_plane *cursor);
 > =20
->  int vkms_output_init(struct vkms_device *vkmsdev, int index);
+> +int vkms_output_init(struct vkms_device *vkmsdev);
+>  int vkms_output_init_default(struct vkms_device *vkmsdev);
 > =20
 >  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index);
-> +				   enum drm_plane_type type);
+> @@ -191,4 +275,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb=
+, const struct line_buffer
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>  				    struct vkms_crtc *vkms_crtc);
 > =20
->  /* CRC Support */
->  const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> @@ -163,11 +180,12 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, c=
-onst char *source_name,
-> =20
->  /* Composer Support */
->  void vkms_composer_worker(struct work_struct *work);
-> -void vkms_set_composer(struct vkms_output *out, bool enabled);
-> +void vkms_set_composer(struct vkms_crtc *vkms_crtc, bool enabled);
->  void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plan=
-e_state *plane, int y);
->  void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line=
-_buffer *src_buffer, int y);
-> =20
->  /* Writeback */
-> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
-> +				    struct vkms_crtc *vkms_crtc);
-> =20
+> +/* ConfigFS Support */
+> +int vkms_init_configfs(void);
+> +void vkms_unregister_configfs(void);
+> +
 >  #endif /* _VKMS_DRV_H_ */
 > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
 ms_output.c
-> index 963a64cf068b..86faf94f7408 100644
+> index bfc2e2362c6d..dc69959c5e1d 100644
 > --- a/drivers/gpu/drm/vkms/vkms_output.c
 > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -1,9 +1,13 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
-> -#include "vkms_drv.h"
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_connector.h>
->  #include <drm/drm_edid.h>
-> +#include <drm/drm_encoder.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "vkms_drv.h"
-> =20
->  static const struct drm_connector_funcs vkms_connector_funcs =3D {
->  	.fill_modes =3D drm_helper_probe_single_connector_modes,
-> @@ -28,74 +32,116 @@ static int vkms_conn_get_modes(struct drm_connector =
-*connector)
->  }
-> =20
->  static const struct drm_connector_helper_funcs vkms_conn_helper_funcs =
-=3D {
-> -	.get_modes    =3D vkms_conn_get_modes,
-> +	.get_modes =3D vkms_conn_get_modes,
->  };
-> =20
-> -static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
-> -				  struct drm_crtc *crtc)
-> +static struct drm_connector *
-> +vkms_connector_init(struct vkms_device *vkms_device)
->  {
-> -	struct vkms_plane *overlay;
-> +	struct drm_connector *connector;
-> +	int ret;
-> =20
-> -	overlay =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
-> -	if (IS_ERR(overlay))
-> -		return PTR_ERR(overlay);
-> +	if (vkms_device->output.num_connectors >=3D VKMS_MAX_OUTPUT_OBJECTS)
-> +		return ERR_PTR(-ENOMEM);
-> =20
-> -	if (!overlay->base.possible_crtcs)
-> -		overlay->base.possible_crtcs =3D drm_crtc_mask(crtc);
-> +	connector =3D &vkms_device->output
-> +			     .connectors[vkms_device->output.num_connectors++];
-> +	ret =3D drm_connector_init(&vkms_device->drm, connector,
-> +				 &vkms_connector_funcs,
-> +				 DRM_MODE_CONNECTOR_VIRTUAL);
-> +	if (ret) {
-> +		memset(connector, 0, sizeof(*connector));
-> +		vkms_device->output.num_connectors -=3D 1;
-> +		return ERR_PTR(ret);
-> +	}
-> =20
-> -	return 0;
-> +	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> +
-> +	return connector;
-> +}
-> +
-> +static struct drm_encoder *vkms_encoder_init(struct vkms_device *vkms_de=
-vice)
-> +{
-> +	struct drm_encoder *encoder;
-> +	int ret;
-> +
-> +	if (vkms_device->output.num_encoders >=3D VKMS_MAX_OUTPUT_OBJECTS)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	encoder =3D &vkms_device->output
-> +			   .encoders[vkms_device->output.num_encoders++];
-> +	ret =3D drm_encoder_init(&vkms_device->drm, encoder, &vkms_encoder_func=
-s,
-> +			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	if (ret) {
-> +		memset(encoder, 0, sizeof(*encoder));
-> +		vkms_device->output.num_encoders -=3D 1;
-> +		return ERR_PTR(ret);
-> +	}
-> +	return encoder;
->  }
-> =20
->  int vkms_output_init(struct vkms_device *vkmsdev, int index)
->  {
->  	struct vkms_output *output =3D &vkmsdev->output;
->  	struct drm_device *dev =3D &vkmsdev->drm;
-> -	struct drm_connector *connector =3D &output->connector;
-> -	struct drm_encoder *encoder =3D &output->encoder;
-> -	struct drm_crtc *crtc =3D &output->crtc;
-> +	struct drm_connector *connector;
-> +	struct drm_encoder *encoder;
-> +	struct vkms_crtc *vkms_crtc;
->  	struct vkms_plane *primary, *cursor =3D NULL;
->  	int ret;
->  	int writeback;
->  	unsigned int n;
-> =20
-> -	primary =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
-> +	primary =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
-> =20
->  	if (vkmsdev->config.overlay) {
->  		for (n =3D 0; n < NUM_OVERLAY_PLANES; n++) {
-> -			ret =3D vkms_add_overlay_plane(vkmsdev, index, crtc);
-> -			if (ret)
-> -				return ret;
-> +			struct vkms_plane *overlay =3D vkms_plane_init(
-> +				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
-> +			if (IS_ERR(overlay)) {
-> +				ret =3D PTR_ERR(overlay);
-> +				goto err_planes;
-> +			}
->  		}
->  	}
-> =20
->  	if (vkmsdev->config.cursor) {
-> -		cursor =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
-> -		if (IS_ERR(cursor))
-> -			return PTR_ERR(cursor);
-> +		cursor =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
-> +		if (IS_ERR(cursor)) {
-> +			ret =3D PTR_ERR(cursor);
-> +			goto err_planes;
-> +		}
->  	}
-> =20
-> -	ret =3D vkms_crtc_init(dev, crtc, &primary->base, &cursor->base);
-> -	if (ret)
-> -		return ret;
-> +	vkms_crtc =3D vkms_crtc_init(vkmsdev, &primary->base,
-> +				   cursor ? &cursor->base : NULL);
-> +	if (IS_ERR(vkms_crtc)) {
-> +		DRM_ERROR("Failed to init crtc\n");
-> +		ret =3D PTR_ERR(vkms_crtc);
-> +		goto err_planes;
-> +	}
-> =20
-> -	ret =3D drm_connector_init(dev, connector, &vkms_connector_funcs,
-> -				 DRM_MODE_CONNECTOR_VIRTUAL);
-> -	if (ret) {
-> +	for (int i =3D 0; i < vkmsdev->output.num_planes; i++) {
-> +		vkmsdev->output.planes[i].base.possible_crtcs |=3D
-> +			drm_crtc_mask(&vkms_crtc->base);
-> +	}
-> +
-> +	connector =3D vkms_connector_init(vkmsdev);
-> +	if (IS_ERR(connector)) {
->  		DRM_ERROR("Failed to init connector\n");
-> +		ret =3D PTR_ERR(connector);
->  		goto err_connector;
->  	}
-> =20
-> -	drm_connector_helper_add(connector, &vkms_conn_helper_funcs);
-> -
-> -	ret =3D drm_encoder_init(dev, encoder, &vkms_encoder_funcs,
-> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
-> -	if (ret) {
-> +	encoder =3D vkms_encoder_init(vkmsdev);
-> +	if (IS_ERR(encoder)) {
->  		DRM_ERROR("Failed to init encoder\n");
-> +		ret =3D PTR_ERR(encoder);
->  		goto err_encoder;
->  	}
-> -	encoder->possible_crtcs =3D 1;
-> +	encoder->possible_crtcs |=3D drm_crtc_mask(&vkms_crtc->base);
-> =20
->  	ret =3D drm_connector_attach_encoder(connector, encoder);
->  	if (ret) {
-> @@ -104,7 +150,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int=
- index)
->  	}
-> =20
->  	if (vkmsdev->config.writeback) {
-> -		writeback =3D vkms_enable_writeback_connector(vkmsdev);
-> +		writeback =3D vkms_enable_writeback_connector(vkmsdev, vkms_crtc);
->  		if (writeback)
->  			DRM_ERROR("Failed to init writeback connector\n");
->  	}
-> @@ -120,7 +166,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, in=
-t index)
->  	drm_connector_cleanup(connector);
-> =20
->  err_connector:
-> -	drm_crtc_cleanup(crtc);
-> +	drm_crtc_cleanup(&vkms_crtc->base);
-> +
-> +err_planes:
-> +	for (int i =3D 0; i < output->num_planes; i++)
-> +		drm_plane_cleanup(&output->planes[i].base);
-> +
-> +	memset(output, 0, sizeof(*output));
+> @@ -176,3 +176,8 @@ int vkms_output_init_default(struct vkms_device *vkms=
+dev)
 > =20
 >  	return ret;
 >  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index e5c625ab8e3e..950e6c930273 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -8,6 +8,8 @@
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_plane_helper.h>
-> =20
->  #include "vkms_drv.h"
->  #include "vkms_formats.h"
-> @@ -65,6 +67,20 @@ static void vkms_plane_destroy_state(struct drm_plane =
-*plane,
->  	kfree(vkms_state);
->  }
-> =20
-> +static void vkms_plane_destroy(struct drm_plane *plane)
+> +
+> +int vkms_output_init(struct vkms_device *vkmsdev)
 > +{
-> +	struct vkms_plane *vkms_plane =3D
-> +		container_of(plane, struct vkms_plane, base);
-> +
-> +	if (plane->state) {
-> +		vkms_plane_destroy_state(plane, plane->state);
-> +		plane->state =3D NULL;
-> +	}
-> +
-> +	drm_plane_cleanup(plane);
-> +	memset(vkms_plane, 0, sizeof(struct vkms_plane));
+> +	return -EOPNOTSUPP;
 > +}
-> +
->  static void vkms_plane_reset(struct drm_plane *plane)
->  {
->  	struct vkms_plane_state *vkms_state;
-> @@ -86,9 +102,10 @@ static void vkms_plane_reset(struct drm_plane *plane)
->  static const struct drm_plane_funcs vkms_plane_funcs =3D {
->  	.update_plane		=3D drm_atomic_helper_update_plane,
->  	.disable_plane		=3D drm_atomic_helper_disable_plane,
-> +	.destroy =3D vkms_plane_destroy,
->  	.reset			=3D vkms_plane_reset,
->  	.atomic_duplicate_state =3D vkms_plane_duplicate_state,
-> -	.atomic_destroy_state	=3D vkms_plane_destroy_state,
-> +	.atomic_destroy_state =3D vkms_plane_destroy_state,
->  };
-> =20
->  static void vkms_plane_atomic_update(struct drm_plane *plane,
-> @@ -198,17 +215,22 @@ static const struct drm_plane_helper_funcs vkms_pla=
-ne_helper_funcs =3D {
->  };
-> =20
->  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> -				   enum drm_plane_type type, int index)
-> +				   enum drm_plane_type type)
->  {
->  	struct drm_device *dev =3D &vkmsdev->drm;
-> +	struct vkms_output *output =3D &vkmsdev->output;
->  	struct vkms_plane *plane;
-> +	int ret;
-> =20
-> -	plane =3D drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 <<=
- index,
-> -					   &vkms_plane_funcs,
-> -					   vkms_formats, ARRAY_SIZE(vkms_formats),
-> -					   NULL, type, NULL);
-> -	if (IS_ERR(plane))
-> -		return plane;
-> +	if (output->num_planes >=3D VKMS_MAX_PLANES)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	plane =3D &output->planes[output->num_planes++];
-> +	ret =3D drm_universal_plane_init(dev, &plane->base, 0, &vkms_plane_func=
-s,
-> +				       vkms_formats, ARRAY_SIZE(vkms_formats),
-> +				       NULL, type, NULL);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> =20
->  	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms=
-/vkms_writeback.c
-> index d7e63aa14663..73b8c968e326 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
->  #include <linux/iosys-map.h>
-> +#include <linux/kernel.h>
-> =20
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_edid.h>
-> @@ -102,7 +103,8 @@ static void vkms_wb_cleanup_job(struct drm_writeback_=
-connector *connector,
->  				struct drm_writeback_job *job)
->  {
->  	struct vkms_writeback_job *vkmsjob =3D job->priv;
-> -	struct vkms_device *vkmsdev;
-> +	struct vkms_crtc *vkms_crtc =3D
-> +		container_of(connector, struct vkms_crtc, wb_connector);
-> =20
->  	if (!job->fb)
->  		return;
-> @@ -111,8 +113,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_=
-connector *connector,
-> =20
->  	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
-> =20
-> -	vkmsdev =3D drm_device_to_vkms_device(job->fb->dev);
-> -	vkms_set_composer(&vkmsdev->output, false);
-> +	vkms_set_composer(vkms_crtc, false);
->  	kfree(vkmsjob);
->  }
-> =20
-> @@ -121,11 +122,10 @@ static void vkms_wb_atomic_commit(struct drm_connec=
-tor *conn,
->  {
->  	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
-ector_state(state,
->  											 conn);
-> -	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(conn->dev);
-> -	struct vkms_output *output =3D &vkmsdev->output;
-> -	struct drm_writeback_connector *wb_conn =3D &output->wb_connector;
-> -	struct drm_connector_state *conn_state =3D wb_conn->base.state;
-> -	struct vkms_crtc_state *crtc_state =3D output->composer_state;
-> +	struct vkms_crtc *vkms_crtc =3D
-> +		drm_crtc_to_vkms_crtc(connector_state->crtc);
-> +	struct drm_writeback_connector *wb_conn =3D &vkms_crtc->wb_connector;
-> +	struct vkms_crtc_state *crtc_state =3D vkms_crtc->composer_state;
->  	struct drm_framebuffer *fb =3D connector_state->writeback_job->fb;
->  	u16 crtc_height =3D crtc_state->base.crtc->mode.vdisplay;
->  	u16 crtc_width =3D crtc_state->base.crtc->mode.hdisplay;
-> @@ -133,18 +133,18 @@ static void vkms_wb_atomic_commit(struct drm_connec=
-tor *conn,
->  	struct vkms_frame_info *wb_frame_info;
->  	u32 wb_format =3D fb->format->format;
-> =20
-> -	if (!conn_state)
-> +	if (!connector_state)
->  		return;
-> =20
-> -	vkms_set_composer(&vkmsdev->output, true);
-> +	vkms_set_composer(vkms_crtc, true);
-> =20
-> -	active_wb =3D conn_state->writeback_job->priv;
-> +	active_wb =3D connector_state->writeback_job->priv;
->  	wb_frame_info =3D &active_wb->wb_frame_info;
-> =20
-> -	spin_lock_irq(&output->composer_lock);
-> +	spin_lock_irq(&vkms_crtc->composer_lock);
->  	crtc_state->active_writeback =3D active_wb;
->  	crtc_state->wb_pending =3D true;
-> -	spin_unlock_irq(&output->composer_lock);
-> +	spin_unlock_irq(&vkms_crtc->composer_lock);
-> =20
->  	wb_frame_info->offset =3D fb->offsets[0];
->  	wb_frame_info->pitch =3D fb->pitches[0];
-> @@ -163,9 +163,10 @@ static const struct drm_connector_helper_funcs vkms_=
-wb_conn_helper_funcs =3D {
->  	.atomic_commit =3D vkms_wb_atomic_commit,
->  };
-> =20
-> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
-> +				    struct vkms_crtc *vkms_crtc)
->  {
-> -	struct drm_writeback_connector *wb =3D &vkmsdev->output.wb_connector;
-> +	struct drm_writeback_connector *wb =3D &vkms_crtc->wb_connector;
-> =20
->  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
-drm_writeback_connector_init() is still passing 1 even though we now
-have vkms_crtc->base. You'd need to pass the correct crtc mask,
-otherwise only the first connector would have a WB connector.
-> =20
 > --=20
 > 2.42.0.rc1.204.g551eb34607-goog
 >=20
 
---Q3B6CuiNNRy3fiNg
+--XKHxjJeNr/LLLTmV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTsqiUACgkQ9jQS5glH
-1u84OhAAiyTIRIgbGxskCQCo1ciFo/rTSlEIuvfoIk+mBd3P47BrAFYaFKuFRTiY
-pVCQxHWwfHG1Xt6KweHrbfeK/MM/qVT45G6JazFARBxoUITHfX7WWPMjvi5LxWTN
-/BC2qi3P5XFlErQjMtqUv7N+gl471QxIFjc00fqLtPwqczxKZThxia3nqsmYOO1R
-eDcG5BOLKxVQ/wcIwY63JV4nANEJo0yyN4d4pD0kOtc4GRqCmpR2BOqmwQfRMrmF
-aXDob6mbxF9j3i3APl604/WyKKwSq8FLQnRsBF18jvFj3yD/D8Glx9tB/0WzHPnZ
-wGI5bjGc2J8NjtAV56JuzAgHJpwaRJYTUK7RhCNZIby32y+gyRCtdbz2yjATu7nF
-Al05gltHkleqByRBCB3N/bRPUX4iix36Qul0/bI+qGXAzePABm0ow6jBkT+wEfgl
-eMiDStwcB8TizS/2ycvesnfe/YA7hGuRkzbyOOSzMj+83YuUbWxwfna0OhdALJZN
-4R/UpHj9LPiXfof25FbB1okNxiWxi+SUYIUN0L7dt3mozr9jxctKPkf9ms3KkD2L
-agNwUY3RiQ+E/R0nNY7Rbo+xbbaQ/7RAwNrokcwp9lB/2vfLOG54aWGwV6HxhzhC
-y3GFPDxqjkSwfUfcooswRV7pz3O5cVetRcGeQMRkOjPIV6gK+jo=
-=CBE/
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTsqugACgkQ9jQS5glH
+1u82IA//ef8SDqo6MAvJWQ5GzyF0lceaqGGgq6EsRRQQOt/yF8LTWJV6o7aJJOvV
+OFEE3ufF66Sla9YAKkYxZOKGeO3TKQ3oh/5psW1nmTZwYoAYGHOibww/b/ECxUo6
+b/t0/lppm6DqDPFoTV4mVj0muzT+O08iMDqVyU0UH9r8y+Vz3HWy7vXehqlIhfxg
+m+eg9U6ZLCCW0SxndWi0RCEf2EVZm1t3XxZQIX1EPPh8bCJ+Ii+uifJTuseiQSTj
+c4Kv4IUCnvnS3f6RCS6K+whLT5NUq0LJj6Om270UvUCqh5su0bxqDLhvj9C34wH/
+Vd+0Vwdl1evPKBx2J2oNG8voS/FP2govWNBL5hPE72iJs2P0IVDNNMU5+AahFret
+VrMa1R1uENCIDwOXODBI/v6jw91/eJ4f5e++jZLKzgTPm2I7Jcf5kxk/OuNyq2E0
+ADWIwfPDYct38MSUQKKla4fzPvYfXR16d/JOfmx25tgX/iwv6G8BkGQ9eOH0+XKS
+ZbNpTRrVSIw7WijJHQFxgLBhvRCJFEy+1rDA6FkIEm//t0YWq9O7gZhlEpR3yyrq
+3sOQaD3RgXN+8V/wiJwfVN5MKgOMHEG52LdIBL+PKbBaKsOnO9tEQY/LCAXU97m2
+8OxBIZwFNrZ+WLWhwqZuO6pZU1DNNckJdr03wEf5/aNyqKuWmTM=
+=w4FC
 -----END PGP SIGNATURE-----
 
---Q3B6CuiNNRy3fiNg--
+--XKHxjJeNr/LLLTmV--
