@@ -2,41 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF83978B082
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 14:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7667F78B0F7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 14:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 060A510E2C4;
-	Mon, 28 Aug 2023 12:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978F510E2C8;
+	Mon, 28 Aug 2023 12:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF9210E2C4
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 12:35:59 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RZ91p2SjjzLp3f;
- Mon, 28 Aug 2023 20:32:46 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 28 Aug
- 2023 20:35:56 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <intel-gvt-dev@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/i915/gvt: Use list_for_each_entry() helper
-Date: Mon, 28 Aug 2023 20:35:41 +0800
-Message-ID: <20230828123541.361463-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6603A10E2C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 12:49:35 +0000 (UTC)
+Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk
+ [IPv6:2a01:4f8:1c1c:f269::1])
+ by madras.collabora.co.uk (Postfix) with ESMTP id 275B06606F65;
+ Mon, 28 Aug 2023 13:49:32 +0100 (BST)
+From: "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
+In-Reply-To: <20230826071901.29420-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+Date: Mon, 28 Aug 2023 13:49:31 +0100
+To: "Biju Das" <biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Message-ID: <31ff-64ec9800-1-66482280@42123241>
+Subject: =?utf-8?q?Re=3A?= [PATCH v4 2/2] =?utf-8?q?drm/bridge=3A?= Drop 
+ conditionals around =?utf-8?q?of=5Fnode?= pointers
+User-Agent: SOGoMail 5.8.4
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,52 +40,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert list_for_each() to list_for_each_entry() so that the pos
-list_head pointer and list_entry() call are no longer needed, which
-can reduce a few lines of code. No functional changed.
+Hello!
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/gpu/drm/i915/gvt/dmabuf.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Thanks for the patch.
 
-diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
-index 6834f9fe40cf..f136ce140a2b 100644
---- a/drivers/gpu/drm/i915/gvt/dmabuf.c
-+++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
-@@ -340,13 +340,11 @@ static struct intel_vgpu_dmabuf_obj *
- pick_dmabuf_by_info(struct intel_vgpu *vgpu,
- 		    struct intel_vgpu_fb_info *latest_info)
- {
--	struct list_head *pos;
- 	struct intel_vgpu_fb_info *fb_info;
- 	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
- 	struct intel_vgpu_dmabuf_obj *ret = NULL;
- 
--	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
--		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-+	list_for_each_entry(dmabuf_obj, &vgpu->dmabuf_obj_list_head, list) {
- 		if (!dmabuf_obj->info)
- 			continue;
- 
-@@ -369,12 +367,10 @@ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
- static struct intel_vgpu_dmabuf_obj *
- pick_dmabuf_by_num(struct intel_vgpu *vgpu, u32 id)
- {
--	struct list_head *pos;
- 	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
- 	struct intel_vgpu_dmabuf_obj *ret = NULL;
- 
--	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
--		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-+	list_for_each_entry(dmabuf_obj, &vgpu->dmabuf_obj_list_head, list) {
- 		if (dmabuf_obj->dmabuf_id == id) {
- 			ret = dmabuf_obj;
- 			break;
--- 
-2.34.1
+On Saturday, August 26, 2023 04:19 -03, Biju Das <biju.das.jz@bp.renesa=
+s.com> wrote:
+
+> Having conditional around the of=5Fnode pointers turns out to make dr=
+iver
+> code use ugly #ifdef and #if blocks. So drop the conditionals.
+
+It would be nice to explain why those ifdev/if conditionals are
+not required anymore (besides the cosmetic part).
+
+Regards,
+Helen
+
+>=20
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v4:
+>  * New patch
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
+>  include/drm/drm=5Fbridge.h                           | 2 --
+>  2 files changed, 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/dri=
+vers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> index 6169db73d2fe..ad8241758896 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> @@ -1231,9 +1231,7 @@ static int anx78xx=5Fi2c=5Fprobe(struct i2c=5Fc=
+lient *client)
+> =20
+>  	mutex=5Finit(&anx78xx->lock);
+> =20
+> -#if IS=5FENABLED(CONFIG=5FOF)
+>  	anx78xx->bridge.of=5Fnode =3D client->dev.of=5Fnode;
+> -#endif
+> =20
+>  	anx78xx->client =3D client;
+>  	i2c=5Fset=5Fclientdata(client, anx78xx);
+> diff --git a/include/drm/drm=5Fbridge.h b/include/drm/drm=5Fbridge.h
+> index c339fc85fd07..d49d5c03df3e 100644
+> --- a/include/drm/drm=5Fbridge.h
+> +++ b/include/drm/drm=5Fbridge.h
+> @@ -716,10 +716,8 @@ struct drm=5Fbridge {
+>  	struct drm=5Fencoder *encoder;
+>  	/** @chain=5Fnode: used to form a bridge chain */
+>  	struct list=5Fhead chain=5Fnode;
+> -#ifdef CONFIG=5FOF
+>  	/** @of=5Fnode: device node pointer to the bridge */
+>  	struct device=5Fnode *of=5Fnode;
+> -#endif
+>  	/** @list: to keep track of all added bridges */
+>  	struct list=5Fhead list;
+>  	/**
+> --=20
+> 2.25.1
+>
 
