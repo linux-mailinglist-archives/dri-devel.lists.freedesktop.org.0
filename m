@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C573D78B188
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 15:22:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B8D78B186
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Aug 2023 15:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8D210E2D9;
-	Mon, 28 Aug 2023 13:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DB510E2D8;
+	Mon, 28 Aug 2023 13:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A7C10E2D2
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44CAE10E2D4
  for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 13:21:38 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C0EEF1FD6E;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E9FC2219FE;
  Mon, 28 Aug 2023 13:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1693228896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ldw1MdaRpEpS7svygzNDrqBtCJfAtQHJJvySgzI7rd0=;
- b=bcNT1BK9I1tD98v3xdWzr0bMmjekx6ajdgM5vXUCRtjaKZztqQ7k1nK70+SpIt+MLG65IK
- HYwm56YO7FlLJn9NZyZXvk5Eu5buoljh51svd5F/sV9X55WLC9M5DokQhaRMGojzLKL39G
- G/uY2g0gnB0ZoJsbLcOOE/f8i5hhBH8=
+ bh=KI96naemxlxXOb2TMpUxPDXZOCd9FJdycJdBrcM4B1w=;
+ b=ikwGbibopFdXYekQhWmJu/fSNg+HTM0euU5ABmkG4VDbU+63C9ev5kJKMjctsqSYKQeWhd
+ yFTRsuJ3voIE2Oft6qymCO0seCDhjAH5JUq+VCWQ1oohtmgXW9XRxpr/i+mTGZ7FMMk8YT
+ ErfLfBXdB6iRB34HBfYx6jEEDix2UPs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1693228896;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ldw1MdaRpEpS7svygzNDrqBtCJfAtQHJJvySgzI7rd0=;
- b=GbOqHAoa1Omaq6Uq6ROcQ8XZwpHs3Pr4RkEfZQ9zoUWDXiqMCHwOAK1exQoNUuzU066jK6
- MD68OPa6h1u3enDw==
+ bh=KI96naemxlxXOb2TMpUxPDXZOCd9FJdycJdBrcM4B1w=;
+ b=pHuSdlTaTYkBgK4bRyXSM9DqZ6g+bFWWFc14KaIrKYUuDIfg5kyPRRSmhUHou6cku8VLVZ
+ 97BjJcqOJZ3cNNAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B05213A1C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B4ED513A11;
  Mon, 28 Aug 2023 13:21:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gDQ8GWCf7GTyOAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id AEcBK2Cf7GTyOAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:36 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	daniel@ffwll.ch,
 	sam@ravnborg.org,
 	javierm@redhat.com
-Subject: [PATCH 6/8] hid/picolcd: Use fb_ops helpers for deferred I/O
-Date: Mon, 28 Aug 2023 15:14:22 +0200
-Message-ID: <20230828132131.29295-7-tzimmermann@suse.de>
+Subject: [PATCH 7/8] staging/fbtft: Initialize fb_op struct as static const
+Date: Mon, 28 Aug 2023 15:14:23 +0200
+Message-ID: <20230828132131.29295-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230828132131.29295-1-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,142 +70,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Generate callback functions for struct fb_ops with the fbdev macro
-FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
-the generated functions with an fbdev initializer macro.
+Replace dynamic allocation of the fb_ops instance with static
+allocation. Initialize the fields at module-load time. The owner
+field changes to THIS_MODULE, as in all other fbdev drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
 ---
- drivers/hid/Kconfig          |  6 +--
- drivers/hid/hid-picolcd_fb.c | 73 ++++++++++--------------------------
- 2 files changed, 20 insertions(+), 59 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index b50054a41c10..dbf632bb7e26 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -871,11 +871,7 @@ config HID_PICOLCD_FB
- 	default !EXPERT
- 	depends on HID_PICOLCD
- 	depends on HID_PICOLCD=FB || FB=y
--	select FB_DEFERRED_IO
--	select FB_SYS_FILLRECT
--	select FB_SYS_COPYAREA
--	select FB_SYS_IMAGEBLIT
--	select FB_SYS_FOPS
-+	select FB_SYSMEM_HELPERS_DEFERRED
- 	help
- 	  Provide access to PicoLCD's 256x64 monochrome display via a
- 	  framebuffer device.
-diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-index d726aaafb146..a4dccdcda26f 100644
---- a/drivers/hid/hid-picolcd_fb.c
-+++ b/drivers/hid/hid-picolcd_fb.c
-@@ -283,54 +283,6 @@ static void picolcd_fb_update(struct fb_info *info)
- 	mutex_unlock(&info->lock);
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index eac1d570f437..e4a77a4e7be6 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -473,6 +473,18 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+ 	return ret;
  }
  
--/* Stub to call the system default and update the image on the picoLCD */
--static void picolcd_fb_fillrect(struct fb_info *info,
--		const struct fb_fillrect *rect)
--{
--	if (!info->par)
--		return;
--	sys_fillrect(info, rect);
--
--	schedule_delayed_work(&info->deferred_work, 0);
--}
--
--/* Stub to call the system default and update the image on the picoLCD */
--static void picolcd_fb_copyarea(struct fb_info *info,
--		const struct fb_copyarea *area)
--{
--	if (!info->par)
--		return;
--	sys_copyarea(info, area);
--
--	schedule_delayed_work(&info->deferred_work, 0);
--}
--
--/* Stub to call the system default and update the image on the picoLCD */
--static void picolcd_fb_imageblit(struct fb_info *info, const struct fb_image *image)
--{
--	if (!info->par)
--		return;
--	sys_imageblit(info, image);
--
--	schedule_delayed_work(&info->deferred_work, 0);
--}
--
--/*
-- * this is the slow path from userspace. they can seek and write to
-- * the fb. it's inefficient to do anything less than a full screen draw
-- */
--static ssize_t picolcd_fb_write(struct fb_info *info, const char __user *buf,
--		size_t count, loff_t *ppos)
--{
--	ssize_t ret;
--	if (!info->par)
--		return -ENODEV;
--	ret = fb_sys_write(info, buf, count, ppos);
--	if (ret >= 0)
--		schedule_delayed_work(&info->deferred_work, 0);
--	return ret;
--}
--
- static int picolcd_fb_blank(int blank, struct fb_info *info)
++static const struct fb_ops fbtft_ops = {
++	.owner        = THIS_MODULE;
++	.fb_read      = fb_sys_read;
++	.fb_write     = fbtft_fb_write;
++	.fb_fillrect  = fbtft_fb_fillrect;
++	.fb_copyarea  = fbtft_fb_copyarea;
++	.fb_imageblit = fbtft_fb_imageblit;
++	.fb_setcolreg = fbtft_fb_setcolreg;
++	.fb_blank     = fbtft_fb_blank;
++	.fb_mmap      = fb_deferred_io_mmap;
++};
++
+ static void fbtft_merge_fbtftops(struct fbtft_ops *dst, struct fbtft_ops *src)
  {
- 	/* We let fb notification do this for us via lcd/backlight device */
-@@ -417,18 +369,31 @@ static int picolcd_set_par(struct fb_info *info)
- 	return 0;
- }
+ 	if (src->write)
+@@ -521,7 +533,6 @@ static void fbtft_merge_fbtftops(struct fbtft_ops *dst, struct fbtft_ops *src)
+  * Creates a new frame buffer info structure.
+  *
+  * Also creates and populates the following structures:
+- *   info->fbops
+  *   info->fbdefio
+  *   info->pseudo_palette
+  *   par->fbtftops
+@@ -536,7 +547,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ {
+ 	struct fb_info *info;
+ 	struct fbtft_par *par;
+-	struct fb_ops *fbops = NULL;
+ 	struct fb_deferred_io *fbdefio = NULL;
+ 	u8 *vmem = NULL;
+ 	void *txbuf = NULL;
+@@ -611,10 +621,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	if (!vmem)
+ 		goto alloc_fail;
  
-+static void picolcdfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
-+{
-+	if (!info->par)
-+		return;
-+	schedule_delayed_work(&info->deferred_work, 0);
-+}
-+
-+static void picolcdfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
-+{
-+	if (!info->par)
-+		return;
-+	schedule_delayed_work(&info->deferred_work, 0);
-+}
-+
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(picolcdfb_ops,
-+				   picolcdfb_ops_damage_range,
-+				   picolcdfb_ops_damage_area)
-+
- static const struct fb_ops picolcdfb_ops = {
- 	.owner        = THIS_MODULE,
-+	FB_DEFAULT_DEFERRED_OPS(picolcdfb_ops),
- 	.fb_destroy   = picolcd_fb_destroy,
--	.fb_read      = fb_sys_read,
--	.fb_write     = picolcd_fb_write,
- 	.fb_blank     = picolcd_fb_blank,
--	.fb_fillrect  = picolcd_fb_fillrect,
--	.fb_copyarea  = picolcd_fb_copyarea,
--	.fb_imageblit = picolcd_fb_imageblit,
- 	.fb_check_var = picolcd_fb_check_var,
- 	.fb_set_par   = picolcd_set_par,
--	.fb_mmap      = fb_deferred_io_mmap,
- };
+-	fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+-	if (!fbops)
+-		goto alloc_fail;
+-
+ 	fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
+ 	if (!fbdefio)
+ 		goto alloc_fail;
+@@ -638,19 +644,9 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 		goto alloc_fail;
  
+ 	info->screen_buffer = vmem;
+-	info->fbops = fbops;
++	info->fbops = &fbtft_ops;
+ 	info->fbdefio = fbdefio;
  
+-	fbops->owner        =      dev->driver->owner;
+-	fbops->fb_read      =      fb_sys_read;
+-	fbops->fb_write     =      fbtft_fb_write;
+-	fbops->fb_fillrect  =      fbtft_fb_fillrect;
+-	fbops->fb_copyarea  =      fbtft_fb_copyarea;
+-	fbops->fb_imageblit =      fbtft_fb_imageblit;
+-	fbops->fb_setcolreg =      fbtft_fb_setcolreg;
+-	fbops->fb_blank     =      fbtft_fb_blank;
+-	fbops->fb_mmap      =      fb_deferred_io_mmap;
+-
+ 	fbdefio->delay =            HZ / fps;
+ 	fbdefio->sort_pagereflist = true;
+ 	fbdefio->deferred_io =      fbtft_deferred_io;
 -- 
 2.41.0
 
