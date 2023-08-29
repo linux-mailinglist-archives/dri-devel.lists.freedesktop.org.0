@@ -1,92 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4D78CD58
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 22:11:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCE378CDB7
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 22:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB0B10E155;
-	Tue, 29 Aug 2023 20:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD1710E49A;
+	Tue, 29 Aug 2023 20:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 963C010E155;
- Tue, 29 Aug 2023 20:11:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FTaj6Em2oN39/YG7fZNLqba7me4KTwtzlLzBwVLkojFsLfT1oAFIqeZmM02uYXGI5gnc6nVvP7+7DDmnEHmE4hE4QVi2ok99VUEyTDC2ZUkH5oojMVLBEzxHD94GRW77L8NKs7PW2tLCM+Aso6Y9vuqgMuk6iVbkXwDT63KqfcrCujGmBjksBpsjpxInsSinIIrsSlVj+u2drKMrEbItIceGJjmHY4IPUHRLd1z1GOYWnJu7wqUJLQAzo98NmtHdM9j5zAs7EuqcDARYA5AV43IdJ+CwW5XeZAn3VakBd2aX+MnpEtMVBuu6+MRu07XzmFMpBFvpnn7EvdfDp8kn6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jKALJpNrHb7YVMA4grUe5PopruitW91en2ugqoMSn+w=;
- b=XkJyKzzd4Iv2eeBzottCtGIgAWAD1/JUTeQPwxtx9to0HBqxC69WogkEAEr0cda9CHDrxSevKOgBgUQnyzlRrk35gDMrnGzbRQg0iQCkp5vdaqYYYgBxERR9jOJvMIqTg4CZzEiVVhcGtyS+djjPb3a/j9euBLfXpElLEXgv6IfcOa8VHMgqTMTRlNq6nrZhB/42CKs5L81jOCj4EXWrayjYM264DK1Wn9lIyCPfFPbPN3NdTFtshUW3a2SnD5Ehhjyvvj5jYtzW2V+OrLviZZLeU5N74Fn2CwUDJXPjhAkUX2vqFeZpv5qDuuHf8Ha+3db63I5bZTRw7Tn58GQBMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jKALJpNrHb7YVMA4grUe5PopruitW91en2ugqoMSn+w=;
- b=iwwAy+TO/WwDwGsZhm4M4/6SgW+EVhWjNpcKrpWmlq6p1lHrTJTtk1r1N2aN8CJU9UapkCMDwSUjB4CdDPxY8XKHO/7G+AyZM7eJIqdc34xSn4kNs8xo+1icAXTCTY6cmBktqVQbvYs6aehJulSU+NInycc+0A8sBTHzz05ZJes=
-Received: from DS7PR07CA0012.namprd07.prod.outlook.com (2603:10b6:5:3af::20)
- by CH0PR12MB5091.namprd12.prod.outlook.com (2603:10b6:610:be::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
- 2023 20:11:10 +0000
-Received: from SA2PEPF000015C8.namprd03.prod.outlook.com
- (2603:10b6:5:3af:cafe::cc) by DS7PR07CA0012.outlook.office365.com
- (2603:10b6:5:3af::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18 via Frontend
- Transport; Tue, 29 Aug 2023 20:11:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF000015C8.mail.protection.outlook.com (10.167.241.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6745.17 via Frontend Transport; Tue, 29 Aug 2023 20:11:10 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 29 Aug
- 2023 15:11:07 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] Revert "drm/amd/display: Remove v_startup workaround for
- dcn3+"
-Date: Tue, 29 Aug 2023 16:10:41 -0400
-Message-ID: <20230829201042.322173-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5F810E49A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 20:43:11 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37TJVQ2v030011; Tue, 29 Aug 2023 20:43:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=MaQsiNdOvymXFR2WoY1SLKICVk6JLya1RdGbuftlJgM=;
+ b=CopjFO3Bhhzt20Kp/xkyRgUwXe0nyAMbTtkJS7wMkRQU+Cp28u4OHvdwXhboXhjVbEQs
+ 6orShZHHjEDRm5qefl8k5hIutMibbYMf2T2E5oZwcqs9iSFANeOI5cZb5hR3S1N4EC4W
+ SzoQU+K6qtoFglzJyleXV8TneKDsdtM6w/dAUprvz+prAg/ZPmQSHNpEuVbZMPk2mt4A
+ aSv3sakT+P1teLzk42cmzkaogcp3/3EsIBp9a+EHz7U92/5KIkp0eD57ngxtMh4O9068
+ tuASwloHRCdIh/mH+kTEAc4phMHZ3ugUKFETS9BGkP1E5pKNscScfm6cW7uDSJjWzZ2O MQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssmcv8gb2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Aug 2023 20:43:06 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TKh5hi018689
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Aug 2023 20:43:05 GMT
+Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
+ 2023 13:43:04 -0700
+Message-ID: <5ab2464e-a986-0f10-48c9-a32f653806e2@quicinc.com>
+Date: Tue, 29 Aug 2023 13:43:03 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015C8:EE_|CH0PR12MB5091:EE_
-X-MS-Office365-Filtering-Correlation-Id: be97deb3-190e-4910-aac0-08dba8cc1641
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3a7ZD5qgdb0GP26G/Q89MZ9naEfxITo48CZhcxnhKBGzq6udEEXqCE2fq5BdWFMzrf7B5r6IhxiOO8PcW1uotkhciHfgdS6ere+aNPOWzIWTAXStND9jfEyGP2R4OpYJYXd90a+CJ0isn4Q1rbIHkYSbLnKXaVUvl0+Ymb0lRy09uGAQGupj1dbbWHpI+33Nq6b+oNp2isHB6Nh0Ur7ncg3bF2Fi6UimWQMOFbqJSM7PxwhShtzBJf+XReJYkakPH1dVOgNGrnnZQh9fVaRckXBVJwyfvtQ8VmV3NDb9N2OF4fFJ6wWhy6sUby64bZqPfaY8vHL3rWpyZkgAKsixZpq83Zb+33QHehdsmWoshiWh498xey5xDh8myH1qYLBP9n0ji5df860/cS0ZYR28NFqsgjT6puYUeRNtsy7ynpoquS7ZGXxgdfgXSQRYJvYnh+jPQk9ko0RtuM4n2gnaLPd9UdcOoyLWPgShVLGqtZvF/HEne+5UX+vGytsxn7oUjJKbIUxOgEqKBusAjK3nzPtv+5K/m6VyRkRUCVnpM3drHJvLkbiEAi2xIIPNz3xUeNB60VEXYykS0MU9miTrYl4agJg5WHGsy82Z/yLKnaKTPJnxpkBw9fTkuXslsFbp/AM2M0ZJCovgk8jPUmDVRohgSyWX8ywhNfKb2FjTlCucNycMXaOvLlS/mTxFUmZ8iULbxnW3AySpPU2kFWTR9ScTvpLDnV2L6A8kh/R6PmlXnUyTpNRxIlsO/2gH4yUI+nRRnQ+ETr+31fJyX4a9GMNkWY2mUxm04MaP0tPBEzo=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(376002)(396003)(346002)(136003)(39860400002)(1800799009)(186009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(81166007)(356005)(82740400003)(8936002)(6666004)(70206006)(478600001)(70586007)(54906003)(966005)(6916009)(316002)(41300700001)(40460700003)(36756003)(26005)(16526019)(44832011)(8676002)(5660300002)(1076003)(2906002)(83380400001)(2616005)(47076005)(86362001)(36860700001)(40480700001)(426003)(336012)(4326008)(36900700001)(16060500005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 20:11:10.2629 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: be97deb3-190e-4910-aac0-08dba8cc1641
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C8.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5091
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Content-Language: en-US
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ <neil.armstrong@linaro.org>
+References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
+ <dde2774e-6f0b-21d0-e9c9-4a5bd1eac4e8@linaro.org>
+ <2f9a9450-438b-257d-759c-22b273a7b35d@quicinc.com>
+ <c183d823-81d4-6d7c-98d9-649fa4041262@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+ <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+ <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
+ <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
+ <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
+ <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
+ <CAPY8ntDf+sD-2mtLBxfrMKQiW5YYi6cfmCe2Sm8CYK9kO3W+nQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAPY8ntDf+sD-2mtLBxfrMKQiW5YYi6cfmCe2Sm8CYK9kO3W+nQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JZ5vsnNlk9310rjgkj97-HTuENeXGNmK
+X-Proofpoint-GUID: JZ5vsnNlk9310rjgkj97-HTuENeXGNmK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_14,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1011
+ mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308290180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,98 +97,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Miess <daniel.miess@amd.com>, dri-devel@lists.freedesktop.org,
- Gabe Teeger <gabe.teeger@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Leo Chen <sancchen@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, Rodrigo
- Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Nicholas
- Kazlauskas <nicholas.kazlauskas@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sung Joon Kim <sungjoon.kim@amd.com>,
- Jun Lei <jun.lei@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alvin Lee <Alvin.Lee2@amd.com>
+Cc: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_parellan@quicinc.com,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 3a31e8b89b7240d9a17ace8a1ed050bdcb560f9e.
+Hi Dave
 
-We still need to call dcn20_adjust_freesync_v_startup() for older DCN3+
-ASICs otherwise it can cause DP to HDMI 2.1 PCONs to fail to light up.
-So, reintroduce the reverted code and limit it to ASICs older than
-DCN31.
+Nice to e-meet you.
 
-Cc: stable@vger.kernel.org
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2809
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
- .../drm/amd/display/dc/dml/dcn20/dcn20_fpu.c  | 24 ++++---------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+On 8/29/2023 7:13 AM, Dave Stevenson wrote:
+> Hi Neil
+> 
+> On Mon, 28 Aug 2023 at 09:49, <neil.armstrong@linaro.org> wrote:
+>>
+>> Hi Jessica,
+>>
+>> On 25/08/2023 20:37, Jessica Zhang wrote:
+>>>
+>>>
+>>> On 8/21/2023 3:01 AM, neil.armstrong@linaro.org wrote:
+>>>> Hi Maxime,
+>>>>
+>>>> On 21/08/2023 10:17, Maxime Ripard wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wrote:
+>>>>>> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+>>>>>>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+>>>>>>>> Sending HS commands will always work on any controller, it's all
+>>>>>>>> about LP commands. The Samsung panels you listed only send HS
+>>>>>>>> commands so they can use prepare_prev_first and work on any
+>>>>>>>> controllers.
+>>>>>>>
+>>>>>>> I think there is some misunderstanding there, supported by the
+>>>>>>> description of the flag.
+>>>>>>>
+>>>>>>> If I remember correctly, some hosts (sunxi) can not send DCS
+>>>>>>> commands after enabling video stream and switching to HS mode, see
+>>>>>>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
+>>>>>>> commands in drm_panel_funcs::prepare() /
+>>>>>>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
+>>>>>>> whether these commands are to be sent in LP or in HS mode.
+>>>>>>>
+>>>>>>> Previously DSI source drivers could power on the DSI link either in
+>>>>>>> mode_set() or in pre_enable() callbacks, with mode_set() being the
+>>>>>>> hack to make panel/bridge drivers to be able to send commands from
+>>>>>>> their prepare() / pre_enable() callbacks.
+>>>>>>>
+>>>>>>> With the prev_first flags being introduced, we have established that
+>>>>>>> DSI link should be enabled in DSI host's pre_enable() callback and
+>>>>>>> switched to HS mode (be it command or video) in the enable()
+>>>>>>> callback.
+>>>>>>>
+>>>>>>> So far so good.
+>>>>>>
+>>>>>> It seems coherent, I would like first to have a state of all DSI host
+>>>>>> drivers and make this would actually work first before adding the
+>>>>>> prev_first flag to all the required panels.
+>>>>>
+>>>>> This is definitely what we should do in an ideal world, but at least for
+>>>>> sunxi there's no easy way for it at the moment. There's no documentation
+>>>>> for it and the driver provided doesn't allow this to happen.
+>>>>>
+>>>>> Note that I'm not trying to discourage you or something here, I'm simply
+>>>>> pointing out that this will be something that we will have to take into
+>>>>> account. And it's possible that other drivers are in a similar
+>>>>> situation.
+>>>>>
+>>>>>>> Unfortunately this change is not fully backwards-compatible. This
+>>>>>>> requires that all DSI panels sending commands from prepare() should
+>>>>>>> have the prepare_prev_first flag. In some sense, all such patches
+>>>>>>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
+>>>>>>> flag to drm_panel").
+>>>>>>
+>>>>>> This kind of migration should be done *before* any possible
+>>>>>> regression, not the other way round.
+>>>>>>
+>>>>>> If all panels sending commands from prepare() should have the
+>>>>>> prepare_prev_first flag, then it should be first, check for
+>>>>>> regressions then continue.
+>>>>>>
+>>>>>> <snip>
+>>>>>>
+>>>>>>>>
+>>>>>>>> I understand, but this patch doesn't qualify as a fix for
+>>>>>>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
+>>>>>>>> v6.6, and since 9e15123eca79 actually breaks some support it
+>>>>>>>> should be reverted (+ deps) since we are late in the rc cycles.
+>>>>>>>
+>>>>>>> If we go this way, we can never reapply these patches. There will be
+>>>>>>> no guarantee that all panel drivers are completely converted. We
+>>>>>>> already have a story without an observable end -
+>>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+>>>>>>
+>>>>>> I don't understand this point, who would block re-applying the patches ?
+>>>>>>
+>>>>>> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
+>>>>>> Linux version and went smoothly because we reverted regressing patches
+>>>>>> and restarted when needed, I don't understand why we can't do this
+>>>>>> here aswell.
+>>>>>>
+>>>>>>> I'd consider that the DSI driver is correct here and it is about the
+>>>>>>> panel drivers that require fixes patches. If you care about the
+>>>>>>> particular Fixes tag, I have provided one several lines above.
+>>>>>>
+>>>>>> Unfortunately it should be done in the other way round, prepare for
+>>>>>> migration, then migrate,
+>>>>>>
+>>>>>> I mean if it's a required migration, then it should be done and I'll
+>>>>>> support it from both bridge and panel PoV.
+>>>>>>
+>>>>>> So, first this patch has the wrong Fixes tag, and I would like a
+>>>>>> better explanation on the commit message in any case. Then I would
+>>>>>> like to have an ack from some drm-misc maintainers before applying it
+>>>>>> because it fixes a patch that was sent via the msm tree thus per the
+>>>>>> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+>>>>>
+>>>>> Sorry, it's not clear to me what you'd like our feedback on exactly?
+>>>>
+>>>> So let me resume the situation:
+>>>>
+>>>> - pre_enable_prev_first was introduced in [1]
+>>>> - some panels made use of pre_enable_prev_first
+>>>> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kernels and before
+>>>> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 systems (and probably other Video mode panels on Qcom platforms)
+>>>> - this fix was sent late, and is now too late to be merged via drm-misc-next
+>>>
+>>> Hi Neil and Maxime,
+>>>
+>>> I agree with Neil that 9e15123eca79 was the commit that introduced the issue (since it changed the MSM DSI host behavior).
+>>>
+>>> However, I'm not too keen on simply reverting that patch because
+>>>
+>>> 1) it's not wrong to have the dsi_power_on in pre_enable. Arguably, it actually makes more sense to power on DSI host in pre_enable than in modeset (since modeset is meant for setting the bridge mode), and
+>>
+>> I never objected that, it's the right path to go.
+>>
+>>>
+>>> 2) I think it would be good practice to keep specific bridge chip checks out of the DSI host driver.
+>>
+>> We discussed about a plan with Maxime and Dmitry about that, and it would require adding
+>> a proper atomic panel API to handle a "negociation" with the host controller.
+>>
+>>>
+>>>
+>>> That being said, what do you think about setting the default value of prepare_prev_first to true (possibly in panel_bridge_attach)?
+>>
+>> As Dmitry pointed, all panels sending LP commands in pre_enable() should have prepare_prev_first to true.
+> 
+> Any panel wishing the clock and data lanes to be in a defined LP-11
+> state before pre_enable() is called need to set prepare_prev_first to
+> true. This is not a universal requirement of all DSI peripherals for
+> which commands are sent from pre_enable - a number will happily power
+> up at LP-00.
+> It is true that no harm will occur on those devices that do support
+> non-LP-11 power up if the host is in LP-11, so a blanket setting of
+> the flag for any panel driver sending DSI commands in pre_enable
+> should be safe.
+> 
+> It is documented [1] that transfer can be called at any time,
+> regardless of the state of the host. The MSM driver isn't supporting
+> that, hence issues.
+> [2] further clarifies that it is expected to power up the host
+> controller, send the message, and power down again.
+> 
+> [1] https://github.com/torvalds/linux/blob/master/include/drm/drm_mipi_dsi.h#L84-L87
+> [2] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_bridge.c#L185-L188
+> 
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-index 0989a0152ae8..0841176e8d6c 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-@@ -1099,6 +1099,10 @@ void dcn20_calculate_dlg_params(struct dc *dc,
- 		context->res_ctx.pipe_ctx[i].plane_res.bw.dppclk_khz =
- 						pipes[pipe_idx].clks_cfg.dppclk_mhz * 1000;
- 		context->res_ctx.pipe_ctx[i].pipe_dlg_param = pipes[pipe_idx].pipe.dest;
-+		if (dc->ctx->dce_version < DCN_VERSION_3_1 &&
-+		    context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
-+			dcn20_adjust_freesync_v_startup(&context->res_ctx.pipe_ctx[i].stream->timing,
-+							&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
- 
- 		pipe_idx++;
- 	}
-@@ -1927,7 +1931,6 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
- 	int vlevel = 0;
- 	int pipe_split_from[MAX_PIPES];
- 	int pipe_cnt = 0;
--	int i = 0;
- 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
- 	DC_LOGGER_INIT(dc->ctx->logger);
- 
-@@ -1951,15 +1954,6 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
- 	dcn20_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
- 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
- 
--	for (i = 0; i < dc->res_pool->pipe_count; i++) {
--		if (!context->res_ctx.pipe_ctx[i].stream)
--			continue;
--		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
--			dcn20_adjust_freesync_v_startup(
--				&context->res_ctx.pipe_ctx[i].stream->timing,
--				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
--	}
--
- 	BW_VAL_TRACE_END_WATERMARKS();
- 
- 	goto validate_out;
-@@ -2232,7 +2226,6 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
- 	int vlevel = 0;
- 	int pipe_split_from[MAX_PIPES];
- 	int pipe_cnt = 0;
--	int i = 0;
- 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
- 	DC_LOGGER_INIT(dc->ctx->logger);
- 
-@@ -2261,15 +2254,6 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
- 	dcn21_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
- 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
- 
--	for (i = 0; i < dc->res_pool->pipe_count; i++) {
--		if (!context->res_ctx.pipe_ctx[i].stream)
--			continue;
--		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
--			dcn20_adjust_freesync_v_startup(
--				&context->res_ctx.pipe_ctx[i].stream->timing,
--				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
--	}
--
- 	BW_VAL_TRACE_END_WATERMARKS();
- 
- 	goto validate_out;
--- 
-2.41.0
+This is very good information. Its not that MSM driver isn't supporting 
+that, there seems to be a check to fail the transfer if the host is not 
+powered on:
 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/dsi/dsi_host.c#L1629
+
+That was the error we were hitting.
+
+This condition has been there since ages. I will need to investigate 
+what happens if we relax this condition. Will check it up.
+
+That being said, the documentation seems a bit non-specific. Yes, it 
+tells us that transfer can be called even before pre_enable but its not 
+just about this API right.
+
+When we are powering on the peripheral, it usually has a sequence to follow.
+
+So something like goto LP11 ---> send the ON commands ---> start video 
+stream etc
+
+The documentation is talking about a "generic" call to .transfer and 
+that it should handle it but the ON sequence of a peripheral clearly 
+follows a sequence which needs the host to be powered on first and we 
+cannot immediately turn it OFF as the documentation says as that will 
+put the lanes in LP00 or even undefined state and confuse the peripheral.
+
+Now the discussion is revolving more around how to handle the 
+pre_enable_prev_first in the DSI ON cases.
+
+>>>
+>>> It seems to me that most panel drivers send DCS commands during pre_enable, so maybe it would make more sense to power on DSI host before panel enable() by default. Any panel that needs DSI host to be powered on later could then explicitly set the flag to false in their respective drivers.
+>>
+>> A proper migration should be done, yes, but not as a fix on top of v6.5.
+> 
+> I looked at this when adding prepare_prev_first, but as the DSI
+> control path is separate from the bridge chain there's no obvious way
+> to automatically set a bridge flag from the mipi_dsi registration.
+> 
+
+Since there is documentation in the DSI spec about the peripheral 
+expecting LP11 state and we agree its no harm, would something like 
+below be incorrect?
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 9316384b4474..2b38388d4e56 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -416,7 +416,10 @@ struct drm_bridge 
+*devm_drm_panel_bridge_add_typed(struct device *dev,
+                 return bridge;
+         }
+
+-       bridge->pre_enable_prev_first = panel->prepare_prev_first;
++       if (connector_type == DRM_MODE_CONNECTOR_DSI)
++               bridge->pre_enable_prev_first = true;
++       else
++               bridge->pre_enable_prev_first = panel->prepare_prev_first;
+
+         *ptr = bridge;
+         devres_add(dev, ptr);
+
+
+
+>    Dave
+> 
+>> Neil
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Jessica Zhang
+>>>
+>>>
+>>>>
+>>>> I do not consider it's the right way to fix regression caused by [2]
+>>>> I consider [2] should be reverted, panels migrated to pre_enable_prev_first when needed, tested and the [2] applied again
+>>>>
+>>>> I have no objection about [2] and it should be done widely over the whole DSI controllers
+>>>> and DSI Video panels.
+>>>>
+>>>> I also object about the Fixes tag of this patch, which is wrong, and Dmitry considers [1]
+>>>> should be used but it's even more wrong since [2] really caused the regression.
+>>>>
+>>>> And if [2] was to correct one to use, it was pushed via the MSM tree so it couldn't be
+>>>> applied via drm-misc-next-fixes, right ?
+>>>>
+>>>> [1] 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
+>>>> [2] 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts at modeset")
+>>>>
+>>>> Thanks,
+>>>> Neil
+>>>>
+>>>>>
+>>>>> Maxime
+>>>>
+>>
