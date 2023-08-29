@@ -1,86 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A9878BBE4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 02:07:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0AA78BBE5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 02:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A2B10E393;
-	Tue, 29 Aug 2023 00:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0433C10E086;
+	Tue, 29 Aug 2023 00:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F20D10E377;
- Tue, 29 Aug 2023 00:06:15 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37T05l4f010489; Tue, 29 Aug 2023 00:05:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=J7oJQHDD+sNLi3hfl+r+Jl07aEvkXNp2k++7uJYn9TI=;
- b=QcKzWfrQ/OdAa0VoPfz3p/cWoBQNqvbiBV6AFNuSj/SBQ5MmYhieL8dzTLz/P2VB4/ZQ
- 2ov1/Dhh94t5geNrpopZTZdXhSe8ghQW/FxRWLpzQrMuxAKAQUNjMqa7EzFzypoRSRNL
- jN7zzn69nhZC0fp2uGMN7vNROZeDXrfC6DTd5GQoomsIzh90EgqOJgkq8tZorkpDNfya
- Hz6UXgl6z8p+TenqS7q5afQjv5DJLMg6i4L4ZBIM8k3sTW2eDMspl7JXnlBMDHXEbdp5
- fEK20BZqDURcmApcNOHPVtEvaRmc5ZXfcB1vjFThEFV/GMUFL29HINvGqruBQmekb2Si cw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss3fr07ey-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 00:05:47 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37T05kD7027267
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 00:05:46 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Mon, 28 Aug 2023 17:05:46 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Mon, 28 Aug 2023 17:05:16 -0700
-Subject: [PATCH RFC v6 10/10] drm/msm/dpu: Add solid fill and pixel source
- properties
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0416510E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 00:06:30 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-d35a9d7a5bdso3422838276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 17:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693267589; x=1693872389;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NyT3vK31IPrSFR9t47ow0q9aTbU6VUd3gAc2WbXeYIQ=;
+ b=K49qP+RM+YGZHGLGfDOZcQrv7y2Rk03KlmSBNaPaApU27Z4ONen0XHzXfbnQAdgL7O
+ 41VoyK9oeL86CRyFBvsxyp0i6pkNSAqdKLXD+1r5pCFLiCcoZLQ80MCtrxAh8Pkuy6fC
+ 0/9d9lYaD33NSvbcYCBzEL4pkoAwpuVM7zAhrRHiWzy0kV7r3UEfMCD8wXrhmjlMbTRq
+ kMzy972lhQo53GP+k8zs+uXsFSECdnSI2f5EiOUQixq/4L/ORVEXAyzJ0ud9ylCaTboq
+ dBVop0sMf9pQETQKP+BH07zEmH7l4p38O6DVEK0YycVazFAegp9EoaY7vYtbDYnHyBPr
+ 7HpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693267589; x=1693872389;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NyT3vK31IPrSFR9t47ow0q9aTbU6VUd3gAc2WbXeYIQ=;
+ b=emhoDV17VLWgz+UEEf64yQ/U7lE1Q9wlF9jV+qaCFEdkAVewkHss/9CIfanF1To2XN
+ xBid4DSikO6W19BldJPStMn/LNTyY9Q6ovH0tBWbmyy8g/exwjLLODNNu+ymE31xTyYO
+ STmz1qAFfU8HUaw4OsThA0EVt2Y/AmifvnAHXs81khdwTYMUkLlk+4BF+FyN5JhE9zh9
+ Bf3Yps0a1eJNgzgwn/0lU8WAkyCo9DK14sk45TrQqTBYIxoEsgvz+ULruxkWiwgpxvBS
+ Dn4tmrJKcTzNAb4bzWK7a7hUc2U+nGEUl7roymccKJmk+Q5MVKycz8gCX0qo5L3wVhZy
+ bVZw==
+X-Gm-Message-State: AOJu0YykPi8Rzro4z/HFakHk6IGG1X1R42y+ylGhOBbQDU9kbaIg2EyK
+ kQRXQNuVXcc3nnyCalDSRukCPs7B2esAOKRaFJE7Xw==
+X-Google-Smtp-Source: AGHT+IEcaEy+asw8tMhYSo1Hv+7c+zGN66bTgKLzbphf2kb1mwQwkyFdO4JLRv0N94tRpZZoBCAjfW5Te4vzdnTQVtw=
+X-Received: by 2002:a25:23cc:0:b0:d7b:2299:555a with SMTP id
+ j195-20020a2523cc000000b00d7b2299555amr3714684ybj.17.1693267589082; Mon, 28
+ Aug 2023 17:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230828-solid-fill-v6-10-a820efcce852@quicinc.com>
-References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
-In-Reply-To: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Sean Paul" <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693267543; l=975;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=L81L99olUWt0o+jajPCJ1NqBEIDUR3EJafxS7vbxeVs=;
- b=FKTysHNNYwv+cOg3Lg3m5RlOGRptF5yhSP7boCS0N9SfR82LYfvMxOhLJ5aR1lTs/PrABTjAk
- VtJaBhS6msDDLaRD22kTBTGeUbWoeAHk9nuoqL7RY2qBu+DncZolOOe
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _5BrrKKOfm4TOKMr1d6nSmoXqPoIczqC
-X-Proofpoint-ORIG-GUID: _5BrrKKOfm4TOKMr1d6nSmoXqPoIczqC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-28_19,2023-08-28_04,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- adultscore=0 spamscore=0 phishscore=0 bulkscore=0 mlxlogscore=745
- impostorscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308280207
+References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
+ <20230728-solid-fill-v5-2-053dbefa909c@quicinc.com>
+ <CAA8EJpq=pbDoYc9wqKKrX+RahXp8zWTPFqVqA=S-0TkWXXJUjQ@mail.gmail.com>
+ <26b4bb91-8786-c7cf-a821-eb2b881a42ab@quicinc.com>
+ <656526F6-C123-4A5A-9E62-6ED092474113@linaro.org>
+ <1dfcd37e-11a6-fa77-6440-f0e6bd06998d@quicinc.com>
+ <ae98c379-2ddb-6b4e-0de3-2b1c68a99ee7@quicinc.com>
+In-Reply-To: <ae98c379-2ddb-6b4e-0de3-2b1c68a99ee7@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 29 Aug 2023 03:06:17 +0300
+Message-ID: <CAA8EJpq8nPDHPsi+qEUTePCVFYR5xbn1_4Odoqmf5-rJioYmQA@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 02/10] drm: Introduce solid fill DRM plane property
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,36 +72,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add solid_fill and pixel_source properties to DPU plane
+On Tue, 29 Aug 2023 at 02:45, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+>
+>
+> On 8/8/2023 3:57 PM, Jessica Zhang wrote:
+> >
+> >
+> > On 8/7/2023 6:07 PM, Dmitry Baryshkov wrote:
+> >>
+> >>
+> >> On 8 August 2023 00:41:07 GMT+03:00, Jessica Zhang
+> >> <quic_jesszhan@quicinc.com> wrote:
+> >>>
+> >>>
+> >>> On 8/4/2023 6:27 AM, Dmitry Baryshkov wrote:
+> >>>> On Fri, 28 Jul 2023 at 20:03, Jessica Zhang
+> >>>> <quic_jesszhan@quicinc.com> wrote:
+> >>>>>
+> >>>>> Document and add support for solid_fill property to drm_plane. In
+> >>>>> addition, add support for setting and getting the values for
+> >>>>> solid_fill.
+> >>>>>
+> >>>>> To enable solid fill planes, userspace must assign a property blob to
+> >>>>> the "solid_fill" plane property containing the following information:
+> >>>>>
+> >>>>> struct drm_mode_solid_fill {
+> >>>>>           u32 version;
+> >>>>>           u32 r, g, b;
+> >>>>> };
+> >>>>>
+> >>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >>>>> ---
+> >>>>>    drivers/gpu/drm/drm_atomic_state_helper.c |  9 +++++
+> >>>>>    drivers/gpu/drm/drm_atomic_uapi.c         | 55
+> >>>>> +++++++++++++++++++++++++++++++
+> >>>>>    drivers/gpu/drm/drm_blend.c               | 30 +++++++++++++++++
+> >>>>>    include/drm/drm_blend.h                   |  1 +
+> >>>>>    include/drm/drm_plane.h                   | 35 ++++++++++++++++++++
+> >>>>>    include/uapi/drm/drm_mode.h               | 24 ++++++++++++++
+> >>>>>    6 files changed, 154 insertions(+)
+> >>>>>
+> >>>>
+> >>>> [skipped most of the patch]
+> >>>>
+> >>>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> >>>>> index 43691058d28f..53c8efa5ad7f 100644
+> >>>>> --- a/include/uapi/drm/drm_mode.h
+> >>>>> +++ b/include/uapi/drm/drm_mode.h
+> >>>>> @@ -259,6 +259,30 @@ struct drm_mode_modeinfo {
+> >>>>>           char name[DRM_DISPLAY_MODE_LEN];
+> >>>>>    };
+> >>>>>
+> >>>>> +/**
+> >>>>> + * struct drm_mode_solid_fill - User info for solid fill planes
+> >>>>> + *
+> >>>>> + * This is the userspace API solid fill information structure.
+> >>>>> + *
+> >>>>> + * Userspace can enable solid fill planes by assigning the plane
+> >>>>> "solid_fill"
+> >>>>> + * property to a blob containing a single drm_mode_solid_fill
+> >>>>> struct populated with an RGB323232
+> >>>>> + * color and setting the pixel source to "SOLID_FILL".
+> >>>>> + *
+> >>>>> + * For information on the plane property, see
+> >>>>> drm_plane_create_solid_fill_property()
+> >>>>> + *
+> >>>>> + * @version: Version of the blob. Currently, there is only support
+> >>>>> for version == 1
+> >>>>> + * @r: Red color value of single pixel
+> >>>>> + * @g: Green color value of single pixel
+> >>>>> + * @b: Blue color value of single pixel
+> >>>>> + */
+> >>>>> +struct drm_mode_solid_fill {
+> >>>>> +       __u32 version;
+> >>>>> +       __u32 r;
+> >>>>> +       __u32 g;
+> >>>>> +       __u32 b;
+> >>>>
+> >>>> Another thought about the drm_mode_solid_fill uABI. I still think we
+> >>>> should add alpha here. The reason is the following:
+> >>>>
+> >>>> It is true that we have  drm_plane_state::alpha and the plane's
+> >>>> "alpha" property. However it is documented as "the plane-wide opacity
+> >>>> [...] It can be combined with pixel alpha. The pixel values in the
+> >>>> framebuffers are expected to not be pre-multiplied by the global alpha
+> >>>> associated to the plane.".
+> >>>>
+> >>>> I can imagine a use case, when a user might want to enable plane-wide
+> >>>> opacity, set "pixel blend mode" to "Coverage" and then switch between
+> >>>> partially opaque framebuffer and partially opaque solid-fill without
+> >>>> touching the plane's alpha value.
+> >>>
+> >>> Hi Dmitry,
+> >>>
+> >>> I don't really agree that adding a solid fill alpha would be a good
+> >>> idea. Since the intent behind solid fill is to have a single color
+> >>> for the entire plane, I think it makes more sense to have solid fill
+> >>> rely on the global plane alpha.
+> >>>
+> >>> As stated in earlier discussions, I think having both a
+> >>> solid_fill.alpha and a plane_state.alpha would be redundant and serve
+> >>> to confuse the user as to which one to set.
+> >>
+> >> That depends on the blending mode: in Coverage mode one has
+> >> independent plane and contents alpha values. And I consider alpha
+> >> value to be a part of the colour in the rgba/bgra modes.
+> >
+> > Acked -- taking Sebastian's concern into consideration, I think I'll
+> > have "PIXEL_SOURCE_SOLID_FILL_RGB" and add a separate
+> > "PIXEL_SOURCE_SOLID_FILL_RGBA".
+>
+> Hi Dmitry,
+>
+> Since it looks like there's still some ongoing discussion with Pekka
+> about whether to support an RGBA solid fill source, I'll just leave a
+> note to add an RGBA source in the future.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 ++
- 1 file changed, 2 insertions(+)
+Sure! Let's get the basic framework landed. After that we can extend
+it with RGBA, if that seems sensible.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 639ecbeeacf8..fda20c5e43b6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1453,6 +1453,8 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
- 
- 	drm_plane_create_alpha_property(plane);
-+	drm_plane_create_solid_fill_property(plane);
-+	drm_plane_create_pixel_source_property(plane, BIT(DRM_PLANE_PIXEL_SOURCE_SOLID_FILL));
- 	drm_plane_create_blend_mode_property(plane,
- 			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
- 			BIT(DRM_MODE_BLEND_PREMULTI) |
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> >
+> > Thanks,
+> >
+> > Jessica Zhang
+> >
+> >>
+> >>
+> >>>
+> >>> Thanks,
+> >>>
+> >>> Jessica Zhang
+> >>>
+> >>>>
+> >>>> --
+> >>>> With best wishes
+> >>>> Dmitry
+> >>
+> >> --
+> >> With best wishes
+> >> Dmitry
+
+
 
 -- 
-2.42.0
-
+With best wishes
+Dmitry
