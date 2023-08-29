@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0F278C37F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 13:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396E378C37E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 13:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E01D610E2F2;
-	Tue, 29 Aug 2023 11:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A5B10E35F;
+	Tue, 29 Aug 2023 11:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C2510E2CB;
- Tue, 29 Aug 2023 11:40:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B83610E2E1;
+ Tue, 29 Aug 2023 11:40:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693309204; x=1724845204;
+ t=1693309207; x=1724845207;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0e+ltTfUJbmmtbUfJYK2kWw2VZwZOaHPLYn0grYDIbI=;
- b=JwXoKpYSFXbg26lzObBb5mOSo2irH0mxbUS7x2Xcl1AvD4zY1OyIAxh9
- nTqBSQ93mk9WzXsGZu8ZD9GrkjAEOgxhVH96ap24inPK5l/9r+rxd4d5g
- zYqRR0vATTiOtV+tWrmMUGt9t4k8NnH7YnlsPUSeUzf1DWxXt22hF6vI+
- mlcG+ImkvrgV0g3XiAhX5dFbLWSdRGgQlaKiQGQsGk2oNnABeGjm8g5l/
- reL3VQ+S5rz3AX4RG7TxOZIytkJiDh09PbO08wzYexpFBpuK7DPpVPkNK
- VFfL35QVN44upb50v9a9T77Bl3QwQQBrlL6XrXNY5Jd8Up8MV+Lgq9zAv w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="365548919"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="365548919"
+ bh=F3x+jH0w2Ly/lHP8KITK9TJNBV0ZG19g8AUSRUN2LRQ=;
+ b=L/C1NAwX/W3F2hxJ+ondEj4EvI/PUDCBItAKbKVOv9wZqcRrZFqEWOOY
+ yZlUfI1MfPTuw3OOTqxMDMXB/DwU9sh7iOw8qoZ9Su8EhP9jFkBWMGGU1
+ MnRSONVXrCvKH8IqsSuY4psxpjXOEgwDt+c7QlaP11+4cnSpAsnpUC0xw
+ OCT6OT5vTGyUo8H+s61iFKIimdt5yeJX1yuv8GGUc7VZFP+xmUvZJigKH
+ z1oCIsx7nbWcJHSB4OIRbrtrOxOY2bTNZSxqWANp0OJdkL8P5O4NE/jF4
+ nLypZD1K/5UqLq3HkiVSUyXL4YJSctO0MNXOT82LSISw9y0XNEN6KlTNL g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="365548923"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="365548923"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 04:40:03 -0700
+ 29 Aug 2023 04:40:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="768040394"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="768040394"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="768040409"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="768040409"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
- by orsmga008.jf.intel.com with SMTP; 29 Aug 2023 04:40:01 -0700
+ by orsmga008.jf.intel.com with SMTP; 29 Aug 2023 04:40:04 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 29 Aug 2023 14:40:00 +0300
+ Tue, 29 Aug 2023 14:40:04 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 11/12] drm/i915/hdmi: Remove old i2c symlink
-Date: Tue, 29 Aug 2023 14:39:19 +0300
-Message-ID: <20230829113920.13713-12-ville.syrjala@linux.intel.com>
+Subject: [PATCH 12/12] drm/i915/sdvo: Constify mapping structs
+Date: Tue, 29 Aug 2023 14:39:20 +0300
+Message-ID: <20230829113920.13713-13-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230829113920.13713-1-ville.syrjala@linux.intel.com>
 References: <20230829113920.13713-1-ville.syrjala@linux.intel.com>
@@ -65,68 +65,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Remove the i915 specific i2c-N symlink from HDMI connectors.
-This was added to sort of mirror the DP connectors that alreayd
-had their aux ch based i2c adapter sitting beneath them in the
-sysfs hierarchy. But now that we have the standard "ddc" symlink
-approach provided by the core let's switch to that fully.
-I don't think anything beyond igt depends on this.
+We aren't intending to mutate the SDVO device mapping structs,
+so make them const.
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_hdmi.c | 25 -----------------------
- 1 file changed, 25 deletions(-)
+ drivers/gpu/drm/i915/display/intel_sdvo.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 6b8754290304..e9dcd3d5f6e4 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -2544,28 +2544,6 @@ static int intel_hdmi_get_modes(struct drm_connector *connector)
- 	return drm_edid_connector_add_modes(connector);
- }
- 
--static void intel_hdmi_create_i2c_symlink(struct drm_connector *connector)
--{
--	struct drm_i915_private *i915 = to_i915(connector->dev);
--	struct i2c_adapter *ddc = connector->ddc;
--	struct kobject *i2c_kobj = &ddc->dev.kobj;
--	struct kobject *connector_kobj = &connector->kdev->kobj;
--	int ret;
--
--	ret = sysfs_create_link(connector_kobj, i2c_kobj, i2c_kobj->name);
--	if (ret)
--		drm_err(&i915->drm, "Failed to create i2c symlink (%d)\n", ret);
--}
--
--static void intel_hdmi_remove_i2c_symlink(struct drm_connector *connector)
--{
--	struct i2c_adapter *ddc = connector->ddc;
--	struct kobject *i2c_kobj = &ddc->dev.kobj;
--	struct kobject *connector_kobj = &connector->kdev->kobj;
--
--	sysfs_remove_link(connector_kobj, i2c_kobj->name);
--}
--
- static int
- intel_hdmi_connector_register(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index b988e05274c1..0bd815bf2e69 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -2579,7 +2579,7 @@ intel_sdvo_select_ddc_bus(struct intel_sdvo *sdvo,
+ 			  struct intel_sdvo_connector *connector)
  {
-@@ -2575,8 +2553,6 @@ intel_hdmi_connector_register(struct drm_connector *connector)
- 	if (ret)
- 		return ret;
+ 	struct drm_i915_private *dev_priv = to_i915(sdvo->base.base.dev);
+-	struct sdvo_device_mapping *mapping;
++	const struct sdvo_device_mapping *mapping;
+ 	int ddc_bus;
  
--	intel_hdmi_create_i2c_symlink(connector);
--
- 	return ret;
- }
+ 	if (sdvo->base.port == PORT_B)
+@@ -2602,7 +2602,7 @@ static void
+ intel_sdvo_select_i2c_bus(struct intel_sdvo *sdvo)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(sdvo->base.base.dev);
+-	struct sdvo_device_mapping *mapping;
++	const struct sdvo_device_mapping *mapping;
+ 	u8 pin;
  
-@@ -2586,7 +2562,6 @@ static void intel_hdmi_connector_unregister(struct drm_connector *connector)
+ 	if (sdvo->base.port == PORT_B)
+@@ -2647,7 +2647,7 @@ static u8
+ intel_sdvo_get_slave_addr(struct intel_sdvo *sdvo)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(sdvo->base.base.dev);
+-	struct sdvo_device_mapping *my_mapping, *other_mapping;
++	const struct sdvo_device_mapping *my_mapping, *other_mapping;
  
- 	cec_notifier_conn_unregister(n);
- 
--	intel_hdmi_remove_i2c_symlink(connector);
- 	intel_connector_unregister(connector);
- }
- 
+ 	if (sdvo->base.port == PORT_B) {
+ 		my_mapping = &dev_priv->display.vbt.sdvo_mappings[0];
 -- 
 2.41.0
 
