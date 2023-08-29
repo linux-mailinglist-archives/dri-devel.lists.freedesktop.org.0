@@ -1,47 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2F878C480
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 14:51:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7871A78C4AD
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 15:00:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C2610E325;
-	Tue, 29 Aug 2023 12:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8172E10E03B;
+	Tue, 29 Aug 2023 13:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DBD010E325
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 12:51:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB8B10E03B
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 13:00:40 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CED60660721F;
- Tue, 29 Aug 2023 13:51:45 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E0CC86607214;
+ Tue, 29 Aug 2023 14:00:38 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693313506;
- bh=tO3vyDDObFELy9y9ES736oNbNGzrJY+69GRkSfSxkyU=;
+ s=mail; t=1693314039;
+ bh=mQDEZvbsKHU6Hgw90+jlouja2pjqsp3La4v91PjtpD8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dyNY0AtBkkAlk/tNK6bgp0UayjFoCoY4+/WNvz7SA1Zj4UkMrHtlTRDzymoVXkOZm
- txebeaSk7MgrOzJLV79lGyt1Ub4I8qD4EB2kKMrvjTApBQDcAUIwsjez92Icu6YJE+
- iVBT9OiOoBfDjKZVs3yCNGYXbvjVVq/OAnVX4fcZIFmTXJ+DkyCU/CXHMS0bO/AjRK
- wP7X4aYbUeEEe3BXMET5Lio6sUCOVQGfNy2tULliNau9V8Bn1D3F5leqhegkkYTBWJ
- 4CkJMPNNARY77bjVdRa2/fvqm0M/idt0Xy0jYvAdBBzdoHJwsrYyK9J7KavkKkQIeZ
- mKTP6MmLweHlw==
-Date: Tue, 29 Aug 2023 14:51:42 +0200
+ b=Ooo9a/cSX0zBrwAPnaB+9BIR0D7y2slJukIbJeeYfouq4fOPV0YYwYqf19MxaFu14
+ EB8g/Sru0df1D43WJsYe5YC9KHp4H7AufTUky5rlQeIE7A2WK6lbR+vDHZbB0msJU+
+ CFPp1wdkNXKHUbvWiZoSdTkSPATjneyJsQulRwMo+xyEXzk4LVUYuGuX9eXFFLiNbI
+ UGIr8a/EoG9e8xF/mdc3dYCAx2NaZysHA+nbls3O9I6gjPIj1Bdwdo7uFHruXl8Hjf
+ dWgV4pz9WnBPISE8JMditx0wn0HBi0p9L/qwLZAtR97A+G4dHE4MXpEnqNEzPsJwXk
+ RzUrRKemdDDXQ==
+Date: Tue, 29 Aug 2023 15:00:35 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 13/15] drm/panthor: Allow driver compilation
-Message-ID: <20230829145142.27100900@collabora.com>
-In-Reply-To: <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 03/15] drm/panthor: Add GPU register definitions
+Message-ID: <20230829150035.158d2817@collabora.com>
+In-Reply-To: <2b801b98-5158-5aba-9ab7-23b0b0b9c0a1@arm.com>
 References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-14-boris.brezillon@collabora.com>
- <abed970e-db59-9eef-c4b6-dee49718f582@arm.com>
- <fa757894-f501-4114-ba7c-e46c59904300@collabora.com>
- <71e8c55c-049f-688a-b97e-bdfbb54d18cb@arm.com>
- <60720747-5f03-2766-0d5f-e102097308e7@arm.com>
- <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
+ <20230809165330.2451699-4-boris.brezillon@collabora.com>
+ <2b801b98-5158-5aba-9ab7-23b0b0b9c0a1@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -62,51 +58,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Nicolas Boichat <drinkcat@chromium.org>,
  Daniel Stone <daniels@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Aug 2023 18:56:21 +0100
-Robin Murphy <robin.murphy@arm.com> wrote:
+On Fri, 11 Aug 2023 15:13:23 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-> > And, to be honest, for a fair bit of the common code in
-> > panfrost/panthorm it's common to a few other drivers too. So the correct
-> > answer might well be to try to add more generic helpers (devfreq,
-> > clocks, power domains all spring to mind - there's a lot of boiler plate
-> > and nothing very special about Mali).  
+> > +#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
+> > +#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
+> > +#define   AS_TRANSCFG_ADRMODE_LEGACY			(0 << 0)  
 > 
-> That much is true, however I guess there's also stuff like perf counter 
-> support which is less likely to be DRM-level generic but perhaps still 
-> sufficiently similar between JM and CSF. The main thing I don't know, 
-> and thus feel compelled to poke at, is whether there's any possibility 
-> that once the new UAPI is mature, it might eventually become preferable 
-> to move Job Manager support over to some subset of that rather than 
-> maintain two whole UAPIs in parallel (particularly at the Mesa end). My 
-> (limited) understanding is that all the BO-wrangling and MMU code is 
-> primarily different here for the sake of supporting new shiny UAPI 
-> features, not because of anything inherent to CSF itself (other than CSF 
-> being the thing which makes supporting said features feasible).
+> I don't believe legacy mode exists any more (it's not in my copy of the
+> spec).
 
-You nailed it. The fact we went for a new driver is not so much about
-supporting CSF HW (though, supporting CSF with the panfrost model is
-challenging to be honest, even more if we want a zero-regression
-guarantee for pre-existing users), but more about starting from a green
-field so we don't have to think about supporting both GL and Vulkan
-models (explicit vs implicit VM maintenance, explicit vs implicit
-synchronization everywhere, and probably other things I forgot about).
-Those are things that are hard to reconcile, which makes the code even
-more complicated to apprehend, and more likely to break in subtle ways.
+Oops, I'll drop it.
 
-Intel went for this 'new driver' approach with Xe, Nouveau didn't. I
-can't guarantee we took the right decision, but it definitely makes the
-bringup phase less painful/risky, since we don't have to make sure we
-don't regress existing users, and we don't have to implement
-wrappers/bridges for the old uAPI.
+> 
+> > +#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
+> > +#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
+> > +#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
+> > +#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
+> > +#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
+> > +#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
+> > +#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
+> > +#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
+> > +#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
+> > +#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
+> > +#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
+> > +#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
+> > +#define   AS_TRANSCFG_PTW_RA				BIT(30)
+> > +#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
+> > +#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
+> > +#define   AS_TRANSCFG_WXN				BIT(35)
+> > +#define   AS_TRANSCFG_XREADABLE				BIT(36)
+> > +#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
+> > +#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
+> > +
+> > +#define CSF_GPU_LATEST_FLUSH_ID				0x10000
+> > +#define CSF_GPU_LATEST_FLUSH_ID_DEFAULT			0xffffe0  
+> 
+> I'm not sure why we need the default value of this register? Seems an
+> odd thing to include.
 
-As for supporting JM with the new driver, that's something we are
-considering, especially if we want proper Vulkan support on
-bifrost/valhall-non-csf at some point, but that's clearly not the
-priority right now.
+I'm using it to set the dummy FLUSH_ID page to the reset value on
+suspend, which you suggested to set to zero or one. If we agree on that
+(still want to explain the reasoning before taking a decision), I'll
+drop this definition.
+
+> 
+> Steve
+> 
+> > +
+> > +#define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
+> > +#define CSF_GLB_DOORBELL_ID				0
+> > +
+> > +#define gpu_write(dev, reg, data) \
+> > +	writel(data, (dev)->iomem + (reg))
+> > +
+> > +#define gpu_read(dev, reg) \
+> > +	readl((dev)->iomem + (reg))
+> > +
+> > +#endif  
+> 
+
