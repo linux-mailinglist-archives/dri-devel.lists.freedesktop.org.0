@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1C078C756
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 16:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BE378C750
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 16:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D12910E341;
-	Tue, 29 Aug 2023 14:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35DA610E334;
+	Tue, 29 Aug 2023 14:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABA410E338
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F8B10E334
  for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:21:30 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F37A32185F;
- Tue, 29 Aug 2023 14:21:28 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 33ED921862;
+ Tue, 29 Aug 2023 14:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1693318889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AflgOAYTtEUtMKQLysXvACzGCyW8TUedsKSeZsJeZOQ=;
- b=cq8X5NuSSyzfgxosSvcRklTtNwaVTxXHmI/XYlc2UmWKQKTN8ixJNdiXjY6HM09v8vn8rV
- VrKzfss8wdd2jQr8LI1lQiDT9iskNVtj47lrK13RWxwe6UQTPWHRWW2Yp115RsbbVOgjeM
- /6RR5ORXFefGeJZuG09GHnIU92y2FQ0=
+ bh=85eywdjr+s4Dlz7EgfspVAn+LVSLK6ku8CULp+IQzqk=;
+ b=1t0f3i/0pS5SSu4kFfUn9rlAHosoJxVjkzfNDZ2PshuEdFVVtzQByOyYq0IRZjV0GF3izb
+ 2l5Lhk07Q0wvElc6sh30hJ+EUM78mqwMQFD2f5bAoZuc4Hs/+rsp4u2sW3869e2e4bhHZi
+ DUXQWkED7NTZHygmAl3ZZp0ftNI98TE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1693318889;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AflgOAYTtEUtMKQLysXvACzGCyW8TUedsKSeZsJeZOQ=;
- b=CVS2f+Xw2RXolsCSwuEXZ7p2xKclocsdMi3n6bT+FJKm/qvp4VDYW1TjPx3dzGNM9OviRl
- 54D3HbScTEZPtLCA==
+ bh=85eywdjr+s4Dlz7EgfspVAn+LVSLK6ku8CULp+IQzqk=;
+ b=jbn+suS8TLdWgg9CGxC2Zf7jvkzCCd4BtrRF0698qjObu3IbVHfSssMPNwdABF1FRcBftQ
+ 5bViSOHeg6Jb9XCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C1C5B13909;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 06005138E2;
  Tue, 29 Aug 2023 14:21:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kB1vLuj+7WREewAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id OK+WO+j+7WREewAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 29 Aug 2023 14:21:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] fbdev/au1200fb: Do not display boot-up logo
-Date: Tue, 29 Aug 2023 16:15:40 +0200
-Message-ID: <20230829142109.4521-2-tzimmermann@suse.de>
+Subject: [PATCH 2/7] fbdev/mmp/mmpfb: Do not display boot-up logo
+Date: Tue, 29 Aug 2023 16:15:41 +0200
+Message-ID: <20230829142109.4521-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230829142109.4521-1-tzimmermann@suse.de>
 References: <20230829142109.4521-1-tzimmermann@suse.de>
@@ -73,34 +73,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The fbcon module takes care of displaying the logo, if any. Remove
-the code form au1200fb. If we want to display the logo without fbcon,
+the code form mmpfb. If we want to display the logo without fbcon,
 we should implement this in the fbdev core code.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/au1200fb.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/video/fbdev/mmp/fb/mmpfb.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
-index c137d6afe484..98afd385c49c 100644
---- a/drivers/video/fbdev/au1200fb.c
-+++ b/drivers/video/fbdev/au1200fb.c
-@@ -1719,15 +1719,6 @@ static int au1200fb_drv_probe(struct platform_device *dev)
- 		}
+diff --git a/drivers/video/fbdev/mmp/fb/mmpfb.c b/drivers/video/fbdev/mmp/fb/mmpfb.c
+index 42a87474bcea..2d9797c6fb3e 100644
+--- a/drivers/video/fbdev/mmp/fb/mmpfb.c
++++ b/drivers/video/fbdev/mmp/fb/mmpfb.c
+@@ -628,13 +628,6 @@ static int mmpfb_probe(struct platform_device *pdev)
+ 	dev_info(fbi->dev, "loaded to /dev/fb%d <%s>.\n",
+ 		info->node, info->fix.id);
  
- 		au1200fb_fb_set_par(fbi);
--
--#if !defined(CONFIG_FRAMEBUFFER_CONSOLE) && defined(CONFIG_LOGO)
--		if (plane == 0)
--			if (fb_prepare_logo(fbi, FB_ROTATE_UR)) {
--				/* Start display and show logo on boot */
--				fb_set_cmap(&fbi->cmap, fbi);
--				fb_show_logo(fbi, FB_ROTATE_UR);
--			}
+-#ifdef CONFIG_LOGO
+-	if (fbi->fb_start) {
+-		fb_prepare_logo(info, 0);
+-		fb_show_logo(info, 0);
+-	}
 -#endif
- 	}
+-
+ 	return 0;
  
- 	/* Now hook interrupt too */
+ failed_clear_info:
 -- 
 2.41.0
 
