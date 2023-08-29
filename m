@@ -1,92 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE99E78CCDE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 21:21:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCF578CCE2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 21:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C8F10E490;
-	Tue, 29 Aug 2023 19:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEFF10E492;
+	Tue, 29 Aug 2023 19:26:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2038C10E490
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 19:21:26 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37TDqAjl015641; Tue, 29 Aug 2023 19:21:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=H2+NxqiEc8rjZ8pjbgtU37aJCpGo6Y8dTyKxIsz68Uc=;
- b=QzREJtMxWlmqdyNBRfQTk70eFrJG0NMOaic0DAt960vQcgbAXRiDtv4gMQxBZvWYWYyd
- 5599cC3up2DoUVaGZXZcoux2whzJBtq2Ab18tPxBkgYbVQsSXFtswhq5U22dgZYgjXXW
- APUeKPW5du9q0BxuU3kfBISowVxG2CoASkdb69mNZGV18WaLWe61bki6eL0M6c4O52f5
- Aav68xNR++Luei5rKXMbjWsezufks6SJ6i/7BVdxw6HbOdbeX00j9US2ZTuMzANtaZub
- DEKTUuppixmwntYLwItQ3l4PJgmAPBTnc+iHbsTzIAjX1EI7TVH9yY1Rjth7x8d8MhoP AA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3srybqb8mf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 19:21:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TJL8CP025418
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 19:21:08 GMT
-Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
- 2023 12:21:07 -0700
-Message-ID: <7c424643-79b6-7eb1-cf6f-21c5decc76ba@quicinc.com>
-Date: Tue, 29 Aug 2023 12:21:07 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
- VTDR6130
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2089.outbound.protection.outlook.com [40.107.94.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0919710E492;
+ Tue, 29 Aug 2023 19:26:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NCmepXxGW/9f98NjJ5Eit8nkLcYq6OAndfulSnsYMdkWdwKdP9yE5mABT8UE2ZYzipOZzZ0V80ibYiN7SZBfDtxjoZ22+hjNMjNgu+EaCRA4V3FF6tGeMLCMeEGHDxNnIzPGZk1qQe63sDwqHqj7xx/JLqcmXeEdVgGkoBBeD2Hq57+qctpLke1hCnZ9M3xP3+qCJYXYe1peKxcT7rT2crMCeiXIAhZ+JZj4ELQqNLXo1FP/XWurBtYCT/ERPZnTI9Z5lNttheDmtn3S2K3ehWAMqfNqBCcVmtGF2PF3DuacJewps+jogu6ax0atEcTfpWZ4plnyhrZEFwRjPOFXxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e6a8fuKbUIWygGiMuvfy8xQmeJ9HKvggZ++BSmAHiIA=;
+ b=O3T+bXbdsViQdRW7JwTyQwR7bdbLmI7bN8QwxHOFqxEEnAvDpJDuomWWdDv5cooEwzi/RXYI8+VshCzLoCK7w1583mUXeVzwCZFL1qzfJ27Akcb3dEGe/yxx1nt7zwdEYQz0gURe2fePwppWmAwalJgElzk6xyO1CbwnIlyaCOj06xtiJUshiuiEU1k27oUVudmgDeVmjklFlYY6hfm0XXCmPVKsuESmvXqZMG5/EH5AVnNsK9GvvmPbI6ewfWb7GKSH6donUzvmElCUYqEAU04SxALOFMtrM8LcnUhU/wg4JhuuslOROHUs2/J/o2fAPFuYXojQskJMxARPSVXFYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e6a8fuKbUIWygGiMuvfy8xQmeJ9HKvggZ++BSmAHiIA=;
+ b=bpVXXXutxx8qw/cEWOYvVfDfiX0EiLXB4nN2nE+JPrS8gynZu/Rm8GexoIBj3fck01X3wh0pIzayZpA48k1I9bZu65PnQqA0eXK4IBdC2FGT/jm+xz67iy2trGgMHBu1UsKGN0Lqz5ZMbRr9HpUtDiJDX1eSNcJUzkWoIyB/1DI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA0PR12MB4384.namprd12.prod.outlook.com (2603:10b6:806:9f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
+ 2023 19:26:23 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::236b:d4e2:6fbf:6c2b]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::236b:d4e2:6fbf:6c2b%5]) with mapi id 15.20.6699.035; Tue, 29 Aug 2023
+ 19:26:23 +0000
+Message-ID: <dbde0306-cc10-420f-a663-663481e127e2@amd.com>
+Date: Tue, 29 Aug 2023 15:26:19 -0400
+User-Agent: Mozilla Thunderbird
+From: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230829160422.1251087-1-uma.shankar@intel.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
- <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
- <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
- <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
- <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
- <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
- <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
- <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
- <7571be78-5560-13bf-d754-cabc8ad6140d@quicinc.com>
- <56c11316-57ce-45d5-927c-84f65a1c227e@linaro.org>
- <CAA8EJpqQkb1wumNJWkKV2o5+52FopHyPRvxBewLxGFXnTJFA9A@mail.gmail.com>
- <5512f228-680b-0259-cfc5-6dae6d4da392@quicinc.com>
- <CAA8EJpr8WPmsgiXb16OipvtouwztKYjVWLYK04Z0DvQ7frtJiw@mail.gmail.com>
- <e52d9a0a-f748-22fb-e68c-4b819d97d0cd@quicinc.com>
- <CAA8EJpohD05+JuHoGai9NoM-GH8JN9MGtf4CKtBJpPm5n25dwA@mail.gmail.com>
- <c522a944-4ae1-098b-0205-b0810325114c@quicinc.com>
- <CAA8EJpoEQAjRPnZD5uErSUO=3v-J3yHwZCEU2WcX8RXjV_ZcsQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpoEQAjRPnZD5uErSUO=3v-J3yHwZCEU2WcX8RXjV_ZcsQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: O3TRRZXU6kdTzefPRF-QSa7gqW0AqYDI
-X-Proofpoint-GUID: O3TRRZXU6kdTzefPRF-QSa7gqW0AqYDI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_13,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 impostorscore=0 adultscore=0 suspectscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308290168
+In-Reply-To: <20230829160422.1251087-1-uma.shankar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0212.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:67::18) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA0PR12MB4384:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0391f558-0f38-4fcf-7c0d-08dba8c5d489
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QjQot9Hz2Scsf9QBQS03sSUbz0U24W/pjtcTGZ9AKKas+AWknI/GFAOt/JW7SFNOI2a9bg7Cp+eL98mg/nyjda94lq1XqSGcvWDfD802h/v79Ms8Pqgzqcw9H/aydPgJAE3iIJCZ+3LcyXFpxD5OF8ReblRl6jYbiVpouG2pujkeq30+syRCezjYtb43Cu8J1+RfiCJH2VADHITPlyzHFYhKz/maO+IPTLpMKFNBC5c5nLleQJx6FcofSuQUQT+QNU8Zm3x08tN0pVZw2GfMJ0mpDCM0cNp5DJf/ZZQ5E2QD7V02cG+qBJRQfkkJPyZMCM9G32MrABZEFjoxTgnfzBTweUTHPq014nwSOkZk/x0bQDkl+Mn+InWjEw1sfAdcJIA2URiGSumO9x41EcOm/BWR26vxC3OkN5OtJ3k/qOwy/NRyGwVVBPb6GGb8he86r8FQS4jXPt24cAXyTsXZgh0ShhFxntJ2DfFCDtqYU0ICrmv+yiYI+wV24CoDyOwy8ETrQOXL/Hbig5DGBPLaNoF8mMF4fCiQ23iHGgQMap0WkXZN9Y2AWcIbeV+92wUAXbACm7EjncoR4pEss4lllT7d4Mq7NaCLDQDrfm3Sc9EHTf1t0Jawy0Gc5uNPLZSWyns/zz5QgHdROsjBPZ9df0/y12aWrM69he0YHiDed/E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199024)(1800799009)(186009)(6512007)(38100700002)(316002)(41300700001)(66899024)(36756003)(4326008)(66574015)(7416002)(83380400001)(31696002)(2906002)(86362001)(30864003)(2616005)(44832011)(26005)(8676002)(5660300002)(8936002)(6666004)(66556008)(6506007)(6486002)(966005)(66946007)(66476007)(54906003)(53546011)(478600001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Zm9lR0l6bUVPam9rUEdLbEtJNnczV3lqd3F5UUg2bFZ3UTJrcjJLcncybTJQ?=
+ =?utf-8?B?azhiT0pTb0RtUUNDM01FT0dnK3M5TUh0ZjdhdUJJV0t3MGEzdUtIeGpoZUw5?=
+ =?utf-8?B?ajJtZHlYcmxOOXFUbkVqTVROYVZhRHpIcGJXQTU1QlplSVd6RUVmTFRMTjRi?=
+ =?utf-8?B?S094YjNseDhKaDhrSGJMWTFhM2JOMFdrRmJ5RUJmb0ZtOGhuZzBlbFY4YUxm?=
+ =?utf-8?B?WnEwVnhtaFNRRUl1Q1l0MndOMkFOTjlFcTF2bEV5OEFOWnA2eUZ5b1k2MmNX?=
+ =?utf-8?B?bXRnck9yTGVVVXkrcnNqMVBRaGdDOGovVTEzSDZ6N3psb3lmdTl3UWtmWDR3?=
+ =?utf-8?B?VDBZTzFYQmpiNTJleno5bkJ3OENhdlIwSlJ5b0cwekI1b3c1eFNUdmlpekEz?=
+ =?utf-8?B?eXdhSW9Xam9lR0hEejhTQ1pjSHJUZ1BkYm8vbHduZEpxU2tvNVo4RHpNQUZp?=
+ =?utf-8?B?TXJidnF3STVuZGhnbHR6Smloek1uWHo5bVBRTHd0R2EwMGRxdEEyRDBYaXN0?=
+ =?utf-8?B?SzkyWll2cll3QWJIdTdXaFJteUxFSnFERXUvcGloRkJncWd0RUdTbkUwRVND?=
+ =?utf-8?B?b280OEorQ1FZK2ZkTm5PTURBQXBOUzRCQytBZ2R2dFZvQ0lnYldFODJzL1Va?=
+ =?utf-8?B?eWMvS2h0UUF0M1FSeTVxK3lyWEJvRTNBUGZTSExZRjRIdytkOG1CK1BrY3Jk?=
+ =?utf-8?B?YzAwLzFBbjZmWCs3eVlHSG9hSWx6OXFVSFY1OUVtOXJYZ2ZLVFo1cG56NU1i?=
+ =?utf-8?B?RjRhS09lZ3NjVzhLcE5rYmtoUFZiMmNrQUJTdTlNWU5kdWx5cVpaeHZwQkJy?=
+ =?utf-8?B?QzhlbFFkZG9Ea3JtVGFYaHFFWjVWc2ltbGR6Vy9UNXpYdTZMTUhSV0pYV05H?=
+ =?utf-8?B?OXBtclNPQlBkL0xLSENUWDJmS2R2Q2VELzdZZ3ZobmxXNFpRU3ZXUVBFR3BF?=
+ =?utf-8?B?bVN3dUU5V1JVcGxpM0hnUG51UnFZNU9ldkdPTWtwOXdUQUthZU1Fd0tmU2Jt?=
+ =?utf-8?B?WHpFOTNrMVRFTk9LRmkzTFM1UWZaaExvTDhvdHNxZno3SUxzN2V4SmhEMy9x?=
+ =?utf-8?B?Qm1lUmVlSnlOZVJVbUJtS2NZSVQxYzFUTFJhV1E0WVZrR0FWa3BNTUIwL1E3?=
+ =?utf-8?B?MjlTdHp4Z2hNWXdKS2F6aW9sWlNlc08zbUt2OUpURTVNcjVSVXIyZDNWUDB4?=
+ =?utf-8?B?OGR1WDIxN3FXUEczcGtZYklJTk50YURJZDhNMjFoZE10N3g0ZFNmVTBWc2Iv?=
+ =?utf-8?B?TFlXc1BrMEc4RjF3VURMNEhBQlJOTm80T3M5RWFYUVFtTUZ2YzlscXJBaVVM?=
+ =?utf-8?B?N2hGMUtBell0ZzJCYXBwaytlN3JWaWdIQ0FzMnF6Y1gydHFWTExMY0tiU2xM?=
+ =?utf-8?B?emFwT0hBbzJCUlIwb3Y3SEYwOVllNGMrZlN2WkFOMVI3WTIxYXg4YXQxT0NO?=
+ =?utf-8?B?L2diZ2dPQ3M2emg2bzAvVzVxbkJhNTF2V2FJUHp2VzN1am5HSzlwKzU0ZHR1?=
+ =?utf-8?B?QmxFYVZ2eTlKbURJZENQRlkySlZ0S29FQTBXbU9KQ0dqYVp4V3I4Qzg5RGUv?=
+ =?utf-8?B?Z1dYWkh6Yms4RWdpaTQzaGgxK1UzYTI5MjczbWtnZUFXVUh2ZEJLWDhPUUt2?=
+ =?utf-8?B?ZHRCWUF3U1o4eE0rUEVmallOSXZ6ZWIwL2ZSRXRTbTEwZG4wMXlRMU96aHhF?=
+ =?utf-8?B?WStUSGxNVCtrcEUrUlpCTXIzV0tUTjFhVHhHSWtKREpYOE91M1M3eHZqNjU3?=
+ =?utf-8?B?dUo5OElQRk52N3hucnc5TGEzTDBDVElaNGtMUmRiNGNheHZadDBPdTJ2cG9h?=
+ =?utf-8?B?K1RDSnhNR1I0WG9QUE1rbXloeHF3VWtWOTQ4R29MeUU1RnRoWDFtNmtvNW1v?=
+ =?utf-8?B?REZDa01TOGlIQVBzbDJKSzIwVkhGSXZYSzR3UE5mY3A0d1FPaUphZEpYSk11?=
+ =?utf-8?B?M3R4VEpuRzltbGx0aU4wUWJHYWtTZ2hrOXBJd3Bib0VaMkhka1FoRDV6STdJ?=
+ =?utf-8?B?akNIdVZjb055MWdodXZlZHZmOGsxdUcwdWlZeEdIWVNjMUdyVW4zRzVWazYx?=
+ =?utf-8?B?OHFVK0J5MGgyNWJHM2V4cGV0alh1MjRoUHBJdFgzb1o1TnZXVUs0ZDJrQ2x2?=
+ =?utf-8?Q?bLqm0gOG0O3qqOr3FIrOyErrZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0391f558-0f38-4fcf-7c0d-08dba8c5d489
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 19:26:23.2800 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +xVqtDqWUlfKJf+5u0AqQqk094lHClOijSTGi4P0n44glNa7gU/yLo6+zmqpda87w7f8RQxOxbSK/7kZyPx8KA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4384
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,320 +124,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- quic_parellan@quicinc.com, dri-devel@lists.freedesktop.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
++CC Naseer and Chris, FYI
 
+See https://patchwork.freedesktop.org/series/123024/ for whole series.
 
-On 8/29/2023 12:15 PM, Dmitry Baryshkov wrote:
-> On Tue, 29 Aug 2023 at 22:09, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 8/29/2023 11:51 AM, Dmitry Baryshkov wrote:
->>> On Tue, 29 Aug 2023 at 20:22, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 8/29/2023 9:43 AM, Dmitry Baryshkov wrote:
->>>>> On Tue, 29 Aug 2023 at 19:37, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 8/29/2023 2:26 AM, Dmitry Baryshkov wrote:
->>>>>>> On Tue, 29 Aug 2023 at 12:22, <neil.armstrong@linaro.org> wrote:
->>>>>>>>
->>>>>>>> On 28/08/2023 19:07, Abhinav Kumar wrote:
->>>>>>>>> Hi Neil
->>>>>>>>>
->>>>>>>>> Sorry I didnt respond earlier on this thread.
->>>>>>>>>
->>>>>>>>> On 8/28/2023 1:49 AM, neil.armstrong@linaro.org wrote:
->>>>>>>>>> Hi Jessica,
->>>>>>>>>>
->>>>>>>>>> On 25/08/2023 20:37, Jessica Zhang wrote:
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> On 8/21/2023 3:01 AM, neil.armstrong@linaro.org wrote:
->>>>>>>>>>>> Hi Maxime,
->>>>>>>>>>>>
->>>>>>>>>>>> On 21/08/2023 10:17, Maxime Ripard wrote:
->>>>>>>>>>>>> Hi,
->>>>>>>>>>>>>
->>>>>>>>>>>>> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wrote:
->>>>>>>>>>>>>> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
->>>>>>>>>>>>>>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
->>>>>>>>>>>>>>>> Sending HS commands will always work on any controller, it's all
->>>>>>>>>>>>>>>> about LP commands. The Samsung panels you listed only send HS
->>>>>>>>>>>>>>>> commands so they can use prepare_prev_first and work on any
->>>>>>>>>>>>>>>> controllers.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> I think there is some misunderstanding there, supported by the
->>>>>>>>>>>>>>> description of the flag.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> If I remember correctly, some hosts (sunxi) can not send DCS
->>>>>>>>>>>>>>> commands after enabling video stream and switching to HS mode, see
->>>>>>>>>>>>>>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
->>>>>>>>>>>>>>> commands in drm_panel_funcs::prepare() /
->>>>>>>>>>>>>>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
->>>>>>>>>>>>>>> whether these commands are to be sent in LP or in HS mode.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Previously DSI source drivers could power on the DSI link either in
->>>>>>>>>>>>>>> mode_set() or in pre_enable() callbacks, with mode_set() being the
->>>>>>>>>>>>>>> hack to make panel/bridge drivers to be able to send commands from
->>>>>>>>>>>>>>> their prepare() / pre_enable() callbacks.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> With the prev_first flags being introduced, we have established that
->>>>>>>>>>>>>>> DSI link should be enabled in DSI host's pre_enable() callback and
->>>>>>>>>>>>>>> switched to HS mode (be it command or video) in the enable()
->>>>>>>>>>>>>>> callback.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> So far so good.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> It seems coherent, I would like first to have a state of all DSI host
->>>>>>>>>>>>>> drivers and make this would actually work first before adding the
->>>>>>>>>>>>>> prev_first flag to all the required panels.
->>>>>>>>>>>>>
->>>>>>>>>>>>> This is definitely what we should do in an ideal world, but at least for
->>>>>>>>>>>>> sunxi there's no easy way for it at the moment. There's no documentation
->>>>>>>>>>>>> for it and the driver provided doesn't allow this to happen.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Note that I'm not trying to discourage you or something here, I'm simply
->>>>>>>>>>>>> pointing out that this will be something that we will have to take into
->>>>>>>>>>>>> account. And it's possible that other drivers are in a similar
->>>>>>>>>>>>> situation.
->>>>>>>>>>>>>
->>>>>>>>>>>>>>> Unfortunately this change is not fully backwards-compatible. This
->>>>>>>>>>>>>>> requires that all DSI panels sending commands from prepare() should
->>>>>>>>>>>>>>> have the prepare_prev_first flag. In some sense, all such patches
->>>>>>>>>>>>>>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
->>>>>>>>>>>>>>> flag to drm_panel").
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> This kind of migration should be done *before* any possible
->>>>>>>>>>>>>> regression, not the other way round.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> If all panels sending commands from prepare() should have the
->>>>>>>>>>>>>> prepare_prev_first flag, then it should be first, check for
->>>>>>>>>>>>>> regressions then continue.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> <snip>
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> I understand, but this patch doesn't qualify as a fix for
->>>>>>>>>>>>>>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
->>>>>>>>>>>>>>>> v6.6, and since 9e15123eca79 actually breaks some support it
->>>>>>>>>>>>>>>> should be reverted (+ deps) since we are late in the rc cycles.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> If we go this way, we can never reapply these patches. There will be
->>>>>>>>>>>>>>> no guarantee that all panel drivers are completely converted. We
->>>>>>>>>>>>>>> already have a story without an observable end -
->>>>>>>>>>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> I don't understand this point, who would block re-applying the patches ?
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
->>>>>>>>>>>>>> Linux version and went smoothly because we reverted regressing patches
->>>>>>>>>>>>>> and restarted when needed, I don't understand why we can't do this
->>>>>>>>>>>>>> here aswell.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>> I'd consider that the DSI driver is correct here and it is about the
->>>>>>>>>>>>>>> panel drivers that require fixes patches. If you care about the
->>>>>>>>>>>>>>> particular Fixes tag, I have provided one several lines above.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Unfortunately it should be done in the other way round, prepare for
->>>>>>>>>>>>>> migration, then migrate,
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> I mean if it's a required migration, then it should be done and I'll
->>>>>>>>>>>>>> support it from both bridge and panel PoV.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> So, first this patch has the wrong Fixes tag, and I would like a
->>>>>>>>>>>>>> better explanation on the commit message in any case. Then I would
->>>>>>>>>>>>>> like to have an ack from some drm-misc maintainers before applying it
->>>>>>>>>>>>>> because it fixes a patch that was sent via the msm tree thus per the
->>>>>>>>>>>>>> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Sorry, it's not clear to me what you'd like our feedback on exactly?
->>>>>>>>>>>>
->>>>>>>>>>>> So let me resume the situation:
->>>>>>>>>>>>
->>>>>>>>>>>> - pre_enable_prev_first was introduced in [1]
->>>>>>>>>>>> - some panels made use of pre_enable_prev_first
->>>>>>>>>>>> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kernels and before
->>>>>>>>>>>> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 systems (and probably other Video mode panels on Qcom platforms)
->>>>>>>>>>>> - this fix was sent late, and is now too late to be merged via drm-misc-next
->>>>>>>>>>>
->>>>>>>>>>> Hi Neil and Maxime,
->>>>>>>>>>>
->>>>>>>>>>> I agree with Neil that 9e15123eca79 was the commit that introduced the issue (since it changed the MSM DSI host behavior).
->>>>>>>>>>>
->>>>>>>>>>> However, I'm not too keen on simply reverting that patch because
->>>>>>>>>>>
->>>>>>>>>>> 1) it's not wrong to have the dsi_power_on in pre_enable. Arguably, it actually makes more sense to power on DSI host in pre_enable than in modeset (since modeset is meant for setting the bridge mode), and
->>>>>>>>>>
->>>>>>>>>> I never objected that, it's the right path to go.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Ack.
->>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> 2) I think it would be good practice to keep specific bridge chip checks out of the DSI host driver.
->>>>>>>>>>
->>>>>>>>>> We discussed about a plan with Maxime and Dmitry about that, and it would require adding
->>>>>>>>>> a proper atomic panel API to handle a "negociation" with the host controller.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> May I know what type of negotiation is needed here?
->>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> That being said, what do you think about setting the default value of prepare_prev_first to true (possibly in panel_bridge_attach)?
->>>>>>>>>>
->>>>>>>>>> As Dmitry pointed, all panels sending LP commands in pre_enable() should have prepare_prev_first to true.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I wanted to respond to this earlier but didnt get a chance.
->>>>>>>>>
->>>>>>>>>      From the documentation of this flag, this has nothing to do whether panels are sending the LP commands (commands sent in LP mode) OR HS commands (commands sent in HS mode).
->>>>>>>>>
->>>>>>>>> This is more about sending the commands whether the lanes are in LP11 state before sending the ON commands.
->>>>>>>>>
->>>>>>>>> 195      * The previous controller should be prepared first, before the prepare
->>>>>>>>> 196      * for the panel is called. This is largely required for DSI panels
->>>>>>>>> 197      * where the DSI host controller should be initialised to LP-11 before
->>>>>>>>> 198      * the panel is powered up.
->>>>>>>>> 199      */
->>>>>>>>> 200     bool prepare_prev_first;
->>>>>>>>>
->>>>>>>>> These are conceptually different and thats what I explained Dmitry in our call.
->>>>>>>>>
->>>>>>>>> Sending ON commands in LP11 state is a requirement I have seen with many panels and its actually the right expectation as well to send the commands when the lanes are in a well-defined LP11 state.
->>>>>>>>>
->>>>>>>>>      From the panels which I have seen, the opposite is never true (OR i have never seen it this way).
->>>>>>>>>
->>>>>>>>> The parade chip was the only exception and that issue was never root-caused leading us to have bridge specific handling in MSM driver.
->>>>>>>>>
->>>>>>>>> In other words, it would be very unlikely that a panel should be broken or shouldn't work when the ON commands are sent when the lanes are in LP11 state.
->>>>>>>>>
->>>>>>>>> So I agree with Jessica, that we should set the default value of this flag to true in the framework so that only the bridges/panels which need this to be false do that explicitly. From the examples I pointed out including MTK, even those vendors are powering on their DSI in pre_enable() which means none of these panels will work there too.
->>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> It seems to me that most panel drivers send DCS commands during pre_enable, so maybe it would make more sense to power on DSI host before panel enable() by default. Any panel that needs DSI host to be powered on later could then explicitly set the flag to false in their respective drivers.
->>>>>>>>>>
->>>>>>>>>> A proper migration should be done, yes, but not as a fix on top of v6.5.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I am fine to drop this fix in favor of making the prepare_prev_first as default true but we need an agreement first. From what I can see, parade chip will be the only one which will need this to be set to false and we can make that change.
->>>>>>>>>
->>>>>>>>> Let me know if this works as a migration plan.
->>>>>>>>
->>>>>>>> Yep agreed, let's do this
->>>>>>>>
->>>>>>>> The panel's prepare_prev_first should be reversed to something like not_prepare_prev_first to make it an exception.
->>>>>>>
->>>>>>> This will break all non-DSI panels, which might depend on the current
->>>>>>> bridge calling order.
->>>>>>>
->>>>>>> I started looking at the explicit DSI power up sequencing, but it will
->>>>>>> take a few more days to mature.
->>>>>>>
->>>>>>
->>>>>> May I know why this would break all non-DSI panels?
->>>>>
->>>>> Existing panel drivers might be depending on the init order. Do we
->>>>> know for sure that none of DPI panels will be broken if there is a
->>>>> video stream ongoing during the reset procedure?
->>>>> Or the panel-edp, which I'm pretty sure will require not_prepare_prev_first.
->>>>>
->>>>
->>>> Can you please explain why would video stream be ON in pre_enable()?
->>>>
->>>> Even though we call msm_dsi_host_enable() in the DSI's pre_enable(), the
->>>> timing engine is not enabled until the encoder's enable and the first
->>>> commit after that so video stream wont be sent till then.
->>>
->>> You are describing the MSM DSI case. I was pointing to the fact that
->>> parent's pre_enable if called too early might conflict with the next
->>> bridge driver in the _generic_ case. E.g. eDP or DPI. Even if is not a
->>> full-featured video stream, this state might confuse the panel. So we
->>> can not blindly switch the order of pre_enable callbacks for the
->>> bridge-panel pair.
->>>
->>
->> Even if the end connector was a eDP or DPI, the input to the bridge was
->> DSI so I think its unlikely that video stream was on before encoder's
->> enable but I cannot speak for all these interfaces/vendors.
->>
->> So, to accommodate both worlds, does this work?
->>
->> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
->> index 9316384b4474..2b38388d4e56 100644
->> --- a/drivers/gpu/drm/bridge/panel.c
->> +++ b/drivers/gpu/drm/bridge/panel.c
->> @@ -416,7 +416,10 @@ struct drm_bridge
->> *devm_drm_panel_bridge_add_typed(struct device *dev,
->>                   return bridge;
->>           }
->>
->> -       bridge->pre_enable_prev_first = panel->prepare_prev_first;
->> +       if (connector_type == DRM_MODE_CONNECTOR_DSI)
->> +               bridge->pre_enable_prev_first = true;
->> +       else
->> +               bridge->pre_enable_prev_first = panel->prepare_prev_first;
+On 2023-08-29 12:03, Uma Shankar wrote:
+> Introduction
+> ============
 > 
-> looks like a hack.
+> Modern hardwares have various color processing capabilities both
+> at pre-blending and post-blending phases in the color pipeline.
+> The current drm implementation exposes only the post-blending
+> color hardware blocks. Support for pre-blending hardware is missing.
+> There are multiple use cases where pre-blending color hardware will
+> be useful:
+> 	a) Linearization of input buffers encoded in various transfer
+> 	   functions.
+> 	b) Color Space conversion
+> 	c) Tone mapping
+> 	d) Frame buffer format conversion
+> 	e) Non-linearization of buffer(apply transfer function)
+> 	f) 3D Luts
+> 	
+> and other miscellaneous color operations.
+> 
+> Hence, there is a need to expose the color capabilities of the hardware
+> to user-space. This will help userspace/middleware to use display
+> hardware for color processing and blending instead of doing it through
+> GPU shaders.
 > 
 
-Nope its not, DSI spec has clear mentions about LP11 state to be used 
-during initialization.
+Thanks, Uma, for sending this. I've been working on something similar
+but you beat me to it. :)
 
-"After power-up, the host processor shall observe an initialization 
-period, TINIT, during which it shall drive a
-sustained TX-Stop state (LP-11) on all Lanes of the Link. See [MIPI04] 
-for descriptions of TINIT and the TX-Stop state.
-
-Peripherals shall power up in the RX-Stop state and monitor the Link to 
-determine if the host processor has
-asserted a TX-Stop state for at least the TINIT period. The peripheral 
-shall ignore all Link states prior to
-detection of a TINIT event. The peripheral shall be ready to accept bus 
-transactions immediately following the end of the TINIT period."
-
-I am only extending this statement by mandating that the DSI PHY / 
-controller be powered up so that its able to drive the lanes to LP11 state.
-
-Now, pls explain why this is a hack
-
->>
->>           *ptr = bridge;
->>           devres_add(dev, ptr);
->>
->>>>
->>>> drm_atomic_bridge_chain_pre_enable() is called before the encoder's enable.
->>>>
->>>> drm_atomic_bridge_chain_enable() is the one which is called after the
->>>> encoder's enable().
->>>>
->>>>>>
->>>>>> Like I said, we dont know the full details of the parade issue but I do
->>>>>> not see any reason why powering on a bridge chip with the DSI lanes
->>>>>> being in proper LP11 state should cause an issue. Its a well defined and
->>>>>> documented state in DSI spec.
->>>>>>
->>>>>> On the contrary, trying to turn on a bridge chip before powering on a
->>>>>> controller could have more issues as we do not know what state the lanes
->>>>>> are in when the MIPI devices (panel or bridge) are powered up.
->>>>>>
->>>>>> This sets the expectation and handshake straight.
->>>>>
->>>>>
->>>
->>>
->>>
+> 
+> Work done so far and relevant references
+> ========================================
+> 
+> Some implementation is done by Intel and AMD/Igalia to address the same.
+> Broad consensus is there that we need a generic API at drm core to suffice
+> the use case of various HW vendors. Below are the links capturing the
+> discussion so far.
+> 
+> Intel's Plane Color Implementation: https://patchwork.freedesktop.org/series/90825/
+> AMD's Plane Color Implementation: https://patchwork.freedesktop.org/series/116862/
 > 
 > 
+> Hackfest conclusions
+> ====================
+> 
+> HDR/Color Hackfest was organised by Redhat to bring all the industry stakeholders
+> together and converge on a common uapi expectations. Participants from Intel, AMD,
+> Nvidia, Collabora, Redhat, Igalia and other prominent user-space developers and
+> maintainers.
+> 
+> Discussions happened on the uapi expectations, opens, nature of hardware of multiple
+> hardware vendors, challenges in generalizing the same and the path forward. Consensus
+> was made that drm core should implement descriptive APIs and not go with prescriptive
+> APIs. DRM core should just expose the hardware capabilities; enabling, customizing and
+> programming the same should be done by the user-space. Driver should just honor
+> the user space request without doing any operations internally.
+> 
+> Thanks to Simon Ser, for nicely documenting the design consensus and an UAPI RFC
+> which can be referred to here:
+> 
+> https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
+> 
+> 
+> Design considerations
+> =====================
+> 
+> Following are the important aspects taken into account while designing the current RFC
+> proposal:
+> 
+> 	1. Individual HW blocks can be muxed. (e.g. out of two HW blocks only one can be used)
+> 	2. Position of the HW block in the pipeline can be programmable
+> 	3. LUTs can be one dimentional or three dimentional
+> 	4. Number of LUT entries can vary across platforms
+> 	5. Precision of LUT entries can vary across platforms
+> 	6. Distribution of LUT entries may vary. e.g Mutli-segmented, Logarithmic,
+> 	   Piece-Wise Linear(PWL) etc
+> 	7. There can be parameterized/non-parameterized fixed function HW blocks.
+> 	   e.g. Just a hardware bit, to convert from one color space to another.
+> 	8. Custom non-standard HW implementation.
+> 	9. Leaving scope for some vendor defined pescriptive implementation if required.
+> 	10.Scope to handle any modification in hardware as technology evolves
+> 
+> The current proposal takes into account the above considerations while keeping the implementation
+> as generic as possible leaving scope for future additions or modifications.
+>   
+> This proposal is also in line to the details mentioned by Simon's RFC covering all
+> the aspects discussed in hackfest.
+> 
+> 
+> Outline of the implementation
+> ============================
+> 
+> Each Color Hardware block will be represented by a data structure drm_color_op.
+> These color operations will form the building blocks of a color pipeline which
+> best represents the underlying Hardware. Color operations can be re-arranged,
+> substracted or added to create distinct color pipelines to accurately describe
+> the Hardware blocks present in the display engine.
+
+Who is doing the arranging of color operations? IMO a driver should 
+define one or more respective pipelines that can be selected by 
+userspace. This seems to be what you're talking about after (I haven't 
+reviewed the whole thing yet). Might be best to drop this sentence or to 
+add clarifications in order to avoid confusion.
+
+> 
+> In this proposal, a color pipeline is represented as an array of
+> struct drm_color_op. For individual color operation, we add blobs to advertise
+> the capability of the particular Hardware block.
+> 
+> This color pipeline is then packaged within a blob for the user space to
+> retrieve it.
+> 
+
+Would it be better to expose the drm_color_ops directly, instead of 
+packing a array of drm_color_ops into a blob and then giving that to 
+userspace.
+
+> To advertise the available color pipelines, an immutable ENUM property
+> "GET_COLOR_PIPELINE" is introduced. This enum property has blob id's as values.
+> With each blob id representing a distinct color pipeline based on underlying HW
+> capabilities and their respective combinations.
+> 
+> Once the user space decides on a color pipeline, it can set the pipeline and
+> the corresponding data for the hardware blocks within the pipeline with
+> the BLOB property "SET_COLOR_PIPELINE".
+> 
+
+When I discussed this at the hackfest with Simon he proposed a new DRM 
+object, (I've called it a drm_colorop) to represent a color operation. 
+Each drm_colorop has a "NEXT" pointer to another drm_colorop, or NULL if 
+its the last in the pipeline. You can then have a mutable enum property 
+on the plane to discover and select a color pipeline.
+
+This seems a bit more transparent than a blob. You can see my changes 
+(unfortunately very WIP, don't look too closely at individual patches) at
+https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5/diffs
+
+libdrm changes:
+https://gitlab.freedesktop.org/hwentland/drm/-/merge_requests/1/diffs
+
+IGT changes:
+https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_requests/1/diffs
+
+I'll take time to review your whole series and will see whether we can 
+somehow keep the best parts of each.
+
+Curious to hear other opinions on the blob vs new DRM object question as 
+well.
+
+> Refer to Documentation/gpu/rfc/plane_color_pipeline.rst added in the patch
+> 
+> IGT and test details
+> ====================
+> 
+> A set of IGT tests is written to demonstrate the usage of the proposed UAPIs
+> along with some sanity validation.
+> 
+> Details of the IGT test can be found here:
+> https://patchwork.freedesktop.org/series/123018/
+> 
+> Opens
+> =====
+> 
+> a. To come up with a list of common HW blocks which can be defined generically by the DRM
+>     core in agreement with all the stakeholders
+> b. To enhance/finalize the data structure to define segmented LUTs generically.
+> 
+
+It would be good to add some basic support in VKMS. My work has been 
+based on VKMS. Once we kinda settle on an approach I'll look at exposing 
+the AMD private properties from Melissa through the API.
+
+> 
+> Out of Scope
+> ============
+> 
+> a. The coefficients for CTM and LUT value calculations are out of scope of the proposal.
+> b. The onus of programming the HW blocks and their values is on user-space. Driver will
+>     just provide the interface for the same.
+> c. In order to compute LUT values and coefficients, a helper library can be created in
+>     user-space. However, it is out of scope for the current proposal.
+> 
+> Acknowledgements and credits
+> ============================
+> 
+> There are multiple contributors who have helped us to reach to this proposal. Special mention
+> to Ville Syrjala<ville.syrjala@linux.intel.com>, Pekka Paalanen<pekka.paalanen@collabora.com>,
+> Simon Ser<contact@emersion.fr>, Harry Wentland<harry.wentland@amd.com>,
+> Melissa Wen<mwen@igalia.com>, Jonas<jadahl@redhat.com>, Sebastian Wick<sebastian.wick@redhat.com>,
+> Bhanu<bhanuprakash.modem@intel.com> and Shashank<shashank.sharma@amd.com>.
+> 
+> Also, thanks to Carlos <csoriano@redhat.com> and the Redhat team for organizing the HDR hackfest.
+> 
+> 
+> UAPI dependency and Usermode development
+> ========================================
+> 
+> The current KMS implementation requires a user space consumer for it to be accepted upstream.
+> Work is ongoing in weston and mutter community to get color management and HDR support implemented
+> in the respective stacks.
+> 
+
+If we can get AMD properties encoded using a Color Pipeline API we can 
+probably use gamescope as the userspace vehicle.
+
+I'm reviewing this in sequence, so there's a chance I'm missing context. 
+Please bear with me if some of my comments are answered later in the series.
+
+Again, thanks for sending this.
+
+Harry
+
+> =================================================================================
+> 
+> We have tried to take care of all the scenarios and use-cases which possibly could exists in the
+> current proposal. Thanks to everyone who has contributed in all color management discussions so
+> far. Let's work together to improve the current proposal and get this thing implemented in
+> upstream linux. All the feedback and suggestions to enhance the design are welcome.
+> 
+> Regards,
+> Uma Shankar
+> Chaitanya Kumar Borah
+> 
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Jonas Ådahl <jadahl@redhat.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Alexander Goins <agoins@nvidia.com>
+> 
+> Chaitanya Kumar Borah (14):
+>    drm: Add color operation structure
+>    drm: Add plane get color pipeline property
+>    drm: Add helper to add color pipeline
+>    drm: Manage color blob states
+>    drm: Replace individual color blobs
+>    drm: Reset pipeline when user sends NULL blob
+>    drm: Reset plane color state on pipeline switch request
+>    drm/i915/color: Add HDR plane LUT range data to color pipeline
+>    drm/i915/color: Add SDR plane LUT range data to color pipeline
+>    drm/i915/color: Add color pipelines to plane
+>    drm/i915/color: Create and attach set color pipeline property
+>    drm/i915/color: Enable plane color features
+>    drm/i915/color: Add a dummy pipeline with 3D LUT
+>    drm/i915/color: Add example implementation for vendor specific color
+>      operation
+> 
+> Uma Shankar (19):
+>    drm/doc/rfc: Add RFC document for proposed Plane Color Pipeline
+>    drm: Add structures for setting color pipeline
+>    drm: Add set colorpipeline property
+>    drm: Add Enhanced Gamma LUT precision structure
+>    drm: Add color lut range structure
+>    drm: Add color information to plane state
+>    drm/i915/color: Add lut range for SDR planes
+>    drm/i915/color: Add lut range for HDR planes
+>    drm/i915/color: Add color pipeline for HDR planes
+>    drm/i915/color: Add color pipeline for SDR planes
+>    drm/i915/color: Add plane color callbacks
+>    drm/i915/color: Load plane color luts from atomic flip
+>    drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
+>    drm/i915/xelpd: Add register definitions for Plane Degamma
+>    drm/i915/color: Add color functions for ADL
+>    drm/i915/color: Program Plane Pre-CSC Registers
+>    drm/i915/xelpd: Add register definitions for Plane Post CSC
+>    drm/i915/xelpd: Program Plane Post CSC Registers
+>    drm/i915/color: Enable Plane CSC
+> 
+>   .../gpu/rfc/plane_color_pipeline.rst          | 394 ++++++++++
+>   drivers/gpu/drm/drm_atomic_state_helper.c     |  21 +
+>   drivers/gpu/drm/drm_atomic_uapi.c             | 218 ++++++
+>   drivers/gpu/drm/drm_color_mgmt.c              | 130 ++++
+>   drivers/gpu/drm/i915/display/intel_color.c    | 684 +++++++++++++++++-
+>   drivers/gpu/drm/i915/display/intel_color.h    |   7 +-
+>   .../drm/i915/display/skl_universal_plane.c    |  21 +-
+>   drivers/gpu/drm/i915/i915_reg.h               | 124 ++++
+>   include/drm/drm_plane.h                       |  82 +++
+>   include/uapi/drm/drm_mode.h                   | 196 +++++
+>   include/uapi/drm/i915_drm.h                   |  25 +
+>   11 files changed, 1899 insertions(+), 3 deletions(-)
+>   create mode 100644 Documentation/gpu/rfc/plane_color_pipeline.rst
 > 
