@@ -1,41 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECFD78BF31
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 09:26:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5324C78BF38
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 09:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA52410E05C;
-	Tue, 29 Aug 2023 07:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0454510E07F;
+	Tue, 29 Aug 2023 07:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E0210E05C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 07:26:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA447DE2;
- Tue, 29 Aug 2023 09:25:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1693293902;
- bh=gu3GLqskk3SrwKLCNI818E6d4F3T81RCmcagVyXcVwc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VxTe8XUI/DpNm7Xayrqy1iGCofxzh3iAhpnjFjX0sn1tQoV+hnyRL1RiqRaE5Jxi9
- YGwBz8pJxqpXHgVXLtXxu4Vg5R5M8Dol08pdfr6f2tffeQokGYCUFa0eABGrhlQWw8
- L4RN2h8PYRaaiXAxSohk8wpnrdgLtgTWjzZSnpyk=
-Date: Tue, 29 Aug 2023 10:26:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 4/7] drm: adv7511: Add supply_names and num_supplies
- variables to struct adv7511_chip_info
-Message-ID: <20230829072634.GN17083@pendragon.ideasonboard.com>
-References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
- <20230813180512.307418-5-biju.das.jz@bp.renesas.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 066EC10E07A;
+ Tue, 29 Aug 2023 07:29:56 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1234966071EF;
+ Tue, 29 Aug 2023 08:29:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693294194;
+ bh=Ecrnw1IOFH3doPfE6+44e9yvuZAmYZFTAiUn0vXlg0M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=IECg13CjZ43Q9RAtlU/1MDOlh4f6fKzxlmtZKFa6vwn5PW5Enn1riu1/7d8sq8uZk
+ 3nq1tdc5hQXbEa5AiiGuJlD4u7GdBKzoKslSaLiYW5Td3TQr0kTLqRPwOKfo8fyoec
+ 5YcnF+L82WBVUnNOcpOLw7XlWuoNUrFD+A6SGWppcm2++KyzQbm3pzhl9UCjXf3hQN
+ rO8RSMrWoJSUaLwccu/59ogl5r3+On1BiCt1mEerWirZCNpMiN8jArzVho0oWz2UlL
+ YuRHukQTodOuvzthDIZqWymGszSIjxJsvu/QvPOChIZHEh5u4ES/kAv8h0KzLCM4GC
+ vUIelZ1biepIw==
+Date: Tue, 29 Aug 2023 09:29:50 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v15 17/23] drm/shmem-helper: Add and use
+ drm_gem_shmem_resv_assert_held() helper
+Message-ID: <20230829092950.3a9c40c1@collabora.com>
+In-Reply-To: <01930e66-cba2-5d81-7f46-d46907bdd300@collabora.com>
+References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
+ <20230827175449.1766701-18-dmitry.osipenko@collabora.com>
+ <20230828121239.78a180e6@collabora.com>
+ <01930e66-cba2-5d81-7f46-d46907bdd300@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230813180512.307418-5-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,139 +57,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
+ Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
+ intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On Tue, 29 Aug 2023 05:34:23 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Thank you for the patch.
-
-On Sun, Aug 13, 2023 at 07:05:09PM +0100, Biju Das wrote:
-> The ADV7511 has 5 power supplies compared to 7 that of ADV75{33,35}. Add
-> supply_names and num_supplies variables to struct adv7511_chip_info to
-> handle this difference.
+> On 8/28/23 13:12, Boris Brezillon wrote:
+> > On Sun, 27 Aug 2023 20:54:43 +0300
+> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> >   
+> >> In a preparation of adding drm-shmem memory shrinker, move all reservation
+> >> locking lockdep checks to use new drm_gem_shmem_resv_assert_held() that
+> >> will resolve spurious lockdep warning about wrong locking order vs
+> >> fs_reclam code paths during freeing of shmem GEM, where lockdep isn't
+> >> aware that it's impossible to have locking contention with the fs_reclam
+> >> at this special time.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 37 +++++++++++++++++---------
+> >>  1 file changed, 25 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> index d96fee3d6166..ca5da976aafa 100644
+> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> @@ -128,6 +128,23 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
+> >>  }
+> >>  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+> >>  
+> >> +static void drm_gem_shmem_resv_assert_held(struct drm_gem_shmem_object *shmem)
+> >> +{
+> >> +	/*
+> >> +	 * Destroying the object is a special case.. drm_gem_shmem_free()
+> >> +	 * calls many things that WARN_ON if the obj lock is not held.  But
+> >> +	 * acquiring the obj lock in drm_gem_shmem_free() can cause a locking
+> >> +	 * order inversion between reservation_ww_class_mutex and fs_reclaim.
+> >> +	 *
+> >> +	 * This deadlock is not actually possible, because no one should
+> >> +	 * be already holding the lock when drm_gem_shmem_free() is called.
+> >> +	 * Unfortunately lockdep is not aware of this detail.  So when the
+> >> +	 * refcount drops to zero, we pretend it is already locked.
+> >> +	 */
+> >> +	if (kref_read(&shmem->base.refcount))
+> >> +		drm_gem_shmem_resv_assert_held(shmem);
+> >> +}
+> >> +
+> >>  /**
+> >>   * drm_gem_shmem_free - Free resources associated with a shmem GEM object
+> >>   * @shmem: shmem GEM object to free
+> >> @@ -142,8 +159,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+> >>  	if (obj->import_attach) {
+> >>  		drm_prime_gem_destroy(obj, shmem->sgt);
+> >>  	} else if (!shmem->imported_sgt) {
+> >> -		dma_resv_lock(shmem->base.resv, NULL);
+> >> -
+> >>  		drm_WARN_ON(obj->dev, kref_read(&shmem->vmap_use_count));
+> >>  
+> >>  		if (shmem->sgt) {
+> >> @@ -156,8 +171,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+> >>  			drm_gem_shmem_put_pages_locked(shmem);  
+> > 
+> > AFAICT, drm_gem_shmem_put_pages_locked() is the only function that's
+> > called in the free path and would complain about resv-lock not being
+> > held. I think I'd feel more comfortable if we were adding a
+> > drm_gem_shmem_free_pages() function that did everything
+> > drm_gem_shmem_put_pages_locked() does except for the lock_held() check
+> > and the refcount dec, and have it called here (and in
+> > drm_gem_shmem_put_pages_locked()). This way we can keep using
+> > dma_resv_assert_held() instead of having our own variant.  
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 +-
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 29 ++++++++++----------
->  2 files changed, 16 insertions(+), 16 deletions(-)
+> It's not only drm_gem_shmem_free_pages(), but any drm-shmem function
+> that drivers may use in the GEM's freeing callback.
 > 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> index 0e2c721a856f..b29d11cae932 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -337,6 +337,8 @@ struct adv7511_chip_info {
->  	enum adv7511_type type;
->  	unsigned long max_mode_clock;
->  	unsigned long max_lane_freq;
-> +	const char * const *supply_names;
-> +	unsigned int num_supplies;
->  };
->  
->  struct adv7511 {
-> @@ -375,7 +377,6 @@ struct adv7511 {
->  	struct gpio_desc *gpio_pd;
->  
->  	struct regulator_bulk_data *supplies;
-> -	unsigned int num_supplies;
->  
->  	/* ADV7533 DSI RX related params */
->  	struct device_node *host_node;
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 29e087e6d721..f6f15c1b0882 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1004,37 +1004,30 @@ static const char * const adv7533_supply_names[] = {
->  
->  static int adv7511_init_regulators(struct adv7511 *adv)
->  {
-> +	const char * const *supply_names = adv->info->supply_names;
-> +	unsigned int num_supplies = adv->info->num_supplies;
->  	struct device *dev = &adv->i2c_main->dev;
-> -	const char * const *supply_names;
->  	unsigned int i;
->  	int ret;
->  
-> -	if (adv->info->type == ADV7511) {
-> -		supply_names = adv7511_supply_names;
-> -		adv->num_supplies = ARRAY_SIZE(adv7511_supply_names);
-> -	} else {
-> -		supply_names = adv7533_supply_names;
-> -		adv->num_supplies = ARRAY_SIZE(adv7533_supply_names);
-> -	}
-> -
-> -	adv->supplies = devm_kcalloc(dev, adv->num_supplies,
-> +	adv->supplies = devm_kcalloc(dev, num_supplies,
->  				     sizeof(*adv->supplies), GFP_KERNEL);
->  	if (!adv->supplies)
->  		return -ENOMEM;
->  
-> -	for (i = 0; i < adv->num_supplies; i++)
-> +	for (i = 0; i < num_supplies; i++)
->  		adv->supplies[i].supply = supply_names[i];
->  
-> -	ret = devm_regulator_bulk_get(dev, adv->num_supplies, adv->supplies);
-> +	ret = devm_regulator_bulk_get(dev, num_supplies, adv->supplies);
->  	if (ret)
->  		return ret;
->  
-> -	return regulator_bulk_enable(adv->num_supplies, adv->supplies);
-> +	return regulator_bulk_enable(num_supplies, adv->supplies);
->  }
->  
->  static void adv7511_uninit_regulators(struct adv7511 *adv)
->  {
-> -	regulator_bulk_disable(adv->num_supplies, adv->supplies);
-> +	regulator_bulk_disable(adv->info->num_supplies, adv->supplies);
->  }
->  
->  static bool adv7511_cec_register_volatile(struct device *dev, unsigned int reg)
-> @@ -1367,19 +1360,25 @@ static void adv7511_remove(struct i2c_client *i2c)
->  }
->  
->  static const struct adv7511_chip_info adv7511_chip_info = {
-> -	.type = ADV7511
-> +	.type = ADV7511,
-> +	.supply_names = adv7511_supply_names,
-> +	.num_supplies = ARRAY_SIZE(adv7511_supply_names)
+> For example, panfrost_gem_free_object() may unpin shmem BO and then do
+> drm_gem_shmem_free().
 
-Please add a comma at the end of the line. Same below.
+Is this really a valid use case? If the GEM refcount dropped to zero,
+we should certainly not have pages_pin_count > 0 (thinking of vmap-ed
+buffers that might disappear while kernel still has a pointer to the
+CPU-mapped area). The only reason we have this
+drm_gem_shmem_put_pages_locked() in drm_gem_shmem_free() is because of
+this implicit ref hold by the sgt, and IMHO, we should be stricter and
+check that pages_use_count == 1 when sgt != NULL and pages_use_count ==
+0 otherwise.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  };
->  
->  static const struct adv7511_chip_info adv7533_chip_info = {
->  	.type = ADV7533,
->  	.max_mode_clock = 80000,
->  	.max_lane_freq = 800000,
-> +	.supply_names = adv7533_supply_names,
-> +	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
->  };
->  
->  static const struct adv7511_chip_info adv7535_chip_info = {
->  	.type = ADV7535,
->  	.max_mode_clock = 148500,
->  	.max_lane_freq = 891000,
-> +	.supply_names = adv7533_supply_names,
-> +	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
->  };
->  
->  static const struct i2c_device_id adv7511_i2c_ids[] = {
-
--- 
-Regards,
-
-Laurent Pinchart
+I actually think it's a good thing to try and catch any attempt to call
+functions trying lock the resv in a path they're not supposed to. At
+least we can decide whether these actions are valid or not in this
+context, and provide dedicated helpers for the free path if they are.
