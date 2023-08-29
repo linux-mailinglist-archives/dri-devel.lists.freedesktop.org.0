@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE6378CAAE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:19:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC8578CA94
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B600B10E462;
-	Tue, 29 Aug 2023 17:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 923EC10E452;
+	Tue, 29 Aug 2023 17:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C904910E450
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:17:54 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-99c3d3c3db9so599028466b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:17:54 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A2310E450
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:17:55 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-99d937b83efso615002866b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693329473; x=1693934273;
+ d=gmail.com; s=20221208; t=1693329474; x=1693934274;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dS+cPFrn5V/oSL99Q2BbWTKIW7SUu4ItJIJ2pH0oI9I=;
- b=aSD4wG+1ZRnljM4CSIseFFCuF2Tv5IT8Wosx2+GepQr8oGYlYInqGm4jF10OVnDP0L
- BZIXogAsXeoecVaZXYJFSl9ArISaPcBdoOdP4jX1SDAxCtLv80kdnqgfxqejZkeVK8Dr
- 1qSbdG5PVML8gIAK2mtsZlsFS3Ege/Q3pT+HLIPFg5AKuk49iKFo/GrUvhJ3w/rJ3vlb
- Tuh6inFRswC+h53iRgRJPjrJBeB7t+T3ZE6ijXz9T3eyepS6VUDenDiDDy0ImCUkwaN0
- 8NEopfwb0O7l/QZ5RY84W3ft6aPTskb0Vl5+uIVtchApO7uOjs/JBm8Gs9uexal5+0xq
- TWmQ==
+ bh=FWLxgtqau2yJo36SsneTQsDsVw22iqHp96edYBnf0k4=;
+ b=DYqQwQyTYCKikxyb60b1L/cidyYBoJlyYx7DxCxp/DB+czy+oU22765aVqWMq9gChN
+ hzGEHV6Ukz3+gA74rYbufEwC2om/X8PtXxXA3N4xznw7V3cK6OUceS64tiUtUh4lQPuZ
+ qvxPqnf3hK4BA3whTsYfsEi6LxYF3o5Zmt46/Dv4v/PQEoWAF/mUpr/tVxZ7VVCfDarZ
+ mLrYEkTYyOAS4e9Z4fXdLaY72iT9bCF1mJiIdDpUW5Iw6c1lmIe3+MiIWrm9ATp5bMj7
+ ZuPqabLS7qMEYqkgArtWxlTFln3aqUH+fMUcDuldrO9akccaSGMeHmH6Nx3uouf7wLBI
+ xCWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693329473; x=1693934273;
+ d=1e100.net; s=20221208; t=1693329474; x=1693934274;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dS+cPFrn5V/oSL99Q2BbWTKIW7SUu4ItJIJ2pH0oI9I=;
- b=THueX6N9NT+hOaImEcurU2VIdCZW+y+gvNLUn6+9ay30RGv4UuBrBq+/TEz974ZArk
- KECBVIHQ+8fOP3eKmh6TZonYQTO2wb04EP6iLQrYR6b8G9sJejBWo8uwE0KQIBtJSUyQ
- nNIo4stiKePP1UWtsh1oU0l4mYcBD1br4psIczPR/opHkjh9oMS5w658ThXi2qrPapx1
- Dux1BXTxY4pXIX8H0SmHqfnRCKiYdgOOCf1d1Mo8yfJm73w96Ev9bd/+mVJmPAQNQ8N3
- q7gxpjqi0r9oI49CDZAR33pJCsFHgdpEn4zdN+3mRkU9NfEPAxrjiawjH0NHEKDwbVA7
- qB4Q==
-X-Gm-Message-State: AOJu0YyIcVax6pFSdch7gXjAOSlMSyUsWuF8WZ276KJ+padIv0PP0qeA
- WbA/hZQb5R2voZENLDNzig==
-X-Google-Smtp-Source: AGHT+IGcrzem3XmHh2sQJCxUgf3Dq9aCyWk4H3R61SzzGzQKcWYq2aZscEw/gTmdQ+TjCJfx6SK5jg==
-X-Received: by 2002:a17:906:3018:b0:99c:ad52:b00 with SMTP id
- 24-20020a170906301800b0099cad520b00mr20752169ejz.6.1693329473271; 
- Tue, 29 Aug 2023 10:17:53 -0700 (PDT)
+ bh=FWLxgtqau2yJo36SsneTQsDsVw22iqHp96edYBnf0k4=;
+ b=YL/RzoTmorvMQLua+z4zRXG98XDq/6FcW5HPpOJWI5qTRTws8XmD4ksQ8ra4SKCxwl
+ 8ctrRIVzjuMQe4IMoT5KCSprrXvx6C0zdK1T1YOnq6T6i3Lna5SakNdRhRr+pVe0C1xa
+ fAj7Bhg4upriHQDnkbzl8UEkhDx1PwOC1SJ+u6pX0QdM+RztVcOtMWPsD8AWfkme7k7Z
+ lYWlaJNP9L9wBm/Ps6j14Jd+xIddtCAb3OsR83Nfrj4L5Pcys6m72nEFOuNbPG8UNLNc
+ RWQEzc4QIbtn3RWvD75YNE0B6jW+pTpMOvuQ3r0RZDNcnevEVuH5bRQX/hDxhxSvSPLK
+ 0nwQ==
+X-Gm-Message-State: AOJu0Yyu2nL8G6/Mh8nNB0VOUk+W7xEY7FHT/NpM1PoWM6z82u/VCgZ8
+ HB97eIQFjtS9FSLNQ8l7ag==
+X-Google-Smtp-Source: AGHT+IHXNp8WBS05GZKX2uNVCiNbXcRpufiupVelX14WxEIUnMHV/eQymrQIzu4L1T4F5np5oSoR4g==
+X-Received: by 2002:a17:906:13:b0:9a2:19ea:88fc with SMTP id
+ 19-20020a170906001300b009a219ea88fcmr13209839eja.71.1693329474462; 
+ Tue, 29 Aug 2023 10:17:54 -0700 (PDT)
 Received: from U4.lan ([2001:9e8:b958:3410:8e0c:ed68:cd6c:7cb8])
  by smtp.gmail.com with ESMTPSA id
- a21-20020a1709062b1500b00993cc1242d4sm6115834ejg.151.2023.08.29.10.17.52
+ a21-20020a1709062b1500b00993cc1242d4sm6115834ejg.151.2023.08.29.10.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Aug 2023 10:17:52 -0700 (PDT)
+ Tue, 29 Aug 2023 10:17:53 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -60,10 +60,9 @@ To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>
-Subject: [PATCH 29/31] ARM: dts: rockchip: Make usbphy the parent of
- SCLK_USB480M for RK312x
-Date: Tue, 29 Aug 2023 19:16:45 +0200
-Message-ID: <20230829171647.187787-30-knaerzche@gmail.com>
+Subject: [PATCH 30/31] ARM: dts: rockchip: Add sdmmc_det pinctrl for RK312x
+Date: Tue, 29 Aug 2023 19:16:46 +0200
+Message-ID: <20230829171647.187787-31-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230829171647.187787-1-knaerzche@gmail.com>
 References: <20230829171647.187787-1-knaerzche@gmail.com>
@@ -90,16 +89,8 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Without setting the parent for SCLK_USB480M the clock will use xin24m as
-it's default parent. While this is generally not an issue for the usb
-blocks to work, but the clock driver will "think" it runs at 24 MHz.
-That becomes an issue for RK312x since SCLK_USB480M can be a parent for
-other HW blocks (users of mux_pll_src_5plls_p) but they never will choose
-this clock as their parent, because it runs at OSC frequency.
-
-This sets usb480m_phy as SCLK_USB480M's parent, which now runs and outputs
-the expected frequency of 480 MHz and the other blocks can choose
-SCLK_USB480M as their parent if needed.
+The pincontrol for sd card detection is currently missing.
+Add it.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
@@ -107,27 +98,20 @@ Signed-off-by: Alex Bee <knaerzche@gmail.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm/boot/dts/rockchip/rk312x.dtsi b/arch/arm/boot/dts/rockchip/rk312x.dtsi
-index b13957d55500..19bd6448d122 100644
+index 19bd6448d122..5388264b54f6 100644
 --- a/arch/arm/boot/dts/rockchip/rk312x.dtsi
 +++ b/arch/arm/boot/dts/rockchip/rk312x.dtsi
-@@ -293,6 +293,8 @@ usb_host_ehci: usb@101c0000 {
- 		reg = <0x101c0000 0x20000>;
- 		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cru HCLK_HOST2>;
-+		assigned-clocks = <&cru SCLK_USB480M>;
-+		assigned-clock-parents = <&usb2phy>;
- 		phys = <&usb2phy_host>;
- 		phy-names = "usb";
- 		status = "disabled";
-@@ -303,6 +305,8 @@ usb_host_ohci: usb@101e0000 {
- 		reg = <0x101e0000 0x20000>;
- 		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cru HCLK_HOST2>;
-+		assigned-clocks = <&cru SCLK_USB480M>;
-+		assigned-clock-parents = <&usb2phy>;
- 		phys = <&usb2phy_host>;
- 		phy-names = "usb";
- 		status = "disabled";
+@@ -969,6 +969,10 @@ sdmmc_cmd: sdmmc-cmd {
+ 				rockchip,pins = <1 RK_PB7 1 &pcfg_pull_default>;
+ 			};
+ 
++			sdmmc_det: sdmmc-det {
++				rockchip,pins = <1 RK_PC1 1 &pcfg_pull_default>;
++			};
++
+ 			sdmmc_wp: sdmmc-wp {
+ 				rockchip,pins = <1 RK_PA7 1 &pcfg_pull_default>;
+ 			};
 -- 
 2.42.0
 
