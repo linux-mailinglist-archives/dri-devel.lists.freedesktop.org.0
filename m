@@ -1,84 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E2F78BC5D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 03:20:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9FD78BCC8
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 04:28:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3038810E0DD;
-	Tue, 29 Aug 2023 01:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AE410E054;
+	Tue, 29 Aug 2023 02:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCA210E2C9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 01:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693272043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JxhVIhrfzzCN5tfByAy0BZtSYrapryIHOGLgCPrh8zI=;
- b=S2ZXbK+ooplGk+nSVy8fjPDhnGDg/vjvkPuF6R3BNGwm/2Z/Bw4EhOj8XILCQc+oTSN/tJ
- FMIEjvCGId6DvRmvSOxScWaRxVuV8nSsne5iO2pwlPRtkctQ5zvZWJgO/IlKKhEad8Yy0U
- bkiC27cMuK2c56QnG9jPelE3uGGpJxA=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-484-6RKVd3ZaOruWaZ6WukKxpA-1; Mon, 28 Aug 2023 21:20:41 -0400
-X-MC-Unique: 6RKVd3ZaOruWaZ6WukKxpA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-500b575b32aso2052405e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Aug 2023 18:20:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693272040; x=1693876840;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JxhVIhrfzzCN5tfByAy0BZtSYrapryIHOGLgCPrh8zI=;
- b=UCEoSDEcbKWsl+Y8sch2/0XHdQAbTDJwGQP5eF7HLCV6/Xvk/uzRjOSMWycgs9S6hf
- HCD2hxzBbDuu6Ec7sWfqQY4kxc84zAqdGm8gg5lXQu5lTGVp3rPQ3ZcCX6GwTKB9BQK7
- lSlp+bnD6hk1IvhYzr4haOGB6bLiq7h1Yzr3vnLVgn0M19wsGdilOv3aWOMS8F8HzyWY
- PQ5o2YNoerAcc52YAx+QHUE7T3NkNVYyXTt/g1dqUqR19UTiF5IGMUfArXveTxitBJrS
- 6atDUT1meJjH22sPr5e1SDxSROTYMjb/VkRRvD/mGRCa1bFVN/WNi8VMtSJD/P/ps0+A
- Hk4w==
-X-Gm-Message-State: AOJu0YwGQzismNvs7HV4p8SUlWfZhTM5/WYXuqz7lq4b0O8iYabvPbD4
- rLsfT5Y0vUfAu2NPI3j+o6TH/mInfGn/PCM+a/bRXOTtl4fC8dzSyATWPFkwcBt+EHWUxneqavs
- 3/WSyf/w2mbrufVFmJ3bXwOAFREbZ
-X-Received: by 2002:ac2:562f:0:b0:4f9:5519:78b8 with SMTP id
- b15-20020ac2562f000000b004f9551978b8mr16155472lff.63.1693272039846; 
- Mon, 28 Aug 2023 18:20:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEN5OOFFzVHea4mzP9EGBMjC276p5Tl/QTjRKvdJf/AjW490tpIMzq9zGF96d4RWaEAD0duXw==
-X-Received: by 2002:ac2:562f:0:b0:4f9:5519:78b8 with SMTP id
- b15-20020ac2562f000000b004f9551978b8mr16155454lff.63.1693272039446; 
- Mon, 28 Aug 2023 18:20:39 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- e10-20020aa7d7ca000000b005256994e335sm5056892eds.92.2023.08.28.18.20.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Aug 2023 18:20:39 -0700 (PDT)
-Message-ID: <fe3e6d7b-8915-e6c5-43db-ddb778bfea9c@redhat.com>
-Date: Tue, 29 Aug 2023 03:20:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-5-matthew.brost@intel.com>
- <bbb7fe74-bc75-8fc0-0a33-88ff86b81e00@redhat.com>
- <ZOzqUtgXj0J4muYQ@DUT025-TGLU.fm.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ZOzqUtgXj0J4muYQ@DUT025-TGLU.fm.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04on2082.outbound.protection.outlook.com [40.107.8.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 834ED10E054
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 02:28:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EGUP1Aozm8DmMD4HH4GVAO/YO2ftG2V9O9rolQIBGVeeoKseZQfLGI0Nle5hw1lDvmt51GpOEAiFbAUNagedxmjA/q2iA61tcOU8QYCBYuekcFO9FCNVhqwwoBPJZFZrxBC94+AVSn9v56e2zt6qGtopnE98o/dk1ciOCkxGVaRQ3/TDg1AzrBVHcqdkazj21fgu0tkgQ4w4ukhFvdEH0lxfRa4gHcVPVQZgyWXChQKEt/3SDKS69XmdsYLVrcUkdYnLPzcsWPjvnAzU1SMc3Cw1aLj2/dGCEfzJ9RHPGkFF80MMhyJgYIR5XswGlvJS5vxU0yEddC09CsAz+1UyBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pwwZO6HNuS9MK0oX7q4PyITdo6fu723NFrHJ/96bJM4=;
+ b=PnGX+h8TfCYJX2QE/QNLDYPDzl4Yub5K/UrQoFTAytccznVmsw0DzMA56iMC31X05rsnjgnZ7/Wz78xO0hj2CB8o01NGKKu/7J5ai0TMqquAFcpCfdObCqcM0WjpWOX588HnyD7iYJ65Qc8+JBF7jhp3P0N5XJkv6Yqls5oxGmbCMLhWvMu1MH8eiUAxIx4fb8cc/i6nI2R5XN2EllpZvEvgamO6yzf2fS0pK0XpInc09BSyHN3TTnCwn+5xTb8SClYiEY5vWuP8uC8ndoQa7GgBJRv8bFjva43CUtK0+/HsENhi+c+UdKFZH02WHPxSojpdrQ4brIv4kLum+nGU5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pwwZO6HNuS9MK0oX7q4PyITdo6fu723NFrHJ/96bJM4=;
+ b=OoP0NLD22lashUeaqxFaRq10py4skbYASBX60Ij5lGnXILwX/qfwEBwYVY+ydklITh+wtlaYiu8IfBTs01jHFp2ktUGWmt8jeN5v/84MkKjKqfsET61fTBCUIqH/dXbt+G+G10c9OeVrPlo9B9vEMFvlLmtcq3kd1BwUhpjLZ+I=
+Received: from DB8PR04MB7051.eurprd04.prod.outlook.com (2603:10a6:10:fd::20)
+ by DBAPR04MB7255.eurprd04.prod.outlook.com (2603:10a6:10:1a9::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Tue, 29 Aug
+ 2023 02:28:18 +0000
+Received: from DB8PR04MB7051.eurprd04.prod.outlook.com
+ ([fe80::6f5f:4224:1dc1:731a]) by DB8PR04MB7051.eurprd04.prod.outlook.com
+ ([fe80::6f5f:4224:1dc1:731a%4]) with mapi id 15.20.6699.022; Tue, 29 Aug 2023
+ 02:28:18 +0000
+From: Ying Liu <victor.liu@nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Zhang Shurong
+ <zhang_shurong@foxmail.com>
+Subject: RE: [PATCH] drm/bridge: imx: fix potential NULL pointer dereference
+ in imx8qxp_ldb_parse_dt_companion()
+Thread-Topic: [PATCH] drm/bridge: imx: fix potential NULL pointer dereference
+ in imx8qxp_ldb_parse_dt_companion()
+Thread-Index: AQHZ2dB2yseXwbC5IUGnH79SWVfzF6//9nUAgAAJPICAAAoqAIAAguFg
+Date: Tue, 29 Aug 2023 02:28:18 +0000
+Message-ID: <DB8PR04MB7051D36F516D2E44B4DA611598E7A@DB8PR04MB7051.eurprd04.prod.outlook.com>
+References: <tencent_026E4B04ACDCE341411EF54862F8C6AB1605@qq.com>
+ <20230828172822.GE14596@pendragon.ideasonboard.com>
+ <tencent_2E893742B5115B5260081E410A34A89E1208@qq.com>
+ <20230828183748.GK14596@pendragon.ideasonboard.com>
+In-Reply-To: <20230828183748.GK14596@pendragon.ideasonboard.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR04MB7051:EE_|DBAPR04MB7255:EE_
+x-ms-office365-filtering-correlation-id: 06a2c764-d3d6-4c20-5d81-08dba8379b0f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BCxAs/Gb37zxbWxrCAtrzQ+7EIbH4rYyKGwWOBmG6SgnlVAbmad3pDjtMnuTlBqrSNRyfSB5QsckHrbnBE/H7ulPnQeXO6wTWmLkEFQGQH/owszhxJQ6VTbLOl8ZYRuj4n27GUbFjNMKKnm2GirotJEkMRTdL4rgJfdtiZtE2XIeGiPSon/Jw9/XD4PNqcP4rUl8Pk50siGAcSJeyStOIkKor28fFjTe3MfkdociCal6nt3EBMLKULuZeUpae1MuudFiVykm2YaTuMystRpP8xiINmLgsVgYRRgara/fCLykZd4vpIuJIyq/dhljvP4LDd8vMKLLHsYEbeaNdxity+5nqRlYLwu+N94iVqMvl3oJJmk8WF5+INiBBD/hCqDIFbOhWLFUFq5/Pj6Yp7IN4BoXnl/juWc/PXarwYt04KR9S/VfYtWCvBWJRajc0KMarM9McjtrOkprSYfVEA78t1htaoo9TV5LOTGWq74nRhwu3NJuxsupNvG+6XD0Ezp5Lz9NNIUOQfgExg4dI3UffB63Il7WHmJpX9tDGYIpTdmSe4FjMc8ND3Nv8vbuzDCtJ6X+zr3YW6CpvRpXM0fKzwbbWIhxusg0COFP8can3JC2hfiYbQljCXdSnroXcMjn
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB8PR04MB7051.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(346002)(396003)(376002)(136003)(1800799009)(451199024)(186009)(9686003)(38100700002)(38070700005)(316002)(41300700001)(4326008)(7416002)(33656002)(2906002)(83380400001)(86362001)(52536014)(26005)(5660300002)(8676002)(55016003)(8936002)(71200400001)(7696005)(6506007)(64756008)(66556008)(66476007)(66446008)(54906003)(53546011)(110136005)(76116006)(122000001)(66946007)(478600001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MElHK2N0UzhZYjVZQWxaN2tIZ1liMW9udmloNk42UHkxb1pQZzhvSXRlbTk3?=
+ =?utf-8?B?WEJzbjB3ZVFGSEs2d3FkbzVWc3U4UHVGb0lnLzY1MUM1Tkk4K1ZaV1VGLy9N?=
+ =?utf-8?B?MjdGUDhCL3lGczhEMFBoV1BITkl5MmhZRjlocDQ4RlpLaHdUMGFJa3Y3azVC?=
+ =?utf-8?B?YUVJTmNRVFdXSC91NHN4TmpGQjBKQkY1N3VOZVU2ZDJSZXkxT3JwVmRrcHZC?=
+ =?utf-8?B?Z3RwSi9jQmN6bmJyaDJUaUwrclpVWkdBTnhxZGdzbE9tVWp1ZTdsY2s0OFRM?=
+ =?utf-8?B?U1dWRGJWajVIcitXZHFUREN6VldjcDFoVXhXU2JUN0dNbmxhUkV3THFFQzhI?=
+ =?utf-8?B?dFhWclI1NWcybzZtSHVVOFlBSUNzMlI4aWU3ZWEwd3I2L1NzRHVuZHlyeTAv?=
+ =?utf-8?B?TUpERzhmQmlqMi81cmZTL3AwMWRma1ljd09jR1I0blFlaTc0aE5VUENtU0s0?=
+ =?utf-8?B?L3hTTmRmVU85VWFrV044a0NvdzNWOTVsclNML3NNZWdnVGVhRzdoZlRUQ0RR?=
+ =?utf-8?B?bHNMMVlWZlNpZE93YWhKcDk0aWRGa2JKZFcvZTBYSEFtNVhJUjNvdUVIbWdS?=
+ =?utf-8?B?K3JONUVQbWRhdXY1YzJZcXhYd1Q2bXlYeHFPTEhyZWp6ckRuMlJxNGlDUTdG?=
+ =?utf-8?B?UWVZU1dYVy80aXZWZ2ZhaVNDRHdyYWMwdVRVb256MUdkUVgwb01EeEJtVjhO?=
+ =?utf-8?B?QU9WR2tVM1VRSy90NVBxOXA5ZWpidTdoeUg3T0VjeTFuK3BKS1pkVlpUYkwr?=
+ =?utf-8?B?d2E0d2pOOEpLaXFudGhiSU1nWWkzcEw2UnZpNUp4T3NQdXpEelkyb0RXTTZx?=
+ =?utf-8?B?Z212VmVMeUUwbzRqKzRmdnlnZ0FFb2g4Y1NOM1RIaWtpYWxGS0xrbWwvbFRz?=
+ =?utf-8?B?MGRKWEVSdWdaaGE3QzNYTUNzYURsRWlpakd0MTRVNnc1RVg2aStUZjUxMkxM?=
+ =?utf-8?B?dzhlUGpsb0x6R2ZDYmxjKzZBRG5zNDdtc3lhUWxKdE9qeHhhejhMWC84a2FX?=
+ =?utf-8?B?di8vU0NES3lIWFZkZGFNSUJ0R1NDK1JkUTM5dDZrTXNhSC9aUDZPSU50V05D?=
+ =?utf-8?B?QXQycVdwTTJVRUgwVC80VmY1S3I2UUNVOXFlK29HaWN6ZWMwcGdjdGdSS3Rp?=
+ =?utf-8?B?akx0bklTRXdQL1A1bm50VTlqTGpscWJJSXFNOWxJZW1lSXNwTmJkbTl0SVFm?=
+ =?utf-8?B?ckI2VnhBejluMVdvTyttMHo1c0Jxa2cxTzlJRmxXUGp4UVZXNVVwTHBIWjFz?=
+ =?utf-8?B?WlhMVlpXMzVsclk4UTF0bmM2U1BoYVg3aWdzZEkvL1dTOHk1Yy9LbHRnek1p?=
+ =?utf-8?B?M2wyS211RWhVUFIxNzczcnhaYlo0dlhFUlpZRnpYaUkvNloyU1cvRURPalZI?=
+ =?utf-8?B?d1AvR1hBTG5lUzkxZ2JreGYwN0VLUTRPTFhlalZxQkxpeTZHSHpSMC9QUWlh?=
+ =?utf-8?B?TnVHYUx1NVNCTHA2c3FxSndLQjF0RFZrTmJxdVF2U1A1WUNtclY2YnFXWE5L?=
+ =?utf-8?B?b0h0RWhUQ1VMSTNPamdlQU9kbDlBSXlvQkhNQ3Q4cW9ZaEoyMXVheXpyNHph?=
+ =?utf-8?B?TUU0RGhyTE92RXZvYmJ2enFsL3Z4VmIzR3Y0TWZsWTg4SWFlZDg5RkU3MmVs?=
+ =?utf-8?B?WHlEOGQyRFBwMFU5bDROajR3RHdYUmNzNmJoS054aitPWUxoK1FVVjNsM0Fm?=
+ =?utf-8?B?MnlJeHBNNjdQbG94dWJtUEp4RU9wWEcyemU0SXhUanl4NENCQk0vbDFLSmQx?=
+ =?utf-8?B?YUNhUnZjMUZHYnE4ajAvenpJNGYrRzgrQ05TWkNaQUl0eDNwVHR5d05KUm5P?=
+ =?utf-8?B?bDZad3V2UWRXeWRwRU9kcWFWWmRCNktSb2VmcUNtejllVkpsUFIwcGphbUxn?=
+ =?utf-8?B?blRDcXlSTkVEYWc5MzlicktLQXM3TzZkVU5IWndTck55Q2ZybFRkYTBKY2RV?=
+ =?utf-8?B?ci9ucVY1dCs4eXFjZVhWMFVEOCtOcFBHNnB0bVFTMzVPaWp6THdwVmZiRU9s?=
+ =?utf-8?B?cG5tbUpReGRWVGxxd2s0eGlzSDFKeXVYMFlsWU9ON0E4VWxlUHA1WlUxV2RC?=
+ =?utf-8?B?NzRLUFJTWVV2UG5GVVJWcnFpMWRzaW5rdEYzZUErTlgzbVZOdFpJRER6aDlX?=
+ =?utf-8?Q?ahSc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB7051.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06a2c764-d3d6-4c20-5d81-08dba8379b0f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2023 02:28:18.1089 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QC42XUZYIyYwMDwNMSHGjwqi7yhElXIboo30sY6pP6d8CQkSbTMx6Le71eCbq/6no9iIH9/EAttjwyw8LGiIoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7255
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,125 +130,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, luben.tuikov@amd.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/28/23 20:41, Matthew Brost wrote:
-> On Mon, Aug 28, 2023 at 08:04:31PM +0200, Danilo Krummrich wrote:
->> On 8/11/23 04:31, Matthew Brost wrote:
->>> Rather than call free_job and run_job in same work item have a dedicated
->>> work item for each. This aligns with the design and intended use of work
->>> queues.
->>>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 137 ++++++++++++++++++-------
->>>    include/drm/gpu_scheduler.h            |   8 +-
->>>    2 files changed, 106 insertions(+), 39 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index cede47afc800..b67469eac179 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1275,7 +1338,8 @@ EXPORT_SYMBOL(drm_sched_submit_ready);
->>>    void drm_sched_submit_stop(struct drm_gpu_scheduler *sched)
->>
->> I was wondering what the scheduler teardown sequence looks like for
->> DRM_SCHED_POLICY_SINGLE_ENTITY and how XE does that.
->>
->> In Nouveau, userspace can ask the kernel to create a channel (or multiple),
->> where each channel represents a ring feeding the firmware scheduler. Userspace
->> can forcefully close channels via either a dedicated IOCTL or by just closing
->> the FD which subsequently closes all channels opened through this FD.
->>
->> When this happens the scheduler needs to be teared down. Without keeping track of
->> things in a driver specific way, the only thing I could really come up with is the
->> following.
->>
->> /* Make sure no more jobs are fetched from the entity. */
->> drm_sched_submit_stop();
->>
->> /* Wait for the channel to be idle, namely jobs in flight to complete. */
->> nouveau_channel_idle();
->>
->> /* Stop the scheduler to free jobs from the pending_list. Ring must be idle at this
->>   * point, otherwise me might leak jobs. Feels more like a workaround to free
->>   * finished jobs.
->>   */
->> drm_sched_stop();
->>
->> /* Free jobs from the entity queue. */
->> drm_sched_entity_fini();
->>
->> /* Probably not even needed in this case. */
->> drm_sched_fini();
->>
->> This doesn't look very straightforward though. I wonder if other drivers feeding
->> firmware schedulers have similar cases. Maybe something like drm_sched_teardown(),
->> which would stop job submission, wait for pending jobs to finish and subsequently
->> free them up would makes sense?
->>
-> 
-> exec queue == gpu scheduler + entity in Xe
-> 
-> We kinda invented our own flow with reference counting + use the TDR for
-> cleanup.
-
-Thanks for the detailed explanation. In case of making it driver specific
-I thought about something similar, pretty much the same reference counting,
-but instead of the TDR, let jobs from the entity just return -ECANCELED from
-job_run() and also signal pending jobs with the same error code.
-
-On the other hand, I don't really want scheduler and job structures to
-potentially outlive the channel. Which is where I think I'd be nice to avoid
-consuming all the queued up jobs from the entity in the first place, stop the
-schdeduler with drm_sched_submit_stop(), signal all pending_jobs with
--ECANCELED and call the free_job() callbacks right away.
-
-The latter I could probably do in Nouveau as well, however, it kinda feels
-wrong to do all that within the driver.
-
-Also, I was wondering how existing drivers using the GPU scheduler handle
-that. It seems like they just rely on the pending_list of the scheduler being
-empty once drm_sched_fini() is called. Admittedly, that's pretty likely (never
-to happen) since it's typically called on driver remove, but I don't see how
-that's actually ensured. Am I missing something?
-> 
-> We have a creation ref for the exec queue plus each job takes a ref to
-> the exec queue. On exec queue close [1][2] (whether that be IOCTL or FD
-> close) we drop the creation reference and call a vfunc for killing thr
-> exec queue. The firmware implementation is here [3].
-> 
-> If you read through it just sets the TDR to the minimum value [4], the
-> TDR will kick any running jobs the off the hardware, signals the jobs
-> fences, any jobs waiting on dependencies eventually flush out via
-> run_job + TDR for cleanup without going on the hardware, the exec queue
-> reference count goes to zero once all jobs are flushed out, we trigger
-> the exec queue clean up flow and finally free all memory for the exec
-> queue.
-> 
-> Using the TDR in this way is how we teardown an exec queue for other
-> reasons too (user page fault, user job times out, user job hang detected
-> by firmware, device reset, etc...).
-> 
-> This all works rather nicely and is a single code path for all of these
-> cases. I'm no sure if this can be made any more generic nor do I really
-> see the need too (at least I don't see Xe needing a generic solution).
-> 
-> Hope this helps,
-> Matt
-> 
-> [1] https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/drivers/gpu/drm/xe/xe_exec_queue.c#L911
-> [2] https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/drivers/gpu/drm/xe/xe_device.c#L77
-> [3] https://gitlab.freedesktop.org/drm/xe/kernel/-/tree/drm-xe-next/drivers/gpu/drm/xe#L1184
-> [4] https://gitlab.freedesktop.org/drm/xe/kernel/-/tree/drm-xe-next/drivers/gpu/drm/xe#L789
-> 
->> - Danilo
->>
-
+T24gVHVlc2RheSwgQXVndXN0IDI5LCAyMDIzIDI6MzggQU0gTGF1cmVudCBQaW5jaGFydCA8bGF1
+cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPiB3cm90ZToNCj4gT24gVHVlLCBBdWcgMjks
+IDIwMjMgYXQgMDI6MDE6MjVBTSArMDgwMCwgWmhhbmcgU2h1cm9uZyB3cm90ZToNCj4gPiDlnKgg
+MjAyM+W5tDjmnIgyOeaXpeaYn+acn+S6jCBDU1Qg5LiK5Y2IMToyODoyMu+8jExhdXJlbnQgUGlu
+Y2hhcnQg5YaZ6YGT77yaDQo+ID4gPiBIaSBaaGFuZywNCj4gPiA+DQo+ID4gPiBUaGFuayB5b3Ug
+Zm9yIHRoZSBwYXRjaC4NCj4gPiA+DQo+ID4gPiBPbiBUdWUsIEF1ZyAyOSwgMjAyMyBhdCAxMjo1
+NTowMUFNICswODAwLCBaaGFuZyBTaHVyb25nIHdyb3RlOg0KPiA+ID4gPiBvZl9tYXRjaF9kZXZp
+Y2UoKSBtYXkgZmFpbCBhbmQgcmV0dXJucyBhIE5VTEwgcG9pbnRlci4NCj4gPiA+DQo+ID4gPiBI
+b3cgY2FuIGl0IHJldHVybiBhIE5VTEwgcG9pbnRlciBoZXJlID8NCj4gPiA+DQo+ID4gPiA+IEZp
+eCB0aGlzIGJ5IGNoZWNraW5nIHRoZSByZXR1cm4gdmFsdWUgb2Ygb2ZfbWF0Y2hfZGV2aWNlKCku
+DQo+ID4gPiA+DQo+ID4gPiA+IEZpeGVzOiAzODE4NzE1ZjYyYjQgKCJkcm0vYnJpZGdlOiBpbXg6
+IEFkZCBMREIgc3VwcG9ydCBmb3IgaS5NWDhxeHAiKQ0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBa
+aGFuZyBTaHVyb25nIDx6aGFuZ19zaHVyb25nQGZveG1haWwuY29tPg0KPiA+ID4gPiAtLS0NCj4g
+PiA+ID4NCj4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14L2lteDhxeHAtbGRiLmMg
+fCAyICsrDQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+ID4gPiA+
+DQo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4cXhw
+LWxkYi5jDQo+ID4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvaW14OHF4cC1sZGIu
+YyBpbmRleA0KPiA+ID4gPiA3OTg0ZGE5YzBhMzUuLmQyNzJmMzVjOGVhYyAxMDA2NDQNCj4gPiA+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvaW14OHF4cC1sZGIuYw0KPiA+ID4g
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4cXhwLWxkYi5jDQo+ID4gPiA+
+IEBAIC00ODgsNiArNDg4LDggQEAgc3RhdGljIGludA0KPiBpbXg4cXhwX2xkYl9wYXJzZV9kdF9j
+b21wYW5pb24oc3RydWN0IGlteDhxeHBfbGRiICppbXg4cXhwX2xkYikNCj4gPiA+ID4gIAkgKiBz
+dHJpbmcuDQo+ID4gPiA+ICAJICovDQo+ID4gPiA+ICAJbWF0Y2ggPSBvZl9tYXRjaF9kZXZpY2Uo
+ZGV2LT5kcml2ZXItPm9mX21hdGNoX3RhYmxlLCBkZXYpOw0KPiA+ID4gPiArCWlmICghbWF0Y2gp
+DQo+ID4gPiA+ICsJCXJldHVybiAtRU5PREVWOw0KPiA+ID4gPiAgCWlmICghb2ZfZGV2aWNlX2lz
+X2NvbXBhdGlibGUoY29tcGFuaW9uLCBtYXRjaC0+Y29tcGF0aWJsZSkpIHsNCj4gPiA+ID4gIAkJ
+RFJNX0RFVl9FUlJPUihkZXYsICJjb21wYW5pb24gTERCIGlzIGluY29tcGF0aWJsZVxuIik7DQo+
+ID4gPiA+ICAJCXJldCA9IC1FTlhJTzsNCj4gPg0KPiA+IEkgdGhpbmsgd2UgY2FuIG1ha2UgaXQg
+aGFwcGVuIGJ5IGRlc2lnbmluZyB0aGUgcGxhdGZvcm0gZGV2aWNlIGluIGEgd2F5DQo+IHRoYXQN
+Cj4gPiBpdHMgbmFtZSBhbGlnbnMgd2l0aCB0aGF0IG9mIHRoZSBkcml2ZXIuIEluIHN1Y2ggYSBz
+Y2VuYXJpbywgd2hlbiB0aGUgZHJpdmVyDQo+ID4gaXMgcHJvYmVkLCB0aGUgb2ZfbWF0Y2hfZGV2
+aWNlIGZ1bmN0aW9uIHdpbGwgcmV0dXJuIG51bGwuIFlvdSBjYW4gdmVyaWZ5IHRoaXMNCj4gPiBm
+dW5jdGlvbmFsaXR5IGJ5IHJldmlld2luZyB0aGUgZm9sbG93aW5nIGZ1bmN0aW9uOg0KPiA+DQo+
+ID4gc3RhdGljIGludCBwbGF0Zm9ybV9tYXRjaChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBk
+ZXZpY2VfZHJpdmVyICpkcnYpDQo+IA0KPiBUaGlzIHBhcnRpY3VsYXIgZGV2aWNlIGlzIGZvdW5k
+IGluIE9GLWJhc2VkIHN5c3RlbXMgb25seSwgYW5kIG9ubHkNCj4gaW5zdGFudGlhdGVkIHRocm91
+Z2ggRFQuIFlvdSBjYW4gY3JlYXRlIGEgcGxhdGZvcm1fZGV2aWNlIG1hbnVhbGx5IHRoYXQNCj4g
+bWF5IG1hdGNoIHRoaXMgZHJpdmVyLCBidXQgdGhhdCB3b3VsZCBiZSBhIG1hZGUtdXAgc2l0dWF0
+aW9uLCBub3QNCj4gc29tZXRoaW5nIHRoYXQgY2FuIGhhcHBlbiBpbiBwcmFjdGljZS4NCj4gDQoN
+CkkgYWdyZWUgd2l0aCBMYXVyZW50Lg0KDQpSZWdhcmRzLA0KTGl1IFlpbmcNCg==
