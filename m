@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297DE78C447
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 14:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2F878C480
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 14:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C71110E252;
-	Tue, 29 Aug 2023 12:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C2610E325;
+	Tue, 29 Aug 2023 12:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8199F10E252
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 12:31:26 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-31c73c21113so3860722f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 05:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693312285; x=1693917085;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SE6bs8Dp3bXXPQbAvcYoEHq5tNLQIvXmSnCFnORB2BQ=;
- b=L4m+6g+Rd9YQKwljf/KI5dzzG4YnsfQdOpfNL+UjMvsLteg1DA8RxVZH76htesfZTM
- AhdhgN0aNthxx9hXr7t1dWSOO9Eo5YaRx6Uejtjil+b+U7HiMN19ZG8Y6ugPcKAq8ssj
- 63enH7wklPfLIMXs+zB5EsTT7ZCUoAfN1QU3PA5aJVP3OXEzZlzYxYp6bVcDnCzdRA4C
- doyLXcAu2rQRCAJ+YIFQUWKYzncsL+DZHmPr0CoCksUiQbN4Y0MGPkgQrKu17eOKNaku
- VP+rqAhc5Sqam1eaOhNoen2yNVHAluVSJwqPVdrNK3mUIlvgDOXyV2SAS1N3bg1cFfFr
- A4SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693312285; x=1693917085;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SE6bs8Dp3bXXPQbAvcYoEHq5tNLQIvXmSnCFnORB2BQ=;
- b=G9+xsZJITxS+QqMXuHjawg2T0806IQbq260jqJ2aV2ZqOJ+GvyYbbE+gCdgwvtla1S
- SXVbtf2e6jIYfpasERCONFsen5ph3svYN8cUEBQ0AIp0PKRTVTTqrs1ki+E0M/IeTRRg
- ThrOfwKwhHeSJT6uA2OvYnSqYwyYRa6OQlQPuj9egown5lFttgcSus/9zyo8T2mTfImj
- FP9xIgob3gZAKR/RYVW8jVYvq7Zc3mMmdZTby0FLUc+SeOOmIt7ZsvSUC5FC0rOtTwMm
- XM2ppUyRxhNsEPq4FiW4W09dsD/s5cIQfr/SeCaBzDWNu5uxRUvb0OmtZM3dKWx/tbwy
- l2MQ==
-X-Gm-Message-State: AOJu0YyME0Maem6KUaciJtB+DMVlbMoCZK1zMmR/toBOgTw9VQNQlNSt
- Xi7yjdMf7kYGWtoXHalGI8MFSKYwyKdfPw==
-X-Google-Smtp-Source: AGHT+IENMUI5IuSSl/1eQZJDC/mUbx0Z8qqzMbvUyi2QDgffZ+TPmqa+d9jFNNfe6i0d2MGn65749Q==
-X-Received: by 2002:a05:6000:889:b0:317:5b99:d3d7 with SMTP id
- cs9-20020a056000088900b003175b99d3d7mr20820340wrb.34.1693312284716; 
- Tue, 29 Aug 2023 05:31:24 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- z6-20020a5d4406000000b003143c6e09ccsm13654040wrq.16.2023.08.29.05.31.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Aug 2023 05:31:24 -0700 (PDT)
-Message-ID: <ef05cacc-8a3c-b3e2-b07b-f0d38cd5e7ad@gmail.com>
-Date: Tue, 29 Aug 2023 14:31:20 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DBD010E325
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 12:51:47 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CED60660721F;
+ Tue, 29 Aug 2023 13:51:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693313506;
+ bh=tO3vyDDObFELy9y9ES736oNbNGzrJY+69GRkSfSxkyU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dyNY0AtBkkAlk/tNK6bgp0UayjFoCoY4+/WNvz7SA1Zj4UkMrHtlTRDzymoVXkOZm
+ txebeaSk7MgrOzJLV79lGyt1Ub4I8qD4EB2kKMrvjTApBQDcAUIwsjez92Icu6YJE+
+ iVBT9OiOoBfDjKZVs3yCNGYXbvjVVq/OAnVX4fcZIFmTXJ+DkyCU/CXHMS0bO/AjRK
+ wP7X4aYbUeEEe3BXMET5Lio6sUCOVQGfNy2tULliNau9V8Bn1D3F5leqhegkkYTBWJ
+ 4CkJMPNNARY77bjVdRa2/fvqm0M/idt0Xy0jYvAdBBzdoHJwsrYyK9J7KavkKkQIeZ
+ mKTP6MmLweHlw==
+Date: Tue, 29 Aug 2023 14:51:42 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v2 13/15] drm/panthor: Allow driver compilation
+Message-ID: <20230829145142.27100900@collabora.com>
+In-Reply-To: <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-14-boris.brezillon@collabora.com>
+ <abed970e-db59-9eef-c4b6-dee49718f582@arm.com>
+ <fa757894-f501-4114-ba7c-e46c59904300@collabora.com>
+ <71e8c55c-049f-688a-b97e-bdfbb54d18cb@arm.com>
+ <60720747-5f03-2766-0d5f-e102097308e7@arm.com>
+ <49f7f241-1333-622d-4098-d06b659556d6@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/5] drm/debugfs: disallow debugfs access when device
- isn't registered
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230829110115.3442-1-christian.koenig@amd.com>
- <20230829110115.3442-3-christian.koenig@amd.com>
- <ZO3XGchG9fGjoW9K@ashyti-mobl2.lan>
- <5ce9f1b6-0a9e-7cf8-25f9-de9621b342dc@gmail.com>
- <ZO3YmCJKwcJydNGV@ashyti-mobl2.lan>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ZO3YmCJKwcJydNGV@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,49 +59,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ogabbay@kernel.org, ttayar@habana.ai, dri-devel@lists.freedesktop.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.08.23 um 13:38 schrieb Andi Shyti:
->>>> During device bringup it might be that we can't access the debugfs files.
->>>> Return -ENODEV until the registration is completed on access.
->>> just wondering, if the device is not registered, how do we get
->>> there?
->> The workflow is:
->> 1. Creation (DRM)
->> 2. Initialization (Driver)
->> 3. Registration (DRM)
->> ...
->> 4. Unregistration (DRM)
->> 5. Deinitialization (Driver)
->> 6. Destruction (DRM)
->>
->> It is possible that debugfs files are created during driver initialization,
->> but Daniel insisted that they should not be accessible until the
->> registration is done (which makes the other UAPI accessible as well).
-> makes sense, but then why not -EAGAIN, or -EBUSY?
+On Mon, 21 Aug 2023 18:56:21 +0100
+Robin Murphy <robin.murphy@arm.com> wrote:
 
-Good question.
+> > And, to be honest, for a fair bit of the common code in
+> > panfrost/panthorm it's common to a few other drivers too. So the correct
+> > answer might well be to try to add more generic helpers (devfreq,
+> > clocks, power domains all spring to mind - there's a lot of boiler plate
+> > and nothing very special about Mali).  
+> 
+> That much is true, however I guess there's also stuff like perf counter 
+> support which is less likely to be DRM-level generic but perhaps still 
+> sufficiently similar between JM and CSF. The main thing I don't know, 
+> and thus feel compelled to poke at, is whether there's any possibility 
+> that once the new UAPI is mature, it might eventually become preferable 
+> to move Job Manager support over to some subset of that rather than 
+> maintain two whole UAPIs in parallel (particularly at the Mesa end). My 
+> (limited) understanding is that all the BO-wrangling and MMU code is 
+> primarily different here for the sake of supporting new shiny UAPI 
+> features, not because of anything inherent to CSF itself (other than CSF 
+> being the thing which makes supporting said features feasible).
 
-I think the main use case for this is between 4 and 6. E.g. a device 
-which is hot removed and now in the process of being torn down.
+You nailed it. The fact we went for a new driver is not so much about
+supporting CSF HW (though, supporting CSF with the panfrost model is
+challenging to be honest, even more if we want a zero-regression
+guarantee for pre-existing users), but more about starting from a green
+field so we don't have to think about supporting both GL and Vulkan
+models (explicit vs implicit VM maintenance, explicit vs implicit
+synchronization everywhere, and probably other things I forgot about).
+Those are things that are hard to reconcile, which makes the code even
+more complicated to apprehend, and more likely to break in subtle ways.
 
-In this situation we might still have references from userspace (memory 
-mapping etc...), so the drm file and with it the debugfs directory is 
-still there but the physical device is gone. For the IOCTL UAPI we then 
-also return -ENODEV as well, so this makes sense.
+Intel went for this 'new driver' approach with Xe, Nouveau didn't. I
+can't guarantee we took the right decision, but it definitely makes the
+bringup phase less painful/risky, since we don't have to make sure we
+don't regress existing users, and we don't have to implement
+wrappers/bridges for the old uAPI.
 
-The time between 1 and 3 is interesting as well, but here it's more like 
-we couldn't get the device initialized and are now stuck. This happens 
-sometimes during early hardware bringup and I still disagree with Daniel 
-that we should block that (well on the other hand it's trivial for a 
-developer to comment those checks out).
-
-Regards,
-Christian.
-
->
-> Thanks,
-> Andi
-
+As for supporting JM with the new driver, that's something we are
+considering, especially if we want proper Vulkan support on
+bifrost/valhall-non-csf at some point, but that's clearly not the
+priority right now.
