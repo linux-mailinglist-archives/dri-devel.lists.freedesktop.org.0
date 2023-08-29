@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3DD78CA8E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:17:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AAE78CA98
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D7A10E41B;
-	Tue, 29 Aug 2023 17:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3606410E455;
+	Tue, 29 Aug 2023 17:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A5010E3E0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:17:26 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-99c3d3c3db9so598938566b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:17:26 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E95410E3EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:17:28 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2bb9a063f26so71441941fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693329445; x=1693934245;
+ d=gmail.com; s=20221208; t=1693329446; x=1693934246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=21iVkiyaMhIOgRnviPspvm+tAmKdNHJ4HpDL49p+DgE=;
- b=NKjq2NpTIzwWtsb4WQ8JGYvGWyLJPvx0NmmkaWHXoHsK2bUZZOLSZlh09hYMZQjyNe
- YRJebTQvSlvRhwarjHsEhi0stN7D8UajKYGCZ3BbcZfLWAg1RK5gHyP0IqpmY0cDuAU4
- aRbXPvPTgdpOt7wC7BTaeD6lmV+1idIhZ3g3RGmvQYqFI+CrnXPcrkLweYOID+NGHEK0
- DRBRLt+Bdc5LLin7QH6zusukVIw5lnnj3z/4E/VDQxPCdazNNIdrT7quG/nRuF3Z/XWt
- gj9SKxmkGlyI3H22Mf9FhJKBQhVJqGWFmcuHK0PaZwCl5qNDJY2RuX5Mr/GDdzGX5RL4
- 9TpA==
+ bh=FenEPRzkF+fCLIr+dUsskF7AjB/E9ox5j4UlAbRUoQo=;
+ b=Yo/oKwwdBrMUMDkG5wvtSq8crhNn4CVhpsSAkfHlafXQiHFiaNCwXonEMR1ZDxCS5m
+ 8YMbkPO77M/H+V8eGgHCiLqFyL8qhL3LoN424+kSeFvcy4Iw6OTRIVTpSCSdd9tCwDyf
+ wK/8ORLWL2an1MTEX9kBbYFORB1c6srfOFu6kASEukKSZlOVd+rDH0qqXHzVYYUbjidp
+ vAaJcoC5HbbSkmGx74F2zL0RGWprs9ssIYNMNeCUn3cIqf34INO4z4cFqNir0FJsujPG
+ QLxlsOanjUlDMPVQsbzFmL8MlsHmUnyQ97SW1Iqn7dN1mY4qZODbo9MMtiCx+VK0783S
+ 3AIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693329445; x=1693934245;
+ d=1e100.net; s=20221208; t=1693329446; x=1693934246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=21iVkiyaMhIOgRnviPspvm+tAmKdNHJ4HpDL49p+DgE=;
- b=jMLWmYw7u8OaSwETbZRk6n4geb3VEOKFQ7aAQk4AJzexMv9LBf1949LFSKvH8jorzM
- S30CNOsSU5TDiem+ufVQ/EHM2QX5Efjzjt735B4b4+iriCqfzAzHSoGTITyKV2pcwF1u
- xOV0Dk7lndp1Wmo1GbIrEQlVoExU2OIm0ZMuvXkR0OGU18rzPD+Qkrzhm+MADf5+DkBH
- 1J3OnvZKvuAIVJiBAaxeW0kyLyWsBbcgWNvvTtYx+uuftwAMIdeQWxQc4meTgxjt2oEj
- CSZP1Lw341b+uRn9A3iIibVcxA7waMVGPbv7ubAfSjmYPhDeK44jNT7ZRjLX2dWNGPui
- NTvQ==
-X-Gm-Message-State: AOJu0YyKxJT0y9890Z4ZOyBWxnIwd0FqGpp8z8HsdF35VWh7NzGFHgln
- oxhWRtXTc6q50or2ig77BocDSPpPOg==
-X-Google-Smtp-Source: AGHT+IE47kgzk515LSlCQdCMRZcljVGwTMt+S3yLZvAE50B+UB6aWy1SLTFd1oolF0G2c8xX/aHgtw==
-X-Received: by 2002:a17:907:7788:b0:993:d617:bdc5 with SMTP id
- ky8-20020a170907778800b00993d617bdc5mr22834649ejc.37.1693329444970; 
- Tue, 29 Aug 2023 10:17:24 -0700 (PDT)
+ bh=FenEPRzkF+fCLIr+dUsskF7AjB/E9ox5j4UlAbRUoQo=;
+ b=NqgwcHbKGA4v1KQh/tJm4lBXplBt/O+sFkQguZoeirIOK2gPHgwu5xLb0QNSihnzkR
+ rIlxldsEhvdPOp/DwWkr4W/YCrcV3M4hOPzntFv3VUfk9vw+0FgxQXKNqkurb78aItYK
+ WrHC0EWEOX1deFQz30A79DHvY7EmjTw4h7sIIFNXUhFhSkczGYGNmRjd3YOevk9PRKST
+ ZF5Rs/vXiHfl0q3z936AKx8/IfJcUWDHiE5azBcapAOs6VrJpvJ1dawivi3SpNn41zgo
+ x/P8U0GYo+n2p6OgfetNm2OvAkOh69QWj4lRXC0V1bm3JBZLPU6iq6TzrxuPJAjlu+sI
+ /dKA==
+X-Gm-Message-State: AOJu0Yw5JP0cm+egg3e8SFQIgdKCGwiZ8lYCXfNLS9QvFxkUsRx6b/nY
+ XsxjDEbob0OhyDMlD9Yw7Q==
+X-Google-Smtp-Source: AGHT+IHBPt21/CoYA6gAD1CvzSK0qv2qopqh1SeqIwu0FZaxDbZLhuYzC+CMcy5Il7uIpCQK4RaODA==
+X-Received: by 2002:a05:651c:1315:b0:2bd:1394:583f with SMTP id
+ u21-20020a05651c131500b002bd1394583fmr3610948lja.3.1693329446179; 
+ Tue, 29 Aug 2023 10:17:26 -0700 (PDT)
 Received: from U4.lan ([2001:9e8:b958:3410:8e0c:ed68:cd6c:7cb8])
  by smtp.gmail.com with ESMTPSA id
- a21-20020a1709062b1500b00993cc1242d4sm6115834ejg.151.2023.08.29.10.17.24
+ a21-20020a1709062b1500b00993cc1242d4sm6115834ejg.151.2023.08.29.10.17.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Aug 2023 10:17:24 -0700 (PDT)
+ Tue, 29 Aug 2023 10:17:25 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -60,10 +60,10 @@ To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  Kishon Vijay Abraham I <kishon@kernel.org>
-Subject: [PATCH 01/31] dt-bindings: mfd: syscon: Add rockchip,
- rk3128-qos compatible
-Date: Tue, 29 Aug 2023 19:16:17 +0200
-Message-ID: <20230829171647.187787-2-knaerzche@gmail.com>
+Subject: [PATCH 02/31] dt-bindings: gpu: mali-utgard: Add Rockchip RK3128
+ compatible
+Date: Tue, 29 Aug 2023 19:16:18 +0200
+Message-ID: <20230829171647.187787-3-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230829171647.187787-1-knaerzche@gmail.com>
 References: <20230829171647.187787-1-knaerzche@gmail.com>
@@ -90,25 +90,26 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document Rockchip RK3128 SoC compatible for qos registers.
+Rockchip RK312x SoC family has a Mali400 MP2.
+Add a compatible for it.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
- Documentation/devicetree/bindings/mfd/syscon.yaml | 1 +
+ Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-index 8103154bbb52..089ad6bf58c5 100644
---- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-+++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-@@ -61,6 +61,7 @@ properties:
-               - rockchip,px30-qos
-               - rockchip,rk3036-qos
-               - rockchip,rk3066-qos
-+              - rockchip,rk3128-qos
-               - rockchip,rk3228-qos
-               - rockchip,rk3288-qos
-               - rockchip,rk3368-qos
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
+index 0fae1ef013be..abd4aa335fbc 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
+@@ -29,6 +29,7 @@ properties:
+               - allwinner,sun50i-a64-mali
+               - rockchip,rk3036-mali
+               - rockchip,rk3066-mali
++              - rockchip,rk3128-mali
+               - rockchip,rk3188-mali
+               - rockchip,rk3228-mali
+               - samsung,exynos4210-mali
 -- 
 2.42.0
 
