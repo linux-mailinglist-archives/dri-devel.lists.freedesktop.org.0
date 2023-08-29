@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858AA78C371
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 13:39:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6073A78C379
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 13:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1030D10E296;
-	Tue, 29 Aug 2023 11:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85BAD10E2CB;
+	Tue, 29 Aug 2023 11:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC18810E264;
- Tue, 29 Aug 2023 11:39:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5271610E27E;
+ Tue, 29 Aug 2023 11:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693309190; x=1724845190;
+ t=1693309193; x=1724845193;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bD5NCIaIULeJVNg/8Vi+jxYXNOwaNx56mPRYVWwIyas=;
- b=THU+SOfYsp2CHgn5cBo4Fuvy/nq8GtXFVkbt41lgijyBb9rOlEKRTxLK
- FCcJkVKwagAsvJ54x2kUnFgnj2XheuAIugqNBOR85E0dAmeLW03NsPwxJ
- DXS4g/o6HRXIZW6UhHxzkUZakI3CHQ6iCjDUCnLwnqQp89oxZsJwk/70J
- E7bD2KJch4HoL6Mx3TPNreYaG/HGSg9GJ6l/TayouIRaW58aIlSrWU4tn
- r7HjRfJlapa2eiTJWRRNo/jPkLEKGwNJ7YeuL9gqgLH/KizLm4TIjR2wb
- h/netDbjdYRP1wVdsoBvqv4cEtvnHAqr04DlqQ1M3+cVJ6C/Fpioiv+p8 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="378063944"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="378063944"
+ bh=aUVcxP6gkQBY3ZAeJRgiv+sTDv6CEU1AMMz8+dceLOw=;
+ b=lXRC9/liEANVCBC0fk53pLCrm1mS3mvSE+jSepGYoH8fXnwpYdXO5YBE
+ IvjqER+iTlMdb73xPlT5JnjizPraxkYBF+SsXUw4S35zhRUi11Yw2TOtH
+ P4HxElNpRoo8RrpZ2ucYLGgsT8yANsogSoUTQ4r7+Lj57QPSZMD+F0Q7N
+ aUITQNaAZImY3Es6Lt7cRVhR/ZoAINq8ojrfAw9s+MJaAkjm0XmK90zEr
+ r5mMIiSl2+fzmokVv9syy+fDiuXBrbQpuljgQbpDU2/M2ozuOAS7MTxYJ
+ l9/Gf38NUKHx+CWv5GjVqohYmvWEfpoUMOstfR7Pn4Zw+/P9ZG+L3+XEG A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="378063949"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="378063949"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 04:39:49 -0700
+ 29 Aug 2023 04:39:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="738669068"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="738669068"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="738669082"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="738669082"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
- by orsmga002.jf.intel.com with SMTP; 29 Aug 2023 04:39:47 -0700
+ by orsmga002.jf.intel.com with SMTP; 29 Aug 2023 04:39:50 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 29 Aug 2023 14:39:46 +0300
+ Tue, 29 Aug 2023 14:39:50 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/12] drm/i915/dp: Populate connector->ddc
-Date: Tue, 29 Aug 2023 14:39:15 +0300
-Message-ID: <20230829113920.13713-8-ville.syrjala@linux.intel.com>
+Subject: [PATCH 08/12] drm/i915/mst: Populate connector->ddc
+Date: Tue, 29 Aug 2023 14:39:16 +0300
+Message-ID: <20230829113920.13713-9-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230829113920.13713-1-ville.syrjala@linux.intel.com>
 References: <20230829113920.13713-1-ville.syrjala@linux.intel.com>
@@ -66,57 +66,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
 Populate connector->ddc, and thus create the "ddc" symlink
-in sysfs for analog DP SST connectors.
+in sysfs for DP MST connectors.
 
-Let's also reorder intel_dp_aux_init() vs. drm_connector_init_with_ddc()
-a bit to make sure the i2c aux ch is at least somewhat populated
-before we pass it on, though drm_connector_init_with_ddc() does
-not actually do anything with it.
+TODO: test that this actually works
 
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/3605
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 05694e0b6143..9b35b1d6adbb 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5914,7 +5914,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 2d1c42a5e684..0bf02a29e371 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -1104,8 +1104,10 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+ 	drm_dp_mst_get_port_malloc(port);
  
- 	mutex_lock(&dev_priv->drm.mode_config.mutex);
--	drm_edid = drm_edid_read_ddc(connector, &intel_dp->aux.ddc);
-+	drm_edid = drm_edid_read_ddc(connector, connector->ddc);
- 	if (!drm_edid) {
- 		/* Fallback to EDID from ACPI OpRegion, if any */
- 		drm_edid = intel_opregion_get_edid(intel_connector);
-@@ -6053,12 +6053,15 @@ intel_dp_init_connector(struct intel_digital_port *dig_port,
- 	if (IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv))
- 		intel_dp->pps.active_pipe = vlv_active_pipe(intel_dp);
- 
-+	intel_dp_aux_init(intel_dp);
-+
- 	drm_dbg_kms(&dev_priv->drm,
- 		    "Adding %s connector on [ENCODER:%d:%s]\n",
- 		    type == DRM_MODE_CONNECTOR_eDP ? "eDP" : "DP",
- 		    intel_encoder->base.base.id, intel_encoder->base.name);
- 
--	drm_connector_init(dev, connector, &intel_dp_connector_funcs, type);
-+	drm_connector_init_with_ddc(dev, connector, &intel_dp_connector_funcs,
-+				    type, &intel_dp->aux.ddc);
- 	drm_connector_helper_add(connector, &intel_dp_connector_helper_funcs);
- 
- 	if (!HAS_GMCH(dev_priv) && DISPLAY_VER(dev_priv) < 12)
-@@ -6066,8 +6069,6 @@ intel_dp_init_connector(struct intel_digital_port *dig_port,
- 
- 	intel_connector->polled = DRM_CONNECTOR_POLL_HPD;
- 
--	intel_dp_aux_init(intel_dp);
--
- 	intel_connector_attach_encoder(intel_connector, intel_encoder);
- 
- 	if (HAS_DDI(dev_priv))
+ 	connector = &intel_connector->base;
+-	ret = drm_connector_init(dev, connector, &intel_dp_mst_connector_funcs,
+-				 DRM_MODE_CONNECTOR_DisplayPort);
++	ret = drm_connector_init_with_ddc(dev, connector,
++					  &intel_dp_mst_connector_funcs,
++					  DRM_MODE_CONNECTOR_DisplayPort,
++					  &port->aux.ddc);
+ 	if (ret) {
+ 		drm_dp_mst_put_port_malloc(port);
+ 		intel_connector_free(intel_connector);
 -- 
 2.41.0
 
