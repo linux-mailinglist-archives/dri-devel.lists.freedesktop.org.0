@@ -2,90 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F6778C37B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 13:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297DE78C447
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 14:31:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C03D110E2D3;
-	Tue, 29 Aug 2023 11:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C71110E252;
+	Tue, 29 Aug 2023 12:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 834C610E2AE;
- Tue, 29 Aug 2023 11:40:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VXmbo5hJR/sYMB7IpKkDKTeqmknUfjAOqLvgLYswjuFkpn3J2kgi5SO3JXZErOdJZ8G8cYkYU9YCfyQcLANLVwEuN3ifLh5egdA37O8eKVOgRk7FG1Uu0TXjab2iJIN7mzgaO2ax9kBuyUCEcEpBMRzHotRLQARYUeRzOrB+HQc2khm5U7udWulzVeBUhY5cOPicLL6L78DA5/ON1tgDj0P7W1RJSMAc9RaGuYWG/XAr2ItfYivYBpY6HV2ON1+9H5yeFgvHa5pT4C1FYxMlgjBdJmqet5hvcqKsqQstAbZobfYH2MyjFS5/vQ7piIHwYQmktv5AVDdyMB4Wt0RPaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VtvAH2qRxU+GUWmAlfX6gcgsbFJZVUhwDj07oUoXyXQ=;
- b=moNuv/ODBfPbKLwzmhYewB1+0Obl5sv28eOg6DfltFkuk9LCWuJdY+ZiRxJS7cAwRgSIofhCCLH2w6YM/Y0TK8nH/kF8Hghan23foV2Zm+N7/LRlOWDDpPzn4yExsChxmOjLl3upcnRaqKt+vW01rym7b8NK3CjTwxabNTu8DMVVoWkceriyJh9M5B9H1h7Ef8hPDbP8Z5O/DLCj8XGb1GhhAPGbS8CP/QJmH2/ruJpe41D3nRcl5bOMa7XXkACJm4Z/oe3BvJtmRIQw2biO4s6uMmcTshIG4nyPFAf235Qo84ZyyLxuSwoM/E+wZ0FX9RViKEmMjYikPtC0AGOxhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VtvAH2qRxU+GUWmAlfX6gcgsbFJZVUhwDj07oUoXyXQ=;
- b=eZSrb+v+V/mT0nd2X6MJmUE8Vu0sH43PMqGcbDnv8QfL/uCc7iAj8PRX/EC4F4Z5pM8Wu7qB/m/C+IxIk39cxfJLMyTVFZ794m8lfY3b6BP98t1JVlwzeUQsGIm0BahTGDiMxC8VgYW8b5XZ5ST6dFs2nXagOxiH70PjxqVTXdU=
-Received: from SJ0PR13CA0105.namprd13.prod.outlook.com (2603:10b6:a03:2c5::20)
- by MW4PR12MB7117.namprd12.prod.outlook.com (2603:10b6:303:221::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.29; Tue, 29 Aug
- 2023 11:40:01 +0000
-Received: from MWH0EPF000971E6.namprd02.prod.outlook.com
- (2603:10b6:a03:2c5:cafe::7e) by SJ0PR13CA0105.outlook.office365.com
- (2603:10b6:a03:2c5::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18 via Frontend
- Transport; Tue, 29 Aug 2023 11:40:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000971E6.mail.protection.outlook.com (10.167.243.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6745.17 via Frontend Transport; Tue, 29 Aug 2023 11:40:00 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 29 Aug
- 2023 06:39:58 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] Revert "Revert "drm/amd/display: Implement zpos property""
-Date: Tue, 29 Aug 2023 07:39:30 -0400
-Message-ID: <20230829113931.54391-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8199F10E252
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 12:31:26 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-31c73c21113so3860722f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 05:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693312285; x=1693917085;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SE6bs8Dp3bXXPQbAvcYoEHq5tNLQIvXmSnCFnORB2BQ=;
+ b=L4m+6g+Rd9YQKwljf/KI5dzzG4YnsfQdOpfNL+UjMvsLteg1DA8RxVZH76htesfZTM
+ AhdhgN0aNthxx9hXr7t1dWSOO9Eo5YaRx6Uejtjil+b+U7HiMN19ZG8Y6ugPcKAq8ssj
+ 63enH7wklPfLIMXs+zB5EsTT7ZCUoAfN1QU3PA5aJVP3OXEzZlzYxYp6bVcDnCzdRA4C
+ doyLXcAu2rQRCAJ+YIFQUWKYzncsL+DZHmPr0CoCksUiQbN4Y0MGPkgQrKu17eOKNaku
+ VP+rqAhc5Sqam1eaOhNoen2yNVHAluVSJwqPVdrNK3mUIlvgDOXyV2SAS1N3bg1cFfFr
+ A4SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693312285; x=1693917085;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SE6bs8Dp3bXXPQbAvcYoEHq5tNLQIvXmSnCFnORB2BQ=;
+ b=G9+xsZJITxS+QqMXuHjawg2T0806IQbq260jqJ2aV2ZqOJ+GvyYbbE+gCdgwvtla1S
+ SXVbtf2e6jIYfpasERCONFsen5ph3svYN8cUEBQ0AIp0PKRTVTTqrs1ki+E0M/IeTRRg
+ ThrOfwKwhHeSJT6uA2OvYnSqYwyYRa6OQlQPuj9egown5lFttgcSus/9zyo8T2mTfImj
+ FP9xIgob3gZAKR/RYVW8jVYvq7Zc3mMmdZTby0FLUc+SeOOmIt7ZsvSUC5FC0rOtTwMm
+ XM2ppUyRxhNsEPq4FiW4W09dsD/s5cIQfr/SeCaBzDWNu5uxRUvb0OmtZM3dKWx/tbwy
+ l2MQ==
+X-Gm-Message-State: AOJu0YyME0Maem6KUaciJtB+DMVlbMoCZK1zMmR/toBOgTw9VQNQlNSt
+ Xi7yjdMf7kYGWtoXHalGI8MFSKYwyKdfPw==
+X-Google-Smtp-Source: AGHT+IENMUI5IuSSl/1eQZJDC/mUbx0Z8qqzMbvUyi2QDgffZ+TPmqa+d9jFNNfe6i0d2MGn65749Q==
+X-Received: by 2002:a05:6000:889:b0:317:5b99:d3d7 with SMTP id
+ cs9-20020a056000088900b003175b99d3d7mr20820340wrb.34.1693312284716; 
+ Tue, 29 Aug 2023 05:31:24 -0700 (PDT)
+Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020a5d4406000000b003143c6e09ccsm13654040wrq.16.2023.08.29.05.31.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Aug 2023 05:31:24 -0700 (PDT)
+Message-ID: <ef05cacc-8a3c-b3e2-b07b-f0d38cd5e7ad@gmail.com>
+Date: Tue, 29 Aug 2023 14:31:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E6:EE_|MW4PR12MB7117:EE_
-X-MS-Office365-Filtering-Correlation-Id: 091a0b88-c81c-45cd-4f0a-08dba884ada1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DbcWd8HKnu8ZdcMNx4+iOezJJbfbF/XN7qIo2dZklGCSCFYuK/UM2R+BNaCGUlxI6L97t1eDs3ef3P7G0LKvpw4XKMoJKlUId3rHVrAglPJf4EwiK5AWewly+UUhTnrsxvWT3JcZehPzT8b86vfjHRbtmVcd2lnHqN1FsRmdO40kMtSwvadzORD74JgGzPyhDzH6+JPaCCS21tcBqni+6ehWZkjUZ3H2GyYxTC+rja0o5Cgksrod+r9MyHyp1FMoDKvV+nHjUwUkin7Db10ms7oIZ22t+CM7vWChepoWUM6PyJHRHgoDdROtFviCNCXWTwYb/GWAR+2kUYldzlOmSqtQ5OdBjtP2wY2h+cLq78sAGi5pscyEpI2ghSdCiJ5k75wjU2/eVUv2/UWPPGo3Nr2B/6bxRQLu+eEWBnWHRj6aIyIfU1UjuguHJBRH1r+Marx28eVmQnMwGaZ/USBrlbFmAkj6041Um2AiucNi7fpZ8YdwVZW7lpPCfcL2ydjj/4ZDHEW8Gb/k0sMTTzUyPAsBQ46zUlXIYXAifUBJzhvgrUbqotaqG7mDWbLP8I+wNWtLr+b+xd54LCDzM7xNBuHxgqCalSG2GSZ0cMUGmzsUO4rIYDlfJ4UWA0CbR1FCMUyoS96EhEXb96n3nmyrB3prPz7Rqt5r3xB61SnnzVqHZYaZBEqoP1Tcwg0e0zMoCJD8tZyYbYaRIcLYmFHubeJCjZUkhbwQWWd6n4TmOjb7o3pYuIRlOx1AIE+au2sd1nWuwI0mpvLthHCGkXO4SNL6KgLWKkMG3cDu0aRC1yg=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(82310400011)(186009)(1800799009)(451199024)(40470700004)(46966006)(36840700001)(6666004)(966005)(2616005)(478600001)(1076003)(26005)(336012)(426003)(16526019)(2906002)(316002)(6916009)(54906003)(8936002)(70206006)(70586007)(44832011)(5660300002)(41300700001)(4326008)(8676002)(40460700003)(36756003)(86362001)(40480700001)(47076005)(36860700001)(81166007)(82740400003)(356005)(16060500005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 11:40:00.3517 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 091a0b88-c81c-45cd-4f0a-08dba884ada1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7117
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/5] drm/debugfs: disallow debugfs access when device
+ isn't registered
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230829110115.3442-1-christian.koenig@amd.com>
+ <20230829110115.3442-3-christian.koenig@amd.com>
+ <ZO3XGchG9fGjoW9K@ashyti-mobl2.lan>
+ <5ce9f1b6-0a9e-7cf8-25f9-de9621b342dc@gmail.com>
+ <ZO3YmCJKwcJydNGV@ashyti-mobl2.lan>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ZO3YmCJKwcJydNGV@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,51 +81,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>,
- David Tadokoro <davidbtadokoro@usp.br>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Choi <Nicholas.Choi@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Joshua Ashton <joshua@froggi.es>
+Cc: ogabbay@kernel.org, ttayar@habana.ai, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 984612bd4649c91f12e9c7c7f9e914fdc8ba7d3f.
+Am 29.08.23 um 13:38 schrieb Andi Shyti:
+>>>> During device bringup it might be that we can't access the debugfs files.
+>>>> Return -ENODEV until the registration is completed on access.
+>>> just wondering, if the device is not registered, how do we get
+>>> there?
+>> The workflow is:
+>> 1. Creation (DRM)
+>> 2. Initialization (Driver)
+>> 3. Registration (DRM)
+>> ...
+>> 4. Unregistration (DRM)
+>> 5. Deinitialization (Driver)
+>> 6. Destruction (DRM)
+>>
+>> It is possible that debugfs files are created during driver initialization,
+>> but Daniel insisted that they should not be accessible until the
+>> registration is done (which makes the other UAPI accessible as well).
+> makes sense, but then why not -EAGAIN, or -EBUSY?
 
-The problematic IGT test case (i.e. kms_atomic@plane-immutable-zpos) has
-been fixed as of commit cb77add45011 ("tests/kms_atomic: remove zpos <
-N-planes assert") to the IGT repo. So, reintroduce the reverted code.
+Good question.
 
-Link: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/cb77add45011b129e21f3cb2a4089a73dde56179
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I think the main use case for this is between 4 and 6. E.g. a device 
+which is hot removed and now in the process of being torn down.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 894bc7e4fdaa..df568a7cd005 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1469,6 +1469,15 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
- 		drm_plane_create_blend_mode_property(plane, blend_caps);
- 	}
- 
-+	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
-+		drm_plane_create_zpos_immutable_property(plane, 0);
-+	} else if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
-+		unsigned int zpos = 1 + drm_plane_index(plane);
-+		drm_plane_create_zpos_property(plane, zpos, 1, 254);
-+	} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
-+		drm_plane_create_zpos_immutable_property(plane, 255);
-+	}
-+
- 	if (plane->type == DRM_PLANE_TYPE_PRIMARY &&
- 	    plane_cap &&
- 	    (plane_cap->pixel_format_support.nv12 ||
--- 
-2.41.0
+In this situation we might still have references from userspace (memory 
+mapping etc...), so the drm file and with it the debugfs directory is 
+still there but the physical device is gone. For the IOCTL UAPI we then 
+also return -ENODEV as well, so this makes sense.
+
+The time between 1 and 3 is interesting as well, but here it's more like 
+we couldn't get the device initialized and are now stuck. This happens 
+sometimes during early hardware bringup and I still disagree with Daniel 
+that we should block that (well on the other hand it's trivial for a 
+developer to comment those checks out).
+
+Regards,
+Christian.
+
+>
+> Thanks,
+> Andi
 
