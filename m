@@ -2,45 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB9878CB8F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D59778CB97
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112FE10E41F;
-	Tue, 29 Aug 2023 17:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B2C10E428;
+	Tue, 29 Aug 2023 17:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5058210E41F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:50:54 +0000 (UTC)
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0191466071FD;
- Tue, 29 Aug 2023 18:50:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693331453;
- bh=8DcTnMbWDXxwqColZlQlOY7oUF8gVbQDDNW2xabsrNw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q3R+QoB9Kw2lSCg6+NXqE1Eq6rtXbsdm3PjqUjH3EavQBFElFDJIS+fnaM/I/NsoG
- kwuL90cxyuNRlGaO1oVhWxUZ09hYXON51/eN1wnpaLhL6W0GDX4B0NFb3uGhDDYEyN
- ikuK5dpSltaVRUKYrvJCK3ByjsTqJBNhCdJCFkk4itrZc4oHDJu+wi1bZ5fgLgMOMj
- YbPj6OPVbjwdQDuXqyxIShCcoc20KP9uf961mrDPwlxJg2iGlP3nX3JbArffDR9mXL
- TPhJ2IDmaRLuwQ84hTZGI2k03KvpzODTVgEuUEkalLauPr35eU6sMpN4MPosBw+3Fj
- ppWx17RC2WQSQ==
-Date: Tue, 29 Aug 2023 13:50:46 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs calculation
-Message-ID: <fca464b9-9f32-4420-90fd-05e851871c25@notapiano>
-References: <20230829131941.3353439-1-mwalle@kernel.org>
- <20230829131941.3353439-2-mwalle@kernel.org>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B959410E428
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 17:57:39 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-401d61e9fecso2411905e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1693331858; x=1693936658; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RFho8P+UvUmfEV9wWiOTvex+Rj2mIp3Rwu/rvM1E0q8=;
+ b=jV3Zkq7BUdlKf2wCo0ETi/qprUST1oofpibEtA8I3WcYF/FbW4Z72+N75YI3jnbWRo
+ ERPsGp+DH1kXS6W84H64KQk0IaQkVr0q0DE9AK8ibORN0oDebXlRCYumLUvlNOOG9mck
+ 3i7tUDC7O01lpVzJYiurYQ5q/oNIg8Oa79Z4M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693331858; x=1693936658;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RFho8P+UvUmfEV9wWiOTvex+Rj2mIp3Rwu/rvM1E0q8=;
+ b=O6wiyoJ099ZZuJ6JV6lP/2BcwawAWnxeK37UbSyVujYYygKG3CHDSg77jBA/0wyGTI
+ hrHeY/Yruqz0hc+1v6f3bJiUsWPH1xOiyNS0NyDfcxLlkIeTW8iU/JOhJFnOWrHUukL6
+ 6WgI6B9LE6I2J5DN8KJILuTQYaQH7vIYMisVquNhSzieDj4eVXL3AdRJ2w3Rtytn/qAm
+ Jlg7OrCdTg6b0iPMD1t+/yeTq/+OwJLnuxqnEUrAbhbcwN/Bv4UUIySoMYNLvztMyKtG
+ v4BWh8/Ep8HSTJ7MGQoHccCqpgsE7uNPX7zO8YYNsWmkwoGEVgy8MStkgRsR1MWvqZOm
+ k/vw==
+X-Gm-Message-State: AOJu0YwGW3PHETJAYaSUQGnUpsYSTZVatXRWQ0WRz4BHjuY3LBwI+YD5
+ k31FSKCfVdPdJOwTqpqj0GdgxA==
+X-Google-Smtp-Source: AGHT+IGAWDP/5Nw90I1fUZV8pHLMfzJOCfEFTIbxuzS3QBgmzrnEyZ9Z/DHllgOa/qo90N9EEEqu8g==
+X-Received: by 2002:a05:600c:4284:b0:401:b9fb:5acd with SMTP id
+ v4-20020a05600c428400b00401b9fb5acdmr40873wmc.3.1693331857981; 
+ Tue, 29 Aug 2023 10:57:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ z16-20020a1c4c10000000b003fa96fe2bd9sm17728411wmf.22.2023.08.29.10.57.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Aug 2023 10:57:37 -0700 (PDT)
+Date: Tue, 29 Aug 2023 19:57:35 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Helen Koike <helen.koike@collabora.com>
+Subject: Re: [PATCH v2] drm: ci: docs: fix build warning - add missing escape
+Message-ID: <ZO4xj/sHodsc8+X3@phenom.ffwll.local>
+Mail-Followup-To: Helen Koike <helen.koike@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-next@vger.kernel.org, airlied@gmail.com
+References: <20230824164230.48470-1-helen.koike@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230829131941.3353439-2-mwalle@kernel.org>
+In-Reply-To: <20230824164230.48470-1-helen.koike@collabora.com>
+X-Operating-System: Linux phenom 6.4.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,75 +74,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, Stu Hsieh <stu.hsieh@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: daniel.vetter@ffwll.ch, linux-next@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 29, 2023 at 03:19:41PM +0200, Michael Walle wrote:
-> mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
-> always have the CRTC with id 0, the ext id 1 and the third id 2. This
-> is only true if the paths are all available. But paths are optional (see
-> also comment in mtk_drm_kms_init()), e.g. the main path might not be
-> enabled or available at all. Then the CRTC IDs will shift one up, e.g.
-> ext will be 1 and the third path will be 2.
+On Thu, Aug 24, 2023 at 01:42:30PM -0300, Helen Koike wrote:
+> Fix the following warning:
 > 
-> To fix that, dynamically calculate the IDs by the precence of the paths.
+> Documentation/gpu/automated_testing.rst:55: WARNING: Inline emphasis start-string without end-string.
 > 
-> Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
-> Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+
+Applied this, sorry for the delay. I also rebased the tree onto latest
+drm-next, in case there's any fixes for the current set of ci support that
+need applying.
+
+The other series I've seen looks like it's adding more support, I guess
+that can be skipped for the initial stuff?
+-Sima
+
+> 
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 41 ++++++++++++++-------
->  1 file changed, 27 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index 771f4e173353..f3064bff64e8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -526,21 +526,34 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
->  						struct device *dev)
->  {
->  	struct mtk_drm_private *private = drm->dev_private;
-> -	unsigned int ret = 0;
-> -
-> -	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
-> -				     private->ddp_comp))
-> -		ret = BIT(0);
-> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
-> -					  private->data->ext_len, private->ddp_comp))
-> -		ret = BIT(1);
-> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
-> -					  private->data->third_len, private->ddp_comp))
-> -		ret = BIT(2);
-> -	else
-> -		DRM_INFO("Failed to find comp in ddp table\n");
-> +	int i = 0;
-> +
-> +	if (private->data->main_path) {
-> +		if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path,
-> +					     private->data->main_len,
-> +					     private->ddp_comp))
-> +			return BIT(i);
-> +		i++;
-> +	}
-> +
-> +	if (private->data->ext_path) {
-> +		if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
-> +					     private->data->ext_len,
-> +					     private->ddp_comp))
-> +			return BIT(i);
-> +		i++;
+> Patch for topic/drm-ci
+> 
+> V2:
+> - Fix typo s/scape/escape
+> 
+> ---
+>  Documentation/gpu/automated_testing.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
+> index 1b87b802ac7f..469b6fb65c30 100644
+> --- a/Documentation/gpu/automated_testing.rst
+> +++ b/Documentation/gpu/automated_testing.rst
+> @@ -52,7 +52,7 @@ IGT_VERSION
+>  drivers/gpu/drm/ci/testlist.txt
+>  -------------------------------
+>  
+> -IGT tests to be run on all drivers (unless mentioned in a driver's *-skips.txt
+> +IGT tests to be run on all drivers (unless mentioned in a driver's \*-skips.txt
+>  file, see below).
+>  
+>  drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-fails.txt
+> -- 
+> 2.34.1
+> 
 
-This won't work. On MT8195 there are two display IPs, vdosys0 and vdosys1,
-vdosys0 only has the main path while vdosys1 only has the external path. So you
-need to loop over each one in all_drm_private[j] to get the right crtc ID for
-MT8195.
-
-Thanks,
-Nícolas
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
