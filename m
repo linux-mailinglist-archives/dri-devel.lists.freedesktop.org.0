@@ -2,92 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3866878D39D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9847B78D39F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D423910E4C0;
-	Wed, 30 Aug 2023 07:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCAF910E4C3;
+	Wed, 30 Aug 2023 07:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01on2057.outbound.protection.outlook.com [40.107.15.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E592810E1DE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:16:05 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2080.outbound.protection.outlook.com [40.107.104.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C840910E2A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:18:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QuWnX5JsvcP4pcentaLEIEk2Tp2iBBfKjBcwraPerEFV2XJvFrcpZ7SeqrIp+ixiKH2yHz/dCkrXFY5SyF1hJvCkbA6XVlNWYd1SKJND6MhUp0TtKuPI2zxVy8cb8ikMIINkql4clDHci7NoIOH2Ii99W/WMW2vNI5sLDNgdM7DHg9XR5pEERykNPowLX+jWcqD31oMcsPklopSrHpR3DcD7+J+vM2DeR8hWHypZn/o0rm8b/f20pC0v2ggMoEYs3L2tQ6DQSCAC+O5jwndcj27Qvbe/kpBzksiyS9wBj2cgO2jsrvnY6ec9G2NF/Caa89MHpxP6Sor+Pd02ba0CqA==
+ b=U6jiPvsKCDHg+XH1CUHyA5kTtX97DUAoUNKrMXpS6DbRIsdbQuDSypn9Aar5ewV23G5LAN3nDpIi0wcykvRX6/s7//NPstuTyqq2wFSFucCcQhPZ/Le1BwTN9Pme/PKriduWwmYNMqVkg2fTUQRkK0krgw6sYVKwgfjxZpVqQp/XfKGVCfOPXcNUh4pZMEWpMQiTrv8tsRBOVMmg/sxn/tcIq7pkU0NHcaLFNlLq18PKzYzLZXsNnWELaBJMR6FqhxukuWiRtfzhSy84IoUjkJqJ+7sazWuBUBx6TRy0FP57mJu7nQ1LMXk+T6PWYiwOyn2Jjac5VME+cP3lMQd5TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3Jowxy2H2aM9i200872Kai+noRF0wrNybYOJB4/kJ/8=;
- b=FHMSJb2LLWS2PU2Vmq7ktKjX3hT0qBgwU0dBnBGMDuxuWIxlFlCZ6j2V0bKCefsDGbq/vCk89+JkLszpAloweBeA5xv7/mR6XQnu/elYS1DzhvT02P/M9t92QyVmK/2lVeQJzRFN97u7dunl0E/USHBEAXrAoynGFhFgjuREPN0GA6gfuzUNP9TYBc8c19p2ptSpBnDQZ5Mq4EfFUlUlkBeb3gOJyagc2eZ3grhH+NcDBTrvjVzmjwhPlSXqG6hdwKEfLfH47qazi1hKNHDtdA4ftuJtE0X+VNx81T1XYyERjPcyzBUnDBihcjxEwKXYnO6CcXJ9d/k9vinCm+ssGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 151.1.184.193) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=asem.it; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=asem.it; dkim=none (message not signed); arc=none
+ bh=n0loHVv+9i78r63tVwNQN2DZg9OJwxWdlSJCeanSQt0=;
+ b=ZW+op2Xx0zhmdS6kOwcUL1JSXN755eLTSuSBtAppAO3ZYaLoyDjRWmnYActzV7qVDvCnc0nI0QfqIyO0GZ+/5o+0lUTwXbd55UHh35IEg4V0XcxHY3T3pAj8OH4wuAjmHnwWPQPKnm71sJWLJqxM5/xwvSQBl2FffefihhqV7bYrnpJPNlIM53yMaTQRbc/QutwvVWrCNNciZR1g2QWOgnLMLQ+JS5Fx+5/31YJOIHFULJd/YLyzjI1EvxLGSHl8GhdFUEUZS83I10/qhloC9yBLByUlEziKMj1e+4ZXQnTUDX/fFletqG4z2OCnAkfPxFVA266rSW1Dg8HnNznu9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
+ header.d=asem.it; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Jowxy2H2aM9i200872Kai+noRF0wrNybYOJB4/kJ/8=;
- b=cewHLpi464BFhhgygunVlfa16FOh3XqNxScFn48kmvDAnicynX61yfhM8ZF1fAZs8nAldj9qBL4unH0LD7XVmAgfpo84D/kSsFDX4FHoFJ12AQ8iyqI1Y3CBDejA4zt1EU/SymSeXggfiXbRFsACTJ6fPyQATcottg847R6lGqE=
-Received: from AS4P189CA0020.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::9)
- by DB8PR01MB6440.eurprd01.prod.exchangelabs.com (2603:10a6:10:15b::16) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=n0loHVv+9i78r63tVwNQN2DZg9OJwxWdlSJCeanSQt0=;
+ b=m4IgYB9NHux8PmiKoNClMcAsZz3x9S48nCdiKoZ591ZdlSMtWjkgqaXXOmjXes7xmTg4M/WJrR86ngaZT53GlI6PhNVPhbmTcEsxmYAHFiP1ejij06NhKXPGoPcGTJfQaEgnpEd0T5XrnbPCmU9X0YpgTGgPT+5gXccF+VHnUnI=
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:273::14) by DB9PR01MB7353.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:215::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
- 2023 10:16:02 +0000
-Received: from AM1PEPF000252DD.eurprd07.prod.outlook.com
- (2603:10a6:20b:5db:cafe::fa) by AS4P189CA0020.outlook.office365.com
- (2603:10a6:20b:5db::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.36 via Frontend
- Transport; Tue, 29 Aug 2023 10:16:02 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 151.1.184.193) smtp.mailfrom=asem.it; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=asem.it;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- asem.it discourages use of 151.1.184.193 as permitted sender)
-Received: from asas054.asem.intra (151.1.184.193) by
- AM1PEPF000252DD.mail.protection.outlook.com (10.167.16.55) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6745.17 via Frontend Transport; Tue, 29 Aug 2023 10:16:02 +0000
-Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with
- Microsoft SMTPSVC(10.0.14393.4169); Tue, 29 Aug 2023 12:16:01 +0200
+ 2023 14:18:48 +0000
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::11d:15c1:fca6:e077]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::11d:15c1:fca6:e077%7]) with mapi id 15.20.6745.015; Tue, 29 Aug 2023
+ 14:18:48 +0000
 From: Flavio Suligoi <f.suligoi@asem.it>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v1 2/2] backlight: mp3309c: Add support for MPS MP3309C
-Date: Tue, 29 Aug 2023 12:15:46 +0200
-Message-Id: <20230829101546.483189-2-f.suligoi@asem.it>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230829101546.483189-1-f.suligoi@asem.it>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Lee Jones
+ <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han
+ <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, Pavel Machek
+ <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: RE: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Topic: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Index: AQHZ2mHPrVopNJPC/kuEF9j2J1TebbABF34AgAAdZbA=
+Date: Tue, 29 Aug 2023 14:18:48 +0000
+Message-ID: <DU2PR01MB8034C85013ECF222D12BAAA4F9E7A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
 References: <20230829101546.483189-1-f.suligoi@asem.it>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Aug 2023 10:16:01.0729 (UTC)
- FILETIME=[CFCF4310:01D9DA61]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM1PEPF000252DD:EE_|DB8PR01MB6440:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 514710ec-2452-49ac-6b3b-08dba878f2a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JgLzoj4AXWdDHavWunCEA0c7HB57nN7aLRGhSNw3cAbii8dVimSbYUOuFODYaN/RDx/SI2QyAITEbI5JP3vbNGvrPu3VJ+fslxzU2a2FPY1h3/QRURq97Cc6g+rBw2j2Vxn5xXk8WQ+vyqy5v8zzJYHrrfuYQmmtAItUO8CzYqw2dTbiBreZINFnHaoWFaNM67nDkRzl4I7T9q6e+XfGWP/VMxYkWrVr3AuzWNqOwgarbgFkuULhzqVKvFO4BdVDFPu+o8JtdweDnAjTPy5e6DRGDvL7vsCGYzGLesdoW6hsFmbyv8T5FIEigAHjLH5DmV+k4KCTHqG6LLHbKnTXDAHW7TwT9m7/Vmk8j6cjZiMdyHAQoJRI6o0PnyTEPFkrYWyrHnu+iUKBCgY60Fl224Z7E12QSSxLuBUZ7L+YJXY12fUNWBjWe6+94wv9NmKI4fzPiTUeCrsW+zYfHZQPPNDawIO5hEVeeFu1KZuCwuXTAwEmjhjjUFAco0UWLxeQtDdy6XskHh9NJYF6imrcTYxgNNA7wXEvK3Ym9yM3H+RJ4AnfgBLQxW5YDgfskFrlf3ATkxKxI/63WTxh6VkgdGzikD0ORVsgvwZr5oFK6O5ptmv/wFxEkYGF7a97U5firN1r/cEeHNRAFC7kc7R08gvdG7RrWbEdFhSF74Xc5Jvmc/Z1yaoAv5TKhd/hs14DahDT6MM7a3uIQLR8GUB0omy8PeJ/B6W4Cxf5V9ss+aA=
-X-Forefront-Antispam-Report: CIP:151.1.184.193; CTRY:IT; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:asas054.asem.intra; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(346002)(39850400004)(376002)(396003)(136003)(82310400011)(186009)(1800799009)(451199024)(36840700001)(46966006)(6666004)(83380400001)(966005)(2616005)(107886003)(1076003)(478600001)(336012)(26005)(2906002)(30864003)(316002)(41300700001)(110136005)(70206006)(70586007)(8936002)(5660300002)(4326008)(8676002)(36756003)(40480700001)(47076005)(36860700001)(86362001)(81166007)(82740400003)(356005)(36900700001);
+ <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
+In-Reply-To: <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
+Accept-Language: it-IT, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=asem.it;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|DB9PR01MB7353:EE_
+x-ms-office365-filtering-correlation-id: 8f9298d0-9c1b-4032-a446-08dba89adc8b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6t8dzaM19HqgLGte8RpmgB/nI5zfN+eGxnTQEhHTrQklX/y3M6pzC/fVRco+NU1LWi9YFT51qgyaFPIZvP1NL0nRfDZCZCGqiB90jApy7xVBO/Bf/ud2jEG0Lv5A48DyaZo+ywmcmj/CtAhG55sdlXo+q0ipoftXNGwX5x3xNTkO8DxLK+tAio3yXr+GXbD3yoy4uHltqOT/qas62lbDmznNrWU58uAghrl9bnBUDljTfW+S7eTHSct6WoyYb3qJVk1dXfJ6sTA1ULK5D7PJihu52jyB4BVkE2HUowbxX0wm8F9K/+uJKWIrWlbPwvjZsE8NeNAEnAAU8W1E1v47Y4r98EESVjUY+b/tshF+bb8KaHqmw5Oez0o9+SNKQ5FzFfYlwL9uZZ6FDLOzpMb7JTdus3Q7cPfLQOQy6CVD19jojrQZ8wMkOEQibkIs+c6psvlMrvJFT6R0eHdkxfHj73kfdFweQY3LlPfhgliok5H1uNk7Q4rW5xkmBCQVjN6CUzDtzUgjCiYDDgV2XrXk14eV3s+9HQ4sct6ZCv+iEnc6WC0WdYWOJ1dUFPJ7/dcE09Ski/Vb2BwGf71Mk872ABubcuaRUqvlVJHVk4r0MOuYS0I0BDbs+uDeXA9Q+DbP
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com; PTR:;
+ CAT:NONE;
+ SFS:(13230031)(376002)(396003)(39850400004)(346002)(136003)(366004)(1800799009)(186009)(451199024)(8936002)(122000001)(66946007)(110136005)(76116006)(478600001)(6506007)(7696005)(71200400001)(66446008)(64756008)(66556008)(66476007)(54906003)(38070700005)(316002)(38100700002)(41300700001)(9686003)(26005)(8676002)(5660300002)(83380400001)(2906002)(52536014)(86362001)(55016003)(7416002)(33656002)(4326008);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YTJUclZqeUF6aWRQWE4yYTRNVzIydlVOV1hXRnZqTGQ5L1R6MjdmaS9uUUt3?=
+ =?utf-8?B?QWZrSWUwbHJNc0J5dTJ6VTI3TDJFeGpoaXcvNjBWNHE1Z1FSeFdLNzE5TElY?=
+ =?utf-8?B?Y0g2eTIxNjVwWjdwOVdaNmpQbERvV0lEL3JDZmY5cExKMnBhUWNxblNXUnoy?=
+ =?utf-8?B?ZXJZL2VCdFpnbmpZdXE0ZVM1UWJxYkZkazBJMDlsTVV6YkFFb3NhNUhQQXZG?=
+ =?utf-8?B?WUFsNUp2WWgxWWtsdUNxRVdPU3dIdlVFY2o4MDlpRVFSUnAxYjAzNGJMWXAz?=
+ =?utf-8?B?SzZVaUZNVXBxMnJLYUJUUEF1MGJBWVlUWldYWWwyTUt0dkdGMk0wc01jMTQw?=
+ =?utf-8?B?N2d6N2E3V2JtQXBxRUVRSENrdS9jdENsZEJObDBHMlFzSDhlN1orSndoTWJh?=
+ =?utf-8?B?L2ZUMktQY2xKTDcxdnhCQ0hFckRCeG16RkhvZTFqWFNEaE5ZWG5sY1FDMjEv?=
+ =?utf-8?B?MnFUaFZuZHJGS21pTVlUeFNJK3JUQmdNL3E3aUYwaWlRem1meDRJVnFSODky?=
+ =?utf-8?B?OEM3aitzdEd5Y3c5bGtmbnB0dTJxZDZIMTZLTTBycjZ0MGhhZjBEM090MFVT?=
+ =?utf-8?B?SnlSVnpzVXBzbG9GZG1QdzJMTXZZRGN0VU91SFEzWVNxSmRZVVZnTVlYd0g4?=
+ =?utf-8?B?bTdIWWVRWmlUR0NYa2hieXNlNndnajlzK3NGWnBtUnp6bC9pTTJhMEd3Q1BE?=
+ =?utf-8?B?QWxkemZxRllCanNhUzVQQkd4cXB6OWlvVlJ1ajhuVW5jQ25DWGRLVnZGb2RY?=
+ =?utf-8?B?VVN2KzhJZFlNcjBzZzQzSE5rcFozdE93dHhVSUNEcytsTHlSbE5TNGdWMlkz?=
+ =?utf-8?B?S3hYTmZTYTRvcDJsZys0citEK1lFNmIwZFFhKy9wQmhnekRDenlPKzhySVZs?=
+ =?utf-8?B?dlJKSjZoWWlQdzRjM0VtNVlWRlppVGpmSmZodVd0bTI1aS9CZUZnMjdHblli?=
+ =?utf-8?B?WVVhekloRXR3NFR3a0RvblJvblRGODQ3Smp2MjRhNnYwSHM1Rjk0aWwyMG0v?=
+ =?utf-8?B?R1NyZDd5bERDTE5WTER4bDlwc1pDREdwK2xiTnpkeG85QWorMTZiUXBjM09z?=
+ =?utf-8?B?Q0FCLys4QXJJZ21ldk1MZHpsUFdCaDR6YzNkTjVXSkM5bnZXT0hyaEVqaEJk?=
+ =?utf-8?B?Qm9mNm5JQnhlUDJyOVdrSGtabUFrR0xnOUhxMVJFc21XSy9kTThZV2NtNHhZ?=
+ =?utf-8?B?RlpNZDMwWTg3SmU5RlF2VVA5Z3hiTFpIOHVzZGxKajFBSWxzYk5aZTNQYVY2?=
+ =?utf-8?B?QWJwNXhCNHM3Zm9oT2RiYkRDcjhUajQ0QVhaMXpNaGdweDRvMGF4T05oS3ZS?=
+ =?utf-8?B?bmp6TDlucnZlQk84bkFzRkIvcXBHTWkybFhTWHpYcXZWdUJlMWJzYysvQkxC?=
+ =?utf-8?B?VnVSSHRGUHVKdnB1WE9VYUV5eFk0MmFmR0J6elAyd3QyNHRzNnppMEVaNjli?=
+ =?utf-8?B?YTV4cTVpb1FtdEVVdEdLcmZLZDBGcWdZVUR3T09Nblk5VitKT2tyUXZmKzBz?=
+ =?utf-8?B?T01KUFNTaTV6aFhxQktwTU5aSnpPMFJpS1FQMHRMK01McmFKcGFIK0lWVWk3?=
+ =?utf-8?B?VWtjY0ZDblN6eXpueUFoVEZvZzQydWlMTThxU0pwNmVmbGdGMjBueDlCanlE?=
+ =?utf-8?B?NFV6bTcydWNST2RwOXVYSk16NnlqV2FXN2hRVktiM3dVaUMwVjAyQlVobHdj?=
+ =?utf-8?B?bWRGQ09SY1V4Y2FzNFAyWDdLaisvbkVZc2Fzdi9ReVVtOUVEenJpQjJ6L3Ur?=
+ =?utf-8?B?L1ZVWjFxcmZnM3dFbk9xN25CV2lXWk1VK0g4bWJQTGtvdXN1M3hmaENCZkZ3?=
+ =?utf-8?B?dVU3b0VmZ3pzRFQ0WGJ4YVFjS0lMbFJJR0h6a0l1SU1FMXp4QlUwN2t0OW9Z?=
+ =?utf-8?B?OGtQYzN5YitNTm83cndaUGxXenJRUlpvOWlUZ2t3cjZDSFBPRTM5Vi9KbFdZ?=
+ =?utf-8?B?MHVUc3phYkpkaDJudlFGdXVIUHRGT1d3ZUVPTjRCUVdLWTF1TTgyK29talhj?=
+ =?utf-8?B?UklQdzlDMTFROTd5UkV4QnBiMFp3dmtCVXRIQVdTRThvd3hOUUxxZlVzL1NH?=
+ =?utf-8?B?OXZZNERBeDVuM25xZmpTNnUxVzlCZ2drZ2NiZVR2dEJMNmJid1pzVFU4ZUJY?=
+ =?utf-8?Q?6IeA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 10:16:02.2301 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 514710ec-2452-49ac-6b3b-08dba878f2a3
-X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2; Ip=[151.1.184.193];
- Helo=[asas054.asem.intra]
-X-MS-Exchange-CrossTenant-AuthSource: AM1PEPF000252DD.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR01MB6440
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f9298d0-9c1b-4032-a446-08dba89adc8b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2023 14:18:48.1400 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QXKXMr/AFIU1PTLnTbTqt5ACOENiAErML+CkUXjvlm71/DLWJHSUnLllY/RVfUK1NUCIbLLgDtsR7OC86mOPKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB7353
 X-Mailman-Approved-At: Wed, 30 Aug 2023 07:32:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,583 +131,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Flavio Suligoi <f.suligoi@asem.it>, linux-leds@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-programmable switching frequency to optimize efficiency.
-The brightness can be controlled either by I2C commands (called "analog"
-mode) or by a PWM input signal (PWM mode).
-This driver supports both modes.
-
-For DT configuration details, please refer to:
-- Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-
-The datasheet is available at:
-- https://www.monolithicpower.com/en/mp3309c.html
-
-Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
----
- MAINTAINERS                          |   6 +
- drivers/video/backlight/Kconfig      |  13 +
- drivers/video/backlight/Makefile     |   1 +
- drivers/video/backlight/mp3309c_bl.c | 491 +++++++++++++++++++++++++++
- 4 files changed, 511 insertions(+)
- create mode 100644 drivers/video/backlight/mp3309c_bl.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3be1bdfe8ecc..895c56ff4f1e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14333,6 +14333,12 @@ S:	Maintained
- F:	Documentation/driver-api/tty/moxa-smartio.rst
- F:	drivers/tty/mxser.*
- 
-+MP3309C BACKLIGHT DRIVER
-+M:	Flavio Suligoi <f.suligoi@asem.it>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-+F:	drivers/video/backlight/mp3309c_bl.c
-+
- MR800 AVERMEDIA USB FM RADIO DRIVER
- M:	Alexey Klimov <klimov.linux@gmail.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 51387b1ef012..65d0ac9f611d 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -389,6 +389,19 @@ config BACKLIGHT_LM3639
- 	help
- 	  This supports TI LM3639 Backlight + 1.5A Flash LED Driver
- 
-+config BACKLIGHT_MP3309C
-+	tristate "Backlight Driver for MPS MP3309C"
-+	depends on I2C
-+	select REGMAP_I2C
-+	select NEW_LEDS
-+	select LEDS_CLASS
-+	help
-+	  This supports MPS MP3309C backlight WLED Driver in both PWM and
-+	  analog/I2C dimming modes.
-+
-+	  To compile this driver as a module, choose M here: the module will
-+	  be called mp3309c_bl.
-+
- config BACKLIGHT_LP855X
- 	tristate "Backlight driver for TI LP855X"
- 	depends on I2C && PWM
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index f72e1c3c59e9..c42c5bccc5ac 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
- obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
- obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
- obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
-+obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c_bl.o
- obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
- obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
- obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
-diff --git a/drivers/video/backlight/mp3309c_bl.c b/drivers/video/backlight/mp3309c_bl.c
-new file mode 100644
-index 000000000000..7cb7a542ceca
---- /dev/null
-+++ b/drivers/video/backlight/mp3309c_bl.c
-@@ -0,0 +1,491 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Driver for MPS MP3309C White LED driver with I2C interface
-+ *
-+ * Copyright (C) 2023 ASEM Srl
-+ * Author: Flavio Suligoi <f.suligoi@asem.it>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/pwm.h>
-+#include <linux/regmap.h>
-+#include <linux/workqueue.h>
-+
-+#define REG_I2C_0	0x00
-+#define REG_I2C_1	0x01
-+
-+#define REG_I2C_0_EN	0x80
-+#define REG_I2C_0_D0	0x40
-+#define REG_I2C_0_D1	0x20
-+#define REG_I2C_0_D2	0x10
-+#define REG_I2C_0_D3	0x08
-+#define REG_I2C_0_D4	0x04
-+#define REG_I2C_0_RSRV1	0x02
-+#define REG_I2C_0_RSRV2	0x01
-+
-+#define REG_I2C_1_RSRV1	0x80
-+#define REG_I2C_1_DIMS	0x40
-+#define REG_I2C_1_SYNC	0x20
-+#define REG_I2C_1_OVP0	0x10
-+#define REG_I2C_1_OVP1	0x08
-+#define REG_I2C_1_VOS	0x04
-+#define REG_I2C_1_LEDO	0x02
-+#define REG_I2C_1_OTP	0x01
-+
-+#define ANALOG_MAX_VAL	31
-+#define ANALOG_REG_MASK 0x7c
-+
-+enum backlight_status {
-+	FIRST_POWER_ON,
-+	BACKLIGHT_OFF,
-+	BACKLIGHT_ON,
-+};
-+
-+enum dimming_mode_value {
-+	DIMMING_PWM,
-+	DIMMING_ANALOG_I2C,
-+};
-+
-+struct mp3309c_platform_data {
-+	u32 max_brightness;
-+	u32 brightness;
-+	u32 switch_on_delay_ms;
-+	u32 switch_off_delay_ms;
-+	u32 reset_on_delay_ms;
-+	u32 reset_on_length_ms;
-+	u8  dimming_mode;
-+	u8  reset_pulse_enable;
-+	u8  over_voltage_protection;
-+
-+	unsigned int status;
-+};
-+
-+struct mp3309c_chip {
-+	struct device *dev;
-+	struct mp3309c_platform_data *pdata;
-+	struct backlight_device *bl;
-+	struct gpio_desc *enable_gpio;
-+	struct regmap *regmap;
-+	struct pwm_device *pwmd;
-+
-+	struct delayed_work enable_work;
-+	struct delayed_work reset_gpio_work;
-+	int irq;
-+
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+static const struct regmap_config mp3309c_regmap = {
-+	.name = "mp3309c_regmap",
-+	.reg_bits = 8,
-+	.reg_stride = 1,
-+	.val_bits = 8,
-+	.max_register = REG_I2C_1,
-+};
-+
-+static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
-+				 struct mp3309c_platform_data *pdata)
-+{
-+	struct device_node *node = chip->dev->of_node;
-+	const char *tmp_string;
-+	int ret;
-+
-+	if (!node) {
-+		dev_err(chip->dev, "failed to get DT node\n");
-+		return -ENODEV;
-+	}
-+
-+	/*
-+	 * Dimming mode: the MP3309C provides two dimming methods:
-+	 *
-+	 * - PWM mode
-+	 * - Analog by I2C control mode
-+	 */
-+	ret = of_property_read_string(node, "mps,dimming-mode", &tmp_string);
-+	if (ret < 0) {
-+		dev_err(chip->dev, "missed dimming-mode in DT\n");
-+		return ret;
-+	}
-+	if (!strcmp(tmp_string, "pwm")) {
-+		dev_info(chip->dev, "dimming method: PWM\n");
-+		pdata->dimming_mode = DIMMING_PWM;
-+	}
-+	if (!strcmp(tmp_string, "analog-i2c")) {
-+		dev_info(chip->dev, "dimming method: analog by I2C commands\n");
-+		pdata->dimming_mode = DIMMING_ANALOG_I2C;
-+	}
-+
-+	/* PWM steps (levels): 0 .. max_brightness */
-+	ret = of_property_read_u32(node, "max-brightness",
-+				   &pdata->max_brightness);
-+	if (ret < 0) {
-+		dev_err(chip->dev, "failed to get max-brightness from DT\n");
-+		return ret;
-+	}
-+
-+	/* Default brightness at startup */
-+	ret = of_property_read_u32(node, "default-brightness",
-+				   &pdata->brightness);
-+	if (ret < 0) {
-+		dev_err(chip->dev,
-+			"failed to get default-brightness from DT\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * Optional backlight switch-on/off delay
-+	 *
-+	 * Note: set 10ms as minimal value for switch-on delay, to stabilize
-+	 *       video data
-+	 */
-+	pdata->switch_on_delay_ms = 50;
-+	of_property_read_u32(node, "mps,switch-on-delay-ms",
-+			     &pdata->switch_on_delay_ms);
-+	if (pdata->switch_on_delay_ms < 10) {
-+		pdata->switch_on_delay_ms = 10;
-+		dev_warn(chip->dev,
-+			 "switch-on-delay-ms set to 10ms as minimal value\n");
-+	}
-+	pdata->switch_off_delay_ms = 0;
-+	of_property_read_u32(node, "mps,switch-off-delay-ms",
-+			     &pdata->switch_off_delay_ms);
-+
-+	/*
-+	 * Reset: GPIO, initial delay and pulse length
-+	 *
-+	 * Use this optional GPIO to reset an external device (LCD panel, video
-+	 * FPGA, etc) when the backlight is switched on
-+	 */
-+	pdata->reset_pulse_enable = 0;
-+	chip->reset_gpio = devm_gpiod_get_optional(chip->dev, "mps,reset",
-+						   GPIOD_OUT_LOW);
-+	if (IS_ERR(chip->reset_gpio)) {
-+		ret = PTR_ERR(chip->reset_gpio);
-+		dev_err(chip->dev, "error acquiring reset gpio: %d\n", ret);
-+		return ret;
-+	}
-+	if (chip->reset_gpio) {
-+		pdata->reset_pulse_enable = 1;
-+
-+		pdata->reset_on_delay_ms = 10;
-+		of_property_read_u32(node, "mps,reset-on-delay-ms",
-+				     &pdata->reset_on_delay_ms);
-+		pdata->reset_on_length_ms = 10;
-+		of_property_read_u32(node, "mps,reset-on-length-ms",
-+				     &pdata->reset_on_length_ms);
-+	}
-+
-+	/*
-+	 * Over-voltage protection (OVP)
-+	 *
-+	 * These (optional) properties are:
-+	 *
-+	 *  - overvoltage-protection-13v --> OVP point set to 13.5V
-+	 *  - overvoltage-protection-24v --> OVP point set to 24V
-+	 *  - overvoltage-protection-35v --> OVP point set to 35.5V
-+	 *
-+	 * If not chosen, the hw default value for OVP is 35.5V
-+	 */
-+	pdata->over_voltage_protection = REG_I2C_1_OVP1;
-+	if (of_property_read_bool(node, "mps,overvoltage-protection-13v"))
-+		pdata->over_voltage_protection = 0x00;
-+	if (of_property_read_bool(node, "mps,overvoltage-protection-24v"))
-+		pdata->over_voltage_protection = REG_I2C_1_OVP0;
-+	if (of_property_read_bool(node, "mps,overvoltage-protection-35v"))
-+		pdata->over_voltage_protection = REG_I2C_1_OVP1;
-+
-+	return 0;
-+}
-+
-+static int mp3309c_enable_device(struct mp3309c_chip *chip)
-+{
-+	u8 reg_val = 0; /* Configuration for analog by I2C commands */
-+	int ret;
-+
-+	/* I2C register #0 - Device enable */
-+	ret = regmap_update_bits(chip->regmap, REG_I2C_0, REG_I2C_0_EN,
-+				 REG_I2C_0_EN);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * I2C register #1 - Set working mode:
-+	 *  - set one of the two dimming mode:
-+	 *    - PWM dimming using an external PWM dimming signal
-+	 *    - analog dimming using I2C commands
-+	 *  - enable synchronous mode (fixed for now)
-+	 *  - set overvoltage protection (OVP)
-+	 */
-+	if (chip->pdata->dimming_mode == DIMMING_PWM)
-+		reg_val = REG_I2C_1_DIMS;
-+	ret = regmap_write(chip->regmap, REG_I2C_1, reg_val | REG_I2C_1_SYNC |
-+			   chip->pdata->over_voltage_protection);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+/* For delayed backlight enabled */
-+static void mp3309c_enable(struct work_struct *work)
-+{
-+	struct mp3309c_chip *chip = container_of(work, struct mp3309c_chip,
-+						 enable_work.work);
-+	if (mp3309c_enable_device(chip))
-+		dev_err(chip->dev, "failed writing I2C register\n");
-+}
-+
-+static void mp3309c_reset_gpio(struct work_struct *work)
-+{
-+	struct mp3309c_chip *chip = container_of(work, struct mp3309c_chip,
-+						 reset_gpio_work.work);
-+
-+	if (chip->reset_gpio) {
-+		gpiod_set_value_cansleep(chip->reset_gpio, 0);
-+		usleep_range(100, 150);
-+		gpiod_set_value_cansleep(chip->reset_gpio, 1);
-+		usleep_range(chip->pdata->reset_on_length_ms * 1000,
-+			     (chip->pdata->reset_on_length_ms * 1000) + 100);
-+		gpiod_set_value_cansleep(chip->reset_gpio, 0);
-+	}
-+}
-+
-+static int mp3309c_bl_update_status(struct backlight_device *bl)
-+{
-+	struct mp3309c_chip *chip = bl_get_data(bl);
-+	int brightness = backlight_get_brightness(bl);
-+	struct pwm_state pwmstate;
-+	unsigned int analog_val, bits_val;
-+	int i, ret;
-+
-+	if (chip->pdata->dimming_mode == DIMMING_PWM) {
-+		/*
-+		 * PWM dimming mode
-+		 */
-+		pwm_init_state(chip->pwmd, &pwmstate);
-+		pwm_set_relative_duty_cycle(&pwmstate, brightness,
-+					    chip->pdata->max_brightness);
-+		pwmstate.enabled = true;
-+		ret = pwm_apply_state(chip->pwmd, &pwmstate);
-+		if (ret)
-+			return ret;
-+	} else {
-+		/*
-+		 * Analog dimming mode by I2C commands
-+		 *
-+		 * The 5 bits of the dimming analog value D4..D0 is allocated
-+		 * in the I2C register #0, in the following way:
-+		 *
-+		 *     +--+--+--+--+--+--+--+--+
-+		 *     |EN|D0|D1|D2|D3|D4|XX|XX|
-+		 *     +--+--+--+--+--+--+--+--+
-+		 */
-+		analog_val = DIV_ROUND_UP(ANALOG_MAX_VAL * brightness,
-+					  chip->pdata->max_brightness);
-+		bits_val = 0;
-+		for (i = 0; i <= 5; i++)
-+			bits_val += ((analog_val >> i) & 0x01) << (6 - i);
-+		ret = regmap_update_bits(chip->regmap, REG_I2C_0,
-+					 ANALOG_REG_MASK, bits_val);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (brightness > 0) {
-+		switch (chip->pdata->status) {
-+		case FIRST_POWER_ON:
-+			/*
-+			 * Only for the first time, wait for the optional
-+			 * switch-on delay and then enable the device.
-+			 * Otherwise enable the backlight immediately.
-+			 */
-+			schedule_delayed_work(&chip->enable_work,
-+					      msecs_to_jiffies(chip->pdata->switch_on_delay_ms));
-+			/*
-+			 * Optional external device GPIO reset, with
-+			 * delay pulse length
-+			 */
-+			if (chip->pdata->reset_pulse_enable)
-+				schedule_delayed_work(&chip->reset_gpio_work,
-+						      msecs_to_jiffies(chip->pdata->reset_on_delay_ms));
-+			break;
-+		case BACKLIGHT_OFF:
-+			/* Enable the backlight immediately */
-+			if (chip->pdata->reset_pulse_enable)
-+				cancel_delayed_work(&chip->reset_gpio_work);
-+			mp3309c_enable_device(chip);
-+			break;
-+		}
-+
-+		chip->pdata->status = BACKLIGHT_ON;
-+	} else {
-+		/* Wait for the optional switch-off delay */
-+		if (chip->pdata->switch_off_delay_ms > 0) {
-+			usleep_range(chip->pdata->switch_off_delay_ms * 1000,
-+				     (chip->pdata->switch_off_delay_ms + 1) *
-+				      1000);
-+		}
-+
-+		chip->pdata->status = BACKLIGHT_OFF;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops mp3309c_bl_ops = {
-+	.update_status = mp3309c_bl_update_status,
-+};
-+
-+static int mp3309c_probe(struct i2c_client *client)
-+{
-+	struct mp3309c_platform_data *pdata = dev_get_platdata(&client->dev);
-+	struct mp3309c_chip *chip;
-+	struct backlight_properties props;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(&client->dev, "failed to check i2c functionality\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	chip = devm_kzalloc(&client->dev, sizeof(struct mp3309c_chip),
-+			    GFP_KERNEL);
-+	if (!chip)
-+		return -ENOMEM;
-+	chip->dev = &client->dev;
-+
-+	chip->regmap = devm_regmap_init_i2c(client, &mp3309c_regmap);
-+	if (IS_ERR(chip->regmap)) {
-+		ret = PTR_ERR(chip->regmap);
-+		dev_err(&client->dev, "failed to allocate register map\n");
-+		return ret;
-+	}
-+
-+	i2c_set_clientdata(client, chip);
-+
-+	if (!pdata) {
-+		pdata = devm_kzalloc(chip->dev,
-+				     sizeof(struct mp3309c_platform_data),
-+				     GFP_KERNEL);
-+		if (!pdata)
-+			return -ENOMEM;
-+
-+		ret = pm3309c_parse_dt_node(chip, pdata);
-+		if (ret) {
-+			dev_err(&client->dev, "failed parsing DT node\n");
-+			return ret;
-+		}
-+	}
-+	chip->pdata = pdata;
-+
-+	chip->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
-+						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(chip->enable_gpio)) {
-+		ret = PTR_ERR(chip->enable_gpio);
-+		return ret;
-+	}
-+
-+	/* Backlight */
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = pdata->brightness;
-+	props.max_brightness = pdata->max_brightness;
-+	props.scale = BACKLIGHT_SCALE_LINEAR;
-+	chip->bl =
-+	    devm_backlight_device_register(chip->dev, "mp3309c_bl",
-+					   chip->dev, chip, &mp3309c_bl_ops,
-+					   &props);
-+	if (IS_ERR(chip->bl)) {
-+		dev_err(&client->dev, "failed registering backlight\n");
-+		return PTR_ERR(chip->bl);
-+	}
-+	pdata->status = FIRST_POWER_ON;
-+
-+	/* Enable PWM, if required */
-+	if (pdata->dimming_mode == DIMMING_PWM) {
-+		chip->pwmd = devm_pwm_get(chip->dev, NULL);
-+		if (IS_ERR(chip->pwmd)) {
-+			dev_err(&client->dev, "failed getting pwm device\n");
-+			return PTR_ERR(chip->pwmd);
-+		}
-+		pwm_apply_args(chip->pwmd);
-+	}
-+
-+	/*
-+	 * Workqueue for delayed backlight enabling
-+	 */
-+	INIT_DELAYED_WORK(&chip->enable_work, mp3309c_enable);
-+
-+	/*
-+	 * Workqueue for (optional) external device GPIO reset
-+	 */
-+	if (pdata->reset_pulse_enable) {
-+		dev_info(&client->dev, "reset pulse enabled\n");
-+		INIT_DELAYED_WORK(&chip->reset_gpio_work, mp3309c_reset_gpio);
-+	}
-+
-+	dev_info(&client->dev, "MP3309C backlight initialized");
-+	return 0;
-+}
-+
-+static int mp3309c_backlight_switch_off(struct pwm_device *pwmd)
-+{
-+	struct pwm_state pwmstate;
-+
-+	/* Switch-off the backlight */
-+	pwm_get_state(pwmd, &pwmstate);
-+	pwmstate.duty_cycle = 0;
-+	pwmstate.enabled = false;
-+	pwm_apply_state(pwmd, &pwmstate);
-+
-+	return 0;
-+}
-+
-+static void mp3309c_remove(struct i2c_client *client)
-+{
-+	struct mp3309c_chip *chip = i2c_get_clientdata(client);
-+
-+	if (chip->pdata->dimming_mode == DIMMING_PWM)
-+		mp3309c_backlight_switch_off(chip->pwmd);
-+	if (chip->pdata->reset_pulse_enable)
-+		cancel_delayed_work(&chip->reset_gpio_work);
-+}
-+
-+static void mp3309c_shutdown(struct i2c_client *client)
-+{
-+	struct mp3309c_chip *chip = i2c_get_clientdata(client);
-+
-+	if (chip->pdata->dimming_mode == DIMMING_PWM)
-+		mp3309c_backlight_switch_off(chip->pwmd);
-+}
-+
-+static const struct of_device_id mp3309c_match_table[] = {
-+	{ .compatible = "mps,mp3309c-backlight", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, mp3309c_match_table);
-+
-+static const struct i2c_device_id mp3309c_id[] = {
-+	{ "mp3309c", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, mp3309c_id);
-+
-+static struct i2c_driver mp3309c_i2c_driver = {
-+	.driver	= {
-+			.name		= "mp3309c-backlight",
-+			.of_match_table	= mp3309c_match_table,
-+	},
-+	.probe		= mp3309c_probe,
-+	.remove		= mp3309c_remove,
-+	.shutdown	= mp3309c_shutdown,
-+	.id_table	= mp3309c_id,
-+};
-+
-+module_i2c_driver(mp3309c_i2c_driver);
-+
-+MODULE_DESCRIPTION("Backlight Driver for MPS MP3309C");
-+MODULE_AUTHOR("Flavio Suligoi <f.suligoi@asem.it>");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
-
+SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHlvdXIgcXVpY2sgcmVwbGF5IGFuZCBjb3JyZWN0
+aW9ucyENCkp1c3Qgc29tZSBxdWVzdGlvbnMgYWJvdXQgc29tZSBvZiB5b3VyIHJlbWFya3M6DQoN
+Cj4gPiBAQCAtMCwwICsxLDIwMiBAQA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAo
+R1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpICVZQU1MIDEuMg0KPiA+ICstLS0NCj4gDQo+ID4gKw0K
+PiA+ICsgIHJlZzoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0KPiA+ICsgIG1wcyxkaW1t
+aW5nLW1vZGU6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogVGhlIGRpbW1pbmcgbW9kZSAoUFdNIG9y
+IGFuYWxvZyBieSBJMkMgY29tbWFuZHMpLg0KPiA+ICsgICAgJHJlZjogJy9zY2hlbWFzL3R5cGVz
+LnlhbWwjL2RlZmluaXRpb25zL3N0cmluZycNCj4gDQo+IERyb3AgcXVvdGVzLCB5b3Ugc2hvdWxk
+IHNlZSB3YXJuaW5ncyBmb3IgdGhpcy4NCj4gDQo+IEl0IGRvZXMgbm90IGxvb2sgbGlrZSB5b3Ug
+dGVzdGVkIHRoZSBiaW5kaW5ncywgYXQgbGVhc3QgYWZ0ZXIgcXVpY2sgbG9vay4gUGxlYXNlDQo+
+IHJ1biBgbWFrZSBkdF9iaW5kaW5nX2NoZWNrYCAoc2VlDQo+IERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy93cml0aW5nLXNjaGVtYS5yc3QgZm9yIGluc3RydWN0aW9ucykuDQo+IE1h
+eWJlIHlvdSBuZWVkIHRvIHVwZGF0ZSB5b3VyIGR0c2NoZW1hIGFuZCB5YW1sbGludC4NCj4gDQo+
+ID4gKyAgICBlbnVtOg0KPiA+ICsgICAgICAtIHB3bQ0KPiA+ICsgICAgICAtIGFuYWxvZy1pMmMN
+Cj4gDQo+IFdoeSBkbyB5b3UgdGhpbmsgdGhpcyBpcyBhIHByb3BlcnR5IG9mIGEgYm9hcmQ/IElz
+IFBXTSBzaWduYWwgb3B0aW9uYWw/DQo+IElmIHNvLCBpdHMgcHJlc2VuY2Ugd291bGQgZGVmaW5l
+IGl0LiBPdGhlcndpc2UgaXQgc2VlbXMgeW91IHdhbnQgdG8gY29udHJvbCB0aGUNCj4gZHJpdmVy
+Lg0KPiANCg0KVGhlIE1QMzMwOUMgZGV2aWNlIGFsd2F5cyBuZWVkIGEgSTJDIGJ1cyB0byByZC93
+ciBpdHMgaW50ZXJuYWwgcmVnaXN0ZXJzLg0KQnV0IHRoZSBicmlnaHRuZXNzIGNhbiBiZSBjb250
+cm9sbGVkIGluIG9uZSBvZiB0aGUgZm9sbG93aW5nIHdheXMgKG11dHVhbGx5IGV4Y2x1c2l2ZSwN
+CmJ1dCBtYW5kYXRvcnkpOg0KLSBhIFBXTSBpbnB1dCBzaWduYWwNCiAgICBvcg0KLSBhIEkyQyBj
+b21tYW5kDQpTbywgdGhlIGRyaXZlciBuZWVkcyBhIHByb3BlcnR5IHRvIHNlbGVjdCB0aGUgZGlt
+bWluZyBtb2RlIHVzZWQ7IHRoaXMgcHJvcGVydHkgaXMgbWFuZGF0b3J5Lg0KVGhpcyBpcyB0aGUg
+cmVhc29uIG9mIHRoZSBleGlzdGVuY2Ugb2YgdGhlICcgbXBzLGRpbW1pbmctbW9kZScgcHJvcGVy
+dHkuDQpQV00gc2lnbmFsIGlzIG5vdCBvcHRpb25hbCwgaXQgaXMgcmVxdWlyZWQgaWYgYW5kIG9u
+bHkgaWYgdGhlICdwd20nIGRpbW1pbmcgbW9kZSBpcyB1c2VkLg0KSWYgdGhlICdhbmFsb2ctaTJj
+JyBkaW1taW5nIG1vZGUgaXMgdXNlZCwgaW5zdGVhZCwgdGhlIFBXTSBzaWduYWwgbXVzdCBub3Qg
+YmUgdXNlZC4NClNvIHRoZSBwcm9wZXJ0eSAnbXBzLGRpbW1pbmctbW9kZScgY29udHJvbHMgaG93
+IHRoZSBNUDMzMDlDIGlzIHVzZWQuDQpJIGNhbiBhZGQgbW9yZSBkZXRhaWxzIGFib3V0IHRoaXMg
+aW4gdGhlIGRlc2NyaXB0aW9uIHNlY3Rpb24uDQouLi4NCiANCj4gPiArDQo+ID4gKyAgbXBzLG92
+ZXJ2b2x0YWdlLXByb3RlY3Rpb24tMTN2Og0KPiA+ICsgICAgZGVzY3JpcHRpb246IG92ZXJ2b2x0
+YWdlIHByb3RlY3Rpb24gc2V0IHRvIDEzLjVWLg0KPiA+ICsgICAgdHlwZTogYm9vbGVhbg0KPiA+
+ICsgIG1wcyxvdmVydm9sdGFnZS1wcm90ZWN0aW9uLTI0djoNCj4gPiArICAgIGRlc2NyaXB0aW9u
+OiBvdmVydm9sdGFnZSBwcm90ZWN0aW9uIHNldCB0byAyNFYuDQo+ID4gKyAgICB0eXBlOiBib29s
+ZWFuDQo+ID4gKyAgbXBzLG92ZXJ2b2x0YWdlLXByb3RlY3Rpb24tMzV2Og0KPiA+ICsgICAgZGVz
+Y3JpcHRpb246IG92ZXJ2b2x0YWdlIHByb3RlY3Rpb24gc2V0IHRvIDM1LjVWLg0KPiA+ICsgICAg
+dHlwZTogYm9vbGVhbg0KPiANCj4gTm9wZSBmb3IgdGhlc2UgdGhyZWUuIFVzZSAtbWljcm92b2x0
+IHN1ZmZpeCBmb3Igb25lIHByb3BlcnR5Lg0KDQpPaw0KDQo+IA0KPiA+ICsNCj4gPiArICBtcHMs
+cmVzZXQtZ3Bpb3M6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogb3B0aW9uYWwgR1BJTyB0byByZXNl
+dCBhbiBleHRlcm5hbCBkZXZpY2UgKExDRCBwYW5lbCwgRlBHQSwNCj4gPiArICAgICAgZXRjLikg
+d2hlbiB0aGUgYmFja2xpZ2h0IGlzIHN3aXRjaGVkIG9uLg0KPiA+ICsgICAgbWF4SXRlbXM6IDEN
+Cj4gDQo+IE5vLCB5b3Ugc2hvdWxkIG5vdCBhZGQgaGVyZSBHUElPcyBmb3Igb3RoZXIgZGV2aWNl
+cy4NCg0KRG8geW91IG1lYW4gdGhhdCBJIGhhdmUgdG8gcmVtb3ZlIHRoaXMgcHJvcGVydHkgb3Ig
+dGhhdCBJIGhhdmUgdG8gbW92ZSBpdCBzb21ld2hlcmUgZWxzZT8NCkkgYWRkZWQgdGhpcyBmZWF0
+dXJlIGJlY2F1c2Ugc29tZXRpbWVzLCBpbiBlbWJlZGRlZCBib2FyZHMsIHlvdSBuZWVkIGEgcHVs
+c2Ugc2lnbmFsIHRvDQp1c2UgYWZ0ZXIgdGhlIGJhY2tsaWdodCBwcm9iaW5nLCBmb3IgZXhhbXBs
+ZSB0byByZXNldCBhbm90aGVyIGRldmljZSBpbiBzeW5jIHdpdGggdGhlIGJhY2tsaWdodA0KcHJv
+YmUuDQpEbyB5b3UgdGhpbmsgSSBoYXZlIHRvIHJlbW92ZSB0aGlzIGZlYXR1cmUgZnJvbSB0aGUg
+ZHJpdmVyPw0KDQouLi4NCg0KPiA+ICthbGxPZjoNCj4gPiArICAtICRyZWY6IGNvbW1vbi55YW1s
+Iw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgbXBz
+LGRpbW1pbmctbW9kZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0KPiA+ICsgICAgICAgICAg
+ICBlbnVtOg0KPiA+ICsgICAgICAgICAgICAgIC0gcHdtDQo+ID4gKyAgICB0aGVuOg0KPiA+ICsg
+ICAgICByZXF1aXJlZDoNCj4gPiArICAgICAgICAtIHB3bXMNCj4gDQo+IFNvIHRoaXMgcHJvdmVz
+IHRoZSBwb2ludCAtIG1wcyxkaW1taW5nLW1vZGUgbG9va3MgcmVkdW5kYW50IGFuZCBub3QNCj4g
+aGFyZHdhcmUgcmVsYXRlZC4NCg0KU2VlIG15IHByZXZpb3VzIGNvbW1lbnQuDQoNCj4gDQo+ID4g
+KyAgICAgIG5vdDoNCj4gPiArICAgICAgICByZXF1aXJlZDoNCj4gPiArICAgICAgICAgIC0gZW5h
+YmxlLWdwaW9zDQo+ID4gKw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+
+ID4gKyAgICAgICAgbXBzLGRpbW1pbmctbW9kZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0K
+PiA+ICsgICAgICAgICAgICBlbnVtOg0KPiA+ICsgICAgICAgICAgICAgIC0gYW5hbG9nLWkyYw0K
+PiA+ICsgICAgdGhlbjoNCj4gPiArICAgICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgICAgLSBlbmFi
+bGUtZ3Bpb3MNCj4gPiArICAgICAgbm90Og0KPiA+ICsgICAgICAgIHJlcXVpcmVkOg0KPiA+ICsg
+ICAgICAgICAgLSBwd21zDQo+ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNvbXBhdGli
+bGUNCj4gPiArICAtIHJlZw0KPiA+ICsgIC0gbXBzLGRpbW1pbmctbW9kZQ0KPiA+ICsgIC0gbWF4
+LWJyaWdodG5lc3MNCj4gPiArICAtIGRlZmF1bHQtYnJpZ2h0bmVzcw0KPiA+ICsNCj4gPiArYWRk
+aXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+IA0KPiBJbnN0ZWFkOg0KPiB1bmV2YWx1YXRlZFBy
+b3BlcnRpZXM6IGZhbHNlDQo+IA0KDQpPaw0KDQo+ID4gKw0KPiA+ICtleGFtcGxlczoNCj4gPiAr
+ICAtIHwNCj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8uaD4NCj4gPiAr
+ICAgIGkyYzMgew0KPiANCj4gaTJjDQo+IA0KPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0g
+PDE+Ow0KPiA+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiA+ICsNCj4gPiArICAgICAg
+ICBjbG9jay1mcmVxdWVuY3kgPSA8MTAwMDAwPjsNCj4gDQo+IERyb3ANCj4gDQo+ID4gKyAgICAg
+ICAgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsNCj4gPiArICAgICAgICBwaW5jdHJsLTAgPSA8
+JnBpbmN0cmxfaTJjMz47DQo+ID4gKyAgICAgICAgc3RhdHVzID0gIm9rYXkiOw0KPiANCj4gRHJv
+cCBhbGwgZXhjZXB0IG9mIGNlbGxzLg0KDQpPaw0KDQo+IA0KPiA+ICsNCj4gPiArICAgICAgICAv
+KiBCYWNrbGlnaHQgd2l0aCBQV00gY29udHJvbCAqLw0KPiA+ICsgICAgICAgIGJhY2tsaWdodF9w
+d206IGJhY2tsaWdodEAxNyB7DQo+ID4gKyAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibXBzLG1w
+MzMwOWMtYmFja2xpZ2h0IjsNCj4gPiArICAgICAgICAgICAgcmVnID0gPDB4MTc+Ow0KPiA+ICsg
+ICAgICAgICAgICBtcHMsZGltbWluZy1tb2RlID0gInB3bSI7DQo+ID4gKyAgICAgICAgICAgIHBp
+bmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+ID4gKyAgICAgICAgICAgIHBpbmN0cmwtMCA9IDwm
+cGluY3RybF9mcGdhX3Jlc2V0PjsNCj4gPiArICAgICAgICAgICAgcHdtcyA9IDwmcHdtMSAwIDMz
+MzMzMzMgMD47IC8qIDMwMCBIeiAtLT4gKDEvZikgKiAxKjEwXjkgKi8NCj4gPiArICAgICAgICAg
+ICAgbWF4LWJyaWdodG5lc3MgPSA8MTAwPjsNCj4gPiArICAgICAgICAgICAgZGVmYXVsdC1icmln
+aHRuZXNzID0gPDgwPjsNCj4gPiArICAgICAgICAgICAgbXBzLHN3aXRjaC1vbi1kZWxheS1tcyA9
+IDw4MDA+Ow0KPiA+ICsgICAgICAgICAgICBtcHMsc3dpdGNoLW9mZi1kZWxheS1tcyA9IDwxMD47
+DQo+ID4gKyAgICAgICAgICAgIG1wcyxvdmVydm9sdGFnZS1wcm90ZWN0aW9uLTI0djsNCj4gPiAr
+DQo+ID4gKyAgICAgICAgICAgIC8qDQo+ID4gKyAgICAgICAgICAgICAqIEVuYWJsZSBhbiBGUEdB
+IHJlc2V0IHB1bHNlIHdoZW4gTUlQSSBkYXRhIGFyZSBzdGFibGUsDQo+ID4gKyAgICAgICAgICAg
+ICAqIGJlZm9yZSBzd2l0Y2ggb24gdGhlIGJhY2tsaWdodA0KPiA+ICsgICAgICAgICAgICAgKi8N
+Cj4gPiArICAgICAgICAgICAgbXBzLHJlc2V0LWdwaW9zID0gPCZncGlvNCAyMCBHUElPX0FDVElW
+RV9ISUdIPjsNCj4gDQo+IE5vcGUsIG5vcGUuIEZQR0EgcmVzZXQgcGluIGlzIG5vdCByZWxhdGVk
+IHRvIHRoaXMgZGV2aWNlLg0KDQpTZWUgbXkgcHJldmlvdXMgY29tbWVudC9xdWVzdGlvbiBhYm91
+dCB0aGlzIGZlYXR1cmUuDQoNCj4gDQo+ID4gKyAgICAgICAgICAgIG1wcyxyZXNldC1vbi1kZWxh
+eS1tcyA9IDwxMDA+Ow0KPiA+ICsgICAgICAgICAgICBtcHMscmVzZXQtb24tbGVuZ3RoLW1zID0g
+PDEwPjsNCj4gPiArICAgICAgICB9Ow0KPiA+ICsgICAgfTsNCj4gPiArDQo+ID4gKyAgLSB8DQo+
+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZ3Bpby9ncGlvLmg+DQo+ID4gKyAgICAvKiBC
+YWNrbGlnaHQgd2l0aCBhbmFsb2cgY29udHJvbCB2aWEgSTJDIGJ1cyAqLw0KPiA+ICsgICAgaTJj
+MyB7DQo+ID4gKyAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+ID4gKyAgICAgICAgI3Np
+emUtY2VsbHMgPSA8MD47DQo+ID4gKw0KPiA+ICsgICAgICAgIGNsb2NrLWZyZXF1ZW5jeSA9IDwx
+MDAwMDA+Ow0KPiA+ICsgICAgICAgIHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+ID4gKyAg
+ICAgICAgcGluY3RybC0wID0gPCZwaW5jdHJsX2kyYzM+Ow0KPiA+ICsgICAgICAgIHN0YXR1cyA9
+ICJva2F5IjsNCj4gDQo+IERyb3AgZW50aXJlIGV4YW1wbGUuIEl0IGRpZmZlcnMgYnkgb25lIHBy
+b3BlcnR5IC0gbWlzc2luZyBwd21zLg0KDQpPaw0KDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0K
+PiBLcnp5c3p0b2YNCg0KVGhhbmtzIGFuZCBiZXN0IHJlZ2FyZHMsDQpGbGF2aW8NCg0K
