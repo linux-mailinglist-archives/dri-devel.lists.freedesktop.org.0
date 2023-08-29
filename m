@@ -2,121 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C978378CB50
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3833D78CB62
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4FD10E476;
-	Tue, 29 Aug 2023 17:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D50310E025;
+	Tue, 29 Aug 2023 17:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2062e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630CE10E474;
- Tue, 29 Aug 2023 17:34:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887F610E025;
+ Tue, 29 Aug 2023 17:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693330589; x=1724866589;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=lrsyL4c6jaIWyEsDL9d8kLaoRsJM8gAsYDgGI1Z4o54=;
+ b=P0rznyvmKd+jURBTEf8R1f0EGOFccpsD+IjNeFAMRXzxSVLnckVGNDBF
+ 9iZQtmFOWG58Fqz2P7kBR1Wd/JlwMAxUhspKEMigY1YKps4lkZX+E2Y1y
+ O3d0S83akQbp5MpyDjnjuhcC1tjzBbYcRi30upcwEcuuC4sCMLYNI3Flw
+ sPNF1BI0iAMrZlXQgF/mZsfnpK0m179swJQ9wRrv9kC5xw4Tg97sGhtNx
+ lZuHS2GLwylvVAaxLH6jcFr6QPjtDpMX88g1jx7wjdVekyVriWep9aoYh
+ aoWOqLLc5zxl6ss43AmDDmEZwasDO/+rUlKfCG5N40vqFxyeb09o9osoi g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374337460"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="374337460"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2023 10:35:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="804213468"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="804213468"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga008.fm.intel.com with ESMTP; 29 Aug 2023 10:35:15 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 29 Aug 2023 10:35:14 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 29 Aug 2023 10:35:14 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 29 Aug 2023 10:35:14 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 29 Aug 2023 10:35:14 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I/v5o1sXNkObdUk7wl14As2fBlf855ruSOa3h76QeYIPxaU654QH1nCa6DpGRq/9XBpTou3HmQK0AbqzgXrhPjwAjX+kRDx0gALbYMCN/4/MHlclYXiE72nvy83tWqJDZosov9VCaMNv7Ki3h9FPv4IZXFUgRYpA5sLeueXCIgpbfRm5tvpm5xEoa8NjMiduOhcwo1Z5pHsr3SWZhL3++vbJZXEHZmg7kz7GAoSEn7fsFIWbY/fe2O5SSjBRVLjimLSd4/pp8Bmii2cewEu7X02SRPJtkW2m6A8NbR0YfNIQ2YZ6oqR3Wb0s6twNboDs8yuwiEalv6BV49vPTeSXVw==
+ b=GovHESIJDDO/hgXvOb86tek1lGu+Gz0ANVrHxZnow9Cl5VSQCKDXxhOuhMfefn3Xd1kclD5yE8vNFP/0/rGjmGKJQ3i35C7y/Qn3Kd5r2tc1Oi+qZlWfiSNYKGkVsWXq+G424AIQL4gLM3zGgY/F/WGx5hft8n7lOtu6mL+OkYwmtNK9RqrrhtudBdBz9UocrLzGFtVh/pYlylIiW5iiuSwuztR+ycAj7Dcba9tO22Pyrx6VAFJuR77MmYWCWz7nss63c3x5g4MoYXngwiTE5xBT6lNU4wrEpHW0klM/ipGNLsGip9cCCeH3U1QcWcL0sLH8uv6bBNoN+DExtGFyAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hANVOBfR9UcDcBRj1//8l9wD1c28ovnJtRNXuiUHWZM=;
- b=cEFasjikUwypPhVX83ZQ5TpFXs9iJm64pyBZYLwxwH9yiKTQhyu5ah4DgcH75ZN/t+jceXZy/7XFLFVnB9NPXrYRQLyVrfwrHxV08XDw+x0Rz3gHJzzzNVh0RFM6jE1S4xANEuYkNQGrPNQiOLRGannOFBF2gZ91xkXQug40bsrGqCwznLQbEMi3CmDIPfsiBgxsiJ6xOWfuzdfPEAxqFoKu5xxi9XO6iVcV7KV/PW4SvzdEtpTOb23NwvXA+EXgPllsSFCUhXcw220Id783CgFtXD3gve+LyVqBeyu9W29+b01H75EaZNzCdae45i/Vuf+ct7zFmMyZOCdiw/X8Lg==
+ bh=yEOF2fUb3SyQrQSzMJQ7nflpXMDImgqJh2d/Moomf8c=;
+ b=kFPoz/3mbXuwhwqZ1By4vp8QONN06EB+b9NE4Vz7CNUv6GvFtl1xg/5pKhWAtt4jk6fDIDrPcGx78/7rcuCIFXdIYUYZdA481Lta+b/IxWluiNLeTZZTRry3A3NycMrP/jo62p5F7cNIwovPqCG4a1k51t7v78CrLSqdQ88VVyAF5ccOHiFTAOiwHe6OP0DzmhytytggrMOsnHNiMhsndxq70ga79JR7AFmQGaZLGGCnygZ5olDxnH75zZzI6oORD62DfpK+STa1UJOSFLxh05CJ20xobbeJibwZzNBmbWjA099cvodfKou7SG8ORvhTYAjRNK6Lt6nnTprDQQol0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hANVOBfR9UcDcBRj1//8l9wD1c28ovnJtRNXuiUHWZM=;
- b=AKbRcdHptLLBaBU3Qa3DenbGR9ySY3UmFRVQGMQv2xXAqjrG50XWXtEtUzuBkYFtqwkCH0o40ekvPZQAAS3L9V78as3MISlgYu47sWDFbiN4WwKZUj8vd8u9r+BeRHTNe3KksWTNMCotHfFOuqehafeVfUioSSP9RJsuAIs5BDo=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18)
- by CH0PR12MB5027.namprd12.prod.outlook.com (2603:10b6:610:e2::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Tue, 29 Aug
- 2023 17:34:28 +0000
-Received: from SJ0PR12MB6760.namprd12.prod.outlook.com
- ([fe80::ae93:e5c5:41f7:bf08]) by SJ0PR12MB6760.namprd12.prod.outlook.com
- ([fe80::ae93:e5c5:41f7:bf08%7]) with mapi id 15.20.6699.034; Tue, 29 Aug 2023
- 17:34:27 +0000
-Message-ID: <bcbfe6d5-da87-fa2b-c05a-8bea6e0004fb@amd.com>
-Date: Tue, 29 Aug 2023 13:34:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v6 1/4] drm: Use XArray instead of IDR for minors
-Content-Language: en-US
-To: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>
-References: <20230724211428.3831636-1-michal.winiarski@intel.com>
- <20230724211428.3831636-2-michal.winiarski@intel.com>
- <10bb9689-9226-d47c-4cf1-7bf9d599456c@amd.com>
- <6qcxpntlr36itieyoyebsncwdv4vadr5ac7imgl4rdemoyedvp@a3m7l32pkcnf>
-From: James Zhu <jamesz@amd.com>
-Organization: AMD RTG
-In-Reply-To: <6qcxpntlr36itieyoyebsncwdv4vadr5ac7imgl4rdemoyedvp@a3m7l32pkcnf>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DM6PR11MB4660.namprd11.prod.outlook.com (2603:10b6:5:2ad::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
+ 2023 17:35:11 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::cc12:ab15:1d0:af79]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::cc12:ab15:1d0:af79%5]) with mapi id 15.20.6699.035; Tue, 29 Aug 2023
+ 17:35:11 +0000
+Date: Tue, 29 Aug 2023 10:35:08 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-xe] [PATCH 1/4] drm/doc/rfc: No STAGING out of
+ drivers/staging.
+Message-ID: <7ikyjewddyvfkf4fasop7ehfrj7xrifzlhftp7vfr4twbggcky@2ozpnk7fg7co>
+X-Patchwork-Hint: comment
+References: <20230829163005.54067-1-rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXP288CA0030.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c00:41::36) To SJ0PR12MB6760.namprd12.prod.outlook.com
- (2603:10b6:a03:44c::18)
+In-Reply-To: <20230829163005.54067-1-rodrigo.vivi@intel.com>
+X-ClientProxiedBy: MW4PR04CA0104.namprd04.prod.outlook.com
+ (2603:10b6:303:83::19) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB6760:EE_|CH0PR12MB5027:EE_
-X-MS-Office365-Filtering-Correlation-Id: 283873d2-696b-4c05-a345-08dba8b6316d
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM6PR11MB4660:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b21fdb6-ce5b-4fdc-8332-08dba8b64b99
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wBgH/8Nyu8XmjgnNldn7O4CoYDLoZXLDf/7+7cHNyoNt8kzzHJJnSlhYNaMdIo4RVxAnBjyU/B5n9pnGHiROHCyyAWvmkqgW5TcCxn9e6w+EDGrY+j+RljZ6rNs5+tH40PLd/8xs81jxqcDMB9oj3UPjvexFPsf40BQgAh04jqJiBu/cW8cOPlEPJ4RvLmUDjcJvL0QP5We1Q8pD++AeIeqv1Zr3mF5xPgFZjucxuGEmucBCIlX++qOutShNrySpWtKy6+/rdpjnDIMHyIGRDVJz4pO5iMsRl5iAURHN/0JfIFJ7eSVpG1B9N+mIQP0PiuQia++TqMnGVqBuQ5yc/fADtYggfEpn19b0xKIDvfSFGXW41bOKtNkrbBHhvVIepU4WBi2OfYTB9eOcv7r2gXXSnm+/ask6c/2faFmWuybxTjOWCCR7DUWYOnUaqIkR8+bRZ8nQGUFZOiaT8FEk+Bf79CVK0O4MA4gz5jdpMhsvS2RMlENCaVvkzW3TWDp4tfL7O+kDcgZFKy3Q4jQDAhMLxBw9DOOfOBFJUV4hCjLqhQ1TBHkoxLCFSI8sLhKUqx1jn50SNEZ2kgJ3YCTXOLlWDPjt3jiGpHyQN+2Laav+uUzT0zqLevbiSl+/zYvdFpN7psgW1KMsA5dK8Y1VHA==
+X-Microsoft-Antispam-Message-Info: zHpE3765OwThEl1PkIL1uK30s5wzkDiq5GrN92HRzoa0YBL01IJakwsyQg4KCoH6EZJbUrcg71wUaIz6BhJ6mpEzBjHDlKKdj7T7U72Tt2NBdek7ivlYhT0SK89JnkzTsmYnojEdCqfqpv5Vqb4CbFKTvcP/vicssGa69KaeBdp9h4fGrhO0wfdA2hnQ+5EdhHQjmC9oHOwL79tcipk3QwyRkDevKP53yJIl7A9uCp1c9uGCrzy1X1knT0H6u1v7TwmyukSbHn74WvO67S4oUDBeN8Q3eEeIj+NPPEiKPFQlFa+n5zJNVVTlHQ4vHgBx3qqmpHUFMM0Fq0kOehhVi0M7w9CyEIBmcB3ylXmrPJzRypp34uGcbu/lEgYzyWUMrZ1DJ1vfcygEZ/nfBddRkBGJi25NJzNqw7i1/bUQA1oGolQQG5IXHlA7bG9x3Sfd4h9O7px2iu6JXiPDGKLmnG5B2wrjDQeUDjX1fnMl5musC41FjHV1A/A4+ixJfFkdyVMX9qbQPTeA6Bebe2lgnB+F6hjIWfoGxRHWjS5IAGY=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB6760.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(366004)(136003)(376002)(396003)(39860400002)(1800799009)(186009)(451199024)(8936002)(6666004)(66946007)(53546011)(31686004)(478600001)(6506007)(66556008)(66476007)(54906003)(6486002)(36916002)(966005)(6916009)(316002)(38100700002)(41300700001)(6512007)(36756003)(26005)(8676002)(5660300002)(83380400001)(31696002)(2906002)(2616005)(7416002)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(7916004)(136003)(376002)(396003)(346002)(366004)(39860400002)(1800799009)(186009)(451199024)(8936002)(6666004)(478600001)(6506007)(66556008)(66476007)(66946007)(6486002)(966005)(6636002)(316002)(38100700002)(41300700001)(82960400001)(9686003)(6512007)(26005)(5660300002)(8676002)(83380400001)(2906002)(33716001)(86362001)(4326008)(6862004);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzBIUzV0Um40c3BjQ1Z6bk8wRXI4VTAyZWNyYmJqODNaR3Qva2d0U1VoaWVR?=
- =?utf-8?B?eXVVZUV2YkVHKzRwYlpSa3p0SDJIVEJMVzUrdkFVL0NLMVFPcHRqaDNjQ0t3?=
- =?utf-8?B?UmxkQXNlQlZ6aktsSFdQNU5pZGNORHdETUh3N08ySkgvVCtGYm01dmZXYWtK?=
- =?utf-8?B?VHMzdWF0KzZYcWNsOXhtRkJXbnBzZWthanNUMy9PS2NnZ1RqT2hhbVFPZHBI?=
- =?utf-8?B?NUI3WmFwYzBPNThkMFM4T2l5Q2FtRklkVDBLeHg2bEpkWGhzNXZrVWhZdk56?=
- =?utf-8?B?eHBlU1BKSXdDaTVraVpHc0lOREJ5TURaaVhVKzJGY2plMVY3UzJFM2R6ZzJK?=
- =?utf-8?B?THBwQzdpcFE5dERtZWhCcUxPYktEQlkyVHNmc2FTWFF5ck9rRTFjajVGZ1pQ?=
- =?utf-8?B?ZjQ5eUkyaEVwTE1XSmhKYkVLVW54VVpWSEl4Sld3K2FSeURrL2xuWEpKNXBU?=
- =?utf-8?B?WFZzbE9JSE83QVQ4cWVBVDcxM1drQWhlN0RlRG5Ib053T2J1UHFsTGx2NDJR?=
- =?utf-8?B?QzVUWFZzWkVSdGMvbEZtemRYdE1aSTVrZmVLN0dTLzdJYVNVMlVOankyUnFq?=
- =?utf-8?B?S0h2elQrNVY2SEhuMTQ0LzRGbVhySDM3c3FYcm1DUDBVMS9yeUNybVVkMWpu?=
- =?utf-8?B?MFU2SEQ2bVpDZkVNQVdPZklXTnBmUUIxSzc5ZmhObExITnlPUFZqMkNaak1w?=
- =?utf-8?B?NWFXM25uUkJFTEFPcGNxNzh5U0JQcmxpMkJ1VzhNYmRpRU5nUU5SeDErN1FE?=
- =?utf-8?B?NUw0clJYS2Rqb2JGMWxnYUt0U1lmUXM1aVN5Yy80VTVmY0M2SmM4ODA2a0tX?=
- =?utf-8?B?V3YzNFkrcUpZZWJsL0MycGRDelhaVGMyRGgvUFp0bUxUZ0lyc0x3Y2M2MytB?=
- =?utf-8?B?QThsVDVCMC8wZGV1ZWEyWHJ2MXBGVzEyWTdpWHBtdmk3SDRjUzNhVXlsTWxl?=
- =?utf-8?B?Y1EvZlpsb085VGFNT0dZcXpFRnVialRHNlF1Z3p3cnZTc21Qbit3US9OaDRp?=
- =?utf-8?B?TjlWc1pzUkNVOHhmWmJRUEp6OGhSZFNyUkJZQWdpVHJ2WE1iWTMreEJrb202?=
- =?utf-8?B?L20zV0dERmwzcFRlSmUxRkpNN2hnU1RwS1ZJYUhxTVJnVjZZVko3M284azFX?=
- =?utf-8?B?MTFyeERSVEpTZkx4djE5ckQ5cEN2SXlhMFh3QkZoL1VWcURxWVZueXpIWW16?=
- =?utf-8?B?RDZFanRYWEFnOGFGY0dOaE9ydkhSbUdNWjdOSmYvWXl4UjFlTmJ1cDlvdmhF?=
- =?utf-8?B?ZWNIaklSVWVNOTNjeU44cjJ4MmNIc1pQU1c2Zlk2bll2YkJUb0o2RWVhSEQy?=
- =?utf-8?B?QlYzanR1d2N4WFIrWUxhUmgxM3JwWnh2V1kwazB2bEZJSHgyWFBFVG1BRU44?=
- =?utf-8?B?R3B6OTlSenNmaXgzQnhuckUwanVXV1BoWWtvVVFJTEEyQWpielVadUtSaXFR?=
- =?utf-8?B?Y0RiOWRRRDRIbG9Wa2JlOHZVTG1La1dWZXNFckEweWYvS2owTUhlWXdNSUVp?=
- =?utf-8?B?eU8xZ3dsT005clZpcnBhRkk5VmRwVHhaYmRINGJwTm1GNDhYRlU2cndobjU0?=
- =?utf-8?B?Z1lSWjE1ZWc4Nm1XbGxQQWREYmxrMXhHTWl5dTI0aitQUUJ6aTlTbXdid0pu?=
- =?utf-8?B?UGorL3Y0MUMxSGVzV3pVZlBadytUZ2ZhQmVDeWtra3pkdVZkdzcrZ2J4bUpp?=
- =?utf-8?B?U3JqZGlxZVorTDdhSXhRSkV6OWg3bllXdUNVYzg3Zi9oc2lDQ3FFM1grQ1Ri?=
- =?utf-8?B?V2RpOEd1TWZIVTNDWXQ0dnVvc1EwMEJHVWJRT1dXZmlHeXdRNFJ5S283ZEpz?=
- =?utf-8?B?Z3BFY24rbW5PZVRMZVFPUlBMVU9lQWVsWWRuQitkZ2ZkU3RvYm1uYUJnUE9N?=
- =?utf-8?B?VW5WWUg2N0g2UXFQT3pIS3VLSFZKQ2cwQktBL2Y1YVFmdEdTWGF0cnFvKzAy?=
- =?utf-8?B?ZTYzcEtmTjV0MjNUeGF3U1krR1ZhWHVQaDZzS2h2Q2R0ZGYwUnFKcW1rSk9P?=
- =?utf-8?B?OFh4eitwamFud3FINC96MlJIK0ZhKzE0UUJocXBKSXRPYVJublNYMjZsNUlQ?=
- =?utf-8?B?cmtYcFZjYlBmSklUSFVDOHdTMGNIVVlRS0paRk83MVpiWU02VFE3UjZNK1dZ?=
- =?utf-8?Q?27ejgv0iuDuoYeYKlw9TfS+Qr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 283873d2-696b-4c05-a345-08dba8b6316d
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB6760.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjJmU2F4cHVybHlUaWdzN3ZCVzRUS1B0eEhGdEtGT21UUVFKN0dNSitUdUFj?=
+ =?utf-8?B?c3liU1kwaWJmWHI3QzdOV3Y4TkRjTkYwRElNSDdGT1ZEV0xHSzZIdjFpNG5s?=
+ =?utf-8?B?eVU4RmhUeVh2bG9YTDNQblVVeDdVZGFISkNaRzdMaWZQRDBQOHZ6Y2pwblRJ?=
+ =?utf-8?B?OEI4OFBYMTFMNmNrYnQzOE1zNHR5UG9VUXBpb0ppUm5KVGx6SERxYUx4L3Fu?=
+ =?utf-8?B?VjEyNGdkOGJNd2pZaTNwcnFFRWt2eEJQejFob2g0RWdmV1hIRzVZT0dQYXE4?=
+ =?utf-8?B?cko0cW5XQkZtMmhUR2Fsc2E3SGJES1B4VUQ2OUVwZDcwOEZleWNtczlDQ1hT?=
+ =?utf-8?B?UW1YY2NYZ2VEL0NnOCtZbFRRSmdkbzN0Y1ZMMEhwd3VhaWVmTlBVem5SbGxO?=
+ =?utf-8?B?Q0QyM1I4NVNVaEZlbWk2bmhNTUowU1hxbTlPTGFDa3J1ZEx0S1R6WG1rYnhj?=
+ =?utf-8?B?N3pvSkNkL29hNElwekxRbmNnSEdDZ3JVMmlETEs1a0xyTXY2amMwR3F0WmRx?=
+ =?utf-8?B?TWxLb2ZzQ0REeVp5TDlPeFduaWo3T0lhaThmVnNPVFkzWEV3N1VHTFlyQ2NO?=
+ =?utf-8?B?ZFVKOE4waVVaREx5NkE1TXdPd25VbXo1bTRCUVoyUUNndmtMYW9idTUrMWRC?=
+ =?utf-8?B?K28xU3VCdzZHbmpDY3U3ZXZzN0RFT1lNWFUwK2tESno0Mk9vMzhHdVZpcmUy?=
+ =?utf-8?B?cTdYUWtOZEhnZGczTWUzbmV4cGpGZjhLVVlsUjdEMHpmK0J2Q3B2b0JPZWZJ?=
+ =?utf-8?B?SUJQTksvQ3AxWTIzTWxsVUR6cjdHSm0zTDJ5VjRnUncwdVRtYlQzUzNDbVV5?=
+ =?utf-8?B?NDlRK2U5S211RnV1U296Y2txN2dHamxSU1RTSjBnZnpKUlEyUlhob3UzRC9O?=
+ =?utf-8?B?MUZ0YUZjclFhNDF6QnNtQmtIRXorVVJkdXNtaUpGdUI4ZVB6UlZYd0ZsWEd3?=
+ =?utf-8?B?OCthNysyUGV1djduYkJSWlIvbzJUTDlZcFVETkM5cWlLSDRXYS9IVERJWXVz?=
+ =?utf-8?B?ZGpqdjNrelArOWYwd2dnVXNwSVdrZlRTTS8yZUdwdWc2dGJTREZldkJHODRG?=
+ =?utf-8?B?UENrSzRNTzhYeFpsY1lvbWFRTG9jNnVCR3F3Y0xoamZJS0kyZW5FeUl2UUR1?=
+ =?utf-8?B?TzN5VGRiUGpBUDNVK2lLTzhsVzVnMUJrSGNCSHh0azcvN1dmL3B3ZDdCa2xj?=
+ =?utf-8?B?S0EvM2VUL2Rnb2RNMGhIZWFmUm50UTEzdDZwbE1sVmdQNDByTnl0OGZ2dk9m?=
+ =?utf-8?B?b2lZWm1YRXFNZWp6ajd5L0JOL3RNZUdMMFVrOTVKOHcxeHR3bm5XK2ptTEZG?=
+ =?utf-8?B?enk3UkVkSTRGU3RHMVVZYndid2VsdEVqU3FSUERLQnBEQnNNUGZndW52M2Ru?=
+ =?utf-8?B?eldGU095cDdUZUlkQ1I4NXJrbkZMbHM4cUFaQVAxdXFOMUpxNnhYbG9wRnk3?=
+ =?utf-8?B?ZjVpbTFIOFVGOXZuYWN4Nkh1TWlrSTBrZzczVXhlMW1jTDhSbWEvc0hYN0Fy?=
+ =?utf-8?B?TC9sU1RPZTZNQnI2L2lzZm1UamNka3FTbUZrZEhhcW9yTHBHM1pIa3FXQjJ0?=
+ =?utf-8?B?ZGxOWWtsMjNjWEJ4d0E0dFVLeHhMTk5IWW02YmduTjIxaVEwVzNYT2FLdFR3?=
+ =?utf-8?B?TXJLaCtucml3M05wUGZsbEpVSXA5RTFnd0hEMitRSjl1T1FZa0RXdUtlbkhv?=
+ =?utf-8?B?SWlKcjlIRGptbldyaldSUWVENEtBbXc2UG1adzdkWHFBN251Tk9wLzF1eU44?=
+ =?utf-8?B?Y3BwNFZFcnQvMXFuTHBwRWNwUDJLa2g4eTN5cEtsb1pNblIxS0s0US9DVVFL?=
+ =?utf-8?B?bkYxSGtyTm9mT053RGN0NTI0bHA4SkFaTUh2MVh4RXJoa2d3eUh4dHRxZStl?=
+ =?utf-8?B?Q1p3VSt1KzFldGhlcHVVL2NRaUpwU3p6Y0kycy9jWWlrS3RmTmhhejJ5L09W?=
+ =?utf-8?B?K2x1RENvTjc5Y0NGMkhxRmlVUk4wamp2Q3ZQUndDdlZVOGg4RVk3TnJuZmw0?=
+ =?utf-8?B?cHhQa3kzUnJ2c2s1S082bGtsRlluUUEzWFJFL25sbVBMSWticUN4MXVqQVJq?=
+ =?utf-8?B?dVhuV3FXSXdGbTM0Wk1rT29IczZtU284ZG9odlB2R3VVMXlBRlpwUDFURlVZ?=
+ =?utf-8?B?Z1BmSEVwSGtqa0gxUHpoVkt2V0o4c1pSVTNxWDZiT29YVjVwcVpMYjMrVXhZ?=
+ =?utf-8?B?K3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b21fdb6-ce5b-4fdc-8332-08dba8b64b99
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 17:34:27.1738 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 17:35:11.0363 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oxfNgJc7GcmLeHFwwQ1QbwQw9fTxchJuqkyoHTmCRgPwa50RwvZ5DFrycYT1pTDy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5027
+X-MS-Exchange-CrossTenant-UserPrincipalName: lnbQZ41V+Ie/tz5QtwRf5CkLcraH5soCYoMJZnX4AX/i5B5GSDUTdByOJOc5oTlfAEMe2bBjcQ2WgtaSsif+PltpuKeQRMuJ0IrWhg+Bz9Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4660
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,194 +158,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Wilcox <willy@infradead.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- James Zhu <James.Zhu@amd.com>, Oded Gabbay <ogabbay@kernel.org>
+Cc: daniel.vetter@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Aug 29, 2023 at 12:30:01PM -0400, Rodrigo Vivi wrote:
+>Also the uapi should be reviewed and scrutinized before xe
+>is accepted upstream and we shouldn't cause regression.
+>
+>Link: https://lore.kernel.org/all/20230630100059.122881-1-thomas.hellstrom@linux.intel.com
+>Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-On 2023-08-28 17:08, Michał Winiarski wrote:
-> On Fri, Aug 25, 2023 at 12:59:26PM -0400, James Zhu wrote:
->> On 2023-07-24 17:14, Michał Winiarski wrote:
->>> IDR is deprecated, and since XArray manages its own state with internal
->>> locking, it simplifies the locking on DRM side.
->>> Additionally, don't use the IRQ-safe variant, since operating on drm
->>> minor is not done in IRQ context.
->>>
->>> Signed-off-by: Michał Winiarski<michal.winiarski@intel.com>
->>> Suggested-by: Matthew Wilcox<willy@infradead.org>
->>> ---
->>>    drivers/gpu/drm/drm_drv.c | 63 ++++++++++++++++-----------------------
->>>    1 file changed, 25 insertions(+), 38 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>> index 3eda026ffac6..3faecb01186f 100644
->>> --- a/drivers/gpu/drm/drm_drv.c
->>> +++ b/drivers/gpu/drm/drm_drv.c
->>> @@ -34,6 +34,7 @@
->>>    #include <linux/pseudo_fs.h>
->>>    #include <linux/slab.h>
->>>    #include <linux/srcu.h>
->>> +#include <linux/xarray.h>
->>>    #include <drm/drm_accel.h>
->>>    #include <drm/drm_cache.h>
->>> @@ -54,8 +55,7 @@ MODULE_AUTHOR("Gareth Hughes, Leif Delgass, José Fonseca, Jon Smirl");
->>>    MODULE_DESCRIPTION("DRM shared core routines");
->>>    MODULE_LICENSE("GPL and additional rights");
->>> -static DEFINE_SPINLOCK(drm_minor_lock);
->>> -static struct idr drm_minors_idr;
->>> +static DEFINE_XARRAY_ALLOC(drm_minors_xa);
->>>    /*
->>>     * If the drm core fails to init for whatever reason,
->>> @@ -101,26 +101,23 @@ static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
->>>    static void drm_minor_alloc_release(struct drm_device *dev, void *data)
->>>    {
->>>    	struct drm_minor *minor = data;
->>> -	unsigned long flags;
->>>    	WARN_ON(dev != minor->dev);
->>>    	put_device(minor->kdev);
->>> -	if (minor->type == DRM_MINOR_ACCEL) {
->>> +	if (minor->type == DRM_MINOR_ACCEL)
->>>    		accel_minor_remove(minor->index);
->>> -	} else {
->>> -		spin_lock_irqsave(&drm_minor_lock, flags);
->>> -		idr_remove(&drm_minors_idr, minor->index);
->>> -		spin_unlock_irqrestore(&drm_minor_lock, flags);
->>> -	}
->>> +	else
->>> +		xa_erase(&drm_minors_xa, minor->index);
->>>    }
->>> +#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t = (t); XA_LIMIT(64 * _t, 64 * _t + 63); })
->>> +
->>>    static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
->>>    {
->>>    	struct drm_minor *minor;
->>> -	unsigned long flags;
->>> -	int r;
->>> +	int index, r;
->>>    	minor = drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
->>>    	if (!minor)
->>> @@ -129,24 +126,17 @@ static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
->>>    	minor->type = type;
->>>    	minor->dev = dev;
->>> -	idr_preload(GFP_KERNEL);
->>>    	if (type == DRM_MINOR_ACCEL) {
->>>    		r = accel_minor_alloc();
->>> +		index = r;
->>>    	} else {
->>> -		spin_lock_irqsave(&drm_minor_lock, flags);
->>> -		r = idr_alloc(&drm_minors_idr,
->>> -			NULL,
->>> -			64 * type,
->>> -			64 * (type + 1),
->>> -			GFP_NOWAIT);
->>> -		spin_unlock_irqrestore(&drm_minor_lock, flags);
->>> +		r = xa_alloc(&drm_minors_xa, &index, NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
->>>    	}
->>> -	idr_preload_end();
->>>    	if (r < 0)
->>>    		return r;
->>> -	minor->index = r;
->>> +	minor->index = index;
->>>    	r = drmm_add_action_or_reset(dev, drm_minor_alloc_release, minor);
->>>    	if (r)
->>> @@ -163,7 +153,7 @@ static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
->>>    static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
->>>    {
->>>    	struct drm_minor *minor;
->>> -	unsigned long flags;
->>> +	void *entry;
->>>    	int ret;
->>>    	DRM_DEBUG("\n");
->>> @@ -190,9 +180,12 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
->>>    	if (minor->type == DRM_MINOR_ACCEL) {
->>>    		accel_minor_replace(minor, minor->index);
->>>    	} else {
->>> -		spin_lock_irqsave(&drm_minor_lock, flags);
->>> -		idr_replace(&drm_minors_idr, minor, minor->index);
->>> -		spin_unlock_irqrestore(&drm_minor_lock, flags);
->>> +		entry = xa_store(&drm_minors_xa, minor->index, minor, GFP_KERNEL);
->>> +		if (xa_is_err(entry)) {
->>> +			ret = xa_err(entry);
->>> +			goto err_debugfs;
->>> +		}
->>> +		WARN_ON(entry);
->> [JZ] would WARN_ON(entry != minor)be better?
-> We expect NULL here.
-> The same one that was previously stored here ⌄⌄⌄
-> r = xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_EXTENDED_MINOR_LIMIT, GFP_KERNEL);
-> in drm_minor_alloc.
-[JZ] My mistake.
+Agreed. The STAGING config is something specifically for drivers/staging
+as noted in the previous discussion. If other subsystems want to re-use
+it, then there would be more to do to cause a taint.  It could also be
+confusing to cause that taint for drivers outside drivers/staging.
+
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Lucas De Marchi
+
+>---
+> Documentation/gpu/rfc/xe.rst | 6 ------
+> 1 file changed, 6 deletions(-)
 >
->>>    	}
->>>    	DRM_DEBUG("new minor registered %d\n", minor->index);
->>> @@ -206,20 +199,16 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
->>>    static void drm_minor_unregister(struct drm_device *dev, enum drm_minor_type type)
->>>    {
->>>    	struct drm_minor *minor;
->>> -	unsigned long flags;
->>>    	minor = *drm_minor_get_slot(dev, type);
->>>    	if (!minor || !device_is_registered(minor->kdev))
->>>    		return;
->>>    	/* replace @minor with NULL so lookups will fail from now on */
->>> -	if (minor->type == DRM_MINOR_ACCEL) {
->>> +	if (minor->type == DRM_MINOR_ACCEL)
->>>    		accel_minor_replace(NULL, minor->index);
->>> -	} else {
->>> -		spin_lock_irqsave(&drm_minor_lock, flags);
->>> -		idr_replace(&drm_minors_idr, NULL, minor->index);
->>> -		spin_unlock_irqrestore(&drm_minor_lock, flags);
->>> -	}
->>> +	else
->>> +		xa_store(&drm_minors_xa, minor->index, NULL, GFP_KERNEL);
->>>    	device_del(minor->kdev);
->>>    	dev_set_drvdata(minor->kdev, NULL); /* safety belt */
->>> @@ -238,13 +227,12 @@ static void drm_minor_unregister(struct drm_device *dev, enum drm_minor_type typ
->>>    struct drm_minor *drm_minor_acquire(unsigned int minor_id)
->>>    {
->>>    	struct drm_minor *minor;
->>> -	unsigned long flags;
->>> -	spin_lock_irqsave(&drm_minor_lock, flags);
->>> -	minor = idr_find(&drm_minors_idr, minor_id);
->>> +	xa_lock(&drm_minors_xa);
->>> +	minor = xa_load(&drm_minors_xa, minor_id);
->>>    	if (minor)
->>>    		drm_dev_get(minor->dev);
->> [JZ] why minor->dev need ca_lock here?
-> We're relying on the ordering for acquire/release (previously
-> guaranteed by the drm_minor_lock, now by internal XArray locking).
-> xa_load doesn't take xa_lock internally:
-> https://docs.kernel.org/core-api/xarray.html#locking
-[JZ] I means that drm_dev_get(minor->dev); can move out of xa_lock.
->>> -	spin_unlock_irqrestore(&drm_minor_lock, flags);
->>> +	xa_unlock(&drm_minors_xa);
->>>    	if (!minor) {
->>>    		return ERR_PTR(-ENODEV);
->>> @@ -1067,7 +1055,7 @@ static void drm_core_exit(void)
->>>    	unregister_chrdev(DRM_MAJOR, "drm");
->>>    	debugfs_remove(drm_debugfs_root);
->>>    	drm_sysfs_destroy();
->>> -	idr_destroy(&drm_minors_idr);
->> [JZ] Should we call xa_destroy instead here?
-> We could, if we expect the xarray to potentially not be empty.
->  From what I understand - all minors should be released at this point.
-[JZ] In practice,  adding destroy here will be better.
+>diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+>index 2516fe141db6..3d2181bf3dad 100644
+>--- a/Documentation/gpu/rfc/xe.rst
+>+++ b/Documentation/gpu/rfc/xe.rst
+>@@ -67,12 +67,6 @@ platforms.
 >
-> Thanks,
-> -Michał
+> When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
 >
->>> +	WARN_ON(!xa_empty(&drm_minors_xa));
->>>    	drm_connector_ida_destroy();
->>>    }
->>> @@ -1076,7 +1064,6 @@ static int __init drm_core_init(void)
->>>    	int ret;
->>>    	drm_connector_ida_init();
->>> -	idr_init(&drm_minors_idr);
->>>    	drm_memcpy_init_early();
->>>    	ret = drm_sysfs_init();
+>-Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
+>-the uAPI are expected while the driver is behind these protections. STAGING will
+>-be removed when the driver uAPI gets to a mature state where we can guarantee the
+>-‘no regression’ rule. Then force_probe will be lifted only for future platforms
+>-that will be productized with Xe driver, but not with i915.
+>-
+> Xe – Pre-Merge Goals
+> ====================
+>
+>-- 
+>2.41.0
+>
