@@ -1,78 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0D978C84E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B587378C884
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAE010E126;
-	Tue, 29 Aug 2023 15:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6665710E39C;
+	Tue, 29 Aug 2023 15:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6121310E394
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 15:10:35 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37TBkjRb021462; Tue, 29 Aug 2023 15:10:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=cU2tL0JEIYpbB3kKTlPCp9uXA5N+i56QrqVX0XA9geE=;
- b=F/IagfGKAYc9eVF4hVAfIUmL2odSfDrhNDAqcL4uSPW4kxU7O3h3Gmc+IZ84Rg/jFjAY
- cd2ZEj+hnUSL2PTRz9GndY+LvWclkFyY270bbJi03QaGRVovvWriSRiJK+FkhYK/Tz+N
- eMWoJpztwBuGKng1RkOkAoV7pHSFDLfIG4zYoAhJ0wEFpSvqXpFt2gen1p1VDX25oPW7
- d5NkOO8qI3Z6tWEj2stcCBDGNqP4YjFJo0U3gQKvQnqWMrIzGws4HNYrjl8Syu9Ob/KI
- H4U/MHxXYqq7fTuMctNc8Prhz1b59E51fz+WGWSITpve0YT21dReBbn5ivhXWgdSbNo2 uA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss7mesrjx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 15:10:31 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TFAVXa024018
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Aug 2023 15:10:31 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
- 2023 08:10:30 -0700
-Message-ID: <7fe1f725-9ca9-d407-d1af-2d31dc676fb0@quicinc.com>
-Date: Tue, 29 Aug 2023 09:10:29 -0600
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4896410E381
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 15:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693322643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FoaczId3AvxtRQ59qXDITQKv68yeRo4BI+wVycOHI1I=;
+ b=MXZtJsnSaBuRPihZmyUB8ueFYI7Rcbh1iFk2hW1acWuT0u6Nk8c29zxsVv4PoRRZEPJnlK
+ tsn9HEaBzMHs2XZ9eOPVygUM7UHBnJNaWo0M5bJrhYKlGkHP6nBmgeTt8rjTkbQcxiPMuF
+ lN2xRFvs4KoWdW+sX/oGQWRDQNo0sAg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-WUlZb0cZNPSG_y_edzh_Ww-1; Tue, 29 Aug 2023 11:24:02 -0400
+X-MC-Unique: WUlZb0cZNPSG_y_edzh_Ww-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-31ade95a897so3122043f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 08:24:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693322640; x=1693927440;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FoaczId3AvxtRQ59qXDITQKv68yeRo4BI+wVycOHI1I=;
+ b=Tk9bJWoaslQkiKAC9vUkRDQu0FibPs4oOWxaabOYD6kgwv4C+zMTqthwQ8Ootus8Tg
+ tmIy+LRhJfdtWrgstXAC80j9mFP2ly+kuRWfrgnECMVSLBOGedAD7jGd500kUqEonz1D
+ h0JGiO4nfyXCAkgp7YUue4Td/P0O3z6KZvpJMa/i8U3Mj3Zfq1gehrmj5TOXLohnMfOE
+ xnunBU1cW0xmzZQ+ntjMlOex7EtisnMERxoW5uClh4gHhU8y7QjtCh2554efxY6W52ew
+ PpkUlCeEGklVRWPvAXQj/x0mUozIThHea40quhg7WJe7hQxUuD2IbhBmWtESagvJ3lob
+ +N3w==
+X-Gm-Message-State: AOJu0Yy1aVy/IvTntvybvV3ugXCSPmg65Sgtnw5Ip8USlijg85FSFKyO
+ c8LtcOdSYCqOtcEAGUp1HlVF/urSW3eV3rjRh7JFv6LV5ax1K7MbzcIEh2U4S7sjs0lHOW7+TMF
+ wa8N4a6ZQbXpxpifoSl/o4w3d7lC6
+X-Received: by 2002:a5d:6382:0:b0:319:8bd0:d18c with SMTP id
+ p2-20020a5d6382000000b003198bd0d18cmr20827086wru.52.1693322639817; 
+ Tue, 29 Aug 2023 08:23:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHKM/5RUEdU2op+akf1dybSWYcX+o2Dy79eBZvWDH3TVPUJBRVekfDfrKKa2F8dNkARcvLkrQ==
+X-Received: by 2002:a5d:6382:0:b0:319:8bd0:d18c with SMTP id
+ p2-20020a5d6382000000b003198bd0d18cmr20827053wru.52.1693322639416; 
+ Tue, 29 Aug 2023 08:23:59 -0700 (PDT)
+Received: from toolbox ([2001:9e8:898c:cd00:3d7e:40e1:d773:8f52])
+ by smtp.gmail.com with ESMTPSA id
+ y4-20020a5d6144000000b00316eb7770b8sm14208017wrt.5.2023.08.29.08.23.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Aug 2023 08:23:59 -0700 (PDT)
+Date: Tue, 29 Aug 2023 17:23:57 +0200
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH RFC v6 02/10] drm: Introduce solid fill DRM plane property
+Message-ID: <20230829152250.GA258687@toolbox>
+References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
+ <20230828-solid-fill-v6-2-a820efcce852@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 5/9] accel/ivpu: Move ivpu_fw_load() to ivpu_fw_init()
-Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-References: <20230828094736.4137092-1-stanislaw.gruszka@linux.intel.com>
- <20230828094736.4137092-6-stanislaw.gruszka@linux.intel.com>
- <c1dcb25e-5a8a-9d25-deb5-81a81af16726@quicinc.com>
- <20230829111204.GB4086697@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230829111204.GB4086697@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Fm61RlSHfFuVjfwMTp893XP-nwod9C9q
-X-Proofpoint-GUID: Fm61RlSHfFuVjfwMTp893XP-nwod9C9q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_13,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- bulkscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- mlxlogscore=999 phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2308290132
+In-Reply-To: <20230828-solid-fill-v6-2-a820efcce852@quicinc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,33 +82,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ ppaalanen@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/29/2023 5:12 AM, Stanislaw Gruszka wrote:
-> Hi
+On Mon, Aug 28, 2023 at 05:05:08PM -0700, Jessica Zhang wrote:
+> Document and add support for solid_fill property to drm_plane. In
+> addition, add support for setting and getting the values for solid_fill.
 > 
-> On Mon, Aug 28, 2023 at 02:49:34PM -0600, Jeffrey Hugo wrote:
->> On 8/28/2023 3:47 AM, Stanislaw Gruszka wrote:
->>> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
->>> index 8567fdf925fe..10ae2847f0ef 100644
->>> --- a/drivers/accel/ivpu/ivpu_fw.h
->>> +++ b/drivers/accel/ivpu/ivpu_fw.h
->>> @@ -31,7 +31,7 @@ struct ivpu_fw_info {
->>>    int ivpu_fw_init(struct ivpu_device *vdev);
->>>    void ivpu_fw_fini(struct ivpu_device *vdev);
->>> -int ivpu_fw_load(struct ivpu_device *vdev);
->>> +void ivpu_fw_load(struct ivpu_device *vdev);
->>
->> If ivpu_fw_load() is defined in ivpu_fw.c and only used in ivpu_fw.c, do you
->> need it in this header file anymore?  Seems like you could remove this, and
->> also make the function static.
+> To enable solid fill planes, userspace must assign a property blob to
+> the "solid_fill" plane property containing the following information:
 > 
-> The function is also used in ivpu_pm_prepare_cold_boot() from ivpu_pm.c
+> struct drm_mode_solid_fill {
+> 	u32 r, g, b;
+> };
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  9 ++++++++
+>  drivers/gpu/drm/drm_atomic_uapi.c         | 26 ++++++++++++++++++++++
+>  drivers/gpu/drm/drm_blend.c               | 30 ++++++++++++++++++++++++++
+>  include/drm/drm_blend.h                   |  1 +
+>  include/drm/drm_plane.h                   | 36 +++++++++++++++++++++++++++++++
+>  include/uapi/drm/drm_mode.h               | 24 +++++++++++++++++++++
+>  6 files changed, 126 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 01638c51ce0a..86fb876efbe6 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -254,6 +254,11 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+>  	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
+>  	plane_state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
+>  
+> +	if (plane_state->solid_fill_blob) {
+> +		drm_property_blob_put(plane_state->solid_fill_blob);
+> +		plane_state->solid_fill_blob = NULL;
+> +	}
+> +
+>  	if (plane->color_encoding_property) {
+>  		if (!drm_object_property_get_default_value(&plane->base,
+>  							   plane->color_encoding_property,
+> @@ -336,6 +341,9 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
+>  	if (state->fb)
+>  		drm_framebuffer_get(state->fb);
+>  
+> +	if (state->solid_fill_blob)
+> +		drm_property_blob_get(state->solid_fill_blob);
+> +
+>  	state->fence = NULL;
+>  	state->commit = NULL;
+>  	state->fb_damage_clips = NULL;
+> @@ -385,6 +393,7 @@ void __drm_atomic_helper_plane_destroy_state(struct drm_plane_state *state)
+>  		drm_crtc_commit_put(state->commit);
+>  
+>  	drm_property_blob_put(state->fb_damage_clips);
+> +	drm_property_blob_put(state->solid_fill_blob);
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_plane_destroy_state);
+>  
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 454f980e16c9..1cae596ab693 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -316,6 +316,20 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_set_crtc_for_connector);
+>  
+> +static void drm_atomic_set_solid_fill_prop(struct drm_plane_state *state)
+> +{
+> +	struct drm_mode_solid_fill *user_info;
+> +
+> +	if (!state->solid_fill_blob)
+> +		return;
+> +
+> +	user_info = (struct drm_mode_solid_fill *)state->solid_fill_blob->data;
+> +
+> +	state->solid_fill.r = user_info->r;
+> +	state->solid_fill.g = user_info->g;
+> +	state->solid_fill.b = user_info->b;
+> +}
+> +
+>  static void set_out_fence_for_crtc(struct drm_atomic_state *state,
+>  				   struct drm_crtc *crtc, s32 __user *fence_ptr)
+>  {
+> @@ -546,6 +560,15 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+>  		state->src_h = val;
+>  	} else if (property == plane->pixel_source_property) {
+>  		state->pixel_source = val;
+> +	} else if (property == plane->solid_fill_property) {
+> +		ret = drm_atomic_replace_property_blob_from_id(dev,
+> +				&state->solid_fill_blob,
+> +				val, sizeof(struct drm_mode_solid_fill),
+> +				-1, &replaced);
+> +		if (ret)
+> +			return ret;
+> +
+> +		drm_atomic_set_solid_fill_prop(state);
+>  	} else if (property == plane->alpha_property) {
+>  		state->alpha = val;
+>  	} else if (property == plane->blend_mode_property) {
+> @@ -620,6 +643,9 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+>  		*val = state->src_h;
+>  	} else if (property == plane->pixel_source_property) {
+>  		*val = state->pixel_source;
+> +	} else if (property == plane->solid_fill_property) {
+> +		*val = state->solid_fill_blob ?
+> +			state->solid_fill_blob->base.id : 0;
+>  	} else if (property == plane->alpha_property) {
+>  		*val = state->alpha;
+>  	} else if (property == plane->blend_mode_property) {
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index c3c57bae06b7..273021cc21c8 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -200,6 +200,10 @@
+>   *	"FB":
+>   *		Framebuffer source set by the "FB_ID" property.
+>   *
+> + * solid_fill:
+> + *	solid_fill is set up with drm_plane_create_solid_fill_property(). It
+> + *	contains pixel data that drivers can use to fill a plane.
+> + *
+>   * Note that all the property extensions described here apply either to the
+>   * plane or the CRTC (e.g. for the background color, which currently is not
+>   * exposed and assumed to be black).
+> @@ -705,3 +709,29 @@ int drm_plane_create_pixel_source_property(struct drm_plane *plane,
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_plane_create_pixel_source_property);
+> +
+> +/**
+> + * drm_plane_create_solid_fill_property - create a new solid_fill property
+> + * @plane: drm plane
+> + *
+> + * This creates a new property blob that holds pixel data for solid fill planes.
+> + * The property is exposed to userspace as a property blob called "solid_fill".
+> + *
+> + * For information on what the blob contains, see `drm_mode_solid_fill`.
+> + */
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane)
+> +{
+> +	struct drm_property *prop;
+> +
+> +	prop = drm_property_create(plane->dev,
+> +			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
+> +			"solid_fill", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +	plane->solid_fill_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_solid_fill_property);
+> diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+> index 122bbfbaae33..e7158fbee389 100644
+> --- a/include/drm/drm_blend.h
+> +++ b/include/drm/drm_blend.h
+> @@ -60,4 +60,5 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+>  					 unsigned int supported_modes);
+>  int drm_plane_create_pixel_source_property(struct drm_plane *plane,
+>  					   unsigned long extra_sources);
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane);
+>  #endif
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 89508b4dea4a..a38e18bfb43e 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -46,6 +46,18 @@ enum drm_plane_pixel_source {
+>  	DRM_PLANE_PIXEL_SOURCE_MAX
+>  };
+>  
+> +/**
+> + * struct solid_fill_property - RGB values for solid fill plane
+> + *
+> + * TODO: Add solid fill source and corresponding pixel source
+> + *       that supports RGBA color
+> + */
+> +struct drm_solid_fill {
+> +	uint32_t r;
+> +	uint32_t g;
+> +	uint32_t b;
+> +};
+> +
+>  /**
+>   * struct drm_plane_state - mutable plane state
+>   *
+> @@ -130,6 +142,23 @@ struct drm_plane_state {
+>  	 */
+>  	enum drm_plane_pixel_source pixel_source;
+>  
+> +	/**
+> +	 * @solid_fill_blob:
+> +	 *
+> +	 * Blob containing relevant information for a solid fill plane
+> +	 * including pixel format and data. See
 
-Ah.  Missed that.
+Pixel format is not part of the blob anymore.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_property_blob *solid_fill_blob;
+> +
+> +	/**
+> +	 * @solid_fill:
+> +	 *
+> +	 * Pixel data for solid fill planes. See
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_solid_fill solid_fill;
+> +
+>  	/**
+>  	 * @alpha:
+>  	 * Opacity of the plane with 0 as completely transparent and 0xffff as
+> @@ -720,6 +749,13 @@ struct drm_plane {
+>  	 */
+>  	struct drm_property *pixel_source_property;
+>  
+> +	/**
+> +	 * @solid_fill_property:
+> +	 * Optional solid_fill property for this plane. See
+> +	 * drm_plane_create_solid_fill_property().
+> +	 */
+> +	struct drm_property *solid_fill_property;
+> +
+>  	/**
+>  	 * @alpha_property:
+>  	 * Optional alpha property for this plane. See
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 43691058d28f..1fd92886d66c 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -259,6 +259,30 @@ struct drm_mode_modeinfo {
+>  	char name[DRM_DISPLAY_MODE_LEN];
+>  };
+>  
+> +/**
+> + * struct drm_mode_solid_fill - User info for solid fill planes
+> + *
+> + * This is the userspace API solid fill information structure.
+> + *
+> + * Userspace can enable solid fill planes by assigning the plane "solid_fill"
+> + * property to a blob containing a single drm_mode_solid_fill struct populated with an RGB323232
+> + * color and setting the pixel source to "SOLID_FILL".
+> + *
+> + * For information on the plane property, see drm_plane_create_solid_fill_property()
+> + *
+> + * @r: Red color value of single pixel
+> + * @g: Green color value of single pixel
+> + * @b: Blue color value of single pixel
+> + * @pad: padding
+> + */
+> +struct drm_mode_solid_fill {
+> +	__u32 r;
+> +	__u32 g;
+> +	__u32 b;
+> +	__u32 pad;
+> +};
+> +
+> +
+>  struct drm_mode_card_res {
+>  	__u64 fb_id_ptr;
+>  	__u64 crtc_id_ptr;
+> 
+> -- 
+> 2.42.0
+> 
+
