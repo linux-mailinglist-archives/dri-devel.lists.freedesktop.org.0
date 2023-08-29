@@ -2,47 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABFC78C6A6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 16:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C97D78C6AF
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 16:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63CC710E261;
-	Tue, 29 Aug 2023 14:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9B610E10D;
+	Tue, 29 Aug 2023 14:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11CF689048
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:00:40 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5A07B660721F;
- Tue, 29 Aug 2023 15:00:38 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693317638;
- bh=yGAXhIsBMu9nXTckikDhgdSqeFgt9GFArJSB9S3lS9A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nj9rF5Z5PnWK+ERc3zVlcI57Gkz/BktM5wdYgFy4xgey+JP5FZ4SwkeF3RMj0ZPg7
- QOJqgTHPyPmXId0aHPb/dDcT6uuhze3rgzksj1csq0matbBRo4Vo+NRL3p50Nc4yZJ
- 8BByfQqpL2sodqwTMoYsQQtzuYCz97/7WinR4TxJsU/z5WZI7OTGy6rW9b0Vh4lwL/
- S4Ibiz0rbs2Iz55gp7vhDhhB25mDdIZEhH1YbQxbxQ3ak/tgYjmvD/qcWBcB4EWld+
- iFKGjE/JphlMOQhdCK/Fp3xUuHLC9jFN3YYIyKuucrzEsbKcfJIb3WRTh8Sp78czdh
- HH/VarKhIx/ww==
-Date: Tue, 29 Aug 2023 16:00:35 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 04/15] drm/panthor: Add the device logical block
-Message-ID: <20230829160035.1992834b@collabora.com>
-In-Reply-To: <73cbc1ea-5e2e-b201-b717-4ceef37e490d@arm.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-5-boris.brezillon@collabora.com>
- <73cbc1ea-5e2e-b201-b717-4ceef37e490d@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on20729.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:700c::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA98310E278
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:00:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ldYFGLlgvimdyqwZxAckWQENhK4xgIUHQuslEqxI65+u4/geBdVi+If7y0qfX9IGvDiA5SUVcOhodg1Lwkud61YZHqnacQZnmGa9rD2Ip+Fdz6O/A+nFmmXmcnonfq2SPJhUSOEk4s+kzacldIM+pU2O4a/M5kD8HcK+7CnJMpFl403tbQTdC9nbPBzxfqGfrlEzZh8i/H+zww8BZklUeaPD5oUIC83S+FuR4ErDa/Ptni5oVA+QjQzr/M26/qzzd8ETXMRy5lJq0xGeuc7mpLcQFBCWQfxuyHAj9n+xspLfYjCjRWXvqzBFxWlEjGbLa3I1LmkU1b+apeWtcNqQmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kKP+PGdqWQwyCb9wTxaHFi9xoRB4ZpaPwqpyjThFuHw=;
+ b=N5HH1cRWHbbzwjOoHhrDrLlle5M+pRIqkGeumi7iRF3nQ2ppz8iproFx/4wBgF2nekO88J0uQhHpkTIKA1L5s2NUL709vIYH8Whwg15WbP2ouPbZ8XckckfGnJXeXH0shPwIy7Hj/9jP6Jiz7QEG9AwH+0oDDJLwRMhHwuuzV2PB/FPy+bfrpITeMfKC7GH0r1fEV4u4tct5AmkiKcoK/3w8w1KqvR0ZY+p1SSkCgDC8uWJ5hP415keyn8Lri1oeaPK+5+AzlEQ/kkYJXXMDHL94xYlPeTjYjOt2kD3ZS1eFTszJZc5020qUOm8LWYxoy6HG1etRfm8y5I/hWA5CUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kKP+PGdqWQwyCb9wTxaHFi9xoRB4ZpaPwqpyjThFuHw=;
+ b=UvJNjXK7LG2UAWShoFmVCFSq2v5slgMOhS5o13a7M/Ldwi9dw5ZLbbWDaOv3ypS+JnAATwsCt0TwBTRd0YTlX020W18Q8z14d9xMC8TpnIA61Wv/fwjLYIdW+k2oi0xnYW3Dt2QhLu+B1fSKBQSzIHi3qnVL94EMD6Y/MDTtUFg=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYWPR01MB11465.jpnprd01.prod.outlook.com (2603:1096:400:402::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Tue, 29 Aug
+ 2023 14:00:43 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706%5]) with mapi id 15.20.6745.015; Tue, 29 Aug 2023
+ 14:00:42 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH 1/7] drm: adv7511: Add struct adv7511_chip_info and use
+ i2c_get_match_data()
+Thread-Topic: [PATCH 1/7] drm: adv7511: Add struct adv7511_chip_info and use
+ i2c_get_match_data()
+Thread-Index: AQHZzhC+/d3P9KeN80a53jyYGzu6ArAA9vqAgABt6AA=
+Date: Tue, 29 Aug 2023 14:00:42 +0000
+Message-ID: <OS0PR01MB59228A1BFF25531B7D95E1EB86E7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
+ <20230813180512.307418-2-biju.das.jz@bp.renesas.com>
+ <20230829072223.GK17083@pendragon.ideasonboard.com>
+In-Reply-To: <20230829072223.GK17083@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB11465:EE_
+x-ms-office365-filtering-correlation-id: a54d2b18-8514-48d8-e3b1-08dba89855b3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 65Zqx2Rq+AW2XkMY3KiQRiO77UedsUCahFvpEPvBV35hBe89wYYM+D9ZOIzc30EGrWEhvAU2kRj5k7x4Bsd3i1uf0J868oICDxzopaJR/w3MnrlzmoEME8EbVwce1vXAXaOg9EhyGKKTc2OXGn5tqNhW/jz5K4QrF2ykrVkLA2f2V8mS2lSbuu4ev3kxJ3NuHvamYb8FZ0pacC+c7ACpkj57HZkBGCzgtj2GNuSFw3S26kqqJbLU8vwprF9WUg9kbPtrxzfukDYpP2Dmnm5ww7lo6uHKv4qEUIDF2KHu/4nXYJOJnvKNEDeES+s+//wHRT27k6cUk5jXlRICQHB45HtkTRFkMzsqz9QqJqNggJA3Xlra3faERBVjNZH2ujfaz6RnpvgQtSytqb/inf6N9Lb6MpFqc5V+jSDDLnAce5+DJPxzGtQIOGT/dTRZc5K0kUFJasF/MMop/wvszvn0jKsvlmt9QrFBNpcHApek/BU+EydFYBYyTXRNGWxgFrBwKCGfOMBT5ml+e/LJA9KncG2+Rn5nuNcTbe/j7WqADm9/5UZlJkmq5QJFvbOxG/Km5XAxGDwuZMmYinKGvv8L4A+ZN56nZfpiF+PSRDkph7X90/S/WUI6P2+PMfpabsfw
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(136003)(366004)(396003)(39860400002)(186009)(1800799009)(451199024)(9686003)(6506007)(7696005)(71200400001)(83380400001)(478600001)(2906002)(76116006)(30864003)(7416002)(6916009)(54906003)(64756008)(316002)(66446008)(8936002)(66946007)(66476007)(52536014)(66556008)(41300700001)(5660300002)(4326008)(8676002)(33656002)(38070700005)(38100700002)(86362001)(55016003)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VzRTanp1TUNwVTNvb3BycU9zOEpaeGVqWXR3TllEaExmc2UwUWNDM3F5bTZP?=
+ =?utf-8?B?NVk4UmMybmRiK3lFMFJXUlNwWEM2eWUvb093VUlaTno0K2IwQzkzVHk1RnNP?=
+ =?utf-8?B?c0JQMWt0eEFuNldXeVZIUzBMcmkySlRDUEl2OFd6YmVDeStsWEsrZXJ4ekZ1?=
+ =?utf-8?B?L3JEdGFJa3FrVUFvNWhybTJLQk5GdW95Ny9SNWVXaEQ4dm5SMjB6SGkrT2Mv?=
+ =?utf-8?B?K0NLdE5MT0c0dDlPbW9IQmh1dGRKWm5wWi92UjZzakZrVU95eVdSTXhmZkxz?=
+ =?utf-8?B?K2dCZmdTdm4yUnFZTWVBc3E3cDhVUTlpdTc1MWlIc1NCTE1CTFVUbHJvQ2Rh?=
+ =?utf-8?B?SVB3QURsQ2ZXdGZoOStGNXhQZGNrQ3hxcjhMTkQ3Q1NUQzBzZnpacjFFdWJ1?=
+ =?utf-8?B?bVhFY1JqUHA0RmtjbmJrK0VqbUVZbFJzeHhUQ3AzRzJ5MWRkMTg2d1hmRVRt?=
+ =?utf-8?B?RW1LSUpVTkZUTnpzZDVWUWV2VWppSDdHeTAxN0VaVVZTcGpOZzZiaVZjUXZu?=
+ =?utf-8?B?Z0JXNVVxNitycHpQWDVReS9BU0FXMHRSYXErejVRYk1KdkZ5cHZXQXYzV2NN?=
+ =?utf-8?B?ZU1keWQyMTh3aVpXZlJZVXZieFdyaFIrRVZhNWZ2TEFycTMxS0JRVDU3MTF5?=
+ =?utf-8?B?clE2aDkvdk1wcGh1U1JidzVPZmt3eG1iUlFhRXU4ZlFsQ2FLMHdlRmpKU3RS?=
+ =?utf-8?B?b2dsNVFjcXVleDBLdEMzNkVUOHRMOXNCcU1HelZLZmZmZm1hWWF0eHVpNFh5?=
+ =?utf-8?B?bG13Yk10TmliUlVGeHZRenpkZitPTGFBNllLM2E1Q2tVVFFNVTlxbzMxa2FX?=
+ =?utf-8?B?MGl6YWdvdVYrWXY2WXNHQWc3SlVQSGhpRWdMcUJQZ0lHYmRZY2tCUEE2d0dr?=
+ =?utf-8?B?Zm1OUDlINGV5d05rMGxHZHZLWmxFUXNuMFZYOHROaE5iOUVMYUIrZHllWUxC?=
+ =?utf-8?B?RmhoZ3lhUDhVWXErYU5NdU5uaWVTS003ai9mbS9obXpxZzBqSDNFZWpnTm1z?=
+ =?utf-8?B?OVhmUmlFWEtteUgxZ3BwVUFjdE1PNTdHQWxVckFHYWRUUjloOUY0LzduWVpU?=
+ =?utf-8?B?d2t6bERLaEg4WithT3c0TmtSMGpUcXJiL2hVVnN5UTJBcGNTRDVmZHRnOGFW?=
+ =?utf-8?B?M2xtbVMrQ1FWUS8vY25MOFR0Qkl1OGR1Q3FNODF0OXYyNkpXcDZuZTZnbGhn?=
+ =?utf-8?B?bE9XcEtPUGhQZE9UaTZrOTBNbGRqalUrcTNJbHhETkdVbVVSK0kyQnh4MURh?=
+ =?utf-8?B?Vk9kSkNCVTlHL2tWRERmdUhqdVczb2dNZWtSUEZrQUxGMTR1aTlvdmlvNXpy?=
+ =?utf-8?B?eHRQWlZnYWlJdzNNL2tmM1hKNE5HanNVSUZkbG5YdjR1NzlPcWFyOXJ3ZUJh?=
+ =?utf-8?B?Tko5bUc2SzV4TEFPQUR3REw2Z1RkSFE0UjljcUtlQmNFL21pajNxRVlGZVI0?=
+ =?utf-8?B?ZGkrb2V3V3BCMEc1Yi9aMGUvOWx4MHY0ZU9zQmNVYjFqTWkweFlQVGV2czE1?=
+ =?utf-8?B?YTNaMC9PZGV2OE41eHlaV2g1WVdDTkwvbXZ5NWdYUVpHSnVodHVOOG8ySzVN?=
+ =?utf-8?B?K0hTeElWWGh3eHZaeTdydllpRUdtbmZtUlhVZk5SUkRqNXVxeTNlWWMxaTJH?=
+ =?utf-8?B?Zis4dUU4dnNHbWg3elN1emxReDZkc01HcW5UL2RLQXkwem9yVlo4MmZmNXpH?=
+ =?utf-8?B?cHNoVFVCbFQ5aCsxQ05BZTQxL0hXbis4Ny9JaGFod0U5QUV5Q1I5WWZOclM5?=
+ =?utf-8?B?djE5VVhORjFESVNGMkZNSGorR2VvZFRydHFIVGlLNTc0VGRYNytzd05tdmxO?=
+ =?utf-8?B?YmIvRjFlNTJGN1BjOUM2TGJyM0U5MlB0OG9ZWHA1Mm4rOC9SSFhmQnh1UHd4?=
+ =?utf-8?B?NitpaTRhLytrMGVqbVgwdjAzNHNSR25JUWNOUkJ4UzVtekFjYW1RTytHZ3g4?=
+ =?utf-8?B?STNEbDMyMHRma3dSb1NXSDB1MmlBcCtncEZUcmljS0tGMmd6dVVLTmQrKzBO?=
+ =?utf-8?B?dlhjWHIrdkgzN0lUWUdVRW41MzdNcGN3MnpOeS9hRjFTQ0dEc3IyUy9rdnpx?=
+ =?utf-8?B?eERrLzBEY2VVNFRHTHRMZnVMWXl1ZHJCd0Q3cUdIdmxEZmtZajVaTXpjVHRa?=
+ =?utf-8?Q?+qkI=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a54d2b18-8514-48d8-e3b1-08dba89855b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2023 14:00:42.8851 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Gnz14IWq83tsCHqp07ctuoIq82YfVy6OcryD5aAl92htvbRod8z6XLvPkXpIh5MmjgvClw6Bia6hV/uw18rQDiWBEzV7+xG5j4DCqsRlEqw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11465
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,1054 +130,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
+ Adam Ford <aford173@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Aug 2023 16:47:56 +0100
-Steven Price <steven.price@arm.com> wrote:
-
-> On 09/08/2023 17:53, Boris Brezillon wrote:
-> > The panthor driver is designed in a modular way, where each logical
-> > block is dealing with a specific HW-block or software feature. In order
-> > for those blocks to communicate with each other, we need a central
-> > panthor_device collecting all the blocks, and exposing some common
-> > features, like interrupt handling, power management, reset, ...
-> > 
-> > This what this panthor_device logical block is about.
-> > 
-> > v2:
-> > - Rename the driver (pancsf -> panthor)
-> > - Change the license (GPL2 -> MIT + GPL2)
-> > - Split the driver addition commit
-> > - Add devfreq/PM support
-> > - Use drm_dev_{unplug,enter,exit}() to provide safe device removal
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.c | 479 +++++++++++++++++++++++
-> >  drivers/gpu/drm/panthor/panthor_device.h | 354 +++++++++++++++++
-> >  2 files changed, 833 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
-> >  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > new file mode 100644
-> > index 000000000000..15f102116fa0
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > @@ -0,0 +1,479 @@
-> > +// SPDX-License-Identifier: GPL-2.0 or MIT
-> > +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> > +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> > +/* Copyright 2023 Collabora ltd. */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_domain.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/regulator/consumer.h>
-> > +
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_managed.h>
-> > +
-> > +#include "panthor_sched.h"
-> > +#include "panthor_device.h"
-> > +#include "panthor_devfreq.h"
-> > +#include "panthor_gpu.h"
-> > +#include "panthor_fw.h"
-> > +#include "panthor_mmu.h"
-> > +#include "panthor_regs.h"
-> > +
-> > +static int panthor_clk_init(struct panthor_device *ptdev)
-> > +{
-> > +	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
-> > +	if (IS_ERR(ptdev->clks.core)) {
-> > +		drm_err(&ptdev->base, "get 'core' clock failed %ld\n",
-> > +			PTR_ERR(ptdev->clks.core));  
-> 
-> I suspect it would be a good idea to use dev_err_probe() here (and
-> below) as I believe devm_clk_get can return -EPROBE_DEFER.
-
-Nice, didn't know there was a logging function that was silencing
-probe-defer errors.
-
-> 
-> > +		return PTR_ERR(ptdev->clks.core);
-> > +	}
-> > +
-> > +	ptdev->clks.stacks = devm_clk_get_optional(ptdev->base.dev, "stacks");
-> > +	if (IS_ERR(ptdev->clks.stacks)) {
-> > +		drm_err(&ptdev->base, "get 'stacks' clock failed %ld\n",
-> > +			PTR_ERR(ptdev->clks.stacks));
-> > +		return PTR_ERR(ptdev->clks.stacks);
-> > +	}
-> > +
-> > +	ptdev->clks.coregroup = devm_clk_get_optional(ptdev->base.dev, "coregroup");
-> > +	if (IS_ERR(ptdev->clks.coregroup)) {
-> > +		drm_err(&ptdev->base, "get 'coregroup' clock failed %ld\n",
-> > +			PTR_ERR(ptdev->clks.coregroup));
-> > +		return PTR_ERR(ptdev->clks.coregroup);
-> > +	}
-> > +
-> > +	drm_info(&ptdev->base, "clock rate = %lu\n", clk_get_rate(ptdev->clks.core));
-> > +	return 0;
-> > +}
-> > +
-> > +void panthor_device_unplug(struct panthor_device *ptdev)
-> > +{
-> > +	/* FIXME: This is racy. */  
-> 
-> Can we fix this? From a quick look it seems like a sequence like below
-> should avoid the race.
-> 
-> 	if (!drm_dev_enter())
-> 		/* Already unplugged */
-> 		return;
-> 	ptdev->base.unplugged = true;
-> 	drm_dev_exit();
-> 
-> Although possibly that should be in the DRM core rather than open-coded
-> here.
-
-Are you sure that's protecting us against two concurrent calls to
-drm_dev_unplug() (drm_dev_enter() is taking a read-lock)? And that's not
-the only thing I need actually. If there are 2 threads entering
-panthor_device_unplug(), I need to make sure the one who losts (arrived
-after unplugged was set to false) is waiting for all operations after
-the drm_dev_unplug() call to be done, otherwise we might return from
-platform_driver->remove() before the unplug cleanups are done, and
-there might still be threads/workqueues accessing device resources
-while/after they get released by the device-model.
-
-> 
-> > +	if (drm_dev_is_unplugged(&ptdev->base))
-> > +		return;
-> > +
-> > +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
-> > +
-> > +	/* Call drm_dev_unplug() so any access to HW block happening after
-> > +	 * that point get rejected.
-> > +	 */
-> > +	drm_dev_unplug(&ptdev->base);
-> > +
-> > +	/* Now, try to cleanly shutdown the GPU before the device resources
-> > +	 * get reclaimed.
-> > +	 */
-> > +	panthor_sched_unplug(ptdev);
-> > +	panthor_fw_unplug(ptdev);
-> > +	panthor_mmu_unplug(ptdev);
-> > +	panthor_gpu_unplug(ptdev);
-> > +
-> > +	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> > +	pm_runtime_put_sync_suspend(ptdev->base.dev);
-> > +}
-> > +
-> > +static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
-> > +{
-> > +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> > +
-> > +	cancel_work_sync(&ptdev->reset.work);
-> > +	destroy_workqueue(ptdev->reset.wq);
-> > +}
-> > +
-> > +static void panthor_device_reset_work(struct work_struct *work)
-> > +{
-> > +	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
-> > +	int ret, cookie;
-> > +
-> > +	if (!drm_dev_enter(&ptdev->base, &cookie))
-> > +		return;
-> > +
-> > +	panthor_sched_pre_reset(ptdev);
-> > +	panthor_fw_pre_reset(ptdev, true);
-> > +	panthor_mmu_pre_reset(ptdev);
-> > +	panthor_gpu_soft_reset(ptdev);
-> > +	panthor_gpu_l2_power_on(ptdev);
-> > +	panthor_mmu_post_reset(ptdev);
-> > +	ret = panthor_fw_post_reset(ptdev);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	atomic_set(&ptdev->reset.pending, 0);
-> > +	panthor_sched_post_reset(ptdev);
-> > +	drm_dev_exit(cookie);
-> > +
-> > +out:
-> > +	if (ret) {  
-> 
-> This looks like a race condition too - is there a need for a
-> drm_dev_exit_and_unplug() function?
-
-drm_dev_exit() is just releasing the read-lock. drm_dev_unplug()
-waits for all readers to be done and sets the unplugged value to true.
-So we only get readers/writer synchronization here, but nothing doing
-writer/writer sync. I guess the drm core leaves that to drivers, given
-drm_dev_unplug() is usually called from xxx_driver->remove() hook, on
-which serialization is guaranteed by the device-model.
-
-TLDR; yes, it's racy, but I don't think drm_dev_exit_and_unplug() would
-help solve the existing race.
-
-It's worth noting that we currently have only 2 paths calling
-panthor_device_unplug(): the platform_driver->remove() hook and the
-reset worker. Calling drm_dev_unplug() might not be the right thing to
-do, I just thought it was a good match to reflect the fact the device
-becomes inaccessible, without adding yet another kind of device-lost
-field.
-
-> 
-> > +		panthor_device_unplug(ptdev);
-> > +		drm_err(&ptdev->base, "Failed to boot MCU after reset, making device unusable.");
-> > +	}
-> > +}
-> > +
-> > +static bool panthor_device_is_initialized(struct panthor_device *ptdev)
-> > +{
-> > +	return !!ptdev->scheduler;
-> > +}
-> > +
-> > +static void panthor_device_free_page(struct drm_device *ddev, void *data)
-> > +{
-> > +	free_page((unsigned long)data);
-> > +}
-> > +
-> > +int panthor_device_init(struct panthor_device *ptdev)
-> > +{
-> > +	struct resource *res;
-> > +	struct page *p;
-> > +	int ret;
-> > +
-> > +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> > +
-> > +	drmm_mutex_init(&ptdev->base, &ptdev->pm.lock);
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> > +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> > +	if (!p)
-> > +		return -ENOMEM;
-> > +
-> > +	ptdev->pm.dummy_latest_flush = page_address(p);
-> > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
-> > +				       ptdev->pm.dummy_latest_flush);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Set the dummy page to the default LATEST_FLUSH value. This
-> > +	 * will be updated on the next suspend.
-> > +	 */
-> > +	*ptdev->pm.dummy_latest_flush = CSF_GPU_LATEST_FLUSH_ID_DEFAULT;  
-> 
-> I see why this register default value was defined. Although I'm not sure
-> it has any benefit over just using zero... If the GPU is off when user
-> space reads the FLUSH_ID then the GPU's caches are definitely empty so
-> any flush ID is valid.
-
-Zero means we'll force a cache flush for all CS that were created while
-the device was suspended, that's not ideal.
-
-> 
-> Interestingly looking at kbase it seems to use an initial value of 1
-> (POWER_DOWN_LATEST_FLUSH_VALUE). I guess zero is less ideal because
-> FLUSH_CACHE2 would then unconditionally do a flush.
-
-I guess a value of 1 would work. It just means we'll get a spurious
-flush if the CS is submitted after 32 flushes happened, on the other
-hand we also a spurious flush on the first submitted CS when we use
-POWER_DOWN_LATEST_FLUSH_VALUE. I'll switch to 1, drop the default def,
-and update the comment accordingly.
-
-> 
-> > +
-> > +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
-> > +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
-> > +	if (!ptdev->reset.wq)
-> > +		return -ENOMEM;
-> > +
-> > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_clk_init(ptdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_devfreq_init(ptdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
-> > +							      0, &res);
-> > +	if (IS_ERR(ptdev->iomem))
-> > +		return PTR_ERR(ptdev->iomem);
-> > +
-> > +	ptdev->phys_addr = res->start;
-> > +
-> > +	ret = devm_pm_runtime_enable(ptdev->base.dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_gpu_init(ptdev);
-> > +	if (ret)
-> > +		goto err_rpm_put;
-> > +
-> > +	ret = panthor_mmu_init(ptdev);
-> > +	if (ret)
-> > +		goto err_rpm_put;
-> > +
-> > +	ret = panthor_fw_init(ptdev);
-> > +	if (ret)
-> > +		goto err_rpm_put;
-> > +
-> > +	ret = panthor_sched_init(ptdev);
-> > +	if (ret)
-> > +		goto err_rpm_put;
-> > +
-> > +	/* ~3 frames */
-> > +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
-> > +	pm_runtime_use_autosuspend(ptdev->base.dev);
-> > +	pm_runtime_put_autosuspend(ptdev->base.dev);
-> > +	return 0;
-> > +
-> > +err_rpm_put:
-> > +	pm_runtime_put_sync_suspend(ptdev->base.dev);
-> > +	return ret;
-> > +}
-> > +
-> > +#define PANTHOR_EXCEPTION(id) \
-> > +	[DRM_PANTHOR_EXCEPTION_ ## id] = { \
-> > +		.name = #id, \
-> > +	}
-> > +
-> > +struct panthor_exception_info {
-> > +	const char *name;
-> > +};
-> > +
-> > +static const struct panthor_exception_info panthor_exception_infos[] = {
-> > +	PANTHOR_EXCEPTION(OK),
-> > +	PANTHOR_EXCEPTION(TERMINATED),
-> > +	PANTHOR_EXCEPTION(KABOOM),
-> > +	PANTHOR_EXCEPTION(EUREKA),
-> > +	PANTHOR_EXCEPTION(ACTIVE),
-> > +	PANTHOR_EXCEPTION(CS_RES_TERM),
-> > +	PANTHOR_EXCEPTION(CS_CONFIG_FAULT),
-> > +	PANTHOR_EXCEPTION(CS_ENDPOINT_FAULT),
-> > +	PANTHOR_EXCEPTION(CS_BUS_FAULT),
-> > +	PANTHOR_EXCEPTION(CS_INSTR_INVALID),
-> > +	PANTHOR_EXCEPTION(CS_CALL_STACK_OVERFLOW),
-> > +	PANTHOR_EXCEPTION(CS_INHERIT_FAULT),
-> > +	PANTHOR_EXCEPTION(INSTR_INVALID_PC),
-> > +	PANTHOR_EXCEPTION(INSTR_INVALID_ENC),
-> > +	PANTHOR_EXCEPTION(INSTR_BARRIER_FAULT),
-> > +	PANTHOR_EXCEPTION(DATA_INVALID_FAULT),
-> > +	PANTHOR_EXCEPTION(TILE_RANGE_FAULT),
-> > +	PANTHOR_EXCEPTION(ADDR_RANGE_FAULT),
-> > +	PANTHOR_EXCEPTION(IMPRECISE_FAULT),
-> > +	PANTHOR_EXCEPTION(OOM),
-> > +	PANTHOR_EXCEPTION(CSF_FW_INTERNAL_ERROR),
-> > +	PANTHOR_EXCEPTION(CSF_RES_EVICTION_TIMEOUT),
-> > +	PANTHOR_EXCEPTION(GPU_BUS_FAULT),
-> > +	PANTHOR_EXCEPTION(GPU_SHAREABILITY_FAULT),
-> > +	PANTHOR_EXCEPTION(SYS_SHAREABILITY_FAULT),
-> > +	PANTHOR_EXCEPTION(GPU_CACHEABILITY_FAULT),
-> > +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_0),
-> > +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_1),
-> > +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_2),
-> > +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_3),
-> > +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_4),
-> > +	PANTHOR_EXCEPTION(PERM_FAULT_0),
-> > +	PANTHOR_EXCEPTION(PERM_FAULT_1),
-> > +	PANTHOR_EXCEPTION(PERM_FAULT_2),
-> > +	PANTHOR_EXCEPTION(PERM_FAULT_3),
-> > +	PANTHOR_EXCEPTION(ACCESS_FLAG_1),
-> > +	PANTHOR_EXCEPTION(ACCESS_FLAG_2),
-> > +	PANTHOR_EXCEPTION(ACCESS_FLAG_3),
-> > +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_IN),
-> > +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT0),
-> > +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT1),
-> > +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT2),
-> > +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT3),
-> > +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_0),
-> > +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_1),
-> > +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_2),
-> > +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_3),
-> > +};
-> > +
-> > +const char *panthor_exception_name(struct panthor_device *ptdev, u32 exception_code)
-> > +{
-> > +	if (drm_WARN_ON(&ptdev->base,  
-> 
-> I'm not convinced this should be a WARN_ON as I suspect it's probably
-> possible to inject values from user space (although I'm not completely
-> sure on that).
-
-Normally no (it's something returned by the FW), unless userspace gets
-access to the kernel <-> FW interface, which would be worrisome :-).
-
-> It's certainly not a driver error as such if we can't
-> decode the value.
-
-Ack on dropping the WARN_ON().
-
-> 
-> > +			exception_code >= ARRAY_SIZE(panthor_exception_infos) ||
-> > +			!panthor_exception_infos[exception_code].name))
-> > +		return "Unknown exception type";
-> > +
-> > +	return panthor_exception_infos[exception_code].name;
-> > +}
-> > +
-> > +static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
-> > +{
-> > +	struct vm_area_struct *vma = vmf->vma;
-> > +	struct panthor_device *ptdev = vma->vm_private_data;
-> > +	u64 id = vma->vm_pgoff << PAGE_SHIFT;
-> > +	unsigned long pfn;
-> > +	pgprot_t pgprot;
-> > +	vm_fault_t ret;
-> > +	bool active;
-> > +	int cookie;
-> > +
-> > +	if (!drm_dev_enter(&ptdev->base, &cookie))
-> > +		return VM_FAULT_SIGBUS;
-> > +
-> > +	mutex_lock(&ptdev->pm.lock);
-> > +	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
-> > +
-> > +	switch (id) {
-> > +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
-> > +		if (active)
-> > +			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
-> > +		else
-> > +			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
-> > +		break;
-> > +
-> > +	default:
-> > +		ret = VM_FAULT_SIGBUS;
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	pgprot = vma->vm_page_prot;
-> > +	if (active)
-> > +		pgprot = pgprot_noncached(pgprot);
-> > +
-> > +	ret = vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot);
-> > +
-> > +out_unlock:
-> > +	mutex_unlock(&ptdev->pm.lock);
-> > +	drm_dev_exit(cookie);
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct vm_operations_struct panthor_mmio_vm_ops = {
-> > +	.fault = panthor_mmio_vm_fault,
-> > +};
-> > +
-> > +int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *vma)
-> > +{
-> > +	u64 id = vma->vm_pgoff << PAGE_SHIFT;
-> > +
-> > +	switch (id) {
-> > +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
-> > +		if (vma->vm_end - vma->vm_start != PAGE_SIZE ||
-> > +		    (vma->vm_flags & (VM_WRITE | VM_EXEC)))
-> > +			return -EINVAL;
-> > +
-> > +		break;
-> > +
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Defer actual mapping to the fault handler. */
-> > +	vma->vm_private_data = ptdev;
-> > +	vma->vm_ops = &panthor_mmio_vm_ops;
-> > +	vm_flags_set(vma,
-> > +		     VM_IO | VM_DONTCOPY | VM_DONTEXPAND |
-> > +		     VM_NORESERVE | VM_DONTDUMP | VM_PFNMAP);
-> > +	return 0;
-> > +}
-> > +
-> > +#ifdef CONFIG_PM
-> > +int panthor_device_resume(struct device *dev)
-> > +{
-> > +	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> > +	int ret, cookie;
-> > +
-> > +	mutex_lock(&ptdev->pm.lock);
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_RESUMING);
-> > +
-> > +	ret = clk_prepare_enable(ptdev->clks.core);
-> > +	if (ret)
-> > +		goto err_unlock;
-> > +
-> > +	ret = clk_prepare_enable(ptdev->clks.stacks);
-> > +	if (ret)
-> > +		goto err_disable_core_clk;
-> > +
-> > +	ret = clk_prepare_enable(ptdev->clks.coregroup);
-> > +	if (ret)
-> > +		goto err_disable_stacks_clk;
-> > +
-> > +	ret = panthor_devfreq_resume(ptdev);
-> > +	if (ret)
-> > +		goto err_disable_coregroup_clk;
-> > +
-> > +	if (panthor_device_is_initialized(ptdev) &&
-> > +	    drm_dev_enter(&ptdev->base, &cookie)) {
-> > +		panthor_gpu_resume(ptdev);
-> > +		panthor_mmu_resume(ptdev);
-> > +		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
-> > +		if (!ret)
-> > +			panthor_sched_resume(ptdev);
-> > +
-> > +		drm_dev_exit(cookie);
-> > +
-> > +		if (ret)
-> > +			goto err_devfreq_suspend;
-> > +	}
-> > +
-> > +	/* Clear all IOMEM mappings pointing to this device after we've
-> > +	 * resumed. This way the fake mappings pointing to the dummy pages
-> > +	 * are removed and the real iomem mapping will be restored on next
-> > +	 * access.
-> > +	 */
-> > +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
-> > +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);  
-> 
-> Is the ordering here correct? I think we need to set ACTIVE before the
-> unmap_mapping_range otherwise there is a (very small) race where user
-> space could fault the page (and get the dummy mapping) before the
-> atomic_set.
-
-We take the pm.lock in panthor_mmio_vm_fault().
-
-> 
-> Hmm, actually we have the pm.lock, so no this isn't racy. In which case
-> is there a good reason that you're using atomics? I can see two accesses
-> which aren't protected by pm.lock:
-> 
->   * the early out in panthor_device_suspend() - which could easily be
-> moved inside the lock.
-
-When we're in suspend() we are the one in control of the pm.state, so
-no race expected here.
-
-> 
->   * panthor_device_schedule_reset() - this looks racy (the power down
-> could happen immediately after the atomic_read()), so I suspect it would
-> be better moving the check into panthor_device_reset_work() and
-> performing it with the pm.lock held.
-
-I think the main reason for it being an atomic is because I didn't
-have PM locking in the initial implementation, but I ended adding
-locking at some point because I didn't really have choice. I thought
-the race didn't exist because of the workqueue synchronization/work
-cancellation that happens in panthor_sched_suspend(), but I see now
-that it's not protecting us (thread queuing the job could be paused
-just after checking the PM state and resumed after the suspend
-happened). This being said, we might have a lock ordering issue if we
-take the PM lock in that path (I need to check that).
-
-> 
-> > +	if (atomic_read(&ptdev->reset.pending))
-> > +		queue_work(ptdev->reset.wq, &ptdev->reset.work);
-> > +
-> > +	mutex_unlock(&ptdev->pm.lock);
-> > +	return 0;
-> > +
-> > +err_devfreq_suspend:
-> > +	panthor_devfreq_suspend(ptdev);
-> > +
-> > +err_disable_coregroup_clk:
-> > +	clk_disable_unprepare(ptdev->clks.coregroup);
-> > +
-> > +err_disable_stacks_clk:
-> > +	clk_disable_unprepare(ptdev->clks.stacks);
-> > +
-> > +err_disable_core_clk:
-> > +	clk_disable_unprepare(ptdev->clks.core);
-> > +
-> > +err_unlock:
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> > +	mutex_unlock(&ptdev->pm.lock);
-> > +	return ret;
-> > +}
-> > +
-> > +int panthor_device_suspend(struct device *dev)
-> > +{
-> > +	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> > +	int ret, cookie;
-> > +
-> > +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
-> > +		return 0;
-> > +
-> > +	mutex_lock(&ptdev->pm.lock);
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDING);
-> > +
-> > +	/* Clear all IOMEM mappings pointing to this device before we
-> > +	 * shutdown the power-domain and clocks. Failing to do that results
-> > +	 * in external aborts when the process accesses the iomem region.
-> > +	 */
-> > +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
-> > +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
-> > +
-> > +	if (panthor_device_is_initialized(ptdev) &&
-> > +	    drm_dev_enter(&ptdev->base, &cookie)) {
-> > +		cancel_work_sync(&ptdev->reset.work);
-> > +
-> > +		/* We prepare everything as if we were resetting the GPU.
-> > +		 * The end of the reset will happen in the resume path though.
-> > +		 */
-> > +		panthor_sched_suspend(ptdev);
-> > +		panthor_fw_suspend(ptdev);
-> > +		panthor_mmu_suspend(ptdev);
-> > +		panthor_gpu_suspend(ptdev);
-> > +		drm_dev_exit(cookie);
-> > +	}
-> > +
-> > +	ret = panthor_devfreq_suspend(ptdev);
-> > +	if (ret) {
-> > +		if (panthor_device_is_initialized(ptdev) &&
-> > +		    drm_dev_enter(&ptdev->base, &cookie)) {
-> > +			panthor_gpu_resume(ptdev);
-> > +			panthor_mmu_resume(ptdev);
-> > +			drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
-> > +			panthor_sched_resume(ptdev);
-> > +			drm_dev_exit(cookie);
-> > +		}
-> > +
-> > +		atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	/* Before we suspend, update the dummy_latest_flush page, so accesses
-> > +	 * to this dummy page return the value the HW would have returned.
-> > +	 */
-> > +	*ptdev->pm.dummy_latest_flush = gpu_read(ptdev, CSF_GPU_LATEST_FLUSH_ID);  
-> 
-> As above, I don't believe it is important for user space to know the
-> value the HW would have returned during a suspend. Indeed if the
-> hardware was successfully suspended the flush ID is likely to be reset -
-> so this would be inaccurate. However any value should be safe if the
-> work was prepared while the GPU was off as the caches will be empty.
-
-Agreed.
-
-> 
-> > +
-> > +	clk_disable_unprepare(ptdev->clks.coregroup);
-> > +	clk_disable_unprepare(ptdev->clks.stacks);
-> > +	clk_disable_unprepare(ptdev->clks.core);
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> > +
-> > +out_unlock:
-> > +	mutex_unlock(&ptdev->pm.lock);
-> > +	return ret;
-> > +}
-> > +#endif
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > new file mode 100644
-> > index 000000000000..e0e1be263eb9
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > @@ -0,0 +1,354 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> > +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> > +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> > +/* Copyright 2023 Collabora ltd. */
-> > +
-> > +#ifndef __PANTHOR_DEVICE_H__
-> > +#define __PANTHOR_DEVICE_H__
-> > +
-> > +#include <linux/atomic.h>
-> > +#include <linux/io-pgtable.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/spinlock.h>
-> > +#include <drm/drm_device.h>
-> > +#include <drm/drm_mm.h>
-> > +#include <drm/gpu_scheduler.h>
-> > +#include <drm/panthor_drm.h>
-> > +
-> > +struct panthor_csf;
-> > +struct panthor_csf_ctx;
-> > +struct panthor_device;
-> > +struct panthor_gpu;
-> > +struct panthor_group_pool;
-> > +struct panthor_heap_pool;
-> > +struct panthor_job;
-> > +struct panthor_mmu;
-> > +struct panthor_fw;
-> > +struct panthor_perfcnt;
-> > +struct panthor_vm;
-> > +struct panthor_vm_pool;
-> > +
-> > +/**
-> > + * enum panthor_device_pm_state - PM state
-> > + */
-> > +enum panthor_device_pm_state {
-> > +	/** @PANTHOR_DEVICE_PM_STATE_SUSPENDED: Device is suspended. */
-> > +	PANTHOR_DEVICE_PM_STATE_SUSPENDED = 0,
-> > +
-> > +	/** @PANTHOR_DEVICE_PM_STATE_RESUMING: Device is being resumed. */
-> > +	PANTHOR_DEVICE_PM_STATE_RESUMING,
-> > +
-> > +	/** @PANTHOR_DEVICE_PM_STATE_ACTIVE: Device is active. */
-> > +	PANTHOR_DEVICE_PM_STATE_ACTIVE,
-> > +
-> > +	/** @PANTHOR_DEVICE_PM_STATE_SUSPENDING: Device is being suspended. */
-> > +	PANTHOR_DEVICE_PM_STATE_SUSPENDING,
-> > +};
-> > +
-> > +/**
-> > + * struct panthor_irq - IRQ data
-> > + *
-> > + * Used to automate IRQ handling for the 3 different IRQs we have in this driver.
-> > + */
-> > +struct panthor_irq {
-> > +	/** @ptdev: Panthor device */
-> > +	struct panthor_device *ptdev;
-> > +
-> > +	/** @irq: IRQ number. */
-> > +	int irq;
-> > +
-> > +	/** @mask: Current mask being applied to xxx_INT_MASK. */
-> > +	u32 mask;
-> > +
-> > +	/** @suspended: Set to true when the IRQ is suspended. */
-> > +	atomic_t suspended;
-> > +};
-> > +
-> > +/**
-> > + * struct panthor_device - Panthor device
-> > + */
-> > +struct panthor_device {
-> > +	/** @base: Base drm_device. */
-> > +	struct drm_device base;
-> > +
-> > +	/** @phys_addr: Physical address of the iomem region. */
-> > +	phys_addr_t phys_addr;
-> > +
-> > +	/** @iomem: CPU mapping of the IOMEM region. */
-> > +	void __iomem *iomem;
-> > +
-> > +	/** @clks: GPU clocks. */
-> > +	struct {
-> > +		/** @core: Core clock. */
-> > +		struct clk *core;
-> > +
-> > +		/** @stacks: Stacks clock. This clock is optional. */
-> > +		struct clk *stacks;
-> > +
-> > +		/** @coregroup: Core group clock. This clock is optional. */
-> > +		struct clk *coregroup;
-> > +	} clks;
-> > +
-> > +	/** @coherent: True if the CPU/GPU are memory coherent. */
-> > +	bool coherent;
-> > +
-> > +	/** @gpu_info: GPU information. */
-> > +	struct drm_panthor_gpu_info gpu_info;
-> > +
-> > +	/** @csif_info: Command stream interface information. */
-> > +	struct drm_panthor_csif_info csif_info;
-> > +
-> > +	/** @gpu: GPU management data. */
-> > +	struct panthor_gpu *gpu;
-> > +
-> > +	/** @fw: FW management data. */
-> > +	struct panthor_fw *fw;
-> > +
-> > +	/** @mmu: MMU management data. */
-> > +	struct panthor_mmu *mmu;
-> > +
-> > +	/** @scheduler: Scheduler management data. */
-> > +	struct panthor_scheduler *scheduler;
-> > +
-> > +	/** @devfreq: Device frequency scaling management data. */
-> > +	struct panthor_devfreq *devfreq;
-> > +
-> > +	/** @reset: Reset related fields. */
-> > +	struct {
-> > +		/** @wq: Ordered worqueud used to schedule reset operations. */
-> > +		struct workqueue_struct *wq;
-> > +
-> > +		/** @work: Reset work. */
-> > +		struct work_struct work;
-> > +
-> > +		/** @pending: Set to true if a reset is pending. */
-> > +		atomic_t pending;
-> > +	} reset;
-> > +
-> > +	/** @pm: Power management related data. */
-> > +	struct {
-> > +		/** @state: Power state, see panthor_device_pm_state. */
-> > +		atomic_t state;
-> > +
-> > +		/**
-> > +		 * @lock: Lock protecting the suspend/resume operations.
-> > +		 *
-> > +		 * This is needed to ensure we map the dummy IO pages when
-> > +		 * the device is being suspended, and the real IO pages when
-> > +		 * the device is being resumed. We can't just do with the
-> > +		 * state atomicity to deal with this race.
-> > +		 */
-> > +		struct mutex lock;
-> > +
-> > +		/**
-> > +		 * @dummy_latest_flush: Dummy LATEST_FLUSH page.
-> > +		 *
-> > +		 * Used to replace the real LATEST_FLUSH page when the GPU
-> > +		 * is suspended.
-> > +		 */
-> > +		u32 *dummy_latest_flush;
-> > +	} pm;
-> > +};
-> > +
-> > +/**
-> > + * struct panthor_file - Panthor file
-> > + */
-> > +struct panthor_file {
-> > +	/** @ptdev: Device attached to this file. */
-> > +	struct panthor_device *ptdev;
-> > +
-> > +	/** @vms: VM pool attached to this file. */
-> > +	struct panthor_vm_pool *vms;
-> > +
-> > +	/** @groups: Scheduling group pool attached to this file. */
-> > +	struct panthor_group_pool *groups;
-> > +};
-> > +
-> > +int panthor_device_init(struct panthor_device *ptdev);
-> > +void panthor_device_unplug(struct panthor_device *ptdev);
-> > +
-> > +/**
-> > + * panthor_device_schedule_reset() - Schedules a reset operation
-> > + */
-> > +static inline void panthor_device_schedule_reset(struct panthor_device *ptdev)
-> > +{
-> > +	if (atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE &&  
-> 
-> As above - this is a racy check. Although it might be safe because of
-> the cancel_work_sync() call in panthor_device_suspend(). But if we get
-> rid of this check we don't need the atomic variable.
-
-As mentioned above, I don't think cancel_work_sync() solves the race,
-because the check might be done just before suspend, the thread paused
-and resumed after cancel_work_sync() was called in the suspend path.
-
-> 
-> > +	    !atomic_cmpxchg(&ptdev->reset.pending, 0, 1))
-> > +		queue_work(ptdev->reset.wq, &ptdev->reset.work);
-> > +}
-> > +
-> > +/**
-> > + * panthor_device_reset_is_pending() - Checks if a reset is pending.
-> > + *
-> > + * Return: true if a reset is pending, false otherwise.
-> > + */
-> > +static inline bool panthor_device_reset_is_pending(struct panthor_device *ptdev)
-> > +{
-> > +	return atomic_read(&ptdev->reset.pending) != 0;
-> > +}
-> > +
-> > +int panthor_device_mmap_io(struct panthor_device *ptdev,
-> > +			   struct vm_area_struct *vma);
-> > +
-> > +int panthor_device_resume(struct device *dev);
-> > +int panthor_device_suspend(struct device *dev);
-> > +
-> > +enum drm_panthor_exception_type {
-> > +	DRM_PANTHOR_EXCEPTION_OK = 0x00,
-> > +	DRM_PANTHOR_EXCEPTION_TERMINATED = 0x04,
-> > +	DRM_PANTHOR_EXCEPTION_KABOOM = 0x05,
-> > +	DRM_PANTHOR_EXCEPTION_EUREKA = 0x06,
-> > +	DRM_PANTHOR_EXCEPTION_ACTIVE = 0x08,
-> > +	DRM_PANTHOR_EXCEPTION_CS_RES_TERM = 0x0f,
-> > +	DRM_PANTHOR_EXCEPTION_MAX_NON_FAULT = 0x3f,
-> > +	DRM_PANTHOR_EXCEPTION_CS_CONFIG_FAULT = 0x40,
-> > +	DRM_PANTHOR_EXCEPTION_CS_ENDPOINT_FAULT = 0x44,
-> > +	DRM_PANTHOR_EXCEPTION_CS_BUS_FAULT = 0x48,
-> > +	DRM_PANTHOR_EXCEPTION_CS_INSTR_INVALID = 0x49,
-> > +	DRM_PANTHOR_EXCEPTION_CS_CALL_STACK_OVERFLOW = 0x4a,
-> > +	DRM_PANTHOR_EXCEPTION_CS_INHERIT_FAULT = 0x4b,
-> > +	DRM_PANTHOR_EXCEPTION_INSTR_INVALID_PC = 0x50,
-> > +	DRM_PANTHOR_EXCEPTION_INSTR_INVALID_ENC = 0x51,
-> > +	DRM_PANTHOR_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
-> > +	DRM_PANTHOR_EXCEPTION_DATA_INVALID_FAULT = 0x58,
-> > +	DRM_PANTHOR_EXCEPTION_TILE_RANGE_FAULT = 0x59,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
-> > +	DRM_PANTHOR_EXCEPTION_IMPRECISE_FAULT = 0x5b,
-> > +	DRM_PANTHOR_EXCEPTION_OOM = 0x60,
-> > +	DRM_PANTHOR_EXCEPTION_CSF_FW_INTERNAL_ERROR = 0x68,
-> > +	DRM_PANTHOR_EXCEPTION_CSF_RES_EVICTION_TIMEOUT = 0x69,
-> > +	DRM_PANTHOR_EXCEPTION_GPU_BUS_FAULT = 0x80,
-> > +	DRM_PANTHOR_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
-> > +	DRM_PANTHOR_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
-> > +	DRM_PANTHOR_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
-> > +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
-> > +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
-> > +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
-> > +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
-> > +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
-> > +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_0 = 0xc8,
-> > +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_1 = 0xc9,
-> > +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_2 = 0xca,
-> > +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_3 = 0xcb,
-> > +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
-> > +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_2 = 0xda,
-> > +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_IN = 0xe0,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
-> > +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
-> > +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
-> > +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
-> > +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
-> > +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
-> > +};
-> > +
-> > +/**
-> > + * panthor_exception_is_fault() - Checks if an exception is a fault.
-> > + *
-> > + * Return: true if the exception is a fault, false otherwise.
-> > + */
-> > +static inline bool
-> > +panthor_exception_is_fault(u32 exception_code)
-> > +{
-> > +	return exception_code > DRM_PANTHOR_EXCEPTION_MAX_NON_FAULT;
-> > +}
-> > +
-> > +const char *panthor_exception_name(struct panthor_device *ptdev,
-> > +				   u32 exception_code);
-> > +
-> > +/**
-> > + * PANTHOR_IRQ_HANDLER() - Define interrupt handlers and the interrupt
-> > + * registration function.
-> > + *
-> > + * The boiler-plate to gracefully deal with shared interrupts is
-> > + * auto-generated. All you have to do is call PANTHOR_IRQ_HANDLER()
-> > + * just after you actual handler. The handler prototype is:  
-> s/you/your/ or probably s/you/the/ since we don't expect people to be
-> adding more ;)
-> 
-> > + *
-> > + * void (*handler)(struct panthor_device *, u32 status);
-> > + */
-> > +#define PANTHOR_IRQ_HANDLER(__name, __reg_prefix, __handler)					\
-> > +static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)			\
-> > +{												\
-> > +	struct panthor_irq *pirq = data;							\
-> > +	struct panthor_device *ptdev = pirq->ptdev;						\  
-> 
-> Maybe I'm missing something, but I was expecting a check here for if the
-> irq has been suspended and to avoid the register reads if it was.
-
-Thought the INT_MASK=0 + synchronize_irq() in panthor_xxx_irq_suspend()
-would guarantee that the handler can't be called after
-panthor_xxx_irq_suspend() was called.
-
-> Otherwise I'm not entirely sure I follow what all this code is for.
-
-Not entirely sure which code we're talking about. The reason we
-don't use the default raw IRQ handler is because it doesn't work if the
-irq line is shared. In that case, we need to mask all interrupts to
-make sure other handlers on the same irq line don't get spammed with
-our IRQs.
-
-> 
-> Steve
-> 
-> > +												\
-> > +	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
-> > +		return IRQ_NONE;								\
-> > +												\
-> > +	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
-> > +	return IRQ_WAKE_THREAD;									\
-> > +}												\
-> > +												\
-> > +static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *data)		\
-> > +{												\
-> > +	struct panthor_irq *pirq = data;							\
-> > +	struct panthor_device *ptdev = pirq->ptdev;						\
-> > +	irqreturn_t ret = IRQ_NONE;								\
-> > +												\
-> > +	while (true) {										\
-> > +		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
-> > +												\
-> > +		if (!status)									\
-> > +			break;									\
-> > +												\
-> > +		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
-> > +												\
-> > +		__handler(ptdev, status);							\
-> > +		ret = IRQ_HANDLED;								\
-> > +	}											\
-> > +												\
-> > +	if (!atomic_read(&pirq->suspended))							\
-> > +		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
-> > +												\
-> > +	return ret;										\
-> > +}												\
-> > +												\
-> > +static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
-> > +{												\
-> > +	int cookie;										\
-> > +												\
-> > +	atomic_set(&pirq->suspended, true);							\
-> > +												\
-> > +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
-> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
-> > +		synchronize_irq(pirq->irq);							\
-> > +		drm_dev_exit(cookie);								\
-> > +	}											\
-> > +												\
-> > +	pirq->mask = 0;										\
-> > +}												\
-> > +												\
-> > +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
-> > +{												\
-> > +	int cookie;										\
-> > +												\
-> > +	atomic_set(&pirq->suspended, false);							\
-> > +	pirq->mask = mask;									\
-> > +												\
-> > +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
-> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);			\
-> > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);			\
-> > +		drm_dev_exit(cookie);								\
-> > +	}											\
-> > +}												\
-> > +												\
-> > +static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
-> > +					      struct panthor_irq *pirq,				\
-> > +					      int irq, u32 mask)				\
-> > +{												\
-> > +	pirq->ptdev = ptdev;									\
-> > +	pirq->irq = irq;									\
-> > +	panthor_ ## __name ## _irq_resume(pirq, mask);						\
-> > +												\
-> > +	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
-> > +					 panthor_ ## __name ## _irq_raw_handler,		\
-> > +					 panthor_ ## __name ## _irq_threaded_handler,		\
-> > +					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
-> > +					 pirq);							\
-> > +}
-> > +
-> > +extern struct workqueue_struct *panthor_cleanup_wq;
-> > +
-> > +#endif  
-> 
-
+SGkgTGF1cmVudCBQaW5jaGFydCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3Vi
+amVjdDogUmU6IFtQQVRDSCAxLzddIGRybTogYWR2NzUxMTogQWRkIHN0cnVjdCBhZHY3NTExX2No
+aXBfaW5mbyBhbmQgdXNlDQo+IGkyY19nZXRfbWF0Y2hfZGF0YSgpDQo+IA0KPiBIaSBCaWp1LA0K
+PiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBTdW4sIEF1ZyAxMywgMjAy
+MyBhdCAwNzowNTowNlBNICswMTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiBBZGQgc3RydWN0IGFk
+djc1MTFfY2hpcF9pbmZvIHRvIGhhbmRsZSBodyBkaWZmZXJlbmNlcyBiZXR3ZWVuIHZhcmlvdXMN
+Cj4gPiBjaGlwcyByYXRoZXIgY2hlY2tpbmcgYWdhaW5zdCB0aGUgJ3R5cGUnIHZhcmlhYmxlIGlu
+IHZhcmlvdXMgcGxhY2VzLg0KPiA+IFJlcGxhY2UgJ2Fkdi0+dHlwZSctPidpbmZvLT50eXBlJyBi
+eSBtb3ZpbmcgdmFyaWFibGUgJ3R5cGUnIGZyb20NCj4gPiBzdHJ1Y3QgYWR2NzUxMSB0byBzdHJ1
+Y3QgYWR2NzUxMV9jaGlwX2luZm8uDQo+ID4NCj4gPiBSZXBsYWNlIG9mX2RldmljZV9nZXRfbWF0
+Y2hfZGF0YSgpIGFuZCBJRCBsb29rdXAgZm9yIHJldHJpZXZpbmcgbWF0Y2gNCj4gPiBkYXRhIHdp
+dGggaTJjX2dldF9tYXRjaF9kYXRhKCkgYnkgYWRkaW5nIGFkdjc1MTFfY2hpcF9pbmZvIGFzIGRl
+dmljZQ0KPiA+IGRhdGEgZm9yIGJvdGggT0YgYW5kIElEIHRhYmxlcy4NCj4gDQo+IEFzIGNvbW1l
+bnRlZCBpbiBzaW1pbGFyIHBhdGNoZXMsIHBsZWFzZSB0cnkgdG8gZXhwbGFpbiBpbiB0aGUgY29t
+bWl0DQo+IG1lc3NhZ2UgdGhlIHJlYXNvbiAqd2h5KiB0aGUgY2hhbmdlIGlzIGdvb2QgYW5kL29y
+IG5lZWRlZC4gSXQncyBxdWl0ZQ0KPiBzdHJhaWdodGZvcndhcmQgZm9yIG1lIHRvIHVuZGVyc3Rh
+bmQgdGhlIGNoYW5nZSB0byBpMmNfZ2V0X21hdGNoX2RhdGEoKQ0KPiBnaXZlbiB0aGUgZGlzY3Vz
+c2lvbnMgd2UndmUgaGFkIHJlY2VudGx5LCBidXQgaXQgd291bGQgYmUgbW9yZSBkaWZmaWN1bHQN
+Cj4gd2l0aG91dCB0aGF0IGJhY2tncm91bmQgaW5mb3JtYXRpb24uDQoNCk9rIHdpbGwgYWRkIHRo
+ZSBpbmZvLiBCYXNpY2FsbHkgaXQgc2ltcGxpZmllcyB0aGUgcHJvYmUoKSBieQ0KcmVwbGFjaW5n
+IG9mX2RldmljZV9nZXRfbWF0Y2hfZGF0YSgpIGFuZCBJRCBsb29rdXAgZm9yIHJldHJpZXZpbmcg
+DQpNYXRjaCBkYXRhLg0KDQoNCj4gDQo+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUu
+ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL2Fkdjc1MTEvYWR2NzUxMS5oICAgICB8ICA2ICstDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jIHwgNjggKysrKysrKysrKystLS0tLS0tLS0NCj4g
+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MzMuYyAgICAgfCAgNCArLQ0K
+PiA+ICAzIGZpbGVzIGNoYW5nZWQsIDQ2IGluc2VydGlvbnMoKyksIDMyIGRlbGV0aW9ucygtKQ0K
+PiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3
+NTExLmgNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgNCj4g
+PiBpbmRleCAxNzQ0NTgwMDI0OGQuLjU5ZThlZjEwZDcyZSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oDQo+ID4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTEuaA0KPiA+IEBAIC0zMzMsNiArMzMzLDEwIEBA
+IGVudW0gYWR2NzUxMV90eXBlIHsNCj4gPg0KPiA+ICAjZGVmaW5lIEFEVjc1MTFfTUFYX0FERFJT
+IDMNCj4gPg0KPiA+ICtzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8gew0KPiA+ICsJZW51bSBhZHY3
+NTExX3R5cGUgdHlwZTsNCj4gPiArfTsNCj4gPiArDQo+ID4gIHN0cnVjdCBhZHY3NTExIHsNCj4g
+PiAgCXN0cnVjdCBpMmNfY2xpZW50ICppMmNfbWFpbjsNCj4gPiAgCXN0cnVjdCBpMmNfY2xpZW50
+ICppMmNfZWRpZDsNCj4gPiBAQCAtMzc3LDcgKzM4MSw3IEBAIHN0cnVjdCBhZHY3NTExIHsNCj4g
+PiAgCXU4IG51bV9kc2lfbGFuZXM7DQo+ID4gIAlib29sIHVzZV90aW1pbmdfZ2VuOw0KPiA+DQo+
+ID4gLQllbnVtIGFkdjc1MTFfdHlwZSB0eXBlOw0KPiA+ICsJY29uc3Qgc3RydWN0IGFkdjc1MTFf
+Y2hpcF9pbmZvICppbmZvOw0KPiA+ICAJc3RydWN0IHBsYXRmb3JtX2RldmljZSAqYXVkaW9fcGRl
+djsNCj4gPg0KPiA+ICAJc3RydWN0IGNlY19hZGFwdGVyICpjZWNfYWRhcDsNCj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMNCj4gPiBi
+L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jDQo+ID4gaW5kZXgg
+MjYxMWFmZDJjMWMxLi4wMTNkOGQ2NDBlZjQgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9kcnYuYw0KPiA+IEBAIC0zNTQsNyArMzU0LDcgQEAg
+c3RhdGljIHZvaWQgX19hZHY3NTExX3Bvd2VyX29uKHN0cnVjdCBhZHY3NTExDQo+ICphZHY3NTEx
+KQ0KPiA+ICAJICogZmlyc3QgZmV3IHNlY29uZHMgYWZ0ZXIgZW5hYmxpbmcgdGhlIG91dHB1dC4g
+T24gdGhlIG90aGVyIGhhbmQNCj4gPiAgCSAqIGFkdjc1MzUgcmVxdWlyZSB0byBlbmFibGUgSFBE
+IE92ZXJyaWRlIGJpdCBmb3IgcHJvcGVyIEhQRC4NCj4gPiAgCSAqLw0KPiA+IC0JaWYgKGFkdjc1
+MTEtPnR5cGUgPT0gQURWNzUzNSkNCj4gPiArCWlmIChhZHY3NTExLT5pbmZvLT50eXBlID09IEFE
+Vjc1MzUpDQo+ID4gIAkJcmVnbWFwX3VwZGF0ZV9iaXRzKGFkdjc1MTEtPnJlZ21hcCwgQURWNzUx
+MV9SRUdfUE9XRVIyLA0KPiA+ICAJCQkJICAgQURWNzUzNV9SRUdfUE9XRVIyX0hQRF9PVkVSUklE
+RSwNCj4gPiAgCQkJCSAgIEFEVjc1MzVfUkVHX1BPV0VSMl9IUERfT1ZFUlJJREUpOyBAQCAtMzcz
+LDcNCj4gKzM3Myw3IEBAIHN0YXRpYw0KPiA+IHZvaWQgYWR2NzUxMV9wb3dlcl9vbihzdHJ1Y3Qg
+YWR2NzUxMSAqYWR2NzUxMSkNCj4gPiAgCSAqLw0KPiA+ICAJcmVnY2FjaGVfc3luYyhhZHY3NTEx
+LT5yZWdtYXApOw0KPiA+DQo+ID4gLQlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTMzIHx8IGFk
+djc1MTEtPnR5cGUgPT0gQURWNzUzNSkNCj4gPiArCWlmIChhZHY3NTExLT5pbmZvLT50eXBlID09
+IEFEVjc1MzMgfHwgYWR2NzUxMS0+aW5mby0+dHlwZSA9PQ0KPiA+ICtBRFY3NTM1KQ0KPiA+ICAJ
+CWFkdjc1MzNfZHNpX3Bvd2VyX29uKGFkdjc1MTEpOw0KPiA+ICAJYWR2NzUxMS0+cG93ZXJlZCA9
+IHRydWU7DQo+ID4gIH0NCj4gPiBAQCAtMzgxLDcgKzM4MSw3IEBAIHN0YXRpYyB2b2lkIGFkdjc1
+MTFfcG93ZXJfb24oc3RydWN0IGFkdjc1MTENCj4gPiAqYWR2NzUxMSkgIHN0YXRpYyB2b2lkIF9f
+YWR2NzUxMV9wb3dlcl9vZmYoc3RydWN0IGFkdjc1MTEgKmFkdjc1MTEpICB7DQo+ID4gIAkvKiBU
+T0RPOiBzZXR1cCBhZGRpdGlvbmFsIHBvd2VyIGRvd24gbW9kZXMgKi8NCj4gPiAtCWlmIChhZHY3
+NTExLT50eXBlID09IEFEVjc1MzUpDQo+ID4gKwlpZiAoYWR2NzUxMS0+aW5mby0+dHlwZSA9PSBB
+RFY3NTM1KQ0KPiA+ICAJCXJlZ21hcF91cGRhdGVfYml0cyhhZHY3NTExLT5yZWdtYXAsIEFEVjc1
+MTFfUkVHX1BPV0VSMiwNCj4gPiAgCQkJCSAgIEFEVjc1MzVfUkVHX1BPV0VSMl9IUERfT1ZFUlJJ
+REUsIDApOw0KPiA+DQo+ID4gQEAgLTM5Nyw3ICszOTcsNyBAQCBzdGF0aWMgdm9pZCBfX2Fkdjc1
+MTFfcG93ZXJfb2ZmKHN0cnVjdCBhZHY3NTExDQo+ID4gKmFkdjc1MTEpICBzdGF0aWMgdm9pZCBh
+ZHY3NTExX3Bvd2VyX29mZihzdHJ1Y3QgYWR2NzUxMSAqYWR2NzUxMSkgIHsNCj4gPiAgCV9fYWR2
+NzUxMV9wb3dlcl9vZmYoYWR2NzUxMSk7DQo+ID4gLQlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3
+NTMzIHx8IGFkdjc1MTEtPnR5cGUgPT0gQURWNzUzNSkNCj4gPiArCWlmIChhZHY3NTExLT5pbmZv
+LT50eXBlID09IEFEVjc1MzMgfHwgYWR2NzUxMS0+aW5mby0+dHlwZSA9PQ0KPiA+ICtBRFY3NTM1
+KQ0KPiA+ICAJCWFkdjc1MzNfZHNpX3Bvd2VyX29mZihhZHY3NTExKTsNCj4gPiAgCWFkdjc1MTEt
+PnBvd2VyZWQgPSBmYWxzZTsNCj4gPiAgfQ0KPiA+IEBAIC02ODIsNyArNjgyLDcgQEAgYWR2NzUx
+MV9kZXRlY3Qoc3RydWN0IGFkdjc1MTEgKmFkdjc1MTEsIHN0cnVjdA0KPiBkcm1fY29ubmVjdG9y
+ICpjb25uZWN0b3IpDQo+ID4gIAkJCXN0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNfZGlzY29ubmVj
+dGVkOw0KPiA+ICAJfSBlbHNlIHsNCj4gPiAgCQkvKiBSZW5hYmxlIEhQRCBzZW5zaW5nICovDQo+
+ID4gLQkJaWYgKGFkdjc1MTEtPnR5cGUgPT0gQURWNzUzNSkNCj4gPiArCQlpZiAoYWR2NzUxMS0+
+aW5mby0+dHlwZSA9PSBBRFY3NTM1KQ0KPiA+ICAJCQlyZWdtYXBfdXBkYXRlX2JpdHMoYWR2NzUx
+MS0+cmVnbWFwLCBBRFY3NTExX1JFR19QT1dFUjIsDQo+ID4gIAkJCQkJICAgQURWNzUzNV9SRUdf
+UE9XRVIyX0hQRF9PVkVSUklERSwNCj4gPiAgCQkJCQkgICBBRFY3NTM1X1JFR19QT1dFUjJfSFBE
+X09WRVJSSURFKTsgQEAgLQ0KPiA3ODYsNyArNzg2LDcgQEAgc3RhdGljDQo+ID4gdm9pZCBhZHY3
+NTExX21vZGVfc2V0KHN0cnVjdCBhZHY3NTExICphZHY3NTExLA0KPiA+ICAJZWxzZQ0KPiA+ICAJ
+CWxvd19yZWZyZXNoX3JhdGUgPSBBRFY3NTExX0xPV19SRUZSRVNIX1JBVEVfTk9ORTsNCj4gPg0K
+PiA+IC0JaWYgKGFkdjc1MTEtPnR5cGUgPT0gQURWNzUxMSkNCj4gPiArCWlmIChhZHY3NTExLT5p
+bmZvLT50eXBlID09IEFEVjc1MTEpDQo+ID4gIAkJcmVnbWFwX3VwZGF0ZV9iaXRzKGFkdjc1MTEt
+PnJlZ21hcCwgMHhmYiwNCj4gPiAgCQkJCSAgIDB4NiwgbG93X3JlZnJlc2hfcmF0ZSA8PCAxKTsN
+Cj4gPiAgCWVsc2UNCj4gPiBAQCAtOTIxLDcgKzkyMSw3IEBAIHN0YXRpYyBlbnVtIGRybV9tb2Rl
+X3N0YXR1cw0KPiA+IGFkdjc1MTFfYnJpZGdlX21vZGVfdmFsaWQoc3RydWN0IGRybV9icmlkZ2Ug
+KmJyaWRnZSwgIHsNCj4gPiAgCXN0cnVjdCBhZHY3NTExICphZHYgPSBicmlkZ2VfdG9fYWR2NzUx
+MShicmlkZ2UpOw0KPiA+DQo+ID4gLQlpZiAoYWR2LT50eXBlID09IEFEVjc1MzMgfHwgYWR2LT50
+eXBlID09IEFEVjc1MzUpDQo+ID4gKwlpZiAoYWR2LT5pbmZvLT50eXBlID09IEFEVjc1MzMgfHwg
+YWR2LT5pbmZvLT50eXBlID09IEFEVjc1MzUpDQo+ID4gIAkJcmV0dXJuIGFkdjc1MzNfbW9kZV92
+YWxpZChhZHYsIG1vZGUpOw0KPiA+ICAJZWxzZQ0KPiA+ICAJCXJldHVybiBhZHY3NTExX21vZGVf
+dmFsaWQoYWR2LCBtb2RlKTsgQEAgLTEwMDksNyArMTAwOSw3IEBADQo+IHN0YXRpYw0KPiA+IGlu
+dCBhZHY3NTExX2luaXRfcmVndWxhdG9ycyhzdHJ1Y3QgYWR2NzUxMSAqYWR2KQ0KPiA+ICAJdW5z
+aWduZWQgaW50IGk7DQo+ID4gIAlpbnQgcmV0Ow0KPiA+DQo+ID4gLQlpZiAoYWR2LT50eXBlID09
+IEFEVjc1MTEpIHsNCj4gPiArCWlmIChhZHYtPmluZm8tPnR5cGUgPT0gQURWNzUxMSkgew0KPiA+
+ICAJCXN1cHBseV9uYW1lcyA9IGFkdjc1MTFfc3VwcGx5X25hbWVzOw0KPiA+ICAJCWFkdi0+bnVt
+X3N1cHBsaWVzID0gQVJSQVlfU0laRShhZHY3NTExX3N1cHBseV9uYW1lcyk7DQo+ID4gIAl9IGVs
+c2Ugew0KPiA+IEBAIC0xMDkzLDcgKzEwOTMsNyBAQCBzdGF0aWMgaW50IGFkdjc1MTFfaW5pdF9j
+ZWNfcmVnbWFwKHN0cnVjdCBhZHY3NTExDQo+ICphZHYpDQo+ID4gIAkJZ290byBlcnI7DQo+ID4g
+IAl9DQo+ID4NCj4gPiAtCWlmIChhZHYtPnR5cGUgPT0gQURWNzUzMyB8fCBhZHYtPnR5cGUgPT0g
+QURWNzUzNSkgew0KPiA+ICsJaWYgKGFkdi0+aW5mby0+dHlwZSA9PSBBRFY3NTMzIHx8IGFkdi0+
+aW5mby0+dHlwZSA9PSBBRFY3NTM1KSB7DQo+ID4gIAkJcmV0ID0gYWR2NzUzM19wYXRjaF9jZWNf
+cmVnaXN0ZXJzKGFkdik7DQo+ID4gIAkJaWYgKHJldCkNCj4gPiAgCQkJZ290byBlcnI7DQo+ID4g
+QEAgLTExOTIsNyArMTE5Miw3IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV9wYXJzZV9kdChzdHJ1Y3Qg
+ZGV2aWNlX25vZGUNCj4gPiAqbnAsDQo+ID4NCj4gPiAgc3RhdGljIGludCBhZHY3NTExX3Byb2Jl
+KHN0cnVjdCBpMmNfY2xpZW50ICppMmMpICB7DQo+ID4gLQljb25zdCBzdHJ1Y3QgaTJjX2Rldmlj
+ZV9pZCAqaWQgPSBpMmNfY2xpZW50X2dldF9kZXZpY2VfaWQoaTJjKTsNCj4gPiArCXN0YXRpYyBj
+b25zdCBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8gKmluZm87DQo+ID4gIAlzdHJ1Y3QgYWR2NzUx
+MV9saW5rX2NvbmZpZyBsaW5rX2NvbmZpZzsNCj4gPiAgCXN0cnVjdCBhZHY3NTExICphZHY3NTEx
+Ow0KPiA+ICAJc3RydWN0IGRldmljZSAqZGV2ID0gJmkyYy0+ZGV2Ow0KPiA+IEBAIC0xMjA2LDE4
+ICsxMjA2LDE2IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAq
+aTJjKQ0KPiA+ICAJaWYgKCFhZHY3NTExKQ0KPiA+ICAJCXJldHVybiAtRU5PTUVNOw0KPiA+DQo+
+ID4gKwlpbmZvID0gaTJjX2dldF9tYXRjaF9kYXRhKGkyYyk7DQo+ID4gKw0KPiA+ICAJYWR2NzUx
+MS0+aTJjX21haW4gPSBpMmM7DQo+ID4gIAlhZHY3NTExLT5wb3dlcmVkID0gZmFsc2U7DQo+ID4g
+IAlhZHY3NTExLT5zdGF0dXMgPSBjb25uZWN0b3Jfc3RhdHVzX2Rpc2Nvbm5lY3RlZDsNCj4gPiAt
+DQo+ID4gLQlpZiAoZGV2LT5vZl9ub2RlKQ0KPiA+IC0JCWFkdjc1MTEtPnR5cGUgPSAoZW51bQ0K
+PiBhZHY3NTExX3R5cGUpb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKGRldik7DQo+ID4gLQllbHNl
+DQo+ID4gLQkJYWR2NzUxMS0+dHlwZSA9IGlkLT5kcml2ZXJfZGF0YTsNCj4gPiArCWFkdjc1MTEt
+PmluZm8gPSBpbmZvOw0KPiANCj4gWW91IGNhbiBkcm9wIHRoZSBsb2NhbCBpbmZvIHZhcmlhYmxl
+IGFuZCB3cml0ZQ0KT0suDQoNCj4gDQo+IAlhZHY3NTExLT5pbmZvID0gaTJjX2dldF9tYXRjaF9k
+YXRhKGkyYyk7DQo+IA0KPiA+DQo+ID4gIAltZW1zZXQoJmxpbmtfY29uZmlnLCAwLCBzaXplb2Yo
+bGlua19jb25maWcpKTsNCj4gPg0KPiA+IC0JaWYgKGFkdjc1MTEtPnR5cGUgPT0gQURWNzUxMSkN
+Cj4gPiArCWlmIChhZHY3NTExLT5pbmZvLT50eXBlID09IEFEVjc1MTEpDQo+ID4gIAkJcmV0ID0g
+YWR2NzUxMV9wYXJzZV9kdChkZXYtPm9mX25vZGUsICZsaW5rX2NvbmZpZyk7DQo+ID4gIAllbHNl
+DQo+ID4gIAkJcmV0ID0gYWR2NzUzM19wYXJzZV9kdChkZXYtPm9mX25vZGUsIGFkdjc1MTEpOyBA
+QCAtMTI1NCw3DQo+ICsxMjUyLDcNCj4gPiBAQCBzdGF0aWMgaW50IGFkdjc1MTFfcHJvYmUoc3Ry
+dWN0IGkyY19jbGllbnQgKmkyYykNCj4gPiAgCQlnb3RvIHVuaW5pdF9yZWd1bGF0b3JzOw0KPiA+
+ICAJZGV2X2RiZyhkZXYsICJSZXYuICVkXG4iLCB2YWwpOw0KPiA+DQo+ID4gLQlpZiAoYWR2NzUx
+MS0+dHlwZSA9PSBBRFY3NTExKQ0KPiA+ICsJaWYgKGluZm8tPnR5cGUgPT0gQURWNzUxMSkNCj4g
+DQo+IEFuZCB1c2UgYWR2NzUxMS0+aW5mby0+dHlwZSBoZXJlIGFuZCBiZWxvdywgdGhlIHNhbWUg
+d2F5IHlvdSB1c2UgaXQgYWJvdmUuDQoNCk9LLg0KDQpDaGVlcnMsDQpCaWp1DQo+IA0KPiBXaXRo
+IHRoaXMgYWRkcmVzc2VkLA0KPiANCj4gUmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxh
+dXJlbnQucGluY2hhcnQrcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPg0KPiANCj4gPiAgCQlyZXQg
+PSByZWdtYXBfcmVnaXN0ZXJfcGF0Y2goYWR2NzUxMS0+cmVnbWFwLA0KPiA+ICAJCQkJCSAgICBh
+ZHY3NTExX2ZpeGVkX3JlZ2lzdGVycywNCj4gPiAgCQkJCQkgICAgQVJSQVlfU0laRShhZHY3NTEx
+X2ZpeGVkX3JlZ2lzdGVycykpOw0KPiA+IEBAIC0xMzA2LDcgKzEzMDQsNyBAQCBzdGF0aWMgaW50
+IGFkdjc1MTFfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmkyYykNCj4gPg0KPiA+ICAJaTJjX3Nl
+dF9jbGllbnRkYXRhKGkyYywgYWR2NzUxMSk7DQo+ID4NCj4gPiAtCWlmIChhZHY3NTExLT50eXBl
+ID09IEFEVjc1MTEpDQo+ID4gKwlpZiAoaW5mby0+dHlwZSA9PSBBRFY3NTExKQ0KPiA+ICAJCWFk
+djc1MTFfc2V0X2xpbmtfY29uZmlnKGFkdjc1MTEsICZsaW5rX2NvbmZpZyk7DQo+ID4NCj4gPiAg
+CXJldCA9IGFkdjc1MTFfY2VjX2luaXQoZGV2LCBhZHY3NTExKTsgQEAgLTEzMjUsNyArMTMyMyw3
+IEBAIHN0YXRpYw0KPiA+IGludCBhZHY3NTExX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICppMmMp
+DQo+ID4NCj4gPiAgCWFkdjc1MTFfYXVkaW9faW5pdChkZXYsIGFkdjc1MTEpOw0KPiA+DQo+ID4g
+LQlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTMzIHx8IGFkdjc1MTEtPnR5cGUgPT0gQURWNzUz
+NSkgew0KPiA+ICsJaWYgKGluZm8tPnR5cGUgPT0gQURWNzUzMyB8fCBpbmZvLT50eXBlID09IEFE
+Vjc1MzUpIHsNCj4gPiAgCQlyZXQgPSBhZHY3NTMzX2F0dGFjaF9kc2koYWR2NzUxMSk7DQo+ID4g
+IAkJaWYgKHJldCkNCj4gPiAgCQkJZ290byBlcnJfdW5yZWdpc3Rlcl9hdWRpbzsNCj4gPiBAQCAt
+MTM2OCwyMiArMTM2NiwzNCBAQCBzdGF0aWMgdm9pZCBhZHY3NTExX3JlbW92ZShzdHJ1Y3QgaTJj
+X2NsaWVudA0KPiAqaTJjKQ0KPiA+ICAJaTJjX3VucmVnaXN0ZXJfZGV2aWNlKGFkdjc1MTEtPmky
+Y19lZGlkKTsNCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWR2NzUxMV9j
+aGlwX2luZm8gYWR2NzUxMV9jaGlwX2luZm8gPSB7DQo+ID4gKwkudHlwZSA9IEFEVjc1MTENCj4g
+PiArfTsNCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8g
+YWR2NzUzM19jaGlwX2luZm8gPSB7DQo+ID4gKwkudHlwZSA9IEFEVjc1MzMNCj4gPiArfTsNCj4g
+PiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8gYWR2NzUzNV9j
+aGlwX2luZm8gPSB7DQo+ID4gKwkudHlwZSA9IEFEVjc1MzUNCj4gPiArfTsNCj4gPiArDQo+ID4g
+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgaTJjX2RldmljZV9pZCBhZHY3NTExX2kyY19pZHNbXSA9IHsN
+Cj4gPiAtCXsgImFkdjc1MTEiLCBBRFY3NTExIH0sDQo+ID4gLQl7ICJhZHY3NTExdyIsIEFEVjc1
+MTEgfSwNCj4gPiAtCXsgImFkdjc1MTMiLCBBRFY3NTExIH0sDQo+ID4gLQl7ICJhZHY3NTMzIiwg
+QURWNzUzMyB9LA0KPiA+IC0JeyAiYWR2NzUzNSIsIEFEVjc1MzUgfSwNCj4gPiArCXsgImFkdjc1
+MTEiLCAoa2VybmVsX3Vsb25nX3QpJmFkdjc1MTFfY2hpcF9pbmZvIH0sDQo+ID4gKwl7ICJhZHY3
+NTExdyIsIChrZXJuZWxfdWxvbmdfdCkmYWR2NzUxMV9jaGlwX2luZm8gfSwNCj4gPiArCXsgImFk
+djc1MTMiLCAoa2VybmVsX3Vsb25nX3QpJmFkdjc1MTFfY2hpcF9pbmZvIH0sDQo+ID4gKwl7ICJh
+ZHY3NTMzIiwgKGtlcm5lbF91bG9uZ190KSZhZHY3NTMzX2NoaXBfaW5mbyB9LA0KPiA+ICsJeyAi
+YWR2NzUzNSIsIChrZXJuZWxfdWxvbmdfdCkmYWR2NzUzNV9jaGlwX2luZm8gfSwNCj4gPiAgCXsg
+fQ0KPiA+ICB9Ow0KPiA+ICBNT0RVTEVfREVWSUNFX1RBQkxFKGkyYywgYWR2NzUxMV9pMmNfaWRz
+KTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBhZHY3NTExX29m
+X2lkc1tdID0gew0KPiA+IC0JeyAuY29tcGF0aWJsZSA9ICJhZGksYWR2NzUxMSIsIC5kYXRhID0g
+KHZvaWQgKilBRFY3NTExIH0sDQo+ID4gLQl7IC5jb21wYXRpYmxlID0gImFkaSxhZHY3NTExdyIs
+IC5kYXRhID0gKHZvaWQgKilBRFY3NTExIH0sDQo+ID4gLQl7IC5jb21wYXRpYmxlID0gImFkaSxh
+ZHY3NTEzIiwgLmRhdGEgPSAodm9pZCAqKUFEVjc1MTEgfSwNCj4gPiAtCXsgLmNvbXBhdGlibGUg
+PSAiYWRpLGFkdjc1MzMiLCAuZGF0YSA9ICh2b2lkICopQURWNzUzMyB9LA0KPiA+IC0JeyAuY29t
+cGF0aWJsZSA9ICJhZGksYWR2NzUzNSIsIC5kYXRhID0gKHZvaWQgKilBRFY3NTM1IH0sDQo+ID4g
+Kwl7IC5jb21wYXRpYmxlID0gImFkaSxhZHY3NTExIiwgLmRhdGEgPSAmYWR2NzUxMV9jaGlwX2lu
+Zm8gfSwNCj4gPiArCXsgLmNvbXBhdGlibGUgPSAiYWRpLGFkdjc1MTF3IiwgLmRhdGEgPSAmYWR2
+NzUxMV9jaGlwX2luZm8gfSwNCj4gPiArCXsgLmNvbXBhdGlibGUgPSAiYWRpLGFkdjc1MTMiLCAu
+ZGF0YSA9ICZhZHY3NTExX2NoaXBfaW5mbyB9LA0KPiA+ICsJeyAuY29tcGF0aWJsZSA9ICJhZGks
+YWR2NzUzMyIsIC5kYXRhID0gJmFkdjc1MzNfY2hpcF9pbmZvIH0sDQo+ID4gKwl7IC5jb21wYXRp
+YmxlID0gImFkaSxhZHY3NTM1IiwgLmRhdGEgPSAmYWR2NzUzNV9jaGlwX2luZm8gfSwNCj4gPiAg
+CXsgfQ0KPiA+ICB9Ow0KPiA+ICBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBhZHY3NTExX29mX2lk
+cyk7IGRpZmYgLS1naXQNCj4gPiBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3
+NTMzLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTMzLmMNCj4g
+PiBpbmRleCA3ZTNlNTY0NDFhZWQuLmM0NTJjNGRjMWMzZiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUzMy5jDQo+ID4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MzMuYw0KPiA+IEBAIC0xMDgsMTEgKzEwOCwxMSBA
+QCBlbnVtIGRybV9tb2RlX3N0YXR1cyBhZHY3NTMzX21vZGVfdmFsaWQoc3RydWN0DQo+IGFkdjc1
+MTEgKmFkdiwNCj4gPiAgCXU4IGJwcCA9IG1pcGlfZHNpX3BpeGVsX2Zvcm1hdF90b19icHAoZHNp
+LT5mb3JtYXQpOw0KPiA+DQo+ID4gIAkvKiBDaGVjayBtYXggY2xvY2sgZm9yIGVpdGhlciA3NTMz
+IG9yIDc1MzUgKi8NCj4gPiAtCWlmIChtb2RlLT5jbG9jayA+IChhZHYtPnR5cGUgPT0gQURWNzUz
+MyA/IDgwMDAwIDogMTQ4NTAwKSkNCj4gPiArCWlmIChtb2RlLT5jbG9jayA+IChhZHYtPmluZm8t
+PnR5cGUgPT0gQURWNzUzMyA/IDgwMDAwIDogMTQ4NTAwKSkNCj4gPiAgCQlyZXR1cm4gTU9ERV9D
+TE9DS19ISUdIOw0KPiA+DQo+ID4gIAkvKiBDaGVjayBtYXggY2xvY2sgZm9yIGVhY2ggbGFuZSAq
+Lw0KPiA+IC0JbWF4X2xhbmVfZnJlcSA9IChhZHYtPnR5cGUgPT0gQURWNzUzMyA/IDgwMDAwMCA6
+IDg5MTAwMCk7DQo+ID4gKwltYXhfbGFuZV9mcmVxID0gKGFkdi0+aW5mby0+dHlwZSA9PSBBRFY3
+NTMzID8gODAwMDAwIDogODkxMDAwKTsNCj4gPg0KPiA+ICAJaWYgKG1vZGUtPmNsb2NrICogYnBw
+ID4gbWF4X2xhbmVfZnJlcSAqIGFkdi0+bnVtX2RzaV9sYW5lcykNCj4gPiAgCQlyZXR1cm4gTU9E
+RV9DTE9DS19ISUdIOw0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hh
+cnQNCg==
