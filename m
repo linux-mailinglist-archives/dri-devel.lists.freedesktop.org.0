@@ -2,46 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB5F78CC40
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 20:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7A578CC4E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 20:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C393810E47D;
-	Tue, 29 Aug 2023 18:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7979A10E47E;
+	Tue, 29 Aug 2023 18:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E1E10E47E;
- Tue, 29 Aug 2023 18:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=A0/MJXP1OnWmTMBb5k+hfze8PHPxSXpimewIOMnBllI=; b=UsUba5JYR97HMZyAIQFbkj9HK6
- GPrchLEU2ydiMjesPkTwHluqA6VPM2tgGG379ew0JGOizACls4k7vvvF2PFQ/ZIQ/YuksG4NuYO+6
- k/b5tktzkjZ/goRh80XF9zWb3DNKgDeVUIcJB3Z+qukO/oXoDqt0Ty2Vhd98m77QeM0mjYmWB/p0k
- N4yecpU1VY+bqoJ0KappXWrlUtnG5qBgUZu31aGz2itU3MIJLdrXTjXD9/jr9GsbZKXtrxmC9BpFL
- XebH2YN8kM7xTyIVr0RUI4luxFfWzRDkyZB5yecHb3J3e8WiimKi23k56Jamn4x7uRLgQJlOqaOxX
- WrNbGYiw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qb3aW-008861-3P; Tue, 29 Aug 2023 18:37:16 +0000
-Date: Tue, 29 Aug 2023 19:37:16 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: James Zhu <jamesz@amd.com>
-Subject: Re: [PATCH v6 1/4] drm: Use XArray instead of IDR for minors
-Message-ID: <ZO463CUKB3QIHDAu@casper.infradead.org>
-References: <20230724211428.3831636-1-michal.winiarski@intel.com>
- <20230724211428.3831636-2-michal.winiarski@intel.com>
- <10bb9689-9226-d47c-4cf1-7bf9d599456c@amd.com>
- <6qcxpntlr36itieyoyebsncwdv4vadr5ac7imgl4rdemoyedvp@a3m7l32pkcnf>
- <bcbfe6d5-da87-fa2b-c05a-8bea6e0004fb@amd.com>
- <ZO459g+fCBxbwTAF@casper.infradead.org>
- <f18bb070-9767-3b5c-8a40-3c95d5740e1d@amd.com>
+X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
+ Tue, 29 Aug 2023 18:43:05 UTC
+Received: from kozue.soulik.info (kozue.soulik.info
+ [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3AE10E47E
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 18:43:05 +0000 (UTC)
+Received: from [192.168.10.7] (unknown [10.0.12.132])
+ by kozue.soulik.info (Postfix) with ESMTPSA id 61E44300258;
+ Wed, 30 Aug 2023 03:37:34 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 61E44300258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
+ t=1693334257; bh=yOYePFpwm5ZzdbszBaU2W/RV218+8lz1ZgrFpNPjUgU=;
+ h=Date:To:Cc:From:Subject:From;
+ b=TsPfpgtU7CNa8beVINNHGx/Frhm1eXOD/mEsYtloovBWB8/rSj+sMdyZvmZyGiJ2Z
+ VA2ffYx30DSohh1CLRIj0+lUQx4NVYaV3pZMxhOEkMwO0kbKbstLS2MfcsHWihcg7C
+ aX32ZyPHLkhIBb0xLgYjfQunyWz6Hbj9UcHwiI3I=
+Message-ID: <f00d2249-df05-a469-52cd-8a81314a38d3@soulik.info>
+Date: Wed, 30 Aug 2023 02:37:23 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To: contact@emersion.fr
+From: Randy Li <ayaka@soulik.info>
+Subject: Allocation Constraints
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f18bb070-9767-3b5c-8a40-3c95d5740e1d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,32 +48,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, James Zhu <James.Zhu@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>
+Cc: Hsia-Jun Li <Randy.Li@synaptics.com>, daniels@collabora.com,
+ dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 29, 2023 at 02:35:34PM -0400, James Zhu wrote:
-> 
-> On 2023-08-29 14:33, Matthew Wilcox wrote:
-> > On Tue, Aug 29, 2023 at 01:34:22PM -0400, James Zhu wrote:
-> > > > > > @@ -1067,7 +1055,7 @@ static void drm_core_exit(void)
-> > > > > >     	unregister_chrdev(DRM_MAJOR, "drm");
-> > > > > >     	debugfs_remove(drm_debugfs_root);
-> > > > > >     	drm_sysfs_destroy();
-> > > > > > -	idr_destroy(&drm_minors_idr);
-> > > > > [JZ] Should we call xa_destroy instead here?
-> > > > We could, if we expect the xarray to potentially not be empty.
-> > > >   From what I understand - all minors should be released at this point.
-> > > [JZ] In practice,� adding destroy here will be better.
-> > Why do you say that?
-> [JZ] In case, the future, INIT adds something, need DESTROY to free
-> completely.
+Hello emersion
 
-That isn't going to happen.
+
+Since you told me the presentation in XDC 2020, I was thinking what we 
+need  for the video codec hardware, I don't have much experience with 
+the situation that presentation addressed, sharing between GPU.
+
+I think we must cover the case with and without IOMMU attached to the 
+device, besides some page layout information. I would talk it later.
+
+
+About the pitch(in v4l2, it is bytesperline, or stride in some 
+hardware), I think it would indicate three types, one is the menu(a menu 
+of N choices), one is integer(ranging from minimum to maximum inclusive).
+
+The menu type could cover the most of cases with a fixed cache 
+line(likes 16, 64, 256 bytes alignment). While the integer type covers 
+those do no care about cache line, the restriction is about hardware 
+desired size, codec hardware could hardly meet this, usually they need 
+to meet the requirement of CU or MB from a codec. This also enables the 
+padding for vertical direction which could be regarded as the padding 
+bytes behinds a plane.
+
+Still it can ___not _ describe the case happening in Rockchip vdpu34x 
+for HEVC and VP9,  which requests an odd cache line. For example, if the 
+width is 256 (8bit depth) and cache line is 256 bytes as well, the pitch 
+would be 256 bytes, when width becomes 512, the pitch should be 768 
+bytes. You could learn this from Rockchip MPP rkv_hor_align*();
+
+
+In study 2, Local memory, codec has the similar requirement but 
+difference. Is it GPU internal having different regions for 2d texture, 
+3d texture and shader? The non-cache or cached memory (coherence) is 
+also cared by codec sometimes, while the most cases the user could 
+decide that by whether CPU need to access that buffer.
+
+While, the constraint need to tell its capability about whether it 
+supports accessing an secure buffer.
+
+
+Let's back the IOMMU topic, this feature is not mandatory for the codec. 
+And we would like to get rid of M variant pixel formats from V4L2. For 
+the hardware doesn't support scatter list, it may have delegated  
+registers for each plane.
+
+address type: scatter list or one address
+
+relationship with the previous plane: compact(right after the last byte 
+of the previous plane), new page(plane would start in the beginning of a 
+page), or None(it has a delegated  register)
+
+page size: this only applied for sgl address type, hardware may need a 
+larger contiguous page.
+
+
+To make a summary what I think we need here:
+
+1. Alignment requirement for vertical direction
+
+2. whether the device supports scatter list
+
+3. what is the page size if the device would support iommu
+
+4.  plane layout in memory
+
+
+Sincerely
+
+Randy Li
+
+
+
