@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F56778C05D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 10:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D11F78C061
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 10:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D72610E0D8;
-	Tue, 29 Aug 2023 08:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4176B10E17B;
+	Tue, 29 Aug 2023 08:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 421D510E0D8;
- Tue, 29 Aug 2023 08:37:41 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-401bbfc05fcso34603925e9.3; 
- Tue, 29 Aug 2023 01:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693298260; x=1693903060;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cut4aK4TgUvLV15+68ROwMjaB5Yg1rV735PWdbICfq4=;
- b=Ss9XmdjSHGSWXbfGN6XXZ2auywX8w3BBj2MEhO2DxnDgT3PrK3BomrQcupH4UDday0
- aszKP2wH3U4Ibps3u8c7Y53k/ivqNu7dqJv+HLhUn3CPzRtkHas9fxgceIvmSy2wvVA6
- uuIZeCFJkbKrgaphzxt7ChA82IVUMRgLj6lDj7CFV6Gfyrk7WubveK6ilrtLMBieVNUi
- YsVidBkbyX1ZB4fzMFWHxONFLPuLNpNKCz7SshCOb0MyLdgXjz+OOAik2E+kmHpXyKBp
- w2lMDeN+4UOZgwNgyknVpX9kwhusnFvMdMLEQy8wmgeD6aDyOrobFpxMHL5dnjFpOAD8
- JM9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693298260; x=1693903060;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cut4aK4TgUvLV15+68ROwMjaB5Yg1rV735PWdbICfq4=;
- b=aq6VXdzNf7fKrGsGvNG3dyENoJdbsBU5xdQ4gsabya4maaR8LQpJEqt6L/3/ODDYYr
- YYuEeVheH6JVTWRvFe3N9ed6ZSsBjt2HVqTZIhmfhilnBBQ4muyT17fMEu2LS72HyWbr
- prOM76la0K9FARLjB+bpI2gVSjgyInGFI8XH81IgbpRQozDapgbA761kAFeYkorPadJc
- Xy+slsAnaORbYxOs3jGPg+s0f/F/PIKuTjtozznfUNEj7bCiJMEsaPI5Vs/i7YktV+Fx
- hf3WzjdBtGQ5expBgXL3YknrEf+ilT5YMzUqKVVLytAOZFQPEBrZc+5Rn7g/eOpeYPmv
- 3bNw==
-X-Gm-Message-State: AOJu0Yy88EQZSuLfn4VUJ0Hww+w27zFMi6H9lW3/r8GVqody4mdybPYn
- WskWpKj2jDhe7tXzGSlF1jLMc0sKEkUzJg==
-X-Google-Smtp-Source: AGHT+IE9Wt12V3aa7ICOVESN9tE4eauLif2gw6JJmTNt6LZ0qFECjLJxMsVWL/MtMyLc+WFrh/aDvw==
-X-Received: by 2002:a05:600c:b42:b0:3fe:1871:1826 with SMTP id
- k2-20020a05600c0b4200b003fe18711826mr21209154wmr.27.1693298259387; 
- Tue, 29 Aug 2023 01:37:39 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 21-20020a05600c231500b003fc0505be19sm13180441wmo.37.2023.08.29.01.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Aug 2023 01:37:38 -0700 (PDT)
-Message-ID: <0ced6c19-68fd-42cb-3709-5bb551cf8d1f@gmail.com>
-Date: Tue, 29 Aug 2023 10:37:36 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A3910E17B
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 08:38:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A42F661756;
+ Tue, 29 Aug 2023 08:38:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEE3C433C8;
+ Tue, 29 Aug 2023 08:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693298287;
+ bh=lrPVK9thEyqQovRleImFGsZ/M+QsnNDN/Ncyq0d6vA0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cW5HBbzsmEyW6hz14GMFZ+NXRHfUePMJ+9NuHPR833parCacNt01Vmrgnj6RpQ+V6
+ RW1GOLpX1pZXAhu9bS+zgWsaXvOB+d8BQNOA2U4BfldL3smh8rbffg56QvncZwmbyL
+ hJHtS/nz7quSPrdfpWDY8JVTmVUN/48l3bHMNMVopGRxOcb4PXefM7qBNY90Rlyepc
+ I5/y6qiiZwBJ55asW/PtPSTpdDiYeIBtsnQbK2LeUqvHX5Tp0lRX+ATZ9/ITOcYYSo
+ Afqn0fpHF7LIpT9R2Vf9E0ZLSE0LfFRGrSjgUJbMjjBkD+q7LzF2DInQ75vgUpwyPW
+ pxX9DYrR5qCAw==
+Date: Tue, 29 Aug 2023 10:38:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
+Message-ID: <mumiep5q7x7qj7k64h3cyodxrgk737iy5rum5keguquwymf2gy@3qruwfrqjgy7>
+References: <20230804210644.1862287-1-dianders@chromium.org>
+ <20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid>
+ <bphkopaq76imqzut7xrx7aprqybhx3veajdympqhig2wqlix6c@64ck23rc5cv7>
+ <CAD=FV=XiVkoCsjin4R74nkcd8vzOq9uPq+o5cRjd=YOoPXuQkg@mail.gmail.com>
+ <lhd6ai7d6swlxhisjhikytguor7pptrymo3bmfwej4k7zqrnv4@hp2gvhw7mh3m>
+ <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 5/7] drm/amdgpu: Set/Reset GPU workload profile
-To: Arvind Yadav <Arvind.Yadav@amd.com>, Christian.Koenig@amd.com,
- alexander.deucher@amd.com, shashank.sharma@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Felix.Kuehling@amd.com,
- amd-gfx@lists.freedesktop.org
-References: <20230828122614.3815122-1-Arvind.Yadav@amd.com>
- <20230828122614.3815122-6-Arvind.Yadav@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230828122614.3815122-6-Arvind.Yadav@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +58,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.08.23 um 14:26 schrieb Arvind Yadav:
-> This patch is to switch the GPU workload profile based
-> on the submitted job. The workload profile is reset to
-> default when the job is done.
->
-> v3:
-> - Addressed the review comment about changing the function
->    name from *_set() to *_get().
+On Mon, Aug 28, 2023 at 09:06:29AM -0700, Doug Anderson wrote:
+> > > Shutdown is called any time you reboot a device. That means that if a
+> > > DRM driver is _not_ calling drm_atomic_helper_shutdown() on the
+> > > panel's behalf at shutdown time then the panel won't be powered off
+> > > properly. This feels to me like something that might actually matter.
+> >
+> > It does matter. What I disagree on is that you suggest working around
+> > that brokenness in the core framework. What I'm saying is driver is
+> > broken, we should keep the core framework sane and fix it in the driver.
+> >
+> > It should be fairly easy with a coccinelle script to figure out which
+> > panels are affected, and to add that call in remove.
+>=20
+> I think I'm confused here. I've already figured out which panels are
+> affected in my patch series, right? It's the set of panels that today
+> try to power the panel off in their shutdown call, right? ...but I
+> think we can't add the call you're suggesting,
+> drm_atomic_helper_shutdown(), to the _panel_'s shutdown callback, can
+> we? We need to add it to the shutdown callback of the top-level DRM
+> driver, right?
 
-That looks like a really bad idea in general. This are the high level 
-functions, but what you want to use are the low level functions for each 
-ring.
+I have no idea what happens if we just unbind the panel device from its
+driver.
 
-Take a look at amdgpu_ring_begin_use()/_end_use() instead.
+If we can't, then it's all fine. If we can, then we need figure out how
+to unregister the DRM device (or block the unbinding from happening).
 
-Christian.
+> > > Panels tend to be one of those things that really care about their
+> > > power sequencing and can even get damaged (or not turn on properly
+> > > next time) if sequencing is not done properly, so just removing this
+> > > code and putting the blame on the DRM driver seems scary to me.
+> >
+> > Sure, it's bad. But there's no difference compared to the approach you
+> > suggest in that patch: you created a helper, yes, but every driver will
+> > still have to call that helper and if they don't, the panel will still
+> > be called and it's a bug. And we would have to convert everything to
+> > that new helper.
+> >
+> > It's fundamentally the same discussion than what you were opposed to
+> > above.
+>=20
+> I think the key difference here is that, if I understand correctly,
+> drm_atomic_helper_shutdown() needs to be added to the top-level DRM
+> driver, not to the panel itself. I guess I'm worried that I'll either
+> miss a case or that simply adding a call to
+> drm_atomic_helper_shutdown() in the top-level DRM driver will break
+> something. Well, I suppose I can try it and see what happens...
 
->
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Reviewed-by: Shashank Sharma <shashank.sharma@amd.com>
-> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index c3d9d75143f4..c5032762d497 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -176,6 +176,9 @@ void amdgpu_job_free_resources(struct amdgpu_job *job)
->   static void amdgpu_job_free_cb(struct drm_sched_job *s_job)
->   {
->   	struct amdgpu_job *job = to_amdgpu_job(s_job);
-> +	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
-> +
-> +	amdgpu_workload_profile_put(ring->adev, ring->funcs->type);
->   
->   	drm_sched_job_cleanup(s_job);
->   
-> @@ -295,6 +298,8 @@ static struct dma_fence *amdgpu_job_run(struct drm_sched_job *sched_job)
->   			DRM_ERROR("Error scheduling IBs (%d)\n", r);
->   	}
->   
-> +	amdgpu_workload_profile_get(adev, ring->funcs->type);
-> +
->   	job->job_run_counter++;
->   	amdgpu_job_free_resources(job);
->   
+The more I think about this discussion, the more I think that the
+original intent of the prepared/enabled flags were precisely there to
+prevent a double-disable for drivers with drm_atomic_helper_shutdown(),
+while still shutting down the panel resources when the panel is used
+with a driver that doesn't call it.
 
+Honestly, I think the right thing to do here is to make every driver
+call shutdown, and then you don't need the reference counting anymore.
+
+I had a shot at a (possibly very suboptimal) coccinelle script to look
+for drivers that are KMS drivers but don't call
+drm_atomic_helper_shutdown() at shutdown.
+
+https://paste.ack.tf/bb42e6@raw
+
+The result is:
+
+$ make coccicheck COCCI=3D./test-drm-shutdown.cocci MODE=3Dreport
+
+=2E..
+
+=2E/drivers/gpu/drm/sti/sti_drv.c:262:30-49: ERROR: KMS driver sti_platform=
+_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/armada/armada_drv.c:245:30-56: ERROR: KMS driver armada=
+_drm_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1637:25-39: ERROR: KMS driver vmw_p=
+ci_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/vboxvideo/vbox_drv.c:163:25-40: ERROR: KMS driver vbox_=
+pci_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/tiny/arcpgu.c:424:30-52: ERROR: KMS driver arcpgu_platf=
+orm_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/omapdrm/omap_drv.c:856:30-34: ERROR: KMS driver pdev is=
+ missing shutdown implementation
+=2E/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c:361:30-57: ERROR: KMS driver =
+fsl_dcu_drm_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/tve200/tve200_drv.c:261:30-43: ERROR: KMS driver tve200=
+_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/stm/drv.c:235:30-53: ERROR: KMS driver stm_drm_platform=
+_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/qxl/qxl_drv.c:267:25-39: ERROR: KMS driver qxl_pci_driv=
+er is missing shutdown implementation
+=2E/drivers/gpu/drm/logicvc/logicvc_drm.c:494:30-57: ERROR: KMS driver logi=
+cvc_drm_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/sun4i/sun4i_drv.c:439:30-55: ERROR: KMS driver sun4i_dr=
+v_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c:827:30-60: ERROR: KMS driv=
+er atmel_hlcdc_dc_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/mcde/mcde_drv.c:471:30-41: ERROR: KMS driver mcde_drive=
+r is missing shutdown implementation
+=2E/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c:366:25-41: ERROR: KMS d=
+river hibmc_pci_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:365:30-56: ERROR: KMS driver as=
+peed_gfx_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1607:30-48: ERROR: KMS driver=
+ ingenic_drm_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/arm/malidp_drv.c:982:30-52: ERROR: KMS driver malidp_pl=
+atform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/arm/hdlcd_drv.c:400:30-51: ERROR: KMS driver hdlcd_plat=
+form_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/kmb/kmb_drv.c:622:30-49: ERROR: KMS driver kmb_platform=
+_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/exynos/exynos_drm_drv.c:356:30-56: ERROR: KMS driver ex=
+ynos_drm_platform_driver is missing shutdown implementation
+=2E/drivers/gpu/drm/tiny/bochs.c:718:25-41: ERROR: KMS driver bochs_pci_dri=
+ver is missing shutdown implementation
+=2E/drivers/gpu/drm/tiny/cirrus.c:746:25-42: ERROR: KMS driver cirrus_pci_d=
+river is missing shutdown implementation
+=2E/drivers/gpu/drm/mediatek/mtk_drm_drv.c:954:30-53: ERROR: KMS driver mtk=
+_drm_platform_driver is missing shutdown implementation
+
+It's a significant number of drivers, but it's not the end of the world,
+really.
+
+Then, once the expectation is that all drivers are calling shutdown, we
+don't have to worry about the refcounting at all in the panels, or
+resources not being free'd anymore. And we have a single path to test
+(disable) instead of two including one that might be difficult to test
+properly.
+
+> I'll try to cook up a v2 and we'll see what people say. I might keep
+> the RFC tag for v2 just because I expect it to still be touching a lot
+> of stuff.
+
+Awesome, thanks
+
+Maxime
