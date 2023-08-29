@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6142178BBE1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 02:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7FA78BBE0
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 02:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8260F10E389;
-	Tue, 29 Aug 2023 00:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906B010E386;
+	Tue, 29 Aug 2023 00:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0DA10E385;
- Tue, 29 Aug 2023 00:06:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7CD10E377;
+ Tue, 29 Aug 2023 00:06:12 +0000 (UTC)
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37SNUYEm024832; Tue, 29 Aug 2023 00:05:44 GMT
+ 37SNmnid001628; Tue, 29 Aug 2023 00:05:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : subject :
- date : message-id : mime-version : content-type :
- content-transfer-encoding : to : cc; s=qcppdkim1;
- bh=8FWLKSjdY1HBJYSTTPkNfsS2gVlIqvdCJrm7Dd6uDeY=;
- b=lt797WWe/Dcw45ToONmgi1tWKdlQ/F4KQmG0gRLKG8hvnWW4yrmbKbesXd1LQ2ZYz1yb
- 2E2abKaM2EIMy+2Qv4qJm6bqGTnuMXk1/nCQsjcT2dkKzjloT+jpodemQOJMv/ZZn3G2
- GKEFSmepgRS+GwKsqAvLTZEN7ZyFEQKwyfm8hupvl9Ih+eFl5ubKWDYqAs+Yv7K+JVtK
- DwMQwE2Ji2bjhBY9xk0AQlJmSwvyY8t3AUhLtyLoKgB3QsS2Ei/y4D6EuFveGzPD6aAB
- q0wC9kuUdG2GJeBBWxQLKbIxxBgTNGIg2U+BWz7WC1N6jVlAvhUzFggC1KHYvkgC/BRw MA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ h=from : date :
+ subject : mime-version : content-type : content-transfer-encoding :
+ message-id : references : in-reply-to : to : cc; s=qcppdkim1;
+ bh=iXo5/IFJf2KMIxJECcJgZlNWZf5/Xql+HcDHYiBJC/E=;
+ b=DZ4R7SMQfsGCLiwKOQ7yJYBjRRS3hKlAcKPjv8e4Ay5bIxhyVc/UCk/24yAXpFrtkAa+
+ d7xcVdNX4kRMG36BEuxydiv9SeWHC6pG9ABFNsXa/Uz5sNnTO5j3Obg5vV6kxWJXdOD5
+ C5WqnwnrzB5tzYdnwDXZ83wKgK1RMBUEIgthQOQ+v+AdtrNsB8se66alhFYh8r0GiDN0
+ Tdl2lrqaP64OaAZ32UuD6RzcRIuMDTjz6rOkmlvU01Uz58jRLbSARvXNd5D+XTGtQPqW
+ ZgFA2DYyhCU8Yo40dP0CH4t4M7LHkyk01J0DnxSv77KSDKlsv3JMRgUBlXAfJe2Qy+8g MA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq9m8vykg-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sq9m8vykh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 29 Aug 2023 00:05:44 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37T05hiu017382
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37T05h2W032245
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 29 Aug 2023 00:05:43 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,17 +41,15 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.36; Mon, 28 Aug 2023 17:05:43 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [PATCH RFC v6 00/10] Support for Solid Fill Planes
-Date: Mon, 28 Aug 2023 17:05:06 -0700
-Message-ID: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
+Date: Mon, 28 Aug 2023 17:05:07 -0700
+Subject: [PATCH RFC v6 01/10] drm: Introduce pixel_source DRM plane
+ property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADI27WQC/2XOz07DMAwG8FeZcsaTm39lnJCQeACuCKE0calRm
- 0IyqsHUdyfNZRocP1s/fz6LTIkpi7vdWSRaOPMcS7A3O+EHF98IOJQsJEqFGjXkeeQAPY8joMH
- GNq0JnbKigM5lgi656IeNTHmCSKfjtvpI1POp9jyLp8cH8VKGA+fjnL5r99LUVa1pUEulUdm9V
- RYa+Pxi//pOOf+Uj+63xNHv/TzVK4u+yD8PLhoQek0evXOtluE/NhfcytsrbApGo0JHvTvgwV/
- jdV1/AW72tiI9AQAA
+Message-ID: <20230828-solid-fill-v6-1-a820efcce852@quicinc.com>
+References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
+In-Reply-To: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Clark
@@ -59,11 +57,11 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  "Sean Paul" <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>
 X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693267542; l=7054;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1693267542; l=9586;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=3A4V/NphWx2dp96KKozhxqsfSYYTYJbF2vq7zhJRj5U=;
- b=7KG97hOAaLEJEXJU+BNRl2hVzWViroAeEfLy/XCLbXWsTduQPkXh0ahYXg6S0qGMdVwjPXJgF
- 7pih1VS+6R2DZB8VM0zf3B5nb1ud5Gxp2urC/LS0zliQErLyEmKGe2f
+ bh=nXCRWkCkCawtKrl5oXamniwN1Jf6CnqHe2orMF8EvwI=;
+ b=Z76HBp7pWzGqGk4C2wjbK9FXJZwPvlJZLiP4nlVd0XkWlxySlRWmtfOH/EYnn4e/K4TE3uoUt
+ 2yZjthmxp8RB+ce7mixjuQvAPMmqsA8Y+Wm94g2+atmBSS8aaHZJabf
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -72,15 +70,15 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: XX76qmdD0JuXsL4HQiBW8fU0JZG6PWRh
-X-Proofpoint-GUID: XX76qmdD0JuXsL4HQiBW8fU0JZG6PWRh
+X-Proofpoint-ORIG-GUID: 3r0TARHqtV-HEMi2KmB9rnu8_McYUAgp
+X-Proofpoint-GUID: 3r0TARHqtV-HEMi2KmB9rnu8_McYUAgp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-28_19,2023-08-28_04,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0 phishscore=0
  bulkscore=0 clxscore=1015 mlxscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=659
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2308280207
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,151 +101,276 @@ Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some drivers support hardware that have optimizations for solid fill
-planes. This series aims to expose these capabilities to userspace as
-some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
-hardware composer HAL) that can be set by apps like the Android Gears
-app.
+Add support for pixel_source property to drm_plane and related
+documentation. In addition, force pixel_source to
+DRM_PLANE_PIXEL_SOURCE_FB in DRM_IOCTL_MODE_SETPLANE as to not break
+legacy userspace.
 
-In order to expose this capability to userspace, this series will:
+This enum property will allow user to specify a pixel source for the
+plane. Possible pixel sources will be defined in the
+drm_plane_pixel_source enum.
 
-- Introduce solid_fill and pixel_source properties to allow userspace to
-  toggle between FB and solid fill sources
-- Loosen NULL FB checks within the DRM atomic commit callstack to allow
-  for NULL FB when solid fill is enabled.
-- Add NULL FB checks in methods where FB was previously assumed to be
-  non-NULL
-- Have MSM DPU driver use drm_plane_state.solid_fill instead of
-  dpu_plane_state.color_fill
+Currently, the only pixel sources are DRM_PLANE_PIXEL_SOURCE_FB (the
+default value) and DRM_PLANE_PIXEL_SOURCE_NONE.
 
-Note: The solid fill planes feature depends on both the solid_fill *and*
-pixel_source properties.
-
-To use this feature, userspace can set the solid_fill property to a blob
-containing the appropriate version number and solid fill color (in
-RGB323232 format) and and setting the pixel_source property to
-DRM_PLANE_PIXEL_SOURCE_COLOR. This will disable memory fetch and the
-resulting plane will display the color specified by the solid_fill blob.
-
-Currently, there's only one version of the solid_fill blob property.
-However if other drivers want to support a similar feature, but require
-more than just the solid fill color, they can extend this feature by
-creating additional versions of the drm_solid_fill struct.
-
-This 2 property approach was chosen because passing in a special 1x1 FB
-with the necessary color information would have unecessary overhead that
-does not reflect the behavior of the solid fill feature. In addition,
-assigning the solid fill blob to FB_ID would require loosening some core
-drm_property checks that might cause unwanted side effects elsewhere.
-
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
-Changes in v6:
-- Have _dpu_plane_color_fill() take in a single ABGR8888 color instead
-  of having separate alpha and BGR color parameters (Dmitry)
-- Drop plane->state->pixel_source != DRM_PLANE_PIXEL_SOURCE_FB check
-  in SetPlane ioctl (Dmitry)
-- Add DRM_PLANE_PIXEL_SOURCE_NONE as a default pixel source (Sebastian)
-- Dropped versioning from solid fill property blob (Dmitry)
-- Use DRM_ENUM_NAME_FN (Dmitry)
-- Use drm_atomic_replace_property_blob_from_id() (Dmitry)
-- drm_atomic_check_fb -> drm_atomic_plane_check_fb (Dmitry)
-- Group redundant NULL FB checks (Dmitry)
-- Squashed drm_plane_needs_disable() implementation with 
-  DRM_PLANE_PIXEL_SOURCE_NONE declaration (Sebastian)
-- Add comment to support RGBA solid fill color in the future (Dmitry)
-- Link to v5: https://lore.kernel.org/r/20230728-solid-fill-v5-0-053dbefa909c@quicinc.com
+ drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+ drivers/gpu/drm/drm_blend.c               | 90 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_plane.c               | 19 +++++--
+ include/drm/drm_blend.h                   |  2 +
+ include/drm/drm_plane.h                   | 21 ++++++++
+ 6 files changed, 133 insertions(+), 4 deletions(-)
 
-Changes in v5:
-- Added support for PIXEL_SOURCE_NONE (Sebastian)
-- Added WARN_ON() in drm_plane_has_visible_data() if pixel_source isn't
-  set (Dmitry)
-- Added debugfs support for both properties (Dmitry)
-- Corrected u32 to u8 conversion (Pekka)
-- Moved drm_solid_fill_info struct and related documentation to
-  include/uapi (Pekka)
-- Changed drm_solid_fill_info.version to __u32 for data alignment (Pekka)
-- Added more detailed UAPI and kernel documentation (Pekka)
-- Reordered patch series so that the pixel_source property is introduced
-  before solid_fill (Dmitry)
-- Fixed inconsistent ABGR8888/RGBA8888 format declaration (Pekka)
-- Reset pixel_source to FB in drm_mode_setplane() (Dmitry)
-- Rename supported_sources to extra_sources (Dmitry)
-- Only destroy old solid_fill blob state if new state is valid (Pekka)
-- Link to v4: https://lore.kernel.org/r/20230404-solid-fill-v4-0-f4ec0caa742d@quicinc.com
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 784e63d70a42..01638c51ce0a 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -252,6 +252,7 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+ 
+ 	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
+ 	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
++	plane_state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
+ 
+ 	if (plane->color_encoding_property) {
+ 		if (!drm_object_property_get_default_value(&plane->base,
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index d867e7f9f2cd..454f980e16c9 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -544,6 +544,8 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+ 		state->src_w = val;
+ 	} else if (property == config->prop_src_h) {
+ 		state->src_h = val;
++	} else if (property == plane->pixel_source_property) {
++		state->pixel_source = val;
+ 	} else if (property == plane->alpha_property) {
+ 		state->alpha = val;
+ 	} else if (property == plane->blend_mode_property) {
+@@ -616,6 +618,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+ 		*val = state->src_w;
+ 	} else if (property == config->prop_src_h) {
+ 		*val = state->src_h;
++	} else if (property == plane->pixel_source_property) {
++		*val = state->pixel_source;
+ 	} else if (property == plane->alpha_property) {
+ 		*val = state->alpha;
+ 	} else if (property == plane->blend_mode_property) {
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index 6e74de833466..c3c57bae06b7 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -185,6 +185,21 @@
+  *		 plane does not expose the "alpha" property, then this is
+  *		 assumed to be 1.0
+  *
++ * pixel_source:
++ *	pixel_source is set up with drm_plane_create_pixel_source_property().
++ *	It is used to toggle the active source of pixel data for the plane.
++ *	The plane will only display data from the set pixel_source -- any
++ *	data from other sources will be ignored.
++ *
++ *	Possible values:
++ *
++ *	"NONE":
++ *		No active pixel source.
++ *		Committing with a NONE pixel source will disable the plane.
++ *
++ *	"FB":
++ *		Framebuffer source set by the "FB_ID" property.
++ *
+  * Note that all the property extensions described here apply either to the
+  * plane or the CRTC (e.g. for the background color, which currently is not
+  * exposed and assumed to be black).
+@@ -615,3 +630,78 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
++
++static const struct drm_prop_enum_list drm_pixel_source_enum_list[] = {
++	{ DRM_PLANE_PIXEL_SOURCE_NONE, "NONE" },
++	{ DRM_PLANE_PIXEL_SOURCE_FB, "FB" },
++};
++
++/**
++ * drm_plane_create_pixel_source_property - create a new pixel source property
++ * @plane: DRM plane
++ * @extra_sources: Bitmask of additional supported pixel_sources for the driver.
++ *		   DRM_PLANE_PIXEL_SOURCE_FB and DRM_PLANE_PIXEL_SOURCE_NONE will
++ *		   always be enabled as supported sources.
++ *
++ * This creates a new property describing the current source of pixel data for the
++ * plane. The pixel_source will be initialized as DRM_PLANE_PIXEL_SOURCE_FB by default.
++ *
++ * Drivers can set a custom default source by overriding the pixel_source value in
++ * drm_plane_funcs.reset()
++ *
++ * The property is exposed to userspace as an enumeration property called
++ * "pixel_source" and has the following enumeration values:
++ *
++ * "NONE":
++ *	 No active pixel source
++ *
++ * "FB":
++ *	Framebuffer pixel source
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_plane_create_pixel_source_property(struct drm_plane *plane,
++					   unsigned long extra_sources)
++{
++	struct drm_device *dev = plane->dev;
++	struct drm_property *prop;
++	static const unsigned int valid_source_mask = BIT(DRM_PLANE_PIXEL_SOURCE_FB) |
++						      BIT(DRM_PLANE_PIXEL_SOURCE_NONE);
++	int i;
++
++	/* FB is supported by default */
++	unsigned long supported_sources = extra_sources |
++					  BIT(DRM_PLANE_PIXEL_SOURCE_FB) |
++					  BIT(DRM_PLANE_PIXEL_SOURCE_NONE);
++
++	if (WARN_ON(supported_sources & ~valid_source_mask))
++		return -EINVAL;
++
++	prop = drm_property_create(dev, DRM_MODE_PROP_ENUM | DRM_MODE_PROP_ATOMIC, "pixel_source",
++			hweight32(supported_sources));
++
++	if (!prop)
++		return -ENOMEM;
++
++	for (i = 0; i < ARRAY_SIZE(drm_pixel_source_enum_list); i++) {
++		int ret;
++
++		if (!test_bit(drm_pixel_source_enum_list[i].type, &supported_sources))
++			continue;
++
++		ret = drm_property_add_enum(prop, drm_pixel_source_enum_list[i].type,
++				drm_pixel_source_enum_list[i].name);
++		if (ret) {
++			drm_property_destroy(dev, prop);
++
++			return ret;
++		}
++	}
++
++	drm_object_attach_property(&plane->base, prop, DRM_PLANE_PIXEL_SOURCE_FB);
++	plane->pixel_source_property = prop;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_create_pixel_source_property);
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 24e7998d1731..559d101162ba 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -839,6 +839,14 @@ bool drm_any_plane_has_format(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_any_plane_has_format);
+ 
++static bool drm_plane_needs_disable(struct drm_plane_state *state, struct drm_framebuffer *fb)
++{
++	if (state->pixel_source == DRM_PLANE_PIXEL_SOURCE_NONE)
++		return true;
++
++	return state->pixel_source == DRM_PLANE_PIXEL_SOURCE_FB && fb == NULL;
++}
++
+ /*
+  * __setplane_internal - setplane handler for internal callers
+  *
+@@ -861,8 +869,8 @@ static int __setplane_internal(struct drm_plane *plane,
+ 
+ 	WARN_ON(drm_drv_uses_atomic_modeset(plane->dev));
+ 
+-	/* No fb means shut it down */
+-	if (!fb) {
++	/* No visible data means shut it down */
++	if (drm_plane_needs_disable(plane->state, fb)) {
+ 		plane->old_fb = plane->fb;
+ 		ret = plane->funcs->disable_plane(plane, ctx);
+ 		if (!ret) {
+@@ -913,8 +921,8 @@ static int __setplane_atomic(struct drm_plane *plane,
+ 
+ 	WARN_ON(!drm_drv_uses_atomic_modeset(plane->dev));
+ 
+-	/* No fb means shut it down */
+-	if (!fb)
++	/* No visible data means shut it down */
++	if (drm_plane_needs_disable(plane->state, fb))
+ 		return plane->funcs->disable_plane(plane, ctx);
+ 
+ 	/*
+@@ -987,6 +995,9 @@ int drm_mode_setplane(struct drm_device *dev, void *data,
+ 		return -ENOENT;
+ 	}
+ 
++	if (plane->state)
++		plane->state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
++
+ 	if (plane_req->fb_id) {
+ 		fb = drm_framebuffer_lookup(dev, file_priv, plane_req->fb_id);
+ 		if (!fb) {
+diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+index 88bdfec3bd88..122bbfbaae33 100644
+--- a/include/drm/drm_blend.h
++++ b/include/drm/drm_blend.h
+@@ -58,4 +58,6 @@ int drm_atomic_normalize_zpos(struct drm_device *dev,
+ 			      struct drm_atomic_state *state);
+ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+ 					 unsigned int supported_modes);
++int drm_plane_create_pixel_source_property(struct drm_plane *plane,
++					   unsigned long extra_sources);
+ #endif
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 51291983ea44..89508b4dea4a 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -40,6 +40,12 @@ enum drm_scaling_filter {
+ 	DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
+ };
+ 
++enum drm_plane_pixel_source {
++	DRM_PLANE_PIXEL_SOURCE_NONE,
++	DRM_PLANE_PIXEL_SOURCE_FB,
++	DRM_PLANE_PIXEL_SOURCE_MAX
++};
++
+ /**
+  * struct drm_plane_state - mutable plane state
+  *
+@@ -116,6 +122,14 @@ struct drm_plane_state {
+ 	/** @src_h: height of visible portion of plane (in 16.16) */
+ 	uint32_t src_h, src_w;
+ 
++	/**
++	 * @pixel_source:
++	 *
++	 * Source of pixel information for the plane. See
++	 * drm_plane_create_pixel_source_property() for more details.
++	 */
++	enum drm_plane_pixel_source pixel_source;
++
+ 	/**
+ 	 * @alpha:
+ 	 * Opacity of the plane with 0 as completely transparent and 0xffff as
+@@ -699,6 +713,13 @@ struct drm_plane {
+ 	 */
+ 	struct drm_plane_state *state;
+ 
++	/*
++	 * @pixel_source_property:
++	 * Optional pixel_source property for this plane. See
++	 * drm_plane_create_pixel_source_property().
++	 */
++	struct drm_property *pixel_source_property;
++
+ 	/**
+ 	 * @alpha_property:
+ 	 * Optional alpha property for this plane. See
 
-Changes in v4:
-- Rebased onto latest kernel
-- Reworded cover letter for clarity (Dmitry)
-- Reworded commit messages for clarity
-- Split existing changes into smaller commits
-- Added pixel_source enum property (Dmitry, Pekka, Ville)
-- Updated drm-kms comment docs with pixel_source and solid_fill
-  properties (Dmitry)
-- Inlined drm_atomic_convert_solid_fill_info() (Dmitry)
-- Passed in plane state alpha value to _dpu_plane_color_fill_pipe()
-- Link to v3: https://lore.kernel.org/r/20230104234036.636-1-quic_jesszhan@quicinc.com
-
-Changes in v3:
-- Fixed some logic errors in atomic checks (Dmitry)
-- Introduced drm_plane_has_visible_data() and drm_atomic_check_fb() helper
-  methods (Dmitry)
-- Fixed typo in drm_solid_fill struct documentation
-- Created drm_plane_has_visible_data() helper and corrected CRTC and FB
-  NULL-check logic (Dmitry)
-- Merged `if (fb)` blocks in drm_atomic_plane_check() and abstracted
-  them into helper method (Dmitry)
-- Inverted `if (solid_fill_enabled) else if (fb)` check order (Dmitry)
-- Fixed indentation (Dmitry)
-
-Changes in v2:
-- Dropped SOLID_FILL_FORMAT property (Simon)
-- Switched to implementing solid_fill property as a blob (Simon, Dmitry)
-- Added drm_solid_fill and drm_solid_fill_info structs (Simon)
-- Changed to checks for if solid_fill_blob is set (Dmitry)
-- Abstracted (plane_state && !solid_fill_blob) checks to helper method
-  (Dmitry)
-- Removed DPU_PLANE_COLOR_FILL_FLAG
-- Fixed whitespace and indentation issues (Dmitry)
-- Changed to checks for if solid_fill_blob is set (Dmitry)
-- Abstracted (plane_state && !solid_fill_blob) checks to helper method
-  (Dmitry)
-- Fixed dropped 'const' warning
-- Added helper to convert color fill to BGR888 (Rob)
-- Fixed indentation issue (Dmitry)
-- Added support for solid fill on planes of varying sizes
-
----
-Jessica Zhang (10):
-      drm: Introduce pixel_source DRM plane property
-      drm: Introduce solid fill DRM plane property
-      drm: Add solid fill pixel source
-      drm/atomic: Add pixel source to plane state dump
-      drm/atomic: Add solid fill data to plane state dump
-      drm/atomic: Move framebuffer checks to helper
-      drm/atomic: Loosen FB atomic checks
-      drm/msm/dpu: Allow NULL FBs in atomic commit
-      drm/msm/dpu: Use DRM solid_fill property
-      drm/msm/dpu: Add solid fill and pixel source properties
-
- drivers/gpu/drm/drm_atomic.c              | 147 +++++++++++++++++-------------
- drivers/gpu/drm/drm_atomic_helper.c       |  36 ++++----
- drivers/gpu/drm/drm_atomic_state_helper.c |  10 ++
- drivers/gpu/drm/drm_atomic_uapi.c         |  30 ++++++
- drivers/gpu/drm/drm_blend.c               | 129 ++++++++++++++++++++++++++
- drivers/gpu/drm/drm_crtc_internal.h       |   1 +
- drivers/gpu/drm/drm_plane.c               |  27 +++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c |  80 ++++++++++------
- include/drm/drm_atomic_helper.h           |   4 +-
- include/drm/drm_blend.h                   |   3 +
- include/drm/drm_plane.h                   |  90 ++++++++++++++++++
- include/uapi/drm/drm_mode.h               |  24 +++++
- 13 files changed, 478 insertions(+), 112 deletions(-)
----
-base-commit: 00ee72279c963989ab435b0bc90b5dc05a9aab79
-change-id: 20230404-solid-fill-05016175db36
-
-Best regards,
 -- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
+2.42.0
 
