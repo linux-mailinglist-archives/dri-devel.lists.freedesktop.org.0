@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327DC78C8F6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C83478C8F8
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2541B10E3C6;
-	Tue, 29 Aug 2023 15:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B15110E3D0;
+	Tue, 29 Aug 2023 15:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D16CC10E3C6;
- Tue, 29 Aug 2023 15:58:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B37E10E3C7;
+ Tue, 29 Aug 2023 15:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693324724; x=1724860724;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Cm7SZ4yqGMUbsrNjmFtoFxInf4PhL7C9YdsAZ1T4RLU=;
- b=Rp+iE7LEsJeead3+3RSuFSFGxuOrP4SSi0NgwUiR9nBl9jSQWAKJVx0A
- w0mUNgFTFUbUJPyPgA05CSBzns9rzoXnGjlgeVcSwLgukpAIgS8F4pOkd
- 79tp8KLe1+4aR5D5oMD5aWtKZKwMJsjgHA9MU10bXPWj3yaaDVNRDlvxK
- b1ofvH5/yLgkgdKdX5gj7PQS2pAS3K6vSiXWr6TQrqy6bmdX43F6uSEy1
- 4x+3Fq2siXaUSiGfzsbJYpnaQkeJjrQCnvgVUl5s2hfqnAwjOAH8mgdio
- 6KBSobEH7iJHCeSGykuakNegKt0gjrGCR1FRg5sStLJgVE1UOgMWPl/Mx Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769157"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769157"
+ t=1693324726; x=1724860726;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=rB6jTV1QKl1OfUoWo3vsbFXqCa6j/dbf0RZ5sbKnuU0=;
+ b=bHb2EeR6HFdgkLAGvNZUm24Mej4YXVke1GXyjqGeDs2f7ql9m1sxCM6Z
+ yAqdvaBxTSILIUHJ7Hlb+N0oJYF5d0lWpwiuqJ8IF8seRWTIlOIsXV7Tt
+ RCK6sLTbeYx2HxBHFmuxAh65GPeko+64faS95yXOZ3aIZbZZa+mA8cASL
+ 4QPueM5XXJxkZjlMfnDVUIhNd9VPBU9jcAuQDGnb6tgTH38b0/u/bc1Mc
+ r42efXzzNgE5D7b/uo8sZ/2hgQmQpVmY8k4z89Yq31lvRYSjFpWVx+GQY
+ 4AugtQx7RsCAQ6AK3/zlGtDMCs+Fx/zYob9B7ku8/YyGOXYAuMPpxW3TR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769171"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769171"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 08:58:43 -0700
+ 29 Aug 2023 08:58:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688554867"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688554867"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688554889"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688554889"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:58:39 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:58:44 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 00/33] Add Support for Plane Color Pipeline
-Date: Tue, 29 Aug 2023 21:33:49 +0530
-Message-ID: <20230829160422.1251087-1-uma.shankar@intel.com>
+Subject: [RFC 01/33] drm/doc/rfc: Add RFC document for proposed Plane Color
+ Pipeline
+Date: Tue, 29 Aug 2023 21:33:50 +0530
+Message-ID: <20230829160422.1251087-2-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230829160422.1251087-1-uma.shankar@intel.com>
+References: <20230829160422.1251087-1-uma.shankar@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -56,244 +59,422 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Shashank Sharma <shashank.sharma@amd.com>, wayland-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduction
-============
+Add the documentation for the new proposed Plane Color Pipeline.
 
-Modern hardwares have various color processing capabilities both
-at pre-blending and post-blending phases in the color pipeline.
-The current drm implementation exposes only the post-blending
-color hardware blocks. Support for pre-blending hardware is missing.
-There are multiple use cases where pre-blending color hardware will
-be useful:
-	a) Linearization of input buffers encoded in various transfer
-	   functions.
-	b) Color Space conversion
-	c) Tone mapping
-	d) Frame buffer format conversion
-	e) Non-linearization of buffer(apply transfer function)
-	f) 3D Luts
-	
-and other miscellaneous color operations.
-
-Hence, there is a need to expose the color capabilities of the hardware
-to user-space. This will help userspace/middleware to use display
-hardware for color processing and blending instead of doing it through
-GPU shaders.
-
-
-Work done so far and relevant references
-========================================
-
-Some implementation is done by Intel and AMD/Igalia to address the same.
-Broad consensus is there that we need a generic API at drm core to suffice
-the use case of various HW vendors. Below are the links capturing the
-discussion so far.
-
-Intel's Plane Color Implementation: https://patchwork.freedesktop.org/series/90825/
-AMD's Plane Color Implementation: https://patchwork.freedesktop.org/series/116862/
-
-
-Hackfest conclusions
-====================
-
-HDR/Color Hackfest was organised by Redhat to bring all the industry stakeholders
-together and converge on a common uapi expectations. Participants from Intel, AMD,
-Nvidia, Collabora, Redhat, Igalia and other prominent user-space developers and
-maintainers.
-
-Discussions happened on the uapi expectations, opens, nature of hardware of multiple
-hardware vendors, challenges in generalizing the same and the path forward. Consensus
-was made that drm core should implement descriptive APIs and not go with prescriptive
-APIs. DRM core should just expose the hardware capabilities; enabling, customizing and
-programming the same should be done by the user-space. Driver should just honor
-the user space request without doing any operations internally.
-
-Thanks to Simon Ser, for nicely documenting the design consensus and an UAPI RFC
-which can be referred to here:
-
-https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
-
-
-Design considerations
-=====================
-
-Following are the important aspects taken into account while designing the current RFC
-proposal:
-
-	1. Individual HW blocks can be muxed. (e.g. out of two HW blocks only one can be used)
-	2. Position of the HW block in the pipeline can be programmable
-	3. LUTs can be one dimentional or three dimentional
-	4. Number of LUT entries can vary across platforms
-	5. Precision of LUT entries can vary across platforms
-	6. Distribution of LUT entries may vary. e.g Mutli-segmented, Logarithmic,
-	   Piece-Wise Linear(PWL) etc
-	7. There can be parameterized/non-parameterized fixed function HW blocks.
-	   e.g. Just a hardware bit, to convert from one color space to another.
-	8. Custom non-standard HW implementation.
-	9. Leaving scope for some vendor defined pescriptive implementation if required.
-	10.Scope to handle any modification in hardware as technology evolves
-
-The current proposal takes into account the above considerations while keeping the implementation
-as generic as possible leaving scope for future additions or modifications.
- 
-This proposal is also in line to the details mentioned by Simon's RFC covering all
-the aspects discussed in hackfest.
-
-
-Outline of the implementation
-============================
-
-Each Color Hardware block will be represented by a data structure drm_color_op.
-These color operations will form the building blocks of a color pipeline which
-best represents the underlying Hardware. Color operations can be re-arranged,
-substracted or added to create distinct color pipelines to accurately describe
-the Hardware blocks present in the display engine.
-
-In this proposal, a color pipeline is represented as an array of
-struct drm_color_op. For individual color operation, we add blobs to advertise
-the capability of the particular Hardware block.
-
-This color pipeline is then packaged within a blob for the user space to
-retrieve it.
-
-To advertise the available color pipelines, an immutable ENUM property
-"GET_COLOR_PIPELINE" is introduced. This enum property has blob id's as values.
-With each blob id representing a distinct color pipeline based on underlying HW
-capabilities and their respective combinations.
-
-Once the user space decides on a color pipeline, it can set the pipeline and
-the corresponding data for the hardware blocks within the pipeline with
-the BLOB property "SET_COLOR_PIPELINE".
-
-Refer to Documentation/gpu/rfc/plane_color_pipeline.rst added in the patch
-
-IGT and test details
-====================
-
-A set of IGT tests is written to demonstrate the usage of the proposed UAPIs
-along with some sanity validation.
-
-Details of the IGT test can be found here:
-https://patchwork.freedesktop.org/series/123018/
-
-Opens
-=====
-
-a. To come up with a list of common HW blocks which can be defined generically by the DRM
-   core in agreement with all the stakeholders
-b. To enhance/finalize the data structure to define segmented LUTs generically.
-
-
-Out of Scope
-============
-
-a. The coefficients for CTM and LUT value calculations are out of scope of the proposal.
-b. The onus of programming the HW blocks and their values is on user-space. Driver will
-   just provide the interface for the same.
-c. In order to compute LUT values and coefficients, a helper library can be created in
-   user-space. However, it is out of scope for the current proposal.
-
-Acknowledgements and credits
-============================
-
-There are multiple contributors who have helped us to reach to this proposal. Special mention
-to Ville Syrjala<ville.syrjala@linux.intel.com>, Pekka Paalanen<pekka.paalanen@collabora.com>,
-Simon Ser<contact@emersion.fr>, Harry Wentland<harry.wentland@amd.com>,
-Melissa Wen<mwen@igalia.com>, Jonas<jadahl@redhat.com>, Sebastian Wick<sebastian.wick@redhat.com>,
-Bhanu<bhanuprakash.modem@intel.com> and Shashank<shashank.sharma@amd.com>.
-
-Also, thanks to Carlos <csoriano@redhat.com> and the Redhat team for organizing the HDR hackfest.
-
-
-UAPI dependency and Usermode development
-========================================
-
-The current KMS implementation requires a user space consumer for it to be accepted upstream.
-Work is ongoing in weston and mutter community to get color management and HDR support implemented
-in the respective stacks.
-
-=================================================================================
-
-We have tried to take care of all the scenarios and use-cases which possibly could exists in the
-current proposal. Thanks to everyone who has contributed in all color management discussions so
-far. Let's work together to improve the current proposal and get this thing implemented in
-upstream linux. All the feedback and suggestions to enhance the design are welcome.
-
-Regards,
-Uma Shankar
-Chaitanya Kumar Borah
-
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: Jonas Ådahl <jadahl@redhat.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com> 
-Cc: Shashank Sharma <shashank.sharma@amd.com>
-Cc: Alexander Goins <agoins@nvidia.com>
-
-Chaitanya Kumar Borah (14):
-  drm: Add color operation structure
-  drm: Add plane get color pipeline property
-  drm: Add helper to add color pipeline
-  drm: Manage color blob states
-  drm: Replace individual color blobs
-  drm: Reset pipeline when user sends NULL blob
-  drm: Reset plane color state on pipeline switch request
-  drm/i915/color: Add HDR plane LUT range data to color pipeline
-  drm/i915/color: Add SDR plane LUT range data to color pipeline
-  drm/i915/color: Add color pipelines to plane
-  drm/i915/color: Create and attach set color pipeline property
-  drm/i915/color: Enable plane color features
-  drm/i915/color: Add a dummy pipeline with 3D LUT
-  drm/i915/color: Add example implementation for vendor specific color
-    operation
-
-Uma Shankar (19):
-  drm/doc/rfc: Add RFC document for proposed Plane Color Pipeline
-  drm: Add structures for setting color pipeline
-  drm: Add set colorpipeline property
-  drm: Add Enhanced Gamma LUT precision structure
-  drm: Add color lut range structure
-  drm: Add color information to plane state
-  drm/i915/color: Add lut range for SDR planes
-  drm/i915/color: Add lut range for HDR planes
-  drm/i915/color: Add color pipeline for HDR planes
-  drm/i915/color: Add color pipeline for SDR planes
-  drm/i915/color: Add plane color callbacks
-  drm/i915/color: Load plane color luts from atomic flip
-  drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
-  drm/i915/xelpd: Add register definitions for Plane Degamma
-  drm/i915/color: Add color functions for ADL
-  drm/i915/color: Program Plane Pre-CSC Registers
-  drm/i915/xelpd: Add register definitions for Plane Post CSC
-  drm/i915/xelpd: Program Plane Post CSC Registers
-  drm/i915/color: Enable Plane CSC
-
- .../gpu/rfc/plane_color_pipeline.rst          | 394 ++++++++++
- drivers/gpu/drm/drm_atomic_state_helper.c     |  21 +
- drivers/gpu/drm/drm_atomic_uapi.c             | 218 ++++++
- drivers/gpu/drm/drm_color_mgmt.c              | 130 ++++
- drivers/gpu/drm/i915/display/intel_color.c    | 684 +++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_color.h    |   7 +-
- .../drm/i915/display/skl_universal_plane.c    |  21 +-
- drivers/gpu/drm/i915/i915_reg.h               | 124 ++++
- include/drm/drm_plane.h                       |  82 +++
- include/uapi/drm/drm_mode.h                   | 196 +++++
- include/uapi/drm/i915_drm.h                   |  25 +
- 11 files changed, 1899 insertions(+), 3 deletions(-)
+Co-developed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+---
+ .../gpu/rfc/plane_color_pipeline.rst          | 394 ++++++++++++++++++
+ 1 file changed, 394 insertions(+)
  create mode 100644 Documentation/gpu/rfc/plane_color_pipeline.rst
 
+diff --git a/Documentation/gpu/rfc/plane_color_pipeline.rst b/Documentation/gpu/rfc/plane_color_pipeline.rst
+new file mode 100644
+index 000000000000..60ce515b6ea7
+--- /dev/null
++++ b/Documentation/gpu/rfc/plane_color_pipeline.rst
+@@ -0,0 +1,394 @@
++=======================================
++ Plane Color Pipeline: A UAPI proposal
++=======================================
++
++To build the proposal on, lets take the premise of a color pipeline as shown
++below.
++
++ +-------------------------------------------+
++ |                RAM                        |
++ |  +------+    +---------+    +---------+   |
++ |  | FB 1 |    |  FB 2   |    | FB N    |   |
++ |  +------+    +---------+    +---------+   |
++ +-------------------------------------------+
++       |  Plane Color Hardware Block |
++ +--------------------------------------------+
++ | +---v-----+   +---v-------+   +---v------+ |
++ | | Plane A |   | Plane B   |   | Plane N  | |
++ | | Pre-CSC |   | Pre-CSC   |   | Pre-CSC  | |
++ | +---+-----+   +---+-------+   +---+------+ |
++ |     |             |               |        |
++ | +---v-----+   +---v-------+   +---v------+ |
++ | |Plane A  |   | Plane B   |   | Plane N  | |
++ | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
++ | +---+-----+   +----+------+   +----+-----+ |
++ |     |              |               |       |
++ | +---v-----+   +----v------+   +----v-----+ |
++ | | Plane A |   | Plane B   |   | Plane N  | |
++ | |Post-CSC |   | Post-CSC  |   | Post-CSC | |
++ | +---+-----+   +----+------+   +----+-----+ |
++ |     |              |               |       |
++ +--------------------------------------------+
+++------v--------------v---------------v-------|
++||                                           ||
++||           Pipe Blender                    ||
+++--------------------+------------------------+
++|                    |                        |
++|        +-----------v----------+             |
++|        |  Pipe Pre-CSC        |             |
++|        |                      |             |
++|        +-----------+----------+             |
++|                    |            Pipe Color  |
++|        +-----------v----------+ Hardware    |
++|        |  Pipe CSC/CTM        |             |
++|        |                      |             |
++|        +-----------+----------+             |
++|                    |                        |
++|        +-----------v----------+             |
++|        |  Pipe Post-CSC       |             |
++|        |                      |             |
++|        +-----------+----------+             |
++|                    |                        |
+++---------------------------------------------+
++                     |
++                     v
++                Pipe Output
++
++Each plane consists of the following color blocks
++ * Pre-CSC : This block can used to linearize the input frame buffer data.
++             The linear data then can be further acted on by the following
++             color hardware blocks in the display hardware pipeline
++
++ * CSC/CTM: Used to program color transformation matrix, this block is used
++            to perform color space conversions like BT2020 to BT709 or BT601
++            etc. This block acts on the linearized data coming from the
++            Pre-CSC HW block.
++
++ * Post-CSC: This HW block can be used to non-linearize frame buffer data to
++             match the sink. Another use case of it could be to perform Tone
++             mapping for HDR use-cases.
++
++Data from multiple planes will then be fed to pipe/crtc where it will get blended.
++There is a similar set of HW blocks available at pipe/crtc level which acts on
++this blended data.
++
++Below is a sample usecase fo video playback with sub-titles and playback
++controls
++
++┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐
++│FB1         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │
++│            ├───►│Linearize    ├────►│ BT709 to    ├───►│ SDR to HDR  │
++│BT709 SDR   │    │             │     │ BT2020      │    │ Tone Mapping├─────┐
++└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘     │
++(subtitles)                                                                  │
++                                                                             │
++┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐     │
++│FB2         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │     │
++│            ├───►│Linearize    ├────►│ BT601 to    ├───►│ SDR to HDR  ├───┐ │
++│BT601 SDR   │    │             │     │ BT2020      │    │ Tone Mapping│   │ │
++└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘   │ │
++(Playback controls UI)                                                     │ │
++                                                                           │ │
++┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐   │ │
++│FB2         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │   │ │
++│            ├───►│Linearize    ├────►│ BT601 to    ├───►│ SDR to HDR  ├─┐ │ │
++│BT2020 HDR  │    │             │     │ pass-through│    │ pass-through│ │ │ │
++└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘ │ │ │
++(video frame)                                                            │ │ │
++                                                                         │ │ │
++┌────────────────────────────────────────────────────────────────────────┴─┴─┘
++│
++│ ┌─────────────┐      ┌─────────────┐      ┌───────────────┐
++│ │ CRTC        │      │ CRTC        │      │ CRTC          │
++└─┤ PRE-CSC     ├─────►│ CSC/CTM     ├─────►│ POST-CSC      ├─────► TO Port
++  │             │      │             │      │               │
++  └─────────────┘      └─────────────┘      └───────────────┘
++
++This RFC is intended to propose an uAPI for the pre-blending color pipeline
++(however, can be also extended to post blending pipeline).
++
++Below are the design considerations while designing the uAPI.
++
++1. Individual HW blocks can be muxed. (e.g. out of two HW blocks only one can be used)
++2. Position of the HW block can be programmable
++3. LUTs can be one dimentional or three dimentional
++4. Number of LUT entries can vary across platforms
++5. Precision of LUT entries can vary across platforms
++6. Distribution of LUT entries may vary. e.g Mutli-segmented, Logarithmic,
++   Piece-Wise Linear(PWL) etc
++7. There can be parameterized/non-parameterized fixed function HW blocks.
++   e.g. Just a hardware bit, to convert from one color space to another.
++
++Plane Color Pipeline: Design Proposal
++=====================================
++Each Color Hardware block will be represented by the structure drm_color_op.
++
++struct drm_color_op {
++	enum color_op_block name;
++	enum color_op_type type;
++	u32 blob_id;
++	u32 private_flags;
++};
++
++The members of which will constitute:
++1. name: A standardised enum for the color hardware block
++2. type: The type of mathematical operation done by the hardware block.
++         e.g. 1D Curve, 3D Curve, Matrix etc.
++3. blob id: Id  pointing to a blob containing information about the hardware
++         block advertising the respective capabilities to the userspace.
++         It can be an optional field depending on the members "name" and "type".
++4. private_flags: This can be used to provide vendor specific hints
++         to user space
++
++
++   For example to represent LUTs, we introduce the drm_color_lut_range
++   structure. It can represent LUTs with varied number of entries and
++   distributions (Multi segmented, Logarithmic etc).
++
++   struct drm_color_lut_range {
++		/* DRM_MODE_LUT_* */
++		__u32 flags;
++		/* number of points on the curve */
++		__u16 count;
++		/* input/output bits per component */
++		__u8 input_bpc, output_bpc;
++		/* input start/end values */
++		__s32 start, end;
++		/* output min/max values */
++		__s32 min, max;
++   };
++
++Note: More details on exact usage and implementation of this structure can be
++      found in the RFC. This structure is taken as is from the series.
++      https://patchwork.freedesktop.org/series/90825/
++      However, we can add more members to it to encompass all use-cases.
++      For example. we can add a precision field to advertise the
++      bitdepth of the LUTs. Similarly, we can reserve some bits in the flag
++      field for vendor specific use cases.
++
++      At the same time, we don't need to pass any additional information for the
++      CSC block as userspace and driver already agrees struct drm_color_ctm as
++      a uAPI to pass on data.
++
++These color operations will form the building blocks of a color pipeline which
++best represents the underlying Hardware. Color operations can be re-arranged,
++substracted or added to create distinct color pipelines to accurately describe
++the Hardware blocks present in the display engine.
++
++In this proposal, a color pipeline is represented as an array of
++struct drm_color_op.
++
++struct drm_color_op color_pipeline_1[]
++
++For example to represent the pre-blending color pipeline as described above
++
++We can create a color pipeline like this.
++
++struct drm_color_op color_pipeline_1[] = {
++	{
++		.name = DRM_CB_PRE_CSC,
++		.type = CURVE_1D,
++		.blob_id = 0; /* actual value to be populated during plane
++						 initialization*/
++	},
++	{
++		.name = DRM_CB_CSC,
++		.type = MATRIX,
++		.blob_id = 0;
++	},
++	{
++		.name = DRM_CB_POST_CSC,
++		.type = CURVE_1D,
++		.blob_id = 0;
++	},
++};
++
++Then, for individual color operation, we add blobs to advertise the capability
++of the particular Hardware block. In case of the example pipeline, we add
++blobs of type drm_color_lut_range for the "pre-csc" and "post-csc".
++For the "csc" block we pass no blob id to user space as it is known to both
++user space and driver that drm_color_ctm structure is to be used for such
++operation.
++
++To represent, this in a diagram.
++
++   struct drm_color_op color_pipeline_1[]
++      +---------------------------+
++      |                           |           drm_color_op
++      |  +---------------------+--+-----------+---------------------+
++      |  |                     |  |           |                     |
++      |  |                     |  |           | +-----------------+ |
++      |  |                     |  |           | |     name        | |
++      |  |                     |  |           | +-----------------+ |
++      |  |                     |  |           | |     type        | |
++      |  |    color_op_1       |  |           | +-----------------+ |
++      |  |                     |  |           | |     blob id     | +--------+
++      |  |                     |  |           | +-----------------+ |        |
++      |  |                     |  |           | |     private     | |        |
++      |  |                     |  |           | |      flags      | |        |
++      |  |                     |  |           | +-----------------+ |        |
++      |  |                     |  |           |                     |        |
++      |  +---------------------+--+-----------+---------------------+        |
++      |                           |                                          |
++      |                           |                                          |
++      |  +---------------------+  |                                          |
++      |  |                     |  |           drm_color_lut_range            |
++      |  |    color_op_2       |  |           +-------------------------+    |
++      |  |                     |  |           |                         |    |
++      |  |                     |  |           | +---------------------+ |    |
++      |  +---------------------+  |           | | segment 1 {         | |<---+
++      |                           |           | |  ...                | |
++      |  +---------------------+  |           | |  .input_bpc = 16,   | |
++      |  |                     |  |           | |  .output_bpc = 16,  | |
++      |  |    color_op_3       |  |           | |  ...                | |
++      |  |                     |  |           | | }                   | |
++      |  |                     |  |           | +---------------------+ |
++      |  +---------------------+  |           |                         |
++      |             .             |           | +---------------------+ |
++      |             .             |           | | segment 2 {         | |
++      |             .             |           | | ...                 | |
++      +---------------------------+           | | }                   | |
++                                              | |                     | |
++                                              | |                     | |
++                                              | |                     | |
++                                              | +---------------------+ |
++                                              |            .            |
++                                              |            .            |
++                                              |            .            |
++                                              +-------------------------+
++
++
++
++This color pipeline is then packaged within a blob for the user space to
++retrieve it. Details can be found in the next section
++
++Exposing a color pipeline to user space
++=======================================
++
++To advertise the available color pipelines, an immutable ENUM property
++"GET_COLOR_PIPELINE" is introduced.
++This enum property has blob id's as values. With each blob id representing
++a distinct color pipeline based on underlying HW capabilities and their
++respective combinations.
++
++The following output of drm_info [1], shows how color pipelines are visible
++to userspace.
++
++├───Plane 0
++    │   ├───Object ID: 31
++    │   ├───CRTCs: {0}
++    │   ├───Legacy info
++        ...
++    │       ├───"GET_COLOR_PIPELINE" (immutable): enum {no color pipeline,
++						color pipeline 1, color pipeline 2}= no color pipeline
++
++To understand the capabilities of individual pipelines, first the userspace
++need to retrieve the pipeline blob with the blob ids retrieved by reading the
++enum property.
++
++Once the color pipeline is retrieved, user can then parse through
++individual drm_color_op blocks to understand the capabilities of each
++hardware block.
++
++Check IGT series to see how user space can parse through color pipelines.
++Refer the IGT series here: https://patchwork.freedesktop.org/series/123018/
++
++Setting up a color pipeline
++===========================
++
++Once the user space decides on a color pipeline, it can set the pipeline and
++the corresponding data for the hardware blocks within the pipeline with
++the BLOB property "SET_COLOR_PIPELINE".
++
++To achieve this two structures are introduced
++
++1.	struct drm_color_op_data: It represents data to be passed onto individual
++							  color hardware blocks. It contains three members
++                      a) name: to identify the color operation block
++                      b) blob_id: pointing to the blob with data for the
++                                  corresponding hardware block
++
++	struct drm_color_op_data {
++		enum color_op_block name;
++		u32 blob_id;
++	};
++
++2.	struct drm_color_pipeline: This structure represents the aggregate
++                                   pipeline to be set. it contains the following  members
++					  a) num: pipeline number to be selected
++					  b) size: size of the data to be passed onto the driver
++					  c) data: array of struct drm_color_op_data with data for
++                                                   the hardware block/s that userspace wants to
++                                                   set values for.
++
++	struct drm_color_pipeline {
++		int num;
++		int size;
++		struct drm_color_op_data *data;
++	};
++
++	User can either:
++	1. send data for all the color operations in a pipeline as shown in [2].
++	   The color operation data need not be in order that the pipeline advertises
++	   however, it should not contain data for any
++	   color operation that is not present in the pipeline.
++
++	   Note: This check for pipeline is not yet implemented but if the
++	   wider proposal is accepted we have few solutions in mind.
++
++	2. send data for a subset of color operations as shown in [3].For the
++	   color operation that userspace does not send data will retain their
++	   older state.
++
++	3. reset/disable the pipeline by setting the "SET_COLOR_PIPELINE" blob
++	   property to NULL as shown in both [2] and [3]
++
++	4. change the color pipeline as demonstrated in [3].
++	   On the new pipeline, the user is expected to setup all the color hardware block
++	   Once the user requests a pipeline change, the driver will provide it a clean slate
++           which means that all the data previously set by the user will be discarded even if
++           there are common hardware blocks between the two(previous and current) pipelines.
++
++IGT implementation can be found here [4]
++
++Representing Fixed function hardware
++====================================
++
++To provide support for fixed function hardware, the driver could expose vendor
++specific struct drm_color_op with parameters that both the userspace and
++driver agrees on. To demonstrate, let's consider a hyphothetical fixed
++function hardware block that converts BT601 to BT2020.
++The driver can choose to advertise the block as such.
++
++struct drm_color_op color_pipeline_X[] = {
++	{
++		.name = DRM_CB_PRIVATE,
++		.type = FIXED_FUNCTION,
++		.blob_id = 45;
++	},
++}
++
++Where the blob represents some vendor specific enums, strings or any other
++appropriate data types which both the user-space and drivers are aligned on.
++
++blob:45 {
++	VENDORXXX_BT602_TO_BT2020,
++};
++
++For enabling or passing parameters to such blocks, the user can send data
++to the driver wrapped within a blob like any other color operation block.
++
++	struct drm_color_op_data {
++		.name = DRM_CB_PRIVATE;
++		.blob_id = 46;
++	} ;
++
++where blob with id 46 contains data to enable the fixed function hardware(s).
++
++References
++==========
++
++[1] https://gitlab.freedesktop.org/emersion/drm_info
++[2] https://patchwork.freedesktop.org/patch/554827/?series=123018&rev=1
++[3] https://patchwork.freedesktop.org/patch/554826/?series=123018&rev=1
++[4] https://patchwork.freedesktop.org/series/123018/
 -- 
 2.38.1
 
