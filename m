@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A2A78C9DC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 18:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A209178CA1B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 19:03:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC6F110E092;
-	Tue, 29 Aug 2023 16:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56AAF10E0B1;
+	Tue, 29 Aug 2023 17:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDA2F10E092
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 16:45:50 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id
- 6a1803df08f44-6490c2c4702so23528816d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 09:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1693327549; x=1693932349;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Gd7wbDLNyz8eBHL7fGCPyOOExG5MY/ZyAjupuh5K/2U=;
- b=HaXmMM9EX6NG/E/ePntVX4MvLS/9Bx4fRXcv7ussLeXTZOdZOS/LqfmjBM8ohryTt9
- wvBkhAnaAh9sYZ8KMb9StpU5wQ78P4J//rF2vCmv6OtBEmW4y6c0ZPzOV8Z92s1j465E
- 6BJQVeujYC6QBknB+9VhksHfV8vWWR+U56HltBfS8MYs341LnooqP6sfzTMVDYPr7/j5
- 5fYnCGD1dMdnL5Tp+f4DSIgcqd59EKNU52fLtXhcp8O8EhE0UZEjnk2CPXe36aIcNIvM
- BV7URAe3NbqVPg1m+61uFXuXgFuaxlMuqD2P2cHRbRALOrQUMeU1ntTM7eY2AQVVmjhM
- ukoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693327549; x=1693932349;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Gd7wbDLNyz8eBHL7fGCPyOOExG5MY/ZyAjupuh5K/2U=;
- b=VoqUd0q9iFi6Ti76ZoncXkiqf8IXpyWKcjl9GKLU5agsgDKNZb4dbPNK7msjUN5eM6
- peS9NnPT/xMOkOoEVLg7O47tJDSlXJ7Rp9Kdjin8YxI4VFDgKQ0PwO7UwLF0H8y6uvk1
- fPoXHFPxZs3ZGU9ddiiLwahvuEPB6MDU9IchttBUzmzqOHS1VFqJCAPdmI6mC5utMgkL
- b82jjfZvJDR44w0mly4cpZ/JMZ/80pq1WInv7+AF8/KhZeyLQh/Mu3pjoYm02shUPPnS
- KGT6UShBhoM/50Hmzu3/ciKEg5ZTSQuqMtA80Jpj7Gkxt6eD8VSW07iOE1WC+AVJwCe0
- RVyA==
-X-Gm-Message-State: AOJu0Ywkeu34n3pwPt4p3UGYsoDOCdXCDWsQZ0Q8TkDCH0GrCnxS+YDr
- a6lZVDXTJWIfp9fuCCQoz47wHeLszFhW7rQnx1tlY8GZsSqPszj80oQHJg==
-X-Google-Smtp-Source: AGHT+IFMxQxI9GFxNCtBrC7GsH5CSI9yib7ImtOZtC9YNFMY9C889/jaH2b0JivfMTd74M/lUF+8Hsx7eUcoq7MLAFE=
-X-Received: by 2002:a0c:e451:0:b0:64f:91de:2ece with SMTP id
- d17-20020a0ce451000000b0064f91de2ecemr7657913qvm.21.1693327548975; Tue, 29
- Aug 2023 09:45:48 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD4BA10E0B1;
+ Tue, 29 Aug 2023 17:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693328616; x=1724864616;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=YUkLAQenJJE5Yaz87Zbzp9BGM85+HFJ0AxL4o4NZzDs=;
+ b=e5gps49a+0KNUVin4KFAbEfDz2QsLsUGGzBl//KgpMpkZQV52JLLpzU/
+ EHQZU5gLh3K0coX69/FSiC0dSwLt7bJ7TyH6nWK9lGIgaHuKjgoVOu3ri
+ 0+yzYLvdMaFmf8lv3VcxKTL3GYf8yMyroV/KosbfzcQbEXmiR4LuwOY/o
+ Ks7DZEjAiwein27Ii9gTMo/sjVUCTYZ0+7KcIPGiG/MgzFrmc7OruEsAu
+ fjIueQ9wBDs+dl//Zqlstnzn0jKNp/5ut2owncthyYGxQ/JyKQkYRHIaI
+ i81O5FkPEAytCjqo0DwOV0RtbqMhLc7hB2Kt+BSQ6Gr3r6f4EQMAidI32 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="360425293"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="360425293"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2023 10:03:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="882391625"
+Received: from mnefedov-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.32.206])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2023 10:03:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 0/4] drm/amd/display: stop using
+ drm_edid_override_connector_update()
+In-Reply-To: <87o7ip252r.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1692705543.git.jani.nikula@intel.com>
+ <788721f6-afff-e0b2-db7c-32ab2dd075a9@amd.com> <87il965gob.fsf@intel.com>
+ <871qfm2kg1.fsf@intel.com>
+ <CADnq5_P49U3dcqiZhB-CjS8UbOtB7K2jNObS0ZQqMhOr3UhLQg@mail.gmail.com>
+ <87o7ip252r.fsf@intel.com>
+Date: Tue, 29 Aug 2023 20:03:29 +0300
+Message-ID: <87jztd2332.fsf@intel.com>
 MIME-Version: 1.0
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 29 Aug 2023 09:45:38 -0700
-Message-ID: <CAKwvOdn0xoVWjQ6ufM_rojtKb0f1i1hW-J_xYGfKDNFdHwaeHQ@mail.gmail.com>
-Subject: truncation in drivers/video/fbdev/neofb.c
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +63,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, clang-built-linux <llvm@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Alex Hung <alex.hung@amd.com>, intel-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Wenchieh Chien <wenchieh.chien@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Helge,
-A recent change in clang made it better about spotting snprintf that
-will result in truncation.  Nathan reported the following instances:
+On Tue, 29 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Tue, 29 Aug 2023, Alex Deucher <alexdeucher@gmail.com> wrote:
+>> On Tue, Aug 29, 2023 at 6:48=E2=80=AFAM Jani Nikula <jani.nikula@intel.c=
+om> wrote:
+>>>
+>>> On Wed, 23 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+>>> > On Tue, 22 Aug 2023, Alex Hung <alex.hung@amd.com> wrote:
+>>> >> On 2023-08-22 06:01, Jani Nikula wrote:
+>>> >>> Over the past years I've been trying to unify the override and firm=
+ware
+>>> >>> EDID handling as well as EDID property updates. It won't work if dr=
+ivers
+>>> >>> do their own random things.
+>>> >> Let's check how to replace these references by appropriate ones or f=
+ork
+>>> >> the function as reverting these patches causes regressions.
+>>> >
+>>> > I think the fundamental problem you have is conflating connector forc=
+ing
+>>> > with EDID override. They're orthogonal. The .force callback has no
+>>> > business basing the decisions on connector->edid_override. Force is
+>>> > force, override is override.
+>>> >
+>>> > The driver isn't even supposed to know or care if the EDID originates
+>>> > from the firmware loader or override EDID debugfs. drm_get_edid() will
+>>> > handle that for you transparently. It'll return the EDID, and you
+>>> > shouldn't look at connector->edid_blob_ptr either. Using that will ma=
+ke
+>>> > future work in drm_edid.c harder.
+>>> >
+>>> > You can't fix that with minor tweaks. I think you'll be better off
+>>> > starting from scratch.
+>>> >
+>>> > Also, connector->edid_override is debugfs. You actually can change the
+>>> > behaviour. If your userspace, whatever it is, has been written to ass=
+ume
+>>> > connector forcing if EDID override is set, you *do* have to fix that,
+>>> > and set both.
+>>>
+>>> Any updates on fixing this, or shall we proceed with the reverts?
+>>
+>> What is the goal of the reverts?  I don't disagree that we may be
+>> using the interfaces wrong, but reverting them will regess
+>> functionality in the driver.
+>
+> The commits are in v6.5-rc1, but not yet in a release. No user depends
+> on them yet. I'd strongly prefer them not reaching v6.5 final and users.
 
-drivers/video/fbdev/neofb.c:1959:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-17 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1963:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-18 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1967:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-17 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1971:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-17 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1978:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-18 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1985:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-17 [-Wfortify-source]
-drivers/video/fbdev/neofb.c:1992:3: warning: 'snprintf' will always be
-truncated; specified size is 16, but format string expands to at least
-18 [-Wfortify-source]
+Sorry for confusion here, that's obviously come and gone already. :(
 
-https://github.com/ClangBuiltLinux/linux/issues/1923
+> The firmware EDID, override EDID, connector forcing, the EDID property,
+> etc. have been and somewhat still are a hairy mess that we must keep
+> untangling, and this isn't helping.
+>
+> I've put in crazy amounts of work on this, and I've added kernel-doc
+> comments about stuff that should and should not be done, but they go
+> unread and ignored.
+>
+> I really don't want to end up having to clean this up myself before I
+> can embark on further cleanups and refactoring.
+>
+> And again, if the functionality in the driver depends on conflating two
+> things that should be separate, it's probably not such a hot idea to let
+> it reach users either. Even if it's just debugfs.
+>
+>
+> BR,
+> Jani.
 
-Clang is right here.  `info->fix.id` is declared as `char id[16];` so
-indeed string literals like "MagicGraph 256AV+" indeed lead to
-truncation. But this is declared in include/uapi/linux/fb.h; I assume
-those headers cant be changed? Can the strings be shortened then? Is
-it perhaps time to delete this driver?
-
-I see AKPM mentioned alluded to this in
-commit 0e90454 ("neofb: avoid overwriting fb_info fields")
-
-(Also, snprintf probably isn't necessary for string literals that
-don't contain format strings)
--- 
-Thanks,
-~Nick Desaulniers
+--=20
+Jani Nikula, Intel Open Source Graphics Center
