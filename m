@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8A478C9A4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 18:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A3378C989
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 18:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BB710E440;
-	Tue, 29 Aug 2023 16:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0D810E437;
+	Tue, 29 Aug 2023 16:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051E910E433;
- Tue, 29 Aug 2023 16:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693326534; x=1724862534;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=h/5BDWoQsp2hHLilfpVN+Q6p4cj5EVTT59zqkxA8gw0=;
- b=ZNcTCsRQoYlJOMG+EpzZrHsMODgDAHm6IrhPJOPFxP2/fuLhAfGtvch+
- xEfWpe5EVYBFMuhf2e1rRdW1WHClJkHVl2QVhEGDJ79trKLsoG2I0i58N
- oXx2RIIvBtfsiYSlwf2s+B2BGPenG7Cz996noRgGyq/JKYzI3UeXqo9iP
- 2j6uX+Q45Ysr0T4a1A7pCXRbFpfBJJTnV1aTr2AldmQUc/JMxWfeOatCM
- tmSOqjcsVRa8YKG7z+oyEmzQt/aKhLE3OPlln83kYV46/3ATWAZ0aTmLx
- TkFd40G2XVD6VAaNMUYu2/nii+cyYdd6bk5RKxPN/TO5VFvyta9gHAlwP g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="461791274"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="461791274"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 09:20:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="808749426"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="808749426"
-Received: from mnefedov-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.32.206])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 09:20:30 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 0/4] drm/amd/display: stop using
- drm_edid_override_connector_update()
-In-Reply-To: <CADnq5_P49U3dcqiZhB-CjS8UbOtB7K2jNObS0ZQqMhOr3UhLQg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1692705543.git.jani.nikula@intel.com>
- <788721f6-afff-e0b2-db7c-32ab2dd075a9@amd.com> <87il965gob.fsf@intel.com>
- <871qfm2kg1.fsf@intel.com>
- <CADnq5_P49U3dcqiZhB-CjS8UbOtB7K2jNObS0ZQqMhOr3UhLQg@mail.gmail.com>
-Date: Tue, 29 Aug 2023 19:20:28 +0300
-Message-ID: <87o7ip252r.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5230010E437
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 16:21:34 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 868166607236;
+ Tue, 29 Aug 2023 17:21:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693326092;
+ bh=3+O/QGaroGgVr93uHseHK0tgwOpPRcK4aPxNgWkihgU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=P3ObXaY7aVLGXhujA6rt8K63I6RDU4KM/26gaS0iN/w0cd/74pjUBdi0v7lBq6FT6
+ KrSxdM//pS/c4j10LWDkwjMQiyaHOSqr/wzUYcN7zJotZaLIfc27Les5jEoaE38bP+
+ pGQpVdhpu3MIIDIfwFYXG35DPWLEIwoHZauzxa69NWK+Jnb5QIzyIQFEUrcOgQcl/S
+ vmk6MwsYkeAwmBIpHPLSRtbpRw+jqvYn8UFNIwdcWyzqPLPDxopyFTLJMt6EmO2cv2
+ Wi6yy1MrE0fWD4LRNk5bO1Z/PQoUri4rl9rzwXdRtZ12By0ryCz6Vp2WOQ1anHFEg6
+ UjJ1kyGMqayTg==
+Date: Tue, 29 Aug 2023 18:21:29 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 10/15] drm/panthor: Add the heap logical block
+Message-ID: <20230829182129.77cdc5c5@collabora.com>
+In-Reply-To: <b2f47884-2f33-5374-8fdc-2d252c367534@arm.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-11-boris.brezillon@collabora.com>
+ <b2f47884-2f33-5374-8fdc-2d252c367534@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,80 +54,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Hung <alex.hung@amd.com>, intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Leo Li <sunpeng.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Wenchieh Chien <wenchieh.chien@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Aug 2023, Alex Deucher <alexdeucher@gmail.com> wrote:
-> On Tue, Aug 29, 2023 at 6:48=E2=80=AFAM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->>
->> On Wed, 23 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> > On Tue, 22 Aug 2023, Alex Hung <alex.hung@amd.com> wrote:
->> >> On 2023-08-22 06:01, Jani Nikula wrote:
->> >>> Over the past years I've been trying to unify the override and firmw=
-are
->> >>> EDID handling as well as EDID property updates. It won't work if dri=
-vers
->> >>> do their own random things.
->> >> Let's check how to replace these references by appropriate ones or fo=
-rk
->> >> the function as reverting these patches causes regressions.
->> >
->> > I think the fundamental problem you have is conflating connector forci=
-ng
->> > with EDID override. They're orthogonal. The .force callback has no
->> > business basing the decisions on connector->edid_override. Force is
->> > force, override is override.
->> >
->> > The driver isn't even supposed to know or care if the EDID originates
->> > from the firmware loader or override EDID debugfs. drm_get_edid() will
->> > handle that for you transparently. It'll return the EDID, and you
->> > shouldn't look at connector->edid_blob_ptr either. Using that will make
->> > future work in drm_edid.c harder.
->> >
->> > You can't fix that with minor tweaks. I think you'll be better off
->> > starting from scratch.
->> >
->> > Also, connector->edid_override is debugfs. You actually can change the
->> > behaviour. If your userspace, whatever it is, has been written to assu=
-me
->> > connector forcing if EDID override is set, you *do* have to fix that,
->> > and set both.
->>
->> Any updates on fixing this, or shall we proceed with the reverts?
->
-> What is the goal of the reverts?  I don't disagree that we may be
-> using the interfaces wrong, but reverting them will regess
-> functionality in the driver.
+On Fri, 18 Aug 2023 15:39:03 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-The commits are in v6.5-rc1, but not yet in a release. No user depends
-on them yet. I'd strongly prefer them not reaching v6.5 final and users.
+> I'm not sure whether we should really be describing this structure in
+> the kernel. Beyond the size the kernel has no reason to be looking at
+> the internals and the spec does have a warning that the layout may change.
 
-The firmware EDID, override EDID, connector forcing, the EDID property,
-etc. have been and somewhat still are a hairy mess that we must keep
-untangling, and this isn't helping.
+Yeah, I guess I just wanted to have that documented somewhere, so
+people understand what this heap context is about. Was quite obscure to
+me before that. Anyway, I can move that to some mesa doc, that's not a
+big deal.
 
-I've put in crazy amounts of work on this, and I've added kernel-doc
-comments about stuff that should and should not be done, but they go
-unread and ignored.
+> 
+> Interestingly kbase also rounds this size up to ensure that it is at
+> least a cache line. Which I guess might be required if the CPU and GPU
+> are not coherent as we zero the context (from the CPU) before use.
 
-I really don't want to end up having to clean this up myself before I
-can embark on further cleanups and refactoring.
-
-And again, if the functionality in the driver depends on conflating two
-things that should be separate, it's probably not such a hot idea to let
-it reach users either. Even if it's just debugfs.
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Makes sense.
