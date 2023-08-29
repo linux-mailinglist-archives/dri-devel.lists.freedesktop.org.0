@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D7178BCD2
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 04:30:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B9278BCDB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 04:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697DF10E38C;
-	Tue, 29 Aug 2023 02:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 510A210E390;
+	Tue, 29 Aug 2023 02:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643B410E38B;
- Tue, 29 Aug 2023 02:30:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E7910E38B;
+ Tue, 29 Aug 2023 02:34:28 +0000 (UTC)
 Received: from [192.168.2.140] (109-252-153-31.dynamic.spd-mgts.ru
  [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 97B5B66071DC;
- Tue, 29 Aug 2023 03:30:20 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CBA5D66071DC;
+ Tue, 29 Aug 2023 03:34:25 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693276222;
- bh=TvkUBHJMrG6CO8fOzJNW2W4LBqEAv0nNIK9wm0HmjW0=;
+ s=mail; t=1693276467;
+ bh=zCen/op7wjIViqDfv+0NVKrUFjfQTD9AYmbvMVtk7Kw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EqEqk5kZVC37Y/oUIDGJFEkYg3GZSQtdHiLHqBiKSmQkJI7+sM3o5EcT2WdW7QNgj
- MBxHJA6YVHI4amFS/7uCiwOAX0uXw8R58ur283EP/zr7Pwx12Y3gb1ezdPV+tdBshV
- ujvCGYKmEZrCAL/UHXDJr7I6U+aidNMOU70qX1u+FxuabZet+tKgLlkZmlszFstJkX
- vFrBpDO3CoJktEYXxvW/XE4CVPxtb8IXuzRAsgMffSyuO6vlJ4sAD6JjygZsjWFLhj
- EF3AFLPOGxZo8gnC3SLKUkE5KnBEMXuSXrzQH6V99VnS6IlrNUqmr8f+E0X++x/cB/
- oNjv+UlDg9eDw==
-Message-ID: <47b5219e-d425-1dfb-e676-9175d3ac4909@collabora.com>
-Date: Tue, 29 Aug 2023 05:30:18 +0300
+ b=W1tbxb/5VsSOn3rRGQU03/q8ShP/ocfyo846hcjEpv+yPGEcRkyz4bAw9Rq1AsIC2
+ i2AZ4LVCCrkKv0jndNrxNLJB2i8Y4P+afaIybxKqYR1YQM0B+oPZAtR3rdvRnWot+4
+ zu1AywW6h7UeEBhKnHVX6D+l6DB77pJs/BPy/yd61CeOlns7YZWm6H8lxj6EfAm9Hj
+ fSVJpZXVDAFf9pcc76h5n/fFLIJhR+f7aNsor+uEA0HjNb8CbxAk25S0G1xQEVvDD6
+ E/ymlXw5rDXqpAzHh1kWcq0CAuFB/KxxkBHsQk23XN8DYxhAtDpgC87GuffSGljg+h
+ Wp3YHLWy0rpfw==
+Message-ID: <01930e66-cba2-5d81-7f46-d46907bdd300@collabora.com>
+Date: Tue, 29 Aug 2023 05:34:23 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v15 12/23] drm/shmem-helper: Add and use pages_pin_count
+Subject: Re: [PATCH v15 17/23] drm/shmem-helper: Add and use
+ drm_gem_shmem_resv_assert_held() helper
 Content-Language: en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-13-dmitry.osipenko@collabora.com>
- <20230828134654.7a2c6414@collabora.com>
+ <20230827175449.1766701-18-dmitry.osipenko@collabora.com>
+ <20230828121239.78a180e6@collabora.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230828134654.7a2c6414@collabora.com>
+In-Reply-To: <20230828121239.78a180e6@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,105 +72,76 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/28/23 14:46, Boris Brezillon wrote:
-> On Sun, 27 Aug 2023 20:54:38 +0300
+On 8/28/23 13:12, Boris Brezillon wrote:
+> On Sun, 27 Aug 2023 20:54:43 +0300
 > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 > 
->> Add separate pages_pin_count for tracking of whether drm-shmem pages are
->> moveable or not. With the addition of memory shrinker support to drm-shmem,
->> the pages_use_count will no longer determine whether pages are hard-pinned
->> in memory, but whether pages exit and are soft-pinned (and could be swapped
->> out). The pages_pin_count > 1 will hard-pin pages in memory.
+>> In a preparation of adding drm-shmem memory shrinker, move all reservation
+>> locking lockdep checks to use new drm_gem_shmem_resv_assert_held() that
+>> will resolve spurious lockdep warning about wrong locking order vs
+>> fs_reclam code paths during freeing of shmem GEM, where lockdep isn't
+>> aware that it's impossible to have locking contention with the fs_reclam
+>> at this special time.
 >>
->> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 >> ---
->>  drivers/gpu/drm/drm_gem_shmem_helper.c | 22 +++++++++++++++++-----
->>  include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
->>  2 files changed, 27 insertions(+), 5 deletions(-)
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 37 +++++++++++++++++---------
+>>  1 file changed, 25 insertions(+), 12 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> index d545d3d227d7..1a7e5c332fd8 100644
+>> index d96fee3d6166..ca5da976aafa 100644
 >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -234,14 +234,22 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
->>  
->>  	dma_resv_assert_held(shmem->base.resv);
->>  
->> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
->> +		return 0;
->> +
->>  	ret = drm_gem_shmem_get_pages_locked(shmem);
->> +	if (!ret)
->> +		kref_init(&shmem->pages_pin_count);
->>  
->>  	return ret;
+>> @@ -128,6 +128,23 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
 >>  }
+>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
 >>  
->> -static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
->> +static void drm_gem_shmem_kref_unpin_pages(struct kref *kref)
->>  {
->> -	dma_resv_assert_held(shmem->base.resv);
->> +	struct drm_gem_shmem_object *shmem;
->> +
->> +	shmem = container_of(kref, struct drm_gem_shmem_object,
->> +			     pages_pin_count);
->>  
->>  	drm_gem_shmem_put_pages_locked(shmem);
->>  }
->> @@ -263,6 +271,9 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
->>  
->>  	drm_WARN_ON(obj->dev, obj->import_attach);
->>  
->> +	if (kref_get_unless_zero(&shmem->pages_pin_count))
->> +		return 0;
->> +
->>  	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
->>  	if (ret)
->>  		return ret;
->> @@ -286,9 +297,10 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
->>  
->>  	drm_WARN_ON(obj->dev, obj->import_attach);
->>  
->> -	dma_resv_lock(shmem->base.resv, NULL);
->> -	drm_gem_shmem_unpin_locked(shmem);
->> -	dma_resv_unlock(shmem->base.resv);
->> +	if (kref_put_dma_resv(&shmem->pages_pin_count,
->> +			      drm_gem_shmem_kref_unpin_pages,
->> +			      obj->resv, NULL))
->> +		dma_resv_unlock(obj->resv);
->>  }
->>  EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
->>  
->> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
->> index ec2d8b24e3cf..afb7cd671e2a 100644
->> --- a/include/drm/drm_gem_shmem_helper.h
->> +++ b/include/drm/drm_gem_shmem_helper.h
->> @@ -39,6 +39,16 @@ struct drm_gem_shmem_object {
->>  	 */
->>  	unsigned int pages_use_count;
->>  
->> +	/**
->> +	 * @pages_pin_count:
+>> +static void drm_gem_shmem_resv_assert_held(struct drm_gem_shmem_object *shmem)
+>> +{
+>> +	/*
+>> +	 * Destroying the object is a special case.. drm_gem_shmem_free()
+>> +	 * calls many things that WARN_ON if the obj lock is not held.  But
+>> +	 * acquiring the obj lock in drm_gem_shmem_free() can cause a locking
+>> +	 * order inversion between reservation_ww_class_mutex and fs_reclaim.
 >> +	 *
->> +	 * Reference count on the pinned pages table.
->> +	 * The pages allowed to be evicted and purged by memory
->> +	 * shrinker only when the count is zero, otherwise pages
->> +	 * are hard-pinned in memory.
+>> +	 * This deadlock is not actually possible, because no one should
+>> +	 * be already holding the lock when drm_gem_shmem_free() is called.
+>> +	 * Unfortunately lockdep is not aware of this detail.  So when the
+>> +	 * refcount drops to zero, we pretend it is already locked.
 >> +	 */
->> +	struct kref pages_pin_count;
+>> +	if (kref_read(&shmem->base.refcount))
+>> +		drm_gem_shmem_resv_assert_held(shmem);
+>> +}
+>> +
+>>  /**
+>>   * drm_gem_shmem_free - Free resources associated with a shmem GEM object
+>>   * @shmem: shmem GEM object to free
+>> @@ -142,8 +159,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  	if (obj->import_attach) {
+>>  		drm_prime_gem_destroy(obj, shmem->sgt);
+>>  	} else if (!shmem->imported_sgt) {
+>> -		dma_resv_lock(shmem->base.resv, NULL);
+>> -
+>>  		drm_WARN_ON(obj->dev, kref_read(&shmem->vmap_use_count));
+>>  
+>>  		if (shmem->sgt) {
+>> @@ -156,8 +171,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  			drm_gem_shmem_put_pages_locked(shmem);
 > 
-> I know it's tempting to use kref for the pages use/pin count, but I'm
-> wondering if we wouldn't be better using a refcount_t, which provides
-> overflow/underflow protection while still letting us control how we
-> want to handle the locking for 0 <-> 1 transitions. By doing that, we
-> avoid introducing core locking changes that might be more
-> controversial/longer to get accepted. Besides, I suspect the resulting
-> code (the one using a refcount_t) won't be more verbose/complicated (no
-> release functions needed if you don't use kref_put(), which makes
-> things closer to what we have right now).
+> AFAICT, drm_gem_shmem_put_pages_locked() is the only function that's
+> called in the free path and would complain about resv-lock not being
+> held. I think I'd feel more comfortable if we were adding a
+> drm_gem_shmem_free_pages() function that did everything
+> drm_gem_shmem_put_pages_locked() does except for the lock_held() check
+> and the refcount dec, and have it called here (and in
+> drm_gem_shmem_put_pages_locked()). This way we can keep using
+> dma_resv_assert_held() instead of having our own variant.
 
-Alright, let's try to use refcount_t since Christian also doesn't like kref
+It's not only drm_gem_shmem_free_pages(), but any drm-shmem function
+that drivers may use in the GEM's freeing callback.
+
+For example, panfrost_gem_free_object() may unpin shmem BO and then do
+drm_gem_shmem_free().
 
 -- 
 Best regards,
