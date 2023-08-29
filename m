@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85C478CC5A
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 20:47:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0F778CC5E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 20:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEEB610E480;
-	Tue, 29 Aug 2023 18:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FC410E484;
+	Tue, 29 Aug 2023 18:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F2110E47F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 18:47:39 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-1bc8a2f71eeso29670355ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 11:47:39 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45DC110E47F
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 18:47:41 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1bdb7b0c8afso29155135ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 11:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693334859; x=1693939659;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dx+edCyWT7zKxIInG8qNdrcdM7Jww6Q6gVOtGT7ALUw=;
- b=NXBOd2mkw+gBkwUStDBV8PaGrgZhqCKwaBrY9Usk61+UBBtfDS7Uj7teurMoc22HQb
- 3V5SHImgrwViJcGhvlCFMtXqOLx3dqfDPhULkiewQIPMxijOSEnXsKzFpiSIxv02jyRE
- +Jf3CDHT970kefX0aposB1huf8Yi6tErzFupQ=
+ d=chromium.org; s=google; t=1693334861; x=1693939661;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Zy1QTPwLj2+EWnTOjoPoVz867Fu7gzyOgxl1+3H6Nnc=;
+ b=fdXiyQd+R3qGm5Nphv+8j5xKo14D3w9yIQArlsiouC4hZls3koS/DnWkpoXCL/18I6
+ fttfwSMZPVXcZ4Qctb7Xe7vRYvQbK+BVK2z+fX3JeqH7glikDw+cg81t/UDclLVVpMuM
+ ynZ7Trrudlfu8n4mGrQEaO1hbAOb0Y4HUDpKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693334859; x=1693939659;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dx+edCyWT7zKxIInG8qNdrcdM7Jww6Q6gVOtGT7ALUw=;
- b=ANuOG2SxlRYG/VaGRzUZn8gWSC8QvaMJv3Uq8Fa5a2yeEg3Fqs0kCeiqADzl7f/0a3
- KB5aQjoJt0EKQZF8q3KP8pZIJCizEBpqzTR3+wCK2RL3llPciKZCN21vtgWM/z8uCk4d
- 6NgHpneiCmuQ/Ll6R7iTYdD6LtwOj1L6it8WAEwqkYepIyCHdDnYeQXPZgGP/fcJ8kYa
- ejEPsE9WiC9NpKM4fwVbqRYc0i86a/n1PyQoOgz3WtdU3TxCsnzXJ+1By/PGrKTHJqy6
- 6PgfB81MTpZpvH28PJPuN80kchqeZsTXpEfL2BnSlVOW0XfrS6KPetGfblf+g26ikuSg
- mcPw==
-X-Gm-Message-State: AOJu0YxVpeLPG+QbvOFpKt2TwDTKeVULo9PB0X+f5+aN9ELFabNiipQ4
- O0nQlLoCX3hhm0hwogY4M5zqF3eLbp5syIiyYzc=
-X-Google-Smtp-Source: AGHT+IES+SJEkk4EUF9mvR0kkp/iKD9S9fLPoptNHth9XsbuVQ5O48L+bHDHC/h6NFzIK11AbzCyfA==
-X-Received: by 2002:a17:903:1205:b0:1c2:54c:8beb with SMTP id
- l5-20020a170903120500b001c2054c8bebmr1955615plh.31.1693334858992; 
- Tue, 29 Aug 2023 11:47:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693334861; x=1693939661;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Zy1QTPwLj2+EWnTOjoPoVz867Fu7gzyOgxl1+3H6Nnc=;
+ b=lsREGLt4bPG6stuehaQNLQsNfSgPVsjyYzadsJ9ux2UW3i0XUKSZ4/kzja1VDL02cQ
+ ri0h9R0LFjAWT9+KFCQ8sGfpVGsla4kmIa6cMO496yKWVfOzcVYFiInlCRDHWk5kRZmK
+ uu6k28VGodr127UuQzuecGw8TS19eFPRrtS1UwSHvG48GQ1cdO6vkWFpU2vflxI8MO2l
+ lGWSjXR27C5g2ZTvCLQycJ+SZBUtLo/89qVgNcHzpKM0paqSU57Q+Y9gFM21jpc9fMNz
+ OJjH8ljBwxAPy4p+GN7HetxtH87Aw4rls1RlD5I5vpCE4qIIUYYYuLBNl2DAVQuwUIfQ
+ CmBA==
+X-Gm-Message-State: AOJu0YxZHvm9I/Bt/xzuUWu9D/gxtj0n3UY6qbVn5tdRwBgB+Kv6JeT1
+ 4vu18T2bzx7NzD9QHvodE1RfJA==
+X-Google-Smtp-Source: AGHT+IHOR7LHxCdUXoZltRyEuyQ9vz2U+mpOg+PlnYRlpoqnQkJZmp/tPsmE6qYU14e9a+3nTx5+mg==
+X-Received: by 2002:a17:902:eacc:b0:1bc:6dd9:82c3 with SMTP id
+ p12-20020a170902eacc00b001bc6dd982c3mr24966758pld.37.1693334860713; 
+ Tue, 29 Aug 2023 11:47:40 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:11a:201:d603:22a7:5e5e:d239])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170902d4cf00b001b9e86e05b7sm9697953plg.0.2023.08.29.11.47.37
+ o15-20020a170902d4cf00b001b9e86e05b7sm9697953plg.0.2023.08.29.11.47.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Aug 2023 11:47:38 -0700 (PDT)
+ Tue, 29 Aug 2023 11:47:40 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/7] drm/msm/dp: Simplify DPCD related code with helpers
-Date: Tue, 29 Aug 2023 11:47:25 -0700
-Message-ID: <20230829184735.2841739-1-swboyd@chromium.org>
+Subject: [PATCH 1/7] drm/msm/dp: Replace open-coded drm_dp_read_dpcd_caps()
+Date: Tue, 29 Aug 2023 11:47:26 -0700
+Message-ID: <20230829184735.2841739-2-swboyd@chromium.org>
 X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
+In-Reply-To: <20230829184735.2841739-1-swboyd@chromium.org>
+References: <20230829184735.2841739-1-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,32 +78,98 @@ Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver open-codes a few of the DPCD register reads when it can be
-simplified by using the helpers instead. This series reworks the MSM DP
-driver to use the DPCD helpers and removes some dead code along the way.
-There's the potential for even more code reduction around the test
-registers, but I haven't tried to do that yet.
-
-Stephen Boyd (7):
-  drm/msm/dp: Replace open-coded drm_dp_read_dpcd_caps()
-  drm/msm/dp: Use drm_dp_read_sink_count() helper
-  drm/msm/dp: Remove dead code related to downstream cap info
-  drm/msm/dp: Remove aux_cfg_update_done and related code
-  drm/msm/dp: Simplify with drm_dp_{max_link_rate,max_lane_count}()
-  drm/msm/dp: Inline dp_link_parse_sink_count()
-  drm/msm/dp: Remove dp_display_is_ds_bridge()
+This function duplicates the common function drm_dp_read_dpcd_caps().
+The array of DPCD registers filled in is one size larger than the
+function takes, but from what I can tell that extra byte was never used.
+Resize the array and use the common function to reduce the code here.
 
 Cc: Vinod Polimera <quic_vpolimer@quicinc.com>
 Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/dp/dp_panel.c | 42 ++++---------------------------
+ drivers/gpu/drm/msm/dp/dp_panel.h |  4 +--
+ 2 files changed, 6 insertions(+), 40 deletions(-)
 
- drivers/gpu/drm/msm/dp/dp_display.c |   9 +--
- drivers/gpu/drm/msm/dp/dp_link.c    |  38 +---------
- drivers/gpu/drm/msm/dp/dp_panel.c   | 105 +++++-----------------------
- drivers/gpu/drm/msm/dp/dp_panel.h   |  10 +--
- 4 files changed, 22 insertions(+), 140 deletions(-)
-
-
-base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 42d52510ffd4..09d4f6c38ef8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -48,47 +48,15 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+ 	ssize_t rlen;
+ 	struct dp_panel_private *panel;
+ 	struct dp_link_info *link_info;
+-	u8 *dpcd, major = 0, minor = 0, temp;
+-	u32 offset = DP_DPCD_REV;
++	u8 *dpcd, major, minor;
+ 
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+ 	dpcd = dp_panel->dpcd;
++	rc = drm_dp_read_dpcd_caps(panel->aux, dpcd);
++	if (rc)
++		return rc;
+ 
+-	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+ 	link_info = &dp_panel->link_info;
+-
+-	rlen = drm_dp_dpcd_read(panel->aux, offset,
+-			dpcd, (DP_RECEIVER_CAP_SIZE + 1));
+-	if (rlen < (DP_RECEIVER_CAP_SIZE + 1)) {
+-		DRM_ERROR("dpcd read failed, rlen=%zd\n", rlen);
+-		if (rlen == -ETIMEDOUT)
+-			rc = rlen;
+-		else
+-			rc = -EINVAL;
+-
+-		goto end;
+-	}
+-
+-	temp = dpcd[DP_TRAINING_AUX_RD_INTERVAL];
+-
+-	/* check for EXTENDED_RECEIVER_CAPABILITY_FIELD_PRESENT */
+-	if (temp & BIT(7)) {
+-		drm_dbg_dp(panel->drm_dev,
+-				"using EXTENDED_RECEIVER_CAPABILITY_FIELD\n");
+-		offset = DPRX_EXTENDED_DPCD_FIELD;
+-	}
+-
+-	rlen = drm_dp_dpcd_read(panel->aux, offset,
+-		dpcd, (DP_RECEIVER_CAP_SIZE + 1));
+-	if (rlen < (DP_RECEIVER_CAP_SIZE + 1)) {
+-		DRM_ERROR("dpcd read failed, rlen=%zd\n", rlen);
+-		if (rlen == -ETIMEDOUT)
+-			rc = rlen;
+-		else
+-			rc = -EINVAL;
+-
+-		goto end;
+-	}
+-
+ 	link_info->revision = dpcd[DP_DPCD_REV];
+ 	major = (link_info->revision >> 4) & 0x0f;
+ 	minor = link_info->revision & 0x0f;
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index ed1030e17e1b..6d733480a62d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -13,8 +13,6 @@
+ 
+ struct edid;
+ 
+-#define DPRX_EXTENDED_DPCD_FIELD	0x2200
+-
+ #define DP_DOWNSTREAM_PORTS		4
+ #define DP_DOWNSTREAM_CAP_SIZE		4
+ 
+@@ -40,7 +38,7 @@ struct dp_panel_psr {
+ 
+ struct dp_panel {
+ 	/* dpcd raw data */
+-	u8 dpcd[DP_RECEIVER_CAP_SIZE + 1];
++	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+ 	u8 ds_cap_info[DP_DOWNSTREAM_PORTS * DP_DOWNSTREAM_CAP_SIZE];
+ 	u32 ds_port_cnt;
+ 	u32 dfp_present;
 -- 
 https://chromeos.dev
 
