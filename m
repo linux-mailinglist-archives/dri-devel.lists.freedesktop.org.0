@@ -1,43 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C84478BF47
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 09:36:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9AA78BF97
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 09:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E22310E060;
-	Tue, 29 Aug 2023 07:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BCF510E06E;
+	Tue, 29 Aug 2023 07:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6750E10E060
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 07:36:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9AE10814;
- Tue, 29 Aug 2023 09:35:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1693294525;
- bh=khDodRUsPVit/MS0lFs5PxPksb6sDIpGFw6T+NJF750=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d07+QGLr0n2ciFw/0Ne00qAQiQE9rslchhGj3wQollKhMeMRwZRajryDCRfyp4f1V
- 1lsAe7FfJpd4lA5SAItOjxIBgZZPsRiMtZqQcn/JWZz205xpuuHJelsP8tTYowQn3D
- gEXdqyA8g6dUCjkXu/FqACBDqiKezrFG2Lu612VI=
-Date: Tue, 29 Aug 2023 10:36:56 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
- struct adv7511_chip_info
-Message-ID: <20230829073656.GC2302@pendragon.ideasonboard.com>
-References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
- <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
- <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C22610E0A6;
+ Tue, 29 Aug 2023 07:49:03 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-5007616b756so6518109e87.3; 
+ Tue, 29 Aug 2023 00:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693295341; x=1693900141;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OI1R5ue1l4PwCG2oi/y01LYQvO74RnqK27QxURC5nsg=;
+ b=eP601AowgqNwM3BD8z2/bvld0CsvKwhr9cjQO77ANQJMtKiQWJJ4DwrM7bbQsPJYFK
+ /8FELTL+8pvo8H8DuzDqstKrOPeFonP7oZZ+RmMDNYi1rVXb8v+rMo49cJeRGlN3gsQi
+ 2F3/2nA4G3YpWbnY15TSF+U9dGben0keGIUQMXP84bMYsNp3SiEvCh7UMwPGSX9rU5YC
+ zkfUYelPFLHrNYG6QRqt/FKoEmOpQN9KOdb07A9uEYB7tAafvjHwAWHX1DVN2qmf8EKE
+ a1ir6xqNv7bcX/P/pbzQdGvVBhdQmRuXQ19EJEIpw+5Ob+B9aHDV9QC8SAgOoZcpaW2P
+ 6UaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693295341; x=1693900141;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OI1R5ue1l4PwCG2oi/y01LYQvO74RnqK27QxURC5nsg=;
+ b=INvo4+80G5i7CPkd0iK2ZANqu39LqODg3X/HO9pDqt6cn0+OHBnYy3zl3l8YRG2dWT
+ xaPUt7QbB5dyYpCxxm7qqZLtckbzwh2F79ExiGNhfE6URh2XD+BLkgxLgc6L+0nhCKR3
+ SmO5VIdkIlQXI4cXbAkARz8kGgX33yH6CCiw6JNK3XYMltuz3Ssyh5QpOXGZGad5B6mA
+ 1vdelsDA5m3bbrY+s62SBfWATeTr1N/XvPAvMj8rqCdjxeRLIJXwUOYxTPNjk+BMRu3d
+ 0FUxcsD4YTE+zYUJbQZ5hD676e74jymQC3wMTuT/dzRoQiAo67JHnoySxg00Yk++rZFV
+ 71kA==
+X-Gm-Message-State: AOJu0YxVNlS3iBtjmiuVZeLNj6HOdP7TuGnP7Y4ATfEK4V/aihpfBYfH
+ PCJCkapOEggRT5sEMAKJK2o=
+X-Google-Smtp-Source: AGHT+IGIlCEkJil4AnAwfWLiAfpjl2igqxZQluROeJEGmtOcAHN0LTRShvTWhmTqQEjer/Yqx7Vqxw==
+X-Received: by 2002:a19:385e:0:b0:4fd:d517:fbcd with SMTP id
+ d30-20020a19385e000000b004fdd517fbcdmr16742007lfj.6.1693295341041; 
+ Tue, 29 Aug 2023 00:49:01 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ o21-20020a056512051500b004ff8f090057sm1871769lfb.59.2023.08.29.00.49.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Aug 2023 00:49:00 -0700 (PDT)
+Date: Tue, 29 Aug 2023 10:48:16 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH RFC v6 01/10] drm: Introduce pixel_source DRM plane
+ property
+Message-ID: <20230829104816.19122c6d@eldfell>
+In-Reply-To: <20230828-solid-fill-v6-1-a820efcce852@quicinc.com>
+References: <20230828-solid-fill-v6-0-a820efcce852@quicinc.com>
+ <20230828-solid-fill-v6-1-a820efcce852@quicinc.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
+Content-Type: multipart/signed; boundary="Sig_/kN5KPVrZpDI_roK/yihBVMo";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,141 +73,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>, Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ sebastian.wick@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 07:41:45AM -0500, Adam Ford wrote:
-> On Sun, Aug 13, 2023 at 1:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> >
-> > As per spec, it is allowed to pulse the HPD signal to indicate that the
-> > EDID information has changed. Some monitors do this when they wake up
-> > from standby or are enabled. When the HPD goes low the adv7511 is
-> > reset and the outputs are disabled which might cause the monitor to
-> > go to standby again. To avoid this we ignore the HPD pin for the
-> > first few seconds after enabling the output. On the other hand,
-> > adv7535 require to enable HPD Override bit for proper HPD.
-> >
-> > Add hpd_override_enable feature bit to struct adv7511_chip_info to handle
-> > this scenario.
-> >
-> > While at it, drop the enum adv7511_type as it is unused.
-> 
-> It seems like dropping adv7511_type is unrelated to the rest of the
-> patch, and I think it should be split from this into its own patch
+--Sig_/kN5KPVrZpDI_roK/yihBVMo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Dropping the enum with its last user makes sense, but I think the series
-may go a bit too far by adding to the info structure bits that don't
-really describe logical features, but are half made up for the sole
-purpose of dropping the enum. I would prefer keeping the enum for the
-handful of places where a type check makes more sense (in my opinion).
+On Mon, 28 Aug 2023 17:05:07 -0700
+Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
 
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
-> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
-> >  2 files changed, 6 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > index 627531f48f84..c523ac4c9bc8 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> > @@ -325,22 +325,16 @@ struct adv7511_video_config {
-> >         struct hdmi_avi_infoframe avi_infoframe;
-> >  };
-> >
-> > -enum adv7511_type {
-> > -       ADV7511,
-> > -       ADV7533,
-> > -       ADV7535,
-> > -};
-> > -
-> >  #define ADV7511_MAX_ADDRS 3
-> >
-> >  struct adv7511_chip_info {
-> > -       enum adv7511_type type;
-> >         unsigned long max_mode_clock;
-> >         unsigned long max_lane_freq;
-> >         const char * const *supply_names;
-> >         unsigned int num_supplies;
-> >         unsigned has_dsi:1;
-> >         unsigned link_config:1;
-> > +       unsigned hpd_override_enable:1;
-> >  };
-> >
-> >  struct adv7511 {
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > index 6974c267b1d5..7b06a0a21685 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv7511)
-> >          * first few seconds after enabling the output. On the other hand
-> >          * adv7535 require to enable HPD Override bit for proper HPD.
-> >          */
-> > -       if (adv7511->info->type == ADV7535)
-> > +       if (adv7511->info->hpd_override_enable)
-> >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
-> >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
-> >                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
-> > @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
-> >  static void __adv7511_power_off(struct adv7511 *adv7511)
-> >  {
-> >         /* TODO: setup additional power down modes */
-> > -       if (adv7511->info->type == ADV7535)
-> > +       if (adv7511->info->hpd_override_enable)
-> >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
-> >                                    ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
-> >
-> > @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
-> >                         status = connector_status_disconnected;
-> >         } else {
-> >                 /* Renable HPD sensing */
-> > -               if (adv7511->info->type == ADV7535)
-> > +               if (adv7511->info->hpd_override_enable)
-> >                         regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
-> >                                            ADV7535_REG_POWER2_HPD_OVERRIDE,
-> >                                            ADV7535_REG_POWER2_HPD_OVERRIDE);
-> > @@ -1360,14 +1360,12 @@ static void adv7511_remove(struct i2c_client *i2c)
-> >  }
-> >
-> >  static const struct adv7511_chip_info adv7511_chip_info = {
-> > -       .type = ADV7511,
-> >         .supply_names = adv7511_supply_names,
-> >         .num_supplies = ARRAY_SIZE(adv7511_supply_names),
-> >         .link_config = 1
-> >  };
-> >
-> >  static const struct adv7511_chip_info adv7533_chip_info = {
-> > -       .type = ADV7533,
-> >         .max_mode_clock = 80000,
-> >         .max_lane_freq = 800000,
-> >         .supply_names = adv7533_supply_names,
-> > @@ -1376,12 +1374,12 @@ static const struct adv7511_chip_info adv7533_chip_info = {
-> >  };
-> >
-> >  static const struct adv7511_chip_info adv7535_chip_info = {
-> > -       .type = ADV7535,
-> >         .max_mode_clock = 148500,
-> >         .max_lane_freq = 891000,
-> >         .supply_names = adv7533_supply_names,
-> >         .num_supplies = ARRAY_SIZE(adv7533_supply_names),
-> > -       .has_dsi = 1
-> > +       .has_dsi = 1,
-> > +       .hpd_override_enable = 1
-> >  };
-> >
-> >  static const struct i2c_device_id adv7511_i2c_ids[] = {
+> Add support for pixel_source property to drm_plane and related
+> documentation. In addition, force pixel_source to
+> DRM_PLANE_PIXEL_SOURCE_FB in DRM_IOCTL_MODE_SETPLANE as to not break
+> legacy userspace.
+>=20
+> This enum property will allow user to specify a pixel source for the
+> plane. Possible pixel sources will be defined in the
+> drm_plane_pixel_source enum.
+>=20
+> Currently, the only pixel sources are DRM_PLANE_PIXEL_SOURCE_FB (the
+> default value) and DRM_PLANE_PIXEL_SOURCE_NONE.
+>=20
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+>  drivers/gpu/drm/drm_blend.c               | 90 +++++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/drm_plane.c               | 19 +++++--
+>  include/drm/drm_blend.h                   |  2 +
+>  include/drm/drm_plane.h                   | 21 ++++++++
+>  6 files changed, 133 insertions(+), 4 deletions(-)
 
--- 
-Regards,
+...
 
-Laurent Pinchart
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index 6e74de833466..c3c57bae06b7 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -185,6 +185,21 @@
+>   *		 plane does not expose the "alpha" property, then this is
+>   *		 assumed to be 1.0
+>   *
+> + * pixel_source:
+> + *	pixel_source is set up with drm_plane_create_pixel_source_property().
+> + *	It is used to toggle the active source of pixel data for the plane.
+> + *	The plane will only display data from the set pixel_source -- any
+> + *	data from other sources will be ignored.
+> + *
+> + *	Possible values:
+> + *
+> + *	"NONE":
+> + *		No active pixel source.
+> + *		Committing with a NONE pixel source will disable the plane.
+> + *
+> + *	"FB":
+> + *		Framebuffer source set by the "FB_ID" property.
+> + *
+>   * Note that all the property extensions described here apply either to =
+the
+>   * plane or the CRTC (e.g. for the background color, which currently is =
+not
+>   * exposed and assumed to be black).
+
+This UAPI:
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+--Sig_/kN5KPVrZpDI_roK/yihBVMo
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmTtosAACgkQI1/ltBGq
+qqebyRAAi5m4OshgltcLENupHhZJbAyOF4Vgz6aKR+OJ9smMDKbW6FmmNZmJqtj7
+qq4Vb00Id6DDEnZidpPvMFRIoS10VChTqEF/kptq47/xoAtXmjeansqskKT6m6h5
+rLuURGUKNRDy+r54irp86Gz5PPAwCUQEW+1WQebI2ph7I1wAkFp065LCf0zoJiQv
+9z/hmqjnt6aiiGlDvc0IuRitiJp25VZa0p/FPW3eI/ob6zxT10r9lFAkvRz0UikE
+ICw7tqEAVWJPQaqCOuJbRMR7fEmPhVYWj/sQ0wZqB75FQTzyay4zEHGwANyyXfFd
+eMgKNv+Vn350Vari1CxY1nEvFC0/BIJT6s7G4h/bFZuaJebqQn7i1g05LRxY5WbK
+g4c6kMIN26dJei4yHkPE22yFf9hPyx8mNK/EfC3LZ4LN2oIfimiUqH/mSSKkahLc
+3RHN1zQ7TwlcLkHT9lVggZFFjhsv2YuACf9O34KzrAbh9ta0Nh1HOfazh3XxLrs5
+WcFecPziUw/jT5HwdpsdENePJ9iMhds4/7aKx951HSXUdparXEaO7gjyy++7JqcE
+5X80m73A321nxOSa6JLICiFMWHTobI3Qc+0nbanQElxcmDNFDyQrYP+du+dPCTXa
+m+KUEU5syHRTxg7t51Acpjv7lVCec+Zgj+t+sfG8rxZKa5ziX88=
+=eLDG
+-----END PGP SIGNATURE-----
+
+--Sig_/kN5KPVrZpDI_roK/yihBVMo--
