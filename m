@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB24378C907
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7076578C906
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 17:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E04A10E3EB;
-	Tue, 29 Aug 2023 15:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2685F10E3E6;
+	Tue, 29 Aug 2023 15:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 059F410E3E2;
- Tue, 29 Aug 2023 15:58:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC5810E3E2;
+ Tue, 29 Aug 2023 15:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693324739; x=1724860739;
+ t=1693324740; x=1724860740;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DtTqGytOUry8UdwRzgAQXoGMp0W5qKlN8BbmMkXLJi0=;
- b=KHhmLrv3+IZknaIiy/Vy6HDWJXckBQFXqwtm+0H5biCmdfO6W4MJcb7I
- cOl7+EXV8aS9c+HDdT/HIfQh9fFxCN0HUYNwZW44Y19u38I37thZjLnE7
- HE63Z3fDLqrOOaxclBa2LExrxYP1K5sNagqzcEaj4KBu/yrQlSXD3LSSm
- I3UYXuxWvgXBRCGxaWSvIhaoQXC1P/82uHExJ1w2mXZQoIyx2p9ah89Kh
- FIUH7Ir+RhXtemUEB5E6S3pQM4/WYjn/9F5GiRScfK6hVRtYw+f1SKxdc
- bdwpO3+pJAjv5T9W8nnvT/8mBBnE/csJB+ZXem3T5QyIfpqPLjUQ1UF1u Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769240"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769240"
+ bh=FB7ss4kmHop2yaKxXN25+gcSbQ8RmW+Dh4y7g/Bgb5o=;
+ b=RRN+8jELxiRNyqp2ZeAZgYcJZEm5bZAF6L9P/5qZJUMdFOMzRjTLwOJn
+ gxtR6ZpA1bRILLq4WPbIoNS9Sd7bELeIVgDo4LgUlr2owwU5E4gAi5DKc
+ +HR4ZlLpsm46xtfx7311AlnWS2CPj/CuhhAcTTvsxVx3lRMCOcBYXChTc
+ 8LvtTLc86Ut6z+fRJeuEUsff02wdvjH+BY8XZ7uH63+D8j0z3WfEd6cNb
+ UJbXMKgEh4iY/YnnkugdT+LYdeXZkIWIYp5MnPHdpa75ok/I05ydmoZ0E
+ f36KKADNUf2NnyIJBxfl4a50rTmdLVbgdnyajKlxkpVUrEPe83girAEVi g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769251"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769251"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 08:58:58 -0700
+ 29 Aug 2023 08:59:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688554991"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688554991"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688554994"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688554994"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:58:56 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:58:58 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 07/33] drm: Add Enhanced Gamma LUT precision structure
-Date: Tue, 29 Aug 2023 21:33:56 +0530
-Message-ID: <20230829160422.1251087-8-uma.shankar@intel.com>
+Subject: [RFC 08/33] drm: Add color lut range structure
+Date: Tue, 29 Aug 2023 21:33:57 +0530
+Message-ID: <20230829160422.1251087-9-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230829160422.1251087-1-uma.shankar@intel.com>
 References: <20230829160422.1251087-1-uma.shankar@intel.com>
@@ -63,45 +63,103 @@ Cc: Uma Shankar <uma.shankar@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Existing LUT precision structure is having only 16 bit
-precision. This is not enough for upcoming enhanced hardwares
-and advance usecases like HDR processing. Hence added a new
-structure with 32 bit precision values.
+Add color lut range structure which is to be used to advertize
+the capabilities of pre-csc/post-csc color operation blocks.
 
 Co-developed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- include/uapi/drm/drm_mode.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ include/uapi/drm/drm_mode.h | 77 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
 diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index a21825ee93e2..1cd656b0e994 100644
+index 1cd656b0e994..6ce7bd0926e0 100644
 --- a/include/uapi/drm/drm_mode.h
 +++ b/include/uapi/drm/drm_mode.h
-@@ -943,6 +943,23 @@ struct hdr_output_metadata {
- 	};
- };
+@@ -1091,6 +1091,83 @@ struct drm_color_pipeline {
+ 				  DRM_MODE_PAGE_FLIP_ASYNC | \
+ 				  DRM_MODE_PAGE_FLIP_TARGET)
  
 +/**
-+ * struct drm_color_lut_ext - Represents high precision lut values
++ * DRM_MODE_LUT_POST_CSC
 + *
-+ * Creating 64 bit palette entries for better data
-+ * precision. This will be required for HDR and
-+ * similar color processing usecases.
++ * LUT is for post csc (after CTM)
 + */
-+struct drm_color_lut_ext {
-+	/*
-+	 * Data is U32.32 fixed point format.
-+	 */
-+	__u64 red;
-+	__u64 green;
-+	__u64 blue;
-+	__u64 reserved;
++#define DRM_MODE_LUT_POST_CSC BIT(0)
++
++/**
++ * DRM_MODE_LUT_PRE_CSC
++ *
++ * LUT is for pre csc (before CTM)
++ */
++#define DRM_MODE_LUT_PRE_CSC BIT(1)
++
++/**
++ * DRM_MODE_LUT_INTERPOLATE
++ *
++ * linearly interpolate between the points
++ */
++#define DRM_MODE_LUT_INTERPOLATE BIT(2)
++
++/**
++ * DRM_MODE_LUT_REUSE_LAST
++ *
++ * the last value of the previous range is the
++ * first value of the current range.
++ */
++#define DRM_MODE_LUT_REUSE_LAST BIT(3)
++
++/**
++ * DRM_MODE_LUT_NON_DECREASING
++ *
++ * the curve must be non-decreasing
++ */
++#define DRM_MODE_LUT_NON_DECREASING BIT(4)
++
++/**
++ * DRM_MODE_LUT_REFLECT_NEGATIVE
++ *
++ *  the curve is reflected across origin for negative inputs
++ */
++#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(5)
++
++/**
++ * DRM_MODE_LUT_SINGLE_CHANNEL
++ *
++ * the same curve (red) is used for blue and green channels as well
++ */
++#define DRM_MODE_LUT_SINGLE_CHANNEL BIT(6)
++
++/**
++ * struct drm_color_lut_range
++ *
++ * structure to advertise capability of a color hardware
++ * block that accepts LUT values.  It can represent LUTs with
++ * varied number of entries and distributions
++ * (Multi segmented, Logarithmic etc).
++ */
++
++struct drm_color_lut_range {
++	/* DRM_MODE_LUT_* */
++	__u32 flags;
++	/* number of points on the curve */
++	__u16 count;
++	/* input/output bits per component */
++	__u8 input_bpc, output_bpc;
++	/* input start/end values */
++	__s32 start, end;
++	/* output min/max values */
++	__s32 min, max;
 +};
 +
- /**
-  * enum color_op_block
++enum lut_type {
++	LUT_TYPE_PRE_CSC = 0,
++	LUT_TYPE_POST_CSC = 1,
++};
++
+ /*
+  * Request a page flip on the specified crtc.
   *
 -- 
 2.38.1
