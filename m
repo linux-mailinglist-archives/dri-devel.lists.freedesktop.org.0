@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3618078C287
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 12:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CD878C290
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 12:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985C610E1F7;
-	Tue, 29 Aug 2023 10:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9E110E1FC;
+	Tue, 29 Aug 2023 10:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E9110E1F7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 10:46:59 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-99bed101b70so523261266b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 03:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693306018; x=1693910818;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZquQGH3YlkI7GcHQlQ+NoYufrmiWxvCLzebRk+1WfNA=;
- b=PkEFbmKD5uma/JBHqsP6/bofddHmNMN6CD9jvliy74vDRBfO4tdCkdnDcsKA35Txai
- 4rIJoj826f8gDvIqF03KZiDLdnPrzV+0iBTzFoQB0Vd3dNyIsSUKuDIeXEdTuLQHPYDi
- VKv6D8SBCbAIKeDZZFSa6BO1iTAnBIDKA5RYQC4q6/z3eo2pk79gcGq17djdhtIWGSIh
- +e4E+ZH1ts3RiSEAITZvFzJAfcCcafcPzBIyOEb5MhJqpeR+qcvGTMsV5fssXp5FvpCf
- s7NBkVyXZpwHSYDnzRmokFnADXourtpGMXx2Yr0xQ0rTp4H8hNHfErnwSEnkjiMJW8Da
- llTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693306018; x=1693910818;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZquQGH3YlkI7GcHQlQ+NoYufrmiWxvCLzebRk+1WfNA=;
- b=Gpp1sWCCsPc7s1fDU8Sjg9NunhESK10vDhSD02/bdxYvV3yEkUbFiqy4z+5eZU56Ly
- TnX+P5Bxi1+CGRhj2L27ow5siNgiSFkkXvYZi74ox6vJ3YPjgu91uElltcj1jvN6s6w7
- jOp3eBwbhXAKxUilge1zRka3/x0ov7aqYQBFmgRKPFenozLAaDyxyCobkGnbgawBqNvm
- IKJvCoFav/wylV0swqWzlf1jX7jSckH+B9W2gn+3/HKJaAOZDDSb0cyCR2XVU1dFIpdX
- ac2G+8fwhorxZlTiRpnm8jRHBq5UIbSrS9tXCAow2zmO6ynti9F+Dn6BhTBbrgpbwpow
- MkMQ==
-X-Gm-Message-State: AOJu0YwjyoiPRdu5HbcMG28dcFDrEiLT0yjaOLpsSBv91L1kl5ihIx3X
- Gw12bdfq7uMCUBwwCS9ZDPKz+w==
-X-Google-Smtp-Source: AGHT+IGtUs0X+65jo71fTdUePj61g8XHcY50jM3qd8wBrwjGtJJIyOztbqpenthC6XK4vZ7GXIQn4w==
-X-Received: by 2002:a17:906:76d1:b0:9a3:c4f4:12de with SMTP id
- q17-20020a17090676d100b009a3c4f412demr9130372ejn.37.1693306017829; 
- Tue, 29 Aug 2023 03:46:57 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.196])
- by smtp.gmail.com with ESMTPSA id
- k11-20020a1709063e0b00b009a1a653770bsm5768558eji.87.2023.08.29.03.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Aug 2023 03:46:57 -0700 (PDT)
-Message-ID: <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
-Date: Tue, 29 Aug 2023 12:46:56 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C759710E1FC;
+ Tue, 29 Aug 2023 10:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693306116; x=1724842116;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=bDEGGQkkaPNNQt4YaWAstSx3Ze++jxSiM+4PPflfPZw=;
+ b=k7r5u6I8P7Lbfj6uE3kyHqAkwgG7EK4xB8Kn3EFozPwuTA4vTwd+Ml2M
+ TiRSnKE9MeUsKguHYs5oI6L6E5HvSavzxaEBgG9G7PRTfTeaMmOgfwt4s
+ S9G1+AR8n5CZpmsVVyeFfpO0UtcfrwlWzNX8IwwEf6AgpvPNZSuSAvFQk
+ gvNws5qZRmS6kxAtk//GSgRMrGdWQSVtL22YkS1UG1BY0/pAC1WOoS9c7
+ ggICE3Y4nh6wb2FOEB5gGqci4DN5v2jQ2kCJJ7xsSO5mUutyzGW0IAwvv
+ u9Ci6sAr8Qc1QLfzb0x8wtrIF2l+vsk7fQwxqlHn2tNT2SjL/wM3wfuFL g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="375299018"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="375299018"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2023 03:48:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="985303912"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="985303912"
+Received: from mnefedov-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.32.206])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2023 03:48:32 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 0/4] drm/amd/display: stop using
+ drm_edid_override_connector_update()
+In-Reply-To: <87il965gob.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1692705543.git.jani.nikula@intel.com>
+ <788721f6-afff-e0b2-db7c-32ab2dd075a9@amd.com> <87il965gob.fsf@intel.com>
+Date: Tue, 29 Aug 2023 13:48:30 +0300
+Message-ID: <871qfm2kg1.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
-Content-Language: en-US
-To: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230829101546.483189-1-f.suligoi@asem.it>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230829101546.483189-1-f.suligoi@asem.it>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,276 +61,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ Wenchieh Chien <wenchieh.chien@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/08/2023 12:15, Flavio Suligoi wrote:
-> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> programmable switching frequency to optimize efficiency.
-> The brightness can be controlled either by I2C commands (called "analog"
-> mode) or by a PWM input signal (PWM mode).
-> This driver supports both modes.
-> 
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
-> 
-> The datasheet is available at:
-> - https://www.monolithicpower.com/en/mp3309c.html
-> 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  .../bindings/leds/backlight/mps,mp3309c.yaml  | 202 ++++++++++++++++++
->  1 file changed, 202 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> new file mode 100644
-> index 000000000000..a58904f2a271
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> @@ -0,0 +1,202 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MPS MP3309C backlight
-> +
-> +maintainers:
-> +  - Flavio Suligoi <f.suligoi@asem.it>
-> +
-> +description: |
-> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> +  programmable switching frequency to optimize efficiency.
-> +  It supports both analog (via I2C commands) and PWM dimming mode.
-> +
-> +  The datasheet is available at:
-> +  https://www.monolithicpower.com/en/mp3309c.html
-> +
-> +properties:
-> +  compatible:
-> +    const: mps,mp3309c-backlight
+On Wed, 23 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Tue, 22 Aug 2023, Alex Hung <alex.hung@amd.com> wrote:
+>> On 2023-08-22 06:01, Jani Nikula wrote:
+>>> Over the past years I've been trying to unify the override and firmware
+>>> EDID handling as well as EDID property updates. It won't work if drivers
+>>> do their own random things.
+>> Let's check how to replace these references by appropriate ones or fork 
+>> the function as reverting these patches causes regressions.
+>
+> I think the fundamental problem you have is conflating connector forcing
+> with EDID override. They're orthogonal. The .force callback has no
+> business basing the decisions on connector->edid_override. Force is
+> force, override is override.
+>
+> The driver isn't even supposed to know or care if the EDID originates
+> from the firmware loader or override EDID debugfs. drm_get_edid() will
+> handle that for you transparently. It'll return the EDID, and you
+> shouldn't look at connector->edid_blob_ptr either. Using that will make
+> future work in drm_edid.c harder.
+>
+> You can't fix that with minor tweaks. I think you'll be better off
+> starting from scratch.
+>
+> Also, connector->edid_override is debugfs. You actually can change the
+> behaviour. If your userspace, whatever it is, has been written to assume
+> connector forcing if EDID override is set, you *do* have to fix that,
+> and set both.
 
-Drop "-backlight". Can it be anything else?
+Any updates on fixing this, or shall we proceed with the reverts?
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mps,dimming-mode:
-> +    description: The dimming mode (PWM or analog by I2C commands).
-> +    $ref: '/schemas/types.yaml#/definitions/string'
-
-Drop quotes, you should see warnings for this.
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-> +    enum:
-> +      - pwm
-> +      - analog-i2c
-
-Why do you think this is a property of a board? Is PWM signal optional?
-If so, its presence would define it. Otherwise it seems you want to
-control the driver.
-
-> +
-> +  pinctrl-names:
-> +    items:
-> +      - const: default
-
-Drop
-
-> +
-> +  pinctrl-0: true
-
-Drop
-
-> +
-> +  pwms:
-> +    description: PWM channel used for controlling the backlight in "pwm" dimming
-> +      mode.
-> +    maxItems: 1
-> +
-> +  default-brightness:
-> +    minimum: 0
-
-0 is minimum. Provide rather maximum? or just skip the property.
-
-> +
-> +  max-brightness:
-> +    minimum: 1
-
-Same concerns.
-
-> +
-> +  enable-gpios:
-> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
-> +    maxItems: 1
-> +
-> +  mps,switch-on-delay-ms:
-> +    description: delay (in ms) before switch on the backlight, to wait for image
-> +      stabilization.
-> +    default: 10
-> +
-> +  mps,switch-off-delay-ms:
-> +    description: delay (in ms) after the switch off command to the backlight.
-> +    default: 0
-> +
-> +  mps,overvoltage-protection-13v:
-> +    description: overvoltage protection set to 13.5V.
-> +    type: boolean
-> +  mps,overvoltage-protection-24v:
-> +    description: overvoltage protection set to 24V.
-> +    type: boolean
-> +  mps,overvoltage-protection-35v:
-> +    description: overvoltage protection set to 35.5V.
-> +    type: boolean
-
-Nope for these three. Use -microvolt suffix for one property.
-
-> +
-> +  mps,reset-gpios:
-> +    description: optional GPIO to reset an external device (LCD panel, FPGA,
-> +      etc.) when the backlight is switched on.
-> +    maxItems: 1
-
-No, you should not add here GPIOs for other devices.
-
-> +
-> +  mps,reset-on-delay-ms:
-> +    description: delay (in s) before generating the reset-gpios.
-
-in ms
-
-> +    default: 10
-> +
-> +  mps,reset-on-length-ms:
-> +    description: pulse length (in ms) for reset-gpios.
-> +    default: 10
-> +
-> +oneOf:
-> +  - required:
-> +      - mps,overvoltage-protection-13v
-> +  - required:
-> +      - mps,overvoltage-protection-24v
-> +  - required:
-> +      - mps,overvoltage-protection-35.5v
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +  - if:
-> +      properties:
-> +        mps,dimming-mode:
-> +          contains:
-> +            enum:
-> +              - pwm
-> +    then:
-> +      required:
-> +        - pwms
-
-So this proves the point - mps,dimming-mode looks redundant and not
-hardware related.
-
-> +      not:
-> +        required:
-> +          - enable-gpios
-> +
-> +  - if:
-> +      properties:
-> +        mps,dimming-mode:
-> +          contains:
-> +            enum:
-> +              - analog-i2c
-> +    then:
-> +      required:
-> +        - enable-gpios
-> +      not:
-> +        required:
-> +          - pwms
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mps,dimming-mode
-> +  - max-brightness
-> +  - default-brightness
-> +
-> +additionalProperties: false
-
-Instead:
-unevaluatedProperties: false
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c3 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        clock-frequency = <100000>;
-
-Drop
-
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_i2c3>;
-> +        status = "okay";
-
-Drop all except of cells.
-
-> +
-> +        /* Backlight with PWM control */
-> +        backlight_pwm: backlight@17 {
-> +            compatible = "mps,mp3309c-backlight";
-> +            reg = <0x17>;
-> +            mps,dimming-mode = "pwm";
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_fpga_reset>;
-> +            pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
-> +            max-brightness = <100>;
-> +            default-brightness = <80>;
-> +            mps,switch-on-delay-ms = <800>;
-> +            mps,switch-off-delay-ms = <10>;
-> +            mps,overvoltage-protection-24v;
-> +
-> +            /*
-> +             * Enable an FPGA reset pulse when MIPI data are stable,
-> +             * before switch on the backlight
-> +             */
-> +            mps,reset-gpios = <&gpio4 20 GPIO_ACTIVE_HIGH>;
-
-Nope, nope. FPGA reset pin is not related to this device.
-
-> +            mps,reset-on-delay-ms = <100>;
-> +            mps,reset-on-length-ms = <10>;
-> +        };
-> +    };
-> +
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    /* Backlight with analog control via I2C bus */
-> +    i2c3 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        clock-frequency = <100000>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_i2c3>;
-> +        status = "okay";
-
-Drop entire example. It differs by one property - missing pwms.
+BR,
+Jani.
 
 
-Best regards,
-Krzysztof
 
+>
+> BR,
+> Jani.
+>
+>
+>>
+>> Cheers,
+>> Alex
+>>
+>>> 
+>>> BR,
+>>> Jani.
+>>> 
+>>> 
+>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>> Cc: Alex Hung <alex.hung@amd.com>
+>>> Cc: Chao-kai Wang <Stylon.Wang@amd.com>
+>>> Cc: Daniel Wheeler <daniel.wheeler@amd.com>
+>>> Cc: Harry Wentland <harry.wentland@amd.com>
+>>> Cc: Hersen Wu <hersenxs.wu@amd.com>
+>>> Cc: Leo Li <sunpeng.li@amd.com>
+>>> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>>> Cc: Wenchieh Chien <wenchieh.chien@amd.com>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> 
+>>> Jani Nikula (4):
+>>>    Revert "drm/amd/display: drop unused count variable in
+>>>      create_eml_sink()"
+>>>    Revert "drm/amd/display: assign edid_blob_ptr with edid from debugfs"
+>>>    Revert "drm/amd/display: mark amdgpu_dm_connector_funcs_force static"
+>>>    Revert "drm/amd/display: implement force function in
+>>>      amdgpu_dm_connector_funcs"
+>>> 
+>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 44 +++----------------
+>>>   1 file changed, 5 insertions(+), 39 deletions(-)
+>>> 
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
