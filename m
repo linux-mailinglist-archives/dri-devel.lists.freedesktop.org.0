@@ -2,121 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D331678CC7D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 20:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D406378CCAB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 21:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730E810E488;
-	Tue, 29 Aug 2023 18:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9BA10E48A;
+	Tue, 29 Aug 2023 19:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAED10E482;
- Tue, 29 Aug 2023 18:53:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Efrjj0GzHdlAkfNKDvXtpCXPwMGy7E1UVw5V8/Vo3zOrBSkHq/6ZPwT/qglmu5MtB+gDUUXeeH9gRGMI0ExN46k95pMt6lhLglMEPLqL6Q5ZiZZT3aMpr0p5RHitrRCEcv4AwNRvkVaz/juEdbM0hse7dTRs37tb0B28oLCx9/q+1N/u8E77RZpWhV8YRb8yIrNrmpxaCC6jpt+itDhuk1OtY2G6VMdd2dNfLC/hyjXreWtFxGQiOmhtmdzM2slyXiD0x9RcQhQ2K7dNP4suBnV140KC7Vs9A3xduZ3hFwRd2DFDSBkeqwxLmv8ltt3+yRY1PmKkso4lvb5POdoGOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0vWtzzDFfncgLPlaC13PGJqz+uNKmG0YTdQfpEAMgQU=;
- b=GRtUYx+2PpMKaJEG3gM3PhGk2rwBM0A/g9CUdb4bDUYiFdjzEKHg1C4IOsEdGCMfdPYSlg9AKaxFBwaxW54vveNWd2dQS3D0kJ8QgUnSfVjaL+n7I6pTswJGKCkLSPO/8BLi4rRE5nEC6dFhizNLH/rNBRi/2h4lKyQg0s9QZrXQTuYOV1htXM4rRhEpcj3Fzj3H3WoEnN9rn1yreiyAIFCeHwoDuaNORL0qZrskZzxjVbbiLsmg1aRxasGGltGJHrs6M8fZE0CuAl5rQCQconc5zoxj3AP5cy5FqED1BbNArNw4InBGNGnmsELtbcB6s/elN9ZwyV1g/hYBmFdBpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0vWtzzDFfncgLPlaC13PGJqz+uNKmG0YTdQfpEAMgQU=;
- b=A0ytJLIKoBcQbClUZ/fPJq2+8sWs4ttfiOlPECFZbQZC0tvqcj60V8bt7KZRMA+FPuKcF0xqx8o+d0S5pkFR2bvuCpv2U7pfRh2LyByWZESPqgMX4oc1nxcJEJ8u34vfhNxqY/XKoCVbymUjSeMSAAfYMboGV6CMyNrEDKsM1Lk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3048.namprd12.prod.outlook.com (2603:10b6:a03:ad::33)
- by SA1PR12MB7366.namprd12.prod.outlook.com (2603:10b6:806:2b3::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Tue, 29 Aug
- 2023 18:53:40 +0000
-Received: from BYAPR12MB3048.namprd12.prod.outlook.com
- ([fe80::5d25:7220:4688:563f]) by BYAPR12MB3048.namprd12.prod.outlook.com
- ([fe80::5d25:7220:4688:563f%2]) with mapi id 15.20.6699.034; Tue, 29 Aug 2023
- 18:53:40 +0000
-Message-ID: <1e6aa1ff-9aa9-6b2f-84f4-e0304205085c@amd.com>
-Date: Tue, 29 Aug 2023 12:53:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Intel-gfx] [PATCH 0/4] drm/amd/display: stop using
- drm_edid_override_connector_update()
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>, Alex Deucher <alexdeucher@gmail.com>
-References: <cover.1692705543.git.jani.nikula@intel.com>
- <788721f6-afff-e0b2-db7c-32ab2dd075a9@amd.com> <87il965gob.fsf@intel.com>
- <871qfm2kg1.fsf@intel.com>
- <CADnq5_P49U3dcqiZhB-CjS8UbOtB7K2jNObS0ZQqMhOr3UhLQg@mail.gmail.com>
- <87o7ip252r.fsf@intel.com> <87jztd2332.fsf@intel.com>
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <87jztd2332.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0177.namprd04.prod.outlook.com
- (2603:10b6:303:85::32) To BYAPR12MB3048.namprd12.prod.outlook.com
- (2603:10b6:a03:ad::33)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68D9210E48A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 19:09:03 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37THeEvM017308; Tue, 29 Aug 2023 19:08:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=GxyerJBSERLrJKCj0WjAxIOA5BU04ui6K+20hFB5yy4=;
+ b=ic8ay9UXVExLYgqVAydg1Tk7uysdrLVkU5l8YDEVsP4puco2dBwCrh5Zpf38cb8Tfq3t
+ M3vjVzB8DNyPN5wW5VbNUbfXQm7fAsuHC9PUjV/8lTBSHIoG3219Jw6aJCgGm6d+qgBt
+ A4PV0xPqSgRKFTruXUYwUyrNHefRf6RUL1OdJSzyy0GqqhNXn3iB4uA5/BM5Toct1aPl
+ NAI8z5TuU8SkPgJSEK96+SnT0o2dCIwGFwylZSJS9u45o+4vBDJ081j700F8m/kJA7Oc
+ DZwFgV7diUW2Px/V4rfqzJE9W+y5W2CGQVhtHpJzypm2ROaFYxZLWWyihUqZC6ld2J9c Tw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ssbm2sqdd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Aug 2023 19:08:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TJ8rOO000620
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Aug 2023 19:08:53 GMT
+Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
+ 2023 12:08:52 -0700
+Message-ID: <c522a944-4ae1-098b-0205-b0810325114c@quicinc.com>
+Date: Tue, 29 Aug 2023 12:08:52 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3048:EE_|SA1PR12MB7366:EE_
-X-MS-Office365-Filtering-Correlation-Id: 698c7469-ddd5-408a-e8c6-08dba8c14270
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fFLH2sPr7BidACM0sw2pWA75SVtWo4PeuQKnkygBFLkFqodLFLNsj3a68b8C/FyoZpJNxzqjXXI904bP/n2NnR4erO1F70Pc90+kZZRyaDVDvW+sIC8xk++5IbHDUDc31SSXA5e3ER0/8BN92BE81wNg8lYU7WQy4ldn5IHAq/bnqTrolojunxLkeB06tyz38RMMMxSbT6t5bn9hxjXfoqa++VizR+9Rvcx5HMOOrF5l3HQOUrNm5iK3xpRgWUDRgleQN/v/FFhHtYY7bnEx8yECRwBsTZO6DG5vmAyURp7ku62yhwVh9wnrBco3j3hv+waMWPlFWHxtzsDRUHP5TmTZTbmi6n0qtnBQ1TpgGcX35t8RmLeKtkDXbWboepR6l2TgyBcszrU0wX1gZ7dMOmrAD9JiTmR/j783JE7IvAaaYK18N+D0WKuUmd0OwRcrZa3N9wx9bvur0RK1DTGYFrQsVNRWXRC5XNyyGfLvK1wwClYoNTqaj9gDpbDNSyusJHK6RKq/AbWji/yJwKBgAOlAOe1BtWjuLsHvkOd49ZBSPNLWELAR9zPJAFIK7IRuHS4ZVzPysfwc4IAUbS2G/7pPCJkdCtzFUyqSKVNToMRCBpXVA41g1Jj/M3ddpKMY0RLWLYC6WKV4RK96P7rPUA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3048.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199024)(1800799009)(186009)(6512007)(316002)(38100700002)(41300700001)(26005)(4326008)(83380400001)(2906002)(31696002)(2616005)(86362001)(8676002)(36756003)(5660300002)(44832011)(8936002)(6666004)(6506007)(6486002)(66476007)(66556008)(54906003)(53546011)(110136005)(66946007)(478600001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TWJtZVZQRDlINkMxREpwK0tyUUd6MUVHQW4xd1ZHRGM1WUZzMElDY2JLdHF2?=
- =?utf-8?B?WGUxNGRLRXlOTnJ4VTJpalpHTk5WK2Y1UXlZbysxUTdxRTFVMG1uU1Z6OTg3?=
- =?utf-8?B?M1UzOGl4dzd3RGVPeHVSVlhrQnRDaUZpLzFDaU55Y3RuaHkxVmhENjMzanNn?=
- =?utf-8?B?Ym1XMElrd0xCeFg3OTUza1UvVCtGUThEMndkRkNHUXp4WCtJRjhUZUw2dGdh?=
- =?utf-8?B?OVVHbzRlY2tGV21CVml5REJuaE9OelRBZGVvM1BvbnVGQWVDclhrT0tkUGc2?=
- =?utf-8?B?ZVF4Q2lOQzViWVY4OWRSeUxlalNtcDRlaFFaUmFjLyt5Wm5rS291elFjdTJI?=
- =?utf-8?B?eU5BcnRpNE9rWlVuSWNhT3V1aWhGME94cElFazB2d2hZK1ZQbHphZ01HWS9l?=
- =?utf-8?B?am9ZOFZZbDdNQlNvU0tpdHpZeVlpMTd2cGt1VmpNbEVLai9RN2Z5NTl6aGVV?=
- =?utf-8?B?ajFGYS9uMEhLdzFYVVh1aWJReDlGelM1QUNDc2M5enhXMGtMcEkyRFFrTW9n?=
- =?utf-8?B?a3BQaU1WWEpxNnlrRGMwa0J4L3BKSUdIYVUyby9XWTZmTGFmb09OZm9XWVln?=
- =?utf-8?B?TXM0bTEyK3M4bzg0WGJpYS8wMkh0czRSVk91ck5Oa0hrY2d6Sjl0dGdtbHZz?=
- =?utf-8?B?NmRuOTVYdjRUUkZrOFZTaTJMV0ZBaExQSmZSckNzYjdYbGNoUnp3UnZJNFFQ?=
- =?utf-8?B?bXJseEY2RGdGTlFDR1llelRTSldBY2FPQWhKd2RQLzlra0FFdUZjemEraERV?=
- =?utf-8?B?eDhpT0hFVlZCd1FxTnN4RU5aNjBOMWZ6dktJT1NmZXIzS0JrUmh2VTRwQmYv?=
- =?utf-8?B?NGR0eWRyYWFnbkpWUExmVzF5Wi80OXhxZ09XMVVlZDNUbDhkd3VSZEtRb0E1?=
- =?utf-8?B?UExXT0M1WTF0RUgvS21BczV3UXd2cWpwRDBqUzJra1M4eHdxUGZaZW8vdDdx?=
- =?utf-8?B?Y0RRdjRkaFBiZW1neEthd2tLTTlVWDNHbk5SbW42ZzVvczZOdnVSVVIybWdq?=
- =?utf-8?B?cEJhRldoZFNydmZvQk9yT2dlemVkSVRPRE5SaTcxSDFHUy91dDFUWThpNGx6?=
- =?utf-8?B?emlMOHNKd3FEemsweFBnZ2o4MWNjb0VpUUt1ZStsMEdhRmZOVWU5NFpFUVFF?=
- =?utf-8?B?ZXpQb0FIdmRDZGhBVVBJYmVIbVhWeFZsY3RkRmEwU3RrQmhUWVZOS2Vkdm9J?=
- =?utf-8?B?M2FhY2hON2hqZVdBQ0tYcDkzWElrcmt4akM4TTlBZTIrRjVEKzZBaGtyUXRp?=
- =?utf-8?B?RExsN1M3ZHBUbEkxd2pUMDVaK1pOOXpWbThZbCttblRDYzVpN1Fsdk0rVDFD?=
- =?utf-8?B?RVdSaXR2L0V2a211MUJuSFBRMWI5RG9GcWo1V0w4eFl2RFZjeGp2cytoVVlZ?=
- =?utf-8?B?SjRRWXhIMVV0N25OeVRVUDU1aDQyTkx6M0kzaThnZ1JpYU81Q2kzY2VUTVh2?=
- =?utf-8?B?Rk5idkR3aVFsWENJdG1mdWNMTzVLSTBtMjh2cGk0aGpWa3lUOEI5Tm5JV1ZY?=
- =?utf-8?B?OVJiNmoxZ0Fqa2lGaXIxVmw4Sm01aWxlN3pqVm5uM05ycnJpNzZiOHdEUEtF?=
- =?utf-8?B?MlExZENLN1lKWlJlekcxRHpaV3Fxd1NSTEhPaWJXK3RKclQzbWlOenNWWUN4?=
- =?utf-8?B?UHd6ZVgxOFZIMHJGWHQyTFRSQmQrcFFrMmgrRDlnT3JWQmpITVhoeTZWZ3Q4?=
- =?utf-8?B?K2NPeHBVM3F2TjduT0EzeTc4d25QT2xTaytja0tDZnRXT3FkQmN1emtISHlU?=
- =?utf-8?B?Q2dubXpBSFFpREJSbHpvMFZrUGNRMmVaRHg3RWdwbWQrYkhPcURYM25zRk5G?=
- =?utf-8?B?MTdWWTcvQWRMUDVxRmNtSDFvVUhDU0VBSzZTYm1tK3RlUUowM2NqaVBJdG1B?=
- =?utf-8?B?SzRQei9GdkFGczB6QVJEQVlaYVNJSUtDV2kzNG41SGl4TDd6cnk5MDAyNy95?=
- =?utf-8?B?K2hyeUtKcmhHeG9lVnlEVjFEcC83T3poZ1N1Wm4yWHU2QUFzc0JXNnZYZ2N0?=
- =?utf-8?B?dHVERjFVZ0wyR2R2ak1TOWpHbklGZE5EcXdLTURRcVlNdEMvdFl0a0dpVi9V?=
- =?utf-8?B?WnVGUjU2SU00SEFCQlU5NUdySW1NbldZa2VkVDVzYlNNNitTS20wUDhGRHlk?=
- =?utf-8?Q?VMeBmqsaPqZUXDVZV1eLpIwQP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 698c7469-ddd5-408a-e8c6-08dba8c14270
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3048.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 18:53:40.1667 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vBpPGIKI2LcWymXPzvaVmlyfcaGarK+djBxCj0k3V9/BRH+b6aopOV1jLf9x8x4PvvtXYmEuMZJUhk4rc2tCtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7366
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/panel: Add prepare_prev_first flag to Visionox
+ VTDR6130
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com>
+ <6c0dd9fd-5d8e-537c-804f-7a03d5899a07@linaro.org>
+ <548b0333-103b-ac66-0fc5-f29e7cc50596@quicinc.com>
+ <6e1f6cb7-7f88-48dc-b494-1a5e990e1a33@linaro.org>
+ <ff1b04c3-c852-4e28-9054-3cebb4ca5d6e@linaro.org>
+ <c7c5c8f0-16e6-47bd-94e8-ce924163dfd3@linaro.org>
+ <giimknikofbipipawfmrcjiar5qfyw3t7sqy3iewjahsm3ktkt@qcn4g23zfcnj>
+ <76e76728-974e-46ff-8046-c61c54d07c76@linaro.org>
+ <54b37d60-61b1-e939-c71d-30aecad65598@quicinc.com>
+ <0cb96702-b396-4223-870f-b798d32991ee@linaro.org>
+ <7571be78-5560-13bf-d754-cabc8ad6140d@quicinc.com>
+ <56c11316-57ce-45d5-927c-84f65a1c227e@linaro.org>
+ <CAA8EJpqQkb1wumNJWkKV2o5+52FopHyPRvxBewLxGFXnTJFA9A@mail.gmail.com>
+ <5512f228-680b-0259-cfc5-6dae6d4da392@quicinc.com>
+ <CAA8EJpr8WPmsgiXb16OipvtouwztKYjVWLYK04Z0DvQ7frtJiw@mail.gmail.com>
+ <e52d9a0a-f748-22fb-e68c-4b819d97d0cd@quicinc.com>
+ <CAA8EJpohD05+JuHoGai9NoM-GH8JN9MGtf4CKtBJpPm5n25dwA@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpohD05+JuHoGai9NoM-GH8JN9MGtf4CKtBJpPm5n25dwA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: SAjBfWaxYGFLZLR3P72NMdb9IFyP7LlM
+X-Proofpoint-ORIG-GUID: SAjBfWaxYGFLZLR3P72NMdb9IFyP7LlM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_13,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=999 bulkscore=0 spamscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308290166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,91 +99,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- "Wang, Yu \(Charlie\)" <Yu.Wang4@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
- dri-devel@lists.freedesktop.org, Wenchieh Chien <wenchieh.chien@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: neil.armstrong@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ quic_parellan@quicinc.com, dri-devel@lists.freedesktop.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2023-08-29 11:03, Jani Nikula wrote:
-> On Tue, 29 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> On Tue, 29 Aug 2023, Alex Deucher <alexdeucher@gmail.com> wrote:
->>> On Tue, Aug 29, 2023 at 6:48 AM Jani Nikula <jani.nikula@intel.com> wrote:
+On 8/29/2023 11:51 AM, Dmitry Baryshkov wrote:
+> On Tue, 29 Aug 2023 at 20:22, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 8/29/2023 9:43 AM, Dmitry Baryshkov wrote:
+>>> On Tue, 29 Aug 2023 at 19:37, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >>>>
->>>> On Wed, 23 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->>>>> On Tue, 22 Aug 2023, Alex Hung <alex.hung@amd.com> wrote:
->>>>>> On 2023-08-22 06:01, Jani Nikula wrote:
->>>>>>> Over the past years I've been trying to unify the override and firmware
->>>>>>> EDID handling as well as EDID property updates. It won't work if drivers
->>>>>>> do their own random things.
->>>>>> Let's check how to replace these references by appropriate ones or fork
->>>>>> the function as reverting these patches causes regressions.
->>>>>
->>>>> I think the fundamental problem you have is conflating connector forcing
->>>>> with EDID override. They're orthogonal. The .force callback has no
->>>>> business basing the decisions on connector->edid_override. Force is
->>>>> force, override is override.
->>>>>
->>>>> The driver isn't even supposed to know or care if the EDID originates
->>>>> from the firmware loader or override EDID debugfs. drm_get_edid() will
->>>>> handle that for you transparently. It'll return the EDID, and you
->>>>> shouldn't look at connector->edid_blob_ptr either. Using that will make
->>>>> future work in drm_edid.c harder.
->>>>>
->>>>> You can't fix that with minor tweaks. I think you'll be better off
->>>>> starting from scratch.
->>>>>
->>>>> Also, connector->edid_override is debugfs. You actually can change the
->>>>> behaviour. If your userspace, whatever it is, has been written to assume
->>>>> connector forcing if EDID override is set, you *do* have to fix that,
->>>>> and set both.
 >>>>
->>>> Any updates on fixing this, or shall we proceed with the reverts?
-
-There is a patch under internal reviews. It removes calls edid_override 
-and drm_edid_override_connector_update as intended in this patchset but 
-does not remove the functionality.
-
-With the patch. both following git grep commands return nothing in 
-amd-staging-drm-next.
-
-$ git grep drm_edid_override_connector_update -- drivers/gpu/drm/amd
-$ git grep edid_override -- drivers/gpu/drm/amd
-
-Best regards,
-Alex Hung
-
+>>>>
+>>>> On 8/29/2023 2:26 AM, Dmitry Baryshkov wrote:
+>>>>> On Tue, 29 Aug 2023 at 12:22, <neil.armstrong@linaro.org> wrote:
+>>>>>>
+>>>>>> On 28/08/2023 19:07, Abhinav Kumar wrote:
+>>>>>>> Hi Neil
+>>>>>>>
+>>>>>>> Sorry I didnt respond earlier on this thread.
+>>>>>>>
+>>>>>>> On 8/28/2023 1:49 AM, neil.armstrong@linaro.org wrote:
+>>>>>>>> Hi Jessica,
+>>>>>>>>
+>>>>>>>> On 25/08/2023 20:37, Jessica Zhang wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 8/21/2023 3:01 AM, neil.armstrong@linaro.org wrote:
+>>>>>>>>>> Hi Maxime,
+>>>>>>>>>>
+>>>>>>>>>> On 21/08/2023 10:17, Maxime Ripard wrote:
+>>>>>>>>>>> Hi,
+>>>>>>>>>>>
+>>>>>>>>>>> On Fri, Aug 18, 2023 at 10:25:48AM +0200, neil.armstrong@linaro.org wrote:
+>>>>>>>>>>>> On 17/08/2023 20:35, Dmitry Baryshkov wrote:
+>>>>>>>>>>>>> On 16/08/2023 10:51, neil.armstrong@linaro.org wrote:
+>>>>>>>>>>>>>> Sending HS commands will always work on any controller, it's all
+>>>>>>>>>>>>>> about LP commands. The Samsung panels you listed only send HS
+>>>>>>>>>>>>>> commands so they can use prepare_prev_first and work on any
+>>>>>>>>>>>>>> controllers.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> I think there is some misunderstanding there, supported by the
+>>>>>>>>>>>>> description of the flag.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> If I remember correctly, some hosts (sunxi) can not send DCS
+>>>>>>>>>>>>> commands after enabling video stream and switching to HS mode, see
+>>>>>>>>>>>>> [1]. Thus, as you know, most of the drivers have all DSI panel setup
+>>>>>>>>>>>>> commands in drm_panel_funcs::prepare() /
+>>>>>>>>>>>>> drm_bridge_funcs::pre_enable() callbacks, not paying attention
+>>>>>>>>>>>>> whether these commands are to be sent in LP or in HS mode.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Previously DSI source drivers could power on the DSI link either in
+>>>>>>>>>>>>> mode_set() or in pre_enable() callbacks, with mode_set() being the
+>>>>>>>>>>>>> hack to make panel/bridge drivers to be able to send commands from
+>>>>>>>>>>>>> their prepare() / pre_enable() callbacks.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> With the prev_first flags being introduced, we have established that
+>>>>>>>>>>>>> DSI link should be enabled in DSI host's pre_enable() callback and
+>>>>>>>>>>>>> switched to HS mode (be it command or video) in the enable()
+>>>>>>>>>>>>> callback.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> So far so good.
+>>>>>>>>>>>>
+>>>>>>>>>>>> It seems coherent, I would like first to have a state of all DSI host
+>>>>>>>>>>>> drivers and make this would actually work first before adding the
+>>>>>>>>>>>> prev_first flag to all the required panels.
+>>>>>>>>>>>
+>>>>>>>>>>> This is definitely what we should do in an ideal world, but at least for
+>>>>>>>>>>> sunxi there's no easy way for it at the moment. There's no documentation
+>>>>>>>>>>> for it and the driver provided doesn't allow this to happen.
+>>>>>>>>>>>
+>>>>>>>>>>> Note that I'm not trying to discourage you or something here, I'm simply
+>>>>>>>>>>> pointing out that this will be something that we will have to take into
+>>>>>>>>>>> account. And it's possible that other drivers are in a similar
+>>>>>>>>>>> situation.
+>>>>>>>>>>>
+>>>>>>>>>>>>> Unfortunately this change is not fully backwards-compatible. This
+>>>>>>>>>>>>> requires that all DSI panels sending commands from prepare() should
+>>>>>>>>>>>>> have the prepare_prev_first flag. In some sense, all such patches
+>>>>>>>>>>>>> might have Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first
+>>>>>>>>>>>>> flag to drm_panel").
+>>>>>>>>>>>>
+>>>>>>>>>>>> This kind of migration should be done *before* any possible
+>>>>>>>>>>>> regression, not the other way round.
+>>>>>>>>>>>>
+>>>>>>>>>>>> If all panels sending commands from prepare() should have the
+>>>>>>>>>>>> prepare_prev_first flag, then it should be first, check for
+>>>>>>>>>>>> regressions then continue.
+>>>>>>>>>>>>
+>>>>>>>>>>>> <snip>
+>>>>>>>>>>>>
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> I understand, but this patch doesn't qualify as a fix for
+>>>>>>>>>>>>>> 9e15123eca79 and is too late to be merged in drm-misc-next for
+>>>>>>>>>>>>>> v6.6, and since 9e15123eca79 actually breaks some support it
+>>>>>>>>>>>>>> should be reverted (+ deps) since we are late in the rc cycles.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> If we go this way, we can never reapply these patches. There will be
+>>>>>>>>>>>>> no guarantee that all panel drivers are completely converted. We
+>>>>>>>>>>>>> already have a story without an observable end -
+>>>>>>>>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I don't understand this point, who would block re-applying the patches ?
+>>>>>>>>>>>>
+>>>>>>>>>>>> The migration to DRM_BRIDGE_ATTACH_NO_CONNECTOR was done over multiple
+>>>>>>>>>>>> Linux version and went smoothly because we reverted regressing patches
+>>>>>>>>>>>> and restarted when needed, I don't understand why we can't do this
+>>>>>>>>>>>> here aswell.
+>>>>>>>>>>>>
+>>>>>>>>>>>>> I'd consider that the DSI driver is correct here and it is about the
+>>>>>>>>>>>>> panel drivers that require fixes patches. If you care about the
+>>>>>>>>>>>>> particular Fixes tag, I have provided one several lines above.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Unfortunately it should be done in the other way round, prepare for
+>>>>>>>>>>>> migration, then migrate,
+>>>>>>>>>>>>
+>>>>>>>>>>>> I mean if it's a required migration, then it should be done and I'll
+>>>>>>>>>>>> support it from both bridge and panel PoV.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So, first this patch has the wrong Fixes tag, and I would like a
+>>>>>>>>>>>> better explanation on the commit message in any case. Then I would
+>>>>>>>>>>>> like to have an ack from some drm-misc maintainers before applying it
+>>>>>>>>>>>> because it fixes a patch that was sent via the msm tree thus per the
+>>>>>>>>>>>> drm-misc rules I cannot apply it via the drm-misc-next-fixes tree.
+>>>>>>>>>>>
+>>>>>>>>>>> Sorry, it's not clear to me what you'd like our feedback on exactly?
+>>>>>>>>>>
+>>>>>>>>>> So let me resume the situation:
+>>>>>>>>>>
+>>>>>>>>>> - pre_enable_prev_first was introduced in [1]
+>>>>>>>>>> - some panels made use of pre_enable_prev_first
+>>>>>>>>>> - Visionox VTDR6130 was enabled on SM8550 systems and works on v6.5 kernels and before
+>>>>>>>>>> - patch [2] was introduced on MSM DRM tree, breaking VTDR6130 on SM8550 systems (and probably other Video mode panels on Qcom platforms)
+>>>>>>>>>> - this fix was sent late, and is now too late to be merged via drm-misc-next
+>>>>>>>>>
+>>>>>>>>> Hi Neil and Maxime,
+>>>>>>>>>
+>>>>>>>>> I agree with Neil that 9e15123eca79 was the commit that introduced the issue (since it changed the MSM DSI host behavior).
+>>>>>>>>>
+>>>>>>>>> However, I'm not too keen on simply reverting that patch because
+>>>>>>>>>
+>>>>>>>>> 1) it's not wrong to have the dsi_power_on in pre_enable. Arguably, it actually makes more sense to power on DSI host in pre_enable than in modeset (since modeset is meant for setting the bridge mode), and
+>>>>>>>>
+>>>>>>>> I never objected that, it's the right path to go.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Ack.
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>> 2) I think it would be good practice to keep specific bridge chip checks out of the DSI host driver.
+>>>>>>>>
+>>>>>>>> We discussed about a plan with Maxime and Dmitry about that, and it would require adding
+>>>>>>>> a proper atomic panel API to handle a "negociation" with the host controller.
+>>>>>>>>
+>>>>>>>
+>>>>>>> May I know what type of negotiation is needed here?
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> That being said, what do you think about setting the default value of prepare_prev_first to true (possibly in panel_bridge_attach)?
+>>>>>>>>
+>>>>>>>> As Dmitry pointed, all panels sending LP commands in pre_enable() should have prepare_prev_first to true.
+>>>>>>>>
+>>>>>>>
+>>>>>>> I wanted to respond to this earlier but didnt get a chance.
+>>>>>>>
+>>>>>>>     From the documentation of this flag, this has nothing to do whether panels are sending the LP commands (commands sent in LP mode) OR HS commands (commands sent in HS mode).
+>>>>>>>
+>>>>>>> This is more about sending the commands whether the lanes are in LP11 state before sending the ON commands.
+>>>>>>>
+>>>>>>> 195      * The previous controller should be prepared first, before the prepare
+>>>>>>> 196      * for the panel is called. This is largely required for DSI panels
+>>>>>>> 197      * where the DSI host controller should be initialised to LP-11 before
+>>>>>>> 198      * the panel is powered up.
+>>>>>>> 199      */
+>>>>>>> 200     bool prepare_prev_first;
+>>>>>>>
+>>>>>>> These are conceptually different and thats what I explained Dmitry in our call.
+>>>>>>>
+>>>>>>> Sending ON commands in LP11 state is a requirement I have seen with many panels and its actually the right expectation as well to send the commands when the lanes are in a well-defined LP11 state.
+>>>>>>>
+>>>>>>>     From the panels which I have seen, the opposite is never true (OR i have never seen it this way).
+>>>>>>>
+>>>>>>> The parade chip was the only exception and that issue was never root-caused leading us to have bridge specific handling in MSM driver.
+>>>>>>>
+>>>>>>> In other words, it would be very unlikely that a panel should be broken or shouldn't work when the ON commands are sent when the lanes are in LP11 state.
+>>>>>>>
+>>>>>>> So I agree with Jessica, that we should set the default value of this flag to true in the framework so that only the bridges/panels which need this to be false do that explicitly. From the examples I pointed out including MTK, even those vendors are powering on their DSI in pre_enable() which means none of these panels will work there too.
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>> It seems to me that most panel drivers send DCS commands during pre_enable, so maybe it would make more sense to power on DSI host before panel enable() by default. Any panel that needs DSI host to be powered on later could then explicitly set the flag to false in their respective drivers.
+>>>>>>>>
+>>>>>>>> A proper migration should be done, yes, but not as a fix on top of v6.5.
+>>>>>>>>
+>>>>>>>
+>>>>>>> I am fine to drop this fix in favor of making the prepare_prev_first as default true but we need an agreement first. From what I can see, parade chip will be the only one which will need this to be set to false and we can make that change.
+>>>>>>>
+>>>>>>> Let me know if this works as a migration plan.
+>>>>>>
+>>>>>> Yep agreed, let's do this
+>>>>>>
+>>>>>> The panel's prepare_prev_first should be reversed to something like not_prepare_prev_first to make it an exception.
+>>>>>
+>>>>> This will break all non-DSI panels, which might depend on the current
+>>>>> bridge calling order.
+>>>>>
+>>>>> I started looking at the explicit DSI power up sequencing, but it will
+>>>>> take a few more days to mature.
+>>>>>
+>>>>
+>>>> May I know why this would break all non-DSI panels?
 >>>
->>> What is the goal of the reverts?  I don't disagree that we may be
->>> using the interfaces wrong, but reverting them will regess
->>> functionality in the driver.
+>>> Existing panel drivers might be depending on the init order. Do we
+>>> know for sure that none of DPI panels will be broken if there is a
+>>> video stream ongoing during the reset procedure?
+>>> Or the panel-edp, which I'm pretty sure will require not_prepare_prev_first.
+>>>
 >>
->> The commits are in v6.5-rc1, but not yet in a release. No user depends
->> on them yet. I'd strongly prefer them not reaching v6.5 final and users.
+>> Can you please explain why would video stream be ON in pre_enable()?
+>>
+>> Even though we call msm_dsi_host_enable() in the DSI's pre_enable(), the
+>> timing engine is not enabled until the encoder's enable and the first
+>> commit after that so video stream wont be sent till then.
 > 
-> Sorry for confusion here, that's obviously come and gone already. :(
+> You are describing the MSM DSI case. I was pointing to the fact that
+> parent's pre_enable if called too early might conflict with the next
+> bridge driver in the _generic_ case. E.g. eDP or DPI. Even if is not a
+> full-featured video stream, this state might confuse the panel. So we
+> can not blindly switch the order of pre_enable callbacks for the
+> bridge-panel pair.
 > 
->> The firmware EDID, override EDID, connector forcing, the EDID property,
->> etc. have been and somewhat still are a hairy mess that we must keep
->> untangling, and this isn't helping.
+
+Even if the end connector was a eDP or DPI, the input to the bridge was 
+DSI so I think its unlikely that video stream was on before encoder's 
+enable but I cannot speak for all these interfaces/vendors.
+
+So, to accommodate both worlds, does this work?
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 9316384b4474..2b38388d4e56 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -416,7 +416,10 @@ struct drm_bridge 
+*devm_drm_panel_bridge_add_typed(struct device *dev,
+                 return bridge;
+         }
+
+-       bridge->pre_enable_prev_first = panel->prepare_prev_first;
++       if (connector_type == DRM_MODE_CONNECTOR_DSI)
++               bridge->pre_enable_prev_first = true;
++       else
++               bridge->pre_enable_prev_first = panel->prepare_prev_first;
+
+         *ptr = bridge;
+         devres_add(dev, ptr);
+
 >>
->> I've put in crazy amounts of work on this, and I've added kernel-doc
->> comments about stuff that should and should not be done, but they go
->> unread and ignored.
+>> drm_atomic_bridge_chain_pre_enable() is called before the encoder's enable.
 >>
->> I really don't want to end up having to clean this up myself before I
->> can embark on further cleanups and refactoring.
+>> drm_atomic_bridge_chain_enable() is the one which is called after the
+>> encoder's enable().
 >>
->> And again, if the functionality in the driver depends on conflating two
->> things that should be separate, it's probably not such a hot idea to let
->> it reach users either. Even if it's just debugfs.
->>
->>
->> BR,
->> Jani.
+>>>>
+>>>> Like I said, we dont know the full details of the parade issue but I do
+>>>> not see any reason why powering on a bridge chip with the DSI lanes
+>>>> being in proper LP11 state should cause an issue. Its a well defined and
+>>>> documented state in DSI spec.
+>>>>
+>>>> On the contrary, trying to turn on a bridge chip before powering on a
+>>>> controller could have more issues as we do not know what state the lanes
+>>>> are in when the MIPI devices (panel or bridge) are powered up.
+>>>>
+>>>> This sets the expectation and handshake straight.
+>>>
+>>>
+> 
+> 
 > 
