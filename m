@@ -2,58 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5B978CD47
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 22:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4D78CD58
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 22:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931D010E085;
-	Tue, 29 Aug 2023 20:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBB0B10E155;
+	Tue, 29 Aug 2023 20:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B1D10E085
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 20:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1693339376; x=1693944176; i=j.neuschaefer@gmx.net;
- bh=lg5pj3dzVGowh2JUIgjyLPKyTlGmgpDjIfuCipKzTZQ=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=jKSmlhGSRTFuxaaf7iWjl4/nwLhA3eWC56MWa1gEIJXcRJZDSJjGV/4/IAxDIOX1tjVgMEE
- VzXdPq6dgXJlxUOp/JU63Wp4Kf7rUiqohJo/jnUPKSRqL4KM41JTKiQdHJgUHRO5pRnzK5PcN
- 0696HpNKi11ChDExvX3TNmUNbQC1j51MB09OzFAFo5XRAV46PU1PPD5bOxT1Tztht6qPyKEF8
- 5sqlKlhoXSMEAhXgeCPzzjrx5sdxCEpNGfOqb2H7c4htucJGNCCa1qV5hYxSaWYKlP0Cj225U
- wPUtFWBSMvrJkDVVhzQxjLjSgKnsVwOIaRi2DOOPLV9qB/4BQuqg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([87.154.222.166]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTABZ-1q73Zn1wR5-00UcHm; Tue, 29
- Aug 2023 22:02:56 +0200
-From: =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To: linux-fbdev@vger.kernel.org
-Subject: [PATCH] fbdev: Update fbdev source file paths
-Date: Tue, 29 Aug 2023 22:02:52 +0200
-Message-Id: <20230829200253.1473891-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.40.1
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963C010E155;
+ Tue, 29 Aug 2023 20:11:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FTaj6Em2oN39/YG7fZNLqba7me4KTwtzlLzBwVLkojFsLfT1oAFIqeZmM02uYXGI5gnc6nVvP7+7DDmnEHmE4hE4QVi2ok99VUEyTDC2ZUkH5oojMVLBEzxHD94GRW77L8NKs7PW2tLCM+Aso6Y9vuqgMuk6iVbkXwDT63KqfcrCujGmBjksBpsjpxInsSinIIrsSlVj+u2drKMrEbItIceGJjmHY4IPUHRLd1z1GOYWnJu7wqUJLQAzo98NmtHdM9j5zAs7EuqcDARYA5AV43IdJ+CwW5XeZAn3VakBd2aX+MnpEtMVBuu6+MRu07XzmFMpBFvpnn7EvdfDp8kn6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jKALJpNrHb7YVMA4grUe5PopruitW91en2ugqoMSn+w=;
+ b=XkJyKzzd4Iv2eeBzottCtGIgAWAD1/JUTeQPwxtx9to0HBqxC69WogkEAEr0cda9CHDrxSevKOgBgUQnyzlRrk35gDMrnGzbRQg0iQCkp5vdaqYYYgBxERR9jOJvMIqTg4CZzEiVVhcGtyS+djjPb3a/j9euBLfXpElLEXgv6IfcOa8VHMgqTMTRlNq6nrZhB/42CKs5L81jOCj4EXWrayjYM264DK1Wn9lIyCPfFPbPN3NdTFtshUW3a2SnD5Ehhjyvvj5jYtzW2V+OrLviZZLeU5N74Fn2CwUDJXPjhAkUX2vqFeZpv5qDuuHf8Ha+3db63I5bZTRw7Tn58GQBMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jKALJpNrHb7YVMA4grUe5PopruitW91en2ugqoMSn+w=;
+ b=iwwAy+TO/WwDwGsZhm4M4/6SgW+EVhWjNpcKrpWmlq6p1lHrTJTtk1r1N2aN8CJU9UapkCMDwSUjB4CdDPxY8XKHO/7G+AyZM7eJIqdc34xSn4kNs8xo+1icAXTCTY6cmBktqVQbvYs6aehJulSU+NInycc+0A8sBTHzz05ZJes=
+Received: from DS7PR07CA0012.namprd07.prod.outlook.com (2603:10b6:5:3af::20)
+ by CH0PR12MB5091.namprd12.prod.outlook.com (2603:10b6:610:be::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
+ 2023 20:11:10 +0000
+Received: from SA2PEPF000015C8.namprd03.prod.outlook.com
+ (2603:10b6:5:3af:cafe::cc) by DS7PR07CA0012.outlook.office365.com
+ (2603:10b6:5:3af::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18 via Frontend
+ Transport; Tue, 29 Aug 2023 20:11:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SA2PEPF000015C8.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6745.17 via Frontend Transport; Tue, 29 Aug 2023 20:11:10 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 29 Aug
+ 2023 15:11:07 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] Revert "drm/amd/display: Remove v_startup workaround for
+ dcn3+"
+Date: Tue, 29 Aug 2023 16:10:41 -0400
+Message-ID: <20230829201042.322173-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7m61yDqPekLpjBk3hCmP1bMSwW5yQXxD++BEvCEIejsTl24Svld
- oKkPxWjZMc8ISL01SueDCdACV22gdFh8Ogfg/dKhfCn755CMyxej7aWuJ3zNqPJPv8Pzch7
- YSaGGPhNdFZavhIsKts1JIbExLR9AWW3DgGPCmw4dlEVzB4JpyjMqIHv6i+w74luzqlw7pQ
- xzmnIlL83dLElVzdgCywQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OVMas4vSyPQ=;pcm1/W4MU4//d7kEG7Euf68Nn/k
- VEl5PIZu5dHRLAJgxbnwXvFLX6QfhFxPpB4GwiDejZ9ZFt+wfdlTkWtgsStm0LJKB+9mTRF55
- tty/qRQlr+04+ZdXu0wZK49UWq0XOjPaMv3PcxDfkg4i9kV9CFIClRhleeX+Veq59HnsLkoL7
- WDn4MBNFSe7VDBoll+FnQJuiqk2KvqOSY4KC7At1BtOmYd+sWW/X/pQ3p7RLZlFw2nJDJhcTK
- Ok71ESJ2tD4tJW15LeB+o1COw/LsJhIb8aI9TkMMarC4fSNoa8kraw+gijKS/EMhjMF6EoEyL
- VEuKMq9W/7ftOWF5miej18DNsg+kPp130hTVJskbOKlSEvswPyfy8IOoJB8v3Jw3g1Xr7a6G7
- v3gV5fA2eK9c1WhM5nhPm/R1AZIHk73/G2ust76rt9D7woJv7wMnStVsIQrBkdaBLj3UEa4oR
- CInue8OGWosuLvldfW7w+vBH5wG1GjAgG2SFFpb6nHW/oJ3kh+xvKamT+GuU01rONDvtdkD4Z
- HiMw+3wdCKoJNOZXt8EBCC9KbylMVSU00xTTpxLurgvK4nI4T4INqdrVeZcXGGOuY36HLx+zz
- G8SbSDZAv6TxdMa1WhDdeCbrpXcYcZ3zwEXC1gtp1ZD5TZIjjoOX2EsMpkvl5F7Pirlmj0DEb
- R5a5mHUV0agu396ibLg5byIIZGmZPjiLU06xH6prx4ocrZhFGU9VLaNNTSVoSzcif9uSnnWwE
- AriAhJlFXT95cx1i0dMjKPzsEqRMr+ULZVpnEq1cXBbRC1K3UuOwrpdl08TkqiIMf2VL1VSLs
- RxeuPV5Ld4OeFJRENU7NxOLnkEKZwD9Tkw7hdJ6P1YysXFoCBymIoX/pA2Jx6XxBpK6gyxfso
- Gyf2TzibNxyjJHOtUWbfJ+XxC1kZZZ0BEyZI70LOL5NlVYCbHWPaYFrjtUDuYMTTMJulmdCj9
- bTb1yw==
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C8:EE_|CH0PR12MB5091:EE_
+X-MS-Office365-Filtering-Correlation-Id: be97deb3-190e-4910-aac0-08dba8cc1641
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3a7ZD5qgdb0GP26G/Q89MZ9naEfxITo48CZhcxnhKBGzq6udEEXqCE2fq5BdWFMzrf7B5r6IhxiOO8PcW1uotkhciHfgdS6ere+aNPOWzIWTAXStND9jfEyGP2R4OpYJYXd90a+CJ0isn4Q1rbIHkYSbLnKXaVUvl0+Ymb0lRy09uGAQGupj1dbbWHpI+33Nq6b+oNp2isHB6Nh0Ur7ncg3bF2Fi6UimWQMOFbqJSM7PxwhShtzBJf+XReJYkakPH1dVOgNGrnnZQh9fVaRckXBVJwyfvtQ8VmV3NDb9N2OF4fFJ6wWhy6sUby64bZqPfaY8vHL3rWpyZkgAKsixZpq83Zb+33QHehdsmWoshiWh498xey5xDh8myH1qYLBP9n0ji5df860/cS0ZYR28NFqsgjT6puYUeRNtsy7ynpoquS7ZGXxgdfgXSQRYJvYnh+jPQk9ko0RtuM4n2gnaLPd9UdcOoyLWPgShVLGqtZvF/HEne+5UX+vGytsxn7oUjJKbIUxOgEqKBusAjK3nzPtv+5K/m6VyRkRUCVnpM3drHJvLkbiEAi2xIIPNz3xUeNB60VEXYykS0MU9miTrYl4agJg5WHGsy82Z/yLKnaKTPJnxpkBw9fTkuXslsFbp/AM2M0ZJCovgk8jPUmDVRohgSyWX8ywhNfKb2FjTlCucNycMXaOvLlS/mTxFUmZ8iULbxnW3AySpPU2kFWTR9ScTvpLDnV2L6A8kh/R6PmlXnUyTpNRxIlsO/2gH4yUI+nRRnQ+ETr+31fJyX4a9GMNkWY2mUxm04MaP0tPBEzo=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(396003)(346002)(136003)(39860400002)(1800799009)(186009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(81166007)(356005)(82740400003)(8936002)(6666004)(70206006)(478600001)(70586007)(54906003)(966005)(6916009)(316002)(41300700001)(40460700003)(36756003)(26005)(16526019)(44832011)(8676002)(5660300002)(1076003)(2906002)(83380400001)(2616005)(47076005)(86362001)(36860700001)(40480700001)(426003)(336012)(4326008)(36900700001)(16060500005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 20:11:10.2629 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: be97deb3-190e-4910-aac0-08dba8cc1641
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C8.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,94 +99,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Jingoo Han <jg1.han@samsung.com>,
- =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Miess <daniel.miess@amd.com>, dri-devel@lists.freedesktop.org,
+ Gabe Teeger <gabe.teeger@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Leo Chen <sancchen@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, Rodrigo
+ Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Nicholas
+ Kazlauskas <nicholas.kazlauskas@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sung Joon Kim <sungjoon.kim@amd.com>,
+ Jun Lei <jun.lei@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alvin Lee <Alvin.Lee2@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The files fbmem.c, fb_defio.c, fbsysfs.c, fbmon.c, modedb.c, and
-fbcmap.c were moved to drivers/video/fbdev, and subsequently to
-drivers/video/fbdev/core, in the commits listed below.
+This reverts commit 3a31e8b89b7240d9a17ace8a1ed050bdcb560f9e.
 
-Reported by kalekale in #kernel (Libera IRC).
+We still need to call dcn20_adjust_freesync_v_startup() for older DCN3+
+ASICs otherwise it can cause DP to HDMI 2.1 PCONs to fail to light up.
+So, reintroduce the reverted code and limit it to ASICs older than
+DCN31.
 
-Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
-Fixes: 19757fc8432a ("fbdev: move fbdev core files to separate directory")
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- include/linux/fb.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Cc: stable@vger.kernel.org
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2809
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ .../drm/amd/display/dc/dml/dcn20/dcn20_fpu.c  | 24 ++++---------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index ce7d588edc3e6..3cda5b9f2469b 100644
-=2D-- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -592,7 +592,7 @@ extern ssize_t fb_sys_write(struct fb_info *info, cons=
-t char __user *buf,
- 	__FB_DEFAULT_SYS_OPS_DRAW, \
- 	__FB_DEFAULT_SYS_OPS_MMAP
-
--/* drivers/video/fbmem.c */
-+/* drivers/video/fbdev/core/fbmem.c */
- extern int register_framebuffer(struct fb_info *fb_info);
- extern void unregister_framebuffer(struct fb_info *fb_info);
- extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
-@@ -636,7 +636,7 @@ static inline void __fb_pad_aligned_buffer(u8 *dst, u3=
-2 d_pitch,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
+index 0989a0152ae8..0841176e8d6c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
+@@ -1099,6 +1099,10 @@ void dcn20_calculate_dlg_params(struct dc *dc,
+ 		context->res_ctx.pipe_ctx[i].plane_res.bw.dppclk_khz =
+ 						pipes[pipe_idx].clks_cfg.dppclk_mhz * 1000;
+ 		context->res_ctx.pipe_ctx[i].pipe_dlg_param = pipes[pipe_idx].pipe.dest;
++		if (dc->ctx->dce_version < DCN_VERSION_3_1 &&
++		    context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
++			dcn20_adjust_freesync_v_startup(&context->res_ctx.pipe_ctx[i].stream->timing,
++							&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
+ 
+ 		pipe_idx++;
  	}
- }
-
--/* drivers/video/fb_defio.c */
-+/* drivers/video/fbdev/core/fb_defio.c */
- int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)=
-;
- extern int  fb_deferred_io_init(struct fb_info *info);
- extern void fb_deferred_io_open(struct fb_info *info,
-@@ -735,14 +735,14 @@ static inline bool fb_be_math(struct fb_info *info)
- #endif /* CONFIG_FB_FOREIGN_ENDIAN */
- }
-
--/* drivers/video/fbsysfs.c */
-+/* drivers/video/fbdev/core/fbsysfs.c */
- extern struct fb_info *framebuffer_alloc(size_t size, struct device *dev)=
-;
- extern void framebuffer_release(struct fb_info *info);
- extern int fb_init_device(struct fb_info *fb_info);
- extern void fb_cleanup_device(struct fb_info *head);
- extern void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, =
-u8 max);
-
--/* drivers/video/fbmon.c */
-+/* drivers/video/fbdev/core/fbmon.c */
- #define FB_MAXTIMINGS		0
- #define FB_VSYNCTIMINGS		1
- #define FB_HSYNCTIMINGS		2
-@@ -776,7 +776,7 @@ extern int of_get_fb_videomode(struct device_node *np,
- extern int fb_videomode_from_videomode(const struct videomode *vm,
- 				       struct fb_videomode *fbmode);
-
--/* drivers/video/modedb.c */
-+/* drivers/video/fbdev/core/modedb.c */
- #define VESA_MODEDB_SIZE 43
- #define DMT_SIZE 0x50
-
-@@ -802,7 +802,7 @@ extern void fb_videomode_to_modelist(const struct fb_v=
-ideomode *modedb, int num,
- extern const struct fb_videomode *fb_find_best_display(const struct fb_mo=
-nspecs *specs,
- 						       struct list_head *head);
-
--/* drivers/video/fbcmap.c */
-+/* drivers/video/fbdev/core/fbcmap.c */
- extern int fb_alloc_cmap(struct fb_cmap *cmap, int len, int transp);
- extern int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, g=
-fp_t flags);
- extern void fb_dealloc_cmap(struct fb_cmap *cmap);
-=2D-
-2.40.1
+@@ -1927,7 +1931,6 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
+ 	int vlevel = 0;
+ 	int pipe_split_from[MAX_PIPES];
+ 	int pipe_cnt = 0;
+-	int i = 0;
+ 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
+ 	DC_LOGGER_INIT(dc->ctx->logger);
+ 
+@@ -1951,15 +1954,6 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
+ 	dcn20_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
+ 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
+ 
+-	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-		if (!context->res_ctx.pipe_ctx[i].stream)
+-			continue;
+-		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
+-			dcn20_adjust_freesync_v_startup(
+-				&context->res_ctx.pipe_ctx[i].stream->timing,
+-				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
+-	}
+-
+ 	BW_VAL_TRACE_END_WATERMARKS();
+ 
+ 	goto validate_out;
+@@ -2232,7 +2226,6 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
+ 	int vlevel = 0;
+ 	int pipe_split_from[MAX_PIPES];
+ 	int pipe_cnt = 0;
+-	int i = 0;
+ 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
+ 	DC_LOGGER_INIT(dc->ctx->logger);
+ 
+@@ -2261,15 +2254,6 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
+ 	dcn21_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
+ 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
+ 
+-	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-		if (!context->res_ctx.pipe_ctx[i].stream)
+-			continue;
+-		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
+-			dcn20_adjust_freesync_v_startup(
+-				&context->res_ctx.pipe_ctx[i].stream->timing,
+-				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
+-	}
+-
+ 	BW_VAL_TRACE_END_WATERMARKS();
+ 
+ 	goto validate_out;
+-- 
+2.41.0
 
