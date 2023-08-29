@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB41A78C939
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 18:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE06878C934
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 18:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F2010E438;
-	Tue, 29 Aug 2023 16:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9CCE10E42A;
+	Tue, 29 Aug 2023 16:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C271D10E414;
- Tue, 29 Aug 2023 15:59:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51B8010E418;
+ Tue, 29 Aug 2023 15:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1693324797; x=1724860797;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PZ9YcLOC9X5oGxrhVOgeVRvJkh7ORpyVmvEZgbyqUTg=;
- b=XB69BLyIRvyq5zqTJJ2ksVtSPIV1T8Nkcp44YrqFCu3KESCEBbUZLM/R
- +tJYWVJ9zKaAMY9nEOIFmC/MJJ76EFJHapSOZXIPuNm11+rv6U08O+VHc
- +7bTVZMtx2R9JfkRZpedtw9U/as5LeiX7Rcd8AIPy8iKNsEA5Gc8Ttrw+
- gXYRdnEYMRx5F9NXCBFSL1XqkNu412gcxpnqyEUzSfhFEHJcjDYUbLvUd
- MMAeksex2gfeU112Bgn7JxxQXDyZLLVDWMvoqgzfaPzeHh+88HWSnqSYY
- GIrBBXRVU2CG0doZaf28v1nmCjMwtgz+wEc2qEq0I3Bj3nfT6L4X4UXOh A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769468"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769468"
+ bh=h+TtI60R4uDvf9766W8wxFFcS3sBK23zc76IxxdG6GA=;
+ b=JcEOF+FhUVy1AUVeDI5exqTa4Wux+D6p0+RdETX2jUto73mX9F5mPGen
+ 4gF9y6OFZ084lb76vwFnVMVp+LyEFRwPefQGETUCd1J4aVYvaE/Kle2bp
+ CohExSjdT8/HU/iOSZ/kKQ1daOa6EsHVj72OUTYLCf6wlQjbQbjhRwdpJ
+ WQGpZnyyg6XVkGAZzr62JTYv7KPnoWXUitN3Lxi+DSyGWgkh3BTeYune3
+ vPlyDx/j7XkKhvC4UiJYAKH08J2Sar1BELPK80IkPqPZlaUejU7kuXjZX
+ 71Vj3MFzZYzuPcJyjH+laOjCNyEK+phuHpoO2VTi008AbWKdEIDDggX6+ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441769485"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="441769485"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2023 08:59:42 -0700
+ 29 Aug 2023 08:59:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688555178"
-X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688555178"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688555200"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; d="scan'208";a="688555200"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:59:40 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 08:59:43 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 29/33] drm/i915/xelpd: Program Plane Post CSC Registers
-Date: Tue, 29 Aug 2023 21:34:18 +0530
-Message-ID: <20230829160422.1251087-30-uma.shankar@intel.com>
+Subject: [RFC 30/33] drm/i915/color: Enable Plane CSC
+Date: Tue, 29 Aug 2023 21:34:19 +0530
+Message-ID: <20230829160422.1251087-31-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230829160422.1251087-1-uma.shankar@intel.com>
 References: <20230829160422.1251087-1-uma.shankar@intel.com>
@@ -63,130 +63,154 @@ Cc: Uma Shankar <uma.shankar@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extract the LUT and program plane post csc registers.
+Implement plane CSC for Xe_LPD.
 
 Co-developed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c | 95 +++++++++++++++++++++-
- 1 file changed, 94 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_color.c    | 86 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_color.h    |  1 +
+ .../drm/i915/display/skl_universal_plane.c    |  4 +-
+ 3 files changed, 90 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index 56bcf750b047..ff996b9ee77d 100644
+index ff996b9ee77d..956080fb7fcd 100644
 --- a/drivers/gpu/drm/i915/display/intel_color.c
 +++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -1963,16 +1963,109 @@ static void xelpd_program_plane_pre_csc_lut(const struct drm_plane_state *state,
+@@ -2068,6 +2068,83 @@ static void xelpd_plane_load_luts(const struct drm_plane_state *plane_state)
  	}
  }
  
-+static void xelpd_program_plane_post_csc_lut(const struct drm_plane_state *state,
-+					     struct drm_color_lut_ext *post_csc_lut,
-+					     u32 offset)
++static void xelpd_load_plane_csc_matrix(const struct drm_plane_state *state)
 +{
 +	struct drm_i915_private *dev_priv = to_i915(state->plane->dev);
 +	enum pipe pipe = to_intel_plane(state->plane)->pipe;
 +	enum plane_id plane = to_intel_plane(state->plane)->id;
-+	u32 i, lut_size;
++	struct drm_color_ctm *ctm;
++	const u64 *input;
++	u16 coeffs[9] = {};
++	u16 postoff = 0;
++	int i;
 +
-+	if (icl_is_hdr_plane(dev_priv, plane)) {
-+		intel_de_write_fw(dev_priv, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
-+				  offset | PLANE_PAL_PREC_AUTO_INCREMENT);
-+		if (post_csc_lut) {
-+			lut_size = 32;
-+			for (i = 0; i < lut_size; i++) {
-+				u64 word = drm_color_lut_extract_ext(post_csc_lut[i].green, 24);
-+				u32 lut_val = (word & 0xffffff);
++	if (!icl_is_hdr_plane(dev_priv, plane) || !state->color.ctm)
++		return;
 +
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-+						  lut_val);
-+			}
++	ctm = state->color.ctm->data;
++	input = ctm->matrix;
 +
-+			do {
-+				/* Program the max register to clamp values > 1.0. */
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-+						  post_csc_lut[i].green);
-+			} while (i++ < 34);
-+		} else {
-+			lut_size = 32;
-+			for (i = 0; i < lut_size; i++) {
-+				u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
++	/*
++	 * Convert fixed point S31.32 input to format supported by the
++	 * hardware.
++	 */
++	for (i = 0; i < ARRAY_SIZE(coeffs); i++) {
++		u64 abs_coeff = ((1ULL << 63) - 1) & input[i];
 +
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
-+			}
-+
-+			do {
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-+						  1 << 24);
-+			} while (i++ < 34);
-+		}
-+
-+		intel_de_write_fw(dev_priv, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
-+	} else {
-+		lut_size = 32;
 +		/*
-+		 * First 3 planes are HDR, so reduce by 3 to get to the right
-+		 * SDR plane offset
++		 * Clamp input value to min/max supported by
++		 * hardware.
 +		 */
-+		plane = plane - 3;
++		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
 +
-+		intel_de_write_fw(dev_priv, PLANE_POST_CSC_GAMC_INDEX(pipe, plane, 0),
-+				  offset | PLANE_PAL_PREC_AUTO_INCREMENT);
++		/* sign bit */
++		if (CTM_COEFF_NEGATIVE(input[i]))
++			coeffs[i] |= 1 << 15;
 +
-+		if (post_csc_lut) {
-+			for (i = 0; i < lut_size; i++)
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA(pipe, plane, 0),
-+						  post_csc_lut[i].green & 0xffff);
-+			/* Program the max register to clamp values > 1.0. */
-+			while (i < 35)
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA(pipe, plane, 0),
-+						  post_csc_lut[i++].green & 0x3ffff);
-+		} else {
-+			for (i = 0; i < lut_size; i++) {
-+				u32 v = (i * ((1 << 16) - 1)) / (lut_size - 1);
-+
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA(pipe, plane, 0), v);
-+			}
-+
-+			do {
-+				intel_de_write_fw(dev_priv,
-+						  PLANE_POST_CSC_GAMC_DATA(pipe, plane, 0),
-+						  (1 << 16));
-+			} while (i++ < 34);
-+		}
-+
-+		intel_de_write_fw(dev_priv, PLANE_POST_CSC_GAMC_INDEX(pipe, plane, 0), 0);
++		if (abs_coeff < CTM_COEFF_0_125)
++			coeffs[i] |= (3 << 12) |
++				ILK_CSC_COEFF_FP(abs_coeff, 12);
++		else if (abs_coeff < CTM_COEFF_0_25)
++			coeffs[i] |= (2 << 12) |
++				ILK_CSC_COEFF_FP(abs_coeff, 11);
++		else if (abs_coeff < CTM_COEFF_0_5)
++			coeffs[i] |= (1 << 12) |
++				ILK_CSC_COEFF_FP(abs_coeff, 10);
++		else if (abs_coeff < CTM_COEFF_1_0)
++			coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
++		else if (abs_coeff < CTM_COEFF_2_0)
++			coeffs[i] |= (7 << 12) |
++				ILK_CSC_COEFF_FP(abs_coeff, 8);
++		else
++			coeffs[i] |= (6 << 12) |
++				ILK_CSC_COEFF_FP(abs_coeff, 7);
 +	}
++
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 0),
++			  coeffs[0] << 16 | coeffs[1]);
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 1),
++			  coeffs[2] << 16);
++
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 2),
++			  coeffs[3] << 16 | coeffs[4]);
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 3),
++			  coeffs[5] << 16);
++
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 4),
++			  coeffs[6] << 16 | coeffs[7]);
++	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 5),
++			  coeffs[8] << 16);
++
++	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
++	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
++	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
++
++	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 0), postoff);
++	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 1), postoff);
++	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 2), postoff);
 +}
 +
- static void xelpd_plane_load_luts(const struct drm_plane_state *plane_state)
+ void intel_color_load_luts(const struct intel_crtc_state *crtc_state)
  {
- 	const struct drm_property_blob *pre_csc_lut_blob =
- 					plane_state->color.pre_csc_lut;
--	struct drm_color_lut_ext *pre_csc_lut = NULL;
-+	const struct drm_property_blob *post_csc_lut_blob =
-+					plane_state->color.post_csc_lut;
-+	struct drm_color_lut_ext *pre_csc_lut, *post_csc_lut;
- 
- 	if (pre_csc_lut_blob) {
- 		pre_csc_lut = pre_csc_lut_blob->data;
- 		xelpd_program_plane_pre_csc_lut(plane_state, pre_csc_lut, 0);
- 	}
-+
-+	if (post_csc_lut_blob) {
-+		post_csc_lut = post_csc_lut_blob->data;
-+		xelpd_program_plane_post_csc_lut(plane_state, post_csc_lut, 0);
-+	}
+ 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
+@@ -2083,6 +2160,14 @@ void intel_color_load_plane_luts(const struct drm_plane_state *plane_state)
+ 		i915->display.funcs.color->load_plane_luts(plane_state);
  }
  
- void intel_color_load_luts(const struct intel_crtc_state *crtc_state)
++void intel_color_load_plane_csc_matrix(const struct drm_plane_state *plane_state)
++{
++	struct drm_i915_private *i915 = to_i915(plane_state->plane->dev);
++
++	if (i915->display.funcs.color->load_plane_csc_matrix)
++		i915->display.funcs.color->load_plane_csc_matrix(plane_state);
++}
++
+ void intel_color_commit_noarm(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
+@@ -3925,6 +4010,7 @@ static const struct intel_color_funcs xelpd_color_funcs = {
+ 	.lut_equal = icl_lut_equal,
+ 	.read_csc = icl_read_csc,
+ 	.load_plane_luts = xelpd_plane_load_luts,
++	.load_plane_csc_matrix = xelpd_load_plane_csc_matrix,
+ };
+ 
+ static const struct intel_color_funcs tgl_color_funcs = {
+diff --git a/drivers/gpu/drm/i915/display/intel_color.h b/drivers/gpu/drm/i915/display/intel_color.h
+index 93382df101d9..a513c88d3bfc 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.h
++++ b/drivers/gpu/drm/i915/display/intel_color.h
+@@ -33,4 +33,5 @@ bool intel_color_lut_equal(const struct intel_crtc_state *crtc_state,
+ void intel_color_assert_luts(const struct intel_crtc_state *crtc_state);
+ void intel_color_plane_init(struct drm_plane *plane);
+ void intel_color_load_plane_luts(const struct drm_plane_state *plane_state);
++void intel_color_load_plane_csc_matrix(const struct drm_plane_state *plane_state);
+ #endif /* __INTEL_COLOR_H__ */
+diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+index c08875fa965e..c85548d3210a 100644
+--- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
++++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+@@ -1280,8 +1280,10 @@ icl_plane_update_noarm(struct intel_plane *plane,
+ 	if (plane_state->force_black)
+ 		icl_plane_csc_load_black(plane);
+ 
+-	if (plane_state->uapi.color_mgmt_changed)
++	if (plane_state->uapi.color_mgmt_changed) {
+ 		intel_color_load_plane_luts(&plane_state->uapi);
++		intel_color_load_plane_csc_matrix(&plane_state->uapi);
++	}
+ 
+ 	intel_psr2_program_plane_sel_fetch_noarm(plane, crtc_state, plane_state, color_plane);
+ }
 -- 
 2.38.1
 
