@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259C778CE9D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 23:13:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C61B78CEAB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Aug 2023 23:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3F010E0BC;
-	Tue, 29 Aug 2023 21:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E0810E497;
+	Tue, 29 Aug 2023 21:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B71D10E0BC
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 21:13:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E26710E497
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 21:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693343581;
+ s=mimecast20190719; t=1693343792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a+GUVbCk86qh5EQhmd6PqgeyLWByDTt+LjF9LcbM2Qk=;
- b=cGmDli8NUu+Hm9mtrIe3YWXh/7qcPm3RWH0NGyrYyoUwct02a8GjZmygVcixNPb1eaCC8+
- lRjBZEQlAYSHeBaajw7zhp2qwzlbpOywtgR6QFIWvroYFu7tMb2IWf8tFzoZg578Eg7sGb
- ziV5B4pkFukUxIza0LmAwiZ2gjppXk4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MsrqElhKNPNFgbdwVrAQrRLanlnRhnvN8+BVbNKQ4M0=;
+ b=IG5K4M/LAMhcd9MOQf8SyGeowDmBqHjtasgoOuNji3J2XR78K6uRkNfkAWGQsCX9wfChl+
+ mnZU7wsiq+BgR+Z/6rb4cEmV7VFQWkm0UYj3JPmCNcrZGfYOdkQ+NjlbDBPes9w6r/OIAR
+ zphTD22BBbGQrW5RYunIh0kKBx4Xf9A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-639-nycweorPN5OR1wS4smZmqA-1; Tue, 29 Aug 2023 17:12:59 -0400
-X-MC-Unique: nycweorPN5OR1wS4smZmqA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-31c5c55fd70so72628f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:12:59 -0700 (PDT)
+ us-mta-126-NP8z8QNUNnaVcCK0uh1PAQ-1; Tue, 29 Aug 2023 17:16:28 -0400
+X-MC-Unique: NP8z8QNUNnaVcCK0uh1PAQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f41a04a297so32626125e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 14:16:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693343578; x=1693948378;
+ d=1e100.net; s=20221208; t=1693343787; x=1693948587;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a+GUVbCk86qh5EQhmd6PqgeyLWByDTt+LjF9LcbM2Qk=;
- b=fL4tb9+wU99exOTz9Dy8qCCHTDYPlsTOYPcCOHCxH+5sb/nziq56HP3dHXoOGNBS+s
- Fzl99heqsoHODd49LMR75txnMfcUeb90DBNhzxMhQoUY8y9YQNAbvWnLOKpVHisnpd+d
- lcQlMJapnpCktoSzE3olDutXbsJ3msvsxhX1Mk+MSzLxT34nJ8G1nIr3L6K4+JQ10uhy
- he1nDOU/swiDDeQFcjQuPZJRzYTSsz+3W65+auQxkIPMeAWIva+tfHsAsUvpoqtHfTyu
- SjNa4XMhGdgxJXqMaWcRD7fuRR9FkbQT3R0wxkFtIQtGPXPvlPR2tWO0p6nYOPMlLTHs
- 9bbw==
-X-Gm-Message-State: AOJu0YwB2+a6z2xOETr17r7/WF8NOr0zeDAK4ao8NTdX5SRPUDhd39xk
- 7GQc8XK1uik4ng+qJGcoAY+VCbRnp1lJ83gV8zzNgTgmh+eZhwUX62s0dRBIHMzv80vm/8ZfzfV
- MkZfQFKZj6xxZjJUXw6j6uW61HkWJ
-X-Received: by 2002:adf:e54f:0:b0:319:7ec8:53ba with SMTP id
- z15-20020adfe54f000000b003197ec853bamr246338wrm.14.1693343578540; 
- Tue, 29 Aug 2023 14:12:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbYAzItfIpAHRZHGuf/sij5R/jrO6m8qBFwVYhGmG9FXiUVA+MnWStuS6opJ/GGpZlcmJh1w==
-X-Received: by 2002:adf:e54f:0:b0:319:7ec8:53ba with SMTP id
- z15-20020adfe54f000000b003197ec853bamr246325wrm.14.1693343578190; 
- Tue, 29 Aug 2023 14:12:58 -0700 (PDT)
+ bh=MsrqElhKNPNFgbdwVrAQrRLanlnRhnvN8+BVbNKQ4M0=;
+ b=Sj0LcqcHIUUxD0wLG1/HuW7OiK33hxKtAfIOWTYwymR3/0L3gL3yzJpVAaPj4JcJ/t
+ 9wGCFZXagd/3ujggM8/J9CWwaEJBgeWZyVQCaJHxHPj4Jn7hDWmVxvz2MgGzFM4mFONX
+ 4MTfp7Mlpy3B4qLHaHvAC82bVQflH4AARHXIXxsk/MsDHsBm3JWGxILiOKv5jiaRbCy/
+ VuOlms+OQoFRDyKjfJsp7XrvHro9yy9x53ogaGBj1xcuDM/ehbIuAIjRr62qfPcJEbde
+ YyvTLKRkVsTakDBwvmuBrgEiV1bv4enig7jj+wSZn6wHxa6MseMM5hRU1r04nDksjVTH
+ s2vQ==
+X-Gm-Message-State: AOJu0Yya2PthUGg9N3YSbuPo28R05spvvijDYTzKUqOmWbbCjo8KSDmH
+ hYUyefY4zPnm3Tq3Lfy0zFSTmMey7aCFyqSKoeHcH3iyYupV+mD/R2xIDzpYVzuiQ/tpL13Z1Hr
+ j5FfZ5EIxYW/9ecZu0i8Y/H9MYOyi
+X-Received: by 2002:a05:600c:218f:b0:401:b204:3b85 with SMTP id
+ e15-20020a05600c218f00b00401b2043b85mr308612wme.36.1693343787056; 
+ Tue, 29 Aug 2023 14:16:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG8Aqi5DaDFyulOBCrzSHSRQGwWVva7rQc36ObDSjCjpkMfHtbpiF/HJdWZ2OqD3Gc072E03A==
+X-Received: by 2002:a05:600c:218f:b0:401:b204:3b85 with SMTP id
+ e15-20020a05600c218f00b00401b2043b85mr308599wme.36.1693343786711; 
+ Tue, 29 Aug 2023 14:16:26 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y6-20020adfd086000000b003179b3fd837sm14792695wrh.33.2023.08.29.14.12.57
+ r19-20020a05600c299300b003fe539b83f2sm79038wmd.42.2023.08.29.14.16.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Aug 2023 14:12:57 -0700 (PDT)
+ Tue, 29 Aug 2023 14:16:26 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
-In-Reply-To: <87ttsite67.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH v2 3/8] drm/ssd130x: Use bool for ssd130x_deviceinfo flags
+In-Reply-To: <87wmxeteyk.fsf@minerva.mail-host-address-is-not-set>
 References: <cover.1692888745.git.geert@linux-m68k.org>
- <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
- <87ttsite67.fsf@minerva.mail-host-address-is-not-set>
-Date: Tue, 29 Aug 2023 23:12:57 +0200
-Message-ID: <877cpdd02u.fsf@minerva.mail-host-address-is-not-set>
+ <285005ff361969eff001386c5f97990f0e703838.1692888745.git.geert@linux-m68k.org>
+ <87wmxeteyk.fsf@minerva.mail-host-address-is-not-set>
+Date: Tue, 29 Aug 2023 23:16:25 +0200
+Message-ID: <874jkhczx2.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -93,34 +93,17 @@ Javier Martinez Canillas <javierm@redhat.com> writes:
 
 > Geert Uytterhoeven <geert@linux-m68k.org> writes:
 >
->> The native display format is monochrome light-on-dark (R1).
->> Hence add support for R1, so monochrome applications not only look
->> better, but also avoid the overhead of back-and-forth conversions
->> between R1 and XR24.
->>
->> Do not allocate the intermediate conversion buffer when it is not
->> needed, and reorder the two buffer allocations to streamline operation.
+>> The .need_pwm and .need_chargepump fields in struct ssd130x_deviceinfo
+>> are flags that can have only two possible values: 0 and 1.
+>> Reduce kernel size by changing their types from int to bool.
 >>
 >> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> ---
->> v2:
->>   - Rework on top op commit 8c3926367ac9df6c ("drm/ssd130x: Use
->>     shadow-buffer helpers when managing plane's state") in drm/drm-next.
->>     Hence I did not add Javier's tags given on v1.
->>   - Do not allocate intermediate buffer when not needed.
 >> ---
 >
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 >
 
 Tested-by: Javier Martinez Canillas <javierm@redhat.com>
-
-> -- 
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
 
 -- 
 Best regards,
