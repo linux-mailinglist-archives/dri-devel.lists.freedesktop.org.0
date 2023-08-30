@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C34278D684
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DBB78D685
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5702B10E535;
-	Wed, 30 Aug 2023 14:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7334A10E53F;
+	Wed, 30 Aug 2023 14:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6D17B10E535
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="174486546"
+ by gabe.freedesktop.org (Postfix) with ESMTP id D802E10E536
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="174486550"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:40 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:47 +0900
 Received: from localhost.localdomain (unknown [10.226.92.150])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id DC26942170F5;
- Wed, 30 Aug 2023 23:24:34 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5E73842170F5;
+ Wed, 30 Aug 2023 23:24:41 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 5/8] drm: adv7511: Add reg_cec_offset variable to struct
+Subject: [PATCH v2 6/8] drm: adv7511: Add has_dsi variable to struct
  adv7511_chip_info
-Date: Wed, 30 Aug 2023 15:23:55 +0100
-Message-Id: <20230830142358.275459-6-biju.das.jz@bp.renesas.com>
+Date: Wed, 30 Aug 2023 15:23:56 +0100
+Message-Id: <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
 References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
@@ -57,151 +57,85 @@ Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADV7533 and ADV7535 have an offset(0x70) for the CEC register map
-compared to ADV7511. Add the reg_cec_offset variable to struct
-adv7511_chip_info to handle this difference and drop the reg_cec_offset
-variable from struct adv7511.
-
-This will avoid assigning reg_cec_offset based on chip type and also
-testing for multiple chip types for calling adv7533_patch_cec_registers().
+The ADV7533 and ADV7535 have DSI support. Add a variable has_dsi to
+struct adv7511_chip_info for handling configuration related to DSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v2:
- * New patch.
+v1->v2:
+ * Replaced variable type from unsigned->bool.
+ * Restored check using type for low_refresh_rate and
+   regmap_register_patch().
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 14 +++++++-------
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  8 ++++----
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 10 ++++++----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index edf7be9c21d3..a728bfb33d03 100644
+index a728bfb33d03..0dd56e311039 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -339,6 +339,7 @@ struct adv7511_chip_info {
- 	unsigned int max_lane_freq_khz;
+@@ -340,6 +340,7 @@ struct adv7511_chip_info {
  	const char * const *supply_names;
  	unsigned int num_supplies;
-+	unsigned int reg_cec_offset;
+ 	unsigned int reg_cec_offset;
++	bool has_dsi;
  };
  
  struct adv7511 {
-@@ -349,7 +350,6 @@ struct adv7511 {
- 
- 	struct regmap *regmap;
- 	struct regmap *regmap_cec;
--	unsigned int reg_cec_offset;
- 	enum drm_connector_status status;
- 	bool powered;
- 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-index 2a6b91f752cb..44451a9658a3 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-@@ -33,7 +33,7 @@ static const u8 ADV7511_REG_CEC_RX_FRAME_LEN[] = {
- 
- static void adv_cec_tx_raw_status(struct adv7511 *adv7511, u8 tx_raw_status)
- {
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	unsigned int val;
- 
- 	if (regmap_read(adv7511->regmap_cec,
-@@ -84,7 +84,7 @@ static void adv_cec_tx_raw_status(struct adv7511 *adv7511, u8 tx_raw_status)
- 
- static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
- {
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	struct cec_msg msg = {};
- 	unsigned int len;
- 	unsigned int val;
-@@ -121,7 +121,7 @@ static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
- 
- void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
- {
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	const u32 irq_tx_mask = ADV7511_INT1_CEC_TX_READY |
- 				ADV7511_INT1_CEC_TX_ARBIT_LOST |
- 				ADV7511_INT1_CEC_TX_RETRY_TIMEOUT;
-@@ -177,7 +177,7 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
- static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable)
- {
- 	struct adv7511 *adv7511 = cec_get_drvdata(adap);
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 
- 	if (adv7511->i2c_cec == NULL)
- 		return -EIO;
-@@ -223,7 +223,7 @@ static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable)
- static int adv7511_cec_adap_log_addr(struct cec_adapter *adap, u8 addr)
- {
- 	struct adv7511 *adv7511 = cec_get_drvdata(adap);
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	unsigned int i, free_idx = ADV7511_MAX_ADDRS;
- 
- 	if (!adv7511->cec_enabled_adap)
-@@ -292,7 +292,7 @@ static int adv7511_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				     u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct adv7511 *adv7511 = cec_get_drvdata(adap);
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	u8 len = msg->len;
- 	unsigned int i;
- 
-@@ -345,7 +345,7 @@ static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
- 
- int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- {
--	unsigned int offset = adv7511->reg_cec_offset;
-+	unsigned int offset = adv7511->info->reg_cec_offset;
- 	int ret = adv7511_cec_parse_dt(dev, adv7511);
- 
- 	if (ret)
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 2bcd17953221..d806c870bf76 100644
+index d806c870bf76..9d88c29b6f59 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1035,7 +1035,7 @@ static bool adv7511_cec_register_volatile(struct device *dev, unsigned int reg)
- 	struct i2c_client *i2c = to_i2c_client(dev);
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
+@@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+ 	 */
+ 	regcache_sync(adv7511->regmap);
  
--	reg -= adv7511->reg_cec_offset;
-+	reg -= adv7511->info->reg_cec_offset;
+-	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
++	if (adv7511->info->has_dsi)
+ 		adv7533_dsi_power_on(adv7511);
+ 	adv7511->powered = true;
+ }
+@@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv7511)
+ static void adv7511_power_off(struct adv7511 *adv7511)
+ {
+ 	__adv7511_power_off(adv7511);
+-	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
++	if (adv7511->info->has_dsi)
+ 		adv7533_dsi_power_off(adv7511);
+ 	adv7511->powered = false;
+ }
+@@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
+ {
+ 	struct adv7511 *adv = bridge_to_adv7511(bridge);
  
- 	switch (reg) {
- 	case ADV7511_REG_CEC_RX1_FRAME_HDR:
-@@ -1086,12 +1086,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
- 		goto err;
- 	}
+-	if (adv->info->type == ADV7533 || adv->info->type == ADV7535)
++	if (adv->info->has_dsi)
+ 		return adv7533_mode_valid(adv, mode);
+ 	else
+ 		return adv7511_mode_valid(adv, mode);
+@@ -1311,7 +1311,7 @@ static int adv7511_probe(struct i2c_client *i2c)
  
--	if (adv->info->type == ADV7533 || adv->info->type == ADV7535) {
-+	if (adv->info->reg_cec_offset == ADV7533_REG_CEC_OFFSET) {
- 		ret = adv7533_patch_cec_registers(adv);
+ 	adv7511_audio_init(dev, adv7511);
+ 
+-	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535) {
++	if (adv7511->info->has_dsi) {
+ 		ret = adv7533_attach_dsi(adv7511);
  		if (ret)
- 			goto err;
--
--		adv->reg_cec_offset = ADV7533_REG_CEC_OFFSET;
- 	}
- 
- 	return 0;
-@@ -1368,6 +1366,7 @@ static const struct adv7511_chip_info adv7533_chip_info = {
- 	.max_lane_freq_khz = 800000,
+ 			goto err_unregister_audio;
+@@ -1367,6 +1367,7 @@ static const struct adv7511_chip_info adv7533_chip_info = {
  	.supply_names = adv7533_supply_names,
  	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
-+	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
+ 	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
++	.has_dsi = true,
  };
  
  static const struct adv7511_chip_info adv7535_chip_info = {
-@@ -1376,6 +1375,7 @@ static const struct adv7511_chip_info adv7535_chip_info = {
- 	.max_lane_freq_khz = 891000,
+@@ -1376,6 +1377,7 @@ static const struct adv7511_chip_info adv7535_chip_info = {
  	.supply_names = adv7533_supply_names,
  	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
-+	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
+ 	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
++	.has_dsi = true,
  };
  
  static const struct i2c_device_id adv7511_i2c_ids[] = {
