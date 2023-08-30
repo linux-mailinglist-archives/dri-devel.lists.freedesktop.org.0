@@ -1,41 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCC278D756
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 17:55:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 424D478D764
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 18:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F61E10E55F;
-	Wed, 30 Aug 2023 15:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6308110E558;
+	Wed, 30 Aug 2023 16:02:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADAA110E558
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 15:55:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD8252F4;
- Wed, 30 Aug 2023 08:55:59 -0700 (PDT)
-Received: from [10.57.92.7] (unknown [10.57.92.7])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A84C3F64C;
- Wed, 30 Aug 2023 08:55:17 -0700 (PDT)
-Message-ID: <cbfd0562-55ef-656e-08fe-9bdc53cbded1@arm.com>
-Date: Wed, 30 Aug 2023 16:55:21 +0100
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2085.outbound.protection.outlook.com [40.107.212.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6DE610E558
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 16:02:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BzFeKScLPSyk07Pq1fkCto96IGxd/tp2i0bEe0SekUiXF69UCYuiNoH8TePdo0+3e/b5zJjo5OFau3I7nWwKHsLZhzS3yc7ZTeuS04h/A8yT9AyCXN0o36xNyftbgBZG0NuCMiNtG58i/T5iapxcdyWDxA3FXpMdHnl1n9ivzbSqdYpw41LMWRQmNwCNvBQSPGydtEKng/nmCOi9auSUQ99ytp3x5lJCvkXJwhAyGUtwZ2YjJdAEaQJcBv+Rx7k2/TM4kTbpaXU0B4rClaW/hQwsCCXQPWbgk9tOpp/1seU0T12oniaRfrED7QJBR42j/mmybml6jxgGtRqAb8RMyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QDUKx57B6DksmABGY1AZwOhnfW9w+zF/hRQ6+PObYfQ=;
+ b=RdP5IQICanL98glP1Iv4cHRCJCSYS9s2dFdsyBmu/sGbgYmaO0xIYTa2cGGoajIVCQLvpmeJ7IJVeZNTvwqYwz/fkRWQOPqIeQ4ZwYN93ljfHVzc18WZe9qiroTvWPoCjwhQbrBexFwRW55oHzZG3lxHrmzTRGy401Ieb1Z3S+BCxj3zCh7tGGtdpd8c26n5stavocigdpQXZKshk4xZ1cA4T3F4vrDux1dzowZ6K0dSLgIjiW62enSiQkN8SagASmcmelEJeFbwesYeANZIVc34+VmGggETQ5q5Nnp6NRJBy9//fEKWHZ4sgM1vWo40KARzuJW9TqukTHexMak0BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QDUKx57B6DksmABGY1AZwOhnfW9w+zF/hRQ6+PObYfQ=;
+ b=Lb6JxXRq+F1fX/mieXZsG5rm96yMiYn3F13CgeWdQADW6+C/w72pG8OnNPnxf9sm0mXg1Vxf7BlENCV4K5gRwNjJ4H/KjQyYLcT3ZenK7upGFKG8q2k8mMnsrj9ii8lFuY/ZO7fsQMxgRLMwM173/lxSj/60/faL1tCZcqsD8iXeXLS+EW8FhgUZ8klzueDIIjQhd7s9Cr8ay0k9DfhQYBYdKGJzQlpfk0xrCiiqUH8yYrDi26DDFUmT3FIEcNvmrExooFv1AlzVuntRKk3zsWjsYKECWPFD3ZzaEHq+/bVvQLWA/u9TItw3s4lnjFoYz6YeTeNqA6YhFUpmJZsJAg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by PH7PR12MB8124.namprd12.prod.outlook.com (2603:10b6:510:2ba::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Wed, 30 Aug
+ 2023 16:02:20 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6745.020; Wed, 30 Aug 2023
+ 16:02:20 +0000
+Date: Wed, 30 Aug 2023 13:02:17 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZO9oCU0PZv+rBrHp@nvidia.com>
+References: <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMzz2OKbmiD6SKPE@nvidia.com>
+ <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZNI4KV+Z7CvffiHI@nvidia.com>
+ <IA0PR11MB71857FDD99CAC23C88C9F27CF815A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87h6oswysm.fsf@nvdebian.thelocal>
+ <IA0PR11MB71853FB79625A4F2399FFD79F81FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87o7izlcg7.fsf@nvdebian.thelocal>
+ <IA0PR11MB71855031E9159C8DCB311702F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <IA0PR11MB71856D8161600A04427E5A87F8E0A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB71856D8161600A04427E5A87F8E0A@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BYAPR03CA0034.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::47) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 08/15] drm/panthor: Add the MMU/VM logical block
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-9-boris.brezillon@collabora.com>
- <aa0d660b-861e-c330-840b-5603fd4b4a38@arm.com>
- <20230829173317.523177f8@collabora.com>
- <c539fda5-93b2-167f-e2fd-b0487898ee9d@arm.com>
- <20230830165326.02f20ea0@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230830165326.02f20ea0@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB8124:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6bf003fc-1022-42b9-0d7e-08dba9727dc3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JKhWPqvx+W2JHj2N1oSleg+9H+wA+fu+qiDj05/dvnpMm6OcV2eXRnWw7im9tcUMjzKuKHdCNl2jMuJQZDDDPrXZVv7KX79aCVoZC6fSf15Q0X+5gZXeoV8YUuDXnIWuFrgI/AGsdg8PFy+IOzL/2wVmHV+zW6TghOHbQZm1btJPbG6RQ0o8AtyhZrDbxt7R4aVtxoYY5g861HejNJZjXtdyyJ574DhPBiPLaE0W3YMWXA0batfIgak6sENL1Hzy5sIugXbTWM8nMrTybKpMOxOmogMSRgJJTAdcdjUJzQK/zPoevjp1W+rWm0F4y7dbwYeEgM3frOahu5TlwCW1tSW9yvrSSwyAlQy/qjzMFrXsCaogrNg+20ZJXKgwq6RqRxfPCVGb/GWQ6PYT0T0RXV9OXarfayNXLx4R02dFmRLIvGffoZVVw9qLILEjH+o9SIjsSqB+nThZ0vjH3t9LaVzpLsERSmsI20AMKYsdjGLbcFtIs7HEMKzBtdeoP5GYwdVtsDJsxTuot08E5TeRuLiC1YUAa6T9PlfMcoGifpwKxWaN5IKIlwIkD+YwzJipDdC+umZ8LYCSwWJ/n4fKEJBTiQEAFZ+ZRKV3BhFhBgs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(136003)(346002)(396003)(376002)(451199024)(1800799009)(186009)(6512007)(38100700002)(316002)(41300700001)(4326008)(7416002)(2906002)(83380400001)(2616005)(6916009)(4744005)(86362001)(8676002)(5660300002)(26005)(36756003)(8936002)(6666004)(66556008)(6506007)(6486002)(66476007)(54906003)(66946007)(478600001)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RqVTOuB2F1TMQEG+FRPAPPCloaUlxi8xpdEHssnFyarKswc0vsOEAoroO9bH?=
+ =?us-ascii?Q?P4p9AjxEmPXIa5JFgFtVZF/9iXr4zW0Iw+mMLy4UU46YeXvYze3a6l1+9v2p?=
+ =?us-ascii?Q?b1SfUE8HXfKUwVCRU2YO0u92Czy1uf4hn2EE4/I5x2vnov93pnZdPyZnhic7?=
+ =?us-ascii?Q?OTfhNSVCzMWxzmvtq5e4383wqWbVORiYhRsXrgUxM9fbdgnhSXlYMfoIWMD+?=
+ =?us-ascii?Q?hVDrhIo1OvCw8B0rIjVZaStbPMSJCLTjXa2oyMa/eGa9Cz1OaePULxXTL8Ro?=
+ =?us-ascii?Q?qzjEcec6ZwLus8e+hwJF1uEegg+kiidr6vErxVL+J6m3++1uhXzjv3Z6ly/P?=
+ =?us-ascii?Q?rCAbVVutkabT52X+KeDdO4kFgSHS3/F6mpmM14Es1DFqFIBUgnc96neTujyO?=
+ =?us-ascii?Q?e46n5oARxp1VIa0Y4D7BiYTMDkabHoR7oFHn2gMoK2RT5BuoTj9/018Fyawa?=
+ =?us-ascii?Q?a/TwETE84a9Dzh+g2V+FIK2id49xSOVlNuUGWvYzEtUW9Xxaj9FhtmfIq+hL?=
+ =?us-ascii?Q?BDCzH/fsAwaAOWnAiI6cfcjoUPs2e5TCFY5k5NKRLWwzfYSZimtkRaoeRO0k?=
+ =?us-ascii?Q?9jNX7U0dYeV9ACdLw6WkD7pKVtVUEJBtFACRJR0xSyLOl96G1RyZHiaFTQv6?=
+ =?us-ascii?Q?yHCpXKdapkM2oI0HJWr302tRk2+gogz/5zFHeGkovqOd2+YBNhL8asc8Tyot?=
+ =?us-ascii?Q?jDHdtLbIiTcNqliGteNaKAJNC76dgfvTSDOVJjzUy+oLqJtsXHlsYcy+oG9n?=
+ =?us-ascii?Q?KlC00NWqiRYsBvFZZ8Q4kIRKG0KG1U2pi5lK3KMqYCT6Fs88RF+fOLf3lOEh?=
+ =?us-ascii?Q?Ep7YhaQ7QG408WMLO+J3XFuGNBzaRUMIh+ePJ+SHhVDH24+SbNshYAZz4yLD?=
+ =?us-ascii?Q?KGuJZGobL1tHjotCwDIFWuh5JSRtI+iB87Auzf02RLygYEckOZF3NLCTH3j8?=
+ =?us-ascii?Q?7yN/wohsdAD7shvqs44YSHY+fMpFviMCjGPlfXZ8XRHKBSJ/RUx1AbQyAGHL?=
+ =?us-ascii?Q?RjUCpfjZvaWSlk5DnKObljObmuikszZncf0tTLFFVRI6hsr18lwSEQ7a8cuc?=
+ =?us-ascii?Q?mgrLiFqsKMOv5BIBv16gGVImPnqVmvyfjEV7YTm6fzwO4P/3efIWGSWhWSJ/?=
+ =?us-ascii?Q?WlFYyHtMoGxk9XHUXLwf6Nf3iE3rJJeGEmsm29OXESSaOxo4xVFI3OcfehV9?=
+ =?us-ascii?Q?4djubXnosbOzoImQac2/vlPaNt5p0Rxq0iIdW9HbMgUnarZJZNoIkP2MTljF?=
+ =?us-ascii?Q?QfbsjHRcOgOALX+t7FOk5l00xi7MkC7+X53DRObekSu3khdT1aDMr93hmZsN?=
+ =?us-ascii?Q?fYUhTpz4y4rDoEGl/HEKHMo7AO0D7PvsOCznf+5uD1IMPZSg2h6kZpSf1Bd9?=
+ =?us-ascii?Q?XFM993rF8RDNabvu0P0DHBKut6Xt6JiuO2nzRo7LXtjqwiVtodu/04w7vkVs?=
+ =?us-ascii?Q?PzY9gYyHqw9Irb1K7aI0Y1TonBxXHRfzYd0kZ1PgpvcBsxNwoBDaLgSKeY6J?=
+ =?us-ascii?Q?G9XDy04r1IlX1LxhLCmteCrZ6lwSuge0V/8KGK0XxISjlq/flcEuo7uYxu4u?=
+ =?us-ascii?Q?zSsRHHVRUprlW7KFb2ctfy25t5+Onq9rSdAKb6Mt?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bf003fc-1022-42b9-0d7e-08dba9727dc3
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 16:02:20.6601 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kV2EV0EQlTA1MlMpLIJrePJrVEjRbl0Bt4GjDyHoeDnjrFLXnYfgPpflXjX8c2Ub
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,470 +123,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/08/2023 15:53, Boris Brezillon wrote:
-> On Wed, 30 Aug 2023 15:12:43 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 29/08/2023 16:33, Boris Brezillon wrote:
->>> On Mon, 14 Aug 2023 16:53:09 +0100
->>> Steven Price <steven.price@arm.com> wrote:
->>>   
->>>>> +
->>>>> +/**
->>>>> + * struct panthor_vm_op_ctx - VM operation context
->>>>> + *
->>>>> + * With VM operations potentially taking place in a dma-signaling path, we
->>>>> + * need to make sure everything that might require resource allocation is
->>>>> + * pre-allocated upfront. This is what this operation context is far.
->>>>> + *
->>>>> + * We also collect resources that have been freed, so we can release them
->>>>> + * asynchronously, and let the VM_BIND scheduler process the next VM_BIND
->>>>> + * request.
->>>>> + */
->>>>> +struct panthor_vm_op_ctx {
->>>>> +	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
->>>>> +	struct {
->>>>> +		/** @count: Number of pages reserved. */
->>>>> +		u32 count;
->>>>> +
->>>>> +		/** @ptr: Point to the first unused page in the @pages table. */
->>>>> +		u32 ptr;
->>>>> +
->>>>> +		/**
->>>>> +		 * @page: Array of pages that can be used for an MMU page table update.
->>>>> +		 *
->>>>> +		 * After an VM operation, there might be free pages left in this array.
->>>>> +		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
->>>>> +		 */
->>>>> +		void **pages;
->>>>> +	} rsvd_page_tables;    
->>>>
->>>> Two questions:
->>>>
->>>> 1) Would a mempool simplify the implementation? It looks like a
->>>> reasonable match.  
->>>
->>> Not sure what you mean by mempool,  
->>
->> See include/linux/mempool.h
-> 
-> Oh, okay.
-> 
->>
->>> but I'm using a kmem_cache here for
->>> all page table allocations. The pages that are passed to
->>> panthor_vm_op_ctx::rsvd_page_tables::pages are allocated from this
->>> pool. It's just that for each VM operation we pre-allocate page-tables,
->>> and release those that were not used when the operation is done (we
->>> over-allocate for the worst case scenario).  
->>
->> The mempool could, potentially, replace the rsvd_page_tables structure.
->> The kmem_cache you would still want as that's per-driver.
-> 
-> Need to have a closer look at the API to make my mind, but at first
-> glance it seems to be overkill for what I initially had in mind.
+On Mon, Aug 28, 2023 at 04:38:01AM +0000, Kasireddy, Vivek wrote:
 
-I agree it has more functionality than is needed here - but equally the
-code is already there. struct rsvd_page_tables looks to me to be a very
-simplified version of it, so rather than reinventing it we could just
-use the existing code.
+> Turns out, calling hmm_range_fault() from the invalidate callback was indeed
+> a problem and the reason why new pages were not faulted-in. In other words,
+> it looks like the invalidate callback is not the right place to invoke hmm_range_fault()
+> as the PTEs may not have been cleared.
 
-Having said that I haven't tried the conversion, so perhaps there are
-issues with the mempool implementation which makes it better to roll our
-own.
+Yes, that is correct, you can't even do the locking properly if you
+invoke things like this. mmu_interval_read_retry() should continually
+fail while you are within the invalidate callback.
 
->>
->>>>
->>>> 2) Does it really make sense to have a separate pool of memory for every
->>>> operation? Instead of having a separate pool for each operation, it
->>>> would be possible to just keep track of the total number needed for all
->>>> outstanding operations. Then a single (per device or maybe per-VM if
->>>> necessary) mempool could be resized to ensure it has the right amount of
->>>> space.  
->>>
->>> The pool is per-driver (see the global pt_cache). rsvd_page_tables just
->>> holds pages needed for a specific VM operation. To be more specific, it
->>> holds pages for the worst case (page table tree is empty, except for the
->>> root page table).  
->>
->> What I'm wondering is to we need to keep the pages for each operation in
->> separate pools.
-> 
-> I was not really considering it a pool, more a set of pages that will
-> be used by the VM operation, some of them being returned to the
-> kmem_cache pool if we end up using less (over-provisioning). If we have
-> a mempool, say, at the VM level, that means we have 2 levels of caching:
-> the kmem_cache itself, and the mempool attached to the VM. Is there any
-> benefit here? Do we expect kmem_cache to be too slow for fast/already
-> allocated pages?
-
-My understanding is that we can't (easily) ensure that sufficient pages
-remain in the kmem_cache. So we need a second level 'cache' to hold the
-pages that might be used by the pending VM_BIND operations. That's what
-the rsvd_page_tables struct does currently.
-
-> I do see how over-provisioning can cause us to allocate a lot of pages
-> that end up being unused, but I fail to see how VM/device level caching
-> would solve that, because we still have to dequeue some operations to
-> return pages to the intermediate pool, at which point, we've already
-> lost, because already queued operations reserved the amount of pages
-> they thought they needed for the worst case scenario.
-> Operations being queued after that can pick from the returned pages of
-> course, but that's already the case right now, because we return pages
-> to the kmem_cache as soon as we're done executing a VM operation.
-
-I don't think it would make a difference other than having one shared
-data structure rather than many struct rsvd_page_tables instances.
-
-> The only thing that might help is limiting the number of in-flight
-> VM_BIND jobs per VM (or globally), and then have the submit path return
-> EBUSY or EGAIN so the userspace driver knows it has to retry at a later
-> time.
-
-I think we're going to need this in some form to avoid exposing an
-effective DoS vector (unless some way can be found to account the pages).
-
->> So instead of having a rsvd_page_tables for each
->> operation, can we have one global one which is sized appropriately for
->> all operations that are in flight for the device? The operations are
->> serialized so there's no contention. Or at least a per-VM pool if we can
->> operate on multiple VMs at once.
-> 
-> We can operate on multiple VMs at once (VM is basically your VkDevice,
-> AKA the logical device), but I'm not too worried about the
-> synchronization that would be incurred by the caching at the
-> panthor_device level. I'm just curious to know what value it would add.
-> I'm also worried that it makes the reservation logic more complex:
-> we need to track what's still reserved and how many pages can be
-> re-used because they were never reclaimed by the VM operation that had
-> reserved it.
-
-Well every operation would need to keep (an equivalent of) the
-rsvd_page_tables.count variable so that the number of pages in the
-mempool could be kept correct (returning pages from the pool to kmem_cache).
-
-> Also didn't check how mempool plays with memory reclaim,
-> but if the memory in a mempool is not reclaimable, that might be
-> another problem.
-
-AFAIK mempool doesn't support reclaiming, and I don't think we'd want to
-reclaim the pages which were reserved for pending VM_BIND ops.
-
-> To sum-up, I'd really like to refrain adding an intermediate cache
-> until the per-driver kmem cache is proven to be too slow.
-
-To be honest, I'm having second thoughts - the code you've got works,
-and I'm not sure it's worth the time/effort to investigate mempools now.
-It just struck me during the review that I would have looked at using that.
-
->>
->>>>
->>>> I'm also a little wary that the VM_BIND infrastructure could potentially
->>>> be abused to trigger a large amount of kernel allocation as it allocates
->>>> up-front for the worst case but those pages are not charged to the
->>>> process (AFAICT). But I haven't fully got my head round that yet.  
->>>
->>> Yep, that's problematic, indeed. I considered allocating page tables
->>> as GEM objects, but the overhead of a GEM object is quite big
->>> (hundreds of bytes of meta-data) compared to the size of a page table
->>> (4k), and kmem_cache was just super convenient for this page table
->>> cache :-).  
->>
->> I think page tables as GEM objects is likely to be overkill,
-> 
-> I agree it's overkill/not easy to interface with io_pgtbl, but there
-> was one aspect I was interested in, more than the memory accounting:
-> being able to reclaim page tables the same way we reclaim regular GEMs,
-> which would simplify the shrinker/reclaim logic. After discussing it
-> with Robin, I realized it was pretty much useless, because reclaiming
-> the GEM will also teardown all VM mappings, which will return the page
-> table memory to the kmem_cache, and then the kmem_cache layer can
-> reclaim it.
-> 
->> we
->> obviously also have to be careful not to allow user space to get access
->> to the contents - whereas GEM objects are usually to provide user space
->> access ;).
-> 
-> GEMs can be hidden to userspace if we want. We are the ones in control
-> of the mmap() (I think there's a BO flag for preventing users access
-> already).
-
-True, it's just my gut reaction that I expect the contents of GEMs to be
-controlled by user space in some way. Usually hidden GEM buffers are for
-intermediate data that doesn't actually need to be protected from user
-space, it's just user space has no interest in it. I'd have to dig into
-the security model to satisfy myself whether it was completely safe to
-put page tables in there.
-
->> I'm not sure quite what the best solution here is, clearly one
->> 'solution' is to just cap the number of outstanding VM_BINDs.
-> 
-> I think that'd make sense.
-> 
->>
->>>>  
->>>>> +
->>>>> +	/** @flags: Combination of drm_panthor_vm_bind_op_flags. */
->>>>> +	u32 flags;
->>>>> +
->>>>> +	/** @va: Virtual range targeted by the VM operation. */
->>>>> +	struct {
->>>>> +		/** @addr: Start address. */
->>>>> +		u64 addr;
->>>>> +
->>>>> +		/** @range: Range size. */
->>>>> +		u64 range;
->>>>> +	} va;
->>>>> +
->>>>> +	/**
->>>>> +	 * @returned_vmas: List of panthor_vma objects returned after a VM operation.
->>>>> +	 *
->>>>> +	 * For unmap operations, this will contain all VMAs that were covered by the
->>>>> +	 * specified VA range.
->>>>> +	 *
->>>>> +	 * For map operations, this will contain all VMAs that previously mapped to
->>>>> +	 * the specified VA range.
->>>>> +	 *
->>>>> +	 * Those VMAs, and the resources they point to will be released as part of
->>>>> +	 * the op_ctx cleanup operation.
->>>>> +	 */
->>>>> +	struct list_head returned_vmas;
->>>>> +
->>>>> +	/** @map: Fields specific to a map operation. */
->>>>> +	struct {
->>>>> +		/** @gem: GEM object information. */
->>>>> +		struct {
->>>>> +			/** @obj: GEM object to map. */
->>>>> +			struct drm_gem_object *obj;
->>>>> +
->>>>> +			/** @offset: Offset in the GEM object. */
->>>>> +			u64 offset;
->>>>> +		} gem;
->>>>> +
->>>>> +		/**
->>>>> +		 * @sgt: sg-table pointing to pages backing the GEM object.
->>>>> +		 *
->>>>> +		 * This is gathered at job creation time, such that we don't have
->>>>> +		 * to allocate in ::run_job().
->>>>> +		 */
->>>>> +		struct sg_table *sgt;
->>>>> +
->>>>> +		/**
->>>>> +		 * @prev_vma: Pre-allocated VMA object to deal with a remap situation.
->>>>> +		 *
->>>>> +		 * If the map request covers a region that's inside another VMA, the
->>>>> +		 * previous VMA will be split, requiring instantiation of a maximum of
->>>>> +		 * two new VMA objects.
->>>>> +		 */
->>>>> +		struct panthor_vma *prev_vma;
->>>>> +
->>>>> +		/**
->>>>> +		 * @new_vma: The new VMA object that will be inserted to the VA tree.
->>>>> +		 */
->>>>> +		struct panthor_vma *new_vma;
->>>>> +
->>>>> +		/**
->>>>> +		 * @next_vma: Pre-allocated VMA object to deal with a remap situation.
->>>>> +		 *
->>>>> +		 * See @prev_vma.
->>>>> +		 */
->>>>> +		struct panthor_vma *next_vma;    
->>>>
->>>> It's probably premature optimization, but it feels like having a cache
->>>> of these VMA structures might be an idea.  
->>>
->>> If it's needed, I'll probably go for a kmem_cache, but I need to
->>> check if it's worth it first (if the closest kmalloc cache is
->>> significantly biffer than the struct size).
->>>   
->>>> I'm also struggling to
->>>> understand how both a new prev and new next VMA are needed - but I
->>>> haven't dug into the GPU VA manager.  
->>>
->>> prev/next are for mapping splits: an object is already mapped, and a new
->>> object is mapped in the middle of this pre-existing mapping. In that
->>> case, we need 2 vma object for the preceeding and succeeding mappings,
->>> since the old mapping object will be released.
->>>
->>> new_vma is for the new mapping.  
->>
->> Yeah, looking into the GPU VA manager I see now. My problem was that I
->> assumed in the case of a split one of the original mappings would simply
->> be resized, so you'd only need one new VMA (plus the one being added).
->> But AFAICT that resize doesn't happen and instead new VMA are created.
-> 
-> Yes. On the other hand, if we have a kmem_cache for panthor_vma
-> objects, that shouldn't make a big difference.
-
-Yeah I can understand the design now - I just hadn't dug deep enough before.
-
->>
->>>>  
->>>>> +	} map;
->>>>> +};
->>>>> +  
->>>
->>> [...]
->>>   
->>>>> +/**
->>>>> + * panthor_vm_active() - Flag a VM as active
->>>>> + * @VM: VM to flag as active.
->>>>> + *
->>>>> + * Assigns an address space to a VM so it can be used by the GPU/MCU.
->>>>> + *
->>>>> + * Return: 0 on success, a negative error code otherwise.
->>>>> + */
->>>>> +int panthor_vm_active(struct panthor_vm *vm)
->>>>> +{
->>>>> +	struct panthor_device *ptdev = vm->ptdev;
->>>>> +	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
->>>>> +	int ret = 0, as, cookie;
->>>>> +	u64 transtab, transcfg;
->>>>> +
->>>>> +	if (!drm_dev_enter(&ptdev->base, &cookie))
->>>>> +		return -ENODEV;
->>>>> +
->>>>> +	mutex_lock(&ptdev->mmu->as.slots_lock);
->>>>> +
->>>>> +	as = vm->as.id;
->>>>> +	if (as >= 0) {
->>>>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
->>>>> +
->>>>> +		if (ptdev->mmu->as.faulty_mask & mask) {
->>>>> +			/* Unhandled pagefault on this AS, the MMU was
->>>>> +			 * disabled. We need to re-enable the MMU after
->>>>> +			 * clearing+unmasking the AS interrupts.
->>>>> +			 */
->>>>> +			gpu_write(ptdev, MMU_INT_CLEAR, mask);
->>>>> +			ptdev->mmu->as.faulty_mask &= ~mask;
->>>>> +			gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
->>>>> +			goto out_enable_as;
->>>>> +		}
->>>>> +
->>>>> +		goto out_unlock;
->>>>> +	}
->>>>> +
->>>>> +	/* Check for a free AS */
->>>>> +	if (vm->for_mcu) {
->>>>> +		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
->>>>> +		as = 0;
->>>>> +	} else {
->>>>> +		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
->>>>> +	}
->>>>> +
->>>>> +	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
->>>>> +		struct panthor_vm *lru_vm;
->>>>> +
->>>>> +		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
->>>>> +						  struct panthor_vm,
->>>>> +						  as.lru_node);
->>>>> +		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
->>>>> +			ret = -EBUSY;
->>>>> +			goto out_unlock;
->>>>> +		}
->>>>> +
->>>>> +		list_del_init(&lru_vm->as.lru_node);
->>>>> +		as = lru_vm->as.id;    
->>>>
->>>> Should this not set lru_vm->as.id = -1, so that the code knows the VM no
->>>> longer has an address space?  
->>>
->>> Good catch!
->>>   
->>>>  
->>>>> +	} else {
->>>>> +		set_bit(as, &ptdev->mmu->as.alloc_mask);
->>>>> +	}
->>>>> +
->>>>> +	/* Assign the free or reclaimed AS to the FD */
->>>>> +	vm->as.id = as;
->>>>> +	ptdev->mmu->as.slots[as].vm = vm;
->>>>> +
->>>>> +out_enable_as:
->>>>> +	transtab = cfg->arm_lpae_s1_cfg.ttbr;
->>>>> +	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
->>>>> +		   AS_TRANSCFG_PTW_RA |
->>>>> +		   AS_TRANSCFG_ADRMODE_AARCH64_4K;
->>>>> +	if (ptdev->coherent)
->>>>> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
->>>>> +
->>>>> +	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
->>>>> +
->>>>> +out_unlock:
->>>>> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
->>>>> +	drm_dev_exit(cookie);
->>>>> +	return ret;
->>>>> +}
->>>>> +  
->>>
->>> [...]
->>>   
->>>>> +
->>>>> +static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->>>>> +{
->>>>> +	status = panthor_mmu_fault_mask(ptdev, status);
->>>>> +	while (status) {
->>>>> +		u32 as = ffs(status | (status >> 16)) - 1;
->>>>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
->>>>> +		u32 new_int_mask;
->>>>> +		u64 addr;
->>>>> +		u32 fault_status;
->>>>> +		u32 exception_type;
->>>>> +		u32 access_type;
->>>>> +		u32 source_id;
->>>>> +
->>>>> +		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
->>>>> +		addr = gpu_read(ptdev, AS_FAULTADDRESS_LO(as));
->>>>> +		addr |= (u64)gpu_read(ptdev, AS_FAULTADDRESS_HI(as)) << 32;
->>>>> +
->>>>> +		/* decode the fault status */
->>>>> +		exception_type = fault_status & 0xFF;
->>>>> +		access_type = (fault_status >> 8) & 0x3;
->>>>> +		source_id = (fault_status >> 16);
->>>>> +
->>>>> +		/* Page fault only */    
->>>>
->>>> This comment makes no sense - it looks like it's copied over from panfrost.  
->>>
->>> Uh, it made sense before I dropped map/alloc-on-fault :-).  
->>
->> :)
->>
->>>>
->>>> If I understand correctly we don't (currently) support growing on page
->>>> fault - and it's not really needed now the MCU can handle the tiler heaps.  
->>>
->>> Exaclty. Map/alloc on fault is a bit challenging because of the whole
->>> 'we have to guarantee that a job is done in finite time, and we must
->>> make sure fence signaling is not blocked on allocation'. Given
->>> drm_gem_get_pages() doesn't do non-blocking allocations, I thought it'd
->>> be preferable to postpone map-on-fault until we actually decide we need
->>> it. Note that i915 seems to have some sort of non-blocking page
->>> allocator in shmem_sg_alloc_table()[1].  
->>
->> Agreed, the intention is definitely to move away from map/alloc-on-fault
->> - handling page faults from the GPU on the CPU is expensive even without
->> the can-of-worms of fence signalling.
-> 
-> Yeah, I agree, but I'd bet on Khronos members being inventive enough
-> to come with a use case for this map/alloc-on-fault feature :-).
-> Anyway, that's not something we have to worry about just yet.
-
-:) Vulkan already has sparse textures ('Sparse Residency'), but AFAIK
-that's not (yet) tied into userfaultfd... and now I've possibly put the
-idea into someone's head! ;)
-
-Steve
-
+Jason
