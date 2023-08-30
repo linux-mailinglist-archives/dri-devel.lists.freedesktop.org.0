@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E0578E162
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 23:27:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C779478E17C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 23:32:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA78D10E5E5;
-	Wed, 30 Aug 2023 21:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A28E910E14D;
+	Wed, 30 Aug 2023 21:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51A010E5E5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 21:27:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B9110E163
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 21:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693430824;
+ s=mimecast20190719; t=1693431140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r5UL4S8DKCoo1ir+dQcQptv0K+U4EOTubA2NbychAXI=;
- b=H76o2XzbvqeScRa8zzpQ0exjXCna8DeZNMWW7lfIaYVEWrIwvubbzIV0j2+w04VnoyF8zD
- sse1Y9S6uv8lxWd6/GRQIBboIA+N78wFkt5UCvCaQKKT1ZONUCEehygTHZViK1nmvGFYHK
- bTLEKidCEdr6/4f1sySdlC6yvZG7yHo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=muYS3JTdtl5ij4HfFLRfXrr71LVNj5k2IECcY5Q/I/Q=;
+ b=flHf96J3sra60ZvXhJUTEwd7KQTQqejkkZA4fuJqCTicG4ex4vRowEfo5kqJTR/yAqVSY+
+ VWh2HmwEtKNPW3QkMFSRBDWrtLDeYlQY7NfpHKww+ruylDOe38Wbw/phRm2ktxJb8RIuMS
+ cDV8ueu0qDO/3lwxdaAxvy+8jmJLcfg=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-204-hNF41bJnNdiusBOu7AwYmA-1; Wed, 30 Aug 2023 17:27:03 -0400
-X-MC-Unique: hNF41bJnNdiusBOu7AwYmA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-63faa1e03a8so1975216d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:27:03 -0700 (PDT)
+ us-mta-605-XoZGwqNPM5CXMnlYhbfcDg-1; Wed, 30 Aug 2023 17:32:19 -0400
+X-MC-Unique: XoZGwqNPM5CXMnlYhbfcDg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-76f0b7e3879so21267785a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:32:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693430822; x=1694035622;
+ d=1e100.net; s=20221208; t=1693431139; x=1694035939;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gUlXJa21/rEuWHHoOQyLmXnDP685d6pMh74kDigtWLk=;
- b=NSpG22U1UlnU5eVVHjV7GGuRjJleLrL5R/wV9k2t9XrR0IviUYL7OLeOfFzAxM5OzG
- ljsw7p4wLFtTkQ5FaSEEsxBqvpoxPomBu3osNRqcVv8G7V+2WorvjT/RSDqTm8K3E1B/
- bSa+/MmO6u5ez1yfOKsfZRO3CsuB7AHH8Q0ZU2m20lZ+BUP4pAZ/RgSICcsqAMhmv5p6
- jPiZHOBaoC/3HLjWhoALDJw3I5kfb/7IGL12Gzmbh1Aj/Ecpbpi9HEYA1vMCoBaGO8Ba
- t0sm1Oa9dsNgOz6m5aY4gC7VYY5X4ntaoBRfNsPK+fvYWcQo/JEtir2+7sV0IyMDCYfI
- nHTQ==
-X-Gm-Message-State: AOJu0YxuPYx/TnM/cfz1j+8RIla+f+931OEP6TNkuEusN/zJsj/z0e5i
- v+QEZNUnbfEYHad/mJ7qBE4eVJTYfiE5ty3HbPUevoES8uOq8bmaW+T5BPJmtUTAOrGDAOMwM3w
- PM61Qy/VUc4eFb/h4nXy8GcAeW0kUvJU0cmwA
-X-Received: by 2002:a05:620a:12c8:b0:76f:98c:3f0e with SMTP id
- e8-20020a05620a12c800b0076f098c3f0emr830978qkl.68.1693430822620; 
- Wed, 30 Aug 2023 14:27:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHZoMR5UN2ewJOnURHHf6UjOLd/TQOo8EhrGl7ghm8uwM2S+r1zjSLLsYqctsqYFUaH97a5DA==
-X-Received: by 2002:a05:620a:12c8:b0:76f:98c:3f0e with SMTP id
- e8-20020a05620a12c800b0076f098c3f0emr830968qkl.68.1693430822383; 
- Wed, 30 Aug 2023 14:27:02 -0700 (PDT)
+ bh=KDXOTCugmWwzlMtneetPJwGDPlqzAsl8vZFdxtx5l00=;
+ b=QEsXxwgy1TMQugpqJ4nK34WZye3pYqxUuYq+h1sFSW3z7g2ZwXO6tZIxmFsq/tNzMm
+ 5crLuSPC4pN9YPu/wU7TC6zJWteIktUTtp+FiCComj9MayNLjzIYo8XPhH9kh+28PlTq
+ lWNWrBP2jUdEcqRDY0sUV8z6lwV+6cetxbCX7ZAFwHAbcNLHdtYOUWiCoyVIL0kM8txW
+ nDpZrwnyXDSPzkGbI3Fvz8WIjwu20StoMeWewwCDymgj+K+8bGqu6NoTgDBPb65NUJhK
+ YnCrO63RGVpSOHS1WcIDwxfBFUxQyGGrJR3YRljrjuMJ5SXlASZcIGFFFiq8btZoB2lo
+ X7Hw==
+X-Gm-Message-State: AOJu0YyMliu97Q0rDQEq7H7OqcHv1G7yv4SBW1Ot2CCDfc6AhMFwAnAL
+ A7n8AWdLwinpSjcdgOK92bqR0kVwXF6RHh593HjupIwD4Z8mgtTiubWM+C84TLYLhAWxWObJdMr
+ fDI9KLFslVtMX0dP2HEWSg4fSb4h/xalsCy9Q
+X-Received: by 2002:a05:620a:b04:b0:76c:97a9:8ff0 with SMTP id
+ t4-20020a05620a0b0400b0076c97a98ff0mr821853qkg.77.1693431138764; 
+ Wed, 30 Aug 2023 14:32:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHuj0y2dliYKqj6ukTLeiCw0z5f+0ujpYgtl/Ewjx6vV54tP1wbw65s3GP9+11SUKZzgT5HdA==
+X-Received: by 2002:a05:620a:b04:b0:76c:97a9:8ff0 with SMTP id
+ t4-20020a05620a0b0400b0076c97a98ff0mr821843qkg.77.1693431138514; 
+ Wed, 30 Aug 2023 14:32:18 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c7d:5f00::feb? ([2600:4040:5c7d:5f00::feb])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05620a039100b0076efaec147csm28869qkm.45.2023.08.30.14.27.01
+ i25-20020a05620a145900b007671b599cf5sm29163qkl.40.2023.08.30.14.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Aug 2023 14:27:01 -0700 (PDT)
-Message-ID: <25326198bbb708315707f946abc638dda38356e8.camel@redhat.com>
-Subject: Re: [PATCH v2 09/22] drm/dp_mst: Fix fractional bpp scaling in
- drm_dp_calc_pbn_mode()
+ Wed, 30 Aug 2023 14:32:18 -0700 (PDT)
+Message-ID: <56e130b5f3c22790ea54cac7cb7281675290d4a2.camel@redhat.com>
+Subject: Re: [PATCH v4 3/6] drm/dp_mst: Add
+ drm_dp_set_mst_topology_link_status()
 From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 30 Aug 2023 17:27:01 -0400
-In-Reply-To: <20230824080517.693621-10-imre.deak@intel.com>
-References: <20230824080517.693621-1-imre.deak@intel.com>
- <20230824080517.693621-10-imre.deak@intel.com>
+To: Gil Dekel <gildekel@chromium.org>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Wed, 30 Aug 2023 17:32:17 -0400
+In-Reply-To: <20230824205335.500163-4-gildekel@chromium.org>
+References: <20230824205335.500163-1-gildekel@chromium.org>
+ <20230824205335.500163-4-gildekel@chromium.org>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
 MIME-Version: 1.0
@@ -86,81 +87,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: seanpaul@chromium.org, navaremanasi@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Amazing! This work looks awesome Imre, sorry it took me a little bit to get
-back to this :). For all of the DP MST helper patches:
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-On Thu, 2023-08-24 at 11:05 +0300, Imre Deak wrote:
-> For fractional bpp values passed to the function in a .4 fixed point
-> format, the fractional part is currently ignored due to scaling bpp too
-> early. Fix this by scaling the overhead factor instead and to avoid an
-> overflow multiplying bpp with the overhead factor instead of the clock
-> rate.
+On Thu, 2023-08-24 at 16:50 -0400, Gil Dekel wrote:
+> Unlike SST, MST can support multiple displays connected to a single
+> connector. However, this also means that if the DisplayPort link to the
+> top-level MST branch device becomes unstable, then every single branch
+> device has an unstable link.
 >=20
-> While at it simplify the formula, and pass the expected fixed point bpp
-> values in the kunit tests.
+> Since there are multiple downstream ports per connector, setting the
+> link status of the parent mstb's port to BAD is not enough. All of the
+> downstream mstb ports must also have their link status set to BAD.
 >=20
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> This aligns to how the DP link status logic in DRM works. We notify
+> userspace that all of the mstb ports need retraining and apply new lower
+> bandwidth constraints to all future atomic commits on the topology that
+> follow.
+>=20
+> Since any driver supporting MST needs to figure out which connectors
+> live downstream on an MST topology and update their link status in order
+> to retrain MST links properly, we add the
+> drm_dp_set_mst_topology_link_status() helper. This helper simply marks
+> the link status of all connectors living in that topology as bad. We
+> will make use of this helper in i915 later in this series.
+>=20
+> Credit: this patch is a refactor of Lyude Pual's original patch:
+> https://patchwork.kernel.org/project/dri-devel/patch/20180308232421.14049=
+-5-lyude@redhat.com/
+
+s/Pual/Paul/ (probably want to fix this on the other patches in the series =
+as
+well)
+
+>=20
+> Signed-off-by: Gil Dekel <gildekel@chromium.org>
 > ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c  | 7 ++-----
->  drivers/gpu/drm/tests/drm_dp_mst_helper_test.c | 8 ++++----
->  2 files changed, 6 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 39 +++++++++++++++++++
+>  include/drm/display/drm_dp_mst_helper.h       |  3 ++
+>  2 files changed, 42 insertions(+)
 >=20
 > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
 drm/display/drm_dp_mst_topology.c
-> index ed96cfcfa3040..bd0f35a0ea5fb 100644
+> index ed96cfcfa304..17cbadfb6ccb 100644
 > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -4712,12 +4712,9 @@ int drm_dp_calc_pbn_mode(int clock, int bpp, bool =
-dsc)
->  =09 * factor in the numerator rather than the denominator to avoid
->  =09 * integer overflow
->  =09 */
-> +=09u32 bpp_m =3D (dsc ? 64 / 16 : 64) * 1006 * bpp;
-> =20
-> -=09if (dsc)
-> -=09=09return DIV_ROUND_UP_ULL(mul_u32_u32(clock * (bpp / 16), 64 * 1006)=
-,
-> -=09=09=09=09=098 * 54 * 1000 * 1000);
-> -
-> -=09return DIV_ROUND_UP_ULL(mul_u32_u32(clock * bpp, 64 * 1006),
-> +=09return DIV_ROUND_UP_ULL(mul_u32_u32(clock, bpp_m),
->  =09=09=09=098 * 54 * 1000 * 1000);
+> @@ -3566,6 +3566,45 @@ int drm_dp_get_vc_payload_bw(const struct drm_dp_m=
+st_topology_mgr *mgr,
 >  }
->  EXPORT_SYMBOL(drm_dp_calc_pbn_mode);
-> diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu=
-/drm/tests/drm_dp_mst_helper_test.c
-> index 545beea33e8c7..ea2182815ebe8 100644
-> --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-> @@ -40,15 +40,15 @@ static const struct drm_dp_mst_calc_pbn_mode_test drm=
-_dp_mst_calc_pbn_mode_cases
->  =09},
->  =09{
->  =09=09.clock =3D 332880,
-> -=09=09.bpp =3D 24,
-> +=09=09.bpp =3D 24 << 4,
->  =09=09.dsc =3D true,
-> -=09=09.expected =3D 50
-> +=09=09.expected =3D 1191
->  =09},
->  =09{
->  =09=09.clock =3D 324540,
-> -=09=09.bpp =3D 24,
-> +=09=09.bpp =3D 24 << 4,
->  =09=09.dsc =3D true,
-> -=09=09.expected =3D 49
-> +=09=09.expected =3D 1161
->  =09},
->  };
-> =20
+>  EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
+>=20
+> +/**
+> + * drm_dp_set_mst_topology_link_status() - set all downstream MST ports'=
+ link status
+> + * @mgr: MST topology manager to set state for
+> + * @status: The new status to set the MST topology to
+> + *
+> + * Set all downstream ports' link-status within the topology to the give=
+n status.
+> + */
+> +void drm_dp_set_mst_topology_link_status(struct drm_dp_mst_topology_mgr =
+*mgr,
+> +=09=09=09=09=09 enum drm_link_status status)
+> +{
+> +=09struct drm_dp_mst_port *port;
+> +=09struct drm_dp_mst_branch *rmstb;
+> +=09struct drm_dp_mst_branch *mstb =3D
+> +=09=09drm_dp_mst_topology_get_mstb_validated(mgr, mgr->mst_primary);
+> +
+> +=09list_for_each_entry_reverse(port, &mstb->ports, next) {
+> +=09=09struct drm_connector *connector =3D port->connector;
+> +
+> +=09=09if (connector) {
+> +=09=09=09mutex_lock(&connector->dev->mode_config.mutex);
+> +=09=09=09drm_dbg_kms(
+> +=09=09=09=09connector->dev,
+> +=09=09=09=09"[MST-CONNECTOR:%d:%s] link status %d -> %d\n",
+> +=09=09=09=09connector->base.id, connector->name,
+> +=09=09=09=09connector->state->link_status, status);
+> +=09=09=09connector->state->link_status =3D status;
+> +=09=09=09mutex_unlock(&connector->dev->mode_config.mutex);
+> +=09=09}
+> +
+> +=09=09rmstb =3D drm_dp_mst_topology_get_mstb_validated(mstb->mgr,
+> +=09=09=09=09=09=09=09       port->mstb);
+> +=09=09if (rmstb) {
+> +=09=09=09drm_dp_set_mst_topology_link_status(rmstb->mgr, status);
+> +=09=09=09drm_dp_mst_topology_put_mstb(rmstb);
+> +=09=09}
+> +=09}
+> +}
+> +EXPORT_SYMBOL(drm_dp_set_mst_topology_link_status);
+> +
+>  /**
+>   * drm_dp_read_mst_cap() - check whether or not a sink supports MST
+>   * @aux: The DP AUX channel to use
+> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/displa=
+y/drm_dp_mst_helper.h
+> index ed5c9660563c..855d488bf364 100644
+> --- a/include/drm/display/drm_dp_mst_helper.h
+> +++ b/include/drm/display/drm_dp_mst_helper.h
+> @@ -832,6 +832,9 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector=
+ *connector,
+>  int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+>  =09=09=09     int link_rate, int link_lane_count);
+>=20
+> +void drm_dp_set_mst_topology_link_status(struct drm_dp_mst_topology_mgr =
+*mgr,
+> +=09=09=09=09=09 enum drm_link_status status);
+> +
+>  int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
+>=20
+>  void drm_dp_mst_update_slots(struct drm_dp_mst_topology_state *mst_state=
+, uint8_t link_encoding_cap);
+> --
+> Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
+>=20
 
 --=20
 Cheers,
