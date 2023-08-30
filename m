@@ -2,71 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22F578D679
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF3578D67C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7DD10E52B;
-	Wed, 30 Aug 2023 14:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E1B10E52D;
+	Wed, 30 Aug 2023 14:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DE910E52B
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:22:27 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-400e8ca7e38so50140055e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693405345; x=1694010145; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4U2CbxtVlmiq+ihjNNutQ199sDet8tnlLfhNKh7rYD4=;
- b=cBGEnwSsGIzEo+sp2rtTRMcsPKHHCVHIEuAesSwOSBaUXQu+OpXiscfNwM5SOINoF5
- JTnPAo+UWXNIEoUX4FZYoQyZuntnLxWCyMi++5IiVDY5W48vJihS+kLVVya1JJcFtwUX
- gFH+S8P89yZP4M2yTY3D3YmVGYJAfKW5Zwpw731vrO1xTJv3TMUg6XOFOpKMss8jgu7f
- W1QnRcjqYC9ioDKrf4TYYeXj/gSsSWMKma3IjjD2fNG0DdPEhvVcDyoK1dhK7TlVLPNI
- 0Dua9dAo9bqCaRO1Qq66VQSFtfbQCxvADY0fGD+iYPi65BxJub7ZOqfEkB+AOU09nLOb
- hkQQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 954B610E52D
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693405394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LDWeZz8lwtK2Vw963Pp4K5umQAhzGapmgVnLNgStcjo=;
+ b=Akvmh1yAb35F5xpAl/Lm+uXDZo+cFqsKdiy2StQEZmcccAC70cJXdAnVjUuk5LeaplByHJ
+ wa4DSAAzvLYUHpkYfInM0lyNXTbGFPeecYT72loaFmLKFg7VJtXv6dr8F2FUfqVoaMhUkn
+ Rzs/QTBGrzfX6EKAxmZe4w8CMYjOx+4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-586-o3x8UeRkOJCS7CpokF-V1Q-1; Wed, 30 Aug 2023 10:23:13 -0400
+X-MC-Unique: o3x8UeRkOJCS7CpokF-V1Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-5256c3803b4so365288a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:23:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693405345; x=1694010145;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4U2CbxtVlmiq+ihjNNutQ199sDet8tnlLfhNKh7rYD4=;
- b=i1dzhWbSBs0TQIkWiP3xQJjTZK7PWH5VI2/gflRivNCIlCDoihmy6W4prckwwjNUWk
- 8QPRCl3u3jWVwBKGipqqj7y66j+OXGXNn0UEUSRJ48OKoVqpR3gNDkBEmoFYSnEL/mSn
- TqDipdudY2XyIEVsCCngTtxXpNQCAjjFt+KOzsxUy5mN6wQdKDNa3hcIrEskAPl3R7Qa
- cpFODeFbV0HRB7Xk9KEN0Nr9uWgZcai/cKVKHuifEb94etxLa9K8PHcW86f9PQM1+Tzh
- aflM8yqlW2Ty0EM+3C6/lRl+mKEHXEeJGtpy7K9btpHq6uOBFF7g8WTfAaOK3A1dtv+d
- wNow==
-X-Gm-Message-State: AOJu0YyXLiUQAknNwNedrZkPFT1jXdBalTy1m28lkm32zUAWMkj4i1vl
- rEJdrCZ+Tac2a81uz6RQCk6yvI3mwKnHag==
-X-Google-Smtp-Source: AGHT+IFqdvLPnrsT3a/vbSOwfe38H7wTStYgAUNwNqaU+zNCLshg4THznHzE5va//hBXxfo5SUQSeQ==
-X-Received: by 2002:a05:600c:3784:b0:401:264b:5df7 with SMTP id
- o4-20020a05600c378400b00401264b5df7mr1955221wmr.35.1693405345199; 
- Wed, 30 Aug 2023 07:22:25 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+ d=1e100.net; s=20221208; t=1693405392; x=1694010192;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LDWeZz8lwtK2Vw963Pp4K5umQAhzGapmgVnLNgStcjo=;
+ b=UnGq6mKjc9zsM3EhKS0VBuBLUJ4TGVAxWEkZtjYL/k2L6rZLitrt1qT59F33fFofMm
+ Y910zrPV6hqxWjNi6RdAMEVBnU7Ykm9U/ucQQnT9jV6cgVyb7mYb7tXN3TYoUiQSg09E
+ NwUXfNOp0QFncJoDJUqQ7eiAXH58DyAJsOe5zyopKwkz3yVdLbvrpYi2C0niHfQ8VTjv
+ 4er2KkKiDGlm5TAS49ksSE4tXba94hqAsSADecpdcGFyWuMKiTXZCujy8QRiYPYOZQxj
+ QTbjIuyC91I0W/nyvHKmR5sAzG200iGUDkqWGLCMs5M0MgB7+1LbYCe7zyvSB0p/9QwP
+ 4g+A==
+X-Gm-Message-State: AOJu0YwgOJHiBpYkFr05hZd+XZ01DP3W5jbkxi9GTX3pTeRTT092uVY7
+ cLnGfp3Fbs1WAmbV71Hb3Y/6H9SSgQr72jDKhmVud8EaRhzOFnyE7HuByveVNZ5o74hQkGz6kdQ
+ igXkn5kfOH/M+sz76KJ5j1X88aQqp
+X-Received: by 2002:a05:6402:4404:b0:51e:34d8:f4c7 with SMTP id
+ y4-20020a056402440400b0051e34d8f4c7mr2019162eda.2.1693405392370; 
+ Wed, 30 Aug 2023 07:23:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEETjNW9wp/fQvTrgjMQpXcwVHdHwUrjVBdjXk8jizCaYvhqq5Q/jtzkYzdJEKBqJ9axaU5/A==
+X-Received: by 2002:a05:6402:4404:b0:51e:34d8:f4c7 with SMTP id
+ y4-20020a056402440400b0051e34d8f4c7mr2019152eda.2.1693405392119; 
+ Wed, 30 Aug 2023 07:23:12 -0700 (PDT)
+Received: from ?IPv6:2001:9e8:32e4:1500:aa40:e745:b6c9:7081?
+ ([2001:9e8:32e4:1500:aa40:e745:b6c9:7081])
  by smtp.gmail.com with ESMTPSA id
- s5-20020a7bc385000000b003fe61c33df5sm2449004wmj.3.2023.08.30.07.22.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Aug 2023 07:22:24 -0700 (PDT)
-Message-ID: <ac08d34a-4d63-21a5-01bf-10c90d268165@gmail.com>
-Date: Wed, 30 Aug 2023 16:22:22 +0200
+ j4-20020aa7ca44000000b0052574ef0da1sm6830091edt.28.2023.08.30.07.23.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Aug 2023 07:23:11 -0700 (PDT)
+Message-ID: <a79b3c34a12abc51bc5e840ae3a87ab9a47f7742.camel@redhat.com>
+Subject: Re: [PATCH 1/5] string.h: add array-wrappers for (v)memdup_user()
+From: pstanner@redhat.com
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 30 Aug 2023 16:23:10 +0200
+In-Reply-To: <CAHp75Vc72uuNvFxq4TGO=nXoGhbqVxyqvQ67ioL8ajtZwMUBgA@mail.gmail.com>
+References: <cover.1693386602.git.pstanner@redhat.com>
+ <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
+ <CAHp75Vc72uuNvFxq4TGO=nXoGhbqVxyqvQ67ioL8ajtZwMUBgA@mail.gmail.com>
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/5] drm/debugfs: drop debugfs_init() for the render and
- accel node v2
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230829110115.3442-1-christian.koenig@amd.com>
- <20230829110115.3442-2-christian.koenig@amd.com>
- <ZO77dr0tyCWY135z@ashyti-mobl2.lan>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ZO77dr0tyCWY135z@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +86,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ogabbay@kernel.org, ttayar@habana.ai, dri-devel@lists.freedesktop.org
+Cc: Andy Shevchenko <andy@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ Siddh Raman Pant <code@siddh.me>, Kees Cook <keescook@chromium.org>,
+ kexec@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ linux-hardening@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Eric Biederman <ebiederm@xmission.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
+ David Disseldorp <ddiss@suse.de>, Nick Alcock <nick.alcock@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.08.23 um 10:19 schrieb Andi Shyti:
-> Hi Christian,
->
-> On Tue, Aug 29, 2023 at 01:01:11PM +0200, Christian König wrote:
->> We want to remove per minor debugfs directories. Start by stopping
->> drivers from adding anything inside of those in the mid layer callback.
->>
->> v2: drop it for the accel node as well
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+On Wed, 2023-08-30 at 17:15 +0300, Andy Shevchenko wrote:
+> On Wed, Aug 30, 2023 at 4:46=E2=80=AFPM Philipp Stanner <pstanner@redhat.=
+com>
+> wrote:
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(check_mul_overflow(n=
+, size, &nbytes)))
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return ERR_PTR(-EINVAL);
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(check_mul_overflow(n=
+, size, &nbytes)))
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return ERR_PTR(-EINVAL);
+>=20
+> Btw, why not -EOVERFLOW ?
+>=20
 
-Is that for just this patch or the whole series?
+Good question, actually.
+To be honest I wasn't quite sure which code to pick (-E2BIG was also
+once I candidate).
 
-Thanks,
-Christian.
+-EINVAL was picked because the idea was that a request overflowing a
+size_t could surely be expected to contain an invalid parameter,
+because no one would ever request an array _that_ large
 
->
-> Thanks,
-> Andi
+?
 
