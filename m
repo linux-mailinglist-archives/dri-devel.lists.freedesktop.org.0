@@ -2,76 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA70378E2B9
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 00:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FB178E2E4
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 00:57:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C6910E619;
-	Wed, 30 Aug 2023 22:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 430D610E62B;
+	Wed, 30 Aug 2023 22:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595A510E61D;
- Wed, 30 Aug 2023 22:50:23 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37ULggEd025452; Wed, 30 Aug 2023 22:50:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=/YL4e0YAsCGzLEaWPbgYl/it7ElNCRxUyCqY6Yd78o4=;
- b=QIof3xC/o/JaJeg8GKNV8HLXYhOvmJmkJxUJ4zojRriu4NEoFYGE3B2Buaba3gt1NDmW
- irqCbViZzW/6OET8+ZXPOZMJipmtZtLtZJoG94UZCq61RSLY9m8chDz4lZ9Nxgru9L9S
- uXkr9weOiwv5ZixdS/L/y03ltbkljC01S/LHPQsH7BvH3AzDnuPn/ewVEDQl/9rqAWVz
- ERHsLn3k6yljA9d+hy0PTw6goDsSliEiRj6WVmGt8Z/Zwmzv1mawDUBGCiY0BTDLh7Ge
- rDSZv/nFK/V6Avtb/IhIsCjOL2ZPvjipkMxXITFYWNbKY4Zw3K0GIzmasS032Yix3RUL aA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3st0tassvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Aug 2023 22:50:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37UMoCOl021404
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Aug 2023 22:50:12 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Wed, 30 Aug 2023 15:50:12 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-Subject: [PATCH 16/16] drm/msm/dpu: add cdm blocks to dpu snapshot
-Date: Wed, 30 Aug 2023 15:49:09 -0700
-Message-ID: <20230830224910.8091-17-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
-References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60EF810E637
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 22:57:51 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-d78328bc2abso58289276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 15:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693436270; x=1694041070; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jbesLFZn89QtS3Nk/fxwNNUghSnqXExXEAIFGNCDeeM=;
+ b=MbV0uVyDZmgGJsoIglbyEHlg2dx1YlV6BxlcXZBEuodhjb5uyiviUUSV5LMCV1wqy8
+ VtaCFA4oY++Q8Ymeq0dQ68Hq9euArOWS5mHg/a6BIOcRPElX89tMYmKpeFhmQ02muFH0
+ A5tDKGacrs5VWcl70KmLti/TyzHLdl2lSb7/4dyRMVPnPRTbvKqka2VlV29PQqTKKXwg
+ o/VNocIG3ZcOk72yftLNPVaO6O6V5IVkOgo8tfBNvy79rVvDWPE88eAWvqRd5XyT+dV0
+ xeVWl/rWtaPjV0MGwIgQgImbO5OZjbuIsQ3QVQeQZKz2wpugz6cGMUJJaetH+EXCnwWv
+ fqOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693436270; x=1694041070;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jbesLFZn89QtS3Nk/fxwNNUghSnqXExXEAIFGNCDeeM=;
+ b=aLJ29Ozk7Z0GAVhVeRPAPqb3p9PM3juVkz62fGVlXHgbORTYS2qX2DlTSzgPnMiSPC
+ v+ZUPmbIl7U+UEhTuvYuPc9QF+T8Tm43gbtDxz+ZWeGahqZFb4vm/RAZMM16Eo1kbsGd
+ 5wo9YruXujHZxNs5vu5HKv/ggGOyiBjKfl25mCNAEV7/ZESFLU5I/vaAIds57qUfsg7C
+ WXtuRK4qMxxJW+RGUUflQNe+pEmNygTXzXlsex3qFIeGEBT6oNtTNuPTxK197xZu/XB4
+ yZPKN2g67LUDJr6seHGPH9M9xAeBK2ZVwI8v/Ep4ghFwzmwPNpCDpNrolQ9I82MXpsC8
+ P0rQ==
+X-Gm-Message-State: AOJu0YyrO1fPC9oj2P+DA5abRnR/ZR4/GwkHPcZzR4UnBUEoRVW8oLF4
+ OWRgashaTozj7TOtroOxKjGiWRL+eUEuiq5cq2OE7A==
+X-Google-Smtp-Source: AGHT+IG3oe2ouCAeqBMeWjd+y2neQTbmLX7tFZM/1DYvgEWwNCBSvEIBngqoyJWkuhznJGDIW/5TaccccPTX2hs78ug=
+X-Received: by 2002:a25:b188:0:b0:d71:c54:6821 with SMTP id
+ h8-20020a25b188000000b00d710c546821mr3826853ybj.35.1693436270486; Wed, 30 Aug
+ 2023 15:57:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: KGrvWJpwT4D32DrC9L21HtbtOnHIT6TG
-X-Proofpoint-ORIG-GUID: KGrvWJpwT4D32DrC9L21HtbtOnHIT6TG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-30_18,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308300207
+References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-5-quic_abhinavk@quicinc.com>
+In-Reply-To: <20230830224910.8091-5-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 31 Aug 2023 01:57:39 +0300
+Message-ID: <CAA8EJpoQ0L_b=KDQxuXEL4KbaP1DACq1Qpw6m_ot6m+UYsHZWg@mail.gmail.com>
+Subject: Re: [PATCH 04/16] drm/msm/dpu: add cdm blocks to sc7280 dpu_hw_catalog
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +67,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that CDM block support has been added to DPU lets also add its
-entry to the DPU snapshot to help debugging.
+On Thu, 31 Aug 2023 at 01:49, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> Add CDM blocks to the sc7280 dpu_hw_catalog to support
+> YUV format output from writeback block.
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  |  9 +++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h      | 13 +++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h         |  5 +++++
+>  3 files changed, 27 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> index 3b5061c4402a..5252170f216d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> @@ -251,10 +251,19 @@ static const struct dpu_mdss_version sc7280_mdss_ver = {
+>         .core_minor_ver = 2,
+>  };
+>
+> +static const struct dpu_cdm_cfg sc7280_cdm = {
+> +       .name = "cdm_0",
+> +       .id = CDM_0,
+> +       .len = 0x228,
+> +       .base = 0x79200,
+> +       .features = 0,
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 ++++
- 1 file changed, 4 insertions(+)
+No need to.
+Also, as the CDM block seems to be common to all existing platforms,
+what about moving this definition to dpu_hw_catalog.c next to VBIF
+settings?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index aa6ba2cf4b84..a207b18eb112 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -988,6 +988,10 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		}
- 	}
- 
-+	if (cat->cdm)
-+		msm_disp_snapshot_add_block(disp_state, cat->cdm->len,
-+					    dpu_kms->mmio + cat->cdm->base, cat->cdm->name);
-+
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- 
+> +};
+> +
+>  const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+>         .mdss_ver = &sc7280_mdss_ver,
+>         .caps = &sc7280_dpu_caps,
+>         .mdp = &sc7280_mdp,
+> +       .cdm = &sc7280_cdm,
+>         .ctl_count = ARRAY_SIZE(sc7280_ctl),
+>         .ctl = sc7280_ctl,
+>         .sspp_count = ARRAY_SIZE(sc7280_sspp),
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 6c9634209e9f..4ea7c3f85a95 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -693,6 +693,17 @@ struct dpu_vbif_cfg {
+>         u32 memtype[MAX_XIN_COUNT];
+>  };
+>
+> +/**
+> + * struct dpu_cdm_cfg - information of chroma down blocks
+> + * @name               string name for debug purposes
+> + * @id                 enum identifying this block
+> + * @base               register offset of this block
+> + * @features           bit mask identifying sub-blocks/features
+> + */
+> +struct dpu_cdm_cfg {
+> +       DPU_HW_BLK_INFO;
+> +};
+> +
+>  /**
+>   * Define CDP use cases
+>   * @DPU_PERF_CDP_UDAGE_RT: real-time use cases
+> @@ -816,6 +827,8 @@ struct dpu_mdss_cfg {
+>         u32 wb_count;
+>         const struct dpu_wb_cfg *wb;
+>
+> +       const struct dpu_cdm_cfg *cdm;
+> +
+>         u32 ad_count;
+>
+>         u32 dspp_count;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> index d85157acfbf8..4d6dba18caf0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> @@ -185,6 +185,11 @@ enum dpu_dsc {
+>         DSC_MAX
+>  };
+>
+> +enum dpu_cdm {
+> +       CDM_0 = 1,
+> +       CDM_MAX
+> +};
+> +
+>  enum dpu_pingpong {
+>         PINGPONG_NONE,
+>         PINGPONG_0,
+> --
+> 2.40.1
+>
+
+
 -- 
-2.40.1
-
+With best wishes
+Dmitry
