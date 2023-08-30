@@ -2,49 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EBD78D3BD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795EC78D3C3
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:57:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10BE210E4CF;
-	Wed, 30 Aug 2023 07:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9CC210E4D2;
+	Wed, 30 Aug 2023 07:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7935610E4D0;
- Wed, 30 Aug 2023 07:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693381910; x=1724917910;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=0XT9n5Z4r6fOHqovX9YbXWebfSSo0VleXQh7sphfzI8=;
- b=n5YFtyL3feSAtyMva1+1NNKBC7aLBXXFdgKeWHDbikJAF56SPQd98X5q
- wL0creCqxU1fB1guXpPk2X1FY6hxiHY4yxo86bBgGEiO27ym3fv58KU6C
- 7fB8dJJrtxReC2N27HRI4iHGP5LpGeMfsHpsDjDRV1m4kQHBUb+Rim5Id
- y4VzFJtQlSNsn4pcPO+5hW4ABpwhiCjZOnO8d6++Q58izAuHjDxAjh8gu
- tzTzbCNhuSzS+s4AXu7+gjDOCMv8SrpEBlYr9RQfsX8wyMXfMcOp6fS9n
- msbtRiLJv79mb85vgbyiQuqfXODWDvXFpUbWJhwkMO6sfAflrlFOapZkK w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355889255"
-X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; d="scan'208";a="355889255"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 00:51:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="862534554"
-X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; d="scan'208";a="862534554"
-Received: from unknown (HELO intel.com) ([10.237.72.65])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 00:51:49 -0700
-Date: Wed, 30 Aug 2023 10:51:41 +0300
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [1/2] drm/display/dp: Assume 8 bpc support when DSC is supported
-Message-ID: <ZO71Dbu1NvY8qYup@intel.com>
-References: <20230824125121.840298-2-ankit.k.nautiyal@intel.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFC410E4D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:57:26 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-9a1de3417acso132600366b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 00:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693382244; x=1693987044; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WbWwilcwEmVMgLK1VH/RXl1G63kKTmWXMCeBeqCPM5c=;
+ b=lcTVCHMttEVqUog9RfqDdRcICLyG2ciN1KaJN2lsVsUbqfId+Xm6i5TMQkl0w5jkLL
+ 0PYwThd9W/eZ7xAdlXtcTlxmrxKAnCFISULZTQQmug+z7+6xzup/inxPeKOrnuOjOIwS
+ 5u5ZCmoN9ts3mvcLyN6MMt30lJyV/++Dy4XUlqMhNf1O4idunB6BOGwz7wavmWI0nUOn
+ GbJPErf2nJeUF4zqpHaXd9xvOym0CE8/x2VplMR/hmzs/22zkMiNf1/p0A5tkh3NTAA8
+ sjAAEwwmwPDRX4EM0vXYVVXcTbsHM5XXwC3XCP0LJ8Q2Dfy9gYiZYewH7DhTP+dxTGKv
+ l+Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693382244; x=1693987044;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WbWwilcwEmVMgLK1VH/RXl1G63kKTmWXMCeBeqCPM5c=;
+ b=DiPsNPtr4bCAd9/N1qaOw4uNIFjCcz0jVGGz2xGyGMRovutHaEfJ8CfU8PS4OnVbhy
+ IisVtCd0It6aKAcqcIDWiA2tAryCaikk4tPl/vSvscMvSwmkLcAa0YI7688EDqREM+RT
+ LVKHBtL30qQekmyOjQNH4XWYX2WIAm/kI2bpv1X9HKMEtWLPS0I98LA9kYhx4MT60aT1
+ wdokVfj+w0z0Gm4Ot9hpeGMFQUJL1XwzRzShLP9rVZRuSMRSV9Qhbd9IfvSMXxkxW4Ua
+ kycq9hHuUKrdguG5ihehGfJ713CwuzGekTsVSYcrX5pBvqOZfq7Y6vepVw4TJIlMY2y5
+ l1kg==
+X-Gm-Message-State: AOJu0Yzb6/sjQJQW3ZwgZ2FYKqTAGjuigIQygnZXBc3gRL1UW2JZp+3I
+ W2yhMkZZ40ZvJplW7y1UohuGq3bogmKIgA==
+X-Google-Smtp-Source: AGHT+IHIo88HWuUK30Gf/RgBu2TDsV1rtpSI1Y2MbBTSYqSRUgIkz8sqBwdRXOFAtww45GIX3gx5vQ==
+X-Received: by 2002:a17:907:1c1f:b0:9a5:83f0:9bc5 with SMTP id
+ nc31-20020a1709071c1f00b009a583f09bc5mr5355383ejc.18.1693382244177; 
+ Wed, 30 Aug 2023 00:57:24 -0700 (PDT)
+Received: from [192.168.178.25] ([134.19.54.130])
+ by smtp.gmail.com with ESMTPSA id
+ n13-20020a170906840d00b00992665694f7sm6867217ejx.107.2023.08.30.00.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Aug 2023 00:57:23 -0700 (PDT)
+Message-ID: <3679a4e7-918f-dde4-46a7-5613d734d13a@gmail.com>
+Date: Wed, 30 Aug 2023 09:57:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230824125121.840298-2-ankit.k.nautiyal@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/5] drm/debugfs: disallow debugfs access when device
+ isn't registered
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, Dave Airlie
+ <airlied@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
+References: <20230829110115.3442-1-christian.koenig@amd.com>
+ <20230829110115.3442-3-christian.koenig@amd.com>
+ <ZO3XGchG9fGjoW9K@ashyti-mobl2.lan>
+ <5ce9f1b6-0a9e-7cf8-25f9-de9621b342dc@gmail.com>
+ <ZO3YmCJKwcJydNGV@ashyti-mobl2.lan>
+ <ef05cacc-8a3c-b3e2-b07b-f0d38cd5e7ad@gmail.com>
+In-Reply-To: <ef05cacc-8a3c-b3e2-b07b-f0d38cd5e7ad@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +83,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: ogabbay@kernel.org, ttayar@habana.ai, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 24, 2023 at 06:21:20PM +0530, Ankit Nautiyal wrote:
-> As per DP v1.4, a DP DSC Sink device shall support 8bpc in DPCD 6Ah.
-> Apparently some panels that do support DSC, are not setting the bit for
-> 8bpc.
-> 
-> So always assume 8bpc support by DSC decoder, when DSC is claimed to be
-> supported.
-> 
-> v2: Use helper to get check dsc support. (Ankit)
-> v3: Fix styling and other typos. (Jani)
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Am 29.08.23 um 14:31 schrieb Christian König:
+> Am 29.08.23 um 13:38 schrieb Andi Shyti:
+>>>>> During device bringup it might be that we can't access the debugfs 
+>>>>> files.
+>>>>> Return -ENODEV until the registration is completed on access.
+>>>> just wondering, if the device is not registered, how do we get
+>>>> there?
+>>> The workflow is:
+>>> 1. Creation (DRM)
+>>> 2. Initialization (Driver)
+>>> 3. Registration (DRM)
+>>> ...
+>>> 4. Unregistration (DRM)
+>>> 5. Deinitialization (Driver)
+>>> 6. Destruction (DRM)
+>>>
+>>> It is possible that debugfs files are created during driver 
+>>> initialization,
+>>> but Daniel insisted that they should not be accessible until the
+>>> registration is done (which makes the other UAPI accessible as well).
+>> makes sense, but then why not -EAGAIN, or -EBUSY?
+>
+> Good question.
+>
+> I think the main use case for this is between 4 and 6. E.g. a device 
+> which is hot removed and now in the process of being torn down.
+>
+> In this situation we might still have references from userspace 
+> (memory mapping etc...), so the drm file and with it the debugfs 
+> directory is still there but the physical device is gone. For the 
+> IOCTL UAPI we then also return -ENODEV as well, so this makes sense.
+>
+> The time between 1 and 3 is interesting as well, but here it's more 
+> like we couldn't get the device initialized and are now stuck. This 
+> happens sometimes during early hardware bringup and I still disagree 
+> with Daniel that we should block that (well on the other hand it's 
+> trivial for a developer to comment those checks out).
 
-Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Could I get an rb for this series or at least this patch from you?
 
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index e6a78fd32380..8a1b64c57dfd 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2449,12 +2449,16 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
->  	int num_bpc = 0;
->  	u8 color_depth = dsc_dpcd[DP_DSC_DEC_COLOR_DEPTH_CAP - DP_DSC_SUPPORT];
->  
-> +	if (!drm_dp_sink_supports_dsc(dsc_dpcd))
-> +		return 0;
-> +
->  	if (color_depth & DP_DSC_12_BPC)
->  		dsc_bpc[num_bpc++] = 12;
->  	if (color_depth & DP_DSC_10_BPC)
->  		dsc_bpc[num_bpc++] = 10;
-> -	if (color_depth & DP_DSC_8_BPC)
-> -		dsc_bpc[num_bpc++] = 8;
-> +
-> +	/* A DP DSC Sink device shall support 8 bpc. */
-> +	dsc_bpc[num_bpc++] = 8;
->  
->  	return num_bpc;
->  }
+I would really like to push that now as long as neither Dave nor Daniel 
+have any objections (last time I checked the Intel CI was happy as well, 
+but we could re-submit that once more of course).
+
+Thanks,
+Christian.
+
+>
+> Regards,
+> Christian.
+>
+>>
+>> Thanks,
+>> Andi
+>
+
