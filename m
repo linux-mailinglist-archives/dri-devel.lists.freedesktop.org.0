@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC62F78D593
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 13:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD3278D598
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 13:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285C310E4FC;
-	Wed, 30 Aug 2023 11:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3613410E4FD;
+	Wed, 30 Aug 2023 11:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24F7A10E4FC;
- Wed, 30 Aug 2023 11:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693395351; x=1724931351;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=h3ZazSER22rib2B9TYZzPIsIlIRyHDfzHJ5qdZQmJFY=;
- b=bJOZV0m7JCPC3uHmYz4vUDydrBnZMZ7fJGSIIOVQ09Z3LBWhRlfsIdO0
- 1JHIxA1esCXJAdTQsuKvydhe4rJ2G1ij/ho0aEVdj3+9DllTmdutECBIX
- QJAgWWVBn7rodpuDlj6UuQW7sTe1xSDRHTWSMu4FM2e73N/e3KOIOAfn9
- LoihQCKWkLn6iHpvzVrVncMneddjuIPufinwF71OKhADZuF7dMKmTuBGb
- 3853J+rB1ZYx9fsqPsUeW7NeJ4TIPylR/bnHaQ524kfypWiHZhjZfmsvT
- yPTK/I3E4R92/zgVNyPM3dnMTMfjiYf3FU/L8sgv0+u5RhzhXfkDcZqM2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441981273"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; d="scan'208";a="441981273"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 04:35:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="732585103"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; d="scan'208";a="732585103"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.15.207])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 04:35:47 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: David Gow <davidgow@google.com>
-Subject: Re: [RFC PATCH] kunit: Fix test log size limit too low for some tests
-Date: Wed, 30 Aug 2023 13:35:45 +0200
-Message-ID: <4506938.LvFx2qVVIh@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <CABVgOSmZ56p8BBFHNXqigNrH95O_YjMZxfpbhWcZJFrSMS3CDA@mail.gmail.com>
-References: <20230830075419.26484-2-janusz.krzysztofik@linux.intel.com>
- <CABVgOSmZ56p8BBFHNXqigNrH95O_YjMZxfpbhWcZJFrSMS3CDA@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F71210E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 11:38:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A28C61972;
+ Wed, 30 Aug 2023 11:38:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83623C433C7;
+ Wed, 30 Aug 2023 11:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693395482;
+ bh=3XQ7R+mQiCgel+4CVupUmCG8UGUYbU452w6fK1wZRrY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qPLsF6iRnbcm71F3V2P3osHte2tkWFXqi2ByncFvfN6aLsAiCdM44EfXavfq/Zsam
+ lxli8eovc4mR/cCiKVUtp119vm2tCjMK133NdcS4aR07AjFo53P1+r8jBOPpBVqDii
+ 5eJMZh8XKaVfTkLTMXqKK7qjSGsEsFQEvoOTVgQ4cHaq8cbQTdeKZJTWtyPcEXYHxE
+ 93wqy9U4//qlvR0MgiiaVzeNRmNqPi1WZaqxVdMNr2o2axaJmBufnUEjTwsXuw6EP1
+ WWKpdVG2FNPrKEZQHXOfkDbAQpvHfK1q1Fw+IY3O0Q7uzivGDwi1EPth38XaMaG14f
+ v+VbU34HpjxWQ==
+Date: Wed, 30 Aug 2023 13:37:59 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Message-ID: <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zherdrxsl3xlh5y6"
+Content-Disposition: inline
+In-Reply-To: <87bkeo23vs.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +57,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Brendan Higgins <brendan.higgins@linux.dev>,
- linux-kselftest@vger.kernel.org, intel-xe@lists.freedesktop.org,
- kunit-dev@googlegroups.com
+Cc: emma@anholt.net, linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
+ dri-devel@lists.freedesktop.org, jbrunet@baylibre.com, robdclark@google.com,
+ corbet@lwn.net, khilman@baylibre.com, sergi.blanch.torne@collabora.com,
+ gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
+ daniels@collabora.com, martin.blumenstingl@googlemail.com,
+ robclark@freedesktop.org, Helen Koike <helen.koike@collabora.com>,
+ anholt@google.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
+ guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 30 August 2023 11:23:43 CEST David Gow wrote:
-> On Wed, 30 Aug 2023 at 15:55, Janusz Krzysztofik
-> <janusz.krzysztofik@linux.intel.com> wrote:
-> >
-> > Now we have memory space available to a kunit test case log exposed via
-> > debugfs limited to 2048 bytes, while some parametrized test cases, e.g.,
-> > drm_framebuffer.drm_test_framebuffer_create, need more.  For this reason,
-> > debugfs results from affected test cases get truncated silently, and
-> > external tools that rely on parsing of debugfs results can fail.
-> >
-> > Increase kunit test case log size limit to 4096 bytes.
-> >
-> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > ---
-> 
-> There's a patch series we're hoping to take for 6.7 which allows the
-> log to grow to fit whatever's written into it, which should make this
-> patch obsolete:
-> https://lore.kernel.org/linux-kselftest/20230828104111.2394344-1-rf@opensource.cirrus.com/T/
-> 
-> Would that work for you?
 
-Yeah, that's going to work perfectly for us, thank you.
+--zherdrxsl3xlh5y6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Janusz
-
-> 
-> -- David
-> 
-> >  include/kunit/test.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Aug 30, 2023 at 01:58:31PM +0300, Jani Nikula wrote:
+> On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
+> >> On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
+> >> > From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> >> >=20
+> >> > Developers can easily execute several tests on different devices
+> >> > by just pushing their branch to their fork in a repository hosted
+> >> > on gitlab.freedesktop.org which has an infrastructure to run jobs
+> >> > in several runners and farms with different devices.
+> >> >=20
+> >> > There are also other automated tools that uprev dependencies,
+> >> > monitor the infra, and so on that are already used by the Mesa
+> >> > project, and we can reuse them too.
+> >> >=20
+> >> > Also, store expectations about what the DRM drivers are supposed
+> >> > to pass in the IGT test suite. By storing the test expectations
+> >> > along with the code, we can make sure both stay in sync with each
+> >> > other so we can know when a code change breaks those expectations.
+> >> >=20
+> >> > Also, include a configuration file that points to the out-of-tree
+> >> > CI scripts.
+> >> >=20
+> >> > This will allow all contributors to drm to reuse the infrastructure
+> >> > already in gitlab.freedesktop.org to test the driver on several
+> >> > generations of the hardware.
+> >> >=20
+> >> > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> >> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> >> > Acked-by: Daniel Stone <daniels@collabora.com>
+> >> > Acked-by: Rob Clark <robdclark@gmail.com>
+> >> > Tested-by: Rob Clark <robdclark@gmail.com>
+> >>=20
+> >> Ok I pushed this into a topic/drm-ci branch in drm.git and asked sfr to
+> >> include that branch in linux-next.
+> >>=20
+> >> But also I'd like to see a lot more acks here, we should be able to at
+> >> least pile up a bunch of (driver) maintainers from drm-misc in support=
+ of
+> >> this. Also maybe media, at least I've heard noises that they're maybe
+> >> interested too? Plus anyone else, the more the better.
 > >
-> > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> > index d33114097d0d0..d20eb1884edfa 100644
-> > --- a/include/kunit/test.h
-> > +++ b/include/kunit/test.h
-> > @@ -34,7 +34,7 @@ DECLARE_STATIC_KEY_FALSE(kunit_running);
-> >  struct kunit;
+> > I'm not really convinced by that approach at all, and most of the issues
+> > I see are shown by the follow-up series here:
+>=20
+> I'm not fully convinced either, more like "let's see". In that narrow
+> sense, ack. I don't see harm in trying, if you're also open to backing
+> off in case it does not pan out.
+>=20
+> > https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.raman=
+@collabora.com/
 > >
-> >  /* Size of log associated with test. */
-> > -#define KUNIT_LOG_SIZE 2048
-> > +#define KUNIT_LOG_SIZE 4096
+> >   * We hardcode a CI farm setup into the kernel
 > >
-> >  /* Maximum size of parameter description string. */
-> >  #define KUNIT_PARAM_DESC_SIZE 128
-> > --
-> > 2.41.0
+> >   * We cannot trust that the code being run is actually the one being
+> >     pushed into gitlab
 > >
-> 
+> >   * IMO, and I know we disagree here, any IGT test we enable for a given
+> >     platform should work, period. Allowing failures and flaky tests just
+> >     sweeps whatever issue is there under the rug. If the test is at
+> >     fault, we should fix the test, if the driver / kernel is at fault,
+> >     then I certainly want to know about it.
+>=20
+> At least for display, where this also depends on peripheral hardware,
+> it's not an easy problem, really.
 
+Aside from the Chamelium tests, which tests actually rely on peripheral
+hardware? On EDID and hotplug, sure, but that can easily be set up from
+the userspace, or something like
 
+https://www.lindy-international.com/HDMI-2-0-EDID-Emulator.htm?websale8=3Dl=
+d0101.ld021102&pi=3D32115
 
+> How reliable do you need it to be? How many nines? Who is going to
+> debug the issues that need hundreds or thousands of runs to reproduce?
+> If a commit makes some test less reliable, how long is it going to
+> take to even see that or pinpoint that?
 
+I mean, that's also true for failures or success then. How many times do
+you need a test to run properly to qualify it as a meaningful test? How
+do you know that it's not a flaky test?
+
+Ultimately, it's about trust. If, for a given test that just failed, I
+can't be certain that it's because of the branch I just submitted, I
+will just ignore the tests results after a while.
+
+This is already what plagues kernelci, and we should do better.
+
+And I'm sorry, but if some part of the kernel or driver just isn't
+reliable, then we shouldn't claim it is (except for all the times it
+isn't). If no-one has the time to look into it, fine, but flagging it
+under a flaky test doesn't help anyone.
+
+Like, from that patch, how can I know what is the issue with
+kms_hdmi_inject@inject-4k or kms_addfb_basic@addfb25-bad-modifier on
+mt8173. I certainly can't. And neither of those have anything to do with
+peripheral hardware.
+
+Maxime
+
+--zherdrxsl3xlh5y6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZO8qFwAKCRDj7w1vZxhR
+xaeoAQCplynR4IBaAjXxwYEJBraRaDZg7/oKmyvbKaWv3yNoUwD/Zfv+1zH3hT2I
+spFN+hiweGxT/xn46f6giSypaSMdWQc=
+=6JkP
+-----END PGP SIGNATURE-----
+
+--zherdrxsl3xlh5y6--
