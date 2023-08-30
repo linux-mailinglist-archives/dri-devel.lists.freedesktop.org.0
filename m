@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB5978D3AD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:41:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F85278D3B5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 383AB10E4CE;
-	Wed, 30 Aug 2023 07:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA4DB10E4C9;
+	Wed, 30 Aug 2023 07:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAA010E4CC
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:40:45 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-d73c595b558so5254496276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 00:40:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693381244; x=1693986044;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xjN8oiyAeak2OCfDHumBNxolaRdlghFzEQTJLAyrIjM=;
- b=Pgt/uRuWaI0jWBzW3gRjLdYDfP9u05vNZkocaaph7z8l+2vcZsqmaeJ29KMJrRkBkg
- +vfqzI+jjd13eWSNMC+dDPteHrOgxHW5914i9r13BJzGKEIoAgPX71/YbQEGlTE+6KWB
- h62Cvb+tenkzV/E/Vn4IetslLNG5KRUCJrZb/Xna8N/rJL25+GIgunA3Ff9ZAlCMG1NN
- PXx1Z7qkCK7hGQ91DPdXQ2k+77GuyNBea/9+wPQ4Bj/rfH5Fpnqhg8nRcOOHp1/IHsX6
- iAguZaGbzC+rDVJ5FrYa2EBbQPN1ShC4RgZaIhgNEXdX1vWaVk2HA9tbr2upijrIQnP+
- EcxQ==
-X-Gm-Message-State: AOJu0YxF6ibJrP46II9s76Nzy3C+l0S5jH1AMBhuR0RfcQl/6SZqqVGx
- O03TSjcv43c2Txop6iIktQeC0k3hpQ3ctQ==
-X-Google-Smtp-Source: AGHT+IG0nR3uELSyaiRe0lgUjRgII80U3/0E1uUXwVr3Tq369lhNBp78ku5WvCfGccVWw9yCVbzFVQ==
-X-Received: by 2002:a25:c54f:0:b0:d78:1502:9330 with SMTP id
- v76-20020a25c54f000000b00d7815029330mr1334284ybe.7.1693381244115; 
- Wed, 30 Aug 2023 00:40:44 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
- n188-20020a25dac5000000b00d7745e2bb19sm2593856ybf.29.2023.08.30.00.40.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Aug 2023 00:40:43 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-d77ad095e5cso5268928276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 00:40:43 -0700 (PDT)
-X-Received: by 2002:a25:e90f:0:b0:d7b:89af:d3d4 with SMTP id
- n15-20020a25e90f000000b00d7b89afd3d4mr1349702ybd.10.1693381243566; Wed, 30
- Aug 2023 00:40:43 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E5E10E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:45:35 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DE8DC21860;
+ Wed, 30 Aug 2023 07:45:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693381533; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rlOhTM8qn8nUusPqbqTzlvkQzSG2Kzjv6l57XcmdfKg=;
+ b=coB5HRdigoPR0Afia21f7kYdnqZK3gmHvFRLfu/qcw2rZSbXzPW4+8XnkaaLP9bce8NTQ9
+ KIjR/7Krk0+NSowgBt9R+vuu39Lx7n2FxJ7EYGiaBW2YIPU4FUNzUn9a7KMxYgM5BOArbt
+ aGmmjFtQ3dDTeQZm4O18pKYrWYK1mzg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693381533;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rlOhTM8qn8nUusPqbqTzlvkQzSG2Kzjv6l57XcmdfKg=;
+ b=yrY0znueUxRmeOhd3B01YiPaoFt9bSyDS3qIDTI5pu9tXmAMwd4XR9eEVwGb5ihX0wo2fU
+ FvUwqR7FviC1RhBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C00CB1353E;
+ Wed, 30 Aug 2023 07:45:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id S67xLZ3z7mRHYQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 30 Aug 2023 07:45:33 +0000
+Message-ID: <f661c179-893a-8d1f-5a90-59410f739811@suse.de>
+Date: Wed, 30 Aug 2023 09:45:33 +0200
 MIME-Version: 1.0
-References: <20230830062546.720679-1-javierm@redhat.com>
- <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
-In-Reply-To: <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Aug 2023 09:40:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
-Message-ID: <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
 Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
  .atomic_check() callback
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230830062546.720679-1-javierm@redhat.com>
+ <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
+ <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jBRvdn6zZHzZuPCu00N3oD6J"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +72,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jBRvdn6zZHzZuPCu00N3oD6J
+Content-Type: multipart/mixed; boundary="------------072dWv9l0KJyDWnoGBKf0qDX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Message-ID: <f661c179-893a-8d1f-5a90-59410f739811@suse.de>
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+References: <20230830062546.720679-1-javierm@redhat.com>
+ <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
+ <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdVpC6YajGOf7XzkFfs618-WyeMNdpmpDjGrSpG7egSW6Q@mail.gmail.com>
 
-On Wed, Aug 30, 2023 at 9:08=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 30.08.23 um 08:25 schrieb Javier Martinez Canillas:
-> > The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
-> > .atomic_check() callback") moved the allocation of the intermediate and
-> > HW buffers from the encoder's .atomic_enable callback to primary plane'=
-s
-> > .atomic_check callback.
-> >
-> > This was suggested by Maxime Ripard because drivers aren't allowed to f=
-ail
-> > after drm_atomic_helper_swap_state() has been called, and the encoder's
-> > .atomic_enable happens after the new atomic state has been swapped.
-> >
-> > But that change caused a performance regression in very slow platforms,
-> > since now the allocation happens for every plane's atomic state commit.
-> > For example, Geert Uytterhoeven reports that is the case on a VexRiscV
-> > softcore (RISC-V CPU implementation on an FPGA).
-> >
-> > To prevent that, move the move the buffers' allocation and free to the
->
-> Double 'move the'
->
-> And maybe buffer's rather than buffers'
->
-> > CRTC's .atomic_check and .atomic_destroy_state callbacks, so that only
-> > happens on a modeset. Since the intermediate buffer is only needed when
-> > not using the controller native format (R1), doing the buffer allocatio=
-n
-> > at that CRTC's .atomic_check time would be enough.
-> >
-> > Fixes: 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's .atom=
-ic_check() callback")
-> > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+--------------072dWv9l0KJyDWnoGBKf0qDX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Javier: thanks for your patch!
+SGkgR2VlcnQNCg0KQW0gMzAuMDguMjMgdW0gMDk6NDAgc2NocmllYiBHZWVydCBVeXR0ZXJo
+b2V2ZW46DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFdlZCwgQXVnIDMwLCAyMDIzIGF0IDk6
+MDjigK9BTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6
+DQo+PiBBbSAzMC4wOC4yMyB1bSAwODoyNSBzY2hyaWViIEphdmllciBNYXJ0aW5leiBDYW5p
+bGxhczoNCj4+PiBUaGUgY29tbWl0IDQ1YjU4NjY5ZTUzMiAoImRybS9zc2QxMzB4OiBBbGxv
+Y2F0ZSBidWZmZXIgaW4gdGhlIHBsYW5lJ3MNCj4+PiAuYXRvbWljX2NoZWNrKCkgY2FsbGJh
+Y2siKSBtb3ZlZCB0aGUgYWxsb2NhdGlvbiBvZiB0aGUgaW50ZXJtZWRpYXRlIGFuZA0KPj4+
+IEhXIGJ1ZmZlcnMgZnJvbSB0aGUgZW5jb2RlcidzIC5hdG9taWNfZW5hYmxlIGNhbGxiYWNr
+IHRvIHByaW1hcnkgcGxhbmUncw0KPj4+IC5hdG9taWNfY2hlY2sgY2FsbGJhY2suDQo+Pj4N
+Cj4+PiBUaGlzIHdhcyBzdWdnZXN0ZWQgYnkgTWF4aW1lIFJpcGFyZCBiZWNhdXNlIGRyaXZl
+cnMgYXJlbid0IGFsbG93ZWQgdG8gZmFpbA0KPj4+IGFmdGVyIGRybV9hdG9taWNfaGVscGVy
+X3N3YXBfc3RhdGUoKSBoYXMgYmVlbiBjYWxsZWQsIGFuZCB0aGUgZW5jb2RlcidzDQo+Pj4g
+LmF0b21pY19lbmFibGUgaGFwcGVucyBhZnRlciB0aGUgbmV3IGF0b21pYyBzdGF0ZSBoYXMg
+YmVlbiBzd2FwcGVkLg0KPj4+DQo+Pj4gQnV0IHRoYXQgY2hhbmdlIGNhdXNlZCBhIHBlcmZv
+cm1hbmNlIHJlZ3Jlc3Npb24gaW4gdmVyeSBzbG93IHBsYXRmb3JtcywNCj4+PiBzaW5jZSBu
+b3cgdGhlIGFsbG9jYXRpb24gaGFwcGVucyBmb3IgZXZlcnkgcGxhbmUncyBhdG9taWMgc3Rh
+dGUgY29tbWl0Lg0KPj4+IEZvciBleGFtcGxlLCBHZWVydCBVeXR0ZXJob2V2ZW4gcmVwb3J0
+cyB0aGF0IGlzIHRoZSBjYXNlIG9uIGEgVmV4UmlzY1YNCj4+PiBzb2Z0Y29yZSAoUklTQy1W
+IENQVSBpbXBsZW1lbnRhdGlvbiBvbiBhbiBGUEdBKS4NCj4+Pg0KPj4+IFRvIHByZXZlbnQg
+dGhhdCwgbW92ZSB0aGUgbW92ZSB0aGUgYnVmZmVycycgYWxsb2NhdGlvbiBhbmQgZnJlZSB0
+byB0aGUNCj4+DQo+PiBEb3VibGUgJ21vdmUgdGhlJw0KPj4NCg0KPj4gQW5kIG1heWJlIGJ1
+ZmZlcidzIHJhdGhlciB0aGFuIGJ1ZmZlcnMnDQoNClNjcmF0Y2ggdGhhdCByZW1hcmsuDQoN
+Cj4+DQo+Pj4gQ1JUQydzIC5hdG9taWNfY2hlY2sgYW5kIC5hdG9taWNfZGVzdHJveV9zdGF0
+ZSBjYWxsYmFja3MsIHNvIHRoYXQgb25seQ0KPj4+IGhhcHBlbnMgb24gYSBtb2Rlc2V0LiBT
+aW5jZSB0aGUgaW50ZXJtZWRpYXRlIGJ1ZmZlciBpcyBvbmx5IG5lZWRlZCB3aGVuDQo+Pj4g
+bm90IHVzaW5nIHRoZSBjb250cm9sbGVyIG5hdGl2ZSBmb3JtYXQgKFIxKSwgZG9pbmcgdGhl
+IGJ1ZmZlciBhbGxvY2F0aW9uDQo+Pj4gYXQgdGhhdCBDUlRDJ3MgLmF0b21pY19jaGVjayB0
+aW1lIHdvdWxkIGJlIGVub3VnaC4NCj4+Pg0KPj4+IEZpeGVzOiA0NWI1ODY2OWU1MzIgKCJk
+cm0vc3NkMTMweDogQWxsb2NhdGUgYnVmZmVyIGluIHRoZSBwbGFuZSdzIC5hdG9taWNfY2hl
+Y2soKSBjYWxsYmFjayIpDQo+Pj4gU3VnZ2VzdGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4g
+PGdlZXJ0QGxpbnV4LW02OGsub3JnPg0KPj4+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0
+aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiANCj4gSmF2aWVyOiB0aGFu
+a3MgZm9yIHlvdXIgcGF0Y2ghDQo+IA0KPj4gQmVzaWRlcyB0aGUgcG9pbnRlcnMsIHRoZSBD
+UlRDIHN0YXRlIGNhbiBhbHNvIHN0b3JlIHRoZSBwcmltYXJ5IHBsYW5lDQo+PiBmb3JtYXQs
+IHdoaWNoIHlvdSB1cGRhdGUgZnJvbSB0aGUgcGxhbmUncyBhdG9taWMgY2hlY2suIEJ5IGRv
+aW5nIHNvLCB5b3UNCj4+IHdvbnQgbmVlZCB0byByZWZlciB0byB0aGUgcGxhbmUgc3RhdGUg
+ZnJvbSB0aGUgQ1JUQydzIGF0b21pY19jaGVjay4gVGhlDQo+PiBwbGFuZSdzIGF0b21pY19j
+aGVjayBydW5zIGJlZm9yZSB0aGUgQ1JUQydzIGF0b21pY19jaGVjay4gWzFdDQo+IA0KPiBJ
+IGhhdmVuJ3QgdGVzdGVkIEphdmllcidzIHBhdGNoIHlldCwgYnV0IGRvZXMgdGhpcyBtZWFu
+IHRoYXQgaGlzIHBhdGNoDQo+IHdvbid0IGhlbHA/DQo+IA0KPiBUaGUgcHJvYmxlbSBJIHNh
+dyB3YXMgdGhhdCB0aGVzZSBidWZmZXJzIHdlcmUgYWxsb2NhdGVkIGFuZCBmcmVlZA0KPiBv
+dmVyIGFuZCBvdmVyIGFnYWluIG9uIGVhY2ggZmxhc2ggb2YgdGhlIGN1cnNvciBvZiB0aGUg
+dGV4dCBjb25zb2xlDQo+IG9uIHRvcCBvZiB0aGUgZW11bGF0ZWQgZnJhbWUgYnVmZmVyIGRl
+dmljZS4NCg0KSmF2aWVyJ3MgY3VycmVudCBwYXRjaCBzaG91bGQgcmVzb2x2ZSB0aGlzIHBy
+b2JsZW0uIFRoZSB0ZW1wb3JhcnkgDQpidWZmZXJzIGFyZSBub3cgb25seSBhbGxvY2F0ZWQg
+b24gZGlzcGxheS1tb2RlL2Zvcm1hdCBjaGFuZ2VzLCBidXQgbm90IA0Kb24gZWFjaCBzaW5n
+bGUgc2NyZWVuIHVwZGF0ZS4gTXkgcmV2aWV3IGNvbmNlcm5zIG9ubHkgdGhlIGltcGxlbWVu
+dGF0aW9uLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBHcntvZXRqZSxlZXRp
+bmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICBHZWVydA0KPiANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
+NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
+bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
+cmcpDQo=
 
-> Besides the pointers, the CRTC state can also store the primary plane
-> format, which you update from the plane's atomic check. By doing so, you
-> wont need to refer to the plane state from the CRTC's atomic_check. The
-> plane's atomic_check runs before the CRTC's atomic_check. [1]
+--------------072dWv9l0KJyDWnoGBKf0qDX--
 
-I haven't tested Javier's patch yet, but does this mean that his patch
-won't help?
+--------------jBRvdn6zZHzZuPCu00N3oD6J
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-The problem I saw was that these buffers were allocated and freed
-over and over again on each flash of the cursor of the text console
-on top of the emulated frame buffer device.
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTu850FAwAAAAAACgkQlh/E3EQov+CI
+fA/8Dtg+AITgcZARJkNVxNx5xb84A1CcKBEbu2GF994uAXHR1t90m3ZJSF0M+FoXxMpWGW3VRC0m
+TpZgQnZ3GINmiTHOpaxmBp0zlj1SqJNa7HTGXsunO39mzzGe1uAnHNy6CW0NVQlLew7RrFf6IJ9Z
+fOafFVDcU5qVmhQhIkFqtoLCx5cDHSSW8AhpidICv8aBmPVrcJPnZbxeUwOQPDXZSvfb3hKGsoYO
+x9Hm7B52uiP6csQiPMARw94bgN4nAgN0VIVVyqj6ZtGX9mIdGe1TyggVXsmhhudQZkgAvBj6DHsI
+a+weZ7nWlhx8bYdIXAQgPnNGCH4e6uNfektpUqxob1rOzWxABsch5qEdVaYZxU0Jm2v1Bob24LX5
+EiALkq+Vr6sTIiZ9mcPZzr+i6se6rASGUrp/Chw7fq7brUNCxzVweK4iiXaNOcaMGKd4xCr6xG30
+0WaV4qVmKGGJkawB0710zRZWKpBvBGnsoQT1kuuvk3fKXce6aF1UY6LK85JzpqNzJZqLip6RQik3
+FwjdSKJGO6WxfZVDh+UXiHLb4jvIbQAI20jceouYL9GWjwvPwV4qZB6MpfV64feOOo9J3AeJ52u+
+GQH3FxXigJ/V+y8RaxOnh2JrC48xFiHKheRYOBajAvRzZLOlN608QieYaXPUJXhyisC+Unq19x5h
+5kg=
+=TEeu
+-----END PGP SIGNATURE-----
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--------------jBRvdn6zZHzZuPCu00N3oD6J--
