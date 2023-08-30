@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34FE78D681
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DBA78D682
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5E110E532;
-	Wed, 30 Aug 2023 14:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9381E10E533;
+	Wed, 30 Aug 2023 14:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1ADD10E532
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:28 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="178194102"
+ by gabe.freedesktop.org (Postfix) with ESMTP id E4EDF10E533
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="178194107"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:27 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:34 +0900
 Received: from localhost.localdomain (unknown [10.226.92.150])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5805F42170F5;
- Wed, 30 Aug 2023 23:24:21 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2ED6142170F5;
+ Wed, 30 Aug 2023 23:24:27 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 3/8] drm: adv7511: Add max_lane_freq_khz variable to struct
- adv7511_chip_info
-Date: Wed, 30 Aug 2023 15:23:53 +0100
-Message-Id: <20230830142358.275459-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 4/8] drm: adv7511: Add supply_names and num_supplies
+ variables to struct adv7511_chip_info
+Date: Wed, 30 Aug 2023 15:23:54 +0100
+Message-Id: <20230830142358.275459-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
 References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
@@ -58,78 +58,116 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADV7533 supports a maximum lane clock of 800MHz whereas it is 891MHz
-for ADV7535. Add max_lane_freq_khz variable to struct adv7511_chip_info to
+The ADV7511 has 5 power supplies compared to 7 that of ADV75{33,35}. Add
+supply_names and num_supplies variables to struct adv7511_chip_info to
 handle this difference.
-
-While at it, drop the unused local variable max_lane_freq.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v1->v2:
  * Added Rb tag from Laurent.
- * Replaced max_lane_freq->max_lane_freq_khz in struct adv7511_chip_info.
- * Replaced variable type from unsigned long->unsigned int.
+ * Added trailing commas for num_supplies in adv753{3,5}_chip_info.
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 ++
- drivers/gpu/drm/bridge/adv7511/adv7533.c     | 5 +----
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 27 ++++++++++----------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index b9c6c1e8a353..f8d61f2fa30e 100644
+index f8d61f2fa30e..edf7be9c21d3 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -336,6 +336,7 @@ enum adv7511_type {
- struct adv7511_chip_info {
+@@ -337,6 +337,8 @@ struct adv7511_chip_info {
  	enum adv7511_type type;
  	unsigned int max_mode_clock_khz;
-+	unsigned int max_lane_freq_khz;
+ 	unsigned int max_lane_freq_khz;
++	const char * const *supply_names;
++	unsigned int num_supplies;
  };
  
  struct adv7511 {
+@@ -375,7 +377,6 @@ struct adv7511 {
+ 	struct gpio_desc *gpio_pd;
+ 
+ 	struct regulator_bulk_data *supplies;
+-	unsigned int num_supplies;
+ 
+ 	/* ADV7533 DSI RX related params */
+ 	struct device_node *host_node;
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 12ceffd6a9eb..1c76aa5a5d5b 100644
+index 1c76aa5a5d5b..2bcd17953221 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1370,11 +1370,13 @@ static const struct adv7511_chip_info adv7511_chip_info = {
+@@ -1004,37 +1004,30 @@ static const char * const adv7533_supply_names[] = {
+ 
+ static int adv7511_init_regulators(struct adv7511 *adv)
+ {
++	const char * const *supply_names = adv->info->supply_names;
++	unsigned int num_supplies = adv->info->num_supplies;
+ 	struct device *dev = &adv->i2c_main->dev;
+-	const char * const *supply_names;
+ 	unsigned int i;
+ 	int ret;
+ 
+-	if (adv->info->type == ADV7511) {
+-		supply_names = adv7511_supply_names;
+-		adv->num_supplies = ARRAY_SIZE(adv7511_supply_names);
+-	} else {
+-		supply_names = adv7533_supply_names;
+-		adv->num_supplies = ARRAY_SIZE(adv7533_supply_names);
+-	}
+-
+-	adv->supplies = devm_kcalloc(dev, adv->num_supplies,
++	adv->supplies = devm_kcalloc(dev, num_supplies,
+ 				     sizeof(*adv->supplies), GFP_KERNEL);
+ 	if (!adv->supplies)
+ 		return -ENOMEM;
+ 
+-	for (i = 0; i < adv->num_supplies; i++)
++	for (i = 0; i < num_supplies; i++)
+ 		adv->supplies[i].supply = supply_names[i];
+ 
+-	ret = devm_regulator_bulk_get(dev, adv->num_supplies, adv->supplies);
++	ret = devm_regulator_bulk_get(dev, num_supplies, adv->supplies);
+ 	if (ret)
+ 		return ret;
+ 
+-	return regulator_bulk_enable(adv->num_supplies, adv->supplies);
++	return regulator_bulk_enable(num_supplies, adv->supplies);
+ }
+ 
+ static void adv7511_uninit_regulators(struct adv7511 *adv)
+ {
+-	regulator_bulk_disable(adv->num_supplies, adv->supplies);
++	regulator_bulk_disable(adv->info->num_supplies, adv->supplies);
+ }
+ 
+ static bool adv7511_cec_register_volatile(struct device *dev, unsigned int reg)
+@@ -1365,18 +1358,24 @@ static void adv7511_remove(struct i2c_client *i2c)
+ 
+ static const struct adv7511_chip_info adv7511_chip_info = {
+ 	.type = ADV7511,
++	.supply_names = adv7511_supply_names,
++	.num_supplies = ARRAY_SIZE(adv7511_supply_names),
+ };
+ 
  static const struct adv7511_chip_info adv7533_chip_info = {
  	.type = ADV7533,
  	.max_mode_clock_khz = 80000,
-+	.max_lane_freq_khz = 800000,
+ 	.max_lane_freq_khz = 800000,
++	.supply_names = adv7533_supply_names,
++	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
  };
  
  static const struct adv7511_chip_info adv7535_chip_info = {
  	.type = ADV7535,
  	.max_mode_clock_khz = 148500,
-+	.max_lane_freq_khz = 891000,
+ 	.max_lane_freq_khz = 891000,
++	.supply_names = adv7533_supply_names,
++	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
  };
  
  static const struct i2c_device_id adv7511_i2c_ids[] = {
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index 1d113489754c..4481489aaf5e 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -103,7 +103,6 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
- enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
- 					const struct drm_display_mode *mode)
- {
--	unsigned long max_lane_freq;
- 	struct mipi_dsi_device *dsi = adv->dsi;
- 	u8 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
- 
-@@ -112,9 +111,7 @@ enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
- 		return MODE_CLOCK_HIGH;
- 
- 	/* Check max clock for each lane */
--	max_lane_freq = (adv->info->type == ADV7533 ? 800000 : 891000);
--
--	if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
-+	if (mode->clock * bpp > adv->info->max_lane_freq_khz * adv->num_dsi_lanes)
- 		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
 -- 
 2.25.1
 
