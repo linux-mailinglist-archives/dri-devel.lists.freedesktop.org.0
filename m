@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9393678D648
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B6478D649
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E8710E14F;
-	Wed, 30 Aug 2023 13:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A1210E51F;
+	Wed, 30 Aug 2023 13:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF1610E144
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:46:25 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A443F10E51F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693403184;
+ s=mimecast20190719; t=1693403189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PzqfQ88022ZJBnlN9XJGH4Rch2pPLUTbjECBn8E9VEk=;
- b=DN1Tqt3clHoxo73R7PnSFAqo34lXpu9aMaVFTHaXY+k8j/7veF9a9AoZ7DRb76NbhZ6lMe
- 3qJ8eetD6X5J52uXnz2OtdzJLmi3D7Qc8aQ7W8+ykB3RN5zkrHyA8aYY4Z1HGTvF7iw5D7
- /2lMY1nmDC4Z0S9lnxE60m1ksFaBv6s=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YTYt2BSQEZut8ffX05oFQAoT2Tz1O17bKncsR4XeBIs=;
+ b=BfS0DuiV8z5gwUJjXvvmr7wSZZ9lI5xfyijCCeVaHwT+acQmf8bwBfG9bAhOqBmHhNvNUH
+ zxe9/WIYiPwxfHU4dRBWVoYjzUwPm7jOyFmmv5Mx1QLmVT+HyMF15wtsIIX22YGO9zGha/
+ nx6eNSaUHnAfAWJC/f5HSFP81lmKtI4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-471-ofndmMzUP6uDSlOl21nI7Q-1; Wed, 30 Aug 2023 09:46:23 -0400
-X-MC-Unique: ofndmMzUP6uDSlOl21nI7Q-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2b6fdb8d0acso19451831fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 06:46:22 -0700 (PDT)
+ us-mta-208-NSx-lp4rO_WoxIc1S4JtEw-1; Wed, 30 Aug 2023 09:46:26 -0400
+X-MC-Unique: NSx-lp4rO_WoxIc1S4JtEw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-9a5c5f0364dso53522866b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 06:46:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693403181; x=1694007981;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PzqfQ88022ZJBnlN9XJGH4Rch2pPLUTbjECBn8E9VEk=;
- b=W9lcrhXDvR+hHX3kx09AgTPPe4RPnsl6djF+YHJXZ7cmi8oB156KF1UfyzxfrX88xo
- PAhN8e47WqoaWmmEbge+Kj94mRf7WRjB/4a11WtO2eUnnl7D6lcb+zYihTrwaxTz6fhU
- O2+61da/31d2LsXlQPAMA4p5PNfbVuU0nYpfwcOoJlEnS+C1hECLcor4MlDUtcN6UelP
- f/FhOcWZoCMlr9Z6juYjK174DtHzGq+3tczJnSKVNUiPq219VOo96FLZr+EIDHqcr7v+
- 19w8l9fcw9QfKrBbz6a/cXGaidg6MnSq6cDEKNL/SsAzSSs1xvC/WVBOW2tuE3TF50Xu
- gjoQ==
-X-Gm-Message-State: AOJu0YzB58A7HYbARm92wR+j9Oinl4VNN/tIe7g6CPq5ggtPVHGzOyVf
- TuxsyEL1B0+jAvEFYZK5lUKUR2mrzM2dMgOImgA/cZkXqawRPLqzU1u5lcWD992+wFyXbbqJYfG
- hefLmUv+hiqpUrt6lXtwUkzYUowBa
-X-Received: by 2002:a05:651c:201b:b0:2bb:8d47:9d95 with SMTP id
- s27-20020a05651c201b00b002bb8d479d95mr1564048ljo.2.1693403181696; 
- Wed, 30 Aug 2023 06:46:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFj7gH1IKBMS0NWbE4Xd4vUNDX4WI+F2xE2mn0UylTciMqkBXPKro8KLHlIW5rak33HRcstNQ==
-X-Received: by 2002:a05:651c:201b:b0:2bb:8d47:9d95 with SMTP id
- s27-20020a05651c201b00b002bb8d479d95mr1564026ljo.2.1693403181300; 
- Wed, 30 Aug 2023 06:46:21 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693403185; x=1694007985;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YTYt2BSQEZut8ffX05oFQAoT2Tz1O17bKncsR4XeBIs=;
+ b=Z+Y2oUXwtlCiKwZ/kUOVAWs53DmzQ2iCY1QLNoEll9Q6ff1TKBeAqm1NsfdIhqVsmm
+ XC00OEkrcMBS1rFsMMlJ3kseaQ09BFoYV7E+8q1dMMIftKRZBH4Ytmns0pv9qW27mVnw
+ ztIZ6Xd/Uadhy4VonTEnUH6wDbFDrMHTZeG2fz0dv23MehmoehoI4+Xh0RB7pVX00WFZ
+ Cm5mvs6VOpahAH1bV8C2SQyfGZCGROYa6Sv8NvgXFEojPTcQPUqw9m6Z1yOpNiM1LXW3
+ +bH+E1X+lbMm/kE+AwtdCwJtdD4HdD7PK6iERhc/cngw6GW4i1/u+fKyH22nX6myQVeu
+ Cz1A==
+X-Gm-Message-State: AOJu0YzYv4F1OgucE/s3tk87Cv5DXcjOjIMysrUHxcJ3z2hnMcjXZHwU
+ w0t7WEqc6hXkQ0oc99v2BXKzdkKm4eh84ew+ju9p8fy1MY+eH+MGGPYoY7xbH7RLB4uZEA2dXMC
+ mznVi7BiuY5z3X4mwmhvF2pTbMv3IC0klt9GS+gI=
+X-Received: by 2002:a17:906:74cb:b0:9a1:eb67:c0d3 with SMTP id
+ z11-20020a17090674cb00b009a1eb67c0d3mr1497346ejl.4.1693403185527; 
+ Wed, 30 Aug 2023 06:46:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFs3XWD3GCd0nxchFLVqW0usUrIz+VOttxkboYOB/XHHWAwTxGY9Rlu6B7+6AhH9DbE4wdw7w==
+X-Received: by 2002:a17:906:74cb:b0:9a1:eb67:c0d3 with SMTP id
+ z11-20020a17090674cb00b009a1eb67c0d3mr1497324ejl.4.1693403185198; 
+ Wed, 30 Aug 2023 06:46:25 -0700 (PDT)
 Received: from fedorinator.fritz.box ([2001:9e8:32e4:1500:aa40:e745:b6c9:7081])
  by smtp.gmail.com with ESMTPSA id
- t26-20020a1709063e5a00b009829dc0f2a0sm7174346eji.111.2023.08.30.06.46.20
+ t26-20020a1709063e5a00b009829dc0f2a0sm7174419eji.111.2023.08.30.06.46.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Aug 2023 06:46:20 -0700 (PDT)
+ Wed, 30 Aug 2023 06:46:24 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Eric Biederman <ebiederm@xmission.com>,
@@ -67,10 +68,12 @@ To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH 0/5] Introduce new wrappers to copy user-arrays
-Date: Wed, 30 Aug 2023 15:45:51 +0200
-Message-ID: <cover.1693386602.git.pstanner@redhat.com>
+Subject: [PATCH 1/5] string.h: add array-wrappers for (v)memdup_user()
+Date: Wed, 30 Aug 2023 15:45:52 +0200
+Message-ID: <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <cover.1693386602.git.pstanner@redhat.com>
+References: <cover.1693386602.git.pstanner@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,42 +94,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Philipp Stanner <pstanner@redhat.com>, kexec@lists.infradead.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- linux-hardening@vger.kernel.org
+ linux-hardening@vger.kernel.org, David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
+Currently, user array duplications are sometimes done without an
+overflow check. Sometimes the checks are done manually; sometimes the
+array size is calculated with array_size() and sometimes by calculating
+n * size directly in code.
 
-David Airlie suggested that we could implement new wrappers around
-(v)memdup_user() for duplicating user arrays.
+Introduce wrappers for arrays for memdup_user() and vmemdup_user() to
+provide a standardized and safe way for duplicating user arrays.
 
-This small patch series first implements the two new wrapper functions
-memdup_array_user() and vmemdup_array_user(). They calculate the
-array-sizes safely, i.e., they return an error in case of an overflow.
+This is both for new code as well as replacing usage of (v)memdup_user()
+in existing code that uses, e.g., n * size to calculate array sizes.
 
-It then implements the new wrappers in two components in kernel/ and two
-in the drm-subsystem.
+Suggested-by: David Airlie <airlied@redhat.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ include/linux/string.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-In total, there are 18 files in the kernel that use (v)memdup_user() to
-duplicate arrays. My plan is to provide patches for the other 14
-successively once this series has been merged.
-
-P.
-
-Philipp Stanner (5):
-  string.h: add array-wrappers for (v)memdup_user()
-  kernel: kexec: copy user-array safely
-  kernel: watch_queue: copy user-array safely
-  drm_lease.c: copy user-array safely
-  drm: vmgfx_surface.c: copy user-array safely
-
- drivers/gpu/drm/drm_lease.c             |  4 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |  4 +--
- include/linux/string.h                  | 42 +++++++++++++++++++++++++
- kernel/kexec.c                          |  2 +-
- kernel/watch_queue.c                    |  2 +-
- 5 files changed, 48 insertions(+), 6 deletions(-)
-
+diff --git a/include/linux/string.h b/include/linux/string.h
+index dbfc66400050..0e8e7a40bae7 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -6,6 +6,8 @@
+ #include <linux/types.h>	/* for size_t */
+ #include <linux/stddef.h>	/* for NULL */
+ #include <linux/errno.h>	/* for E2BIG */
++#include <linux/overflow.h>	/* for check_mul_overflow() */
++#include <linux/err.h>		/* for ERR_PTR() */
+ #include <linux/stdarg.h>
+ #include <uapi/linux/string.h>
+ 
+@@ -14,6 +16,46 @@ extern void *memdup_user(const void __user *, size_t);
+ extern void *vmemdup_user(const void __user *, size_t);
+ extern void *memdup_user_nul(const void __user *, size_t);
+ 
++/**
++ * memdup_array_user - duplicate array from user space
++ *
++ * @src: source address in user space
++ * @n: number of array members to copy
++ * @size: size of one array member
++ *
++ * Return: an ERR_PTR() on failure.  Result is physically
++ * contiguous, to be freed by kfree().
++ */
++static inline void *memdup_array_user(const void __user *src, size_t n, size_t size)
++{
++	size_t nbytes;
++
++	if (unlikely(check_mul_overflow(n, size, &nbytes)))
++		return ERR_PTR(-EINVAL);
++
++	return memdup_user(src, nbytes);
++}
++
++/**
++ * vmemdup_array_user - duplicate array from user space
++ *
++ * @src: source address in user space
++ * @n: number of array members to copy
++ * @size: size of one array member
++ *
++ * Return: an ERR_PTR() on failure.  Result may be not
++ * physically contiguous.  Use kvfree() to free.
++ */
++static inline void *vmemdup_array_user(const void __user *src, size_t n, size_t size)
++{
++	size_t nbytes;
++
++	if (unlikely(check_mul_overflow(n, size, &nbytes)))
++		return ERR_PTR(-EINVAL);
++
++	return vmemdup_user(src, nbytes);
++}
++
+ /*
+  * Include machine specific inline routines
+  */
 -- 
 2.41.0
 
