@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85DF78D614
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:18:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D878D619
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 024DC10E13F;
-	Wed, 30 Aug 2023 13:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A64410E137;
+	Wed, 30 Aug 2023 13:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3C50C10E13F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:17:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDF062F4;
- Wed, 30 Aug 2023 06:18:36 -0700 (PDT)
-Received: from [10.57.92.7] (unknown [10.57.92.7])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F187E3F738;
- Wed, 30 Aug 2023 06:17:53 -0700 (PDT)
-Message-ID: <1a556763-dc7e-e20b-071c-cc379b7c6f8d@arm.com>
-Date: Wed, 30 Aug 2023 14:17:57 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA6C10E137
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:25:04 +0000 (UTC)
+Received: from [192.168.68.123] (unknown [177.134.102.128])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 36740660722B;
+ Wed, 30 Aug 2023 14:24:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693401903;
+ bh=G/DHKFUG7s0qMAoyav81I+mbhLCoFwsZk7/P9oL6Tkg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eE5ohWBLy6eMUr8erFWuKbia8CRNxVUorscR+ubvEICkLpG53tedgk83frCQ+ekwT
+ rRZXOPhonx8dZ0R3nhDaH5PyrfAVJqY3zbgXI/34LITcqHgj4tkT8k+FaDEAdnY8PQ
+ 18ebb8g0aCiinTB3Xixb9FHoe8VPfnbKBXp5YXySHK2UuVE/LFLJ0KIJoKa8sH3Nae
+ Y5Fw5mfYfncBZxgoIWp/AiiqHfNFwH3n0dtcQtX3i1c0mhiwc9amSfzTXus7/TPRKv
+ 4SBJ8ovIxii+kDnpBI0cmJzi65sPSNDzxnnTWWV0x4dvLv5z6M0mdw9a1VRbthFpoM
+ 73ERVurapcECw==
+Message-ID: <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+Date: Wed, 30 Aug 2023 10:24:49 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2 04/15] drm/panthor: Add the device logical block
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-5-boris.brezillon@collabora.com>
- <73cbc1ea-5e2e-b201-b717-4ceef37e490d@arm.com>
- <20230829160035.1992834b@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230829160035.1992834b@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
+ <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,781 +59,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: emma@anholt.net, linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
+ dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io, jbrunet@baylibre.com,
+ robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
+ sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+ linux-rockchip@lists.infradead.org, daniels@collabora.com,
+ martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+ anholt@google.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/08/2023 15:00, Boris Brezillon wrote:
-> On Fri, 11 Aug 2023 16:47:56 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 09/08/2023 17:53, Boris Brezillon wrote:
->>> The panthor driver is designed in a modular way, where each logical
->>> block is dealing with a specific HW-block or software feature. In order
->>> for those blocks to communicate with each other, we need a central
->>> panthor_device collecting all the blocks, and exposing some common
->>> features, like interrupt handling, power management, reset, ...
+Hi all,
+
+Thanks for you comments.
+
+On 30/08/2023 08:37, Maxime Ripard wrote:
+> On Wed, Aug 30, 2023 at 01:58:31PM +0300, Jani Nikula wrote:
+>> On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>>> On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
+>>>> On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
+>>>>> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>>
+>>>>> Developers can easily execute several tests on different devices
+>>>>> by just pushing their branch to their fork in a repository hosted
+>>>>> on gitlab.freedesktop.org which has an infrastructure to run jobs
+>>>>> in several runners and farms with different devices.
+>>>>>
+>>>>> There are also other automated tools that uprev dependencies,
+>>>>> monitor the infra, and so on that are already used by the Mesa
+>>>>> project, and we can reuse them too.
+>>>>>
+>>>>> Also, store expectations about what the DRM drivers are supposed
+>>>>> to pass in the IGT test suite. By storing the test expectations
+>>>>> along with the code, we can make sure both stay in sync with each
+>>>>> other so we can know when a code change breaks those expectations.
+>>>>>
+>>>>> Also, include a configuration file that points to the out-of-tree
+>>>>> CI scripts.
+>>>>>
+>>>>> This will allow all contributors to drm to reuse the infrastructure
+>>>>> already in gitlab.freedesktop.org to test the driver on several
+>>>>> generations of the hardware.
+>>>>>
+>>>>> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>>>> Acked-by: Daniel Stone <daniels@collabora.com>
+>>>>> Acked-by: Rob Clark <robdclark@gmail.com>
+>>>>> Tested-by: Rob Clark <robdclark@gmail.com>
+>>>>
+>>>> Ok I pushed this into a topic/drm-ci branch in drm.git and asked sfr to
+>>>> include that branch in linux-next.
+>>>>
+>>>> But also I'd like to see a lot more acks here, we should be able to at
+>>>> least pile up a bunch of (driver) maintainers from drm-misc in support of
+>>>> this. Also maybe media, at least I've heard noises that they're maybe
+>>>> interested too? Plus anyone else, the more the better.
 >>>
->>> This what this panthor_device logical block is about.
+>>> I'm not really convinced by that approach at all, and most of the issues
+>>> I see are shown by the follow-up series here:
+>>
+>> I'm not fully convinced either, more like "let's see". In that narrow
+>> sense, ack. I don't see harm in trying, if you're also open to backing
+>> off in case it does not pan out.
+>>
+>>> https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.raman@collabora.com/
 >>>
->>> v2:
->>> - Rename the driver (pancsf -> panthor)
->>> - Change the license (GPL2 -> MIT + GPL2)
->>> - Split the driver addition commit
->>> - Add devfreq/PM support
->>> - Use drm_dev_{unplug,enter,exit}() to provide safe device removal
+>>>    * We hardcode a CI farm setup into the kernel
+
+
+These could be out of tree.
+
+There is a version outside the kernel tree where you just point the CI
+configuration to a url:
+https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/merge_requests/1
+
+We were discussing it here 
+https://www.linuxtv.org/cgi-bin/mailman/private/linuxtv-ci/2023-August/000027.html
+
+(I guess Sima's reply didn't got into the mailing list) but the argument 
+of not having out of tree repo is due to historical bad experience of 
+having to sync the kernel with the code and it can become messy.
+
+
 >>>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> ---
->>>  drivers/gpu/drm/panthor/panthor_device.c | 479 +++++++++++++++++++++++
->>>  drivers/gpu/drm/panthor/panthor_device.h | 354 +++++++++++++++++
->>>  2 files changed, 833 insertions(+)
->>>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
->>>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+>>>    * We cannot trust that the code being run is actually the one being
+>>>      pushed into gitlab
+
+
+We can improve this if this is a requirement.
+For DTS configuration we can work with overlays (which is the current 
+modification on that patchset). For other changes that are not suitable 
+to upstream (and should be rare) we can see if we work with the 
+`-external-fixes` approach or another approach, we can check it case by 
+case to understand why it is not suitable for upstream.
+
+
 >>>
->>> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
->>> new file mode 100644
->>> index 000000000000..15f102116fa0
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/panthor/panthor_device.c
->>> @@ -0,0 +1,479 @@
->>> +// SPDX-License-Identifier: GPL-2.0 or MIT
->>> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
->>> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->>> +/* Copyright 2023 Collabora ltd. */
->>> +
->>> +#include <linux/clk.h>
->>> +#include <linux/reset.h>
->>> +#include <linux/platform_device.h>
->>> +#include <linux/pm_domain.h>
->>> +#include <linux/pm_runtime.h>
->>> +#include <linux/regulator/consumer.h>
->>> +
->>> +#include <drm/drm_drv.h>
->>> +#include <drm/drm_managed.h>
->>> +
->>> +#include "panthor_sched.h"
->>> +#include "panthor_device.h"
->>> +#include "panthor_devfreq.h"
->>> +#include "panthor_gpu.h"
->>> +#include "panthor_fw.h"
->>> +#include "panthor_mmu.h"
->>> +#include "panthor_regs.h"
->>> +
->>> +static int panthor_clk_init(struct panthor_device *ptdev)
->>> +{
->>> +	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
->>> +	if (IS_ERR(ptdev->clks.core)) {
->>> +		drm_err(&ptdev->base, "get 'core' clock failed %ld\n",
->>> +			PTR_ERR(ptdev->clks.core));  
+>>>    * IMO, and I know we disagree here, any IGT test we enable for a given
+>>>      platform should work, period. Allowing failures and flaky tests just
+>>>      sweeps whatever issue is there under the rug. If the test is at
+>>>      fault, we should fix the test, if the driver / kernel is at fault,
+>>>      then I certainly want to know about it.
+
+
+I believe we need a baseline and understand the current status of tests. 
+If you check the xfails folder in the patch you can see that I had to 
+add a few tests on *-skips.txt since those tests crashes the system and 
+other on *-fails.txt that are consistently not passing.
+
+Since the "any IGT test we enable for a given platform should work" is 
+not a reality atm, we need to have a clear view about which tests are 
+not corresponding to it, so we can start fixing. First we need to be 
+aware of the issues so we can start fixing them, otherwise we will stay 
+in the "no tests no failures" ground :)
+
+
 >>
->> I suspect it would be a good idea to use dev_err_probe() here (and
->> below) as I believe devm_clk_get can return -EPROBE_DEFER.
+>> At least for display, where this also depends on peripheral hardware,
+>> it's not an easy problem, really.
 > 
-> Nice, didn't know there was a logging function that was silencing
-> probe-defer errors.
+> Aside from the Chamelium tests, which tests actually rely on peripheral
+> hardware? On EDID and hotplug, sure, but that can easily be set up from
+> the userspace, or something like
 > 
->>
->>> +		return PTR_ERR(ptdev->clks.core);
->>> +	}
->>> +
->>> +	ptdev->clks.stacks = devm_clk_get_optional(ptdev->base.dev, "stacks");
->>> +	if (IS_ERR(ptdev->clks.stacks)) {
->>> +		drm_err(&ptdev->base, "get 'stacks' clock failed %ld\n",
->>> +			PTR_ERR(ptdev->clks.stacks));
->>> +		return PTR_ERR(ptdev->clks.stacks);
->>> +	}
->>> +
->>> +	ptdev->clks.coregroup = devm_clk_get_optional(ptdev->base.dev, "coregroup");
->>> +	if (IS_ERR(ptdev->clks.coregroup)) {
->>> +		drm_err(&ptdev->base, "get 'coregroup' clock failed %ld\n",
->>> +			PTR_ERR(ptdev->clks.coregroup));
->>> +		return PTR_ERR(ptdev->clks.coregroup);
->>> +	}
->>> +
->>> +	drm_info(&ptdev->base, "clock rate = %lu\n", clk_get_rate(ptdev->clks.core));
->>> +	return 0;
->>> +}
->>> +
->>> +void panthor_device_unplug(struct panthor_device *ptdev)
->>> +{
->>> +	/* FIXME: This is racy. */  
->>
->> Can we fix this? From a quick look it seems like a sequence like below
->> should avoid the race.
->>
->> 	if (!drm_dev_enter())
->> 		/* Already unplugged */
->> 		return;
->> 	ptdev->base.unplugged = true;
->> 	drm_dev_exit();
->>
->> Although possibly that should be in the DRM core rather than open-coded
->> here.
+> https://www.lindy-international.com/HDMI-2-0-EDID-Emulator.htm?websale8=ld0101.ld021102&pi=32115
 > 
-> Are you sure that's protecting us against two concurrent calls to
-> drm_dev_unplug() (drm_dev_enter() is taking a read-lock)?
-
-Well now I'm not sure ;) This was based on the implementations of
-drm_dev_is_unplugged() and drm_dev_unplug(). drm_dev_is_unplugged()
-simply tries to enter then exit. drm_dev_unplug() sets dev->unplugged
-(without first taking any locks). So my naïve combination resulted in
-the above.
-
-The part I was missing is the synchronize_srcu() call in
-drm_dev_unplug() is what matches up with the read lock in drm_dev_enter().
-
-> And that's not
-> the only thing I need actually. If there are 2 threads entering
-> panthor_device_unplug(), I need to make sure the one who losts (arrived
-> after unplugged was set to false) is waiting for all operations after
-> the drm_dev_unplug() call to be done, otherwise we might return from
-> platform_driver->remove() before the unplug cleanups are done, and
-> there might still be threads/workqueues accessing device resources
-> while/after they get released by the device-model.
-
-I can't figure out how to do this other than adding a new atomic status
-bit into panthor. So something like:
-
-	if (!drm_dev_enter())
-		/* Already unplugged */
-		return;
-
-	if (atomic_cmpxchg(&unplugging, false, true)) {
-		/* Racing with another thread */
-		drm_dev_exit();
-		/* Wait for other threads to exit */
-		synchronize_srcu(&drm_unplug_srcu);
-		return;
-	}
-
-	panthor_xxx_unplug()
-
-	drm_dev_exit();
-
-Or at least I think that might work. The need to synchronize with
-drm_unplug_srcu means this really needs a new helper in drm_drv.c.
-
->>
->>> +	if (drm_dev_is_unplugged(&ptdev->base))
->>> +		return;
->>> +
->>> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
->>> +
->>> +	/* Call drm_dev_unplug() so any access to HW block happening after
->>> +	 * that point get rejected.
->>> +	 */
->>> +	drm_dev_unplug(&ptdev->base);
->>> +
->>> +	/* Now, try to cleanly shutdown the GPU before the device resources
->>> +	 * get reclaimed.
->>> +	 */
->>> +	panthor_sched_unplug(ptdev);
->>> +	panthor_fw_unplug(ptdev);
->>> +	panthor_mmu_unplug(ptdev);
->>> +	panthor_gpu_unplug(ptdev);
->>> +
->>> +	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
->>> +	pm_runtime_put_sync_suspend(ptdev->base.dev);
->>> +}
->>> +
->>> +static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
->>> +{
->>> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
->>> +
->>> +	cancel_work_sync(&ptdev->reset.work);
->>> +	destroy_workqueue(ptdev->reset.wq);
->>> +}
->>> +
->>> +static void panthor_device_reset_work(struct work_struct *work)
->>> +{
->>> +	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
->>> +	int ret, cookie;
->>> +
->>> +	if (!drm_dev_enter(&ptdev->base, &cookie))
->>> +		return;
->>> +
->>> +	panthor_sched_pre_reset(ptdev);
->>> +	panthor_fw_pre_reset(ptdev, true);
->>> +	panthor_mmu_pre_reset(ptdev);
->>> +	panthor_gpu_soft_reset(ptdev);
->>> +	panthor_gpu_l2_power_on(ptdev);
->>> +	panthor_mmu_post_reset(ptdev);
->>> +	ret = panthor_fw_post_reset(ptdev);
->>> +	if (ret)
->>> +		goto out;
->>> +
->>> +	atomic_set(&ptdev->reset.pending, 0);
->>> +	panthor_sched_post_reset(ptdev);
->>> +	drm_dev_exit(cookie);
->>> +
->>> +out:
->>> +	if (ret) {  
->>
->> This looks like a race condition too - is there a need for a
->> drm_dev_exit_and_unplug() function?
+>> How reliable do you need it to be? How many nines? Who is going to
+>> debug the issues that need hundreds or thousands of runs to reproduce?
+>> If a commit makes some test less reliable, how long is it going to
+>> take to even see that or pinpoint that?
 > 
-> drm_dev_exit() is just releasing the read-lock. drm_dev_unplug()
-> waits for all readers to be done and sets the unplugged value to true.
-> So we only get readers/writer synchronization here, but nothing doing
-> writer/writer sync. I guess the drm core leaves that to drivers, given
-> drm_dev_unplug() is usually called from xxx_driver->remove() hook, on
-> which serialization is guaranteed by the device-model.
+> I mean, that's also true for failures or success then. How many times do
+> you need a test to run properly to qualify it as a meaningful test? How
+> do you know that it's not a flaky test?
 > 
-> TLDR; yes, it's racy, but I don't think drm_dev_exit_and_unplug() would
-> help solve the existing race.
-
-Yeah, I hadn't really thought through the reader/writer locks.
-
-> It's worth noting that we currently have only 2 paths calling
-> panthor_device_unplug(): the platform_driver->remove() hook and the
-> reset worker. Calling drm_dev_unplug() might not be the right thing to
-> do, I just thought it was a good match to reflect the fact the device
-> becomes inaccessible, without adding yet another kind of device-lost
-> field.
-
-I quite liked the unplugged approach, it hides the complexities of the
-GPU breaking nicely.
-
-However I do think this path needs fixing in some way, because of the
-"goto out" we end up calling panthor_device_unplug() while in the
-drm_dev_enter() section. Which, unless I'm mistaken, means
-panthor_device_unplug() will call drm_dev_unplug() in that section -
-which should produce a lockdep warning at the very least, if not an
-actual deadlock.
-
-Given it's only a read lock - I think simply moving drm_dev_exit() below
-the "out:" label fixes the deadlock without making any races worse.
-Whether the race here actually matters I'm not sure.
-
->>
->>> +		panthor_device_unplug(ptdev);
->>> +		drm_err(&ptdev->base, "Failed to boot MCU after reset, making device unusable.");
->>> +	}
->>> +}
->>> +
->>> +static bool panthor_device_is_initialized(struct panthor_device *ptdev)
->>> +{
->>> +	return !!ptdev->scheduler;
->>> +}
->>> +
->>> +static void panthor_device_free_page(struct drm_device *ddev, void *data)
->>> +{
->>> +	free_page((unsigned long)data);
->>> +}
->>> +
->>> +int panthor_device_init(struct panthor_device *ptdev)
->>> +{
->>> +	struct resource *res;
->>> +	struct page *p;
->>> +	int ret;
->>> +
->>> +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
->>> +
->>> +	drmm_mutex_init(&ptdev->base, &ptdev->pm.lock);
->>> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
->>> +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
->>> +	if (!p)
->>> +		return -ENOMEM;
->>> +
->>> +	ptdev->pm.dummy_latest_flush = page_address(p);
->>> +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
->>> +				       ptdev->pm.dummy_latest_flush);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	/* Set the dummy page to the default LATEST_FLUSH value. This
->>> +	 * will be updated on the next suspend.
->>> +	 */
->>> +	*ptdev->pm.dummy_latest_flush = CSF_GPU_LATEST_FLUSH_ID_DEFAULT;  
->>
->> I see why this register default value was defined. Although I'm not sure
->> it has any benefit over just using zero... If the GPU is off when user
->> space reads the FLUSH_ID then the GPU's caches are definitely empty so
->> any flush ID is valid.
+> Ultimately, it's about trust. If, for a given test that just failed, I
+> can't be certain that it's because of the branch I just submitted, I
+> will just ignore the tests results after a while.
 > 
-> Zero means we'll force a cache flush for all CS that were created while
-> the device was suspended, that's not ideal.
+> This is already what plagues kernelci, and we should do better.
+
+
+This is something that is really nice on Mesa3D, a patch only gets 
+merged if tests passes, which forces people to not ignore it, which 
+forces the code to be fixed and the CI to be constantly maintained.
+
+Of course there are bad days there, but there is real value. Nice thread 
+to check: https://gitlab.freedesktop.org/mesa/mesa/-/issues/8635 (thanks 
+Alyssa for the feedback).
+
+
 > 
->>
->> Interestingly looking at kbase it seems to use an initial value of 1
->> (POWER_DOWN_LATEST_FLUSH_VALUE). I guess zero is less ideal because
->> FLUSH_CACHE2 would then unconditionally do a flush.
+> And I'm sorry, but if some part of the kernel or driver just isn't
+> reliable, then we shouldn't claim it is (except for all the times it
+> isn't). If no-one has the time to look into it, fine, but flagging it
+> under a flaky test doesn't help anyone.
+
+
+At least we would know what is there that isn't reliable.
+We could also define policies like: failing one out of 10 is fine. And 
+we can have scripts that do a stress test and report back.
+It is really nice for users to know this kind of status of drivers.
+
+
+Thanks for your feedback, please keep them coming :)
+
+Regards,
+Helen
+
+
 > 
-> I guess a value of 1 would work. It just means we'll get a spurious
-> flush if the CS is submitted after 32 flushes happened, on the other
-> hand we also a spurious flush on the first submitted CS when we use
-> POWER_DOWN_LATEST_FLUSH_VALUE. I'll switch to 1, drop the default def,
-> and update the comment accordingly.
-
-Yeah, matching kbase is almost certainly the safest approach ;) Sorry, I
-was reviewing the patches mostly in order and this looked really odd
-until I started digging into it. Zero is clearly not the ideal value,
-but the reset value is also just a weird value for hardware validation
-(it enables easier checking of the wrap condition). Since kbase picks 1,
-that must be a value which works well!
-
->>
->>> +
->>> +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
->>> +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
->>> +	if (!ptdev->reset.wq)
->>> +		return -ENOMEM;
->>> +
->>> +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = panthor_clk_init(ptdev);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = panthor_devfreq_init(ptdev);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
->>> +							      0, &res);
->>> +	if (IS_ERR(ptdev->iomem))
->>> +		return PTR_ERR(ptdev->iomem);
->>> +
->>> +	ptdev->phys_addr = res->start;
->>> +
->>> +	ret = devm_pm_runtime_enable(ptdev->base.dev);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = panthor_gpu_init(ptdev);
->>> +	if (ret)
->>> +		goto err_rpm_put;
->>> +
->>> +	ret = panthor_mmu_init(ptdev);
->>> +	if (ret)
->>> +		goto err_rpm_put;
->>> +
->>> +	ret = panthor_fw_init(ptdev);
->>> +	if (ret)
->>> +		goto err_rpm_put;
->>> +
->>> +	ret = panthor_sched_init(ptdev);
->>> +	if (ret)
->>> +		goto err_rpm_put;
->>> +
->>> +	/* ~3 frames */
->>> +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
->>> +	pm_runtime_use_autosuspend(ptdev->base.dev);
->>> +	pm_runtime_put_autosuspend(ptdev->base.dev);
->>> +	return 0;
->>> +
->>> +err_rpm_put:
->>> +	pm_runtime_put_sync_suspend(ptdev->base.dev);
->>> +	return ret;
->>> +}
->>> +
->>> +#define PANTHOR_EXCEPTION(id) \
->>> +	[DRM_PANTHOR_EXCEPTION_ ## id] = { \
->>> +		.name = #id, \
->>> +	}
->>> +
->>> +struct panthor_exception_info {
->>> +	const char *name;
->>> +};
->>> +
->>> +static const struct panthor_exception_info panthor_exception_infos[] = {
->>> +	PANTHOR_EXCEPTION(OK),
->>> +	PANTHOR_EXCEPTION(TERMINATED),
->>> +	PANTHOR_EXCEPTION(KABOOM),
->>> +	PANTHOR_EXCEPTION(EUREKA),
->>> +	PANTHOR_EXCEPTION(ACTIVE),
->>> +	PANTHOR_EXCEPTION(CS_RES_TERM),
->>> +	PANTHOR_EXCEPTION(CS_CONFIG_FAULT),
->>> +	PANTHOR_EXCEPTION(CS_ENDPOINT_FAULT),
->>> +	PANTHOR_EXCEPTION(CS_BUS_FAULT),
->>> +	PANTHOR_EXCEPTION(CS_INSTR_INVALID),
->>> +	PANTHOR_EXCEPTION(CS_CALL_STACK_OVERFLOW),
->>> +	PANTHOR_EXCEPTION(CS_INHERIT_FAULT),
->>> +	PANTHOR_EXCEPTION(INSTR_INVALID_PC),
->>> +	PANTHOR_EXCEPTION(INSTR_INVALID_ENC),
->>> +	PANTHOR_EXCEPTION(INSTR_BARRIER_FAULT),
->>> +	PANTHOR_EXCEPTION(DATA_INVALID_FAULT),
->>> +	PANTHOR_EXCEPTION(TILE_RANGE_FAULT),
->>> +	PANTHOR_EXCEPTION(ADDR_RANGE_FAULT),
->>> +	PANTHOR_EXCEPTION(IMPRECISE_FAULT),
->>> +	PANTHOR_EXCEPTION(OOM),
->>> +	PANTHOR_EXCEPTION(CSF_FW_INTERNAL_ERROR),
->>> +	PANTHOR_EXCEPTION(CSF_RES_EVICTION_TIMEOUT),
->>> +	PANTHOR_EXCEPTION(GPU_BUS_FAULT),
->>> +	PANTHOR_EXCEPTION(GPU_SHAREABILITY_FAULT),
->>> +	PANTHOR_EXCEPTION(SYS_SHAREABILITY_FAULT),
->>> +	PANTHOR_EXCEPTION(GPU_CACHEABILITY_FAULT),
->>> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_0),
->>> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_1),
->>> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_2),
->>> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_3),
->>> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_4),
->>> +	PANTHOR_EXCEPTION(PERM_FAULT_0),
->>> +	PANTHOR_EXCEPTION(PERM_FAULT_1),
->>> +	PANTHOR_EXCEPTION(PERM_FAULT_2),
->>> +	PANTHOR_EXCEPTION(PERM_FAULT_3),
->>> +	PANTHOR_EXCEPTION(ACCESS_FLAG_1),
->>> +	PANTHOR_EXCEPTION(ACCESS_FLAG_2),
->>> +	PANTHOR_EXCEPTION(ACCESS_FLAG_3),
->>> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_IN),
->>> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT0),
->>> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT1),
->>> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT2),
->>> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT3),
->>> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_0),
->>> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_1),
->>> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_2),
->>> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_3),
->>> +};
->>> +
->>> +const char *panthor_exception_name(struct panthor_device *ptdev, u32 exception_code)
->>> +{
->>> +	if (drm_WARN_ON(&ptdev->base,  
->>
->> I'm not convinced this should be a WARN_ON as I suspect it's probably
->> possible to inject values from user space (although I'm not completely
->> sure on that).
+> Like, from that patch, how can I know what is the issue with
+> kms_hdmi_inject@inject-4k or kms_addfb_basic@addfb25-bad-modifier on
+> mt8173. I certainly can't. And neither of those have anything to do with
+> peripheral hardware.
 > 
-> Normally no (it's something returned by the FW), unless userspace gets
-> access to the kernel <-> FW interface, which would be worrisome :-).
-
-I've no idea if it's actually possible, but it feels like it should be
-possible to create a firmware synchronisation object with an error code
-chosen by the user and possibly then propagate that error code back to
-the kernel. It's certainly not trivial though. Either way the WARN is
-unnecessary.
-
->> It's certainly not a driver error as such if we can't
->> decode the value.
-> 
-> Ack on dropping the WARN_ON().
-> 
->>
->>> +			exception_code >= ARRAY_SIZE(panthor_exception_infos) ||
->>> +			!panthor_exception_infos[exception_code].name))
->>> +		return "Unknown exception type";
->>> +
->>> +	return panthor_exception_infos[exception_code].name;
->>> +}
->>> +
->>> +static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
->>> +{
->>> +	struct vm_area_struct *vma = vmf->vma;
->>> +	struct panthor_device *ptdev = vma->vm_private_data;
->>> +	u64 id = vma->vm_pgoff << PAGE_SHIFT;
->>> +	unsigned long pfn;
->>> +	pgprot_t pgprot;
->>> +	vm_fault_t ret;
->>> +	bool active;
->>> +	int cookie;
->>> +
->>> +	if (!drm_dev_enter(&ptdev->base, &cookie))
->>> +		return VM_FAULT_SIGBUS;
->>> +
->>> +	mutex_lock(&ptdev->pm.lock);
->>> +	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
->>> +
->>> +	switch (id) {
->>> +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
->>> +		if (active)
->>> +			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
->>> +		else
->>> +			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
->>> +		break;
->>> +
->>> +	default:
->>> +		ret = VM_FAULT_SIGBUS;
->>> +		goto out_unlock;
->>> +	}
->>> +
->>> +	pgprot = vma->vm_page_prot;
->>> +	if (active)
->>> +		pgprot = pgprot_noncached(pgprot);
->>> +
->>> +	ret = vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot);
->>> +
->>> +out_unlock:
->>> +	mutex_unlock(&ptdev->pm.lock);
->>> +	drm_dev_exit(cookie);
->>> +	return ret;
->>> +}
->>> +
->>> +static const struct vm_operations_struct panthor_mmio_vm_ops = {
->>> +	.fault = panthor_mmio_vm_fault,
->>> +};
->>> +
->>> +int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *vma)
->>> +{
->>> +	u64 id = vma->vm_pgoff << PAGE_SHIFT;
->>> +
->>> +	switch (id) {
->>> +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
->>> +		if (vma->vm_end - vma->vm_start != PAGE_SIZE ||
->>> +		    (vma->vm_flags & (VM_WRITE | VM_EXEC)))
->>> +			return -EINVAL;
->>> +
->>> +		break;
->>> +
->>> +	default:
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	/* Defer actual mapping to the fault handler. */
->>> +	vma->vm_private_data = ptdev;
->>> +	vma->vm_ops = &panthor_mmio_vm_ops;
->>> +	vm_flags_set(vma,
->>> +		     VM_IO | VM_DONTCOPY | VM_DONTEXPAND |
->>> +		     VM_NORESERVE | VM_DONTDUMP | VM_PFNMAP);
->>> +	return 0;
->>> +}
->>> +
->>> +#ifdef CONFIG_PM
->>> +int panthor_device_resume(struct device *dev)
->>> +{
->>> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
->>> +	int ret, cookie;
->>> +
->>> +	mutex_lock(&ptdev->pm.lock);
->>> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_RESUMING);
->>> +
->>> +	ret = clk_prepare_enable(ptdev->clks.core);
->>> +	if (ret)
->>> +		goto err_unlock;
->>> +
->>> +	ret = clk_prepare_enable(ptdev->clks.stacks);
->>> +	if (ret)
->>> +		goto err_disable_core_clk;
->>> +
->>> +	ret = clk_prepare_enable(ptdev->clks.coregroup);
->>> +	if (ret)
->>> +		goto err_disable_stacks_clk;
->>> +
->>> +	ret = panthor_devfreq_resume(ptdev);
->>> +	if (ret)
->>> +		goto err_disable_coregroup_clk;
->>> +
->>> +	if (panthor_device_is_initialized(ptdev) &&
->>> +	    drm_dev_enter(&ptdev->base, &cookie)) {
->>> +		panthor_gpu_resume(ptdev);
->>> +		panthor_mmu_resume(ptdev);
->>> +		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
->>> +		if (!ret)
->>> +			panthor_sched_resume(ptdev);
->>> +
->>> +		drm_dev_exit(cookie);
->>> +
->>> +		if (ret)
->>> +			goto err_devfreq_suspend;
->>> +	}
->>> +
->>> +	/* Clear all IOMEM mappings pointing to this device after we've
->>> +	 * resumed. This way the fake mappings pointing to the dummy pages
->>> +	 * are removed and the real iomem mapping will be restored on next
->>> +	 * access.
->>> +	 */
->>> +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
->>> +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
->>> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);  
->>
->> Is the ordering here correct? I think we need to set ACTIVE before the
->> unmap_mapping_range otherwise there is a (very small) race where user
->> space could fault the page (and get the dummy mapping) before the
->> atomic_set.
-> 
-> We take the pm.lock in panthor_mmio_vm_fault().
-> 
->>
->> Hmm, actually we have the pm.lock, so no this isn't racy. In which case
->> is there a good reason that you're using atomics? I can see two accesses
->> which aren't protected by pm.lock:
->>
->>   * the early out in panthor_device_suspend() - which could easily be
->> moved inside the lock.
-> 
-> When we're in suspend() we are the one in control of the pm.state, so
-> no race expected here.
-> 
->>
->>   * panthor_device_schedule_reset() - this looks racy (the power down
->> could happen immediately after the atomic_read()), so I suspect it would
->> be better moving the check into panthor_device_reset_work() and
->> performing it with the pm.lock held.
-> 
-> I think the main reason for it being an atomic is because I didn't
-> have PM locking in the initial implementation, but I ended adding
-> locking at some point because I didn't really have choice. I thought
-> the race didn't exist because of the workqueue synchronization/work
-> cancellation that happens in panthor_sched_suspend(), but I see now
-> that it's not protecting us (thread queuing the job could be paused
-> just after checking the PM state and resumed after the suspend
-> happened). This being said, we might have a lock ordering issue if we
-> take the PM lock in that path (I need to check that).
-
-Yeah I didn't bother to check whether it would create ordering issues...
-;) I'll leave you to figure out the fix - the whole atomic + mutex was
-confusing and doesn't seem to have quite worked.
-
-[...]
-
->>> +
->>> +/**
->>> + * PANTHOR_IRQ_HANDLER() - Define interrupt handlers and the interrupt
->>> + * registration function.
->>> + *
->>> + * The boiler-plate to gracefully deal with shared interrupts is
->>> + * auto-generated. All you have to do is call PANTHOR_IRQ_HANDLER()
->>> + * just after you actual handler. The handler prototype is:  
->> s/you/your/ or probably s/you/the/ since we don't expect people to be
->> adding more ;)
->>
->>> + *
->>> + * void (*handler)(struct panthor_device *, u32 status);
->>> + */
->>> +#define PANTHOR_IRQ_HANDLER(__name, __reg_prefix, __handler)					\
->>> +static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)			\
->>> +{												\
->>> +	struct panthor_irq *pirq = data;							\
->>> +	struct panthor_device *ptdev = pirq->ptdev;						\  
->>
->> Maybe I'm missing something, but I was expecting a check here for if the
->> irq has been suspended and to avoid the register reads if it was.
-> 
-> Thought the INT_MASK=0 + synchronize_irq() in panthor_xxx_irq_suspend()
-> would guarantee that the handler can't be called after
-> panthor_xxx_irq_suspend() was called.
-
-If the IRQ is shared then Linux doesn't know which device caused the
-interrupt, so another device's (shared) interrupt could cause our
-handler to be run.
-
->> Otherwise I'm not entirely sure I follow what all this code is for.
-> 
-> Not entirely sure which code we're talking about. The reason we
-> don't use the default raw IRQ handler is because it doesn't work if the
-> irq line is shared. In that case, we need to mask all interrupts to
-> make sure other handlers on the same irq line don't get spammed with
-> our IRQs.
-
-What I'm not following is why we need all this extra infrastructure for
-IRQs. The 'setting the mask to 0' during suspend is simple enough and
-could be included in code which now calls panthor_xxx_irq_suspend()
-(equally for restoring the mask on resume). But there's a loads more
-code here.
-
-My initial thought when I looked at this was that you were trying to
-solve the issue of a shared IRQ where Mali might get powered off, but
-the IRQ is then triggered by another device. In that case touching the
-Mali registers would be problematic, so I was expecting some code in
-_irq_raw_handler() to check whether the IRQ couldn't possibly be for us
-(i.e. mask==0) and early out with IRQ_NONE. kbase has a concept like
-this "gpu_powered" for exactly this reason.
-
-But I can't see anything in the code to handle that case. And the
-"spamming" of other drivers during suspend shouldn't really happen
-(there's something odd going on if the hardware is generating interrupts
-when it's meant to be suspended).
-
-But maybe I'm just missing something - it's a while since I've dealt
-with interrupt code in Linux.
-
-Steve
-
->>
->> Steve
->>
->>> +												\
->>> +	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
->>> +		return IRQ_NONE;								\
->>> +												\
->>> +	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
->>> +	return IRQ_WAKE_THREAD;									\
->>> +}												\
->>> +												\
->>> +static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *data)		\
->>> +{												\
->>> +	struct panthor_irq *pirq = data;							\
->>> +	struct panthor_device *ptdev = pirq->ptdev;						\
->>> +	irqreturn_t ret = IRQ_NONE;								\
->>> +												\
->>> +	while (true) {										\
->>> +		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
->>> +												\
->>> +		if (!status)									\
->>> +			break;									\
->>> +												\
->>> +		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
->>> +												\
->>> +		__handler(ptdev, status);							\
->>> +		ret = IRQ_HANDLED;								\
->>> +	}											\
->>> +												\
->>> +	if (!atomic_read(&pirq->suspended))							\
->>> +		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
->>> +												\
->>> +	return ret;										\
->>> +}												\
->>> +												\
->>> +static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
->>> +{												\
->>> +	int cookie;										\
->>> +												\
->>> +	atomic_set(&pirq->suspended, true);							\
->>> +												\
->>> +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
->>> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
->>> +		synchronize_irq(pirq->irq);							\
->>> +		drm_dev_exit(cookie);								\
->>> +	}											\
->>> +												\
->>> +	pirq->mask = 0;										\
->>> +}												\
->>> +												\
->>> +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
->>> +{												\
->>> +	int cookie;										\
->>> +												\
->>> +	atomic_set(&pirq->suspended, false);							\
->>> +	pirq->mask = mask;									\
->>> +												\
->>> +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
->>> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);			\
->>> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);			\
->>> +		drm_dev_exit(cookie);								\
->>> +	}											\
->>> +}												\
->>> +												\
->>> +static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
->>> +					      struct panthor_irq *pirq,				\
->>> +					      int irq, u32 mask)				\
->>> +{												\
->>> +	pirq->ptdev = ptdev;									\
->>> +	pirq->irq = irq;									\
->>> +	panthor_ ## __name ## _irq_resume(pirq, mask);						\
->>> +												\
->>> +	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
->>> +					 panthor_ ## __name ## _irq_raw_handler,		\
->>> +					 panthor_ ## __name ## _irq_threaded_handler,		\
->>> +					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
->>> +					 pirq);							\
->>> +}
->>> +
->>> +extern struct workqueue_struct *panthor_cleanup_wq;
->>> +
->>> +#endif  
->>
-> 
-
+> Maxime
