@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6B078D64B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:46:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401D678D64C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 15:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8C1110E144;
-	Wed, 30 Aug 2023 13:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBCE10E528;
+	Wed, 30 Aug 2023 13:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8E510E524
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:46:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C50E10E144
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 13:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693403196;
+ s=mimecast20190719; t=1693403199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R2kuY7QrN77OjYcmiIgmsp8RgTy5tijHIGRui0VqTUY=;
- b=VBafd5+o1BPasgg3fepmn+pHFg9tfaRqiRoKKiE9l9T2E7RMw1qv4xHyTPt0ekn0jCi9/N
- 7XWEFXW7pjfnYufLxmnG7EKyeEZC9KJy7i36g9LajCQJMNCMuW0EPiDU1AXC9uaLhL6vd7
- 97T94ul4akjY5DV4rSGaDoc7zb+Kt/A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UOJpuwbwTVfs+j95sEE93OpkqtbclA96WzipEC/nM14=;
+ b=M2J2AOzajbWxpOSlsTFsRiEYVhKK2zgfd14zlINFE9jhrRj0GKtWG4NxtPTI3Z6VJ3ioPn
+ zHVYB+tdXs7gHK3ew+iH0TwicSodRc6z1earMnab8o9nLhRj3erHw5U0FY5KcwzJcRXZCc
+ Yzhugu6EgC3zekLIfIVYbhl9ZeBAStg=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-KleB5WiJPhG_7knE9IacEQ-1; Wed, 30 Aug 2023 09:46:34 -0400
-X-MC-Unique: KleB5WiJPhG_7knE9IacEQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 4fb4d7f45d1cf-52c0134dfcdso114652a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 06:46:33 -0700 (PDT)
+ us-mta-624-LfQ9GFDXPaOOYT6LYoHj_g-1; Wed, 30 Aug 2023 09:46:38 -0400
+X-MC-Unique: LfQ9GFDXPaOOYT6LYoHj_g-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2b6fdb8d0acso19452211fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 06:46:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693403193; x=1694007993;
+ d=1e100.net; s=20221208; t=1693403197; x=1694007997;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R2kuY7QrN77OjYcmiIgmsp8RgTy5tijHIGRui0VqTUY=;
- b=DrY7fV2OSqjbaL03ncIqYvQSkjT573LgIyuVrM7b/oRPUYzGtyjqGCiGKfjQgrI2AE
- vvWbmroTpzDl71kUXdUif8lDF6fVWmH/vE/7s1swFBnJZDMFZl5/MtQck1yjSq33T24c
- BPOPW8b8MOp6cSvw5s2IggBbldbLq+rfCxLoWZOezXhk1L9WeMhpRmpwcam6oeSbPIf3
- R4J2slLYIkQYxtLC+3ISkj43n3ImM10KdVVQae1wDCBdHxgyL2T3KL/IWmZcjmWNXH19
- aazCrlY0KbXHBNzcUgQEdl6Wwxk8ldMbcBksv2hVfvK6QPn5j7ofL5tw+RuSFPXH5gDf
- YE6w==
-X-Gm-Message-State: AOJu0YzQaAoK4sseBUTG2q2yEPtHR4tNuX7yilmjnlkEHsQjnTl5XMLZ
- 6BgqdYhtX0jdLDz8L3X91wabAuF9Gj8HnnJe4tPQSTvDZjk0AMIE1pPhbWQbh7kpf2Oi8GHu38X
- nL/6sG3i+9p1PEKCAerLzbsxNAcpT
-X-Received: by 2002:a05:6402:51c8:b0:522:3f32:52f1 with SMTP id
- r8-20020a05640251c800b005223f3252f1mr1737286edd.3.1693403193058; 
- Wed, 30 Aug 2023 06:46:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGf9jsdBfXtDK6B3l1XAhb6uC/SE7H2eq+xyXHHwbpGSepkZ7/eGDvrY6bR1kwu2ebD+wsHwg==
-X-Received: by 2002:a05:6402:51c8:b0:522:3f32:52f1 with SMTP id
- r8-20020a05640251c800b005223f3252f1mr1737265edd.3.1693403192770; 
- Wed, 30 Aug 2023 06:46:32 -0700 (PDT)
+ bh=UOJpuwbwTVfs+j95sEE93OpkqtbclA96WzipEC/nM14=;
+ b=UCbYQmiJkVcAU3S7VK9huwWA0eODfYrN4xl6yeoDU1p6+RGLuCgnOAw/LlU6TVxTYc
+ o6x5hz1+vTJlLZ8p/YF+olyu7XFjoCv5AQ+i4ZLYwdE/5lTHuQdQXemPeYuvFXg+tVef
+ UlkK/yPEZ9yQnVazebcm4IGCCsqK4Fp0nRnOjEDHXUEf8y53dmDjCHXVnK1e+dwUjN6/
+ 6Y4iA0dxe6932qYQcgmqkYAEpnDxpgOo0zlCHwszJeeP4GvhLPYSdG252yR633E65LIn
+ 9f8+Sk3w2zkrEzo5Ms+bQ5O+Bqz5ONHdnOLrCa5WjK0kBXyrBBl29rgB2FcRi+f51FRR
+ jpIg==
+X-Gm-Message-State: AOJu0YxOfV6C/h19lkMTwc0I1ch+Q0acq2ivYsDwCX6J8Z1JDkzRXR3Q
+ ouoJvZYQcGbvsC4OIowu8ordgcAK6Kp90GV3/nHNFpg0/aN+izy1Z18A7rh/5aPlxFONFWfqXgi
+ +InswsWjgwpOT8FpGRYqi0N87aGjv
+X-Received: by 2002:a05:651c:1182:b0:2bc:fc2e:766c with SMTP id
+ w2-20020a05651c118200b002bcfc2e766cmr1857333ljo.3.1693403196827; 
+ Wed, 30 Aug 2023 06:46:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHNBSsy/iFndvURQgQS9ZCnlQ9lW+9HBjOb1QIZNMn1l3Gt7cB24Ma8x0ITyx+CEVBlGHtj+A==
+X-Received: by 2002:a05:651c:1182:b0:2bc:fc2e:766c with SMTP id
+ w2-20020a05651c118200b002bcfc2e766cmr1857319ljo.3.1693403196642; 
+ Wed, 30 Aug 2023 06:46:36 -0700 (PDT)
 Received: from fedorinator.fritz.box ([2001:9e8:32e4:1500:aa40:e745:b6c9:7081])
  by smtp.gmail.com with ESMTPSA id
- t7-20020aa7d4c7000000b00529fa63ef6fsm6811782edr.57.2023.08.30.06.46.31
+ li22-20020a170906f99600b009a198078c53sm7167678ejb.214.2023.08.30.06.46.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Aug 2023 06:46:32 -0700 (PDT)
+ Wed, 30 Aug 2023 06:46:36 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Eric Biederman <ebiederm@xmission.com>,
@@ -68,9 +68,9 @@ To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH 3/5] kernel: watch_queue: copy user-array safely
-Date: Wed, 30 Aug 2023 15:45:54 +0200
-Message-ID: <4168bc2d9313d5d1a1a2b9ca0b9fc2990d499506.1693386602.git.pstanner@redhat.com>
+Subject: [PATCH 4/5] drm_lease.c: copy user-array safely
+Date: Wed, 30 Aug 2023 15:45:55 +0200
+Message-ID: <34e14523c9cea13e2f63afabf2938c89d2e84776.1693386602.git.pstanner@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <cover.1693386602.git.pstanner@redhat.com>
 References: <cover.1693386602.git.pstanner@redhat.com>
@@ -106,22 +106,24 @@ duplicating the user-space array safely.
 Suggested-by: David Airlie <airlied@redhat.com>
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- kernel/watch_queue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_lease.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
-index d0b6b390ee42..778b4056700f 100644
---- a/kernel/watch_queue.c
-+++ b/kernel/watch_queue.c
-@@ -331,7 +331,7 @@ long watch_queue_set_filter(struct pipe_inode_info *pipe,
- 	    filter.__reserved != 0)
- 		return -EINVAL;
- 
--	tf = memdup_user(_filter->filters, filter.nr_filters * sizeof(*tf));
-+	tf = memdup_array_user(_filter->filters, filter.nr_filters, sizeof(*tf));
- 	if (IS_ERR(tf))
- 		return PTR_ERR(tf);
- 
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index 150fe1555068..94375c6a5425 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -510,8 +510,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 	/* Handle leased objects, if any */
+ 	idr_init(&leases);
+ 	if (object_count != 0) {
+-		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+-					 array_size(object_count, sizeof(__u32)));
++		object_ids = memdup_array_user(u64_to_user_ptr(cl->object_ids),
++					       object_count, sizeof(__u32));
+ 		if (IS_ERR(object_ids)) {
+ 			ret = PTR_ERR(object_ids);
+ 			idr_destroy(&leases);
 -- 
 2.41.0
 
