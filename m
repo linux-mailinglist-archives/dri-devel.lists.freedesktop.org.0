@@ -1,64 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24A278D553
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 12:58:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEA478D557
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 12:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC2310E4EB;
-	Wed, 30 Aug 2023 10:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A96810E4F4;
+	Wed, 30 Aug 2023 10:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF0510E4EB
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 10:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693393122; x=1724929122;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=Ba+ap190nbT9y0MOHYUH6N6N/yy00EJmGs6/T//2stI=;
- b=kXd7oEjGtbqltUgOaOPQR4gzEEcNFlYzITcFKzAHAZZHOatiK8wwCQ1B
- umrlkmevGKSKWGRdA5On350ImUZVRDswrBxZW5NlbH+GuDherg3+91puG
- HAEzEzGDEKzZqHGPfcUnh+HfXZZBgmkFujM7iUy+nFbtDx7PdAclm6ak6
- uq0t4Xn1wdSDlpLexRuuthZeR0zy072shQ16Zw6IgdfJi6sKb9Qu7AtMI
- XoLLU3hbvP0MLA9GBqHtz9irSM6QWaWyeiXZ6pdriuCqOf7XOLwOU1s0W
- rfvZlZCnjBF5QN2tvtqA8xzU+lDP+HFXkzKsH99DiUONaIPp6T/SSgU59 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441974439"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; d="scan'208";a="441974439"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 03:58:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="882711770"
-Received: from ziemtocx-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.57.251])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2023 03:58:39 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Helen Koike
- <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- david.heidelberg@collabora.com, daniels@collabora.com, emma@anholt.net,
- robclark@freedesktop.org, gustavo.padovan@collabora.com,
- robdclark@google.com, anholt@google.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- corbet@lwn.net, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
- khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, heiko@sntech.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-In-Reply-To: <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230811171953.176431-1-helen.koike@collabora.com>
- <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
- <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
-Date: Wed, 30 Aug 2023 13:58:31 +0300
-Message-ID: <87bkeo23vs.fsf@intel.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
+ [IPv6:2001:67c:2050:0:465::102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A767410E4F3;
+ Wed, 30 Aug 2023 10:59:33 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RbLsB2lqxz9scy;
+ Wed, 30 Aug 2023 12:59:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1693393166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bE/Bz/ONqO1u4Q/tC+3zmrw8kzMyB7RMj1Z30BMIazc=;
+ b=SiJBLXy/JJiEg7Fi8lUlR0Ix6TwcphMBGQEyVKuhgq8LsCJCIbgxRQmo1q5iVwf1CJ98WO
+ SJ+lTaogFh74qj0uGbI2odQsaV5Rrfgtr5PMnFrSG2WryCyFjNnp7ekc9S2cvty6vG5AH+
+ NyW/53iIEfMzcKjHW3IZSxi+kVoDlDYnADAUgiVijFFbaIFmpxBoSg4wSdv36bBBDl5CZj
+ p+ek09ugJIHmHqX1jESsCV3gVmLh09EpPfxZgv/ap6l8FgJgjmPXSxvleoxenTOrARFMSX
+ H6lmNrrSU4qQXQP1fTftYFDOFw8Tg/2p1uN5r/+G4IlNS1gUMNRPzVydQG4PDw==
+Message-ID: <1135faf0-a771-4651-ec40-4dff69b29218@mailbox.org>
+Date: Wed, 30 Aug 2023 12:59:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v2 19/34] drm/amd/display: decouple steps for mapping CRTC
+ degamma to DC plane
+Content-Language: en-CA
+To: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Melissa Wen <mwen@igalia.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-20-mwen@igalia.com>
+ <20230822151110.3107b745.pekka.paalanen@collabora.com>
+ <20230825142944.3jkibtz54f4utwuq@mail.igalia.com>
+ <20230828111726.0a39b73b.pekka.paalanen@collabora.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20230828111726.0a39b73b.pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: k4idbbjjmi9i3rr3557j8suqtmd4smks
+X-MBO-RS-ID: eedbd625b3b49171d9c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,103 +63,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xaver Hugl <xaver.hugl@gmail.com>, Alex Hung <alex.hung@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
->> On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
->> > From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->> > 
->> > Developers can easily execute several tests on different devices
->> > by just pushing their branch to their fork in a repository hosted
->> > on gitlab.freedesktop.org which has an infrastructure to run jobs
->> > in several runners and farms with different devices.
->> > 
->> > There are also other automated tools that uprev dependencies,
->> > monitor the infra, and so on that are already used by the Mesa
->> > project, and we can reuse them too.
->> > 
->> > Also, store expectations about what the DRM drivers are supposed
->> > to pass in the IGT test suite. By storing the test expectations
->> > along with the code, we can make sure both stay in sync with each
->> > other so we can know when a code change breaks those expectations.
->> > 
->> > Also, include a configuration file that points to the out-of-tree
->> > CI scripts.
->> > 
->> > This will allow all contributors to drm to reuse the infrastructure
->> > already in gitlab.freedesktop.org to test the driver on several
->> > generations of the hardware.
->> > 
->> > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> > Acked-by: Daniel Stone <daniels@collabora.com>
->> > Acked-by: Rob Clark <robdclark@gmail.com>
->> > Tested-by: Rob Clark <robdclark@gmail.com>
->> 
->> Ok I pushed this into a topic/drm-ci branch in drm.git and asked sfr to
->> include that branch in linux-next.
->> 
->> But also I'd like to see a lot more acks here, we should be able to at
->> least pile up a bunch of (driver) maintainers from drm-misc in support of
->> this. Also maybe media, at least I've heard noises that they're maybe
->> interested too? Plus anyone else, the more the better.
->
-> I'm not really convinced by that approach at all, and most of the issues
-> I see are shown by the follow-up series here:
+On 8/28/23 10:17, Pekka Paalanen wrote:
+> On Fri, 25 Aug 2023 13:29:44 -0100
+> Melissa Wen <mwen@igalia.com> wrote:
+> 
+>> On 08/22, Pekka Paalanen wrote:
+>>> On Thu, 10 Aug 2023 15:02:59 -0100
+>>> Melissa Wen <mwen@igalia.com> wrote:
+>>>   
+>>>> The next patch adds pre-blending degamma to AMD color mgmt pipeline, but
+>>>> pre-blending degamma caps (DPP) is currently in use to provide DRM CRTC
+>>>> atomic degamma or implict degamma on legacy gamma. Detach degamma usage
+>>>> regarging CRTC color properties to manage plane and CRTC color
+>>>> correction combinations.
+>>>>
+>>>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>>> ---
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 59 +++++++++++++------
+>>>>  1 file changed, 41 insertions(+), 18 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> index 68e9f2c62f2e..74eb02655d96 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+>>>> @@ -764,20 +764,9 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -/**
+>>>> - * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+>>>> - * @crtc: amdgpu_dm crtc state
+>>>> - * @dc_plane_state: target DC surface
+>>>> - *
+>>>> - * Update the underlying dc_stream_state's input transfer function (ITF) in
+>>>> - * preparation for hardware commit. The transfer function used depends on
+>>>> - * the preparation done on the stream for color management.
+>>>> - *
+>>>> - * Returns:
+>>>> - * 0 on success. -ENOMEM if mem allocation fails.
+>>>> - */
+>>>> -int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>>>> -				      struct dc_plane_state *dc_plane_state)
+>>>> +static int
+>>>> +map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>>>> +			     struct dc_plane_state *dc_plane_state)
+>>>>  {
+>>>>  	const struct drm_color_lut *degamma_lut;
+>>>>  	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
+>>>> @@ -800,8 +789,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>>>>  						 &degamma_size);
+>>>>  		ASSERT(degamma_size == MAX_COLOR_LUT_ENTRIES);
+>>>>  
+>>>> -		dc_plane_state->in_transfer_func->type =
+>>>> -			TF_TYPE_DISTRIBUTED_POINTS;
+>>>> +		dc_plane_state->in_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
+>>>>  
+>>>>  		/*
+>>>>  		 * This case isn't fully correct, but also fairly
+>>>> @@ -837,7 +825,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>>>>  				   degamma_lut, degamma_size);
+>>>>  		if (r)
+>>>>  			return r;
+>>>> -	} else if (crtc->cm_is_degamma_srgb) {
+>>>> +	} else {
+>>>>  		/*
+>>>>  		 * For legacy gamma support we need the regamma input
+>>>>  		 * in linear space. Assume that the input is sRGB.
+>>>> @@ -847,8 +835,43 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>>>>  
+>>>>  		if (tf != TRANSFER_FUNCTION_SRGB &&
+>>>>  		    !mod_color_calculate_degamma_params(NULL,
+>>>> -			    dc_plane_state->in_transfer_func, NULL, false))
+>>>> +							dc_plane_state->in_transfer_func,
+>>>> +							NULL, false))
+>>>>  			return -ENOMEM;
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +/**
+>>>> + * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+>>>> + * @crtc: amdgpu_dm crtc state
+>>>> + * @dc_plane_state: target DC surface
+>>>> + *
+>>>> + * Update the underlying dc_stream_state's input transfer function (ITF) in
+>>>> + * preparation for hardware commit. The transfer function used depends on
+>>>> + * the preparation done on the stream for color management.
+>>>> + *
+>>>> + * Returns:
+>>>> + * 0 on success. -ENOMEM if mem allocation fails.
+>>>> + */
+>>>> +int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>>>> +				      struct dc_plane_state *dc_plane_state)
+>>>> +{
+>>>> +	bool has_crtc_cm_degamma;
+>>>> +	int ret;
+>>>> +
+>>>> +	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
+>>>> +	if (has_crtc_cm_degamma){
+>>>> +		/* AMD HW doesn't have post-blending degamma caps. When DRM
+>>>> +		 * CRTC atomic degamma is set, we maps it to DPP degamma block
+>>>> +		 * (pre-blending) or, on legacy gamma, we use DPP degamma to
+>>>> +		 * linearize (implicit degamma) from sRGB/BT709 according to
+>>>> +		 * the input space.  
+>>>
+>>> Uhh, you can't just move degamma before blending if KMS userspace
+>>> wants it after blending. That would be incorrect behaviour. If you
+>>> can't implement it correctly, reject it.
+>>>
+>>> I hope that magical unexpected linearization is not done with atomic,
+>>> either.
+>>>
+>>> Or maybe this is all a lost cause, and only the new color-op pipeline
+>>> UAPI will actually work across drivers.  
+>>
+>> I agree that crtc degamma is an optional property and should be not
+>> exposed if not available.  I did something in this line for DCE that has
+>> no degamma block[1].  Then, AMD DDX driver stopped to advertise atomic
+>> API for DCE, that was not correct too[2].
+> 
+> Did AMD go through all the trouble of making their Xorg DDX use KMS
+> atomic, even after the kernel took it away from X due to modesetting
+> DDX screwing it up?
 
-I'm not fully convinced either, more like "let's see". In that narrow
-sense, ack. I don't see harm in trying, if you're also open to backing
-off in case it does not pan out.
+No, I think Melissa meant the KMS properties for advanced colour transforms, which xf86-video-amdgpu uses, not with atomic KMS though.
 
-> https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.raman@collabora.com/
->
->   * We hardcode a CI farm setup into the kernel
->
->   * We cannot trust that the code being run is actually the one being
->     pushed into gitlab
->
->   * IMO, and I know we disagree here, any IGT test we enable for a given
->     platform should work, period. Allowing failures and flaky tests just
->     sweeps whatever issue is there under the rug. If the test is at
->     fault, we should fix the test, if the driver / kernel is at fault,
->     then I certainly want to know about it.
-
-At least for display, where this also depends on peripheral hardware,
-it's not an easy problem, really. How reliable do you need it to be?
-How many nines? Who is going to debug the issues that need hundreds or
-thousands of runs to reproduce? If a commit makes some test less
-reliable, how long is it going to take to even see that or pinpoint
-that?
-
-It's a kind of cop out, but this is not filesystems. In many cases I
-think we might be able to make things more robust by failing faster and
-failing more, but the users probably want us to plunge forward despite
-some errors to try to get something on screen.
-
-(Come to think of it, perhaps we should classify tests based on whether
-external hardware plays a role.)
-
-So I'm not so concerned about the filter lists per se, but rather about
-having them in kernel.
-
-BR,
-Jani.
-
->
->   * This then leads to patches like this one:
->     https://lore.kernel.org/dri-devel/20230825122435.316272-6-vignesh.raman@collabora.com/
->
->     Which (and it's definitely not the author's fault) are just plain
->     unreadable, reproducable or auditable by anyone not heavily involved
->     in the CI farm operations and the platforms being tested.
->
-> That being said, I don't have anything better to suggest than what I
-> already did, and it looks like I'm alone in thinking that those are
-> problems, so feel free to add my ack if you want to.
->
-> Maxime
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
