@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DBB78D685
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC0A78D687
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7334A10E53F;
-	Wed, 30 Aug 2023 14:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700B210E536;
+	Wed, 30 Aug 2023 14:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id D802E10E536
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="174486550"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8FB7D10E536
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:24:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; d="scan'208";a="178194115"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:47 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 30 Aug 2023 23:24:53 +0900
 Received: from localhost.localdomain (unknown [10.226.92.150])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5E73842170F5;
- Wed, 30 Aug 2023 23:24:41 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id CBC7842170F5;
+ Wed, 30 Aug 2023 23:24:47 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 6/8] drm: adv7511: Add has_dsi variable to struct
+Subject: [PATCH v2 7/8] drm: adv7511: Add link_config variable to struct
  adv7511_chip_info
-Date: Wed, 30 Aug 2023 15:23:56 +0100
-Message-Id: <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
+Date: Wed, 30 Aug 2023 15:23:57 +0100
+Message-Id: <20230830142358.275459-8-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
 References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
@@ -50,95 +50,70 @@ Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Biju Das <biju.das.jz@bp.renesas.com>, Adam Ford <aford173@gmail.com>,
  Bogdan Togorean <bogdan.togorean@analog.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADV7533 and ADV7535 have DSI support. Add a variable has_dsi to
-struct adv7511_chip_info for handling configuration related to DSI.
+The ADV7511 needs link configuration whereas ADV75{33,35} does not need
+it. Add a variable link_config to struct adv7511_chip_info to handle
+this difference.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 v1->v2:
+ * Add Rb tag from Laurent.
  * Replaced variable type from unsigned->bool.
- * Restored check using type for low_refresh_rate and
-   regmap_register_patch().
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 10 ++++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index a728bfb33d03..0dd56e311039 100644
+index 0dd56e311039..0d39e32b0793 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -340,6 +340,7 @@ struct adv7511_chip_info {
- 	const char * const *supply_names;
+@@ -341,6 +341,7 @@ struct adv7511_chip_info {
  	unsigned int num_supplies;
  	unsigned int reg_cec_offset;
-+	bool has_dsi;
+ 	bool has_dsi;
++	bool link_config;
  };
  
  struct adv7511 {
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index d806c870bf76..9d88c29b6f59 100644
+index 9d88c29b6f59..e0ec3c098225 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
- 	 */
- 	regcache_sync(adv7511->regmap);
+@@ -1203,7 +1203,7 @@ static int adv7511_probe(struct i2c_client *i2c)
  
--	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
-+	if (adv7511->info->has_dsi)
- 		adv7533_dsi_power_on(adv7511);
- 	adv7511->powered = true;
- }
-@@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv7511)
- static void adv7511_power_off(struct adv7511 *adv7511)
- {
- 	__adv7511_power_off(adv7511);
--	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
-+	if (adv7511->info->has_dsi)
- 		adv7533_dsi_power_off(adv7511);
- 	adv7511->powered = false;
- }
-@@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
- {
- 	struct adv7511 *adv = bridge_to_adv7511(bridge);
+ 	memset(&link_config, 0, sizeof(link_config));
  
--	if (adv->info->type == ADV7533 || adv->info->type == ADV7535)
-+	if (adv->info->has_dsi)
- 		return adv7533_mode_valid(adv, mode);
+-	if (adv7511->info->type == ADV7511)
++	if (adv7511->info->link_config)
+ 		ret = adv7511_parse_dt(dev->of_node, &link_config);
  	else
- 		return adv7511_mode_valid(adv, mode);
-@@ -1311,7 +1311,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 		ret = adv7533_parse_dt(dev->of_node, adv7511);
+@@ -1292,7 +1292,7 @@ static int adv7511_probe(struct i2c_client *i2c)
  
- 	adv7511_audio_init(dev, adv7511);
+ 	i2c_set_clientdata(i2c, adv7511);
  
--	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535) {
-+	if (adv7511->info->has_dsi) {
- 		ret = adv7533_attach_dsi(adv7511);
- 		if (ret)
- 			goto err_unregister_audio;
-@@ -1367,6 +1367,7 @@ static const struct adv7511_chip_info adv7533_chip_info = {
- 	.supply_names = adv7533_supply_names,
- 	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
- 	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
-+	.has_dsi = true,
+-	if (adv7511->info->type == ADV7511)
++	if (adv7511->info->link_config)
+ 		adv7511_set_link_config(adv7511, &link_config);
+ 
+ 	ret = adv7511_cec_init(dev, adv7511);
+@@ -1358,6 +1358,7 @@ static const struct adv7511_chip_info adv7511_chip_info = {
+ 	.type = ADV7511,
+ 	.supply_names = adv7511_supply_names,
+ 	.num_supplies = ARRAY_SIZE(adv7511_supply_names),
++	.link_config = true,
  };
  
- static const struct adv7511_chip_info adv7535_chip_info = {
-@@ -1376,6 +1377,7 @@ static const struct adv7511_chip_info adv7535_chip_info = {
- 	.supply_names = adv7533_supply_names,
- 	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
- 	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
-+	.has_dsi = true,
- };
- 
- static const struct i2c_device_id adv7511_i2c_ids[] = {
+ static const struct adv7511_chip_info adv7533_chip_info = {
 -- 
 2.25.1
 
