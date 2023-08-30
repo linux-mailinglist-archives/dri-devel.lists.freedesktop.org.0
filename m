@@ -1,74 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE51E78DEB0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 21:53:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD62A78E0CC
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 22:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A83C10E59E;
-	Wed, 30 Aug 2023 19:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0584610E2A4;
+	Wed, 30 Aug 2023 20:38:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB18210E59E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 19:53:21 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-52a1ce529fdso14794a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 12:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693425199; x=1694029999;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=41hvAPL8iDSd2F9dx5AwXqTXvkVERKd19eESU0aBFm0=;
- b=E3JFDmsq1HwYuWS5JnBm46Uc9wx35VPgMQNuq8bOq2BJpsiIh82wnvB5CsSdn9xey+
- /NGyMdnH+i1W9DLykXtZbBhLBXhH03ClxBykZyfTtIU+Ri4YcK8tiOSKtnqZhuCS20ec
- V9UMxeiMv9q+Rasi5nUYLN/+BhbpVdge2jaUs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693425199; x=1694029999;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=41hvAPL8iDSd2F9dx5AwXqTXvkVERKd19eESU0aBFm0=;
- b=VLEISWNwRjsvnbrEQLxZw8cxz08sf1HNo+XL9JDx+v2sj0+3V4uK37HIXmi1NfGazJ
- uqJyyvz9xk6wk5YILcP8UoX3xJnH+4REqzD3rr+YYS88HfmiOnWqdLmGxCQxG4zF+eQZ
- lUM/6wrFuWr0ncK/SjdM4d6+8+Y6Oq1Hm8XedQI9/7DT1rKtuyd+63pX5DygNzqajMUe
- sPJS38LKbWp8sxG3Jg0/V3jwBjyHefYVpDsZUxQbhvg67Qz6MEFQz0XejF87OVpUL52s
- k6qdor18qCisXP0fEhOMrVW38Yqu7Y5xL4fry9Je9dKDfSM0Rl2J6/eH7/JAG4IWzFOx
- 7riA==
-X-Gm-Message-State: AOJu0YzmE/qdHN7NokxwIt04TH6UM3qqJAV0ymyNIKgRshJ4gLvAK6Rz
- QjzGqEB0D9Y1+sTnzl5p69mXWfVZ/ZgyqnAEM5Tfq7ic
-X-Google-Smtp-Source: AGHT+IE/eeKMsDBGdBKCcNI+q8nUP2fcAVfYNOzBu4s5Y0p4bMbHX0lom4RS/q0C5HFLlHOMnY2RRQ==
-X-Received: by 2002:a17:906:cc59:b0:9a1:fda6:2e27 with SMTP id
- mm25-20020a170906cc5900b009a1fda62e27mr2636009ejb.55.1693425198952; 
- Wed, 30 Aug 2023 12:53:18 -0700 (PDT)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
- [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
- b8-20020a170906194800b0099bd5b72d93sm7546368eje.43.2023.08.30.12.53.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Aug 2023 12:53:18 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4009fdc224dso1205e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 12:53:18 -0700 (PDT)
-X-Received: by 2002:a05:600c:3d89:b0:400:46db:1bf2 with SMTP id
- bi9-20020a05600c3d8900b0040046db1bf2mr31256wmb.2.1693425197923; Wed, 30 Aug
- 2023 12:53:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230830170819.309269-1-biju.das.jz@bp.renesas.com>
- <20230830170819.309269-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230830170819.309269-4-biju.das.jz@bp.renesas.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Aug 2023 12:53:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=ULqAZ=7ArRmoeY_=V7mYOhZK1UeJrPPJ8X1LmrATD_vw@mail.gmail.com>
-Message-ID: <CAD=FV=ULqAZ=7ArRmoeY_=V7mYOhZK1UeJrPPJ8X1LmrATD_vw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] drm/bridge/analogix/anx78xx: Drop conditionals
- around of_node pointers
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8C610E2A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 20:38:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB4452D8;
+ Wed, 30 Aug 2023 22:36:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1693427814;
+ bh=w4+pDGg4A1xcuvMXkOpdT0G3fedDIjjTTZZ9xWTuDTY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ue3LRcWcsrr2zVLKt4WKB29r46N/I73/p9ISbY3c1NiT+V0uS4dBtbShEWJd0utjr
+ KvuPl3MME623fVBQw1MLG1BOJU3zMn2xoLQKUtIa+Ux5R0OREtqQOZqW3L2bUpXoZQ
+ HbZjfBGRiXR5PT5/N/Q7bvDT0Njs/3fk7okNJTAw=
+Date: Wed, 30 Aug 2023 23:38:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/3] drm/bridge: Drop conditionals around of_node
+ pointers
+Message-ID: <20230830203825.GP6477@pendragon.ideasonboard.com>
+References: <20230830170819.309269-1-biju.das.jz@bp.renesas.com>
+ <20230830170819.309269-3-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230830170819.309269-3-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,35 +48,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Biju,
 
-On Wed, Aug 30, 2023 at 10:08=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
->
-> Having conditional around the of_node pointers turns out to make driver
-> code use ugly #ifdef and #if blocks. So drop the conditionals.
->
+Thank you for the patch.
+
+In the commit message, s/pointers/pointer/ as you're only touching a
+single one.
+
+On Wed, Aug 30, 2023 at 06:08:18PM +0100, Biju Das wrote:
+> The commit c9e358dfc4a8 ("driver-core: remove conditionals around
+> devicetree pointers") supposed to remove conditionals around of_node
+> pointer, but it missed out drm/bridge.h. So drop #if conditionals by
+> adding struct device_node forward declaration.
+
+You can hardly blame commit c9e358dfc4a8 for forgetting drm_bridge, as
+that commit dates back from 2011 and the drm_bridge of_node field was
+added in 2015 :-)
+
+I would simply copy the rationale from the commit message of
+c9e358dfc4a8 and write something like
+
+--------
+Having conditional around the of_node pointer of the drm_bridge
+structure turns out to make driver code use ugly #ifdef blocks. Drop the
+conditionals to simplify drivers. While this slightly increases the size
+of struct drm_bridge on non-OF system, the number of bridges used today
+and foreseen tomorrow on those systems is very low, so this shouldn't be
+an issue.
+--------
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > Suggested-by: Douglas Anderson <dianders@chromium.org>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
 > v5:
 >  * Split from patch#2
+>  * Updated commit description
+>  * Added struct device_node forward declaration.
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
->  1 file changed, 2 deletions(-)
+>  include/drm/drm_bridge.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index c339fc85fd07..843736627f60 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -32,6 +32,8 @@
+>  #include <drm/drm_mode_object.h>
+>  #include <drm/drm_modes.h>
+>  
+> +struct device_node;
+> +
+>  struct drm_bridge;
+>  struct drm_bridge_timings;
+>  struct drm_connector;
+> @@ -716,10 +718,8 @@ struct drm_bridge {
+>  	struct drm_encoder *encoder;
+>  	/** @chain_node: used to form a bridge chain */
+>  	struct list_head chain_node;
+> -#ifdef CONFIG_OF
+>  	/** @of_node: device node pointer to the bridge */
+>  	struct device_node *of_node;
+> -#endif
+>  	/** @list: to keep track of all added bridges */
+>  	struct list_head list;
+>  	/**
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+Regards,
 
-My current plan, assuming no objections, will be to apply all 3
-patches to drm-misc-next in about a week. I'd also be fine if someone
-else wanted to apply then. ;-)
+Laurent Pinchart
