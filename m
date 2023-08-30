@@ -1,74 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54F478D354
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 08:26:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0A878D379
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 09:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 122BB10E4BF;
-	Wed, 30 Aug 2023 06:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904AF10E0EC;
+	Wed, 30 Aug 2023 07:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0C4B10E4C2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 06:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693376756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7Bck91h4ecr3Co3tJzlcq1wsKaOVtegEctcyU5tCF8E=;
- b=IWjPWbghY8jxXarpSxmqfWQnAs16b3NUXBIcgnOm/Wa8WUJ2RdQUB0b26hdO+hWpRr+AtH
- Q3vhaxAmB7jJfcRVuMty8hnBcKeT2X5NEZ/OnDFEJgTva6xyTm4Yz+/J7KMzQYH3Oy0Mar
- usNTC4af8KuHPnyK5P1vBxznGHUSwLo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-461-2Rk5QaBePdaD59fPc3vDmg-1; Wed, 30 Aug 2023 02:25:52 -0400
-X-MC-Unique: 2Rk5QaBePdaD59fPc3vDmg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-31adc3ca07aso3154475f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Aug 2023 23:25:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693376751; x=1693981551;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7Bck91h4ecr3Co3tJzlcq1wsKaOVtegEctcyU5tCF8E=;
- b=ZvMeL686Z5kV5vrx56MkW8ypqej6INpYGkyZtWeMcffxDivcMjmvO237tl1AkqNxBh
- cavoEwYVPoLh96h1l0zoxlHUNZTfjMTkkg4AiCQ8+P38DIGhcgB0ViYaS9HOmiC/dv63
- 6y5y5j5y5Wpwhnei/JvoXQqA5shHz0mmjYtF56busLcv+viY2tptSghH1zQ+klczaoAP
- 8SGG5iUcCxqWgT26fT9/1zVivFHmX9eAA/WX1WkgQ4/579Os0N1SvgKe4S0sFa/pL76o
- Rd46+3DO8exzkIgrKknuegIagE1SEMLwkSJDeoEpWMjxU+llvTbi9o/8gGuAetBy9Cnj
- cYPA==
-X-Gm-Message-State: AOJu0Yw06z5YcZ4pfV4/C0hRlQti/i7Bd29xVbyemIbpZLeGwNHbBodE
- 1KvnPOSyMvYD6GUnQ4nV6jPEGVMJ0+raGiMLIogA+Vp0KvvC3gsrhsvSF5mIz2pr/LAGs+2w4vH
- 0mCk1qcSQ9bMFVh5MDGy6h8pQe4fl
-X-Received: by 2002:a5d:4c47:0:b0:31d:cf59:8de with SMTP id
- n7-20020a5d4c47000000b0031dcf5908demr877096wrt.19.1693376751135; 
- Tue, 29 Aug 2023 23:25:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGkjHuOu5s6UltQpdDLgmsZ2+vkqG0rncWb93cDUvjACjGuAGSQurlsw0WrKhuai7PTZUJtg==
-X-Received: by 2002:a5d:4c47:0:b0:31d:cf59:8de with SMTP id
- n7-20020a5d4c47000000b0031dcf5908demr877068wrt.19.1693376750276; 
- Tue, 29 Aug 2023 23:25:50 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x16-20020a5d6510000000b003143c9beeaesm15663899wru.44.2023.08.29.23.25.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Aug 2023 23:25:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
- .atomic_check() callback
-Date: Wed, 30 Aug 2023 08:25:08 +0200
-Message-ID: <20230830062546.720679-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D4110E0EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:08:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DAFA721854;
+ Wed, 30 Aug 2023 07:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693379330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GotytGeEx9CK9pJDBXWSABsYWixgazWhUaS5pCXoYqE=;
+ b=OHXG7U2kSJWzwRBXVwaH1/JZjd25jMmcqP5fTROmv+597MOiN27LR6KjY6EEVNj85gUqem
+ P7buOMMx/Nj6xRaKT37aNk9Z7ycQHL4Vu1Mam/6syXIi0GZYJSusHRH8ZOYyshQWQ94WUC
+ X4lgoCwyUOQmY6R9uVr7hZNi7VB/FbA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693379330;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GotytGeEx9CK9pJDBXWSABsYWixgazWhUaS5pCXoYqE=;
+ b=cbKNzfEkymQAdtdQQ+wKa52gPVlgcpBLKYWmJuINYcPUu3tAU0BfdTRBbJLPUezAmnhfM9
+ fYIZqf4u6ZHHNPBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B744513441;
+ Wed, 30 Aug 2023 07:08:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KQ2eKwLr7mRsTgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 30 Aug 2023 07:08:50 +0000
+Message-ID: <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
+Date: Wed, 30 Aug 2023 09:08:49 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20230830062546.720679-1-javierm@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230830062546.720679-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------EOhSCMXn2DDAR0RYiajuU20I"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,216 +70,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
-.atomic_check() callback") moved the allocation of the intermediate and
-HW buffers from the encoder's .atomic_enable callback to primary plane's
-.atomic_check callback.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------EOhSCMXn2DDAR0RYiajuU20I
+Content-Type: multipart/mixed; boundary="------------5VDEGRJHNjHYzP1mc7zj2e0U";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Message-ID: <6a43a18a-bdef-5595-e9f4-38f2d1eac12e@suse.de>
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+References: <20230830062546.720679-1-javierm@redhat.com>
+In-Reply-To: <20230830062546.720679-1-javierm@redhat.com>
 
-This was suggested by Maxime Ripard because drivers aren't allowed to fail
-after drm_atomic_helper_swap_state() has been called, and the encoder's
-.atomic_enable happens after the new atomic state has been swapped.
+--------------5VDEGRJHNjHYzP1mc7zj2e0U
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-But that change caused a performance regression in very slow platforms,
-since now the allocation happens for every plane's atomic state commit.
-For example, Geert Uytterhoeven reports that is the case on a VexRiscV
-softcore (RISC-V CPU implementation on an FPGA).
+SGkgSmF2aWVyDQoNCkFtIDMwLjA4LjIzIHVtIDA4OjI1IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBUaGUgY29tbWl0IDQ1YjU4NjY5ZTUzMiAoImRybS9zc2QxMzB4
+OiBBbGxvY2F0ZSBidWZmZXIgaW4gdGhlIHBsYW5lJ3MNCj4gLmF0b21pY19jaGVjaygpIGNh
+bGxiYWNrIikgbW92ZWQgdGhlIGFsbG9jYXRpb24gb2YgdGhlIGludGVybWVkaWF0ZSBhbmQN
+Cj4gSFcgYnVmZmVycyBmcm9tIHRoZSBlbmNvZGVyJ3MgLmF0b21pY19lbmFibGUgY2FsbGJh
+Y2sgdG8gcHJpbWFyeSBwbGFuZSdzDQo+IC5hdG9taWNfY2hlY2sgY2FsbGJhY2suDQo+IA0K
+PiBUaGlzIHdhcyBzdWdnZXN0ZWQgYnkgTWF4aW1lIFJpcGFyZCBiZWNhdXNlIGRyaXZlcnMg
+YXJlbid0IGFsbG93ZWQgdG8gZmFpbA0KPiBhZnRlciBkcm1fYXRvbWljX2hlbHBlcl9zd2Fw
+X3N0YXRlKCkgaGFzIGJlZW4gY2FsbGVkLCBhbmQgdGhlIGVuY29kZXIncw0KPiAuYXRvbWlj
+X2VuYWJsZSBoYXBwZW5zIGFmdGVyIHRoZSBuZXcgYXRvbWljIHN0YXRlIGhhcyBiZWVuIHN3
+YXBwZWQuDQo+IA0KPiBCdXQgdGhhdCBjaGFuZ2UgY2F1c2VkIGEgcGVyZm9ybWFuY2UgcmVn
+cmVzc2lvbiBpbiB2ZXJ5IHNsb3cgcGxhdGZvcm1zLA0KPiBzaW5jZSBub3cgdGhlIGFsbG9j
+YXRpb24gaGFwcGVucyBmb3IgZXZlcnkgcGxhbmUncyBhdG9taWMgc3RhdGUgY29tbWl0Lg0K
+PiBGb3IgZXhhbXBsZSwgR2VlcnQgVXl0dGVyaG9ldmVuIHJlcG9ydHMgdGhhdCBpcyB0aGUg
+Y2FzZSBvbiBhIFZleFJpc2NWDQo+IHNvZnRjb3JlIChSSVNDLVYgQ1BVIGltcGxlbWVudGF0
+aW9uIG9uIGFuIEZQR0EpLg0KPiANCj4gVG8gcHJldmVudCB0aGF0LCBtb3ZlIHRoZSBtb3Zl
+IHRoZSBidWZmZXJzJyBhbGxvY2F0aW9uIGFuZCBmcmVlIHRvIHRoZQ0KDQpEb3VibGUgJ21v
+dmUgdGhlJw0KDQpBbmQgbWF5YmUgYnVmZmVyJ3MgcmF0aGVyIHRoYW4gYnVmZmVycycNCg0K
+PiBDUlRDJ3MgLmF0b21pY19jaGVjayBhbmQgLmF0b21pY19kZXN0cm95X3N0YXRlIGNhbGxi
+YWNrcywgc28gdGhhdCBvbmx5DQo+IGhhcHBlbnMgb24gYSBtb2Rlc2V0LiBTaW5jZSB0aGUg
+aW50ZXJtZWRpYXRlIGJ1ZmZlciBpcyBvbmx5IG5lZWRlZCB3aGVuDQo+IG5vdCB1c2luZyB0
+aGUgY29udHJvbGxlciBuYXRpdmUgZm9ybWF0IChSMSksIGRvaW5nIHRoZSBidWZmZXIgYWxs
+b2NhdGlvbg0KPiBhdCB0aGF0IENSVEMncyAuYXRvbWljX2NoZWNrIHRpbWUgd291bGQgYmUg
+ZW5vdWdoLg0KPiANCj4gRml4ZXM6IDQ1YjU4NjY5ZTUzMiAoImRybS9zc2QxMzB4OiBBbGxv
+Y2F0ZSBidWZmZXIgaW4gdGhlIHBsYW5lJ3MgLmF0b21pY19jaGVjaygpIGNhbGxiYWNrIikN
+Cj4gU3VnZ2VzdGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsu
+b3JnPg0KPiBTaWduZWQtb2ZmLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmll
+cm1AcmVkaGF0LmNvbT4NCj4gLS0tDQo+IEhlbGxvLA0KPiANCj4gVGhpcyBpcyBhIFJGQyBi
+ZWNhdXNlIEknbSBub3Qgc3VyZSBpZiB0aGVyZSBpcyBhIG5ldCBiZW5lZml0IGFmdGVyIHRo
+aXMNCj4gY2hhbmdlLiBJIGZpbmQgdGhlIGN1cnJlY3QgY29kZSBtdWNoIGNsZWFuZXIgYW5k
+IGxlc3MgZXJyb3IgcHJvbmUsIGV2ZW4NCj4gd2hlbiBHZWVydCByZXBvcnRzIHRoYXQgcGVy
+Zm9ybXMgd29yc2Ugb24gaGlzICh2ZXJ5IHNsb3cpIHBsYXRmb3JtLg0KPiANCj4gQnV0IEkn
+bSBzdGlsbCBwb3N0aW5nIGl0IHRvIHNlZSB3aGF0IG90aGVycyB0aGluay4gSSd2ZSB0ZXN0
+ZWQgdGhlIHBhdGNoDQo+IG9uIGFuIEkyQyBzc2QxMzA2IE9MRUQgYW5kIGZvdW5kIG5vIHJl
+Z3Jlc3Npb25zLg0KPiANCj4gVGhlIHBhdGNoIGlzIG9uIHRvcCBvbiBHZWVydCdzIGxhdGVz
+dCBwYXRjaC1zZXQgdGhhdCBhZGRzIHN1cHBvcnQgZm9yIHRoZQ0KPiBEUk1fRk9STUFUX1Ix
+IHRvIHRoZSBzc2QxMzB4IGRyaXZlcjoNCj4gDQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L2RyaS1kZXZlbC9jb3Zlci4xNjkyODg4NzQ1LmdpdC5nZWVydEBsaW51eC1tNjhrLm9yZw0K
+PiANCj4gQmVzdCByZWdhcmRzLA0KPiBKYXZpZXINCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJt
+L3NvbG9tb24vc3NkMTMweC5jIHwgMTA2ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
+LQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1NiBpbnNlcnRpb25zKCspLCA1MCBkZWxldGlvbnMo
+LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4LmMNCj4gaW5kZXggMGQyYjM2
+YmE0MDExLi42MDUzNmNkMGM0MmQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9z
+b2xvbW9uL3NzZDEzMHguYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2Qx
+MzB4LmMNCj4gQEAgLTY1MCw0NiArNjUwLDYgQEAgc3RhdGljIGludCBzc2QxMzB4X2ZiX2Js
+aXRfcmVjdChzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSwNCj4gICAJcmV0dXJuIHJl
+dDsNCj4gICB9DQo+ICAgDQo+IC1zdGF0aWMgaW50IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9o
+ZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPiAtCQkJCQkJ
+ICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+IC17DQo+IC0Jc3RydWN0
+IGRybV9kZXZpY2UgKmRybSA9IHBsYW5lLT5kZXY7DQo+IC0Jc3RydWN0IHNzZDEzMHhfZGV2
+aWNlICpzc2QxMzB4ID0gZHJtX3RvX3NzZDEzMHgoZHJtKTsNCj4gLQlzdHJ1Y3QgZHJtX3Bs
+YW5lX3N0YXRlICpwbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
+ZShzdGF0ZSwgcGxhbmUpOw0KPiAtCXN0cnVjdCBzc2QxMzB4X3BsYW5lX3N0YXRlICpzc2Qx
+MzB4X3N0YXRlID0gdG9fc3NkMTMweF9wbGFuZV9zdGF0ZShwbGFuZV9zdGF0ZSk7DQo+IC0J
+dW5zaWduZWQgaW50IHBhZ2VfaGVpZ2h0ID0gc3NkMTMweC0+ZGV2aWNlX2luZm8tPnBhZ2Vf
+aGVpZ2h0Ow0KPiAtCXVuc2lnbmVkIGludCBwYWdlcyA9IERJVl9ST1VORF9VUChzc2QxMzB4
+LT5oZWlnaHQsIHBhZ2VfaGVpZ2h0KTsNCj4gLQljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9p
+bmZvICpmaTsNCj4gLQl1bnNpZ25lZCBpbnQgcGl0Y2g7DQo+IC0JaW50IHJldDsNCj4gLQ0K
+PiAtCXJldCA9IGRybV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrKHBsYW5lLCBzdGF0ZSk7
+DQo+IC0JaWYgKHJldCkNCj4gLQkJcmV0dXJuIHJldDsNCj4gLQ0KPiAtCXNzZDEzMHhfc3Rh
+dGUtPmRhdGFfYXJyYXkgPSBrY2FsbG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tF
+Uk5FTCk7DQo+IC0JaWYgKCFzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KQ0KPiAtCQlyZXR1
+cm4gLUVOT01FTTsNCj4gLQ0KPiAtCWlmIChwbGFuZV9zdGF0ZS0+ZmItPmZvcm1hdC0+Zm9y
+bWF0ICE9IERSTV9GT1JNQVRfUjEpIHsNCj4gLQkJZmkgPSBkcm1fZm9ybWF0X2luZm8oRFJN
+X0ZPUk1BVF9SMSk7DQo+IC0JCWlmICghZmkpDQo+IC0JCQlyZXR1cm4gLUVJTlZBTDsNCj4g
+LQ0KPiAtCQlwaXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5fcGl0Y2goZmksIDAsIHNzZDEz
+MHgtPndpZHRoKTsNCj4gLQ0KPiAtCQlzc2QxMzB4X3N0YXRlLT5idWZmZXIgPSBrY2FsbG9j
+KHBpdGNoLCBzc2QxMzB4LT5oZWlnaHQsIEdGUF9LRVJORUwpOw0KPiAtCQlpZiAoIXNzZDEz
+MHhfc3RhdGUtPmJ1ZmZlcikgew0KPiAtCQkJa2ZyZWUoc3NkMTMweF9zdGF0ZS0+ZGF0YV9h
+cnJheSk7DQo+IC0JCQkvKiBTZXQgdG8gcHJldmVudCBhIGRvdWJsZSBmcmVlIGluIC5hdG9t
+aWNfZGVzdHJveV9zdGF0ZSgpICovDQo+IC0JCQlzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5
+ID0gTlVMTDsNCj4gLQkJCXJldHVybiAtRU5PTUVNOw0KPiAtCQl9DQo+IC0JfQ0KPiAtDQo+
+IC0JcmV0dXJuIDA7DQo+IC19DQo+IC0NCj4gICBzdGF0aWMgdm9pZCBzc2QxMzB4X3ByaW1h
+cnlfcGxhbmVfaGVscGVyX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUs
+DQo+ICAgCQkJCQkJICAgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4g
+ICB7DQo+IEBAIC03NjIsMTAgKzcyMiw2IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX3BsYW5lX3N0
+YXRlICpzc2QxMzB4X3ByaW1hcnlfcGxhbmVfZHVwbGljYXRlX3N0YXRlKHN0cnVjdCBkcm1f
+DQo+ICAgCWlmICghc3NkMTMweF9zdGF0ZSkNCj4gICAJCXJldHVybiBOVUxMOw0KPiAgIA0K
+PiAtCS8qIFRoZSBidWZmZXJzIGFyZSBub3QgZHVwbGljYXRlZCBhbmQgYXJlIGFsbG9jYXRl
+ZCBpbiAuYXRvbWljX2NoZWNrICovDQo+IC0Jc3NkMTMweF9zdGF0ZS0+YnVmZmVyID0gTlVM
+TDsNCj4gLQlzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5ID0gTlVMTDsNCj4gLQ0KPiAgIAlu
+ZXdfc2hhZG93X3BsYW5lX3N0YXRlID0gJnNzZDEzMHhfc3RhdGUtPmJhc2U7DQo+ICAgDQo+
+ICAgCV9fZHJtX2dlbV9kdXBsaWNhdGVfc2hhZG93X3BsYW5lX3N0YXRlKHBsYW5lLCBuZXdf
+c2hhZG93X3BsYW5lX3N0YXRlKTsNCj4gQEAgLTc3OCw5ICs3MzQsNiBAQCBzdGF0aWMgdm9p
+ZCBzc2QxMzB4X3ByaW1hcnlfcGxhbmVfZGVzdHJveV9zdGF0ZShzdHJ1Y3QgZHJtX3BsYW5l
+ICpwbGFuZSwNCj4gICB7DQo+ICAgCXN0cnVjdCBzc2QxMzB4X3BsYW5lX3N0YXRlICpzc2Qx
+MzB4X3N0YXRlID0gdG9fc3NkMTMweF9wbGFuZV9zdGF0ZShzdGF0ZSk7DQo+ICAgDQo+IC0J
+a2ZyZWUoc3NkMTMweF9zdGF0ZS0+ZGF0YV9hcnJheSk7DQo+IC0Ja2ZyZWUoc3NkMTMweF9z
+dGF0ZS0+YnVmZmVyKTsNCj4gLQ0KPiAgIAlfX2RybV9nZW1fZGVzdHJveV9zaGFkb3dfcGxh
+bmVfc3RhdGUoJnNzZDEzMHhfc3RhdGUtPmJhc2UpOw0KPiAgIA0KPiAgIAlrZnJlZShzc2Qx
+MzB4X3N0YXRlKTsNCj4gQEAgLTc4OCw3ICs3NDEsNyBAQCBzdGF0aWMgdm9pZCBzc2QxMzB4
+X3ByaW1hcnlfcGxhbmVfZGVzdHJveV9zdGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwN
+Cj4gICANCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9oZWxwZXJfZnVuY3Mg
+c3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9mdW5jcyA9IHsNCj4gICAJRFJNX0dFTV9T
+SEFET1dfUExBTkVfSEVMUEVSX0ZVTkNTLA0KPiAtCS5hdG9taWNfY2hlY2sgPSBzc2QxMzB4
+X3ByaW1hcnlfcGxhbmVfaGVscGVyX2F0b21pY19jaGVjaywNCj4gKwkuYXRvbWljX2NoZWNr
+ID0gZHJtX3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2ssDQo+ICAgCS5hdG9taWNfdXBkYXRl
+ID0gc3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBkYXRlLA0KPiAgIAku
+YXRvbWljX2Rpc2FibGUgPSBzc2QxMzB4X3ByaW1hcnlfcGxhbmVfaGVscGVyX2F0b21pY19k
+aXNhYmxlLA0KPiAgIH07DQo+IEBAIC04MTgsNiArNzcxLDU5IEBAIHN0YXRpYyBlbnVtIGRy
+bV9tb2RlX3N0YXR1cyBzc2QxMzB4X2NydGNfaGVscGVyX21vZGVfdmFsaWQoc3RydWN0IGRy
+bV9jcnRjICpjcnRjDQo+ICAgCXJldHVybiBNT0RFX09LOw0KPiAgIH0NCj4gICANCj4gK2lu
+dCBzc2QxMzB4X2NydGNfaGVscGVyX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2NydGMgKmNy
+dGMsIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4gK3sNCj4gKwlzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZHJtID0gY3J0Yy0+ZGV2Ow0KPiArCXN0cnVjdCBzc2QxMzB4X2Rldmlj
+ZSAqc3NkMTMweCA9IGRybV90b19zc2QxMzB4KGRybSk7DQo+ICsJc3RydWN0IGRybV9wbGFu
+ZSAqcGxhbmUgPSBjcnRjLT5wcmltYXJ5Ow0KDQpVc2luZyAncHJpbWFyeScgaXMgZGVwcmVj
+YXRlZC4gWW91IGNhbiBvbmx5IHJlZmVyIGZyb20gcGxhbmUgdG8gY3J0YyANCmVhc2lseS4g
+VGhlIG90aGVyIGRpcmVjdGlvbiBpcyBjb21wbGljYXRlZC4NCg0KPiArCXN0cnVjdCBkcm1f
+cGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0
+YXRlKHN0YXRlLCBwbGFuZSk7DQo+ICsJc3RydWN0IHNzZDEzMHhfcGxhbmVfc3RhdGUgKnNz
+ZDEzMHhfc3RhdGUgPSB0b19zc2QxMzB4X3BsYW5lX3N0YXRlKHBsYW5lX3N0YXRlKTsNCg0K
+SSdkIHN0b3JlIHRoZXNlIHBvaW50ZXJzIGluIHRoZSBDUlRDIHN0YXRlIGFuZCBmZXRjaCB0
+aGVtIGZyb20gd2l0aGluIA0Kc3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNf
+dXBkYXRlKCkgZHVyaW5nIHRoZSBkaXNwbGF5IHVwZGF0ZS4gDQpUaGlzIGd1YXJhbnRlZXMg
+dGhhdCB0aGUgcG9pbnRlciBhZGRyZXNzZXMgYXJlIGFsd2F5cyBsZWdhbC4NCg0KQmVzaWRl
+cyB0aGUgcG9pbnRlcnMsIHRoZSBDUlRDIHN0YXRlIGNhbiBhbHNvIHN0b3JlIHRoZSBwcmlt
+YXJ5IHBsYW5lIA0KZm9ybWF0LCB3aGljaCB5b3UgdXBkYXRlIGZyb20gdGhlIHBsYW5lJ3Mg
+YXRvbWljIGNoZWNrLiBCeSBkb2luZyBzbywgeW91IA0Kd29udCBuZWVkIHRvIHJlZmVyIHRv
+IHRoZSBwbGFuZSBzdGF0ZSBmcm9tIHRoZSBDUlRDJ3MgYXRvbWljX2NoZWNrLiBUaGUgDQpw
+bGFuZSdzIGF0b21pY19jaGVjayBydW5zIGJlZm9yZSB0aGUgQ1JUQydzIGF0b21pY19jaGVj
+ay4gWzFdDQoNClRoZSBzdHJ1Y3Qgc3NkMTMweF9wbGFuZV9zdGF0ZSBjYW4gdGhlbiBiZSBy
+ZXBsYWNlZCBieSBzdGFyZGFyZCBEUk0gDQpzaGFkb3ctcGxhbmUgc3RhdGUuIEl0IGFsc28g
+c29sdmVzIHRoZSBwcm9ibGVtIHdpdGggJ2NydGMtPnByaW1hcnknLg0KDQpbMV0gDQpodHRw
+czovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni41L3NvdXJjZS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2F0b21pY19oZWxwZXIuYyNMOTc0DQoNCj4gKwl1bnNpZ25lZCBpbnQgcGFnZV9o
+ZWlnaHQgPSBzc2QxMzB4LT5kZXZpY2VfaW5mby0+cGFnZV9oZWlnaHQ7DQo+ICsJdW5zaWdu
+ZWQgaW50IHBhZ2VzID0gRElWX1JPVU5EX1VQKHNzZDEzMHgtPmhlaWdodCwgcGFnZV9oZWln
+aHQpOw0KPiArCWNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZpOw0KPiArCXVuc2ln
+bmVkIGludCBwaXRjaDsNCj4gKwlpbnQgcmV0Ow0KPiArDQo+ICsJcmV0ID0gZHJtX2NydGNf
+aGVscGVyX2F0b21pY19jaGVjayhjcnRjLCBzdGF0ZSk7DQo+ICsJaWYgKHJldCkNCj4gKwkJ
+cmV0dXJuIHJldDsNCj4gKw0KPiArCXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJyYXkgPSBrY2Fs
+bG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tFUk5FTCk7DQoNCkRvIHlvdSByZWFs
+bHkgbmVlZCBrY2FsbG9jIGhlcmU/IGttYWxsb2Mgc2VlbXMgZ29vZCBlbm91Z2guDQoNCj4g
+KwlpZiAoIXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJyYXkpDQo+ICsJCXJldHVybiAtRU5PTUVN
+Ow0KPiArDQo+ICsJaWYgKHBsYW5lX3N0YXRlLT5mYi0+Zm9ybWF0LT5mb3JtYXQgIT0gRFJN
+X0ZPUk1BVF9SMSkgew0KPiArCQlmaSA9IGRybV9mb3JtYXRfaW5mbyhEUk1fRk9STUFUX1Ix
+KTsNCj4gKwkJaWYgKCFmaSkNCj4gKwkJCXJldHVybiAtRUlOVkFMOw0KPiArDQo+ICsJCXBp
+dGNoID0gZHJtX2Zvcm1hdF9pbmZvX21pbl9waXRjaChmaSwgMCwgc3NkMTMweC0+d2lkdGgp
+Ow0KPiArDQo+ICsJCXNzZDEzMHhfc3RhdGUtPmJ1ZmZlciA9IGtjYWxsb2MocGl0Y2gsIHNz
+ZDEzMHgtPmhlaWdodCwgR0ZQX0tFUk5FTCk7DQoNClNhbWUgcXVlc3Rpb24gYWJvdXQga2Nh
+bGxvYy4NCg0KPiArCQlpZiAoIXNzZDEzMHhfc3RhdGUtPmJ1ZmZlcikgew0KPiArCQkJa2Zy
+ZWUoc3NkMTMweF9zdGF0ZS0+ZGF0YV9hcnJheSk7DQo+ICsJCQkvKiBTZXQgdG8gcHJldmVu
+dCBhIGRvdWJsZSBmcmVlIGluIC5hdG9taWNfZGVzdHJveV9zdGF0ZSgpICovDQo+ICsJCQlz
+c2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5ID0gTlVMTDsNCj4gKwkJCXJldHVybiAtRU5PTUVN
+Ow0KPiArCQl9DQo+ICsJfQ0KPiArDQo+ICsJcmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gK3N0
+YXRpYyB2b2lkIHNzZDEzMHhfY3J0Y19kZXN0cm95X3N0YXRlKHN0cnVjdCBkcm1fY3J0YyAq
+Y3J0YywNCj4gKwkJCQkgICAgICAgc3RydWN0IGRybV9jcnRjX3N0YXRlICpzdGF0ZSkNCj4g
+K3sNCj4gKwlzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSA9IGNydGMtPnByaW1hcnk7DQo+ICsJ
+c3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqcGxhbmVfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9u
+ZXdfcGxhbmVfc3RhdGUoc3RhdGUtPnN0YXRlLCBwbGFuZSk7DQo+ICsJc3RydWN0IHNzZDEz
+MHhfcGxhbmVfc3RhdGUgKnNzZDEzMHhfc3RhdGUgPSB0b19zc2QxMzB4X3BsYW5lX3N0YXRl
+KHBsYW5lX3N0YXRlKTsNCj4gKw0KPiArCWRybV9hdG9taWNfaGVscGVyX2NydGNfZGVzdHJv
+eV9zdGF0ZShjcnRjLCBzdGF0ZSk7DQo+ICsNCj4gKwlrZnJlZShzc2QxMzB4X3N0YXRlLT5k
+YXRhX2FycmF5KTsNCj4gKwlrZnJlZShzc2QxMzB4X3N0YXRlLT5idWZmZXIpOw0KDQpUaGlz
+IGNyb3NzIHJlZmVyZW5jZXMgYW1vbmcgc3RhdGUtaGVscGVycyBoYXMgdGhlIHBvdGVudGlh
+bCB0byBibG93IHVwLiANCkl0J3Mgbm90IHJlYWxseSBjbGVhciBpZiB0aGVyZSBldmVuIGlz
+IGEgcGxhbmUgc3RhdGUgaGVyZS4NCg0KQWxzbyBzZWUgbXkgY29tbWVudCBvbiB0aGUgYWxs
+b2NhdGlvbiBvZiB0aGVzZSBidWZmZXJzLiwgd2hpY2ggd291bGQgDQpzb2x2ZSB0aGlzIHBy
+b2JsZW0gYXMgd2VsbC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArfQ0KPiArDQo+
+ICAgLyoNCj4gICAgKiBUaGUgQ1JUQyBpcyBhbHdheXMgZW5hYmxlZC4gU2NyZWVuIHVwZGF0
+ZXMgYXJlIHBlcmZvcm1lZCBieQ0KPiAgICAqIHRoZSBwcmltYXJ5IHBsYW5lJ3MgYXRvbWlj
+X3VwZGF0ZSBmdW5jdGlvbi4gRGlzYWJsaW5nIGNsZWFycw0KPiBAQCAtODI1LDcgKzgzMSw3
+IEBAIHN0YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cyBzc2QxMzB4X2NydGNfaGVscGVyX21v
+ZGVfdmFsaWQoc3RydWN0IGRybV9jcnRjICpjcnRjDQo+ICAgICovDQo+ICAgc3RhdGljIGNv
+bnN0IHN0cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3Mgc3NkMTMweF9jcnRjX2hlbHBlcl9m
+dW5jcyA9IHsNCj4gICAJLm1vZGVfdmFsaWQgPSBzc2QxMzB4X2NydGNfaGVscGVyX21vZGVf
+dmFsaWQsDQo+IC0JLmF0b21pY19jaGVjayA9IGRybV9jcnRjX2hlbHBlcl9hdG9taWNfY2hl
+Y2ssDQo+ICsJLmF0b21pY19jaGVjayA9IHNzZDEzMHhfY3J0Y19oZWxwZXJfYXRvbWljX2No
+ZWNrLA0KPiAgIH07DQo+ICAgDQo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19m
+dW5jcyBzc2QxMzB4X2NydGNfZnVuY3MgPSB7DQo+IEBAIC04MzQsNyArODQwLDcgQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBzc2QxMzB4X2NydGNfZnVuY3MgPSB7
+DQo+ICAgCS5zZXRfY29uZmlnID0gZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZywNCj4g
+ICAJLnBhZ2VfZmxpcCA9IGRybV9hdG9taWNfaGVscGVyX3BhZ2VfZmxpcCwNCj4gICAJLmF0
+b21pY19kdXBsaWNhdGVfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jcnRjX2R1cGxpY2F0
+ZV9zdGF0ZSwNCj4gLQkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBl
+cl9jcnRjX2Rlc3Ryb3lfc3RhdGUsDQo+ICsJLmF0b21pY19kZXN0cm95X3N0YXRlID0gc3Nk
+MTMweF9jcnRjX2Rlc3Ryb3lfc3RhdGUsDQo+ICAgfTsNCj4gICANCj4gICBzdGF0aWMgdm9p
+ZCBzc2QxMzB4X2VuY29kZXJfaGVscGVyX2F0b21pY19lbmFibGUoc3RydWN0IGRybV9lbmNv
+ZGVyICplbmNvZGVyLA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
+ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZy
+YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRv
+dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpI
+UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-To prevent that, move the move the buffers' allocation and free to the
-CRTC's .atomic_check and .atomic_destroy_state callbacks, so that only
-happens on a modeset. Since the intermediate buffer is only needed when
-not using the controller native format (R1), doing the buffer allocation
-at that CRTC's .atomic_check time would be enough.
+--------------5VDEGRJHNjHYzP1mc7zj2e0U--
 
-Fixes: 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's .atomic_check() callback")
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-Hello,
+--------------EOhSCMXn2DDAR0RYiajuU20I
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-This is a RFC because I'm not sure if there is a net benefit after this
-change. I find the currect code much cleaner and less error prone, even
-when Geert reports that performs worse on his (very slow) platform.
+-----BEGIN PGP SIGNATURE-----
 
-But I'm still posting it to see what others think. I've tested the patch
-on an I2C ssd1306 OLED and found no regressions.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTu6wEFAwAAAAAACgkQlh/E3EQov+Br
+bQ//fZyVNuY0w42tn0pcRLHbc8oG7XPt16rYrd3Q0MO2jyEdS5g6G29yrDLJR8aZtnOIgU4/nRex
+tdu//oMGlat5QGPxubH32mlVuc8A6nwqGrMRyTHa37V2PXeuKXthyAS5jsJC4KeTZmlLL9D8ZFM1
+wANS5IKtnuNjC7+PsqgaMoOZBy8a7e+WUJoAeOQKliBN2KLHpLriHeiZocDs5RwchiAx+xNV6sKh
+voLT8U9E3/nS3LaOkxRY5b4tw9PLWfmg0DnHZl0osgRSSRwL1QZqtinfFdZpo34u3ZDkDPkzM4xm
+tJtKl5UTfVSHYOe5vmVhnJhykzXEs8tiBwCryTG3i7HG7W8hThkY25/zHk0Jfm9aoVZMlBaC2nyk
+6wUafvvnl1w0vZD/oFTKGdPMS0P6SgBfdzh3RIZixF99tTaXmK/1DRiAWzn1mRRWchyCng2Izlpw
+KDDpYksAWjxiMo/IozpZ61ABDbLmdB5nuOG63BLe5lwby4Gss7XlXvw5A6JpJiuO/CzZwGO9FfKR
+JFa2tO5NWUiIIli+gsgSIOiEYjsk7yWbtpoNx5uVvpBtO588E3iiVMbwesEIAWXcKHkNhEWS6VfM
+g4urnJtOew5Wq3Z2dF1AlPqeGFBAlS/1OHwG1bTYVVmibAmKWqp9t7vQzsaNwbdcqft2JaG/QKMo
+xME=
+=AegE
+-----END PGP SIGNATURE-----
 
-The patch is on top on Geert's latest patch-set that adds support for the
-DRM_FORMAT_R1 to the ssd130x driver:
-
-https://lore.kernel.org/dri-devel/cover.1692888745.git.geert@linux-m68k.org
-
-Best regards,
-Javier
-
- drivers/gpu/drm/solomon/ssd130x.c | 106 ++++++++++++++++--------------
- 1 file changed, 56 insertions(+), 50 deletions(-)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 0d2b36ba4011..60536cd0c42d 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -650,46 +650,6 @@ static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
- 	return ret;
- }
- 
--static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						     struct drm_atomic_state *state)
--{
--	struct drm_device *drm = plane->dev;
--	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
--	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
--	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
--	unsigned int page_height = ssd130x->device_info->page_height;
--	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
--	const struct drm_format_info *fi;
--	unsigned int pitch;
--	int ret;
--
--	ret = drm_plane_helper_atomic_check(plane, state);
--	if (ret)
--		return ret;
--
--	ssd130x_state->data_array = kcalloc(ssd130x->width, pages, GFP_KERNEL);
--	if (!ssd130x_state->data_array)
--		return -ENOMEM;
--
--	if (plane_state->fb->format->format != DRM_FORMAT_R1) {
--		fi = drm_format_info(DRM_FORMAT_R1);
--		if (!fi)
--			return -EINVAL;
--
--		pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
--
--		ssd130x_state->buffer = kcalloc(pitch, ssd130x->height, GFP_KERNEL);
--		if (!ssd130x_state->buffer) {
--			kfree(ssd130x_state->data_array);
--			/* Set to prevent a double free in .atomic_destroy_state() */
--			ssd130x_state->data_array = NULL;
--			return -ENOMEM;
--		}
--	}
--
--	return 0;
--}
--
- static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						       struct drm_atomic_state *state)
- {
-@@ -762,10 +722,6 @@ static struct drm_plane_state *ssd130x_primary_plane_duplicate_state(struct drm_
- 	if (!ssd130x_state)
- 		return NULL;
- 
--	/* The buffers are not duplicated and are allocated in .atomic_check */
--	ssd130x_state->buffer = NULL;
--	ssd130x_state->data_array = NULL;
--
- 	new_shadow_plane_state = &ssd130x_state->base;
- 
- 	__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
-@@ -778,9 +734,6 @@ static void ssd130x_primary_plane_destroy_state(struct drm_plane *plane,
- {
- 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
- 
--	kfree(ssd130x_state->data_array);
--	kfree(ssd130x_state->buffer);
--
- 	__drm_gem_destroy_shadow_plane_state(&ssd130x_state->base);
- 
- 	kfree(ssd130x_state);
-@@ -788,7 +741,7 @@ static void ssd130x_primary_plane_destroy_state(struct drm_plane *plane,
- 
- static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
-+	.atomic_check = drm_plane_helper_atomic_check,
- 	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
- 	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
- };
-@@ -818,6 +771,59 @@ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc
- 	return MODE_OK;
- }
- 
-+int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
-+{
-+	struct drm_device *drm = crtc->dev;
-+	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-+	struct drm_plane *plane = crtc->primary;
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
-+	unsigned int page_height = ssd130x->device_info->page_height;
-+	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	const struct drm_format_info *fi;
-+	unsigned int pitch;
-+	int ret;
-+
-+	ret = drm_crtc_helper_atomic_check(crtc, state);
-+	if (ret)
-+		return ret;
-+
-+	ssd130x_state->data_array = kcalloc(ssd130x->width, pages, GFP_KERNEL);
-+	if (!ssd130x_state->data_array)
-+		return -ENOMEM;
-+
-+	if (plane_state->fb->format->format != DRM_FORMAT_R1) {
-+		fi = drm_format_info(DRM_FORMAT_R1);
-+		if (!fi)
-+			return -EINVAL;
-+
-+		pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
-+
-+		ssd130x_state->buffer = kcalloc(pitch, ssd130x->height, GFP_KERNEL);
-+		if (!ssd130x_state->buffer) {
-+			kfree(ssd130x_state->data_array);
-+			/* Set to prevent a double free in .atomic_destroy_state() */
-+			ssd130x_state->data_array = NULL;
-+			return -ENOMEM;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void ssd130x_crtc_destroy_state(struct drm_crtc *crtc,
-+				       struct drm_crtc_state *state)
-+{
-+	struct drm_plane *plane = crtc->primary;
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state->state, plane);
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
-+
-+	drm_atomic_helper_crtc_destroy_state(crtc, state);
-+
-+	kfree(ssd130x_state->data_array);
-+	kfree(ssd130x_state->buffer);
-+}
-+
- /*
-  * The CRTC is always enabled. Screen updates are performed by
-  * the primary plane's atomic_update function. Disabling clears
-@@ -825,7 +831,7 @@ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc
-  */
- static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
- 	.mode_valid = ssd130x_crtc_helper_mode_valid,
--	.atomic_check = drm_crtc_helper_atomic_check,
-+	.atomic_check = ssd130x_crtc_helper_atomic_check,
- };
- 
- static const struct drm_crtc_funcs ssd130x_crtc_funcs = {
-@@ -834,7 +840,7 @@ static const struct drm_crtc_funcs ssd130x_crtc_funcs = {
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+	.atomic_destroy_state = ssd130x_crtc_destroy_state,
- };
- 
- static void ssd130x_encoder_helper_atomic_enable(struct drm_encoder *encoder,
--- 
-2.41.0
-
+--------------EOhSCMXn2DDAR0RYiajuU20I--
