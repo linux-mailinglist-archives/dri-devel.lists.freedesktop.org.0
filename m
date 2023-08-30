@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7EE78D6A9
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:53:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD7778D6BD
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28EB010E173;
-	Wed, 30 Aug 2023 14:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A3F10E541;
+	Wed, 30 Aug 2023 14:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2A410E173
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:53:31 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9206810E53E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:57:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2CB7A6607236;
- Wed, 30 Aug 2023 15:53:30 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693407210;
- bh=+CXRkfhbyS9bgX+ZquBfGcBhKXsBPsdwdwrHJ2PxEog=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lQdx5YUmnAsnb4fd6OjSgm/DXKxY4qyfZRR0NRswZw/0V18luMx9pM6AbGOy8QMsE
- 7MZbAnjb1ddZe4uwWham9N7USP3sG0zd3L9e575viEiqFNVx+QcCO+MGHhl8r/g4kO
- NyFrgNgArI1JQqI6KUHjDN70AwIUM0yKrwTA17S3veiz1IX2k0snQFhFhmuir4Lp1p
- /otXWm5RW4jo0H8pW1gSEHy+AqLwHog/THepuXUq6nYrbX0rsIsT9WnJJpVjsglv/F
- SheasufzPQ4OBhv4twVpWOCJaFlU+F78tT3EZxXHSwSzNRy4XHNpgJN3KPpXTsqMc+
- BX/FVxg73mSsg==
-Date: Wed, 30 Aug 2023 16:53:26 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 08/15] drm/panthor: Add the MMU/VM logical block
-Message-ID: <20230830165326.02f20ea0@collabora.com>
-In-Reply-To: <c539fda5-93b2-167f-e2fd-b0487898ee9d@arm.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-9-boris.brezillon@collabora.com>
- <aa0d660b-861e-c330-840b-5603fd4b4a38@arm.com>
- <20230829173317.523177f8@collabora.com>
- <c539fda5-93b2-167f-e2fd-b0487898ee9d@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F28B96251D;
+ Wed, 30 Aug 2023 14:57:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA762C433C8;
+ Wed, 30 Aug 2023 14:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693407430;
+ bh=hvNd6USN55C63Ho+Y1o3PyEx2EFP7F9vcDQbxMzgnHo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rlBpeLsGS4yzjCj6X53MRyUJ3jJYJUhuKn1S44WNd388z1wPi6LPKIyP0yikkPtrN
+ OGgS1sGF1MQuxUQqAlzl+LUJ6l7LaluuE6f/Dr4lAn37hxYYJ00Dbb+AxhjHbop9Yp
+ dqM+0Vnu+W9TF8tRFe9ptUidIjREnW/rP8L0SNM3kBB4/DIU5nT3HwAuyoxC7nmmhy
+ i+HAnAy2AymEv99T3Z0kRSPL3YxelypUnZsyaicZIGURWVirMUnsjJVt3e7jcoSkfH
+ Xk3+MCSyShvhvxLU4qCXZ8kxUXghXvZPOdB/xoCvwzCP87FNJ0W+eO3fJ6xNJGEmpJ
+ QK71cMn6T1GNw==
+Date: Wed, 30 Aug 2023 16:57:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Helen Koike <helen.koike@collabora.com>
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+Message-ID: <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
+ <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+ <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7ec3syeqgcjlux4q"
+Content-Disposition: inline
+In-Reply-To: <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,419 +59,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: emma@anholt.net, linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
+ dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io, jbrunet@baylibre.com,
+ robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
+ sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+ linux-rockchip@lists.infradead.org, daniels@collabora.com,
+ martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
+ anholt@google.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Aug 2023 15:12:43 +0100
-Steven Price <steven.price@arm.com> wrote:
 
-> On 29/08/2023 16:33, Boris Brezillon wrote:
-> > On Mon, 14 Aug 2023 16:53:09 +0100
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >>> +
-> >>> +/**
-> >>> + * struct panthor_vm_op_ctx - VM operation context
-> >>> + *
-> >>> + * With VM operations potentially taking place in a dma-signaling path, we
-> >>> + * need to make sure everything that might require resource allocation is
-> >>> + * pre-allocated upfront. This is what this operation context is far.
-> >>> + *
-> >>> + * We also collect resources that have been freed, so we can release them
-> >>> + * asynchronously, and let the VM_BIND scheduler process the next VM_BIND
-> >>> + * request.
-> >>> + */
-> >>> +struct panthor_vm_op_ctx {
-> >>> +	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
-> >>> +	struct {
-> >>> +		/** @count: Number of pages reserved. */
-> >>> +		u32 count;
-> >>> +
-> >>> +		/** @ptr: Point to the first unused page in the @pages table. */
-> >>> +		u32 ptr;
-> >>> +
-> >>> +		/**
-> >>> +		 * @page: Array of pages that can be used for an MMU page table update.
-> >>> +		 *
-> >>> +		 * After an VM operation, there might be free pages left in this array.
-> >>> +		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
-> >>> +		 */
-> >>> +		void **pages;
-> >>> +	} rsvd_page_tables;    
-> >>
-> >> Two questions:
-> >>
-> >> 1) Would a mempool simplify the implementation? It looks like a
-> >> reasonable match.  
-> > 
-> > Not sure what you mean by mempool,  
-> 
-> See include/linux/mempool.h
+--7ec3syeqgcjlux4q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oh, okay.
+On Wed, Aug 30, 2023 at 10:24:49AM -0300, Helen Koike wrote:
+> Hi all,
+>=20
+> Thanks for you comments.
+>=20
+> On 30/08/2023 08:37, Maxime Ripard wrote:
+> > On Wed, Aug 30, 2023 at 01:58:31PM +0300, Jani Nikula wrote:
+> > > On Wed, 30 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > On Tue, Aug 22, 2023 at 04:26:06PM +0200, Daniel Vetter wrote:
+> > > > > On Fri, Aug 11, 2023 at 02:19:53PM -0300, Helen Koike wrote:
+> > > > > > From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > > > > >=20
+> > > > > > Developers can easily execute several tests on different devices
+> > > > > > by just pushing their branch to their fork in a repository host=
+ed
+> > > > > > on gitlab.freedesktop.org which has an infrastructure to run jo=
+bs
+> > > > > > in several runners and farms with different devices.
+> > > > > >=20
+> > > > > > There are also other automated tools that uprev dependencies,
+> > > > > > monitor the infra, and so on that are already used by the Mesa
+> > > > > > project, and we can reuse them too.
+> > > > > >=20
+> > > > > > Also, store expectations about what the DRM drivers are supposed
+> > > > > > to pass in the IGT test suite. By storing the test expectations
+> > > > > > along with the code, we can make sure both stay in sync with ea=
+ch
+> > > > > > other so we can know when a code change breaks those expectatio=
+ns.
+> > > > > >=20
+> > > > > > Also, include a configuration file that points to the out-of-tr=
+ee
+> > > > > > CI scripts.
+> > > > > >=20
+> > > > > > This will allow all contributors to drm to reuse the infrastruc=
+ture
+> > > > > > already in gitlab.freedesktop.org to test the driver on several
+> > > > > > generations of the hardware.
+> > > > > >=20
+> > > > > > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > > > > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> > > > > > Acked-by: Daniel Stone <daniels@collabora.com>
+> > > > > > Acked-by: Rob Clark <robdclark@gmail.com>
+> > > > > > Tested-by: Rob Clark <robdclark@gmail.com>
+> > > > >=20
+> > > > > Ok I pushed this into a topic/drm-ci branch in drm.git and asked =
+sfr to
+> > > > > include that branch in linux-next.
+> > > > >=20
+> > > > > But also I'd like to see a lot more acks here, we should be able =
+to at
+> > > > > least pile up a bunch of (driver) maintainers from drm-misc in su=
+pport of
+> > > > > this. Also maybe media, at least I've heard noises that they're m=
+aybe
+> > > > > interested too? Plus anyone else, the more the better.
+> > > >=20
+> > > > I'm not really convinced by that approach at all, and most of the i=
+ssues
+> > > > I see are shown by the follow-up series here:
+> > >=20
+> > > I'm not fully convinced either, more like "let's see". In that narrow
+> > > sense, ack. I don't see harm in trying, if you're also open to backing
+> > > off in case it does not pan out.
+> > >=20
+> > > > https://lore.kernel.org/dri-devel/20230825122435.316272-1-vignesh.r=
+aman@collabora.com/
+> > > >=20
+> > > >    * We hardcode a CI farm setup into the kernel
+>=20
+>=20
+> These could be out of tree.
+>=20
+> There is a version outside the kernel tree where you just point the CI
+> configuration to a url:
+> https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/merge_requests/1
+>=20
+> We were discussing it here https://www.linuxtv.org/cgi-bin/mailman/privat=
+e/linuxtv-ci/2023-August/000027.html
 
-> 
-> > but I'm using a kmem_cache here for
-> > all page table allocations. The pages that are passed to
-> > panthor_vm_op_ctx::rsvd_page_tables::pages are allocated from this
-> > pool. It's just that for each VM operation we pre-allocate page-tables,
-> > and release those that were not used when the operation is done (we
-> > over-allocate for the worst case scenario).  
-> 
-> The mempool could, potentially, replace the rsvd_page_tables structure.
-> The kmem_cache you would still want as that's per-driver.
+It looks like it's private
 
-Need to have a closer look at the API to make my mind, but at first
-glance it seems to be overkill for what I initially had in mind.
+> (I guess Sima's reply didn't got into the mailing list) but the argument =
+of
+> not having out of tree repo is due to historical bad experience of having=
+ to
+> sync the kernel with the code and it can become messy.
 
-> 
-> >>
-> >> 2) Does it really make sense to have a separate pool of memory for every
-> >> operation? Instead of having a separate pool for each operation, it
-> >> would be possible to just keep track of the total number needed for all
-> >> outstanding operations. Then a single (per device or maybe per-VM if
-> >> necessary) mempool could be resized to ensure it has the right amount of
-> >> space.  
-> > 
-> > The pool is per-driver (see the global pt_cache). rsvd_page_tables just
-> > holds pages needed for a specific VM operation. To be more specific, it
-> > holds pages for the worst case (page table tree is empty, except for the
-> > root page table).  
-> 
-> What I'm wondering is to we need to keep the pages for each operation in
-> separate pools.
+My point is that even though the test strategy might be considered a
+"property" of the kernel, how you execute it is definitely not and you
+will have as many setups as you have CI farms. You can't put that into
+the kernel, just like we don't put the kernel command line in it for
+example.
 
-I was not really considering it a pool, more a set of pages that will
-be used by the VM operation, some of them being returned to the
-kmem_cache pool if we end up using less (over-provisioning). If we have
-a mempool, say, at the VM level, that means we have 2 levels of caching:
-the kmem_cache itself, and the mempool attached to the VM. Is there any
-benefit here? Do we expect kmem_cache to be too slow for fast/already
-allocated pages?
+> > > >=20
+> > > >    * We cannot trust that the code being run is actually the one be=
+ing
+> > > >      pushed into gitlab
+>=20
+>=20
+> We can improve this if this is a requirement.
+> For DTS configuration we can work with overlays (which is the current
+> modification on that patchset). For other changes that are not suitable to
+> upstream (and should be rare) we can see if we work with the
+> `-external-fixes` approach or another approach, we can check it case by c=
+ase
+> to understand why it is not suitable for upstream.
 
-I do see how over-provisioning can cause us to allocate a lot of pages
-that end up being unused, but I fail to see how VM/device level caching
-would solve that, because we still have to dequeue some operations to
-return pages to the intermediate pool, at which point, we've already
-lost, because already queued operations reserved the amount of pages
-they thought they needed for the worst case scenario.
-Operations being queued after that can pick from the returned pages of
-course, but that's already the case right now, because we return pages
-to the kmem_cache as soon as we're done executing a VM operation.
+The existence of that branch in itself is an issue to me. Again, it's a
+matter of trust. How can I trust a branch I barely know about, of which
+the development is not clear and isn't reviewed by any of the
+maintainers of the code that might affect the test outcomes.
 
-The only thing that might help is limiting the number of in-flight
-VM_BIND jobs per VM (or globally), and then have the submit path return
-EBUSY or EGAIN so the userspace driver knows it has to retry at a later
-time.
+Or put another way, if I run the tests on my machine, it won't work. Why
+should it work on the CI farm? The branch itself is broken. It might not
+be due to any of the work I did, but it's broken still.
 
-> So instead of having a rsvd_page_tables for each
-> operation, can we have one global one which is sized appropriately for
-> all operations that are in flight for the device? The operations are
-> serialized so there's no contention. Or at least a per-VM pool if we can
-> operate on multiple VMs at once.
+> > > >
+> > > >    * IMO, and I know we disagree here, any IGT test we enable for a=
+ given
+> > > >      platform should work, period. Allowing failures and flaky test=
+s just
+> > > >      sweeps whatever issue is there under the rug. If the test is at
+> > > >      fault, we should fix the test, if the driver / kernel is at fa=
+ult,
+> > > >      then I certainly want to know about it.
+>
+> I believe we need a baseline and understand the current status of tests. =
+If
+> you check the xfails folder in the patch you can see that I had to add a =
+few
+> tests on *-skips.txt since those tests crashes the system and other on
+> *-fails.txt that are consistently not passing.
 
-We can operate on multiple VMs at once (VM is basically your VkDevice,
-AKA the logical device), but I'm not too worried about the
-synchronization that would be incurred by the caching at the
-panthor_device level. I'm just curious to know what value it would add.
-I'm also worried that it makes the reservation logic more complex:
-we need to track what's still reserved and how many pages can be
-re-used because they were never reclaimed by the VM operation that had
-reserved it. Also didn't check how mempool plays with memory reclaim,
-but if the memory in a mempool is not reclaimable, that might be
-another problem.
+I agree that we need a baseline, but that baseline should be defined by
+the tests own merits, not their outcome on a particular platform.
 
-To sum-up, I'd really like to refrain adding an intermediate cache
-until the per-driver kmem cache is proven to be too slow.
+In other words, I want all drivers to follow that baseline, and if they
+don't it's a bug we should fix, and we should be vocal about it. We
+shouldn't ignore the test because it's broken.
 
-> 
-> >>
-> >> I'm also a little wary that the VM_BIND infrastructure could potentially
-> >> be abused to trigger a large amount of kernel allocation as it allocates
-> >> up-front for the worst case but those pages are not charged to the
-> >> process (AFAICT). But I haven't fully got my head round that yet.  
-> > 
-> > Yep, that's problematic, indeed. I considered allocating page tables
-> > as GEM objects, but the overhead of a GEM object is quite big
-> > (hundreds of bytes of meta-data) compared to the size of a page table
-> > (4k), and kmem_cache was just super convenient for this page table
-> > cache :-).  
-> 
-> I think page tables as GEM objects is likely to be overkill,
+Going back to the example I used previously, kms_hdmi_inject@inject-4k
+shouldn't fail on mt8173, ever. That's a bug. Ignoring it and reporting
+that "all tests are good" isn't ok. There's something wrong with that
+driver and we should fix it.
 
-I agree it's overkill/not easy to interface with io_pgtbl, but there
-was one aspect I was interested in, more than the memory accounting:
-being able to reclaim page tables the same way we reclaim regular GEMs,
-which would simplify the shrinker/reclaim logic. After discussing it
-with Robin, I realized it was pretty much useless, because reclaiming
-the GEM will also teardown all VM mappings, which will return the page
-table memory to the kmem_cache, and then the kmem_cache layer can
-reclaim it.
+Or at the very least, explain in much details what is the breakage, how
+we noticed it, why we can't fix it, and how to reproduce it.
 
-> we
-> obviously also have to be careful not to allow user space to get access
-> to the contents - whereas GEM objects are usually to provide user space
-> access ;).
+Because in its current state, there's no chance we'll ever go over that
+test list and remove some of them. Or even know if, if we ever fix a bug
+somewhere, we should remove a flaky or failing test.
 
-GEMs can be hidden to userspace if we want. We are the ones in control
-of the mmap() (I think there's a BO flag for preventing users access
-already).
+> Since the "any IGT test we enable for a given platform should work" is no=
+t a
+> reality atm,
 
-> I'm not sure quite what the best solution here is, clearly one
-> 'solution' is to just cap the number of outstanding VM_BINDs.
+Thanks for the reality check, but it's very much doable: we're in
+control of the test suite.
 
-I think that'd make sense.
+> we need to have a clear view about which tests are not corresponding
+> to it, so we can start fixing. First we need to be aware of the issues
+> so we can start fixing them, otherwise we will stay in the "no tests
+> no failures" ground :)
 
-> 
-> >>  
-> >>> +
-> >>> +	/** @flags: Combination of drm_panthor_vm_bind_op_flags. */
-> >>> +	u32 flags;
-> >>> +
-> >>> +	/** @va: Virtual range targeted by the VM operation. */
-> >>> +	struct {
-> >>> +		/** @addr: Start address. */
-> >>> +		u64 addr;
-> >>> +
-> >>> +		/** @range: Range size. */
-> >>> +		u64 range;
-> >>> +	} va;
-> >>> +
-> >>> +	/**
-> >>> +	 * @returned_vmas: List of panthor_vma objects returned after a VM operation.
-> >>> +	 *
-> >>> +	 * For unmap operations, this will contain all VMAs that were covered by the
-> >>> +	 * specified VA range.
-> >>> +	 *
-> >>> +	 * For map operations, this will contain all VMAs that previously mapped to
-> >>> +	 * the specified VA range.
-> >>> +	 *
-> >>> +	 * Those VMAs, and the resources they point to will be released as part of
-> >>> +	 * the op_ctx cleanup operation.
-> >>> +	 */
-> >>> +	struct list_head returned_vmas;
-> >>> +
-> >>> +	/** @map: Fields specific to a map operation. */
-> >>> +	struct {
-> >>> +		/** @gem: GEM object information. */
-> >>> +		struct {
-> >>> +			/** @obj: GEM object to map. */
-> >>> +			struct drm_gem_object *obj;
-> >>> +
-> >>> +			/** @offset: Offset in the GEM object. */
-> >>> +			u64 offset;
-> >>> +		} gem;
-> >>> +
-> >>> +		/**
-> >>> +		 * @sgt: sg-table pointing to pages backing the GEM object.
-> >>> +		 *
-> >>> +		 * This is gathered at job creation time, such that we don't have
-> >>> +		 * to allocate in ::run_job().
-> >>> +		 */
-> >>> +		struct sg_table *sgt;
-> >>> +
-> >>> +		/**
-> >>> +		 * @prev_vma: Pre-allocated VMA object to deal with a remap situation.
-> >>> +		 *
-> >>> +		 * If the map request covers a region that's inside another VMA, the
-> >>> +		 * previous VMA will be split, requiring instantiation of a maximum of
-> >>> +		 * two new VMA objects.
-> >>> +		 */
-> >>> +		struct panthor_vma *prev_vma;
-> >>> +
-> >>> +		/**
-> >>> +		 * @new_vma: The new VMA object that will be inserted to the VA tree.
-> >>> +		 */
-> >>> +		struct panthor_vma *new_vma;
-> >>> +
-> >>> +		/**
-> >>> +		 * @next_vma: Pre-allocated VMA object to deal with a remap situation.
-> >>> +		 *
-> >>> +		 * See @prev_vma.
-> >>> +		 */
-> >>> +		struct panthor_vma *next_vma;    
-> >>
-> >> It's probably premature optimization, but it feels like having a cache
-> >> of these VMA structures might be an idea.  
-> > 
-> > If it's needed, I'll probably go for a kmem_cache, but I need to
-> > check if it's worth it first (if the closest kmalloc cache is
-> > significantly biffer than the struct size).
-> >   
-> >> I'm also struggling to
-> >> understand how both a new prev and new next VMA are needed - but I
-> >> haven't dug into the GPU VA manager.  
-> > 
-> > prev/next are for mapping splits: an object is already mapped, and a new
-> > object is mapped in the middle of this pre-existing mapping. In that
-> > case, we need 2 vma object for the preceeding and succeeding mappings,
-> > since the old mapping object will be released.
-> > 
-> > new_vma is for the new mapping.  
-> 
-> Yeah, looking into the GPU VA manager I see now. My problem was that I
-> assumed in the case of a split one of the original mappings would simply
-> be resized, so you'd only need one new VMA (plus the one being added).
-> But AFAICT that resize doesn't happen and instead new VMA are created.
+I think we have somewhat contradicting goals. You want to make
+regression testing, so whatever test used to work in the past should
+keep working. That's fine, but it's different from "expectations about
+what the DRM drivers are supposed to pass in the IGT test suite" which
+is about validation, ie "all KMS drivers must behave this way".
 
-Yes. On the other hand, if we have a kmem_cache for panthor_vma
-objects, that shouldn't make a big difference.
+I guess for regression you very much would like that all-green
+dashboard, and it's understandable. For validation, we don't care and we
+should be as vocal as possible to report broken drivers.
 
-> 
-> >>  
-> >>> +	} map;
-> >>> +};
-> >>> +  
-> > 
-> > [...]
-> >   
-> >>> +/**
-> >>> + * panthor_vm_active() - Flag a VM as active
-> >>> + * @VM: VM to flag as active.
-> >>> + *
-> >>> + * Assigns an address space to a VM so it can be used by the GPU/MCU.
-> >>> + *
-> >>> + * Return: 0 on success, a negative error code otherwise.
-> >>> + */
-> >>> +int panthor_vm_active(struct panthor_vm *vm)
-> >>> +{
-> >>> +	struct panthor_device *ptdev = vm->ptdev;
-> >>> +	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
-> >>> +	int ret = 0, as, cookie;
-> >>> +	u64 transtab, transcfg;
-> >>> +
-> >>> +	if (!drm_dev_enter(&ptdev->base, &cookie))
-> >>> +		return -ENODEV;
-> >>> +
-> >>> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> >>> +
-> >>> +	as = vm->as.id;
-> >>> +	if (as >= 0) {
-> >>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
-> >>> +
-> >>> +		if (ptdev->mmu->as.faulty_mask & mask) {
-> >>> +			/* Unhandled pagefault on this AS, the MMU was
-> >>> +			 * disabled. We need to re-enable the MMU after
-> >>> +			 * clearing+unmasking the AS interrupts.
-> >>> +			 */
-> >>> +			gpu_write(ptdev, MMU_INT_CLEAR, mask);
-> >>> +			ptdev->mmu->as.faulty_mask &= ~mask;
-> >>> +			gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
-> >>> +			goto out_enable_as;
-> >>> +		}
-> >>> +
-> >>> +		goto out_unlock;
-> >>> +	}
-> >>> +
-> >>> +	/* Check for a free AS */
-> >>> +	if (vm->for_mcu) {
-> >>> +		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
-> >>> +		as = 0;
-> >>> +	} else {
-> >>> +		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
-> >>> +	}
-> >>> +
-> >>> +	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
-> >>> +		struct panthor_vm *lru_vm;
-> >>> +
-> >>> +		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
-> >>> +						  struct panthor_vm,
-> >>> +						  as.lru_node);
-> >>> +		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
-> >>> +			ret = -EBUSY;
-> >>> +			goto out_unlock;
-> >>> +		}
-> >>> +
-> >>> +		list_del_init(&lru_vm->as.lru_node);
-> >>> +		as = lru_vm->as.id;    
-> >>
-> >> Should this not set lru_vm->as.id = -1, so that the code knows the VM no
-> >> longer has an address space?  
-> > 
-> > Good catch!
-> >   
-> >>  
-> >>> +	} else {
-> >>> +		set_bit(as, &ptdev->mmu->as.alloc_mask);
-> >>> +	}
-> >>> +
-> >>> +	/* Assign the free or reclaimed AS to the FD */
-> >>> +	vm->as.id = as;
-> >>> +	ptdev->mmu->as.slots[as].vm = vm;
-> >>> +
-> >>> +out_enable_as:
-> >>> +	transtab = cfg->arm_lpae_s1_cfg.ttbr;
-> >>> +	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
-> >>> +		   AS_TRANSCFG_PTW_RA |
-> >>> +		   AS_TRANSCFG_ADRMODE_AARCH64_4K;
-> >>> +	if (ptdev->coherent)
-> >>> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
-> >>> +
-> >>> +	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
-> >>> +
-> >>> +out_unlock:
-> >>> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> >>> +	drm_dev_exit(cookie);
-> >>> +	return ret;
-> >>> +}
-> >>> +  
-> > 
-> > [...]
-> >   
-> >>> +
-> >>> +static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
-> >>> +{
-> >>> +	status = panthor_mmu_fault_mask(ptdev, status);
-> >>> +	while (status) {
-> >>> +		u32 as = ffs(status | (status >> 16)) - 1;
-> >>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
-> >>> +		u32 new_int_mask;
-> >>> +		u64 addr;
-> >>> +		u32 fault_status;
-> >>> +		u32 exception_type;
-> >>> +		u32 access_type;
-> >>> +		u32 source_id;
-> >>> +
-> >>> +		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
-> >>> +		addr = gpu_read(ptdev, AS_FAULTADDRESS_LO(as));
-> >>> +		addr |= (u64)gpu_read(ptdev, AS_FAULTADDRESS_HI(as)) << 32;
-> >>> +
-> >>> +		/* decode the fault status */
-> >>> +		exception_type = fault_status & 0xFF;
-> >>> +		access_type = (fault_status >> 8) & 0x3;
-> >>> +		source_id = (fault_status >> 16);
-> >>> +
-> >>> +		/* Page fault only */    
-> >>
-> >> This comment makes no sense - it looks like it's copied over from panfrost.  
-> > 
-> > Uh, it made sense before I dropped map/alloc-on-fault :-).  
-> 
-> :)
-> 
-> >>
-> >> If I understand correctly we don't (currently) support growing on page
-> >> fault - and it's not really needed now the MCU can handle the tiler heaps.  
-> > 
-> > Exaclty. Map/alloc on fault is a bit challenging because of the whole
-> > 'we have to guarantee that a job is done in finite time, and we must
-> > make sure fence signaling is not blocked on allocation'. Given
-> > drm_gem_get_pages() doesn't do non-blocking allocations, I thought it'd
-> > be preferable to postpone map-on-fault until we actually decide we need
-> > it. Note that i915 seems to have some sort of non-blocking page
-> > allocator in shmem_sg_alloc_table()[1].  
-> 
-> Agreed, the intention is definitely to move away from map/alloc-on-fault
-> - handling page faults from the GPU on the CPU is expensive even without
-> the can-of-worms of fence signalling.
+Eventually, we should have regression testing over the validation test
+suite.
 
-Yeah, I agree, but I'd bet on Khronos members being inventive enough
-to come with a use case for this map/alloc-on-fault feature :-).
-Anyway, that's not something we have to worry about just yet.
+It's not about reality. We should be clear what we expect from those
+test suites, and not claim that it's something it's not.
+
+> > > At least for display, where this also depends on peripheral hardware,
+> > > it's not an easy problem, really.
+> >=20
+> > Aside from the Chamelium tests, which tests actually rely on peripheral
+> > hardware? On EDID and hotplug, sure, but that can easily be set up from
+> > the userspace, or something like
+> >=20
+> > https://www.lindy-international.com/HDMI-2-0-EDID-Emulator.htm?websale8=
+=3Dld0101.ld021102&pi=3D32115
+> >=20
+> > > How reliable do you need it to be? How many nines? Who is going to
+> > > debug the issues that need hundreds or thousands of runs to reproduce?
+> > > If a commit makes some test less reliable, how long is it going to
+> > > take to even see that or pinpoint that?
+> >=20
+> > I mean, that's also true for failures or success then. How many times do
+> > you need a test to run properly to qualify it as a meaningful test? How
+> > do you know that it's not a flaky test?
+> >=20
+> > Ultimately, it's about trust. If, for a given test that just failed, I
+> > can't be certain that it's because of the branch I just submitted, I
+> > will just ignore the tests results after a while.
+> >=20
+> > This is already what plagues kernelci, and we should do better.
+>
+> This is something that is really nice on Mesa3D, a patch only gets merged=
+ if
+> tests passes, which forces people to not ignore it, which forces the code=
+ to
+> be fixed and the CI to be constantly maintained.
+>=20
+> Of course there are bad days there, but there is real value. Nice thread =
+to
+> check: https://gitlab.freedesktop.org/mesa/mesa/-/issues/8635 (thanks Aly=
+ssa
+> for the feedback).
+
+I'm sure it works great for Mesa, but I'm also sure it doesn't ignore
+CTS reports that a particular device isn't a valid OpenGL or Vulkan
+implementation anymore.
+
+> > And I'm sorry, but if some part of the kernel or driver just isn't
+> > reliable, then we shouldn't claim it is (except for all the times it
+> > isn't). If no-one has the time to look into it, fine, but flagging it
+> > under a flaky test doesn't help anyone.
+>
+> At least we would know what is there that isn't reliable.
+
+We would too if the test was reported as failed. But our preferred
+approach to do so diverge.
+
+Maxime
+
+--7ec3syeqgcjlux4q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZO9YuwAKCRDj7w1vZxhR
+xTjpAQCXnznNR0kerRl5Ng+uhQHuTUw4kVf1BDYBmz0qDPDkAwD/SjLSiPg4qZYr
+X/ObWceHFsnKS9Q1QzhUri/hcHTamA0=
+=Icx+
+-----END PGP SIGNATURE-----
+
+--7ec3syeqgcjlux4q--
