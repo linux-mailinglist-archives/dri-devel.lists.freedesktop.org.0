@@ -1,39 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5028078D669
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:12:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5459578D66D
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Aug 2023 16:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C52C10E524;
-	Wed, 30 Aug 2023 14:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A845689496;
+	Wed, 30 Aug 2023 14:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9297010E524
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:12:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6DBF2F4;
- Wed, 30 Aug 2023 07:13:21 -0700 (PDT)
-Received: from [10.57.92.7] (unknown [10.57.92.7])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CC793F738;
- Wed, 30 Aug 2023 07:12:39 -0700 (PDT)
-Message-ID: <c539fda5-93b2-167f-e2fd-b0487898ee9d@arm.com>
-Date: Wed, 30 Aug 2023 15:12:43 +0100
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
+ [IPv6:2607:f8b0:4864:20::c36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CF0895B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 14:15:39 +0000 (UTC)
+Received: by mail-oo1-xc36.google.com with SMTP id
+ 006d021491bc7-571194584e2so3460802eaf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 07:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693404938; x=1694009738; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yCpeAPS/CibFq665kaK2mvNCIQFGx1fXEcmTzAPISWc=;
+ b=TiKhgeqY8ZA81QIykwdNnskDxiJBc10gwVUGXtaCNbiIxQ12ABNVdYTQcdsKpaurWB
+ 4Zc4T3dYcCWa6Dw98WnJzx1xukAhhHmK6syQ94dj84ntCFjtmOFE4e7NY3n4vVGHg0hW
+ S0X8UMveML/xbDl2NDrfUTYPKQuk2iVzfBPTb0wGGJ1dtJFit0z9GHQEphYHTWpJ0uS0
+ JAwuLgCZ8tOwxfOLiBsaDD2TOZSNC6Y+hxeqWoKedTlVjurVMqTsP9IP3I0xKHc7O7pg
+ JXvIbxWdpIHzgUxopEiDEVHdl7OEg1q4yFIDg8Ln5zMt+J/rKRDY/JFmml8pakvI44i0
+ B6Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693404938; x=1694009738;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yCpeAPS/CibFq665kaK2mvNCIQFGx1fXEcmTzAPISWc=;
+ b=inAl6cipiU2F58uR/0H9P4j3V6FCj0lj8MOrotn25Ep+kt9CySFWs2PuiJ0uj68aGn
+ 6wmMMKQAgsSCCzW6JnMSgOdAfccTsl2m+ty5VMeNxeVDHXt04d3siVyBbcqu32kqhOXc
+ KrH79baVG5Vfat3JfvIHQOPZyVoCyEzisMx8YoWmw3MlfVkMG2f9Gb0u///+IH8t8tbr
+ L3y4U0+hnoFiNagypNQPQ7iCkP96dlLpCfiBLCKsoD7Lf+XXe9oJcufQ9JqowMhFj880
+ 4oCmMKmNZ+8hPLZJTx8UGjAlUgAz+k8Y/b14/I4qCQuW85N+hRYjnWApjUFHqWQNKKt6
+ g9zQ==
+X-Gm-Message-State: AOJu0YxQ4J6jZY6Xn3JMuMbXjtMZZ7RaRsn7555XLVanQvCvRYrnSn6+
+ Ysrcg9sVIu0zkfMEav43HDyrpPpYXeenY6BBM0U=
+X-Google-Smtp-Source: AGHT+IFFDnRR2uY0HMprngD3qnR0QCHLsvwLy0H6o8N6F5irKWos3ZRHDcMLDSu3VnmsJJtI9HCVvtNsuy0h6t1SXXo=
+X-Received: by 2002:a4a:9196:0:b0:571:28d5:2c77 with SMTP id
+ d22-20020a4a9196000000b0057128d52c77mr2188112ooh.5.1693404938283; Wed, 30 Aug
+ 2023 07:15:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 08/15] drm/panthor: Add the MMU/VM logical block
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-9-boris.brezillon@collabora.com>
- <aa0d660b-861e-c330-840b-5603fd4b4a38@arm.com>
- <20230829173317.523177f8@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230829173317.523177f8@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1693386602.git.pstanner@redhat.com>
+ <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
+In-Reply-To: <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 30 Aug 2023 17:15:02 +0300
+Message-ID: <CAHp75Vc72uuNvFxq4TGO=nXoGhbqVxyqvQ67ioL8ajtZwMUBgA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] string.h: add array-wrappers for (v)memdup_user()
+To: Philipp Stanner <pstanner@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,403 +69,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ Siddh Raman Pant <code@siddh.me>, Kees Cook <keescook@chromium.org>,
+ kexec@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ linux-hardening@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Eric Biederman <ebiederm@xmission.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
+ David Disseldorp <ddiss@suse.de>, Nick Alcock <nick.alcock@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/08/2023 16:33, Boris Brezillon wrote:
-> On Mon, 14 Aug 2023 16:53:09 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->>> +
->>> +/**
->>> + * struct panthor_vm_op_ctx - VM operation context
->>> + *
->>> + * With VM operations potentially taking place in a dma-signaling path, we
->>> + * need to make sure everything that might require resource allocation is
->>> + * pre-allocated upfront. This is what this operation context is far.
->>> + *
->>> + * We also collect resources that have been freed, so we can release them
->>> + * asynchronously, and let the VM_BIND scheduler process the next VM_BIND
->>> + * request.
->>> + */
->>> +struct panthor_vm_op_ctx {
->>> +	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
->>> +	struct {
->>> +		/** @count: Number of pages reserved. */
->>> +		u32 count;
->>> +
->>> +		/** @ptr: Point to the first unused page in the @pages table. */
->>> +		u32 ptr;
->>> +
->>> +		/**
->>> +		 * @page: Array of pages that can be used for an MMU page table update.
->>> +		 *
->>> +		 * After an VM operation, there might be free pages left in this array.
->>> +		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
->>> +		 */
->>> +		void **pages;
->>> +	} rsvd_page_tables;  
->>
->> Two questions:
->>
->> 1) Would a mempool simplify the implementation? It looks like a
->> reasonable match.
-> 
-> Not sure what you mean by mempool,
+On Wed, Aug 30, 2023 at 4:46=E2=80=AFPM Philipp Stanner <pstanner@redhat.co=
+m> wrote:
 
-See include/linux/mempool.h
+> +       if (unlikely(check_mul_overflow(n, size, &nbytes)))
+> +               return ERR_PTR(-EINVAL);
 
-> but I'm using a kmem_cache here for
-> all page table allocations. The pages that are passed to
-> panthor_vm_op_ctx::rsvd_page_tables::pages are allocated from this
-> pool. It's just that for each VM operation we pre-allocate page-tables,
-> and release those that were not used when the operation is done (we
-> over-allocate for the worst case scenario).
+> +       if (unlikely(check_mul_overflow(n, size, &nbytes)))
+> +               return ERR_PTR(-EINVAL);
 
-The mempool could, potentially, replace the rsvd_page_tables structure.
-The kmem_cache you would still want as that's per-driver.
+Btw, why not -EOVERFLOW ?
 
->>
->> 2) Does it really make sense to have a separate pool of memory for every
->> operation? Instead of having a separate pool for each operation, it
->> would be possible to just keep track of the total number needed for all
->> outstanding operations. Then a single (per device or maybe per-VM if
->> necessary) mempool could be resized to ensure it has the right amount of
->> space.
-> 
-> The pool is per-driver (see the global pt_cache). rsvd_page_tables just
-> holds pages needed for a specific VM operation. To be more specific, it
-> holds pages for the worst case (page table tree is empty, except for the
-> root page table).
-
-What I'm wondering is to we need to keep the pages for each operation in
-separate pools. So instead of having a rsvd_page_tables for each
-operation, can we have one global one which is sized appropriately for
-all operations that are in flight for the device? The operations are
-serialized so there's no contention. Or at least a per-VM pool if we can
-operate on multiple VMs at once.
-
->>
->> I'm also a little wary that the VM_BIND infrastructure could potentially
->> be abused to trigger a large amount of kernel allocation as it allocates
->> up-front for the worst case but those pages are not charged to the
->> process (AFAICT). But I haven't fully got my head round that yet.
-> 
-> Yep, that's problematic, indeed. I considered allocating page tables
-> as GEM objects, but the overhead of a GEM object is quite big
-> (hundreds of bytes of meta-data) compared to the size of a page table
-> (4k), and kmem_cache was just super convenient for this page table
-> cache :-).
-
-I think page tables as GEM objects is likely to be overkill, we
-obviously also have to be careful not to allow user space to get access
-to the contents - whereas GEM objects are usually to provide user space
-access ;) I'm not sure quite what the best solution here is, clearly one
-'solution' is to just cap the number of outstanding VM_BINDs.
-
->>
->>> +
->>> +	/** @flags: Combination of drm_panthor_vm_bind_op_flags. */
->>> +	u32 flags;
->>> +
->>> +	/** @va: Virtual range targeted by the VM operation. */
->>> +	struct {
->>> +		/** @addr: Start address. */
->>> +		u64 addr;
->>> +
->>> +		/** @range: Range size. */
->>> +		u64 range;
->>> +	} va;
->>> +
->>> +	/**
->>> +	 * @returned_vmas: List of panthor_vma objects returned after a VM operation.
->>> +	 *
->>> +	 * For unmap operations, this will contain all VMAs that were covered by the
->>> +	 * specified VA range.
->>> +	 *
->>> +	 * For map operations, this will contain all VMAs that previously mapped to
->>> +	 * the specified VA range.
->>> +	 *
->>> +	 * Those VMAs, and the resources they point to will be released as part of
->>> +	 * the op_ctx cleanup operation.
->>> +	 */
->>> +	struct list_head returned_vmas;
->>> +
->>> +	/** @map: Fields specific to a map operation. */
->>> +	struct {
->>> +		/** @gem: GEM object information. */
->>> +		struct {
->>> +			/** @obj: GEM object to map. */
->>> +			struct drm_gem_object *obj;
->>> +
->>> +			/** @offset: Offset in the GEM object. */
->>> +			u64 offset;
->>> +		} gem;
->>> +
->>> +		/**
->>> +		 * @sgt: sg-table pointing to pages backing the GEM object.
->>> +		 *
->>> +		 * This is gathered at job creation time, such that we don't have
->>> +		 * to allocate in ::run_job().
->>> +		 */
->>> +		struct sg_table *sgt;
->>> +
->>> +		/**
->>> +		 * @prev_vma: Pre-allocated VMA object to deal with a remap situation.
->>> +		 *
->>> +		 * If the map request covers a region that's inside another VMA, the
->>> +		 * previous VMA will be split, requiring instantiation of a maximum of
->>> +		 * two new VMA objects.
->>> +		 */
->>> +		struct panthor_vma *prev_vma;
->>> +
->>> +		/**
->>> +		 * @new_vma: The new VMA object that will be inserted to the VA tree.
->>> +		 */
->>> +		struct panthor_vma *new_vma;
->>> +
->>> +		/**
->>> +		 * @next_vma: Pre-allocated VMA object to deal with a remap situation.
->>> +		 *
->>> +		 * See @prev_vma.
->>> +		 */
->>> +		struct panthor_vma *next_vma;  
->>
->> It's probably premature optimization, but it feels like having a cache
->> of these VMA structures might be an idea.
-> 
-> If it's needed, I'll probably go for a kmem_cache, but I need to
-> check if it's worth it first (if the closest kmalloc cache is
-> significantly biffer than the struct size).
-> 
->> I'm also struggling to
->> understand how both a new prev and new next VMA are needed - but I
->> haven't dug into the GPU VA manager.
-> 
-> prev/next are for mapping splits: an object is already mapped, and a new
-> object is mapped in the middle of this pre-existing mapping. In that
-> case, we need 2 vma object for the preceeding and succeeding mappings,
-> since the old mapping object will be released.
-> 
-> new_vma is for the new mapping.
-
-Yeah, looking into the GPU VA manager I see now. My problem was that I
-assumed in the case of a split one of the original mappings would simply
-be resized, so you'd only need one new VMA (plus the one being added).
-But AFAICT that resize doesn't happen and instead new VMA are created.
-
->>
->>> +	} map;
->>> +};
->>> +
-> 
-> [...]
-> 
->>> +/**
->>> + * panthor_vm_active() - Flag a VM as active
->>> + * @VM: VM to flag as active.
->>> + *
->>> + * Assigns an address space to a VM so it can be used by the GPU/MCU.
->>> + *
->>> + * Return: 0 on success, a negative error code otherwise.
->>> + */
->>> +int panthor_vm_active(struct panthor_vm *vm)
->>> +{
->>> +	struct panthor_device *ptdev = vm->ptdev;
->>> +	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
->>> +	int ret = 0, as, cookie;
->>> +	u64 transtab, transcfg;
->>> +
->>> +	if (!drm_dev_enter(&ptdev->base, &cookie))
->>> +		return -ENODEV;
->>> +
->>> +	mutex_lock(&ptdev->mmu->as.slots_lock);
->>> +
->>> +	as = vm->as.id;
->>> +	if (as >= 0) {
->>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
->>> +
->>> +		if (ptdev->mmu->as.faulty_mask & mask) {
->>> +			/* Unhandled pagefault on this AS, the MMU was
->>> +			 * disabled. We need to re-enable the MMU after
->>> +			 * clearing+unmasking the AS interrupts.
->>> +			 */
->>> +			gpu_write(ptdev, MMU_INT_CLEAR, mask);
->>> +			ptdev->mmu->as.faulty_mask &= ~mask;
->>> +			gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
->>> +			goto out_enable_as;
->>> +		}
->>> +
->>> +		goto out_unlock;
->>> +	}
->>> +
->>> +	/* Check for a free AS */
->>> +	if (vm->for_mcu) {
->>> +		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
->>> +		as = 0;
->>> +	} else {
->>> +		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
->>> +	}
->>> +
->>> +	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
->>> +		struct panthor_vm *lru_vm;
->>> +
->>> +		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
->>> +						  struct panthor_vm,
->>> +						  as.lru_node);
->>> +		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
->>> +			ret = -EBUSY;
->>> +			goto out_unlock;
->>> +		}
->>> +
->>> +		list_del_init(&lru_vm->as.lru_node);
->>> +		as = lru_vm->as.id;  
->>
->> Should this not set lru_vm->as.id = -1, so that the code knows the VM no
->> longer has an address space?
-> 
-> Good catch!
-> 
->>
->>> +	} else {
->>> +		set_bit(as, &ptdev->mmu->as.alloc_mask);
->>> +	}
->>> +
->>> +	/* Assign the free or reclaimed AS to the FD */
->>> +	vm->as.id = as;
->>> +	ptdev->mmu->as.slots[as].vm = vm;
->>> +
->>> +out_enable_as:
->>> +	transtab = cfg->arm_lpae_s1_cfg.ttbr;
->>> +	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
->>> +		   AS_TRANSCFG_PTW_RA |
->>> +		   AS_TRANSCFG_ADRMODE_AARCH64_4K;
->>> +	if (ptdev->coherent)
->>> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
->>> +
->>> +	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
->>> +
->>> +out_unlock:
->>> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
->>> +	drm_dev_exit(cookie);
->>> +	return ret;
->>> +}
->>> +
-> 
-> [...]
-> 
->>> +
->>> +static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->>> +{
->>> +	status = panthor_mmu_fault_mask(ptdev, status);
->>> +	while (status) {
->>> +		u32 as = ffs(status | (status >> 16)) - 1;
->>> +		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
->>> +		u32 new_int_mask;
->>> +		u64 addr;
->>> +		u32 fault_status;
->>> +		u32 exception_type;
->>> +		u32 access_type;
->>> +		u32 source_id;
->>> +
->>> +		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
->>> +		addr = gpu_read(ptdev, AS_FAULTADDRESS_LO(as));
->>> +		addr |= (u64)gpu_read(ptdev, AS_FAULTADDRESS_HI(as)) << 32;
->>> +
->>> +		/* decode the fault status */
->>> +		exception_type = fault_status & 0xFF;
->>> +		access_type = (fault_status >> 8) & 0x3;
->>> +		source_id = (fault_status >> 16);
->>> +
->>> +		/* Page fault only */  
->>
->> This comment makes no sense - it looks like it's copied over from panfrost.
-> 
-> Uh, it made sense before I dropped map/alloc-on-fault :-).
-
-:)
-
->>
->> If I understand correctly we don't (currently) support growing on page
->> fault - and it's not really needed now the MCU can handle the tiler heaps.
-> 
-> Exaclty. Map/alloc on fault is a bit challenging because of the whole
-> 'we have to guarantee that a job is done in finite time, and we must
-> make sure fence signaling is not blocked on allocation'. Given
-> drm_gem_get_pages() doesn't do non-blocking allocations, I thought it'd
-> be preferable to postpone map-on-fault until we actually decide we need
-> it. Note that i915 seems to have some sort of non-blocking page
-> allocator in shmem_sg_alloc_table()[1].
-
-Agreed, the intention is definitely to move away from map/alloc-on-fault
-- handling page faults from the GPU on the CPU is expensive even without
-the can-of-worms of fence signalling.
-
-Steve
-
->>
->>> +		mutex_lock(&ptdev->mmu->as.slots_lock);
->>> +
->>> +		new_int_mask =
->>> +			panthor_mmu_fault_mask(ptdev, ~ptdev->mmu->as.faulty_mask);
->>> +
->>> +		/* terminal fault, print info about the fault */
->>> +		drm_err(&ptdev->base,
->>> +			"Unhandled Page fault in AS%d at VA 0x%016llX\n"
->>> +			"raw fault status: 0x%X\n"
->>> +			"decoded fault status: %s\n"
->>> +			"exception type 0x%X: %s\n"
->>> +			"access type 0x%X: %s\n"
->>> +			"source id 0x%X\n",
->>> +			as, addr,
->>> +			fault_status,
->>> +			(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
->>> +			exception_type, panthor_exception_name(ptdev, exception_type),
->>> +			access_type, access_type_name(ptdev, fault_status),
->>> +			source_id);
->>> +
->>> +		/* Ignore MMU interrupts on this AS until it's been
->>> +		 * re-enabled.
->>> +		 */
->>> +		ptdev->mmu->irq.mask = new_int_mask;
->>> +		gpu_write(ptdev, MMU_INT_MASK, new_int_mask);
->>> +
->>> +		/* Disable the MMU to kill jobs on this AS. */
->>> +		panthor_mmu_as_disable(ptdev, as);
->>> +		mutex_unlock(&ptdev->mmu->as.slots_lock);
->>> +
->>> +		status &= ~mask;
->>> +	}
->>> +}
->>> +PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
->>> +
-> 
-> [...]
-> 
->>> +
->>> +/**
->>> + * panthor_mmu_unplug() - Unplug the MMU logic
->>> + * @ptdev: Device.
->>> + *
->>> + * No access to the MMU regs should be done after this function is called.
->>> + * We suspend the IRQ and disable all VMs to guarantee that.
->>> + */
->>> +void panthor_mmu_unplug(struct panthor_device *ptdev)
->>> +{
->>> +	if (ptdev->mmu->irq.irq > 0)  
->>
->> In what situation is this not true? AFAICT the driver probe will fail if
->> the IRQ can't be obtained.
-> 
-> Right, I'll drop this test.
-> 
-> [1]https://elixir.bootlin.com/linux/v6.5/source/drivers/gpu/drm/i915/gem/i915_gem_shmem.c#L63
-
+--=20
+With Best Regards,
+Andy Shevchenko
