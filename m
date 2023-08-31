@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918A578E966
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 11:29:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7300B78E96C
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 11:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779BA10E5C9;
-	Thu, 31 Aug 2023 09:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B456310E5DA;
+	Thu, 31 Aug 2023 09:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F71010E5C9
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 09:29:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269CB10E5DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 09:31:00 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91366223;
- Thu, 31 Aug 2023 11:28:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14A52223;
+ Thu, 31 Aug 2023 11:29:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1693474096;
- bh=mmnCc3usX68hnUMuwcOIGkPfRe9piFESiry8XIREDig=;
+ s=mail; t=1693474176;
+ bh=KuTQdJ5OL0CxZyWRrXxMK+X9+ye8IsH5E2ej6cztE70=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OAeOv++2BFnN1qI03k2/aReiZ72KzGhxZOBWTvm+75qqO7s8OoW2knicCyGZGxbt/
- srvFt9qge3PU4SyuwNbmakWpKZcUA0QLksetsWEjDoj8PO3lM2q+sY5zKKalio7tlL
- boyzq/4E6XpWjJlcPvkEbZrFZd+p1gc6VBfN1pOA=
-Date: Thu, 31 Aug 2023 12:29:49 +0300
+ b=CbdKr9DD6cu4aYvBW9X1mzemtVVDIEbNReal1bAJcfO6A4VS0s4wzSxGFl7EebNp4
+ hKG00Lko9bMkxDeccVr7kCWtPjGQ8GCMyJIzNUTsP2OudSHeBXufrC7/9J0uK1yJFZ
+ pSOWH+41QqjuFr22LK0LMxlzyW8GKMW3Bo3d0UeQ=
+Date: Thu, 31 Aug 2023 12:31:08 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v6 3/4] drm/bridge: Drop CONFIG_OF conditionals around
- of_node pointers
-Message-ID: <20230831092949.GE2698@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v6 4/4] drm/bridge: panel: Drop CONFIG_OF conditional
+ around  *_of_get_bridge()
+Message-ID: <20230831093108.GF2698@pendragon.ideasonboard.com>
 References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
- <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
+ <20230831080938.47454-5-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230831080938.47454-5-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,103 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jonas Karlman <jonas@kwiboo.se>,
- Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Ondrej Jirman <megi@xff.cz>, Guillaume BRUN <the.cheaterman@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <treding@nvidia.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On Thu, Aug 31, 2023 at 09:09:38AM +0100, Biju Das wrote:
+> Drop unnecessary CONFIG_OF conditional around devm_drm_of_get_bridge() and
+> drmm_of_get_bridge() as it is guarded with #if..#else blocks in
+> drm_bridge.h.
 
-Thank you for the patch.
+This will increase the kernel size on non-OF system, to add functions
+that are not used. I don't think the #ifdef here is problematic.
 
-On Thu, Aug 31, 2023 at 09:09:37AM +0100, Biju Das wrote:
-> Having conditional around the of_node pointers turns out to make driver
-> code use ugly #ifdef and #if blocks. So drop the conditionals.
-> 
-> Suggested-by: Douglas Anderson <dianders@chromium.org>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
-> v5->v6:
->  * Added Rb tag from Douglas Anderson.
->  * Dropped conditionals from remaining drm/bridge drivers.
-> v5:
->  * Split from patch#2
+> v6:
+>  * New patch.
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
->  drivers/gpu/drm/bridge/panel.c                     | 2 --
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 2 --
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      | 2 --
->  4 files changed, 8 deletions(-)
+>  drivers/gpu/drm/bridge/panel.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> index 6169db73d2fe..ad8241758896 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> @@ -1231,9 +1231,7 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
->  
->  	mutex_init(&anx78xx->lock);
->  
-> -#if IS_ENABLED(CONFIG_OF)
->  	anx78xx->bridge.of_node = client->dev.of_node;
-> -#endif
->  
->  	anx78xx->client = client;
->  	i2c_set_clientdata(client, anx78xx);
 > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index 9316384b4474..7f41525f7a6e 100644
+> index 7f41525f7a6e..9220a1c23697 100644
 > --- a/drivers/gpu/drm/bridge/panel.c
 > +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -302,9 +302,7 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
->  	panel_bridge->panel = panel;
->  
->  	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
-> -#ifdef CONFIG_OF
->  	panel_bridge->bridge.of_node = panel->dev->of_node;
-> -#endif
->  	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
->  	panel_bridge->bridge.type = connector_type;
->  
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 6c1d79474505..52d91a0df85e 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3541,9 +3541,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->  			 | DRM_BRIDGE_OP_HPD;
->  	hdmi->bridge.interlace_allowed = true;
->  	hdmi->bridge.ddc = hdmi->ddc;
-> -#ifdef CONFIG_OF
->  	hdmi->bridge.of_node = pdev->dev.of_node;
-> -#endif
->  
->  	memset(&pdevinfo, 0, sizeof(pdevinfo));
->  	pdevinfo.parent = dev;
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index 04d4a1a10698..a8dd2a2e7c7b 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -1182,9 +1182,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->  
->  	dsi->bridge.driver_private = dsi;
->  	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
-> -#ifdef CONFIG_OF
->  	dsi->bridge.of_node = pdev->dev.of_node;
-> -#endif
->  
->  	return dsi;
+> @@ -482,7 +482,6 @@ struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge)
 >  }
+>  EXPORT_SYMBOL(drm_panel_bridge_connector);
+>  
+> -#ifdef CONFIG_OF
+>  /**
+>   * devm_drm_of_get_bridge - Return next bridge in the chain
+>   * @dev: device to tie the bridge lifetime to
+> @@ -550,5 +549,3 @@ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+>  	return bridge;
+>  }
+>  EXPORT_SYMBOL(drmm_of_get_bridge);
+> -
+> -#endif
 
 -- 
 Regards,
