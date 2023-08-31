@@ -1,80 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6016D78F265
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:19:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB2A78F278
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4DC10E6AE;
-	Thu, 31 Aug 2023 18:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928D910E1A7;
+	Thu, 31 Aug 2023 18:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2ECD10E6AE
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 18:19:11 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2bce552508fso19947081fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 11:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693505947; x=1694110747;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=t8TbKgzDw8JoqGaaI6UUHierJWn4flZMBUHu6upXnRE=;
- b=SCyRCfopcSm0jGcQ6KbGBDG8tr/DLHAAw+ISDE7jV43HRpzAiVQm7nmvOYvOFGs72A
- M2e4Yx9i2BW5odG9j+ekgKYAMBy7emsrQOcWG7oti3JqclNlcYvI8fXYUajVaYVXuQVw
- RD9/dy65st6m8rbMzW/EMECw8rsTowwxYO3kM=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1AFD10E1A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 18:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693506115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kDd6agFPPBZ563tT5sO0tAnh1fA6v2usb5U/Ua+TJqU=;
+ b=MLzT2lKF9dlG5mDqUs+P+QmurC7IL94GzPxuU1JJUuHN1JL9831HSOBEGitXfNSDy7MbBE
+ nHxVCFdOEbyPXp7WgOOpwwlheP1YyHogWU5Rchvmr3PoR1Ahu4qgCfAM5NsMX7juhuCPJb
+ zrVKJeYc6rVhhcgIwyG71s8Zf8xG71w=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-600-qga3fzUmOLCCIwPkdOQOUQ-1; Thu, 31 Aug 2023 14:21:53 -0400
+X-MC-Unique: qga3fzUmOLCCIwPkdOQOUQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ e9e14a558f8ab-34ce664572cso7430085ab.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 11:21:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693505947; x=1694110747;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1693506113; x=1694110913;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=t8TbKgzDw8JoqGaaI6UUHierJWn4flZMBUHu6upXnRE=;
- b=h77vyhhgJzUCHuvPdZVE5x89LJ+h0wbW6MEHkOS501R3zL0rfHzuLrqFoVJZM/Kd7N
- 2rkAHQHUnQaEXqTtObLyp0iXRhw46jvEAb1o9b2K8dB8Jsb/FWAvGajsNz+EpVB8JK9R
- GRoGEHNdMKfmUzx/f2nj5qUU3kGKXuIS5ztCOr+usthoi7WkjbJfVFqC43KOATlOLWu3
- gmVrHzyRiDkvpLfnNnjBUYnllyhDAlEVuHjXv4BoLSTXRKzg7wdyCkmLeQG+NTVZpE/f
- EoYj8AxllwMzDFLqHxXdE61xpZX/TnPjC08fM4wxZLYtBrSqTulbEEfO0pfgtkabUbdf
- rtAw==
-X-Gm-Message-State: AOJu0Yw4bA24NxZjqk0KVXVPbSis8LG9dvMdfIpD9Yf0UCoXfsDXx/UR
- Tf+rITpDBpp6I2kIdR5bvygKe4HteUWHWtx9pNMND1hY
-X-Google-Smtp-Source: AGHT+IE1kh7UmO4Ec9Qs/Kmpy7MHIQp8uKVem03lP82QzKWgF3kF5TfUEaSlE3ZsErLMkrZamsPROw==
-X-Received: by 2002:a2e:9a8e:0:b0:2bc:b0ae:a9e5 with SMTP id
- p14-20020a2e9a8e000000b002bcb0aea9e5mr10819lji.42.1693505947434; 
- Thu, 31 Aug 2023 11:19:07 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com.
- [209.85.128.52]) by smtp.gmail.com with ESMTPSA id
- g14-20020a1709061e0e00b00988b8ff849csm998496ejj.108.2023.08.31.11.19.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Aug 2023 11:19:07 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4005f0a6c2bso9195e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 11:19:06 -0700 (PDT)
-X-Received: by 2002:a05:600c:35cd:b0:400:fffe:edf6 with SMTP id
- r13-20020a05600c35cd00b00400fffeedf6mr18948wmq.1.1693505946288; Thu, 31 Aug
- 2023 11:19:06 -0700 (PDT)
+ bh=kDd6agFPPBZ563tT5sO0tAnh1fA6v2usb5U/Ua+TJqU=;
+ b=Oqng+zt9utpW8NKTm1IyffNW39mpXRwqz23fx+odkVvnBC98jZ86/achp90kbP8eXF
+ hDGJ6/ZAV1W5aAH/xN8nDNmjVmv0GVXJ0DRP6U/8am7L/5HoqMRVMYD2+eMENAFrB8pa
+ kPZ69Coz0W5SXSijCroNlf8BTTJ3Rh5JSihdFXjeisrwK71h+fvxorGrCYl7yYCvv0RD
+ SU0/TJWKQAHO/CnonTfe7fOfnk2kLL60tiophQ/Joltn4bDXteUe//DQXQSLDaYL33UN
+ JL0yKWBsBL3vtvEi2Qgtc57V/cRNQ37B5QZ+vicaMNEinMcw3Goe0S7EVgOUhzaDZjUI
+ YZmg==
+X-Gm-Message-State: AOJu0YzVvBNsLaaf0S342c4+IdY07B5tiQmLtLa6NTMMIIqbxHmVoS7o
+ QbR+84krFGSkWMbBxkLRHjnUi9aJ2XZQMp8JNrQ5jt9LhSkxa/OCSh/7TLl8nREBJ0oPc8JhGNb
+ uxuTERRcl0ELBzqvPzEpzjnjgq4nF
+X-Received: by 2002:a05:6e02:eec:b0:34c:e16d:6796 with SMTP id
+ j12-20020a056e020eec00b0034ce16d6796mr329552ilk.16.1693506112917; 
+ Thu, 31 Aug 2023 11:21:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE8vns95higbpw7EtaVkzMpHzdrkGJ9Y2vvSqykV851tdz6ITxD49qYcHcmB/e7+Q3TZCiTtw==
+X-Received: by 2002:a05:6e02:eec:b0:34c:e16d:6796 with SMTP id
+ j12-20020a056e020eec00b0034ce16d6796mr329518ilk.16.1693506112687; 
+ Thu, 31 Aug 2023 11:21:52 -0700 (PDT)
+Received: from redhat.com ([38.15.60.12]) by smtp.gmail.com with ESMTPSA id
+ w18-20020a92c892000000b00345da2c4776sm557598ilo.81.2023.08.31.11.21.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Aug 2023 11:21:51 -0700 (PDT)
+Date: Thu, 31 Aug 2023 12:21:50 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v7 1/1] vfio/nvgpu: Add vfio pci variant module for
+ grace hopper
+Message-ID: <20230831122150.2b97511b.alex.williamson@redhat.com>
+In-Reply-To: <ZPCd2sHXrAZHjsHg@infradead.org>
+References: <20230822202303.19661-1-ankita@nvidia.com>
+ <ZO9JKKurjv4PsmXh@infradead.org> <ZO9imcoN5l28GE9+@nvidia.com>
+ <ZPCG9/P0fm88E2Zi@infradead.org>
+ <BY5PR12MB37631B2F41DB62CBDD7B1F69B0E5A@BY5PR12MB3763.namprd12.prod.outlook.com>
+ <ZPCd2sHXrAZHjsHg@infradead.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230804210644.1862287-1-dianders@chromium.org>
- <20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid>
- <bphkopaq76imqzut7xrx7aprqybhx3veajdympqhig2wqlix6c@64ck23rc5cv7>
- <CAD=FV=XiVkoCsjin4R74nkcd8vzOq9uPq+o5cRjd=YOoPXuQkg@mail.gmail.com>
- <lhd6ai7d6swlxhisjhikytguor7pptrymo3bmfwej4k7zqrnv4@hp2gvhw7mh3m>
- <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
- <mumiep5q7x7qj7k64h3cyodxrgk737iy5rum5keguquwymf2gy@3qruwfrqjgy7>
- <CAD=FV=VEene+nr1us87iA+bomxzQ039r-E+wqvizvFGbxXjDvA@mail.gmail.com>
- <wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76uw5p6s7tzt@cbiezkfeuqqn>
-In-Reply-To: <wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76uw5p6s7tzt@cbiezkfeuqqn>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 31 Aug 2023 11:18:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XcUVvg5Om__dD=i9zu7ZtQmvWicms9yN7w0c2nWGhqYg@mail.gmail.com>
-Message-ID: <CAD=FV=XcUVvg5Om__dD=i9zu7ZtQmvWicms9yN7w0c2nWGhqYg@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,101 +87,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Andy Currid <acurrid@nvidia.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Neo Jia <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Ankit Agrawal <ankita@nvidia.com>,
+ "shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Vikram Sethi <vsethi@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ "Tarun Gupta
+ \(SW-GPU\)" <targupta@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Aniket Agashe <aniketa@nvidia.com>, David Airlie <airlied@redhat.com>,
+ Dan Williams <danw@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 31 Aug 2023 07:04:10 -0700
+Christoph Hellwig <hch@infradead.org> wrote:
 
-On Thu, Aug 31, 2023 at 12:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
->
-> If so, then I think we can implement everything by doing something like:
->
->   - Implement enable and disable refcounting in panels.
->     drm_panel_prepare and drm_panel_enable would increase it,
->     drm_panel_unprepare and drm_panel_disable would decrease it.
->
->   - Only actually call the disable and unprepare functions when that
->     refcount goes to 0 in the normal case.
+> On Thu, Aug 31, 2023 at 01:51:11PM +0000, Ankit Agrawal wrote:
+> > Hi Christoph,
+> >   
+> > >Whats the actual consumer running in a qemu VM here?  
+> > The primary use case in the VM is to run the open source Nvidia
+> > driver (https://github.com/NVIDIA/open-gpu-kernel-modules)
+> > and workloads.  
+> 
+> So this infrastructure to run things in a VM that we don't even support
+> in mainline?  I think we need nouveau support for this hardware in the
+> drm driver first, before adding magic vfio support.
 
-Just to be clear: by refcounting do you mean switching this to actual
-refcount? Today this is explicitly _not_ refcounting, right? It is
-simply treating double-enables as no-ops and double-disables as
-no-ops. With our current understanding, the only thing we actually
-need to guard against is double-disable but at the moment we do guard
-against both. Specifically we believe the cases that are issues:
+There's really never a guarantee that the thing we're exposing via the
+vfio uAPI has mainline drivers, for example we don't consult the
+nouveau device table before we expose an NVIDIA GPU to a Windows guest
+running proprietary device drivers.
 
-a) At shutdown/remove time we want to disable the panel, but only if
-it was enabled (we wouldn't want to call disable if the panel was
-already off because userspace turned it off).
+We've also never previously made a requirement that any new code in
+vfio must directly contribute to supporting a mainline driver, in fact
+I think you'll find examples where we do have such code.
 
-b) At shutdown time we want to disable the panel but then we don't
-want to double-disable if the main DRM driver also causes us to get
-disabled.
+This driver is proposing to expose a coherent memory region associated
+with the device, composed as a PCI BAR, largely to bring it into the
+vfio device model.  Access to that memory region is still pass-through.
+This is essentially behavior that we also enable though mdev drivers
+like kvmgt (modulo the coherent aspect).
 
-I'd rather keep it the way it is (prevent double-disable) and not
-switch it to a refcount.
+I assume the above driver understands how to access and make use of
+this coherent memory whether running bare-metal or virtualized, so
+potentially we have some understanding of how it's used by the driver,
+which can't be said for all devices used with vfio.  I'm therefore not
+sure how we can suddenly decide to impose a mainline driver requirement
+for exposing a device to userspace.  Thanks,
 
+Alex
 
-I'll also note that drm_panel currently already keeps track of the
-enabled/prepared state, so there's no "implement" step here, right?
-That's what landed in commit d2aacaf07395 ("drm/panel: Check for
-already prepared/enabled in drm_panel"). Just to remind ourselves of
-the history:
-
-1. I needed to keep track of the "prepared" state anyway to make the
-"panel follower" API work properly. See drm_panel_add_follower() where
-we immediately power on a follower if the panel they're following was
-already prepared.
-
-2. Since I was keeping track of the "prepared" state in the core
-anyway, it seemed like a good idea to prevent
-double-prepare/unprepare/enable/disable in the drm_panel core so that
-we could remove it from individual panels since that was always a
-point of contention in individual panels. It was asserted that, even
-in the core, we shouldn't need code to prevent
-double-prepare/unprepare/enable/disable but that as a first step
-moving this to the core and out of drivers made sense. Anyone relying
-on the core would get a warning printed out indicating that they were
-doing something wrong and this would eventually move to a WARN_ON.
-
-3. While trying to remove this from the drivers we ended up realizing
-some of the issues with panels wanting to power them off at shutdown /
-remove time.
-
-
->   - In drm_panel_remove, if we still have a refcount > 0, then we WARN
->     and force unprepare/disable the panel.
-
-I think the net-net of this is that you're saying I should fold the
-code from this patch straight into drm_panel_remove() and add a WARN
-if it ever triggers, right? In this patch series I'd remove the calls
-to drm_panel_helper_shutdown() and rely on drm_panel_remove() to do
-the power off at remove time. This might give a warning but, as
-discussed, removing a panel like this isn't likely to work well and at
-least we'd power sequence it properly. In some cases, I might have to
-move the call to drm_panel_remove() around a little bit but I think
-it'll work.
-
-The above solves the problem with panels wanting to power sequence
-themselves at remove() time, but not at shutdown() time. Thus we'd
-still have a dependency on having all drivers use
-drm_atomic_helper_shutdown() so that work becomes a dependency.
-
-
-> > I can't give you an exact list because I don't have a great search
-> > that identifies the problem. I'm mostly looking for all instances of
-> > drm_dev_register() where the driver is "DRIVER_MODESET" and then
-> > manually checking their use of drm_atomic_helper_shutdown(). Until I
-> > get through them all I won't know the count, and it's a manual
-> > process.
->
-> I think my coccinnelle script will match with most of them, but we might
-> still miss a few indeed.
-
-I'll just plug through with my original list for now, then I can try
-your script when I'm done and see if it catches anything I missed.
-
--Doug
