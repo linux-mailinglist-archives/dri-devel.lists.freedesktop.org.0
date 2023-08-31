@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA4978ED00
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 14:25:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5B378EE2A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 15:10:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAF810E663;
-	Thu, 31 Aug 2023 12:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3242B10E04C;
+	Thu, 31 Aug 2023 13:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA410E663
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 12:25:50 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37VCPW2e090521;
- Thu, 31 Aug 2023 07:25:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1693484732;
- bh=htMuZc/z2V9h3y6JbF95s32HLoZQm0TE7Foq7+M46rM=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=ANIyNH4CzVY9MVRen8utxmt7j3zKBzPl9d7/rj7kvwNRf6c/Cv4iWUTMjprxQNHe+
- UJN60JbSb14JBWvBFLobcLmEUVfi0c7L+5b6tfVg4iollyJ92ZzfpYtpYid3ZJwnGM
- wgfB9CnZcqDckGa6GEJezONU1A9OUaOH0/mg12D4=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37VCPWHs017489
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 31 Aug 2023 07:25:32 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 31
- Aug 2023 07:25:32 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 31 Aug 2023 07:25:32 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37VCPV1e018149;
- Thu, 31 Aug 2023 07:25:31 -0500
-Date: Thu, 31 Aug 2023 07:25:31 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
-Subject: Re: [PATCH] drm: bridge: it66121: Fix invalid connector dereference
-Message-ID: <20230831122531.smmqt7ycupvum3gg@stereo>
-References: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
- <6fd4-64ecbf00-7-213b7840@157890373>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106E110E04C
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 13:10:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4D39D63FF8
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 13:10:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7B44C433CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 13:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693487414;
+ bh=Tx7w8FI/pLlA3uFq5GwLia/GR2hgOf2fgjsGhZzl+sk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iGIOjWFaoc2o3+D9pAiu+tKS35mKl+S0jaHg8kypiV3yFq21+2GVITjISQhWfpAdv
+ bCcRVTXC++Bq4bS/DAS9XrufWeAlZf2Z50hk/OFSA35ImHW9DBOmxOEwrl/m/BmpkM
+ 9JveujHt2tgFXJjAiqLHHXP5lvXIKa+o6txV7VcCQN8qEnP6WAMnbiUlfU9KjpZ5tr
+ YCKbxu71rqllAEenrYcz/5UKmN2n+DVJm0UHlFflCh5sIdP4j7KIOCfHFVJ+XdfFTD
+ rDByGBAUoq+TwyJkqDDPbYuC+W2PsII4MlqFItMcYoshcRexmdKL+gG55NqyXn8W1X
+ h9Ot5ry6gTl+w==
+Received: by mail-ot1-f49.google.com with SMTP id
+ 46e09a7af769-6bcac140aaaso677074a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 06:10:14 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxpcHQb1kVZYgUZgyC2mUVIXfJiHt2XJRC0yH8oHRliO2SBcH0K
+ NPL0lR3ddC7mcnsN1vP4Dm0CncsF2JGs53QBlS4=
+X-Google-Smtp-Source: AGHT+IG8i3WbP148tu9tcR8zh6tpPXpF5XXUrFtO3K953V/IifgX01VT9BiDyttjPL/yAvgZZMXCRFBxgo8FSTUsb7I=
+X-Received: by 2002:a05:6830:606:b0:6bd:bba9:2d63 with SMTP id
+ w6-20020a056830060600b006bdbba92d63mr5298073oti.9.1693487413878; Thu, 31 Aug
+ 2023 06:10:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6fd4-64ecbf00-7-213b7840@157890373>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20230825-strncpy-habanalabs-combined-v1-1-daa05a89b7e3@google.com>
+ <202308251513.0F6BF9FEE6@keescook>
+In-Reply-To: <202308251513.0F6BF9FEE6@keescook>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Thu, 31 Aug 2023 16:09:47 +0300
+X-Gmail-Original-Message-ID: <CAFCwf12yWnz6wP+3Th=QiTkeMhiPjn6c4sg2b3-2fE55w3pyEQ@mail.gmail.com>
+Message-ID: <CAFCwf12yWnz6wP+3Th=QiTkeMhiPjn6c4sg2b3-2fE55w3pyEQ@mail.gmail.com>
+Subject: Re: [PATCH] accel/habanalabs: refactor deprecated strncpy to
+ strscpy_pad
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,76 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, Jai Luthra <j-luthra@ti.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- devarsht@ti.com, Nicolas Belin <nbelin@baylibre.com>,
- "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16:35-20230828, Helen Mae Koike Fornazier wrote:
-> On Friday, August 25, 2023 08:02 -03, Jai Luthra <j-luthra@ti.com> wrote:
-> 
-> > Fix the NULL pointer dereference when no monitor is connected, and the
-> > sound card is opened from userspace.
-> > 
-> > Instead return an error as EDID information cannot be provided to
-> > the sound framework if there is no connector attached.
-> > 
-> > Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
-> > Reported-by: Nishanth Menon <nm@ti.com>
-> > Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
-> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> 
-> Reviewed-by: Helen Koike <helen.koike@collabora.com>
-
-
-Occurs on today's master: v6.5-8894-gb97d64c72259
-https://gist.github.com/nmenon/6c7166171729342ee0be7de90b65c5c6#file-v6-5-8894-gb97d64c72259-L821
-
-My only complaint with the patch is - yes, it does'nt crash, but I see
-this spam on my console:
-https://gist.github.com/nmenon/6c7166171729342ee0be7de90b65c5c6#file-with-patch-on-top-L236
-
-
-> 
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it66121.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> > index 466641c77fe9..d6fa00dea464 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> > @@ -1446,6 +1446,11 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
-> >  {
-> >  	struct it66121_ctx *ctx = dev_get_drvdata(dev);
-> >  
-> > +	if (!ctx->connector) {
-> > +		dev_dbg(dev, "No connector present, cannot provide EDID data");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> >  	mutex_lock(&ctx->lock);
-> >  
-> >  	memcpy(buf, ctx->connector->eld,
-> > 
-> > ---
-> > base-commit: 6269320850097903b30be8f07a5c61d9f7592393
-> > change-id: 20230825-it66121_edid-6ee98517808b
-> > 
-> > Best regards,
-> > -- 
-> > Jai Luthra <j-luthra@ti.com>
+On Sat, Aug 26, 2023 at 1:13=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Fri, Aug 25, 2023 at 10:09:51PM +0000, Justin Stitt wrote:
+> > `strncpy` is deprecated for use on NUL-terminated destination strings [=
+1].
 > >
-> 
+> > We see that `prop->cpucp_info.card_name` is supposed to be
+> > NUL-terminated based on its usage within `__hwmon_device_register()`
+> > (wherein it's called "name"):
+> > |     if (name && (!strlen(name) || strpbrk(name, "-* \t\n")))
+> > |             dev_warn(dev,
+> > |                      "hwmon: '%s' is not a valid name attribute, plea=
+se fix\n",
+> > |                      name);
+> >
+> > A suitable replacement is `strscpy_pad` [2] due to the fact that it
+> > guarantees both NUL-termination and NUL-padding on its destination
+> > buffer.
+> >
+> > NUL-padding on `prop->cpucp_info.card_name` is not strictly necessary a=
+s
+> > `hdev->prop` is explicitly zero-initialized but should be used
+> > regardless as it gets copied out to userspace directly -- as per Kees' =
+suggestion.
+> >
+> > Link: www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on=
+-nul-terminated-strings[1]
+> > Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en=
+.html [2]
+> > Link: https://github.com/KSPP/linux/issues/90
+> > Cc: linux-hardening@vger.kernel.org
+> > Signed-off-by: Justin Stitt <justinstitt@google.com>
+>
+> Thanks for the consolidation and refresh. :)
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> --
+> Kees Cook
+Pushed to habanalabs-next-6.7
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+Thanks for the patch,
+Oded.
