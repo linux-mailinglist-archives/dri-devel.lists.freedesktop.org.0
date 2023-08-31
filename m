@@ -1,56 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D51378E77D
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:01:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C68EA78E77F
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:01:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D5210E580;
-	Thu, 31 Aug 2023 08:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F38B710E56D;
+	Thu, 31 Aug 2023 08:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FC210E56D
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:01:47 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id
- 5614622812f47-3a9cedb9c8cso12195b6e.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1693468906; x=1694073706; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4JfdZ+mSKoJZqw9WUXkE+SypSneLm2vVqhyV4pT/wH8=;
- b=BG/1KmgvbosB1nqaHoqUWPnWGeP6U7G6TdJ8txZf6tApAVIS78PQMbhvnkP1qRYtBZ
- WQmEEK1CM3xfKTJisY57O3xzHIIfnRN4nbT7lxoqtOy6ZctalidYRZl46mKrrk8EZi6x
- /IixBFdzKnyekQSneRdIOX1a0MUM8GEW8iUUs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693468906; x=1694073706;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4JfdZ+mSKoJZqw9WUXkE+SypSneLm2vVqhyV4pT/wH8=;
- b=N/6HBy5zOrFJBDtfeuMx4MPvreOMOwasvduHOddut1/ii69+hgHmjAV/9ZmpqHY5Oc
- EsWQn+hYR2ljy8O33zmM83tJiYMMAmwcQGSywxVHqLShjGUNnotTjWRIqC+Reznl1k4z
- 4GfTaCJpW3EpMXcsbLh+GMqCvXmatY9/jIToE5ll7EpDRrZcGXKVEbXz09sMUj997EWK
- algqf0bAyJnozBgIGriWkYRj1rlHFqOUxbFe30pAdYlxAXRovrHaGuzeFVkLmDDaBRx7
- Ff4aCMM2jFsQJrB6T+HoJlxFSXoAExDf1wZ7PeIgDUcQ/BjnAfgiFO/2URUXMgYR/e6v
- +Q9w==
-X-Gm-Message-State: AOJu0YwSrqtWbk93brHExxz9SjC7h6hyYw6dYOYsHQGv6oYAyaItyupv
- 8XPR94StlYkMr3QV6kD4sT/Mb0wRjLonzLNtYnrJjA==
-X-Google-Smtp-Source: AGHT+IFuRv0C/PixWf4cNZcQZ1FZV5y/wkAnQSWqCD86Ju0zsBIAPHTRcE1M5SpLPibvlexHqrqyGcFBW/k299Y7uE0=
-X-Received: by 2002:a05:6808:2128:b0:3a7:2eb4:ce04 with SMTP id
- r40-20020a056808212800b003a72eb4ce04mr5221232oiw.5.1693468906336; Thu, 31 Aug
- 2023 01:01:46 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E34A10E56D
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:01:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A5E262185A;
+ Thu, 31 Aug 2023 08:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693468907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bVLiHirlljTDUibE5VLwmjxjsRKWHqxxxmwtr7PHpw=;
+ b=kuVdSAsdCbfJxLBKiTMcTsCJtdkMV6qQVxKowAAYYQEJDf59LJgnd21TajNFNTLyqyFz2C
+ UZeDzOC28Tcp+QNmMvaiqUHq0QhbA7i6Ef+BMBWA3kfxdNXzZXKHISt13BNg5iEhnUEiW/
+ U2CNNmwpcjF1wugoS6UyUAb6jyPTF5o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693468907;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bVLiHirlljTDUibE5VLwmjxjsRKWHqxxxmwtr7PHpw=;
+ b=ATQbtU6v/fmUoUMqxpOpBCrO58iWpWX44YcY6P2Ux16C/qxDBnI+OV540WU/CBQj9q1hRM
+ hJarGlKJjMlLODDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76C4013587;
+ Thu, 31 Aug 2023 08:01:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YkgEHOtI8GQ1ZwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 31 Aug 2023 08:01:47 +0000
+Message-ID: <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
+Date: Thu, 31 Aug 2023 10:01:46 +0200
 MIME-Version: 1.0
-References: <CAPM=9tz=gx2_zrQ2XD8JNwW1dg6b+Byr5FgYAAq+2f29rydcgg@mail.gmail.com>
-In-Reply-To: <CAPM=9tz=gx2_zrQ2XD8JNwW1dg6b+Byr5FgYAAq+2f29rydcgg@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 31 Aug 2023 10:01:34 +0200
-Message-ID: <CAKMK7uGK_N1ReMDY_Os0dyRpE9XixuDkT=+WfL8c_=shSoQnzA@mail.gmail.com>
-Subject: Re: [git pull] drm CI integration
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <cover.1692888745.git.geert@linux-m68k.org>
+ <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------AfG0s4SajZVIJCke06PP0hBZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,316 +74,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Aug 2023 at 03:00, Dave Airlie <airlied@gmail.com> wrote:
->
-> Hey Linus,
->
-> This is a PR to add drm-ci support files to the upstream tree.
-> This is a bunch of ci integration for the freedesktop gitlab instance
-> where we currently do upstream userspace testing on diverse sets of GPU
-> hardware. From my perspective I think it's an experiment worth going with
-> and seeing how the benefits/noise playout keeping these files useful.
->
-> Ideally I'd like to get this so we can do pre-merge testing on PRs eventually.
->
-> Below is some info from danvet on why we've ended up making the
-> decision and how we can roll it back if we decide it was a bad plan.
->
-> Why in upstream?
->
-> - like documentation, testcases, tools CI integration is one of these things
->   where you can waste endless amounts of time if you accidentally have a version
->   that doesn't match your source code
->
-> - but also like the above, there's a balance, this is the initial cut of what we
->   think makes sense to keep in sync vs out-of-tree, probably needs adjustment
->
-> - gitlab supports out-of-repo gitlab integration and that's what's been used for
->   the kernel in drm, but it results in per-driver fragmentation and lots of
->   duplicated effort. the simple act of smashing an arbitrary winner into a topic
->   branch already started surfacing patches on dri-devel and sparking good
->   cross driver team discussions
->
-> Why gitlab?
->
-> - it's not any more shit than any of the other CI
->
-> - drm userspace uses it extensively for everything in userspace, we have a lot
->   of people and experience with this, including integration of hw testing labs
->
-> - media userspace like gstreamer is also on gitlab.fd.o, and there's discussion
->   to extend this to the media subsystem in some fashion
->
-> Can this be shared?
->
-> - there's definitely a pile of code that could move to scripts/ if other
->   subsystem adopt ci integration in upstream kernel git. other bits are more
->   drm/gpu specific like the igt-gpu-tests/tools integration
->
-> - docker images can be run locally or in other CI runners
->
-> Will we regret this?
->
-> - it's all in one directory, intentionally, for easy deletion
->
-> - probably 1-2 years in upstream to see whether this is worth it or a Big
->   Mistake. that's roughly what it took to _really_ roll out solid CI in the
->   bigger userspace projects we have on gitlab.fd.o like mesa3d
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------AfG0s4SajZVIJCke06PP0hBZ
+Content-Type: multipart/mixed; boundary="------------V9LK0ZxwOlLPoVyh2iD6auUM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
+Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
+References: <cover.1692888745.git.geert@linux-m68k.org>
+ <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
+In-Reply-To: <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
 
-Maybe a bit more on what scenarios I see over the next 1-2 year for this.
+--------------V9LK0ZxwOlLPoVyh2iD6auUM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-0. Utter Failure:
+SGkNCg0KQW0gMjQuMDguMjMgdW0gMTc6MDggc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IFRoZSBuYXRpdmUgZGlzcGxheSBmb3JtYXQgaXMgbW9ub2Nocm9tZSBsaWdodC1vbi1k
+YXJrIChSMSkuDQo+IEhlbmNlIGFkZCBzdXBwb3J0IGZvciBSMSwgc28gbW9ub2Nocm9tZSBh
+cHBsaWNhdGlvbnMgbm90IG9ubHkgbG9vaw0KPiBiZXR0ZXIsIGJ1dCBhbHNvIGF2b2lkIHRo
+ZSBvdmVyaGVhZCBvZiBiYWNrLWFuZC1mb3J0aCBjb252ZXJzaW9ucw0KPiBiZXR3ZWVuIFIx
+IGFuZCBYUjI0Lg0KPiANCj4gRG8gbm90IGFsbG9jYXRlIHRoZSBpbnRlcm1lZGlhdGUgY29u
+dmVyc2lvbiBidWZmZXIgd2hlbiBpdCBpcyBub3QNCj4gbmVlZGVkLCBhbmQgcmVvcmRlciB0
+aGUgdHdvIGJ1ZmZlciBhbGxvY2F0aW9ucyB0byBzdHJlYW1saW5lIG9wZXJhdGlvbi4NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
+ay5vcmc+DQo+IC0tLQ0KPiB2MjoNCj4gICAgLSBSZXdvcmsgb24gdG9wIG9wIGNvbW1pdCA4
+YzM5MjYzNjdhYzlkZjZjICgiZHJtL3NzZDEzMHg6IFVzZQ0KPiAgICAgIHNoYWRvdy1idWZm
+ZXIgaGVscGVycyB3aGVuIG1hbmFnaW5nIHBsYW5lJ3Mgc3RhdGUiKSBpbiBkcm0vZHJtLW5l
+eHQuDQo+ICAgICAgSGVuY2UgSSBkaWQgbm90IGFkZCBKYXZpZXIncyB0YWdzIGdpdmVuIG9u
+IHYxLg0KPiAgICAtIERvIG5vdCBhbGxvY2F0ZSBpbnRlcm1lZGlhdGUgYnVmZmVyIHdoZW4g
+bm90IG5lZWRlZC4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMw
+eC5jIHwgNzYgKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPiAgIDEgZmlsZSBj
+aGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4LmMgYi9kcml2ZXJzL2dw
+dS9kcm0vc29sb21vbi9zc2QxMzB4LmMNCj4gaW5kZXggNzgyNzJiMWY5ZDViMTY3Zi4uMTgw
+MDdjYjRmM2RlNWFhMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24v
+c3NkMTMweC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zb2xvbW9uL3NzZDEzMHguYw0K
+PiBAQCAtNDQ5LDE1ICs0NDksMTQgQEAgc3RhdGljIGludCBzc2QxMzB4X2luaXQoc3RydWN0
+IHNzZDEzMHhfZGV2aWNlICpzc2QxMzB4KQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgc3NkMTMw
+eF91cGRhdGVfcmVjdChzdHJ1Y3Qgc3NkMTMweF9kZXZpY2UgKnNzZDEzMHgsDQo+ICAgCQkJ
+ICAgICAgIHN0cnVjdCBzc2QxMzB4X3BsYW5lX3N0YXRlICpzc2QxMzB4X3N0YXRlLA0KPiAr
+CQkJICAgICAgIHU4ICpidWYsIHVuc2lnbmVkIGludCBwaXRjaCwNCj4gICAJCQkgICAgICAg
+c3RydWN0IGRybV9yZWN0ICpyZWN0KQ0KPiAgIHsNCj4gICAJdW5zaWduZWQgaW50IHggPSBy
+ZWN0LT54MTsNCj4gICAJdW5zaWduZWQgaW50IHkgPSByZWN0LT55MTsNCj4gLQl1OCAqYnVm
+ID0gc3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiAgIAl1OCAqZGF0YV9hcnJheSA9IHNzZDEz
+MHhfc3RhdGUtPmRhdGFfYXJyYXk7DQo+ICAgCXVuc2lnbmVkIGludCB3aWR0aCA9IGRybV9y
+ZWN0X3dpZHRoKHJlY3QpOw0KPiAgIAl1bnNpZ25lZCBpbnQgaGVpZ2h0ID0gZHJtX3JlY3Rf
+aGVpZ2h0KHJlY3QpOw0KPiAtCXVuc2lnbmVkIGludCBsaW5lX2xlbmd0aCA9IERJVl9ST1VO
+RF9VUCh3aWR0aCwgOCk7DQo+ICAgCXVuc2lnbmVkIGludCBwYWdlX2hlaWdodCA9IHNzZDEz
+MHgtPmRldmljZV9pbmZvLT5wYWdlX2hlaWdodDsNCj4gICAJdW5zaWduZWQgaW50IHBhZ2Vz
+ID0gRElWX1JPVU5EX1VQKGhlaWdodCwgcGFnZV9oZWlnaHQpOw0KPiAgIAlzdHJ1Y3QgZHJt
+X2RldmljZSAqZHJtID0gJnNzZDEzMHgtPmRybTsNCj4gQEAgLTUxNiw3ICs1MTUsNyBAQCBz
+dGF0aWMgaW50IHNzZDEzMHhfdXBkYXRlX3JlY3Qoc3RydWN0IHNzZDEzMHhfZGV2aWNlICpz
+c2QxMzB4LA0KPiAgIAkJCXU4IGRhdGEgPSAwOw0KPiAgIA0KPiAgIAkJCWZvciAoayA9IDA7
+IGsgPCBtOyBrKyspIHsNCj4gLQkJCQl1OCBieXRlID0gYnVmWyg4ICogaSArIGspICogbGlu
+ZV9sZW5ndGggKyBqIC8gOF07DQo+ICsJCQkJdTggYnl0ZSA9IGJ1ZlsoOCAqIGkgKyBrKSAq
+IHBpdGNoICsgaiAvIDhdOw0KPiAgIAkJCQl1OCBiaXQgPSAoYnl0ZSA+PiAoaiAlIDgpKSAm
+IDE7DQo+ICAgDQo+ICAgCQkJCWRhdGEgfD0gYml0IDw8IGs7DQo+IEBAIC02MDIsMjcgKzYw
+MSw1MSBAQCBzdGF0aWMgaW50IHNzZDEzMHhfZmJfYmxpdF9yZWN0KHN0cnVjdCBkcm1fcGxh
+bmVfc3RhdGUgKnN0YXRlLA0KDQpUaGUgaGFuZGluZyBvZiBkaWZmZXJlbnQgZm9ybWF0cyBp
+biB0aGlzIGZ1bmN0aW9uIGlzIGNvbmZ1c2luZy4gSSdkIA0KcmF0aGVyIGltcGxlbWVudCBz
+c2QxMzB4X2ZiX2JsaXRfcmVjdF9yMSBhbmQgDQpzc2QxMzB4X2ZiX2JsaXRfcmVjdF94cmdi
+ODg4OCB3aGljaCB0aGVuIGhhbmRsZSBhIHNpbmdsZSBmb3JtYXQuDQoNCj4gICAJc3RydWN0
+IHNzZDEzMHhfZGV2aWNlICpzc2QxMzB4ID0gZHJtX3RvX3NzZDEzMHgoZmItPmRldik7DQo+
+ICAgCXVuc2lnbmVkIGludCBwYWdlX2hlaWdodCA9IHNzZDEzMHgtPmRldmljZV9pbmZvLT5w
+YWdlX2hlaWdodDsNCj4gICAJc3RydWN0IHNzZDEzMHhfcGxhbmVfc3RhdGUgKnNzZDEzMHhf
+c3RhdGUgPSB0b19zc2QxMzB4X3BsYW5lX3N0YXRlKHN0YXRlKTsNCj4gLQl1OCAqYnVmID0g
+c3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiAgIAlzdHJ1Y3QgaW9zeXNfbWFwIGRzdDsNCj4g
+ICAJdW5zaWduZWQgaW50IGRzdF9waXRjaDsNCj4gICAJaW50IHJldCA9IDA7DQo+ICsJdTgg
+KmJ1ZjsNCj4gICANCj4gICAJLyogQWxpZ24geSB0byBkaXNwbGF5IHBhZ2UgYm91bmRhcmll
+cyAqLw0KPiAgIAlyZWN0LT55MSA9IHJvdW5kX2Rvd24ocmVjdC0+eTEsIHBhZ2VfaGVpZ2h0
+KTsNCj4gICAJcmVjdC0+eTIgPSBtaW5fdCh1bnNpZ25lZCBpbnQsIHJvdW5kX3VwKHJlY3Qt
+PnkyLCBwYWdlX2hlaWdodCksIHNzZDEzMHgtPmhlaWdodCk7DQo+ICAgDQo+IC0JZHN0X3Bp
+dGNoID0gRElWX1JPVU5EX1VQKGRybV9yZWN0X3dpZHRoKHJlY3QpLCA4KTsNCj4gKwlzd2l0
+Y2ggKGZiLT5mb3JtYXQtPmZvcm1hdCkgew0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SMToNCj4g
+KwkJLyogQWxpZ24geCB0byBieXRlIGJvdW5kYXJpZXMgKi8NCj4gKwkJcmVjdC0+eDEgPSBy
+b3VuZF9kb3duKHJlY3QtPngxLCA4KTsNCj4gKwkJcmVjdC0+eDIgPSByb3VuZF91cChyZWN0
+LT54MiwgOCk7DQoNCklzIHJvdW5kaW5nIHRvIG11bHRpcGxlcyBvZiA4IGd1YXJhbnRlZWQg
+dG8gd29yaz8gSSBrbm93IGl0IGRpZCBvbiANClZHQS1jb21wYXRpYmxlIEhXLCBiZWNhdXNl
+IFZHQSBlbmZvcmNlcyBpdC4gQnV0IGlzIHRoYXQgZ2VuZXJhbGx5IHRoZSBjYXNlPw0KDQo+
+ICAgDQo+IC0JcmV0ID0gZHJtX2dlbV9mYl9iZWdpbl9jcHVfYWNjZXNzKGZiLCBETUFfRlJP
+TV9ERVZJQ0UpOw0KPiAtCWlmIChyZXQpDQo+IC0JCXJldHVybiByZXQ7DQo+ICsJCXJldCA9
+IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4g
+KwkJaWYgKHJldCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICsNCj4gKwkJZHN0X3BpdGNoID0g
+ZmItPnBpdGNoZXNbMF07DQo+ICsJCWJ1ZiA9IHZtYXBbMF0udmFkZHIgKyByZWN0LT55MSAq
+IGRzdF9waXRjaCArIHJlY3QtPngxIC8gODsNCj4gKw0KPiArCQlzc2QxMzB4X3VwZGF0ZV9y
+ZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIGJ1ZiwgZHN0X3BpdGNoLA0KPiArCQkJCSAg
+ICByZWN0KTsNCj4gKw0KPiArCQlkcm1fZ2VtX2ZiX2VuZF9jcHVfYWNjZXNzKGZiLCBETUFf
+RlJPTV9ERVZJQ0UpOw0KPiArCQlicmVhazsNCj4gKw0KPiArCWNhc2UgRFJNX0ZPUk1BVF9Y
+UkdCODg4ODoNCj4gKwkJZHN0X3BpdGNoID0gRElWX1JPVU5EX1VQKGRybV9yZWN0X3dpZHRo
+KHJlY3QpLCA4KTsNCj4gKwkJYnVmID0gc3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiArDQo+
+ICsJCXJldCA9IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVW
+SUNFKTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICAgDQo+IC0JaW9z
+eXNfbWFwX3NldF92YWRkcigmZHN0LCBidWYpOw0KPiAtCWRybV9mYl94cmdiODg4OF90b19t
+b25vKCZkc3QsICZkc3RfcGl0Y2gsIHZtYXAsIGZiLCByZWN0KTsNCj4gKwkJaW9zeXNfbWFw
+X3NldF92YWRkcigmZHN0LCBidWYpOw0KPiArCQlkcm1fZmJfeHJnYjg4ODhfdG9fbW9ubygm
+ZHN0LCAmZHN0X3BpdGNoLCB2bWFwLCBmYiwgcmVjdCk7DQo+ICAgDQo+IC0JZHJtX2dlbV9m
+Yl9lbmRfY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4gKwkJZHJtX2dlbV9m
+Yl9lbmRfY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4gICANCj4gLQlzc2Qx
+MzB4X3VwZGF0ZV9yZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIHJlY3QpOw0KPiArCQlz
+c2QxMzB4X3VwZGF0ZV9yZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIGJ1ZiwgZHN0X3Bp
+dGNoLA0KPiArCQkJCSAgICByZWN0KTsNCj4gKwkJYnJlYWs7DQo+ICsJfQ0KPiAgIA0KPiAg
+IAlyZXR1cm4gcmV0Ow0KPiAgIH0NCj4gQEAgLTY0NCwyMiArNjY3LDI0IEBAIHN0YXRpYyBp
+bnQgc3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2soc3RydWN0IGRy
+bV9wbGFuZSAqcGxhbmUsDQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gcmV0Ow0KPiAg
+IA0KPiAtCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9GT1JNQVRfUjEpOw0KPiAtCWlmICgh
+ZmkpDQo+IC0JCXJldHVybiAtRUlOVkFMOw0KPiArCXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJy
+YXkgPSBrY2FsbG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tFUk5FTCk7DQo+ICsJ
+aWYgKCFzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KQ0KPiArCQlyZXR1cm4gLUVOT01FTTsN
+Cj4gICANCj4gLQlwaXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5fcGl0Y2goZmksIDAsIHNz
+ZDEzMHgtPndpZHRoKTsNCj4gKwlpZiAocGxhbmVfc3RhdGUtPmZiLT5mb3JtYXQtPmZvcm1h
+dCAhPSBEUk1fRk9STUFUX1IxKSB7DQo+ICsJCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9G
+T1JNQVRfUjEpOw0KPiArCQlpZiAoIWZpKQ0KPiArCQkJcmV0dXJuIC1FSU5WQUw7DQo+ICAg
+DQo+IC0Jc3NkMTMweF9zdGF0ZS0+YnVmZmVyID0ga2NhbGxvYyhwaXRjaCwgc3NkMTMweC0+
+aGVpZ2h0LCBHRlBfS0VSTkVMKTsNCj4gLQlpZiAoIXNzZDEzMHhfc3RhdGUtPmJ1ZmZlcikN
+Cj4gLQkJcmV0dXJuIC1FTk9NRU07DQo+ICsJCXBpdGNoID0gZHJtX2Zvcm1hdF9pbmZvX21p
+bl9waXRjaChmaSwgMCwgc3NkMTMweC0+d2lkdGgpOw0KPiAgIA0KPiAtCXNzZDEzMHhfc3Rh
+dGUtPmRhdGFfYXJyYXkgPSBrY2FsbG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tF
+Uk5FTCk7DQo+IC0JaWYgKCFzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KSB7DQo+IC0JCWtm
+cmVlKHNzZDEzMHhfc3RhdGUtPmJ1ZmZlcik7DQo+IC0JCS8qIFNldCB0byBwcmV2ZW50IGEg
+ZG91YmxlIGZyZWUgaW4gLmF0b21pY19kZXN0cm95X3N0YXRlKCkgKi8NCj4gLQkJc3NkMTMw
+eF9zdGF0ZS0+YnVmZmVyID0gTlVMTDsNCj4gLQkJcmV0dXJuIC1FTk9NRU07DQo+ICsJCXNz
+ZDEzMHhfc3RhdGUtPmJ1ZmZlciA9IGtjYWxsb2MocGl0Y2gsIHNzZDEzMHgtPmhlaWdodCwg
+R0ZQX0tFUk5FTCk7DQo+ICsJCWlmICghc3NkMTMweF9zdGF0ZS0+YnVmZmVyKSB7DQo+ICsJ
+CQlrZnJlZShzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KTsNCj4gKwkJCS8qIFNldCB0byBw
+cmV2ZW50IGEgZG91YmxlIGZyZWUgaW4gLmF0b21pY19kZXN0cm95X3N0YXRlKCkgKi8NCj4g
+KwkJCXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJyYXkgPSBOVUxMOw0KPiArCQkJcmV0dXJuIC1F
+Tk9NRU07DQo+ICsJCX0NCj4gICAJfQ0KPiAgIA0KPiAgIAlyZXR1cm4gMDsNCj4gQEAgLTg5
+OCw2ICs5MjMsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5j
+cyBzc2QxMzB4X21vZGVfY29uZmlnX2Z1bmNzID0gew0KPiAgIH07DQo+ICAgDQo+ICAgc3Rh
+dGljIGNvbnN0IHVpbnQzMl90IHNzZDEzMHhfZm9ybWF0c1tdID0gew0KPiArCURSTV9GT1JN
+QVRfUjEsDQo+ICAgCURSTV9GT1JNQVRfWFJHQjg4ODgsDQo+ICAgfTsNCj4gICANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
+NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
+bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
+cmcpDQo=
 
-Currently we have the bad combo of shit drivers/shit igt tests/shit
-ci, and the eye-gauging PR here is really just surfacing this mess and
-bringing it into the spotlight. if things don't improve at all, and
-we're still at the same point in 2 year as we are now, this was a
-failure and drm/ci needs to be unceremonuously deleted.
+--------------V9LK0ZxwOlLPoVyh2iD6auUM--
 
-I might head out and pick up goat farming in the alps in this case :-/
+--------------AfG0s4SajZVIJCke06PP0hBZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-1. Better build testing:
+-----BEGIN PGP SIGNATURE-----
 
-- we manage to solidly integrate this into our PR and committer flows,
-currently that's not really the case because of a bit a chicken/egg
-situation. this is a ton of work, but 1-2 years should be enough for
-results
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTwSOoFAwAAAAAACgkQlh/E3EQov+Cp
+yw//QhJNu306sTXn++KyJNvLTqcx+lodQcyJBCEaqjlS5mPZ9VYsULpicWCIEurFbIpzwUlm/0dj
+2OgtL+Ph33lKDypSynvqDu0U/D75aTJ223Pa284K/TrvS11F3XKz3EliU/tKFci+7iaGiCRLi9ww
+qBkWbp9+y84QUaJ2np31m+u5hnShQ3jboTqyFS/igB+ORf6VAYqRL7LsDtsB2/JoawhMtCUYiaQ0
+s4Ps+qOpWDDpl9+eadM07lDYL0qhnD9PBjO81XtOxOxCWs+JwzT+nKRP9zOGN3x1CPk5qbFmnw9V
+hOL4KTAalCmfedenpbrGWYODIbDARIUFuwkQbt6UtvjbrqvdWnKkYmpr07BIwWK3azhGDAzMDIPS
+QPdYoKGKqC1v0GyoawkW8IpsXTKlj/hDHKwmCUuIzPvLF+A8+r7zk84id18gMOEPlJ50MOAbRbf7
+3KcQDlY4+mR77cXTwMW7fXFjH/GKseIH6X2L0ojCjyRJ+2W2K7VXfYNB0x2UTCf6Aec/J+Aq31Gh
+RZltje96M7bPEwUWqXz5bCSiXtx7IJ/OCu8+mMhOWaq2RV42jZD5oJIvKQ/r4kAYCK1WO+iPe97Y
+O0JUb9LIC1w+Eeje2OHr8LSEkzb3rVmNx5XK0MzBJlf1au+/4v3lXsUXddL5dJsJnMRAu00gaRqt
+ejE=
+=Luv8
+-----END PGP SIGNATURE-----
 
-- better build time testing hopefully encourages people to build more
-kunit and other build time tests, especially for the more complex
-libraries we have that are really hard to exhaustively test with real
-hw, like the dp mst library
-
-- in that case we'd keep drm/ci, but probably throw out the hw driver
-testing integration and push that down into the per-driver separate
-git repos. gitlab can cope with this and even in the driver repos with
-the out-of-tree hw testing ci integration still include the build-time
-testing targets from upstream and run them, so we'd still get much
-better collaboration across drivers on the build testing
-
-- this is kinda the "no more shit ci" achievement
-
-2. Better igts for virtual drivers:
-
-- better build testing, plus:
-
-- media I think is really great here with having fully virtual
-driverrs to validate any new interfaces and testcases against. we're
-trying to build the same up with vgem/vkms since a few years, but it's
-slow going. vgem/vkms integration isn't in this PR, but it's already
-in the works, and I'm hoping that we can at least fix the igt test
-quality mess a bit by getting to the point where igt tests for new kms
-uapi must pass on vkms.
-
-- in this case we might keep some of the hw driver testing integration
-simply as a canary in the coal mine, but until we have some solid
-drivers beyond vkms we'd have to limit that severely to not cause too
-much eye gauging in that directory
-
-- this would get us to the "no more shit igt tests" achievement
-
-3. "We can dream":
-
-- we also manage to fix up the shit driver sitatution for at least
-some drivers, and can have a fairly broad selection of hw driver
-testing in ci. Given how much intel gfx ci is struggling with this,
-and for years, this might only be realistic for fairly small drivers
-and in really well controlled settings
-
-- realistically there's no way to get here in 2 years
-
-- this would be the "at least some non-shit drivers" achievement
-
-4. "It's time to retire, we achieved it all":
-
-- igt test passing becomes a merge requirement for any new driver, and
-the existing ones still in use are mostly fixed
-
-- I'm planning to retire this decade, or the next :-)
-
-Cheers, Daniel
-
->
-> Dave + Daniel.
->
-> topic/drm-ci-2023-08-31-1:
-> drm ci for 6.6-rc1
->
-> Add CI integration support files for drm subsystem to
-> gitlab.freedesktop.org instance.
-> The following changes since commit 3698a75f5a98d0a6599e2878ab25d30a82dd836a:
->
->   Merge tag 'drm-intel-next-fixes-2023-08-24' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-08-25
-> 12:55:55 +1000)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm tags/topic/drm-ci-2023-08-31-1
->
-> for you to fetch changes up to ad6bfe1b66a5c146ec236847eca7af4c8806d666:
->
->   drm: ci: docs: fix build warning - add missing escape (2023-08-29
-> 19:56:11 +0200)
->
-> ----------------------------------------------------------------
-> drm ci for 6.6-rc1
->
-> Add CI integration support files for drm subsystem to
-> gitlab.freedesktop.org instance.
->
-> ----------------------------------------------------------------
-> Helen Koike (1):
->       drm: ci: docs: fix build warning - add missing escape
->
-> Tomeu Vizoso (1):
->       drm: Add initial ci/ subdirectory
->
->  Documentation/gpu/automated_testing.rst            |  144 +
->  Documentation/gpu/index.rst                        |    1 +
->  MAINTAINERS                                        |    8 +
->  drivers/gpu/drm/ci/arm.config                      |   69 +
->  drivers/gpu/drm/ci/arm64.config                    |  199 ++
->  drivers/gpu/drm/ci/build-igt.sh                    |   35 +
->  drivers/gpu/drm/ci/build.sh                        |  157 ++
->  drivers/gpu/drm/ci/build.yml                       |  110 +
->  drivers/gpu/drm/ci/check-patch.py                  |   57 +
->  drivers/gpu/drm/ci/container.yml                   |   65 +
->  drivers/gpu/drm/ci/gitlab-ci.yml                   |  251 ++
->  drivers/gpu/drm/ci/igt_runner.sh                   |   77 +
->  drivers/gpu/drm/ci/image-tags.yml                  |   15 +
->  drivers/gpu/drm/ci/lava-submit.sh                  |   57 +
->  drivers/gpu/drm/ci/static-checks.yml               |   12 +
->  drivers/gpu/drm/ci/test.yml                        |  335 +++
->  drivers/gpu/drm/ci/testlist.txt                    | 2912 ++++++++++++++++++++
->  drivers/gpu/drm/ci/x86_64.config                   |  111 +
->  drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |   19 +
->  drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt |   21 +
->  drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt  |    2 +
->  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt      |   17 +
->  drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt     |   32 +
->  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt      |    4 +
->  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt       |   58 +
->  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt      |    1 +
->  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt       |    6 +
->  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt       |   18 +
->  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt      |   38 +
->  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt       |    2 +
->  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt       |   19 +
->  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt      |   41 +
->  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt       |    5 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt       |   25 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt      |   26 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt       |    5 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt       |   37 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt      |    5 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt       |   11 +
->  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt       |   48 +
->  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt      |    1 +
->  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt       |    2 +
->  .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt    |   29 +
->  .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt   |    0
->  .../gpu/drm/ci/xfails/mediatek-mt8183-fails.txt    |   10 +
->  .../gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt   |   14 +
->  drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt     |   12 +
->  drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt    |    4 +
->  drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt    |   15 +
->  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt   |    4 +
->  drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt    |    2 +
->  drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt   |    4 +
->  drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt    |    2 +
->  drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt     |   25 +
->  drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt    |    7 +
->  drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt     |   23 +
->  drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt     |   68 +
->  drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt    |   11 +
->  drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt     |    2 +
->  .../gpu/drm/ci/xfails/rockchip-rk3288-fails.txt    |   48 +
->  .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt   |    9 +
->  .../gpu/drm/ci/xfails/rockchip-rk3288-skips.txt    |   52 +
->  .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt    |   37 +
->  .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt   |   23 +
->  .../gpu/drm/ci/xfails/rockchip-rk3399-skips.txt    |    5 +
->  .../gpu/drm/ci/xfails/virtio_gpu-none-fails.txt    |   38 +
->  .../gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt   |    0
->  .../gpu/drm/ci/xfails/virtio_gpu-none-skips.txt    |    6 +
->  68 files changed, 5508 insertions(+)
->  create mode 100644 Documentation/gpu/automated_testing.rst
->  create mode 100644 drivers/gpu/drm/ci/arm.config
->  create mode 100644 drivers/gpu/drm/ci/arm64.config
->  create mode 100644 drivers/gpu/drm/ci/build-igt.sh
->  create mode 100644 drivers/gpu/drm/ci/build.sh
->  create mode 100644 drivers/gpu/drm/ci/build.yml
->  create mode 100755 drivers/gpu/drm/ci/check-patch.py
->  create mode 100644 drivers/gpu/drm/ci/container.yml
->  create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
->  create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
->  create mode 100644 drivers/gpu/drm/ci/image-tags.yml
->  create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
->  create mode 100644 drivers/gpu/drm/ci/static-checks.yml
->  create mode 100644 drivers/gpu/drm/ci/test.yml
->  create mode 100644 drivers/gpu/drm/ci/testlist.txt
->  create mode 100644 drivers/gpu/drm/ci/x86_64.config
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------AfG0s4SajZVIJCke06PP0hBZ--
