@@ -1,57 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A5A78E418
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 03:00:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A19478E639
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 08:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01EA10E168;
-	Thu, 31 Aug 2023 01:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C6110E551;
+	Thu, 31 Aug 2023 06:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B306F10E168
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:00:36 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-99bf1f632b8so24691866b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 18:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693443635; x=1694048435; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Nrq3meEQ0mpSOpe+syQsbsJI8LA/ycypfj5UNVt9xjU=;
- b=jHH2/FddOUDNmz5KbeUF3+1zJ1JcQDgGxR/w7KKTQDuxo0deIYfW6/6T3WmcTtDxOo
- 5+et0hUaPkbTU65vH6N3r/sz35jfU8CxLs15PxjRKEgcCUStV1Oht16OCGzgQcrxn6om
- jQOFPEOkjyGWr8dOhijNFrt0s21T5e/QrmDQPjeGy1qPMVNa+QPzuCQ3as/6QKtCZUsw
- mi0bg/RQYwvojRC864BJzCYVAnLlB99qEhmmKeHCbf4gpb1Pzuc+CLjnCF357qt7TO6n
- 9iELgH0qwIrw7fTJDOwc0GFpT38IRjX01S2TuTXAKHqxdDm6Gu/BSP5jWXRwwfSLjuNf
- jo8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693443635; x=1694048435;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Nrq3meEQ0mpSOpe+syQsbsJI8LA/ycypfj5UNVt9xjU=;
- b=WGYNJPePfZJ17heNOnagrsJFoezcDt81zsPfodDi+9rIdnMVq5EWzyruYINTIzzCFf
- 1rTL6RKVx7/lmIfA47sD2tcVhtOCLQRJDj14JKAprL4D0t5Xxx24eVSEo62iE9Q+q1hY
- sTKlevZMtzqEKmjiOLY189Twadzp5SU+FzHU+/PZjeEZSiKzI8J6rttt7usRCgFjg/gW
- +oME1n6lDgJoiu0UqKqDjjeEm0zl2vEHA4oJFgkIMhwV7ipz3rumOjQN5wZgrT+vHVry
- 7ACEWhUpmPxtQIkWEmD7DKWp5Ijxc0fiGEkPsuyJe5KbouxkU9+NkXO468ed7n8JOEyQ
- vQzQ==
-X-Gm-Message-State: AOJu0YxN2zCAK+OyJMYc6MlmBNC3YrWXGyIkZTZ6kvV5snMc8w4aeQr5
- 86qZPgS/5nXJg05jgfVVcr61eHqyTbYTOR2yr3o=
-X-Google-Smtp-Source: AGHT+IHAQPT5XY1L4JhOgHQLd+Nx606Zp5iPeqsqFVL/myqyCBrl1/pRO9rku3fsay/mQakfZp4yMfrzayxjmkl26fA=
-X-Received: by 2002:a17:906:ef8c:b0:99e:39d:4fa7 with SMTP id
- ze12-20020a170906ef8c00b0099e039d4fa7mr2896764ejb.22.1693443634763; Wed, 30
- Aug 2023 18:00:34 -0700 (PDT)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2069.outbound.protection.outlook.com [40.107.212.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B129D10E16F;
+ Thu, 31 Aug 2023 06:21:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=InmPMiQEHmRh17pc01m0OnnXFlDs73fIeUY1Nmmda/22ud3kw2BDvBqPk8wBs/hog+mX2dl5hkj3LjVyftAzxoj+GLxHp20OPCQ+9CLucsV2ftL+oaZvc5QiYcUtU9mmENRx0gnFlIHt/cq2tWov9XOtsKuR3/T4B0xfvizGspAfwV3XE0tJ5u+CK90tBi3CaMBL0b/1Z9K/KultJXKMB93XiTCvl/tqAK4ut58xVUuPt1vSB38vajNJjmwSGplWvgyGRzqMd488ss2gBFXs9e/FcoBXSX4hcoJ29F+SgWZl4oBQNHLnB3ofKzy2Hk8SUKn05FTBZzP4B23XeKdYsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HBVHUHsTkn24bWu/rkYnEOGwggNfkFjB//MqH/AIN2s=;
+ b=cQgAzvbzwpMVXN89IbJnoKIc1YxQdj+Av+iCM5ZioO8nUXVBOtRUYbBPxBkoCj9chBnH0EHNO/1S5PV53fvyVX3hWPlUO4uo0jmHW0pw3n+aogij9hYy8Xm73lIoGrQXWxIcJBouk30jWet6BuxPcuFpHGF3Ug0h+oEyNX78t9lVbIHLBtSN29qdFkum6XSCEbc+pRkvS7q48TZUvhfgqYB+aIsOI6vya+ltEwCXn/Pj2qhKqkv3ws14KTMg2aP4eIwCB6aZ8rPMc/L2UqMAccQr0Mhzv0pyHBtm4Lft/yn5022Aa47F6pil1WkuQ5nMER+V82onZOt/WmJSSuR/qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HBVHUHsTkn24bWu/rkYnEOGwggNfkFjB//MqH/AIN2s=;
+ b=2LIqEdCggZlp1Ij+wRkQqS31HYFXn57UD4/thFiRr8MZ0ogE+2cHbnKNqbPC9tE4RPT/wFOlJIx0nSHAqcpAxK5Av4lg11RQxODgJu7XKkUfgL9kT9J1j3eDoJPC3uCRrLZC086hXqbcryk+blQFzwcDTVA9pWEQRUg1AzuacSY=
+Received: from MW2PR2101CA0014.namprd21.prod.outlook.com (2603:10b6:302:1::27)
+ by DS7PR12MB9042.namprd12.prod.outlook.com (2603:10b6:8:ed::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Thu, 31 Aug
+ 2023 06:21:06 +0000
+Received: from CO1PEPF000044F9.namprd21.prod.outlook.com
+ (2603:10b6:302:1:cafe::61) by MW2PR2101CA0014.outlook.office365.com
+ (2603:10b6:302:1::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.12 via Frontend
+ Transport; Thu, 31 Aug 2023 06:21:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044F9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6768.2 via Frontend Transport; Thu, 31 Aug 2023 06:21:05 +0000
+Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 31 Aug
+ 2023 01:20:56 -0500
+From: Evan Quan <evan.quan@amd.com>
+To: <lenb@kernel.org>, <johannes@sipsolutions.net>, <davem@davemloft.net>,
+ <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+ <alexander.deucher@amd.com>, <rafael@kernel.org>, <Lijo.Lazar@amd.com>,
+ <mario.limonciello@amd.com>
+Subject: [V11 0/8] Enable Wifi RFI interference mitigation feature support
+Date: Thu, 31 Aug 2023 14:20:23 +0800
+Message-ID: <20230831062031.1014799-1-evan.quan@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 31 Aug 2023 11:00:20 +1000
-Message-ID: <CAPM=9tz=gx2_zrQ2XD8JNwW1dg6b+Byr5FgYAAq+2f29rydcgg@mail.gmail.com>
-Subject: [git pull] drm CI integration
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|DS7PR12MB9042:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35e20041-acaf-4ca0-a384-08dba9ea755f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3b8oQBlQBqr+tEPBIkrHfZXknIAwzcTjXh7UtLDaLvkaz4M9qVwGDJ7u2HkHZYTCgdj/Xc9eIupgG3JqjR6OyCudrR1yug0uuKE818X9p11jj//8A6bPCxEXf/7UcQbhGxSzasY01+/bTrPukfbHbmYTnBqL+oCAH8kaF/B/4HXU7QR8eHh6s+q8kYZU3IL3Y5gI1i03vJfcvM3PirDvMZERLreKQPtoWelJYRA6YVoG9g9HDXH8bj9czevl/kfhQoy5S6nW5lpkHJYflsHWeGjsuOO9TAv3dEcecEO6qRmdX+yop2Yx6je1HaboGz9kw/EDLTyuaQeEUstY0Gcdi13BZBpmOwRdiyfE8L+EZxs4IaaRzoIvl120cE7QR8RvGRa9FlZtlSybPOdSI2sfXQOI2eg1e6hwxphULUqrNaDS5lmJ6Hy/maIwhJmPbffZ+IAhqCayMrkRGBH1eE5LER/+aIKd3iBc4vBOdS3peByQYy7hOkMPjuqOHo0dcU/oEAMfTh8QcdI8/nsApVXt6kRupCP0ZgctqgHEz0vECgzvGrk2wLZNdU6+tYEx9Oa4bdOVjFP8L92pZ19it55vBkisNus4xlfgumVgEXYfooSve/ygX+J3it59NgvQfNcWEMmx+ZbGxUSJ9TI6rvEzoP2SLq7OHhXqkDNWgxQFGkuk7pIoo7UiHVPyPoZ3jq/c+Lnt+l8WBVj8NTnkvkGTYc5vpcihOUjZKxkLj8TuaqeVQ5HQzFZ9491oJ4XUFJY7Yb0wKR1Pjhrkn1fxoES3m0T+p4lLsGO7bj/+vZ26sdI=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(39860400002)(346002)(376002)(396003)(136003)(1800799009)(186009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(70206006)(41300700001)(8936002)(83380400001)(40480700001)(47076005)(36860700001)(336012)(8676002)(4326008)(478600001)(6666004)(6636002)(110136005)(70586007)(26005)(316002)(2616005)(16526019)(426003)(1076003)(54906003)(7696005)(2906002)(356005)(82740400003)(81166007)(921005)(40460700003)(5660300002)(7416002)(36756003)(44832011)(86362001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2023 06:21:05.7513 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35e20041-acaf-4ca0-a384-08dba9ea755f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F9.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9042
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,232 +101,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Evan Quan <evan.quan@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+Due to electrical and mechanical constraints in certain platform designs there
+may be likely interference of relatively high-powered harmonics of the (G-)DDR
+memory clocks with local radio module frequency bands used by Wifi 6/6e/7. To
+mitigate possible RFI interference producers can advertise the frequencies in
+use and consumers can use this information to avoid using these frequencies for
+sensitive features.
 
-This is a PR to add drm-ci support files to the upstream tree.
-This is a bunch of ci integration for the freedesktop gitlab instance
-where we currently do upstream userspace testing on diverse sets of GPU
-hardware. From my perspective I think it's an experiment worth going with
-and seeing how the benefits/noise playout keeping these files useful.
+The whole patch set is based on Linux 6.5-rc5. With some brief introductions
+as below:
+Patch1:      Core functionality setup for WBRF feature support
+Patch2 - 3:  Bring WBRF support to wifi subsystem.
+Patch4 - 8:  Bring WBRF support to AMD graphics driver.
 
-Ideally I'd like to get this so we can do pre-merge testing on PRs eventually.
+Evan Quan (8):
+  ACPI: Add support for AMD ACPI based Wifi band RFI mitigation feature
+  cfg80211: expose nl80211_chan_width_to_mhz for wide sharing
+  wifi: mac80211: Add support for WBRF features
+  drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
+  drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
+  drm/amd/pm: add flood detection for wbrf events
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
 
-Below is some info from danvet on why we've ended up making the
-decision and how we can roll it back if we decide it was a bad plan.
+ drivers/acpi/Kconfig                          |  17 +
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/amd_wbrf.c                       | 414 ++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  17 +
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 214 +++++++++
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  33 ++
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 +++
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
+ include/linux/acpi_amd_wbrf.h                 | 140 ++++++
+ include/linux/ieee80211.h                     |   1 +
+ include/net/cfg80211.h                        |   8 +
+ net/mac80211/Makefile                         |   2 +
+ net/mac80211/chan.c                           |   9 +
+ net/mac80211/ieee80211_i.h                    |   9 +
+ net/mac80211/main.c                           |   2 +
+ net/mac80211/wbrf.c                           | 105 +++++
+ net/wireless/chan.c                           |   3 +-
+ 26 files changed, 1143 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/acpi/amd_wbrf.c
+ create mode 100644 include/linux/acpi_amd_wbrf.h
+ create mode 100644 net/mac80211/wbrf.c
 
-Why in upstream?
+-- 
+2.34.1
 
-- like documentation, testcases, tools CI integration is one of these things
-  where you can waste endless amounts of time if you accidentally have a version
-  that doesn't match your source code
-
-- but also like the above, there's a balance, this is the initial cut of what we
-  think makes sense to keep in sync vs out-of-tree, probably needs adjustment
-
-- gitlab supports out-of-repo gitlab integration and that's what's been used for
-  the kernel in drm, but it results in per-driver fragmentation and lots of
-  duplicated effort. the simple act of smashing an arbitrary winner into a topic
-  branch already started surfacing patches on dri-devel and sparking good
-  cross driver team discussions
-
-Why gitlab?
-
-- it's not any more shit than any of the other CI
-
-- drm userspace uses it extensively for everything in userspace, we have a lot
-  of people and experience with this, including integration of hw testing labs
-
-- media userspace like gstreamer is also on gitlab.fd.o, and there's discussion
-  to extend this to the media subsystem in some fashion
-
-Can this be shared?
-
-- there's definitely a pile of code that could move to scripts/ if other
-  subsystem adopt ci integration in upstream kernel git. other bits are more
-  drm/gpu specific like the igt-gpu-tests/tools integration
-
-- docker images can be run locally or in other CI runners
-
-Will we regret this?
-
-- it's all in one directory, intentionally, for easy deletion
-
-- probably 1-2 years in upstream to see whether this is worth it or a Big
-  Mistake. that's roughly what it took to _really_ roll out solid CI in the
-  bigger userspace projects we have on gitlab.fd.o like mesa3d
-
-Dave + Daniel.
-
-topic/drm-ci-2023-08-31-1:
-drm ci for 6.6-rc1
-
-Add CI integration support files for drm subsystem to
-gitlab.freedesktop.org instance.
-The following changes since commit 3698a75f5a98d0a6599e2878ab25d30a82dd836a:
-
-  Merge tag 'drm-intel-next-fixes-2023-08-24' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-08-25
-12:55:55 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/topic/drm-ci-2023-08-31-1
-
-for you to fetch changes up to ad6bfe1b66a5c146ec236847eca7af4c8806d666:
-
-  drm: ci: docs: fix build warning - add missing escape (2023-08-29
-19:56:11 +0200)
-
-----------------------------------------------------------------
-drm ci for 6.6-rc1
-
-Add CI integration support files for drm subsystem to
-gitlab.freedesktop.org instance.
-
-----------------------------------------------------------------
-Helen Koike (1):
-      drm: ci: docs: fix build warning - add missing escape
-
-Tomeu Vizoso (1):
-      drm: Add initial ci/ subdirectory
-
- Documentation/gpu/automated_testing.rst            |  144 +
- Documentation/gpu/index.rst                        |    1 +
- MAINTAINERS                                        |    8 +
- drivers/gpu/drm/ci/arm.config                      |   69 +
- drivers/gpu/drm/ci/arm64.config                    |  199 ++
- drivers/gpu/drm/ci/build-igt.sh                    |   35 +
- drivers/gpu/drm/ci/build.sh                        |  157 ++
- drivers/gpu/drm/ci/build.yml                       |  110 +
- drivers/gpu/drm/ci/check-patch.py                  |   57 +
- drivers/gpu/drm/ci/container.yml                   |   65 +
- drivers/gpu/drm/ci/gitlab-ci.yml                   |  251 ++
- drivers/gpu/drm/ci/igt_runner.sh                   |   77 +
- drivers/gpu/drm/ci/image-tags.yml                  |   15 +
- drivers/gpu/drm/ci/lava-submit.sh                  |   57 +
- drivers/gpu/drm/ci/static-checks.yml               |   12 +
- drivers/gpu/drm/ci/test.yml                        |  335 +++
- drivers/gpu/drm/ci/testlist.txt                    | 2912 ++++++++++++++++++++
- drivers/gpu/drm/ci/x86_64.config                   |  111 +
- drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |   19 +
- drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt |   21 +
- drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt  |    2 +
- drivers/gpu/drm/ci/xfails/i915-amly-fails.txt      |   17 +
- drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt     |   32 +
- drivers/gpu/drm/ci/xfails/i915-amly-skips.txt      |    4 +
- drivers/gpu/drm/ci/xfails/i915-apl-fails.txt       |   58 +
- drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt      |    1 +
- drivers/gpu/drm/ci/xfails/i915-apl-skips.txt       |    6 +
- drivers/gpu/drm/ci/xfails/i915-cml-fails.txt       |   18 +
- drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt      |   38 +
- drivers/gpu/drm/ci/xfails/i915-cml-skips.txt       |    2 +
- drivers/gpu/drm/ci/xfails/i915-glk-fails.txt       |   19 +
- drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt      |   41 +
- drivers/gpu/drm/ci/xfails/i915-glk-skips.txt       |    5 +
- drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt       |   25 +
- drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt      |   26 +
- drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt       |    5 +
- drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt       |   37 +
- drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt      |    5 +
- drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt       |   11 +
- drivers/gpu/drm/ci/xfails/i915-whl-fails.txt       |   48 +
- drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt      |    1 +
- drivers/gpu/drm/ci/xfails/i915-whl-skips.txt       |    2 +
- .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt    |   29 +
- .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt   |    0
- .../gpu/drm/ci/xfails/mediatek-mt8183-fails.txt    |   10 +
- .../gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt   |   14 +
- drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt     |   12 +
- drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt    |    4 +
- drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt    |   15 +
- drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt   |    4 +
- drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt    |    2 +
- drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt   |    4 +
- drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt    |    2 +
- drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt     |   25 +
- drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt    |    7 +
- drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt     |   23 +
- drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt     |   68 +
- drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt    |   11 +
- drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt     |    2 +
- .../gpu/drm/ci/xfails/rockchip-rk3288-fails.txt    |   48 +
- .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt   |    9 +
- .../gpu/drm/ci/xfails/rockchip-rk3288-skips.txt    |   52 +
- .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt    |   37 +
- .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt   |   23 +
- .../gpu/drm/ci/xfails/rockchip-rk3399-skips.txt    |    5 +
- .../gpu/drm/ci/xfails/virtio_gpu-none-fails.txt    |   38 +
- .../gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt   |    0
- .../gpu/drm/ci/xfails/virtio_gpu-none-skips.txt    |    6 +
- 68 files changed, 5508 insertions(+)
- create mode 100644 Documentation/gpu/automated_testing.rst
- create mode 100644 drivers/gpu/drm/ci/arm.config
- create mode 100644 drivers/gpu/drm/ci/arm64.config
- create mode 100644 drivers/gpu/drm/ci/build-igt.sh
- create mode 100644 drivers/gpu/drm/ci/build.sh
- create mode 100644 drivers/gpu/drm/ci/build.yml
- create mode 100755 drivers/gpu/drm/ci/check-patch.py
- create mode 100644 drivers/gpu/drm/ci/container.yml
- create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
- create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
- create mode 100644 drivers/gpu/drm/ci/image-tags.yml
- create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
- create mode 100644 drivers/gpu/drm/ci/static-checks.yml
- create mode 100644 drivers/gpu/drm/ci/test.yml
- create mode 100644 drivers/gpu/drm/ci/testlist.txt
- create mode 100644 drivers/gpu/drm/ci/x86_64.config
- create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
