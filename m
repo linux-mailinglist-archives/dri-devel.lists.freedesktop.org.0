@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D4278EFCA
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 16:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574FB78F013
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:17:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A744210E169;
-	Thu, 31 Aug 2023 14:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6A110E18D;
+	Thu, 31 Aug 2023 15:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C969A10E169
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 14:52:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4C84C15;
- Thu, 31 Aug 2023 07:53:17 -0700 (PDT)
-Received: from [10.1.26.48] (e122027.cambridge.arm.com [10.1.26.48])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 76B7A3F64C;
- Thu, 31 Aug 2023 07:52:36 -0700 (PDT)
-Message-ID: <7d35a0f4-031b-d6a8-e0df-a97fc6b68b3b@arm.com>
-Date: Thu, 31 Aug 2023 15:52:34 +0100
+X-Greylist: delayed 340 seconds by postgrey-1.36 at gabe;
+ Thu, 31 Aug 2023 15:17:50 UTC
+Received: from ts201-smtpout72.ddc.teliasonera.net
+ (ts201-smtpout72.ddc.teliasonera.net [81.236.60.177])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D59110E18D;
+ Thu, 31 Aug 2023 15:17:50 +0000 (UTC)
+X-RG-Rigid: 63C2593509529826
+X-Originating-IP: [81.229.73.173]
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedviedrudegtddgkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffktefuhgdpggftfghnshhusghstghrihgsvgdpqfgfvfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfvfevhffutgfgsehtjeertddtfeejnecuhfhrohhmpefvhhhomhgrshcujfgvlhhlshhtrhpnmhcuoehthhhomhgrshesshhhihhpmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpefgudeltdeltdeuvdevjeetleelkefhiefgudfhueefvdevhedtvdejfeffvddutdenucfkphepkedurddvvdelrdejfedrudejfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehmrghilhdurdhshhhiphhmrghilhdrohhrghdpihhnvghtpeekuddrvddvledrjeefrddujeefpdhmrghilhhfrhhomhepthhhohhmrghssehshhhiphhmrghilhdrohhrghdpnhgspghrtghpthhtohepgedprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegurghkrhesrhgvughhrghtrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdigvgeslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+Received: from mail1.shipmail.org (81.229.73.173) by
+ ts201-smtpout72.ddc.teliasonera.net (5.8.716)
+ id 63C2593509529826; Thu, 31 Aug 2023 17:12:03 +0200
+Received: from [192.168.0.121] (81-229-73-173-no17.tbcn.telia.com
+ [81.229.73.173])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id BB7A63631E2;
+ Thu, 31 Aug 2023 17:12:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1693494722; bh=PPADEB91LWCpzYBSuDHClvkj3a/W+nAar2kRfR+auwY=;
+ h=Date:To:Cc:From:Subject:From;
+ b=bhSeEQnvoSMBA+YcWQLLkSPhktG5PIXi+A8FVb7O1abtubiuFv9awhma7E3Ecr+35
+ panIrP4tAenouU2cutuuYe608h6L8puG+Nbfmb/Yg7h8il2e7fhdEO0Ok5bGxXITlx
+ 86k752pw4XXCx6SAbip63XxiRtqz2e5R0qv1gFvU=
+Message-ID: <343997f1-d164-84cb-d7ed-3141620a63e4@shipmail.org>
+Date: Thu, 31 Aug 2023 17:12:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2] MAINTAINERS: Add Boris Brezillon as Panfrost driver
- maintainer
-Content-Language: en-GB
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-References: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas@shipmail.org>
+Subject: Refcounting in drm_exec
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,57 +57,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2023 06:25, Dmitry Osipenko wrote:
-> Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
-> developer of the Panfrost Mesa driver and main developer behind the
-> upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
-> 
-> Remove Tomeu and Alyssa, who left Collabora and stepped down from working
-> on Panfrost.
-> 
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>
-> Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Hi, Christian, Danilo
 
-FWIW:
+Looking at the drm_exec code it seems we refcount *all* locked objects 
+until drm_exec_fini(). Are callers supposed to be able to *rely* on 
+this? I'm asking because refcounting appears only strictly necessary for 
+contended- and prelocked objects, and callers would otherwise need to 
+make sure they don't drop a locked object across the lock? It's going to 
+be pretty hard to change this in the future if we want for added 
+efficiency if people start to rely on it.
 
-Acked-by: Steven Price <steven.price@arm.com>
+Also seems drm_exec_unlock_all() drops the prelocked object without 
+unlocking. I'll put together a patch.
 
-Steve
+Thanks,
 
-> ---
-> 
-> Changelog:
-> 
-> v2: - Added acks from Boris, Alyssa and Tomeu. Tomeu answered with ack
->       to the v1 email, though he answered to me only and not "to all",
->       so it's not visible on the ML.
-> 
->     - Made Boris' entry first as was requested by Rob Herring.
-> 
->  MAINTAINERS | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cd882b87a3c6..b2fc771e1f2d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1614,10 +1614,9 @@ F:	drivers/gpu/drm/arm/display/include/
->  F:	drivers/gpu/drm/arm/display/komeda/
->  
->  ARM MALI PANFROST DRM DRIVER
-> +M:	Boris Brezillon <boris.brezillon@collabora.com>
->  M:	Rob Herring <robh@kernel.org>
-> -M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
->  R:	Steven Price <steven.price@arm.com>
-> -R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
+Thomas'
 
