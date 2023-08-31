@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72D378F3F0
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 22:28:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D79578F3F2
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 22:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAD610E6D7;
-	Thu, 31 Aug 2023 20:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC99B10E6DF;
+	Thu, 31 Aug 2023 20:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6AF10E6D7;
- Thu, 31 Aug 2023 20:28:14 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3B110E6DF;
+ Thu, 31 Aug 2023 20:28:37 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37VJ9UXp002278; Thu, 31 Aug 2023 20:28:04 GMT
+ 37VJtVB0002000; Thu, 31 Aug 2023 20:28:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
  bh=Ys49PkpoeoqodHudvYndP+UifUpkStkIb4kswc6vt8o=;
- b=UgI5h/gA74+P2lfo8q2DmmBrFRwUq3VJQHL8Znqa2iawIfE/V/0YhOvf1VUnQ1z/6Xfx
- 6D2J3oVEaN1qFGBCN8GffBBmTgX1E1e8ufUStlK0KQl8fm+fKCiI69WlrTs+iC5RZ0RQ
- qVXQAbb6QXXNWpNICBRKH3Rwy5om00bDDNVYvnnQIw+1WHbzRL2RkBPhLKIyanP21SbP
- nwKpZ1GSHhyyTXXou/DlvhWpxDZvm/ioNqJPTtfDDMoIOIwZqX2bwvTv5m8gU+fvTk3Y
- v9Q4wbb549hMF4GV3JZT3fDvK3OYS8roX0UrdN2dS+b7rTC7maUuVKGJQs4DGgwX/QHM Vg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ b=ipn5Y9ihDuSiQJ14Gp9SGmPwQ3G0+nG6YPLewddAlY/grYfkrB9AciFLhbk42HF0ypcb
+ Bl6XWx+gxJl/BmrmBWmHGj8eGczy1H/svzNd58A1lDN56tbg00u4w3pWd81gPTLKagNP
+ g6pJsTiyBbSWSCYV8Ff48XM3T9By5ZXumFgTFpstj8Fv5/ItZ2ynt0lLm/8e7qS9n/s4
+ 0gWKdzuUEWkPq1ZwQfmkZAZeCcv87le7xJDTUsL0B1COzSoW+toiruN3Pji2L5JJ38DE
+ NlkaTdIhA2iFK6QjeIhSmgVOdyr1R8lQI0/rOM2/y2wjvuij9PgcLABjKyIV0/n23pKe bg== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3stpy9a1ca-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3stj37ahdn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Aug 2023 20:28:04 +0000
+ Thu, 31 Aug 2023 20:28:27 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37VKS32L005676
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37VKSQVw027902
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 31 Aug 2023 20:28:04 GMT
+ Thu, 31 Aug 2023 20:28:26 GMT
 Received: from [10.71.108.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 31 Aug
- 2023 13:28:03 -0700
-Message-ID: <a181f3ab-bdb3-df24-5dcc-26e26f2feaf1@quicinc.com>
-Date: Thu, 31 Aug 2023 13:28:02 -0700
+ 2023 13:28:25 -0700
+Message-ID: <7e694909-e4df-5948-ecc0-3bfe57187d54@quicinc.com>
+Date: Thu, 31 Aug 2023 13:28:24 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
@@ -58,21 +58,21 @@ In-Reply-To: <20230829184735.2841739-4-swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: aUdBQO0m3CrEMi7Zn8Q9N56YePkxgoZS
-X-Proofpoint-GUID: aUdBQO0m3CrEMi7Zn8Q9N56YePkxgoZS
+X-Proofpoint-GUID: DT2MjPVdQtK8yh9ek4JEII37JqB4cCdL
+X-Proofpoint-ORIG-GUID: DT2MjPVdQtK8yh9ek4JEII37JqB4cCdL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-31_18,2023-08-31_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 clxscore=1015 malwarescore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 priorityscore=1501
+ clxscore=1015 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
+ malwarescore=0 spamscore=0 phishscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2308310183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
