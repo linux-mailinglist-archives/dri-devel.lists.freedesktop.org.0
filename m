@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29AE78F0A4
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:54:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049F578F0A6
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9390910E0BB;
-	Thu, 31 Aug 2023 15:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB32E10E0D5;
+	Thu, 31 Aug 2023 15:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4162410E0BB;
- Thu, 31 Aug 2023 15:54:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2BF3E10E0D5;
+ Thu, 31 Aug 2023 15:54:18 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BFD42C15;
- Thu, 31 Aug 2023 08:54:47 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2EDC5FEC;
+ Thu, 31 Aug 2023 08:54:57 -0700 (PDT)
 Received: from [10.1.26.48] (e122027.cambridge.arm.com [10.1.26.48])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A14353F64C;
- Thu, 31 Aug 2023 08:54:04 -0700 (PDT)
-Message-ID: <1588defa-d196-5c3e-5d5b-4d6aaa0a60d5@arm.com>
-Date: Thu, 31 Aug 2023 16:54:02 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C9153F64C;
+ Thu, 31 Aug 2023 08:54:13 -0700 (PDT)
+Message-ID: <23f38307-3246-28a9-f396-5660acb21a18@arm.com>
+Date: Thu, 31 Aug 2023 16:54:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/6] drm/panfrost: Add cycle count GPU register
- definitions
+Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
 Content-Language: en-GB
 To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -32,9 +31,9 @@ To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
  marijn.suijten@somainline.org, robh@kernel.org
 References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
- <20230824013604.466224-2-adrian.larumbe@collabora.com>
+ <20230824013604.466224-3-adrian.larumbe@collabora.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230824013604.466224-2-adrian.larumbe@collabora.com>
+In-Reply-To: <20230824013604.466224-3-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,38 +55,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/08/2023 02:34, Adrián Larumbe wrote:
-> These GPU registers will be used when programming the cycle counter, which
-> we need for providing accurate fdinfo drm-cycles values to user space.
+> The drm-stats fdinfo tags made available to user space are drm-engine,
+> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
+> 
+> This deviates from standard practice in other DRM drivers, where a single
+> set of key:value pairs is provided for the whole render engine. However,
+> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
+> decision was made to calculate bus cycles and workload times separately.
+> 
+> Maximum operating frequency is calculated at devfreq initialisation time.
+> Current frequency is made available to user space because nvtop uses it
+> when performing engine usage calculations.
 > 
 > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
 > ---
->  drivers/gpu/drm/panfrost/panfrost_regs.h | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 ++++
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
+>  drivers/gpu/drm/panfrost/panfrost_device.h  | 13 ++++++
+>  drivers/gpu/drm/panfrost/panfrost_drv.c     | 45 ++++++++++++++++++++-
+>  drivers/gpu/drm/panfrost/panfrost_job.c     | 30 ++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_job.h     |  4 ++
+>  6 files changed, 102 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index 919f44ac853d..55ec807550b3 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -46,6 +46,8 @@
->  #define   GPU_CMD_SOFT_RESET		0x01
->  #define   GPU_CMD_PERFCNT_CLEAR		0x03
->  #define   GPU_CMD_PERFCNT_SAMPLE	0x04
-> +#define   GPU_CMD_CYCLE_COUNT_START	0x05
-> +#define   GPU_CMD_CYCLE_COUNT_STOP	0x06
->  #define   GPU_CMD_CLEAN_CACHES		0x07
->  #define   GPU_CMD_CLEAN_INV_CACHES	0x08
->  #define GPU_STATUS			0x34
-> @@ -73,6 +75,9 @@
->  #define GPU_PRFCNT_TILER_EN		0x74
->  #define GPU_PRFCNT_MMU_L2_EN		0x7c
+
+[...]
+
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index a2ab99698ca8..3fd372301019 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -267,6 +267,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>  	job->requirements = args->requirements;
+>  	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>  	job->mmu = file_priv->mmu;
+> +	job->priv = file_priv;
 >  
-> +#define GPU_CYCLE_COUNT_LO		0x90
-> +#define GPU_CYCLE_COUNT_HI		0x94
-> +
->  #define GPU_THREAD_MAX_THREADS		0x0A0	/* (RO) Maximum number of threads per core */
->  #define GPU_THREAD_MAX_WORKGROUP_SIZE	0x0A4	/* (RO) Maximum workgroup size */
->  #define GPU_THREAD_MAX_BARRIER_SIZE	0x0A8	/* (RO) Maximum threads waiting at a barrier */
+>  	slot = panfrost_job_get_slot(job);
+>  
+> @@ -483,6 +484,14 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
+>  		goto err_free;
+>  	}
+>  
+> +	snprintf(panfrost_priv->fdinfo.engines[0].name, MAX_SLOT_NAME_LEN, "frg");
+> +	snprintf(panfrost_priv->fdinfo.engines[1].name, MAX_SLOT_NAME_LEN, "vtx");
+> +#if 0
+> +	/* Add compute engine in the future */
+> +	snprintf(panfrost_priv->fdinfo.engines[2].name, MAX_SLOT_NAME_LEN, "cmp");
+> +#endif
+
+I'm not sure what names are best, but slot 2 isn't actually a compute slot.
+
+Slot 0 is fragment, that name is fine.
+
+Slot 1 and 2 are actually the same (from a hardware perspective) but the
+core affinity of the two slots cannot overlap which means you need to
+divide the GPU in two to usefully use both slots. The only GPU that this
+actually makes sense for is the T628[1] as it has two (non-coherent)
+core groups.
+
+The upshot is that slot 1 is used for all of vertex, tiling and compute.
+Slot 2 is currently never used, but kbase will use it only for compute
+(and only on the two core group GPUs).
+
+Personally I'd be tempted to call them "slot 0", "slot 1" and "slot 2" -
+but I appreciate that's not very helpful to people who aren't intimately
+familiar with the hardware ;)
+
+Steve
+
+[1] And technically the T608 but that's even rarer and the T60x isn't
+(yet) supported by Panfrost.
 
