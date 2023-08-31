@@ -2,66 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3EE78EFF3
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764BC78EF4B
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 16:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E66610E18F;
-	Thu, 31 Aug 2023 15:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12D410E687;
+	Thu, 31 Aug 2023 14:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752C410E25C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 18:58:08 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-68a41035828so4248102b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 11:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sifive.com; s=google; t=1693421888; x=1694026688; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c7VJ/fkol9DLzIYknMej1bs7pH/h+bM39shT1LJdITQ=;
- b=NGmkB3Ifdkf7azZoBYSBk4zVqMH/jYzpSwxhwFyfwoou9aCLDbAXcSWO05rkfgeLAb
- OqjIdeOT85ZIKOhotRrL5W7irLvYgNejStnF6ONDxFrq0cqP14tWdAnyWEMUHWaFTXN/
- Uaq5rIIFevAUpJAwiMTXTzo2cAE7gJp4OoCJ2TmQSeQbdIa4Mr5akQ4IkHC64BtWQKEz
- ERj1b4thxjtHFf4BAl7uunUoa/FT20g2Cf2qMoe8u6xOWg58p0FgMKptr0Igq9vzmkap
- AkLN7ZdQxXQrbwaGP14CIa4c8IdQRC7yL+q9eCAx7ONETFqRoujOcaC4vyaAT8IAWEYN
- hQvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693421888; x=1694026688;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c7VJ/fkol9DLzIYknMej1bs7pH/h+bM39shT1LJdITQ=;
- b=gYiX9nQ0a84PhG2r9lvWQW0p5TjNpfEAk1cORPYXhr+dZxQ7aK8OsotltnoCYXLS29
- uvqm0nSFQGhkFG9SqDRweYqweDLVOW03Bmq9HDQTctqOhh9z3wIc867CphPArR4ckhXG
- e2MYchD0LB6Rfnjgjf8r6+zsI/SibLNWEv45I2xH34vRSqPvmV/keV54AHUg1wr/FBFL
- gQySu72tqtuVwT5aMnB5ah81ixwo8SyHppiiHodzVJ+wVrQbpytXT8yY6i/M3Zy/mgKu
- 3l2qjFkZX9k9NaUOzV+MALAMZbgwCjGoiOpyPUPU3t8WvscIfxqzMpJMBxSzRTqX8C56
- 4Jig==
-X-Gm-Message-State: AOJu0Yxmvm40K/iYnUM2KzfXrI4uuFZKvt+NjPQfNuqn52z/mYGVykjM
- 4CbvZ4dSYje+wTVrgomcilJ4zA==
-X-Google-Smtp-Source: AGHT+IHBwJbRUA1G67hWwL5HK4wwlzT6w0g5K3CYGUziqjCrKALq7+w4aQ1uqib6vPunFEZ4/x6Asw==
-X-Received: by 2002:a05:6a21:3395:b0:13b:a2c9:922e with SMTP id
- yy21-20020a056a21339500b0013ba2c9922emr3682354pzb.27.1693421887930; 
- Wed, 30 Aug 2023 11:58:07 -0700 (PDT)
-Received: from sw06.internal.sifive.com ([64.62.193.194])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a17090322cb00b001bde440e693sm11453565plg.44.2023.08.30.11.58.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Aug 2023 11:58:07 -0700 (PDT)
-From: Samuel Holland <samuel.holland@sifive.com>
-To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/amd/pm: Replace 1-element arrays with flexible array
- members
-Date: Wed, 30 Aug 2023 11:57:32 -0700
-Message-ID: <20230830185805.1126402-1-samuel.holland@sifive.com>
-X-Mailer: git-send-email 2.41.0
+X-Greylist: delayed 439 seconds by postgrey-1.36 at gabe;
+ Thu, 31 Aug 2023 14:08:27 UTC
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F6910E687;
+ Thu, 31 Aug 2023 14:08:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 74B34B822A2;
+ Thu, 31 Aug 2023 14:01:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93068C433C8;
+ Thu, 31 Aug 2023 14:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1693490464;
+ bh=bhdJzbcUDiU8F267YV9GPJNZorUfdGvRfv0Zanffxlc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dt4grCozA/NuOXr8/L7WRrWozLJyn4aujUgLwxM1zCLIzhVDGU86YnC9Z1+oQ4yD4
+ eLcaMYJfwZ17CMnPDEYh7xhyCS6DgXJ3shvcan1nxj4IF9AkmJ9TOXwMnWLwFFZSAI
+ /o84xxJ2DVEn56tt5q1w/mg3IWr9ZzKXEZ4WRrBI=
+Date: Thu, 31 Aug 2023 16:01:01 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.10 13/22] drm/amdgpu: install stub fence into
+ potential unused fence pointers
+Message-ID: <2023083144-railroad-daybreak-7f41@gregkh>
+References: <20230724012419.2317649-1-sashal@kernel.org>
+ <20230724012419.2317649-13-sashal@kernel.org>
+ <CAPaKu7RTgAMBLHbwtp4zgiBSDrTFtAj07k5qMzkuLQy2Zr+sZA@mail.gmail.com>
+ <55fc4a28-1e17-44df-2069-a688828080e6@gmail.com>
+ <2023083145-scoured-celery-2511@gregkh>
+ <c657653e-24d8-5790-a91c-4c13bb9eaeb0@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 31 Aug 2023 15:10:31 +0000
+In-Reply-To: <c657653e-24d8-5790-a91c-4c13bb9eaeb0@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,119 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Samuel Holland <samuel.holland@sifive.com>,
- amd-gfx@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ stable@vger.kernel.org, Lang Yu <Lang.Yu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3"),
-UBSAN_BOUNDS no longer pretends 1-element arrays are unbounded. The
-bounds check is tripped in smu7_get_pp_table_entry_callback_func_v1(),
-while reading from mclk_dep_table.
+On Thu, Aug 31, 2023 at 03:26:28PM +0200, Christian König wrote:
+> Am 31.08.23 um 12:56 schrieb Greg KH:
+> > On Thu, Aug 31, 2023 at 12:27:27PM +0200, Christian König wrote:
+> > > Am 30.08.23 um 20:53 schrieb Chia-I Wu:
+> > > > On Sun, Jul 23, 2023 at 6:24 PM Sasha Levin <sashal@kernel.org> wrote:
+> > > > > From: Lang Yu <Lang.Yu@amd.com>
+> > > > > 
+> > > > > [ Upstream commit 187916e6ed9d0c3b3abc27429f7a5f8c936bd1f0 ]
+> > > > > 
+> > > > > When using cpu to update page tables, vm update fences are unused.
+> > > > > Install stub fence into these fence pointers instead of NULL
+> > > > > to avoid NULL dereference when calling dma_fence_wait() on them.
+> > > > > 
+> > > > > Suggested-by: Christian König <christian.koenig@amd.com>
+> > > > > Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+> > > > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > ---
+> > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 6 ++++--
+> > > > >    1 file changed, 4 insertions(+), 2 deletions(-)
+> > > > We start getting this warning spew on chromeos
+> > > Yeah because the older kernels still kept track of the last VM fence in the
+> > > syncobj.
+> > > 
+> > > This patch here should probably not have been back ported.
+> > > 
+> > > Why was that done anyway? The upstream commit doesn't have a CC stable and
+> > > this is only a bug fix for a new feature not present on older kernels.
+> > It is part of the AUTOSEL process.
+> 
+> Could we prevent patches from being backported by adding a Fixes: tag?
 
-For consistency, fix all affected struct definitions in this file.
+Yes, that will show exactly where the patch should be backported to.
 
-Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
----
+thanks,
 
- .../drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-index b0ac4d121adc..fb5e935ef786 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-@@ -164,7 +164,7 @@ typedef struct _ATOM_Tonga_State {
- typedef struct _ATOM_Tonga_State_Array {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;		/* Number of entries. */
--	ATOM_Tonga_State entries[1];	/* Dynamically allocate entries. */
-+	ATOM_Tonga_State entries[];	/* Dynamically allocate entries. */
- } ATOM_Tonga_State_Array;
- 
- typedef struct _ATOM_Tonga_MCLK_Dependency_Record {
-@@ -179,7 +179,7 @@ typedef struct _ATOM_Tonga_MCLK_Dependency_Record {
- typedef struct _ATOM_Tonga_MCLK_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_MCLK_Dependency_Record entries[1];				/* Dynamically allocate entries. */
-+	ATOM_Tonga_MCLK_Dependency_Record entries[];				/* Dynamically allocate entries. */
- } ATOM_Tonga_MCLK_Dependency_Table;
- 
- typedef struct _ATOM_Tonga_SCLK_Dependency_Record {
-@@ -194,7 +194,7 @@ typedef struct _ATOM_Tonga_SCLK_Dependency_Record {
- typedef struct _ATOM_Tonga_SCLK_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_SCLK_Dependency_Record entries[1];				 /* Dynamically allocate entries. */
-+	ATOM_Tonga_SCLK_Dependency_Record entries[];				 /* Dynamically allocate entries. */
- } ATOM_Tonga_SCLK_Dependency_Table;
- 
- typedef struct _ATOM_Polaris_SCLK_Dependency_Record {
-@@ -210,7 +210,7 @@ typedef struct _ATOM_Polaris_SCLK_Dependency_Record {
- typedef struct _ATOM_Polaris_SCLK_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;							/* Number of entries. */
--	ATOM_Polaris_SCLK_Dependency_Record entries[1];				 /* Dynamically allocate entries. */
-+	ATOM_Polaris_SCLK_Dependency_Record entries[];				 /* Dynamically allocate entries. */
- } ATOM_Polaris_SCLK_Dependency_Table;
- 
- typedef struct _ATOM_Tonga_PCIE_Record {
-@@ -222,7 +222,7 @@ typedef struct _ATOM_Tonga_PCIE_Record {
- typedef struct _ATOM_Tonga_PCIE_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_PCIE_Record entries[1];							/* Dynamically allocate entries. */
-+	ATOM_Tonga_PCIE_Record entries[];							/* Dynamically allocate entries. */
- } ATOM_Tonga_PCIE_Table;
- 
- typedef struct _ATOM_Polaris10_PCIE_Record {
-@@ -235,7 +235,7 @@ typedef struct _ATOM_Polaris10_PCIE_Record {
- typedef struct _ATOM_Polaris10_PCIE_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;                                         /* Number of entries. */
--	ATOM_Polaris10_PCIE_Record entries[1];                      /* Dynamically allocate entries. */
-+	ATOM_Polaris10_PCIE_Record entries[];                       /* Dynamically allocate entries. */
- } ATOM_Polaris10_PCIE_Table;
- 
- 
-@@ -252,7 +252,7 @@ typedef struct _ATOM_Tonga_MM_Dependency_Record {
- typedef struct _ATOM_Tonga_MM_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_MM_Dependency_Record entries[1]; 			   /* Dynamically allocate entries. */
-+	ATOM_Tonga_MM_Dependency_Record entries[];			   /* Dynamically allocate entries. */
- } ATOM_Tonga_MM_Dependency_Table;
- 
- typedef struct _ATOM_Tonga_Voltage_Lookup_Record {
-@@ -265,7 +265,7 @@ typedef struct _ATOM_Tonga_Voltage_Lookup_Record {
- typedef struct _ATOM_Tonga_Voltage_Lookup_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_Voltage_Lookup_Record entries[1];				/* Dynamically allocate entries. */
-+	ATOM_Tonga_Voltage_Lookup_Record entries[];				/* Dynamically allocate entries. */
- } ATOM_Tonga_Voltage_Lookup_Table;
- 
- typedef struct _ATOM_Tonga_Fan_Table {
-@@ -367,7 +367,7 @@ typedef struct _ATOM_Tonga_VCE_State_Record {
- typedef struct _ATOM_Tonga_VCE_State_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;
--	ATOM_Tonga_VCE_State_Record entries[1];
-+	ATOM_Tonga_VCE_State_Record entries[];
- } ATOM_Tonga_VCE_State_Table;
- 
- typedef struct _ATOM_Tonga_PowerTune_Table {
-@@ -482,7 +482,7 @@ typedef struct _ATOM_Tonga_Hard_Limit_Record {
- typedef struct _ATOM_Tonga_Hard_Limit_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;
--	ATOM_Tonga_Hard_Limit_Record entries[1];
-+	ATOM_Tonga_Hard_Limit_Record entries[];
- } ATOM_Tonga_Hard_Limit_Table;
- 
- typedef struct _ATOM_Tonga_GPIO_Table {
--- 
-2.41.0
-
+greg k-h
