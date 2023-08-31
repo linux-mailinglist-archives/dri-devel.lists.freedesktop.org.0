@@ -1,52 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8C978EA6A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 12:43:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F41578EAE1
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 12:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D706810E5FD;
-	Thu, 31 Aug 2023 10:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5284410E600;
+	Thu, 31 Aug 2023 10:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3522210E5FA;
- Thu, 31 Aug 2023 10:43:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693478585; x=1725014585;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3EfxTK4L8c9vwWBrKI0h2GegbGN3oPBsRa/1tThsNL0=;
- b=Q7pHDvSZw9H+9T9Zgob+PGShi7kWigxN3FQd+aFlX2kEyLrE6VMEqRiH
- zYLzzrI0rMpFW5WYZH+W79Tglhb6Muv4fBcltFIiQ6CBgloSZ/WJNP+DM
- dvRUqgyB2rhqErwyR7dkqiVaHBTlnlOeTtwmD6vzLI7e3FhYJDVC5BNdl
- sP1+Ji7xoAYF52T4iM38Danu/Mqau/wgRYsRc8V51kwO57uugDWy6lgK8
- 5rjXKvCbEnyOfu0et+QrfOtK85m29+/+2q3jGkdZuMz537o+YkLV9Wbi0
- yMBJpocAOdZiNUgKB0Qka3OF5rY4oH534bqnXAlR6zdpYNumB465rAKPc w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="373298163"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="373298163"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 03:43:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="913184380"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="913184380"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
- by orsmga005.jf.intel.com with SMTP; 31 Aug 2023 03:43:01 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 31 Aug 2023 13:43:00 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 03/12] drm/i915: Call the DDC bus i2c adapter "ddc"
-Date: Thu, 31 Aug 2023 13:43:00 +0300
-Message-ID: <20230831104300.29688-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230829113920.13713-4-ville.syrjala@linux.intel.com>
-References: <20230829113920.13713-4-ville.syrjala@linux.intel.com>
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on20727.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:7010::727])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC2BC10E600
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 10:47:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YXI0Nw0mMKqqk52t4knQr0ezlmZl7sLVKPDpCLczl5iCiL4YZviby2k9b3eRK6avqj96OJVX0GXruAkW+ojsQmbkSpLPieNAwEWsbUBGGv12WGU6U25xcWtV5I0MU47XhZ3TlvOVzPVM2MaT6jMXu39VenXJv+zTqZYC+HP4dskn6v9mrw1iSQPNVVR38W5Ak3ZWMtb13juT+1rNl4/H4nkbXswCGu60VsAgS83YfMji+cmn/DGF1aEXjE8KSTns7Ukdhprii5u77yO3gjA3gTg0LNZdKOT1BUQBzyaRjXhG/Ao601wTae3BceCsog38mzdBMUpe9sajz+Yv7PpETg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dO2m/RGf8guSpVfbA87digqRBDkL7IK15dHUNU+0plg=;
+ b=RH+6nfzfwG0sGasy+MHSoXyt9FjZ1QjpmokXDFr6Hu9mf96XczQ0z2pHWUaVTeASWe7kKL12IZxkXHYamTNP2kcDQGMM+t1l7jz4r4h6HfS9FM2qONaXJpNYACoAo3tUC0/dKvOVejPOMSSMNLr4FGzgJrcQ5mQbgKuMJlWHaxT/sJcn45T7TMznTiWrNKP72UsFHYa4FX411FBiWywtkJXCar2wMlxi+KDuBGcekOBVkp7DnDiVOC/f7CvoDbhrEoUv+skJfzEUGkQ76ZQh0gM2VNWlUgFEuQHowocoKzpRX6l8zP5d2ZMPzmkY7FlVCiuhIkLbkDJWk4TTzeYeCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dO2m/RGf8guSpVfbA87digqRBDkL7IK15dHUNU+0plg=;
+ b=BMvNj11FJx4Wi5wszVWNBum/S0AQ8jj5V3W5X+4bsgkzX2dto+0s58TbiyVrPUSeWjl+B1YQLoaiNrG9SkN9S6SUF5uekHkcfVXSs870D0PRGJUsUrHEM/lNPCwfHi5/U+M7qRoW7SRbiNx/PLlWkLcqeRnKW9a3QasSFFmeBQA=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB5606.jpnprd01.prod.outlook.com (2603:1096:604:c5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.21; Thu, 31 Aug
+ 2023 10:47:24 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706%5]) with mapi id 15.20.6745.021; Thu, 31 Aug 2023
+ 10:47:24 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH v6 4/4] drm/bridge: panel: Drop CONFIG_OF conditional
+ around  *_of_get_bridge()
+Thread-Topic: [PATCH v6 4/4] drm/bridge: panel: Drop CONFIG_OF conditional
+ around  *_of_get_bridge()
+Thread-Index: AQHZ2+KQxxvZRIssj0qqGYV99NZys7AEI/gAgAAUgyA=
+Date: Thu, 31 Aug 2023 10:47:24 +0000
+Message-ID: <OS0PR01MB592262D3EDAF424252157D5B86E5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
+ <20230831080938.47454-5-biju.das.jz@bp.renesas.com>
+ <20230831093108.GF2698@pendragon.ideasonboard.com>
+In-Reply-To: <20230831093108.GF2698@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB5606:EE_
+x-ms-office365-filtering-correlation-id: d3a81f76-ecd8-4f33-6853-08dbaa0fa96f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fcmM0wnXu+XLdoDG7kzJC15BeSszMn2TYtZiffvWAjjwP5AQH3v1uHPz0sXDoct+vl/zpV0vhmUKeg7ZXV/C85bRhuVPui+EOiQYp9vyW6QQQG5cpWBZSbV2jpRoxfpW0TPzHttNB46tSzvU76rs8rh5N/aLfBnD+XL2nZrirPQdJEiwA8LTRd4Dj/5Kye5I9mEEOjss1IDcPyJ5vC56OQwc8Yz9Dr8LT/XHLmawE913q69EZZB0XlLXhK28fvLO+MdJR+hc7ShM3K6S+unaEk+6yx7ALu+uYG8JOUhzBW3VVVtjonQCpwpMqRgYbAMqesaTrojM8Y+gEznfHf9gpoxxujE7amyOJ+G9majg4XDHGu41YX0PJscfZpVAtQuxKqfxWFfrQVsyBza2xIOW/UlRpx0eWhllWvZB3yh484OtLaDi5G/yGp1wcJ3wWkXKCJ1M1VqbPG6uBUqCS51pPzVLTpAwjrxHNhTTAG8QEvryYkRAw3t+VXit9/84VP7IxiJbkrkk+tXcyL5733TWVvpxGUaarYaFmkwA7dw/I0PCnwfYVJermKCVjlAl25gpmH4gML6EaSpswzPwgIYZTgVEfU+qhyyxadNw43l/xMw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(136003)(39860400002)(346002)(396003)(376002)(1800799009)(186009)(451199024)(2906002)(33656002)(38070700005)(38100700002)(122000001)(83380400001)(86362001)(55016003)(41300700001)(9686003)(6506007)(7696005)(66946007)(66446008)(64756008)(66556008)(6916009)(66476007)(54906003)(316002)(52536014)(8936002)(8676002)(4326008)(478600001)(71200400001)(76116006)(26005)(5660300002)(7416002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RzA1ZitYTEhGbS9iNkUvMDZIZTVXL0FoS1pZLzdSMThuRHBjWDBIN0lKbnVL?=
+ =?utf-8?B?QVN6eUtpOXozbEFyd1lYenB0bUMvZk1vQmFtWG5CT3l3WmlURkF2UGhvQ05z?=
+ =?utf-8?B?MU90REswVGZvYytKS0UxNStsOFlhcnFKdkFoay9qMWw2RWZHRU1La05pUUFk?=
+ =?utf-8?B?aGxhYUg3MHJ3NWdHZU5GN3hTUTBWUDYwVDN2SkpnZnZ6ZWNuMVk3V0hsZVdu?=
+ =?utf-8?B?Q1gxdHNmKzkwOG1BYk1JZytqQ0tMbVBwVWUzbjB6anR4a240dlZsbGV2MEVM?=
+ =?utf-8?B?dmw1TFNDeDUyczB0RU5CU2hlQVJnNW9YQWhIU1F0OHFmc0wvN2p3VTl1cG9E?=
+ =?utf-8?B?eWhXQnl5NEFWTkp2OElRUjlPMXJVVHVGTGIwTzBuSGY1WlpHdlBzUGtBbUlH?=
+ =?utf-8?B?SGdxaHRUZXRpTWRCMVJGd3A0WU0vZDZGY0w0RnJLL2pBZUhDMk9NSS9nMDVj?=
+ =?utf-8?B?SFg3a2l5R1A4bmVKSE9FUUJxQ1BuUkRtRFB3dHZKV0VBR0lJd0FSZ1VmbDdz?=
+ =?utf-8?B?MURzSGlFeEJ0aTd6eHVaYnM3TktvUWFDK21CdHo1OERpWUltZUhBSE5HeG0w?=
+ =?utf-8?B?OTNGditzbU9mK3lCT0NxZ0UwOWEzdzdrUk1EYnY2RFgyN0wvczBzc0JCU3JG?=
+ =?utf-8?B?cnJTcDVZUDE5N3dKcmZwTkRrZTNYR2VlQXNubHRSOE5rZXF3R1pVc296TnlC?=
+ =?utf-8?B?T1FQazZ2cExCRi9RNFhnZ0FuVTJEdVhISGUxY2RQZEM0cEpFRkxBUktsQTlD?=
+ =?utf-8?B?THFQSU5DNkNQcmNpeE1Qam5TZkpYQ1R0YUVJWC9qM1BTT0QyWnJmSWRyZFVV?=
+ =?utf-8?B?RjJqSmpVUndJVEdkVVAxczhibXJWQVR3eFdZamJnNkNoQzlRcU83eWhZcVRz?=
+ =?utf-8?B?RmhtOUZXRUFuOGc5OTR4UDRwVlNWK1Z4SzN6dVE3elluVC9ISkFMamVYdERO?=
+ =?utf-8?B?cWtrM3gyNVhrN29FWXBYdWMrT1pMM0p3dmh1N2pLYWR5YzhNdS9KZS9Ma1BP?=
+ =?utf-8?B?UjJxQ1VaekVURnA5Q2UyVU1XN0tMRC9GR1l6REFkSE5XakJlZzc0d1hzQXV6?=
+ =?utf-8?B?Y3phbWx4R1lEc3lUbTUzWHUzOThvMWxCOHY2V2cya25sRWJoNVMyMmhTUkZF?=
+ =?utf-8?B?YnRZK3NqMGFGdFhkMGFWaHFpb3l3dEFFU2xOY1VwSGwvWHNHODE4YzlSdThq?=
+ =?utf-8?B?bStjMjYvaUhtSmlNc2N5L0Z0WkdPS3RGUytyUzVWSDJDa0JSTCtEaXNwMjk4?=
+ =?utf-8?B?RUh1NkhYbFYrdFpoT3hlN3dwd2xaZm90Z1hGelJGV2RIY2E1WHVzKzRqSUZQ?=
+ =?utf-8?B?WDFKU0xKUlVkZTkyR3dLQS9xYVRXNzdUZ1Z1SVNDRnVMeUZxZnJVM040UUk5?=
+ =?utf-8?B?S3ExRW8wRFZia2lHblZsU2FTWVdLdnV4bDRpeW9Yblp0MDk5ZGI5M3piVWl1?=
+ =?utf-8?B?ZTduL3ZtMU5wbTdkZVdhMHBLK25xVm1rZitTWlp4UGlqcTJleE9JVkY1eWdF?=
+ =?utf-8?B?U2xaQW1tZWtvUVl3S0NRRlJkdCtjdWtIaWs0THJnQ0I0NzBuc0NGbWhJeitx?=
+ =?utf-8?B?QkR3OVVUelo5ckgvUTFKYmhhendYWUd1MEt6S1BrUzVYei84MXBGOXUvNFhD?=
+ =?utf-8?B?Z3FSbHlPRDdOak1oM1NNVmF1cGF1NGh4ejlsU0o0TnlyTEFDdk8vY2RMRld5?=
+ =?utf-8?B?NXRpbVRNUVNyb3I2cnRoalJyaHg4K0hjVUN4YnJaR2N1MkZKZjRnRnhEMlR3?=
+ =?utf-8?B?SHJ0NXQyakpHZ2ZYWithVVVwTk5WdytXY2RGKytaa3hDTmluRDAxVVhQdFZV?=
+ =?utf-8?B?aC9kNnJTNmdBZTd0NzA4WEtVTUFtVGQ4SC9YMU1WdXVveFNRNmhqbTNZSkdQ?=
+ =?utf-8?B?dHpVZmJkNS9BMDc4end4Q3NTVGdaSGkyaEd1bVNiZDVwalZKNmxKRlFxa0pv?=
+ =?utf-8?B?bzNDdTE3K1BQUy9OL1JLQzF3Vk0vOEJvdWIxbGxlYXpMVys3Um0yM0NLQWZZ?=
+ =?utf-8?B?T3ArbXZvVnYxdlluU3F3SVJaTWRvMGcwaWE4QStlTEIzM3lqdlpEVGYycEVE?=
+ =?utf-8?B?dVJ6Nm5sbjRWemIwbjR1RzFTeVFSTDNVdXpwS1dXKzQyNXNibnJxcUc0UVQz?=
+ =?utf-8?B?TTNlMXlheU96YlVWSTZuQ09Wek9DVGQxcUloZ2JBSXRJRysxZHVhSExDV29h?=
+ =?utf-8?B?aWc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3a81f76-ecd8-4f33-6853-08dbaa0fa96f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2023 10:47:24.6581 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cGWmKoKQxtkG8x1qzlVDpGuUWC6651FwLUYAr/WVjMkJC77S4AVapez5xzjtOcBBExrxrmfWDQF82Hmh9aJvBa8OX2B8kgoYRJSUURQWr0Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5606
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,386 +131,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-Rename the various names we've used for the DDC bus
-i2c adapter ("i2c", "adapter", etc.) to just "ddc".
-This differentiates it from the various other i2c
-busses we might have (DSI panel stuff, DVO control bus, etc.).
-
-v2: Don't add a bogus drm_get_edid() call (Jani)
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- .../gpu/drm/i915/display/intel_connector.c    |  6 +--
- .../gpu/drm/i915/display/intel_connector.h    |  2 +-
- drivers/gpu/drm/i915/display/intel_crt.c      | 32 ++++++------
- drivers/gpu/drm/i915/display/intel_ddi.c      |  4 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c     | 51 ++++++++-----------
- drivers/gpu/drm/i915/display/intel_lspcon.c   | 14 ++---
- 6 files changed, 51 insertions(+), 58 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index ff3bcadebe59..c65887870ddc 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -192,17 +192,17 @@ int intel_connector_update_modes(struct drm_connector *connector,
- /**
-  * intel_ddc_get_modes - get modelist from monitor
-  * @connector: DRM connector device to use
-- * @adapter: i2c adapter
-+ * @ddc: DDC bus i2c adapter
-  *
-  * Fetch the EDID information from @connector using the DDC bus.
-  */
- int intel_ddc_get_modes(struct drm_connector *connector,
--			struct i2c_adapter *adapter)
-+			struct i2c_adapter *ddc)
- {
- 	const struct drm_edid *drm_edid;
- 	int ret;
- 
--	drm_edid = drm_edid_read_ddc(connector, adapter);
-+	drm_edid = drm_edid_read_ddc(connector, ddc);
- 	if (!drm_edid)
- 		return 0;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.h b/drivers/gpu/drm/i915/display/intel_connector.h
-index aaf7281462dc..bafde3f11ff4 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.h
-+++ b/drivers/gpu/drm/i915/display/intel_connector.h
-@@ -26,7 +26,7 @@ bool intel_connector_get_hw_state(struct intel_connector *connector);
- enum pipe intel_connector_get_pipe(struct intel_connector *connector);
- int intel_connector_update_modes(struct drm_connector *connector,
- 				 const struct drm_edid *drm_edid);
--int intel_ddc_get_modes(struct drm_connector *c, struct i2c_adapter *adapter);
-+int intel_ddc_get_modes(struct drm_connector *c, struct i2c_adapter *ddc);
- void intel_attach_force_audio_property(struct drm_connector *connector);
- void intel_attach_broadcast_rgb_property(struct drm_connector *connector);
- void intel_attach_aspect_ratio_property(struct drm_connector *connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
-index f66340b4caf0..8145511bd5c3 100644
---- a/drivers/gpu/drm/i915/display/intel_crt.c
-+++ b/drivers/gpu/drm/i915/display/intel_crt.c
-@@ -610,18 +610,18 @@ static bool intel_crt_detect_hotplug(struct drm_connector *connector)
- }
- 
- static const struct drm_edid *intel_crt_get_edid(struct drm_connector *connector,
--						 struct i2c_adapter *i2c)
-+						 struct i2c_adapter *ddc)
- {
- 	const struct drm_edid *drm_edid;
- 
--	drm_edid = drm_edid_read_ddc(connector, i2c);
-+	drm_edid = drm_edid_read_ddc(connector, ddc);
- 
--	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
-+	if (!drm_edid && !intel_gmbus_is_forced_bit(ddc)) {
- 		drm_dbg_kms(connector->dev,
- 			    "CRT GMBUS EDID read failed, retry using GPIO bit-banging\n");
--		intel_gmbus_force_bit(i2c, true);
--		drm_edid = drm_edid_read_ddc(connector, i2c);
--		intel_gmbus_force_bit(i2c, false);
-+		intel_gmbus_force_bit(ddc, true);
-+		drm_edid = drm_edid_read_ddc(connector, ddc);
-+		intel_gmbus_force_bit(ddc, false);
- 	}
- 
- 	return drm_edid;
-@@ -629,12 +629,12 @@ static const struct drm_edid *intel_crt_get_edid(struct drm_connector *connector
- 
- /* local version of intel_ddc_get_modes() to use intel_crt_get_edid() */
- static int intel_crt_ddc_get_modes(struct drm_connector *connector,
--				struct i2c_adapter *adapter)
-+				   struct i2c_adapter *ddc)
- {
- 	const struct drm_edid *drm_edid;
- 	int ret;
- 
--	drm_edid = intel_crt_get_edid(connector, adapter);
-+	drm_edid = intel_crt_get_edid(connector, ddc);
- 	if (!drm_edid)
- 		return 0;
- 
-@@ -650,11 +650,11 @@ static bool intel_crt_detect_ddc(struct drm_connector *connector)
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct drm_i915_private *dev_priv = to_i915(crt->base.base.dev);
- 	const struct drm_edid *drm_edid;
--	struct i2c_adapter *i2c;
-+	struct i2c_adapter *ddc;
- 	bool ret = false;
- 
--	i2c = intel_gmbus_get_adapter(dev_priv, dev_priv->display.vbt.crt_ddc_pin);
--	drm_edid = intel_crt_get_edid(connector, i2c);
-+	ddc = intel_gmbus_get_adapter(dev_priv, dev_priv->display.vbt.crt_ddc_pin);
-+	drm_edid = intel_crt_get_edid(connector, ddc);
- 
- 	if (drm_edid) {
- 		const struct edid *edid = drm_edid_raw(drm_edid);
-@@ -917,20 +917,20 @@ static int intel_crt_get_modes(struct drm_connector *connector)
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct intel_encoder *intel_encoder = &crt->base;
- 	intel_wakeref_t wakeref;
--	struct i2c_adapter *i2c;
-+	struct i2c_adapter *ddc;
- 	int ret;
- 
- 	wakeref = intel_display_power_get(dev_priv,
- 					  intel_encoder->power_domain);
- 
--	i2c = intel_gmbus_get_adapter(dev_priv, dev_priv->display.vbt.crt_ddc_pin);
--	ret = intel_crt_ddc_get_modes(connector, i2c);
-+	ddc = intel_gmbus_get_adapter(dev_priv, dev_priv->display.vbt.crt_ddc_pin);
-+	ret = intel_crt_ddc_get_modes(connector, ddc);
- 	if (ret || !IS_G4X(dev_priv))
- 		goto out;
- 
- 	/* Try to probe digital port for output in DVI-I -> VGA mode. */
--	i2c = intel_gmbus_get_adapter(dev_priv, GMBUS_PIN_DPB);
--	ret = intel_crt_ddc_get_modes(connector, i2c);
-+	ddc = intel_gmbus_get_adapter(dev_priv, GMBUS_PIN_DPB);
-+	ret = intel_crt_ddc_get_modes(connector, ddc);
- 
- out:
- 	intel_display_power_put(dev_priv, intel_encoder->power_domain, wakeref);
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index b7f4281b8658..e6cc4dab3201 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -4323,7 +4323,7 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
- 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
- 	struct intel_hdmi *hdmi = enc_to_intel_hdmi(encoder);
- 	struct intel_connector *connector = hdmi->attached_connector;
--	struct i2c_adapter *adapter =
-+	struct i2c_adapter *ddc =
- 		intel_gmbus_get_adapter(dev_priv, hdmi->ddc_bus);
- 	struct drm_connector_state *conn_state;
- 	struct intel_crtc_state *crtc_state;
-@@ -4365,7 +4365,7 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
- 	    !try_wait_for_completion(&conn_state->commit->hw_done))
- 		return 0;
- 
--	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
-+	ret = drm_scdc_readb(ddc, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
- 		drm_err(&dev_priv->drm, "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
- 			connector->base.base.id, connector->base.name, ret);
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 116556d6352a..32e0fe8dcd8a 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1240,17 +1240,16 @@ static void hsw_set_infoframes(struct intel_encoder *encoder,
- void intel_dp_dual_mode_set_tmds_output(struct intel_hdmi *hdmi, bool enable)
- {
- 	struct drm_i915_private *dev_priv = intel_hdmi_to_i915(hdmi);
--	struct i2c_adapter *adapter;
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(dev_priv, hdmi->ddc_bus);
- 
- 	if (hdmi->dp_dual_mode.type < DRM_DP_DUAL_MODE_TYPE2_DVI)
- 		return;
- 
--	adapter = intel_gmbus_get_adapter(dev_priv, hdmi->ddc_bus);
--
- 	drm_dbg_kms(&dev_priv->drm, "%s DP dual mode adaptor TMDS output\n",
- 		    enable ? "Enabling" : "Disabling");
- 
--	drm_dp_dual_mode_set_tmds_output(&dev_priv->drm, hdmi->dp_dual_mode.type, adapter, enable);
-+	drm_dp_dual_mode_set_tmds_output(&dev_priv->drm,
-+					 hdmi->dp_dual_mode.type, ddc, enable);
- }
- 
- static int intel_hdmi_hdcp_read(struct intel_digital_port *dig_port,
-@@ -1258,8 +1257,7 @@ static int intel_hdmi_hdcp_read(struct intel_digital_port *dig_port,
- {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	struct intel_hdmi *hdmi = &dig_port->hdmi;
--	struct i2c_adapter *adapter = intel_gmbus_get_adapter(i915,
--							      hdmi->ddc_bus);
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(i915, hdmi->ddc_bus);
- 	int ret;
- 	u8 start = offset & 0xff;
- 	struct i2c_msg msgs[] = {
-@@ -1276,7 +1274,7 @@ static int intel_hdmi_hdcp_read(struct intel_digital_port *dig_port,
- 			.buf = buffer
- 		}
- 	};
--	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-+	ret = i2c_transfer(ddc, msgs, ARRAY_SIZE(msgs));
- 	if (ret == ARRAY_SIZE(msgs))
- 		return 0;
- 	return ret >= 0 ? -EIO : ret;
-@@ -1287,8 +1285,7 @@ static int intel_hdmi_hdcp_write(struct intel_digital_port *dig_port,
- {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	struct intel_hdmi *hdmi = &dig_port->hdmi;
--	struct i2c_adapter *adapter = intel_gmbus_get_adapter(i915,
--							      hdmi->ddc_bus);
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(i915, hdmi->ddc_bus);
- 	int ret;
- 	u8 *write_buf;
- 	struct i2c_msg msg;
-@@ -1305,7 +1302,7 @@ static int intel_hdmi_hdcp_write(struct intel_digital_port *dig_port,
- 	msg.len = size + 1,
- 	msg.buf = write_buf;
- 
--	ret = i2c_transfer(adapter, &msg, 1);
-+	ret = i2c_transfer(ddc, &msg, 1);
- 	if (ret == 1)
- 		ret = 0;
- 	else if (ret >= 0)
-@@ -1321,8 +1318,7 @@ int intel_hdmi_hdcp_write_an_aksv(struct intel_digital_port *dig_port,
- {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	struct intel_hdmi *hdmi = &dig_port->hdmi;
--	struct i2c_adapter *adapter = intel_gmbus_get_adapter(i915,
--							      hdmi->ddc_bus);
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(i915, hdmi->ddc_bus);
- 	int ret;
- 
- 	ret = intel_hdmi_hdcp_write(dig_port, DRM_HDCP_DDC_AN, an,
-@@ -1333,7 +1329,7 @@ int intel_hdmi_hdcp_write_an_aksv(struct intel_digital_port *dig_port,
- 		return ret;
- 	}
- 
--	ret = intel_gmbus_output_aksv(adapter);
-+	ret = intel_gmbus_output_aksv(ddc);
- 	if (ret < 0) {
- 		drm_dbg_kms(&i915->drm, "Failed to output aksv (%d)\n", ret);
- 		return ret;
-@@ -2402,9 +2398,8 @@ intel_hdmi_dp_dual_mode_detect(struct drm_connector *connector)
- 	struct drm_i915_private *dev_priv = to_i915(connector->dev);
- 	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	struct intel_encoder *encoder = &hdmi_to_dig_port(hdmi)->base;
--	struct i2c_adapter *adapter =
--		intel_gmbus_get_adapter(dev_priv, hdmi->ddc_bus);
--	enum drm_dp_dual_mode_type type = drm_dp_dual_mode_detect(&dev_priv->drm, adapter);
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(dev_priv, hdmi->ddc_bus);
-+	enum drm_dp_dual_mode_type type = drm_dp_dual_mode_detect(&dev_priv->drm, ddc);
- 
- 	/*
- 	 * Type 1 DVI adaptors are not required to implement any
-@@ -2431,7 +2426,7 @@ intel_hdmi_dp_dual_mode_detect(struct drm_connector *connector)
- 
- 	hdmi->dp_dual_mode.type = type;
- 	hdmi->dp_dual_mode.max_tmds_clock =
--		drm_dp_dual_mode_max_tmds_clock(&dev_priv->drm, type, adapter);
-+		drm_dp_dual_mode_max_tmds_clock(&dev_priv->drm, type, ddc);
- 
- 	drm_dbg_kms(&dev_priv->drm,
- 		    "DP dual mode adaptor (%s) detected (max TMDS clock: %d kHz)\n",
-@@ -2452,24 +2447,22 @@ intel_hdmi_set_edid(struct drm_connector *connector)
- {
- 	struct drm_i915_private *dev_priv = to_i915(connector->dev);
- 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
-+	struct i2c_adapter *ddc = intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
- 	intel_wakeref_t wakeref;
- 	const struct drm_edid *drm_edid;
- 	const struct edid *edid;
- 	bool connected = false;
--	struct i2c_adapter *i2c;
- 
- 	wakeref = intel_display_power_get(dev_priv, POWER_DOMAIN_GMBUS);
- 
--	i2c = intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+	drm_edid = drm_edid_read_ddc(connector, ddc);
- 
--	drm_edid = drm_edid_read_ddc(connector, i2c);
--
--	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
-+	if (!drm_edid && !intel_gmbus_is_forced_bit(ddc)) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "HDMI GMBUS EDID read failed, retry using GPIO bit-banging\n");
--		intel_gmbus_force_bit(i2c, true);
--		drm_edid = drm_edid_read_ddc(connector, i2c);
--		intel_gmbus_force_bit(i2c, false);
-+		intel_gmbus_force_bit(ddc, true);
-+		drm_edid = drm_edid_read_ddc(connector, ddc);
-+		intel_gmbus_force_bit(ddc, false);
- 	}
- 
- 	/* Below we depend on display info having been updated */
-@@ -2561,8 +2554,8 @@ intel_hdmi_get_i2c_adapter(struct drm_connector *connector)
- static void intel_hdmi_create_i2c_symlink(struct drm_connector *connector)
- {
- 	struct drm_i915_private *i915 = to_i915(connector->dev);
--	struct i2c_adapter *adapter = intel_hdmi_get_i2c_adapter(connector);
--	struct kobject *i2c_kobj = &adapter->dev.kobj;
-+	struct i2c_adapter *ddc = intel_hdmi_get_i2c_adapter(connector);
-+	struct kobject *i2c_kobj = &ddc->dev.kobj;
- 	struct kobject *connector_kobj = &connector->kdev->kobj;
- 	int ret;
- 
-@@ -2573,8 +2566,8 @@ static void intel_hdmi_create_i2c_symlink(struct drm_connector *connector)
- 
- static void intel_hdmi_remove_i2c_symlink(struct drm_connector *connector)
- {
--	struct i2c_adapter *adapter = intel_hdmi_get_i2c_adapter(connector);
--	struct kobject *i2c_kobj = &adapter->dev.kobj;
-+	struct i2c_adapter *ddc = intel_hdmi_get_i2c_adapter(connector);
-+	struct kobject *i2c_kobj = &ddc->dev.kobj;
- 	struct kobject *connector_kobj = &connector->kdev->kobj;
- 
- 	sysfs_remove_link(connector_kobj, i2c_kobj->name);
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index bb3b5355a0d9..152a22a8ffd2 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -144,9 +144,9 @@ static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
- 	struct intel_dp *intel_dp = lspcon_to_intel_dp(lspcon);
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	enum drm_lspcon_mode current_mode;
--	struct i2c_adapter *adapter = &intel_dp->aux.ddc;
-+	struct i2c_adapter *ddc = &intel_dp->aux.ddc;
- 
--	if (drm_lspcon_get_mode(intel_dp->aux.drm_dev, adapter, &current_mode)) {
-+	if (drm_lspcon_get_mode(intel_dp->aux.drm_dev, ddc, &current_mode)) {
- 		drm_dbg_kms(&i915->drm, "Error reading LSPCON mode\n");
- 		return DRM_LSPCON_MODE_INVALID;
- 	}
-@@ -185,9 +185,9 @@ static int lspcon_change_mode(struct intel_lspcon *lspcon,
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	int err;
- 	enum drm_lspcon_mode current_mode;
--	struct i2c_adapter *adapter = &intel_dp->aux.ddc;
-+	struct i2c_adapter *ddc = &intel_dp->aux.ddc;
- 
--	err = drm_lspcon_get_mode(intel_dp->aux.drm_dev, adapter, &current_mode);
-+	err = drm_lspcon_get_mode(intel_dp->aux.drm_dev, ddc, &current_mode);
- 	if (err) {
- 		drm_err(&i915->drm, "Error reading LSPCON mode\n");
- 		return err;
-@@ -198,7 +198,7 @@ static int lspcon_change_mode(struct intel_lspcon *lspcon,
- 		return 0;
- 	}
- 
--	err = drm_lspcon_set_mode(intel_dp->aux.drm_dev, adapter, mode);
-+	err = drm_lspcon_set_mode(intel_dp->aux.drm_dev, ddc, mode);
- 	if (err < 0) {
- 		drm_err(&i915->drm, "LSPCON mode change failed\n");
- 		return err;
-@@ -233,7 +233,7 @@ static bool lspcon_probe(struct intel_lspcon *lspcon)
- 	enum drm_dp_dual_mode_type adaptor_type;
- 	struct intel_dp *intel_dp = lspcon_to_intel_dp(lspcon);
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	struct i2c_adapter *adapter = &intel_dp->aux.ddc;
-+	struct i2c_adapter *ddc = &intel_dp->aux.ddc;
- 	enum drm_lspcon_mode expected_mode;
- 
- 	expected_mode = lspcon_wake_native_aux_ch(lspcon) ?
-@@ -244,7 +244,7 @@ static bool lspcon_probe(struct intel_lspcon *lspcon)
- 		if (retry)
- 			usleep_range(500, 1000);
- 
--		adaptor_type = drm_dp_dual_mode_detect(intel_dp->aux.drm_dev, adapter);
-+		adaptor_type = drm_dp_dual_mode_detect(intel_dp->aux.drm_dev, ddc);
- 		if (adaptor_type == DRM_DP_DUAL_MODE_LSPCON)
- 			break;
- 	}
--- 
-2.41.0
-
+SGkgTGF1cmVudCBQaW5jaGFydCwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY2IDQvNF0gZHJt
+L2JyaWRnZTogcGFuZWw6IERyb3AgQ09ORklHX09GIGNvbmRpdGlvbmFsDQo+IGFyb3VuZCAqX29m
+X2dldF9icmlkZ2UoKQ0KPiANCj4gT24gVGh1LCBBdWcgMzEsIDIwMjMgYXQgMDk6MDk6MzhBTSAr
+MDEwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gRHJvcCB1bm5lY2Vzc2FyeSBDT05GSUdfT0YgY29u
+ZGl0aW9uYWwgYXJvdW5kIGRldm1fZHJtX29mX2dldF9icmlkZ2UoKQ0KPiA+IGFuZA0KPiA+IGRy
+bW1fb2ZfZ2V0X2JyaWRnZSgpIGFzIGl0IGlzIGd1YXJkZWQgd2l0aCAjaWYuLiNlbHNlIGJsb2Nr
+cyBpbg0KPiA+IGRybV9icmlkZ2UuaC4NCj4gDQo+IFRoaXMgd2lsbCBpbmNyZWFzZSB0aGUga2Vy
+bmVsIHNpemUgb24gbm9uLU9GIHN5c3RlbSwgdG8gYWRkIGZ1bmN0aW9ucyB0aGF0DQo+IGFyZSBu
+b3QgdXNlZC4gSSBkb24ndCB0aGluayB0aGUgI2lmZGVmIGhlcmUgaXMgcHJvYmxlbWF0aWMuDQoN
+Ck9LIGFncmVlZC4gSSBndWVzcyBmb3IgTk9OLU9GIHN5c3RlbSBpdCB3aWxsIGdpdmUgYnVpbGQg
+ZXJyb3INCmZvciBmdW5jdGlvbiByZWRlZmluaXRpb24sIGlmIHRoYXQgaXMgdGhlIGNhc2UgSSB3
+b3VsZCBsaWtlIHRvDQpkcm9wIHRoaXMgcGF0Y2guDQoNCnN0YXRpYyBpbmxpbmUgc3RydWN0IGRy
+bV9icmlkZ2UgKmRldm1fZHJtX29mX2dldF9icmlkZ2UoKQ0KDQp2cw0KDQpzdHJ1Y3QgZHJtX2Jy
+aWRnZSAqZGV2bV9kcm1fb2ZfZ2V0X2JyaWRnZSgpDQoNCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0K
+PiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4N
+Cj4gPiAtLS0NCj4gPiB2NjoNCj4gPiAgKiBOZXcgcGF0Y2guDQo+ID4gLS0tDQo+ID4gIGRyaXZl
+cnMvZ3B1L2RybS9icmlkZ2UvcGFuZWwuYyB8IDMgLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAz
+IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
+Z2UvcGFuZWwuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jIGluZGV4IDdm
+NDE1MjVmN2E2ZS4uOTIyMGExYzIzNjk3DQo+ID4gMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9wYW5lbC5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9w
+YW5lbC5jDQo+ID4gQEAgLTQ4Miw3ICs0ODIsNiBAQCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcg0KPiA+
+ICpkcm1fcGFuZWxfYnJpZGdlX2Nvbm5lY3RvcihzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKSAg
+fQ0KPiA+IEVYUE9SVF9TWU1CT0woZHJtX3BhbmVsX2JyaWRnZV9jb25uZWN0b3IpOw0KPiA+DQo+
+ID4gLSNpZmRlZiBDT05GSUdfT0YNCj4gPiAgLyoqDQo+ID4gICAqIGRldm1fZHJtX29mX2dldF9i
+cmlkZ2UgLSBSZXR1cm4gbmV4dCBicmlkZ2UgaW4gdGhlIGNoYWluDQo+ID4gICAqIEBkZXY6IGRl
+dmljZSB0byB0aWUgdGhlIGJyaWRnZSBsaWZldGltZSB0byBAQCAtNTUwLDUgKzU0OSwzIEBADQo+
+ID4gc3RydWN0IGRybV9icmlkZ2UgKmRybW1fb2ZfZ2V0X2JyaWRnZShzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZHJtLA0KPiA+ICAJcmV0dXJuIGJyaWRnZTsNCj4gPiAgfQ0KPiA+ICBFWFBPUlRfU1lNQk9M
+KGRybW1fb2ZfZ2V0X2JyaWRnZSk7DQo+ID4gLQ0KPiA+IC0jZW5kaWYNCj4gDQo+IC0tDQo+IFJl
+Z2FyZHMsDQo+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQo=
