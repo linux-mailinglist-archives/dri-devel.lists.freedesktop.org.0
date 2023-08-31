@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E524578EB17
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 12:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1714978EB1D
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 12:52:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBEE10E5EE;
-	Thu, 31 Aug 2023 10:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBAD10E602;
+	Thu, 31 Aug 2023 10:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0201E10E5EE;
- Thu, 31 Aug 2023 10:51:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1C210E602;
+ Thu, 31 Aug 2023 10:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693479114; x=1725015114;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bK0hR2Wo68cckQ3fMMpTh2HEN/1JnSMIe4uhIwiTfAI=;
- b=R8RUIa7u/GEvmyuBcbCsfX9QRf0+dBLkXnurMCwVQJVgWcqQlAIkDlbG
- zWVK7hPFngTzLzZJE0kSYg2cHsbUZYLWRK9ZIdzCdjmg7cz1LF9rtt6BR
- 35QTg/47EEtv+kMB0itabHf2P1A8Sxth3zxnNeGlo6vjCS7hw5IZWo61w
- uNobvTZf0AkvaTs2629rzWMlY881AA5ABX5UFnS2QUBc+i9gEMHFDjot4
- /4E6zySEE8QSAq0s4Xjfb5pq+CrPc4DvqVkTwAxxngSVR9kxaAeb0wRsR
- nKwfDoa7jrwikfUSGBVgumv2rovBnlWjr71qFqKV4iprBjJEM4QK+FLnR Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="442262235"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="442262235"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ t=1693479152; x=1725015152;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=IKJ9fvESNpOgrVXSrWsbLPo/JZkMzvWxB+Z5zCbjbYw=;
+ b=hLA80fp2WG54MitGp9YMJS4h2vzcIUXTvJQ43vRy3tWEGvtp8jQWIk8v
+ CbOXUzQ5n1a4dVS0ICniTd/0/1Wa33dOUCl1NNPk/zhyMZ0nVwlM1/8pC
+ jaH5VbuUQLxNrkSN95Y+j078SJaaGaEpC9duXfBVhOEj/OdiVjksq8gSe
+ 5hGbJWDKNLKEzzsxHQcMR7JG4ZXbF7jseYJgAx4XwxNhJ3DEBOHHkYdNv
+ 7+0sXBTyYp2+D6zZWt3LxwlioYpcoFyxrfcJoAdXZr2v3nmWrsQrjBEx9
+ /dfM39C4i0ZhJrk/Zy3vQVP5nx/rN2mJYB16AtSEdIaa5xRUEWDBV1jqK A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="442262365"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="442262365"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 03:51:53 -0700
+ 31 Aug 2023 03:52:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774497149"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="774497149"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="809548043"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; d="scan'208";a="809548043"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 03:51:50 -0700
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 03:52:28 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] media: cec: core: add note about *_from_edid() function
- usage in drm
-Date: Thu, 31 Aug 2023 13:51:44 +0300
-Message-Id: <20230831105144.25923-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
-References: <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 6/6] media: cec: core: add note about *_from_edid()
+ function usage in drm
+In-Reply-To: <343ed7f5-194a-805c-5608-b9000a868d5f@xs4all.nl>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <cover.1692884619.git.jani.nikula@intel.com>
+ <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
+ <343ed7f5-194a-805c-5608-b9000a868d5f@xs4all.nl>
+Date: Thu, 31 Aug 2023 13:52:26 +0300
+Message-ID: <87edjjjxg5.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,60 +60,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the drm subsystem, the source physical address is, in most cases,
-available without having to parse the EDID again. Add notes about
-preferring to use the pre-parsed address instead.
+On Wed, 30 Aug 2023, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> On 24/08/2023 15:46, Jani Nikula wrote:
+>> In the drm subsystem, the source physical address is, in most cases,
+>> available without having to parse the EDID again. Add notes about
+>> preferring to use the pre-parsed address instead.
+>> 
+>> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: linux-media@vger.kernel.org
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/media/cec/core/cec-adap.c     | 4 ++++
+>>  drivers/media/cec/core/cec-notifier.c | 4 ++++
+>>  2 files changed, 8 insertions(+)
+>> 
+>> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+>> index 241b1621b197..2c627ed611ed 100644
+>> --- a/drivers/media/cec/core/cec-adap.c
+>> +++ b/drivers/media/cec/core/cec-adap.c
+>> @@ -1688,6 +1688,10 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
+>>  }
+>>  EXPORT_SYMBOL_GPL(cec_s_phys_addr);
+>>  
+>> +/*
+>> + * Note: In the drm subsystem, prefer calling cec_s_phys_addr() with
+>> + * connector->display_info.source_physical_address if possible.
+>> + */
+>
+> I would rephrase this:
+>
+> /*
+>  * Note: in the drm subsystem, prefer calling (if possible):
+>  *
+>  * cec_s_phys_addr(adap, connector->display_info.source_physical_address, false);
+>  */
+>
+> I think it is important to indicate that the last argument should be 'false'.
 
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Agreed.
 
----
+>
+>>  void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
+>>  			       const struct edid *edid)
+>>  {
+>> diff --git a/drivers/media/cec/core/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
+>> index 389dc664b211..13f043b3025b 100644
+>> --- a/drivers/media/cec/core/cec-notifier.c
+>> +++ b/drivers/media/cec/core/cec-notifier.c
+>> @@ -195,6 +195,10 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
+>>  }
+>>  EXPORT_SYMBOL_GPL(cec_notifier_set_phys_addr);
+>>  
+>> +/*
+>> + * Note: In the drm subsystem, prefer calling cec_notifier_set_phys_addr() with
+>> + * connector->display_info.source_physical_address if possible.
+>> + */
+>
+> This comment is fine, there is no similar last argument here. But perhaps
+> it is good to use a similar format as above. Up to you.
 
-v2: rephrase comments, in particular indicate cec_s_phys_addr() should
-be false (Hans)
----
- drivers/media/cec/core/cec-adap.c     | 5 +++++
- drivers/media/cec/core/cec-notifier.c | 5 +++++
- 2 files changed, 10 insertions(+)
+Thanks, rephrased both in v2.
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 241b1621b197..1109af525c35 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1688,6 +1688,11 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
- }
- EXPORT_SYMBOL_GPL(cec_s_phys_addr);
- 
-+/*
-+ * Note: In the drm subsystem, prefer calling (if possible):
-+ *
-+ * cec_s_phys_addr(adap, connector->display_info.source_physical_address, false);
-+ */
- void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
- 			       const struct edid *edid)
- {
-diff --git a/drivers/media/cec/core/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
-index 389dc664b211..d600be0f7b67 100644
---- a/drivers/media/cec/core/cec-notifier.c
-+++ b/drivers/media/cec/core/cec-notifier.c
-@@ -195,6 +195,11 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
- }
- EXPORT_SYMBOL_GPL(cec_notifier_set_phys_addr);
- 
-+/*
-+ * Note: In the drm subsystem, prefer calling (if possible):
-+ *
-+ * cec_notifier_set_phys_addr(n, connector->display_info.source_physical_address);
-+ */
- void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
- 					  const struct edid *edid)
- {
+BR,
+Jani.
+
+
+>
+>>  void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
+>>  					  const struct edid *edid)
+>>  {
+>
+> Regards,
+>
+> 	Hans
+
 -- 
-2.39.2
-
+Jani Nikula, Intel Open Source Graphics Center
