@@ -1,59 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B43D78E78D
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:04:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF778E790
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:06:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD6C10E586;
-	Thu, 31 Aug 2023 08:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13D610E5A6;
+	Thu, 31 Aug 2023 08:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
- [IPv6:2607:f8b0:4864:20::c29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3B110E586
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:04:42 +0000 (UTC)
-Received: by mail-oo1-xc29.google.com with SMTP id
- 006d021491bc7-57328758a72so136471eaf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:04:42 -0700 (PDT)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9C6010E5A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:06:40 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id
+ e9e14a558f8ab-34ca22e3b3dso1791805ab.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1693469081; x=1694073881; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eVDMUJusfvGNMe6U/cv080svMtDMV7FPoLJOG6+JEFs=;
- b=ag+yQU1+eOTfll2E3e0ssMY2UF2vZ2MF116asI0DpNNvqLtZy/G6d0bKEddP4kE2aC
- BWeGElls7tvEzQp/wEUtyHc9wRQPsUD3Zer+KLuUC8GaInwIjgaWQGSRHFjjktWtWFsi
- dOuHvdeWAFy+jc7RN8jQWyNcO/Ms0uH3BersQ=
+ d=chromium.org; s=google; t=1693469200; x=1694074000;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lI5HuTSJh4kLrQZ9upvSPMABH82Jidmy6stP6xhqC70=;
+ b=PKxi6fWglOYW6gm9H300zrqqUsiAa0j//pOL64pu5cIwbGfMfXRlviKtKPEZ6jg8iO
+ ZuBH/770mXNJ6xObDoj3Ino5g25LH2R8S+YYUIv7Q3r+1/KVpfuCtw9celZsRFk9Crqz
+ +lPNIb/6+JbbVch6/zI4EHUnHZhmlRaEkWzhI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693469081; x=1694073881;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eVDMUJusfvGNMe6U/cv080svMtDMV7FPoLJOG6+JEFs=;
- b=fpNe/8G6VW6ujoecFv3IchpbyHuuXcGulckxNnbSLfEw11sRk7X4RiDCifLvIfms7g
- j1c+sFAv+gMZQmAALdKNGCQGmhdYw6IYhgCiOiG0jIqSO5ba1SPgW+nFyWuPU6WZzPda
- PYzx2O62XMArdK1MDdXHyhGVD+JkS0i3Zg+FkUaPpQrnyNET24CA3B7Bsuhb7cdoU0b2
- EUEEbTpaLbZzOS6QeXWWhJII7H19b3jalFJuRUlMcCzuEkEPiL17EkpRJw/1EjPJx10v
- yFvD1mbg47ld1sO0087hEkpb0kZcoB+G7aCjyAuo5k4XNOsb+krKluFg1b5BtU1jf5ps
- j9YQ==
-X-Gm-Message-State: AOJu0YzPx0hD1sWi7EUT31DOFm3q+O9ECXIgYPWi+HztZ55YSBCoqiNn
- MGRQH3bZYqjxbIs8Bcgb6vNCMsPu3imtJSRnfHYVSw==
-X-Google-Smtp-Source: AGHT+IGWkMZOGIbYg6RTVpBdYwZ0wSp1dixetG9/GzXcL6XTQaOyBZFg8pRUTYx0QUQCxznHWIEgBIXfNBI6sha82yQ=
-X-Received: by 2002:a05:6808:3c45:b0:3a9:e85d:b689 with SMTP id
- gl5-20020a0568083c4500b003a9e85db689mr5038337oib.0.1693469081676; Thu, 31 Aug
- 2023 01:04:41 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693469200; x=1694074000;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lI5HuTSJh4kLrQZ9upvSPMABH82Jidmy6stP6xhqC70=;
+ b=lUcQgkzYjqjDWXwlyUgOSAgGU7Jc1IY7Bgp0rChutk41+O7OgVndap2xQlAUaNPjye
+ XA/EMrdzWxV6H2DiUa/GelueQkTq94To7K3VBDHhwvauzT/eDYqIBTj4dLKlSc1k/9tl
+ 1+LxENJT02ipGqqh7re9DGLeO7GrPlt+bcBj/gzbF7FJjFI7WlF2lYBOolJeIdRSHfV9
+ QTgvKCHIoWSbOkoi6Wibufaj7th6/iqd1E4kwZ8oRyAzH+tGU4WGT/MfRyVVSh3ZdaNB
+ qongIA4Fx1U6Me+grTczEQ6hbkXhkOGp9V9Vep3pYlj8tKcDI/MOx9yxWl1xbkyqQTpZ
+ T01w==
+X-Gm-Message-State: AOJu0Yyp/H6zhPfog1B34z3AWfrdhvtPBC0q3L1mRKuv879PeFIjbw9H
+ uCjP1afPmy0Nz1KdRuKHCwC7ExhkgLEp8SNbAsQ=
+X-Google-Smtp-Source: AGHT+IFwwszH61uB0+sFhhwPNxPGLvkqV0j4UcHw2w5qs9ExTveDdATUHaUlyM+mIjtkT9g/JiNT4w==
+X-Received: by 2002:a92:cf47:0:b0:345:d4da:41d with SMTP id
+ c7-20020a92cf47000000b00345d4da041dmr5101653ilr.8.1693469199857; 
+ Thu, 31 Aug 2023 01:06:39 -0700 (PDT)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com.
+ [209.85.166.47]) by smtp.gmail.com with ESMTPSA id
+ y13-20020a92c74d000000b00348ea1a31ccsm288196ilp.12.2023.08.31.01.06.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Aug 2023 01:06:38 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id
+ ca18e2360f4ac-7927f24140eso23112739f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:06:38 -0700 (PDT)
+X-Received: by 2002:a5d:9d15:0:b0:786:fff8:13c2 with SMTP id
+ j21-20020a5d9d15000000b00786fff813c2mr5435565ioj.11.1693469197856; Thu, 31
+ Aug 2023 01:06:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230825132229.1109445-1-thierry.reding@gmail.com>
- <f5ce7a77-ee3e-5186-dd8a-76c0bd794de0@suse.de>
- <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
-In-Reply-To: <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 31 Aug 2023 10:04:29 +0200
-Message-ID: <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/tegra: Remove existing framebuffer only if we support
- display
-To: Mikko Perttunen <cyndis@kapsi.fi>
+References: <20230714094908.13087-1-jason-jh.lin@mediatek.com>
+ <20230714094908.13087-4-jason-jh.lin@mediatek.com>
+In-Reply-To: <20230714094908.13087-4-jason-jh.lin@mediatek.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Thu, 31 Aug 2023 17:06:00 +0900
+X-Gmail-Original-Message-ID: <CAC=S1ni1LvViXbP-euO8trwmwn68Y7-=UxX4W77fc10+TVi2PQ@mail.gmail.com>
+Message-ID: <CAC=S1ni1LvViXbP-euO8trwmwn68Y7-=UxX4W77fc10+TVi2PQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] drm/mediatek: Fix unintentional integer overflow
+ in multiplying different types
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +82,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jon Hunter <jonathanh@nvidia.com>
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Aug 2023 at 08:33, Mikko Perttunen <cyndis@kapsi.fi> wrote:
+On Fri, Jul 14, 2023 at 6:59=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@mediatek=
+.com> wrote:
 >
-> On 8/30/23 13:19, Thomas Zimmermann wrote:
-> > Hi
-> >
-> > Am 25.08.23 um 15:22 schrieb Thierry Reding:
-> >> From: Thierry Reding <treding@nvidia.com>
-> >>
-> >> Tegra DRM doesn't support display on Tegra234 and later, so make sure
-> >> not to remove any existing framebuffers in that case.
-> >>
-> >> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> >> ---
-> >>   drivers/gpu/drm/tegra/drm.c | 8 +++++---
-> >>   1 file changed, 5 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> >> index b1e1a78e30c6..7a38dadbc264 100644
-> >> --- a/drivers/gpu/drm/tegra/drm.c
-> >> +++ b/drivers/gpu/drm/tegra/drm.c
-> >> @@ -1220,9 +1220,11 @@ static int host1x_drm_probe(struct
-> >> host1x_device *dev)
-> >>       drm_mode_config_reset(drm);
-> >> -    err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
-> >> -    if (err < 0)
-> >> -        goto hub;
-> >> +    if (drm->mode_config.num_crtc > 0) {
-> >
-> > If you don't support the hardware, wouldn't it be better to return
-> > -ENODEV if !num_crtc?
+> 1. Instead of multiplying 2 variable of different types. Change to
+> assign a value of one variable and then multiply the other variable.
 >
-> While display is not supported through TegraDRM on Tegra234+, certain
-> multimedia accelerators are supported, so we need to finish probe for those.
+> 2. Add a int variable for multiplier calculation instead of calculating
+> different types multiplier with dma_addr_t variable directly.
+>
+> Fixes: 1a64a7aff8da ("drm/mediatek: Fix cursor plane no update")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Ideally you also register the tegra driver without DRIVER_MODESET |
-DRIVER_ATOMIC in that case, to avoid unecessary userspace confusion.
-Most userspace can cope with a display driver without any crtc, but I
-think xorg-modesettting actually falls over. Or at least I've seen
-some hacks that the agx people added to make sure X doesn't
-accidentally open the wrong driver.
--Sima
+Hi CK,
 
->
-> Cheers,
-> Mikko
->
-> >
-> > Best regards
-> > Thomas
-> >
-> >> +        err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
-> >> +        if (err < 0)
-> >> +            goto hub;
-> >> +    }
-> >>       err = drm_dev_register(drm, 0);
-> >>       if (err < 0)
-> >
->
+It seems like the series was accepted but this patch in particular
+didn't make it into the tree. Could you take a look?
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+Fei
