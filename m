@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCE278E7B5
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:15:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771D978E7CF
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E1010E146;
-	Thu, 31 Aug 2023 08:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE6B310E5B9;
+	Thu, 31 Aug 2023 08:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5768C10E146
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:15:26 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EB2F71F45E;
- Thu, 31 Aug 2023 08:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693469724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fhMY2Zsvpbf+QUGLyWy57YKkixRuQXmp7K4/zxBhXWU=;
- b=wiVcmm68EtFRQK3FOH8STO6wdKUqtC8NICM9ysdE/A4n67Al+ay/ii66rD9HwGe3AsH3My
- +vLm+07pJqukdKtAsZHrxmsuIuc5+F9MNg5HA95ggTJiK6PNRfDFx7tpak70t2ShQKP0gz
- Fo4K7w9G5GhK6U3dls/psCgRtLpHG9w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693469724;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fhMY2Zsvpbf+QUGLyWy57YKkixRuQXmp7K4/zxBhXWU=;
- b=YqaJYQuSv9drHysdEwD5hQWt3H+Vu3W8wujVRgQjhdGetm4niBrWsGDd9D5xW105agLyKO
- daAM+EA45sKsYeCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B072F13587;
- Thu, 31 Aug 2023 08:15:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OlgzKhxM8GRibwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 31 Aug 2023 08:15:24 +0000
-Message-ID: <619a8ad9-724c-16d0-482f-dc7cb75a44f6@suse.de>
-Date: Thu, 31 Aug 2023 10:15:23 +0200
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A555E10E5B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:22:35 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-591ba8bd094so6933607b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:22:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693470154; x=1694074954;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=V7bxw9Xunx8GSI2r5kdgx9TSGGXffVQ4EQIFOvHHizA=;
+ b=e41r+qpGZzPSjLBu1vtKfHilKoiUhXh/gylXod6xCZHJuboTIvX36mw6/zM/pwLb8c
+ Bzu4t2beqCixKnuubbpQypO5FxHK+zZuJhhmHZ7jRcREjQbEOuy9O8Qrj10TfVo/dNsc
+ 8JOyIoLdE/X+GpuE9Ev1om9/qh4eKdOF+uBUoAOYgBQWJSIox2al3sEVXjIAS54iWejj
+ 6OSnrfdzaF/45HP2683SsGLfYpN9UO7jxQCJ9yPy+z98h54I/Yexx3yQhO1wiWbzUZyh
+ ug3b59xuycmigF/pExiLqDv+CvyipLi8FPWOq1Gf8Dtr6mmoz8MHs3dZ52fB6Ej7iR3B
+ m81A==
+X-Gm-Message-State: AOJu0YxlGnn503+fwJuDM6EJJiEOdr+djc93drFusOK+wJ2BEJq5nfRq
+ l1EbZEoZOZXx/pLbO8YyOel8vFBIcf2y3A==
+X-Google-Smtp-Source: AGHT+IHE+TeA43d6hCuIJRutm8havf/L3eOPM9CKwmevv4cQNSCT7Rn9Q8BYQTwtDi7Cn3OI4oedFA==
+X-Received: by 2002:a81:4784:0:b0:58e:a9d3:bf98 with SMTP id
+ u126-20020a814784000000b0058ea9d3bf98mr3899785ywa.27.1693470154582; 
+ Thu, 31 Aug 2023 01:22:34 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ e68-20020a0dc247000000b0058bcea54fc2sm277516ywd.57.2023.08.31.01.22.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Aug 2023 01:22:34 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-d7485d37283so333426276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:22:33 -0700 (PDT)
+X-Received: by 2002:a25:4203:0:b0:d11:45d3:b25d with SMTP id
+ p3-20020a254203000000b00d1145d3b25dmr4840506yba.46.1693470153220; Thu, 31 Aug
+ 2023 01:22:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2 5/8] drm/client: Convert drm_client_buffer_addfb() to
- drm_mode_addfb2()
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Daniel Stone <daniel@fooishbar.org>
 References: <cover.1692888745.git.geert@linux-m68k.org>
- <50762fd1694d3b5f6df1bdfa482564adb2ee7f36.1692888745.git.geert@linux-m68k.org>
- <CAPj87rNr7PTcquaz+VzwmXh0mSWSSK25_Fa6uxC2VOfj=wMmcQ@mail.gmail.com>
- <CAMuHMdWyMNZJ3seWWHqigLfXwCnp47Xwzs1B6ixOyY+n7cir-A@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdWyMNZJ3seWWHqigLfXwCnp47Xwzs1B6ixOyY+n7cir-A@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Oe887Gj3QpjjMtlK0cIyTz9L"
+ <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
+ <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
+In-Reply-To: <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 31 Aug 2023 10:22:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXUcEgQcjr20vK1nRANm4se0Du6M_gcrj8ZS+bXPYMMWw@mail.gmail.com>
+Message-ID: <CAMuHMdXUcEgQcjr20vK1nRANm4se0Du6M_gcrj8ZS+bXPYMMWw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,111 +72,121 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Oe887Gj3QpjjMtlK0cIyTz9L
-Content-Type: multipart/mixed; boundary="------------iqt7v30HAC093lPnlAfEQwGk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Daniel Stone <daniel@fooishbar.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <619a8ad9-724c-16d0-482f-dc7cb75a44f6@suse.de>
-Subject: Re: [PATCH v2 5/8] drm/client: Convert drm_client_buffer_addfb() to
- drm_mode_addfb2()
-References: <cover.1692888745.git.geert@linux-m68k.org>
- <50762fd1694d3b5f6df1bdfa482564adb2ee7f36.1692888745.git.geert@linux-m68k.org>
- <CAPj87rNr7PTcquaz+VzwmXh0mSWSSK25_Fa6uxC2VOfj=wMmcQ@mail.gmail.com>
- <CAMuHMdWyMNZJ3seWWHqigLfXwCnp47Xwzs1B6ixOyY+n7cir-A@mail.gmail.com>
-In-Reply-To: <CAMuHMdWyMNZJ3seWWHqigLfXwCnp47Xwzs1B6ixOyY+n7cir-A@mail.gmail.com>
+Hi Thomas,
 
---------------iqt7v30HAC093lPnlAfEQwGk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Aug 31, 2023 at 10:01=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+> Am 24.08.23 um 17:08 schrieb Geert Uytterhoeven:
+> > The native display format is monochrome light-on-dark (R1).
+> > Hence add support for R1, so monochrome applications not only look
+> > better, but also avoid the overhead of back-and-forth conversions
+> > between R1 and XR24.
+> >
+> > Do not allocate the intermediate conversion buffer when it is not
+> > needed, and reorder the two buffer allocations to streamline operation.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > ---
+> > v2:
+> >    - Rework on top op commit 8c3926367ac9df6c ("drm/ssd130x: Use
+> >      shadow-buffer helpers when managing plane's state") in drm/drm-nex=
+t.
+> >      Hence I did not add Javier's tags given on v1.
+> >    - Do not allocate intermediate buffer when not needed.
+> > ---
+> >   drivers/gpu/drm/solomon/ssd130x.c | 76 +++++++++++++++++++++---------=
+-
+> >   1 file changed, 51 insertions(+), 25 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomo=
+n/ssd130x.c
+> > index 78272b1f9d5b167f..18007cb4f3de5aa1 100644
+> > --- a/drivers/gpu/drm/solomon/ssd130x.c
+> > +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> > @@ -449,15 +449,14 @@ static int ssd130x_init(struct ssd130x_device *ss=
+d130x)
+> >
+> >   static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
+> >                              struct ssd130x_plane_state *ssd130x_state,
+> > +                            u8 *buf, unsigned int pitch,
+> >                              struct drm_rect *rect)
+> >   {
+> >       unsigned int x =3D rect->x1;
+> >       unsigned int y =3D rect->y1;
+> > -     u8 *buf =3D ssd130x_state->buffer;
+> >       u8 *data_array =3D ssd130x_state->data_array;
+> >       unsigned int width =3D drm_rect_width(rect);
+> >       unsigned int height =3D drm_rect_height(rect);
+> > -     unsigned int line_length =3D DIV_ROUND_UP(width, 8);
+> >       unsigned int page_height =3D ssd130x->device_info->page_height;
+> >       unsigned int pages =3D DIV_ROUND_UP(height, page_height);
+> >       struct drm_device *drm =3D &ssd130x->drm;
+> > @@ -516,7 +515,7 @@ static int ssd130x_update_rect(struct ssd130x_devic=
+e *ssd130x,
+> >                       u8 data =3D 0;
+> >
+> >                       for (k =3D 0; k < m; k++) {
+> > -                             u8 byte =3D buf[(8 * i + k) * line_length=
+ + j / 8];
+> > +                             u8 byte =3D buf[(8 * i + k) * pitch + j /=
+ 8];
+> >                               u8 bit =3D (byte >> (j % 8)) & 1;
+> >
+> >                               data |=3D bit << k;
+> > @@ -602,27 +601,51 @@ static int ssd130x_fb_blit_rect(struct drm_plane_=
+state *state,
+>
+> The handing of different formats in this function is confusing. I'd
+> rather implement ssd130x_fb_blit_rect_r1 and
+> ssd130x_fb_blit_rect_xrgb8888 which then handle a single format.
 
-SGkNCg0KQW0gMjQuMDguMjMgdW0gMTc6MjIgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIERhbmllbCwNCj4gDQo+IE9uIFRodSwgQXVnIDI0LCAyMDIzIGF0IDU6MTLigK9Q
-TSBEYW5pZWwgU3RvbmUgPGRhbmllbEBmb29pc2hiYXIub3JnPiB3cm90ZToNCj4+IE9uIFRo
-dSwgMjQgQXVnIDIwMjMgYXQgMTY6MDksIEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGlu
-dXgtbTY4ay5vcmc+IHdyb3RlOg0KPj4+ICAgICAgICAgIHN0cnVjdCBkcm1fY2xpZW50X2Rl
-diAqY2xpZW50ID0gYnVmZmVyLT5jbGllbnQ7DQo+Pj4gLSAgICAgICBzdHJ1Y3QgZHJtX21v
-ZGVfZmJfY21kIGZiX3JlcSA9IHsgfTsNCj4+PiAtICAgICAgIGNvbnN0IHN0cnVjdCBkcm1f
-Zm9ybWF0X2luZm8gKmluZm87DQo+Pj4gKyAgICAgICBzdHJ1Y3QgZHJtX21vZGVfZmJfY21k
-MiBmYl9yZXEgPSB7IH07DQo+Pj4gICAgICAgICAgaW50IHJldDsNCj4+Pg0KPj4+IC0gICAg
-ICAgaW5mbyA9IGRybV9mb3JtYXRfaW5mbyhmb3JtYXQpOw0KPj4+IC0gICAgICAgZmJfcmVx
-LmJwcCA9IGRybV9mb3JtYXRfaW5mb19icHAoaW5mbywgMCk7DQo+Pj4gLSAgICAgICBmYl9y
-ZXEuZGVwdGggPSBpbmZvLT5kZXB0aDsNCj4+PiAgICAgICAgICBmYl9yZXEud2lkdGggPSB3
-aWR0aDsNCj4+PiAgICAgICAgICBmYl9yZXEuaGVpZ2h0ID0gaGVpZ2h0Ow0KPj4+IC0gICAg
-ICAgZmJfcmVxLmhhbmRsZSA9IGhhbmRsZTsNCj4+PiAtICAgICAgIGZiX3JlcS5waXRjaCA9
-IGJ1ZmZlci0+cGl0Y2g7DQo+Pj4gKyAgICAgICBmYl9yZXEucGl4ZWxfZm9ybWF0ID0gZm9y
-bWF0Ow0KPj4+ICsgICAgICAgZmJfcmVxLmhhbmRsZXNbMF0gPSBoYW5kbGU7DQo+Pj4gKyAg
-ICAgICBmYl9yZXEucGl0Y2hlc1swXSA9IGJ1ZmZlci0+cGl0Y2g7DQo+Pj4NCj4+PiAtICAg
-ICAgIHJldCA9IGRybV9tb2RlX2FkZGZiKGNsaWVudC0+ZGV2LCAmZmJfcmVxLCBjbGllbnQt
-PmZpbGUpOw0KPj4+ICsgICAgICAgcmV0ID0gZHJtX21vZGVfYWRkZmIyKGNsaWVudC0+ZGV2
-LCAmZmJfcmVxLCBjbGllbnQtPmZpbGUpOw0KPj4+ICAgICAgICAgIGlmIChyZXQpDQo+Pj4g
-ICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPj4NCj4+IFRoaXMgc2hvdWxkIGV4cGxp
-Y2l0bHkgc2V0IHRoZSBMSU5FQVIgbW9kaWZpZXIgKGFuZCB0aGUgbW9kaWZpZXIgZmxhZykN
-Cj4+IGlmIHRoZSBkcml2ZXIgc3VwcG9ydHMgbW9kaWZpZXJzLg0KPiANCj4gVGhhbmtzIGZv
-ciB5b3VyIGNvbW1lbnQhDQo+IA0KPiBJIGhhdmUgbm8gaWRlYSBob3cgdG8gZG8gdGhhdCwg
-YW5kIEkgZG8gbm90IGtub3cgd2hhdCB0aGUgaW1wYWN0DQo+IHdvdWxkIGJlLiAgQWxsIEkg
-a25vdyBpcyB0aGF0IHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9uIG9mDQo+IGRybV9jbGll
-bnRfYnVmZmVyX2FkZGZiKCkgZG9lcyBub3QgZG8gdGhhdCwgc28gY2hhbmdpbmcgdGhhdCBp
-biB0aGlzDQo+IHBhdGNoIHdvdWxkIG1lYW4gdGhhdCB0aGlzIHdvdWxkIG5vIGxvbmdlciBi
-ZSBhIHRyaXZpYWwgY29udmVyc2lvbi4NCg0KSSBhZ3JlZS4gVGhhdCBjaGFuZ2UgaXMgdG9v
-IGxhcmdlIGFuZCBpbnZhc2l2ZSBmb3IgdGhpcyBwYXRjaHNldC4gUmF0aGVyIA0KYWRkIGEg
-Y29tbWVudCBvciBUT0RPIGl0ZW0uDQoNClRoZSBjb3JyZWN0IHdheSBmb3IgYWRkaW5nIHRo
-ZSBtb2RpZmllciBpcyB0byBleHRlbmQgdGhlIA0KZHJtX2NsaWVudF9idWZmZXJfYWRkZmIo
-KSBhbmQgcGFzcyBpbiB0aGUgaW5mb3JtYXRpb24gZnJvbSB0aGUgY2FsbGVyLiANClRoYXQg
-Y2FsbGVyIGlzIGZiZGV2IGNvZGUuIFdlIGN1cnJlbnRseSBkZXRlY3QgdGhlIGZvcm1hdCBm
-cm9tIChicHAsIA0KZGVwdGgpIHZhbHVlcyBhbmQgZm9yd2FyZCB0aGUgZm9ybWF0IHRvIF9h
-ZGRmYigpLiBbMV0gSGVyZSB3ZSdkIGhhdmUgdG8gDQpjaGVjayB0aGUgZHJpdmVyIGZvciBh
-IG1vZGlmaWVyIGFzIHdlbGwgYW5kIGZvcndhcmQgaXQgdG8gX2FkZGZiKCkNCg0KWzFdIA0K
-aHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNS9zb3VyY2UvZHJpdmVycy9n
-cHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMjTDg4DQoNClRoZSBwYWlyIG9mIChicHAsIGRl
-cHRoKSB2YWx1ZXMgY29tZXMgZnJvbSBfX2RybV9mYl9oZWxwZXJfZmluZF9zaXplcywgDQpb
-Ml0gd2hpY2ggbG9va3MgdGhyb3VnaCB0aGUgcGxhbmVzJyBmb3JtYXRzIGFuZCB0cmllcyB0
-byBmaW5kIHNvbWV0aGluZyANCnRoYXQgZml0cyB0aGUgdXNlcidzIHJlcXVlc3RlZCBjb2xv
-ciBtb2RlLiBJdCB3b3VsZCBoYXZlIHRvIGxvb2sgZm9yIA0KbW9kaWZpZXJzIGFzIHdlbGwu
-IEF0IHNvbWUgcG9pbnQsIEkgd2FudCB0aGUgaGVscGVyIHRvIHJldHVybiBmb3JtYXRzIA0K
-ZGlyZWN0bHksIGJ1dCB0aGF0J3Mgc3RpbGwgYSBiaXQgYXdheS4NCg0KWzJdIA0KaHR0cHM6
-Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNS9zb3VyY2UvZHJpdmVycy9ncHUvZHJt
-L2RybV9mYl9oZWxwZXIuYyNMMTUwNA0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
-PiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICBH
-ZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
-c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
-QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
-ODA5IChBRyBOdWVybmJlcmcpDQo=
+OK, will split.
 
---------------iqt7v30HAC093lPnlAfEQwGk--
+> >       struct ssd130x_device *ssd130x =3D drm_to_ssd130x(fb->dev);
+> >       unsigned int page_height =3D ssd130x->device_info->page_height;
+> >       struct ssd130x_plane_state *ssd130x_state =3D to_ssd130x_plane_st=
+ate(state);
+> > -     u8 *buf =3D ssd130x_state->buffer;
+> >       struct iosys_map dst;
+> >       unsigned int dst_pitch;
+> >       int ret =3D 0;
+> > +     u8 *buf;
+> >
+> >       /* Align y to display page boundaries */
+> >       rect->y1 =3D round_down(rect->y1, page_height);
+> >       rect->y2 =3D min_t(unsigned int, round_up(rect->y2, page_height),=
+ ssd130x->height);
+> >
+> > -     dst_pitch =3D DIV_ROUND_UP(drm_rect_width(rect), 8);
+> > +     switch (fb->format->format) {
+> > +     case DRM_FORMAT_R1:
+> > +             /* Align x to byte boundaries */
+> > +             rect->x1 =3D round_down(rect->x1, 8);
+> > +             rect->x2 =3D round_up(rect->x2, 8);
+>
+> Is rounding to multiples of 8 guaranteed to work? I know it did on
+> VGA-compatible HW, because VGA enforces it. But is that generally the cas=
+e?
 
---------------Oe887Gj3QpjjMtlK0cIyTz9L
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+That depends: some hardware requires e.g. 32-bit writes.
+But this driver is for a display with a serial (i2c/spi) interface,
+so everything should be fine ;-)
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTwTBsFAwAAAAAACgkQlh/E3EQov+DI
-JA//S8P7H+Rp74pwZrhoX0D843Pj5WGuH/6h1ul8A3dAd4kiAbs/UnWoB1DyCGSBpBorY2mmyi77
-QZ287oHpHa61hV6kHSXa7gBt5xgEwUWhXL9GXs2xUkc98CiQ8Rjvze/x1A0NhimRb95LspiMvRle
-DLv6nqGbpAhQDNl0VFS4PMW+vNiPsC16QCsZaRUdxtlbS8VfUddP1FJlQ5rEtH593OmOZPnAVif6
-thyhfudIAqKaqcky1BTuVygoM0+4XX5jqH6I3vTvB/7Ql3aLH0YWlFj7hWHladBvDfzILsw/Di6a
-Qq8KxhtteRKMWHBb6SaYcUQ54XN7RdzOGcIwMDmjuR7/F57ISTjQEbIcfJrEBqh8SkK0e5fHu4VN
-2PdBWdguuTJl3cOndCs+3LjQPMLP43Yxiehi0mcDJFwQmZ+dh8DnGO9ABHNHyBtJ0mk/prtfFkAu
-Lm//LkkNfmpQRbuRuWsDXjGnwUQikY0u7SGcrcMw1y243uaii5cCaS4WPGXtX+EVjporM3oBqqxH
-kyEPRUGvVCkf79wVTk51HNV3hKiczrwtAiwxfktwlXEtNaqlHKvLTZfV31NmaUd48Gm2cETA+LGP
-Czrgwms0HtyM0Mdzc/Jx6wEihjM41Q6IsKIxg2qILLQcnPKwF90cl3py0XvFN5Wdem1JmBb/Z6lM
-kTc=
-=opIP
------END PGP SIGNATURE-----
+                        Geert
 
---------------Oe887Gj3QpjjMtlK0cIyTz9L--
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
