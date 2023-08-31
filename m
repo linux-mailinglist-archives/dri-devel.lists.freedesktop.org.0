@@ -2,61 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C810C791115
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 07:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA43791203
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 09:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D348810E292;
-	Mon,  4 Sep 2023 05:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0754010E2A9;
+	Mon,  4 Sep 2023 07:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3B7710E0A0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 05:45:20 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-52bcd4db4bdso1345950a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 22:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693806319; x=1694411119; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MglyBahDCvrWMJ2RZEEmrN2FTqQO/eyX7/1BX76JNMA=;
- b=M6vcsz7EJgo386uQBtOlqpMO3aVbBxsr+7pzhROe4fsCrjWSvM+j/6dIfxWZbtNM4L
- HF0yGodGSRS82YnVe4luYH4el1i+nrNAgHF4IhgB/VHvc39sYGV/wPI/kwrXypJF5ML0
- eyP77dH1OA3BfFOXeUjAVD5zzt0NrSgvf9zMcr/yzT2HdZQJQQDdx6rsjzgtye0MsrOo
- 57cFjABcA24EVJ6cuFJaYedmF2KsDmr3uCaEdMRl98mzBSxusvZ4qBIxR8jDZMVeHwAu
- NsHnsH+PqibKEeh8hNgAmvyKQi1epz0dC4VwOZD/kpQkSnjZ8boSq2ggy8ou3aCcdf8a
- XQAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693806319; x=1694411119;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MglyBahDCvrWMJ2RZEEmrN2FTqQO/eyX7/1BX76JNMA=;
- b=AJiWeyKF71D6qdjVOKF31omoj1Cv0Ph0I85yk9TbDXZAbN66xmbNQiLDhk+z7w7KeY
- GUkfOhZD3YM9Ks7zY5Kngp4Ff+2RkcxHlT6hKqTUKUGTYPPNqSuRJ1gLz7+zIiGtedzx
- E1So1WgWFgfoeGpWkAFWxlHqhqPP/RfArL1ZM3//6KR/e7XB4ukxKyT1MtLFA5BPvuow
- jL7v5/c024VUhQA9Cu34eo/urjtBLGSKBrV9KS/pVtnaAFazgSiPZPvsY+hsLhFo0Hyv
- 2MMr9q4aNt/fQ3JT3JF3etQWQjECcpRJptWdcWPwe4yA0vUW1dOZUjghv+RWSz/NugaC
- CXNw==
-X-Gm-Message-State: AOJu0Yzrf+qsGvrFEqKXxmCfIGcUEzKzpNkf/4r2iUR/0gYM3iDWqPjo
- qjNS2sl8dtUlHJzrOjnEjUIcUzEA3MCIrHZ6LEg=
-X-Google-Smtp-Source: AGHT+IG8tkv3pgHLNQ+rbiqbFKIwSquIDVoNlAEQrDK2dlMnSMPK/remu92+rFnzLCkgMUq5HYBCs2xuIIn8MuDrXac=
-X-Received: by 2002:a05:6402:1206:b0:523:2df6:395e with SMTP id
- c6-20020a056402120600b005232df6395emr6418956edw.31.1693806318816; Sun, 03 Sep
- 2023 22:45:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
- <20230818-samsung-dsim-v1-3-b39716db6b7a@pengutronix.de>
-In-Reply-To: <20230818-samsung-dsim-v1-3-b39716db6b7a@pengutronix.de>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 4 Sep 2023 14:44:41 +0900
-Message-ID: <CAAQKjZODcKE_O-Nb_qym0BqAZymUu9j24d+8-UXFsFQekJ=unw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm/bridge: samsung-dsim: update PLL reference clock
-To: Michael Tretter <m.tretter@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on20631.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8a::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D075810E680
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 13:51:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lWc3OoXa/GPRTCnzFCiwhGqRKQiGxo9nOvGrXp8UunzKX6JwDo7yRZW2ha1TEbjzrxXBdzIaEO3pBx/Pfui2foaI8JUePASGl+NdyETMHEi3KNxNDHrsANjWBp72HWEuj1V3uEkzCGXJP5Sohgs0gmb5P4gprECj+zHgJHjRfzK63nSwuQOP/OPboiU/VffkFydFC36z64QZgMvIJcMvRlqNEAsep0Ch4++qOafeoIxi3gIBmzokeHPOPiQRZqigT0E4fsY2yn3nrU5n2LLdkWwoh4gSW71Xb0RJXN2wRi8onlysBhR8GjyktAQ92ppQ2RWlel4vtCoy7pRmK3Hoeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BI8JUnkkK2dFiFtho9y7jiRPKgNnO/EeIKD6hTmRfGQ=;
+ b=YZjl810M6C5KYinSiiG5NzdK5Ceix3yMKXPWDl/1NvTU0A+6XSTDcCU12u49jhRjTcbFKV+o4IG4y+Lf536txgDOXthYTdaD2n1f5WXhoFFbaf27b4+TKCox/mhlV18tX16+QuzQ883d0MhDDOAcwlQt8cKzLvsz0ytcpxlShqrOZEfAA18dZdiLPYDXBHlZZ4zJue8npeZXz8ldDhQb8VmhKeUZVJpa14mBDbV31pHHvxciRfN3WfRfWmXN2vBTMwVb9D1+JUPXfffuyqzfcddOvqRDKSV4hwmGSvSp2wExaZ+Ygo4sLoY1HBe4UrPQ8vz7ROoi/VIS3TyCt/S0dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BI8JUnkkK2dFiFtho9y7jiRPKgNnO/EeIKD6hTmRfGQ=;
+ b=N0lV30lEFobs7rYkj2N6tfld3gxIFX5vuh1c4zCfb19fNNGSYhmlEAIscA39d2/Mv2UlPjnVOi1b3tP6PoUjqXx1qGzQBzSwVhu0iEfC0P8L1tH5/2mIZReI08aZ+xiX8OXR6264hGDTLtCw+nzeuv1DZ+ch76do1KxLv3vqY1gkR3bR1fwf7yppoqM+Yh0QcWxCnCtCPj8zZePGFSWR+ulzejOHnYfxb5WOf9yQFIh04+aFfTyMtgFzqGaFUe1XfgXaNS+O2BJzQvUWfyBeBE9T8+Uo6RmUVaEpqz2U/NCjgXSCLJODgPZJc80MMKsoLqI+v3IoItac3TxfL9+myQ==
+Received: from BY5PR12MB3763.namprd12.prod.outlook.com (2603:10b6:a03:1a8::24)
+ by SN7PR12MB6715.namprd12.prod.outlook.com (2603:10b6:806:271::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Thu, 31 Aug
+ 2023 13:51:12 +0000
+Received: from BY5PR12MB3763.namprd12.prod.outlook.com
+ ([fe80::9e7a:4853:fa35:a060]) by BY5PR12MB3763.namprd12.prod.outlook.com
+ ([fe80::9e7a:4853:fa35:a060%2]) with mapi id 15.20.6745.022; Thu, 31 Aug 2023
+ 13:51:11 +0000
+From: Ankit Agrawal <ankita@nvidia.com>
+To: Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v7 1/1] vfio/nvgpu: Add vfio pci variant module for grace
+ hopper
+Thread-Topic: [PATCH v7 1/1] vfio/nvgpu: Add vfio pci variant module for grace
+ hopper
+Thread-Index: AQHZ1TZ6Nms5b5NPG0K9tyfNGGuGJbAC53YAgAAeVICAAVyHgIAAFo2K
+Date: Thu, 31 Aug 2023 13:51:11 +0000
+Message-ID: <BY5PR12MB37631B2F41DB62CBDD7B1F69B0E5A@BY5PR12MB3763.namprd12.prod.outlook.com>
+References: <20230822202303.19661-1-ankita@nvidia.com>
+ <ZO9JKKurjv4PsmXh@infradead.org> <ZO9imcoN5l28GE9+@nvidia.com>
+ <ZPCG9/P0fm88E2Zi@infradead.org>
+In-Reply-To: <ZPCG9/P0fm88E2Zi@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR12MB3763:EE_|SN7PR12MB6715:EE_
+x-ms-office365-filtering-correlation-id: b0e5e999-3ea3-40e2-bf38-08dbaa29561c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HK419EEvC8l+XFqkGuE528E1gATpzg9UVcpCSkxQy6k37PDlzlLjKECB1Qgg8yJQWm/0X9DEQ45LVQTx9B7q7EQqApijClvP8WQOrNs/YOTCzuTK8TPSBFXWj/1l3B39DyXDhb5A22f5L+UAbgqL5CXwq3VZX9vKvvPyCLJyJ869D7dDsxzNykJs94y/SA5/Fc4m2vg3v0u84b8xYaohaGJpmOA07uE0nbKEzyfKs3qHtw7mcDQMwZ6F+puY2CEUCqHHOhqPWkfmaGpuAROxNiF7hNGHRTcw0IPwWFVjJwNqmiNlqdEimbA1+b8qeqGFcjjKVXx1WVR90y315Fn9we0gLscX3w0cSC4X1rkQYmVv7kb62zgSFM1YuxguimJv3dTdMzr0fxmMoAtNcugiUN44XXF0Qns2kMKIoq6c70Q5irsZ/9ZySe/OOCctk6N5q0V8qDCWHjGRKqyGGh5Bi64Vc5HrmSTv8KZaR3p8uuLVefvDbPU1rrpBIEliOafCLvG/zj00Q2N2LIdMNlt1xoaqEMYE8WNe0QVYQ2YLk9U/pMTUpq9Lc/uENXV7DqwvZBV6HGs3QxXDM4d5gyQ2PX9V/lJM2yhOhiEl3HeNsXbuqdkGywJZkFrN8oPGlzAmN/pr5l9LWq5DwVczPt+7YldCD5Y6FH9wHo6caambuN0=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB3763.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(186009)(1800799009)(451199024)(41300700001)(8936002)(55016003)(64756008)(66556008)(8676002)(4326008)(478600001)(66476007)(71200400001)(91956017)(6636002)(66946007)(110136005)(76116006)(316002)(6506007)(54906003)(7696005)(26005)(66446008)(9686003)(2906002)(38100700002)(38070700005)(122000001)(52536014)(5660300002)(33656002)(7416002)(558084003)(86362001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?s9Uh8o+s7DmO97KoyYHUvGu9B/OxO2u5kezX8UmvV9AgV56lMwNvdgydae?=
+ =?iso-8859-1?Q?6h6BYtqIzzt/+V3vtFmyO2YYpldCfkgORS+li8DWNXyL7TDVab1NloBcOn?=
+ =?iso-8859-1?Q?wLit5+dYoSDw5NW5i7u4DhBR+LMPvuBj4omuCPYuW3a7x1dsV96kINC+Fi?=
+ =?iso-8859-1?Q?1d3/kxXnODsli4vgq5NQY3kd8nZvavYypkXThnbtGKVCnWhZutoxjmPhmt?=
+ =?iso-8859-1?Q?flxr3kfSsvxEXepy1OuBI57aDVqOxYwUyHV6T9OKZlMudInvWxWDcROi6J?=
+ =?iso-8859-1?Q?q8kFrJ6g264FCeWWP8WLxgfXF/jTLFfFQGFYiMJn1zW4d/V8weCbL42eAP?=
+ =?iso-8859-1?Q?MYv79f4VT7EhFni+7zMGGYt0TxSX96olENh01Oi6y7h0slEEBi8gA78RY1?=
+ =?iso-8859-1?Q?AvQmuZnlHQbpqSpodtpsY0SbsUoBfuAWErEiCGcVCQU0shZH0nrqlosQBE?=
+ =?iso-8859-1?Q?l2cSeVz3Ns7MatIJJfky3Fl05TJfYVE9jx0PXEhSuHdPzitmeArG9rxHV4?=
+ =?iso-8859-1?Q?Bht/tdZzhYfj4xGeXYbpo3uP+tuUyfDySH7f46rGp6FFlDQt23/ewifzET?=
+ =?iso-8859-1?Q?xO/qu6UTtC4qICYokEVETXSq52W5duD2Dbv8UlpdF7wVky0RTt5+IRWpQm?=
+ =?iso-8859-1?Q?mHkhaJvcSKfIc3iOfH/7UIw7F6egmbNMXIo3mmvLfLtxk3E5sy2qpOXOKq?=
+ =?iso-8859-1?Q?Vp3FPKzgKuaiDf/Kt9t67IxBfdBUB1wNGIP7QrnANR6bkRhLlKclP+ivbN?=
+ =?iso-8859-1?Q?oHMvyPG9NpKZgCQcg2DNGQ02rNOJp46UQBRZqvVW0X0LlbMxG+0Zg6+por?=
+ =?iso-8859-1?Q?j01pODRBn4pV4cbrskBsc//JSa4LyvIC0IwyMd+/iHuqCFsNubspvZmDpG?=
+ =?iso-8859-1?Q?EhrIibtrX4uixLdtnYLpeoonh5/uLlPI68ZunYw/ZrGkgAHViKzdlPErCu?=
+ =?iso-8859-1?Q?pk8577+R+P3npHAOzyC6RN6quGuxFzFptzHkIKPNkv5xZ3ZC8aPQTzVXDQ?=
+ =?iso-8859-1?Q?RdzMSMs4ZUuDGIs/7OURJrlrYbOootsAbUUCYO6OEnvABSOPvTTNpK0Mfr?=
+ =?iso-8859-1?Q?c9cqlpOkSb6yjz++WECv+7PkqbJ2DoYqHAd/RTrqvb2+oYfJCGryorVnq0?=
+ =?iso-8859-1?Q?pvj44sUtKcYJyRvB88H5SWVG3admdZ/VyP1ilHB2OxOmtR5wDEmZdbu19Q?=
+ =?iso-8859-1?Q?da7WqU7tyIRdWndqYJ2FBGOK6K5qN/vN3oSKWwMBdYIJ/PmWymY+NKBLaX?=
+ =?iso-8859-1?Q?x2pzjxJHm5rd93urUq8Fat5Vyz43HC1TbfYsrKAL2MxCrCdMC6dk2Vk0Mz?=
+ =?iso-8859-1?Q?8HXKQaMY08CfzJXB9QuGcIwppDNPNN7YwqZf/mOOBZjWb74R9KPV5Em+Nv?=
+ =?iso-8859-1?Q?CeIYrJRYp1O1ne0mSKWCQqIbTv5hyK78BkVtXCzEgsL8jmG06HImjli+Fr?=
+ =?iso-8859-1?Q?ME7nbaBvmOjWJZJvOWF/xrjitDbXHJsYQpwW4KyV5bbjozr/wPMi6uIJr3?=
+ =?iso-8859-1?Q?lMfqVOzfa7t+ML7MR7FYDnL5L2oVx9kv1RTl8crHpmKezAM62X3QFSonug?=
+ =?iso-8859-1?Q?B7s6BokXfEh8SuLPHn22JSjbO7iXyZvYhbnWwEJMW3sJfu4m+JjyDIqUmj?=
+ =?iso-8859-1?Q?wnCyoxAS2EDR0=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3763.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0e5e999-3ea3-40e2-bf38-08dbaa29561c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2023 13:51:11.7735 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q7KU1EnqFJrRna47/tRIP0iG37cX60HMR7I78mCz4QS2CmQcs7PD8BfF9VyBEz8/DidxvUAcT2YUzywFCYDxtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6715
+X-Mailman-Approved-At: Mon, 04 Sep 2023 07:24:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,90 +124,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, kernel@pengutronix.de,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Andy Currid <acurrid@nvidia.com>,
+ "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Neo Jia <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ "shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Vikram Sethi <vsethi@nvidia.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Tarun Gupta
+ \(SW-GPU\)" <targupta@nvidia.com>, Aniket Agashe <aniketa@nvidia.com>,
+ David Airlie <airlied@redhat.com>, Dan Williams <danw@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:59, =
-Michael Tretter <m.tretter@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
->
-> The PLL requires a clock between 2 MHz and 30 MHz after the pre-divider.
-> The reference clock for the PLL may change due to changes to it's parent
-> clock. Thus, the frequency may be out of range or unsuited for
-> generating the high speed clock for MIPI DSI.
->
-> Try to keep the pre-devider small, and set the reference clock close to
-> 30 MHz before recalculating the PLL configuration. Use a divider with a
-> power of two for the reference clock as this seems to work best in
-> my tests.
-
-Clock frequency is specific to SoC architecture so we have to handle
-it carefully because samsung-dsim.c is a common module for I.MX and
-Exynos series.
-You mentioned "The PLL requires a clock between 2 MHz and 3MHz after
-pre-divider", and the clock means that fin_pll - PFD input frequency -
-which can be calculated with oscillator clock frequency / P value?
-According to Exynos datasheet, the fin_pll should be 6 ~ 12Mhz.
-
-For example,
-In case of Exyhos, we use 24MHz as oscillator clock frequency, so
-fin_pll frequency, 8MHz =3D 24MHz / P(3).
-
-Can you tell me the source of the constraint that clocks must be
-between 2MHz and 30MHz?
-
-To other I.MX and Exynos engineers, please do not merge this patch
-until two SoC platforms are tested correctly.
-
-Thanks,
-Inki Dae
-
->
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
-ge/samsung-dsim.c
-> index da90c2038042..4de6e4f116db 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -611,10 +611,21 @@ static unsigned long samsung_dsim_set_pll(struct sa=
-msung_dsim *dsi,
->         u16 m;
->         u32 reg;
->
-> -       if (dsi->pll_clk)
-> +       if (dsi->pll_clk) {
-> +               /*
-> +                * Ensure that the reference clock is generated with a po=
-wer of
-> +                * two divider from its parent, but close to the PLLs upp=
-er
-> +                * limit of the valid range of 2 MHz to 30 MHz.
-> +                */
-> +               fin =3D clk_get_rate(clk_get_parent(dsi->pll_clk));
-> +               while (fin > 30 * MHZ)
-> +                       fin =3D fin / 2;
-> +               clk_set_rate(dsi->pll_clk, fin);
-> +
->                 fin =3D clk_get_rate(dsi->pll_clk);
-> -       else
-> +       } else {
->                 fin =3D dsi->pll_clk_rate;
-> +       }
->         dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
->
->         fout =3D samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
->
-> --
-> 2.39.2
->
+Hi Christoph,=0A=
+=0A=
+>Whats the actual consumer running in a qemu VM here?=0A=
+The primary use case in the VM is to run the open source Nvidia=0A=
+driver (https://github.com/NVIDIA/open-gpu-kernel-modules)=0A=
+and workloads.=0A=
