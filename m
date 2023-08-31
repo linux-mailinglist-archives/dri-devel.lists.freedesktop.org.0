@@ -2,30 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FDC78E798
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBF978E79B
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A48E610E59D;
-	Thu, 31 Aug 2023 08:09:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3272110E5A3;
+	Thu, 31 Aug 2023 08:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1F7EE10E599
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:09:51 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.02,216,1688396400"; d="scan'208";a="178287314"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 05F5710E599
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:09:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.02,216,1688396400"; d="scan'208";a="178287328"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 31 Aug 2023 17:09:51 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 31 Aug 2023 17:09:58 +0900
 Received: from localhost.localdomain (unknown [10.226.92.179])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id B69F84010DFB;
- Thu, 31 Aug 2023 17:09:46 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 780704010DFE;
+ Thu, 31 Aug 2023 17:09:52 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 1/4] drm/bridge/analogix/anx78xx: Drop ID table
-Date: Thu, 31 Aug 2023 09:09:35 +0100
-Message-Id: <20230831080938.47454-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v6 2/4] drm/bridge: Drop conditionals around of_node pointers
+Date: Thu, 31 Aug 2023 09:09:36 +0100
+Message-Id: <20230831080938.47454-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
 References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
@@ -43,69 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhu Wang <wangzhu9@huawei.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Helen Koike <helen.koike@collabora.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Biju Das <biju.das.jz@bp.renesas.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver has an ID table, but it uses the wrong API for retrieving match
-data and that will lead to a crash, if it is instantiated by user space or
-using ID. From this, there is no user for the ID table and let's drop it
-from the driver as it saves some memory.
+This patch is based on commit c9e358dfc4a8 ("driver-core: remove
+conditionals around devicetree pointers").
 
+Having conditional around the of_node pointer of the drm_bridge
+structure turns out to make driver code use ugly #ifdef blocks. Drop the
+conditionals to simplify drivers. While this slightly increases the size
+of struct drm_bridge on non-OF system, the number of bridges used today
+and foreseen tomorrow on those systems is very low, so this shouldn't be
+an issue.
+
+So drop #if conditionals by adding struct device_node forward declaration.
+
+Suggested-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
 ---
 v5->v6:
- * No change.
-v4->v5:
- * Added Rb tag from Andy and Helen.
-v3->v4:
- * Added Rb tag from Laurent and Douglas Anderson.
-v2->v3:
- * Updated commit header.
-v1->v2:
- * Dropped ID table support.
+ * Updated commit description.
+ * Added Rb tag from Douglas Anderson and Laurent
+v5:
+ * Split from patch#2
+ * Updated commit description
+ * Added struct device_node forward declaration.
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
- 1 file changed, 7 deletions(-)
+ include/drm/drm_bridge.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 800555aef97f..6169db73d2fe 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
- 	kfree(anx78xx->edid);
- }
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index c339fc85fd07..843736627f60 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -32,6 +32,8 @@
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_modes.h>
  
--static const struct i2c_device_id anx78xx_id[] = {
--	{ "anx7814", 0 },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(i2c, anx78xx_id);
--
- static const struct of_device_id anx78xx_match_table[] = {
- 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
- 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
-@@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
- 		  },
- 	.probe = anx78xx_i2c_probe,
- 	.remove = anx78xx_i2c_remove,
--	.id_table = anx78xx_id,
- };
- module_i2c_driver(anx78xx_driver);
- 
++struct device_node;
++
+ struct drm_bridge;
+ struct drm_bridge_timings;
+ struct drm_connector;
+@@ -716,10 +718,8 @@ struct drm_bridge {
+ 	struct drm_encoder *encoder;
+ 	/** @chain_node: used to form a bridge chain */
+ 	struct list_head chain_node;
+-#ifdef CONFIG_OF
+ 	/** @of_node: device node pointer to the bridge */
+ 	struct device_node *of_node;
+-#endif
+ 	/** @list: to keep track of all added bridges */
+ 	struct list_head list;
+ 	/**
 -- 
 2.25.1
 
