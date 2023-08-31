@@ -1,67 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68EA78E77F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:01:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B43D78E78D
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F38B710E56D;
-	Thu, 31 Aug 2023 08:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD6C10E586;
+	Thu, 31 Aug 2023 08:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E34A10E56D
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:01:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A5E262185A;
- Thu, 31 Aug 2023 08:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693468907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3bVLiHirlljTDUibE5VLwmjxjsRKWHqxxxmwtr7PHpw=;
- b=kuVdSAsdCbfJxLBKiTMcTsCJtdkMV6qQVxKowAAYYQEJDf59LJgnd21TajNFNTLyqyFz2C
- UZeDzOC28Tcp+QNmMvaiqUHq0QhbA7i6Ef+BMBWA3kfxdNXzZXKHISt13BNg5iEhnUEiW/
- U2CNNmwpcjF1wugoS6UyUAb6jyPTF5o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693468907;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3bVLiHirlljTDUibE5VLwmjxjsRKWHqxxxmwtr7PHpw=;
- b=ATQbtU6v/fmUoUMqxpOpBCrO58iWpWX44YcY6P2Ux16C/qxDBnI+OV540WU/CBQj9q1hRM
- hJarGlKJjMlLODDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76C4013587;
- Thu, 31 Aug 2023 08:01:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YkgEHOtI8GQ1ZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 31 Aug 2023 08:01:47 +0000
-Message-ID: <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
-Date: Thu, 31 Aug 2023 10:01:46 +0200
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3B110E586
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:04:42 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ 006d021491bc7-57328758a72so136471eaf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1693469081; x=1694073881; darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eVDMUJusfvGNMe6U/cv080svMtDMV7FPoLJOG6+JEFs=;
+ b=ag+yQU1+eOTfll2E3e0ssMY2UF2vZ2MF116asI0DpNNvqLtZy/G6d0bKEddP4kE2aC
+ BWeGElls7tvEzQp/wEUtyHc9wRQPsUD3Zer+KLuUC8GaInwIjgaWQGSRHFjjktWtWFsi
+ dOuHvdeWAFy+jc7RN8jQWyNcO/Ms0uH3BersQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693469081; x=1694073881;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eVDMUJusfvGNMe6U/cv080svMtDMV7FPoLJOG6+JEFs=;
+ b=fpNe/8G6VW6ujoecFv3IchpbyHuuXcGulckxNnbSLfEw11sRk7X4RiDCifLvIfms7g
+ j1c+sFAv+gMZQmAALdKNGCQGmhdYw6IYhgCiOiG0jIqSO5ba1SPgW+nFyWuPU6WZzPda
+ PYzx2O62XMArdK1MDdXHyhGVD+JkS0i3Zg+FkUaPpQrnyNET24CA3B7Bsuhb7cdoU0b2
+ EUEEbTpaLbZzOS6QeXWWhJII7H19b3jalFJuRUlMcCzuEkEPiL17EkpRJw/1EjPJx10v
+ yFvD1mbg47ld1sO0087hEkpb0kZcoB+G7aCjyAuo5k4XNOsb+krKluFg1b5BtU1jf5ps
+ j9YQ==
+X-Gm-Message-State: AOJu0YzPx0hD1sWi7EUT31DOFm3q+O9ECXIgYPWi+HztZ55YSBCoqiNn
+ MGRQH3bZYqjxbIs8Bcgb6vNCMsPu3imtJSRnfHYVSw==
+X-Google-Smtp-Source: AGHT+IGWkMZOGIbYg6RTVpBdYwZ0wSp1dixetG9/GzXcL6XTQaOyBZFg8pRUTYx0QUQCxznHWIEgBIXfNBI6sha82yQ=
+X-Received: by 2002:a05:6808:3c45:b0:3a9:e85d:b689 with SMTP id
+ gl5-20020a0568083c4500b003a9e85db689mr5038337oib.0.1693469081676; Thu, 31 Aug
+ 2023 01:04:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <cover.1692888745.git.geert@linux-m68k.org>
- <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------AfG0s4SajZVIJCke06PP0hBZ"
+References: <20230825132229.1109445-1-thierry.reding@gmail.com>
+ <f5ce7a77-ee3e-5186-dd8a-76c0bd794de0@suse.de>
+ <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
+In-Reply-To: <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 31 Aug 2023 10:04:29 +0200
+Message-ID: <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/tegra: Remove existing framebuffer only if we support
+ display
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,174 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------AfG0s4SajZVIJCke06PP0hBZ
-Content-Type: multipart/mixed; boundary="------------V9LK0ZxwOlLPoVyh2iD6auUM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <10bc08a5-0e64-d8ac-b71f-d44e16da8f61@suse.de>
-Subject: Re: [PATCH v2 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
-References: <cover.1692888745.git.geert@linux-m68k.org>
- <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
-In-Reply-To: <d5f342b5382653c1f1fb72dbedb783f9ea42416e.1692888745.git.geert@linux-m68k.org>
+On Thu, 31 Aug 2023 at 08:33, Mikko Perttunen <cyndis@kapsi.fi> wrote:
+>
+> On 8/30/23 13:19, Thomas Zimmermann wrote:
+> > Hi
+> >
+> > Am 25.08.23 um 15:22 schrieb Thierry Reding:
+> >> From: Thierry Reding <treding@nvidia.com>
+> >>
+> >> Tegra DRM doesn't support display on Tegra234 and later, so make sure
+> >> not to remove any existing framebuffers in that case.
+> >>
+> >> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >> ---
+> >>   drivers/gpu/drm/tegra/drm.c | 8 +++++---
+> >>   1 file changed, 5 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> >> index b1e1a78e30c6..7a38dadbc264 100644
+> >> --- a/drivers/gpu/drm/tegra/drm.c
+> >> +++ b/drivers/gpu/drm/tegra/drm.c
+> >> @@ -1220,9 +1220,11 @@ static int host1x_drm_probe(struct
+> >> host1x_device *dev)
+> >>       drm_mode_config_reset(drm);
+> >> -    err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
+> >> -    if (err < 0)
+> >> -        goto hub;
+> >> +    if (drm->mode_config.num_crtc > 0) {
+> >
+> > If you don't support the hardware, wouldn't it be better to return
+> > -ENODEV if !num_crtc?
+>
+> While display is not supported through TegraDRM on Tegra234+, certain
+> multimedia accelerators are supported, so we need to finish probe for those.
 
---------------V9LK0ZxwOlLPoVyh2iD6auUM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Ideally you also register the tegra driver without DRIVER_MODESET |
+DRIVER_ATOMIC in that case, to avoid unecessary userspace confusion.
+Most userspace can cope with a display driver without any crtc, but I
+think xorg-modesettting actually falls over. Or at least I've seen
+some hacks that the agx people added to make sure X doesn't
+accidentally open the wrong driver.
+-Sima
 
-SGkNCg0KQW0gMjQuMDguMjMgdW0gMTc6MDggc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IFRoZSBuYXRpdmUgZGlzcGxheSBmb3JtYXQgaXMgbW9ub2Nocm9tZSBsaWdodC1vbi1k
-YXJrIChSMSkuDQo+IEhlbmNlIGFkZCBzdXBwb3J0IGZvciBSMSwgc28gbW9ub2Nocm9tZSBh
-cHBsaWNhdGlvbnMgbm90IG9ubHkgbG9vaw0KPiBiZXR0ZXIsIGJ1dCBhbHNvIGF2b2lkIHRo
-ZSBvdmVyaGVhZCBvZiBiYWNrLWFuZC1mb3J0aCBjb252ZXJzaW9ucw0KPiBiZXR3ZWVuIFIx
-IGFuZCBYUjI0Lg0KPiANCj4gRG8gbm90IGFsbG9jYXRlIHRoZSBpbnRlcm1lZGlhdGUgY29u
-dmVyc2lvbiBidWZmZXIgd2hlbiBpdCBpcyBub3QNCj4gbmVlZGVkLCBhbmQgcmVvcmRlciB0
-aGUgdHdvIGJ1ZmZlciBhbGxvY2F0aW9ucyB0byBzdHJlYW1saW5lIG9wZXJhdGlvbi4NCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
-ay5vcmc+DQo+IC0tLQ0KPiB2MjoNCj4gICAgLSBSZXdvcmsgb24gdG9wIG9wIGNvbW1pdCA4
-YzM5MjYzNjdhYzlkZjZjICgiZHJtL3NzZDEzMHg6IFVzZQ0KPiAgICAgIHNoYWRvdy1idWZm
-ZXIgaGVscGVycyB3aGVuIG1hbmFnaW5nIHBsYW5lJ3Mgc3RhdGUiKSBpbiBkcm0vZHJtLW5l
-eHQuDQo+ICAgICAgSGVuY2UgSSBkaWQgbm90IGFkZCBKYXZpZXIncyB0YWdzIGdpdmVuIG9u
-IHYxLg0KPiAgICAtIERvIG5vdCBhbGxvY2F0ZSBpbnRlcm1lZGlhdGUgYnVmZmVyIHdoZW4g
-bm90IG5lZWRlZC4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMw
-eC5jIHwgNzYgKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vc29sb21vbi9zc2QxMzB4LmMNCj4gaW5kZXggNzgyNzJiMWY5ZDViMTY3Zi4uMTgw
-MDdjYjRmM2RlNWFhMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24v
-c3NkMTMweC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zb2xvbW9uL3NzZDEzMHguYw0K
-PiBAQCAtNDQ5LDE1ICs0NDksMTQgQEAgc3RhdGljIGludCBzc2QxMzB4X2luaXQoc3RydWN0
-IHNzZDEzMHhfZGV2aWNlICpzc2QxMzB4KQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgc3NkMTMw
-eF91cGRhdGVfcmVjdChzdHJ1Y3Qgc3NkMTMweF9kZXZpY2UgKnNzZDEzMHgsDQo+ICAgCQkJ
-ICAgICAgIHN0cnVjdCBzc2QxMzB4X3BsYW5lX3N0YXRlICpzc2QxMzB4X3N0YXRlLA0KPiAr
-CQkJICAgICAgIHU4ICpidWYsIHVuc2lnbmVkIGludCBwaXRjaCwNCj4gICAJCQkgICAgICAg
-c3RydWN0IGRybV9yZWN0ICpyZWN0KQ0KPiAgIHsNCj4gICAJdW5zaWduZWQgaW50IHggPSBy
-ZWN0LT54MTsNCj4gICAJdW5zaWduZWQgaW50IHkgPSByZWN0LT55MTsNCj4gLQl1OCAqYnVm
-ID0gc3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiAgIAl1OCAqZGF0YV9hcnJheSA9IHNzZDEz
-MHhfc3RhdGUtPmRhdGFfYXJyYXk7DQo+ICAgCXVuc2lnbmVkIGludCB3aWR0aCA9IGRybV9y
-ZWN0X3dpZHRoKHJlY3QpOw0KPiAgIAl1bnNpZ25lZCBpbnQgaGVpZ2h0ID0gZHJtX3JlY3Rf
-aGVpZ2h0KHJlY3QpOw0KPiAtCXVuc2lnbmVkIGludCBsaW5lX2xlbmd0aCA9IERJVl9ST1VO
-RF9VUCh3aWR0aCwgOCk7DQo+ICAgCXVuc2lnbmVkIGludCBwYWdlX2hlaWdodCA9IHNzZDEz
-MHgtPmRldmljZV9pbmZvLT5wYWdlX2hlaWdodDsNCj4gICAJdW5zaWduZWQgaW50IHBhZ2Vz
-ID0gRElWX1JPVU5EX1VQKGhlaWdodCwgcGFnZV9oZWlnaHQpOw0KPiAgIAlzdHJ1Y3QgZHJt
-X2RldmljZSAqZHJtID0gJnNzZDEzMHgtPmRybTsNCj4gQEAgLTUxNiw3ICs1MTUsNyBAQCBz
-dGF0aWMgaW50IHNzZDEzMHhfdXBkYXRlX3JlY3Qoc3RydWN0IHNzZDEzMHhfZGV2aWNlICpz
-c2QxMzB4LA0KPiAgIAkJCXU4IGRhdGEgPSAwOw0KPiAgIA0KPiAgIAkJCWZvciAoayA9IDA7
-IGsgPCBtOyBrKyspIHsNCj4gLQkJCQl1OCBieXRlID0gYnVmWyg4ICogaSArIGspICogbGlu
-ZV9sZW5ndGggKyBqIC8gOF07DQo+ICsJCQkJdTggYnl0ZSA9IGJ1ZlsoOCAqIGkgKyBrKSAq
-IHBpdGNoICsgaiAvIDhdOw0KPiAgIAkJCQl1OCBiaXQgPSAoYnl0ZSA+PiAoaiAlIDgpKSAm
-IDE7DQo+ICAgDQo+ICAgCQkJCWRhdGEgfD0gYml0IDw8IGs7DQo+IEBAIC02MDIsMjcgKzYw
-MSw1MSBAQCBzdGF0aWMgaW50IHNzZDEzMHhfZmJfYmxpdF9yZWN0KHN0cnVjdCBkcm1fcGxh
-bmVfc3RhdGUgKnN0YXRlLA0KDQpUaGUgaGFuZGluZyBvZiBkaWZmZXJlbnQgZm9ybWF0cyBp
-biB0aGlzIGZ1bmN0aW9uIGlzIGNvbmZ1c2luZy4gSSdkIA0KcmF0aGVyIGltcGxlbWVudCBz
-c2QxMzB4X2ZiX2JsaXRfcmVjdF9yMSBhbmQgDQpzc2QxMzB4X2ZiX2JsaXRfcmVjdF94cmdi
-ODg4OCB3aGljaCB0aGVuIGhhbmRsZSBhIHNpbmdsZSBmb3JtYXQuDQoNCj4gICAJc3RydWN0
-IHNzZDEzMHhfZGV2aWNlICpzc2QxMzB4ID0gZHJtX3RvX3NzZDEzMHgoZmItPmRldik7DQo+
-ICAgCXVuc2lnbmVkIGludCBwYWdlX2hlaWdodCA9IHNzZDEzMHgtPmRldmljZV9pbmZvLT5w
-YWdlX2hlaWdodDsNCj4gICAJc3RydWN0IHNzZDEzMHhfcGxhbmVfc3RhdGUgKnNzZDEzMHhf
-c3RhdGUgPSB0b19zc2QxMzB4X3BsYW5lX3N0YXRlKHN0YXRlKTsNCj4gLQl1OCAqYnVmID0g
-c3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiAgIAlzdHJ1Y3QgaW9zeXNfbWFwIGRzdDsNCj4g
-ICAJdW5zaWduZWQgaW50IGRzdF9waXRjaDsNCj4gICAJaW50IHJldCA9IDA7DQo+ICsJdTgg
-KmJ1ZjsNCj4gICANCj4gICAJLyogQWxpZ24geSB0byBkaXNwbGF5IHBhZ2UgYm91bmRhcmll
-cyAqLw0KPiAgIAlyZWN0LT55MSA9IHJvdW5kX2Rvd24ocmVjdC0+eTEsIHBhZ2VfaGVpZ2h0
-KTsNCj4gICAJcmVjdC0+eTIgPSBtaW5fdCh1bnNpZ25lZCBpbnQsIHJvdW5kX3VwKHJlY3Qt
-PnkyLCBwYWdlX2hlaWdodCksIHNzZDEzMHgtPmhlaWdodCk7DQo+ICAgDQo+IC0JZHN0X3Bp
-dGNoID0gRElWX1JPVU5EX1VQKGRybV9yZWN0X3dpZHRoKHJlY3QpLCA4KTsNCj4gKwlzd2l0
-Y2ggKGZiLT5mb3JtYXQtPmZvcm1hdCkgew0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SMToNCj4g
-KwkJLyogQWxpZ24geCB0byBieXRlIGJvdW5kYXJpZXMgKi8NCj4gKwkJcmVjdC0+eDEgPSBy
-b3VuZF9kb3duKHJlY3QtPngxLCA4KTsNCj4gKwkJcmVjdC0+eDIgPSByb3VuZF91cChyZWN0
-LT54MiwgOCk7DQoNCklzIHJvdW5kaW5nIHRvIG11bHRpcGxlcyBvZiA4IGd1YXJhbnRlZWQg
-dG8gd29yaz8gSSBrbm93IGl0IGRpZCBvbiANClZHQS1jb21wYXRpYmxlIEhXLCBiZWNhdXNl
-IFZHQSBlbmZvcmNlcyBpdC4gQnV0IGlzIHRoYXQgZ2VuZXJhbGx5IHRoZSBjYXNlPw0KDQo+
-ICAgDQo+IC0JcmV0ID0gZHJtX2dlbV9mYl9iZWdpbl9jcHVfYWNjZXNzKGZiLCBETUFfRlJP
-TV9ERVZJQ0UpOw0KPiAtCWlmIChyZXQpDQo+IC0JCXJldHVybiByZXQ7DQo+ICsJCXJldCA9
-IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4g
-KwkJaWYgKHJldCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICsNCj4gKwkJZHN0X3BpdGNoID0g
-ZmItPnBpdGNoZXNbMF07DQo+ICsJCWJ1ZiA9IHZtYXBbMF0udmFkZHIgKyByZWN0LT55MSAq
-IGRzdF9waXRjaCArIHJlY3QtPngxIC8gODsNCj4gKw0KPiArCQlzc2QxMzB4X3VwZGF0ZV9y
-ZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIGJ1ZiwgZHN0X3BpdGNoLA0KPiArCQkJCSAg
-ICByZWN0KTsNCj4gKw0KPiArCQlkcm1fZ2VtX2ZiX2VuZF9jcHVfYWNjZXNzKGZiLCBETUFf
-RlJPTV9ERVZJQ0UpOw0KPiArCQlicmVhazsNCj4gKw0KPiArCWNhc2UgRFJNX0ZPUk1BVF9Y
-UkdCODg4ODoNCj4gKwkJZHN0X3BpdGNoID0gRElWX1JPVU5EX1VQKGRybV9yZWN0X3dpZHRo
-KHJlY3QpLCA4KTsNCj4gKwkJYnVmID0gc3NkMTMweF9zdGF0ZS0+YnVmZmVyOw0KPiArDQo+
-ICsJCXJldCA9IGRybV9nZW1fZmJfYmVnaW5fY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVW
-SUNFKTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICAgDQo+IC0JaW9z
-eXNfbWFwX3NldF92YWRkcigmZHN0LCBidWYpOw0KPiAtCWRybV9mYl94cmdiODg4OF90b19t
-b25vKCZkc3QsICZkc3RfcGl0Y2gsIHZtYXAsIGZiLCByZWN0KTsNCj4gKwkJaW9zeXNfbWFw
-X3NldF92YWRkcigmZHN0LCBidWYpOw0KPiArCQlkcm1fZmJfeHJnYjg4ODhfdG9fbW9ubygm
-ZHN0LCAmZHN0X3BpdGNoLCB2bWFwLCBmYiwgcmVjdCk7DQo+ICAgDQo+IC0JZHJtX2dlbV9m
-Yl9lbmRfY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4gKwkJZHJtX2dlbV9m
-Yl9lbmRfY3B1X2FjY2VzcyhmYiwgRE1BX0ZST01fREVWSUNFKTsNCj4gICANCj4gLQlzc2Qx
-MzB4X3VwZGF0ZV9yZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIHJlY3QpOw0KPiArCQlz
-c2QxMzB4X3VwZGF0ZV9yZWN0KHNzZDEzMHgsIHNzZDEzMHhfc3RhdGUsIGJ1ZiwgZHN0X3Bp
-dGNoLA0KPiArCQkJCSAgICByZWN0KTsNCj4gKwkJYnJlYWs7DQo+ICsJfQ0KPiAgIA0KPiAg
-IAlyZXR1cm4gcmV0Ow0KPiAgIH0NCj4gQEAgLTY0NCwyMiArNjY3LDI0IEBAIHN0YXRpYyBp
-bnQgc3NkMTMweF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfY2hlY2soc3RydWN0IGRy
-bV9wbGFuZSAqcGxhbmUsDQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gcmV0Ow0KPiAg
-IA0KPiAtCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9GT1JNQVRfUjEpOw0KPiAtCWlmICgh
-ZmkpDQo+IC0JCXJldHVybiAtRUlOVkFMOw0KPiArCXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJy
-YXkgPSBrY2FsbG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tFUk5FTCk7DQo+ICsJ
-aWYgKCFzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KQ0KPiArCQlyZXR1cm4gLUVOT01FTTsN
-Cj4gICANCj4gLQlwaXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5fcGl0Y2goZmksIDAsIHNz
-ZDEzMHgtPndpZHRoKTsNCj4gKwlpZiAocGxhbmVfc3RhdGUtPmZiLT5mb3JtYXQtPmZvcm1h
-dCAhPSBEUk1fRk9STUFUX1IxKSB7DQo+ICsJCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9G
-T1JNQVRfUjEpOw0KPiArCQlpZiAoIWZpKQ0KPiArCQkJcmV0dXJuIC1FSU5WQUw7DQo+ICAg
-DQo+IC0Jc3NkMTMweF9zdGF0ZS0+YnVmZmVyID0ga2NhbGxvYyhwaXRjaCwgc3NkMTMweC0+
-aGVpZ2h0LCBHRlBfS0VSTkVMKTsNCj4gLQlpZiAoIXNzZDEzMHhfc3RhdGUtPmJ1ZmZlcikN
-Cj4gLQkJcmV0dXJuIC1FTk9NRU07DQo+ICsJCXBpdGNoID0gZHJtX2Zvcm1hdF9pbmZvX21p
-bl9waXRjaChmaSwgMCwgc3NkMTMweC0+d2lkdGgpOw0KPiAgIA0KPiAtCXNzZDEzMHhfc3Rh
-dGUtPmRhdGFfYXJyYXkgPSBrY2FsbG9jKHNzZDEzMHgtPndpZHRoLCBwYWdlcywgR0ZQX0tF
-Uk5FTCk7DQo+IC0JaWYgKCFzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KSB7DQo+IC0JCWtm
-cmVlKHNzZDEzMHhfc3RhdGUtPmJ1ZmZlcik7DQo+IC0JCS8qIFNldCB0byBwcmV2ZW50IGEg
-ZG91YmxlIGZyZWUgaW4gLmF0b21pY19kZXN0cm95X3N0YXRlKCkgKi8NCj4gLQkJc3NkMTMw
-eF9zdGF0ZS0+YnVmZmVyID0gTlVMTDsNCj4gLQkJcmV0dXJuIC1FTk9NRU07DQo+ICsJCXNz
-ZDEzMHhfc3RhdGUtPmJ1ZmZlciA9IGtjYWxsb2MocGl0Y2gsIHNzZDEzMHgtPmhlaWdodCwg
-R0ZQX0tFUk5FTCk7DQo+ICsJCWlmICghc3NkMTMweF9zdGF0ZS0+YnVmZmVyKSB7DQo+ICsJ
-CQlrZnJlZShzc2QxMzB4X3N0YXRlLT5kYXRhX2FycmF5KTsNCj4gKwkJCS8qIFNldCB0byBw
-cmV2ZW50IGEgZG91YmxlIGZyZWUgaW4gLmF0b21pY19kZXN0cm95X3N0YXRlKCkgKi8NCj4g
-KwkJCXNzZDEzMHhfc3RhdGUtPmRhdGFfYXJyYXkgPSBOVUxMOw0KPiArCQkJcmV0dXJuIC1F
-Tk9NRU07DQo+ICsJCX0NCj4gICAJfQ0KPiAgIA0KPiAgIAlyZXR1cm4gMDsNCj4gQEAgLTg5
-OCw2ICs5MjMsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5j
-cyBzc2QxMzB4X21vZGVfY29uZmlnX2Z1bmNzID0gew0KPiAgIH07DQo+ICAgDQo+ICAgc3Rh
-dGljIGNvbnN0IHVpbnQzMl90IHNzZDEzMHhfZm9ybWF0c1tdID0gew0KPiArCURSTV9GT1JN
-QVRfUjEsDQo+ICAgCURSTV9GT1JNQVRfWFJHQjg4ODgsDQo+ICAgfTsNCj4gICANCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
-NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
-bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
-cmcpDQo=
+>
+> Cheers,
+> Mikko
+>
+> >
+> > Best regards
+> > Thomas
+> >
+> >> +        err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
+> >> +        if (err < 0)
+> >> +            goto hub;
+> >> +    }
+> >>       err = drm_dev_register(drm, 0);
+> >>       if (err < 0)
+> >
+>
 
---------------V9LK0ZxwOlLPoVyh2iD6auUM--
 
---------------AfG0s4SajZVIJCke06PP0hBZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTwSOoFAwAAAAAACgkQlh/E3EQov+Cp
-yw//QhJNu306sTXn++KyJNvLTqcx+lodQcyJBCEaqjlS5mPZ9VYsULpicWCIEurFbIpzwUlm/0dj
-2OgtL+Ph33lKDypSynvqDu0U/D75aTJ223Pa284K/TrvS11F3XKz3EliU/tKFci+7iaGiCRLi9ww
-qBkWbp9+y84QUaJ2np31m+u5hnShQ3jboTqyFS/igB+ORf6VAYqRL7LsDtsB2/JoawhMtCUYiaQ0
-s4Ps+qOpWDDpl9+eadM07lDYL0qhnD9PBjO81XtOxOxCWs+JwzT+nKRP9zOGN3x1CPk5qbFmnw9V
-hOL4KTAalCmfedenpbrGWYODIbDARIUFuwkQbt6UtvjbrqvdWnKkYmpr07BIwWK3azhGDAzMDIPS
-QPdYoKGKqC1v0GyoawkW8IpsXTKlj/hDHKwmCUuIzPvLF+A8+r7zk84id18gMOEPlJ50MOAbRbf7
-3KcQDlY4+mR77cXTwMW7fXFjH/GKseIH6X2L0ojCjyRJ+2W2K7VXfYNB0x2UTCf6Aec/J+Aq31Gh
-RZltje96M7bPEwUWqXz5bCSiXtx7IJ/OCu8+mMhOWaq2RV42jZD5oJIvKQ/r4kAYCK1WO+iPe97Y
-O0JUb9LIC1w+Eeje2OHr8LSEkzb3rVmNx5XK0MzBJlf1au+/4v3lXsUXddL5dJsJnMRAu00gaRqt
-ejE=
-=Luv8
------END PGP SIGNATURE-----
-
---------------AfG0s4SajZVIJCke06PP0hBZ--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
