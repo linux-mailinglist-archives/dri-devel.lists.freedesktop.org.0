@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC7978E3E7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 02:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4C278E3EB
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 02:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA8010E63F;
-	Thu, 31 Aug 2023 00:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBAA10E63D;
+	Thu, 31 Aug 2023 00:26:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4ED410E63D
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 00:24:55 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id
- 3f1490d57ef6-d77ad095e5cso127053276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 17:24:55 -0700 (PDT)
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62C710E640
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 00:26:31 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id
+ 3f1490d57ef6-bcb6dbc477eso105110276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Aug 2023 17:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693441495; x=1694046295; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1693441591; x=1694046391; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wE7oiFJoR9KfWY52ArAEgPG+Y/Fo2kX4EkxDGcD8QAY=;
- b=mK1qWsHXFjrvDjnlKQFN0TaYX3csoBDLVJFwNg5wi3Mh2C0Xri5Lc6onW/mkXB82fU
- N1LRP+8Ac+MFCUGYnFZVdQQKatyXsspGCHNr2cTpJQfyjEB5eRsP5yd2h1K1F7fpfiUG
- 2TsjSFOrtFGII3YvaV/zdq4yRKGCVPdtlQhXgRlfVEEOy7Yy4GoRfpSKjOU83Zo3qLRu
- BmdBa8Nhb3amriDAGU8F+PkqZK0lFv0gL7z5dNSbqpUZTg8Y2czoIPqnm6JwdFu2Zt7d
- SVxAKvYSwFqJKLdPcz/wo7R3CuJncFSjmHXlLLPP7+eFl92C2T6nAcXkoYPK1h8ou1i7
- MfYg==
+ bh=H3zj4E10NO9siAHOXcmUeyO6qgzIlCjzw1ywFvHQe48=;
+ b=WyC+vUXUafQBZxal/9eC9sBHD+CxgXdx1kbzHnnDO4poVmxDC/2dPclR62WBAPT5/R
+ gUv4w1tV0N72VbyssDEavt1MJWF8jCBoTwfLONmZMVeOThsCqkhGN5sM5DP5NkPFz4Ef
+ p0g36YlPKEH8a/6qSl5M1CtG4zwQZRB2n0T6tWXILq276uk6BZf0rFtC1EPgYng48QwM
+ QPMUGMJdj5H4qsO2MFgW4/7buAOdnUdH3qzPLaDy3QIoAfKyUCABsUARUeKmHX6XaaOS
+ YXb7AOdPjaLIdFqcY8QMKYfZTeBDgAi23eIfwpg50jsvlS6BufgW5II6KzZwjyC3gRdQ
+ jfQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693441495; x=1694046295;
+ d=1e100.net; s=20221208; t=1693441591; x=1694046391;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wE7oiFJoR9KfWY52ArAEgPG+Y/Fo2kX4EkxDGcD8QAY=;
- b=OinoDLymI83jcDQUNOsYmMaL63gru6g9O4q+92G91Q8JrOfp3suib9t3G9VJxMcjVI
- 9+F+08k+PONPrw4QxWfWrbawEtPz5RBPzRlYHrAXR0MfzKLG/Pb0UPD8I77SBNlPJbUM
- 0W9FaZOrD7TfzFKdv7gOHGLdWHXxnIQGEobRSbAkpLTztbHWywoO75oOotzqaoLBf4AB
- frAD4wjmm9wXss94hkYm/SIExxKKIBzhzHoQphV/gY5qVpeha/db6SVJpUvjf6EsfJIL
- E7SndphsmWWDsqDPraI9PafBlJujEeJcHRDhAOJeySZqoEShGLI2F4gy4TZ++3KWYbqX
- Yyew==
-X-Gm-Message-State: AOJu0Yym4ic4s3zBZBZaI2G3vwm1KrpkeuS1afskFJ5mJ+6KV01pbdv0
- e8GD8n6Bx2Pp93n+kP5byxTheZHucp1qnBZMdCkFHQ==
-X-Google-Smtp-Source: AGHT+IGDrpoIANqhoS8W6TCVcYzFB0D2zfRP/P4a1pikuoYb3lQsJ+AISYlrnw9s5BBfQK3HzdDbQ+iuUI75raDCxew=
-X-Received: by 2002:a25:b9c6:0:b0:d7b:8c90:ce5b with SMTP id
- y6-20020a25b9c6000000b00d7b8c90ce5bmr3238476ybj.63.1693441495006; Wed, 30 Aug
- 2023 17:24:55 -0700 (PDT)
+ bh=H3zj4E10NO9siAHOXcmUeyO6qgzIlCjzw1ywFvHQe48=;
+ b=IPHkmQ6ddcCS2DI2D4NPEbuly9IJipwOCsDKz3lcApR3lehuEZ4h5c4/Pv0/FZqlx3
+ mg0sYmn/Th7siTgb3L1DpQvJXnnTVtZNujxydvQhnbary9TxmF2EYIhEyB97XpxHqMF5
+ QY9EZPlOkNwGdAqvj7F+XREBvf4eanVQwoarrlrQy25aGVsq7NYm75lNkG0+7dXaB/+v
+ r9eH3IbjsQua0BCThlKgwmyHQqTAtS7lpbYMXyiDxiyVsfoMRj3Kdlb+lPZYzdAp4q5h
+ iGQSs0gLUp9zC1UfpAwo+M67Ndv95TWvwVuCk4766nsA1s5lJMI5DvkRgvQqMqoprVih
+ XgYw==
+X-Gm-Message-State: AOJu0Yx37GD/YOKfhnvb5SK1cdNIU5+EC+9lHaZVNE7ire+5hRg7K4kC
+ kFKzXPt8CGIgGQvR3ik7ENJ1vPWxKtvBUik8P2AJGQ==
+X-Google-Smtp-Source: AGHT+IEC6wjyhLHuyq2sowvLpwNst9mi9DaKnAVZfuuF7YmSGM5ILBiZEq62yGcwMVvFIDZCywIaEKK97E/8B6+kyt4=
+X-Received: by 2002:a25:2901:0:b0:d7b:969b:f3e with SMTP id
+ p1-20020a252901000000b00d7b969b0f3emr3293721ybp.11.1693441590996; Wed, 30 Aug
+ 2023 17:26:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
- <20230830224910.8091-15-quic_abhinavk@quicinc.com>
-In-Reply-To: <20230830224910.8091-15-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-16-quic_abhinavk@quicinc.com>
+In-Reply-To: <20230830224910.8091-16-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 31 Aug 2023 03:24:44 +0300
-Message-ID: <CAA8EJprZma-e=zbtDuGKfcHK7zTaSykACt+=rh7W92iEpif=Ug@mail.gmail.com>
-Subject: Re: [PATCH 14/16] drm/msm/dpu: do not allow YUV formats if no CDM
- block is present
+Date: Thu, 31 Aug 2023 03:26:20 +0300
+Message-ID: <CAA8EJpp=kr0XTrzq0sjssDh3oJYLqYHZjpDxeyKDxV5jfTcaBA@mail.gmail.com>
+Subject: Re: [PATCH 15/16] drm/msm/dpu: add NV12 in the list of supported WB
+ formats
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,35 +77,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 31 Aug 2023 at 01:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> On chipsets where CDM block is not available OR where support has
-> not been added yet do not allow YUV formats for writeback block.
+> Since CDM block support has now been added for writeback blocks
+> add NV12 in the list of supported WB formats.
 >
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index 7fc174b33ae2..d8edca9bc964 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -406,6 +406,12 @@ static int dpu_encoder_phys_wb_atomic_check(
->                 return ret;
->         }
->
-> +       if (DPU_FORMAT_IS_YUV(to_dpu_format(msm_framebuffer_format(fb))) &&
-> +           !phys_enc->dpu_kms->catalog->cdm) {
-> +               DPU_ERROR("cannot support YUV formats without CDM block\n");
-> +               return -EINVAL;
-> +       }
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 713dfc079718..978330c6678e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -244,6 +244,7 @@ static const uint32_t wb2_formats[] = {
+>         DRM_FORMAT_BGRA4444,
+>         DRM_FORMAT_BGRX4444,
+>         DRM_FORMAT_XBGR4444,
+> +       DRM_FORMAT_NV12,
+>  };
 
-Can we have YUV formats in wb_formats if we do not support CDM? That
-would be an error.
+No. This way the driver would announce availability of NV12 even on
+chipsets where NV12 is not supported for the writeback. Please define
+separate formats array.
 
-> +
->         return 0;
->  }
+BTW: does HW only support NV12 for the writeback? What about YV12 or e.g. NV21?
+
 >
+>  /*************************************************************
 > --
 > 2.40.1
 >
