@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9135C78E8F1
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 10:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86C178E8F8
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 11:02:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0E1710E19B;
-	Thu, 31 Aug 2023 08:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C67B410E1AC;
+	Thu, 31 Aug 2023 09:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B683F10E19B
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 08:59:51 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- 006d021491bc7-56d8bc0d909so372352eaf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 01:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693472391; x=1694077191; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+WCBkbdNR2D/dn3x6jAE+/xbR9io7eSmxn1U8tK6k34=;
- b=HJWFARmVoH9E27BQGtkL3bO8oTmoPx++XeSDxA2grn9DmGUPte+KbMWpqI9rmgeCKk
- I5alnA8BBUs8PY9amTo/R27Mp1bLxwyKJ/hgk0X3KCOy0d40f4khQOZ4GJlS8Sr4JjgP
- tuYrWXSlMLvc+Fuz6C/oQ0fqFEBGqcayqZwW5w5VQyKEITGP9cRAMdHHMe6h8Hq61I+4
- uWB4Rtu2MgmDd2a+i0JdvFDkS7ySqkZ60B9j0bZTS4yltmAvGEpFc4oJbN+DSt2WGpd2
- jsRywrizeW8ta6qJRMMv0FYK/xEyj4vbI3+LK2xJUohCGYeHGnfNiPIEx9bLnYAsRvzD
- qzlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693472391; x=1694077191;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+WCBkbdNR2D/dn3x6jAE+/xbR9io7eSmxn1U8tK6k34=;
- b=ln1amMAqlo4/1ztAX3MrvgEhY6AihBz6whKw+k/4u/ElDnfRpduR5GFePiizfO2lej
- CAyTBsufo/TfHkuNy865RHJij1kpO98wP/wuPbFHulc2yovgyUfAW2W3eeE9PgvL9WF3
- sPMRwwJFOp32AnhPiy9xDlQaEAKSZZWa+jbxFqzhjeL7AFQQZjcVBIwh9LS8HeKpPc6o
- Df0Q78wZL4s/33ttGJd/naVidlTXs/diOAohqd0MdVCwQkA4ivynr5cCkx4xJT91QzRD
- wEXEWXTAMxBC4EpfmgaFB4/rpXKkCU8uq+ec9CBl1m4LNZo8KimePH6mm4TWnnPdYpQ0
- ZoOg==
-X-Gm-Message-State: AOJu0YxcGHtF+ZXtEzBav/E0+3gaEvvrVHEZCqxBefZPm7pHwzbhxnZn
- NijSjbJzJf6TuJzIICdIXAaQypMGp7n3H3PPQnM=
-X-Google-Smtp-Source: AGHT+IHD40W+0VPJ3vNndBJ9GxsD1cpYZQwMg37odmvA2L5FhdqLghEG+N8XXu1zSL+1GhjtspeZlpQR10ud8jErSAU=
-X-Received: by 2002:a4a:2a52:0:b0:573:3711:51c4 with SMTP id
- x18-20020a4a2a52000000b00573371151c4mr4288732oox.8.1693472390851; Thu, 31 Aug
- 2023 01:59:50 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC3F310E1AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 09:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1693472525; x=1694077325; i=deller@gmx.de;
+ bh=Z3/WXbzpGh0X1vA04EAjzYhScxnI0aPgGENMGpZ8MkI=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=CXcX2uWw42XHJnL9r1sYGIzWr6J53lUoCXj87oAq1eFKvTf0Dcej6EdOT78lTHs9OM8RHJz
+ EL4BimG2n+PZSLIC2J1o0SyRX0cw9CPzVanCf+CjDPzAERcX4sPZ5S0aJ/OCnfusv8Nnr+s8h
+ aS9hvqHHXzKatBpgE8HeEjqJEzs+oKCe0eqoSSWSzvH3Avgr6pKeRWIe5xsCysK4Vypjzsbjt
+ za6vU45yv5H0DtMlI06R82mtNjYsit1rKwIxUwXPU6VmktUvkTx05hk80Txb9fwq1mVckPf1g
+ eHOCaB6ugwfn5o1aGSCSc53I42ahXlc7U9h+cVtxEgohB03yhavw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBm1U-1qWAzJ2lhM-00CCRo; Thu, 31
+ Aug 2023 11:02:05 +0200
+Message-ID: <d0646771-d426-45c6-e189-517b1e6e6248@gmx.de>
+Date: Thu, 31 Aug 2023 11:02:03 +0200
 MIME-Version: 1.0
-References: <cover.1693386602.git.pstanner@redhat.com>
- <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
- <CAHp75VfkzV-=XuEZwipYzfHNu4EXuwzbu6vfEKh1Uueseo2=wA@mail.gmail.com>
- <721a70c347d82931d12e5b75b19d132f82ee5ed2.camel@redhat.com>
- <CAHp75VdS=kSWnz8FzHcdrZPaeZKsQNbzjE9mNN7BDvZA_nQpaA@mail.gmail.com>
- <a4ba0493965ad32fcf95cd6e2439096668a9ed46.camel@redhat.com>
-In-Reply-To: <a4ba0493965ad32fcf95cd6e2439096668a9ed46.camel@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 31 Aug 2023 11:59:14 +0300
-Message-ID: <CAHp75VdqFPJAnCm9A-S+TCChr9v9_s=Wfnb5wO2=vuwp1v+JvA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] string.h: add array-wrappers for (v)memdup_user()
-To: pstanner@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] fbdev: Update fbdev source file paths
+Content-Language: en-US
+To: =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Jingoo Han <jg1.han@samsung.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230829200253.1473891-1-j.neuschaefer@gmx.net>
+ <d9a02d20-8b59-cbdd-d054-eac14f9771d2@suse.de> <ZPA26xdbTRdfuveS@probook>
+ <ZPBUdJwZzvYYrNei@phenom.ffwll.local>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <ZPBUdJwZzvYYrNei@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:O2yGuAHpJ+Kd6jLLCyCriT0fI4YNGD0ZOhRGg+ixiMnJRT1rk93
+ 1lOyBX1xAEwHlixvdpXP7tNpzpq3/9rktNxBMTSmJiKWn8ULng7TkyBK9gYceiWtSiYrR7N
+ k+G+8oheT1KklcR2KTHrJzJnNSoR8OyJ46AnlRFLN++ij6S5GTThPOsqwu613Dy+f+hRNRL
+ J1rADhVvUPpSM+9Dj+Qmg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vlXaveO6BBE=;YfnYiTUou7/PzAAttstceGBQ3Iw
+ 7//m6qQfZfieXnNOmP7ZOWS+8Kgbc70Bm1czCCYPhKY06kkBfzX6gHdQkxRFKHEejCfOYXOIm
+ uS7Kr7uVC3DunvGoOMsYdiBOFuOSrf23vkwTHOtcE3oY7j1A4Ev2yO7nGim1syAnRcVz0Xxm1
+ ZKgiuX2dLpx/S7yqk5/nkxoaKsl6e75Jeu4fpyzJ/5o/OhARj0qxEJO/xB+QS6qRcOQhfKqf/
+ ALCfrKwlZXCeQco2EkHl6+hZkL6EOXllJ45UPBA0BlwdAJJw1JLAdsia5nbkQd9c8SPOQYEcM
+ to1AriCosUV1SJsjQKwDkJmqCWUqDTLxgtCDfAOzcl1P1q182PutaVzEqvttk4MrxpVOHcWID
+ BypusfoAPQsqftAHELRoApPVzcyC6LbENxURFmpvB2HGx1wuKvAkDVCr3Jxy92pcBZ18hXS0E
+ iNdpkgYOboDmiaKaA6CQb/3WjJobtf9Gv99tOo3NIepZ3GBaHNt5wqDm+sCdMl2yoRkYJl93g
+ aLaEIGpv8T/FbM2lmunZuobKij7Zcrb7BFC070l6a+vkXFsdzN6VzNsJM+uIMW9T/rlqYO5yJ
+ 6sVV6LvXitRCYOrplEE/ORf4Fe5OtxN988V1Rcom/MbDmE074OBTPVNDQJo05TjNlMickcWbA
+ ZbIgHQVN7bpXUfTE/OwkpdfsCijmJQJKblUqat1qoZwPR/Xg/fRwxBekbAPDuFIOfIQrJwGM0
+ p2uhquCUo7ua1A9mQf/26CZ7kv5alAD1XJC7i2Xe/CNnArHJ47U3O5zzR8mZEcGqyXkD7WZ7e
+ 5m4r+2aegjM51CviuV9GNji+ogTQ8b5Hv6EuqvwEvsBrOfhT1cMn96HlrU5r5V6z9gtYqRXHw
+ S88VR9ysG6JTh9eXKy55PT6BlKn6pAc915ezGcDfbvAq1LkwemuLay1Hrijo1BM7XB0RWtCql
+ GXYxibKAqJn1eau5YHWiw6Rv+HA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,102 +78,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Siddh Raman Pant <code@siddh.me>, Kees Cook <keescook@chromium.org>,
- kexec@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-hardening@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Eric Biederman <ebiederm@xmission.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
- David Disseldorp <ddiss@suse.de>, Nick Alcock <nick.alcock@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 30, 2023 at 10:15=E2=80=AFPM <pstanner@redhat.com> wrote:
-> On Wed, 2023-08-30 at 17:29 +0300, Andy Shevchenko wrote:
-> > On Wed, Aug 30, 2023 at 5:19=E2=80=AFPM <pstanner@redhat.com> wrote:
-> > > On Wed, 2023-08-30 at 17:11 +0300, Andy Shevchenko wrote:
-> > > > On Wed, Aug 30, 2023 at 4:46=E2=80=AFPM Philipp Stanner
-> > > > <pstanner@redhat.com>
-> > > > wrote:
-
-...
-
-> > > > >  #include <linux/types.h>       /* for size_t */
-> > > > >  #include <linux/stddef.h>      /* for NULL */
-> > > > >  #include <linux/errno.h>       /* for E2BIG */
-> > > > > +#include <linux/overflow.h>    /* for check_mul_overflow() */
-> > > > > +#include <linux/err.h>         /* for ERR_PTR() */
-> > > >
-> > > > Can we preserve order (to some extent)?
-> > >
-> > > Sure. I just put it there so the comments build a congruent block.
-> > > Which order would you prefer?
-> >
-> > Alphabetical.
-> >
-> > compiler.h
-> > err.h
-> > overflow.h
-> > ...the rest that is a bit unordered...
-> >
-> > > > >  #include <linux/stdarg.h>
-> > > > >  #include <uapi/linux/string.h>
+On 8/31/23 10:51, Daniel Vetter wrote:
+> On Thu, Aug 31, 2023 at 08:44:59AM +0200, Jonathan Neusch=C3=A4fer wrote=
+:
+>> On Wed, Aug 30, 2023 at 09:10:26AM +0200, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 29.08.23 um 22:02 schrieb Jonathan Neusch=C3=A4fer:
+>>>> The files fbmem.c, fb_defio.c, fbsysfs.c, fbmon.c, modedb.c, and
+>>>> fbcmap.c were moved to drivers/video/fbdev, and subsequently to
+>>>> drivers/video/fbdev/core, in the commits listed below.
+>>>>
+>>>> Reported by kalekale in #kernel (Libera IRC).
+>>>>
+>>>> Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
+>>>> Fixes: 19757fc8432a ("fbdev: move fbdev core files to separate direct=
+ory")
+>>>> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+>>>
+>>> IMHO these comments might just be removed.
+>>
+>> I think it's nice to have some sort of visual separation between groups
+>> of functions in fb.h, which these comments provide at the moment.
+>> Therefore I'm currently leaning towards my patch as it is, but I'm
+>> willing to have my mind changed and do a v2 which just removes the
+>> comments.
 >
-> I mean I could include my own in a sorted manner =E2=80=93 but the existi=
-ng
-> ones are not sorted:
+> Just the filename without the full path maybe?
 
-I know, that's why I put "(to some extent)" in my initial comment.
+Yes, I'd prefer that as well.
 
-> We could sort them all, but I'd prefer to do that in a separate patch
-> so that this commit does not make the impression of doing anything else
-> than including the two new headers
+Helge
 
-But you can do your stuff first with better ordering than you proposed
-initially, so there will be less churn for any additional change
-(either that simply unifies the thing or something else).
-
-> Such a separate patch could also unify the docstring style, see below
-
-Sure, patches are welcome!
-
-> > > > > +/**
-> > > > > + * memdup_array_user - duplicate array from user space
-> > > >
-> > > > > + *
-> > > >
-> > > > Do we need this blank line?
-> > >
-> > > I more or less directly copied the docstring format from the
-> > > original
-> > > functions (v)memdup_user() in mm/util.c
-> > > I guess this is common style?
-> >
-> > I think it's not. But you may grep kernel source tree and tell which
-> > one occurs more often with or without this (unneeded) blank line.
+> That's enough to find the
+> right file, and it's also better at highlighting the actual important pa=
+rt
+> of the comment since the path is very redundant.
+> -Sima
+>
+>>
+>>
+>> Thanks
+>>
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>>> ---
+>>>>    include/linux/fb.h | 12 ++++++------
+>>>>    1 file changed, 6 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/include/linux/fb.h b/include/linux/fb.h
+>>>> index ce7d588edc3e6..3cda5b9f2469b 100644
+>>>> --- a/include/linux/fb.h
+>>>> +++ b/include/linux/fb.h
+>>>> @@ -592,7 +592,7 @@ extern ssize_t fb_sys_write(struct fb_info *info,=
+ const char __user *buf,
+>>>>    	__FB_DEFAULT_SYS_OPS_DRAW, \
+>>>>    	__FB_DEFAULT_SYS_OPS_MMAP
+>>>>
+>>>> -/* drivers/video/fbmem.c */
+>>>> +/* drivers/video/fbdev/core/fbmem.c */
+>>>>    extern int register_framebuffer(struct fb_info *fb_info);
+>>>>    extern void unregister_framebuffer(struct fb_info *fb_info);
+>>>>    extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
 >
 >
-> It seems to be very much mixed. string.h itself is mixed.
-> When you look at the bottom of string.h, you'll find functions such as
-> kbasename() that have the extra line.
 >
-> That's not really a super decisive point for me, though. We can remove
-> the line I guess
 
-I think the less LoCs the better generally speaking. So, if we don't
-need that line and it doesn't make the readability worse, why to keep
-it?
-
-> > > > > + * @src: source address in user space
-> > > > > + * @n: number of array members to copy
-> > > > > + * @size: size of one array member
-> > > > > + *
-> > > > > + * Return: an ERR_PTR() on failure.  Result is physically
-> > > > > + * contiguous, to be freed by kfree().
-> > > > > + */
-
---
-With Best Regards,
-Andy Shevchenko
