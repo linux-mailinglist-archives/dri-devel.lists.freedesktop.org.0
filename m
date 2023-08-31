@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B02E78F0F5
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 18:12:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2152978F10A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 18:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3DD10E0C3;
-	Thu, 31 Aug 2023 16:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9775610E6A4;
+	Thu, 31 Aug 2023 16:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577FC10E0C3;
- Thu, 31 Aug 2023 16:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=6u5hMjCmUgd0xjXq9PV5DeXBX6O3VlwK8t4h81c1Zeg=; b=FB5X2tg3OXPaHHhurzRgs+u1W8
- idR+XXsvx9yapwJfYgjIze8fEthggfmb9xsQkX5HodFCXD5Q0M4dYKE3Awjq2NOaVhQpTSQqnmBxI
- FKx7QvvvXqHtS+slYKd6c55+N423VTz7Umbg46jcLe5RZ2/KqKlcJDo2iYM1r1G0VUX0OJ51PG1Ak
- N3PmP2s8GsxO8xz1CgoLAiFiMzK8ZLG/O7AsBruLslJw2MxGIUvD03c5OxgNtiOQQPcZcdNGLWb73
- Sa9tvS3Qh9Fj/RV8we957mgQBUKjPNLPrINeURrrGH1lp/ojiOOYtH140JG/u6V9VvXkvbTWQ0VZ0
- dEF+VDtQ==;
-Received: from [38.44.68.151] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qbkHW-000WXH-Pk; Thu, 31 Aug 2023 18:12:30 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-Subject: [PATCH v2] drm/amd/display: enable cursor degamma for DCN3+ DRM
- legacy gamma
-Date: Thu, 31 Aug 2023 15:12:28 -0100
-Message-Id: <20230831161228.206735-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97ED710E6A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 16:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693498640; x=1725034640;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=18wR8ngZpT/NhFFAjntbyC0LHD/2G9QIXcCJpwW6+Jg=;
+ b=UVRA18a2y5xZW0UfoEs3Ptg2XhGNOqCjCucN4pgrB9eeGNy3j5dQ0Heh
+ kWnUSkUAS/vCAs409QJglGFdjW+wp+1MoBpaaUiYKNcl2LkqXtPvLstZP
+ dRZL9FhZUuO73UY60KyOxlTRtN2FWMOD5tDXD5qQUH4VVjS39ClaH2OdV
+ mmwMn5WsODf+4d8HRP6m64GiOKo512kb7D/JYvWCAxZFWItlFQQ57FOFV
+ vmLGHCwJjqsSsvex+0jXfZyahE+og27cLw+P4L9XEOrAUudy9LkzSWzHD
+ 13fIRzoNOUkRE4/ROAO6EPTsJtzHbFNAbMVWg+dWk+0278FYiCywAe1bZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375933970"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="375933970"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 09:15:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="913344695"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="913344695"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 09:14:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qbkJo-005Qpr-1v; Thu, 31 Aug 2023 19:14:52 +0300
+Date: Thu, 31 Aug 2023 19:14:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v6 3/4] drm/bridge: Drop CONFIG_OF conditionals around
+ of_node pointers
+Message-ID: <ZPC8fJxQsRqJKK7k@smile.fi.intel.com>
+References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
+ <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,49 +63,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Krunoslav Kovac <krunoslav.kovac@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Guillaume BRUN <the.cheaterman@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Ondrej Jirman <megi@xff.cz>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For DRM legacy gamma, AMD display manager applies implicit sRGB degamma
-using a pre-defined sRGB transfer function. It works fine for DCN2
-family where degamma ROM and custom curves go to the same color block.
-But, on DCN3+, degamma is split into two blocks: degamma ROM for
-pre-defined TFs and `gamma correction` for user/custom curves and
-degamma ROM settings doesn't apply to cursor plane. To get DRM legacy
-gamma working as expected, enable cursor degamma ROM for implict sRGB
-degamma on HW with this configuration.
+On Thu, Aug 31, 2023 at 09:09:37AM +0100, Biju Das wrote:
+> Having conditional around the of_node pointers turns out to make driver
+> code use ugly #ifdef and #if blocks. So drop the conditionals.
 
-Cc: stable@vger.kernel.org
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2803
-Fixes: 96b020e2163f ("drm/amd/display: check attr flag before set cursor degamma on DCN3+")
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
-v2: cc'ing stable
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+...
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index df568a7cd005..b97cbc4e5477 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1270,6 +1270,13 @@ void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
- 	attributes.rotation_angle    = 0;
- 	attributes.attribute_flags.value = 0;
- 
-+	/* Enable cursor degamma ROM on DCN3+ for implicit sRGB degamma in DRM
-+	 * legacy gamma setup.
-+	 */
-+	if (crtc_state->cm_is_degamma_srgb &&
-+	    adev->dm.dc->caps.color.dpp.gamma_corr)
-+		attributes.attribute_flags.bits.ENABLE_CURSOR_DEGAMMA = 1;
-+
- 	attributes.pitch = afb->base.pitches[0] / afb->base.format->cpp[0];
- 
- 	if (crtc_state->stream) {
+>  	anx78xx->bridge.of_node = client->dev.of_node;
+
+>  	panel_bridge->bridge.of_node = panel->dev->of_node;
+
+>  	hdmi->bridge.of_node = pdev->dev.of_node;
+
+>  	dsi->bridge.of_node = pdev->dev.of_node;
+
+Yeah, I would really switch all of these to
+
+	bridge->fwnode = dev_fwnode(...);
+
+But it's a suggestion for a separate change that I think can happen
+sooner than later.
+
 -- 
-2.40.1
+With Best Regards,
+Andy Shevchenko
+
 
