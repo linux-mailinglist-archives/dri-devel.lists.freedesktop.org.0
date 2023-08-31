@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B8478F2E3
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D7B78F2E8
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:51:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882BF10E1A4;
-	Thu, 31 Aug 2023 18:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6921210E6B2;
+	Thu, 31 Aug 2023 18:51:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 999C210E1A4
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 18:48:24 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-401ec23be82so12076185e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 11:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693507703; x=1694112503; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ahmrOVqwwJFu3WxpSfgce+G5opjA33YS4PMyyXAd7ms=;
- b=bv81uogQNH7Dq0nQR7QrIAxKReov9GZlr7CtyxwT605HgIbY6dxK01bLLsh9H1ZhKA
- Gxz6xNL4eFNpqNOzVh6ZAHxHHii5sLSMMDBJ+TMlsi9oWd8WZkkmceCYPlwYTio8+ahb
- Ly9HFqiPH0ROtPAiIjVB2HkXMZBb7IYQenQG9pQZQdKilGwyWfJEIdV75IQYSaJoTnqP
- rF995vbN3+OPN6rQGpheBbe1dxN6o5swELQU7eZo+C7K3BjF1Fdh0BUP8bfG5V0jc8GC
- gGtSsnSJySa/n2rJe886GNpoaS0ygOzQHGwdN6r/nF4d0qKdu7+tZd+uYFamHlCPqDSQ
- 7TBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693507703; x=1694112503;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ahmrOVqwwJFu3WxpSfgce+G5opjA33YS4PMyyXAd7ms=;
- b=h6vs5NC1gBWQzGnZCN+zhgzXy50nmrA7UaDgO6IxXVn/s2AkC5cgoVdExBntl73kUI
- F45v3UYRMjeUZ3bCRdho2IoIgMQQrdDZzYHRdh25wdm6t1HV7R8iN17xgOcvsBnld2+4
- rDAXax6jyHTdzowilhRpu4aPupYGfFm2wtkdojIoo/9WZklj7VcK4tHzUGyMVdigzFqk
- /norx9E4D/XXcHImr3CBZL5onem1vNArKVko0aoYqAm8/s+VEDXQtb5uYsQ5YqPxI1Wi
- TfvXWju2KeT73u3QRj3aKrCSeiUtYbid75S85a12rCYC7Sq9bxWE/5FiDk75MqlZiu5x
- ixCA==
-X-Gm-Message-State: AOJu0Yw/OC7PnlviIFMeQzhELVws5qQJ2Fu7dBQw47+uIXFLv5l2LFKR
- kAlw+v78GVvlm5h35XPlezY=
-X-Google-Smtp-Source: AGHT+IGfZb8579Yjvtnal5tdT/GYaF1cGdV5xTKFKo1tpdq7EudzAt4mbBHbPvzHbNAvuygNNe1mGQ==
-X-Received: by 2002:a1c:7911:0:b0:401:4542:5edf with SMTP id
- l17-20020a1c7911000000b0040145425edfmr181282wme.0.1693507702525; 
- Thu, 31 Aug 2023 11:48:22 -0700 (PDT)
-Received: from debian ([63.135.72.41]) by smtp.gmail.com with ESMTPSA id
- o24-20020a05600c379800b003fed70fb09dsm2745829wmr.26.2023.08.31.11.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Aug 2023 11:48:22 -0700 (PDT)
-Date: Thu, 31 Aug 2023 19:48:20 +0100
-From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
-Subject: mainline build failure due to 501126083855 ("fbdev/g364fb: Use fbdev
- I/O helpers")
-Message-ID: <ZPDgdGBbxrTl+m2s@debian>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B23310E6AF;
+ Thu, 31 Aug 2023 18:51:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693507893; x=1725043893;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=aK2L0FYFMIs2rz3U06qLaSbuCoImaDU74MHF3sKOzWE=;
+ b=mGE6XxH/GMyVY/IesFOEURBYmJaVOcytGmbabvWeBJfyp7F8w3V9Uc9X
+ 2nMs6HmNR6c7bJWR+46Srlt/t+BQnlMoX6bp8m5rPR4EQYRk2bobpedx3
+ nBHvoNdPqEhH9lPTwMRR92m2ow5SqimE/Gq/TXE0ooD6zHaBB0I/KlJpw
+ LESlJxapD6DAOzThd4Z/6J2iDVobLRac5Be4a1iAlX3+SzDHjpAKtCmik
+ ybBNJY1phLGjCBsReYqNoV0hN662d3yhs5eJ9JuQn2BbUFfbe6ELO1oEq
+ yi19+AE15cn4Fx+QPcKN+LHAGKxgEGB0FOA9vbcoWgw0h8waWqmAu8mVI g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355532453"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="355532453"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 11:51:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="863244303"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="863244303"
+Received: from shochwel-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.219])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 11:51:29 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/6] drm, cec and edid updates
+In-Reply-To: <cover.1692884619.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1692884619.git.jani.nikula@intel.com>
+Date: Thu, 31 Aug 2023 21:51:24 +0300
+Message-ID: <8734zzjb9v.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- regressions@lists.linux.dev
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+On Thu, 24 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> Avoid accessing the raw edid directly. Pre-parse the source physical
+> address during normal EDID parsing and use that for CEC.
+>
+> Jani Nikula (6):
+>   drm/edid: add drm_edid_is_digital()
+>   drm/i915/display: use drm_edid_is_digital()
+>   drm/edid: parse source physical address
+>   drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
+>   drm/i915/cec: switch to setting physical address directly
 
-The latest mainline kernel branch fails to build mips jazz_defconfig with
-the error:
+Maarten, Maxime, Thomas, ack for merging patches 1, 3 and 4 via via
+drm-intel?
 
-drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
-  115 |         FB_DEFAULT_IOMEM_HELPERS,
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-      |         FB_DEFAULT_IOMEM_OPS
+>   media: cec: core: add note about *_from_edid() function usage in drm
+
+Hans, while there's no build dependency here, I think it would make
+sense to merge this together with patches 3 and 4. Ack for merging via
+drm-intel?
+
+Thanks,
+Jani.
 
 
-git bisect pointed to 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers").
-
-Reverting the commit has fixed the build failure.
-
-I will be happy to test any patch or provide any extra log if needed.
-
-#regzbot introduced: 5011260838551cefbf23d60b48c3243b6d5530a2
+>
+>  drivers/gpu/drm/display/drm_dp_cec.c      | 22 +++++++++++++++++++---
+>  drivers/gpu/drm/drm_edid.c                | 22 ++++++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_crt.c  | 11 ++++-------
+>  drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++-----
+>  drivers/gpu/drm/i915/display/intel_hdmi.c |  8 +++-----
+>  drivers/gpu/drm/i915/display/intel_sdvo.c |  7 ++-----
+>  drivers/media/cec/core/cec-adap.c         |  4 ++++
+>  drivers/media/cec/core/cec-notifier.c     |  4 ++++
+>  include/drm/display/drm_dp_helper.h       |  6 ++++++
+>  include/drm/drm_connector.h               |  8 ++++++++
+>  include/drm/drm_edid.h                    |  1 +
+>  11 files changed, 73 insertions(+), 27 deletions(-)
 
 -- 
-Regards
-Sudip
+Jani Nikula, Intel Open Source Graphics Center
