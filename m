@@ -1,78 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6E578ECF7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 14:22:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA4978ED00
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 14:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA30F10E193;
-	Thu, 31 Aug 2023 12:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAF810E663;
+	Thu, 31 Aug 2023 12:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA8A10E193
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 12:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693484535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSOEGxFz87m0ye0g3IzP1/eXKvdkuFQz3xBGryZ7gJY=;
- b=dREiUUmDeojjgylkD4E+5lHhmuBVG1VoyxGPBeB36+0HZX0D+Gd6/96apDfhuGrYhg68qu
- X0qARLMihkK5wYtLzfAyWpatYCUzV1Nx2sfRqFbYPUrsp3o8S219sxOK6Dt6m9SY+IEcE1
- RFlBLUIgWnUdREyWs+KpQmneysuwi/o=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-ZR_XWVn4NvarBk0HGfr5Zg-1; Thu, 31 Aug 2023 08:22:12 -0400
-X-MC-Unique: ZR_XWVn4NvarBk0HGfr5Zg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-5009005a5fdso379209e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 05:22:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693484530; x=1694089330;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZSOEGxFz87m0ye0g3IzP1/eXKvdkuFQz3xBGryZ7gJY=;
- b=UbksBK6tZfxLjXre3e5oqq0HTb7YuVwncDM1qBXuCC/bpWAuxVaGgNy1DyrRnF9N24
- OWXhCYcBmY9Te+ki1kBKH6YTbmTSG5iFTGFO8HnebTzeniBRfbZQKTWG+01NOcKu9arZ
- WLQhuAGDY75tLj8fdVTlKMkHLfegqaaYMzbggY61iEGh5muuv/WSkzzqlIiUSjPZN91f
- ELotrZfxCG4hVIfU+FQByvgMRvSNSzK5mzlqm+aKZlvHCoEzULfL5mSMoLjdV+waoTfB
- gAvK8OtJcscYWwQVduKXlwsqH6rIGj/S9osJ5VgcvMAVn/01AMSCGJ/sH1rULObAGegS
- CHAw==
-X-Gm-Message-State: AOJu0YzxMIkW7t1fdFbUgcsMBQx0HrxzUCLuQPpuQPnjUNaLJH14CtEo
- MwaBkdwtQ8TmZSFOUiQDIvy3wL78xW1JJvQCmcxvgd/728+hY2WQ1tqcEB5cYg9uIYXyfbCGCxR
- 9E6Hrd9Zo5I6FVSdY0+0f6qdRuERC
-X-Received: by 2002:ac2:4432:0:b0:4fd:cbd8:17c0 with SMTP id
- w18-20020ac24432000000b004fdcbd817c0mr3729087lfl.3.1693484530580; 
- Thu, 31 Aug 2023 05:22:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE5CjCYPDLiBCWT5zVq/nHUhJcr4QW0nSq7bjVUdz8KXgZTbSh2XNB92Vzw3Ab4jqk6Nh2Jcg==
-X-Received: by 2002:ac2:4432:0:b0:4fd:cbd8:17c0 with SMTP id
- w18-20020ac24432000000b004fdcbd817c0mr3729057lfl.3.1693484530194; 
- Thu, 31 Aug 2023 05:22:10 -0700 (PDT)
-Received: from [10.32.64.120] (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- f3-20020a7bc8c3000000b00401c595fcc7sm5011941wml.11.2023.08.31.05.22.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Aug 2023 05:22:09 -0700 (PDT)
-Message-ID: <94b893ef37fe0cc0bcc52e8b54c62be3853a7bbb.camel@redhat.com>
-Subject: Re: [PATCH 1/5] string.h: add array-wrappers for (v)memdup_user()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 31 Aug 2023 14:22:08 +0200
-In-Reply-To: <CAHp75VfkzV-=XuEZwipYzfHNu4EXuwzbu6vfEKh1Uueseo2=wA@mail.gmail.com>
-References: <cover.1693386602.git.pstanner@redhat.com>
- <46f667e154393a930a97d2218d8e90286d93a062.1693386602.git.pstanner@redhat.com>
- <CAHp75VfkzV-=XuEZwipYzfHNu4EXuwzbu6vfEKh1Uueseo2=wA@mail.gmail.com>
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA410E663
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 12:25:50 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37VCPW2e090521;
+ Thu, 31 Aug 2023 07:25:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1693484732;
+ bh=htMuZc/z2V9h3y6JbF95s32HLoZQm0TE7Foq7+M46rM=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=ANIyNH4CzVY9MVRen8utxmt7j3zKBzPl9d7/rj7kvwNRf6c/Cv4iWUTMjprxQNHe+
+ UJN60JbSb14JBWvBFLobcLmEUVfi0c7L+5b6tfVg4iollyJ92ZzfpYtpYid3ZJwnGM
+ wgfB9CnZcqDckGa6GEJezONU1A9OUaOH0/mg12D4=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37VCPWHs017489
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 31 Aug 2023 07:25:32 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 31
+ Aug 2023 07:25:32 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 31 Aug 2023 07:25:32 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37VCPV1e018149;
+ Thu, 31 Aug 2023 07:25:31 -0500
+Date: Thu, 31 Aug 2023 07:25:31 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Subject: Re: [PATCH] drm: bridge: it66121: Fix invalid connector dereference
+Message-ID: <20230831122531.smmqt7ycupvum3gg@stereo>
+References: <20230825-it66121_edid-v1-1-3ab54923e472@ti.com>
+ <6fd4-64ecbf00-7-213b7840@157890373>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <6fd4-64ecbf00-7-213b7840@157890373>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,62 +61,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Siddh Raman Pant <code@siddh.me>, Kees Cook <keescook@chromium.org>,
- kexec@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-hardening@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Eric Biederman <ebiederm@xmission.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
- David Disseldorp <ddiss@suse.de>, Nick Alcock <nick.alcock@oracle.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jai Luthra <j-luthra@ti.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ devarsht@ti.com, Nicolas Belin <nbelin@baylibre.com>,
+ "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-08-30 at 17:11 +0300, Andy Shevchenko wrote:
-> On Wed, Aug 30, 2023 at 4:46=E2=80=AFPM Philipp Stanner <pstanner@redhat.=
-com>
-> wrote:
-> >=20
-> > Currently, user array duplications are sometimes done without an
-> > overflow check. Sometimes the checks are done manually; sometimes
-> > the
-> > array size is calculated with array_size() and sometimes by
-> > calculating
-> > n * size directly in code.
-> >=20
-> > Introduce wrappers for arrays for memdup_user() and vmemdup_user()
-> > to
-> > provide a standardized and safe way for duplicating user arrays.
-> >=20
-> > This is both for new code as well as replacing usage of
-> > (v)memdup_user()
-> > in existing code that uses, e.g., n * size to calculate array
-> > sizes.
->=20
-> ...
->=20
-> > --- a/include/linux/string.h
-> > +++ b/include/linux/string.h
->=20
-> I'm wondering if this has no side-effects as string.h/string.c IIRC
-> is
-> used also for early stages where some of the APIs are not available.
->=20
-
-I forgot to address this point in my previous reply.
-
-Who's going to decide whether this is a problem or not?
+On 16:35-20230828, Helen Mae Koike Fornazier wrote:
+> On Friday, August 25, 2023 08:02 -03, Jai Luthra <j-luthra@ti.com> wrote:
+> 
+> > Fix the NULL pointer dereference when no monitor is connected, and the
+> > sound card is opened from userspace.
+> > 
+> > Instead return an error as EDID information cannot be provided to
+> > the sound framework if there is no connector attached.
+> > 
+> > Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
+> > Reported-by: Nishanth Menon <nm@ti.com>
+> > Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
+> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> 
+> Reviewed-by: Helen Koike <helen.koike@collabora.com>
 
 
-My personal guess is that this is unlikely to be a problem because
+Occurs on today's master: v6.5-8894-gb97d64c72259
+https://gist.github.com/nmenon/6c7166171729342ee0be7de90b65c5c6#file-v6-5-8894-gb97d64c72259-L821
 
-   A. either (v)memdup_user() is available, in which case
-      (v)memdup_array_user() will always work =E2=80=93=C2=A0
-   B. or (v)memdup_user() is not available, which would cause the code
-      that currently uses (v)memdup_user() for copying arrays to fail
-      anyways.
+My only complaint with the patch is - yes, it does'nt crash, but I see
+this spam on my console:
+https://gist.github.com/nmenon/6c7166171729342ee0be7de90b65c5c6#file-with-patch-on-top-L236
 
 
-P.
+> 
+> > ---
+> >  drivers/gpu/drm/bridge/ite-it66121.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+> > index 466641c77fe9..d6fa00dea464 100644
+> > --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> > @@ -1446,6 +1446,11 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
+> >  {
+> >  	struct it66121_ctx *ctx = dev_get_drvdata(dev);
+> >  
+> > +	if (!ctx->connector) {
+> > +		dev_dbg(dev, "No connector present, cannot provide EDID data");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> >  	mutex_lock(&ctx->lock);
+> >  
+> >  	memcpy(buf, ctx->connector->eld,
+> > 
+> > ---
+> > base-commit: 6269320850097903b30be8f07a5c61d9f7592393
+> > change-id: 20230825-it66121_edid-6ee98517808b
+> > 
+> > Best regards,
+> > -- 
+> > Jai Luthra <j-luthra@ti.com>
+> >
+> 
 
+-- 
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
