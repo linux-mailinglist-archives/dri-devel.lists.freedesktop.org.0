@@ -1,53 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D7B78F2E8
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:51:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F11478F2F3
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 20:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6921210E6B2;
-	Thu, 31 Aug 2023 18:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD5310E6B7;
+	Thu, 31 Aug 2023 18:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B23310E6AF;
- Thu, 31 Aug 2023 18:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693507893; x=1725043893;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=aK2L0FYFMIs2rz3U06qLaSbuCoImaDU74MHF3sKOzWE=;
- b=mGE6XxH/GMyVY/IesFOEURBYmJaVOcytGmbabvWeBJfyp7F8w3V9Uc9X
- 2nMs6HmNR6c7bJWR+46Srlt/t+BQnlMoX6bp8m5rPR4EQYRk2bobpedx3
- nBHvoNdPqEhH9lPTwMRR92m2ow5SqimE/Gq/TXE0ooD6zHaBB0I/KlJpw
- LESlJxapD6DAOzThd4Z/6J2iDVobLRac5Be4a1iAlX3+SzDHjpAKtCmik
- ybBNJY1phLGjCBsReYqNoV0hN662d3yhs5eJ9JuQn2BbUFfbe6ELO1oEq
- yi19+AE15cn4Fx+QPcKN+LHAGKxgEGB0FOA9vbcoWgw0h8waWqmAu8mVI g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355532453"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="355532453"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 11:51:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="863244303"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; d="scan'208";a="863244303"
-Received: from shochwel-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.58.219])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 11:51:29 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/6] drm, cec and edid updates
-In-Reply-To: <cover.1692884619.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1692884619.git.jani.nikula@intel.com>
-Date: Thu, 31 Aug 2023 21:51:24 +0300
-Message-ID: <8734zzjb9v.fsf@intel.com>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD34210E6B6;
+ Thu, 31 Aug 2023 18:56:06 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-401ef656465so3848915e9.1; 
+ Thu, 31 Aug 2023 11:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693508165; x=1694112965; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=70+hbPdCGwbal0A00oV8Qd5IExBJqMtjUwdtyT1yesg=;
+ b=HOcmgmdtaqiuCcLGyMw60yqCv+qylCLGypIBuf9XBPXM9Uf2TnP6WrcLUqjt7NHqWA
+ sWZkb0dMftjYCukfQrKyFGrHoZu9EWjUmegeBKPpldy1q8qHtZztbgTRtJg42QuPN5Kk
+ y+f7n7hZwYxtc9q2a0eSQb/Vg1HfuF6yvnah8MwrIU65VsBOZHIISY9uA9TLtcObksDO
+ 5Lv8PUGwOmzRWO43ToUKlGgaXJbClK4xPsKD00pZDlONE5itakfx+NNyeyjxWTYy+9DD
+ KyfJAg/IJrX436gESQZP9IsnTgFkwbRTxbpjKKu98LPf7LqpLYlIUz4NOneDQe9aZbcX
+ UUfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693508165; x=1694112965;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=70+hbPdCGwbal0A00oV8Qd5IExBJqMtjUwdtyT1yesg=;
+ b=HP0ISHX7mfU88mlCdD4ZxT2DgtPPP9EgG7F3HfbFss4d2RY6CR6WswYEt7j9q1KV2h
+ C2PM9TRxUK7EnLXF41yaxioC+MULmypKLzhszQ5WeH2rmQmlnK1s/zUhXXCbkrSv1ffM
+ V1g4BZV2/0jdaCsvinlYbYRPIhJqI6nntsO3jYhGbPBFQzRU+eGeFEuthUqDJhII2/46
+ giYv/LD9zxdqWlgfmQycypcpaI+NJX3Lv3VCM1NOA39dSAcmLUjsF+zenUBysq5XUxHh
+ /X+EEzVOiSeY6o7LlDPF4DXz8AE1bhgsLw4+X6ZIo9UZ021CqrKlhyfukB0RyPIjXPnI
+ lmqQ==
+X-Gm-Message-State: AOJu0Yxq4xmq6WbqOZ/riTiflMoY44ixUajbzPbCaudohcWGi/w1LsK2
+ AtWsGc/9HeXX2HmFW7ER0n4eH8sQBdZK3sHzIKY=
+X-Google-Smtp-Source: AGHT+IF9ZKWCgd8d7R7zW6WSPi4FSXNFrrb++2Kkp9AV6hYPajY6HNBp7SI8K1T9gYypIbwS+iblGsap0riFAFU/lik=
+X-Received: by 2002:a05:600c:8505:b0:401:c717:ec68 with SMTP id
+ gw5-20020a05600c850500b00401c717ec68mr140636wmb.3.1693508164875; Thu, 31 Aug
+ 2023 11:56:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230724012419.2317649-1-sashal@kernel.org>
+ <20230724012419.2317649-13-sashal@kernel.org>
+ <CAPaKu7RTgAMBLHbwtp4zgiBSDrTFtAj07k5qMzkuLQy2Zr+sZA@mail.gmail.com>
+ <55fc4a28-1e17-44df-2069-a688828080e6@gmail.com>
+ <2023083145-scoured-celery-2511@gregkh>
+ <c657653e-24d8-5790-a91c-4c13bb9eaeb0@gmail.com>
+ <2023083144-railroad-daybreak-7f41@gregkh>
+In-Reply-To: <2023083144-railroad-daybreak-7f41@gregkh>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 31 Aug 2023 11:55:53 -0700
+Message-ID: <CAPaKu7Q2vq5m6Av6L2LthnFy5w2XtjKUYF8Z2__0hVp0vj2L1A@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.10 13/22] drm/amdgpu: install stub fence into
+ potential unused fence pointers
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,48 +75,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ stable@vger.kernel.org, Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> Avoid accessing the raw edid directly. Pre-parse the source physical
-> address during normal EDID parsing and use that for CEC.
+On Thu, Aug 31, 2023 at 7:01=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
-> Jani Nikula (6):
->   drm/edid: add drm_edid_is_digital()
->   drm/i915/display: use drm_edid_is_digital()
->   drm/edid: parse source physical address
->   drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
->   drm/i915/cec: switch to setting physical address directly
-
-Maarten, Maxime, Thomas, ack for merging patches 1, 3 and 4 via via
-drm-intel?
-
->   media: cec: core: add note about *_from_edid() function usage in drm
-
-Hans, while there's no build dependency here, I think it would make
-sense to merge this together with patches 3 and 4. Ack for merging via
-drm-intel?
-
-Thanks,
-Jani.
+> On Thu, Aug 31, 2023 at 03:26:28PM +0200, Christian K=C3=B6nig wrote:
+> > Am 31.08.23 um 12:56 schrieb Greg KH:
+> > > On Thu, Aug 31, 2023 at 12:27:27PM +0200, Christian K=C3=B6nig wrote:
+> > > > Am 30.08.23 um 20:53 schrieb Chia-I Wu:
+> > > > > On Sun, Jul 23, 2023 at 6:24=E2=80=AFPM Sasha Levin <sashal@kerne=
+l.org> wrote:
+> > > > > > From: Lang Yu <Lang.Yu@amd.com>
+> > > > > >
+> > > > > > [ Upstream commit 187916e6ed9d0c3b3abc27429f7a5f8c936bd1f0 ]
+> > > > > >
+> > > > > > When using cpu to update page tables, vm update fences are unus=
+ed.
+> > > > > > Install stub fence into these fence pointers instead of NULL
+> > > > > > to avoid NULL dereference when calling dma_fence_wait() on them=
+.
+> > > > > >
+> > > > > > Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+> > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > > ---
+> > > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 6 ++++--
+> > > > > >    1 file changed, 4 insertions(+), 2 deletions(-)
+> > > > > We start getting this warning spew on chromeos
+> > > > Yeah because the older kernels still kept track of the last VM fenc=
+e in the
+> > > > syncobj.
+> > > >
+> > > > This patch here should probably not have been back ported.
+> > > >
+> > > > Why was that done anyway? The upstream commit doesn't have a CC sta=
+ble and
+> > > > this is only a bug fix for a new feature not present on older kerne=
+ls.
+> > > It is part of the AUTOSEL process.
+> >
+> > Could we prevent patches from being backported by adding a Fixes: tag?
+>
+> Yes, that will show exactly where the patch should be backported to.
+This is also AUTOSEL'ed to 5.15.  That might need a revert as well,
+depending on when the amdgpu feature landed.
 
 
 >
->  drivers/gpu/drm/display/drm_dp_cec.c      | 22 +++++++++++++++++++---
->  drivers/gpu/drm/drm_edid.c                | 22 ++++++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_crt.c  | 11 ++++-------
->  drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++-----
->  drivers/gpu/drm/i915/display/intel_hdmi.c |  8 +++-----
->  drivers/gpu/drm/i915/display/intel_sdvo.c |  7 ++-----
->  drivers/media/cec/core/cec-adap.c         |  4 ++++
->  drivers/media/cec/core/cec-notifier.c     |  4 ++++
->  include/drm/display/drm_dp_helper.h       |  6 ++++++
->  include/drm/drm_connector.h               |  8 ++++++++
->  include/drm/drm_edid.h                    |  1 +
->  11 files changed, 73 insertions(+), 27 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> thanks,
+>
+> greg k-h
