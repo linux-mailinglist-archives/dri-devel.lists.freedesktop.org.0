@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B26478F088
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:45:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F29AE78F0A4
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 17:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E64310E089;
-	Thu, 31 Aug 2023 15:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9390910E0BB;
+	Thu, 31 Aug 2023 15:54:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ts201-smtpout74.ddc.teliasonera.net
- (ts201-smtpout74.ddc.teliasonera.net [81.236.60.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 84AE110E089;
- Thu, 31 Aug 2023 15:45:23 +0000 (UTC)
-X-RG-Rigid: 64171A3C0704EB92
-X-Originating-IP: [81.229.73.173]
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedviedrudegtddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffktefuhgdpggftfghnshhusghstghrihgsvgdpqfgfvfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpefvhhhomhgrshcujfgvlhhlshhtrhpnmhcuoehthhhomhgrshesshhhihhpmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeeutdegheffffefjeffhfevlefgffdugeevfeegteejueevjeelffevgfehhfelhfenucfkphepkedurddvvdelrdejfedrudejfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehmrghilhdurdhshhhiphhmrghilhdrohhrghdpihhnvghtpeekuddrvddvledrjeefrddujeefpdhmrghilhhfrhhomhepthhhohhmrghssehshhhiphhmrghilhdrohhrghdpnhgspghrtghpthhtohepgedprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegurghkrhesrhgvughhrghtrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdigvgeslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-Received: from mail1.shipmail.org (81.229.73.173) by
- ts201-smtpout74.ddc.teliasonera.net (5.8.716)
- id 64171A3C0704EB92; Thu, 31 Aug 2023 17:45:18 +0200
-Received: from [192.168.0.121] (81-229-73-173-no17.tbcn.telia.com
- [81.229.73.173])
- by mail1.shipmail.org (Postfix) with ESMTPSA id DEE123631E2;
- Thu, 31 Aug 2023 17:45:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1693496717; bh=e+vpXZ6TfxDtkc83RYyyzZjdDljLU95++Hh6dgUpmCc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HMCEr0xkPmL+5Ne78hASKygiyszrDVf7vyuxi1dc0bKpEhOJXd5zwdgf29lb8SUvD
- bvRCki/PBXnr1OKzUvaAGZ54Rpz5KZkHkXkLE6dwLVwDawH499FVtdkYMfIkXYnMmd
- Im1JlQ41EAD7vC4trKdIZ2KRigHMNlM7ghw733bs=
-Message-ID: <a4666777-4d28-49a2-3114-e97d9868c7e9@shipmail.org>
-Date: Thu, 31 Aug 2023 17:45:17 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4162410E0BB;
+ Thu, 31 Aug 2023 15:54:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BFD42C15;
+ Thu, 31 Aug 2023 08:54:47 -0700 (PDT)
+Received: from [10.1.26.48] (e122027.cambridge.arm.com [10.1.26.48])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A14353F64C;
+ Thu, 31 Aug 2023 08:54:04 -0700 (PDT)
+Message-ID: <1588defa-d196-5c3e-5d5b-4d6aaa0a60d5@arm.com>
+Date: Thu, 31 Aug 2023 16:54:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: Refcounting in drm_exec
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>
-References: <343997f1-d164-84cb-d7ed-3141620a63e4@shipmail.org>
- <030d631d-1624-987f-1344-6e872862effd@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas@shipmail.org>
-In-Reply-To: <030d631d-1624-987f-1344-6e872862effd@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 1/6] drm/panfrost: Add cycle count GPU register
+ definitions
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, robh@kernel.org
+References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
+ <20230824013604.466224-2-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230824013604.466224-2-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,57 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, healych@amazon.com, kernel@collabora.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 24/08/2023 02:34, Adrián Larumbe wrote:
+> These GPU registers will be used when programming the cycle counter, which
+> we need for providing accurate fdinfo drm-cycles values to user space.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-On 8/31/23 17:19, Christian König wrote:
-> Hi Thomas,
->
-> Am 31.08.23 um 17:12 schrieb Thomas Hellström:
->> Hi, Christian, Danilo
->>
->> Looking at the drm_exec code it seems we refcount *all* locked 
->> objects until drm_exec_fini(). Are callers supposed to be able to 
->> *rely* on this?
->
-> Yes, that's one of the motivations for this component.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_regs.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> index 919f44ac853d..55ec807550b3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> @@ -46,6 +46,8 @@
+>  #define   GPU_CMD_SOFT_RESET		0x01
+>  #define   GPU_CMD_PERFCNT_CLEAR		0x03
+>  #define   GPU_CMD_PERFCNT_SAMPLE	0x04
+> +#define   GPU_CMD_CYCLE_COUNT_START	0x05
+> +#define   GPU_CMD_CYCLE_COUNT_STOP	0x06
+>  #define   GPU_CMD_CLEAN_CACHES		0x07
+>  #define   GPU_CMD_CLEAN_INV_CACHES	0x08
+>  #define GPU_STATUS			0x34
+> @@ -73,6 +75,9 @@
+>  #define GPU_PRFCNT_TILER_EN		0x74
+>  #define GPU_PRFCNT_MMU_L2_EN		0x7c
+>  
+> +#define GPU_CYCLE_COUNT_LO		0x90
+> +#define GPU_CYCLE_COUNT_HI		0x94
+> +
+>  #define GPU_THREAD_MAX_THREADS		0x0A0	/* (RO) Maximum number of threads per core */
+>  #define GPU_THREAD_MAX_WORKGROUP_SIZE	0x0A4	/* (RO) Maximum workgroup size */
+>  #define GPU_THREAD_MAX_BARRIER_SIZE	0x0A8	/* (RO) Maximum threads waiting at a barrier */
 
-OK, isn't that a pretty big overhead?
-
-
->
->> I'm asking because refcounting appears only strictly necessary for 
->> contended- and prelocked objects, and callers would otherwise need to 
->> make sure they don't drop a locked object across the lock? It's going 
->> to be pretty hard to change this in the future if we want for added 
->> efficiency if people start to rely on it.
->>
->> Also seems drm_exec_unlock_all() drops the prelocked object without 
->> unlocking. I'll put together a patch.
->
-> That's correct behavior.
->
-> The prelocked object is part of the locked objects array as well. So 
-> we just need to drop the reference.
->
-> This was actually a bug in one of the earlier versions.
-
-Hmm. I just got a warning that drm_exec_unlock_all() freed a locked 
-object. Need to dig a bit deeper then.
-
-/Thomas
-
-
->
-> Regards,
-> Christian.
->
->>
->> Thanks,
->>
->> Thomas'
->>
