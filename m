@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A706078F4B5
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 23:34:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5825078F4C0
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Aug 2023 23:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC18010E6F2;
-	Thu, 31 Aug 2023 21:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6E710E1BA;
+	Thu, 31 Aug 2023 21:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8FA10E6F2;
- Thu, 31 Aug 2023 21:34:55 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A778D660729F;
- Thu, 31 Aug 2023 22:34:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693517693;
- bh=Tr8cyPxFm6NZJjvBVjrX3JuZaQwyE6Fdkowrsree0xs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mn8k0oE/cQXiOiLUmMg2x4XuYG4KUdEds/qopnG47Q0gRnUUy59Ft3CrIFpPexG6c
- pWwEICfNLvNY4CR5bCqciVW+I8/LQcmeEyykG4yVKoHnpiDlUTwSgrRfi9G1/DmCF8
- i738yfgmrKIpxvNrmISsjPxyGgM5PWMZ+G+4/KkU1Lx1fzhYhr8tSOSjeePBAFzBQG
- QY9RoHaPuaJ+2Bsv++Pw3r1yW8c4bNOIeZsjnV4c2QJUGlDMtQvIRUzaFwaK836cW2
- EPog7es5q68Rc0HglgV/cpVdQhwU7+nYrqINO1tVsFEq+MTmPi1QWeDIT3Fx14U5IF
- m5xCT2YI6DK1g==
-Date: Thu, 31 Aug 2023 22:34:51 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
-Message-ID: <enzglusbu4anwaqyalsyan3bfzecbpxttnq5v2o65hun4foj7s@ql5byzj6krk2>
-References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
- <20230824013604.466224-3-adrian.larumbe@collabora.com>
- <23f38307-3246-28a9-f396-5660acb21a18@arm.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3950510E1BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 21:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1693518042; x=1694122842; i=deller@gmx.de;
+ bh=XvGIeCHlPIAuCmK114Tr0aUl/dR9T+CT3sQavkkdznA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=QB33x3uXc/dPdVQiz/Zea7mrLwgxux95o3/HQf2alL+gZ5MsNvDrNKajHK5B9sKu//Gxse8
+ 3DnEaJXlrcIoZX8+7o3v/A+Pvkk06ngV/WoSJ4jeTEmZsFS71ucwBAv1DG1Y5zl0/CzQAllKo
+ Y3vwt6F8sfsSUxjpFYbNF1odMZbz0JDcHO8Qd69jDDQumyF9aY5jm5FwHKIJKpmgdvGHrkzEc
+ wWa55gBODknVBYJBhOdduxOkdSHTCLeJ2NNlcOpINloyOD9PIyPuZpVnlO7JRrYQwnmmR+o9f
+ 33lbWUQC+bDZ7AktGXhKrLZdBx3s5t7Otl1MM9RtD8kDwZjPe2Rw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.146.94]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQ5vW-1qFuna0S3c-00M6yG; Thu, 31
+ Aug 2023 23:40:42 +0200
+Message-ID: <05668dd5-efee-2bc1-54dc-a38f6aed6c4a@gmx.de>
+Date: Thu, 31 Aug 2023 23:40:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <23f38307-3246-28a9-f396-5660acb21a18@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] fbdev: ssd1307fb: Use bool for ssd1307fb_deviceinfo flags
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <303bb1a5012862f0003d3246a0c8120b97ea995b.1693483416.git.geert+renesas@glider.be>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <303bb1a5012862f0003d3246a0c8120b97ea995b.1693483416.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LR0hQZODiPaTgDZOkwrKsaIOmTMUBJmYUwfHejlWM2bdumn1g2X
+ sSo5NaVMR2cCPBPq7PpYymMl0+b3E/MozE5WbjfnhZLvCHQX9iyPiOKbAnw7/clAdcLlXsI
+ /jAs2LBOzxLf49/YMEHU9mhHbJbp9ut43BvsMwP4AxzmcZ7xM9Q9lUtDGFPYV+3JxrfvWaN
+ zsnmzT1GYo3xL8ccc0klg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qzvPanJlYYs=;H8MwDpTdrhw9YZ2FE4EU3fhFsZ6
+ U03UUsDc2X1yy4hDUUJ7eMf5piXMptssRb8QYNMbRWlsg0XomC56bn2/DoQhkj4CFZ+4W0A6w
+ ke9KqY9IrCpXEbGEWuOnbOyi+PIqp1nJzQpg/DOxNY5cUcPdDyvYjdskNsHpBCBCqKbduD0F8
+ HalNGjeYI5fHdDzdB+CgNKb8wsLcuUKxhQowlvEG+FCNT7w0e0s31oSVi83hNNbCwNlDjhhTm
+ 7nUYYpxcj6qvnA29ZGmMTVnzbfXUIrMqwCFhraxq4/wkWxdK4P21ovRXVHed3NtcYr7wd/FLT
+ n5EMTRY0Esgq4h3jsa0iChzc4Xrcc6AJtJjK7FiPcGlgHP53Hx7BEzmOvjLpSzDO8o5WEMOfR
+ sQ1vHiMizxoBD4f4o8V/ANrQKyl2vcWoYWpgqK88BUD79dfQJBlx7U/zufnhAqC1l+7pW4fgt
+ bSuOvsE7DAnTYs+L73PoDibfxhLgwMZzdG+NoBBAmjD1S7k8Pt74ruwQuboTO3QMgCvAEue8H
+ f3fdaiAwn4Sxqdh+D6jkU8X+Yag58GI9op7VAJk62nROjNOIYeoj85KLM7JCAu4nF3fjtlAen
+ fQHpAF4C6IoUhuYqKF1pHd0kY93WwpTrmto5iQpY7D9gRGV7cmfZQF+QaNxJv72DNkGPFovR7
+ FCS5KQU5EyNhIdVQLKh/46Aw+o8LLQcIQZ2W6vf/9FqY1RPuS1fKeyqDoRNtUSkTNbjs03IaZ
+ /MqeLN0fPXyoHMBvNmaEQ/FlvZs0JmLdC4pqHnh341RukBhsDrwfwlNZzw5OJFONol71bt0BN
+ V0eXzSpkxDRFZBxyf9TvIdQN7ABnimAFW9bUgrvQ3G6kCDyCJdQJUPAWYWkhanEhFiL2aGtUz
+ lUWBu9hZlSzaZksZYpze3GB91k0LYcKa436A4W1BoDRZ2nLwVr2hv6ii0nQUjLwEBkbfTS2km
+ ZO7sWg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +71,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, tzimmermann@suse.de, sean@poorly.run,
- quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- healych@amazon.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31.08.2023 16:54, Steven Price wrote:
->On 24/08/2023 02:34, Adrián Larumbe wrote:
->> The drm-stats fdinfo tags made available to user space are drm-engine,
->> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
->> 
->> This deviates from standard practice in other DRM drivers, where a single
->> set of key:value pairs is provided for the whole render engine. However,
->> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
->> decision was made to calculate bus cycles and workload times separately.
->> 
->> Maximum operating frequency is calculated at devfreq initialisation time.
->> Current frequency is made available to user space because nvtop uses it
->> when performing engine usage calculations.
->> 
->> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->> ---
->>  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 ++++
->>  drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
->>  drivers/gpu/drm/panfrost/panfrost_device.h  | 13 ++++++
->>  drivers/gpu/drm/panfrost/panfrost_drv.c     | 45 ++++++++++++++++++++-
->>  drivers/gpu/drm/panfrost/panfrost_job.c     | 30 ++++++++++++++
->>  drivers/gpu/drm/panfrost/panfrost_job.h     |  4 ++
->>  6 files changed, 102 insertions(+), 1 deletion(-)
->> 
+On 8/31/23 14:05, Geert Uytterhoeven wrote:
+> The .need_pwm and .need_chargepump fields in struct ssd1307fb_deviceinfo
+> are flags that can have only two possible values: 0 and 1.
+> Reduce kernel size by changing their types from int to bool.
 >
->[...]
->
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> index a2ab99698ca8..3fd372301019 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> @@ -267,6 +267,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->>  	job->requirements = args->requirements;
->>  	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
->>  	job->mmu = file_priv->mmu;
->> +	job->priv = file_priv;
->>  
->>  	slot = panfrost_job_get_slot(job);
->>  
->> @@ -483,6 +484,14 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
->>  		goto err_free;
->>  	}
->>  
->> +	snprintf(panfrost_priv->fdinfo.engines[0].name, MAX_SLOT_NAME_LEN, "frg");
->> +	snprintf(panfrost_priv->fdinfo.engines[1].name, MAX_SLOT_NAME_LEN, "vtx");
->> +#if 0
->> +	/* Add compute engine in the future */
->> +	snprintf(panfrost_priv->fdinfo.engines[2].name, MAX_SLOT_NAME_LEN, "cmp");
->> +#endif
->
->I'm not sure what names are best, but slot 2 isn't actually a compute slot.
->
->Slot 0 is fragment, that name is fine.
->
->Slot 1 and 2 are actually the same (from a hardware perspective) but the
->core affinity of the two slots cannot overlap which means you need to
->divide the GPU in two to usefully use both slots. The only GPU that this
->actually makes sense for is the T628[1] as it has two (non-coherent)
->core groups.
->
->The upshot is that slot 1 is used for all of vertex, tiling and compute.
->Slot 2 is currently never used, but kbase will use it only for compute
->(and only on the two core group GPUs).
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-I think I might've be rushed to draw inspiration for this from a comment in panfrost_job.c:
+applied to fbdev git tree.
 
-int panfrost_job_get_slot(struct panfrost_job *job)
-{
-	/* JS0: fragment jobs.
-	 * JS1: vertex/tiler jobs
-	 * JS2: compute jobs
-	 */
-         [...]
-}
+Thanks!
+Helge
 
-Maybe I could rename the engine names to "fragment", "vertex-tiler" and "compute-only"?
-There's no reason why I would skimp on engine name length, and anything more
-descriptive would be just as good.
-
->Personally I'd be tempted to call them "slot 0", "slot 1" and "slot 2" -
->but I appreciate that's not very helpful to people who aren't intimately
->familiar with the hardware ;)
-
-The downside of this is that both IGT's fdinfo library and nvtop will use the
-engime name for display, and like you said these numbers might mean nothing to
-someone who isn't acquainted with the hardware.
-
->Steve
+> ---
+>   drivers/video/fbdev/ssd1307fb.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
->[1] And technically the T608 but that's even rarer and the T60x isn't
->(yet) supported by Panfrost.
+> diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd13=
+07fb.c
+> index 86dd24022871a843..5ae48e36fccb4e8d 100644
+> --- a/drivers/video/fbdev/ssd1307fb.c
+> +++ b/drivers/video/fbdev/ssd1307fb.c
+> @@ -52,8 +52,8 @@ struct ssd1307fb_deviceinfo {
+>   	u32 default_vcomh;
+>   	u32 default_dclk_div;
+>   	u32 default_dclk_frq;
+> -	int need_pwm;
+> -	int need_chargepump;
+> +	bool need_pwm;
+> +	bool need_chargepump;
+>   };
+>
+>   struct ssd1307fb_par {
+
