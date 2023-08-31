@@ -2,156 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4678678F563
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 00:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE9278F5C1
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 00:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031B110E6F6;
-	Thu, 31 Aug 2023 22:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C8610E11D;
+	Thu, 31 Aug 2023 22:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6E3E10E6F6;
- Thu, 31 Aug 2023 22:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693520869; x=1725056869;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yeyGZLRFD4uSczpm4cuv0sYq5nIymYke8USPZLOj/+U=;
- b=NP/nZ5xSfOgkCjB8CnPkwUQp+QeCFkFp6zbN8WF3kW9V7at1+GGhVFQa
- sPe4m53p2CsCyUdzaAvuLPvv3RELltYlCNNRJPzhSKmZVfRbo68Zr5F1C
- VGnKovA3B7a6VTVtBM/k/nlmR2/7HV/Dq/oKtdrr9yTQOSIZ7aaFEF9Xg
- rnQEQW4yLR5+mq0DJS+k/Y2r2FZ1axSZoiTjft/ouXkW8hubnygTRNPA8
- x/vND8cxS4BllKQVaPXIgOmk3ayQC4yY6tLCM7CNs+hkwKcTRBY7A/DfG
- YHBU09/cC+pexnnEu0nTUHxzRwqUbB0h1mbr+E4iO4k/MAmpYT0KEW/cX g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="462444489"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="462444489"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 15:27:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070495174"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="1070495174"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 31 Aug 2023 15:27:34 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 15:27:34 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 31 Aug 2023 15:27:33 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 31 Aug 2023 15:27:33 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 31 Aug 2023 15:27:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KE1s8G9w3oo9F+7igRDu5NJ/N7PlNit+vAac+jviWiRZZ5p9R4JdqtcYCxFEnmRb0eCOkcUlQ+Qk/FNuGA5E1p0zlHIslpzGn+Zgmsy3EQTfhhuiMJA00TT4r8XXh1mwvjjCOb4u0K5oiOK5KfdZgtoHw1+jQzVjPolVY/59c+4vOSNjEP6M0owc2c07mWJDx8dQ0JzdyHWcGwhe1f9+dmtssYQYYYdp0tukaTwpaN04/LM2308u7J9n2pAiX6HAWG/y2taaVCw0X2RwAJT9Br90EYxBJFSMzHwyPvuqxDowcIizHL1cb1YpDbGasg3YzGi9DFdvrytpYMWj9GagQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BAQAsL19N5jD4o+e7cb8+WFCK+6eNnRnmRUYx2yKs/8=;
- b=ELc8hgEvGs7qR+pgd0AMXdgHLUUOB0IvF9HUK1BTkHofImpfoAjGJgm0pAjauBeAQQouvI8JuqUoQAOtlgi0q9aBwcfDZy2+wotaWNdIMbsnVZ6FZAkKLMuyhJKmUhAYMiWFqvXO4FbgpWiBVFWIzgS/Bp490hK/kW3G/jCEhnAw7mYkUVgQpslSCuQpxG43srBwIdePLZqkg8BUcp9TxzhbnLb2t4YJcww0i8wKQpuKeaEBs6YRGM5AB3QSTqF2Q4ON1G6GpWaq/zdjnp9dT9zRAUgRQvkR2wXDlI7s51CVLZMmT44aYQY6eJhFvUJiBl+MHRT9huxuW6sSCxf9UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by PH7PR11MB6500.namprd11.prod.outlook.com (2603:10b6:510:213::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.22; Thu, 31 Aug
- 2023 22:27:31 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::6bdd:6fe1:4045:c26f]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::6bdd:6fe1:4045:c26f%6]) with mapi id 15.20.6745.021; Thu, 31 Aug 2023
- 22:27:31 +0000
-Message-ID: <983eb186-5b6a-8df3-1e67-eb7da6a8dbcd@intel.com>
-Date: Thu, 31 Aug 2023 15:27:27 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.14.0
-Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when flush
- delayed work on gt reset
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230811182011.546026-1-zhanjun.dong@intel.com>
- <3a745c83-e7cf-6a24-5556-8c0c019adfec@intel.com>
- <ZOYtNyqfvqJPeqq2@phenom.ffwll.local>
- <e31b1f49-88cd-d6e4-abbe-51f27712ff83@intel.com>
- <ZPCc4CU+S6Gv6GzQ@ashyti-mobl2.lan>
-Content-Language: en-GB
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <ZPCc4CU+S6Gv6GzQ@ashyti-mobl2.lan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0227.namprd03.prod.outlook.com
- (2603:10b6:303:b9::22) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D993810E11D
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 22:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693521911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lMy+LPBpA1hGPFXdPwl6zPUeh1Mco63QR2ycP9CxNDc=;
+ b=UcdXjbXQoi8tjviX49v2WrzOI6MC/c+TPnijvSYMeZZu3/EJ+wL5TflNkqVEp3rVXvoNXA
+ BTGBMQYlAFLoQdpt4GRA3AGwB7HaJy2jVtT6KAplWDietIUzCepUOnbKWtjQ4AjuaJHtQ/
+ nd6cvCwmbM/TFDUoSJMQMFfopObd9Jg=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-UY7Fv2ZBNk2qEWnQ7Jto-Q-1; Thu, 31 Aug 2023 18:45:10 -0400
+X-MC-Unique: UY7Fv2ZBNk2qEWnQ7Jto-Q-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ ada2fe7eead31-44d46b22e9eso648442137.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Aug 2023 15:45:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693521909; x=1694126709;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lMy+LPBpA1hGPFXdPwl6zPUeh1Mco63QR2ycP9CxNDc=;
+ b=k8b3xfLpe+St4iiPkckpYTMKQq5Kkjwju9X9K8MF3j9dnVOVSHH/CNyeIX7Bcx6VEi
+ XTJI1X48U7nbbjwanv/0qVer469O3Eu79xqb88iNP9NuVt5vufGThbPNI2dZBNIkdDfq
+ 1PCbLLt7G6YPoVMe9eto+Dl1eCODsptcQTi2+AHRuT/orNR5HR/1Cnjzdg61ACR176H6
+ uTNocAiCJte8UQSvunGeWO6wYXlnQqvK2MXIkc7FgDoETgfA2Yrx9EcnOJuMdxsXnSGk
+ r5d+KSbllLPyHA7VQbz79Athc74VcUBNOkCt8ZU7kpzdh95mUsUoQh18ToaWINmDvSxn
+ p83Q==
+X-Gm-Message-State: AOJu0Yyn8FU3FoMFItbG40aDeTb+9UOWZA6nezEjWdrhFfGTPkCIPf0n
+ m95+UI37KftRM9CbIJw64rqwgL7JI4Kb4SvEXN9CTHP+zY9klv+CQV/50E7pE/sepccFVrHBUzL
+ 6C8chPdxRUjqdT2qy4Kzlaojla/JE
+X-Received: by 2002:a67:b442:0:b0:44e:a216:59a1 with SMTP id
+ c2-20020a67b442000000b0044ea21659a1mr985331vsm.31.1693521909508; 
+ Thu, 31 Aug 2023 15:45:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFKDM4rcLTCtYdWxZZr7nIEgyOFTF94VbtetxjTdFARRNYwOnoPSGhBS+n5hsr25bEj1z4axQ==
+X-Received: by 2002:a67:b442:0:b0:44e:a216:59a1 with SMTP id
+ c2-20020a67b442000000b0044ea21659a1mr985320vsm.31.1693521909213; 
+ Thu, 31 Aug 2023 15:45:09 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c7d:5f00::feb? ([2600:4040:5c7d:5f00::feb])
+ by smtp.gmail.com with ESMTPSA id
+ a4-20020a0ce344000000b0064f4ac061b0sm974355qvm.12.2023.08.31.15.45.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Aug 2023 15:45:08 -0700 (PDT)
+Message-ID: <241a34e5c3e160a7516e6ea55581f7ac2e4ed3ab.camel@redhat.com>
+Subject: Re: [Patch v2 2/3] drm/mst: Refactor the flow for payload
+ allocation/removement
+From: Lyude Paul <lyude@redhat.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Date: Thu, 31 Aug 2023 18:45:07 -0400
+In-Reply-To: <CO6PR12MB548966C22F58172CE72647A3FC1DA@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20230807025639.1612361-1-Wayne.Lin@amd.com>
+ <20230807025639.1612361-3-Wayne.Lin@amd.com>
+ <9b1c1ebc68a7c2adf8df86ca4a252e2d13a7b760.camel@redhat.com>
+ <CO6PR12MB5489FA922EB2DC8C6261F65DFC1CA@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <7ab7ee7447977e625a72fa9cbe4b5d5d7d8145dd.camel@redhat.com>
+ <CO6PR12MB548966C22F58172CE72647A3FC1DA@CO6PR12MB5489.namprd12.prod.outlook.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|PH7PR11MB6500:EE_
-X-MS-Office365-Filtering-Correlation-Id: f00f7bfb-f640-493a-541c-08dbaa717753
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ctg8xy7YC6bNLYRpX782EutSH/DnPzGAhQqvEM61jq+xfaHXpgm5U0YvRgAqTi5mVTyZGJVYcbCNfvlaI1ixstMFOcHNccrA183EkwNa4QUzIH7wqmuONHz+ntixS256avwecgDNfR1n97iQPR9VLEzhAtQ6eMBMhpfVHeOHAWUy9xDbpLC3/QNBFxGdRWTVadP4Df7N3drHaSLKJ0GZ1wJscSGB6bA6yJLpIP81+jr1DbDhrGlBMnQVXIe8AyTu2cuw4eShK2VKikQCz0pKso/2kRUQSe8GU6R+n0DFtXqRUuYgFV4cvEC3TFtgBsEcaOY5T1AXd3nYUfKG8aGg/dvxNksHNzp7q13ZbkR85MJq8iC4baEWS9hQvujCOKjZmwyD12pttrBpAjFbBWWaxYW7FqXR7zsESukT+uj7yoUEfzsOe/ad61HLvVR7HHsRkuVr4dBF33+3P/o3vpKxyJoV0F8sHONHnv7AqZ15p3iB+cYAV7T0OZFEVDLoK9Ntid/2dRv2Cd5HzhdlldSTN/8K8cnJ5+5ofNmsKnhXwFJ0gnlrcONDMToAG5gden59KpAh8aamdVhK6LGKnDRhG7M6RC3eNUrgRzJtC8IrpL1245uHKh+UFFaEOxdsxbg9Pqy6BgMMblByrKK6KuDnhw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(136003)(376002)(396003)(366004)(1800799009)(451199024)(186009)(6666004)(2906002)(86362001)(53546011)(316002)(82960400001)(6916009)(478600001)(5660300002)(2616005)(4326008)(8676002)(31686004)(6486002)(6506007)(6512007)(31696002)(8936002)(26005)(38100700002)(41300700001)(36756003)(66946007)(54906003)(66556008)(66476007)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bkZaWm84UnJIY2UwNnpBZWV6SVZGZmdkUHBaR2tWRnJnTDU4UGxKT2NkemhS?=
- =?utf-8?B?YkpGb3VhbTEwVVBKcFUxL0lQNDdueVlNV2YyazJsbi83Q2FGSkFNbmtqVmky?=
- =?utf-8?B?RXY1dERacDlxSUZmRXhoWU9oTlozaVltU0k0R1haV1p1b3FUMVJpeXNuZENy?=
- =?utf-8?B?UDdsQ0QvakdOaGc1TEg1aXpwRHh3Z0NPdkExdmNrZFI1Ly9TejJZY2UvanlE?=
- =?utf-8?B?eUE2azlxYkJjTzRNM25GNDRlRlBxNjNMYTBiUjJqdGZzUUVaUG0vY2poTVla?=
- =?utf-8?B?TkMwRDd1WlNEMXk5cUFYWXhsekJseHFzQTNDeDRxSGU3MTRGUi9ENGtINDEy?=
- =?utf-8?B?eW1OWlNvUzI1NHljOVVvSFVaVHdlSWVmanVRUEN6VDl1M3lOYnA4Z3FEN0x0?=
- =?utf-8?B?UHFML09KOEhPdSthOXMwaWpEUlFXMTlCYnVGZmxjL0FxOHBXUXVDc1RGYXJq?=
- =?utf-8?B?cjc0cDlBc29DcURwdGNHT21kZG5JTTJaWW01L243ZEhacU5iQTRGNXQybk42?=
- =?utf-8?B?YVFKUGJtcVR6Nm9FZ2lNOFRremxEaEl4ZWc4bUJSK001QnhPbUNMWkpTSi9o?=
- =?utf-8?B?NThpU2k0ZjJMS1pxRUZUcUJGejN2OEtwenVncGNoVTRVWUY5TTNsR0tzZHRH?=
- =?utf-8?B?N2NNaFJEelhCeHNCUEVncHV6ckszQWhYY21wTXhSQTRnZkY1TVArOE0zWHdr?=
- =?utf-8?B?K29tTmFRZE1sdHphdlFlY2NyemUvTHlxaUh6Umh0RWNtNmwySmtHVjFnRWV6?=
- =?utf-8?B?cXlFelE3MUE5V2l2SU16UjF4MkZUZ2pDaTN5c0VoOXIxaGt5VHRRMU4xNHEw?=
- =?utf-8?B?UFBoOEMwZG50VUx5cmxFVHFwN2U2OWE3d05FdFdSWmRqSGtYSy94U2RNWWNU?=
- =?utf-8?B?dmtrYXJiN2NYTkx5OXVtcitIQXFldXkzQWV6TXROeXAzWnpSbmJWeXI5dkFP?=
- =?utf-8?B?K1ptL2VBSldVU1FXS0NQNU5kOVpQRmdXbVlkeWMwNVpPNWRJS2txTFJSOUYz?=
- =?utf-8?B?M3J1M29BYnczQ0luTFR0VDZGWWJsTFQ5bGorZmNTcjFET3NmbTlmclJQYXUz?=
- =?utf-8?B?Q0tEdm9FSXh0NzYrdk9RNE1QcVkzQ0lDc3J5WG9CZGpuMXlMOFNiNFUyeGEx?=
- =?utf-8?B?Z1ArcTFRbTlJdGpKcUZBbTdEYWVUelFKY05kYWNqeWY1VDI5RnFENk5XN0Qr?=
- =?utf-8?B?OWovV1g3RUd0SVQ5NklzUkNjMG9JUVZrcTlmSXluL2RmNktWZjN1ZHo2eWxS?=
- =?utf-8?B?NDdJcEJ1MlJ0UXZpQTZ6dlV3YUlGbVpHazF3VEwyVFNqWGhZSWw3eVFXM0pN?=
- =?utf-8?B?VHV0SWNPWnNPc3hqUXpDVmxHVko5SkNBWFVXc21TblhrL1hqZHlvY0E5OHJa?=
- =?utf-8?B?OHhpTWFWNTBtNmxieXlLcGNQb3JsTm9UNGVEaWtUZzdtSHFiR21TRzBWbkQ4?=
- =?utf-8?B?YW1xRi91N1U2ZWtMa3JWVFNvTEpYVllNUjM0SUkrOU1qdmVLOWp1bXpQWTNV?=
- =?utf-8?B?ZXphcTFPSWgvd0dWYjRQbFh3OCsydDRzTm1lR3owZHBla1FvS0NSa2JVUzdG?=
- =?utf-8?B?RTNhck8wMTdUREhoSUZqRmNkRUgxV1RwU2hhSlpUNzhRMkczakZLZGJQMnZZ?=
- =?utf-8?B?UCs5cVl3ZU5ZamR3dnUvWGF1dzMxN2lKSyttWGxzMGRJM0NHdm5lMHhDK2pw?=
- =?utf-8?B?YzFGN2hIUUphbUVWNi9LMUQ2TUpwMXI3N0k2QVVEa2Z1WUpPbmR4cGFYWmRh?=
- =?utf-8?B?QlFFczVNM3JGNVJvKzRnRThLL3V1cC9sWmxSRjRyQWNaV1crQzlzZmpGM3la?=
- =?utf-8?B?U3REcm5iZ0w2NTlxaHM5eCt3aEdsRlozakJTY1dWeW9CQ0tra2w0SFRYUURP?=
- =?utf-8?B?M2FpUzl3VEdVWFFMMndTbEJHV3pGVlZMZk9xTXZ6Szl2cDhhbnRGbWZvREdO?=
- =?utf-8?B?K0wwc1FnZ0IxeTdBT1JzVmlsRms2NGFLVUEvd01PeWVUY1R4YlBWR29kNGtv?=
- =?utf-8?B?ZmNUaUhMQ2Z3OVF2Y3JDNS9MMTR5dzRDWi9sZnhFai9KbDFJc0FrVnBCSkpy?=
- =?utf-8?B?LzBzZjFSNlhwK25KdkhXOGpTeE96dzY5b1ZlN0J2S1Y5R3Fhd09CR0UrT1J6?=
- =?utf-8?B?dkdKVWl5WjZ5Ny9ERWxwb3d5dXJxODZXTFRKVjFCazRjMk40Y1cvMVowTUl5?=
- =?utf-8?B?RXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f00f7bfb-f640-493a-541c-08dbaa717753
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2023 22:27:31.4671 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SSrcQpycv4C5XrdNgAqzsG4dJmx8K8i+ayUeOSJPYEKQpQe+F9XNiU8YuLYxDjX4EqwqGnGxYVYDRb1ReR+UwtkqssMD4RaDcDP/3eckH88=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6500
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,71 +92,935 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>, "Zuo,
+ Jerry" <Jerry.Zuo@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/31/2023 07:00, Andi Shyti wrote:
-> Hi,
->
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> index a0e3ef1c65d2..600388c849f7 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> @@ -1359,7 +1359,16 @@ static void guc_enable_busyness_worker(struct intel_guc *guc)
->>>>>     static void guc_cancel_busyness_worker(struct intel_guc *guc)
->>>>>     {
->>>>> -	cancel_delayed_work_sync(&guc->timestamp.work);
->>>>> +	/*
->>>>> +	 * When intel_gt_reset was called, task will hold a lock.
->>>>> +	 * To cacel delayed work here, the _sync version will also acquire a lock, which might
->>>>> +	 * trigger the possible cirular locking dependency warning.
->>>>> +	 * Check the reset_in_progress flag, call async verion if reset is in progress.
->>>>> +	 */
->>>> This needs to explain in much more detail what is going on and why it is not
->>>> a problem. E.g.:
->>>>
->>>>      The busyness worker needs to be cancelled. In general that means
->>>>      using the synchronous cancel version to ensure that an in-progress
->>>>      worker will not keep executing beyond whatever is happening that
->>>>      needs the cancel. E.g. suspend, driver unload, etc. However, in the
->>>>      case of a reset, the synchronous version is not required and can
->>>>      trigger a false deadlock detection warning.
->>>>
->>>>      The business worker takes the reset mutex to protect against resets
->>>>      interfering with it. However, it does a trylock and bails out if the
->>>>      reset lock is already acquired. Thus there is no actual deadlock or
->>>>      other concern with the worker running concurrently with a reset. So
->>>>      an asynchronous cancel is safe in the case of a reset rather than a
->>>>      driver unload or suspend type operation. On the other hand, if the
->>>>      cancel_sync version is used when a reset is in progress then the
->>>>      mutex deadlock detection sees the mutex being acquired through
->>>>      multiple paths and complains.
->>>>
->>>>      So just don't bother. That keeps the detection code happy and is
->>>>      safe because of the trylock code described above.
->>> So why do we even need to cancel anything if it doesn't do anything while
->>> the reset is in progress?
->> It still needs to be cancelled. The worker only aborts if it is actively
->> executing concurrently with the reset. It might not start to execute until
->> after the reset has completed. And there is presumably a reason why the
->> cancel is being called, a reason not necessarily related to resets at all.
->> Leaving the worker to run arbitrarily after the driver is expecting it to be
->> stopped will lead to much worse things than a fake lockdep splat, e.g. a use
->> after free pointer deref.
-> I was actually thinking why not leave things as they are and just
-> disable lockdep from CI. This doesn't look like a relevant report
-> to me.
->
-> Andi
-Disable lockdep? The whole of lockdep? We absolutely do not want to 
-disable an extremely important deadlock testing infrastructure in our 
-test framework. That would be defeating the whole point of CI.
+On Thu, 2023-08-24 at 04:12 +0000, Lin, Wayne wrote:
+> [Public]
+>=20
+> Hi Lyude,
+>=20
+> I'm afraid that I don't have the permissions to push and would like to ha=
+ve
+> your help. Thanks!
 
-Potentially we could annotate this one particular scenario to suppress 
-this one particular error.  But it seems simpler and safer to just 
-update the code to not hit that scenario in the first place.
+Whoops, sorry I only just noticed this message. I set a reminder on my phon=
+e
+to bug me to push it tomorrow :), sorry about the delay
 
-John.
+>=20
+> > -----Original Message-----
+> > From: Lyude Paul <lyude@redhat.com>
+> > Sent: Thursday, August 24, 2023 5:00 AM
+> > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org;
+> > amd-gfx@lists.freedesktop.org
+> > Cc: jani.nikula@intel.com; ville.syrjala@linux.intel.com; imre.deak@int=
+el.com;
+> > Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
+> > <Jerry.Zuo@amd.com>
+> > Subject: Re: [Patch v2 2/3] drm/mst: Refactor the flow for payload
+> > allocation/removement
+> >=20
+> > Sure - you're also welcome to push the first two patches after fixing t=
+he
+> > indentation if you'd like
+> >=20
+> > On Wed, 2023-08-23 at 03:19 +0000, Lin, Wayne wrote:
+> > > [Public]
+> > >=20
+> > > Thanks, Lyude!
+> > > Should I push another version to fix the indention?
+> > >=20
+> > > > -----Original Message-----
+> > > > From: Lyude Paul <lyude@redhat.com>
+> > > > Sent: Friday, August 18, 2023 6:17 AM
+> > > > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org=
+;
+> > > > amd-gfx@lists.freedesktop.org
+> > > > Cc: jani.nikula@intel.com; ville.syrjala@linux.intel.com;
+> > > > imre.deak@intel.com; Wentland, Harry <Harry.Wentland@amd.com>; Zuo,
+> > > > Jerry <Jerry.Zuo@amd.com>
+> > > > Subject: Re: [Patch v2 2/3] drm/mst: Refactor the flow for payload
+> > > > allocation/removement
+> > > >=20
+> > > > Two small comments:
+> > > >=20
+> > > > On Mon, 2023-08-07 at 10:56 +0800, Wayne Lin wrote:
+> > > > > [Why]
+> > > > > Today, the allocation/deallocation steps and status is a bit uncl=
+ear.
+> > > > >=20
+> > > > > For instance, payload->vc_start_slot =3D -1 stands for "the failu=
+re
+> > > > > of updating DPCD payload ID table" and can also represent as
+> > > > > "payload is not allocated yet". These two cases should be handled
+> > > > > differently and hence better to distinguish them for better under=
+standing.
+> > > > >=20
+> > > > > [How]
+> > > > > Define enumeration - ALLOCATION_LOCAL, ALLOCATION_DFP and
+> > > > > ALLOCATION_REMOTE to distinguish different allocation status.
+> > > > > Adjust the code to handle different status accordingly for better
+> > > > > understanding the sequence of payload allocation and payload
+> > > > removement.
+> > > > >=20
+> > > > > For payload creation, the procedure should look like this:
+> > > > > DRM part 1:
+> > > > > * step 1 - update sw mst mgr variables to add a new payload
+> > > > > * step 2 - add payload at immediate DFP DPCD payload table
+> > > > >=20
+> > > > > Driver:
+> > > > > * Add new payload in HW and sync up with DFP by sending ACT
+> > > > >=20
+> > > > > DRM Part 2:
+> > > > > * Send ALLOCATE_PAYLOAD sideband message to allocate bandwidth
+> > > > > along
+> > > > the
+> > > > >   virtual channel.
+> > > > >=20
+> > > > > And as for payload removement, the procedure should look like thi=
+s:
+> > > > > DRM part 1:
+> > > > > * step 1 - Send ALLOCATE_PAYLOAD sideband message to release
+> > bandwidth
+> > > > >            along the virtual channel
+> > > > > * step 2 - Clear payload allocation at immediate DFP DPCD payload
+> > > > > table
+> > > > >=20
+> > > > > Driver:
+> > > > > * Remove the payload in HW and sync up with DFP by sending ACT
+> > > > >=20
+> > > > > DRM part 2:
+> > > > > * update sw mst mgr variables to remove the payload
+> > > > >=20
+> > > > > Note that it's fine to fail when communicate with the branch
+> > > > > device connected at immediate downstrean-facing port, but updatin=
+g
+> > > > > variables of SW mst mgr and HW configuration should be conducted
+> > > > > anyway. That's because it's under commit_tail and we need to
+> > > > > complete the HW
+> > > > programming.
+> > > > >=20
+> > > > > Changes since v1:
+> > > > > * Remove the set but not use variable 'old_payload' in function
+> > > > >   'nv50_msto_prepare'. Catched by kernel test robot
+> > > > > <lkp@intel.com>
+> > > > >=20
+> > > > > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> > > > > ---
+> > > > >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  20 ++-
+> > > > > drivers/gpu/drm/display/drm_dp_mst_topology.c | 159
+> > > > > +++++++++++------
+> > > > -
+> > > > >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  18 +-
+> > > > >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  21 +--
+> > > > >  include/drm/display/drm_dp_mst_helper.h       |  23 ++-
+> > > > >  5 files changed, 153 insertions(+), 88 deletions(-)
+> > > > >=20
+> > > > > diff --git
+> > > > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > > index d9a482908380..9ad509279b0a 100644
+> > > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > > +++
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > > @@ -219,7 +219,7 @@ static void dm_helpers_construct_old_payload(
+> > > > >     /* Set correct time_slots/PBN of old payload.
+> > > > >      * other fields (delete & dsc_enabled) in
+> > > > >      * struct drm_dp_mst_atomic_payload are don't care fields
+> > > > > -    * while calling drm_dp_remove_payload()
+> > > > > +    * while calling drm_dp_remove_payload_part2()
+> > > > >      */
+> > > > >     for (i =3D 0; i < current_link_table.stream_count; i++) {
+> > > > >             dc_alloc =3D
+> > > > > @@ -262,13 +262,12 @@ bool
+> > > > > dm_helpers_dp_mst_write_payload_allocation_table(
+> > > > >=20
+> > > > >     mst_mgr =3D &aconnector->mst_root->mst_mgr;
+> > > > >     mst_state =3D to_drm_dp_mst_topology_state(mst_mgr->base.stat=
+e);
+> > > > > -
+> > > > > -   /* It's OK for this to fail */
+> > > > >     new_payload =3D drm_atomic_get_mst_payload_state(mst_state,
+> > > > > aconnector->mst_output_port);
+> > > > >=20
+> > > > >     if (enable) {
+> > > > >             target_payload =3D new_payload;
+> > > > >=20
+> > > > > +           /* It's OK for this to fail */
+> > > > >             drm_dp_add_payload_part1(mst_mgr, mst_state,
+> > > > new_payload);
+> > > > >     } else {
+> > > > >             /* construct old payload by VCPI*/ @@ -276,7 +275,7 @=
+@
+> > > > > bool
+> > > > dm_helpers_dp_mst_write_payload_allocation_table(
+> > > > >                                             new_payload, &old_pay=
+load);
+> > > > >             target_payload =3D &old_payload;
+> > > > >=20
+> > > > > -           drm_dp_remove_payload(mst_mgr, mst_state,
+> > > > &old_payload, new_payload);
+> > > > > +           drm_dp_remove_payload_part1(mst_mgr, mst_state,
+> > > > new_payload);
+> > > > >     }
+> > > > >=20
+> > > > >     /* mst_mgr->->payloads are VC payload notify MST branch using
+> > > > DPCD
+> > > > > or @@ -342,7 +341,7 @@ bool
+> > > > dm_helpers_dp_mst_send_payload_allocation(
+> > > > >     struct amdgpu_dm_connector *aconnector;
+> > > > >     struct drm_dp_mst_topology_state *mst_state;
+> > > > >     struct drm_dp_mst_topology_mgr *mst_mgr;
+> > > > > -   struct drm_dp_mst_atomic_payload *payload;
+> > > > > +   struct drm_dp_mst_atomic_payload *new_payload, *old_payload;
+> > > > >     enum mst_progress_status set_flag =3D
+> > > > MST_ALLOCATE_NEW_PAYLOAD;
+> > > > >     enum mst_progress_status clr_flag =3D
+> > > > MST_CLEAR_ALLOCATED_PAYLOAD;
+> > > > >     int ret =3D 0;
+> > > > > @@ -355,15 +354,20 @@ bool
+> > > > dm_helpers_dp_mst_send_payload_allocation(
+> > > > >     mst_mgr =3D &aconnector->mst_root->mst_mgr;
+> > > > >     mst_state =3D to_drm_dp_mst_topology_state(mst_mgr->base.stat=
+e);
+> > > > >=20
+> > > > > -   payload =3D drm_atomic_get_mst_payload_state(mst_state,
+> > > > aconnector->mst_output_port);
+> > > > > +   new_payload =3D drm_atomic_get_mst_payload_state(mst_state,
+> > > > > +aconnector->mst_output_port);
+> > > > >=20
+> > > > >     if (!enable) {
+> > > > >             set_flag =3D MST_CLEAR_ALLOCATED_PAYLOAD;
+> > > > >             clr_flag =3D MST_ALLOCATE_NEW_PAYLOAD;
+> > > > >     }
+> > > > >=20
+> > > > > -   if (enable)
+> > > > > -           ret =3D drm_dp_add_payload_part2(mst_mgr, mst_state-
+> > > > > base.state, payload);
+> > > > > +   if (enable) {
+> > > > > +           ret =3D drm_dp_add_payload_part2(mst_mgr, mst_state-
+> > > > > base.state, new_payload);
+> > > > > +   } else {
+> > > > > +           dm_helpers_construct_old_payload(stream->link,
+> > > > > + mst_state-
+> > > > > pbn_div,
+> > > > > +                                            new_payload, old_pay=
+load);
+> > > > > +           drm_dp_remove_payload_part2(mst_mgr, mst_state,
+> > > > old_payload, new_payload);
+> > > > > +   }
+> > > > >=20
+> > > > >     if (ret) {
+> > > > >             amdgpu_dm_set_mst_status(&aconnector->mst_status,
+> > > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > > index 4d80426757ab..e04f87ff755a 100644
+> > > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > > @@ -3255,15 +3255,15 @@ int
+> > > > drm_dp_send_query_stream_enc_status(struct
+> > > > > drm_dp_mst_topology_mgr *mgr,  }
+> > > > > EXPORT_SYMBOL(drm_dp_send_query_stream_enc_status);
+> > > > >=20
+> > > > > -static int drm_dp_create_payload_step1(struct
+> > > > > drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > > -                                  struct drm_dp_mst_atomic_paylo=
+ad
+> > > > *payload)
+> > > > > +static int drm_dp_create_payload_at_dfp(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > > +                                   struct
+> > > > > + drm_dp_mst_atomic_payload
+> > > > *payload)
+> > > > >  {
+> > > > >     return drm_dp_dpcd_write_payload(mgr, payload->vcpi, payload-
+> > > > > vc_start_slot,
+> > > > >                                      payload->time_slots);  }
+> > > > >=20
+> > > > > -static int drm_dp_create_payload_step2(struct
+> > > > > drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > > -                                  struct drm_dp_mst_atomic_paylo=
+ad
+> > > > *payload)
+> > > > > +static int drm_dp_create_payload_to_remote(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > > +                                      struct
+> > > > > + drm_dp_mst_atomic_payload
+> > > > *payload)
+> > > > >  {
+> > > > >     int ret;
+> > > > >     struct drm_dp_mst_port *port =3D
+> > > > > drm_dp_mst_topology_get_port_validated(mgr, payload->port); @@ -
+> > > > 3276,17 +3276,20 @@ static int drm_dp_create_payload_step2(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > >     return ret;
+> > > > >  }
+> > > > >=20
+> > > > > -static int drm_dp_destroy_payload_step1(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > > -                                   struct drm_dp_mst_topology_st=
+ate
+> > > > *mst_state,
+> > > > > -                                   struct drm_dp_mst_atomic_payl=
+oad
+> > > > *payload)
+> > > > > +static void drm_dp_destroy_payload_at_remote_and_dfp(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > > +                                                struct
+> > > > drm_dp_mst_topology_state *mst_state,
+> > > > > +                                                struct
+> > > > drm_dp_mst_atomic_payload *payload)
+> > > > >  {
+> > > > >     drm_dbg_kms(mgr->dev, "\n");
+> > > > >=20
+> > > > >     /* it's okay for these to fail */
+> > > > > -   drm_dp_payload_send_msg(mgr, payload->port, payload->vcpi, 0)=
+;
+> > > > > -   drm_dp_dpcd_write_payload(mgr, payload->vcpi, payload-
+> > > > > vc_start_slot, 0);
+> > > > > +   if (payload->payload_allocation_status =3D=3D
+> > > > DRM_DP_MST_PAYLOAD_ALLOCATION_REMOTE) {
+> > > > > +           drm_dp_payload_send_msg(mgr, payload->port, payload-
+> > > > > vcpi, 0);
+> > > > > +           payload->payload_allocation_status =3D
+> > > > DRM_DP_MST_PAYLOAD_ALLOCATION_DFP;
+> > > > > +   }
+> > > > >=20
+> > > > > -   return 0;
+> > > > > +   if (payload->payload_allocation_status =3D=3D
+> > > > DRM_DP_MST_PAYLOAD_ALLOCATION_DFP)
+> > > > > +           drm_dp_dpcd_write_payload(mgr, payload->vcpi,
+> > > > > +payload->vc_start_slot, 0);
+> > > > >  }
+> > > > >=20
+> > > > >  /**
+> > > > > @@ -3296,81 +3299,105 @@ static int
+> > > > drm_dp_destroy_payload_step1(struct drm_dp_mst_topology_mgr *mgr,
+> > > > >   * @payload: The payload to write
+> > > > >   *
+> > > > >   * Determines the starting time slot for the given payload, and
+> > > > > programs the VCPI for this payload
+> > > > > - * into hardware. After calling this, the driver should generate
+> > > > > ACT and
+> > > > payload packets.
+> > > > > + * into the DPCD of DPRX. After calling this, the driver should
+> > > > > + generate ACT
+> > > > and payload packets.
+> > > > >   *
+> > > > > - * Returns: 0 on success, error code on failure. In the event
+> > > > > that this fails,
+> > > > > - * @payload.vc_start_slot will also be set to -1.
+> > > > > + * Returns: 0 on success, error code on failure.
+> > > > >   */
+> > > > >  int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr
+> > *mgr,
+> > > > >                          struct drm_dp_mst_topology_state *mst_st=
+ate,
+> > > > >                          struct drm_dp_mst_atomic_payload *payloa=
+d)  {
+> > > > >     struct drm_dp_mst_port *port;
+> > > > > -   int ret;
+> > > > > +   int ret =3D 0;
+> > > > > +   bool allocate =3D true;
+> > > > > +
+> > > > > +   /* Update mst mgr info */
+> > > > > +   if (mgr->payload_count =3D=3D 0)
+> > > > > +           mgr->next_start_slot =3D mst_state->start_slot;
+> > > > > +
+> > > > > +   payload->vc_start_slot =3D mgr->next_start_slot;
+> > > > > +
+> > > > > +   mgr->payload_count++;
+> > > > > +   mgr->next_start_slot +=3D payload->time_slots;
+> > > > >=20
+> > > > > +   /* Allocate payload to immediate downstream facing port */
+> > > > >     port =3D drm_dp_mst_topology_get_port_validated(mgr, payload-
+> > > > > port);
+> > > > >     if (!port) {
+> > > > >             drm_dbg_kms(mgr->dev,
+> > > > > -                       "VCPI %d for port %p not in topology, not=
+ creating a
+> > > > payload\n",
+> > > > > +                       "VCPI %d for port %p not in topology, not
+> > > > > + creating a
+> > > > payload
+> > > > > +to remote\n",
+> > > > >                         payload->vcpi, payload->port);
+> > > > > -           payload->vc_start_slot =3D -1;
+> > > > > -           return 0;
+> > > > > +           allocate =3D false;
+> > > > >     }
+> > > > >=20
+> > > > > -   if (mgr->payload_count =3D=3D 0)
+> > > > > -           mgr->next_start_slot =3D mst_state->start_slot;
+> > > > > -
+> > > > > -   payload->vc_start_slot =3D mgr->next_start_slot;
+> > > > > +   if (allocate) {
+> > > > > +           ret =3D drm_dp_create_payload_at_dfp(mgr, payload);
+> > > > > +           if (ret < 0)
+> > > > > +                   drm_warn(mgr->dev, "Failed to create MST
+> > > > > + payload
+> > > > for port %p: %d\n",
+> > > > > +                            payload->port, ret);
+> > > > >=20
+> > > > > -   ret =3D drm_dp_create_payload_step1(mgr, payload);
+> > > > > -   drm_dp_mst_topology_put_port(port);
+> > > > > -   if (ret < 0) {
+> > > > > -           drm_warn(mgr->dev, "Failed to create MST payload for =
+port
+> > > > %p: %d\n",
+> > > > > -                    payload->port, ret);
+> > > > > -           payload->vc_start_slot =3D -1;
+> > > > > -           return ret;
+> > > > >     }
+> > > > >=20
+> > > > > -   mgr->payload_count++;
+> > > > > -   mgr->next_start_slot +=3D payload->time_slots;
+> > > > > +   payload->payload_allocation_status =3D
+> > > > > +           (!allocate || ret < 0) ?
+> > > > DRM_DP_MST_PAYLOAD_ALLOCATION_LOCAL :
+> > > > > +
+> > > >       DRM_DP_MST_PAYLOAD_ALLOCATION_DFP;
+> > > >=20
+> > > > Just need to fix indenting here
+> > > >=20
+> > > > >=20
+> > > > > -   return 0;
+> > > > > +   drm_dp_mst_topology_put_port(port);
+> > > > > +
+> > > > > +   return ret;
+> > > > >  }
+> > > > >  EXPORT_SYMBOL(drm_dp_add_payload_part1);
+> > > > >=20
+> > > > >  /**
+> > > > > - * drm_dp_remove_payload() - Remove an MST payload
+> > > > > + * drm_dp_remove_payload_part1() - Remove an MST payload along
+> > > > > + the virtual channel
+> > > > >   * @mgr: Manager to use.
+> > > > >   * @mst_state: The MST atomic state
+> > > > > - * @old_payload: The payload with its old state
+> > > > > - * @new_payload: The payload to write
+> > > > > + * @payload: The payload to remove
+> > > > >   *
+> > > > > - * Removes a payload from an MST topology if it was successfully
+> > > > > assigned a start slot. Also updates
+> > > > > - * the starting time slots of all other payloads which would hav=
+e
+> > > > > been shifted towards the start of
+> > > > > - * the VC table as a result. After calling this, the driver
+> > > > > should generate ACT
+> > > > and payload packets.
+> > > > > + * Removes a payload along the virtual channel if it was
+> > > > > + successfully
+> > > > allocated.
+> > > > > + * After calling this, the driver should set HW to generate ACT
+> > > > > + and then switch to new
+> > > > > + * payload allocation state.
+> > > > >   */
+> > > > > -void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > > > > -                      struct drm_dp_mst_topology_state *mst_stat=
+e,
+> > > > > -                      const struct drm_dp_mst_atomic_payload
+> > > > *old_payload,
+> > > > > -                      struct drm_dp_mst_atomic_payload *new_payl=
+oad)
+> > > > > +void drm_dp_remove_payload_part1(struct
+> > drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > > +                            struct drm_dp_mst_topology_state
+> > > > *mst_state,
+> > > > > +                            struct drm_dp_mst_atomic_payload
+> > > > *payload)
+> > > > >  {
+> > > > > -   struct drm_dp_mst_atomic_payload *pos;
+> > > > > +   /* Remove remote payload allocation */
+> > > > >     bool send_remove =3D false;
+> > > > >=20
+> > > > > -   /* We failed to make the payload, so nothing to do */
+> > > > > -   if (new_payload->vc_start_slot =3D=3D -1)
+> > > > > -           return;
+> > > > > -
+> > > > >     mutex_lock(&mgr->lock);
+> > > > > -   send_remove =3D
+> > > > drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr-
+> > > > > mst_primary);
+> > > > > +   send_remove =3D drm_dp_mst_port_downstream_of_branch(payload-
+> > > > > port,
+> > > > > +mgr->mst_primary);
+> > > > >     mutex_unlock(&mgr->lock);
+> > > > >=20
+> > > > >     if (send_remove)
+> > > > > -           drm_dp_destroy_payload_step1(mgr, mst_state,
+> > > > new_payload);
+> > > > > +           drm_dp_destroy_payload_at_remote_and_dfp(mgr,
+> > > > mst_state, payload);
+> > > > >     else
+> > > > >             drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in
+> > > > topology, not sending remove\n",
+> > > > > -                       new_payload->vcpi);
+> > > > > +                       payload->vcpi);
+> > > > > +
+> > > > > +   payload->payload_allocation_status =3D
+> > > > > +DRM_DP_MST_PAYLOAD_ALLOCATION_LOCAL;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_dp_remove_payload_part1);
+> > > > >=20
+> > > > > +/**
+> > > > > + * drm_dp_remove_payload_part2() - Remove an MST payload locally
+> > > > > + * @mgr: Manager to use.
+> > > > > + * @mst_state: The MST atomic state
+> > > > > + * @old_payload: The payload with its old state
+> > > > > + * @new_payload: The payload with its latest state
+> > > > > + *
+> > > > > + * Updates the starting time slots of all other payloads which
+> > > > > +would have been shifted towards
+> > > > > + * the start of the payload ID table as a result of removing a
+> > > > > +payload. Driver should call this
+> > > > > + * function whenever it removes a payload in its HW. It's
+> > > > > +independent to the result of payload
+> > > > > + * allocation/deallocation at branch devices along the virtual c=
+hannel.
+> > > > > + */
+> > > > > +void drm_dp_remove_payload_part2(struct
+> > drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > > +                            struct drm_dp_mst_topology_state
+> > > > *mst_state,
+> > > > > +                            const struct
+> > > > > + drm_dp_mst_atomic_payload
+> > > > *old_payload,
+> > > > > +                            struct drm_dp_mst_atomic_payload
+> > > > *new_payload) {
+> > > > > +   struct drm_dp_mst_atomic_payload *pos;
+> > > > > +
+> > > > > +   /* Remove local payload allocation */
+> > > > >     list_for_each_entry(pos, &mst_state->payloads, next) {
+> > > > >             if (pos !=3D new_payload && pos->vc_start_slot >
+> > > > > new_payload-
+> > > > > vc_start_slot)
+> > > > >                     pos->vc_start_slot -=3D old_payload->time_slo=
+ts;
+> > > > > @@ -
+> > > > 3382,9 +3409,10
+> > > > > @@ void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > >=20
+> > > > >     if (new_payload->delete)
+> > > > >             drm_dp_mst_put_port_malloc(new_payload->port);
+> > > > > -}
+> > > > > -EXPORT_SYMBOL(drm_dp_remove_payload);
+> > > > >=20
+> > > > > +   new_payload->payload_allocation_status =3D
+> > > > > +DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_dp_remove_payload_part2);
+> > > > >  /**
+> > > > >   * drm_dp_add_payload_part2() - Execute payload update part 2
+> > > > >   * @mgr: Manager to use.
+> > > > > @@ -3403,17 +3431,19 @@ int drm_dp_add_payload_part2(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > >     int ret =3D 0;
+> > > > >=20
+> > > > >     /* Skip failed payloads */
+> > > > > -   if (payload->vc_start_slot =3D=3D -1) {
+> > > > > -           drm_dbg_kms(mgr->dev, "Part 1 of payload creation for=
+ %s
+> > > > failed, skipping part 2\n",
+> > > > > +   if (payload->payload_allocation_status !=3D
+> > > > DRM_DP_MST_PAYLOAD_ALLOCATION_DFP) {
+> > > > > +           drm_dbg_kms(state->dev, "Part 1 of payload creation
+> > > > > + for %s
+> > > > failed,
+> > > > > +skipping part 2\n",
+> > > > >                         payload->port->connector->name);
+> > > > >             return -EIO;
+> > > > >     }
+> > > > >=20
+> > > > > -   ret =3D drm_dp_create_payload_step2(mgr, payload);
+> > > > > -   if (ret < 0) {
+> > > > > +   /* Allocate payload to remote end */
+> > > > > +   ret =3D drm_dp_create_payload_to_remote(mgr, payload);
+> > > > > +   if (ret < 0)
+> > > > >             drm_err(mgr->dev, "Step 2 of creating MST payload for
+> > > > > %p
+> > > > failed: %d\n",
+> > > > >                     payload->port, ret);
+> > > > > -   }
+> > > > > +   else
+> > > > > +           payload->payload_allocation_status =3D
+> > > > > +DRM_DP_MST_PAYLOAD_ALLOCATION_REMOTE;
+> > > > >=20
+> > > > >     return ret;
+> > > > >  }
+> > > > > @@ -4324,6 +4354,7 @@ int drm_dp_atomic_find_time_slots(struct
+> > > > drm_atomic_state *state,
+> > > > >             drm_dp_mst_get_port_malloc(port);
+> > > > >             payload->port =3D port;
+> > > > >             payload->vc_start_slot =3D -1;
+> > > > > +           payload->payload_allocation_status =3D
+> > > > > +DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
+> > > > >             list_add(&payload->next, &topology_state->payloads);
+> > > > >     }
+> > > > >     payload->time_slots =3D req_slots; @@ -4493,7 +4524,7 @@ void
+> > > > drm_dp_mst_atomic_wait_for_dependencies(struct drm_atomic_state
+> > > > *state)
+> > > > >             }
+> > > > >=20
+> > > > >             /* Now that previous state is committed, it's safe to
+> > > > > copy over
+> > > > the start slot
+> > > > > -            * assignments
+> > > > > +            * and allocation status assignments
+> > > > >              */
+> > > > >             list_for_each_entry(old_payload,
+> > > > > &old_mst_state->payloads,
+> > > > next) {
+> > > > >                     if (old_payload->delete) @@ -4502,6 +4533,8 @=
+@
+> > > > > void
+> > > > drm_dp_mst_atomic_wait_for_dependencies(struct drm_atomic_state
+> > > > *state)
+> > > > >                     new_payload =3D
+> > > > drm_atomic_get_mst_payload_state(new_mst_state,
+> > > > >=20
+> > > > old_payload->port);
+> > > > >                     new_payload->vc_start_slot =3D old_payload-
+> > > > > vc_start_slot;
+> > > > > +                   new_payload->payload_allocation_status =3D
+> > > > > +                                                   old_payload-
+> > > > > payload_allocation_status;
+> > > >=20
+> > > > And here. Besides that, I think patches 1/3 and 2/3 look great! Jus=
+t
+> > > > finished testing them on nouveau:
+> > > >=20
+> > > > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > > >=20
+> > > > Patch 3/3 I gotta think about a bit more (and am curious about
+> > > > Imre's current take on it) I think
+> > > >=20
+> > > > >             }
+> > > > >     }
+> > > > >  }
+> > > > > @@ -4818,6 +4851,13 @@ void drm_dp_mst_dump_topology(struct
+> > > > seq_file *m,
+> > > > >     struct drm_dp_mst_atomic_payload *payload;
+> > > > >     int i, ret;
+> > > > >=20
+> > > > > +   static const char *const status[] =3D {
+> > > > > +           "None",
+> > > > > +           "Local",
+> > > > > +           "DFP",
+> > > > > +           "Remote",
+> > > > > +   };
+> > > > > +
+> > > > >     mutex_lock(&mgr->lock);
+> > > > >     if (mgr->mst_primary)
+> > > > >             drm_dp_mst_dump_mstb(m, mgr->mst_primary); @@ -
+> > > > 4834,7 +4874,7 @@
+> > > > > void drm_dp_mst_dump_topology(struct seq_file *m,
+> > > > >     seq_printf(m, "payload_mask: %x, max_payloads: %d, start_slot=
+:
+> > > > > %u,
+> > > > pbn_div: %d\n",
+> > > > >                state->payload_mask, mgr->max_payloads, state-
+> > > > > start_slot,
+> > > > > state->pbn_div);
+> > > > >=20
+> > > > > -   seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc |   =
+  sink name
+> > > > > \n");
+> > > > > +   seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc | st=
+atus |     sink
+> > > > name     |\n");
+> > > > >     for (i =3D 0; i < mgr->max_payloads; i++) {
+> > > > >             list_for_each_entry(payload, &state->payloads, next) =
+{
+> > > > >                     char name[14]; @@ -4843,7 +4883,7 @@ void
+> > > > > drm_dp_mst_dump_topology(struct
+> > > > seq_file *m,
+> > > > >                             continue;
+> > > > >=20
+> > > > >                     fetch_monitor_name(mgr, payload->port, name,
+> > > > sizeof(name));
+> > > > > -                   seq_printf(m, " %5d %6d %6d %02d - %02d %5d %=
+5s
+> > > > %19s\n",
+> > > > > +                   seq_printf(m, " %5d %6d %6d %02d - %02d %5d
+> > > > > + %5s
+> > > > %8s %19s\n",
+> > > > >                                i,
+> > > > >                                payload->port->port_num,
+> > > > >                                payload->vcpi, @@ -4851,6 +4891,7
+> > > > > @@ void drm_dp_mst_dump_topology(struct
+> > > > seq_file *m,
+> > > > >                                payload->vc_start_slot + payload-
+> > > > > time_slots - 1,
+> > > > >                                payload->pbn,
+> > > > >                                payload->dsc_enabled ? "Y" : "N",
+> > > > > +
+> > > > > + status[payload->payload_allocation_status],
+> > > > >                                (*name !=3D 0) ? name : "Unknown")=
+;
+> > > > >             }
+> > > > >     }
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > index e3f176a093d2..5f73cdabe7a1 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > @@ -557,12 +557,8 @@ static void intel_mst_disable_dp(struct
+> > > > intel_atomic_state *state,
+> > > > >     struct intel_dp *intel_dp =3D &dig_port->dp;
+> > > > >     struct intel_connector *connector =3D
+> > > > >             to_intel_connector(old_conn_state->connector);
+> > > > > -   struct drm_dp_mst_topology_state *old_mst_state =3D
+> > > > > -           drm_atomic_get_old_mst_topology_state(&state->base,
+> > > > &intel_dp->mst_mgr);
+> > > > >     struct drm_dp_mst_topology_state *new_mst_state =3D
+> > > > >             drm_atomic_get_new_mst_topology_state(&state->base,
+> > > > &intel_dp->mst_mgr);
+> > > > > -   const struct drm_dp_mst_atomic_payload *old_payload =3D
+> > > > > -           drm_atomic_get_mst_payload_state(old_mst_state,
+> > > > connector->port);
+> > > > >     struct drm_dp_mst_atomic_payload *new_payload =3D
+> > > > >             drm_atomic_get_mst_payload_state(new_mst_state,
+> > > > connector->port);
+> > > > >     struct drm_i915_private *i915 =3D to_i915(connector->base.dev=
+);
+> > > > > @@
+> > > > > -572,8 +568,7 @@ static void intel_mst_disable_dp(struct
+> > > > > intel_atomic_state *state,
+> > > > >=20
+> > > > >     intel_hdcp_disable(intel_mst->connector);
+> > > > >=20
+> > > > > -   drm_dp_remove_payload(&intel_dp->mst_mgr, new_mst_state,
+> > > > > -                         old_payload, new_payload);
+> > > > > +   drm_dp_remove_payload_part1(&intel_dp->mst_mgr,
+> > > > new_mst_state,
+> > > > > +new_payload);
+> > > > >=20
+> > > > >     intel_audio_codec_disable(encoder, old_crtc_state,
+> > > > > old_conn_state); } @@ -588,6 +583,14 @@ static void
+> > > > > intel_mst_post_disable_dp(struct intel_atomic_state *state,
+> > > > >     struct intel_dp *intel_dp =3D &dig_port->dp;
+> > > > >     struct intel_connector *connector =3D
+> > > > >             to_intel_connector(old_conn_state->connector);
+> > > > > +   struct drm_dp_mst_topology_state *old_mst_state =3D
+> > > > > +           drm_atomic_get_old_mst_topology_state(&state->base,
+> > > > &intel_dp->mst_mgr);
+> > > > > +   struct drm_dp_mst_topology_state *new_mst_state =3D
+> > > > > +           drm_atomic_get_new_mst_topology_state(&state->base,
+> > > > &intel_dp->mst_mgr);
+> > > > > +   const struct drm_dp_mst_atomic_payload *old_payload =3D
+> > > > > +           drm_atomic_get_mst_payload_state(old_mst_state,
+> > > > connector->port);
+> > > > > +   struct drm_dp_mst_atomic_payload *new_payload =3D
+> > > > > +           drm_atomic_get_mst_payload_state(new_mst_state,
+> > > > connector->port);
+> > > > >     struct drm_i915_private *dev_priv =3D to_i915(connector->base=
+.dev);
+> > > > >     bool last_mst_stream;
+> > > > >=20
+> > > > > @@ -608,6 +611,9 @@ static void intel_mst_post_disable_dp(struct
+> > > > > intel_atomic_state *state,
+> > > > >=20
+> > > > >     wait_for_act_sent(encoder, old_crtc_state);
+> > > > >=20
+> > > > > +   drm_dp_remove_payload_part2(&intel_dp->mst_mgr,
+> > > > new_mst_state,
+> > > > > +                               old_payload, new_payload);
+> > > > > +
+> > > > >     intel_ddi_disable_transcoder_func(old_crtc_state);
+> > > > >=20
+> > > > >     if (DISPLAY_VER(dev_priv) >=3D 9) diff --git
+> > > > > a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > > b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > > index 4e7c9c353c51..bba01fa0780c 100644
+> > > > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > > @@ -882,21 +882,26 @@ struct nouveau_encoder
+> > > > > *nv50_real_outp(struct drm_encoder *encoder)
+> > > > >=20
+> > > > >  static void
+> > > > >  nv50_msto_cleanup(struct drm_atomic_state *state,
+> > > > > -             struct drm_dp_mst_topology_state *mst_state,
+> > > > > +             struct drm_dp_mst_topology_state *new_mst_state,
+> > > > >               struct drm_dp_mst_topology_mgr *mgr,
+> > > > >               struct nv50_msto *msto)  {
+> > > > >     struct nouveau_drm *drm =3D nouveau_drm(msto->encoder.dev);
+> > > > > -   struct drm_dp_mst_atomic_payload *payload =3D
+> > > > > -           drm_atomic_get_mst_payload_state(mst_state, msto->mst=
+c-
+> > > > > port);
+> > > > > +   struct drm_dp_mst_atomic_payload *new_payload =3D
+> > > > > +           drm_atomic_get_mst_payload_state(new_mst_state, msto-
+> > > > > mstc->port);
+> > > > > +   struct drm_dp_mst_topology_state *old_mst_state =3D
+> > > > > +           drm_atomic_get_old_mst_topology_state(state, mgr);
+> > > > > +   const struct drm_dp_mst_atomic_payload *old_payload =3D
+> > > > > +           drm_atomic_get_mst_payload_state(old_mst_state, msto-
+> > > > > mstc->port);
+> > > > >=20
+> > > > >     NV_ATOMIC(drm, "%s: msto cleanup\n", msto->encoder.name);
+> > > > >=20
+> > > > >     if (msto->disabled) {
+> > > > >             msto->mstc =3D NULL;
+> > > > >             msto->disabled =3D false;
+> > > > > +           drm_dp_remove_payload_part2(mgr, new_mst_state,
+> > > > old_payload,
+> > > > > +new_payload);
+> > > > >     } else if (msto->enabled) {
+> > > > > -           drm_dp_add_payload_part2(mgr, state, payload);
+> > > > > +           drm_dp_add_payload_part2(mgr, state, new_payload);
+> > > > >             msto->enabled =3D false;
+> > > > >     }
+> > > > >  }
+> > > > > @@ -910,19 +915,15 @@ nv50_msto_prepare(struct drm_atomic_state
+> > > > *state,
+> > > > >     struct nouveau_drm *drm =3D nouveau_drm(msto->encoder.dev);
+> > > > >     struct nv50_mstc *mstc =3D msto->mstc;
+> > > > >     struct nv50_mstm *mstm =3D mstc->mstm;
+> > > > > -   struct drm_dp_mst_topology_state *old_mst_state;
+> > > > > -   struct drm_dp_mst_atomic_payload *payload, *old_payload;
+> > > > > +   struct drm_dp_mst_atomic_payload *payload;
+> > > > >=20
+> > > > >     NV_ATOMIC(drm, "%s: msto prepare\n", msto->encoder.name);
+> > > > >=20
+> > > > > -   old_mst_state =3D drm_atomic_get_old_mst_topology_state(state=
+,
+> > > > mgr);
+> > > > > -
+> > > > >     payload =3D drm_atomic_get_mst_payload_state(mst_state, mstc-
+> > > > > port);
+> > > > > -   old_payload =3D drm_atomic_get_mst_payload_state(old_mst_stat=
+e,
+> > > > mstc->port);
+> > > > >=20
+> > > > >     // TODO: Figure out if we want to do a better job of handling
+> > > > > VCPI
+> > > > allocation failures here?
+> > > > >     if (msto->disabled) {
+> > > > > -           drm_dp_remove_payload(mgr, mst_state, old_payload,
+> > > > payload);
+> > > > > +           drm_dp_remove_payload_part1(mgr, mst_state, payload);
+> > > > >=20
+> > > > >             nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head-
+> > > > > base.index, 0, 0, 0, 0);
+> > > > >     } else {
+> > > > > diff --git a/include/drm/display/drm_dp_mst_helper.h
+> > > > > b/include/drm/display/drm_dp_mst_helper.h
+> > > > > index ed5c9660563c..4429d3b1745b 100644
+> > > > > --- a/include/drm/display/drm_dp_mst_helper.h
+> > > > > +++ b/include/drm/display/drm_dp_mst_helper.h
+> > > > > @@ -46,6 +46,13 @@ struct drm_dp_mst_topology_ref_history {  };
+> > > > > #endif /*
+> > IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS) */
+> > > > >=20
+> > > > > +enum drm_dp_mst_payload_allocation {
+> > > > > +   DRM_DP_MST_PAYLOAD_ALLOCATION_NONE,
+> > > > > +   DRM_DP_MST_PAYLOAD_ALLOCATION_LOCAL,
+> > > > > +   DRM_DP_MST_PAYLOAD_ALLOCATION_DFP,
+> > > > > +   DRM_DP_MST_PAYLOAD_ALLOCATION_REMOTE,
+> > > > > +};
+> > > > > +
+> > > > >  struct drm_dp_mst_branch;
+> > > > >=20
+> > > > >  /**
+> > > > > @@ -537,7 +544,7 @@ struct drm_dp_mst_atomic_payload {
+> > > > >      *   drm_dp_mst_atomic_wait_for_dependencies() has been calle=
+d,
+> > > > which will ensure the
+> > > > >      *   previous MST states payload start slots have been copied=
+ over to
+> > > > the new state. Note
+> > > > >      *   that a new start slot won't be assigned/removed from thi=
+s payload
+> > > > until
+> > > > > -    *   drm_dp_add_payload_part1()/drm_dp_remove_payload() have
+> > > > been called.
+> > > > > +    *   drm_dp_add_payload_part1()/drm_dp_remove_payload_part2()
+> > > > have been called.
+> > > > >      * * Acquire the MST modesetting lock, and then wait for any
+> > > > > pending
+> > > > MST-related commits to
+> > > > >      *   get committed to hardware by calling drm_crtc_commit_wai=
+t() on
+> > > > each of the
+> > > > >      *   &drm_crtc_commit structs in
+> > > > &drm_dp_mst_topology_state.commit_deps.
+> > > > > @@ -564,6 +571,9 @@ struct drm_dp_mst_atomic_payload {
+> > > > >     /** @dsc_enabled: Whether or not this payload has DSC enabled=
+ */
+> > > > >     bool dsc_enabled : 1;
+> > > > >=20
+> > > > > +   /** @payload_allocation_status: The allocation status of this
+> > > > > + payload
+> > > > */
+> > > > > +   enum drm_dp_mst_payload_allocation payload_allocation_status;
+> > > > > +
+> > > > >     /** @next: The list node for this payload */
+> > > > >     struct list_head next;
+> > > > >  };
+> > > > > @@ -842,10 +852,13 @@ int drm_dp_add_payload_part1(struct
+> > > > > drm_dp_mst_topology_mgr *mgr,  int
+> > drm_dp_add_payload_part2(struct
+> > > > drm_dp_mst_topology_mgr *mgr,
+> > > > >                          struct drm_atomic_state *state,
+> > > > >                          struct drm_dp_mst_atomic_payload
+> > > > > *payload); -
+> > > > void
+> > > > > drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > > > > -                      struct drm_dp_mst_topology_state *mst_stat=
+e,
+> > > > > -                      const struct drm_dp_mst_atomic_payload
+> > > > *old_payload,
+> > > > > -                      struct drm_dp_mst_atomic_payload
+> > > > *new_payload);
+> > > > > +void drm_dp_remove_payload_part1(struct
+> > drm_dp_mst_topology_mgr
+> > > > *mgr,
+> > > > > +                            struct drm_dp_mst_topology_state
+> > > > *mst_state,
+> > > > > +                            struct drm_dp_mst_atomic_payload
+> > > > *payload); void
+> > > > > +drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr
+> > *mgr,
+> > > > > +                            struct drm_dp_mst_topology_state
+> > > > *mst_state,
+> > > > > +                            const struct
+> > > > > + drm_dp_mst_atomic_payload
+> > > > *old_payload,
+> > > > > +                            struct drm_dp_mst_atomic_payload
+> > > > *new_payload);
+> > > > >=20
+> > > > >  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr)=
+;
+> > > > >=20
+> > > >=20
+> > > > --
+> > > > Cheers,
+> > > >  Lyude Paul (she/her)
+> > > >  Software Engineer at Red Hat
+> > > --
+> > > Regards,
+> > > Wayne
+> >=20
+> > --
+> > Cheers,
+> >  Lyude Paul (she/her)
+> >  Software Engineer at Red Hat
+> --
+> Regards,
+> Wayne
+>=20
+
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
