@@ -1,54 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEAE78F8D8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 09:01:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D562878F8DC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 09:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F57810E72C;
-	Fri,  1 Sep 2023 07:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F15F710E723;
+	Fri,  1 Sep 2023 07:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5186C10E72B;
- Fri,  1 Sep 2023 07:01:26 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ECF342185A;
- Fri,  1 Sep 2023 07:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693551684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=eWYQTQYPQFCeELExOFLjfgwK+p4sbVfb0MrjScug2OU=;
- b=2TnJE9LSalLhP3iTpaFyatyPqQPaGAimhgm1V9IctvAawOOJpKszrT1CZNo0/20MSUGkHv
- WR7dHUT0NmF93daEVsHLvSo7BwoSzbonTWkXMDHRVAaDdw5ooTuzWlGslQmQFWxYg09OFF
- 5ZCxGZq+7PFFaONpQVAksb+aAGZmqgM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693551684;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=eWYQTQYPQFCeELExOFLjfgwK+p4sbVfb0MrjScug2OU=;
- b=D+4/M9n9yeseeNAwiFMNJBM+evT3MdXgR5yE+ATlxWuBjOJcUCqAnHyHPy6TSOcI2xTlaC
- HLEyko5pRWK4odBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A461513582;
- Fri,  1 Sep 2023 07:01:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wVMjJ0SM8WTycQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 01 Sep 2023 07:01:24 +0000
-Date: Fri, 1 Sep 2023 09:01:23 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20230901070123.GA6987@linux-uq9g>
+Received: from out30-131.freemail.mail.aliyun.com
+ (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2651510E723;
+ Fri,  1 Sep 2023 07:02:56 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0Vr2KGap_1693551761; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0Vr2KGap_1693551761) by smtp.aliyun-inc.com;
+ Fri, 01 Sep 2023 15:02:51 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: christian.koenig@amd.com
+Subject: [PATCH] drm/amdgpu: clean up some inconsistent indenting
+Date: Fri,  1 Sep 2023 15:02:40 +0800
+Message-Id: <20230901070240.31027-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +40,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+No functional modification involved.
 
-here are two more fixes that have been sitting in drm-misc-next-fixes.
+drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c:34 nbio_v7_11_get_rev_id() warn: inconsistent indenting.
 
-Best regards
-Thomas
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6316
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-drm-misc-next-fixes-2023-09-01:
-Short summary of fixes pull:
-
- * ivpu: Replace strncpy
- * nouveau: Fix fence state in nouveau_fence_emit()
-The following changes since commit cdf4100eaa1f4107fcf7c95b5eccca96cca6c777:
-
-  drm/gpuva_mgr: remove unused prev pointer in __drm_gpuva_sm_map() (2023-08-24 14:27:14 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-09-01
-
-for you to fetch changes up to 978474dc8278f661930e02e08d292a45a45fa01a:
-
-  drm/nouveau: fence: fix undefined fence state after emit (2023-08-31 00:46:23 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * ivpu: Replace strncpy
- * nouveau: Fix fence state in nouveau_fence_emit()
-
-----------------------------------------------------------------
-Danilo Krummrich (1):
-      drm/nouveau: fence: fix undefined fence state after emit
-
-Justin Stitt (1):
-      accel/ivpu: refactor deprecated strncpy
-
- drivers/accel/ivpu/ivpu_jsm_msg.c       |  3 +--
- drivers/gpu/drm/nouveau/dispnv04/crtc.c |  9 +--------
- drivers/gpu/drm/nouveau/nouveau_bo.c    |  8 +-------
- drivers/gpu/drm/nouveau/nouveau_chan.c  |  6 ++----
- drivers/gpu/drm/nouveau/nouveau_dmem.c  |  9 +++------
- drivers/gpu/drm/nouveau/nouveau_exec.c  | 11 ++++++++---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 32 ++++++++++++++++++++++++++------
- drivers/gpu/drm/nouveau/nouveau_fence.h |  5 +++--
- drivers/gpu/drm/nouveau/nouveau_gem.c   |  5 +----
- 9 files changed, 46 insertions(+), 42 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
+index 7c08e5f95e97..76e21357dd4d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
+@@ -31,10 +31,9 @@
+ static u32 nbio_v7_11_get_rev_id(struct amdgpu_device *adev)
+ {
+ 	u32 tmp;
+-         printk("%s, getid\n",__func__);
+-
+-		tmp = RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0_STRAP0);
+ 
++	printk("%s, getid\n", __func__);
++	tmp = RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0_STRAP0);
+ 	tmp &= RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_F0_MASK;
+ 	tmp >>= RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_F0__SHIFT;
+ 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.20.1.7.g153144c
+
