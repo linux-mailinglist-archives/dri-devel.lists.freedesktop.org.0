@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D1D78F8D2
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 09:00:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEEAE78F8D8
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 09:01:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D36410E724;
-	Fri,  1 Sep 2023 07:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F57810E72C;
+	Fri,  1 Sep 2023 07:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5859C10E724;
- Fri,  1 Sep 2023 07:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693551630; x=1725087630;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VVpME9gZbktKYzW4oB1D8iH1dKOxV0E2Uzi24Q6P4E0=;
- b=O+r6j95wvljR3OkHcgNXF1gE4/YIdZuTW8bRkde/Hcc94cZTNw9/pIGt
- OldfdTFh8y4zaLt3xtu4q7PvFyhjci4tCMrgzwDU2TJWfdYIRoQOvmEgi
- shIWKF/MNwnEMPA7307VbfhSkeCNpRdpUX+sZeW25fsjbumvrOeXdfcWL
- MYa/2B1xV4ZPz7Twt1QnFHWaU0RsIT71cshRQ5wpxRNxZn7FQBNP8p9P5
- vq+RWonjIMjHD1E366llrX1dqL4z6qYgIltyJANxO/s8qHF3xQCb39ZN9
- H5AVBMhpn8yfOufBgjGlmbCVsHILEf3dME4wUdcM8KkCrKLSlJXmXbuNX g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442546614"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="442546614"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 00:00:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743011319"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="743011319"
-Received: from jvdelosr-mobl3.amr.corp.intel.com (HELO kialmah1-mobl1.lan)
- ([10.251.8.145])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 00:00:26 -0700
-From: Khaled Almahallawy <khaled.almahallawy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/display/dp: Add the remaining Square PHY patterns DPCD
- register definitions
-Date: Fri,  1 Sep 2023 00:00:00 -0700
-Message-Id: <20230901070000.56304-1-khaled.almahallawy@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5186C10E72B;
+ Fri,  1 Sep 2023 07:01:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id ECF342185A;
+ Fri,  1 Sep 2023 07:01:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693551684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=eWYQTQYPQFCeELExOFLjfgwK+p4sbVfb0MrjScug2OU=;
+ b=2TnJE9LSalLhP3iTpaFyatyPqQPaGAimhgm1V9IctvAawOOJpKszrT1CZNo0/20MSUGkHv
+ WR7dHUT0NmF93daEVsHLvSo7BwoSzbonTWkXMDHRVAaDdw5ooTuzWlGslQmQFWxYg09OFF
+ 5ZCxGZq+7PFFaONpQVAksb+aAGZmqgM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693551684;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=eWYQTQYPQFCeELExOFLjfgwK+p4sbVfb0MrjScug2OU=;
+ b=D+4/M9n9yeseeNAwiFMNJBM+evT3MdXgR5yE+ATlxWuBjOJcUCqAnHyHPy6TSOcI2xTlaC
+ HLEyko5pRWK4odBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A461513582;
+ Fri,  1 Sep 2023 07:01:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id wVMjJ0SM8WTycQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 01 Sep 2023 07:01:24 +0000
+Date: Fri, 1 Sep 2023 09:01:23 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20230901070123.GA6987@linux-uq9g>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- Lee Shawn C <shawn.c.lee@intel.com>,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP Scope may send requests for all Square PHY pattern configuration
-during automation. Add them instead of failing these tests.
+Hi Dave and Daniel,
 
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Lee Shawn C <shawn.c.lee@intel.com>
-Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
----
- include/drm/display/drm_dp.h | 3 +++
- 1 file changed, 3 insertions(+)
+here are two more fixes that have been sitting in drm-misc-next-fixes.
 
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index e69cece404b3..acabf29b4972 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -646,6 +646,9 @@
- # define DP_LINK_QUAL_PATTERN_PRSBS31       0x38
- # define DP_LINK_QUAL_PATTERN_CUSTOM        0x40
- # define DP_LINK_QUAL_PATTERN_SQUARE        0x48
-+# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DISABLED                   0x49
-+# define DP_LINK_QUAL_PATTERN_SQUARE_DEEMPHASIS_DISABLED                 0x4a
-+# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DEEMPHASIS_DISABLED        0x4b
- 
- #define DP_TRAINING_LANE0_1_SET2	    0x10f
- #define DP_TRAINING_LANE2_3_SET2	    0x110
+Best regards
+Thomas
+
+drm-misc-next-fixes-2023-09-01:
+Short summary of fixes pull:
+
+ * ivpu: Replace strncpy
+ * nouveau: Fix fence state in nouveau_fence_emit()
+The following changes since commit cdf4100eaa1f4107fcf7c95b5eccca96cca6c777:
+
+  drm/gpuva_mgr: remove unused prev pointer in __drm_gpuva_sm_map() (2023-08-24 14:27:14 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-09-01
+
+for you to fetch changes up to 978474dc8278f661930e02e08d292a45a45fa01a:
+
+  drm/nouveau: fence: fix undefined fence state after emit (2023-08-31 00:46:23 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * ivpu: Replace strncpy
+ * nouveau: Fix fence state in nouveau_fence_emit()
+
+----------------------------------------------------------------
+Danilo Krummrich (1):
+      drm/nouveau: fence: fix undefined fence state after emit
+
+Justin Stitt (1):
+      accel/ivpu: refactor deprecated strncpy
+
+ drivers/accel/ivpu/ivpu_jsm_msg.c       |  3 +--
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c |  9 +--------
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |  8 +-------
+ drivers/gpu/drm/nouveau/nouveau_chan.c  |  6 ++----
+ drivers/gpu/drm/nouveau/nouveau_dmem.c  |  9 +++------
+ drivers/gpu/drm/nouveau/nouveau_exec.c  | 11 ++++++++---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 32 ++++++++++++++++++++++++++------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  5 +++--
+ drivers/gpu/drm/nouveau/nouveau_gem.c   |  5 +----
+ 9 files changed, 46 insertions(+), 42 deletions(-)
+
 -- 
-2.25.1
-
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
