@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED66878F677
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 02:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8ADD78F678
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 02:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A5710E703;
-	Fri,  1 Sep 2023 00:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DA610E708;
+	Fri,  1 Sep 2023 00:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-133.freemail.mail.aliyun.com
- (out30-133.freemail.mail.aliyun.com [115.124.30.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D1310E11C;
- Fri,  1 Sep 2023 00:52:33 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+Received: from out30-98.freemail.mail.aliyun.com
+ (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097DA10E11C;
+ Fri,  1 Sep 2023 00:52:35 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
  MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VqzZsP5_1693529547; 
+ TI=SMTPD_---0VqzVp8w_1693529550; 
 Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0VqzZsP5_1693529547) by smtp.aliyun-inc.com;
- Fri, 01 Sep 2023 08:52:28 +0800
+ fp:SMTPD_---0VqzVp8w_1693529550) by smtp.aliyun-inc.com;
+ Fri, 01 Sep 2023 08:52:31 +0800
 From: Yang Li <yang.lee@linux.alibaba.com>
 To: alexander.deucher@amd.com, Rodrigo.Siqueira@amd.com,
  harry.wentland@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH -next 1/4] drm/amd/display: Remove duplicated include in
- dcn35_resource.c
-Date: Fri,  1 Sep 2023 08:52:23 +0800
-Message-Id: <20230901005226.42307-1-yang.lee@linux.alibaba.com>
+Subject: [PATCH -next 2/4] drm/amd/display: Remove duplicated include in
+ dcn35_optc.c
+Date: Fri,  1 Sep 2023 08:52:24 +0800
+Message-Id: <20230901005226.42307-2-yang.lee@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
+In-Reply-To: <20230901005226.42307-1-yang.lee@linux.alibaba.com>
+References: <20230901005226.42307-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,25 +50,25 @@ Cc: Yang Li <yang.lee@linux.alibaba.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-./drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c: dcn31/dcn31_dio_link_encoder.h is included more than once.
+./drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c: dcn35_optc.h is included more than once.
 
 Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c | 1 -
+ drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c
-index 0386b8fb270d..7f059fc2fc75 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_resource.c
-@@ -61,7 +61,6 @@
- #include "dcn32/dcn32_hpo_dp_link_encoder.h"
- #include "link.h"
- #include "dcn31/dcn31_apg.h"
--#include "dcn31/dcn31_dio_link_encoder.h"
- #include "dcn32/dcn32_dio_link_encoder.h"
- #include "dcn31/dcn31_vpg.h"
- #include "dcn31/dcn31_afmt.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c
+index d64be1a5071c..2bea1e475096 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_optc.c
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include "dcn35_optc.h"
+-#include "dcn35_optc.h"
+ 
+ #include "dcn30/dcn30_optc.h"
+ #include "dcn31/dcn31_optc.h"
 -- 
 2.20.1.7.g153144c
 
