@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A5478FF95
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 17:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811D0790089
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 18:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57E010E807;
-	Fri,  1 Sep 2023 15:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9379210E055;
+	Fri,  1 Sep 2023 16:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D546310E807
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 15:00:57 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id
- 71dfb90a1353d-48d05fdb8bfso697182e0c.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Sep 2023 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693580457; x=1694185257;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lnevc20nRmP7PquEdhakfrPorTg+eX5G0icySYl0ICg=;
- b=WpIZtTAPvigTVS3wKTnvxoMmwfXSeIDJFv6BhrsDG/xuvj1Sm2NpAgtIToly5wH6P2
- jxKs4BI3vcwEEa/kp+z2DbE5nSaExKs8Dg5S8fhEOZz0rUPX8ZLs0U41rsz9VzJI7wHh
- tOiRzaXXk8Ya1ZnfLvdg9bcBuEJGiZlZ0IWp4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693580457; x=1694185257;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Lnevc20nRmP7PquEdhakfrPorTg+eX5G0icySYl0ICg=;
- b=ah1a3WksDuabRtcXiId4UgRaa+Z5GsbthRquMN21jSXTCq9LVxvKJAYmnF/zsMAdll
- GJhG/KNVws72xHuHgjLvbg7nSl0iLzwU6M+7R7gNI76gX0LtzxGeiL3uMMrY1YIKJ0vF
- o8BBi0Z03lyjizJfXEIRLGpDcgZYP2QSqTPxul98dQ4iqgCETdpe7JOPZN9xlRCzEGMN
- H5Gp+cd0N+hjIWsFvrzUlOQBrIdSeZRKPRr1W3sLZXVkTKaNouH22OT+D0A+C5Q6tddS
- 0AImE4ByhXbG/eZIUQM/RMtkKLHgEjzYnxeybrR7Eb5lkbkTYmdoSJOV2nm72Y8vkA8M
- s9og==
-X-Gm-Message-State: AOJu0YwF/lW6swR4u5RkEO2tenObaOTiZMbHMEb7UT55uizvSX5uYDFo
- cxf5NXHi0jEXBj4SAydKW43CpM/1Tnnt06MpY4EeMg==
-X-Google-Smtp-Source: AGHT+IG+W/T5TeKymvtATZ1GHNxllQKC01DOQi4Q4SMcnuEycQsU5HjjfQBucfegSU4lOxNjd79MQXGybqZbwL/BL1I=
-X-Received: by 2002:a1f:ed81:0:b0:48d:1fcd:9760 with SMTP id
- l123-20020a1fed81000000b0048d1fcd9760mr2743978vkh.10.1693580456779; Fri, 01
- Sep 2023 08:00:56 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB4DB10E055
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 16:10:58 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 381DS6FS012774; Fri, 1 Sep 2023 16:10:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=rbQgj5LEVVXkXw9/KgGEXCJEbnqFKBagAU8tsnxvWO8=;
+ b=a4w9esW13v8P6Jjb273ju/7+QuwPJ9loOY9yHRipa2H5Kfc/Wf3VkIKxWo/tUZqpbeIi
+ Nx/OLvz+NU7T/6di5IQx7EBJ6RaIw0BWh+KUh/XV/MxqE5pokK8nLVcSC29gLCSsrz36
+ DVSFWqyMaEr5LIMNxkCvAXtAd1XSZ7FCfFMustEn4ibzTRTUOarW0vdX2hAeQVyP4fSf
+ yfJmtUaE9SpsrNKhTnKGUdh/x4hTPe8/9ZwvDBkqOGDe+CFCBUToH+kdM5TMAjMoZqQI
+ hVApvvC+WNMe8aOc9yL0S+ClMfKwLomhZwginGh8x5OmaPIqL30BijRteGJvgIXEwtVG lw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3suc9k16tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Sep 2023 16:10:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 381GArDu022448
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Sep 2023 16:10:53 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Fri, 1 Sep 2023 09:10:52 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH] accel/qaic: Register for PCI driver at the beginning of
+ module init
+Date: Fri, 1 Sep 2023 10:10:37 -0600
+Message-ID: <20230901161037.6124-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230725073234.55892-10-angelogioacchino.delregno@collabora.com>
- <20230825120109.3132209-1-mwalle@kernel.org>
- <5b438dba-9b85-4448-bc89-08a11ddb822a@notapiano>
- <fc6c054941420ac2d016496ccbeecad4@kernel.org>
- <00f65d49-497c-4ade-a2f3-7a5b7ad803b6@notapiano>
- <18bfffdd7ce3bd7693c8362b28651b49@kernel.org>
- <cce6f9c2-e0b6-47e4-ae1c-9a3d8a4e4b02@notapiano>
- <7a3257dddac78c46408341253a3286f4@kernel.org>
- <CAGXv+5E4nWSuZdHmRhgYDUG4WhYs5o+-ZQBh3pnd2T_fdf9Edg@mail.gmail.com>
- <d6031e00cda9ea1e30bb75b2ca97300f@kernel.org>
-In-Reply-To: <d6031e00cda9ea1e30bb75b2ca97300f@kernel.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 1 Sep 2023 23:00:45 +0800
-Message-ID: <CAGXv+5H_L+Zg66+nTaVGQ=yqcazMtKqG54eURtcjgA=q0VK2Eg@mail.gmail.com>
-Subject: Re: [PATCH v7 09/11] drm/mediatek: dp: Add support for embedded
- DisplayPort aux-bus
-To: Michael Walle <mwalle@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xvI_H7P9Q4SQFPEaKXDf7JTf013M2QKv
+X-Proofpoint-ORIG-GUID: xvI_H7P9Q4SQFPEaKXDf7JTf013M2QKv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-01_13,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ bulkscore=0 clxscore=1015 phishscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309010150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,41 +80,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- amergnat@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, ehristev@collabora.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: linux-arm-msm@vger.kernel.org, ogabbay@kernel.org,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 1, 2023 at 6:00=E2=80=AFPM Michael Walle <mwalle@kernel.org> wr=
-ote:
->
-> Hi,
->
-> >> I was just curious if you know of any development for that (or
-> >> similar)
-> >> in the kernel.
-> >
-> > This is probably because support for this SoC began with Chromebooks,
-> > which have fixed and defined uses for the pipelines. I suspect that
-> > what you are working on is much more flexible.
->
-> Yes. that is correct.
->
-> > The driver should be made to allow dynamic selection of outputs, as
-> > is commonly seen with other drivers, but I don't know if that's on
-> > anyone's TODO list.
->
-> Do you have any pointers where to look at?
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-There's a series [1] called "Add connector dynamic selection capability".
-Not sure if it does what you want though. I haven't looked into it.
+As qaic drivers base device is connected to host via PCI framework, it
+makes sense to register in PCI framework at the beginning of module
+init.
 
-ChenYu
+Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ drivers/accel/qaic/qaic_drv.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-[1] https://lore.kernel.org/all/20230809181525.7561-1-jason-jh.lin@mediatek=
-.com/
+diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+index b5de82e6eb4d..49b5039f4cad 100644
+--- a/drivers/accel/qaic/qaic_drv.c
++++ b/drivers/accel/qaic/qaic_drv.c
+@@ -591,22 +591,22 @@ static int __init qaic_init(void)
+ {
+ 	int ret;
+ 
+-	ret = mhi_driver_register(&qaic_mhi_driver);
++	ret = pci_register_driver(&qaic_pci_driver);
+ 	if (ret) {
+-		pr_debug("qaic: mhi_driver_register failed %d\n", ret);
++		pr_debug("qaic: pci_register_driver failed %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	ret = pci_register_driver(&qaic_pci_driver);
++	ret = mhi_driver_register(&qaic_mhi_driver);
+ 	if (ret) {
+-		pr_debug("qaic: pci_register_driver failed %d\n", ret);
+-		goto free_mhi;
++		pr_debug("qaic: mhi_driver_register failed %d\n", ret);
++		goto free_pci;
+ 	}
+ 
+ 	return 0;
+ 
+-free_mhi:
+-	mhi_driver_unregister(&qaic_mhi_driver);
++free_pci:
++	pci_unregister_driver(&qaic_pci_driver);
+ 	return ret;
+ }
+ 
+@@ -628,8 +628,8 @@ static void __exit qaic_exit(void)
+ 	 * reinitializing the link_up state after the cleanup is done.
+ 	 */
+ 	link_up = true;
+-	pci_unregister_driver(&qaic_pci_driver);
+ 	mhi_driver_unregister(&qaic_mhi_driver);
++	pci_unregister_driver(&qaic_pci_driver);
+ }
+ 
+ module_init(qaic_init);
+-- 
+2.40.1
+
