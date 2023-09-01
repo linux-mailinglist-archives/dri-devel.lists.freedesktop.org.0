@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F95790395
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 00:19:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 822BB7903C6
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 00:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C4410E1E1;
-	Fri,  1 Sep 2023 22:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C4F10E202;
+	Fri,  1 Sep 2023 22:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 504C910E069;
- Fri,  1 Sep 2023 22:19:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693606742; x=1725142742;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=RGoNgoP1tkAOm5Qmu/pw23EzpeEN4IrBktGvciLUMlY=;
- b=MSeqOkgQnDTptGE7MobQpU89oiyyxNHxMBiLixEIr94XSco1FV5dUXFX
- 5ebPv7dDLZ+B7cQOoDTqWEsuXFtZe+aSbwzdL1mWz7eqvySpdPFknZdgq
- owKbzi2lhp8jhWGTeF3KSVAOwiZT1r4enFq+mo4aSOoYvWBpLK8W+QiDj
- aF7g6avakVzAkVvmK1CbcLluwk11DjEnWwHtGWlJ/nVYptZi4kb5MlHO9
- /Ft2/S4Yd9Iu22R73RSg0aaxpgmC6UVTICEC5CGwPsElgiHjbo9lc50ch
- pWbcuwjVQqmWtZgBQrf8nszSPFfC5F3Bx4JCyyys5NUydYvqUblfNt0jG A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="373714328"
-X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; d="scan'208";a="373714328"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 15:19:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805598368"
-X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; d="scan'208";a="805598368"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2023 15:18:56 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qcCTe-0001h7-2E;
- Fri, 01 Sep 2023 22:18:54 +0000
-Date: Sat, 2 Sep 2023 06:18:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
-Subject: Re: [PATCH v2 6/6] drm/drm-file: Allow size unit selection in
- drm_show_memory_stats
-Message-ID: <202309020634.fwC7KBk6-lkp@intel.com>
-References: <20230824013604.466224-7-adrian.larumbe@collabora.com>
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 842EF10E202
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 22:51:27 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2bcb0b973a5so42279391fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Sep 2023 15:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1693608685; x=1694213485;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+imYCqEpQGQYJF9z3Zred9fi662pg+dZPyYtyzKuds0=;
+ b=cz7gO1S9t0q2K16WS3UI4x4yE5lnSSHlg0YjDbDJm5lKu873wToCG1UPSWcwLdEfhl
+ qMQRA+SUIXsMNEXH0YfgHu5bIqwkW3E5ek6WAQj8Z5AoL/ghUeVjZ6fZZJJy98KdBl1F
+ DKQBIZPA5q5ZNhcCAw1Arqzf1vJ0FcQGEqXuA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693608685; x=1694213485;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+imYCqEpQGQYJF9z3Zred9fi662pg+dZPyYtyzKuds0=;
+ b=Rh9AUsihqzSeMVck/uZ1rjjL4bZdm79n4FUyEHeIWI3AtxCEF0DLY2au6yMU5J7US0
+ Y6SDRiWoOt0Wc9c1BFy29nqothcUa5gOobKJbxekUahm+iTO1d4DcqtsdSX67hOnIOCy
+ WPcKIPjJNtFGhYb0J/b322a5iejCZTh5PDmsEs7/Os060klNz2Yqn+Ei5m16UNNcB8js
+ EUWzqzUCf/jvX+/S1WvXdJrNbC1zD7Xd3WuFJ1lhONMl32BagS72niIwQKgYwnxfbI/8
+ bS/t4spOMyvr27oqjiJ0AKRudOrOxvDVJHtCsI5b79BAVaIwSbW+5ZSn4HeJkPoVfR9b
+ 3wOw==
+X-Gm-Message-State: AOJu0YzXk8iG92KrYNktpBb1977rl0SKxImBGO0kiooil9niVuaq3tTc
+ fGseln8/1HLcZSNn5Nb2+mANL8kqdC34SuRTpbGUDg==
+X-Google-Smtp-Source: AGHT+IHZVhh8nONbxjFRGwOWOC8nTFjU/wJw+509miskR/7gNkjplZe4JmTrOVGQvlIAusGXspz4Wz+/dzdPRb+onfo=
+X-Received: by 2002:a2e:701a:0:b0:2bc:d5f1:b9cf with SMTP id
+ l26-20020a2e701a000000b002bcd5f1b9cfmr2606495ljc.27.1693608685358; Fri, 01
+ Sep 2023 15:51:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824013604.466224-7-adrian.larumbe@collabora.com>
+References: <20230824205335.500163-1-gildekel@chromium.org>
+ <20230824205335.500163-2-gildekel@chromium.org> <ZPI0BX6KyIIKMaKP@intel.com>
+In-Reply-To: <ZPI0BX6KyIIKMaKP@intel.com>
+From: Gil Dekel <gildekel@chromium.org>
+Date: Fri, 1 Sep 2023 18:51:14 -0400
+Message-ID: <CAOD+-Q42-LwUb1X8z_TP2=Q+zpbg7O0x4r5RXShQaCaLcsajgw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v4 1/6] drm/i915/dp_link_training: Add a final
+ failing state to link training fallback
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +68,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, healych@amazon.com,
- oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+On Fri, Sep 1, 2023 at 2:57=E2=80=AFPM Rodrigo Vivi <rodrigo.vivi@intel.com=
+> wrote:
+>
+> On Thu, Aug 24, 2023 at 04:50:16PM -0400, Gil Dekel wrote:
+> > Instead of silently giving up when all link-training fallback values ar=
+e
+> > exhausted, this patch modifies the fallback's failure branch to reduces
+> > both max_link_lane_count and max_link_rate to zero (0) and continues to
+> > emit uevents until userspace stops attempting to modeset.
+> >
+> > By doing so, we ensure the failing connector, which is in
+> > link-status=3DBad, has all its modes pruned (due to effectively having =
+a
+> > bandwidth of 0Gbps).
+> >
+> > It is then the userspace's responsibility to ignore connectors with no
+> > modes, even if they are marked as connected.
+> >
+> > Signed-off-by: Gil Dekel <gildekel@chromium.org>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp.c | 18 ++++++++++++++++--
+> >  1 file changed, 16 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/=
+i915/display/intel_dp.c
+> > index 7067ee3a4bd3..2152ddbab557 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -276,8 +276,12 @@ static int intel_dp_common_len_rate_limit(const st=
+ruct intel_dp *intel_dp,
+> >
+> >  static int intel_dp_common_rate(struct intel_dp *intel_dp, int index)
+> >  {
+> > +     /* This occurs when max link rate drops to 0 via link training fa=
+llback*/
+> > +     if (index < 0)
+> > +             return 0;
+>
+> I'm not comfortable with handling negative input as normal here
+> and no warning or msg.
+> Maybe I'm missing the cases in which this will get to negative and
+> it would be acceptable? In this case probably better to improve the
+> commit message.
+>
+If we set the max_link_rate to 0, as I am suggesting in this approach,
+it will eventually reach:
+int intel_dp_rate_limit_len(intel_dp_rate_limit_len(const int *rates,
+int len, int max_rate)
 
-kernel test robot noticed the following build warnings:
+and since max_rate is =3D=3D 0, the returned value will be 0.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.5 next-20230831]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The common use case of
+int intel_dp_common_rate(struct intel_dp *intel_dp, int index) is:
+intel_dp_common_rate(intel_dp, len - 1);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230824013604.466224-7-adrian.larumbe%40collabora.com
-patch subject: [PATCH v2 6/6] drm/drm-file: Allow size unit selection in drm_show_memory_stats
-config: x86_64-randconfig-002-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020634.fwC7KBk6-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020634.fwC7KBk6-lkp@intel.com/reproduce)
+where len is the position of the last link rate value that was attempted
+in the connector's array of bit rates.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309020634.fwC7KBk6-lkp@intel.com/
+When len =3D=3D 0, you hit the case where the index becomes -1, which
+indicates we ran out of possible bitrates in:
+intel_dp->num_common_rates
+so we return the bit rate 0Gbps for all invalid cases (index < 0).
 
-All warnings (new ones prefixed by >>):
+If this is acceptable, I'll gladly add some details to the commit
+message.
 
->> drivers/gpu/drm/drm_file.c:905: warning: Function parameter or member 'unit' not described in 'drm_print_memory_stats'
+An alternative approach is to introduce 0 link rate at the front of:
+intel_dp->num_common_rates, which will ensure all connectors
+have 0 as a last option, and then we can use the normal fallback
+code path with no special cases here.
 
+I hope this makes sense...
+> > +
+> >       if (drm_WARN_ON(&dp_to_i915(intel_dp)->drm,
+> > -                     index < 0 || index >=3D intel_dp->num_common_rate=
+s))
+> > +                     index >=3D intel_dp->num_common_rates))
+> >               return 162000;
+> >
+> >       return intel_dp->common_rates[index];
+> > @@ -318,6 +322,9 @@ static int intel_dp_max_common_lane_count(struct in=
+tel_dp *intel_dp)
+> >  int intel_dp_max_lane_count(struct intel_dp *intel_dp)
+> >  {
+> >       switch (intel_dp->max_link_lane_count) {
+> > +     /* This occurs when max link lane count drops to 0 via link train=
+ing fallback*/
+> > +     case 0:
+> > +             return 0;
+> >       case 1:
+> >       case 2:
+> >       case 4:
+> > @@ -672,7 +679,14 @@ int intel_dp_get_link_train_fallback_values(struct=
+ intel_dp *intel_dp,
+> >               intel_dp->max_link_lane_count =3D lane_count >> 1;
+> >       } else {
+> >               drm_err(&i915->drm, "Link Training Unsuccessful\n");
+> > -             return -1;
+> > +             /*
+> > +              * Ensure all of the connector's modes are pruned in the =
+next
+> > +              * probe by effectively reducing its bandwidth to 0 so us=
+erspace
+> > +              * can ignore it within the next modeset attempt.
+> > +              */
+> > +             intel_dp->max_link_rate =3D 0;
+> > +             intel_dp->max_link_lane_count =3D 0;
+> > +             return 0;
+> >       }
+> >
+> >       return 0;
+> > --
+> > Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
 
-vim +905 drivers/gpu/drm/drm_file.c
+Thanks for your reviews and comments!
 
-686b21b5f6ca2f Rob Clark      2023-05-24  891  
-686b21b5f6ca2f Rob Clark      2023-05-24  892  /**
-686b21b5f6ca2f Rob Clark      2023-05-24  893   * drm_print_memory_stats - A helper to print memory stats
-686b21b5f6ca2f Rob Clark      2023-05-24  894   * @p: The printer to print output to
-686b21b5f6ca2f Rob Clark      2023-05-24  895   * @stats: The collected memory stats
-686b21b5f6ca2f Rob Clark      2023-05-24  896   * @supported_status: Bitmask of optional stats which are available
-686b21b5f6ca2f Rob Clark      2023-05-24  897   * @region: The memory region
-686b21b5f6ca2f Rob Clark      2023-05-24  898   *
-686b21b5f6ca2f Rob Clark      2023-05-24  899   */
-686b21b5f6ca2f Rob Clark      2023-05-24  900  void drm_print_memory_stats(struct drm_printer *p,
-686b21b5f6ca2f Rob Clark      2023-05-24  901  			    const struct drm_memory_stats *stats,
-686b21b5f6ca2f Rob Clark      2023-05-24  902  			    enum drm_gem_object_status supported_status,
-cccad8cb432637 Adrián Larumbe 2023-08-24  903  			    const char *region,
-cccad8cb432637 Adrián Larumbe 2023-08-24  904  			    unsigned int unit)
-686b21b5f6ca2f Rob Clark      2023-05-24 @905  {
-cccad8cb432637 Adrián Larumbe 2023-08-24  906  	print_size(p, "total", region, stats->private + stats->shared, unit);
-cccad8cb432637 Adrián Larumbe 2023-08-24  907  	print_size(p, "shared", region, stats->shared, unit);
-cccad8cb432637 Adrián Larumbe 2023-08-24  908  	print_size(p, "active", region, stats->active, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  909  
-686b21b5f6ca2f Rob Clark      2023-05-24  910  	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
-cccad8cb432637 Adrián Larumbe 2023-08-24  911  		print_size(p, "resident", region, stats->resident, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  912  
-686b21b5f6ca2f Rob Clark      2023-05-24  913  	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
-cccad8cb432637 Adrián Larumbe 2023-08-24  914  		print_size(p, "purgeable", region, stats->purgeable, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  915  }
-686b21b5f6ca2f Rob Clark      2023-05-24  916  EXPORT_SYMBOL(drm_print_memory_stats);
-686b21b5f6ca2f Rob Clark      2023-05-24  917  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Best,
+Gil Dekel, Software Engineer, Google / ChromeOS Display and Graphics
