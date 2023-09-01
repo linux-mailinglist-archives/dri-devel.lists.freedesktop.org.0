@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1361A78FB78
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:50:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A2B78FB88
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0695810E76B;
-	Fri,  1 Sep 2023 09:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2449C10E76F;
+	Fri,  1 Sep 2023 09:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C638C10E768
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:50:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693561838; x=1725097838;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1rOFH4XyypFNZ/apSK9/3IHWEVTeI29QPSbK7oN3rRU=;
- b=jdEbQZhQuyKPwdl238HZXR/rdYm1RQRlEiaKMXu0yJlYzk+9LO/AQA/U
- GNjIKk4/LPeEmevE24q9rX1KfYOXAYED7caZdpkX2GttrNsBKGydIISt+
- 1jWxqhswWGe9glSE43iJqpCVM3wBa32d70DNBOp9y0bIssmd0/CQokZGp
- ccnw1AOFlgtivFj8oIN4zbwcMdgqCLwqBsXCeXzTWj2Kmr3GiaptwxpX3
- +Ol7pjE2ELDnAw7o72TTx7QwaP0U6uchT4uStAEy2AlRlQQ1Y4OuKgJJv
- LeS6lGT0EYbYPPUdqNPPYGffayS8/1s5AmKD3YNhgA7bvwZUOPzejAmJq g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361206943"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="361206943"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 02:50:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070679984"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="1070679984"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 02:50:36 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 11/11] accel/ivpu: Move MMU register definitions to
- ivpu_mmu.c
-Date: Fri,  1 Sep 2023 11:49:57 +0200
-Message-Id: <20230901094957.168898-12-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
-References: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5774A10E76F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:59:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A89562B36;
+ Fri,  1 Sep 2023 09:59:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A8ECC433CC;
+ Fri,  1 Sep 2023 09:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693562368;
+ bh=MCxcvPe7knGMaYt1Jtizlmz+R6LJpOaJGjbJJhZK6bk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GA1YwEU3VH5nYETgRRFa+H2KhzO/6AeBueaJNaFrLhNj4oYVUrFlG31/kmDpBLfRN
+ KdVdzl2z/1BnkOMivBAS/6T+XPYkzXOTvsxPcbU9MIIYd8aUuyjxmnemAWS+MU5o87
+ fcGo8kewyUkF4I7AwSdoDpAsP3/r/9nveK4GRIPBzah5737y3oGL7+eG4WTSqh8zqB
+ I85097wIdGopqxEzor65wgSNmlLfntteEIlwPilu7+Rl8dMm7SJpbO7aMeFFCDgSVi
+ bfMT1EVAaQiwlNfX43Y5NN2EFiE2jV0y66q8U8AtR+A1KBidHkIFVV3R4OcOPrWmfN
+ m3cHUMKH7EWsw==
+From: Michael Walle <mwalle@kernel.org>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+ <nfraprado@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs calculation
+Date: Fri,  1 Sep 2023 11:59:16 +0200
+Message-Id: <20230901095916.3599320-2-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230901095916.3599320-1-mwalle@kernel.org>
+References: <20230901095916.3599320-1-mwalle@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,330 +58,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
+ Michael Walle <mwalle@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
+always have the CRTC with id 0, the ext id 1 and the third id 2. This
+is only true if the paths are all available. But paths are optional (see
+also comment in mtk_drm_kms_init()), e.g. the main path might not be
+enabled or available at all. Then the CRTC IDs will shift one up, e.g.
+ext will be 1 and the third path will be 2.
 
-MMU registers are not platform specific so they should be defined
-separate to platform regs.
+To fix that, dynamically calculate the IDs by the precence of the paths.
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
+Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx_reg.h |  33 --------
- drivers/accel/ivpu/ivpu_mmu.c         | 117 +++++++++++++++++---------
- 2 files changed, 75 insertions(+), 75 deletions(-)
+v2:
+ - iterate over all_drm_private[] to get any vdosys
+ - new check if a path is available
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 72 +++++++++++++++++----
+ 1 file changed, 58 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-index 531a68c1cce8..4083beb5e9db 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
-@@ -191,39 +191,6 @@
- #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_FINAL_PLL_FREQ_MASK	GENMASK(15, 0)
- #define VPU_37XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_CONFIG_ID_MASK		GENMASK(31, 16)
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 771f4e173353..9f0f12740fb0 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -507,6 +507,27 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
+ 	return false;
+ }
  
--#define VPU_37XX_HOST_MMU_IDR0						0x00200000u
--#define VPU_37XX_HOST_MMU_IDR1						0x00200004u
--#define VPU_37XX_HOST_MMU_IDR3						0x0020000cu
--#define VPU_37XX_HOST_MMU_IDR5						0x00200014u
--#define VPU_37XX_HOST_MMU_CR0						0x00200020u
--#define VPU_37XX_HOST_MMU_CR0ACK					0x00200024u
--#define VPU_37XX_HOST_MMU_CR1						0x00200028u
--#define VPU_37XX_HOST_MMU_CR2						0x0020002cu
--#define VPU_37XX_HOST_MMU_IRQ_CTRL					0x00200050u
--#define VPU_37XX_HOST_MMU_IRQ_CTRLACK					0x00200054u
--
--#define VPU_37XX_HOST_MMU_GERROR					0x00200060u
--#define VPU_37XX_HOST_MMU_GERROR_CMDQ_MASK				BIT_MASK(0)
--#define VPU_37XX_HOST_MMU_GERROR_EVTQ_ABT_MASK				BIT_MASK(2)
--#define VPU_37XX_HOST_MMU_GERROR_PRIQ_ABT_MASK				BIT_MASK(3)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_CMDQ_ABT_MASK			BIT_MASK(4)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_EVTQ_ABT_MASK			BIT_MASK(5)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_PRIQ_ABT_MASK			BIT_MASK(6)
--#define VPU_37XX_HOST_MMU_GERROR_MSI_ABT_MASK				BIT_MASK(7)
--
--#define VPU_37XX_HOST_MMU_GERRORN					0x00200064u
--
--#define VPU_37XX_HOST_MMU_STRTAB_BASE					0x00200080u
--#define VPU_37XX_HOST_MMU_STRTAB_BASE_CFG				0x00200088u
--#define VPU_37XX_HOST_MMU_CMDQ_BASE					0x00200090u
--#define VPU_37XX_HOST_MMU_CMDQ_PROD					0x00200098u
--#define VPU_37XX_HOST_MMU_CMDQ_CONS					0x0020009cu
--#define VPU_37XX_HOST_MMU_EVTQ_BASE					0x002000a0u
--#define VPU_37XX_HOST_MMU_EVTQ_PROD					0x002000a8u
--#define VPU_37XX_HOST_MMU_EVTQ_CONS					0x002000acu
--#define VPU_37XX_HOST_MMU_EVTQ_PROD_SEC					(0x002000a8u + SZ_64K)
--#define VPU_37XX_HOST_MMU_EVTQ_CONS_SEC					(0x002000acu + SZ_64K)
--
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES				0x00360000u
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_CACHE_OVERRIDE_EN_MASK	BIT_MASK(0)
- #define VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK	BIT_MASK(1)
-diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index baefaf7bb3cb..473e1fc686a7 100644
---- a/drivers/accel/ivpu/ivpu_mmu.c
-+++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -7,12 +7,45 @@
- #include <linux/highmem.h>
- 
- #include "ivpu_drv.h"
--#include "ivpu_hw_37xx_reg.h"
- #include "ivpu_hw_reg_io.h"
- #include "ivpu_mmu.h"
- #include "ivpu_mmu_context.h"
- #include "ivpu_pm.h"
- 
-+#define IVPU_MMU_REG_IDR0		      0x00200000u
-+#define IVPU_MMU_REG_IDR1		      0x00200004u
-+#define IVPU_MMU_REG_IDR3		      0x0020000cu
-+#define IVPU_MMU_REG_IDR5		      0x00200014u
-+#define IVPU_MMU_REG_CR0		      0x00200020u
-+#define IVPU_MMU_REG_CR0ACK		      0x00200024u
-+#define IVPU_MMU_REG_CR1		      0x00200028u
-+#define IVPU_MMU_REG_CR2		      0x0020002cu
-+#define IVPU_MMU_REG_IRQ_CTRL		      0x00200050u
-+#define IVPU_MMU_REG_IRQ_CTRLACK	      0x00200054u
++static bool mtk_ddp_path_available(const unsigned int *path,
++				   unsigned int path_len,
++				   struct device_node **comp_node)
++{
++	unsigned int i;
 +
-+#define IVPU_MMU_REG_GERROR		      0x00200060u
-+#define IVPU_MMU_REG_GERROR_CMDQ_MASK	      BIT_MASK(0)
-+#define IVPU_MMU_REG_GERROR_EVTQ_ABT_MASK     BIT_MASK(2)
-+#define IVPU_MMU_REG_GERROR_PRIQ_ABT_MASK     BIT_MASK(3)
-+#define IVPU_MMU_REG_GERROR_MSI_CMDQ_ABT_MASK BIT_MASK(4)
-+#define IVPU_MMU_REG_GERROR_MSI_EVTQ_ABT_MASK BIT_MASK(5)
-+#define IVPU_MMU_REG_GERROR_MSI_PRIQ_ABT_MASK BIT_MASK(6)
-+#define IVPU_MMU_REG_GERROR_MSI_ABT_MASK      BIT_MASK(7)
++	if (!path)
++		return false;
 +
-+#define IVPU_MMU_REG_GERRORN		      0x00200064u
++	for (i = 0U; i < path_len; i++) {
++		/* OVL_ADAPTOR doesn't have a device node */
++		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
++			continue;
 +
-+#define IVPU_MMU_REG_STRTAB_BASE	      0x00200080u
-+#define IVPU_MMU_REG_STRTAB_BASE_CFG	      0x00200088u
-+#define IVPU_MMU_REG_CMDQ_BASE		      0x00200090u
-+#define IVPU_MMU_REG_CMDQ_PROD		      0x00200098u
-+#define IVPU_MMU_REG_CMDQ_CONS		      0x0020009cu
-+#define IVPU_MMU_REG_EVTQ_BASE		      0x002000a0u
-+#define IVPU_MMU_REG_EVTQ_PROD		      0x002000a8u
-+#define IVPU_MMU_REG_EVTQ_CONS		      0x002000acu
-+#define IVPU_MMU_REG_EVTQ_PROD_SEC	      (0x002000a8u + SZ_64K)
-+#define IVPU_MMU_REG_EVTQ_CONS_SEC	      (0x002000acu + SZ_64K)
-+#define IVPU_MMU_REG_CMDQ_CONS_ERR_MASK	      GENMASK(30, 24)
++		if (!comp_node[path[i]])
++			return false;
++	}
 +
- #define IVPU_MMU_IDR0_REF		0x080f3e0f
- #define IVPU_MMU_IDR0_REF_SIMICS	0x080f3e1f
- #define IVPU_MMU_IDR1_REF		0x0e739d18
-@@ -186,13 +219,13 @@
- #define IVPU_MMU_REG_TIMEOUT_US		(10 * USEC_PER_MSEC)
- #define IVPU_MMU_QUEUE_TIMEOUT_US	(100 * USEC_PER_MSEC)
- 
--#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT)) | \
--				  (REG_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT)))
-+#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(IVPU_MMU_REG_GERROR, CMDQ)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT)) | \
-+				  (REG_FLD(IVPU_MMU_REG_GERROR, MSI_ABT)))
- 
- static char *ivpu_mmu_event_to_str(u32 cmd)
++	return true;
++}
++
+ int mtk_ddp_comp_get_id(struct device_node *node,
+ 			enum mtk_ddp_comp_type comp_type)
  {
-@@ -250,15 +283,15 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
- 	else
- 		val_ref = IVPU_MMU_IDR0_REF;
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR0);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR0);
- 	if (val != val_ref)
- 		ivpu_dbg(vdev, MMU, "IDR0 0x%x != IDR0_REF 0x%x\n", val, val_ref);
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR1);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR1);
- 	if (val != IVPU_MMU_IDR1_REF)
- 		ivpu_dbg(vdev, MMU, "IDR1 0x%x != IDR1_REF 0x%x\n", val, IVPU_MMU_IDR1_REF);
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR3);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR3);
- 	if (val != IVPU_MMU_IDR3_REF)
- 		ivpu_dbg(vdev, MMU, "IDR3 0x%x != IDR3_REF 0x%x\n", val, IVPU_MMU_IDR3_REF);
- 
-@@ -269,7 +302,7 @@ static void ivpu_mmu_config_check(struct ivpu_device *vdev)
- 	else
- 		val_ref = IVPU_MMU_IDR5_REF;
- 
--	val = REGV_RD32(VPU_37XX_HOST_MMU_IDR5);
-+	val = REGV_RD32(IVPU_MMU_REG_IDR5);
- 	if (val != val_ref)
- 		ivpu_dbg(vdev, MMU, "IDR5 0x%x != IDR5_REF 0x%x\n", val, val_ref);
- }
-@@ -396,18 +429,18 @@ static int ivpu_mmu_irqs_setup(struct ivpu_device *vdev)
- 	u32 irq_ctrl = IVPU_MMU_IRQ_EVTQ_EN | IVPU_MMU_IRQ_GERROR_EN;
- 	int ret;
- 
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, 0);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, 0);
- 	if (ret)
- 		return ret;
- 
--	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_IRQ_CTRL, irq_ctrl);
-+	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_IRQ_CTRL, irq_ctrl);
- }
- 
- static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
+@@ -526,21 +547,44 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+ 						struct device *dev)
  {
- 	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
+ 	struct mtk_drm_private *private = drm->dev_private;
+-	unsigned int ret = 0;
+-
+-	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
+-				     private->ddp_comp))
+-		ret = BIT(0);
+-	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
+-					  private->data->ext_len, private->ddp_comp))
+-		ret = BIT(1);
+-	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
+-					  private->data->third_len, private->ddp_comp))
+-		ret = BIT(2);
+-	else
+-		DRM_INFO("Failed to find comp in ddp table\n");
++	const struct mtk_mmsys_driver_data *data;
++	struct mtk_drm_private *priv_n;
++	int i = 0, j;
++
++	for (j = 0; j < private->data->mmsys_dev_num; j++) {
++		priv_n = private->all_drm_private[j];
++		data = priv_n->data;
++
++		if (mtk_ddp_path_available(data->main_path, data->main_len,
++					   priv_n->comp_node)) {
++			if (mtk_drm_find_comp_in_ddp(dev, priv_n->data->main_path,
++						     priv_n->data->main_len,
++						     priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++
++		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
++					   priv_n->comp_node)) {
++			if (mtk_drm_find_comp_in_ddp(dev, priv_n->data->ext_path,
++						     priv_n->data->ext_len,
++						     priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++
++		if (mtk_ddp_path_available(data->third_path, data->third_len,
++					   priv_n->comp_node)) {
++			if (mtk_drm_find_comp_in_ddp(dev, priv_n->data->third_path,
++						     priv_n->data->third_len,
++						     priv_n->ddp_comp))
++				return BIT(i);
++			i++;
++		}
++	}
  
--	return REGV_POLL(VPU_37XX_HOST_MMU_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
-+	return REGV_POLL(IVPU_MMU_REG_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
- 			 IVPU_MMU_QUEUE_TIMEOUT_US);
+-	return ret;
++	DRM_INFO("Failed to find comp in ddp table\n");
++	return 0;
  }
  
-@@ -447,7 +480,7 @@ static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
- 		return ret;
- 
- 	clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, q->prod);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, q->prod);
- 
- 	ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
- 	if (ret)
-@@ -495,7 +528,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	mmu->evtq.prod = 0;
- 	mmu->evtq.cons = 0;
- 
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, 0);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, 0);
- 	if (ret)
- 		return ret;
- 
-@@ -505,17 +538,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_SH, IVPU_MMU_SH_ISH) |
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_OC, IVPU_MMU_CACHE_WB) |
- 	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_IC, IVPU_MMU_CACHE_WB);
--	REGV_WR32(VPU_37XX_HOST_MMU_CR1, val);
-+	REGV_WR32(IVPU_MMU_REG_CR1, val);
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_STRTAB_BASE, mmu->strtab.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
-+	REGV_WR64(IVPU_MMU_REG_STRTAB_BASE, mmu->strtab.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_CMDQ_BASE, mmu->cmdq.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_PROD, 0);
--	REGV_WR32(VPU_37XX_HOST_MMU_CMDQ_CONS, 0);
-+	REGV_WR64(IVPU_MMU_REG_CMDQ_BASE, mmu->cmdq.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, 0);
-+	REGV_WR32(IVPU_MMU_REG_CMDQ_CONS, 0);
- 
- 	val = IVPU_MMU_CR0_CMDQEN;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
-@@ -531,17 +564,17 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	if (ret)
- 		return ret;
- 
--	REGV_WR64(VPU_37XX_HOST_MMU_EVTQ_BASE, mmu->evtq.dma_q);
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC, 0);
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, 0);
-+	REGV_WR64(IVPU_MMU_REG_EVTQ_BASE, mmu->evtq.dma_q);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_PROD_SEC, 0);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, 0);
- 
- 	val |= IVPU_MMU_CR0_EVTQEN;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
- 	val |= IVPU_MMU_CR0_ATSCHK;
--	ret = ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	ret = ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- 	if (ret)
- 		return ret;
- 
-@@ -550,7 +583,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 		return ret;
- 
- 	val |= IVPU_MMU_CR0_SMMUEN;
--	return ivpu_mmu_reg_write(vdev, VPU_37XX_HOST_MMU_CR0, val);
-+	return ivpu_mmu_reg_write(vdev, IVPU_MMU_REG_CR0, val);
- }
- 
- static void ivpu_mmu_strtab_link_cd(struct ivpu_device *vdev, u32 sid)
-@@ -801,14 +834,14 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	u32 idx = IVPU_MMU_Q_IDX(evtq->cons);
- 	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
- 
--	evtq->prod = REGV_RD32(VPU_37XX_HOST_MMU_EVTQ_PROD_SEC);
-+	evtq->prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
- 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
- 		return NULL;
- 
- 	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
- 
- 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
--	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
- 
- 	return evt;
- }
-@@ -841,35 +874,35 @@ void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
- 
- 	ivpu_dbg(vdev, IRQ, "MMU error\n");
- 
--	gerror_val = REGV_RD32(VPU_37XX_HOST_MMU_GERROR);
--	gerrorn_val = REGV_RD32(VPU_37XX_HOST_MMU_GERRORN);
-+	gerror_val = REGV_RD32(IVPU_MMU_REG_GERROR);
-+	gerrorn_val = REGV_RD32(IVPU_MMU_REG_GERRORN);
- 
- 	active = gerror_val ^ gerrorn_val;
- 	if (!(active & IVPU_MMU_GERROR_ERR_MASK))
- 		return;
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_PRIQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_PRIQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU PRIQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_EVTQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_EVTQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU EVTQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, MSI_CMDQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, MSI_CMDQ_ABT, active))
- 		ivpu_warn_ratelimited(vdev, "MMU CMDQ MSI ABT write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, PRIQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, PRIQ_ABT, active))
- 		ivpu_err_ratelimited(vdev, "MMU PRIQ write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, EVTQ_ABT, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, EVTQ_ABT, active))
- 		ivpu_err_ratelimited(vdev, "MMU EVTQ write aborted\n");
- 
--	if (REG_TEST_FLD(VPU_37XX_HOST_MMU_GERROR, CMDQ, active))
-+	if (REG_TEST_FLD(IVPU_MMU_REG_GERROR, CMDQ, active))
- 		ivpu_err_ratelimited(vdev, "MMU CMDQ write aborted\n");
- 
--	REGV_WR32(VPU_37XX_HOST_MMU_GERRORN, gerror_val);
-+	REGV_WR32(IVPU_MMU_REG_GERRORN, gerror_val);
- }
- 
- int ivpu_mmu_set_pgtable(struct ivpu_device *vdev, int ssid, struct ivpu_mmu_pgtable *pgtable)
+ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
 -- 
-2.25.1
+2.39.2
 
