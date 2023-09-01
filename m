@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47EF78F77D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 05:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5732078F843
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 08:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9498710E030;
-	Fri,  1 Sep 2023 03:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 531C910E599;
+	Fri,  1 Sep 2023 05:59:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9782E10E030
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 03:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693539743; x=1725075743;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=S3svjhAN6LxKu/0rm1q5maiM6DH+ZU65J+hUBEvVv6E=;
- b=WZlN+yr3S08Ug3KRIRo1rk9bVdypSTjPi7BZWM9iGHrZiixUB2z058EU
- PsKbIYzq2GmkAzgdP+6L3AYIsciJT60wAargH1UljESFi2mDPKroINxE9
- LZh5DcTgoIKwZlCyEnRT8vys0/kY+WxJ9FRth0lEPkK3LhUO6o/JIj/IF
- EJoy2hnaWUraet3bVoNcA3Q2Y6C3+Y4QjQ+OEFJ+MmwitRvmarID8J31W
- vupl0LCgoUFhnkmBsqkDbOH5mN0FRV43Y9i0hlBfSVAQVx5XQbMTGe1I8
- u1ia7hD+lpswhV0VxbIZ4VzcFIdf1eqUVDIIJCDKWcWM/KpNUraiObbFR g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="379912837"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="379912837"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2023 20:42:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="689602393"
-X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="689602393"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 31 Aug 2023 20:42:20 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qbv34-0000pv-1s;
- Fri, 01 Sep 2023 03:42:18 +0000
-Date: Fri, 1 Sep 2023 11:41:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
-Message-ID: <202309011134.bwvpuyOj-lkp@intel.com>
-References: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
+Received: from ts201-smtpout71.ddc.teliasonera.net
+ (ts201-smtpout71.ddc.teliasonera.net [81.236.60.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8238310E0C8;
+ Fri,  1 Sep 2023 05:59:51 +0000 (UTC)
+X-RG-Rigid: 63C2577F09592F18
+X-Originating-IP: [81.229.73.173]
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedviedrudeguddguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfvgffnkfetufghpdggtfgfnhhsuhgsshgtrhhisggvpdfqfgfvnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttdefjeenucfhrhhomhepvfhhohhmrghsucfjvghllhhsthhrnphmucdlkfhnthgvlhdmuceothhhohhmrghspghoshesshhhihhpmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeejtefffeevtdekleeuudffledvveffueejueegffevvdefteegfeefffevueehudenucfkphepkedurddvvdelrdejfedrudejfedpudefgedrudeluddrvdeffedrvddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehmrghilhdurdhshhhiphhmrghilhdrohhrghdpihhnvghtpeekuddrvddvledrjeefrddujeefpdhmrghilhhfrhhomhepthhhohhmrghspghoshesshhhihhpmhgrihhlrdhorhhgpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopefnihgrmhdrjfhofihlvghtthesohhrrggtlhgvrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegsohhrihhsrdgsrhgviihilhhlohhnsegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepsghskhgvghhgshesrhgvughh
+ rghtrdgtohhmpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohepuggrkhhrsehrvgguhhgrthdrtghomh
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+Received: from mail1.shipmail.org (81.229.73.173) by
+ ts201-smtpout71.ddc.teliasonera.net (5.8.716)
+ id 63C2577F09592F18; Fri, 1 Sep 2023 07:59:27 +0200
+Received: from [192.168.0.121] (unknown [134.191.233.204])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id E2CB4360341;
+ Fri,  1 Sep 2023 07:59:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1693547967; bh=Iy52+nzx7F7R9fvqz7iR8voNiYUQ2NiVb7SegIEMs0E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=r5mvk48/iAOk711ppUBliQcZzmC/adKD1sNdh62PURPFpCgyVyyDG+0fkVX6+lt6U
+ deT0VUFMGD8HQhk/9pw8R/AsRDOP7Fl/lCBysJj+gSQN4WwqZCXACYVf08sT2WG+qf
+ 796Q3AEyouJ2ffaoB9eqVJGFjjKg2kVAw0HIq+Aw=
+Message-ID: <8a8253ae-0b85-df90-b480-64eeebfafc6d@shipmail.org>
+Date: Fri, 1 Sep 2023 07:59:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
+ dma_resv/extobj handling and GEM validation
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>
+References: <20230820215320.4187-1-dakr@redhat.com>
+ <20230820215320.4187-3-dakr@redhat.com>
+ <0c50ff22-0f11-1e27-c32e-694ce2b1e6c5@shipmail.org> <ZO864yp3UyVEfEjz@pollux>
+ <88c45fe6-0942-707c-9ea7-8486c177fcd7@shipmail.org> <ZO9Zq2RhbX8EeHrn@pollux>
+ <736b6b6d-9e04-a27d-7d60-0c45d696b304@shipmail.org>
+ <ZPB26A0/oLHTmyqk@cassiopeiae>
+ <a8f28d62-daec-927a-a33d-5be3eec6a1ed@shipmail.org>
+ <ZPDk/lao1JlBNGoJ@cassiopeiae>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <ZPDk/lao1JlBNGoJ@cassiopeiae>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,142 +64,360 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Liam.Howlett@oracle.com, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karolina,
 
-kernel test robot noticed the following build errors:
+On 8/31/23 21:07, Danilo Krummrich wrote:
+> On Thu, Aug 31, 2023 at 06:53:01PM +0200, Thomas Hellström (Intel) wrote:
+>> Hi,
+>>
+>> On 8/31/23 13:18, Danilo Krummrich wrote:
+>>> On Thu, Aug 31, 2023 at 11:04:06AM +0200, Thomas Hellström (Intel) wrote:
+>>>> Hi!
+>>>>
+>>>> On 8/30/23 17:00, Danilo Krummrich wrote:
+>>>>> On Wed, Aug 30, 2023 at 03:42:08PM +0200, Thomas Hellström (Intel) wrote:
+>>>>>> On 8/30/23 14:49, Danilo Krummrich wrote:
+>>>>>>> Hi Thomas,
+>>>>>>>
+>>>>>>> thanks for having a look!
+>>>>>>>
+>>>>>>> On Wed, Aug 30, 2023 at 09:27:45AM +0200, Thomas Hellström (Intel) wrote:
+>>>>>>>> Hi, Danilo.
+>>>>>>>>
+>>>>>>>> Some quick comments since I'm doing some Xe work in this area. Will probably
+>>>>>>>> get back with more.
+>>>>>>>>
+>>>>>>>> On 8/20/23 23:53, Danilo Krummrich wrote:
+>>> <snip>
+>>>
+>>>>>>>>> diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+>>>>>>>>> index ed8d50200cc3..693e2da3f425 100644
+>>>>>>>>> --- a/include/drm/drm_gpuva_mgr.h
+>>>>>>>>> +++ b/include/drm/drm_gpuva_mgr.h
+>>>>>>>>> @@ -26,12 +26,16 @@
+>>>>>>>>>        */
+>>>>>>>>>       #include <linux/list.h>
+>>>>>>>>> +#include <linux/dma-resv.h>
+>>>>>>>>> +#include <linux/maple_tree.h>
+>>>>>>>>>       #include <linux/rbtree.h>
+>>>>>>>>>       #include <linux/types.h>
+>>>>>>>>>       #include <drm/drm_gem.h>
+>>>>>>>>> +#include <drm/drm_exec.h>
+>>>>>>>>>       struct drm_gpuva_manager;
+>>>>>>>>> +struct drm_gpuva_gem;
+>>>>>>>>>       struct drm_gpuva_fn_ops;
+>>>>>>>>>       /**
+>>>>>>>>> @@ -140,7 +144,7 @@ struct drm_gpuva {
+>>>>>>>>>       int drm_gpuva_insert(struct drm_gpuva_manager *mgr, struct drm_gpuva *va);
+>>>>>>>>>       void drm_gpuva_remove(struct drm_gpuva *va);
+>>>>>>>>> -void drm_gpuva_link(struct drm_gpuva *va);
+>>>>>>>>> +void drm_gpuva_link(struct drm_gpuva *va, struct drm_gpuva_gem *vm_bo);
+>>>>>>>>>       void drm_gpuva_unlink(struct drm_gpuva *va);
+>>>>>>>>>       struct drm_gpuva *drm_gpuva_find(struct drm_gpuva_manager *mgr,
+>>>>>>>>> @@ -240,15 +244,137 @@ struct drm_gpuva_manager {
+>>>>>>>>>       	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+>>>>>>>>>       	 */
+>>>>>>>>>       	const struct drm_gpuva_fn_ops *ops;
+>>>>>>>>> +
+>>>>>>>>> +	/**
+>>>>>>>>> +	 * @d_obj: Dummy GEM object; used internally to pass the GPU VMs
+>>>>>>>>> +	 * dma-resv to &drm_exec.
+>>>>>>>>> +	 */
+>>>>>>>>> +	struct drm_gem_object d_obj;
+>>>>>>>>> +
+>>>>>>>>> +	/**
+>>>>>>>>> +	 * @resv: the &dma_resv for &drm_gem_objects mapped in this GPU VA
+>>>>>>>>> +	 * space
+>>>>>>>>> +	 */
+>>>>>>>>> +	struct dma_resv *resv;
+>>>>>>>>> +
+>>>>>>>>> +	/**
+>>>>>>>>> +	 * @exec: the &drm_exec helper to lock external &drm_gem_objects
+>>>>>>>>> +	 */
+>>>>>>>>> +	struct drm_exec exec;
+>>>>>>>>> +
+>>>>>>>>> +	/**
+>>>>>>>>> +	 * @mt_ext: &maple_tree storing external &drm_gem_objects
+>>>>>>>>> +	 */
+>>>>>>>>> +	struct maple_tree mt_ext;
+>>>>>>>> Why are you using a maple tree here? Insertion and removal is O(log(n))
+>>>>>>>> instead of O(1) for a list?
+>>>>>>>>
+>>>>>>> Having a list of drm_gem_objects directly wouldn't work, as multiple GPU-VMs
+>>>>>>> could have mappings of the same extobj.
+>>>>>>>
+>>>>>>> I considered using the VM_BO abstraction (struct drm_gpuva_gem) as list entry
+>>>>>>> instead, which also seems to be the obvious choice. However, there is a locking
+>>>>>>> conflict.
+>>>>>>>
+>>>>>>> A drm_gem_object keeps a list of drm_gpuva_gems, while each drm_gpuva_gem keeps
+>>>>>>> a list of drm_gpuvas. Both lists are either protected with the dma-resv lock of
+>>>>>>> the corresponding drm_gem_object, or with an external lock provided by the
+>>>>>>> driver (see drm_gem_gpuva_set_lock()). The latter is used by drivers performing
+>>>>>>> changes on the GPUVA space directly from the fence signalling path.
+>>>>>>>
+>>>>>>> Now, similar to what drm_gpuva_link() and drm_gpuva_unlink() are doing already,
+>>>>>>> we'd want to add a drm_gpuva_gem to the extobj list for the first mapping being
+>>>>>>> linked and we'd want to remove it for the last one being unlinked.
+>>>>>>>
+>>>>>>> (Actually we'd want to add the drm_gpuva_gem object to the extobj list even
+>>>>>>> before, because otherwise we'd not acquire it's dma-resv lock of this GEM object
+>>>>>>> through drm_gpuva_manager_lock(). But that's trival, we could do that when we
+>>>>>>> create the drm_gpuva_gem, which we need to do anyways.)
+>>>>>>>
+>>>>>>> Anyway, we'd probably want to keep removing the drm_gpuva_gem from the extobj
+>>>>>>> list from drm_gpuva_unlink() when the last mapping of this BO is unlinked. In
+>>>>>>> order to do so, we'd (as discussed above) either need to hold the outer GPU-VM
+>>>>>>> lock or the GPU-VMs dma-resv lock. Both would be illegal in the case
+>>>>>>> drm_gpuva_unlink() is called from within the fence signalling path. For drivers
+>>>>>>> like XE or Nouveau, we'd at least need to make sure to not mess up the locking
+>>>>>>> hierarchy of GPU-VM lock and dma-resv lock of the corresponding BO.
+>>>>>>>
+>>>>>>> Considering all that, I thought it's probably better to track extobjs separate
+>>>>>>> from the drm_gpuva_gem, hence the maple tree choice.
+>>>>>> Hm. OK, in Xe we're having a list of the xe_vmas (drm_gpuvas) that point to
+>>>>>> external objects, or in the case of multiple mappings to the same gem
+>>>>>> object, only one of the drm_gpuvas is in the list. These are protected by
+>>>>>> the GPU-VM lock. I don't see a problem with removing those from the fence
+>>>>>> signalling path, though?
+>>>>> I intentionally tried to avoid keeping a list of drm_gpuvas to track extobjs,
+>>>>> since this is generic code I don't know how much mappings of an external object
+>>>>> the corresponding driver potentially creates. This could become a pretty large
+>>>>> list to iterate. Another reason was, that I want to keep the drm_gpuva structure
+>>>>> as small as possible, hence avoiding another list_head.
+>>>> Yes, the list might be pretty large, but OTOH you never iterate to access a
+>>>> single list element. When you need to iterate the whole list you need to do
+>>>> that regardless of the data structure used. As for the list head, it might
+>>>> perhaps be aliased (union) with an upcoming userptr list head?
+>>>>
+>>> Oh, I did not mean that I'm concerned about the size of a list of extobjs in
+>>> general, that would indeed be the same for every data structure chosen. But I
+>>> would be concerned about keeping a list of *all* mappings being backed by an
+>>> extobj.
+>>>
+>>>>> Now, it sounds like in XE you're doing some kind of optimization just keeping a
+>>>>> single mapping of an extobj in the list? How do you know when to remove it? What
+>>>>> if the mapping from the extobj list gets unmapped, but there is still another
+>>>>> one left in the GPU-VM being backed by the same BO?
+>>>> When removing from the lists, we iterate through the object's list of vmas,
+>>>> and if there is one matching the same vm, we replace the old one with the
+>>>> new one. A similar iteration is done when adding to avoid adding one that is
+>>>> already on the list.
+>>> I see, but wouldn't this be O(n) on insertion and O(m) on removal of an extobj,
+>>> while using the maple tree is O(log(n))?
+>> No, insertion and removal is O(m) where m is the number of vms the object is
+>> currently bound to. Typically a very small number.
+> Ok, my guess was that on insertion you'd actually walk the extobj list and see
+> if there's a vma backed by the same BO already, while on removal you said you're
+> walking the BO's vma list. So I guess on insertion you're also walking the BO's
+> vma list and see if there's already a mapping for this VM?
+>
+> In your case that might make sense if you expect the extobj list to be larger
+> than the BO's vma list typically. In general I don't think this is true.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230831]
-[cannot apply to drm-intel/for-linux-next-fixes v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I think we're then optimizing for different scenarios. Our compute 
+driver will use mostly external objects only, and if shared, I don't 
+forsee them bound to many VMs. What saves us currently here is that in 
+compute mode we only really traverse the extobj list after a preempt 
+fence wait, or when a vm is using a new context for the first time. So 
+vm's extobj list is pretty large. Each bo's vma list will typically be 
+pretty small.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20230831-185954
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek%40intel.com
-patch subject: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/reproduce)
+Another reason for us to use the list is that one possible, but not yet 
+implemented, workaround for this is the "vm fence", which when attached 
+to external bos pulls them off the extobj list and on 
+"enable_signalling()" splices its sublist of external bos back, and then 
+snapshots the vm's dma_resv and waits for all its fences. (The idea is 
+that it should very seldom be waited for in practice, and largely 
+eliminate the extobj handling). Here a list is an ideal data structure 
+for list removal and splicing. TBH we really want to avoid this 
+optimization but we need to see how bad extobj handling ends up in 
+practice for the compute drivers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+>>>>> Although assuming that's a no-go for GPUVA wouldn't an XArray be a better
+>>>>> choice, keeping O(1)?
+>>>>> When tracking extobjs, the address of the drm_gem_object is the key while the
+>>>>> reference count is the value. I was thinking of an XArray as well, but I was
+>>>>> worried that the corresponding indices could be too much distributed for an
+>>>>> XArray to still be efficient. Now that I think about it, it's probably not that
+>>>>> bad.
+>>>>>
+>>>>> Btw., while I agree trying to make things as efficient as possible, what is the
+>>>>> magnitue for extobjs to be tracked, do we need to worry about the O(log(n))?
+>>>> Not sure yet, TBH, but I think one of our UMDs can only use external object,
+>>>> because they don't know at creation time which ones need exporting. However
+>>>> if this turns out to be too bad, there are various flavours of "clever but
+>>>> complicated" optimizations that we could think of to reduce the list size.
+>>>> Still in our case, we opted for the vma list head for now.
+>>> Considering the above, I would guess that if your current approach is good
+>>> enough, a maple tree will work as well.
+>> Hmm, Yeah it's probably a bikeshed since each drm_exec builds a realloced
+>> array of all external objects on each exec.
+> I did a quick sketchy benchmark, which is probably good enough. In a maple tree
+> with 0xFFFF - 1 existing entries insertion of a random (non-existant) entry
+> took on average ~530ns over 1k iterations.
+>
+> The average insertion time for each entry to build up a tree with 0xFFFF - 1
+> entries in the first place was ~1.3us. That's expected since it should hit
+> memory allocations more often than the previous one. The maximum peak was ~10us.
+> Inserting already existing entries took ~300ns.
+>
+> That's probably good enough.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-ERROR: modpost: "ttm_resource_alloc" [drivers/gpu/drm/ttm/tests/ttm_resource_test.ko] undefined!
->> ERROR: modpost: "ttm_tt_create" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
->> ERROR: modpost: "ttm_tt_destroy" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
+That's hard to tell because we have nothing to compare with. For 
+drm_exec, Christian chose a realloced array because of linked list cache 
+locality issues, and Xarray locking requirements causing measurable 
+performance issues. Wouldn't a maple tree suffer from both of these?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In any case if you go for the maple tree would it be possible to hide 
+the implementation in a way as to make it not too hard to replace if 
+real-world workloads prove it necessary?
+
+>
+>>> Otherwise, if you want, I could do some experiments with Xarray and see how
+>>> that works out compared to using a maple tree.
+>>>
+>>> Btw. another nice thing about using Xarray or maple tree for that is that
+>>> drivers updating the VA space from the fence signalling path don't need to
+>>> hold a GPU-VM lock to update the extobj list. Actually, they might not need
+>>> a GPU-VM lock at all.
+>> I still don't follow why drivers would want to do that. Isn't the VA space /
+>> fence object list always updated sync from the IOCTL?
+> For the extobj list I don't see any advantage not doing that in the IOCTL right
+> away. For the VA space there are a few advantages doing it in the fence
+> signalling path.
+>
+> (1) No need to allocate drm_gpuva_ops at all. For a given map / unmap request
+>      the driver can receive the callbacks for map / remap / unmap directly.
+> (2) No need to unwind VA space updates on failure, also no need for any other
+>      unwind tricks.
+> (3) Synchronous bind jobs can be injected at any point of time and don't need to
+>      be queued up in the scheduler to preserve ordering.
+> (4) Potentially less error prone ressource management. Although, I admit partly
+>      this is just the consequence of (1) and (2).
+>
+> Actually, once I get the page table management prepared for that I'd like to
+> move Nouveau over this approach.
+
+OK. I guess I need to look at the resulting implementation to fully 
+digest this.
+
+Thanks,
+
+Thomas
+
+
+>
+>> /Thomas
+>>
+>>
+>>>> /Thomas
+>>>>
+>>>>
+>>>>>>>>> +
+>>>>>>>>> +	/**
+>>>>>>>>> +	 * @evict: structure holding the evict list and evict list lock
+>>>>>>>>> +	 */
+>>>>>>>>> +	struct {
+>>>>>>>>> +		/**
+>>>>>>>>> +		 * @list: &list_head storing &drm_gem_objects currently being
+>>>>>>>>> +		 * evicted
+>>>>>>>>> +		 */
+>>>>>>>>> +		struct list_head list;
+>>>>>>>>> +
+>>>>>>>>> +		/**
+>>>>>>>>> +		 * @lock: spinlock to protect the evict list against concurrent
+>>>>>>>>> +		 * insertion / removal of different &drm_gpuva_gems
+>>>>>>>>> +		 */
+>>>>>>>>> +		spinlock_t lock;
+>>>>>>>>> +	} evict;
+>>>>>>>>>       };
+>>>>>>>>>       void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>>>>>>>>> +			    struct drm_device *drm,
+>>>>>>>>>       			    const char *name,
+>>>>>>>>>       			    u64 start_offset, u64 range,
+>>>>>>>>>       			    u64 reserve_offset, u64 reserve_range,
+>>>>>>>>>       			    const struct drm_gpuva_fn_ops *ops);
+>>>>>>>>>       void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+>>>>>>>>> +/**
+>>>>>>>>> + * DRM_GPUVA_EXEC - returns the &drm_gpuva_managers &drm_exec instance
+>>>>>>>>> + * @mgr: the &drm_gpuva_managers to return the &drm_exec instance for
+>>>>>>>>> + */
+>>>>>>>>> +#define DRM_GPUVA_EXEC(mgr)	&(mgr)->exec
+>>>>>>>> A struct ww_acquire_ctx and thus a drm_exec is fundamentally per task and
+>>>>>>>> should typically be allocated on the stack. Otherwise you'd need to protect
+>>>>>>>> the mgr->exec member with an exclusive lock throughout the locking process,
+>>>>>>>> and that's not what we want.
+>>>>>>> Oh, good point. I think it works in Nouveau, because there it's implicitly
+>>>>>>> protected with the job submission lock.
+>>>>>>>
+>>>>>>>> Did you consider subclassing a drm_exec for drm_gpuva purposes and add
+>>>>>>>> needed ops to it: Like so:
+>>>>>>> That's a good idea, will take this into V2.
+>>>>>> Actually, I'm not fully sure that was a good idea: I've now have a working
+>>>>>> version of Xe ported over to drm_exec, having these helpers in mind and with
+>>>>>> the intention to start using them as they mature. What I found, though is
+>>>>>> that open-coding the drm_exec loop is not all that bad, but that building
+>>>>>> blocks that can be called from within the loop are useful:
+>>>>>>
+>>>>>> Like the drm_gpuva_prepare_objects() and an imaginary
+>>>>>> drm_gpuva_prepare_gpuva() that locks the vm resv and the resv of the object
+>>>>>> (if different and the gpuva points to the object. And
+>>>>>> drm_gpuva_prepare_array() although we don't use it within Xe. That means you
+>>>>>> can use these building blocks like helpers and avoid the fn() callback by
+>>>>>> instead open-coding.
+>>>>>>
+>>>>>> But I guess YMMV.
+>>>>> That's exactly why those building blocks are exported, I already had in mind
+>>>>> that there might be drivers which still want to open-code the drm_exec loop,
+>>>>> while others might just want a simple interface to lock everything.
+>>>>>
+>>>>> I still think it is a good idea, but I'd keep that as simple as possible. And
+>>>>> for everything else just let the driver open-code it and use the "building
+>>>>> blocks" - will also expand the bulding blocks to what you mentioned above.
+>>>>>
+>>>>>>>> struct drm_gpuva_exec_ops {
+>>>>>>>>         int (*fn) (struct drm_gpuva_exec *exec, int num_fences);
+>>>>>>> Is this the fn argument from drm_gpuva_manager_lock_extra()?
+>>>>>>>
+>>>>>>>>         int (*bo_validate) (struct drm_gpuva_exec *exec, struct drm_gem_object
+>>>>>>>> *obj);
+>>>>>>> I guess we could also keep that within the drm_gpuva_fn_ops? This should always
+>>>>>>> be the same callback, right?
+>>>>>>>
+>>>>>>>> };
+>>>>>>>>
+>>>>>>>> struct drm_gpuva_exec {
+>>>>>>>>         const struct drm_gpuva_exec_ops *ops;
+>>>>>>>>         struct drm_exec exec;
+>>>>>>>>         struct drm_gpuva_manager *mgr;
+>>>>>>>> };
+>>>>>>>>
+>>>>>>>> Although I'd actually expect bo_validate to be part of fn in the typical
+>>>>>>>> case. The drm_gpuva_exec would then be allocated by the caller on the stack.
+>>>>>>> This doesn't sound like my assumption about fn() above is correct.
+>>>>>> Well one important thing in our conversion is that ttm_bo_validate () needs
+>>>>>> to be in the until_all_locked() loop. We want to be able soon to use
+>>>>>> sleeping locks for eviction, so a xe_bo_validate() would, at least
+>>>>>> temporarily, add locked objects to the drm_exec list of locked objects. That
+>>>>>> means everything that may end up calling validate deep within the call chain
+>>>>>> needs to be part of the until_all_locked() loop, so our
+>>>>>> drm_gpuva_manager_lock_extra() fn callback would include those validates and
+>>>>>> look different all the time. Hence that's why open-coding isn't all that
+>>>>>> bad...
+>>>>> Oh, I see. You indeed want to call validate() from within until_all_locked().
+>>>>>
+>>>>>> /Thomas
+>>>>>>
+>>>>>>
+>>> <snip>
