@@ -2,44 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAA878FC61
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 13:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02C178FCA5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 13:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A0010E79B;
-	Fri,  1 Sep 2023 11:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD2210E7A4;
+	Fri,  1 Sep 2023 11:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A0710E79B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 11:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Vaae9RzNE3FL4Gsrihk4ZQIvVZZIGT955vGaddnPSVA=; b=aW+Ice2MA86ZS0kuuTzrVkYBNc
- EnEJswecLYgVUZ5K4+uqyyG8l3WahofIUPi2pTBMMdxRtFDK9p6HjfjVAMWtGiughQSkJzl6lDbm6
- sRt9SJVjQI5dA0WCV/IpmehfFl1IMKidYdfvlDtGn3SK9u8M66x7rB0fXTG3KTttU+qWwfCQ2v4v8
- nezWr4+lI0/9IWSxsXkI8axKJzM17RJnloZHufvWYTJt9CbtRZKZOBuDMvl70om147QP5XvQhKt21
- q/Oq02b9SSxL+dqiRFDNYfhalphJSj9tIfo3JnYqGqm5xToV1DiubnUzl/k1oSJVuJP5ylHeuopIY
- vAOLN/Zg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1qc2Va-008s8J-0M;
- Fri, 01 Sep 2023 14:40:14 +0300
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] gpu: host1x: Syncpoint interrupt sharding
-Date: Fri,  1 Sep 2023 14:40:07 +0300
-Message-ID: <20230901114008.672433-1-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.41.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA8510E7A3
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 11:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693569024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bh4M+0J5a4/CTD9vzV/Dp4WE5uZXZTOLGhwgiKslvu4=;
+ b=VV7ZQ2OGulBSy6rmTTHNVdk36rmqPI78zJxieY/1B2k1uwpEEJOHNWtQawojAI2nL2pB+r
+ B+2kgqpah+LNJDoPaJUY71XZqdxoqos4+Gh6AFY3C+ICv5wFFAb3MgfJfARWsuElrmm6LV
+ cknn1Wq8AD76TAVWtOIdQ//Ns2l3rU0=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-270-2XPswVZ1NxyYTx3Xgy5u_w-1; Fri, 01 Sep 2023 07:50:23 -0400
+X-MC-Unique: 2XPswVZ1NxyYTx3Xgy5u_w-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2bbc1d8011dso24661601fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Sep 2023 04:50:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693569021; x=1694173821;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bh4M+0J5a4/CTD9vzV/Dp4WE5uZXZTOLGhwgiKslvu4=;
+ b=EARfFikSA55I0Yzvw/KSYxVa2e2eGYpDPK0I2lf2LApzAdOsTHGcCExDtJZirt+95e
+ +JZI01ais5EEdAlsy01NjCc/QxLjajbOdK0Wh+kvb7zYeVxCTg4wmm+283Jrn3rmkuBX
+ lKl2qIMR+cjqtUQbzL6kSgr9i00aWK/PKC7ZSL2+4KAyKACbMfWmzbVl6YO/DwZN/txX
+ nseUO6dG/OqXU0EKvNzKRfGtFFf/LNtumWWdVX4TcJmBTCQ+zObIPkElxLRNAFkN7W+9
+ XCBTcHmqjfTP2055Jc1dgSH6wQSJQvfd0UnU4c/xvlCT/0EK7loAOGeMDfX6/xEom7nc
+ xKrA==
+X-Gm-Message-State: AOJu0Yz61MlGZhV3Snkod7AnTMKaMSuoUg5+sZoyGlsvqFhD7GYcyCoN
+ ZXrBy29NJEzC1HpGP4TpsmdoooDDK4mD2RypdlZe1rLqPRQuvUUZhddUR4aGonGmJUQrjYtBx4C
+ 7Mk3tCslYbOLZK0zLM5qIipDYxrYX
+X-Received: by 2002:a2e:8705:0:b0:2bb:78ad:56cb with SMTP id
+ m5-20020a2e8705000000b002bb78ad56cbmr1393666lji.37.1693569021716; 
+ Fri, 01 Sep 2023 04:50:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFgWsW0wqHHo8OvbLp/1dFSUtHgnbdLiA0JJsCnLDBV1UOwRcx3dWF2DKbmXfSG1VHzLxmOiA==
+X-Received: by 2002:a2e:8705:0:b0:2bb:78ad:56cb with SMTP id
+ m5-20020a2e8705000000b002bb78ad56cbmr1393655lji.37.1693569021360; 
+ Fri, 01 Sep 2023 04:50:21 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ e4-20020adfe7c4000000b0031c6581d55esm5027861wrn.91.2023.09.01.04.50.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Sep 2023 04:50:21 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+In-Reply-To: <a6eca431-7464-09da-333d-a40318422077@suse.de>
+References: <20230830062546.720679-1-javierm@redhat.com>
+ <6654778d-1f40-1775-c32c-ebf9728bc9a9@suse.de>
+ <87ledqbah2.fsf@minerva.mail-host-address-is-not-set>
+ <a6eca431-7464-09da-333d-a40318422077@suse.de>
+Date: Fri, 01 Sep 2023 13:50:20 +0200
+Message-ID: <87cyz25czn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,164 +83,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Support sharded syncpoint interrupts on Tegra234+. This feature
-allows specifying one of eight interrupt lines for each syncpoint
-to lower processing latency of syncpoint threshold
-interrupts.
+Hello Thomas,
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/host1x/dev.c        | 28 +++++++++++++++++---
- drivers/gpu/host1x/dev.h        |  3 ++-
- drivers/gpu/host1x/hw/intr_hw.c | 46 ++++++++++++++++++++++++---------
- 3 files changed, 60 insertions(+), 17 deletions(-)
+> Hi
+>
+> Am 01.09.23 um 09:48 schrieb Javier Martinez Canillas:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> 
+>>> Hi Javier,
+>>>
+>>> another idea about this patch: why not just keep the allocation in the
+>>> plane's atomic check, but store the temporary buffers in a plane struct.
+>>> You'd only grow the arrays length in atomic_check and later fetch the
+>>> pointers in atomic_update. It needs some locking, but nothing complicated.
+>>>
+>> 
+>> Yes, that would work too. Another option is to just move the buffers to
+>> struct ssd130x_device as it was before commit 45b58669e532 ("drm/ssd130x:
+>
+> Adding something like a struct ssd130x_plane that holds the temporary 
+> memory has the advantage of making a clear connection between the memory 
+> and the plane. If nothing else, to the next programmer reading the code.
+>
 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 7c6699aed7d2..b22821c81394 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -488,7 +488,7 @@ static int host1x_get_resets(struct host1x *host)
- static int host1x_probe(struct platform_device *pdev)
- {
- 	struct host1x *host;
--	int err;
-+	int err, i;
- 
- 	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
- 	if (!host)
-@@ -516,9 +516,29 @@ static int host1x_probe(struct platform_device *pdev)
- 			return PTR_ERR(host->regs);
- 	}
- 
--	host->syncpt_irq = platform_get_irq(pdev, 0);
--	if (host->syncpt_irq < 0)
--		return host->syncpt_irq;
-+	for (i = 0; i < ARRAY_SIZE(host->syncpt_irqs); i++) {
-+		char irq_name[] = "syncptX";
-+		sprintf(irq_name, "syncpt%d", i);
-+
-+		err = platform_get_irq_byname_optional(pdev, irq_name);
-+		if (err == -ENXIO)
-+			break;
-+		if (err < 0)
-+			return err;
-+
-+		host->syncpt_irqs[i] = err;
-+	}
-+
-+	host->num_syncpt_irqs = i;
-+
-+	/* Device tree without irq names */
-+	if (i == 0) {
-+		host->syncpt_irqs[0] = platform_get_irq(pdev, 0);
-+		if (host->syncpt_irqs[0] < 0)
-+			return host->syncpt_irqs[0];
-+
-+		host->num_syncpt_irqs = 1;
-+	}
- 
- 	mutex_init(&host->devices_lock);
- 	INIT_LIST_HEAD(&host->devices);
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index 75de50fe03d0..c8e302de7625 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -124,7 +124,8 @@ struct host1x {
- 	void __iomem *regs;
- 	void __iomem *hv_regs; /* hypervisor region */
- 	void __iomem *common_regs;
--	int syncpt_irq;
-+	int syncpt_irqs[8];
-+	int num_syncpt_irqs;
- 	struct host1x_syncpt *syncpt;
- 	struct host1x_syncpt_base *bases;
- 	struct device *dev;
-diff --git a/drivers/gpu/host1x/hw/intr_hw.c b/drivers/gpu/host1x/hw/intr_hw.c
-index b915ef7d0348..9880e0c47235 100644
---- a/drivers/gpu/host1x/hw/intr_hw.c
-+++ b/drivers/gpu/host1x/hw/intr_hw.c
-@@ -13,13 +13,20 @@
- #include "../intr.h"
- #include "../dev.h"
- 
-+struct host1x_intr_irq_data {
-+	struct host1x *host;
-+	u32 offset;
-+};
-+
- static irqreturn_t syncpt_thresh_isr(int irq, void *dev_id)
- {
--	struct host1x *host = dev_id;
-+	struct host1x_intr_irq_data *irq_data = dev_id;
-+	struct host1x *host = irq_data->host;
- 	unsigned long reg;
- 	unsigned int i, id;
- 
--	for (i = 0; i < DIV_ROUND_UP(host->info->nb_pts, 32); i++) {
-+	for (i = irq_data->offset; i < DIV_ROUND_UP(host->info->nb_pts, 32);
-+	     i += host->num_syncpt_irqs) {
- 		reg = host1x_sync_readl(host,
- 			HOST1X_SYNC_SYNCPT_THRESH_CPU0_INT_STATUS(i));
- 
-@@ -67,26 +74,41 @@ static void intr_hw_init(struct host1x *host, u32 cpm)
- 
- 	/*
- 	 * Program threshold interrupt destination among 8 lines per VM,
--	 * per syncpoint. For now, just direct all to the first interrupt
--	 * line.
-+	 * per syncpoint. For each group of 32 syncpoints (corresponding to one
-+	 * interrupt status register), direct to one interrupt line, going
-+	 * around in a round robin fashion.
- 	 */
--	for (id = 0; id < host->info->nb_pts; id++)
--		host1x_sync_writel(host, 0, HOST1X_SYNC_SYNCPT_INTR_DEST(id));
-+	for (id = 0; id < host->info->nb_pts; id++) {
-+		u32 reg_offset = id / 32;
-+		u32 irq_index = reg_offset % host->num_syncpt_irqs;
-+
-+		host1x_sync_writel(host, irq_index, HOST1X_SYNC_SYNCPT_INTR_DEST(id));
-+	}
- #endif
- }
- 
- static int
- host1x_intr_init_host_sync(struct host1x *host, u32 cpm)
- {
--	int err;
-+	int err, i;
-+	struct host1x_intr_irq_data *irq_data;
-+
-+	irq_data = devm_kcalloc(host->dev, host->num_syncpt_irqs, sizeof(irq_data[0]), GFP_KERNEL);
-+	if (!irq_data)
-+		return -ENOMEM;
- 
- 	host1x_hw_intr_disable_all_syncpt_intrs(host);
- 
--	err = devm_request_irq(host->dev, host->syncpt_irq,
--			       syncpt_thresh_isr, IRQF_SHARED,
--			       "host1x_syncpt", host);
--	if (err < 0)
--		return err;
-+	for (i = 0; i < host->num_syncpt_irqs; i++) {
-+		irq_data[i].host = host;
-+		irq_data[i].offset = i;
-+
-+		err = devm_request_irq(host->dev, host->syncpt_irqs[i],
-+				       syncpt_thresh_isr, IRQF_SHARED,
-+				       "host1x_syncpt", &irq_data[i]);
-+		if (err < 0)
-+			return err;
-+	}
- 
- 	intr_hw_init(host, cpm);
- 
+Ok, I'm confused now. The current version of the driver already has a
+struct ssd130x_plane_state that stores the buffers:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/solomon/ssd130x.c#n144
+
+But what you are saying is that instead of setting those pointers to NULL
+in the ssd130x_primary_plane_duplicate_state() function, it can just be
+allocated once and the pointers copied when duplicating the new state?
+
+So you want me to add some locking when accesing those since will be
+shared between the old and new state?
+
+In that case another option is to just kref the buffers, I think that
+should be enough?
+
+>> Allocate buffer in the plane's .atomic_check() callback") but just make
+>> them fixed arrays with the size of the biggest format.
+>
+> What is the size of the biggest format? I haven't read the driver code, 
+> but a shadow plane can be up to 4096 pixels wide. It's 16 KiB for 
+> XRGB888. Not too much, but not nothing either.
+>
+
+The shadow plane yes, but I was talking about the buffers in:
+
+struct ssd130x_plane_state {
+	struct drm_shadow_plane_state base;
+	/* Intermediate buffer to convert pixels from XRGB8888 to HW format */
+	u8 *buffer;
+	/* Buffer to store pixels in HW format and written to the panel */
+	u8 *data_array;
+};
+
+These are not the size of the shadow buffer but the of the displayed area,
+that depends on the panel fixed resolution (defined in the Device Tree).
+
+The biggest resolution for ssd130x panels is 132x64 (SSD1305 and SH1106),
+so that means the biggest buffer will be 132 * 64 * R1 pitch = 1056 bytes.
+
+> To reduce allocation and/or locking overhead, you could try to update 
+> the pointers in the plane struct with RCU semantics. Plane updates would 
+> use whatever pointer they saw, while the plane's atomic_check could grow 
+> the memory buffers as necessary.
+>
+
+I'm still unsure the added complexity is worth it. As mentioned, the fbdev
+driver also allocats the buffers on each display update and at least the
+intermediate .buffer that stores the XRGB8888 -> R1 conversion is tied to
+the plane, the .data_array that sends the actual data to the controller
+can be argued to be tied to the CRTC.
+
+But given that a format change doesn't trigger a CRTC mode set (as Maxime
+pointed out to me) then at least the .buffer allocation can't be done in
+the CRTC .atomic_check() handler.
+
+I could move the .data_array allocatoin there or even do it at probe time,
+but since the .buffer allocation would be done in the plane
+.atomic_check() anyways, I would rather keep as is and have both in the
+same function.
+
+> Best regards
+> Thomas
+>
+
 -- 
-2.41.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
