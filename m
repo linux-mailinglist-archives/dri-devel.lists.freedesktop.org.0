@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C95578FAFF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747C778FB68
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C591310E031;
-	Fri,  1 Sep 2023 09:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4D410E759;
+	Fri,  1 Sep 2023 09:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B0F10E031
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Ydi8mZaxlyEhZyopVQIX6MFy2rmjbC3NGl5RHFVk6hA=; b=HuXZ1FebH0eNnm+buBJHJuNm4n
- NtDPpaHAW459V0lsjmkPnOnLcySQubiDcGImV4RBrwWOkOX2pXw8139LbU0G1KXvAxy3Uu2AdjH+i
- Q74Ia37xb/CB5ILYTAV53tqgYBG/D7S8D3kAGnaT81sj/5MbTHRPTgcss3Z1ej0w4z3tPmnP1r7HO
- 1giFVsCNwos+q01uHmJiNZPcUz219cUPDV0zgoJukc0ghGUnjrWolJ+Eur39qCzpvQfHY46jpwNDk
- FqFbyuffMsFg2UOFWrI7XmQDeUpbWraIYW6XR7eOVPWbz6BA0xStPS2PV+rTQ5dgwD6anb3DBBseN
- 6ExG/GEg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10]) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1qc0b9-008FtQ-1f;
- Fri, 01 Sep 2023 12:37:51 +0300
-Message-ID: <55b5f086-22c9-e25c-bb25-f1a74906f5dc@kapsi.fi>
-Date: Fri, 1 Sep 2023 12:37:51 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 650F710E758
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693561801; x=1725097801;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cVX8a9oazVozXiPqhKYyvtEhPctQZSefTqSwXj0AWjU=;
+ b=TMxo2Bm7MmgM+2wYBZ6i1j41pO/vkBkTwGeYxHHZ1Pok3WO6ZLxfOAYU
+ JiwrV6eJozkW4vI9ujbNCONPRRhpemKzV835Cu+SgXaxO3MWqmS1/gcaV
+ +QjgDCq7L2ywQtjJSYiV2/lG5DGRWV7l1cQX+7VaduJZj5SEL0v83zEUl
+ 1OHPTKX2HRmRw12TtmAk4aWePoKXR/qxmPHYrO/4HYgxLmF3ylVxxfdzT
+ kxHNyJxJpqjZrZ0L4hjRFNSSr51lnLdw8rxW+cMwCoyTddt6OYOtxyyz3
+ Yyv/larHxXdZPGu3+BDjs2bOxmACHi3h0qxN+gXheWDxpW+9Dpn94hroI A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361206819"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="361206819"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2023 02:50:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070679915"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="1070679915"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2023 02:49:58 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 00/11] accel/ivpu: Update for -next 2023.08.25
+Date: Fri,  1 Sep 2023 11:49:46 +0200
+Message-Id: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] dma_buf/sync_file: Enable signaling for fences when
- querying status
-Content-Language: en-US
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>
-References: <20230725074611.3309115-1-cyndis@kapsi.fi>
-In-Reply-To: <20230725074611.3309115-1-cyndis@kapsi.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,45 +55,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/25/23 10:46, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
-> 
-> dma_fence_get_status is not guaranteed to return valid information
-> on if the fence has been signaled or not if SW signaling has not
-> been enabled for the fence. To ensure valid information is reported,
-> enable SW signaling for fences before getting their status.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
->   drivers/dma-buf/sync_file.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index af57799c86ce..57f194b8477f 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -267,6 +267,7 @@ static int sync_fill_fence_info(struct dma_fence *fence,
->   	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
->   		sizeof(info->driver_name));
->   
-> +	dma_fence_enable_sw_signaling(fence);
->   	info->status = dma_fence_get_status(fence);
->   	while (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) &&
->   	       !test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags))
-> @@ -307,6 +308,7 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
->   	 * info->num_fences.
->   	 */
->   	if (!info.num_fences) {
-> +		dma_fence_enable_sw_signaling(sync_file->fence);
->   		info.status = dma_fence_get_status(sync_file->fence);
->   		goto no_fences;
->   	} else {
+Update for -next:
+ - various cleanups
+ - begin preparation for conversion to GEM SHMEM
+ - print information about used workarounds
 
-Any thoughts?
+v3:
+ - fix commit messages
+ - split patch 2 into separate patches
 
-Mikko
+v2:
+ - fix compilation without CONFIG_PM
+
+Jacek Lawrynowicz (4):
+  accel/ivpu: Remove duplicated error messages
+  accel/ivpu: Move ivpu_fw_load() to ivpu_fw_init()
+  accel/ivpu: Add ivpu_bo_vaddr() and ivpu_bo_size()
+  accel/ivpu: Move MMU register definitions to ivpu_mmu.c
+
+Karol Wachowski (1):
+  accel/ivpu: Initialize context with SSID = 1
+
+Krystian Pradzynski (1):
+  accel/ivpu: Move set autosuspend delay to HW specific code
+
+Stanislaw Gruszka (5):
+  accel/ivpu: Make ivpu_pm_init() void
+  accel/ivpu: Add information about context on failure
+  accel/ivpu: Print information about used workarounds
+  accel/ivpu/37xx: Change register rename leftovers
+  accel/ivpu/37xx: White space cleanup
+
+ drivers/accel/ivpu/ivpu_drv.c         |  65 +++------
+ drivers/accel/ivpu/ivpu_drv.h         |  18 ++-
+ drivers/accel/ivpu/ivpu_fw.c          |  26 ++--
+ drivers/accel/ivpu/ivpu_fw.h          |   2 +-
+ drivers/accel/ivpu/ivpu_fw_log.c      |   6 +-
+ drivers/accel/ivpu/ivpu_gem.c         |  30 ++---
+ drivers/accel/ivpu/ivpu_gem.h         |  22 ++-
+ drivers/accel/ivpu/ivpu_hw_37xx.c     |  75 ++++++-----
+ drivers/accel/ivpu/ivpu_hw_37xx_reg.h | 187 +++++++++++---------------
+ drivers/accel/ivpu/ivpu_hw_40xx.c     |   7 +
+ drivers/accel/ivpu/ivpu_ipc.c         |  19 ++-
+ drivers/accel/ivpu/ivpu_job.c         |   8 +-
+ drivers/accel/ivpu/ivpu_mmu.c         | 117 ++++++++++------
+ drivers/accel/ivpu/ivpu_mmu_context.c |  18 ++-
+ drivers/accel/ivpu/ivpu_mmu_context.h |   2 +
+ drivers/accel/ivpu/ivpu_pm.c          |  18 +--
+ drivers/accel/ivpu/ivpu_pm.h          |   2 +-
+ 17 files changed, 324 insertions(+), 298 deletions(-)
+
+-- 
+2.25.1
+
