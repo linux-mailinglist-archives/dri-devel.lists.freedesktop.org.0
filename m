@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDF378FB6E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E1E78FB71
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F038C10E75B;
-	Fri,  1 Sep 2023 09:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17FA210E75D;
+	Fri,  1 Sep 2023 09:50:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A91C10E75B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:50:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB1C210E75D
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693561814; x=1725097814;
+ t=1693561817; x=1725097817;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lmMFBl54DGomrl6mUaoAL44XRz4yGBGBl8B2yYFPTN4=;
- b=lOyyRFPHhZEezIBax4rFOVPGF5ABUtaNrpDiXYmwfqcYJWwoEAMC8u20
- pEqRK0ZWx15Lpgud8J/c3AJZcnrzlamxu1Sra4sWp8xYDrdP2N3l6i+fH
- 5HG128EFuDSOOBUBoQmBiDBxsRIQDR0E47mOVvUS36PfWlWHEvnETVvyY
- /cOpGlyVXM8EtFhpxyaHq6vk01xtPmb4DoRt0k6yvst65OJzWnFiZF/bT
- RfAqzhJukUsWJ/FEYJnJGsV6V0LhhDvFVlTqpX2w5vYymlMtux33WTSBh
- 46xoQyN5tQJdtT3mYm69s0sQFcNrvu3DlaLV77+cM5SJkiZaORJh+N3S1 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361206900"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="361206900"
+ bh=ys2Jj7tki1VMANEiPYSMbdlDM30zV7ABtuWgrUz65mk=;
+ b=Wek5HJqyW1AS1irS3ay6IjZgtZFwE2zRbNEtJHYHBECDid8+L6GZrvho
+ NMcU0Z95y29+5Pr4pabxwXNRnLuRDQsiNAONh1omTI/4UOtYkF+SYMMjv
+ CY1AwUS8kekUB7MvDPdqQNvMSfoR58GAwfVDDeidu9kQtPex77Y/SoNKr
+ KzwYgveommLcuZSebO6JbaXaqoakCiERF71JXuVNxe75tDxTovs6zbxq2
+ lXTgxqmQPv7ucLnQ41id7qkobbGp3b4et2xPJIMi3nyLw8+gUuwJODfew
+ 5if8BxF0Av0O1xek9U2SXKJon2cULpVUDvCHP+F8u3S54Re9sAktbdzS2 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361206907"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="361206907"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 02:50:14 -0700
+ 01 Sep 2023 02:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070679938"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="1070679938"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070679939"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="1070679939"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 02:50:12 -0700
+ 01 Sep 2023 02:50:15 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 04/11] accel/ivpu: Add information about context on failure
-Date: Fri,  1 Sep 2023 11:49:50 +0200
-Message-Id: <20230901094957.168898-5-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v3 05/11] accel/ivpu: Print information about used workarounds
+Date: Fri,  1 Sep 2023 11:49:51 +0200
+Message-Id: <20230901094957.168898-6-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
 References: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
@@ -64,35 +64,64 @@ Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional ctx number to error messages on mmu context
-initialization failures.
+Use ivpu_dbg(MISC) to print information about workarounds.
 
 Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_mmu_context.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.h     | 5 +++++
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 5 +++++
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 4 ++++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
-index 8914e34fb54f..5b48983c7cf8 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.c
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.c
-@@ -490,13 +490,13 @@ int ivpu_mmu_user_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 44d857094bbc..060c09402227 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -75,6 +75,11 @@
  
- 	ret = ivpu_mmu_context_init(vdev, ctx, ctx_id);
- 	if (ret) {
--		ivpu_err(vdev, "Failed to initialize context: %d\n", ret);
-+		ivpu_err(vdev, "Failed to initialize context %u: %d\n", ctx_id, ret);
- 		return ret;
- 	}
+ #define IVPU_WA(wa_name) (vdev->wa.wa_name)
  
- 	ret = ivpu_mmu_set_pgtable(vdev, ctx_id, &ctx->pgtable);
- 	if (ret) {
--		ivpu_err(vdev, "Failed to set page table: %d\n", ret);
-+		ivpu_err(vdev, "Failed to set page table for context %u: %d\n", ctx_id, ret);
- 		goto err_context_fini;
- 	}
++#define IVPU_PRINT_WA(wa_name) do {					\
++	if (IVPU_WA(wa_name))						\
++		ivpu_dbg(vdev, MISC, "Using WA: " #wa_name "\n");	\
++} while (0)
++
+ struct ivpu_wa_table {
+ 	bool punit_disabled;
+ 	bool clear_runtime_mem;
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index 1090c91e1ba3..bf3432b68879 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -104,6 +104,11 @@ static void ivpu_hw_wa_init(struct ivpu_device *vdev)
  
+ 	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_MTL && ivpu_revision(vdev) < 4)
+ 		vdev->wa.interrupt_clear_with_0 = true;
++
++	IVPU_PRINT_WA(punit_disabled);
++	IVPU_PRINT_WA(clear_runtime_mem);
++	IVPU_PRINT_WA(d3hot_after_power_off);
++	IVPU_PRINT_WA(interrupt_clear_with_0);
+ }
+ 
+ static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 09ba07443396..1c2528549635 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -126,6 +126,10 @@ static void ivpu_hw_wa_init(struct ivpu_device *vdev)
+ 
+ 	if (ivpu_hw_gen(vdev) == IVPU_HW_40XX)
+ 		vdev->wa.disable_clock_relinquish = true;
++
++	IVPU_PRINT_WA(punit_disabled);
++	IVPU_PRINT_WA(clear_runtime_mem);
++	IVPU_PRINT_WA(disable_clock_relinquish);
+ }
+ 
+ static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
 -- 
 2.25.1
 
