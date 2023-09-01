@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2FD78FEB8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BDF78FEC0
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8916210E7DF;
-	Fri,  1 Sep 2023 14:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F4A10E7E2;
+	Fri,  1 Sep 2023 14:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5BD810E7DF;
- Fri,  1 Sep 2023 14:03:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693577030; x=1725113030;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zXfCtoMrzbDTA4n+1nOcRqiErSkQmB5TanHacVFv9Go=;
- b=WVF44kXrF/33Oxoy+bTq+e6Wz5Mv0urUPaVPepN2OQRtxgu26EHzRNOX
- FgBo8qtg1mpmOGAvWbD0svIWg89Uunp7xeiJfYAVlX3rg+XSGw33mWjrI
- jwFgasRCS8imLRf2bk0dhyU4wZ6uiHVWCN8XMFOF6zjZN4vclAH/uM37P
- AHUtJ629JZz4osGl7svsjozei/5dCGiqG4AlowdbsWV+wKvh/uY87W4O+
- x8gJgt0CjPB0H8cJdGS0xgQPwBqTu0yYWmdnUg8Op9iLFKTrVEtCsBTtA
- wD2ompa4PRuow/DnwFkkW5H9B8c5TKQjUr0/uxDey1JFURdchWaZAAyEC A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375126750"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="375126750"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 07:03:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="854714924"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; d="scan'208";a="854714924"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 07:03:47 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm: Schedule the HPD poll work on the system unbound
- workqueue
-Date: Fri,  1 Sep 2023 17:04:03 +0300
-Message-Id: <20230901140403.2821777-2-imre.deak@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230901140403.2821777-1-imre.deak@intel.com>
-References: <20230901140403.2821777-1-imre.deak@intel.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05F010E7E2
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 14:10:51 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 381EAT2Z128966;
+ Fri, 1 Sep 2023 09:10:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1693577429;
+ bh=+7sXq+fxD8RqvTOAkh8ERHd7yZVuwnyB/g/S8mpk35M=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=F9h9GYkf028zt9HeaWho2UYeO5SIEXcmaLAVG4rzWsSPT2wi45yD2D88bcPBQbQp+
+ 8ubGcHFy7bYic2qbWtmJ1ArhG3gdlMOTfnIqddbqsgseWwG0qgy08tDoTPvvi+rw4p
+ CYLCfYs9WPDDptQe5PrO3PalVvnbJS56jDyNYqFo=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 381EAT5X035592
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 1 Sep 2023 09:10:29 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 1
+ Sep 2023 09:10:29 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 1 Sep 2023 09:10:29 -0500
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 381EAT5J014096;
+ Fri, 1 Sep 2023 09:10:29 -0500
+Date: Fri, 1 Sep 2023 09:10:29 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH v2] drm: bridge: it66121: Fix invalid connector dereference
+Message-ID: <20230901141029.4vk2hfm2ckxgh4yp@ecard>
+References: <20230901-it66121_edid-v2-1-aa59605336b9@ti.com>
+ <fe786b37-a442-7230-305c-c8bca7cffa2a@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <fe786b37-a442-7230-305c-c8bca7cffa2a@ti.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,67 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tejun Heo <tj@kernel.org>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jai Luthra <j-luthra@ti.com>,
+ devarsht@ti.com, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>,
+ Helen Koike <helen.koike@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Nicolas Belin <nbelin@baylibre.com>, "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some i915 platforms at least the HPD poll work involves I2C
-bit-banging using udelay()s to probe for monitor EDIDs. This in turn
-may trigger the
+On 17:01-20230901, Aradhya Bhatia wrote:
+> On 01-Sep-23 15:01, Jai Luthra wrote:
+> > Fix the NULL pointer dereference when no monitor is connected, and the
+> > sound card is opened from userspace.
+> > 
+> > Instead return an empty buffer (of zeroes) as the EDID information to
+> > the sound framework if there is no connector attached.
+> > 
+> > Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
+> > Reported-by: Nishanth Menon <nm@ti.com>
+> > Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
+> > Reviewed-by: Helen Koike <helen.koike@collabora.com>
+> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> 
+> Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> 
 
- workqueue: output_poll_execute [drm_kms_helper] hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND
+Tested-by: Nishanth Menon <nm@ti.com>
 
-warning. Fix this by scheduling drm_mode_config::output_poll_work on a
-WQ_UNBOUND workqueue.
+Log (beagleplay): https://gist.github.com/nmenon/17fea9316cbcc5ee47597a39fa5e2d6f
 
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>
-CC: stable@vger.kernel.org # 6.5
-Cc: dri-devel@lists.freedesktop.org
-Suggested-by: Tejun Heo <tj@kernel.org>
-Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
-Reported-by: Heiner Kallweit <hkallweit1@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9245
-Link: https://lore.kernel.org/all/f7e21caa-e98d-e5b5-932a-fe12d27fde9b@gmail.com
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_probe_helper.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Tested on 99d99825fc07 (origin/master, origin/HEAD) Merge tag 'nfs-for-6.6-1' of git://git.linux-nfs.org/projects/anna/linux-nfs
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 3f479483d7d80..72eac0cd25e74 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -279,7 +279,8 @@ static void reschedule_output_poll_work(struct drm_device *dev)
- 		 */
- 		delay = HZ;
- 
--	schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
-+	queue_delayed_work(system_unbound_wq,
-+			   &dev->mode_config.output_poll_work, delay);
- }
- 
- /**
-@@ -614,7 +615,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- 		 */
- 		dev->mode_config.delayed_event = true;
- 		if (dev->mode_config.poll_enabled)
--			mod_delayed_work(system_wq,
-+			mod_delayed_work(system_unbound_wq,
- 					 &dev->mode_config.output_poll_work,
- 					 0);
- 	}
-@@ -838,7 +839,8 @@ static void output_poll_execute(struct work_struct *work)
- 		drm_kms_helper_hotplug_event(dev);
- 
- 	if (repoll)
--		schedule_delayed_work(delayed_work, DRM_OUTPUT_POLL_PERIOD);
-+		queue_delayed_work(system_unbound_wq,
-+				   delayed_work, DRM_OUTPUT_POLL_PERIOD);
- }
- 
- /**
+Could we get this merged for rc1 cycle?
+
 -- 
-2.37.2
-
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
