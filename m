@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B8778FCC9
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 13:59:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3DC78FCCE
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 14:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01DD10E7AA;
-	Fri,  1 Sep 2023 11:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D293F10E7AE;
+	Fri,  1 Sep 2023 12:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E14CC10E7B0
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 11:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=wkAQCeB8ivWJVGIWqgukmSlEUJIdHHVhiV1w4Hs/i3s=; b=lUWjhbzxex5UKwd4UDmSOaYSDW
- +cvdNBav2pHwqTIlKdYXJ7XCTznd59kpyXCvGjXJj6TAtcXkqcTsSbP1HF28NuEJCuSrO2YQ9d+RB
- lZvGAmy/VGgVrrtVBAH2FAriuh1dY8Jgx37FTfkdsYomX+SXfd19GFsSDVMGmruYoIGGvovObqjKc
- +nGIY/d1U/6rWSTa/3kFAVEpR6QxR6LYcnHdmeVCR/xYNIAn2s30Od/rlnMckbeECWPum+oAyVUr2
- wR7O7QC2OmGl1m3hBEHmOoWKgN7p1yRdtZnTdlGutRluiM2EloEfs7fhAo6Gw6qeRsuaWq0owaca2
- Z4nsAGCA==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1qc2oG-008yBF-0n;
- Fri, 01 Sep 2023 14:59:32 +0300
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 2/2] drm/tegra: Zero-initialize iosys_map
-Date: Fri,  1 Sep 2023 14:59:10 +0300
-Message-ID: <20230901115910.701518-2-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230901115910.701518-1-cyndis@kapsi.fi>
-References: <20230901115910.701518-1-cyndis@kapsi.fi>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D23310E7AE
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 12:00:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 1281CCE2261;
+ Fri,  1 Sep 2023 12:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0443EC433C8;
+ Fri,  1 Sep 2023 12:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693569636;
+ bh=lGxyMOQV4gjjzMVNKS8VEdXVaMYhitaRfjfztoeX44c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vr73YzHZ3TMILaS9tBiYclK/jMziRZh4FpshkG6coR/2I3qT64dYus+o75FOAyDiw
+ Nw17+4QFqxW0xKJf1LD655pBmBHxI1nXY9GsGCP0UyHiECx/dtYTnKnNOx9C+t9l8q
+ ofFAMqK0iLLbNqCNENapdWEueRWuvvU9MEdLOQ8NLk33BIvhZ5FZT3IJulurDWLz+E
+ DU3V195JkmkvO89w/7Wc0zQV8qCHZORHPt2jbUS9olmKTXmIGIFNURveWEisZ0oV4J
+ BWmCHGetvNZVdPlI62y5BKFcly31JTiGP1qM344+zmrHr6J0LbkfF7wjy668cBsjGw
+ kpzZiweAsIc1A==
+Date: Fri, 1 Sep 2023 14:00:33 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+Message-ID: <4zfgmvfstyjfo5slggfmfuvnirrhrq773el52gkav2r6jxliub@7qjbyy7rkj3g>
+References: <20230830062546.720679-1-javierm@redhat.com>
+ <zitno3p7tbnld5auedkx5g4wey2csng4ncmtdhzinbuhblunyk@chnwsnsgq36v>
+ <CAMuHMdWv_QSatDgihr8=2SXHhvp=icNxumZcZOPwT9Q_QiogNQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="byuybil6cm4awtis"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWv_QSatDgihr8=2SXHhvp=icNxumZcZOPwT9Q_QiogNQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,36 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Ashish Mhetre <amhetre@nvidia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
 
-UBSAN reports an invalid load for bool, as the iosys_map is read
-later without being initialized. Zero-initialize it to avoid this.
+--byuybil6cm4awtis
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Ashish Mhetre <amhetre@nvidia.com>
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/drm/tegra/gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Sep 01, 2023 at 10:36:17AM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Fri, Sep 1, 2023 at 10:22=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > On Wed, Aug 30, 2023 at 08:25:08AM +0200, Javier Martinez Canillas wrot=
+e:
+> > > The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
+> > > .atomic_check() callback") moved the allocation of the intermediate a=
+nd
+> > > HW buffers from the encoder's .atomic_enable callback to primary plan=
+e's
+> > > .atomic_check callback.
+> > >
+> > > This was suggested by Maxime Ripard because drivers aren't allowed to=
+ fail
+> > > after drm_atomic_helper_swap_state() has been called, and the encoder=
+'s
+> > > .atomic_enable happens after the new atomic state has been swapped.
+> > >
+> > > But that change caused a performance regression in very slow platform=
+s,
+> > > since now the allocation happens for every plane's atomic state commi=
+t.
+> > > For example, Geert Uytterhoeven reports that is the case on a VexRiscV
+> > > softcore (RISC-V CPU implementation on an FPGA).
+> >
+> > I'd like to have numbers on that. It's a bit surprising to me that,
+> > given how many objects we already allocate during a commit, two small
+> > additional allocations affect performances so dramatically, even on a
+> > slow platform.
+>=20
+> To be fair, I didn't benchmark that.  Perhaps it's just too slow due to
+> all these other allocations (and whatever else happens).
+>=20
+> I just find it extremely silly to allocate a buffer over and over again,
+> while we know that buffer is needed for each and every display update.
 
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index a4023163493d..346f70edfb15 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -177,7 +177,7 @@ static void tegra_bo_unpin(struct host1x_bo_mapping *map)
- static void *tegra_bo_mmap(struct host1x_bo *bo)
- {
- 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
--	struct iosys_map map;
-+	struct iosys_map map = {0};
- 	int ret;
- 
- 	if (obj->vaddr) {
--- 
-2.41.0
+Maybe it's silly, but I guess it depends on what you want to optimize
+for. You won't know the size of that buffer before you're in
+atomic_check. So it's a different trade-off than you would like, but I
+wouldn't call it extremely silly.
 
+Maxime
+
+--byuybil6cm4awtis
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPHSYQAKCRDj7w1vZxhR
+xclHAQCxHO1n0wAUnVmlCnD4kzs+2tcRmYcbKobEUyGJbbRvHgD/ch90H2sQ7yZC
+M4BSAIwvg4c7OaOi0YX3nDHn7VWJrgM=
+=aV+3
+-----END PGP SIGNATURE-----
+
+--byuybil6cm4awtis--
