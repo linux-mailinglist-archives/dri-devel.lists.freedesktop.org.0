@@ -1,52 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D6C78FF7C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:52:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB1E78FF84
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:54:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05EDA10E7FE;
-	Fri,  1 Sep 2023 14:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489C510E803;
+	Fri,  1 Sep 2023 14:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0303210E7FE
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 14:52:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693579933; x=1725115933;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=DnmCXYv/2EeBdxl0XNjUm7s0LTpnIhcycuFCieFQDkE=;
- b=LsyQzVWTHD48XK+OQU+0+V5lsBVn89C1Myh9ehTOCIPlqh0gR1gsiF+D
- bYM12ATfouFIHPdswfc2Sua5DllIV49SHvoLIBIxJE4QRr4qmiZojjmyM
- Zx200Eg3mfkBvI2SkD4L0d+kPpTD6hFnKEIfSy/BAq6Tvlzamyvz/MM6a
- 32yqSCye3TdfzNjKoZQeXCNl9BugnSd5CrAXYL4vU+8qEtPgJPHLnzjq8
- VKpZntlkvtve17oVHUvGZIqgJ2LQTOGKEYDs4LSnsOce8KaZiYKm5NCV0
- v3sFPSglM1ribUToKXtFrs1UspMI3YoNFwVQYOvpr8CkTEyw+dIr7rYB6 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="380023266"
-X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; d="scan'208";a="380023266"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 07:52:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="810101413"
-X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; d="scan'208";a="810101413"
-Received: from epronina-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.34.21])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2023 07:52:06 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [RFC] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: switch to
- drm_do_get_edid()
-In-Reply-To: <20230901102400.552254-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230901102400.552254-1-jani.nikula@intel.com>
-Date: Fri, 01 Sep 2023 17:52:02 +0300
-Message-ID: <87jztahrot.fsf@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B21D910E803
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 14:54:26 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3818UooT024484; Fri, 1 Sep 2023 14:54:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ZMK7Fu7jzfsUlnRSMcQJDpCQYPaalmBxUAwtNNEpNQA=;
+ b=OK7FSgML72cA9+N1HtnG2ZFNRTwBg4rXCo3JoJw/mB+z4ODb505Wp4a3s8r/K26L0NJt
+ wpR1h0Cc62y3LW/QxbzDAbPWhjcvpus0UeAUyBDoiTsmhrnvw/39BR3hnKdn8TDjEMis
+ 98RJD721JXRpFnprxhTRfFnIegRv/oIWARtpt6j+pzZzatzHUCwnXf/FdKqxbe6bhfbL
+ tYSxq/2xBwl7q8PK/8Vv9I5CONsbxTXMBWEIf3AK1sLRz6ZtW50ifRzmSP3CyIsP4CrZ
+ sTVfj3T19gL3QxF+1E9S1AfaFgIUrSUP2EC7//p9wIk5QaPfln+1JwFUEzmUdFWY4Owv og== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3suc22h16f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Sep 2023 14:54:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 381EsLO3009009
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Sep 2023 14:54:21 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 1 Sep
+ 2023 07:54:21 -0700
+Message-ID: <0f5fceba-cb08-08a8-c39d-0c8be1bcd37a@quicinc.com>
+Date: Fri, 1 Sep 2023 08:54:20 -0600
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 04/11] accel/ivpu: Add information about context on
+ failure
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+ <20230901094957.168898-5-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230901094957.168898-5-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2yZjaBw12zYtOwpDjK5lcytuEc8lvqSI
+X-Proofpoint-ORIG-GUID: 2yZjaBw12zYtOwpDjK5lcytuEc8lvqSI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-01_13,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 impostorscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309010140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,158 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zheyu Ma <zheyuma97@gmail.com>,
- Robert Foss <rfoss@kernel.org>, Martyn Welch <martyn.welch@collabora.co.uk>,
- Jonas Karlman <jonas@kwiboo.se>, Peter Senna Tschudin <peter.senna@gmail.com>,
- Yuan Can <yuancan@huawei.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ian Ray <ian.ray@ge.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Martin Donnelly <martin.donnelly@ge.com>
+Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 01 Sep 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> The driver was originally added in commit fcfa0ddc18ed ("drm/bridge:
-> Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)"). I tried to
-> look up the discussion, but didn't find anyone questioning the EDID
-> reading part.
->
-> Why does it not use drm_get_edid() or drm_do_get_edid()?
->
-> I don't know where client->addr comes from, so I guess it could be
-> different from DDC_ADDR, rendering drm_get_edid() unusable.
->
-> There's also the comment:
->
-> 	/* Yes, read the entire buffer, and do not skip the first
-> 	 * EDID_LENGTH bytes.
-> 	 */
->
-> But again, there's not a word on *why*.
->
-> Maybe we could just use drm_do_get_edid()? I'd like drivers to migrate
-> away from their own EDID parsing and validity checks, including stop
-> using drm_edid_block_valid(). (And long term switch to drm_edid_read(),
-> struct drm_edid, and friends, but this is the first step.)
->
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Ian Ray <ian.ray@ge.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Martin Donnelly <martin.donnelly@ge.com>
-> Cc: Martyn Welch <martyn.welch@collabora.co.uk>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Peter Senna Tschudin <peter.senna@gmail.com>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Yuan Can <yuancan@huawei.com>
-> Cc: Zheyu Ma <zheyuma97@gmail.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
+On 9/1/2023 3:49 AM, Stanislaw Gruszka wrote:
+> Add additional ctx number to error messages on mmu context
+> initialization failures.
+
+Looking at this for the first time, the "why" doesn't seem obvious. 
+Based on my understanding, I suggest -
+
+"Identify the mmu context that failed to initialize in the error 
+messages. This allows the error to be correlated with a specific user 
+during debug."
+
+If you have a different idea for the wording, go for it.
+
+I think I can safely assume this will be resolved.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+> 
+> Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > ---
->
-> I haven't even tried to compile this, and I have no way to test
-> this. Apologies for the long Cc list; I'm hoping someone could explain
-> the existing code, and perhaps give this approach a spin.
-> ---
->  .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 57 +++----------------
->  1 file changed, 9 insertions(+), 48 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index 460db3c8a08c..0d9eacf3d9b7 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -65,12 +65,11 @@ struct ge_b850v3_lvds {
->  
->  static struct ge_b850v3_lvds *ge_b850v3_lvds_ptr;
->  
-> -static u8 *stdp2690_get_edid(struct i2c_client *client)
-> +static int stdp2690_read_block(void *context, u8 *buf, unsigned int block, size_t len)
->  {
-> +	struct i2c_client *client = context;
->  	struct i2c_adapter *adapter = client->adapter;
-> -	unsigned char start = 0x00;
-> -	unsigned int total_size;
-> -	u8 *block = kmalloc(EDID_LENGTH, GFP_KERNEL);
-> +	unsigned char start = block * EDID_LENGTH;
->  
->  	struct i2c_msg msgs[] = {
->  		{
-> @@ -81,53 +80,15 @@ static u8 *stdp2690_get_edid(struct i2c_client *client)
->  		}, {
->  			.addr	= client->addr,
->  			.flags	= I2C_M_RD,
-> -			.len	= EDID_LENGTH,
-> -			.buf	= block,
-> +			.len	= len,
-> +			.buf	= buf,
->  		}
->  	};
->  
-> -	if (!block)
-> -		return NULL;
-> +	if (i2c_transfer(adapter, msgs, 2) != 2)
-> +		return -1;
->  
-> -	if (i2c_transfer(adapter, msgs, 2) != 2) {
-> -		DRM_ERROR("Unable to read EDID.\n");
-> -		goto err;
-> -	}
-> -
-> -	if (!drm_edid_block_valid(block, 0, false, NULL)) {
-> -		DRM_ERROR("Invalid EDID data\n");
-> -		goto err;
-> -	}
-> -
-> -	total_size = (block[EDID_EXT_BLOCK_CNT] + 1) * EDID_LENGTH;
-> -	if (total_size > EDID_LENGTH) {
-> -		kfree(block);
-> -		block = kmalloc(total_size, GFP_KERNEL);
-> -		if (!block)
-> -			return NULL;
-> -
-> -		/* Yes, read the entire buffer, and do not skip the first
-> -		 * EDID_LENGTH bytes.
-> -		 */
-> -		start = 0x00;
-> -		msgs[1].len = total_size;
-> -		msgs[1].buf = block;
-> -
-> -		if (i2c_transfer(adapter, msgs, 2) != 2) {
-> -			DRM_ERROR("Unable to read EDID extension blocks.\n");
-> -			goto err;
-> -		}
-> -		if (!drm_edid_block_valid(block, 1, false, NULL)) {
-> -			DRM_ERROR("Invalid EDID data\n");
-> -			goto err;
-> -		}
-> -	}
-> -
-> -	return block;
-> -
-> -err:
-> -	kfree(block);
-> -	return NULL;
-> +	return 0;
->  }
->  
->  static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
-> @@ -137,7 +98,7 @@ static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
->  
->  	client = ge_b850v3_lvds_ptr->stdp2690_i2c;
->  
-> -	return (struct edid *)stdp2690_get_edid(client);
-> +	return drm_do_get_edid(connector, stdp2690_read_block, client, NULL);
+>   drivers/accel/ivpu/ivpu_mmu_context.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+> index 8914e34fb54f..5b48983c7cf8 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu_context.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+> @@ -490,13 +490,13 @@ int ivpu_mmu_user_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context
+>   
+>   	ret = ivpu_mmu_context_init(vdev, ctx, ctx_id);
+>   	if (ret) {
+> -		ivpu_err(vdev, "Failed to initialize context: %d\n", ret);
+> +		ivpu_err(vdev, "Failed to initialize context %u: %d\n", ctx_id, ret);
+>   		return ret;
+>   	}
+>   
+>   	ret = ivpu_mmu_set_pgtable(vdev, ctx_id, &ctx->pgtable);
+>   	if (ret) {
+> -		ivpu_err(vdev, "Failed to set page table: %d\n", ret);
+> +		ivpu_err(vdev, "Failed to set page table for context %u: %d\n", ctx_id, ret);
+>   		goto err_context_fini;
+>   	}
+>   
 
-The last NULL param should be dropped, as noted by the build bot.
-
-BR,
-Jani.
-
-
->  }
->  
->  static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
