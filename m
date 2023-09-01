@@ -2,60 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090CF78FF0D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895BA78FED5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 16:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C165A10E7ED;
-	Fri,  1 Sep 2023 14:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E50CD10E1B2;
+	Fri,  1 Sep 2023 14:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B6C10E7EE
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 14:27:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B7FCE21865;
- Fri,  1 Sep 2023 14:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693578423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VnigwmtkAyLPvkae3x4QxpwsLRKnHImnH8SvLgM9K4Q=;
- b=w8IGaKGIWBWJInOEgLRz/QbidJyArWGsICqIZvtGyhu4xIDtlMi5uWcMJU09Gn/P8S1LtJ
- qFdH7QDYoJZ9GfZNgT88Bd4O/ekc6LU2/B69H/HkaHeEow+3s6gZDtVy+byQn9JmZ4cReW
- DtwEeOTPwIGXDr1saHVdXlvi1KL038g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693578423;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VnigwmtkAyLPvkae3x4QxpwsLRKnHImnH8SvLgM9K4Q=;
- b=5gsuwXqLL2AFN/Ta9pkaFenxeTHfHoUuE8fVzeEO9ttXHUWZ9haq9mbNiR2iapXbDAFcyn
- OpUF6jYjDIDKoFCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 71BCD1358B;
- Fri,  1 Sep 2023 14:27:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SMrhGrf08WQGYAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 01 Sep 2023 14:27:03 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
- arnd@arndb.de, deller@gmx.de
-Subject: [PATCH 4/4] fbdev: Replace fb_pgprotect() with fb_pgprot_device()
-Date: Fri,  1 Sep 2023 16:16:36 +0200
-Message-ID: <20230901142659.31787-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230901142659.31787-1-tzimmermann@suse.de>
-References: <20230901142659.31787-1-tzimmermann@suse.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B4A10E1B2
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 14:19:20 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 381AbXZR007056; Fri, 1 Sep 2023 14:19:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=CxytiwseYZrp5h6nOP5KI4TjXBA9DhRwaI2vjud3E9M=;
+ b=jpbQ7L+XaF3pk5RonDeGZp12m0pR+X/09Lx0UyoZOISVZLR528vt21Xa7UcRTFK/tFDN
+ du63muBTU0o+FnkY0jh9Nw0G7S0lPHlAuxudKQFhz0D776jFcBb0wFfGHZWMQGqCIi/9
+ eacZNJfwjICSxrQ6xIlFAfkwsA8Mxd2L/OlYIxjrqSU2GdbnBfj0Jc2uLI7LuUM6WkG0
+ 0cOqJJ279O76OF6fU2EptQ5eH6AFKEFQE+oq9xf+b0tj7sK10xKUd+NrSzU6FsOP8TZm
+ i9T9jrGUTe6MCIdVmOXe/ADFWERhBLOJFyy82PEBeZSTofNIRTCna/xusE4kH//fBuWJ 9g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3su89e9e9b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Sep 2023 14:19:09 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 381EJ8bo025838
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Sep 2023 14:19:08 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 1 Sep
+ 2023 07:19:07 -0700
+Message-ID: <1900b897-220c-2578-c633-1fb22ee6782c@quicinc.com>
+Date: Fri, 1 Sep 2023 08:19:06 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 02/11] accel/ivpu: Remove duplicated error messages
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+ <20230901094957.168898-3-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230901094957.168898-3-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: hBg49m_lIu1H4blFKG3YgBiRQPmRJY14
+X-Proofpoint-GUID: hBg49m_lIu1H4blFKG3YgBiRQPmRJY14
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-01_11,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 mlxscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309010134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,280 +84,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename the fbdev mmap helper fb_pgprotect() to fb_pgprot_device().
-The helper sets VMA page-access flags for framebuffers in device I/O
-memory. The new name follows pgprot_device(), which does the same for
-arbitrary devices.
+On 9/1/2023 3:49 AM, Stanislaw Gruszka wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> Reduce the number of error messages per single failure in
+> ivpu_dev_init() and ivpu_probe().
+> 
+> Most error messages are already printed by functions called
+> from ivpu_dev_init(). Add missed error prints in ivpu_ipc_init()
+> and ivpu_mmu_context_init().
+> 
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-Also clean up the helper's parameters and return value. Instead of
-the VMA instance, pass the individial parameters separately: existing
-page-access flags, the VMAs start and end addresses and the offset
-in the underlying device memory rsp file. Return the new page-access
-flags. These changes align fb_pgprot_device() closer with pgprot_device.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- arch/ia64/include/asm/fb.h           | 15 +++++++--------
- arch/m68k/include/asm/fb.h           | 19 ++++++++++---------
- arch/mips/include/asm/fb.h           | 11 +++++------
- arch/powerpc/include/asm/fb.h        | 13 +++++--------
- arch/sparc/include/asm/fb.h          | 15 +++++++++------
- arch/x86/include/asm/fb.h            | 10 ++++++----
- arch/x86/video/fbdev.c               | 15 ++++++++-------
- drivers/video/fbdev/core/fb_chrdev.c |  3 ++-
- include/asm-generic/fb.h             | 12 ++++++------
- 9 files changed, 58 insertions(+), 55 deletions(-)
-
-diff --git a/arch/ia64/include/asm/fb.h b/arch/ia64/include/asm/fb.h
-index 1717b26fd423..2fbad4a9fc15 100644
---- a/arch/ia64/include/asm/fb.h
-+++ b/arch/ia64/include/asm/fb.h
-@@ -8,17 +8,16 @@
- 
- #include <asm/page.h>
- 
--struct file;
--
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
- {
--	if (efi_range_is_wc(vma->vm_start, vma->vm_end - vma->vm_start))
--		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+	if (efi_range_is_wc(vm_start, vm_end - vm_start))
-+		return pgprot_writecombine(prot);
- 	else
--		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+		return pgprot_noncached(prot);
- }
--#define fb_pgprotect fb_pgprotect
-+#define fb_pgprot_device fb_pgprot_device
- 
- static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
- {
-diff --git a/arch/m68k/include/asm/fb.h b/arch/m68k/include/asm/fb.h
-index 24273fc7ad91..4acdf5b62871 100644
---- a/arch/m68k/include/asm/fb.h
-+++ b/arch/m68k/include/asm/fb.h
-@@ -5,26 +5,27 @@
- #include <asm/page.h>
- #include <asm/setup.h>
- 
--struct file;
--
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
- {
- #ifdef CONFIG_MMU
- #ifdef CONFIG_SUN3
--	pgprot_val(vma->vm_page_prot) |= SUN3_PAGE_NOCACHE;
-+	pgprot_val(prot) |= SUN3_PAGE_NOCACHE;
- #else
- 	if (CPU_IS_020_OR_030)
--		pgprot_val(vma->vm_page_prot) |= _PAGE_NOCACHE030;
-+		pgprot_val(prot) |= _PAGE_NOCACHE030;
- 	if (CPU_IS_040_OR_060) {
--		pgprot_val(vma->vm_page_prot) &= _CACHEMASK040;
-+		pgprot_val(prot) &= _CACHEMASK040;
- 		/* Use no-cache mode, serialized */
--		pgprot_val(vma->vm_page_prot) |= _PAGE_NOCACHE_S;
-+		pgprot_val(prot) |= _PAGE_NOCACHE_S;
- 	}
- #endif /* CONFIG_SUN3 */
- #endif /* CONFIG_MMU */
-+
-+	return prot;
- }
--#define fb_pgprotect fb_pgprotect
-+#define fb_pgprot_device fb_pgprot_device
- 
- #include <asm-generic/fb.h>
- 
-diff --git a/arch/mips/include/asm/fb.h b/arch/mips/include/asm/fb.h
-index 18b7226403ba..98e63d14a71f 100644
---- a/arch/mips/include/asm/fb.h
-+++ b/arch/mips/include/asm/fb.h
-@@ -3,14 +3,13 @@
- 
- #include <asm/page.h>
- 
--struct file;
--
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
- {
--	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+	return pgprot_noncached(prot);
- }
--#define fb_pgprotect fb_pgprotect
-+#define fb_pgprot_device fb_pgprot_device
- 
- /*
-  * MIPS doesn't define __raw_ I/O macros, so the helpers
-diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/fb.h
-index 0f1fe1310924..8e6a7fc4ae86 100644
---- a/arch/powerpc/include/asm/fb.h
-+++ b/arch/powerpc/include/asm/fb.h
-@@ -2,18 +2,15 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
--#include <linux/fs.h>
--
- #include <asm/page.h>
- 
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
- {
--	vma->vm_page_prot = __phys_mem_access_prot(PHYS_PFN(off),
--						   vma->vm_end - vma->vm_start,
--						   vma->vm_page_prot);
-+	return __phys_mem_access_prot(PHYS_PFN(offset), vm_end - vm_start, prot);
- }
--#define fb_pgprotect fb_pgprotect
-+#define fb_pgprot_device fb_pgprot_device
- 
- #include <asm-generic/fb.h>
- 
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index 572ecd3e1cc4..dc0fa30d11f3 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -4,15 +4,18 @@
- 
- #include <linux/io.h>
- 
-+#include <asm/page.h>
-+
- struct fb_info;
--struct file;
--struct vm_area_struct;
- 
- #ifdef CONFIG_SPARC32
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
--{ }
--#define fb_pgprotect fb_pgprotect
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
-+{
-+	return prot;
-+}
-+#define fb_pgprot_device fb_pgprot_device
- #endif
- 
- int fb_is_primary_device(struct fb_info *info);
-diff --git a/arch/x86/include/asm/fb.h b/arch/x86/include/asm/fb.h
-index 23873da8fb77..511aedb23d66 100644
---- a/arch/x86/include/asm/fb.h
-+++ b/arch/x86/include/asm/fb.h
-@@ -2,12 +2,14 @@
- #ifndef _ASM_X86_FB_H
- #define _ASM_X86_FB_H
- 
-+#include <asm/page.h>
-+
- struct fb_info;
--struct file;
--struct vm_area_struct;
- 
--void fb_pgprotect(struct file *file, struct vm_area_struct *vma, unsigned long off);
--#define fb_pgprotect fb_pgprotect
-+pgprot_t fb_pgprot_device(pgprot_t prot,
-+			  unsigned long vm_start, unsigned long vm_end,
-+			  unsigned long offset);
-+#define fb_pgprot_device fb_pgprot_device
- 
- int fb_is_primary_device(struct fb_info *info);
- #define fb_is_primary_device fb_is_primary_device
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/fbdev.c
-index 49a0452402e9..c7f247d91386 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/fbdev.c
-@@ -13,16 +13,17 @@
- #include <linux/vgaarb.h>
- #include <asm/fb.h>
- 
--void fb_pgprotect(struct file *file, struct vm_area_struct *vma, unsigned long off)
-+pgprot_t fb_pgprot_device(pgprot_t prot,
-+			  unsigned long vm_start, unsigned long vm_end,
-+			  unsigned long offset)
- {
--	unsigned long prot;
--
--	prot = pgprot_val(vma->vm_page_prot) & ~_PAGE_CACHE_MASK;
-+	pgprot_val(prot) &= ~_PAGE_CACHE_MASK;
- 	if (boot_cpu_data.x86 > 3)
--		pgprot_val(vma->vm_page_prot) =
--			prot | cachemode2protval(_PAGE_CACHE_MODE_UC_MINUS);
-+		pgprot_val(prot) |= cachemode2protval(_PAGE_CACHE_MODE_UC_MINUS);
-+
-+	return prot;
- }
--EXPORT_SYMBOL(fb_pgprotect);
-+EXPORT_SYMBOL(fb_pgprot_device);
- 
- int fb_is_primary_device(struct fb_info *info)
- {
-diff --git a/drivers/video/fbdev/core/fb_chrdev.c b/drivers/video/fbdev/core/fb_chrdev.c
-index eadb81f53a82..100a92b2c3b7 100644
---- a/drivers/video/fbdev/core/fb_chrdev.c
-+++ b/drivers/video/fbdev/core/fb_chrdev.c
-@@ -365,7 +365,8 @@ static int fb_mmap(struct file *file, struct vm_area_struct *vma)
- 	mutex_unlock(&info->mm_lock);
- 
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
--	fb_pgprotect(file, vma, start);
-+	vma->vm_page_prot = fb_pgprot_device(vma->vm_page_prot, vma->vm_start,
-+					     vma->vm_end, start);
- 
- 	return vm_iomap_memory(vma, start, len);
- }
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index bb7ee9c70e60..876e1bef7859 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -12,14 +12,14 @@
- #include <linux/pgtable.h>
- 
- struct fb_info;
--struct file;
- 
--#ifndef fb_pgprotect
--#define fb_pgprotect fb_pgprotect
--static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
--				unsigned long off)
-+#ifndef fb_pgprot_device
-+#define fb_pgprot_device fb_pgprot_device
-+static inline pgprot_t fb_pgprot_device(pgprot_t prot,
-+					unsigned long vm_start, unsigned long vm_end,
-+					unsigned long offset)
- {
--	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+	return pgprot_writecombine(prot);
- }
- #endif
- 
--- 
-2.41.0
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
