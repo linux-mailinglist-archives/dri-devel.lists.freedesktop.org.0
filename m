@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA5378F6BB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 03:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5A678F6BC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 03:29:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D13310E713;
-	Fri,  1 Sep 2023 01:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6863A10E712;
+	Fri,  1 Sep 2023 01:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-110.freemail.mail.aliyun.com
- (out30-110.freemail.mail.aliyun.com [115.124.30.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4295510E710;
- Fri,  1 Sep 2023 01:29:37 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+Received: from out30-113.freemail.mail.aliyun.com
+ (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2179B10E712;
+ Fri,  1 Sep 2023 01:29:40 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R601e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
  MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0Vqzer6v_1693531772; 
+ TI=SMTPD_---0VqzgJsZ_1693531775; 
 Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0Vqzer6v_1693531772) by smtp.aliyun-inc.com;
- Fri, 01 Sep 2023 09:29:33 +0800
+ fp:SMTPD_---0VqzgJsZ_1693531775) by smtp.aliyun-inc.com;
+ Fri, 01 Sep 2023 09:29:36 +0800
 From: Yang Li <yang.lee@linux.alibaba.com>
 To: alexander.deucher@amd.com, airlied@gmail.com, daniel@ffwll.ch,
  harry.wentland@amd.com, Rodrigo.Siqueira@amd.com
-Subject: [PATCH -next 4/5] drm/amd/display: clean up some inconsistent
- indentings
-Date: Fri,  1 Sep 2023 09:29:23 +0800
-Message-Id: <20230901012924.120196-4-yang.lee@linux.alibaba.com>
+Subject: [PATCH -next 5/5] drm/amd/display: clean up one inconsistent indenting
+Date: Fri,  1 Sep 2023 09:29:24 +0800
+Message-Id: <20230901012924.120196-5-yang.lee@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20230901012924.120196-1-yang.lee@linux.alibaba.com>
 References: <20230901012924.120196-1-yang.lee@linux.alibaba.com>
@@ -49,62 +48,28 @@ Cc: Yang Li <yang.lee@linux.alibaba.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:288 dcn35_update_clocks() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:260 dcn35_update_bw_bounding_box_fpu() warn: inconsistent indenting
 
 Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- .../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c  | 28 +++++++++----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-index 9314e75195cd..98d6a1f8af60 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-@@ -288,8 +288,8 @@ void dcn35_update_clocks(struct clk_mgr *clk_mgr_base,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
+index 525ca0ed9ea9..46eb2d0592f3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
+@@ -348,8 +348,8 @@ void dcn35_update_bw_bounding_box_fpu(struct dc *dc,
+ 			dc->debug.dram_clock_change_latency_ns / 1000.0;
  	}
+ 	/*temp till dml2 fully work without dml1*/
+-		dml_init_instance(&dc->dml, &dcn3_5_soc, &dcn3_5_ip,
+-				  DML_PROJECT_DCN31);
++	dml_init_instance(&dc->dml, &dcn3_5_soc, &dcn3_5_ip,
++				DML_PROJECT_DCN31);
+ }
  
- 	// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
--		if (new_clocks->dppclk_khz < 100000)
--			new_clocks->dppclk_khz = 100000;
-+	if (new_clocks->dppclk_khz < 100000)
-+		new_clocks->dppclk_khz = 100000;
- 
- 	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
- 		if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
-@@ -901,21 +901,21 @@ void dcn35_clk_mgr_construct(
- 
- 	ASSERT(smu_dpm_clks.dpm_clks);
- 
--		clk_mgr->base.smu_ver = dcn35_smu_get_smu_version(&clk_mgr->base);
-+	clk_mgr->base.smu_ver = dcn35_smu_get_smu_version(&clk_mgr->base);
- 
--		if (clk_mgr->base.smu_ver)
--			clk_mgr->base.smu_present = true;
-+	if (clk_mgr->base.smu_ver)
-+		clk_mgr->base.smu_present = true;
- 
--		/* TODO: Check we get what we expect during bringup */
--		clk_mgr->base.base.dentist_vco_freq_khz = get_vco_frequency_from_reg(&clk_mgr->base);
-+	/* TODO: Check we get what we expect during bringup */
-+	clk_mgr->base.base.dentist_vco_freq_khz = get_vco_frequency_from_reg(&clk_mgr->base);
- 
--		if (ctx->dc_bios->integrated_info->memory_type == LpDdr5MemType) {
--			dcn35_bw_params.wm_table = lpddr5_wm_table;
--		} else {
--			dcn35_bw_params.wm_table = ddr5_wm_table;
--		}
--		/* Saved clocks configured at boot for debug purposes */
--		 dcn35_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, &clk_mgr->base.base, &log_info);
-+	if (ctx->dc_bios->integrated_info->memory_type == LpDdr5MemType) {
-+		dcn35_bw_params.wm_table = lpddr5_wm_table;
-+	} else {
-+		dcn35_bw_params.wm_table = ddr5_wm_table;
-+	}
-+	/* Saved clocks configured at boot for debug purposes */
-+	dcn35_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, &clk_mgr->base.base, &log_info);
- 
- 	clk_mgr->base.base.dprefclk_khz = dcn35_smu_get_dprefclk(&clk_mgr->base);
- 	clk_mgr->base.base.clks.ref_dtbclk_khz = dcn35_smu_get_dtbclk(&clk_mgr->base);
+ static bool is_dual_plane(enum surface_pixel_format format)
 -- 
 2.20.1.7.g153144c
 
