@@ -1,76 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27F778FAD3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:31:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFAC78FAD6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 11:32:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21D110E1DF;
-	Fri,  1 Sep 2023 09:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7CE10E710;
+	Fri,  1 Sep 2023 09:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA8F10E1DF
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:31:39 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3819VPAw115637;
- Fri, 1 Sep 2023 04:31:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1693560685;
- bh=x1V7V+7rccucWwQINZ7DbqEzxx71rgWv/A1c94Rd+48=;
- h=From:Date:Subject:To:CC;
- b=XG1ISZYg7fAid36HYnA36icCWZwgTB9bEEeVBbE81GCqUGC+kn8LuxR5AhxoS3JlW
- NoK4zaddHFDLLxgLuMi3r6ktfbI7Kcw7L2ophI1sLw8bkOs+BY9czZ8HoD1Eo1Mw7E
- 9UzdLAcHq0RKjloI5qSVvn4wiMmSK4vYM85N1X8M=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3819VPKw088284
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 1 Sep 2023 04:31:25 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 1
- Sep 2023 04:31:25 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 1 Sep 2023 04:31:25 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3819VOLE087283;
- Fri, 1 Sep 2023 04:31:24 -0500
-From: Jai Luthra <j-luthra@ti.com>
-Date: Fri, 1 Sep 2023 15:01:23 +0530
-Subject: [PATCH v2] drm: bridge: it66121: Fix invalid connector dereference
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11ED210E710
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 09:32:16 +0000 (UTC)
+Received: from xpredator (unknown
+ [IPv6:2a02:2f08:4c00:5d00:7656:3cff:fe3f:7ce9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: mvlad)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B89446607295;
+ Fri,  1 Sep 2023 10:32:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693560734;
+ bh=JO2WMti1Mm0nummHVbvbhqxgPr2kuKBp0pSJmah19uk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YSL4jgpJGSOX4Oob1yjsoAHfElc0RQel1jTDxMHZOe95sZe+A4zCiLkbcjFhzMo9z
+ S+L/vytV8Zy4VlzmCpR6wnlHPbfexWOrjG3XKQS+Cia/0q8EHyrb+redvTQac0n/qE
+ gFJx22TQqXhH3LL/9Db8Cu0lXlZLqH32oIuD+MCF6l4KimBPcs9OGwjRzSg2vkeYKQ
+ 7XIwlGg/N6oBalp6Stux+l3povEDBWE4nxTPn5UYccwhnQoBdQsGroUO8vEOoIdT2z
+ nn4gHguyybKTsfgbsIoQ0LpUzSRIrhi1/8c2Wd8e7hafzvR1p4WtFS6BkN4U8O+W0X
+ ayRIYhEjmTp0w==
+Date: Fri, 1 Sep 2023 12:32:10 +0300
+From: Marius Vlad <marius.vlad@collabora.com>
+To: Brandon Pollack <brpol@chromium.org>
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <ZPGvmpExLxwmfFBB@xpredator>
+References: <20230829053201.423261-1-brpol@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230901-it66121_edid-v2-1-aa59605336b9@ti.com>
-X-B4-Tracking: v=1; b=H4sIAGqv8WQC/3XMQQ6CMBCF4auQWVtDpxSKK+9hiAE6yiykpG0aD
- endrexd/i953w6BPFOAS7WDp8SB3VoCTxXMy7g+SbAtDVijqg1qwbFtJco7WbaiJeqNlp2pzQT
- lsnl68PvgbkPphUN0/nPoSf7WP1CSQgo1TrrpUVHT4TXyeXYvGHLOXzsxHbulAAAA
-To: Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Nicolas Belin
- <nbelin@baylibre.com>, "Andy.Hsieh" <Andy.Hsieh@mediatek.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1825; i=j-luthra@ti.com;
- h=from:subject:message-id; bh=nUHp2YVQF4quI/iRqN77F62Vmqh3yNL0JAuVezbdwDM=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBk8a9tl96xshWxGbou9fVkADDkJotJsvuRJngsP
- gfJUJAucHGJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZPGvbQAKCRBD3pH5JJpx
- RXoOD/9zOmBjj/MJltAv7E/2bNdRKOAlaqUzCUTwWk+Kbki5EnwVSVPFazFmSYegcmNWjxwHBzv
- uZWzVEri3Pbi0eRRiW+q942ZS1d6Z0Jd67mzAazCywXoDjTcqgU43iUUcTZkZAwFvkCkHCHxGEY
- uutcAyHK8wC49DuCQJS4TF2Djub+yJ2oJbwWNFfh3Uqph4t2Jh+FrrOs9aqXa6LuVXFtqU0LQ2r
- 7cbUNoQtey2a/4RTSdKTZSZPNz0hDdo5JAh9zpPy2uFNesh7/xy+sZyBbOY/B1rKPZhquv3VPT8
- B+YhXBPRUTuk1gToXu9EeHOXOyBwhOWlmQ/VNROLon9eGhyspDp+dCtvFYhwr+28nNB3yCtTt0x
- HRxJKnAm1SkQBC5J6LyIDFg5Bsud04QP6GGY/8gIwrznwmCDrYmfSX42cCBUCrWtliTNHNTTutU
- DhzXexE7kmGdgraotDzHqn/pR58RstbYqLVBqRiyDOsBWvcm262kkK84I3LDbFAbp+i5fbg3xU7
- TQah3+VvKaicnG/H/DwXOGOrGeEXdofaQ3uYr0jsIfJ/2v+xkOjExw+LO03AU2zJrdc8MOyrvC7
- Sa7SwMBiaCJwE5x4QuYAHY1E5EMF3NEFxplXS59wV76h4BOFRttE8WT8uY08dNuFtalGHSwOr4b
- EVSskY1712MVh+A==
-X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bqm9t5IXKKZ0/ilA"
+Content-Disposition: inline
+In-Reply-To: <20230829053201.423261-1-brpol@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,61 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, Jai Luthra <j-luthra@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- devarsht@ti.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Helen Koike <helen.koike@collabora.com>, linux-arm-kernel@lists.infradead.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, mduggan@chromium.org,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mairacanal@riseup.net, mripard@kernel.org,
+ tzimmermann@suse.de, jshargo@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the NULL pointer dereference when no monitor is connected, and the
-sound card is opened from userspace.
 
-Instead return an empty buffer (of zeroes) as the EDID information to
-the sound framework if there is no connector attached.
+--bqm9t5IXKKZ0/ilA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: e0fd83dbe924 ("drm: bridge: it66121: Add audio support")
-Reported-by: Nishanth Menon <nm@ti.com>
-Closes: https://lore.kernel.org/all/20230825105849.crhon42qndxqif4i@gondola/
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
----
-Changes in v2:
-- Return an empty buffer of 0s instead of returning an error
-- Lock the mutex before accessing ctx->connector
-- Link to v1: https://lore.kernel.org/r/20230825-it66121_edid-v1-1-3ab54923e472@ti.com
----
- drivers/gpu/drm/bridge/ite-it66121.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Hi Brandon,
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 466641c77fe9..fc7f5ec5fb38 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1447,10 +1447,14 @@ static int it66121_audio_get_eld(struct device *dev, void *data,
- 	struct it66121_ctx *ctx = dev_get_drvdata(dev);
- 
- 	mutex_lock(&ctx->lock);
--
--	memcpy(buf, ctx->connector->eld,
--	       min(sizeof(ctx->connector->eld), len));
--
-+	if (!ctx->connector) {
-+		/* Pass en empty ELD if connector not available */
-+		dev_dbg(dev, "No connector present, passing empty EDID data");
-+		memset(buf, 0, len);
-+	} else {
-+		memcpy(buf, ctx->connector->eld,
-+		       min(sizeof(ctx->connector->eld), len));
-+	}
- 	mutex_unlock(&ctx->lock);
- 
- 	return 0;
+You can now add https://lists.freedesktop.org/archives/igt-dev/2023-Septemb=
+er/060717.html
+as part of this series.
 
----
-base-commit: 99d99825fc075fd24b60cc9cf0fb1e20b9c16b0f
-change-id: 20230825-it66121_edid-6ee98517808b
+On Tue, Aug 29, 2023 at 05:30:52AM +0000, Brandon Pollack wrote:
+> Since Jim is busy with other work and I'm working on some things that
+> rely on this, I've taken up the task of doing the iterations.  I've
+> addressed the comments as best I can (those replies are to each
+> individual change) and here is the patch set to go with those.
+>=20
+> I added my own signoff to each commit, but I've left jshargo@ as the
+> author of all the commits he wrote.  I'm sure there is still more to
+> address and the ICT tests that were writtein parallel to this may also
+> need some additions, but I'm hoping we're in a good enough state to get
+> this in and iterate from there soon.
+>=20
+> Since V6:
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> rmdirs for documentation examples
+> fix crtc mask for writebacks
+>=20
+> Since V5:
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> Fixed some bad merge conflicts and locking behaviours as well as
+> clarified some documentation, should be good to go now :)
+>=20
+> Since V4:
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> Fixed up some documentation as suggested by Marius
+> Fixed up some bad locking as suggested by Marius
+> Small fixes here and there (most have email responses to previous chain
+> emails)
+>=20
+> Since V3:
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> I've added hotplug support in the latest patch.  This has been reviewed s=
+ome
+> and the notes from that review are addressed here as well.
+>=20
+> Relevant/Utilizing work:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> I've built a while test framework based on this as proof it functions (th=
+ough
+> I'm sure there may be lingering bugs!).  You can check that out on
+> crrev.com if you are interested and need to get started yourself (but be
+> aware of any licensing that may differ from the kernel itself!  Make
+> sure you understand the license:
+>=20
+> https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/p=
+latform/tast-tests/LICENSE
+>=20
+> That said, you can see the changes in review on the crrev gerrit:
+>=20
+> https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests=
+/+/4666669
+>=20
+> Outro:
+> =3D=3D=3D=3D=3D
+> I really appreciate everyone's input and tolerance in getting these
+> changes in.  Jim's first patch series was this, and other than some
+> small cleanups and documentation, taking over it is also mine.
+>=20
+> Thank you everyone :)
+>=20
+> Brandon Pollack (1):
+>   drm/vkms Add hotplug support via configfs to VKMS.
+>=20
+> Jim Shargo (6):
+>   drm/vkms: Back VKMS with DRM memory management instead of static
+>     objects
+>   drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
+>   drm/vkms: Provide platform data when creating VKMS devices
+>   drm/vkms: Add ConfigFS scaffolding to VKMS
+>   drm/vkms: Support enabling ConfigFS devices
+>   drm/vkms: Add a module param to enable/disable the default device
+>=20
+>  Documentation/gpu/vkms.rst            |  20 +-
+>  drivers/gpu/drm/Kconfig               |   1 +
+>  drivers/gpu/drm/vkms/Makefile         |   1 +
+>  drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
+>  drivers/gpu/drm/vkms/vkms_configfs.c  | 723 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_crtc.c      | 102 ++--
+>  drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
+>  drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
+>  drivers/gpu/drm/vkms/vkms_output.c    | 404 ++++++++++++--
+>  drivers/gpu/drm/vkms/vkms_plane.c     |  44 +-
+>  drivers/gpu/drm/vkms/vkms_writeback.c |  42 +-
+>  11 files changed, 1514 insertions(+), 241 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+>=20
+> --=20
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
+>=20
 
-Best regards,
--- 
-Jai Luthra <j-luthra@ti.com>
+--bqm9t5IXKKZ0/ilA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTxr5MACgkQ9jQS5glH
+1u/yPg/7BOlu8W8mfdi0z0y5yk4jI9J3tbphJ1Uq38IkDIy7R4DkxjrHxzHyvAE8
+vtyf3dSmWXd6abWXnBTdaXe6Q6DfTR6yjXcp+FECCOWjmofNRpAn8gh0kJ26r0iV
+7lNguPhiDvvAmb9eahHrZsBdbDNRu48HSZbDHLZvPIG+o30spnzUGDqoW9fKtRwp
+BRT+xb4L5Je+JwJ5JX+XQ7ZCdNNn30ZfZRS4PlsFpvq7KLNr+WJaLeNMk3x8l9Ho
++UzXKnwA19NU8J48AU7QtEAodeRMsFvfHbVHD8eAdGI+h2p+Tc/7F/6u4bjW3W+O
+9Gmwr0/NPuUydT3pCwLmebCCe1E+zdedMWX+n4zmNe9VVtjXsArIba4300nN0tFu
+ZELKQknTXR2KsyXgZlMkD8Qq9Uvhs64pYBd9ffFAKhGciMwQXm4460meswdHtcz0
+4HOrpHNI3wqkRwm9U+FnRUgTZXGN107jHL98BUL3sygkhjoLXjkaAG0XC2B2XmLY
+UnaBD8pVdFnnDbrssFIz1DCW3iNQYDphXVnZahm0nCvVMYM6bRACbD4DJgb6ScZq
+bx6R7eSA9ZseOVjpKxfUmXNnZINfi3APe8bA+SRxtV5AFwunTKC9wtj6aaKBbcBY
+NgEeD/+yBa/PC36uK311j4gKLMZY53dvPPqTQpE2mqc29f6/OmA=
+=Xchf
+-----END PGP SIGNATURE-----
+
+--bqm9t5IXKKZ0/ilA--
