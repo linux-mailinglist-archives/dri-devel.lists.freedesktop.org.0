@@ -1,79 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C03878F6CE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 03:46:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A47EF78F77D
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 05:42:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D9C10E714;
-	Fri,  1 Sep 2023 01:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9498710E030;
+	Fri,  1 Sep 2023 03:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF3710E714
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 01:46:02 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 1E29B5C007C;
- Thu, 31 Aug 2023 21:46:00 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Thu, 31 Aug 2023 21:46:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1693532760; x=1693619160; bh=/d
- C0IWBjlOk1cS3fGjjVkXrON0sGSFSdKCiYoOsqrQ0=; b=lov1FblwV5W5dXCW3y
- PyhVhnq8a0HDk2STH0OY515uM4YgLit8RKC+mD4F7jyfHGCKgqpDsj7HOrGzgonS
- RJIMYIS5rdW8g1u4KDce3nmlUJWX/3/Trdj8E+c4+hm8pdu0yemEOslldINe2KdB
- MDT3AMS0+xzBcGael/Q3t6mjl8uXNsXeg06Akf2qONFaDhXcGowEkvhKd+1WQQhZ
- 8Av4E57X48mSAUu/XuACqnpalmTajcrvnzn+hudkGgPP2kbgh3RAzsAhtbPyUqSa
- YZ+2+KvrjOvv6zGJULSyuYuLibwJiiNufhd6YXiiiCaMHHlkZWe/ayOofE67Lcrl
- TNeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1693532760; x=1693619160; bh=/dC0IWBjlOk1c
- S3fGjjVkXrON0sGSFSdKCiYoOsqrQ0=; b=KNqq/RgJqoO2rbDyJbQroiP9/8Y75
- WalTecsNOJmxB9enurBhjpkyDFqmOmnBfZcA8c1bYAnnZheb8B6wmEI7LXJgcZNf
- O69Wtof8HXrRjU0fANKAtKCK/yxhtHYuY6qBr5YuDj9XY+kR3vonsp0T/1LELLyX
- 8gItwmw8Xqi/k9HiKjVi4G+i81a0qd48Ed9N42NGgUThYzNOTAGbut1DnMMsKIJE
- 0TKStVwxfSq2VoqD/jVUA7/LpvJSFqf1HSqZ6N511RjAjfKj+2Y8vIKJbc6CJhqA
- mElnFI/nuJCtcWPjZDzRwun1SBjFmcnBldXMl/pSTxHkX4rOHq6ikTY2Q==
-X-ME-Sender: <xms:V0LxZOt375m-3W8VOySJrjnjr9ObhvdGxUmMdn04bqErZBhnqNAkIQ>
- <xme:V0LxZDdNTU-ss4sANAeM8AHqiCe-VSw3RHijcQZZG-sP6F-M5Gn8lDenFsgvKXnwP
- uZjvtoszEM_GhndjvI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeguddggeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:V0LxZJyiXQ8Yw6bEIvINotqM1dyr27oQwtGb7O0bxkKU_1Cz34gKPQ>
- <xmx:V0LxZJPQqR-wEf4eK6SJLtq6RvhCnuEyv9Rdmqn4M8yvLGIf6HG7Lg>
- <xmx:V0LxZO-keQqiLYWIaNv0YxcGr1Xh2g8vSrHDvNxCaGYfOshb7-coCQ>
- <xmx:WELxZOytphZ83V37PscaQPVRM8UhnBenszVdE_DQmhdZVq4tCXrP2A>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 89BB0B6008D; Thu, 31 Aug 2023 21:45:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-701-g9b2f44d3ee-fm-20230823.001-g9b2f44d3
-Mime-Version: 1.0
-Message-Id: <6ddd3504-9833-4ac8-a30c-cd63494f7ed8@app.fastmail.com>
-In-Reply-To: <5501ba80-bdb0-6344-16b0-0466a950f82c@suse.com>
-References: <5501ba80-bdb0-6344-16b0-0466a950f82c@suse.com>
-Date: Thu, 31 Aug 2023 21:44:06 -0400
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.com>,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Helge Deller" <deller@gmx.de>
-Subject: Re: Framebuffer mmap on PowerPC
-Content-Type: text/plain
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9782E10E030
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 03:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693539743; x=1725075743;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=S3svjhAN6LxKu/0rm1q5maiM6DH+ZU65J+hUBEvVv6E=;
+ b=WZlN+yr3S08Ug3KRIRo1rk9bVdypSTjPi7BZWM9iGHrZiixUB2z058EU
+ PsKbIYzq2GmkAzgdP+6L3AYIsciJT60wAargH1UljESFi2mDPKroINxE9
+ LZh5DcTgoIKwZlCyEnRT8vys0/kY+WxJ9FRth0lEPkK3LhUO6o/JIj/IF
+ EJoy2hnaWUraet3bVoNcA3Q2Y6C3+Y4QjQ+OEFJ+MmwitRvmarID8J31W
+ vupl0LCgoUFhnkmBsqkDbOH5mN0FRV43Y9i0hlBfSVAQVx5XQbMTGe1I8
+ u1ia7hD+lpswhV0VxbIZ4VzcFIdf1eqUVDIIJCDKWcWM/KpNUraiObbFR g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="379912837"
+X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="379912837"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2023 20:42:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="689602393"
+X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="689602393"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 31 Aug 2023 20:42:20 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qbv34-0000pv-1s;
+ Fri, 01 Sep 2023 03:42:18 +0000
+Date: Fri, 1 Sep 2023 11:41:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
+Message-ID: <202309011134.bwvpuyOj-lkp@intel.com>
+References: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +60,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 31, 2023, at 10:41, Thomas Zimmermann wrote:
-> Hi,
->
-> there's a per-architecture function called fb_pgprotect() that sets 
-> VMA's vm_page_prot for mmaped framebuffers. Most architectures use a 
-> simple implementation based on pgprot_writecomine() [1] or 
-> pgprot_noncached(). [2]
->
-> On PPC this function uses phys_mem_access_prot() and therefore requires 
-> the mmap call's file struct. [3] Removing the file argument would help 
-> with simplifying the caller of fb_pgprotect(). [4]
->
-> Why is the file even required on PPC?
->
-> Is it possible to replace phys_mem_access_prot() with something simpler 
-> that does not use the file struct?
+Hi Karolina,
 
-What what I can tell, the structure of the code is a result of
-these constraints:
+kernel test robot noticed the following build errors:
 
-- some powerpc platforms use different page table flags for
-  prefetchable vs nonprefetchable BARs on PCI memory.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230831]
+[cannot apply to drm-intel/for-linux-next-fixes v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-- page table flags must match between all mappings, in particular
-  here between /dev/fb0 and /dev/mem, as mismatched attributes
-  cause a checkstop. On other architectures this may cause
-  undefined behavior instead of a checkstop
+url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20230831-185954
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek%40intel.com
+patch subject: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/reproduce)
 
-It's unfortunate that we have multiple incompatible ways
-to determine the page flags based on firmware (ia64),
-pci (powerpc) or file->f_flags (arm, csky), when they all
-try to solve the same problem here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
 
-Christophe's suggested approach to simplify it is probably
-fine, another way would be to pass the f_flags value instead
-of the file pointer.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-      Arnd
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+ERROR: modpost: "ttm_resource_alloc" [drivers/gpu/drm/ttm/tests/ttm_resource_test.ko] undefined!
+>> ERROR: modpost: "ttm_tt_create" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
+>> ERROR: modpost: "ttm_tt_destroy" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
