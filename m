@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8A278F8CC
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 08:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D1D78F8D2
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 09:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F76510E729;
-	Fri,  1 Sep 2023 06:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D36410E724;
+	Fri,  1 Sep 2023 07:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FDF810E730
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 06:58:33 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RcTMF6QnfzVkMs;
- Fri,  1 Sep 2023 14:55:53 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 1 Sep
- 2023 14:58:22 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, CK Hu <ck.hu@mediatek.com>,
- Alexandre Mergnat <amergnat@baylibre.com>
-Subject: [PATCH] drm/mediatek: dp: Remove redundant dev_err_probe() for
- platform_get_irq()
-Date: Fri, 1 Sep 2023 14:58:18 +0800
-Message-ID: <20230901065818.1305812-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5859C10E724;
+ Fri,  1 Sep 2023 07:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693551630; x=1725087630;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=VVpME9gZbktKYzW4oB1D8iH1dKOxV0E2Uzi24Q6P4E0=;
+ b=O+r6j95wvljR3OkHcgNXF1gE4/YIdZuTW8bRkde/Hcc94cZTNw9/pIGt
+ OldfdTFh8y4zaLt3xtu4q7PvFyhjci4tCMrgzwDU2TJWfdYIRoQOvmEgi
+ shIWKF/MNwnEMPA7307VbfhSkeCNpRdpUX+sZeW25fsjbumvrOeXdfcWL
+ MYa/2B1xV4ZPz7Twt1QnFHWaU0RsIT71cshRQ5wpxRNxZn7FQBNP8p9P5
+ vq+RWonjIMjHD1E366llrX1dqL4z6qYgIltyJANxO/s8qHF3xQCb39ZN9
+ H5AVBMhpn8yfOufBgjGlmbCVsHILEf3dME4wUdcM8KkCrKLSlJXmXbuNX g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442546614"
+X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="442546614"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2023 00:00:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743011319"
+X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; d="scan'208";a="743011319"
+Received: from jvdelosr-mobl3.amr.corp.intel.com (HELO kialmah1-mobl1.lan)
+ ([10.251.8.145])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2023 00:00:26 -0700
+From: Khaled Almahallawy <khaled.almahallawy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/display/dp: Add the remaining Square PHY patterns DPCD
+ register definitions
+Date: Fri,  1 Sep 2023 00:00:00 -0700
+Message-Id: <20230901070000.56304-1-khaled.almahallawy@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,37 +57,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lee Shawn C <shawn.c.lee@intel.com>,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 7723f4c5ecdb ("driver core: platform: Add an error message
-to platform_get_irq*()") and commit 2043727c2882 ("driver core:
-platform: Make use of the helper function dev_err_probe()"), there is
-no need to call the dev_err_probe() function directly to print a custom
-message when handling an error from platform_get_irq() function as it is
-going to display an appropriate error message in case of a failure.
+DP Scope may send requests for all Square PHY pattern configuration
+during automation. Add them instead of failing these tests.
 
-Fixes: 828c91231fbe ("drm/mediatek: dp: Don't register HPD interrupt handler for eDP case")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Lee Shawn C <shawn.c.lee@intel.com>
+Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/drm/display/drm_dp.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 2cb47f663756..5bebd8bdd188 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2597,8 +2597,7 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP) {
- 		mtk_dp->irq = platform_get_irq(pdev, 0);
- 		if (mtk_dp->irq < 0)
--			return dev_err_probe(dev, mtk_dp->irq,
--					     "failed to request dp irq resource\n");
-+			return mtk_dp->irq;
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index e69cece404b3..acabf29b4972 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -646,6 +646,9 @@
+ # define DP_LINK_QUAL_PATTERN_PRSBS31       0x38
+ # define DP_LINK_QUAL_PATTERN_CUSTOM        0x40
+ # define DP_LINK_QUAL_PATTERN_SQUARE        0x48
++# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DISABLED                   0x49
++# define DP_LINK_QUAL_PATTERN_SQUARE_DEEMPHASIS_DISABLED                 0x4a
++# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DEEMPHASIS_DISABLED        0x4b
  
- 		spin_lock_init(&mtk_dp->irq_thread_lock);
- 
+ #define DP_TRAINING_LANE0_1_SET2	    0x10f
+ #define DP_TRAINING_LANE2_3_SET2	    0x110
 -- 
-2.34.1
+2.25.1
 
