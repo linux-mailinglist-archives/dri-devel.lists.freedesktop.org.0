@@ -2,121 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C2878FE9B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 15:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295D978FEAB
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Sep 2023 15:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280F210E7D5;
-	Fri,  1 Sep 2023 13:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FF710E7DC;
+	Fri,  1 Sep 2023 13:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA4D10E7D9
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 13:50:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S3W+hQUwSRRJNg9oEEIRLKzeSgs6qpOBqyp1hRmgnZfwqWBciA57UX3qCKFXkNjS+qJk3Y3CI9iuToy33Qy+o7S1quK7NqBsUDfi4AGK2/pg4TTfhD5z9+lPmzA0eRlvoJwHPxFrRGOjYow3L0cq9mPoe/iuSXPObPw3vTaElXKwCEFgCLqpfD4r820ECjeyakziSz05X1WC5gE8aK6guKX1knnzOd0eO7UclrqxF88y5KK+fOVOrFjyl6Nw9yXoST5exVg67ZfqX3v5Vbla6D5VyvEOXb+V34t76bU1MwUJVX2RPhgMffMgMjCBVZya0Y6Qwha6WfFccNDXrOWRgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ItsFMUCIF2TYFlHU7H/+7oF0sgEjdDig3L1rQqsaeMA=;
- b=Pawk3runCUTLmPbVzuCBXSTURwh7ZAHCoq8cP5J0fDb1zbV4dJlZdty26ZXbGB0d0pJ9MuWY9oMJWKeE/eH8u/OCIQXu77EIs/uT6TsY6Fw6Ftv5hYbS9egb0kJKr6/VhYLY/0YcVxFS9/B5IWT1FvxgKcDyYBWdWWgxzHCxTnqE3ub6JfF/5hRdjfp+OzerlX8jwRE2VIGU2QPZ7gDoiK2jMQsm/CMPx2h5fQvrFAj8sYXZ4QEIpHcdNczB2kepd61WtIvknnC6Dkbn5WxS9PIDlEVT+CR9gngW0qTRhsuVe9b0xsxuHmCZJri7t2CF37KV/647oRAivF7ykoXwvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ItsFMUCIF2TYFlHU7H/+7oF0sgEjdDig3L1rQqsaeMA=;
- b=1ERta+qcEW0OIGkwmd5mQzjQ02U81QuCZOp0jgGfJA4mqGlHpxPdV5U54AYIjqw+2tUMhoCBWlpKnhKj9IKZ0oQeOFaYUcFDQuTIP3+OxsZ+5ADDm0lpa+r+5XJic9SftdONsjLWFbhzx6z3HYam4t1px7dTXUOyyGfahRpvO5s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ0PR12MB5424.namprd12.prod.outlook.com (2603:10b6:a03:300::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.27; Fri, 1 Sep
- 2023 13:50:37 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6745.021; Fri, 1 Sep 2023
- 13:50:37 +0000
-Message-ID: <97b1ab0f-9080-b009-be10-b098506fae28@amd.com>
-Date: Fri, 1 Sep 2023 15:50:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] drm/ttm/tests: Add tests for ttm_bo functions
-Content-Language: en-US
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
-References: <d914169aee773ee20c0b730b38d42a1fd7613bb6.1693479161.git.karolina.stolarek@intel.com>
- <202309011935.bBpezbUQ-lkp@intel.com>
- <41345404-3440-00cc-745a-d2977b406c64@intel.com>
- <e1061b33-65ba-4049-871c-4e2b4d23177c@amd.com>
- <443e34f4-3554-e981-f11f-fc4bc459b046@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <443e34f4-3554-e981-f11f-fc4bc459b046@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C803610E7DC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 13:59:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0D7E152B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 06:59:49 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D740F3F844
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Sep 2023 06:59:10 -0700 (PDT)
+Date: Fri, 1 Sep 2023 14:59:08 +0100
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v2 02/15] drm/panthor: Add uAPI
+Message-ID: <ZPHuLKF3oJ7j_Oc8@e110455-lin.cambridge.arm.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB5424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1619bddd-020f-4edb-32a3-08dbaaf26ba5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KtB+oZgW7ZrKNwSiSiwnQgxAgUMIn4Jx8KPRmjEpZymIBJp5M78FxS8Taerc2P24yC2PQoXfsVZ9Qko7k98Hm4lYGyJEijbwF7bjuGjUs6AyGQMCECDbZ2LU7IQHmB7o9IDNdVHeha7BNkVshNbDJocjKWYXYWXZn3QOOtxOvSdeYhUJ/xHQxvjsCV1Y16ezCdI9qH8hOXiB5v3jRl9TYLJbSIz0cZpd0vrVduMUq4hJdfaw+OuCmgwxyeY5dBBy29r/pkbFmAERw4Ez18bclMFpEdeYVKBOYPmWXfsptK43VR4rUZp3eGFWl2ct43fnRDw1OfJ5FyQ7gL06YORpnOk+XJ80tXEtfzaa499xPPoT4AAMUHpYoy+8VlMqI4ArFXVllIwQg+/VJ/+NouswHs2wh0jigs7RAP0dYhfnaj31yBbJToK44TXkxFOIds20OJMtspvEfU5Mb9u1kuymB5OgEBBHSEXouX+YcI47TnmZb0X30W6rgvlEaE9tnO3rp9mu8QFV+a8eqllderf0MWEEuiH2oHfaHR/MK7rtw8G5wtPdP3cA2s9SyH7+QzZfFMt70DjornM/EqvQbnbPJE+Yia4K4dtQwuM4iv1DDdMl+ycXtVjOpb8Pg6rbLhgM7TErQvLlwXFYsrN4TMPoKciU7kF+kdHDrsLhUjrUvr4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(346002)(366004)(396003)(136003)(451199024)(186009)(1800799009)(31686004)(6506007)(6512007)(6666004)(6486002)(36756003)(31696002)(86362001)(38100700002)(2616005)(66574015)(30864003)(2906002)(26005)(966005)(53546011)(83380400001)(478600001)(110136005)(66946007)(4326008)(8676002)(8936002)(5660300002)(66556008)(41300700001)(316002)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2dBM1o3ZXpaTVR5VEYzeDBOT20vT3AyOHVGSmJoYlQvTjNoSENMVTRQZ1Zl?=
- =?utf-8?B?YnJ6azI3T1VVbzhmSnNxbXVITGp6bWNjMmpGelYvZjdzblFPMkxCV0Q5dXpu?=
- =?utf-8?B?STVGbTZoaTVkUHExRTZZMHMzcVV0cEsybEtxeWJubEZJMVJOYzJLWDNKdnFu?=
- =?utf-8?B?S2ZmbERqdHJCUGdmZ0RUK1EvNE5MUE9Za01xRzEvZUJybzJOUC92UUxab2hk?=
- =?utf-8?B?WnpOallsWXhEM2g3RmVqbUEwL0I0cEpCZDhUUm9UYnQzOVYvWk9BMmlLVjVU?=
- =?utf-8?B?T3c3bFROdlo0bENvNFp4emd2UThJNGRwbUFzdmVoSmh5ckZOV2d0TURPQTc1?=
- =?utf-8?B?ajE1WXRSMmg0NWtITDJscVhpTjBqbmRidlRXaHJFUE1yM0xzQnNRWWlxRHhu?=
- =?utf-8?B?L213TFFUM3dzU0lwcHEwODlWWGg1QVR4aU83ZklpQWFWSVNIbGJRZThJRFJS?=
- =?utf-8?B?MmFPNWRzcDJsSCszZlRwb1R2MHBTdGxadDhjOS9MQ2FuTXVxazU2QzBxTi9I?=
- =?utf-8?B?aVRYaDNRb0lNSm1uOHEyQ3I2by9Xa3JHS0MrUit4QzN1NjdkejFXRjVtTzl1?=
- =?utf-8?B?WWhvMDkxeXc2Ukh0ZGRrUS91N0tKUVUwNXlsUVRUSDk0TTlaVS90NFVZMWFk?=
- =?utf-8?B?bEh2RmZYS3RqV1pHMzgwaEN2ZEV2bnhGOUJ3T0p6M3NPUGRiSDlkRGFjSU9O?=
- =?utf-8?B?ekN2NmNoVGR1bmZudjNOazQ1OEtsSDVZaXZ2Z291TS9IenVVRE53OW1YRWdn?=
- =?utf-8?B?ekpVRVdLZWhVZ2ZZRVRrcy8zclVBZ0QwVVI4Q0U0ZVVDUG1hS1FGbkJud05k?=
- =?utf-8?B?ZEd6VCsrenFmeFBDWm4zYnltSVc3czNrdzduVlVjTnNISHY5bnJoVTYxRG5o?=
- =?utf-8?B?aG1ETDgyVE1PWXZNVExFUDFZMUpWSi84NEVvQmlXeHVWTVViMWN3RTlhZnJw?=
- =?utf-8?B?cmM4RU90dFl3K1doS1cwZllHTmZyUS9uNjBsU0pRM1hEOVdPNWh6cEpMM3kv?=
- =?utf-8?B?dDNiejhhOEdDVDczVXpqRDFDanR5SmFTUXhKc1Bubm9FTlF0UU9oSUN1djRG?=
- =?utf-8?B?ZjVWL0phYkU3S01TZjlTWEtMN2o1WGFZTVVOSXJEeGdjekcyTmxvYkFZK2dB?=
- =?utf-8?B?L3FBbE5iUWVxS1N1d3htY3VlOEQ4ODUvTTVOVmhsbHJRSDBnWnAyUHdudzNQ?=
- =?utf-8?B?REJ6aWFOOFRvelFrd3d0cGQvK2RuaDFqejVDVU5EQ1dqSmRkenNOdjR1M1dL?=
- =?utf-8?B?TGFlR0liK2tlclB1cHJoNDc0ZURBdEk4TldqSjJCRDBTWmlnVnplTzk3RUll?=
- =?utf-8?B?T1VPaGVVMkdycy8zSGo0Si9WZnk3VlNPcjFhWnkyWjBBaXhVV1RHQ2c4NURY?=
- =?utf-8?B?QnlOaGc0cHo4WWJZejZVd28vYVVXSWl6TkFpamFBSnp3d1BkdWJvb3pRTW1v?=
- =?utf-8?B?N1N1TGdBbnR1dlUyVXNnMmdKV1Z4eFlXWElDbk4xd2hYWVIzbzNycklNaVFh?=
- =?utf-8?B?Rmg1WDhQaGlmZWh1UDdLQjBkWXNTcHgzd0VYVUJMR0ZxVGVxWk4rSEFaTXFS?=
- =?utf-8?B?ckZQcGpNWTlJdTZVeXh0TVg5UUd3aFdNcTh1RzQzR2dza3ZSMXN4T3pDNXZs?=
- =?utf-8?B?TlNDOGV5ZUpXTU45bTQ1VS81SkJra2NVSHlteTkra1lwWjRwZjFPbG5xVlU0?=
- =?utf-8?B?STNTU3dtcG9WZ1RMVzNVTlMzYmV4YXdxbHNIYmxCK3pkR2x1TndxZm91M3M4?=
- =?utf-8?B?dE1XSkV0cVJUVjVDZU51eTRGa3BkcGp1N3ZNbzA5L09kTGgyeHh5L2Z3dURO?=
- =?utf-8?B?NTk5UTRiM1huQy9BUU1rbmVlemRLOEg5cEliV0NKL0tkUnpGWVZaN0s1Y0JS?=
- =?utf-8?B?b0luRHNOMmFwTW1qM0FiTldNOEZrMTRYRlFXeEVCaW5iYmg1ak1kSzMzbEwx?=
- =?utf-8?B?cVIrMkVRV1RSNU8ycGV1YVhjVXFraktERExCRWZsS0lRblh2eEFsR3NraGhq?=
- =?utf-8?B?QlJWaEZkbW95dHhwTzBpT0xFbE1OQXNhMWk4VDZlM0FaNlFIU0FYd2JQSTlz?=
- =?utf-8?B?RHhoS29pUVFzQjlqc0UrZm1PVkJBd0k3dWl0bkpDTVFNT0w0TEMzdjYvdk9P?=
- =?utf-8?Q?Ieg7gFOOaZ67g8AwLYhZo1hCG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1619bddd-020f-4edb-32a3-08dbaaf26ba5
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2023 13:50:37.1024 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xkI5E+4M6V3At8OG0Fzzj7kPnVlEoMB+K/7S4FB8FMiszuNgNFYQLh60/1serCMi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5424
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230809165330.2451699-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,259 +43,971 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 01.09.23 um 15:30 schrieb Karolina Stolarek:
-> On 1.09.2023 15:19, Christian König wrote:
->> Am 01.09.23 um 14:37 schrieb Karolina Stolarek:
->>> On 1.09.2023 14:04, kernel test robot wrote:
->>>> Hi Karolina,
->>>>
->>>> kernel test robot noticed the following build errors:
->>>
->>> It's a problem of building TTM KUnit tests as a module, the issue is 
->>> not tied to a specific arch -- the subtests use unexported 
->>> definitions. While it would be possible to add EXPORT_SYMBOL to the 
->>> TTM functions, we don't want to do it with do_send_sig_info.
->>>
->>> Christian, two questions here:
->>>
->>> 1) Shall we export ttm_resource_alloc, ttm_tt_create and 
->>> ttm_tt_destroy? Or is there a reason why they are "hidden"?
->>
->> Yeah, those are not supposed to be touched by drivers directly.
->
-> Right, makes sense
+Hi Boris,
 
-If you can't find a cleaner way exporting them conditionally on 
-CONFIG_DRM_TTM_KUNIT_TEST might be a way to go.
+On Wed, Aug 09, 2023 at 06:53:15PM +0200, Boris Brezillon wrote:
+> Panthor follows the lead of other recently submitted drivers with
+> ioctls allowing us to support modern Vulkan features, like sparse memory
+> binding:
+> 
+> - Pretty standard GEM management ioctls (BO_CREATE and BO_MMAP_OFFSET),
+>   with the 'exclusive-VM' bit to speed-up BO reservation on job submission
+> - VM management ioctls (VM_CREATE, VM_DESTROY and VM_BIND). The VM_BIND
+>   ioctl is loosely based on the Xe model, and can handle both
+>   asynchronous and synchronous requests
+> - GPU execution context creation/destruction, tiler heap context creation
+>   and job submission. Those ioctls reflect how the hardware/scheduler
+>   works and are thus driver specific.
+> 
+> We also have a way to expose IO regions, such that the usermode driver
+> can directly access specific/well-isolate registers, like the
+> LATEST_FLUSH register used to implement cache-flush reduction.
+> 
+> This uAPI intentionally keeps usermode queues out of the scope, which
+> explains why doorbell registers and command stream ring-buffers are not
+> directly exposed to userspace.
+> 
+> v2:
+> - Rename the driver (pancsf -> panthor)
+> - Change the license (GPL2 -> MIT + GPL2)
+> - Split the driver addition commit
+> - Turn the VM_{MAP,UNMAP} ioctls into a VM_BIND ioctl
+> - Add the concept of exclusive_vm at BO creation time
+> - Add missing padding fields
+> - Add documentation
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
->
->>
->>>
->>> 2) If we decide to keep ttm_bo_reserve_interrupted subtest as it is, 
->>> should I make CONFIG_DRM_TTM_KUNIT_TEST a boolean, instead of a 
->>> tristate? DRM KUnit tests are tristate, but I think they don't use 
->>> non-exported functions.
->>
->> Another option would be to build them together with TTM into one 
->> module, but I'm not sure if the KUNIT tests can do this.
->
-> While I can imagine doing it with TTM, I'm not so sure about coupling 
-> it with signal.o. Still, I'll take a look.
+Minor fixes in addition to what Steve has alread flagged.
 
-I have a high level understanding what you are trying to to, but that is 
-absolutely not my field of expertise :)
+> ---
+>  Documentation/gpu/driver-uapi.rst |   5 +
+>  include/uapi/drm/panthor_drm.h    | 862 ++++++++++++++++++++++++++++++
+>  2 files changed, 867 insertions(+)
+>  create mode 100644 include/uapi/drm/panthor_drm.h
+> 
+> diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
+> index c08bcbb95fb3..7a667901830f 100644
+> --- a/Documentation/gpu/driver-uapi.rst
+> +++ b/Documentation/gpu/driver-uapi.rst
+> @@ -17,3 +17,8 @@ VM_BIND / EXEC uAPI
+>      :doc: Overview
+>  
+>  .. kernel-doc:: include/uapi/drm/nouveau_drm.h
+> +
+> +drm/panthor uAPI
+> +================
+> +
+> +.. kernel-doc:: include/uapi/drm/panthor_drm.h
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> new file mode 100644
+> index 000000000000..e217eb5ad198
+> --- /dev/null
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -0,0 +1,862 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/* Copyright (C) 2023 Collabora ltd. */
+> +#ifndef _PANTHOR_DRM_H_
+> +#define _PANTHOR_DRM_H_
+> +
+> +#include "drm.h"
+> +
+> +#if defined(__cplusplus)
+> +extern "C" {
+> +#endif
+> +
+> +/**
+> + * DOC: Introduction
+> + *
+> + * This documentation decribes the Panthor IOCTLs.
+> + *
+> + * Just a few generic rules about the data passed to the Panthor IOCTLs:
+> + *
+> + * - Structures must be aligned on 64-bit/8-byte. If the object is not
+> + *   naturally aligned, a padding field must be added.
+> + * - Fields must be explicity aligned to their natural type alignment with
+> + *   pad[0..N] fields.
+> + * - All padding fields will be checked by the driver to make sure they are
+> + *   zeroed.
+> + * - Flags can be added, but not removed/replaced.
+> + * - New fields can be added to the main structures (the structures
+> + *   directly passed to the ioctl). Those fiels can be added at the end of
+> + *   the structure, or replace existing padding fields. Any new field being
+> + *   added must preserve the behavior that existed before those fields were
+> + *   added when a value of zero is passed.
+> + * - New fields can be added to indirect objects (objects pointed by the
+> + *   main structure), iff those objects are passed a size to reflect the
+> + *   size known by the userspace driver (see drm_panthor_obj_array::stride
+> + *   or drm_panthor_dev_query::size).
+> + * - If the kernel driver is too old to know some fields, those will
+> + *   be ignored (input) and set back to zero (output).
+> + * - If userspace is too old to know some fields, those will be zeroed
+> + *   (input) before the structure is parsed by the kernel driver.
+> + * - Each new flag/field addition must come with a driver version update so
+> + *   the userspace driver doesn't have to trial and error to know which
+> + *   flags are supported.
+> + * - Structures should not contain unions, as this would defeat the
+> + *   extensibility of such structures.
+> + * - IOCTLs can't be removed or replaced. New IOCTL IDs should be placed
+> + *   at the end of the drm_panthor_ioctl_id enum.
+> + */
+> +
+> +/**
+> + * DOC: MMIO regions exposed to userspace.
+> + *
+> + * .. c:macro:: DRM_PANTHOR_USER_MMIO_OFFSET
+> + *
+> + * File offset for all MMIO regions being exposed to userspace. Don't use
+> + * this value directly, use DRM_PANTHOR_USER_<name>_OFFSET values instead.
+> + *
+> + * .. c:macro:: DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET
+> + *
+> + * File offset for the LATEST_FLUSH_ID register. The Userspace driver controls
+> + * GPU cache flushling through CS instructions, but the flush reduction
+> + * mechanism requires a flush_id. This flush_id could be queried with an
+> + * ioctl, but Arm provides a well-isolated register page containing only this
+> + * read-only register, so let's expose this page through a static mmap offset
+> + * and allow direct mapping of this MMIO region so we can avoid the
+> + * user <-> kernel round-trip.
+> + */
+> +#define DRM_PANTHOR_USER_MMIO_OFFSET		(0x1ull << 56)
+> +#define DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET	(DRM_PANTHOR_USER_MMIO_OFFSET | 0)
+> +
+> +/**
+> + * DOC: IOCTL IDs
+> + *
+> + * enum drm_panthor_ioctl_id - IOCTL IDs
+> + *
+> + * Place new ioctls at the end, don't re-oder, don't replace or remove entries.
+> + *
+> + * These IDs are not meant to be used directly. Use the DRM_IOCTL_PANTHOR_xxx
+> + * definitions instead.
+> + */
+> +enum drm_panthor_ioctl_id {
+> +	/** @DRM_PANTHOR_DEV_QUERY: Query device information. */
+> +	DRM_PANTHOR_DEV_QUERY = 0,
+> +
+> +	/** @DRM_PANTHOR_VM_CREATE: Create a VM. */
+> +	DRM_PANTHOR_VM_CREATE,
+> +
+> +	/** @DRM_PANTHOR_VM_DESTROY: Destroy a VM. */
+> +	DRM_PANTHOR_VM_DESTROY,
+> +
+> +	/** @DRM_PANTHOR_VM_BIND: Bind/unbind memory to a VM. */
+> +	DRM_PANTHOR_VM_BIND,
+> +
+> +	/** @DRM_PANTHOR_BO_CREATE: Create a buffer object. */
+> +	DRM_PANTHOR_BO_CREATE,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_BO_MMAP_OFFSET: Get the file offset to pass to
+> +	 * mmap to map a GEM object.
+> +	 */
+> +	DRM_PANTHOR_BO_MMAP_OFFSET,
+> +
+> +	/** @DRM_PANTHOR_GROUP_CREATE: Create a scheduling group. */
+> +	DRM_PANTHOR_GROUP_CREATE,
+> +
+> +	/** @DRM_PANTHOR_GROUP_DESTROY: Destroy a scheduling group. */
+> +	DRM_PANTHOR_GROUP_DESTROY,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_GROUP_SUBMIT: Submit jobs to queues belonging
+> +	 * to a specific scheduling group.
+> +	 */
+> +	DRM_PANTHOR_GROUP_SUBMIT,
+> +
+> +	/** @DRM_PANTHOR_GROUP_GET_STATE: Get the state of a scheduling group. */
+> +	DRM_PANTHOR_GROUP_GET_STATE,
+> +
+> +	/** @DRM_PANTHOR_TILER_HEAP_CREATE: Create a tiler heap. */
+> +	DRM_PANTHOR_TILER_HEAP_CREATE,
+> +
+> +	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+> +	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> +};
+> +
+> +/**
+> + * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+> + * @__access: Access type. Must be R, W or RW.
+> + * @__id: One of the DRM_PANTHOR_xxx id.
+> + * @__type: Suffix of the type being passed to the IOCTL.
+> + *
+> + * Don't use this macro directly, use the DRM_IOCTL_PANTHOR_xxx
+> + * values instead.
+> + *
+> + * Return: An IOCTL number to be passed to ioctl() from userspace.
+> + */
+> +#define DRM_IOCTL_PANTHOR(__access, __id, __type) \
+> +	DRM_IO ## __access(DRM_COMMAND_BASE + DRM_PANTHOR_ ## __id, \
+> +			   struct drm_panthor_ ## __type)
+> +
+> +#define DRM_IOCTL_PANTHOR_DEV_QUERY \
+> +	DRM_IOCTL_PANTHOR(WR, DEV_QUERY, dev_query)
+> +#define DRM_IOCTL_PANTHOR_VM_CREATE \
+> +	DRM_IOCTL_PANTHOR(WR, VM_CREATE, vm_create)
+> +#define DRM_IOCTL_PANTHOR_VM_DESTROY \
+> +	DRM_IOCTL_PANTHOR(WR, VM_DESTROY, vm_destroy)
+> +#define DRM_IOCTL_PANTHOR_VM_BIND \
+> +	DRM_IOCTL_PANTHOR(WR, VM_BIND, vm_bind)
+> +#define DRM_IOCTL_PANTHOR_BO_CREATE \
+> +	DRM_IOCTL_PANTHOR(WR, BO_CREATE, bo_create)
+> +#define DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET \
+> +	DRM_IOCTL_PANTHOR(WR, BO_MMAP_OFFSET, bo_mmap_offset)
+> +#define DRM_IOCTL_PANTHOR_GROUP_CREATE \
+> +	DRM_IOCTL_PANTHOR(WR, GROUP_CREATE, group_create)
+> +#define DRM_IOCTL_PANTHOR_GROUP_DESTROY \
+> +	DRM_IOCTL_PANTHOR(WR, GROUP_DESTROY, group_destroy)
+> +#define DRM_IOCTL_PANTHOR_GROUP_SUBMIT \
+> +	DRM_IOCTL_PANTHOR(WR, GROUP_SUBMIT, group_submit)
+> +#define DRM_IOCTL_PANTHOR_GROUP_GET_STATE \
+> +	DRM_IOCTL_PANTHOR(WR, GROUP_GET_STATE, group_get_state)
+> +#define DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE \
+> +	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create)
+> +#define DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY \
+> +	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy)
+> +
+> +/**
+> + * DOC: IOCTL arguments
+> + */
+> +
+> +/**
+> + * struct drm_panthor_obj_array - Object array.
+> + *
+> + * This object is used to pass an array of objects whose size it subject to changes in
 
-Regards,
-Christian.
+s/it subject/is subject/
 
->
-> All the best,
-> Karolina
->
->>
->> Regards,
->> Christian.
->>
->>>
->>> Many thanks,
->>> Karolina
->>>
->>>>
->>>> [auto build test ERROR on drm-misc/drm-misc-next]
->>>> [also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next 
->>>> drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230831]
->>>> [cannot apply to drm-intel/for-linux-next-fixes v6.5]
->>>> [If your patch is applied to the wrong git tree, kindly drop us a 
->>>> note.
->>>> And when submitting patch, we suggest to use '--base' as documented in
->>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>
->>>> url: 
->>>> https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20230831-185954
->>>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>>> patch link: 
->>>> https://lore.kernel.org/r/d914169aee773ee20c0b730b38d42a1fd7613bb6.1693479161.git.karolina.stolarek%40intel.com
->>>> patch subject: [PATCH 3/3] drm/ttm/tests: Add tests for ttm_bo 
->>>> functions
->>>> config: openrisc-allmodconfig 
->>>> (https://download.01.org/0day-ci/archive/20230901/202309011935.bBpezbUQ-lkp@intel.com/config)
->>>> compiler: or1k-linux-gcc (GCC) 13.2.0
->>>> reproduce (this is a W=1 build): 
->>>> (https://download.01.org/0day-ci/archive/20230901/202309011935.bBpezbUQ-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a 
->>>> new version of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: 
->>>> https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
->>>>
->>>> All errors (new ones prefixed by >>, old ones prefixed by <<):
->>>>
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_wlc.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_fo.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_ovf.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_lblc.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_lblcr.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_dh.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_sh.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_sed.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_nq.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_twos.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_ftp.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/netfilter/ipvs/ip_vs_pe_sip.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/netfilter/nf_defrag_ipv4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/netfilter/nf_reject_ipv4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/netfilter/iptable_nat.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/netfilter/iptable_raw.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/udp_tunnel.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv4/xfrm4_tunnel.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/netfilter/ip6table_raw.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/netfilter/ip6table_nat.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/netfilter/nf_defrag_ipv6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/netfilter/nf_reject_ipv6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/xfrm6_tunnel.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ipv6/ip6_udp_tunnel.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_hellcreek.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_lan9303.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_ocelot_8021q.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_rzn1_a5psw.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_sja1105.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_trailer.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/dsa/tag_xrs700x.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/mptcp/mptcp_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/mptcp/mptcp_crypto_test.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/mptcp/mptcp_token_test.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/packet/af_packet.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/packet/af_packet_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/bridge/netfilter/nf_conntrack_bridge.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/bridge/netfilter/ebtables.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/bridge/netfilter/ebtable_broute.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/bridge/netfilter/ebtable_filter.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/bridge/netfilter/ebtable_nat.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/sunrpc/auth_gss/auth_rpcgss.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/sunrpc/auth_gss/rpcsec_gss_krb5.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/caif/caif_socket.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/6lowpan/6lowpan.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ieee802154/6lowpan/ieee802154_6lowpan.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/ieee802154/ieee802154_socket.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/nfc/nci/nci_spi.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/nfc/nfc_digital.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->>>> net/vmw_vsock/vsock_diag.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->>>> ERROR: modpost: "ttm_resource_alloc" 
->>>> [drivers/gpu/drm/ttm/tests/ttm_resource_test.ko] undefined!
->>>> ERROR: modpost: "ttm_tt_create" 
->>>> [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
->>>> ERROR: modpost: "ttm_tt_destroy" 
->>>> [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
->>>>>> ERROR: modpost: "ttm_resource_alloc" 
->>>>>> [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
->>>>>> ERROR: modpost: "ttm_tt_create" 
->>>>>> [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
->>>>>> ERROR: modpost: "do_send_sig_info" 
->>>>>> [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
->>>>
->>
+> + * future versions of the driver. In order to support this mutability, we pass a stride
+> + * describing the size of the object as known by userspace.
+> + *
+> + * You shouldn't fill drm_panthor_obj_array fields directly. You should instead use
+> + * the DRM_PANTHOR_OBJ_ARRAY() macro that takes care of initializing the stride to
+> + * the object size.
+> + */
+> +struct drm_panthor_obj_array {
+> +	/** @stride: Stride of object struct. Used for versioning. */
+> +	__u32 stride;
+> +
+> +	/** @count: Number of objects in the array. */
+> +	__u32 count;
+> +
+> +	/** @array: User pointer to an array of objects. */
+> +	__u64 array;
+> +};
+> +
+> +/**
+> + * DRM_PANTHOR_OBJ_ARRAY() - Initialize a drm_panthor_obj_array field.
+> + * @cnt: Number of elements in the array.
+> + * @ptr: Pointer to the array to pass to the kernel.
+> + *
+> + * Macro initializing a drm_panthor_obj_array based on the object size as known
+> + * by userspace.
+> + */
+> +#define DRM_PANTHOR_OBJ_ARRAY(cnt, ptr) \
+> +	{ .stride = sizeof((ptr)[0]), .count = (cnt), .array = (__u64)(uintptr_t)(ptr) }
+> +
+> +/**
+> + * enum drm_panthor_sync_op_flags - Synchronization operation flags.
+> + */
+> +enum drm_panthor_sync_op_flags {
+> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization handle type mask. */
+> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK = 0xff,
+> +
+> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ: Synchronization object type. */
+> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ = 0,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ: Timeline synchronization
+> +	 * object type.
+> +	 */
+> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ = 1,
+> +
+> +	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
+> +	DRM_PANTHOR_SYNC_OP_WAIT = 0 << 31,
+> +
+> +	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
+> +	DRM_PANTHOR_SYNC_OP_SIGNAL = 1 << 31,
 
+This gets flagged by GCC in pedantic mode as not an integer constant, see [1]. Fix is to use
+
+	DRM_PANTHOR_SYNC_OP_SIGNAL = (int)(1u << 31),
+
+[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=71803
+
+> +};
+> +
+> +/**
+> + * struct drm_panthor_sync_op - Synchronization operation.
+> + */
+> +struct drm_panthor_sync_op {
+> +	/** @flags: Synchronization operation flags. Combination of DRM_PANTHOR_SYNC_OP values. */
+> +	__u32 flags;
+> +
+> +	/** @handle: Sync handle. */
+> +	__u32 handle;
+> +
+> +	/**
+> +	 * @timeline_value: MBZ if
+> +	 * (flags & DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK) !=
+> +	 * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ.
+> +	 */
+> +	__u64 timeline_value;
+> +};
+> +
+> +/**
+> + * enum drm_panthor_dev_query_type - Query type
+> + *
+> + * Place new types at the end, don't re-oder, don't remove or replace.
+> + */
+> +enum drm_panthor_dev_query_type {
+> +	/** @DRM_PANTHOR_DEV_QUERY_GPU_INFO: Query GPU information. */
+> +	DRM_PANTHOR_DEV_QUERY_GPU_INFO = 0,
+> +
+> +	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
+> +	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_gpu_info - GPU information
+> + *
+> + * Structure grouping all queryable information relating to the GPU.
+> + */
+> +struct drm_panthor_gpu_info {
+> +	/** @gpu_id : GPU ID. */
+> +	__u32 gpu_id;
+> +#define DRM_PANTHOR_ARCH_MAJOR(x)		((x) >> 28)
+> +#define DRM_PANTHOR_ARCH_MINOR(x)		(((x) >> 24) & 0xf)
+> +#define DRM_PANTHOR_ARCH_REV(x)			(((x) >> 20) & 0xf)
+> +#define DRM_PANTHOR_PRODUCT_MAJOR(x)		(((x) >> 16) & 0xf)
+> +#define DRM_PANTHOR_VERSION_MAJOR(x)		(((x) >> 12) & 0xf)
+> +#define DRM_PANTHOR_VERSION_MINOR(x)		(((x) >> 4) & 0xff)
+> +#define DRM_PANTHOR_VERSION_STATUS(x)		((x) & 0xf)
+> +
+> +	/** @gpu_rev: GPU revision. */
+> +	__u32 gpu_rev;
+> +
+> +	/** @csf_id: Command stream frontend ID. */
+> +	__u32 csf_id;
+> +#define DRM_PANTHOR_CSHW_MAJOR(x)		(((x) >> 26) & 0x3f)
+> +#define DRM_PANTHOR_CSHW_MINOR(x)		(((x) >> 20) & 0x3f)
+> +#define DRM_PANTHOR_CSHW_REV(x)			(((x) >> 16) & 0xf)
+> +#define DRM_PANTHOR_MCU_MAJOR(x)		(((x) >> 10) & 0x3f)
+> +#define DRM_PANTHOR_MCU_MINOR(x)		(((x) >> 4) & 0x3f)
+> +#define DRM_PANTHOR_MCU_REV(x)			((x) & 0xf)
+> +
+> +	/** @l2_features: L2-cache features. */
+> +	__u32 l2_features;
+> +
+> +	/** @tiler_features: Tiler features. */
+> +	__u32 tiler_features;
+> +
+> +	/** @mem_features: Memory features. */
+> +	__u32 mem_features;
+> +
+> +	/** @mmu_features: MMU features. */
+> +	__u32 mmu_features;
+> +#define DRM_PANTHOR_MMU_VA_BITS(x)		((x) & 0xff)
+> +
+> +	/** @thread_features: Thread features. */
+> +	__u32 thread_features;
+> +
+> +	/** @max_threads: Maximum number of threads. */
+> +	__u32 max_threads;
+> +
+> +	/** @thread_max_workgroup_size: Maximum workgroup size. */
+> +	__u32 thread_max_workgroup_size;
+> +
+> +	/**
+> +	 * @thread_max_barrier_size: Maximum number of threads that can wait
+> +	 * simultaneously on a barrier.
+> +	 */
+> +	__u32 thread_max_barrier_size;
+> +
+> +	/** @coherency_features: Coherency features. */
+> +	__u32 coherency_features;
+> +
+> +	/** @texture_features: Texture features. */
+> +	__u32 texture_features[4];
+> +
+> +	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
+> +	__u32 as_present;
+> +
+> +	/** @core_group_count: Number of core groups. */
+> +	__u32 core_group_count;
+> +
+> +	/** @pad: Zero on return. */
+> +	__u32 pad;
+> +
+> +	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
+> +	__u64 shader_present;
+> +
+> +	/** @l2_present: Bitmask encoding the L2 caches exposed by the GPU. */
+> +	__u64 l2_present;
+> +
+> +	/** @tiler_present: Bitmask encoding the tiler unit exposed by the GPU. */
+> +	__u64 tiler_present;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_csif_info - Command stream interface information
+> + *
+> + * Structure grouping all queryable information relating to the command stream interface.
+> + */
+> +struct drm_panthor_csif_info {
+> +	/** @csg_slot_count: Number of command stream group slots exposed by the firmware. */
+> +	__u32 csg_slot_count;
+> +
+> +	/** @cs_slot_count: Number of command stream slot per group. */
+> +	__u32 cs_slot_count;
+> +
+> +	/** @cs_reg_count: Number of command stream register. */
+> +	__u32 cs_reg_count;
+> +
+> +	/** @scoreboard_slot_count: Number of scoreboard slot. */
+> +	__u32 scoreboard_slot_count;
+> +
+> +	/**
+> +	 * @unpreserved_cs_reg_count: Number of command stream registers reserved by
+> +	 * the kernel driver to call a userspace command stream.
+> +	 *
+> +	 * All registers can be used by a userspace command stream, but the
+> +	 * [cs_slot_count - unpreserved_cs_reg_count .. cs_slot_count] registers are
+> +	 * used by the kernel when DRM_PANTHOR_IOCTL_GROUP_SUBMIT is called.
+> +	 */
+> +	__u32 unpreserved_cs_reg_count;
+> +
+> +	/**
+> +	 * @pad: Padding field, set to zero.
+> +	 */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
+> + */
+> +struct drm_panthor_dev_query {
+> +	/** @type: the query type (see drm_panthor_dev_query_type). */
+> +	__u32 type;
+> +
+> +	/**
+> +	 * @size: size of the type being queried.
+> +	 *
+> +	 * If pointer is NULL, size is updated by the driver to provide the
+> +	 * output structure size. If pointer is not NULL, the driver will
+> +	 * only copy min(size, actual_structure_size) bytes to the pointer,
+> +	 * and update the size accordingly. This allows us to extend query
+> +	 * types without breaking userspace.
+> +	 */
+> +	__u32 size;
+> +
+> +	/**
+> +	 * @pointer: user pointer to a query type struct.
+> +	 *
+> +	 * Pointer can be NULL, in which case, nothing is copied, but the
+> +	 * actual structure size is returned. If not NULL, it must point to
+> +	 * a location that's large enough to hold size bytes.
+> +	 */
+> +	__u64 pointer;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_vm_create - Arguments passed to DRM_PANTHOR_IOCTL_VM_CREATE
+> + */
+> +struct drm_panthor_vm_create {
+> +	/** @flags: VM flags, MBZ. */
+> +	__u32 flags;
+> +
+> +	/** @id: Returned VM ID. */
+> +	__u32 id;
+> +
+> +	/**
+> +	 * @kernel_va_range: Size of the VA space reserved for kernel objects.
+> +	 *
+> +	 * If kernel_va_range is zero, we pick half of the VA space for kernel objects.
+> +	 *
+> +	 * Kernel VA space is always placed at the top of the supported VA range.
+> +	 */
+> +	__u64 kernel_va_range;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_vm_destroy - Arguments passed to DRM_PANTHOR_IOCTL_VM_DESTROY
+> + */
+> +struct drm_panthor_vm_destroy {
+> +	/** @id: ID of the VM to destroy. */
+> +	__u32 id;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * enum drm_panthor_vm_bind_op_flags - VM bind operation flags
+> + */
+> +enum drm_panthor_vm_bind_op_flags {
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_READONLY: Map the memory read-only.
+> +	 *
+> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_MAP_READONLY = 1 << 0,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC: Map the memory not-executable.
+> +	 *
+> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC = 1 << 1,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED: Map the memory uncached.
+> +	 *
+> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_TYPE_MASK = 0xf << 28,
+
+Same here for GCC being pedantic. Also, on 32 bits this is going to exceed UINT_MAX.
+
+Rest of the file looks good to me.
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regard,
+Liviu
+
+> +
+> +	/** @DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: Map operation. */
+> +	DRM_PANTHOR_VM_BIND_OP_TYPE_MAP = 0 << 28,
+> +
+> +	/** @DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP: Unmap operation. */
+> +	DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP = 1 << 28,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_vm_bind_op - VM bind operation
+> + */
+> +struct drm_panthor_vm_bind_op {
+> +	/** @flags: Combination of drm_panthor_vm_bind_op_flags flags. */
+> +	__u32 flags;
+> +
+> +	/**
+> +	 * @bo_handle: Handle of the buffer object to map.
+> +	 * MBZ for unmap operations.
+> +	 */
+> +	__u32 bo_handle;
+> +
+> +	/**
+> +	 * @bo_offset: Buffer object offset.
+> +	 * MBZ for unmap operations.
+> +	 */
+> +	__u64 bo_offset;
+> +
+> +	/**
+> +	 * @va: Virtual address to map/unmap.
+> +	 */
+> +	__u64 va;
+> +
+> +	/** @size: Size to map/unmap. */
+> +	__u64 size;
+> +
+> +	/**
+> +	 * @syncs: Array of synchronization operations.
+> +	 *
+> +	 * This array must be empty if %DRM_PANTHOR_VM_BIND_ASYNC is not set on
+> +	 * the drm_panthor_vm_bind object containing this VM bind operation.
+> +	 */
+> +	struct drm_panthor_obj_array syncs;
+> +
+> +};
+> +
+> +/**
+> + * enum drm_panthor_vm_bind_flags - VM bind flags
+> + */
+> +enum drm_panthor_vm_bind_flags {
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_ASYNC: VM bind operations are queued to the VM
+> +	 * queue instead of being executed synchronously.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_ASYNC = 1 << 0,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_vm_bind - Arguments passed to DRM_IOCTL_PANTHOR_VM_BIND
+> + */
+> +struct drm_panthor_vm_bind {
+> +	/** @vm_id: VM targeted by the bind request. */
+> +	__u32 vm_id;
+> +
+> +	/** @flags: Combination of drm_panthor_vm_bind_flags flags. */
+> +	__u32 flags;
+> +
+> +	/** @ops: Array of bind operations. */
+> +	struct drm_panthor_obj_array ops;
+> +};
+> +
+> +/**
+> + * enum drm_panthor_bo_flags - Buffer object flags, passed at creation time.
+> + */
+> +enum drm_panthor_bo_flags {
+> +	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
+> +	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
+> +};
+> +
+> +/**
+> + * struct drm_panthor_bo_create - Arguments passed to DRM_IOCTL_PANTHOR_BO_CREATE.
+> + */
+> +struct drm_panthor_bo_create {
+> +	/**
+> +	 * @size: Requested size for the object
+> +	 *
+> +	 * The (page-aligned) allocated size for the object will be returned.
+> +	 */
+> +	__u64 size;
+> +
+> +	/**
+> +	 * @flags: Flags. Must be a combination of drm_panthor_bo_flags flags.
+> +	 */
+> +	__u32 flags;
+> +
+> +	/**
+> +	 * @exclusive_vm_id: Exclusive VM this buffer object will be mapped to.
+> +	 *
+> +	 * If not zero, the field must refer to a valid VM ID, and implies that:
+> +	 *  - the buffer object will only ever be bound to that VM
+> +	 *  - cannot be exported as a PRIME fd
+> +	 */
+> +	__u32 exclusive_vm_id;
+> +
+> +	/**
+> +	 * @handle: Returned handle for the object.
+> +	 *
+> +	 * Object handles are nonzero.
+> +	 */
+> +	__u32 handle;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_bo_mmap_offset - Arguments passed to DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET.
+> + */
+> +struct drm_panthor_bo_mmap_offset {
+> +	/** @handle: Handle of the object we want an mmap offset for. */
+> +	__u32 handle;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +
+> +	/** @offset: The fake offset to use for subsequent mmap calls. */
+> +	__u64 offset;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_queue_create - Queue creation arguments.
+> + */
+> +struct drm_panthor_queue_create {
+> +	/**
+> +	 * @priority: Defines the priority of queues inside a group. Goes from 0 to 15,
+> +	 * 15 being the highest priority.
+> +	 */
+> +	__u8 priority;
+> +
+> +	/** @pad: Padding fields, MBZ. */
+> +	__u8 pad[3];
+> +
+> +	/** @ringbuf_size: Size of the ring buffer to allocate to this queue. */
+> +	__u32 ringbuf_size;
+> +};
+> +
+> +/**
+> + * enum drm_panthor_group_priority - Scheduling group priority
+> + */
+> +enum drm_panthor_group_priority {
+> +	/** @PANTHOR_GROUP_PRIORITY_LOW: Low priority group. */
+> +	PANTHOR_GROUP_PRIORITY_LOW = 0,
+> +
+> +	/** @PANTHOR_GROUP_PRIORITY_MEDIUM: Medium priority group. */
+> +	PANTHOR_GROUP_PRIORITY_MEDIUM,
+> +
+> +	/** @PANTHOR_GROUP_PRIORITY_HIGH: High priority group. */
+> +	PANTHOR_GROUP_PRIORITY_HIGH,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_group_create - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_CREATE
+> + */
+> +struct drm_panthor_group_create {
+> +	/** @queues: Array of drm_panthor_create_cs_queue elements. */
+> +	struct drm_panthor_obj_array queues;
+> +
+> +	/**
+> +	 * @max_compute_cores: Maximum number of cores that can be used by compute
+> +	 * jobs across CS queues bound to this group.
+> +	 *
+> +	 * Must be less or equal to the number of bits set in @compute_core_mask.
+> +	 */
+> +	__u8 max_compute_cores;
+> +
+> +	/**
+> +	 * @max_fragment_cores: Maximum number of cores that can be used by fragment
+> +	 * jobs across CS queues bound to this group.
+> +	 *
+> +	 * Must be less or equal to the number of bits set in @fragment_core_mask.
+> +	 */
+> +	__u8 max_fragment_cores;
+> +
+> +	/**
+> +	 * @max_tiler_cores: Maximum number of tilers that can be used by tiler jobs
+> +	 * across CS queues bound to this group.
+> +	 *
+> +	 * Must be less or equal to the number of bits set in @tiler_core_mask.
+> +	 */
+> +	__u8 max_tiler_cores;
+> +
+> +	/** @priority: Group priority (see drm_drm_panthor_cs_group_priority). */
+> +	__u8 priority;
+> +
+> +	/** @pad: Padding field, MBZ. */
+> +	__u32 pad;
+> +
+> +	/**
+> +	 * @compute_core_mask: Mask encoding cores that can be used for compute jobs.
+> +	 *
+> +	 * This field must have at least @max_compute_cores bits set.
+> +	 *
+> +	 * The bits set here should also be set in drm_panthor_gpu_info::shader_present.
+> +	 */
+> +	__u64 compute_core_mask;
+> +
+> +	/**
+> +	 * @fragment_core_mask: Mask encoding cores that can be used for fragment jobs.
+> +	 *
+> +	 * This field must have at least @max_fragment_cores bits set.
+> +	 *
+> +	 * The bits set here should also be set in drm_panthor_gpu_info::shader_present.
+> +	 */
+> +	__u64 fragment_core_mask;
+> +
+> +	/**
+> +	 * @tiler_core_mask: Mask encoding cores that can be used for tiler jobs.
+> +	 *
+> +	 * This field must have at least @max_tiler_cores bits set.
+> +	 *
+> +	 * The bits set here should also be set in drm_panthor_gpu_info::tiler_present.
+> +	 */
+> +	__u64 tiler_core_mask;
+> +
+> +	/**
+> +	 * @vm_id: VM ID to bind this group to.
+> +	 *
+> +	 * All submission to queues bound to this group will use this VM.
+> +	 */
+> +	__u32 vm_id;
+> +
+> +	/**
+> +	 * @group_handle: Returned group handle. Passed back when submitting jobs or
+> +	 * destroying a group.
+> +	 */
+> +	__u32 group_handle;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_group_destroy - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_DESTROY
+> + */
+> +struct drm_panthor_group_destroy {
+> +	/** @group_handle: Group to destroy */
+> +	__u32 group_handle;
+> +
+> +	/** @pad: Padding field, MBZ. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_queue_submit - Job submission arguments.
+> + *
+> + * This is describing the userspace command stream to call from the kernel
+> + * command stream ring-buffer. Queue submission is always part of a group
+> + * submission, taking one or more jobs to submit to the underlying queues.
+> + */
+> +struct drm_panthor_queue_submit {
+> +	/** @queue_index: Index of the queue inside a group. */
+> +	__u32 queue_index;
+> +
+> +	/**
+> +	 * @stream_size: Size of the command stream to execute.
+> +	 *
+> +	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
+> +	 *
+> +	 * Can be zero if stream_addr is zero too.
+> +	 */
+> +	__u32 stream_size;
+> +
+> +	/**
+> +	 * @stream_addr: GPU address of the command stream to execute.
+> +	 *
+> +	 * Must be aligned on 64-byte.
+> +	 *
+> +	 * Can be zero is stream_size is zero too.
+> +	 */
+> +	__u64 stream_addr;
+> +
+> +	/**
+> +	 * @latest_flush: FLUSH_ID read at the time the stream was built.
+> +	 *
+> +	 * This allows cache flush elimination for the automatic
+> +	 * flush+invalidate(all) done at submission time, which is needed to
+> +	 * ensure the GPU doesn't get garbage when reading the indirect command
+> +	 * stream buffers. If you want the cache flush to happen
+> +	 * unconditionally, pass a zero here.
+> +	 */
+> +	__u32 latest_flush;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +
+> +	/** @syncs: Array of sync operations. */
+> +	struct drm_panthor_obj_array syncs;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_group_submit - Arguments passed to DRM_IOCTL_PANTHOR_VM_BIND
+> + */
+> +struct drm_panthor_group_submit {
+> +	/** @group_handle: Handle of the group to queue jobs to. */
+> +	__u32 group_handle;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +
+> +	/** @queue_submits: Array of drm_panthor_queue_submit objects. */
+> +	struct drm_panthor_obj_array queue_submits;
+> +};
+> +
+> +/**
+> + * enum drm_panthor_group_state_flags - Group state flags
+> + */
+> +enum drm_panthor_group_state_flags {
+> +	/**
+> +	 * @DRM_PANTHOR_GROUP_STATE_TIMEDOUT: Group had unfinished jobs.
+> +	 *
+> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
+> +	 */
+> +	DRM_PANTHOR_GROUP_STATE_TIMEDOUT = 1 << 0,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_GROUP_STATE_FATAL_FAULT: Group had fatal faults.
+> +	 *
+> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
+> +	 */
+> +	DRM_PANTHOR_GROUP_STATE_FATAL_FAULT = 1 << 1,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_group_get_state - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_GET_STATE
+> + *
+> + * Used to query the state of a group and decide whether a new group should be created to
+> + * replace it.
+> + */
+> +struct drm_panthor_group_get_state {
+> +	/** @group_handle: Handle of the group to query state on */
+> +	__u32 group_handle;
+> +
+> +	/**
+> +	 * @state: Combination of DRM_PANTHOR_GROUP_STATE_* flags encoding the
+> +	 * group state.
+> +	 */
+> +	__u32 state;
+> +
+> +	/** @fatal_queues: Bitmask of queues that faced fatal faults. */
+> +	__u32 fatal_queues;
+> +
+> +	/** @pad: MBZ */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_tiler_heap_create - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE
+> + */
+> +struct drm_panthor_tiler_heap_create {
+> +	/** @vm_id: VM ID the tiler heap should be mapped to */
+> +	__u32 vm_id;
+> +
+> +	/** @initial_chunk_count: Initial number of chunks to allocate. */
+> +	__u32 initial_chunk_count;
+> +
+> +	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
+> +	__u32 chunk_size;
+> +
+> +	/** @max_chunks: Maximum number of chunks that can be allocated. */
+> +	__u32 max_chunks;
+> +
+> +	/**
+> +	 * @target_in_flight: Maximum number of in-flight render passes.
+> +	 *
+> +	 * If the heap has more than tiler jobs in-flight, the FW will wait for render
+> +	 * passes to finish before queuing new tiler jobs.
+> +	 */
+> +	__u32 target_in_flight;
+> +
+> +	/** @handle: Returned heap handle. Passed back to DESTROY_TILER_HEAP. */
+> +	__u32 handle;
+> +
+> +	/** @tiler_heap_ctx_gpu_va: Returned heap GPU virtual address returned */
+> +	__u64 tiler_heap_ctx_gpu_va;
+> +
+> +	/**
+> +	 * @first_heap_chunk_gpu_va: First heap chunk.
+> +	 *
+> +	 * The tiler heap is formed of heap chunks forming a single-link list. This
+> +	 * is the first element in the list.
+> +	 */
+> +	__u64 first_heap_chunk_gpu_va;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
+> + */
+> +struct drm_panthor_tiler_heap_destroy {
+> +	/** @handle: Handle of the tiler heap to destroy */
+> +	__u32 handle;
+> +
+> +	/** @pad: Padding field, MBZ. */
+> +	__u32 pad;
+> +};
+> +
+> +#if defined(__cplusplus)
+> +}
+> +#endif
+> +
+> +#endif /* _PANTHOR_DRM_H_ */
+> -- 
+> 2.41.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
