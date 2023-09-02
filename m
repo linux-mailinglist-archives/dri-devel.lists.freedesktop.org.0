@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4381D790914
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 20:15:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE055790924
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 20:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB6210E083;
-	Sat,  2 Sep 2023 18:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45AB010E0AA;
+	Sat,  2 Sep 2023 18:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4E610E00E;
- Sat,  2 Sep 2023 18:15:46 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCE110E00E;
+ Sat,  2 Sep 2023 18:28:27 +0000 (UTC)
 Received: from [192.168.2.205] (109-252-153-31.dynamic.spd-mgts.ru
  [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EC29C6607285;
- Sat,  2 Sep 2023 19:15:42 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D05AB6607285;
+ Sat,  2 Sep 2023 19:28:23 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693678544;
- bh=FyCtyr6Dwvn+sc0weVs44aNx+SOUMWKSFsC6ZkrwZvw=;
+ s=mail; t=1693679305;
+ bh=16VQ2EWyfHrq08hQmOsXZjo53afgTw+mo/8RhowkQ2c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=i/sTohqUQLU0kuEePtR6JuLlMa0Hy6AMJMbLi94fbE8Y9J9Rqb7Bf/Fm/9sduYJwE
- yFEikC6EgJiNDjK2AZavhcV+lN2yOJWOrrwrMjOxcYlimbFs84OLLAWXlJRRxUW516
- KKvkFLWTzda0ojw2CT7AMqeUFI1e5ZXMXfK7srfyVDHMGu+1pWhUgWUdpJOCjeBU15
- /34Mkv2C1BJEQsZE5dxDEHAgtITx5OZnIhgmYzSzaNPO53Yo2PpgFhkzFjks2aIpKx
- T87ZjlZwKcv/3sSjF9r0vxh1xRTCohX1PjD0mrrIAN9/7pitpSbweCiq9F5hS8pVai
- HcP9XPNwwdYWA==
-Message-ID: <a587b4db-c3a8-654b-a043-b698f1d98bf6@collabora.com>
-Date: Sat, 2 Sep 2023 21:15:39 +0300
+ b=Tx6uOIJCIjQW5Me0hvxoAfLLUZU7W8R/FmsBGNuOAFVKodQSurm91/zNrTm4/Qvtp
+ Dlt8ReHbCmj/ch8x8VAU8uJ118uQnGxQ7nhR2WrdBnkdQImvRSANQTpPTZP2K7xYsL
+ TVOSQJoPgIAKNdS/qtjihuYJIcGWrIdd/efTc9dswYbvLQXlf9Ndnnpwz6HIBmcoZM
+ cToMyeQ0YnqGQyRQ3p3t6XzsGsolFKqrvlL/4h/b0a1Pjd5HUK0jn+eTSaY6XfwRE1
+ c1bNgV27sjZUujSSjfE0go660sPamIHhXPFmmJu3CRXP4L099VExUgR1ZvAmDF28vP
+ exsoma6gymAPQ==
+Message-ID: <1a40d9c6-fdbf-1494-00f2-1e37206fc984@collabora.com>
+Date: Sat, 2 Sep 2023 21:28:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v15 01/23] drm/shmem-helper: Fix UAF in error path when
- freeing SGT of imported GEM
+Subject: Re: [PATCH v15 02/23] drm/shmem-helper: Use flag for tracking page
+ count bumped by get_pages_sgt()
 Content-Language: en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>
 References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-2-dmitry.osipenko@collabora.com>
- <20230828131647.18888896@collabora.com>
+ <20230827175449.1766701-3-dmitry.osipenko@collabora.com>
+ <20230828125518.7b926fc6@collabora.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230828131647.18888896@collabora.com>
+In-Reply-To: <20230828125518.7b926fc6@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,70 +72,49 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/28/23 14:16, Boris Brezillon wrote:
-> On Sun, 27 Aug 2023 20:54:27 +0300
+On 8/28/23 13:55, Boris Brezillon wrote:
+> On Sun, 27 Aug 2023 20:54:28 +0300
 > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 > 
->> Freeing drm-shmem GEM right after creating it using
->> drm_gem_shmem_prime_import_sg_table() frees SGT of the imported dma-buf
->> and then dma-buf frees this SGT second time.
+>> Use separate flag for tracking page count bumped by shmem->sgt to avoid
+>> imbalanced page counter during of drm_gem_shmem_free() time. It's fragile
+>> to assume that populated shmem->pages at a freeing time means that the
+>> count was bumped by drm_gem_shmem_get_pages_sgt(), using a flag removes
+>> the ambiguity.
 >>
->> The v3d_prime_import_sg_table() is example of a error code path where
->> dma-buf's SGT is freed by drm-shmem and then it's freed second time by
->> dma_buf_unmap_attachment() in drm_gem_prime_import_dev().
->>
->> Add drm-shmem GEM flag telling that this is imported SGT shall not be
->> treated as own SGT, fixing the use-after-free bug.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
 >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 >> ---
 >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ++-
+>>  drivers/gpu/drm/lima/lima_gem.c        | 1 +
 >>  include/drm/drm_gem_shmem_helper.h     | 7 +++++++
->>  2 files changed, 9 insertions(+), 1 deletion(-)
+>>  3 files changed, 10 insertions(+), 1 deletion(-)
 >>
 >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> index a783d2245599..78d9cf2355a5 100644
+>> index 78d9cf2355a5..db20b9123891 100644
 >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -141,7 +141,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->>  
->>  	if (obj->import_attach) {
->>  		drm_prime_gem_destroy(obj, shmem->sgt);
->> -	} else {
->> +	} else if (!shmem->imported_sgt) {
->>  		dma_resv_lock(shmem->base.resv, NULL);
->>  
->>  		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
->> @@ -758,6 +758,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->>  		return ERR_CAST(shmem);
->>  
->>  	shmem->sgt = sgt;
->> +	shmem->imported_sgt = true;
+>> @@ -152,7 +152,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  			sg_free_table(shmem->sgt);
+>>  			kfree(shmem->sgt);
+>>  		}
+>> -		if (shmem->pages)
+>> +		if (shmem->got_sgt)
+>>  			drm_gem_shmem_put_pages(shmem);
 > 
-> 
-> I feel like adding more fields that can be used to do the is_imported()
-> check is going to be even more confusing. Can we instead have
-> 
-> 	/* drm_gem_shmem_prime_import_sg_table() can be called from a
-> 	 * driver specific ->import_sg_table() implementations that
-> 	 * have extra failable initialization steps. Assign
-> 	 * drm_gem_object::import_attach here (even though it's
-> 	 * assigned in drm_gem_prime_import_dev()), so we don't end up
-> 	 * with driver error paths calling drm_gem_shmem_free() with an
-> 	 * imported sg_table assigned to drm_gem_shmem_object::sgt and
-> 	 * drm_gem_object::import_attach left uninitialized.
-> 	 */
-> 	shmem->base.import_attach = attach;
-> 
-> here?
+> Can't we just move this drm_gem_shmem_put_pages() call in the
+> if (shmem->sgt) block?
 
-AFAICT, this is not going to work because obj->import_attach will be
-released by drm_prime core by the time drm_gem_shmem_free() is invoked
-and drm_gem_shmem_free() uses obj->import_attach as well. I'll keep this
-patch around unless there will be other suggestions. To me the flag is
-good enough, I'll add a clarifying comment to the code in v16.
+As you've seen in patch #1, the shmem->sgt may belong to imported dmabuf
+and pages aren't referenced in this case.
+
+I agree that the freeing code is confusing. The flags make it a better,
+not ideal. Though, the flags+comments solution is good enough to me.
+Please let me know if you have more suggestions, otherwise I'll add
+comment to the code and keep this patch for v16.
+
+BTW, I realized that the new flag wasn't placed properly in the Lima
+driver, causing unbalanced page count in the error path. Will correct it
+in v16.
 
 -- 
 Best regards,
