@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CD879072C
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 11:51:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE5D79078D
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 13:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E11F10E228;
-	Sat,  2 Sep 2023 09:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4643010E06C;
+	Sat,  2 Sep 2023 11:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB1210E228
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 09:51:20 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-401b393df02so28323465e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Sep 2023 02:51:20 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7266F10E06C
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 11:10:37 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2bcc14ea414so47845081fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Sep 2023 04:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693648279; x=1694253079; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Fbb5oQMsQ8lmQSEo8cUIG7jOpdgmCm7bwk/9zmNVbiQ=;
- b=LRN7cPg6MvwP7daxJ75Yl9LgPWPD5/h02ic48DsUL5MgwCyK2hL+hQf08eIxkB+ozN
- qa5kuJ+tgaS9QbrR8I5LgyT5W7XL9BtlMB8g/hO+cERd/VxT3cpp5Lsjc7mtlD/tZUss
- 9uq4akziRA013vnaHyUl9STfgaMSoZ0bbF8ThRej8Jff7W/USq20LhJUN5y8ejwNvDli
- b8c0zdpkHTznYoMWxYPZYcdTTMIHT4k+Y9HK76vtTNAN7uNRyKvJyJhpFKrAvRi+gtBG
- JMMpdg6TSHEVoF2u0csRSMsZHpZuiP90pcIxSe+Z4dSLVi0hPh6eESdA3OV7rXjCbujL
- 39Hg==
+ d=gmail.com; s=20221208; t=1693653035; x=1694257835; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sCWoWPe6h8Qmaq6PAfz3dXsnt+0ElN/TsBNKOj8iL1I=;
+ b=M/hsAbbrooVnQ1SsnUcjRNK4sjKKc1L1DZ1n/OgjxE7LXl+sH1dOyravkbD86py/40
+ mnrxRxz5oUQ6J96iW75I0rq5oUv2iZPevi54DlaGm7n4j0b8gh3uwMofiP402VAx8/rk
+ v1rbdiDrceGqJOwaA3yvt+1AUXCvTrEt7FrCFzs2v4mfWnUYnS0CgL5opjsTrAg88eKs
+ jv18Bv5I6HpmTmTGFxOKCTYQb0KH0WXiNA9N29cYZ1xGRgxRZEgOKL/o3xazfpoDkn/0
+ zicrgEfynm57NRMFiB6tfOXSUcvB8Jn2eMaVWwVZYkRm10qXo7Esdw1gAi4NMUTxEqBT
+ dmgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693648279; x=1694253079;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1693653035; x=1694257835;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Fbb5oQMsQ8lmQSEo8cUIG7jOpdgmCm7bwk/9zmNVbiQ=;
- b=HzxY8EPFQ7ARkljgjPwZJCN+TGvlIyitzfGng48KAgUhZqlvOqw3J6fv9VOzqOaB2o
- Wc6hU47lkK52TSGP37X6Dm1bNtH4ymVjGLRkkMguj4oNFC1eUaA4hgKrsreDRKQG3ydh
- nVxSREFB6eWGkqSNlaLYERSifTImB+i2fiSE6M0yGqd6ATtOMPw+kWnxl5+JL8Fh9qUF
- Cs1n3tRef1XRkYMbUSxaMz8TcAVxN4cObjVEY1Jl/s/Rw3/IjRuIT7SUJslANoXF2/x1
- zIkVJY5iwN4GKcw59KGa8NYv7HvpVU5L/Rtsx8xlqn7iAxrM8W+RC9C4b116y93j0NTu
- 0PYA==
-X-Gm-Message-State: AOJu0YyabybJHaj9sBTT1N/ZFu+bcET6NttWGvQVqwYVdz8rR0Xv5aN9
- J83zmRxtXR/qk6rCMcmnRPY=
-X-Google-Smtp-Source: AGHT+IGmQa/GauRsf0/aiYROnGceuCwUpNyZyYJJQm+ebKyOLg4+r2rLhUqGi6WPLcJtraEtJNsWhg==
-X-Received: by 2002:a05:600c:2153:b0:3fe:e8b4:436f with SMTP id
- v19-20020a05600c215300b003fee8b4436fmr3465957wml.14.1693648278261; 
- Sat, 02 Sep 2023 02:51:18 -0700 (PDT)
-Received: from localhost.localdomain ([63.135.72.41])
- by smtp.gmail.com with ESMTPSA id
- 12-20020a05600c020c00b003fc04d13242sm10786628wmi.0.2023.09.02.02.51.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Sep 2023 02:51:17 -0700 (PDT)
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-X-Google-Original-From: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
-To: Helge Deller <deller@gmx.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] fbdev/g364fb: fix build failure with mips
-Date: Sat,  2 Sep 2023 10:51:02 +0100
-Message-Id: <20230902095102.5908-1-sudip.mukherjee@codethink.co.uk>
-X-Mailer: git-send-email 2.39.2
+ bh=sCWoWPe6h8Qmaq6PAfz3dXsnt+0ElN/TsBNKOj8iL1I=;
+ b=fFwKPUZZx8pwL/OenxKm0rB5IeljO92BH5zgkT5z57gQHHTldiz/kdncY3X0rLgWfB
+ 5Am2ITh6fc+7fjUODCvNfaIhp8tRnEMlynBue+MSXYs4m3UPJ9b7X/1vc89lNFilSUoN
+ AeDtbRb9Tqosf/sIS6FYCTIKoZ2wlLQ8LHkjQ0Uou5RzcUG9TLG16ixK9thXp3Bhcmgo
+ O8WVQlNGEzs7TfEKLx9ZYvlnCnnB1Kw0QDLISsFxxgb1Ihsyd0N236Vd3W4Cg8UIoXZJ
+ lGijHkoyPrBNfrfdks9MSP4ksoH5V/l0wmnE3MgZxWT89JPDOwNVGqKj4Dyax+6XcdYt
+ kJDA==
+X-Gm-Message-State: AOJu0YzSi/rCw0MwjiDYkvRdzr/uXZ2ahd54M9y4toIvAgVlpBkPfkOz
+ x93negzfuLgDwyRipaf1QFvTCqaYAOaKk5eYUiM=
+X-Google-Smtp-Source: AGHT+IG/VqY3vkLqgYJkFoWyA3BAQzDL3TGfy+OM6GskqKn3cNhSQnpX1YM1Nnj35Q12kl0+w6BraWus5k49mAtQrh4=
+X-Received: by 2002:a05:6512:742:b0:500:7f51:d129 with SMTP id
+ c2-20020a056512074200b005007f51d129mr2639186lfs.34.1693653035278; Sat, 02 Sep
+ 2023 04:10:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ZPDgdGBbxrTl+m2s@debian>
+ <CAHk-=wg4vpuourbbUPn19yFx2cNj93O6t0PhiARLLL6z22yV4Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wg4vpuourbbUPn19yFx2cNj93O6t0PhiARLLL6z22yV4Q@mail.gmail.com>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Sat, 2 Sep 2023 12:09:59 +0100
+Message-ID: <CADVatmMF1QS235CD4KbDPy_w9hAi0rN1EJqAXtJok2Xg0iE-UA@mail.gmail.com>
+Subject: Re: mainline build failure due to 501126083855 ("fbdev/g364fb: Use
+ fbdev I/O helpers")
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, regressions@lists.linux.dev,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+On Thu, 31 Aug 2023 at 20:04, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Thu, 31 Aug 2023 at 11:48, Sudip Mukherjee (Codethink)
+> <sudipm.mukherjee@gmail.com> wrote:
+> > The latest mainline kernel branch fails to build mips jazz_defconfig with
+> > the error:
+> >
+> > drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
+> >   115 |         FB_DEFAULT_IOMEM_HELPERS,
+> >       |         ^~~~~~~~~~~~~~~~~~~~~~~~
+> >       |         FB_DEFAULT_IOMEM_OPS
+> >
+> >
+> > git bisect pointed to 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers").
+> >
+> > Reverting the commit has fixed the build failure.
+> >
+> > I will be happy to test any patch or provide any extra log if needed.
+>
+> Would you mind testing the exact thing that the compiler suggested?
+>
+> So instead of the revert, just replace FB_DEFAULT_IOMEM_HELPERS with
+> FB_DEFAULT_IOMEM_OPS.
+>
+> I think it's just a typo / confusion with the config variable (which
+> is called FB_IOMEM_HELPERS).
 
-Fix the typo which resulted in the driver using FB_DEFAULT_IOMEM_HELPERS
-instead of FB_DEFAULT_IOMEM_OPS as the fbdev I/O helpers.
+Yeah, you were right.
+Patch sent - https://lore.kernel.org/lkml/20230902095102.5908-1-sudip.mukherjee@codethink.co.uk/
 
-Fixes: 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers")
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
----
- drivers/video/fbdev/g364fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/g364fb.c b/drivers/video/fbdev/g364fb.c
-index 7a1013b22fa7..ee6fe51e0a6b 100644
---- a/drivers/video/fbdev/g364fb.c
-+++ b/drivers/video/fbdev/g364fb.c
-@@ -112,7 +112,7 @@ static int g364fb_blank(int blank, struct fb_info *info);
- 
- static const struct fb_ops g364fb_ops = {
- 	.owner		= THIS_MODULE,
--	FB_DEFAULT_IOMEM_HELPERS,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_setcolreg	= g364fb_setcolreg,
- 	.fb_pan_display	= g364fb_pan_display,
- 	.fb_blank	= g364fb_blank,
 -- 
-2.39.2
-
+Regards
+Sudip
