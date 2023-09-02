@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE5D79078D
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 13:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7432B790843
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 16:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4643010E06C;
-	Sat,  2 Sep 2023 11:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6DE10E080;
+	Sat,  2 Sep 2023 14:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7266F10E06C
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 11:10:37 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2bcc14ea414so47845081fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Sep 2023 04:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693653035; x=1694257835; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sCWoWPe6h8Qmaq6PAfz3dXsnt+0ElN/TsBNKOj8iL1I=;
- b=M/hsAbbrooVnQ1SsnUcjRNK4sjKKc1L1DZ1n/OgjxE7LXl+sH1dOyravkbD86py/40
- mnrxRxz5oUQ6J96iW75I0rq5oUv2iZPevi54DlaGm7n4j0b8gh3uwMofiP402VAx8/rk
- v1rbdiDrceGqJOwaA3yvt+1AUXCvTrEt7FrCFzs2v4mfWnUYnS0CgL5opjsTrAg88eKs
- jv18Bv5I6HpmTmTGFxOKCTYQb0KH0WXiNA9N29cYZ1xGRgxRZEgOKL/o3xazfpoDkn/0
- zicrgEfynm57NRMFiB6tfOXSUcvB8Jn2eMaVWwVZYkRm10qXo7Esdw1gAi4NMUTxEqBT
- dmgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693653035; x=1694257835;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sCWoWPe6h8Qmaq6PAfz3dXsnt+0ElN/TsBNKOj8iL1I=;
- b=fFwKPUZZx8pwL/OenxKm0rB5IeljO92BH5zgkT5z57gQHHTldiz/kdncY3X0rLgWfB
- 5Am2ITh6fc+7fjUODCvNfaIhp8tRnEMlynBue+MSXYs4m3UPJ9b7X/1vc89lNFilSUoN
- AeDtbRb9Tqosf/sIS6FYCTIKoZ2wlLQ8LHkjQ0Uou5RzcUG9TLG16ixK9thXp3Bhcmgo
- O8WVQlNGEzs7TfEKLx9ZYvlnCnnB1Kw0QDLISsFxxgb1Ihsyd0N236Vd3W4Cg8UIoXZJ
- lGijHkoyPrBNfrfdks9MSP4ksoH5V/l0wmnE3MgZxWT89JPDOwNVGqKj4Dyax+6XcdYt
- kJDA==
-X-Gm-Message-State: AOJu0YzSi/rCw0MwjiDYkvRdzr/uXZ2ahd54M9y4toIvAgVlpBkPfkOz
- x93negzfuLgDwyRipaf1QFvTCqaYAOaKk5eYUiM=
-X-Google-Smtp-Source: AGHT+IG/VqY3vkLqgYJkFoWyA3BAQzDL3TGfy+OM6GskqKn3cNhSQnpX1YM1Nnj35Q12kl0+w6BraWus5k49mAtQrh4=
-X-Received: by 2002:a05:6512:742:b0:500:7f51:d129 with SMTP id
- c2-20020a056512074200b005007f51d129mr2639186lfs.34.1693653035278; Sat, 02 Sep
- 2023 04:10:35 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE2810E080
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 14:25:28 +0000 (UTC)
+Received: from [192.168.2.205] (109-252-153-31.dynamic.spd-mgts.ru
+ [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D1616607258;
+ Sat,  2 Sep 2023 15:25:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693664727;
+ bh=d9qvLqBiirDB27VGJkGrPrUfebqxRHHMAwN8YJEHwf8=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=dZIEOp3GjWvoUUqH3TOKsIO65P6n+BvxoxKwfgoap1wtSpzDNC9Bdkm6bNUy2zzXT
+ 7/U8o9iWbd8N9fw6NSr1LDLVkM964ft+kUfGFAdgAFYZiCd7ItoYEqulfW14mBV0sO
+ cmKGl8xhV/Tlir/XZFY5QLA86vGeQs00jpFPMZDqWCE5/Kn8P92GPOnwtGVVkORXou
+ Ov8JWtVtUJoT7qjpUEoaWmIBTw2TzdhNcSZpKkCKzTr17IncnURfgyfnAXS4hm9v5Y
+ j1KIZ6PNwdE4GAyIGnzV9qViMQpisLr0wK4u0lWF7icYuuIHT9UkwGmzrzeF4TqDbk
+ +JSSLQjGXnB1Q==
+Message-ID: <0798124d-6d9c-3776-426a-a5bfb1519248@collabora.com>
+Date: Sat, 2 Sep 2023 17:25:23 +0300
 MIME-Version: 1.0
-References: <ZPDgdGBbxrTl+m2s@debian>
- <CAHk-=wg4vpuourbbUPn19yFx2cNj93O6t0PhiARLLL6z22yV4Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wg4vpuourbbUPn19yFx2cNj93O6t0PhiARLLL6z22yV4Q@mail.gmail.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Sat, 2 Sep 2023 12:09:59 +0100
-Message-ID: <CADVatmMF1QS235CD4KbDPy_w9hAi0rN1EJqAXtJok2Xg0iE-UA@mail.gmail.com>
-Subject: Re: mainline build failure due to 501126083855 ("fbdev/g364fb: Use
- fbdev I/O helpers")
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] MAINTAINERS: Add Boris Brezillon as Panfrost driver
+ maintainer
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+References: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, regressions@lists.linux.dev,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Aug 2023 at 20:04, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, 31 Aug 2023 at 11:48, Sudip Mukherjee (Codethink)
-> <sudipm.mukherjee@gmail.com> wrote:
-> > The latest mainline kernel branch fails to build mips jazz_defconfig with
-> > the error:
-> >
-> > drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
-> >   115 |         FB_DEFAULT_IOMEM_HELPERS,
-> >       |         ^~~~~~~~~~~~~~~~~~~~~~~~
-> >       |         FB_DEFAULT_IOMEM_OPS
-> >
-> >
-> > git bisect pointed to 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers").
-> >
-> > Reverting the commit has fixed the build failure.
-> >
-> > I will be happy to test any patch or provide any extra log if needed.
->
-> Would you mind testing the exact thing that the compiler suggested?
->
-> So instead of the revert, just replace FB_DEFAULT_IOMEM_HELPERS with
-> FB_DEFAULT_IOMEM_OPS.
->
-> I think it's just a typo / confusion with the config variable (which
-> is called FB_IOMEM_HELPERS).
+On 8/22/23 08:25, Dmitry Osipenko wrote:
+> Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
+> developer of the Panfrost Mesa driver and main developer behind the
+> upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
+> 
+> Remove Tomeu and Alyssa, who left Collabora and stepped down from working
+> on Panfrost.
+> 
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>
+> Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Added acks from Boris, Alyssa and Tomeu. Tomeu answered with ack
+>       to the v1 email, though he answered to me only and not "to all",
+>       so it's not visible on the ML.
+> 
+>     - Made Boris' entry first as was requested by Rob Herring.
+> 
+>  MAINTAINERS | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cd882b87a3c6..b2fc771e1f2d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1614,10 +1614,9 @@ F:	drivers/gpu/drm/arm/display/include/
+>  F:	drivers/gpu/drm/arm/display/komeda/
+>  
+>  ARM MALI PANFROST DRM DRIVER
+> +M:	Boris Brezillon <boris.brezillon@collabora.com>
+>  M:	Rob Herring <robh@kernel.org>
+> -M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>  R:	Steven Price <steven.price@arm.com>
+> -R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Supported
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
 
-Yeah, you were right.
-Patch sent - https://lore.kernel.org/lkml/20230902095102.5908-1-sudip.mukherjee@codethink.co.uk/
-
+Applied to misc-next
 
 -- 
-Regards
-Sudip
+Best regards,
+Dmitry
+
