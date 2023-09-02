@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893C1790844
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 16:25:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAE4790864
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 17:22:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0400A10E234;
-	Sat,  2 Sep 2023 14:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A060F10E032;
+	Sat,  2 Sep 2023 15:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C3710E234
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 14:25:57 +0000 (UTC)
-Received: from [192.168.2.205] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 637F26607258;
- Sat,  2 Sep 2023 15:25:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693664756;
- bh=zO582TdpvX1tYorlR2WJbS+RWr0c390VHWZpuiVUGz4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=er6o90wmQsZELa1vZIriDpQ01pJ1R7bLDw8VCR0qBXNw1iBgmmOFl91lyB4Dkpyw2
- tDXurfPLEAJpzj8Mx7wy7+gspMc6bwdqxuGTWY6G9rDq8KI6SY5QEp4X3awGc0AJ8S
- pnlU8vFKD4VtbfM/xlPl5tZ6fhUvpQ1FNNiU2Me7S5mpc+cxSE+jH0/VXRnfwgq27K
- Td5Y2OBResHuNhnAHwtx69mP2WdCRbydS7ljl0/sOdjEtm0JgIP7Sx0eq30GzpskDb
- qRRfZFUq1JtcAcPVJoyh+0i7rdnoejFTgaH//1jy8eMvrnk6naAHFNie9WOK0uNE5x
- Un9ebaXlswnnQ==
-Message-ID: <e3ab1ce9-7b60-31b6-0ba5-67169d0bdd12@collabora.com>
-Date: Sat, 2 Sep 2023 17:25:52 +0300
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr
+ [80.12.242.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1586B10E032
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 15:22:18 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id cSRzqoXOCUaEwcSRzqaRzL; Sat, 02 Sep 2023 17:22:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1693668136;
+ bh=yjDI6etd+k4oOa2FG7xcDg5/IuMHAnQLiXRlOSm4IIo=;
+ h=From:To:Cc:Subject:Date;
+ b=L6KSI2Id8suQcDx8BCJvdaSOTHrmcA/V6FokPsR/KDUblTLpNEasdMOhZMotfdGzG
+ J9yZTCOflaCm/lsUzAeVLcwvSNRTIE1vMcV+2fHEfVPDgFvA5QkK50NFoox9lysS/t
+ iz4SOVG1VnXJyuy1i0tNimLk4uuO8OH+UCGVlpOlk8F4if0egol/sRZ/jRtzx6BmFh
+ D8DougwFq+Tmvgz58J0yyEk+GBcbkfsVbbXlh408B80kBcjBzpIi2QETTTwNfqaPlO
+ QIjgwPI6+35FmBW4VIFkdc0+r/wNYB0uWYwO1NNLH8eVGPkSPzYNmsw0s831ivbM9O
+ 8jrQz+2Or4VtQ==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 02 Sep 2023 17:22:16 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
+ daniel@ffwll.ch, jonathanh@nvidia.com, digetx@gmail.com
+Subject: [PATCH 0/6] drm/tegra: Fix some error handling paths
+Date: Sat,  2 Sep 2023 17:22:07 +0200
+Message-Id: <cover.1693667005.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next] drm/virtio: Remove unused function declarations
-Content-Language: en-US
-To: Yue Haibing <yuehaibing@huawei.com>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- daniel@ffwll.ch
-References: <20230811101823.32344-1-yuehaibing@huawei.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230811101823.32344-1-yuehaibing@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +50,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: linux-tegra@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/11/23 13:18, Yue Haibing wrote:
-> Commit dc5698e80cf7 ("Add virtio gpu driver.") declared but never
-> implemented virtio_gpu_attach_status_page()/virtio_gpu_detach_status_page()
-> Also commit 62fb7a5e1096 ("virtio-gpu: add 3d/virgl support")
-> declared but never implemented virtio_gpu_fence_ack() and
-> virtio_gpu_dequeue_fence_func().
-> Commit c84adb304c10 ("drm/virtio: Support virtgpu exported resources")
-> declared but never implemented virtgpu_gem_prime_get_uuid().
-> 
-> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.h | 7 -------
->  1 file changed, 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index 4126c384286b..8513b671f871 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -344,8 +344,6 @@ void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
->  			      struct virtio_gpu_object *obj,
->  			      struct virtio_gpu_mem_entry *ents,
->  			      unsigned int nents);
-> -int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
-> -int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
->  void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
->  			    struct virtio_gpu_output *output);
->  int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev);
-> @@ -394,11 +392,8 @@ virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
->  				  struct virtio_gpu_fence *fence);
->  void virtio_gpu_ctrl_ack(struct virtqueue *vq);
->  void virtio_gpu_cursor_ack(struct virtqueue *vq);
-> -void virtio_gpu_fence_ack(struct virtqueue *vq);
->  void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
->  void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
-> -void virtio_gpu_dequeue_fence_func(struct work_struct *work);
-> -
->  void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
->  
->  int
-> @@ -465,8 +460,6 @@ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
->  					 int flags);
->  struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->  						struct dma_buf *buf);
-> -int virtgpu_gem_prime_get_uuid(struct drm_gem_object *obj,
-> -			       uuid_t *uuid);
->  struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
->  	struct drm_device *dev, struct dma_buf_attachment *attach,
->  	struct sg_table *sgt);
+Most of the patches are retated to tegra_output_probe() and missing
+tegra_output_remove(). Others are things spotted while writting the serie.
 
-Applied to misc-next
+
+Patches 1, 3, 4 are verbose, but some functions called in the probe can
+return -EPROBE_DEFER, so it is nice to correctly release resources.
+
+Maybe moving the tegra_output_probe() call would minimize the changes, but I'm
+always reluctant to move code, because of possible side-effects.
+
+
+Christophe JAILLET (6):
+  drm/tegra: dsi: Fix some error handling paths in tegra_dsi_probe()
+  drm/tegra: dsi: Fix missing pm_runtime_disable() in the error handling
+    path of tegra_dsi_probe()
+  drm/tegra: dsi: Fix some error handling paths in tegra_hdmi_probe()
+  drm/tegra: rgb: Fix some error handling paths in tegra_dc_rgb_probe()
+  drm/tegra: rgb: Fix missing clk_put() in the error handling paths of
+    tegra_dc_rgb_probe()
+  drm/tegra: output: Fix missing i2c_put_adapter() in the error handling
+    paths of tegra_output_probe()
+
+ drivers/gpu/drm/tegra/dsi.c    | 55 ++++++++++++++++++++++------------
+ drivers/gpu/drm/tegra/hdmi.c   | 20 ++++++++-----
+ drivers/gpu/drm/tegra/output.c | 16 +++++++---
+ drivers/gpu/drm/tegra/rgb.c    | 18 +++++++----
+ 4 files changed, 74 insertions(+), 35 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.34.1
 
