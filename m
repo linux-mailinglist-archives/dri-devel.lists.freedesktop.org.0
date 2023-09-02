@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7432B790843
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 16:25:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893C1790844
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 16:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6DE10E080;
-	Sat,  2 Sep 2023 14:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0400A10E234;
+	Sat,  2 Sep 2023 14:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE2810E080
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 14:25:28 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50C3710E234
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Sep 2023 14:25:57 +0000 (UTC)
 Received: from [192.168.2.205] (109-252-153-31.dynamic.spd-mgts.ru
  [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D1616607258;
- Sat,  2 Sep 2023 15:25:26 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 637F26607258;
+ Sat,  2 Sep 2023 15:25:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693664727;
- bh=d9qvLqBiirDB27VGJkGrPrUfebqxRHHMAwN8YJEHwf8=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=dZIEOp3GjWvoUUqH3TOKsIO65P6n+BvxoxKwfgoap1wtSpzDNC9Bdkm6bNUy2zzXT
- 7/U8o9iWbd8N9fw6NSr1LDLVkM964ft+kUfGFAdgAFYZiCd7ItoYEqulfW14mBV0sO
- cmKGl8xhV/Tlir/XZFY5QLA86vGeQs00jpFPMZDqWCE5/Kn8P92GPOnwtGVVkORXou
- Ov8JWtVtUJoT7qjpUEoaWmIBTw2TzdhNcSZpKkCKzTr17IncnURfgyfnAXS4hm9v5Y
- j1KIZ6PNwdE4GAyIGnzV9qViMQpisLr0wK4u0lWF7icYuuIHT9UkwGmzrzeF4TqDbk
- +JSSLQjGXnB1Q==
-Message-ID: <0798124d-6d9c-3776-426a-a5bfb1519248@collabora.com>
-Date: Sat, 2 Sep 2023 17:25:23 +0300
+ s=mail; t=1693664756;
+ bh=zO582TdpvX1tYorlR2WJbS+RWr0c390VHWZpuiVUGz4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=er6o90wmQsZELa1vZIriDpQ01pJ1R7bLDw8VCR0qBXNw1iBgmmOFl91lyB4Dkpyw2
+ tDXurfPLEAJpzj8Mx7wy7+gspMc6bwdqxuGTWY6G9rDq8KI6SY5QEp4X3awGc0AJ8S
+ pnlU8vFKD4VtbfM/xlPl5tZ6fhUvpQ1FNNiU2Me7S5mpc+cxSE+jH0/VXRnfwgq27K
+ Td5Y2OBResHuNhnAHwtx69mP2WdCRbydS7ljl0/sOdjEtm0JgIP7Sx0eq30GzpskDb
+ qRRfZFUq1JtcAcPVJoyh+0i7rdnoejFTgaH//1jy8eMvrnk6naAHFNie9WOK0uNE5x
+ Un9ebaXlswnnQ==
+Message-ID: <e3ab1ce9-7b60-31b6-0ba5-67169d0bdd12@collabora.com>
+Date: Sat, 2 Sep 2023 17:25:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2] MAINTAINERS: Add Boris Brezillon as Panfrost driver
- maintainer
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-References: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH -next] drm/virtio: Remove unused function declarations
 Content-Language: en-US
-In-Reply-To: <20230822052555.538110-1-dmitry.osipenko@collabora.com>
+To: Yue Haibing <yuehaibing@huawei.com>, airlied@redhat.com,
+ kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
+ daniel@ffwll.ch
+References: <20230811101823.32344-1-yuehaibing@huawei.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230811101823.32344-1-yuehaibing@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,52 +58,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/22/23 08:25, Dmitry Osipenko wrote:
-> Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
-> developer of the Panfrost Mesa driver and main developer behind the
-> upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
+On 8/11/23 13:18, Yue Haibing wrote:
+> Commit dc5698e80cf7 ("Add virtio gpu driver.") declared but never
+> implemented virtio_gpu_attach_status_page()/virtio_gpu_detach_status_page()
+> Also commit 62fb7a5e1096 ("virtio-gpu: add 3d/virgl support")
+> declared but never implemented virtio_gpu_fence_ack() and
+> virtio_gpu_dequeue_fence_func().
+> Commit c84adb304c10 ("drm/virtio: Support virtgpu exported resources")
+> declared but never implemented virtgpu_gem_prime_get_uuid().
 > 
-> Remove Tomeu and Alyssa, who left Collabora and stepped down from working
-> on Panfrost.
-> 
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>
-> Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
 > ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h | 7 -------
+>  1 file changed, 7 deletions(-)
 > 
-> Changelog:
-> 
-> v2: - Added acks from Boris, Alyssa and Tomeu. Tomeu answered with ack
->       to the v1 email, though he answered to me only and not "to all",
->       so it's not visible on the ML.
-> 
->     - Made Boris' entry first as was requested by Rob Herring.
-> 
->  MAINTAINERS | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cd882b87a3c6..b2fc771e1f2d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1614,10 +1614,9 @@ F:	drivers/gpu/drm/arm/display/include/
->  F:	drivers/gpu/drm/arm/display/komeda/
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 4126c384286b..8513b671f871 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -344,8 +344,6 @@ void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+>  			      struct virtio_gpu_object *obj,
+>  			      struct virtio_gpu_mem_entry *ents,
+>  			      unsigned int nents);
+> -int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
+> -int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
+>  void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
+>  			    struct virtio_gpu_output *output);
+>  int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev);
+> @@ -394,11 +392,8 @@ virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
+>  				  struct virtio_gpu_fence *fence);
+>  void virtio_gpu_ctrl_ack(struct virtqueue *vq);
+>  void virtio_gpu_cursor_ack(struct virtqueue *vq);
+> -void virtio_gpu_fence_ack(struct virtqueue *vq);
+>  void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
+>  void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
+> -void virtio_gpu_dequeue_fence_func(struct work_struct *work);
+> -
+>  void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
 >  
->  ARM MALI PANFROST DRM DRIVER
-> +M:	Boris Brezillon <boris.brezillon@collabora.com>
->  M:	Rob Herring <robh@kernel.org>
-> -M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
->  R:	Steven Price <steven.price@arm.com>
-> -R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  int
+> @@ -465,8 +460,6 @@ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+>  					 int flags);
+>  struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+>  						struct dma_buf *buf);
+> -int virtgpu_gem_prime_get_uuid(struct drm_gem_object *obj,
+> -			       uuid_t *uuid);
+>  struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
+>  	struct drm_device *dev, struct dma_buf_attachment *attach,
+>  	struct sg_table *sgt);
 
 Applied to misc-next
 
