@@ -1,72 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225F2790D52
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 19:34:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9611A790D5F
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 19:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A443C10E175;
-	Sun,  3 Sep 2023 17:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE5510E025;
+	Sun,  3 Sep 2023 17:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95DD910E175
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 17:34:51 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-9a6190af24aso113674666b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 10:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693762490; x=1694367290; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cFnqV560lAZ6YF/3E3DhwgPICGzqwbi6MBKG22yTZ8I=;
- b=R/P2p4+JgOPYpoUfJNb2idt7bjgbBE5627T1IEcnHRX1fsoTa32xQfmG6I0QLGUk+C
- lwUBhjQuOjuxOIt/Aujtvxnuf45NLqh2KC9LkMAd+IGSCsxCo4Hq39bkb/+o6vDHtHvZ
- DhS/4oZny83q40o2p2FuV2HFyZkSchZICMtRfG4mtq0J+OMG7/MiO7vV64+CVxImGRZE
- AvRKioLbINDbOGmrpjDzXz+uQiqI69bFoDWJxSMk5l1RTX4i3LgjWPiki5+JUtIpQDUO
- XH8c8jxxDGqyKn8f0jb5WyIVtqO0zIXp441IdDDE6dUBvcv9SiPq4d9VIO8OyVkG2Yoh
- HEDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693762490; x=1694367290;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cFnqV560lAZ6YF/3E3DhwgPICGzqwbi6MBKG22yTZ8I=;
- b=Ib7e3t0bjeUUWfH51ARvXLl0AbC6hki+3xljiZZY6cstnj7iDSYc0HUFj6+Cg3F51O
- /ttWMwPnuj+9HkGQSzGje97jMRo4S35NqEtMFKDZpeIH+e52F0tNZMWkcN3zykkJTj6l
- pFoouG71yqob5KSPw0PgdyGgncPGDHfrY1bj3607dAWHZLAGKkLUePEItq1ueCqZuWHb
- 0aL6g/WelMAb1LF7RBUToaDmF7+uhHAYAnFr3H3rzvTxNTbL5KieYSpRp4LKFkfHD0xG
- oTKqXRMZJaDcWGClToXv03gPa3QdUT+00anHHoKcDxLlrueJU+RGx6ewTKENgN5DCz4p
- 6Gag==
-X-Gm-Message-State: AOJu0YyT67X4dbeka8suyDhLFPu3rPD1hHlWgjZABHsqyrUwP/1evRNV
- alWCAk+ZeJ0lBXlL0XXfyOcdxg==
-X-Google-Smtp-Source: AGHT+IEe6KGCoDHH6YmYaRNcmoMmo0Ktbkc6BF0JUnIO99xIaVatxGpDQLavUlCRkTk6k8m2js43ww==
-X-Received: by 2002:a17:906:f252:b0:9a1:eb67:c0ce with SMTP id
- gy18-20020a170906f25200b009a1eb67c0cemr6189371ejb.50.1693762490088; 
- Sun, 03 Sep 2023 10:34:50 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- l13-20020a170906078d00b009a5f1d15642sm4955313ejc.158.2023.09.03.10.34.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Sep 2023 10:34:49 -0700 (PDT)
-Message-ID: <0fef71be-91c7-41ed-bb2c-965b8aa4e8e3@linaro.org>
-Date: Sun, 3 Sep 2023 20:34:48 +0300
+Received: from mail.mimoja.de (mail.mimoja.de [IPv6:2a00:17d8:100::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E4D4A10E025
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 17:58:45 +0000 (UTC)
+Received: from [IPV6:2a02:3036:e:e02d:b7bc:d99:b110:5956] (unknown
+ [IPv6:2a02:3036:e:e02d:b7bc:d99:b110:5956])
+ by mail.mimoja.de (Postfix) with ESMTPSA id DD23A264B3;
+ Sun,  3 Sep 2023 19:58:41 +0200 (CEST)
+Message-ID: <e782b207-46ec-1163-f5e9-1ddb6574ed29@mimoja.de>
+Date: Sun, 3 Sep 2023 19:58:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] drm/msm/dsi: Enable widebus for DSI
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230822-add-widebus-support-v4-0-9dc86083d6ea@quicinc.com>
- <20230822-add-widebus-support-v4-4-9dc86083d6ea@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230822-add-widebus-support-v4-4-9dc86083d6ea@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/panel/panel-sitronix-st7701: Move init sequence from
+ prepare() to enable()
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20230826095516.81387-1-git@mimoja.de>
+ <f8d2bbfd-0f9c-31d8-729c-b316025b5b65@denx.de>
+ <cccbcec8-b6e5-58e2-2197-f97cc434aa43@mimoja.de>
+ <CAMty3ZAhA4cimCATHf4D2Tw9iHZkZE9X-fK5++NJ-RjwsjDXoQ@mail.gmail.com>
+Content-Language: en-US
+From: Mimoja <mimoja@mimoja.de>
+In-Reply-To: <CAMty3ZAhA4cimCATHf4D2Tw9iHZkZE9X-fK5++NJ-RjwsjDXoQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +45,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>, mimoja@aachen.ccc.de,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Mimoja <git@mimoja.de>, alu@fffuego.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2023 20:42, Jessica Zhang wrote:
-> DSI 6G v2.5.x+ supports a data-bus widen mode that allows DSI to send
-> 48 bits of compressed data instead of 24.
-> 
-> Enable this mode whenever DSC is enabled for supported chipsets.
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dsi/dsi.c      |  2 +-
->   drivers/gpu/drm/msm/dsi/dsi.h      |  1 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 31 +++++++++++++++++++++++++++----
->   3 files changed, 29 insertions(+), 5 deletions(-)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 29.08.23 16:35, Jagan Teki wrote:
+> On Sun, Aug 27, 2023 at 12:03 AM Mimoja <mimoja@mimoja.de> wrote:
+>> I appreciate you taking the time to respond!
+>>
+>> On 26.08.23 17:18, Marek Vasut wrote:
+>>> On 8/26/23 11:55, Mimoja wrote:
+>>>> "The .prepare() function is typically called before the display
+>>>> controller
+>>>> starts to transmit video data."
+>>>> and
+>>>> "After the display controller has started transmitting video data,
+>>>> it's safe
+>>>>    to call the .enable() function."
+>>> DSI commands are not DSI video, so this should be OK ?
+>> You are correct, my commit message is mixing things up here. I wanted to
+>> emphasize roughly the thought of
+>> "when enable() is called the dsi core is expected to have its clock
+>> initialized". Will take note to clarify this if I succeed to
+>> make a case for this patch below :)
+>>
+>>>> While generally fine this can lead to a fillup of the transmission
+>>>> queue before
+>>>> the transmission is set up on certain dsi bridges.
+>>>> This issue can also be seen on downstream imx8m* kernels.
+>>> Can you reproduce this with current mainline Linux or linux-next tree ?
+>>> I recall the display pipeline in the NXP downstream stuff is very
+>>> different from mainline .
+>> You are very much correct. The NXP downstream kernel is completely
+>> different from the upstream one
+>> and is really a great example to show the issue (code cleaned up for
+>> readability):
+>>
+>> https://github.com/varigit/linux-imx/blob/5.15-2.0.x-imx_var01/drivers/gpu/drm/bridge/sec-dsim.c#L1368
+>> ```
+>>       ret = drm_panel_prepare(dsim->panel);
+>>       if (unlikely(ret)) [...]
+>>
+>>       /* config esc clock, byte clock and etc */
+>>       sec_mipi_dsim_config_clkctrl(dsim);
+>>
+>>       ret = drm_panel_enable(dsim->panel);
+>>       if (unlikely(ret)) [...]
+>>
+>> ```
+>>
+>>> Which SoC does have this problem ?
+>> Sadly I don't have any SoCs available which would work perfectly with
+>> linux-next, let alone are confirmed affected :/
+>>
+>> I were able to make my Kingway Panel work (Custom one and so far
+>> unsupported by the st7701 driver) with this
+>> patch on downstream 5.4 and 5.15 imx8mn as well as on a raspberry pi CM4
+>> with 6.1. However raspberrypi/linux brings
+>> SPI support to the st7701 driver which should not affect this but I
+>> would just like to document it here.
+>> I could not find any success story with st7701 and the rpi on 6.1 online
+>> after a short search (and only one
+>> reference with 5.10 which seems to me a bit different in a short
+>> comparison)  but again I can only offer
+>> circumstantial evidence. Sorry :/
+> If I understand correctly, 5.10 and 5.15 Would work as it is if the
+> DSI host calls the panel's prepare and enable directly from encoder
+> enable. Did you check that?
+>
+No, I fear the downstream NXP driver is not following the correct / 
+expected calling flow
+which upstream has implemented. After investigating this and the RPi 
+issue I would like to
+follow Marek's recommendation and simply sunset this change in favor of 
+fixing the
+downstream issues in the downstream tree(s).
 
+This seems to be mainly an issue for vendor-custom downstream host 
+kernels, and while there might be
+a case of convention where panels don't sent commands in prepare() and 
+only in enable()
+I don't think this patch should have a future solely to be cherry-picked 
+into downstream kernels,
+when we can not make a case for current linux/next. After all: It is now 
+on the internet for better
+or worse for others to pick up if needed.
 
--- 
-With best wishes
-Dmitry
+I appreciate you all taking the time to discuss and I will post the 
+enablement code
+for the Kingway HW-021P0Z002-01 panel I tested this with in a bit.
+
+Cheers and thankful regards
+Mimoja
 
