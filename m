@@ -2,36 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9611A790D5F
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 19:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F7E790D73
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 20:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE5510E025;
-	Sun,  3 Sep 2023 17:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69ED710E008;
+	Sun,  3 Sep 2023 18:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mimoja.de (mail.mimoja.de [IPv6:2a00:17d8:100::c31])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4D4A10E025
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 17:58:45 +0000 (UTC)
-Received: from [IPV6:2a02:3036:e:e02d:b7bc:d99:b110:5956] (unknown
- [IPv6:2a02:3036:e:e02d:b7bc:d99:b110:5956])
- by mail.mimoja.de (Postfix) with ESMTPSA id DD23A264B3;
- Sun,  3 Sep 2023 19:58:41 +0200 (CEST)
-Message-ID: <e782b207-46ec-1163-f5e9-1ddb6574ed29@mimoja.de>
-Date: Sun, 3 Sep 2023 19:58:40 +0200
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45FD10E008;
+ Sun,  3 Sep 2023 18:46:12 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id
+ ca18e2360f4ac-79277cfc73bso35341839f.1; 
+ Sun, 03 Sep 2023 11:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693766772; x=1694371572; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pEXJ5N1twmgreqGXVpqoU0bzKcH7UckG6V7g/a9C+IE=;
+ b=UbCUg/UKrx/zZoN1HVuVz0h5ab40dBXHiFdnFvKO5LXKQyY0Vfn+RpYfYa9jxrIew2
+ dKSvegOzeHmYGQePaQxAWhQ0omH22a9+gjRxu2HKHrBbAkeJa4UnByRmkdSIjEw0QTpb
+ 8JQgc/s7ssm+xBODRV3j5EEgHbnpq6/279tSIPkCK8A/QlXqiX35lozPAOscTsKsQlj6
+ 0CsxrExN+09JyrlP6+IwEfPAlGZD+pJtkyG4cPb+s6qCrLTuGskmb5FU/t+mQS8lPI9C
+ DOpRviB2PQxOWMxx28YiNg8E5ovHlG4l4MPYYyFwcuQdVxtX4vZYMOfBxBIFTtjGg1v4
+ tpYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693766772; x=1694371572;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pEXJ5N1twmgreqGXVpqoU0bzKcH7UckG6V7g/a9C+IE=;
+ b=fpqtDIbVhzf4GqhuF7UfumJi9OuZycIXWu6MerD6prmZdhzAPX5XI0leGDCVOQg+RV
+ agYr1Fzaj5TAqSXZ6BQkIrQouIn35Od+aAnGJAhB3tGpVY2IknEtE1zlCWcUKjttBDS2
+ aSnEsP+WqeBrnm1fOs/Nvjg9nf7WzgNucUyYYXxaUqRPHiPn/But7WrNUk61+Ttjy02h
+ qonwsDOgaiqWHpk8BNjfv2KnJC34fd8uDRqsUOB7WB5oJUB24zIDutf5cYeMe7+txJBm
+ d3elNfG03wk1cEvIcgpbQ5vmZsaKnYP4ShzQm6QWttdT6xj2tKT1AtPOi/l6G8w2KF3A
+ K2Mw==
+X-Gm-Message-State: AOJu0YzxVkrKl4V21xSlE7iX/8T05qyX4sDEvMWTbijbcxpIaBQWkf9+
+ d5EWtrB3cjCk2ejT11+p4Zg=
+X-Google-Smtp-Source: AGHT+IFiChi/4PzbAqpMAN3czSGm3lxzSyeCkbTKkttXeYEpPz3KZqOEBt/2qm3z8FebuiPCmvuINg==
+X-Received: by 2002:a05:6602:2252:b0:791:1e87:b47e with SMTP id
+ o18-20020a056602225200b007911e87b47emr8505184ioo.15.1693766771898; 
+ Sun, 03 Sep 2023 11:46:11 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ u9-20020a02cb89000000b0042b37dda71asm2519968jap.136.2023.09.03.11.46.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Sep 2023 11:46:11 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/6] drm_dbg: add trailing newlines where missing
+Date: Sun,  3 Sep 2023 12:45:57 -0600
+Message-ID: <20230903184607.272198-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/panel/panel-sitronix-st7701: Move init sequence from
- prepare() to enable()
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20230826095516.81387-1-git@mimoja.de>
- <f8d2bbfd-0f9c-31d8-729c-b316025b5b65@denx.de>
- <cccbcec8-b6e5-58e2-2197-f97cc434aa43@mimoja.de>
- <CAMty3ZAhA4cimCATHf4D2Tw9iHZkZE9X-fK5++NJ-RjwsjDXoQ@mail.gmail.com>
-Content-Language: en-US
-From: Mimoja <mimoja@mimoja.de>
-In-Reply-To: <CAMty3ZAhA4cimCATHf4D2Tw9iHZkZE9X-fK5++NJ-RjwsjDXoQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,101 +72,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>, mimoja@aachen.ccc.de,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Mimoja <git@mimoja.de>, alu@fffuego.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch, seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+By at least strong convention, a print-buffer's trailing newline says
+"message complete, send it".  The exception (no TNL, followed by a call
+to pr_cont) proves the general rule.
 
-On 29.08.23 16:35, Jagan Teki wrote:
-> On Sun, Aug 27, 2023 at 12:03 AM Mimoja <mimoja@mimoja.de> wrote:
->> I appreciate you taking the time to respond!
->>
->> On 26.08.23 17:18, Marek Vasut wrote:
->>> On 8/26/23 11:55, Mimoja wrote:
->>>> "The .prepare() function is typically called before the display
->>>> controller
->>>> starts to transmit video data."
->>>> and
->>>> "After the display controller has started transmitting video data,
->>>> it's safe
->>>>    to call the .enable() function."
->>> DSI commands are not DSI video, so this should be OK ?
->> You are correct, my commit message is mixing things up here. I wanted to
->> emphasize roughly the thought of
->> "when enable() is called the dsi core is expected to have its clock
->> initialized". Will take note to clarify this if I succeed to
->> make a case for this patch below :)
->>
->>>> While generally fine this can lead to a fillup of the transmission
->>>> queue before
->>>> the transmission is set up on certain dsi bridges.
->>>> This issue can also be seen on downstream imx8m* kernels.
->>> Can you reproduce this with current mainline Linux or linux-next tree ?
->>> I recall the display pipeline in the NXP downstream stuff is very
->>> different from mainline .
->> You are very much correct. The NXP downstream kernel is completely
->> different from the upstream one
->> and is really a great example to show the issue (code cleaned up for
->> readability):
->>
->> https://github.com/varigit/linux-imx/blob/5.15-2.0.x-imx_var01/drivers/gpu/drm/bridge/sec-dsim.c#L1368
->> ```
->>       ret = drm_panel_prepare(dsim->panel);
->>       if (unlikely(ret)) [...]
->>
->>       /* config esc clock, byte clock and etc */
->>       sec_mipi_dsim_config_clkctrl(dsim);
->>
->>       ret = drm_panel_enable(dsim->panel);
->>       if (unlikely(ret)) [...]
->>
->> ```
->>
->>> Which SoC does have this problem ?
->> Sadly I don't have any SoCs available which would work perfectly with
->> linux-next, let alone are confirmed affected :/
->>
->> I were able to make my Kingway Panel work (Custom one and so far
->> unsupported by the st7701 driver) with this
->> patch on downstream 5.4 and 5.15 imx8mn as well as on a raspberry pi CM4
->> with 6.1. However raspberrypi/linux brings
->> SPI support to the st7701 driver which should not affect this but I
->> would just like to document it here.
->> I could not find any success story with st7701 and the rpi on 6.1 online
->> after a short search (and only one
->> reference with 5.10 which seems to me a bit different in a short
->> comparison)  but again I can only offer
->> circumstantial evidence. Sorry :/
-> If I understand correctly, 5.10 and 5.15 Would work as it is if the
-> DSI host calls the panel's prepare and enable directly from encoder
-> enable. Did you check that?
->
-No, I fear the downstream NXP driver is not following the correct / 
-expected calling flow
-which upstream has implemented. After investigating this and the RPi 
-issue I would like to
-follow Marek's recommendation and simply sunset this change in favor of 
-fixing the
-downstream issues in the downstream tree(s).
+Most DRM.debug calls already comport with this rule/convention:
+207 DRM_DEV_DEBUG, 1288 drm_dbg.  Clean up the remainders, in
+maintainer sized chunks.
 
-This seems to be mainly an issue for vendor-custom downstream host 
-kernels, and while there might be
-a case of convention where panels don't sent commands in prepare() and 
-only in enable()
-I don't think this patch should have a future solely to be cherry-picked 
-into downstream kernels,
-when we can not make a case for current linux/next. After all: It is now 
-on the internet for better
-or worse for others to pick up if needed.
+V1 got Fi.CI.IGT failure, on 2 Possible regressions:
 
-I appreciate you all taking the time to discuss and I will post the 
-enablement code
-for the Kingway HW-021P0Z002-01 panel I tested this with in a bit.
+ igt@api_intel_bb@render@render-y-1024:
+  shard-snb: NOTRUN -> ABORT +1 similar issue
 
-Cheers and thankful regards
-Mimoja
+ igt@sysfs_timeslice_duration@timeout@ccs0:
+  shard-dg2: PASS -> TIMEOUT
+
+Neither have any logs bearing anything connected with drm.debug output.
+
+V2 tries again.
+
+  and fixes checkpatch warnings, by reusing 1st commit-msg.
+
+  also fix a ccflags-y spelling error in drm Makefile.
+
+  commits upon
+  e2884fe84a83 (drm-misc/for-linux-next-fixes, drm-misc/drm-misc-fixes) drm/amd: \
+  	       Make fence wait in suballocator uninterruptible
+
+Jim Cromie (6):
+  drm_dbg: add trailing newlines to msgs
+  drm_dbg: add trailing newlines to msgs
+  drm_dbg: add trailing newlines to msgs
+  drm_dbg: add trailing newlines to msgs
+  drm_dbg: add trailing newlines to msgs
+  drm: use correct ccflags-y syntax
+
+ drivers/gpu/drm/Makefile                       |  3 ++-
+ drivers/gpu/drm/drm_connector.c                |  4 +++-
+ drivers/gpu/drm/i915/display/intel_ddi.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
+ drivers/gpu/drm/kmb/kmb_crtc.c                 | 10 +++++-----
+ drivers/gpu/drm/kmb/kmb_plane.c                |  6 +++---
+ drivers/gpu/drm/msm/msm_fb.c                   |  6 +++---
+ drivers/gpu/drm/vc4/vc4_crtc.c                 |  4 ++--
+ 8 files changed, 21 insertions(+), 18 deletions(-)
+
+-- 
+2.41.0
 
