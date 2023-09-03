@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C86790A86
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 03:57:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240B2790B11
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 08:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29C410E086;
-	Sun,  3 Sep 2023 01:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5111C10E0E3;
+	Sun,  3 Sep 2023 06:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F31ED10E086;
- Sun,  3 Sep 2023 01:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693706262; x=1725242262;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=w7kAA0dDhx3JMWGLOZ3PRy9gzEcEaBz2rEhs9OuIcYs=;
- b=E6KGuRI88Icm6yZ+C9lx7Ty1AfzE29b/cLFkiqXchc7kZGw8hnloevLL
- PUXy4SlekLOkSJTE7Wzo37mcnYOPWoXxbgVV3oug6gIKpapD8i35A7MsD
- racWXbm1W/BJ7Ky8mGslmmkZ1A3otaIHV38sVmQhbY5R42yd8wOKq6wAJ
- ZE2ixQu9/CJqawgUUg9NHmwlGjpynayfeZHwKFEvJKVo8H9tU6Oggfhm+
- z62USxn2antdAgR/MGdZoYN/wVDwTfYGqRTyVkI7GgGlFGmNyVs4QhAU9
- X2dugD9I9lLJ3fjEQnbIEmhQ3keAuSrTtuXDHR9z444umUQlQ6uHGUG5A Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380203286"
-X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; d="scan'208";a="380203286"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2023 18:57:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="855164368"
-X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; d="scan'208";a="855164368"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 02 Sep 2023 18:57:38 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qccMq-0002nH-0t;
- Sun, 03 Sep 2023 01:57:36 +0000
-Date: Sun, 3 Sep 2023 09:56:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/amdgpu: Merge debug module parameters
-Message-ID: <202309030946.q2LgJYO7-lkp@intel.com>
-References: <20230824162505.173399-2-andrealmeid@igalia.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5DD710E0E3
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 06:25:28 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1qcgY2-0002sn-0k; Sun, 03 Sep 2023 08:25:26 +0200
+Message-ID: <862c9034-6e81-1780-31a3-3bee5f0d3dc7@leemhuis.info>
+Date: Sun, 3 Sep 2023 08:25:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824162505.173399-2-andrealmeid@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: mainline build failure due to 501126083855 ("fbdev/g364fb: Use
+ fbdev I/O helpers")
+Content-Language: en-US, de-DE
+To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+References: <ZPDgdGBbxrTl+m2s@debian>
+From: "Linux regression tracking #update (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <ZPDgdGBbxrTl+m2s@debian>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1693722407;
+ aa886602; 
+X-HE-SMSGID: 1qcgY2-0002sn-0k
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +46,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, kernel-dev@igalia.com,
- oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, regressions@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi André,
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-kernel test robot noticed the following build errors:
+On 31.08.23 20:48, Sudip Mukherjee (Codethink) wrote:
+> Hi All,
+> 
+> The latest mainline kernel branch fails to build mips jazz_defconfig with
+> the error:
+> 
+> drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
+>   115 |         FB_DEFAULT_IOMEM_HELPERS,
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>       |         FB_DEFAULT_IOMEM_OPS
+> 
+> 
+> git bisect pointed to 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers").
+> 
+> Reverting the commit has fixed the build failure.
+> 
+> I will be happy to test any patch or provide any extra log if needed.
+> 
+> #regzbot introduced: 5011260838551cefbf23d60b48c3243b6d5530a2
+> 
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5 next-20230831]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+#regzbot fix: 8df0f84c3bb921f5aa1036223dd932bbc7df6d
+#regzbot ignore-activity
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Merge-debug-module-parameters/20230825-002641
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230824162505.173399-2-andrealmeid%40igalia.com
-patch subject: [PATCH 1/2] drm/amdgpu: Merge debug module parameters
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309030946.q2LgJYO7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030946.q2LgJYO7-lkp@intel.com/reproduce)
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309030946.q2LgJYO7-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c: In function 'amdgpu_init_debug_options':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2923:33: error: assignment of read-only variable 'debug_evictions'
-    2923 |                 debug_evictions = true;
-         |                                 ^
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2933:17: error: 'debug_largebar' undeclared (first use in this function)
-    2933 |                 debug_largebar = true;
-         |                 ^~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2933:17: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/debug_evictions +2923 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-
-  2918	
-  2919	static void amdgpu_init_debug_options(void)
-  2920	{
-  2921		if (amdgpu_debug_mask & DEBUG_VERBOSE_EVICTIONS) {
-  2922			pr_info("debug: eviction debug messages enabled\n");
-> 2923			debug_evictions = true;
-  2924		}
-  2925	
-  2926		if (amdgpu_debug_mask & DEBUG_VM) {
-  2927			pr_info("debug: VM handling debug enabled\n");
-  2928			amdgpu_vm_debug = true;
-  2929		}
-  2930	
-  2931		if (amdgpu_debug_mask & DEBUG_LARGEBAR) {
-  2932			pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
-> 2933			debug_largebar = true;
-  2934		}
-  2935	}
-  2936	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
