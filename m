@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444A9790F0F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 00:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E97790F10
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 00:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFF910E25B;
-	Sun,  3 Sep 2023 22:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365C310E260;
+	Sun,  3 Sep 2023 22:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC42010E255
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 22:39:17 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-52c74a2e8edso1228450a12.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 15:39:17 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30C610E260
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 22:39:29 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-5230a22cfd1so1091067a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 15:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693780756; x=1694385556; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1693780768; x=1694385568; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rJDVZGRXNPlbG+uW3nJBHU09g5j3lMYwRuZyrmz3c3s=;
- b=Yx6VjuHO5LPJT+lm1wLL+LUgDOH4t3MxsaVvM30kCJfBYEg86K0JSpu4gjPuLbQzhS
- Ej97BD3PdnCT1ww1m1ZNgHyxO4XYV2r5RPRa1lpW4+y8YZDR/t+lCD4xCADlX1/8TOup
- iO3EyRH+/ojTGXR+txXJafn7BPlGx+rBIMHPA8nru6OvFmQ7CcXdg6kch0LQUucxdzNv
- Q2FObxiHrxFRZefcm3y7r7YADayxD4DQzJRk2zKMChGrH1QlCgFWqmXgMiCV7wte38aX
- FyiANj8GxrevpJKu/GVSyLAdvx0g3YJFfWiqfT0yl+2EvD3qNMb91y6c4ErUPSUmWmTB
- 4tZw==
+ bh=64IskuQuClXBpnMvldmQrJ5JN6x55RtC96YOLaP2MLE=;
+ b=p5iLdRo7MN/VwNJgOqjaayPQHnAUDQv5saoFR8i6Q0tm0zMnn+t11AqZVWu6viYuZ7
+ p9w6VgbxwRYkOgsry8FmlUDGZT55X/ll5znDrmICrx0/OZGytGbwZZ+w4eN8jZuA+4Mm
+ O2Y8Ta5fpPH5KUBkgzrybPt9GTze4Pb7IkPEB0bZQvlWKs/6DwYBR8L4x+Inhwkv810l
+ hWwHJ0TfpY0CupN1UXhwgyaG2qj3+d2U5u62fhUdgJwqW+d3b0j4mG4RlMVwBf4/wI0H
+ bHAvQDfq/s4TZfRxSdjA2ujxxJIWb8ynKa00wPAaBqHGlugBvIBOlZ2g0R6Sd/LG1uWK
+ bwEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693780756; x=1694385556;
+ d=1e100.net; s=20221208; t=1693780768; x=1694385568;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rJDVZGRXNPlbG+uW3nJBHU09g5j3lMYwRuZyrmz3c3s=;
- b=To+C30u68wr9Ok7ZqeSljrQikf5jBu7U/pQzcA1bxl2EvqibkUijStIZPoXQtuh7wZ
- 2GhIgQOeTedl/G7rLUc9AXya3PSCAQWZeuQhD3kl7waj1eSgHB70js4ko3T77B2sfgko
- cLf1hi+5gSLFESNXHu0ZtyFTZ412ehuY+B6YGaII9wyQWBEdNbA+y58QHsCZiu/aJR7g
- EAVdz8lT1ogq2fSZHQaHt0FABtJDVwFnski0FVwv7xnKQ3MS7BdDrvNJBxle7DdNbpvA
- Mmvt/fDgrbCI4kaa/QXCitgsV8YfTEDwXj0nW0TWSXh8WptYG4H1JTqZA8H9Nq0UlDi6
- x1zg==
-X-Gm-Message-State: AOJu0YzrCtkahMxj9C83VAFlG5dMFu8U69ljxs7KK7PkUuKN0YNcPi9o
- dGVHBHLom7rqUPW9FJ8PKXhFBA==
-X-Google-Smtp-Source: AGHT+IE8rdKKfRtiKAW4qUZx2CR6ApBgBWNohpTtDZ86s5LagIbmW/Z33cweCIm3MWR7p4a6suEfqA==
-X-Received: by 2002:a50:ef1a:0:b0:523:6c47:56f8 with SMTP id
- m26-20020a50ef1a000000b005236c4756f8mr7429079eds.18.1693780756071; 
- Sun, 03 Sep 2023 15:39:16 -0700 (PDT)
+ bh=64IskuQuClXBpnMvldmQrJ5JN6x55RtC96YOLaP2MLE=;
+ b=d7tWL3oVBZYreRCSCHS6X2Zw44sFiP355G0poOIyJ9qLPeO4DqeOWcCynRF3kNfEe0
+ 3SkaIiAEUB25+MEgXK51iC00/uLj0TDm4osXcSCbjBdQROhRuZtFQxS0vriRkKTSeqtM
+ Aywtv7qih7tehqz0P0x3ef3I4U/1wMMvnGl3WO8I85OFJbpn6spCWNUmPvHdyBrOyyl2
+ gEjWZku5PaE+nsvI31P78aSKCzIgYS0ypk8qo05KEwmdZ3I2YZDsqkkgVm1vJ2O8zIGA
+ oj0pTKbHrHdWr5hgw4bRxwenaL610UU+aXQxG3AfiTy1jp1YL+KkkiCEvGxrr509ZkBM
+ 0ByQ==
+X-Gm-Message-State: AOJu0YyAWs/chn2Ukmg+dxWUi4zphbN1HYuWfRcygbYZSjWKntoxMxMr
+ BgI7Tp2+t/aUHhfSJh6RbGESMg==
+X-Google-Smtp-Source: AGHT+IEx1q4XhkhCeBmp20jVm4futZYqogZ7sv4YonHFB6mBEBeALQ2rV63p1riW/bCqaQU7aIQdQw==
+X-Received: by 2002:aa7:d9cb:0:b0:525:69ec:e1c8 with SMTP id
+ v11-20020aa7d9cb000000b0052569ece1c8mr4984850eds.40.1693780768344; 
+ Sun, 03 Sep 2023 15:39:28 -0700 (PDT)
 Received: from [10.10.15.130] ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- bo9-20020a0564020b2900b0052889d090bfsm4972604edb.79.2023.09.03.15.39.15
+ bo9-20020a0564020b2900b0052889d090bfsm4972604edb.79.2023.09.03.15.39.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Sep 2023 15:39:15 -0700 (PDT)
-Message-ID: <74f45f3a-d075-4911-8173-2ddf4ba74b02@linaro.org>
-Date: Mon, 4 Sep 2023 01:39:15 +0300
+ Sun, 03 Sep 2023 15:39:28 -0700 (PDT)
+Message-ID: <900f1290-e7ed-4f61-be10-53955171abb4@linaro.org>
+Date: Mon, 4 Sep 2023 01:39:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] drm/msm/dp: Remove aux_cfg_update_done and related
- code
+Subject: Re: [PATCH 5/7] drm/msm/dp: Simplify with
+ drm_dp_{max_link_rate,max_lane_count}()
 Content-Language: en-GB
 To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20230829184735.2841739-1-swboyd@chromium.org>
- <20230829184735.2841739-5-swboyd@chromium.org>
+ <20230829184735.2841739-6-swboyd@chromium.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230829184735.2841739-5-swboyd@chromium.org>
+In-Reply-To: <20230829184735.2841739-6-swboyd@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,15 +86,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/08/2023 21:47, Stephen Boyd wrote:
-> The member 'aux_cfg_update_done' is always false. This is dead code that
-> never runs. Remove it.
+> These are open-coded versions of common functions. Replace them with the
+> common code to improve readability.
 > 
 > Cc: Vinod Polimera <quic_vpolimer@quicinc.com>
 > Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->   drivers/gpu/drm/msm/dp/dp_panel.c | 15 ---------------
->   1 file changed, 15 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_panel.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
