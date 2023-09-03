@@ -1,50 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2683F790981
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Sep 2023 22:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C86790A86
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 03:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CF210E0CB;
-	Sat,  2 Sep 2023 20:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D29C410E086;
+	Sun,  3 Sep 2023 01:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D3D10E0A3;
- Sat,  2 Sep 2023 20:22:32 +0000 (UTC)
-Received: from [192.168.2.205] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DAB036607285;
- Sat,  2 Sep 2023 21:22:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693686150;
- bh=P/RoiQh/m5JLN0080yEWFysq1vNtbx1Z4bobDOQN5tU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QD63jM15RQ112hBL/Aa4GpuUrqWZmpHmRo17bQMiZD/6AoHCYW+LJSawuXr+ouYQh
- WKFzNrOvyd+hbn5T4C05oyMKyh4XuMRBMGh4xydTqNYc/ufouPGsCImsRgI2n4HNBF
- ZeWFOZO8xmgDUyuK8OjbE8qHBPQZod+oiu57mkT5DPXh2PJX3Y91zFgGOCAhRTD2pY
- Y2ZLW6aDSAMAMnQQhIuxGBWD9/Rcusg27THV8B/gYXGBNLH0YSSUjCR6FfIJLuFDhM
- 3BY12+KuK0K7DA0l25Szx7SI9KRWWSZGPqx1rU198Zqq6Bu8qFLasCMxdq2QuFqMv8
- vifaHc2iXxFtw==
-Message-ID: <9844875a-ee18-85ff-11bd-84bdb2333f6c@collabora.com>
-Date: Sat, 2 Sep 2023 23:22:25 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31ED10E086;
+ Sun,  3 Sep 2023 01:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693706262; x=1725242262;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=w7kAA0dDhx3JMWGLOZ3PRy9gzEcEaBz2rEhs9OuIcYs=;
+ b=E6KGuRI88Icm6yZ+C9lx7Ty1AfzE29b/cLFkiqXchc7kZGw8hnloevLL
+ PUXy4SlekLOkSJTE7Wzo37mcnYOPWoXxbgVV3oug6gIKpapD8i35A7MsD
+ racWXbm1W/BJ7Ky8mGslmmkZ1A3otaIHV38sVmQhbY5R42yd8wOKq6wAJ
+ ZE2ixQu9/CJqawgUUg9NHmwlGjpynayfeZHwKFEvJKVo8H9tU6Oggfhm+
+ z62USxn2antdAgR/MGdZoYN/wVDwTfYGqRTyVkI7GgGlFGmNyVs4QhAU9
+ X2dugD9I9lLJ3fjEQnbIEmhQ3keAuSrTtuXDHR9z444umUQlQ6uHGUG5A Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380203286"
+X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; d="scan'208";a="380203286"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2023 18:57:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="855164368"
+X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; d="scan'208";a="855164368"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 02 Sep 2023 18:57:38 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qccMq-0002nH-0t;
+ Sun, 03 Sep 2023 01:57:36 +0000
+Date: Sun, 3 Sep 2023 09:56:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/amdgpu: Merge debug module parameters
+Message-ID: <202309030946.q2LgJYO7-lkp@intel.com>
+References: <20230824162505.173399-2-andrealmeid@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v15 16/23] drm/shmem-helper: Use kref for vmap_use_count
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-17-dmitry.osipenko@collabora.com>
- <20230828120032.3d86cb15@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230828120032.3d86cb15@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230824162505.173399-2-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,37 +62,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
- intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>, kernel-dev@igalia.com,
+ oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/28/23 13:00, Boris Brezillon wrote:
-> On Sun, 27 Aug 2023 20:54:42 +0300
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> 
->> Use kref helper for vmap_use_count to make refcounting consistent with
->> pages_use_count and pages_pin_count that use kref. This will allow to
->> optimize unlocked vmappings by skipping reservation locking if refcnt > 1.
-> 
-> The core is taking the resv lock before calling ->v[un]map(), so
-> switching to a kref sounds a bit premature/useless, unless there are
-> plans to delegate the locking to the drivers. The only thing it brings
-> is standard overflow/underflow checks. Not really sure it's worth
-> transitioning to a kref for this field until we have a real use case.
+Hi André,
 
-The overflow checks worth transitioning. I'll mention them in the commit
-message for v16.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Merge-debug-module-parameters/20230825-002641
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230824162505.173399-2-andrealmeid%40igalia.com
+patch subject: [PATCH 1/2] drm/amdgpu: Merge debug module parameters
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309030946.q2LgJYO7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030946.q2LgJYO7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309030946.q2LgJYO7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c: In function 'amdgpu_init_debug_options':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2923:33: error: assignment of read-only variable 'debug_evictions'
+    2923 |                 debug_evictions = true;
+         |                                 ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2933:17: error: 'debug_largebar' undeclared (first use in this function)
+    2933 |                 debug_largebar = true;
+         |                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2933:17: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/debug_evictions +2923 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+
+  2918	
+  2919	static void amdgpu_init_debug_options(void)
+  2920	{
+  2921		if (amdgpu_debug_mask & DEBUG_VERBOSE_EVICTIONS) {
+  2922			pr_info("debug: eviction debug messages enabled\n");
+> 2923			debug_evictions = true;
+  2924		}
+  2925	
+  2926		if (amdgpu_debug_mask & DEBUG_VM) {
+  2927			pr_info("debug: VM handling debug enabled\n");
+  2928			amdgpu_vm_debug = true;
+  2929		}
+  2930	
+  2931		if (amdgpu_debug_mask & DEBUG_LARGEBAR) {
+  2932			pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
+> 2933			debug_largebar = true;
+  2934		}
+  2935	}
+  2936	
 
 -- 
-Best regards,
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
