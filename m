@@ -1,35 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590C0790DC4
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 21:35:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0038B790E11
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 23:02:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A0E10E201;
-	Sun,  3 Sep 2023 19:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4D0C10E127;
+	Sun,  3 Sep 2023 21:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF0310E201;
- Sun,  3 Sep 2023 19:35:23 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2360920091;
- Sun,  3 Sep 2023 21:35:19 +0200 (CEST)
-Date: Sun, 3 Sep 2023 21:35:17 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v4 4/4] drm/msm/dsi: Enable widebus for DSI
-Message-ID: <3jpcldlzrrsy6v3rco7jdx2hqv4sl5qkmi77gpppm2ifccnc77@chj5gcjrfivu>
-References: <20230822-add-widebus-support-v4-0-9dc86083d6ea@quicinc.com>
- <20230822-add-widebus-support-v4-4-9dc86083d6ea@quicinc.com>
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17FA810E20D
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 21:02:31 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id
+ 3f1490d57ef6-d7830c5b20aso1139580276.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 14:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693774950; x=1694379750; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wyrVivbOL8H2+2oy0DBeynxfE8rpivKsaojvi9l90MQ=;
+ b=sYS08vOXtCEZzh9ct+27+u5tK0zTymhgvpFxl0XLQq79llmSQlna/4+DJEwnRMbbHA
+ vlXk+1hZQEGSGDcQ+eTPiOFbNogH7x2Nsfbg+Ps5nYd3naWVHrk8rmcSzvUgwsAHnclk
+ CCM6QkDxPLzBBe2jfU3SB4Utl8bwv5YWSKFZettnTTfLU6US09JWOdVci4QjjHQxvJj0
+ 6oc1qZ4Tr/97aMurS6P9ycLzQxyb6WHTtCTpyCeiO1gpg6T5Wf4bUyDkfHfV+e2S2C61
+ uDUvYITeg7POCrvnLhUTS1Z+tG+pzRMwiJMhwR0LdlIDcIzA79nzpPWYR3FupBI0mMJe
+ v8gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693774950; x=1694379750;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wyrVivbOL8H2+2oy0DBeynxfE8rpivKsaojvi9l90MQ=;
+ b=dqKRrX+JdbbTacPmAfj+rFc7GySKEpCcCoaZMi79ZK2EvPbOIL2mj4URlt3X1JuZAW
+ JzEXiwUEIV2/aDDzEQlo4j3c2VkI68IXFF3LFv9DuCSVA2HsnTRteCMFWhdjhXjkc2MX
+ FjLSTa9OacNU3yMWiT0hd3gdAFKVv9VvVjo6UqGL0R3I6yBzeDpTgk4hjNbvXPr88v3s
+ GoW2Jp+UL8IXWvKWOsna4k55jKFUrUhBd3Wt06E2KCsknvDb2HZ9y4cXZQmyVq+LJRYU
+ vjVdZrmojCFqwEqQyQ1gRUe5YjqWhydDgjrlkdJpMPfz8Na8dhHx3GpkK1LUDkUI63po
+ eD1A==
+X-Gm-Message-State: AOJu0YziXgOXTYgsShqzTouq2hUEBcgh674iUgucMTZznCfVc7rnl2Ag
+ /uUf8cgEeS3NDLWIRsPfQl23dKVZfCoRlcxvF553Gg==
+X-Google-Smtp-Source: AGHT+IEIksLV6i1JQnXxmFBaEbAx0vYPQzKu+YxnPk5mSfeHKOjrFxxCLATBwQ5f3mGZqO72LEeDFc4Kwock6sj7f10=
+X-Received: by 2002:a25:d20e:0:b0:d74:6cb3:bb77 with SMTP id
+ j14-20020a25d20e000000b00d746cb3bb77mr10416043ybg.28.1693774950042; Sun, 03
+ Sep 2023 14:02:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230822-add-widebus-support-v4-4-9dc86083d6ea@quicinc.com>
+References: <20230817145516.5924-1-dmitry.baryshkov@linaro.org>
+ <20230822141735.GA14396@pendragon.ideasonboard.com>
+In-Reply-To: <20230822141735.GA14396@pendragon.ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 4 Sep 2023 00:02:18 +0300
+Message-ID: <CAA8EJpp_FYOKHziHOWF6E1RTkHEJ8oXXH90EDmJbLG1UDO1ofA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] drm: simplify support for transparent DRM bridges
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,126 +67,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-08-22 10:42:07, Jessica Zhang wrote:
-> DSI 6G v2.5.x+ supports a data-bus widen mode that allows DSI to send
-> 48 bits of compressed data instead of 24.
-> 
-> Enable this mode whenever DSC is enabled for supported chipsets.
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi.c      |  2 +-
->  drivers/gpu/drm/msm/dsi/dsi.h      |  1 +
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 31 +++++++++++++++++++++++++++----
->  3 files changed, 29 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 4cf424b3509f..7327bfc06a84 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -19,7 +19,7 @@ struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
->  
->  bool msm_dsi_wide_bus_enabled(struct msm_dsi *msm_dsi)
->  {
-> -	return false;
-> +	return msm_dsi_host_is_widebus_enabled(msm_dsi->host);
->  }
->  
->  static int dsi_get_phy(struct msm_dsi *msm_dsi)
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index bd3763a5d723..a557d2c1aaff 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -134,6 +134,7 @@ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->  void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
->  void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
->  struct drm_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host);
-> +bool msm_dsi_host_is_widebus_enabled(struct mipi_dsi_host *host);
->  
->  /* dsi phy */
->  struct msm_dsi_phy;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 645927214871..267c7fda8854 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -710,6 +710,15 @@ static void dsi_ctrl_disable(struct msm_dsi_host *msm_host)
->  	dsi_write(msm_host, REG_DSI_CTRL, 0);
->  }
->  
-> +bool msm_dsi_host_is_widebus_enabled(struct mipi_dsi_host *host)
+On Tue, 22 Aug 2023 at 17:17, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dmitry,
+>
+> Thank you for the patches.
+>
+> On Thu, Aug 17, 2023 at 05:55:13PM +0300, Dmitry Baryshkov wrote:
+> > Supporting DP/USB-C can result in a chain of several transparent
+> > bridges (PHY, redrivers, mux, etc). This results in drivers having
+> > similar boilerplate code for such bridges.
+>
+> What do you mean by transparent bridge here ? Bridges are a DRM concept,
+> and as far as I can tell, a PHY isn't a bridge. Why does it need to be
+> handled as one, especially if it's completely transparent ?
+>
+> > Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
+> > bridge can either be probed from the bridge->attach callback, when it is
+> > too late to return -EPROBE_DEFER, or from the probe() callback, when the
+> > next bridge might not yet be available, because it depends on the
+> > resources provided by the probing device.
+>
+> Can't device links help avoiding defer probing in those cases ?
 
-I thought you settled on wide_bus?
+It looks like both Neil and I missed this question.
 
-> +{
-> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> +
-> +	return msm_host->dsc &&
-> +		(msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
-> +		 msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V2_5_0);
-> +}
-> +
->  static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->  			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
->  {
-> @@ -753,10 +762,16 @@ static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->  		data |= DSI_CMD_CFG1_INSERT_DCS_COMMAND;
->  		dsi_write(msm_host, REG_DSI_CMD_CFG1, data);
->  
-> -		if (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
-> -		    msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3) {
-> +		if (cfg_hnd->major == MSM_DSI_VER_MAJOR_6G) {
->  			data = dsi_read(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2);
-> -			data |= DSI_CMD_MODE_MDP_CTRL2_BURST_MODE;
-> +
-> +			if (cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3)
-> +				data |= DSI_CMD_MODE_MDP_CTRL2_BURST_MODE;
-> +
-> +			/* TODO: Allow for video-mode support once tested/fixed */
-> +			if (msm_dsi_host_is_widebus_enabled(&msm_host->base))
-> +				data |= DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN;
-> +
->  			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2, data);
->  		}
->  	}
-> @@ -894,6 +909,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  	u32 hdisplay = mode->hdisplay;
->  	u32 wc;
->  	int ret;
-> +	bool widebus_enabled = msm_dsi_host_is_widebus_enabled(&msm_host->base);
->  
->  	DBG("");
->  
-> @@ -914,6 +930,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  
->  	if (msm_host->dsc) {
->  		struct drm_dsc_config *dsc = msm_host->dsc;
-> +		u32 bytes_per_pclk;
->  
->  		/* update dsc params with timing params */
->  		if (!dsc || !mode->hdisplay || !mode->vdisplay) {
-> @@ -937,7 +954,13 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  		 * pulse width same
->  		 */
->  		h_total -= hdisplay;
-> -		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
-> +		if (widebus_enabled && !(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO))
-> +			bytes_per_pclk = 6;
-> +		else
-> +			bytes_per_pclk = 3;
-> +
-> +		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), bytes_per_pclk);
-> +
->  		h_total += hdisplay;
->  		ha_end = ha_start + hdisplay;
->  	}
-> 
-> -- 
-> 2.42.0
-> 
+Two items wrt devlinks. First, I view them as a helper. So if one
+disables the devlinks enforcement, he'd still get a deferral loop.
+
+Second, in this case we can not enforce devlinks (or return
+-EPROBE_DEFER from the probe() function) because the next bridge is
+not yet available when the main driver probes. Unfortunately bridges
+are allocated in the opposite order. So, using AUX devices helps us to
+break it. Because first typec mux/retimer/switch/etc devices probe (in
+the direction from the typec source to the typec port). Then DRM
+bridge devices are probed starting from the end of the chain
+(connector) to the DP source (root DP bridge/controller).
+
+>
+> > Last, but not least, this results in the the internal knowledge of DRM
+> > subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
+>
+> Why so ? The PHY subsystem should provide a PHY, without considering
+> what subsystem it will be used by. This patch series seems to me to
+> actually create this DRM dependency in other subsystems, which I don't
+> think is a very good idea. Resources should be registered in their own
+> subsystem with the appropriate API, not in a way that is tied to a
+> particular consumer.
+>
+> > To solve all these issues, define a separate DRM helper, which creates
+> > separate aux device just for the bridge. During probe such aux device
+> > doesn't result in the EPROBE_DEFER loops. Instead it allows the device
+> > drivers to probe properly, according to the actual resource
+> > dependencies. The bridge auxdevs are then probed when the next bridge
+> > becomes available, sparing drivers from drm_bridge_attach() returning
+> > -EPROBE_DEFER.
+>
+> I'm not thrilled :-( Let's discuss the questions above first.
+
+Laurent, please excuse me for the ping. Any further response from your side?
+I'd like to send the next iteration of this patchset.
+
+> > Proposed merge strategy: immutable branch with the drm commit, which is
+> > then merged into PHY and USB subsystems together with the corresponding
+> > patch.
+
+
+-- 
+With best wishes
+Dmitry
