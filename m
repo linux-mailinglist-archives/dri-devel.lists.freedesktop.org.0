@@ -1,78 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86BD790E7D
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 23:42:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50A7790E8D
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 23:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07C0B10E254;
-	Sun,  3 Sep 2023 21:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 937C210E21A;
+	Sun,  3 Sep 2023 21:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A4C10E21E
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 21:42:02 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2b95d5ee18dso13230141fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 14:42:01 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E76510E21A
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 21:49:37 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-500bb392ab7so1462618e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 14:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693777320; x=1694382120; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VRU3YcmHhtMgrEwiKr0jiCPmTZjWFsu5C3QySeLjrFk=;
- b=QqA+5fOah4cvJAtNFLHf8p8CDsWk4rNySNqzloCusqM87N7nXBzmOlzgkQYH/4CJUw
- 9fla1/WMmTRWLTSFAOD1RdNQtaydC7gN6e2npU+LH6mKLVSWfm4GdJ4vN+c5Qf6FHVWC
- AlbRbmCEENlCZd7fkAKGBQa5E/skTBqA3JRiulTbMEdrbNUWVYIz08L71UJtArWl89eH
- hFLggvG+o68hD+2IXIgsSCMQShZh277i7JOD10xGMqe8PML7L+GLEiItlAeKbu7luKBY
- 2L6gDcx8FyJb45Ku1TYaM9UANPsgoPC8YixQQx5SZh3YyNDolUrHb/zaTP7Y3c7ou38k
- dHTg==
+ d=linaro.org; s=google; t=1693777775; x=1694382575; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RH2u3GK5yqrU5VNyFF2xDepXs0ge4/C129Kp+nmuvLg=;
+ b=YwrhToQjLZ75X7k3wwXeiLY++iDsH5kTQEvBQ8Kjg7VHwhPz7ek3HgY29PuZ4VlsVd
+ whcFaFCDDhK1pQXtq0Z8/jUwPcAS5qtgiYdjL8z82bgMIE+uzYKkNiJ7sfS36eVsVR0y
+ r/6plJaNw/IY54Wh94cYJ3fuFbdlSA7O4AQSLhOoJ4Al7WJaHnZMJnAIl2kb7CUxcrma
+ urHx++/lAMAXV39dGgw0px8H+o/srJLkZsw1sDah9jNRIrIPMQPjKyZcUGV2irZg75B4
+ 2UkbU1WJ4DUiPQPvp1IVGmR0GkH9OjsrQaVW1dRKmUKc8HEQq+T6ufwPfZBKBxCZ0PzD
+ LxVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693777320; x=1694382120;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VRU3YcmHhtMgrEwiKr0jiCPmTZjWFsu5C3QySeLjrFk=;
- b=Ae/JpbxO0pu18Uij0kcB0qsMY62xHJdjsg2VFWPXZuuUMlDz6g37P+tzypVV3xw7WS
- tPNQmd938lNeUE1neU1T9tM6Mc611zTsunJU8twE/0QM2rxgjMdJTC/ssUJRX3e5iISc
- s6V2F5SXEH2uCoeOHRKKEpUVxU1zD72OuCPpL+JnOndmRLDiMLh/ZggxBmKmI0Fr7DN5
- xi1XdP3+R/j5RDhEdDXPszZa+X0hcFySikDmtURl8Xv8VTqNDaow9tj7P279IrqC8jvq
- RWJ3iNK18D8o7femis63cI0sYJJB02as44RZ5pngmjreWdmuzh/8E0sjRJb6MTm89zLh
- BZIg==
-X-Gm-Message-State: AOJu0YykLFARsOq2TLzpNSQbrNDu35ravT8PcuHFGLszl8579W7rXPxd
- s1VX+2otkCuUNdZ+4qfYvOFO4A==
-X-Google-Smtp-Source: AGHT+IFsqgNhsNbkZVa3cNm+AdNIgulADr18z4rrsHYsJZU44KXFgwMqPl+5UxHTsBskue63qdvb8w==
-X-Received: by 2002:a05:6512:3b26:b0:4fb:caed:95c3 with SMTP id
- f38-20020a0565123b2600b004fbcaed95c3mr5991678lfv.53.1693777320290; 
- Sun, 03 Sep 2023 14:42:00 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693777775; x=1694382575;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RH2u3GK5yqrU5VNyFF2xDepXs0ge4/C129Kp+nmuvLg=;
+ b=GLmrDPky5exXO8Nx5bwvZiQD01F8QXJcTJpA3rkH6ipVhFO2nhM03zj8Ig/r5k1/XN
+ qIWoxNa4ot01U4R0NuunnYNU+yLi0sQzBkSY2cU+DKhdz+KxsEE2wL2LBKQ6KS3yuZrk
+ gyk+gYtKWpDuORfxpBn9ELs7MhVOjVegSp65HrNSlE/KJk1UJyVsnPf/XdvD7RqhSwLi
+ B8ebNxQTfj+1CR76gBv0sPMJwuLp+spqtRfpUbOkxQfuFxasQUSjBjrLt0t6kJQhSQqI
+ +bQ7sao8aaiaYY6gqnqRW14A7qoNmGjA5HUHYwVsQGW9IAAAghrZEuqroO4oxN2ZvaZC
+ EpbQ==
+X-Gm-Message-State: AOJu0YzURgK6C5tXbCs9vsUuq/7GGLH0cWeYznemxJddiVID1GgPs1eM
+ U29nIsR1/zJ0qss4X7tP8IakXA==
+X-Google-Smtp-Source: AGHT+IFmucroqyzq+FST07tiKTP1u29Ja4cLxaBFTJ2mXP1fQUr4CaH0OYR8G1W472Qv6F9lJvcnFw==
+X-Received: by 2002:a19:6402:0:b0:4f8:770f:1b01 with SMTP id
+ y2-20020a196402000000b004f8770f1b01mr4395254lfb.19.1693777775426; 
+ Sun, 03 Sep 2023 14:49:35 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.59
+ x7-20020a19f607000000b004fe4833ca5csm1405609lfe.237.2023.09.03.14.49.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Sep 2023 14:41:59 -0700 (PDT)
+ Sun, 03 Sep 2023 14:49:34 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Janne Grunau <j@jannau.net>, Simon Ser <contact@emersion.fr>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [RFC PATCH v1 12/12] usb: typec: qcom: define the bridge's path
-Date: Mon,  4 Sep 2023 00:41:50 +0300
-Message-Id: <20230903214150.2877023-13-dmitry.baryshkov@linaro.org>
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2] drm/bridge-connector: handle subconnector types
+Date: Mon,  4 Sep 2023 00:49:34 +0300
+Message-Id: <20230903214934.2877259-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
-References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,98 +76,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to notify the userspace about the DRM connector's USB-C port,
-export the corresponding port's name as the bridge's path field.
+If the created connector type supports subconnector type property,
+create and attach corresponding it. The default subtype value is 0,
+which maps to the DRM_MODE_SUBCONNECTOR_Unknown type.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c     | 11 +++++++----
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c |  4 +++-
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h |  6 ++++--
- 3 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-index b9d4856101c7..452dc6437861 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-@@ -156,6 +156,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 	struct device_node *np = dev->of_node;
- 	const struct pmic_typec_resources *res;
- 	struct regmap *regmap;
-+	char *tcpm_name;
- 	u32 base[2];
+This is a leftover of my previous attempt to implement USB-C DisplayPort
+uABI. The idea was dropped, but I consider this part still to be useful,
+as it allows one to register corresponding subconnector properties and
+also to export the subconnector type.
+
+Changes since v1:
+ - Dropped all DP and USB-related patches
+ - Dropped the patch adding default subtype to
+   drm_connector_attach_dp_subconnector_property()
+ - Replaced creation of TV subconnector property with the check that it
+   was created beforehand (Neil, Laurent)
+
+---
+ drivers/gpu/drm/drm_bridge_connector.c | 29 +++++++++++++++++++++++++-
+ include/drm/drm_bridge.h               |  4 ++++
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index ca255609fb08..74a3164825dd 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -332,6 +332,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	struct i2c_adapter *ddc = NULL;
+ 	struct drm_bridge *bridge, *panel_bridge = NULL;
+ 	const char *path = NULL;
++	enum drm_mode_subconnector subconnector;
+ 	int connector_type;
  	int ret;
  
-@@ -211,10 +212,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 	mutex_init(&tcpm->lock);
- 	platform_set_drvdata(pdev, tcpm);
+@@ -369,8 +370,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		if (bridge->ops & DRM_BRIDGE_OP_MODES)
+ 			bridge_connector->bridge_modes = bridge;
  
--	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev);
--	if (IS_ERR(tcpm->pmic_typec_drm))
--		return PTR_ERR(tcpm->pmic_typec_drm);
--
- 	tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
- 	if (!tcpm->tcpc.fwnode)
- 		return -EINVAL;
-@@ -225,6 +222,12 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 		goto fwnode_remove;
- 	}
+-		if (!drm_bridge_get_next_bridge(bridge))
++		if (!drm_bridge_get_next_bridge(bridge)) {
+ 			connector_type = bridge->type;
++			subconnector = bridge->subtype;
++		}
  
-+	tcpm_name = tcpm_port_get_name(tcpm->tcpm_port);
-+	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev, tcpm_name);
-+	kfree(tcpm_name);
-+	if (IS_ERR(tcpm->pmic_typec_drm))
-+		return PTR_ERR(tcpm->pmic_typec_drm);
+ 		if (!drm_bridge_get_next_bridge(bridge) &&
+ 		    bridge->of_node)
+@@ -418,6 +421,30 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	if (panel_bridge)
+ 		drm_panel_bridge_set_orientation(connector, panel_bridge);
+ 
++	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
++		drm_connector_attach_dp_subconnector_property(connector);
++	} else if (connector_type == DRM_MODE_CONNECTOR_DVII) {
++		ret = drm_mode_create_dvi_i_properties(drm);
++		if (ret)
++			return ERR_PTR(ret);
 +
- 	ret = qcom_pmic_typec_port_start(tcpm->pmic_typec_port,
- 					 tcpm->tcpm_port);
- 	if (ret)
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c
-index e202eb7b52db..7bd7f4bf3539 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c
-@@ -21,7 +21,8 @@ static const struct drm_bridge_funcs qcom_pmic_typec_bridge_funcs = {
- 	.attach = qcom_pmic_typec_attach,
- };
- 
--struct pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev)
-+struct pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev,
-+						const char *path)
- {
- 	struct pmic_typec_drm *tcpm_drm;
- 
-@@ -33,6 +34,7 @@ struct pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev)
- 	tcpm_drm->bridge.of_node = of_get_child_by_name(dev->of_node, "connector");
- 	tcpm_drm->bridge.ops = DRM_BRIDGE_OP_HPD;
- 	tcpm_drm->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-+	tcpm_drm->bridge.path = devm_kstrdup(dev, path, GFP_KERNEL);
- 
- 	return ERR_PTR(devm_drm_bridge_add(dev, &tcpm_drm->bridge));
++		drm_object_attach_property(&connector->base,
++					   drm->mode_config.dvi_i_subconnector_property,
++					   subconnector);
++	} else if (connector_type == DRM_MODE_CONNECTOR_TV &&
++		   subconnector) {
++		/*
++		 * We do not know which modes are supported by the HW, so the
++		 * property should be created in advance.
++		 */
++		if (!drm->mode_config.tv_subconnector_property)
++			return ERR_PTR(-EINVAL);
++
++		drm_object_attach_property(&connector->base,
++					   drm->mode_config.tv_subconnector_property,
++					   subconnector);
++	}
++
+ 	return connector;
  }
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h
-index 01f4bb71346b..259c047265f7 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h
-@@ -9,9 +9,11 @@
- struct pmic_typec_drm;
- 
- #if IS_ENABLED(CONFIG_DRM)
--struct pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev);
-+struct pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev,
-+						const char *path);
- #else
--static inline pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev)
-+static inline pmic_typec_drm *qcom_pmic_typec_init_drm(struct device *dev,
-+						       const char *path)
- {
- 	return NULL;
- }
+ EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index afa1de791075..440a8aa91e65 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -738,6 +738,10 @@ struct drm_bridge {
+ 	 * identifies the type of connected display.
+ 	 */
+ 	int type;
++	/**
++	 * @subtype: the subtype of the connector for the DP/TV/DVI-I cases.
++	 */
++	enum drm_mode_subconnector subtype;
+ 	/**
+ 	 * @interlace_allowed: Indicate that the bridge can handle interlaced
+ 	 * modes.
 -- 
 2.39.2
 
