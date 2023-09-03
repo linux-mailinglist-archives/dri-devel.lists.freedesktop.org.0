@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240B2790B11
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 08:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2570A790B47
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 10:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5111C10E0E3;
-	Sun,  3 Sep 2023 06:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30FDA10E07F;
+	Sun,  3 Sep 2023 08:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5DD710E0E3
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 06:25:28 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qcgY2-0002sn-0k; Sun, 03 Sep 2023 08:25:26 +0200
-Message-ID: <862c9034-6e81-1780-31a3-3bee5f0d3dc7@leemhuis.info>
-Date: Sun, 3 Sep 2023 08:25:25 +0200
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0FA10E0A8
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 08:55:54 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RdlrC1GqRztRF1;
+ Sun,  3 Sep 2023 16:51:55 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sun, 3 Sep
+ 2023 16:55:50 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sam
+ Ravnborg <sam@ravnborg.org>, =?UTF-8?q?Noralf=20Tr=C3=B8nnes?=
+ <noralf@tronnes.org>
+Subject: [PATCH] drm: gm12u320: Fix the timeout usage for usb_bulk_msg()
+Date: Sun, 3 Sep 2023 16:55:47 +0800
+Message-ID: <20230903085547.1577439-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mainline build failure due to 501126083855 ("fbdev/g364fb: Use
- fbdev I/O helpers")
-Content-Language: en-US, de-DE
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-References: <ZPDgdGBbxrTl+m2s@debian>
-From: "Linux regression tracking #update (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <ZPDgdGBbxrTl+m2s@debian>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1693722407;
- aa886602; 
-X-HE-SMSGID: 1qcgY2-0002sn-0k
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,42 +47,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, regressions@lists.linux.dev
+Cc: ruanjinjie@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[TLDR: This mail in primarily relevant for Linux kernel regression
-tracking. See link in footer if these mails annoy you.]
+The timeout arg of usb_bulk_msg() is ms already and it has convert it
+to jiffies by msecs_to_jiffies() in usb_start_wait_urb(). So fix the usage
+by remove the redundant msecs_to_jiffies() in the macros.
 
-On 31.08.23 20:48, Sudip Mukherjee (Codethink) wrote:
-> Hi All,
-> 
-> The latest mainline kernel branch fails to build mips jazz_defconfig with
-> the error:
-> 
-> drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
->   115 |         FB_DEFAULT_IOMEM_HELPERS,
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~
->       |         FB_DEFAULT_IOMEM_OPS
-> 
-> 
-> git bisect pointed to 501126083855 ("fbdev/g364fb: Use fbdev I/O helpers").
-> 
-> Reverting the commit has fixed the build failure.
-> 
-> I will be happy to test any patch or provide any extra log if needed.
-> 
-> #regzbot introduced: 5011260838551cefbf23d60b48c3243b6d5530a2
-> 
+Fixes: 77b8cabf3d52 ("drm/gm12u320: Move driver to drm/tiny")
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/gpu/drm/tiny/gm12u320.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-#regzbot fix: 8df0f84c3bb921f5aa1036223dd932bbc7df6d
-#regzbot ignore-activity
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index c5bb683e440c..31fa50c665d1 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -70,10 +70,10 @@ MODULE_PARM_DESC(eco_mode, "Turn on Eco mode (less bright, more silent)");
+ #define READ_STATUS_SIZE		13
+ #define MISC_VALUE_SIZE			4
+ 
+-#define CMD_TIMEOUT			msecs_to_jiffies(200)
+-#define DATA_TIMEOUT			msecs_to_jiffies(1000)
++#define CMD_TIMEOUT			200
++#define DATA_TIMEOUT			1000
+ #define IDLE_TIMEOUT			msecs_to_jiffies(2000)
+-#define FIRST_FRAME_TIMEOUT		msecs_to_jiffies(2000)
++#define FIRST_FRAME_TIMEOUT		2000
+ 
+ #define MISC_REQ_GET_SET_ECO_A		0xff
+ #define MISC_REQ_GET_SET_ECO_B		0x35
+-- 
+2.34.1
 
