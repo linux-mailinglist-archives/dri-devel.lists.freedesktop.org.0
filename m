@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1DD790E63
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 23:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0777790E7C
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Sep 2023 23:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B2C10E21E;
-	Sun,  3 Sep 2023 21:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9372310E21D;
+	Sun,  3 Sep 2023 21:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
  [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B565810E21E
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 21:41:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C65910E219
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Sep 2023 21:42:00 +0000 (UTC)
 Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-5007f3d3235so1289661e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 14:41:59 -0700 (PDT)
+ 2adb3069b0e04-50079d148aeso1413551e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 14:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1693777318; x=1694382118; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k1gyG4EA+KF88AUvqDVJpMyc5ibJn0KvVHVwRSeTDTM=;
- b=L+jSU94kHfmwi7ZZab1UKuB7ywIzXOYjMlK69Of5TFhWflQHzx3jGvFMfNyfhPjs87
- 5mQYTEaX1pW2qyCgYTpRmTLGrf/zKWtwgZwOsgqY5N4UrDbb8xclp3jrMhmY/xN13T75
- gvxUdejrv0tIZxxRZ48P2pJgniQgWsv4j0JUFCXg4EtXXmRUua9X3MhDFZDbvZUtOS8R
- MwV3hzeY3NzZRaPsMVoi7OW53+r7wneReRkich3JjfK/me+XYuWCtI4h3dnechRTmony
- l0iQ6AIlxLaeawTRtrsM3XhqzUn8l3jRNZrwLKolXsxGfsvAFyjM8bLgsSuC8CrAvxI6
- lLrA==
+ bh=+Fl8gZia3d8uGRSMrCOuo+xZGwzdrHyhk9K+cL7FZyc=;
+ b=FTI9lxT9APKqouH1X7cZM9vxnixvfNMaWyFBo0sKV/I9ZYMjGosnGE+tro0WP/cr0K
+ jqkzae81bKeVihM2Jnv/Xi2ncKl7rhKFszFJdV7JFE1RNb4Gm/NwZxdGRsiC0XOItLFd
+ moegcte//ab1xjk+SGXtUZjGDYedZX9ICRuE0J7MWIcRZqgSfqujSlqlKW7sMuqAMkzN
+ QwoX6D/i6Dab96sBWirkA2gd+bEFccAWQ2IoHXyE0f9TijsVaEZZHl8B+S/45AvCBai8
+ ZtVWMJGHK84Xynu+wFDgXM/L0FCQDJ9mI0H7AC++prC/GdYpxlKkeQDnTzR1WwoVuj+g
+ Kdlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1693777318; x=1694382118;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k1gyG4EA+KF88AUvqDVJpMyc5ibJn0KvVHVwRSeTDTM=;
- b=BCHXJQXWhRnFFa9eseK9Z8dyVe75hF0z5XJUaNXJ9BEDKsVJ289rhGEWwKP8MjRzEK
- +z9tmJ1GQxxe2FYkAh8jqmhiG+usAfznc6a0/0cq0TLJiOgyF8HQT3xq7B9j2fImbkkM
- 9n8VC7Gpnbm07bk4byIDHqIznOteoHWnBT1rhxtlfePF/09uxxKCFGBgf/+Vtt3st05D
- E5PUlVrS1HZbvZTI0Sx64PC8ygiIk29cV8G1YDkI6OcmjWrH8udkQc5gJhQCIWXvUMVN
- UYsj0/432HldViZ4TcUK36IqXekSgEM9wNWi++L04UhRDoy4UN06v4gb30pfl3xCRuKb
- VoAg==
-X-Gm-Message-State: AOJu0Yxu6tsmGrdEvujGkAXvFpP00m8QS2ObO9d+oXxMKXjZpHxcMv72
- d6+3F+Af97Dh/zidi7a2OnbXpg==
-X-Google-Smtp-Source: AGHT+IFeimZforUo3xm2aTW6r+gvYdhOH4RX08O1w99CKPaCyS3lubUtNJ5cXMhhp/mnVE4/u6CHlg==
-X-Received: by 2002:a05:6512:3b8a:b0:4f8:7055:6f7e with SMTP id
- g10-20020a0565123b8a00b004f870556f7emr6244283lfv.44.1693777317966; 
- Sun, 03 Sep 2023 14:41:57 -0700 (PDT)
+ bh=+Fl8gZia3d8uGRSMrCOuo+xZGwzdrHyhk9K+cL7FZyc=;
+ b=ayyzwZCS6J++bdhckmmYbEfkZ2P0c6RQjxMzscqk/53CwnAHl/F3z8CImefRMGKWge
+ N2qIEXtshgKY0eJoRowUq1tQ0g/fa5kgIjqa6Xujs9IYHT4fOvPa9akeY4iQTgO0ZBmN
+ mxabOiDfojUE15Ub/6/AphcqBv1rFUBrVVw4BWNER5rqN3CiLZQFhKsC97TDSf/xyp2j
+ BWSUrqCNcSCxokHxvDT1GkrGtLqRdCI13A3GlESKJNlYexeBseypmgqBJk+z+3PF8Nnr
+ IV6VVqhOPo/4TkW0yIQiTDBwypCq9L7WA59G3TS/flPAFe9Qsxz0QiinfebB/SmqUk4v
+ 3vAQ==
+X-Gm-Message-State: AOJu0Yxnjt6Hz9o+DpAW9I4L7x9KNuudTXdcA3et9uDftlYhhGuEpI8O
+ 9ycNI6FpAccgJc2Mrw2ZY94QzA==
+X-Google-Smtp-Source: AGHT+IFB7g1NLcGbFTo55gFtReAERXtRLC3wSNcCmU3/Hx6wGeI5ha18iUymtWlOuu8WNDnb4g6j1g==
+X-Received: by 2002:a05:6512:446:b0:500:9bbf:da17 with SMTP id
+ y6-20020a056512044600b005009bbfda17mr4134008lfk.51.1693777318743; 
+ Sun, 03 Sep 2023 14:41:58 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.57
+ x17-20020ac25dd1000000b004f8555f7aa1sm1422506lfq.52.2023.09.03.14.41.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Sep 2023 14:41:57 -0700 (PDT)
+ Sun, 03 Sep 2023 14:41:58 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -67,10 +67,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [RFC PATCH v1 09/12] usb: typec: tcpm: support generating Type-C port
- names for userspace
-Date: Mon,  4 Sep 2023 00:41:47 +0300
-Message-Id: <20230903214150.2877023-10-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH v1 10/12] usb: typec: qcom: implement proper error path in
+ probe()
+Date: Mon,  4 Sep 2023 00:41:48 +0300
+Message-Id: <20230903214150.2877023-11-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
@@ -94,54 +94,44 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need a way to generate and return the Type-C port device names. For
-example, it is going to be used by the DRM to provide PATH property for
-DisplayPort connectors.
+Implement proper error path in the qcom_pmic_typec_probe(). This makes
+sure that we properly disable hardware blocks and do not leak memory.
 
+Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 14 ++++++++++++++
- include/linux/usb/tcpm.h      |  2 ++
- 2 files changed, 16 insertions(+)
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index d962f67c95ae..9709b56a3046 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -5539,6 +5539,20 @@ bool tcpm_port_is_toggling(struct tcpm_port *port)
- }
- EXPORT_SYMBOL_GPL(tcpm_port_is_toggling);
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+index 581199d37b49..ceda594a8d56 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+@@ -258,15 +258,22 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+ 	ret = qcom_pmic_typec_port_start(tcpm->pmic_typec_port,
+ 					 tcpm->tcpm_port);
+ 	if (ret)
+-		goto fwnode_remove;
++		goto tcpm_unregister_port;
  
-+/**
-+ * tcpm_port_get_name - get the name of the corresponding USB Type-C port
-+ * @port: TCPM port instance
-+ *
-+ * Returns a name of the USB Type-C port correponding to the passed TCPM port
-+ * instance on success or NULL when the port has not been enumerated yet. The
-+ * resulting string should be freed by the caller.
-+ */
-+char *tcpm_port_get_name(struct tcpm_port *port)
-+{
-+	return typec_port_get_name(port->typec_port);
-+}
-+EXPORT_SYMBOL_GPL(tcpm_port_get_name);
-+
- static void tcpm_enable_frs_work(struct kthread_work *work)
- {
- 	struct tcpm_port *port = container_of(work, struct tcpm_port, enable_frs);
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index ab7ca872950b..623c34788680 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -161,6 +161,8 @@ struct tcpm_port;
- struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc);
- void tcpm_unregister_port(struct tcpm_port *port);
+ 	ret = qcom_pmic_typec_pdphy_start(tcpm->pmic_typec_pdphy,
+ 					  tcpm->tcpm_port);
+ 	if (ret)
+-		goto fwnode_remove;
++		goto typec_stop;
  
-+char *tcpm_port_get_name(struct tcpm_port *port);
+ 	return 0;
+ 
 +
- void tcpm_vbus_change(struct tcpm_port *port);
- void tcpm_cc_change(struct tcpm_port *port);
- void tcpm_sink_frs(struct tcpm_port *port);
++typec_stop:
++	qcom_pmic_typec_port_stop(tcpm->pmic_typec_port);
++
++tcpm_unregister_port:
++	tcpm_unregister_port(tcpm->tcpm_port);
++
+ fwnode_remove:
+ 	fwnode_remove_software_node(tcpm->tcpc.fwnode);
+ 
 -- 
 2.39.2
 
