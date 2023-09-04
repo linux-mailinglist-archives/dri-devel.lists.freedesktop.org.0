@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661817914BC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 11:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6EA791593
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 12:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A3B10E315;
-	Mon,  4 Sep 2023 09:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2CF010E14A;
+	Mon,  4 Sep 2023 10:16:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF23110E315
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 09:29:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3282210E304
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 10:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693819740; x=1725355740;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hSEf9AtIpa1+Qo/iru9dpm+rlzezvLKZKvW79Pi0lXc=;
- b=fXYG1QNNWFMuTpppbGpzOpyKnGccEMAP+8gp5D8Lb+2M/GZdhhytoasS
- nAln2Paqb/Ueya557QxxUF94Vb8VUq795P8VtOegP0NE7qyr4hNgdbEcv
- iaNKjmo/oNoLbMs4RR5uFhj3Kw706U+T6njPmvBGJa3QfXihV0wCrydjV
- 1oQZ+SipNja93PCkSwqP8LX/ef7CIT+Kgp9shyksGuqwfR1FIgHaL9Xgn
- W+oaygtmbH09hjhGtrboDcBG+2pmkuXHVriAwOZ8kad8ehrtPEFAjngPS
- j/FWmRv7Enndg8lZeABZ9alCsu3xC5R65ZZdJX1oaOMZh1W8cXiifcDez w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="356055684"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="356055684"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 02:28:59 -0700
+ t=1693822587; x=1725358587;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=S/aSjMNDAjpHn3244kVfHhOk5YW4CIBo+j/v3T95cTc=;
+ b=L9R4Zvpf36zuMwDi96vOH695xLGj76/qw/XgXCDobCYp4ygTJs0iskoD
+ kcHESMh/YmKszVocMCp5vBWtrtZsArCWly14a5xheWJsyA3cjijd2M1eB
+ nXZ1srvLw4h3/BTxJYn2npgK5oOmk9ImUOeZ39EGCvd98ey7GLgkK/NfT
+ kfFsd2pa9c9mTlpn/nwdRff+uYT6U0ejECyI254W0LYAi3Y7YW9w6FTP5
+ uhPRoyjCH43y8HIUtnyEmYuoJv8lJIiGPm/uKQo6uprB6dAoNyKzauR7L
+ ivTXk4JxuB1Gg0bU4G4ttSJQ1XhbRBZC33PnRmGs1+BT7micE2WsGbIEJ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="376499379"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="376499379"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 03:04:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="855548971"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="855548971"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 02:28:58 -0700
-Date: Mon, 4 Sep 2023 11:28:55 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] accel/qaic: Use devm_drm_dev_alloc() instead of
- drm_dev_alloc()
-Message-ID: <20230904092855.GC184247@linux.intel.com>
-References: <20230901161236.8371-1-quic_jhugo@quicinc.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="1071541329"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="1071541329"
+Received: from rapetroa-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.60.79])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 03:04:43 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Peter Senna Tschudin <peter.senna@gmail.com>
+Subject: Re: [RFC] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: switch to
+ drm_do_get_edid()
+In-Reply-To: <CA+MoWDrtgtT26F-rZ-7s0PtQcTLqB6g1BARkegfZ3qQnhw=3ZQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230901102400.552254-1-jani.nikula@intel.com>
+ <CA+MoWDrtgtT26F-rZ-7s0PtQcTLqB6g1BARkegfZ3qQnhw=3ZQ@mail.gmail.com>
+Date: Mon, 04 Sep 2023 13:04:40 +0300
+Message-ID: <87fs3ui79j.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230901161236.8371-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Zheyu Ma <zheyuma97@gmail.com>,
+ Yuan Can <yuancan@huawei.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ian Ray <ian.ray@ge.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Martin Donnelly <martin.donnelly@ge.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 01, 2023 at 10:12:36AM -0600, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> 
-> Since drm_dev_alloc() is deprecated it is recommended to use
-> devm_drm_dev_alloc() instead. Update the driver to start using
-> devm_drm_dev_alloc().
-> 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> +	/*
-> +	 * drm_dev_unregister() sets the driver data to NULL and
-> +	 * drm_dev_register() does not update the driver data. During a SOC
-> +	 * reset drm dev is unregistered and registered again leaving the
-> +	 * driver data to NULL.
-> +	 */
-> +	dev_set_drvdata(to_accel_kdev(qddev), drm->accel);
+On Sat, 02 Sep 2023, Peter Senna Tschudin <peter.senna@gmail.com> wrote:
+> Good morning Jani,
+>
+> It has been a long time since I wrote the driver, and many many years
+> since I sent my last kernel patch, so my memory does not serve me very
+> well, but I will try to shed some light.
+>
+> On Fri, Sep 1, 2023 at 12:24=E2=80=AFPM Jani Nikula <jani.nikula@intel.co=
+m> wrote:
+>>
+>> The driver was originally added in commit fcfa0ddc18ed ("drm/bridge:
+>> Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)"). I tried to
+>> look up the discussion, but didn't find anyone questioning the EDID
+>> reading part.
+>>
+>> Why does it not use drm_get_edid() or drm_do_get_edid()?
+>>
+>> I don't know where client->addr comes from, so I guess it could be
+>> different from DDC_ADDR, rendering drm_get_edid() unusable.
+>>
+>> There's also the comment:
+>>
+>>         /* Yes, read the entire buffer, and do not skip the first
+>>          * EDID_LENGTH bytes.
+>>          */
+>>
+>> But again, there's not a word on *why*.
+>
+> The video pipeline has two hardware bridges between the LVDS from the
+> SoC and DP+ output. For reasons, we would get hot plug events from one
+> of these bridges, and EDID from the other. If I am not mistaken, I
+> documented this strangeness in the DTS readme file.
+>
+> Did this shed any light on the *why* or did I tell you something you
+> already knew?
 
-Yeah, explicitly nullified in drm_minor_unregister() with ' /* safety belt */
-comment. I think in long term goal would be device reset not require
-unregister/register.
+I guess that answers the question why it's necessary to specify the ddc
+to use, but not why drm_do_get_edid() could not be used. Is it really
+necessary to read the EDID in one go?
 
-> +	drm_dev_get(drm);
-> +	drm_dev_unregister(drm);
+BR,
+Jani.
 
-That looks odd. I guess there is use-after-free problem if you just do
-drm_dev_unregister(). Additional drm_dev_get() does not seems to be right
-solution, but I'm not 100% sure, so ... 
-
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-
-Regards
-Stanislaw
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
