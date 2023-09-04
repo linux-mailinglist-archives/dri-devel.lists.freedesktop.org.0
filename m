@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF203791477
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 11:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2777F79147E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 11:12:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB42A10E306;
-	Mon,  4 Sep 2023 09:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A858210E30D;
+	Mon,  4 Sep 2023 09:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B77210E306
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 09:11:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479B710E30D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 09:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693818688; x=1725354688;
+ t=1693818732; x=1725354732;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=SVoVUF3mBKiEmxs8Wo+xD1Ih9xJj93mvBc/qxg1Ao1U=;
- b=VQ/+XcaLJsjwkLHU0BJUEPUJXy+qpgLvmGSJ8QkQJJ6cpSbBL6VTYqb1
- VBxIjS5HqJIlzAcbFkB7i32AKivwFxUEZl3WPeYM+vrhfBmJ6Je7Tj+uo
- bpn1g9eMsTzxz1GFRaWclVzw8FuZ7xPYkWCQTmQ5hEFgIwgWt657sbPd+
- puqHeBLA4mdjy0HMEHtXJLMsgexCYu6Lokc06nS6SMlb5arz8bBswREqm
- /6Up+QO5ifR8iGW9WFfMrQXQKZOs8PMvUD6KaRYEtrO6ONxTU7aUSP/gQ
- ZaZdnOe9ZdLTy7z1VGU4LpJRP0Pl1okwOdQdNUAGik6cdwi4nB+9uBC/d A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="366778005"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="366778005"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 02:11:27 -0700
+ bh=cRXNq9EH5e0PduqdEKQkaQOgqb4pxzgS4wdXvH0K0B0=;
+ b=gGC7a03vvzaTyRzHRDYGq4qhF47ddprcw12lA2HzE8TGzi9t3DD5KHvf
+ J2l/lh8zosn+NVA02GocsDITlj3tQzSCKcCurYGX/2vhLHddIPK+zyVs3
+ iNZhBrGUkqhKReMnQezvVlwEQUOiiudeN1cARPMlH9A4JrQy5jyIL2l8U
+ vhsbqHc5R20gB31E+BZGS8AbyD5KF8dxgm92U3Ut6iIlsqOA6XGW0EhBj
+ NVGR8Wjl6kBDx7UGNVXNdwyE7VSLOTOSpK7iRcwTsIx2sKrubK2XnJ7A7
+ B5xJUsHHE+HKQLmMPesOTC2JcWObYUf4RAF9lPQ2MFN3LHkLiD2jvKFAy Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="442953346"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="442953346"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 02:12:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="743869212"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="743869212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="690521395"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="690521395"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 02:11:26 -0700
-Date: Mon, 4 Sep 2023 11:11:24 +0200
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 02:12:02 -0700
+Date: Mon, 4 Sep 2023 11:12:00 +0200
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] accel/ivpu: Update for -next 2023.08.25
-Message-ID: <20230904091124.GA184247@linux.intel.com>
-References: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH] accel/qaic: Register for PCI driver at the beginning of
+ module init
+Message-ID: <20230904091200.GB184247@linux.intel.com>
+References: <20230901161037.6124-1-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901094957.168898-1-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20230901161037.6124-1-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,28 +58,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 01, 2023 at 11:49:46AM +0200, Stanislaw Gruszka wrote:
-> Update for -next:
->  - various cleanups
->  - begin preparation for conversion to GEM SHMEM
->  - print information about used workarounds
+On Fri, Sep 01, 2023 at 10:10:37AM -0600, Jeffrey Hugo wrote:
+> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 > 
-> v3:
->  - fix commit messages
->  - split patch 2 into separate patches
+> As qaic drivers base device is connected to host via PCI framework, it
+> makes sense to register in PCI framework at the beginning of module
+> init.
 > 
-> v2:
->  - fix compilation without CONFIG_PM
-
-Made changes requested by Jeffrey and applied to drm-misc-next .
-Except patch 8 which require small change from mainline to apply
-cleanly. I will wait until 6.6-rc back-merge for it.
-
-Thanks
-Stanislaw
-
+> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
