@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA83790FF0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:14:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711D3791030
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:53:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5497610E279;
-	Mon,  4 Sep 2023 02:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD00410E281;
+	Mon,  4 Sep 2023 02:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF0E10E279
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:14:35 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RfBwH0WmtzVjvT;
- Mon,  4 Sep 2023 10:11:59 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 4 Sep
- 2023 10:14:32 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH v2] drm: gm12u320: Fix the timeout usage for usb_bulk_msg()
-Date: Mon, 4 Sep 2023 10:14:20 +0800
-Message-ID: <20230904021421.1663892-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8EC10E281;
+ Mon,  4 Sep 2023 02:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693795996; x=1725331996;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=PdSreeHi69xtNSRx7r99DqJLAzGyuw0+MVwLHFkzqMU=;
+ b=Z6V6YNZi3ZinCX1yi3cHOKwEjgMwyLd/E0xhY5V+RDVTe29aXgXLK53b
+ uFK2Wii7yQbrD0xKDmO6S37nmn43bosHSprebXSRqmnMic2P/il8QzgWo
+ nhpcbyb8HcIuFEA81zFaLy0Q1i7dLME8YIuTBPE+wF3zWO44+hDPwQS4I
+ kjO79cQ12YaukBMuGNMa5Hwk2mk9s+qNzelKOyyITiHWgtUwlHs2a8rVS
+ i7uaTNZEyufuyHvY/y0rsiF5jFzVhgzUbvfA2UnsT1zzSIHfcfNhI7dr6
+ xki0HVXZHBYKfeHUgzj2HbhXZjbdJRW8YoOYjG/QlcbhXEZR0d79UO7ir A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="380297323"
+X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; d="scan'208";a="380297323"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2023 19:53:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="883879938"
+X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; d="scan'208";a="883879938"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
+ by fmsmga001.fm.intel.com with SMTP; 03 Sep 2023 19:53:08 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 04 Sep 2023 05:53:11 +0300
+Date: Mon, 4 Sep 2023 05:53:11 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 09/22] drm/dp_mst: Fix fractional bpp
+ scaling in drm_dp_calc_pbn_mode()
+Message-ID: <ZPVGl4iQEvgtZz3f@intel.com>
+References: <20230824080517.693621-1-imre.deak@intel.com>
+ <20230824080517.693621-10-imre.deak@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20230824080517.693621-10-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,58 +62,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The timeout arg of usb_bulk_msg() is ms already, which has been converted
-to jiffies by msecs_to_jiffies() in usb_start_wait_urb(). So fix the usage
-by removing the redundant msecs_to_jiffies() in the macros.
+On Thu, Aug 24, 2023 at 11:05:04AM +0300, Imre Deak wrote:
+> For fractional bpp values passed to the function in a .4 fixed point
+> format, the fractional part is currently ignored due to scaling bpp too
+> early. Fix this by scaling the overhead factor instead and to avoid an
+> overflow multiplying bpp with the overhead factor instead of the clock
+> rate.
+> 
+> While at it simplify the formula, and pass the expected fixed point bpp
+> values in the kunit tests.
+> 
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c  | 7 ++-----
+>  drivers/gpu/drm/tests/drm_dp_mst_helper_test.c | 8 ++++----
+>  2 files changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index ed96cfcfa3040..bd0f35a0ea5fb 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -4712,12 +4712,9 @@ int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc)
+>  	 * factor in the numerator rather than the denominator to avoid
+>  	 * integer overflow
+>  	 */
+> +	u32 bpp_m = (dsc ? 64 / 16 : 64) * 1006 * bpp;
+>  
+> -	if (dsc)
+> -		return DIV_ROUND_UP_ULL(mul_u32_u32(clock * (bpp / 16), 64 * 1006),
+> -					8 * 54 * 1000 * 1000);
+> -
+> -	return DIV_ROUND_UP_ULL(mul_u32_u32(clock * bpp, 64 * 1006),
+> +	return DIV_ROUND_UP_ULL(mul_u32_u32(clock, bpp_m),
+>  				8 * 54 * 1000 * 1000);
 
-And as Hans suggested, also remove msecs_to_jiffies() for the IDLE_TIMEOUT
-macro to make it consistent here and so change IDLE_TIMEOUT to
-msecs_to_jiffies(IDLE_TIMEOUT) where it is used.
+I thought I sorted out this mess already...
+https://patchwork.freedesktop.org/patch/535005/?series=117201&rev=3
+Apparently I forgot to push that.
 
-Fixes: e4f86e437164 ("drm: Add Grain Media GM12U320 driver v2")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Suggested-by: Hans de Goede <hdegoede@redhat.com>
----
-v2:
-- Remove the msecs_to_jiffies() also for IDLE_TIMEOUT.
-- Update the fix tag.
-- Update the commit message.
----
- drivers/gpu/drm/tiny/gm12u320.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+>  }
+>  EXPORT_SYMBOL(drm_dp_calc_pbn_mode);
+> diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> index 545beea33e8c7..ea2182815ebe8 100644
+> --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> @@ -40,15 +40,15 @@ static const struct drm_dp_mst_calc_pbn_mode_test drm_dp_mst_calc_pbn_mode_cases
+>  	},
+>  	{
+>  		.clock = 332880,
+> -		.bpp = 24,
+> +		.bpp = 24 << 4,
+>  		.dsc = true,
+> -		.expected = 50
+> +		.expected = 1191
+>  	},
+>  	{
+>  		.clock = 324540,
+> -		.bpp = 24,
+> +		.bpp = 24 << 4,
+>  		.dsc = true,
+> -		.expected = 49
+> +		.expected = 1161
+>  	},
+>  };
+>  
+> -- 
+> 2.37.2
 
-diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-index c5bb683e440c..0187539ff5ea 100644
---- a/drivers/gpu/drm/tiny/gm12u320.c
-+++ b/drivers/gpu/drm/tiny/gm12u320.c
-@@ -70,10 +70,10 @@ MODULE_PARM_DESC(eco_mode, "Turn on Eco mode (less bright, more silent)");
- #define READ_STATUS_SIZE		13
- #define MISC_VALUE_SIZE			4
- 
--#define CMD_TIMEOUT			msecs_to_jiffies(200)
--#define DATA_TIMEOUT			msecs_to_jiffies(1000)
--#define IDLE_TIMEOUT			msecs_to_jiffies(2000)
--#define FIRST_FRAME_TIMEOUT		msecs_to_jiffies(2000)
-+#define CMD_TIMEOUT			200
-+#define DATA_TIMEOUT			1000
-+#define IDLE_TIMEOUT			2000
-+#define FIRST_FRAME_TIMEOUT		2000
- 
- #define MISC_REQ_GET_SET_ECO_A		0xff
- #define MISC_REQ_GET_SET_ECO_B		0x35
-@@ -389,7 +389,7 @@ static void gm12u320_fb_update_work(struct work_struct *work)
- 	 * switches back to showing its logo.
- 	 */
- 	queue_delayed_work(system_long_wq, &gm12u320->fb_update.work,
--			   IDLE_TIMEOUT);
-+			   msecs_to_jiffies(IDLE_TIMEOUT));
- 
- 	return;
- err:
 -- 
-2.34.1
-
+Ville Syrjälä
+Intel
