@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCEE790FDB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:06:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB6D790FD5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 830C010E275;
-	Mon,  4 Sep 2023 02:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F8010E278;
+	Mon,  4 Sep 2023 02:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
  [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9DB10E274
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:04:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F15310E275
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:04:58 +0000 (UTC)
 Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2bcfd3220d3so12523291fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 19:04:57 -0700 (PDT)
+ 38308e7fff4ca-2bcb54226e7so11266171fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 19:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1693793096; x=1694397896; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VHLsmawO8YJUbD7foYhvrS8ZuNZpxIJ9tps5XjxyA5M=;
- b=Rw+XsBbrADs9a9uCvRetxwmTnOHEudTLkndRGPAVepByoVqXt6XFZcbzspOPLU9OTp
- KOhrO19Hh9VqCqp8Rube3STpyq34qkwA6JhzrLyzxO2y3Oulxmecqq5g1IRrVMg99XyM
- GcTwtgpfnuoQvdCPbZGv9L28eeppWWgQ9gsX6qjOyXfNCayEESCK3zYyXpKDKAaKIGZe
- MtsjpktwJr6YpQjM+AGAj7clfTbor7ti3F17wC4/zy51aQVLkRC9ygRo0HVPl/OmeNYS
- Slck/tR1uWGwb7PuNCsQ7oHOCbD8w2icjiCSDQ1NBdAbw4wmvVbIzXEEyjCLI/dKZlpr
- R2Hg==
+ bh=RxIfvevq87WVmZljmdsOUb7zNfjaAH8j0tUqxn+e9Jw=;
+ b=Fgvw6Qw+XBgDkwS4y+b6ocPTH5VAcsOMRMvxVbQBydtAXhIar7h15s3SJsPdY1u2ut
+ F7MXis1J/GlTx8ks4moT8eF846+u8q0ZLkZmR9Muyx/dM4exxky0UX28oJD8rwyxQIGQ
+ EIBOBLndabscKIGTA/YU3Ly72QeOeO98OSlfnTKht2YXsB8qZLYjXAoB1QEx1JRLlGyR
+ uvt7uRHjJCcyFYJ/Y7tGbW1171WYdWM0hk1wkWewOvkEeh9Im9Q2JcTAHkbnKJFZ1Ny8
+ Ka8s6M0sKIXUq4UjtC/LxIX8TwgDKnHumdMxHxPf567RVe7u9+J7VJeI+4dtkC9qvy6l
+ UX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1693793096; x=1694397896;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VHLsmawO8YJUbD7foYhvrS8ZuNZpxIJ9tps5XjxyA5M=;
- b=Ef2sbaBFCYebJySXHyL7GuebszxpB86kWXKfK0EubENpCPLU3jLi48xyM/n1Nw9Tcb
- Q+GF2tgavdIxuQ0DkJpQjIduE7dwHJomcJn9tqCItJ3XJ0MpJB5lqAwqHbi9ekhrQKFX
- tuKNLcOl/fPqZ7RwhyFk080JChAcuWGJYDUsDUrKwUf5IKVQJ7/PP0+45xYs91Ldq0dN
- 7YkBGc8mXf5QZ2dDwWiz4Q5fVBB+Q86F7BZWc0N6FvQokT1Wqi+4CXmpFQfEmo3u3GWQ
- ZVf+tZLSZJ9sTSNKapd4w0Zq9QajuNI9ee+r0HCTdJ8/OYOrXALITxEn8omxqi6SrYGA
- r/eA==
-X-Gm-Message-State: AOJu0YxBf1g8Nl22baQBfTgObwBTMFG7/ADI5D1pYwStI5oD/uKtZEtX
- S7M+0zZimlVh/3gvH/6iPxfgtA==
-X-Google-Smtp-Source: AGHT+IE+2Yfq4u0kqraestEWo6xIjCVBQAPimXZVSpTk8IG0P/wMEfJmC/oNd+wc9c9gApNKbSJjTg==
-X-Received: by 2002:a2e:888f:0:b0:2b6:de52:357 with SMTP id
- k15-20020a2e888f000000b002b6de520357mr6156564lji.40.1693793095982; 
- Sun, 03 Sep 2023 19:04:55 -0700 (PDT)
+ bh=RxIfvevq87WVmZljmdsOUb7zNfjaAH8j0tUqxn+e9Jw=;
+ b=FZnJE3vacmRw8uE1IYvfLuX9j0wlJLJolDmPF9AViWXmJ2a6a0SORrg7IkFm5o7IST
+ ZBwzfkYjyF/jKCtmcPAgnmMAQVwOTbgSdLgQcqf0M/B6WUqaZlJwAe57xk7c97NLeCQj
+ QXft8pkoZEohymnnOOlekPFE5lte71DpNQR6YjoT+cPlKdthdJJmgttBmpHx2cdgNjbb
+ d1kGdyOXllHcwx6OXbSIYOPPcuAZh/g7ItiFMXY1p/G/bzPTE3Wt/7a5/rFmv/j4WvAV
+ 8f5dqXwTLQ6yXLScraEaL+920eO1mJQsC0i7fsf1sTxyojEzH68X9fs7GPM+Z/NNlqXy
+ RqyQ==
+X-Gm-Message-State: AOJu0Yx4w6AGKN2P6frf8vSz2e5J22MN3+ay34kK8AF6a5l6BU9a6RK8
+ e8qSl44K7tT5/f0TECxAEHYPBg==
+X-Google-Smtp-Source: AGHT+IF4AL00qrBYG914cfs2MtjwiEgixFaAhw+pEt4e47Fkg5dl2OorMKe4mVmiFeBh/XLwZZN5NQ==
+X-Received: by 2002:a2e:910b:0:b0:2bd:d31:d1ee with SMTP id
+ m11-20020a2e910b000000b002bd0d31d1eemr2456620ljg.14.1693793096654; 
+ Sun, 03 Sep 2023 19:04:56 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- t13-20020a2e9c4d000000b002bce0e9385asm1818237ljj.9.2023.09.03.19.04.55
+ t13-20020a2e9c4d000000b002bce0e9385asm1818237ljj.9.2023.09.03.19.04.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Sep 2023 19:04:55 -0700 (PDT)
+ Sun, 03 Sep 2023 19:04:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 1/8] drm/msm/dpu: inline _setup_pingpong_ops()
-Date: Mon,  4 Sep 2023 05:04:47 +0300
-Message-Id: <20230904020454.2945667-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 2/8] drm/msm/dpu: enable PINGPONG TE operations only when
+ supported by HW
+Date: Mon,  4 Sep 2023 05:04:48 +0300
+Message-Id: <20230904020454.2945667-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
 References: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
@@ -81,72 +82,72 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inline the _setup_pingpong_ops() function, it makes it easier to handle
-different conditions involving PINGPONG configuration.
+The DPU_PINGPONG_TE bit is set for all PINGPONG blocks on DPU < 5.0.
+Rather than checking for the flag, check for the presense of the
+corresponding interrupt line.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 39 ++++++++-----------
- 1 file changed, 17 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 6 ++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c          | 2 +-
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 437d9e62a841..9298c166b213 100644
+index 9298c166b213..057cac7f5d93 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -281,27 +281,6 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
- 	return 0;
+@@ -282,7 +282,7 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
  }
  
--static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
--				unsigned long features)
--{
--	if (test_bit(DPU_PINGPONG_TE, &features)) {
--		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
--		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
--		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
--		c->ops.get_line_count = dpu_hw_pp_get_line_count;
--		c->ops.disable_autorefresh = dpu_hw_pp_disable_autorefresh;
--	}
--
--	if (test_bit(DPU_PINGPONG_DSC, &features)) {
--		c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
--		c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
--		c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
--	}
--
--	if (test_bit(DPU_PINGPONG_DITHER, &features))
--		c->ops.setup_dither = dpu_hw_pp_setup_dither;
--};
--
  struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
- 		void __iomem *addr)
+-		void __iomem *addr)
++		void __iomem *addr, const struct dpu_mdss_version *mdss_rev)
  {
-@@ -316,7 +295,23 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+ 	struct dpu_hw_pingpong *c;
  
+@@ -296,7 +296,9 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
  	c->idx = cfg->id;
  	c->caps = cfg;
--	_setup_pingpong_ops(c, c->caps->features);
-+
-+	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
-+		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
-+		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
-+		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-+		c->ops.get_line_count = dpu_hw_pp_get_line_count;
-+		c->ops.disable_autorefresh = dpu_hw_pp_disable_autorefresh;
-+	}
-+
-+	if (test_bit(DPU_PINGPONG_DSC, &cfg->features)) {
-+		c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
-+		c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
-+		c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
-+	}
-+
-+	if (test_bit(DPU_PINGPONG_DITHER, &cfg->features))
-+		c->ops.setup_dither = dpu_hw_pp_setup_dither;
  
- 	return c;
- }
+-	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
++	if (mdss_rev->core_major_ver < 5) {
++		WARN_ON(!cfg->intr_rdptr);
++
+ 		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
+ 		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
+ 		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+index d3246a9a5808..0d541ca5b056 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+@@ -123,10 +123,11 @@ static inline struct dpu_hw_pingpong *to_dpu_hw_pingpong(struct dpu_hw_blk *hw)
+  * pingpong catalog entry.
+  * @cfg:  Pingpong catalog entry for which driver object is required
+  * @addr: Mapped register io address of MDP
++ * @mdss_rev: dpu core's major and minor versions
+  * Return: Error code or allocated dpu_hw_pingpong context
+  */
+ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+-		void __iomem *addr);
++		void __iomem *addr, const struct dpu_mdss_version *mdss_rev);
+ 
+ /**
+  * dpu_hw_pingpong_destroy - destroys pingpong driver context
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index f9215643c71a..f3aff605554d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -146,7 +146,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+ 		struct dpu_hw_pingpong *hw;
+ 		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
+ 
+-		hw = dpu_hw_pingpong_init(pp, mmio);
++		hw = dpu_hw_pingpong_init(pp, mmio, cat->mdss_ver);
+ 		if (IS_ERR(hw)) {
+ 			rc = PTR_ERR(hw);
+ 			DPU_ERROR("failed pingpong object creation: err %d\n",
 -- 
 2.39.2
 
