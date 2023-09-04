@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FA1791ADE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 17:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9317E791AD5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 17:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074D910E390;
-	Mon,  4 Sep 2023 15:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B906F10E383;
+	Mon,  4 Sep 2023 15:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 614 seconds by postgrey-1.36 at gabe;
- Mon, 04 Sep 2023 15:50:03 UTC
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFA310E38C;
- Mon,  4 Sep 2023 15:50:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 54E70CE0F0F;
- Mon,  4 Sep 2023 15:41:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5FDC433C8;
- Mon,  4 Sep 2023 15:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693842075;
- bh=6AHoLhPAyb0kZxC+vtd1mmVBPDeqBePGOJk9DUiE0G4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V5NuA4etrWKvpIRNGsV4jkYCm2uMrcQcHBgXfVXZWFgm4dC6ueiUkQrVGm0V918Mn
- cfc7i2J6fX6VJtROHdDeVNu+/PJaD6q8ZPF8/ijy7StB7BGTf+zEMNH68vzzvcuI6T
- pEY5ozwRg9yGMh6iUry8OSeJkv1W2/5EUGeHHxuzIOU+vq1Of42SzWuQp481fGBeOf
- 7S+NrUubMBv9etx0hv3Yk9CDYjOnmv41SqWW5j+7am8GF272eHPbEAb6gRLM4Y7xfs
- qd9A3PEOfkTw3FEwTQ4rW/GGdGjZbijxMdBzS/dxUuI1uW5yTwjmss6DDEH22juDJI
- IMR6cME1sVkDg==
-Date: Mon, 4 Sep 2023 08:43:31 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02DDC10E383
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 15:45:36 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2bce552508fso23991341fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 08:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1693842335; x=1694447135; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0+GlJFHzb1D3XDHeV2FI4PvbcaPkKqun8UbiQUvz0aQ=;
+ b=GaqlNqot4UHE9tD2Io7wBw2SnVaWPBMbfImt6YpfYjh+iMhipeZnZvOAtKuTBe37ml
+ wTb7OVwcFufPfnD7XGGdL9G6LTG5FfC33SeJ08NBmk101EOUkYYDOXoJR2q4DDYWgxOl
+ jWT2QL9kEA/JRfO+6w3bKIFKn1Dtf1NcKwS+QFoLLo7/3IBcaHaueO6hdLUJGIfnDQp6
+ y9SW6sLznBGfDqTWGsKV7vHFHr4F/4eLPqyPmeqW2YfBCWPtm/3mxZHh4wNF72oKe+uB
+ IX03/1Wsi8WyEC/qw6E7HIkzfIOqg40EK0IR0qvTxXxS+nVLZeIB4bq/lS3A7yJInumi
+ zc1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693842335; x=1694447135;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0+GlJFHzb1D3XDHeV2FI4PvbcaPkKqun8UbiQUvz0aQ=;
+ b=fBb1WRLwafQN35UsIsbVe0sEAEPngqe94uECgx2Q5zf8NHlkj980q1QTiXopoI3Tgv
+ YnVQrugflay3UTDCDQplQa50Ay1PFPCsPvbgN2Fr6FBgwSx+hIAhkwMAIYq5UivBr2VE
+ kEbGVLL6Raynd8L8RGObdIawjd+W3Dw/Xdqv3RMR05MPzY/rPCgXIMqELbvanL6yoSYG
+ DkcZDhKbmHgtE/4z60eVDwaLxUypp9M7pPrloGAFfYjWbip78vLbso6RD49r9cOg1t0+
+ 1UvrKjNla/3W+IAbtppPPx9Qg9EmLh69OtMEzToxCGITwz3+K6hkzkMQN9jkDMDXMYx3
+ mPfg==
+X-Gm-Message-State: AOJu0YzZjD1nyPr3rKFvYWfZsHZZ8UJ0rEi4auXrSRs+eG4ULQJy13fs
+ yqoLug6FqDl5I7Jx6xmb3G0Umg==
+X-Google-Smtp-Source: AGHT+IGjTokOv/IDyhswVsXI07leRAlQxYi93jO33A/nRd/LVlk/Glx/WNgORnNOdsXYPsYI1hwazw==
+X-Received: by 2002:a2e:9c99:0:b0:2b6:eb5a:6504 with SMTP id
+ x25-20020a2e9c99000000b002b6eb5a6504mr8087643lji.18.1693842335157; 
+ Mon, 04 Sep 2023 08:45:35 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ 17-20020a2eb2d1000000b002ba161bdc9asm2181266ljz.79.2023.09.04.08.45.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Sep 2023 08:45:34 -0700 (PDT)
+Message-ID: <c078ba24-df68-49f9-b38b-0ccbff493a25@linaro.org>
+Date: Mon, 4 Sep 2023 18:45:33 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v1 07/12] soc: qcom: pmic_glink_altmode: report that
  this is a Type-C connector
-Message-ID: <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+Content-Language: en-GB
+To: Bjorn Andersson <andersson@kernel.org>
 References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
  <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230903214150.2877023-8-dmitry.baryshkov@linaro.org>
+ <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <skpvgxdkyciuijkv55uh4ircrrarqhdoiocqc6h5gs4dw6c2rj@zv4fwdri4mwz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +94,31 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 04, 2023 at 12:41:45AM +0300, Dmitry Baryshkov wrote:
-> Set the bridge's path property to point out that this connector is
-> wrapped into the Type-C port.
+On 04/09/2023 18:43, Bjorn Andersson wrote:
+> On Mon, Sep 04, 2023 at 12:41:45AM +0300, Dmitry Baryshkov wrote:
+>> Set the bridge's path property to point out that this connector is
+>> wrapped into the Type-C port.
+>>
+>> We can not really identify the exact Type-C port because it is
+>> registered separately, by another driver, which is not mandatory and the
+>> corresponding device is not even present on some of platforms, like
+>> sc8180x or sm8350. Thus we use the shortened version of the PATH, which
+>> includes just the 'typec:' part.
 > 
-> We can not really identify the exact Type-C port because it is
-> registered separately, by another driver, which is not mandatory and the
-> corresponding device is not even present on some of platforms, like
-> sc8180x or sm8350. Thus we use the shortened version of the PATH, which
-> includes just the 'typec:' part.
+> How would a properly resolved path look like?
 
-How would a properly resolved path look like?
+On RB5 it is 'typec:port0', as the USB-C port is registered as 
+/sys/class/typec/port0
 
-As with the other patch, I'm okay with this going through the USB tree.
+> 
+> As with the other patch, I'm okay with this going through the USB tree.
+> 
+> Acked-by: Bjorn Andersson <andersson@kernel.org>
+> 
+> Regards,
+> Bjorn
 
-Acked-by: Bjorn Andersson <andersson@kernel.org>
+-- 
+With best wishes
+Dmitry
 
-Regards,
-Bjorn
