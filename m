@@ -1,55 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485B6791AAD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 17:33:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3071791AD0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 17:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071E210E380;
-	Mon,  4 Sep 2023 15:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B3F10E38B;
+	Mon,  4 Sep 2023 15:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29ECA10E380
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 15:33:08 +0000 (UTC)
+X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Sep 2023 15:45:02 UTC
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE9B10E38B;
+ Mon,  4 Sep 2023 15:45:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7E1A760E9A;
- Mon,  4 Sep 2023 15:33:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930FEC433C8;
- Mon,  4 Sep 2023 15:33:06 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id DC6A0CE0ED3;
+ Mon,  4 Sep 2023 15:39:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C24C433C7;
+ Mon,  4 Sep 2023 15:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693841586;
- bh=UeKK5EZJuIgCkUx5xqRn3CgwQq16K8S9woQmQDDN6JE=;
+ s=k20201202; t=1693841985;
+ bh=biK94lBbgt1pnt3KPbgjV2mjHY/WPTUANiaYAFj3hnE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hqc96kthJhcdhdl1Rlk0yY3dQ/CFCUPeOHYx4AbJFcC7PnFUzBNnneQRtC7angbjy
- hJGxyIO2mGHRrfE06mEn86+a6xnB3yfJvZ0PnYD7ZVsr09GZaqxFa4xWBcw7QlSgkx
- hwyn81J2jeRSRsQ0LGG7K2eHNULCtT3FTpLqj08H94AJjb+5PmfNjcj0qjUHnFzKTF
- tn3r7Y/MYD8CZu+2tWHhGgVMAWlrWVk05k82P0g168zcfbAf6KwtXS2NJCEHI/7VIz
- a8kdhPr2AebRaLXr8yC5srMFnOBncil5ozqq77Frwd4WGIZdSXt5P9Wz67VVILRBwe
- cF9xW2KNlKgBA==
-Date: Mon, 4 Sep 2023 17:33:03 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
-Message-ID: <nahwibpea2akyg7swbdb3f6xyv7fqs35v5spqbjfzfchxnoqqz@glgg5core75d>
-References: <bphkopaq76imqzut7xrx7aprqybhx3veajdympqhig2wqlix6c@64ck23rc5cv7>
- <CAD=FV=XiVkoCsjin4R74nkcd8vzOq9uPq+o5cRjd=YOoPXuQkg@mail.gmail.com>
- <lhd6ai7d6swlxhisjhikytguor7pptrymo3bmfwej4k7zqrnv4@hp2gvhw7mh3m>
- <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
- <mumiep5q7x7qj7k64h3cyodxrgk737iy5rum5keguquwymf2gy@3qruwfrqjgy7>
- <CAD=FV=VEene+nr1us87iA+bomxzQ039r-E+wqvizvFGbxXjDvA@mail.gmail.com>
- <wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76uw5p6s7tzt@cbiezkfeuqqn>
- <CAD=FV=XcUVvg5Om__dD=i9zu7ZtQmvWicms9yN7w0c2nWGhqYg@mail.gmail.com>
- <p7okuysh442hulqls3ekbaar2bguqv67fum3gsb2cj75kjvdpx@uebwlgvf46sy>
- <CAD=FV=Xr4nZUeHY-FdiedcV=BuP5szNBEHPKjdRnA7c+3MADqg@mail.gmail.com>
+ b=tk0DR0TJA8XaoYlsyz7s3yTLGRb8OPMGbQQ9R4Ab0qT1Mw1mF0bRVm/VULSyVHsnb
+ +ipBAL0t2lfIzxyS6rZCHYVv5vyV1ShhPRqsaaz069pu/jqcxp1Ku6KjUeryHIYEdH
+ hWH+KUp2xRkNf26zT/Ldkt0kkw0TgMYKeZ3q9OIe4GzQTEvr0A1XVWAnMC549adr9o
+ C4VtbhrNg8doUP6AgEcmMh34fGSI/JjWQf2GEqaH0UygW0lt25QhyWrEbhMQw/znjA
+ a8KDp6P6XqLiZcDqzC3Q6pSuLLi8bowdOSwE0pnKzGlAcjy7hrTG7FmHE5yMZiSgQf
+ WaSBEqZnGYKuw==
+Date: Mon, 4 Sep 2023 08:42:00 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 06/12] soc: qcom: pmic_glink_altmode: fix DRM
+ connector type
+Message-ID: <u5jciyc42wbclgcznuyxrub6lfhkqixpcsgx656afmqmx5m7er@xktdvhzwbuzu>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-7-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=Xr4nZUeHY-FdiedcV=BuP5szNBEHPKjdRnA7c+3MADqg@mail.gmail.com>
+In-Reply-To: <20230903214150.2877023-7-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Sep 04, 2023 at 12:41:44AM +0300, Dmitry Baryshkov wrote:
+> During discussions regarding USB-C vs native DisplayPort it was pointed
+> out that other implementations (i915, AMD) are using
+> DRM_MODE_CONNECTOR_DisplayPort for both native and USB-C-wrapped DP
+> output. Follow this example and make the pmic_glink_altmode driver also
+> report DipslayPort connector rather than the USB one.
 
-On Fri, Sep 01, 2023 at 06:42:42AM -0700, Doug Anderson wrote:
-> On Fri, Sep 1, 2023 at 1:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> > On Thu, Aug 31, 2023 at 11:18:49AM -0700, Doug Anderson wrote:
-> > > Today this is explicitly _not_ refcounting, right? It is simply
-> > > treating double-enables as no-ops and double-disables as no-ops. With
-> > > our current understanding, the only thing we actually need to guard
-> > > against is double-disable but at the moment we do guard against both.
-> > > Specifically we believe the cases that are issues:
-> > >
-> > > a) At shutdown/remove time we want to disable the panel, but only if
-> > > it was enabled (we wouldn't want to call disable if the panel was
-> > > already off because userspace turned it off).
-> >
-> > Yeah, and that's doable with refcounting too.
->=20
-> I don't understand the benefit of switching to refcounting, though. We
-> don't ever expect the "prepare" or "enable" function to be called more
-> than once and all we're guarding against is a double-unprepare and a
-> double-enable. Switching this to refcounting would make the reader
-> think that there was a legitimate case for things to be prepared or
-> enabled twice. As far as I know, there isn't.
+I started off with this, but on devices with both USB Type-C and
+(native) DisplayPort, it seemed much more reasonable to make the
+distinction; and thereby get the outputs named "USB-n".
 
-Sure, eventually we'll want to remove it.
+Similarly, it looks quite reasonable that the output on my laptop are
+eDP-1, USB-1 and USB-2.
 
-I even said it as such here:
-https://lore.kernel.org/dri-devel/wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76u=
-w5p6s7tzt@cbiezkfeuqqn/
 
-However, we have a number of panels following various anti-patterns
-where disable and unprepare would be called multiple times. A boolean
-would just ignore the second, refcounting would warn over it, and that's
-what we want.
+But, if this is not the way its intended to be used, feel free to pick
+this together with the other patches.
 
-And that's exactly because there isn't a legitimate case for things to
-be disabled or unprepared twice, but yet many panel driver do it anyway.
+Acked-by: Bjorn Andersson <andersson@kernel.org>
 
-> In any case, I don't think there's any need to switch this to
-> refcounting as part of this effort. Someone could, in theory, do it as
-> a separate patch series.
-
-I'm sorry, but I'll insist on getting a solution that will warn panels
-that call drm_atomic_helper_shutdown or drm_panel_disable/unprepare by
-hand. It doesn't have to be refcounting though if you have a better idea
-in mind.
-
-> > > The above solves the problem with panels wanting to power sequence
-> > > themselves at remove() time, but not at shutdown() time. Thus we'd
-> > > still have a dependency on having all drivers use
-> > > drm_atomic_helper_shutdown() so that work becomes a dependency.
-> >
-> > Does it? I think it can be done in parallel?
->=20
-> I don't think it can be in parallel. While it makes sense for panels
-> to call drm_panel_remove() at remove time, it doesn't make sense for
-> them to call it at shutdown time. That means that the trick of having
-> the panel get powered off in drm_panel_remove() won't help for
-> shutdown. For shutdown, which IMO is the more important case, we need
-> to wait until all drm drivers call drm_atomic_helper_shutdown()
-> properly.
-
-Right, my point was more that drivers that already don't disable the
-panel in their shutdown implementation will still not do it. And drivers
-that do will still do it, so there's no regression.
-
-We obviously want to tend to having all drivers call
-drm_atomic_helper_shutdown(), but not having it will not introduce any
-regression.
-
-Maxime
+Regards,
+Bjorn
