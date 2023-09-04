@@ -1,50 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B42790F64
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 02:43:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 946EC790F8C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 03:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C1210E261;
-	Mon,  4 Sep 2023 00:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 528BA10E113;
+	Mon,  4 Sep 2023 01:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 439 seconds by postgrey-1.36 at gabe;
- Mon, 04 Sep 2023 00:43:33 UTC
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2F510E153;
- Mon,  4 Sep 2023 00:43:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4BDF8B8069C;
- Mon,  4 Sep 2023 00:36:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A3EC433CA;
- Mon,  4 Sep 2023 00:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693787764;
- bh=l/ZbviUAxVSkzWPyEeIQ9Fs+OkgtA7pgZqstVlvtbQQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=evXDeLHRwiT4KgwYnIN2i5lcQIUcFDaUGlfkVPVf+PtZYoGITJ2Volm+tErbbpK10
- WweMowunRx81+JswUwcqQPA2jAYr7jslTPKkKcB2FY2S1LoKBKPXt37SUJlJKqmav7
- Qy+lNtKGClbdkFVJY+9yTY37Tkcuz0OXraOVJPZgPNnve6ho6odmEnZpcwfzC6NTmT
- TG0DJwCDaAxg+wdhgo2Lw16ebN2y8yLvX8LX96X9Tv9efh/aETy2PHWjexn3bxf/qW
- y3Xm82oFazw2fFIyrY50SeGEYi28Z0JvwQHN3n4SMpTDS6fPHZJEmYGtsGmsazWoqN
- 6NSxAcr9wl+rg==
-Date: Sun, 3 Sep 2023 20:36:02 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Subject: Re: [PATCH AUTOSEL 6.1 08/10] drm/amdkfd: ignore crat by default
-Message-ID: <ZPUmcjPuyUj2qqN+@sashalap>
-References: <20230822113628.3551393-1-sashal@kernel.org>
- <20230822113628.3551393-8-sashal@kernel.org>
- <BN9PR12MB5146E3C94A2A6CB87138B2BCF71FA@BN9PR12MB5146.namprd12.prod.outlook.com>
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6D4110E113
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 01:05:34 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-529fb04a234so1115884a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 18:05:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693789533; x=1694394333; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NbVUwcw2PJC4RfyAHaiAoxmA0J3kEw6h6OC2FpKWQRY=;
+ b=Bqfz+bhXa4zg2ZWQ4TXiyJfnlnAyFvvJi7vXnApirh/S5yWZINZjSno31EC/J20qNe
+ ZOUe1V7WcjtAHKS7bP+W+q6Enl/RE+3nzZn0aAJf2Ds3koeb9VIjNAHcnCl5tiYka8Of
+ ruDfm/rzc7UutOogH0+Jw/cbfY5ZJWh12ClCIMySH8rr3r705b0N0qMhxqbuanXgRSKC
+ sDNwdHHnjxgB8zMvVUfWsfNGlEM04z/LUrpCeFKpp6Rrqog+n71E1FGYkYg+i62XdUEl
+ 7i3ahYe7TQyqESJqXXecrZ4Yd28ELo8/1O20oA4GYn9k+P3NzhYL8Gq4onoQlj8zcKQB
+ Jbtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693789533; x=1694394333;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NbVUwcw2PJC4RfyAHaiAoxmA0J3kEw6h6OC2FpKWQRY=;
+ b=ju5L1MxVr1PIWrX2/GFRwDz1ZPYJbNF1bfk6yVEvatBWnlpHAVR8nqV1DLHB49SGOS
+ CNcVasxn9XwpTy6bfJNUBclpaQFifVjNrGdbZlhPTwBlbPm57kzEBX7i4sMkh9yFMeXb
+ qNWm3wj95IwPEw/CF4Rdfx6/NAHhlQQxoykS+S/u4DWruhDLRnV5x3J2mNRmLYA7xDEw
+ PhqIjfnPuIsemimhA03UHMZdF/4R26b6kNKzbKMKG4FlQBYZ7Oc8FHdHII937kZ8LpeU
+ 3JaXDT0OtdnaILt5Myc2RlAzPbtQb4KJlOnXZ0Va0rZqg+8Yfjy3zU3cBgzkFKiHEf8x
+ Eg7g==
+X-Gm-Message-State: AOJu0YyvYeixSBsaDAiOgIRYeu8JBDBFgbOmj/MIPU+3V9MFH9I7jnQw
+ gRn61TkVmPqxWE4F/qz12y5Rpj9RYjEGdM6he0g=
+X-Google-Smtp-Source: AGHT+IGoOCM67CfAPti9p9KNf+sBBUTpbJt4yh8hMpYKIFaqa7GfnKeqIe49SGBnSowjTgY1/YMIZJCkjd4ei3FUKP4=
+X-Received: by 2002:aa7:ca51:0:b0:523:4996:a4f9 with SMTP id
+ j17-20020aa7ca51000000b005234996a4f9mr7087154edt.34.1693789533077; Sun, 03
+ Sep 2023 18:05:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <BN9PR12MB5146E3C94A2A6CB87138B2BCF71FA@BN9PR12MB5146.namprd12.prod.outlook.com>
+References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
+ <20230818-samsung-dsim-v1-1-b39716db6b7a@pengutronix.de>
+ <CAHCN7x+J_umWCBvivuZsrHTvjw=4CvBqOSeO-j_+fTMm=DdAOg@mail.gmail.com>
+In-Reply-To: <CAHCN7x+J_umWCBvivuZsrHTvjw=4CvBqOSeO-j_+fTMm=DdAOg@mail.gmail.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 4 Sep 2023 10:04:55 +0900
+Message-ID: <CAAQKjZM9UGgzAgfg-Rt92BNdvLuUJ90=QRUrd=FnDFwGvoC-zA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/bridge: samsung-dsim: add more mipi-dsi device
+ debug information
+To: Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +71,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ kernel@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Michael Tretter <m.tretter@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 22, 2023 at 03:41:18PM +0000, Deucher, Alexander wrote:
->[Public]
+2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 7:38, A=
+dam Ford <aford173@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
->> -----Original Message-----
->> From: Sasha Levin <sashal@kernel.org>
->> Sent: Tuesday, August 22, 2023 7:36 AM
->> To: linux-kernel@vger.kernel.org; stable@vger.kernel.org
->> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Kuehling, Felix
->> <Felix.Kuehling@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>;
->> Mike Lothian <mike@fireburn.co.uk>; Sasha Levin <sashal@kernel.org>; Pan,
->> Xinhui <Xinhui.Pan@amd.com>; airlied@gmail.com; daniel@ffwll.ch; amd-
->> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->> Subject: [PATCH AUTOSEL 6.1 08/10] drm/amdkfd: ignore crat by default
->>
->> From: Alex Deucher <alexander.deucher@amd.com>
->>
->> [ Upstream commit a6dea2d64ff92851e68cd4e20a35f6534286e016 ]
->>
->> We are dropping the IOMMUv2 path, so no need to enable this.
->> It's often buggy on consumer platforms anyway.
+> On Mon, Aug 28, 2023 at 10:59=E2=80=AFAM Michael Tretter
+> <m.tretter@pengutronix.de> wrote:
+> >
+> > From: Marco Felsch <m.felsch@pengutronix.de>
+> >
+> > Since the MIPI configuration can be changed on demand it is very useful
+> > to print more MIPI settings during the MIPI device attach step.
+> >
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 >
->
->This is not needed for stable.
+> Reviewed-by: Adam Ford <aford173@gmail.com>  #imx8mm-beacon
+> Tested-by: Adam Ford <aford173@gmail.com>  #imx8mm-beacon
 
-Dropped this and the other ones you've pointed out, thanks!
+Reviewed-by: Inki Dae <inki.dae@samsung.com>
+Acked-by: Inki Dae <inki.dae@samsung.com>
 
--- 
-Thanks,
-Sasha
+>
+> > ---
+> >  drivers/gpu/drm/bridge/samsung-dsim.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
+idge/samsung-dsim.c
+> > index 73ec60757dbc..6778f1751faa 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -1711,7 +1711,10 @@ static int samsung_dsim_host_attach(struct mipi_=
+dsi_host *host,
+> >                 return ret;
+> >         }
+> >
+> > -       DRM_DEV_INFO(dev, "Attached %s device\n", device->name);
+> > +       DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-fla=
+gs:0x%lx)\n",
+> > +                    device->name, device->lanes,
+> > +                    mipi_dsi_pixel_format_to_bpp(device->format),
+> > +                    device->mode_flags);
+> >
+> >         drm_bridge_add(&dsi->bridge);
+> >
+> >
+> > --
+> > 2.39.2
+> >
