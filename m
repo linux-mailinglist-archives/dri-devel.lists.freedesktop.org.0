@@ -2,65 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FBA79393F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37392793BDE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 13:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E58010E5E4;
-	Wed,  6 Sep 2023 09:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36ABE10E612;
+	Wed,  6 Sep 2023 11:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A36510E5E4
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 09:59:41 +0000 (UTC)
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-466-DavX2fnwPJ-aNQGSQzR18A-1; Wed, 06 Sep 2023 05:59:40 -0400
-X-MC-Unique: DavX2fnwPJ-aNQGSQzR18A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3fe1dadb5d2so22341285e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 02:59:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693994379; x=1694599179;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NmAkZbkLbqrhYKWGilvLnXtd6fKYLLSrfrWjxYIXvzE=;
- b=L6TV2DTXKLE3HC2QEEAfy3Ph7zLO3wULPD6YD/HB1ThbbLFv1rO7N1qI7vHL7F9UE7
- Zh5FbYxLyFOmg6xP8epkkgKMZ8a0vuHZOMZw50ZnZijg4iX//rIwzuDtg2Vju1rFqoWU
- OSXAONTQepRT66B4J0rEC32DKL9g600IU6Qnp2Xl1y8ZEH23vRQtycbFtPZUcY5bb3Ki
- ZP3tkMsQoz7zprfPVURhBQ84bSN9ShqVACoCgnJoTveuYRJtg9nRQJWQhtlouuFmyeuD
- T2cQ/xLrvh6pv2L9kaf9VXKHiro2gLrrRWQcN2WSYw4LeddnWdKps3FxAOXur6DaVFx2
- FtjQ==
-X-Gm-Message-State: AOJu0YyQKKX1U1/CQW+FVe2WAr2SRjOdmtrfprMJfMhi3Yl4dpVpLZ/q
- I8XYjZH3BZDAqA3VL0UWRZwBXT8m+DD+DDJk6HHfi+6ffWN3AqsVvAsBYkUwhx3yE/kILRy+zjQ
- ZIcFMw/oCMVc/Zy5kJ4+U9kT/RyUh
-X-Received: by 2002:a05:600c:128f:b0:3fe:25b3:951d with SMTP id
- t15-20020a05600c128f00b003fe25b3951dmr1928466wmd.5.1693994378901; 
- Wed, 06 Sep 2023 02:59:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE5+OhfOUQuGHMsv/QI74pAE53OdzJ3LqKgxFhHFhepwapLYpSxbrf63ipC3UeI9PeqR2f8jA==
-X-Received: by 2002:a05:600c:128f:b0:3fe:25b3:951d with SMTP id
- t15-20020a05600c128f00b003fe25b3951dmr1928450wmd.5.1693994378520; 
- Wed, 06 Sep 2023 02:59:38 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 15-20020a05600c22cf00b003fe2de3f94fsm19249458wmg.12.2023.09.06.02.59.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Sep 2023 02:59:38 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
- sam@ravnborg.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/7] fbdev/core: Fix style of code for boot-up logo
-In-Reply-To: <20230829142109.4521-4-tzimmermann@suse.de>
-References: <20230829142109.4521-1-tzimmermann@suse.de>
- <20230829142109.4521-4-tzimmermann@suse.de>
-Date: Wed, 06 Sep 2023 11:59:37 +0200
-Message-ID: <87il8n4o6u.fsf@minerva.mail-host-address-is-not-set>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F2210E612
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 11:55:30 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 5F5FECE149E;
+ Wed,  6 Sep 2023 11:55:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457DFC433C7;
+ Wed,  6 Sep 2023 11:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694001326;
+ bh=Lr1hk8T14jyQD38Co71l4i6tLkHZSpTmtLre5Xwotpw=;
+ h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+ b=F1TQMwP7zK7EbTFHLI/A+Q9F0qlDYSwYUD6m0/owxKcqalTaALjoE1bG5L9g3HXdC
+ k5NHYRX5MyPfxpODxMasofmqxRhUUR3xbGmCoJXyq0G5hmal6Wh0fv1eh9A3BpNXn2
+ Ar/U5uEuA6fmtbqkRirgjcEvZ01sOTphBx6/ywhYzbPVTFZLyCF1/noLsuGwmGzzbO
+ U2GHwtvWXkgNbo0HO9DP394lgBIZsQaZPMmB0DHPTVZ073VA8/hVCJiaAmhEbJN4sj
+ /KFuzhZR6qP5Wsl4aeImzGwoYQNSaO9xEEnK66HlLw365VUEwvB5vUg+sCVXTC76Sk
+ 9Kqn4oeuFmWvQ==
+Date: Mon, 4 Sep 2023 10:04:29 +0200
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
+ .atomic_check() callback
+Message-ID: <yvxmbpbeuis7zjqyg6yrpdfyr3oa2xstcoeb2prqvznczzhj5k@7i37gxyyqfn3>
+From: Maxime Ripard <mripard@kernel.org>
+References: <20230830062546.720679-1-javierm@redhat.com>
+ <zitno3p7tbnld5auedkx5g4wey2csng4ncmtdhzinbuhblunyk@chnwsnsgq36v>
+ <CAMuHMdWv_QSatDgihr8=2SXHhvp=icNxumZcZOPwT9Q_QiogNQ@mail.gmail.com>
+ <4zfgmvfstyjfo5slggfmfuvnirrhrq773el52gkav2r6jxliub@7qjbyy7rkj3g>
+ <CAMuHMdV_775mPbTgWmzCo4mKCd3kqL=vfVFrt2W=bR3uveNW_Q@mail.gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdV_775mPbTgWmzCo4mKCd3kqL=vfVFrt2W=bR3uveNW_Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +58,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Fri, Sep 01, 2023 at 02:08:11PM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Fri, Sep 1, 2023 at 2:00=E2=80=AFPM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> > On Fri, Sep 01, 2023 at 10:36:17AM +0200, Geert Uytterhoeven wrote:
+> > > On Fri, Sep 1, 2023 at 10:22=E2=80=AFAM Maxime Ripard <mripard@kernel=
+=2Eorg> wrote:
+> > > > On Wed, Aug 30, 2023 at 08:25:08AM +0200, Javier Martinez Canillas =
+wrote:
+> > > > > The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the pla=
+ne's
+> > > > > .atomic_check() callback") moved the allocation of the intermedia=
+te and
+> > > > > HW buffers from the encoder's .atomic_enable callback to primary =
+plane's
+> > > > > .atomic_check callback.
+> > > > >
+> > > > > This was suggested by Maxime Ripard because drivers aren't allowe=
+d to fail
+> > > > > after drm_atomic_helper_swap_state() has been called, and the enc=
+oder's
+> > > > > .atomic_enable happens after the new atomic state has been swappe=
+d.
+> > > > >
+> > > > > But that change caused a performance regression in very slow plat=
+forms,
+> > > > > since now the allocation happens for every plane's atomic state c=
+ommit.
+> > > > > For example, Geert Uytterhoeven reports that is the case on a Vex=
+RiscV
+> > > > > softcore (RISC-V CPU implementation on an FPGA).
+> > > >
+> > > > I'd like to have numbers on that. It's a bit surprising to me that,
+> > > > given how many objects we already allocate during a commit, two sma=
+ll
+> > > > additional allocations affect performances so dramatically, even on=
+ a
+> > > > slow platform.
+> > >
+> > > To be fair, I didn't benchmark that.  Perhaps it's just too slow due =
+to
+> > > all these other allocations (and whatever else happens).
+> > >
+> > > I just find it extremely silly to allocate a buffer over and over aga=
+in,
+> > > while we know that buffer is needed for each and every display update.
+> >
+> > Maybe it's silly, but I guess it depends on what you want to optimize
+> > for. You won't know the size of that buffer before you're in
+> > atomic_check. So it's a different trade-off than you would like, but I
+> > wouldn't call it extremely silly.
+>=20
+> The size of ssd130x_plane_state.data_array[] is fixed, and depends
+> on the actual display connected.
 
-> Fix a number of warnings from checkpatch.pl in this code before
-> moving it into a separate file. This includes
->
->  * Prefer 'unsigned int' to bare use of 'unsigned'
->  * space required after that ',' (ctx:VxV)
->  * space prohibited after that open parenthesis '('
->  * suspect code indent for conditional statements (16, 32)
->  * braces {} are not necessary for single statement blocks
->
-> No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+That one can be tied to the CRTC state if needed. It would only be
+allocated on each modeset, so probably once for that kind of device.
 
-[...]
+> The size of ssd130x_plane_state.buffer[]  is also fixed, and depends
+> on the plane's size (which is currently fixed to the display size).
 
-> -	static const unsigned char mask[] = { 0,0x80,0xc0,0xe0,0xf0,0xf8,0xfc,0xfe,0xff };
-> +	static const unsigned char mask[] = {
-> +		0, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff
-> +	};
+Doesn't it depend on the format as well?
 
-I didn't know that checkpatch.pl complained about this.
-
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Maxime
