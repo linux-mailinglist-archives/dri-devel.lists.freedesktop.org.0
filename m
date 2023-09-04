@@ -1,71 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31329791ADD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 17:49:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C72791B0A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 18:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED3B10E38E;
-	Mon,  4 Sep 2023 15:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D9B10E395;
+	Mon,  4 Sep 2023 15:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC5510E38E
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 15:49:05 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4ff9b389677so2466147e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 08:49:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693842543; x=1694447343; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1Mr4a2ALFhDpVZdNIQ8Ux/W/wDhbSFit8lx1g0WE8sQ=;
- b=JOSfxCun/+vRTTNPuVPAuyFJeSIyRhid6dbAOo45tmpuMCgj5iOASZhN71Nxbev1XS
- oCP9B2y3jymMzhlBqexTNzy8FqOYPNLDJUgFT7wVrvUR5YWU1fZKmcAOm1iqJLLS3h+y
- axARp/Ls0ntcw+8aRVEwImcDpNUS0XRO3svG1NZgyToS3XvbKW/zs1ZLhxbhrZY6klMv
- HgBqwSsihFsttAmlWkx8zYB3RFSW+1NfzyYBNRBpYGHIvQLpATDJORd2D6gBxR0AtwCa
- LGhC23WGctFPUI0CRzNFfVokCU5kah11BbL/tiquIH5MZk8t1pPfJaLf0dDjI1NfK02k
- oNnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693842543; x=1694447343;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1Mr4a2ALFhDpVZdNIQ8Ux/W/wDhbSFit8lx1g0WE8sQ=;
- b=TDKnlSLV21Do0X917fCQfCYTxKr/hTLv86w7cyMYcovOJmpu0KfRc/aNCnqt/LXcI2
- FTUAwQVkudH0ZvfYoZxGjGHgPsKex19jVP3UZSjySa0sreQRrs1ZkbBOfhu1WbUlc6iT
- eHybCLWFagreVrYNI7QKqc4uMp5dfMgmEUGtLl/DctHqPw5lnDlJQ01zwMMVGfuUiGio
- ZUE2kkfXlvIm9DVZ895mqWegOQ/nDMhdvlipfmklLUq2g0s5amId+OtH29b/lmnvUGwk
- qZuAw8iNSV2SQgPnVBf3Fi26A9zv77s+qDhlM0hU0MJy7FF/TbKagtBZkfbHbaYKuIK3
- AoMw==
-X-Gm-Message-State: AOJu0YwtM39kcglQFAS5ISmux+K2+n3b+zc2i7QtJ9Z2yKxZ7Gki8qW8
- 9A7Q4a/4BBFVOVFIyL56On+JdA==
-X-Google-Smtp-Source: AGHT+IE4v4l6ymY3DjZh2dEcApIj4aqYKl5Mc+y05e23cKNGlbJ9nuy4qF058Dp4ZWgy6wbza5M/ZA==
-X-Received: by 2002:a05:6512:3446:b0:500:12c6:c91b with SMTP id
- j6-20020a056512344600b0050012c6c91bmr6396413lfr.40.1693842543157; 
- Mon, 04 Sep 2023 08:49:03 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u11-20020ac2518b000000b005009920b6afsm1791519lfi.9.2023.09.04.08.49.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Sep 2023 08:49:02 -0700 (PDT)
-Message-ID: <11765348-1d5c-41aa-babc-7c6da68cd9f1@linaro.org>
-Date: Mon, 4 Sep 2023 18:49:02 +0300
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A936910E3A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 15:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+ t=1693843190; bh=6xQ8ZzLA186xYSB1p50dCg8bI/xUN5UKZ4e4DN5dY4Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JbEcKK6AlWE4egRXfy61j4FO6+MWz00uDfvuC32Z8D1FjmOkA58fhIsMMBa3ngg/n
+ WwF0wzIOQbwLKwFniOMKBDDVVTl4ep/Av9SvOK0TVpf0nGV1CWMHFr+MzQYTqy39Ku
+ JtybnDyMdsKr9/jvkP3Ov9Pw6es8f3ebi5SUMiaU=
+Date: Mon, 4 Sep 2023 17:59:45 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Julius Zint <julius@zint.sh>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
+ driver
+Message-ID: <f2e1ab9e-e691-42e1-a600-42744f692922@t-8ch.de>
+References: <20230820094118.20521-1-julius@zint.sh>
+ <20230820094118.20521-2-julius@zint.sh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 00/12] drm,usb/typec: uABI for USB-C DisplayPort
- connectors
-Content-Language: en-GB
-To: Bjorn Andersson <andersson@kernel.org>
-References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
- <tsvdc6jm7rtnqjcygn7lhzspheomqbwjejoastr7kcfs22btdr@gy2s57cuwsxy>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <tsvdc6jm7rtnqjcygn7lhzspheomqbwjejoastr7kcfs22btdr@gy2s57cuwsxy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230820094118.20521-2-julius@zint.sh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,64 +42,378 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jiri Kosina <jikos@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/09/2023 18:46, Bjorn Andersson wrote:
-> On Mon, Sep 04, 2023 at 12:41:38AM +0300, Dmitry Baryshkov wrote:
->> During the discussion regarding DisplayPort wrapped in the USB-C
->> connectors (via the USB-C altmode) it was pointed out that currently
->> there is no good way to let userspace know if the DRM connector in
->> question is the 'native' DP connector or if it is the USB-C connector.
->>
->> An attempt to use DRM_MODE_CONNECTOR_USB for such connectors was
->> declined, as existing DP drivers (i915, AMD) use
->> DRM_MODE_CONNECTOR_DisplayPort. New drivers should behave in the same
->> way.
->>
++Cc Hans who ins involved with the backlight subsystem
+
+Hi Julius,
+
+today I stumbled upon a mail from Hans [0], which explains that the
+backlight subsystem is not actually a good fit (yet?) for external
+displays.
+
+It seems a new API is in the works that would better fit, but I'm not
+sure about the state of this API. Maybe Hans can clarify.
+
+This also ties back to my review question how userspace can figure out
+to which display a backlight devices applies. So far it can not.
+
+[0] https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
+
+Below the original PATCH for Hans' reference.
+
+On 2023-08-20 11:41:18+0200, Julius Zint wrote:
+> The HID spec defines the following Usage IDs (p. 345 ff):
 > 
-> Sorry, didn't see the commit message before posting my complaint about
-> USB -> DisplayPort.
+> - Monitor Page (0x80) -> Monitor Control (0x01)
+> - VESA Virtual Controls Page (0x82) -> Brightness (0x10)
 > 
->> An attempt to use subconnector property was also declined. It is defined
->> to the type of the DP dongle connector rather than the host connector.
->>
->> This attempt targets reusing the connector's PATH property. Currently
->> this property is only used for the DP MST connectors. This patchset
->> reuses it to point out to the corresponding registered typec port
->> device.
->>
+> Apple made use of them in their Apple Studio Display and most likely on
+> other external displays (LG UltraFine 5k, Pro Display XDR).
 > 
-> Still interested in understanding how the path string should look like.
-
-As wrote in the other letter, on RB5 it is 'typec:port0'. If the machine 
-has two Type-C ports and two connected DP blocks, one of them will have 
-'typec:port0', another one 'typec:port1'. This way one can further look 
-under /sys/class/typec/portN/physical_localtion/ and find corresponding 
-location, etc.
-
-> Is the path expected to be consumed by machine, or is it only there for
-> human convenience?
-
-As with DP MST it is expected that userspace will consume this 
-information, possibly renaming the connector. For example, on my laptop 
-I have DP-1, ... DP-5 connectors (with DP-2 -- DP-5 being DP MST ones). 
-Xorg renames them to DP-1, DP-2, DP-1-1, DP-1-2, DP-1-3, because the MST 
-ones are branches for the DP-1.
-
--- 
-With best wishes
-Dmitry
-
+> The driver will work for any HID device with a report, where the
+> application matches the Monitor Control Usage ID and:
+> 
+> 1. An Input field in this report with the Brightness Usage ID (to get
+>    the current brightness)
+> 2. A Feature field in this report with the Brightness Usage ID (to
+>    set the current brightness)
+> 
+> This driver has been developed and tested with the Apple Studio Display.
+> Here is a small excerpt from the decoded HID descriptor showing the
+> feature field for setting the brightness:
+> 
+>   Usage Page (Monitor VESA VCP),  ; Monitor VESA VPC (82h, monitor page)
+>   Usage (10h, Brightness),
+>   Logical Minimum (400),
+>   Logical Maximum (60000),
+>   Unit (Centimeter^-2 * Candela),
+>   Unit Exponent (14),
+>   Report Size (32),
+>   Report Count (1),
+>   Feature (Variable, Null State),
+> 
+> The full HID descriptor dump is available as a comment in the source
+> code.
+> 
+> Signed-off-by: Julius Zint <julius@zint.sh>
+> ---
+>  drivers/video/backlight/Kconfig  |   8 +
+>  drivers/video/backlight/Makefile |   1 +
+>  drivers/video/backlight/hid_bl.c | 269 +++++++++++++++++++++++++++++++
+>  3 files changed, 278 insertions(+)
+>  create mode 100644 drivers/video/backlight/hid_bl.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..b964a820956d 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -472,6 +472,14 @@ config BACKLIGHT_LED
+>  	  If you have a LCD backlight adjustable by LED class driver, say Y
+>  	  to enable this driver.
+>  
+> +config BACKLIGHT_HID
+> +	tristate "VESA VCP HID Backlight Driver"
+> +	depends on HID
+> +	help
+> +	  If you have an external display with VESA compliant HID brightness
+> +	  controls then say Y to enable this backlight driver. Currently the
+> +	  only supported device is the Apple Studio Display.
+> +
+>  endif # BACKLIGHT_CLASS_DEVICE
+>  
+>  endmenu
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index f72e1c3c59e9..835f9b8772c7 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -58,3 +58,4 @@ obj-$(CONFIG_BACKLIGHT_WM831X)		+= wm831x_bl.o
+>  obj-$(CONFIG_BACKLIGHT_ARCXCNN) 	+= arcxcnn_bl.o
+>  obj-$(CONFIG_BACKLIGHT_RAVE_SP)		+= rave-sp-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_LED)		+= led_bl.o
+> +obj-$(CONFIG_BACKLIGHT_HID)		+= hid_bl.o
+> diff --git a/drivers/video/backlight/hid_bl.c b/drivers/video/backlight/hid_bl.c
+> new file mode 100644
+> index 000000000000..b40f8f412ee2
+> --- /dev/null
+> +++ b/drivers/video/backlight/hid_bl.c
+> @@ -0,0 +1,269 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/module.h>
+> +#include <linux/backlight.h>
+> +
+> +#define APPLE_STUDIO_DISPLAY_VENDOR_ID  0x05ac
+> +#define APPLE_STUDIO_DISPLAY_PRODUCT_ID 0x1114
+> +
+> +#define HID_USAGE_MONITOR_CTRL			0x800001
+> +#define HID_USAGE_VESA_VCP_BRIGHTNESS		0x820010
+> +
+> +/*
+> + * Apple Studio Display HID report descriptor
+> + *
+> + * Usage Page (Monitor),               ; USB monitor (80h, monitor page)
+> + * Usage (01h),
+> + * Collection (Application),
+> + *     Report ID (1),
+> + *
+> + *     Usage Page (Monitor VESA VCP),  ; Monitor VESA virtual control panel (82h, monitor page)
+> + *     Usage (10h, Brightness),
+> + *     Logical Minimum (400),
+> + *     Logical Maximum (60000),
+> + *     Unit (Centimeter^-2 * Candela),
+> + *     Unit Exponent (14),
+> + *     Report Size (32),
+> + *     Report Count (1),
+> + *     Feature (Variable, Null State),
+> + *
+> + *     Usage Page (PID),               ; Physical interface device (0Fh)
+> + *     Usage (50h),
+> + *     Logical Minimum (0),
+> + *     Logical Maximum (20000),
+> + *     Unit (1001h),
+> + *     Unit Exponent (13),
+> + *     Report Size (16),
+> + *     Feature (Variable, Null State),
+> + *
+> + *     Usage Page (Monitor VESA VCP),  ; Monitor VESA virtual control panel (82h, monitor page)
+> + *     Usage (10h, Brightness),
+> + *     Logical Minimum (400),
+> + *     Logical Maximum (60000),
+> + *     Unit (Centimeter^-2 * Candela),
+> + *     Unit Exponent (14),
+> + *     Report Size (32),
+> + *     Report Count (1),
+> + *     Input (Variable),
+> + * End Collection
+> + */
+> +
+> +struct hid_bl_data {
+> +	struct hid_device *hdev;
+> +	unsigned int min_brightness;
+> +	unsigned int max_brightness;
+> +	struct hid_field *input_field;
+> +	struct hid_field *feature_field;
+> +};
+> +
+> +static struct hid_field *hid_get_usage_field(struct hid_device *hdev,
+> +					     unsigned int report_type,
+> +					     unsigned int application, unsigned int usage)
+> +{
+> +	struct hid_report_enum *re = &hdev->report_enum[report_type];
+> +	struct hid_report *report;
+> +	int i, j;
+> +
+> +	list_for_each_entry(report, &re->report_list, list) {
+> +		if (report->application != application)
+> +			continue;
+> +
+> +		for (i = 0; i < report->maxfield; i++) {
+> +			struct hid_field *field = report->field[i];
+> +
+> +			for (j = 0; j < field->maxusage; j++)
+> +				if (field->usage[j].hid == usage)
+> +					return field;
+> +		}
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static void hid_bl_remove(struct hid_device *hdev)
+> +{
+> +	struct backlight_device *bl;
+> +	struct hid_bl_data *data;
+> +
+> +	hid_dbg(hdev, "remove\n");
+> +	bl = hid_get_drvdata(hdev);
+> +	data = bl_get_data(bl);
+> +
+> +	devm_backlight_device_unregister(&hdev->dev, bl);
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+> +	hid_set_drvdata(hdev, NULL);
+> +	devm_kfree(&hdev->dev, data);
+> +}
+> +
+> +static int hid_bl_get_brightness_raw(struct hid_bl_data *data)
+> +{
+> +	struct hid_field *field;
+> +	int result;
+> +
+> +	field = data->input_field;
+> +	hid_hw_request(data->hdev, field->report, HID_REQ_GET_REPORT);
+> +	hid_hw_wait(data->hdev);
+> +	result = *field->new_value;
+> +	hid_dbg(data->hdev, "get brightness: %d\n", result);
+> +
+> +	return result;
+> +}
+> +
+> +static int hid_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct hid_bl_data *data;
+> +	int brightness;
+> +
+> +	data = bl_get_data(bl);
+> +	brightness = hid_bl_get_brightness_raw(data);
+> +	return brightness - data->min_brightness;
+> +}
+> +
+> +static void hid_bl_set_brightness_raw(struct hid_bl_data *data, int brightness)
+> +{
+> +	struct hid_field *field;
+> +
+> +	field = data->feature_field;
+> +	*field->value = brightness;
+> +	hid_hw_request(data->hdev, field->report, HID_REQ_SET_REPORT);
+> +	hid_hw_wait(data->hdev);
+> +	hid_dbg(data->hdev, "set brightness: %d\n", brightness);
+> +}
+> +
+> +static int hid_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct hid_bl_data *data;
+> +	int brightness;
+> +
+> +	data = bl_get_data(bl);
+> +	brightness = backlight_get_brightness(bl);
+> +	brightness += data->min_brightness;
+> +	hid_bl_set_brightness_raw(data, brightness);
+> +	return 0;
+> +}
+> +
+> +static const struct backlight_ops hid_bl_ops = {
+> +	.update_status  = hid_bl_update_status,
+> +	.get_brightness = hid_bl_get_brightness,
+> +};
+> +
+> +static int hid_bl_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +	int ret;
+> +	struct hid_field *input_field;
+> +	struct hid_field *feature_field;
+> +	struct hid_bl_data *data;
+> +	struct backlight_properties props;
+> +	struct backlight_device *bl;
+> +
+> +	hid_dbg(hdev, "probe\n");
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "parse failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
+> +	if (ret) {
+> +		hid_err(hdev, "hw start failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	input_field = hid_get_usage_field(hdev, HID_INPUT_REPORT,
+> +					  HID_USAGE_MONITOR_CTRL,
+> +					  HID_USAGE_VESA_VCP_BRIGHTNESS);
+> +	if (input_field == NULL) {
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	feature_field = hid_get_usage_field(hdev, HID_FEATURE_REPORT,
+> +					    HID_USAGE_MONITOR_CTRL,
+> +					    HID_USAGE_VESA_VCP_BRIGHTNESS);
+> +	if (feature_field == NULL) {
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	if (input_field->logical_minimum != feature_field->logical_minimum) {
+> +		hid_warn(hdev, "minimums do not match: %d / %d\n",
+> +			 input_field->logical_minimum,
+> +			 feature_field->logical_minimum);
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	if (input_field->logical_maximum != feature_field->logical_maximum) {
+> +		hid_warn(hdev, "maximums do not match: %d / %d\n",
+> +			 input_field->logical_maximum,
+> +			 feature_field->logical_maximum);
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	hid_dbg(hdev, "Monitor VESA VCP with brightness control\n");
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "hw open failed: %d\n", ret);
+> +		goto exit_stop;
+> +	}
+> +
+> +	data = devm_kzalloc(&hdev->dev, sizeof(*data), GFP_KERNEL);
+> +	if (data == NULL) {
+> +		ret = -ENOMEM;
+> +		goto exit_stop;
+> +	}
+> +	data->hdev = hdev;
+> +	data->min_brightness = input_field->logical_minimum;
+> +	data->max_brightness = input_field->logical_maximum;
+> +	data->input_field = input_field;
+> +	data->feature_field = feature_field;
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.max_brightness = data->max_brightness - data->min_brightness;
+> +
+> +	bl = devm_backlight_device_register(&hdev->dev, "vesa_vcp",
+> +					    &hdev->dev, data,
+> +					    &hid_bl_ops,
+> +					    &props);
+> +	if (IS_ERR(bl)) {
+> +		ret = PTR_ERR(bl);
+> +		hid_err(hdev, "failed to register backlight: %d\n", ret);
+> +		goto exit_free;
+> +	}
+> +
+> +	hid_set_drvdata(hdev, bl);
+> +
+> +	return 0;
+> +
+> +exit_free:
+> +	hid_hw_close(hdev);
+> +	devm_kfree(&hdev->dev, data);
+> +
+> +exit_stop:
+> +	hid_hw_stop(hdev);
+> +	return ret;
+> +}
+> +
+> +static const struct hid_device_id hid_bl_devices[] = {
+> +	{ HID_USB_DEVICE(APPLE_STUDIO_DISPLAY_VENDOR_ID,
+> +			 APPLE_STUDIO_DISPLAY_PRODUCT_ID) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, hid_bl_devices);
+> +
+> +static struct hid_driver hid_bl_driver = {
+> +	.name = "hid_backlight",
+> +	.id_table = hid_bl_devices,
+> +	.probe = hid_bl_probe,
+> +	.remove = hid_bl_remove,
+> +};
+> +module_hid_driver(hid_bl_driver);
+> +
+> +MODULE_AUTHOR("Julius Zint <julius@zint.sh>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Backlight driver for HID devices");
+> -- 
+> 2.41.0
+> 
