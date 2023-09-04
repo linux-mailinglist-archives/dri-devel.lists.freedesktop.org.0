@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB32791813
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 15:28:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3E6791815
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 15:29:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE8D810E33D;
-	Mon,  4 Sep 2023 13:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B00610E359;
+	Mon,  4 Sep 2023 13:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D45410E33D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 13:28:21 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4539E10E359
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 13:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693834100;
+ s=mimecast20190719; t=1693834137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z8BbS0VR+viLE45lChE7wLN6LwznzmsTUr7hWT6afTU=;
- b=itcx4F+diU1g0zx/pFY2FX7rmBk3Dv+lKHraSnzx9mTQHUb00hDIW607Sd5SQ+hzndNGUs
- QGn5Qx4X1IN2HzlH/z6keFtDJgI3jErgBs4wh6o19IzNtUaWf3CZvemBkc16LSKby5SPY4
- 9OM38/WpJsforqb2C5MaaWRhoyMRFJk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ogc35j5wnFZjYknca/Dmxrctu7aJYOr7uX6tINC9GWs=;
+ b=eVMR9mHWlE+I25vv9vjngZNjD2SmjS/XMAZrK8cTk7kD0sdVAcRBcFfxzL9T0UsOYvkrOB
+ EqHSot500snx9SFPg50x42o8lsq7tDv+ig1u48ATVv56U+Tp/4vt5YAJvJJXI098KEylsM
+ hVSQnMU3WuR9fJbI1equGbue5uVtSUo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-303-8iWTQrujO_yS0bvCbKx8Sg-1; Mon, 04 Sep 2023 09:28:17 -0400
-X-MC-Unique: 8iWTQrujO_yS0bvCbKx8Sg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3fd0fa4d08cso9511955e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 06:28:17 -0700 (PDT)
+ us-mta-652-wUN2us3ZMPiwkiHgaLId6g-1; Mon, 04 Sep 2023 09:28:55 -0400
+X-MC-Unique: wUN2us3ZMPiwkiHgaLId6g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-31aef4011cfso820952f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 06:28:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693834096; x=1694438896;
+ d=1e100.net; s=20221208; t=1693834134; x=1694438934;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z8BbS0VR+viLE45lChE7wLN6LwznzmsTUr7hWT6afTU=;
- b=R4GW/DQRgL991hHnPclatp+BHOsyZ+TkUnIlVwy9uOLdZci9uAmxq1ush97H3ARbEX
- WVeNWwhERj5WCofvfjuJaaiCFim9kalSpaziv2ywzzSa2I3oe/ERJfgbgkljEdF54xDQ
- naA09fCJ66AgYMHrpICG2sQmh6kVgjvyOTWZ390Ihc1jj7FqeIERTtUDRjVMv3rLBIIj
- ktf04JO8GhAHz1jjpmVzlyqAM0UV/0eF+4Uj863HY3I7nC+chrwdJMySzDZURxGum6iY
- GQpvPrhhrzVnQvhGi9D5HOwqG8Jy1ph707p4Ko4BQ/LJjOExX7OxjiR4lmuLl6bhPtSK
- Esgg==
-X-Gm-Message-State: AOJu0YxxSdnMJnwXsosaXCQvIxFgc2dNOEQZ+4xd2gTUreVG6PLLnPZo
- qg9DVMkaGiSCMpJ+I1KRAC1lE0XyBPWUEivXde6pfqdaH0EhpFTZmql81ERGsPY4Bnz2onjuGpK
- IziiMO0aFHU4XEOEDD+xDJXNX6kWP+hKR6whp
-X-Received: by 2002:a05:600c:2945:b0:3fe:89be:cd3 with SMTP id
- n5-20020a05600c294500b003fe89be0cd3mr7455264wmd.22.1693834095942; 
- Mon, 04 Sep 2023 06:28:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHl7VfR/OsiuaD0NLKpcBP58yIezvg5tTwL4OjRo81CSensP8glNKF1MPDnFaTMcS52nY0Kpw==
-X-Received: by 2002:a05:600c:2945:b0:3fe:89be:cd3 with SMTP id
- n5-20020a05600c294500b003fe89be0cd3mr7455246wmd.22.1693834095589; 
- Mon, 04 Sep 2023 06:28:15 -0700 (PDT)
+ bh=Ogc35j5wnFZjYknca/Dmxrctu7aJYOr7uX6tINC9GWs=;
+ b=C9GlmLIO2qyjw7fY73r2P/FYjMMpMpXbyViXq07gBfj4pxXv1m7M0Lmm+6BKCM6rlq
+ fUQHAXm4VsgcuvO8HUstyiKXRLSjorG8AcLXNOsBaDLM8vy90LM2YG1IX7i4B+zR7ERL
+ y2Q3kK3KzRfVAlnuDas1qaXEyU8NppQgn6Jk/ex0oLhZJrcazsQUEJmjsPdT1O2++qpZ
+ ifB+HbfFELUhY7GUK5aznPD+SoaJhkLWJf1RprKMbXwY6MtKuSCfaUTxtP4wCdxTHSHO
+ B1C332GXA5HmFVa3c+ueMSzdAsAD1yTM9zs5bLKvUuc0MLQ3aRJrfMzQJlneGXM7kjOS
+ KjnA==
+X-Gm-Message-State: AOJu0Ywdlv7zg+hLingPxY2Nks49iqe2pr8iSpIPRLgj0fzgLJKv4xNw
+ //fcCxOjGzFalch15sCIE2VFbGPeqSFRf0qtFOuqCJXXbFjzjqlR+JgVuL/WplRTNf5yZBGwlqF
+ ewzIAIf+MPVJCHXrXZNxTKUq9wR2M
+X-Received: by 2002:a5d:43c3:0:b0:317:3d36:b2cd with SMTP id
+ v3-20020a5d43c3000000b003173d36b2cdmr6107640wrr.71.1693834134386; 
+ Mon, 04 Sep 2023 06:28:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG3pL/7M37MZ8DDYOtxB0J933cOF0hsfKFCSqFaXm8ULHyrObL/1Lf5LyHUOXJD35lTdHtBaw==
+X-Received: by 2002:a5d:43c3:0:b0:317:3d36:b2cd with SMTP id
+ v3-20020a5d43c3000000b003173d36b2cdmr6107629wrr.71.1693834134083; 
+ Mon, 04 Sep 2023 06:28:54 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p9-20020a1c7409000000b003fee53feab5sm14253513wmc.10.2023.09.04.06.28.15
+ p3-20020a05600c1d8300b00401e32b25adsm14407260wms.4.2023.09.04.06.28.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Sep 2023 06:28:15 -0700 (PDT)
+ Mon, 04 Sep 2023 06:28:53 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org
-Subject: Re: [PATCH 7/8] staging/fbtft: Initialize fb_op struct as static const
-In-Reply-To: <20230828132131.29295-8-tzimmermann@suse.de>
+Subject: Re: [PATCH 8/8] staging/fbtft: Use fb_ops helpers for deferred I/O
+In-Reply-To: <20230828132131.29295-9-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
- <20230828132131.29295-8-tzimmermann@suse.de>
-Date: Mon, 04 Sep 2023 15:28:14 +0200
-Message-ID: <877cp6cbkh.fsf@minerva.mail-host-address-is-not-set>
+ <20230828132131.29295-9-tzimmermann@suse.de>
+Date: Mon, 04 Sep 2023 15:28:53 +0200
+Message-ID: <874jkacbje.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -89,9 +89,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Replace dynamic allocation of the fb_ops instance with static
-> allocation. Initialize the fields at module-load time. The owner
-> field changes to THIS_MODULE, as in all other fbdev drivers.
+> Generate callback functions for struct fb_ops with the fbdev macro
+> FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
+> the generated functions with an fbdev initializer macro.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
