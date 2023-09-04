@@ -2,68 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78251790FDA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA83790FF0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5500B10E27F;
-	Mon,  4 Sep 2023 02:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5497610E279;
+	Mon,  4 Sep 2023 02:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622A310E285
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:05:02 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2bccda76fb1so14814451fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 19:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693793101; x=1694397901; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ND9TWls6WljGZ9WIziWPWxaNspuAqLv4XdjEfOK8lUI=;
- b=tXPqHQzu366K1ZgguB+79Evf9eAwFRHStoLhVAZzy4x2MeyfMLzafRpbzLmfovy7d7
- GC3S2BJU9Xs+C60HmnV95l/LsY1tBl9wC/3QijevUoQCWkTotHJeRCHaLW6DUs9WXyrQ
- tRWj5nwdct6Cjye2Uacih1KbRvYMEG1EZDn9Ig4y16W8CcJr2o9wXJGmZk/P9sc+eG2O
- 6Lm2Y1UmlCXGNAbFWnADRR/candtJEZ0Naj4Ip4c/T1Jy01+byqxJfWkZJF/EP4qBN++
- 7ZI7Y0DcgcUE8TneLRSH1xlk190nQD2Yup89mx1/ap/XzcSl0sbHyoGjSfZFQIn7aNMk
- NuNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693793101; x=1694397901;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ND9TWls6WljGZ9WIziWPWxaNspuAqLv4XdjEfOK8lUI=;
- b=g+12poE532r9xrMPH8Wygk/1oegVO7x10loWDUSQtb9zfYxXEAgOEZQO4WQb6HayJN
- KEPipT6SEPrP1K1q5xxJNRlnKzlh5PDuBu3FeXMaFkNgaueFHDVOxWPfcW6Rpm9ux55i
- AuC6NZjPrE8KJcPMtTJ64EXSl7qGjJ9Fgtki+hbzIyLmy5Wpa9nw3GDbQb21ZbX2HCMk
- mRiz2vcGRtFf0ik8rptR36psyiVoR6vrwgIihz7/vkBl6sdMQDNIFt1+FEYkx8MdguT1
- chIhRH3y6evfadQ7zT1V4arTyPM1Z2SHYR6yxyU1IUFAn8NBAA7Pg0ZWUnPwg6iverkM
- sa4A==
-X-Gm-Message-State: AOJu0YwedKVSyAMDTUkBLe9J47W0wmWeZeGakVdx4zesEWPUuidPZDlz
- Kr+4MT9VqQtZtOqCiIhp8fPEpQ==
-X-Google-Smtp-Source: AGHT+IFWbfGA5SPwQb9KAW491TGzx4BsLhxrFJCHwvDlY00nbTmmGEYFV+xN3Jn9gSryCqTk/mI8/A==
-X-Received: by 2002:a2e:8608:0:b0:2bc:dada:dbe0 with SMTP id
- a8-20020a2e8608000000b002bcdadadbe0mr6270880lji.10.1693793101188; 
- Sun, 03 Sep 2023 19:05:01 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- t13-20020a2e9c4d000000b002bce0e9385asm1818237ljj.9.2023.09.03.19.05.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Sep 2023 19:05:00 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 8/8] drm/msm/dpu: move INTF tearing checks to
- dpu_encoder_phys_cmd_init
-Date: Mon,  4 Sep 2023 05:04:54 +0300
-Message-Id: <20230904020454.2945667-9-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
-References: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF0E10E279
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:14:35 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RfBwH0WmtzVjvT;
+ Mon,  4 Sep 2023 10:11:59 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 4 Sep
+ 2023 10:14:32 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH v2] drm: gm12u320: Fix the timeout usage for usb_bulk_msg()
+Date: Mon, 4 Sep 2023 10:14:20 +0800
+Message-ID: <20230904021421.1663892-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +46,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: ruanjinjie@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the INTF is fixed at the encoder creation time, we can move the
-check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
-This function can return an error if INTF doesn't have required feature.
-Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
-useful, as this function returns void.
+The timeout arg of usb_bulk_msg() is ms already, which has been converted
+to jiffies by msecs_to_jiffies() in usb_start_wait_urb(). So fix the usage
+by removing the redundant msecs_to_jiffies() in the macros.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+And as Hans suggested, also remove msecs_to_jiffies() for the IDLE_TIMEOUT
+macro to make it consistent here and so change IDLE_TIMEOUT to
+msecs_to_jiffies(IDLE_TIMEOUT) where it is used.
+
+Fixes: e4f86e437164 ("drm: Add Grain Media GM12U320 driver v2")
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Suggested-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 39 +++++++++++--------
- 1 file changed, 23 insertions(+), 16 deletions(-)
+v2:
+- Remove the msecs_to_jiffies() also for IDLE_TIMEOUT.
+- Update the fix tag.
+- Update the commit message.
+---
+ drivers/gpu/drm/tiny/gm12u320.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index d18236bd98e6..ca1296379c4d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -325,24 +325,21 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
- 	unsigned long vsync_hz;
- 	struct dpu_kms *dpu_kms;
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index c5bb683e440c..0187539ff5ea 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -70,10 +70,10 @@ MODULE_PARM_DESC(eco_mode, "Turn on Eco mode (less bright, more silent)");
+ #define READ_STATUS_SIZE		13
+ #define MISC_VALUE_SIZE			4
  
--	if (phys_enc->has_intf_te) {
--		if (!phys_enc->hw_intf ||
--		    !phys_enc->hw_intf->ops.enable_tearcheck) {
--			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
--			return;
--		}
--
--		DPU_DEBUG_CMDENC(cmd_enc, "");
--	} else {
--		if (!phys_enc->hw_pp ||
--		    !phys_enc->hw_pp->ops.enable_tearcheck) {
--			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
--			return;
--		}
--
--		DPU_DEBUG_CMDENC(cmd_enc, "pp %d\n", phys_enc->hw_pp->idx - PINGPONG_0);
-+	/*
-+	 * TODO: if/when resource allocation is refactored, move this to a
-+	 * place where the driver can actually return an error.
-+	 */
-+	if (!phys_enc->has_intf_te &&
-+	    (!phys_enc->hw_pp ||
-+	     !phys_enc->hw_pp->ops.enable_tearcheck)) {
-+		DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
-+		return;
- 	}
+-#define CMD_TIMEOUT			msecs_to_jiffies(200)
+-#define DATA_TIMEOUT			msecs_to_jiffies(1000)
+-#define IDLE_TIMEOUT			msecs_to_jiffies(2000)
+-#define FIRST_FRAME_TIMEOUT		msecs_to_jiffies(2000)
++#define CMD_TIMEOUT			200
++#define DATA_TIMEOUT			1000
++#define IDLE_TIMEOUT			2000
++#define FIRST_FRAME_TIMEOUT		2000
  
-+	DPU_DEBUG_CMDENC(cmd_enc, "intf %d pp %d\n",
-+			 phys_enc->hw_intf ? phys_enc->hw_intf->idx - INTF_0 : -1,
-+			 phys_enc->hw_pp ? phys_enc->hw_pp->idx - PINGPONG_0 : -1);
-+
- 	mode = &phys_enc->cached_mode;
+ #define MISC_REQ_GET_SET_ECO_A		0xff
+ #define MISC_REQ_GET_SET_ECO_B		0x35
+@@ -389,7 +389,7 @@ static void gm12u320_fb_update_work(struct work_struct *work)
+ 	 * switches back to showing its logo.
+ 	 */
+ 	queue_delayed_work(system_long_wq, &gm12u320->fb_update.work,
+-			   IDLE_TIMEOUT);
++			   msecs_to_jiffies(IDLE_TIMEOUT));
  
- 	dpu_kms = phys_enc->dpu_kms;
-@@ -768,10 +765,20 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
- 	phys_enc->intf_mode = INTF_MODE_CMD;
- 	cmd_enc->stream_sel = 0;
- 
-+	if (!phys_enc->hw_intf) {
-+		DPU_ERROR_CMDENC(cmd_enc, "no INTF provided\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	/* DPU before 5.0 use PINGPONG for TE handling */
- 	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
- 		phys_enc->has_intf_te = true;
- 
-+	if (phys_enc->has_intf_te && !phys_enc->hw_intf->ops.enable_tearcheck) {
-+		DPU_ERROR_CMDENC(cmd_enc, "tearcheck not supported\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	atomic_set(&cmd_enc->pending_vblank_cnt, 0);
- 	init_waitqueue_head(&cmd_enc->pending_vblank_wq);
- 
+ 	return;
+ err:
 -- 
-2.39.2
+2.34.1
 
