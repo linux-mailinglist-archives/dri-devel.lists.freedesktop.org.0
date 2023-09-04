@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4529791165
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 08:33:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6898579119F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 08:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D5F10E299;
-	Mon,  4 Sep 2023 06:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B4610E29A;
+	Mon,  4 Sep 2023 06:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D62B10E0DE;
- Mon,  4 Sep 2023 06:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693809174; x=1725345174;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ql1SeTsT6ragrHVV+S7gG0Gx1pDdAI3ifiqhz6TY8BI=;
- b=VXGQNjWy6HbeULqVVzqmP3WikIuEytPdpU6tMebflIiNVGuDggEPba/4
- wHdrSC6B0U5famAieX3hJ2lnDe2bzAeQ7Ag5VDGRqXnied/DKuXAzPH8H
- NH0ZOpy8z7jZpAVy6XgA7NxujcTSWSV3TQlT9riNPhdtHKzsYjkqrvtMk
- rk3rnp/LKm9hLczf6SDwmdSSL5P5hBVyeMyRQgBBY9j6LERB+0Xr7uNet
- veWyueWb5KTTz4/V+hGHUi79mu6EBRLMqpVlQZNW1F0L77c076k7H2P/3
- kduMsKNEem1GbuToc+bBbuNezApGhoRe/uav2wEs/U6axVu5+9UzoKexw g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="366750382"
-X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; d="scan'208";a="366750382"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2023 23:32:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="914404453"
-X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; d="scan'208";a="914404453"
-Received: from acohen8-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.252.59.133])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2023 23:32:44 -0700
-Date: Mon, 4 Sep 2023 08:32:40 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [PATCH v2 3/6] drm_dbg: add trailing newlines to msgs
-Message-ID: <ZPV6CMBlDWriMyva@ashyti-mobl2.lan>
-References: <20230903184607.272198-1-jim.cromie@gmail.com>
- <20230903184607.272198-4-jim.cromie@gmail.com>
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65ED410E29A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 06:50:12 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-58cd9d9dbf5so15252407b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 23:50:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693810211; x=1694415011;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3rK9iNlhM9qm2dLN2U9ruHBYs+JWxgylVxpO0f1W8IM=;
+ b=Br0cjDkTo8Fv7kjPjT/+1e3IW8gX8lZ6p8azU5QNNHUKLPB14gMAAd2hcntwjR8BF/
+ cgQD6OsgwNMHcNxhiERSO0WarapTl2KCzte1+9oi4UjZ8tB89BOEw1/ZafmWm227+rc1
+ u6jYo+Y3KZD2lZOG05Ba13dIxMz21Xz5GDBEzsn9iRZKV0LgSkqSBzC2ztetfJUMuLB4
+ Q7wvG2QwOGJPP3mApbFmFR1jxXMkMo1pXFUQ6y95ZRqHuHmUPOUdVl9tL1RihuX9Rt0q
+ HTv7+wqyOSpVJgF3EoVplUF63AV5pA8Yu5I0IVXt5HJRrs8Rv2jn0UsRmR3MPEV5+UBy
+ Lu/w==
+X-Gm-Message-State: AOJu0YyW5GLJYI0580q2NmBDy4xrGKT8srlhwVzpTgILsaPP9UfrTa51
+ SZPGE6XcbVmpJDkOB2l0kyt3HXvU/aHifA==
+X-Google-Smtp-Source: AGHT+IHDWj8uPyQabRCgC2hw4zA5QcI4BYI9glYqfUmt0VOXFOUmbTH//GPa1xwBymqgD+IOOs2nRg==
+X-Received: by 2002:a81:a013:0:b0:592:975b:376a with SMTP id
+ x19-20020a81a013000000b00592975b376amr12819308ywg.0.1693810211294; 
+ Sun, 03 Sep 2023 23:50:11 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ b11-20020a0dd90b000000b0058419c57c66sm2529134ywe.4.2023.09.03.23.50.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Sep 2023 23:50:11 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-58d41109351so27038327b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 23:50:09 -0700 (PDT)
+X-Received: by 2002:a25:a1a9:0:b0:d7b:a78e:6b2d with SMTP id
+ a38-20020a25a1a9000000b00d7ba78e6b2dmr12488603ybi.20.1693810209384; Sun, 03
+ Sep 2023 23:50:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230903184607.272198-4-jim.cromie@gmail.com>
+References: <20230901142659.31787-1-tzimmermann@suse.de>
+ <20230901142659.31787-5-tzimmermann@suse.de>
+In-Reply-To: <20230901142659.31787-5-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Sep 2023 08:49:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV+0P40QpPcLeuSAd0HJ_Z2uPpmhyBKXnxoOQibtGAVFg@mail.gmail.com>
+Message-ID: <CAMuHMdV+0P40QpPcLeuSAd0HJ_Z2uPpmhyBKXnxoOQibtGAVFg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] fbdev: Replace fb_pgprotect() with fb_pgprot_device()
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Fei Yang <fei.yang@intel.com>,
- daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rob Clark <robdclark@chromium.org>,
- amd-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- Mika Kahola <mika.kahola@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, seanpaul@chromium.org,
- =?iso-8859-15?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- linux-kernel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, dri-devel@lists.freedesktop.org, arnd@arndb.de,
+ mpe@ellerman.id.au, deller@gmx.de, linux-mips@vger.kernel.org,
+ christophe.leroy@csgroup.eu, linux-m68k@lists.linux-m68k.org,
+ npiggin@gmail.com, sparclinux@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jim,
+On Sat, Sep 2, 2023 at 11:13=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> Rename the fbdev mmap helper fb_pgprotect() to fb_pgprot_device().
+> The helper sets VMA page-access flags for framebuffers in device I/O
+> memory. The new name follows pgprot_device(), which does the same for
+> arbitrary devices.
+>
+> Also clean up the helper's parameters and return value. Instead of
+> the VMA instance, pass the individial parameters separately: existing
+> page-access flags, the VMAs start and end addresses and the offset
+> in the underlying device memory rsp file. Return the new page-access
+> flags. These changes align fb_pgprot_device() closer with pgprot_device.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-On Sun, Sep 03, 2023 at 12:46:00PM -0600, Jim Cromie wrote:
-> By at least strong convention, a print-buffer's trailing newline says
-> "message complete, send it".  The exception (no TNL, followed by a call
-> to pr_cont) proves the general rule.
-> 
-> Most DRM.debug calls already comport with this: 207 DRM_DEV_DEBUG,
-> 1288 drm_dbg.  Clean up the remainders, in maintainer sized chunks.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+>  arch/m68k/include/asm/fb.h           | 19 ++++++++++---------
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Andi
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
