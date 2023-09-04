@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9664D791360
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B0F7913DF
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:49:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DF810E10A;
-	Mon,  4 Sep 2023 08:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2840810E2FD;
+	Mon,  4 Sep 2023 08:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99BF10E10A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 08:26:17 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 229C06607284;
- Mon,  4 Sep 2023 09:26:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693815976;
- bh=8wUKqMOjUBu2r0rpU1ECfBJyQoIpV4aYmseq/1ioMXc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BidWVaJiSPuAy3u5EqWJTioIjOX9nkY3WWhasu1CxwbmGHwt4T1bxyAgFfyoxxan6
- 7Qb9+gsMdsI9YsHlZRRjqMojmiLCNnP5ZEtSBdodWnlrqWWCgaA1kxqF1RUgo/Rh1X
- Py5orCbxTpEvYzCJIV16IEZXqmKHiuMfW4FFRkHjc6iVpXLc1qmYGX0oL56TtO96h8
- GctQkkBFgUELonuKZrc+l8+GdN2ISjBSFe0uEXqa/i4UZU4QAqvRLC6NAk+OZBjs5P
- /2VOOC6eIaXAz6XqVBDv52ETbSNY/VffyCXEiTvvr0lvVmwIja+iwsMXGklMdFHEIE
- jYRRmuqTZlsTA==
-Date: Mon, 4 Sep 2023 10:26:12 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 02/15] drm/panthor: Add uAPI
-Message-ID: <20230904102612.595840b1@collabora.com>
-In-Reply-To: <fe1bd580-2c3e-555a-0c1f-34a9ac4bdf9a@arm.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-3-boris.brezillon@collabora.com>
- <20230901181039.417c9753@collabora.com>
- <fe1bd580-2c3e-555a-0c1f-34a9ac4bdf9a@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+X-Greylist: delayed 1115 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Sep 2023 08:49:16 UTC
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D147F10E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 08:49:16 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1qd4yl-0000TY-S1; Mon, 04 Sep 2023 10:30:39 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1qd4yk-003plv-G3; Mon, 04 Sep 2023 10:30:38 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1qd4yk-0005BW-0h;
+ Mon, 04 Sep 2023 10:30:38 +0200
+Message-ID: <32186b941d6228a102b5e799aadf34206b58ac15.camel@pengutronix.de>
+Subject: Re: [RFT PATCH 13/15] drm/imx/ipuv3: Call
+ drm_atomic_helper_shutdown() at shutdown/unbind time
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org,  Maxime Ripard <mripard@kernel.org>
+Date: Mon, 04 Sep 2023 10:30:38 +0200
+In-Reply-To: <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
+References: <20230901234202.566951-1-dianders@chromium.org>
+ <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,78 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ linux-imx@nxp.com, kernel@pengutronix.de, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Sep 2023 08:42:08 +0100
-Steven Price <steven.price@arm.com> wrote:
+On Fr, 2023-09-01 at 16:41 -0700, Douglas Anderson wrote:
+> Based on grepping through the source code this driver appears to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown time
+> and at driver unbind time. Among other things, this means that if a
+> panel is in use that it won't be cleanly powered off at system
+> shutdown time.
+>=20
+> The fact that we should call drm_atomic_helper_shutdown() in the case
+> of OS shutdown/restart and at driver remove (or unbind) time comes
+> straight out of the kernel doc "driver instance overview" in
+> drm_drv.c.
+>=20
+> A few notes about this fix:
+> - When adding drm_atomic_helper_shutdown() to the unbind path, I added
+>   it after drm_kms_helper_poll_fini() since that's when other drivers
+>   seemed to have it.
+> - Technically with a previous patch, ("drm/atomic-helper:
+>   drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
+>   actually need to check to see if our "drm" pointer is NULL before
+>   calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
+>   though, so that this patch can land without any dependencies. It
+>   could potentially be removed later.
+> - This patch also makes sure to set the drvdata to NULL in the case of
+>   bind errors to make sure that shutdown can't access freed data.
+>=20
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-> On 01/09/2023 17:10, Boris Brezillon wrote:
-> > On Wed,  9 Aug 2023 18:53:15 +0200
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> >   
-> >> +/**
-> >> + * DOC: MMIO regions exposed to userspace.
-> >> + *
-> >> + * .. c:macro:: DRM_PANTHOR_USER_MMIO_OFFSET
-> >> + *
-> >> + * File offset for all MMIO regions being exposed to userspace. Don't use
-> >> + * this value directly, use DRM_PANTHOR_USER_<name>_OFFSET values instead.
-> >> + *
-> >> + * .. c:macro:: DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET
-> >> + *
-> >> + * File offset for the LATEST_FLUSH_ID register. The Userspace driver controls
-> >> + * GPU cache flushling through CS instructions, but the flush reduction
-> >> + * mechanism requires a flush_id. This flush_id could be queried with an
-> >> + * ioctl, but Arm provides a well-isolated register page containing only this
-> >> + * read-only register, so let's expose this page through a static mmap offset
-> >> + * and allow direct mapping of this MMIO region so we can avoid the
-> >> + * user <-> kernel round-trip.
-> >> + */
-> >> +#define DRM_PANTHOR_USER_MMIO_OFFSET		(0x1ull << 56)  
-> > 
-> > I'm playing with a 32-bit kernel/userspace, and this is problematic,
-> > because vm_pgoff is limited to 32-bit there, meaning we can only map up
-> > to (1ull << (PAGE_SHIFT + 32)) - 1. Should we add a DEV_QUERY to let
-> > userspace set the mmio range?  
-> 
-> Hmm, I was rather hoping we could ignore 32 bit these days ;) But while
-> I can't see why anyone would be running a 32 bit kernel, I guess 32 bit
-> user space is likely to still be needed.
+Thank you,
+Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Well, I can tell you some people are using 32-bit kernels ;-).
-
-> 
-> I can't really think of anything better than letting user space set the
-> MMIO range. Having an ioctl which returned a special fd just for MMIO
-> would be one option (which would preserve the full 44 bit GPU VA) but
-> seems somewhat overkill.
-
-Yeah, I don't think I like the separate-fd approach. Just feels like it
-goes against the DRM-way of doing things. And, with 32-bit userspace,
-we'd be limited by the CPU VA range anyway. Of course it's orthogonal
-to the max file offset, and just because we can't map all buffers at
-once, doesn't mean we don't want to be able to address more than 4G of
-memory. But with 43-bit left (I think I'd prefer if we enforce a log2
-value for the mmio offset/size, meaning that the max MMIO range would be
-1ull << 43), that means we're still able to address 8TB of memory. I
-guess that's more than enough for 32-bit users...
-
-> Hiding the mmap within an ioctl would of course
-> be bad as it breaks tools like Valgrind.
-
-Don't like this idea either.
-
-> 
-> Oh and please do make it a range - user space submission will be adding
-> to the MMIO range ;)
-
-Yeah, that was the plan (I keep usermode submission in the back of my
-mind ;-)).
+regards
+Philipp
