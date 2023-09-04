@@ -2,41 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592CD7917A7
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 14:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75FB7917AE
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 14:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87CFF10E1D3;
-	Mon,  4 Sep 2023 12:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BEE10E1D4;
+	Mon,  4 Sep 2023 12:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD15710E1D3
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 12:57:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F895128D;
- Mon,  4 Sep 2023 14:56:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1693832166;
- bh=C9icZMS0QHJ0RqYuqERzAofohYDpAdWWdpcM4Gh1MGw=;
- h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
- b=vYbLngxlixvsHqW8TScRwp861DS9XAJH9Dv4K9RQrgOZgMFwoCnmC+W/YYgflpjtu
- RG8m8RizPLnQ0UimbHp+xDF9wdUjAbWP0kfsOo935K0IbZEOFACsS3CowSCyqC7wbd
- oLK0INeHAEEOtkQ2X9trRZpIqi404yqjDXKsZPJI=
-Content-Type: text/plain; charset="utf-8"
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7054F10E367
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 12:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693832370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zEV+8LVB0e1YVGA/3PaV1RliEe0ZafqnElnGxMEFxlo=;
+ b=AYJDEEcc+Ui+3vgPX45vT/4XC4eP1Tb6WEVrknTTafPsCQUNyjYD6UOB6PjMIn2SIE3hIO
+ NwGnNWr3O9YsJAASHU7aupR3okRGYZo0lCFenPysYxORsjYQpz/2/mh9jCALEUWNJXWRQN
+ FH54GScAa+++RhlqG9XKwtnnTahZsgs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-154-pJaQ9GuBNQm-Ttx1SYaPTA-1; Mon, 04 Sep 2023 08:59:29 -0400
+X-MC-Unique: pJaQ9GuBNQm-Ttx1SYaPTA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-30932d15a30so805325f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 05:59:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693832368; x=1694437168;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zEV+8LVB0e1YVGA/3PaV1RliEe0ZafqnElnGxMEFxlo=;
+ b=Li8lpmaCMSuk1aOw6MsMdkcl4E28/vefVYl68YQy07PTjX3jOhyy7ToS+JOEwYTv7F
+ SrKElcQd2kMReJ8j/utdUNdhrlwL72hVm5xjDr8bHxveKI/TA/RqOWZx1l8hHBEZtQOA
+ gt7ZMmiVUkn3s3D4pqtSyzPWA0HIrgB512DGGROmSd8DrySJhVwe8NOKqXRlI6Nqfkk5
+ FX7eVon2ReaXUcqA6J/wCvcsNclYytKBvN0w4yr1pYpNc7QLZebkZ/BNHAyxpWRTS50D
+ 89mmAN6neyoNgiT6oF5H2eg1yY0hcpTzsdKETHd4Zxr18cgO9iQ4gVViatMJOheNnO6f
+ IEtQ==
+X-Gm-Message-State: AOJu0YzGn3Bvebdu82htWFpkNKW8JzbUlv9pAAM5zsLm6qBWZ5nbQYyd
+ B54XBxQQHTf6Y9pYYFCYJhTGLQa2g1xman+eLHbtOftuyFezvDqIKSOxq3IWJWqIZHdxqOoEhd6
+ C0zusO8LgbZe6h8fKKlOYxyQvrEeY
+X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id
+ p17-20020a5d4591000000b0031dd9774e3dmr7801068wrq.19.1693832368175; 
+ Mon, 04 Sep 2023 05:59:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHKikRn5bbMbcnbDDAwQ42B3JKHCa5zsGawpabxpCAhlcfEHQ3tfQsF2MOZFWXS2OqG+gZYTw==
+X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id
+ p17-20020a5d4591000000b0031dd9774e3dmr7801053wrq.19.1693832367823; 
+ Mon, 04 Sep 2023 05:59:27 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ c7-20020a5d4147000000b0031de43fe9bfsm14636476wrq.0.2023.09.04.05.59.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Sep 2023 05:59:27 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org
+Subject: Re: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
+In-Reply-To: <20230828132131.29295-2-tzimmermann@suse.de>
+References: <20230828132131.29295-1-tzimmermann@suse.de>
+ <20230828132131.29295-2-tzimmermann@suse.de>
+Date: Mon, 04 Sep 2023 14:59:26 +0200
+Message-ID: <877cp66qmp.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <169375462648.1779741.7610374659365330420@ping.linuxembedded.co.uk>
-References: <20230903133709.8049-1-adiupina@astralinux.ru>
- <169375462648.1779741.7610374659365330420@ping.linuxembedded.co.uk>
-Subject: Re: [PATCH] drm/rcar-du: fix comment to rcar_du_group_get()
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Alexandra Diupina <adiupina@astralinux.ru>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Mon, 04 Sep 2023 13:57:29 +0100
-Message-ID: <169383224922.277971.15400887308406098634@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,78 +81,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandra Diupina <adiupina@astralinux.ru>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, lvc-project@linuxtesting.org
+Cc: Steve Glendinning <steve.glendinning@shawell.net>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kieran Bingham (2023-09-03 16:23:46)
-> Hi Alexandra
->=20
-> Quoting Alexandra Diupina (2023-09-03 14:37:09)
-> > rcar_du_group_get() never returns a negative
-> > error code (always returns 0), so change
-> > the comment about returned value
->=20
-> If so, then perhaps this may as well become a void return and remove the
-> return 0.
->=20
-> That could then clean up some redundant error path handling in
-> drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c too ?
->=20
-> Still, this does correct the documentation to match the implementation
-> as it stands so... for that ...
->=20
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Reading Geert's reply here, I'll retract this RB tag, and instead agree
-that the emphasis should either be on a full clean up - or that this
-does document the intent that if there is an error it will be returned.
+Hello Thomas,
 
---
-Kieran
+> Generate callback functions for struct fb_ops with the fbdev macro
+> FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
+> the generated functions with fbdev initializer macros.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Steve Glendinning <steve.glendinning@shawell.net>
+> ---
 
+The patch looks good to me, but I've a question below.
 
->=20
-> But removing an unused error path seems like a worthy clean up
-> opportunity too.
->=20
-> >=20
-> > Fixes: cb2025d2509f ("drm/rcar-du: Introduce CRTCs groups")
->=20
-> Hrm ... well the documented behaviour was the same even before this
-> commit in rcar_du_get(), so perhaps it was documenting the intent... But
-> it does seem that the return code has been redundant for quite some time
-> so perhaps it's just not required.
->=20
->=20
-> --
-> Kieran
->=20
->=20
-> > Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
-> > ---
-> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/=
-gpu/drm/renesas/rcar-du/rcar_du_group.c
-> > index 2ccd2581f544..499d4e56c32d 100644
-> > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> > @@ -200,7 +200,7 @@ static void rcar_du_group_setup(struct rcar_du_grou=
-p *rgrp)
-> >   *
-> >   * This function must be called with the DRM mode_config lock held.
-> >   *
-> > - * Return 0 in case of success or a negative error code otherwise.
-> > + * Always return 0.
-> >   */
-> >  int rcar_du_group_get(struct rcar_du_group *rgrp)
-> >  {
-> > --=20
-> > 2.30.2
-> >
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
+>  drivers/video/fbdev/smscufx.c | 85 +++++++++--------------------------
+>  1 file changed, 22 insertions(+), 63 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
+
+[...]
+
+>  static const struct fb_ops ufx_ops = {
+>  	.owner = THIS_MODULE,
+> -	.fb_read = fb_sys_read,
+> -	.fb_write = ufx_ops_write,
+> +	__FB_DEFAULT_DEFERRED_OPS_RDWR(ufx_ops),
+>  	.fb_setcolreg = ufx_ops_setcolreg,
+> -	.fb_fillrect = ufx_ops_fillrect,
+> -	.fb_copyarea = ufx_ops_copyarea,
+> -	.fb_imageblit = ufx_ops_imageblit,
+> +	__FB_DEFAULT_DEFERRED_OPS_DRAW(ufx_ops),
+>  	.fb_mmap = ufx_ops_mmap,
+
+There are no generated functions for .fb_mmap, I wonder what's the value
+of __FB_DEFAULT_DEFERRED_OPS_MMAP() ? Maybe just removing that macro and
+setting .fb_mmap = fb_deferred_io_mmap instead if there's no custom mmap
+handler would be easier to read ?
+
+Alternatively, __FB_DEFAULT_DEFERRED_OPS_MMAP() could still be left but
+not taking a __prefix argument since that is not used anyways ?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
