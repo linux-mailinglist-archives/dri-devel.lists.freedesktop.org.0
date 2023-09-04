@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E5F791212
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 09:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F95A791213
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 09:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E2410E2AC;
-	Mon,  4 Sep 2023 07:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A7710E2B2;
+	Mon,  4 Sep 2023 07:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C053110E2AC
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 07:27:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C036410E2B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 07:27:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 16715CE0E16;
- Mon,  4 Sep 2023 07:27:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0359CC433C8;
- Mon,  4 Sep 2023 07:27:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id D647BCE0E16;
+ Mon,  4 Sep 2023 07:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6242C433C8;
+ Mon,  4 Sep 2023 07:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693812436;
- bh=zS+k6SmfaPf7quDUXWLnC5FUAjLDdauLMkbmb5Ev2aY=;
+ s=k20201202; t=1693812468;
+ bh=piU91Jcbu/nw4mkWE2ebzf6Prd/hbd/WAB0XaDvFVKs=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=pxeD5oCW/zTniYTuovwvrai8EtpSH9fm8CngPOFps19j4rVRk/8pV+pOeSww/BLtf
- whX4b6l0cDNTwsrEjX8Hh+g5OgrYpGLPZmJ9xr7cXcKPFDwNEw4wY79hd8Y+3LkQid
- urVrQuN8XqfphF5u1o5v8UK+gPJIvY7cZaTrg6O+f1Tg44C9RLhfMrOk/SXkO7kvvT
- mHEbuI35H2yT7tnFy6P/MRaTrr1/3gcSkGG10zACp2sFbVFSgMJ3ZK72tsDT9acu8L
- 6UlV9N/Q0cqQ19zTqpSfgBu/4pT6DFYXP6P4Z3a05eSQrueKJjurLWOliC7ajwokLl
- UrTBMNdG7O3LQ==
-Message-ID: <060226e5823e782a87c50b68d356e27b.mripard@kernel.org>
-Date: Mon, 04 Sep 2023 07:27:13 +0000
+ b=Zvb1r76GhELMisX9kegFx6hYvKO9a95ROEtrBeUGlMbCGe6dLBS306Urr9gQ7Y4/O
+ RjfMKdnLGbxCogy0Sw7M71edlT+aFPxH+Z52ERTui2cf/2MCtDIQTpRsuO8KUAZ+gj
+ UhPAJAp8xsJEuCC1OEYmDrSYMakSkrxSuqnNWimZfR8AAgUePniokMZ9WDo+KhQPGZ
+ 1UeKp+Y4eulL+A+VxVQ09/eumfPM+kiPlkxnI4wac8PKcm+PMHlHBGwaZScVNLeurG
+ 9bZhX6EBfgW0mneEv6bUiP5l3w/Hi8gz6AGocWmZMqxky1J0imwWFMJ58DF4cHvLj+
+ 0ZH5AS8zmDoeg==
+Message-ID: <8a90bc6f4bf16d5aa545e5215f2a5112.mripard@kernel.org>
+Date: Mon, 04 Sep 2023 07:27:45 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Douglas Anderson" <dianders@chromium.org>
-Subject: Re: [RFT PATCH 05/15] drm/mediatek: Call
- drm_atomic_helper_shutdown() at shutdown time
-In-Reply-To: <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
-References: <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
+Subject: Re: [RFT PATCH 06/15] drm/nouveau: Call
+ drm_atomic_helper_shutdown() or equiv at shutdown time
+In-Reply-To: <20230901164111.RFT.6.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
+References: <20230901164111.RFT.6.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,19 +51,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, Maxime
- Ripard <mripard@kernel.org>, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Maxime
+ Ripard <mripard@kernel.org>, kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Sep 2023 16:41:16 -0700, Douglas Anderson wrote:
+On Fri, 1 Sep 2023 16:41:17 -0700, Douglas Anderson wrote:
 > Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
+> missing a call to drm_atomic_helper_shutdown() (or
+> drm_helper_force_disable_all() if not using atomic) at system shutdown
 > time. Among other things, this means that if a panel is in use that it
 > won't be cleanly powered off at system shutdown time.
-> 
 > 
 > [ ... ]
 
