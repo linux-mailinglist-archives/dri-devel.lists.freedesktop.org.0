@@ -1,72 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2177916E3
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 14:09:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 592CD7917A7
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 14:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA1E10E334;
-	Mon,  4 Sep 2023 12:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CFF10E1D3;
+	Mon,  4 Sep 2023 12:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B30310E334
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 12:09:36 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-52a3ff5f0abso1813665a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 05:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1693829375; x=1694434175;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Fe52d7wymHVSRnUd4doTrEpU+qOQW0Adu/PC0B+zMbY=;
- b=ZtP1hB9LYUyU9vrvkfJmWOAv7PgYODvq0bJ+c44/C1u1+RWvGtlah+9iiB6jYIOSth
- PcvjgoX107d3zkH9oIhdgqit5EQFkGmDbE+Kk/BoS5V1jc4uowvGQjHz3+gMYphF5UH5
- lN1rjUNZRANhdnMFwzWcly8s6dzrup0QReglWpYDoq5sg7fchJvNjgl9Pr2oUzrX+Ztb
- 0tpgbx55tloLk54/rKUvdshKhAAsYdT1oKQYb4yhiKBgtwk2Jh9PWwxIb/Xf8W1yVACq
- L9VY7wRd4CGMlD/Xr9cWNMzyjIN+LjAAqjv/71a8EnYqnabP4NpdppcUAcG5YTCmQ0ej
- qRNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693829375; x=1694434175;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fe52d7wymHVSRnUd4doTrEpU+qOQW0Adu/PC0B+zMbY=;
- b=MCIxUertGDpf0gtWZMfJdCE21CNnlGS/D1GOBAmd8vvlIk8oVGhdit83vORFoTEZyi
- o7ST4FOUVpAt9Gnjzj6+fQRiKVQtX/+D0PGj+o1BlH0/sEaPsSTHD/Y6JcDPwQEN5/cs
- JTZW3YJ2Y5Ly5vV8uxCW3x09St00eG6X9iZ5R3MTbfTT1eE6hQHtsnbikYhcv3olhvA1
- fnyAlSd7fXEDGp4m5Gto5h5dVmlr7hHW5WdWQUBYTRHsBbWKp6nQ9xc7xOTiJ5uolVLE
- 3gN++WXcMzwT05dlCFAnwfVbJt0hfT08+btrmNiqECqCjTNqWGp2gGrIgJ3nE+71J5m8
- eARg==
-X-Gm-Message-State: AOJu0YwtE8zRj/UYBCGDmzJjysJDH7ekvBnt4UCAQW/eVE6t+Do7ax3O
- wlXmWAH3oNmZyHzM/Zl0G7kFag==
-X-Google-Smtp-Source: AGHT+IG4htU9jlytfOWTOOiTRhiMXfK1Yx8nBb4GGdVYDdsVmhh1c205BCxily+P8XS3+GVSvF6GUg==
-X-Received: by 2002:a05:6402:1f82:b0:52c:b469:bb01 with SMTP id
- c2-20020a0564021f8200b0052cb469bb01mr3263539edc.38.1693829374607; 
- Mon, 04 Sep 2023 05:09:34 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a056402320900b0052e2472f884sm1443153eda.21.2023.09.04.05.09.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Sep 2023 05:09:34 -0700 (PDT)
-Message-ID: <e380a452-ce93-8af2-4075-ef23987d693a@baylibre.com>
-Date: Mon, 4 Sep 2023 14:09:32 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD15710E1D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 12:57:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F895128D;
+ Mon,  4 Sep 2023 14:56:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1693832166;
+ bh=C9icZMS0QHJ0RqYuqERzAofohYDpAdWWdpcM4Gh1MGw=;
+ h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+ b=vYbLngxlixvsHqW8TScRwp861DS9XAJH9Dv4K9RQrgOZgMFwoCnmC+W/YYgflpjtu
+ RG8m8RizPLnQ0UimbHp+xDF9wdUjAbWP0kfsOo935K0IbZEOFACsS3CowSCyqC7wbd
+ oLK0INeHAEEOtkQ2X9trRZpIqi404yqjDXKsZPJI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/mediatek: Add spinlock for setting vblank event in
- atomic_begin
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20230822132646.9811-1-jason-jh.lin@mediatek.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230822132646.9811-1-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <169375462648.1779741.7610374659365330420@ping.linuxembedded.co.uk>
+References: <20230903133709.8049-1-adiupina@astralinux.ru>
+ <169375462648.1779741.7610374659365330420@ping.linuxembedded.co.uk>
+Subject: Re: [PATCH] drm/rcar-du: fix comment to rcar_du_group_get()
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Alexandra Diupina <adiupina@astralinux.ru>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Mon, 04 Sep 2023 13:57:29 +0100
+Message-ID: <169383224922.277971.15400887308406098634@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,23 +49,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, dri-devel@lists.freedesktop.org,
- Shawn Sung <shawn.sung@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Alexandra Diupina <adiupina@astralinux.ru>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+Quoting Kieran Bingham (2023-09-03 16:23:46)
+> Hi Alexandra
+>=20
+> Quoting Alexandra Diupina (2023-09-03 14:37:09)
+> > rcar_du_group_get() never returns a negative
+> > error code (always returns 0), so change
+> > the comment about returned value
+>=20
+> If so, then perhaps this may as well become a void return and remove the
+> return 0.
+>=20
+> That could then clean up some redundant error path handling in
+> drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c too ?
+>=20
+> Still, this does correct the documentation to match the implementation
+> as it stands so... for that ...
+>=20
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-On 22/08/2023 15:26, Jason-JH.Lin wrote:
-> Add spinlock protection to avoid race condition on vblank event
-> between mtk_drm_crtc_atomic_begin() and mtk_drm_finish_page_flip().
+Reading Geert's reply here, I'll retract this RB tag, and instead agree
+that the emphasis should either be on a full clean up - or that this
+does document the intent that if there is an error it will be returned.
 
--- 
-Regards,
-Alexandre
+--
+Kieran
+
+
+>=20
+> But removing an unused error path seems like a worthy clean up
+> opportunity too.
+>=20
+> >=20
+> > Fixes: cb2025d2509f ("drm/rcar-du: Introduce CRTCs groups")
+>=20
+> Hrm ... well the documented behaviour was the same even before this
+> commit in rcar_du_get(), so perhaps it was documenting the intent... But
+> it does seem that the return code has been redundant for quite some time
+> so perhaps it's just not required.
+>=20
+>=20
+> --
+> Kieran
+>=20
+>=20
+> > Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
+> > ---
+> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/=
+gpu/drm/renesas/rcar-du/rcar_du_group.c
+> > index 2ccd2581f544..499d4e56c32d 100644
+> > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+> > @@ -200,7 +200,7 @@ static void rcar_du_group_setup(struct rcar_du_grou=
+p *rgrp)
+> >   *
+> >   * This function must be called with the DRM mode_config lock held.
+> >   *
+> > - * Return 0 in case of success or a negative error code otherwise.
+> > + * Always return 0.
+> >   */
+> >  int rcar_du_group_get(struct rcar_du_group *rgrp)
+> >  {
+> > --=20
+> > 2.30.2
+> >
