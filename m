@@ -2,54 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F20791626
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 13:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82FC791614
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 13:11:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7FC10E32A;
-	Mon,  4 Sep 2023 11:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BAB10E065;
+	Mon,  4 Sep 2023 11:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB58210E332
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 11:17:59 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mtr@pengutronix.de>)
- id 1qd7Nu-0007D3-GP; Mon, 04 Sep 2023 13:04:46 +0200
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <mtr@pengutronix.de>)
- id 1qd7Ns-003rVV-AK; Mon, 04 Sep 2023 13:04:44 +0200
-Received: from mtr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <mtr@pengutronix.de>)
- id 1qd7Nr-00110g-Um; Mon, 04 Sep 2023 13:04:43 +0200
-Date: Mon, 4 Sep 2023 13:04:43 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Inki Dae <daeinki@gmail.com>
-Subject: Re: [PATCH 2/5] drm/bridge: samsung-dsim: reread ref clock before
- configuring PLL
-Message-ID: <20230904110443.GB224131@pengutronix.de>
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
- <20230818-samsung-dsim-v1-2-b39716db6b7a@pengutronix.de>
- <CAAQKjZOuRVsF7vE6ghBG7KH_QkE-5_UXjXMY080ynzZLpDjs7w@mail.gmail.com>
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0EA10E065
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 11:11:29 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id
+ d2e1a72fcca58-68bed2c786eso707533b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 04:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693825889; x=1694430689; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VfLBqtqsKewVLZ7LDcXD0Gsn2qEn+ss4iL3ZMurcTxk=;
+ b=EBQiKHWNQtZAfjp+6woZ/xQJN2zUfr+f4D2LLwHVn7YxjaKAXq+AfLTWKlQahhDILY
+ x9dX2qa58FQ67MpKV6yxEOl3dcCUxKkTu5TIWlfIxKaY5lF4da+oRZIWnHhGIIveCG3u
+ 3f1hZ/Hfr+ISHz5Helay/RH/G8qNUprKdj+WxKsLpVTZO9uhfX6LUrEhnsJQ0Gsu3T+v
+ KK00E0XasiKlIHJmk8Gbl71aZhU2nz3FsN15M5gK5bpXpCP3pOSNRHdRgxF77JGSiT6b
+ 0Ah9+KKNCzNZi+i76bBUmWtkWXKItcoIvRzZ9mVsKO9kAGXvPzyPPHfBXN1Lm160S8vt
+ gKHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693825889; x=1694430689;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VfLBqtqsKewVLZ7LDcXD0Gsn2qEn+ss4iL3ZMurcTxk=;
+ b=BQeJnPdi7o0ZTv/OUULKdK6b3LQBYWOi3cZHaAPAXXb4kZyGYQ///AGAR/CyLNWR/u
+ b+5wmD48FNgMIAcmRMvtfihppvjyGxBuV75MxjkIHv19wRICg9EF5sDCm6tY++61Lpxx
+ ZxLKAajIaiPyd1pkdOeozT6YnR0tOjA5oz04AjyOcluIm7pYa7OVdwZcTPWici/PnE8t
+ DX1UQDYe8rJViylnXlnEtdpqR1mgEpkQrjOEFHFYbgNNNfuT7Dv8Vka2HtP5NDM+20ya
+ KgiTlfIUz0vxMdJVtnEpLuKZN+N1X/wudDKYfcOoOdcIWWdq9Mfi3sumF9pAbJtoc58t
+ QLFg==
+X-Gm-Message-State: AOJu0YwAO6AxH0lur3u0cjMAyoCKc6Ve++q+x+kgdvY8YCwd2OoYIu+D
+ EhkLvrYrPxF6iaX1l+c3UUI=
+X-Google-Smtp-Source: AGHT+IGhVcxbTJAKxk/tRr/+FBgRNMp49OEhYj+pugMQgSKYjV7TBH7c1h9wwQ0MwzKbY+MoacCkow==
+X-Received: by 2002:a05:6a00:1587:b0:68c:4ff1:3dfb with SMTP id
+ u7-20020a056a00158700b0068c4ff13dfbmr10008646pfk.8.1693825888906; 
+ Mon, 04 Sep 2023 04:11:28 -0700 (PDT)
+Received: from [192.168.0.106] ([103.124.138.83])
+ by smtp.gmail.com with ESMTPSA id
+ x26-20020aa784da000000b0064d57ecaa1dsm7155897pfn.28.2023.09.04.04.11.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Sep 2023 04:11:28 -0700 (PDT)
+Message-ID: <79b1e941-b0a1-1b69-0f2e-38f2949ed37a@gmail.com>
+Date: Mon, 4 Sep 2023 18:11:22 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAQKjZOuRVsF7vE6ghBG7KH_QkE-5_UXjXMY080ynzZLpDjs7w@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: Fwd: Kernel version 6.1.50 regression: radeonfb deactivate vga
+ console
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Helge Deller <deller@gmx.de>, Alexei Gradinari <alex2grad@gmail.com>
+References: <f8c26878-aabc-7cc9-59a1-3f68bf1d43c1@gmail.com>
+In-Reply-To: <f8c26878-aabc-7cc9-59a1-3f68bf1d43c1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,127 +80,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, kernel@pengutronix.de,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Linux Framebuffer <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Regressions <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Sep 2023 13:38:33 +0900, Inki Dae wrote:
-> 2023년 8월 29일 (화) 오전 12:59, Michael Tretter <m.tretter@pengutronix.de>님이 작성:
+On 02/09/2023 07:01, Bagas Sanjaya wrote:
+> #regzbot introduced: 9b539c4d1b921b https://bugzilla.kernel.org/show_bug.cgi?id=217861
+> #regzbot title: using pci aperture helpers deactivates AMD ES1000 VGA controller
 > 
-> >
-> > The PLL reference clock may change at runtime. Thus, reading the clock
-> > rate during probe is not sufficient to correctly configure the PLL for
-> > the expected hs clock.
-> >
-> > Read the actual rate of the reference clock before calculating the PLL
-> > configuration parameters.
-> >
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------
-> >  include/drm/bridge/samsung-dsim.h     |  1 +
-> >  2 files changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > index 6778f1751faa..da90c2038042 100644
-> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > @@ -611,7 +611,12 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
-> >         u16 m;
-> >         u32 reg;
-> >
-> > -       fin = dsi->pll_clk_rate;
-> > +       if (dsi->pll_clk)
-> > +               fin = clk_get_rate(dsi->pll_clk);
-> > +       else
-> > +               fin = dsi->pll_clk_rate;
-> > +       dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
-> > +
-> 
-> Could you share us the actual use case that in runtime the pll
-> reference clock can be changed?
 
-On i.MX8M Nano, the VIDEO_PLL_CLK drives the DISPLAY_PIXEL_CLK_ROOT, which is
-used as pixel clock by the LCDIF. Changes to the pixel clock propagate to the
-VIDEO_PLL_CLK and may reconfigure the VIDEO_PLL_CLK. This is done to reduce
-the error on the pixel clock.
+#regzbot inconclusive: now tracked on gitlab.freedesktop.org tracker
+#regzbot link: https://gitlab.freedesktop.org/drm/amd/-/issues/2826
 
-As the ADV3575 as MIPI-DSI device reconstructs the pixel clock, it is
-necessary to keep the pixel clock and MIDI-DSI reference clock in
-sync. This can be done by using the VIDEO_PLL_CLK to drive the PLL reference
-clock (MIPI_DSI_CORE_CLK_ROOT). Without this, a connected HDMI Monitor will
-occasionally loose sync.
+Thanks.
 
-In this setup, a mode change that changes the pixel clock may change the
-VIDEO_PLL, which will change the PLL reference clock.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-> 
-> This patch is trying to change clock binding behavior which is
-> described in dt binding[1]
-> [1] Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-> 
-> It says,
-> "DISM oscillator clock frequency. If absent, the clock frequency of
-> sclk_mipi will be used instead."
-> 
-> However, this patch makes the sclk_mipi to be used first.
-
-No, the behavior, as described in the dt binding, is preserved by the hunk
-below. dsi->pll_clk is only set, if the samsung,pll-clock-frequency property
-is absent. If the dt property exists, dsi->pll_clk will be NULL and
-dsi->pll_clk_rate will be used here.
-
-Michael
-
-> 
-> Thanks,
-> Inki Dae
-> 
-> >         fout = samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
-> >         if (!fout) {
-> >                 dev_err(dsi->dev,
-> > @@ -1821,18 +1826,15 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
-> >         u32 lane_polarities[5] = { 0 };
-> >         struct device_node *endpoint;
-> >         int i, nr_lanes, ret;
-> > -       struct clk *pll_clk;
-> >
-> >         ret = samsung_dsim_of_read_u32(node, "samsung,pll-clock-frequency",
-> >                                        &dsi->pll_clk_rate, 1);
-> >         /* If it doesn't exist, read it from the clock instead of failing */
-> >         if (ret < 0) {
-> >                 dev_dbg(dev, "Using sclk_mipi for pll clock frequency\n");
-> > -               pll_clk = devm_clk_get(dev, "sclk_mipi");
-> > -               if (!IS_ERR(pll_clk))
-> > -                       dsi->pll_clk_rate = clk_get_rate(pll_clk);
-> > -               else
-> > -                       return PTR_ERR(pll_clk);
-> > +               dsi->pll_clk = devm_clk_get(dev, "sclk_mipi");
-> > +               if (IS_ERR(dsi->pll_clk))
-> > +                       return PTR_ERR(dsi->pll_clk);
-> >         }
-> >
-> >         /* If it doesn't exist, use pixel clock instead of failing */
-> > diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-> > index 05100e91ecb9..31ff88f152fb 100644
-> > --- a/include/drm/bridge/samsung-dsim.h
-> > +++ b/include/drm/bridge/samsung-dsim.h
-> > @@ -87,6 +87,7 @@ struct samsung_dsim {
-> >         void __iomem *reg_base;
-> >         struct phy *phy;
-> >         struct clk **clks;
-> > +       struct clk *pll_clk;
-> >         struct regulator_bulk_data supplies[2];
-> >         int irq;
-> >         struct gpio_desc *te_gpio;
-> >
-> > --
-> > 2.39.2
-> >
-> 
