@@ -1,39 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A153279133E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:22:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9664D791360
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412DA10E2EA;
-	Mon,  4 Sep 2023 08:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75DF810E10A;
+	Mon,  4 Sep 2023 08:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CEB1D10E2EA;
- Mon,  4 Sep 2023 08:22:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FDEA11FB;
- Mon,  4 Sep 2023 01:23:25 -0700 (PDT)
-Received: from [10.57.92.217] (unknown [10.57.92.217])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D4543F8A4;
- Mon,  4 Sep 2023 01:22:43 -0700 (PDT)
-Message-ID: <89ff07ec-d0b4-a984-3269-7d5647a6b007@arm.com>
-Date: Mon, 4 Sep 2023 09:22:44 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B99BF10E10A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 08:26:17 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 229C06607284;
+ Mon,  4 Sep 2023 09:26:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693815976;
+ bh=8wUKqMOjUBu2r0rpU1ECfBJyQoIpV4aYmseq/1ioMXc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BidWVaJiSPuAy3u5EqWJTioIjOX9nkY3WWhasu1CxwbmGHwt4T1bxyAgFfyoxxan6
+ 7Qb9+gsMdsI9YsHlZRRjqMojmiLCNnP5ZEtSBdodWnlrqWWCgaA1kxqF1RUgo/Rh1X
+ Py5orCbxTpEvYzCJIV16IEZXqmKHiuMfW4FFRkHjc6iVpXLc1qmYGX0oL56TtO96h8
+ GctQkkBFgUELonuKZrc+l8+GdN2ISjBSFe0uEXqa/i4UZU4QAqvRLC6NAk+OZBjs5P
+ /2VOOC6eIaXAz6XqVBDv52ETbSNY/VffyCXEiTvvr0lvVmwIja+iwsMXGklMdFHEIE
+ jYRRmuqTZlsTA==
+Date: Mon, 4 Sep 2023 10:26:12 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 02/15] drm/panthor: Add uAPI
+Message-ID: <20230904102612.595840b1@collabora.com>
+In-Reply-To: <fe1bd580-2c3e-555a-0c1f-34a9ac4bdf9a@arm.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-3-boris.brezillon@collabora.com>
+ <20230901181039.417c9753@collabora.com>
+ <fe1bd580-2c3e-555a-0c1f-34a9ac4bdf9a@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>
-References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
- <20230824013604.466224-3-adrian.larumbe@collabora.com>
- <23f38307-3246-28a9-f396-5660acb21a18@arm.com>
- <enzglusbu4anwaqyalsyan3bfzecbpxttnq5v2o65hun4foj7s@ql5byzj6krk2>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <enzglusbu4anwaqyalsyan3bfzecbpxttnq5v2o65hun4foj7s@ql5byzj6krk2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,117 +56,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, tzimmermann@suse.de, sean@poorly.run,
- quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- healych@amazon.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/08/2023 22:34, Adrián Larumbe wrote:
-> On 31.08.2023 16:54, Steven Price wrote:
->> On 24/08/2023 02:34, Adrián Larumbe wrote:
->>> The drm-stats fdinfo tags made available to user space are drm-engine,
->>> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
->>>
->>> This deviates from standard practice in other DRM drivers, where a single
->>> set of key:value pairs is provided for the whole render engine. However,
->>> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
->>> decision was made to calculate bus cycles and workload times separately.
->>>
->>> Maximum operating frequency is calculated at devfreq initialisation time.
->>> Current frequency is made available to user space because nvtop uses it
->>> when performing engine usage calculations.
->>>
->>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>> ---
->>>  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 ++++
->>>  drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
->>>  drivers/gpu/drm/panfrost/panfrost_device.h  | 13 ++++++
->>>  drivers/gpu/drm/panfrost/panfrost_drv.c     | 45 ++++++++++++++++++++-
->>>  drivers/gpu/drm/panfrost/panfrost_job.c     | 30 ++++++++++++++
->>>  drivers/gpu/drm/panfrost/panfrost_job.h     |  4 ++
->>>  6 files changed, 102 insertions(+), 1 deletion(-)
->>>
->>
->> [...]
->>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index a2ab99698ca8..3fd372301019 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -267,6 +267,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->>>  	job->requirements = args->requirements;
->>>  	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
->>>  	job->mmu = file_priv->mmu;
->>> +	job->priv = file_priv;
->>>  
->>>  	slot = panfrost_job_get_slot(job);
->>>  
->>> @@ -483,6 +484,14 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
->>>  		goto err_free;
->>>  	}
->>>  
->>> +	snprintf(panfrost_priv->fdinfo.engines[0].name, MAX_SLOT_NAME_LEN, "frg");
->>> +	snprintf(panfrost_priv->fdinfo.engines[1].name, MAX_SLOT_NAME_LEN, "vtx");
->>> +#if 0
->>> +	/* Add compute engine in the future */
->>> +	snprintf(panfrost_priv->fdinfo.engines[2].name, MAX_SLOT_NAME_LEN, "cmp");
->>> +#endif
->>
->> I'm not sure what names are best, but slot 2 isn't actually a compute slot.
->>
->> Slot 0 is fragment, that name is fine.
->>
->> Slot 1 and 2 are actually the same (from a hardware perspective) but the
->> core affinity of the two slots cannot overlap which means you need to
->> divide the GPU in two to usefully use both slots. The only GPU that this
->> actually makes sense for is the T628[1] as it has two (non-coherent)
->> core groups.
->>
->> The upshot is that slot 1 is used for all of vertex, tiling and compute.
->> Slot 2 is currently never used, but kbase will use it only for compute
->> (and only on the two core group GPUs).
+On Mon, 4 Sep 2023 08:42:08 +0100
+Steven Price <steven.price@arm.com> wrote:
+
+> On 01/09/2023 17:10, Boris Brezillon wrote:
+> > On Wed,  9 Aug 2023 18:53:15 +0200
+> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> >   
+> >> +/**
+> >> + * DOC: MMIO regions exposed to userspace.
+> >> + *
+> >> + * .. c:macro:: DRM_PANTHOR_USER_MMIO_OFFSET
+> >> + *
+> >> + * File offset for all MMIO regions being exposed to userspace. Don't use
+> >> + * this value directly, use DRM_PANTHOR_USER_<name>_OFFSET values instead.
+> >> + *
+> >> + * .. c:macro:: DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET
+> >> + *
+> >> + * File offset for the LATEST_FLUSH_ID register. The Userspace driver controls
+> >> + * GPU cache flushling through CS instructions, but the flush reduction
+> >> + * mechanism requires a flush_id. This flush_id could be queried with an
+> >> + * ioctl, but Arm provides a well-isolated register page containing only this
+> >> + * read-only register, so let's expose this page through a static mmap offset
+> >> + * and allow direct mapping of this MMIO region so we can avoid the
+> >> + * user <-> kernel round-trip.
+> >> + */
+> >> +#define DRM_PANTHOR_USER_MMIO_OFFSET		(0x1ull << 56)  
+> > 
+> > I'm playing with a 32-bit kernel/userspace, and this is problematic,
+> > because vm_pgoff is limited to 32-bit there, meaning we can only map up
+> > to (1ull << (PAGE_SHIFT + 32)) - 1. Should we add a DEV_QUERY to let
+> > userspace set the mmio range?  
 > 
-> I think I might've be rushed to draw inspiration for this from a comment in panfrost_job.c:
+> Hmm, I was rather hoping we could ignore 32 bit these days ;) But while
+> I can't see why anyone would be running a 32 bit kernel, I guess 32 bit
+> user space is likely to still be needed.
+
+Well, I can tell you some people are using 32-bit kernels ;-).
+
 > 
-> int panfrost_job_get_slot(struct panfrost_job *job)
-> {
-> 	/* JS0: fragment jobs.
-> 	 * JS1: vertex/tiler jobs
-> 	 * JS2: compute jobs
-> 	 */
->          [...]
-> }
+> I can't really think of anything better than letting user space set the
+> MMIO range. Having an ioctl which returned a special fd just for MMIO
+> would be one option (which would preserve the full 44 bit GPU VA) but
+> seems somewhat overkill.
+
+Yeah, I don't think I like the separate-fd approach. Just feels like it
+goes against the DRM-way of doing things. And, with 32-bit userspace,
+we'd be limited by the CPU VA range anyway. Of course it's orthogonal
+to the max file offset, and just because we can't map all buffers at
+once, doesn't mean we don't want to be able to address more than 4G of
+memory. But with 43-bit left (I think I'd prefer if we enforce a log2
+value for the mmio offset/size, meaning that the max MMIO range would be
+1ull << 43), that means we're still able to address 8TB of memory. I
+guess that's more than enough for 32-bit users...
+
+> Hiding the mmap within an ioctl would of course
+> be bad as it breaks tools like Valgrind.
+
+Don't like this idea either.
+
 > 
-> Maybe I could rename the engine names to "fragment", "vertex-tiler" and "compute-only"?
-> There's no reason why I would skimp on engine name length, and anything more
-> descriptive would be just as good.
+> Oh and please do make it a range - user space submission will be adding
+> to the MMIO range ;)
 
-Yeah, those names are probably the best we're going to get. And I
-certainly prefer the longer names.
-
->> Personally I'd be tempted to call them "slot 0", "slot 1" and "slot 2" -
->> but I appreciate that's not very helpful to people who aren't intimately
->> familiar with the hardware ;)
-> 
-> The downside of this is that both IGT's fdinfo library and nvtop will use the
-> engime name for display, and like you said these numbers might mean nothing to
-> someone who isn't acquainted with the hardware.
-
-Indeed - I've spent way too much time with the hardware and there are
-many subtleties so I tent to try to avoid calling them anything other
-than "slot x" (especially when talking to hardware engineers). For
-example a test that submits NULL jobs can submit them to any slot.
-However, when you get beyond artificial tests then it is quite
-consistent that slot 0=fragment, slot 1=vertex-tiler (and compute), slot
-2=never used (except for compute on dual core groups).
-
-Steve
-
->> Steve
->>
->> [1] And technically the T608 but that's even rarer and the T60x isn't
->> (yet) supported by Panfrost.
-
+Yeah, that was the plan (I keep usermode submission in the back of my
+mind ;-)).
