@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60053791EDF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 23:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD680791EEA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 23:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0069610E2A4;
-	Mon,  4 Sep 2023 21:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF0F10E3FF;
+	Mon,  4 Sep 2023 21:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0112A10E41F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 21:09:24 +0000 (UTC)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A75BC10E3FF
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 21:10:48 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Rfh8g6lsMzDqDx;
- Mon,  4 Sep 2023 21:09:23 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4RfhBJ17wBz9sv1;
+ Mon,  4 Sep 2023 21:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1693861764; bh=rC5mzBz1eIp9iAikOLl0SNEgeyeJvZBofi1hx7Ht8Xg=;
+ t=1693861848; bh=XCwa3E1LONzhvooDh+dfejgPAL5ek9N1APwSP5comZo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sJrT65RQs3jM+EFArU4lJH0yUQHBRRXx84PsVsmXgnElb6OlDJgEzAuBSAJHdtse4
- tq7MSPXX4lySBtzmfHR841R//tp3P5YLe5FVDUCKDw5X6aeT5L29O6tuWwJMzN4YWE
- P4Mz3ap6sEkH9CTfIS3XnzQrbDauvp8tJxZyMMjw=
-X-Riseup-User-ID: 5248EFA8B71512A4301BE177B580034F60ECB2FA86EB0AB9B790A9018150663D
+ b=nlMhL0udyLLdKfCffQtbiOqs1PfNigEuP3ZTMQwgNmGlD0VXxueOFeaM2CpDFfAbo
+ Hj54dqWT0xsSRSQYQNPYB7jNWnJPbyFxMszQLO6BtzkO6FDKPzGHMR2/pfXwGxC29b
+ y8uZKHc2afwoIsIuQeR73Vc7fsIJaRXWm0lQeCD0=
+X-Riseup-User-ID: DDD32D9CE1E433043525D311ABDC7D0B7496268B65AE0E5B20FCC8519FC538DA
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Rfh8P3Sh7zFrx8;
- Mon,  4 Sep 2023 21:09:09 +0000 (UTC)
-Message-ID: <7d17f8bf-7cfe-d11d-1dfc-4032c6437188@riseup.net>
-Date: Mon, 4 Sep 2023 18:09:09 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RfhBF1trWzFsPD;
+ Mon,  4 Sep 2023 21:10:45 +0000 (UTC)
+Message-ID: <99493a23-4c68-806d-c099-5f2438c3c99f@riseup.net>
+Date: Mon, 4 Sep 2023 18:10:45 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/debugfs: Add inline to drm_debugfs_dev_init() to
- suppres -Wunused-function
+Subject: Re: [PATCH] drm/tests: Add KUnit tests for drm_fb_blit()
 Content-Language: en-US
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-References: <20230901-debugfs-fix-unused-function-warning-v1-1-161dd0902975@riseup.net>
+References: <20230901-final-gsoc-v1-1-e310c7685982@riseup.net>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230901-debugfs-fix-unused-function-warning-v1-1-161dd0902975@riseup.net>
+In-Reply-To: <20230901-final-gsoc-v1-1-e310c7685982@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,47 +52,445 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andi Shyti <andi.shyti@linux.intel.com>, andrealmeid@riseup.net,
- kernel test robot <lkp@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/1/23 15:05, Arthur Grillo wrote:
-> When CONFIG_DEBUG_FS is not set -Wunused-function warnings appear,
-> make the static function inline to suppress that.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309012114.T8Vlfaf8-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309012131.FeakBzEj-lkp@intel.com/
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Hi Arthur,
 
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+On 9/1/23 14:08, Arthur Grillo wrote:
+> Insert parameterized test for the drm_fb_blit() to ensure correctness
+> and prevent future regressions.
+> 
+> The test is done by adding a call to drm_fb_blit() on every format
+> that has support. Also, to fully test the function, add new format
+> conversion tests.
+
+Wouldn't be better to separate this patches into two patches: one adding
+new format conversion tests and another adding a call to drm_fb_blit()?
 
 Best Regards,
 - Maíra
 
-> ---
->   include/drm/drm_drv.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 9850fe73b739..e2640dc64e08 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -584,7 +584,7 @@ static inline bool drm_firmware_drivers_only(void)
->   #if defined(CONFIG_DEBUG_FS)
->   void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
->   #else
-> -static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
-> +static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
->   {
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>   drivers/gpu/drm/tests/drm_format_helper_test.c | 284 +++++++++++++++++++++++++
+>   1 file changed, 284 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 79bc9d4bbd71..889287245b1e 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -81,6 +81,16 @@ struct fb_swab_result {
+>   	const u32 expected[TEST_BUF_SIZE];
+>   };
+>   
+> +struct convert_to_xbgr8888_result {
+> +	unsigned int dst_pitch;
+> +	const u32 expected[TEST_BUF_SIZE];
+> +};
+> +
+> +struct convert_to_abgr8888_result {
+> +	unsigned int dst_pitch;
+> +	const u32 expected[TEST_BUF_SIZE];
+> +};
+> +
+>   struct convert_xrgb8888_case {
+>   	const char *name;
+>   	unsigned int pitch;
+> @@ -98,6 +108,8 @@ struct convert_xrgb8888_case {
+>   	struct convert_to_argb2101010_result argb2101010_result;
+>   	struct convert_to_mono_result mono_result;
+>   	struct fb_swab_result swab_result;
+> +	struct convert_to_xbgr8888_result xbgr8888_result;
+> +	struct convert_to_abgr8888_result abgr8888_result;
+>   };
+>   
+>   static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+> @@ -155,6 +167,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x0000FF01 },
+>   		},
+> +		.xbgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0x010000FF },
+> +		},
+> +		.abgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0xFF0000FF },
+> +		},
+>   	},
+>   	{
+>   		.name = "single_pixel_clip_rectangle",
+> @@ -213,6 +233,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x0000FF10 },
+>   		},
+> +		.xbgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0x100000FF },
+> +		},
+> +		.abgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = { 0xFF0000FF },
+> +		},
+>   	},
+>   	{
+>   		/* Well known colors: White, black, red, green, blue, magenta,
+> @@ -343,6 +371,24 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   				0x00FFFF77, 0xFFFF0088,
+>   			},
+>   		},
+> +		.xbgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = {
+> +				0x11FFFFFF, 0x22000000,
+> +				0x330000FF, 0x4400FF00,
+> +				0x55FF0000, 0x66FF00FF,
+> +				0x7700FFFF, 0x88FFFF00,
+> +			},
+> +		},
+> +		.abgr8888_result = {
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+> +			.expected = {
+> +				0xFFFFFFFF, 0xFF000000,
+> +				0xFF0000FF, 0xFF00FF00,
+> +				0xFFFF0000, 0xFFFF00FF,
+> +				0xFF00FFFF, 0xFFFFFF00,
+> +			},
+> +		},
+>   	},
+>   	{
+>   		/* Randomly picked colors. Full buffer within the clip area. */
+> @@ -458,6 +504,22 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   				0x0303A8C2, 0x73F06CD2, 0x9C440EA3, 0x00000000, 0x00000000,
+>   			},
+>   		},
+> +		.xbgr8888_result = {
+> +			.dst_pitch =  20,
+> +			.expected = {
+> +				0xA19C440E, 0xB1054D11, 0xC103F3A8, 0x00000000, 0x00000000,
+> +				0xD173F06C, 0xA29C440E, 0xB2054D11, 0x00000000, 0x00000000,
+> +				0xC20303A8, 0xD273F06C, 0xA39C440E, 0x00000000, 0x00000000,
+> +			},
+> +		},
+> +		.abgr8888_result = {
+> +			.dst_pitch =  20,
+> +			.expected = {
+> +				0xFF9C440E, 0xFF054D11, 0xFF03F3A8, 0x00000000, 0x00000000,
+> +				0xFF73F06C, 0xFF9C440E, 0xFF054D11, 0x00000000, 0x00000000,
+> +				0xFF0303A8, 0xFF73F06C, 0xFF9C440E, 0x00000000, 0x00000000,
+> +			},
+> +		},
+>   	},
+>   };
+>   
+> @@ -643,6 +705,18 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+>   	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip, true);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected_swab, dst_size);
+> +
+> +	buf = dst.vaddr;
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_RGB565, &src, &fb, &params->clip);
+> +
+> +	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
 >   }
->   #endif
+>   
+>   static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
+> @@ -677,6 +751,18 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
+>   	drm_fb_xrgb8888_to_xrgb1555(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XRGB1555, &src, &fb, &params->clip);
+> +
+> +	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
+> @@ -711,6 +797,18 @@ static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
+>   	drm_fb_xrgb8888_to_argb1555(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_ARGB1555, &src, &fb, &params->clip);
+> +
+> +	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
+> @@ -745,6 +843,18 @@ static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
+>   	drm_fb_xrgb8888_to_rgba5551(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_RGBA5551, &src, &fb, &params->clip);
+> +
+> +	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+> @@ -782,6 +892,16 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>   
+>   	drm_fb_xrgb8888_to_rgb888(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_RGB888, &src, &fb, &params->clip);
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+> @@ -816,6 +936,18 @@ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+>   	drm_fb_xrgb8888_to_argb8888(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_ARGB8888, &src, &fb, &params->clip);
+> +
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
+> @@ -850,6 +982,17 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
+>   	drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XRGB2101010, &src, &fb,
+> +				  &params->clip);
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
+> @@ -884,6 +1027,19 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
+>   	drm_fb_xrgb8888_to_argb2101010(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_ARGB2101010, &src, &fb,
+> +				  &params->clip);
+> +
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
+> @@ -951,6 +1107,119 @@ static void drm_test_fb_swab(struct kunit *test)
+>   	drm_fb_swab(&dst, dst_pitch, &src, &fb, &params->clip, false);
+>   	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr; /* restore original value of buf */
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	int blit_result;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XRGB8888 | DRM_FORMAT_BIG_ENDIAN,
+> +				  &src, &fb, &params->clip);
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr;
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_BGRX8888, &src, &fb, &params->clip);
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +
+> +	buf = dst.vaddr;
+> +	memset(buf, 0, TEST_BUF_SIZE);
+> +
+> +	struct drm_format_info mock_format = *fb.format;
+> +
+> +	mock_format.format |= DRM_FORMAT_BIG_ENDIAN;
+> +	fb.format = &mock_format;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XRGB8888, &src, &fb, &params->clip);
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +}
+> +
+> +static void drm_test_fb_xrgb8888_to_abgr8888(struct kunit *test)
+> +{
+> +	const struct convert_xrgb8888_case *params = test->param_value;
+> +	const struct convert_to_abgr8888_result *result = &params->abgr8888_result;
+> +	size_t dst_size;
+> +	u32 *buf = NULL;
+> +	__le32 *xrgb8888 = NULL;
+> +	struct iosys_map dst, src;
+> +
+> +	struct drm_framebuffer fb = {
+> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+> +		.pitches = { params->pitch, 0, 0 },
+> +	};
+> +
+> +	dst_size = conversion_buf_size(DRM_FORMAT_XBGR8888, result->dst_pitch, &params->clip, 0);
+> +
+> +	KUNIT_ASSERT_GT(test, dst_size, 0);
+> +
+> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
+> +	iosys_map_set_vaddr(&dst, buf);
+> +
+> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+> +	iosys_map_set_vaddr(&src, xrgb8888);
+> +
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_ABGR8888, &src, &fb, &params->clip);
+> +
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +}
+> +
+> +static void drm_test_fb_xrgb8888_to_xbgr8888(struct kunit *test)
+> +{
+> +	const struct convert_xrgb8888_case *params = test->param_value;
+> +	const struct convert_to_xbgr8888_result *result = &params->xbgr8888_result;
+> +	size_t dst_size;
+> +	u32 *buf = NULL;
+> +	__le32 *xrgb8888 = NULL;
+> +	struct iosys_map dst, src;
+> +
+> +	struct drm_framebuffer fb = {
+> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+> +		.pitches = { params->pitch, 0, 0 },
+> +	};
+> +
+> +	dst_size = conversion_buf_size(DRM_FORMAT_XBGR8888, result->dst_pitch, &params->clip, 0);
+> +
+> +	KUNIT_ASSERT_GT(test, dst_size, 0);
+> +
+> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
+> +	iosys_map_set_vaddr(&dst, buf);
+> +
+> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+> +	iosys_map_set_vaddr(&src, xrgb8888);
+> +
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	int blit_result = 0;
+> +
+> +	blit_result = drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XBGR8888, &src, &fb, &params->clip);
+> +
+> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+>   struct clip_offset_case {
+> @@ -1543,6 +1812,19 @@ static void drm_test_fb_memcpy(struct kunit *test)
+>   		KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
+>   				       "Failed expectation on plane %zu", i);
+>   	}
+> +
+> +	memset(*buf, 0, TEST_BUF_SIZE * DRM_FORMAT_MAX_PLANES);
+> +
+> +	int blit_result;
+> +
+> +	blit_result = drm_fb_blit(dst, dst_pitches, params->format, src, &fb, &params->clip);
+> +
+> +	KUNIT_EXPECT_FALSE(test, blit_result);
+> +	for (size_t i = 0; i < fb.format->num_planes; i++) {
+> +		expected[i] = cpubuf_to_le32(test, params->expected[i], TEST_BUF_SIZE);
+> +		KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
+> +				       "Failed expectation on plane %zu", i);
+> +	}
+>   }
+>   
+>   static struct kunit_case drm_format_helper_test_cases[] = {
+> @@ -1558,6 +1840,8 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xbgr8888, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_abgr8888, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_memcpy, fb_memcpy_gen_params),
 > 
 > ---
 > base-commit: 8e455145d8f163aefa6b9cc29478e0a9f82276e6
-> change-id: 20230901-debugfs-fix-unused-function-warning-9ebbecbd6a5a
+> change-id: 20230901-final-gsoc-395a84443c8f
 > 
 > Best regards,
