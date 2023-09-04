@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6EA791593
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 12:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7677915A6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 12:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2CF010E14A;
-	Mon,  4 Sep 2023 10:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB22510E322;
+	Mon,  4 Sep 2023 10:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3282210E304
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 10:16:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C553110E322;
+ Mon,  4 Sep 2023 10:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693822587; x=1725358587;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=S/aSjMNDAjpHn3244kVfHhOk5YW4CIBo+j/v3T95cTc=;
- b=L9R4Zvpf36zuMwDi96vOH695xLGj76/qw/XgXCDobCYp4ygTJs0iskoD
- kcHESMh/YmKszVocMCp5vBWtrtZsArCWly14a5xheWJsyA3cjijd2M1eB
- nXZ1srvLw4h3/BTxJYn2npgK5oOmk9ImUOeZ39EGCvd98ey7GLgkK/NfT
- kfFsd2pa9c9mTlpn/nwdRff+uYT6U0ejECyI254W0LYAi3Y7YW9w6FTP5
- uhPRoyjCH43y8HIUtnyEmYuoJv8lJIiGPm/uKQo6uprB6dAoNyKzauR7L
- ivTXk4JxuB1Gg0bU4G4ttSJQ1XhbRBZC33PnRmGs1+BT7micE2WsGbIEJ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="376499379"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="376499379"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 03:04:56 -0700
+ t=1693822932; x=1725358932;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=lR6ujrygMhljbfLJiE3/9qBpj8BMOZtH8v8qzGnZyiw=;
+ b=JEo9N38/fkIdeoP9/M1hjC5dHZC4bEiW3YTy+foXv9CWKSlJuQSj0bZJ
+ twC4r5qQYo7TFWT8DbwaCtz9SSBWeGR0cmCEGED+rp2B2PxP/eka4hSVO
+ 63DWy6Ztu/XudG4BZsQ12x2v8xBeMdc06VsS1cgBAJFByplZ05Q2bHZ14
+ HQvZp2xOdNj80+y17MSOAVJNEBE5sR1TH1KrGMIW+/2oCzlmLQ2/c0b29
+ qv8l5BE+g3M6ss357QXvek1UJ3gCgeegSshi7r8fQyOfKyltwisanFJy/
+ u/h4AhpLDTiUgJyb3OIisUN7HIrE4VPmc4riZSuldGIARjlmVLW7mnrtT w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="361590103"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="361590103"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 03:22:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="1071541329"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="1071541329"
-Received: from rapetroa-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.79])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2023 03:04:43 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Peter Senna Tschudin <peter.senna@gmail.com>
-Subject: Re: [RFC] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: switch to
- drm_do_get_edid()
-In-Reply-To: <CA+MoWDrtgtT26F-rZ-7s0PtQcTLqB6g1BARkegfZ3qQnhw=3ZQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230901102400.552254-1-jani.nikula@intel.com>
- <CA+MoWDrtgtT26F-rZ-7s0PtQcTLqB6g1BARkegfZ3qQnhw=3ZQ@mail.gmail.com>
-Date: Mon, 04 Sep 2023 13:04:40 +0300
-Message-ID: <87fs3ui79j.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="864292638"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; d="scan'208";a="864292638"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2023 03:22:09 -0700
+Date: Mon, 4 Sep 2023 13:22:27 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 09/22] drm/dp_mst: Fix fractional bpp
+ scaling in drm_dp_calc_pbn_mode()
+Message-ID: <ZPWv4y2kEgWQFcZw@ideak-desk.fi.intel.com>
+References: <20230824080517.693621-1-imre.deak@intel.com>
+ <20230824080517.693621-10-imre.deak@intel.com>
+ <ZPVGl4iQEvgtZz3f@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZPVGl4iQEvgtZz3f@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +61,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Zheyu Ma <zheyuma97@gmail.com>,
- Yuan Can <yuancan@huawei.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ian Ray <ian.ray@ge.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Martin Donnelly <martin.donnelly@ge.com>
+Reply-To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 02 Sep 2023, Peter Senna Tschudin <peter.senna@gmail.com> wrote:
-> Good morning Jani,
->
-> It has been a long time since I wrote the driver, and many many years
-> since I sent my last kernel patch, so my memory does not serve me very
-> well, but I will try to shed some light.
->
-> On Fri, Sep 1, 2023 at 12:24=E2=80=AFPM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->>
->> The driver was originally added in commit fcfa0ddc18ed ("drm/bridge:
->> Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)"). I tried to
->> look up the discussion, but didn't find anyone questioning the EDID
->> reading part.
->>
->> Why does it not use drm_get_edid() or drm_do_get_edid()?
->>
->> I don't know where client->addr comes from, so I guess it could be
->> different from DDC_ADDR, rendering drm_get_edid() unusable.
->>
->> There's also the comment:
->>
->>         /* Yes, read the entire buffer, and do not skip the first
->>          * EDID_LENGTH bytes.
->>          */
->>
->> But again, there's not a word on *why*.
->
-> The video pipeline has two hardware bridges between the LVDS from the
-> SoC and DP+ output. For reasons, we would get hot plug events from one
-> of these bridges, and EDID from the other. If I am not mistaken, I
-> documented this strangeness in the DTS readme file.
->
-> Did this shed any light on the *why* or did I tell you something you
-> already knew?
+On Mon, Sep 04, 2023 at 05:53:11AM +0300, Ville Syrjälä wrote:
+> On Thu, Aug 24, 2023 at 11:05:04AM +0300, Imre Deak wrote:
+> > For fractional bpp values passed to the function in a .4 fixed point
+> > format, the fractional part is currently ignored due to scaling bpp too
+> > early. Fix this by scaling the overhead factor instead and to avoid an
+> > overflow multiplying bpp with the overhead factor instead of the clock
+> > rate.
+> > 
+> > While at it simplify the formula, and pass the expected fixed point bpp
+> > values in the kunit tests.
+> > 
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_dp_mst_topology.c  | 7 ++-----
+> >  drivers/gpu/drm/tests/drm_dp_mst_helper_test.c | 8 ++++----
+> >  2 files changed, 6 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > index ed96cfcfa3040..bd0f35a0ea5fb 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > @@ -4712,12 +4712,9 @@ int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc)
+> >  	 * factor in the numerator rather than the denominator to avoid
+> >  	 * integer overflow
+> >  	 */
+> > +	u32 bpp_m = (dsc ? 64 / 16 : 64) * 1006 * bpp;
+> >  
+> > -	if (dsc)
+> > -		return DIV_ROUND_UP_ULL(mul_u32_u32(clock * (bpp / 16), 64 * 1006),
+> > -					8 * 54 * 1000 * 1000);
+> > -
+> > -	return DIV_ROUND_UP_ULL(mul_u32_u32(clock * bpp, 64 * 1006),
+> > +	return DIV_ROUND_UP_ULL(mul_u32_u32(clock, bpp_m),
+> >  				8 * 54 * 1000 * 1000);
+> 
+> I thought I sorted out this mess already...
+> https://patchwork.freedesktop.org/patch/535005/?series=117201&rev=3
+> Apparently I forgot to push that.
 
-I guess that answers the question why it's necessary to specify the ddc
-to use, but not why drm_do_get_edid() could not be used. Is it really
-necessary to read the EDID in one go?
+Looks ok, can use that instead. I thought clock * bpp could overflow,
+but probably not in practice.
 
-BR,
-Jani.
+The test cases below would still need to be fixed.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> >  }
+> >  EXPORT_SYMBOL(drm_dp_calc_pbn_mode);
+> > diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> > index 545beea33e8c7..ea2182815ebe8 100644
+> > --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> > @@ -40,15 +40,15 @@ static const struct drm_dp_mst_calc_pbn_mode_test drm_dp_mst_calc_pbn_mode_cases
+> >  	},
+> >  	{
+> >  		.clock = 332880,
+> > -		.bpp = 24,
+> > +		.bpp = 24 << 4,
+> >  		.dsc = true,
+> > -		.expected = 50
+> > +		.expected = 1191
+> >  	},
+> >  	{
+> >  		.clock = 324540,
+> > -		.bpp = 24,
+> > +		.bpp = 24 << 4,
+> >  		.dsc = true,
+> > -		.expected = 49
+> > +		.expected = 1161
+> >  	},
+> >  };
+> >  
+> > -- 
+> > 2.37.2
+> 
+> -- 
+> Ville Syrjälä
+> Intel
