@@ -1,71 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420777919A5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 16:28:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D3D7919AD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 16:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D325910E363;
-	Mon,  4 Sep 2023 14:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B083310E36A;
+	Mon,  4 Sep 2023 14:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6B7610E363
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 14:28:42 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-52bcd4db4e6so2057610a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 07:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693837721; x=1694442521; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8iuZC33D0pi0SebavXErWmT+pulYIQNcxBHdRQcQik8=;
- b=dFkLVGPlSk8cxFpNY0VgwyhNvwAGIiMAVWtDyBK+1fGQnHjx9BFYWqf1BczBrTGuSF
- xnQdy/ACgW8L/bnbvX9kpC211iG/E0kyDs62Gw+u8RPtT6BMt+V0VjhxrfEp0ERODSLO
- 15zyTFqhypfBpF7X1CI1G/Wi5kMmZfC9Ds4cvALWX5imbG0RCD4wG4iyZSb2EkV/3Olf
- ojU7UEseTj5aqsEhPyATr5W2GO+1IOO+BsNjWwVm9l0XTOjdsC296FjXKtGeW1eVeDZ0
- 32kYD+P2nAyFKdrLQtVUCNvI7jwpEZVt8texvKzto6STBAQU8DQutaggGhRVLTB/VCUK
- IBYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693837721; x=1694442521;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8iuZC33D0pi0SebavXErWmT+pulYIQNcxBHdRQcQik8=;
- b=CVmlGY1WeHoHU26lOkTuAV16wFIYijEvER3kwbqrTcV6fWVwHg/5qPZMDSaqKd5Q7u
- InfY/0+mJdaYFOfeIyeg//Ktoc41fI82SeBpQt9Nz+XA8mCwM4glcPP0aGMiORFSyJCn
- VhCebDHBBNRGojCuhO5L5z7EeSt4FKuHWmct+fJHB4ioVbq6LvaFFBaoHo5yjOeTv5+W
- /jjM4zpBUUJX2s4QQxnN1HMrB1TZ1grL3OocO6XSmzAgg664qcYq+1w6DTfmJpU0/Xc/
- lpW40ih6/tbCVRmQFGfMIAjXme8aooG5m4DE323aic9j4+Wi4U+znHAyjT09/MGTYZXl
- 1Z4Q==
-X-Gm-Message-State: AOJu0YzoN88nVsvbfKSjBr3TrsavR0/aRCEkKujJFEg0aBOwRf2aAlTS
- 05uFquXP1xrok/F4I5oU0t0=
-X-Google-Smtp-Source: AGHT+IFskoTClGeTBvqu3n1vQK3DtrW+gFUuQJHiyBXfyIZHMy7jeXQO/PenDGkfjW4bANcjhDq1CQ==
-X-Received: by 2002:aa7:d407:0:b0:52a:3ee9:a786 with SMTP id
- z7-20020aa7d407000000b0052a3ee9a786mr6642621edq.26.1693837720880; 
- Mon, 04 Sep 2023 07:28:40 -0700 (PDT)
-Received: from ?IPV6:2a02:908:8b3:1840:e0a4:c719:5e8d:3b55?
- ([2a02:908:8b3:1840:e0a4:c719:5e8d:3b55])
- by smtp.gmail.com with ESMTPSA id
- e11-20020a056402148b00b00529fa63ef6fsm5930777edv.57.2023.09.04.07.28.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Sep 2023 07:28:40 -0700 (PDT)
-Message-ID: <53ee3d14-05f4-981f-26d2-ef9ef6b3a61b@gmail.com>
-Date: Mon, 4 Sep 2023 16:28:37 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A116310E369
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 14:29:41 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 36E182183F;
+ Mon,  4 Sep 2023 14:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693837780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7+ZX2D1nYYs8d1Fi/6ftBxZaoSExhC7KInG0ZWeXJSw=;
+ b=dM9k1qdk6rt5j06lIvQOgDQr8i7TP4XONm0/DMOpQaOnSdt58puBSJ3iE3FMCT3wkbNiHs
+ 77R0MgSUe0LmXbwleZPyMf6MBwe7efJzTDjurTUbU9q12UvBTTvSeUEAN0z9VKfR03FPQv
+ 4Gb+bvko1qSfmFWIcMh8omOdQ1KeCL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693837780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7+ZX2D1nYYs8d1Fi/6ftBxZaoSExhC7KInG0ZWeXJSw=;
+ b=vD0MXxxZwjlbnR5QY3bPpzKl9fB7RO5O5BmehCNYhkoJqLtMBRqwDnl4bp1xuyZWwcJKX+
+ gItEoQ6IeWQGo2DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0FF6013425;
+ Mon,  4 Sep 2023 14:29:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NzgcA9Tp9WTcLgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 04 Sep 2023 14:29:40 +0000
+Message-ID: <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
+Date: Mon, 4 Sep 2023 16:29:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 5/5] drm/bridge: samsung-dsim: calculate porches in Hz
-To: Michael Tretter <m.tretter@pengutronix.de>
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
- <20230818-samsung-dsim-v1-5-b39716db6b7a@pengutronix.de>
+ Thunderbird/102.14.0
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
 Content-Language: en-US
-From: Maxim Schwalm <maxim.schwalm@gmail.com>
-In-Reply-To: <20230818-samsung-dsim-v1-5-b39716db6b7a@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+References: <20230809192514.158062-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230809192514.158062-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------M0MhSPfMZjS5ugaoziaFhA0j"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,58 +71,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@amarulasolutions.com>, kernel@pengutronix.de,
- Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------M0MhSPfMZjS5ugaoziaFhA0j
+Content-Type: multipart/mixed; boundary="------------cDITneQMJyNwpaPZ7joHQJh2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+Message-ID: <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
+References: <20230809192514.158062-1-jfalempe@redhat.com>
+In-Reply-To: <20230809192514.158062-1-jfalempe@redhat.com>
 
-On 28.08.23 17:59, Michael Tretter wrote:
-> Calculating the byte_clk in kHz is imprecise for a hs_clock of 55687500
-> Hz, which may be used with a pixel clock of 74.25 MHz with mode
-> 1920x1080-30.
-> 
-> Fix the calculation by using HZ instead of kHZ.
-> 
-> This requires to change the type to u64 to prevent overflows of the
-> integer type.
-> 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 459be953be55..eb7aca2b9ab7 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -973,10 +973,12 @@ static void samsung_dsim_set_display_mode(struct samsung_dsim *dsi)
->  	u32 reg;
->  
->  	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> -		int byte_clk_khz = dsi->hs_clock / 1000 / 8;
-> -		int hfp = DIV_ROUND_UP((m->hsync_start - m->hdisplay) * byte_clk_khz, m->clock);
-> -		int hbp = DIV_ROUND_UP((m->htotal - m->hsync_end) * byte_clk_khz, m->clock);
-> -		int hsa = DIV_ROUND_UP((m->hsync_end - m->hsync_start) * byte_clk_khz, m->clock);
-> +		u64 byte_clk = dsi->hs_clock / 8;
-> +		u64 pix_clk = m->clock * 1000;
-> +
-> +		int hfp = DIV64_U64_ROUND_UP((m->hsync_start - m->hdisplay) * byte_clk, pix_clk);
-> +		int hbp = DIV64_U64_ROUND_UP((m->htotal - m->hsync_end) * byte_clk, pix_clk);
-> +		int hsa = DIV64_U64_ROUND_UP((m->hsync_end - m->hsync_start) * byte_clk, pix_clk);
+--------------cDITneQMJyNwpaPZ7joHQJh2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Wouldn't it make sense to use the videomode structure here?
+SGkgSm9jZWx5biwNCg0KdGhhbmtzIGZvciBtb3ZpbmcgdGhpcyBlZmZvcnQgZm9yd2FyZC4g
+SXQncyBtdWNoIGFwcHJlY2lhdGVkLiBJIGxvb2tlZCANCnRocm91Z2ggdGhlIHBhdGNoZXMg
+YW5kIHRyaWVkIHRoZSBwYXRjaHNldCBvbiBteSB0ZXN0IG1hY2hpbmUuDQoNCkFtIDA5LjA4
+LjIzIHVtIDIxOjE3IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBUaGlzIGludHJvZHVj
+ZXMgYSBuZXcgZHJtIHBhbmljIGhhbmRsZXIsIHdoaWNoIGRpc3BsYXlzIGEgbWVzc2FnZSB3
+aGVuIGEgcGFuaWMgb2NjdXJzLg0KPiBTbyB3aGVuIGZiY29uIGlzIGRpc2FibGVkLCB5b3Ug
+Y2FuIHN0aWxsIHNlZSBhIGtlcm5lbCBwYW5pYy4NCj4gDQo+IFRoaXMgaXMgb25lIG9mIHRo
+ZSBtaXNzaW5nIGZlYXR1cmUsIHdoZW4gZGlzYWJsaW5nIFZUL2ZiY29uIGluIHRoZSBrZXJu
+ZWw6DQo+IGh0dHBzOi8vd3d3LnJlZGRpdC5jb20vci9saW51eC9jb21tZW50cy8xMGVjY3Y5
+L2NvbmZpZ192dG5faW5fMjAyMy8NCj4gRmJjb24gY2FuIGJlIHJlcGxhY2VkIGJ5IGEgdXNl
+cnNwYWNlIGttcyBjb25zb2xlLCBidXQgdGhlIHBhbmljIHNjcmVlbiBtdXN0IGJlIGRvbmUg
+aW4gdGhlIGtlcm5lbC4NCj4gDQo+IFRoaXMgaXMgYSBwcm9vZiBvZiBjb25jZXB0LCBhbmQg
+d29ya3Mgb25seSB3aXRoIHNpbXBsZWRybSwgdXNpbmcgdGhlIGRybV9jbGllbnQgQVBJLg0K
+PiBUaGlzIGltcGxlbWVudGF0aW9uIHdpdGggdGhlIGRybSBjbGllbnQgQVBJLCBhbGxvY2F0
+ZXMgbmV3IGZyYW1lYnVmZmVycywgYW5kIGxvb2tzIGEgYml0IHRvbyBjb21wbGV4IHRvIHJ1
+biBpbiBhIHBhbmljIGhhbmRsZXIuDQo+IE1heWJlIHdlIHNob3VsZCBhZGQgYW4gQVBJIHRv
+ICJzdGVhbCIgdGhlIGN1cnJlbnQgZnJhbWVidWZmZXIgaW5zdGVhZCwgYmVjYXVzZSBpbiBh
+IHBhbmljIGhhbmRsZXIgdXNlci1zcGFjZSBpcyBhbHJlYWR5IHN0b3BwZWQuDQoNClllcywg
+dGhhdCB3YXMgYWxzbyBteSBmaXJzdCB0aG91Z2h0LiBJJ2QgdXNlIGFuIGV4dHJhIGNhbGxi
+YWNrIGluIHN0cnVjdCANCmRybV9kcml2ZXIsIGxpa2UgdGhpczoNCg0Kc3RydWN0IGRybV9k
+cml2ZXIgew0KICAgaW50ICgqZ2V0X3NjYW5vdXRfYnVmZmVyKSgvKiByZXR1cm4gSFcgc2Nh
+bm91dCAqLykNCn0NCg0KVGhlIHNjYW5vdXQgYnVmZmVyIHdvdWxkIGJlIGRlc2NyaWJlZCBi
+eSBrZXJuZWwgdmlydHVhbCBhZGRyZXNzIGFkZHJlc3MsIA0KcmVzb2x1dGlvbiwgY29sb3Ig
+Zm9ybWF0IGFuZCBzY2FubGluZSBwaXRjaC4gQW5kIHRoYXQncyB3aGF0IHRoZSBwYW5pYyAN
+CmhhbmRsZXIgdXNlcy4NCg0KQW55IGRyaXZlciBpbXBsZW1lbnRpbmcgdGhpcyBpbnRlcmZh
+Y2Ugd291bGQgc3VwcG9ydCB0aGUgcGFuaWMgaGFuZGxlci4gDQpJZiB0aGVyZSdzIGEgY29u
+Y3VycmVudCBkaXNwbGF5IHVwZGF0ZSwgd2UnZCBoYXZlIHRvIHN5bmNocm9uaXplLg0KDQo+
+IA0KPiBUbyB0ZXN0IGl0LCBtYWtlIHN1cmUgeW91J3JlIHVzaW5nIHRoZSBzaW1wbGVkcm0g
+ZHJpdmVyLCBhbmQgdHJpZ2dlciBhIHBhbmljOg0KPiBlY2hvIGMgPiAvcHJvYy9zeXNycS10
+cmlnZ2VyDQoNClRoZSBwZW5ndWluIHdhcyBjdXRlLiA6KQ0KDQpUaGlzIG9ubHkgd29ya3Mg
+aWYgdGhlIGRpc3BsYXkgaXMgYWxyZWFkeSBydW5uaW5nLiBJIGhhZCB0byBzdGFydCBHbm9t
+ZSANCnRvIHNldCBhIGRpc3BsYXkgbW9kZS4gVGhlbiBsZXQgdGhlIHBhbmljIGhhbmRsZXIg
+dGFrZSBvdmVyIHRoZSBvdXRwdXQuDQoNCkJ1dCB3aXRoIHNpbXBsZWRybSwgd2UgY291bGQg
+ZXZlbiBkaXNwbGF5IGEgbWVzc2FnZSB3aXRob3V0IGFuIG91dHB1dCwgDQphcyB0aGUgZnJh
+bWVidWZmZXIgaXMgYWx3YXlzIHRoZXJlLg0KDQo+IA0KPiBUaGVyZSBpcyBvbmUgdGhpbmcg
+SSBkb24ndCBrbm93IGhvdyB0byBkbywgaXMgdG8gdW5yZWdpc3RlciB0aGUgZHJtX3Bhbmlj
+IHdoZW4gdGhlIGdyYXBoaWMgZHJpdmVyIGlzIHVubG9hZGVkLg0KPiBkcm1fY2xpZW50X3Jl
+Z2lzdGVyKCkgc2F5cyBpdCB3aWxsIGF1dG9tYXRpY2FsbHkgdW5yZWdpc3RlciBvbiBkcml2
+ZXIgdW5sb2FkLiBCdXQgdGhlbiBJIGRvbid0IGtub3cgaG93IHRvIHJlbW92ZSBpdCBmcm9t
+IG15IGxpbmtlZCBsaXN0LCBhbmQgZnJlZSB0aGUgZHJtX2NsaWVudF9kZXYgc3RydWN0Lg0K
+DQpVbnJlZ2lzdGVyaW5nIHdvdWxkbid0IGJlIG5lY2Vzc2FyeSB3aXRoIHRoaXMgcHJvcG9z
+ZWQgDQpnZXRfc2Nhbm91dF9idWZmZXIuIEluIHRoZSBjYXNlIG9mIGEgcGFuaWMsIGp1c3Qg
+cmVtYWluIHNpbGVudCBpZiANCnRoZXJlJ3Mgbm8gZHJpdmVyIHRoYXQgcHJvdmlkZXMgc3Vj
+aCBhIGNhbGxiYWNrLg0KDQo+IA0KPiBUaGlzIGlzIGEgZmlyc3QgZHJhZnQsIHNvIGxldCBt
+ZSBrbm93IHdoYXQgZG8geW91IHRoaW5rIGFib3V0IGl0Lg0KDQpPbmUgdGhpbmcgdGhhdCB3
+aWxsIG5lZWQgc2VyaW91cyB3b3JrIGlzIHRoZSByYXcgb3V0cHV0LiBUaGUgY3VycmVudCAN
+CmJsaXR0aW5nIGZvciBYUkdCODg4OCBpcyByZWFsbHkganVzdCBhIHF1aWNrLWFuZC1kaXJ0
+eSBoYWNrLg0KDQpJIHRoaW5rIHdlIHNob3VsZCB0cnkgdG8gcmV1c2UgZmJkZXYncyBibGl0
+dGluZyBjb2RlLCBpZiBwb3NzaWJsZS4gVGhlIA0KZmJkZXYgY29yZSwgaGVscGVycyBhbmQg
+Y29uc29sZSBjb21lIHdpdGggYWxsIHRoZSBmZWF0dXJlcyB3ZSBuZWVkLiBXZSANCnJlYWxs
+eSBvbmx5IG5lZWQgdG8gbWFrZSB0aGVtIHdvcmsgd2l0aG91dCB0aGUgc3RydWN0IGZiX2lu
+Zm8sIHdoaWNoIGlzIA0KYSBmdWxsIGZiZGV2IGRldmljZS4NCg0KSW4gc3RydWN0IGZiX29w
+cywgdGhlcmUgYXJlIGNhbGxiYWNrcyBmb3IgbW9kaWZ5aW5nIHRoZSBmcmFtZWJ1ZmZlci4g
+WzFdIA0KVGhleSBhcmUgdXNlZCBieSBmYmNvbiBmb2lyIGRyYXdpbmcuIEJ1dCB0aGV5IG9w
+ZXJhdGUgb24gZmJfaW5mby4NCg0KRm9yIGEgd2hpbGUgSSd2ZSBiZWVuIHRoaW5raW5nIGFi
+b3V0IHVzaW5nIHNvbWV0aGluZyBsaWtlIGEgZHJhd2FibGUgdG8gDQpwcm92aWRlIHNvbWUg
+YWJzdHJhY3Rpb25zOg0KDQpzdHJ1Y3QgZHJhd2FibGUgew0KCS8qIHN0b3JlIGJ1ZmZlciBw
+YXJhbWV0ZXJzIGhlcmUgKi8NCgkuLi4NCg0KCXN0cnVjdCBkcmF3YWJsZV9mdW5jcyAqZnVu
+Y3M7DQp9Ow0KDQpzdHJ1Y3QgZHJhd2FibGVfZnVuY3Mgew0KCS8qIGhhdmUgZnVuY3Rpb24g
+cG9pbnRlcnMgc2ltaWxhciB0byBzdHJ1Y3QgZmJfb3BzICovDQoJZmlsbF9yZWN0KCkNCglj
+b3B5X2FyZWEoKQ0KCWltYWdlX2JsaXQoKQ0KfTsNCg0KV2UgY2Fubm90IHJld3JpdGUgYWxs
+IHRoZSBleGlzdGluZyBmYmRldiBkcml2ZXJzLiBUbyBtYWtlIHRoaXMgd29yayB3aXRoIA0K
+ZmJkZXYsIHdlJ2QgbmVlZCBhZGFwdGVyIGNvZGUgdGhhdCBjb252ZXJ0cyBmcm9tIGRyYXdh
+YmxlIHRvIGZiX2luZm8gYW5kIA0KZm9yd2FyZHMgdG8gdGhlIGV4aXN0aW5nIGhlbHBlcnMg
+aW4gZmJfb3BzLg0KDQpCdXQgZm9yIERSTSdzIHBhbmljIG91dHB1dCwgZHJhd2FibGVfZnVu
+Y3Mgd291bGQgaGF2ZSB0byBwb2ludCB0byB0aGUgDQpzY2Fub3V0IGJ1ZmZlciBhbmQgY29t
+cGF0aWJsZSBjYWxsYmFjayBmdW5jcywgZm9yIHdoaWNoIHdlIGhhdmUgDQppbXBsZW1lbnRh
+dGlvbnMgaW4gZmJkZXYuDQoNCldlIG1pZ2h0IGJlIGFibGUgdG8gY3JlYXRlIGNvbnNvbGUt
+bGlrZSBvdXRwdXQgdGhhdCBpcyBpbmRlcGVuZGVudCBmcm9tIA0KdGhlIGZiX2luZm8uIEhl
+bmNlLCB3ZSBjb3VsZCBwb3NzaWJsZSByZXVzZSBhIGdvb2QgY2h1bmsgb2YgdGhlIGN1cnJl
+bnQgDQpwYW5pYyBvdXRwdXQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSBodHRw
+czovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni41LjEvc291cmNlL2luY2x1ZGUvbGlu
+dXgvZmIuaCNMMjczDQoNCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gDQo+IA0KPiANCj4gDQo+
+IEpvY2VseW4gRmFsZW1wZSAoMik6DQo+ICAgIGRybS9wYW5pYzogQWRkIGEgZHJtIHBhbmlj
+IGhhbmRsZXINCj4gICAgZHJtL3NpbXBsZWRybTogQWRkIGRybV9wYW5pYyBzdXBwb3J0DQo+
+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAgICAgIHwgIDExICsrDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgfCAgIDEgKw0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZHJ2LmMgICAgICAgIHwgICAzICsNCj4gICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX3BhbmljLmMgICAgICB8IDI4NiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAgIDIgKw0KPiAgIGlu
+Y2x1ZGUvZHJtL2RybV9wYW5pYy5oICAgICAgICAgIHwgIDI2ICsrKw0KPiAgIDYgZmlsZXMg
+Y2hhbmdlZCwgMzI5IGluc2VydGlvbnMoKykNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2RybV9wYW5pYy5jDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1
+ZGUvZHJtL2RybV9wYW5pYy5oDQo+IA0KPiANCj4gYmFzZS1jb21taXQ6IDY5OTVlMmRlNjg5
+MWM3MjRiZmViMmRiMzNkN2I4Nzc3NWY5MTNhZDENCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2Vy
+bWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJv
+dWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
->  
->  		/* remove packet overhead when possible */
->  		hfp = max(hfp - 6, 0);
-> 
+--------------cDITneQMJyNwpaPZ7joHQJh2--
 
-Best regards,
-Maxim
+--------------M0MhSPfMZjS5ugaoziaFhA0j
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT16dMFAwAAAAAACgkQlh/E3EQov+Bk
+zQ/8D65gq8TGiBhERqVXUB3hJ8vQEsgLtL/V5RYYi8/9jnsLhtFrkBu5T97cTdDMtBBU//E5RhI1
+EdYabxdM6cAKXqQOOxW2tqayJ51InptL6yCQxLCc8F+BmLixcKoPXa51usb+LkLSNbqoNF92OYBw
+qmjgViUAh8ksLbx+e6Qu2+F0tXNq8/ZwjV1fruu/IFyNiHkgoKCIxf/Kj9bARJXZ/puYLENtvydS
+9p8fBRV713mJLxtwUhZG4cXg3BDlcO1k208vN4SO5ehFtQFlUHma/HGYn6o+D+gJJ94AAiMWlc+b
+FA40NoQCoL8Q0XaiCXOdOfZiARIBcU6vLOvhjrIJWQ9SAzvVGymJ+PFE7mK0bK46qWm8leVzszvu
+EG+e5fezoF8YyEaoBWQa3TSAR46sMmAYxJTgFDY2q+oYHl3Gl6MV/NY/FK9VGsuG/4quY/qM8/Ym
+MjF0qizfS8svhuXPb71S9XTRN/MTBAynIuBwySCCn7LSF59Ij5A6TYHDXPKoMV4LmRP4seyLC4R1
+bGENr82uUhF0GFFz5czSTLsG83SiXyO54nXEYN2XGedDmWgh1t4ZZCgCopx2YosSb6ZFsgF8ZO9l
+FmTQG6RMhUwnHbWHnFz9mSmqBQks6I7YIaM+qHyyxnz1bZ/R7Wpl6wrKIkJFiOF76lOMbb6omqtx
+3gg=
+=O73E
+-----END PGP SIGNATURE-----
+
+--------------M0MhSPfMZjS5ugaoziaFhA0j--
