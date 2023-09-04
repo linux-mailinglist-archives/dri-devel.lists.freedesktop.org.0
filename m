@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314C2791C28
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 19:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BED791C29
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 19:51:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0E810E3BE;
-	Mon,  4 Sep 2023 17:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC3F10E3C2;
+	Mon,  4 Sep 2023 17:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2282810E3C2
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 17:51:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B4810E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 17:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=UWwfXvnq5gNOxmmva2w4VKJSyzXdaCzY+LazedhAQu0=; b=C2IPptIjDIqGkO3l5Twp7imjki
- tlQqndwkD2MUw7isPauyIeV7OMdpmeowE4cYV8MjIBXDFDdJ2VQPBK7gyd6xnhlVeii2ChXeFtVNo
- 41dqaDrYE+n8usuhUYgiNpj7XJ3C5cJueT/Sv5b4qJKmwb3bQpJhEctx+AU0Su9jUmYKHxFSTfJda
- xlj0aifpoQQEJOAwtjlRb8TpOA0+8MstInVVl50H5rAxrXBo6CejJn46qAxuyRTW0U9gtC8Ztmhsr
- s9LaHgzU2BHFbjmAyVt3vUb6tvdg1a9qypAs+Ej7DaTnGMrlMi12ASESQ9FTqBDEPhg/Invy7vWM3
- QQfOhvCw==;
+ bh=Nm8GA70bZRuilSNAI6bS9zTz2fhlHnGN270RDw5vE5o=; b=Ohqx44BvUptdxVH+Y5JT5AXSlz
+ oYVC9pFwUJ3ZYDkU/5377yR+4uW55fCc7HeOtqx2JEe9Y2n8Ggf58GCFO0BZqtp/D1nnHjKNglsCR
+ 89CsrWZOxdm2IjYeDvD2z9/hA1YsCC5fd+k2RFLb6+BKxTVn2OQj/LJscnRcz/lJ735wh78ejBrls
+ 4qNJhGmCF/0/SuLnXRUSlzcLhgyMS0XMXvZTUOoy3Ye0v9ZdNtvW2EmIAGDR0Px9XLQE1kI6L1hTV
+ kOmpvoiQLj1yrirKSyNqOv84V6BftzpQcw2qXmnPW128bqen+cM/tog6Nfb/o7ly5uIetlH3FRuOP
+ aD6vPxnA==;
 Received: from [187.36.235.191] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qdDjI-0028nB-Ad; Mon, 04 Sep 2023 19:51:16 +0200
+ id 1qdDjM-0028nB-FM; Mon, 04 Sep 2023 19:51:20 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Iago Toral <itoral@igalia.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 05/17] drm/v3d: Don't allow two multisync extensions in the
- same job
-Date: Mon,  4 Sep 2023 14:38:53 -0300
-Message-ID: <20230904175019.1172713-6-mcanal@igalia.com>
+Subject: [PATCH 06/17] drm/v3d: Decouple job allocation from job initiation
+Date: Mon,  4 Sep 2023 14:38:54 -0300
+Message-ID: <20230904175019.1172713-7-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230904175019.1172713-1-mcanal@igalia.com>
 References: <20230904175019.1172713-1-mcanal@igalia.com>
@@ -63,31 +62,59 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, two multisync extensions can be added to the same job and
-only the last multisync extension will be used. To avoid this
-vulnerability, don't allow two multisync extensions in the same job.
+We want to allow the IOCTLs to allocate the job without initiating it.
+This will be useful for the CPU job submission IOCTL, as the CPU job has
+the need to use information from the user extensions. Currently, the
+user extensions are parsed before the job allocation, making it
+impossible to fill the CPU job when parsing the user extensions.
+Therefore, decouple the job allocation from the job initiation.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/v3d/v3d_submit.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index b6be34060d4f..2c39e2acf01b 100644
+index 2c39e2acf01b..dff4525e6fde 100644
 --- a/drivers/gpu/drm/v3d/v3d_submit.c
 +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -328,6 +328,11 @@ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
- 	struct v3d_submit_ext *se = data;
- 	int ret;
-
-+	if (se->in_sync_count || se->out_sync_count) {
-+		DRM_DEBUG("Two multisync extensions were added to the same job.");
-+		return -EINVAL;
+@@ -135,6 +135,21 @@ void v3d_job_put(struct v3d_job *job)
+ 	kref_put(&job->refcount, job->free);
+ }
+ 
++static int
++v3d_job_allocate(void **container, size_t size)
++{
++	if (*container)
++		return 0;
++
++	*container = kcalloc(1, size, GFP_KERNEL);
++	if (!*container) {
++		DRM_ERROR("Cannot allocate memory for V3D job.\n");
++		return -ENOMEM;
 +	}
 +
- 	if (copy_from_user(&multisync, ext, sizeof(multisync)))
- 		return -EFAULT;
-
---
++	return 0;
++}
++
+ static int
+ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	     void **container, size_t size, void (*free)(struct kref *ref),
+@@ -145,11 +160,9 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	bool has_multisync = se && (se->flags & DRM_V3D_EXT_ID_MULTI_SYNC);
+ 	int ret, i;
+ 
+-	*container = kcalloc(1, size, GFP_KERNEL);
+-	if (!*container) {
+-		DRM_ERROR("Cannot allocate memory for v3d job.");
+-		return -ENOMEM;
+-	}
++	ret = v3d_job_allocate(container, size);
++	if (ret)
++		return ret;
+ 
+ 	job = *container;
+ 	job->v3d = v3d;
+-- 
 2.41.0
 
