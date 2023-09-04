@@ -1,72 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98F87919E5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 16:44:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA927919F0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 16:45:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382ED10E374;
-	Mon,  4 Sep 2023 14:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645C110E373;
+	Mon,  4 Sep 2023 14:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA1B10E373
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 14:44:33 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2b9338e4695so23005581fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Sep 2023 07:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693838672; x=1694443472; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kH7WX/bL02gBNSwkaIeLx/wyDLsKZbgUWcH4uKnAa/o=;
- b=oeptpTFFPzq+mFlS4rzqZfD52qmWXUDvY2Dq6lkE0eZCukXMAjhtSV/H2sYK7hzS9P
- b+8bMioJR88n0U7koCbyyl+14MEp9qmPz3U5ZbF1/p0Ayt0tyXyRbkw/IAaQ12ZYLTnh
- bnreyct8OKIMAnJ2l4bW5Hn55uELUl6zf3iOAr0yfNkJbP0dILLi3S2nK0eFY1aHvd4N
- LRv/ybp/cyjU2wRiN3iksWjhdtgGchyXnavWlh40V9avcmKBBldoVb6Y0gWxwCABF339
- 9BCB6sJse0kBV4hf4iMqAqB3S44XWgxykmEw86bo76ZLAUYwpyktxSvLuFYvUt61uihB
- 71kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693838672; x=1694443472;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kH7WX/bL02gBNSwkaIeLx/wyDLsKZbgUWcH4uKnAa/o=;
- b=ls76tv54Tw2UtPA5G+130sG6kLIpBjV93CUFsOr3dQGB81UQL8Fua4Zv3GEi3/Gqhf
- eC2uMc2yUgIemtxXfvk44dz5ViavpGV1ut/I8JViraMR64J+Sxtnyp7WPcDobqisZvYN
- tJS8nvGg5fdqq3T4R0Z0tXsjHI6zaq/z6UtbkNjjfNWoiwKkkGeaY+kPtmU8QDXMu0G4
- bUT7ljntO23qN1MRYEgQof6QdETpbk5Q34QRhpl1gDb9sHr2AG4jETb20hltk+hvKMbc
- CiSqKP9nU30S62xmd1YWpsZ7ziMsdwy5ddjLgMQyC0DESTh+scTmRRkR+p8tb0qclt6D
- qjVw==
-X-Gm-Message-State: AOJu0YwXnP5Drs2RdsNhNKs0k0DoQluU/mFb9JJzQB2vamPENU1N95Lp
- PMTYHsQAvgI+R0TCgrlZtgOpaw==
-X-Google-Smtp-Source: AGHT+IEErqFoQDFEzrD9081gh8cXtiVUP+rR3xhizgoZsbXsVV7hp8UJS6hWIuK/ebDqwwBDgJ6ljQ==
-X-Received: by 2002:a2e:3e15:0:b0:2bd:ddf:8aa6 with SMTP id
- l21-20020a2e3e15000000b002bd0ddf8aa6mr6774021lja.23.1693838671794; 
- Mon, 04 Sep 2023 07:44:31 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- v10-20020a2e7a0a000000b002bce8404157sm2177440ljc.12.2023.09.04.07.44.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Sep 2023 07:44:31 -0700 (PDT)
-Message-ID: <9bfdbcb5-bb17-471c-ba79-5e215e440928@linaro.org>
-Date: Mon, 4 Sep 2023 17:44:30 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C4510E373
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 14:45:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 557B221847;
+ Mon,  4 Sep 2023 14:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693838724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zwOfbAWdwcxiVEZLogxCvwETbAleNSV4ENBibaw75QE=;
+ b=2WCs7309i+x/BqUyDQuQAroHGHyJvPJGW5nh7hDDnsYcacC/+DEOxazTb/8S3XJpyVToc1
+ oxYCSk1LqEsg5aZtCrxHlbw8QrkASQQDz+9dvRbgxvZeptmtmRdZHubvx2cC8sQfjb5ghO
+ WmTqAn+SwPRhEA4ssqK8mYS4mx9UeEk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693838724;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zwOfbAWdwcxiVEZLogxCvwETbAleNSV4ENBibaw75QE=;
+ b=Coek/URptDUKM6d5L5sOSMh1YeT+Br1iQjDDCxQC5XP1dISO7+0jN8FkNTdD/+nSVNxjoG
+ mly3oqzZQ7KHyvDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2436C13425;
+ Mon,  4 Sep 2023 14:45:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6Wz5B4Tt9WSeNwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 04 Sep 2023 14:45:24 +0000
+Message-ID: <9ff7e92a-539e-42fd-031b-d3a256021529@suse.de>
+Date: Mon, 4 Sep 2023 16:45:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] drm/msm/dpu: move INTF tearing checks to
- dpu_encoder_phys_cmd_ini
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch, sam@ravnborg.org
+References: <20230828132131.29295-1-tzimmermann@suse.de>
+ <20230828132131.29295-2-tzimmermann@suse.de>
+ <877cp66qmp.fsf@minerva.mail-host-address-is-not-set>
+ <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
+In-Reply-To: <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PRkXFkMYvCBn8xIvrEX4jg8i"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,52 +73,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Steve Glendinning <steve.glendinning@shawell.net>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Of course this should be 'drm/msm/dpu: drop DPU_INTF_TE and 
-DPU_PINGPONG_TE' series
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PRkXFkMYvCBn8xIvrEX4jg8i
+Content-Type: multipart/mixed; boundary="------------nbhjRC7dfWIrkQvkawxwnpwG";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch, sam@ravnborg.org
+Cc: Steve Glendinning <steve.glendinning@shawell.net>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org
+Message-ID: <9ff7e92a-539e-42fd-031b-d3a256021529@suse.de>
+Subject: Re: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
+References: <20230828132131.29295-1-tzimmermann@suse.de>
+ <20230828132131.29295-2-tzimmermann@suse.de>
+ <877cp66qmp.fsf@minerva.mail-host-address-is-not-set>
+ <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
+In-Reply-To: <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
 
-On 04/09/2023 05:04, Dmitry Baryshkov wrote:
-> rop two feature flags, DPU_INTF_TE and DPU_PINGPONG_TE, in favour of
-> performing the MDSS revision checks instead.
-> 
-> Changes since v2:
-> - Added guarding checks for hw_intf and hw_pp in debug print (Marijn)
-> - Removed extra empty lines (Marijn)
-> 
-> Changes since v1:
-> - Added missing patch
-> - Reworked commit messages (following suggestions by Marijn)
-> - Changed code to check for major & INTF type rather than checking for
->    intr presence in catalog. Added WARN_ON()s instead. (Marijn)
-> - Added severall comments & TODO item.
-> 
-> Dmitry Baryshkov (8):
->    drm/msm/dpu: inline _setup_pingpong_ops()
->    drm/msm/dpu: enable PINGPONG TE operations only when supported by HW
->    drm/msm/dpu: drop the DPU_PINGPONG_TE flag
->    drm/msm/dpu: inline _setup_intf_ops()
->    drm/msm/dpu: enable INTF TE operations only when supported by HW
->    drm/msm/dpu: drop DPU_INTF_TE feature flag
->    drm/msm/dpu: drop useless check from
->      dpu_encoder_phys_cmd_te_rd_ptr_irq()
->    drm/msm/dpu: move INTF tearing checks to dpu_encoder_phys_cmd_init
-> 
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 52 +++++++++----------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  3 +-
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  6 +--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 51 +++++++++---------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 41 +++++++--------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   |  3 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  2 +-
->   7 files changed, 75 insertions(+), 83 deletions(-)
-> 
+--------------nbhjRC7dfWIrkQvkawxwnpwG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
--- 
-With best wishes
-Dmitry
+DQoNCkFtIDA0LjA5LjIzIHVtIDE2OjM5IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQpb
+Li4uXQ0KPiBBdCBsZWFzdCB0d28gZHJpdmVycyBjb3VsZCB1c2UgX19GQl9ERUZBVUxUX0RF
+RkVSUkVEX09QU19NTUFQOiANCj4gcGljb2xjZC1mYiBhbmQgaHlwZXJ2X2ZiLiBBdCBzb21l
+IHBvaW50LCB3ZSBtaWdodCB3YW50IHRvIHNldC9jbGVhciANCg0KQm90aCBkcml2ZXJzIGFy
+ZSBhbHJlYWR5IGluIHRoaXMgcGF0Y2hzZXQuDQoNCj4gZmJfbW1hcCBkZXBlbmRpbmcgb24g
+c29tZSBLY29uZmlnIHZhbHVlLiBIYXZpbmcgDQo+IF9fRkJfREVGQVVMVF9ERUZFUlJFRF9P
+UFNfTU1BUCBtaWdodCBiZSBoZWxwZnVsIHRoZW4uDQo+IA0KPj4NCj4+IEFsdGVybmF0aXZl
+bHksIF9fRkJfREVGQVVMVF9ERUZFUlJFRF9PUFNfTU1BUCgpIGNvdWxkIHN0aWxsIGJlIGxl
+ZnQgYnV0DQo+PiBub3QgdGFraW5nIGEgX19wcmVmaXggYXJndW1lbnQgc2luY2UgdGhhdCBp
+cyBub3QgdXNlZCBhbnl3YXlzID8NCj4gDQo+IFRoZSBkcml2ZXIgb3B0aW9uYWxseSBwcm92
+aWRlcyBtbWFwIHdpdGhvdXQgZGVmZXJyZWQgSS9PLCBoZW5jZSB0aGUgbW1hcCANCj4gZnVu
+Y3Rpb24uIFRoYXQgbWFrZXMgbm8gc2Vuc2UsIGFzIHRoZXNlIHdyaXRlcyB0byB0aGUgYnVm
+ZmVyIHdvdWxkIG5ldmVyIA0KPiBtYWtlIGl0IHRvIHRoZSBkZXZpY2UgbWVtb3J5LiBCdXQg
+SSBkaWRuJ3Qgd2FudCB0byByZW1vdmUgdGhlIGNvZGUgDQo+IGVpdGhlci4gU28gSSBqdXN0
+IGxlZnQgdGhlIGV4aXN0aW5nIGZ1bmN0aW9uIGFzLWlzLiBVc3VhbGx5LCB0aGUgDQo+IGRl
+ZmVycmVkLUkvTyBtbWFwIGlzIGNhbGxlZCBpbW1lZGlhdGVseS4gWzFdDQo+IA0KPiBCZXN0
+IHJlZ2FyZHMNCj4gVGhvbWFzDQo+IA0KPiBbMV0gDQo+IGh0dHBzOi8vZWxpeGlyLmJvb3Rs
+aW4uY29tL2xpbnV4L3Y2LjUuMS9zb3VyY2UvZHJpdmVycy92aWRlby9mYmRldi9zbXNjdWZ4
+LmMjTDc4NA0KPiANCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
+cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
+YkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjog
+SXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2Vy
+bWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
+--------------nbhjRC7dfWIrkQvkawxwnpwG--
+
+--------------PRkXFkMYvCBn8xIvrEX4jg8i
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT17YMFAwAAAAAACgkQlh/E3EQov+Bl
+7g/+IkeJ8BEF+Ndcx15ceam9wUKFmxrZZxzU3LVoh0UKmoqA/1bZ7nZz9X3gO2D1mOe/iyUxqP+1
+jKOe7Cc2BG3mz2GekbDQJa4XPIlsJ5Ox/lHMSsQrVe48luAYSqpX9LGzox429Kl2REQM5dPs6/wz
+D2c9sfHYFJ6orzHl18rtb+LK0U7pBxirS0sKLcE2Hpt0Z7k2JN6bPJ+cVEkFPa+KA2Ydea2SLfeU
+a4lWvRG/F+YvIoN4EA8e7Lo6z8w1aBn6dfqhxyLwORLUvles4UD3Ok6WrCKoUa27Ub4Ui2HSIx2E
+UPD7/3QASWkPTh87sJw5u25oe+R0IFxhYaxhC9OoABhjbfZJVz88TSoKMV5s7gjhjWxfEhAH3hhf
+cBHtLzkhShL0hst4yFv5kgnDZmlUeIhtEy3aGdK0mrCKVRgLTOJUr9X3ID9aiA+eJoBnDz8UVv4E
+PzmHX01HEszSf/8IxP2qkZXlSlHD53mFenzZQ/Xo+OaEZ1ccgeRzpWbQEPs0+Bc7peUZ/CzUGc0C
+m84wwZ+bTa3KJN7vNOnTvu8YinMBnu9nlkQXSrv652p1N8hQ3jhrX3J+xPJiA7e0bHrsVy1eWihe
+ezMlOHNqpnkNXm3wooPhDXkFzpBV5rnFjrupLgMk8BeeMIiH/ohPHh7r698qLnvyQmuiyn0QbW9M
+Eeo=
+=uykn
+-----END PGP SIGNATURE-----
+
+--------------PRkXFkMYvCBn8xIvrEX4jg8i--
