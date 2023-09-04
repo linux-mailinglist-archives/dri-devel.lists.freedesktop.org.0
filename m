@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB6D790FD5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:06:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC869790FD1
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 04:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F8010E278;
-	Mon,  4 Sep 2023 02:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC0310E26C;
+	Mon,  4 Sep 2023 02:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F15310E275
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:04:58 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2bcb54226e7so11266171fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 19:04:58 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2091510E279
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 02:04:59 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2b9338e4695so13594571fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Sep 2023 19:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1693793096; x=1694397896; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1693793097; x=1694397897; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RxIfvevq87WVmZljmdsOUb7zNfjaAH8j0tUqxn+e9Jw=;
- b=Fgvw6Qw+XBgDkwS4y+b6ocPTH5VAcsOMRMvxVbQBydtAXhIar7h15s3SJsPdY1u2ut
- F7MXis1J/GlTx8ks4moT8eF846+u8q0ZLkZmR9Muyx/dM4exxky0UX28oJD8rwyxQIGQ
- EIBOBLndabscKIGTA/YU3Ly72QeOeO98OSlfnTKht2YXsB8qZLYjXAoB1QEx1JRLlGyR
- uvt7uRHjJCcyFYJ/Y7tGbW1171WYdWM0hk1wkWewOvkEeh9Im9Q2JcTAHkbnKJFZ1Ny8
- Ka8s6M0sKIXUq4UjtC/LxIX8TwgDKnHumdMxHxPf567RVe7u9+J7VJeI+4dtkC9qvy6l
- UX6w==
+ bh=pJKUNdikO94CMyRH4pyQDb+K5Uh7omm4HrkDcf2ckFg=;
+ b=I5RDFSWPGF2vNoiPKovOODduikNzQ5G2iZlvWIqwowXE4m45VWnxnxytF0gonoOGME
+ AKpMRRCySJ5bra13nKHLVItgBLwxFeercIMJSlc6ers23zsHZXc63hrbStunXOiQlIJZ
+ 4Cg2cfM4UtfWKvmBsP/Ckq92LTpZAdrkUkvuI90o+8bJxFcjYJYIzrZu8ypgGgGIcIGb
+ 5XltIsuifDRJYcicScSV/sDbQxHvmTHd7H4CSNPuTnLOT4Lqo3Tm5IoVL+0fqMEU5+3S
+ GkHyr36/0yAPeuS8Cq2qI0iLKmV3Wz+SzILNNcxU0qKDY7XxY7G510CqADiu2Kw95+Eu
+ 8fbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693793096; x=1694397896;
+ d=1e100.net; s=20221208; t=1693793097; x=1694397897;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RxIfvevq87WVmZljmdsOUb7zNfjaAH8j0tUqxn+e9Jw=;
- b=FZnJE3vacmRw8uE1IYvfLuX9j0wlJLJolDmPF9AViWXmJ2a6a0SORrg7IkFm5o7IST
- ZBwzfkYjyF/jKCtmcPAgnmMAQVwOTbgSdLgQcqf0M/B6WUqaZlJwAe57xk7c97NLeCQj
- QXft8pkoZEohymnnOOlekPFE5lte71DpNQR6YjoT+cPlKdthdJJmgttBmpHx2cdgNjbb
- d1kGdyOXllHcwx6OXbSIYOPPcuAZh/g7ItiFMXY1p/G/bzPTE3Wt/7a5/rFmv/j4WvAV
- 8f5dqXwTLQ6yXLScraEaL+920eO1mJQsC0i7fsf1sTxyojEzH68X9fs7GPM+Z/NNlqXy
- RqyQ==
-X-Gm-Message-State: AOJu0Yx4w6AGKN2P6frf8vSz2e5J22MN3+ay34kK8AF6a5l6BU9a6RK8
- e8qSl44K7tT5/f0TECxAEHYPBg==
-X-Google-Smtp-Source: AGHT+IF4AL00qrBYG914cfs2MtjwiEgixFaAhw+pEt4e47Fkg5dl2OorMKe4mVmiFeBh/XLwZZN5NQ==
-X-Received: by 2002:a2e:910b:0:b0:2bd:d31:d1ee with SMTP id
- m11-20020a2e910b000000b002bd0d31d1eemr2456620ljg.14.1693793096654; 
- Sun, 03 Sep 2023 19:04:56 -0700 (PDT)
+ bh=pJKUNdikO94CMyRH4pyQDb+K5Uh7omm4HrkDcf2ckFg=;
+ b=KcW2JGuj8x+ODPybsL27PqD1iJzuC6fLjku7oXaKU3clD1OOpTnf0fkYG/flR46a06
+ hd99F4vclv/wrVq7KXDnFt1DmbS7D2vTw6BCpkZHL99plW5IUQt8xmkCIASASq92sWph
+ 2/6x0KB6lr0JNoQnnpWIr30Q+BoFe9K/Iu8XDPPUhrjK2BFbwYqhrRNDZG5ytOHsRAyp
+ Q8QX86p6Qcs29jgkU4ZQUFn4+ePcpo8XgrxrKQTXCiiVywWbZVKprxW4uPpN5ZKNxWnt
+ xFLOn+hNqOXkPCGu3FTe1ejgzvWVcRX3W5lOts1eZgsoXxnovmw3M878jxIOikYBaPTl
+ 7AQg==
+X-Gm-Message-State: AOJu0Yz8KBzBA3ICkwaStd/BtDDY43g5IwufUsF1PZGS2wsMos33XWPV
+ III5k5wjzDP7zgvyTxj5fUcACw==
+X-Google-Smtp-Source: AGHT+IH+ZeEKNM9GR8BkN9YjjINxrtEHHZvvBz+TecZ/euGggBDNfy2hV3F+bhtP9xeeI5LZP8ZtzA==
+X-Received: by 2002:a2e:8053:0:b0:2bc:c3ad:f418 with SMTP id
+ p19-20020a2e8053000000b002bcc3adf418mr6221192ljg.20.1693793097407; 
+ Sun, 03 Sep 2023 19:04:57 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  t13-20020a2e9c4d000000b002bce0e9385asm1818237ljj.9.2023.09.03.19.04.56
@@ -55,10 +55,9 @@ From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 2/8] drm/msm/dpu: enable PINGPONG TE operations only when
- supported by HW
-Date: Mon,  4 Sep 2023 05:04:48 +0300
-Message-Id: <20230904020454.2945667-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 3/8] drm/msm/dpu: drop the DPU_PINGPONG_TE flag
+Date: Mon,  4 Sep 2023 05:04:49 +0300
+Message-Id: <20230904020454.2945667-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
 References: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
@@ -82,72 +81,50 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DPU_PINGPONG_TE bit is set for all PINGPONG blocks on DPU < 5.0.
-Rather than checking for the flag, check for the presense of the
-corresponding interrupt line.
+The DPU_PINGPONG_TE flag became unused, we can drop it now.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 6 ++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 3 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c          | 2 +-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 4 +---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 9298c166b213..057cac7f5d93 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -282,7 +282,7 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 713dfc079718..d89bdd0dd27a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -79,7 +79,7 @@
+ 	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
  
- struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
--		void __iomem *addr)
-+		void __iomem *addr, const struct dpu_mdss_version *mdss_rev)
- {
- 	struct dpu_hw_pingpong *c;
+ #define PINGPONG_SDM845_MASK \
+-	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE) | BIT(DPU_PINGPONG_DSC))
++	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_DSC))
  
-@@ -296,7 +296,9 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
- 	c->idx = cfg->id;
- 	c->caps = cfg;
- 
--	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
-+	if (mdss_rev->core_major_ver < 5) {
-+		WARN_ON(!cfg->intr_rdptr);
-+
- 		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
- 		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
- 		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-index d3246a9a5808..0d541ca5b056 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-@@ -123,10 +123,11 @@ static inline struct dpu_hw_pingpong *to_dpu_hw_pingpong(struct dpu_hw_blk *hw)
-  * pingpong catalog entry.
-  * @cfg:  Pingpong catalog entry for which driver object is required
-  * @addr: Mapped register io address of MDP
-+ * @mdss_rev: dpu core's major and minor versions
-  * Return: Error code or allocated dpu_hw_pingpong context
-  */
- struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
--		void __iomem *addr);
-+		void __iomem *addr, const struct dpu_mdss_version *mdss_rev);
+ #define PINGPONG_SDM845_TE2_MASK \
+ 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 6c9634209e9f..9aac937285b1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -119,7 +119,6 @@ enum {
  
  /**
-  * dpu_hw_pingpong_destroy - destroys pingpong driver context
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index f9215643c71a..f3aff605554d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -146,7 +146,7 @@ int dpu_rm_init(struct dpu_rm *rm,
- 		struct dpu_hw_pingpong *hw;
- 		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
- 
--		hw = dpu_hw_pingpong_init(pp, mmio);
-+		hw = dpu_hw_pingpong_init(pp, mmio, cat->mdss_ver);
- 		if (IS_ERR(hw)) {
- 			rc = PTR_ERR(hw);
- 			DPU_ERROR("failed pingpong object creation: err %d\n",
+  * PINGPONG sub-blocks
+- * @DPU_PINGPONG_TE         Tear check block
+  * @DPU_PINGPONG_TE2        Additional tear check block for split pipes
+  * @DPU_PINGPONG_SPLIT      PP block supports split fifo
+  * @DPU_PINGPONG_SLAVE      PP block is a suitable slave for split fifo
+@@ -128,8 +127,7 @@ enum {
+  * @DPU_PINGPONG_MAX
+  */
+ enum {
+-	DPU_PINGPONG_TE = 0x1,
+-	DPU_PINGPONG_TE2,
++	DPU_PINGPONG_TE2 = 0x1,
+ 	DPU_PINGPONG_SPLIT,
+ 	DPU_PINGPONG_SLAVE,
+ 	DPU_PINGPONG_DITHER,
 -- 
 2.39.2
 
