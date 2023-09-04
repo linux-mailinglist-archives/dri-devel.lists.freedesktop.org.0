@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4E1791DF2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 21:58:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EBB791DF5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 21:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4CD10E3F2;
-	Mon,  4 Sep 2023 19:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6354A10E3F1;
+	Mon,  4 Sep 2023 19:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-229.mta1.migadu.com (out-229.mta1.migadu.com
- [IPv6:2001:41d0:203:375::e5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C97210E3E6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 19:57:46 +0000 (UTC)
+Received: from out-213.mta1.migadu.com (out-213.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::d5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A299410E3E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 19:57:48 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1693857464;
+ t=1693857466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nTyqdC4advhF1f2LWIzvXqUIn1S7wmBn4hXPYMV0KW4=;
- b=Knc/PQa5Wh7WbzPujlbqPJIvZyOiZUpkuNmq8G8cXeTxP9vcNZIHQiMsr4EXIJtKTFmhOY
- jIVySpNP8uVj4FDOPGVx/OV8DOZUz4fLOQ8ypLGh4wKVTxUTQ7YjxVOTT/SYxJtBfn72gN
- HeasxEJjrY21hUjU8uogIwElp3gvOuQ=
+ bh=LqpDfy7jFw2xJEvEvsvRPCTDdY9j+2hqZZDtflMLDhg=;
+ b=WStnGQXeW5BqIuHoiyaRzA+TJzXqxO/w6kqSS4bJpIIHA8VKpuQJC55KX3cJTyU0ojlG48
+ rQA4YgJna8esL75FwGA1ZCP6tfeU2Te6m7aNzn1JJt1o1j+Trw9b2ZZgImETGb439FHPM2
+ KY/rIaV6Z10ITNKiYHL2D3EBhLDq5cI=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: [RFC,
- drm-misc-next v4 4/9] drm/amdgpu: Implement .be_primary() callback
-Date: Tue,  5 Sep 2023 03:57:19 +0800
-Message-Id: <20230904195724.633404-5-sui.jingfeng@linux.dev>
+Subject: [RFC, drm-misc-next v4 5/9] drm/i915: Implement .be_primary() callback
+Date: Tue,  5 Sep 2023 03:57:20 +0800
+Message-Id: <20230904195724.633404-6-sui.jingfeng@linux.dev>
 In-Reply-To: <20230904195724.633404-1-sui.jingfeng@linux.dev>
 References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -51,8 +50,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Sui Jingfeng <suijingfeng@loongson.cn>, nouveau@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>
+ linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -60,85 +58,50 @@ From: Sui Jingfeng <suijingfeng@loongson.cn>
 
 On a machine with multiple GPUs, a Linux user has no control over which one
 is primary at boot time. This patch tries to solve the mentioned problem by
-implementing the .be_primary() callback. Pass amdgpu.modeset=10 on the
-kernel cmd line if you really want the device bound by amdgpu drm driver to
-be the primary video adapter, no matter what VGAARB say.
+implementing the .be_primary() callback. Pass i915.modeset=10 on the kernel
+cmd line if you really want the device bound by i915 drm driver to be the
+primary video adapter, no matter what VGAARB say.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian Konig <christian.koenig@amd.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 ++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 13 ++++++++++++-
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_vga.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index ecc4564ceac0..59bde6972a8b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3507,6 +3507,14 @@ static void amdgpu_device_set_mcbp(struct amdgpu_device *adev)
- 		DRM_INFO("MCBP is enabled\n");
+diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+index 98d7d4dffe9f..e3f78ba2668b 100644
+--- a/drivers/gpu/drm/i915/display/intel_vga.c
++++ b/drivers/gpu/drm/i915/display/intel_vga.c
+@@ -113,6 +113,17 @@ intel_vga_set_decode(struct pci_dev *pdev, bool enable_decode)
+ 		return VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
  }
  
-+static bool amdgpu_want_to_be_primary(struct pci_dev *pdev)
++static bool intel_want_to_be_primary(struct pci_dev *pdev)
 +{
-+	if (amdgpu_modeset == 10)
++	struct drm_i915_private *i915 = pdev_to_i915(pdev);
++	struct i915_params *params = &i915->params;
++
++	if (params->modeset == 10)
 +		return true;
 +
 +	return false;
 +}
 +
- /**
-  * amdgpu_device_init - initialize the driver
-  *
-@@ -3916,7 +3924,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	 * ignore it
- 	 */
- 	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
--		vga_client_register(adev->pdev, amdgpu_device_vga_set_decode, NULL);
-+		vga_client_register(adev->pdev, amdgpu_device_vga_set_decode,
-+				    amdgpu_want_to_be_primary);
- 
- 	px = amdgpu_device_supports_px(ddev);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 81edf66dbea8..2592e24ce62c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -118,6 +118,7 @@
- #define KMS_DRIVER_MINOR	54
- #define KMS_DRIVER_PATCHLEVEL	0
- 
-+int amdgpu_modeset = -1;
- unsigned int amdgpu_vram_limit = UINT_MAX;
- int amdgpu_vis_vram_limit;
- int amdgpu_gart_size = -1; /* auto */
-@@ -223,6 +224,13 @@ struct amdgpu_watchdog_timer amdgpu_watchdog_timer = {
- 	.period = 0x0, /* default to 0x0 (timeout disable) */
- };
- 
-+/**
-+ * DOC: modeset (int)
-+ * Disable/Enable kernel modesetting (1 = enable, 0 = disable, -1 = auto (default)).
-+ */
-+MODULE_PARM_DESC(modeset, "Disable/Enable kernel modesetting");
-+module_param_named(modeset, amdgpu_modeset, int, 0600);
-+
- /**
-  * DOC: vramlimit (int)
-  * Restrict the total amount of VRAM in MiB for testing.  The default is 0 (Use full VRAM).
-@@ -2872,7 +2880,10 @@ static int __init amdgpu_init(void)
+ int intel_vga_register(struct drm_i915_private *i915)
  {
- 	int r;
+ 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+@@ -126,7 +137,8 @@ int intel_vga_register(struct drm_i915_private *i915)
+ 	 * then we do not take part in VGA arbitration and the
+ 	 * vga_client_register() fails with -ENODEV.
+ 	 */
+-	ret = vga_client_register(pdev, intel_vga_set_decode, NULL);
++	ret = vga_client_register(pdev, intel_vga_set_decode,
++				  intel_want_to_be_primary);
+ 	if (ret && ret != -ENODEV)
+ 		return ret;
  
--	if (drm_firmware_drivers_only())
-+	if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
-+		return -EINVAL;
-+
-+	if (amdgpu_modeset == 0)
- 		return -EINVAL;
- 
- 	r = amdgpu_sync_init();
 -- 
 2.34.1
 
