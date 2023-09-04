@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887D2791C27
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 19:51:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314C2791C28
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 19:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F276610E3C0;
-	Mon,  4 Sep 2023 17:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0E810E3BE;
+	Mon,  4 Sep 2023 17:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198D810E3C0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 17:51:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2282810E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Sep 2023 17:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,25 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=cXsrpJcfgn8WqALuyrPzgsWgpeIMLJDt3E/KYtPzpMg=; b=TJfXBxJ3tCnMO0GniYlD6ksfRU
- aItptzeU/7cbUA6Fd6hjtdEQNwbj4GwWHGbwd9L1HkJZKMupK7Jk7WHlFRi19zpeG1npuxG/T4p/L
- oD23oJvwojiR+jyuq9SN8xdJDfxbIFTU16u1waf9lNyVLVlnvCS78Jh7PN45GlJRPoB9qy0BWn1rh
- EuF8zP1IruARdBTcFXHRD//sEVNJsxhzjpiaaykIamo8RWIj0T8MM/D1qh1pq29zlAN9zswjOB48e
- AbFkYGfVX97rwmo2UUdHxvD5rxIytdufvHQdk/v33a/+WocfTCriPyvBVeUPxm2PdafizAzXPTxLV
- jUClJaGg==;
+ bh=UWwfXvnq5gNOxmmva2w4VKJSyzXdaCzY+LazedhAQu0=; b=C2IPptIjDIqGkO3l5Twp7imjki
+ tlQqndwkD2MUw7isPauyIeV7OMdpmeowE4cYV8MjIBXDFDdJ2VQPBK7gyd6xnhlVeii2ChXeFtVNo
+ 41dqaDrYE+n8usuhUYgiNpj7XJ3C5cJueT/Sv5b4qJKmwb3bQpJhEctx+AU0Su9jUmYKHxFSTfJda
+ xlj0aifpoQQEJOAwtjlRb8TpOA0+8MstInVVl50H5rAxrXBo6CejJn46qAxuyRTW0U9gtC8Ztmhsr
+ s9LaHgzU2BHFbjmAyVt3vUb6tvdg1a9qypAs+Ej7DaTnGMrlMi12ASESQ9FTqBDEPhg/Invy7vWM3
+ QQfOhvCw==;
 Received: from [187.36.235.191] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qdDjE-0028nB-4O; Mon, 04 Sep 2023 19:51:12 +0200
+ id 1qdDjI-0028nB-Ad; Mon, 04 Sep 2023 19:51:16 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
  Iago Toral <itoral@igalia.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/17] drm/v3d: Simplify job refcount handling
-Date: Mon,  4 Sep 2023 14:38:52 -0300
-Message-ID: <20230904175019.1172713-5-mcanal@igalia.com>
+Subject: [PATCH 05/17] drm/v3d: Don't allow two multisync extensions in the
+ same job
+Date: Mon,  4 Sep 2023 14:38:53 -0300
+Message-ID: <20230904175019.1172713-6-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230904175019.1172713-1-mcanal@igalia.com>
 References: <20230904175019.1172713-1-mcanal@igalia.com>
@@ -62,64 +63,31 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Melissa Wen <mwen@igalia.com>
+Currently, two multisync extensions can be added to the same job and
+only the last multisync extension will be used. To avoid this
+vulnerability, don't allow two multisync extensions in the same job.
 
-Instead of checking if the job is NULL every time we call the function,
-check it inside the function.
-
-Signed-off-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/v3d/v3d_submit.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 0886b3ec9aef..b6be34060d4f 100644
+index b6be34060d4f..2c39e2acf01b 100644
 --- a/drivers/gpu/drm/v3d/v3d_submit.c
 +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -129,6 +129,9 @@ void v3d_job_cleanup(struct v3d_job *job)
- 
- void v3d_job_put(struct v3d_job *job)
- {
-+	if (!job)
-+		return;
+@@ -328,6 +328,11 @@ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
+ 	struct v3d_submit_ext *se = data;
+ 	int ret;
+
++	if (se->in_sync_count || se->out_sync_count) {
++		DRM_DEBUG("Two multisync extensions were added to the same job.");
++		return -EINVAL;
++	}
 +
- 	kref_put(&job->refcount, job->free);
- }
- 
-@@ -516,11 +519,9 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 						 &se,
- 						 last_job->done_fence);
- 
--	if (bin)
--		v3d_job_put(&bin->base);
--	v3d_job_put(&render->base);
--	if (clean_job)
--		v3d_job_put(clean_job);
-+	v3d_job_put((void *)bin);
-+	v3d_job_put((void *)render);
-+	v3d_job_put((void *)clean_job);
- 
- 	return 0;
- 
-@@ -620,7 +621,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
- 						 &se,
- 						 job->base.done_fence);
- 
--	v3d_job_put(&job->base);
-+	v3d_job_put((void *)job);
- 
- 	return 0;
- 
-@@ -724,7 +725,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 						 &se,
- 						 clean_job->done_fence);
- 
--	v3d_job_put(&job->base);
-+	v3d_job_put((void *)job);
- 	v3d_job_put(clean_job);
- 
- 	return 0;
--- 
+ 	if (copy_from_user(&multisync, ext, sizeof(multisync)))
+ 		return -EFAULT;
+
+--
 2.41.0
 
