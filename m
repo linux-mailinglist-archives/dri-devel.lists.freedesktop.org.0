@@ -2,49 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828617912E2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A153279133E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Sep 2023 10:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1250210E2E8;
-	Mon,  4 Sep 2023 08:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 412DA10E2EA;
+	Mon,  4 Sep 2023 08:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CADC110E2E9;
- Mon,  4 Sep 2023 08:01:45 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4B1416607239;
- Mon,  4 Sep 2023 09:01:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693814504;
- bh=e788C098QfddEO6hbR3WKnWmYUt07fZ7PCwwrd1VwFI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EOqkLVtSqUOCgc8GPlpz2M4k/6FdauJ5pvx55T+jY+dq7Ot4IHIhnADdb4GXozeiH
- ndpbRAwKSPxos43fFKQUg+3BmY3ucNNfGNw5x19QqCbila88LyIU7j0wWq9q77/FMv
- qK9khOPykQCMpCGnjoyUmaXMdzBeSngN0ABciFV9Rg1LhIp3viYPbZFqZNG4xFtsED
- vgJv5Hp4u5XnY0JLuJvX2wcvp0dHadNCK5i7up4G1pyigyoGz9/b1qBSazHGNDpUiX
- KfgUeIuIS7OGuAMqg2kTT+ITINSyd08RoPgVYrCUdmEUPuFoe/gYlqqz+odKvv0Now
- 8Of5RikIDdL1Q==
-Date: Mon, 4 Sep 2023 10:01:40 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v15 01/23] drm/shmem-helper: Fix UAF in error path when
- freeing SGT of imported GEM
-Message-ID: <20230904100140.6f4e3012@collabora.com>
-In-Reply-To: <a587b4db-c3a8-654b-a043-b698f1d98bf6@collabora.com>
-References: <20230827175449.1766701-1-dmitry.osipenko@collabora.com>
- <20230827175449.1766701-2-dmitry.osipenko@collabora.com>
- <20230828131647.18888896@collabora.com>
- <a587b4db-c3a8-654b-a043-b698f1d98bf6@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CEB1D10E2EA;
+ Mon,  4 Sep 2023 08:22:47 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FDEA11FB;
+ Mon,  4 Sep 2023 01:23:25 -0700 (PDT)
+Received: from [10.57.92.217] (unknown [10.57.92.217])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D4543F8A4;
+ Mon,  4 Sep 2023 01:22:43 -0700 (PDT)
+Message-ID: <89ff07ec-d0b4-a984-3269-7d5647a6b007@arm.com>
+Date: Mon, 4 Sep 2023 09:22:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>
+References: <20230824013604.466224-1-adrian.larumbe@collabora.com>
+ <20230824013604.466224-3-adrian.larumbe@collabora.com>
+ <23f38307-3246-28a9-f396-5660acb21a18@arm.com>
+ <enzglusbu4anwaqyalsyan3bfzecbpxttnq5v2o65hun4foj7s@ql5byzj6krk2>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <enzglusbu4anwaqyalsyan3bfzecbpxttnq5v2o65hun4foj7s@ql5byzj6krk2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,96 +46,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Emma Anholt <emma@anholt.net>,
- Peter Zijlstra <peterz@infradead.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Will Deacon <will@kernel.org>, Steven Price <steven.price@arm.com>,
- intel-gfx@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, tzimmermann@suse.de, sean@poorly.run,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2 Sep 2023 21:15:39 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-
-> On 8/28/23 14:16, Boris Brezillon wrote:
-> > On Sun, 27 Aug 2023 20:54:27 +0300
-> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> >   
-> >> Freeing drm-shmem GEM right after creating it using
-> >> drm_gem_shmem_prime_import_sg_table() frees SGT of the imported dma-buf
-> >> and then dma-buf frees this SGT second time.
-> >>
-> >> The v3d_prime_import_sg_table() is example of a error code path where
-> >> dma-buf's SGT is freed by drm-shmem and then it's freed second time by
-> >> dma_buf_unmap_attachment() in drm_gem_prime_import_dev().
-> >>
-> >> Add drm-shmem GEM flag telling that this is imported SGT shall not be
-> >> treated as own SGT, fixing the use-after-free bug.
-> >>
-> >> Cc: stable@vger.kernel.org
-> >> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
-> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ++-
-> >>  include/drm/drm_gem_shmem_helper.h     | 7 +++++++
-> >>  2 files changed, 9 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> index a783d2245599..78d9cf2355a5 100644
-> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> @@ -141,7 +141,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
-> >>  
-> >>  	if (obj->import_attach) {
-> >>  		drm_prime_gem_destroy(obj, shmem->sgt);
-> >> -	} else {
-> >> +	} else if (!shmem->imported_sgt) {
-> >>  		dma_resv_lock(shmem->base.resv, NULL);
-> >>  
-> >>  		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-> >> @@ -758,6 +758,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
-> >>  		return ERR_CAST(shmem);
-> >>  
-> >>  	shmem->sgt = sgt;
-> >> +	shmem->imported_sgt = true;  
-> > 
-> > 
-> > I feel like adding more fields that can be used to do the is_imported()
-> > check is going to be even more confusing. Can we instead have
-> > 
-> > 	/* drm_gem_shmem_prime_import_sg_table() can be called from a
-> > 	 * driver specific ->import_sg_table() implementations that
-> > 	 * have extra failable initialization steps. Assign
-> > 	 * drm_gem_object::import_attach here (even though it's
-> > 	 * assigned in drm_gem_prime_import_dev()), so we don't end up
-> > 	 * with driver error paths calling drm_gem_shmem_free() with an
-> > 	 * imported sg_table assigned to drm_gem_shmem_object::sgt and
-> > 	 * drm_gem_object::import_attach left uninitialized.
-> > 	 */
-> > 	shmem->base.import_attach = attach;
-> > 
-> > here?  
+On 31/08/2023 22:34, Adrián Larumbe wrote:
+> On 31.08.2023 16:54, Steven Price wrote:
+>> On 24/08/2023 02:34, Adrián Larumbe wrote:
+>>> The drm-stats fdinfo tags made available to user space are drm-engine,
+>>> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
+>>>
+>>> This deviates from standard practice in other DRM drivers, where a single
+>>> set of key:value pairs is provided for the whole render engine. However,
+>>> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
+>>> decision was made to calculate bus cycles and workload times separately.
+>>>
+>>> Maximum operating frequency is calculated at devfreq initialisation time.
+>>> Current frequency is made available to user space because nvtop uses it
+>>> when performing engine usage calculations.
+>>>
+>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 ++++
+>>>  drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
+>>>  drivers/gpu/drm/panfrost/panfrost_device.h  | 13 ++++++
+>>>  drivers/gpu/drm/panfrost/panfrost_drv.c     | 45 ++++++++++++++++++++-
+>>>  drivers/gpu/drm/panfrost/panfrost_job.c     | 30 ++++++++++++++
+>>>  drivers/gpu/drm/panfrost/panfrost_job.h     |  4 ++
+>>>  6 files changed, 102 insertions(+), 1 deletion(-)
+>>>
+>>
+>> [...]
+>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> index a2ab99698ca8..3fd372301019 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> @@ -267,6 +267,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>>>  	job->requirements = args->requirements;
+>>>  	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>>>  	job->mmu = file_priv->mmu;
+>>> +	job->priv = file_priv;
+>>>  
+>>>  	slot = panfrost_job_get_slot(job);
+>>>  
+>>> @@ -483,6 +484,14 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
+>>>  		goto err_free;
+>>>  	}
+>>>  
+>>> +	snprintf(panfrost_priv->fdinfo.engines[0].name, MAX_SLOT_NAME_LEN, "frg");
+>>> +	snprintf(panfrost_priv->fdinfo.engines[1].name, MAX_SLOT_NAME_LEN, "vtx");
+>>> +#if 0
+>>> +	/* Add compute engine in the future */
+>>> +	snprintf(panfrost_priv->fdinfo.engines[2].name, MAX_SLOT_NAME_LEN, "cmp");
+>>> +#endif
+>>
+>> I'm not sure what names are best, but slot 2 isn't actually a compute slot.
+>>
+>> Slot 0 is fragment, that name is fine.
+>>
+>> Slot 1 and 2 are actually the same (from a hardware perspective) but the
+>> core affinity of the two slots cannot overlap which means you need to
+>> divide the GPU in two to usefully use both slots. The only GPU that this
+>> actually makes sense for is the T628[1] as it has two (non-coherent)
+>> core groups.
+>>
+>> The upshot is that slot 1 is used for all of vertex, tiling and compute.
+>> Slot 2 is currently never used, but kbase will use it only for compute
+>> (and only on the two core group GPUs).
 > 
-> AFAICT, this is not going to work because obj->import_attach will be
-> released by drm_prime core by the time drm_gem_shmem_free() is invoked
-> and drm_gem_shmem_free() uses obj->import_attach as well.
+> I think I might've be rushed to draw inspiration for this from a comment in panfrost_job.c:
+> 
+> int panfrost_job_get_slot(struct panfrost_job *job)
+> {
+> 	/* JS0: fragment jobs.
+> 	 * JS1: vertex/tiler jobs
+> 	 * JS2: compute jobs
+> 	 */
+>          [...]
+> }
+> 
+> Maybe I could rename the engine names to "fragment", "vertex-tiler" and "compute-only"?
+> There's no reason why I would skimp on engine name length, and anything more
+> descriptive would be just as good.
 
-How can this happen? If something wrong happens in the driver-specific
-->gem_prime_import_sg_table() implementation, drm_gem_shmem_free() will
-be called before ->gem_prime_import_sg_table() returns, and the
-attachment will only be released after that [1].
+Yeah, those names are probably the best we're going to get. And I
+certainly prefer the longer names.
 
-> I'll keep this
-> patch around unless there will be other suggestions. To me the flag is
-> good enough, I'll add a clarifying comment to the code in v16.
+>> Personally I'd be tempted to call them "slot 0", "slot 1" and "slot 2" -
+>> but I appreciate that's not very helpful to people who aren't intimately
+>> familiar with the hardware ;)
+> 
+> The downside of this is that both IGT's fdinfo library and nvtop will use the
+> engime name for display, and like you said these numbers might mean nothing to
+> someone who isn't acquainted with the hardware.
 
-I really think this is a bad idea, for the same reasons I gave in my
-reply to patch 2 (adding fields that need to be maintained when the
-state can be inferred from other fields is error prone).
+Indeed - I've spent way too much time with the hardware and there are
+many subtleties so I tent to try to avoid calling them anything other
+than "slot x" (especially when talking to hardware engineers). For
+example a test that submits NULL jobs can submit them to any slot.
+However, when you get beyond artificial tests then it is quite
+consistent that slot 0=fragment, slot 1=vertex-tiler (and compute), slot
+2=never used (except for compute on dual core groups).
 
-[1]https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_prime.c#L958
+Steve
+
+>> Steve
+>>
+>> [1] And technically the T608 but that's even rarer and the T60x isn't
+>> (yet) supported by Panfrost.
+
