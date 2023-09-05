@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5226A7920C8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95657920E4
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F71D10E440;
-	Tue,  5 Sep 2023 07:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2E710E453;
+	Tue,  5 Sep 2023 07:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCAD10E440
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 07:40:55 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1C2B766028F5;
- Tue,  5 Sep 2023 08:40:53 +0100 (BST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451B089294
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 07:50:23 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 479B86607033;
+ Tue,  5 Sep 2023 08:50:21 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693899653;
- bh=MMtwZSS4hAHlzfbMlS/VKZ1O76qe9W6PnspTivVDuWA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=B3JctmSNqpV709VZaf7ywJ4+xd8I1iG3MdkG/7wYLuviVhmz2Ld6WaW645AkFHWYO
- PoEaUo35CD3y/VtNQ8a5cwMwd5BSG7vd2CNXFm8lm+7tU76jnCVCaX6qkYZpuibrgF
- X9tRnaYw/FlTpG3RTzlj3zJTFXk/vmfbGXrDewUpe3Kj5mSgG0wlkdjm6WYKLTsuKL
- eozOt/j1Xp03SoctIPp0bxjsgoAWe/BZQwoG6ktXRyzVLpZjuEfW1qcR9Q66bubC2r
- fJi1Cu580Rq57DNjkSCmPEnPDiZMYTHJVcNDKMIQIVC9HHBbqEYMv81hsigui2Pllj
- 2+EM0ZZ+oYyLg==
-Date: Tue, 5 Sep 2023 09:40:50 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v16 02/20] drm/shmem-helper: Use flag for tracking page
- count bumped by get_pages_sgt()
-Message-ID: <20230905094050.3c918a43@collabora.com>
-In-Reply-To: <20230903170736.513347-3-dmitry.osipenko@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-3-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ s=mail; t=1693900222;
+ bh=cXx08/+vSTpp6ZDNY6TezW61pOCQM/cfaUeXecccxEk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Xk12O4wDk4dwa824rlDTtt/bK3NANY2/gQ/BRI4Kc6AtQ1h1yLDJo4Erf8XeMpb5M
+ eVvGVczDyCeMtMVDhcGnBYErf8pl4k5I41OZIEH5JiiNRpO3j4t/6L3eEOXYgcnz5D
+ 6QFiOU2J1MIm9LF5+0HhudMggXps7T89C+/3wbnC3cqfI+keT+/rdjp1OjRN+aRjLk
+ szwpnEGmLSeeJu57XRrYmYQyCIcSBI9wBTbDka0y8JEB3u1crs1J6ipOaYJoF2130V
+ 5Lfwz1FAZ+FjE4ddBmPCHRwWdEb7bixwkjwRjVTs+TVEe6yEG+frZP/2NLyCQugOqC
+ 1F9bHbA0cBsWg==
+Message-ID: <33df386c-cbe4-22e5-5d31-f306659b9cfc@collabora.com>
+Date: Tue, 5 Sep 2023 09:50:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/2] drm/mediatek: fix kernel oops if no crtc is found
+Content-Language: en-US
+To: Michael Walle <mwalle@kernel.org>,
+ =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= <nfraprado@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230901174557.3617839-1-mwalle@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230901174557.3617839-1-mwalle@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,108 +58,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  3 Sep 2023 20:07:18 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-
-> Use separate flag for tracking page count bumped by shmem->sgt to avoid
-> imbalanced page counter during of drm_gem_shmem_free() time. It's fragile
-> to assume that populated shmem->pages at a freeing time means that the
-> count was bumped by drm_gem_shmem_get_pages_sgt(), using a flag removes
-> the ambiguity.
+Il 01/09/23 19:45, Michael Walle ha scritto:
+> drm_crtc_from_index(0) might return NULL if there are no CRTCs
+> registered at all which will lead to a kernel oops in
+> mtk_drm_crtc_dma_dev_get(). Add the missing return value check.
 > 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 11 ++++++++++-
->  drivers/gpu/drm/lima/lima_gem.c        |  1 +
->  include/drm/drm_gem_shmem_helper.h     |  7 +++++++
->  3 files changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 6693d4061ca1..848435e08eb2 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -152,8 +152,10 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  			sg_free_table(shmem->sgt);
->  			kfree(shmem->sgt);
->  		}
-> -		if (shmem->pages)
-> +		if (shmem->pages) {
->  			drm_gem_shmem_put_pages(shmem);
-> +			drm_WARN_ON(obj->dev, !shmem->got_pages_sgt);
-> +		}
+> Fixes: 0d9eee9118b7 ("drm/mediatek: Add drm ovl_adaptor sub driver for MT8195")
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Already mentioned in v15, but I keep thinking the following:
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-		if (shmem->sgt) {
-			// existing code in the preceding
-			// if (shmem->sgt) branch
-			...
-
-			/*
-			 * Release the implicit pages ref taken in
-			 * drm_gem_shmem_get_pages_sgt_locked().
-			 */
-			drm_gem_shmem_put_pages(shmem);
-		}
-
-does exactly the same without requiring the addition of a new field.
-
->  
->  		drm_WARN_ON(obj->dev, shmem->pages_use_count);
->  
-> @@ -693,6 +695,13 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
->  	if (ret)
->  		goto err_free_sgt;
->  
-> +	/*
-> +	 * This flag prevents imbalanced pages_use_count during
-> +	 * drm_gem_shmem_free(), where pages_use_count=1 only if
-> +	 * drm_gem_shmem_get_pages_sgt() was used by a driver.
-> +	 */
-> +	shmem->got_pages_sgt = true;
-> +
->  	shmem->sgt = sgt;
->  
->  	return sgt;
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-> index 4f9736e5f929..67c39b95e30e 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -48,6 +48,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
->  
->  		bo->base.pages = pages;
->  		bo->base.pages_use_count = 1;
-> +		bo->base.got_pages_sgt = true;
->  
->  		mapping_set_unevictable(mapping);
->  	}
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index ec70a98a8fe1..a53c0874b3c4 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -73,6 +73,13 @@ struct drm_gem_shmem_object {
->  	 */
->  	unsigned int vmap_use_count;
->  
-> +	/**
-> +	 * @got_pages_sgt:
-> +	 *
-> +	 * True if SG table was retrieved using drm_gem_shmem_get_pages_sgt()
-> +	 */
-> +	bool got_pages_sgt : 1;
-> +
->  	/**
->  	 * @imported_sgt:
->  	 *
 
