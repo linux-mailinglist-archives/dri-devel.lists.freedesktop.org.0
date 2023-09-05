@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7D2792129
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 10:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E8E792135
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 10:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD1110E468;
-	Tue,  5 Sep 2023 08:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF5110E46B;
+	Tue,  5 Sep 2023 08:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C60FC10E468;
- Tue,  5 Sep 2023 08:50:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C14B510E46B;
+ Tue,  5 Sep 2023 08:59:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693903805; x=1725439805;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fGB8Ql7Gce8esFznLWuQEPATfaVZ2AGRnVV+EfOKE9A=;
- b=kIT57pMbL4lESL1a4d41BQtoRMVrjr9twlR+eBnLuaNYq2Vf+TciNJor
- u2RzIc5dgk3Mfl4Tx9nI2hyDd8ysQ4NijU5lVxHlr8RVqUNIfxnpNnSkj
- 0Ab2qVCQA8A/9kjOjjc+Nc9lM2rbpFw7H9NO+ggcapfrAPMSOsm+P1SAS
- 9lPyy9Cy2B26BzAqM53/Ifni0TmZuH+NovN2pr+6FWAGAQryFqAwG/oBL
- VvDrFx6F8YwLOa3KeciAjGX2EOblXDn3Nch90JBgLRBXVTVIJqasfqJjw
- UN1IFWr6+meuinuxXJdJixOvUqZ+VNA0ReoSGaIvvMMIPpXoZavfXA5r6 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="379463458"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="379463458"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2023 01:50:04 -0700
+ t=1693904343; x=1725440343;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jGv/zmUrrZpk/cV6dpatnnCoaFnOOBoMyp6AEK5XBy4=;
+ b=D+5wrM/qlIrk1qeA4sYn9VhFC41mxyyPW4sbCgJTJfc9MsqdPiAMhNPt
+ jv8Cs/chjkyLCBEMZVufePBPwYLv+OT+IlX+MNEQdDhp7x4y4fdMfND7q
+ kOIS8+tCp1iJQL2ccIKM+VmR5qWXgXOCP1XkM8iODEXATZI57v8ukC2xj
+ QhS+WrXzIo5A3pm3IA3hT4oGpVBmN5CPQPvQw/wBVQjW/PxpCqPQVd2mG
+ 5Qs8H2Uc3/lF1kDkxCyzcKXnWT5a4tMxBBUDiicO1Cp3LH6eiIUS6aBbi
+ D/VlscJ9TktgHIi0myGIxO3D3T2Psja1+JGJaE7lGhCz8HS026ymNrXic Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="407732471"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="407732471"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2023 01:59:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="1071893689"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="1071893689"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga005.fm.intel.com with SMTP; 05 Sep 2023 01:49:56 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Tue, 05 Sep 2023 11:49:56 +0300
-Date: Tue, 5 Sep 2023 11:49:56 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
- corresponding Type-C connectors"
-Message-ID: <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
-References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
- <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="744203595"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="744203595"
+Received: from chenxi4-mobl1.ccr.corp.intel.com (HELO fedora..)
+ ([10.249.254.154])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2023 01:59:01 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/drm_exec,
+ drm/drm_kunit: Fix / WA for uaf and lock alloc tracking.
+Date: Tue,  5 Sep 2023 10:58:29 +0200
+Message-ID: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Won Chung <wonchung@google.com>, freedreno@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+While trying to replicate a weird drm_exec lock alloc tracking warning
+using the drm_exec kunit test, the warning was shadowed by a UAF warning
+due to a bug in the drm kunit helpers.
 
-On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
-> The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
-> dev_fwnode() checks never succeed, making the respective commit NOP.
+Patch 1 fixes that drm kunit UAF.
+Patch 2 introduces a drm_exec kunit subtest that shows the weird lock
+alloc tracking warning if CONFIG_DEBUG_LOCK_ALLOC is set.
+Patch 3 modifies drm_exec to avoid that lock alloc tracking warning. Although
+the proper fix would probably be to modify lockdep to track the lock held
+status differently, this workaround at pushes the problem out of drm_exec,
+so that any drm_exec users relying on its refcounting don't run into this.
 
-That's not true. The dev->fwnode is assigned when the device is
-created on ACPI platforms automatically. If the drm_connector fwnode
-member is assigned before the device is registered, then that fwnode
-is assigned also to the device - see drm_connector_acpi_find_companion().
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
 
-But please note that even if drm_connector does not have anything in
-its fwnode member, the device may still be assigned fwnode, just based
-on some other logic (maybe in drivers/acpi/acpi_video.c?).
+Thomas Hellström (3):
+  drm/kunit: Avoid a driver uaf
+  drm/tests/drm_exec: Add a test for object freeing within
+    drm_exec_fini()
+  drm/drm_exec: Work around a WW mutex lockdep oddity
 
-> And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
-> breaks drivers already using components (as it was pointed at [1]),
-> resulting in a deadlock. Lockdep trace is provided below.
-> 
-> Granted these two issues, it seems impractical to fix this commit in any
-> sane way. Revert it instead.
-
-I think there is already user space stuff that relies on these links,
-so I'm not sure you can just remove them like that. If the component
-framework is not the correct tool here, then I think you need to
-suggest some other way of creating them.
-
-Side note. The problem you are describing here is a limitation in the
-component framework - right now it's made with the idea that a device
-can represent a single component, but it really should allow a device
-to represent multiple components. I'm not saying that you should try
-to fix the component framework, but I just wanted to make a note about
-this (and this is not the only problem with the component framework).
-
-I like the component framework as a concept, but I think it needs a
-lot of improvements - possibly rewrite.
-
-thanks,
+ drivers/gpu/drm/drm_exec.c            |  2 +-
+ drivers/gpu/drm/tests/drm_exec_test.c | 47 +++++++++++++++++++++++++++
+ include/drm/drm_exec.h                | 35 +++++++++++++++++---
+ include/drm/drm_kunit_helpers.h       |  4 ++-
+ 4 files changed, 82 insertions(+), 6 deletions(-)
 
 -- 
-heikki
+2.41.0
+
