@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45239792C81
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD2A792C85
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4880610E197;
-	Tue,  5 Sep 2023 17:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DA410E20D;
+	Tue,  5 Sep 2023 17:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C7010E0C6;
- Tue,  5 Sep 2023 17:34:38 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-1cd327d7cc1so2160844fac.3; 
- Tue, 05 Sep 2023 10:34:38 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B96E10E208;
+ Tue,  5 Sep 2023 17:35:17 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1ba5cda3530so2217365fac.3; 
+ Tue, 05 Sep 2023 10:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693935278; x=1694540078; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1693935316; x=1694540116; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+G3WP3YwMsu76Cet1Bxz2RfkxbGHzyW+58lMB5e2zd8=;
- b=fk7n9phTV4iM8e0dJqfRy0tf364yLon/cPsq16e38P01OpvKys0pTAeS5JoM8dQExY
- RAYYysYVsuO41icjOmHhFvoSFXO2vde6UUXY8I/AJ2j7HK2vxYspldGM19FEQU4aS7QV
- Jc7fw3tQniUTVR+CfqOTF5Uvn6TDck+qjz3H2QW5XY7yVNA3WajHzEkG0klJJzXd/OIE
- dFcPA0mDg29WhAyahLIkwni8WVj8e3b5wssE7veBtrT59aDEtzRsNrgMDuQDqLjBj8U0
- fu4NLA8fj0op0+d4OROo+0CcsnxaeBOts7gLXwFh/K2wPh8HCiV+2IavmrvL7kOmBM01
- gFpg==
+ bh=1FxvOTJzHccsnhfhevNC+D3OUgDvfnGXsp9yKozqb5M=;
+ b=MiwMGEp8CigC0E9qPFD7/sq9RBU9GIxi7NCWKHkoBqFEQE7xaXjMK5XaW/ojgDg9La
+ viIQtxQ2/3Y7K9Lhgs45ak0F3H3iAJ+1PTrH3z7enddighUHcBKq7maVRIAmSwSpXtWI
+ dw/doxQs/sJK8bwB2gcw9nyCW/lQQakHD9CSysHFN0TGPMuVwwK2F/RwLR5h/7Nr5e0r
+ 8bV1SHQHM1sWUZu//PPEhVaRE98LM/Xxj3TIktATQbESe05j6l3PcsLFtyvYK9vbld8h
+ bZa0znc+IIuyigFgFxPn25m9RCaSM5e69leGhDRTsQxpxXE5CGNc9IXIeRIP1+HQ9MQf
+ BPhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693935278; x=1694540078;
+ d=1e100.net; s=20221208; t=1693935316; x=1694540116;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+G3WP3YwMsu76Cet1Bxz2RfkxbGHzyW+58lMB5e2zd8=;
- b=SjtQPfyrbdp06WdCt+DCFsGlypURTCp2fIPAWeP01sxIC3QqQdd3G7Gv4L5fDwiL0Y
- wfHWFVfAo57GhhbOIVB40ww0FVVW0o5Euafody5N6a9HnZkSvHshpJ13cMvy6oocrP3E
- +4efCCx51xKTsH0zPSTl2XxdyvVN27dFlRlwZutBMdbxMCXZYKj0TeIrTk9fxkWgtVvp
- RsZQS7sVviovg4x3TOyIv6Kb+WvGS9wloOqZQ4A+CumHQdv63gc0HYrxhIUz5lFa2b+v
- jeP6jyazEhThS23iCggr1TLxxq4NgdZ0zFqBcXHNwHVSxPHXFRN3X+o7APMol0mbLAci
- a3qQ==
-X-Gm-Message-State: AOJu0Yz7vIg4hO3De3aov+cjtYRIqzAOUIxgKHzw+wF6hJMP4caVyrRu
- Yyuzato8GZIpcR6aD7UgI0X/D2JJQEWE5fxY610=
-X-Google-Smtp-Source: AGHT+IHecd024T1nCg53+h5Nw6+5wkM5lcLiVKJmYeAT3ciRMXuJIv9C2BSCL0YfARRctZoAH9w9tTNF7KG382+qQ+I=
-X-Received: by 2002:a05:6870:472a:b0:1be:f720:bb7b with SMTP id
- b42-20020a056870472a00b001bef720bb7bmr17836496oaq.16.1693935277843; Tue, 05
- Sep 2023 10:34:37 -0700 (PDT)
+ bh=1FxvOTJzHccsnhfhevNC+D3OUgDvfnGXsp9yKozqb5M=;
+ b=PduCOF1G63Ifzx4nQWVlWhmehzVodvctOo2HgQC0XtKGKFlQ7EafmSl6Cu0ZB8c+lo
+ 08UIMRIHw7lacGLM3eK1MTF5iu3p6TvD96REear3jC2jvbRhdfdK3ykp4nrgOrC+nuMU
+ P9Ce6eZd9QRUvqaYOGC/r1xCpk6wdzFjwsD2peXNiKBrYAcpQTpGT+Td48sZqHZlR+Bf
+ TqTYFpaSLIP5LF4W5Y5IXJEJ5Z4BlLbIA6vZTQ5k4fL3zc2Wbge38fYHW4fPZibgHB6W
+ lRlqCc5hS0gIk0tl+s1T0sY9NY05Sp4qVqNiPMBLFy52wgyzgRi76BO1CfRHFQt+Vdus
+ fGMA==
+X-Gm-Message-State: AOJu0Yze+kuVKrweyKx91UjgE/LwQr0Pzk/yK97xwdjYytgzOebntkt7
+ gL/p8TgdQIxzOlorP85mQhAwKRwv9UxX6vn+GVI=
+X-Google-Smtp-Source: AGHT+IEULyA+SzmXMwXkfPZCbstLoINn2mglghTj/XDz8SKyIT1T4Pyv/4f9TM42hUyyoY8z/R2O0qI3j3HONe8VagU=
+X-Received: by 2002:a05:6871:a718:b0:1c8:baa5:a50f with SMTP id
+ wi24-20020a056871a71800b001c8baa5a50fmr13904768oab.27.1693935316680; Tue, 05
+ Sep 2023 10:35:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230901005226.42307-1-yang.lee@linux.alibaba.com>
- <20230901005226.42307-3-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230901005226.42307-3-yang.lee@linux.alibaba.com>
+ <20230901005226.42307-4-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230901005226.42307-4-yang.lee@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Sep 2023 13:34:26 -0400
-Message-ID: <CADnq5_Mgw7YvCUjiGnmOe-SbryZwq7pwNaR5kySOh=M0BMY3KA@mail.gmail.com>
-Subject: Re: [PATCH -next 3/4] drm/amd/display: Remove duplicated include in
- dcn35_hwseq.c
+Date: Tue, 5 Sep 2023 13:35:05 -0400
+Message-ID: <CADnq5_NnozGnxsrok+ne=WHWJPG82+sXu-+DP6bqJXt4p-hRdg@mail.gmail.com>
+Subject: Re: [PATCH -next 4/4] drm/amd/display: Remove duplicated include in
+ dcn35_clk_mgr.c
 To: Yang Li <yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,27 +81,28 @@ Applied.  Thanks!
 On Thu, Aug 31, 2023 at 8:52=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
 > wrote:
 >
-> ./drivers/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c: clk_mgr.h is includ=
-ed more than once.
+> ./drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c: dcn35_clk=
+_mgr.h is included more than once.
 >
 > Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c | 1 -
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 1 -
 >  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c b/drivers=
-/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c
-> index cacb557a3014..666e2809d9dc 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_hwseq.c
-> @@ -31,7 +31,6 @@
->  #include "clk_mgr.h"
->  #include "reg_helper.h"
->  #include "abm.h"
-> -#include "clk_mgr.h"
->  #include "hubp.h"
->  #include "dchubbub.h"
->  #include "timing_generator.h"
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c=
+ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> index 3b2463c03694..9314e75195cd 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+> @@ -46,7 +46,6 @@
+>  /* TODO: remove this include once we ported over remaining clk mgr funct=
+ions*/
+>  #include "dcn30/dcn30_clk_mgr.h"
+>  #include "dcn31/dcn31_clk_mgr.h"
+> -#include "dcn35_clk_mgr.h"
+>
+>  #include "dc_dmub_srv.h"
+>  #include "link.h"
 > --
 > 2.20.1.7.g153144c
 >
