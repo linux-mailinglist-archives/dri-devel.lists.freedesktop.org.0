@@ -1,50 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E371A79236C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 16:20:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC59792372
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 16:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1267010E52D;
-	Tue,  5 Sep 2023 14:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699FE10E52E;
+	Tue,  5 Sep 2023 14:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFA510E52D
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 14:20:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id ACCA0B810D1;
- Tue,  5 Sep 2023 14:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB61C433C8;
- Tue,  5 Sep 2023 14:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693923615;
- bh=rlMXztTsnFKQ5FdtU+qNDKYNfX/0zFqzn0aF2XsO+nI=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=Nj43H9G9C8xAEOMJhbXk/x6n3BJ/BO2aXDwzaai1he4vaWLaOmgi2sYPXZN/Ayz7/
- Fph4qAH+HPCLeJCg6m0+4pFkR0fUwD7ix7uncJf+bWluFb12BkojfyaDQK15Xh4eSQ
- Q3Gpak0ChwbMB2Xj2hyRP8Y+mGquU4tb7ZEn1QSNZP3TTIfGogfcFbf4IWcuT6TSGj
- 1k0f3c+qZiH1Gl4+fU4OqEJc4T/0hbhw9SaaqXE+luuR7CIt8a1YkjjopqoGstcsya
- 64CYsYuQ2VvTw82Uf+n/hnb+OZy4gfVisGU08ajgqP5V6e00opHuusSQO6JfjSCjV0
- 9+tagMxIMZ7UQ==
-From: Robert Foss <rfoss@kernel.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Phong LE <ple@baylibre.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
-References: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3 0/2] Match data improvements for it66121 driver
-Message-Id: <169392361254.1000124.5770510493227185107.b4-ty@kernel.org>
-Date: Tue, 05 Sep 2023 16:20:12 +0200
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D91A10E52E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 14:24:15 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-99c136ee106so394111166b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 07:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1693923852; x=1694528652;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iVp7mkHXr+2wOrv7T4nMYTKfiU2Rr3GKiul2WMppLoU=;
+ b=oC6v3VYWDHiZlREmYxMnjD5P3a46FoROUw66MDURemjKwa22Bbv+rXyfCswNtReaFH
+ dKmoQO+4WaW08otX1XOh8Sp01lm86VNQ9CHSakoW986iYnJKq4EkmXQ4HwZIy5MeJjoj
+ nSC10BZ/MdbumyBfIVMjjYovXvaoEHkKwv4oo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693923852; x=1694528652;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iVp7mkHXr+2wOrv7T4nMYTKfiU2Rr3GKiul2WMppLoU=;
+ b=W/urIIrH1A7fnBrtWxQ0aM+OVvYQP4rkAoITkdS1acS0YfZDip7ZLS0QEI9WvxUfZ+
+ G3l2QIcAOibhf0F8ElhN+u2XkUYdmcYsHvxdRp323hcbpaNOO+nvRziDslEC9SGSFCkK
+ KDBG+j1F/JPGv05ULNNO6E/NKnDAAK2AOLN92brL2F9NxGjg5qmiJ+LDRW9K/Zn4ZZVm
+ +F2s+RUkiAWtR0dnRhjzU1mcGBF86sYduv4V+fYG41xxtjZyGE1Iwd8X2dtlljOqHbw1
+ MTuqGa3soKZTqUJlx+CC77pR7sew1KQiA3yckG3PGu8Sw1y+eppBkPM4+1CNqh68aVyf
+ yFOg==
+X-Gm-Message-State: AOJu0YzgBeSx+l0IWzybzZ/GhNgrH+3LBLqdyct7QaO1zC51kPiR9ka1
+ JUSgmhfkIz6wNL5UJdL7AbWHReKBfbnw3wIuMVLLVw==
+X-Google-Smtp-Source: AGHT+IHZ8Ij9tdxt/Xc6OuXs9NyevTrOm1cQECnBdZHmOdOCCLMgKaVZKCHq2qgeM0yH0ownQ9XkIA==
+X-Received: by 2002:a17:906:2101:b0:9a6:8219:6e0b with SMTP id
+ 1-20020a170906210100b009a682196e0bmr339626ejt.35.1693923852626; 
+ Tue, 05 Sep 2023 07:24:12 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
+ [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
+ h26-20020a1709062dda00b009a1fef32ce6sm7717574eji.177.2023.09.05.07.24.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Sep 2023 07:24:11 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-402bec56ca6so195625e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 07:24:11 -0700 (PDT)
+X-Received: by 2002:a05:600c:3d0c:b0:3f7:3e85:36a with SMTP id
+ bh12-20020a05600c3d0c00b003f73e85036amr264789wmb.7.1693923851202; Tue, 05 Sep
+ 2023 07:24:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+References: <20230901234202.566951-1-dianders@chromium.org>
+ <20230901164111.RFT.1.I3d5598bd73a59b5ded71430736c93f67dc5dea61@changeid>
+ <ZPSsBhbekKY7VyDg@shell.armlinux.org.uk>
+In-Reply-To: <ZPSsBhbekKY7VyDg@shell.armlinux.org.uk>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 5 Sep 2023 07:23:54 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WT4Hf1XVA641WtNFg4WRYFKarU1WOkLPEbr0eiVQuZPg@mail.gmail.com>
+Message-ID: <CAD=FV=WT4Hf1XVA641WtNFg4WRYFKarU1WOkLPEbr0eiVQuZPg@mail.gmail.com>
+Subject: Re: [RFT PATCH 01/15] drm/armada: Call drm_atomic_helper_shutdown()
+ at shutdown time
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,39 +82,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 18 Aug 2023 20:18:15 +0100, Biju Das wrote:
-> This patch series aims to add match data improvements for it66121 driver.
-> 
-> v2->v3:
->  * Removed fixes tag from patch#1 as nothing broken.
->  * Added Rb tag from Andy.
-> v1->v2:
->  * Split the patch into two.
->  * patch#1 extend match support for OF tables compared to legacy ID
->    lookup and fixes tag.
->  * patch#2 simplifies the probe() by using i2c_get_match_data.
->  * Dropped sentence for dropping local variable as it is integral part of
->    the patch.
-> 
-> [...]
+Hi,
 
-Applied, thanks!
+On Sun, Sep 3, 2023 at 8:53=E2=80=AFAM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> On Fri, Sep 01, 2023 at 04:41:12PM -0700, Douglas Anderson wrote:
+> > Based on grepping through the source code this driver appears to be
+> > missing a call to drm_atomic_helper_shutdown() at system shutdown
+> > time. Among other things, this means that if a panel is in use that it
+> > won't be cleanly powered off at system shutdown time.
+> >
+> > The fact that we should call drm_atomic_helper_shutdown() in the case
+> > of OS shutdown/restart comes straight out of the kernel doc "driver
+> > instance overview" in drm_drv.c.
+> >
+> > This driver was fairly easy to update. The drm_device is stored in the
+> > drvdata so we just have to make sure the drvdata is NULL whenever the
+> > device is not bound.
+>
+> ... and there I think you have a misunderstanding of the driver model.
+> Please have a look at device_unbind_cleanup() which will be called if
+> probe fails, or when the device is removed (in other words, when it is
+> not bound to a driver.)
 
-[1/2] drm: bridge: it66121: Extend match support for OF tables
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c11c1a50573e
-[2/2] drm: bridge: it66121: Simplify probe()
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=29ff3b7e23af
+...and there I think you didn't read this patch closely enough and
+perhaps that you have a misunderstanding of the component model.
+Please have a look at the difference between armada_drm_unbind() and
+armada_drm_remove() and also check which of those two functions is
+being modified by my patch. Were this patch adding a call to
+"dev_set_drvdata(dev, NULL)" in armada_drm_remove() then your NAK
+would be justified. However, I am not aware of anything in the
+component unbind path nor in the failure case of component bind that
+would NULL the drvdata.
 
+Kindly look at the patch a second time with this in mind.
 
-
-Rob
-
+-Doug
