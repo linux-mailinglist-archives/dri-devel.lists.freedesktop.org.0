@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6FF792C8C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DCA792CA8
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:44:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EAD10E200;
-	Tue,  5 Sep 2023 17:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2239610E0BD;
+	Tue,  5 Sep 2023 17:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B4110E200;
- Tue,  5 Sep 2023 17:38:37 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1c4c5375329so2141437fac.2; 
- Tue, 05 Sep 2023 10:38:37 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE2AB10E0C2
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 17:43:55 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2bcc331f942so1122761fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 10:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693935517; x=1694540317; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Z5P61rHX3TJCqeK0dVJotGAV1FyleJ9U0LtLbQPTDk=;
- b=N1UGvzgbPN16qKg5dEJQVOTPnbnJgXew7MxudYaI+EEsQ/y9ubaYAIUbVUWJc92Vr2
- 8W54TJan1E8pi6PzKB9D8CSj5W3gUTqgzB24+cDd6S0Aku10FEMNKLAoHxJ43XeGKHAU
- T2d0/VmpXfR6IrnLghGzZ1AKZFD9L8Sgq6k48yqQq9/sLICGqNobMvLM5YawQPT1UNQJ
- YtT6DW/6wMR5swu4LlTvC6mclVeMlFtu44E42RumQ7RCZGHPMigzfVItrRhzhxU5nTiN
- RtNl0fKAYwahruJCHiKNKZR0+8Lz4Gly76Ey+E815hqOYoTDw8a/k+XKt0DMwLP92R5p
- 5f4Q==
+ d=linaro.org; s=google; t=1693935834; x=1694540634; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2OkBEAPevcriKHohaNDw8qazVjEEi9PkNyUZ5jiXpJY=;
+ b=beQG9AgIs+kZ0h4inoONWMPHXbD4Z0JlFJ5Hfw2gjqi5RDjDMjy7nostpkPTlMVB/6
+ 3JnXKCmmtZHV9lBvA/mVg3zqSEu3bNR073f+EmoYiH2WDm/WUXZR2NP8IkMCOZvbeX9E
+ xGvPdCd6KWA6NpTDoD76I/UfpHhgVscGyP4x5IXb3jPqIBblFo0SCaq2e31LFMLcVwWf
+ EfPcF7iBwsoF5vA7YlfVwvz492dAiU6SDbJPq72rfgEWz7ITQQASB/XJhhr51P/wccmr
+ dJd1vx53mzEhnU8lVzue0m4YGzVjCCgMhNfkGHw+G+hXYMZeK+0EgeeQBGfERRyfHmkn
+ C4Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693935517; x=1694540317;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2Z5P61rHX3TJCqeK0dVJotGAV1FyleJ9U0LtLbQPTDk=;
- b=Is8iJFK8J8UQ81yHtasv9AMxM3LcVqYLmYifEs9A8AHuD5kKmZknIRhmTDe7Fxl5w9
- cWFnTUG8aioaN5fntsyxt2jrN0qzOQi7ZU/LcvHmsCoOoxZoWNWLOpTFDI8cbexz4R8V
- c1jBcOhlcjJD97f6PH/+fzYOMfTfpIwpgelP2od8BvLRwyjUwd3WzBt4ksxMZN5We3mJ
- xjWSFzMywGT1yaXxlODWdEqlH/LiLDIKy92mHBWMRwVTPFzyAHysW6UZkMClvTJXAk0I
- EpnKRZ8EX/PXExwzdtE8zG3HM1HEBgo9ogf00bS7W7CnIBZdxe3RXyL7HvR/Z3P2XYi5
- 6+hA==
-X-Gm-Message-State: AOJu0Yx5wFf5rW8/5IIKV8R/RtlgJ2s8pdcQPnNk2f6U0lrrNNf+FYxJ
- 5uMqiFPh9lviHcfQv43aBBybvqj3hdmBMhQcrrw=
-X-Google-Smtp-Source: AGHT+IHPib75naSjYJTJfVF7LppbLLE6k6pU+0i1iZmAN1p38X6cF2pRWpirWqMujp6N2mdrF24R5dwzOOJvBpK6oQE=
-X-Received: by 2002:a05:6870:b027:b0:1c8:b82b:cbdb with SMTP id
- y39-20020a056870b02700b001c8b82bcbdbmr16663096oae.33.1693935517234; Tue, 05
- Sep 2023 10:38:37 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1693935834; x=1694540634;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2OkBEAPevcriKHohaNDw8qazVjEEi9PkNyUZ5jiXpJY=;
+ b=I9HIHb+jYtZf0tCKMf3oTBdAAXxSmuj+l/vrWD+AMywMEkS3m7BfacADvkN4edumIl
+ ctv4GGrsj3r6MuZUivsYRKH4TBEBkLCqLHfQ9p9xzgXdnIYjUmY1B5Y42ZQwKwqe3ZCN
+ v68RdwcAypiv8QDnS7rFKzJH63b6LjEKzKcvzIv3eHteWNgMrhT/wsxoNzNJGf9KM0TW
+ nMwb882Te4/5X9BNW89MEaiiJhgR5lkgYQ88xzfYVWuwtXV0pU5CjWyzwsTOg1Gic/GH
+ KfWCAKFrt8Ok53+7QwcG+HOQI/3sR+8/KM1TsSRQ5eJ6v6HR0p0hHdzjpru8mquOzRJl
+ YNpQ==
+X-Gm-Message-State: AOJu0Yz2EkQbvikyo76mmGZWJPAhXfKtBlrC9zUEvGUnisNnl8lRyo53
+ GvPECmlXfW3fF3rPrG6AKBVYew==
+X-Google-Smtp-Source: AGHT+IGOcmIUS8yzOr2fJPFQEQ+/KEPQd8cKVszbnsNYXjvmDrQlbZpUn/HJlSNBPH6Suw9MJo0JKQ==
+X-Received: by 2002:a2e:805a:0:b0:2bc:bc6f:e296 with SMTP id
+ p26-20020a2e805a000000b002bcbc6fe296mr206904ljg.13.1693935833953; 
+ Tue, 05 Sep 2023 10:43:53 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ v10-20020a2e7a0a000000b002bce8404157sm3045922ljc.12.2023.09.05.10.43.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Sep 2023 10:43:53 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH 0/6] drm/msm: provide migration path from MDP5 to DPU driver
+Date: Tue,  5 Sep 2023 20:43:47 +0300
+Message-Id: <20230905174353.3118648-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230901012924.120196-1-yang.lee@linux.alibaba.com>
- <20230901012924.120196-5-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230901012924.120196-5-yang.lee@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Sep 2023 13:38:26 -0400
-Message-ID: <CADnq5_MO1+vf=SBJ4jpGab-fXMOfuJ7j=JgHBNJhaqYZsSNwow@mail.gmail.com>
-Subject: Re: [PATCH -next 5/5] drm/amd/display: clean up one inconsistent
- indenting
-To: Yang Li <yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +72,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+Over the last several years the DPU driver has been actively developed,
+while the MDP5 is mostly in the maintenance mode. This results in some
+features being available only in the DPU driver. For example, bandwidth
+scaling, writeback support, properly supported bonded DSI aka dual DSI
+support.
 
-Alex
+All the pre-SDM845 platforms were originally supported by the MDP5
+driver only. However it is possible and easy to support some of the
+older SoCs in the DPU driver. For example in the v5.18 it got
+support for MSM8998.  This can not be considered as a proper migration,
+since there msm8998.dtsi didn't describe the display hardware
+beforehand. Instead new bindings were added, making MSM8998 just another
+display hardware to be supported by the DPU driver.
 
-On Thu, Aug 31, 2023 at 9:29=E2=80=AFPM Yang Li <yang.lee@linux.alibaba.com=
-> wrote:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn35/dcn35_fpu.c:260 dcn35_=
-update_bw_bounding_box_fpu() warn: inconsistent indenting
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c b/drive=
-rs/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> index 525ca0ed9ea9..46eb2d0592f3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-> @@ -348,8 +348,8 @@ void dcn35_update_bw_bounding_box_fpu(struct dc *dc,
->                         dc->debug.dram_clock_change_latency_ns / 1000.0;
->         }
->         /*temp till dml2 fully work without dml1*/
-> -               dml_init_instance(&dc->dml, &dcn3_5_soc, &dcn3_5_ip,
-> -                                 DML_PROJECT_DCN31);
-> +       dml_init_instance(&dc->dml, &dcn3_5_soc, &dcn3_5_ip,
-> +                               DML_PROJECT_DCN31);
->  }
->
->  static bool is_dual_plane(enum surface_pixel_format format)
-> --
-> 2.20.1.7.g153144c
->
+This series provides a way to gradually migrate support for several
+existing and well-supported SoCs from the MDP5 to the DPU driver without
+changing the DT. From the user experience point of view this is
+facilitated by the `msm.prefer_mdp5' kernel param. If the parameter is
+set to `true' (current default), all `shared' platforms will be handled
+by the MDP5 driver. If the switch is flipped to `false' (or if the MDP5
+driver is disabled), these platforms will be handled by the DPU driver.
+Handling this by the modparam (rather than solely by kernel config)
+allows one to easly switch between the drivers, simplifying testing.
+
+This series implements support for two DPU 3.n platforms, SDM660 and
+SDM630, and a classical MDP5 1.7 (MSM8996) SoC. It should be easy to
+implement similar support for MSM8937 aka SDM430, MSM8917 aka SDM425,
+MSM8953 aka SDM625 / SDM632 / SDM450 and QCS405. They were left out
+beacuse of the lack of the hardware on my side. Then it should be
+relatively easy to also add support for MSM8992, MSM8994, MSM8956 and
+MSM8976. The major missing piece is the SharedMemoryPool, SMP.
+
+In theory after additional testing we can drop most of migration code
+and some parts of MDP5 driver. The proposed boundary is to move all
+platforms supporting cursor planes to the DPU driver, while limiting
+MDP5 to support only the older platforms which implement cursor as a
+part of the LM hardware block (MSM8974, APQ8084, MSM8x26, MSM8x16 and
+MSM8x39).
+
+Dependencies: [1]
+
+[1] https://patchwork.freedesktop.org/series/119804/
+
+Dmitry Baryshkov (5):
+  drm/msm/mdss: fix highest-bank-bit for msm8998
+  drm/msm/mdss: generate MDSS data for MDP5 platforms
+  drm/msm/dpu: support binding to the mdp5 devices
+  drm/msm: add a kernel param to select between MDP5 and DPU drivers
+  drm/msm/dpu: add support for SDM660 and SDM630 platforms
+
+Konrad Dybcio (1):
+  drm/msm/dpu: Add MSM8996 support
+
+ .../msm/disp/dpu1/catalog/dpu_1_7_msm8996.h   | 353 ++++++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_3_2_sdm660.h    | 291 +++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_3_3_sdm630.h    | 225 +++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  97 +++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  94 ++++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   3 +
+ drivers/gpu/drm/msm/msm_drv.c                 |  34 ++
+ drivers/gpu/drm/msm/msm_drv.h                 |   4 +
+ drivers/gpu/drm/msm/msm_io_utils.c            |  18 +
+ drivers/gpu/drm/msm/msm_mdss.c                |  39 +-
+ 11 files changed, 1142 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h
+
+-- 
+2.39.2
+
