@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03909792268
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 14:06:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B607922A0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 14:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4A510E4D0;
-	Tue,  5 Sep 2023 12:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E18F10E4D7;
+	Tue,  5 Sep 2023 12:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB9F210E4D0;
- Tue,  5 Sep 2023 12:06:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 572DB602F8;
- Tue,  5 Sep 2023 12:06:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C891C433C8;
- Tue,  5 Sep 2023 12:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693915585;
- bh=QJ1iipHIRhF00nMJB2wW93b1ptiinoSXBygyLb8REK8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RctXaLCXofN3ki4Y6ObCQk2kp73doFDmWoave5WhmMBx+WBtObr+URhm3DQ8phlK7
- KSFgbPafDpM+onmjQU8eCBsyHg/dlrqNzsKNMCjXkuAZFn/ke4WbgRb6glpwHx1Gml
- cH5RROnixdAwNZ7ldMrcfxluRjXGtYu8Woo5Qb2n6u88sz0jaJxvFZ+phEu5T2TvaA
- 083qeq/oa4DtShjAnQOLltbe4U0exGi3zQ2U12/J4YEL2X/UQgnMJVcXIrP0nec4Tt
- Btgu53ecGDWCURVzarTokT9GdLPklgRzLARb6Vwg8FOuk1Ke/iqSL2MuH1EluA8lJ2
- 7OaO9oi/0oa9A==
-Date: Tue, 5 Sep 2023 14:06:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-xe] [PATCH 1/3] drm/kunit: Avoid a driver uaf
-Message-ID: <efarj6smmvuqlredgy5aelgvm43xovnqo5fywsindq3bhggvul@3rqq27vmatcm>
-References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
- <20230905085832.2103-2-thomas.hellstrom@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF9D10E4D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 12:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693916912; x=1725452912;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=bIvwvVLX2QgqgZ6NIpuMrd+CJE12wHgoLPkmBc9kTgM=;
+ b=fZxP1OnNQvt32IAXQKsV+lrJOv4kJb4aJroErXTaAQDLZGwqkKeJahDB
+ vemJ6ldTSS36HmNmczDFljVm5ayXzf6YXf/6Pz2zHZFvwGlrqjNpHfdX7
+ 2097Uue5ptSDI2dtQux4yAkqtullE+LlFP58CGvsLo10D0gea/HhTcFfQ
+ lTEaaGTcCLD1POuMHI6/z9AjOzGFdZ92gZdGcVJcJiGjm17SCUdx5Ev25
+ XCE+oSSfuw9v3v7DB+iaV5FTYOVYgpqIhCUKbHg6aFQQkOyBa2JvWpXsR
+ jTN4iejTVFyBdtG6ZW55gJ+2Ux9ckiOjVDchrrS/LxRvTtkURwKHMIP9N w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="379501519"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="379501519"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2023 05:28:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="776187146"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="776187146"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2023 05:28:29 -0700
+Date: Tue, 5 Sep 2023 14:28:27 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] accel/habanalabs/gaudi2: Fix incorrect string length
+ computation in gaudi2_psoc_razwi_get_engines()
+Message-ID: <20230905122827.GD184247@linux.intel.com>
+References: <d38582083ece76155dabdfd9a29d5a9dd0d6bce7.1693855091.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="55v4cmmahj7hcxid"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905085832.2103-2-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <d38582083ece76155dabdfd9a29d5a9dd0d6bce7.1693855091.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,37 +58,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org,
+Cc: kernel-janitors@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ Dani Liberman <dliberman@habana.ai>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---55v4cmmahj7hcxid
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Sep 05, 2023 at 10:58:30AM +0200, Thomas Hellstr=F6m wrote:
-> when using __drm_kunit_helper_alloc_drm_device() the driver may be
-> dereferenced by device-managed resources up until the device is
-> freed, which is typically later than the kunit-managed resource code
-> frees it.
-
-I'd like to have a bit more context on how a driver can end up in that
-situation?
-
-Maxime
-
---55v4cmmahj7hcxid
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPcZvgAKCRDj7w1vZxhR
-xWcIAQCXDn2sCXCH3mjCpXwaUPkdU0oOF7rFmGECwTMEwFLUAgD/fhSpZ9+mYXwL
-bBsoWPZYRj0p51E98K5o0ywQDq0ZrAs=
-=Sn0p
------END PGP SIGNATURE-----
-
---55v4cmmahj7hcxid--
+On Mon, Sep 04, 2023 at 09:18:36PM +0200, Christophe JAILLET wrote:
+> snprintf() returns the "number of characters which *would* be generated for
+> the given input", not the size *really* generated.
+> 
+> In order to avoid too large values for 'str_size' (and potential negative
+> values for "PSOC_RAZWI_ENG_STR_SIZE - str_size") use scnprintf()
+> instead of snprintf().
+> 
+> Fixes: c0e6df916050 ("accel/habanalabs: fix address decode RAZWI handling")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
