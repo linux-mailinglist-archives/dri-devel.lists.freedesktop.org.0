@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E837A792228
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 13:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2ED79222C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 13:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2391110E4BF;
-	Tue,  5 Sep 2023 11:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C2A10E4C9;
+	Tue,  5 Sep 2023 11:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFB610E4BF;
- Tue,  5 Sep 2023 11:33:10 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-500b6456c7eso4217374e87.2; 
- Tue, 05 Sep 2023 04:33:10 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E284310E4C7;
+ Tue,  5 Sep 2023 11:33:31 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-50091b91a83so3967258e87.3; 
+ Tue, 05 Sep 2023 04:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693913588; x=1694518388; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1693913610; x=1694518410; darn=lists.freedesktop.org;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=cFOdI+rdaX09VGWuDgXaRSbXWgN9RO6WT284dnO3u8U=;
- b=jXbuHloB6sDXcmkJ0by+WRDGfgb25X2Cb2xOPyTSb5CsPW0aoz8qmSChP22pRLcNBs
- U6kkXCBFf/NfyqrLX6nlveWWb4tzaZZKKfj5QK+VWkvnEgVHZamFPB4BFfj7LwU8EUVt
- 6XkJWkB2laIqKICTvM3eyxO8Q2v4SXeu3hKAG4kQ3MksBSBUdZ22qhiThVGvimsqVQkJ
- 0IYyczcOg4IWDu3F4aMYFAgVPMZDRdbqretjviRgxQtzwekJMwd/VMv9vxmt0LMSIKpi
- Z2bVxI1me8YaHu5nEjLrRAzJGmlWc1pmjaNSFInBYjN+q6NbsTH4t2Ah4qQNXXT2lc5X
- lweA==
+ bh=SG7RSvnGFKvBh7UIfUhp/GS8EnpXHaH94pS/gImK1Gg=;
+ b=NtZnNegiz19b3d5HG/jWIYkpqvP8lJXN9V9dZAie6tX0QK9+VgYnFRzq/0DGapGznF
+ CYZfftl/HMulXNaMjNly1/rW8bdI0f2c/U4GqfIOXirWamCHKriTnHwdO6ppCSX2gjGO
+ NKOI43Lso91HHSpVj6864rze6LDvCl3qaVPFyWJd+dvLj4GssSVJCstQH5+AohgaEAIp
+ DtZgHZ6EVGoDHKffSwhnFHt1F5jHuKFUx439UqaRTj0fGmqi0r2mRgg/ZD0ftN/DHmeo
+ EsMbrKR63f/iSGBm++1issBufiCXHJRZkPFHYEcFsdOALJJxboSPa/DcULiWPTVNVfMp
+ ttNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693913588; x=1694518388;
+ d=1e100.net; s=20221208; t=1693913610; x=1694518410;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cFOdI+rdaX09VGWuDgXaRSbXWgN9RO6WT284dnO3u8U=;
- b=fsS3GFUz4ddhDhHacA7uSg02qD+sg0xDnEpzr1fnE+63eNi95ODqWG0OnP1Rlfk3TV
- Xyyrk8dWYEPW7S5PYXq+PI8dF5QI1ePjFzy8j4Ub5DxJewC/nyEJy27yLJZF+uAWC1T7
- uVakl1tPQn6vJ5llV0mbn9MgzyGfTw79+3B4fA9byeMR0FccI6nNvgVBvQLIGRm2oy2s
- 3b8IfpV2yWri0YfWcMH6gaQIGuy9ZinasKgrLSRIPtvS1DvpO1U5nZg6YMNKxk+7flhP
- wH8xM6TtxVNAoytlBh3+EyjkJo+gNyRr/zd2tdgDF0KxgvpbU+Xth5XOrNWQUcB1kHxN
- HEmw==
-X-Gm-Message-State: AOJu0YxbetZVbsLRnZXylE3uin4y4RUot3+1DFsNOhj0R1udzqd/nSLy
- 8eM+LGK1jTS8+Luvov60eXk=
-X-Google-Smtp-Source: AGHT+IFSCsDFJnQWVvitfQxdVVmlSDMFOZwDDVVkqrkMm5OFBqMObFEznHd9piwicAqWU7i3voGPAQ==
-X-Received: by 2002:ac2:464d:0:b0:500:b9e3:91bd with SMTP id
- s13-20020ac2464d000000b00500b9e391bdmr8095825lfo.41.1693913588249; 
- Tue, 05 Sep 2023 04:33:08 -0700 (PDT)
+ bh=SG7RSvnGFKvBh7UIfUhp/GS8EnpXHaH94pS/gImK1Gg=;
+ b=mIrOG6LsnNnCrwwnQ/w+Bg6I+8tOzAEoB38mydTKjybZbigllArmKejWlNtMxUU9yh
+ timHNJ11QSFEdyJloPgmGhY3vPEadlHHdNsk4kZnfXuAsJdZeN6SKATfk9O8vgs+QssM
+ iQmOxJwb0FXvMsf96E40494F+yFSIXwnB683T9Zc3g1zi1OgY7oh1rGOtFD3ABJW7sNk
+ HwPWQ0tvJbH10+8pl/xX2J3Gx+S7Enh1D+V3O8ZGQNz7wdMTPAcempXoUnIgaC6gYCrQ
+ paOYS8hPer51IWkE30QPbYNHzp6sR8udlEdJWJ7UNDQj1rD3aWOCWcokqsr5hlqWN4Vc
+ jrZw==
+X-Gm-Message-State: AOJu0YzGOII3zV/vhGqQRuNOhwsP18tKjJ+FQZLkFqtyE1k0Iw3lvVVm
+ qY9RL/ap4AgNYeZ612tFrxc=
+X-Google-Smtp-Source: AGHT+IHBvPyugnYAFOQtrZSwmc7M5cmxcnf88jsZsX86ny4930Mzw/nbvxd09qXgy6uGyhXLcDkZyA==
+X-Received: by 2002:a19:6402:0:b0:4f8:770f:1b01 with SMTP id
+ y2-20020a196402000000b004f8770f1b01mr7106976lfb.19.1693913609703; 
+ Tue, 05 Sep 2023 04:33:29 -0700 (PDT)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- x16-20020ac24890000000b004ffa451074dsm2306549lfc.50.2023.09.05.04.33.07
+ a28-20020ac2521c000000b004ff6fa3f038sm2318136lfl.144.2023.09.05.04.33.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Sep 2023 04:33:08 -0700 (PDT)
-Date: Tue, 5 Sep 2023 14:33:05 +0300
+ Tue, 05 Sep 2023 04:33:29 -0700 (PDT)
+Date: Tue, 5 Sep 2023 14:33:26 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: "Shankar, Uma" <uma.shankar@intel.com>
-Subject: Re: [RFC 02/33] drm: Add color operation structure
-Message-ID: <20230905143305.6fa7017c@eldfell>
-In-Reply-To: <IA1PR11MB634768E3C1B0F55ABD706F60F4E9A@IA1PR11MB6347.namprd11.prod.outlook.com>
+Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
+Message-ID: <20230905143326.38fe5170@eldfell>
+In-Reply-To: <IA1PR11MB63470B60E59FF5F359F6D4A6F4E9A@IA1PR11MB6347.namprd11.prod.outlook.com>
 References: <20230829160422.1251087-1-uma.shankar@intel.com>
- <20230829160422.1251087-3-uma.shankar@intel.com>
- <20230830160019.19e67519@eldfell>
- <IA1PR11MB634768E3C1B0F55ABD706F60F4E9A@IA1PR11MB6347.namprd11.prod.outlook.com>
+ <dbde0306-cc10-420f-a663-663481e127e2@amd.com>
+ <PH7PR11MB63548CC6A606C9DD183B5954F4E6A@PH7PR11MB6354.namprd11.prod.outlook.com>
+ <20230830211536.GA243703@toolbox>
+ <IA1PR11MB63470B60E59FF5F359F6D4A6F4E9A@IA1PR11MB6347.namprd11.prod.outlook.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/bL+SRg.t8Z_mqCwAgSR+6cA";
+Content-Type: multipart/signed; boundary="Sig_/rSMciiXJunowv=uMdpT=WcM";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,317 +75,442 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Borah,
- Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/bL+SRg.t8Z_mqCwAgSR+6cA
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/rSMciiXJunowv=uMdpT=WcM
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 4 Sep 2023 14:10:05 +0000
+On Mon, 4 Sep 2023 14:29:56 +0000
 "Shankar, Uma" <uma.shankar@intel.com> wrote:
 
 > > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of =
-Pekka
-> > Paalanen
-> > Sent: Wednesday, August 30, 2023 6:30 PM
+> > From: Sebastian Wick <sebastian.wick@redhat.com>
+> > Sent: Thursday, August 31, 2023 2:46 AM
 > > To: Shankar, Uma <uma.shankar@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org; Borah, Chaitanya Kumar
-> > <chaitanya.kumar.borah@intel.com>; dri-devel@lists.freedesktop.org; way=
-land-
-> > devel@lists.freedesktop.org
-> > Subject: Re: [RFC 02/33] drm: Add color operation structure
+> > Cc: Harry Wentland <harry.wentland@amd.com>; intel-
+> > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; wayland-
+> > devel@lists.freedesktop.org; Ville Syrjala <ville.syrjala@linux.intel.c=
+om>; Pekka
+> > Paalanen <pekka.paalanen@collabora.com>; Simon Ser <contact@emersion.fr=
+>;
+> > Melissa Wen <mwen@igalia.com>; Jonas =C3=85dahl <jadahl@redhat.com>; Sh=
+ashank
+> > Sharma <shashank.sharma@amd.com>; Alexander Goins <agoins@nvidia.com>;
+> > Naseer Ahmed <quic_naseer@quicinc.com>; Christopher Braga
+> > <quic_cbraga@quicinc.com>
+> > Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
 > >=20
-> > On Tue, 29 Aug 2023 21:33:51 +0530
-> > Uma Shankar <uma.shankar@intel.com> wrote:
-> >  =20
-> > > From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> > On Wed, Aug 30, 2023 at 08:47:37AM +0000, Shankar, Uma wrote: =20
 > > >
-> > > Each Color Hardware block will be represented uniquely in the color
-> > > pipeline. Define the structure to represent the same.
+> > > =20
+> > > > -----Original Message-----
+> > > > From: Harry Wentland <harry.wentland@amd.com>
+> > > > Sent: Wednesday, August 30, 2023 12:56 AM
+> > > > To: Shankar, Uma <uma.shankar@intel.com>;
+> > > > intel-gfx@lists.freedesktop.org; dri- devel@lists.freedesktop.org
+> > > > Cc: wayland-devel@lists.freedesktop.org; Ville Syrjala
+> > > > <ville.syrjala@linux.intel.com>; Pekka Paalanen
+> > > > <pekka.paalanen@collabora.com>; Simon Ser <contact@emersion.fr>;
+> > > > Melissa Wen <mwen@igalia.com>; Jonas =C3=85dahl <jadahl@redhat.com>;
+> > > > Sebastian Wick <sebastian.wick@redhat.com>; Shashank Sharma
+> > > > <shashank.sharma@amd.com>; Alexander Goins <agoins@nvidia.com>;
+> > > > Naseer Ahmed <quic_naseer@quicinc.com>; Christopher Braga
+> > > > <quic_cbraga@quicinc.com>
+> > > > Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
+> > > >
+> > > > +CC Naseer and Chris, FYI
+> > > >
+> > > > See https://patchwork.freedesktop.org/series/123024/ for whole seri=
+es.
+> > > >
+> > > > On 2023-08-29 12:03, Uma Shankar wrote: =20
+> > > > > Introduction
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > >
+> > > > > Modern hardwares have various color processing capabilities both
+> > > > > at pre-blending and post-blending phases in the color pipeline.
+> > > > > The current drm implementation exposes only the post-blending
+> > > > > color hardware blocks. Support for pre-blending hardware is missi=
+ng.
+> > > > > There are multiple use cases where pre-blending color hardware
+> > > > > will be
+> > > > > useful:
+> > > > > 	a) Linearization of input buffers encoded in various transfer
+> > > > > 	   functions.
+> > > > > 	b) Color Space conversion
+> > > > > 	c) Tone mapping
+> > > > > 	d) Frame buffer format conversion
+> > > > > 	e) Non-linearization of buffer(apply transfer function)
+> > > > > 	f) 3D Luts
+> > > > >
+> > > > > and other miscellaneous color operations.
+> > > > >
+> > > > > Hence, there is a need to expose the color capabilities of the
+> > > > > hardware to user-space. This will help userspace/middleware to use
+> > > > > display hardware for color processing and blending instead of
+> > > > > doing it through GPU shaders.
+> > > > > =20
+> > > >
+> > > > Thanks, Uma, for sending this. I've been working on something
+> > > > similar but you beat me to it. :) =20
 > > >
-> > > These color operations will form the building blocks of a color
-> > > pipeline which best represents the underlying Hardware. Color
-> > > operations can be re-arranged, substracted or added to create distinct
-> > > color pipelines to accurately describe the Hardware blocks present in
-> > > the display engine.
+> > > Thanks Harry for the useful feedback and overall collaboration on thi=
+s so far.
+> > > =20
+> > > > >
+> > > > > Work done so far and relevant references
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > >
+> > > > > Some implementation is done by Intel and AMD/Igalia to address th=
+e same.
+> > > > > Broad consensus is there that we need a generic API at drm core to
+> > > > > suffice the use case of various HW vendors. Below are the links
+> > > > > capturing the discussion so far.
+> > > > >
+> > > > > Intel's Plane Color Implementation:
+> > > > > https://patchwork.freedesktop.org/series/90825/
+> > > > > AMD's Plane Color Implementation:
+> > > > > https://patchwork.freedesktop.org/series/116862/
+> > > > >
+> > > > >
+> > > > > Hackfest conclusions
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > >
+> > > > > HDR/Color Hackfest was organised by Redhat to bring all the
+> > > > > industry stakeholders together and converge on a common uapi =20
+> > expectations. =20
+> > > > > Participants from Intel, AMD, Nvidia, Collabora, Redhat, Igalia
+> > > > > and other prominent user-space developers and maintainers.
+> > > > >
+> > > > > Discussions happened on the uapi expectations, opens, nature of
+> > > > > hardware of multiple hardware vendors, challenges in generalizing
+> > > > > the same and the path forward. Consensus was made that drm core
+> > > > > should implement descriptive APIs and not go with prescriptive
+> > > > > APIs. DRM core should just expose the hardware capabilities;
+> > > > > enabling, customizing and programming the same should be done by
+> > > > > the user-space. Driver should just =20
+> > > > honor the user space request without doing any operations internall=
+y. =20
+> > > > >
+> > > > > Thanks to Simon Ser, for nicely documenting the design consensus
+> > > > > and an UAPI RFC which can be referred to here:
+> > > > >
+> > > > > https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze
+> > > > > _hD5
+> > > > > =20
+> > > > =20
+> > nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1
+> > Q =20
+> > > > Wn48 =20
+> > > > > 8=3D@emersion.fr/
+> > > > >
+> > > > >
+> > > > > Design considerations
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > >
+> > > > > Following are the important aspects taken into account while
+> > > > > designing the current RFC
+> > > > > proposal:
+> > > > >
+> > > > > 	1. Individual HW blocks can be muxed. (e.g. out of two HW blocks
+> > > > > only one =20
+> > > > can be used) =20
+> > > > > 	2. Position of the HW block in the pipeline can be programmable
+> > > > > 	3. LUTs can be one dimentional or three dimentional
+> > > > > 	4. Number of LUT entries can vary across platforms
+> > > > > 	5. Precision of LUT entries can vary across platforms
+> > > > > 	6. Distribution of LUT entries may vary. e.g Mutli-segmented, =20
+> > Logarithmic, =20
+> > > > > 	   Piece-Wise Linear(PWL) etc
+> > > > > 	7. There can be parameterized/non-parameterized fixed function H=
+W =20
+> > > > blocks. =20
+> > > > > 	   e.g. Just a hardware bit, to convert from one color space to =
+another.
+> > > > > 	8. Custom non-standard HW implementation.
+> > > > > 	9. Leaving scope for some vendor defined pescriptive
+> > > > > implementation if =20
+> > > > required. =20
+> > > > > 	10.Scope to handle any modification in hardware as technology
+> > > > > evolves
+> > > > >
+> > > > > The current proposal takes into account the above considerations
+> > > > > while keeping the implementation as generic as possible leaving
+> > > > > scope for future =20
+> > > > additions or modifications. =20
+> > > > >
+> > > > > This proposal is also in line to the details mentioned by Simon's
+> > > > > RFC covering all the aspects discussed in hackfest.
+> > > > >
+> > > > >
+> > > > > Outline of the implementation
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> > > > >
+> > > > > Each Color Hardware block will be represented by a data structure=
+ =20
+> > drm_color_op. =20
+> > > > > These color operations will form the building blocks of a color
+> > > > > pipeline which best represents the underlying Hardware. Color
+> > > > > operations can be re-arranged, substracted or added to create
+> > > > > distinct color pipelines to accurately describe the Hardware
+> > > > > blocks present in the display =20
+> > > > engine.
+> > > >
+> > > > Who is doing the arranging of color operations? IMO a driver should
+> > > > define one or more respective pipelines that can be selected by
+> > > > userspace. This seems to be what you're talking about after (I
+> > > > haven't reviewed the whole thing yet). Might be best to drop this s=
+entence or =20
+> > to add clarifications in order to avoid confusion. =20
 > > >
-> > > Co-developed-by: Uma Shankar <uma.shankar@intel.com>
-> > > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> > > Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> > > ---
-> > >  include/uapi/drm/drm_mode.h | 72
-> > > +++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 72 insertions(+)
+> > > Yes it's the driver who will set the pipeline based on the underlying
+> > > hardware arrangement and possible combinations. There can be multiple
+> > > pipelines possible if hardware can be muxed or order can be re-arrang=
+ed (all =20
+> > viable combinations should be defined as a pipeline in driver). =20
+> > > Yeah, I will re-phrase this to help clarify it and avoid any ambiguit=
+y.
+> > > =20
+> > > > >
+> > > > > In this proposal, a color pipeline is represented as an array of
+> > > > > struct drm_color_op. For individual color operation, we add blobs
+> > > > > to advertise the capability of the particular Hardware block.
+> > > > >
+> > > > > This color pipeline is then packaged within a blob for the user
+> > > > > space to retrieve it.
+> > > > > =20
+> > > >
+> > > > Would it be better to expose the drm_color_ops directly, instead of
+> > > > packing a array of drm_color_ops into a blob and then giving that t=
+o =20
+> > userspace. =20
 > > >
-> > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> > > index ea1b639bcb28..882479f41745 100644
-> > > --- a/include/uapi/drm/drm_mode.h
-> > > +++ b/include/uapi/drm/drm_mode.h
-> > > @@ -943,6 +943,78 @@ struct hdr_output_metadata {
-> > >  	};
-> > >  };
+> > > Advantage we see in packing in blobs is that interface will be
+> > > cleaner. There will be just one GET_COLOR_PIPELINE property to invoke=
+ by user =20
+> > and then its just parsing the data. =20
+> > > This way the entire underlying hardware blocks with pipeline will be =
+available to =20
+> > user.
+> >=20
+> > I don't see how parsing a blob is easier than requesting the color ops =
+from the
+> > kernel. User space is already equiped with getting KMS objects and the =
+igt test
+> > code from Harry shows that this is all pretty trivial plumbing. =20
+>=20
+> There are multiple color operations possible with unique lut distribution=
+ and
+> capabilities. Also the order of hardware blocks and possibility of multip=
+le pipelines.
+> Having all the information with one query and property and also be able t=
+o set the
+> same with just one property call using blobs is better than multiple call=
+s to driver.
+> This can be useful in high refresh rate cases where not much time is ther=
+e to program
+> the hardware state. Latency of multiple calls to driver can be avoided.
+
+Hi,
+
+querying all that information only happens once, at KMS client start-up.
+
+Setting up a color pipeline is already a single call: the atomic commit ioc=
+tl.
+
+>=20
+> > > For a particular hardware block in pipeline, user can get the relevant
+> > > details from blob representing that particular block. We have created
+> > > IGT tests (links mentioned in cover-letter) to demonstrate how it can=
+ be done. =20
+> > This is just to clarify the idea.
+> >=20
+> > The blob is also not introspectable with the usual tools whereas exposi=
+ng them as
+> > properties would be.
+> >=20
+> > It also would, like Pekka correctly noted, bring a whole bunch of issue=
+s about
+> > compatibility and versioning that are well understood with objects
+> > + properties. =20
+>=20
+> The blob should be standardized in the UAPI and structures to parse them =
+should be fixed.
+> With this compatibility issues can be prevented.
+
+I think that is short-sighted.
+
+> > > Also since info is passed via blobs we have the flexibility to even
+> > > define segmented LUTs and PWL hardware blocks. Also we have left scope
+> > > for custom private hardware blocks as well which driver can work with=
+ =20
+> > respective HAL and get that implemented.
+> >=20
+> > When color ops are real KMS objects they still can have properties whic=
+h are
+> > blobs that can store LUTs and other data.
+> >=20
+> > And we should avoid private blocks at all cost. In fact, I don't think =
+the KMS rules
+> > have changed in that regard and it simply is not allowed. =20
+>=20
+> Private blocks are not standardized but are vendor specific. So generic u=
+serspace will
+> ignore these. However vendor and its respective HAL can make use of this =
+field and leaves
+> a scope to cater to such hardware vendors need. This doesn't affect the e=
+xpectation of the
+> standardized color operations which will be defined as enum in UAPI.
+
+Vendors can have and expose their own unique snowflake operations
+without any "private" as well: pick an unused operation type code, and
+document what it does. Advertise it in some pipelines.
+
+Vendor HALs can make use of it, but it also allows generic userspace to
+make use of it at will, and it allows other vendors to implement the
+same and benefit from it without needing to patch every userspace.
+
+Or does Intel not want other vendors to potentially make use of their
+UAPIs?
+
+> > > We can even define prescriptive operations as a private entry and
+> > > enable it if a certain driver and HAL agree.
+> > > =20
+> > > > > To advertise the available color pipelines, an immutable ENUM
+> > > > > property "GET_COLOR_PIPELINE" is introduced. This enum property h=
+as =20
+> > blob id's as values. =20
+> > > > > With each blob id representing a distinct color pipeline based on
+> > > > > underlying HW capabilities and their respective combinations.
+> > > > >
+> > > > > Once the user space decides on a color pipeline, it can set the
+> > > > > pipeline and the corresponding data for the hardware blocks within
+> > > > > the pipeline with the BLOB property "SET_COLOR_PIPELINE".
+> > > > > =20
+> > > >
+> > > > When I discussed this at the hackfest with Simon he proposed a new
+> > > > DRM object, (I've called it a drm_colorop) to represent a color ope=
+ration.
+> > > > Each drm_colorop has a "NEXT" pointer to another drm_colorop, or
+> > > > NULL if its the last in the pipeline. You can then have a mutable
+> > > > enum property on the plane to discover and select a color pipeline.=
+ =20
 > > >
-> > > +/**
-> > > + * enum color_op_block
-> > > + *
-> > > + * Enums to identify hardware color blocks.
-> > > + *
-> > > + * @DRM_CB_PRE_CSC: LUT before the CTM unit
-> > > + * @DRM_CB_CSC: CTM hardware supporting 3x3 matrix
-> > > + * @DRM_CB_POST_CSC: LUT after the CTM unit
-> > > + * @DRM_CB_3D_LUT: LUT hardware with coefficients for all
-> > > + *                 color components
-> > > + * @DRM_CB_PRIVATE: Vendor specific hardware unit. Vendor
-> > > + *                  can expose a custom hardware by defining a
-> > > + *                  color operation block with this name as
-> > > + *                  identifier =20
+> > > Yes, the proposal is inspired by this idea. Sure, we can work togethe=
+r to enhance =20
+> > the design. =20
+> > > Personally I feel the one proposed in the current RFC will do the same
+> > > thing envisioned by Simon and you Harry. Management of the pipeline,
+> > > addition, deletion and flexibility to represent hardware is more with=
+ blobs with =20
+> > the relevant structures agreed in UAPI. =20
+> > > =20
+> > > > This seems a bit more transparent than a blob. You can see my
+> > > > changes (unfortunately very WIP, don't look too closely at
+> > > > individual patches) at
+> > > > https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5/di
+> > > > ffs
+> > > >
+> > > > libdrm changes:
+> > > > https://gitlab.freedesktop.org/hwentland/drm/-/merge_requests/1/diff
+> > > > s =20
+> > >
+> > > Sure, will check the same.
+> > > =20
+> > > > IGT changes:
+> > > > https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_reque
+> > > > sts/1/diffs
+> > > >
+> > > > I'll take time to review your whole series and will see whether we
+> > > > can somehow keep the best parts of each. =20
+> > >
+> > > Thanks and agree. Let's work together and get this implemented in DRM.
+> > > =20
+> > > > Curious to hear other opinions on the blob vs new DRM object questi=
+on as =20
+> > well.
 > >=20
-> > This naming scheme does not seem to work. It assumes a far too rigid pi=
-peline,
-> > just like the old KMS property design. What if you have two other opera=
-tions
-> > between PRE_CSC and CSC?
+> > I can see a few advantages with the blob approach.
 > >=20
-> > What sense do PRE_CSC and POST_CSC make if you don't happen to have a C=
-SC
-> > operation? =20
+> > User space can store the entire state in one blob and just assign a new=
+ blob to
+> > change to another pipeline configuration. =20
 >=20
-> Sure, we can re-look at the naming. However, it will be good to define so=
-me standard
-> operations common to all vendors and keep the rest as vendor private.
-
-My opinion is that these "names" should not even be an enum at all.
-
-You're talking about operations, but operation is 'type', not 'name'.
-
-There needs to be no pre-defined, hardcoded pipeline structure in the
-UAPI design. Your naming scheme, and the old KMS color property design,
-assume that there is such a rigid pre-defined structure that all
-hardware and drivers must adhere to. That does not work.
-
-Drivers need to be able to expose any arbitrary operations in any
-arbitrary order in each pipeline, with no pre-determined or hinted
-"intended use". We want to define the operations, and not say what they
-should be used for. Usage examples are for accompanying documentation,
-not API tokens.
-
-This idea is at the core of the new color pipeline design we have been
-discussing.
-
-> > What if a driver put POST_CSC before PRE_CSC in its pipeline?
-> >=20
-> > What if your CSC is actually a series of three independent operations, =
-and in
-> > addition you have PRE_CSC and POST_CSC? =20
+> Agree
 >=20
-> We should try to standardized the operations as much as possible and leav=
-e rest as
-> vendor private. Current proposal allows us to do that.
+> > However, I would argue that changing a lot of properties is already com=
+mon
+> > practice and works well. User space can deal with it and has abstractio=
+ns to
+> > make this managable. =20
 >=20
-> > 3D_LUT is an operation category, not a name. The same could be said abo=
-ut
-> > private. =20
->=20
-> Sure, will fix this.
->=20
-> > Given that all these are also UAPI, do we also need protect old userspa=
-ce from
-> > seeing values it does not understand? =20
->=20
-> For the values userspace doesn't understand, it can ignore the blocks. We=
- should ensure
-> that userspace always gets a clean state wrt color hardware state and no =
-baggage from
-> another client should be there. With that there is no burden of disabling=
- that particular
-> block will be there on an older userspace.
->=20
-> > > + */
-> > > +enum color_op_block {
-> > > +	DRM_CB_INVAL =3D -1,
-> > > +
-> > > +	DRM_CB_PRE_CSC =3D 0,
-> > > +	DRM_CB_CSC,
-> > > +	DRM_CB_POST_CSC,
-> > > +	DRM_CB_3D_LUT,
-> > > +
-> > > +	/* Any new generic hardware block can be updated here */
-> > > +
-> > > +	/*
-> > > +	 * PRIVATE is kept at 255 to make it future proof and leave
-> > > +	 * scope for any new addition
-> > > +	 */
-> > > +	DRM_CB_PRIVATE =3D 255,
-> > > +	DRM_CB_MAX =3D DRM_CB_PRIVATE,
-> > > +};
-> > > +
-> > > +/**
-> > > + * enum color_op_type
-> > > + *
-> > > + * These enums are to identify the mathematical operation that
-> > > + * a hardware block is capable of.
-> > > + * @CURVE_1D: It represents a one dimensional lookup table
-> > > + * @CURVE_3D: Represents lut value for each color component for 3d
-> > > +lut capable hardware
-> > > + * @MATRIX: It represents co-efficients for a CSC/CTM matrix hardware
-> > > + * @FIXED_FUNCTION: To enable and program any custom fixed function
-> > > +hardware unit  */ enum color_op_type {
-> > > +	CURVE_1D,
-> > > +	CURVE_3D,
-> > > +	MATRIX,
-> > > +	FIXED_FUNCTION, =20
-> >=20
-> > My assumption was that a color_op_type would clearly and uniquely defin=
-e the
-> > mathematical model of the operation and the UABI structure of the param=
-eter
-> > blob. That means we need different values for uniform vs. exponentially=
- vs.
-> > programmable distributed 1D LUT, etc. =20
->=20
-> In the hardware the LUTS are programmed as they are received from userspa=
-ce.
-> So once the userspace gets to know the distribution of LUTS, segments, pr=
-ecision,
-> Number of lut samples, it can create the lut values to be programmed.
->=20
-> This information on the distribution of luts in the hardware can be extra=
-cted by the
-> drm_color_lut_range structure which is exposed as blob in the hardware bl=
-ock with
-> TYPE set as CURVE_1D.
+> Blob gives a lot of flexibility and ability to define the hardware capabi=
+lities generically.
 
-I was referring to the special cases like FIXED_FUNCTION and PRIVATE.
-If you have an operation of type PRIVATE, you have no idea what it does
-until you decipher 'private_flags', but you cannot decipher
-'private_flags' until you know the driver name because it is
-vendor-specific.
+The structure of the atomic commit ioctl and the KMS property system is
+even more flexible.
 
-Userspace hates keying things off driver name. It means no other driver
-can expose the same and expect userspace to just start using it. It
-prevents an originally single-vendor feature to become a common
-multi-vendor feature in future hardware generations without patching
-every KMS client. Think about OpenGL or Vulkan: they have
-vendor-specific extensions, but if another vendor implements the same,
-they don't make up another extension but claim to support the original
-one.
+> Lut distribution, number of segments, samples in each segment, precision =
+of luts etc.
+> can be precisely defined and userspace will get a complete picture of the=
+ underlying
+> hardware and its capabilities. Also this is being done with just 2 proper=
+ties. Leaving
+> scope for future addition of any standard color operation as well.
 
-> > If there is a 1D curve with pre-programmed (fixed and named) curves, we=
- need to
-> > enumerate all the curve types somehow. Probably each fixed curve type s=
-hould
-> > not be a different operation type, because that would explode the numbe=
-r of
-> > alternative pipelines. =20
->=20
-> Exposing the lut distribution with drm_color_lut_range would do this job.
-
-I'm talking about named fixed curves, PQ EOTF for example. You'd
-probably put it in FIXED_FUNCTION.
-
-Or are you suggesting that userspace should take the LUT
-parameterisation from the driver and check if it happens to match PQ
-EOTF close enough?
-
-We really need (string) names for fixed curves, so that they can be
-readily identified. Maybe Intel does not have them then, but AMD has.
-
-> > A 3D curve in my mind is a function {x,y,z} =3D f(t), while I suspect y=
-ou meant a 3D
-> > LUT which is a {x,y,z} =3D f(t,u,v) - a 3-vector field in three dimensi=
-onal space. =20
->=20
-> Yes right, we can optimize and fine tune this.
-
-I mean you used a wrong term. It's not a 3D curve when you have a 3D
-LUT.
-
-> > A matrix element could be with or without an offset vector I guess.
-> >=20
-> > FIXED_FUNCTION would need to be replaced with e.g. your example
-> > VENDORXXX_BT602_TO_BT2020 to work.
-> >
-> > Have I missed something, how did you intend this to work? =20
->=20
-> FIXED_FUNCTION is for some descriptive implementation. Some cases where
-> Hardware just have a bit to enable and rest of the implementation is with=
-in hardware.
-> Since type is used for other general hardware blocks, its not intended to=
- cover vendor
-> specific implementation and a private_flags are used instead.
-
-As I've said, 'private_flags' cannot exist.
+The number of properties does not seem too useful to strictly minimise
+over other aspects.
 
 
 Thanks,
 pq
 
 >=20
-> Thanks Pekka for the feedback.
+> I feel blob approach once properly documented is a bit more flexible and =
+scalable.
+> Maybe I am bit biased here =F0=9F=98=8A but all ideas are welcome.=20
+>=20
+> We have implemented some IGT's as well to explain the design better. Link=
+ below:
+> https://patchwork.freedesktop.org/series/123018/
+>=20
+> Thanks Sebastian for the feedback.
 >=20
 > Regards,
 > Uma Shankar
->=20
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> > > +};
-> > > +
-> > > +/**
-> > > + * @struct drm_color_op
-> > > + *
-> > > + * This structure is used to represent the capability of
-> > > + * individual color hardware blocks.
-> > > + *
-> > > + * @name: a standardized enum to identify the color hardware block
-> > > + * @type: The type of mathematical operation it can perform
-> > > + * @blob_id: Id pointing to a blob containing information about
-> > > + *          the hardware block which advertizes its capabilities
-> > > + *          to the userspace. It can be an optional field depending
-> > > + *          on the members "name" and "type".
-> > > + * @private_flags: This can be used to provide vendor specific hints
-> > > + *                 to user space
-> > > + */
-> > > +struct drm_color_op {
-> > > +	enum color_op_block name;
-> > > +	enum color_op_type type;
-> > > +	__u32 blob_id;
-> > > +	__u32 private_flags;
-> > > +};
-> > > +
-> > >  /**
-> > >   * DRM_MODE_PAGE_FLIP_EVENT
-> > >   * =20
->=20
 
-
---Sig_/bL+SRg.t8Z_mqCwAgSR+6cA
+--Sig_/rSMciiXJunowv=uMdpT=WcM
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmT3EfEACgkQI1/ltBGq
-qqf6Fw//VhCx4JjAlniTzgmd+YRkldsqKSWCrZoK/ctycv5FO8JMyN22Qip4IG9o
-gnmdax4AIehI3Au0BFIRZC6jehAemlANbxmaxaqF0YyQGc228PqmCKwxIpUo0tdm
-fpxZDldATsKTBMTTQX4zwnnW8RqJoPBjdOr5BwXdPMXYrAXte2iJ7slYYXHBrEF8
-U8JlXM32hB3KcvvI9mAT+OiVXXq6Qb9GbPmPOV2qzeYnVwW7fmrBDkMPAav2Rbrq
-MREhVFL8R/sAyc7EhhK7aGZXIdpTmmbjTYupmy/uG3mvN688kCoyzz9Vv4e5BwEd
-VqM/OVjRfhwLrZD7IKiIfA3VUo+zkCJ3JyE7OtaBx6adga8HVzu4yLhn6WSd2+VG
-vhS64PYpj/NviwRE2lXIGxTtKPNmKi/tet/y6fgtMrG0udaQ9hmJhuDOZV9aMdvS
-iAO6SvHyNc3f/My+D7Dc9dG2CwdXhnmLX02HBd8OmjtITeOo8ninFNWDY1VotDYc
-WxeQf66IysUoI3CNDIytF/lGAs9ZAgOkgv9tJ6Tuxr/6xi0vY7mcghfnkXMWGIaF
-ja6vHJ2LIk2BIbYmdkR8fMXkHxeJvmlSKNv6IjbsdqIokOygcBLalKuYD7ZiWMBp
-50PymG7/SaNTVaEH+QkMjICTibEZ88AsdS4g6/M4wYcbCXMwmD4=
-=9PLs
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmT3EgYACgkQI1/ltBGq
+qqcznA//WR0jPFilQRGbPtfZXIxEjgHP1GjbyqdOpdJmXu/lJpj+/skb/fb7+D5u
+6dvjWRjyvj6m6zgT+DwYTeiuu3DopuQpA0FK525gPuuJzsrS+MAt9hF99Fekb0BB
+WXqSpK+55lDUSjF7OTwGSGM6Ibqu/II2mhuhh7tqGY84l8vSqLEyIJhXzhMG88df
+vQFD7/QQeetwzsF7rkuOQSr/i3e13QFyarX0ors0C+Gr1UKOm3VgoGXYE8iLJv8o
+ePb55MDBU38IWkNjNQRVHmQS79xHO00FlMmjWA2mf0yf6bGdjzizUedRrZ72AV1w
+PUoiQ1Rs+58ad/N9sz7RIGQeRW7vaBkl80AUQ0kR13Dzl5bVMLkYSj/zbV9BdJYt
++ctg6xL6sz5cslKqdWXQZJqkHRdRP02zEJZYuO6AHA3UZF2JfJ8up0sNqN/VXfT8
+IB2yAAoES6x+WGpoClfFvCAIr+KgY1IJiqabqWeT8Nk/GpoLSdfr78sY1hpOshQ7
+/xvj7eBeYOJkZ86yh6qd6qVKkcXq/cxzAJsG8SZivSpk0bFFTb1Ir6eliJFMdJgQ
+861Ex/AzI+5gRwbfKWRSPDu8kfLvK94AbR9ueppU/nn/mkLM82ji6UA4NgzBzT7q
+217gPbWFP+k8PvHWqFrwdqT9crTtgl9GUlpv5wRzHag4IxdkgG4=
+=18b9
 -----END PGP SIGNATURE-----
 
---Sig_/bL+SRg.t8Z_mqCwAgSR+6cA--
+--Sig_/rSMciiXJunowv=uMdpT=WcM--
