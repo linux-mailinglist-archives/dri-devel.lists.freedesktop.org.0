@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1DD7920B0
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:20:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4817920B5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23FAF10E035;
-	Tue,  5 Sep 2023 07:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D028010E442;
+	Tue,  5 Sep 2023 07:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3EB10E035
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 07:20:33 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A4F06606FC2;
- Tue,  5 Sep 2023 08:20:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693898432;
- bh=ViufKsNlWWk8KZTSfvqYHZ2OvbkMoj8nCUrSGDydXGs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=iH1ci9YojMcECNCDV3YsRmvOsabpbJ/198VEJ0SKr8qECVVrARyidjb8o58WJlFCV
- zKY9RLbyK8fMvziaUdfgzucn5WqxCqiUv9ykxGtQfVRsYhirlebqBgZHFfctaV6wZU
- p99ux1ZyebZ5LKLomfBWKrRBv7lHT7NalpAO0aPHrLSpvLcufesvqXvFpoShQHRb0f
- TXS6ntWMaCBltqPAVHBFHgW42trvJ/d0VrKaSz25znWRBhiLwQjmsCornj6LkhjAJA
- 2r2t8o/ztoVTpzn4fFjfo/nSzSnT0A+vblHrA6gJ3A1I2akaIef7Eu0fN0roPwxhN7
- ZtzxENeDvHKqQ==
-Date: Tue, 5 Sep 2023 09:20:28 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v16 06/20] drm/virtio: Replace drm_gem_shmem_free() with
- drm_gem_object_put()
-Message-ID: <20230905092028.182f8ed8@collabora.com>
-In-Reply-To: <20230903170736.513347-7-dmitry.osipenko@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-7-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F8F10E25C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 07:28:12 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6288C75A;
+ Tue,  5 Sep 2023 09:26:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1693898804;
+ bh=VvDgO6WZIfHOJ92ePZGwc+GLxQLF0SWCV70ytox5Eek=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LHED6sbchNDoIDVWxX4KRrgFHIp1urqvbNZIoKYb/1StTpG6Ryw0FVAtRsxqtdGzb
+ X9OSwF/0Ke0eeYCJ8m7ciw3nbOejloDsAmnteuUDgDItVjjMBo+P0+vatR7xB/+I3k
+ rwwBIItumpmC+NtV+XCpdL55dW991IT74BIzPgjI=
+Message-ID: <9c04a6f0-d7ec-6efd-7b33-774ce4d5548d@ideasonboard.com>
+Date: Tue, 5 Sep 2023 10:28:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/4] drm/bridge: lt8912b: Manually disable HPD only if it
+ was enabled
+Content-Language: en-US
+To: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+References: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
+ <20230804-lt8912b-v1-3-c542692c6a2f@ideasonboard.com>
+ <cb069b10a38b018868f370fada3e97da7257264b.camel@toradex.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <cb069b10a38b018868f370fada3e97da7257264b.camel@toradex.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,55 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "rfoss@kernel.org" <rfoss@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ "adrien.grassein@gmail.com" <adrien.grassein@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  3 Sep 2023 20:07:22 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-
-> Prepare virtio_gpu_object_create() to addition of memory shrinker support
-> by replacing open-coded drm_gem_shmem_free() with drm_gem_object_put() that
-> decrements GEM refcount to 0, which becomes important for drm-shmem because
-> it will start to use GEM's refcount during the shmem's BO freeing time in
-> order to prevent spurious lockdep warning about resv lock ordering vs
-> fs_reclaim code paths.
-
-I think I'm okay with the change (assuming virtio_gpu_free_object()
-can deal with partially initialized objects), not with the explanation
-:-). I don't really see why we need to take the resv lock in
-drm_gem_shmem_free(). As said in my v15 review, I think we should
-replace the drm_gem_shmem_put_pages() call we have in
-drm_gem_shmem_free() by a call to a new drm_gem_shmem_free_pages()
-helper that does exactly what drm_gem_shmem_put_pages() does without
-the refcounting/locking, because all that should remain at the time
-drm_gem_shmem_free() is called is the implicit pages ref owned by
-shmem->sgt, and there's no risk of other threads accessing the GEM
-object at that point.
-
+On 04/09/2023 21:08, Marcel Ziswiler wrote:
+> Hi Tomi
 > 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_object.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Looks good. Thanks! Tested both on Verdin AM62 as well as on Verdin iMX8M Mini.
 > 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index c7e74cf13022..343b13428125 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -244,6 +244,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
->  err_put_id:
->  	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
->  err_free_gem:
-> -	drm_gem_shmem_free(shmem_obj);
-> +	drm_gem_object_put(&bo->base.base);
->  	return ret;
->  }
+> Just a minor nit-pick in your commit message.
+> 
+> On Fri, 2023-08-04 at 13:48 +0300, Tomi Valkeinen wrote:
+>> lt8912b only calls drm_bridge_hpd_enable() if it creates a connector and
+>> the next bridge has DRM_BRIDGE_OP_HPD set. However, when calling
+>> drm_bridge_hpd_disable() it misses checking if a connector was created,
+>> calling drm_bridge_hpd_disable() even if HPD was nenver enabled. I don't
+> 
+> was never enabled
+> 
+>> see any issues causing by this wrong call, though.
+> 
+> any issues caused by this wrong call
+> 
+>> Add the check to avoid wrongly calling drm_bridge_hpd_disable().
+>>
+>> Fixes: 3b0a01a6a522 ("drm/bridge: lt8912b: Add hot plug detection")
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+> For the whole series:
+> 
+> Tested-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+
+Thanks! I have fixed the typos in the desc.
+
+  Tomi
 
