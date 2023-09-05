@@ -2,90 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285B5792C40
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE3B792C51
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C3810E0DC;
-	Tue,  5 Sep 2023 17:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC6810E137;
+	Tue,  5 Sep 2023 17:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB5810E0DC;
- Tue,  5 Sep 2023 17:14:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oWKHtMoOKiXOOgBpHOlq5pH+n0k3NrLIeAY2/MJpjuxCnf4ZsEG54MCULGvIMSpAVyzNO9OFBQSeNNaFcHRapqgTuLpuh89xNcFtvnq/fkPrdohmt79vFmPzWJFSphgtZMlvPzYEb/nSKNVquo7BcTBP+CivM2OFLcxECMJY6FvUVTmt7XNngZAYg1Caq9AsoCVZsHKzOkFVeye0QVLWsyBjJ32PdUKSRy2mN9fFDx+t7uDGYP3L/uF7OnEcArvyOEv7o4Y/r2eE8s82jHDCeszqrYO32GHJ5c+tCigvtLEdIDQORt/lgj4q1mF6TD0T+ZVIxCm8oMqFOyUuwJ7brw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g+Tn3PKaV04/rKqO9eDb7b65Bp1TNyISYORvhyAO8Xg=;
- b=K0lwbmjkxvj1kAU8+UBEMV/pfYlgRq4Tu8gW8W3rOviwuW3tesWB9fb/II2vIgrSj8J9lwk/b2wYb0xipIZs7Q9WcDovYfrI5wAFPXSp/pKJ9oqRsvfX5/FPemNpxAHnsVWYLwtVhn8ifuix/TXwswHEHp6ZCFQNacIdFh7W7O88VDAWmzu0UoIBPm59+24AC73e1bDlXca7tsxl/6iH7oKZ82keTKseqnyzXRRLUPjX0b6RK6aG+aKY1aOKLGUcVeCF0bgGJAudCmANLBarzFFAf/Wj1JtezBoDJJB9LBq1ffVAuHUS4X9xuqCriipGGNQzvP5tueqxRLo+05DhEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g+Tn3PKaV04/rKqO9eDb7b65Bp1TNyISYORvhyAO8Xg=;
- b=oHfLiFDQgMVvdhue0xgtwj7wGzvJ/f0aIUDz1T4VLOHcM5jzSS0bI5M65CGypkIOOhTY3mvlXYSw9HTkpy8ihZA8Qa3925T1MlpgahLk43VXN7j5nKrBLzwBFn3LvMcz/trUoZpyK+VpYm2oMbh0O146wlfLqYr4Fd3Cw+sFMYU=
-Received: from DS7PR03CA0029.namprd03.prod.outlook.com (2603:10b6:5:3b8::34)
- by IA0PR12MB9045.namprd12.prod.outlook.com (2603:10b6:208:406::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 17:14:39 +0000
-Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
- (2603:10b6:5:3b8:cafe::50) by DS7PR03CA0029.outlook.office365.com
- (2603:10b6:5:3b8::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33 via Frontend
- Transport; Tue, 5 Sep 2023 17:14:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6768.25 via Frontend Transport; Tue, 5 Sep 2023 17:14:38 +0000
-Received: from dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 5 Sep
- 2023 12:14:35 -0500
-From: Alex Hung <alex.hung@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: Remove unwanted drm edid references
-Date: Tue, 5 Sep 2023 11:13:54 -0600
-Message-ID: <20230905171354.2657889-1-alex.hung@amd.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2086110E128;
+ Tue,  5 Sep 2023 17:20:35 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id
+ 5614622812f47-3a9f87adfe1so2166457b6e.1; 
+ Tue, 05 Sep 2023 10:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693934434; x=1694539234; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=egYVobOFWuQdqjUEm4ZqKsY7Z50WC1t7+JHeJD3kmhA=;
+ b=XTT8/4JgramINfh2CR53eQ+bjD9Pz5bhim+tODdqvv+CY7SpObxMSXzEgaZuQB3AS9
+ DmQqosEIAImkirGJCOQEuCTZZyomcXg675hEbE957qVuLoF9zOokkpJkHg6JizKsmv+S
+ khYiDRyCrtvWfSWBJmYZBxOoLeFy677YmVLqNVUmjXTXoJ0Uta//w8ZYPTvlHQ4Ww0JH
+ u6taDzp4GgzfFXrlxLisvawKIlpG9JEnKntREznadzt+RJbJ5U/Nugfot+un17CTY2nR
+ I3m4z3/gtrmHOlu2wKmPmu5NQeDkZF+YTI+ByDr/q/EbRkukV0mdkVG6y/xUzLjdp5j/
+ uTjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693934434; x=1694539234;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=egYVobOFWuQdqjUEm4ZqKsY7Z50WC1t7+JHeJD3kmhA=;
+ b=PR9TDh2oZ2Q9UyBxmnFS2yVuGUi5H6sTp30ek7a6opm4S9AJg51Y5RojxmAngzaIB4
+ i3mxCcpCLTUHQkNJUcAZjB4Q6lvqkSN1MD269hgRblaPXZORUWEMSkgMP4NNk/rqGFMQ
+ p3Cx+rq9l+pohwDu6dByT+P2LxujLx771wA3eNPQW1vm1lGJ/tv7aC8tKQTpVfE9xauN
+ gvAykS8J5D31z47DH/x4Faokg9/eRMxTsXya8pHL9+pIAJR19frOHebC+/t2d8d2cmUH
+ T9DEMC4t0K0NtsJB/RJIoTK5ye+uzdxmFzpzHYKCBDDp8xPwemCnyTiVhLDH+pqk8tUW
+ 6pYg==
+X-Gm-Message-State: AOJu0YxdkElB5LuB9sbgpmM3aPSYPcdLMOflnYy0yjAn5bE4mobiuhsV
+ wFSFISmQYWy3Hcg4saJJWSlU9XozFAMIuNbeYKk=
+X-Google-Smtp-Source: AGHT+IH3pexwwwaLVpB98fPK/JpecnRxp70TiquGAO7pJC/SgsuI+6nqiWAxDzNgHEj6QTnxUCmibNW7V0by24Ms4z0=
+X-Received: by 2002:a05:6808:1304:b0:3a7:65ae:9ccf with SMTP id
+ y4-20020a056808130400b003a765ae9ccfmr17483691oiv.22.1693934434263; Tue, 05
+ Sep 2023 10:20:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|IA0PR12MB9045:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29bc8608-3470-4e4a-a0b8-08dbae339623
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s4wQ8dchSsfeFw7YVYIXVbcel1vNvh+2syLP3eD2yE7krVXJjtfa1PK+aQpp/dP3Da38k69gG9zDHQFRhGbY1k7Oi9t1BklGmq3E/4wWBCQel9vb52dBm2T1WuTXIr2eMM1a2Xv5D9h/jwpAi4xRLfoP0eIkEfVN+9bqWYAmwbO0dsHDzDWfrlpnx+cOKC+2VbIRim3keHoF8m17iFHJgwqxUiC3SGgWA/f1yYXC6xZO4JQWopiBt952XJO7wu/GSIngUYZojfzeUWn6bG4ov3YzCl9NT/HBgERKvlnvl4zbOmF3Vv0wFQg5lYslAe3futfh2WEHjOMwV0AK7lWRg9UJ15W1VpqkwVzi18NQPeWdf5jW7X806pJ8EWj3QWfPjQu3+8dihKcc6lLj47O6dpYqIVG/TsmGfBgrCqwVNF/t5GJ9AOLP7i/Ca3Aj+NGULi12KcoPNCsQbMaTFOpAYN+KkpNdX8xnALdiYC5q+40qVizOz2+r2OnCEFXJngQT32H/5tyqgfUp3kCGEC0i61EVjh3RaqnvoA7Xo7o2P3Op/h3Oud2XoCuAcIoY/KoyeoTLLhJKLMEe0F8ml3ZMlfiFSkysIkK4WOqWh/Wx9vU3mzC68rFpY5ap1Z/kKlbEHRWk4d/1japLT6xlA4ktYSAgXvW/W4YiG7FNZC021YCA+WDTslWPKMvhm2LZNut96SNmyrPQCBGq8ph/iA42SBUSPcgWMh8GiPlMi7uulsc3Gwp6XRvxhHV3BFhLioZeYuLBZ1jxWvDnQJx1XZxRT2KY4r+z15S6YN7A6JqjxXA=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199024)(1800799009)(186009)(82310400011)(36840700001)(40470700004)(46966006)(2906002)(316002)(70586007)(110136005)(86362001)(70206006)(36756003)(54906003)(40480700001)(5660300002)(4326008)(44832011)(8676002)(8936002)(41300700001)(40460700003)(47076005)(83380400001)(336012)(26005)(1076003)(426003)(16526019)(2616005)(36860700001)(356005)(81166007)(478600001)(82740400003)(7696005)(6666004)(26123001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 17:14:38.7445 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29bc8608-3470-4e4a-a0b8-08dbae339623
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9045
+References: <20230901070240.31027-1-jiapeng.chong@linux.alibaba.com>
+ <a975bbdb-8cd9-35b2-ce98-f711439db3a5@amd.com>
+In-Reply-To: <a975bbdb-8cd9-35b2-ce98-f711439db3a5@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 5 Sep 2023 13:20:23 -0400
+Message-ID: <CADnq5_O9zME2oxfSB1Gy6NMfOietEqN08Os36s6Vc2Kpdj0VQQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: clean up some inconsistent indenting
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,72 +69,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
- jani.nikula@intel.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, Alex Hung <alex.hung@amd.com>, sunpeng.li@amd.com,
- daniel.wheeler@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
- hamza.mahfooz@amd.com, wayne.lin@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[WHY]
-edid_override and drm_edid_override_connector_update, according to drm
-documentation, should not be referred outside drm_edid.
+Applied and dropped the printk.
 
-[HOW]
-Remove and replace them accordingly.
+Alex
 
-Signed-off-by: Alex Hung <alex.hung@amd.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++-----------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 1bb1a394f55f..f6a255773242 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6372,15 +6372,12 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
- static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- {
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-+	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 	struct dc_link *dc_link = aconnector->dc_link;
- 	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
- 	struct edid *edid;
- 
--	if (!connector->edid_override)
--		return;
--
--	drm_edid_override_connector_update(&aconnector->base);
--	edid = aconnector->base.edid_blob_ptr->data;
-+	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
- 	aconnector->edid = edid;
- 
- 	/* Update emulated (virtual) sink's EDID */
-@@ -6421,22 +6418,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 	};
- 	struct edid *edid;
- 
--	if (!aconnector->base.edid_blob_ptr) {
--		/* if connector->edid_override valid, pass
--		 * it to edid_override to edid_blob_ptr
--		 */
--
--		drm_edid_override_connector_update(&aconnector->base);
--
--		if (!aconnector->base.edid_blob_ptr) {
--			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
--					aconnector->base.name);
--
--			aconnector->base.force = DRM_FORCE_OFF;
--			return;
--		}
--	}
--
- 	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
- 
- 	aconnector->edid = edid;
--- 
-2.42.0
-
+On Fri, Sep 1, 2023 at 3:40=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Am 01.09.23 um 09:02 schrieb Jiapeng Chong:
+> > No functional modification involved.
+> >
+> > drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c:34 nbio_v7_11_get_rev_id() warn=
+: inconsistent indenting.
+>
+>
+> We should probably not have a printk here in the first place.
+>
+> Christian.
+>
+> >
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> > Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D6316
+> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c b/drivers/gpu/drm/=
+amd/amdgpu/nbio_v7_11.c
+> > index 7c08e5f95e97..76e21357dd4d 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
+> > @@ -31,10 +31,9 @@
+> >   static u32 nbio_v7_11_get_rev_id(struct amdgpu_device *adev)
+> >   {
+> >       u32 tmp;
+> > -         printk("%s, getid\n",__func__);
+> > -
+> > -             tmp =3D RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0=
+_STRAP0);
+> >
+> > +     printk("%s, getid\n", __func__);
+> > +     tmp =3D RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0_STRAP0)=
+;
+> >       tmp &=3D RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_F=
+0_MASK;
+> >       tmp >>=3D RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_=
+F0__SHIFT;
+> >
+>
