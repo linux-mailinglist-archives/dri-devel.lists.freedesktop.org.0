@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A7B7920D6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4157920D9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 09:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9005C10E450;
-	Tue,  5 Sep 2023 07:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC0F10E44D;
+	Tue,  5 Sep 2023 07:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D48F510E450;
- Tue,  5 Sep 2023 07:47:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA95C10E451;
+ Tue,  5 Sep 2023 07:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693900031; x=1725436031;
+ t=1693900035; x=1725436035;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FNfyllmYjin3Q1SquF+RPP95fFxTmwe32gndHedBWiI=;
- b=M51fGPychEhnMsH4X14b7J0tyNbaPZ7/Kqyo81Y4m97tZOxUYRJ4bRpU
- y/dt3mZ4z3S6vOAJ47KmdefESWwTUtwmR2nvKmU/EibnWr25VA1dLlkYo
- YqlLwWRyQSm53UWyd39NCXk1iu4Q5c+vdtlX0gG0l6BjuWIWU3C8w+1X9
- WIlxroLQXZrnS65R+az0sSIeKxbqzzg+itgp/eNjY7cS531Y6ZQw0/45b
- OVUkqKXwSsPqKR1DJwhz+AI7tDy0PGPEhb71ihcnIiyGvvH/jlKi2eLCW
- 9KAJDb03wMEZOIoQRQfhaIPtQ/9ENOZHANlvfIyRnETz5VU02H2HYXj2d w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="443133690"
-X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; d="scan'208";a="443133690"
+ bh=Auv/YWjG7eUXLUwedrwDnrGpdbZcFF9PDUMVZmpu430=;
+ b=HIZCD9RtaSsXquljln78cgGjdLpUD1sE0NaqVc7Sam19/e177KHgPnz3
+ Dzpyn9IHpfrx6eassDFMVJbul4JzcUGCSMEk/t44ata0flVpONKxasBvC
+ 8YRqSdPYXGCdfj58npepRH8a71sPj6AaV4OKRjmLIqIpY7Tsu/kDcRBxB
+ SxlBe7FcJjM5/uBXzyveuVBCpXwtktWDX7vd9jqN8yls/CYujueAceLgR
+ 0o+MdONL/lf+JVKRT53+Er0iriqOqM+9Knio2UubsATepNpOQG9oQewgZ
+ 8+v7X7MvUOaR8n1t2eh50u27f+50e5IFMDEDszGfmSxi9rEZI4AkTpJu8 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="443133702"
+X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; d="scan'208";a="443133702"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2023 00:47:11 -0700
+ 05 Sep 2023 00:47:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="855878517"
-X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; d="scan'208";a="855878517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="855878528"
+X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; d="scan'208";a="855878528"
 Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2023 00:47:08 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2023 00:47:11 -0700
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 5/6] drm/i915/panelreplay: enable/disable panel replay
-Date: Tue,  5 Sep 2023 13:05:50 +0530
-Message-Id: <20230905073551.958368-6-animesh.manna@intel.com>
+Subject: [PATCH v5 6/6] drm/i915/panelreplay: Debugfs support for panel replay
+Date: Tue,  5 Sep 2023 13:05:51 +0530
+Message-Id: <20230905073551.958368-7-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20230905073551.958368-1-animesh.manna@intel.com>
 References: <20230905073551.958368-1-animesh.manna@intel.com>
@@ -63,197 +63,158 @@ Cc: jani.nikula@intel.com, jouni.hogander@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TRANS_DP2_CTL register is programmed to enable panel replay from source
-and sink is enabled through panel replay dpcd configuration address.
-
-Bspec: 1407940617
-
-v1: Initial version.
-v2:
-- Use pr_* flags instead psr_* flags. [Jouni]
-- Remove intel_dp_is_edp check as edp1.5 also has panel replay. [Jouni]
-
-v3: Cover letter updated and selective fetch condition check is added
-before updating its bit in PSR2_MAN_TRK_CTL register. [Jouni]
-
-v4: Selective fetch related PSR2_MAN_TRK_CTL programmming dropped. [Jouni]
-
-Note: Initial plan is to enable panel replay in  full-screen live active
-frame update mode. In a incremental approach panel replay will be enabled
-in selctive update mode if there is any gap in curent implementation.
+Add debugfs support which will print source and sink status
+per connector basis.
 
 Cc: Jouni Högander <jouni.hogander@intel.com>
 Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 ---
- .../drm/i915/display/intel_display_types.h    |  1 +
- drivers/gpu/drm/i915/display/intel_psr.c      | 65 ++++++++++++++-----
- 2 files changed, 50 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/display/intel_psr.c | 70 ++++++++++++++++--------
+ 1 file changed, 48 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 4022d6d8281a..b1383988b656 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1696,6 +1696,7 @@ struct intel_psr {
- 	u16 su_y_granularity;
- 	bool source_panel_replay_support;
- 	bool sink_panel_replay_support;
-+	bool panel_replay_enabled;
- 	u32 dc3co_exitline;
- 	u32 dc3co_exit_delay;
- 	struct delayed_work dc3co_work;
 diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 4e9c126a47ff..5cbf08a4c94c 100644
+index 5cbf08a4c94c..f50f110feb09 100644
 --- a/drivers/gpu/drm/i915/display/intel_psr.c
 +++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -606,8 +606,14 @@ static void intel_psr_enable_sink(struct intel_dp *intel_dp)
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 	u8 dpcd_val = DP_PSR_ENABLE;
- 
--	/* Enable ALPM at sink for psr2 */
-+	if (intel_dp->psr.panel_replay_enabled) {
-+		drm_dp_dpcd_writeb(&intel_dp->aux, PANEL_REPLAY_CONFIG,
-+				   DP_PANEL_REPLAY_ENABLE);
-+		return;
-+	}
-+
- 	if (intel_dp->psr.psr2_enabled) {
-+		/* Enable ALPM at sink for psr2 */
- 		drm_dp_dpcd_writeb(&intel_dp->aux, DP_RECEIVER_ALPM_CONFIG,
- 				   DP_ALPM_ENABLE |
- 				   DP_ALPM_LOCK_ERROR_IRQ_HPD_ENABLE);
-@@ -757,6 +763,14 @@ static int psr2_block_count(struct intel_dp *intel_dp)
- 	return psr2_block_count_lines(intel_dp) / 4;
- }
- 
-+static void dg2_activate_panel_replay(struct intel_dp *intel_dp)
-+{
-+	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-+
-+	intel_de_rmw(dev_priv, TRANS_DP2_CTL(intel_dp->psr.transcoder), 0,
-+		     TRANS_DP2_PANEL_REPLAY_ENABLE);
-+}
-+
- static void hsw_activate_psr2(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-@@ -1320,18 +1334,23 @@ void intel_psr_get_config(struct intel_encoder *encoder,
- 		return;
- 
- 	intel_dp = &dig_port->dp;
--	if (!CAN_PSR(intel_dp))
-+	if (!(CAN_PSR(intel_dp) || CAN_PANEL_REPLAY(intel_dp)))
- 		return;
- 
- 	mutex_lock(&intel_dp->psr.lock);
- 	if (!intel_dp->psr.enabled)
- 		goto unlock;
- 
--	/*
--	 * Not possible to read EDP_PSR/PSR2_CTL registers as it is
--	 * enabled/disabled because of frontbuffer tracking and others.
--	 */
--	pipe_config->has_psr = true;
-+	if (intel_dp->psr.panel_replay_enabled) {
-+		pipe_config->has_panel_replay = true;
-+	} else {
-+		/*
-+		 * Not possible to read EDP_PSR/PSR2_CTL registers as it is
-+		 * enabled/disabled because of frontbuffer tracking and others.
-+		 */
-+		pipe_config->has_psr = true;
-+	}
-+
- 	pipe_config->has_psr2 = intel_dp->psr.psr2_enabled;
- 	pipe_config->infoframes.enable |= intel_hdmi_infoframe_enable(DP_SDP_VSC);
- 
-@@ -1368,8 +1387,10 @@ static void intel_psr_activate(struct intel_dp *intel_dp)
- 
- 	lockdep_assert_held(&intel_dp->psr.lock);
- 
--	/* psr1 and psr2 are mutually exclusive.*/
--	if (intel_dp->psr.psr2_enabled)
-+	/* psr1, psr2 and panel-replay are mutually exclusive.*/
-+	if (intel_dp->psr.panel_replay_enabled)
-+		dg2_activate_panel_replay(intel_dp);
-+	else if (intel_dp->psr.psr2_enabled)
- 		hsw_activate_psr2(intel_dp);
- 	else
- 		hsw_activate_psr1(intel_dp);
-@@ -1547,6 +1568,7 @@ static void intel_psr_enable_locked(struct intel_dp *intel_dp,
- 	drm_WARN_ON(&dev_priv->drm, intel_dp->psr.enabled);
- 
- 	intel_dp->psr.psr2_enabled = crtc_state->has_psr2;
-+	intel_dp->psr.panel_replay_enabled = crtc_state->has_panel_replay;
- 	intel_dp->psr.busy_frontbuffer_bits = 0;
- 	intel_dp->psr.pipe = to_intel_crtc(crtc_state->uapi.crtc)->pipe;
- 	intel_dp->psr.transcoder = crtc_state->cpu_transcoder;
-@@ -1562,8 +1584,12 @@ static void intel_psr_enable_locked(struct intel_dp *intel_dp,
- 	if (!psr_interrupt_error_check(intel_dp))
- 		return;
- 
--	drm_dbg_kms(&dev_priv->drm, "Enabling PSR%s\n",
--		    intel_dp->psr.psr2_enabled ? "2" : "1");
-+	if (intel_dp->psr.panel_replay_enabled)
-+		drm_dbg_kms(&dev_priv->drm, "Enabling Panel Replay\n");
-+	else
-+		drm_dbg_kms(&dev_priv->drm, "Enabling PSR%s\n",
-+			    intel_dp->psr.psr2_enabled ? "2" : "1");
-+
- 	intel_write_dp_vsc_sdp(encoder, crtc_state, &crtc_state->psr_vsc);
- 	intel_snps_phy_update_psr_power_state(dev_priv, phy, true);
- 	intel_psr_enable_sink(intel_dp);
-@@ -1592,7 +1618,10 @@ static void intel_psr_exit(struct intel_dp *intel_dp)
- 		return;
+@@ -3044,7 +3044,7 @@ psr_source_status(struct intel_dp *intel_dp, struct seq_file *m)
+ 			status = live_status[status_val];
  	}
  
--	if (intel_dp->psr.psr2_enabled) {
-+	if (intel_dp->psr.panel_replay_enabled) {
-+		intel_de_rmw(dev_priv, TRANS_DP2_CTL(intel_dp->psr.transcoder),
-+			     TRANS_DP2_PANEL_REPLAY_ENABLE, 0);
-+	} else if (intel_dp->psr.psr2_enabled) {
- 		tgl_disallow_dc3co_on_psr2_exit(intel_dp);
+-	seq_printf(m, "Source PSR status: %s [0x%08x]\n", status, val);
++	seq_printf(m, "Source PSR/PanelReplay status: %s [0x%08x]\n", status, val);
+ }
  
- 		val = intel_de_rmw(dev_priv, EDP_PSR2_CTL(cpu_transcoder),
-@@ -1641,8 +1670,11 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
- 	if (!intel_dp->psr.enabled)
- 		return;
+ static int intel_psr_status(struct seq_file *m, struct intel_dp *intel_dp)
+@@ -3057,18 +3057,23 @@ static int intel_psr_status(struct seq_file *m, struct intel_dp *intel_dp)
+ 	bool enabled;
+ 	u32 val;
  
--	drm_dbg_kms(&dev_priv->drm, "Disabling PSR%s\n",
--		    intel_dp->psr.psr2_enabled ? "2" : "1");
-+	if (intel_dp->psr.panel_replay_enabled)
-+		drm_dbg_kms(&dev_priv->drm, "Disabling Panel Replay\n");
-+	else
-+		drm_dbg_kms(&dev_priv->drm, "Disabling PSR%s\n",
-+			    intel_dp->psr.psr2_enabled ? "2" : "1");
+-	seq_printf(m, "Sink support: %s", str_yes_no(psr->sink_support));
+-	if (psr->sink_support)
++	seq_printf(m, "Sink support: PSR = %s, Panel Replay = %s",
++		   str_yes_no(psr->sink_support),
++		   str_yes_no(psr->sink_panel_replay_support));
++
++	if (psr->sink_support || psr->sink_panel_replay_support)
+ 		seq_printf(m, " [0x%02x]", intel_dp->psr_dpcd[0]);
+ 	seq_puts(m, "\n");
  
- 	intel_psr_exit(intel_dp);
- 	intel_psr_wait_exit_locked(intel_dp);
-@@ -1675,6 +1707,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
- 		drm_dp_dpcd_writeb(&intel_dp->aux, DP_RECEIVER_ALPM_CONFIG, 0);
+-	if (!psr->sink_support)
++	if (!(psr->sink_support || psr->sink_panel_replay_support))
+ 		return 0;
  
- 	intel_dp->psr.enabled = false;
-+	intel_dp->psr.panel_replay_enabled = false;
- 	intel_dp->psr.psr2_enabled = false;
- 	intel_dp->psr.psr2_sel_fetch_enabled = false;
- 	intel_dp->psr.psr2_sel_fetch_cff_enabled = false;
-@@ -2244,7 +2277,7 @@ static void _intel_psr_post_plane_update(const struct intel_atomic_state *state,
- 	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
- 	struct intel_encoder *encoder;
+ 	wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
+ 	mutex_lock(&psr->lock);
  
--	if (!crtc_state->has_psr)
-+	if (!(crtc_state->has_psr || crtc_state->has_panel_replay))
- 		return;
+-	if (psr->enabled)
++	if (psr->panel_replay_enabled)
++		status = "Panel Replay Enabled";
++	else if (psr->enabled)
+ 		status = psr->psr2_enabled ? "PSR2 enabled" : "PSR1 enabled";
+ 	else
+ 		status = "disabled";
+@@ -3081,14 +3086,17 @@ static int intel_psr_status(struct seq_file *m, struct intel_dp *intel_dp)
+ 		goto unlock;
+ 	}
  
- 	for_each_intel_encoder_mask_with_psr(state->base.dev, encoder,
-@@ -2291,7 +2324,7 @@ void intel_psr_post_plane_update(const struct intel_atomic_state *state)
- 	struct intel_crtc *crtc;
- 	int i;
+-	if (psr->psr2_enabled) {
++	if (psr->panel_replay_enabled) {
++		val = intel_de_read(dev_priv, TRANS_DP2_CTL(cpu_transcoder));
++		enabled = val & TRANS_DP2_PANEL_REPLAY_ENABLE;
++	} else if (psr->psr2_enabled) {
+ 		val = intel_de_read(dev_priv, EDP_PSR2_CTL(cpu_transcoder));
+ 		enabled = val & EDP_PSR2_ENABLE;
+ 	} else {
+ 		val = intel_de_read(dev_priv, psr_ctl_reg(dev_priv, cpu_transcoder));
+ 		enabled = val & EDP_PSR_ENABLE;
+ 	}
+-	seq_printf(m, "Source PSR ctl: %s [0x%08x]\n",
++	seq_printf(m, "Source PSR/PanelReplay ctl: %s [0x%08x]\n",
+ 		   str_enabled_disabled(enabled), val);
+ 	psr_source_status(intel_dp, m);
+ 	seq_printf(m, "Busy frontbuffer bits: 0x%08x\n",
+@@ -3230,6 +3238,7 @@ static int i915_psr_sink_status_show(struct seq_file *m, void *data)
+ {
+ 	struct intel_connector *connector = m->private;
+ 	struct intel_dp *intel_dp = intel_attached_dp(connector);
++	struct intel_psr *psr = &intel_dp->psr;
+ 	static const char * const sink_status[] = {
+ 		"inactive",
+ 		"transition to active, capture and display",
+@@ -3240,27 +3249,47 @@ static int i915_psr_sink_status_show(struct seq_file *m, void *data)
+ 		"reserved",
+ 		"sink internal error",
+ 	};
++	static const char * const panel_replay_status[] = {
++		"Sink device frame is locked to the Source device",
++		"Sink device is coasting, using the VTotal target",
++		"Sink device is governing the frame rate (frame rate unlock is granted)",
++		"Sink device in the process of re-locking with the Source device",
++	};
+ 	const char *str;
+ 	int ret;
+-	u8 val;
++	u8 val, temp;
  
--	if (!HAS_PSR(dev_priv))
-+	if (!(HAS_PSR(dev_priv) || HAS_DP20(dev_priv)))
- 		return;
+-	if (!CAN_PSR(intel_dp)) {
+-		seq_puts(m, "PSR Unsupported\n");
++	if (!(CAN_PSR(intel_dp) || CAN_PANEL_REPLAY(intel_dp))) {
++		seq_puts(m, "PSR/Panel-Replay Unsupported\n");
+ 		return -ENODEV;
+ 	}
  
- 	for_each_new_intel_crtc_in_state(state, crtc, crtc_state, i)
+ 	if (connector->base.status != connector_status_connected)
+ 		return -ENODEV;
+ 
+-	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_PSR_STATUS, &val);
+-	if (ret != 1)
+-		return ret < 0 ? ret : -EIO;
++	if (psr->panel_replay_enabled) {
++		ret = drm_dp_dpcd_readb(&intel_dp->aux,
++					DP_SINK_DEVICE_PR_AND_FRAME_LOCK_STATUS, &val);
++		if (ret != 1)
++			return ret < 0 ? ret : -EIO;
+ 
+-	val &= DP_PSR_SINK_STATE_MASK;
+-	if (val < ARRAY_SIZE(sink_status))
+-		str = sink_status[val];
+-	else
+-		str = "unknown";
++		temp = val & DP_SINK_FRAME_LOCKED_MASK;
++		temp >>= DP_SINK_FRAME_LOCKED_SHIFT;
++		if (temp < ARRAY_SIZE(panel_replay_status))
++			str = panel_replay_status[temp];
++		else
++			str = "unknown";
++	} else {
++		ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_PSR_STATUS, &val);
++		if (ret != 1)
++			return ret < 0 ? ret : -EIO;
++
++		val &= DP_PSR_SINK_STATE_MASK;
++		if (val < ARRAY_SIZE(sink_status))
++			str = sink_status[val];
++		else
++			str = "unknown";
++	}
+ 
+ 	seq_printf(m, "Sink PSR status: 0x%x [%s]\n", val, str);
+ 
+@@ -3282,13 +3311,10 @@ void intel_psr_connector_debugfs_add(struct intel_connector *connector)
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+ 	struct dentry *root = connector->base.debugfs_entry;
+ 
+-	if (connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
+-		return;
+-
+ 	debugfs_create_file("i915_psr_sink_status", 0444, root,
+ 			    connector, &i915_psr_sink_status_fops);
+ 
+-	if (HAS_PSR(i915))
++	if (HAS_PSR(i915) || HAS_DP20(i915))
+ 		debugfs_create_file("i915_psr_status", 0444, root,
+ 				    connector, &i915_psr_status_fops);
+ }
 -- 
 2.29.0
 
