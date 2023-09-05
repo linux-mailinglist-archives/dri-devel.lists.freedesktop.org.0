@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6921C792139
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 10:59:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDF3792140
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 11:01:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A3E10E476;
-	Tue,  5 Sep 2023 08:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC9010E471;
+	Tue,  5 Sep 2023 09:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88BE10E472;
- Tue,  5 Sep 2023 08:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693904348; x=1725440348;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CY1547bCm+hDYrfUpX8fl4I5MjXMcs3kvbI95A16rtk=;
- b=CBh/yKUOkub+OHmnD72JgPGlhfI3p8/U8c2OsFAKNS85Vd+Y8WD/1SZS
- 3p8ciuDRJqxDWcTWz4qclmoS9+dmHQnpArvl3ApSZOHL3cRZx8nYsIuSZ
- sogH4+WnDnBMV0Y66LYYR/WcgOHVezq/vfk0qdbo0XZ172culdG+a2HM0
- 7IVnxeXH/yDsmZ6WVYF50vS+UgttoikmT4YCUbBmb76LX4FbZV/ZWmGoE
- ELTZSJE3p0H41OcDKVrpVWjWCO2UepRJqKkAJ6avjJnuu6+gq99U+db7d
- YYn4rdtiKzwAfKBzHppvT1x1IUtIbtZi9ArLAv+o+WJi0AiC3+hPHLGAH g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="407732486"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="407732486"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2023 01:59:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="744203617"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="744203617"
-Received: from chenxi4-mobl1.ccr.corp.intel.com (HELO fedora..)
- ([10.249.254.154])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2023 01:59:06 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
-Date: Tue,  5 Sep 2023 10:58:32 +0200
-Message-ID: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
-References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F87410E471
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 09:01:32 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D8C7566056FC;
+ Tue,  5 Sep 2023 10:01:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693904490;
+ bh=l2OPuoN0S34rozWzW5FLBGuPQ/HVeExL6jI/FMgrsFw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oJlHFuSx/Mbls9SEAuJdRoia704lXRQR4rorl9NOo6sPjt51NLBxdAs3eflHdPAsl
+ zh6ABc93As7NKbJaDeSJunY1bbrrI7zb/ugDG3/8OgoH7rQhor+KPmKHjA4VDXMwJQ
+ kNxDoRZtHOzHqdTN3ctJHc2ZZB9e0ZJVICKhFsz7BwzTp15frdv4yjtlC5OtIdb2iq
+ 0lmIIGncA+J4B0DAjvnagDqhQJhq7ybSqag7h8pBwO1PFXSwQfaIqUKwqhCJcreeb4
+ efzNyJNL56u9bim40iOhOC4Ys9Lfl0H35JGx45c5WLY10yib+a/6PB20m9FQ70rImc
+ 7jvmfRTsv4+qg==
+Message-ID: <33c9d30f-e378-597d-c258-2b2009c10649@collabora.com>
+Date: Tue, 5 Sep 2023 11:01:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs
+ calculation
+Content-Language: en-US
+To: Michael Walle <mwalle@kernel.org>,
+ =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= <nfraprado@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230905084922.3908121-1-mwalle@kernel.org>
+ <20230905084922.3908121-2-mwalle@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230905084922.3908121-2-mwalle@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,141 +60,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If *any* object of a certain WW mutex class is locked, lockdep will
-consider *all* mutexes of that class as locked. Also the lock allocation
-tracking code will apparently register only the address of the first
-mutex locked in a sequence.
-This has the odd consequence that if that first mutex is unlocked and
-its memory then freed, the lock alloc tracking code will assume that memory
-is freed with a held lock in there.
+Il 05/09/23 10:49, Michael Walle ha scritto:
+> mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
+> always have the CRTC with id 0, the ext id 1 and the third id 2. This
+> is only true if the paths are all available. But paths are optional (see
+> also comment in mtk_drm_kms_init()), e.g. the main path might not be
+> enabled or available at all. Then the CRTC IDs will shift one up, e.g.
+> ext will be 0 and the third path will be 1.
+> 
+> To fix that, dynamically calculate the IDs by the presence of the paths.
+> 
+> While at it, make the return code a signed one and return -ENOENT if no
+> path is found and handle the error in the callers.
+> 
+> Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
+> Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-For now, work around that for drm_exec by releasing the first grabbed
-object lock last.
+Perfect!
 
-Related lock alloc tracking warning:
-[  322.660067] =========================
-[  322.660070] WARNING: held lock freed!
-[  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
-[  322.660078] -------------------------
-[  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ffff888112adc3ff, with a lock still held there!
-[  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-[  322.660104] 2 locks held by kunit_try_catch/4981:
-[  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
-[  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-[  322.660135]
-               stack backtrace:
-[  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-[  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-[  322.660152] Call Trace:
-[  322.660155]  <TASK>
-[  322.660158]  dump_stack_lvl+0x57/0x90
-[  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
-[  322.660172]  slab_free_freelist_hook+0xa1/0x160
-[  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-[  322.660186]  __kmem_cache_free+0xb2/0x290
-[  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-[  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
-[  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
-[  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
-[  322.660222]  ? __kasan_check_byte+0xf/0x40
-[  322.660227]  ? __ksize+0x63/0x140
-[  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
-[  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-[  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
-[  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
-[  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-[  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-[  322.660328]  kthread+0x2e7/0x3c0
-[  322.660334]  ? __pfx_kthread+0x10/0x10
-[  322.660339]  ret_from_fork+0x2d/0x70
-[  322.660345]  ? __pfx_kthread+0x10/0x10
-[  322.660349]  ret_from_fork_asm+0x1b/0x30
-[  322.660358]  </TASK>
-[  322.660818]     ok 8 test_early_put
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/drm_exec.c |  2 +-
- include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
- 2 files changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-index ff69cf0fb42a..5d2809de4517 100644
---- a/drivers/gpu/drm/drm_exec.c
-+++ b/drivers/gpu/drm/drm_exec.c
-@@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
- 	struct drm_gem_object *obj;
- 	unsigned long index;
- 
--	drm_exec_for_each_locked_object(exec, index, obj) {
-+	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
- 		dma_resv_unlock(obj->resv);
- 		drm_gem_object_put(obj);
- 	}
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-index e0462361adf9..55764cf7c374 100644
---- a/include/drm/drm_exec.h
-+++ b/include/drm/drm_exec.h
-@@ -51,6 +51,20 @@ struct drm_exec {
- 	struct drm_gem_object *prelocked;
- };
- 
-+/**
-+ * drm_exec_obj() - Return the object for a give drm_exec index
-+ * @exec: Pointer to the drm_exec context
-+ * @index: The index.
-+ *
-+ * Return: Pointer to the locked object corresponding to @index if
-+ * index is within the number of locked objects. NULL otherwise.
-+ */
-+static inline struct drm_gem_object *
-+drm_exec_obj(struct drm_exec *exec, unsigned long index)
-+{
-+	return index < exec->num_objects ? exec->objects[index] : NULL;
-+}
-+
- /**
-  * drm_exec_for_each_locked_object - iterate over all the locked objects
-  * @exec: drm_exec object
-@@ -59,10 +73,23 @@ struct drm_exec {
-  *
-  * Iterate over all the locked GEM objects inside the drm_exec object.
-  */
--#define drm_exec_for_each_locked_object(exec, index, obj)	\
--	for (index = 0, obj = (exec)->objects[0];		\
--	     index < (exec)->num_objects;			\
--	     ++index, obj = (exec)->objects[index])
-+#define drm_exec_for_each_locked_object(exec, index, obj)		\
-+	for ((index) = 0; ((obj) = drm_exec_obj(exec, index)); ++(index))
-+
-+/**
-+ * drm_exec_for_each_locked_object_reverse - iterate over all the locked
-+ * objects in reverse locking order
-+ * @exec: drm_exec object
-+ * @index: unsigned long index for the iteration
-+ * @obj: the current GEM object
-+ *
-+ * Iterate over all the locked GEM objects inside the drm_exec object in
-+ * reverse locking order. Note that @index may go below zero and wrap,
-+ * but that will be caught by drm_exec_object(), returning a NULL object.
-+ */
-+#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
-+	for ((index) = (exec)->num_objects - 1;				\
-+	     ((obj) = drm_exec_obj(exec, index)); --(index))
- 
- /**
-  * drm_exec_until_all_locked - loop until all GEM objects are locked
--- 
-2.41.0
+> ---
+> v4:
+>   - return -ENOENT if mtk_drm_find_possible_crtc_by_comp() doesn't find
+>     any path
+> v3:
+>   - use data instead of priv_n->data
+>   - fixed typos
+>   - collected Rb and Tb tags
+> v2:
+>   - iterate over all_drm_private[] to get any vdosys
+>   - new check if a path is available
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dpi.c          |  5 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 75 ++++++++++++++++-----
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  3 +-
+>   drivers/gpu/drm/mediatek/mtk_dsi.c          |  5 +-
+>   4 files changed, 68 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 2f931e4e2b60..f9250f7ee706 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -796,7 +796,10 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+>   		return ret;
+>   	}
+>   
+> -	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
+> +	ret = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
+> +	if (ret < 0)
+> +		goto err_cleanup;
+> +	dpi->encoder.possible_crtcs = ret;
+>   
+>   	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
+>   				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 771f4e173353..83ae75ecd858 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -507,6 +507,27 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
+>   	return false;
+>   }
+>   
+> +static bool mtk_ddp_path_available(const unsigned int *path,
+> +				   unsigned int path_len,
+> +				   struct device_node **comp_node)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!path)
+> +		return false;
+> +
+> +	for (i = 0U; i < path_len; i++) {
+> +		/* OVL_ADAPTOR doesn't have a device node */
+> +		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
+> +			continue;
+> +
+> +		if (!comp_node[path[i]])
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>   int mtk_ddp_comp_get_id(struct device_node *node,
+>   			enum mtk_ddp_comp_type comp_type)
+>   {
+> @@ -522,25 +543,47 @@ int mtk_ddp_comp_get_id(struct device_node *node,
+>   	return -EINVAL;
+>   }
+>   
+> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+> -						struct device *dev)
+> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct device *dev)
+>   {
+>   	struct mtk_drm_private *private = drm->dev_private;
+> -	unsigned int ret = 0;
+> -
+> -	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
+> -				     private->ddp_comp))
+> -		ret = BIT(0);
+> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
+> -					  private->data->ext_len, private->ddp_comp))
+> -		ret = BIT(1);
+> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
+> -					  private->data->third_len, private->ddp_comp))
+> -		ret = BIT(2);
+> -	else
+> -		DRM_INFO("Failed to find comp in ddp table\n");
+> +	const struct mtk_mmsys_driver_data *data;
+> +	struct mtk_drm_private *priv_n;
+> +	int i = 0, j;
+> +
+> +	for (j = 0; j < private->data->mmsys_dev_num; j++) {
+> +		priv_n = private->all_drm_private[j];
+> +		data = priv_n->data;
+> +
+> +		if (mtk_ddp_path_available(data->main_path, data->main_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->main_path,
+> +						     data->main_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +
+> +		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->ext_path,
+> +						     data->ext_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +
+> +		if (mtk_ddp_path_available(data->third_path, data->third_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->third_path,
+> +						     data->third_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +	}
+>   
+> -	return ret;
+> +	DRM_INFO("Failed to find comp in ddp table\n");
+> +	return -ENOENT;
+>   }
+>   
+>   int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> index febcaeef16a1..6a95df72de0a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -277,8 +277,7 @@ static inline bool mtk_ddp_comp_disconnect(struct mtk_ddp_comp *comp, struct dev
+>   
+>   int mtk_ddp_comp_get_id(struct device_node *node,
+>   			enum mtk_ddp_comp_type comp_type);
+> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+> -						struct device *dev);
+> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct device *dev);
+>   int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
+>   		      unsigned int comp_id);
+>   enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index d8bfc2cce54d..d67e5c61a9b9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -843,7 +843,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+>   		return ret;
+>   	}
+>   
+> -	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+> +	ret = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+> +	if (ret < 0)
+> +		goto err_cleanup_encoder;
+> +	dsi->encoder.possible_crtcs = ret;
+>   
+>   	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+>   				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 
