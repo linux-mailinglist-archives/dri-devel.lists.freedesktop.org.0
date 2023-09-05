@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9406279231C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFA1792321
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7AC10E0D3;
-	Tue,  5 Sep 2023 13:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706C010E194;
+	Tue,  5 Sep 2023 13:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A287610E194
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 13:36:55 +0000 (UTC)
-Received: from [192.168.1.23] (unknown [171.76.82.102])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8925A66028F5;
- Tue,  5 Sep 2023 14:36:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693921014;
- bh=Jrym+Ky16xApwfLUAeFb6AP634wzyVW+sZXlItpUeVA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C8/+a4DuIQRb0J3o7lNrwSoVRG1+YurJ+S/AWRRmeXMd6FpAVrzaW+mkXBemfTWOM
- Vz+5vKLJX8hhwhW1eJ4xEUo4DFoVXahuSO1Xf5IC09U2tNkWsHKNys/6IDUCdSUgCV
- +VxNygTXoEfwohPaZqbsGtSw7MECBECFl2Eo962KXal/5SaLmx5SUCNIeWdyMDgE0V
- LMh++CG+U3jtZ7OPTRHukHPMyyocraqM7ScRkm7BsXzIugmxRFezrxObEIBt4oE1G0
- FZi3cUJVFHx9tcJhULppHUI0VyUqFcx8+HjU3XQH2edua5LgoE81hSBjyuUnMTaUEo
- zcujGn0lBtVAQ==
-Message-ID: <427ceb32-054f-41ff-df95-446b18aa178f@collabora.com>
-Date: Tue, 5 Sep 2023 19:06:43 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4853010E50A
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 13:41:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7E1DCB810D1;
+ Tue,  5 Sep 2023 13:41:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA8CC433C8;
+ Tue,  5 Sep 2023 13:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693921261;
+ bh=Uvy2CPc4Wf3EmKiapYddhGQwSCoeFK0JXoU7RKfJDbk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ef6ARLaLyVlsExJtD1u2IbeHQs6i4Qmn1d6d4745bnC2cgBTDU77MMyGSLuYGGE1E
+ MjPEYpDRVERFuNQhaL+wC8ezxuL7/sJN0vb4GfMjhbkmc8xPwj+fW21w1YoFAuEifK
+ VTtJj/jB2uLOPHjbjlGhcbKPORnltb/iJdZmK5vOEM20RTpypJhQX3+6QoLFwhIJ7x
+ 2Qb4me9mbLj5AMipUT4r2RFXVzAgkJGgUyViGL57o+vffnujqL6ahaBYODqL6ZAPGM
+ 9seyX7aNIqggY6azgVSjIxJsqc5N/6OIdTCIk30jPoCFHnFfr4tjAELSBKshMHeCx8
+ 91LqBPdWW8GJw==
+Date: Tue, 5 Sep 2023 15:40:57 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
 Subject: Re: [PATCH v2 2/7] drm: ci: Force db410c to host mode
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
+Message-ID: <6uusq7jlofbztz34yksxbr6vgqq35a3x7ibuqm62dyrpzve4g5@boaladlcrjnv>
 References: <20230904161516.66751-1-vignesh.raman@collabora.com>
  <20230904161516.66751-3-vignesh.raman@collabora.com>
  <CAA8EJpq_cmFQ6TGy1xELh3ButWKLfSkQcp5ix049s_iqKw6DvQ@mail.gmail.com>
@@ -45,10 +45,12 @@ References: <20230904161516.66751-1-vignesh.raman@collabora.com>
  <CAA8EJpoGoopP64T1nm1ye1ukTwT=u+LYY1ubQG-9dQ-j41iHiA@mail.gmail.com>
  <6be5f5d8-8940-c79b-4a01-3f3d73641e4e@collabora.com>
  <ktikqf5hu2dmqb4p7dvrqv2tjm565qn3qu2gggrvncfu47l23j@o6t2rnpbya3x>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <ktikqf5hu2dmqb4p7dvrqv2tjm565qn3qu2gggrvncfu47l23j@o6t2rnpbya3x>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <427ceb32-054f-41ff-df95-446b18aa178f@collabora.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zzvnm44fyzbgrw5r"
+Content-Disposition: inline
+In-Reply-To: <427ceb32-054f-41ff-df95-446b18aa178f@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +74,72 @@ Cc: robdclark@google.com, daniels@collabora.com, emma@anholt.net,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-On 05/09/23 17:27, Maxime Ripard wrote:
-> On Tue, Sep 05, 2023 at 05:11:43PM +0530, Vignesh Raman wrote:
->>>> Also, that node actually has a label ("usb"), defined here:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/msm8916.dtsi#n2322
->>>>
->>>> So you can end up with
->>>>
->>>> &usb {
->>>>           dr_mode = "host";
->>>> };
->>>
->>> ... which is the simplest and thus more robust one.
->>>
->>
->> Should it be,
->> &{/soc@0/usb} {
->> 	dr_mode = "host";
->> };
-> 
-> No. The &{/...} syntax refers to a path. &... refers to a label. They
-> are not equivalent.
+--zzvnm44fyzbgrw5r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry I was not clear before.
+On Tue, Sep 05, 2023 at 07:06:43PM +0530, Vignesh Raman wrote:
+> Hi Maxime,
+>=20
+> On 05/09/23 17:27, Maxime Ripard wrote:
+> > On Tue, Sep 05, 2023 at 05:11:43PM +0530, Vignesh Raman wrote:
+> > > > > Also, that node actually has a label ("usb"), defined here:
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/tree/arch/arm64/boot/dts/qcom/msm8916.dtsi#n2322
+> > > > >=20
+> > > > > So you can end up with
+> > > > >=20
+> > > > > &usb {
+> > > > >           dr_mode =3D "host";
+> > > > > };
+> > > >=20
+> > > > ... which is the simplest and thus more robust one.
+> > > >=20
+> > >=20
+> > > Should it be,
+> > > &{/soc@0/usb} {
+> > > 	dr_mode =3D "host";
+> > > };
+> >=20
+> > No. The &{/...} syntax refers to a path. &... refers to a label. They
+> > are not equivalent.
+>=20
+> Sorry I was not clear before.
+>=20
+> With,
+> &usb {
+> 	dr_mode =3D "host";
+> };
+>=20
+> The target is <0xffffffff> and fdtoverlay fails to apply the dtbo.
 
-With,
-&usb {
-	dr_mode = "host";
-};
+You do have /plugin/ and have compiled the base device tree with overlay
+support, right?
 
-The target is <0xffffffff> and fdtoverlay fails to apply the dtbo.
+> With,
+> &{/soc@0/usb} {
+>          dr_mode =3D "host";
+> };
+>=20
+> The target-path is "/soc@0/usb" (usb: usb@78d9000)
 
-With,
-&{/soc@0/usb} {
-          dr_mode = "host";
-};
+Right, and that's not the path you want to modify. The path you want to
+modify is /soc@0/usb@78d9000. usb is the label, it's absolute, and you
+can't mix and match a path ("/soc@0/") and a label ("usb")
 
-The target-path is "/soc@0/usb" (usb: usb@78d9000)
+Maxime
 
-/ {
+--zzvnm44fyzbgrw5r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	fragment@0 {
-		target-path = "/soc@0/usb";
+-----BEGIN PGP SIGNATURE-----
 
-		__overlay__ {
-			dr_mode = "host";
-		};
-	};
-};
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPcv6QAKCRDj7w1vZxhR
+xfUfAPsGADRw4k1O20bltzgYsVzleJ+qXoptLhYG6tJKe0W2dgD7B15nLB6bDOQA
+W+FAFDt2PF7aelZR4Wdn21phYMb4LAI=
+=BmTo
+-----END PGP SIGNATURE-----
 
-So will use  &{/...} syntax in this case.
-
-Regards,
-Vignesh
+--zzvnm44fyzbgrw5r--
