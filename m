@@ -2,71 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49F5792304
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E81792310
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35D810E512;
-	Tue,  5 Sep 2023 13:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 879CB10E508;
+	Tue,  5 Sep 2023 13:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D43510E506;
- Tue,  5 Sep 2023 13:28:19 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-401da71b83cso24104565e9.2; 
- Tue, 05 Sep 2023 06:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693920497; x=1694525297; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HO60y5WvecntGMap+7ti8637GtVXXtrbirknYBL6Q24=;
- b=FlQAyFQNK/BHXuK3A3+GzQ/ahXcyYwEYohsqtdXggwfUDL0di68lxE1t82nWbkHVNH
- 9H4y598jlcymkjXv5Vl4gMkeo5y1GMKxd3ExeafUnU9cZ/wvkorTWZn36nyfUByraDMn
- OvJ5zfT9XVkaw8q2082Lbw2pVMLd3kr3bYIfbs8rDDE1v8qqn9fb+NZf/JOplb1ht/Pt
- MrAJRW9981kBQFpeKWebi44oDMpurtFCVBBUb3pfdC02dPQLWTATDF3L+RrHixrNpKbS
- ikYs6H6tUSQtKfHN4irN5UVmXRbNtXASU0DDY3y9Q8YaW6gDcY1v6v9coHc1JxRjCENP
- Iwng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693920497; x=1694525297;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HO60y5WvecntGMap+7ti8637GtVXXtrbirknYBL6Q24=;
- b=U2kosq0OW3eYNwdq0iuZldMCNraG5UsZrbCC9Pz3ciGASf/uARiB1T0+HL7MFmmIm1
- Xb4HfAQeucHX1x5b8ybvDNG+s5Wk6ERMaj5YiOSO1mL+R5Ftkh8rdUCNI2xtHc1cFaA7
- T3V7pPYeX9bBcJ2mz2Qztl+GcGp1FC2Uizb3atv+x/rMBweA7zkju/p7jrUTstyNzRsq
- nxUTQlz2mYoxhAAUe5NAh7NDvHDSBevfGpFuNvwRGQsIUFM9sEJiM+HQNserZJiBfB/V
- xW5g+85kSdISE9nxaEnsJTWg7xctkUtDNUDULK2G00FDZWl+4nkue4kbRB3Ck0zfYOWq
- ynag==
-X-Gm-Message-State: AOJu0YzuBqVNxothL7dwUwE1iQccaOPqYVDDfXQbdeGynsK2JntTz1BG
- btGKCONenLtPiInJzWeWfSs=
-X-Google-Smtp-Source: AGHT+IE9N4h9DnLrGBA6w0mD6fm9bBMgaxlwOB4SKAbQC3od7Yg6OmwCuXYoDvsI34rJ37MMdyjrhQ==
-X-Received: by 2002:a5d:4408:0:b0:313:f399:6cea with SMTP id
- z8-20020a5d4408000000b00313f3996ceamr9182865wrq.4.1693920497247; 
- Tue, 05 Sep 2023 06:28:17 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- n10-20020adfe78a000000b0031aca6cc69csm17618765wrm.2.2023.09.05.06.28.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Sep 2023 06:28:16 -0700 (PDT)
-Message-ID: <b11fedb4-d577-d007-0ef8-ac62775d9eee@gmail.com>
-Date: Tue, 5 Sep 2023 15:28:14 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8A92810E50D;
+ Tue,  5 Sep 2023 13:31:16 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Bx5fCgLfdkKpwfAA--.64132S3;
+ Tue, 05 Sep 2023 21:31:12 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxPCOQLfdkY_hsAA--.46601S3; 
+ Tue, 05 Sep 2023 21:31:12 +0800 (CST)
+Message-ID: <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
+Date: Tue, 5 Sep 2023 21:30:56 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user to select
- the primary video adapter at boot time
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>
+ Thunderbird/102.15.0
+Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
+ to select the primary video adapter at boot time
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
 References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <874jk8j45s.fsf@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <874jk8j45s.fsf@intel.com>
+ <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxPCOQLfdkY_hsAA--.46601S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFy5CFWxGryftF48tr1fuFX_yoWrAFWUpF
+ WFqFWjkrWkGa18Jry7Aw1FvFyrXws5Jay5Kr1kCF98Zrs8Gr40vry2qw4q9a4UJr4rZ3WY
+ qrWagw17uFyDAabCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+ McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+ I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
+ x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r
+ 1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
+ 64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
+ 0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+ 0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8HKZJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,128 +69,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-pci@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.09.23 um 12:38 schrieb Jani Nikula:
-> On Tue, 05 Sep 2023, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+Hi,
+
+
+On 2023/9/5 18:45, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 04.09.23 um 21:57 schrieb Sui Jingfeng:
 >> From: Sui Jingfeng <suijingfeng@loongson.cn>
 >>
 >> On a machine with multiple GPUs, a Linux user has no control over which
 >> one is primary at boot time. This series tries to solve above mentioned
->> problem by introduced the ->be_primary() function stub. The specific
->> device drivers can provide an implementation to hook up with this stub by
->> calling the vga_client_register() function.
->>
->> Once the driver bound the device successfully, VGAARB will call back to
->> the device driver. To query if the device drivers want to be primary or
->> not. Device drivers can just pass NULL if have no such needs.
->>
->> Please note that:
->>
->> 1) The ARM64, Loongarch, Mips servers have a lot PCIe slot, and I would
->>     like to mount at least three video cards.
-
-Well, you rarely find a board which can actually handle a single one :)
-
->>
->> 2) Typically, those non-86 machines don't have a good UEFI firmware
->>     support, which doesn't support select primary GPU as firmware stage.
->>     Even on x86, there are old UEFI firmwares which already made undesired
->>     decision for you.
->>
->> 3) This series is attempt to solve the remain problems at the driver level,
->>     while another series[1] of me is target to solve the majority of the
->>     problems at device level.
->>
->> Tested (limited) on x86 with four video card mounted, Intel UHD Graphics
->> 630 is the default boot VGA, successfully override by ast2400 with
->> ast.modeset=10 append at the kernel cmd line.
-> The value 10 is incredibly arbitrary, and multiplied as a magic number
-> all over the place.
-
-+1
-
 >
->> $ lspci | grep VGA
->>
->>   00:02.0 VGA compatible controller: Intel Corporation CoffeeLake-S GT2 [UHD Graphics 630]
->>   01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Caicos XTX [Radeon HD 8490 / R5 235X OEM]
->>   04:00.0 VGA compatible controller: ASPEED Technology, Inc. ASPEED Graphics Family (rev 30)
->>   05:00.0 VGA compatible controller: NVIDIA Corporation GK208B [GeForce GT 720] (rev a1)
-> In this example, all of the GPUs are driven by different drivers. What
-> good does a module parameter do if you have multiple GPUs of the same
-> model, all driven by the same driver module?
-
-Completely agree. Question is what is the benefit for the end user to 
-actually specify this?
-
-If you want the initial console on a different device than implement a 
-kernel options for vgaarb and *not* the drivers.
-
-Regards,
-Christian.
-
+> If anything, the primary graphics adapter is the one initialized by 
+> the firmware. I think our boot-up graphics also make this assumption 
+> implicitly.
 >
-> BR,
-> Jani.
+
+Yes, but by the time of DRM drivers get loaded successfully,the boot-up graphics already finished.
+Firmware framebuffer device already get killed by the drm_aperture_remove_conflicting_pci_framebuffers()
+function (or its siblings). So, this series is definitely not to interact with the firmware framebuffer
+(or more intelligent framebuffer drivers).  It is for user space program, such as X server and Wayland
+compositor. Its for Linux user or drm drivers testers, which allow them to direct graphic display server
+using right hardware of interested as primary video card.
+
+Also, I believe that X server and Wayland compositor are the best test examples.
+If a specific DRM driver can't work with X server as a primary,
+then there probably have something wrong.
+
+
+> But what's the use case for overriding this setting?
 >
->> $ sudo dmesg | grep vgaarb
->>
->>   pci 0000:00:02.0: vgaarb: setting as boot VGA device
->>   pci 0000:00:02.0: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
->>   pci 0000:01:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
->>   pci 0000:04:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
->>   pci 0000:05:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
->>   vgaarb: loaded
->>   ast 0000:04:00.0: vgaarb: Override as primary by driver
->>   i915 0000:00:02.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=io+mem
->>   radeon 0000:01:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=none
->>   ast 0000:04:00.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=none:owns=none
->>
->> v2:
->> 	* Add a simple implemment for drm/i915 and drm/ast
->> 	* Pick up all tags (Mario)
->> v3:
->> 	* Fix a mistake for drm/i915 implement
->> 	* Fix patch can not be applied problem because of merge conflect.
->> v4:
->> 	* Focus on solve the real problem.
->>
->> v1,v2 at https://patchwork.freedesktop.org/series/120059/
->>     v3 at https://patchwork.freedesktop.org/series/120562/
->>
->> [1] https://patchwork.freedesktop.org/series/122845/
->>
->> Sui Jingfeng (9):
->>    PCI/VGA: Allowing the user to select the primary video adapter at boot
->>      time
->>    drm/nouveau: Implement .be_primary() callback
->>    drm/radeon: Implement .be_primary() callback
->>    drm/amdgpu: Implement .be_primary() callback
->>    drm/i915: Implement .be_primary() callback
->>    drm/loongson: Implement .be_primary() callback
->>    drm/ast: Register as a VGA client by calling vga_client_register()
->>    drm/hibmc: Register as a VGA client by calling vga_client_register()
->>    drm/gma500: Register as a VGA client by calling vga_client_register()
->>
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 11 +++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 13 ++++-
->>   drivers/gpu/drm/ast/ast_drv.c                 | 31 ++++++++++
->>   drivers/gpu/drm/gma500/psb_drv.c              | 57 ++++++++++++++++++-
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 15 +++++
->>   drivers/gpu/drm/i915/display/intel_vga.c      | 15 ++++-
->>   drivers/gpu/drm/loongson/loongson_module.c    |  2 +-
->>   drivers/gpu/drm/loongson/loongson_module.h    |  1 +
->>   drivers/gpu/drm/loongson/lsdc_drv.c           | 10 +++-
->>   drivers/gpu/drm/nouveau/nouveau_vga.c         | 11 +++-
->>   drivers/gpu/drm/radeon/radeon_device.c        | 10 +++-
->>   drivers/pci/vgaarb.c                          | 43 ++++++++++++--
->>   drivers/vfio/pci/vfio_pci_core.c              |  2 +-
->>   include/linux/vgaarb.h                        |  8 ++-
->>   14 files changed, 210 insertions(+), 19 deletions(-)
+
+On a specific machine with multiple GPUs mounted,
+only the primary graphics get POST-ed (initialized) by the firmware.
+Therefore, the DRM drivers for the rest video cards, have to choose to
+work without the prerequisite setups done by firmware, This is called as POST.
+
+One of the use cases of this series is to test if a specific DRM driver could works properly,
+even though there is no prerequisite works have been done by firmware at all.
+And it seems that the results is not satisfying in all cases.
+
+drm/ast is the first drm drivers which refused to work if not being POST-ed by the firmware.
+
+Before apply this series, I was unable make drm/ast as the primary video card easily. On a
+multiple video card configuration, the monitor connected with the AST2400 not light up.
+While confusing, a naive programmer may suspect the PRIME is not working.
+
+After applied this series and passing ast.modeset=10 on the kernel cmd line,
+I found that the monitor connected with my ast2400 video card still black,
+It doesn't display and doesn't show image to me.
+
+While in the process of study drm/ast, I know that drm/ast driver has the POST code shipped.
+See the ast_post_gpu() function, then, I was wondering why this function doesn't works.
+After a short-time (hasty) debugging, I found that the the ast_post_gpu() function
+didn't get run. Because it have something to do with the ast->config_mode.
+
+Without thinking too much, I hardcoded the ast->config_mode as ast_use_p2a to
+force the ast_post_gpu() function get run.
+
+```
+
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -132,6 +132,8 @@ static int ast_device_config_init(struct ast_device 
+*ast)
+                 }
+         }
+
++       ast->config_mode = ast_use_p2a;
++
+         switch (ast->config_mode) {
+         case ast_use_defaults:
+                 drm_info(dev, "Using default configuration\n");
+
+```
+
+Then, the monitor light up, it display the Ubuntu greeter to me.
+Therefore, my patch is helpful, at lease for the Linux drm driver tester and developer.
+It allow programmers to test the specific part of the specific drive
+without changing a line of the source code and without the need of sudo authority.
+It helps to improve efficiency of the testing and patch verification.
+
+I know the PrimaryGPU option of Xorg conf, but this approach will remember the setup
+have been made, you need modify it with root authority each time you want to switch
+the primary. But on rapid developing and/or testing multiple video drivers, with
+only one computer hardware resource available. What we really want probably is a
+one-shoot command as this series provide.
+
+So, this is the first use case. This probably also help to test full modeset,
+PRIME and reverse PRIME on multiple video card machine.
+
+
+> Best regards
+> Thomas
+>
 
