@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E82792160
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 11:18:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C83C3792166
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 11:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4939610E479;
-	Tue,  5 Sep 2023 09:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FC310E47B;
+	Tue,  5 Sep 2023 09:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86FC110E478
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 09:18:40 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-52bca2e8563so3089723a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 02:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693905519; x=1694510319; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7285Q0BPUJS4AjXHwwaQDN150bP7NlXYvd7YB5q6cnI=;
- b=G305ZaCzv1YHxplIoxtjmY5dBZnFowxx7R2XVkk1ESC3xIExbBEQSFrIU0paZ/XUvK
- s9SsZMi22LGP/5Wq/Agvi+6NFseh2vFFw2ExI46E86hEld1HA31suXXCG7rmTlcygkUp
- uZX4T3k91vaWekUY6usGqwvZeEGl1Ugir3XaSqDQCBjwCie3TTtIDXuY/frna09Xm30X
- EPrsXod4+cV1cCARwjsIUwcOEH053K+sz5UpZ4yVqNumyyRbfzITYn+16e4e4t4b3v1X
- 3djm/PHqL/swSom2Baz+Il5sQ++kUk+wodqcMI9SSF5ynHjytBy3bxsKaRDrxQ03mu+R
- w/7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693905519; x=1694510319;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7285Q0BPUJS4AjXHwwaQDN150bP7NlXYvd7YB5q6cnI=;
- b=XhiURCajjsL4/EBvQqh6SS00HVEsJBbExLh/5k/atQXiEXNuszysI1bvKuzEaYJncC
- yKQ32drzAc6wwp+yrLTqLN7iA0AJ2Esr/lysQyoRdUdQQjYT/oOJBd+3EE36MagUDK6M
- P+iMrpkS2JHaa1Zf0sytBlbu3+vtEtDYnGq9xwOGR5EpRetWrzuwXkF/r8qmZ5Ioax9b
- vDW1omR22fYYDt8dg9SPigQU5bncO0ulkC96zZZP501hTVnC53o4peHTSXOFFfDvLPQz
- fX3JF+vkxGp6lLp/j3x3sy3bB7NWfdC5rtw16f4ORVknzoLfu3BDZq9w66NYNZNjZmAs
- dMwA==
-X-Gm-Message-State: AOJu0Yyxl5wRESjrHS/86UFV7xteyUNuhxqKnhmXatY6h8GyBriu8bAg
- 7rsO/bU7N4u30CaxBCNVud8ThI9pPS0wa+c8B7U=
-X-Google-Smtp-Source: AGHT+IG80+yCL6hqxPRLpyl/TIbEROVavNAYNr7SkJxJ6/XeKQrqhbQs7MJKKY0FLpANWTlzShx8+xXmKDOb+W2ntkQ=
-X-Received: by 2002:a05:6402:358:b0:523:d715:b7b0 with SMTP id
- r24-20020a056402035800b00523d715b7b0mr8863834edw.31.1693905518703; Tue, 05
- Sep 2023 02:18:38 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0836E10E478;
+ Tue,  5 Sep 2023 09:22:10 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 87B076607033;
+ Tue,  5 Sep 2023 10:22:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693905728;
+ bh=IGfQqAyyNenzB8oZ59RATywiYb8GS7xeb/1iuKyZUUg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=cJjn9SS69x/mTUU42RtBztoxjK15CrN3P3hBkbIWwXHcHiah9djECa7RTGsQwLEfJ
+ NDYBvMUUtrKxlmwDj1kp2LC6nwDdEVg0FHPXumAH0oS0j1rtkJgvQWovrrylRWf/p0
+ bUBGrw0VaApQSzgdssbB9BS6x2WBDKxXCW9EKirpONRDJ/KKBcynsGQiD6A4KU6ueb
+ TNT1tEyMMyMUTp4U3mTMwXwPNyo/B2pl3J6pOrovUecjazEhH2O/z+RsMyqdr82Dgl
+ 0iX/pCiEw8sLofXPFH5hp7wdq7lvQGGIewp4BepTIu9jTekvwc1GaPjo5sfpofUGl5
+ 7WxvM/YPBsoQA==
+Date: Tue, 5 Sep 2023 11:22:05 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
+Message-ID: <20230905112205.35a60cf0@collabora.com>
+In-Reply-To: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
+References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
+ <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
- <20230818-samsung-dsim-v1-2-b39716db6b7a@pengutronix.de>
- <CAAQKjZOuRVsF7vE6ghBG7KH_QkE-5_UXjXMY080ynzZLpDjs7w@mail.gmail.com>
- <20230904110443.GB224131@pengutronix.de>
-In-Reply-To: <20230904110443.GB224131@pengutronix.de>
-From: Inki Dae <daeinki@gmail.com>
-Date: Tue, 5 Sep 2023 18:18:26 +0900
-Message-ID: <CAAQKjZMc76KqO3XaZCyhNVZF82_KqUfWy0WBOTUpAQ74pLEt8Q@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/bridge: samsung-dsim: reread ref clock before
- configuring PLL
-To: Michael Tretter <m.tretter@pengutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000b9b91a0604991c9a"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,348 +54,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, kernel@pengutronix.de,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Danilo Krummrich <dakr@redhat.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b9b91a0604991c9a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue,  5 Sep 2023 10:58:32 +0200
+Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
 
-2023=EB=85=84 9=EC=9B=94 4=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 8:05, Mi=
-chael Tretter <m.tretter@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:
+> If *any* object of a certain WW mutex class is locked, lockdep will
+> consider *all* mutexes of that class as locked. Also the lock allocation
+> tracking code will apparently register only the address of the first
+> mutex locked in a sequence.
+> This has the odd consequence that if that first mutex is unlocked and
+> its memory then freed, the lock alloc tracking code will assume that memo=
+ry
+> is freed with a held lock in there.
+>=20
+> For now, work around that for drm_exec by releasing the first grabbed
+> object lock last.
 
-> On Mon, 04 Sep 2023 13:38:33 +0900, Inki Dae wrote:
-> > 2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:=
-59, Michael Tretter <m.tretter@pengutronix.de>=EB=8B=98=EC=9D=B4
-> =EC=9E=91=EC=84=B1:
-> >
-> > >
-> > > The PLL reference clock may change at runtime. Thus, reading the cloc=
-k
-> > > rate during probe is not sufficient to correctly configure the PLL fo=
-r
-> > > the expected hs clock.
-> > >
-> > > Read the actual rate of the reference clock before calculating the PL=
-L
-> > > configuration parameters.
-> > >
-> > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > > ---
-> > >  drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------
-> > >  include/drm/bridge/samsung-dsim.h     |  1 +
-> > >  2 files changed, 10 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > index 6778f1751faa..da90c2038042 100644
-> > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > @@ -611,7 +611,12 @@ static unsigned long samsung_dsim_set_pll(struct
-> samsung_dsim *dsi,
-> > >         u16 m;
-> > >         u32 reg;
-> > >
-> > > -       fin =3D dsi->pll_clk_rate;
-> > > +       if (dsi->pll_clk)
-> > > +               fin =3D clk_get_rate(dsi->pll_clk);
-> > > +       else
-> > > +               fin =3D dsi->pll_clk_rate;
-> > > +       dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
-> > > +
-> >
-> > Could you share us the actual use case that in runtime the pll
-> > reference clock can be changed?
->
-> On i.MX8M Nano, the VIDEO_PLL_CLK drives the DISPLAY_PIXEL_CLK_ROOT, whic=
-h
-> is
-> used as pixel clock by the LCDIF. Changes to the pixel clock propagate to
-> the
-> VIDEO_PLL_CLK and may reconfigure the VIDEO_PLL_CLK. This is done to redu=
-ce
-> the error on the pixel clock.
->
-> As the ADV3575 as MIPI-DSI device reconstructs the pixel clock, it is
-> necessary to keep the pixel clock and MIDI-DSI reference clock in
-> sync. This can be done by using the VIDEO_PLL_CLK to drive the PLL
-> reference
-> clock (MIPI_DSI_CORE_CLK_ROOT). Without this, a connected HDMI Monitor wi=
-ll
-> occasionally loose sync.
->
-> In this setup, a mode change that changes the pixel clock may change the
-> VIDEO_PLL, which will change the PLL reference clock.
->
+It's probably a good thing to unlock in reverse order anyway, just like
+we do for regular locks.
 
-Thanks for sharing.
+>=20
+> Related lock alloc tracking warning:
+> [  322.660067] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> [  322.660070] WARNING: held lock freed!
+> [  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
+> [  322.660078] -------------------------
+> [  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ff=
+ff888112adc3ff, with a lock still held there!
+> [  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3},=
+ at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
+> [  322.660104] 2 locks held by kunit_try_catch/4981:
+> [  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}=
+-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
+> [  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{=
+3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
+> [  322.660135]
+>                stack backtrace:
+> [  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U   =
+        N 6.5.0-rc7+ #155
+> [  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, =
+BIOS 0403 01/26/2021
+> [  322.660152] Call Trace:
+> [  322.660155]  <TASK>
+> [  322.660158]  dump_stack_lvl+0x57/0x90
+> [  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
+> [  322.660172]  slab_free_freelist_hook+0xa1/0x160
+> [  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
+> [  322.660186]  __kmem_cache_free+0xb2/0x290
+> [  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
+> [  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
+> [  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
+> [  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
+> [  322.660222]  ? __kasan_check_byte+0xf/0x40
+> [  322.660227]  ? __ksize+0x63/0x140
+> [  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
+> [  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
+> [  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
+> [  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kun=
+it]
+> [  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
+> [  322.660328]  kthread+0x2e7/0x3c0
+> [  322.660334]  ? __pfx_kthread+0x10/0x10
+> [  322.660339]  ret_from_fork+0x2d/0x70
+> [  322.660345]  ? __pfx_kthread+0x10/0x10
+> [  322.660349]  ret_from_fork_asm+0x1b/0x30
+> [  322.660358]  </TASK>
+> [  322.660818]     ok 8 test_early_put
+>=20
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-> >
-> > This patch is trying to change clock binding behavior which is
-> > described in dt binding[1]
-> > [1]
-> Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-> >
-> > It says,
-> > "DISM oscillator clock frequency. If absent, the clock frequency of
-> > sclk_mipi will be used instead."
-> >
-> > However, this patch makes the sclk_mipi to be used first.
->
-> No, the behavior, as described in the dt binding, is preserved by the hun=
-k
-> below. dsi->pll_clk is only set, if the samsung,pll-clock-frequency
-> property
-> is absent. If the dt property exists, dsi->pll_clk will be NULL and
-> dsi->pll_clk_rate will be used here.
->
+> ---
+>  drivers/gpu/drm/drm_exec.c |  2 +-
+>  include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
+>  2 files changed, 32 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+> index ff69cf0fb42a..5d2809de4517 100644
+> --- a/drivers/gpu/drm/drm_exec.c
+> +++ b/drivers/gpu/drm/drm_exec.c
+> @@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
+>  	struct drm_gem_object *obj;
+>  	unsigned long index;
+> =20
+> -	drm_exec_for_each_locked_object(exec, index, obj) {
+> +	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
+>  		dma_resv_unlock(obj->resv);
+>  		drm_gem_object_put(obj);
+>  	}
+> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> index e0462361adf9..55764cf7c374 100644
+> --- a/include/drm/drm_exec.h
+> +++ b/include/drm/drm_exec.h
+> @@ -51,6 +51,20 @@ struct drm_exec {
+>  	struct drm_gem_object *prelocked;
+>  };
+> =20
+> +/**
+> + * drm_exec_obj() - Return the object for a give drm_exec index
+> + * @exec: Pointer to the drm_exec context
+> + * @index: The index.
+> + *
+> + * Return: Pointer to the locked object corresponding to @index if
+> + * index is within the number of locked objects. NULL otherwise.
+> + */
+> +static inline struct drm_gem_object *
+> +drm_exec_obj(struct drm_exec *exec, unsigned long index)
+> +{
+> +	return index < exec->num_objects ? exec->objects[index] : NULL;
+> +}
+> +
+>  /**
+>   * drm_exec_for_each_locked_object - iterate over all the locked objects
+>   * @exec: drm_exec object
+> @@ -59,10 +73,23 @@ struct drm_exec {
+>   *
+>   * Iterate over all the locked GEM objects inside the drm_exec object.
+>   */
+> -#define drm_exec_for_each_locked_object(exec, index, obj)	\
+> -	for (index =3D 0, obj =3D (exec)->objects[0];		\
+> -	     index < (exec)->num_objects;			\
+> -	     ++index, obj =3D (exec)->objects[index])
+> +#define drm_exec_for_each_locked_object(exec, index, obj)		\
+> +	for ((index) =3D 0; ((obj) =3D drm_exec_obj(exec, index)); ++(index))
+> +
+> +/**
+> + * drm_exec_for_each_locked_object_reverse - iterate over all the locked
+> + * objects in reverse locking order
+> + * @exec: drm_exec object
+> + * @index: unsigned long index for the iteration
+> + * @obj: the current GEM object
+> + *
+> + * Iterate over all the locked GEM objects inside the drm_exec object in
+> + * reverse locking order. Note that @index may go below zero and wrap,
+> + * but that will be caught by drm_exec_object(), returning a NULL object.
+> + */
+> +#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
+> +	for ((index) =3D (exec)->num_objects - 1;				\
+> +	     ((obj) =3D drm_exec_obj(exec, index)); --(index))
+> =20
+>  /**
+>   * drm_exec_until_all_locked - loop until all GEM objects are locked
 
-It's true. No behavior change. There was my mistake. Thanks. :)
-
-
-> Michael
->
-> >
-> > Thanks,
-> > Inki Dae
-> >
-> > >         fout =3D samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s=
-);
-> > >         if (!fout) {
-> > >                 dev_err(dsi->dev,
-> > > @@ -1821,18 +1826,15 @@ static int samsung_dsim_parse_dt(struct
-> samsung_dsim *dsi)
-> > >         u32 lane_polarities[5] =3D { 0 };
-> > >         struct device_node *endpoint;
-> > >         int i, nr_lanes, ret;
-> > > -       struct clk *pll_clk;
-> > >
-> > >         ret =3D samsung_dsim_of_read_u32(node,
-> "samsung,pll-clock-frequency",
-> > >                                        &dsi->pll_clk_rate, 1);
-> > >         /* If it doesn't exist, read it from the clock instead of
-> failing */
-> > >         if (ret < 0) {
-> > >                 dev_dbg(dev, "Using sclk_mipi for pll clock
-> frequency\n");
-> > > -               pll_clk =3D devm_clk_get(dev, "sclk_mipi");
-> > > -               if (!IS_ERR(pll_clk))
-> > > -                       dsi->pll_clk_rate =3D clk_get_rate(pll_clk);
-> > > -               else
-> > > -                       return PTR_ERR(pll_clk);
-> > > +               dsi->pll_clk =3D devm_clk_get(dev, "sclk_mipi");
-> > > +               if (IS_ERR(dsi->pll_clk))
-> > > +                       return PTR_ERR(dsi->pll_clk);
-> > >         }
-> > >
-> > >         /* If it doesn't exist, use pixel clock instead of failing */
-> > > diff --git a/include/drm/bridge/samsung-dsim.h
-> b/include/drm/bridge/samsung-dsim.h
-> > > index 05100e91ecb9..31ff88f152fb 100644
-> > > --- a/include/drm/bridge/samsung-dsim.h
-> > > +++ b/include/drm/bridge/samsung-dsim.h
-> > > @@ -87,6 +87,7 @@ struct samsung_dsim {
-> > >         void __iomem *reg_base;
-> > >         struct phy *phy;
-> > >         struct clk **clks;
-> > > +       struct clk *pll_clk;
-> > >         struct regulator_bulk_data supplies[2];
-> > >         int irq;
-> > >         struct gpio_desc *te_gpio;
-> > >
-> > > --
-> > > 2.39.2
-> > >
-> >
->
-
---000000000000b9b91a0604991c9a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">2023=EB=85=84 9=EC=9B=94 4=EC=9D=BC (=EC=9B=94) =EC=98=
-=A4=ED=9B=84 8:05, Michael Tretter &lt;<a href=3D"mailto:m.tretter@pengutro=
-nix.de">m.tretter@pengutronix.de</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">On Mon, 04 Sep 2023 13:38:33 +=
-0900, Inki Dae wrote:<br>
-&gt; 2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12=
-:59, Michael Tretter &lt;<a href=3D"mailto:m.tretter@pengutronix.de" target=
-=3D"_blank" rel=3D"noreferrer">m.tretter@pengutronix.de</a>&gt;=EB=8B=98=EC=
-=9D=B4 =EC=9E=91=EC=84=B1:<br>
-&gt; <br>
-&gt; &gt;<br>
-&gt; &gt; The PLL reference clock may change at runtime. Thus, reading the =
-clock<br>
-&gt; &gt; rate during probe is not sufficient to correctly configure the PL=
-L for<br>
-&gt; &gt; the expected hs clock.<br>
-&gt; &gt;<br>
-&gt; &gt; Read the actual rate of the reference clock before calculating th=
-e PLL<br>
-&gt; &gt; configuration parameters.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Michael Tretter &lt;<a href=3D"mailto:m.tretter@pe=
-ngutronix.de" target=3D"_blank" rel=3D"noreferrer">m.tretter@pengutronix.de=
-</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------=
-<br>
-&gt; &gt;=C2=A0 include/drm/bridge/samsung-dsim.h=C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 1 +<br>
-&gt; &gt;=C2=A0 2 files changed, 10 insertions(+), 7 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/=
-drm/bridge/samsung-dsim.c<br>
-&gt; &gt; index 6778f1751faa..da90c2038042 100644<br>
-&gt; &gt; --- a/drivers/gpu/drm/bridge/samsung-dsim.c<br>
-&gt; &gt; +++ b/drivers/gpu/drm/bridge/samsung-dsim.c<br>
-&gt; &gt; @@ -611,7 +611,12 @@ static unsigned long samsung_dsim_set_pll(st=
-ruct samsung_dsim *dsi,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u16 m;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 reg;<br>
-&gt; &gt;<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D dsi-&gt;pll_clk_rate;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi-&gt;pll_clk)<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D c=
-lk_get_rate(dsi-&gt;pll_clk);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D d=
-si-&gt;pll_clk_rate;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0dev_dbg(dsi-&gt;dev, &quot;PLL ref cl=
-ock freq %lu\n&quot;, fin);<br>
-&gt; &gt; +<br>
-&gt; <br>
-&gt; Could you share us the actual use case that in runtime the pll<br>
-&gt; reference clock can be changed?<br>
-<br>
-On i.MX8M Nano, the VIDEO_PLL_CLK drives the DISPLAY_PIXEL_CLK_ROOT, which =
-is<br>
-used as pixel clock by the LCDIF. Changes to the pixel clock propagate to t=
-he<br>
-VIDEO_PLL_CLK and may reconfigure the VIDEO_PLL_CLK. This is done to reduce=
-<br>
-the error on the pixel clock.<br>
-<br>
-As the ADV3575 as MIPI-DSI device reconstructs the pixel clock, it is<br>
-necessary to keep the pixel clock and MIDI-DSI reference clock in<br>
-sync. This can be done by using the VIDEO_PLL_CLK to drive the PLL referenc=
-e<br>
-clock (MIPI_DSI_CORE_CLK_ROOT). Without this, a connected HDMI Monitor will=
-<br>
-occasionally loose sync.<br>
-<br>
-In this setup, a mode change that changes the pixel clock may change the<br=
->
-VIDEO_PLL, which will change the PLL reference clock.<br></blockquote></div=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for sharing.</d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
-<br>
-&gt; <br>
-&gt; This patch is trying to change clock binding behavior which is<br>
-&gt; described in dt binding[1]<br>
-&gt; [1] Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim=
-.yaml<br>
-&gt; <br>
-&gt; It says,<br>
-&gt; &quot;DISM oscillator clock frequency. If absent, the clock frequency =
-of<br>
-&gt; sclk_mipi will be used instead.&quot;<br>
-&gt; <br>
-&gt; However, this patch makes the sclk_mipi to be used first.<br>
-<br>
-No, the behavior, as described in the dt binding, is preserved by the hunk<=
-br>
-below. dsi-&gt;pll_clk is only set, if the samsung,pll-clock-frequency prop=
-erty<br>
-is absent. If the dt property exists, dsi-&gt;pll_clk will be NULL and<br>
-dsi-&gt;pll_clk_rate will be used here.<br></blockquote></div></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">It&#39;s true. No behavior change. T=
-here was my mistake. Thanks. :)</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Michael<br>
-<br>
-&gt; <br>
-&gt; Thanks,<br>
-&gt; Inki Dae<br>
-&gt; <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fout =3D samsung_dsim_pll_find_p=
-ms(dsi, fin, freq, &amp;p, &amp;m, &amp;s);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!fout) {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_=
-err(dsi-&gt;dev,<br>
-&gt; &gt; @@ -1821,18 +1826,15 @@ static int samsung_dsim_parse_dt(struct s=
-amsung_dsim *dsi)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 lane_polarities[5] =3D { 0 }=
-;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct device_node *endpoint;<br=
->
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int i, nr_lanes, ret;<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0struct clk *pll_clk;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D samsung_dsim_of_read_u32=
-(node, &quot;samsung,pll-clock-frequency&quot;,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-amp;dsi-&gt;pll_clk_rate, 1);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* If it doesn&#39;t exist, read=
- it from the clock instead of failing */<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret &lt; 0) {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_=
-dbg(dev, &quot;Using sclk_mipi for pll clock frequency\n&quot;);<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll_clk =
-=3D devm_clk_get(dev, &quot;sclk_mipi&quot;);<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!IS_E=
-RR(pll_clk))<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0dsi-&gt;pll_clk_rate =3D clk_get_rate(pll_clk);<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0return PTR_ERR(pll_clk);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dsi-&gt;p=
-ll_clk =3D devm_clk_get(dev, &quot;sclk_mipi&quot;);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ER=
-R(dsi-&gt;pll_clk))<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0return PTR_ERR(dsi-&gt;pll_clk);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* If it doesn&#39;t exist, use =
-pixel clock instead of failing */<br>
-&gt; &gt; diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/brid=
-ge/samsung-dsim.h<br>
-&gt; &gt; index 05100e91ecb9..31ff88f152fb 100644<br>
-&gt; &gt; --- a/include/drm/bridge/samsung-dsim.h<br>
-&gt; &gt; +++ b/include/drm/bridge/samsung-dsim.h<br>
-&gt; &gt; @@ -87,6 +87,7 @@ struct samsung_dsim {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void __iomem *reg_base;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct phy *phy;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct clk **clks;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct clk *pll_clk;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct regulator_bulk_data suppl=
-ies[2];<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int irq;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct gpio_desc *te_gpio;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.39.2<br>
-&gt; &gt;<br>
-&gt; <br>
-</blockquote></div></div></div>
-
---000000000000b9b91a0604991c9a--
