@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C58792FF8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 22:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14074793056
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 22:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA8010E50A;
-	Tue,  5 Sep 2023 20:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B61A10E507;
+	Tue,  5 Sep 2023 20:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1841410E50A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 20:29:16 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9a63b2793ecso436316766b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 13:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693945754; x=1694550554;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Bpdw72cpSgmaX22+3FdeOvfo0LutgJ3/l7xm/56ifbU=;
- b=bPccczUJqSKWlcVrvFB08yCoexnjavLYg4/AfQkfpd4CKxE4bZtAQ11CBdcq78gu2J
- NooiMkLqyZBulX+/lP7sQMVoqBNbAvAVoFL2YE4l7tsRUr6P7GepggIKbVPhUGusNM6x
- Ki7AaQ+cDRicevQ+7ZHM7wMnJUrJZoDhE9VJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693945754; x=1694550554;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Bpdw72cpSgmaX22+3FdeOvfo0LutgJ3/l7xm/56ifbU=;
- b=Vk7Ha6OS5CbeWwH5slzS5+jUKcArx8HE1eJ10+f/lDWRcSskSWQcplh6sPStVHxD77
- JpblYGpW6yVBBR74QFGKJmExnMH7CHwRBuBCSXCV6C4TmmCY3qsVZjOwJCQ7QN+cwiJ6
- WmMOhLVdLvkq0OOhGudZtLuC3WpW4aXhoBuMyazwsNFT4nLcxKuSfXrSLtj613eGbvoc
- YnJPX0d7adX0PwPHj5jOFjZkhCk2E+9G7GHL2a8BLXIE9ymLsjm5Sghx0yrj9+Yhx7zJ
- 3tlJGD03QUb0WjsTCvv4Th0p245NvG2UkNRstHOEu3eTaMYpesWw3P98kh+06Kr+PcN1
- mrBw==
-X-Gm-Message-State: AOJu0Yy2cWDz2kobBthcfFEiJy1sv0rOG5K72yfV1ydd/e8AVp81upUX
- mNFHKjxO4vw8Ne2YMft0/gY7B217yb8SzeFFXKjDqyCt
-X-Google-Smtp-Source: AGHT+IFXbLtwCcKUkI1zDdFwHJJpSToxg/nussnK0GvgWNdMymbsWxjaPBYuhBib09lZvAu7sbreaA==
-X-Received: by 2002:a17:906:318c:b0:992:3897:1985 with SMTP id
- 12-20020a170906318c00b0099238971985mr720131ejy.43.1693945753946; 
- Tue, 05 Sep 2023 13:29:13 -0700 (PDT)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
- [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
- o21-20020a1709062e9500b009a13fdc139fsm8053209eji.183.2023.09.05.13.29.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Sep 2023 13:29:13 -0700 (PDT)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-402c80b71ecso25885e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 13:29:13 -0700 (PDT)
-X-Received: by 2002:a05:600c:1d28:b0:401:a494:2bbb with SMTP id
- l40-20020a05600c1d2800b00401a4942bbbmr6526wms.5.1693945753084; Tue, 05 Sep
- 2023 13:29:13 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A3210E507
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 20:51:15 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 385KJGYk018690; Tue, 5 Sep 2023 20:51:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=oip9wJl7xk+nhSkNsTEw/FhZ3lnYHbamCwAxQ6se9yA=;
+ b=O6rZ+LEaWRx1tFuLBakLXHmtkLJpJ3HDPzatffGW9sIfN+4CRTixatNL5K1J+aKbVHed
+ yIOmomLUs+Pob2DPMKNkPq7g8E/3hpoup4gGucKLr41mj5MTqdJDkTvMuZIWmgkIpr9l
+ SmMlNuHX5Nws2fpEN7F1BtH+9Fw0S2ioS9Lw1H2nRUUUKD46ATp7dhkUzcS9K3kGs9cG
+ iYPeTHCAA7BhBDTIea33L6/unIXy+e++d4UUTmLDdN/WkujKH4z8ZlZ/+AuMYsKWwmBY
+ L0CEBak5Pw8pHKLuOYH9oFdgJMGfauG3B3zcnKSkE+Cct7LwDKhpFBM/vx/shCOLM7Rb Vg== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3swtevjaye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Sep 2023 20:51:07 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 385Kp64j022144
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 5 Sep 2023 20:51:06 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 5 Sep
+ 2023 13:51:05 -0700
+Message-ID: <4281745a-e886-6392-8912-30329eb435a2@quicinc.com>
+Date: Tue, 5 Sep 2023 13:50:50 -0700
 MIME-Version: 1.0
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
- <32186b941d6228a102b5e799aadf34206b58ac15.camel@pengutronix.de>
-In-Reply-To: <32186b941d6228a102b5e799aadf34206b58ac15.camel@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Sep 2023 13:29:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WLw3cAU0nuNuKXiu=Zbv4tVa3aa35GFaxsjO880T0pmw@mail.gmail.com>
-Message-ID: <CAD=FV=WLw3cAU0nuNuKXiu=Zbv4tVa3aa35GFaxsjO880T0pmw@mail.gmail.com>
-Subject: Re: [RFT PATCH 13/15] drm/imx/ipuv3: Call drm_atomic_helper_shutdown()
- at shutdown/unbind time
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/panel: Add AUO G156HAN04.0 LVDS display support
+To: Elmar Albert <eal.git@mailbox.org>
+References: <20230828094943.123676-1-eal.git@mailbox.org>
+ <20230828094943.123676-2-eal.git@mailbox.org>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230828094943.123676-2-eal.git@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 4AzVZZnoK-nj9Y2XROw5EGq82rewNlGV
+X-Proofpoint-ORIG-GUID: 4AzVZZnoK-nj9Y2XROw5EGq82rewNlGV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_13,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 clxscore=1011 bulkscore=0
+ lowpriorityscore=0 spamscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309050181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,64 +82,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, shawnguo@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Elmar Albert <ealbert@data-modul.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Elmar,
 
-On Mon, Sep 4, 2023 at 1:30=E2=80=AFAM Philipp Zabel <p.zabel@pengutronix.d=
-e> wrote:
->
-> On Fr, 2023-09-01 at 16:41 -0700, Douglas Anderson wrote:
-> > Based on grepping through the source code this driver appears to be
-> > missing a call to drm_atomic_helper_shutdown() at system shutdown time
-> > and at driver unbind time. Among other things, this means that if a
-> > panel is in use that it won't be cleanly powered off at system
-> > shutdown time.
-> >
-> > The fact that we should call drm_atomic_helper_shutdown() in the case
-> > of OS shutdown/restart and at driver remove (or unbind) time comes
-> > straight out of the kernel doc "driver instance overview" in
-> > drm_drv.c.
-> >
-> > A few notes about this fix:
-> > - When adding drm_atomic_helper_shutdown() to the unbind path, I added
-> >   it after drm_kms_helper_poll_fini() since that's when other drivers
-> >   seemed to have it.
-> > - Technically with a previous patch, ("drm/atomic-helper:
-> >   drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
-> >   actually need to check to see if our "drm" pointer is NULL before
-> >   calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
-> >   though, so that this patch can land without any dependencies. It
-> >   could potentially be removed later.
-> > - This patch also makes sure to set the drvdata to NULL in the case of
-> >   bind errors to make sure that shutdown can't access freed data.
-> >
-> > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->
-> Thank you,
-> Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
+Just had a few minor comments:
 
-Thanks! I notice that:
+Looking at past panel-simple changes, I think the prefix here should be 
+"drm/panel: simple:"
 
-./scripts/get_maintainer.pl --scm -f drivers/gpu/drm/imx/ipuv3/imx-drm-core=
-.c
+On 8/28/2023 2:49 AM, Elmar Albert wrote:
+> From: Elmar Albert <ealbert@data-modul.com>
+> 
+> G156HAN04.0 is a Color Active Matrix Liquid Crystal Display composed of
+> a TFT LCD panel, a driver circuit, and LED backlight system. The screen
+> format is intended to supportthe 16:9 FHD, 1920(H) x 1080(V) screen
 
-Doesn't say drm-misc but also when I look at the MAINTAINERS file and
-find the section for "DRM DRIVERS FOR FREESCALE IMX" it doesn't
-explicitly list a different git tree. I guess the "shawnguo" git tree
-listed by get_maintainer.pl is just from regex matching?
+nit: "support the"
 
-Would you expect this to go through drm-misc? If so, I'll probably
-land it sooner rather than later. I can also post up a patch making it
-obvious that "DRM DRIVERS FOR FREESCALE IMX" goes through drm-misc if
-you don't object.
+> and 16.7M colors (RGB 8-bits ) with LED backlight driving circuit.
+> All input signals are LVDS interface compatible.
+> 
+> G156HAN04.0 is designed for a display unit of notebook style
+> personal computer and industrial machine.
+> 
+> Signed-off-by: Elmar Albert <ealbert@data-modul.com>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 36 ++++++++++++++++++++++++++++
+>   1 file changed, 36 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 52572fde9705..4fe6dafcabf6 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1050,6 +1050,39 @@ static const struct panel_desc auo_g133han01 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
+> +static const struct display_timing auo_g156han04_timings = {
+> +	.pixelclock = { 137000000, 141000000, 146000000 },
+> +
+> +	.hactive = { 1920, 1920, 1920 },
+> +	.hfront_porch = { 60, 60, 60 },
+> +	.hback_porch =  { 90, 92, 111 },
+> +	.hsync_len =    { 32, 32, 32 },
+> +
+> +	.vactive = { 1080, 1080, 1080 },
+> +	.vfront_porch = { 12, 12, 12 },
+> +	.vback_porch =  { 24, 36, 56 },
+> +	.vsync_len =    {  8,  8,  8 },
+> +};
+> +
+> +static const struct panel_desc auo_g156han04 = {
+> +	.timings = &auo_g156han04_timings,
+> +	.num_timings = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 344,
+> +		.height = 194,
+> +	},
+> +	.delay = {
+> +		.prepare = 50,		/* T2 */
+> +		.enable = 200,		/* T3 */
+> +		.disable = 110,		/* T10 */
+> +		.unprepare = 1000,	/* T13 */
 
-Thanks!
+The inclusion of the comments seems unnecessary.
 
--Doug
+Thanks,
+
+Jessica Zhang
+
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct drm_display_mode auo_g156xtn01_mode = {
+>   	.clock = 76000,
+>   	.hdisplay = 1366,
+> @@ -4118,6 +4151,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "auo,g133han01",
+>   		.data = &auo_g133han01,
+> +	}, {
+> +		.compatible = "auo,g156han04",
+> +		.data = &auo_g156han04,
+>   	}, {
+>   		.compatible = "auo,g156xtn01",
+>   		.data = &auo_g156xtn01,
+> -- 
+> 2.34.1
+> 
