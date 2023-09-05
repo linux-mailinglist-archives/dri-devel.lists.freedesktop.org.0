@@ -2,79 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F37922C6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 14:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B767922DA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28A5210E4F5;
-	Tue,  5 Sep 2023 12:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3FB110E500;
+	Tue,  5 Sep 2023 13:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 665E710E4F0
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 12:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693918637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JXtPHPu1ESaQkw+w3FbcMigzZ8fjP5dOebOzqU7Tj90=;
- b=bommO9gaoxcwT45j4BoZ4D5DkS3gE/DdGC4WX7oLcWEt9hTuhjrS5Kq2Kr9lFvvMNM4VNp
- bg2uAmQlpQ3QIayeB6XdvA/6dXkjv148Ap9td1gAdABtrOvgYa+yZ3iU8RQsfNWJ3nMCYQ
- CmLQKCFarjPkrKYbNTWs9j5ptwQywnc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-284-POA0Qk7xM-min80fHmLHRg-1; Tue, 05 Sep 2023 08:57:16 -0400
-X-MC-Unique: POA0Qk7xM-min80fHmLHRg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94a355c9028so172462766b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 05:57:15 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75E2B10E4FE;
+ Tue,  5 Sep 2023 13:14:30 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-307d58b3efbso1960435f8f.0; 
+ Tue, 05 Sep 2023 06:14:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693919669; x=1694524469; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vgZXtOARO9wS9f0ETJL17w2QqDQzfDL0fVd+c8r96ZA=;
+ b=HYwt9i+oFo6SJ777CL9fTebQlkj5wDtQI5dj3AB+petzy0zP4xF2rZcNT0kwSQ9cNO
+ 1KnDTATnuZY+6z/MqbBmCSLJ53lVlWkEOhuvCQAH2PNRFI++MtbYMa7dluwIXiSw28tm
+ goWr1HL6NlhiCcD2LuXwrSQ0kFbwwegWmtBY9zQIEi9qGAlrcaXg9dAyJs6Cf8nRB/81
+ 6wUYLAdEv+1D35cP5Y2GY0YQc6NC5di63X/wt8OLfoLUta1oIo+2HfvXVf0RJ6ckdmnK
+ 2HBpkGMo7ZB3R7QkocxT/LO/zsJAmKGt5yyqlO9KJ+BuNkN+5lr7SDrbhtuyiL+Bo/Qp
+ gxTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693918635; x=1694523435;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1693919669; x=1694524469;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JXtPHPu1ESaQkw+w3FbcMigzZ8fjP5dOebOzqU7Tj90=;
- b=T/VddhmOdD8+hBMTGQgC7JATnmwitarfKbWSR/mPeCDAbcMVQTrvhMBqZV1JgRGLfn
- nv9LEONe2FClgjKdghO5m/lzKLLg0asUCNis5As4jF2Y5a5uKB5GHr8+xZ73KqfeIO70
- vX3ChgziY/FlCy+bzBE0+aKZVX/EIZozyzOxIB3a20w7g9vqwX0iEJbR6flCg3e2aNhM
- 7Qth7vt5jdoIUxbq5Q7f15LldHvhRf1mmmMzQFYfnuS+HZn28kr3UiwBXao9JAim+EFx
- 436X1Jq4rwGGuXOLvVvT/qtxJa8zrSTUH4rE+q9qMGdCo5MVBW5SqAvEU/PgflcjH0SN
- bMIg==
-X-Gm-Message-State: AOJu0YxdECt1BygJx513R+U9C/aT48jB2Qp3c2fEgajYnkfPvzKcZHHE
- WM3KlFCdN3DJamuQx/aJ7dh99uzXmVLRKM7nmr2AYz7wnecohjTJlon2wFPZeCf8VQke7jLUtCs
- JobWa8fLFzRBrIryMguW+yWEXEjdM
-X-Received: by 2002:a17:906:1009:b0:9a5:db06:4264 with SMTP id
- 9-20020a170906100900b009a5db064264mr10731448ejm.72.1693918634908; 
- Tue, 05 Sep 2023 05:57:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEXmkc5p4BKJ7ZS4arkyf+XdZWtvmkVxEit8murENjYqq98o3LKnSsISWPbDaxqRPe2oAfI2w==
-X-Received: by 2002:a17:906:1009:b0:9a5:db06:4264 with SMTP id
- 9-20020a170906100900b009a5db064264mr10731431ejm.72.1693918634542; 
- Tue, 05 Sep 2023 05:57:14 -0700 (PDT)
-Received: from toolbox ([2001:9e8:899e:bc00:ba8:f004:5f7b:725b])
+ bh=vgZXtOARO9wS9f0ETJL17w2QqDQzfDL0fVd+c8r96ZA=;
+ b=OHQg5r02z3R7zuQE2YB5H0DBLBmsiREOqrrT42e2l9aRJWBno944PL7AbeGH0Rpw9U
+ g70Ueyicmdew1m3/0Pm4i3zn1Il7gx3IpFTh2Z+Qw4J+/tTuxuXjS54A0QrkhH2qUBUj
+ 4mWriUJxzlgqNdLeys3D2oOyQG2eh6E/eBvWjhpxshmoGFfreEHbQhmxwEeCOwngFbLZ
+ J4hQZoSFMZO4yloN6/6vzxzm+pcyxdGXPEaWwvB5ajDeWRyG4QcI3XT1ZZHJ2Xl//Ucl
+ 1lGp4ObetpsMSWwc7b7Gs2TZPRcZ+XadEmPz3NISS3WeOPdC3fGT94pDdQfThM/4wbAy
+ CESg==
+X-Gm-Message-State: AOJu0Yzc/F7/yW6br+iGDjQs71Rp9w2jghV0NKnXtONOVIthiM8EhlYa
+ sr0VZcc76zMY4azZBGK9mjU=
+X-Google-Smtp-Source: AGHT+IGanZtGUCDjYCzQQzrf9NVxOyz0XsPOEPMkR8finEGEyFb9EmLL9/B8oc/nCsv1P63tR/pS1g==
+X-Received: by 2002:a5d:4b87:0:b0:319:74b5:b67d with SMTP id
+ b7-20020a5d4b87000000b0031974b5b67dmr10787341wrt.66.1693919668554; 
+ Tue, 05 Sep 2023 06:14:28 -0700 (PDT)
+Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
  by smtp.gmail.com with ESMTPSA id
- lj17-20020a170906f9d100b009829dc0f2a0sm7559394ejb.111.2023.09.05.05.57.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Sep 2023 05:57:14 -0700 (PDT)
-Date: Tue, 5 Sep 2023 14:57:12 +0200
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
-Message-ID: <20230905125712.GB579774@toolbox>
-References: <20230829160422.1251087-1-uma.shankar@intel.com>
- <dbde0306-cc10-420f-a663-663481e127e2@amd.com>
- <PH7PR11MB63548CC6A606C9DD183B5954F4E6A@PH7PR11MB6354.namprd11.prod.outlook.com>
- <20230830211536.GA243703@toolbox>
- <IA1PR11MB63470B60E59FF5F359F6D4A6F4E9A@IA1PR11MB6347.namprd11.prod.outlook.com>
- <20230905143326.38fe5170@eldfell> <20230905123304.GA579774@toolbox>
+ w2-20020adff9c2000000b00317ddccb0d1sm17431265wrr.24.2023.09.05.06.14.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Sep 2023 06:14:27 -0700 (PDT)
+Message-ID: <eabe3626-9fd1-c56f-5405-44653d2aab33@gmail.com>
+Date: Tue, 5 Sep 2023 15:14:24 +0200
 MIME-Version: 1.0
-In-Reply-To: <20230905123304.GA579774@toolbox>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
+ <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,385 +78,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>, "Shankar,
- Uma" <uma.shankar@intel.com>, Naseer Ahmed <quic_naseer@quicinc.com>,
- Christopher Braga <quic_cbraga@quicinc.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 05, 2023 at 02:33:04PM +0200, Sebastian Wick wrote:
-> On Tue, Sep 05, 2023 at 02:33:26PM +0300, Pekka Paalanen wrote:
-> > On Mon, 4 Sep 2023 14:29:56 +0000
-> > "Shankar, Uma" <uma.shankar@intel.com> wrote:
-> > 
-> > > > -----Original Message-----
-> > > > From: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > Sent: Thursday, August 31, 2023 2:46 AM
-> > > > To: Shankar, Uma <uma.shankar@intel.com>
-> > > > Cc: Harry Wentland <harry.wentland@amd.com>; intel-
-> > > > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; wayland-
-> > > > devel@lists.freedesktop.org; Ville Syrjala <ville.syrjala@linux.intel.com>; Pekka
-> > > > Paalanen <pekka.paalanen@collabora.com>; Simon Ser <contact@emersion.fr>;
-> > > > Melissa Wen <mwen@igalia.com>; Jonas Ådahl <jadahl@redhat.com>; Shashank
-> > > > Sharma <shashank.sharma@amd.com>; Alexander Goins <agoins@nvidia.com>;
-> > > > Naseer Ahmed <quic_naseer@quicinc.com>; Christopher Braga
-> > > > <quic_cbraga@quicinc.com>
-> > > > Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
-> > > > 
-> > > > On Wed, Aug 30, 2023 at 08:47:37AM +0000, Shankar, Uma wrote:  
-> > > > >
-> > > > >  
-> > > > > > -----Original Message-----
-> > > > > > From: Harry Wentland <harry.wentland@amd.com>
-> > > > > > Sent: Wednesday, August 30, 2023 12:56 AM
-> > > > > > To: Shankar, Uma <uma.shankar@intel.com>;
-> > > > > > intel-gfx@lists.freedesktop.org; dri- devel@lists.freedesktop.org
-> > > > > > Cc: wayland-devel@lists.freedesktop.org; Ville Syrjala
-> > > > > > <ville.syrjala@linux.intel.com>; Pekka Paalanen
-> > > > > > <pekka.paalanen@collabora.com>; Simon Ser <contact@emersion.fr>;
-> > > > > > Melissa Wen <mwen@igalia.com>; Jonas Ådahl <jadahl@redhat.com>;
-> > > > > > Sebastian Wick <sebastian.wick@redhat.com>; Shashank Sharma
-> > > > > > <shashank.sharma@amd.com>; Alexander Goins <agoins@nvidia.com>;
-> > > > > > Naseer Ahmed <quic_naseer@quicinc.com>; Christopher Braga
-> > > > > > <quic_cbraga@quicinc.com>
-> > > > > > Subject: Re: [RFC 00/33] Add Support for Plane Color Pipeline
-> > > > > >
-> > > > > > +CC Naseer and Chris, FYI
-> > > > > >
-> > > > > > See https://patchwork.freedesktop.org/series/123024/ for whole series.
-> > > > > >
-> > > > > > On 2023-08-29 12:03, Uma Shankar wrote:  
-> > > > > > > Introduction
-> > > > > > > ============
-> > > > > > >
-> > > > > > > Modern hardwares have various color processing capabilities both
-> > > > > > > at pre-blending and post-blending phases in the color pipeline.
-> > > > > > > The current drm implementation exposes only the post-blending
-> > > > > > > color hardware blocks. Support for pre-blending hardware is missing.
-> > > > > > > There are multiple use cases where pre-blending color hardware
-> > > > > > > will be
-> > > > > > > useful:
-> > > > > > > 	a) Linearization of input buffers encoded in various transfer
-> > > > > > > 	   functions.
-> > > > > > > 	b) Color Space conversion
-> > > > > > > 	c) Tone mapping
-> > > > > > > 	d) Frame buffer format conversion
-> > > > > > > 	e) Non-linearization of buffer(apply transfer function)
-> > > > > > > 	f) 3D Luts
-> > > > > > >
-> > > > > > > and other miscellaneous color operations.
-> > > > > > >
-> > > > > > > Hence, there is a need to expose the color capabilities of the
-> > > > > > > hardware to user-space. This will help userspace/middleware to use
-> > > > > > > display hardware for color processing and blending instead of
-> > > > > > > doing it through GPU shaders.
-> > > > > > >  
-> > > > > >
-> > > > > > Thanks, Uma, for sending this. I've been working on something
-> > > > > > similar but you beat me to it. :)  
-> > > > >
-> > > > > Thanks Harry for the useful feedback and overall collaboration on this so far.
-> > > > >  
-> > > > > > >
-> > > > > > > Work done so far and relevant references
-> > > > > > > ========================================
-> > > > > > >
-> > > > > > > Some implementation is done by Intel and AMD/Igalia to address the same.
-> > > > > > > Broad consensus is there that we need a generic API at drm core to
-> > > > > > > suffice the use case of various HW vendors. Below are the links
-> > > > > > > capturing the discussion so far.
-> > > > > > >
-> > > > > > > Intel's Plane Color Implementation:
-> > > > > > > https://patchwork.freedesktop.org/series/90825/
-> > > > > > > AMD's Plane Color Implementation:
-> > > > > > > https://patchwork.freedesktop.org/series/116862/
-> > > > > > >
-> > > > > > >
-> > > > > > > Hackfest conclusions
-> > > > > > > ====================
-> > > > > > >
-> > > > > > > HDR/Color Hackfest was organised by Redhat to bring all the
-> > > > > > > industry stakeholders together and converge on a common uapi  
-> > > > expectations.  
-> > > > > > > Participants from Intel, AMD, Nvidia, Collabora, Redhat, Igalia
-> > > > > > > and other prominent user-space developers and maintainers.
-> > > > > > >
-> > > > > > > Discussions happened on the uapi expectations, opens, nature of
-> > > > > > > hardware of multiple hardware vendors, challenges in generalizing
-> > > > > > > the same and the path forward. Consensus was made that drm core
-> > > > > > > should implement descriptive APIs and not go with prescriptive
-> > > > > > > APIs. DRM core should just expose the hardware capabilities;
-> > > > > > > enabling, customizing and programming the same should be done by
-> > > > > > > the user-space. Driver should just  
-> > > > > > honor the user space request without doing any operations internally.  
-> > > > > > >
-> > > > > > > Thanks to Simon Ser, for nicely documenting the design consensus
-> > > > > > > and an UAPI RFC which can be referred to here:
-> > > > > > >
-> > > > > > > https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze
-> > > > > > > _hD5
-> > > > > > >  
-> > > > > >  
-> > > > nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1
-> > > > Q  
-> > > > > > Wn48  
-> > > > > > > 8=@emersion.fr/
-> > > > > > >
-> > > > > > >
-> > > > > > > Design considerations
-> > > > > > > =====================
-> > > > > > >
-> > > > > > > Following are the important aspects taken into account while
-> > > > > > > designing the current RFC
-> > > > > > > proposal:
-> > > > > > >
-> > > > > > > 	1. Individual HW blocks can be muxed. (e.g. out of two HW blocks
-> > > > > > > only one  
-> > > > > > can be used)  
-> > > > > > > 	2. Position of the HW block in the pipeline can be programmable
-> > > > > > > 	3. LUTs can be one dimentional or three dimentional
-> > > > > > > 	4. Number of LUT entries can vary across platforms
-> > > > > > > 	5. Precision of LUT entries can vary across platforms
-> > > > > > > 	6. Distribution of LUT entries may vary. e.g Mutli-segmented,  
-> > > > Logarithmic,  
-> > > > > > > 	   Piece-Wise Linear(PWL) etc
-> > > > > > > 	7. There can be parameterized/non-parameterized fixed function HW  
-> > > > > > blocks.  
-> > > > > > > 	   e.g. Just a hardware bit, to convert from one color space to another.
-> > > > > > > 	8. Custom non-standard HW implementation.
-> > > > > > > 	9. Leaving scope for some vendor defined pescriptive
-> > > > > > > implementation if  
-> > > > > > required.  
-> > > > > > > 	10.Scope to handle any modification in hardware as technology
-> > > > > > > evolves
-> > > > > > >
-> > > > > > > The current proposal takes into account the above considerations
-> > > > > > > while keeping the implementation as generic as possible leaving
-> > > > > > > scope for future  
-> > > > > > additions or modifications.  
-> > > > > > >
-> > > > > > > This proposal is also in line to the details mentioned by Simon's
-> > > > > > > RFC covering all the aspects discussed in hackfest.
-> > > > > > >
-> > > > > > >
-> > > > > > > Outline of the implementation
-> > > > > > > ============================
-> > > > > > >
-> > > > > > > Each Color Hardware block will be represented by a data structure  
-> > > > drm_color_op.  
-> > > > > > > These color operations will form the building blocks of a color
-> > > > > > > pipeline which best represents the underlying Hardware. Color
-> > > > > > > operations can be re-arranged, substracted or added to create
-> > > > > > > distinct color pipelines to accurately describe the Hardware
-> > > > > > > blocks present in the display  
-> > > > > > engine.
-> > > > > >
-> > > > > > Who is doing the arranging of color operations? IMO a driver should
-> > > > > > define one or more respective pipelines that can be selected by
-> > > > > > userspace. This seems to be what you're talking about after (I
-> > > > > > haven't reviewed the whole thing yet). Might be best to drop this sentence or  
-> > > > to add clarifications in order to avoid confusion.  
-> > > > >
-> > > > > Yes it's the driver who will set the pipeline based on the underlying
-> > > > > hardware arrangement and possible combinations. There can be multiple
-> > > > > pipelines possible if hardware can be muxed or order can be re-arranged (all  
-> > > > viable combinations should be defined as a pipeline in driver).  
-> > > > > Yeah, I will re-phrase this to help clarify it and avoid any ambiguity.
-> > > > >  
-> > > > > > >
-> > > > > > > In this proposal, a color pipeline is represented as an array of
-> > > > > > > struct drm_color_op. For individual color operation, we add blobs
-> > > > > > > to advertise the capability of the particular Hardware block.
-> > > > > > >
-> > > > > > > This color pipeline is then packaged within a blob for the user
-> > > > > > > space to retrieve it.
-> > > > > > >  
-> > > > > >
-> > > > > > Would it be better to expose the drm_color_ops directly, instead of
-> > > > > > packing a array of drm_color_ops into a blob and then giving that to  
-> > > > userspace.  
-> > > > >
-> > > > > Advantage we see in packing in blobs is that interface will be
-> > > > > cleaner. There will be just one GET_COLOR_PIPELINE property to invoke by user  
-> > > > and then its just parsing the data.  
-> > > > > This way the entire underlying hardware blocks with pipeline will be available to  
-> > > > user.
-> > > > 
-> > > > I don't see how parsing a blob is easier than requesting the color ops from the
-> > > > kernel. User space is already equiped with getting KMS objects and the igt test
-> > > > code from Harry shows that this is all pretty trivial plumbing.  
-> > > 
-> > > There are multiple color operations possible with unique lut distribution and
-> > > capabilities. Also the order of hardware blocks and possibility of multiple pipelines.
-> > > Having all the information with one query and property and also be able to set the
-> > > same with just one property call using blobs is better than multiple calls to driver.
-> > > This can be useful in high refresh rate cases where not much time is there to program
-> > > the hardware state. Latency of multiple calls to driver can be avoided.
-> > 
-> > Hi,
-> > 
-> > querying all that information only happens once, at KMS client start-up.
-> > 
-> > Setting up a color pipeline is already a single call: the atomic commit ioctl.
-> 
-> Well, clients also issue a bunch of ioctl to set some properties to the
-> desired state and then you might run through a whole bunch of
-> configurations to find one that actually works, so there is a case to be
-> made that there are a lot of ioctls involved.
+Am 05.09.23 um 10:58 schrieb Thomas Hellström:
+> If *any* object of a certain WW mutex class is locked, lockdep will
+> consider *all* mutexes of that class as locked. Also the lock allocation
+> tracking code will apparently register only the address of the first
+> mutex locked in a sequence.
+> This has the odd consequence that if that first mutex is unlocked and
+> its memory then freed, the lock alloc tracking code will assume that memory
+> is freed with a held lock in there.
+>
+> For now, work around that for drm_exec by releasing the first grabbed
+> object lock last.
+>
+> Related lock alloc tracking warning:
+> [  322.660067] =========================
+> [  322.660070] WARNING: held lock freed!
+> [  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
+> [  322.660078] -------------------------
+> [  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ffff888112adc3ff, with a lock still held there!
+> [  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
+> [  322.660104] 2 locks held by kunit_try_catch/4981:
+> [  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
+> [  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
+> [  322.660135]
+>                 stack backtrace:
+> [  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
+> [  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
+> [  322.660152] Call Trace:
+> [  322.660155]  <TASK>
+> [  322.660158]  dump_stack_lvl+0x57/0x90
+> [  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
+> [  322.660172]  slab_free_freelist_hook+0xa1/0x160
+> [  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
+> [  322.660186]  __kmem_cache_free+0xb2/0x290
+> [  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
+> [  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
+> [  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
+> [  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
+> [  322.660222]  ? __kasan_check_byte+0xf/0x40
+> [  322.660227]  ? __ksize+0x63/0x140
+> [  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
+> [  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
+> [  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
+> [  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
+> [  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
+> [  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
+> [  322.660328]  kthread+0x2e7/0x3c0
+> [  322.660334]  ? __pfx_kthread+0x10/0x10
+> [  322.660339]  ret_from_fork+0x2d/0x70
+> [  322.660345]  ? __pfx_kthread+0x10/0x10
+> [  322.660349]  ret_from_fork_asm+0x1b/0x30
+> [  322.660358]  </TASK>
+> [  322.660818]     ok 8 test_early_put
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/drm_exec.c |  2 +-
+>   include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
+>   2 files changed, 32 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+> index ff69cf0fb42a..5d2809de4517 100644
+> --- a/drivers/gpu/drm/drm_exec.c
+> +++ b/drivers/gpu/drm/drm_exec.c
+> @@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
+>   	struct drm_gem_object *obj;
+>   	unsigned long index;
+>   
+> -	drm_exec_for_each_locked_object(exec, index, obj) {
+> +	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
 
-pq pointed at that for atomic this is actually really just a single
-ioctl so really there is no advantage here at all.
+Well that's a really good catch, just one more additional thought below.
 
-> I just don't think this is an issue right now. Nobody has been
-> complaining about the ioctls being a limiting factor so why should we
-> optimize for this? Especially because it brings with it a bunch of
-> disadvantages.
-> 
-> Anyway, I agree with the sentiment here: this is not something we should
-> optimize for.
-> 
-> > 
-> > > 
-> > > > > For a particular hardware block in pipeline, user can get the relevant
-> > > > > details from blob representing that particular block. We have created
-> > > > > IGT tests (links mentioned in cover-letter) to demonstrate how it can be done.  
-> > > > This is just to clarify the idea.
-> > > > 
-> > > > The blob is also not introspectable with the usual tools whereas exposing them as
-> > > > properties would be.
-> > > > 
-> > > > It also would, like Pekka correctly noted, bring a whole bunch of issues about
-> > > > compatibility and versioning that are well understood with objects
-> > > > + properties.  
-> > > 
-> > > The blob should be standardized in the UAPI and structures to parse them should be fixed.
-> > > With this compatibility issues can be prevented.
-> > 
-> > I think that is short-sighted.
-> > 
-> > > > > Also since info is passed via blobs we have the flexibility to even
-> > > > > define segmented LUTs and PWL hardware blocks. Also we have left scope
-> > > > > for custom private hardware blocks as well which driver can work with  
-> > > > respective HAL and get that implemented.
-> > > > 
-> > > > When color ops are real KMS objects they still can have properties which are
-> > > > blobs that can store LUTs and other data.
-> > > > 
-> > > > And we should avoid private blocks at all cost. In fact, I don't think the KMS rules
-> > > > have changed in that regard and it simply is not allowed.  
-> > > 
-> > > Private blocks are not standardized but are vendor specific. So generic userspace will
-> > > ignore these. However vendor and its respective HAL can make use of this field and leaves
-> > > a scope to cater to such hardware vendors need. This doesn't affect the expectation of the
-> > > standardized color operations which will be defined as enum in UAPI.
-> > 
-> > Vendors can have and expose their own unique snowflake operations
-> > without any "private" as well: pick an unused operation type code, and
-> > document what it does. Advertise it in some pipelines.
-> > 
-> > Vendor HALs can make use of it, but it also allows generic userspace to
-> > make use of it at will, and it allows other vendors to implement the
-> > same and benefit from it without needing to patch every userspace.
-> > 
-> > Or does Intel not want other vendors to potentially make use of their
-> > UAPIs?
-> > 
-> > > > > We can even define prescriptive operations as a private entry and
-> > > > > enable it if a certain driver and HAL agree.
-> > > > >  
-> > > > > > > To advertise the available color pipelines, an immutable ENUM
-> > > > > > > property "GET_COLOR_PIPELINE" is introduced. This enum property has  
-> > > > blob id's as values.  
-> > > > > > > With each blob id representing a distinct color pipeline based on
-> > > > > > > underlying HW capabilities and their respective combinations.
-> > > > > > >
-> > > > > > > Once the user space decides on a color pipeline, it can set the
-> > > > > > > pipeline and the corresponding data for the hardware blocks within
-> > > > > > > the pipeline with the BLOB property "SET_COLOR_PIPELINE".
-> > > > > > >  
-> > > > > >
-> > > > > > When I discussed this at the hackfest with Simon he proposed a new
-> > > > > > DRM object, (I've called it a drm_colorop) to represent a color operation.
-> > > > > > Each drm_colorop has a "NEXT" pointer to another drm_colorop, or
-> > > > > > NULL if its the last in the pipeline. You can then have a mutable
-> > > > > > enum property on the plane to discover and select a color pipeline.  
-> > > > >
-> > > > > Yes, the proposal is inspired by this idea. Sure, we can work together to enhance  
-> > > > the design.  
-> > > > > Personally I feel the one proposed in the current RFC will do the same
-> > > > > thing envisioned by Simon and you Harry. Management of the pipeline,
-> > > > > addition, deletion and flexibility to represent hardware is more with blobs with  
-> > > > the relevant structures agreed in UAPI.  
-> > > > >  
-> > > > > > This seems a bit more transparent than a blob. You can see my
-> > > > > > changes (unfortunately very WIP, don't look too closely at
-> > > > > > individual patches) at
-> > > > > > https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5/di
-> > > > > > ffs
-> > > > > >
-> > > > > > libdrm changes:
-> > > > > > https://gitlab.freedesktop.org/hwentland/drm/-/merge_requests/1/diff
-> > > > > > s  
-> > > > >
-> > > > > Sure, will check the same.
-> > > > >  
-> > > > > > IGT changes:
-> > > > > > https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_reque
-> > > > > > sts/1/diffs
-> > > > > >
-> > > > > > I'll take time to review your whole series and will see whether we
-> > > > > > can somehow keep the best parts of each.  
-> > > > >
-> > > > > Thanks and agree. Let's work together and get this implemented in DRM.
-> > > > >  
-> > > > > > Curious to hear other opinions on the blob vs new DRM object question as  
-> > > > well.
-> > > > 
-> > > > I can see a few advantages with the blob approach.
-> > > > 
-> > > > User space can store the entire state in one blob and just assign a new blob to
-> > > > change to another pipeline configuration.  
-> > > 
-> > > Agree
-> > > 
-> > > > However, I would argue that changing a lot of properties is already common
-> > > > practice and works well. User space can deal with it and has abstractions to
-> > > > make this managable.  
-> > > 
-> > > Blob gives a lot of flexibility and ability to define the hardware capabilities generically.
-> > 
-> > The structure of the atomic commit ioctl and the KMS property system is
-> > even more flexible.
-> > 
-> > > Lut distribution, number of segments, samples in each segment, precision of luts etc.
-> > > can be precisely defined and userspace will get a complete picture of the underlying
-> > > hardware and its capabilities. Also this is being done with just 2 properties. Leaving
-> > > scope for future addition of any standard color operation as well.
-> > 
-> > The number of properties does not seem too useful to strictly minimise
-> > over other aspects.
-> > 
-> > 
-> > Thanks,
-> > pq
-> > 
-> > > 
-> > > I feel blob approach once properly documented is a bit more flexible and scalable.
-> > > Maybe I am bit biased here 😊 but all ideas are welcome. 
-> > > 
-> > > We have implemented some IGT's as well to explain the design better. Link below:
-> > > https://patchwork.freedesktop.org/series/123018/
-> > > 
-> > > Thanks Sebastian for the feedback.
-> > > 
-> > > Regards,
-> > > Uma Shankar
-> 
-> 
+>   		dma_resv_unlock(obj->resv);
+>   		drm_gem_object_put(obj);
+>   	}
+> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> index e0462361adf9..55764cf7c374 100644
+> --- a/include/drm/drm_exec.h
+> +++ b/include/drm/drm_exec.h
+> @@ -51,6 +51,20 @@ struct drm_exec {
+>   	struct drm_gem_object *prelocked;
+>   };
+>   
+> +/**
+> + * drm_exec_obj() - Return the object for a give drm_exec index
+> + * @exec: Pointer to the drm_exec context
+> + * @index: The index.
+> + *
+> + * Return: Pointer to the locked object corresponding to @index if
+> + * index is within the number of locked objects. NULL otherwise.
+> + */
+> +static inline struct drm_gem_object *
+> +drm_exec_obj(struct drm_exec *exec, unsigned long index)
+> +{
+> +	return index < exec->num_objects ? exec->objects[index] : NULL;
+> +}
+> +
+>   /**
+>    * drm_exec_for_each_locked_object - iterate over all the locked objects
+>    * @exec: drm_exec object
+> @@ -59,10 +73,23 @@ struct drm_exec {
+>    *
+>    * Iterate over all the locked GEM objects inside the drm_exec object.
+>    */
+> -#define drm_exec_for_each_locked_object(exec, index, obj)	\
+> -	for (index = 0, obj = (exec)->objects[0];		\
+> -	     index < (exec)->num_objects;			\
+> -	     ++index, obj = (exec)->objects[index])
+> +#define drm_exec_for_each_locked_object(exec, index, obj)		\
+> +	for ((index) = 0; ((obj) = drm_exec_obj(exec, index)); ++(index))
+
+Mhm, that makes it possible to modify the number of objects while inside 
+the loop, doesn't it?
+
+I'm not sure if that's a good idea or not.
+
+Regards,
+Christian.
+
+> +
+> +/**
+> + * drm_exec_for_each_locked_object_reverse - iterate over all the locked
+> + * objects in reverse locking order
+> + * @exec: drm_exec object
+> + * @index: unsigned long index for the iteration
+> + * @obj: the current GEM object
+> + *
+> + * Iterate over all the locked GEM objects inside the drm_exec object in
+> + * reverse locking order. Note that @index may go below zero and wrap,
+> + * but that will be caught by drm_exec_object(), returning a NULL object.
+> + */
+> +#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
+> +	for ((index) = (exec)->num_objects - 1;				\
+> +	     ((obj) = drm_exec_obj(exec, index)); --(index))
+>   
+>   /**
+>    * drm_exec_until_all_locked - loop until all GEM objects are locked
 
