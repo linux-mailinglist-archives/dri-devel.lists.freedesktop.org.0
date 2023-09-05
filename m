@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83C3792166
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 11:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF02D79216D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 11:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FC310E47B;
-	Tue,  5 Sep 2023 09:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1894910E47E;
+	Tue,  5 Sep 2023 09:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0836E10E478;
- Tue,  5 Sep 2023 09:22:10 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 87B076607033;
- Tue,  5 Sep 2023 10:22:08 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693905728;
- bh=IGfQqAyyNenzB8oZ59RATywiYb8GS7xeb/1iuKyZUUg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=cJjn9SS69x/mTUU42RtBztoxjK15CrN3P3hBkbIWwXHcHiah9djECa7RTGsQwLEfJ
- NDYBvMUUtrKxlmwDj1kp2LC6nwDdEVg0FHPXumAH0oS0j1rtkJgvQWovrrylRWf/p0
- bUBGrw0VaApQSzgdssbB9BS6x2WBDKxXCW9EKirpONRDJ/KKBcynsGQiD6A4KU6ueb
- TNT1tEyMMyMUTp4U3mTMwXwPNyo/B2pl3J6pOrovUecjazEhH2O/z+RsMyqdr82Dgl
- 0iX/pCiEw8sLofXPFH5hp7wdq7lvQGGIewp4BepTIu9jTekvwc1GaPjo5sfpofUGl5
- 7WxvM/YPBsoQA==
-Date: Tue, 5 Sep 2023 11:22:05 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
-Message-ID: <20230905112205.35a60cf0@collabora.com>
-In-Reply-To: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
- <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE8610E47C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 09:25:58 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-500b0f06136so4022018e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 02:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693905956; x=1694510756; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QHcYyoIiDgAQdHRNkCiPLRvJafQGkqn7cXLRB147Zwk=;
+ b=SjIkn10DmwAUFRaTQfEnVrRaVeOYugC69vtIvjpOL9bI3qL7wriNZqnQlGjdF5So+h
+ RHhqdPGBuz8Rkr1BkSfq50kSC8w5nuf7FT6rAEzTb91kJHEjvjdTvoap7y2uoTxLzEUh
+ UCoa94HB0vn35m/eoHGuvwZj00XbJmqN4b1c6FaIevcr69oBZoo8dGVEMHGVLNn3rPfq
+ AiIhfErXDoCtoLLzppjV2W0cphmpNCyGMVtRHtxOlVEq9/GNgRR7aAv1Zy4N/1p9WsdS
+ q8p3bvSWXZC3VREArOXYWmJkMNb5ffpECCT9PTJnhGvA13TbvMlgcRKg2Q0Zp9b4iLIj
+ VtIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693905956; x=1694510756;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QHcYyoIiDgAQdHRNkCiPLRvJafQGkqn7cXLRB147Zwk=;
+ b=CZstxuCcUxUkrzoFiVmLYNI53d28IOPWeNoNJS0ZKUcQhk7GUuAX/4H3WYzvts8Prs
+ QDNLz7QF2UNYqzxDhHv0J0D1RnE58dfKC12fd6qcWDbl7U6v2l0KuzX7BirYZ0XDeFEb
+ uuiXZak6NH7sPIR+TzONWGUX7QxvVg+hhUeCW3YAQ4EYu/W4qpQM00T97bh6w61wwd2e
+ drgYbDnsTJqHubIK11X+20GcrsqW3uwX+DBU4PdXCWmTfO1bMZW+wprq+IlRZUd/L6+v
+ 4gsvZM6V4qQHSjAJhm2d00Nv3/lJkWwkyoq4uN93LxlkuxwPe4wns/8LtYcRNh2A4WCF
+ WFNg==
+X-Gm-Message-State: AOJu0YyZU+yRM8qLsbu5gtZs0T2md15Fv2fZtKERfntAuEdg7TGunEGE
+ c0kq+qjUpNI4y0dsdZdmdLipozT/X7UqW9LtswI=
+X-Google-Smtp-Source: AGHT+IEIAbucUJoykB1B/ZCoAVDLu/W06ff51fkzJJlHXvGCnq0BC1pkB1LQVeIAflThABeQKL5YoycM/Bg4ZYDQ8Yc=
+X-Received: by 2002:a19:8c1d:0:b0:4f8:711b:18b0 with SMTP id
+ o29-20020a198c1d000000b004f8711b18b0mr8209606lfd.3.1693905956134; Tue, 05 Sep
+ 2023 02:25:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
+ <20230818-samsung-dsim-v1-2-b39716db6b7a@pengutronix.de>
+In-Reply-To: <20230818-samsung-dsim-v1-2-b39716db6b7a@pengutronix.de>
+From: Inki Dae <daeinki@gmail.com>
+Date: Tue, 5 Sep 2023 18:25:44 +0900
+Message-ID: <CAAQKjZPk-VEKt6GxfRDcRZgU8OzOgZc1hEoMZX2h2JSyccxx5Q@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/bridge: samsung-dsim: reread ref clock before
+ configuring PLL
+To: Michael Tretter <m.tretter@pengutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000cc651f060499364a"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,157 +68,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, kernel@pengutronix.de,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  5 Sep 2023 10:58:32 +0200
-Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
+--000000000000cc651f060499364a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> If *any* object of a certain WW mutex class is locked, lockdep will
-> consider *all* mutexes of that class as locked. Also the lock allocation
-> tracking code will apparently register only the address of the first
-> mutex locked in a sequence.
-> This has the odd consequence that if that first mutex is unlocked and
-> its memory then freed, the lock alloc tracking code will assume that memo=
-ry
-> is freed with a held lock in there.
->=20
-> For now, work around that for drm_exec by releasing the first grabbed
-> object lock last.
+2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:59, =
+Michael Tretter <m.tretter@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
 
-It's probably a good thing to unlock in reverse order anyway, just like
-we do for regular locks.
+> The PLL reference clock may change at runtime. Thus, reading the clock
+> rate during probe is not sufficient to correctly configure the PLL for
+> the expected hs clock.
+>
+> Read the actual rate of the reference clock before calculating the PLL
+> configuration parameters.
+>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+>
 
->=20
-> Related lock alloc tracking warning:
-> [  322.660067] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> [  322.660070] WARNING: held lock freed!
-> [  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
-> [  322.660078] -------------------------
-> [  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ff=
-ff888112adc3ff, with a lock still held there!
-> [  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3},=
- at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660104] 2 locks held by kunit_try_catch/4981:
-> [  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}=
--{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
-> [  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{=
-3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660135]
->                stack backtrace:
-> [  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U   =
-        N 6.5.0-rc7+ #155
-> [  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, =
-BIOS 0403 01/26/2021
-> [  322.660152] Call Trace:
-> [  322.660155]  <TASK>
-> [  322.660158]  dump_stack_lvl+0x57/0x90
-> [  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
-> [  322.660172]  slab_free_freelist_hook+0xa1/0x160
-> [  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660186]  __kmem_cache_free+0xb2/0x290
-> [  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
-> [  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
-> [  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
-> [  322.660222]  ? __kasan_check_byte+0xf/0x40
-> [  322.660227]  ? __ksize+0x63/0x140
-> [  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
-> [  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
-> [  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
-> [  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kun=
-it]
-> [  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [  322.660328]  kthread+0x2e7/0x3c0
-> [  322.660334]  ? __pfx_kthread+0x10/0x10
-> [  322.660339]  ret_from_fork+0x2d/0x70
-> [  322.660345]  ? __pfx_kthread+0x10/0x10
-> [  322.660349]  ret_from_fork_asm+0x1b/0x30
-> [  322.660358]  </TASK>
-> [  322.660818]     ok 8 test_early_put
->=20
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Inki Dae <inki.dae@samsung.com>
+Acked-by: Inki Dae <inki.dae@samsung.com>
 
-> ---
->  drivers/gpu/drm/drm_exec.c |  2 +-
->  include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
->  2 files changed, 32 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> index ff69cf0fb42a..5d2809de4517 100644
-> --- a/drivers/gpu/drm/drm_exec.c
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
->  	struct drm_gem_object *obj;
->  	unsigned long index;
-> =20
-> -	drm_exec_for_each_locked_object(exec, index, obj) {
-> +	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
->  		dma_resv_unlock(obj->resv);
->  		drm_gem_object_put(obj);
->  	}
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> index e0462361adf9..55764cf7c374 100644
-> --- a/include/drm/drm_exec.h
-> +++ b/include/drm/drm_exec.h
-> @@ -51,6 +51,20 @@ struct drm_exec {
->  	struct drm_gem_object *prelocked;
->  };
-> =20
-> +/**
-> + * drm_exec_obj() - Return the object for a give drm_exec index
-> + * @exec: Pointer to the drm_exec context
-> + * @index: The index.
-> + *
-> + * Return: Pointer to the locked object corresponding to @index if
-> + * index is within the number of locked objects. NULL otherwise.
-> + */
-> +static inline struct drm_gem_object *
-> +drm_exec_obj(struct drm_exec *exec, unsigned long index)
-> +{
-> +	return index < exec->num_objects ? exec->objects[index] : NULL;
-> +}
+Thanks,
+Inki Dae
+
+---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------
+>  include/drm/bridge/samsung-dsim.h     |  1 +
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index 6778f1751faa..da90c2038042 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -611,7 +611,12 @@ static unsigned long samsung_dsim_set_pll(struct
+> samsung_dsim *dsi,
+>         u16 m;
+>         u32 reg;
+>
+> -       fin =3D dsi->pll_clk_rate;
+> +       if (dsi->pll_clk)
+> +               fin =3D clk_get_rate(dsi->pll_clk);
+> +       else
+> +               fin =3D dsi->pll_clk_rate;
+> +       dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
 > +
->  /**
->   * drm_exec_for_each_locked_object - iterate over all the locked objects
->   * @exec: drm_exec object
-> @@ -59,10 +73,23 @@ struct drm_exec {
->   *
->   * Iterate over all the locked GEM objects inside the drm_exec object.
->   */
-> -#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> -	for (index =3D 0, obj =3D (exec)->objects[0];		\
-> -	     index < (exec)->num_objects;			\
-> -	     ++index, obj =3D (exec)->objects[index])
-> +#define drm_exec_for_each_locked_object(exec, index, obj)		\
-> +	for ((index) =3D 0; ((obj) =3D drm_exec_obj(exec, index)); ++(index))
-> +
-> +/**
-> + * drm_exec_for_each_locked_object_reverse - iterate over all the locked
-> + * objects in reverse locking order
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object in
-> + * reverse locking order. Note that @index may go below zero and wrap,
-> + * but that will be caught by drm_exec_object(), returning a NULL object.
-> + */
-> +#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
-> +	for ((index) =3D (exec)->num_objects - 1;				\
-> +	     ((obj) =3D drm_exec_obj(exec, index)); --(index))
-> =20
->  /**
->   * drm_exec_until_all_locked - loop until all GEM objects are locked
+>         fout =3D samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
+>         if (!fout) {
+>                 dev_err(dsi->dev,
+> @@ -1821,18 +1826,15 @@ static int samsung_dsim_parse_dt(struct
+> samsung_dsim *dsi)
+>         u32 lane_polarities[5] =3D { 0 };
+>         struct device_node *endpoint;
+>         int i, nr_lanes, ret;
+> -       struct clk *pll_clk;
+>
+>         ret =3D samsung_dsim_of_read_u32(node, "samsung,pll-clock-frequen=
+cy",
+>                                        &dsi->pll_clk_rate, 1);
+>         /* If it doesn't exist, read it from the clock instead of failing
+> */
+>         if (ret < 0) {
+>                 dev_dbg(dev, "Using sclk_mipi for pll clock frequency\n")=
+;
+> -               pll_clk =3D devm_clk_get(dev, "sclk_mipi");
+> -               if (!IS_ERR(pll_clk))
+> -                       dsi->pll_clk_rate =3D clk_get_rate(pll_clk);
+> -               else
+> -                       return PTR_ERR(pll_clk);
+> +               dsi->pll_clk =3D devm_clk_get(dev, "sclk_mipi");
+> +               if (IS_ERR(dsi->pll_clk))
+> +                       return PTR_ERR(dsi->pll_clk);
+>         }
+>
+>         /* If it doesn't exist, use pixel clock instead of failing */
+> diff --git a/include/drm/bridge/samsung-dsim.h
+> b/include/drm/bridge/samsung-dsim.h
+> index 05100e91ecb9..31ff88f152fb 100644
+> --- a/include/drm/bridge/samsung-dsim.h
+> +++ b/include/drm/bridge/samsung-dsim.h
+> @@ -87,6 +87,7 @@ struct samsung_dsim {
+>         void __iomem *reg_base;
+>         struct phy *phy;
+>         struct clk **clks;
+> +       struct clk *pll_clk;
+>         struct regulator_bulk_data supplies[2];
+>         int irq;
+>         struct gpio_desc *te_gpio;
+>
+> --
+> 2.39.2
+>
+>
 
+--000000000000cc651f060499364a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">2023=EB=85=84 8=EC=9B=94 29=EC=9D=BC (=ED=99=94) =EC=
+=98=A4=EC=A0=84 12:59, Michael Tretter &lt;<a href=3D"mailto:m.tretter@peng=
+utronix.de">m.tretter@pengutronix.de</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">The PLL reference clock may=
+ change at runtime. Thus, reading the clock<br>
+rate during probe is not sufficient to correctly configure the PLL for<br>
+the expected hs clock.<br>
+<br>
+Read the actual rate of the reference clock before calculating the PLL<br>
+configuration parameters.<br>
+<br>
+Signed-off-by: Michael Tretter &lt;<a href=3D"mailto:m.tretter@pengutronix.=
+de" target=3D"_blank" rel=3D"noreferrer">m.tretter@pengutronix.de</a>&gt;<b=
+r></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">Reviewed-by: Inki Dae &lt;<a href=3D"mailto:inki.=
+dae@samsung.com">inki.dae@samsung.com</a>&gt;</div><div dir=3D"auto">Acked-=
+by: Inki Dae &lt;<a href=3D"mailto:inki.dae@samsung.com">inki.dae@samsung.c=
+om</a>&gt;</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div>=
+<div dir=3D"auto">Inki Dae</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+---<br>
+=C2=A0drivers/gpu/drm/bridge/samsung-dsim.c | 16 +++++++++-------<br>
+=C2=A0include/drm/bridge/samsung-dsim.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 10 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge=
+/samsung-dsim.c<br>
+index 6778f1751faa..da90c2038042 100644<br>
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c<br>
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c<br>
+@@ -611,7 +611,12 @@ static unsigned long samsung_dsim_set_pll(struct samsu=
+ng_dsim *dsi,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u16 m;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 reg;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D dsi-&gt;pll_clk_rate;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (dsi-&gt;pll_clk)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D clk_get_rat=
+e(dsi-&gt;pll_clk);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fin =3D dsi-&gt;pll=
+_clk_rate;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0dev_dbg(dsi-&gt;dev, &quot;PLL ref clock freq %=
+lu\n&quot;, fin);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fout =3D samsung_dsim_pll_find_pms(dsi, fin, fr=
+eq, &amp;p, &amp;m, &amp;s);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!fout) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_err(dsi-&gt;dev=
+,<br>
+@@ -1821,18 +1826,15 @@ static int samsung_dsim_parse_dt(struct samsung_dsi=
+m *dsi)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 lane_polarities[5] =3D { 0 };<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device_node *endpoint;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i, nr_lanes, ret;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct clk *pll_clk;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D samsung_dsim_of_read_u32(node, &quot;sa=
+msung,pll-clock-frequency&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;dsi-=
+&gt;pll_clk_rate, 1);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* If it doesn&#39;t exist, read it from the cl=
+ock instead of failing */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_dbg(dev, &quot;=
+Using sclk_mipi for pll clock frequency\n&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pll_clk =3D devm_cl=
+k_get(dev, &quot;sclk_mipi&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!IS_ERR(pll_clk=
+))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dsi-&gt;pll_clk_rate =3D clk_get_rate(pll_clk);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return PTR_ERR(pll_clk);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dsi-&gt;pll_clk =3D=
+ devm_clk_get(dev, &quot;sclk_mipi&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(dsi-&gt;=
+pll_clk))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return PTR_ERR(dsi-&gt;pll_clk);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* If it doesn&#39;t exist, use pixel clock ins=
+tead of failing */<br>
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung=
+-dsim.h<br>
+index 05100e91ecb9..31ff88f152fb 100644<br>
+--- a/include/drm/bridge/samsung-dsim.h<br>
++++ b/include/drm/bridge/samsung-dsim.h<br>
+@@ -87,6 +87,7 @@ struct samsung_dsim {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 void __iomem *reg_base;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct phy *phy;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct clk **clks;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct clk *pll_clk;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct regulator_bulk_data supplies[2];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int irq;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct gpio_desc *te_gpio;<br>
+<br>
+-- <br>
+2.39.2<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000cc651f060499364a--
