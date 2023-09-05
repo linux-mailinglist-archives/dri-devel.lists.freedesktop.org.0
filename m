@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE3B792C51
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:20:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA507792C58
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDC6810E137;
-	Tue,  5 Sep 2023 17:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9F810E2B1;
+	Tue,  5 Sep 2023 17:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2086110E128;
- Tue,  5 Sep 2023 17:20:35 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id
- 5614622812f47-3a9f87adfe1so2166457b6e.1; 
- Tue, 05 Sep 2023 10:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693934434; x=1694539234; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=egYVobOFWuQdqjUEm4ZqKsY7Z50WC1t7+JHeJD3kmhA=;
- b=XTT8/4JgramINfh2CR53eQ+bjD9Pz5bhim+tODdqvv+CY7SpObxMSXzEgaZuQB3AS9
- DmQqosEIAImkirGJCOQEuCTZZyomcXg675hEbE957qVuLoF9zOokkpJkHg6JizKsmv+S
- khYiDRyCrtvWfSWBJmYZBxOoLeFy677YmVLqNVUmjXTXoJ0Uta//w8ZYPTvlHQ4Ww0JH
- u6taDzp4GgzfFXrlxLisvawKIlpG9JEnKntREznadzt+RJbJ5U/Nugfot+un17CTY2nR
- I3m4z3/gtrmHOlu2wKmPmu5NQeDkZF+YTI+ByDr/q/EbRkukV0mdkVG6y/xUzLjdp5j/
- uTjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693934434; x=1694539234;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=egYVobOFWuQdqjUEm4ZqKsY7Z50WC1t7+JHeJD3kmhA=;
- b=PR9TDh2oZ2Q9UyBxmnFS2yVuGUi5H6sTp30ek7a6opm4S9AJg51Y5RojxmAngzaIB4
- i3mxCcpCLTUHQkNJUcAZjB4Q6lvqkSN1MD269hgRblaPXZORUWEMSkgMP4NNk/rqGFMQ
- p3Cx+rq9l+pohwDu6dByT+P2LxujLx771wA3eNPQW1vm1lGJ/tv7aC8tKQTpVfE9xauN
- gvAykS8J5D31z47DH/x4Faokg9/eRMxTsXya8pHL9+pIAJR19frOHebC+/t2d8d2cmUH
- T9DEMC4t0K0NtsJB/RJIoTK5ye+uzdxmFzpzHYKCBDDp8xPwemCnyTiVhLDH+pqk8tUW
- 6pYg==
-X-Gm-Message-State: AOJu0YxdkElB5LuB9sbgpmM3aPSYPcdLMOflnYy0yjAn5bE4mobiuhsV
- wFSFISmQYWy3Hcg4saJJWSlU9XozFAMIuNbeYKk=
-X-Google-Smtp-Source: AGHT+IH3pexwwwaLVpB98fPK/JpecnRxp70TiquGAO7pJC/SgsuI+6nqiWAxDzNgHEj6QTnxUCmibNW7V0by24Ms4z0=
-X-Received: by 2002:a05:6808:1304:b0:3a7:65ae:9ccf with SMTP id
- y4-20020a056808130400b003a765ae9ccfmr17483691oiv.22.1693934434263; Tue, 05
- Sep 2023 10:20:34 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 54E6810E21B;
+ Tue,  5 Sep 2023 17:24:50 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxtPBgZPdkRsQfAA--.64834S3;
+ Wed, 06 Sep 2023 01:24:48 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx5sxgZPdk7UltAA--.46048S3; 
+ Wed, 06 Sep 2023 01:24:48 +0800 (CST)
+Message-ID: <40f32814-ca87-6e29-0e10-4b4463a2920d@loongson.cn>
+Date: Wed, 6 Sep 2023 01:24:47 +0800
 MIME-Version: 1.0
-References: <20230901070240.31027-1-jiapeng.chong@linux.alibaba.com>
- <a975bbdb-8cd9-35b2-ce98-f711439db3a5@amd.com>
-In-Reply-To: <a975bbdb-8cd9-35b2-ce98-f711439db3a5@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Sep 2023 13:20:23 -0400
-Message-ID: <CADnq5_O9zME2oxfSB1Gy6NMfOietEqN08Os36s6Vc2Kpdj0VQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: clean up some inconsistent indenting
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [RFC,drm-misc-next v4 3/9] drm/radeon: Implement .be_primary()
+ callback
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <20230904195724.633404-4-sui.jingfeng@linux.dev>
+ <d3e6a9ce-1c7a-8e44-3127-413cd471a8e9@amd.com>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <d3e6a9ce-1c7a-8e44-3127-413cd471a8e9@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx5sxgZPdk7UltAA--.46048S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGry3tr4UZrW7Zr1fCw13WrX_yoWruFW8pa
+ ySqFW7ArykG3W0y347Aw4UuFyrX3yrJayUtrn5Jas5Zws8JrW0vryjvw4qgasrJrZ3Aw4Y
+ va4ag3W7ZFyDA3cCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UR
+ a0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +67,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied and dropped the printk.
+Hi,
 
-Alex
 
-On Fri, Sep 1, 2023 at 3:40=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
+On 2023/9/5 13:50, Christian König wrote:
+> Am 04.09.23 um 21:57 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> On a machine with multiple GPUs, a Linux user has no control over 
+>> which one
+>> is primary at boot time.
 >
-> Am 01.09.23 um 09:02 schrieb Jiapeng Chong:
-> > No functional modification involved.
-> >
-> > drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c:34 nbio_v7_11_get_rev_id() warn=
-: inconsistent indenting.
+> Question is why is that useful? Should we give users the ability to 
+> control that?
 >
+> I don't see an use case for this.
 >
-> We should probably not have a printk here in the first place.
->
-> Christian.
->
-> >
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D6316
-> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c b/drivers/gpu/drm/=
-amd/amdgpu/nbio_v7_11.c
-> > index 7c08e5f95e97..76e21357dd4d 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c
-> > @@ -31,10 +31,9 @@
-> >   static u32 nbio_v7_11_get_rev_id(struct amdgpu_device *adev)
-> >   {
-> >       u32 tmp;
-> > -         printk("%s, getid\n",__func__);
-> > -
-> > -             tmp =3D RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0=
-_STRAP0);
-> >
-> > +     printk("%s, getid\n", __func__);
-> > +     tmp =3D RREG32_SOC15(NBIO, 0, regRCC_STRAP1_RCC_DEV0_EPF0_STRAP0)=
-;
-> >       tmp &=3D RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_F=
-0_MASK;
-> >       tmp >>=3D RCC_STRAP0_RCC_DEV0_EPF0_STRAP0__STRAP_ATI_REV_ID_DEV0_=
-F0__SHIFT;
-> >
->
+
+On a specific machine with multiple GPUs mounted, only the
+primary graphics get POST-ed (initialized) by the firmware.
+Therefore the DRM drivers for the rest video cards have to
+work without the prerequisite setups done by firmware, This
+is called as POST.
+
+One of the use cases is to test if a specific DRM driver
+would works properly, under the circumstance of not being
+POST-ed, The ast drm driver is the first one which refused
+to work if not being POST-ed by the firmware.
+
+Before apply this series, I was unable make drm/ast as the
+primary video card easily. The problem is that on a multiple
+video card configuration, the monitor connected with my
+AST2400 card not light up. While confusing, a naive programmer
+may suspect the PRIME is not working.
+
+After applied this series and passing ast.modeset=10 on the
+kernel cmd line, I found that the monitor connected with my
+ast2400 video card still black, It doesn't display and It
+doesn't show image to me.
+
+While in the process of study drm/ast, I know that drm/ast
+driver has the POST code shipped, See the ast_post_gpu() function.
+Then, I was wondering why this function doesn't works.
+
+After a short-time (hasty) debugging, I found that the ast_post_gpu()
+function didn't get run. Because it have something to do with the
+ast->config_mode. Without thinking too much, I hardcoded the
+ast->config_mode as ast_use_p2a, the key point is to force the
+ast_post_gpu() function to run.
+
+
+```
+
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -132,6 +132,8 @@ static int ast_device_config_init(struct ast_device 
+*ast)
+                 }
+         }
+
++       ast->config_mode = ast_use_p2a;
++
+         switch (ast->config_mode) {
+         case ast_use_defaults:
+                 drm_info(dev, "Using default configuration\n");
+
+```
+
+Then, the monitor light up, it display the Ubuntu greeter to me. Therefore
+my patch is useful, at least for the Linux drm driver tester and developer.
+It allow programmers to test the specific part of a specific driver without
+changing a line of the source code and without the need of sudo authority.
+
+It improves the efficiency of the testing and patch verification. I know
+the PrimaryGPU option of Xorg conf, but this approach will remember the
+setup have been made, you need modify it with root authority each time
+you want to switch the primary. But on the process of rapid developing
+and/or testing for multiple video drivers, with only one computer hardware
+resource available. What we really want is a one-shot command, as provided
+by this series.  So, this is the first use case.
+
+
+The second use case is that sometime the firmware is not reliable.
+While there are thousands of ARM64, PowerPC and Mips servers machine,
+Most of them don't have a good UEFI firmware support. I haven't test the
+drm/amdgpu and drm/radeon at my ARM64 server yet. Because this ARM64
+server always use the platform(BMC) integrated display controller as primary.
+The UEFI firmware of it does not provide options menu to tune.
+So, for the first time, the discrete card because useless, despite more powerful.
+I will take time to carry on the testing, so I will be able to tell more
+in the future.
+
+
+Even on X86, when select the PEG as primary on the UEFI BIOS menu.
+There is no way to tell the bios which one of my three
+discrete video be the primary. Not to mention some old UEFI
+firmware, which doesn't provide a setting at all.
+While the benefit of my approach is the flexibility.
+Yes the i915, amdgpu and radeon are good quality,
+but there may have programmers want to try nouveau.
+
+
+The third use case is that VGAARB is also not reliable, It will
+select a wrong device as primary. Especially on Arm64, Loongarch
+and mips arch etc. And the X server will use this wrong device
+as primary and completely crash there. Either because of lacking
+a driver or the driver has a bug which can not bear the graphic
+environment up. VGAARB is firmware dependent.
+My patch provide a temporary method to rescue.
+
+
+The forth is probably the PRIME and reverse PRIME development
+and developing driver for new video cards.
+
