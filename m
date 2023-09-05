@@ -2,117 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8A5792031
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 05:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71596792063
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 07:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A498610E40F;
-	Tue,  5 Sep 2023 03:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9B2010E421;
+	Tue,  5 Sep 2023 05:51:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2058.outbound.protection.outlook.com [40.107.249.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0889010E40F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 03:44:26 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2042.outbound.protection.outlook.com [40.107.96.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A708110E420;
+ Tue,  5 Sep 2023 05:51:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M9+tKfl2RZczVkOODmTc49F7MyT4bheLjlDqG/hpADi/NG2DFyJUeBkwbr8MEAKyE/3LqKq2oFbFGuunpPP1/cc2BWsnqJanuZHgp0oPwHg7ScUm2tJ84bwFPtSC8rT8tXwifLy6jWOt3Bi4kDQEckxiGyYjd0RzIC/SDCXY5HubA8fOC27VK4WKPnMPoA2TFc04RBjS7JtCS/AnuX49Ey7woXhn7vqm8kdKWZBfOTDcOJ4P99OBv9UeF8TUPRUdIRM0f2xAygOfiJVhVdkyEW1AtOTZ/Ya/LBtJxyfDQncmwdgcmfnXFu1QUdc+DTptZxMk7K7YEqcc+28cx2z8CQ==
+ b=F4IaaJn78Ey41OngQ8vEWtjd9ZNIikUjzO306QMuzJsi8NnqR5OPq33TW2P3LZziFEVtFYf1XhA0MDYex/yBMi+VEDL7z4qpjUpSTtmJ3bXfRzz14fEAm+jGdrGF11H+yJ7fU5e/2vqSqz8QHDYhWGO1udpFkFVd5GxRDGau6tVHCcJmNoXOGejohvCdXq2VSF1cN+2ylZIpWmwVtE0IYdgt46pBD8aH6LJM72H4UEvdC4JasiO80eiA4aK6EzT53J52VNATlMf8x19FnQOuNVpetWGe2s0QyjiJMK5BHpqMq89zlenBqsTmQpLnrqop6WP5+U9rfMsm3U6IRE+z/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PBHypuCA5MQIfvCWSzauJDaVZTeZDxTIosqkdE7PPTU=;
- b=QOqFmyodb3CjdnKG/QcwUYNCWm0KgORjq6TfT48z0TOapKd6SCdGCn2ZJ711cUVf+ZrUfttMPmeyaswAdp/wymI/etqb1TR5rI21w/ATZHn9pyehKou1SxCrVdT8Ls3annu9PamSKLPFc85/VDKWFBfiJAtesHARsghvjTAFmWetyPUaWzvheDsYX0LHQC7rBdKxMJ+774O63C/DbAhWmQRfnFHcK0KgKUXAaGN5xCInE3I9gsqL7W0nECEw9B60AUos2szckbGYRppq5trwalygMhy/HHNNSi0UKNd2tPro5zKCbxZRH9AI8RbCpwcYbZZcS2lDTJ3mIq1MkvoGVA==
+ bh=p2E/r4GRYbjeDQn5r7HPULRbP1bylNdKcwYhFyykSno=;
+ b=TKrY8kH7Uq+yNv80PA0vdF+zGpd15kyvb9gAEBvKTEQcPJb3KvkJ2J+sQE2RXC3BqVSkFxN6hDdDDdLb2JCt7EIYA8IEpBXGqYmd7gnWcwHX2UU6sYQvV3rv07BXxDsIWLHl3JXUOlOvZhjEjYhbpPAibyNfTIN/mNOadoXo36miZDh7ybnVZFDGghJynU9JchOUUZ9UJlIY39tuqiC+8SYDbw+q/tNf+jciqdrFvHPD6YKvO/MojMs2RWKfhogx7C+4BfpcBVNuqOHF5LA3buKmBlYUEwqSSYdf0jUy4mcOElBiVQnWBOnmU9ees/vX5BpF2EX7LtRNpGQ1bPqPXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBHypuCA5MQIfvCWSzauJDaVZTeZDxTIosqkdE7PPTU=;
- b=XJ+mmH2T6Xhi0OFDiSEyBNS6PHqmoNKG8fWhU5IUPDLyguGcliTUELIOmA4jjeu3lHNEtaeBs9ddm5bmXyC6sxdIQ1Z2D0C4pZ2eTGXSGgLqaQ0tyX2O6sMjT5pEGVCCqXx4xIiLoRustyqtzUKuC07omxoN0q1B9jP4VBkUuOk=
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB8493.eurprd04.prod.outlook.com (2603:10a6:10:2c5::18)
+ bh=p2E/r4GRYbjeDQn5r7HPULRbP1bylNdKcwYhFyykSno=;
+ b=jtRRmF4XmMedg4LDzTy9iaavQee+AM6ctxv53noQ1uVyUJZVlitM/xODaOitjmoMcRkFgKyffdUBpe+uEDUEwHkZ/kdefA1dEEnM5l2r0QZa4qgoJhurfrAHdKo11qvFFmG8lK5590mzlPDogA3grlkHbt042Elz/aX8HP4wA/c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SA0PR12MB4366.namprd12.prod.outlook.com (2603:10b6:806:72::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 03:44:23 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 03:44:23 +0000
-From: Ying Liu <victor.liu@nxp.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: RE: [PATCH v14 RESEND 1/6] dt-bindings: display: imx: Add i.MX8qxp/qm
- DPU binding
-Thread-Topic: [PATCH v14 RESEND 1/6] dt-bindings: display: imx: Add
- i.MX8qxp/qm DPU binding
-Thread-Index: AQHZ1NZxpKDHNQbjgEiILz/ou3qvwa/2MuwAgADviPCAAFvOAIAABz3wgAGw1QCAEnN4UA==
-Date: Tue, 5 Sep 2023 03:44:23 +0000
-Message-ID: <AM7PR04MB7046598DF5621D73152AB1E898E8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230822085949.816844-1-victor.liu@nxp.com>
- <20230822085949.816844-2-victor.liu@nxp.com>
- <scbtbu4cdjlsmbr6ugkpqslvfywidvbuqyekxuttfe4rmbp2st@lev2zfqe4h62>
- <AM7PR04MB70469E94D5FCFC46F51A72F3981CA@AM7PR04MB7046.eurprd04.prod.outlook.com>
- <64bpiz5nt3xgboxya26gcdh6d7nyyflm2m56orgjwwwibh52n7@yk4ogdcierho>
- <AM7PR04MB7046E8DD816FC99193B07E07981CA@AM7PR04MB7046.eurprd04.prod.outlook.com>
- <2k3cc3yfwqlpquxrdmzmaafz55b3lnqomzxjsvtetfriliqj3k@tv6uh7dzc2ea>
-In-Reply-To: <2k3cc3yfwqlpquxrdmzmaafz55b3lnqomzxjsvtetfriliqj3k@tv6uh7dzc2ea>
-Accept-Language: en-US
+ 2023 05:51:05 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 05:51:04 +0000
+Message-ID: <d3e6a9ce-1c7a-8e44-3127-413cd471a8e9@amd.com>
+Date: Tue, 5 Sep 2023 07:50:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC,drm-misc-next v4 3/9] drm/radeon: Implement .be_primary()
+ callback
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|DB9PR04MB8493:EE_
-x-ms-office365-filtering-correlation-id: 6ad93e04-9747-411f-369c-08dbadc26534
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GDwXMBd5D4cePwDpDgn4Vrc5s90q9SPnJxHpTo71si4gSQYl0x9OpVCUP/i4igNV55x8lc4LyuRFfhzXsIjq9b7/rShXoaBMBLoyuDoEiuhKTKRSOuPA/p/0xYY1qW0kjrNMZ4+1/6YzELumHVnwhTxA/L+GdAQ2WD+bISza2QVofjX23Bu9qfAqr19T+kLjITbNQCMOqBHujiMmbQWRO6xD75Y6ILulaZULDJIMljapckQ2niAys5O2fDymOZ3lOxrA2vahhVCjNiZCaGVvzZ9NzQOzpCE/qjbO4oN2Y0xWR9dWBbaCOGtzo971C/boLtw4Rz1GApQ1kiesAsFRS28qTCRzPbjwwUyvbNeNfSlcWFghEfMrVTdWUzF3uAhDOq3jnRKOXMh6YgvxiGqqDK6EhgDZwnDSiLtr5kDqborUxAX2YytYr6Pucfj+mn3voOuul/NgXXLK7KKu4Zt7c5O3whbANYZIiLa8zsMtdKevpv8wBsSmfrFMl8UFowoCl3QkjED7O2W2jOrZ+qM4YJyZ27ysnWBNqKFxfHppShpFVZ65+/zHY+NnwJwrOHDotI6i7IU2yZZt1SYToHmcsYlgw1Kyk9jFmJjFVpyPuPSnpti6dWzBtX1KJXBnd2tRy1OmjnLVMULTptzY1TooLg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(366004)(396003)(346002)(376002)(451199024)(1800799009)(186009)(55016003)(66946007)(66556008)(66476007)(66446008)(64756008)(54906003)(76116006)(6916009)(122000001)(478600001)(38070700005)(38100700002)(966005)(316002)(2906002)(7416002)(86362001)(41300700001)(8676002)(8936002)(4326008)(5660300002)(52536014)(83380400001)(53546011)(6506007)(9686003)(71200400001)(7696005)(26005)(33656002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?0CqlfWNs755+yWR+FwbZJ5tcjLtXDKJaZpwVRIdX56ayXpAi2JvbcNAfKA?=
- =?iso-8859-1?Q?5w14kFldA0bB0g0sUK6QQOgu5uJ3Ha049zbZ5IVd2M5faD0GzxhG9W16r8?=
- =?iso-8859-1?Q?cRPYHAX/6on5mH5VP++4Q3GBxz3bLKoXRvzPF8CwwtQIHchA9AHxOMCy4d?=
- =?iso-8859-1?Q?geew9nsfhIs2k39JsBOy1nysaxK/PKnEelER9kUOxVFGa9o4IH6yDRY78t?=
- =?iso-8859-1?Q?XmuEvlGml2VqCRWmHBeQtPajlZZzc/VsR5V8Fn7jClE+9Wp4YWyOqJaMPu?=
- =?iso-8859-1?Q?diRW2lTFBEpfPw+iaN/o2d2YtkULhC+AH/TTX6LrL2pmQJJHYSJGP8YhtT?=
- =?iso-8859-1?Q?Y0F1M1dMl9ESTHcZLHVAvoLhoEFGcWumNEQhg/Yp2fTjapgUIkWZG9avDE?=
- =?iso-8859-1?Q?WVvLhDazJtkPsjBu9LGmKj/He4KtfC7PkEU9ivSxjpOryIoAYBk1YHuW/9?=
- =?iso-8859-1?Q?G3n1nFtQjDYlxGGaCUYz55VfE/gqiXqndOQF9YOKS4nlMKMcGod0+del73?=
- =?iso-8859-1?Q?yixZIkTzD6lveZP3U/9JPgSIED94kkDJNnxUN3b+D4ZaosmpySUXWK99DL?=
- =?iso-8859-1?Q?mtg9fPJNb7+ut7r4oJVCwWcjBjWbbtIOPfnDP++MDQB16VZQDSJX8AmGFn?=
- =?iso-8859-1?Q?5VrdH9W+HaY6Jv5WfRwDmPrSF/E8S5Cl6rHhimdjSNW5i658v019Y0QOU9?=
- =?iso-8859-1?Q?NJf+AwVQMzvC5TCH9Yb913RsZcl+fVpsYv9p/zKQ1ll0jQpIF2Llsb0Hyh?=
- =?iso-8859-1?Q?boxE/+E1MobVJcMBA26Pm0XxAwywH6ZU2eXdVD07hgxzH+zZbV6UbqtBQt?=
- =?iso-8859-1?Q?ujT5vdDPLUfKl4qiKNWcb0etGm6sXU4nFoFNZFGO7f/6dkVcJVSO2cSagh?=
- =?iso-8859-1?Q?K9bml/0ZMCK6YdDX3Ze+VKUFd5oxeHF5aqu1EmVKOcW7d7PJDR2qqWJmZR?=
- =?iso-8859-1?Q?N1A4r2bNKcCkx0W6iEnm52Zf6z6dRiYRftXmi6Iv3m6QBUZnfsQ8eOASsS?=
- =?iso-8859-1?Q?7iMC2y9l5u7MZE3d2/LBeNRf9PzY5SqD8Zk7Lb5eow7fubc70DVsfrfDPI?=
- =?iso-8859-1?Q?EN9BEVOCsQrDXZ+yguLXUalUXtjbsq0sZeICZm2qe5OG2l+byWMll32neC?=
- =?iso-8859-1?Q?8153ranBf4MMHqq6UjCoT/48PTKF9QiaGWsJ5z569oKxw7fzPZ1H+rz8/J?=
- =?iso-8859-1?Q?duMbXLgXytsiucMHxFpYgTznV6KmukpBRJNk9Od4CcgZsYKMlOFj8dtPpW?=
- =?iso-8859-1?Q?yo8nOUrAkm0yqifaGTT86X1XqAvwvHC5CDoJiIlQEpzBB/js5RpmS05oQm?=
- =?iso-8859-1?Q?pGCu9JWfPz71hGWbk9wwAmDyVbTZ1qeFNTzpxvAQhAGJhGFHmgnbDxX2xX?=
- =?iso-8859-1?Q?Rrr+mUhMA4XCqom0+yQVcTCXfLVS3u8ewukg42gulUlJTCXOWjKDa/gZWg?=
- =?iso-8859-1?Q?oFZTEoMnUdodCh1T5UVuLtDjdq/O4pvzfyRlOIgJI/nBGcIfksBB17cmzC?=
- =?iso-8859-1?Q?8b82TccjGUW6EdXEmMyC4R6uS79zNwn7eNDvgEkljfQUtuNlNVQRvp+Q20?=
- =?iso-8859-1?Q?EiAjovLDtwXKuQQEEfvYHgMMWa0YRh+kHwDoiK6UU+AUpKjGBWWSC2fSNH?=
- =?iso-8859-1?Q?Fa9V4uZpVMWT4=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <20230904195724.633404-4-sui.jingfeng@linux.dev>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230904195724.633404-4-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0072.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4366:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09a4ad45-09d8-44fc-8fa3-08dbadd417bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0soq8oHzqPbabgYld4nqX55qRTp8MnCXE/QmSsRe3d17vL1iVzmATl4FE5KHjd4svxYT29LUpFo9YZ72KHVdMO7/lwh5SSZxs8CyEGYTCfKIPYXayfLWOPt6pKrcyEiUPAyMeiU9xwPT/n4e7JnURbhRs45YuBWFsPkAKQKJJwAGnAQs4Kl0oLcjMetF59TkIYBzu2gbtqGUT9RjwhR06kycgB4pAaFCa5QU/r3dweSPaJ51TTu3Rp4GmzRD+Wpl9u9UImNItEogcEmxIjFCmaPSUo0XKu91pLR4M+WupO/03zw0FVqNqY6r6IjNnl9yyUuGCQvkVuDiX3hJLrFiUO7StgZgaQLgmpl5R4ayD3ik0UwwFdmIZU6bNQFVL7dG6Jy9LA6bJgkP5m9Bki9+lH9K1Nb0DD6nNoVHm7Rvb947xYOIP0zVKE2QVXwTIhVeeau7/fxWbIUOKQP/N/WsA56ocST7CZ8T8COl/hHuVhL6j8c1lRtnAaInAfncaweH2e4Co/62f/Lm7R/nWh6XD44aKRW9KEn6NCVZHBICPV7nTtBt6nOJvbH5o/AFbN5b9S4gNgY/y5UW8HwNJ2+0/7YpIY/JtKbMXEEZMmHBrexpwxoLET4LXEYKMIBC81Vnvsu1t779jSvBRjj9jJnrk0YNArVGBchdBVMkCtCsYQU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(39860400002)(346002)(366004)(376002)(186009)(451199024)(1800799009)(6666004)(110136005)(54906003)(66556008)(66946007)(66476007)(6486002)(6506007)(316002)(6512007)(41300700001)(478600001)(31686004)(8676002)(4326008)(2616005)(26005)(5660300002)(36756003)(38100700002)(2906002)(8936002)(86362001)(31696002)(83380400001)(142923001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGYxbDFyZEFPazZTaWt1Uysyc1pXaWxkSVJxMU43UEtVNWw5S2xJRFloTmxt?=
+ =?utf-8?B?VGNQRnlwNGR1RXVhYzFCRzF2WWNCNks4TUt0SHhWRE5sNWNDUWFVOHk3cHZ1?=
+ =?utf-8?B?WW1DOG9zTUhEaTFxVTMzd0IyeGQyNHk1L2xLL012dVVGdGozdWdqeEpRUGpC?=
+ =?utf-8?B?WG94NXJsa3hNMnBmeUo4Z2FMSEpyODlKZHJJdVl6a2h5R0VBYXpsSGNzRGoy?=
+ =?utf-8?B?cmlCSWk2TjFsNE13STdoZUNyRitGRWxMZHZaTGRkUXV5SkpxY1BqYk5jNlJJ?=
+ =?utf-8?B?WnFoWkZTdks3VmJpcW5XcUR0K2xoZmhxbzVkQ1NaWDZWMFk3WnpSTUoxMHdG?=
+ =?utf-8?B?ZGFTUy9aNFJseFA1SE5XK0lHNGdlUkhrNEVEQTdOMVhuQVUwc2cySng3MVB5?=
+ =?utf-8?B?N3BUNkZtNThtK3hqS2VReFlaSlVxZys4M1UrU1lwYlJmWjUrMUc3b2t6Ylpr?=
+ =?utf-8?B?Ni9LMWhhTldTd1cweCtzSnhtSmUvVXp0T1krL0hoc3FOQ0pPTkpnS0h6YW9I?=
+ =?utf-8?B?M25Ndkk5M05NL082a2VDRUplYmdIWENyTFF3d3V0Wno3RWRDT0JYQkJxSlBK?=
+ =?utf-8?B?TTVnQkNyNWg5V09zT09WakZZVTYyUVhVT25TOUhycVlWdzZIWTRnRFpiZFNz?=
+ =?utf-8?B?bEdPYW90YmlBV1ZoQlNkajdaZC9Fb0ViamxCeG90dUdnVVdKZVdrVjIwcHl6?=
+ =?utf-8?B?ZGVDYVg1bjMxck1LUWRRc2YzOENxZDlwRHNVL25VTjFoWEc0aDBDd0IwcnFN?=
+ =?utf-8?B?ZEc3Z2x1dmJ1WTBKUnJ0RXhjbkVqbHhiSEljenZ5ZDQxZHE2MVdRMm9qeFVK?=
+ =?utf-8?B?bUtLMmN6M1EyelNMbTZqR0x5Y3ZSc3IzWmR3c01sY3k1Zk11MzZBdHNQakZq?=
+ =?utf-8?B?d1g1NDRCWjZtbmp5VXBEdzVrbGNGU0EvYVhONm1JZzJyQnpWZS8rR0lpTHNH?=
+ =?utf-8?B?MGhCMlgxamtxSUhDc0VZc2tybVV2cWpSQk8vM0JxN0gxZkxyR05aRFBLSUdC?=
+ =?utf-8?B?RjEzTWVGcnJ5TzRGeEVibFlmbVIzM01GS1FYdTdqV2pIQWtsclpOU21SSlE2?=
+ =?utf-8?B?SVZnNTA0eTlIQlBFai9kMGFXZXpwLzBOU1g2ZUZBbzdUYkRoZG9wbk9vYzdZ?=
+ =?utf-8?B?UmNoMlJkeGNIWG1JY2l3SU9sV3AzaGR6OUZoSTR6UkVjaHNCU3pnSzVKN3VO?=
+ =?utf-8?B?Z1o3Q1JYclVrMVdMYTBiOEFzcHRWMXlNeng5akEwR1FjS0QrSWlYWGx6VlFP?=
+ =?utf-8?B?VDhrbytDTXg0WUhnOTZCRVFWMFZoSGhXdUs1eUhGTWt2OS9NaExRYjE4RE9k?=
+ =?utf-8?B?Q2pjejhmLy84TVJXQ2NuRXpoTlUzL0pkNW5zUDZ2a0RHczNVSGJ2anJZWDg0?=
+ =?utf-8?B?bzh4Tnl6TnMvRnRFZW8yM3Q0ZFNJbWZVc1BkRkIrOEszWHhZMm5OQkI4WUQr?=
+ =?utf-8?B?N0c1VFpEREh1VFVJODkxUUd2dWw2MXhoL1ZWd2U4TmtEeGZvVnhUUzlzSVY1?=
+ =?utf-8?B?T0x1enc4UEM0SUlvSWVSalFkQ1BoTEtZZi84U1J4ZFNuWUJUeW1KL2JScTRV?=
+ =?utf-8?B?cHIxcXoyeXloWFQyTitxUlowZEVYU3EyN2djbTdXRGtxZkd1eUtTekVTd3Aw?=
+ =?utf-8?B?SXp6bUxmVzZNWlRyWVRiYitPeGJUU0gxVmN4YXY0UllFdUZFcXZKVnh3TGl6?=
+ =?utf-8?B?QWIrMDBjYVNueVJPSWIwWERKVUNJMkhzV2IxNWUvZEdqcVhzVGw5TnJJVk5m?=
+ =?utf-8?B?dE8ydnN0YVkwS3lhNDg4a1l1elRaRHJPaWN1dURxNkYvTzlnUERUSFBpNi90?=
+ =?utf-8?B?VmVvdTZDRjRtUkVzY3JzbWhPcFFlaWhBN2hrNU1FckFuUCtyZDV4d2ZmM25r?=
+ =?utf-8?B?OWY1R3VIS0VkaHBSek13RkxabERBUHFKczI4MXprTlY4ZzdOME5tOVo4ZTZv?=
+ =?utf-8?B?QVZyZnA3cFk5cXErbjJWVXoyMTdPc0NzM3hBNU1YTGpZYjBNTmNqWi9Dd04x?=
+ =?utf-8?B?RlltanJoa2JKalhXdTlxOXBtOXZCK2VCWVJ3Wmd1OGlISVRVMXp3aVFTNVRr?=
+ =?utf-8?B?eHRUemxMazc4ZGlRNVBKOFQ0aEZQcDk1bFFTZXpDemJhdERja0dIcUFwNDBP?=
+ =?utf-8?Q?5lU0k0p+X6uXQLMkRxHAufkys?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09a4ad45-09d8-44fc-8fa3-08dbadd417bf
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ad93e04-9747-411f-369c-08dbadc26534
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2023 03:44:23.5855 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: avCvHerpjiNcDA9iuC4gfd6C8CVIe5JIELk1blDNXxY0IdSFqrsQnkqC4wavL/QplDJqA+SYjz3y5M7lqkL8rA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8493
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 05:51:04.8794 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5ha3nvYScTZ61pZVv0zNgnmZjQnm/HU6Gr017yrZjGg/nuHA2vz2hnZiRL0xBVO+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4366
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,79 +126,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>, dl-linux-imx <linux-imx@nxp.com>,
- "Laurentiu Palcu \(OSS\)" <laurentiu.palcu@oss.nxp.com>,
- =?iso-8859-1?Q?Guido_G=FCnther?= <guido.gunther@puri.sm>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, August 24, 2023 5:48 PM, Maxime Ripard <mripard@kernel.org> wr=
-ote:=20
-> On Wed, Aug 23, 2023 at 08:47:51AM +0000, Ying Liu wrote:
-> > > > This dt-binding just follows generic dt-binding rule to describe th=
-e DPU
-> IP
-> > > > hardware, not the software implementation.  DPU internal units do n=
-ot
-> > > > constitute separate devices.
-> > >
-> > > I mean, your driver does split them into separate devices so surely i=
-t
-> > > constitutes separate devices.
-> >
-> > My driver treats them as DPU internal units, especially not Linux devic=
-es.
-> >
-> > Let's avoid Linuxisms when implementing this dt-binding and just be sim=
-ple
-> > to describe necessary stuff exposing to DPU's embodying system/SoC, lik=
-e
-> > reg, interrupts, clocks and power-domains.
->=20
-> Let's focus the conversation here, because it's redundant with the rest.
->=20
-> Your driver registers two additional devices, that have a different
-> register space, different clocks, different interrupts, different power
-> domains, etc. That has nothing to do with Linux, it's hardware
-> properties.
->=20
-> That alone is a very good indication to me that these devices should be
-> modeled as such. And your driver agrees.
->=20
-> Whether or not the other internal units need to be described as separate
-> devices, I can't really tell, I don't have the datasheet.
+Am 04.09.23 um 21:57 schrieb Sui Jingfeng:
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>
+> On a machine with multiple GPUs, a Linux user has no control over which one
+> is primary at boot time.
 
-i.MX8qxp and i.MX8qm SoC reference manuals can be found at(I think
-registration is needed first):
-https://www.nxp.com/webapp/Download?colCode=3DIMX8DQXPRM
-https://www.nxp.com/webapp/Download?colCode=3DIMX8QMRM
+Question is why is that useful? Should we give users the ability to 
+control that?
 
-Sorry for putting this in a short way, but the DPU is one IP, so one dt-bin=
-ding.
-
->=20
-> But at least the CRTC and the interrupt controller should be split away,
-> or explained and detailed far better than "well it's just convenient".
-
-CRTC is Linuxisms, which cannot be referenced to determine dt-binding.
-
-DPU as Display Controller is listed as a standalone module/IP in RM.
-This is how the IP is designed in the first place, not for any convenient
-purpose.
+I don't see an use case for this.
 
 Regards,
-Liu Ying
+Christian.
 
->=20
-> Maxime
+>   This patch tries to solve the mentioned problem by
+> implementing the .be_primary() callback. Pass radeon.modeset=10 on the
+> kernel cmd line if you really want the device bound by radeon to be the
+> primary video adapter, no matter what VGAARB say.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>   drivers/gpu/drm/radeon/radeon_device.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+> index 71f2ff39d6a1..b661cd3a8dc2 100644
+> --- a/drivers/gpu/drm/radeon/radeon_device.c
+> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+> @@ -1263,6 +1263,14 @@ static const struct vga_switcheroo_client_ops radeon_switcheroo_ops = {
+>   	.can_switch = radeon_switcheroo_can_switch,
+>   };
+>   
+> +static bool radeon_want_to_be_primary(struct pci_dev *pdev)
+> +{
+> +	if (radeon_modeset == 10)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>   /**
+>    * radeon_device_init - initialize the driver
+>    *
+> @@ -1425,7 +1433,7 @@ int radeon_device_init(struct radeon_device *rdev,
+>   	/* if we have > 1 VGA cards, then disable the radeon VGA resources */
+>   	/* this will fail for cards that aren't VGA class devices, just
+>   	 * ignore it */
+> -	vga_client_register(rdev->pdev, radeon_vga_set_decode, NULL);
+> +	vga_client_register(rdev->pdev, radeon_vga_set_decode, radeon_want_to_be_primary);
+>   
+>   	if (rdev->flags & RADEON_IS_PX)
+>   		runtime = true;
+
