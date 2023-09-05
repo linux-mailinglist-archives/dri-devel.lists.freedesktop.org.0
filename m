@@ -2,81 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADBD7928C4
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 18:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285B5792C40
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 19:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8C810E0D2;
-	Tue,  5 Sep 2023 16:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2C3810E0DC;
+	Tue,  5 Sep 2023 17:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496AD10E0D2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 16:46:12 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-99bcf2de59cso409758966b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 09:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1693932368; x=1694537168;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AgLOvyOzkkToLqkCrJsXRlY8QfvdXyyN+UM6jz+GkrQ=;
- b=ccOvmYxA1qlnqbCRQOnBB0GRpNAIBREgYMXewwLo+IGJtX2jAfvO3gkYBbl8KkZH5N
- M6P4c6CuCox8Z0XgIenfedCu9XyqCuz0CskTlH06AI60HUFfgz14UV+CUmE1Wj4uiq2B
- x6KFfFwzUgHaNXOI+Hc76svTN2RS6ZivtshzI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693932368; x=1694537168;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AgLOvyOzkkToLqkCrJsXRlY8QfvdXyyN+UM6jz+GkrQ=;
- b=VWtdYDAZqKS5fpln3DCQN7c/EH6ZkF0A41FFgqEyKu2MztmfTapISZekiB6QS72i2L
- lG0DrI5evkCinJkhGylEnMgls1ryI2+q7H36mV6yM5MuEFGq+2zLfIhrv5Ej8UDg2zqu
- OL/WTHxECCMe2HyLQTMoAm5/oKuiyUBTHrEc/O+S5NPBm7NPrgdZoGo6kl9qGnfsHq1C
- JIbi64+Kj2hipmBVFaVVkBFZqChlPGPgRzobYpr/3ghGeydCscgmTT8T5AlrGi9Oay+c
- gzcnUS1+6kWgkT5GJYRPSal55VnMUfzJZEyo3RJ83Vlv/iBJBiN69DM6gaA+uomhHV2T
- XhdA==
-X-Gm-Message-State: AOJu0YwA8oxDqWdXOzWnNCgmbX4qpADCKX8ZFmoNQdk4zdx6pPzYYlE1
- 1NwYDiof35MSfN4qFGVI85ygIL2E7yxZsWRATbXtaYgC
-X-Google-Smtp-Source: AGHT+IG8Sn9VfnB8aTZNUd8zs/C3dA9djh4JuNmwUWrq/oygjZfau71IVSOYfS7orZPFbtPjD/HQJA==
-X-Received: by 2002:a17:906:a18b:b0:9a1:c812:cbb9 with SMTP id
- s11-20020a170906a18b00b009a1c812cbb9mr256450ejy.31.1693932368281; 
- Tue, 05 Sep 2023 09:46:08 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com.
- [209.85.208.41]) by smtp.gmail.com with ESMTPSA id
- f3-20020a170906824300b0099b921de301sm7795897ejx.159.2023.09.05.09.46.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Sep 2023 09:46:06 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-52c96d5df86so132a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 09:46:06 -0700 (PDT)
-X-Received: by 2002:a50:9f41:0:b0:506:b280:4993 with SMTP id
- b59-20020a509f41000000b00506b2804993mr4449edf.2.1693932366175; Tue, 05 Sep
- 2023 09:46:06 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB5810E0DC;
+ Tue,  5 Sep 2023 17:14:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oWKHtMoOKiXOOgBpHOlq5pH+n0k3NrLIeAY2/MJpjuxCnf4ZsEG54MCULGvIMSpAVyzNO9OFBQSeNNaFcHRapqgTuLpuh89xNcFtvnq/fkPrdohmt79vFmPzWJFSphgtZMlvPzYEb/nSKNVquo7BcTBP+CivM2OFLcxECMJY6FvUVTmt7XNngZAYg1Caq9AsoCVZsHKzOkFVeye0QVLWsyBjJ32PdUKSRy2mN9fFDx+t7uDGYP3L/uF7OnEcArvyOEv7o4Y/r2eE8s82jHDCeszqrYO32GHJ5c+tCigvtLEdIDQORt/lgj4q1mF6TD0T+ZVIxCm8oMqFOyUuwJ7brw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g+Tn3PKaV04/rKqO9eDb7b65Bp1TNyISYORvhyAO8Xg=;
+ b=K0lwbmjkxvj1kAU8+UBEMV/pfYlgRq4Tu8gW8W3rOviwuW3tesWB9fb/II2vIgrSj8J9lwk/b2wYb0xipIZs7Q9WcDovYfrI5wAFPXSp/pKJ9oqRsvfX5/FPemNpxAHnsVWYLwtVhn8ifuix/TXwswHEHp6ZCFQNacIdFh7W7O88VDAWmzu0UoIBPm59+24AC73e1bDlXca7tsxl/6iH7oKZ82keTKseqnyzXRRLUPjX0b6RK6aG+aKY1aOKLGUcVeCF0bgGJAudCmANLBarzFFAf/Wj1JtezBoDJJB9LBq1ffVAuHUS4X9xuqCriipGGNQzvP5tueqxRLo+05DhEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g+Tn3PKaV04/rKqO9eDb7b65Bp1TNyISYORvhyAO8Xg=;
+ b=oHfLiFDQgMVvdhue0xgtwj7wGzvJ/f0aIUDz1T4VLOHcM5jzSS0bI5M65CGypkIOOhTY3mvlXYSw9HTkpy8ihZA8Qa3925T1MlpgahLk43VXN7j5nKrBLzwBFn3LvMcz/trUoZpyK+VpYm2oMbh0O146wlfLqYr4Fd3Cw+sFMYU=
+Received: from DS7PR03CA0029.namprd03.prod.outlook.com (2603:10b6:5:3b8::34)
+ by IA0PR12MB9045.namprd12.prod.outlook.com (2603:10b6:208:406::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 17:14:39 +0000
+Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
+ (2603:10b6:5:3b8:cafe::50) by DS7PR03CA0029.outlook.office365.com
+ (2603:10b6:5:3b8::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33 via Frontend
+ Transport; Tue, 5 Sep 2023 17:14:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6768.25 via Frontend Transport; Tue, 5 Sep 2023 17:14:38 +0000
+Received: from dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 5 Sep
+ 2023 12:14:35 -0500
+From: Alex Hung <alex.hung@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/amd/display: Remove unwanted drm edid references
+Date: Tue, 5 Sep 2023 11:13:54 -0600
+Message-ID: <20230905171354.2657889-1-alex.hung@amd.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <bphkopaq76imqzut7xrx7aprqybhx3veajdympqhig2wqlix6c@64ck23rc5cv7>
- <CAD=FV=XiVkoCsjin4R74nkcd8vzOq9uPq+o5cRjd=YOoPXuQkg@mail.gmail.com>
- <lhd6ai7d6swlxhisjhikytguor7pptrymo3bmfwej4k7zqrnv4@hp2gvhw7mh3m>
- <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
- <mumiep5q7x7qj7k64h3cyodxrgk737iy5rum5keguquwymf2gy@3qruwfrqjgy7>
- <CAD=FV=VEene+nr1us87iA+bomxzQ039r-E+wqvizvFGbxXjDvA@mail.gmail.com>
- <wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76uw5p6s7tzt@cbiezkfeuqqn>
- <CAD=FV=XcUVvg5Om__dD=i9zu7ZtQmvWicms9yN7w0c2nWGhqYg@mail.gmail.com>
- <p7okuysh442hulqls3ekbaar2bguqv67fum3gsb2cj75kjvdpx@uebwlgvf46sy>
- <CAD=FV=Xr4nZUeHY-FdiedcV=BuP5szNBEHPKjdRnA7c+3MADqg@mail.gmail.com>
- <nahwibpea2akyg7swbdb3f6xyv7fqs35v5spqbjfzfchxnoqqz@glgg5core75d>
-In-Reply-To: <nahwibpea2akyg7swbdb3f6xyv7fqs35v5spqbjfzfchxnoqqz@glgg5core75d>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Sep 2023 09:45:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UKSc4mNjWcvLCXT9Tdeok=xRjA0oVoLKVkq+kQ9-4M0A@mail.gmail.com>
-Message-ID: <CAD=FV=UKSc4mNjWcvLCXT9Tdeok=xRjA0oVoLKVkq+kQ9-4M0A@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|IA0PR12MB9045:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29bc8608-3470-4e4a-a0b8-08dbae339623
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: s4wQ8dchSsfeFw7YVYIXVbcel1vNvh+2syLP3eD2yE7krVXJjtfa1PK+aQpp/dP3Da38k69gG9zDHQFRhGbY1k7Oi9t1BklGmq3E/4wWBCQel9vb52dBm2T1WuTXIr2eMM1a2Xv5D9h/jwpAi4xRLfoP0eIkEfVN+9bqWYAmwbO0dsHDzDWfrlpnx+cOKC+2VbIRim3keHoF8m17iFHJgwqxUiC3SGgWA/f1yYXC6xZO4JQWopiBt952XJO7wu/GSIngUYZojfzeUWn6bG4ov3YzCl9NT/HBgERKvlnvl4zbOmF3Vv0wFQg5lYslAe3futfh2WEHjOMwV0AK7lWRg9UJ15W1VpqkwVzi18NQPeWdf5jW7X806pJ8EWj3QWfPjQu3+8dihKcc6lLj47O6dpYqIVG/TsmGfBgrCqwVNF/t5GJ9AOLP7i/Ca3Aj+NGULi12KcoPNCsQbMaTFOpAYN+KkpNdX8xnALdiYC5q+40qVizOz2+r2OnCEFXJngQT32H/5tyqgfUp3kCGEC0i61EVjh3RaqnvoA7Xo7o2P3Op/h3Oud2XoCuAcIoY/KoyeoTLLhJKLMEe0F8ml3ZMlfiFSkysIkK4WOqWh/Wx9vU3mzC68rFpY5ap1Z/kKlbEHRWk4d/1japLT6xlA4ktYSAgXvW/W4YiG7FNZC021YCA+WDTslWPKMvhm2LZNut96SNmyrPQCBGq8ph/iA42SBUSPcgWMh8GiPlMi7uulsc3Gwp6XRvxhHV3BFhLioZeYuLBZ1jxWvDnQJx1XZxRT2KY4r+z15S6YN7A6JqjxXA=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199024)(1800799009)(186009)(82310400011)(36840700001)(40470700004)(46966006)(2906002)(316002)(70586007)(110136005)(86362001)(70206006)(36756003)(54906003)(40480700001)(5660300002)(4326008)(44832011)(8676002)(8936002)(41300700001)(40460700003)(47076005)(83380400001)(336012)(26005)(1076003)(426003)(16526019)(2616005)(36860700001)(356005)(81166007)(478600001)(82740400003)(7696005)(6666004)(26123001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 17:14:38.7445 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29bc8608-3470-4e4a-a0b8-08dbae339623
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9045
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,211 +98,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
+ jani.nikula@intel.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, Alex Hung <alex.hung@amd.com>, sunpeng.li@amd.com,
+ daniel.wheeler@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
+ hamza.mahfooz@amd.com, wayne.lin@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+[WHY]
+edid_override and drm_edid_override_connector_update, according to drm
+documentation, should not be referred outside drm_edid.
 
-On Mon, Sep 4, 2023 at 8:33=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> > I don't understand the benefit of switching to refcounting, though. We
-> > don't ever expect the "prepare" or "enable" function to be called more
-> > than once and all we're guarding against is a double-unprepare and a
-> > double-enable. Switching this to refcounting would make the reader
-> > think that there was a legitimate case for things to be prepared or
-> > enabled twice. As far as I know, there isn't.
->
-> Sure, eventually we'll want to remove it.
->
-> I even said it as such here:
-> https://lore.kernel.org/dri-devel/wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz7=
-6uw5p6s7tzt@cbiezkfeuqqn/
->
-> However, we have a number of panels following various anti-patterns
-> where disable and unprepare would be called multiple times. A boolean
-> would just ignore the second, refcounting would warn over it, and that's
-> what we want.
+[HOW]
+Remove and replace them accordingly.
 
-Can you provide a concrete example of a case where refcounting would
-give a better error? I'm still having a hard time understanding why
-you are saying that refcounting is better and something concrete would
-help me. Can you point at a driver you have in mind that follows an
-anti-pattern where refcount would be better?
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++-----------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
 
-I'll try to be more concrete too and maybe you can point out where I'm
-confused. As far as I understand the only difference between the
-boolean and the refcount would be if someone _enabled_ or _prepared_
-more than once, right? That would cause a refcount to increment to 2
-but the boolean would stay at "true". I'm not aware of anyone calling
-enable or prepare more than once, but maybe you are? ...or maybe
-there's some other difference that I'm not aware of?
-
-Said another way...
-
-With a boolean and _not_ having more than one enable:
-
-1. enable() =3D> set "enabled" to true and enable panel.
-2. disable() =3D> set "enabled" to false and disable panel.
-3. disable() =3D> WARN, leave "enabled" as false.
-4. disable() =3D> WARN, leave "enabled" as false
-
-With a refcount and _not_ having more than one enable:
-
-1. enable() =3D> refcount becomes 1 and enable panel
-2. disable() =3D> refcount becomes 0 and disable panel
-3. disable() =3D> WARN, refcount stays 0
-4. disable() =3D> WARN, refcount stays 0
-
-So with only one enable the behavior is the same.
-
-With a boolean and more than one enable:
-
-1. enable() =3D> set "enabled" to true and enable panel.
-2. enable() =3D> WARN, leave "enabled" as true
-3. disable() =3D> set "enabled" to false and disable panel.
-4. disable() =3D> WARN, leave "enabled" as false.
-5. disable() =3D> WARN, leave "enabled" as false
-
-With a refcount and more than one enable:
-
-1. enable() =3D> refcount becomes 1 and enable panel
-2. enable() =3D> refcount becomes 2
-3. disable() =3D> refcount becomes 1
-4. disable() =3D> refcount becomes 0 and disable panel
-5. disable() =3D> WARN, refcount stays 0
-
-In the case that there is more than one enable, I think the "boolean"
-is better. Specifically:
-
-a) It doesn't change behavior from today. Perhaps you can show me a
-counterexample, but lacking that I'd assert that everyone today is
-expecting things to work like the "boolean" case. If we change to a
-refcount I think it could break someone. Even if nobody is relying on
-things working like the "boolean" case today, I would assert that I
-don't think anyone is expecting things to work like the "refcount"
-case.
-
-b) With a boolean we WARN at more appropriate times. Sure we could add
-a warning when the refcount becomes 2, but at that point why aren't we
-just using a boolean?
-
-c) The "boolean" case is already implemented today so no patches need
-to be sent for it.
-
-
-> > In any case, I don't think there's any need to switch this to
-> > refcounting as part of this effort. Someone could, in theory, do it as
-> > a separate patch series.
->
-> I'm sorry, but I'll insist on getting a solution that will warn panels
-> that call drm_atomic_helper_shutdown or drm_panel_disable/unprepare by
-> hand. It doesn't have to be refcounting though if you have a better idea
-> in mind.
-
-As per above, I think this already happens with the boolean? Won't you
-see an error message like this:
-
-dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
-
-...from drm_panel_unprepare()
-
-
-> > > > The above solves the problem with panels wanting to power sequence
-> > > > themselves at remove() time, but not at shutdown() time. Thus we'd
-> > > > still have a dependency on having all drivers use
-> > > > drm_atomic_helper_shutdown() so that work becomes a dependency.
-> > >
-> > > Does it? I think it can be done in parallel?
-> >
-> > I don't think it can be in parallel. While it makes sense for panels
-> > to call drm_panel_remove() at remove time, it doesn't make sense for
-> > them to call it at shutdown time. That means that the trick of having
-> > the panel get powered off in drm_panel_remove() won't help for
-> > shutdown. For shutdown, which IMO is the more important case, we need
-> > to wait until all drm drivers call drm_atomic_helper_shutdown()
-> > properly.
->
-> Right, my point was more that drivers that already don't disable the
-> panel in their shutdown implementation will still not do it. And drivers
-> that do will still do it, so there's no regression.
->
-> We obviously want to tend to having all drivers call
-> drm_atomic_helper_shutdown(), but not having it will not introduce any
-> regression.
-
-I'm still confused here too. The next patch in this patch series here
-that we're talking about is:
-
-https://lore.kernel.org/dri-devel/20230804140605.RFC.5.Icc3238e91bc726d4b04=
-c51a4acf67f001ec453d7@changeid/
-
-Let's look at an arbitrary concrete part of that patch: the
-modification to "panel-tdo-tl070wsh30.c". For that panel, my RFC patch
-removed the tracking of "prepared" and and then did this:
-
-@@ -220,16 +209,14 @@ static void tdo_tl070wsh30_panel_remove(struct
-mipi_dsi_device *dsi)
-  dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
-
-  drm_panel_remove(&tdo_tl070wsh30->base);
-- drm_panel_disable(&tdo_tl070wsh30->base);
-- drm_panel_unprepare(&tdo_tl070wsh30->base);
-+ drm_panel_helper_shutdown(&tdo_tl070wsh30->base);
- }
-
- static void tdo_tl070wsh30_panel_shutdown(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 1bb1a394f55f..f6a255773242 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6372,15 +6372,12 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
  {
-  struct tdo_tl070wsh30_panel *tdo_tl070wsh30 =3D mipi_dsi_get_drvdata(dsi)=
-;
+ 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
++	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+ 	struct dc_link *dc_link = aconnector->dc_link;
+ 	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+ 	struct edid *edid;
+ 
+-	if (!connector->edid_override)
+-		return;
+-
+-	drm_edid_override_connector_update(&aconnector->base);
+-	edid = aconnector->base.edid_blob_ptr->data;
++	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
+ 	aconnector->edid = edid;
+ 
+ 	/* Update emulated (virtual) sink's EDID */
+@@ -6421,22 +6418,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+ 	};
+ 	struct edid *edid;
+ 
+-	if (!aconnector->base.edid_blob_ptr) {
+-		/* if connector->edid_override valid, pass
+-		 * it to edid_override to edid_blob_ptr
+-		 */
+-
+-		drm_edid_override_connector_update(&aconnector->base);
+-
+-		if (!aconnector->base.edid_blob_ptr) {
+-			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
+-					aconnector->base.name);
+-
+-			aconnector->base.force = DRM_FORCE_OFF;
+-			return;
+-		}
+-	}
+-
+ 	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
+ 
+ 	aconnector->edid = edid;
+-- 
+2.42.0
 
-- drm_panel_disable(&tdo_tl070wsh30->base);
-- drm_panel_unprepare(&tdo_tl070wsh30->base);
-+ drm_panel_helper_shutdown(&tdo_tl070wsh30->base);
- }
-
-As per our discussion, the plan is to send a V2 of my patch series
-where I _don't_ create the call drm_panel_helper_shutdown() and thus I
-won't call it. That means that the V2 of the patch for
-"panel-tdo-tl070wsh30.c" will remove the calls to drm_panel_disable()
-and drm_panel_unprepare() and not replace them with anything.
-
-As per our discussion, in V2 we will make drm_panel_remove() actually
-unprepare / disable a panel if it was left enabled. This would
-essentially fold in the drm_panel_helper_shutdown() from my RFC patch.
-This would make tdo_tl070wsh30_panel_remove() behave the same as it
-did before. Ugh, though I may have to think about this more when I get
-to implementation since I don't think there's a guarantee of the
-ordering of shutdown calls between the DRM driver and the panel.
-Anyway, something to discuss later.
-
-However... tdo_tl070wsh30_panel_shutdown() will no longer power the
-panel off properly _unless_ the main DRM driver properly calls
-drm_atomic_helper_shutdown().
-
-
-Did I get anything above incorrect? Assuming I got it correct, that
-means that our choices are:
-
-a) Block landing the change to "panel-tdo-tl070wsh30.c" until after
-all drivers properly call drm_atomic_helper_shutdown().
-
-b) Add a hacky call to drm_panel_remove() in
-tdo_tl070wsh30_panel_shutdown() to get the old behavior. This would
-work, but IMO it's ugly and I'm pretty strongly against it.
-
-c) Ignore the regression and just say that this panel won't get power
-sequenced properly until its DRM driver is updated. I'm strongly
-against this.
-
-...unless you are aware of another choice, the only choice I'm willing
-to go with is "a)" which is why I say we are blocked on getting all
-drivers to properly call drm_atomic_helper_shutdown().
-
-NOTE: I could still land patches #1-3 of this series and I'm actually
-included to do so. I'll respond to the cover letter proposing this.
-
-
--Doug
