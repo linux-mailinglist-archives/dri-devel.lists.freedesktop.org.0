@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BC779237A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 16:26:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB3979237B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 16:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4E410E539;
-	Tue,  5 Sep 2023 14:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3DFB10E538;
+	Tue,  5 Sep 2023 14:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFC910E532;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B47CE10E532;
  Tue,  5 Sep 2023 14:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -19,24 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=p9OfF2MVQ9DZR1h3haug88cOWQWikhxyyGGdZ2csv3U=; b=O9feE3RM638qCXzY0uj4c8DK2c
- WsejQEnp++vMZK07mN/VT9dX8gCxPbTZoAk26WV0I1/d2OWzvsgpJB7UL4QBGQ35Xq+Qw6Bxiz2ia
- C2xfYuHTrQ/WLYJ+6GmC2K8Du/3htJ68HCgQQmQ0EvaXwHMeg9ZY9DJTa3/1/HVa/tKvOxQ6V+ILJ
- OuMFWCnYlNmKi2nCKTb6cS1S0gNPodseH1ffAcKKz7RZ20ep49uvWleXOBx5kxpMsJmBoSGZRAi26
- JuXr3Wx5Y29nzJ1kHLJateSjNbqqG8tDbEaBKWYJj+7kgucqxvPnu0LdODWamt0TovxUooBhYN+UM
- eGC49oOA==;
+ bh=QLX7651WP/di2UupuPM6pAWhGNGlxMnnSysfYFPg1Qw=; b=NuCJzTSt3y0+NbiOwFBn4U2/39
+ 5LKZbsP0tgTZxc0fn5kpwchDH9B30OIIskLZK33EUhNS7xT7muskpN4Y4MobpGtwNt/esCUNTzlqa
+ D2R8maLw0POKWAyDjW96/Pms7302xnti/tOY3wHq1BMs7zLWMGRTF/IOWT8yzG2z+zS8FSqbD9rW3
+ UDn8uRZbEXdZW8s5sJ39YVRq8zlC5CBEyZMDwowpot86KUE9iKikRQ0taUJn/xdoSb2pn6iqg9BsK
+ fedetYBafF2TBKn1RiUU9KuZy8QCHBXcaahlMzYdxrAy0k6ALyK4J0DqKM8gKFV8GhgSkFdPDn/t7
+ VvqUXTMQ==;
 Received: from [38.44.68.151] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qdX02-002cXU-Pf; Tue, 05 Sep 2023 16:25:50 +0200
+ id 1qdX04-002cXU-Dc; Tue, 05 Sep 2023 16:25:52 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [RFC PATCH 2/5] drm/amd/display: fill up DCN3 DPP color state
-Date: Tue,  5 Sep 2023 13:25:42 -0100
-Message-Id: <20230905142545.451153-3-mwen@igalia.com>
+Subject: [RFC PATCH 3/5] drm/amd/display: create DCN3-specific log for MPC
+ state
+Date: Tue,  5 Sep 2023 13:25:43 -0100
+Message-Id: <20230905142545.451153-4-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230905142545.451153-1-mwen@igalia.com>
 References: <20230905142545.451153-1-mwen@igalia.com>
@@ -61,74 +62,108 @@ Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DCN3 DPP color state was uncollected and some state elements from DCN1
-doesn't fit DCN3. Create new elements according to DCN3 color caps and
-fill them up for DTN log output.
+Logging DCN3 MPC state was following DCN1 implementation that doesn't
+consider new DCN3 MPC color blocks. Create new elements according to
+DCN3 MPC color caps and a new DCN3-specific function for reading MPC
+data.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c  | 28 +++++++++++++++++--
- drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  8 ++++++
- 2 files changed, 33 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c  | 55 ++++++++++++++++++-
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   | 13 +++++
+ 2 files changed, 67 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-index 50dc83404644..a91d72f44bbd 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-@@ -46,9 +46,31 @@ void dpp30_read_state(struct dpp *dpp_base, struct dcn_dpp_state *s)
- 	struct dcn3_dpp *dpp = TO_DCN30_DPP(dpp_base);
- 
- 	REG_GET(DPP_CONTROL,
--			DPP_CLOCK_ENABLE, &s->is_enabled);
--
--	// TODO: Implement for DCN3
-+		DPP_CLOCK_ENABLE, &s->is_enabled);
-+	REG_GET_2(PRE_DEGAM,
-+		  PRE_DEGAM_MODE, &s->pre_dgam_mode,
-+		  PRE_DEGAM_SELECT, &s->pre_dgam_select);
-+	REG_GET(CM_SHAPER_CONTROL,
-+		CM_SHAPER_LUT_MODE, &s->shaper_lut_mode);
-+	REG_GET(CM_3DLUT_MODE,
-+		CM_3DLUT_MODE_CURRENT, &s->lut3d_mode);
-+	REG_GET(CM_3DLUT_READ_WRITE_CONTROL,
-+		CM_3DLUT_30BIT_EN, &s->lut3d_bit_depth);
-+	REG_GET(CM_3DLUT_MODE,
-+		CM_3DLUT_SIZE, &s->lut3d_size);
-+	// BGAM has no ROM, and definition is different, can't reuse same dump
-+        REG_GET(CM_BLNDGAM_CONTROL,
-+		CM_BLNDGAM_LUT_MODE, &s->rgam_lut_mode);
-+	REG_GET(CM_GAMUT_REMAP_CONTROL,
-+		CM_GAMUT_REMAP_MODE, &s->gamut_remap_mode);
-+	if (s->gamut_remap_mode) {
-+		s->gamut_remap_c11_c12 = REG_READ(CM_GAMUT_REMAP_C11_C12);
-+		s->gamut_remap_c13_c14 = REG_READ(CM_GAMUT_REMAP_C13_C14);
-+		s->gamut_remap_c21_c22 = REG_READ(CM_GAMUT_REMAP_C21_C22);
-+		s->gamut_remap_c23_c24 = REG_READ(CM_GAMUT_REMAP_C23_C24);
-+		s->gamut_remap_c31_c32 = REG_READ(CM_GAMUT_REMAP_C31_C32);
-+		s->gamut_remap_c33_c34 = REG_READ(CM_GAMUT_REMAP_C33_C34);
-+	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
+index d1500b223858..d164fbf89212 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c
+@@ -1382,8 +1382,61 @@ static void mpc3_set_mpc_mem_lp_mode(struct mpc *mpc)
+ 	}
  }
- /*program post scaler scs block in dpp CM*/
- void dpp3_program_post_csc(
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h b/drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h
-index f4aa76e02518..7e69d9e28f5b 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h
-@@ -148,6 +148,14 @@ struct dcn_dpp_state {
- 	uint32_t gamut_remap_c23_c24;
- 	uint32_t gamut_remap_c31_c32;
- 	uint32_t gamut_remap_c33_c34;
+ 
++static void mpc3_read_mpcc_state(
++		struct mpc *mpc,
++		int mpcc_inst,
++		struct mpcc_state *s)
++{
++	struct dcn30_mpc *mpc30 = TO_DCN30_MPC(mpc);
++	uint32_t rmu_status = 0xf;
++
++	REG_GET(MPCC_OPP_ID[mpcc_inst], MPCC_OPP_ID, &s->opp_id);
++	REG_GET(MPCC_TOP_SEL[mpcc_inst], MPCC_TOP_SEL, &s->dpp_id);
++	REG_GET(MPCC_BOT_SEL[mpcc_inst], MPCC_BOT_SEL, &s->bot_mpcc_id);
++	REG_GET_4(MPCC_CONTROL[mpcc_inst], MPCC_MODE, &s->mode,
++			MPCC_ALPHA_BLND_MODE, &s->alpha_mode,
++			MPCC_ALPHA_MULTIPLIED_MODE, &s->pre_multiplied_alpha,
++			MPCC_BLND_ACTIVE_OVERLAP_ONLY, &s->overlap_only);
++	REG_GET_2(MPCC_STATUS[mpcc_inst], MPCC_IDLE, &s->idle,
++			MPCC_BUSY, &s->busy);
++
++	/* Color blocks state */
++	REG_GET(MPC_RMU_CONTROL, MPC_RMU0_MUX_STATUS, &rmu_status);
++	if (rmu_status == mpcc_inst) {
++		REG_GET(SHAPER_CONTROL[0],
++			MPC_RMU_SHAPER_LUT_MODE_CURRENT, &s->shaper_lut_mode);
++		REG_GET(RMU_3DLUT_MODE[0],
++			MPC_RMU_3DLUT_MODE_CURRENT,  &s->lut3d_mode);
++		REG_GET(RMU_3DLUT_READ_WRITE_CONTROL[0],
++			MPC_RMU_3DLUT_30BIT_EN, &s->lut3d_bit_depth);
++		REG_GET(RMU_3DLUT_MODE[0],
++			MPC_RMU_3DLUT_SIZE, &s->lut3d_size);
++	} else {
++		REG_GET(SHAPER_CONTROL[1],
++			MPC_RMU_SHAPER_LUT_MODE_CURRENT, &s->shaper_lut_mode);
++		REG_GET(RMU_3DLUT_MODE[1],
++			MPC_RMU_3DLUT_MODE_CURRENT,  &s->lut3d_mode);
++		REG_GET(RMU_3DLUT_READ_WRITE_CONTROL[1],
++			MPC_RMU_3DLUT_30BIT_EN, &s->lut3d_bit_depth);
++		REG_GET(RMU_3DLUT_MODE[1],
++			MPC_RMU_3DLUT_SIZE, &s->lut3d_size);
++	}
++         REG_GET_2(MPCC_OGAM_CONTROL[mpcc_inst],
++		   MPCC_OGAM_MODE_CURRENT, &s->rgam_mode,
++		   MPCC_OGAM_SELECT_CURRENT, &s->rgam_lut);
++	REG_GET(MPCC_GAMUT_REMAP_MODE[mpcc_inst],
++		MPCC_GAMUT_REMAP_MODE_CURRENT, &s->gamut_remap_mode);
++	if (s->gamut_remap_mode == 1) {
++		s->gamut_remap_c11_c12 = REG_READ(MPC_GAMUT_REMAP_C11_C12_A[mpcc_inst]);
++		s->gamut_remap_c33_c34 = REG_READ(MPC_GAMUT_REMAP_C33_C34_A[mpcc_inst]);
++	} else if (s->gamut_remap_mode == 2) {
++		s->gamut_remap_c11_c12 = REG_READ(MPC_GAMUT_REMAP_C11_C12_B[mpcc_inst]);
++		s->gamut_remap_c33_c34 = REG_READ(MPC_GAMUT_REMAP_C33_C34_B[mpcc_inst]);
++	}
++}
++
+ static const struct mpc_funcs dcn30_mpc_funcs = {
+-	.read_mpcc_state = mpc1_read_mpcc_state,
++	.read_mpcc_state = mpc3_read_mpcc_state,
+ 	.insert_plane = mpc1_insert_plane,
+ 	.remove_mpcc = mpc1_remove_mpcc,
+ 	.mpc_init = mpc1_mpc_init,
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 8d86159d9de0..e60b3503605b 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -193,6 +193,19 @@ struct mpcc_state {
+ 	uint32_t overlap_only;
+ 	uint32_t idle;
+ 	uint32_t busy;
 +	uint32_t shaper_lut_mode;
 +	uint32_t lut3d_mode;
 +	uint32_t lut3d_bit_depth;
 +	uint32_t lut3d_size;
-+	uint32_t blnd_lut_mode;
-+	uint32_t pre_dgam_mode;
-+	uint32_t pre_dgam_select;
-+	uint32_t gamcor_lut_mode;
++	uint32_t rgam_mode;
++	uint32_t rgam_lut;
++	uint32_t gamut_remap_mode;
++	uint32_t gamut_remap_c11_c12;
++	uint32_t gamut_remap_c13_c14;
++	uint32_t gamut_remap_c21_c22;
++	uint32_t gamut_remap_c23_c24;
++	uint32_t gamut_remap_c31_c32;
++	uint32_t gamut_remap_c33_c34;
  };
  
- struct CM_bias_params {
+ /**
 -- 
 2.40.1
 
