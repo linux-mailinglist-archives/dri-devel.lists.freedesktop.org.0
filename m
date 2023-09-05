@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA081792419
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 17:48:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5B67924CB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 18:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F4A10E0B0;
-	Tue,  5 Sep 2023 15:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC94110E18C;
+	Tue,  5 Sep 2023 16:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C619410E096;
- Tue,  5 Sep 2023 15:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8quAqpljo/jRER21FUZPLZ93nrzXaShq50UknxMppt0=; b=fI/hpGOrXuhXRJGBdYOFrvleWT
- FCGqtiSooll+b+OcmY5Y7FXineVsz3a/XZdPUutcE+SRlRyY9RD6aUSApfj6u3H90Vu756OQritAS
- u2aHkq/UoHGN52dbWuITKy/PHimXJlfnlEdW+ZNnJZzmtXxDNMeVvZfApdPBrmQcf4AbvuSfvJ4/s
- b44Zdytr3g9m+0xWmf433wNICqL8oHhJgK72wNsnljA5IkX//UoJVIuKOlc9wkDpqBdkKVFn1iCp5
- 7dccFlUdk+7rMJ2OWF4wdoDpH8bWbePjIFN54dygWKAsto4gqYzeHLzVrfQ1AYDJ189aVArXXpZtu
- T2wPZXAw==;
-Received: from [38.44.68.151] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qdYHl-002eoe-3Q; Tue, 05 Sep 2023 17:48:13 +0200
-Date: Tue, 5 Sep 2023 14:47:39 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
- airlied@gmail.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, daniel@ffwll.ch, Xinhui.Pan@amd.com
-Subject: Re: [RFC PATCH 0/5] drm/amd/display: improve DTN color state log
-Message-ID: <20230905154739.2fe3xpxcvbf3b4u2@mail.igalia.com>
-References: <20230905142545.451153-1-mwen@igalia.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A7DCC10E0C1;
+ Tue,  5 Sep 2023 15:59:58 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxHOt7UPdkP7UfAA--.59287S3;
+ Tue, 05 Sep 2023 23:59:55 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxTSN6UPdk3iVtAA--.47347S3; 
+ Tue, 05 Sep 2023 23:59:54 +0800 (CST)
+Message-ID: <3eced3f5-622f-31a6-f8a0-ff0812be74ff@loongson.cn>
+Date: Tue, 5 Sep 2023 23:59:54 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wdvlkmtknvjvlsdb"
-Content-Disposition: inline
-In-Reply-To: <20230905142545.451153-1-mwen@igalia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
+ to select the primary video adapter at boot time
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <151c0429-dbc2-e987-1491-6c733ca159ac@suse.de>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <151c0429-dbc2-e987-1491-6c733ca159ac@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxTSN6UPdk3iVtAA--.47347S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxtw4rXF17JFykZFWkAr47trc_yoW7Xr15pF
+ Z0gay3Kr4kGr48C340v3WruFWfu3yrJayfJrn7t34j9an8KryjvFZrtr45Ka47Ar1fXF1Y
+ qF9xt34xt3W3AagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
+ McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+ I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+ JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+ v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+ 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+ IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFa0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,177 +69,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, sungjoon.kim@amd.com
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---wdvlkmtknvjvlsdb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 09/05, Melissa Wen wrote:
-> Hi,
->=20
-> I'm updating the color state part of DTN log to match DCN3.0 HW better.
-> Currently, the DTN log considers the DCN10 color pipeline, which is
-> useless for DCN3.0 because of all the differences in color caps between
-> DCN versions. In addition to new color blocks and caps, some semantic
-> differences made the DCN10 output not fit DCN30.
->=20
-> In this RFC, the first patch adds new color state elements to DPP and
-> implements the reading of registers according to HW blocks. Similarly to
-> MPC, the second patch also creates a DCN3-specific function to read the
-> MPC state and add the MPC color state logging to it. With DPP and MPC
-> color-register reading, I detach DCN10 color state logging from the HW
-> log and create a `.log_color_state` hook for logging color state
-> according to HW color blocks with DCN30 as the first use case. Finally,
-> the last patch adds DPP and MPC color caps output to facilitate
-> understanding of the color state log.
->=20
-> This version works well with the driver-specific color properties[1] and
-> steamdeck/gamescope[2] together, where we can see color state changing
-> from default values.
-
-For comparison, here is the before and after of DPP and MPC section in
-the DTN log on Steam Deck + driver-specific color properties:
-
-Without this series:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-DPP:    IGAM format  IGAM mode    DGAM mode    RGAM mode  GAMUT mode  C11 C=
-12   C13 C14   C21 C22   C23 C24   C31 C32   C33 C34
-[ 0]:            0h  BypassFixed  Bypass       Bypass            0    00000=
-000h 00000000h 00000000h 00000000h 00000000h 00000000h
-[ 3]:            0h  BypassFixed  Bypass       Bypass            0    00000=
-000h 00000000h 00000000h 00000000h 00000000h 00000000h
-
-MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE
-[ 0]:   0h   0h       3h     3           2        0             0     0
-[ 3]:   0h   3h       fh     2           2        0             0     0
+On 2023/9/5 18:49, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 04.09.23 um 21:57 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> On a machine with multiple GPUs, a Linux user has no control over which
+>> one is primary at boot time. This series tries to solve above mentioned
+>> problem by introduced the ->be_primary() function stub. The specific
+>> device drivers can provide an implementation to hook up with this 
+>> stub by
+>> calling the vga_client_register() function.
+>>
+>> Once the driver bound the device successfully, VGAARB will call back to
+>> the device driver. To query if the device drivers want to be primary or
+>> not. Device drivers can just pass NULL if have no such needs.
+>>
+>> Please note that:
+>>
+>> 1) The ARM64, Loongarch, Mips servers have a lot PCIe slot, and I would
+>>     like to mount at least three video cards.
+>>
+>> 2) Typically, those non-86 machines don't have a good UEFI firmware
+>>     support, which doesn't support select primary GPU as firmware stage.
+>>     Even on x86, there are old UEFI firmwares which already made 
+>> undesired
+>>     decision for you.
+>>
+>> 3) This series is attempt to solve the remain problems at the driver 
+>> level,
+>>     while another series[1] of me is target to solve the majority of the
+>>     problems at device level.
+>>
+>> Tested (limited) on x86 with four video card mounted, Intel UHD Graphics
+>> 630 is the default boot VGA, successfully override by ast2400 with
+>> ast.modeset=10 append at the kernel cmd line.
+>
+> FYI: per-driver modeset parameters are deprecated and not to be used. 
+> Please don't promote them.
 
 
-With this series (Steamdeck/Gamescope):
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Well, please wait, I want to explain.
 
-DPP:  DGAM ROM  DGAM ROM type  DGAM LUT  SHAPER mode  3DLUT mode  3DLUT bit=
- depth  3DLUT size  RGAM mode  GAMUT mode  C11 C12   C13 C14   C21 C22   C2=
-3 C24   C31 C32   C33 C34
-[ 0]:        1           sRGB    Bypass        RAM B       RAM A           =
-12-bit    17x17x17     Bypass           0  00000000h 00000000h 00000000h 00=
-000000h 00000000h 00000000h
-[ 3]:        1           sRGB    Bypass        RAM B       RAM A           =
-12-bit    17x17x17     Bypass           0  00000000h 00000000h 00000000h 00=
-000000h 00000000h 00000000h
 
-DPP Color Caps: input_lut_shared:0  icsc:1  dgam_ram:0  dgam_rom: srgb:1,bt=
-2020:1,gamma2_2:1,pq:1,hlg:1  post_csc:1  gamcor:1  dgam_rom_for_yuv:0  3d_=
-lut:1  blnd_lut:1  oscs:0
 
-MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE  SH=
-APER mode  3DLUT_mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT  GA=
-MUT mode  C11 C12   C33 C34
-[ 0]:   0h   0h       3h     3           2        0             0     0    =
-   Bypass      Bypass           12-bit    17x17x17     Bypass         A    =
-       0 00000000h 00000000h
-[ 3]:   0h   3h       fh     2           2        0             0     0    =
-   Bypass      Bypass           12-bit    17x17x17     Bypass         A    =
-       0 00000000h 00000000h
+drm/nouveau already promote it a little bit.
 
-MPC Color Caps: gamut_remap:1, 3dlut:2, ogam_ram:1, ocsc:1
+Despite no code of conduct or specification guiding how the modules parameters should be.
+Noticed that there already have a lot of DRM drivers support the modeset parameters,
+for the modeset parameter, authors of various device driver try to make the usage not
+conflict with others. I believe that this is good thing for Linux users.
+It is probably the responsibility of the drm core maintainers to force various drm
+drivers to reach a minimal consensus. Probably it pains to do so and doesn't pay off.
+But reach a minimal consensus do benefit to Linux users.
 
-With this series (Steamdeck/KDE):
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
 
-DPP:  DGAM ROM  DGAM ROM type  DGAM LUT  SHAPER mode  3DLUT mode  3DLUT bit=
- depth  3DLUT size  RGAM mode  GAMUT mode  C11 C12   C13 C14   C21 C22   C2=
-3 C24   C31 C32   C33 C34
-[ 0]:        0           sRGB    Bypass       Bypass      Bypass           =
-12-bit       9x9x9     Bypass           0  00000000h 00000000h 00000000h 00=
-000000h 00000000h 00000000h
-[ 3]:        0           sRGB    Bypass       Bypass      Bypass           =
-12-bit       9x9x9     Bypass           0  00000000h 00000000h 00000000h 00=
-000000h 00000000h 00000000h
+> You can use modprobe.blacklist or initcall_blacklist on the kernel 
+> command line.
+>
+There are some cases where the modprobe.blacklist doesn't works,
+I have come cross several time during the past.
+Because the device selected by the VGAARB is device-level thing,
+it is not the driver's problem.
 
-DPP Color Caps: input_lut_shared:0  icsc:1  dgam_ram:0  dgam_rom: srgb:1,bt=
-2020:1,gamma2_2:1,pq:1,hlg:1  post_csc:1  gamcor:1  dgam_rom_for_yuv:0  3d_=
-lut:1  blnd_lut:1  oscs:0
+Sometimes when VGAARB has a bug, it will select a wrong device as primary.
+And the X server will use this wrong device as primary and completely crash
+there, due to lack a driver. Take my old S3 Graphics as an example:
 
-MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE  SH=
-APER mode  3DLUT_mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT  GA=
-MUT mode  C11 C12   C33 C34
-[ 0]:   0h   0h       3h     3           2        0             0     0    =
-   Bypass      Bypass           12-bit    17x17x17        RAM         A    =
-       1 00002000h 00002000h
-[ 3]:   0h   3h       fh     2           2        0             0     0    =
-   Bypass      Bypass           12-bit    17x17x17     Bypass         A    =
-       0 00000000h 00000000h
+$ lspci | grep VGA
 
-MPC Color Caps: gamut_remap:1, 3dlut:2, ogam_ram:1, ocsc:1
+  00:06.1 VGA compatible controller: Loongson Technology LLC DC (Display Controller) (rev 01)
+  03:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Caicos XT [Radeon HD 7470/8470 / R5 235/310 OEM]
+  07:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
+  08:00.0 VGA compatible controller: S3 Graphics Ltd. Device 9070 (rev 01)
 
->=20
-> Before extending it to other DCN families, I have some doubts. Does this
-> approach of the `.log_color_state` hook make sense for you? Is there any
-> conflict between logging color state by HW version and DTN log usage? Is
-> there a template/style for DTN log output that I should follow?
->=20
-> Let me know your thoughts.
->=20
-> Thanks,
->=20
-> Melissa
->=20
-> [1] https://lore.kernel.org/amd-gfx/20230810160314.48225-1-mwen@igalia.co=
-m/
-> [2] https://github.com/ValveSoftware/gamescope
->=20
-> Melissa Wen (5):
->   drm/amd/display: detach color state from hw state logging
->   drm/amd/display: fill up DCN3 DPP color state
->   drm/amd/display: create DCN3-specific log for MPC state
->   drm/amd/display: hook DCN30 color state logging to DTN log
->   drm/amd/display: add DPP and MPC color caps to DTN log
->=20
->  .../amd/display/dc/dcn10/dcn10_hw_sequencer.c |  53 +++++++--
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c  |  28 ++++-
->  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 112 ++++++++++++++++++
->  .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |   3 +
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_init.c |   1 +
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_mpc.c  |  55 ++++++++-
->  .../drm/amd/display/dc/dcn301/dcn301_init.c   |   1 +
->  drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |   8 ++
->  drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   |  13 ++
->  .../gpu/drm/amd/display/dc/inc/hw_sequencer.h |   2 +
->  10 files changed, 264 insertions(+), 12 deletions(-)
->=20
-> --=20
-> 2.40.1
->=20
->=20
+Before apply this patch:
 
---wdvlkmtknvjvlsdb
-Content-Type: application/pgp-signature; name="signature.asc"
+[    0.361748] pci 0000:00:06.1: vgaarb: setting as boot VGA device
+[    0.361753] pci 0000:00:06.1: vgaarb: VGA device added: decodes=io+mem,owns=io+mem,locks=none
+[    0.361765] pci 0000:03:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+[    0.361773] pci 0000:07:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+[    0.361779] pci 0000:08:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+[    0.361781] vgaarb: loaded
+[    0.367838] pci 0000:00:06.1: Overriding boot device as 1002:6778
+[    0.367841] pci 0000:00:06.1: Overriding boot device as 5333:9070
+[    0.367843] pci 0000:00:06.1: Overriding boot device as 5333:9070
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmT3TZQACgkQwqF3j0dL
-ehyzjBAAtqkNC6XCSOD8H6tCe16Btv69XuZYrzGMaktE01FsBs7DDDcSTZ0wPXFi
-Lcd3valY+od7ZMBsUQo4Eh/MFfcO+g3V9KhB9rHvh9VOzl7ZSSnS93nlqL8aESLU
-2sNeuvtVX2Fmy7hXbklI9ot4gtbt0jrs9Lih2q1C0s4PKUJ3kYHMvxnR18zKa2uF
-8DyP5AAEBR0J2itlr4bPA7ZKBPo3Ps8dn7LS0S57tkGSaFu3PplnLf71sx2TZfnE
-Q5mhwXRrPliLSe9ZB5wt5+WiV/8c03Z/uP+158Q8Z5hEbHAi0jWPdiU6eKHam//K
-UaVk2/l1d1mvq3z2wFjRJ9cWNTjv+h7CrEq/UIckfwwb/kmInxASqUbD8oYBqeNc
-0KQc7QebZFGuTS55lsrSrAZPzIWJTIKx31TU38VllxitH1dKGmYopf/VwEkNzF14
-V7G1Wz7A4YWi5FGsKMLEKFV6dVmteWe7dBUGYmb5ibieGqq/fDshkAZ3f0ZhC7OX
-k1ODkWsv69bDCiHY7pQi9BNCOQkfjwZHPjeeTR+1Mg9Apyyr6wWpjQQ/uBt+4fCo
-bvjV62VljuL4HEZrK8a1X/SqAZNMfCLn4LSAnTZIMzQM14hlJFKeUi68ioRzVw/A
-RoDw1nUrvkUoAoRN1CES6O0UtON1eObKg4G9zLIVFAUKcEHXQfM=
-=NkW7
------END PGP SIGNATURE-----
+For known reason, one of my system select the S3 Graphics as primary GPU.
+But this S3 Graphics not even have a decent drm upstream driver yet.
+Under such a case, I begin to believe that only the device who has a
+driver deserve the primary.
 
---wdvlkmtknvjvlsdb--
+Under such a condition, I want to reboot and enter the graphic environment
+with other working video cards. Either platform integrated and discrete GPU.
+This don't means I should compromise by un-mount the S3 graphics card from
+the motherboard, this also don't means that I should update my BIOS setting.
+As sometimes, the BIOS is more worse.
+
+With this series applied, all I need to do is to reboot the computer and
+pass a command line. By force override another video card (who has a
+decent driver support) as primary, I'm able to do the debugging under
+graphic environment. I would like to examine what's wrong with the vgaarb
+on a specific platform under X server graphic environment.
+
+Probably try compile a driver for this card and see it works, simply reboot
+without the need to change anything. It is so efficient. So this is probably
+the second usage of my patch. It hand the right of control back to the
+graphic developer.
+
+
