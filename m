@@ -1,83 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8506792203
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 12:59:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C968C792204
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 13:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CE710E4B0;
-	Tue,  5 Sep 2023 10:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D4410E4A5;
+	Tue,  5 Sep 2023 11:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E90A710E4AF
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 10:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693911589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7iBpgfm+C9weL01umlHsYnfkc7J7aGl9MICIpLEHOqo=;
- b=SVEQRRTPB1Z5bArSpk1lijt6sUOek+JT0zK/AK3RxPgeThytzNqF5K7QszzO7o6EAWap88
- eOasClykdVqeLwU9TY4uIVIrb6Zv7+2BuLm1TLqTiaE0OsKJNUAEdUS1uYcFtCBFpElRG8
- F5S0006O3NLmOyS1nIeoUxMHU94U3SQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460-ackhDKIBMAm_2dh4B1CGrw-1; Tue, 05 Sep 2023 06:59:48 -0400
-X-MC-Unique: ackhDKIBMAm_2dh4B1CGrw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-51a5296eb8eso1699708a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 03:59:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693911588; x=1694516388;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7iBpgfm+C9weL01umlHsYnfkc7J7aGl9MICIpLEHOqo=;
- b=T5YMrupAL2oYfASbLE+B7UDizDluZaQO4XZDsVqP4Tlmord7W3z7jUAFpsSr1IvlCV
- DyWHJPdDynU+4S48o5o9+83FuZqRZF3R3p/tiYIMatkswwpQl6rRsPaNgr7wuXpf4+lT
- sEgmbY34oHuLy9xqGjYf1wxiaWhn067K2CJxXYsQH4pZOPK5Ybk9F2MrpbmLGh1H0pZI
- ADhkBZQHY4vFekC4ayUypfq7dpZqxvgOKrBqJRGD43LgWRI3yd3+sThNwp0VbnXRPoCa
- C+OZu/2FZcOqhppKnKidQWHQnZY9mSf3VRnMzq07M2GA9MBVa+Yxxs8QlqHEB5KjnJ07
- 4mag==
-X-Gm-Message-State: AOJu0Yz89aO9GwasEYyfItNCYRQPlB0DNlYsU/ugX4PNe/H2oA0MDbqr
- NQYICeAyvumwQ+xy2a78Nz9TMhwb9GGao5vn0RFMPZEbGuPtSqFSB1fy2rRlH+F1jLBIYKPZ9tr
- 6fCVMz0LQCb8l3jZk2IUiaz9EcDYi
-X-Received: by 2002:aa7:c155:0:b0:523:b225:701a with SMTP id
- r21-20020aa7c155000000b00523b225701amr9290405edp.11.1693911587866; 
- Tue, 05 Sep 2023 03:59:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGq1wI1gVIChbfPr11BxRu2iM0hvXopO96caHzmRiGOtHRAHQ32PGJJXhkIpAsdjbSlUxZsZQ==
-X-Received: by 2002:aa7:c155:0:b0:523:b225:701a with SMTP id
- r21-20020aa7c155000000b00523b225701amr9290397edp.11.1693911587460; 
- Tue, 05 Sep 2023 03:59:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- a9-20020aa7d749000000b005257da6be23sm7055479eds.75.2023.09.05.03.59.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Sep 2023 03:59:47 -0700 (PDT)
-Message-ID: <6643ca62-1462-0d33-3edb-1330a714bfac@redhat.com>
-Date: Tue, 5 Sep 2023 12:59:45 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0920410E4AD
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 11:00:13 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5BBC660039;
+ Tue,  5 Sep 2023 11:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C47EC433C7;
+ Tue,  5 Sep 2023 11:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1693911611;
+ bh=Wfk1BuK7Xhfcrf4xZDmH9THWGITu0aqQKjO7PM3R1kk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=phwKNbWl+Q1EF5s4UKKO34pA7mX/nDJdHQO+AJCheMIBRtMD5JQ/mrDJbaWwZqs3c
+ OlgUil3K0caYN+kKH4/TNBWGmbV2kkl3o7eFWeKQ8VnOAgvk9jnfA5uQoOb4Ujhojt
+ AVeoAlnl2O1GW6Sb1Y7LBXJ8V/NvE46QuNAJpWARUPzn1BC7n/UQUWiEFFZ906Kb6A
+ UEC4H0DIYMdyqaAy2822ULAeUcRUIpXaV0anrm6oUZjkLPGhgzTkR94a/EcI51Ywuk
+ 96CPMIfuyUguLsh+/hXEpWnUVQ+OyvtZ1Q8h3dZg95LvMMqOb4dLqu3aRY3CJwc1pR
+ EVEL/1N7/nlhA==
+Date: Tue, 5 Sep 2023 13:00:09 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: Re: [PATCH v2 2/7] drm: ci: Force db410c to host mode
+Message-ID: <2jz6wurh6ejbaejwtb5r5gukjuw4zs7ujk5hbwfpsn26o6esqe@g2nnb2gjpnjp>
+References: <20230904161516.66751-1-vignesh.raman@collabora.com>
+ <20230904161516.66751-3-vignesh.raman@collabora.com>
+ <CAA8EJpq_cmFQ6TGy1xELh3ButWKLfSkQcp5ix049s_iqKw6DvQ@mail.gmail.com>
+ <ueznsu2dlvq5zp3ls262fww54bnlqa3e2ssr6f65vrrionloms@ir2ywgeajj4w>
+ <2c812fe4-04ba-0243-5330-c7b7e695cff9@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
- <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2c812fe4-04ba-0243-5330-c7b7e695cff9@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,146 +57,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: robdclark@google.com, daniels@collabora.com, emma@anholt.net,
+ gustavo.padovan@collabora.com, linux-arm-msm@vger.kernel.org,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, helen.koike@collabora.com, anholt@google.com,
+ linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/5/23 10:58, Thomas Hellström wrote:
-> If *any* object of a certain WW mutex class is locked, lockdep will
-> consider *all* mutexes of that class as locked. Also the lock allocation
-> tracking code will apparently register only the address of the first
-> mutex locked in a sequence.
-> This has the odd consequence that if that first mutex is unlocked and
-> its memory then freed, the lock alloc tracking code will assume that memory
-> is freed with a held lock in there.
-> 
-> For now, work around that for drm_exec by releasing the first grabbed
-> object lock last.
-> 
-> Related lock alloc tracking warning:
-> [  322.660067] =========================
-> [  322.660070] WARNING: held lock freed!
-> [  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
-> [  322.660078] -------------------------
-> [  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ffff888112adc3ff, with a lock still held there!
-> [  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660104] 2 locks held by kunit_try_catch/4981:
-> [  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
-> [  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660135]
->                 stack backtrace:
-> [  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-> [  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-> [  322.660152] Call Trace:
-> [  322.660155]  <TASK>
-> [  322.660158]  dump_stack_lvl+0x57/0x90
-> [  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
-> [  322.660172]  slab_free_freelist_hook+0xa1/0x160
-> [  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660186]  __kmem_cache_free+0xb2/0x290
-> [  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
-> [  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
-> [  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
-> [  322.660222]  ? __kasan_check_byte+0xf/0x40
-> [  322.660227]  ? __ksize+0x63/0x140
-> [  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
-> [  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
-> [  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
-> [  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-> [  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [  322.660328]  kthread+0x2e7/0x3c0
-> [  322.660334]  ? __pfx_kthread+0x10/0x10
-> [  322.660339]  ret_from_fork+0x2d/0x70
-> [  322.660345]  ? __pfx_kthread+0x10/0x10
-> [  322.660349]  ret_from_fork_asm+0x1b/0x30
-> [  322.660358]  </TASK>
-> [  322.660818]     ok 8 test_early_put
-> 
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-
-One typo below.
-
-> ---
->   drivers/gpu/drm/drm_exec.c |  2 +-
->   include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
->   2 files changed, 32 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> index ff69cf0fb42a..5d2809de4517 100644
-> --- a/drivers/gpu/drm/drm_exec.c
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
->   	struct drm_gem_object *obj;
->   	unsigned long index;
->   
-> -	drm_exec_for_each_locked_object(exec, index, obj) {
-> +	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
->   		dma_resv_unlock(obj->resv);
->   		drm_gem_object_put(obj);
->   	}
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> index e0462361adf9..55764cf7c374 100644
-> --- a/include/drm/drm_exec.h
-> +++ b/include/drm/drm_exec.h
-> @@ -51,6 +51,20 @@ struct drm_exec {
->   	struct drm_gem_object *prelocked;
+On Tue, Sep 05, 2023 at 03:39:33PM +0530, Vignesh Raman wrote:
+> Hi Dmitry, Maxime,
+>=20
+> On 05/09/23 14:13, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Mon, Sep 04, 2023 at 07:59:26PM +0300, Dmitry Baryshkov wrote:
+> > > On Mon, 4 Sept 2023 at 19:16, Vignesh Raman <vignesh.raman@collabora.=
+com> wrote:
+> > > >=20
+> > > > Force db410c to host mode to fix network issue which results in fai=
+lure
+> > > > to mount root fs via NFS.
+> > > > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8=
+c15c80a54dda510743cefd1c4b65b8
+> > > >=20
+> > > > Use fdtoverlay command to merge base device tree with an overlay
+> > > > which contains the fix for USB controllers to work in host mode.
+> > > >=20
+> > > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > > ---
+> > > >=20
+> > > > v2:
+> > > >    - Use fdtoverlay command to merge overlay dtbo with the base dtb=
+ instead of modifying the kernel sources
+> > > >=20
+> > > > ---
+> > > >   drivers/gpu/drm/ci/build.sh                         |  5 +++++
+> > > >   .../gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts  | 13 ++++++++=
++++++
+> > > >   2 files changed, 18 insertions(+)
+> > > >   create mode 100644 drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-ove=
+rlay.dts
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build=
+=2Esh
+> > > > index 7b014287a041..92ffd98cd09e 100644
+> > > > --- a/drivers/gpu/drm/ci/build.sh
+> > > > +++ b/drivers/gpu/drm/ci/build.sh
+> > > > @@ -92,6 +92,11 @@ done
+> > > >=20
+> > > >   if [[ -n ${DEVICE_TREES} ]]; then
+> > > >       make dtbs
+> > > > +    if [[ -e arch/arm64/boot/dts/qcom/apq8016-sbc.dtb ]]; then
+> > > > +        dtc -@ -I dts -O dtb -o drivers/gpu/drm/ci/dt-overlays/apq=
+8016-sbc-overlay.dtbo drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
+> > > > +        fdtoverlay -i arch/arm64/boot/dts/qcom/apq8016-sbc.dtb -o =
+arch/arm64/boot/dts/qcom/apq8016-sbc-overlay.dtb drivers/gpu/drm/ci/dt-over=
+lays/apq8016-sbc-overlay.dtbo
+> > > > +        mv arch/arm64/boot/dts/qcom/apq8016-sbc-overlay.dtb arch/a=
+rm64/boot/dts/qcom/apq8016-sbc.dtb
+> > > > +    fi
+> > > >       cp ${DEVICE_TREES} /lava-files/.
+> > > >   fi
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts=
+ b/drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
+> > > > new file mode 100644
+> > > > index 000000000000..57b7604f1c23
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
+> > > > @@ -0,0 +1,13 @@
+> > > > +/dts-v1/;
+> > > > +/plugin/;
+> > > > +
+> > > > +/ {
+> > > > +    fragment@0 {
+> > > > +        target-path =3D "/soc@0";
+> > > > +        __overlay__ {
+> > > > +            usb@78d9000 {
+> > > > +                dr_mode =3D "host";
+> > > > +            };
+> > > > +        };
+> > > > +    };
+> > > > +};
+> > > > --
+> > > > 2.40.1
+> > >=20
+> > > Can we use normal dtso syntax here instead of defining fragments manu=
+ally?
+> >=20
+> > What Dmitry is hinting about is to use the "Sugar Syntax". There a good=
+ documentation here:
+> > https://source.android.com/docs/core/architecture/dto/syntax
+>=20
+>=20
+> With the below DTO syntax,
+> /dts-v1/;
+> /plugin/;
+>=20
+> &usb {
+>   usb@78d9000 {
+>     dr_mode =3D "host";
 >   };
->   
-> +/**
-> + * drm_exec_obj() - Return the object for a give drm_exec index
-> + * @exec: Pointer to the drm_exec context
-> + * @index: The index.
-> + *
-> + * Return: Pointer to the locked object corresponding to @index if
-> + * index is within the number of locked objects. NULL otherwise.
-> + */
-> +static inline struct drm_gem_object *
-> +drm_exec_obj(struct drm_exec *exec, unsigned long index)
-> +{
-> +	return index < exec->num_objects ? exec->objects[index] : NULL;
-> +}
-> +
->   /**
->    * drm_exec_for_each_locked_object - iterate over all the locked objects
->    * @exec: drm_exec object
-> @@ -59,10 +73,23 @@ struct drm_exec {
->    *
->    * Iterate over all the locked GEM objects inside the drm_exec object.
->    */
-> -#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> -	for (index = 0, obj = (exec)->objects[0];		\
-> -	     index < (exec)->num_objects;			\
-> -	     ++index, obj = (exec)->objects[index])
-> +#define drm_exec_for_each_locked_object(exec, index, obj)		\
-> +	for ((index) = 0; ((obj) = drm_exec_obj(exec, index)); ++(index))
-> +
-> +/**
-> + * drm_exec_for_each_locked_object_reverse - iterate over all the locked
-> + * objects in reverse locking order
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object in
-> + * reverse locking order. Note that @index may go below zero and wrap,
-> + * but that will be caught by drm_exec_object(), returning a NULL object.
+> };
+>=20
+> Decoded dtbo file is,
+> /dts-v1/;
+>=20
+> / {
+>=20
+> 	fragment@0 {
+> 		target =3D <0xffffffff>;
+>=20
+> 		__overlay__ {
+>=20
+> 			usb@78d9000 {
+> 				dr_mode =3D "host";
+> 			};
+> 		};
+> 	};
+>=20
+> 	__fixups__ {
+> 		usb =3D "/fragment@0:target:0";
+> 	};
+> };
+>=20
+> With the previous fix using fragment we get,
+> / {
+>=20
+> 	fragment@0 {
+> 		target-path	 =3D "/soc@0";
+>=20
+> 		__overlay__ {
+>=20
+> 			usb@78d9000 {
+> 				dr_mode =3D "host";
+> 			};
+> 		};
+> 	};
+> };
+>=20
+> Decoded apq8016-sbc.dtb file with the fix (setting dr_mode to host) is,
+> /dts-v1/;
+> / {=09
+> 	soc@0 {
+> 		usb@78d9000 {
+> 			dr_mode =3D "host";
+> 		};=09
+> 	};
+> };
+>=20
+> How can set the target to "soc@0" using the DTO syntax?
 
-drm_exec_obj()
+To strictly answer your question, that would be something like
 
-> + */
-> +#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
-> +	for ((index) = (exec)->num_objects - 1;				\
-> +	     ((obj) = drm_exec_obj(exec, index)); --(index))
->   
->   /**
->    * drm_exec_until_all_locked - loop until all GEM objects are locked
+&{/soc@0} {
+	usb@78d9000 {
+		dr_mode =3D "host";
+	};
+};
 
+You can simplify this further however by doing:
+
+
+&{/soc@0/usb@78d9000} {
+	dr_mode =3D "host";
+};
+
+Also, that node actually has a label ("usb"), defined here:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
+h/arm64/boot/dts/qcom/msm8916.dtsi#n2322
+
+So you can end up with
+
+&usb {
+	dr_mode =3D "host";
+};
+
+All of them should be equivalent to the one you had in your patch.
+
+Maxime
