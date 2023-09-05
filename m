@@ -2,70 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B767922DA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261AC7922E3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 15:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3FB110E500;
-	Tue,  5 Sep 2023 13:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D9410E504;
+	Tue,  5 Sep 2023 13:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E2B10E4FE;
- Tue,  5 Sep 2023 13:14:30 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-307d58b3efbso1960435f8f.0; 
- Tue, 05 Sep 2023 06:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693919669; x=1694524469; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vgZXtOARO9wS9f0ETJL17w2QqDQzfDL0fVd+c8r96ZA=;
- b=HYwt9i+oFo6SJ777CL9fTebQlkj5wDtQI5dj3AB+petzy0zP4xF2rZcNT0kwSQ9cNO
- 1KnDTATnuZY+6z/MqbBmCSLJ53lVlWkEOhuvCQAH2PNRFI++MtbYMa7dluwIXiSw28tm
- goWr1HL6NlhiCcD2LuXwrSQ0kFbwwegWmtBY9zQIEi9qGAlrcaXg9dAyJs6Cf8nRB/81
- 6wUYLAdEv+1D35cP5Y2GY0YQc6NC5di63X/wt8OLfoLUta1oIo+2HfvXVf0RJ6ckdmnK
- 2HBpkGMo7ZB3R7QkocxT/LO/zsJAmKGt5yyqlO9KJ+BuNkN+5lr7SDrbhtuyiL+Bo/Qp
- gxTQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2D9310E504
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 13:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693919797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2e15mZf8wc2pLJFSqPYfWYyT02HvCbecy8nwwwpEzE=;
+ b=IhrC9ZAtAN/UH53QeUJbaDLgoc7ZZyCySvjjnc+E7uudKMrKTA8dUbuoQgtzTWpNx7ofSB
+ q2fq8p3ytw7wPwYLnUVjv65eptyJvwsAmF2UTYKYV5EpqXM+V+BkN4JJt2hp6LVx/5z/In
+ tnmgSyYeEy+uKfT4iFKaj3tLoubTGOA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-342-f2s4f63XM2GfFEl0_qccsA-1; Tue, 05 Sep 2023 09:16:36 -0400
+X-MC-Unique: f2s4f63XM2GfFEl0_qccsA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-76ef8b91a84so152836885a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 06:16:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693919669; x=1694524469;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vgZXtOARO9wS9f0ETJL17w2QqDQzfDL0fVd+c8r96ZA=;
- b=OHQg5r02z3R7zuQE2YB5H0DBLBmsiREOqrrT42e2l9aRJWBno944PL7AbeGH0Rpw9U
- g70Ueyicmdew1m3/0Pm4i3zn1Il7gx3IpFTh2Z+Qw4J+/tTuxuXjS54A0QrkhH2qUBUj
- 4mWriUJxzlgqNdLeys3D2oOyQG2eh6E/eBvWjhpxshmoGFfreEHbQhmxwEeCOwngFbLZ
- J4hQZoSFMZO4yloN6/6vzxzm+pcyxdGXPEaWwvB5ajDeWRyG4QcI3XT1ZZHJ2Xl//Ucl
- 1lGp4ObetpsMSWwc7b7Gs2TZPRcZ+XadEmPz3NISS3WeOPdC3fGT94pDdQfThM/4wbAy
- CESg==
-X-Gm-Message-State: AOJu0Yzc/F7/yW6br+iGDjQs71Rp9w2jghV0NKnXtONOVIthiM8EhlYa
- sr0VZcc76zMY4azZBGK9mjU=
-X-Google-Smtp-Source: AGHT+IGanZtGUCDjYCzQQzrf9NVxOyz0XsPOEPMkR8finEGEyFb9EmLL9/B8oc/nCsv1P63tR/pS1g==
-X-Received: by 2002:a5d:4b87:0:b0:319:74b5:b67d with SMTP id
- b7-20020a5d4b87000000b0031974b5b67dmr10787341wrt.66.1693919668554; 
- Tue, 05 Sep 2023 06:14:28 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+ d=1e100.net; s=20221208; t=1693919795; x=1694524595;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D2e15mZf8wc2pLJFSqPYfWYyT02HvCbecy8nwwwpEzE=;
+ b=MbJsih9e4hLkVM7AhS69yUbDzVMIl4QKlZ8DeMIhNCb8rOCOhmFtbtkCBU0B6+Yupj
+ 99vCd2ZYCmOcuHKrmuQhTlHdd1i6oRxxw7ECXG/q27grTiW9okbbRRu8tDQD+UrsAeXe
+ Qu5p7PHSI+TYyyugB++p5Nuw+C4AZxg26dNR9NeKj5gmi6Tw6nFKXuGTHgkxbFrXvbP1
+ XbeaIyBPhe8KtcDCRrxXKZm3aI+GaLFopV8dZk9gmg6bZmM5hUA8KEL2K6077GatyyfV
+ 8+vzFu4cCnTv47ycIVaBtJPgLbYi/gzjlgFHbZIdjGgo8kI79Wq5qY+LdV86Bs3ZnbSu
+ 0o6w==
+X-Gm-Message-State: AOJu0Yz/u3Ua1NKOIwX9dkXG+uNikSaGOPzc742U02wIP52/+/XFoTL+
+ vbaRE07XYGKrwGosG3xmH/KMpicY85R0ypYVtP+WveUCUUKdRwgHpfo7uhBg1qB48Hms1DVwTsE
+ Xf6Rhe9QMOA9T+0NDZtxCaA1oV19T
+X-Received: by 2002:a05:620a:394c:b0:76e:f686:cad8 with SMTP id
+ qs12-20020a05620a394c00b0076ef686cad8mr21139152qkn.13.1693919795670; 
+ Tue, 05 Sep 2023 06:16:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEXLjjut/BFEx7KZ+dSJuY/sFNWQK39O7TBGPi5Ws98D45ermySX54qU/N+vi0/bAj3mHB+FA==
+X-Received: by 2002:a05:620a:394c:b0:76e:f686:cad8 with SMTP id
+ qs12-20020a05620a394c00b0076ef686cad8mr21139123qkn.13.1693919795352; 
+ Tue, 05 Sep 2023 06:16:35 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- w2-20020adff9c2000000b00317ddccb0d1sm17431265wrr.24.2023.09.05.06.14.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Sep 2023 06:14:27 -0700 (PDT)
-Message-ID: <eabe3626-9fd1-c56f-5405-44653d2aab33@gmail.com>
-Date: Tue, 5 Sep 2023 15:14:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+ ou15-20020a05620a620f00b0076c94030a2esm4055947qkn.114.2023.09.05.06.16.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Sep 2023 06:16:34 -0700 (PDT)
+Date: Tue, 5 Sep 2023 15:16:32 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [Intel-xe] [PATCH 2/3] drm/tests/drm_exec: Add a test for object
+ freeing within drm_exec_fini()
+Message-ID: <h4sw3wafjeuf46cvedvqy33q7rnbl7ghoango53hsewcgxnbwk@satazuly25lr>
 References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
- <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230905085832.2103-4-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20230905085832.2103-3-thomas.hellstrom@linux.intel.com>
+ <vz5bvqnxk5n73dxhbsps77i7aqa3nk5vnytnkszlx3ty7klaz3@gllrfksqstwu>
+ <7116926a-af9a-9a14-b6df-a7f4442d90a5@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wsoatwpusmvowrve"
+Content-Disposition: inline
+In-Reply-To: <7116926a-af9a-9a14-b6df-a7f4442d90a5@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,150 +84,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.09.23 um 10:58 schrieb Thomas Hellström:
-> If *any* object of a certain WW mutex class is locked, lockdep will
-> consider *all* mutexes of that class as locked. Also the lock allocation
-> tracking code will apparently register only the address of the first
-> mutex locked in a sequence.
-> This has the odd consequence that if that first mutex is unlocked and
-> its memory then freed, the lock alloc tracking code will assume that memory
-> is freed with a held lock in there.
->
-> For now, work around that for drm_exec by releasing the first grabbed
-> object lock last.
->
-> Related lock alloc tracking warning:
-> [  322.660067] =========================
-> [  322.660070] WARNING: held lock freed!
-> [  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
-> [  322.660078] -------------------------
-> [  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ffff888112adc3ff, with a lock still held there!
-> [  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660104] 2 locks held by kunit_try_catch/4981:
-> [  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
-> [  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-> [  322.660135]
->                 stack backtrace:
-> [  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-> [  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-> [  322.660152] Call Trace:
-> [  322.660155]  <TASK>
-> [  322.660158]  dump_stack_lvl+0x57/0x90
-> [  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
-> [  322.660172]  slab_free_freelist_hook+0xa1/0x160
-> [  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660186]  __kmem_cache_free+0xb2/0x290
-> [  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-> [  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
-> [  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
-> [  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
-> [  322.660222]  ? __kasan_check_byte+0xf/0x40
-> [  322.660227]  ? __ksize+0x63/0x140
-> [  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
-> [  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
-> [  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
-> [  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-> [  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [  322.660328]  kthread+0x2e7/0x3c0
-> [  322.660334]  ? __pfx_kthread+0x10/0x10
-> [  322.660339]  ret_from_fork+0x2d/0x70
-> [  322.660345]  ? __pfx_kthread+0x10/0x10
-> [  322.660349]  ret_from_fork_asm+0x1b/0x30
-> [  322.660358]  </TASK>
-> [  322.660818]     ok 8 test_early_put
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/drm_exec.c |  2 +-
->   include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
->   2 files changed, 32 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> index ff69cf0fb42a..5d2809de4517 100644
-> --- a/drivers/gpu/drm/drm_exec.c
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
->   	struct drm_gem_object *obj;
->   	unsigned long index;
->   
-> -	drm_exec_for_each_locked_object(exec, index, obj) {
-> +	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
 
-Well that's a really good catch, just one more additional thought below.
+--wsoatwpusmvowrve
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->   		dma_resv_unlock(obj->resv);
->   		drm_gem_object_put(obj);
->   	}
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> index e0462361adf9..55764cf7c374 100644
-> --- a/include/drm/drm_exec.h
-> +++ b/include/drm/drm_exec.h
-> @@ -51,6 +51,20 @@ struct drm_exec {
->   	struct drm_gem_object *prelocked;
->   };
->   
-> +/**
-> + * drm_exec_obj() - Return the object for a give drm_exec index
-> + * @exec: Pointer to the drm_exec context
-> + * @index: The index.
-> + *
-> + * Return: Pointer to the locked object corresponding to @index if
-> + * index is within the number of locked objects. NULL otherwise.
-> + */
-> +static inline struct drm_gem_object *
-> +drm_exec_obj(struct drm_exec *exec, unsigned long index)
-> +{
-> +	return index < exec->num_objects ? exec->objects[index] : NULL;
-> +}
-> +
->   /**
->    * drm_exec_for_each_locked_object - iterate over all the locked objects
->    * @exec: drm_exec object
-> @@ -59,10 +73,23 @@ struct drm_exec {
->    *
->    * Iterate over all the locked GEM objects inside the drm_exec object.
->    */
-> -#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> -	for (index = 0, obj = (exec)->objects[0];		\
-> -	     index < (exec)->num_objects;			\
-> -	     ++index, obj = (exec)->objects[index])
-> +#define drm_exec_for_each_locked_object(exec, index, obj)		\
-> +	for ((index) = 0; ((obj) = drm_exec_obj(exec, index)); ++(index))
+On Tue, Sep 05, 2023 at 02:32:38PM +0200, Thomas Hellstr=F6m wrote:
+> Hi,
+>=20
+> On 9/5/23 14:05, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Tue, Sep 05, 2023 at 10:58:31AM +0200, Thomas Hellstr=F6m wrote:
+> > > Check that object freeing from within drm_exec_fini() works as expect=
+ed
+> > > and doesn't generate any warnings.
+> > >=20
+> > > Cc: Christian K=F6nig <christian.koenig@amd.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > > ---
+> > >   drivers/gpu/drm/tests/drm_exec_test.c | 47 ++++++++++++++++++++++++=
++++
+> > >   1 file changed, 47 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/=
+tests/drm_exec_test.c
+> > > index 563949d777dd..294c25f49cc7 100644
+> > > --- a/drivers/gpu/drm/tests/drm_exec_test.c
+> > > +++ b/drivers/gpu/drm/tests/drm_exec_test.c
+> > > @@ -170,6 +170,52 @@ static void test_prepare_array(struct kunit *tes=
+t)
+> > >   	drm_gem_private_object_fini(&gobj2);
+> > >   }
+> > > +static const struct drm_gem_object_funcs put_funcs =3D {
+> > > +	.free =3D (void *)kfree,
+> > > +};
+> > > +
+> > > +/*
+> > > + * Check that freeing objects from within drm_exec_fini()
+> > > + * behaves as expected.
+> > > + */
+> > > +static void test_early_put(struct kunit *test)
+> > > +{
+> > > +	struct drm_exec_priv *priv =3D test->priv;
+> > > +	struct drm_gem_object *gobj1;
+> > > +	struct drm_gem_object *gobj2;
+> > > +	struct drm_gem_object *array[2];
+> > > +	struct drm_exec exec;
+> > > +	int ret;
+> > > +
+> > > +	gobj1 =3D kzalloc(sizeof(*gobj1), GFP_KERNEL);
+> > > +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, gobj1);
+> > > +	if (!gobj1)
+> > > +		return;
+> > > +
+> > > +	gobj2 =3D kzalloc(sizeof(*gobj2), GFP_KERNEL);
+> > > +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, gobj2);
+> > > +	if (!gobj2) {
+> > > +		kfree(gobj1);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	gobj1->funcs =3D &put_funcs;
+> > > +	gobj2->funcs =3D &put_funcs;
+> > > +	array[0] =3D gobj1;
+> > > +	array[1] =3D gobj2;
+> > > +	drm_gem_private_object_init(priv->drm, gobj1, PAGE_SIZE);
+> > > +	drm_gem_private_object_init(priv->drm, gobj2, PAGE_SIZE);
+> > > +
+> > > +	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+> > > +	drm_exec_until_all_locked(&exec)
+> > > +		ret =3D drm_exec_prepare_array(&exec, array, ARRAY_SIZE(array),
+> > > +					     1);
+> > > +	KUNIT_EXPECT_EQ(test, ret, 0);
+> > > +	drm_gem_object_put(gobj1);
+> > > +	drm_gem_object_put(gobj2);
+> > > +	drm_exec_fini(&exec);
+> > It doesn't look like you actually check that "freeing objects from
+> > within drm_exec_fini() behaves as expected." What is the expectation
+> > here, and how is it checked?
+>=20
+> Hm. Good question, I've been manually checking dmesg for lockdep splats. =
+Is
+> there a way to automate that?
 
-Mhm, that makes it possible to modify the number of objects while inside 
-the loop, doesn't it?
+I'm not familiar with the drm_exec API, but judging by the code I'd
+assume you want to check that gobj1 and gobj2 are actually freed using
+kfree?
 
-I'm not sure if that's a good idea or not.
+If so, I've used tested for that by creating a waitqueue and completing
+it from the free function. You won't be certain that you have gone
+through kfree, but you'll know that drm_gem_object_funcs.free will have
+been called which is what you actually care about I think?
 
-Regards,
-Christian.
+So something along those lines would work I think:
 
-> +
-> +/**
-> + * drm_exec_for_each_locked_object_reverse - iterate over all the locked
-> + * objects in reverse locking order
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object in
-> + * reverse locking order. Note that @index may go below zero and wrap,
-> + * but that will be caught by drm_exec_object(), returning a NULL object.
-> + */
-> +#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
-> +	for ((index) = (exec)->num_objects - 1;				\
-> +	     ((obj) = drm_exec_obj(exec, index)); --(index))
->   
->   /**
->    * drm_exec_until_all_locked - loop until all GEM objects are locked
+struct test_gem_object {
+	struct drm_gem_object base;
+	wait_queue_head_t freed_wq;
+	bool freed_done;
+};
+
+void free_test_gem_object(struct drm_gem_object *obj)
+{
+	struct test_gem_object *test_obj =3D
+		container_of(obj, struct test_gem_object, base)
+
+	test_obj->freed_done =3D true;
+	wake_up(&test_obj->freed_wq);
+};
+
+static const struct drm_gem_object_funcs put_funcs =3D {
+	.free =3D free_test_gem_object,
+}
+
+static void test_early_put(struct kunit *test)
+{
+	struct test_gem_object *gobj1;
+	...
+	gobj1 =3D kunit_kzalloc(test, sizeof(*gobj1), GFP_KERNEL);
+	...
+	gobj1->base.funcs =3D &put_funcs;
+	...
+	array[0] =3D &gobj1->base;
+
+	drm_exec_fini(&exec);
+
+	ret =3D wait_event_interruptible_timeout(gobj1->freed_wq, gobj1->freed_don=
+e,
+                                               msecs_to_jiffies(TIMEOUT_MS)=
+);
+	KUNIT_EXPECT_GT(test, ret, 0);
+}
+
+I guess?
+
+Maxime
+
+--wsoatwpusmvowrve
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPcqMAAKCRDj7w1vZxhR
+xVNUAQCfEq4Dq8DBI0yebooCQEDDo17XNmTsm75piiH0dfYVZAD/cphORcnbYH6c
+H4dfONcH0Z6zfTWALrZ8jH4m0ivE3gY=
+=R4A7
+-----END PGP SIGNATURE-----
+
+--wsoatwpusmvowrve--
 
