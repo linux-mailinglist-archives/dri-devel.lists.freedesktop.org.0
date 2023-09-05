@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAE2792128
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 10:49:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7D2792129
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Sep 2023 10:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480EA10E466;
-	Tue,  5 Sep 2023 08:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD1110E468;
+	Tue,  5 Sep 2023 08:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E370210E466
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Sep 2023 08:49:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id D37D6CE0FE5;
- Tue,  5 Sep 2023 08:49:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D20C433C9;
- Tue,  5 Sep 2023 08:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1693903777;
- bh=NueXxO7LZs6zU4DEJfmp56Z9pWJu4aN/sf825rzNzTk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h7VGXKIIYB/dq7Ri7Jv/EuJWcUkG/y4NAheZqQ32gfEDDqdujxssujuJ3JvyllXuT
- Q2M0g74LtM9xzoDCDLtdbbBZr5HG6bJhNQ0IXOkVIUi2tGnqp5X3KrgSI03z3PrgSz
- APafqmbbm97xLBvMa7NQUfKoYGIJfs18nIhqa1GcjkJhBBOnm5c0M7BB4FyY+z2ww9
- 0P1w/TMq0W3Poo3scTQObl75V76bLFuZtEssWeKF+3ANQV8Z8BTAEHBvtr93Kyyz5p
- vczmiDLu5MtNynaaIvdWeu/hrwnJ5ph/RrKFgAVbS6trX7zpF3QsmjkneXpqodsayP
- pyvFPsdqRx9Ww==
-From: Michael Walle <mwalle@kernel.org>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v4 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs calculation
-Date: Tue,  5 Sep 2023 10:49:22 +0200
-Message-Id: <20230905084922.3908121-2-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230905084922.3908121-1-mwalle@kernel.org>
-References: <20230905084922.3908121-1-mwalle@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C60FC10E468;
+ Tue,  5 Sep 2023 08:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693903805; x=1725439805;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fGB8Ql7Gce8esFznLWuQEPATfaVZ2AGRnVV+EfOKE9A=;
+ b=kIT57pMbL4lESL1a4d41BQtoRMVrjr9twlR+eBnLuaNYq2Vf+TciNJor
+ u2RzIc5dgk3Mfl4Tx9nI2hyDd8ysQ4NijU5lVxHlr8RVqUNIfxnpNnSkj
+ 0Ab2qVCQA8A/9kjOjjc+Nc9lM2rbpFw7H9NO+ggcapfrAPMSOsm+P1SAS
+ 9lPyy9Cy2B26BzAqM53/Ifni0TmZuH+NovN2pr+6FWAGAQryFqAwG/oBL
+ VvDrFx6F8YwLOa3KeciAjGX2EOblXDn3Nch90JBgLRBXVTVIJqasfqJjw
+ UN1IFWr6+meuinuxXJdJixOvUqZ+VNA0ReoSGaIvvMMIPpXoZavfXA5r6 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="379463458"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="379463458"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2023 01:50:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="1071893689"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; d="scan'208";a="1071893689"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga005.fm.intel.com with SMTP; 05 Sep 2023 01:49:56 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 05 Sep 2023 11:49:56 +0300
+Date: Tue, 5 Sep 2023 11:49:56 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
+ corresponding Type-C connectors"
+Message-ID: <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,191 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
- Michael Walle <mwalle@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Won Chung <wonchung@google.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
-always have the CRTC with id 0, the ext id 1 and the third id 2. This
-is only true if the paths are all available. But paths are optional (see
-also comment in mtk_drm_kms_init()), e.g. the main path might not be
-enabled or available at all. Then the CRTC IDs will shift one up, e.g.
-ext will be 0 and the third path will be 1.
+Hi Dmitry,
 
-To fix that, dynamically calculate the IDs by the presence of the paths.
+On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
+> The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
+> dev_fwnode() checks never succeed, making the respective commit NOP.
 
-While at it, make the return code a signed one and return -ENOENT if no
-path is found and handle the error in the callers.
+That's not true. The dev->fwnode is assigned when the device is
+created on ACPI platforms automatically. If the drm_connector fwnode
+member is assigned before the device is registered, then that fwnode
+is assigned also to the device - see drm_connector_acpi_find_companion().
 
-Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
-Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Signed-off-by: Michael Walle <mwalle@kernel.org>
-Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
-v4:
- - return -ENOENT if mtk_drm_find_possible_crtc_by_comp() doesn't find
-   any path
-v3:
- - use data instead of priv_n->data
- - fixed typos
- - collected Rb and Tb tags
-v2:
- - iterate over all_drm_private[] to get any vdosys
- - new check if a path is available
----
- drivers/gpu/drm/mediatek/mtk_dpi.c          |  5 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 75 ++++++++++++++++-----
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  3 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c          |  5 +-
- 4 files changed, 68 insertions(+), 20 deletions(-)
+But please note that even if drm_connector does not have anything in
+its fwnode member, the device may still be assigned fwnode, just based
+on some other logic (maybe in drivers/acpi/acpi_video.c?).
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 2f931e4e2b60..f9250f7ee706 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -796,7 +796,10 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
- 
--	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-+	ret = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-+	if (ret < 0)
-+		goto err_cleanup;
-+	dpi->encoder.possible_crtcs = ret;
- 
- 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 771f4e173353..83ae75ecd858 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -507,6 +507,27 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
- 	return false;
- }
- 
-+static bool mtk_ddp_path_available(const unsigned int *path,
-+				   unsigned int path_len,
-+				   struct device_node **comp_node)
-+{
-+	unsigned int i;
-+
-+	if (!path)
-+		return false;
-+
-+	for (i = 0U; i < path_len; i++) {
-+		/* OVL_ADAPTOR doesn't have a device node */
-+		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
-+			continue;
-+
-+		if (!comp_node[path[i]])
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type)
- {
-@@ -522,25 +543,47 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
- 
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev)
-+int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
--	unsigned int ret = 0;
--
--	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
--				     private->ddp_comp))
--		ret = BIT(0);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
--					  private->data->ext_len, private->ddp_comp))
--		ret = BIT(1);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
--					  private->data->third_len, private->ddp_comp))
--		ret = BIT(2);
--	else
--		DRM_INFO("Failed to find comp in ddp table\n");
-+	const struct mtk_mmsys_driver_data *data;
-+	struct mtk_drm_private *priv_n;
-+	int i = 0, j;
-+
-+	for (j = 0; j < private->data->mmsys_dev_num; j++) {
-+		priv_n = private->all_drm_private[j];
-+		data = priv_n->data;
-+
-+		if (mtk_ddp_path_available(data->main_path, data->main_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_drm_find_comp_in_ddp(dev, data->main_path,
-+						     data->main_len,
-+						     priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+
-+		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_drm_find_comp_in_ddp(dev, data->ext_path,
-+						     data->ext_len,
-+						     priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+
-+		if (mtk_ddp_path_available(data->third_path, data->third_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_drm_find_comp_in_ddp(dev, data->third_path,
-+						     data->third_len,
-+						     priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+	}
- 
--	return ret;
-+	DRM_INFO("Failed to find comp in ddp table\n");
-+	return -ENOENT;
- }
- 
- int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index febcaeef16a1..6a95df72de0a 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -277,8 +277,7 @@ static inline bool mtk_ddp_comp_disconnect(struct mtk_ddp_comp *comp, struct dev
- 
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev);
-+int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d8bfc2cce54d..d67e5c61a9b9 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -843,7 +843,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		return ret;
- 	}
- 
--	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-+	ret = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-+	if (ret < 0)
-+		goto err_cleanup_encoder;
-+	dsi->encoder.possible_crtcs = ret;
- 
- 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
+> breaks drivers already using components (as it was pointed at [1]),
+> resulting in a deadlock. Lockdep trace is provided below.
+> 
+> Granted these two issues, it seems impractical to fix this commit in any
+> sane way. Revert it instead.
+
+I think there is already user space stuff that relies on these links,
+so I'm not sure you can just remove them like that. If the component
+framework is not the correct tool here, then I think you need to
+suggest some other way of creating them.
+
+Side note. The problem you are describing here is a limitation in the
+component framework - right now it's made with the idea that a device
+can represent a single component, but it really should allow a device
+to represent multiple components. I'm not saying that you should try
+to fix the component framework, but I just wanted to make a note about
+this (and this is not the only problem with the component framework).
+
+I like the component framework as a concept, but I think it needs a
+lot of improvements - possibly rewrite.
+
+thanks,
+
 -- 
-2.39.2
-
+heikki
