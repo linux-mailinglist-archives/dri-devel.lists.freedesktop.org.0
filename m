@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898977937D7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:15:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A927937E1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:17:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B03AA10E2C8;
-	Wed,  6 Sep 2023 09:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCA010E5B1;
+	Wed,  6 Sep 2023 09:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8B510E2C8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 09:14:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D1D9C2240A;
- Wed,  6 Sep 2023 09:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693991684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D9IuigOLcL5MrufSZWImIExuXI9+UROJVe83/ZYsyO8=;
- b=eLebPiNuPYtcKeVOsjjcKtTakp1OuybkOU5KE+PizHk+MXhXIrQvg0C5VREdnf0PnXmpCH
- Lk3Ytkdz0M7E3R7EA+YO9ZP8lPnX1+peXSu5ri3Jy+rICtO0Z99IMR56DfH3MJXYfZ191T
- z/1zfjNqzimpVwwdWbs0yxXkWY3k5Ho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693991684;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D9IuigOLcL5MrufSZWImIExuXI9+UROJVe83/ZYsyO8=;
- b=MLz6YEoe7I8Lbtoj2lB1zaJLhJjaNBln0qqmWQ6OxUjvqn/cMiIwGTT/znX8hi0VOyQsIK
- DN2Bzv6Yk2yHoUAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4D401333E;
- Wed,  6 Sep 2023 09:14:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id O6E8JwRD+GT+BQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Sep 2023 09:14:44 +0000
-Message-ID: <25bd597f-f4b5-8592-f111-898b4a613941@suse.de>
-Date: Wed, 6 Sep 2023 11:14:43 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2BD10E5A9;
+ Wed,  6 Sep 2023 09:17:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1693991855; x=1725527855;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=59bLv4KLEPTsW/Kpuzfm11fkHZsbY2iGvbMNU7NcZ9o=;
+ b=TPYGUIKD4en0yJV6SzO7mMQblLQtcvTgnZ3p9M7Q0hEK53wdOARy3VhB
+ D3CBEOowQvnbqYiPjoOcB/hBAJAhfkC+P0CJ/4X4rZnmDn+tkwMDzPL9m
+ k5WbxK9B/4BiuQTtnAHBWRknQpbOE1uXaUe/DmnWcMqH/iJg+Zk6e2GqW
+ J9f6YDtUigPVJW2JN9DLXkp7oqxsZzezfec+3w7b0HFe7WFdS0F3ChI52
+ O0R8ro6ow6r4y29NouQVgHTW7cluABLlDUTpC+RrUk50Io4PgLVfUOsWo
+ o9m7LjRkDJyfRjMo8J3M+Eg+35t1lTfO7Lm1FnpggGXCekKzFsQ9TKB5V w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="375916951"
+X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; d="scan'208";a="375916951"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 02:17:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="988161031"
+X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; d="scan'208";a="988161031"
+Received: from kmiranda-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.216.135])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 02:17:32 -0700
+Date: Wed, 6 Sep 2023 11:17:29 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH v5] drm/i915: Avoid circular locking dependency when
+ flush delayed work on gt reset
+Message-ID: <ZPhDqTusn9FYY8qV@ashyti-mobl2.lan>
+References: <20230811182011.546026-1-zhanjun.dong@intel.com>
+ <3a745c83-e7cf-6a24-5556-8c0c019adfec@intel.com>
+ <ZOYtNyqfvqJPeqq2@phenom.ffwll.local>
+ <e31b1f49-88cd-d6e4-abbe-51f27712ff83@intel.com>
+ <ZPCc4CU+S6Gv6GzQ@ashyti-mobl2.lan>
+ <983eb186-5b6a-8df3-1e67-eb7da6a8dbcd@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
-References: <20230809192514.158062-1-jfalempe@redhat.com>
- <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
- <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6paN0eF7y4YoTrTEzG7RCQmT"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <983eb186-5b6a-8df3-1e67-eb7da6a8dbcd@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,194 +65,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Zhanjun Dong <zhanjun.dong@intel.com>,
+ intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6paN0eF7y4YoTrTEzG7RCQmT
-Content-Type: multipart/mixed; boundary="------------Nir4tS23i8sTFDWeQ03f9jMd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
-Message-ID: <25bd597f-f4b5-8592-f111-898b4a613941@suse.de>
-Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
-References: <20230809192514.158062-1-jfalempe@redhat.com>
- <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
- <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
-In-Reply-To: <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
+Hi John,
 
---------------Nir4tS23i8sTFDWeQ03f9jMd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> > > > > >     static void guc_cancel_busyness_worker(struct intel_guc *guc)
+> > > > > >     {
+> > > > > > -	cancel_delayed_work_sync(&guc->timestamp.work);
+> > > > > > +	/*
+> > > > > > +	 * When intel_gt_reset was called, task will hold a lock.
+> > > > > > +	 * To cacel delayed work here, the _sync version will also acquire a lock, which might
+> > > > > > +	 * trigger the possible cirular locking dependency warning.
+> > > > > > +	 * Check the reset_in_progress flag, call async verion if reset is in progress.
+> > > > > > +	 */
+> > > > > This needs to explain in much more detail what is going on and why it is not
+> > > > > a problem. E.g.:
+> > > > > 
+> > > > >      The busyness worker needs to be cancelled. In general that means
+> > > > >      using the synchronous cancel version to ensure that an in-progress
+> > > > >      worker will not keep executing beyond whatever is happening that
+> > > > >      needs the cancel. E.g. suspend, driver unload, etc. However, in the
+> > > > >      case of a reset, the synchronous version is not required and can
+> > > > >      trigger a false deadlock detection warning.
+> > > > > 
+> > > > >      The business worker takes the reset mutex to protect against resets
+> > > > >      interfering with it. However, it does a trylock and bails out if the
+> > > > >      reset lock is already acquired. Thus there is no actual deadlock or
+> > > > >      other concern with the worker running concurrently with a reset. So
+> > > > >      an asynchronous cancel is safe in the case of a reset rather than a
+> > > > >      driver unload or suspend type operation. On the other hand, if the
+> > > > >      cancel_sync version is used when a reset is in progress then the
+> > > > >      mutex deadlock detection sees the mutex being acquired through
+> > > > >      multiple paths and complains.
+> > > > > 
+> > > > >      So just don't bother. That keeps the detection code happy and is
+> > > > >      safe because of the trylock code described above.
+> > > > So why do we even need to cancel anything if it doesn't do anything while
+> > > > the reset is in progress?
+> > > It still needs to be cancelled. The worker only aborts if it is actively
+> > > executing concurrently with the reset. It might not start to execute until
+> > > after the reset has completed. And there is presumably a reason why the
+> > > cancel is being called, a reason not necessarily related to resets at all.
+> > > Leaving the worker to run arbitrarily after the driver is expecting it to be
+> > > stopped will lead to much worse things than a fake lockdep splat, e.g. a use
+> > > after free pointer deref.
+> > I was actually thinking why not leave things as they are and just
+> > disable lockdep from CI. This doesn't look like a relevant report
+> > to me.
+> > 
+> > Andi
+> Disable lockdep? The whole of lockdep? We absolutely do not want to disable
+> an extremely important deadlock testing infrastructure in our test
+> framework. That would be defeating the whole point of CI.
+> 
+> Potentially we could annotate this one particular scenario to suppress this
+> one particular error.  But it seems simpler and safer to just update the
+> code to not hit that scenario in the first place.
 
-SGkgSm9jZWx5bg0KDQpBbSAwNS4wOS4yMyB1bSAxNjo0NiBzY2hyaWViIEpvY2VseW4gRmFs
-ZW1wZToNCj4gT24gMDQvMDkvMjAyMyAxNjoyOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
-DQo+PiBIaSBKb2NlbHluLA0KPj4NCj4+IHRoYW5rcyBmb3IgbW92aW5nIHRoaXMgZWZmb3J0
-IGZvcndhcmQuIEl0J3MgbXVjaCBhcHByZWNpYXRlZC4gSSBsb29rZWQgDQo+PiB0aHJvdWdo
-IHRoZSBwYXRjaGVzIGFuZCB0cmllZCB0aGUgcGF0Y2hzZXQgb24gbXkgdGVzdCBtYWNoaW5l
-Lg0KPiANCj4gVGhhbmtzIGZvciB0YWtpbmcgdGhlIHRpbWUgdG8gcmV2aWV3IGFuZCB0ZXN0
-IGl0Lg0KPj4NCj4+IEFtIDA5LjA4LjIzIHVtIDIxOjE3IHNjaHJpZWIgSm9jZWx5biBGYWxl
-bXBlOg0KPj4+IFRoaXMgaW50cm9kdWNlcyBhIG5ldyBkcm0gcGFuaWMgaGFuZGxlciwgd2hp
-Y2ggZGlzcGxheXMgYSBtZXNzYWdlIA0KPj4+IHdoZW4gYSBwYW5pYyBvY2N1cnMuDQo+Pj4g
-U28gd2hlbiBmYmNvbiBpcyBkaXNhYmxlZCwgeW91IGNhbiBzdGlsbCBzZWUgYSBrZXJuZWwg
-cGFuaWMuDQo+Pj4NCj4+PiBUaGlzIGlzIG9uZSBvZiB0aGUgbWlzc2luZyBmZWF0dXJlLCB3
-aGVuIGRpc2FibGluZyBWVC9mYmNvbiBpbiB0aGUgDQo+Pj4ga2VybmVsOg0KPj4+IGh0dHBz
-Oi8vd3d3LnJlZGRpdC5jb20vci9saW51eC9jb21tZW50cy8xMGVjY3Y5L2NvbmZpZ192dG5f
-aW5fMjAyMy8NCj4+PiBGYmNvbiBjYW4gYmUgcmVwbGFjZWQgYnkgYSB1c2Vyc3BhY2Uga21z
-IGNvbnNvbGUsIGJ1dCB0aGUgcGFuaWMgDQo+Pj4gc2NyZWVuIG11c3QgYmUgZG9uZSBpbiB0
-aGUga2VybmVsLg0KPj4+DQo+Pj4gVGhpcyBpcyBhIHByb29mIG9mIGNvbmNlcHQsIGFuZCB3
-b3JrcyBvbmx5IHdpdGggc2ltcGxlZHJtLCB1c2luZyB0aGUgDQo+Pj4gZHJtX2NsaWVudCBB
-UEkuDQo+Pj4gVGhpcyBpbXBsZW1lbnRhdGlvbiB3aXRoIHRoZSBkcm0gY2xpZW50IEFQSSwg
-YWxsb2NhdGVzIG5ldyANCj4+PiBmcmFtZWJ1ZmZlcnMsIGFuZCBsb29rcyBhIGJpdCB0b28g
-Y29tcGxleCB0byBydW4gaW4gYSBwYW5pYyBoYW5kbGVyLg0KPj4+IE1heWJlIHdlIHNob3Vs
-ZCBhZGQgYW4gQVBJIHRvICJzdGVhbCIgdGhlIGN1cnJlbnQgZnJhbWVidWZmZXIgDQo+Pj4g
-aW5zdGVhZCwgYmVjYXVzZSBpbiBhIHBhbmljIGhhbmRsZXIgdXNlci1zcGFjZSBpcyBhbHJl
-YWR5IHN0b3BwZWQuDQo+Pg0KPj4gWWVzLCB0aGF0IHdhcyBhbHNvIG15IGZpcnN0IHRob3Vn
-aHQuIEknZCB1c2UgYW4gZXh0cmEgY2FsbGJhY2sgaW4gDQo+PiBzdHJ1Y3QgZHJtX2RyaXZl
-ciwgbGlrZSB0aGlzOg0KPj4NCj4+IHN0cnVjdCBkcm1fZHJpdmVyIHsNCj4+IMKgwqAgaW50
-ICgqZ2V0X3NjYW5vdXRfYnVmZmVyKSgvKiByZXR1cm4gSFcgc2Nhbm91dCAqLykNCj4+IH0N
-Cj4+DQo+PiBUaGUgc2Nhbm91dCBidWZmZXIgd291bGQgYmUgZGVzY3JpYmVkIGJ5IGtlcm5l
-bCB2aXJ0dWFsIGFkZHJlc3MgDQo+PiBhZGRyZXNzLCByZXNvbHV0aW9uLCBjb2xvciBmb3Jt
-YXQgYW5kIHNjYW5saW5lIHBpdGNoLiBBbmQgdGhhdCdzIHdoYXQgDQo+PiB0aGUgcGFuaWMg
-aGFuZGxlciB1c2VzLg0KPiANCj4gVGhhbmtzLCBJIHdpbGwgdHJ5IHRoaXMgc29sdXRpb24u
-IEl0IHNob3VsZG4ndCBiZSB0b28gaGFyZCBmb3Igc2ltcGxlZHJtLg0KPj4NCj4+IEFueSBk
-cml2ZXIgaW1wbGVtZW50aW5nIHRoaXMgaW50ZXJmYWNlIHdvdWxkIHN1cHBvcnQgdGhlIHBh
-bmljIA0KPj4gaGFuZGxlci4gSWYgdGhlcmUncyBhIGNvbmN1cnJlbnQgZGlzcGxheSB1cGRh
-dGUsIHdlJ2QgaGF2ZSB0byANCj4+IHN5bmNocm9uaXplLg0KPiANCj4gTm9ybWFsbHkgaW4g
-dGhlIHBhbmljIGhhbmRsZXIsIHRoZSBrZXJuZWwgaXMgYWxyZWFkeSBzaW5nbGUtdGhyZWFk
-ZWQsIHNvIA0KPiB0aGVyZSB3b24ndCBiZSBhbm90aGVyIHRhc2sgZG9pbmcgdGhpbmdzIGlu
-IHBhcmFsbGVsLiAoQnV0IHRoZSBHUFUgbWlnaHQgDQo+IHN0aWxsIGJlIGJ1c3kgZG9pbmcg
-b3RoZXIgc3R1ZmYsIGlmIHdlJ3JlIGluIHRoZSBtaWRkbGUgb2YgYSBnYW1lKS4NCj4gSSB0
-aGluayB0aGlzIGRybV9wYW5pYyBzaG91bGQgYmUgYSAiYmVzdCBlZmZvcnQiLCB3ZSBjYW4n
-dCBndWFyYW50ZWUgdGhlIA0KPiB1c2VyIHdpbGwgc2VlIHRoZSBwYW5pYyBzY3JlZW4gaW4g
-YWxsIHBhbmljIHNpdHVhdGlvbnMuDQo+IA0KPj4NCj4+Pg0KPj4+IFRvIHRlc3QgaXQsIG1h
-a2Ugc3VyZSB5b3UncmUgdXNpbmcgdGhlIHNpbXBsZWRybSBkcml2ZXIsIGFuZCB0cmlnZ2Vy
-IA0KPj4+IGEgcGFuaWM6DQo+Pj4gZWNobyBjID4gL3Byb2Mvc3lzcnEtdHJpZ2dlcg0KPj4N
-Cj4+IFRoZSBwZW5ndWluIHdhcyBjdXRlLiA6KQ0KPj4NCj4+IFRoaXMgb25seSB3b3JrcyBp
-ZiB0aGUgZGlzcGxheSBpcyBhbHJlYWR5IHJ1bm5pbmcuIEkgaGFkIHRvIHN0YXJ0IA0KPj4g
-R25vbWUgdG8gc2V0IGEgZGlzcGxheSBtb2RlLiBUaGVuIGxldCB0aGUgcGFuaWMgaGFuZGxl
-ciB0YWtlIG92ZXIgdGhlIA0KPj4gb3V0cHV0Lg0KPiANCj4gb2gsIEkgZGlkbid0IGV4cGVj
-dCB0aGlzIGxpbWl0YXRpb24uIEkgd2lsbCB0cnkgdG8gdGVzdCB0aGF0IHRvby4gSXQgDQo+
-IG1pZ2h0IGFsc28gZ2V0IGZpeGVkIGJ5IHVzaW5nIHRoZSBnZXRfc2Nhbm91dF9idWZmZXIo
-KSBhYm92ZS4NCg0KSSBndWVzcyBpdCBkZXBlbmRzLiBXZSdkIG5lZWQgYSB3b3JraW5nIGRp
-c3BsYXkgbW9kZSwgb3Igd2UnZCByZXF1aXJlIA0KZ2V0X3NjYW5vdXRfYnVmZmVyKCkgdG8g
-c2V0IGl0IHVwIGZvciB1cy4gSURLIGhvdyBtdWNoIHRoYXQgaXMgcG9zc2libGUgDQppbiB0
-aGUgY2FzZSBvZiBhIGtlcm5lbCBwYW5pYy4NCg0KQXBhcnQgZnJvbSB0aGF0LCB3ZSBzaG91
-bGQgdXNlIHdoYXRldmVyIGhhcyBiZWVuIHByb2dyYW1tZWQgaW50byANCmhhcmR3YXJlLiBO
-byBuZWVkIGZvciBEUk0gY2xpZW50cyBvciBHRU0gYnVmZmVycywgZXRjLg0KDQo+Pg0KPj4g
-QnV0IHdpdGggc2ltcGxlZHJtLCB3ZSBjb3VsZCBldmVuIGRpc3BsYXkgYSBtZXNzYWdlIHdp
-dGhvdXQgYW4gb3V0cHV0LCANCj4+IGFzIHRoZSBmcmFtZWJ1ZmZlciBpcyBhbHdheXMgdGhl
-cmUuDQo+Pg0KPj4+DQo+Pj4gVGhlcmUgaXMgb25lIHRoaW5nIEkgZG9uJ3Qga25vdyBob3cg
-dG8gZG8sIGlzIHRvIHVucmVnaXN0ZXIgdGhlIA0KPj4+IGRybV9wYW5pYyB3aGVuIHRoZSBn
-cmFwaGljIGRyaXZlciBpcyB1bmxvYWRlZC4NCj4+PiBkcm1fY2xpZW50X3JlZ2lzdGVyKCkg
-c2F5cyBpdCB3aWxsIGF1dG9tYXRpY2FsbHkgdW5yZWdpc3RlciBvbiBkcml2ZXIgDQo+Pj4g
-dW5sb2FkLiBCdXQgdGhlbiBJIGRvbid0IGtub3cgaG93IHRvIHJlbW92ZSBpdCBmcm9tIG15
-IGxpbmtlZCBsaXN0LCANCj4+PiBhbmQgZnJlZSB0aGUgZHJtX2NsaWVudF9kZXYgc3RydWN0
-Lg0KPj4NCj4+IFVucmVnaXN0ZXJpbmcgd291bGRuJ3QgYmUgbmVjZXNzYXJ5IHdpdGggdGhp
-cyBwcm9wb3NlZCANCj4+IGdldF9zY2Fub3V0X2J1ZmZlci4gSW4gdGhlIGNhc2Ugb2YgYSBw
-YW5pYywganVzdCByZW1haW4gc2lsZW50IGlmIA0KPj4gdGhlcmUncyBubyBkcml2ZXIgdGhh
-dCBwcm92aWRlcyBzdWNoIGEgY2FsbGJhY2suDQo+IA0KPiBJcyB0aGVyZSBhIHdheSB0byBs
-b29wIG92ZXIgYWxsIGRybV9kZXZpY2VzID8NCj4gb3RoZXJ3aXNlIGRybV9wYW5pYyBtYXkg
-c3RpbGwgY2FsbCBnZXRfc2Nhbm91dF9idWZmZXIoKSBvbiBhIGZyZWVkIA0KPiBkZXZpY2Us
-IHdoaWNoIHdvdWxkIGJlIHByb2JsZW1hdGljLg0KDQpJIGRvbid0IHNlZSBzdWNoIGEgbGlz
-dC4gSXQgY291bGQgYmUgYWRkZWQgYXMgcGFydCBvZiB0aGUgcmVnaXN0ZXJpbmcgDQp0aGUg
-ZGV2aWNlLg0KDQo+Pg0KPj4+DQo+Pj4gVGhpcyBpcyBhIGZpcnN0IGRyYWZ0LCBzbyBsZXQg
-bWUga25vdyB3aGF0IGRvIHlvdSB0aGluayBhYm91dCBpdC4NCj4+DQo+PiBPbmUgdGhpbmcg
-dGhhdCB3aWxsIG5lZWQgc2VyaW91cyB3b3JrIGlzIHRoZSByYXcgb3V0cHV0LiBUaGUgY3Vy
-cmVudCANCj4+IGJsaXR0aW5nIGZvciBYUkdCODg4OCBpcyByZWFsbHkganVzdCBhIHF1aWNr
-LWFuZC1kaXJ0eSBoYWNrLg0KPj4NCj4+IEkgdGhpbmsgd2Ugc2hvdWxkIHRyeSB0byByZXVz
-ZSBmYmRldidzIGJsaXR0aW5nIGNvZGUsIGlmIHBvc3NpYmxlLiBUaGUgDQo+PiBmYmRldiBj
-b3JlLCBoZWxwZXJzIGFuZCBjb25zb2xlIGNvbWUgd2l0aCBhbGwgdGhlIGZlYXR1cmVzIHdl
-IG5lZWQuIFdlIA0KPj4gcmVhbGx5IG9ubHkgbmVlZCB0byBtYWtlIHRoZW0gd29yayB3aXRo
-b3V0IHRoZSBzdHJ1Y3QgZmJfaW5mbywgd2hpY2ggDQo+PiBpcyBhIGZ1bGwgZmJkZXYgZGV2
-aWNlLg0KPiANCj4gSSdtIGEgYml0IHJlbHVjdGFudCB0byByZS11c2UgdGhlIGZiZGV2IGNv
-ZGUsIGZvciBhIGZldyByZWFzb25zOg0KPiAgwqAqIEkgd2FudCBkcm1fcGFuaWMgdG8gd29y
-ayBpZiBDT05GSUdfRkIgYW5kIENPTkZJR19EUk1fRkJERVZfRU1VTEFUSU9OIA0KPiBhcmUg
-bm90IHNldC4NCg0KVGhlIGNvZGUgd291bGQgbGl2ZSBpbiB2aWRlby8gYW5kIGJlIGluZGVw
-ZW5kZW5kIGZyb20gZmJkZXYuIEl0J3MgcXVpdGUgDQphIGJpdCBvZiByZWZhY3RvcmluZywg
-YnV0IG1pZ2h0IGJlIHdvcnRoIGl0IGluIHRoZSBsb25nIHRlcm0uDQoNCj4gIMKgKiBkcm1f
-cGFuaWMgb25seSBuZWVkcyB0d28gdGhpbmdzLCB0byBjbGVhciB0aGUgZnJhbWVidWZmZXIs
-IGFuZCB0aGVuIA0KPiBkcmF3IHdoaXRlIHBpeGVscyB3aGVyZSBuZWVkZWQuIEFzIHRoZSBm
-cmFtZSBpcyBzdGF0aWMsIGFuZCB0aGUgYW1vdW50IA0KPiBvZiB3aGl0ZSBwaXhlbHMgaXMg
-bG93LCB0aGF0IHNob3VsZCBiZSBnb29kIGVub3VnaC4gU28gY29weV9hcmVhKCkgb3IgDQo+
-IGltYWdlX2JsaXQoKSBhcmUgbm90IHRoYXQgdXNlZnVsLg0KDQpJdCdzIHN0aWxsIGEgbG90
-IG9mIGNvbG9yIGZvcm1hdHMuIEFuZCB0aGVyZSdzIHBhbmVsIHJvdGF0aW9uIHRvIHRha2Ug
-DQppbnRvIGFjY291bnQuIEZiY29uIGhhcyBzdXBwb3J0IGZvciB0aGlzIGFscmVhZHkgYW5k
-IGtub3dzIGhvdyB0byBnZXQgDQpnbHlwaHMgb250byB0aGUgc2NyZWVuLiBJJ2QgZXhwZWN0
-IHRoYXQgYWxsIHRoaXMgZ2V0cyB1c2VmdWwgaWYgeW91IHdhbnQgDQp0byBkaXNwbGF5IGEg
-c3RhY2sgdHJhY2UuDQoNCj4gIMKgKiBGb3IgdGhpcyBwYXJ0aWN1bGFyIHVzZS1jYXNlLCBw
-ZXJmb3JtYW5jZXMgYXJlIG5vdCBhIHByaW9yaXR5LCBpdCANCj4gZG9lc24ndCBtYXR0ZXIg
-aWYgaXQgdGFrZXMgMTB1cyBvciAxMDBtcyB0byBkcmF3IHRoZSBwYW5pYyBzY3JlZW4sIGFz
-IGl0IA0KPiB3aWxsIHN0YXkgdGhlIHNhbWUgdW50aWwgdGhlIHVzZXIgcmVib290cy4NCj4g
-IMKgKiBTb21lIGFnZ3Jlc3NpdmUgb3B0aW1pemF0aW9ucyBtaWdodCBjYXVzZSBpc3N1ZXMg
-aW4gYSBwYW5pYyBoYW5kbGVyLCANCj4gbGlrZSBpZiB5b3UgdXNlIHdvcmtxdWV1ZS90YXNr
-bGV0Lg0KPiANCj4gT24gdGhlIG90aGVyIGhhbmQsIHdyaXRpbmcgdGhlIGNvZGUgZm9yIGFs
-bCBzdXBwb3J0ZWQgZm9ybWF0cyBpcyBhIGJpdCANCj4gdGVkaW91cy4gZHJtX2xvZyBbMV0g
-ZGlkIGl0IGluIH4zMDAgbGluZXMsIHdoaWNoIHNob3VsZCBrZWVwIGNvZGUgDQo+IGR1cGxp
-Y2F0aW9uIGxvdy4NCg0KSSdtIGNvbmNlcm5lZCB0aGF0IHdlJ2xsIG5vdyBhZGQgeWV0IGFu
-b3RoZXIgc2V0IGZvcm1hdC1jb252ZXJzaW9uIA0KaGVscGVycy4gV2UgYWxyZWFkeSBoYXZl
-IHRoZSBmYmRldiBkcmF3aW5nIGhlbHBlcnMgYW5kIERSTSdzIA0KZm9ybWF0LWNvbnZlcnNp
-b24gaGVscGVycy4gSU1ITyB3ZSBzaG91bGQgdHJ5IHRvIHJldXNlIG1vcmUgb2YgdGhlIA0K
-ZXhpc3RpbmcgY29kZS4gSSBhc3N1bWUgdGhhdCB3ZSBuZWVkIHNvbWUgZXh0ZW5zaXZlIHBy
-b3RvdHlwaW5nIGZpcnN0IHRvIA0Kc2VlIGhvdyB0byBkbyB0aGlzIGNvcnJlY3RseS4NCg0K
-QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+DQo+PiBJbiBzdHJ1Y3QgZmJfb3BzLCB0
-aGVyZSBhcmUgY2FsbGJhY2tzIGZvciBtb2RpZnlpbmcgdGhlIGZyYW1lYnVmZmVyLiANCj4+
-IFsxXSBUaGV5IGFyZSB1c2VkIGJ5IGZiY29uIGZvaXIgZHJhd2luZy4gQnV0IHRoZXkgb3Bl
-cmF0ZSBvbiBmYl9pbmZvLg0KPj4NCj4+IEZvciBhIHdoaWxlIEkndmUgYmVlbiB0aGlua2lu
-ZyBhYm91dCB1c2luZyBzb21ldGhpbmcgbGlrZSBhIGRyYXdhYmxlIA0KPj4gdG8gcHJvdmlk
-ZSBzb21lIGFic3RyYWN0aW9uczoNCj4+DQo+PiBzdHJ1Y3QgZHJhd2FibGUgew0KPj4gwqDC
-oMKgwqDCoC8qIHN0b3JlIGJ1ZmZlciBwYXJhbWV0ZXJzIGhlcmUgKi8NCj4+IMKgwqDCoMKg
-wqAuLi4NCj4+DQo+PiDCoMKgwqDCoMKgc3RydWN0IGRyYXdhYmxlX2Z1bmNzICpmdW5jczsN
-Cj4+IH07DQo+Pg0KPj4gc3RydWN0IGRyYXdhYmxlX2Z1bmNzIHsNCj4+IMKgwqDCoMKgwqAv
-KiBoYXZlIGZ1bmN0aW9uIHBvaW50ZXJzIHNpbWlsYXIgdG8gc3RydWN0IGZiX29wcyAqLw0K
-Pj4gwqDCoMKgwqDCoGZpbGxfcmVjdCgpDQo+PiDCoMKgwqDCoMKgY29weV9hcmVhKCkNCj4+
-IMKgwqDCoMKgwqBpbWFnZV9ibGl0KCkNCj4+IH07DQo+Pg0KPj4gV2UgY2Fubm90IHJld3Jp
-dGUgYWxsIHRoZSBleGlzdGluZyBmYmRldiBkcml2ZXJzLiBUbyBtYWtlIHRoaXMgd29yayAN
-Cj4+IHdpdGggZmJkZXYsIHdlJ2QgbmVlZCBhZGFwdGVyIGNvZGUgdGhhdCBjb252ZXJ0cyBm
-cm9tIGRyYXdhYmxlIHRvIA0KPj4gZmJfaW5mbyBhbmQgZm9yd2FyZHMgdG8gdGhlIGV4aXN0
-aW5nIGhlbHBlcnMgaW4gZmJfb3BzLg0KPj4NCj4+IEJ1dCBmb3IgRFJNJ3MgcGFuaWMgb3V0
-cHV0LCBkcmF3YWJsZV9mdW5jcyB3b3VsZCBoYXZlIHRvIHBvaW50IHRvIHRoZSANCj4+IHNj
-YW5vdXQgYnVmZmVyIGFuZCBjb21wYXRpYmxlIGNhbGxiYWNrIGZ1bmNzLCBmb3Igd2hpY2gg
-d2UgaGF2ZSANCj4+IGltcGxlbWVudGF0aW9ucyBpbiBmYmRldi4NCj4+DQo+PiBXZSBtaWdo
-dCBiZSBhYmxlIHRvIGNyZWF0ZSBjb25zb2xlLWxpa2Ugb3V0cHV0IHRoYXQgaXMgaW5kZXBl
-bmRlbnQgDQo+PiBmcm9tIHRoZSBmYl9pbmZvLiBIZW5jZSwgd2UgY291bGQgcG9zc2libGUg
-cmV1c2UgYSBnb29kIGNodW5rIG9mIHRoZSANCj4+IGN1cnJlbnQgcGFuaWMgb3V0cHV0Lg0K
-PiANCj4gSSB0aGluayB0aGF0IHdhcyB0aGUgZ29hbCBvZiBkcm1fbG9nLCBidXQgdGhpcyBj
-YW4gYmUgZG9uZSBiZXR0ZXIgaW4gDQo+IHVzZXJzcGFjZSwgZm9yIGV4YW1wbGUgdGhlcmUg
-aXMgd29yayBvbmdvaW5nIHRvIG1ha2UgcGx5bW91dGggZGlzcGxheSANCj4gdGhlbSBkdXJp
-bmcgdGhlIGJvb3QgWzJdLg0KPiANCj4gRm9yIHRoZSBwYW5pYyBzY3JlZW4sIG9ubHkgdGhl
-IGtlcm5lbCBjYW4gZG8gaXQuIEkgYWxzbyB0aGluayB0aGUgDQo+IGN1cnJlbnQgZmJjb24v
-a2VybmVsIGxvZyBpcyBnb29kIGZvciBkZXZlbG9wZXIsIGJ1dCB0b28gdGVjaG5pY2FsIGZv
-ciANCj4gbW9zdCBlbmQtdXNlci4NCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
-MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
-cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
-KQ0K
+yes... lockdep is a debug tool and might provide false reports...
+We need to have a great willingness to start fixing and hunting
+debug lockdep's false positives (like this one, for instance).
 
---------------Nir4tS23i8sTFDWeQ03f9jMd--
+It's even more annoying to reduce our CI pass rates, especially
+when in BAT tests, with such false deadlocks.
 
---------------6paN0eF7y4YoTrTEzG7RCQmT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+It's the developer's responsibility to test its code with
+debug_lockdep and fix all the potential deadlocks and ignore the
+false ones.
 
------BEGIN PGP SIGNATURE-----
+I sent a patch for this[*] already.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT4QwMFAwAAAAAACgkQlh/E3EQov+Cc
-qRAAs+r5LTXaIbK3k8TqGbmhzBFJWcCzqdmAnJWoDR+++2NP9p7WNjCoK0nf+vkEeD79TYKtGMBN
-mmqfRLCk8PPgrf7972oijbfUuTg3lGMnui6WgydKa8ruja/hz0YdRsS9fe8E4+I5iqtCZ0npc8Ym
-kPxWTr/9Z+nsK0Rk9VGcmIDBVIPmMXQnEXP2NRneDho1o2i5QeGyXoXmL1cLBdRtD6NU0+kGrrkj
-+fFrdCrtV2b+R7mXr4xSG7SrAQAqMwvqoDfLv0kwaIYYZZ6TM2a329L5jv6Bbhi8HjQTMzPicGwA
-azIuVMmzhHPwQbRBimtZ4dket0TOb68KE0eSIdZdxmMPMDcRebaTKNLxxkD6Yku4+IW1ozdRv+iA
-7lBdZJRGKK7NReXeBMJOX7TMG9GkaEv+NC8DKPkjFhTNO9tpEBLHfXtD1MA9C9AybvEr/K6KMnNu
-W28l76Dt5GuCG55nTSzqjZGpzQdFkPsEYbg087+m6rtgmRQxSIdYuI//47adh4xynI1M3iREH1jH
-cRxon+VcgPX6NBp4A129VUlN50RD24G65G1sGBbRqemFsdBLKCxG9nH/+VvjdXHO/i6PCmK1lM7I
-qb3W13nkF/fu2fyqu/9DQFCVHwBWvmEneUZzplT4pk19tv6SUkY5CTMUJCDFA/lIKijqFO6ctPQk
-b/s=
-=12Rn
------END PGP SIGNATURE-----
+Andi
 
---------------6paN0eF7y4YoTrTEzG7RCQmT--
+[*] https://gitlab.freedesktop.org/gfx-ci/i915-infra/-/merge_requests/128
