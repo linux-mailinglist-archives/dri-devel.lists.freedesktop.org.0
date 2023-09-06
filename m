@@ -1,36 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8C5793301
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 02:47:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAD77933A4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 04:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D608310E134;
-	Wed,  6 Sep 2023 00:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9AF510E31B;
+	Wed,  6 Sep 2023 02:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F91210E100;
- Wed,  6 Sep 2023 00:47:17 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2EB113F7B7;
- Wed,  6 Sep 2023 02:47:14 +0200 (CEST)
-Date: Wed, 6 Sep 2023 02:47:12 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 1/8] drm/msm/dpu: populate SSPP scaler block version
-Message-ID: <np3oijyeopbqv426joa3dg4cxqfcd4oo7gu3lwjlhoqtaygpkx@syrouhnomodg>
-References: <20230905012526.3010798-1-dmitry.baryshkov@linaro.org>
- <20230905012526.3010798-2-dmitry.baryshkov@linaro.org>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8B86510E31B;
+ Wed,  6 Sep 2023 02:14:38 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxRvGJ4Pdk4gUgAA--.64358S3;
+ Wed, 06 Sep 2023 10:14:33 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx5syE4PdknuBtAA--.47306S3; 
+ Wed, 06 Sep 2023 10:14:29 +0800 (CST)
+Message-ID: <42c907fe-a8c3-5a07-a792-737e45f8134e@loongson.cn>
+Date: Wed, 6 Sep 2023 10:14:28 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230905012526.3010798-2-dmitry.baryshkov@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
+ to select the primary video adapter at boot time
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
+ <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
+ <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx5syE4PdknuBtAA--.47306S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Aw4kKr4xGF13Aw4ruFyrZrc_yoW8ZFy8pF
+ W5K3W29w4kKw1Yq34xZrnakF45Gws5AFyrC348KwnruFsxu340g34DtFW5Wa47J34FvF15
+ tF98G3WvgF4UJabCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4SoGDU
+ UUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,350 +72,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-09-05 04:25:19, Dmitry Baryshkov wrote:
-> The function _dpu_hw_sspp_setup_scaler3() passes and
-> dpu_hw_setup_scaler3() uses scaler_blk.version to determine in which way
-> the scaler (QSEED3) block should be programmed. However up to now we
-> were not setting this field. Set it now, splitting the vig_sblk data
-> which has different version fields.
-> 
-> Reported-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Fixes: 9b6f4fedaac2 ("drm/msm/dpu: Add SM6125 support")
-> Fixes: 27f0df03f3ff ("drm/msm/dpu: Add SM6375 support")
-> Fixes: 3186acba5cdc ("drm/msm/dpu: Add SM6350 support")
-> Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
-> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-> Fixes: 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog")
-> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
-> Fixes: 3581b7062cec ("drm/msm/disp/dpu1: add support for display on SM6115")
-> Fixes: dabfdd89eaa9 ("drm/msm/disp/dpu1: add inline rotation support for sc7280")
-> Fixes: f3af2d6ee9ab ("drm/msm/dpu: Add SC8180x to hw catalog")
-> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
-> Fixes: af776a3e1c30 ("drm/msm/dpu: add SM8250 to hw catalog")
-> Fixes: 386fced3f76f ("drm/msm/dpu: add SM8150 to hw catalog")
-> Fixes: b75ab05a3479 ("msm:disp:dpu1: add scaler support on SC7180 display")
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hi,
 
-So as it turns out this patch is basically [1] with review comments
-applied, though no mention whatsoever that .version isn't just a
-convenient way to represent the version but what the register read by
-_dpu_hw_sspp_get_scaler3_ver() contains? (That was the review: hardcode the
-constants instead of doing runtime register reads)
 
-With that, `_dpu_hw_sspp_get_scaler3_ver()` and `dpu_hw_sspp->get_scaler_ver`
-must now be completely unused?
+On 2023/9/5 23:05, Thomas Zimmermann wrote:
+> However, on modern Linux systems the primary display does not really 
+> exist.
 
-[1]: https://lore.kernel.org/linux-arm-msm/CAA8EJpobXPSyEqZQ3zgwSqg6fC7pzQumWR9dDPdmGOemtS-epw@mail.gmail.com/#t
 
-It seems patch 6 in this series also has a matching - r-b'd - patch in that
-series ;)
+No, it do exist.  X server need to know which one is the primary GPU.
+The '*' character at the of (4@0:0:0) PCI device is the Primary.
+The '*' denote primary, see the log below.
 
-- Marijn
+(II) xfree86: Adding drm device (/dev/dri/card2)
+(II) xfree86: Adding drm device (/dev/dri/card0)
+(II) Platform probe for 
+/sys/devices/pci0000:00/0000:00:1c.5/0000:003:00.0/0000:04:00.0/drm/card0
+(II) xfree86: Adding drm device (/dev/dri/card3)
+(II) Platform probe for 
+/sys/devices/pci0000:00/0000:00:1c.6/0000:005:00.0/drm/card3
+(--) PCI: (0@0:2:0) 8086:3e91:8086:3e91 rev 0, Mem @ 
+0xdb000000/167777216, 0xa0000000/536870912, I/O @ 0x0000f000/64, BIOS @ 
+0x????????/131072
+(--) PCI: (1@0:0:0) 1002:6771:1043:8636 rev 0, Mem @ 
+0xc0000000/2688435456, 0xdf220000/131072, I/O @ 0x0000e000/256, BIOS @ 
+0x????????/131072
+(--) PCI:*(4@0:0:0) 1a03:2000:1a03:2000 rev 48, Mem @ 
+0xde000000/166777216, 0xdf020000/131072, I/O @ 0x0000c000/128, BIOS @ 
+0x????????/131072
+(--) PCI: (5@0:0:0) 10de:1288:174b:b324 rev 161, Mem @ 
+0xdc000000/116777216, 0xd0000000/134217728, 0xd8000000/33554432, I/O @ 
+0x0000b000/128, BIOS @@0x????????/524288
 
-> ---
->  .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  8 +-
->  .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  8 +-
->  .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  8 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 95 ++++++++++++++-----
->  4 files changed, 85 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> index 99acaf917e43..f0c3804f4258 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> @@ -77,7 +77,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
->  		.name = "sspp_0", .id = SSPP_VIG0,
->  		.base = 0x4000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_0,
-> +		.sblk = &sm8150_vig_sblk_0,
->  		.xin_id = 0,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-> @@ -85,7 +85,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
->  		.name = "sspp_1", .id = SSPP_VIG1,
->  		.base = 0x6000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_1,
-> +		.sblk = &sm8150_vig_sblk_1,
->  		.xin_id = 4,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG1,
-> @@ -93,7 +93,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
->  		.name = "sspp_2", .id = SSPP_VIG2,
->  		.base = 0x8000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_2,
-> +		.sblk = &sm8150_vig_sblk_2,
->  		.xin_id = 8,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG2,
-> @@ -101,7 +101,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
->  		.name = "sspp_3", .id = SSPP_VIG3,
->  		.base = 0xa000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_3,
-> +		.sblk = &sm8150_vig_sblk_3,
->  		.xin_id = 12,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG3,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> index f3de21025ca7..3ec954722a8e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> @@ -76,7 +76,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
->  		.name = "sspp_0", .id = SSPP_VIG0,
->  		.base = 0x4000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_0,
-> +		.sblk = &sm8150_vig_sblk_0,
->  		.xin_id = 0,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-> @@ -84,7 +84,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
->  		.name = "sspp_1", .id = SSPP_VIG1,
->  		.base = 0x6000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_1,
-> +		.sblk = &sm8150_vig_sblk_1,
->  		.xin_id = 4,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG1,
-> @@ -92,7 +92,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
->  		.name = "sspp_2", .id = SSPP_VIG2,
->  		.base = 0x8000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_2,
-> +		.sblk = &sm8150_vig_sblk_2,
->  		.xin_id = 8,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG2,
-> @@ -100,7 +100,7 @@ static const struct dpu_sspp_cfg sc8180x_sspp[] = {
->  		.name = "sspp_3", .id = SSPP_VIG3,
->  		.base = 0xa000, .len = 0x1f0,
->  		.features = VIG_SDM845_MASK,
-> -		.sblk = &sdm845_vig_sblk_3,
-> +		.sblk = &sm8150_vig_sblk_3,
->  		.xin_id = 12,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG3,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 1b12178dfbca..3aed290a4111 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -76,7 +76,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
->  		.name = "sspp_0", .id = SSPP_VIG0,
->  		.base = 0x4000, .len = 0x32c,
->  		.features = VIG_SC7180_MASK,
-> -		.sblk = &sm8250_vig_sblk_0,
-> +		.sblk = &sm8450_vig_sblk_0,
->  		.xin_id = 0,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-> @@ -84,7 +84,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
->  		.name = "sspp_1", .id = SSPP_VIG1,
->  		.base = 0x6000, .len = 0x32c,
->  		.features = VIG_SC7180_MASK,
-> -		.sblk = &sm8250_vig_sblk_1,
-> +		.sblk = &sm8450_vig_sblk_1,
->  		.xin_id = 4,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG1,
-> @@ -92,7 +92,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
->  		.name = "sspp_2", .id = SSPP_VIG2,
->  		.base = 0x8000, .len = 0x32c,
->  		.features = VIG_SC7180_MASK,
-> -		.sblk = &sm8250_vig_sblk_2,
-> +		.sblk = &sm8450_vig_sblk_2,
->  		.xin_id = 8,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG2,
-> @@ -100,7 +100,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
->  		.name = "sspp_3", .id = SSPP_VIG3,
->  		.base = 0xa000, .len = 0x32c,
->  		.features = VIG_SC7180_MASK,
-> -		.sblk = &sm8250_vig_sblk_3,
-> +		.sblk = &sm8450_vig_sblk_3,
->  		.xin_id = 12,
->  		.type = SSPP_TYPE_VIG,
->  		.clk_ctrl = DPU_CLK_CTRL_VIG3,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 713dfc079718..77d09f961d86 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -250,14 +250,17 @@ static const uint32_t wb2_formats[] = {
->   * SSPP sub blocks config
->   *************************************************************/
->  
-> +#define SSPP_SCALER_VER(maj, min) (((maj) << 16) | (min))
-> +
->  /* SSPP common configuration */
-> -#define _VIG_SBLK(sdma_pri, qseed_ver) \
-> +#define _VIG_SBLK(sdma_pri, qseed_ver, scaler_ver) \
->  	{ \
->  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
->  	.maxupscale = MAX_UPSCALE_RATIO, \
->  	.smart_dma_priority = sdma_pri, \
->  	.scaler_blk = {.name = "scaler", \
->  		.id = qseed_ver, \
-> +		.version = scaler_ver, \
->  		.base = 0xa00, .len = 0xa0,}, \
->  	.csc_blk = {.name = "csc", \
->  		.id = DPU_SSPP_CSC_10BIT, \
-> @@ -269,13 +272,14 @@ static const uint32_t wb2_formats[] = {
->  	.rotation_cfg = NULL, \
->  	}
->  
-> -#define _VIG_SBLK_ROT(sdma_pri, qseed_ver, rot_cfg) \
-> +#define _VIG_SBLK_ROT(sdma_pri, qseed_ver, scaler_ver, rot_cfg) \
->  	{ \
->  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
->  	.maxupscale = MAX_UPSCALE_RATIO, \
->  	.smart_dma_priority = sdma_pri, \
->  	.scaler_blk = {.name = "scaler", \
->  		.id = qseed_ver, \
-> +		.version = scaler_ver, \
->  		.base = 0xa00, .len = 0xa0,}, \
->  	.csc_blk = {.name = "csc", \
->  		.id = DPU_SSPP_CSC_10BIT, \
-> @@ -299,13 +303,17 @@ static const uint32_t wb2_formats[] = {
->  	}
->  
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_0 =
-> -				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 2));
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_1 =
-> -				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 2));
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_2 =
-> -				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 2));
->  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_3 =
-> -				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 2));
->  
->  static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
->  	.rot_maxheight = 1088,
-> @@ -314,13 +322,30 @@ static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
->  };
->  
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
-> -				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 3));
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
-> -				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 3));
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
-> -				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 3));
->  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
-> -				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED3);
-> +				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 3));
-> +
-> +static const struct dpu_sspp_sub_blks sm8150_vig_sblk_0 =
-> +				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 4));
-> +static const struct dpu_sspp_sub_blks sm8150_vig_sblk_1 =
-> +				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 4));
-> +static const struct dpu_sspp_sub_blks sm8150_vig_sblk_2 =
-> +				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 4));
-> +static const struct dpu_sspp_sub_blks sm8150_vig_sblk_3 =
-> +				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED3,
-> +					  SSPP_SCALER_VER(1, 4));
->  
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK(1);
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK(2);
-> @@ -328,34 +353,60 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK(3);
->  static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK(4);
->  
->  static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
-> -				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
->  
->  static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
-> -			_VIG_SBLK_ROT(4, DPU_SSPP_SCALER_QSEED4, &dpu_rot_sc7280_cfg_v2);
-> +			_VIG_SBLK_ROT(4, DPU_SSPP_SCALER_QSEED4,
-> +				      SSPP_SCALER_VER(3, 0),
-> +				      &dpu_rot_sc7280_cfg_v2);
->  
->  static const struct dpu_sspp_sub_blks sm6115_vig_sblk_0 =
-> -				_VIG_SBLK(2, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(2, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
->  
->  static const struct dpu_sspp_sub_blks sm6125_vig_sblk_0 =
-> -				_VIG_SBLK(3, DPU_SSPP_SCALER_QSEED3LITE);
-> +				_VIG_SBLK(3, DPU_SSPP_SCALER_QSEED3LITE,
-> +					  SSPP_SCALER_VER(2, 4));
->  
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
-> -				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
-> -				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
-> -				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
-> -				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 0));
-> +
-> +static const struct dpu_sspp_sub_blks sm8450_vig_sblk_0 =
-> +				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 1));
-> +static const struct dpu_sspp_sub_blks sm8450_vig_sblk_1 =
-> +				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 1));
-> +static const struct dpu_sspp_sub_blks sm8450_vig_sblk_2 =
-> +				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 1));
-> +static const struct dpu_sspp_sub_blks sm8450_vig_sblk_3 =
-> +				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 1));
->  
->  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_0 =
-> -				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 2));
->  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_1 =
-> -				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 2));
->  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_2 =
-> -				_VIG_SBLK(9, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(9, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 2));
->  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_3 =
-> -				_VIG_SBLK(10, DPU_SSPP_SCALER_QSEED4);
-> +				_VIG_SBLK(10, DPU_SSPP_SCALER_QSEED4,
-> +					  SSPP_SCALER_VER(3, 2));
->  static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK(5);
->  static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK(6);
->  
-> -- 
-> 2.39.2
-> 
+The modesetting driver of X server will create framebuffer on the primary video adapter.
+If a 2D video adapter (like the aspeed BMC) is not the primary, then it probably will not
+be used. The only chance to be able to display something is to functional as a output slave.
+But the output slave technology need the PRIME support for cross driver buffer sharing.
+
+So, there do have some difference between the primary and non-primary video adapters.
+
+
+> 'Primary' is the device that is available via VGA, VESA or EFI. Our 
+> drivers don't use these interfaces, but the native registers. As you 
+> said yourself, these firmware devices (VGA, VESA, EFI) are removed 
+> ASAP by the native drivers. 
+
