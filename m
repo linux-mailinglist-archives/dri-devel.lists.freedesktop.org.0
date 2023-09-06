@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EF7793ED0
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 16:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45961793ED4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 16:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6704F10E676;
-	Wed,  6 Sep 2023 14:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA65310E67C;
+	Wed,  6 Sep 2023 14:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A310510E67B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 14:31:11 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-99c3d3c3db9so586133766b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 07:31:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694010667; x=1694615467;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G+7p6NMsxOjRyL4QMAB/bB/PBWKoduMJyy2zj/3BYKM=;
- b=On/qjycs0rVawfU65hg7g2exBWHjyADElKmrbfOIitMja7g2E5AQ5Q2ee2uSjOZgyK
- jzTXo7Zo61B3z+Dr53bPI3RTbDPxvJbVDPYWHeDzjW5q4PdO/UtCH/Y2FUh3N5qdz7Ns
- do2W2+S6a9P08lS1sTuW1ojSgir4ubQCmhFPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694010667; x=1694615467;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G+7p6NMsxOjRyL4QMAB/bB/PBWKoduMJyy2zj/3BYKM=;
- b=WIVZwF5MYfKA9ltV3b9eaVm7P+fTscwz1w+uKpVuJl4JZmXzepbcAHhT3bk4I48pea
- HqQ09ry+ShOBnc9Ex1LiiFFpTnKC3VAN+VMH7LipuyMM9cZtGGr5qLDVqe5htyqXFMEv
- WY10xcMuCOgchFdtMaumYsTPaFMKUkHC06bOR31+G4kjnABPPZxhYvY/guFfn0toSA/5
- 7eqAER/bjGfGiSfGTkNDuhQlEjWbDRwwVpJdnUfKatD3awH2m+/2BtDeNhcPfc+15OOY
- poCqlZkmrpPFJB35HabeqI6bxROEnYUeaDq0jr25PZQoj8yayPlv5lHner1NCzLua6H2
- DYjg==
-X-Gm-Message-State: AOJu0Yz/pl5XGeEfEdGzpbmCAPzdcBdoycKyCDbm8uInuQS5gO8h2+nm
- WRAyRFO9ygW8qTDSwnxiinkH7tEvngZcSyrP+etObdY1
-X-Google-Smtp-Source: AGHT+IGlQ0+hqfR7b8jAaZgiPJQpRbdBOIblP8N11Y8cfqM7M/ZGu82GN90yyczA5HhUVgQZUvA7Rw==
-X-Received: by 2002:a17:906:5388:b0:9a1:d915:d8dd with SMTP id
- g8-20020a170906538800b009a1d915d8ddmr2527618ejo.10.1694010667449; 
- Wed, 06 Sep 2023 07:31:07 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
- [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
- i7-20020a170906444700b0099297c99314sm9098658ejp.113.2023.09.06.07.31.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Sep 2023 07:31:06 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-402c80b71ecso95865e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 07:31:06 -0700 (PDT)
-X-Received: by 2002:a05:600c:5493:b0:3fe:eb42:7ec with SMTP id
- iv19-20020a05600c549300b003feeb4207ecmr115838wmb.1.1694010665909; Wed, 06 Sep
- 2023 07:31:05 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCC210E67C;
+ Wed,  6 Sep 2023 14:32:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6F23E61057;
+ Wed,  6 Sep 2023 14:32:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D70EC433C9;
+ Wed,  6 Sep 2023 14:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694010738;
+ bh=reOy7dKdk0ZXhssYga7/7llhnwYU/Wy1UqwW1e7rFOg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ViacquFvTGRzGuUQbl+AVMymtoLvIzKtKvaET4RdQxmvp9ACUoaPfSJSZlxiH3OTe
+ bUsT3ZJwaKxAC4/DE+8uLBgSwORcBBXKqgkn8BDfhRBFEt1RmukeaHtICctkfQGhAH
+ a24iHG79irZfcXTLp9rJ4G/TYDOyQXu3V8ew2MWewggzQjUkBCEK+PvSBQTEEqXgDa
+ u9pb/6736Ze19ZnTsk7JFQldHQPnocPfe6Qh2wa+9ns0kppyrma3iomtAAv/bQoSK6
+ JjIrgzWBynLCwBWXHpChKtAEFQ88IjXN+d8MErzGBnpKem3/PX5hi1wlXyr51SOSFU
+ qDx4I9JJ5rP0w==
+Date: Wed, 6 Sep 2023 16:32:15 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
+ corresponding Type-C connectors"
+Message-ID: <4wo537dwt2orgditp2pcsp2tvs2vfhkcnumywxtau7pyafdcly@kniw5kqpzvyi>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+ <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
+ <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
+ <ZPh0Ps9UJ3HLzdeR@kuha.fi.intel.com>
+ <CAA8EJpratbBybgk8woD3maA=J_HuQis44Unq0n+c_UvaFs__AA@mail.gmail.com>
+ <20230906125314.GI17308@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
- <32186b941d6228a102b5e799aadf34206b58ac15.camel@pengutronix.de>
- <CAD=FV=WLw3cAU0nuNuKXiu=Zbv4tVa3aa35GFaxsjO880T0pmw@mail.gmail.com>
- <d56dfb568711b4b932edc9601010feda020c2c22.camel@pengutronix.de>
-In-Reply-To: <d56dfb568711b4b932edc9601010feda020c2c22.camel@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Sep 2023 07:30:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XJ=O5oMKcBSh0qD=ZXUpRgvV8HCheABL7s-T_u+6TsHg@mail.gmail.com>
-Message-ID: <CAD=FV=XJ=O5oMKcBSh0qD=ZXUpRgvV8HCheABL7s-T_u+6TsHg@mail.gmail.com>
-Subject: Re: [RFT PATCH 13/15] drm/imx/ipuv3: Call drm_atomic_helper_shutdown()
- at shutdown/unbind time
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="f43wnijwiseqc6zb"
+Content-Disposition: inline
+In-Reply-To: <20230906125314.GI17308@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,101 +61,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, shawnguo@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Janne Grunau <j@jannau.net>, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Won Chung <wonchung@google.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Tue, Sep 5, 2023 at 10:47=E2=80=AFPM Philipp Zabel <p.zabel@pengutronix.=
-de> wrote:
->
-> Hi,
->
-> On Di, 2023-09-05 at 13:29 -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Mon, Sep 4, 2023 at 1:30=E2=80=AFAM Philipp Zabel <p.zabel@pengutron=
-ix.de> wrote:
+--f43wnijwiseqc6zb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 06, 2023 at 03:53:14PM +0300, Laurent Pinchart wrote:
+> On Wed, Sep 06, 2023 at 03:48:35PM +0300, Dmitry Baryshkov wrote:
+> > On Wed, 6 Sept 2023 at 15:44, Heikki Krogerus wrote:
+> > > On Tue, Sep 05, 2023 at 01:56:59PM +0300, Dmitry Baryshkov wrote:
+> > > > On Tue, 5 Sept 2023 at 11:50, Heikki Krogerus wrote:
+> > > > > On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
+> > > > > > The kdev->fwnode pointer is never set in drm_sysfs_connector_ad=
+d(), so
+> > > > > > dev_fwnode() checks never succeed, making the respective commit=
+ NOP.
+> > > > >
+> > > > > That's not true. The dev->fwnode is assigned when the device is
+> > > > > created on ACPI platforms automatically. If the drm_connector fwn=
+ode
+> > > > > member is assigned before the device is registered, then that fwn=
+ode
+> > > > > is assigned also to the device - see drm_connector_acpi_find_comp=
+anion().
+> > > > >
+> > > > > But please note that even if drm_connector does not have anything=
+ in
+> > > > > its fwnode member, the device may still be assigned fwnode, just =
+based
+> > > > > on some other logic (maybe in drivers/acpi/acpi_video.c?).
+> > > > >
+> > > > > > And if drm_sysfs_connector_add() is modified to set kdev->fwnod=
+e, it
+> > > > > > breaks drivers already using components (as it was pointed at [=
+1]),
+> > > > > > resulting in a deadlock. Lockdep trace is provided below.
+> > > > > >
+> > > > > > Granted these two issues, it seems impractical to fix this comm=
+it in any
+> > > > > > sane way. Revert it instead.
+> > > > >
+> > > > > I think there is already user space stuff that relies on these li=
+nks,
+> > > > > so I'm not sure you can just remove them like that. If the compon=
+ent
+> > > > > framework is not the correct tool here, then I think you need to
+> > > > > suggest some other way of creating them.
+> > > >
+> > > > The issue (that was pointed out during review) is that having a
+> > > > component code in the framework code can lead to lockups. With the
+> > > > patch #2 in place (which is the only logical way to set kdev->fwnode
+> > > > for non-ACPI systems) probing of drivers which use components and s=
+et
+> > > > drm_connector::fwnode breaks immediately.
+> > > >
+> > > > Can we move the component part to the respective drivers? With the
+> > > > patch 2 in place, connector->fwnode will be copied to the created
+> > > > kdev's fwnode pointer.
+> > > >
+> > > > Another option might be to make this drm_sysfs component registrati=
+on optional.
 > > >
-> > > On Fr, 2023-09-01 at 16:41 -0700, Douglas Anderson wrote:
-> > > > Based on grepping through the source code this driver appears to be
-> > > > missing a call to drm_atomic_helper_shutdown() at system shutdown t=
-ime
-> > > > and at driver unbind time. Among other things, this means that if a
-> > > > panel is in use that it won't be cleanly powered off at system
-> > > > shutdown time.
-> > > >
-> > > > The fact that we should call drm_atomic_helper_shutdown() in the ca=
-se
-> > > > of OS shutdown/restart and at driver remove (or unbind) time comes
-> > > > straight out of the kernel doc "driver instance overview" in
-> > > > drm_drv.c.
-> > > >
-> > > > A few notes about this fix:
-> > > > - When adding drm_atomic_helper_shutdown() to the unbind path, I ad=
-ded
-> > > >   it after drm_kms_helper_poll_fini() since that's when other drive=
-rs
-> > > >   seemed to have it.
-> > > > - Technically with a previous patch, ("drm/atomic-helper:
-> > > >   drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
-> > > >   actually need to check to see if our "drm" pointer is NULL before
-> > > >   calling drm_atomic_helper_shutdown(). We'll leave the "if" test i=
-n,
-> > > >   though, so that this patch can land without any dependencies. It
-> > > >   could potentially be removed later.
-> > > > - This patch also makes sure to set the drvdata to NULL in the case=
- of
-> > > >   bind errors to make sure that shutdown can't access freed data.
-> > > >
-> > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > >
-> > > Thank you,
-> > > Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> >
-> > Thanks! I notice that:
-> >
-> > ./scripts/get_maintainer.pl --scm -f drivers/gpu/drm/imx/ipuv3/imx-drm-=
-core.c
-> >
-> > Doesn't say drm-misc but also when I look at the MAINTAINERS file and
-> > find the section for "DRM DRIVERS FOR FREESCALE IMX"
->
-> That should probably say "IMX5/6" nowadays. There are a lot more i.MX
-> that do not use IPUv3 than those that do.
->
-> > it doesn't explicitly list a different git tree.
->
-> I used to send pull requests from git.pengutronix.de/git/pza/linux,
-> same as for the reset controller framework. I might still have to do
-> that for changes in drivers/gpu/ipu-v3 that need coordination between
-> drm and v4l2, but usually pure drm/imx/ipuv3 changes are pushed to drm-
-> misc.
->
-> > I guess the "shawnguo" git tree listed by get_maintainer.pl is just
-> > from regex matching?
->
-> The "N: imx" pattern in "ARM/FREESCALE IMX / MXC ARM ARCHITECTURE", I
-> think.
->
-> > Would you expect this to go through drm-misc? If so, I'll probably
-> > land it sooner rather than later. I can also post up a patch making it
-> > obvious that "DRM DRIVERS FOR FREESCALE IMX" goes through drm-misc if
-> > you don't object.
->
-> Yes, both would be great.
+> > > You don't need to use the component framework at all if there is
+> > > a better way of determining the connection between the DP and its
+> > > Type-C connector (I'm assuming that that's what this series is about).
+> > > You just need the symlinks, not the component.
+> >=20
+> > The problem is that right now this component registration has become
+> > mandatory. And if I set the kdev->fwnode manually (like in the patch
+> > 2), the kernel hangs inside the component code.
+> > That's why I proposed to move the components to the place where they
+> > are really necessary, e.g. i915 and amd drivers.
+>=20
+> I'm all for keeping the component framework out of common code. I
+> dislike that framework with passion, and still haven't lost all hopes of
+> replacing it with something better.
 
-Maintainers update posted at:
+I'm not sure I share the same hate for the component framework, but I
+agree. It's optional anyway, so we should provide a solution that works
+for drivers working with and without the component framework.
 
-https://lore.kernel.org/r/20230906072803.1.Idef7e77e8961cbeb8625183eec9db03=
-56b2eccd0@changeid
+Maxime
 
-I'll aim to land ${SUBJECT} patch early next week unless there are any
-objections.
+--f43wnijwiseqc6zb
+Content-Type: application/pgp-signature; name="signature.asc"
 
--Doug
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPiNbwAKCRDj7w1vZxhR
+xTqBAP9Sx+ylOadsZ9Yoj2aQb2Z68+E6XeDlHow3WafHQ0XXyAEAoL3iWZqELQS4
++/daC4RCs1dsFC+J9N5HtUNNFYWmtgg=
+=/dQB
+-----END PGP SIGNATURE-----
+
+--f43wnijwiseqc6zb--
