@@ -2,48 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33B2793D7E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 15:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D3D793D93
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 15:25:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 640B610E64E;
-	Wed,  6 Sep 2023 13:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF37010E1BF;
+	Wed,  6 Sep 2023 13:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C05710E64E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 13:13:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7980ACE12CC;
- Wed,  6 Sep 2023 13:13:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87082C433C7;
- Wed,  6 Sep 2023 13:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694006009;
- bh=VKGhfV962Z8xvMpDY+hCvX8KHsDqyXxexkSt2XfB5oo=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66A510E64F
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 13:24:56 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (ftip006315900.acc1.colindale.21cn-nte.bt.net [81.134.214.249])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53E07DA8;
+ Wed,  6 Sep 2023 15:23:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1694006608;
+ bh=O8ASfos0e7KQ3kQYHZDzxCDpFTkKK0NFcWW1Yk5WQuU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S1wdpkkSQpYB2xcICHi0GalW60c7Pm4k2+fuw7y3IWLiHxb0HqC8WecPfT+B+3TqK
- +/O2n44TmEjlaomg4pdUwLWpBunom9pu6g8fzMmRGia6auYAhFM6+Sy/iCaHqvKlqN
- 4VIiYXqjF3B3I/269s+xmOhxTV8N2iE6pCSDwiguPTXNTBiSXHfZ9ikOEN/hxhPEeD
- A2T8xkHeHkveVaIJ+MBKtAjVWNNY/RGAprZvpS2un2iDOgHocNS7O/S2jSIW+SA3oa
- F2NadOrknxx+/14LxgdIuyQjYW+R7JFbydHwvzT8z55C7lceRsfQJle10bpCxe3ekz
- AM6/rWXx+OlzQ==
-Date: Wed, 6 Sep 2023 15:13:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v2 2/7] drm: ci: Force db410c to host mode
-Message-ID: <czfx23mt73bpqtz6ljurrzfodesojnomna7yvv5e5vrl6pwlsj@shuguijvjzdn>
-References: <20230904161516.66751-1-vignesh.raman@collabora.com>
- <20230904161516.66751-3-vignesh.raman@collabora.com>
- <cb1b9fea-d74f-fc32-a771-79713cf15674@collabora.com>
+ b=ud9pUtCANON8aValeRZORHLXNaCfzhH4wwMWCwbvt2pOGXwhwuEE1FGADzd5L9+U8
+ 2neCPsDAx9VEUd+9v6Pj4hwiKCc07IllgrJ2xr81OZgxduZC9lxFVO75MNoAA4QzkW
+ fsOue5jARyBegoIhWM9qSigyS/fTcLuZ/87dUC3Y=
+Date: Wed, 6 Sep 2023 16:25:08 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] drm: renesas: rcar-du: rzg2l_mipi_dsi: Update the
+ comment in rzg2l_mipi_dsi_start_video()
+Message-ID: <20230906132508.GM17308@pendragon.ideasonboard.com>
+References: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tnansnqalun7wlmf"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cb1b9fea-d74f-fc32-a771-79713cf15674@collabora.com>
+In-Reply-To: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,108 +47,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@google.com, daniels@collabora.com, emma@anholt.net,
- gustavo.padovan@collabora.com, Vignesh Raman <vignesh.raman@collabora.com>,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, david.heidelberg@collabora.com,
- anholt@google.com, linux-mediatek@lists.infradead.org,
- robclark@freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: Biju Das <biju.das.au@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Pavel Machek <pavel@denx.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Biju,
 
---tnansnqalun7wlmf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-On Wed, Sep 06, 2023 at 09:55:40AM -0300, Helen Koike wrote:
-> Hi!
->=20
-> On 04/09/2023 13:15, Vignesh Raman wrote:
-> > Force db410c to host mode to fix network issue which results in failure
-> > to mount root fs via NFS.
-> > See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c=
-80a54dda510743cefd1c4b65b8
-> >=20
-> > Use fdtoverlay command to merge base device tree with an overlay
-> > which contains the fix for USB controllers to work in host mode.
-> >=20
-> > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> > ---
-> >=20
-> > v2:
-> >    - Use fdtoverlay command to merge overlay dtbo with the base dtb ins=
-tead of modifying the kernel sources
-> > ---
-> >   drivers/gpu/drm/ci/build.sh                         |  5 +++++
-> >   .../gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts  | 13 +++++++++++++
-> >   2 files changed, 18 insertions(+)
-> >   create mode 100644 drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay=
-=2Edts
-> >=20
-> > diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> > index 7b014287a041..92ffd98cd09e 100644
-> > --- a/drivers/gpu/drm/ci/build.sh
-> > +++ b/drivers/gpu/drm/ci/build.sh
-> > @@ -92,6 +92,11 @@ done
-> >   if [[ -n ${DEVICE_TREES} ]]; then
-> >       make dtbs
-> > +    if [[ -e arch/arm64/boot/dts/qcom/apq8016-sbc.dtb ]]; then
-> > +        dtc -@ -I dts -O dtb -o drivers/gpu/drm/ci/dt-overlays/apq8016=
--sbc-overlay.dtbo drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
-> > +        fdtoverlay -i arch/arm64/boot/dts/qcom/apq8016-sbc.dtb -o arch=
-/arm64/boot/dts/qcom/apq8016-sbc-overlay.dtb drivers/gpu/drm/ci/dt-overlays=
-/apq8016-sbc-overlay.dtbo
-> > +        mv arch/arm64/boot/dts/qcom/apq8016-sbc-overlay.dtb arch/arm64=
-/boot/dts/qcom/apq8016-sbc.dtb
-> > +    fi
-> >       cp ${DEVICE_TREES} /lava-files/.
-> >   fi
-> > diff --git a/drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts b/d=
-rivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
-> > new file mode 100644
-> > index 000000000000..57b7604f1c23
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/ci/dt-overlays/apq8016-sbc-overlay.dts
-> > @@ -0,0 +1,13 @@
-> > +/dts-v1/;
-> > +/plugin/;
-> > +
-> > +/ {
-> > +    fragment@0 {
-> > +        target-path =3D "/soc@0";
-> > +        __overlay__ {
-> > +            usb@78d9000 {
-> > +                dr_mode =3D "host";
-> > +            };
-> > +        };
-> > +    };
-> > +};
->=20
->=20
-> Another thing that I was discussing with David and Vignesh, since we will
-> need this overlay spinets not only for drm-ci but also for mesa ci (and
-> every body who uses the farms), would it be interesting to move it to some
-> place more official? like dts folders? Or would that be against Linux
-> policy?
+On Wed, Sep 06, 2023 at 10:43:46AM +0100, Biju Das wrote:
+> Add missing space in the comment in rzg2l_mipi_dsi_start_video().
+> 
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Closes: https://lore.kernel.org/all/ZPg7STHDn4LbLy7f@duo.ucw.cz/
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-AFAIK, the policy was changed recently to allow overlays to be merged,
-see $(find arch/ -name *.dtso). So generally speaking, it should be ok
-to send it.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Maxime
+> ---
+> This issue is noticed while backporting this driver to 6.1.y-cip [1].
+> 
+> [1] https://lore.kernel.org/all/20230905160737.167877-1-biju.das.jz@bp.renesas.com/
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> index 10febea473cd..9b5cfdd3e1c5 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> @@ -479,7 +479,7 @@ static int rzg2l_mipi_dsi_start_video(struct rzg2l_mipi_dsi *dsi)
+>  	u32 status;
+>  	int ret;
+>  
+> -	/* Configuration for Blanking sequence and start video input*/
+> +	/* Configuration for Blanking sequence and start video input */
+>  	vich1set0r = VICH1SET0R_HFPNOLP | VICH1SET0R_HBPNOLP |
+>  		     VICH1SET0R_HSANOLP | VICH1SET0R_VSTART;
+>  	rzg2l_mipi_dsi_link_write(dsi, VICH1SET0R, vich1set0r);
 
---tnansnqalun7wlmf
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZPh69gAKCRDj7w1vZxhR
-xZ0pAP9Tuuixtbr8xNkw8lkk+Su6S0hCQvafwExM+JpYFXjjHwEAsyn1VL2iZWe8
-e6DoUUOIu3PsMZrCl33lKhXhoorvcw0=
-=gEwQ
------END PGP SIGNATURE-----
-
---tnansnqalun7wlmf--
+Laurent Pinchart
