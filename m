@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D639179437A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 21:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2E079437C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 21:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F53810E718;
-	Wed,  6 Sep 2023 19:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2109C10E71A;
+	Wed,  6 Sep 2023 19:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B2B10E70B;
- Wed,  6 Sep 2023 19:02:35 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id
- ca18e2360f4ac-7926b7f8636so2792939f.1; 
- Wed, 06 Sep 2023 12:02:35 -0700 (PDT)
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E1310E70E;
+ Wed,  6 Sep 2023 19:02:36 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id
+ ca18e2360f4ac-794cd987ea6so4443539f.2; 
+ Wed, 06 Sep 2023 12:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694026954; x=1694631754; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1694026955; x=1694631755; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A7euIhAUxsBgqAycWxnasjxETI8zYNC1RLZ3qD73WsM=;
- b=ctHx0Vur9+BAW8YMU62p6Y+6YLm7h0Y1i+eDqN0a2/qOcK/Nfo0jYBFc03Zt+TzAbs
- +XPq3MZaLq6rJznjmmDCseE4gnh8o6UmT+ik3W4MzwKeQQDRovje3qit1MJEhV6uWAl4
- A7HASvBcPn91ddy34xlDcdiwH6PewY9g1ULletE3BvrNfzWS7eltsFaiNHTpY8maMHwC
- o3FSh6mLENQN7FNHgpxdf9y4XEMdDYeL64GN+3W84PRZHAZDn2mdwfkNOmFJrCjnWbTY
- 8MoL8Dz0u/KS0KHwjQsMMQHuGmKYoXFe377KVQiViluDaSfvDB1swb33uiUCshgbfLhQ
- GmdQ==
+ bh=usLeqXzE5U9X3mWlGIhl2wkCPYgPL1jt55C0ImyryHk=;
+ b=npZ3pZivWvRqUaXwwfgbiguPH8fIFg/ymvUutQrUntSfmh/E29WtFKknD9snKamVwN
+ Okc/tkNL3PRzrkzp746RGHAcMyHeJ+8Y4F3u/t9moLokgDmVrT4ydrNxu0DmbIUFMnw5
+ j5ceMAYRhfBZxpniBBxheQaXfDXOAM5FS7matSrvmj1y6sRL6nj69oRHm7FDq4VHFpyk
+ wVPiBDa8LuUDgxWJLmYouZ+ut7fTZOoc5SjVJnghuDf+FH1R9RhnyWDiFwsrHKcrq7AF
+ fvoLus6My1popPUKgRoZ26Pvi6xILs99qtTOic3DTCMMO4NzUVhpNRKqU4QnUYBJ2c8a
+ KzKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694026954; x=1694631754;
+ d=1e100.net; s=20221208; t=1694026955; x=1694631755;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A7euIhAUxsBgqAycWxnasjxETI8zYNC1RLZ3qD73WsM=;
- b=CvQGsGzQ6bJHkka4DQ/MIXLnGPbxtUjEk1AGDihJgFSuLJpB8uDlnaFmBpMU3k7dGQ
- 3XmCoR6MuxTUlS7lfuHRoArpWIa45jDZAbFEjHWi7dcyQPF6f0nV5+zt69zaaSztcWaQ
- x1eyatKzFA98fsu9I2s9nu8qilYReii3E++SlCIO/y45Us5/tf47+/AvGaf9YLb5Ef/B
- aYtyuLDX1sjMicKZ2M20ZKby6yuMyKDzyPjBGQgDOOAF0RCPZr8+1dOXCDrQ9J10V9p2
- bTIRhKWdPo9Bn7b3hIs/s+5phA/DKoh2OPR0tW43M8yTU/aVxA1JiLQ7Y0wV+KVFiCsS
- DdMg==
-X-Gm-Message-State: AOJu0Yzzcb1kyFn2gk1Wtu7Ubt3dvj1q+wUxL63fhzGeBXUEXE7xIBZ7
- 9BGPEn1x49VyUj5IPcA8SlU=
-X-Google-Smtp-Source: AGHT+IEerlB6JrUC+Z/0QRgCoRQoVs5aiPA8URhXDpxxGTJSTcPFuBIaCE9H+Uno/nfLK9zvHQVWkg==
-X-Received: by 2002:a5e:a718:0:b0:794:c9a8:27eb with SMTP id
- b24-20020a5ea718000000b00794c9a827ebmr544496iod.5.1694026954382; 
- Wed, 06 Sep 2023 12:02:34 -0700 (PDT)
+ bh=usLeqXzE5U9X3mWlGIhl2wkCPYgPL1jt55C0ImyryHk=;
+ b=Sk97UZyd8Y1bFPBuoqqv1xCI2maLXSph0qsR7eeoXcJqdtWX4k5IrqjJpWfdlV/q8n
+ xlCmDqs5HSK1JFroGsTkYGes2hqdlelZNQLohI/V60h7f8TudSlrt145gcBCEUWxV/Qg
+ yKxnZgwZ73pcI57Nzs1ZYrp3nNf+vABdNcr9kHW8+7HZU9vYCKuIR91PGjsEfyom+ETL
+ cAWxSJKpn6nQh0enHARycqduTXucxVSz6oowS3eqmgFQPf0K4D+shGadSE1m3KF3mP/b
+ hHI8rXWHdSwej2/Th0c+OhlBRKq+I8Y2YCpb3hFe9PJ+vqlS+17OFVEgDuVjDU4PsLXL
+ N+1w==
+X-Gm-Message-State: AOJu0YwTHTGkBWgWgMTYPnSt7o3G3jIjhfCcUFCppQspKqNfc7zDqRmX
+ j3xwYprtviRkpMDGMhsnUPY=
+X-Google-Smtp-Source: AGHT+IFTPVrAnUWjjhREw0Hvr2AR0rY8UkvdcnI2CamAN17ipmhg22bz+NrpSLLjzXAWDFV8FZHQ6Q==
+X-Received: by 2002:a6b:dd0b:0:b0:791:16ba:d764 with SMTP id
+ f11-20020a6bdd0b000000b0079116bad764mr18373492ioc.16.1694026955566; 
+ Wed, 06 Sep 2023 12:02:35 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- w11-20020a5d844b000000b0076ffebfc9fasm5152306ior.47.2023.09.06.12.02.33
+ w11-20020a5d844b000000b0076ffebfc9fasm5152306ior.47.2023.09.06.12.02.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Sep 2023 12:02:34 -0700 (PDT)
+ Wed, 06 Sep 2023 12:02:35 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 4/5] drm/vc4: add trailing newlines to drm_dbg msgs
-Date: Wed,  6 Sep 2023 13:02:22 -0600
-Message-ID: <20230906190224.583577-5-jim.cromie@gmail.com>
+Subject: [PATCH v3 5/5] drm/Makefile: use correct ccflags-y syntax
+Date: Wed,  6 Sep 2023 13:02:23 -0600
+Message-ID: <20230906190224.583577-6-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230906190224.583577-1-jim.cromie@gmail.com>
 References: <20230906190224.583577-1-jim.cromie@gmail.com>
@@ -75,48 +75,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, jani.nikula@intel.com,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, jani.nikula@intel.com,
  daniel.vetter@ffwll.ch, Maxime Ripard <mripard@kernel.org>,
- seanpaul@chromium.org
+ seanpaul@chromium.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By at least strong convention, a print-buffer's trailing newline says
-"message complete, send it".  The exception (no TNL, followed by a call
-to pr_cont) proves the general rule.
+Incorrect CFLAGS- usage failed to add -DDYNAMIC_DEBUG_MODULE when needed,
+which broke builds with:
 
-Most DRM.debug calls already comport with this: 207 DRM_DEV_DEBUG,
-1288 drm_dbg.  Clean up the remainders, in maintainer sized chunks.
+CONFIG_DRM_USE_DYNAMIC_DEBUG=Y
+CONFIG_DYNAMIC_DEBUG_CORE=Y
+CONFIG_DYNAMIC_DEBUG=N
 
-No functional changes.
+Also add subdir-ccflags so that all drivers pick up the addition.
 
+Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index bef9d45ef1df..959123759711 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -592,7 +592,7 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
- 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc, old_state);
- 	struct drm_device *dev = crtc->dev;
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 7a09a89b493b..013cde886326 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
  
--	drm_dbg(dev, "Disabling CRTC %s (%u) connected to Encoder %s (%u)",
-+	drm_dbg(dev, "Disabling CRTC %s (%u) connected to Encoder %s (%u)\n",
- 		crtc->name, crtc->base.id, encoder->name, encoder->base.id);
+-CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
++subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
  
- 	require_hvs_enabled(dev);
-@@ -620,7 +620,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
- 	int idx;
- 
--	drm_dbg(dev, "Enabling CRTC %s (%u) connected to Encoder %s (%u)",
-+	drm_dbg(dev, "Enabling CRTC %s (%u) connected to Encoder %s (%u)\n",
- 		crtc->name, crtc->base.id, encoder->name, encoder->base.id);
- 
- 	if (!drm_dev_enter(dev, &idx))
+ drm-y := \
+ 	drm_aperture.o \
 -- 
 2.41.0
 
