@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C46794372
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 21:02:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07302794371
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 21:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E2110E70D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A63410E70C;
 	Wed,  6 Sep 2023 19:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDB810E064;
- Wed,  6 Sep 2023 19:02:31 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id
- ca18e2360f4ac-7927611c54bso4351039f.2; 
- Wed, 06 Sep 2023 12:02:31 -0700 (PDT)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9CE610E1CA;
+ Wed,  6 Sep 2023 19:02:32 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id
+ ca18e2360f4ac-77a62a84855so5042039f.1; 
+ Wed, 06 Sep 2023 12:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694026951; x=1694631751; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1694026952; x=1694631752; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WS96irfNC14gdmDiFClarh9DIKJfgD77OErS65jXzQY=;
- b=olM0Eazh76MoJPGntnFvf531vRaxVkT7JjC2HtkTpFOZKxs03YTliC8lQWYwX6BU6O
- vK3FoCPiKi6px/EPlZwLXXivEvdeVZjl1sNVwOpbadY+CB6T/ahEvrc88/9111D91nQ6
- ULUvZr1OuWFR5QMWtN9xw89PKzK/Fqv0caXayNOgaGW74/10TJKA5jAzkJ7Oy2mpBhJf
- EaJ0jKs6YhO+zWs+FslkbYQUKHAkZ3pEfyIDbbb0y3aFNjoPrdxpoOLe/IHrFkp5RJJp
- 1Ljg5/FBE0tjt2fm/f7xxBUPalhbi1Sfosn+hdTidyq4Xi0HLBMn91Dgc22puy/QrsKH
- cl1g==
+ bh=7joZjSDNylfwIjlN/v1EJKsLNVMUogPTU5+zZ+4Y2sA=;
+ b=Tp8CBU5FYUpqAmt0782HGt/w57+sx8LZRCtYLi6Zvi/hIxaatLtU9OxiDfCmT23MiD
+ YCS+hvFlXHwfmxLD6erCrmnt0AJ7n1CsFXWYN+H3MJUkf6G5GZGb4jQby8wDWPLwv1bS
+ 6Gbt/JKM8E2/fBN61fp41btHo5JRU0Ldntc8RbJ2wWZyWALJkdUZCFCi4OuCJs6mk/np
+ UF/BjpwWfMPXaeXZxPIz4GGeRc+M0/T+Czz5GQp9KQUPqQEvSUjk1iVVXIqTd7l9s1Vl
+ TXcOYW9QnCdU1+AMCxeZUy0AjtP+V0PdO9Wo1WcIzsVWbiQ1zOyzyfU6Gya94012/BTu
+ GH4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694026951; x=1694631751;
+ d=1e100.net; s=20221208; t=1694026952; x=1694631752;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WS96irfNC14gdmDiFClarh9DIKJfgD77OErS65jXzQY=;
- b=DzvjEq92SW8JpPrwudy6RpFc8fWGRJzsjTHTPFC9bEqAhkTB4+DNS3nntf616dp85g
- 3vpgX39DnmosAAZhjKitjY2DwMZlaHHTpY9IPr/A7H29Dz52K6moIS5a6Qhh+B8wlNoK
- IMHpEvs5N4/2+0Jp46PR8dZFII+oyUh/Kz9mN1mBVn3re8++b3AZ9lEe5uhLe5g+G1US
- oJlVaABaZvwCz7SLBo5a8+W1t+JgHcHm+QhFvMlSezOLD9Nuc4K8KEFGteCf59AVDosx
- Mi6Lqgo0XDX/NRPuTS/xJ4ByBwqcgkpAybtbm4mkcRAICVahm/h3G+NLuRo+tgkZ5ou1
- 1Tww==
-X-Gm-Message-State: AOJu0YwzbhVU7mDYFgMiHucnZ70DtcDbxFqG7cXV03VB2eJ2zH9atdji
- Thw3CYVtbs22Cxqsz2mbZao=
-X-Google-Smtp-Source: AGHT+IEm+/duIejOs4uEx0V1ECGyB/EMXsZAKUYZsERs5kQRkhUOS9SyRyr5dfsXrmwu8JiEQjVuXQ==
-X-Received: by 2002:a6b:5c0c:0:b0:787:230f:55b1 with SMTP id
- z12-20020a6b5c0c000000b00787230f55b1mr18474144ioh.2.1694026950925; 
- Wed, 06 Sep 2023 12:02:30 -0700 (PDT)
+ bh=7joZjSDNylfwIjlN/v1EJKsLNVMUogPTU5+zZ+4Y2sA=;
+ b=YUKM42lRGoqLyTI8IzM9xz2UTOP4YbcyFqTOtdY3k7vlvlVHpWeRKFD5Xlpwbv1hO+
+ LdrBVzi5P5vLxjrgxHzGr/EGw+RAS2w4MLxCh2dbSgkJAqKhvJRh8qFGaLKD1c7/fFzX
+ ZNlldqddhrNzz3FiokjT7p9JpsBxfEZMC4xluqInFwcy3GEaYxSK7f58eu+5TxEoSD1a
+ 6UxbPFjOUf69yqsKYE/7DJaMKbnDvKRc/TbLVV+O+lo+cH0pUVhxXu9hEXzHxdsyBCIp
+ /eFo2+wwBpBKsCzPsWhz/2IyUgWOvlqnIZlWfWdPXptEx8c8JVqFN+RzgWijuB2N4Z0F
+ /xLQ==
+X-Gm-Message-State: AOJu0YyXCjGC5LVrDFNhg6zweWuNqahdZ//GPqDu9lJ85KrlWpFxya/R
+ WJKEX3dZnz3xNC78Cy5m29kL5bKMK19Ncw==
+X-Google-Smtp-Source: AGHT+IF9+5z8gW/L2WmhxsI+81BMma/N4jRZCRB7iE4meseUn0CUi23FnZlRHWkkTJI6XVkfvLHlSg==
+X-Received: by 2002:a5e:8913:0:b0:783:47cd:27b5 with SMTP id
+ k19-20020a5e8913000000b0078347cd27b5mr18383468ioj.3.1694026952009; 
+ Wed, 06 Sep 2023 12:02:32 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- w11-20020a5d844b000000b0076ffebfc9fasm5152306ior.47.2023.09.06.12.02.30
+ w11-20020a5d844b000000b0076ffebfc9fasm5152306ior.47.2023.09.06.12.02.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Sep 2023 12:02:30 -0700 (PDT)
+ Wed, 06 Sep 2023 12:02:31 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 1/5] drm/connector: add trailing newlines to drm_dbg msgs
-Date: Wed,  6 Sep 2023 13:02:19 -0600
-Message-ID: <20230906190224.583577-2-jim.cromie@gmail.com>
+Subject: [PATCH v3 2/5] drm/kmb: add trailing newlines to drm_dbg msgs
+Date: Wed,  6 Sep 2023 13:02:20 -0600
+Message-ID: <20230906190224.583577-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230906190224.583577-1-jim.cromie@gmail.com>
 References: <20230906190224.583577-1-jim.cromie@gmail.com>
@@ -75,9 +75,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, jani.nikula@intel.com,
- daniel.vetter@ffwll.ch, Maxime Ripard <mripard@kernel.org>,
- seanpaul@chromium.org
+Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch,
+ Edmund Dea <edmund.j.dea@intel.com>, seanpaul@chromium.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -92,24 +92,83 @@ No functional changes.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_connector.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/kmb/kmb_crtc.c  | 10 +++++-----
+ drivers/gpu/drm/kmb/kmb_plane.c |  6 +++---
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index f28725736237..14020585bdc0 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2925,7 +2925,9 @@ int drm_mode_getconnector(struct drm_device *dev, void *data,
- 						     dev->mode_config.max_width,
- 						     dev->mode_config.max_height);
- 		else
--			drm_dbg_kms(dev, "User-space requested a forced probe on [CONNECTOR:%d:%s] but is not the DRM master, demoting to read-only probe",
-+			drm_dbg_kms(dev,
-+				    "User-space requested a forced probe on [CONNECTOR:%d:%s] "
-+				    "but is not the DRM master, demoting to read-only probe\n",
- 				    connector->base.id, connector->name);
+diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
+index 647872f65bff..a58baf25322d 100644
+--- a/drivers/gpu/drm/kmb/kmb_crtc.c
++++ b/drivers/gpu/drm/kmb/kmb_crtc.c
+@@ -94,7 +94,7 @@ static void kmb_crtc_set_mode(struct drm_crtc *crtc,
+ 	vm.hback_porch = 0;
+ 	vm.hsync_len = 28;
+ 
+-	drm_dbg(dev, "%s : %dactive height= %d vbp=%d vfp=%d vsync-w=%d h-active=%d h-bp=%d h-fp=%d hsync-l=%d",
++	drm_dbg(dev, "%s : %dactive height= %d vbp=%d vfp=%d vsync-w=%d h-active=%d h-bp=%d h-fp=%d hsync-l=%d\n",
+ 		__func__, __LINE__,
+ 			m->crtc_vdisplay, vm.vback_porch, vm.vfront_porch,
+ 			vm.vsync_len, m->crtc_hdisplay, vm.hback_porch,
+@@ -194,24 +194,24 @@ static enum drm_mode_status
+ 	int vfp = mode->vsync_start - mode->vdisplay;
+ 
+ 	if (mode->vdisplay < KMB_CRTC_MAX_HEIGHT) {
+-		drm_dbg(dev, "height = %d less than %d",
++		drm_dbg(dev, "height = %d less than %d\n",
+ 			mode->vdisplay, KMB_CRTC_MAX_HEIGHT);
+ 		return MODE_BAD_VVALUE;
+ 	}
+ 	if (mode->hdisplay < KMB_CRTC_MAX_WIDTH) {
+-		drm_dbg(dev, "width = %d less than %d",
++		drm_dbg(dev, "width = %d less than %d\n",
+ 			mode->hdisplay, KMB_CRTC_MAX_WIDTH);
+ 		return MODE_BAD_HVALUE;
+ 	}
+ 	refresh = drm_mode_vrefresh(mode);
+ 	if (refresh < KMB_MIN_VREFRESH || refresh > KMB_MAX_VREFRESH) {
+-		drm_dbg(dev, "refresh = %d less than %d or greater than %d",
++		drm_dbg(dev, "refresh = %d less than %d or greater than %d\n",
+ 			refresh, KMB_MIN_VREFRESH, KMB_MAX_VREFRESH);
+ 		return MODE_BAD;
  	}
  
+ 	if (vfp < KMB_CRTC_MIN_VFP) {
+-		drm_dbg(dev, "vfp = %d less than %d", vfp, KMB_CRTC_MIN_VFP);
++		drm_dbg(dev, "vfp = %d less than %d\n", vfp, KMB_CRTC_MIN_VFP);
+ 		return MODE_BAD;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+index 9e0562aa2bcb..308bd1cb50c8 100644
+--- a/drivers/gpu/drm/kmb/kmb_plane.c
++++ b/drivers/gpu/drm/kmb/kmb_plane.c
+@@ -78,7 +78,7 @@ static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
+ 	 * plane configuration is not supported.
+ 	 */
+ 	if (init_disp_cfg.format && init_disp_cfg.format != format) {
+-		drm_dbg(&kmb->drm, "Cannot change format after initial plane configuration");
++		drm_dbg(&kmb->drm, "Cannot change format after initial plane configuration\n");
+ 		return -EINVAL;
+ 	}
+ 	for (i = 0; i < plane->format_count; i++) {
+@@ -124,7 +124,7 @@ static int kmb_plane_atomic_check(struct drm_plane *plane,
+ 	if ((init_disp_cfg.width && init_disp_cfg.height) &&
+ 	    (init_disp_cfg.width != fb->width ||
+ 	    init_disp_cfg.height != fb->height)) {
+-		drm_dbg(&kmb->drm, "Cannot change plane height or width after initial configuration");
++		drm_dbg(&kmb->drm, "Cannot change plane height or width after initial configuration\n");
+ 		return -EINVAL;
+ 	}
+ 	can_position = (plane->type == DRM_PLANE_TYPE_OVERLAY);
+@@ -375,7 +375,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	spin_lock_irq(&kmb->irq_lock);
+ 	if (kmb->kmb_under_flow || kmb->kmb_flush_done) {
+ 		spin_unlock_irq(&kmb->irq_lock);
+-		drm_dbg(&kmb->drm, "plane_update:underflow!!!! returning");
++		drm_dbg(&kmb->drm, "plane_update:underflow!!!! returning\n");
+ 		return;
+ 	}
+ 	spin_unlock_irq(&kmb->irq_lock);
 -- 
 2.41.0
 
