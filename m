@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1176793992
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 12:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D851793995
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 12:12:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 608DE10E5ED;
-	Wed,  6 Sep 2023 10:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE3910E5EF;
+	Wed,  6 Sep 2023 10:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAFC10E5E8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 10:11:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6136610E5EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 10:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1693995059;
+ s=mimecast20190719; t=1693995162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Hv8DYu7MTr4kuGV37i9sTqxH6eTvGFMuruIX7/nBGWo=;
- b=YxfF8oxrD4LyTqaO4LY6tc3z1e7DHAQA0kGejkfhOe41FnEa6QevPYjKO/LGvNb7bEOfe5
- 011N4F5TmkVHUbncmsBlwwBnX6udM2tRbXauiz+WLcaScG0uS+ii5XeG9dSES6OfBBL4BM
- iwI6BFWS0Y2qwq/iCgaXs6vLNHkhP8Y=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xy4eWyuN+rU6FwER3ViJST19W+Gl/EjN/zwdPzrORYw=;
+ b=dsLsZyqnHeOkEgL5LhaEmcmBBnMtNZXzoI4QLegtQ/hG5tvRj5ey57DQVV/+B7PIxqXICG
+ SxGh/B3v/Or6bdrGnpywc1/nLX0IN32LaP9MidTktx/vqRUzMoZdUxhqszAap1+kKtt7W0
+ X0IoeuhkQ/2X3XN7XNSUgM9RyQD1DYQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-561-rGqKMAE4N3WmLF_CjXb7lQ-1; Wed, 06 Sep 2023 06:10:56 -0400
-X-MC-Unique: rGqKMAE4N3WmLF_CjXb7lQ-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2be51691dd5so20309731fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 03:10:56 -0700 (PDT)
+ us-mta-156-PqV0lYLCPCe64A8UqvoHvA-1; Wed, 06 Sep 2023 06:12:41 -0400
+X-MC-Unique: PqV0lYLCPCe64A8UqvoHvA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fef3606d8cso22277845e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 03:12:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693995055; x=1694599855;
+ d=1e100.net; s=20221208; t=1693995158; x=1694599958;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hv8DYu7MTr4kuGV37i9sTqxH6eTvGFMuruIX7/nBGWo=;
- b=TpKoVi1EwHhBJv/B36xZjJmHrX+hliOFVMwiGWfQTaYISBF/zx/9Z8SRvQ333EZkjI
- ++8KdFGXgm6aVx4vARwZiX9WGq+Unx2H4t+j1GmLe5fg4XmgrlTvKQoCSEm7A2oSZxD6
- 9EwLKSi1LQdVYThKLD7uKClY3syJbWYzO/C1B6cAS45fgEhLCtyBtwve4KLBWqzsk5jd
- QuFUVQF/TKwA7VrFazkZ0eTw1glHM2buE9LPG4TZSiYSbXYvtsscqPRdnQtp0mQtsw6v
- 5qS2lgofIRSQG6E6foWqzb7dGFvk0qWBuFunoUEaxnKhUqb7x/2Aa5OJMUEqpckzeo0O
- TgIg==
-X-Gm-Message-State: AOJu0Yzc2d0ItmWc3kp5nPKdswUss51H3OP7ihfSzlwEbtN79enNHj5G
- tG6MSMIBEyJ05+f1VrGs6js8ykvN3HKIGsIRK02Jgk6qMl7KCRFfWhMRyow90rLDwzduulYe0Z/
- w7rIo3cdcVlcQhEjb0wpxrGaLJh4P
-X-Received: by 2002:a2e:870d:0:b0:2bc:b9c7:7ba8 with SMTP id
- m13-20020a2e870d000000b002bcb9c77ba8mr1821977lji.43.1693995054992; 
- Wed, 06 Sep 2023 03:10:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlEOBg4YUUo+ApwkDK41eZQoOWRKWT9hoI43BTnkb2886b1jJOEBUZMQKvCBA2uq3yLQagdg==
-X-Received: by 2002:a2e:870d:0:b0:2bc:b9c7:7ba8 with SMTP id
- m13-20020a2e870d000000b002bcb9c77ba8mr1821960lji.43.1693995054655; 
- Wed, 06 Sep 2023 03:10:54 -0700 (PDT)
+ bh=Xy4eWyuN+rU6FwER3ViJST19W+Gl/EjN/zwdPzrORYw=;
+ b=DmJBvuqopa0znsvjIZbfwBXPrJ/ty1i4Z/PSrC6oBarWDYieItfg0pxnq+CX+9ZUPM
+ UE2hO/gEEIfTCF4NuIre4C3mTVXpil40EcXr2gLVvK2dqzSLW/O9UL4m7dZjOpK6GBtS
+ zV5BlS/WAxSQR7bYOIh7FneSRIpYFhdY6qZv9P77jstH3O5OpODK8Kg7bOc3qWiHCrNk
+ fTbbPu8WxCVOQkPvkP4hy3sui5bRi0UwpdTp+R1p5xRxVvhNb2MjE4mQ9ctlkzEb7ZR4
+ kj5oNg2WYBJ3eja96yBrO2abuHRUSxqyHYxsG8axRfbfg+PLfeOaxZQhdcjZhFZyam0Z
+ Zl6g==
+X-Gm-Message-State: AOJu0Yy/gOrosZs6f+IcEKcwaXsdQrjQ8h6AkdY1uczybWd6WNqLWpYz
+ B8/RQdXcPqtDnkssdZnWwdNeXYKpOpjMDg6vV1jd1RHdRYzn2hSRbCK46erPqmEM3aNEMKOX4ik
+ ifEJb37pE9NCHytsIyYp5w4cItz3ftIQ0Lf32
+X-Received: by 2002:a05:600c:21cd:b0:3fe:22a9:910 with SMTP id
+ x13-20020a05600c21cd00b003fe22a90910mr1909279wmj.14.1693995158618; 
+ Wed, 06 Sep 2023 03:12:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEcggVqQOJrShKfnNaPe4sc3f0Ds8yksigPQVjo0N6T3K/Fdg/hTediwZLUXkfmqjeXlqBpsQ==
+X-Received: by 2002:a05:600c:21cd:b0:3fe:22a9:910 with SMTP id
+ x13-20020a05600c21cd00b003fe22a90910mr1909265wmj.14.1693995158375; 
+ Wed, 06 Sep 2023 03:12:38 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n17-20020a7bcbd1000000b003fee777fd84sm19425278wmi.41.2023.09.06.03.10.54
+ v16-20020a5d4b10000000b0031981c500aasm20073022wrq.25.2023.09.06.03.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Sep 2023 03:10:54 -0700 (PDT)
+ Wed, 06 Sep 2023 03:12:38 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 4/7] fbdev/core: Move logo functions into separate
- source file
-In-Reply-To: <20230829142109.4521-5-tzimmermann@suse.de>
+Subject: Re: [PATCH 5/7] fbdev/core: Build fb_logo iff CONFIG_LOGO has been
+ selected
+In-Reply-To: <20230829142109.4521-6-tzimmermann@suse.de>
 References: <20230829142109.4521-1-tzimmermann@suse.de>
- <20230829142109.4521-5-tzimmermann@suse.de>
-Date: Wed, 06 Sep 2023 12:10:53 +0200
-Message-ID: <87fs3r4no2.fsf@minerva.mail-host-address-is-not-set>
+ <20230829142109.4521-6-tzimmermann@suse.de>
+Date: Wed, 06 Sep 2023 12:12:37 +0200
+Message-ID: <87cyyv4nl6.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -89,74 +89,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Move the fbdev function for displaying boot-up logos into their
-> own file fb_logo.c. The file can later be build depending on the
-> state of CONFIG_LOGO. No functional changes.
+> Only build fb_logo.c if CONFIG_LOGO has been selected. Otherwise
+> provide empty implementations of the contained interfaces and avoid
+> using the exported variables.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/fbdev/core/Makefile      |   1 +
->  drivers/video/fbdev/core/fb_internal.h |   6 +
->  drivers/video/fbdev/core/fb_logo.c     | 533 +++++++++++++++++++++++++
->  drivers/video/fbdev/core/fbmem.c       | 524 ------------------------
->  include/linux/fb.h                     |   5 -
->  5 files changed, 540 insertions(+), 529 deletions(-)
->  create mode 100644 drivers/video/fbdev/core/fb_logo.c
->
-> diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
-> index edfde2948e5c..adce31155e92 100644
-> --- a/drivers/video/fbdev/core/Makefile
-> +++ b/drivers/video/fbdev/core/Makefile
-> @@ -2,6 +2,7 @@
->  obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
->  obj-$(CONFIG_FB_CORE)             += fb.o
->  fb-y                              := fb_info.o \
-> +                                     fb_logo.o \
 
-Maybe instead of adding this unconditionally you could only add it when
-CONFIG_LOGO is enabled ?
+Ah! You are doing in this patch exactly what I mentioned in my previous
+email :)
 
-[...]
-
-> diff --git a/drivers/video/fbdev/core/fb_logo.c b/drivers/video/fbdev/core/fb_logo.c
-> new file mode 100644
-> index 000000000000..76ba5a2bebae
-> --- /dev/null
-> +++ b/drivers/video/fbdev/core/fb_logo.c
-> @@ -0,0 +1,533 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/export.h>
-> +#include <linux/fb.h>
-> +#include <linux/linux_logo.h>
-> +
-> +bool fb_center_logo __read_mostly;
-> +int fb_logo_count __read_mostly = -1;
-> +
-> +#ifdef CONFIG_LOGO
-
-[...]
-
-> +#else
-> +int fb_prepare_logo(struct fb_info *info, int rotate)
-> +{
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(fb_prepare_logo);
-> +
-> +int fb_show_logo(struct fb_info *info, int rotate)
-> +{
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(fb_show_logo);
-
-I would move the CONFIG_LOGO #ifdefery to the header file and make these a
-static inline function, instead of having the stubs here and exporting
-symbols for functions that are a no-op.
-
-I think that will also fix the issues that the robot complained about.
-
-Other than that, the patch looks good to me.
+I would just squash this patch with #4, but up to you.
 
 Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
