@@ -2,70 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C94E79360C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 09:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B0C793620
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 09:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0527B10E57F;
-	Wed,  6 Sep 2023 07:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB5B10E120;
+	Wed,  6 Sep 2023 07:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E541810E586;
- Wed,  6 Sep 2023 07:18:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DE810E120;
+ Wed,  6 Sep 2023 07:21:45 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0AE1522390;
- Wed,  6 Sep 2023 07:18:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1693984699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UZ/2jtuCcGDbvtZZ1dSSULsDv2WRriEDMyd1X3EatRQ=;
- b=NC8MQufTiva+CvxLTwMZmFIxSBpCB8zyHTIWrWoN3fBCjGgHgZwTi0WtKqAA5SdsV1S0hw
- z/yLv0NRH0U9ZeGpAj+QKpsIhrER5MpPh8yTJ1qHJA66gU/8UiBffBOCsT1Pva0al7MwgU
- 8Wl8d2+AWEQqZB9YLvG3z2W7rsyjgu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1693984699;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UZ/2jtuCcGDbvtZZ1dSSULsDv2WRriEDMyd1X3EatRQ=;
- b=UlQ4KpQQ3SbpVQkpfXPQel7q/y9d4ELRhaXSXLXoKBW2H0ZiLprI0nsrCEvujWhv2/wlD5
- a+EO6hOUHYCPWODg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BED9C1346C;
- Wed,  6 Sep 2023 07:18:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XcZ0Lbon+GQ6PgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Sep 2023 07:18:18 +0000
-Message-ID: <0ace21b2-f0ce-0b14-529f-c0ee2adf972f@suse.de>
-Date: Wed, 6 Sep 2023 09:18:17 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 889B36606EE0;
+ Wed,  6 Sep 2023 08:21:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1693984904;
+ bh=EF969BTemrCj+elk34sHicqOXNgpSQV8cf+02Jqqu/s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MY/a2+BTMSgpaGUVmiczwcIuSp+MWRXdCAeSyvlX1BKSMH+/BVDn4SBre1uymh5sO
+ QsXes405U2zNM1kM0JyhS0YJoej659WbjDZARTWZj0AZRNDJWuCTRDrboW32u57/Te
+ piZ4WqpaW/kO9BJRpIAzE1fZsgGI7IdHGbi/HpoYpsnCWxezkL8IYTPUfyUHiclVcE
+ pPUbBz3T/o2oj3EMbnk4AJLFeAS2po8SMXZzfdOe0ceJfMJU9zFGYwbKFtkA30s5mD
+ 8X5a4D1oncrM9tYfar3+lA6JUqGJe0vWhnyRrfQ0a6CE89yrm/70XTU/E1sdSH4LMr
+ EsoFbV+3uPkAw==
+Date: Wed, 6 Sep 2023 09:21:40 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v3 2/8] drm/panfrost: Enable cycle counter register upon
+ job submission
+Message-ID: <20230906092140.3993d40a@collabora.com>
+In-Reply-To: <20230905184533.959171-3-adrian.larumbe@collabora.com>
+References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
+ <20230905184533.959171-3-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
- to select the primary video adapter at boot time
-Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
- <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
- <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
- <6d1d8acc-5140-f710-ac00-cb423d7fce78@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <6d1d8acc-5140-f710-ac00-cb423d7fce78@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ykBaykporxCxc0GQqibW6Qp3"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,116 +55,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
+Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
+ mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ykBaykporxCxc0GQqibW6Qp3
-Content-Type: multipart/mixed; boundary="------------a4MEPrnaSak0MDOJHnwhylRP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: suijingfeng <suijingfeng@loongson.cn>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
-Message-ID: <0ace21b2-f0ce-0b14-529f-c0ee2adf972f@suse.de>
-Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
- to select the primary video adapter at boot time
-References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
- <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
- <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
- <6d1d8acc-5140-f710-ac00-cb423d7fce78@loongson.cn>
-In-Reply-To: <6d1d8acc-5140-f710-ac00-cb423d7fce78@loongson.cn>
+On Tue,  5 Sep 2023 19:45:18 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
---------------a4MEPrnaSak0MDOJHnwhylRP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> In a future development, we will want to keep track of the number of GPU
+> cycles spent on a given job. That means we should enable it only when the
+> GPU has work to do, and switch it off whenever it is idle to avoid power
+> waste.
+>=20
+> To avoid race conditions during enablement/disabling, a reference counting
+> mechanism was introduced, and a job flag that tells us whether a given job
+> increased the refcount. This is necessary, because a future development
+> will let user space toggle cycle counting through a debugfs file, and a
+> given job might have been in flight by the time cycle counting was
+> disabled.
+>=20
+> Toggling of GPU cycle counting has to be done through a module parameter.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c |  5 +++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  6 +++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 43 ++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  6 +++
+>  drivers/gpu/drm/panfrost/panfrost_job.c    | 10 +++++
+>  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+>  6 files changed, 71 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm=
+/panfrost/panfrost_device.c
+> index fa1a086a862b..1ea2ac3804f0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -18,6 +18,9 @@
+>  #include "panfrost_mmu.h"
+>  #include "panfrost_perfcnt.h"
+> =20
+> +static bool profile;
+> +module_param(profile, bool, 0600);
 
-SGkNCg0KQW0gMDYuMDkuMjMgdW0gMDQ6MzQgc2NocmllYiBzdWlqaW5nZmVuZzoNCj4gDQo+
-IE9uIDIwMjMvOS81IDIzOjA1LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpDQo+
-Pg0KPj4gQW0gMDUuMDkuMjMgdW0gMTU6MzAgc2NocmllYiBzdWlqaW5nZmVuZzoNCj4+PiBI
-aSwNCj4+Pg0KPj4+DQo+Pj4gT24gMjAyMy85LzUgMTg6NDUsIFRob21hcyBaaW1tZXJtYW5u
-IHdyb3RlOg0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBBbSAwNC4wOS4yMyB1bSAyMTo1NyBzY2hy
-aWViIFN1aSBKaW5nZmVuZzoNCj4+Pj4+IEZyb206IFN1aSBKaW5nZmVuZyA8c3VpamluZ2Zl
-bmdAbG9vbmdzb24uY24+DQo+Pj4+Pg0KPj4+Pj4gT24gYSBtYWNoaW5lIHdpdGggbXVsdGlw
-bGUgR1BVcywgYSBMaW51eCB1c2VyIGhhcyBubyBjb250cm9sIG92ZXIgDQo+Pj4+PiB3aGlj
-aA0KPj4+Pj4gb25lIGlzIHByaW1hcnkgYXQgYm9vdCB0aW1lLiBUaGlzIHNlcmllcyB0cmll
-cyB0byBzb2x2ZSBhYm92ZSANCj4+Pj4+IG1lbnRpb25lZA0KPj4+Pg0KPj4+PiBJZiBhbnl0
-aGluZywgdGhlIHByaW1hcnkgZ3JhcGhpY3MgYWRhcHRlciBpcyB0aGUgb25lIGluaXRpYWxp
-emVkIGJ5IA0KPj4+PiB0aGUgZmlybXdhcmUuIEkgdGhpbmsgb3VyIGJvb3QtdXAgZ3JhcGhp
-Y3MgYWxzbyBtYWtlIHRoaXMgYXNzdW1wdGlvbiANCj4+Pj4gaW1wbGljaXRseS4NCj4+Pj4N
-Cj4+Pg0KPj4+IFllcywgYnV0IGJ5IHRoZSB0aW1lIG9mIERSTSBkcml2ZXJzIGdldCBsb2Fk
-ZWQgc3VjY2Vzc2Z1bGx5LHRoZSANCj4+PiBib290LXVwIGdyYXBoaWNzIGFscmVhZHkgZmlu
-aXNoZWQuDQo+Pj4gRmlybXdhcmUgZnJhbWVidWZmZXIgZGV2aWNlIGFscmVhZHkgZ2V0IGtp
-bGxlZCBieSB0aGUgDQo+Pj4gZHJtX2FwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lf
-ZnJhbWVidWZmZXJzKCkNCj4+PiBmdW5jdGlvbiAob3IgaXRzIHNpYmxpbmdzKS4gU28sIHRo
-aXMgc2VyaWVzIGlzIGRlZmluaXRlbHkgbm90IHRvIA0KPj4+IGludGVyYWN0IHdpdGggdGhl
-IGZpcm13YXJlIGZyYW1lYnVmZmVyDQo+Pg0KPj4gWWVzIGFuZCBuby4gVGhlIGhlbHBlcnMg
-eW91IG1lbnRpb24gd2lsbCBhdHRlbXB0IHRvIHJlbW92ZSB0aGUgDQo+PiBmaXJtd2FyZSBm
-cmFtZWJ1ZmZlciBvbiB0aGUgZ2l2ZW4gUENJIGRldmljZS4gSWYgeW91IGhhdmUgbXVsdGlw
-bGUgUENJIA0KPj4gZGV2aWNlcywgdGhlIG90aGVyIGRldmljZXMgd291bGQgbm90IGJlIGFm
-ZmVjdGVkLg0KPj4NCj4gWWVzIGFuZCBuby4NCj4gDQo+IA0KPiBGb3IgdGhlIHllcyBwYXJ0
-OiBkcm1fYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMoKSAN
-Cj4gb25seSBraWxsIHRoZSBjb25mbGljdCBvbmUuDQo+IEJ1dCBmb3IgYSBzcGVjaWZpYyBt
-YWNoaW5lIHdpdGggdGhlIG1vZGVybiBVRUZJIGZpcm13YXJlLA0KPiB0aGVyZSBzaG91bGQg
-YmUgb25seSBvbmUgZmlybXdhcmUgZnJhbWVidWZmZXIgZHJpdmVyLg0KPiBUaGF0IHNob3Vk
-ZCBiZSB0aGUgRUZJRkIoVUVGSSBHT1ApLiBJIGRvIGhhdmUgbXVsdGlwbGUgUENJIGRldmlj
-ZXMsDQo+IGJ1dCBJIGRvbid0IHVuZGVyc3RhbmQgd2hlbiBhbmQgd2h5IGEgc3lzdGVtIHdp
-bGwgaGF2ZSBtb3JlIHRoYW4gb25lIA0KPiBmaXJtd2FyZSBmcmFtZWJ1ZmZlci4NCg0KTWF5
-YmUgc29tZXdoYXQgdW5yZWxhdGVkIHRvIHRoZSBhY3R1YWwgZGlzY3Vzc2lvbiwgYnV0IGl0
-J3Mgbm90IGFzIA0Kc2ltcGxlIGFzIHlvdSBhc3N1bWUuIE1hbnkgbm9uLVg4NiBzeXN0ZW1z
-IHVzZSBEZXZpY2VUcmVlLiBPbiBTcGFyYyANCklJUkMsIHRoZXJlJ3MgdGhlIGNhc2Ugb2Yg
-aGF2aW5nIG11bHRpcGxlIGZpcm13YXJlIGZyYW1lYnVmZmVycyBsaXN0ZWQgDQppbiB0aGUg
-RFQuIFdlIGNyZWF0ZSBhbiBkZXZpY2UgZm9yIGVhY2ggYW5kIGF0dGFjaCBhIERSTSBmaXJt
-d2FyZSANCmRyaXZlcjsgb2Zkcm0gaW4gdGhpcyBjYXNlLiBJIGhhdmVuJ3Qgc2VlbiB0aGlz
-IGluIHRoZSB3aWxkLCBidXQgDQpub24tU3BhcmMgc3lzdGVtcyBjb3VsZCBhbHNvIGJlaGF2
-ZSBsaWtlIHRoYXQuDQoNCkFuZCBpbiBhZGRpdGlvbiB0byB0aGF0LCBBUk0tYmFzZWQgc3lz
-dGVtcyBvZnRlbiB1c2VzIFVFRkkgYm9vdCBzdHViIA0KY29kZSB0aGF0IHByb3ZpZGVzIGEg
-c2ltcGxlIFVFRkkgZW52aXJvbm1lbnQgdG8gdGhlIGtlcm5lbC4gRm9yIGdyYXBoaWNzIA0K
-d2UndmUgaGFkIGNhc2VzIHdoZXJlIHdlIHJlY2VpdmVkIHRoZSBzYW1lIGZpcm13YXJlIGZy
-YW1lYnVmZmVyIGZyb20gdGhlIA0KRFQgYW5kIGZyb20gdGhlIFVFRkkgYm9vdCBzdHViLiBX
-ZSBoYXZlIHRvIGRldGVjdCBhbmQgaGFuZGxlIHN1Y2ggDQpkdXBsaWNhdGlvbiBpbiB0aGUg
-a2VybmVsLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBFdmVuIGZvciB0aGUg
-bWFjaGluZXMgd2l0aCB0aGUgbGVnYWN5IEJJT1MsIHRoZSBmaXhlZCBWR0EgYXBlcnR1cmUg
-DQo+IGFkZHJlc3MgcmFuZ2UNCj4gY2FuIG9ubHkgYmUgb3duZWQgYnkgb25lIGZpcm13YXJl
-IGRyaXZlci4gSXQgaXMganVzdCB0aGF0IHdlIG5lZWQgdG8gDQo+IGhhbmRsZSB0aGUNCj4g
-cm91dGluZywgdGhlIC0+c2V0X2RlY29kZSgpIGNhbGxiYWNrIG9mIHZnYV9jbGllbnRfcmVn
-aXN0ZXIoKSBpcyB1c2VkIHRvIA0KPiBkbyBzdWNoDQo+IHdvcmsuIEFtIEkgY29ycmVjdD8N
-Cj4gDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5z
-dHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBB
-bmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4
-MDkgKEFHIE51ZXJuYmVyZykNCg==
+Not sure if we should make that a module parameter. Might be better
+exposed as a debugfs knob attached to the device (even if having
+multiple Mali devices is rather unlikely, I think I'd prefer to make
+this toggle per-device).
 
---------------a4MEPrnaSak0MDOJHnwhylRP--
+> +
+>  static int panfrost_reset_init(struct panfrost_device *pfdev)
+>  {
+>  	pfdev->rstc =3D devm_reset_control_array_get_optional_exclusive(pfdev->=
+dev);
+> @@ -207,6 +210,8 @@ int panfrost_device_init(struct panfrost_device *pfde=
+v)
+> =20
+>  	spin_lock_init(&pfdev->as_lock);
+> =20
+> +	atomic_set(&pfdev->profile_mode, profile);
 
---------------ykBaykporxCxc0GQqibW6Qp3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+So, profile_mode can only be set at probe time, meaning any changes to
+the profile module param is not taken into account after that point.
 
------BEGIN PGP SIGNATURE-----
+> +
+>  	err =3D panfrost_clk_init(pfdev);
+>  	if (err) {
+>  		dev_err(pfdev->dev, "clk init failed %d\n", err);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm=
+/panfrost/panfrost_device.h
+> index b0126b9fbadc..5c09c9f3ae08 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -107,6 +107,7 @@ struct panfrost_device {
+>  	struct list_head scheduled_jobs;
+> =20
+>  	struct panfrost_perfcnt *perfcnt;
+> +	atomic_t profile_mode;
+> =20
+>  	struct mutex sched_lock;
+> =20
+> @@ -121,6 +122,11 @@ struct panfrost_device {
+>  	struct shrinker shrinker;
+> =20
+>  	struct panfrost_devfreq pfdevfreq;
+> +
+> +	struct {
+> +		atomic_t use_count;
+> +		spinlock_t lock;
+> +	} cycle_counter;
+>  };
+> =20
+>  struct panfrost_mmu {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gpu.c
+> index 2faa344d89ee..fddbc72bf093 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -73,6 +73,8 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfd=
+ev)
+>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>  	gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
+> =20
+> +	atomic_set(&pfdev->cycle_counter.use_count, 0);
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT4J7oFAwAAAAAACgkQlh/E3EQov+D1
-NhAAz+snccKaUIpfbyPULYBFWMbjaedyU2E3h8Q5+8dNBnF/92JnszZVeKioqCszd+SH72svNE7Y
-YgawacdjXNZh+oykUKJvRzkTDjrmLayykiF3q+3s7ZjVUGh1EwQjF9RgghIryKCLC3okhFaiGs+Z
-Mp7mFx1oPIDnNSyDOqMJdhRnlyBmRKWTqB+m3UY4D1Dy48TdZVZKafIEU5gE/4Bb8lDxhW89SBtl
-gse0NzgWz+anzLLrUCq9zUJxm0ZPHdJp93URTaldQXv9hVwN5VQTLuEwnMwyW4MCgZARoYGJ1Y5/
-wMKR1xD+179WQ/JE15fXZADZ/NkDcs27c1Rwm1eQkCEdj4Ok307y5Eb01h41b3tB87sTnP6Z+oih
-6NvqoKtET9xG9kl/kthG4T8hyxFrPPC5soyXSNQyEfbA+T0d0M31bCgAI/nTQi1POqDVwRTbL5wc
-IU65k3C+dg9Mt26hquE2v+MTyZ204Uy1DUqZvvrzi7JvCiAb+WVRifsZRXQMnxo3XNchQkS3ZW7/
-1MlYC/HD2PfLHXRXaX0ySiddBSL+nbTl446toF0nHRc1kdefYIe9BwnFdceIWjVWlc6TG3V897n5
-OaDkKJQZxRpTA3O0XNw3O1U7ctrz1mUIu0PX109V5NzjYFg9n+vT2vNk0sB3J8qTMxyWE4nV8Q5P
-1BU=
-=S4ZG
------END PGP SIGNATURE-----
+I think I'd prefer if the jobs that were in-flight at the time a GPU
+hang occurred explicitly release their reference on use_count. So maybe
+something like
 
---------------ykBaykporxCxc0GQqibW6Qp3--
+	/* When we reset the GPU we should have no cycle-counter users
+	 * left.
+	 */
+	if (drm_WARN_ON(cycle_counter.use_count !=3D 0))
+		atomic_set(&pfdev->cycle_counter.use_count, 0);
+
+to catch unbalanced get/put situations.
+
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -321,6 +323,46 @@ static void panfrost_gpu_init_features(struct panfro=
+st_device *pfdev)
+>  		 pfdev->features.shader_present, pfdev->features.l2_present);
+>  }
+> =20
+> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev)
+> +{
+> +	if (atomic_inc_not_zero(&pfdev->cycle_counter.use_count))
+> +		return;
+> +
+> +	spin_lock(&pfdev->cycle_counter.lock);
+> +	if (atomic_inc_return(&pfdev->cycle_counter.use_count) =3D=3D 1)
+> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_START);
+> +	spin_unlock(&pfdev->cycle_counter.lock);
+> +}
+> +
+> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev)
+> +{
+> +	if (atomic_add_unless(&pfdev->cycle_counter.use_count, -1, 1))
+> +		return;
+> +
+> +	spin_lock(&pfdev->cycle_counter.lock);
+> +	if (atomic_dec_return(&pfdev->cycle_counter.use_count) =3D=3D 0)
+> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
+> +	spin_unlock(&pfdev->cycle_counter.lock);
+> +}
+> +
+> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev)
+> +{
+> +	atomic_set(&pfdev->profile_mode, 0);
+> +	gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
+
+Why do we need to issue a STOP here. Setting profile_mode to false
+should be enough to prevent future jobs from enabling the
+cycle-counter, and the counter will be naturally disabled when all
+in-flight jobs that had profiling enabled are done.
+
+Actually I'm not even sure I understand why this function exists.
+
+> +}
+> +
+> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *p=
+fdev)
+> +{
+> +	u32 hi, lo;
+> +
+> +	do {
+> +		hi =3D gpu_read(pfdev, GPU_CYCLE_COUNT_HI);
+> +		lo =3D gpu_read(pfdev, GPU_CYCLE_COUNT_LO);
+> +	} while (hi !=3D gpu_read(pfdev, GPU_CYCLE_COUNT_HI));
+> +
+> +	return ((u64)hi << 32) | lo;
+> +}
+> +
+>  void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>  {
+>  	int ret;
+> @@ -367,6 +409,7 @@ void panfrost_gpu_power_on(struct panfrost_device *pf=
+dev)
+> =20
+>  void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>  {
+> +	panfrost_cycle_counter_stop(pfdev);
+
+So, you're setting profile_mode =3D 0 in the suspend path, but AFAICT,
+it's not set back to the module param profile value on resume, which
+means it's disabled on suspend and never re-enabled after that.
+
+Besides, I don't really see a reason to change the pfdev->profile_mode
+value in this path. If we suspend the device, that means we have no
+jobs running, and the use_count refcount should have dropped to zero,
+thus disabling cycle counting.
+
+>  	gpu_write(pfdev, TILER_PWROFF_LO, 0);
+>  	gpu_write(pfdev, SHADER_PWROFF_LO, 0);
+>  	gpu_write(pfdev, L2_PWROFF_LO, 0);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/pa=
+nfrost/panfrost_gpu.h
+> index 468c51e7e46d..4d62e8901c79 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+> @@ -16,6 +16,12 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pf=
+dev);
+>  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+>  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+> =20
+> +void panfrost_stop_cycle_counter(struct panfrost_device *pfdev);
+> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
+> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev);
+> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
+> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *p=
+fdev);
+> +
+>  void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
+> =20
+>  #endif
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.c
+> index 033f5e684707..8b1bf6ac48f8 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -297,6 +297,11 @@ int panfrost_job_push(struct panfrost_job *job)
+> =20
+>  	kref_get(&job->refcount); /* put by scheduler job completion */
+> =20
+> +	if (atomic_read(&pfdev->profile_mode)) {
+> +		panfrost_cycle_counter_get(pfdev);
+> +		job->is_profiled =3D true;
+> +	}
+> +
+>  	drm_sched_entity_push_job(&job->base);
+> =20
+>  	mutex_unlock(&pfdev->sched_lock);
+> @@ -351,6 +356,9 @@ static void panfrost_job_free(struct drm_sched_job *s=
+ched_job)
+> =20
+>  	drm_sched_job_cleanup(sched_job);
+> =20
+> +	if (job->is_profiled)
+> +		panfrost_cycle_counter_put(job->pfdev);
+> +
+>  	panfrost_job_put(job);
+>  }
+> =20
+> @@ -842,6 +850,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  		}
+>  	}
+> =20
+> +	spin_lock_init(&pfdev->cycle_counter.lock);
+> +
+>  	panfrost_job_enable_interrupts(pfdev);
+> =20
+>  	return 0;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.h
+> index 8becc1ba0eb9..2aa0add35459 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -32,6 +32,7 @@ struct panfrost_job {
+> =20
+>  	/* Fence to be signaled by drm-sched once its done with the job */
+>  	struct dma_fence *render_done_fence;
+> +	bool is_profiled;
+>  };
+> =20
+>  int panfrost_job_init(struct panfrost_device *pfdev);
+
