@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15657942EA
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 20:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1097942E8
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 20:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC7810E6EF;
-	Wed,  6 Sep 2023 18:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 116F510E066;
+	Wed,  6 Sep 2023 18:15:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BBC10E055
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 16:30:32 +0000 (UTC)
+X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
+ Wed, 06 Sep 2023 16:30:32 UTC
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209C610E055
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 16:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis.com; q=dns/txt; s=axis-central1; t=1694017833;
- x=1725553833; h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=znBSTq5RS9Z8jmekHXsRIOZBs9Z3TiIq9C1uuLxH85g=;
- b=ezA6huP0Tkcb0sreLlA0frc+LspbsqEYqu7Wy6Q4Qqmas6+JlMOqOO1j
- 2zp8EDxUY8scEvE6KHUJ/zPxFZvN280S3TcnvW7UIIwiPvT1+ZplZ9ICM
- 8yviX1ChDYcq6d7WERj0CpxPBzjjwgInwAXOey3J+7Lm0IBvTpR6pP97A
- U79j2HOUoPR51CIpoCN7otCBsrmgfKYjJ0xhaa2n81TbiCPT8yeoSj0x6
- EJ0JdU89ANcSepM7Cx30oLaPs6dUrp0VW50aVgGXk7rDVifFPW3rve8wM
- kioKsd1CWAScxOHKIUT+QmcyBTrQfEsRiHSnjjgEqJktoM+GAaL8+i8F8 Q==;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1694017832;
+ x=1725553832;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=KrG2MZOvGizkIauCc3KWNFT1LrSe5AapyjWhd8HHjzw=;
+ b=UUCSLxzD2XgSN3hTFO+yXm5apKUDp1abEbxUUZKKRJf6HHwFI3e1rSom
+ 7B8G/nhDKne6aXYcIzkliN2PIyqhekoxgm1k4SO84ky4QEAol0UFcMxza
+ XYgnlCE8cL2wFnJM4Ab0xJByIGnKAS3hadLW1jUQPSKGvSPd3M/3tGZGr
+ jBsnvxT7imag9RiJyUDXFoT3mgE7rOH1iYR4IBFGl/oDkZHBbbSwHSIx0
+ bBXU+nxGB155k+/H3bF2RGkk2/mzMCdVSxNMj1H5rKdvamYXw2z1JlFiZ
+ zdWjRraY7umzpGrNgTe5SzQtd1tKQVQcfV3cu5qqBUuKPeNNgTpg25LOO Q==;
 From: Stefan x Nilsson <stefan.x.nilsson@axis.com>
-Subject: [PATCH 0/2] Add st7735s drm driver and Winstar panel
-Date: Wed, 6 Sep 2023 18:22:15 +0200
-Message-ID: <20230906-st7735s-v1-0-add92677c190@axis.com>
+Date: Wed, 6 Sep 2023 18:22:16 +0200
+Subject: [PATCH 1/2] dt-bindings: display: Add st7735s driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADin+GQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCyNT3eISc3Nj02LdtCTLVCODVAtDAyNzJaDqgqLUtMwKsEnRsbW1AAP
- mLhlZAAAA
+Message-ID: <20230906-st7735s-v1-1-add92677c190@axis.com>
+References: <20230906-st7735s-v1-0-add92677c190@axis.com>
+In-Reply-To: <20230906-st7735s-v1-0-add92677c190@axis.com>
 To: David Lechner <david@lechnology.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
  Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
@@ -56,30 +58,120 @@ Cc: Stefan x Nilsson <stefan.x.nilsson@axis.com>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new driver for the Sitronix st7735s display controller
-together with a 0.96" 80x160 color TFT display by Winstar.
-
-The driver is very similar to the st7735r driver, but uses a
-different pipe_enable sequence and also allows for an
-optional regulator to be specified using devicetree.
+Add bindings for a driver for Sitronix st7735s display controller, as
+well as for a Winstar wf0096atyaa3dnn0 0.96" 80x160 TFT panel.
 
 Signed-off-by: Stefan x Nilsson <stefan.x.nilsson@axis.com>
 ---
-Stefan x Nilsson (2):
-      dt-bindings: display: Add st7735s driver
-      drm: tiny: Add st7735s driver
+ .../bindings/display/sitronix,st7735s.yaml         | 81 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++
+ 2 files changed, 87 insertions(+)
 
- .../bindings/display/sitronix,st7735s.yaml         |  81 +++++++
- MAINTAINERS                                        |   7 +
- drivers/gpu/drm/tiny/Kconfig                       |  14 ++
- drivers/gpu/drm/tiny/Makefile                      |   1 +
- drivers/gpu/drm/tiny/st7735s.c                     | 264 +++++++++++++++++++++
- 5 files changed, 367 insertions(+)
----
-base-commit: b715dcd3db4a9a57b3fbe7820db37cae930f0867
-change-id: 20230825-st7735s-fb9e20e81027
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
+new file mode 100644
+index 000000000000..36234ec22fe2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
+@@ -0,0 +1,81 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sitronix,st7735s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix ST7735S Display Panels
++
++maintainers:
++  - Stefan x Nilsson <stefan.x.nilsson@axis.com>
++
++description:
++  This binding is for display panels using a Sitronix ST7735S
++  controller in SPI mode.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          Winstar WF0096ATYAA3DNN0 0.96" 80x160 Color TFT
++        items:
++          - enum:
++              - winstar,wf0096atyaa3dnn0
++          - const: sitronix,st7735s
++
++  dc-gpios:
++    maxItems: 1
++    description: Display data/command selection (D/CX)
++
++  backlight: true
++  reg: true
++  spi-max-frequency: true
++  reset-gpios: true
++  rotation: true
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++
++additionalProperties: true
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    backlight: backlight {
++            compatible = "gpio-backlight";
++            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
++    };
++
++    regdisplay: regulatordisplay {
++            compatible = "regulator-fixed";
++            regulator-name = "display";
++            regulator-min-microvolt = <3300000>;
++            regulator-max-microvolt = <3300000>;
++            regulator-enable-ramp-delay = <100000>;
++            enable-active-high;
++    };
++
++    spi {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            display@0 {
++                    compatible = "winstar,wf0096atyaa3dnn0","sitronix,st7735s";
++                    reg = <0>;
++                    spi-max-frequency = <12000000>;
++                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
++                    reset-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
++                    backlight = <&backlight>;
++                    power-supply = <&regdsiplay>;
++                    rotation = <270>;
++            };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6308efa121e1..c00b2b9086f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6728,6 +6728,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+ F:	drivers/gpu/drm/tiny/st7735r.c
+ 
++DRM DRIVER FOR SITRONIX ST7735S PANELS
++M:	Stefan x Nilsson <stefan.x.nilsson@axis.com>
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
++
+ DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+ S:	Maintained
 
-Best regards,
 -- 
-Stefan x Nilsson <stefan.x.nilsson@axis.com>
+2.30.2
 
