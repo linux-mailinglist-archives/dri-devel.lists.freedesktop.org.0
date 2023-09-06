@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C304793B77
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 13:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811A7793B7C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 13:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D41F10E3B0;
-	Wed,  6 Sep 2023 11:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B747210E3B7;
+	Wed,  6 Sep 2023 11:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E2C10E3B0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 11:36:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F31B10E3B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 11:36:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 952F1CE136B;
- Wed,  6 Sep 2023 11:36:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A7FBC433C8;
- Wed,  6 Sep 2023 11:36:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0619A61004;
+ Wed,  6 Sep 2023 11:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E168CC433C7;
+ Wed,  6 Sep 2023 11:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694000162;
+ s=k20201202; t=1694000181;
  bh=XvZQw/D6OS4nurgc67PWjQY0smNSqPLGy1z+2Y7iLEE=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=qAbNrWUfTm6JFrqriekyq9HXVlp5/O/Kyhggcyf6moJCv8OjJVkjl90iQaGT5FVUb
- PIKhM7545DtydKwRk8SZQu2LVPjeoFBxj9VD0DhFl0jc3lKeNgB9hHLgeKZFAXB1Mh
- Orh1iB/4Za+xNq7vly8Y3LSeSrgrxXGEc+yCj6r4VYkUsO25AG6+HEyBTCkPPqJSvd
- POQPjLajrsSSScEkcG4O2JR+2Hnox1onqoXzsyUpdaHCOHGyCQfz627MBi8T/WRdTT
- LotE6Ozif+HT4R1YRUnKEjZh0gvK+ZKg7jd0kLWxjb8CV8j3/yINYSsv3yuUEd43PG
- w9is3v6yibUxw==
-Message-ID: <c8360c51a96a457a8b9341a9918f0c52.mripard@kernel.org>
-Date: Wed, 06 Sep 2023 11:36:00 +0000
+ b=RvDQJ04t9UEd4Oi2krSltHz7ad7T65t3srpDJPL7Fzli6KXVBDFqHYPd5o+Cvyt9F
+ 9I0AYTcjn/A3TLM/Ae6RN+h5D9JfdHJL9cpe5oR1QSWSSHpgu7ukLoMer/bZvpdtSH
+ +i6288tsyUsCa4e+p5heEEejhKTR08PSKhlzwzIo+KqlsWoW55n7O58rWS6U3x74ot
+ rCvBA8WDFug3IXzRne6dxavXHvr7IGS2vyecXnM0zuuLlmZYExwxl2fCc8dsfwm604
+ JLXmmkRf3vt3++bXM6kbEO5Vugzsac0xupKSByP4eh4yyeomwxY5Btj08y91dY2EId
+ HTWyOrDlpNksA==
+Message-ID: <b15931f26e229fd13e4d27fd582940f7.mripard@kernel.org>
+Date: Wed, 06 Sep 2023 11:36:18 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Sarah Walker" <sarah.walker@imgtec.com>
 Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
