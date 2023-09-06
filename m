@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448357945EA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 00:04:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 573AB7945ED
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 00:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4046310E204;
-	Wed,  6 Sep 2023 22:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214F810E72C;
+	Wed,  6 Sep 2023 22:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9596410E02C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 22:04:22 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-500b0f06136so435746e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 15:04:22 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C236410E72C
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 22:04:35 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-5009d4a4897so454462e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 15:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694037861; x=1694642661;
+ d=chromium.org; s=google; t=1694037874; x=1694642674;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=hOxKwJOqWAb69rm6x/gQT98m4juYI2Q0oOscr22POkg=;
- b=Hg6jOYhniJ5W6Uupks+KKOzLfyFoNMhDMeu39rTaydFaG6YiWPjoWbaTcfx2vsg8tw
- wxKwNTneTjXfU842/PNjmCBU/bsUQzSZqYwbCTwjO5EXN+nhAQqeVbLMKi2s/4yubYg6
- tMSPV2mM8r66slrUUVq8v/1ZKknRIcXWWP1Kk=
+ :reply-to; bh=s4j0fXDx0veW0oHGlyRxz1wFWfTQnf1+IJzl7yxdqZI=;
+ b=aeV0TsomNK46cUFzjt+a2WUYZkAEYcDCBA8fRu+7Y1ikSIMBOmsHxAUj1JwZx6RQhZ
+ kHndrc3yVV8CBffnf29ByvXOo6JyFlwYQ3gptoOQoIYiuhNnbIkiweLkLFz3FdPPRDoP
+ iCCqEthsGXSFuEOnV9K+SJLy3Akt2fv6Gixes=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694037861; x=1694642661;
+ d=1e100.net; s=20221208; t=1694037874; x=1694642674;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hOxKwJOqWAb69rm6x/gQT98m4juYI2Q0oOscr22POkg=;
- b=Aa3B6AD8mpbwZDx7djKqAGuLjV6pSnNf6FlH+/D+eVBj3yc9mLBuBSiipTxaZDYnaO
- f5LxfPPDvJjILCy+WTMCN1x61yUvVyIewOYEOIVmdyHJvluLLn9zNh1uw62k0EQQ9brT
- /eB4FKjGEPYXRdgmKTtwGsgRmpBvKSYizRu62oNxS5z2I0I1FpUw9xkstiw2nCdDAopf
- aMx2YvW6QH/cIi78HTaHZ99+U4P0HQ/0yPRwuGr7CkB93LD+xcX76YCCUDYxzWCm057M
- Rw8B4Uq3tjxLwg0AflKwanTjkogYi8SIifnxaNgZDXtSuTuVjUkGtLv6Zbloy04yUZT3
- turQ==
-X-Gm-Message-State: AOJu0YwFmRACmXre+p03SEhIN14uYiFTqsj1qzn8lXEKNKMv5jI/yb7g
- uA/8YEd25EoTuwtBhhLwP8rjzXs9Y15gVIHqXHy+vA==
-X-Google-Smtp-Source: AGHT+IFsds0W1nef7yYZh8sAvGm/Eh1+DoJ/z/zG1cykY5DoSMrR/hVmw5xZPpms3LSzxp1q4GyB0lRiQ3W3GTk7DvU=
-X-Received: by 2002:ac2:5f52:0:b0:4fe:5133:1213 with SMTP id
- 18-20020ac25f52000000b004fe51331213mr3072268lfz.12.1694037860795; Wed, 06 Sep
- 2023 15:04:20 -0700 (PDT)
+ bh=s4j0fXDx0veW0oHGlyRxz1wFWfTQnf1+IJzl7yxdqZI=;
+ b=ISaB3vHF2bSfWQDA2+RSLwtCY52r3nVkyQrLyDmz2azQbPLCOpVqhAvQQgnALe/MRU
+ iQ/GC1XGLaJ0YvmoE/Uxy6AAZe0fet2kV80EKpSG+C9/AeGDz+hL4SOOdzKFho4RuurM
+ D6uenbAWFI3Aii1n4TDShazBEbo3dlsc9NnHKUn21XHq3RQSafI3dyKW/tmd7py8bLpB
+ PY4JxkvWMHn8LFd1oJa9HLHMONKsK2tdRFFZ+LRCYsQwEN//qEocKwnn7nqaL178REnH
+ 72K+7lh3R8L+fLi/siaGLfIm6GOVmnSVBNVJraWVEFqk5etuxGrFx6LMKaBPgVtHRfy2
+ TfTg==
+X-Gm-Message-State: AOJu0Yw71sbvfXrK5OkiPmougiloIb5vTN2ddeOLG4i/Jr2faSzsG6af
+ TXmj9G+fuR/rEJS8BSXa1lhKZ0zSzJinWIUfQhT7sQ==
+X-Google-Smtp-Source: AGHT+IHogaYquQ/PSAv/DYcZmNikDOVlv8huAQHfNnOBb8UD02P+ah517cBedi3ixoKQSI3JIRzAa2e4TiStFXwOIxA=
+X-Received: by 2002:ac2:5f8b:0:b0:500:ac10:1641 with SMTP id
+ r11-20020ac25f8b000000b00500ac101641mr2914398lfe.46.1694037873986; Wed, 06
+ Sep 2023 15:04:33 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 6 Sep 2023 17:04:20 -0500
+ HTTPREST; Wed, 6 Sep 2023 17:04:33 -0500
 MIME-Version: 1.0
-In-Reply-To: <20230904020454.2945667-9-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230904020454.2945667-8-dmitry.baryshkov@linaro.org>
 References: <20230904020454.2945667-1-dmitry.baryshkov@linaro.org>
- <20230904020454.2945667-9-dmitry.baryshkov@linaro.org>
+ <20230904020454.2945667-8-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 6 Sep 2023 17:04:20 -0500
-Message-ID: <CAE-0n538jr7DV2XHzjqBdQt1LcTeFXcGcALP0T7xSc4=-bzpWw@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] drm/msm/dpu: move INTF tearing checks to
- dpu_encoder_phys_cmd_init
+Date: Wed, 6 Sep 2023 17:04:33 -0500
+Message-ID: <CAE-0n51WNOZashWbEYQ0hUu1SnrS2m1-Y2Aq1S0mfkzm2p8uig@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] drm/msm/dpu: drop useless check from
+ dpu_encoder_phys_cmd_te_rd_ptr_irq()
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
  Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
@@ -77,13 +77,11 @@ Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2023-09-03 19:04:54)
-> As the INTF is fixed at the encoder creation time, we can move the
-> check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
-> This function can return an error if INTF doesn't have required feature.
-> Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
-> useful, as this function returns void.
+Quoting Dmitry Baryshkov (2023-09-03 19:04:53)
+> The dpu_encoder_phys_cmd_te_rd_ptr_irq() function uses neither hw_intf
+> nor hw_pp data, so we can drop the corresponding check.
 >
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
