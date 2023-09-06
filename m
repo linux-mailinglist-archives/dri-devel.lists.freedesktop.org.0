@@ -1,46 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5158793685
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 09:44:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0152F79368E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 09:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B324010E58D;
-	Wed,  6 Sep 2023 07:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A56010E58F;
+	Wed,  6 Sep 2023 07:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8289410E58C;
- Wed,  6 Sep 2023 07:44:05 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653A510E58F;
+ Wed,  6 Sep 2023 07:46:17 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7A8386600B9D;
- Wed,  6 Sep 2023 08:44:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1693986244;
- bh=Yb3PbnjHGtaOtlltClP2zec0jrw8Lz1Ybb8D6Tr/9Gc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ic9SZIwCKjAR5qklQnygX8i5aXKflFdXeMUwhjGOIhSsGbzSBV0HTwKWps0dV5sSQ
- 4IuGtjbiqgCyvdipYWEwlgtH6Ojma3p6fUE493wjrSD68L65BqGdyAhtfoYlj5mqrr
- KLV2Iszhwa1UdmX4oQgv5xqpbkYe3icfbf9ie0CHVIR5pIE/DCc0K2qZ6a3b0LB44P
- 0XQotqw9xylL5MhL4t8v6FyMw3wesFmjauL4srHs3YW/eVmx+bBiCINgfurI7zJc+W
- HJxPfW5CYE3sh9/W+TzK7L17AGa5uju9boi1PIMvswqPqxDG0YLvEC4bCTJ7SfunQM
- y/yBbQo07/HOA==
-Date: Wed, 6 Sep 2023 09:44:00 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Subject: Re: [PATCH v3 4/8] drm/panfrost: Add fdinfo support GPU load metrics
-Message-ID: <20230906094400.725361d2@collabora.com>
-In-Reply-To: <20230905184533.959171-5-adrian.larumbe@collabora.com>
-References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
- <20230905184533.959171-5-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1F28B20290;
+ Wed,  6 Sep 2023 07:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693986376; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YrlVru9YytJDJNqU9ANXC1SxJchB9vhx/68AaAWvjag=;
+ b=gPMImeOreNzwuC4Dcm+PAiYhug3qsmJp9aHwmjd1unfInYETrTFS7xvRonUT/rWngdARpo
+ XWcBa6HKV1EqB9Byx1EfEugl29z4lcDCbTZxTn7+82EKqJN3npv1Hmy0mrwgiD/kL2IXfx
+ m43zWQE6myeT0khUzYt5t+68/iplQ0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693986376;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YrlVru9YytJDJNqU9ANXC1SxJchB9vhx/68AaAWvjag=;
+ b=iAM/Btix/OemU/FWEYuneYGX1YwCmGKSpQehkGwDexKj7VRHv5FMgGkMU4ao51ykWB5sbN
+ KOZWLJtSZlMarFCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CEDFD1346C;
+ Wed,  6 Sep 2023 07:46:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4BGNMUcu+GTNTQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 06 Sep 2023 07:46:15 +0000
+Message-ID: <105930fc-28f7-48ad-541c-ee7c9e6e3ec0@suse.de>
+Date: Wed, 6 Sep 2023 09:46:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
+ to select the primary video adapter at boot time
+Content-Language: en-US
+To: suijingfeng <suijingfeng@loongson.cn>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
+ <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
+ <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
+ <abf8053d-4c4a-2562-b57f-db92a0cb15a7@loongson.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <abf8053d-4c4a-2562-b57f-db92a0cb15a7@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ttb8af7YKsIybqBTIsgm2T9Y"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,328 +79,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
- mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
- healych@amazon.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, kernel@collabora.com,
- linux-kernel@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  5 Sep 2023 19:45:20 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ttb8af7YKsIybqBTIsgm2T9Y
+Content-Type: multipart/mixed; boundary="------------8OMHe6A08McvmuQ3bGI0R4JE";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: suijingfeng <suijingfeng@loongson.cn>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+Message-ID: <105930fc-28f7-48ad-541c-ee7c9e6e3ec0@suse.de>
+Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
+ to select the primary video adapter at boot time
+References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
+ <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
+ <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
+ <773be4c6-0b3d-be39-7857-b3e2942007d9@suse.de>
+ <abf8053d-4c4a-2562-b57f-db92a0cb15a7@loongson.cn>
+In-Reply-To: <abf8053d-4c4a-2562-b57f-db92a0cb15a7@loongson.cn>
 
-> The drm-stats fdinfo tags made available to user space are drm-engine,
-> drm-cycles, drm-max-freq and drm-curfreq, one per job slot.
->=20
-> This deviates from standard practice in other DRM drivers, where a single
-> set of key:value pairs is provided for the whole render engine. However,
-> Panfrost has separate queues for fragment and vertex/tiler jobs, so a
-> decision was made to calculate bus cycles and workload times separately.
->=20
-> Maximum operating frequency is calculated at devfreq initialisation time.
-> Current frequency is made available to user space because nvtop uses it
-> when performing engine usage calculations.
->=20
-> It is important to bear in mind that both GPU cycle and kernel time numbe=
-rs
-> provided are at best rough estimations, and always reported in excess from
-> the actual figure because of two reasons:
->  - Excess time because of the delay between the end of a job processing,
->    the subsequent job IRQ and the actual time of the sample.
->  - Time spent in the engine queue waiting for the GPU to pick up the next
->    job.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 +++
->  drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
->  drivers/gpu/drm/panfrost/panfrost_device.h  | 13 +++++
->  drivers/gpu/drm/panfrost/panfrost_drv.c     | 59 ++++++++++++++++++++-
->  drivers/gpu/drm/panfrost/panfrost_job.c     | 27 ++++++++++
->  drivers/gpu/drm/panfrost/panfrost_job.h     |  4 ++
->  6 files changed, 113 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/dr=
-m/panfrost/panfrost_devfreq.c
-> index 58dfb15a8757..28caffc689e2 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> @@ -58,6 +58,7 @@ static int panfrost_devfreq_get_dev_status(struct devic=
-e *dev,
->  	spin_lock_irqsave(&pfdevfreq->lock, irqflags);
-> =20
->  	panfrost_devfreq_update_utilization(pfdevfreq);
-> +	pfdevfreq->current_frequency =3D status->current_frequency;
-> =20
->  	status->total_time =3D ktime_to_ns(ktime_add(pfdevfreq->busy_time,
->  						   pfdevfreq->idle_time));
-> @@ -117,6 +118,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfd=
-ev)
->  	struct devfreq *devfreq;
->  	struct thermal_cooling_device *cooling;
->  	struct panfrost_devfreq *pfdevfreq =3D &pfdev->pfdevfreq;
-> +	unsigned long freq =3D ULONG_MAX;
-> =20
->  	if (pfdev->comp->num_supplies > 1) {
->  		/*
-> @@ -172,6 +174,12 @@ int panfrost_devfreq_init(struct panfrost_device *pf=
-dev)
->  		return ret;
->  	}
-> =20
-> +	/* Find the fastest defined rate  */
-> +	opp =3D dev_pm_opp_find_freq_floor(dev, &freq);
-> +	if (IS_ERR(opp))
-> +		return PTR_ERR(opp);
-> +	pfdevfreq->fast_rate =3D freq;
-> +
->  	dev_pm_opp_put(opp);
-> =20
->  	/*
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/dr=
-m/panfrost/panfrost_devfreq.h
-> index 1514c1f9d91c..48dbe185f206 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
-> @@ -19,6 +19,9 @@ struct panfrost_devfreq {
->  	struct devfreq_simple_ondemand_data gov_data;
->  	bool opp_of_table_added;
-> =20
-> +	unsigned long current_frequency;
-> +	unsigned long fast_rate;
-> +
->  	ktime_t busy_time;
->  	ktime_t idle_time;
->  	ktime_t time_last_update;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm=
-/panfrost/panfrost_device.h
-> index 5c09c9f3ae08..7ad3973b1a3a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -24,6 +24,7 @@ struct panfrost_perfcnt;
-> =20
->  #define NUM_JOB_SLOTS 3
->  #define MAX_PM_DOMAINS 5
-> +#define MAX_SLOT_NAME_LEN 25
-> =20
->  struct panfrost_features {
->  	u16 id;
-> @@ -141,12 +142,24 @@ struct panfrost_mmu {
->  	struct list_head list;
->  };
-> =20
-> +struct drm_info_gpu {
-> +	unsigned long maxfreq;
-> +
-> +	struct engine_info {
+--------------8OMHe6A08McvmuQ3bGI0R4JE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Uh, I'm not a huge fan of nested struct definitions. If you really need
-struct engine_info, move it out of drm_info_gpu please.
+SGkNCg0KQW0gMDYuMDkuMjMgdW0gMDU6MDggc2NocmllYiBzdWlqaW5nZmVuZzoNCj4gSGks
+DQo+IA0KPiANCj4gT24gMjAyMy85LzUgMjM6MDUsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
+Og0KPj4gSG93ZXZlciwgb24gbW9kZXJuIExpbnV4IHN5c3RlbXMgdGhlIHByaW1hcnkgZGlz
+cGxheSBkb2VzIG5vdCByZWFsbHkgDQo+PiBleGlzdC4gJ1ByaW1hcnknIGlzIHRoZSBkZXZp
+Y2UgdGhhdCBpcyBhdmFpbGFibGUgdmlhIFZHQSwgVkVTQSBvciBFRkkuIA0KPiANCj4gSSBt
+YXkgbWlzcyB0aGUgcG9pbnQsIHdoYXQgZG8geW91IG1lYW5zIGJ5IGNob29zZSB0aGUgd29y
+ZCAibW9kZXJuIj8NCj4gQXJlIHlvdSB0cnlpbmcgdG8gdGVsbCBtZSB0aGF0IFggc2VydmVy
+IGlzIHRvbyBvbGQgYW5kIFdheWxhbmQgaXMgdGhlIA0KPiBtb2Rlcm4gZGlzcGxheSBzZXJ2
+ZXI/DQoNCkl0IGNvbWVzIGRvd24gdG8gdGhhdC4gWG9yZydzIGRldmljZSBoYW5kbGluZyBp
+cyBvdXQgb2YgZGF0ZS4gRml4aW5nIGl0IA0Kd291bGQgcmVxdWlyZSBhIHJlZGVzaWduIG9m
+IHRoZSB3aG9sZSBwcm9ncmFtLiBBICdtb2Rlcm4nIGNvbXBvc2l0b3IgDQpkZWxlZ2F0ZXMg
+ZGV2aWNlIGhhbmRsaW5nIHRvIHRoZSBrZXJuZWwuIEFsbCBpdCBkb2VzIGlzIHRvIG9wZW4g
+dGhlIA0KZGV2aWNlIGZpbGVzIGFuZCB1c2UgdGhlIHByb3ZpZGVkIGZ1bmN0aW9uYWxpdHku
+IEkndmUgYnJpZWZseSBtZW50aW9uZWQgDQp0aGlzIGluIHRoZSBvdGhlciBlbWFpbC4NCg0K
+VGhlcmUncyBtb3JlIHRvICdtb2Rlcm4nLCBzdWNoIGFzICd1c2VzIFdheWxhbmQgZm9yIGNv
+bXBvc2l0aW5nJywgJ01lc2EgDQpmb3IgZGlyZWN0IHJlbmRlcmluZycgb3IgJ2RvZXMgYXRv
+bWljIG1vZGVzZXR0aW5nJy4gQnV0IHRoYXQncyBhbGwgDQp1bnJlbGF0ZWQgaGVyZS4NCg0K
+PiANCj4gDQo+PiBPdXIgZHJpdmVycyBkb24ndCB1c2UgdGhlc2UgaW50ZXJmYWNlcywgYnV0
+IHRoZSBuYXRpdmUgcmVnaXN0ZXJzLg0KPiANCj4gDQo+IFllcyBhbmQgbm8/DQo+IA0KPiBZ
+ZXMgZm9yIHRoZSBtYWNoaW5lIHdpdGggdGhlIFVFRkkgZmlybXdhcmUsDQo+IGJ1dCBJIG5v
+dCBzdXJlIGlmIHRoaXMgc3RhdGVtZW50IGlzIHRydWUgZm9yIHRoZSBtYWNoaW5lIHdpdGgg
+dGhlwqBsZWdhY3kgDQo+IGZpcm13YXJlLg0KDQpXaGF0IEkgbWVhbiBpczogdGhlIHByaW1h
+cnkgZGV2aWNlIGlzIHRoZSBvbmUgdGhhdCBvd25zIHRoZSBWR0EvVkVTQS9FRkkgDQpJL08g
+c3BhY2UuIEJ1dCBEUk0gZHJpdmVycyBkb24ndCBwcm9ncmFtIGJ5IFZHQSByZWdpc3RlcnMg
+b3IgVkVTQS9FRkkgDQpjYWxscy4gVGhleSB1c2UgdGhlIGhhcmR3YXJlJ3MgYWN0dWFsIG5h
+dGl2ZSByZWdpc3RlcnMgaW4gdGhlIGVhY2ggDQpkZXZpY2UncyBJL08gc3BhY2UuIFNvIGVh
+Y2ggZGV2aWNlIG9wZXJhdGVzIG9uIGl0J3Mgb3duLiBUaGV5ICh1c3VhbGx5KSANCmRvbid0
+IGhhdmUgdG8gc2hhcmUvYXJiaXRyYXRlIGFjY2VzcyB0byB0aGUgVkdBIHJlZ2lzdGVycy4N
+Cg0KSGVuY2UgdGhlIGlkZWEgb2YgYSBwcmltYXJ5IGRldmljZSBkb2VzIG5vdCBtYWtlIHNl
+bnNlIGhlcmUuIEl0J3MgdXNlZnVsIA0KdG8gcGljayBhbiBpbml0aWFsIGRlZmF1bHQsIGJ1
+dCBmdXJ0aGVyIGRpc3BsYXkgc2V0dXAgc2hvdWxkIHJhdGhlciBiZSANCmxlZnQgdG8gdXNl
+cnNwYWNlLg0KDQo+IA0KPiBBcyB0aGUgZGlzcGxheSBjb250cm9sbGVyIGluIHRoZSBBU3Bl
+ZWQgQk1DIGlzIFZHQSBjb21wYXRpYmxlLg0KPiBUaGVyZWZvcmUsIGluIHRoZW9yeSwgaXQg
+c2hvdWxkIHdvcmtzIHdpdGggdGhlIFZHQSBjb25zb2xlIG9uIHRoZSBtYWNoaW5lDQo+IHdp
+dGggYW5vdGhlciBWR0EgY29tcGF0aWJsZSB2aWRlbyBjYXJkLiBTbyB0aGUgYXN0X3ZnYV9z
+ZXRfZGVjb2RlKCkgDQo+IGZ1bmN0aW9uDQo+IHByb3ZpZGVkIGluIHRoZSAwMDA3IHBhdGNo
+IHByb2JhYmx5IHVzZWZ1bCBvbiBsZWdhY3kgZmlybXdhcmUgZW52aXJvbm1lbnQuDQo+IA0K
+PiBUbyBiZSBob25lc3QsIEkgaGF2ZSB0ZXN0ZWQgdGhpcyBvbiB2YXJpb3VzIG1hY2hpbmUg
+d2l0aCBVRUZJIGZpcm13YXJlLg0KPiBCdXQgSSBkaWRuJ3QgcmVhbGl6ZWQgdGhhdCBJIHNo
+b3VsZCBkbyB0aGUgdGVzdGluZyBvbiBsZWdhY3kgZmlybXdhcmUgDQo+IGVudmlyb25tZW50
+DQo+IGJlZm9yZSBzZW5kaW5nIHRoaXMgcGF0Y2guIEl0IHNlZW1zIHRoYXQgdGhlIHRlc3Rp
+bmcgZWZmb3J0IG5lZWRlZCBhcmUgDQo+IHF1aXRlDQo+IGV4aGF1c3RpbmcsIHNpbmNlIGFs
+bCBteSBtYWNoaW5lcyBjb21lIHdpdGggdGhlIFVFRkkgZmlybXdhcmUuDQo+IA0KPiBTbyBp
+cyBpdCBPSyB0byBsZWF2ZSB0aGUgbGVnYWN5IHBhcnQgdG8gc29tZW9uZSBlbHNlIHdobyBp
+bnRlcmVzdGVkIGluIGl0Pw0KPiBQcm9iYWJseSBBbGV4IGlzIG1vcmUgcHJvZmVzc2lvbmFs
+IGF0IGxlZ2FjeSBWR0Egcm91dGluZyBzdHVmZj8NCg0KTWF5YmUgeW91IGNhbiBkZXNjcmli
+ZSB0aGUgdXNlcidzIHByb2JsZW0gdG8gdXMuIFRCSCBJIHN0aWxsIGRvbid0IA0KdW5kZXJz
+dGFuZCB3aGF0IHlvdSdyZSB0cnlpbmcgdG8gc29sdmUuIElmIHlvdSB3aGF0IHRvIHNldCB0
+aGUgY29uc29sZSdzIA0KaW5pdGlhbCBvdXRwdXQgZGV2aWNlLCB5b3UgY2FuIG1ha2UgYSBw
+YXJhbWV0ZXIgaW4gdmdhYXJiLiBCdXQgSSBhbHNvIA0KZG9uJ3QgcmVhbGx5IHNlZSBhIG5l
+ZWQgZm9yIHRoYXQgZWl0aGVyLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IDotKQ0K
+PiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0
+cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFu
+ZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgw
+OSAoQUcgTnVlcm5iZXJnKQ0K
 
-> +		unsigned long long elapsed_ns;
-> +		unsigned long long cycles;
-> +		char name[MAX_SLOT_NAME_LEN];
+--------------8OMHe6A08McvmuQ3bGI0R4JE--
 
-I think we can drop this field (see below).
+--------------ttb8af7YKsIybqBTIsgm2T9Y
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> +	} engines[NUM_JOB_SLOTS];
-> +};
-> +
->  struct panfrost_file_priv {
->  	struct panfrost_device *pfdev;
-> =20
->  	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
-> =20
->  	struct panfrost_mmu *mmu;
-> +
-> +	struct drm_info_gpu fdinfo;
->  };
-> =20
->  static inline struct panfrost_device *to_panfrost_device(struct drm_devi=
-ce *ddev)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_drv.c
-> index 2dfd9f79a31b..94787f4aee27 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -268,6 +268,7 @@ static int panfrost_ioctl_submit(struct drm_device *d=
-ev, void *data,
->  	job->requirements =3D args->requirements;
->  	job->flush_id =3D panfrost_gpu_get_latest_flush_id(pfdev);
->  	job->mmu =3D file_priv->mmu;
-> +	job->priv =3D file_priv;
-> =20
->  	slot =3D panfrost_job_get_slot(job);
-> =20
-> @@ -484,6 +485,14 @@ panfrost_open(struct drm_device *dev, struct drm_fil=
-e *file)
->  		goto err_free;
->  	}
-> =20
-> +	snprintf(panfrost_priv->fdinfo.engines[0].name, MAX_SLOT_NAME_LEN, "fra=
-gment");
-> +	snprintf(panfrost_priv->fdinfo.engines[1].name, MAX_SLOT_NAME_LEN, "ver=
-tex-tiler");
-> +/* Not exposed to userspace yet */
-> +#if 0
-> +	snprintf(panfrost_priv->fdinfo.engines[2].name, MAX_SLOT_NAME_LEN, "com=
-pute-only");
-> +#endif
-> +	panfrost_priv->fdinfo.maxfreq =3D pfdev->pfdevfreq.fast_rate;
-> +
->  	ret =3D panfrost_job_open(panfrost_priv);
->  	if (ret)
->  		goto err_job;
-> @@ -524,7 +533,54 @@ static const struct drm_ioctl_desc panfrost_drm_driv=
-er_ioctls[] =3D {
->  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
->  };
-> =20
-> -DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-> +
-> +static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-> +				     struct panfrost_file_priv *panfrost_priv,
-> +				     struct drm_printer *p)
-> +{
-> +	int i;
-> +
-> +	/*
-> +	 * IMPORTANT NOTE: drm-cycles and drm-engine measurements are not
-> +	 * accurate, as they only provide a rough estimation of the number of
-> +	 * GPU cycles and CPU time spent in a given context. This is due to two
-> +	 * different factors:
-> +	 * - Firstly, we must consider the time the CPU and then the kernel
-> +	 *   takes to process the GPU interrupt, which means additional time and
-> +	 *   GPU cycles will be added in excess to the real figure.
-> +	 * - Secondly, the pipelining done by the Job Manager (2 job slots per
-> +	 *   engine) implies there is no way to know exactly how much time each
-> +	 *   job spent on the GPU.
-> +	 */
-> +
-> +	for (i =3D 0; i < NUM_JOB_SLOTS - 1; i++) {
-> +		struct engine_info *ei =3D &panfrost_priv->fdinfo.engines[i];
+-----BEGIN PGP SIGNATURE-----
 
-I'd drop the name field in engine_info and add a
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT4LkcFAwAAAAAACgkQlh/E3EQov+A3
+MRAAwXQMlQVeD3Q2rDRhMhOrVw7ULqn4/9DpxiYr5ImQxdgGGYP/pwFkXCOrAjXHqAGJyaQNc7o0
+QuibhCV/62uSXUDjyQ7F9xOQHU3TReS661yEwBuKP1AX3uC0WSBnm3MvwphfMnYI/6z8lBWBIEok
+jVFfdXfweTZE11Tj9wqgsPUBten6c0vLeOviIuXXWhszjpNviOoUA8WaVOza+N9/pskz1HVmFiCU
+YFjRRMZ5Thi5InVI9PkC9zNXVIbiJLh3J4jfHPeFMBWqKih6dzD+OoAeH65I5akyFdf6X1zMZ12C
+rogwp07ErTyvN3OKuBJIZCW1IqYyEb12X7VjvHzDkdX9vvI9uE4obj8gD8P1zs13yfqXJYb7ixZb
+2LQKzn86k6f/R5Z+O7CSzq6uz9oBKwcOa0/F3aabx5G6e1xRvAEH5Zzqvmq+cMcsZuB2vOY3UdYi
++GmGmudDoNCILsTvbUXaAu9/7xk6tfulduqfXTBddhKVsRdgwQ73yTABkk42j1yfx1c5v7bGw0jx
+Hg7rMrpIU42CA32CrDbNEIaHpphPELOt/57elRblbtGa1aU++AMjFaw2HHii9WpYCNqgVe+BdC85
+fbhZcwbNjtyaj5HazcxWldu35ntAZgs4dtn1AN+HvFDFs23IzB4hkUjLzvwEijoUA2W/4mSci0np
+x9A=
+=HF4h
+-----END PGP SIGNATURE-----
 
-		static const char *names[] =3D {
-			"fragment", "vertex-tiler", "compute-only"
-		};
-
-and then just use names[i] to get the engine name.
-
-> +
-> +		drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> +			   ei->name, ei->elapsed_ns);
-> +		drm_printf(p, "drm-cycles-%s:\t%llu\n",
-> +			   ei->name, ei->cycles);
-> +		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
-> +			   ei->name, panfrost_priv->fdinfo.maxfreq);
-> +		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
-> +			   ei->name, pfdev->pfdevfreq.current_frequency);
-> +	}
-> +}
-> +
-> +static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file =
-*file)
-> +{
-> +	struct drm_device *dev =3D file->minor->dev;
-> +	struct panfrost_device *pfdev =3D dev->dev_private;
-> +
-> +	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
-> +
-> +}
-> +
-> +static const struct file_operations panfrost_drm_driver_fops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	DRM_GEM_FOPS,
-> +	.show_fdinfo =3D drm_show_fdinfo,
-> +};
-> =20
->  /*
->   * Panfrost driver version:
-> @@ -536,6 +592,7 @@ static const struct drm_driver panfrost_drm_driver =
-=3D {
->  	.driver_features	=3D DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
->  	.open			=3D panfrost_open,
->  	.postclose		=3D panfrost_postclose,
-> +	.show_fdinfo		=3D panfrost_show_fdinfo,
->  	.ioctls			=3D panfrost_drm_driver_ioctls,
->  	.num_ioctls		=3D ARRAY_SIZE(panfrost_drm_driver_ioctls),
->  	.fops			=3D &panfrost_drm_driver_fops,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_job.c
-> index 8b1bf6ac48f8..8a02e1ee9f9b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -159,6 +159,25 @@ panfrost_dequeue_job(struct panfrost_device *pfdev, =
-int slot)
->  	struct panfrost_job *job =3D pfdev->jobs[slot][0];
-> =20
->  	WARN_ON(!job);
-> +	if (job->priv) {
-> +		struct engine_info *engine_info =3D &job->priv->fdinfo.engines[slot];
-> +
-> +		if (atomic_read(&pfdev->profile_mode)) {
-> +			engine_info->elapsed_ns +=3D
-> +				ktime_to_ns(ktime_sub(ktime_get(), job->start_time));
-> +			engine_info->cycles +=3D
-> +				panfrost_cycle_counter_read(pfdev) - job->start_cycles;
-> +
-> +			/* Reset in case the job has to be requeued */
-> +			job->start_time =3D 0;
-> +			/* A GPU reset puts the Cycle Counter register back to 0 */
-> +			job->start_cycles =3D atomic_read(&pfdev->reset.pending) ?
-> +				0 : panfrost_cycle_counter_read(pfdev);
-> +		}
-> +	} else
-> +		dev_WARN(pfdev->dev, "Panfrost DRM file closed when job was on flight\=
-n");
-> +
-> +
->  	pfdev->jobs[slot][0] =3D pfdev->jobs[slot][1];
->  	pfdev->jobs[slot][1] =3D NULL;
-> =20
-> @@ -233,6 +252,11 @@ static void panfrost_job_hw_submit(struct panfrost_j=
-ob *job, int js)
->  	subslot =3D panfrost_enqueue_job(pfdev, js, job);
->  	/* Don't queue the job if a reset is in progress */
->  	if (!atomic_read(&pfdev->reset.pending)) {
-> +		if (atomic_read(&pfdev->profile_mode)) {
-> +			job->start_time =3D ktime_get();
-> +			job->start_cycles =3D panfrost_cycle_counter_read(pfdev);
-> +		}
-> +
->  		job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
->  		dev_dbg(pfdev->dev,
->  			"JS: Submitting atom %p to js[%d][%d] with head=3D0x%llx AS %d",
-> @@ -936,6 +960,9 @@ void panfrost_job_close(struct panfrost_file_priv *pa=
-nfrost_priv)
->  			}
-> =20
->  			job_write(pfdev, JS_COMMAND(i), cmd);
-> +
-> +			/* Jobs can outlive their file context */
-> +			job->priv =3D NULL;
->  		}
->  	}
->  	spin_unlock(&pfdev->js->job_lock);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/pa=
-nfrost/panfrost_job.h
-> index 2aa0add35459..63bc830e057d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -32,7 +32,11 @@ struct panfrost_job {
-> =20
->  	/* Fence to be signaled by drm-sched once its done with the job */
->  	struct dma_fence *render_done_fence;
-> +
-> +	struct panfrost_file_priv *priv;
->  	bool is_profiled;
-> +	ktime_t start_time;
-> +	u64 start_cycles;
->  };
-> =20
->  int panfrost_job_init(struct panfrost_device *pfdev);
-
+--------------ttb8af7YKsIybqBTIsgm2T9Y--
