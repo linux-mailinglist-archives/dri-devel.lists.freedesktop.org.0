@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC28793901
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:56:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDF97938FC
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:56:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9731E10E5C2;
-	Wed,  6 Sep 2023 09:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA5D10E1D0;
+	Wed,  6 Sep 2023 09:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
  [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6FB710E1DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B67FA10E1D0
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 09:56:21 +0000 (UTC)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
  by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 3866CjBa015358; Wed, 6 Sep 2023 10:56:03 +0100
+ 3866CjBb015358; Wed, 6 Sep 2023 10:56:04 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=4QbMq4fvWEMlK4keVK+67X/nvKY3JShHzHu/IuL36YI=; b=ddT
- Ldd6kq4bG62PpZvVtruqUFljzanOaRkZWavNw2OdacBg4Q9jtjUZ+d8hzlhEJksv
- 8e7SYC75pCXresvtlukxoy+tNfRI9baXjDSiaIaWDK1x1jH2qzA6O+Q/b0JzH0zE
- +VeJqQC8d5O/k8F8TxgRDbsazgTwn8UwISqjcdnVgcqM7dOfSAT8WgUQY//I9eZB
- dsImczl8w1S4JH93gZDDxPqZP00CrvZWHjSp9L6l3Vgji0JauzGK3y2drvX9EAEV
- gaBfQglu/QqIzeQw1Z8sNMPPk5kMDyylqh77dqU0Ukk/eTJTY+Ky70eAHJfCmoKM
- F8tRK1Xq3Ls0NavpWJw==
-Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3suuanu2rv-2
+ dk201812; bh=Y0ueGAu0yQdhkJ43WW0kCgy8ZllOSswsBtdx7zEZz3c=; b=uL3
+ clcT8E3bTuzk54wamf5HGkium7njY+7yngAA/04iNbtLQgz/ohYFOlqf1vMXnpOp
+ i8pFYODGM5eMBUj+VFTaIZwvUZabHjzjH+vgGA+YN4H2Ib5a3NbqCxFBnm4CFe/U
+ iVJZSNXPb85RsCBM6mCAzY9WaRlM8WEqfBYFRlDE3mY16agBd2JJP1IF8FiIFAVf
+ 436hQ+6tnjm2XA9294fMKZAGAb1B58gVLGMm65YbZRCr/ZiCj/TMKq7a9MgYcIna
+ /7irt0RU3ZUhfniIAvIV59meboHiJsKVab1CvMt026ukLEOlEplPEzui8stUdsPi
+ TrumDNivXwpTZxB4AxA==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3suuanu2rw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 06 Sep 2023 10:56:03 +0100 (BST)
+ Wed, 06 Sep 2023 10:56:04 +0100 (BST)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2507.31; Wed, 6 Sep 2023 10:56:03 +0100
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.50) by
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.55) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31 via Frontend
- Transport; Wed, 6 Sep 2023 10:56:02 +0100
+ Transport; Wed, 6 Sep 2023 10:56:03 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QjGqdpUV8D1QDPoYuEPIGobpkyzWhXcmu/aLdZihIkAjMdmzXMezKWg/K5Fpkn1p+sBnu0fBDlfSdjgfhbec8/EeUeSA8LKzYXPG7mrnphQwlkqh3KP781dczx87qp6usSat6fkl788JNkNSRY4X1vTylli0K0hmvvnFyW1RHm+LSp6GtoPUhvNYm2zfNTXDUqHc0W1mTmfKfHa3BCEW8gqcQerojA6rIC7C5NSUPMVCT2BazGl0B8BaVAoz99ZY9kmQAytNA3KUcnzdfTcYphqxvv9vvkUWxR3oDEpPj/MEiLrMFmvphn8UgNnNyw6UUjzQ0Ifk+M63RpI4aYDatg==
+ b=XeQuso35e+sCCG/595zM4RnoOiLH/wO9H8PYUQFnOAuGulonU7oEH++WiTcGDcJOWzQGtg7z84DBw7Bea2hgoHOmssEeu9DzLalxXPU0VbSd8THJrRpb72T51qoSVtzQiovTeGBbEC+pnK3Z6PSSWjZ7XcuiOwkFj1mk/tOO16Vgl9+kdxWRFWPJM9hoQD0EKzazPO73SjGmXoQjiIlk1Z9VK3L2u1oESM+H7nwLTgv0v4eKSi4KAKk+a30JxH8xWWQXo/bbAjeTVfNJGJPF3I9yPoSMb4ZYnX5Ts/eTGO7hVP53m/ClVH57uhgO0S8SePOIQmS+bDKazfXvNDDMAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4QbMq4fvWEMlK4keVK+67X/nvKY3JShHzHu/IuL36YI=;
- b=muRWUXYJ8hUEMIzarXl7shWnn5DFu5n5U4DMMSjqylPgZcQKYsL0qmVf2RsxHCyufwU7E2teZrq/S38aNYlgsK7pT/0nqRcGMxkskRxUK7QrG0qwH6r66cK/UamVS/b2JBvO/PUYC8LHxuBkgmnof540xcuTgFGRxjCGJ53gaOn2R9x7MRn/QXnMJVVDSu7V2e5uWhKksKiAoy6aDmcJn9gFsaRYG38ciNvxiGL5xEMjAFDEycUb2hNEgAN17HC5sgtQg6nqMtrAX7Q2GzSe5ZBV1RA61xra2ZNbJLCtFQ9ton57OqNJU414cLlA6Rh7IJdUGGZBvDcsM7cpshL1Eg==
+ bh=Y0ueGAu0yQdhkJ43WW0kCgy8ZllOSswsBtdx7zEZz3c=;
+ b=NCzVlG3UVirHOiXVR3xwoNF1BFrLPm1lN2f7Zcwj5uZNb1NU4SKyUhuxuNfRCuTT3ptk/CAvh5m/cGom5R4fgecP1N5TLGj6Avck/1bcJsFP1Bu6t394TuBa4YUBFGlX+n8JLKThjf9TP2bsu+xWPM9Yff5H76aXcmaEZi6atOFz8DoH5mrUGyOaa/tZ11FnxaJQzamr3cIuZmuYYsEQfgvr7Wg4MNFl+cfH8kGXj29oBl0Noei1lU68MDsre9ax9CPMUA4K3gWUWw1DNhrhvpk/NrxIq2Ddy+cNexkg0JVQQv0OZ2JWLgBUMoqWc5T/NU+cPVvF+ixeqWXctNwkFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4QbMq4fvWEMlK4keVK+67X/nvKY3JShHzHu/IuL36YI=;
- b=quUXfqkE23/1slqMnK/eM7+krGbSBZKAhyReexqkWDa28jjOf+EPahThnNdJbaDK1Zo8le0d/lbAKsn/WqyYyfAIHw6P6s978JcWWZ7DXmH/zIODp5sqS+ME3d2qq95EgTxhZRzLh3aRlOualvmQP//eZ91+NurfYRLTcr7mjCQ=
+ bh=Y0ueGAu0yQdhkJ43WW0kCgy8ZllOSswsBtdx7zEZz3c=;
+ b=dEgJ31D/VOYcbVuyk9bFqsEGMIWEz6dCvjaHGEI5qhqJ0SgPCGQ2uaq+HmVMvJ4ZyR4YBdgMxPshfABKd7N3Bz0Ma2mKCO5UX/3sphu+V6CKvGheUG/azRThlcMQrMkwpbITwVX42stXMXGiMqrPKRwDhbUAV2yWSf4Z+E0RvRo=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by LO2P265MB4992.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:22f::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
- 2023 09:56:01 +0000
+ 2023 09:56:02 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::b3c:3f6:e3d0:a81b]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::b3c:3f6:e3d0:a81b%6]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
- 09:56:01 +0000
+ 09:56:02 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 01/20] sizes.h: Add entries between 32G and 64T
-Date: Wed,  6 Sep 2023 10:55:23 +0100
-Message-Id: <20230906095542.3280699-2-sarah.walker@imgtec.com>
+Subject: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap from a
+ remap op.
+Date: Wed,  6 Sep 2023 10:55:24 +0100
+Message-Id: <20230906095542.3280699-3-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230906095542.3280699-1-sarah.walker@imgtec.com>
 References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
@@ -79,57 +80,57 @@ X-ClientProxiedBy: LO4P265CA0279.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LO2P265MB4992:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8bae67d-ec5f-4542-ffd2-08dbaebf7a17
+X-MS-Office365-Filtering-Correlation-Id: 3d6d8ecd-a752-47d2-7d1b-08dbaebf7a9d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UJluzG0QS61M+ZRbFsLKmBYrO5z37w0KVCP12V0a5JmfPtEls4OoY4+CUDTW55D/Jo1i2kuwkuGzPhYgwTx7mjI2nBY8Mv/Okagf4BdIOlrnQcpb/tdyGHNYGJ5cS3ddQ1QUFGF/aOMdePvaFKl0AE4DJhD4SBQLi4SM99L4NrzFvQ4IHfjUXHSdCQh6eUuIPcAQD1uPKh4jgB89Mqw3a9jRaoNe4Iu+Cv5LV0xTx0lEipn4zyOujPnlOdlAI6qVWdTafrDcfpemDs5G/gklkvwQlKJn8AwlEYspUysdopQHMwkgmQgMbscCP0bWqVjCq2/0aOt0EqqwOm1HZVdxM/2NGEyX0c6ZS/yuE5rKwq2K2GmIrbMczf3BR9jqn+MyMN56DMCQmzbdinxG3zol+o0qXi2qv5BFEoERaDg10cwnMmcSxZX8ucRz1wZ4ydk8n4VYRm5BLtauNqrVO0lfBSglrW3yVviNo8Cby/EmqomKfjrYC9+zJrg4O8BSsUHL0okJ8i53w0xeR6+47IuyclAzoWfnAQ5BWj73Gp6Uhu8c7zyT/wqnJkWD/Uf/cTGcH+B9MOukICRR7mlmt+cp4M+5tnAhZxY3go21nrMtUGqGiXvSRmLmsOw5b2aCW8It
+X-Microsoft-Antispam-Message-Info: Lycrl8ASIBaC7EqP6AtS2enp6KToSdWropHuiw1jyic68tcD2cLumo7Eu3O6ec1RY9CCEmO6g3Qq9Yx1cbi9yTiA78mlEgZERqkzSxYcErDwSxSeqvRJrWvwmNrHT4fDnj/Eqg0RjHsarIdH6yzFf4tlgdulscSt7W/MfgN84/sq4FDkxADTkD3S2rZvcTcydMQILyZJYSDRSPUJn8rNlVcgGgCApQbzxirdLJxSCR9AdmY6DmQgf+YJyrin/U04ysylg+ClGxZ8Pi7EQLT7VqkzD0xd2wYeJSfMngKhZpTdP2mkmJDupv/uWBacXdC3Ea3IqU6uYOz9xBdJWltXDEPe1yUUOPwjwV2nXMEmEH7rq7Y69uKx4kUEX01kOAHLC2Rs01Xxqu1VNYBBL3vBWngtrGTSKc/LmepRRiZ7zZEEQLa4gAPHCLQIVtWCvz0oQFNmixcVaPv0fC4kRrTvK30Xe60ptawX9xLAtanQbwQe1HH1ggjXtmtTzLf/SWmlt+Nsv1s7a0SvecGnPRAiu8ebHW3ihsP8XBvMSFwMdHFyA+FTlInz1EBcgxhm0zxZd/NabzhkZO8bLV3qg0Pk4nWea1ZbT86kq30A+B+suuWr9YCi4lQ3VThs1fpExgBZ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(346002)(396003)(39850400004)(376002)(136003)(1800799009)(451199024)(186009)(8676002)(44832011)(8936002)(6506007)(5660300002)(6486002)(4326008)(6666004)(4744005)(7416002)(66476007)(316002)(66556008)(66946007)(6916009)(41300700001)(478600001)(52116002)(6512007)(2906002)(26005)(1076003)(2616005)(38100700002)(38350700002)(86362001)(36756003);
+ SFS:(13230031)(366004)(346002)(396003)(39850400004)(376002)(136003)(1800799009)(451199024)(186009)(8676002)(44832011)(8936002)(6506007)(5660300002)(6486002)(4326008)(6666004)(7416002)(66476007)(316002)(66556008)(66946007)(6916009)(41300700001)(478600001)(52116002)(6512007)(2906002)(26005)(1076003)(2616005)(38100700002)(38350700002)(86362001)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d9X/3DJgHWZwfo4AbTz3EgZQOoalHh536fB2Sl/PwQ2hi6rXp0o0tQsqH4K7?=
- =?us-ascii?Q?BMxr75l2h5r0FZ2A6cEN6EW4znZwlED2X103fDFPZK4vNVtstM0fmPUEiLS5?=
- =?us-ascii?Q?LhJkursT0b2de6ZCBbKHrE0ERevAisWEHVVf9bXMEjumdUOMaE0+wNgIvGgu?=
- =?us-ascii?Q?D0c/RRw9zDin0BHEhA0JV4LmPWvGietviBSaqK1UAMvGfYFnF/vCh0MsMhep?=
- =?us-ascii?Q?ktnlUiA+GGzCwfCmiJe+AfQt/f1corRbbrP2yht0AKKPBMDf0H67U8eoa9ed?=
- =?us-ascii?Q?8XHdb2h+2lHbUQlwT3U3gQuRAfFieco05bLDN+YM9nKBMtsO93BDkAcp7qEH?=
- =?us-ascii?Q?TWDhhL57Sgb1krWSut+EjAVc5yisqwJPokWD2j3U4ih3I9UyYEjUeCe6g4Kr?=
- =?us-ascii?Q?UcX75Bh7BHtPFqVJZNBh8WXV0ur94yTQ8Aetce8IurTow72OZMjRSudSxkck?=
- =?us-ascii?Q?bjq8Hor7rgb2OQwfGZCN2Sv0nHC9Km9rEg69EndZdSo6Zs/5T5D2/FVBNcYU?=
- =?us-ascii?Q?0Jhjf6PipyihT/mjtPbR47c9+PpSzAseXXsONDwO9u9D5i25VsoUNB78bJdn?=
- =?us-ascii?Q?jE4YsA6wokstQe6jysEMv2kd/2afHWR5HTutblV6RwPvv65uzgKsk9PiELz3?=
- =?us-ascii?Q?aiIy9qmW4r0kh+cEQ5jn4e7aYM9m4fHe5r8+X4mYt+Mnc4twDVpsIpAkUAvG?=
- =?us-ascii?Q?rE6lojg3MtMbIuvOXPD1V4vYHAjcqDfLA/l39QgN6fmRCNtSHMTujIkRzojQ?=
- =?us-ascii?Q?4HXX4O1GjLXfnm/Ado1BTV6DjCE+z2gf6DLznfOfLPBmSHtXFhAIvh6YN9BI?=
- =?us-ascii?Q?E5UVKGngeoy1+e0jICTNm+ZLcAb9SI6HklDdKMiPMQPvCeEV3M6pN6o5X4h9?=
- =?us-ascii?Q?OtFWlz65K+b8W1E1+pqjUFn2CCL5OJH4eBQ+hn/ezky1UXQ/0GuXEyp5ySPr?=
- =?us-ascii?Q?xZM63fYJfWTVlNG4+FWGdp+PIK9RbR9iRV19K9jTG0Zp+wYzpNDqiNhMmiuT?=
- =?us-ascii?Q?LkYF6CUBYT/41KSfih6CgkAvz5yU/xH7Opv79LqKJuG7rXjTIpT1KaMkxR8n?=
- =?us-ascii?Q?EaQw6080I9+JOtUv+i39HKrX0jDO65G+O/s/z1KVNt1agtZuIE1J1OMmxKg9?=
- =?us-ascii?Q?wDp/RG9dsXNVBRBTZqKpAmoT3RKQSW3kNrZrbxv081nNCYbii7MXNdpDpa2u?=
- =?us-ascii?Q?+kYiowpI7Pq1tHjci+UBA7AW9Ovr5BcQq1jeHTf7+rDc8ZnXIgN8ro3r4KXS?=
- =?us-ascii?Q?MfM1o0XNTtxSLv9RSBaemQ/dEMHDh28QnndRUMKNlA4jtA5DX3wdo35P+wKE?=
- =?us-ascii?Q?M1rBwbBYOh8NXJhq1IuQjuGI+huTC3UOMn7cfH7AATyyXo7geXKaDOLu1T2P?=
- =?us-ascii?Q?dTm6FQ71JRG0z8E9tPlIV7pKhBmWfLwxwiZY9fM/ttPH9RKV+2b13Z102wJh?=
- =?us-ascii?Q?zhrk/ZPTcQUtlo1rJejS63j078iN43+hHof2Y6rf3LgfZ5V/TnXdoPpoBXlI?=
- =?us-ascii?Q?re1b/F9/oOJenV6aeLYKPZUQ399lQomim+RIac28sfzxr/0ywIMVUXCMnlQv?=
- =?us-ascii?Q?WHlUpXg2jTMyQ1++JyZIBlCaanGNxqvney5Pw9sHa1vbB3ovds5y1pI6dBF7?=
- =?us-ascii?Q?cA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8bae67d-ec5f-4542-ffd2-08dbaebf7a17
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CHcD9Avo4Ijzhypl1zFD1o29isbHYq7rQGH7HR5ZHI1dyvfQRIjRY3IFJYig?=
+ =?us-ascii?Q?g1ZqJvg9SSy8+5bfALTGgtfH9BmRlpDu5CDYCu0XjfCRPho+hr49EbopWpXB?=
+ =?us-ascii?Q?54T15X5MO7JG4SVm4UywvkdhZg4YrcbTtapRzhaYHTHXd9Os4yw3bbNwGCK/?=
+ =?us-ascii?Q?eYQ0mZDhQKWlH+EIgpYWh0NZwV9YplGJsXDCRqVZ3j2pOk+pyEi/WZLncQ6t?=
+ =?us-ascii?Q?jV90hyZfkD0PqGj8hzrlUSVgK3w3gfZoNICclrBcIF4gnu+wGe9nwgTLWoaf?=
+ =?us-ascii?Q?LWgc1rJVVCxu7ARRL3Ye2aPqA26BLAgbpCD0wr8tmOkD8ebVLRJHG9vGWawN?=
+ =?us-ascii?Q?0sGmd2/dvI5nN9GATATSV0LVu8zWtg5UIY5/eoDPQ8bGJuvGC5OVjdoKmogE?=
+ =?us-ascii?Q?7MlJeIRLPupNcADroL6J4vP8XB6QBGBJJWexU1UpXJOyK46NP9nw4j6kcWCP?=
+ =?us-ascii?Q?3Esq2ermrsed/7GvEAumHGcWO+r0/EbPK6TOcXPybccR7f7n4O3/D615oI7n?=
+ =?us-ascii?Q?bVIEH7AKM+XK1RhuKBuiCcL2eE/T2zyq64p5DNzjajbtZmCrLgQcJQApq64h?=
+ =?us-ascii?Q?qds6xVOO4uSZIwMFIsexdsddvOodmERfC287ThvEfaLcc/Xk7DZMdBF8MfQp?=
+ =?us-ascii?Q?DaV4Omeh1zhHTbuF8kspLaj4s/laCNczc/Nf/gpmTw1bt0g+ZT+I97mE2f/a?=
+ =?us-ascii?Q?B2O0jG9m79OpkblknwYk2H/GSREu109bNN/S7zgda/pj7J0wYZMLxQVvIKuG?=
+ =?us-ascii?Q?KCk9TkkNDQjtQ58Sw+ThMJ6Paea4N/ZlnsVLVp3iY+6I4JTClg06Ltnv5dkq?=
+ =?us-ascii?Q?YwK3fHYzNMhLZP8an+HSkvW1B9JzxGeDR3/VoNPz66AImLWAl6ZzevSItKTJ?=
+ =?us-ascii?Q?Wi0l4dWuE2J/tj/2+i3/DX8Rpd/C69rbcSmaziJ0uxzen/CAYMFGckSnMAwU?=
+ =?us-ascii?Q?etx/CzmdB7StPlEgK8MzjuiSBfLASjtq9I0SfAM1azGphwGcyiLUpeQNMWrf?=
+ =?us-ascii?Q?pZZmzQ9g9F6vkp1t1L5FrXe1Ilw8b0aGXmcGqMI3R4udXdxgKZklQeR47nA8?=
+ =?us-ascii?Q?hO5vJMBBARW6Q1P/nO9Eyv3ZvIXpApZjCuhRwKs3nLbEiVOSTHU5bU8g0ont?=
+ =?us-ascii?Q?tCfiwGX7SChIuklmlFEg2e7WvIgNt9R+myLmv/ybi54s90yDeXEKOnIxxeTt?=
+ =?us-ascii?Q?rkywAmY4BXr4VidK/6qqZkQ3An6FAlTok/ZJ3+cRndcVt7NHULDb+i5pY70M?=
+ =?us-ascii?Q?FA3TU4Qk6EfPN66/9d8XjjZTltgd1P0WQZjJZxUWGjIzd+vlfB6frvBwGPmg?=
+ =?us-ascii?Q?Qmlw8Y519qo/gatV9eC/4A48O6B4toQj9nLTJ1yCy293/Phw3nzgJhVTkYY9?=
+ =?us-ascii?Q?ARmxQkeVWl9QIgecVKXKaA3qm21NbTJxqVcNUfXUD/wtTyami5x37jJKxh1g?=
+ =?us-ascii?Q?aYyLmA/Oo9wnpv2tZfH76rbqSQ+XMFHgmykSHWlN04Fs20b+POlm4vrNmq6q?=
+ =?us-ascii?Q?qHwdo0/SKmotMiJIUMJa835pm4QPu5ulRSjergC6+mlqZGwZZ9Kby9n7/K/r?=
+ =?us-ascii?Q?++0eNf7SVWhESGc4cbmLqRZlXB1HozfLQ1StRewWKWAgmeSXG9SvpsRq8bFr?=
+ =?us-ascii?Q?GQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d6d8ecd-a752-47d2-7d1b-08dbaebf7a9d
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:01.7683 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 09:56:02.4285 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: diOiRMWnAFpBh3DRqvn9lkiyg0f7o3TKndYYZCqzv3csCtzTF8OucaHEOlfRVPydYRapp2hKmBtMLOec3vk6hw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: cuygC6G4u0w9wTO8viTt2QqXiqG2E0XP/Jl+ieCZg+4sxt8x3vLd2hCwR5VfwSLqu3cJv9csItgaLTxEeE6m4A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB4992
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: WxtYMuxXSdiMP_u1uIv3jrICRbV6s1t-
-X-Proofpoint-ORIG-GUID: WxtYMuxXSdiMP_u1uIv3jrICRbV6s1t-
+X-Proofpoint-GUID: 6-Rh2MVL_M7_UIHfu5wfcWV4vdOJbFA4
+X-Proofpoint-ORIG-GUID: 6-Rh2MVL_M7_UIHfu5wfcWV4vdOJbFA4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,36 +153,49 @@ Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Coster <matt.coster@imgtec.com>
+From: Donald Robson <donald.robson@imgtec.com>
 
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 ---
- include/linux/sizes.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/drm/drm_gpuva_mgr.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/include/linux/sizes.h b/include/linux/sizes.h
-index 84aa448d8bb3..c3a00b967d18 100644
---- a/include/linux/sizes.h
-+++ b/include/linux/sizes.h
-@@ -47,8 +47,17 @@
- #define SZ_8G				_AC(0x200000000, ULL)
- #define SZ_16G				_AC(0x400000000, ULL)
- #define SZ_32G				_AC(0x800000000, ULL)
-+#define SZ_64G				_AC(0x1000000000, ULL)
-+#define SZ_128G				_AC(0x2000000000, ULL)
-+#define SZ_256G				_AC(0x4000000000, ULL)
-+#define SZ_512G				_AC(0x8000000000, ULL)
+diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+index ed8d50200cc3..be7b3a6d7e67 100644
+--- a/include/drm/drm_gpuva_mgr.h
++++ b/include/drm/drm_gpuva_mgr.h
+@@ -703,4 +703,31 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
  
- #define SZ_1T				_AC(0x10000000000, ULL)
-+#define SZ_2T				_AC(0x20000000000, ULL)
-+#define SZ_4T				_AC(0x40000000000, ULL)
-+#define SZ_8T				_AC(0x80000000000, ULL)
-+#define SZ_16T				_AC(0x100000000000, ULL)
-+#define SZ_32T				_AC(0x200000000000, ULL)
- #define SZ_64T				_AC(0x400000000000, ULL)
+ void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
  
- #endif /* __LINUX_SIZES_H__ */
++/**
++ * drm_gpuva_op_remap_get_unmap_range() - Helper to get the start and range of
++ * the unmap stage of a remap op.
++ * @op: Remap op.
++ * @start_addr: Output pointer for the start of the required unmap.
++ * @range: Output pointer for the length of the required unmap.
++ *
++ * These parameters can then be used by the caller to unmap memory pages that
++ * are no longer required.
++ */
++static __always_inline void
++drm_gpuva_op_remap_get_unmap_range(const struct drm_gpuva_op_remap *op,
++				   u64 *start_addr, u64 *range)
++{
++	const u64 va_start = op->prev ?
++			     op->prev->va.addr + op->prev->va.range :
++			     op->unmap->va->va.addr;
++	const u64 va_end = op->next ?
++			   op->next->va.addr :
++			   op->unmap->va->va.addr + op->unmap->va->va.range;
++
++	if (start_addr)
++		*start_addr = va_start;
++	if (range)
++		*range = va_end - va_start;
++}
++
+ #endif /* __DRM_GPUVA_MGR_H__ */
 -- 
 2.42.0
 
