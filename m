@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C631793CCA
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 14:38:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE72793CEF
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 14:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B193A10E028;
-	Wed,  6 Sep 2023 12:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4389510E624;
+	Wed,  6 Sep 2023 12:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C73C210E028
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 12:37:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 475BD106F;
- Wed,  6 Sep 2023 05:38:32 -0700 (PDT)
-Received: from [10.57.36.163] (unknown [10.57.36.163])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A69A3F67D;
- Wed,  6 Sep 2023 05:37:52 -0700 (PDT)
-Message-ID: <6b24d964-97d7-5337-f200-aab6c7d22318@arm.com>
-Date: Wed, 6 Sep 2023 14:38:15 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A56F10E624;
+ Wed,  6 Sep 2023 12:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694004296; x=1725540296;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2WFFdBuEq97dJvORezwILe9aKvh+wu88t3sQ9yPyujk=;
+ b=jTUo27EVW1UHBU4kEyc+EWCDNMZ6m4qShYetPrL+c08GjJHbg5RuzEP8
+ X4nPtZIWshCXEL/6KR90XhXzUJTXjY/OaXviOf8POkXRGC6BiDljRto/0
+ iGaQn2rGtA3pbcPyxp77lJlaVyEY+Cp7nBBueB88q4WC5xXE8NH+jDiZ/
+ 4IVTe2g8hnB34t1mrrKsrE8/1X+z18RgLcLWyp3/UYQXBIzvAFWSAncHU
+ MNw4eoAXbdLKowX8oj8tFNgRA+ysRQt9eWxFyrc57NYDWYlYAuSe+/YdH
+ m3QRME5RSWevthGGAT9ZbbRMb7gwIFM8wVei1FfqB7RURRdbYFsx63MQu A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="367280628"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; d="scan'208";a="367280628"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 05:44:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="1072369586"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; d="scan'208";a="1072369586"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga005.fm.intel.com with SMTP; 06 Sep 2023 05:44:47 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Wed, 06 Sep 2023 15:44:46 +0300
+Date: Wed, 6 Sep 2023 15:44:46 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
+ corresponding Type-C connectors"
+Message-ID: <ZPh0Ps9UJ3HLzdeR@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+ <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
+ <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v2 12/15] drm/panthor: Add the driver frontend block
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-13-boris.brezillon@collabora.com>
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-In-Reply-To: <20230809165330.2451699-13-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,67 +62,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Won Chung <wonchung@google.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/9/23 18:53, Boris Brezillon wrote:
-> +static int panthor_ioctl_vm_create(struct drm_device *ddev, void *data,
-> +				   struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_vm_create *args = data;
-> +	u64 kernel_va_start = 0;
-> +	int cookie, ret;
-> +
-> +	if (!drm_dev_enter(ddev, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (args->flags & ~PANTHOR_VM_CREATE_FLAGS) {
-> +		ret = -EINVAL;
-> +		goto out_dev_exit;
-> +	}
-> +
-> +	if (drm_WARN_ON(ddev, !va_bits) || args->kernel_va_range > (1ull << (va_bits - 1))) {
-> +		ret = -EINVAL;
-> +		goto out_dev_exit;
-> +	}
-> +
-> +	if (args->kernel_va_range)
-> +		kernel_va_start = (1 << (va_bits - 1)) - args->kernel_va_range;
+On Tue, Sep 05, 2023 at 01:56:59PM +0300, Dmitry Baryshkov wrote:
+> Hi Heikki,
+> 
+> On Tue, 5 Sept 2023 at 11:50, Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > Hi Dmitry,
+> >
+> > On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
+> > > The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
+> > > dev_fwnode() checks never succeed, making the respective commit NOP.
+> >
+> > That's not true. The dev->fwnode is assigned when the device is
+> > created on ACPI platforms automatically. If the drm_connector fwnode
+> > member is assigned before the device is registered, then that fwnode
+> > is assigned also to the device - see drm_connector_acpi_find_companion().
+> >
+> > But please note that even if drm_connector does not have anything in
+> > its fwnode member, the device may still be assigned fwnode, just based
+> > on some other logic (maybe in drivers/acpi/acpi_video.c?).
+> >
+> > > And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
+> > > breaks drivers already using components (as it was pointed at [1]),
+> > > resulting in a deadlock. Lockdep trace is provided below.
+> > >
+> > > Granted these two issues, it seems impractical to fix this commit in any
+> > > sane way. Revert it instead.
+> >
+> > I think there is already user space stuff that relies on these links,
+> > so I'm not sure you can just remove them like that. If the component
+> > framework is not the correct tool here, then I think you need to
+> > suggest some other way of creating them.
+> 
+> The issue (that was pointed out during review) is that having a
+> component code in the framework code can lead to lockups. With the
+> patch #2 in place (which is the only logical way to set kdev->fwnode
+> for non-ACPI systems) probing of drivers which use components and set
+> drm_connector::fwnode breaks immediately.
+> 
+> Can we move the component part to the respective drivers? With the
+> patch 2 in place, connector->fwnode will be copied to the created
+> kdev's fwnode pointer.
+> 
+> Another option might be to make this drm_sysfs component registration optional.
 
-Bug here if user space provides kernel_va_range, which is the intention 
-of the current Mesa proposal.
+You don't need to use the component framework at all if there is
+a better way of determining the connection between the DP and its
+Type-C connector (I'm assuming that that's what this series is about).
+You just need the symlinks, not the component.
 
-I think the desired calculation should be something like:
-kernel_va_start = (1ull << va_bits) - args->kernel_va_range;
+thanks,
 
-PS: There is currently also a bug in the accompanying Mesa changes which 
-accidentally makes kernel_va_range always zero, thus bypassing this 
-kernel bug.
-The Mesa bug is due to va_bits always being zero because mmu_features 
-field is not copied in panthor_dev_query_props().
-
-> +	ret = panthor_vm_pool_create_vm(ptdev, pfile->vms,
-> +					kernel_va_start, args->kernel_va_range);
-> +	if (ret >= 0) {
-> +		args->id = ret;
-> +		ret = 0;
-> +	}
-> +
-> +out_dev_exit:
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
-
---
-Regards,
-Ketil Johnsen
+-- 
+heikki
