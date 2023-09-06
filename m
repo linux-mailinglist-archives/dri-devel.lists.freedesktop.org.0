@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642D4793599
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 08:50:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F0379359D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 08:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7EEA10E540;
-	Wed,  6 Sep 2023 06:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0580A10E565;
+	Wed,  6 Sep 2023 06:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5EC10E565
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 06:50:07 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-31c3f574ef8so417830f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Sep 2023 23:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1693983006; x=1694587806; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=RY8eBpKTWHCMtsXRzQM9B4P0pw9Q3s2j9gJ/f7sz780=;
- b=LXKO+K9fjCl2/0I8ZD+GsrmvAjoPCzrM23yEwaXkTILwCZ2PV8Ic1v9TmXbl6lCKcA
- NWbJuy9N5iz1FGU6bY1i+TPAKESI0DctmwCQg44rYdu3St9de/UyG1GdxR+yUa4tGpcs
- AfqCQTRsA7PLX60jZlRAdBd2UvqQaMaFEe8sU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693983006; x=1694587806;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RY8eBpKTWHCMtsXRzQM9B4P0pw9Q3s2j9gJ/f7sz780=;
- b=HQOX6l7sRNma1FPNV5CzvFvWh+bixVRIhiaP0xMPw/MQgRvsGNB3uZtVx/Lusi2dWJ
- OTJwz9luKTXoLJmt7tERNzek+PpS71lZrenDWEzHviwSI/KtfxelJH7yCfuiG9uKD9OV
- 2ichBasfZ//DhlUuaJryCsMfARkBdqss9jvOR2Ozb4xAHTZrtsZMAjWrdEnF6bTgCaP8
- HbgoX/i106uYnQ56WhUblt4I5jyOIBTekqPbky44YzyQtpgRunyIOi6LKR/Ouu42UooB
- yM7Bl1IrnrGEGO2TcCAsbk1dT2eQACgjqSCF4j8XDtIU6hERGLJ2ezLXcc2aUEeVcXa1
- aV/Q==
-X-Gm-Message-State: AOJu0Yx6JyMwEQe1cai2F33Zhy9M+40m6Bwb7am5VU1payuAW/GLMeh0
- VHDW4/uoIYO2o/KTTLrGDwB0jvJ/xSIPm2UA2FM=
-X-Google-Smtp-Source: AGHT+IGZKnkZJnx6na5RF/fqJFn/Ofx6GtwKlU4cfSWLAhdwHYdtP4uuE1pRRucze9LEcrs2YUel5w==
-X-Received: by 2002:a5d:6084:0:b0:31d:1833:4141 with SMTP id
- w4-20020a5d6084000000b0031d18334141mr12074278wrt.6.1693983005709; 
- Tue, 05 Sep 2023 23:50:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- r12-20020adfce8c000000b00317afc7949csm19333866wrn.50.2023.09.05.23.50.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Sep 2023 23:50:04 -0700 (PDT)
-Date: Wed, 6 Sep 2023 08:50:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5] drm/i915: Avoid circular locking
- dependency when flush delayed work on gt reset
-Message-ID: <ZPghG6GmhO4j/9qV@phenom.ffwll.local>
-References: <20230811182011.546026-1-zhanjun.dong@intel.com>
- <3a745c83-e7cf-6a24-5556-8c0c019adfec@intel.com>
- <ZOYtNyqfvqJPeqq2@phenom.ffwll.local>
- <e31b1f49-88cd-d6e4-abbe-51f27712ff83@intel.com>
- <2bd0fb41-58d5-9862-143e-34e31f6f791f@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 768E910E565
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 06:51:27 +0000 (UTC)
+Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCE43283;
+ Wed,  6 Sep 2023 08:49:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1693982998;
+ bh=60B1PjRhq+lXms9qS+iZ6PMaTqkaYXtbI6EvSCvPa+0=;
+ h=From:Subject:Date:To:Cc:From;
+ b=nqISk7FIqNe7YwzTvUDpm9DA/5ZKCZ2+yOjOBXt95ylUDqTKfuDta+xv1/noH0p7M
+ nHYxAPg/VfaQWHIaDZBZjIoYhb1PE2Bzmf06jSATUjQFGMBHhwsePzZ0wqNW4Hd89t
+ 1RGuFBJma3yJiR2aahqi4TsWP58WO86jKn/wZ/pc=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 00/12] drm/bridge: tc358768: Fixes and timings improvements
+Date: Wed, 06 Sep 2023 09:50:47 +0300
+Message-Id: <20230906-tc358768-v4-0-31725f008a50@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2bd0fb41-58d5-9862-143e-34e31f6f791f@intel.com>
-X-Operating-System: Linux phenom 6.4.0-3-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEgh+GQC/3XMvQ7CIBSG4VsxzGLgQCl18j6MA7+WwWKgIZqm9
+ y7txFDH7+Q874KyS8FldD0tKLkScohTHfx8QmZU09PhYOtGQIARSTieDetkLySmWgx8cB4cs6i
+ +v5Pz4bOn7o+6x5DnmL57udDtehApFBNMlbec616C0Ldgncpx0lElezHxhbZWgcZT0XioHjjow
+ Xa+J0z98azxAI1n1RsJnHRWGWLogV/X9Qd+Ye4xJwEAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
+ Maxim Schwalm <maxim.schwalm@gmail.com>, 
+ Francesco Dolcini <francesco@dolcini.it>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2447;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=60B1PjRhq+lXms9qS+iZ6PMaTqkaYXtbI6EvSCvPa+0=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk+CFjXsbXgw9bb7GfuHawpErgk9D6VZ8y2uaaf
+ DeF58XneOmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZPghYwAKCRD6PaqMvJYe
+ 9ZesD/9H0x9hD44zUbMj9C57jrPzuGADqu8PQhsqaiUF6E6Ft+Si6bSKjbYC+8w0E3xwKnGkWhf
+ s4gzSJ97RTnZTd71hbCRwG03rSyfr6qJe0dZGnPjE9II/XZlncPO7QDtNF7i0I0rcWpnbN6hJth
+ Dzbw5FUdKh6jMDtgPod+54kr1OszdWAIB7jkjovAv/z7jKGNVmmm/zHNZdNIwH5e4rdeDK5WwwQ
+ 9lcLIK53plJjVPwOOLt0eMrSLY9iI9JLsBgpdQKsosl/xgf6JxPsiDh5e5IO98Wg+3xbcOusQKk
+ O+isk+W5ZjpiLZb0QQ8zvHhGl5MTSwTq1PTZuoKWiNh9av+yAgi+C4Wz6MP6kratUKYqq+8/c3A
+ u4bjWNJ6hvhMf9KqnFkY1HP+eEnYHyLVsPkdtEkhfyYEe4eIT3sngWVfWqGNPVmS3q6K41DaULd
+ PRhu6qAYOwqicHQDE1wvvtOJ83I3mM88wimL46ZbDgj6CtEjRDBdSEhb4BJo06x63saMecwQyi0
+ 4Kqyp1yhrcRAFvNEf+JqfxvM73c4euDlHTf8BSnB+kmkhW5ZhJNXhsAKbBs+DwmjZ4MSEAGzzWu
+ +rkh5yUcVgC2U1l5I6g7FQoVrrbDOvNLTMGt/TsW9oDlYGx3p5x/s/k4uCKXTeeXYUY7XBEx34B
+ gOVhxBKtKWFnlnQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,140 +72,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 28, 2023 at 04:01:38PM -0700, John Harrison wrote:
-> On 8/23/2023 10:37, John Harrison wrote:
-> > On 8/23/2023 09:00, Daniel Vetter wrote:
-> > > On Tue, Aug 22, 2023 at 11:53:24AM -0700, John Harrison wrote:
-> > > > On 8/11/2023 11:20, Zhanjun Dong wrote:
-> > > > > This attempts to avoid circular locking dependency between
-> > > > > flush delayed
-> > > > > work and intel_gt_reset.
-> > > > > When intel_gt_reset was called, task will hold a lock.
-> > > > > To cacel delayed work here, the _sync version will also
-> > > > > acquire a lock,
-> > > > > which might trigger the possible cirular locking dependency warning.
-> > > > > When intel_gt_reset called, reset_in_progress flag will be
-> > > > > set, add code
-> > > > > to check the flag, call async verion if reset is in progress.
-> > > > > 
-> > > > > Signed-off-by: Zhanjun Dong<zhanjun.dong@intel.com>
-> > > > > Cc: John Harrison<John.C.Harrison@Intel.com>
-> > > > > Cc: Andi Shyti<andi.shyti@linux.intel.com>
-> > > > > Cc: Daniel Vetter<daniel@ffwll.ch>
-> > > > > ---
-> > > > >    drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 ++++++++++-
-> > > > >    1 file changed, 10 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git
-> > > > > a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > index a0e3ef1c65d2..600388c849f7 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > > @@ -1359,7 +1359,16 @@ static void
-> > > > > guc_enable_busyness_worker(struct intel_guc *guc)
-> > > > >    static void guc_cancel_busyness_worker(struct intel_guc *guc)
-> > > > >    {
-> > > > > -    cancel_delayed_work_sync(&guc->timestamp.work);
-> > > > > +    /*
-> > > > > +     * When intel_gt_reset was called, task will hold a lock.
-> > > > > +     * To cacel delayed work here, the _sync version will
-> > > > > also acquire a lock, which might
-> > > > > +     * trigger the possible cirular locking dependency warning.
-> > > > > +     * Check the reset_in_progress flag, call async verion
-> > > > > if reset is in progress.
-> > > > > +     */
-> > > > This needs to explain in much more detail what is going on and
-> > > > why it is not
-> > > > a problem. E.g.:
-> > > > 
-> > > >     The busyness worker needs to be cancelled. In general that means
-> > > >     using the synchronous cancel version to ensure that an in-progress
-> > > >     worker will not keep executing beyond whatever is happening that
-> > > >     needs the cancel. E.g. suspend, driver unload, etc. However, in the
-> > > >     case of a reset, the synchronous version is not required and can
-> > > >     trigger a false deadlock detection warning.
-> > > > 
-> > > >     The business worker takes the reset mutex to protect against resets
-> > > >     interfering with it. However, it does a trylock and bails
-> > > > out if the
-> > > >     reset lock is already acquired. Thus there is no actual deadlock or
-> > > >     other concern with the worker running concurrently with a reset. So
-> > > >     an asynchronous cancel is safe in the case of a reset rather than a
-> > > >     driver unload or suspend type operation. On the other hand, if the
-> > > >     cancel_sync version is used when a reset is in progress then the
-> > > >     mutex deadlock detection sees the mutex being acquired through
-> > > >     multiple paths and complains.
-> > > > 
-> > > >     So just don't bother. That keeps the detection code happy and is
-> > > >     safe because of the trylock code described above.
-> > > So why do we even need to cancel anything if it doesn't do anything
-> > > while
-> > > the reset is in progress?
-> > It still needs to be cancelled. The worker only aborts if it is actively
-> > executing concurrently with the reset. It might not start to execute
-> > until after the reset has completed. And there is presumably a reason
-> > why the cancel is being called, a reason not necessarily related to
-> > resets at all. Leaving the worker to run arbitrarily after the driver is
-> > expecting it to be stopped will lead to much worse things than a fake
-> > lockdep splat, e.g. a use after free pointer deref.
-> > 
-> > John.
-> @Daniel Vetter - ping? Is this explanation sufficient? Are you okay with
-> this change now?
+This series contains various fixes and cleanups for TC358768. The target
+of this work is to get TC358768 working on Toradex's AM62 based board,
+which has the following display pipeline:
 
-Sorry for the late reply, I'm constantly behind on mails :-/ Ping me on
-irc next time around if I don't reply, that's quicker.
+AM62 DPI -> TC358768 -> LT8912B -> HDMI connector
 
-"presumably" isn't good enough for locking design. Either you know, and
-can prove it all, or you shouldn't touch the code and its locking design
-before you've figured this out.
+The main thing the series does is to improve the DSI HSW, HFP and VSDly
+calculations.
 
-Again, either this is a deadlock, race condition, or the cancel isn't
-necessary. And this argument works in full generality. All this patch does
-it replace the dealock with one of the other two, and that's not good
-enough if you don't even know which one it is.
+ Tomi
 
-- if you need the cancel, you have a race condition
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v4:
+- Add Tested-by tags
+- Fix a typo in a comment 
+- Link to v3: https://lore.kernel.org/r/20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com
 
-- if you don't have a race condition, you don't need the cancel
+Changes in v3:
+- Add Peter's reviewed-bys
+- Move "Default to positive h/v syncs" earlier in the series to avoid
+  regression in the middle of the series
+- Link to v2: https://lore.kernel.org/r/20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com
 
-- currently you have the deadlock
+Changes in v2:
+- Add "drm/tegra: rgb: Parameterize V- and H-sync polarities" so that
+  Tegra can configure the polarities correctly.
+- Add "drm/bridge: tc358768: Default to positive h/v syncs" as we don't
+  (necessarily) have the polarities set in the mode.
+- Drop "drm/bridge: tc358768: Add DRM_BRIDGE_ATTACH_NO_CONNECTOR
+  support" as it's not needed for DRM_BRIDGE_ATTACH_NO_CONNECTOR
+  support.
+- Link to v1: https://lore.kernel.org/r/20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com
 
-"presumably" and "maybe" aint enoug for locking design.
+---
+Thierry Reding (1):
+      drm/tegra: rgb: Parameterize V- and H-sync polarities
 
-Cheers, Daniel
+Tomi Valkeinen (11):
+      drm/bridge: tc358768: Fix use of uninitialized variable
+      drm/bridge: tc358768: Default to positive h/v syncs
+      drm/bridge: tc358768: Fix bit updates
+      drm/bridge: tc358768: Cleanup PLL calculations
+      drm/bridge: tc358768: Use struct videomode
+      drm/bridge: tc358768: Print logical values, not raw register values
+      drm/bridge: tc358768: Use dev for dbg prints, not priv->dev
+      drm/bridge: tc358768: Rename dsibclk to hsbyteclk
+      drm/bridge: tc358768: Clean up clock period code
+      drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
+      drm/bridge: tc358768: Attempt to fix DSI horizontal timings
 
-> 
-> John.
-> 
-> > 
-> > > 
-> > > Just remove the cancel from the reset path as uneeded instead, and
-> > > explain
-> > > why that's ok? Because that's defacto what the cancel_work with a
-> > > potential deadlock scenario for cancel_work_sync does, you either don't
-> > > need it at all, or the replacement creates a bug.
-> > > -Daniel
-> > > 
-> > > > 
-> > > > John.
-> > > > 
-> > > > 
-> > > > > +    if (guc_to_gt(guc)->uc.reset_in_progress)
-> > > > > +        cancel_delayed_work(&guc->timestamp.work);
-> > > > > +    else
-> > > > > + cancel_delayed_work_sync(&guc->timestamp.work);
-> > > > >    }
-> > > > >    static void __reset_guc_busyness_stats(struct intel_guc *guc)
-> > 
-> 
+ drivers/gpu/drm/bridge/tc358768.c | 381 ++++++++++++++++++++++++++++----------
+ drivers/gpu/drm/tegra/rgb.c       |  16 +-
+ 2 files changed, 295 insertions(+), 102 deletions(-)
+---
+base-commit: f45acf7acf75921c0409d452f0165f51a19a74fd
+change-id: 20230804-tc358768-1b6949ef2e3d
 
+Best regards,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
