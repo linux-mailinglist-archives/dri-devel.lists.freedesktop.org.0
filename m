@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B19793F58
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 16:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB89793F07
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 16:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC3A810E68A;
-	Wed,  6 Sep 2023 14:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874C410E683;
+	Wed,  6 Sep 2023 14:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31FB10E687
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 14:48:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A8D10E683
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 14:36:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D145922438;
- Wed,  6 Sep 2023 14:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694011684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5N0wfVmZoSdKNylOWdJ83rChXOs2sDBEpX726Fvr9O8=;
- b=j+aSLaFFhnjaMYoT92JSHV/3ccmY5tvnn/XwU4bY3woDW8nThqYN/87LbC0aIqPgLMLfRB
- d94lK+6v462jx8E1giye9Zz+8BIe9hSBeMBiQrMhaHpSwa8BAmCwb5R1Ab5xBOez/7B00G
- S9EmK2A5i2Wq/byT4Mw1V+rel838la0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694011684;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5N0wfVmZoSdKNylOWdJ83rChXOs2sDBEpX726Fvr9O8=;
- b=yUuRStADy5K5Rw+TauHgnbdBHPhWlw5od1VbMWA+Wdb/bcy36P7jCnZXzZ4Pull4SbB4BV
- K12syMJmOCKDPRBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9158213921;
- Wed,  6 Sep 2023 14:48:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gD+WIiSR+GSNSgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Sep 2023 14:48:04 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
- arnd@arndb.de, deller@gmx.de
-Subject: [PATCH v2 5/5] arch/powerpc: Call internal __phys_mem_access_prot()
- in fbdev code
-Date: Wed,  6 Sep 2023 16:35:06 +0200
-Message-ID: <20230906144801.25297-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230906144801.25297-1-tzimmermann@suse.de>
-References: <20230906144801.25297-1-tzimmermann@suse.de>
+ by ams.source.kernel.org (Postfix) with ESMTPS id EA426B81A0D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 14:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BE39C433C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 14:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694011009;
+ bh=5BBRCYr1Ha1BlH81o9HyjrCJ4p+21+ue4tor94s8lLU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=QrHkQSJHn0xH6ER/BwcmrmWO5h50MrlWebXKtSAbKGBzXS9/W8vmJCsT1xOtwhK54
+ 5hhUMqb32UYwuoCfACQ9Wdod/OQZFYA2D+vyjn6EMDexQGblRGr/0E9Y0udaEj2/ob
+ 8Hi0dZEE78BUCarh2Ci+Axu370qqKTgSd8mayHpG0pMGKuPdEzNe3kaNQXsvDt+BYw
+ tTPfwoa5k1Hj/0/ZHsKgpW1NwOAYMarfH/0jl7bjrExtFfUXrSKvbu9LfAUapZGGTu
+ 6RgI6sAPYkzZ7+gclgC1Xx+WowxFTOakHk3KdPhTKMor5t2Joq7f653wxzom1XY4Kv
+ DODYLDYTrscxQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 844FEC53BCD; Wed,  6 Sep 2023 14:36:49 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217876] RIP: 0010:calculate_phy_pix_clks+0xd1/0xe0 [amdgpu]
+Date: Wed, 06 Sep 2023 14:36:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: rondo.sp@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217876-2300-jkyH4qI5Uz@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217876-2300@https.bugzilla.kernel.org/>
+References: <bug-217876-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +72,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call __phys_mem_access_prot() from the fbdev mmap helper
-fb_pgprot_device(). Allows to avoid the file argument of
-NULL.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217876
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- arch/powerpc/include/asm/fb.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+--- Comment #2 from Chema (rondo.sp@gmail.com) ---
+(In reply to Artem S. Tashkinov from comment #1)
+> Please repost here: https://gitlab.freedesktop.org/drm/amd/-/issues
 
-diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/fb.h
-index 3c7486323178..8e6a7fc4ae86 100644
---- a/arch/powerpc/include/asm/fb.h
-+++ b/arch/powerpc/include/asm/fb.h
-@@ -8,12 +8,7 @@ static inline pgprot_t fb_pgprot_device(pgprot_t prot,
- 					unsigned long vm_start, unsigned long vm_end,
- 					unsigned long offset)
- {
--	/*
--	 * PowerPC's implementation of phys_mem_access_prot() does
--	 * not use the file argument. Set it to NULL in preparation
--	 * of later updates to the interface.
--	 */
--	return phys_mem_access_prot(NULL, PHYS_PFN(offset), vm_end - vm_start, prot);
-+	return __phys_mem_access_prot(PHYS_PFN(offset), vm_end - vm_start, prot);
- }
- #define fb_pgprot_device fb_pgprot_device
- 
--- 
-2.42.0
+Done, I put the link to the bug here in case anyone is interested in follow=
+ing
+it:
 
+https://gitlab.freedesktop.org/drm/amd/-/issues/2830
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
