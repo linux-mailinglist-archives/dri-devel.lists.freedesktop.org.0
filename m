@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5277982DB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 08:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53037982DD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 08:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CA710E872;
-	Fri,  8 Sep 2023 06:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7665A10E874;
+	Fri,  8 Sep 2023 06:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB5A10E6F4
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 18:19:33 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-9a63b2793ecso2900266b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 11:19:33 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 152C510E1F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 20:47:46 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-31427ddd3fbso275006f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 13:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694024371; x=1694629171; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1694033264; x=1694638064; darn=lists.freedesktop.org;
  h=cc:to:message-id:content-transfer-encoding:mime-version:subject
  :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=brVuhGNSmL2KjjAtb0WsBUqLQf3d/P9cAPHdmHgOTbE=;
- b=AeZX/wvaD1+rxTcX2ZFPzaoAcdyBV1438UgwwXrMYXtA6f/+ruFxunD1vV8Te5bT7m
- kvofGqfWQTf+a/rrtRLAWGUSURi5AKEhbagYwMix/i7Ie5LfrJxstLEn1kIGu53tKQqC
- R8rirqDvoA3On1nWZDW9rdURLg1uoVK6GUYz75kpVrfGdrhVIPBq/17qWjUCY4xLNQRq
- 64cKy1W+upmSNOnIaEDJuLmiliu1kbzFATj9oEszs7xAjpKEwVmMG/+NOt7nPRxqDHTS
- W5untxw+AJwKqihb1mMfLE46jeM+A47Z5Gd+98OnL8v96IJzskqAxvnqOlPHVZ1t+3w4
- uvdQ==
+ bh=D4jlIvIDeaXZH3yZfiNk5m0ga1T9VUdf6C+njdswpE4=;
+ b=WrZvN1I8WiD2o/vTNdZwf6IjpFO6Ua/OijLhK5XlqUDtiGs/X7DftQMyPBvBL/gZ4M
+ kZvqpypeh5XZzTFkNJGlwG4AhrhYZkbuxOq8Ixax4+LiwV8r15TYFOTQBePShcluXRjD
+ SHXuKaMv0ifn0EYzUky+B0eFWdMK2r9VrJBcHDd/oBNk2n0bqENFOB4mvUV80Ua6SA5/
+ dYQ9tG/xSPLWLNf6tL2zcYl7IYIvCW4SYkU4GkOGI0OWBs7lRi+NJ/7OVl8GwIcNvo8I
+ QypkQXNNx+T9N+hQlXDTJJQbUAEfSA/v+m8um3tGYHaQYp0Yg4crfT+cAUNj5a7yX9nU
+ PQ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694024371; x=1694629171;
+ d=1e100.net; s=20221208; t=1694033264; x=1694638064;
  h=cc:to:message-id:content-transfer-encoding:mime-version:subject
  :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=brVuhGNSmL2KjjAtb0WsBUqLQf3d/P9cAPHdmHgOTbE=;
- b=ApyE0TYoxAhTZkBilXgRlSQF8sxAJB77F6788oteIhI79BOHcE21A81bbUxOJvCeEo
- SEMoekAQH+ziwy0oF+qs4q2Kdg3Qygw+B1oTZ9PZbQkk++NM//MvE/UL/ZkX+2WDKE2y
- 3SgXy8ZoxKYI/r7yDNCJn4HNcwBGAa95HwU78Jwl4NwZfkaU05pwMIoZyRP8D/jhL7s7
- 3Z1I/wPgqywMnv7CizcnzNgePriBq3RBhO6IYNBvOXeAQeqDCUJ+k1hSXqbPKXZntf8K
- F2Y+I3URcEfkmVMfIcfTbAZzyjlGk8dSHVLPlFKVgHfs61m52dfwqh+d5jgLnUYmlpNL
- c3XA==
-X-Gm-Message-State: AOJu0YzY8P1j10ggK6J9IfEE8+NwiV5P4r7nB3SeW9sRr5ndiwhtw8Xv
- hxQHs1z5BDKmdACGwJnrEmF4pZicQR6rMg==
-X-Google-Smtp-Source: AGHT+IHAnI889hIsnFWWcWV/k5vE0fMUU6pVi/t1v65SUwHvOj7p3j1rAwq/pOhnoXkQ72cJ0bMboA==
-X-Received: by 2002:a17:906:3d2a:b0:9a1:fc90:bdf2 with SMTP id
- l10-20020a1709063d2a00b009a1fc90bdf2mr3073093ejf.21.1694024371285; 
- Wed, 06 Sep 2023 11:19:31 -0700 (PDT)
+ bh=D4jlIvIDeaXZH3yZfiNk5m0ga1T9VUdf6C+njdswpE4=;
+ b=WldnveR4rDT91dYgjsyLati4RhElP+4gOrh89LL83heSj0w7UCBGxTC8U2NOSutOPC
+ Lscc1aBxlHR79JdYLwwxfGBejipjITMqfK0kwgrqC4n/uk7XLsRV+RZpymsq9GJRcP7f
+ zXepX01L0KZQHgf3yW+vmVJk0njts8dvEMv6EeM3IRIu/dXP1ROGts9HQ/9sAyNelJA4
+ iQ6Y2f9+5ZE9r1mNnnu2/0kqdml57vKEEOcF4tN1tPg4gk5+KTwz41+TRT7VSrR4aqOd
+ xiTlukN7tORegWEToD3Fst8RyMr8lTV9F5qYYxu541e7FfVD4ZIJBUDIQqtPo5S2DdmY
+ selw==
+X-Gm-Message-State: AOJu0YzB1W3Rg4tsM0dxxwA/jHqhFoYM7+kT1NsiIkkN6D7MRifrV0SZ
+ n+N1k+MGnmR5XF9wjSkF730=
+X-Google-Smtp-Source: AGHT+IF7eUkudv66fqfLlLjtyNNiG6JQMgxBmO32E3vDLPepUMSE/q8koGt9Nl6iS3YTPaoj8kEAXw==
+X-Received: by 2002:a5d:63c6:0:b0:317:cff4:7357 with SMTP id
+ c6-20020a5d63c6000000b00317cff47357mr2946013wrw.20.1694033264117; 
+ Wed, 06 Sep 2023 13:47:44 -0700 (PDT)
 Received: from [127.0.1.1]
  (2a02-8389-41b4-ce80-82c3-f600-375e-54bc.cable.dynamic.v6.surfer.at.
  [2a02:8389:41b4:ce80:82c3:f600:375e:54bc])
  by smtp.gmail.com with ESMTPSA id
- x24-20020a170906299800b0099cadcf13cesm9350186eje.66.2023.09.06.11.19.29
+ qx12-20020a170906fccc00b0099bd86f9248sm9436357ejb.63.2023.09.06.13.47.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Sep 2023 11:19:30 -0700 (PDT)
+ Wed, 06 Sep 2023 13:47:43 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 06 Sep 2023 20:19:29 +0200
-Subject: [PATCH] drm/connector: document supported_colorspaces and
- DRM_MODE_COLORIMETRY_COUNT
+Date: Wed, 06 Sep 2023 22:47:38 +0200
+Subject: [PATCH v2] drm/connector: document DRM_MODE_COLORIMETRY_COUNT
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230906-topic-drm_connector_doc-v1-1-f4ce7ad0150c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIALDC+GQC/x2N0QrCMAwAf2Xk2UJtx0B/RWSkaXR5WDuSIsLYv
- 9v5eBzH7WCswgb3YQflj5jU0uF6GYAWLG92kjtD8CH6m59cq5uQy7rOVEthalXnXMmNISPHhGO
- kCXqd0NglxULL2a9ojfUUm/JLvv/l43kcP96JCt+CAAAA
+Message-Id: <20230906-topic-drm_connector_doc-v2-1-1f2dcaa43269@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGnl+GQC/4WOTQqDMBCFryJZNyWJ1tKuvEcRGSejDjSJJCIt4
+ t0bvUCX33u8n00kikxJPItNRFo5cfAZzKUQOIEfSbLNLIwypXqoWi5hZpQ2ug6D94RLiJ0NKCt
+ jgcoeqhJrkdM9JJJ9BI/TkXeQFoqHMUca+HNOvtrME6fc8T0frPpQ/4+tWmo5VEh3sErfFDajA
+ 35fMTjR7vv+A22rvM/XAAAA
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694024369; l=3375;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694033262; l=1646;
  i=javier.carrasco.cruz@gmail.com; s=20230509; h=from:subject:message-id;
- bh=XV2PA7cr0H7sW98GKzNL+aV/eA4RnJXKRgazWsFy6y4=;
- b=kR2YgUglN1L8b1w6Fo+0crgbap4wAZhb0h4VIkqL28FUiwXAMT8DjbcdCV74jDQ9/pErwCWNP
- BwFMTJ3p9bIBMxs/GAluoYOgbhINE7F2rjKIg3dFecNfJjW/JF8tl+Q
+ bh=o5qS1h6uUEp6//p2GmoMRuubQDfqtXUZ8Ml+N/bqDuM=;
+ b=k9PO34nKBp4BwltnWawdEi4BfIAah1NuWMA5YaSxvnjgCPuh+ogfqzZtlxeuCEANF2t+ZZg8y
+ 377FvdZ3L9EDnBDweM0Kw97xs/YwtiNL1u+QBbmMpNAQpyePicJ29j2
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=tIGJV7M+tCizagNijF0eGMBGcOsPD+0cWGfKjl4h6K8=
 X-Mailman-Approved-At: Fri, 08 Sep 2023 06:56:24 +0000
@@ -88,19 +88,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-The supported_colorspaces parameter was added to the following
-functions without documenting it:
-
-drm_mode_create_dp_colorspace_property
-drm_mode_create_hdmi_colorspace_property
-
-The missing descriptions generate warnings when compiling the
-documentation. Add the descriptions to document the
-supported_colorspaces parameter.
 
 The drm_colorspace enum member DRM_MODE_COLORIMETRY_COUNT has been
 properly documented by moving the description out of the enum to the
@@ -108,46 +99,16 @@ member description list to get rid of an additional warning and improve
 documentation clarity.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-The supported_colorspaces parameter was added to the following
-functions without documenting it:
-
-drm_mode_create_dp_colorspace_property
-drm_mode_create_hdmi_colorspace_property
-
-The missing descriptions generate warnings when compiling the
-documentation. Add the descriptions to document the
-supported_colorspaces parameter.
-
-The drm_colorspace enum member DRM_MODE_COLORIMETRY_COUNT has been
-properly documented by moving the description out of the enum to the
-member description list to get rid of an additional warning and improve
-documentation clarity.
+Changes in v2:
+- Remove applied changes in linux-next (supported_colorspaces
+  documentation)
+- Link to v1: https://lore.kernel.org/r/20230906-topic-drm_connector_doc-v1-1-f4ce7ad0150c@gmail.com
 ---
- drivers/gpu/drm/drm_connector.c | 2 ++
- include/drm/drm_connector.h     | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ include/drm/drm_connector.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index bf8371dc2a61..77bfe17dcf98 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2203,6 +2203,7 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
- /**
-  * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace property
-  * @connector: connector to create the Colorspace property on.
-+ * @supported_colorspaces: colorspaces supported by the driver.
-  *
-  * Called by a driver the first time it's needed, must be attached to desired
-  * HDMI connectors.
-@@ -2227,6 +2228,7 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
- /**
-  * drm_mode_create_dp_colorspace_property - create dp colorspace property
-  * @connector: connector to create the Colorspace property on.
-+ * @supported_colorspaces: colorspaces supported by the driver.
-  *
-  * Called by a driver the first time it's needed, must be attached to desired
-  * DP connectors.
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
 index d300fde6c1a4..18cf46e3478b 100644
 --- a/include/drm/drm_connector.h
