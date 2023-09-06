@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE407937BA
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 898977937D7
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B39A10E5AE;
-	Wed,  6 Sep 2023 09:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B03AA10E2C8;
+	Wed,  6 Sep 2023 09:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id CBE3D10E1A5;
- Wed,  6 Sep 2023 09:08:14 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxVuh8Qfhk0EAgAA--.29532S3;
- Wed, 06 Sep 2023 17:08:12 +0800 (CST)
-Received: from [0.0.0.0] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxvM56QfhkpFxuAA--.3166S3; 
- Wed, 06 Sep 2023 17:08:10 +0800 (CST)
-Message-ID: <b51d49f3-e3de-6b8d-9cb4-df5c03f3cdc0@loongson.cn>
-Date: Wed, 6 Sep 2023 17:08:10 +0800
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8B510E2C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 09:14:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D1D9C2240A;
+ Wed,  6 Sep 2023 09:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1693991684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D9IuigOLcL5MrufSZWImIExuXI9+UROJVe83/ZYsyO8=;
+ b=eLebPiNuPYtcKeVOsjjcKtTakp1OuybkOU5KE+PizHk+MXhXIrQvg0C5VREdnf0PnXmpCH
+ Lk3Ytkdz0M7E3R7EA+YO9ZP8lPnX1+peXSu5ri3Jy+rICtO0Z99IMR56DfH3MJXYfZ191T
+ z/1zfjNqzimpVwwdWbs0yxXkWY3k5Ho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1693991684;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D9IuigOLcL5MrufSZWImIExuXI9+UROJVe83/ZYsyO8=;
+ b=MLz6YEoe7I8Lbtoj2lB1zaJLhJjaNBln0qqmWQ6OxUjvqn/cMiIwGTT/znX8hi0VOyQsIK
+ DN2Bzv6Yk2yHoUAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4D401333E;
+ Wed,  6 Sep 2023 09:14:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id O6E8JwRD+GT+BQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 06 Sep 2023 09:14:44 +0000
+Message-ID: <25bd597f-f4b5-8592-f111-898b4a613941@suse.de>
+Date: Wed, 6 Sep 2023 11:14:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
- to select the primary video adapter at boot time
+ Thunderbird/102.14.0
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
- <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
- <2adfa653-ac35-d560-be52-c92848a1eef5@gmail.com>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <2adfa653-ac35-d560-be52-c92848a1eef5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxvM56QfhkpFxuAA--.3166S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxArWruw1kuFW8Ar4UKF1xJFc_yoWrJw1rpF
- 4YqFyUtr4kGr1rAr4Skw48WFZ5AFsFqFy5GF1vgr1Fv398Xr1Fvr9rtF4UCa4UXrn7Z3W0
- 9rWFqrW7GF4DZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
- Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
- Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48J
- MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
- IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8uc_3UUUU
- U==
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+References: <20230809192514.158062-1-jfalempe@redhat.com>
+ <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
+ <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6paN0eF7y4YoTrTEzG7RCQmT"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,100 +73,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6paN0eF7y4YoTrTEzG7RCQmT
+Content-Type: multipart/mixed; boundary="------------Nir4tS23i8sTFDWeQ03f9jMd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+Message-ID: <25bd597f-f4b5-8592-f111-898b4a613941@suse.de>
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
+References: <20230809192514.158062-1-jfalempe@redhat.com>
+ <9b232cab-057c-bb42-48cb-f83da3f0e938@suse.de>
+ <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
+In-Reply-To: <12490fcd-7c72-090d-b7ed-9928d51c21a2@redhat.com>
 
+--------------Nir4tS23i8sTFDWeQ03f9jMd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 2023/9/6 14:45, Christian König wrote:
-> Am 05.09.23 um 15:30 schrieb suijingfeng:
->> Hi,
->>
->>
->> On 2023/9/5 18:45, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 04.09.23 um 21:57 schrieb Sui Jingfeng:
->>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>>> On a machine with multiple GPUs, a Linux user has no control over 
->>>> which
->>>> one is primary at boot time. This series tries to solve above 
->>>> mentioned
->>>
->>> If anything, the primary graphics adapter is the one initialized by 
->>> the firmware. I think our boot-up graphics also make this assumption 
->>> implicitly.
->>>
->>
->> Yes, but by the time of DRM drivers get loaded successfully,the 
->> boot-up graphics already finished.
->
-> This is an incorrect assumption.
->
-> drm_aperture_remove_conflicting_pci_framebuffers() and co don't kill 
-> the framebuffer, 
+SGkgSm9jZWx5bg0KDQpBbSAwNS4wOS4yMyB1bSAxNjo0NiBzY2hyaWViIEpvY2VseW4gRmFs
+ZW1wZToNCj4gT24gMDQvMDkvMjAyMyAxNjoyOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBIaSBKb2NlbHluLA0KPj4NCj4+IHRoYW5rcyBmb3IgbW92aW5nIHRoaXMgZWZmb3J0
+IGZvcndhcmQuIEl0J3MgbXVjaCBhcHByZWNpYXRlZC4gSSBsb29rZWQgDQo+PiB0aHJvdWdo
+IHRoZSBwYXRjaGVzIGFuZCB0cmllZCB0aGUgcGF0Y2hzZXQgb24gbXkgdGVzdCBtYWNoaW5l
+Lg0KPiANCj4gVGhhbmtzIGZvciB0YWtpbmcgdGhlIHRpbWUgdG8gcmV2aWV3IGFuZCB0ZXN0
+IGl0Lg0KPj4NCj4+IEFtIDA5LjA4LjIzIHVtIDIxOjE3IHNjaHJpZWIgSm9jZWx5biBGYWxl
+bXBlOg0KPj4+IFRoaXMgaW50cm9kdWNlcyBhIG5ldyBkcm0gcGFuaWMgaGFuZGxlciwgd2hp
+Y2ggZGlzcGxheXMgYSBtZXNzYWdlIA0KPj4+IHdoZW4gYSBwYW5pYyBvY2N1cnMuDQo+Pj4g
+U28gd2hlbiBmYmNvbiBpcyBkaXNhYmxlZCwgeW91IGNhbiBzdGlsbCBzZWUgYSBrZXJuZWwg
+cGFuaWMuDQo+Pj4NCj4+PiBUaGlzIGlzIG9uZSBvZiB0aGUgbWlzc2luZyBmZWF0dXJlLCB3
+aGVuIGRpc2FibGluZyBWVC9mYmNvbiBpbiB0aGUgDQo+Pj4ga2VybmVsOg0KPj4+IGh0dHBz
+Oi8vd3d3LnJlZGRpdC5jb20vci9saW51eC9jb21tZW50cy8xMGVjY3Y5L2NvbmZpZ192dG5f
+aW5fMjAyMy8NCj4+PiBGYmNvbiBjYW4gYmUgcmVwbGFjZWQgYnkgYSB1c2Vyc3BhY2Uga21z
+IGNvbnNvbGUsIGJ1dCB0aGUgcGFuaWMgDQo+Pj4gc2NyZWVuIG11c3QgYmUgZG9uZSBpbiB0
+aGUga2VybmVsLg0KPj4+DQo+Pj4gVGhpcyBpcyBhIHByb29mIG9mIGNvbmNlcHQsIGFuZCB3
+b3JrcyBvbmx5IHdpdGggc2ltcGxlZHJtLCB1c2luZyB0aGUgDQo+Pj4gZHJtX2NsaWVudCBB
+UEkuDQo+Pj4gVGhpcyBpbXBsZW1lbnRhdGlvbiB3aXRoIHRoZSBkcm0gY2xpZW50IEFQSSwg
+YWxsb2NhdGVzIG5ldyANCj4+PiBmcmFtZWJ1ZmZlcnMsIGFuZCBsb29rcyBhIGJpdCB0b28g
+Y29tcGxleCB0byBydW4gaW4gYSBwYW5pYyBoYW5kbGVyLg0KPj4+IE1heWJlIHdlIHNob3Vs
+ZCBhZGQgYW4gQVBJIHRvICJzdGVhbCIgdGhlIGN1cnJlbnQgZnJhbWVidWZmZXIgDQo+Pj4g
+aW5zdGVhZCwgYmVjYXVzZSBpbiBhIHBhbmljIGhhbmRsZXIgdXNlci1zcGFjZSBpcyBhbHJl
+YWR5IHN0b3BwZWQuDQo+Pg0KPj4gWWVzLCB0aGF0IHdhcyBhbHNvIG15IGZpcnN0IHRob3Vn
+aHQuIEknZCB1c2UgYW4gZXh0cmEgY2FsbGJhY2sgaW4gDQo+PiBzdHJ1Y3QgZHJtX2RyaXZl
+ciwgbGlrZSB0aGlzOg0KPj4NCj4+IHN0cnVjdCBkcm1fZHJpdmVyIHsNCj4+IMKgwqAgaW50
+ICgqZ2V0X3NjYW5vdXRfYnVmZmVyKSgvKiByZXR1cm4gSFcgc2Nhbm91dCAqLykNCj4+IH0N
+Cj4+DQo+PiBUaGUgc2Nhbm91dCBidWZmZXIgd291bGQgYmUgZGVzY3JpYmVkIGJ5IGtlcm5l
+bCB2aXJ0dWFsIGFkZHJlc3MgDQo+PiBhZGRyZXNzLCByZXNvbHV0aW9uLCBjb2xvciBmb3Jt
+YXQgYW5kIHNjYW5saW5lIHBpdGNoLiBBbmQgdGhhdCdzIHdoYXQgDQo+PiB0aGUgcGFuaWMg
+aGFuZGxlciB1c2VzLg0KPiANCj4gVGhhbmtzLCBJIHdpbGwgdHJ5IHRoaXMgc29sdXRpb24u
+IEl0IHNob3VsZG4ndCBiZSB0b28gaGFyZCBmb3Igc2ltcGxlZHJtLg0KPj4NCj4+IEFueSBk
+cml2ZXIgaW1wbGVtZW50aW5nIHRoaXMgaW50ZXJmYWNlIHdvdWxkIHN1cHBvcnQgdGhlIHBh
+bmljIA0KPj4gaGFuZGxlci4gSWYgdGhlcmUncyBhIGNvbmN1cnJlbnQgZGlzcGxheSB1cGRh
+dGUsIHdlJ2QgaGF2ZSB0byANCj4+IHN5bmNocm9uaXplLg0KPiANCj4gTm9ybWFsbHkgaW4g
+dGhlIHBhbmljIGhhbmRsZXIsIHRoZSBrZXJuZWwgaXMgYWxyZWFkeSBzaW5nbGUtdGhyZWFk
+ZWQsIHNvIA0KPiB0aGVyZSB3b24ndCBiZSBhbm90aGVyIHRhc2sgZG9pbmcgdGhpbmdzIGlu
+IHBhcmFsbGVsLiAoQnV0IHRoZSBHUFUgbWlnaHQgDQo+IHN0aWxsIGJlIGJ1c3kgZG9pbmcg
+b3RoZXIgc3R1ZmYsIGlmIHdlJ3JlIGluIHRoZSBtaWRkbGUgb2YgYSBnYW1lKS4NCj4gSSB0
+aGluayB0aGlzIGRybV9wYW5pYyBzaG91bGQgYmUgYSAiYmVzdCBlZmZvcnQiLCB3ZSBjYW4n
+dCBndWFyYW50ZWUgdGhlIA0KPiB1c2VyIHdpbGwgc2VlIHRoZSBwYW5pYyBzY3JlZW4gaW4g
+YWxsIHBhbmljIHNpdHVhdGlvbnMuDQo+IA0KPj4NCj4+Pg0KPj4+IFRvIHRlc3QgaXQsIG1h
+a2Ugc3VyZSB5b3UncmUgdXNpbmcgdGhlIHNpbXBsZWRybSBkcml2ZXIsIGFuZCB0cmlnZ2Vy
+IA0KPj4+IGEgcGFuaWM6DQo+Pj4gZWNobyBjID4gL3Byb2Mvc3lzcnEtdHJpZ2dlcg0KPj4N
+Cj4+IFRoZSBwZW5ndWluIHdhcyBjdXRlLiA6KQ0KPj4NCj4+IFRoaXMgb25seSB3b3JrcyBp
+ZiB0aGUgZGlzcGxheSBpcyBhbHJlYWR5IHJ1bm5pbmcuIEkgaGFkIHRvIHN0YXJ0IA0KPj4g
+R25vbWUgdG8gc2V0IGEgZGlzcGxheSBtb2RlLiBUaGVuIGxldCB0aGUgcGFuaWMgaGFuZGxl
+ciB0YWtlIG92ZXIgdGhlIA0KPj4gb3V0cHV0Lg0KPiANCj4gb2gsIEkgZGlkbid0IGV4cGVj
+dCB0aGlzIGxpbWl0YXRpb24uIEkgd2lsbCB0cnkgdG8gdGVzdCB0aGF0IHRvby4gSXQgDQo+
+IG1pZ2h0IGFsc28gZ2V0IGZpeGVkIGJ5IHVzaW5nIHRoZSBnZXRfc2Nhbm91dF9idWZmZXIo
+KSBhYm92ZS4NCg0KSSBndWVzcyBpdCBkZXBlbmRzLiBXZSdkIG5lZWQgYSB3b3JraW5nIGRp
+c3BsYXkgbW9kZSwgb3Igd2UnZCByZXF1aXJlIA0KZ2V0X3NjYW5vdXRfYnVmZmVyKCkgdG8g
+c2V0IGl0IHVwIGZvciB1cy4gSURLIGhvdyBtdWNoIHRoYXQgaXMgcG9zc2libGUgDQppbiB0
+aGUgY2FzZSBvZiBhIGtlcm5lbCBwYW5pYy4NCg0KQXBhcnQgZnJvbSB0aGF0LCB3ZSBzaG91
+bGQgdXNlIHdoYXRldmVyIGhhcyBiZWVuIHByb2dyYW1tZWQgaW50byANCmhhcmR3YXJlLiBO
+byBuZWVkIGZvciBEUk0gY2xpZW50cyBvciBHRU0gYnVmZmVycywgZXRjLg0KDQo+Pg0KPj4g
+QnV0IHdpdGggc2ltcGxlZHJtLCB3ZSBjb3VsZCBldmVuIGRpc3BsYXkgYSBtZXNzYWdlIHdp
+dGhvdXQgYW4gb3V0cHV0LCANCj4+IGFzIHRoZSBmcmFtZWJ1ZmZlciBpcyBhbHdheXMgdGhl
+cmUuDQo+Pg0KPj4+DQo+Pj4gVGhlcmUgaXMgb25lIHRoaW5nIEkgZG9uJ3Qga25vdyBob3cg
+dG8gZG8sIGlzIHRvIHVucmVnaXN0ZXIgdGhlIA0KPj4+IGRybV9wYW5pYyB3aGVuIHRoZSBn
+cmFwaGljIGRyaXZlciBpcyB1bmxvYWRlZC4NCj4+PiBkcm1fY2xpZW50X3JlZ2lzdGVyKCkg
+c2F5cyBpdCB3aWxsIGF1dG9tYXRpY2FsbHkgdW5yZWdpc3RlciBvbiBkcml2ZXIgDQo+Pj4g
+dW5sb2FkLiBCdXQgdGhlbiBJIGRvbid0IGtub3cgaG93IHRvIHJlbW92ZSBpdCBmcm9tIG15
+IGxpbmtlZCBsaXN0LCANCj4+PiBhbmQgZnJlZSB0aGUgZHJtX2NsaWVudF9kZXYgc3RydWN0
+Lg0KPj4NCj4+IFVucmVnaXN0ZXJpbmcgd291bGRuJ3QgYmUgbmVjZXNzYXJ5IHdpdGggdGhp
+cyBwcm9wb3NlZCANCj4+IGdldF9zY2Fub3V0X2J1ZmZlci4gSW4gdGhlIGNhc2Ugb2YgYSBw
+YW5pYywganVzdCByZW1haW4gc2lsZW50IGlmIA0KPj4gdGhlcmUncyBubyBkcml2ZXIgdGhh
+dCBwcm92aWRlcyBzdWNoIGEgY2FsbGJhY2suDQo+IA0KPiBJcyB0aGVyZSBhIHdheSB0byBs
+b29wIG92ZXIgYWxsIGRybV9kZXZpY2VzID8NCj4gb3RoZXJ3aXNlIGRybV9wYW5pYyBtYXkg
+c3RpbGwgY2FsbCBnZXRfc2Nhbm91dF9idWZmZXIoKSBvbiBhIGZyZWVkIA0KPiBkZXZpY2Us
+IHdoaWNoIHdvdWxkIGJlIHByb2JsZW1hdGljLg0KDQpJIGRvbid0IHNlZSBzdWNoIGEgbGlz
+dC4gSXQgY291bGQgYmUgYWRkZWQgYXMgcGFydCBvZiB0aGUgcmVnaXN0ZXJpbmcgDQp0aGUg
+ZGV2aWNlLg0KDQo+Pg0KPj4+DQo+Pj4gVGhpcyBpcyBhIGZpcnN0IGRyYWZ0LCBzbyBsZXQg
+bWUga25vdyB3aGF0IGRvIHlvdSB0aGluayBhYm91dCBpdC4NCj4+DQo+PiBPbmUgdGhpbmcg
+dGhhdCB3aWxsIG5lZWQgc2VyaW91cyB3b3JrIGlzIHRoZSByYXcgb3V0cHV0LiBUaGUgY3Vy
+cmVudCANCj4+IGJsaXR0aW5nIGZvciBYUkdCODg4OCBpcyByZWFsbHkganVzdCBhIHF1aWNr
+LWFuZC1kaXJ0eSBoYWNrLg0KPj4NCj4+IEkgdGhpbmsgd2Ugc2hvdWxkIHRyeSB0byByZXVz
+ZSBmYmRldidzIGJsaXR0aW5nIGNvZGUsIGlmIHBvc3NpYmxlLiBUaGUgDQo+PiBmYmRldiBj
+b3JlLCBoZWxwZXJzIGFuZCBjb25zb2xlIGNvbWUgd2l0aCBhbGwgdGhlIGZlYXR1cmVzIHdl
+IG5lZWQuIFdlIA0KPj4gcmVhbGx5IG9ubHkgbmVlZCB0byBtYWtlIHRoZW0gd29yayB3aXRo
+b3V0IHRoZSBzdHJ1Y3QgZmJfaW5mbywgd2hpY2ggDQo+PiBpcyBhIGZ1bGwgZmJkZXYgZGV2
+aWNlLg0KPiANCj4gSSdtIGEgYml0IHJlbHVjdGFudCB0byByZS11c2UgdGhlIGZiZGV2IGNv
+ZGUsIGZvciBhIGZldyByZWFzb25zOg0KPiAgwqAqIEkgd2FudCBkcm1fcGFuaWMgdG8gd29y
+ayBpZiBDT05GSUdfRkIgYW5kIENPTkZJR19EUk1fRkJERVZfRU1VTEFUSU9OIA0KPiBhcmUg
+bm90IHNldC4NCg0KVGhlIGNvZGUgd291bGQgbGl2ZSBpbiB2aWRlby8gYW5kIGJlIGluZGVw
+ZW5kZW5kIGZyb20gZmJkZXYuIEl0J3MgcXVpdGUgDQphIGJpdCBvZiByZWZhY3RvcmluZywg
+YnV0IG1pZ2h0IGJlIHdvcnRoIGl0IGluIHRoZSBsb25nIHRlcm0uDQoNCj4gIMKgKiBkcm1f
+cGFuaWMgb25seSBuZWVkcyB0d28gdGhpbmdzLCB0byBjbGVhciB0aGUgZnJhbWVidWZmZXIs
+IGFuZCB0aGVuIA0KPiBkcmF3IHdoaXRlIHBpeGVscyB3aGVyZSBuZWVkZWQuIEFzIHRoZSBm
+cmFtZSBpcyBzdGF0aWMsIGFuZCB0aGUgYW1vdW50IA0KPiBvZiB3aGl0ZSBwaXhlbHMgaXMg
+bG93LCB0aGF0IHNob3VsZCBiZSBnb29kIGVub3VnaC4gU28gY29weV9hcmVhKCkgb3IgDQo+
+IGltYWdlX2JsaXQoKSBhcmUgbm90IHRoYXQgdXNlZnVsLg0KDQpJdCdzIHN0aWxsIGEgbG90
+IG9mIGNvbG9yIGZvcm1hdHMuIEFuZCB0aGVyZSdzIHBhbmVsIHJvdGF0aW9uIHRvIHRha2Ug
+DQppbnRvIGFjY291bnQuIEZiY29uIGhhcyBzdXBwb3J0IGZvciB0aGlzIGFscmVhZHkgYW5k
+IGtub3dzIGhvdyB0byBnZXQgDQpnbHlwaHMgb250byB0aGUgc2NyZWVuLiBJJ2QgZXhwZWN0
+IHRoYXQgYWxsIHRoaXMgZ2V0cyB1c2VmdWwgaWYgeW91IHdhbnQgDQp0byBkaXNwbGF5IGEg
+c3RhY2sgdHJhY2UuDQoNCj4gIMKgKiBGb3IgdGhpcyBwYXJ0aWN1bGFyIHVzZS1jYXNlLCBw
+ZXJmb3JtYW5jZXMgYXJlIG5vdCBhIHByaW9yaXR5LCBpdCANCj4gZG9lc24ndCBtYXR0ZXIg
+aWYgaXQgdGFrZXMgMTB1cyBvciAxMDBtcyB0byBkcmF3IHRoZSBwYW5pYyBzY3JlZW4sIGFz
+IGl0IA0KPiB3aWxsIHN0YXkgdGhlIHNhbWUgdW50aWwgdGhlIHVzZXIgcmVib290cy4NCj4g
+IMKgKiBTb21lIGFnZ3Jlc3NpdmUgb3B0aW1pemF0aW9ucyBtaWdodCBjYXVzZSBpc3N1ZXMg
+aW4gYSBwYW5pYyBoYW5kbGVyLCANCj4gbGlrZSBpZiB5b3UgdXNlIHdvcmtxdWV1ZS90YXNr
+bGV0Lg0KPiANCj4gT24gdGhlIG90aGVyIGhhbmQsIHdyaXRpbmcgdGhlIGNvZGUgZm9yIGFs
+bCBzdXBwb3J0ZWQgZm9ybWF0cyBpcyBhIGJpdCANCj4gdGVkaW91cy4gZHJtX2xvZyBbMV0g
+ZGlkIGl0IGluIH4zMDAgbGluZXMsIHdoaWNoIHNob3VsZCBrZWVwIGNvZGUgDQo+IGR1cGxp
+Y2F0aW9uIGxvdy4NCg0KSSdtIGNvbmNlcm5lZCB0aGF0IHdlJ2xsIG5vdyBhZGQgeWV0IGFu
+b3RoZXIgc2V0IGZvcm1hdC1jb252ZXJzaW9uIA0KaGVscGVycy4gV2UgYWxyZWFkeSBoYXZl
+IHRoZSBmYmRldiBkcmF3aW5nIGhlbHBlcnMgYW5kIERSTSdzIA0KZm9ybWF0LWNvbnZlcnNp
+b24gaGVscGVycy4gSU1ITyB3ZSBzaG91bGQgdHJ5IHRvIHJldXNlIG1vcmUgb2YgdGhlIA0K
+ZXhpc3RpbmcgY29kZS4gSSBhc3N1bWUgdGhhdCB3ZSBuZWVkIHNvbWUgZXh0ZW5zaXZlIHBy
+b3RvdHlwaW5nIGZpcnN0IHRvIA0Kc2VlIGhvdyB0byBkbyB0aGlzIGNvcnJlY3RseS4NCg0K
+QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+DQo+PiBJbiBzdHJ1Y3QgZmJfb3BzLCB0
+aGVyZSBhcmUgY2FsbGJhY2tzIGZvciBtb2RpZnlpbmcgdGhlIGZyYW1lYnVmZmVyLiANCj4+
+IFsxXSBUaGV5IGFyZSB1c2VkIGJ5IGZiY29uIGZvaXIgZHJhd2luZy4gQnV0IHRoZXkgb3Bl
+cmF0ZSBvbiBmYl9pbmZvLg0KPj4NCj4+IEZvciBhIHdoaWxlIEkndmUgYmVlbiB0aGlua2lu
+ZyBhYm91dCB1c2luZyBzb21ldGhpbmcgbGlrZSBhIGRyYXdhYmxlIA0KPj4gdG8gcHJvdmlk
+ZSBzb21lIGFic3RyYWN0aW9uczoNCj4+DQo+PiBzdHJ1Y3QgZHJhd2FibGUgew0KPj4gwqDC
+oMKgwqDCoC8qIHN0b3JlIGJ1ZmZlciBwYXJhbWV0ZXJzIGhlcmUgKi8NCj4+IMKgwqDCoMKg
+wqAuLi4NCj4+DQo+PiDCoMKgwqDCoMKgc3RydWN0IGRyYXdhYmxlX2Z1bmNzICpmdW5jczsN
+Cj4+IH07DQo+Pg0KPj4gc3RydWN0IGRyYXdhYmxlX2Z1bmNzIHsNCj4+IMKgwqDCoMKgwqAv
+KiBoYXZlIGZ1bmN0aW9uIHBvaW50ZXJzIHNpbWlsYXIgdG8gc3RydWN0IGZiX29wcyAqLw0K
+Pj4gwqDCoMKgwqDCoGZpbGxfcmVjdCgpDQo+PiDCoMKgwqDCoMKgY29weV9hcmVhKCkNCj4+
+IMKgwqDCoMKgwqBpbWFnZV9ibGl0KCkNCj4+IH07DQo+Pg0KPj4gV2UgY2Fubm90IHJld3Jp
+dGUgYWxsIHRoZSBleGlzdGluZyBmYmRldiBkcml2ZXJzLiBUbyBtYWtlIHRoaXMgd29yayAN
+Cj4+IHdpdGggZmJkZXYsIHdlJ2QgbmVlZCBhZGFwdGVyIGNvZGUgdGhhdCBjb252ZXJ0cyBm
+cm9tIGRyYXdhYmxlIHRvIA0KPj4gZmJfaW5mbyBhbmQgZm9yd2FyZHMgdG8gdGhlIGV4aXN0
+aW5nIGhlbHBlcnMgaW4gZmJfb3BzLg0KPj4NCj4+IEJ1dCBmb3IgRFJNJ3MgcGFuaWMgb3V0
+cHV0LCBkcmF3YWJsZV9mdW5jcyB3b3VsZCBoYXZlIHRvIHBvaW50IHRvIHRoZSANCj4+IHNj
+YW5vdXQgYnVmZmVyIGFuZCBjb21wYXRpYmxlIGNhbGxiYWNrIGZ1bmNzLCBmb3Igd2hpY2gg
+d2UgaGF2ZSANCj4+IGltcGxlbWVudGF0aW9ucyBpbiBmYmRldi4NCj4+DQo+PiBXZSBtaWdo
+dCBiZSBhYmxlIHRvIGNyZWF0ZSBjb25zb2xlLWxpa2Ugb3V0cHV0IHRoYXQgaXMgaW5kZXBl
+bmRlbnQgDQo+PiBmcm9tIHRoZSBmYl9pbmZvLiBIZW5jZSwgd2UgY291bGQgcG9zc2libGUg
+cmV1c2UgYSBnb29kIGNodW5rIG9mIHRoZSANCj4+IGN1cnJlbnQgcGFuaWMgb3V0cHV0Lg0K
+PiANCj4gSSB0aGluayB0aGF0IHdhcyB0aGUgZ29hbCBvZiBkcm1fbG9nLCBidXQgdGhpcyBj
+YW4gYmUgZG9uZSBiZXR0ZXIgaW4gDQo+IHVzZXJzcGFjZSwgZm9yIGV4YW1wbGUgdGhlcmUg
+aXMgd29yayBvbmdvaW5nIHRvIG1ha2UgcGx5bW91dGggZGlzcGxheSANCj4gdGhlbSBkdXJp
+bmcgdGhlIGJvb3QgWzJdLg0KPiANCj4gRm9yIHRoZSBwYW5pYyBzY3JlZW4sIG9ubHkgdGhl
+IGtlcm5lbCBjYW4gZG8gaXQuIEkgYWxzbyB0aGluayB0aGUgDQo+IGN1cnJlbnQgZmJjb24v
+a2VybmVsIGxvZyBpcyBnb29kIGZvciBkZXZlbG9wZXIsIGJ1dCB0b28gdGVjaG5pY2FsIGZv
+ciANCj4gbW9zdCBlbmQtdXNlci4NCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
+MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
+cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
+KQ0K
 
-Well, my original description to this technique point is that
+--------------Nir4tS23i8sTFDWeQ03f9jMd--
 
-1) "Firmware framebuffer device already get killed by the drm_aperture_remove_conflicting_pci_framebuffers() function (or its siblings)"
-2) "By the time of DRM drivers get loaded successfully, the boot-up graphics already finished."
+--------------6paN0eF7y4YoTrTEzG7RCQmT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-The word "killed" here is rough and coarse description about
-how does the drm device driver take over the firmware framebuffer.
-Since there seems have something obscure our communication,
-lets make the things clear. See below for more elaborate description.
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT4QwMFAwAAAAAACgkQlh/E3EQov+Cc
+qRAAs+r5LTXaIbK3k8TqGbmhzBFJWcCzqdmAnJWoDR+++2NP9p7WNjCoK0nf+vkEeD79TYKtGMBN
+mmqfRLCk8PPgrf7972oijbfUuTg3lGMnui6WgydKa8ruja/hz0YdRsS9fe8E4+I5iqtCZ0npc8Ym
+kPxWTr/9Z+nsK0Rk9VGcmIDBVIPmMXQnEXP2NRneDho1o2i5QeGyXoXmL1cLBdRtD6NU0+kGrrkj
++fFrdCrtV2b+R7mXr4xSG7SrAQAqMwvqoDfLv0kwaIYYZZ6TM2a329L5jv6Bbhi8HjQTMzPicGwA
+azIuVMmzhHPwQbRBimtZ4dket0TOb68KE0eSIdZdxmMPMDcRebaTKNLxxkD6Yku4+IW1ozdRv+iA
+7lBdZJRGKK7NReXeBMJOX7TMG9GkaEv+NC8DKPkjFhTNO9tpEBLHfXtD1MA9C9AybvEr/K6KMnNu
+W28l76Dt5GuCG55nTSzqjZGpzQdFkPsEYbg087+m6rtgmRQxSIdYuI//47adh4xynI1M3iREH1jH
+cRxon+VcgPX6NBp4A129VUlN50RD24G65G1sGBbRqemFsdBLKCxG9nH/+VvjdXHO/i6PCmK1lM7I
+qb3W13nkF/fu2fyqu/9DQFCVHwBWvmEneUZzplT4pk19tv6SUkY5CTMUJCDFA/lIKijqFO6ctPQk
+b/s=
+=12Rn
+-----END PGP SIGNATURE-----
 
-> they just remove the current framebuffer driver to avoid further updates.
->
-This statement doesn't sound right, for UEFI environment,
-a correct description is that they remove the platform device, not the framebuffer driver.
-For the machines with the UEFI firmware, framebuffer driver here definitely refer to the efifb.
-The efifb still reside in the system(linux kernel).
-
-Please see the aperture_detach_platform_device() function in video/aperture.c
-
-> So what happens (at least for amdgpu) is that we take over the 
-> framebuffer,
-
-This statement here is also not an accurate description.
-
-Strictly speaking, drm/amdgpu takes over the device (the VRAM hardware),
-not the framebuffer.
-
-The word "take over" here is also dubious, because drm/amdgpu takes over nothing.
-
- From the perspective of device-driver model, the GPU hardware *belongs* to the amdgpu drivers.
-Why you need to take over a thing originally and belong to you?
-
-If you could build the drm/amdgpu into the kernel and make it get loaded
-before the efifb. Then, there no need to use the firmware framebuffer (
-the talking is limited to the display boot graphics purpose here).
-On such a case, the so-called "take over" will not happen.
-
-The truth is that the efifb create a platform device, which *occupy*
-part of the VRAM hardware resource. Thus, the efifb and the drm/amdgpu
-form the conflict. There are conflict because they share the same
-hardware resource. It is the hardware resources(address ranges) used
-by two different driver are conflict. Not the efifb driver itself
-conflict with drm/amdgpu driver.
-
-Thus, drm_aperture_remove_conflicting_xxxxxx() function have to kill
-one of the device are conflicting. Not to kill the driver. Therefore,
-the correct word would be the "reclaim".
-drm/amdgpu *reclaim* the hardware resource (vram address range) originally belong to you.
-
-The modeset state (including the framebuffer content) still reside in the amdgpu device.
-You just get the dirty framebuffer image in the framebuffer object.
-But the framebuffer object already dirty since it in the UEFI firmware stage.
-
-In conclusion, *reclaim* is more accurate than the "take over".
-And as far as I'm understanding, the drm/amdgpu take over nothing, no gains.
-
-Well, welcome to correct me if I'm wrong.
-
+--------------6paN0eF7y4YoTrTEzG7RCQmT--
