@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DB9794091
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 17:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3E6794092
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 17:42:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FC510E69C;
-	Wed,  6 Sep 2023 15:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1EA810E69D;
+	Wed,  6 Sep 2023 15:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE00910E69C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 15:42:14 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-500c37d479aso6040826e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:14 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9872410E69D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 15:42:21 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-99de884ad25so595254866b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694014931; x=1694619731;
+ d=chromium.org; s=google; t=1694014939; x=1694619739;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0jqWPBKKZ0w/uAPmZAAT8U8XfT3/SMs+PhVUdbN+Ymo=;
- b=OPOyKdEipVyBDnoEbYFEGQz5epFcC1r4OmYZbXgEQTE44O8xQKH8kSxZQRisuBe1HT
- COzLzH+ru56IlJBLWLofAezl2VBjn3WUD4R0kvRCIJd+4lEPq1m6EuwtzxwTTT757G8o
- WXjVHdpMemfj4XlJ04MgAKY53Fq2hXOCkEfaE=
+ bh=8YnkA1hdOlu7MrSYVoA9DXoUNwGSQiK/yVg4K+jIqsI=;
+ b=lHiryO9xHqVILWEn/MfFV2kzH2KE4041UReC+T5TPMebgOzPq+5Y+QmZfIT0ABNIYr
+ Q7LmAQK8FVPbIP7SE66hYVpigiP9H5BqgbyZwA3x+r2UBlTYYjfm7fT5LSnEwrTg2apj
+ gGUQ/ixgz7lrEkjqoU6H0Y6QxVaLGaQLFdBMU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694014931; x=1694619731;
+ d=1e100.net; s=20221208; t=1694014939; x=1694619739;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0jqWPBKKZ0w/uAPmZAAT8U8XfT3/SMs+PhVUdbN+Ymo=;
- b=DMiOqx+AIIJrnh33PV25kc2luvlLTFkU5lb/KKhaaYVta7GfykAYFav083/6WR9wSn
- YDrLqPE5iiwAihxtcYNr3JEDqNXbBMCztJsrAzuu4ZHvieV1sQADSaJtoA9gusgR4fxW
- LHtqUbrdEZussmE38IONR0UAiXPMf+HT6Bk6UGZpmPEfqMWhMMYhaSJ/x0CPKgTOI0D1
- bQvNMSHaY6k5qBieM6uC9kGCJfZumgWyQdPgboC+6fnF3Zfy809xY6baoFBEWu/nao9R
- atzkpZutucq5c21XzWczxv4CAwNBQriFY/2eN5zQUNSMczbXQ1kosgGDO32rdDoRg3OT
- 8VfQ==
-X-Gm-Message-State: AOJu0YwF3nRGaxoqrUYB7oAJRfP4uPfXJEJRKm96XGvvc4Ez35IQzhO+
- s4warPuNUWgNr2ZJrNwhDfgeBQH8a3DtnFDl1/qFx6hW
-X-Google-Smtp-Source: AGHT+IH3Skrew8ZIj+wt7wJe7Y7s/HtD1BuYUUfeJmmokMjZLGApwOoYFc/GqnS/qv6lfKQZg+YcnQ==
-X-Received: by 2002:ac2:5e66:0:b0:500:91ac:c0b5 with SMTP id
- a6-20020ac25e66000000b0050091acc0b5mr2533261lfr.30.1694014930932; 
- Wed, 06 Sep 2023 08:42:10 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- bm26-20020a0564020b1a00b005288f0e547esm8634623edb.55.2023.09.06.08.42.10
+ bh=8YnkA1hdOlu7MrSYVoA9DXoUNwGSQiK/yVg4K+jIqsI=;
+ b=VDockn/zqPaVt8ouMRRTxPP1Ia88SaVhAA9XxaxFV9TQ+fiLFlyM9Vl+G4MOJDi/E0
+ hicWZosMV7G/kCXCIMwQRuiJWUvIL2ozq7tTo4oJCiR/ptOdJhxHnU2H3NoL4gjmyauX
+ 00GjfpvMsS7xArO4axfSaeyz8VgCvjDYVGOmtLefxuFs3rUeROpjAF2zzLTUtewsH8PN
+ Uw5TwIZYmfU4UvEV1X1h5mfB5hQNJM/8fvnmgoSNtb1q9uAj1jlSZ54q4Cf2orjwZnY/
+ V8d7E5gQxYmjazLBzUua1tVOVBBITW6iK4nzy0Nx0CeQUj7/9U6AHZI+14QKd/DQ0VbP
+ x3oQ==
+X-Gm-Message-State: AOJu0YxfCj2zkN4zDIhY/vdsifeNSqGSgaJ/DGsAJy0J/aqfDPqsJSZ3
+ hk6/jGV4/Sl39K4yoKny0ZdN4HeEI+zSvcteEa5gWfyA
+X-Google-Smtp-Source: AGHT+IEeDHYl4kpLnM7UAbSWsaXjUGTuZn4ngs4GZHdZHWEMoU7S4685H98U5CL95cVcXhNM6+N4Ig==
+X-Received: by 2002:a17:907:7758:b0:99c:b0c9:4ec0 with SMTP id
+ kx24-20020a170907775800b0099cb0c94ec0mr2726301ejc.30.1694014938796; 
+ Wed, 06 Sep 2023 08:42:18 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ ox29-20020a170907101d00b00992ea405a79sm9172721ejb.166.2023.09.06.08.42.18
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Sep 2023 08:42:10 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4009fdc224dso84895e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:10 -0700 (PDT)
-X-Received: by 2002:a05:600c:5493:b0:3fe:eb42:7ec with SMTP id
- iv19-20020a05600c549300b003feeb4207ecmr129217wmb.1.1694014930015; Wed, 06 Sep
- 2023 08:42:10 -0700 (PDT)
+ Wed, 06 Sep 2023 08:42:18 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-402bec56ca6so110625e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:18 -0700 (PDT)
+X-Received: by 2002:a05:600c:4f14:b0:3fe:e9ea:9653 with SMTP id
+ l20-20020a05600c4f1400b003fee9ea9653mr156513wmq.4.1694014937894; Wed, 06 Sep
+ 2023 08:42:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
- <20230831080938.47454-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230831080938.47454-2-biju.das.jz@bp.renesas.com>
+ <20230831080938.47454-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230831080938.47454-3-biju.das.jz@bp.renesas.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Sep 2023 08:41:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XSmtc=jaHghXYmdPi2VKtfi+AAZEmkbk_AbWRfHxawRA@mail.gmail.com>
-Message-ID: <CAD=FV=XSmtc=jaHghXYmdPi2VKtfi+AAZEmkbk_AbWRfHxawRA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] drm/bridge/analogix/anx78xx: Drop ID table
+Date: Wed, 6 Sep 2023 08:42:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V-Mft_FjqfkgyMf--03tqrAoCVsG23v-4CBR0sQZFjAg@mail.gmail.com>
+Message-ID: <CAD=FV=V-Mft_FjqfkgyMf--03tqrAoCVsG23v-4CBR0sQZFjAg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] drm/bridge: Drop conditionals around of_node
+ pointers
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,50 +81,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Helen Koike <helen.koike@collabora.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Aug 31, 2023 at 1:09=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+On Thu, Aug 31, 2023 at 1:10=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> The driver has an ID table, but it uses the wrong API for retrieving matc=
-h
-> data and that will lead to a crash, if it is instantiated by user space o=
-r
-> using ID. From this, there is no user for the ID table and let's drop it
-> from the driver as it saves some memory.
+> This patch is based on commit c9e358dfc4a8 ("driver-core: remove
+> conditionals around devicetree pointers").
 >
+> Having conditional around the of_node pointer of the drm_bridge
+> structure turns out to make driver code use ugly #ifdef blocks. Drop the
+> conditionals to simplify drivers. While this slightly increases the size
+> of struct drm_bridge on non-OF system, the number of bridges used today
+> and foreseen tomorrow on those systems is very low, so this shouldn't be
+> an issue.
+>
+> So drop #if conditionals by adding struct device_node forward declaration=
+.
+>
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Helen Koike <helen.koike@collabora.com>
 > ---
 > v5->v6:
->  * No change.
-> v4->v5:
->  * Added Rb tag from Andy and Helen.
-> v3->v4:
->  * Added Rb tag from Laurent and Douglas Anderson.
-> v2->v3:
->  * Updated commit header.
-> v1->v2:
->  * Dropped ID table support.
+>  * Updated commit description.
+>  * Added Rb tag from Douglas Anderson and Laurent
+> v5:
+>  * Split from patch#2
+>  * Updated commit description
+>  * Added struct device_node forward declaration.
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
->  1 file changed, 7 deletions(-)
+>  include/drm/drm_bridge.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 I think this has had enough time to marinate, so landed to drm-misc-next:
 
-39e0b96d61b6 drm/bridge/analogix/anx78xx: Drop ID table
+d8dfccde2709 drm/bridge: Drop conditionals around of_node pointers
