@@ -2,42 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290907942E9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 20:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3047942E7
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 20:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAD210E6EB;
-	Wed,  6 Sep 2023 18:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC79710E058;
+	Wed,  6 Sep 2023 18:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A98BE10E055
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 16:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis.com; q=dns/txt; s=axis-central1; t=1694017834;
- x=1725553834;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=aUAwXvtXGHutTByOh+hjaBOyIhjW4Rjz+jAnGbHGoFs=;
- b=obpmWHyycMXfxTvDInFgqrbN1/sigewgU1fwsOaSLB5Uy5lhxcxjswUR
- n7Qf17t2B4lVmh7fvojwqGEfV+kn7oaYv2toZ8Yj3hX4xBPFPJ/W0KrYP
- kFF8Xw/H+0WFZQrMqx4Fkc5S0fmxWW2KCIr46al/orawlMpW0H2APvLPW
- 1RjCTaJ8RTdHh4udGfchQOFp1iP/8o7MABGPe2j1Hyz/koTYSA4hnwCTi
- n6RhnvxCqszgyGp9loJ5Llxdl8b/aojM8iW6MF9tGi3oSLfQT6bqByX64
- HclSMLYHfPBQpvXTqwlQIUE61psgTV7PeXAqoDn2tF/VV+BIaB/bJUFAm A==;
-From: Stefan x Nilsson <stefan.x.nilsson@axis.com>
-Date: Wed, 6 Sep 2023 18:22:17 +0200
-Subject: [PATCH 2/2] drm: tiny: Add st7735s driver
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur01olkn2034.outbound.protection.outlook.com [40.92.65.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2249110E1B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 16:46:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MzANdwbPKRSBfYL+hG/DM8kXvSwm0PttYIQI3rkbNz3KSyPRpR3bjzPV2w2ywTqWKpVJRpUg6Ruu+X3LZhY+syNGuBXhBM1/JDYC2wUY4SMfpl8rWKGfHNeFqTEhtkQLpWnzd624sYUlrQmGEPZ1MXW8Ow189inx97ZWmlIEgK10W4EhomSyILQhS44nmN3xW100xw25IP4Fr+sr3w0kHsje2gtxDj6Oz7NELHIUrL/v+nlDlTyhubmaMCoAFajIItr9EZB7GGJclkni7+XX+hUbzS5YX7Pbq3cC3pFDa9Nx1zjh6LVCuCUxPx/WBJdcn2Z8EufbWLN+Ql4pcamxlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R21wmXrAFmFt8rpghQT+7WZnFnA7+/WDKyI2f2deSN8=;
+ b=Sg6tnVHECtB2NwGX9JepRobcxufJX6OiZVBib3XZlgB4e6vo1iB0hRmT+7TN81w4ZYjwXE0gjDVBTyjazIsfR39SeU3WqX+P0IPF+jAHDIdwiij/9fzANYgbGcnxX3/WnvSPt4w5u3BjmnuviMklQk+WaBt5oyI5zNPSYsSRxqg1XPkl7ZGT4aOMNxIvRNGX5O0Ab9jDNwRXp8YQwLaC00x9v7Gx7UyHcioNe64GnlnLCD9sVFITHdXh7T0P7LXWzlWzyFz4R9yqCrgNDoD0zteQ6J4J2AaH7gnf8fqv7z6Um0nW4gVF9zXhJNapY+kCbB6eUdJ/O3hwkh+x+bmDkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R21wmXrAFmFt8rpghQT+7WZnFnA7+/WDKyI2f2deSN8=;
+ b=QkFNIdlCMy06QLAqKG0Be8Eo3DdZVGFeHFJzU7FWG+BGo4NKP3b1nrFSjwuwi0nmyP1LRzx1J2Qox//B7IQiUucXPr8FHJm/MX3RcTM6LZ1udtu3QlnShxxongx6EH6qYeLAi5KmdGdrw48amKRVu0PtF1gx3AK3DGar7FHz5ZPtP0nRhdUiHPrv5l1lAhEbM4yVhoMEOBEmfFPBIVOqGBaIS1XF9Z2FDCeuf8bhgmeJ+iENUk84JB16a9CV0e9Iwo0W3VE11h5BwYRtRXe8qO9aZ999WWrTIEe8b9BybjsfAkJnbJi8rKCxhFGaYmzsBecLcalhfQwzlcdkNrfUiw==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by DB9P193MB1900.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:24a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
+ 2023 16:46:13 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3d3c:61f2:146f:b3b4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3d3c:61f2:146f:b3b4%7]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
+ 16:46:13 +0000
+From: Juntong Deng <juntong.deng@outlook.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com
+Subject: [PATCH] drm: Rename drm_ioctl_flags() to eliminate duplicate
+ declaration warning
+Date: Thu,  7 Sep 2023 00:45:47 +0800
+Message-ID: <VI1P193MB0752635EE197F2BB14A2D87499EFA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [JT1n74E14+jD+T8Xjlx0+O2voZOfgrR3]
+X-ClientProxiedBy: AM8P191CA0006.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21a::11) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <20230906164547.13873-1-juntong.deng@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230906-st7735s-v1-2-add92677c190@axis.com>
-References: <20230906-st7735s-v1-0-add92677c190@axis.com>
-In-Reply-To: <20230906-st7735s-v1-0-add92677c190@axis.com>
-To: David Lechner <david@lechnology.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>
-X-Mailer: b4 0.12.3
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB9P193MB1900:EE_
+X-MS-Office365-Filtering-Correlation-Id: 281b9519-29aa-4509-0c8d-08dbaef8c7b4
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wiq1gzUhQ7999Bffa8+BerDIG7iSgK5t8g0tfgjXQwPz5vysVZYB1GMx6uL1FtwyA/R2rTDaRoqIqbm29eDCMVvWNHco0QRWEIaY7zVRmxQ+K0n3NBZU/idXhmacIwCQCmq3pZn5amsM5P0z5S6UWsgvlUvxM8YMvNZDxC3p9t5T4aIUjtb1OrjkHTKHHR30uqNtoCOYgBWu1Jg27cWx8bc59dEjz8F5LCqOcaxCkdT9GsJt2WWufxMKinjveIumF7mD3tVUmEc4iKGuXrgFcgnXQwDrbTU0yjT/dHsQHg2xvYWcW3F6lRWkCn/TjBeFDRSB7UJD+OrlXNV5N/UJtAb9+LP4HBbXCVSGX4K6JXkGJ84udUND+G+TTwb1dXRas1JowmELB44unwvs0cx2wlyXFgygMIWGAMWuzj9+mO1cyIWA4/UFW56kOJc50EIp7yqQU1uJxDc/RwePhwC+YO7S9NhXBf5ZBZhzARTadyRo4vu8PiienpIC2ZxiNjvQ/ZXyyJ0rz+Ngbl2G9uDXwHJClcqqWZcQYi63UKE0zizDTSyYxt8LNUYY8RBpvIfe
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KPgo6GiFPm+QoTKVrz6PD+l56CBMKaIBh9t2mykCHA8tzZzYD/m4UJPCGAE9?=
+ =?us-ascii?Q?304jX62S1jxjLb7kYym2YWNr7tLpcEIo4yEatXfX+fS+V/Cz+V6LjQjnzabx?=
+ =?us-ascii?Q?V38HGO483XgUWBpnIiokQeoXLLPv4jeDd34nmpT4MEKoWtuGyJFLMEFXv8iv?=
+ =?us-ascii?Q?7+GHTvRk8PbvC7yuqaPjnine+TsmVw3VGDKtkUJZ74ejIbSlNlgDPiSbCOSy?=
+ =?us-ascii?Q?pB5nafZc9MnzscRFhTV5Bu7feNAvXCSLZl2v0NnnbM0QqJwJ93p0IAA0+wKX?=
+ =?us-ascii?Q?sQol+qVWpXl4PgmtiZHhafo9RwTEwcPmH6exqaqneUpmBw1yYH5N/DPBqrAp?=
+ =?us-ascii?Q?dYPbnIEnjZc+KH1I0OEgJlAv5V2ONhoP71MmC80TcP4EltsiCNSZi1x9nX7f?=
+ =?us-ascii?Q?Pv8OxCieUV2cdJYpts/DxmHLgGuL5tuXdppoH8y2GnBO29TIt/xxYXB4L06D?=
+ =?us-ascii?Q?TKT+4sdITbGpGf8/a2X4QVHOuxvGEvl+vss/bnu0B2IESnVYuGFYrXRQLlBp?=
+ =?us-ascii?Q?+25Ez0Neoq2bPfzMdbpsNGYFHM3SjVDvZ/KwYQTF1Wxj1PljAzbTxVRDTemX?=
+ =?us-ascii?Q?y3ZQ8unN4yuypbNqb1C9HWOrK9bGE4HE3qbb6p1eTmL7f1SFsiYjpaF9eD63?=
+ =?us-ascii?Q?V/8lV0mcyA+XFxgBTJG3EaAKR+JfpnOa09Gm2rpOixakaqO4xK9iSvVEQ7e9?=
+ =?us-ascii?Q?jUIRgJjuMrIAHdkxBdVeAGVCVGYRfas5MabCUV58rWjhG+8n1goavxJzqQoo?=
+ =?us-ascii?Q?L+0UKefRNvosyJ7U5DCFZZnUdTWU9aGE6ZQLocu0X66DZ/iLeamSIOMwJ4Vs?=
+ =?us-ascii?Q?YM4uL1GaSs8ef+COoilsfQPRr9LpZqioJCkx/HAk52FdR9j1BsvudBQLRPmZ?=
+ =?us-ascii?Q?hR33oa/+hegKTGGAh+bu9MS7DBljaL7kbKBp4uZrJfmayhhVzJ4Rg4drUCBo?=
+ =?us-ascii?Q?fZKOD3UEcWSKOAJarL0pTvLDPCCj6m0wCvkOuZgkSUQNuYNQfH5B9CUKAlq9?=
+ =?us-ascii?Q?erPz69kNInNrpT3BqF16b3wM2YN+e3RHMVbhvJq1wgiGhDEQ7JZMehgmNB6C?=
+ =?us-ascii?Q?5U/2JPmEWxrdK0XR6RhJGNjqMp3S2NY5Ghuo7C6Z1Bl7eOitkvVwoEDUxvd6?=
+ =?us-ascii?Q?/EZLlT5QyuiboVjvWgqS9lS6RcbzsRNQ1XVYi2bZDV26G2PQ8iamvZVYW6Wl?=
+ =?us-ascii?Q?yE+7yGH+OI5MVJfehctZp3qGfKvNM1X9Yab83laK/P34RIOhozFNgV8UrQI?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 281b9519-29aa-4509-0c8d-08dbaef8c7b4
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 16:46:13.0340 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P193MB1900
 X-Mailman-Approved-At: Wed, 06 Sep 2023 18:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,340 +104,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan x Nilsson <stefan.x.nilsson@axis.com>, devicetree@vger.kernel.org,
- kernel@axis.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a driver for Sitronix st7735s display controller, as well as a
-Winstar wf0096atyaa3dnn0 0.96" 80x160 TFT panel.
+There are 'enum drm_ioctl_flags' and 'bool drm_ioctl_flags(...)' with the
+same name, which is not a problem in C, but it can lead to
+'WARNING: Duplicate C declaration' when generating documentation.
 
-The driver code is very similar to st7735r, but with adaptations for
-the pipe_enable function. There is also optional support to specify
-a power regulator for the display.
+According to the purpose of the function, rename 'drm_ioctl_flags(...)' to
+'drm_check_ioctl_flags(...)' to eliminate the warning.
 
-Signed-off-by: Stefan x Nilsson <stefan.x.nilsson@axis.com>
+Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
- MAINTAINERS                    |   1 +
- drivers/gpu/drm/tiny/Kconfig   |  14 +++
- drivers/gpu/drm/tiny/Makefile  |   1 +
- drivers/gpu/drm/tiny/st7735s.c | 264 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 280 insertions(+)
+ drivers/gpu/drm/drm_ioctl.c         | 6 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
+ include/drm/drm_ioctl.h             | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c00b2b9086f2..f24295d691e5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6733,6 +6733,7 @@ M:	Stefan x Nilsson <stefan.x.nilsson@axis.com>
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
-+F:	drivers/gpu/drm/tiny/st7735s.c
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index f03ffbacfe9b..30699a0a10bc 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -911,7 +911,7 @@ long drm_ioctl(struct file *filp,
+ EXPORT_SYMBOL(drm_ioctl);
  
- DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
- M:	Javier Martinez Canillas <javierm@redhat.com>
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index f6889f649bc1..2917f5412ddd 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -212,3 +212,17 @@ config TINYDRM_ST7735R
- 	  * Okaya RH128128T 1.44" 128x128 TFT
+ /**
+- * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
++ * drm_check_ioctl_flags - Check for core ioctl and return ioctl permission flags
+  * @nr: ioctl number
+  * @flags: where to return the ioctl permission flags
+  *
+@@ -922,7 +922,7 @@ EXPORT_SYMBOL(drm_ioctl);
+  * Returns:
+  * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
+  */
+-bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
++bool drm_check_ioctl_flags(unsigned int nr, unsigned int *flags)
+ {
+ 	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
+ 		return false;
+@@ -934,4 +934,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
+ 	*flags = drm_ioctls[nr].flags;
+ 	return true;
+ }
+-EXPORT_SYMBOL(drm_ioctl_flags);
++EXPORT_SYMBOL(drm_check_ioctl_flags);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 8b24ecf60e3e..9615104451b3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1287,7 +1287,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
+ 			goto out_io_encoding;
  
- 	  If M is selected the module will be called st7735r.
-+
-+config TINYDRM_ST7735S
-+	tristate "DRM support for Sitronix ST7735S display panels"
-+	depends on DRM && SPI
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_MIPI_DBI
-+	select BACKLIGHT_CLASS_DEVICE
-+	help
-+	  DRM driver for Sitronix ST7735S with one of the following
-+	  LCDs:
-+	  * Winstar WF0096ATYAA3DNN0 0.96" 80x160 Color TFT
-+
-+	  If M is selected the module will be called st7735s.
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 76dde89a044b..2e805c5b6f16 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -16,3 +16,4 @@ obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
- obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
- obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
- obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
-+obj-$(CONFIG_TINYDRM_ST7735S)		+= st7735s.o
-diff --git a/drivers/gpu/drm/tiny/st7735s.c b/drivers/gpu/drm/tiny/st7735s.c
-new file mode 100644
-index 000000000000..42290f4128db
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/st7735s.c
-@@ -0,0 +1,264 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for display panels connected to a Sitronix ST7735S
-+ * display controller in SPI mode.
-+ *
-+ * Copyright (C) 2023 Axis Communications AB
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/dma-buf.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/spi/spi.h>
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fbdev_generic.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_dma_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_mipi_dbi.h>
-+
-+#define ST7735S_FRMCTR1		0xb1
-+#define ST7735S_FRMCTR2		0xb2
-+#define ST7735S_FRMCTR3		0xb3
-+#define ST7735S_INVCTR		0xb4
-+#define ST7735S_PWCTR1		0xc0
-+#define ST7735S_PWCTR2		0xc1
-+#define ST7735S_PWCTR3		0xc2
-+#define ST7735S_PWCTR4		0xc3
-+#define ST7735S_PWCTR5		0xc4
-+#define ST7735S_VMCTR1		0xc5
-+#define ST7735S_GAMCTRP1	0xe0
-+#define ST7735S_GAMCTRN1	0xe1
-+
-+#define ST7735S_MY	BIT(7)
-+#define ST7735S_MX	BIT(6)
-+#define ST7735S_MV	BIT(5)
-+#define ST7735S_RGB	BIT(3)
-+
-+struct st7735s_cfg {
-+	const struct drm_display_mode mode;
-+	unsigned int left_offset;
-+	unsigned int top_offset;
-+	unsigned int write_only:1;
-+	unsigned int rgb:1;		/* RGB (vs. BGR) */
-+};
-+
-+struct st7735s_priv {
-+	struct mipi_dbi_dev dbidev;	/* Must be first for .release() */
-+	const struct st7735s_cfg *cfg;
-+};
-+
-+static void st7735s_pipe_enable(struct drm_simple_display_pipe *pipe,
-+				struct drm_crtc_state *crtc_state,
-+				struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct st7735s_priv *priv = container_of(dbidev, struct st7735s_priv,
-+						 dbidev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	int ret, idx;
-+	u8 addr_mode;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	ret = mipi_dbi_poweron_reset(dbidev);
-+	if (ret)
-+		goto out_exit;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(120);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+
-+	mipi_dbi_command(dbi, ST7735S_FRMCTR1, 0x05, 0x3c, 0x3c);
-+	mipi_dbi_command(dbi, ST7735S_FRMCTR2, 0x05, 0x3c, 0x3c);
-+	mipi_dbi_command(dbi, ST7735S_FRMCTR3, 0x05, 0x3c, 0x3c, 0x05, 0x3c, 0x3c);
-+	mipi_dbi_command(dbi, ST7735S_INVCTR, 0x07);
-+	mipi_dbi_command(dbi, ST7735S_PWCTR1, 0xe9, 0x09, 0x04);
-+	mipi_dbi_command(dbi, ST7735S_PWCTR2, 0xc5);
-+	mipi_dbi_command(dbi, ST7735S_PWCTR3, 0x0d, 0x00);
-+	mipi_dbi_command(dbi, ST7735S_PWCTR4, 0x8d, 0x6a);
-+	mipi_dbi_command(dbi, ST7735S_PWCTR5, 0x8a, 0xee);
-+	mipi_dbi_command(dbi, ST7735S_VMCTR1, 0x15);
-+	mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE);
-+	/* Enable gate power save mode */
-+	mipi_dbi_command(dbi, 0xFC, 0xC0);
-+	switch (dbidev->rotation) {
-+	default:
-+		addr_mode = ST7735S_MX | ST7735S_MY;
-+		break;
-+	case 90:
-+		addr_mode = ST7735S_MX | ST7735S_MV;
-+		break;
-+	case 180:
-+		addr_mode = 0;
-+		break;
-+	case 270:
-+		addr_mode = ST7735S_MY | ST7735S_MV;
-+		break;
-+	}
-+
-+	if (priv->cfg->rgb)
-+		addr_mode |= ST7735S_RGB;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
-+			 MIPI_DCS_PIXEL_FMT_16BIT);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS, 0x00, 0x01, 0x00, 0xa0);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS, 0x00, 0x1a, 0x00, 0x69);
-+	mipi_dbi_command(dbi, ST7735S_GAMCTRP1, 0x07, 0x0e, 0x08, 0x07, 0x10,
-+			 0x07, 0x02, 0x07, 0x09, 0x0f, 0x25, 0x36, 0x00, 0x08,
-+			 0x04, 0x10);
-+	mipi_dbi_command(dbi, ST7735S_GAMCTRN1, 0x0a, 0x0d, 0x08, 0x07, 0x0f,
-+			 0x07, 0x02, 0x07, 0x09, 0x0f, 0x25, 0x35, 0x00, 0x09,
-+			 0x04, 0x10);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs st7735s_pipe_funcs = {
-+	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(st7735s_pipe_enable),
-+};
-+
-+static const struct st7735s_cfg wf0096atyaa3dnn0_cfg = {
-+	.mode		= { DRM_SIMPLE_MODE(80, 160, 11, 22) },
-+	.left_offset	= 1,
-+	.top_offset	= 26,
-+	.write_only	= true,
-+	.rgb		= true,
-+};
-+
-+DEFINE_DRM_GEM_DMA_FOPS(st7735s_fops);
-+
-+static const struct drm_driver st7735s_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &st7735s_fops,
-+	DRM_GEM_DMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "st7735s",
-+	.desc			= "Sitronix ST7735S",
-+	.date			= "20230825",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static const struct of_device_id st7735s_of_match[] = {
-+	{ .compatible = "winstar,wf0096atyaa3dnn0", .data = &wf0096atyaa3dnn0_cfg },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, st7735s_of_match);
-+
-+static const struct spi_device_id st7735s_id[] = {
-+	{ "wf0096atyaa3dnn0", (uintptr_t)&wf0096atyaa3dnn0_cfg },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, st7735s_id);
-+
-+static int st7735s_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	const struct st7735s_cfg *cfg;
-+	struct mipi_dbi_dev *dbidev;
-+	struct st7735s_priv *priv;
-+	struct drm_device *drm;
-+	struct mipi_dbi *dbi;
-+	struct gpio_desc *dc;
-+	u32 rotation = 0;
-+	int ret;
-+
-+	cfg = device_get_match_data(&spi->dev);
-+	if (!cfg)
-+		cfg = (void *)spi_get_device_id(spi)->driver_data;
-+
-+	priv = devm_drm_dev_alloc(dev, &st7735s_driver,
-+				  struct st7735s_priv, dbidev.drm);
-+	if (IS_ERR(priv))
-+		return PTR_ERR(priv);
-+
-+	dbidev = &priv->dbidev;
-+	priv->cfg = cfg;
-+
-+	dbi = &dbidev->dbi;
-+	drm = &dbidev->drm;
-+
-+	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(dbi->reset))
-+		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
-+
-+	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
-+
-+	dbidev->backlight = devm_of_find_backlight(dev);
-+	if (IS_ERR(dbidev->backlight))
-+		return PTR_ERR(dbidev->backlight);
-+
-+	dbidev->regulator = devm_regulator_get(dev, "power");
-+	device_property_read_u32(dev, "rotation", &rotation);
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, dc);
-+	if (ret)
-+		return ret;
-+
-+	if (cfg->write_only)
-+		dbi->read_commands = NULL;
-+
-+	dbidev->left_offset = cfg->left_offset;
-+	dbidev->top_offset = cfg->top_offset;
-+
-+	ret = mipi_dbi_dev_init(dbidev, &st7735s_pipe_funcs, &cfg->mode,
-+				rotation);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	spi_set_drvdata(spi, drm);
-+
-+	drm_fbdev_generic_setup(drm, 0);
-+
-+	return 0;
-+}
-+
-+static void st7735s_remove(struct spi_device *spi)
-+{
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+}
-+
-+static void st7735s_shutdown(struct spi_device *spi)
-+{
-+	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static struct spi_driver st7735s_spi_driver = {
-+	.driver = {
-+		.name = "st7735s",
-+		.of_match_table = st7735s_of_match,
-+	},
-+	.id_table = st7735s_id,
-+	.probe = st7735s_probe,
-+	.remove = st7735s_remove,
-+	.shutdown = st7735s_shutdown,
-+};
-+module_spi_driver(st7735s_spi_driver);
-+
-+MODULE_DESCRIPTION("Sitronix ST7735S DRM driver");
-+MODULE_LICENSE("GPL");
-
+ 		flags = ioctl->flags;
+-	} else if (!drm_ioctl_flags(nr, &flags))
++	} else if (!drm_check_ioctl_flags(nr, &flags))
+ 		return -EINVAL;
+ 
+ 	return ioctl_func(filp, cmd, arg);
+diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
+index 6ed61c371f6c..2fc5fc86f711 100644
+--- a/include/drm/drm_ioctl.h
++++ b/include/drm/drm_ioctl.h
+@@ -175,7 +175,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+ /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
+ #define drm_compat_ioctl NULL
+ #endif
+-bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
++bool drm_check_ioctl_flags(unsigned int nr, unsigned int *flags);
+ 
+ int drm_noop(struct drm_device *dev, void *data,
+ 	     struct drm_file *file_priv);
 -- 
-2.30.2
+2.39.2
 
