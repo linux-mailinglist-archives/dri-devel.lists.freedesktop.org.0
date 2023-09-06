@@ -1,53 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAD37938DC
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D427938F7
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 11:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE69B10E5C1;
-	Wed,  6 Sep 2023 09:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE91D10E5BD;
+	Wed,  6 Sep 2023 09:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17A410E5C4;
- Wed,  6 Sep 2023 09:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1693993869; x=1725529869;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0LiL6j2H7g+1uLIOL4Mqaz9i+xRnNyJ9avg5ksWEiFM=;
- b=iq4PX1Rb26VV/OXGf+CyYgskgx7Jv7j4+Re57e5hn2sKb0BzeYqmfJ3Z
- wPC9+v2naY9DJpQw5IG9C6WQJ/Bzy8gw6lUb75u6meYnzlhGpsXzXX+s7
- P7vXXX/k0epCeM83i/+rOND++k5/hH4HQBUKTQAZkrq+0rbYojHcakLsX
- IH+4RlTVGzKUM7dwbN+vOclefllPLzfkBszC/2mmYHLXfdezvBPhZk2zh
- /5e02tqLExkSsvbqxKUvea4Q61oEofBSL1mIe7mrDHe6hY5+vAjm9vkXz
- XmsCq9FBi2Mk1jHti7z3tVElDuDCdA/as9qgyvi2JdQctjk912jOKWOm/ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="357331495"
-X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; d="scan'208";a="357331495"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2023 02:51:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="806948111"
-X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; d="scan'208";a="806948111"
-Received: from igorhaza-mobl1.ger.corp.intel.com (HELO fedora..)
- ([10.249.254.161])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2023 02:51:08 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/drm_exec: Work around a WW mutex lockdep oddity
-Date: Wed,  6 Sep 2023 11:50:39 +0200
-Message-ID: <20230906095039.3320-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230906095039.3320-1-thomas.hellstrom@linux.intel.com>
-References: <20230906095039.3320-1-thomas.hellstrom@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC9010E5BD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 09:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1693994046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4tzibQVke0hKt8IOTav8MFtlZQ2trxpBqLxq9f+UJCg=;
+ b=ic7okgh3jxac6Ce3X9bUBdxkyQngLiHqP0HnhhC6MqQRBs1ApHuJgj2vSCUW+RLJIQXpRJ
+ ufR5b7abgJNJ0tXoHNeGrmoUfzb/zrIDQvABtuyJLz2WFOD/8MBCL5N7u5l2DmoC4+8bd0
+ KRVFH7am9QjPIKodBwCPLAizP2Hz7ws=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-505-isne82fBMG2dMZe4U2pQeQ-1; Wed, 06 Sep 2023 05:54:03 -0400
+X-MC-Unique: isne82fBMG2dMZe4U2pQeQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-30e3ee8a42eso1794206f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 02:54:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693994042; x=1694598842;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4tzibQVke0hKt8IOTav8MFtlZQ2trxpBqLxq9f+UJCg=;
+ b=WuxYfQcAEnCKOGi5j7zw7G8oGQAzr7Yd6O+1MJtEDzaKEUIT5dwVJKsJtWMjvzhjNn
+ pfj0nH8fRcTtKjpolD94bROY0qlxSjZxMXMy1zdb+2efaJS+2O7Kmt9ukd5G4krDOEAC
+ /RxOkZa3xVQMd/+5UR1sVbq9xDrHeonQ2tBGCea0Y0m5lb9tKbtjSSkHVW/dSwETntWc
+ lUT7tXIQ+jC7wcw6f5j9h17jCthE7x+N52HoAexUmkEnA43SiD7+PTYBy2Ek+tDZzLKG
+ +J7yf1ywSahFQSTFJLva0SXAlIskR6FBmoJVaa2r7dC3tjGYmNFV4lKtUETbspkicepi
+ Xc/A==
+X-Gm-Message-State: AOJu0Yw/uCHh/qO08kpR4uxEdWndMH+GXD3FKUmGMl9YzKK1K3V8xI57
+ LeFb6HzZoMn21c6dofXRGVMa+QPyOzfA9EATl+xzXVGmi6eN0+JVfn17t88qWY4wQZuhOr/Mtsm
+ vYUE98vJokwCvfQmVpExWpjduSoOD
+X-Received: by 2002:adf:f512:0:b0:31a:d871:7ae7 with SMTP id
+ q18-20020adff512000000b0031ad8717ae7mr1954036wro.29.1693994042095; 
+ Wed, 06 Sep 2023 02:54:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHgP7ciy8RiRDljW7l6SGuO/N0itwoSv2n3TNrlmpxaanZjeoaWxrwp9lqX4hZlX6Ivt08wqQ==
+X-Received: by 2002:adf:f512:0:b0:31a:d871:7ae7 with SMTP id
+ q18-20020adff512000000b0031ad8717ae7mr1954025wro.29.1693994041793; 
+ Wed, 06 Sep 2023 02:54:01 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ bt12-20020a056000080c00b0031433443265sm14238423wrb.53.2023.09.06.02.54.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Sep 2023 02:54:01 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/7] fbdev/mmp/mmpfb: Do not display boot-up logo
+In-Reply-To: <20230829142109.4521-3-tzimmermann@suse.de>
+References: <20230829142109.4521-1-tzimmermann@suse.de>
+ <20230829142109.4521-3-tzimmermann@suse.de>
+Date: Wed, 06 Sep 2023 11:54:00 +0200
+Message-ID: <87ledj4og7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,151 +82,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If *any* object of a certain WW mutex class is locked, lockdep will
-consider *all* mutexes of that class as locked. Also the lock allocation
-tracking code will apparently register only the address of the first
-mutex of a given class locked in a sequence.
-This has the odd consequence that if that first mutex is unlocked while
-other mutexes of the same class remain locked and then its memory then
-freed, the lock alloc tracking code will incorrectly assume that memory
-is freed with a held lock in there.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-For now, work around that for drm_exec by releasing the first grabbed
-object lock last.
+> The fbcon module takes care of displaying the logo, if any. Remove
+> the code form mmpfb. If we want to display the logo without fbcon,
 
-v2:
-- Fix a typo (Danilo Krummrich)
-- Reword the commit message a bit.
-- Add a Fixes: tag
+s/form/from
 
-Related lock alloc tracking warning:
-[  322.660067] =========================
-[  322.660070] WARNING: held lock freed!
-[  322.660074] 6.5.0-rc7+ #155 Tainted: G     U           N
-[  322.660078] -------------------------
-[  322.660081] kunit_try_catch/4981 is freeing memory ffff888112adc000-ffff888112adc3ff, with a lock still held there!
-[  322.660089] ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-[  322.660104] 2 locks held by kunit_try_catch/4981:
-[  322.660108]  #0: ffffc9000343fe18 (reservation_ww_class_acquire){+.+.}-{0:0}, at: test_early_put+0x22f/0x490 [drm_exec_test]
-[  322.660123]  #1: ffff888112adc1a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_exec_lock_obj+0x11a/0x600 [drm_exec]
-[  322.660135]
-               stack backtrace:
-[  322.660139] CPU: 7 PID: 4981 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-[  322.660146] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-[  322.660152] Call Trace:
-[  322.660155]  <TASK>
-[  322.660158]  dump_stack_lvl+0x57/0x90
-[  322.660164]  debug_check_no_locks_freed+0x20b/0x2b0
-[  322.660172]  slab_free_freelist_hook+0xa1/0x160
-[  322.660179]  ? drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-[  322.660186]  __kmem_cache_free+0xb2/0x290
-[  322.660192]  drm_exec_unlock_all+0x168/0x2a0 [drm_exec]
-[  322.660200]  drm_exec_fini+0xf/0x1c0 [drm_exec]
-[  322.660206]  test_early_put+0x289/0x490 [drm_exec_test]
-[  322.660215]  ? __pfx_test_early_put+0x10/0x10 [drm_exec_test]
-[  322.660222]  ? __kasan_check_byte+0xf/0x40
-[  322.660227]  ? __ksize+0x63/0x140
-[  322.660233]  ? drmm_add_final_kfree+0x3e/0xa0 [drm]
-[  322.660289]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-[  322.660294]  ? lockdep_hardirqs_on+0x7d/0x100
-[  322.660301]  ? __pfx_kunit_try_run_case+0x10/0x10 [kunit]
-[  322.660310]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-[  322.660319]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-[  322.660328]  kthread+0x2e7/0x3c0
-[  322.660334]  ? __pfx_kthread+0x10/0x10
-[  322.660339]  ret_from_fork+0x2d/0x70
-[  322.660345]  ? __pfx_kthread+0x10/0x10
-[  322.660349]  ret_from_fork_asm+0x1b/0x30
-[  322.660358]  </TASK>
-[  322.660818]     ok 8 test_early_put
+> we should implement this in the fbdev core code.
+>
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Fixes: 09593216bff1 ("drm: execution context for GEM buffers v7")
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/drm_exec.c |  2 +-
- include/drm/drm_exec.h     | 35 +++++++++++++++++++++++++++++++----
- 2 files changed, 32 insertions(+), 5 deletions(-)
+The commit message says the same than patch #1 but the driver will behave
+differently right? That is, won't only show the logo when fbcon is not
+enabled but unconditionally? So the logo will be duplicated when fbcon is
+enabled?
 
-diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-index ff69cf0fb42a..5d2809de4517 100644
---- a/drivers/gpu/drm/drm_exec.c
-+++ b/drivers/gpu/drm/drm_exec.c
-@@ -56,7 +56,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
- 	struct drm_gem_object *obj;
- 	unsigned long index;
- 
--	drm_exec_for_each_locked_object(exec, index, obj) {
-+	drm_exec_for_each_locked_object_reverse(exec, index, obj) {
- 		dma_resv_unlock(obj->resv);
- 		drm_gem_object_put(obj);
- 	}
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-index e0462361adf9..b5bf0b6da791 100644
---- a/include/drm/drm_exec.h
-+++ b/include/drm/drm_exec.h
-@@ -51,6 +51,20 @@ struct drm_exec {
- 	struct drm_gem_object *prelocked;
- };
- 
-+/**
-+ * drm_exec_obj() - Return the object for a give drm_exec index
-+ * @exec: Pointer to the drm_exec context
-+ * @index: The index.
-+ *
-+ * Return: Pointer to the locked object corresponding to @index if
-+ * index is within the number of locked objects. NULL otherwise.
-+ */
-+static inline struct drm_gem_object *
-+drm_exec_obj(struct drm_exec *exec, unsigned long index)
-+{
-+	return index < exec->num_objects ? exec->objects[index] : NULL;
-+}
-+
- /**
-  * drm_exec_for_each_locked_object - iterate over all the locked objects
-  * @exec: drm_exec object
-@@ -59,10 +73,23 @@ struct drm_exec {
-  *
-  * Iterate over all the locked GEM objects inside the drm_exec object.
-  */
--#define drm_exec_for_each_locked_object(exec, index, obj)	\
--	for (index = 0, obj = (exec)->objects[0];		\
--	     index < (exec)->num_objects;			\
--	     ++index, obj = (exec)->objects[index])
-+#define drm_exec_for_each_locked_object(exec, index, obj)		\
-+	for ((index) = 0; ((obj) = drm_exec_obj(exec, index)); ++(index))
-+
-+/**
-+ * drm_exec_for_each_locked_object_reverse - iterate over all the locked
-+ * objects in reverse locking order
-+ * @exec: drm_exec object
-+ * @index: unsigned long index for the iteration
-+ * @obj: the current GEM object
-+ *
-+ * Iterate over all the locked GEM objects inside the drm_exec object in
-+ * reverse locking order. Note that @index may go below zero and wrap,
-+ * but that will be caught by drm_exec_obj(), returning a NULL object.
-+ */
-+#define drm_exec_for_each_locked_object_reverse(exec, index, obj)	\
-+	for ((index) = (exec)->num_objects - 1;				\
-+	     ((obj) = drm_exec_obj(exec, index)); --(index))
- 
- /**
-  * drm_exec_until_all_locked - loop until all GEM objects are locked
+If I understood that correctly, probably you should mention that in the
+commit message since removing the fb_show_logo() will make the driver to
+behave correctly.
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.41.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
