@@ -1,79 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B54793A5B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 12:50:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A783C793A6E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 12:55:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A26A10E5FC;
-	Wed,  6 Sep 2023 10:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21E710E5FB;
+	Wed,  6 Sep 2023 10:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768F710E5FC;
- Wed,  6 Sep 2023 10:50:38 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-99de884ad25so544119466b.3; 
- Wed, 06 Sep 2023 03:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693997437; x=1694602237; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nPk6ISCbpC/CANW4MjLpjXtvg/rj6Md91X1eJZ3mRGw=;
- b=K9iTodjT63sbj5YmRBg6givoK7SfuuguYA1mpOcXf2l1r736e4f51z9R8zLHxOSeqI
- aFJIaa1QaSW7RYB4cd4qOvQR1iG+MT97V+IqbD0TPHS6R3OKjEmegGozQLzHrZaOOSn0
- iNhx9/TebdFBKBegJBImMXfoPF5eqmTm9gr8YSaLHuxL6W6QPAZFWwYflyFRksbph9Dw
- z3Lfimq9sZfBSJHxC7Djs5vAX00oCgkTMAUViWJduFFHdfJzBWIAHla7caKLIubW550Y
- W4gUmEdmPfDJ5aw+LVO/r1vpuQvAsLR6pkWeLTNBYm6xsECL/RLf7cjc/ayMHgMXmZv3
- fV9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693997437; x=1694602237;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nPk6ISCbpC/CANW4MjLpjXtvg/rj6Md91X1eJZ3mRGw=;
- b=XNSk9e9T+tbSGSvW5oP4d7bxDgCgUygYs2pXpJcqUWmtyOavp18az1f3hzPcu7yjBs
- bhCdNA8g+xTeH97uUs+Zv9wG7qapuKmhCEswZJmK2YBJ/+4JiknlQxqoojXFYO0cuU9L
- RwcXGnjxhgGZRw6YBBLeIt5CpUYPY9XHX9N6ItSYhnMPWszCSmlIJIMP7734bq1eP7uv
- xJCsWSY1F//xMrXupikVX9Mmt+mLLQDiDSyJVb0WhJhdCByZMbMk3m77rOxkJgit8iap
- ZCUO+btCRsM2PFQ+hCFhGJqqtUGsv74r/wFxM10LGgI+pnyeMiW1NJ5eBt3tg2KFb3EC
- tn9Q==
-X-Gm-Message-State: AOJu0Yyrqki0uEglfJ9NZSUUVfJT8BPu4CCMeRjX8xW8ZT2QG+4s2O/R
- /CfoR08XW+ya4df0mS3SG8A=
-X-Google-Smtp-Source: AGHT+IFk9TQYmwQo+qVqsWZZOhkdOtC/LJqkg8MfHz53csekPCdvAFo5iqnoSkWLn7w1U6kezNBPxQ==
-X-Received: by 2002:a17:906:4ad1:b0:99c:55ac:3a61 with SMTP id
- u17-20020a1709064ad100b0099c55ac3a61mr1964920ejt.56.1693997436639; 
- Wed, 06 Sep 2023 03:50:36 -0700 (PDT)
-Received: from [192.168.178.25] ([134.19.97.6])
- by smtp.gmail.com with ESMTPSA id
- w22-20020a170906131600b0099d9b50d786sm8880526ejb.199.2023.09.06.03.50.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Sep 2023 03:50:33 -0700 (PDT)
-Message-ID: <4df435a0-dd9b-121a-8820-e331bb8a046f@gmail.com>
-Date: Wed, 6 Sep 2023 12:50:31 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AC02410E5FA
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 10:55:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B96AC106F;
+ Wed,  6 Sep 2023 03:56:14 -0700 (PDT)
+Received: from [10.57.93.3] (unknown [10.57.93.3])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2702A3F7C5;
+ Wed,  6 Sep 2023 03:55:33 -0700 (PDT)
+Message-ID: <b8e13cd6-7be7-1375-c625-a64ff81a49e3@arm.com>
+Date: Wed, 6 Sep 2023 11:55:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
- to select the primary video adapter at boot time
-Content-Language: en-US
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- suijingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas
- <bhelgaas@google.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
- <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
- <2adfa653-ac35-d560-be52-c92848a1eef5@gmail.com>
- <873b331a-d0ce-658c-6daa-02bf816e92d1@linux.dev>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <873b331a-d0ce-658c-6daa-02bf816e92d1@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v16 20/20] drm/panfrost: Switch to generic memory shrinker
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
+ <20230903170736.513347-21-dmitry.osipenko@collabora.com>
+ <b07f5338-192d-7f11-8c07-bcbfd9617cd4@arm.com>
+ <20230905100801.6d523065@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230905100801.6d523065@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,98 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.09.23 um 12:31 schrieb Sui Jingfeng:
-> Hi,
->
-> On 2023/9/6 14:45, Christian König wrote:
->>> Firmware framebuffer device already get killed by the 
->>> drm_aperture_remove_conflicting_pci_framebuffers()
->>> function (or its siblings). So, this series is definitely not to 
->>> interact with the firmware framebuffer
->>> (or more intelligent framebuffer drivers).  It is for user space 
->>> program, such as X server and Wayland
->>> compositor. Its for Linux user or drm drivers testers, which allow 
->>> them to direct graphic display server
->>> using right hardware of interested as primary video card.
+On 05/09/2023 09:08, Boris Brezillon wrote:
+> On Mon, 4 Sep 2023 14:20:24 +0100
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 03/09/2023 18:07, Dmitry Osipenko wrote:
+>>> Replace Panfrost's custom memory shrinker with a common drm-shmem
+>>> memory shrinker.
 >>>
->>> Also, I believe that X server and Wayland compositor are the best 
->>> test examples.
->>> If a specific DRM driver can't work with X server as a primary,
->>> then there probably have something wrong.
->>>
->>>
->>>> But what's the use case for overriding this setting?
->>>>
->>>
->>> On a specific machine with multiple GPUs mounted,
->>> only the primary graphics get POST-ed (initialized) by the firmware.
->>> Therefore, the DRM drivers for the rest video cards, have to choose to
->>> work without the prerequisite setups done by firmware, This is 
->>> called as POST.
+>>> Tested-by: Steven Price <steven.price@arm.com> # Firefly-RK3288  
 >>
->> Well, you don't seem to understand the background here. This is 
->> perfectly normal behavior.
+>> I just gave this version of the series a spin and I can trigger the following 
+>> warning:
 >>
->> Secondary cards are posted after loading the appropriate DRM driver. 
->> At least for amdgpu this is done by calling the appropriate functions 
->> in the BIOS. 
->
->
-> Well, thanks for you tell me this. You know more than me and 
-> definitely have a better understanding.
->
-> Are you telling me that the POST function for AMDGPU reside in the BIOS?
-> The kernel call into the BIOS?
+>> [  477.776163] ------------[ cut here ]------------
+>> [  477.781353] WARNING: CPU: 0 PID: 292 at drivers/gpu/drm/drm_gem_shmem_helper.c:227 drm_gem_shmem_free+0x1fc/0x200 [drm_shmem_helper]
+>> [  477.794790] panfrost ffa30000.gpu: drm_WARN_ON(refcount_read(&shmem->pages_use_count))
+>> [  477.794797] Modules linked in: panfrost gpu_sched drm_shmem_helper
+>> [  477.810942] CPU: 0 PID: 292 Comm: glmark2-es2-drm Not tainted 6.5.0-rc2-00527-gc8a0c16fa830 #1
+>> [  477.820564] Hardware name: Rockchip (Device Tree)
+>> [  477.825820]  unwind_backtrace from show_stack+0x10/0x14
+>> [  477.831670]  show_stack from dump_stack_lvl+0x58/0x70
+>> [  477.837319]  dump_stack_lvl from __warn+0x7c/0x1a4
+>> [  477.842680]  __warn from warn_slowpath_fmt+0x134/0x1a0
+>> [  477.848429]  warn_slowpath_fmt from drm_gem_shmem_free+0x1fc/0x200 [drm_shmem_helper]
+>> [  477.857199]  drm_gem_shmem_free [drm_shmem_helper] from drm_gem_handle_delete+0x84/0xb0
+>> [  477.866163]  drm_gem_handle_delete from drm_ioctl+0x214/0x4ec
+>> [  477.872592]  drm_ioctl from sys_ioctl+0x568/0xd48
+>> [  477.877857]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+>> [  477.883504] Exception stack(0xf0a49fa8 to 0xf0a49ff0)
+>> [  477.889148] 9fa0:                   005969c0 bef34880 00000006 40086409 bef34880 00000001
+>> [  477.898289] 9fc0: 005969c0 bef34880 40086409 00000036 bef34880 00590b64 00590aec 00000000
+>> [  477.907428] 9fe0: b6ec408c bef3485c b6ead42f b6c31f98
+>> [  477.913188] irq event stamp: 37296889
+>> [  477.917319] hardirqs last  enabled at (37296951): [<c03c1968>] __up_console_sem+0x50/0x60
+>> [  477.926531] hardirqs last disabled at (37296972): [<c03c1954>] __up_console_sem+0x3c/0x60
+>> [  477.935714] softirqs last  enabled at (37296986): [<c03016cc>] __do_softirq+0x318/0x4d4
+>> [  477.944708] softirqs last disabled at (37296981): [<c034f9ec>] __irq_exit_rcu+0x140/0x160
+>> [  477.953878] ---[ end trace 0000000000000000 ]---
+>>
+>> So something, somewhere has gone wrong with the reference counts.
+> 
+> Missing `got_pages_sgt = true;` in the fault handler, when creating the
+> sgt and populating the first 2MB chunk, I guess (should have been part
+> of "drm/shmem-helper: Use flag for tracking page count bumped by
+> get_pages_sgt()"). This kinda proves my point though: adding flags
+> for things that can be inferred from other fields is a bad idea, because
+> there's always the risk of not updating all the places that are manually
+> filling these other fields...
 
-Yes, exactly that.
+Yes that seems to fix the problem. And I agree derived fields like this
+are often problematic - it's better to avoid them whenever possible.
 
-> Does the BIOS here refer to the UEFI runtime or ATOM BIOS or something 
-> else?
-
-On dGPUs it's the VBIOS on a flashrom on the board, for iGPUs (APUs as 
-AMD calls them) it's part of the system BIOS.
-
-UEFI is actually just a small subsystem in the system BIOS which 
-replaced the old interface used between system BIOS, video BIOS and 
-operating system.
-
->
-> But the POST function for the drm ast, reside in the kernel space (in 
-> other word, in ast.ko).
-> Is this statement correct?
-
-I don't know the ast driver well enough to answer that, but I assume 
-they just read the BIOS and execute the appropriate functions.
-
->
-> I means that for ASpeed BMC chip, if the firmware not POST the display 
-> controller.
-> Then we have to POST it at the kernel space before doing various 
-> modeset option.
-> We can only POST this chip by directly operate the various registers.
-> Am I correct for the judgement about ast drm driver?
-
-Well POST just means Power On Self Test, but what you mean is 
-initializing the hardware.
-
-Some drivers can of course initialize the hardware without the help of 
-the BIOS, but I don't think AST can do that. As far as I know it's a 
-relatively simple driver.
-
-BTW firmware is not the same as the BIOS (which runs the POST), firmware 
-usually refers to something run on microcontrollers inside the ASIC 
-while the (system or video) BIOS runs on the host CPU.
-
-Regards,
-Christian.
-
->
-> Thanks for your reviews.
->
+Steve
 
