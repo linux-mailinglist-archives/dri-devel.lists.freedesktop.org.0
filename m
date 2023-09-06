@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D3D793D93
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 15:25:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BA7793DDD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 15:38:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF37010E1BF;
-	Wed,  6 Sep 2023 13:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99B810E656;
+	Wed,  6 Sep 2023 13:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66A510E64F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 13:24:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (ftip006315900.acc1.colindale.21cn-nte.bt.net [81.134.214.249])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53E07DA8;
- Wed,  6 Sep 2023 15:23:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1694006608;
- bh=O8ASfos0e7KQ3kQYHZDzxCDpFTkKK0NFcWW1Yk5WQuU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ud9pUtCANON8aValeRZORHLXNaCfzhH4wwMWCwbvt2pOGXwhwuEE1FGADzd5L9+U8
- 2neCPsDAx9VEUd+9v6Pj4hwiKCc07IllgrJ2xr81OZgxduZC9lxFVO75MNoAA4QzkW
- fsOue5jARyBegoIhWM9qSigyS/fTcLuZ/87dUC3Y=
-Date: Wed, 6 Sep 2023 16:25:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] drm: renesas: rcar-du: rzg2l_mipi_dsi: Update the
- comment in rzg2l_mipi_dsi_start_video()
-Message-ID: <20230906132508.GM17308@pendragon.ideasonboard.com>
-References: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3134C10E656;
+ Wed,  6 Sep 2023 13:38:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694007497; x=1725543497;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=l0yqPyXeMtkEe7eJDRu4uOHmMf5EFulFbVZ32U4Q2G4=;
+ b=C8+FUnuonfrByuLMbAMzOarWDy4/ITFz4K27RaBZUTS56tg/EOxF95Pr
+ O1SoGfJ/8kEjn5PhZ2mRf1i9Zf9CpX86IKBzGLC9mYPCpwGJdHE7xxBAb
+ PUeYYCJ1KNY0n5QEgFL6rKlpit/ZT76+xr1q9csaGLEPlFtWUCvgK4yDf
+ sxD0wy7DHitXV9H/ABJL5db1ATKdwBVJuBGwt8V4CompFkTnSfRiPIJ8+
+ Dbsh28mMHvODj5yZXSh9qNiU4cQBHxh82U4OoaWm3Ef+gcvO1YFWhkk3D
+ kPZN5OD79sq515kdOzWB9udwj8AptR/uWK7uygDqk/YYSL/ZLY3nqf5dZ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="362097854"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; d="scan'208";a="362097854"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 06:38:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="735049955"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; d="scan'208";a="735049955"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by orsmga007.jf.intel.com with SMTP; 06 Sep 2023 06:38:08 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Wed, 06 Sep 2023 16:38:08 +0300
+Date: Wed, 6 Sep 2023 16:38:08 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
+ corresponding Type-C connectors"
+Message-ID: <ZPiAwOf00RREiYPr@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-2-dmitry.baryshkov@linaro.org>
+ <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
+ <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
+ <ZPh0Ps9UJ3HLzdeR@kuha.fi.intel.com>
+ <CAA8EJpratbBybgk8woD3maA=J_HuQis44Unq0n+c_UvaFs__AA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <CAA8EJpratbBybgk8woD3maA=J_HuQis44Unq0n+c_UvaFs__AA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,51 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Biju Das <biju.das.au@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Pavel Machek <pavel@denx.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Won Chung <wonchung@google.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
-
-Thank you for the patch.
-
-On Wed, Sep 06, 2023 at 10:43:46AM +0100, Biju Das wrote:
-> Add missing space in the comment in rzg2l_mipi_dsi_start_video().
+On Wed, Sep 06, 2023 at 03:48:35PM +0300, Dmitry Baryshkov wrote:
+> On Wed, 6 Sept 2023 at 15:44, Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > On Tue, Sep 05, 2023 at 01:56:59PM +0300, Dmitry Baryshkov wrote:
+> > > Hi Heikki,
+> > >
+> > > On Tue, 5 Sept 2023 at 11:50, Heikki Krogerus
+> > > <heikki.krogerus@linux.intel.com> wrote:
+> > > >
+> > > > Hi Dmitry,
+> > > >
+> > > > On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
+> > > > > The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
+> > > > > dev_fwnode() checks never succeed, making the respective commit NOP.
+> > > >
+> > > > That's not true. The dev->fwnode is assigned when the device is
+> > > > created on ACPI platforms automatically. If the drm_connector fwnode
+> > > > member is assigned before the device is registered, then that fwnode
+> > > > is assigned also to the device - see drm_connector_acpi_find_companion().
+> > > >
+> > > > But please note that even if drm_connector does not have anything in
+> > > > its fwnode member, the device may still be assigned fwnode, just based
+> > > > on some other logic (maybe in drivers/acpi/acpi_video.c?).
+> > > >
+> > > > > And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
+> > > > > breaks drivers already using components (as it was pointed at [1]),
+> > > > > resulting in a deadlock. Lockdep trace is provided below.
+> > > > >
+> > > > > Granted these two issues, it seems impractical to fix this commit in any
+> > > > > sane way. Revert it instead.
+> > > >
+> > > > I think there is already user space stuff that relies on these links,
+> > > > so I'm not sure you can just remove them like that. If the component
+> > > > framework is not the correct tool here, then I think you need to
+> > > > suggest some other way of creating them.
+> > >
+> > > The issue (that was pointed out during review) is that having a
+> > > component code in the framework code can lead to lockups. With the
+> > > patch #2 in place (which is the only logical way to set kdev->fwnode
+> > > for non-ACPI systems) probing of drivers which use components and set
+> > > drm_connector::fwnode breaks immediately.
+> > >
+> > > Can we move the component part to the respective drivers? With the
+> > > patch 2 in place, connector->fwnode will be copied to the created
+> > > kdev's fwnode pointer.
+> > >
+> > > Another option might be to make this drm_sysfs component registration optional.
+> >
+> > You don't need to use the component framework at all if there is
+> > a better way of determining the connection between the DP and its
+> > Type-C connector (I'm assuming that that's what this series is about).
+> > You just need the symlinks, not the component.
 > 
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Closes: https://lore.kernel.org/all/ZPg7STHDn4LbLy7f@duo.ucw.cz/
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> The problem is that right now this component registration has become
+> mandatory. And if I set the kdev->fwnode manually (like in the patch
+> 2), the kernel hangs inside the component code.
+> That's why I proposed to move the components to the place where they
+> are really necessary, e.g. i915 and amd drivers.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+So why can't we replace the component with the method you are
+proposing in this series of finding out the Type-C port also with
+i915, AMD, or whatever driver and platform (that's the only thing that
+component is used for)?
 
-> ---
-> This issue is noticed while backporting this driver to 6.1.y-cip [1].
-> 
-> [1] https://lore.kernel.org/all/20230905160737.167877-1-biju.das.jz@bp.renesas.com/
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
-> index 10febea473cd..9b5cfdd3e1c5 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
-> @@ -479,7 +479,7 @@ static int rzg2l_mipi_dsi_start_video(struct rzg2l_mipi_dsi *dsi)
->  	u32 status;
->  	int ret;
->  
-> -	/* Configuration for Blanking sequence and start video input*/
-> +	/* Configuration for Blanking sequence and start video input */
->  	vich1set0r = VICH1SET0R_HFPNOLP | VICH1SET0R_HBPNOLP |
->  		     VICH1SET0R_HSANOLP | VICH1SET0R_VSTART;
->  	rzg2l_mipi_dsi_link_write(dsi, VICH1SET0R, vich1set0r);
+Determining the connection between a DP and its Type-C connector is
+starting to get really important, so ideally we have a common solution
+for that.
+
+thanks,
 
 -- 
-Regards,
-
-Laurent Pinchart
+heikki
