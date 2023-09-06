@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7FA794096
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 17:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF49B794097
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Sep 2023 17:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0E410E6A1;
-	Wed,  6 Sep 2023 15:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0750B10E6AA;
+	Wed,  6 Sep 2023 15:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C97F10E6A1
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 15:42:35 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-9a9d6b98845so96788866b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:34 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9C210E6AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Sep 2023 15:42:48 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-501bd7711e8so3598112e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694014950; x=1694619750;
+ d=chromium.org; s=google; t=1694014963; x=1694619763;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w/MJXhHq22hXwGov3L8E3lwBxOOyN2+wzo2q2f2Z9Pw=;
- b=YxYScucHRrhIV73QWxWcMlFBx5pyG5f1YkTux03CGahgfFrVanKbS3wF0MBQrpyDtC
- 6jInQEdVLiJYDzWsy4KoklJuSfBp+yTg9KoY79X7zjKCJE1OjirdmPbWLHqnY3IexhG5
- glS6SgwLLEC+T3WzPY7uzuqCDNsm1nGxqkGjM=
+ bh=5KJHngntgSXNMxKxt0DzBdQdlXtnfRcyHVCesrJpXWM=;
+ b=WiLdgk9etHxmGwn3qIT/531jR2D1Cr/AA+NoIu/95+bmNvCTiWm7PvCwk9UIYtl5LC
+ zUMDwX+RB/zBbR6XdlPpzhDHnS1RbquGFUIolR5R6xPoZgS9UaQdJm1AR9MHSjjlRVNW
+ vr7Dy9HLUfDMV2wRa1Ji9+Ct0AxPPw1et7NRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694014950; x=1694619750;
+ d=1e100.net; s=20221208; t=1694014963; x=1694619763;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w/MJXhHq22hXwGov3L8E3lwBxOOyN2+wzo2q2f2Z9Pw=;
- b=FUmVZICOlgU3JJL9/wDeY2LjpjyBxxr3XEDhyPqb7eOYJWXeKJP1c1PnrTt68LoFs3
- FjmcdNB+KR1tvfhI8Kkbi1SuL9ypBmjheklp3K8amWk/e24AoRU1FumtH8C9pIbAp6Tt
- rqY2bSYX7YEXfeOGvtBS2Eh6AXMogGFGJmkAVSfpYSn8ZiGliixvLuupnwvywqtSQ5Ft
- C7gYf+cz5Nm6IkaZPoGYcK3wLGtxo5hWA1f+qtPs8uAZnHoawdweWoZ7ESt8IsEm3NPN
- zfJfFIc1iZG7r/sCsIItS+/ZeOg6DcOg6MOaTo7ef92oNVKxAusWxA0MFNS/PooDiIyj
- OxMA==
-X-Gm-Message-State: AOJu0Yzto5hu1nECWd8/sf8RLZZmOok++Oratp8OxLTsEdnfSl72MYB7
- jKwU2RdiqsDqxRl6YckurfhiU2ReJdsJEJqYFy9zeZyE
-X-Google-Smtp-Source: AGHT+IHhExJH58RbJnSBHRDW6SlY0fKvL8+122j7wG56VsecrSSBH2UASPUyNc5yyRkLFNTSE5FRYw==
-X-Received: by 2002:a17:906:c106:b0:9a5:7dec:fab9 with SMTP id
- do6-20020a170906c10600b009a57decfab9mr3352129ejc.9.1694014950569; 
- Wed, 06 Sep 2023 08:42:30 -0700 (PDT)
+ bh=5KJHngntgSXNMxKxt0DzBdQdlXtnfRcyHVCesrJpXWM=;
+ b=YIXIGppRgrG38Fhr/Hf3u+H0N/mLYW650v4Lv8P6USUUrCiAIajGkNNfHemVakX3us
+ 4/2e2I9IfnfWtE8LRZHblO3fQIrWMRvaCjlYatis6j1ej8UWVZZPxralZRgLZ7NqMJr6
+ VafgXFXI4VPgA0pQNoismFteC7ji0C1djBJVndPl4dWbcNahHKsOzzOZBZGz/19I0fKC
+ GxkA4zquunx+jGKAzU23+TrPHW5Dn/Hxn3oENrOaKAmv/z5yaGaEy/ef2WeoezYxKc3s
+ nr0aIT2U9j3OInSXh5h9E0MWzibroCZTHCEvAPZxYtvjuToo+qKjFy3yhjN8O6Kz2vsZ
+ UaWw==
+X-Gm-Message-State: AOJu0YwjnuvPUYboiSS/ocBY8RrhZj925xLhVg1XFof6+XRGpE59T1oz
+ 5IJeM4ee6UXRYwXDaXCoTAdqWh5O7Nd09rdTJQ9i2cJ4
+X-Google-Smtp-Source: AGHT+IGj3jSC6md9E7Mi9z1asyJB2rNKxEsEWII727F+EL9rPhV5wbkuH65GI/cDVlLQUeAMu5Cmwg==
+X-Received: by 2002:ac2:5a59:0:b0:500:977d:a4e1 with SMTP id
+ r25-20020ac25a59000000b00500977da4e1mr2678030lfn.40.1694014963626; 
+ Wed, 06 Sep 2023 08:42:43 -0700 (PDT)
 Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
  [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- jo26-20020a170906f6da00b00982d0563b11sm9083322ejb.197.2023.09.06.08.42.29
+ cf5-20020a0564020b8500b0052e7e1931e2sm1892051edb.57.2023.09.06.08.42.42
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Sep 2023 08:42:30 -0700 (PDT)
+ Wed, 06 Sep 2023 08:42:43 -0700 (PDT)
 Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-521e046f6c7so13400a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:29 -0700 (PDT)
-X-Received: by 2002:a50:a6de:0:b0:528:ef2:7613 with SMTP id
- f30-20020a50a6de000000b005280ef27613mr163805edc.7.1694014949290; Wed, 06 Sep
- 2023 08:42:29 -0700 (PDT)
+ 4fb4d7f45d1cf-52c96d5df86so13095a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 08:42:42 -0700 (PDT)
+X-Received: by 2002:a50:c047:0:b0:523:b133:57fe with SMTP id
+ u7-20020a50c047000000b00523b13357femr150283edd.1.1694014962171; Wed, 06 Sep
+ 2023 08:42:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230831080938.47454-1-biju.das.jz@bp.renesas.com>
- <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230831080938.47454-4-biju.das.jz@bp.renesas.com>
+ <20230831080938.47454-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230831080938.47454-5-biju.das.jz@bp.renesas.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 6 Sep 2023 08:42:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XRZz8W91U=9krOsKgtNmK_PAEg4c6OXtbJiLJcstSvYA@mail.gmail.com>
-Message-ID: <CAD=FV=XRZz8W91U=9krOsKgtNmK_PAEg4c6OXtbJiLJcstSvYA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] drm/bridge: Drop CONFIG_OF conditionals around
- of_node pointers
+Date: Wed, 6 Sep 2023 08:42:29 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UFuTion7w4maxVVWZmzoRGXcoUjp9NV9xE3_Kf2ZCvTA@mail.gmail.com>
+Message-ID: <CAD=FV=UFuTion7w4maxVVWZmzoRGXcoUjp9NV9xE3_Kf2ZCvTA@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] drm/bridge: panel: Drop CONFIG_OF conditional
+ around *_of_get_bridge()
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,18 +81,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Zhu Wang <wangzhu9@huawei.com>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jonas Karlman <jonas@kwiboo.se>,
- Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Guillaume BRUN <the.cheaterman@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Ondrej Jirman <megi@xff.cz>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <treding@nvidia.com>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -101,26 +95,21 @@ Hi,
 On Thu, Aug 31, 2023 at 1:10=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> Having conditional around the of_node pointers turns out to make driver
-> code use ugly #ifdef and #if blocks. So drop the conditionals.
+> Drop unnecessary CONFIG_OF conditional around devm_drm_of_get_bridge() an=
+d
+> drmm_of_get_bridge() as it is guarded with #if..#else blocks in
+> drm_bridge.h.
 >
-> Suggested-by: Douglas Anderson <dianders@chromium.org>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > ---
-> v5->v6:
->  * Added Rb tag from Douglas Anderson.
->  * Dropped conditionals from remaining drm/bridge drivers.
-> v5:
->  * Split from patch#2
+> v6:
+>  * New patch.
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
->  drivers/gpu/drm/bridge/panel.c                     | 2 --
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 2 --
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      | 2 --
->  4 files changed, 8 deletions(-)
+>  drivers/gpu/drm/bridge/panel.c | 3 ---
+>  1 file changed, 3 deletions(-)
 
-I think this has had enough time to marinate, so landed to drm-misc-next:
+Just to be explicit, I'm _not_ landing this patch though I've landed
+patches #1 - #3 from this series.
 
-481fc9e7e11d drm/bridge: Drop CONFIG_OF conditionals around of_node pointer=
-s
+
+-Doug
