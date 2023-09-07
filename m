@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CA4796DDF
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 02:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A025796DEB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 02:16:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3A110E73B;
-	Thu,  7 Sep 2023 00:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46C610E73E;
+	Thu,  7 Sep 2023 00:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0554A10E202;
- Thu,  7 Sep 2023 00:13:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD59110E73C;
+ Thu,  7 Sep 2023 00:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694045606; x=1725581606;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=HB9WRsoIrlGJ+5WpybSh9YtkMLIYFIaTA1DHeFNa7II=;
- b=B2DSNImMFZeM6v9HG/Vys6Zp0+YfHkE8ez+GmCr8XuaaOV0qDz54AOJT
- SQOFuHsGN+uXsXvjjUqWZYPiRvzkASVVUKAEL7AmdiRejxRkidWAoNin5
- 9kNzcBU2z7pZtDp2uMgEIJOr2mUsrGzUb+tIf5157vBEaxXGYpxhX5ySO
- 6/i1WBbfVG3Vp09+q1dsig/+XncD0/Ssb4/dAX2pz0yACoMhC8qXwR1L6
- h4jqpkmNUS+Fcsx0k6u6QAzM4ZsKunLGDMp5bgWQnMl3mmmFKBHiIQCY7
- Avufx56LBaaQlp6U12fDUHq+5qPU7p0Bo4CYHljVL8oy/QnpjslzavDOr w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="357532060"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="357532060"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2023 17:13:25 -0700
+ t=1694045751; x=1725581751;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SeQmSwT6avmJfppnXPWQyIms9MtWfxKS8eQHGPFjc4c=;
+ b=Ga2vdjrTT1UI8o8JQxN6JtNI0521/gOLKb7W8Xn8JD+ndfgPlkuj/qqJ
+ J117zRSuia7MyLrHcv8tkAAll/CWk352C0sfO6FtNJaLkAg/ueRNbkpZz
+ 10yKhSr6fIY9aITVIPX26AaJIwwMYzTLZcC4CHH42oqfXiHJv36xM95fo
+ 0xHxzu+s0MWbOipgE3ksNyj1lDkjIk3WD2DdMVGOaKOPxdKgX14lSRath
+ Q2r3hri9TqnW+Q7xR22dX1bn2y44ufdauoar9odLn4PTyd9bV/y0tqjBB
+ k1t/6imQvDkq8jofuIaiHGqCpu5UbG9NNxwIp2xFg+H31FItOoG6diWGm Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="408226728"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="408226728"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 17:15:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="1072624257"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="1072624257"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 06 Sep 2023 17:13:22 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qe2e8-0000iv-0H;
- Thu, 07 Sep 2023 00:13:20 +0000
-Date: Thu, 7 Sep 2023 08:12:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
-Subject: Re: [PATCH drm-misc-next v2 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <202309070844.arxMNmRa-lkp@intel.com>
-References: <20230906214723.4393-7-dakr@redhat.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="811895782"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="811895782"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga004.fm.intel.com with ESMTP; 06 Sep 2023 17:15:50 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/3] drm/i915/pxp/mtl: Update gsc-heci cmd submission to
+ align with fw/hw spec
+Date: Wed,  6 Sep 2023 17:15:46 -0700
+Message-Id: <20230907001549.81262-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230906214723.4393-7-dakr@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+For MTL, update the GSC-HECI packet size and the max firmware
+response timeout to match internal fw specs. Enforce setting
+run-alone bit in LRC for protected contexts.
 
-kernel test robot noticed the following build warnings:
+Changes from prio revs:
+   v3: - Patch #1. Only start counting the request completion
+         timeout from after the request has started (Daniele).
+   v2: - Patch #3: fix sparse warning reported by kernel test robot.
+   v1: - N/A (Re-test)
 
-[auto build test WARNING on 6bd3d8da51ca1ec97c724016466606aec7739b9f]
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-gpuva_mgr-allow-building-as-module/20230907-054931
-base:   6bd3d8da51ca1ec97c724016466606aec7739b9f
-patch link:    https://lore.kernel.org/r/20230906214723.4393-7-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next v2 6/7] drm/gpuvm: generalize dma_resv/extobj handling and GEM validation
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230907/202309070844.arxMNmRa-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070844.arxMNmRa-lkp@intel.com/reproduce)
+Alan Previn (3):
+  drm/i915/pxp/mtl: Update pxp-firmware response timeout
+  drm/i915/pxp/mtl: Update pxp-firmware packet size
+  drm/i915/lrc: User PXP contexts requires runalone bit in lrc
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070844.arxMNmRa-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gpuva_mgr.c:998: warning: Function parameter or member 'exec' not described in 'drm_gpuvm_resv_add_fence'
+ drivers/gpu/drm/i915/gt/intel_lrc.c           | 23 +++++++++++++++++++
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 20 ++++++++++++++--
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |  6 +++++
+ .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |  4 ++--
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    | 11 +++++----
+ 5 files changed, 56 insertions(+), 8 deletions(-)
 
 
-vim +998 drivers/gpu/drm/drm_gpuva_mgr.c
-
-   983	
-   984	/**
-   985	 * drm_gpuvm_resv_add_fence - add fence to private and all extobj
-   986	 * dma-resv
-   987	 * @gpuvm: the &drm_gpuvm to add a fence to
-   988	 * @fence: fence to add
-   989	 * @private_usage: private dma-resv usage
-   990	 * @extobj_usage: extobj dma-resv usage
-   991	 */
-   992	void
-   993	drm_gpuvm_resv_add_fence(struct drm_gpuvm *gpuvm,
-   994				 struct drm_exec *exec,
-   995				 struct dma_fence *fence,
-   996				 enum dma_resv_usage private_usage,
-   997				 enum dma_resv_usage extobj_usage)
- > 998	{
-   999		struct drm_gem_object *obj;
-  1000		unsigned long index;
-  1001	
-  1002		drm_exec_for_each_locked_object(exec, index, obj) {
-  1003				dma_resv_assert_held(obj->resv);
-  1004				dma_resv_add_fence(obj->resv, fence,
-  1005						   drm_gpuvm_is_extobj(gpuvm, obj) ?
-  1006						   private_usage : extobj_usage);
-  1007		}
-  1008	}
-  1009	EXPORT_SYMBOL_GPL(drm_gpuvm_resv_add_fence);
-  1010	
-
+base-commit: 5008076127a9599704e98fb4de3761743d943dd0
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.0
+
