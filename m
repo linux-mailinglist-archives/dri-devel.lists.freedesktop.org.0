@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D732796E51
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 03:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE0F796E55
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 03:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 472BC10E73D;
-	Thu,  7 Sep 2023 01:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F415110E741;
+	Thu,  7 Sep 2023 01:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-ve1eur01on2049.outbound.protection.outlook.com [40.107.14.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D773110E741
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 01:06:35 +0000 (UTC)
+ (mail-ve1eur01on0606.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1f::606])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8490C10E741
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 01:06:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IZbK72r07vbHHQJu9QFaKvOghLzQi6agssS/keKkknaHmjtqsEXJ5/AWgif9Cpnlb0lI01tefuRwbqTUzGLKoBMcbv9vj49clvZoT1H0a2vIipEoG9KeF0iZue+v8CbAc2Mtg3hKzn8tKQr2ZX3F1kO7Z3glxuNIWSnlseCVELQMIVSSGUjMymDvuEu781lG21c6BXsMXsitm2Jxj5irCTf0NiO3JTILl5npQv4K24+Nd4xqSp7/kyvgD62iZfkKFq7+KobZZSj99vwsgWmx5Vn6fkBou5C3o+xneYqZbSTbsuNsfGsadoI5XAY9YrTfCp8Sz6Xx2oi/ZTd/Sb8RAQ==
+ b=ZORW6uEkAJ9W7gW1AG3y3zTeAB94doOmayj07eIekKtO16na7PwBXU8bsYNDB3E3EJWa6PB+9VteOAk2U7EpUerOcdapqqdKKOq8Z/zz3kYJSSVE4s3BOm4LPigzYsfLcG4uywZPh77g3STvW5yLq0cRlsVQcCZnE0PoDYLVoyXonJeCgtSTVzr0LEe4qyqHprPjKluPmJ5CWIQw9+iawbHTOfIo2aa5nSvCwLKotP3ljwpyXYlHyNQ77xW23uUm/fnUUxsili8BMyhuENqI/mtLSIZuTMYVFPn5gGVc1gNN97UTwfZH7gOixPaA0cpsFHJVnekzDcfobYmtQeH4OQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijwdeyLNa08NSnsUKg5AfgNvRzY4Cu80iQJCRRRMXtk=;
- b=ZOwKWg8Ew520v1MTJx+mxlbiyY0Jt8+dtOc0LMItM94VdzExp9Oi1rz+kbZMvhvHjChS29EMBktHR5nnuyMl6TiaDXAlV+DPVgRwLEMV5WzC6zLf8HJpSY0jryuP+toir9pfTACZ2Lm28EU63Wg35Z5X+CQEwt6o3l/PxxOqJOAlJNpXVXxmDhyVYr4DxP4oAiFMz2DNez+a3q1uFBD2H1aBGkot709oDxCgULA/4KqXE/ORh9I9JWO6cF17HlUkQN0OTIk0Hk+KIPtWu/skwPsWQehPFs9qGNsexhs2erQ0aHy22w4JINUdlt6nZiRvRPrtwX5gp7lZ7VY6ljc0BQ==
+ bh=PVwvcY8+h3qzSkC1hY3N/ZNDs1qp2qMS5Yo99hafGxI=;
+ b=bmCmQj1UEpU3N0KHAehSFvvzEuZEW/K1sXLCWGABXPeDgMzCskUNzDsaITtb8Ju8mM/GMCadV+6Sb10RLURTlMzDyI14PC6l1R3S81617/tv/vqP0GZzZDjDYkhLSR9UazTkPy8I3QHUea/v/7dxl6eAjPZBFeK7kAQV7hIvbJTyA/ztnEMQYnsGF0Dmq9lTfvTt+SDtqj/8ZkozAbL0YTlLKy2alWB7nI/3n/K1m+rXv9ihNufjjdlOBC477qhTHAuhdwtQ+N6xxnIIrYfLcEVxUg1RaJw/3aAXaguZiD/Pe23XTkT4SHPw3PILHEXABPJPSbcQB0w1oalbPfgtsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijwdeyLNa08NSnsUKg5AfgNvRzY4Cu80iQJCRRRMXtk=;
- b=oAy92u6kyrrjEvERuhXE+Y6Bljzrg8CihjU5gb7hSo15/eOcRLGQFlckKnHffnCQXZ9LE7rpJcW4Oj4cMGX127k10R8f0R02yqltMaw+FfGI70n9SfBWfidw6akIbn+uxby4ESWGe2wvGehQeVCe8WhwyLMtcLukpBK2uiKcF1Q=
+ bh=PVwvcY8+h3qzSkC1hY3N/ZNDs1qp2qMS5Yo99hafGxI=;
+ b=ncUFr4uEcHv9kNdrBaHNO30FSqM4qUIwYoBbKYXWp2e8B3AYFRcHcuohyUEV3E3A7CPjxxEprXI1m+GEPcJ4PEXoDfzyaHSQI1Bk/HsfIog2LmI3svuxLU4drEwTVg7nwmVzxs470ZAXVtI5PQQfLHdd/LjuQc12nM3EzvV9q48=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
  by AM0PR04MB6802.eurprd04.prod.outlook.com (2603:10a6:208:184::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.30; Thu, 7 Sep
- 2023 01:06:32 +0000
+ 2023 01:06:39 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::3505:c499:96d4:1429]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::3505:c499:96d4:1429%4]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
- 01:06:32 +0000
+ 01:06:39 +0000
 From: Sandor Yu <Sandor.yu@nxp.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -47,10 +48,9 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org
-Subject: [PATCH v9 1/7] drm: bridge: Cadence: convert mailbox functions to
- macro functions
-Date: Thu,  7 Sep 2023 09:05:28 +0800
-Message-Id: <e13e7a274983d2a5f891161446ca573914eeb9f7.1694047629.git.Sandor.yu@nxp.com>
+Subject: [PATCH v9 2/7] phy: Add HDMI configuration options
+Date: Thu,  7 Sep 2023 09:05:29 +0800
+Message-Id: <48d74313e8a6416979ce0a1830d62c5443670945.1694047629.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694047629.git.Sandor.yu@nxp.com>
 References: <cover.1694047629.git.Sandor.yu@nxp.com>
@@ -62,52 +62,52 @@ X-ClientProxiedBy: SG3P274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AM0PR04MB6802:EE_
-X-MS-Office365-Filtering-Correlation-Id: 488dd74b-81e9-4661-2003-08dbaf3eacd1
+X-MS-Office365-Filtering-Correlation-Id: f8e1c754-0337-4b20-0ea2-08dbaf3eb0bf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L60yGTyJkGSOCGIImYfxAz/r8cdTsrS12QHY5JNvny3FvLghbXr2ATyA3jz1yKc/NuYur2L4ExwFS+n2JSbUFng7prc9Gi7QqhkZ9FPsuHQ5jCm8DvcUd1rQC0H5hTs14RaGtSEO5Sr1QcPAo83nkzhA39BomJ3pplFvC2+/Ffi7fiMmPhD16TzV7pyCxmKVGWg/qyprC4kCiYdFctrVwxSA1MKdvTfcK5YCtgyo0hGu4Spp/uyhrAvyTulsgnN1hDw7qVOLdcI/zEPHHpp8bvaDfh0ykDMvftQyy5wZk/2yEpNGMQ70C3lD9BMmeCBdKlFnXudn6gmeSdvgD2S6WivUxTFHJ7plBUvS8DOE5TXwwErqdIGdeUkIRDdSGS3S8fdBr7zd2Ti6QgBIsTXtKxDNf+GeA5FGJXUkeXtINd0xeAlQk1foRbWYj1eFZ3E2z/eP7uh3jmhReT+a7iSPRo3nfGCTabl9J3AzKhd0lULk0GFrrjqm8c8em2NKeOM5KAjYF5L9CFNUx5bMYui9rnF7KerKCWoni4/9fj7DOxvINFw7C+WcRKctcr6uKKL0fAhTM5eTiDHTZ76d61vli+WJ86hIH2YxdRLkDXUbpbUBQI1Vn6ncE6PTye2InqAI
+X-Microsoft-Antispam-Message-Info: PKpjn23GU/kVUIuYx60Qr4JSaeFTZb3DHUrvMDU9QktXqZ59XEayuWXdl4HH5vi8yvX30QlLXESGoleMQ2o6lvPTRwed5FMW7RBdWZ/2h2u3KXk3ScaswLp8Xhv/U5vDIB8RdpfREhfkz7tVSPyc2LD1wLQOC/S5PDf2JdPd/D5nAw4nvVZzuI29HYhr045A4dRET3/kTAv/dC2bhX2Nq5fCOeOLs+p/HUivvOyVt2gNCcs2Y0MiC0XxuADQ+O+N57uteaYa61NSoh//owi/HyeDbyfEPWyVH48vGTIO4vPWMpmkabiBS38q/KuSiJO8SqVrYmA59VNtU1GPQTihkZMV8fjjS0T2Bar77hxbpk7shIc5KrZLIETIIkPPc4UnUsblTbsHwVKNzCbzexyLFp8hRSYz2Cz0252iM5m/5iH+acxULHpBTxgCPvpKHyRP8a6oaVKGO3fjCrC2vipagsbQKO7R7M0yOUbrw3Z2DeldD/EF8A6eofIglfsiuQ/eSdOkw/8qVP1r61jl4hjlIH0KfB53TUdSjCiJWtkdWXW1oTbBkaoTmNq3htUMTHs4jTlNBb/ttfsXXGpjz3u4reqm11SsMmNffVPmbOM+PtfVHP3wE8KcvkedC8nF4JMZyQ4OuBny5r4yYKy+oZ4LPw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(39860400002)(136003)(376002)(346002)(396003)(1800799009)(186009)(451199024)(921005)(66476007)(6666004)(66946007)(26005)(66556008)(478600001)(2616005)(6486002)(15650500001)(30864003)(6512007)(52116002)(8936002)(4326008)(8676002)(316002)(5660300002)(86362001)(83380400001)(38350700002)(38100700002)(7416002)(36756003)(41300700001)(6506007)(2906002);
+ SFS:(13230031)(366004)(39860400002)(136003)(376002)(346002)(396003)(1800799009)(186009)(451199024)(921005)(66476007)(6666004)(66946007)(26005)(66556008)(478600001)(2616005)(6486002)(6512007)(52116002)(8936002)(4326008)(8676002)(316002)(5660300002)(86362001)(83380400001)(38350700002)(38100700002)(7416002)(36756003)(41300700001)(6506007)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xs+Ar1nfVY8veIuC74+0HCCz0KnnGBI6CHULR1CMWTi1ydJoDG4Z62VQlpj3?=
- =?us-ascii?Q?fO38SlVYd94tAnruo6IKPsKpKPfGxxWN0yWCJ7Jqg3ErQGVQOqOvoWpt8X0d?=
- =?us-ascii?Q?TWQuwe5yT5X7AuP4K04aUKQhJ6FRgnFK8yhvzGTmgpAYwvS4yGQZ6R2RGTNw?=
- =?us-ascii?Q?e39pJrtpAvCLMYDSAuuVdrrBGMuUEpPs6tS9H25nsG/DDW1GQ1UW1SOsgvYC?=
- =?us-ascii?Q?0zmnt/o/Fk0M3XJ6ZbyHLsSYirIZJ/1BdqcR+fxjsUta8DCkAhMQaIgjaxix?=
- =?us-ascii?Q?HGS6XECwZc0yCqQQmJM3GOhCtM9ntjg7SpyAKgSuHt8CiyUb2DAqXEIyErie?=
- =?us-ascii?Q?MV2JKJbDqPdAKuGrSyv2xdo8km9B0Xvxkh06iu4Gj0suFCEzr/tQ6Mtuiznv?=
- =?us-ascii?Q?JXJU3wPbE6u5jIxGZmITyQAh28DzyGYRPeXS8pPcCHjICGSTP5QrOHgLdyqo?=
- =?us-ascii?Q?y9u5HEWMoc/LZKK0zF9v/BisjkHAAhKIQhDh8Z6oJf/NlMQPseQyg/e9KUy6?=
- =?us-ascii?Q?hYFdokMwArPG0MRXBPxPOJtE05p/mK3r9tByK5XemrpLuStic+ow0aSq6NPM?=
- =?us-ascii?Q?5aeW+H8v5NDRybbXHSRygkTYYVgptXLoQDE0DxNwE3cQrJHjn/ik2SlrLsPa?=
- =?us-ascii?Q?jeH2cQZMJnFV8QQjcDb/Z6X/9cD85jlTdaCa+uEdp6293HRErrx7aplSICWe?=
- =?us-ascii?Q?WSUqIcqnRpPUJNgLSVWRgVhrGb0mG84V/D1a/uS8VcYZHAWh1UizmIzYQR2A?=
- =?us-ascii?Q?xze4RSseDxWe9vAiwL6Mih/3gj8acuEWIhyO1lPqFzPzP61TDyZ0YFgO9j3j?=
- =?us-ascii?Q?ajdcOTH6qKAqQdDg4vFaOUvdNaHfc1gWjOwbZEuu85cKidwZy1nrTkhXibUL?=
- =?us-ascii?Q?k/eLoy73lYlMJCXKNB/Tx96OsuLs96FzfZqU930sxWOQ2LxBW2f4ESMVVnnb?=
- =?us-ascii?Q?97c/8YMVGm8JJzyItrHJQDmZ63uP4mgFysu0csOl0R1S5XUvy1Ib/wxq0BXs?=
- =?us-ascii?Q?77Ll7IiO/JY6HWv6ScW0WYr3hr2nbMQQwKRa3UhKXtGjdn32bIht98lULAD4?=
- =?us-ascii?Q?HVDa7CTNUJLXEM1TgesqlA7YokLCs52eobhaOyMnacc+Pq7w445OidYoxlkh?=
- =?us-ascii?Q?rRhV61GO6uaxdUiGxU+acgrElGrusaQjs68tXKCh/1Ul5g7p2+ftnH3DwZp4?=
- =?us-ascii?Q?4FY0b/vY0ct6mvoLVzQ5ay6tO2QuJKPUcTlc5ekdP4HtXE43sc7jwKHxE/Xl?=
- =?us-ascii?Q?oMIqiUmQ5KfPweO/ID0MlEaT2IVzRSd8shffQftFyNVOV5boHJByJdGn+wqU?=
- =?us-ascii?Q?1k/nZqCpfCtIm9uoUTAxyOQzqdh+5b5dL1H8Zk2D0adMAxsm4vESnPLwHCyb?=
- =?us-ascii?Q?NbF05w6TsBsIAvWOptZ7nVLnE3eOEb67f9dZJbi/9adjRuIagUWh4rv7LQJA?=
- =?us-ascii?Q?/nSsP72IkRguWEFCZeASwKPSbmKHMsKe/MEWcDZ6wL4SlEq6utK1ssh1XF4R?=
- =?us-ascii?Q?tS8yW9C02F7GMGIT04O0VRsoL4zcpC49iU8vKqaPqAHLnAOwO2P5gC3TQyfK?=
- =?us-ascii?Q?q2aW5RGJcqF2X/tQQ56by39SUXB13WoSP4c7EVxg?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L3QqZsbwezfEkM2xt2GR3KyU6+fcFfaUSua0QjE3tbDnb3+zjimz8nw7qRUd?=
+ =?us-ascii?Q?WH18AVDB8VWXzeWpKxc83FNd11LFhh3COY7dVqIjF11cZt063a4km1B8jgrP?=
+ =?us-ascii?Q?i/epBXjK8THyTLC+NS6b9SIG/QeNPl4kxgmGkjCuGd740sE4kXRKiGXNIfZ4?=
+ =?us-ascii?Q?iDn6q6Fk0K3Nj1FiRDnVwoGg3afW/C+0SibP/UtDSVev7G9Somk0t1s7ZjRf?=
+ =?us-ascii?Q?XwV29DKGRp4KAjIV/NV18tNfnJlD+3TtmFm3hqPDquiv1cuZ18eSawM2Gcfe?=
+ =?us-ascii?Q?KfrVx7j4koPPz3jkFv3mub90mIQZPJ3QqXlBGUwIqPXXFERYQ1qflmUhdVLH?=
+ =?us-ascii?Q?Gw8cNQ5V+cJU9dmlLWffP3t67zc+CA0rlGHSAXd9HkFnfgugx3G9BY9ZsCGH?=
+ =?us-ascii?Q?1X/kEVVtRGKDZKLa1zrcqo0M+bPfcd35WilJkV/34DI/mQFgWdQXcJq0WXme?=
+ =?us-ascii?Q?SN1nvHL+FObQYXpHq/E8cEmZd8QTcHOqaWc9TzEyhYMao4JOcz0MHW4Zj0VB?=
+ =?us-ascii?Q?EyMk1OpNn8p0Q2U2biKhdOepe0dfhN8mOV5On0A+Ao5l+/97IUy77/sZRhhu?=
+ =?us-ascii?Q?zThkQzOwfNEJEp02R7ymY0LaX+5UF04BNudtDUKY/9ezm9r/kflFrwZeKKJJ?=
+ =?us-ascii?Q?w6HAbRzxQDVz1sYiQQL/7ORoXp6msQNI5RQRQ4ezGlhlzuoBI89iDcnTRZta?=
+ =?us-ascii?Q?jjZMTqrawYL1eNjsRJuECNAVx6QnTFUa1iLlmcHFSAhu649klZ1nwKePKV6r?=
+ =?us-ascii?Q?mGVAKX3JkacjpXzz6LJM79JhaYI/hzlM119YK2rLmsrJBvptbqTRkBlXsYJJ?=
+ =?us-ascii?Q?/PD1uunKDwp2YzeSddzevAVtNYd4VRKhG8tkB0M4sJnVJXA/z/GSz4ML0Gq9?=
+ =?us-ascii?Q?G0gvsVoWH3HGe+dyA8TkMzbI9rcL7ME+GGyR3Butf21iNN1P9kQsfkUvVlZm?=
+ =?us-ascii?Q?nCs+Tbyago0XqlmxRjuk/+zB5hqLIPbW+36AxIOk7gPFfzZxujuHf5dkEswB?=
+ =?us-ascii?Q?Uk0P/IVDF9rdL7tQKa753mua26zjqmeb9gW+KtdkOcWebHJZEnKC+ipCslS2?=
+ =?us-ascii?Q?xbP7+7OacOjFIPHXrsSzGHFUG2cW/lgWLX64oSzYqXEZFgCrg+UCBPsyzqQa?=
+ =?us-ascii?Q?uGg/Fl1X2CTOqv6RZDOdi4dleXAHVQowuAOUuEh8ViBvH86wK7MJNl6hV0Nh?=
+ =?us-ascii?Q?dGXaZcPmZhgjSQEv1XNv0xFeOJqGgJS7K8hWI7nfTTpeUAx4nzmZwy9Y5Umt?=
+ =?us-ascii?Q?sxSRfTrLEHZrjzLW348vnzetJWT1fn9MB5t/SseteMsuS2YDctrYm9HulfIl?=
+ =?us-ascii?Q?UxBjLTESJGO9MCdvcwrBYteizKI4zOTmULx1JLkw/aiDy8Podck2zyOczfX6?=
+ =?us-ascii?Q?7B1YVgB5vBC2v8ePl/CZyM7DviQsHpy280SlCt9DJ3PjJ1PrPJ4zlrk+UuJc?=
+ =?us-ascii?Q?+lcN3OUnWZ7+kOQvrbLk0kRtX0VEgO/42KBmD2bwzdYrQV3OM10+tXNFE5+W?=
+ =?us-ascii?Q?HGlqdCnDpPLwspXoqhK3B3uqdfI1hVg8g7gm+XeIQeYK8mVMSXGtIR/fRYiL?=
+ =?us-ascii?Q?9KHSVxEAndd0ZHU7Zq12J8QFDLUe8OHZymoAZ04A?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 488dd74b-81e9-4661-2003-08dbaf3eacd1
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8e1c754-0337-4b20-0ea2-08dbaf3eb0bf
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 01:06:32.8142 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 01:06:39.4560 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rwPzN+0aJu9UEwUcNAKBt5HTlv+2nqYuTgDIRQp5AYu7gnq3z4VrgnhZU1driAc+pNcKkIfPS7q65IODmCjn5g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8k+VnCBBoHkEpD+2CHjQ9VMKDOud01PTMDzFe26/3FBisFxUHsOBGBRAWRL5l5DK/dBou7hGqDDL5UibcnnShA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6802
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,494 +122,96 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, Sandor.yu@nxp.com,
- linux-imx@nxp.com, kernel@pengutronix.de, sam@ravnborg.org
+ linux-imx@nxp.com, kernel@pengutronix.de,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MHDP8546 mailbox access functions will be share to other mhdp driver
-and Cadence HDP-TX HDMI/DP PHY drivers.
-Move those functions to head file include/drm/bridge/cdns-mhdp-mailbox.h
-and convert them to macro functions.
+Allow HDMI PHYs to be configured through the generic
+functions through a custom structure added to the generic union.
+
+The parameters added here are based on HDMI PHY
+implementation practices.  The current set of parameters
+should cover the potential users.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 195 +-------------
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   1 -
- include/drm/bridge/cdns-mhdp-mailbox.h        | 240 ++++++++++++++++++
- 3 files changed, 241 insertions(+), 195 deletions(-)
- create mode 100644 include/drm/bridge/cdns-mhdp-mailbox.h
+v8->v9:
+* Add Dmitry's R-b tag
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index f6822dfa3805..ddd3c633c7bf 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -36,6 +36,7 @@
- #include <linux/slab.h>
- #include <linux/wait.h>
- 
-+#include <drm/bridge/cdns-mhdp-mailbox.h>
- #include <drm/display/drm_dp_helper.h>
- #include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic.h>
-@@ -54,200 +55,6 @@
- #include "cdns-mhdp8546-hdcp.h"
- #include "cdns-mhdp8546-j721e.h"
- 
--static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
--{
--	int ret, empty;
--
--	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
--
--	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_EMPTY,
--				 empty, !empty, MAILBOX_RETRY_US,
--				 MAILBOX_TIMEOUT_US);
--	if (ret < 0)
--		return ret;
--
--	return readl(mhdp->regs + CDNS_MAILBOX_RX_DATA) & 0xff;
--}
--
--static int cdns_mhdp_mailbox_write(struct cdns_mhdp_device *mhdp, u8 val)
--{
--	int ret, full;
--
--	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
--
--	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_FULL,
--				 full, !full, MAILBOX_RETRY_US,
--				 MAILBOX_TIMEOUT_US);
--	if (ret < 0)
--		return ret;
--
--	writel(val, mhdp->regs + CDNS_MAILBOX_TX_DATA);
--
--	return 0;
--}
--
--static int cdns_mhdp_mailbox_recv_header(struct cdns_mhdp_device *mhdp,
--					 u8 module_id, u8 opcode,
--					 u16 req_size)
--{
--	u32 mbox_size, i;
--	u8 header[4];
--	int ret;
--
--	/* read the header of the message */
--	for (i = 0; i < sizeof(header); i++) {
--		ret = cdns_mhdp_mailbox_read(mhdp);
--		if (ret < 0)
--			return ret;
--
--		header[i] = ret;
--	}
--
--	mbox_size = get_unaligned_be16(header + 2);
--
--	if (opcode != header[0] || module_id != header[1] ||
--	    req_size != mbox_size) {
--		/*
--		 * If the message in mailbox is not what we want, we need to
--		 * clear the mailbox by reading its contents.
--		 */
--		for (i = 0; i < mbox_size; i++)
--			if (cdns_mhdp_mailbox_read(mhdp) < 0)
--				break;
--
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int cdns_mhdp_mailbox_recv_data(struct cdns_mhdp_device *mhdp,
--				       u8 *buff, u16 buff_size)
--{
--	u32 i;
--	int ret;
--
--	for (i = 0; i < buff_size; i++) {
--		ret = cdns_mhdp_mailbox_read(mhdp);
--		if (ret < 0)
--			return ret;
--
--		buff[i] = ret;
--	}
--
--	return 0;
--}
--
--static int cdns_mhdp_mailbox_send(struct cdns_mhdp_device *mhdp, u8 module_id,
--				  u8 opcode, u16 size, u8 *message)
--{
--	u8 header[4];
--	int ret, i;
--
--	header[0] = opcode;
--	header[1] = module_id;
--	put_unaligned_be16(size, header + 2);
--
--	for (i = 0; i < sizeof(header); i++) {
--		ret = cdns_mhdp_mailbox_write(mhdp, header[i]);
--		if (ret)
--			return ret;
--	}
--
--	for (i = 0; i < size; i++) {
--		ret = cdns_mhdp_mailbox_write(mhdp, message[i]);
--		if (ret)
--			return ret;
--	}
--
--	return 0;
--}
--
--static
--int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr, u32 *value)
--{
--	u8 msg[4], resp[8];
--	int ret;
--
--	put_unaligned_be32(addr, msg);
--
--	mutex_lock(&mhdp->mbox_mutex);
--
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_GENERAL,
--				     GENERAL_REGISTER_READ,
--				     sizeof(msg), msg);
--	if (ret)
--		goto out;
--
--	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_GENERAL,
--					    GENERAL_REGISTER_READ,
--					    sizeof(resp));
--	if (ret)
--		goto out;
--
--	ret = cdns_mhdp_mailbox_recv_data(mhdp, resp, sizeof(resp));
--	if (ret)
--		goto out;
--
--	/* Returned address value should be the same as requested */
--	if (memcmp(msg, resp, sizeof(msg))) {
--		ret = -EINVAL;
--		goto out;
--	}
--
--	*value = get_unaligned_be32(resp + 4);
--
--out:
--	mutex_unlock(&mhdp->mbox_mutex);
--	if (ret) {
--		dev_err(mhdp->dev, "Failed to read register\n");
--		*value = 0;
--	}
--
--	return ret;
--}
--
--static
--int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u16 addr, u32 val)
--{
--	u8 msg[6];
--	int ret;
--
--	put_unaligned_be16(addr, msg);
--	put_unaligned_be32(val, msg + 2);
--
--	mutex_lock(&mhdp->mbox_mutex);
--
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
--				     DPTX_WRITE_REGISTER, sizeof(msg), msg);
--
--	mutex_unlock(&mhdp->mbox_mutex);
--
--	return ret;
--}
--
--static
--int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
--			    u8 start_bit, u8 bits_no, u32 val)
--{
--	u8 field[8];
--	int ret;
--
--	put_unaligned_be16(addr, field);
--	field[2] = start_bit;
--	field[3] = bits_no;
--	put_unaligned_be32(val, field + 4);
--
--	mutex_lock(&mhdp->mbox_mutex);
--
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
--				     DPTX_WRITE_FIELD, sizeof(field), field);
--
--	mutex_unlock(&mhdp->mbox_mutex);
--
--	return ret;
--}
--
- static
- int cdns_mhdp_dpcd_read(struct cdns_mhdp_device *mhdp,
- 			u32 addr, u8 *data, u16 len)
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-index bedddd510d17..10c878bf0e63 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-@@ -212,7 +212,6 @@ struct phy;
- #define MB_MODULE_ID_HDCP_TX			0x07
- #define MB_MODULE_ID_HDCP_RX			0x08
- #define MB_MODULE_ID_HDCP_GENERAL		0x09
--#define MB_MODULE_ID_GENERAL			0x0a
- 
- /* firmware and opcodes */
- #define FW_NAME					"cadence/mhdp8546.bin"
-diff --git a/include/drm/bridge/cdns-mhdp-mailbox.h b/include/drm/bridge/cdns-mhdp-mailbox.h
+ include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
+ include/linux/phy/phy.h      |  7 ++++++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 include/linux/phy/phy-hdmi.h
+
+diff --git a/include/linux/phy/phy-hdmi.h b/include/linux/phy/phy-hdmi.h
 new file mode 100644
-index 000000000000..9f551bf956a1
+index 000000000000..b7de88e9090f
 --- /dev/null
-+++ b/include/drm/bridge/cdns-mhdp-mailbox.h
-@@ -0,0 +1,240 @@
++++ b/include/linux/phy/phy-hdmi.h
+@@ -0,0 +1,24 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Cadence MHDP Firmware Access API function by Malibox.
-+ *
-+ * Copyright (C) 2022 NXP Semiconductor, Inc.
-+ *
++ * Copyright 2022 NXP
 + */
-+#ifndef CDNS_MHDP_MAILBOX_H
-+#define CDNS_MHDP_MAILBOX_H
 +
-+#include <asm/unaligned.h>
-+#include <linux/iopoll.h>
++#ifndef __PHY_HDMI_H_
++#define __PHY_HDMI_H_
 +
-+/* mailbox regs offset */
-+#define CDNS_MAILBOX_FULL		0x00008
-+#define CDNS_MAILBOX_EMPTY		0x0000c
-+#define CDNS_MAILBOX_TX_DATA		0x00010
-+#define CDNS_MAILBOX_RX_DATA		0x00014
++#include <linux/hdmi.h>
++/**
++ * struct phy_configure_opts_hdmi - HDMI configuration set
++ * @pixel_clk_rate: Pixel clock of video modes in KHz.
++ * @bpc: Maximum bits per color channel.
++ * @color_space: Colorspace in enum hdmi_colorspace.
++ *
++ * This structure is used to represent the configuration state of a HDMI phy.
++ */
++struct phy_configure_opts_hdmi {
++	unsigned int pixel_clk_rate;
++	unsigned int bpc;
++	enum hdmi_colorspace color_space;
++};
 +
-+#define MAILBOX_RETRY_US		1000
-+#define MAILBOX_TIMEOUT_US		2000000
-+
-+/* Module ID Code */
-+#define MB_MODULE_ID_GENERAL		0x0A
-+#define MB_MODULE_ID_DP_TX		0x01
-+
-+/* General Commands */
-+#define GENERAL_REGISTER_WRITE		0x05
-+#define GENERAL_REGISTER_READ		0x07
-+
-+/* DP TX Command */
-+#define DPTX_WRITE_FIELD		0x08
-+
-+/* MHDP Firmware access functions by Mailbox */
-+#define cdns_mhdp_mailbox_read(_mhdp) \
-+({ \
-+	int ret, empty, val; \
-+\
-+	WARN_ON(!mutex_is_locked(&(_mhdp)->mbox_mutex)); \
-+\
-+	do {  \
-+		ret = readx_poll_timeout(readl, (_mhdp)->regs + CDNS_MAILBOX_EMPTY,  \
-+					 empty, !empty, MAILBOX_RETRY_US,  \
-+					 MAILBOX_TIMEOUT_US);  \
-+		if (ret < 0)  \
-+			break;  \
-+\
-+		val = readl((_mhdp)->regs + CDNS_MAILBOX_RX_DATA) & 0xff; \
-+	} while (0);  \
-+\
-+	(ret < 0) ? ret : val;  \
-+})
-+
-+#define cdns_mhdp_mailbox_write(_mhdp, _val) \
-+({ \
-+	int ret, full;  \
-+\
-+	WARN_ON(!mutex_is_locked(&(_mhdp)->mbox_mutex)); \
-+\
-+	do {  \
-+		ret = readx_poll_timeout(readl, (_mhdp)->regs + CDNS_MAILBOX_FULL,  \
-+					 full, !full, MAILBOX_RETRY_US,  \
-+					 MAILBOX_TIMEOUT_US);  \
-+		if (ret < 0)  \
-+			break;  \
-+\
-+		writel((_val), (_mhdp)->regs + CDNS_MAILBOX_TX_DATA); \
-+	} while (0);  \
-+\
-+	ret; \
-+})
-+
-+#define  cdns_mhdp_mailbox_recv_header(_mhdp, _module_id, _opcode, _req_size) \
-+({  \
-+	u32 mbox_size, i;  \
-+	u8 header[4];  \
-+	int ret;  \
-+\
-+	do {  \
-+		/* read the header of the message */ \
-+		for (i = 0; i < sizeof(header); i++) {  \
-+			ret = cdns_mhdp_mailbox_read(_mhdp);  \
-+			if (ret < 0)  \
-+				break;  \
-+\
-+			header[i] = ret;  \
-+		}  \
-+\
-+		mbox_size = get_unaligned_be16(header + 2);  \
-+\
-+		if ((_opcode) != header[0] || (_module_id) != header[1] ||  \
-+		    (_req_size) != mbox_size) {  \
-+			/* If the message in mailbox is not what we want, we need to
-+			 * clear the mailbox by reading its contents. */  \
-+			for (i = 0; i < mbox_size; i++)   \
-+				if (cdns_mhdp_mailbox_read(_mhdp) < 0)  \
-+					break;  \
-+\
-+			ret = -EINVAL;  \
-+		}  \
-+\
-+		ret = 0; \
-+\
-+	} while (0);  \
-+\
-+	ret;  \
-+})
-+
-+#define cdns_mhdp_mailbox_recv_data(_mhdp, _buff, _buff_size)  \
-+({  \
-+	u32 i;  \
-+	int ret;  \
-+\
-+	do {  \
-+		for (i = 0; i < (_buff_size); i++) {  \
-+			ret = cdns_mhdp_mailbox_read(_mhdp);  \
-+			if (ret < 0)  \
-+				break;  \
-+\
-+			((u8 *)_buff)[i] = ret;  \
-+		}  \
-+\
-+		ret = 0;  \
-+\
-+	} while (0);  \
-+\
-+	ret; \
-+})
-+
-+#define cdns_mhdp_mailbox_send(_mhdp, _module_id, _opcode, _size, _message)  \
-+({  \
-+	u8 header[4];  \
-+	int ret, i;  \
-+\
-+	header[0] = _opcode;  \
-+	header[1] = _module_id;  \
-+	put_unaligned_be16(_size, header + 2);  \
-+\
-+	do {  \
-+		for (i = 0; i < sizeof(header); i++) {  \
-+			ret = cdns_mhdp_mailbox_write(_mhdp, header[i]);  \
-+			if (ret < 0)  \
-+				break;  \
-+		}  \
-+\
-+		for (i = 0; i < _size; i++) {  \
-+			ret = cdns_mhdp_mailbox_write(_mhdp, ((u8 *)_message)[i]);  \
-+			if (ret < 0)  \
-+				break;;  \
-+		}  \
-+		ret = 0;  \
-+	} while (0);  \
-+\
-+	ret;  \
-+})
-+
-+#define cdns_mhdp_reg_read(_mhdp, _addr, _value)  \
-+({  \
-+	u8 msg[4], resp[8];  \
-+	int ret;  \
-+\
-+	put_unaligned_be32(_addr, msg);  \
-+\
-+	mutex_lock(&(_mhdp)->mbox_mutex);  \
-+\
-+	do {  \
-+		ret = cdns_mhdp_mailbox_send(_mhdp, MB_MODULE_ID_GENERAL,  \
-+					     GENERAL_REGISTER_READ,  \
-+					     sizeof(msg), msg);  \
-+		if (ret < 0)  \
-+			break;  \
-+\
-+		ret = cdns_mhdp_mailbox_recv_header(_mhdp, MB_MODULE_ID_GENERAL,  \
-+						    GENERAL_REGISTER_READ,  \
-+						    sizeof(resp));  \
-+		if (ret < 0)  \
-+			break;  \
-+\
-+		ret = cdns_mhdp_mailbox_recv_data(_mhdp, resp, sizeof(resp));  \
-+		if (ret < 0)  \
-+			break;  \
-+\
-+		/* Returned address value should be the same as requested */  \
-+		if (memcmp(msg, resp, sizeof(msg))) {  \
-+			ret = -EINVAL;  \
-+			break;  \
-+		}  \
-+\
-+		*((u32 *)_value) = get_unaligned_be32(resp + 4);  \
-+			ret = 0;  \
-+	} while (0);  \
-+\
-+	mutex_unlock(&(_mhdp)->mbox_mutex);  \
-+	if (ret < 0) {  \
-+		dev_err((_mhdp)->dev, "Failed to read register\n");  \
-+		*((u32 *)_value) = 0;  \
-+	}  \
-+\
-+	ret;  \
-+})
-+
-+#define cdns_mhdp_reg_write(_mhdp, _addr, _val)  \
-+({  \
-+	u8 msg[8];  \
-+	int ret;  \
-+\
-+	put_unaligned_be32(_addr, msg);  \
-+	put_unaligned_be32(_val, msg + 4);  \
-+\
-+	mutex_lock(&(_mhdp)->mbox_mutex);  \
-+\
-+	ret = cdns_mhdp_mailbox_send(_mhdp, MB_MODULE_ID_GENERAL,  \
-+				      GENERAL_REGISTER_WRITE, sizeof(msg), msg);  \
-+\
-+	mutex_unlock(&(_mhdp)->mbox_mutex);  \
-+\
-+	ret;  \
-+})
-+
-+#define cdns_mhdp_reg_write_bit(_mhdp, _addr, _start_bit, _bits_no, _val) \
-+({  \
-+	u8 field[8];  \
-+	int ret;  \
-+\
-+	put_unaligned_be16(_addr, field);  \
-+	field[2] = _start_bit;  \
-+	field[3] = _bits_no;  \
-+	put_unaligned_be32(_val, field + 4);  \
-+\
-+	mutex_lock(&(_mhdp)->mbox_mutex);  \
-+\
-+	ret = cdns_mhdp_mailbox_send((_mhdp), MB_MODULE_ID_DP_TX, \
-+				     DPTX_WRITE_FIELD, sizeof(field), field);  \
-+\
-+	mutex_unlock(&(_mhdp)->mbox_mutex);  \
-+\
-+	ret; \
-+})
-+
-+#endif
++#endif /* __PHY_HDMI_H_ */
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index f6d607ef0e80..94d489a8a163 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -17,6 +17,7 @@
+ #include <linux/regulator/consumer.h>
+ 
+ #include <linux/phy/phy-dp.h>
++#include <linux/phy/phy-hdmi.h>
+ #include <linux/phy/phy-lvds.h>
+ #include <linux/phy/phy-mipi-dphy.h>
+ 
+@@ -42,7 +43,8 @@ enum phy_mode {
+ 	PHY_MODE_MIPI_DPHY,
+ 	PHY_MODE_SATA,
+ 	PHY_MODE_LVDS,
+-	PHY_MODE_DP
++	PHY_MODE_DP,
++	PHY_MODE_HDMI,
+ };
+ 
+ enum phy_media {
+@@ -60,11 +62,14 @@ enum phy_media {
+  *		the DisplayPort protocol.
+  * @lvds:	Configuration set applicable for phys supporting
+  *		the LVDS phy mode.
++ * @hdmi:	Configuration set applicable for phys supporting
++ *		the HDMI phy mode.
+  */
+ union phy_configure_opts {
+ 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
+ 	struct phy_configure_opts_dp		dp;
+ 	struct phy_configure_opts_lvds		lvds;
++	struct phy_configure_opts_hdmi		hdmi;
+ };
+ 
+ /**
 -- 
 2.34.1
 
