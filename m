@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217B9797108
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C89F797107
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:54:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F2610E79A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6443610E795;
 	Thu,  7 Sep 2023 08:54:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B0610E79B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:54:11 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4446410E79B
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:54:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AD11E1F8A3;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DF84621865;
  Thu,  7 Sep 2023 08:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1694076850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fi1MPEg+jiC6OOOajNUoCZ1a7mNiHeeWfGI4WdvIKLI=;
- b=nqEvSx/k/N5OzR69eq0xgdDvpYp7bGmlYWfJw4beFw7ZQv3RM4llGXGco0aXfMnl3apliO
- i1K+fZykEJOvpZSbyC/KSOwn920ufzL2kfXI8JS8q+8uNGH/7qOn8vStsiE8kF6MY4fNbX
- xlu9dXDJHAICPXjH0lsz0iiYkxhNzPc=
+ bh=41o/btvw9C5S0iA1yowHnm0gHWjgAAVogrPERtBT9GA=;
+ b=PKTYaL/v/ZaN8PPLd2WqAmWUhDE5coJWqhLuQ9pROo9OQdTloob56ywQFvoOVLfnKzaXmB
+ YoVZMBcJ30UXp8bB8IwX+AUygAknUqrbtfeSB276LWFYZ2wHwNBw7gXAU5ZYabD2uvcXxT
+ S60ZPlhuZ/vmT0o9HFBI5HoLejAwjiw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1694076850;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fi1MPEg+jiC6OOOajNUoCZ1a7mNiHeeWfGI4WdvIKLI=;
- b=hgfvuGqcQm5eV3XbOXc5FEeZNuqkQ5o6tNJPxJgtCThpxB+NFHr+agihbgMoGRxfetVPJo
- PlPEKvtGFAgzLDDw==
+ bh=41o/btvw9C5S0iA1yowHnm0gHWjgAAVogrPERtBT9GA=;
+ b=hwMwz5AFFPjhFriVqWD4zEyh9RdjaKlIu9wN8cD9VBP5RKAmY/KWnbFss/oEOkMB61pxMe
+ oIAYtxjBjenH11Bw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DE5E13ADD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B237F138FA;
  Thu,  7 Sep 2023 08:54:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YPKeHbKP+WT6JgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id sLtQKrKP+WT6JgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 07 Sep 2023 08:54:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/7] fbdev/au1200fb: Do not display boot-up logo
-Date: Thu,  7 Sep 2023 10:52:00 +0200
-Message-ID: <20230907085408.9354-2-tzimmermann@suse.de>
+Subject: [PATCH v2 2/7] fbdev/mmp/mmpfb: Do not display boot-up logo
+Date: Thu,  7 Sep 2023 10:52:01 +0200
+Message-ID: <20230907085408.9354-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230907085408.9354-1-tzimmermann@suse.de>
 References: <20230907085408.9354-1-tzimmermann@suse.de>
@@ -73,35 +73,37 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The fbcon module takes care of displaying the logo, if any. Remove
-the code form au1200fb. If we want to display the logo without fbcon,
-we should implement this in the fbdev core code.
+the code form mmpfb. It is probably no tworking as expected, as it
+interferes with the framebuffer console. If we want to display the
+logo without fbcon, we should implement this in the fbdev core code.
+
+v2:
+	* add a note on fbcon interference (Javier)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/video/fbdev/au1200fb.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/video/fbdev/mmp/fb/mmpfb.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
-index c137d6afe484..98afd385c49c 100644
---- a/drivers/video/fbdev/au1200fb.c
-+++ b/drivers/video/fbdev/au1200fb.c
-@@ -1719,15 +1719,6 @@ static int au1200fb_drv_probe(struct platform_device *dev)
- 		}
+diff --git a/drivers/video/fbdev/mmp/fb/mmpfb.c b/drivers/video/fbdev/mmp/fb/mmpfb.c
+index 42a87474bcea..2d9797c6fb3e 100644
+--- a/drivers/video/fbdev/mmp/fb/mmpfb.c
++++ b/drivers/video/fbdev/mmp/fb/mmpfb.c
+@@ -628,13 +628,6 @@ static int mmpfb_probe(struct platform_device *pdev)
+ 	dev_info(fbi->dev, "loaded to /dev/fb%d <%s>.\n",
+ 		info->node, info->fix.id);
  
- 		au1200fb_fb_set_par(fbi);
--
--#if !defined(CONFIG_FRAMEBUFFER_CONSOLE) && defined(CONFIG_LOGO)
--		if (plane == 0)
--			if (fb_prepare_logo(fbi, FB_ROTATE_UR)) {
--				/* Start display and show logo on boot */
--				fb_set_cmap(&fbi->cmap, fbi);
--				fb_show_logo(fbi, FB_ROTATE_UR);
--			}
+-#ifdef CONFIG_LOGO
+-	if (fbi->fb_start) {
+-		fb_prepare_logo(info, 0);
+-		fb_show_logo(info, 0);
+-	}
 -#endif
- 	}
+-
+ 	return 0;
  
- 	/* Now hook interrupt too */
+ failed_clear_info:
 -- 
 2.42.0
 
