@@ -1,123 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201B87970B0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:20:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC43A7970CE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED0C10E043;
-	Thu,  7 Sep 2023 08:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5DD10E212;
+	Thu,  7 Sep 2023 08:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on070d.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0d::70d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA0510E043
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:20:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NuctsK+GzqF9gVm0xS34sPJ+wJn57IoQEDkJ3ubHt5k9A/aAteSV0kgvBM1dQlpQ0g36dY5tk80Qx2EuJTH2ruAuluG7RjsmVwsmDUzsqffk05n/Brek9iuedxNlO6oSqu9KXjq/twmldCAYc78kq3v/C40zotRQ5THSEq7HVUTE45htqf1IEqw1r4lk2YqYS0CtkWhWz6Gfv1CV6LC9l1iJQus8diSinWa61BZY7psD7RiWINSW3/XKC6qyzDZBAHDFwJAOlOh2X17kkjO5Fc/I/rIkXmuJ9YhrmQZTkIuE6kvPqWGPkNu36fklJ9w8Pq/+c4Iojz/l8UrjgzKt+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZKrl8h7j4GZnx/FGwS20ZV9UtnFXAO8sP5wF8Hv+DOk=;
- b=nHhJSSGanWXkTFWxWGBDkDs+j94bmo4LTFOsie1nFNyhbth7OKD/5Q+l7fZJkPCvwB3+ELCKOUiufGtSNW6jRHntM9z/A7DwsX8SeoMH57lRkfBw+6TaJ8MqThrk4mDpvQaLW3r7+ai5jVPXQnqJwkYG4V59kTHW+bblBOin993cjaOy9gGszqOIJMsSVHPVSL5vMaJtnk3lOcaLdLHMxLDwtvpRrVryxYxzBPUL8WFouYoFlDIC7XzoYBaZ1mAwXo0fBPY1aumTBDZYnlmZpFXdJj+S522G8UI8wGu6q6nEVa/QeJ9FvrrtlLE5b68qBBSE63uJeLW21gFT/BfEpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZKrl8h7j4GZnx/FGwS20ZV9UtnFXAO8sP5wF8Hv+DOk=;
- b=J5lxwiNlQ3RHvJbtHHi4pvFZ69e6CAYgxbcY/9diEux8BLvmDEFZGCZ7tNx4HkyO0jDjKOx2FmVzZu7Q1UHaR+G+wnr0wfvTewMXUdJ1/bQf5fmeBBhyeY+9VMulyPYn2+qSyj0crzRyUAX35ufHYSCfmFo5j3xIflwLvDggsIU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by VI1PR10MB8111.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1da::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
- 2023 08:20:10 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7c42:15ff:f9fa:b221]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7c42:15ff:f9fa:b221%4]) with mapi id 15.20.6745.035; Thu, 7 Sep 2023
- 08:20:10 +0000
-Message-ID: <3230032b-5d8c-414b-b9c9-76dc1dc93d52@kontron.de>
-Date: Thu, 7 Sep 2023 10:20:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] drm/bridge: samsung-dsim: fix various modes with
- ADV7535 bridge
-To: Michael Tretter <m.tretter@pengutronix.de>
-References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
- <a95481b7-e38c-4b7c-be49-4c74e07d3523@kontron.de>
- <86fac1f0-0fcb-4cbd-a983-03a6e7c41097@kontron.de>
- <20230906095615.GB375493@pengutronix.de>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20230906095615.GB375493@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BE1P281CA0370.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:82::25) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D506B10E09B
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:35:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7A22A21862;
+ Thu,  7 Sep 2023 08:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694075756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0rFn44AIm2HsPQJSCh9y4NhrNnMiKMMHFylbijlpr74=;
+ b=fZZ6lxmEHRIXC+4bZsmuuleGSB6QnZxjuahXtO4RMu/wMnxP2Uvi/AInIAdiGGpgdnRAtN
+ w0dE7l88KuMZ9fa7/B74kM7URkn58gsdkT2kw5rHH3GvSrQdZMhvu0b4l7kbAIGflY2Mbi
+ DoRz+xHEE27OaMqpl1c49rYgst4u4SY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694075756;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0rFn44AIm2HsPQJSCh9y4NhrNnMiKMMHFylbijlpr74=;
+ b=1pjSBHeiF41sYtaMDUSFc3KHMSZpywc1jAGH7X+yAkoYXMaKcnUu/jNvsXKrSBaCbUEkOe
+ mUN/WKdz5635HrAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 568E9138FA;
+ Thu,  7 Sep 2023 08:35:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 9I0kFGyL+WSEHAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 07 Sep 2023 08:35:56 +0000
+Message-ID: <dd898338-813f-df63-4255-986903aa7cb6@suse.de>
+Date: Thu, 7 Sep 2023 10:35:55 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|VI1PR10MB8111:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b868fc8-0ffc-4db3-cd6e-08dbaf7b4071
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: drVHej43GAAQWCGcpGKmFqe7xyhDb7z9nZWjsftCsSdlo4AIFk6s2kq4FlCHBogTaVjkQNwFQqAY1J/g7sisXPrZnXAE3JQU8okUqghmNCUN8iJzHuj6VQK0ArHQoiDL9CQLlmPPTAPvH7IpYB89mqCLn3JW1o1YpS6l+WLeHLxNOGy/R9g4nF7Mve0DoinBEn+jiy01z357MJkpa5mnuoAv76RBkk965ZnispFoPZVOa5OYccmVyaHHO1HAU+fh+Z71d05/Osmlr4QAb3uCPD5ln4nmguW74ZHJX8webrPC42cV47xwNBdfQFbt/RXYc1YvhyU/fX90Y6F+eaGHO1+3Xsj/F5IVTeuexmA/KXHrnfReylnaAoiAu2RTrRk4PrQLErD4m11XD+kIg8QXVicfhPD9L4BrWtOUmpx7vI1BgvLovDNuPYPAeYNVn3kJowofofNcQK+YosfJVCpV7ExWY02acCk7r9bATw46CeliNbhTzfJVg0m3j7uulWn5UKKmI4eniD3UdsdFj2jEuiL716YLpGVZPzxEzIuO72qLg2Cr3oX9bz7nYO+xE7Y9OSpjiprAHiGoUJ46e0cBNBZAEAITV3KM05MuGF7xnuK+q1ZHapIKbbGPjzYBD7/DKgsqdq8/ZN/JHpVKAwqjtw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(186009)(451199024)(1800799009)(8936002)(5660300002)(44832011)(8676002)(4326008)(6666004)(53546011)(6486002)(6512007)(2616005)(31686004)(83380400001)(6506007)(26005)(38100700002)(36756003)(6916009)(66946007)(66556008)(66476007)(54906003)(316002)(41300700001)(31696002)(2906002)(86362001)(478600001)(7416002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YS9ab1FoWFNXbnk5QisvM21NOW95S0tiNzF1bVVKeENZR0dDZVZVZHRvQ210?=
- =?utf-8?B?K3Y5amJIZFRMNVZnQnYvNGk4RU5Zc3pJcjZxS0ZBVTI4QzJVUHV1TS9OVjNz?=
- =?utf-8?B?ZjhyWWlTdVBUeDlmUGw0WlJiZys2eW9kbm95YXFnOW9MRnNzZmx6M2hJa1NY?=
- =?utf-8?B?M1dad1BtTDhtRklvcXk5azF5cFl5cEJGRTZ6UCs5VktHdnpuc0ZlVm0zUS82?=
- =?utf-8?B?cWZQY2UraThkMkh0cUxKN1BYUGhrdkF6K0l2SWJ5ZnNGWk90a2N5Z1NkdGR2?=
- =?utf-8?B?NW5OV2FaMTBEZzAyQy9PQWM0WkZoaGgrS2hiWU1CVUhiK3pxSy9CUlZFQTJ1?=
- =?utf-8?B?cWk5azZQZGxUTW1tUGV5c0J4ZXVWOEtBSy8rbVNvdE1oN3J1OVhHQkQvRVVx?=
- =?utf-8?B?dWtSbk1RdlJXS1RTNVJGeWx4WjlhYVNmY2gzU2Q3Rm1GYVBVM3ZqZ3pBSzg5?=
- =?utf-8?B?a01yZ1FxdUlnR0xWWUsvVjAwTW5WL1ZqSy9VU2FIM0ZKQy9Nc3lTUzlpMU5k?=
- =?utf-8?B?bkhoQW5LMDBqQ0k0MlIyT0tjNW02VjB0OVVHekw3L3dMeWRaWXg1eDcwd3J6?=
- =?utf-8?B?aVFMRjNtU3BORWpDdE52NDRJdCt2K2l5a2d3OFYvNUlRSmpGOCtscmdMUjhj?=
- =?utf-8?B?VDV0YmVId0RjQVZlQnhzNExEbEJWV0srQ1JLY1ZGNnovTVJQUjZJamZtYldj?=
- =?utf-8?B?RDFqN3o3cUNsSzlMM0Z0Y2RQTFFSUndvN1RGOGVncC9hREcxWExBNGZEcGFT?=
- =?utf-8?B?Y3N6WlFpSmNQU2dJclRTS3FyWURoU29TNnlUWjRZSWJ2Q0hqYXFJcXB1enMr?=
- =?utf-8?B?UE5RWnNxemNYWTgxSHVuTjZoYksvK0xxRGdMbTZpd21MUmZuelFOeDRjWXZ2?=
- =?utf-8?B?Uk1LVUNJcjc2ZUs1WUhIRHVUbUN1akJkaVdQVU5pZlUrTnVTV2VmcXBLMTdD?=
- =?utf-8?B?b1R1L1loTzRTT0Jya2dLcHI3MjMxV2JyUXRxMmZJVjJraEVmQmFSOVB2dXZM?=
- =?utf-8?B?SFB0TzVSVFE1L0xFSDJLeUhVeU5Wa0t2MmJCdTdOZ0MwN1Y3eWZHSnJoNGhL?=
- =?utf-8?B?M0MwcjU3Uk5TTDVyWHhmMTBOanNmRjlaZEl2U2ZITE5WRkd5WGsxbjJJVUxL?=
- =?utf-8?B?MEVjV1Fta3BFbER1bHZvaGZ5c0MzWXRBa1JMVlFiSjlWakxQSnBpMkpQZnlv?=
- =?utf-8?B?bzl6R2g4NzlLd21Yem16ZVNUbVdDbDQ2cGx4QUZFaDdxTXM4akMwSmE3ZFRN?=
- =?utf-8?B?Mk9VZTBXZng3L2Z1RlpyUytMZTJraE1qSjRsUzdXdEFUZW9Ydmg0MS9yaDlK?=
- =?utf-8?B?amdQa0YxaUcwYmhoVlFEL1NRZWg3cWdTNkpKWE9ZbnFxK01KN1phelVxWnNT?=
- =?utf-8?B?T0V5Zk5iVFBUMzlXWkJBeVlyQURKUzNzNHhFZEFjYmFRbGtXN004M0phSWxm?=
- =?utf-8?B?MjM5d281NCtpM1hBOTd2OUxxT1pwNkx2aXFWbEhYVlFhTktJdXpYb2VPUGNU?=
- =?utf-8?B?Tk5DV3JYdUtUOVhUSkpLWWs4VEhLUW5TMnpQVEhUdE9hYWdmRXZNUm5xT1hV?=
- =?utf-8?B?SXJKOW1TM3dXSFdiYUlMeHgrWFR4SzdKNnpaSzR5QW05NHNJR1JtcSsvUmcv?=
- =?utf-8?B?VHRwZTA2UDIyeTJaVVhEU00rdm45YzFOZmZaNlhnSUk2bE9oRFNxdTlaRnor?=
- =?utf-8?B?YTlwQWVLbFkwZG0wUzlpcEdSVkhQNmMwYyt1bmFhQnZLZUpUZHVZOStCV2ZR?=
- =?utf-8?B?d0c5M3ZnK2VORUNJMWROUlNHNk0xM0hEQTgvM0xlZXA3bUhCQnhSY0diVlo3?=
- =?utf-8?B?alkzQ3ZWK0FCUXVWVG9Pb24wV3hoZkQrQ0RUNFcxTFl1amhQc3VJdEpUSmhY?=
- =?utf-8?B?M3pzd0l2V0NoeEhpQ0ltVzRidlVFQlMyUGpEc1dmcmJSYWp2MnFiL05jSHc3?=
- =?utf-8?B?ZDJQdWIrTDFHYW5OTzZEQXFwRkMzbDZoWGpLaS9SK0pQd3FnVHQ1MHdqTDdW?=
- =?utf-8?B?aVljUmJyYWcwVzlMQW5yczRVOFJTamtXMHh4eWhQakpmUUVWdCtqREZoK3dO?=
- =?utf-8?B?WTMrWnVoNDJtUzlFRGxBWnJIMTE3eGd5ZnlFSDY4RlM0aitlTUZhVU5zVVEr?=
- =?utf-8?B?MUJhMzhqR1VYb2JzcklHSW45aXRtL0ltYWpVTVUzbmJOYzN6ZEpwd2tpVnJk?=
- =?utf-8?B?d1E9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b868fc8-0ffc-4db3-cd6e-08dbaf7b4071
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 08:20:10.1857 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eD1A5HZ2+IkpP259iLZSB/XTUdwa1FcUKKpypVzTAu3AZ+rPOlxeZUvZ2LaMI1njvSQJobPuxb45NL5Fm2EetS5JnFqBkmvk7pIfV7EHyHI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB8111
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] drm/tegra: Remove existing framebuffer only if we support
+ display
+Content-Language: en-US
+To: Thierry Reding <thierry.reding@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230825132229.1109445-1-thierry.reding@gmail.com>
+ <f5ce7a77-ee3e-5186-dd8a-76c0bd794de0@suse.de>
+ <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
+ <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
+ <ZPmD5WNZzz279qZ7@orome>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ZPmD5WNZzz279qZ7@orome>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XbJwvbe96UzrF5hJWzfl03Nt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,125 +74,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XbJwvbe96UzrF5hJWzfl03Nt
+Content-Type: multipart/mixed; boundary="------------AfJPVNc8LkZzMyTF6XPV9OxB";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Thierry Reding <thierry.reding@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <dd898338-813f-df63-4255-986903aa7cb6@suse.de>
+Subject: Re: [PATCH] drm/tegra: Remove existing framebuffer only if we support
+ display
+References: <20230825132229.1109445-1-thierry.reding@gmail.com>
+ <f5ce7a77-ee3e-5186-dd8a-76c0bd794de0@suse.de>
+ <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
+ <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
+ <ZPmD5WNZzz279qZ7@orome>
+In-Reply-To: <ZPmD5WNZzz279qZ7@orome>
 
-On 06.09.23 11:56, Michael Tretter wrote:
-> Hi Frieder,
-> 
-> On Wed, 06 Sep 2023 11:31:45 +0200, Frieder Schrempf wrote:
->> On 04.09.23 16:02, Frieder Schrempf wrote:
->>> On 28.08.23 17:59, Michael Tretter wrote:
->>>> I tested the i.MX8M Nano EVK with the NXP supplied MIPI-DSI adapter,
->>>> which uses an ADV7535 MIPI-DSI to HDMI converter. I found that a few
->>>> modes were working, but in many modes my monitor stayed dark.
->>>>
->>>> This series fixes the Samsung DSIM bridge driver to bring up a few more
->>>> modes:
->>>>
->>>> The driver read the rate of the PLL ref clock only during probe.
->>>> However, if the clock is re-parented to the VIDEO_PLL, changes to the
->>>> pixel clock have an effect on the PLL ref clock. Therefore, the driver
->>>> must read and potentially update the PLL ref clock on every modeset.
->>>>
->>>> I also found that the rounding mode of the porches and active area has
->>>> an effect on the working modes. If the driver rounds up instead of
->>>> rounding down and be calculates them in Hz instead of kHz, more modes
->>>> start to work.
->>>>
->>>> The following table shows the modes that were working in my test without
->>>> this patch set and the modes that are working now:
->>>>
->>>> |            Mode | Before | Now |
->>>> | 1920x1080-60.00 | X      | X   |
->>>> | 1920x1080-59.94 |        | X   |
->>>> | 1920x1080-50.00 |        | X   |
->>>> | 1920x1080-30.00 |        | X   |
->>>> | 1920x1080-29.97 |        | X   |
->>>> | 1920x1080-25.00 |        | X   |
->>>> | 1920x1080-24.00 |        |     |
->>>> | 1920x1080-23.98 |        |     |
->>>> | 1680x1050-59.88 |        | X   |
->>>> | 1280x1024-75.03 | X      | X   |
->>>> | 1280x1024-60.02 | X      | X   |
->>>> |  1200x960-59.99 |        | X   |
->>>> |  1152x864-75.00 | X      | X   |
->>>> |  1280x720-60.00 |        |     |
->>>> |  1280x720-59.94 |        |     |
->>>> |  1280x720-50.00 |        | X   |
->>>> |  1024x768-75.03 |        | X   |
->>>> |  1024x768-60.00 |        | X   |
->>>> |   800x600-75.00 | X      | X   |
->>>> |   800x600-60.32 | X      | X   |
->>>> |   720x576-50.00 | X      | X   |
->>>> |   720x480-60.00 |        |     |
->>>> |   720x480-59.94 | X      |     |
->>>> |   640x480-75.00 | X      | X   |
->>>> |   640x480-60.00 |        | X   |
->>>> |   640x480-59.94 |        | X   |
->>>> |   720x400-70.08 |        |     |
->>>>
->>>> Interestingly, the 720x480-59.94 mode stopped working. However, I am
->>>> able to bring up the 720x480 modes by manually hacking the active area
->>>> (hsa) to 40 and carefully adjusting the clocks, but something still
->>>> seems to be off.
->>>>
->>>> Unfortunately, a few more modes are still not working at all. The NXP
->>>> downstream kernel has some quirks to handle some of the modes especially
->>>> wrt. to the porches, but I cannot figure out, what the driver should
->>>> actually do in these cases. Maybe there is still an error in the
->>>> calculation of the porches and someone at NXP can chime in.
->>>
->>> Thanks for working on this! We tested these patches with our Kontron BL
->>> i.MX8MM board and a "10.1inch HDMI LCD (E)" display from Waveshare  [1].
->>>
->>> Without this series we don't get an image with the default mode of the
->>> display (1024x600). With this series applied, it's now working.
->>
->> Minor correction: The display does work, but there is some flickering
->> and occasional black screens if you let it run for some time. So there
->> is still some sync issue.
-> 
-> What is the parent of the dsi_phy_ref clock in your test case?
+--------------AfJPVNc8LkZzMyTF6XPV9OxB
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It's the IMX8MM_CLK_24M default from imx8mm.dtsi.
+SGkNCg0KQW0gMDcuMDkuMjMgdW0gMTA6MDMgc2NocmllYiBUaGllcnJ5IFJlZGluZzoNCj4g
+T24gVGh1LCBBdWcgMzEsIDIwMjMgYXQgMTA6MDQ6MjlBTSArMDIwMCwgRGFuaWVsIFZldHRl
+ciB3cm90ZToNCj4+IE9uIFRodSwgMzEgQXVnIDIwMjMgYXQgMDg6MzMsIE1pa2tvIFBlcnR0
+dW5lbiA8Y3luZGlzQGthcHNpLmZpPiB3cm90ZToNCj4+Pg0KPj4+IE9uIDgvMzAvMjMgMTM6
+MTksIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBBbSAy
+NS4wOC4yMyB1bSAxNToyMiBzY2hyaWViIFRoaWVycnkgUmVkaW5nOg0KPj4+Pj4gRnJvbTog
+VGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4NCj4+Pj4+DQo+Pj4+PiBUZWdy
+YSBEUk0gZG9lc24ndCBzdXBwb3J0IGRpc3BsYXkgb24gVGVncmEyMzQgYW5kIGxhdGVyLCBz
+byBtYWtlIHN1cmUNCj4+Pj4+IG5vdCB0byByZW1vdmUgYW55IGV4aXN0aW5nIGZyYW1lYnVm
+ZmVycyBpbiB0aGF0IGNhc2UuDQo+Pj4+Pg0KPj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhpZXJy
+eSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4NCj4+Pj4+IC0tLQ0KPj4+Pj4gICAgZHJp
+dmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jIHwgOCArKysrKy0tLQ0KPj4+Pj4gICAgMSBmaWxl
+IGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4+Pj4+DQo+Pj4+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3RlZ3JhL2RybS5jDQo+Pj4+PiBpbmRleCBiMWUxYTc4ZTMwYzYuLjdhMzhkYWRi
+YzI2NCAxMDA2NDQNCj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcm0uYw0K
+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jDQo+Pj4+PiBAQCAtMTIy
+MCw5ICsxMjIwLDExIEBAIHN0YXRpYyBpbnQgaG9zdDF4X2RybV9wcm9iZShzdHJ1Y3QNCj4+
+Pj4+IGhvc3QxeF9kZXZpY2UgKmRldikNCj4+Pj4+ICAgICAgICBkcm1fbW9kZV9jb25maWdf
+cmVzZXQoZHJtKTsNCj4+Pj4+IC0gICAgZXJyID0gZHJtX2FwZXJ0dXJlX3JlbW92ZV9mcmFt
+ZWJ1ZmZlcnMoJnRlZ3JhX2RybV9kcml2ZXIpOw0KPj4+Pj4gLSAgICBpZiAoZXJyIDwgMCkN
+Cj4+Pj4+IC0gICAgICAgIGdvdG8gaHViOw0KPj4+Pj4gKyAgICBpZiAoZHJtLT5tb2RlX2Nv
+bmZpZy5udW1fY3J0YyA+IDApIHsNCj4+Pj4NCj4+Pj4gSWYgeW91IGRvbid0IHN1cHBvcnQg
+dGhlIGhhcmR3YXJlLCB3b3VsZG4ndCBpdCBiZSBiZXR0ZXIgdG8gcmV0dXJuDQo+Pj4+IC1F
+Tk9ERVYgaWYgIW51bV9jcnRjPw0KPj4+DQo+Pj4gV2hpbGUgZGlzcGxheSBpcyBub3Qgc3Vw
+cG9ydGVkIHRocm91Z2ggVGVncmFEUk0gb24gVGVncmEyMzQrLCBjZXJ0YWluDQo+Pj4gbXVs
+dGltZWRpYSBhY2NlbGVyYXRvcnMgYXJlIHN1cHBvcnRlZCwgc28gd2UgbmVlZCB0byBmaW5p
+c2ggcHJvYmUgZm9yIHRob3NlLg0KPj4NCj4+IElkZWFsbHkgeW91IGFsc28gcmVnaXN0ZXIg
+dGhlIHRlZ3JhIGRyaXZlciB3aXRob3V0IERSSVZFUl9NT0RFU0VUIHwNCj4+IERSSVZFUl9B
+VE9NSUMgaW4gdGhhdCBjYXNlLCB0byBhdm9pZCB1bmVjZXNzYXJ5IHVzZXJzcGFjZSBjb25m
+dXNpb24uDQo+PiBNb3N0IHVzZXJzcGFjZSBjYW4gY29wZSB3aXRoIGEgZGlzcGxheSBkcml2
+ZXIgd2l0aG91dCBhbnkgY3J0YywgYnV0IEkNCj4+IHRoaW5rIHhvcmctbW9kZXNldHR0aW5n
+IGFjdHVhbGx5IGZhbGxzIG92ZXIuIE9yIGF0IGxlYXN0IEkndmUgc2Vlbg0KPj4gc29tZSBo
+YWNrcyB0aGF0IHRoZSBhZ3ggcGVvcGxlIGFkZGVkIHRvIG1ha2Ugc3VyZSBYIGRvZXNuJ3QN
+Cj4+IGFjY2lkZW50YWxseSBvcGVuIHRoZSB3cm9uZyBkcml2ZXIuDQo+IA0KPiBUaGF0J3Mg
+YSBnb29kIHBvaW50LiBIb3dldmVyIEkgcmVjYWxsIGZyb20gZWFybGllciBhdHRlbXB0cyBh
+dCBkb2luZw0KPiBzb21ldGhpbmcgbGlrZSB0aGlzIGluIE5vdXZlYXUgKGFsdGhvdWdoIHRo
+aXMgaXMgbm93IHZlcnkgbG9uZyBhZ28pIHRoYXQNCj4gaXQncyBub3QgdmVyeSBlYXN5LiBU
+aGUgcHJvYmxlbSwgYXMgSSByZWNhbGwsIGlzIHRoYXQgdGhlIGRyaXZlciBpcyBhDQo+IHNp
+bmdsZXRvbiwgc28gd2Ugd291bGQgZXNzZW50aWFsbHkgYmUgc3VwcG9ydGluZyBlaXRoZXIg
+bW9kZXNldHRpbmcgb3INCj4gbm90LCBmb3IgYW55IGRldmljZSBpbiB0aGUgc3lzdGVtLg0K
+DQpUYWtlIGEgbG9vayBhdCBzdHJ1Y3QgZHJtX2RldmljZS5kcml2ZXJfZmVhdHVyZXMuIEl0
+IGxldCdzIHlvdSBjbGVhciB0aGUgDQpmbGFncyB0aGF0IHlvdXIgZGV2aWNlIGRvZXNuJ3Qg
+c3VwcG9ydC4NCg0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNS9zb3Vy
+Y2UvaW5jbHVkZS9kcm0vZHJtX2RldmljZS5oI0wxMjgNCg0KQmVzdCByZWdhcmRzDQpUaG9t
+YXMNCg0KPiANCj4gTm93LCBpdCdzIHVubGlrZWx5IHRoYXQgd2UnZCBoYXZlIGEgbWl4IG9m
+IG9uZSBUZWdyYSBEUk0gZHJpdmVyIHdpdGgNCj4gZGlzcGxheSBzdXBwb3J0IGFuZCBhbm90
+aGVyIHdpdGhvdXQsIGJ1dCBpdCdzIHNvbWV0aGluZyB0aGF0IEkgcmVjYWxsDQo+IGJhY2sg
+YXQgdGhlIHRpbWUgd2l0aCBOb3V2ZWF1IHdhcyBwcm9ibGVtYXRpYyBiZWNhdXNlIHlvdSBj
+b3VsZCBoYXZlIHRoZQ0KPiBUZWdyYSBpbnRlZ3JhdGVkIGdyYXBoaWNzICh3aXRob3V0IGRp
+c3BsYXkgc3VwcG9ydCkgYW5kIGEgUENJLWNvbm5lY3RlZA0KPiBkaXNjcmV0ZSBHUFUgKHdp
+dGggZGlzcGxheSBzdXBwb3J0KSB3aXRoaW4gdGhlIHNhbWUgc3lzdGVtLg0KPiANCj4gSSBu
+ZWVkIHRvIGxvb2sgaW50byBpdCBhIGJpdCBtb3JlIHRvIHNlZSBpZiBJIGNhbiBjb21lIHVw
+IHdpdGggc29tZXRoaW5nDQo+IGdvb2QgdG8gYWNjb3VudCBmb3IgdGhpcy4NCj4gDQo+IFRo
+aWVycnkNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3Ry
+YXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5k
+cmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5
+IChBRyBOdWVybmJlcmcpDQo=
 
-> Make sure that
-> the lcdif_pixel and dsi_phy_ref clocks are driven by the same PLL.
-> 
-> I saw occasional black screens, if the lcdif_pixel and dsi_phy_ref clock had
-> different parents, and fixed it by changing the assigned-parent of
-> IMX8MN_CLK_DSI_PHY_REF to IMX8MN_VIDEO_PLL1_OUT in the device tree. If the
-> clocks are not in sync, it seems that the ADV3575 has issues correctly
-> reconstructing the pixel clock and HDMI monitors loose sync.
-> 
-> This is something that must be configured in the board device tree, though.
+--------------AfJPVNc8LkZzMyTF6XPV9OxB--
 
-Ok, I tried to set the parent of IMX8MM_CLK_DSI_PHY_REF to
-IMX8MM_VIDEO_PLL1_OUT.
+--------------XbJwvbe96UzrF5hJWzfl03Nt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I also noticed, that I forgot to remove the samsung,pll-clock-frequency
-from the mipi_dsi node in imx8mm.dtsi. This is necessary to make use of
-your PLL input clock improvements. Otherwise I get 23.76 MHz for the
-DSIM PLL input (derived from IMX8MM_VIDEO_PLL1_OUT) which results in a
-HS clock of 300.96 MHz while the display requests 301.5 MHz (50.25 MHz
-pixel clock). This is too low and the display doesn't work at all.
+-----BEGIN PGP SIGNATURE-----
 
-Unfortunately all of this doesn't result in a more stable image on the
-10" Waveshare display. It seems like the display turns black whenever
-the Qt app does a lot of framebuffer updates, e. g. during animations, etc.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT5i2sFAwAAAAAACgkQlh/E3EQov+CN
+KhAAgDnVn+JWXkR4znfhRMMq33jieCG3KvClEG4FpHKRGvVuwwjKEGYvW+GDhdpDaIJzjHqfsYht
+O12Pfs8KK/4bF3d+GvKwaCElZfjd+k8no2oxl9s27qLtKpSJHpW4Y4+tIRKe7cRPXAmE8gGbEsFJ
+so8nLc+GkZIFDphG/o74v8497dTMPnBWLGWxPRJg+f6nfCylXPEXtO5KW5TZd7B6POJYT7JNbUSQ
+yFHEjHyZvTHcmHkBlC9TA2sM6A+0F4Mwc5FN/FuZ8j+3xBkCHCgGIfc43MzNGBXV/bUJZ6Haq5aN
+aPqhIuNyBdUQdrYsjI7+McJTAvRrHb/p0BTn/6CPIJXJzjM/U9UV21DsqGyGJGiD3GEqgq/mYTCM
+JEQmWFSODZ4GSFbHW2B+sfBwbb4ccXvmrGsYbdBEkOg4Yq8h7rqAJ7d1TTyLEsiAXsTgyCULx9a7
+V3rlX6YBfvhry6VSjzhx2w7xe1BEtL+H2tLNvzZ/d7q69t+3ZtSYO4IGS2VmZbk8RC7XBATz3qHJ
+0gVzmprFN+2wwoojg86KbflAwFhfNuYAnfcdtOrXiR67MZIjzMf2D+rnDrGTS33xJfLf+95HNN+v
+DnykldVkZdK757EOiNpKvUQGEZJs6V9R9BTGZSPeQlwBjUmqCFDOLDkOyB9cAmVEaikYRuysigKM
+iaI=
+=+rNB
+-----END PGP SIGNATURE-----
 
-Anyway, thanks for the help!
-
-Best regards
-Frieder
+--------------XbJwvbe96UzrF5hJWzfl03Nt--
