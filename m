@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F767972C9
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 15:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6517972DD
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 15:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4EFF10E040;
-	Thu,  7 Sep 2023 13:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2933610E231;
+	Thu,  7 Sep 2023 13:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07A9310E040
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 13:16:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3292610E231;
+ Thu,  7 Sep 2023 13:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694092566; x=1725628566;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=4Zc2NSQczgzpNCTjAeZ+vgoDDV24z7zZmEzSqmTWoV8=;
- b=I1aOH/t85N/zY0htXS/ZjLmH03ZnMxbmxNJH7OYYwHraznREh0IVdT0L
- 4q/A+62s742fIT2Rhx9fPCXGYwYJAfFmKhkIpBEliLSJp9jjXFkQ1kCb5
- dJ18RZ6cuFioYh7YFkgsy2xe8GU51afPynHA3aVOGuRCH2PC6SOjFo4l7
- TJTyxTTjlI32cIfQBTH86y5hQ1YtWoRsqpXH3vUoC+/Bbfl9DOaujWUD6
- BZ4fS1Y8D8qzj99uRq5ewgwAeVZ95F2NBtuaH0MBx4muVo2mQfPEEcAEu
- 0Vfu00mgbbbcpDdeaxEPxJIIzH8ND7l08PEAz7HEndN5q7OA1F273vBVT w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="356825426"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; d="scan'208";a="356825426"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2023 06:16:06 -0700
+ t=1694093901; x=1725629901;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=v4+1AW/CDx6onMh9wLsXsI+FAWh4ntKx9+rb7gA6UNA=;
+ b=KZCFO2+hZ5rCjGkESS5O6+/6Z0U4mE8+HHPzMiQXRJt8jLx8X8V6ofIs
+ evjtmQPw4JYUxuY7sayH8XDjTGVYuzftWADQKPNdVg5jwEVOkGvfrXl8g
+ I1VR3MlZuiqeDmQOtYgqzfDBtdkq5BIsTrKfSdbzH9qzA9aVuJFDTqlVm
+ Swe8UqZvLOboTzGP9MSXzjcTHpUdMfZ+F2FBOcaMMRd6eHx3I5S1FkB1r
+ YLsR/F4Li/+xZv9XyXiR+FQ1K0Y12A283apuAJ0jIhFpe9XiGfgBbXqfB
+ Iok1Nijd61a5IDCN2UM+762TY2dlQNmB9U7BeyqPBPYJmTJ6+TnzN8PCL g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="374745034"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; d="scan'208";a="374745034"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2023 06:38:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691782245"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; d="scan'208";a="691782245"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2023 06:16:00 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Donald Robson <Donald.Robson@imgtec.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Sarah
- Walker <Sarah.Walker@imgtec.com>
-Subject: Re: [PATCH v6 02/20] drm/gpuva_mgr: Helper to get range of unmap
- from a remap op.
-In-Reply-To: <5b7f431f26eea296193d9e49ea85e0377e6ebcf0.camel@imgtec.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-3-sarah.walker@imgtec.com>
- <87a5tygoyx.fsf@intel.com>
- <5b7f431f26eea296193d9e49ea85e0377e6ebcf0.camel@imgtec.com>
-Date: Thu, 07 Sep 2023 16:15:57 +0300
-Message-ID: <877cp2gm42.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="988778123"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; d="scan'208";a="988778123"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 07 Sep 2023 06:38:05 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qeFCt-0001G7-1j;
+ Thu, 07 Sep 2023 13:38:03 +0000
+Date: Thu, 7 Sep 2023 21:37:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 5/6] drm/edid: add helpers to get/set struct cea_sad
+ from/to 3-byte sad
+Message-ID: <202309072156.iD0ETpd1-lkp@intel.com>
+References: <eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,103 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "hns@goldelico.com" <hns@goldelico.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mripard@kernel.org" <mripard@kernel.org>, "afd@ti.com" <afd@ti.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- Matt Coster <Matt.Coster@imgtec.com>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- "dakr@redhat.com" <dakr@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Sep 2023, Donald Robson <Donald.Robson@imgtec.com> wrote:
-> On Thu, 2023-09-07 at 15:14 +0300, Jani Nikula wrote:
->> On Wed, 06 Sep 2023, Sarah Walker <sarah.walker@imgtec.com> wrote:
->> > From: Donald Robson <donald.robson@imgtec.com>
->> > 
->> > Signed-off-by: Donald Robson <donald.robson@imgtec.com>
->> > ---
->> >  include/drm/drm_gpuva_mgr.h | 27 +++++++++++++++++++++++++++
->> >  1 file changed, 27 insertions(+)
->> > 
->> > diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
->> > index ed8d50200cc3..be7b3a6d7e67 100644
->> > --- a/include/drm/drm_gpuva_mgr.h
->> > +++ b/include/drm/drm_gpuva_mgr.h
->> > @@ -703,4 +703,31 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
->> >  
->> >  void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
->> >  
->> > +/**
->> > + * drm_gpuva_op_remap_get_unmap_range() - Helper to get the start and range of
->> > + * the unmap stage of a remap op.
->> > + * @op: Remap op.
->> > + * @start_addr: Output pointer for the start of the required unmap.
->> > + * @range: Output pointer for the length of the required unmap.
->> > + *
->> > + * These parameters can then be used by the caller to unmap memory pages that
->> > + * are no longer required.
->> > + */
->> > +static __always_inline void
->> 
->> IMO __always_inline *always* requires a justification in the commit
->> message.
->> 
->> BR,
->> Jani.
->
-> Hi Jani,
-> I went with __always_inline because I can't see this being used more than once per driver.
-> I can add that to the commit message, but is that suitable justification? I could move
-> it to the source file or make it a macro if you prefer.
+Hi Jani,
 
-My personal opinion is that static inlines in general should always have
-a performance justification. If there isn't one, it should be a regular
-function. Static inlines leak the abstractions and often make the header
-dependencies worse.
+kernel test robot noticed the following build warnings:
 
-Not everyone agrees, of course.
+[auto build test WARNING on drm-tip/drm-tip]
 
-More than anything I was looking for justification on __always_inline
-rather than just inline, though.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-edid-split-out-drm_eld-h-from-drm_edid-h/20230907-173011
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula%40intel.com
+patch subject: [PATCH 5/6] drm/edid: add helpers to get/set struct cea_sad from/to 3-byte sad
+config: i386-randconfig-013-20230907 (https://download.01.org/0day-ci/archive/20230907/202309072156.iD0ETpd1-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309072156.iD0ETpd1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309072156.iD0ETpd1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_edid.c:5505:6: warning: no previous declaration for 'drm_edid_cta_sad_get' [-Wmissing-declarations]
+    void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad)
+         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_edid.c:5515:6: warning: no previous declaration for 'drm_edid_cta_sad_set' [-Wmissing-declarations]
+    void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad)
+         ^~~~~~~~~~~~~~~~~~~~
 
 
-BR,
-Jani.
+vim +/drm_edid_cta_sad_get +5505 drivers/gpu/drm/drm_edid.c
 
-
-
-> Thanks,
-> Donald
->> 
->> 
->> > +drm_gpuva_op_remap_get_unmap_range(const struct drm_gpuva_op_remap *op,
->> > +				   u64 *start_addr, u64 *range)
->> > +{
->> > +	const u64 va_start = op->prev ?
->> > +			     op->prev->va.addr + op->prev->va.range :
->> > +			     op->unmap->va->va.addr;
->> > +	const u64 va_end = op->next ?
->> > +			   op->next->va.addr :
->> > +			   op->unmap->va->va.addr + op->unmap->va->va.range;
->> > +
->> > +	if (start_addr)
->> > +		*start_addr = va_start;
->> > +	if (range)
->> > +		*range = va_end - va_start;
->> > +}
->> > +
->> >  #endif /* __DRM_GPUVA_MGR_H__ */
+  5501	
+  5502	/*
+  5503	 * Get 3-byte SAD buf from struct cea_sad.
+  5504	 */
+> 5505	void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad)
+  5506	{
+  5507		sad[0] = cta_sad->format << 3 | cta_sad->channels;
+  5508		sad[1] = cta_sad->freq;
+  5509		sad[2] = cta_sad->byte2;
+  5510	}
+  5511	
+  5512	/*
+  5513	 * Set struct cea_sad from 3-byte SAD buf.
+  5514	 */
+> 5515	void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad)
+  5516	{
+  5517		cta_sad->format = (sad[0] & 0x78) >> 3;
+  5518		cta_sad->channels = sad[0] & 0x07;
+  5519		cta_sad->freq = sad[1] & 0x7f;
+  5520		cta_sad->byte2 = sad[2];
+  5521	}
+  5522	
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
