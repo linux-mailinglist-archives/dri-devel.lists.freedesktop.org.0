@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DF7797E13
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 23:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103A4797E18
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 23:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0008110E3D7;
-	Thu,  7 Sep 2023 21:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB4E10E819;
+	Thu,  7 Sep 2023 21:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E73FB10E3D7
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 21:46:25 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-502984f5018so985731e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 14:46:25 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B5710E817
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 21:48:57 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-52a39a1c4d5so1932410a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 14:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694123184; x=1694727984;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=0aJKWXfzmj6u8YEdkpXnNHt6AfonPZoyqL0Kn8VibLM=;
- b=QBQL+KoWZiLkV0SHzAsKQD4yzTPxExzctyizYtEURErdH+PMkQk40JFzW9ZogJFP0n
- wW5mhGah/b2DpSLL9lInqG4VAAmb0EnxIVrG2gqIIi6orzUXrRyPST+SvOpd14nHs2q2
- dPNGQKedc/IZqGp1BycWRy6JNFUUYzyWXB0YI=
+ d=linaro.org; s=google; t=1694123336; x=1694728136; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NQJgEH3f9fUyW9GofjnZwi+SALtmAUwJX7vDCsMBypg=;
+ b=D9W3BY1z2fjD3W4A2bfmRlVk3Fd+IQ+wF1xWJQ4l/oUKao6JNe+MlgDmKyhDLAQbfJ
+ OWrdFAxjDm8dguaTfolOgIgJNUM6Bj8QctC+G7NDm2TP7agGFTsfl4TAotsCdN8Uq2ps
+ HBO19mHrLKpsW/PjogvOfYhzPxi6k6qXqgcHDc39VUVciumRaiwo0eOeSliay7jQtpzp
+ 1vVuSLqT0o1EL4LW4KapnnHrUBUS+g+kdLI2zX8/kBI978rTnphLdx0vz2aGJ6ofBGLb
+ eC+tnZr2VnnruagC+BJjcLnvtr5VonhHtkr2m8HIh8oc1uGBNzxKlIpREYy2Udu9ABuc
+ a4kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694123184; x=1694727984;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0aJKWXfzmj6u8YEdkpXnNHt6AfonPZoyqL0Kn8VibLM=;
- b=ZVzy6BiQZ25TUm70SH+cgfSoxExn/v6uIrboPztZwOk16QOWrqhyRT9ZgZOCbxwW2u
- BSvctGlnztQR3BlZgMi1lhnL9HU3/zkNYSxeYORsvPkalcjO3JcF5B0hvASB98gVOxLf
- MCQ1ttocDOVfPh61UZDvXXyFqbUJc0C45KZoHp/vCkokulBHigv0py1eEqmsdlpuGmSv
- Y9cYRiGX4JhcP8lEodm6DxDGignAgJRNWfs66gghDp4K5VnOxdIWilMVNBnz+zyyXFGR
- ELAsDoXm4nU3FofrnVJixv3miWzkxe1XPrL0KyuScv6wZQcx31MEgsHUmbztEiVk/aOp
- PvHg==
-X-Gm-Message-State: AOJu0YzoHyy+M2Zb4JZ7qTNRBqP1FyCwVD2Ux6jDCo4f1WkcuuAENt1S
- e6Wo0jMaTyQA+vC1KmPSwOSeWTdLCnp2DTkULkumOg==
-X-Google-Smtp-Source: AGHT+IHCYUG2aXeuH8XR1/58/wZYVhoOZXlsf/DM1LN42R4sD0m7j2f7XInEKVsOAn44UvBmdusGotPNNdkAxrXQ784=
-X-Received: by 2002:a19:500f:0:b0:4ff:a02e:a53f with SMTP id
- e15-20020a19500f000000b004ffa02ea53fmr435355lfb.52.1694123184093; Thu, 07 Sep
- 2023 14:46:24 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 7 Sep 2023 14:46:23 -0700
+ d=1e100.net; s=20230601; t=1694123336; x=1694728136;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NQJgEH3f9fUyW9GofjnZwi+SALtmAUwJX7vDCsMBypg=;
+ b=klUMTIfpaM4uQFvVyFrMan4JfeRWJnZi268mnuqt38i3pGe/bU0opVBbzp/XTC3D/q
+ i1tfmpWB5lOUu96XOHZYoA1+o3S7puKDynq50XqkCC6FgRx55UOgQW8lwXJHscrgwWHe
+ fR5HokPQ9Imlsk/SRMcNK1X8zbbzJSalcviLEXDcPJtgB79lMCEPphm9Hsxz1pbqUYai
+ fV11eDU+nyASpw7+YuePmtwoIKWi5CPUlBMZGH3Uh4sLui81nG6E317z5wN6FUoSzLzO
+ /F4124IuYtS5FzSLAWbQ/RnS+czAFMGx2fwrv9q+sO9oLKaKDWexQlskz95M1fyEpTbh
+ hrvA==
+X-Gm-Message-State: AOJu0YwJGe7YI/YNmDnkSYLhDRy+lDlu2zC0WftmRUPQmP4tTczeIfLi
+ sglDvgXcnscxsMGUkjjBNP0CRA==
+X-Google-Smtp-Source: AGHT+IHt8dq+fHGWcodmuk5PMPvb2LZ/t1lPkyNiWwgmY6kA/kRGNzdelYlTvJ+cJXNgTUJ62I/msg==
+X-Received: by 2002:a05:6402:2d9:b0:525:691c:cd50 with SMTP id
+ b25-20020a05640202d900b00525691ccd50mr432973edx.24.1694123335807; 
+ Thu, 07 Sep 2023 14:48:55 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ c10-20020aa7df0a000000b00525c01f91b0sm268738edy.42.2023.09.07.14.48.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Sep 2023 14:48:55 -0700 (PDT)
+Message-ID: <bd833f26-ba76-4e9a-a158-d1e5eb4152cb@linaro.org>
+Date: Fri, 8 Sep 2023 00:48:54 +0300
 MIME-Version: 1.0
-In-Reply-To: <20230901142034.580802-1-jani.nikula@intel.com>
-References: <20230901142034.580802-1-jani.nikula@intel.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 7 Sep 2023 14:46:23 -0700
-Message-ID: <CAE-0n52T4VGVVKqZCJwhpxe=vLUb7WNi=J0hdsHFOqA95u-Ymg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: skip validity check for DP CTS EDID checksum
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dp: support setting the DP subconnector type
+To: Stephen Boyd <swboyd@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230903222432.2894093-1-dmitry.baryshkov@linaro.org>
+ <CAE-0n53c2kGcR-OWsTn4s2wuLQ+j7WTA9Ho9CEG=cGNEFT-3iA@mail.gmail.com>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAE-0n53c2kGcR-OWsTn4s2wuLQ+j7WTA9Ho9CEG=cGNEFT-3iA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +79,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <khsieh@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jani Nikula (2023-09-01 07:20:34)
-> The DP CTS test for EDID last block checksum expects the checksum for
-> the last block, invalid or not. Skip the validity check.
->
-> For the most part (*), the EDIDs returned by drm_get_edid() will be
-> valid anyway, and there's the CTS workaround to get the checksum for
-> completely invalid EDIDs. See commit 7948fe12d47a ("drm/msm/dp: return
-> correct edid checksum after corrupted edid checksum read").
->
-> This lets us remove one user of drm_edid_block_valid() with hopes the
-> function can be removed altogether in the future.
->
-> (*) drm_get_edid() ignores checksum errors on CTA extensions.
->
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Kuogee Hsieh <khsieh@codeaurora.org>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
+On 08/09/2023 00:34, Stephen Boyd wrote:
+> Quoting Dmitry Baryshkov (2023-09-03 15:24:32)
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> index 97ba41593820..1cb54f26f5aa 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> @@ -162,6 +162,11 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+>>                  }
+>>          }
+>>
+>> +       rc = drm_dp_read_downstream_info(panel->aux, dp_panel->dpcd,
+>> +                                        dp_panel->downstream_ports);
+>> +       if (rc)
+>> +               return rc;
+> 
+> I haven't been able to test it yet, but I think with an apple dongle
+> we'll never populate the 'downstream_ports' member if the HDMI cable is
+> not connected when this runs. That's because this function bails out
+> early before trying to read the downstream ports when there isn't a
+> sink. Perhaps we need to read it again when an hpd_irq comes in, or we
+> need to read it before bailing out from here?
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+I don't have an Apple dongle here. But I'll run a check with first 
+connecting the dongle and plugging the HDMI afterwards.
 
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 42d52510ffd4..86a8e06c7a60 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -289,26 +289,9 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
->
->  static u8 dp_panel_get_edid_checksum(struct edid *edid)
+However my expectation based on my previous tests is that we only get 
+here when the actual display is connected.
 
-It would be nice to make 'edid' const here in another patch.
+-- 
+With best wishes
+Dmitry
+
