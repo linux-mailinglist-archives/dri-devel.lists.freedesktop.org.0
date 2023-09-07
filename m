@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DDD796E5E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 03:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48135796E5F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 03:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A3610E748;
-	Thu,  7 Sep 2023 01:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EBA10E744;
+	Thu,  7 Sep 2023 01:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-ve1eur01on2040.outbound.protection.outlook.com [40.107.14.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4078F10E748
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 01:07:09 +0000 (UTC)
+ (mail-ve1eur01on2053.outbound.protection.outlook.com [40.107.14.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C4610E744
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 01:07:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V23t4YzdKXLA6zQ+W8a1zLSm8iB0/5jsXwwmK+vAmAwCTGvaLqj/2sxS0N62/3IXwnUw7KmWTwUfFDmhJd2LfQB7WwHpDYb1H64wWHudP0UDmGEoN1dIDJipIWQeQht6/vShtOrjsl/aQoV42pJoDpc3T0JWt/Xv6+gEqRRa4sk6K7VQft8S5XSi7kldO3SaCQ2rSgtOBigMpsoTxOwgeMHLbUoBYsHvFmuh/jryOWn6kMPh36SMPK94wzkbrCRJHzsdqrQzNoPTXI51qbHKPk5cWTIDpYyQVxXhJN6rOFVALGccDZfMB7h/0A7M0OeCI4x/yglp7qqUZZXkrh1O6A==
+ b=j+PNHOkVdbzREyJvbRZEtkFwyG3D1PAzLGT3diRqbuHT3w6BtBsK7FOVn+cL0FN/G584pVT59RSbFVhAZ03Bb7RbZy2fBQ15bHWMUTJJwp3pmQklBhbwKAdnkGB9zkRNWzsnP61dPQcIYWG/+CbqgFGJizd/OeZ/KnzkAEbHwsA1itjAeW++WBzaYnh0inFowQhVwUUyIEcJIsp+x4M4F9etZR5vQswTuIPgCXyOf4dT3mVMWWtRr9aXOZJWrlDtV+nGq/mlDJXYvOBMHusWNbxMGriAFZfEU7Tc0/ggffCPdaWaU58nEI7oyyuHHpQMCrhNS3wMQnJLnTiZq7zePw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3O+cHWuvu3M1nRzRfafyo0OSFh+VChvLQnHL1QWkX30=;
- b=GV4bjT4HjxV3ZdXl0dJzWuCbNvDEHDMlhwEtX8ArDwLeE8znefxt9yBzyy2WXlBSLwlv2pZru4ruWKOGGWeA6y28xOVpKMwCGUxByQZU0vjDjoH6ipB0232G/dk5rJhGDTuERc2sqtXxlkDfyzUXlR8QvHz73/OsQx/MmFOIb3MeE9sGa6HyGryqJIffa3MzBASFqF0IrAFIWzr6rlS6LffWNIPzrn3lB4wzoh9STmNBbrd9v06qo4KAfvUlxTaFABa4r3r+BeNYfutGSsmLjqaHCM/mtAHmL6FCIR6Sj+Ns4v7JqnqZ0w06c+J5DWjYakR33jIb9u1q+ImTPFXVhQ==
+ bh=b2Ae3VDJzAlDDBBHHUG0EOhZz8Yt7XimURz8ggI2+jY=;
+ b=Gi9yzVkygzPHTi2LDKLW2IxYwsIjgWIX7IDIyQG2Cmbr0izHawg0V7dFzq0mEdN64OmAubNf1LshL1afDvamy5IKK1u8sV1m+RsNSypg1jaFJNtSIcf73t2ht5AAjfyjye8v/V8rHFZb5SXelPSkYRv4aCpjDQuhl0J5PV8pQjCGKLH0Itx4eVjv3V7PLeVXTYrjmmXXkN/dFoElT5cmpQgDQlhxyuJP3cNKmAddkBjB/7PI0ZiQb1mFhQgc7ZdfoxR+DM8+iCjFsBk34sui+1y2YMYi8l+rgrRzb2feTLC9cN2GJyHhWCevYNZnY/QDnZkVt9DNPonAJeJ10/QOCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3O+cHWuvu3M1nRzRfafyo0OSFh+VChvLQnHL1QWkX30=;
- b=MdtZ56K3bi+FeOkPFEycLVapXtEAlOxcnZBDa+TYHWp2THAwzMTRqdEIdDoiBnLWxL5Ag26FpuhX9Lx44+nCEliJ62fgOghI+NBH6XXTCIarWPl3EBwnA+6SzQoZqzP2QGdem0dzj9kgg5M75cE+1IZDM/mIcdu364cx/VB4iCs=
+ bh=b2Ae3VDJzAlDDBBHHUG0EOhZz8Yt7XimURz8ggI2+jY=;
+ b=gikTkhNkZjsso6kwQCZRu3vwUNqjNGFFgGVWhN10Vw7OZjm11P/DubnlvGIXqE565ar2ND1nZs7ASra6iasdMgxJ1xHCUBzUAvJTcoWZu+ceWEYJsCBu6g99x+KhCa+DpEcKh/F484tAcYe6wUZehLXA/o9YZsVJM6xJGSs6Ouo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
  by AM0PR04MB6802.eurprd04.prod.outlook.com (2603:10a6:208:184::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.30; Thu, 7 Sep
- 2023 01:07:05 +0000
+ 2023 01:07:12 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::3505:c499:96d4:1429]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::3505:c499:96d4:1429%4]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
- 01:07:05 +0000
+ 01:07:11 +0000
 From: Sandor Yu <Sandor.yu@nxp.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -47,75 +47,66 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org
-Subject: [PATCH v9 6/7] phy: freescale: Add DisplayPort PHY driver for i.MX8MQ
-Date: Thu,  7 Sep 2023 09:05:33 +0800
-Message-Id: <cb8b6baefb339e05df5856bb916231a19a0aa111.1694047629.git.Sandor.yu@nxp.com>
+Subject: [PATCH v9 7/7] phy: freescale: Add HDMI PHY driver for i.MX8MQ
+Date: Thu,  7 Sep 2023 09:05:34 +0800
+Message-Id: <c533f30a4efb9f94ce187d2cf37c05be30ad830e.1694047629.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694047629.git.Sandor.yu@nxp.com>
 References: <cover.1694047629.git.Sandor.yu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: SG3P274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::15)
  To PAXPR04MB9448.eurprd04.prod.outlook.com
  (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AM0PR04MB6802:EE_
-X-MS-Office365-Filtering-Correlation-Id: dab2a4bf-815b-4fb4-fcc9-08dbaf3ec03f
+X-MS-Office365-Filtering-Correlation-Id: 3808692d-8a85-4c5f-a299-08dbaf3ec400
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aocntahfz7I/NaL4dIHZpLdhVxSKFEfgzwx3cwyJgRYdbF65m19yis0L1kN4jy985EQCBBt0ZxaAKWkkNtqFIyd3tCxp46OMfBxAnPQ3Fvpa2pK6dhApPnSYv2197O0LxX5B6TDGfLsn+gbSFLbSgbijOvw/WQv4x/uHiEm3a03Ljtgc3Z+i/ZgTgMH4qbY9xcGw5JsZ4jxfyQYCzHcaEIuU0Zqz1q65JJcVbpHiybFuRm1MdUOo5bw5nWPjhb6iQsivVNg2MP0ju/RX1ekJPxiZt3eVZcuWDOMD9baRObfAS/CB1QGJ7FMCD9pq485mwthxERLP3/phSnnmMZjmYcOP+wT95/ZCiY7RHPNz0Cp9Y08GFo237mgWgL972MjnqyZLJ93jUqeltgKRCydQa6Y7kYAS7kGytvpJcZ41nGtHBjfnGLBc5/5jL5QuEgWRhS1GtoKYJ/YRN9LbBhFx2/ZIi5Bf6jkiJMPE8yrxT2Eaz+X0om7/UmHpyjhQc4HoqwBs6WEL672cesVix1Bz3pxha0z0kUtExXpKle3USIWW/NLwKpcLxuhQBnUrelCuwAd1bFDu1I5OKhodIsxKyBlJgvKQtx0Tv1wXheTCMdQJAij2xBx+H9jvpDwHuonaLJwo+aQCpPDhmg5IjHycfA==
+X-Microsoft-Antispam-Message-Info: N9Yiv1jryCs/U3HqYxJbLj0SepUMMy6coQ7iPgww9pbQRE2VmgvOmlebFn3NbPKq407nHwnisaVdTd/bdjyMSIGHvRCZd8eB+zHeqyfsZqBiVlLF8CzBUpJIZo5p8A/XxDyCnUkun9YKc7QZdkU2/+vazKsN1E/RLKDm67eclkCgWh9nSxtefA4FRO8pYs0RHDk6FntLLZV3R79gZ9s1pn/n26ZBA/W+vrnG0YZmP20H23I7aY0TemCXSmHduzQzPZnYU4kzNbeI7zoxHoLZ2z8kKcDFbzh8tJOI2acbiHTdwBJg//5Q08Pxy2ffIWBHxTI0LlDEqjuTeLsdnkI1JKXAa5Z4EQqxvhbjzO0OyoeYP3yiDOoBfBIwXl2CFWvNlBt50UIzkbK57skdL5CfkrKz4cq0wDlz4IuuNMMgWu0GFjy6pLnlCI5uod2YuUdZ/HVpd9g+mcs47T/lPjGk2TxjMLSs9v82PgAYZ/9OMprA+BhK4z7i5FxCYbOC/P4ydownkRCMhxs55sbm+oh7USDRGLvAeDwgG/TeFc0YyKEdjSDIA/B8U2dEEY/c/M/aw+cGcgaoi0GTrCwDVvoFGkXuE7lsomQG4KuqpwJCrzOXfz8/Hf/yXTjWomjuZ7lweBrzbeHPlg0H7FiqvpsGUw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(366004)(39860400002)(136003)(376002)(346002)(396003)(1800799009)(186009)(451199024)(921005)(66476007)(6666004)(66946007)(26005)(66556008)(478600001)(2616005)(6486002)(30864003)(6512007)(52116002)(8936002)(4326008)(8676002)(316002)(5660300002)(86362001)(83380400001)(38350700002)(38100700002)(7416002)(36756003)(41300700001)(6506007)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3hpRXY5aEdSU0Y0YXIxVzZId3BvaHV3eldxcVZuZzBmdHpPQmxnSE1JY1Vr?=
- =?utf-8?B?a3NPODhXOXF6NVFrYW4xdW9lL3dlMnk1dnBVV21mWkFhMXhzb2J5YXN0V2lL?=
- =?utf-8?B?ZFFPTE93RG1sc1lEbnVSd2VXSHBrMDFaNXRxd1FqT0VrZ1dlSnM1Rzdxa044?=
- =?utf-8?B?TkVyTjV2TlhhWkZkWmtiTytJb0o1eHB4cy9VNFhSTlhJK2FIdzFuY0JKbytW?=
- =?utf-8?B?YlFsam5GdmNSRGRqTUdNbno4V2pleE9xQStiT2dQdUJGTXBKUjRoUDZXVEJU?=
- =?utf-8?B?SjNzWXY3T2pMTWs1bm1tKzNxenFpNHROQjlQcWV3elgyblgrKzc1Q1Rkd0h1?=
- =?utf-8?B?UkN6TjN5SE52R3NCWExidU5FZ25lNXBBdHU0YXppL0RSNmdadnVGb29odzNl?=
- =?utf-8?B?OWFYQzZUZFMxNFpjU2I5Q3BySXpvcHcxUmkxK1VrUEp2c2YrUnRhNWVyK3Yz?=
- =?utf-8?B?MUVIWVFsUHptMDk1ekNCaWl6dE1sVFg5a0g3dW1BSGkvRjBDRTBoYlFOQzd5?=
- =?utf-8?B?WVpvbzhidSs5QU9kcFZIL0dSeGxCS3B1TnAwLzNNMFBNOFFGNnJxMWRiSS9y?=
- =?utf-8?B?VGd2WUlQVU96UDJyQytlRmxCOFZWeHlmYkpRUEQzUG5iQ0NadkVROVF5T1RF?=
- =?utf-8?B?N1E2QmhHN2lac3FUcTBtNjZzN3QrVkdhdGJYRkNyQ1ZvVjhOL0UvQUNDeVA2?=
- =?utf-8?B?aTBRRDVoZVdUejd5QVZVQ1J6ekVpa1VmRjgyYlVQSTArRkhWSDFKVTVwSi9x?=
- =?utf-8?B?VVZTb0hVaXpTOGNIaDNwSmdTbXk3V2U2cytHSXg2ZFdRTVFJRTF4UkNVWEFr?=
- =?utf-8?B?SGJWb0s2QXl4UjVJY0phL282Q2F5V2RuV3AvK2oyaWJ5Qm4rQ1VFVC9IaURo?=
- =?utf-8?B?UHYxanBkYXhZRnNSNnFuM1NUZk92MUlqdnNoSm0rUnpPT0lsQTdJdHg3QUgv?=
- =?utf-8?B?bENHcDlwMTRkbEl2UHBnOE91eUdpeUMrTFRKZlZvbFBWUGZhcGFrcXpzUGNn?=
- =?utf-8?B?TUx6MjFDcHN3bFl5VXg0YXVMbCswNEhqS3N0S3J3bVFTZ2pNMkZibUw1TUFk?=
- =?utf-8?B?NTJVMktDcFg1V1FpaWs1anlDdVdEN3c5dVhkdEk2Z0FSTXdqZWVqRFZHYmxt?=
- =?utf-8?B?aEZKRVlUOVA2cjFVaUdqdWxXRDV1dWFwUGRpeFNLNXo2Q3pXejJ4SlRxdktj?=
- =?utf-8?B?VjQ2RkgybjNCeXo2OTVOVC9xSUd2K3gwYlpJVVkzUUtYQUxWYU1KM3Z2aGdo?=
- =?utf-8?B?cWJYQmorMDJTVGtna2NOOTNIZ25FN1ZPWERwdlUwbE13R2poK05LNml5Q0t5?=
- =?utf-8?B?b3JMS3dPbHAwQXMveFlBcFQ3OE5zK1E4Y2Q3MUlRcmxtRXhEUEtkUkFZdGhQ?=
- =?utf-8?B?YTlTN2t0Znd2TkR5TzNEV3R0MnRXMVRPZmVibFhUODl4TzgyVXlsU3p3RmZr?=
- =?utf-8?B?eHRNUnNmZDFwVllKUEU0MG44TTdacGlvRXZzcWJseGZoeGR2SCtVWGVZaGdC?=
- =?utf-8?B?TnJjVDNEMzhBczVRZ1VaTmdkR2NRK3VkSjRTcE55R3U1N3NLdnY5Z2ZlU1ZW?=
- =?utf-8?B?L2c2ajZHYlEvZ1hxOHVudlVUL2pQaFNiUkdqZGZoZ3VlYWJlRHQycmppdUY0?=
- =?utf-8?B?RmJCblk1dWFMbit3K1ZKcERpZTJrQUVEaGJyWlgrWGFpRlZMRXhsZW9kc1pv?=
- =?utf-8?B?V0o3c2hFTUVNekwyZEFsTjdSZzNXRC9BN1ZUQURCRmRwNTBWcjlqdFhWUDJK?=
- =?utf-8?B?eVVaZ3g5VFJEZzR2OW5wbmpYNnNuWE1mMVdHUDQ5L3M5OW45cXMyNGUzMFJZ?=
- =?utf-8?B?WkdZUmN2STI4Ykh6c0ZmUk84MldSVUExMWdnbndVVTZEM3RxNXZXOVlEQ0tM?=
- =?utf-8?B?SVVZZW5nanNLZWpzMVFtRFJRVHBsb2pWN0U4ZnJYWXhraGFvSm8wQkc1ZlhV?=
- =?utf-8?B?Wk9pTlpET3h2R0phdlhCVDFtQU55Z0JiM0NuZHpkcCtHNXY4TXY5U1ljaTIv?=
- =?utf-8?B?Nm9vWkhEQXlJaitDMDNqSGZvTG5KRkxPcmhyejBpdlovOW5PYnVKYVpSVWlq?=
- =?utf-8?B?Q2VqUytXL2RTNnZMaWd1TFVqUnhvYnF0VWExalIrcDg3UUp6Tkw2Z3FTWE5F?=
- =?utf-8?Q?6tg/jXc2Lf7/g9xKWqZKobxTY?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dQhnJ32drh9zG0UEoMtSD0OuFY0zV2gs+FS+HBpjHieJ69BYYKtTVtJ7MZ1k?=
+ =?us-ascii?Q?3Uw8YRKVboES18AUPT60Py6+q+aWbJTMXs3Qm5NrC9nRBTASZim/bE4HuOUq?=
+ =?us-ascii?Q?A3UBr+v5r9SkQ5U9AkEPE+8AsrDxJB1HqY09mvkUfh5PTvILFfvykPWL5uXB?=
+ =?us-ascii?Q?VoTmZgosR9x9J6gyLpK7v1y65aFn2GpAQ5Z9Pv8lYGtpQS/W0gAeGk2erzYq?=
+ =?us-ascii?Q?X7MJQJULpY+viPPAiFadoKUudHUVAlI0sDx+NUsdShmT6RxcYO3mq8VMHJoK?=
+ =?us-ascii?Q?fH+93ctnxD0PV/9k50cQOksD9humO1UmO4H8KfPZILFPjfU7690tiE8fwRs9?=
+ =?us-ascii?Q?2orfFY9NjLsUr3Qskufdu9zm+WAxBo34nbwNheTUyqNHqtStZJT7GTSImwZy?=
+ =?us-ascii?Q?MCD0kWpfI5+dFGQIe06cPyM+mjx80x+h8wBYCExOwB2mIWUZQ+4QEQiJzgrI?=
+ =?us-ascii?Q?KS9Qu3E0ZQj/lmkHjWIFJ79cY7a40IHni9FvYNJCqJ3Wg+CgF0fcZQMHPYgX?=
+ =?us-ascii?Q?htScqZpMBWLgzW56tTyJXUCDLhL0fdOZTVoozyQzzgpo2NA7QODzPKY22inI?=
+ =?us-ascii?Q?BiOFj/tTaDpVXEwV5JnhN7Eop/5qACmwX446rbrCkLp8WPjKFrBj/D9Ke2op?=
+ =?us-ascii?Q?E3zVoRtHmV00eCcbTcNDrgu4PPup4zuhgBbcKe03v5bYbwdA+HgvSXU5yyXc?=
+ =?us-ascii?Q?jGu82Xp0GMOdphP5fN4Xm8xNmFCPvufKaUqfMmEgW0b2gpZ+/ysO7ZbL4PD4?=
+ =?us-ascii?Q?YVWhuD2u/s7HtFYz8avKxHVPHcNoJPFmRJCvM5q0Xgb67kKObQdEXcx0C7Q0?=
+ =?us-ascii?Q?gEgsszZ0eMly9BTvJccFvC3MYyp0d3W5HF7c814qqNMSAXZHIJNGmtCyEgMD?=
+ =?us-ascii?Q?kf2ts6EWqy2mxfxx2gWVH26Uqc/7UOXON8TX8KAqnP6TsC+nU3vpTKxn4qUk?=
+ =?us-ascii?Q?pKskxI3oo3MxR8g/i6qx92cSqJO2RbZTp2vN32/anJyY0Qxn8RdKLSEsh7uk?=
+ =?us-ascii?Q?J4yr9/ssZKjiP8qFMd+6gtHIPHy9jnWC8eyGxxXZKUAkwmhjCkbZoelJuwc7?=
+ =?us-ascii?Q?m6u4OImQsYBdPFtU/89A0ycN+HR7tKjzJ+CA9LBz7QP56hD8coFvimtg92sP?=
+ =?us-ascii?Q?aJ1lLi/Cyu/hzJp4rXszE719yqAd/YLiwIYRt/N3QAP9/zmW+mX4/YGIksST?=
+ =?us-ascii?Q?9fq+AbxwFKBT+TyvVrgXuXy+M2JrMaDs3O76Q8NJXkW8nRAEqJ/M0rB6M8Tz?=
+ =?us-ascii?Q?J1xVRD0BToZ5npjrbs6GlHHf5xZK2cf/bHbN0y76Lx4NcI0mdqr/RflxXG33?=
+ =?us-ascii?Q?346PSmvEDXQ9GZ8YIp2z2mlnNrFQTCZV2pjZ91u7Xl51mrXNOXpXrVFJ7qhR?=
+ =?us-ascii?Q?4sux/05AZHnV7d3lGCStx0tUAqZEIQkj5/XbJt9VgjIhegnyD8evL3m+bKcl?=
+ =?us-ascii?Q?WhPNupsx5pd8QiqbKDAe0AtE0nLWSQmz8drtTkHes6GijviZ6621PW0I+SgB?=
+ =?us-ascii?Q?edK9g4+w6P+T0jgXt0OOa2zkHgWe1Vcu+J8vm9Sd1NNYj25EjdddsqJp88yr?=
+ =?us-ascii?Q?ie6C/3/Eo8EJPR8ElemebOid2AqdadZ6gNcDUebp?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dab2a4bf-815b-4fb4-fcc9-08dbaf3ec03f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3808692d-8a85-4c5f-a299-08dbaf3ec400
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 01:07:05.3547 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 01:07:11.9058 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EQfAd9pCmlYeXhjyu7kTI0HoDxD7VHz3vYVjgkpKWsOi78qon8gWBlhJMIXUizqO+LkSbGP1Aga75olq1ELZrg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: p6L+Qp9U/OPh2GuJ6jVJT9sg84+T80MuypNZouVZG3H3o0rhiaZok0ZiVTKVoQoC+Xd+gt20NeLYWYiZRshsHQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6802
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,60 +125,61 @@ Cc: oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, Sandor.yu@nxp.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Cadence HDP-TX DisplayPort PHY driver for i.MX8MQ
+Add Cadence HDP-TX HDMI PHY driver for i.MX8MQ.
 
 Cadence HDP-TX PHY could be put in either DP mode or
 HDMI mode base on the configuration chosen.
-DisplayPort PHY mode is configurated in the driver.
+HDMI PHY mode is configurated in the driver.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/phy/freescale/Kconfig             |   9 +
- drivers/phy/freescale/Makefile            |   1 +
- drivers/phy/freescale/phy-fsl-imx8mq-dp.c | 714 ++++++++++++++++++++++
- 3 files changed, 724 insertions(+)
- create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-dp.c
+ drivers/phy/freescale/Kconfig               |   9 +
+ drivers/phy/freescale/Makefile              |   1 +
+ drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c | 955 ++++++++++++++++++++
+ 3 files changed, 965 insertions(+)
+ create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c
 
 diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kconfig
-index 853958fb2c06..2999ba1e57d0 100644
+index 2999ba1e57d0..0c07fccba917 100644
 --- a/drivers/phy/freescale/Kconfig
 +++ b/drivers/phy/freescale/Kconfig
-@@ -35,6 +35,15 @@ config PHY_FSL_IMX8M_PCIE
- 	  Enable this to add support for the PCIE PHY as found on
- 	  i.MX8M family of SOCs.
+@@ -44,6 +44,15 @@ config PHY_FSL_IMX8MQ_DP_PHY
+ 	  Enable this to support the Cadence HDPTX DP PHY driver
+ 	  on i.MX8MQ SOC.
  
-+config PHY_FSL_IMX8MQ_DP_PHY
-+	tristate "Freescale i.MX8MQ DP PHY support"
++config PHY_FSL_IMX8MQ_HDMI_PHY
++	tristate "Freescale i.MX8MQ HDMI PHY support"
 +	depends on OF && HAS_IOMEM
 +	depends on COMMON_CLK
 +	select GENERIC_PHY
 +	help
-+	  Enable this to support the Cadence HDPTX DP PHY driver
++	  Enable this to support the Cadence HDPTX HDMI PHY driver
 +	  on i.MX8MQ SOC.
 +
  endif
  
  config PHY_FSL_LYNX_28G
 diff --git a/drivers/phy/freescale/Makefile b/drivers/phy/freescale/Makefile
-index cedb328bc4d2..915a429d9fbc 100644
+index 915a429d9fbc..245783c04951 100644
 --- a/drivers/phy/freescale/Makefile
 +++ b/drivers/phy/freescale/Makefile
-@@ -4,3 +4,4 @@ obj-$(CONFIG_PHY_MIXEL_LVDS_PHY)	+= phy-fsl-imx8qm-lvds-phy.o
- obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)	+= phy-fsl-imx8-mipi-dphy.o
+@@ -5,3 +5,4 @@ obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)	+= phy-fsl-imx8-mipi-dphy.o
  obj-$(CONFIG_PHY_FSL_IMX8M_PCIE)	+= phy-fsl-imx8m-pcie.o
  obj-$(CONFIG_PHY_FSL_LYNX_28G)		+= phy-fsl-lynx-28g.o
-+obj-$(CONFIG_PHY_FSL_IMX8MQ_DP_PHY)	+= phy-fsl-imx8mq-dp.o
-diff --git a/drivers/phy/freescale/phy-fsl-imx8mq-dp.c b/drivers/phy/freescale/phy-fsl-imx8mq-dp.c
+ obj-$(CONFIG_PHY_FSL_IMX8MQ_DP_PHY)	+= phy-fsl-imx8mq-dp.o
++obj-$(CONFIG_PHY_FSL_IMX8MQ_HDMI_PHY)	+= phy-fsl-imx8mq-hdmi.o
+diff --git a/drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c b/drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c
 new file mode 100644
-index 000000000000..b1f45c0b27b5
+index 000000000000..fffaaa888ba2
 --- /dev/null
-+++ b/drivers/phy/freescale/phy-fsl-imx8mq-dp.c
-@@ -0,0 +1,714 @@
++++ b/drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c
+@@ -0,0 +1,955 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Cadence HDP-TX Display Port Interface (DP) PHY driver
++ * Cadence High-Definition Multimedia Interface (HDMI) PHY driver
 + *
-+ * Copyright (C) 2022, 2023 NXP Semiconductor, Inc.
++ * Copyright (C) 2022,2023 NXP Semiconductor, Inc.
 + */
 +#include <asm/unaligned.h>
 +#include <linux/clk.h>
@@ -195,7 +187,6 @@ index 000000000000..b1f45c0b27b5
 +#include <linux/phy/phy.h>
 +#include <linux/platform_device.h>
 +#include <linux/io.h>
-+#include <linux/iopoll.h>
 +
 +#include <drm/bridge/cdns-mhdp-mailbox.h>
 +
@@ -203,36 +194,16 @@ index 000000000000..b1f45c0b27b5
 +
 +/* PHY registers */
 +#define CMN_SSM_BIAS_TMR			0x0022
-+#define CMN_PLLSM0_PLLEN_TMR			0x0029
-+#define CMN_PLLSM0_PLLPRE_TMR			0x002a
-+#define CMN_PLLSM0_PLLVREF_TMR			0x002b
-+#define CMN_PLLSM0_PLLLOCK_TMR			0x002c
 +#define CMN_PLLSM0_USER_DEF_CTRL		0x002f
 +#define CMN_PSM_CLK_CTRL			0x0061
++#define CMN_CDIAG_REFCLK_CTRL			0x0062
 +#define CMN_PLL0_VCOCAL_START			0x0081
 +#define CMN_PLL0_VCOCAL_INIT_TMR		0x0084
 +#define CMN_PLL0_VCOCAL_ITER_TMR		0x0085
-+#define CMN_PLL0_INTDIV				0x0094
-+#define CMN_PLL0_FRACDIV			0x0095
-+#define CMN_PLL0_HIGH_THR			0x0096
-+#define CMN_PLL0_DSM_DIAG			0x0097
-+#define CMN_PLL0_SS_CTRL2			0x0099
-+#define CMN_ICAL_INIT_TMR			0x00c4
-+#define CMN_ICAL_ITER_TMR			0x00c5
-+#define CMN_RXCAL_INIT_TMR			0x00d4
-+#define CMN_RXCAL_ITER_TMR			0x00d5
-+#define CMN_TXPUCAL_INIT_TMR			0x00e4
-+#define CMN_TXPUCAL_ITER_TMR			0x00e5
-+#define CMN_TXPDCAL_INIT_TMR			0x00f4
-+#define CMN_TXPDCAL_ITER_TMR			0x00f5
-+#define CMN_ICAL_ADJ_INIT_TMR			0x0102
-+#define CMN_ICAL_ADJ_ITER_TMR			0x0103
-+#define CMN_RX_ADJ_INIT_TMR			0x0106
-+#define CMN_RX_ADJ_ITER_TMR			0x0107
-+#define CMN_TXPU_ADJ_INIT_TMR			0x010a
-+#define CMN_TXPU_ADJ_ITER_TMR			0x010b
-+#define CMN_TXPD_ADJ_INIT_TMR			0x010e
-+#define CMN_TXPD_ADJ_ITER_TMR			0x010f
++#define CMN_TXPUCAL_CTRL			0x00e0
++#define CMN_TXPDCAL_CTRL			0x00f0
++#define CMN_TXPU_ADJ_CTRL			0x0108
++#define CMN_TXPD_ADJ_CTRL			0x010c
 +#define CMN_DIAG_PLL0_FBH_OVRD			0x01c0
 +#define CMN_DIAG_PLL0_FBL_OVRD			0x01c1
 +#define CMN_DIAG_PLL0_OVRD			0x01c2
@@ -242,26 +213,23 @@ index 000000000000..b1f45c0b27b5
 +#define CMN_DIAG_PLL0_LF_PROG			0x01c7
 +#define CMN_DIAG_PLL0_PTATIS_TUNE1		0x01c8
 +#define CMN_DIAG_PLL0_PTATIS_TUNE2		0x01c9
++#define CMN_DIAG_PLL0_INCLK_CTRL		0x01ca
++#define CMN_DIAG_PLL0_PXL_DIVH			0x01cb
++#define CMN_DIAG_PLL0_PXL_DIVL			0x01cc
 +#define CMN_DIAG_HSCLK_SEL			0x01e0
-+#define CMN_DIAG_PER_CAL_ADJ			0x01ec
-+#define CMN_DIAG_CAL_CTRL			0x01ed
-+#define CMN_DIAG_ACYA				0x01ff
 +#define XCVR_PSM_RCTRL				0x4001
-+#define XCVR_PSM_CAL_TMR			0x4002
-+#define XCVR_PSM_A0IN_TMR			0x4003
 +#define TX_TXCC_CAL_SCLR_MULT_0			0x4047
 +#define TX_TXCC_CPOST_MULT_00_0			0x404c
 +#define XCVR_DIAG_PLLDRC_CTRL			0x40e0
 +#define XCVR_DIAG_PLLDRC_CTRL			0x40e0
 +#define XCVR_DIAG_HSCLK_SEL			0x40e1
-+#define XCVR_DIAG_LANE_FCM_EN_MGN_TMR		0x40f2
++#define XCVR_DIAG_BIDI_CTRL			0x40e8
 +#define TX_PSC_A0				0x4100
 +#define TX_PSC_A1				0x4101
 +#define TX_PSC_A2				0x4102
 +#define TX_PSC_A3				0x4103
-+#define TX_RCVDET_EN_TMR			0x4122
-+#define TX_RCVDET_ST_TMR			0x4123
-+#define TX_DIAG_BGREF_PREDRV_DELAY		0x41e7
++#define TX_DIAG_TX_CTRL				0x41e0
++#define TX_DIAG_TX_DRV				0x41e1
 +#define TX_DIAG_BGREF_PREDRV_DELAY		0x41e7
 +#define TX_DIAG_ACYA_0				0x41ff
 +#define TX_DIAG_ACYA_1				0x43ff
@@ -269,7 +237,6 @@ index 000000000000..b1f45c0b27b5
 +#define TX_DIAG_ACYA_3				0x47ff
 +#define TX_ANA_CTRL_REG_1			0x5020
 +#define TX_ANA_CTRL_REG_2			0x5021
-+#define TX_DIG_CTRL_REG_1			0x5023
 +#define TX_DIG_CTRL_REG_2			0x5024
 +#define TXDA_CYA_AUXDA_CYA			0x5025
 +#define TX_ANA_CTRL_REG_3			0x5026
@@ -279,34 +246,71 @@ index 000000000000..b1f45c0b27b5
 +#define RX_PSC_CAL				0x8006
 +#define PHY_HDP_MODE_CTRL			0xc008
 +#define PHY_HDP_CLK_CTL				0xc009
++#define PHY_ISO_CMN_CTRL			0xc010
 +#define PHY_PMA_CMN_CTRL1			0xc800
-+
-+/* PHY_PMA_CMN_CTRL1 */
-+#define CMA_REF_CLK_SEL_MASK			GENMASK(6, 4)
-+#define CMA_REF_CLK_RCV_EN_MASK			BIT(3)
-+#define CMA_REF_CLK_RCV_EN			1
++#define PHY_PMA_ISO_CMN_CTRL			0xc810
++#define PHY_PMA_ISO_PLL_CTRL1			0xc812
++#define PHY_PMA_ISOLATION_CTRL			0xc81f
 +
 +/* PHY_HDP_CLK_CTL */
 +#define PLL_DATA_RATE_CLK_DIV_MASK		GENMASK(15, 8)
 +#define PLL_DATA_RATE_CLK_DIV_HBR		0x24
 +#define PLL_DATA_RATE_CLK_DIV_HBR2		0x12
-+#define PLL_CLK_EN_ACK				BIT(3)
++#define PLL_CLK_EN_ACK_EN			BIT(3)
 +#define PLL_CLK_EN				BIT(2)
 +#define PLL_READY				BIT(1)
 +#define PLL_EN					BIT(0)
 +
++/* PHY_PMA_CMN_CTRL1 */
++#define CMA_REF_CLK_DIG_DIV_MASK		GENMASK(13, 12)
++#define CMA_REF_CLK_SEL_MASK			GENMASK(6, 4)
++#define CMA_REF_CLK_RCV_EN_MASK			BIT(3)
++#define CMA_REF_CLK_RCV_EN			1
++#define CMN_READY				BIT(0)
++
++/* PHY_PMA_ISO_PLL_CTRL1 */
++#define CMN_PLL0_CLK_DATART_DIV_MASK		GENMASK(7, 0)
++
++/* TX_DIAG_TX_DRV */
++#define TX_DRIVER_PROG_BOOST_ENABLE		BIT(10)
++#define TX_DRIVER_PROG_BOOST_LEVEL_MASK		GENMASK(9, 8)
++#define TX_DRIVER_LDO_BG_DEPENDENT_REF_ENABLE	BIT(7)
++#define TX_DRIVER_LDO_BANDGAP_REF_ENABLE	BIT(6)
++
++/* TX_TXCC_CAL_SCLR_MULT_0 */
++#define SCALED_RESISTOR_CALIBRATION_CODE_ADD	BIT(8)
++#define RESISTOR_CAL_MULT_VAL_32_128		BIT(5)
++
++/* CMN_CDIAG_REFCLK_CTRL */
++#define DIG_REF_CLK_DIV_SCALER_MASK		GENMASK(14, 12)
++#define REFCLK_TERMINATION_EN_OVERRIDE_EN	BIT(7)
++#define REFCLK_TERMINATION_EN_OVERRIDE		BIT(6)
++
 +/* CMN_DIAG_HSCLK_SEL */
 +#define HSCLK1_SEL_MASK				GENMASK(5, 4)
 +#define HSCLK0_SEL_MASK				GENMASK(1, 0)
-+#define HSCLK_PLL0_DIV2				1
 +
 +/* XCVR_DIAG_HSCLK_SEL */
 +#define HSCLK_SEL_MODE3_MASK			GENMASK(13, 12)
 +#define HSCLK_SEL_MODE3_HSCLK1			1
 +
++/* CMN_PLL0_VCOCAL_START */
++#define VCO_CALIB_CODE_START_POINT_VAL_MASK	GENMASK(8, 0)
++
++/* CMN_DIAG_PLL0_FBH_OVRD */
++#define PLL_FEEDBACK_DIV_HI_OVERRIDE_EN		BIT(15)
++
++/* CMN_DIAG_PLL0_FBL_OVRD */
++#define PLL_FEEDBACK_DIV_LO_OVERRIDE_EN		BIT(15)
++
++/* CMN_DIAG_PLL0_PXL_DIVH */
++#define PLL_PCLK_DIV_EN				BIT(15)
++
 +/* XCVR_DIAG_PLLDRC_CTRL */
 +#define DPLL_CLK_SEL_MODE3			BIT(14)
-+#define DPLL_DATA_RATE_DIV_MODE3_MASK		GENMASK(13, 12)
++
++/* TX_DIAG_TX_CTRL */
++#define TX_IF_SUBRATE_MODE3_MASK		GENMASK(7, 6)
 +
 +/* PHY_HDP_MODE_CTRL */
 +#define POWER_STATE_A3_ACK			BIT(7)
@@ -318,96 +322,175 @@ index 000000000000..b1f45c0b27b5
 +#define POWER_STATE_A1				BIT(1)
 +#define POWER_STATE_A0				BIT(0)
 +
++/* PHY_PMA_ISO_CMN_CTRL */
++#define CMN_MACRO_PWR_EN_ACK			BIT(5)
++
++#define KEEP_ALIVE		0x18
++
 +#define REF_CLK_27MHZ		27000000
 +
-+enum dp_link_rate {
-+	RATE_1_6 = 162000,
-+	RATE_2_1 = 216000,
-+	RATE_2_4 = 243000,
-+	RATE_2_7 = 270000,
-+	RATE_3_2 = 324000,
-+	RATE_4_3 = 432000,
-+	RATE_5_4 = 540000,
-+	RATE_8_1 = 810000,
++/* HDMI TX clock control settings */
++struct hdptx_hdmi_ctrl {
++	u32 pixel_clk_freq_min;
++	u32 pixel_clk_freq_max;
++	u32 feedback_factor;
++	u32 data_range_kbps_min;
++	u32 data_range_kbps_max;
++	u32 cmnda_pll0_ip_div;
++	u32 cmn_ref_clk_dig_div;
++	u32 ref_clk_divider_scaler;
++	u32 pll_fb_div_total;
++	u32 cmnda_pll0_fb_div_low;
++	u32 cmnda_pll0_fb_div_high;
++	u32 pixel_div_total;
++	u32 cmnda_pll0_pxdiv_low;
++	u32 cmnda_pll0_pxdiv_high;
++	u32 vco_freq_min;
++	u32 vco_freq_max;
++	u32 vco_ring_select;
++	u32 cmnda_hs_clk_0_sel;
++	u32 cmnda_hs_clk_1_sel;
++	u32 hsclk_div_at_xcvr;
++	u32 hsclk_div_tx_sub_rate;
++	u32 cmnda_pll0_hs_sym_div_sel;
++	u32 cmnda_pll0_clk_freq_min;
++	u32 cmnda_pll0_clk_freq_max;
 +};
 +
-+#define MAX_LINK_RATE RATE_5_4
-+
-+struct phy_pll_reg {
-+	u16 val[7];
-+	u32 addr;
-+};
-+
-+static const struct phy_pll_reg phy_pll_27m_cfg[] = {
-+	/*  1.62    2.16    2.43    2.7     3.24    4.32    5.4      register address */
-+	{{ 0x010e, 0x010e, 0x010e, 0x010e, 0x010e, 0x010e, 0x010e }, CMN_PLL0_VCOCAL_INIT_TMR },
-+	{{ 0x001b, 0x001b, 0x001b, 0x001b, 0x001b, 0x001b, 0x001b }, CMN_PLL0_VCOCAL_ITER_TMR },
-+	{{ 0x30b9, 0x3087, 0x3096, 0x30b4, 0x30b9, 0x3087, 0x30b4 }, CMN_PLL0_VCOCAL_START },
-+	{{ 0x0077, 0x009f, 0x00b3, 0x00c7, 0x0077, 0x009f, 0x00c7 }, CMN_PLL0_INTDIV },
-+	{{ 0xf9da, 0xf7cd, 0xf6c7, 0xf5c1, 0xf9da, 0xf7cd, 0xf5c1 }, CMN_PLL0_FRACDIV },
-+	{{ 0x001e, 0x0028, 0x002d, 0x0032, 0x001e, 0x0028, 0x0032 }, CMN_PLL0_HIGH_THR },
-+	{{ 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 }, CMN_PLL0_DSM_DIAG },
-+	{{ 0x0000, 0x1000, 0x1000, 0x1000, 0x0000, 0x1000, 0x1000 }, CMN_PLLSM0_USER_DEF_CTRL },
-+	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_OVRD },
-+	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_FBH_OVRD },
-+	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_FBL_OVRD },
-+	{{ 0x0006, 0x0007, 0x0007, 0x0007, 0x0006, 0x0007, 0x0007 }, CMN_DIAG_PLL0_V2I_TUNE },
-+	{{ 0x0043, 0x0043, 0x0043, 0x0042, 0x0043, 0x0043, 0x0042 }, CMN_DIAG_PLL0_CP_TUNE },
-+	{{ 0x0008, 0x0008, 0x0008, 0x0008, 0x0008, 0x0008, 0x0008 }, CMN_DIAG_PLL0_LF_PROG },
-+	{{ 0x0100, 0x0001, 0x0001, 0x0001, 0x0100, 0x0001, 0x0001 }, CMN_DIAG_PLL0_PTATIS_TUNE1 },
-+	{{ 0x0007, 0x0001, 0x0001, 0x0001, 0x0007, 0x0001, 0x0001 }, CMN_DIAG_PLL0_PTATIS_TUNE2 },
-+	{{ 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 }, CMN_DIAG_PLL0_TEST_MODE},
-+	{{ 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016 }, CMN_PSM_CLK_CTRL }
-+};
-+
-+struct cdns_hdptx_dp_phy {
++struct cdns_hdptx_hdmi_phy {
 +	void __iomem *regs;	/* DPTX registers base */
++	struct mutex mbox_mutex; /* mutex to protect mailbox */
 +	struct device *dev;
 +	struct phy *phy;
-+	struct mutex mbox_mutex;	/* mutex to protect mailbox */
 +	struct clk *ref_clk, *apb_clk;
 +	u32 ref_clk_rate;
-+	u32 num_lanes;
-+	u32 link_rate;
-+	bool power_up;
++	u32 pixel_clk_rate;
++	enum hdmi_colorspace color_space;
++	u32 bpc;
 +};
 +
-+static int cdns_phy_reg_write(struct cdns_hdptx_dp_phy *cdns_phy, u32 addr, u32 val)
++/* HDMI TX clock control settings, pixel clock is output */
++static const struct hdptx_hdmi_ctrl pixel_clk_output_ctrl_table[] = {
++/*Minclk  Maxclk Fdbak  DR_min   DR_max  ip_d  dig  DS    Totl */
++{ 27000,  27000, 1000,  270000,  270000, 0x03, 0x1, 0x1,  240, 0x0bc, 0x030,  80, 0x026, 0x026, 2160000, 2160000, 0, 2, 2, 2, 4, 0x3,  27000,  27000},
++{ 27000,  27000, 1250,  337500,  337500, 0x03, 0x1, 0x1,  300, 0x0ec, 0x03c, 100, 0x030, 0x030, 2700000, 2700000, 0, 2, 2, 2, 4, 0x3,  33750,  33750},
++{ 27000,  27000, 1500,  405000,  405000, 0x03, 0x1, 0x1,  360, 0x11c, 0x048, 120, 0x03a, 0x03a, 3240000, 3240000, 0, 2, 2, 2, 4, 0x3,  40500,  40500},
++{ 27000,  27000, 2000,  540000,  540000, 0x03, 0x1, 0x1,  240, 0x0bc, 0x030,  80, 0x026, 0x026, 2160000, 2160000, 0, 2, 2, 2, 4, 0x2,  54000,  54000},
++{ 54000,  54000, 1000,  540000,  540000, 0x03, 0x1, 0x1,  480, 0x17c, 0x060,  80, 0x026, 0x026, 4320000, 4320000, 1, 2, 2, 2, 4, 0x3,  54000,  54000},
++{ 54000,  54000, 1250,  675000,  675000, 0x04, 0x1, 0x1,  400, 0x13c, 0x050,  50, 0x017, 0x017, 2700000, 2700000, 0, 1, 1, 2, 4, 0x2,  67500,  67500},
++{ 54000,  54000, 1500,  810000,  810000, 0x04, 0x1, 0x1,  480, 0x17c, 0x060,  60, 0x01c, 0x01c, 3240000, 3240000, 0, 2, 2, 2, 2, 0x2,  81000,  81000},
++{ 54000,  54000, 2000, 1080000, 1080000, 0x03, 0x1, 0x1,  240, 0x0bc, 0x030,  40, 0x012, 0x012, 2160000, 2160000, 0, 2, 2, 2, 1, 0x1, 108000, 108000},
++{ 74250,  74250, 1000,  742500,  742500, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  80, 0x026, 0x026, 5940000, 5940000, 1, 2, 2, 2, 4, 0x3,  74250,  74250},
++{ 74250,  74250, 1250,  928125,  928125, 0x04, 0x1, 0x1,  550, 0x1b4, 0x06e,  50, 0x017, 0x017, 3712500, 3712500, 1, 1, 1, 2, 4, 0x2,  92812,  92812},
++{ 74250,  74250, 1500, 1113750, 1113750, 0x04, 0x1, 0x1,  660, 0x20c, 0x084,  60, 0x01c, 0x01c, 4455000, 4455000, 1, 2, 2, 2, 2, 0x2, 111375, 111375},
++{ 74250,  74250, 2000, 1485000, 1485000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  40, 0x012, 0x012, 2970000, 2970000, 0, 2, 2, 2, 1, 0x1, 148500, 148500},
++{ 99000,  99000, 1000,  990000,  990000, 0x03, 0x1, 0x1,  440, 0x15c, 0x058,  40, 0x012, 0x012, 3960000, 3960000, 1, 2, 2, 2, 2, 0x2,  99000,  99000},
++{ 99000,  99000, 1250, 1237500, 1237500, 0x03, 0x1, 0x1,  275, 0x0d8, 0x037,  25, 0x00b, 0x00a, 2475000, 2475000, 0, 1, 1, 2, 2, 0x1, 123750, 123750},
++{ 99000,  99000, 1500, 1485000, 1485000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  30, 0x00d, 0x00d, 2970000, 2970000, 0, 2, 2, 2, 1, 0x1, 148500, 148500},
++{ 99000,  99000, 2000, 1980000, 1980000, 0x03, 0x1, 0x1,  440, 0x15c, 0x058,  40, 0x012, 0x012, 3960000, 3960000, 1, 2, 2, 2, 1, 0x1, 198000, 198000},
++{148500, 148500, 1000, 1485000, 1485000, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  40, 0x012, 0x012, 5940000, 5940000, 1, 2, 2, 2, 2, 0x2, 148500, 148500},
++{148500, 148500, 1250, 1856250, 1856250, 0x04, 0x1, 0x1,  550, 0x1b4, 0x06e,  25, 0x00b, 0x00a, 3712500, 3712500, 1, 1, 1, 2, 2, 0x1, 185625, 185625},
++{148500, 148500, 1500, 2227500, 2227500, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  30, 0x00d, 0x00d, 4455000, 4455000, 1, 1, 1, 2, 2, 0x1, 222750, 222750},
++{148500, 148500, 2000, 2970000, 2970000, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  40, 0x012, 0x012, 5940000, 5940000, 1, 2, 2, 2, 1, 0x1, 297000, 297000},
++{198000, 198000, 1000, 1980000, 1980000, 0x03, 0x1, 0x1,  220, 0x0ac, 0x02c,  10, 0x003, 0x003, 1980000, 1980000, 0, 1, 1, 2, 1, 0x0, 198000, 198000},
++{198000, 198000, 1250, 2475000, 2475000, 0x03, 0x1, 0x1,  550, 0x1b4, 0x06e,  25, 0x00b, 0x00a, 4950000, 4950000, 1, 1, 1, 2, 2, 0x1, 247500, 247500},
++{198000, 198000, 1500, 2970000, 2970000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  15, 0x006, 0x005, 2970000, 2970000, 0, 1, 1, 2, 1, 0x0, 297000, 297000},
++{198000, 198000, 2000, 3960000, 3960000, 0x03, 0x1, 0x1,  440, 0x15c, 0x058,  20, 0x008, 0x008, 3960000, 3960000, 1, 1, 1, 2, 1, 0x0, 396000, 396000},
++{297000, 297000, 1000, 2970000, 2970000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  10, 0x003, 0x003, 2970000, 2970000, 0, 1, 1, 2, 1, 0x0, 297000, 297000},
++{297000, 297000, 1500, 4455000, 4455000, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  15, 0x006, 0x005, 4455000, 4455000, 1, 1, 1, 2, 1, 0x0, 445500, 445500},
++{297000, 297000, 2000, 5940000, 5940000, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  20, 0x008, 0x008, 5940000, 5940000, 1, 1, 1, 2, 1, 0x0, 594000, 594000},
++{594000, 594000, 1000, 5940000, 5940000, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  10, 0x003, 0x003, 5940000, 5940000, 1, 1, 1, 2, 1, 0x0, 594000, 594000},
++{594000, 594000,  750, 4455000, 4455000, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  10, 0x003, 0x003, 4455000, 4455000, 1, 1, 1, 2, 1, 0x0, 445500, 445500},
++{594000, 594000,  625, 3712500, 3712500, 0x04, 0x1, 0x1,  550, 0x1b4, 0x06e,  10, 0x003, 0x003, 3712500, 3712500, 1, 1, 1, 2, 1, 0x0, 371250, 371250},
++{594000, 594000,  500, 2970000, 2970000, 0x03, 0x1, 0x1,  660, 0x20c, 0x084,  10, 0x003, 0x003, 5940000, 5940000, 1, 1, 1, 2, 2, 0x1, 297000, 297000},
++};
++
++/* HDMI TX PLL tuning settings */
++struct hdptx_hdmi_pll_tuning {
++	u32 vco_freq_bin;
++	u32 vco_freq_min;
++	u32 vco_freq_max;
++	u32 volt_to_current_coarse;
++	u32 volt_to_current;
++	u32 ndac_ctrl;
++	u32 pmos_ctrl;
++	u32 ptat_ndac_ctrl;
++	u32 feedback_div_total;
++	u32 charge_pump_gain;
++	u32 coarse_code;
++	u32 v2i_code;
++	u32 vco_cal_code;
++};
++
++/* HDMI TX PLL tuning settings, pixel clock is output */
++static const struct hdptx_hdmi_pll_tuning pixel_clk_output_pll_table[] = {
++/*bin VCO_freq min/max  coar  cod NDAC  PMOS PTAT div-T P-Gain Coa V2I CAL */
++{  1, 1980000, 1980000, 0x4, 0x3, 0x0, 0x09, 0x09, 220, 0x42, 160, 5, 183 },
++{  2, 2160000, 2160000, 0x4, 0x3, 0x0, 0x09, 0x09, 240, 0x42, 166, 6, 208 },
++{  3, 2475000, 2475000, 0x5, 0x3, 0x1, 0x00, 0x07, 275, 0x42, 167, 6, 209 },
++{  4, 2700000, 2700000, 0x5, 0x3, 0x1, 0x00, 0x07, 300, 0x42, 188, 6, 230 },
++{  4, 2700000, 2700000, 0x5, 0x3, 0x1, 0x00, 0x07, 400, 0x4c, 188, 6, 230 },
++{  5, 2970000, 2970000, 0x6, 0x3, 0x1, 0x00, 0x07, 330, 0x42, 183, 6, 225 },
++{  6, 3240000, 3240000, 0x6, 0x3, 0x1, 0x00, 0x07, 360, 0x42, 203, 7, 256 },
++{  6, 3240000, 3240000, 0x6, 0x3, 0x1, 0x00, 0x07, 480, 0x4c, 203, 7, 256 },
++{  7, 3712500, 3712500, 0x4, 0x3, 0x0, 0x07, 0x0F, 550, 0x4c, 212, 7, 257 },
++{  8, 3960000, 3960000, 0x5, 0x3, 0x0, 0x07, 0x0F, 440, 0x42, 184, 6, 226 },
++{  9, 4320000, 4320000, 0x5, 0x3, 0x1, 0x07, 0x0F, 480, 0x42, 205, 7, 258 },
++{ 10, 4455000, 4455000, 0x5, 0x3, 0x0, 0x07, 0x0F, 495, 0x42, 219, 7, 272 },
++{ 10, 4455000, 4455000, 0x5, 0x3, 0x0, 0x07, 0x0F, 660, 0x4c, 219, 7, 272 },
++{ 11, 4950000, 4950000, 0x6, 0x3, 0x1, 0x00, 0x07, 550, 0x42, 213, 7, 258 },
++{ 12, 5940000, 5940000, 0x7, 0x3, 0x1, 0x00, 0x07, 660, 0x42, 244, 8, 292 },
++};
++
++static int cdns_phy_reg_write(struct cdns_hdptx_hdmi_phy *cdns_phy, u32 addr, u32 val)
 +{
 +	return cdns_mhdp_reg_write(cdns_phy, ADDR_PHY_AFE + (addr << 2), val);
 +}
 +
-+static u32 cdns_phy_reg_read(struct cdns_hdptx_dp_phy *cdns_phy, u32 addr)
++static u32 cdns_phy_reg_read(struct cdns_hdptx_hdmi_phy *cdns_phy, u32 addr)
 +{
 +	u32 reg32;
 +
 +	cdns_mhdp_reg_read(cdns_phy, ADDR_PHY_AFE + (addr << 2), &reg32);
++
 +	return reg32;
 +}
 +
-+static int link_rate_index(u32 rate)
++static int wait_for_ack(struct cdns_hdptx_hdmi_phy *cdns_phy, u32 reg, u32 mask,
++			const char *err_msg)
 +{
-+	switch (rate) {
-+	case RATE_1_6:
-+		return 0;
-+	case RATE_2_1:
-+		return 1;
-+	case RATE_2_4:
-+		return 2;
-+	case RATE_2_7:
-+		return 3;
-+	case RATE_3_2:
-+		return 4;
-+	case RATE_4_3:
-+		return 5;
-+	case RATE_5_4:
-+		return 6;
-+	default:
-+		return -1;
++	u32 val, i;
++
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, reg);
++		if (val & mask)
++			return 0;
++		msleep(20);
 +	}
++
++	dev_err(cdns_phy->dev, "%s\n", err_msg);
++	return -1;
 +}
 +
-+static int hdptx_dp_clk_enable(struct cdns_hdptx_dp_phy *cdns_phy)
++static bool hdptx_phy_check_alive(struct cdns_hdptx_hdmi_phy *cdns_phy)
++{
++	u32  alive, newalive;
++	u8 retries_left = 50;
++
++	alive = readl(cdns_phy->regs + KEEP_ALIVE);
++
++	while (retries_left--) {
++		udelay(2);
++
++		newalive = readl(cdns_phy->regs + KEEP_ALIVE);
++		if (alive == newalive)
++			continue;
++		return true;
++	}
++	return false;
++}
++
++static int hdptx_hdmi_clk_enable(struct cdns_hdptx_hdmi_phy *cdns_phy)
 +{
 +	struct device *dev = cdns_phy->dev;
 +	u32 ref_clk_rate;
@@ -457,250 +540,410 @@ index 000000000000..b1f45c0b27b5
 +	return -EINVAL;
 +}
 +
-+static void hdptx_dp_clk_disable(struct cdns_hdptx_dp_phy *cdns_phy)
++static void hdptx_hdmi_clk_disable(struct cdns_hdptx_hdmi_phy *cdns_phy)
 +{
 +	clk_disable_unprepare(cdns_phy->ref_clk);
 +	clk_disable_unprepare(cdns_phy->apb_clk);
 +}
 +
-+static void hdptx_dp_aux_cfg(struct cdns_hdptx_dp_phy *cdns_phy)
++static void hdptx_hdmi_arc_config(struct cdns_hdptx_hdmi_phy *cdns_phy)
 +{
-+	/* Power up Aux */
-+	cdns_phy_reg_write(cdns_phy, TXDA_CYA_AUXDA_CYA, 1);
++	u16 txpu_calib_code;
++	u16 txpd_calib_code;
++	u16 txpu_adj_calib_code;
++	u16 txpd_adj_calib_code;
++	u16 prev_calib_code;
++	u16 new_calib_code;
++	u16 rdata;
 +
-+	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_1, 0x3);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_2, 36);
-+	ndelay(150);
++	/* Power ARC */
++	cdns_phy_reg_write(cdns_phy, TXDA_CYA_AUXDA_CYA, 0x0001);
++
++	prev_calib_code = cdns_phy_reg_read(cdns_phy, TX_DIG_CTRL_REG_2);
++	txpu_calib_code = cdns_phy_reg_read(cdns_phy, CMN_TXPUCAL_CTRL);
++	txpd_calib_code = cdns_phy_reg_read(cdns_phy, CMN_TXPDCAL_CTRL);
++	txpu_adj_calib_code = cdns_phy_reg_read(cdns_phy, CMN_TXPU_ADJ_CTRL);
++	txpd_adj_calib_code = cdns_phy_reg_read(cdns_phy, CMN_TXPD_ADJ_CTRL);
++
++	new_calib_code = ((txpu_calib_code + txpd_calib_code) / 2)
++		+ txpu_adj_calib_code + txpd_adj_calib_code;
++
++	if (new_calib_code != prev_calib_code) {
++		rdata = cdns_phy_reg_read(cdns_phy, TX_ANA_CTRL_REG_1);
++		rdata &= 0xdfff;
++		cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, rdata);
++		cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_2, new_calib_code);
++		mdelay(10);
++		rdata |= 0x2000;
++		cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, rdata);
++		usleep_range(150, 250);
++	}
++
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0100);
-+	ndelay(150);
++	usleep_range(100, 200);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0300);
-+	ndelay(150);
++	usleep_range(100, 200);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_3, 0x0000);
-+	ndelay(150);
++	usleep_range(100, 200);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2008);
-+	ndelay(150);
++	usleep_range(100, 200);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2018);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa018);
-+	ndelay(150);
++	usleep_range(100, 200);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2098);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030c);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_5, 0x0000);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_4, 0x1001);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa098);
-+	ndelay(150);
-+	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xa198);
-+	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_5, 0x0010);
++	usleep_range(100, 200);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_4, 0x4001);
++	mdelay(5);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2198);
++	mdelay(5);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030d);
-+	ndelay(150);
++	usleep_range(100, 200);
 +	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030f);
 +}
 +
-+/* PMA common configuration for 27MHz */
-+static void hdptx_dp_phy_pma_cmn_cfg_27mhz(struct cdns_hdptx_dp_phy *cdns_phy)
++static void hdptx_hdmi_phy_set_vswing(struct cdns_hdptx_hdmi_phy *cdns_phy)
 +{
-+	u32 num_lanes = cdns_phy->num_lanes;
-+	u16 val;
-+	int k;
++	u32 k;
++	const u32 num_lanes = 4;
 +
-+	/* Enable PMA input ref clk(CMN_REF_CLK_RCV_EN) */
++	for (k = 0; k < num_lanes; k++) {
++		cdns_phy_reg_write(cdns_phy, (TX_DIAG_TX_DRV | (k << 9)),
++				   TX_DRIVER_PROG_BOOST_ENABLE |
++				   FIELD_PREP(TX_DRIVER_PROG_BOOST_LEVEL_MASK, 3) |
++				   TX_DRIVER_LDO_BG_DEPENDENT_REF_ENABLE |
++				   TX_DRIVER_LDO_BANDGAP_REF_ENABLE);
++		cdns_phy_reg_write(cdns_phy, (TX_TXCC_CPOST_MULT_00_0 | (k << 9)), 0x0);
++		cdns_phy_reg_write(cdns_phy, (TX_TXCC_CAL_SCLR_MULT_0 | (k << 9)),
++				   SCALED_RESISTOR_CALIBRATION_CODE_ADD |
++				   RESISTOR_CAL_MULT_VAL_32_128);
++	}
++}
++
++static int hdptx_hdmi_feedback_factor(struct cdns_hdptx_hdmi_phy *cdns_phy)
++{
++	u32 feedback_factor;
++
++	switch (cdns_phy->color_space) {
++	case HDMI_COLORSPACE_YUV422:
++		feedback_factor = 1000;
++		break;
++
++	case HDMI_COLORSPACE_YUV420:
++		switch (cdns_phy->bpc) {
++		case 8:
++			feedback_factor = 500;
++			break;
++		case 10:
++			feedback_factor = 625;
++			break;
++		case 12:
++			feedback_factor = 750;
++			break;
++		case 16:
++			feedback_factor = 1000;
++			break;
++		default:
++			dev_dbg(cdns_phy->dev, "Invalid ColorDepth\n");
++			return 0;
++		}
++		break;
++
++	default:
++		/* Assume RGB/YUV444 */
++		switch (cdns_phy->bpc) {
++		case 10:
++			feedback_factor = 1250;
++			break;
++		case 12:
++			feedback_factor = 1500;
++			break;
++		case 16:
++			feedback_factor = 2000;
++			break;
++		default:
++			feedback_factor = 1000;
++		}
++	}
++
++	return feedback_factor;
++}
++
++static int hdptx_hdmi_phy_config(struct cdns_hdptx_hdmi_phy *cdns_phy,
++				 const struct hdptx_hdmi_ctrl *p_ctrl_table,
++				 const struct hdptx_hdmi_pll_tuning *p_pll_table,
++				 char pclk_in)
++{
++	const u32 num_lanes = 4;
++	u32 val, k;
++
++	/* enable PHY isolation mode only for CMN */
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_ISOLATION_CTRL, 0xd000);
++
++	/* set cmn_pll0_clk_datart1_div/cmn_pll0_clk_datart0_div dividers */
++	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_ISO_PLL_CTRL1);
++	val &= ~CMN_PLL0_CLK_DATART_DIV_MASK;
++	val |= FIELD_PREP(CMN_PLL0_CLK_DATART_DIV_MASK, 0x12);
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_ISO_PLL_CTRL1, val);
++
++	/* assert PHY reset from isolation register */
++	cdns_phy_reg_write(cdns_phy, PHY_ISO_CMN_CTRL, 0x0000);
++	/* assert PMA CMN reset */
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_ISO_CMN_CTRL, 0x0000);
++
++	/* register XCVR_DIAG_BIDI_CTRL */
++	for (k = 0; k < num_lanes; k++)
++		cdns_phy_reg_write(cdns_phy, XCVR_DIAG_BIDI_CTRL | (k << 9), 0x00ff);
++
++	/* Describing Task phy_cfg_hdp */
 +	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
 +	val &= ~CMA_REF_CLK_RCV_EN_MASK;
 +	val |= FIELD_PREP(CMA_REF_CLK_RCV_EN_MASK, CMA_REF_CLK_RCV_EN);
 +	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
 +
-+	/* Startup state machine registers */
-+	cdns_phy_reg_write(cdns_phy, CMN_SSM_BIAS_TMR, 0x0087);
-+	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLEN_TMR, 0x001b);
-+	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLPRE_TMR, 0x0036);
-+	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLVREF_TMR, 0x001b);
-+	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLLOCK_TMR, 0x006c);
++	/* PHY Registers */
++	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
++	val &= ~CMA_REF_CLK_DIG_DIV_MASK;
++	val |= FIELD_PREP(CMA_REF_CLK_DIG_DIV_MASK, p_ctrl_table->cmn_ref_clk_dig_div);
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
 +
-+	/* Current calibration registers */
-+	cdns_phy_reg_write(cdns_phy, CMN_ICAL_INIT_TMR, 0x0044);
-+	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_ITER_TMR, 0x0006);
-+
-+	/* Resistor calibration registers */
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_ITER_TMR, 0x0006);
-+	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_INIT_TMR, 0x0022);
-+	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_ITER_TMR, 0x0006);
-+
-+	for (k = 0; k < num_lanes; k = k + 1) {
-+		/* Power state machine registers */
-+		cdns_phy_reg_write(cdns_phy, XCVR_PSM_CAL_TMR  | (k << 9), 0x016d);
-+		cdns_phy_reg_write(cdns_phy, XCVR_PSM_A0IN_TMR | (k << 9), 0x016d);
-+		/* Transceiver control and diagnostic registers */
-+		cdns_phy_reg_write(cdns_phy, XCVR_DIAG_LANE_FCM_EN_MGN_TMR | (k << 9), 0x00a2);
-+		cdns_phy_reg_write(cdns_phy, TX_DIAG_BGREF_PREDRV_DELAY | (k << 9), 0x0097);
-+		/* Transmitter receiver detect registers */
-+		cdns_phy_reg_write(cdns_phy, TX_RCVDET_EN_TMR | (k << 9), 0x0a8c);
-+		cdns_phy_reg_write(cdns_phy, TX_RCVDET_ST_TMR | (k << 9), 0x0036);
-+	}
-+
-+	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_0, 1);
-+	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_1, 1);
-+	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_2, 1);
-+	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_3, 1);
-+}
-+
-+static void hdptx_dp_phy_pma_cmn_pll0_27mhz(struct cdns_hdptx_dp_phy *cdns_phy)
-+{
-+	u32 num_lanes = cdns_phy->num_lanes;
-+	u32 link_rate = cdns_phy->link_rate;
-+	u16 val;
-+	int index, i, k;
-+
-+	/* DP PLL data rate 0/1 clock divider value */
 +	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
 +	val &= ~PLL_DATA_RATE_CLK_DIV_MASK;
-+	if (link_rate <= RATE_2_7)
-+		val |= FIELD_PREP(PLL_DATA_RATE_CLK_DIV_MASK,
-+				  PLL_DATA_RATE_CLK_DIV_HBR);
-+	else
-+		val |= FIELD_PREP(PLL_DATA_RATE_CLK_DIV_MASK,
-+				  PLL_DATA_RATE_CLK_DIV_HBR2);
++	val |= FIELD_PREP(PLL_DATA_RATE_CLK_DIV_MASK,
++			  PLL_DATA_RATE_CLK_DIV_HBR2);
 +	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
 +
-+	/* High speed clock 0/1 div */
++	/* Common control module control and diagnostic registers */
++	val = cdns_phy_reg_read(cdns_phy, CMN_CDIAG_REFCLK_CTRL);
++	val &= ~DIG_REF_CLK_DIV_SCALER_MASK;
++	val |= FIELD_PREP(DIG_REF_CLK_DIV_SCALER_MASK, p_ctrl_table->ref_clk_divider_scaler);
++	val |= REFCLK_TERMINATION_EN_OVERRIDE_EN | REFCLK_TERMINATION_EN_OVERRIDE;
++	cdns_phy_reg_write(cdns_phy, CMN_CDIAG_REFCLK_CTRL, val);
++
++	/* High speed clock used */
 +	val = cdns_phy_reg_read(cdns_phy, CMN_DIAG_HSCLK_SEL);
 +	val &= ~(HSCLK1_SEL_MASK | HSCLK0_SEL_MASK);
-+	if (link_rate <= RATE_2_7) {
-+		val |= FIELD_PREP(HSCLK1_SEL_MASK, HSCLK_PLL0_DIV2);
-+		val |= FIELD_PREP(HSCLK0_SEL_MASK, HSCLK_PLL0_DIV2);
-+	}
++	val |= FIELD_PREP(HSCLK1_SEL_MASK, (p_ctrl_table->cmnda_hs_clk_1_sel >> 1));
++	val |= FIELD_PREP(HSCLK0_SEL_MASK, (p_ctrl_table->cmnda_hs_clk_0_sel >> 1));
 +	cdns_phy_reg_write(cdns_phy, CMN_DIAG_HSCLK_SEL, val);
 +
 +	for (k = 0; k < num_lanes; k++) {
 +		val = cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_HSCLK_SEL | (k << 9)));
 +		val &= ~HSCLK_SEL_MODE3_MASK;
-+		if (link_rate <= RATE_2_7)
-+			val |= FIELD_PREP(HSCLK_SEL_MODE3_MASK, HSCLK_SEL_MODE3_HSCLK1);
++		val |= FIELD_PREP(HSCLK_SEL_MODE3_MASK,
++				  (p_ctrl_table->cmnda_hs_clk_0_sel >> 1));
 +		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_HSCLK_SEL | (k << 9)), val);
 +	}
 +
-+	/* DP PHY PLL 27MHz configuration */
-+	index = link_rate_index(link_rate);
-+	for (i = 0; i < ARRAY_SIZE(phy_pll_27m_cfg); i++)
-+		cdns_phy_reg_write(cdns_phy, phy_pll_27m_cfg[i].addr,
-+				   phy_pll_27m_cfg[i].val[index]);
++	/* PLL 0 control state machine registers */
++	val = p_ctrl_table->vco_ring_select << 12;
++	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_USER_DEF_CTRL, val);
++
++	if (pclk_in) {
++		val = 0x30a0;
++	} else {
++		val = cdns_phy_reg_read(cdns_phy, CMN_PLL0_VCOCAL_START);
++		val &= ~VCO_CALIB_CODE_START_POINT_VAL_MASK;
++		val |= FIELD_PREP(VCO_CALIB_CODE_START_POINT_VAL_MASK,
++				  p_pll_table->vco_cal_code);
++	}
++	cdns_phy_reg_write(cdns_phy, CMN_PLL0_VCOCAL_START, val);
++
++	cdns_phy_reg_write(cdns_phy, CMN_PLL0_VCOCAL_INIT_TMR, 0x0064);
++	cdns_phy_reg_write(cdns_phy, CMN_PLL0_VCOCAL_ITER_TMR, 0x000a);
++
++	/* Common functions control and diagnostics registers */
++	val = p_ctrl_table->cmnda_pll0_hs_sym_div_sel << 8;
++	val |= p_ctrl_table->cmnda_pll0_ip_div;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_INCLK_CTRL, val);
++
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_OVRD, 0x0000);
++
++	val = p_ctrl_table->cmnda_pll0_fb_div_high;
++	val |= PLL_FEEDBACK_DIV_HI_OVERRIDE_EN;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_FBH_OVRD, val);
++
++	val = p_ctrl_table->cmnda_pll0_fb_div_low;
++	val |= PLL_FEEDBACK_DIV_LO_OVERRIDE_EN;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_FBL_OVRD, val);
++
++	if (!pclk_in) {
++		val = p_ctrl_table->cmnda_pll0_pxdiv_low;
++		cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_PXL_DIVL, val);
++
++		val = p_ctrl_table->cmnda_pll0_pxdiv_high;
++		val |= PLL_PCLK_DIV_EN;
++		cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_PXL_DIVH, val);
++	}
++
++	val = p_pll_table->volt_to_current_coarse;
++	val |= (p_pll_table->volt_to_current) << 4;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_V2I_TUNE, val);
++
++	val = p_pll_table->charge_pump_gain;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_CP_TUNE, val);
++
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_LF_PROG, 0x0008);
++
++	val = p_pll_table->pmos_ctrl;
++	val |= (p_pll_table->ndac_ctrl) << 8;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_PTATIS_TUNE1, val);
++
++	val = p_pll_table->ptat_ndac_ctrl;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_PTATIS_TUNE2, val);
++
++	if (pclk_in)
++		cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_TEST_MODE, 0x0022);
++	else
++		cdns_phy_reg_write(cdns_phy, CMN_DIAG_PLL0_TEST_MODE, 0x0020);
++
++	cdns_phy_reg_write(cdns_phy, CMN_PSM_CLK_CTRL, 0x0016);
 +
 +	/* Transceiver control and diagnostic registers */
 +	for (k = 0; k < num_lanes; k++) {
 +		val = cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)));
-+		val &= ~(DPLL_DATA_RATE_DIV_MODE3_MASK | DPLL_CLK_SEL_MODE3);
-+		if (link_rate <= RATE_2_7)
-+			val |= FIELD_PREP(DPLL_DATA_RATE_DIV_MODE3_MASK, 2);
-+		else
-+			val |= FIELD_PREP(DPLL_DATA_RATE_DIV_MODE3_MASK, 1);
++		val &= ~DPLL_CLK_SEL_MODE3;
 +		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)), val);
 +	}
 +
-+	for (k = 0; k < num_lanes; k = k + 1) {
-+		/* Power state machine registers */
-+		cdns_phy_reg_write(cdns_phy, (XCVR_PSM_RCTRL | (k << 9)), 0xbefc);
-+		cdns_phy_reg_write(cdns_phy, (TX_PSC_A0 | (k << 9)), 0x6799);
-+		cdns_phy_reg_write(cdns_phy, (TX_PSC_A1 | (k << 9)), 0x6798);
-+		cdns_phy_reg_write(cdns_phy, (TX_PSC_A2 | (k << 9)), 0x0098);
-+		cdns_phy_reg_write(cdns_phy, (TX_PSC_A3 | (k << 9)), 0x0098);
-+		/* Receiver calibration power state definition register */
-+		val = cdns_phy_reg_read(cdns_phy, RX_PSC_CAL | (k << 9));
-+		val &= 0xffbb;
-+		cdns_phy_reg_write(cdns_phy, (RX_PSC_CAL | (k << 9)), val);
-+		val = cdns_phy_reg_read(cdns_phy, RX_PSC_A0 | (k << 9));
-+		val &= 0xffbb;
-+		cdns_phy_reg_write(cdns_phy, (RX_PSC_A0 | (k << 9)), val);
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(cdns_phy, (TX_DIAG_TX_CTRL | (k << 9)));
++		val &= ~TX_IF_SUBRATE_MODE3_MASK;
++		val |= FIELD_PREP(TX_IF_SUBRATE_MODE3_MASK,
++				  (p_ctrl_table->hsclk_div_tx_sub_rate >> 1));
++		cdns_phy_reg_write(cdns_phy, (TX_DIAG_TX_CTRL | (k << 9)), val);
 +	}
-+}
-+
-+static void hdptx_dp_phy_ref_clock_type(struct cdns_hdptx_dp_phy *cdns_phy)
-+{
-+	u32 val;
 +
 +	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
 +	val &= ~CMA_REF_CLK_SEL_MASK;
 +	/*
 +	 * single ended reference clock (val |= 0x0030);
 +	 * differential clock  (val |= 0x0000);
-+	 *
 +	 * for differential clock on the refclk_p and
 +	 * refclk_m off chip pins: CMN_DIAG_ACYA[8]=1'b1
 +	 * cdns_phy_reg_write(cdns_phy, CMN_DIAG_ACYA, 0x0100);
 +	 */
 +	val |= FIELD_PREP(CMA_REF_CLK_SEL_MASK, 3);
 +	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
-+}
 +
-+static int wait_for_ack(struct cdns_hdptx_dp_phy *cdns_phy, u32 reg, u32 mask,
-+			const char *err_msg)
-+{
-+	u32 val, i;
++	/* Deassert PHY reset */
++	cdns_phy_reg_write(cdns_phy, PHY_ISO_CMN_CTRL, 0x0001);
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_ISO_CMN_CTRL, 0x0003);
 +
-+	for (i = 0; i < 10; i++) {
-+		val = cdns_phy_reg_read(cdns_phy, reg);
-+		if (val & mask)
-+			return 0;
-+		msleep(20);
-+	}
++	/* Power state machine registers */
++	for (k = 0; k < num_lanes; k++)
++		cdns_phy_reg_write(cdns_phy, XCVR_PSM_RCTRL | (k << 9), 0xfefc);
 +
-+	dev_err(cdns_phy->dev, "%s\n", err_msg);
-+	return -1;
-+}
++	/* Assert cmn_macro_pwr_en */
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_ISO_CMN_CTRL, 0x0013);
 +
-+static int wait_for_ack_clear(struct cdns_hdptx_dp_phy *cdns_phy, u32 reg, u32 mask,
-+			      const char *err_msg)
-+{
-+	u32 val, i;
-+
-+	for (i = 0; i < 10; i++) {
-+		val = cdns_phy_reg_read(cdns_phy, reg);
-+		if (!(val & mask))
-+			return 0;
-+		msleep(20);
-+	}
-+
-+	dev_err(cdns_phy->dev, "%s\n", err_msg);
-+	return -1;
-+}
-+
-+static int hdptx_dp_phy_power_up(struct cdns_hdptx_dp_phy *cdns_phy)
-+{
-+	u32 val;
-+
-+	/* Enable HDP PLL’s for high speed clocks */
-+	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-+	val |= PLL_EN;
-+	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-+	if (wait_for_ack(cdns_phy, PHY_HDP_CLK_CTL, PLL_READY,
-+			 "Wait PLL Ack failed"))
++	/* wait for cmn_macro_pwr_en_ack */
++	if (wait_for_ack(cdns_phy, PHY_PMA_ISO_CMN_CTRL, CMN_MACRO_PWR_EN_ACK,
++			 "MA output macro power up failed"))
 +		return -1;
 +
-+	/* Enable HDP PLL’s data rate and full rate clocks out of PMA. */
-+	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-+	val |= PLL_CLK_EN;
-+	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-+	if (wait_for_ack(cdns_phy, PHY_HDP_CLK_CTL, PLL_CLK_EN_ACK,
-+			 "Wait PLL clock enable ACK failed"))
++	/* wait for cmn_ready */
++	if (wait_for_ack(cdns_phy, PHY_PMA_CMN_CTRL1, CMN_READY,
++			 "PMA output ready failed"))
 +		return -1;
 +
-+	/* Configure PHY in A2 Mode */
++	for (k = 0; k < num_lanes; k++) {
++		cdns_phy_reg_write(cdns_phy, TX_PSC_A0 | (k << 9), 0x6791);
++		cdns_phy_reg_write(cdns_phy, TX_PSC_A1 | (k << 9), 0x6790);
++		cdns_phy_reg_write(cdns_phy, TX_PSC_A2 | (k << 9), 0x0090);
++		cdns_phy_reg_write(cdns_phy, TX_PSC_A3 | (k << 9), 0x0090);
++
++		val = cdns_phy_reg_read(cdns_phy, RX_PSC_CAL | (k << 9));
++		val &= 0xffbb;
++		cdns_phy_reg_write(cdns_phy, RX_PSC_CAL | (k << 9), val);
++
++		val = cdns_phy_reg_read(cdns_phy, RX_PSC_A0 | (k << 9));
++		val &= 0xffbb;
++		cdns_phy_reg_write(cdns_phy, RX_PSC_A0 | (k << 9), val);
++	}
++	return 0;
++}
++
++static int hdptx_hdmi_phy_cfg(struct cdns_hdptx_hdmi_phy *cdns_phy, u32 rate)
++{
++	const struct hdptx_hdmi_ctrl *p_ctrl_table;
++	const struct hdptx_hdmi_pll_tuning *p_pll_table;
++	const u32 refclk_freq_khz = cdns_phy->ref_clk_rate / 1000;
++	const u8 pclk_in = false;
++	u32 pixel_freq = rate;
++	u32 vco_freq, char_freq;
++	u32 div_total, feedback_factor;
++	u32 i, ret;
++
++	feedback_factor = hdptx_hdmi_feedback_factor(cdns_phy);
++
++	char_freq = pixel_freq * feedback_factor / 1000;
++
++	dev_dbg(cdns_phy->dev,
++		"Pixel clock: (%d KHz), character clock: %d, bpc is (%0d-bit)\n",
++		pixel_freq, char_freq, cdns_phy->bpc);
++
++	/* Get right row from the ctrl_table table.
++	 * Check if 'pixel_freq_khz' value matches the PIXEL_CLK_FREQ column.
++	 * Consider only the rows with FEEDBACK_FACTOR column matching feedback_factor.
++	 */
++	for (i = 0; i < ARRAY_SIZE(pixel_clk_output_ctrl_table); i++) {
++		if (feedback_factor == pixel_clk_output_ctrl_table[i].feedback_factor &&
++		    pixel_freq == pixel_clk_output_ctrl_table[i].pixel_clk_freq_min) {
++			p_ctrl_table = &pixel_clk_output_ctrl_table[i];
++			break;
++		}
++	}
++	if (i == ARRAY_SIZE(pixel_clk_output_ctrl_table)) {
++		dev_warn(cdns_phy->dev,
++			 "Pixel clk (%d KHz) not supported, bpc is (%0d-bit)\n",
++			 pixel_freq, cdns_phy->bpc);
++		return 0;
++	}
++
++	div_total = p_ctrl_table->pll_fb_div_total;
++	vco_freq = refclk_freq_khz * div_total / p_ctrl_table->cmnda_pll0_ip_div;
++
++	/* Get right row from the pixel_clk_output_pll_table table.
++	 * Check if vco_freq_khz and feedback_div_total
++	 * column matching with pixel_clk_output_pll_table.
++	 */
++	for (i = 0; i < ARRAY_SIZE(pixel_clk_output_pll_table); i++) {
++		if (vco_freq == pixel_clk_output_pll_table[i].vco_freq_min &&
++		    div_total == pixel_clk_output_pll_table[i].feedback_div_total) {
++			p_pll_table = &pixel_clk_output_pll_table[i];
++			break;
++		}
++	}
++	if (i == ARRAY_SIZE(pixel_clk_output_pll_table)) {
++		dev_warn(cdns_phy->dev, "VCO (%d KHz) not supported\n", vco_freq);
++		return -1;
++	}
++	dev_dbg(cdns_phy->dev, "VCO frequency is (%d KHz)\n", vco_freq);
++
++	ret = hdptx_hdmi_phy_config(cdns_phy, p_ctrl_table, p_pll_table, pclk_in);
++	if (ret < 0)
++		return ret;
++
++	return char_freq;
++}
++
++static int hdptx_hdmi_phy_power_up(struct cdns_hdptx_hdmi_phy *cdns_phy)
++{
++	/* set Power State to A2 */
 +	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A2);
++
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_0, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_1, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_2, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_3, 1);
++
 +	if (wait_for_ack(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A2_ACK,
 +			 "Wait A2 Ack failed"))
 +		return -1;
++
++	/* Power up ARC */
++	hdptx_hdmi_arc_config(cdns_phy);
 +
 +	/* Configure PHY in A0 mode (PHY must be in the A0 power
 +	 * state in order to transmit data)
@@ -710,115 +953,102 @@ index 000000000000..b1f45c0b27b5
 +			 "Wait A0 Ack failed"))
 +		return -1;
 +
-+	cdns_phy->power_up = true;
-+
 +	return 0;
 +}
 +
-+static void hdptx_dp_phy_power_down(struct cdns_hdptx_dp_phy *cdns_phy)
++static int hdptx_hdmi_phy_power_down(struct cdns_hdptx_hdmi_phy *cdns_phy)
 +{
-+	u16 val;
++	u32 val;
 +
-+	if (!cdns_phy->power_up)
-+		return;
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_MODE_CTRL);
++	val &= ~(POWER_STATE_A0 | POWER_STATE_A1 | POWER_STATE_A2 | POWER_STATE_A3);
++	/* PHY_DP_MODE_CTL set to A3 power state */
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, val | POWER_STATE_A3);
 +
-+	/* Place the PHY lanes in the A3 power state. */
-+	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A3);
 +	if (wait_for_ack(cdns_phy, PHY_HDP_MODE_CTRL, POWER_STATE_A3_ACK,
 +			 "Wait A3 Ack failed"))
-+		return;
-+
-+	/* Disable HDP PLL’s data rate and full rate clocks out of PMA. */
-+	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-+	val &= ~PLL_CLK_EN;
-+	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-+	if (wait_for_ack_clear(cdns_phy, PHY_HDP_CLK_CTL, PLL_CLK_EN_ACK,
-+			       "Wait PLL clock Ack clear failed"))
-+		return;
-+
-+	/* Disable HDP PLL’s for high speed clocks */
-+	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
-+	val &= ~PLL_EN;
-+	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
-+	if (wait_for_ack_clear(cdns_phy, PHY_HDP_CLK_CTL, PLL_READY,
-+			       "Wait PLL Ack clear failed"))
-+		return;
-+}
-+
-+static int cdns_hdptx_dp_phy_on(struct phy *phy)
-+{
-+	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
-+
-+	return hdptx_dp_phy_power_up(cdns_phy);
-+}
-+
-+static int cdns_hdptx_dp_phy_off(struct phy *phy)
-+{
-+	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
-+
-+	hdptx_dp_phy_power_down(cdns_phy);
++		return -1;
 +
 +	return 0;
 +}
 +
-+static int cdns_hdptx_dp_phy_init(struct phy *phy)
++static int cdns_hdptx_hdmi_phy_on(struct phy *phy)
 +{
-+	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
++	struct cdns_hdptx_hdmi_phy *cdns_phy = phy_get_drvdata(phy);
++
++	return hdptx_hdmi_phy_power_up(cdns_phy);
++}
++
++static int cdns_hdptx_hdmi_phy_off(struct phy *phy)
++{
++	struct cdns_hdptx_hdmi_phy *cdns_phy = phy_get_drvdata(phy);
++
++	hdptx_hdmi_phy_power_down(cdns_phy);
++	return 0;
++}
++
++int cdns_hdptx_hdmi_phy_valid(struct phy *phy, enum phy_mode mode, int submode,
++			      union phy_configure_opts *opts)
++{
++	u32 rate = opts->hdmi.pixel_clk_rate;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_clk_output_ctrl_table); i++)
++		if (rate == pixel_clk_output_ctrl_table[i].pixel_clk_freq_min)
++			return 0;
++
++	return -EINVAL;
++}
++
++static int cdns_hdptx_hdmi_phy_init(struct phy *phy)
++{
++	return 0;
++}
++
++static int cdns_hdptx_hdmi_configure(struct phy *phy,
++				     union phy_configure_opts *opts)
++{
++	struct cdns_hdptx_hdmi_phy *cdns_phy = phy_get_drvdata(phy);
 +	int ret;
 +
-+	hdptx_dp_phy_ref_clock_type(cdns_phy);
++	cdns_phy->pixel_clk_rate = opts->hdmi.pixel_clk_rate;
++	cdns_phy->color_space = opts->hdmi.color_space;
++	cdns_phy->bpc = opts->hdmi.bpc;
 +
-+	/* PHY power up */
-+	ret = hdptx_dp_phy_power_up(cdns_phy);
++	/* Check HDMI FW alive before HDMI PHY init */
++	ret = hdptx_phy_check_alive(cdns_phy);
++	if (!ret) {
++		dev_err(cdns_phy->dev, "NO HDMI FW running\n");
++		return -ENXIO;
++	}
++
++	/* Configure PHY */
++	if (hdptx_hdmi_phy_cfg(cdns_phy, cdns_phy->pixel_clk_rate) < 0) {
++		dev_err(cdns_phy->dev, "failed to set phy pclock\n");
++		return -EINVAL;
++	}
++
++	ret = hdptx_hdmi_phy_power_up(cdns_phy);
 +	if (ret < 0)
 +		return ret;
 +
-+	hdptx_dp_aux_cfg(cdns_phy);
++	hdptx_hdmi_phy_set_vswing(cdns_phy);
 +
-+	return ret;
++	return 0;
 +}
 +
-+static int cdns_hdptx_dp_configure(struct phy *phy,
-+				   union phy_configure_opts *opts)
-+{
-+	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
-+	int ret;
-+
-+	cdns_phy->link_rate = opts->dp.link_rate;
-+	cdns_phy->num_lanes = opts->dp.lanes;
-+
-+	if (cdns_phy->link_rate > MAX_LINK_RATE) {
-+		dev_err(cdns_phy->dev, "Link Rate(%d) Not supported\n", cdns_phy->link_rate);
-+		return false;
-+	}
-+
-+	/* Disable phy clock if PHY in power up state */
-+	hdptx_dp_phy_power_down(cdns_phy);
-+
-+	if (cdns_phy->ref_clk_rate == REF_CLK_27MHZ) {
-+		hdptx_dp_phy_pma_cmn_cfg_27mhz(cdns_phy);
-+		hdptx_dp_phy_pma_cmn_pll0_27mhz(cdns_phy);
-+	} else {
-+		dev_err(cdns_phy->dev, "Not support ref clock rate\n");
-+	}
-+
-+	/* PHY power up */
-+	ret = hdptx_dp_phy_power_up(cdns_phy);
-+
-+	return ret;
-+}
-+
-+static const struct phy_ops cdns_hdptx_dp_phy_ops = {
-+	.init = cdns_hdptx_dp_phy_init,
-+	.configure = cdns_hdptx_dp_configure,
-+	.power_on = cdns_hdptx_dp_phy_on,
-+	.power_off = cdns_hdptx_dp_phy_off,
++static const struct phy_ops cdns_hdptx_hdmi_phy_ops = {
++	.init = cdns_hdptx_hdmi_phy_init,
++	.configure = cdns_hdptx_hdmi_configure,
++	.power_on = cdns_hdptx_hdmi_phy_on,
++	.power_off = cdns_hdptx_hdmi_phy_off,
++	.validate = cdns_hdptx_hdmi_phy_valid,
 +	.owner = THIS_MODULE,
 +};
 +
-+static int cdns_hdptx_dp_phy_probe(struct platform_device *pdev)
++static int cdns_hdptx_hdmi_phy_probe(struct platform_device *pdev)
 +{
-+	struct cdns_hdptx_dp_phy *cdns_phy;
++	struct cdns_hdptx_hdmi_phy *cdns_phy;
 +	struct device *dev = &pdev->dev;
 +	struct device_node *node = dev->of_node;
 +	struct phy_provider *phy_provider;
@@ -841,15 +1071,16 @@ index 000000000000..b1f45c0b27b5
 +	if (IS_ERR(cdns_phy->regs))
 +		return PTR_ERR(cdns_phy->regs);
 +
-+	phy = devm_phy_create(dev, node, &cdns_hdptx_dp_phy_ops);
++	phy = devm_phy_create(dev, node, &cdns_hdptx_hdmi_phy_ops);
 +	if (IS_ERR(phy))
 +		return PTR_ERR(phy);
 +
-+	phy->attrs.mode = PHY_MODE_DP;
++	phy->attrs.mode = PHY_MODE_HDMI;
++
 +	cdns_phy->phy = phy;
 +	phy_set_drvdata(phy, cdns_phy);
 +
-+	ret = hdptx_dp_clk_enable(cdns_phy);
++	ret = hdptx_hdmi_clk_enable(cdns_phy);
 +	if (ret) {
 +		dev_err(dev, "Init clk fail\n");
 +		return -EINVAL;
@@ -861,41 +1092,43 @@ index 000000000000..b1f45c0b27b5
 +		goto clk_disable;
 +	}
 +
++	dev_dbg(dev, "probe success!\n");
++
 +	return 0;
 +
 +clk_disable:
-+	hdptx_dp_clk_disable(cdns_phy);
++	hdptx_hdmi_clk_disable(cdns_phy);
 +
 +	return -EINVAL;
 +}
 +
-+static int cdns_hdptx_dp_phy_remove(struct platform_device *pdev)
++static int cdns_hdptx_hdmi_phy_remove(struct platform_device *pdev)
 +{
-+	struct cdns_hdptx_dp_phy *cdns_phy = platform_get_drvdata(pdev);
++	struct cdns_hdptx_hdmi_phy *cdns_phy = platform_get_drvdata(pdev);
 +
-+	hdptx_dp_clk_disable(cdns_phy);
++	hdptx_hdmi_clk_disable(cdns_phy);
 +
 +	return 0;
 +}
 +
-+static const struct of_device_id cdns_hdptx_dp_phy_of_match[] = {
-+	{.compatible = "fsl,imx8mq-dp-phy" },
++static const struct of_device_id cdns_hdptx_hdmi_phy_of_match[] = {
++	{.compatible = "fsl,imx8mq-hdmi-phy" },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(of, cdns_hdptx_dp_phy_of_match);
++MODULE_DEVICE_TABLE(of, cdns_hdptx_hdmi_phy_of_match);
 +
-+static struct platform_driver cdns_hdptx_dp_phy_driver = {
-+	.probe = cdns_hdptx_dp_phy_probe,
-+	.remove = cdns_hdptx_dp_phy_remove,
++static struct platform_driver cdns_hdptx_hdmi_phy_driver = {
++	.probe = cdns_hdptx_hdmi_phy_probe,
++	.remove = cdns_hdptx_hdmi_phy_remove,
 +	.driver = {
-+		.name	= "cdns-hdptx-dp-phy",
-+		.of_match_table	= cdns_hdptx_dp_phy_of_match,
++		.name	= "cdns-hdptx-hdmi-phy",
++		.of_match_table	= cdns_hdptx_hdmi_phy_of_match,
 +	}
 +};
-+module_platform_driver(cdns_hdptx_dp_phy_driver);
++module_platform_driver(cdns_hdptx_hdmi_phy_driver);
 +
 +MODULE_AUTHOR("Sandor Yu <sandor.yu@nxp.com>");
-+MODULE_DESCRIPTION("Cadence HDP-TX DisplayPort PHY driver");
++MODULE_DESCRIPTION("Cadence HDP-TX HDMI PHY driver");
 +MODULE_LICENSE("GPL");
 -- 
 2.34.1
