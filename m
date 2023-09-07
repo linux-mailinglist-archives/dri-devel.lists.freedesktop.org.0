@@ -1,70 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E4F7977CA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 18:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D6C797A23
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 19:31:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 236AF10E23E;
-	Thu,  7 Sep 2023 16:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5A910E02D;
+	Thu,  7 Sep 2023 17:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id B53F810E23E;
- Thu,  7 Sep 2023 16:33:20 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cx7+tK+_lkFYchAA--.44S3;
- Fri, 08 Sep 2023 00:33:14 +0800 (CST)
-Received: from [0.0.0.0] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxDCNK+_lkoPBwAA--.55158S3; 
- Fri, 08 Sep 2023 00:33:14 +0800 (CST)
-Message-ID: <39736dad-41e3-8b24-ccef-ac3425a6c9f4@loongson.cn>
-Date: Fri, 8 Sep 2023 00:33:13 +0800
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FFF10E02D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 17:31:32 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 71A80B81E9C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 17:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D246CC116B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 17:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694107889;
+ bh=9zL1MzFGAKirSOe/soz5ov0VuORvmMBERcMpv0YbPtM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=jJ2r+X89WqReR9tI86rHC44iwhYRVo9mulDlWeL6g+QveDSxGYvLAH4a9fttwA2X0
+ iHPtLfqV6YzoA10eCVAJpsQ3i/4oHIZxNdtFa2PrFbVurhM/k1H///Cr4qOBHyZr1x
+ PzTsZ+eiAab7Ep0402zQwDpaqObDF2O1M3eH70lk8DoujlCUrpeMAgiLz8A8NqSwF/
+ mjwZnI+H8orLpfBs/q+1WAiPllROI9H8cce8oajjbSQUytblgdUn6VYeij7vPREpUU
+ RAOSqbTc4r11DdPYp3ZyWk2TQVi9vrq2o/KzkxIHciYcXPsvjn6+HOMJtDJ+F9yjvm
+ mYLETUgvyyq6w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BF6E3C4332E; Thu,  7 Sep 2023 17:31:29 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Thu, 07 Sep 2023 17:31:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: axet@me.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-205089-2300-5Wgi1qL6cm@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [Nouveau] [RFC, drm-misc-next v4 0/9] PCI/VGA: Allowing the user
- to select the primary video adapter at boot time
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas
- <bhelgaas@google.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20230904195724.633404-1-sui.jingfeng@linux.dev>
- <44ec8549-dc36-287e-4359-abd3ec8d22d6@suse.de>
- <5afd2efb-f838-f9b7-02a9-2cf4d4fd2382@loongson.cn>
- <2adfa653-ac35-d560-be52-c92848a1eef5@gmail.com>
- <b51d49f3-e3de-6b8d-9cb4-df5c03f3cdc0@loongson.cn>
- <10509692-ce04-e225-5a27-abc955554bdc@gmail.com>
- <a9af88c5-4509-96ff-a7fd-a0f72d2f1e6a@linux.dev>
- <127fab21-bc5c-f782-e42b-1092fbb8df34@amd.com>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <127fab21-bc5c-f782-e42b-1092fbb8df34@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxDCNK+_lkoPBwAA--.55158S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7JrW5CryktF1fZFy8GrWDKFX_yoWfZFbE9F
- 18t34kCw4jyan3XrWSgr47W39Ygr47Gr18ZrWrWrya934rKa98KrZ5C395ZryrGF10grn8
- GryFqa4fC3s29osvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbf8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
- JVW8Jr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
- x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
- McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
- I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
- JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8fsqJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,37 +73,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
+Alexey Kuznetsov (axet@me.com) changed:
 
-On 2023/9/7 17:08, Christian König wrote:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |axet@me.com
 
+--- Comment #58 from Alexey Kuznetsov (axet@me.com) ---
+6.1.0-10-amd64 (debian 12)
 
-> I strongly suggest that you just completely drop this here 
+*ERROR* Failed to initialize parser -125
 
+https://linux-hardware.org/?probe=3D72516e7752
 
-Drop this is OK, no problem. Then I will go to develop something else.
-This version is not intended to merge originally, as it's a RFC.
-Also, the core mechanism already finished, it is the first patch in this series.
-Things left are just policy (how to specify one and parse the kernel CMD line) and nothing interesting left.
-It is actually to fulfill my promise at V3 which is to give some examples as usage cases.
+--=20
+You may reply to this email to add a comment.
 
-
-> and go into the AST driver and try to fix it. 
-
-Well, someone tell me that this is well defined behavior yesterday,
-which imply that it is not a bug. I'm not going to fix a non-bug.
-But if thomas ask me to fix it, then I probably have to try to fix.
-But I suggest if things not broken, don't fix it. Otherwise this may
-incur more big trouble. For server's single display use case, it is
-good enough.
-
-
-Thanks.
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
