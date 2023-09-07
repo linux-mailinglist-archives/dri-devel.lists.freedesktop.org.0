@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F988797038
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 08:08:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 837BF79703A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 08:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6A910E761;
-	Thu,  7 Sep 2023 06:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F2310E765;
+	Thu,  7 Sep 2023 06:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589EC10E761
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 06:08:52 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-99c1d03e124so58955766b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 23:08:52 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C0F10E764
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 06:10:16 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-991c786369cso63012366b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Sep 2023 23:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694066931; x=1694671731; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1694067014; x=1694671814; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3O3RNcMeBxjQQhA0dbRmngWyitShsXqfun7LC7NYjS8=;
- b=YszTcxfHDmUHAYgT66hfgOWOFcEpOSlEWeBAnNl1uZFDlU7ZBzxBNkERAPYab7qBtF
- Urk9gmpbePLOXDk4q0yFtMqUn+ocP8a7w3GQ+NLSMGzh1JnidhWPEpl4BCkCFeVTZlst
- F9NFqwhrXKKOT6WkdlTrNJMlgtsVcsjvGk0kLrqtinjbYAQ3JBbkvTcbQVhhap6RflvT
- WwfPJj8JAiS86vUiVBxs6X77t14ksGct573ILBeVARXg4QE2FgdQN2nWe5l0noHk19j/
- yFOu0lrDcqXPz12lqnMyAWKEODTZUgiHS0gWnvkem3BKMxifmnKtlpqREDjllPrJRuBt
- 8c/A==
+ bh=wTsVaP+71NqmdPRHOGwX5IHf8E9ep68PnA55/HuDkMQ=;
+ b=EIPmZpZ+iTZnlaQR96fFogmxvNOp5NevfM2ej3863wMGdnWdGDtNEWfTcSlLQ/5gjc
+ z7Z51Fu5QpsgIhklvU4+oWB08SGh0TN08Ewa/Iq+Ra9UgVkWz8gX2I6J10+KvvN2wmBv
+ qySTZ4UN2s8YBtACPBBIQlSHKmNdV6+12QW8WxGmZAMHPSHgNSDOLBiuzLQJ9Qa+eW7x
+ 6MqY+6zN+4H6LPQBzM4LgKLszcxVNsM/YTVGkyxZaxiJbI7k0dBUNl5wnjUfcSWmvVUV
+ c7Ctvu0L0O0vudD9Rljq2EO10aUwwTmwbN5XYsqK+fBYHjeLWH64RrRbl2BTOJTmdknZ
+ f/cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694066931; x=1694671731;
+ d=1e100.net; s=20221208; t=1694067014; x=1694671814;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3O3RNcMeBxjQQhA0dbRmngWyitShsXqfun7LC7NYjS8=;
- b=OC64R2u/luhh1QqIsZAlgHQ2QRX6an9J1dEkA5P6snQhPsCeaedDY84k4/KwUzeuee
- Y5ytyykx+k2PSZTb6jNeaJTZKltlPj9txEEBdFnibbfptmCDxRQWNF7fPbf2tqS8lFI+
- wIyxLQAcbhXZCNuxnFMq7hMegXupGOL7LDeR9u1KGQpi/2N+eWsHVRkSTdcA5gYEsRVg
- 3WuStz3rUwVKBnC1sgLXkBj1J/hm1KkLDOkIPE+v6jvt9qEG+LlPwC23vD6bolNsH8/4
- S/dvgA/Eysir8Flc38Nuw+OsdzsqFBiGK6iiTqKY4pb1W/RFyU/N/7EpZXZy0v1Xvn1P
- hsMQ==
-X-Gm-Message-State: AOJu0YyKPoNRvLz2SLFoEHXVm5nWxZfI4tS0hY/M74WDBIkoRMbcdYKy
- wh1Li1r1+KQdERB8O73bo+t/gQ==
-X-Google-Smtp-Source: AGHT+IHTRWxWv8Q4u0fzUOsy1juZlGxj/UwfMeS4tSxa+9HNW5R8xUt9SALZq24RvaBvGYkAQcp1Kg==
-X-Received: by 2002:a17:906:9bed:b0:9a5:b95a:1179 with SMTP id
- de45-20020a1709069bed00b009a5b95a1179mr3482874ejc.77.1694066930742; 
- Wed, 06 Sep 2023 23:08:50 -0700 (PDT)
+ bh=wTsVaP+71NqmdPRHOGwX5IHf8E9ep68PnA55/HuDkMQ=;
+ b=IbDLriFykJ6vOonjIyC3tDjOme2Eh7Q+qGPNFmio9P3mUbb9oCxti2kYsLR5zodBnZ
+ zEA82ZJg8n+SH1f8BaaQyM5c4SeEkula5YjPzbAC6sn9hwlmZDM6NbgnQqGxt5t+J1Lb
+ WeMLQQfZ2xtVMui/rnsTxfUgrpiqCfr4zGa1U05tb5rKtB6uKDU74M5OsNy10/768phG
+ C/UqA3XeFNcDP7uHq2MKouKMlUa8zw9k9PiJe9t/bXViGMHMrVMJ0oLCEKEpr4WOT9i1
+ AQrMEI+PGW+q+nqRbTXKCupqux+La216M0zZenhbRWqZurRR9cCretApYX9pI8y0iCh2
+ n5CA==
+X-Gm-Message-State: AOJu0Yy+CuAk8aLzTZTI+tQlREh64nldY+i6RNKnCQcqkPsxWXs2zba0
+ R8NGY7OMnFIfBOyM9dMTCNcK2w==
+X-Google-Smtp-Source: AGHT+IFif2c/BpnquDlibCJoxZKaSjA9cO8862DBRQf4TERPnA+7sSqJ0EMKb0emx0l0ms0HIc+meg==
+X-Received: by 2002:a17:906:535d:b0:9a2:120a:5777 with SMTP id
+ j29-20020a170906535d00b009a2120a5777mr3753951ejo.70.1694067014365; 
+ Wed, 06 Sep 2023 23:10:14 -0700 (PDT)
 Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl.
  [77.252.46.238]) by smtp.gmail.com with ESMTPSA id
- n16-20020a1709061d1000b0097404f4a124sm9903735ejh.2.2023.09.06.23.08.49
+ rp24-20020a170906d97800b009a5c98fd82asm9841726ejb.81.2023.09.06.23.10.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Sep 2023 23:08:50 -0700 (PDT)
-Message-ID: <5eee2990-5fa6-d4c2-a877-a48afc916198@linaro.org>
-Date: Thu, 7 Sep 2023 08:08:48 +0200
+ Wed, 06 Sep 2023 23:10:13 -0700 (PDT)
+Message-ID: <45cd927d-da55-3460-0a26-62b30c33a3ad@linaro.org>
+Date: Thu, 7 Sep 2023 08:10:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: Add st7735s driver
+Subject: Re: [PATCH 2/2] drm: tiny: Add st7735s driver
 Content-Language: en-US
 To: Stefan x Nilsson <stefan.x.nilsson@axis.com>,
  David Lechner <david@lechnology.com>, David Airlie <airlied@gmail.com>,
@@ -64,9 +64,9 @@ To: Stefan x Nilsson <stefan.x.nilsson@axis.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
 References: <20230906-st7735s-v1-0-add92677c190@axis.com>
- <20230906-st7735s-v1-1-add92677c190@axis.com>
+ <20230906-st7735s-v1-2-add92677c190@axis.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230906-st7735s-v1-1-add92677c190@axis.com>
+In-Reply-To: <20230906-st7735s-v1-2-add92677c190@axis.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,141 +87,116 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/09/2023 18:22, Stefan x Nilsson wrote:
-> Add bindings for a driver for Sitronix st7735s display controller, as
-> well as for a Winstar wf0096atyaa3dnn0 0.96" 80x160 TFT panel.
-
-Commit msg and subject: if by "driver" you mean Linux driver, then drop
-these references and focus on the hardware.
-
+> Add a driver for Sitronix st7735s display controller, as well as a
+> Winstar wf0096atyaa3dnn0 0.96" 80x160 TFT panel.
+> 
+> The driver code is very similar to st7735r, but with adaptations for
+> the pipe_enable function. There is also optional support to specify
+> a power regulator for the display.
 > 
 > Signed-off-by: Stefan x Nilsson <stefan.x.nilsson@axis.com>
 > ---
->  .../bindings/display/sitronix,st7735s.yaml         | 81 ++++++++++++++++++++++
->  MAINTAINERS                                        |  6 ++
->  2 files changed, 87 insertions(+)
+>  MAINTAINERS                    |   1 +
+>  drivers/gpu/drm/tiny/Kconfig   |  14 +++
+>  drivers/gpu/drm/tiny/Makefile  |   1 +
+>  drivers/gpu/drm/tiny/st7735s.c | 264 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 280 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
-> new file mode 100644
-> index 000000000000..36234ec22fe2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
-> @@ -0,0 +1,81 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sitronix,st7735s.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sitronix ST7735S Display Panels
-> +
-> +maintainers:
-> +  - Stefan x Nilsson <stefan.x.nilsson@axis.com>
-> +
-> +description:
-> +  This binding is for display panels using a Sitronix ST7735S
-> +  controller in SPI mode.
-
-Drop: "This binding is for". Describe the hardware instead.
-
-> +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-
-You do not have multiple choices here, so why oneOf? Do you expect it to
-grow very soon?
-
-> +      - description:
-> +          Winstar WF0096ATYAA3DNN0 0.96" 80x160 Color TFT
-> +        items:
-> +          - enum:
-> +              - winstar,wf0096atyaa3dnn0
-> +          - const: sitronix,st7735s
-> +
-> +  dc-gpios:
-> +    maxItems: 1
-> +    description: Display data/command selection (D/CX)
-> +
-> +  backlight: true
-> +  reg: true
-> +  spi-max-frequency: true
-> +  reset-gpios: true
-> +  rotation: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dc-gpios
-> +
-> +additionalProperties: true
-
-This cannot be true. From where did you get such code as example?
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    backlight: backlight {
-> +            compatible = "gpio-backlight";
-> +            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-> +    };
-
-Drop node, not related.
-
-> +
-> +    regdisplay: regulatordisplay {
-> +            compatible = "regulator-fixed";
-> +            regulator-name = "display";
-> +            regulator-min-microvolt = <3300000>;
-> +            regulator-max-microvolt = <3300000>;
-> +            regulator-enable-ramp-delay = <100000>;
-> +            enable-active-high;
-
-Drop node, not related. Again: from where did you get such example?
-
-> +    };
-> +
-> +    spi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            display@0 {
-> +                    compatible = "winstar,wf0096atyaa3dnn0","sitronix,st7735s";
-
-You need to fix formatting. Missing space after ,. Wrong indentation.
-
-Use 4 spaces for example indentation.
-
-> +                    reg = <0>;
-> +                    spi-max-frequency = <12000000>;
-> +                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> +                    reset-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
-> +                    backlight = <&backlight>;
-> +                    power-supply = <&regdsiplay>;
-> +                    rotation = <270>;
-> +            };
-> +    };
-> +
-> +...
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6308efa121e1..c00b2b9086f2 100644
+> index c00b2b9086f2..f24295d691e5 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -6728,6 +6728,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
->  F:	drivers/gpu/drm/tiny/st7735r.c
+> @@ -6733,6 +6733,7 @@ M:	Stefan x Nilsson <stefan.x.nilsson@axis.com>
+>  S:	Maintained
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  F:	Documentation/devicetree/bindings/display/sitronix,st7735s.yaml
+> +F:	drivers/gpu/drm/tiny/st7735s.c
 >  
-> +DRM DRIVER FOR SITRONIX ST7735S PANELS
-> +M:	Stefan x Nilsson <stefan.x.nilsson@axis.com>
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
+>  M:	Javier Martinez Canillas <javierm@redhat.com>
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index f6889f649bc1..2917f5412ddd 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -212,3 +212,17 @@ config TINYDRM_ST7735R
+>  	  * Okaya RH128128T 1.44" 128x128 TFT
+>  
+>  	  If M is selected the module will be called st7735r.
+> +
+> +config TINYDRM_ST7735S
+> +	tristate "DRM support for Sitronix ST7735S display panels"
+> +	depends on DRM && SPI
+> +	select DRM_KMS_HELPER
+> +	select DRM_GEM_DMA_HELPER
+> +	select DRM_MIPI_DBI
+> +	select BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  DRM driver for Sitronix ST7735S with one of the following
+> +	  LCDs:
+> +	  * Winstar WF0096ATYAA3DNN0 0.96" 80x160 Color TFT
+> +
+> +	  If M is selected the module will be called st7735s.
+> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+> index 76dde89a044b..2e805c5b6f16 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -16,3 +16,4 @@ obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
+>  obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
+>  obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
+>  obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
+> +obj-$(CONFIG_TINYDRM_ST7735S)		+= st7735s.o
+> diff --git a/drivers/gpu/drm/tiny/st7735s.c b/drivers/gpu/drm/tiny/st7735s.c
+> new file mode 100644
+> index 000000000000..42290f4128db
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tiny/st7735s.c
+> @@ -0,0 +1,264 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * DRM driver for display panels connected to a Sitronix ST7735S
+> + * display controller in SPI mode.
+> + *
+> + * Copyright (C) 2023 Axis Communications AB
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/spi/spi.h>
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_dma_helper.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_mipi_dbi.h>
+> +
+> +#define ST7735S_FRMCTR1		0xb1
+> +#define ST7735S_FRMCTR2		0xb2
+> +#define ST7735S_FRMCTR3		0xb3
+> +#define ST7735S_INVCTR		0xb4
+> +#define ST7735S_PWCTR1		0xc0
+> +#define ST7735S_PWCTR2		0xc1
+> +#define ST7735S_PWCTR3		0xc2
+> +#define ST7735S_PWCTR4		0xc3
+> +#define ST7735S_PWCTR5		0xc4
+> +#define ST7735S_VMCTR1		0xc5
+> +#define ST7735S_GAMCTRP1	0xe0
+> +#define ST7735S_GAMCTRN1	0xe1
+> +
+> +#define ST7735S_MY	BIT(7)
+> +#define ST7735S_MX	BIT(6)
+> +#define ST7735S_MV	BIT(5)
+> +#define ST7735S_RGB	BIT(3)
 
-Do you have the push rights to this repo? If not, then don't add it.
+So you just duplicated st7735r. No need for new driver. Integrate your
+work. Probably also no need for new bindings file (although this I did
+not check)...
 
 Best regards,
 Krzysztof
