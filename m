@@ -1,49 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3093B797176
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 12:21:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C0179717D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 12:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE7010E227;
-	Thu,  7 Sep 2023 10:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC8F210E1CC;
+	Thu,  7 Sep 2023 10:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1F2610E227
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 10:21:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 8856FCE1952;
- Thu,  7 Sep 2023 10:21:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B29BC116AA;
- Thu,  7 Sep 2023 10:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694082058;
- bh=w08iyCZEv2y91XhjG6gytJX/08/uuFNdY7YRHOjrTKg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SVoOSJ9LefWstHF2hTnikgZ/UUNwtOUth5vPxYcufjsTjslUusP7MKDm091Ndjv1q
- 78kLUean1Oc8AnlV8LY0GWc6zu1Qfpc073Z1iT+MgtqAwnVLgMiQVVGnrYveCMxn/N
- c8fhp/kCn/PoATsQH64OI+p5gHydwnV92anTt+1L3Elxd+AKcgSsInhDqyMS8P3IAo
- TFybtf55GAyA7GLjEXjySR85zLpTch/rXP8HTvBJYw1rsE6xfhbUVn3q7hpySc9f44
- CrPl1sz5GpTIM4eHWAMqSuN15v7QaGWsaiynG/2uDQdcBjUyvitKHO1de8bG15fFcr
- 46GOXc5xqg9XA==
-Date: Thu, 7 Sep 2023 11:20:50 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Sarah Walker <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v6 03/20] dt-bindings: gpu: Add Imagination Technologies
- PowerVR/IMG GPU
-Message-ID: <20230907-22495ffd0407dacc5cf1cd12@fedora>
-References: <20230906095542.3280699-1-sarah.walker@imgtec.com>
- <20230906095542.3280699-4-sarah.walker@imgtec.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3599210E22B;
+ Thu,  7 Sep 2023 10:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694082769; x=1725618769;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=q1dlgGPN4+/z/wN2BzNGKBcLOIZYk4NvcSLpZefL8nA=;
+ b=lYcKZDRcVVMfN6OYyAESIOYFvYbA6CM4HuLl9totqY9MbYT0kranfC16
+ gua1OqKIfADoqEhpK2xNfc+/nNDKT5dgkqqMb48FMJYIVw0555VhgDJto
+ C721xmt2t3XnZFo7EfriiERP7M7AIzZ/Olk5mak7nwjOijPINkyjSrj6I
+ LQ+KtrnmdirqNHxBa7NorY2y5MIjAAYn6iPigz/zcUdfW0tP5WUgRcXPU
+ 8WJimyVBF3zH7zDxumerZ5RVzKZjb6fW7fZIaeet5jf6k3t6jJqlddWDa
+ +Lcvr2M08U98YhQRFEZsM5dj3OnX9xiMpNx267ee9MktzyRm5Z13PwnH9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="362344215"
+X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="362344215"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2023 03:32:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="988717446"
+X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="988717446"
+Received: from lsilistr-mobl.ger.corp.intel.com (HELO [10.249.254.23])
+ ([10.249.254.23])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2023 03:32:45 -0700
+Message-ID: <eae696e7-ed34-3e3a-368e-5149f7be72ba@linux.intel.com>
+Date: Thu, 7 Sep 2023 12:32:42 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="/PgLc/igXG8aid6c"
-Content-Disposition: inline
-In-Reply-To: <20230906095542.3280699-4-sarah.walker@imgtec.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [Intel-xe] [PATCH 1/3] drm/kunit: Avoid a driver uaf
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+References: <20230905085832.2103-1-thomas.hellstrom@linux.intel.com>
+ <20230905085832.2103-2-thomas.hellstrom@linux.intel.com>
+ <efarj6smmvuqlredgy5aelgvm43xovnqo5fywsindq3bhggvul@3rqq27vmatcm>
+ <0cb8a51c-a1a8-ba03-03b1-8cdabade0353@linux.intel.com>
+ <eljwhc5pcztl3r3hvhosicyvkslt3ywfjjaksp3dik4ueb56wd@gnwsivkhjtob>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <eljwhc5pcztl3r3hvhosicyvkslt3ywfjjaksp3dik4ueb56wd@gnwsivkhjtob>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,57 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, hns@goldelico.com,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- matthew.brost@intel.com, corbet@lwn.net, luben.tuikov@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- mripard@kernel.org, matt.coster@imgtec.com, robh+dt@kernel.org,
- faith.ekstrand@collabora.com, linux-kernel@vger.kernel.org, afd@ti.com,
- boris.brezillon@collabora.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Maxime,
 
---/PgLc/igXG8aid6c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 9/6/23 12:08, Maxime Ripard wrote:
+> On Tue, Sep 05, 2023 at 02:43:00PM +0200, Thomas Hellström wrote:
+>> Hi maxime,
+>>
+>> On 9/5/23 14:06, Maxime Ripard wrote:
+>>> On Tue, Sep 05, 2023 at 10:58:30AM +0200, Thomas Hellström wrote:
+>>>> when using __drm_kunit_helper_alloc_drm_device() the driver may be
+>>>> dereferenced by device-managed resources up until the device is
+>>>> freed, which is typically later than the kunit-managed resource code
+>>>> frees it.
+>>> I'd like to have a bit more context on how a driver can end up in that
+>>> situation?
+>> I interpret the attached traces as follows.
+>>
+>> INIT:
+>>
+>> Code allocates a struct device as a kunit-managed resource.
+>> Code allocates a drm driver as a kunit-managed resource.
+>> Code allocates a drm device as a device-managed resource.
+>>
+>> EXIT:
+>>
+>> Kunit resource cleanup frees the drm driver
+>> Kunit resource cleanup frees the struct device, which starts a
+>> device-managed resource cleanup
+>> device-managed cleanup calls drm_dev_put()
+>> drm_dev_put() dereferences the (now freed) drm driver -> Boom.
+>>
+>> It should be sufficient to enable KASAN and run the drm_exec_test kunit test
+>> to trigger this.
+> Ack. Can you put this into your commit log?
+>
+> Thanks!
+> Maxime
 
-Hey,
-
-On Wed, Sep 06, 2023 at 10:55:25AM +0100, Sarah Walker wrote:
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +
-> +    gpu: gpu@fd00000 {
-
-This "gpu" label isn't used and can be dropped if you respin.
-Otherwise, this seems fine to me,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Thanks for reviewing. I'll update this and the other patch with your 
+comments.
 
 Thanks,
-Conor.
 
-> +        compatible = "ti,am62-gpu", "img,img-axe";
-> +        reg = <0x0fd00000 0x20000>;
-> +        clocks = <&k3_clks 187 0>;
-> +        clock-names = "core";
-> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-> +        power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
-> +    };
+Thomas
 
---/PgLc/igXG8aid6c
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZPmkAgAKCRB4tDGHoIJi
-0nQkAP9uKeN6K/WPKUkM5yMV//ie+sobH7mqetqT7BiWIVUj3wD/V2onnXfHh+pl
-bVSIzTHnqcOZIQIgCDr+4Zw1Uj/lTAk=
-=7B7v
------END PGP SIGNATURE-----
-
---/PgLc/igXG8aid6c--
