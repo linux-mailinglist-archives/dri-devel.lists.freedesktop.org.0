@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1124A796DEE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 02:16:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DBB796DE8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 02:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0026110E743;
-	Thu,  7 Sep 2023 00:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 255B110E062;
+	Thu,  7 Sep 2023 00:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C3410E062;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742FD10E062;
  Thu,  7 Sep 2023 00:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1694045751; x=1725581751;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MMTL7JVEqd571VlUiC9H6a653Wgvewuzlg9MdbuDDJc=;
- b=GunLx9We70QJ5MdMTnij5B7x/0axPtvMiNvVO1r+oQ2ppbF9NhXXU+KV
- gGrU+Fn2v0PkFK48ZH7k9VxH7HrNCQ8o5JVXn84uwWy9EE8OrKdqqdW91
- 1zUSS/592ty1A3GZfj79ehqgWy711lIS1ArYbXiBiXUDvT3TNCz9tFazT
- Mmz74mFaDNbRN7rmS4DChX3JU2OInDqj/waMlriuNIbokh/4YL6MrheTK
- XSp132BOOEaBFnt/UcAyGn/Njmy+1nW9zx5nJMKOkkewSAWGNgL8jbdpb
- ZnonrVuAgI9hsT+RTNBJEdFqDt1uz793gd0UwRfaAyGItfPorl01M2xFy w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="408226729"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="408226729"
+ bh=JjkJ8oCAWueYnooifUZg/h6lZkpJqJVkWPspj4hUEi4=;
+ b=YcnVXkQLlqVhmwIJqKMZ3aZYQYZJqvVqbsmbfrPb+Cp5YfYNugvC6zFs
+ H6zwc9OW3c/Y2+fxrQBK/n1Kv84YyMJv9pJWTqR4tAJNfTIluYNhPQIgG
+ QJ3vfC5IP6JDdlsdYVrRPyAMgKqPy1/dsd/h0h2aGwhl6TGdA0B75bWGO
+ sKmZn+VE0qPytCGy9iCRbzZpYEt3sFkF15/8769HB5th59dV7Cj3CE74G
+ y8nNB3/0Mpb6kbNFRRMa+Y+fEmG/ZDLtDlfSCt1N9N9RH+eZ3ocEhjnwz
+ 2RztTruuIsfsOidaGa7BpH+RPTRVh6hzZBf9VN1gTy3mH3+8M/t+FVqIz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="408226727"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="408226727"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  06 Sep 2023 17:15:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="811895781"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="811895781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="811895778"
+X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; d="scan'208";a="811895778"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by fmsmga004.fm.intel.com with ESMTP; 06 Sep 2023 17:15:50 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 1/3] drm/i915/pxp/mtl: Update pxp-firmware response timeout
-Date: Wed,  6 Sep 2023 17:15:47 -0700
-Message-Id: <20230907001549.81262-2-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v4 2/3] drm/i915/pxp/mtl: Update pxp-firmware packet size
+Date: Wed,  6 Sep 2023 17:15:48 -0700
+Message-Id: <20230907001549.81262-3-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230907001549.81262-1-alan.previn.teres.alexis@intel.com>
 References: <20230907001549.81262-1-alan.previn.teres.alexis@intel.com>
@@ -62,104 +62,29 @@ Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the max GSC-fw response time to match updated internal
-fw specs. Because this response time is an SLA on the firmware,
-not inclusive of i915->GuC->HW handoff latency, when submitting
-requests to the GSC fw via intel_gsc_uc_heci_cmd_submit helpers,
-start the count after the request hits the GSC command streamer.
-Also, move GSC_REPLY_LATENCY_MS definition from pxp header to
-intel_gsc_uc_heci_cmd_submit.h since its for any GSC HECI packet.
+Update the GSC-fw input/output HECI packet size to match
+updated internal fw specs.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 20 +++++++++++++++++--
- .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |  6 ++++++
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    | 11 ++++++----
- 3 files changed, 31 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
-index 89ed5ee9cded..fe6a2f78cea0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
-@@ -81,8 +81,17 @@ int intel_gsc_uc_heci_cmd_submit_packet(struct intel_gsc_uc *gsc, u64 addr_in,
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
+index 0165d38fbead..b2196b008f26 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
+@@ -14,8 +14,8 @@
+ #define PXP43_CMDID_NEW_HUC_AUTH 0x0000003F /* MTL+ */
+ #define PXP43_CMDID_INIT_SESSION 0x00000036
  
- 	i915_request_add(rq);
+-/* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
+-#define PXP43_MAX_HECI_INOUT_SIZE (SZ_32K)
++/* PXP-Packet sizes for MTL's GSCCS-HECI instruction is 65K*/
++#define PXP43_MAX_HECI_INOUT_SIZE (SZ_64K + SZ_1K)
  
--	if (!err && i915_request_wait(rq, 0, msecs_to_jiffies(500)) < 0)
--		err = -ETIME;
-+	if (!err) {
-+		/*
-+		 * Start timeout for i915_request_wait only after considering one possible
-+		 * pending GSC-HECI submission cycle on the other (non-privileged) path.
-+		 */
-+		if (wait_for(i915_request_started(rq), GSC_HECI_REPLY_LATENCY_MS))
-+			drm_dbg(&gsc_uc_to_gt(gsc)->i915->drm,
-+				"Delay in gsc-heci-priv submission to gsccs-hw");
-+		if (i915_request_wait(rq, 0, msecs_to_jiffies(500)) < 0)
-+			err = -ETIME;
-+	}
- 
- 	i915_request_put(rq);
- 
-@@ -186,6 +195,13 @@ intel_gsc_uc_heci_cmd_submit_nonpriv(struct intel_gsc_uc *gsc,
- 	i915_request_add(rq);
- 
- 	if (!err) {
-+		/*
-+		 * Start timeout for i915_request_wait only after considering one possible
-+		 * pending GSC-HECI submission cycle on the other (privileged) path.
-+		 */
-+		if (wait_for(i915_request_started(rq), GSC_HECI_REPLY_LATENCY_MS))
-+			drm_dbg(&gsc_uc_to_gt(gsc)->i915->drm,
-+				"Delay in gsc-heci-non-priv submission to gsccs-hw");
- 		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
- 				      msecs_to_jiffies(timeout_ms)) < 0)
- 			err = -ETIME;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-index 09d3fbdad05a..5ae5c5d9608b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
-@@ -12,6 +12,12 @@ struct i915_vma;
- struct intel_context;
- struct intel_gsc_uc;
- 
-+#define GSC_HECI_REPLY_LATENCY_MS 350
-+/*
-+ * Max FW response time is 350ms, but this should be counted from the time the
-+ * command has hit the GSC-CS hardware, not the preceding handoff to GuC CTB.
-+ */
-+
- struct intel_gsc_mtl_header {
- 	u32 validity_marker;
- #define GSC_HECI_VALIDITY_MARKER 0xA578875A
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-index 298ad38e6c7d..a4f17b3ea286 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-@@ -8,16 +8,19 @@
- 
- #include <linux/types.h>
- 
-+#include "gt/uc/intel_gsc_uc_heci_cmd_submit.h"
-+
- struct intel_pxp;
- 
--#define GSC_REPLY_LATENCY_MS 210
-+#define GSC_REPLY_LATENCY_MS GSC_HECI_REPLY_LATENCY_MS
- /*
-- * Max FW response time is 200ms, to which we add 10ms to account for overhead
-- * such as request preparation, GuC submission to hw and pipeline completion times.
-+ * Max FW response time is 350ms, but this should be counted from the time the
-+ * command has hit the GSC-CS hardware, not the preceding handoff to GuC CTB.
-  */
- #define GSC_PENDING_RETRY_MAXCOUNT 40
- #define GSC_PENDING_RETRY_PAUSE_MS 50
--#define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS)
-+#define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_REPLY_LATENCY_MS + \
-+					 (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS))
- 
- #ifdef CONFIG_DRM_I915_PXP
- void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
+ /* PXP-Packet size for MTL's NEW_HUC_AUTH instruction */
+ #define PXP43_HUC_AUTH_INOUT_SIZE (SZ_4K)
 -- 
 2.39.0
 
