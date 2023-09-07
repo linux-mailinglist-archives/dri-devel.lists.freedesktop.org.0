@@ -2,124 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5949A796F60
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 05:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F5E796FCE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 07:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89AFC10E03A;
-	Thu,  7 Sep 2023 03:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525A110E758;
+	Thu,  7 Sep 2023 05:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F31010E03A;
- Thu,  7 Sep 2023 03:44:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1769210E758;
+ Thu,  7 Sep 2023 05:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694063774; x=1725599774;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=UKmPX0MUBCUDY6WdYdG2st05L6s97qMY2CWoa3c9koU=;
+ b=bLuQTQz9bmTyQGKnFZBzEmHPjtb2IZubpjbamCoQ88E/MmIy9VrBo1K7
+ UwakmPjRQFEeIr9dMd/CIejoiDrpnMwzDzOhEFPtTo7tfaepQAlh3h8Zn
+ O09mbqGDbCrqdiF5+zL7LJO7k6LYdHnVD3G2bjNlO4XtdXaPty+kfNR7o
+ BbgTw55BUxMGFtUSGDa6dASNmHCneYx7Yrj3S5jCoru50eYVcauQtRzu8
+ kDIAWETX3T4Pr1+RcNahVbx1+Aj0sXLVI6RcLv+/iU+ruNTSYopJYGVSf
+ 26FQaFEfiyQkUWrf5pD6XtkAr5Lfvi6i0skHTkuKobegGwFFAx/DaKlAI A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="356742331"
+X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="356742331"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2023 22:16:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="811980073"
+X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="811980073"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 06 Sep 2023 22:16:12 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 6 Sep 2023 22:16:12 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 6 Sep 2023 22:16:12 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Wed, 6 Sep 2023 22:16:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EaKbu7Svn9i718h8HvPuaSNoEX0q/seA2NVEYEdb5U3hfXJRUPyOLoTaZyvBnVxdUuqUDd2onsn05Xi/FZqklrqqrAaXnPJojxUWFmap249SaM6+1O+i37HhZeFvBRv889PffT3GVlPRL1mVGO2+pWPJfpfmwnPJ2NZhxCNajFJ4bCz4Vr/uoKEQnQPzvnp7hI0Jyow8yNcsu9GMGu8HvF4+dQW7DgeYcv9RxuSi+tgdnvYlZ8XtuajWZFfb7NtU/yOTTTJpqN17sGo7do/3iCflKsIX1RJGvu4YL7gcNsANEjt+e6r1NBFxF+htnK/MIfQXzvC13jjDO1eBxPyysA==
+ b=UggdMVGbPSOJ1waBVUWzqHII6Ed2k13rHOAFwbxcEJKGv/Vnfme9rqWtWTjiVCdxOQr4vps4g5GqOEQRvY4q/fa93GTRFtWwY5RLYqKe2s8B5nR5nXhYnAy5noIjfUkOI+3QTtjz24e0zOX3sjnOeTs4q4GspQdcyOb9SmHrhvhYq6KeskWrGqbxPMO3ZrcuLBXWSRgpQkB9jM/WdBJ21z6I8ApTQTutTfulyNkpkvi0Gzyd+d2VlRI044K60ilMmirwqXaOa+mTXOAd5gJRMp76Qc0LOpUX/PHmj1Wz1E8rXAZTbwB8jcC2zNOO+wblsoyv1I7G6J+6Xe26TfGfDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2y+CJEUn66jfSc65lucZbwvD1+zjj1uhrtBfbA1LCbM=;
- b=O/t6EqCeKwAoV5VUrVHZukjKa7LEiDkMYezaemKAWCXyyJQRXBOxq0krCiEg3VcfAFTtTpGxhcyfk7GjJAy5EmGn1yKBS1qCYSKkvIhqfmhRH8m1Lqkf4+7XXTNDWuX+9zK94lDXFQXlznjWd2dJcKJ3ZnbcRLRV5dtkW71eDBIxZBKuG9AH9S0V1u5BuJQMzGNy/JIYQI8TS2fZNuy061TGYASIBAuQ/YzQkRluIMBUbHaU167m/WcLYweM9h3DLGumi2lBqGGjIPQBA86iCcgZTOS6ogCsTysD11kwrBkq9UWaFL4kXQwU/ZOFcmynttddFZsprCQ5nlTTd/4YEg==
+ bh=UKmPX0MUBCUDY6WdYdG2st05L6s97qMY2CWoa3c9koU=;
+ b=R9n1bqevu1iDNvlg0YwW0q4EjqdswsIYKjyKUfEXUU0Ea+wNF7D7a6qeOCRTIj9VhtvVX8QmIoITwlbUcoRb3m1onAsRpWhEwTTpiJygtPcSUoAvEeip7/OpaxQhGO+TOr8ar+d7X87FCxQWaBVBtD6jN+K8IiTnL5iVSDZtTc0FX4VfhWm4zo+km+Zqc5xt569Gm5A9ajIivtof4vyz9UVe0rj0jV69EsZT386VZK2PFeeHm7Cg0WB03rz/P+i+n6PcQo5D21aTVtQJJ5SAOgmkizVdrSCQES0GEZqRZL6UP1vVpIG2UqByEZhkUbLhBfhiVbDm432Afp+Ponh8Hg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2y+CJEUn66jfSc65lucZbwvD1+zjj1uhrtBfbA1LCbM=;
- b=AchWwpJRv78I6+VLdM3fTEsW2+lXZgrntf8Mo3oMtEfmJ521iuKAEcUvrG/0vpKhbgkMsZ1215A1Y2iFFwrccBgtSRnukQ486cAfQ4wE5BsEB2pH7jHmmHahr3IttkwxK7QAz/ev4jCG2tz5459B/v3em2tdyejQRDM4rod3FzY=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by CY5PR12MB6276.namprd12.prod.outlook.com (2603:10b6:930:f::6) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ BL1PR11MB5528.namprd11.prod.outlook.com (2603:10b6:208:314::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36; Thu, 7 Sep
- 2023 03:44:39 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::fd43:1117:583:d37a]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::fd43:1117:583:d37a%3]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
- 03:44:39 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: "imre.deak@intel.com" <imre.deak@intel.com>
-Subject: RE: [PATCH 3/3] drm/mst: adjust the function
- drm_dp_remove_payload_part2()
-Thread-Topic: [PATCH 3/3] drm/mst: adjust the function
- drm_dp_remove_payload_part2()
-Thread-Index: AQHZxpvrGNhE4HkDQUKz6BD10YkZXK/aRFEAgAPTpQCAAOsxAIAAqq0AgBC8pwCABt6JcIAD4XUAgBO5wdA=
-Date: Thu, 7 Sep 2023 03:44:39 +0000
-Message-ID: <CO6PR12MB5489FC7230B9D400EEF5735CFCEEA@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230804062029.5686-1-Wayne.Lin@amd.com>
- <20230804062029.5686-4-Wayne.Lin@amd.com>
- <ZM0Z3sZEYMcMTnuP@ideak-desk.fi.intel.com>
- <CO6PR12MB5489306FA44F5F107180E57DFC0CA@CO6PR12MB5489.namprd12.prod.outlook.com>
- <ZNEU8j6OR3KirIcS@ideak-desk.fi.intel.com>
- <CO6PR12MB548978FEE8BE8300F43D4486FC0DA@CO6PR12MB5489.namprd12.prod.outlook.com>
- <ZN+uWC1fDKZUmDdL@ideak-desk.fi.intel.com>
- <CO6PR12MB5489E92E7A29CA7285602B20FC1CA@CO6PR12MB5489.namprd12.prod.outlook.com>
- <ZOiywboCeFxJwCCP@ideak-desk.fi.intel.com>
-In-Reply-To: <ZOiywboCeFxJwCCP@ideak-desk.fi.intel.com>
-Accept-Language: en-US, zh-TW
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
+ 2023 05:16:11 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::542d:f32a:14b:1531]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::542d:f32a:14b:1531%3]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
+ 05:16:11 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v4 2/3] drm/i915/pxp/mtl: Update pxp-firmware packet size
+Thread-Topic: [PATCH v4 2/3] drm/i915/pxp/mtl: Update pxp-firmware packet size
+Thread-Index: AQHZ4SB78sPBBV5wZUSIN4leQin3NLAO0pGA
+Date: Thu, 7 Sep 2023 05:16:10 +0000
+Message-ID: <6bac37e66c9b59d1a9c74c29a1562fdb4dbe183b.camel@intel.com>
+References: <20230907001549.81262-1-alan.previn.teres.alexis@intel.com>
+ <20230907001549.81262-3-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20230907001549.81262-3-alan.previn.teres.alexis@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=065dc13f-714d-4147-895b-9c6dd8a00110;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-09-07T03:09:32Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+user-agent: Evolution 3.46.1-0ubuntu1 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
+ header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|CY5PR12MB6276:EE_
-x-ms-office365-filtering-correlation-id: 112d7159-b586-4569-34bf-08dbaf54c367
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|BL1PR11MB5528:EE_
+x-ms-office365-filtering-correlation-id: 40a3010d-8144-4e59-7811-08dbaf618cb2
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 41k0k4COrIPuhnudDPh4extLJ/9YxtbXwqxXoDvJAvmWMYDrhyqUVrH5Nz0NmeZ5DMU6RmGt5ytI4jDVQSgHoD4dIp3L1iFwsKbUa2U3g1QIHgSD6pTk//yKjmunh6DJ1QHqZg9vEeOAANx6utZORQvmI2YVEk9m8R6ZLU3ArEKZxinqPTVqNfhCZOt5Qzhrh7qi0L8tBhsurZPb1m3doTffwdKZDHJ61oHLBIk/sTYLODrQ8Jn3Z1nIfcBhDrIqrqU8nY5WnxytJOq6k3k8IwhIHMGsOOaG/BS3KiFzm+KkXima68m6eRMprpTrxiCJwJSVC1YFfTfNy1MqOEBQEJpzVvsOy0AM/E0heafT8a+VPe4GVgPs5jFfQ3BB7AG6vMTwfTAp9Ml5NHlBRjOF6d9KYWqHIqkDBoHaUi2KjFtUAAH/G/XszRbQ4n73vdF6Fpbb4o9C4n3iKprAJnljtx6r94ZpnIrUCMLH3ve4rQNjrqfFFVXHxHhu1ag3yyrvF03kcTs6mk/llh9OVRegCj2hsVCe98tanPOqaIJEiPe2uN8+JOPupX/4AIiXLrc9X/S19XneRN503csLp9owxEW6fSWWWfIoL28iG3gztGepWv5bbGE8fvOmOBzmvLGK
+x-microsoft-antispam-message-info: dFD2zRMsvhbZdkM8I5DZ3imQVvzmmpQB+U3CuxB0HgNdNeuv9yAa74ReneKI/vI5Yp3t7y5A4EIhrWMOLPinKKRauRlzvyfx0u3gW8qwf/b6FTupE6enMWASoCkRcWkrQhODIeE4cqY72UIdHjqdJTQvzZ9S9vguJq0TIcaLUxblfyyYCVOHaUR4GEm+v+e7+AQLYEB15KRxfJuOF4yf7CPL5LiXxCFTykVSbP1cEEveANR+vTR6wAGmVaC8bpODD19QUJDzHOIPfcpTSOgexP2BLVs5U4ShaHqgYzWqqmLdxuOf3vfsXo2MMQwOz+eH6DuXKc+G54Htvs/f7qLInbxigPHKNgUkeAYwz+lEO2VBx1HtHS0fVHnX5HCawxNrIanBXra6vqI5CzVOFNUiAyqNJYWn28Gr1qaP+AEp7BUI7wsPsERdBLo56AQOl/ftkKQMTlQMaCMMevDYly1X1L9GA6TwnAnNA0WJvrRQbm/HcaEWbeEATnps+oEd3ly3cBNnQGoU1Vkl7HlQiGgT41eNOqzBMCaB0Jd45B1lCL7z2tW83taJrHsm1CHu54REn3/ozQb3yYwQ0rTN7bBWwVOxDz2soIOvFKBCI/6mFSyd1NadKRty+GsICqxG30q3
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(39860400002)(136003)(346002)(376002)(186009)(451199024)(1800799009)(55016003)(83380400001)(71200400001)(26005)(54906003)(64756008)(66446008)(66476007)(66556008)(76116006)(66946007)(316002)(6916009)(52536014)(4326008)(8676002)(8936002)(41300700001)(5660300002)(53546011)(6506007)(7696005)(9686003)(2906002)(30864003)(478600001)(33656002)(86362001)(122000001)(38070700005)(38100700002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(366004)(376002)(346002)(39860400002)(451199024)(1800799009)(186009)(66476007)(64756008)(54906003)(6916009)(316002)(66446008)(2616005)(122000001)(107886003)(71200400001)(86362001)(91956017)(66946007)(76116006)(66556008)(2906002)(15650500001)(8676002)(41300700001)(4326008)(8936002)(4744005)(5660300002)(450100002)(38100700002)(38070700005)(478600001)(6512007)(26005)(6506007)(6486002)(82960400001)(83380400001)(36756003);
+ DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TFR4iMQ8nYxkqhmq/XdpkGqN4YVxkQoQLqfqGAwAl54FPcAkdLyOB0mZZ4Ce?=
- =?us-ascii?Q?cNaCLqL5CDBoCkCpINxmJmoUQhqftiFyHvTWy1nzT9SPD5vNPjXSgBRSYjVF?=
- =?us-ascii?Q?+FeE+t9D/jzCTvD23dDwDYUQ7obegUflMYWtoaPuHXloyhPVHzQjem0WGRg6?=
- =?us-ascii?Q?nx2pOjI+kRBaGvnlzFG6DnhkLTSQXWg69OJN80A7q6FBoL44ToQR+TWDkiB4?=
- =?us-ascii?Q?VHG1EwKdiykIW0zIAfv3tUx8DqEXgkz7uCnvrf6w3SiYzpWRq0E0qqD4hS/W?=
- =?us-ascii?Q?5G3SnH+NhBPffEVHSUgf3/QOx+3GGBq0mONfQqW8E0OMnlG7sKTApfktptq/?=
- =?us-ascii?Q?o+2AhavGdzNKG7n7wzU1OerMd9RIZIiLiFAvuyV5QnX88SsBrh+qDxvIXgiB?=
- =?us-ascii?Q?DTJg2LQIxAUqFJPTJc+ULhGYnX7YWfgSAtPGkGT4hlh7C0JAv4CFYmd9q1fm?=
- =?us-ascii?Q?SE9XurxtIvryr+pINSdkAr28W1WwXKSEl1bVbY2CZ0AVgTrT8en0UoXYR6Xb?=
- =?us-ascii?Q?ToCoZlMllwMHbmifMxUGEZm/VYrfXMEBXnQ44RBdK4x4M+Q6y7BKJ5XcBGNM?=
- =?us-ascii?Q?55O0lXjODDfzerDkLN2TdeKb1KobU73+bv5P84c2TIBlDP5Wm91qCpiM8UVa?=
- =?us-ascii?Q?W1W7JD+fuum9kD8PsbP5PiZr3WGOhAdDGAieAUiPIh+Oe8uBnFF7lgpOGKOj?=
- =?us-ascii?Q?wk6iLDniHu6rKyMYQ/kSJ6LCai57qzTgHIH8NXGKe8ECmyQqsmvOIFVsYlmB?=
- =?us-ascii?Q?fUbjKtiUgHBI1SjDam+merY5Xn/rjyWdqEUtaJ6dNDl9ZSaAYbP4ejfRlmvH?=
- =?us-ascii?Q?6xhdye6/DtXmNhNFfsHuqhNH95W5iXg9E9ER31oWALgxgd6taGngsCZddKse?=
- =?us-ascii?Q?HgUIgzOBY7cbG7WiC3V+m0DFU8l8B8axWKeBwtiRhPv2BU4Y+CYDT1Z30+0M?=
- =?us-ascii?Q?RG/467CVE95FhdP7dZV3PFfScAlclCIGp0Rp+1CrnohxyiKnR64eTLxL4dFJ?=
- =?us-ascii?Q?pQ8ldHIVwP9HmKcQNfBsdIEAX/II8/O+W4NbEG1gIsn1ud3I0Rznd48mTFXS?=
- =?us-ascii?Q?qZWGnBo23A1E36umi+TJw4g6vuqVGqANGDwqisN0Ny9Nl+CYuVIFhSIxBB3j?=
- =?us-ascii?Q?Q/pHLGM1Gh20ubpiA6PKOPzfDk6R6G7o2lE+YRa66rPd8jBOnyhfrzn12gMd?=
- =?us-ascii?Q?ZLFfljvWUj0Mud/LbqKieqyFrQtN7Mr/8E0TjOYvY3oDl8v+4Fh/U5mnHtdC?=
- =?us-ascii?Q?aDFNUL2Qn2NTHSvflYZzgBad6CuWOnFv6aetumKYk+pyYIVhtsaBgXIbVrLx?=
- =?us-ascii?Q?Uitv565YexdMFAu6cHtpQx20AZt+K8cU78UXhcy1qfm3S0AOG8lbW6cKTm/I?=
- =?us-ascii?Q?FNdHuF+pftxHUpWXiTS3a6e8G+RfVx2YH1MfrT1GTIqkN670PxF4rti19fhp?=
- =?us-ascii?Q?j/6xqS5LUGHLFJmPPWLT14vHp8cenmXeKU1vu+vZNde6pZJJZDLl3bDzpQ1z?=
- =?us-ascii?Q?HZOSNR7JnByJ4E4KxWLraR9WUmg5jJ0TREK1azWwcBuGBlY/aBkt0qbGDdjH?=
- =?us-ascii?Q?ilKDdToACIvr2mjjBY0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?clhWZGdCZnlTVXoyb2NtNEN6a2ZhY0RhRjUxQW9Qc3llZGJXQ2Z5WHRkSEtm?=
+ =?utf-8?B?dWRsc1h1RlpYNEtaMmU3dEJaZjcxSHpDNjZvZlREK3BuTU9KdTVWeHIxTTI5?=
+ =?utf-8?B?eXd1M1J6RzMwYzkveFN1T25GVDRsYVF4QzVJZnBsdktSNURGNVkzMWk0REJI?=
+ =?utf-8?B?T0dPdW55TU0wbnFuN1pZRXhTNDZqRVphMjdEdWNXakZrdERhVEVlTGtMUG9J?=
+ =?utf-8?B?YWE4SGZqYTZNL1ppRzZHQnVHaGxTVG5wOU8zSWI2Nmk2dWpCemZ0R29yKzVF?=
+ =?utf-8?B?UitEVGNPTEFzTVVpMm5haklncEZxb1QrL1hNNnAydDFkSUZUSC8rL0JBRFYx?=
+ =?utf-8?B?djRwRHdlUVlWREE4USs5MGdER2N4cTZaM01SbHJCbmVNVzd3MFJrZDRVRExR?=
+ =?utf-8?B?ZlZJT1QyNEVYZ2JyMittZFNweEZManRROTJUcEsxZ0tzZ3pnTGtya3NhRTY5?=
+ =?utf-8?B?OC9uOFVpVEJxUjAyRGQwa2hrTG81NmIxU1NleDlBS3FxNWZBNHJMUmJWdUR1?=
+ =?utf-8?B?Q3pidU9GNnFYWTg4V3JTc0Z6ZTJkN3RUUUdzSnFhUGE2R1d5eTA2bHcraFIw?=
+ =?utf-8?B?TVJXK0RFQ25mUnpiZzV2d0N3Mm9zOGQ0RTlGQWlkK1FkMllHVDgzdEp0SGF2?=
+ =?utf-8?B?Mnp6RTRQN29ZdkdOajA2M09LZHMrWGV0dHRLTEtJSWd1dUl1NWxUdnNabGxp?=
+ =?utf-8?B?Y2IyR3M2d1hNQW5tZTFLVGRob2IxZU9weUFxSzVxd1JBQlZHQUJRd2ZKMlQw?=
+ =?utf-8?B?T2crcFhDcGg5amRZU1V2bEVYUXB0R3VYOVlYT2hwL3JzbW1XNzJaTU0zeVdo?=
+ =?utf-8?B?YW1QK2k3dDY1RS8zWElPcHRaeXBmMmw4TDMvSXYzeUpYYWdzTkFvOFRQVU5h?=
+ =?utf-8?B?RkVBWkF2VWJ6d1hmc3h1RU8yNjJucEE4K1lkWHplbWNpSi80RHB0MVorTU9a?=
+ =?utf-8?B?bSt2WUxJRCtDeEZFb0F0NkM3RDZJdEI1MlQ0SGRWZkpUd2dBU0FhaXZOUU01?=
+ =?utf-8?B?M3A0My9kcDl6K1hraE5zR1FpNm0wNzExakJseTR4WFRxNHNQVmhJOFRnTzRy?=
+ =?utf-8?B?b1NQZG5tdkNUdnJGRHI1VGNHWW5aT1ZsN3BhZkVSVDJzVjNuSnBneTRjVURQ?=
+ =?utf-8?B?MCtFRVFuYlRIVWxUaUJFTFZ1OUZXWjRnVnRhd281Tm1FVFM0RURITCtub2oy?=
+ =?utf-8?B?OU1YQlgwTlNRR0IyNFVUeHVKeGMvdW5OWm1SSEcrK3BVUzZrMmZ1bTJheEVp?=
+ =?utf-8?B?RVBVekROT0hWVmZkMzRZNjdxOFFMNVh0dzZySTltSnYzWXVWRU5IYVVvK3lD?=
+ =?utf-8?B?SVY5WU8vM0VNOGt6bjI5aVpsSCtFMmNiUHVNcWZlU0tRcmNiT2Q1QmFvZE9D?=
+ =?utf-8?B?bGN2bm5MdTZuYmVod1U0UFJlYUpJajIrcEpYSjZCTnNvUDZBdUpDV29PTVRl?=
+ =?utf-8?B?a2x4K1pqK0RINE80RSt4aDFTK1FZd01ZeGJiZEE5d3VtdGt4bExqNG50eE11?=
+ =?utf-8?B?Nkh5UTNSMUtkdHBtbXRBVk1IMUVIRTRZc01tVFZxdk9LNWNTUnFJclZrV3c3?=
+ =?utf-8?B?TERmUXNLRnI3SzNOV29RNStRVVhRRlk5TnBQSUNYVTZ3OEhqRTlpUW1jdU9q?=
+ =?utf-8?B?QmZmVXM2QTN0Q1p6bGpKRWU2VklZeDZmSXh5OEpjWkMxNnZGaHFpa2EwM2My?=
+ =?utf-8?B?Znd2Ylk3L0RPeUZLaHk0Z1RZUko4WUs0aUlEZm9adkZHR2VwS2E1VWZxdUhj?=
+ =?utf-8?B?Q1RFd0g2YkFPcnNoNjJMVG5oajFFUm1WRlNYdmg5cVA1NVpYUzBaRktIcHJo?=
+ =?utf-8?B?b3FpN2JHK0lWaEhFZXBwaGszd3NjNjZtODBrVXFsRmh5a21kUVZabjFSSEZk?=
+ =?utf-8?B?R0lTK2w0ZzhmQUp3TGZtMXNnLzkxc1JkaWxFdG4xR1U1N2dRSmptek5jUnZI?=
+ =?utf-8?B?V3dPVVFEU0lQSWJ5TjFZR1pIOVhDNUFIMkd0RjlQR3UyR05PWFg5Zk9uaHhC?=
+ =?utf-8?B?RnZ1Y08vMEF1NjRGNGRGRSthcVUzM09MLzVOU2t6eVNRRTMvV3ZNQlZ1Q3Rt?=
+ =?utf-8?B?bmtFWnhrKzN3NGl5NHhLZXFwd2loZklnUlZaVDlHczh1dHR5R3h0Y1YrYVFT?=
+ =?utf-8?B?UFVFNHo4MHd0UHB0cTgwMm1GZ241WlBxUTJxVFMyUUk2Sm9JSitPbFYyRnln?=
+ =?utf-8?Q?sBm1V7AUGur+vWh2BsiSHQg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A832E2140A7EA5478C5014393612906D@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 112d7159-b586-4569-34bf-08dbaf54c367
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 03:44:39.3485 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40a3010d-8144-4e59-7811-08dbaf618cb2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 05:16:10.9686 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2FDvRBf/8u6s9/Gw+DLxp9lWUWzYTu5gfLuoIalaAm6Cq64cx9w4T1htQ/LtDI0q7b+Dm9IRzA6NX+bVz7LLnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6276
+X-MS-Exchange-CrossTenant-userprincipalname: diCf5h1Bxj9OM+IofQEgBvhDk7YP+5sUGISIV6omVQpwB9pV0Dw4TZCBCFasSIW0ErJJkM+Zf5R/7ysIDogcpy3bGwQeAvXjaGAtgBhDGGxqg9ER54t9Jp25ezxM62+R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5528
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,405 +158,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>,
+Cc: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - General]
-
-> -----Original Message-----
-> From: Imre Deak <imre.deak@intel.com>
-> Sent: Friday, August 25, 2023 9:56 PM
-> To: Lin, Wayne <Wayne.Lin@amd.com>
-> Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org;
-> lyude@redhat.com; jani.nikula@intel.com; ville.syrjala@linux.intel.com;
-> Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
-> <Jerry.Zuo@amd.com>
-> Subject: Re: [PATCH 3/3] drm/mst: adjust the function
-> drm_dp_remove_payload_part2()
->
-> On Wed, Aug 23, 2023 at 03:16:44AM +0000, Lin, Wayne wrote:
-> > [AMD Official Use Only - General]
-> >
-> > > -----Original Message-----
-> > > From: Imre Deak <imre.deak@intel.com>
-> > > Sent: Saturday, August 19, 2023 1:46 AM
-> > > To: Lin, Wayne <Wayne.Lin@amd.com>
-> > > Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org;
-> > > lyude@redhat.com; jani.nikula@intel.com;
-> > > ville.syrjala@linux.intel.com; Wentland, Harry
-> > > <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
-> > > Subject: Re: [PATCH 3/3] drm/mst: adjust the function
-> > > drm_dp_remove_payload_part2()
-> > >
-> > > On Tue, Aug 08, 2023 at 03:47:47AM +0000, Lin, Wayne wrote:
-> > > > [AMD Official Use Only - General]
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Imre Deak <imre.deak@intel.com>
-> > > > > Sent: Tuesday, August 8, 2023 12:00 AM
-> > > > > To: Lin, Wayne <Wayne.Lin@amd.com>
-> > > > > Cc: dri-devel@lists.freedesktop.org;
-> > > > > amd-gfx@lists.freedesktop.org; lyude@redhat.com;
-> > > > > jani.nikula@intel.com; ville.syrjala@linux.intel.com; Wentland,
-> > > > > Harry <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
-> > > > > Subject: Re: [PATCH 3/3] drm/mst: adjust the function
-> > > > > drm_dp_remove_payload_part2()
-> > > > >
-> > > > > On Mon, Aug 07, 2023 at 02:43:02AM +0000, Lin, Wayne wrote:
-> > > > > > [AMD Official Use Only - General]
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Imre Deak <imre.deak@intel.com>
-> > > > > > > Sent: Friday, August 4, 2023 11:32 PM
-> > > > > > > To: Lin, Wayne <Wayne.Lin@amd.com>
-> > > > > > > Cc: dri-devel@lists.freedesktop.org;
-> > > > > > > amd-gfx@lists.freedesktop.org; lyude@redhat.com;
-> > > > > > > jani.nikula@intel.com; ville.syrjala@linux.intel.com;
-> > > > > > > Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
-> > > > > > > <Jerry.Zuo@amd.com>
-> > > > > > > Subject: Re: [PATCH 3/3] drm/mst: adjust the function
-> > > > > > > drm_dp_remove_payload_part2()
-> > > > > > >
-> > > > > > > On Fri, Aug 04, 2023 at 02:20:29PM +0800, Wayne Lin wrote:
-> > > > > > > > [...]
-> > > > > > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > > > > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > > > > index e04f87ff755a..4270178f95f6 100644
-> > > > > > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > > > > @@ -3382,8 +3382,7 @@
-> > > > > > > EXPORT_SYMBOL(drm_dp_remove_payload_part1);
-> > > > > > > >   * drm_dp_remove_payload_part2() - Remove an MST payload
-> > > locally
-> > > > > > > >   * @mgr: Manager to use.
-> > > > > > > >   * @mst_state: The MST atomic state
-> > > > > > > > - * @old_payload: The payload with its old state
-> > > > > > > > - * @new_payload: The payload with its latest state
-> > > > > > > > + * @payload: The payload with its latest state
-> > > > > > > >   *
-> > > > > > > >   * Updates the starting time slots of all other payloads
-> > > > > > > > which would have
-> > > > > > > been shifted towards
-> > > > > > > >   * the start of the payload ID table as a result of
-> > > > > > > > removing a payload. Driver should call this @@ -3392,25
-> > > > > > > > +3391,36 @@
-> > > > > > > EXPORT_SYMBOL(drm_dp_remove_payload_part1);
-> > > > > > > >   */
-> > > > > > > >  void drm_dp_remove_payload_part2(struct
-> > > > > drm_dp_mst_topology_mgr
-> > > > > > > *mgr,
-> > > > > > > >                              struct
-> > > > > > > > drm_dp_mst_topology_state
-> > > > > > > *mst_state,
-> > > > > > > > -                            const struct drm_dp_mst_atomic=
-_payload
-> > > > > > > *old_payload,
-> > > > > > > > -                            struct drm_dp_mst_atomic_paylo=
-ad
-> > > > > > > *new_payload)
-> > > > > > > > +                            struct
-> > > > > > > > + drm_dp_mst_atomic_payload
-> > > > > > > *payload)
-> > > > > > > >  {
-> > > > > > > >     struct drm_dp_mst_atomic_payload *pos;
-> > > > > > > > +   u8 time_slots_to_remove;
-> > > > > > > > +   u8 next_payload_vc_start =3D mgr->next_start_slot;
-> > > > > > > > +
-> > > > > > > > +   /* Find the current allocated time slot number of the p=
-ayload */
-> > > > > > > > +   list_for_each_entry(pos, &mst_state->payloads, next) {
-> > > > > > > > +           if (pos !=3D payload &&
-> > > > > > > > +               pos->vc_start_slot > payload->vc_start_slot=
- &&
-> > > > > > > > +               pos->vc_start_slot < next_payload_vc_start)
-> > > > > > > > +                   next_payload_vc_start =3D pos->vc_start=
-_slot;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   time_slots_to_remove =3D next_payload_vc_start -
-> > > > > > > > +payload->vc_start_slot;
-> > > > > > >
-> > > > > > > Imo, the intuitive way would be to pass the old payload
-> > > > > > > state to this function - which already contains the required
-> > > > > > > time_slots param
-> > > > > > > - and refactor things instead moving vc_start_slot from the
-> > > > > > > payload state to mgr suggested by Ville earlier.
-> > > > > > >
-> > > > > > > --Imre
-> > > > > >
-> > > > > > Hi Imre,
-> > > > > > Thanks for your feedback!
-> > > > > >
-> > > > > > I understand it's functionally correct. But IMHO, it's still a
-> > > > > > bit conceptually different between the time slot in old state
-> > > > > > and the time slot in current payload table. My thought is the
-> > > > > > time slot at the moment when we are removing the payload would
-> > > > > > be a better
-> > > choice.
-> > > > >
-> > > > > Yes, they are different. The old state contains the time slot
-> > > > > the payload was added with in a preceding commit and so the time
-> > > > > slot value which should be used when removing the same payload
-> > > > > in the
-> > > current commit.
-> > > > >
-> > > > > The new state contains a time slot value with which the payload
-> > > > > will be added in the current commit and can be different than
-> > > > > the one in the old state if the current commit has changed the
-> > > > > payload size (meaning that the same atomic commit will first
-> > > > > remove the payload using the time slot value in the old state
-> > > > > and afterwards will add back the same payload using the time slot=
- value
-> in the new state).
-> > > > >
-> > > > Appreciate your time, Imre!
-> > > >
-> > > > Yes I understand, so I'm not using the number of the time slot in
-> > > > the new
-> > > state.
-> > > > I'm referring to the start slot instead which is updated during
-> > > > every allocation and removement at current commit.
-> > > >
-> > > > Like what you said, current commit manipulation could be a mix of
-> > > > allocations and removements for the payload. My thought is,
-> > > > conceptually, looking up the latest number of time slot is a
-> > > > better choice
-> > > rather than the one in old state.
-> > > > It's relatively intuitive to me since we are removing payload from
-> > > > current payload table and which changes since last preceding
-> > > > commit till the moment we're deleting the payload. Although it's
-> > > > unreasonable that these values are different.
-> > > >
-> > > > > > And with this, we can also simplify some codes. Especially
-> > > > > > remove workaround in amd driver. In fact, DRM mst code
-> > > > > > maintains the payload table and all the time slot info is in
-> > > > > > it already. We don't really have to pass a new parameter.
-> > > > >
-> > > > > I agree that drm_dp_remove_payload() could be simplified, but
-> > > > > this should be done so that the drivers can pass the old payload
-> > > > > state to it (without having to pass the new state). This would
-> > > > > be possible if vc_start_slot was not tracked in the payload
-> > > > > state (which is really not an atomic state that can be
-> > > > > precomputed as all other atomic state), rather it would be tracke=
-d in
-> struct drm_dp_mst_topology_mgr.
-> > > > >
-> > > >
-> > > > So the reason I chose to pass the new state is like what I
-> > > > mentioned above. I would prefer to carry the latest updated
-> > > > payload table instead which is in the new state. And I agree with
-> > > > the explanation for the vc_start_slot and that's also my thought
-> > > > at the beginning. It could be a refactor later, but no matter the
-> > > > start slot is put into payload state or the topology manager I
-> > > > would prefer to refer to the latest
-> > > payload table rather than the number of time slot in the old state.
-> > > >
-> > > > > It looks like AMD has to reconstruct the old state in
-> > > > > dm_helpers_construct_old_payload(). Could you explain why it
-> > > > > couldn't instead just pass old_payload acquired by
-> > > > >
-> > > > > old_mst_state =3D drm_atomic_get_old_mst_topology_state();
-> > > > > old_payload =3D drm_atomic_get_mst_payload_state(old_mst_state);
-> > > > >
-> > > > > ?
-> > > >
-> > > > AMD doesn't pass the drm old state to the stage while HW is
-> > > > deleting the payload.  The reason is that HW payload table is
-> > > > known during HW programming procedure, so the payload removement
-> > > > is based on the table at the moment.
-> > > >
-> > > > AMD expected the current number of time slot is also already
-> > > > maintained in drm layer.
-> > >
-> > > Yes, both of the above are maintained by the drm layer, but it also
-> > > means it doesn't really need to recalculate time_slots_to_remove as
-> > > done in this patch, since that info is already available in the old p=
-ayload
-> state.
-> > >
-> > > Afaics the AMD driver calls properly
-> > >
-> > > drm_atomic_helper_commit() -> drm_atomic_helper_swap_state()
-> > >
-> > > after a commit, so that all the payloads it added should be tracked
-> > > now as the old payload state.
-> > >
-> > > So could you confirm what is the old_payload->time_slots value
-> > > (which you get with the above functions) at the point of removing
-> > > this payload and if it's not the time_slots value this same payload
-> > > was actually added with previously, why this is so (via some example
-> sequence)?
-> > >
-> > > Thanks.
-> >
-> > Hi Imre,
-> > I'm not saying that the time_slots carried in the old state is wrong wi=
-thin
-> amd driver.
-> > But just amd driver doesn't carry the drm state to the step when it's
-> > removing the payload, since the info is already in its hardware and
-> > drm used to maintain the info in the drm layer.
->
-> Hm, in
->
-> dm_helpers_dp_mst_write_payload_allocation_table()
->
-> the
->
-> mst_state =3D to_drm_dp_mst_topology_state(mst_mgr->base.state);
->
-> used as the new state doesn't look ok to me. The above is the MST object'=
-s
-> current SW state after an atomic commit/swap, but this isn't the new stat=
-e a
-> driver should program to the HW or pass to the drm helper functions. The
-> object's current state could be ahead of what the driver should program t=
-o the
-> HW, if the driver properly implements commit pipelining (so at the point
-> you're programming a state you'd have already future commits computed and
-> queued up, each queued-up commit with its own state).
->
-> So instead of the above mst_state the driver should pass down the
-> drm_atomic_state to dm_helpers_dp_mst_write_payload_allocation_table()
-> which should use that instead to get the MST state it should program or p=
-ass
-> to the drm layer.
->
-> > So the patch is trying to get the behavior of this helper function
-> > back to what it used to be.
->
-> The behavior before was actually broken and one reason for that was a
-> confusion about what's stored in the new payload state. It's a mixture of
-> old/current state (vc_start_slot) and new state (time_slots). So I don't =
-think
-> it's a good idea to add even more dependency on this semantic.
->
-> I think the right solution for what this patch is about - remove the need=
- for
-> dm_helpers_construct_old_payload(), would be to pass down
-> drm_atomic_state to
-> dm_helpers_dp_mst_write_payload_allocation_table()
-> based on the above.
->
-> > And the main reason that I want to change the pass in parameter is
-> > like what I mentioned previously. The commit manipulation could be a
-> > mix of allocations and removements for the payload. And in the spec,
-> > it also introduces examples to reduce or increase the payload
-> > allocation. Although we're not using reduction/increment today, it
-> > implicitly imposes the limitation to use them before calling the
-> > removement helper function with the old state as the passed in
-> > parameter. So I also want to remove the dependency by this patch.
-> > Would like to know your thoughts about this.
->
-> It's not clear what would be the benefit of changing a payload without
-> removing it first. In any case, I think the right direction for the drive=
-r would be
-> to meet the requirement to use the proper atomic state with the drm helpe=
-r
-> functions (not the object's current SW state) as described above.
-
-Hi Imre,
-
-Thanks for pointing that out and that was also one of my plan to refactor! =
-But I
-would take that as another patch to follow up and would like to align with =
-you
-the idea for this helper function itself more.
-
-My concern is referring to the old state to remove the time slot is just no=
-t generic
-right for what the helper function shall accomplish. Even it doesn't bring =
-benefit
-as you see, having old state as the input imposes limitation to drivers usi=
-ng it which
-is the downside that it brought. The limitation is like what I tried to exp=
-lain before.
-For an instance, if one driver has compressed streams allocated in the prev=
-ious
-commit and wants to disable these streams at the current commit. It handles=
- and
-accomplishes the commit into two steps that firstly to disable dsc engine o=
-nly
-(which increases the time slot), and next disable the streams. Under this d=
-esign,
-the old state can't represent the exact number of time slot that it want's =
-to remove
-at the moment. For this case, I don't think drm_dp_remove_payload_part2 sho=
-uld
-block the driver to use it since the driver doesn't do things wrong.  Conve=
-rsely, it's
-due to the helper function constrains the driver to use an inappropriate in=
-put.
-
-And with or without my patch, the current payload allocation table (i.e. vc=
-_start_slot
-In new state) and the time slot that this new state is going to set (i.e. t=
-ime_slots in
-new state) are already both in the new state. I think the patch doesn't add=
- irrelevant
-input for removing a payload as this helper function should do, because the=
- time slot
-it should remove is the exact one in the payload table now, not the one cap=
-tured in
-previous commit.  So in contrast, refer to old state time slot is a bit con=
-fusing to me
-because it's not generic right. Would like to know your thought on this poi=
-nt.
-Appreciate your time!
-
->
-> > Thanks, Imre!
-> >
-> > >
-> > > > Again, thanks for your feedback Imre!
-> > > >
-> > > > >
-> > > > > > > >     /* Remove local payload allocation */
-> > > > > > > >     list_for_each_entry(pos, &mst_state->payloads, next) {
-> > > > > > > > -           if (pos !=3D new_payload && pos->vc_start_slot =
->
-> new_payload-
-> > > > > > > >vc_start_slot)
-> > > > > > > > -                   pos->vc_start_slot -=3D old_payload->ti=
-me_slots;
-> > > > > > > > +           if (pos !=3D payload && pos->vc_start_slot >
-> > > > > > > > + payload-
-> > > > > > > >vc_start_slot)
-> > > > > > > > +                   pos->vc_start_slot -=3D
-> > > > > > > > + time_slots_to_remove;
-> > > > > > > >     }
-> > > > > > > > -   new_payload->vc_start_slot =3D -1;
-> > > > > > > > +   payload->vc_start_slot =3D -1;
-> > > > > > > >
-> > > > > > > >     mgr->payload_count--;
-> > > > > > > > -   mgr->next_start_slot -=3D old_payload->time_slots;
-> > > > > > > > +   mgr->next_start_slot -=3D time_slots_to_remove;
-> > > > > > > >
-> > > > > > > > -   if (new_payload->delete)
-> > > > > > > > -           drm_dp_mst_put_port_malloc(new_payload->port);
-> > > > > > > > +   if (payload->delete)
-> > > > > > > > +           drm_dp_mst_put_port_malloc(payload->port);
-> > > > > > > >
-> > > > > > > > -   new_payload->payload_allocation_status =3D
-> > > > > > > DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
-> > > > > > > > +   payload->payload_allocation_status =3D
-> > > > > > > > +DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
-> > > > > > > >  }
-> > > > > >
-> > > > > > --
-> > > > > > Regards,
-> > > > > > Wayne
-> > > >
-> > > > --
-> > > > Regards,
-> > > > Wayne
-> > --
-> > Regards,
-> > Wayne
---
-Regards,
-Wayne
+T24gV2VkLCAyMDIzLTA5LTA2IGF0IDE3OjE1IC0wNzAwLCBUZXJlcyBBbGV4aXMsIEFsYW4gUHJl
+dmluIHdyb3RlOg0KPiBVcGRhdGUgdGhlIEdTQy1mdyBpbnB1dC9vdXRwdXQgSEVDSSBwYWNrZXQg
+c2l6ZSB0byBtYXRjaA0KPiB1cGRhdGVkIGludGVybmFsIGZ3IHNwZWNzLg0KYWxhbjpzbmlwDQoN
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvcHhwL2ludGVsX3B4cF9jbWRfaW50ZXJmYWNl
+XzQzLmgNCj4gQEAgLTE0LDggKzE0LDggQEANCj4gDQoNCg0KPiArLyogUFhQLVBhY2tldCBzaXpl
+cyBmb3IgTVRMJ3MgR1NDQ1MtSEVDSSBpbnN0cnVjdGlvbiBpcyA2NUsqLw0KPiArI2RlZmluZSBQ
+WFA0M19NQVhfSEVDSV9JTk9VVF9TSVpFIChTWl82NEsgKyBTWl8xSykNCmFsYW46IG15IG1pc3Rh
+a2UgLSBkaWRudCBmaXggdGhpcyBiZWZvcmUgcG9zdGluZyAtIHNob3VsZCBoYXZlIGJlZW4gUEFH
+RV9BTElHTig2NWspDQoNCg0K
