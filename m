@@ -2,77 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB14797D27
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 22:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F8C797DCE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 23:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE6B10E0BF;
-	Thu,  7 Sep 2023 20:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 660BF10E304;
+	Thu,  7 Sep 2023 21:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F76210E09E;
- Thu,  7 Sep 2023 20:09:12 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 387K91cJ000850; Thu, 7 Sep 2023 20:09:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hhzDBf5AmE8f9BSMR58GPOslaMokHslIIA8MOOikM2E=;
- b=QfRjbjllevUlcHCAlBSqFxe909tnyTcWN1YRMvgW3WMMw3pHDHBJcrI1MPIlv39R7csM
- rC7isgXgY1ltUDHCe0AINduQq5O1bdoQQxWEvMTmTHg4hZJIhpbhU/BQeTe+YRpDdcW4
- /yjVatv99Ou191PJKPTvMrAzxEX+IIZ1ZqPtKHuVPlPFC43hNwgY4L8ERfwcQOghXQ4t
- RuOpA0QYNZ3vkwto0SXEyZRZGmZlQllC7fLNUNOYSrPIKM7lgzbWL54pRxNFeN1OTGax
- yOcnrwHX+hfoWjboPGSfdzkUFoGwyrDtZK7fiBkM/yKj88st+8o9OOBttgQcwBbD6A/v aQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sym36850s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 Sep 2023 20:09:00 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 387K8xB3024652
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 7 Sep 2023 20:08:59 GMT
-Received: from [10.38.241.230] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 7 Sep
- 2023 13:08:58 -0700
-Message-ID: <1a21bcdd-16e0-af33-83b5-a905c4616dc5@quicinc.com>
-Date: Thu, 7 Sep 2023 16:08:56 -0400
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB59810E304;
+ Thu,  7 Sep 2023 21:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694121228; x=1725657228;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=KJ9EyuXd0Ti87zkAV/D0TStZxl2bKcEA6PnQalJKzY4=;
+ b=mq3m3fabonwAUiUM3vEE3yX1a2OpwWNEp5H2hArI04otaYdShxwF8B/1
+ ArwpWmjeBn7RlYCQDmnk+4hVbbyHRvIStGPVHRK7GMQS2l12bV2NnATHr
+ iilddk5OHU561ZTInBIagvpCRh7/oiAfcNW946cTmjWL74fO+jk7M8xz+
+ QIYZKB3lF503M9LErWhcpCi/x/0YVHpYwM3GLQfnWbE+t/mE68FqSkcon
+ UP3OEjnOy7ZDq41YOUJ7x46TE1QXrQ1X95YK3JmmuMorUv7XqiRs7HFdQ
+ HAZtF+0KCn5RJhXKJMUKH+fwS4m083yWZDK+UFFMkM/uoPRfaXtLYejn4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="443903302"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; d="scan'208";a="443903302"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2023 14:13:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="771445728"
+X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; d="scan'208";a="771445728"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 07 Sep 2023 14:13:45 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 7 Sep 2023 14:13:45 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 7 Sep 2023 14:13:45 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 7 Sep 2023 14:13:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KYTlqtwHkyMWoqu6uhtlaUFM7Q3bwuXH9TJMVC0q2mtGotbhRtld+JRb0/25KZh7a1MKp0n9h/nhRbHTanEyibO7sXkyWOjDOWhZr5uIuvNWXqn2HMIYD0+L0cTHbUZVQA5kngvc++25GLolAjVgVSVXrlKjIArK3ih4GNMKbnQCKbq6a/ewooob/lYN3pBzVIxAbJYb9KBkHvWein4mXC5ZKa+NHhQjHrb+FfV+3LvRNI1t740yp/k5uF5Dt/X34l0DOud4FDPHUB+J6VufQilST0JoJ6gl5OxqJh0SMWecsaHqcH3/X1Xh4nQhI6lG4X1D9sozavKl0Q7xWRlZVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9lDKfFahXiUkKCd6/gqW2s6KIH1CiKI3ChYvVYHMi/A=;
+ b=m6kOUzEo+u47wvl8Xr4ad5NJN+FjHjyMZq4fB5VxmCUjqtZr+B1mxxTB30s1XpU6E2EuxYp2pM9P6ukFTZmh14N5vScZvL+KqAM4DUMNx9vh8Md6skqZsOf1XC4Lm9lZWQZn+1RO6NaZalACsYGayM3RoUJ3ZO1KimdBj/Zmakl2ZXtdJS/S+UBSeFhyamefbKAHfnugRGOfCah2eIdHTayTjIxKqKVfLzMlKZuyPg2BI7vQ0sFResfd68gb713nftBGWA0h+rwPB2c/uyiPQ97CGLGIbNAX6Mk9/pWkY5nFnJykZIaDJebf837MYYAh38K6y1l7K8ci2C9hDQTk/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by CO6PR11MB5652.namprd11.prod.outlook.com (2603:10b6:5:35e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
+ 2023 21:13:43 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f%6]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
+ 21:13:43 +0000
+Message-ID: <1f416165-81e1-a1ed-9bf0-3601f27685ee@intel.com>
+Date: Thu, 7 Sep 2023 14:13:40 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC 01/33] drm/doc/rfc: Add RFC document for proposed Plane
- Color Pipeline
-Content-Language: en-US
-To: Uma Shankar <uma.shankar@intel.com>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20230829160422.1251087-1-uma.shankar@intel.com>
- <20230829160422.1251087-2-uma.shankar@intel.com>
-From: Christopher Braga <quic_cbraga@quicinc.com>
-In-Reply-To: <20230829160422.1251087-2-uma.shankar@intel.com>
+ Firefox/102.0 Thunderbird/102.15.0
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/huc: silence injected failure in
+ the load via GSC path
+Content-Language: en-GB
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <20230816231320.1555190-1-daniele.ceraolospurio@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <20230816231320.1555190-1-daniele.ceraolospurio@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: cFYKTwxBSoCgPRdqZhTiXkHbAjSFvhxd
-X-Proofpoint-GUID: cFYKTwxBSoCgPRdqZhTiXkHbAjSFvhxd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-07_12,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- bulkscore=0 impostorscore=0 clxscore=1011 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309070177
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0180.namprd04.prod.outlook.com
+ (2603:10b6:303:85::35) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|CO6PR11MB5652:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0887c44b-3d6e-403e-dd21-08dbafe750eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9coFldzxKmt6G0Z/Q4WZRUYtrZBRCeN7DQdwdpQKQOSsTONEkrb/A714tIeHl5FIbJdpFdQv6Pvawgjmup82pbjXNbdfIPRDMHv2JneHG5l4d1UQoc9bDlvqoTUA47/8MOTrHLV+v/HEYLDMMBj9NKqcXSrfnPR/NBzeGo0qi6b64phGF5Kwc4Y+6j5CQZWoiXPxW+2zkRWNXet/he7RsxxpV2MR9kLBI/Yj9ZupKzRtpj+/2tprhK4FJ/5WWaMUpAPZ9jKyjGNgTeM6PMlcMkgg9Dakqbp02/le6rPTZ2C0oowrULG1cw3RbUKkHykRA0w2xQ+irrv1duZDpjUWS7dyi9V521u1KGvDiZjOxvX2uLV2bDuwjyNmZRDlsMOUFz98zYfDSMA2NI+FZNXwyZ+TRBSfviXbmFPru5tciZaYpIzuolAZb+QXJrv5hlM+qQOCoNK9CEckqXvtGPx3lMLsu0aljR52fZRXUyTA8iMbSiOycR/5KrPfIimruNdqt+HqPhoRCg0StxFiwTBIm9+zh570QtTJMzF6iAu0Ove9UqIG4b7J5jgUMtZsonKup+cl60DDJp15ZxoyINpgQ5qpulAlA7KYWVwasMtYHRSKhuO0On3NJZc1GRfjqWoL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(136003)(366004)(376002)(346002)(451199024)(1800799009)(186009)(6512007)(8676002)(8936002)(316002)(4326008)(6486002)(41300700001)(31686004)(66556008)(5660300002)(478600001)(966005)(6506007)(53546011)(2906002)(26005)(66476007)(2616005)(450100002)(66946007)(83380400001)(82960400001)(38100700002)(86362001)(31696002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djJrbVBpVHJ4TXdYcGkvS3FZM1V0eTVFNmJMeWNteGFqOFFnTjZ0ZWE1RlIr?=
+ =?utf-8?B?UkxUS2pwZXZLcEphWXZiRWxiak1oUmhWKzl4QUJadTRuaXg3VkR4K2RrdTRE?=
+ =?utf-8?B?TGRxbldmbUdQWEcyWkwvcXhFQUdQZHBtem1JbTZUaWROU01mVnRmRWxUQ1BS?=
+ =?utf-8?B?UGkyOFYrVzRNOXIzZTkvVkw3ZWt5akNUbkFpYld4cEJQQVVKNVpha0NGY0dr?=
+ =?utf-8?B?M2FkbFBDdnVLMmgrVWJoLzBRZFh6UGIrRXZ3S1YwSkx2S1E4SkxsWm5lQ2NT?=
+ =?utf-8?B?KzlnWlZJMkZqbGpJUGtDZEFIbW5xd2hwbVpIY2ZFNnUrV2hETlM3RXZoNmxt?=
+ =?utf-8?B?dHg1dG80NUUvalZUVmh4b3JwbTVkOVNxR1poMFd6WVlNNExWOHhjSHQxbkcx?=
+ =?utf-8?B?WVVzbXBtUEhKeDBzb1c2WlNHQnFLRzIyM3FEVUwxc1R3RTQvZVBXTEt5OGw3?=
+ =?utf-8?B?UXBJQXN0Zkhnb3FzTFNtK0VibTlNM1FtSDFMZ1NIUXVFOWYwM0dXRE1KT3Fs?=
+ =?utf-8?B?M0daaTJ0OHhpSGRTUWJpVU8rTjdZUWZvK1QxUS83WWxpOHF5Um1vTkRqZXd5?=
+ =?utf-8?B?aitPSU5QSnZJTmxvQVZzaFU5RGNPd21xY0xBb1BTMTJsRkdvOTFoUU5INzFq?=
+ =?utf-8?B?K2Z5Y2FJa21CRG9OTlFsVFZhTnJmM1NzcytrUElqWHVNRG9KaHoxQmVNUGFM?=
+ =?utf-8?B?ZkJoemVRalhKc0pnRWJvK1plK1V1djZWTVY4dkcva3ZsL0tkMUV1V0Z6UXZ5?=
+ =?utf-8?B?V1ZjSkJ1clJTMVNLQjBheGhOUmZ5aUd4Y2hTOS9FM0laZ1lva0JNYWlQRXY4?=
+ =?utf-8?B?cGplWDluTUM0bWFhcitLRy94N3ZXSWplVCswL3BOcVZwbHBpdXZWaVhmWHhk?=
+ =?utf-8?B?clVMcll1K0o3ZHl5WmJiTThPeVI5VnZxQUlJeExVL3FkSzd4K3RuYW80Q1pK?=
+ =?utf-8?B?YkFuVnFXQWE2czhxZjcxQlA2MkJ2NTh2RmZSTHRROWhMK0J0alAyTTlkeHhM?=
+ =?utf-8?B?SS9EcWorL2puNEppM1hqOTJWektycEw3ck1pM3JtblhiMzlRN212RjN0ZlIw?=
+ =?utf-8?B?clRIdHhFclNBRitSU1JrZXRUZEpNRGtsYzNybUJoakt4MFhoajRMaXY5NkJS?=
+ =?utf-8?B?MTVMVFVxdXFkdGFGSjF1c2NPWjR5RlBxYllpWUY2U21IQkZFbkcwVjRIcjVu?=
+ =?utf-8?B?UnhtVXBUeHYrNkNkM3pyM0d3MDFtaXA1cEViNmRwTTRuUXpnZk1EaWQrZXpF?=
+ =?utf-8?B?a1lralJra3FUMWpPWHI5T0l5dEZBR3NzWDZyOHNiYmRqM1JjM3VjVlZvbTgw?=
+ =?utf-8?B?dDhkZXpMSWlXZzBNcUxmQXlSV0RORzNSRWx5RWhUZlFkd1l3K3BTbGVoMmEy?=
+ =?utf-8?B?UVpiWjZrVTdVUXI2ZG1MaU8yTHRRWWZpMFdISEdLUXBYajEyOW13S3VFOURp?=
+ =?utf-8?B?WlE4Z1pnWFYreDliVnE0ck9pTE5melVPVXo0YjdPWE5TS0IxY0xhdXpCVWdZ?=
+ =?utf-8?B?aVNQTUtMbjRETUJNK3V4ck8zeDJhM1lzRXo3RmdNdURkWmlSbWZyV0Nod2xC?=
+ =?utf-8?B?WmxVMGY3R1R3NGh0VlJIeDcxdDdrazBsQ2xsbUNhSDNjZUdRaUNoU1Z5M0tx?=
+ =?utf-8?B?MWdqL0JsM3NmZ2RFemsvZFlzc1FBVVhacHQ3Z01uVklwRVlPYVU3Skc1UUtP?=
+ =?utf-8?B?clNIcDFPZ1hwTjY0WVp0S3dTYmpNUDRuRU41R0VmTjBkVmIzT3pzdGFYVXgw?=
+ =?utf-8?B?MWh0OGlEYlYrci9LZ2dRdnovekJQUkZVaG9BLzNneTE1T0tLV2xPTm91dnQv?=
+ =?utf-8?B?L3pDd0F6cmR0cnMzVThQL1FxR2tLNEFObTNybytzWkZtU2ZxVTU1VlpIT2tP?=
+ =?utf-8?B?YXhPWVNYczQ5T01tZDhQK0NjQVg0V25zL3dEK1c2bDFaZkR0c3BZdW9pQnFM?=
+ =?utf-8?B?Rk1OV05iVmVxdHRpaFVXYXBiRVJoRzRqbWpTNXRsSnVvL05zYmpVWFBWYk1w?=
+ =?utf-8?B?QjluWEFQRU9NZi9oY2dzeVVPMFlIUmZVR3hYcnExMkdOMXQ5VlhmWk1ySGda?=
+ =?utf-8?B?dGV3YTFkNDVQdmVzYVJUNWJwZktwRXNYSWowVmJXQmRPL1hxMDhDOGJvbXBy?=
+ =?utf-8?B?dzlmMUxQRHFINzhkdjd5ajRoblRMNCtUR2h2Rk9hZWMxVTRPdmpEbTdzZU15?=
+ =?utf-8?B?clE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0887c44b-3d6e-403e-dd21-08dbafe750eb
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 21:13:43.4453 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DHSdjCjFDCu32ouK/l2++TvwaVvaDBrzLUR+l8iB+ia9sI4+0xQj2HApgab0xaSIho1f3f2frbHXiLD9Il6HLL3gHkIHjZYnKG3V3eG8Hzk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5652
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,484 +157,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
- wayland-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/16/2023 16:13, Daniele Ceraolo Spurio wrote:
+> If we can't load the HuC due to an injected failure, we don't want
+> to throw and error and trip CI. Using the gt_probe_error macro for
+> logging ensure that the error is only printed if it wasn't explicitly
+> injected.
+>
+> v2: keep the line to less than 100 characters (checkpatch).
+>
+> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/7061
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> #v1
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
+Although aren't we supposed to be using %pe / PTR_ERR(ret) these days? 
+Not a blocker but for future reference.
 
-On 8/29/2023 12:03 PM, Uma Shankar wrote:
-> Add the documentation for the new proposed Plane Color Pipeline.
-> 
-> Co-developed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+John.
+
 > ---
->   .../gpu/rfc/plane_color_pipeline.rst          | 394 ++++++++++++++++++
->   1 file changed, 394 insertions(+)
->   create mode 100644 Documentation/gpu/rfc/plane_color_pipeline.rst
-> 
-> diff --git a/Documentation/gpu/rfc/plane_color_pipeline.rst b/Documentation/gpu/rfc/plane_color_pipeline.rst
-> new file mode 100644
-> index 000000000000..60ce515b6ea7
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/plane_color_pipeline.rst
-> @@ -0,0 +1,394 @@
-> +=======================================
-> + Plane Color Pipeline: A UAPI proposal
-> +=======================================
-> +
-> +To build the proposal on, lets take the premise of a color pipeline as shown
-> +below.
-> +
-Hi Uma,
-Thanks for posting this. A few comments, with some echoing the 
-sentiments of other commenters on the patch set.
+>   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> index f89a1f80f50e..bb58fa9579b8 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> @@ -9,6 +9,7 @@
+>   #include <drm/i915_component.h>
+>   
+>   #include "gem/i915_gem_lmem.h"
+> +#include "gt/intel_gt_print.h"
+>   
+>   #include "i915_drv.h"
+>   #include "gt/intel_gt.h"
+> @@ -156,7 +157,8 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+>   {
+>   	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
+>   	struct intel_pxp *pxp = i915->pxp;
+> -	struct intel_uc *uc = &pxp->ctrl_gt->uc;
+> +	struct intel_gt *gt = pxp->ctrl_gt;
+> +	struct intel_uc *uc = &gt->uc;
+>   	intel_wakeref_t wakeref;
+>   	int ret = 0;
+>   
+> @@ -176,7 +178,7 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+>   			/* load huc via pxp */
+>   			ret = intel_huc_fw_load_and_auth_via_gsc(&uc->huc);
+>   			if (ret < 0)
+> -				drm_err(&i915->drm, "failed to load huc via gsc %d\n", ret);
+> +				gt_probe_error(gt, "failed to load huc via gsc %d\n", ret);
+>   		}
+>   	}
+>   
 
-> + +-------------------------------------------+
-> + |                RAM                        |
-> + |  +------+    +---------+    +---------+   |
-> + |  | FB 1 |    |  FB 2   |    | FB N    |   |
-> + |  +------+    +---------+    +---------+   |
-> + +-------------------------------------------+
-> +       |  Plane Color Hardware Block |
-> + +--------------------------------------------+
-> + | +---v-----+   +---v-------+   +---v------+ |
-> + | | Plane A |   | Plane B   |   | Plane N  | |
-> + | | Pre-CSC |   | Pre-CSC   |   | Pre-CSC  | |
-> + | +---+-----+   +---+-------+   +---+------+ |
-> + |     |             |               |        |
-> + | +---v-----+   +---v-------+   +---v------+ |
-> + | |Plane A  |   | Plane B   |   | Plane N  | |
-> + | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
-> + | +---+-----+   +----+------+   +----+-----+ |
-> + |     |              |               |       |
-> + | +---v-----+   +----v------+   +----v-----+ |
-> + | | Plane A |   | Plane B   |   | Plane N  | |
-> + | |Post-CSC |   | Post-CSC  |   | Post-CSC | |
-> + | +---+-----+   +----+------+   +----+-----+ |
-> + |     |              |               |       |
-> + +--------------------------------------------+
-> ++------v--------------v---------------v-------|
-> +||                                           ||
-> +||           Pipe Blender                    ||
-> ++--------------------+------------------------+
-> +|                    |                        |
-> +|        +-----------v----------+             |
-> +|        |  Pipe Pre-CSC        |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |            Pipe Color  |
-> +|        +-----------v----------+ Hardware    |
-> +|        |  Pipe CSC/CTM        |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |                        |
-> +|        +-----------v----------+             |
-> +|        |  Pipe Post-CSC       |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |                        |
-> ++---------------------------------------------+
-> +                     |
-> +                     v
-> +                Pipe Output
-> +
-> +Each plane consists of the following color blocks
-> + * Pre-CSC : This block can used to linearize the input frame buffer data.
-> +             The linear data then can be further acted on by the following
-> +             color hardware blocks in the display hardware pipeline
-> +
-> + * CSC/CTM: Used to program color transformation matrix, this block is used
-> +            to perform color space conversions like BT2020 to BT709 or BT601
-> +            etc. This block acts on the linearized data coming from the
-> +            Pre-CSC HW block.
-> +
-> + * Post-CSC: This HW block can be used to non-linearize frame buffer data to
-> +             match the sink. Another use case of it could be to perform Tone
-> +             mapping for HDR use-cases.
-> +
-> +Data from multiple planes will then be fed to pipe/crtc where it will get blended.
-> +There is a similar set of HW blocks available at pipe/crtc level which acts on
-> +this blended data.
-> +
-> +Below is a sample usecase fo video playback with sub-titles and playback
-> +controls
-> +
-> +┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐
-> +│FB1         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │
-> +│            ├───►│Linearize    ├────►│ BT709 to    ├───►│ SDR to HDR  │
-> +│BT709 SDR   │    │             │     │ BT2020      │    │ Tone Mapping├─────┐
-> +└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘     │
-> +(subtitles)                                                                  │
-> +                                                                             │
-> +┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐     │
-> +│FB2         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │     │
-> +│            ├───►│Linearize    ├────►│ BT601 to    ├───►│ SDR to HDR  ├───┐ │
-> +│BT601 SDR   │    │             │     │ BT2020      │    │ Tone Mapping│   │ │
-> +└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘   │ │
-> +(Playback controls UI)                                                     │ │
-> +                                                                           │ │
-> +┌────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐   │ │
-> +│FB2         │    │PRE-CSC      │     │ CTM Matrix  │    │ POST-CSC    │   │ │
-> +│            ├───►│Linearize    ├────►│ BT601 to    ├───►│ SDR to HDR  ├─┐ │ │
-> +│BT2020 HDR  │    │             │     │ pass-through│    │ pass-through│ │ │ │
-> +└────────────┘    └─────────────┘     └─────────────┘    └─────────────┘ │ │ │
-BT601 to pass-through seems odd here. Shouldn't this be BT2020 pass-through?
-> +(video frame)                                                            │ │ │
-> +                                                                         │ │ │
-> +┌────────────────────────────────────────────────────────────────────────┴─┴─┘
-> +│
-> +│ ┌─────────────┐      ┌─────────────┐      ┌───────────────┐
-> +│ │ CRTC        │      │ CRTC        │      │ CRTC          │
-> +└─┤ PRE-CSC     ├─────►│ CSC/CTM     ├─────►│ POST-CSC      ├─────► TO Port
-> +  │             │      │             │      │               │
-> +  └─────────────┘      └─────────────┘      └───────────────┘
-> +
-> +This RFC is intended to propose an uAPI for the pre-blending color pipeline
-> +(however, can be also extended to post blending pipeline).
-> +
-> +Below are the design considerations while designing the uAPI.
-> +
-> +1. Individual HW blocks can be muxed. (e.g. out of two HW blocks only one can be used)
-> +2. Position of the HW block can be programmable
-> +3. LUTs can be one dimentional or three dimentional
-> +4. Number of LUT entries can vary across platforms
-> +5. Precision of LUT entries can vary across platforms
-> +6. Distribution of LUT entries may vary. e.g Mutli-segmented, Logarithmic,
-> +   Piece-Wise Linear(PWL) etc
-> +7. There can be parameterized/non-parameterized fixed function HW blocks.
-> +   e.g. Just a hardware bit, to convert from one color space to another.
-> +
-> +Plane Color Pipeline: Design Proposal
-> +=====================================
-> +Each Color Hardware block will be represented by the structure drm_color_op.
-> +
-> +struct drm_color_op {
-> +	enum color_op_block name;
-> +	enum color_op_type type; > +	u32 blob_id;
-> +	u32 private_flags;
-> +};
-> +
-> +The members of which will constitute:
-> +1. name: A standardised enum for the color hardware block
-> +2. type: The type of mathematical operation done by the hardware block.
-> +         e.g. 1D Curve, 3D Curve, Matrix etc.
-Using both 'type' and 'name' to identify the block sounds like an over 
-complication to me. From a UAPI perspective we mainly care about the 
-functionality the block provides, and type should be able to cover this 
-on its own. If name is needed to declare a divergence from the standard 
-definition for the type, why wouldn't a new type just be declared?
-
-I'm currently not seeing any benefit that name provides.
-
-> +3. blob id: Id  pointing to a blob containing information about the hardware
-> +         block advertising the respective capabilities to the userspace.
-> +         It can be an optional field depending on the members "name" and "type".
-> +4. private_flags: This can be used to provide vendor specific hints
-> +         to user space
-> +
-If OEMs are declaring essentially hints in this property, how is user 
-space going to handle this when they don't know how to interpret or 
-handle them? To give any compositor a chance to use the color block 
-these hints would have to result in no modification of the behavior 
-agreed upon by the 'type', at which point I don't see what purpose they 
-serve. The blob UAPI being fixed for a given color block type would also 
-pose an issue here.
-
-On the other hand, if these flags are only used for vendor specific 
-hardware blocks it sounds like we are clubbing a proprietary block + 
-definition into the color pipeline. I don't think this co-exists well 
-with the intent of the original proposal.
-
-> +
-> +   For example to represent LUTs, we introduce the drm_color_lut_range
-> +   structure. It can represent LUTs with varied number of entries and
-> +   distributions (Multi segmented, Logarithmic etc).
-> +
-> +   struct drm_color_lut_range {
-> +		/* DRM_MODE_LUT_* */
-> +		__u32 flags;
-> +		/* number of points on the curve */
-> +		__u16 count;
-> +		/* input/output bits per component */
-> +		__u8 input_bpc, output_bpc;
-> +		/* input start/end values */
-> +		__s32 start, end;
-> +		/* output min/max values */
-> +		__s32 min, max;
-> +   };
-> +
-> +Note: More details on exact usage and implementation of this structure can be
-> +      found in the RFC. This structure is taken as is from the series.
-> +      https://patchwork.freedesktop.org/series/90825/
-> +      However, we can add more members to it to encompass all use-cases.
-> +      For example. we can add a precision field to advertise the
-> +      bitdepth of the LUTs. Similarly, we can reserve some bits in the flag
-> +      field for vendor specific use cases.
-> +
-> +      At the same time, we don't need to pass any additional information for the
-> +      CSC block as userspace and driver already agrees struct drm_color_ctm as
-> +      a uAPI to pass on data.
-> +
-> +These color operations will form the building blocks of a color pipeline which
-> +best represents the underlying Hardware. Color operations can be re-arranged,
-> +substracted or added to create distinct color pipelines to accurately describe
-> +the Hardware blocks present in the display engine.
-> +
-> +In this proposal, a color pipeline is represented as an array of
-> +struct drm_color_op.
-> +
-> +struct drm_color_op color_pipeline_1[]
-> +
-> +For example to represent the pre-blending color pipeline as described above
-> +
-> +We can create a color pipeline like this.
-> +
-> +struct drm_color_op color_pipeline_1[] = {
-> +	{
-> +		.name = DRM_CB_PRE_CSC,
-> +		.type = CURVE_1D,
-> +		.blob_id = 0; /* actual value to be populated during plane
-> +						 initialization*/
-> +	},
-> +	{
-> +		.name = DRM_CB_CSC,
-> +		.type = MATRIX,
-> +		.blob_id = 0;
-> +	},
-> +	{
-> +		.name = DRM_CB_POST_CSC,
-> +		.type = CURVE_1D,
-> +		.blob_id = 0;
-> +	},
-> +};
-
-I'm noticing that in the shared IGT patch set these names are being used 
-to determine position instead of, well, the actual position in the color 
-pipeline. We definitely need to be careful to avoid coupling 
-functionality with usage, and I think having a name field is going to 
-cause developers to make that mistake / shortcut.
-
-> +
-> +Then, for individual color operation, we add blobs to advertise the capability
-> +of the particular Hardware block. In case of the example pipeline, we add
-> +blobs of type drm_color_lut_range for the "pre-csc" and "post-csc".
-> +For the "csc" block we pass no blob id to user space as it is known to both
-> +user space and driver that drm_color_ctm structure is to be used for such
-> +operation.
-> +
-> +To represent, this in a diagram.
-> +
-> +   struct drm_color_op color_pipeline_1[]
-> +      +---------------------------+
-> +      |                           |           drm_color_op
-> +      |  +---------------------+--+-----------+---------------------+
-> +      |  |                     |  |           |                     |
-> +      |  |                     |  |           | +-----------------+ |
-> +      |  |                     |  |           | |     name        | |
-> +      |  |                     |  |           | +-----------------+ |
-> +      |  |                     |  |           | |     type        | |
-> +      |  |    color_op_1       |  |           | +-----------------+ |
-> +      |  |                     |  |           | |     blob id     | +--------+
-> +      |  |                     |  |           | +-----------------+ |        |
-> +      |  |                     |  |           | |     private     | |        |
-> +      |  |                     |  |           | |      flags      | |        |
-> +      |  |                     |  |           | +-----------------+ |        |
-> +      |  |                     |  |           |                     |        |
-> +      |  +---------------------+--+-----------+---------------------+        |
-> +      |                           |                                          |
-> +      |                           |                                          |
-> +      |  +---------------------+  |                                          |
-> +      |  |                     |  |           drm_color_lut_range            |
-> +      |  |    color_op_2       |  |           +-------------------------+    |
-> +      |  |                     |  |           |                         |    |
-> +      |  |                     |  |           | +---------------------+ |    |
-> +      |  +---------------------+  |           | | segment 1 {         | |<---+
-> +      |                           |           | |  ...                | |
-> +      |  +---------------------+  |           | |  .input_bpc = 16,   | |
-> +      |  |                     |  |           | |  .output_bpc = 16,  | |
-> +      |  |    color_op_3       |  |           | |  ...                | |
-> +      |  |                     |  |           | | }                   | |
-> +      |  |                     |  |           | +---------------------+ |
-> +      |  +---------------------+  |           |                         |
-> +      |             .             |           | +---------------------+ |
-> +      |             .             |           | | segment 2 {         | |
-> +      |             .             |           | | ...                 | |
-> +      +---------------------------+           | | }                   | |
-> +                                              | |                     | |
-> +                                              | |                     | |
-> +                                              | |                     | |
-> +                                              | +---------------------+ |
-> +                                              |            .            |
-> +                                              |            .            |
-> +                                              |            .            |
-> +                                              +-------------------------+
-> +
-> +
-> +
-> +This color pipeline is then packaged within a blob for the user space to
-> +retrieve it. Details can be found in the next section
-While I get the intent of the blob nesting, as others have mentioned 
-this does feel like a recreation of what we already have with DRM 
-objects. DRM objects would also have the advantage of allowing for 
-easier OEM extension. Instead of private flags, an OEM could introduce 
-behavior modifiers or additional features on a color block object via 
-additional properties (these properties would obviously have to default 
-to a disabled state to ensure default behavior is what is defined by the 
-base color block type).
-
-> +
-> +Exposing a color pipeline to user space
-> +=======================================
-> +
-> +To advertise the available color pipelines, an immutable ENUM property
-> +"GET_COLOR_PIPELINE" is introduced.
-> +This enum property has blob id's as values. With each blob id representing
-> +a distinct color pipeline based on underlying HW capabilities and their
-> +respective combinations.
-> +
-> +The following output of drm_info [1], shows how color pipelines are visible
-> +to userspace.
-> +
-> +├───Plane 0
-> +    │   ├───Object ID: 31
-> +    │   ├───CRTCs: {0}
-> +    │   ├───Legacy info
-> +        ...
-> +    │       ├───"GET_COLOR_PIPELINE" (immutable): enum {no color pipeline,
-> +						color pipeline 1, color pipeline 2}= no color pipeline
-> +
-> +To understand the capabilities of individual pipelines, first the userspace
-> +need to retrieve the pipeline blob with the blob ids retrieved by reading the
-> +enum property.
-> +
-> +Once the color pipeline is retrieved, user can then parse through
-> +individual drm_color_op blocks to understand the capabilities of each
-> +hardware block.
-> +
-> +Check IGT series to see how user space can parse through color pipelines.
-> +Refer the IGT series here: https://patchwork.freedesktop.org/series/123018/
-> +
-> +Setting up a color pipeline
-> +===========================
-> +
-> +Once the user space decides on a color pipeline, it can set the pipeline and
-> +the corresponding data for the hardware blocks within the pipeline with
-> +the BLOB property "SET_COLOR_PIPELINE".
-> +
-> +To achieve this two structures are introduced
-> +
-> +1.	struct drm_color_op_data: It represents data to be passed onto individual
-> +							  color hardware blocks. It contains three members
-> +                      a) name: to identify the color operation block
-> +                      b) blob_id: pointing to the blob with data for the
-> +                                  corresponding hardware block
-> +
-> +	struct drm_color_op_data {
-> +		enum color_op_block name;
-> +		u32 blob_id;
-> +	};
-> +
-> +2.	struct drm_color_pipeline: This structure represents the aggregate
-> +                                   pipeline to be set. it contains the following  members
-> +					  a) num: pipeline number to be selected
-> +					  b) size: size of the data to be passed onto the driver
-> +					  c) data: array of struct drm_color_op_data with data for
-> +                                                   the hardware block/s that userspace wants to
-> +                                                   set values for.
-> +
-> +	struct drm_color_pipeline {
-> +		int num;
-> +		int size;
-> +		struct drm_color_op_data *data;
-> +	};
-> +
-> +	User can either:
-> +	1. send data for all the color operations in a pipeline as shown in [2].
-> +	   The color operation data need not be in order that the pipeline advertises
-> +	   however, it should not contain data for any
-> +	   color operation that is not present in the pipeline.
-> +
-> +	   Note: This check for pipeline is not yet implemented but if the
-> +	   wider proposal is accepted we have few solutions in mind.
-> +
-> +	2. send data for a subset of color operations as shown in [3].For the
-> +	   color operation that userspace does not send data will retain their
-> +	   older state.
-> +
-> +	3. reset/disable the pipeline by setting the "SET_COLOR_PIPELINE" blob
-> +	   property to NULL as shown in both [2] and [3]
-> +
-> +	4. change the color pipeline as demonstrated in [3].
-> +	   On the new pipeline, the user is expected to setup all the color hardware block
-> +	   Once the user requests a pipeline change, the driver will provide it a clean slate
-> +           which means that all the data previously set by the user will be discarded even if
-> +           there are common hardware blocks between the two(previous and current) pipelines.
-> +
-> +IGT implementation can be found here [4]
-> +
-> +Representing Fixed function hardware
-> +====================================
-> +
-> +To provide support for fixed function hardware, the driver could expose vendor
-> +specific struct drm_color_op with parameters that both the userspace and
-> +driver agrees on. To demonstrate, let's consider a hyphothetical fixed
-> +function hardware block that converts BT601 to BT2020.
-> +The driver can choose to advertise the block as such.
-> +
-> +struct drm_color_op color_pipeline_X[] = {
-> +	{
-> +		.name = DRM_CB_PRIVATE,
-> +		.type = FIXED_FUNCTION,
-> +		.blob_id = 45;
-> +	},
-> +}
-> +
-> +Where the blob represents some vendor specific enums, strings or any other
-> +appropriate data types which both the user-space and drivers are aligned on.
-> +
-> +blob:45 {
-> +	VENDORXXX_BT602_TO_BT2020,
-> +};
-
-As far as I see it, one of the primary advantages of moving to this new 
-color pipeline is the standardization of the color block definition. 
-User space looks at the 'type', and if it supports it then it can look 
-at other expected information such as 'lut_size', 'bit_depth', etc to 
-determine the programming considerations.
-
-The second we start having color blocks fully defined by private_flags 
-and vendor specific blobs we end up with the same scenario we have today 
-with vendor specific properties on our DRM CRTC and DRM PLANE objects. 
-While we aren't going to make all the different OEM hardware match, we 
-still want to encourage common approaches to block declaration so user 
-space can easily identify functionality it supports across a wide range 
-of hardware.
-
-
-> +
-> +For enabling or passing parameters to such blocks, the user can send data
-> +to the driver wrapped within a blob like any other color operation block.
-> +
-> +	struct drm_color_op_data {
-> +		.name = DRM_CB_PRIVATE;
-> +		.blob_id = 46;
-> +	} ;
-> +
-> +where blob with id 46 contains data to enable the fixed function hardware(s).
-> +
-
-All that said, thanks again for working on this. I'm definitely curious 
-to see how this will all come together.
-
-- Christopher
-
-> +References
-> +==========
-> +
-> +[1] https://gitlab.freedesktop.org/emersion/drm_info
-> +[2] https://patchwork.freedesktop.org/patch/554827/?series=123018&rev=1
-> +[3] https://patchwork.freedesktop.org/patch/554826/?series=123018&rev=1
-> +[4] https://patchwork.freedesktop.org/series/123018/
