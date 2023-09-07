@@ -1,73 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708E9797097
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:03:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A69E5797099
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 10:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0698B10E784;
-	Thu,  7 Sep 2023 08:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C623010E789;
+	Thu,  7 Sep 2023 08:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2191010E784
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:03:53 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-522bd411679so811879a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 01:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694073831; x=1694678631; darn=lists.freedesktop.org;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Trw2Io8ytInM/aE3aOtZqo+e5kg3I/wOc+oRENvPgFs=;
- b=Nm+YGxryMfap37/iTmXtIzRNCE5IK2mbv2uaHQEoFemtbej+LvMcy30+lyOilVocvB
- NWs2dnuW4ZIaI5IT60cIuUKQrnHuxQeVOrn0d3K24KGONzwPDs2qE6hSrUPNKgEHq813
- Fa1EB4mJbJPEzm4OpnCy90IM+i5b7iNdj5+KpPmEKIYMo2pY06ZIvf1hHJSTz1R6jLen
- iiySTltv/j3CFj5Y8M2yzeM3LaCeXYGqILldpVMnKekLWS4+aFBdQTsy+vEc1RbfLq8y
- /ldj6kVoJ1O6+COb05vOGWXZWohcy0RJToAQD7fit7KG4BorKOc6MiKTrbLOau/h9g+b
- 3w4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1694073831; x=1694678631;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Trw2Io8ytInM/aE3aOtZqo+e5kg3I/wOc+oRENvPgFs=;
- b=NiySIWszI55mgnOXAJ2nfqhp3EOZ/zwpRLn81cxNf1YzhHjaEiIrHdKL2QaTQwGnCO
- 6Xx1riXNH1t4KrViWt1S+Z7ha7BLQ4QL6d5NrtgpUZ8QXvM7DVTzIzqXIqbAgjmOPx3Z
- bjL4r/zMMi423BjXoQtmWN8BvF+ymllGKf0+LOXGhyMqUAyI03WXsWHIK0ikhlQWNth9
- Uk/588Xm2fSZmTBi7ioLzNmsEtM9NQLS39N7aYuydH2Q0cx4zAvmBg7FDYBg6bvy9Oot
- oc1fI3Jmx/6d8WxZYNcC9zSOP+e7XZRZmmaOIJ1xRkvv4LqBNdK6DsKom/OrgXtxRDfJ
- vfeA==
-X-Gm-Message-State: AOJu0YyzDx9EufzFTcFZ08sDGqkp3Rtl9kwCqPhWv3PHf4Y2obFboaaO
- +VCj50dbMASbhdhOGMdfZPs=
-X-Google-Smtp-Source: AGHT+IH3qgpRCX7/aDqgLlEB/4Ih1/EFDrLeaDQWihqXMSYg2240AnNbJlLKWfYj9NYu/lINHqg10w==
-X-Received: by 2002:aa7:cf09:0:b0:522:cb97:f196 with SMTP id
- a9-20020aa7cf09000000b00522cb97f196mr4191837edy.36.1694073831238; 
- Thu, 07 Sep 2023 01:03:51 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- r24-20020a50d698000000b0052e2aa1a0fcsm4932797edi.77.2023.09.07.01.03.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Sep 2023 01:03:50 -0700 (PDT)
-Date: Thu, 7 Sep 2023 10:03:49 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/tegra: Remove existing framebuffer only if we
- support display
-Message-ID: <ZPmD5WNZzz279qZ7@orome>
-References: <20230825132229.1109445-1-thierry.reding@gmail.com>
- <f5ce7a77-ee3e-5186-dd8a-76c0bd794de0@suse.de>
- <5f1bca1b-8deb-e677-521d-87d3848e22df@kapsi.fi>
- <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339FF10E789
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 08:06:33 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EBE3B1F88C;
+ Thu,  7 Sep 2023 08:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694073991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jevjVCyb8VagHsqKJkzCUKGGkbaXB8mZNS25TIrybjE=;
+ b=JtBm/ROc0o5WYZkKvGbkGK7rtCH7iyOxcFVi74/vLweQ2jgUn3brhvRmGHjzA3iaqHad/e
+ yNDpaYu2Uyesuik7vmtds2vIvzxM+0CvkEhZwKg/1L+klpGqlo4JR7vIy9gYqb7HvU5ho8
+ OEsHqimzTuvW/Ko9OYF6OwFsBiJOBnA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694073991;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jevjVCyb8VagHsqKJkzCUKGGkbaXB8mZNS25TIrybjE=;
+ b=h8M/uegszXSJcfHVF2EqQMDGmge+KBZKySD0/FO6VUvfjBWQbqKXfLhaTenfAPJB2zxx7l
+ N5jC6aU1BVcmR+Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B96DD13AD5;
+ Thu,  7 Sep 2023 08:06:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id m1JiLISE+WQ6CgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 07 Sep 2023 08:06:28 +0000
+Message-ID: <a34d8e85-38cd-c64b-9698-e0b9d4195620@suse.de>
+Date: Thu, 7 Sep 2023 10:06:27 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 5/7] fbdev/core: Build fb_logo iff CONFIG_LOGO has been
+ selected
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Helge Deller <deller@gmx.de>, daniel@ffwll.ch, javierm@redhat.com,
+ sam@ravnborg.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20230829142109.4521-1-tzimmermann@suse.de>
+ <20230829142109.4521-6-tzimmermann@suse.de>
+ <bf8e8402-2def-a365-18be-3b426cb1830a@gmx.de>
+ <a0f9f34f-0c4f-9fc8-83ef-899a8f368529@suse.de>
+In-Reply-To: <a0f9f34f-0c4f-9fc8-83ef-899a8f368529@suse.de>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EqoqqfIR7OGuiZIB"
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFDn_R+c=YErf7gEHVW4pg+odYKVjrs0EofvpG544Po6Q@mail.gmail.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+ protocol="application/pgp-signature";
+ boundary="------------83VqkkgoLHZLC0YE3Esn64Ch"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,97 +75,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jon Hunter <jonathanh@nvidia.com>
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------83VqkkgoLHZLC0YE3Esn64Ch
+Content-Type: multipart/mixed; boundary="------------GmuOlb1GKUyW2IrHE6ZaqG0o";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Helge Deller <deller@gmx.de>, daniel@ffwll.ch, javierm@redhat.com,
+ sam@ravnborg.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Message-ID: <a34d8e85-38cd-c64b-9698-e0b9d4195620@suse.de>
+Subject: Re: [PATCH 5/7] fbdev/core: Build fb_logo iff CONFIG_LOGO has been
+ selected
+References: <20230829142109.4521-1-tzimmermann@suse.de>
+ <20230829142109.4521-6-tzimmermann@suse.de>
+ <bf8e8402-2def-a365-18be-3b426cb1830a@gmx.de>
+ <a0f9f34f-0c4f-9fc8-83ef-899a8f368529@suse.de>
+In-Reply-To: <a0f9f34f-0c4f-9fc8-83ef-899a8f368529@suse.de>
 
---EqoqqfIR7OGuiZIB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------GmuOlb1GKUyW2IrHE6ZaqG0o
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Thu, Aug 31, 2023 at 10:04:29AM +0200, Daniel Vetter wrote:
-> On Thu, 31 Aug 2023 at 08:33, Mikko Perttunen <cyndis@kapsi.fi> wrote:
-> >
-> > On 8/30/23 13:19, Thomas Zimmermann wrote:
-> > > Hi
-> > >
-> > > Am 25.08.23 um 15:22 schrieb Thierry Reding:
-> > >> From: Thierry Reding <treding@nvidia.com>
-> > >>
-> > >> Tegra DRM doesn't support display on Tegra234 and later, so make sure
-> > >> not to remove any existing framebuffers in that case.
-> > >>
-> > >> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > >> ---
-> > >>   drivers/gpu/drm/tegra/drm.c | 8 +++++---
-> > >>   1 file changed, 5 insertions(+), 3 deletions(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm=
-=2Ec
-> > >> index b1e1a78e30c6..7a38dadbc264 100644
-> > >> --- a/drivers/gpu/drm/tegra/drm.c
-> > >> +++ b/drivers/gpu/drm/tegra/drm.c
-> > >> @@ -1220,9 +1220,11 @@ static int host1x_drm_probe(struct
-> > >> host1x_device *dev)
-> > >>       drm_mode_config_reset(drm);
-> > >> -    err =3D drm_aperture_remove_framebuffers(&tegra_drm_driver);
-> > >> -    if (err < 0)
-> > >> -        goto hub;
-> > >> +    if (drm->mode_config.num_crtc > 0) {
-> > >
-> > > If you don't support the hardware, wouldn't it be better to return
-> > > -ENODEV if !num_crtc?
-> >
-> > While display is not supported through TegraDRM on Tegra234+, certain
-> > multimedia accelerators are supported, so we need to finish probe for t=
-hose.
->=20
-> Ideally you also register the tegra driver without DRIVER_MODESET |
-> DRIVER_ATOMIC in that case, to avoid unecessary userspace confusion.
-> Most userspace can cope with a display driver without any crtc, but I
-> think xorg-modesettting actually falls over. Or at least I've seen
-> some hacks that the agx people added to make sure X doesn't
-> accidentally open the wrong driver.
+DQpBbSAwNC4wOS4yMyB1bSAwOTowOCBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPiBI
+aQ0KPiANCj4gQW0gMDEuMDkuMjMgdW0gMTA6MjIgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+
+PiBPbiA4LzI5LzIzIDE2OjE1LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+PiBPbmx5
+IGJ1aWxkIGZiX2xvZ28uYyBpZiBDT05GSUdfTE9HTyBoYXMgYmVlbiBzZWxlY3RlZC4gT3Ro
+ZXJ3aXNlDQo+Pj4gcHJvdmlkZSBlbXB0eSBpbXBsZW1lbnRhdGlvbnMgb2YgdGhlIGNvbnRh
+aW5lZCBpbnRlcmZhY2VzIGFuZCBhdm9pZA0KPj4+IHVzaW5nIHRoZSBleHBvcnRlZCB2YXJp
+YWJsZXMuDQo+Pj4NCj4+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC4uLg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Zp
+ZGVvL2ZiZGV2L2NvcmUvZmJjb24uYyANCj4+PiBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29y
+ZS9mYmNvbi5jDQo+Pj4gaW5kZXggZjE1N2E1YTFkZmZjLi4yNGIwMzg1MTBhNzEgMTAwNjQ0
+DQo+Pj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiY29uLmMNCj4+PiArKysg
+Yi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjb24uYw0KPj4+IEBAIC00NzQsMTUgKzQ3
+NCwxOSBAQCBzdGF0aWMgaW50IF9faW5pdCBmYl9jb25zb2xlX3NldHVwKGNoYXIgKnRoaXNf
+b3B0KQ0KPj4+DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghc3RybmNtcChvcHRpb25z
+LCAibG9nby1wb3M6IiwgOSkpIHsNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBv
+cHRpb25zICs9IDk7DQo+Pj4gKyNpZmRlZiBDT05GSUdfTE9HTw0KPj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGlmICghc3RyY21wKG9wdGlvbnMsICJjZW50ZXIiKSkNCj4+PiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZiX2NlbnRlcl9sb2dvID0gdHJ1
+ZTsNCj4+PiArI2VuZGlmDQo+Pg0KPj4gSU1ITywgKnNvbWV0aW1lcyogaXQgbWFrZXMgc2Vu
+c2UgdG8gbm90IHVzZSAjaWZkZWYgYW5kIGNvZGUgaXQgaW5zdGVhZCANCj4+IGxpa2UgdGhp
+czoNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKElTX0VOQUJMRUQoQ09O
+RklHX0xPR08pICYmDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAhc3Ry
+Y21wKG9wdGlvbnMsICJjZW50ZXIiKSkNCj4+IC4uLg0KPj4gVGhhdCB3YXkgdGhlIGNvbXBp
+bGVyIHdpbGwgb3B0aW1pemUgdGhhdCBjb2RlIGF3YXkgYXMgd2VsbCwgYnV0IGluDQo+PiBh
+ZGRpdGlvbiBpdCB3aWxsIGNvbXBpbGUtY2hlY2sgdGhhdCB5b3UgaGF2ZSBjb3JyZWN0IGNv
+ZGluZyBpbmRlcGVuZGVuZA0KPj4gaWYgQ09ORklHX0xPR08gaXMgc2V0IG9yIG5vdC4NCj4g
+DQo+IEdvb2QgaWRlYS4gSSdsbCBjaGFuZ2UgaXQuIFRoZSBJU19FTkFCTEVEIGNvZGUgaXMg
+YWxzbyBlYXNpZXIgdG8gcmVhZCBJTUhPLg0KDQpJJ2xsIGtlZXAgdGhlIGN1cnJlbnQgYXBw
+cm9hY2gsIGJ1dCBpbiBhIHNpbXBsaWZpZWQgZm9ybS4NCg0KPiANCj4gQmVzdCByZWdhcmRz
+DQo+IFRob21hcw0KPiANCj4+DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29u
+dGludWU7DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+Pg0KPj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoCBpZiAoIXN0cm5jbXAob3B0aW9ucywgImxvZ28tY291bnQ6IiwgMTEpKSB7DQo+
+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb3B0aW9ucyArPSAxMTsNCj4+PiArI2lm
+ZGVmIENPTkZJR19MT0dPDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCpv
+cHRpb25zKQ0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmJfbG9n
+b19jb3VudCA9IHNpbXBsZV9zdHJ0b2wob3B0aW9ucywgJm9wdGlvbnMsIDApOw0KPj4+ICsj
+ZW5kaWYNCj4+DQo+PiBzYW1lIGhlcmUuDQo+Pg0KPj4gSGVsZ2UNCj4gDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
+dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
+IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-That's a good point. However I recall from earlier attempts at doing
-something like this in Nouveau (although this is now very long ago) that
-it's not very easy. The problem, as I recall, is that the driver is a
-singleton, so we would essentially be supporting either modesetting or
-not, for any device in the system.
 
-Now, it's unlikely that we'd have a mix of one Tegra DRM driver with
-display support and another without, but it's something that I recall
-back at the time with Nouveau was problematic because you could have the
-Tegra integrated graphics (without display support) and a PCI-connected
-discrete GPU (with display support) within the same system.
+--------------GmuOlb1GKUyW2IrHE6ZaqG0o--
 
-I need to look into it a bit more to see if I can come up with something
-good to account for this.
-
-Thierry
-
---EqoqqfIR7OGuiZIB
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------83VqkkgoLHZLC0YE3Esn64Ch
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmT5g+UACgkQ3SOs138+
-s6FLmhAAmyaCx+NZ4CFNJnxq8gGz2x3VEtu+/0PYbo6Fw/Lx+HMoIpz9sN0sb6Dh
-XvJ5gxTSMeNWwQXSuLDd/dkZLgrveqd1pi4kzaClq1B1PnuD4ltt2K85a0/riByP
-dfRf8fs0i0DwcVM8WxrzpeLkE+HydCHkZJu/jisq8zGWrZvFr/PRUQvDYILKDEi2
-GoqN/DKNNVgkbn2TMrAwl/U899ZqUla2+03EJqNq0N10/wMUbEmuIBSkuUx3Z4Ys
-y5RAqxiQt5Q8l8m81+p5hdkkS5rlEnODzK1tYHN9p34hEq9miBfL94kYdV+6I303
-poOV5TGn9rN1KvP0cFIi/kQXYFTr7Myk3kSifPLlSeCdzHMrt3nigPb9zoHWl5mI
-2sxxYydmSnq3GiROvs2LnbuFw4lZfnUNkgTJTllPPL6hp3dnAJ5H/8hUVtVqLXQn
-BaUEiY/awdFWHJPRrBgm30vs8IKOlWCV2+3T7LWrQ77X/+HYjVE9i5q36cOJ/kZb
-TBw8PnO9DZtoAFzJ3EaUqyQetPJAbUzGvBvqdK5sz8aqMHJ4r0ti1fCF6tPR95G+
-Skkhl2Bm3h/0R+VEOr2uDwRvPTpZTs4IIdJNTIoIjP5170SS0FGutvD8ZKSrvfI6
-Qe0pZ/TzKEFYsZVV15YIWwukoQzgmsd34hTPT0H0RRJ7wz800uo=
-=cMhM
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT5hIMFAwAAAAAACgkQlh/E3EQov+C9
+JRAAyVsIVuoW2zowfQG0TA89CrPzDvh64zoaeA2iO1xVE3LJo9LnHla78PjtSAQiuqGUKNuxtDz+
+eNk4aGsHC/5/VILjDwtX3MvB8wJ9UHCMbH986m/+v6l8xJWsd8E0Q9Fui43i5jWzXpyiT8navZZs
+ipKH54hJR0M5LeplSshSeCBKtcYNLkMTFNy1haxkAnC+YBU2T53Gp5swCQB93mdJjSRfka+95ly4
+BUnonVqXyu1Pi9qLDeuGraLxhVXYUNggzAS7Dbhx/MUaxrd/vhgCKl5xbpIA0LAFE6z/sem6C2yB
+0OJlLLlkPrzyt6ic6fM71aW+kIxVjh3ubrLISwiG1rkDODw8FhKnKGpKqWF11ClYB0spsf+PlRjQ
+JOy1vywwxO+Fh+F17iLAYuRdXab9pVRWis8mLmZx0295JcUz7BsG0Asank+fOOdyyzGPJlJl4zPA
+NkhzZuRr3Jeasl9smjX2I+qwI3x4GX7FQO+vNowJLR66S+3VMnEj1eji+uV8Xh3S3UTI+6uI8C98
+8JjI8yfLPsX/+E5sD/A/sb8PAXPg4OI9FDIJzPotxx4ytAi30lmsWbaaS5aOe3RIzoRtlGrr+e+h
+Ycey8OchZ4Gz2MpsDHOd5Rgq9bu0Hw80iKfsjxPfn6mTKnLx+gqTguVVP1wJOw6KXTP4dFQheBoW
+tZc=
+=A55L
 -----END PGP SIGNATURE-----
 
---EqoqqfIR7OGuiZIB--
+--------------83VqkkgoLHZLC0YE3Esn64Ch--
