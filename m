@@ -1,53 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A42579714A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 11:36:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AA679714D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Sep 2023 11:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C0A10E223;
-	Thu,  7 Sep 2023 09:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF5410E602;
+	Thu,  7 Sep 2023 09:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAF810E223;
- Thu,  7 Sep 2023 09:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694079369; x=1725615369;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FSQ7vuGo6AwUt3MAO0J06RwhL1Zs4K+W4r9Ms0Ij0ts=;
- b=TZhPV74dE4tPU1Gx+yF4FOMmWj49o6Mj8NXP25Oyb/02Lh9zME35Vz+b
- ksHy9kUHKidXgkqeXErpgveBrWzdntedpapR/pcPezkZLeQcFIs+pLTw0
- Ss+gydvppNXbmqjdSGMVVsnfPS4cNDkm49vOV2J4Bp+R7VyKLgDV/o+YA
- ujoKufqjBC0I+WBYjbkpwrbus8p3MrH6jV8/VZnPZ7F7J+ZASxkOWtnlx
- 9pFvZAHWoDHOa5E/2NIpZssEBgSqw8ZzndhAwAnkmTtqQirjO4x6b7B1e
- GtxvHMCtAV3yhM8TKxwmYchkcCsyy8ORrmvEnA+OU6FEHROMOhscpfkW3 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="443691159"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="443691159"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2023 02:35:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="865561582"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; d="scan'208";a="865561582"
-Received: from iraduica-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.61.21])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2023 02:35:54 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm: Add Wrapper Functions for ELD SAD Extraction
-In-Reply-To: <20230821160004.2821445-3-mitulkumar.ajitkumar.golani@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230821160004.2821445-1-mitulkumar.ajitkumar.golani@intel.com>
- <20230821160004.2821445-3-mitulkumar.ajitkumar.golani@intel.com>
-Date: Thu, 07 Sep 2023 12:35:52 +0300
-Message-ID: <87h6o6gwav.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC74410E224
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Sep 2023 09:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694079676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EVgj5u+n4ytdhz89LH1dh0Jm4Qa5YH8eL53V/NQmF08=;
+ b=CjI2yUMHIwHOGG1kU+9dWFrq71e1Ezzp/XGnVWOIoOVt0g+QfkgWr6n3UwU71UL34C7hOW
+ XLfsmdCBjDkaM4ANu/a6YNwU0xlrwjnHm9QB1nnErUovSB6Xjkko4CdZyI2A/QOssWL+1L
+ lpuhd3n14uVoFcjO/40J11XRfirA8mc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-151-Uy1KdxrpOE6BEe8RHaHueQ-1; Thu, 07 Sep 2023 05:41:14 -0400
+X-MC-Unique: Uy1KdxrpOE6BEe8RHaHueQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-52a0f5f74d7so499423a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 02:41:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1694079674; x=1694684474;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EVgj5u+n4ytdhz89LH1dh0Jm4Qa5YH8eL53V/NQmF08=;
+ b=jDMYON8bwq4C7Q+99jLnvqpv1obQJreaNM5vUtDb313F93Hqld//T4/EWKFtN3ltU8
+ jMP6Y5f+3YJX7jf/yHD6Gnm76b+ccVMs8fe9g4TRDekR3R2E1Jzy3/7rjTjRhae4bsBj
+ VTrYGp5cU7MDxcy6FOV95cudpa4485exr8Uko8yoJXalRkXO77W/nW0TAf2SnSeLUjhp
+ 3Q3T6y+8Eb80b6284hPpV46Glma94RkP3Ypj+AHJlhh/QDop87pxPJEILQVfAnVumwgJ
+ NcbpndneI1xTKE6bl7xCn059JwsTjMM3FeTAKClEIfO8P0xIc/Ok4aBQgz9h9rW/yWlV
+ TIoQ==
+X-Gm-Message-State: AOJu0YxeC+yp3GVkxn2SRWW4iWSmE6xD7YT0oH8spi6lEOC+lYykCXru
+ csBG45/FmLS4c7PulY5bVt9rW3B5Rzn07VPxU1xmARAw4ATIYnrTckAAuNzxdUlg0XNhsnXCt83
+ FUQPR76Q+UmtRW18NmZ4gSgKQHZNK
+X-Received: by 2002:a17:907:1dee:b0:9a1:f21e:cdfd with SMTP id
+ og46-20020a1709071dee00b009a1f21ecdfdmr4269852ejc.34.1694079673852; 
+ Thu, 07 Sep 2023 02:41:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG4QX1xQ5c7FSGik6QJJx3KU6K2gTDdOyyCDY1ZR2k6aTunzdJhBvyM89miqz+SlE9Gm8xV4g==
+X-Received: by 2002:a17:907:1dee:b0:9a1:f21e:cdfd with SMTP id
+ og46-20020a1709071dee00b009a1f21ecdfdmr4269824ejc.34.1694079673501; 
+ Thu, 07 Sep 2023 02:41:13 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ r22-20020a170906365600b009a5f1d1564dsm10059659ejb.126.2023.09.07.02.41.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Sep 2023 02:41:13 -0700 (PDT)
+Message-ID: <b3a322f0-9b0b-0ad8-be5d-e081f4061f13@redhat.com>
+Date: Thu, 7 Sep 2023 11:41:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v2 5/7] drm/gpuvm: add an abstraction for a
+ VM / BO combination
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230906214723.4393-1-dakr@redhat.com>
+ <20230906214723.4393-6-dakr@redhat.com>
+ <20230907104252.4e15acb9@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230907104252.4e15acb9@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +91,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ankit.k.nautiyal@intel.com,
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Aug 2023, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
-> Add wrapper functions to facilitate extracting Short Audio
-> Descriptor (SAD) information from EDID-Like Data (ELD) pointers
-> with different constness requirements.
->
-> 1. `drm_eld_sad`: This function returns a constant `uint8_t`
-> pointer and wraps the main extraction function, allowing access
-> to SAD information while maintaining const correctness.
->
-> 2. `drm_extract_sad_from_eld`: This function returns a mutable
-> `uint8_t` pointer and implements the core logic for extracting
-> SAD from the provided ELD pointer. It performs version and
-> maximum channel checks to ensure proper extraction.
->
-> These wrapper functions provide flexibility to the codebase,
-> allowing users to access SAD information while adhering to
-> const correctness when needed and modifying the pointer when
-> required.
+On 9/7/23 10:42, Boris Brezillon wrote:
+> On Wed,  6 Sep 2023 23:47:13 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+>> +void drm_gpuvm_bo_destroy(struct kref *kref);
+> 
+> I usually keep kref's release functions private so people are not
+> tempted to use them.
 
-I've considered this, and in the end I think it's better to *not* make
-it easier for drivers to modify the ELD buffer directly.
+I think I did that because drm_gpuvm_bo_put() needs it.
 
-To that end, I wrote some helpers to modify the SADs using the existing
-struct cea_sad abstraction [1]. Please have a look. It should make your
-changes better focus on what you need to do here, instead of getting
-distracted with ELD parsing details.
+> 
+>> +
+>> +/**
+>> + * drm_gpuvm_bo_get() - acquire a struct drm_gpuvm_bo reference
+>> + * @vm_bo: the &drm_gpuvm_bo to acquire the reference of
+>> + *
+>> + * This function acquires an additional reference to @vm_bo. It is illegal to
+>> + * call this without already holding a reference. No locks required.
+>> + */
+>> +static inline struct drm_gpuvm_bo *
+>> +drm_gpuvm_bo_get(struct drm_gpuvm_bo *vm_bo)
+>> +{
+>> +	kref_get(&vm_bo->kref);
+>> +	return vm_bo;
+>> +}
+>> +
+>> +/**
+>> + * drm_gpuvm_bo_put() - drop a struct drm_gpuvm_bo reference
+>> + * @vm_bo: the &drm_gpuvm_bo to release the reference of
+>> + *
+>> + * This releases a reference to @vm_bo.
+>> + */
+>> +static inline void
+>> +drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo)
+>> +{
+>> +	kref_put(&vm_bo->kref, drm_gpuvm_bo_destroy);
+> 
+> nit: can we have
+> 
+> 	if (vm_bo)
+> 		kref_put(&vm_bo->kref, drm_gpuvm_bo_destroy);
+> 
+> so we don't have to bother testing the vm_bo value in the error/cleanup
+> paths?
+> 
+>> +}
+>> +
+> 
 
-BR,
-Jani.
-
-
-[1] https://patchwork.freedesktop.org/series/123384/
-
-
->
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> ---
->  include/drm/drm_edid.h | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 48e93f909ef6..626bc0d542eb 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -418,11 +418,7 @@ static inline int drm_eld_mnl(const uint8_t *eld)
->  	return (eld[DRM_ELD_CEA_EDID_VER_MNL] & DRM_ELD_MNL_MASK) >> DRM_ELD_MNL_SHIFT;
->  }
->  
-> -/**
-> - * drm_eld_sad - Get ELD SAD structures.
-> - * @eld: pointer to an eld memory structure with sad_count set
-> - */
-> -static inline const uint8_t *drm_eld_sad(const uint8_t *eld)
-> +static uint8_t *drm_extract_sad_from_eld(uint8_t *eld)
->  {
->  	unsigned int ver, mnl;
->  
-> @@ -437,6 +433,15 @@ static inline const uint8_t *drm_eld_sad(const uint8_t *eld)
->  	return eld + DRM_ELD_CEA_SAD(mnl, 0);
->  }
->  
-> +/**
-> + * drm_eld_sad - Get ELD SAD structures.
-> + * @eld: pointer to an eld memory structure with sad_count set
-> + */
-> +static inline const uint8_t *drm_eld_sad(const uint8_t *eld)
-> +{
-> +	return drm_extract_sad_from_eld((uint8_t *)eld);
-> +}
-> +
->  /**
->   * drm_eld_sad_count - Get ELD SAD count.
->   * @eld: pointer to an eld memory structure with sad_count set
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
