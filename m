@@ -1,70 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8F1798857
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:13:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6A37988E1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9A210E8B9;
-	Fri,  8 Sep 2023 14:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F52010E8D0;
+	Fri,  8 Sep 2023 14:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4905F10E8B9
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 14:13:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 94D0B1FEC5;
- Fri,  8 Sep 2023 14:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694182421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yt6FICjqd62pqytSprw0OKUNLEchIJi4j9tK9NUnUvA=;
- b=lm+vAfHQep1Q9hbbNnf8Nar4Y3ptMWyE2rwSDJtGhprsVMp5pMoUiohNH+B2InmDWw2AiB
- sJRbWgOuODM1YWdgKR1An1MPiNd1vwf3XOPdY4wpiyabLmlSfjmKbwT55wSuagbgtSqfXq
- r1IVIhQbVQymJ/lxn48D0U4aOYBO8HU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694182421;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yt6FICjqd62pqytSprw0OKUNLEchIJi4j9tK9NUnUvA=;
- b=cwszpjPzklX4dJ8wS67A0dHVJuZLqwyaH0/Pg70i43SrFPgAPzNVBqqlb1hP2J/foRI0HO
- zCkmXaTL87uIzsCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 71D45132F2;
- Fri,  8 Sep 2023 14:13:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ruTjGhUs+2QlcQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Sep 2023 14:13:41 +0000
-Message-ID: <6d3ed2ac-c682-5574-bed3-2d36413fa71f@suse.de>
-Date: Fri, 8 Sep 2023 16:13:40 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B32C810E8CF;
+ Fri,  8 Sep 2023 14:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=sm5cLPPVnG35jNFyBxl/t+oSTz+wIWhzfnyLq38aQvs=; b=Bnc9BuYin8EAbj4eKmI80pe/ao
+ /JISTSOQ8OQ9Y0hgfcI7dzk6ztA+3k6ffIewZXCOYCHW6+tyg09tVyGz5X+IOMJOUGJF8RGOveGEm
+ 5FNp+KGqcmd1VR4q//XmQtVfh4dcSPBN+oMqpzid5HX6Vw4Pg7SDmGx81NUFHI8DB2bmK7TrtB8le
+ jSmtpHKGiJFAjQOeV7KhlJS75zgqN3D3NNK1938a7c7gT8OqJAZwLV2xFY+69ylrTGgJlostruEmW
+ v0xTBiCQXzd5sMYeuWp+MDBk6KYwG8wI59n0pKhUWgG8O8uyKWUHG9+jv9xNKpQr0XfPNfZ7WUJ1q
+ jym+Z0ZA==;
+Received: from [38.44.68.151] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qecFw-001Ot2-7P; Fri, 08 Sep 2023 16:14:43 +0200
+Date: Fri, 8 Sep 2023 13:14:38 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v2 07/34] drm/amd/display: explicitly define EOTF and
+ inverse EOTF
+Message-ID: <20230908141429.j5qaukyjo4n5na7d@mail.igalia.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-8-mwen@igalia.com>
+ <20230822140242.162a843a.pekka.paalanen@collabora.com>
+ <20230825141639.vurga52ysal37n2m@mail.igalia.com>
+ <40f1fabe-69ce-4b23-aed8-9f0837fe9988@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <5ltuqgsepffvp6rjvmskqtvzyyhvk6phmixm3crfteznyejn4t@mtycsppney5x>
- <b135fdd1-afd9-bb65-19d7-3125504afb05@suse.de>
- <87ledg3hib.fsf@minerva.mail-host-address-is-not-set>
- <b803e73e-211b-a6f2-7dc7-25e46e72483d@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <b803e73e-211b-a6f2-7dc7-25e46e72483d@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------NMoMSOa2yiReaN9cm7OiXCeA"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40f1fabe-69ce-4b23-aed8-9f0837fe9988@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,72 +56,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, ppaalanen@gmail.com, dri-devel@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, Joshua Ashton <joshua@froggi.es>,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------NMoMSOa2yiReaN9cm7OiXCeA
-Content-Type: multipart/mixed; boundary="------------fQnqsq1JGJOcOjVA7yg64djB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com, airlied@redhat.com
-Message-ID: <6d3ed2ac-c682-5574-bed3-2d36413fa71f@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <5ltuqgsepffvp6rjvmskqtvzyyhvk6phmixm3crfteznyejn4t@mtycsppney5x>
- <b135fdd1-afd9-bb65-19d7-3125504afb05@suse.de>
- <87ledg3hib.fsf@minerva.mail-host-address-is-not-set>
- <b803e73e-211b-a6f2-7dc7-25e46e72483d@redhat.com>
-In-Reply-To: <b803e73e-211b-a6f2-7dc7-25e46e72483d@redhat.com>
+On 09/06, Harry Wentland wrote:
+> 
+> 
+> On 2023-08-25 10:18, Melissa Wen wrote:
+> > On 08/22, Pekka Paalanen wrote:
+> >> On Thu, 10 Aug 2023 15:02:47 -0100
+> >> Melissa Wen <mwen@igalia.com> wrote:
+> >>
+> >>> Instead of relying on color block names to get the transfer function
+> >>> intention regarding encoding pixel's luminance, define supported
+> >>> Electro-Optical Transfer Functions (EOTFs) and inverse EOTFs, that
+> >>> includes pure gamma or standardized transfer functions.
+> >>>
+> >>> Suggested-by: Harry Wentland <harry.wentland@amd.com>
+> >>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> >>> ---
+> >>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 19 +++--
+> >>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 69 +++++++++++++++----
+> >>>  2 files changed, 67 insertions(+), 21 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> >>> index c749c9cb3d94..f6251ed89684 100644
+> >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> >>> @@ -718,14 +718,21 @@ extern const struct amdgpu_ip_block_version dm_ip_block;
+> >>>  
+> >>>  enum amdgpu_transfer_function {
+> >>>  	AMDGPU_TRANSFER_FUNCTION_DEFAULT,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_SRGB,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_BT709,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_PQ,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_BT709_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_PQ_EOTF,
+> >>>  	AMDGPU_TRANSFER_FUNCTION_LINEAR,
+> >>>  	AMDGPU_TRANSFER_FUNCTION_UNITY,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA22,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA24,
+> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA26,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_SRGB_INV_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_BT709_INV_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_PQ_INV_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA22_INV_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA24_INV_EOTF,
+> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA26_INV_EOTF,
+> >>> +        AMDGPU_TRANSFER_FUNCTION_COUNT
+> >>>  };
+> >>>  
+> >>>  struct dm_plane_state {
+> >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> >>> index 56ce008b9095..cc2187c0879a 100644
+> >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> >>> @@ -85,18 +85,59 @@ void amdgpu_dm_init_color_mod(void)
+> >>>  }
+> >>>  
+> >>>  #ifdef AMD_PRIVATE_COLOR
+> >>> -static const struct drm_prop_enum_list amdgpu_transfer_function_enum_list[] = {
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_DEFAULT, "Default" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_SRGB, "sRGB" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_BT709, "BT.709" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_PQ, "PQ (Perceptual Quantizer)" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_LINEAR, "Linear" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_UNITY, "Unity" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA22, "Gamma 2.2" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA24, "Gamma 2.4" },
+> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA26, "Gamma 2.6" },
+> >>> +static const char * const
+> >>> +amdgpu_transfer_function_names[] = {
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_DEFAULT]		= "Default",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_LINEAR]		= "Linear",
+> >>
+> >> Hi,
+> >>
+> >> if the below is identity, then what is linear? Is there a coefficient
+> >> (multiplier) somewhere? Offset?
+> >>
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_UNITY]		= "Unity",
+> >>
+> >> Should "Unity" be called "Identity"?
+> > 
+> > AFAIU, AMD treats Linear and Unity as the same: Identity. So, IIUC,
+> > indeed merging both as identity sounds the best approach.   
+> 
+> Agreed.
+> 
+> >>
+> >> Doesn't unity mean that the output is always 1.0 regardless of input?
+> >>
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF]		= "sRGB EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_BT709_EOTF]		= "BT.709 EOTF",
+> >>
+> >> BT.709 says about "Overall opto-electronic transfer characteristics at
+> >> source":
+> >>
+> >> 	In typical production practice the encoding function of image
+> >> 	sources is adjusted so that the final picture has the desired
+> >> 	look, as viewed on a reference monitor having the reference
+> >> 	decoding function of Recommendation ITU-R BT.1886, in the
+> >> 	reference viewing environment defined in Recommendation ITU-R
+> >> 	BT.2035.
+> >>
+> >> IOW, typically people tweak the encoding function instead of using
+> >> BT.709 OETF as is, which means that inverting the BT.709 OETF produces
+> >> something slightly unknown. The note about BT.1886 means that that
+> >> something is also not quite how it's supposed to be turned into light.
+> >>
+> >> Should this enum item be "BT.709 inverse OETF" and respectively below a
+> >> "BT.709 OETF"?
+> >>
+> >> What curve does the hardware actually implement?
+> > 
+> > Hmmmm.. I think I got confused in using OETF here since it's done within
+> > a camera. Looking at the coefficients used by AMD color module when not
+> > using ROM but build encoding and decoding curves[1] on pre-defined TF
+> > setup, I understand it's using OETF parameters for building both sRGB
+> > and BT 709:
+> > 
+> > ```
+> > /*sRGB     709     2.2 2.4 P3*/
+> > static const int32_t numerator01[] = { 31308,   180000, 0,  0,  0};
+> > static const int32_t numerator02[] = { 12920,   4500,   0,  0,  0};
+> > static const int32_t numerator03[] = { 55,      99,     0,  0,  0};
+> > static const int32_t numerator04[] = { 55,      99,     0,  0,  0};
+> > static const int32_t numerator05[] = { 2400,    2222,   2200, 2400, 2600};
+> > ```
+> > 
+> 
+> The first column here looks like the sRGB coefficients in Skia:
+> https://skia.googlesource.com/skia/+/19936eb1b23fef5187b07fb2e0e67dcf605c0672/include/core/SkColorSpace.h#46
+> 
+> The color module uses the same coefficients to calculate the transform
+> to linear space and from linear space. So it would support a TF and its
+> inverse.
+> 
+> From what I understand for sRGB and PQ its the EOTF and its inverse.
+> 
+> For BT.709 we should probably call it BT.709 inverse OETF (instead of
+> EOTF) and BT.709 OETF (instead of inverse EOTF).
 
---------------fQnqsq1JGJOcOjVA7yg64djB
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I see. I'll update the transfer function list and docs accordingly.
 
-SGkgSm9jZWx5bg0KDQpBbSAwOC4wOS4yMyB1bSAxNjowNiBzY2hyaWViIEpvY2VseW4gRmFs
-ZW1wZToNClsuLi5dDQo+Pj4gQW5kIGtub3cgSSBmaW5kIHRoYXQgdGhpcyBwYXRjaCAoZXZl
-biBpbiBpdHMgdjEpIGNvbnRhaW5zIGxhbmd1YWdlIHRoYXQNCj4+PiByZXRyb2FjdGl2ZWx5
-IGxlZ2l0aW1pemVzIHRoZSBtZ2FnMjAwIHBhdGNoLiBJIHdyb3RlICdhcHBhcmVudGx5JyBJ
-IG15DQo+Pj4gcmVwbHksIGFzIEkgYXNzdW1lIHRoYXQgdGhlcmUncyBtb3JlIHRvIGl0LCBi
-dXQgaG93IGRvZXMgaXQgbm90IGxvb2sNCj4+PiBsaWtlIGFuIGF0dGVtcHQgdG8gc25lYWsg
-aW4gc29tZXRoaW5nIHRoYXQgaXMga25vd24gdG8gYmUgY29udHJvdmVyc2lhbD8NCj4+Pg0K
-PiANCj4gVGhhdCB3YXMgbm90IG15IGludGVudGlvbiwgYW5kIEkgYXBvbG9naXplIGlmIHlv
-dSBmZWVsIGl0IHRoaXMgd2F5LiBNeSANCj4gZ29hbCB3YXMganVzdCB0byBjbGFyaWZ5IGlm
-IHRoaXMgb3B0aW1pemF0aW9uIGlzIGFjY2VwdGFibGUgZm9yIG90aGVyIA0KDQpTb3JyeSBm
-b3IgdGhyb3dpbmcgYWNjdXNhdGlvbnMgYXJvdW5kLiBZb3UgY2VydGFpbmx5IGFjdCBpbiBn
-b29kIGZhaXRoLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJn
-LCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFs
-ZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+Thanks
 
---------------fQnqsq1JGJOcOjVA7yg64djB--
+Melissa
 
---------------NMoMSOa2yiReaN9cm7OiXCeA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF4BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT7LBQFAwAAAAAACgkQlh/E3EQov+CC
-hA/4jpcSYi4xPzdpbbRmJ2tDhIm1iMXlqaFKy/KXMNNw0tUV+uuSFogjEAf9TMGqjOwNm8gOAGOD
-gPk9ZPzE4PxOxy6RjGeGg3WsxzzKyWlDe0brRBYam2Kni0qFO5AueZ3t0q97J16+hmBK59pTlcFW
-bh86d+hh9jCNeblbRzhTKG+Qp/T/hjhQfINqEuRgzndAb8kL1iZ5P6qrHFsi3zPmOdH6YE/chbTD
-iyVOrQnyYt5kyKcYmwq2uhmZxzRymqhXSVjDQOgqfFX9hpbOBbowteEj7i+ipUJtZiBLrJ9ZrIoK
-INmFd0bqUHHF3C1lfvy0Sj8YntDkzXtziMpiNvrk002YGmF7XbZK6pv+El6UU2UHxCSepoHOtscE
-s1luQ1hrpR/tgWNaitP7/WAbT77XnxDO/UjzgzDOqDtKhtA2iB9hr8JT5rxI1qcBoar2JLj5G3ku
-sFXu7xAKQk66G7nfLr2yvF1Saf4ZjTLpeD7FGpyQtsyWWav3xE2hZrjKbLLOXMJWB836xVCdOkNH
-hpOAKr4JIrgTUMaOfBPa268Gid/Ux1NHBydQIEreIw0bYbLDKMOB0sAsLLpugeSMVaGipHafw7zW
-SkN1y5jqtWv2d4TByJ3YZfJuO8V66lT22Yz7TC1cYBC5Ti4CARLg9VtAYXMUsZuapQ31Dbk3EV+R
-lA==
-=kcxS
------END PGP SIGNATURE-----
-
---------------NMoMSOa2yiReaN9cm7OiXCeA--
+> 
+> While I'm okay to move ahead with these AMD driver-specific properties
+> without IGT tests (since they're not enabled and not UABI) we really
+> need IGT tests once they become UABI with the Color Pipeline API. And we
+> need more than just CRC testing. We'll need to do pixel-by-pixel comparison
+> so we can verify that the KMS driver behaves exactly how we expect for a
+> large range of values.
+> 
+> Harry
+> 
+> > Then EOTF and inverse EOTF for PQ [2], and OETF and it seems an inverse
+> > OETF but called EOTF for HLG[3]. But I'm an external dev, better if
+> > Harry can confirm.
+> > 
+> > Thank you for pointing it out.
+> > 
+> > [1] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n55
+> > [2] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n106
+> > [3] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n174
+> > 
+> >>
+> >> The others seem fine to me.
+> >>
+> >>
+> >> Thanks,
+> >> pq
+> >>
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_PQ_EOTF]		= "PQ EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF]		= "Gamma 2.2 EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF]		= "Gamma 2.4 EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF]		= "Gamma 2.6 EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_SRGB_INV_EOTF]	= "sRGB inv_EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_BT709_INV_EOTF]	= "BT.709 inv_EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_PQ_INV_EOTF]		= "PQ inv_EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA22_INV_EOTF]	= "Gamma 2.2 inv_EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA24_INV_EOTF]	= "Gamma 2.4 inv_EOTF",
+> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA26_INV_EOTF]	= "Gamma 2.6 inv_EOTF",
+> >>>  };
+> >>>  
+> >>> +static const u32 amdgpu_eotf =
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF) |
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_BT709_EOTF) |
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_PQ_EOTF) |
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF) |
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF) |
+> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF);
+> >>> +
+> >>> +static struct drm_property *
+> >>> +amdgpu_create_tf_property(struct drm_device *dev,
+> >>> +			  const char *name,
+> >>> +			  u32 supported_tf)
+> >>> +{
+> >>> +	u32 transfer_functions = supported_tf |
+> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_DEFAULT) |
+> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_LINEAR) |
+> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_UNITY);
+> >>> +	struct drm_prop_enum_list enum_list[AMDGPU_TRANSFER_FUNCTION_COUNT];
+> >>> +	int i, len;
+> >>> +
+> >>> +	len = 0;
+> >>> +	for (i = 0; i < AMDGPU_TRANSFER_FUNCTION_COUNT; i++) {
+> >>> +		if ((transfer_functions & BIT(i)) == 0)
+> >>> +			continue;
+> >>> +
+> >>> +		enum_list[len].type = i;
+> >>> +		enum_list[len].name = amdgpu_transfer_function_names[i];
+> >>> +		len++;
+> >>> +	}
+> >>> +
+> >>> +	return drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
+> >>> +					name, enum_list, len);
+> >>> +}
+> >>> +
+> >>>  int
+> >>>  amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+> >>>  {
+> >>> @@ -116,11 +157,9 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+> >>>  		return -ENOMEM;
+> >>>  	adev->mode_info.plane_degamma_lut_size_property = prop;
+> >>>  
+> >>> -	prop = drm_property_create_enum(adev_to_drm(adev),
+> >>> -					DRM_MODE_PROP_ENUM,
+> >>> -					"AMD_PLANE_DEGAMMA_TF",
+> >>> -					amdgpu_transfer_function_enum_list,
+> >>> -					ARRAY_SIZE(amdgpu_transfer_function_enum_list));
+> >>> +	prop = amdgpu_create_tf_property(adev_to_drm(adev),
+> >>> +					 "AMD_PLANE_DEGAMMA_TF",
+> >>> +					 amdgpu_eotf);
+> >>>  	if (!prop)
+> >>>  		return -ENOMEM;
+> >>>  	adev->mode_info.plane_degamma_tf_property = prop;
+> >>
+> > 
+> > 
+> 
