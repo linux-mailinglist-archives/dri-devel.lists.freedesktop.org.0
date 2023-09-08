@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD542798F6C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3076B798F74
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68AA10E1F4;
-	Fri,  8 Sep 2023 19:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E1910E1F7;
+	Fri,  8 Sep 2023 19:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9283C10E1DD
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:32:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E205810E1DD;
+ Fri,  8 Sep 2023 19:32:37 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DF11CB821E5;
- Fri,  8 Sep 2023 19:32:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A19C43397;
- Fri,  8 Sep 2023 19:32:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 61272614BF;
+ Fri,  8 Sep 2023 19:32:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D25C433C7;
+ Fri,  8 Sep 2023 19:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201529;
- bh=Ge+4fWFayUbITINuJLiw6XbxOHKzoUCdo4Ja6QrasUg=;
+ s=k20201202; t=1694201556;
+ bh=4uP1niyAXOLk6XmcLQBeaiuj8tMsLnjP2insbuuF6TQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YyCC004oNi5VcPbauASoz4ZOrVHGxyd0aH+i7boLKCPRhIIYbDL+99/fmx3YIixB1
- Nr5EYWvJE8lDkeYwzCzcHS1Ph34LSsciFx7i6pQSbQYNGuGpW4b7WO5uOOU0K4uq7m
- sdky45hcmpFeptZV4Yr8kUTiquA8MAXbsuPXOD7d58KKY7h7EkVmdLoXsIZWUg6Lr8
- TeZo0AeWLLz8KKAeEJhCFqWMaxAsXFSwX506PQyEvXXHc9E5WksO32bFVY0dmpEXSP
- vS2dZAjdwYzx1aZ/+AYBkqa4a/sU8rYv5S0ysVSX+RMfq7TJD+JJ52pC0MdUNxWpYN
- qbHLoxiBsGLyg==
+ b=SUkflhW5oPcDwdJA0uS98n0bd5Svi2Ps00XynXHHrkiKkUvtsC3qf4h8STb/LSJzJ
+ EZGZdHOSk5NHT8EQyotRkGlS1s1UqWKXPGKpH0Fnu4PU6hsn/M1oLfp5STMf0ofA1N
+ y2CFcoXR3t23VPH2qxmaDzm3TBZuLvGGSzqne8q+rQVipIuwu+Y6HA3g/S74dB/XAD
+ +fLaVEenjt4azRIaU8mp3/wYMHkYaBfKEwDK/Gqrgkv0PPF7VquABnHuY3QqnxbjPL
+ GI+4EP2TPqS0eDxHpFMyMDSEr6Svh9nDXhYP8PMeGlP+HpTQOdS+a2+TRFtWOpD0sI
+ e05161DDRM85A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 03/31] drm: bridge: samsung-dsim: Drain command
- transfer FIFO before transfer
-Date: Fri,  8 Sep 2023 15:31:32 -0400
-Message-Id: <20230908193201.3462957-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 10/31] drm/amd/display: Add stream overhead in BW
+ calculations for 128b/132b
+Date: Fri,  8 Sep 2023 15:31:39 -0400
+Message-Id: <20230908193201.3462957-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908193201.3462957-1-sashal@kernel.org>
 References: <20230908193201.3462957-1-sashal@kernel.org>
@@ -58,45 +58,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sasha Levin <sashal@kernel.org>,
- rfoss@kernel.org, neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
- m.szyprowski@samsung.com
+Cc: Wenjing Liu <wenjing.liu@amd.com>, dri-devel@lists.freedesktop.org,
+ hamza.mahfooz@amd.com, jun.lei@amd.com, nasir.osman@amd.com,
+ Sasha Levin <sashal@kernel.org>, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, alvin.lee2@amd.com,
+ George Shen <george.shen@amd.com>, Alan Liu <haoping.liu@amd.com>,
+ sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Mike.Hsieh@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+From: George Shen <george.shen@amd.com>
 
-[ Upstream commit 14806c6415820b1c4bc317655c40784d050a2edb ]
+[ Upstream commit 974764180838516f80a13257da67a1ec6afb87d4 ]
 
-Wait until the command transfer FIFO is empty before loading in the next
-command. The previous behavior where the code waited until command transfer
-FIFO was not full suffered from transfer corruption, where the last command
-in the FIFO could be overwritten in case the FIFO indicates not full, but
-also does not have enough space to store another transfer yet.
+[Why]
+Current BW calculations do not account for the additional padding added
+for uncompressed pixel-to-symbol packing.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
-Tested-by: Jagan Teki <jagan@amarulasolutions.com> # imx8mm-icore
-Link: https://patchwork.freedesktop.org/patch/msgid/20230615201511.565923-1-marex@denx.de
+This results in X.Y being too low for 128b/132b SST streams in certain
+scenarios. If X.Y is too low, end user can observe image corruption.
+
+[How]
+Add function to calculate stream overhead to timing BW calculation for
+128b/132b SST cases.
+
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Acked-by: Alan Liu <haoping.liu@amd.com>
+Signed-off-by: George Shen <george.shen@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dc.h         |  2 +
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 42 +++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 3194cabb26b32..891ec0245a910 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -932,7 +932,7 @@ static int samsung_dsim_wait_for_hdr_fifo(struct samsung_dsim *dsi)
- 	do {
- 		u32 reg = samsung_dsim_read(dsi, DSIM_FIFOCTRL_REG);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 9279990e43694..508fd6ab58e80 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -1375,6 +1375,8 @@ struct dc_plane_state *dc_get_surface_for_mpcc(struct dc *dc,
  
--		if (!(reg & DSIM_SFR_HEADER_FULL))
-+		if (reg & DSIM_SFR_HEADER_EMPTY)
- 			return 0;
+ uint32_t dc_get_opp_for_plane(struct dc *dc, struct dc_plane_state *plane);
  
- 		if (!cond_resched())
++void dc_set_disable_128b_132b_stream_overhead(bool disable);
++
+ /* The function returns minimum bandwidth required to drive a given timing
+  * return - minimum required timing bandwidth in kbps.
+  */
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index 2bdc47615543c..9a0c9f9353b41 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -40,6 +40,8 @@ static bool dsc_policy_enable_dsc_when_not_needed;
+ 
+ static bool dsc_policy_disable_dsc_stream_overhead;
+ 
++static bool disable_128b_132b_stream_overhead;
++
+ #ifndef MAX
+ #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
+ #endif
+@@ -47,6 +49,41 @@ static bool dsc_policy_disable_dsc_stream_overhead;
+ #define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
+ #endif
+ 
++/* Need to account for padding due to pixel-to-symbol packing
++ * for uncompressed 128b/132b streams.
++ */
++static uint32_t apply_128b_132b_stream_overhead(
++	const struct dc_crtc_timing *timing, const uint32_t kbps)
++{
++	uint32_t total_kbps = kbps;
++
++	if (disable_128b_132b_stream_overhead)
++		return kbps;
++
++	if (!timing->flags.DSC) {
++		struct fixed31_32 bpp;
++		struct fixed31_32 overhead_factor;
++
++		bpp = dc_fixpt_from_int(kbps);
++		bpp = dc_fixpt_div_int(bpp, timing->pix_clk_100hz / 10);
++
++		/* Symbols_per_HActive = HActive * bpp / (4 lanes * 32-bit symbol size)
++		 * Overhead_factor = ceil(Symbols_per_HActive) / Symbols_per_HActive
++		 */
++		overhead_factor = dc_fixpt_from_int(timing->h_addressable);
++		overhead_factor = dc_fixpt_mul(overhead_factor, bpp);
++		overhead_factor = dc_fixpt_div_int(overhead_factor, 128);
++		overhead_factor = dc_fixpt_div(
++			dc_fixpt_from_int(dc_fixpt_ceil(overhead_factor)),
++			overhead_factor);
++
++		total_kbps = dc_fixpt_ceil(
++			dc_fixpt_mul_int(overhead_factor, total_kbps));
++	}
++
++	return total_kbps;
++}
++
+ uint32_t dc_bandwidth_in_kbps_from_timing(
+ 	const struct dc_crtc_timing *timing)
+ {
+@@ -1160,6 +1197,11 @@ void dc_dsc_policy_set_disable_dsc_stream_overhead(bool disable)
+ 	dsc_policy_disable_dsc_stream_overhead = disable;
+ }
+ 
++void dc_set_disable_128b_132b_stream_overhead(bool disable)
++{
++	disable_128b_132b_stream_overhead = disable;
++}
++
+ void dc_dsc_get_default_config_option(const struct dc *dc, struct dc_dsc_config_options *options)
+ {
+ 	options->dsc_min_slice_height_override = dc->debug.dsc_min_slice_height_override;
 -- 
 2.40.1
 
