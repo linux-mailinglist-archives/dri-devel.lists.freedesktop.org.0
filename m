@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AF379900D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B9E79901E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39F4D10E940;
-	Fri,  8 Sep 2023 19:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A6410E943;
+	Fri,  8 Sep 2023 19:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1C110E940
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:36:55 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4992110E941
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:37:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3C85EB821E6;
- Fri,  8 Sep 2023 19:36:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C7DDC4163C;
- Fri,  8 Sep 2023 19:36:50 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0B2B0B821E3;
+ Fri,  8 Sep 2023 19:37:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1724EC433CB;
+ Fri,  8 Sep 2023 19:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201812;
- bh=SKtZBkIgwSXQzOLWVJokvcy5wPpU5mthvIS28XtE/xM=;
+ s=k20201202; t=1694201819;
+ bh=l05wLca+GLs2HPmojVCoJBmTQZU4/uSUnmvjn5E8K1o=;
  h=From:To:Cc:Subject:Date:From;
- b=kIA9ZX0NCgdXM1uGRZE2RX9zlpVibn2dnVseF4IQ5qMqJrvs6TwqLJPcAXoSIK++V
- cgRy5frNykdjhmMHa7WHiIvAx5S14jekUsxMwxVRAnqYhleqhAxXznX+Z/kPyEMuIV
- Bjlfp55s7ZGi46B4QM2quETCC1izu2gW/hu4DgKGT9XFI+SIUKtipDFRhdUmiKdr2x
- mKxGw3uxJuaahZrfEDauD36CEJxKX9B23kvH9OBXlmGnVfN2kZJ/1QeqQOgGdqBS+L
- pnT1yTf0VDUjbulEQrWYzmuy3vNxdVkZcwGQ7pKGW6cQtqc/AiyKzBL5rf6v2khu9S
- FBbbaRV92L4Ng==
+ b=NogmhBzK42et/A66vkzZzTT2ngv2ZxPEXJiVaf8EDc/5ekGepFRSJ20evHhb+V5qz
+ fcmXIO8MuHdz5lS/Cuqhv0HwogcxS5/lMKCSEnyR+TbcxPJ3SMeWLUWxqdBHYWSrVc
+ QesJoxxFmymsZdVA+16lKcxJhfTm4ljEk1pGj0bW+2WNOLkGXzVa1Ct6Dg2x5C7Bsl
+ FSzUTVCxAGtMcUmLY3f/VkuJ/+fIWvFiZjqVovz8n5LGFducLVpnd9XCP7CZbsONDG
+ YZdl26tjsJq/RS+EZ3SMQ0esH+2pBmToUt/5/jgrC12CBLwafdxy/nMCToIMXHPElh
+ r408uJBdr+feg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/3] drm/exynos: fix a possible null-pointer
+Subject: [PATCH AUTOSEL 4.14 1/3] drm/exynos: fix a possible null-pointer
  dereference due to data race in exynos_drm_crtc_atomic_disable()
-Date: Fri,  8 Sep 2023 15:36:46 -0400
-Message-Id: <20230908193648.3464004-1-sashal@kernel.org>
+Date: Fri,  8 Sep 2023 15:36:53 -0400
+Message-Id: <20230908193656.3464052-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.294
+X-stable-base: Linux 4.14.325
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,7 +97,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
-index 2696289ecc78f..b3e23ace5869c 100644
+index 4787560bf93e7..e1aa518ea0ba1 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
 @@ -43,13 +43,12 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
