@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E3B7990C4
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACAA7990C5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2146410E944;
-	Fri,  8 Sep 2023 20:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFFF10E945;
+	Fri,  8 Sep 2023 20:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B45410E944
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:03:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F0A10E945
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694203385;
+ s=mimecast20190719; t=1694203395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qJlM81Ad0uqQunhdFKofh1JwhP2kaFm8hxSxz8OfTMk=;
- b=bzizTypi9G7KWH9+PtT265OdytWC2oMLvDmw/JF+v8zLtKgzPnt08nWgNQnUu/Gr1R3yd0
- L3ylLkMq8CQN7RApJ8t2ny5mifzEXa2uK67ibPgBjHnX5XDnApTl7XCd5M+s/TD2xkXKrX
- q1amT77gWvHci9kD+vDtBtAzr62wh5M=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R2kuY7QrN77OjYcmiIgmsp8RgTy5tijHIGRui0VqTUY=;
+ b=YHGKXckgsjque6xCaA5yfWv/1EXAAMjhBHSOfCTfmLo2r55M/nu/lI935Pcx1UcoCjvUeK
+ 18AaheRGeRyN4FYAyVr7FAzhUOXWPiKYgTwEby63dqMWGO2psxkKFg7crGEUDjNHo7OlvZ
+ 71VgVJex/qwmbkgj2jSuUtFwJJMXAMM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-puUsQEHjPAWD2VVnTzCGcQ-1; Fri, 08 Sep 2023 16:03:02 -0400
-X-MC-Unique: puUsQEHjPAWD2VVnTzCGcQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-637948b24bdso5999006d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 13:03:02 -0700 (PDT)
+ us-mta-633-4TUAXoLwP1KnfLPh-D6ubA-1; Fri, 08 Sep 2023 16:03:12 -0400
+X-MC-Unique: 4TUAXoLwP1KnfLPh-D6ubA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-76f191e26f5so58809485a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 13:03:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694203382; x=1694808182;
+ d=1e100.net; s=20230601; t=1694203391; x=1694808191;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qJlM81Ad0uqQunhdFKofh1JwhP2kaFm8hxSxz8OfTMk=;
- b=o8A+Iqrxt2u2mHWl0EEZwhXe0Ywgoyj28+VCVukflgQ9BFSgBbjPirGfFIrmFs1RAV
- JohyCTRLttKKYyvyQufJ9dr0/itxjDJOQa6eVfb2Q0Hn0EQrRKRb/pJ/hJX6Df/temZY
- Z8UjtK09GETm4grZUFuc+qKfvHccWzruPYrvuyxPPx5iWnhhT2v6/pjy1fLMiPNZQDbD
- jAs0JJahGsm8DM3nVlJuEOkP+BKcDd9EJPlmKdT6JfgYmD/d8S+wv0dWbp/9qryMyyG8
- /aTasUI9g1gKitBPr0u2GUtdRNpK729Y+EVmmd08AjAHwJ3MkcLpA+DEQbVhWFBb6Q8I
- YUIg==
-X-Gm-Message-State: AOJu0YxajzqC30UY5KkX/CJP5+8alz4x1Xj8g1RIjtwAw91X2Povpno5
- mUnt780QmdOVmETC8TRk/QMMZtXlI/pABMUUvlMASpOCGdlTbPMiDSzleTjQtoY7RZmMOobVt5c
- xALe0D1TM6FMy47wJ2PZ0YovG9sAD
-X-Received: by 2002:a05:6214:234b:b0:649:5f43:245c with SMTP id
- hu11-20020a056214234b00b006495f43245cmr3403714qvb.4.1694203382304; 
- Fri, 08 Sep 2023 13:03:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkpjEpC3M4jl16uIjnS3PMQJTudw+DmAKJXO1LGuAkwNI/2h/IQUepIX3UGSH4cUrAf1SALA==
-X-Received: by 2002:a05:6214:234b:b0:649:5f43:245c with SMTP id
- hu11-20020a056214234b00b006495f43245cmr3403702qvb.4.1694203382095; 
- Fri, 08 Sep 2023 13:03:02 -0700 (PDT)
+ bh=R2kuY7QrN77OjYcmiIgmsp8RgTy5tijHIGRui0VqTUY=;
+ b=c8C15lx2udjGTcXkVDab+Gw9XKnS5FFMD01hh3VBr0cVAhmlX1MVy25xh2skkwIaxz
+ rmXPRB41a2H/Nq5f4m29LwKKXxXkRMxX/gjC+sqMPZcMMH/Zl3bDlpTJsuGNer4JdbCh
+ K8hrOjGfMXidobRiB/zli9LcXfAWymAIafiZWxwU76ZTYU64TmX1PA2DuSYJbAOWAmLw
+ 5Urlp7g//bn2aOX3RzWK5OmVAFbwVtN0h26AoDhsBZvsKl88WRBhYIeTFkHT+lGYqjOb
+ RQfvhnv5SUnknmH3t9J53QHeyskgCSnEUa/L84PfVtQ9wywfj0CW/R5wiBEYIQUN8BH5
+ RkQw==
+X-Gm-Message-State: AOJu0Yxr2l87LP/XvTudKLa4uTVIThbTxTI8YZL955te9P5riIVkHZww
+ 0OJhg6+anfVQvSB2G1WTTGuuNkGsYg+XtrXyuF/Bysffc/aVBJpmjiIFWNVY7R6zljCjKQVTGn9
+ sBJ7CXHL5wE9i6qaDkQuaZD0j0+J5
+X-Received: by 2002:a05:620a:46a6:b0:75b:23a1:69ee with SMTP id
+ bq38-20020a05620a46a600b0075b23a169eemr3480482qkb.5.1694203391483; 
+ Fri, 08 Sep 2023 13:03:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGuCpViWH7IrGzpUqlTBi1h+iY/5ABj5ubmz/i5MJtwSQDaqOps3aQUe1r5isWfpnPKjPasBg==
+X-Received: by 2002:a05:620a:46a6:b0:75b:23a1:69ee with SMTP id
+ bq38-20020a05620a46a600b0075b23a169eemr3480460qkb.5.1694203391259; 
+ Fri, 08 Sep 2023 13:03:11 -0700 (PDT)
 Received: from fedorinator.redhat.com
  ([2001:9e8:32da:e500:513e:fbe9:e455:ae67])
  by smtp.gmail.com with ESMTPSA id
- r19-20020a0ccc13000000b0064f523836fdsm959242qvk.123.2023.09.08.13.02.59
+ c17-20020ae9e211000000b0076f15f2918fsm825920qkc.63.2023.09.08.13.03.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Sep 2023 13:03:01 -0700 (PDT)
+ Fri, 08 Sep 2023 13:03:10 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Eric Biederman <ebiederm@xmission.com>,
@@ -69,9 +69,9 @@ To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v2 2/5] kernel: kexec: copy user-array safely
-Date: Fri,  8 Sep 2023 21:59:41 +0200
-Message-ID: <31313a8a1dd1baf9dd3c21fbe8dd46b9e111f20c.1694202430.git.pstanner@redhat.com>
+Subject: [PATCH v2 3/5] kernel: watch_queue: copy user-array safely
+Date: Fri,  8 Sep 2023 21:59:42 +0200
+Message-ID: <b333514f0be426385b5215b47d24062b4f551584.1694202430.git.pstanner@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <cover.1694202430.git.pstanner@redhat.com>
 References: <cover.1694202430.git.pstanner@redhat.com>
@@ -107,21 +107,21 @@ duplicating the user-space array safely.
 Suggested-by: David Airlie <airlied@redhat.com>
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- kernel/kexec.c | 2 +-
+ kernel/watch_queue.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/kexec.c b/kernel/kexec.c
-index 107f355eac10..8f35a5a42af8 100644
---- a/kernel/kexec.c
-+++ b/kernel/kexec.c
-@@ -247,7 +247,7 @@ SYSCALL_DEFINE4(kexec_load, unsigned long, entry, unsigned long, nr_segments,
- 		((flags & KEXEC_ARCH_MASK) != KEXEC_ARCH_DEFAULT))
+diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+index d0b6b390ee42..778b4056700f 100644
+--- a/kernel/watch_queue.c
++++ b/kernel/watch_queue.c
+@@ -331,7 +331,7 @@ long watch_queue_set_filter(struct pipe_inode_info *pipe,
+ 	    filter.__reserved != 0)
  		return -EINVAL;
  
--	ksegments = memdup_user(segments, nr_segments * sizeof(ksegments[0]));
-+	ksegments = memdup_array_user(segments, nr_segments, sizeof(ksegments[0]));
- 	if (IS_ERR(ksegments))
- 		return PTR_ERR(ksegments);
+-	tf = memdup_user(_filter->filters, filter.nr_filters * sizeof(*tf));
++	tf = memdup_array_user(_filter->filters, filter.nr_filters, sizeof(*tf));
+ 	if (IS_ERR(tf))
+ 		return PTR_ERR(tf);
  
 -- 
 2.41.0
