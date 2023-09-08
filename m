@@ -1,68 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F44798903
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:41:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A385E798905
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8247310E8D5;
-	Fri,  8 Sep 2023 14:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BCCE10E8D8;
+	Fri,  8 Sep 2023 14:41:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D24CD10E8D5
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 14:41:26 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id
- 2adb3069b0e04-501bd7711e8so3704730e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 07:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694184085; x=1694788885; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=mRUuttuv0CVqVe9EUWaqnLPZSZ3SEw2u/mQESFqLgpw=;
- b=l5sIJFqzo5v6WdqCQfk7pt4Zhr2TAIgfDzMq27ZT0T/NxhE++vPQimmYjZitgmKkbD
- XmUXfcqZPMEYkBtxouszCbGNVYZGE9bqgARTSr9eLqdPeF0RJHz3vjPmUpBoyy7v2suT
- r/KA4wu4zTMTr3OBcAh2jIuxNcXsf7MaO3D+9yi0Y8BKeHb/rfKFvcEEUY1iDuxK7SHP
- SqJgo5lw1pLHHc/yKL16T4wInkbrQTP3Wlm0Ixa4GRpZFuIz4yyNKsA4+3PMIF4calJS
- 8UDr6EUbgnZ3hnMl6594zRUANFWsnCvkWUX+fKzNlNhBws3MBCXqAhgYDqBYZ9kHw1BW
- xF6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694184085; x=1694788885;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mRUuttuv0CVqVe9EUWaqnLPZSZ3SEw2u/mQESFqLgpw=;
- b=fhAKxwFsivsJsX6uu3aqepodYLD7ZCn+6PkKtoaSBDf4Pg4upPUwnqPPJjTy+S/pcu
- C3WgTylYakZ5C67P7sPIdipXSVs9dgnSuuG4XoB/rTA/UQK4OyuKFGA4uXH/GpfZvk6C
- LlmP10mSXBUW0Aw9wt/gAvRxCw2WM1t9sULYR0yZxTipZnDIWo3ZNe8iXvOO4kBRaPXe
- uxAnnF92Xb8lXyM0gf5LCJ/K8IFB8SO4p9AnpVEvWEBxEmkobMrTwSzEX9Oxkmahgqd2
- TyV1zZKjaXeSv9PtCNeVYpIB+BcP1ObBVf+13cStFSdTZStnM9RUOdAt+P74NRZPY1/L
- cdTQ==
-X-Gm-Message-State: AOJu0YxHzu/qUIrpQ4z7aUiKQBBGvS40CCw4VDZ/ibrhdBph5oP7aaQA
- Sn+Q7LWBKuJPN/ErnP+dEAA=
-X-Google-Smtp-Source: AGHT+IEIruKAPWEkvle7moqUyBQVmqJQZYHiOeZxkFNUfJMRFrTu3xTkg73vutNi7nAHDMpdTmP9jA==
-X-Received: by 2002:a05:6512:2211:b0:4fb:8939:d95c with SMTP id
- h17-20020a056512221100b004fb8939d95cmr2815784lfu.30.1694184084540; 
- Fri, 08 Sep 2023 07:41:24 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- x9-20020ac259c9000000b00500a209ef5esm295139lfn.137.2023.09.08.07.41.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Sep 2023 07:41:24 -0700 (PDT)
-Date: Fri, 8 Sep 2023 17:41:13 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-Message-ID: <20230908174113.02b65f9c@eldfell>
-In-Reply-To: <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
- <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAB510E8D6;
+ Fri,  8 Sep 2023 14:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=2k5excPh8Wio9CT2leD729aD7a7dogzGNloeg+hMYyE=; b=LVoPziK9thjWa6dZod6b5xrL4K
+ IFT3XWEy2VYGwpKnHEujnaAlUkAaSdmw7r84VkmcwH2mcy3h6jMXncnBpBBdRAt8hcjsffOKFP5oM
+ egAvDW6h1ggwUBc2Sky/VlGQ3Bx/bfq+FzBDBiLn5JeGfHQ85AEJ75lrUBXrG941WXrX8ZRjCK9W8
+ ePHzTx84/iqcf2U7DltrrsplZ/J8Zdg1EKwPBo/jEi+XF3P6ldPGCRmwhRPSL+gN7wGB2Wa+yonEy
+ P/tuOUqzy6yvkxOEsf/gYcjJBd5UOg6Std1KBk1V83HMn0O7jAQZXDzBJwjoITlwPfBMPHAwGBLMZ
+ Uj+utxZA==;
+Received: from [38.44.68.151] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qecg6-001POW-O9; Fri, 08 Sep 2023 16:41:46 +0200
+Date: Fri, 8 Sep 2023 13:41:29 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v2 32/34] drm/amd/display: add plane CTM driver-specific
+ property
+Message-ID: <20230908144129.o2rtvyydy5lhggre@mail.igalia.com>
+References: <20230810160314.48225-1-mwen@igalia.com>
+ <20230810160314.48225-33-mwen@igalia.com>
+ <d50e07fe-4e8e-4e18-ae75-ba351c3c95ad@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/5GI7QIw27jzorZz=Zhp0m4K";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d50e07fe-4e8e-4e18-ae75-ba351c3c95ad@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,181 +54,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- mripard@kernel.org, dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, Joshua Ashton <joshua@froggi.es>,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/5GI7QIw27jzorZz=Zhp0m4K
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 09/06, Harry Wentland wrote:
+> 
+> 
+> On 2023-08-10 12:03, Melissa Wen wrote:
+> > Plane CTM for pre-blending color space conversion. Only enable
+> > driver-specific plane CTM property on drivers that support both pre- and
+> > post-blending gamut remap matrix, i.e., DCN3+ family. Otherwise it
+> > conflits with DRM CRTC CTM property.
+> > 
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 ++
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  7 +++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  7 +++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 20 +++++++++++++++++++
+> >  4 files changed, 36 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > index abb871a912d7..84bf501b02f4 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > @@ -363,6 +363,8 @@ struct amdgpu_mode_info {
+> >  	 * @plane_hdr_mult_property:
+> >  	 */
+> >  	struct drm_property *plane_hdr_mult_property;
+> > +
+> > +	struct drm_property *plane_ctm_property;
+> >  	/**
+> >  	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
+> >  	 * that converts color content before 3D LUT.
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > index 095f39f04210..6252ee912a63 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > @@ -769,6 +769,13 @@ struct dm_plane_state {
+> >  	 * S31.32 sign-magnitude.
+> >  	 */
+> >  	__u64 hdr_mult;
+> > +	/**
+> > +	 * @ctm:
+> > +	 *
+> > +	 * Color transformation matrix. See drm_crtc_enable_color_mgmt(). The
+> > +	 * blob (if not NULL) is a &struct drm_color_ctm.
+> > +	 */
+> > +	struct drm_property_blob *ctm;
+> >  	/**
+> >  	 * @shaper_lut: shaper lookup table blob. The blob (if not NULL) is an
+> >  	 * array of &struct drm_color_lut.
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > index 4356846a2bce..86a918ab82be 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > @@ -218,6 +218,13 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+> >  		return -ENOMEM;
+> >  	adev->mode_info.plane_hdr_mult_property = prop;
+> >  
+> > +	prop = drm_property_create(adev_to_drm(adev),
+> > +				   DRM_MODE_PROP_BLOB,
+> > +				   "AMD_PLANE_CTM", 0);
+> 
+> We'll want to wrap the property creation/attachment with
+> #ifdef AMD_PRIVATE_COLOR here as well.
 
-On Fri, 8 Sep 2023 15:56:51 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+yeah, it's already wrapped because it's created and attached together
+with the other properties.
 
-> Hi
->=20
-> Am 08.09.23 um 13:16 schrieb Pekka Paalanen:
-> > On Fri, 8 Sep 2023 11:21:51 +0200
-> > Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >  =20
-> >> Hi
-> >>
-> >> Am 25.08.23 um 16:04 schrieb Jocelyn Falempe:
-> >> [...] =20
-> >>> + *
-> >>> + *     But there are two exceptions only for dumb buffers:
-> >>> + *     * To support XRGB8888 if it's not supported by the hardware. =
-=20
-> >>
-> >> =20
-> >>> + *     * Any driver is free to modify its internal representation of=
- the format,
-> >>> + *       as long as it doesn't alter the visible content in any way,=
- and doesn't
-> >>> + *       modify the user-provided buffer. An example would be to dro=
-p the
-> >>> + *       padding component from a format to save some memory bandwid=
-th. =20
-> >>
-> >> I have strong objections to this point, _especially_ as you're
-> >> apparently trying to sneak this in after our discussion. NAK on this
-> >> part from my side.
-> >>
-> >> If you want userspace to be able to use a certain format, then export
-> >> the corresponding 4cc code. Then let userspace decide what to do about
-> >> it. If userspace pick a certain format, go with it. =20
-> >=20
-> > What is the reason for your objection, exactly?
-> >  =20
-> >> Hence, no implicit conversion from XRGB888 to RGB888, just because it's
-> >> possible. =20
-> >=20
-> > For the particular driver in question though, the conversion allows
-> > using a display resolution that is otherwise not possible. I also hear
-> > it improves performance since 25% less data needs to travel across a
-> > slow bus. There is also so little VRAM, than all dumb buffers need to
-> > be allocated from sysram instead anyway, so a copy is always necessary.
-> >=20
-> > Since XRGB8888 is the one format that is recommended to be supported by
-> > all drivers, I don't see a problem here. Did you test on your
-> > incredibly slow g200 test rig if the conversion ends up hurting instead
-> > of helping performance there?
-> >=20
-> > If it hurts, then I see that you have a good reason to NAK this.
-> >=20
-> > It's hard to imagine how it would hurt, since you always need a copy
-> > from sysram dumb buffers to VRAM - or do you? =20
->=20
-> I have a number of concerns. My point it not that we shouldn't optimize.=
-=20
-> I just don't want it in the kernel. Mgag200 can export DRM_FORMAT_RGB888=
-=20
-> for userspace to use.
->=20
-> AFAICT the main argument against userspace is that Mesa doesn't like=20
-> 3-byte pixels. But I don't see how this conversion cannot be a=20
-> post-processing step within Mesa: do the rendering in RGB32 and then=20
-> convert to a framebuffer in RGB24. Userspace can do that more=20
-> efficiently than the kernel. This has all of the upsides of reduced=20
-> bandwidth, but none of the downsides of kernel code. Applications and/or=
-=20
-> Mesa would be in control of the buffer format and apply the optimization=
-=20
-> where it makes sense. And it would be available for all drivers that are=
-=20
-> similar to mgag200.
->=20
-> My main point is simplicity of the driver: I prefer the driver to be=20
-> simple without unnecessary indirection or overhead. Optimizations like=20
-> these my or may not work on a given system with a certain workload. I'd=20
-> better leave this heuristic to userspace.
->=20
-> Another point of concern is CPU consumption: Slow I/O buses may stall=20
-> the display thread, but the CPU could do something else in the meantime.=
-=20
-> Doing format conversion on the CPU prevents that, hence affecting other=20
-> parts of the system negatively. Of course, that's more of a gut feeling=20
-> than hard data.
->=20
-> Please note that the kernel's conversion code uses memory allocation of=20
-> intermediate buffers. We even recently had a discussion about allocation=
-=20
-> overhead during display updates. Userspace can surely do a better job at=
-=20
-> keeping such buffers around.
->=20
-> And finally a note the hardware itself: on low-end hardware like those=20
-> Matrox chips, just switch to RGB16. That will be pretty and fast enough=20
-> for these chips' server systems. Anyone who cares about fast and=20
-> beautiful should buy a real graphics card.
-
-Fair enough.
-
-Did you consider that every frame will be copied twice: once in
-userspace to get RGB888, then again by the driver into VRAM, since dumb
-buffers reside in sysram?
-
-RGB565 would probably go the same route I guess.
-
-I suspect the intermediate buffers (dumb buffers in this case) need to
-be full frame size rather than a scanline, too. I'm not sure why the
-driver would need any scratch buffers beyond a couple dozen bytes while
-doing a software conversion, just enough to have the lowest common
-multiple of 3 bytes and optimal bus write width.
-
-
-Thanks,
-pq
-
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >>> + *     On most hardware, VRAM read access are slow, so when doing th=
-e software
-> >>> + *     conversion, the dumb buffer should be allocated in system RAM=
- in order to
-> >>> + *     have decent performance.
-> >>> + *     Extra care should be taken when doing software conversion with
-> >>> + *     DRM_CAP_DUMB_PREFER_SHADOW, there are more detailed explanati=
-ons here:
-> >>> + *     https://lore.kernel.org/dri-devel/20230818162415.2185f8e3@eld=
-fell/
-> >>>     */
-> >>>   =20
-> >>>    static unsigned int drm_num_planes(struct drm_device *dev)
-> >>>
-> >>> base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781 =20
-> >> =20
-> >  =20
->=20
-
-
---Sig_/5GI7QIw27jzorZz=Zhp0m4K
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmT7MokACgkQI1/ltBGq
-qqcZbBAAh2jCn6+0vwm+Bfl6rX33EniJI/KEqXldA8kTp/408OxEqMqXBgCozKag
-zdsj3kqG7+Hdvt6RUzV3LBb5AAk6w3PRD06sn+JTDdbBsSqGgi6cqLqmbWPzwzTu
-gvwqg9hHQ1Ja//1xqDCtbvzvMfFPgnKMUmh2zpmzbm79YW1ZuD1/JQHgzGC5IDwm
-o9bp3F5xoAxXTiBgWj8jP5BchJ5nEzu9dGIQklzChSMYLH/eOqYUVM6sgNCS7n/S
-GcsV/DzPi4egNtqMeV+lAy/0d+WpUyKNv+fx8nZrgGZpboS4wrp35fiukrivIbjR
-vl845dabkcGI6kzGC6gyWbpnnV05G78BMEoWYYsoIVsrS/xK2JbWnLR0ZSl5U+2H
-88q0jtsgF41Xh9cp1gO+r0uBSQwO7g8uLoYCpo6yPvJVmsT3pxymu2r0F36sBsf6
-P5A3cs2i0Fo3DbuofAv4+oMrzi6EQf7rM4dnKTrG5V3Eil46ensqIZprh975fCmR
-ulX5r6pXHU1csxzg4A0UGAtXrWc8VkfP/bn2nd/jK7VG62BYvZugA3T9svqapQpk
-lORHiKxlZzJ8jPfVs+QaM44AToWSmkGYIX2mT1EKAxfPnUY6sz2OGr5V+8Z5iOL2
-6MKAqtOyaYNDknNGC7hh/KPH9zrRJFZzcJuM414vutCQ3Kf7EhM=
-=oFWi
------END PGP SIGNATURE-----
-
---Sig_/5GI7QIw27jzorZz=Zhp0m4K--
+> 
+> Harry
+> 
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	adev->mode_info.plane_ctm_property = prop;
+> > +
+> >  	prop = drm_property_create(adev_to_drm(adev),
+> >  				   DRM_MODE_PROP_BLOB,
+> >  				   "AMD_PLANE_SHAPER_LUT", 0);
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > index 3fd57de7c5be..0b1081c690cb 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > @@ -1355,6 +1355,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+> >  
+> >  	if (dm_plane_state->degamma_lut)
+> >  		drm_property_blob_get(dm_plane_state->degamma_lut);
+> > +	if (dm_plane_state->ctm)
+> > +		drm_property_blob_get(dm_plane_state->ctm);
+> >  	if (dm_plane_state->shaper_lut)
+> >  		drm_property_blob_get(dm_plane_state->shaper_lut);
+> >  	if (dm_plane_state->lut3d)
+> > @@ -1436,6 +1438,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
+> >  
+> >  	if (dm_plane_state->degamma_lut)
+> >  		drm_property_blob_put(dm_plane_state->degamma_lut);
+> > +	if (dm_plane_state->ctm)
+> > +		drm_property_blob_put(dm_plane_state->ctm);
+> >  	if (dm_plane_state->lut3d)
+> >  		drm_property_blob_put(dm_plane_state->lut3d);
+> >  	if (dm_plane_state->shaper_lut)
+> > @@ -1473,6 +1477,11 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+> >  				   dm->adev->mode_info.plane_hdr_mult_property,
+> >  				   AMDGPU_HDR_MULT_DEFAULT);
+> >  
+> > +	/* Only enable plane CTM if both DPP and MPC gamut remap is available. */
+> > +	if (dm->dc->caps.color.mpc.gamut_remap)
+> > +		drm_object_attach_property(&plane->base,
+> > +					   dm->adev->mode_info.plane_ctm_property, 0);
+> > +
+> >  	if (dpp_color_caps.hw_3d_lut) {
+> >  		drm_object_attach_property(&plane->base,
+> >  					   mode_info.plane_shaper_lut_property, 0);
+> > @@ -1530,6 +1539,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+> >  			dm_plane_state->hdr_mult = val;
+> >  			dm_plane_state->base.color_mgmt_changed = 1;
+> >  		}
+> > +	} else if (property == adev->mode_info.plane_ctm_property) {
+> > +		ret = drm_property_replace_blob_from_id(plane->dev,
+> > +							&dm_plane_state->ctm,
+> > +							val,
+> > +							sizeof(struct drm_color_ctm), -1,
+> > +							&replaced);
+> > +		dm_plane_state->base.color_mgmt_changed |= replaced;
+> > +		return ret;
+> >  	} else if (property == adev->mode_info.plane_shaper_lut_property) {
+> >  		ret = drm_property_replace_blob_from_id(plane->dev,
+> >  							&dm_plane_state->shaper_lut,
+> > @@ -1591,6 +1608,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+> >  		*val = dm_plane_state->degamma_tf;
+> >  	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+> >  		*val = dm_plane_state->hdr_mult;
+> > +	} else if (property == adev->mode_info.plane_ctm_property) {
+> > +		*val = (dm_plane_state->ctm) ?
+> > +			dm_plane_state->ctm->base.id : 0;
+> >  	} else 	if (property == adev->mode_info.plane_shaper_lut_property) {
+> >  		*val = (dm_plane_state->shaper_lut) ?
+> >  			dm_plane_state->shaper_lut->base.id : 0;
+> 
