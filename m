@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323B2798FDA
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:35:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBB6798FE3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B7010E92F;
-	Fri,  8 Sep 2023 19:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C84F110E934;
+	Fri,  8 Sep 2023 19:35:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64EEB10E92F;
- Fri,  8 Sep 2023 19:35:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47AA210E933;
+ Fri,  8 Sep 2023 19:35:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D939061553;
- Fri,  8 Sep 2023 19:35:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037CDC433CC;
- Fri,  8 Sep 2023 19:35:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B1D5661518;
+ Fri,  8 Sep 2023 19:35:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88908C433C8;
+ Fri,  8 Sep 2023 19:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201705;
- bh=oFVOEI2vl5Izjjz2tJf5CFJD+of6q2SmaDV8PqTkO0g=;
+ s=k20201202; t=1694201711;
+ bh=iFYPPJup7d3AsBe1Q+rGAaWm0jrwsL2GEx3gOoZrCDc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n5/ej9Skcb0rEG3r3A1akxQdVsuj63AkLZZeKuM6xQkjCXXU8Bls81s0HTEmXlZTR
- 2XrDD23u1iR+XL2dfWXSHUoHnExQzRCLu0MuGL57p9rgkzBuxBN2di5lbnKT9JVNN1
- NLLgbLXI9Ec935/eqRwQ5sH377hbiXkQ4BVU1mTR0BhrERKb0+C4wpurFgamqli6Pp
- vefEDvfHs/uLuSBoxwEIMtU3Y/URtdI2zBf95H5EURhnec0rvCTAX6O7UlCxSMBzau
- Hdm15VXiNc4BIc40Db13GI0sB2y9v7mF/DT+yr6qFTIlPgW4KLTvbD/j/8Xv6Jz+kW
- DEJNBsbIGgCJA==
+ b=t1lRYHJCMCrjjOwT4v5o4PrRAMHM3/l9YEXJSuEh/8qGNe2iy1dzsWq+X746uVnJv
+ ElMA2ePRJ6LEGqAAsBMTClk9HQyzkzFZsEtv3kjYNR5DxQyLUU8thVubTIGQT6ZVzw
+ JJ4egKlMVwWYAor0HLxiMgQCxIAxveGVi10Xhb1DYZaFh7g4SRLabsgG/hBzCK+Tch
+ DFjuKQz3mS0wBpDJbV5qtgHFTw7sDr+/AiahXXAXEUOeHnFIoShb0MmIoq5RLfcYgm
+ YDI9S6bKxsNQXst2OIV6nZ8PaSNsLpZ1uAWYgivna7Vq+Y6oaZht7M/dNR+28c+e3J
+ kAtZCnMPttKIw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 14/22] drm/amd/display: Use DTBCLK as refclk
- instead of DPREFCLK
-Date: Fri,  8 Sep 2023 15:33:58 -0400
-Message-Id: <20230908193407.3463368-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 15/22] drm/amd/display: Blocking invalid 420 modes
+ on HDMI TMDS for DCN31
+Date: Fri,  8 Sep 2023 15:33:59 -0400
+Message-Id: <20230908193407.3463368-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908193407.3463368-1-sashal@kernel.org>
 References: <20230908193407.3463368-1-sashal@kernel.org>
@@ -58,53 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Austin Zheng <austin.zheng@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>, dri-devel@lists.freedesktop.org,
- jiapeng.chong@linux.alibaba.com, sunpeng.li@amd.com, qingqing.zhuo@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com,
- amd-gfx@lists.freedesktop.org, syedsaaem.rizvi@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, hersenxs.wu@amd.com,
- Alvin Lee <alvin.lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ Tom Chung <chiahsuan.chung@amd.com>, sunpeng.li@amd.com,
+ Leo Chen <sancchen@amd.com>, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, nathan@kernel.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Dmytro.Laktyushkin@amd.com,
+ Yao.Wang1@amd.com, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Paul.Hsieh@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Austin Zheng <austin.zheng@amd.com>
+From: Leo Chen <sancchen@amd.com>
 
-[ Upstream commit 4a30cc2bd281fa176a68b5305cd3695d636152ad ]
+[ Upstream commit 026a71babf48efb6b9884a3a66fa31aec9e1ea54 ]
 
-[Why]
-Flash of corruption observed when UCLK switching after transitioning
-from DTBCLK to DPREFCLK on subVP(DP) + subVP(HDMI) config
-Scenario where DPREFCLK is required instead of DTBCLK is not expected
+[Why & How]
+HDMI TMDS does not have ODM support. Filtering 420 modes that
+exceed the 4096 FMT limitation on DCN31 will resolve
+intermittent corruptions issues.
 
-[How]
-Always set the DTBCLK source as DTBCLK0
-
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Austin Zheng <austin.zheng@amd.com>
+Signed-off-by: Leo Chen <sancchen@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c    | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
-index ffbb739d85b69..8496ff4a25e35 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
-@@ -290,7 +290,8 @@ static void dccg32_set_dpstreamclk(
- 	struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+index ebc04b72b284b..9c84561ff3bc4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+@@ -4133,7 +4133,9 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 				}
+ 				if (v->OutputFormat[k] == dm_420 && v->HActive[k] > DCN31_MAX_FMT_420_BUFFER_WIDTH
+ 						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
+-					if (v->HActive[k] / 2 > DCN31_MAX_FMT_420_BUFFER_WIDTH) {
++					if (v->Output[k] == dm_hdmi) {
++						FMTBufferExceeded = true;
++					} else if (v->HActive[k] / 2 > DCN31_MAX_FMT_420_BUFFER_WIDTH) {
+ 						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
+ 						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
  
- 	/* set the dtbclk_p source */
--	dccg32_set_dtbclk_p_src(dccg, src, otg_inst);
-+	/* always program refclk as DTBCLK. No use-case expected to require DPREFCLK as refclk */
-+	dccg32_set_dtbclk_p_src(dccg, DTBCLK0, otg_inst);
- 
- 	/* enabled to select one of the DTBCLKs for pipe */
- 	switch (dp_hpo_inst) {
 -- 
 2.40.1
 
