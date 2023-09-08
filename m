@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3329C7984BD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 11:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456E1798500
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 11:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2C1C10E0A1;
-	Fri,  8 Sep 2023 09:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC0410E00A;
+	Fri,  8 Sep 2023 09:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3287310E060
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 09:21:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CB93C1F461;
- Fri,  8 Sep 2023 09:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694164912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qjDJIP3D0JGnuzG3HciXLNxtVC33FbgjNsuybRrLz2w=;
- b=Jyauc4EJsRm/ztNyT+XVvnibR2DnK9xlW4O1t6S/IPZ25WDai7FEOjkxUQjIgj2ABWCFCs
- i2VbsxAr5B7gIyc26cwC5eh9NsggQpFvsMkV57/6R9916SXujkrcuFudcuY2XAO2vO2hRx
- A60YpN32AMoRG1f9s5ARRaApSqXpQr0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694164912;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qjDJIP3D0JGnuzG3HciXLNxtVC33FbgjNsuybRrLz2w=;
- b=cm/QIoO3UQ1nV21FmuuMzVsaj7073LYIMgLQvOhtuxlnLjdVdrFTZ8IzPVQG2q/7cl6J2e
- IQDSQliH6nLeNWBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FF22132F2;
- Fri,  8 Sep 2023 09:21:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id H70IJrDn+mT4UAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Sep 2023 09:21:52 +0000
-Message-ID: <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
-Date: Fri, 8 Sep 2023 11:21:51 +0200
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E28010E00A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 09:48:08 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1qeY5q-0006z5-7k; Fri, 08 Sep 2023 11:48:02 +0200
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1qeY5m-004qk7-Ut; Fri, 08 Sep 2023 11:47:58 +0200
+Received: from mtr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1qeY5m-003H19-Ih; Fri, 08 Sep 2023 11:47:58 +0200
+Date: Fri, 8 Sep 2023 11:47:58 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: =?utf-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
+ <inki.dae@samsung.com>
+Subject: Re: [PATCH 3/5] drm/bridge: samsung-dsim: update PLL reference clock
+Message-ID: <20230908094758.GB767994@pengutronix.de>
+References: <20230818-samsung-dsim-v1-0-b39716db6b7a@pengutronix.de>
+ <20230818-samsung-dsim-v1-3-b39716db6b7a@pengutronix.de>
+ <CAAQKjZODcKE_O-Nb_qym0BqAZymUu9j24d+8-UXFsFQekJ=unw@mail.gmail.com>
+ <CGME20230904111544epcas1p13a72637ff0351af5760ad958e5d11de9@epcas1p1.samsung.com>
+ <20230904111520.GC224131@pengutronix.de>
+ <001001d9dfd8$3444bbb0$9cce3310$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- ppaalanen@gmail.com, javierm@redhat.com, contact@emersion.fr
-References: <20230825140434.182664-1-jfalempe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230825140434.182664-1-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MuGjNHnH4L8XePL6Pib2mn8T"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <001001d9dfd8$3444bbb0$9cce3310$@samsung.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +65,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: 'Neil Armstrong' <neil.armstrong@linaro.org>,
+ 'Robert Foss' <rfoss@kernel.org>, kernel@pengutronix.de,
+ 'Jonas Karlman' <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 'Jagan Teki' <jagan@amarulasolutions.com>,
+ 'Jernej Skrabec' <jernej.skrabec@gmail.com>,
+ 'Andrzej Hajda' <andrzej.hajda@intel.com>,
+ 'Marek Szyprowski' <m.szyprowski@samsung.com>,
+ 'Laurent Pinchart' <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MuGjNHnH4L8XePL6Pib2mn8T
-Content-Type: multipart/mixed; boundary="------------0NHenKVUSzy6VwBd0QtGJhJR";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- ppaalanen@gmail.com, javierm@redhat.com, contact@emersion.fr
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-References: <20230825140434.182664-1-jfalempe@redhat.com>
-In-Reply-To: <20230825140434.182664-1-jfalempe@redhat.com>
+On Tue, 05 Sep 2023 18:06:06 +0900, 대인기/Tizen Platform Lab(SR)/삼성전자 wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+> > Michael Tretter
+> > Sent: Monday, September 4, 2023 8:15 PM
+> > To: Inki Dae <daeinki@gmail.com>
+> > Cc: Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss
+> > <rfoss@kernel.org>; Jonas Karlman <jonas@kwiboo.se>; dri-
+> > devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Jernej Skrabec
+> > <jernej.skrabec@gmail.com>; Laurent Pinchart
+> > <Laurent.pinchart@ideasonboard.com>; Andrzej Hajda
+> > <andrzej.hajda@intel.com>; Marek Szyprowski <m.szyprowski@samsung.com>;
+> > kernel@pengutronix.de; Jagan Teki <jagan@amarulasolutions.com>
+> > Subject: Re: [PATCH 3/5] drm/bridge: samsung-dsim: update PLL reference
+> > clock
+> > 
+> > On Mon, 04 Sep 2023 14:44:41 +0900, Inki Dae wrote:
+> > > 2023년 8월 29일 (화) 오전 12:59, Michael Tretter <m.tretter@pengutronix.de>
+> > 님이 작성:
+> > > >
+> > > > The PLL requires a clock between 2 MHz and 30 MHz after the pre-
+> > divider.
+> > > > The reference clock for the PLL may change due to changes to it's
+> > parent
+> > > > clock. Thus, the frequency may be out of range or unsuited for
+> > > > generating the high speed clock for MIPI DSI.
+> > > >
+> > > > Try to keep the pre-devider small, and set the reference clock close
+> > to
+> > > > 30 MHz before recalculating the PLL configuration. Use a divider with
+> > a
+> > > > power of two for the reference clock as this seems to work best in
+> > > > my tests.
+> > >
+> > > Clock frequency is specific to SoC architecture so we have to handle
+> > > it carefully because samsung-dsim.c is a common module for I.MX and
+> > > Exynos series.
+> > > You mentioned "The PLL requires a clock between 2 MHz and 3MHz after
+> > > pre-divider", and the clock means that fin_pll - PFD input frequency -
+> > > which can be calculated with oscillator clock frequency / P value?
+> > > According to Exynos datasheet, the fin_pll should be 6 ~ 12Mhz.
+> > >
+> > > For example,
+> > > In case of Exyhos, we use 24MHz as oscillator clock frequency, so
+> > > fin_pll frequency, 8MHz = 24MHz / P(3).
+> > >
+> > > Can you tell me the source of the constraint that clocks must be
+> > > between 2MHz and 30MHz?
+> > 
+> > The source is the i.MX8M Nano reference manual, Table 13-40. DPHY PLL
+> > Parameters. It documents that the P divider frequency (fin_pll) has a
+> > frequency range of 2 MHz to 30 MHz. According to the same table, the input
 
---------------0NHenKVUSzy6VwBd0QtGJhJR
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Small clarification: These are the corrected limits of TRM rev. 1. In TRM rev.
+0 the limits are incorrectly specified as 6 MHz to 12 MHz.
 
-SGkNCg0KQW0gMjUuMDguMjMgdW0gMTY6MDQgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQpb
-Li4uXQ0KPiArICoNCj4gKyAqICAgICBCdXQgdGhlcmUgYXJlIHR3byBleGNlcHRpb25zIG9u
-bHkgZm9yIGR1bWIgYnVmZmVyczoNCj4gKyAqICAgICAqIFRvIHN1cHBvcnQgWFJHQjg4ODgg
-aWYgaXQncyBub3Qgc3VwcG9ydGVkIGJ5IHRoZSBoYXJkd2FyZS4NCg0KDQo+ICsgKiAgICAg
-KiBBbnkgZHJpdmVyIGlzIGZyZWUgdG8gbW9kaWZ5IGl0cyBpbnRlcm5hbCByZXByZXNlbnRh
-dGlvbiBvZiB0aGUgZm9ybWF0LA0KPiArICogICAgICAgYXMgbG9uZyBhcyBpdCBkb2Vzbid0
-IGFsdGVyIHRoZSB2aXNpYmxlIGNvbnRlbnQgaW4gYW55IHdheSwgYW5kIGRvZXNuJ3QNCj4g
-KyAqICAgICAgIG1vZGlmeSB0aGUgdXNlci1wcm92aWRlZCBidWZmZXIuIEFuIGV4YW1wbGUg
-d291bGQgYmUgdG8gZHJvcCB0aGUNCj4gKyAqICAgICAgIHBhZGRpbmcgY29tcG9uZW50IGZy
-b20gYSBmb3JtYXQgdG8gc2F2ZSBzb21lIG1lbW9yeSBiYW5kd2lkdGguDQoNCkkgaGF2ZSBz
-dHJvbmcgb2JqZWN0aW9ucyB0byB0aGlzIHBvaW50LCBfZXNwZWNpYWxseV8gYXMgeW91J3Jl
-IA0KYXBwYXJlbnRseSB0cnlpbmcgdG8gc25lYWsgdGhpcyBpbiBhZnRlciBvdXIgZGlzY3Vz
-c2lvbi4gTkFLIG9uIHRoaXMgDQpwYXJ0IGZyb20gbXkgc2lkZS4NCg0KSWYgeW91IHdhbnQg
-dXNlcnNwYWNlIHRvIGJlIGFibGUgdG8gdXNlIGEgY2VydGFpbiBmb3JtYXQsIHRoZW4gZXhw
-b3J0IA0KdGhlIGNvcnJlc3BvbmRpbmcgNGNjIGNvZGUuIFRoZW4gbGV0IHVzZXJzcGFjZSBk
-ZWNpZGUgd2hhdCB0byBkbyBhYm91dCANCml0LiBJZiB1c2Vyc3BhY2UgcGljayBhIGNlcnRh
-aW4gZm9ybWF0LCBnbyB3aXRoIGl0Lg0KDQpIZW5jZSwgbm8gaW1wbGljaXQgY29udmVyc2lv
-biBmcm9tIFhSR0I4ODggdG8gUkdCODg4LCBqdXN0IGJlY2F1c2UgaXQncyANCnBvc3NpYmxl
-Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCj4gKyAqICAgICBPbiBtb3N0IGhhcmR3
-YXJlLCBWUkFNIHJlYWQgYWNjZXNzIGFyZSBzbG93LCBzbyB3aGVuIGRvaW5nIHRoZSBzb2Z0
-d2FyZQ0KPiArICogICAgIGNvbnZlcnNpb24sIHRoZSBkdW1iIGJ1ZmZlciBzaG91bGQgYmUg
-YWxsb2NhdGVkIGluIHN5c3RlbSBSQU0gaW4gb3JkZXIgdG8NCj4gKyAqICAgICBoYXZlIGRl
-Y2VudCBwZXJmb3JtYW5jZS4NCj4gKyAqICAgICBFeHRyYSBjYXJlIHNob3VsZCBiZSB0YWtl
-biB3aGVuIGRvaW5nIHNvZnR3YXJlIGNvbnZlcnNpb24gd2l0aA0KPiArICogICAgIERSTV9D
-QVBfRFVNQl9QUkVGRVJfU0hBRE9XLCB0aGVyZSBhcmUgbW9yZSBkZXRhaWxlZCBleHBsYW5h
-dGlvbnMgaGVyZToNCj4gKyAqICAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2
-ZWwvMjAyMzA4MTgxNjI0MTUuMjE4NWY4ZTNAZWxkZmVsbC8NCj4gICAgKi8NCj4gICANCj4g
-ICBzdGF0aWMgdW5zaWduZWQgaW50IGRybV9udW1fcGxhbmVzKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpDQo+IA0KPiBiYXNlLWNvbW1pdDogODJkNzUwZTlkMmY1ZDA1OTRjOGY3MDU3Y2U1
-OTEyN2U3MDFhZjc4MQ0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
-ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZy
-YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRv
-dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpI
-UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+> 
+> In case of Exynos, the range is from 6MHz to 12MHz according to Exynos4212 reference manual, Table 1-5.
+> 
+> > frequency (fin) has a range of 6 MHz to 300 MHz.
+> 
+> In case of Exynos, the range is from 6MHz to 200MHz.
+> 
+> > 
+> > Is the table incorrect?
+> 
 
---------------0NHenKVUSzy6VwBd0QtGJhJR--
+> It's correct for I.MX but incorrect for Exynos. I think it would mean that
+> the valid range depends on SoC architecture. So I'd say that this patch is
+> specific to I.MX.
 
---------------MuGjNHnH4L8XePL6Pib2mn8T
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I understand.
 
------BEGIN PGP SIGNATURE-----
+> This was one of what I concerted about when trying to move
+> samsung-dsim.c module to bridge directory for common use between I.MX and
+> Exynos Platforms, and this will be what we have to solve together - I.MX and
+> Exynos engineers. How about using platform specific data -
+> samsung_dsim_driver_data structure?
+> 
+> I.e,
+> 
+> static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
+>     ...
+>     .min_fin_pll = 2,
+>     .max_fin_pll = 30,
+>     ...
+> };
+> 
+> static const struct samsung_dsim_driver_data exynosxxxx_dsi_driver_data = {
+>     ...
+>     .min_fin_pll = 6,
+>     .max_fin_pll = 12,
+>     ...
+> };
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT6568FAwAAAAAACgkQlh/E3EQov+Bf
-1w/8D8kZQVihbtVdsa1sAGxshNZC4vd55YxUn89z66dww+zcaXAm1CLBr0xNBWnxawpSy5o08qFr
-7i2lZbZK4Bc4qFpI8stIRp3BAHWzF175wDFQhFVJ3RxQ2M4J9tnQktfbcJOQLKbpOJi9l2BivNcQ
-85CHIW4xflrsQaFmJ+8rg0xTMuUsSFQ6fEXTAebIp8eu8zYWo06GvoxZ23S7W4GOXl4TyFr2wK2s
-o02dZ5ZOaKcBDaCgZ3u9T9BH8fqfCzyuZ1G7+UZ5NeJiTvIINPVzvv3pLaY8qWTluHtmox2RKWyi
-FdflJLqmJ2+mReHtA8X1bnD696kzVP6Ze9XSU2Gt1HjdPrymna317nNSznQtuMrWi2Z9aXEQL6ou
-/nsziiz6FeUXEg3wY9Z+/rILDa8+6HpYOkhRUEEqSwTjsgNxlOoyfDtmycIIjyGjKNIzfYJANqok
-v0Kk0yXnVRxv+ePp+KIk0oLC6NR+U5/BsOp07I6UbSRiBK3hpYsrhvMnMN7oXNpyFCg6dGadSHdL
-vDYvcpqNRaiX0AS1zOQQQTu4Q7v0CXBrwobolOL3lg8HSG6HUxPYKNHHnUtUDjqocp4U3wCvBywH
-W1i7v5C8qsLg2m5yTnlvTYt3nZRglAK0co5CAlqGKQO06Rp2zeGqDOufhlc45HVKySxgmTuZjESs
-inU=
-=HRET
------END PGP SIGNATURE-----
+Extending the samsung_dsim_driver_data sounds reasonable. There are already
+other frequency limits specified. I will implement this in v2.
 
---------------MuGjNHnH4L8XePL6Pib2mn8T--
+> 
+> And then,
+> 
+> while (fin > driver_data->max_fin_pll * MHZ)
+>     fin = fin / 2;
+> 
+> > 
+> > I also tried to always set the reference clock to 24 MHz, but depending on
+> > the
+> > display clock this isn't always possible.
+> 
+
+> According to dt binding, if samsung,pll-clock-frequency exists then we have
+> to use it first. I'm not sure but could we check if the pll_clk_rate is
+> valid or not depending on the given display clock in advance? If so then
+> maybe we could update the pll_clk_rate correctly by reading the pll_clk
+> frequency again.
+
+If samsung,pll-clock-frequency is set, the driver will neither check nor
+update the pll_clk, but assume that the clocks are configured correctly. Thus,
+the author of the device tree is responsible for selecting and configuring
+valid clocks.
+
+I observed that if I set pll_clk to any fixed value for different modes, the
+clock framework may use a different clock rate depending on what is possible.
+This may result in a reference clock that uses a fractional divider to get the
+pll_clk_rate or cannot exactly produce the hs_clock. These situations cause
+sync issues on the display.
+
+Checking, if the current pll_clk_rate would involve the pix_clk, the hs_clock,
+and the parent of the pll_clk. It may be possible, but I don't see a problem
+with calculating a suitable pll_clk_rate, updating the pll_clk, and then
+configuring the PLL to generate the hs_clock.
+
+Michael
+
+> 
+> Thanks,
+> Inki Dae
+> 
+> > 
+> > Michael
+> > 
+> > >
+> > > To other I.MX and Exynos engineers, please do not merge this patch
+> > > until two SoC platforms are tested correctly.
+> > >
+> > > Thanks,
+> > > Inki Dae
+> > >
+> > > >
+> > > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > > > ---
+> > > >  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++++++--
+> > > >  1 file changed, 13 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > index da90c2038042..4de6e4f116db 100644
+> > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > > @@ -611,10 +611,21 @@ static unsigned long samsung_dsim_set_pll(struct
+> > samsung_dsim *dsi,
+> > > >         u16 m;
+> > > >         u32 reg;
+> > > >
+> > > > -       if (dsi->pll_clk)
+> > > > +       if (dsi->pll_clk) {
+> > > > +               /*
+> > > > +                * Ensure that the reference clock is generated with a
+> > power of
+> > > > +                * two divider from its parent, but close to the PLLs
+> > upper
+> > > > +                * limit of the valid range of 2 MHz to 30 MHz.
+> > > > +                */
+> > > > +               fin = clk_get_rate(clk_get_parent(dsi->pll_clk));
+> > > > +               while (fin > 30 * MHZ)
+> > > > +                       fin = fin / 2;
+> > > > +               clk_set_rate(dsi->pll_clk, fin);
+> > > > +
+> > > >                 fin = clk_get_rate(dsi->pll_clk);
+> > > > -       else
+> > > > +       } else {
+> > > >                 fin = dsi->pll_clk_rate;
+> > > > +       }
+> > > >         dev_dbg(dsi->dev, "PLL ref clock freq %lu\n", fin);
+> > > >
+> > > >         fout = samsung_dsim_pll_find_pms(dsi, fin, freq, &p, &m, &s);
+> > > >
+> > > > --
+> > > > 2.39.2
+> > > >
+> > >
+> 
+> 
+> 
