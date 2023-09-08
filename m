@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62024798FE8
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C81798FE6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72BD210E937;
-	Fri,  8 Sep 2023 19:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9695310E938;
+	Fri,  8 Sep 2023 19:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8489510E93C;
- Fri,  8 Sep 2023 19:35:24 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E90310E938
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:35:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C5823CE1C55;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0AAF2B821E4;
+ Fri,  8 Sep 2023 19:35:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1446CC433BF;
  Fri,  8 Sep 2023 19:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B83FC116A5;
- Fri,  8 Sep 2023 19:35:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201719;
- bh=J7dpjR5ngNwc4YKM4N/jveZjrGD1BrvRxcXzagXsBO8=;
+ s=k20201202; t=1694201721;
+ bh=QPi7U8LFYJTn90nKMCS6rP5mjt7sQN4sOXteL2xyPXs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NSCeuXO0+XYZ3g/gZZ0KDADznywScLO3V/OODqG2B0KGuTAR3ZJzkzktYHSfaCTiZ
- BjOkyTO9ujxJHLpDDwkTkQxoTJ56l358WZwtWKb7Q12aFChpA8ptMGH0BzCY8w+Kxx
- f+zc5RT5qHAuGZvbwiDIwrxim0MZodBJFzumC40jZ3rO5mc7XmhsL9682xMdwW3akA
- C7yMBEhEUR87tACVryGRNmZfi7toIA6HOx4/Pg03GKWpT9rUXYP08d53u5KS2vzXAr
- qFLWsSioo9Y/T+fu1RXPfCs6t8HP7TztTQB4IqKF2DMxoJ9HaSxQKwgjtahtsZ3jZk
- oBOOw/Cg3nNdQ==
+ b=qfBXAdK66kfxTcJW/owp3bOEyFhujYNy/cqpRds78zCBejMlsOCRJcCV9T9wwMQNK
+ x43Bcj9PfDOi6CukoV+Pn3F2Gd8+PXK/1j33rWhsKEpxTqxIytW1fWHhuClMuS1RkN
+ sYQmX61zkO8rVh5dBF1MeZSx6vu00Lv13SN6O366qwLlwHD7/Sc2hvjqm3JCwlEZ8c
+ kVg+k6FFbUKFB+DkiUwPM94nguwX1lLv71QwEdznKUNW61a2/pbOXysTRkjTPtZXbQ
+ vR5+h8bsfdDxJjS+OAGEyQFsh7kQe9r8KZ9jPmxJkW3AkqlXeGNyv/S6xIE3lN3MpB
+ SvaIhFhQ8zqOA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 16/22] drm/amd/display: Blocking invalid 420 modes
- on HDMI TMDS for DCN314
-Date: Fri,  8 Sep 2023 15:34:00 -0400
-Message-Id: <20230908193407.3463368-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 17/22] drm/exynos: fix a possible null-pointer
+ dereference due to data race in exynos_drm_crtc_atomic_disable()
+Date: Fri,  8 Sep 2023 15:34:01 -0400
+Message-Id: <20230908193407.3463368-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908193407.3463368-1-sashal@kernel.org>
 References: <20230908193407.3463368-1-sashal@kernel.org>
@@ -58,51 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel.Miess@amd.com,
- Tom Chung <chiahsuan.chung@amd.com>, Charlene.Liu@amd.com, sunpeng.li@amd.com,
- Leo Chen <sancchen@amd.com>, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- jerry.zuo@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- nathan@kernel.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Paul.Hsieh@amd.com, Jun.Lei@amd.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ BassCheck <bass@buaa.edu.cn>, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Tuo Li <islituo@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Chen <sancchen@amd.com>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit 4c6107a653ccf361cb1b6ba35d558a1a5e6e57ac ]
+[ Upstream commit 2e63972a2de14482d0eae1a03a73e379f1c3f44c ]
 
-[Why & How]
-HDMI TMDS does not have ODM support. Filtering 420 modes that
-exceed the 4096 FMT limitation on DCN314 will resolve
-intermittent corruptions issues.
+The variable crtc->state->event is often protected by the lock
+crtc->dev->event_lock when is accessed. However, it is accessed as a
+condition of an if statement in exynos_drm_crtc_atomic_disable() without
+holding the lock:
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Leo Chen <sancchen@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+  if (crtc->state->event && !crtc->state->active)
+
+However, if crtc->state->event is changed to NULL by another thread right
+after the conditions of the if statement is checked to be true, a
+null-pointer dereference can occur in drm_crtc_send_vblank_event():
+
+  e->pipe = pipe;
+
+To fix this possible null-pointer dereference caused by data race, the
+spin lock coverage is extended to protect the if statement as well as the
+function call to drm_crtc_send_vblank_event().
+
+Reported-by: BassCheck <bass@buaa.edu.cn>
+Link: https://sites.google.com/view/basscheck/home
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Added relevant link.
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c  | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_drm_crtc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-index 4998b211ccac7..5b47ccde64241 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_mode_vba_314.c
-@@ -4225,7 +4225,9 @@ void dml314_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_
- 				}
- 				if (v->OutputFormat[k] == dm_420 && v->HActive[k] > DCN314_MAX_FMT_420_BUFFER_WIDTH
- 						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
--					if (v->HActive[k] / 2 > DCN314_MAX_FMT_420_BUFFER_WIDTH) {
-+					if (v->Output[k] == dm_hdmi) {
-+						FMTBufferExceeded = true;
-+					} else if (v->HActive[k] / 2 > DCN314_MAX_FMT_420_BUFFER_WIDTH) {
- 						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
- 						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+index 4153f302de7c4..d19e796c20613 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+@@ -39,13 +39,12 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	if (exynos_crtc->ops->atomic_disable)
+ 		exynos_crtc->ops->atomic_disable(exynos_crtc);
  
++	spin_lock_irq(&crtc->dev->event_lock);
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
+-
+ 		crtc->state->event = NULL;
+ 	}
++	spin_unlock_irq(&crtc->dev->event_lock);
+ }
+ 
+ static int exynos_crtc_atomic_check(struct drm_crtc *crtc,
 -- 
 2.40.1
 
