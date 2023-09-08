@@ -2,45 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EF579893D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E02E798953
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:56:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5868C10E8DF;
-	Fri,  8 Sep 2023 14:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261A610E0E2;
+	Fri,  8 Sep 2023 14:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E1C10E8DF;
- Fri,  8 Sep 2023 14:52:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=34xMklFC/rMdV9SMDcKUxNMXdG/pcAiyqnB1umRNMyM=; b=qlI+sbioGk33VzwUGPZLC9COEl
- HEXFzD6IgN8b0nq+RGL7M//ld+WXG01/TiAfefOL8BfR3bimC83EacaEVyE1t5EkkcfP4Zak7PGV6
- IykONlKKckdBlVJkSMr4mRdAmv0+I7qjLm4UqZ5N1BvHW+3cMq6hlhbbSekNxiMUosH79QtT4IpyM
- Fk1+lHJGLv1i0NmDH3PT5DQ/ok7j+002MpRMme4TcCUqkK9pVGv1vsy4N/kwounaPfSmbgSs3S5aP
- 6mGS1d+XNkF7zbCAcCXsDTBqt+6/7Ye0RuNaGPauHTR4MlUER7YXWe7ml+ANs37JDu1T8edUcRXw1
- HkpVcPOQ==;
-Received: from [38.44.68.151] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qecqe-001Pc3-ON; Fri, 08 Sep 2023 16:52:40 +0200
-Date: Fri, 8 Sep 2023 13:52:29 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v2 00/34] drm/amd/display: add AMD driver-specific
- properties for color mgmt
-Message-ID: <20230908145229.m7yxeu2ulxhy2skz@mail.igalia.com>
-References: <20230810160314.48225-1-mwen@igalia.com>
- <b8b1dd2d-069d-4410-a3a1-d1cdb61fd4a8@amd.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2068.outbound.protection.outlook.com [40.107.92.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D0010E0E2;
+ Fri,  8 Sep 2023 14:56:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=caVQBHHWNxPm/JXt3VxzaBt3t7BNSgFBNpB+neHIvuPpcm3bCAEa2kJVTtxVZVehQyaQ065NH8CbknFzlbU8NAVVnCv56eOJylLDTxCcqhxS6BvFLYkB4eQGmPHZ48hK2diBRLSLMYdtQR0UkLWcuO2BbWOI00qhOHmZcK1bLG/orkoVY6x2REHb1eb4/smLJf3vMXkXNl7SF/QXhBUXpYmGaZdbFW/v6GLF3eaYTtq+k+XVkBW2Mx3GhpDBTMWQq/GaZIS34hDBp1+ItkunDNx6gWPEfVBHp6C2tE7/X8vXcAwARlEGjrMJBSiPrTDXaPAoFj2WnfYqUKyvQW9nWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kYosKuGwEHSV0ARvvNJr9fo0tUJ2iy2V6hiPHh1ZbCk=;
+ b=VzlktNn619nPxV75sn5HOsNwF0JhlVVH8m7tdAvGzqkhaQg8hBGp/B0Vdd1XjV8vXPtdZiqPg2HG4YpqVo7oMp1N8Ue6dapeJQ3OPKqdn4936oo+olCgzb7kEHzQGhKDztknrJHEBsaDerEg79vG6DhRhaK3ElRcoXxLRbrBsyFH8rIg/HeFujEvd3s9DkQxiiVHFw6AYpknp/ZH7cIya6J6c+MoMWaGS1QzyZ+znpnuHgNqQeHJR+qfFhnn531rxoTACoCjav3vdwLzkFD6evKFStEmI7x7ngW6K6BKxI4punxCl4VFH7mIBlPlf+v0EbWArSDGhRaDABQgAMcpzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kYosKuGwEHSV0ARvvNJr9fo0tUJ2iy2V6hiPHh1ZbCk=;
+ b=KZ1Qzm4JVsms2yyL6FqAgaIZBaxujR+1HY4N1iaPAbrjkUpmxMS3L1CasBANJB3qQLXD743Skj7bthCysXGsVp30KOfs4tG5omoUHxb3GREzxvG2PohMtVd/GWW6z70Lh7NOtiqrlLlzPySIs18TmRH9VfgAW1+M5sHTGeXG3X8=
+Received: from DM6PR03CA0069.namprd03.prod.outlook.com (2603:10b6:5:100::46)
+ by DS7PR12MB5743.namprd12.prod.outlook.com (2603:10b6:8:72::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Fri, 8 Sep
+ 2023 14:55:59 +0000
+Received: from DS1PEPF0001708E.namprd03.prod.outlook.com
+ (2603:10b6:5:100:cafe::84) by DM6PR03CA0069.outlook.office365.com
+ (2603:10b6:5:100::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34 via Frontend
+ Transport; Fri, 8 Sep 2023 14:55:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0001708E.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.11 via Frontend Transport; Fri, 8 Sep 2023 14:55:59 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 8 Sep
+ 2023 09:55:53 -0500
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v2 1/2] drm/amd/display: fix the white screen issue when >=
+ 64GB DRAM
+Date: Fri, 8 Sep 2023 10:55:12 -0400
+Message-ID: <20230908145521.39044-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8b1dd2d-069d-4410-a3a1-d1cdb61fd4a8@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708E:EE_|DS7PR12MB5743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8dba505b-2e6b-44bb-6858-08dbb07bb6a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SMG0lj8Nx9+bP/neHfmkH+7uFVRmUDA8bXfM0KHX6hY4XKwRtpI2j8PglBHxt1jNOZ4H7FiADr3oHg5q+qwrgiDSvs1nS5yFuload7QK8F80esicmdH3Re6hNpXMBKuXTfmaN4KhBZIL8C776e55vxWdTAfZh4Df3DbhT+J2h5b8Bd0In3OhqCdOdtjK8qiAbvJgVF+M77nLqF7J1StpF8j6iSWZGr1rlPKEPQK77Foe8+Rknd/ztyIKlMy3UiD6F2oBzTAnoEV6XYF5L2ylDAA9gMT0WfD8RTA9QoZ/OewHIzvSCyEMLRvFzjnNMZ90lF1gU/kNxE+7y+95X4bat4xXARsx0wUXvX4Ui+iFArzQBIattQ8owaw5C+DIfRt6Wt6dluGQl89XIprSL+ishMeTAxdHtFZPw6iuOlQiX+KMfrvulFtSHuCTwQeBwUAk4XiVqeAsf7Tw9QI5ZLQjQd29yEmw0KJNul1Eum89NA1kJa1lTFMsrmnZo4c8vYSYHIJjdR4hUxjHhNG+sumQBeXY2aOgxRkc8RdjXgCyEWeLiuI7HUhJGMZ/J5Yi55puwcFZwUHPldfuw090w0T34qegHvuKVlrPH+meci4lUuTobZY5rO00rBy8Z8YaqFENoKswBEuLF4GhJajknJmil+jIpNWxJdxTuPMqcWH2h/vU1QMGgRit1In+KvSj8bQ+NXVpgTxMKQ+likW3VNRO3VjY32dS2LDQCrV+pXemV9uz72lnvi74IIBMTf1hJrdRal1a3DtNaJpM1VFl84Wv+6wJ2DT0gay/xXxU2WEO1ro=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199024)(186009)(82310400011)(1800799009)(40470700004)(36840700001)(46966006)(356005)(36756003)(36860700001)(40480700001)(40460700003)(1076003)(8676002)(83380400001)(4326008)(8936002)(5660300002)(6666004)(44832011)(2616005)(336012)(16526019)(478600001)(86362001)(426003)(41300700001)(26005)(47076005)(81166007)(966005)(2906002)(82740400003)(70586007)(54906003)(316002)(6916009)(70206006)(16060500005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 14:55:59.4297 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8dba505b-2e6b-44bb-6858-08dbb07bb6a9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001708E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5743
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,239 +99,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Hung <alex.hung@amd.com>, kernel-dev@igalia.com, sunpeng.li@amd.com,
- mripard@kernel.org, sungjoon.kim@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>, Xinhui.Pan@amd.com,
- Xaver Hugl <xaver.hugl@gmail.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, tzimmermann@suse.de,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Joshua Ashton <joshua@froggi.es>
+Cc: Alan Liu <haoping.liu@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ dri-devel@lists.freedesktop.org, Mario Limonciello <mario.limonciello@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Stylon Wang <stylon.wang@amd.com>,
+ Victor Zhao <Victor.Zhao@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Le Ma <le.ma@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Candice Li <candice.li@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/06, Harry Wentland wrote:
-> On 2023-08-10 12:02, Melissa Wen wrote:
-> > Hi all,
-> > 
-> > Here is the next version of our work to enable AMD driver-specific color
-> > management properties [1][2]. This series is a collection of
-> > contributions from Joshua, Harry, and me to enhance the AMD KMS color
-> > pipeline for Steam Deck/SteamOS by exposing additional pre-blending and
-> > post-blending color capabilities from those available in the current DRM
-> > KMS API[3].
-> > 
-> > The userspace case here is Gamescope which is the compositor for
-> > SteamOS. Gamescope is already using these features to implement its
-> > color management pipeline [4].
-> > 
-> > In this version, I try to address all concerns shared in the previous
-> > one, i.e.:
-> > - Replace DRM_ by AMDGPU_ prefix for transfer function enumeration; 
-> > - Explicitly define EOTFs and inverse EOTFs and set props accordingly;
-> > - Document pre-defined transfer functions;
-> > - Remove misleading comments;
-> > - Remove post-blending/MPC shaper and 3D LUT support;
-> > - Move driver-specific property operations from amdgpu_display.c to
-> >   amdgpu_dm_color.c;
-> > - Reset planes if any color props change;
-> > - Nits/small fixes;
-> > 
-> > Bearing in mind the complexity of color concepts, I believe there is a
-> > high chance of some misunderstanding from my side when defining EOTFs
-> > and documenting pre-defined TFs. So, reviews are very important and
-> > welcome (thanks in advance). FWIW, I added Harry as a co-developer of
-> > this TF documentation since I based on his description of EOTF/inv_EOTF
-> > and previous documentation work [5]. Let me know if there is a better
-> > way for credits.
-> > 
-> > Two DC patches were already applied and, therefore, removed from the
-> > series. I added r-b according to previous feedback. We also add plane
-> > CTM to driver-specific properties. As a result, this is the updated list
-> > of all driver-specific color properties exposed by this series:
-> > 
-> > - plane degamma LUT and pre-defined TF;
-> > - plane HDR multiplier;
-> > - plane CTM 3x4;
-> > - plane shaper LUT and pre-defined TF;
-> > - plane 3D LUT;
-> > - plane blend LUT and pre-defined TF;
-> > - CRTC gamma pre-defined TF;
-> > 
-> > Remember you can find the AMD HW color capabilities documented here:
-> > https://dri.freedesktop.org/docs/drm/gpu/amdgpu/display/display-manager.html#color-management-properties
-> > 
-> > Worth mentioning that the pre-blending degamma block can use ROM curves
-> > for some pre-defined TFs, but the other blocks use the AMD color module
-> > to calculate this curve considering pre-defined coefficients.
-> > 
-> > We need changes on DC gamut remap matrix to support the plane and CRTC
-> > CTM on drivers that support both. I've sent a previous patch to apply
-> > these changes to all DCN3+ families [6]. Here I use the same changes but
-> > limited to DCN301. Just let me know if you prefer the previous/expanded
-> > version.
-> > 
-> > Finally, this is the Linux/AMD color management API before and after
-> > blending with the driver-specific properties:
-> > 
-> > +----------------------+
-> > |   PLANE              |
-> > |                      |
-> > |  +----------------+  |
-> > |  | AMD Degamma    |  |
-> > |  |                |  |
-> > |  | EOTF | 1D LUT  |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > |  +--------v-------+  |
-> > |  |    AMD HDR     |  |
-> > |  |    Multiply    |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > |  +--------v-------+  |
-> > |  |  AMD CTM (3x4) |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > |  +--------v-------+  |
-> > |  | AMD Shaper     |  |
-> > |  |                |  |
-> > |  | inv_EOTF |     |  |
-> > |  | Custom 1D LUT  |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > |  +--------v-------+  |
-> > |  |   AMD 3D LUT   |  |
-> > |  |   17^3/12-bit  |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > |  +--------v-------+  |
-> > |  | AMD Blend      |  |
-> > |  |                |  |
-> > |  | EOTF | 1D LUT  |  |
-> > |  +--------+-------+  |
-> > |           |          |
-> > ++----------v---------++
-> > ||      Blending      ||
-> > ++----------+---------++
-> > |    CRTC   |          |
-> > |           |          |
-> > |   +-------v-------+  |
-> > |   | DRM Degamma   |  |
-> > |   |               |  |
-> > |   | Custom 1D LUT |  |
-> > |   +-------+-------+  |
-> > |           |          |
-> > |   +-------v-------+  |
-> > |   | DRM CTM (3x3) |  |
-> > |   +-------+-------+  |
-> > |           |          |
-> > |   +-------v-------+  |
-> > |   | DRM Gamma     |  |
-> > |   |               |  |
-> > |   | Custom 1D LUT |  |
-> > |   +---------------+  |
-> > |   | *AMD Gamma    |  |
-> > |   |   inv_EOTF    |  |
-> > |   +---------------+  |
-> > |                      |
-> > +----------------------+
-> > 
-> > Let me know your thoughts.
-> > 
-> 
-> Thanks again for your amazing work on this.
-> 
-> Patches 5, 6, 14, 16, and 24 are
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> 
-> I left comments on the remaining unreviewed patches.
+From: Yifan Zhang <yifan1.zhang@amd.com>
 
-Thank you for the detailed review. I'll address your comments and also
-those from Pekka in the next version.
+Dropping bit 31:4 of page table base is wrong, it makes page table
+base points to wrong address if phys addr is beyond 64GB; dropping
+page_table_start/end bit 31:4 is unnecessary since dcn20_vmid_setup
+will do that. Also, while we are at it, cleanup the assignments using
+upper_32_bits()/lower_32_bits() and AMDGPU_GPU_PAGE_SHIFT.
 
-Melissa
+Cc: stable@vger.kernel.org
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2354
+Fixes: 81d0bcf99009 ("drm/amdgpu: make display pinning more flexible (v2)")
+Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+v2: use upper_32_bits()/lower_32_bits() and AMDGPU_GPU_PAGE_SHIFT
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-> 
-> Harry
-> 
-> > Best Regards,
-> > 
-> > Melissa Wen
-> > 
-> > [1] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igalia.com
-> > [2] https://lore.kernel.org/dri-devel/20230523221520.3115570-1-mwen@igalia.com
-> > [3] https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Steam%20Deck%20Display%20Pipeline.png
-> > [4] https://github.com/ValveSoftware/gamescope
-> > [5] https://lore.kernel.org/dri-devel/20210730204134.21769-1-harry.wentland@amd.com
-> > [6] https://lore.kernel.org/dri-devel/20230721132431.692158-1-mwen@igalia.com
-> > 
-> > 
-> > Harry Wentland (1):
-> >   drm/amd/display: fix segment distribution for linear LUTs
-> > 
-> > Joshua Ashton (14):
-> >   drm/amd/display: add plane degamma TF driver-specific property
-> >   drm/amd/display: add plane HDR multiplier driver-specific property
-> >   drm/amd/display: add plane blend LUT and TF driver-specific properties
-> >   drm/amd/display: add CRTC gamma TF support
-> >   drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
-> >   drm/amd/display: mark plane as needing reset if color props change
-> >   drm/amd/display: add plane degamma TF and LUT support
-> >   drm/amd/display: add dc_fixpt_from_s3132 helper
-> >   drm/amd/display: add HDR multiplier support
-> >   drm/amd/display: handle empty LUTs in __set_input_tf
-> >   drm/amd/display: add plane blend LUT and TF support
-> >   drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
-> >   drm/amd/display: copy 3D LUT settings from crtc state to stream_update
-> >   drm/amd/display: Use 3x4 CTM for plane CTM
-> > 
-> > Melissa Wen (19):
-> >   drm/drm_mode_object: increase max objects to accommodate new color
-> >     props
-> >   drm/drm_property: make replace_property_blob_from_id a DRM helper
-> >   drm/drm_plane: track color mgmt changes per plane
-> >   drm/amd/display: add driver-specific property for plane degamma LUT
-> >   drm/amd/display: explicitly define EOTF and inverse EOTF
-> >   drm/amd/display: document AMDGPU pre-defined transfer functions
-> >   drm/amd/display: add plane 3D LUT driver-specific properties
-> >   drm/amd/display: add plane shaper LUT and TF driver-specific
-> >     properties
-> >   drm/amd/display: add CRTC gamma TF driver-specific property
-> >   drm/amd/display: add comments to describe DM crtc color mgmt behavior
-> >   drm/amd/display: encapsulate atomic regamma operation
-> >   drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
-> >   drm/amd/display: reject atomic commit if setting both plane and CRTC
-> >     degamma
-> >   drm/amd/display: add plane shaper LUT support
-> >   drm/amd/display: add plane shaper TF support
-> >   drm/amd/display: add plane 3D LUT support
-> >   drm/amd/display: set stream gamut remap matrix to MPC for DCN301
-> >   drm/amd/display: add plane CTM driver-specific property
-> >   drm/amd/display: add plane CTM support
-> > 
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  71 ++
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  34 +-
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 101 +++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 805 ++++++++++++++++--
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 224 ++++-
-> >  .../amd/display/dc/dcn10/dcn10_cm_common.c    |  93 +-
-> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    |  37 +
-> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |   3 +
-> >  .../drm/amd/display/dc/dcn301/dcn301_init.c   |   2 +-
-> >  .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
-> >  drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
-> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
-> >  drivers/gpu/drm/drm_property.c                |  49 ++
-> >  include/drm/drm_mode_object.h                 |   2 +-
-> >  include/drm/drm_plane.h                       |   7 +
-> >  include/drm/drm_property.h                    |   6 +
-> >  include/uapi/drm/drm_mode.h                   |   8 +
-> >  20 files changed, 1446 insertions(+), 127 deletions(-)
-> > 
-> 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 1bb1a394f55f..5f14cd9391ca 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1283,11 +1283,15 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
+ 
+ 	pt_base = amdgpu_gmc_pd_addr(adev->gart.bo);
+ 
+-	page_table_start.high_part = (u32)(adev->gmc.gart_start >> 44) & 0xF;
+-	page_table_start.low_part = (u32)(adev->gmc.gart_start >> 12);
+-	page_table_end.high_part = (u32)(adev->gmc.gart_end >> 44) & 0xF;
+-	page_table_end.low_part = (u32)(adev->gmc.gart_end >> 12);
+-	page_table_base.high_part = upper_32_bits(pt_base) & 0xF;
++	page_table_start.high_part = upper_32_bits(adev->gmc.gart_start >>
++						   AMDGPU_GPU_PAGE_SHIFT);
++	page_table_start.low_part = lower_32_bits(adev->gmc.gart_start >>
++						  AMDGPU_GPU_PAGE_SHIFT);
++	page_table_end.high_part = upper_32_bits(adev->gmc.gart_end >>
++						 AMDGPU_GPU_PAGE_SHIFT);
++	page_table_end.low_part = lower_32_bits(adev->gmc.gart_end >>
++						AMDGPU_GPU_PAGE_SHIFT);
++	page_table_base.high_part = upper_32_bits(pt_base);
+ 	page_table_base.low_part = lower_32_bits(pt_base);
+ 
+ 	pa_config->system_aperture.start_addr = (uint64_t)logical_addr_low << 18;
+-- 
+2.41.0
+
