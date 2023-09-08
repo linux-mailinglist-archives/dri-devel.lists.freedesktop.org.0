@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB967990F2
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD0A7990FD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84AAA10E21F;
-	Fri,  8 Sep 2023 20:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C10FD10E0FB;
+	Fri,  8 Sep 2023 20:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1AFE10E21F
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:22:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE97D10E0FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:30:09 +0000 (UTC)
 Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Rj6wq6jprzDrP4;
- Fri,  8 Sep 2023 20:22:35 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Rj75Y3XlkzDqMF;
+ Fri,  8 Sep 2023 20:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1694204556; bh=XS8Z/ShY3WdevYn8UwhbarhBR5GVN6dSAz660ifKJys=;
+ t=1694205009; bh=gDzKMyE9VlLQ32iC39cf3aQDH2SMeHU+7iQRmkRvjpc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=n38ueekQtSFC9oy/MJWKnXjMfDRGRLuEWDKfaMOwYig8CHw+5odxbogzs9YJ73c95
- EDN+v7RXLnTDTaUnz4Y3n3ENHJ/aXFsStzBdswveuVY2YE8MAkKehHg5A8yVWaITBU
- 1OauPRvWXCwBnq4CopPs7ktD6vFWWYPpSjbv0Vxw=
-X-Riseup-User-ID: 84B3D466817817D0C3D032DE7D2F8778771B2143ADF4778A0E28BA413C915E03
+ b=JHwUQeA92F88HF06Yp6W91Y9M1vaqZddJFg+mj3duw4HKIMjlSHcuyuSf4XsddwN7
+ rr6Ma4Htks1IshjzqbGapzAWZ4hY8gTznb7OMwhkfaXmo1DVSupEMdV4aVC9z0SO6l
+ cYayDUbgzazBg41GYqSICFGT225zHCNN/LZci43I=
+X-Riseup-User-ID: 31F36F2EB33F649AE717090F4B5CE1EEE65A9A35B213FD3E976C591591ADEB0B
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Rj6wl3YTpzJnDb;
- Fri,  8 Sep 2023 20:22:31 +0000 (UTC)
-Message-ID: <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
-Date: Fri, 8 Sep 2023 17:22:32 -0300
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Rj75F4lTjzJnCB;
+ Fri,  8 Sep 2023 20:29:53 +0000 (UTC)
+Message-ID: <9a128eff-df0f-49fb-d57f-3389a1e2ff62@riseup.net>
+Date: Fri, 8 Sep 2023 17:29:54 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 07/10] drm/tests: Add test for drm_framebuffer_init()
-To: Carlos <gcarlos@disroot.org>, dri-devel@lists.freedesktop.org
-References: <20230825161108.13701-1-gcarlos@disroot.org>
- <e0d67231-f970-f835-6327-13e9e97a752d@riseup.net>
- <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
+Subject: Re: [PATCH 03/10] drm/tests: Add test case for
+ drm_internal_framebuffer_create()
 Content-Language: en-US
+To: Carlos <gcarlos@disroot.org>, dri-devel@lists.freedesktop.org
+References: <20230825160725.12861-1-gcarlos@disroot.org>
+ <20230825160725.12861-4-gcarlos@disroot.org>
+ <59f0c24e-6483-3242-2af8-a2fac5697425@riseup.net>
+ <3a1a7cf0-a6b5-a49c-d2d5-70b98dac2090@disroot.org>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
+In-Reply-To: <3a1a7cf0-a6b5-a49c-d2d5-70b98dac2090@disroot.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,93 +66,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Carlos,
 
-On 9/4/23 14:41, Carlos wrote:
+On 9/4/23 13:57, Carlos wrote:
 > Hi Maíra,
 > 
-> On 8/26/23 11:16, Maíra Canal wrote:
+> On 8/26/23 10:58, Maíra Canal wrote:
 >> Hi Carlos,
 >>
->> On 8/25/23 13:11, Carlos Eduardo Gallo Filho wrote:
->>> Add a single KUnit test case for the drm_framebuffer_init function.
+>> On 8/25/23 13:07, Carlos Eduardo Gallo Filho wrote:
+>>> Introduce a test to cover the creation of framebuffer with
+>>> modifier on a device that doesn't support it.
 >>>
 >>> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 >>> ---
->>>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 52 ++++++++++++++++++++
->>>   1 file changed, 52 insertions(+)
+>>>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 28 ++++++++++++++++++++
+>>>   1 file changed, 28 insertions(+)
 >>>
 >>> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c 
 >>> b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>> index 3d14d35b4c4d..50d88bf3fa65 100644
+>>> index aeaf2331f9cc..b20871e88995 100644
 >>> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 >>> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>> @@ -557,8 +557,60 @@ static void drm_test_framebuffer_lookup(struct 
+>>> @@ -396,7 +396,35 @@ static void drm_framebuffer_test_to_desc(const 
+>>> struct drm_framebuffer_test *t, c
+>>>   KUNIT_ARRAY_PARAM(drm_framebuffer_create, 
+>>> drm_framebuffer_create_cases,
+>>>             drm_framebuffer_test_to_desc);
+>>>   +/*
+>>> + * This test is very similar to drm_test_framebuffer_create, except 
+>>> that it
+>>> + * set mock->mode_config.fb_modifiers_not_supported member to 1, 
+>>> covering
+>>> + * the case of trying to create a framebuffer with modifiers without 
+>>> the
+>>> + * device really supporting it.
+>>> + */
+>>> +static void drm_test_framebuffer_modifiers_not_supported(struct 
 >>> kunit *test)
->>>       KUNIT_EXPECT_NULL(test, fb2);
->>>   }
->>>   +static void drm_test_framebuffer_init(struct kunit *test)
 >>> +{
 >>> +    struct drm_mock *mock = test->priv;
 >>> +    struct drm_device *dev = &mock->dev;
->>> +    struct drm_device wrong_drm = { };
->>> +    struct drm_format_info format = { };
->>> +    struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
->>> +    struct drm_framebuffer *fb2;
->>> +    struct drm_framebuffer_funcs funcs = { };
->>> +    int ret;
+>>> +    int buffer_created = 0;
 >>> +
->>> +    /* Fails if fb->dev doesn't point to the drm_device passed on 
->>> first arg */
->>> +    fb1.dev = &wrong_drm;
->>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
->>> +    fb1.dev = dev;
+>>> +    /* A valid cmd with modifier */
+>>> +    struct drm_mode_fb_cmd2 cmd = {
+>>> +        .width = MAX_WIDTH, .height = MAX_HEIGHT,
+>>> +        .pixel_format = DRM_FORMAT_ABGR8888, .handles = { 1, 0, 0 },
+>>> +        .offsets = { UINT_MAX / 2, 0, 0 }, .pitches = { 4 * 
+>>> MAX_WIDTH, 0, 0 },
+>>> +        .flags = DRM_MODE_FB_MODIFIERS,
+>>> +    };
 >>> +
->>> +    /* Fails if fb.format isn't set */
->>> +    fb1.format = NULL;
->>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
->>> +    fb1.format = &format;
+>>> +    mock->private = &buffer_created;
+>>> +    dev->mode_config.fb_modifiers_not_supported = 1;
 >>> +
->>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>> +    KUNIT_EXPECT_EQ(test, ret, 0);
+>>> +    drm_internal_framebuffer_create(dev, &cmd, NULL);
+>>> +    KUNIT_EXPECT_EQ(test, 0, buffer_created);
+>>> +}
 >>> +
->>> +    /*
->>> +     * Check if fb->funcs is actually set to the drm_framebuffer_funcs
->>> +     * passed to it
->>> +     */
->>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
->>> +
->>> +    /* The fb->comm must be set to the current running process */
->>> +    KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
->>> +
->>> +    /* The fb->base must be successfully initialized */
->>> +    KUNIT_EXPECT_EQ(test, fb1.base.id, 1);
->>> +    KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
->>> +    KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
->>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, &drm_framebuffer_free);
-
-BTW I believe we should also make sure that dev->mode_config.num_fb was
-incremented by 1.
-
->>> +
->>> +    /* Checks if the fb is really published and findable */
->>> +    fb2 = drm_framebuffer_lookup(dev, NULL, fb1.base.id);
->>> +    KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
->>> +
->>> +    /* There must be just that one fb initialized */
->>> +    KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
->>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, 
->>> &fb1.head);
->>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, 
->>> &fb1.head);
+>>>   static struct kunit_case drm_framebuffer_tests[] = {
+>>> +    KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
 >>
->> Shouldn't we clean the framebuffer object?
-> What did you mean by "clean"? Firstly I supposed that it would be about
-> freeing some dynamically allocated frambuffer, but it's statically
-> allocated, so I believe it isn't what you are meaning. Is there some
-> collateral effect I'm not taking into account?
+>> Could we preserve alphabetical order?
+>>
+> I've see a lot of other tests files with this ordered by every KUNIT_CASE()
+> coming before KUNIT_CASE_PARAM(), with each set ordered among themselves.
+> Did younoticed that or are you suggesting ordering it even so? Or maybe
+> you're referring about another unordered thing that I didn't noticed?
 
-I was talking about calling the function `drm_framebuffer_cleanup()`.
+Actually, I was suggesting to keep the alphabetical order related to the
+tests naming. So, drm_test_framebuffer_create would come ahead of
+drm_test_framebuffer_modifiers_not_supported.
+
 
 Best Regards,
 - Maíra
@@ -162,12 +148,7 @@ Best Regards,
 >> Best Regards,
 >> - Maíra
 >>
->>> +}
->>> +
->>>   static struct kunit_case drm_framebuffer_tests[] = {
->>>       KUNIT_CASE(drm_test_framebuffer_cleanup),
->>> +    KUNIT_CASE(drm_test_framebuffer_init),
->>>       KUNIT_CASE(drm_test_framebuffer_lookup),
->>> KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
->>>       KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, 
->>> check_src_coords_gen_params),
+>>> KUNIT_CASE_PARAM(drm_test_framebuffer_create, 
+>>> drm_framebuffer_create_gen_params),
+>>>       { }
+>>>   };
