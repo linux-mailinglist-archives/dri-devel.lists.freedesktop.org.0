@@ -2,64 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC5C79882A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 15:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E81798842
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0409810E8C6;
-	Fri,  8 Sep 2023 13:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023F110E03B;
+	Fri,  8 Sep 2023 14:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F41C10E8B8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 13:56:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A4A9F21A0A;
- Fri,  8 Sep 2023 13:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694181412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE0710E03B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 14:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694181999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PtKGFF/2qauDBn8BURUlfWx3I7thMLqaYlv/Kkbr8Mk=;
- b=v+vbddS3EFHp8zdgkAEPfGKmdfWhjrxblYsNKDFgXQ1lB42LVDc7hYHBROlbdtGc+9iwGo
- UdowQ3V/wExghJW3jtY2OwGzG7RXSg2et7hsKCyHRjG7EjVhbfIlY7FfXjQqpHEZzSGKTJ
- UUGLCn+ZarJBoHmpBsSHFTH0ZaQ5Dhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694181412;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PtKGFF/2qauDBn8BURUlfWx3I7thMLqaYlv/Kkbr8Mk=;
- b=/6My9OF7lqC4BRQBaOOZtELeNnPX9Q+aP/BcgkRH0j66MozZumY16CVr5Ba23olNGa6MZN
- 5Ubuhj8Gy8QAQNBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65366132F2;
- Fri,  8 Sep 2023 13:56:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id u56tFyQo+2SkaAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Sep 2023 13:56:52 +0000
-Message-ID: <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
-Date: Fri, 8 Sep 2023 15:56:51 +0200
+ bh=HjkVYP20Q7AtofZ1Dx8phojUZ9XbQddsJ54Bw1e9HQw=;
+ b=iDaDEkHh5I1EH5YBBGC1Jp/SfqtI18/VvhVI3JMPTBaRyVSEXVtsfRJfa1DKGfz2X1Ehe1
+ dwgAlatBcDQOII24MdGV6yGPI+cWZjlhKf1LhDEwR31Ho6NJIAangvzaSTRDeS+vy7u9vv
+ VqAR3Dtj6PURXt/dXoAgdkPucpQql9Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-444-qG1FRTOyMKO8uIlk_by8Ew-1; Fri, 08 Sep 2023 10:06:37 -0400
+X-MC-Unique: qG1FRTOyMKO8uIlk_by8Ew-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-402493d2997so14317085e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 07:06:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694181996; x=1694786796;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HjkVYP20Q7AtofZ1Dx8phojUZ9XbQddsJ54Bw1e9HQw=;
+ b=dx/yk7nNL2kIDUBqVmzNRc21PMzbZSTIiHiOK9hrnR4+Mj7y14TFew04NKKkJygTIA
+ acMQ7DZpLRBCSe5eJWb8Hx7cpUiVWNuvDreZZ6GYZxzbP34GJRZ2XzFlGrIHbbHXrPgH
+ Q5fOfSxBULV1NhHXrINdfuf5uLID9ZiOmwgy7cZIDKxzGRYXAv/BDOhNZqHCVNC4fxaz
+ T6OKIgOW18ayRM6ky9Hakb0egPpWbRRL0YsYXSTGaJ25pGn9YeesMFcmNYho1tVc7UBS
+ qmQTnwBAjqZZwmV8p3Dt79RHdDoYSmxwI7v60PjfmXcyGYN2711nmsdxT13j5dDj/l4g
+ sSSw==
+X-Gm-Message-State: AOJu0YzbANUTI9NmdKfSQGZZ+bfwvJX37JrSdPTo+SbzBrzHGb4CnoQl
+ rurt2WqNwSLUEJDHFCc/7/sOdufQepLsdJeFCujCD8BqqQ6NnD2xge5x+Dm+DXLeSIeFyM2IzCn
+ yHskTOo/8OVGGq7zEly77q6ug4sLOXui7Vv9A
+X-Received: by 2002:a7b:c4d8:0:b0:401:5443:5591 with SMTP id
+ g24-20020a7bc4d8000000b0040154435591mr2181192wmk.20.1694181996470; 
+ Fri, 08 Sep 2023 07:06:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHoe1GkDP+XDQIig6PMhmNUbDKymtx4MTWkmZpdo4/8UsWHo6qAaXmkRWpC9sMI0bjyjy5Djg==
+X-Received: by 2002:a7b:c4d8:0:b0:401:5443:5591 with SMTP id
+ g24-20020a7bc4d8000000b0040154435591mr2181176wmk.20.1694181996120; 
+ Fri, 08 Sep 2023 07:06:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ f18-20020adffcd2000000b00317b5c8a4f1sm2193477wrs.60.2023.09.08.07.06.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Sep 2023 07:06:35 -0700 (PDT)
+Message-ID: <b803e73e-211b-a6f2-7dc7-25e46e72483d@redhat.com>
+Date: Fri, 8 Sep 2023 16:06:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
+ Thunderbird/102.13.0
 Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
  conversion.
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
 References: <20230825140434.182664-1-jfalempe@redhat.com>
  <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230908141638.79b31d1e@eldfell>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VmHyts1ZjcQhtyrNHpFZpbRk"
+ <5ltuqgsepffvp6rjvmskqtvzyyhvk6phmixm3crfteznyejn4t@mtycsppney5x>
+ <b135fdd1-afd9-bb65-19d7-3125504afb05@suse.de>
+ <87ledg3hib.fsf@minerva.mail-host-address-is-not-set>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <87ledg3hib.fsf@minerva.mail-host-address-is-not-set>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,143 +92,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- mripard@kernel.org, dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VmHyts1ZjcQhtyrNHpFZpbRk
-Content-Type: multipart/mixed; boundary="------------ldTVBrTcdpbqkMlmpnV8o2Z3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, contact@emersion.fr, dri-devel@lists.freedesktop.org
-Message-ID: <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
-In-Reply-To: <20230908141638.79b31d1e@eldfell>
+On 08/09/2023 15:46, Javier Martinez Canillas wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> 
+> Hello Thomas,
+> 
+>> Hi Maxime
+>>
+>> Am 08.09.23 um 12:58 schrieb Maxime Ripard:
+>>> Hi,
+>>>
+>>> On Fri, Sep 08, 2023 at 11:21:51AM +0200, Thomas Zimmermann wrote:
+>>>> Am 25.08.23 um 16:04 schrieb Jocelyn Falempe:
+>>>> [...]
+>>>>> + *
+>>>>> + *     But there are two exceptions only for dumb buffers:
+>>>>> + *     * To support XRGB8888 if it's not supported by the hardware.
+>>>>
+>>>>
+>>>>> + *     * Any driver is free to modify its internal representation of the format,
+>>>>> + *       as long as it doesn't alter the visible content in any way, and doesn't
+>>>>> + *       modify the user-provided buffer. An example would be to drop the
+>>>>> + *       padding component from a format to save some memory bandwidth.
+>>>>
+>>>> I have strong objections to this point, _especially_ as you're apparently
+>>>> trying to sneak this in after our discussion.
+>>>
+>>> I think it's an unfair characterization. This was discussed on
+>>> #dri-devel, and went through several rounds over the mailing lists, with
+>>> you in Cc for each. How is that sneaking something in?
+>>
+>> A few months ago, we had a flamewar'ish IRC discussion on format
+>> conversion within the kernel. The general sentiment was that the kernel
+>> drivers should use what ever is provided by userspace without further
+>> processing. The short argument was 'userspace knows better'. The only
+>> exception is for supporting XRGB8888 on hardware that would otherwise
+>> not support it. After some consideration, I agree with all that. (Back
+>> then I didn't.)
 
---------------ldTVBrTcdpbqkMlmpnV8o2Z3
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I wasn't part of this "flamewar", and though my patch was a bit 
+unrelated to this. That's why I started this work to document clearly 
+what is acceptable in the kernel or not. I discuss it on IRC, and then 
+proposed the patch on dri-devel to find a compromise, and see if my case 
+can be acceptable or not.
 
-SGkNCg0KQW0gMDguMDkuMjMgdW0gMTM6MTYgc2NocmllYiBQZWtrYSBQYWFsYW5lbjoNCj4g
-T24gRnJpLCA4IFNlcCAyMDIzIDExOjIxOjUxICswMjAwDQo+IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4gDQo+PiBIaQ0KPj4NCj4+IEFtIDI1
-LjA4LjIzIHVtIDE2OjA0IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPj4gWy4uLl0NCj4+
-PiArICoNCj4+PiArICogICAgIEJ1dCB0aGVyZSBhcmUgdHdvIGV4Y2VwdGlvbnMgb25seSBm
-b3IgZHVtYiBidWZmZXJzOg0KPj4+ICsgKiAgICAgKiBUbyBzdXBwb3J0IFhSR0I4ODg4IGlm
-IGl0J3Mgbm90IHN1cHBvcnRlZCBieSB0aGUgaGFyZHdhcmUuDQo+Pg0KPj4NCj4+PiArICog
-ICAgICogQW55IGRyaXZlciBpcyBmcmVlIHRvIG1vZGlmeSBpdHMgaW50ZXJuYWwgcmVwcmVz
-ZW50YXRpb24gb2YgdGhlIGZvcm1hdCwNCj4+PiArICogICAgICAgYXMgbG9uZyBhcyBpdCBk
-b2Vzbid0IGFsdGVyIHRoZSB2aXNpYmxlIGNvbnRlbnQgaW4gYW55IHdheSwgYW5kIGRvZXNu
-J3QNCj4+PiArICogICAgICAgbW9kaWZ5IHRoZSB1c2VyLXByb3ZpZGVkIGJ1ZmZlci4gQW4g
-ZXhhbXBsZSB3b3VsZCBiZSB0byBkcm9wIHRoZQ0KPj4+ICsgKiAgICAgICBwYWRkaW5nIGNv
-bXBvbmVudCBmcm9tIGEgZm9ybWF0IHRvIHNhdmUgc29tZSBtZW1vcnkgYmFuZHdpZHRoLg0K
-Pj4NCj4+IEkgaGF2ZSBzdHJvbmcgb2JqZWN0aW9ucyB0byB0aGlzIHBvaW50LCBfZXNwZWNp
-YWxseV8gYXMgeW91J3JlDQo+PiBhcHBhcmVudGx5IHRyeWluZyB0byBzbmVhayB0aGlzIGlu
-IGFmdGVyIG91ciBkaXNjdXNzaW9uLiBOQUsgb24gdGhpcw0KPj4gcGFydCBmcm9tIG15IHNp
-ZGUuDQo+Pg0KPj4gSWYgeW91IHdhbnQgdXNlcnNwYWNlIHRvIGJlIGFibGUgdG8gdXNlIGEg
-Y2VydGFpbiBmb3JtYXQsIHRoZW4gZXhwb3J0DQo+PiB0aGUgY29ycmVzcG9uZGluZyA0Y2Mg
-Y29kZS4gVGhlbiBsZXQgdXNlcnNwYWNlIGRlY2lkZSB3aGF0IHRvIGRvIGFib3V0DQo+PiBp
-dC4gSWYgdXNlcnNwYWNlIHBpY2sgYSBjZXJ0YWluIGZvcm1hdCwgZ28gd2l0aCBpdC4NCj4g
-DQo+IFdoYXQgaXMgdGhlIHJlYXNvbiBmb3IgeW91ciBvYmplY3Rpb24sIGV4YWN0bHk/DQo+
-IA0KPj4gSGVuY2UsIG5vIGltcGxpY2l0IGNvbnZlcnNpb24gZnJvbSBYUkdCODg4IHRvIFJH
-Qjg4OCwganVzdCBiZWNhdXNlIGl0J3MNCj4+IHBvc3NpYmxlLg0KPiANCj4gRm9yIHRoZSBw
-YXJ0aWN1bGFyIGRyaXZlciBpbiBxdWVzdGlvbiB0aG91Z2gsIHRoZSBjb252ZXJzaW9uIGFs
-bG93cw0KPiB1c2luZyBhIGRpc3BsYXkgcmVzb2x1dGlvbiB0aGF0IGlzIG90aGVyd2lzZSBu
-b3QgcG9zc2libGUuIEkgYWxzbyBoZWFyDQo+IGl0IGltcHJvdmVzIHBlcmZvcm1hbmNlIHNp
-bmNlIDI1JSBsZXNzIGRhdGEgbmVlZHMgdG8gdHJhdmVsIGFjcm9zcyBhDQo+IHNsb3cgYnVz
-LiBUaGVyZSBpcyBhbHNvIHNvIGxpdHRsZSBWUkFNLCB0aGFuIGFsbCBkdW1iIGJ1ZmZlcnMg
-bmVlZCB0bw0KPiBiZSBhbGxvY2F0ZWQgZnJvbSBzeXNyYW0gaW5zdGVhZCBhbnl3YXksIHNv
-IGEgY29weSBpcyBhbHdheXMgbmVjZXNzYXJ5Lg0KPiANCj4gU2luY2UgWFJHQjg4ODggaXMg
-dGhlIG9uZSBmb3JtYXQgdGhhdCBpcyByZWNvbW1lbmRlZCB0byBiZSBzdXBwb3J0ZWQgYnkN
-Cj4gYWxsIGRyaXZlcnMsIEkgZG9uJ3Qgc2VlIGEgcHJvYmxlbSBoZXJlLiBEaWQgeW91IHRl
-c3Qgb24geW91cg0KPiBpbmNyZWRpYmx5IHNsb3cgZzIwMCB0ZXN0IHJpZyBpZiB0aGUgY29u
-dmVyc2lvbiBlbmRzIHVwIGh1cnRpbmcgaW5zdGVhZA0KPiBvZiBoZWxwaW5nIHBlcmZvcm1h
-bmNlIHRoZXJlPw0KPiANCj4gSWYgaXQgaHVydHMsIHRoZW4gSSBzZWUgdGhhdCB5b3UgaGF2
-ZSBhIGdvb2QgcmVhc29uIHRvIE5BSyB0aGlzLg0KPiANCj4gSXQncyBoYXJkIHRvIGltYWdp
-bmUgaG93IGl0IHdvdWxkIGh1cnQsIHNpbmNlIHlvdSBhbHdheXMgbmVlZCBhIGNvcHkNCj4g
-ZnJvbSBzeXNyYW0gZHVtYiBidWZmZXJzIHRvIFZSQU0gLSBvciBkbyB5b3U/DQoNCkkgaGF2
-ZSBhIG51bWJlciBvZiBjb25jZXJucy4gTXkgcG9pbnQgaXQgbm90IHRoYXQgd2Ugc2hvdWxk
-bid0IG9wdGltaXplLiANCkkganVzdCBkb24ndCB3YW50IGl0IGluIHRoZSBrZXJuZWwuIE1n
-YWcyMDAgY2FuIGV4cG9ydCBEUk1fRk9STUFUX1JHQjg4OCANCmZvciB1c2Vyc3BhY2UgdG8g
-dXNlLg0KDQpBRkFJQ1QgdGhlIG1haW4gYXJndW1lbnQgYWdhaW5zdCB1c2Vyc3BhY2UgaXMg
-dGhhdCBNZXNhIGRvZXNuJ3QgbGlrZSANCjMtYnl0ZSBwaXhlbHMuIEJ1dCBJIGRvbid0IHNl
-ZSBob3cgdGhpcyBjb252ZXJzaW9uIGNhbm5vdCBiZSBhIA0KcG9zdC1wcm9jZXNzaW5nIHN0
-ZXAgd2l0aGluIE1lc2E6IGRvIHRoZSByZW5kZXJpbmcgaW4gUkdCMzIgYW5kIHRoZW4gDQpj
-b252ZXJ0IHRvIGEgZnJhbWVidWZmZXIgaW4gUkdCMjQuIFVzZXJzcGFjZSBjYW4gZG8gdGhh
-dCBtb3JlIA0KZWZmaWNpZW50bHkgdGhhbiB0aGUga2VybmVsLiBUaGlzIGhhcyBhbGwgb2Yg
-dGhlIHVwc2lkZXMgb2YgcmVkdWNlZCANCmJhbmR3aWR0aCwgYnV0IG5vbmUgb2YgdGhlIGRv
-d25zaWRlcyBvZiBrZXJuZWwgY29kZS4gQXBwbGljYXRpb25zIGFuZC9vciANCk1lc2Egd291
-bGQgYmUgaW4gY29udHJvbCBvZiB0aGUgYnVmZmVyIGZvcm1hdCBhbmQgYXBwbHkgdGhlIG9w
-dGltaXphdGlvbiANCndoZXJlIGl0IG1ha2VzIHNlbnNlLiBBbmQgaXQgd291bGQgYmUgYXZh
-aWxhYmxlIGZvciBhbGwgZHJpdmVycyB0aGF0IGFyZSANCnNpbWlsYXIgdG8gbWdhZzIwMC4N
-Cg0KTXkgbWFpbiBwb2ludCBpcyBzaW1wbGljaXR5IG9mIHRoZSBkcml2ZXI6IEkgcHJlZmVy
-IHRoZSBkcml2ZXIgdG8gYmUgDQpzaW1wbGUgd2l0aG91dCB1bm5lY2Vzc2FyeSBpbmRpcmVj
-dGlvbiBvciBvdmVyaGVhZC4gT3B0aW1pemF0aW9ucyBsaWtlIA0KdGhlc2UgbXkgb3IgbWF5
-IG5vdCB3b3JrIG9uIGEgZ2l2ZW4gc3lzdGVtIHdpdGggYSBjZXJ0YWluIHdvcmtsb2FkLiBJ
-J2QgDQpiZXR0ZXIgbGVhdmUgdGhpcyBoZXVyaXN0aWMgdG8gdXNlcnNwYWNlLg0KDQpBbm90
-aGVyIHBvaW50IG9mIGNvbmNlcm4gaXMgQ1BVIGNvbnN1bXB0aW9uOiBTbG93IEkvTyBidXNl
-cyBtYXkgc3RhbGwgDQp0aGUgZGlzcGxheSB0aHJlYWQsIGJ1dCB0aGUgQ1BVIGNvdWxkIGRv
-IHNvbWV0aGluZyBlbHNlIGluIHRoZSBtZWFudGltZS4gDQpEb2luZyBmb3JtYXQgY29udmVy
-c2lvbiBvbiB0aGUgQ1BVIHByZXZlbnRzIHRoYXQsIGhlbmNlIGFmZmVjdGluZyBvdGhlciAN
-CnBhcnRzIG9mIHRoZSBzeXN0ZW0gbmVnYXRpdmVseS4gT2YgY291cnNlLCB0aGF0J3MgbW9y
-ZSBvZiBhIGd1dCBmZWVsaW5nIA0KdGhhbiBoYXJkIGRhdGEuDQoNClBsZWFzZSBub3RlIHRo
-YXQgdGhlIGtlcm5lbCdzIGNvbnZlcnNpb24gY29kZSB1c2VzIG1lbW9yeSBhbGxvY2F0aW9u
-IG9mIA0KaW50ZXJtZWRpYXRlIGJ1ZmZlcnMuIFdlIGV2ZW4gcmVjZW50bHkgaGFkIGEgZGlz
-Y3Vzc2lvbiBhYm91dCBhbGxvY2F0aW9uIA0Kb3ZlcmhlYWQgZHVyaW5nIGRpc3BsYXkgdXBk
-YXRlcy4gVXNlcnNwYWNlIGNhbiBzdXJlbHkgZG8gYSBiZXR0ZXIgam9iIGF0IA0Ka2VlcGlu
-ZyBzdWNoIGJ1ZmZlcnMgYXJvdW5kLg0KDQpBbmQgZmluYWxseSBhIG5vdGUgdGhlIGhhcmR3
-YXJlIGl0c2VsZjogb24gbG93LWVuZCBoYXJkd2FyZSBsaWtlIHRob3NlIA0KTWF0cm94IGNo
-aXBzLCBqdXN0IHN3aXRjaCB0byBSR0IxNi4gVGhhdCB3aWxsIGJlIHByZXR0eSBhbmQgZmFz
-dCBlbm91Z2ggDQpmb3IgdGhlc2UgY2hpcHMnIHNlcnZlciBzeXN0ZW1zLiBBbnlvbmUgd2hv
-IGNhcmVzIGFib3V0IGZhc3QgYW5kIA0KYmVhdXRpZnVsIHNob3VsZCBidXkgYSByZWFsIGdy
-YXBoaWNzIGNhcmQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IA0KPiBUaGFu
-a3MsDQo+IHBxDQo+IA0KPj4+ICsgKiAgICAgT24gbW9zdCBoYXJkd2FyZSwgVlJBTSByZWFk
-IGFjY2VzcyBhcmUgc2xvdywgc28gd2hlbiBkb2luZyB0aGUgc29mdHdhcmUNCj4+PiArICog
-ICAgIGNvbnZlcnNpb24sIHRoZSBkdW1iIGJ1ZmZlciBzaG91bGQgYmUgYWxsb2NhdGVkIGlu
-IHN5c3RlbSBSQU0gaW4gb3JkZXIgdG8NCj4+PiArICogICAgIGhhdmUgZGVjZW50IHBlcmZv
-cm1hbmNlLg0KPj4+ICsgKiAgICAgRXh0cmEgY2FyZSBzaG91bGQgYmUgdGFrZW4gd2hlbiBk
-b2luZyBzb2Z0d2FyZSBjb252ZXJzaW9uIHdpdGgNCj4+PiArICogICAgIERSTV9DQVBfRFVN
-Ql9QUkVGRVJfU0hBRE9XLCB0aGVyZSBhcmUgbW9yZSBkZXRhaWxlZCBleHBsYW5hdGlvbnMg
-aGVyZToNCj4+PiArICogICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8y
-MDIzMDgxODE2MjQxNS4yMTg1ZjhlM0BlbGRmZWxsLw0KPj4+ICAgICAqLw0KPj4+ICAgIA0K
-Pj4+ICAgIHN0YXRpYyB1bnNpZ25lZCBpbnQgZHJtX251bV9wbGFuZXMoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldikNCj4+Pg0KPj4+IGJhc2UtY29tbWl0OiA4MmQ3NTBlOWQyZjVkMDU5NGM4
-ZjcwNTdjZTU5MTI3ZTcwMWFmNzgxDQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
-bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2Vy
-bWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJv
-dWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+>>
+>> A few weeks ago I received a patch to do an implicit conversion from
+>> XRGB8888 to RGB888 within mgag200. [1] I don't have a link to the
+>> discussion, but I NAK'ed that patch pretty hard on IRC by following that
+>> other discussion.
+>>
+>> And know I find that this patch (even in its v1) contains language that
+>> retroactively legitimizes the mgag200 patch. I wrote 'apparently' I my
+>> reply, as I assume that there's more to it, but how does it not look
+>> like an attempt to sneak in something that is known to be controversial?
+>>
 
---------------ldTVBrTcdpbqkMlmpnV8o2Z3--
+That was not my intention, and I apologize if you feel it this way. My 
+goal was just to clarify if this optimization is acceptable for other 
+kernel developers, since I though you were willing to accept it, but 
+some other developers from the "flamewar" were against.
 
---------------VmHyts1ZjcQhtyrNHpFZpbRk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> 
+> While is true that the motivation for Jocelyn's patch was to make explicit
+> what are the rules with regard to drivers emulating formats (other than
+> "we had a flamewar on IRC a while back" which is quite ambiguous), it was
+> not attempt to sneak something that is known to be controversial.
+> 
+> In fact, it is an attempt to dispel the controversy and document what is
+> acceptable and what is not for a driver.
+> 
+>> It might have been better to discuss the question separately on the
+>> dri-devel ML. Maybe we can do this here.
+>>
+> 
+> This was discussed in the #dri-devel IRC channel, I believe you were on
+> PTO at the time and probably that's why you missed. I found the logs here:
+> 
+> https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2023-08-04
+> 
+> As you can see there, most people agreed that what Jocelyn wrote in his
+> doc patch is the most pragmatic compromise.
+> 
 
------BEGIN PGP SIGNATURE-----
+Best regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT7KCMFAwAAAAAACgkQlh/E3EQov+Dv
-XxAAz2G7MN7N5O3xCy66hrbZDsSFvmjspw+xZZOU/KVQDf5+x639cw/iW4AW59McdSidg/7ftVYQ
-9NwtGy+V9GDleHBhd3UkZTxn0lDcLW5Mn+wdfgBJZ6CtT5pjeCbpQhjb6FpRPzOCKo+Nk1xTQjT/
-QW7But/U1lNaZadRSiaqhND7GKkU8c5uQA+Pry4mt8AbUJ9Bh/qaHCwyH9prg9KaBC55X72f04sK
-iKZSCVhVSuV1dlFuoFlpJIVJnvovEykXAxGHhalPUzSnpbPY562MWFFDOZQKfhqvJwCIrpQdRKjt
-2TDwtorRZRIms7/rKss0OCK5kiZMYA2I0TZMyq0C+Ft0+pSao7lbkc84s8UWivGFRyfLkU5revf5
-To3if+PAdvf0fKUhvTqGDHpVQJLL243VyFpB7zQjSQQyDQp9ChcW4lvJHR/kUScajfQmvEgA3DV7
-RK9Jn23F5e2V93EZUpcYFg4b0pIGPncrjKmBx/m5DfGVnBXvQTEyA6tFcuR34Dos6vmlvkAXbNTM
-7/u4qJdTviRbf+NXu1nUx/Xtvmly49k+ALNUUD9nd7RLodOCT39Wr+b4i4n6A4ng1bkTV2ResIo2
-LPzAhS+kcEmDRkelDGfMXphsdoM/5qZQ1hcHnUU4gnUTogLI+oOkIaGc03BosKHPs5BmvBGe1hfj
-26o=
-=wXgo
------END PGP SIGNATURE-----
+-- 
 
---------------VmHyts1ZjcQhtyrNHpFZpbRk--
+Jocelyn
+
