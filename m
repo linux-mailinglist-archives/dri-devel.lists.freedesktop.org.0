@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB476798F4D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958D8798F51
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C013310E1C5;
-	Fri,  8 Sep 2023 19:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA6610E1D8;
+	Fri,  8 Sep 2023 19:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA1B110E1C2;
- Fri,  8 Sep 2023 19:31:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B760410E1C2
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:31:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 23528614BF;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 24C7961561;
+ Fri,  8 Sep 2023 19:31:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D446C433CC;
  Fri,  8 Sep 2023 19:31:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6997C433D9;
- Fri,  8 Sep 2023 19:31:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201487;
- bh=UtXPPDzp/BTiZR0qZBQsbPCE0DChlHRJw03YA8zf+8Y=;
+ s=k20201202; t=1694201489;
+ bh=QPi7U8LFYJTn90nKMCS6rP5mjt7sQN4sOXteL2xyPXs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l8VYtTomeaLjNrNBJIpjZsIp8WsyCiFb93Reew3XqCoarivgGx1gItZfdKWVjeK+P
- S3d7D6/my8DHpHVr1orvy5FU6ulQUyjl+WKmxpqHCbcquM8wKkw3tUY5v5yxajBEcd
- 8dI4gfi1u5VAwFqde6Clh0HWF3Hkb1aZAG7kP39O8J0td4AYWp3c2y415NrWVFZDJD
- werLGoF6WT+3bYt/RpIw+QHDRFjd2g7d0Bomddw6YGRaGbyF6sr+G5KhucM2wggvUV
- zM4Dg/mxtF1gq5y+z/JrOTmmZD1YvmmSm+gqkH307AbWSPajzUyMhl5zGlZt1+6CFD
- NIQrrc2m0Ncgg==
+ b=Qb6UED9gVl7k31TabxaCNKepskjH4eYh6Z9ySPH699yGh9/69qSwBuEqmQH5gTCaM
+ +7oh8HD56o4qq5WFV0nKZS6SsL9wNTTq8ClL9VePXNlopyUdU0MUc1uMnmccmjdY32
+ ayYqjq8YSlpF4+ovSHSZJCOolXhARRYmXkuGGVBaVF3Q+66oQh1Xq029jPT+Y41YXh
+ BWSgMHHIyFyvI2g5W4yktY1cSvvcDaHTtt6PnWTpGRF3QR4TmiBQunXwh//C+EWzdR
+ ZnPiP/GO3+iZLXV1PnPQ/0f8D33htHKW9dUAjgAnprckyj762ZrWKAoKhr1LmqGWA/
+ n2iF9K4dHB3Pw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 25/36] drm/msm/adreno: Use quirk to identify
- cached-coherent support
-Date: Fri,  8 Sep 2023 15:28:36 -0400
-Message-Id: <20230908192848.3462476-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 26/36] drm/exynos: fix a possible null-pointer
+ dereference due to data race in exynos_drm_crtc_atomic_disable()
+Date: Fri,  8 Sep 2023 15:28:37 -0400
+Message-Id: <20230908192848.3462476-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908192848.3462476-1-sashal@kernel.org>
 References: <20230908192848.3462476-1-sashal@kernel.org>
@@ -57,142 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- quic_akhilpo@quicinc.com, linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, johan+linaro@kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ BassCheck <bass@buaa.edu.cn>, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Tuo Li <islituo@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit 155668ef412fc82ff3172666831d95770141cdd6 ]
+[ Upstream commit 2e63972a2de14482d0eae1a03a73e379f1c3f44c ]
 
-It is better to explicitly list it.  With the move to opaque chip-id's
-for future devices, we should avoid trying to infer things like
-generation from the numerical value.
+The variable crtc->state->event is often protected by the lock
+crtc->dev->event_lock when is accessed. However, it is accessed as a
+condition of an if statement in exynos_drm_crtc_atomic_disable() without
+holding the lock:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Patchwork: https://patchwork.freedesktop.org/patch/549765/
+  if (crtc->state->event && !crtc->state->active)
+
+However, if crtc->state->event is changed to NULL by another thread right
+after the conditions of the if statement is checked to be true, a
+null-pointer dereference can occur in drm_crtc_send_vblank_event():
+
+  e->pipe = pipe;
+
+To fix this possible null-pointer dereference caused by data race, the
+spin lock coverage is extended to protect the if statement as well as the
+function call to drm_crtc_send_vblank_event().
+
+Reported-by: BassCheck <bass@buaa.edu.cn>
+Link: https://sites.google.com/view/basscheck/home
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Added relevant link.
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 23 +++++++++++++++-------
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
- 2 files changed, 17 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_crtc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 5751077c201eb..715ec4139b626 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -275,6 +275,7 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_512K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 	}, {
- 		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
-@@ -286,6 +287,7 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_512K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a615_zap.mdt",
- 		.hwcg = a615_hwcg,
-@@ -299,6 +301,7 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_1M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a630_zap.mdt",
- 		.hwcg = a630_hwcg,
-@@ -312,6 +315,7 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_1M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a640_zap.mdt",
- 		.hwcg = a640_hwcg,
-@@ -325,7 +329,8 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_1M + SZ_128K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
--		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-+			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a650_zap.mdt",
- 		.hwcg = a650_hwcg,
-@@ -340,7 +345,8 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_1M + SZ_512K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
--		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-+			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a660_zap.mdt",
- 		.hwcg = a660_hwcg,
-@@ -353,7 +359,8 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_512K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
--		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-+			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.hwcg = a660_hwcg,
- 		.address_space_size = SZ_16G,
-@@ -367,6 +374,7 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_2M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a640_zap.mdt",
- 		.hwcg = a640_hwcg,
-@@ -378,7 +386,8 @@ static const struct adreno_info gpulist[] = {
- 		},
- 		.gmem = SZ_4M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
--		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
-+		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
-+			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a690_zap.mdt",
- 		.hwcg = a690_hwcg,
-@@ -590,9 +599,9 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+index 4153f302de7c4..d19e796c20613 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+@@ -39,13 +39,12 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	if (exynos_crtc->ops->atomic_disable)
+ 		exynos_crtc->ops->atomic_disable(exynos_crtc);
  
--	if (config.rev.core >= 6)
--		if (!adreno_has_gmu_wrapper(to_adreno_gpu(gpu)))
--			priv->has_cached_coherent = true;
-+	priv->has_cached_coherent =
-+		!!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
-+		!adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
- 
- 	return 0;
++	spin_lock_irq(&crtc->dev->event_lock);
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
+-
+ 		crtc->state->event = NULL;
+ 	}
++	spin_unlock_irq(&crtc->dev->event_lock);
  }
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index a925e04a2283c..129771563f3fd 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -33,6 +33,7 @@ enum {
- #define ADRENO_QUIRK_FAULT_DETECT_MASK		BIT(1)
- #define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
- #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
-+#define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
  
- struct adreno_rev {
- 	uint8_t  core;
+ static int exynos_crtc_atomic_check(struct drm_crtc *crtc,
 -- 
 2.40.1
 
