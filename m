@@ -1,92 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14650798DEB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 20:25:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED73798E7F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 20:56:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF38D10E0B4;
-	Fri,  8 Sep 2023 18:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDC2C10E0F4;
+	Fri,  8 Sep 2023 18:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664E110E0B4
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 18:25:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JEB5BD1IrRDFkW4nZNKy0TL0gH4Q9R6qNRC5P5C8KvVhjfR/K70tC1GkXYJKVgRSzHACIuUyLaOi4nVWh893Po/Bv1uCmeJz9SKevTHcb7Rzx97EflM8A6ckV/ANhui0lSwScJiaUvUPP7wNx/JyA4Mpvha7K3ttu4LKzRtwlAFY0uKf33pa9OyXcp4O83GBWotDBfBz2yFf04UivInoBoidTiLELwh2HiJHoXuC5nZXlh2xyuSq9BmKetLc2PtBjbbsZYHqokxz3cUKOyTviR1lsWu56BAbqMBILqeB8Bp7SKtf+BQXFfBS67igr227dU/f/DmqnHMnbAYhLRC35A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wyks5DBJoEbbjby9b/ILesPoSrqDxauaA9O65HwaAPo=;
- b=DAPh06ceHUWVgR1fcVsa+RyJFNnVKiTU42DyOG3SAN0/fX3DdVo0Y/8cXxrA3mC8J4KjVos640xjO9jJXrpEFXBAOA2gvIpQ7PD41rZmz3nf5SFbvCtHzRW/R3VtxkybSVWdkTtWLzGocMonmcA0C7yWqvEgWDrnOaNxN2ATNJotwjgrZ4irgrbbkbKzar79VrTB7e8r/VODP6lOuPYQu7tgPW8OdNn/jHNb+ujh9CDFuqjQO/3TU/EVt3cDIEkrGPf4wkIthU6REHOCDzwjLyJ4EvQZ+73cRMdEo/I2vKRgxp+ouIUMbUgmttMwdWaH0xG6+XNWbtFPYlHZPlXilQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wyks5DBJoEbbjby9b/ILesPoSrqDxauaA9O65HwaAPo=;
- b=1WyOzBq0wHx76jV3AFzBa8l7YUWK0dbf6uurmK+Fe+HJE1Vfk2CwL+0sngqcVz0Z9zZmmc87n5jPFd0oE9Si8ExPJ9+tIebcHRU2Lvi2zVXweelCQFCkS6waLcN0dKzGTxQo2kmwqism5Eqbb+/A99rlnMdXHLthVwqbwIv6fIQ=
-Received: from SA9PR13CA0146.namprd13.prod.outlook.com (2603:10b6:806:27::31)
- by DM4PR12MB8449.namprd12.prod.outlook.com (2603:10b6:8:17f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
- 2023 18:25:21 +0000
-Received: from SN1PEPF0002636D.namprd02.prod.outlook.com
- (2603:10b6:806:27:cafe::bc) by SA9PR13CA0146.outlook.office365.com
- (2603:10b6:806:27::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.10 via Frontend
- Transport; Fri, 8 Sep 2023 18:25:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002636D.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.11 via Frontend Transport; Fri, 8 Sep 2023 18:25:20 +0000
-Received: from MKM-L10-YUNXIA9.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 8 Sep
- 2023 13:25:20 -0500
-From: Yunxiang Li <Yunxiang.Li@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <Christian.Koenig@amd.com>,
- <Alexander.Deucher@amd.com>
-Subject: [PATCH] drm/sched: test before reading fence timestamp
-Date: Fri, 8 Sep 2023 14:24:32 -0400
-Message-ID: <20230908182431.12634-1-Yunxiang.Li@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96DB510E0F4;
+ Fri,  8 Sep 2023 18:56:12 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 388HuaWg023842; Fri, 8 Sep 2023 18:54:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=+3Z53mjSwj9Lqo1nh7EP+XQHSOBFfSW9mZLM66MvBgw=;
+ b=bWVxgYuMXTmB3e6AUDJ5bZREY2SBTcs5tjztHpbU1f1eUWbcpMGsadN9Y74pIAqJ3qDR
+ hKIvLFRm1txaRha0F796XZD3j0sD2e0gESBteoRgG4U5usz80JChS7oBGdjWUMDv4hp1
+ 1eATN5ee71NRV2ZCGyuoG2uyHltn4zmBushUeNNyJcfr3kzBop9uRV/wNAqkBQCH8JOF
+ 5Esmxlqyarjbqk/gKVwA9GtZ8XIs5k8St4B4iykE38V4a9/BtcKhnp4wnM2HHEJoXTO8
+ T0afBqFYcKcbbAfiGikUmNy/Izq0cgZmKY8aGBEmNYCLolbmnFAERZwZAYb02Vn7srSA PQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0069scb8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Sep 2023 18:54:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 388Isurx022303
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Sep 2023 18:54:56 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Fri, 8 Sep 2023 11:54:55 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ "Jeykumar Sankaran" <jsanka@codeaurora.org>, Chandan Uddaraju
+ <chandanu@codeaurora.org>, Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Subject: [PATCH 1/2] drm/msm/dpu: fail dpu_plane_atomic_check() based on mdp
+ clk limits
+Date: Fri, 8 Sep 2023 11:54:26 -0700
+Message-ID: <20230908185427.29026-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636D:EE_|DM4PR12MB8449:EE_
-X-MS-Office365-Filtering-Correlation-Id: c51db546-e018-4ebc-46ca-08dbb098f5e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ezY7HtccmxIcuTchunS0872Isvn2x0xnmmY/0ezzylYdGasTRiR965iyMc6Z+BIya2/CbJQPolZpbOfLeuKp4TgI0kv+5isrLm4atHAC5LWk37inAZOGsZiZ9I52PfnY5u2sJx37TuzXSyIgG5xFaLqRsfk2GHHG6jxYV2RG9Fz3JVpSJS8RdO2B4DQmINAup92b/6gS7gdqPM4CAos0Vjdxwyhetfgrx0aTW6By5NVoK9999rX4KaVUXPyeO1u16aHc8dEDL96KsDB9/Rq9zzybQ+CMe29kfOA7m6orGX8b2W2WZldHlyOTk7IbloRxwiRPKUPGqGacitFmU0kWgLr19p9DCCSFaDjGyBU2R2tBop1B3pCOAXtKmcsAFBKoScnBSE4Todqm3trf88nK5EockmDlN1GXei8HZ/4aWZYIQmxPCyoXwAg/ePsI9U4XuRPZltaR0lzVGmMWF3poF4cM3rKhcLncTuByHkBjibMs7vYOVtkyeRnh+0gKPqxp9rw4HndALa/FWWKd9mlR7jITw7WnxYlNb9X17sStgWhaa06/lA/QlE1CkobwA+okjTfw+aFehirngFmVtdzPCtXBok/9/bHpklpxmcgibH+59/oniGUPz6Cl6lz297VnccoC6iYQdgjZ+Y2U2PijNWoa5djryzmOSruthFsGyL7Odx3gV83DP6tobZ+pSdYxX/Pen6L2JqwL5vQn0gsNXaX/6saa4ejCuY8U1tTUeo+aEZu4ba/bK1IxKTM7eOWJh2FbUa/+B1H2XuR2Vge4tg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(136003)(346002)(376002)(39860400002)(396003)(186009)(82310400011)(451199024)(1800799009)(46966006)(36840700001)(40470700004)(6666004)(7696005)(478600001)(4744005)(336012)(26005)(16526019)(426003)(2906002)(8676002)(6636002)(70206006)(70586007)(5660300002)(41300700001)(110136005)(8936002)(316002)(4326008)(1076003)(40460700003)(82740400003)(2616005)(47076005)(40480700001)(36756003)(86362001)(36860700001)(81166007)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 18:25:20.9524 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c51db546-e018-4ebc-46ca-08dbb098f5e7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636D.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8449
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JgN4TVKdsiFc8F7zsshDu-_4OaqRlEGn
+X-Proofpoint-GUID: JgN4TVKdsiFc8F7zsshDu-_4OaqRlEGn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-08_15,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
+ mlxlogscore=760 clxscore=1011 impostorscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309080172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,34 +85,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yunxiang Li <Yunxiang.Li@amd.com>
+Cc: Archit Taneja <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_parellan@quicinc.com, quic_jesszhan@quicinc.com, nespera@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reading fence timestamp always need to check the corresponding flag bit
-before to make sure the write is actually visible, otherwise we can read
-garbage here.
+Currently, dpu_plane_atomic_check() does not check whether the
+plane can process the image without exceeding the per chipset
+limits for MDP clock. This leads to underflow issues because the
+SSPP is not able to complete the processing for the data rate of
+the display.
 
-Fixes: 1774baa64f93 ("drm/scheduler: Change scheduled fence track v2")
-Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+Fail the dpu_plane_atomic_check() if the SSPP cannot process the
+image without exceeding the MDP clock limits.
+
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 506371c42745..8ed00f54c59d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -928,6 +928,9 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
- 						typeof(*next), list);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 98c1b22e9bca..62dd9f9b4dce 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -733,9 +733,11 @@ static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
+ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 		struct dpu_sw_pipe *pipe,
+ 		struct dpu_sw_pipe_cfg *pipe_cfg,
+-		const struct dpu_format *fmt)
++		const struct dpu_format *fmt,
++		const struct drm_display_mode *mode)
+ {
+ 	uint32_t min_src_size;
++	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
  
- 		if (next) {
-+			while (!test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
-+					 &job->s_fence->finished.flags))
-+				cpu_relax();
- 			next->s_fence->scheduled.timestamp =
- 				job->s_fence->finished.timestamp;
- 			/* start TO timer for next job */
+ 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
+ 
+@@ -774,6 +776,12 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 		return -EINVAL;
+ 	}
+ 
++	/* max clk check */
++	if (_dpu_plane_calc_clk(mode, pipe_cfg) > kms->perf.max_core_clk_rate) {
++		DPU_DEBUG_PLANE(pdpu, "plane exceeds max mdp core clk limits\n");
++		return -E2BIG;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -899,12 +907,13 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+ 	}
+ 
+-	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
++	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt, &crtc_state->mode);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (r_pipe->sspp) {
+-		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt);
++		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
++						  &crtc_state->mode);
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
-2.34.1
+2.40.1
 
