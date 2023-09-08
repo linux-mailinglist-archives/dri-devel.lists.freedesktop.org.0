@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3076B798F74
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:32:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC59F798F80
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E1910E1F7;
-	Fri,  8 Sep 2023 19:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDAF810E1FB;
+	Fri,  8 Sep 2023 19:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E205810E1DD;
- Fri,  8 Sep 2023 19:32:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D898910E1FA;
+ Fri,  8 Sep 2023 19:32:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 61272614BF;
- Fri,  8 Sep 2023 19:32:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D25C433C7;
- Fri,  8 Sep 2023 19:32:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 59F8E61518;
+ Fri,  8 Sep 2023 19:32:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C74C433D9;
+ Fri,  8 Sep 2023 19:32:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201556;
- bh=4uP1niyAXOLk6XmcLQBeaiuj8tMsLnjP2insbuuF6TQ=;
+ s=k20201202; t=1694201572;
+ bh=+rwtTcLkWVPemXr1jh1OanXJxURrFqK17ZmMVaA4O4I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SUkflhW5oPcDwdJA0uS98n0bd5Svi2Ps00XynXHHrkiKkUvtsC3qf4h8STb/LSJzJ
- EZGZdHOSk5NHT8EQyotRkGlS1s1UqWKXPGKpH0Fnu4PU6hsn/M1oLfp5STMf0ofA1N
- y2CFcoXR3t23VPH2qxmaDzm3TBZuLvGGSzqne8q+rQVipIuwu+Y6HA3g/S74dB/XAD
- +fLaVEenjt4azRIaU8mp3/wYMHkYaBfKEwDK/Gqrgkv0PPF7VquABnHuY3QqnxbjPL
- GI+4EP2TPqS0eDxHpFMyMDSEr6Svh9nDXhYP8PMeGlP+HpTQOdS+a2+TRFtWOpD0sI
- e05161DDRM85A==
+ b=K4WJbR793IWmxTHg9DrpmqS/VfjM5ciBotG5OP/UxQetMVFHCbVyw0mej5tuq2I73
+ tIbwIHLpo1UB2UkPpD+tWaSTlYqIJ0AodiGjVTPDxgX3gZu0fp4KA0zBGKMrOMhAMl
+ fJYzDetIXx3NSnqpaExsI0p0mPhe4mJJt/utKo/DCAc0L988i8Dr73dklKw9PspL0r
+ dn5dOqdcBSC3l57f7ABcf7i0TDNp7GdCiVjALYvoud0XobzHIA2A5r1brIMkoHxi3N
+ 6d48RG9UzDTHwXlQyzcPJNyDBMywSq114yxY6IMrRRJcRdIB//I+JVJgDt+3Xyi8Yn
+ dB/9pKen3iLdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 10/31] drm/amd/display: Add stream overhead in BW
- calculations for 128b/132b
-Date: Fri,  8 Sep 2023 15:31:39 -0400
-Message-Id: <20230908193201.3462957-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 12/31] drm/amd/display: Read down-spread
+ percentage from lut to adjust dprefclk.
+Date: Fri,  8 Sep 2023 15:31:41 -0400
+Message-Id: <20230908193201.3462957-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908193201.3462957-1-sashal@kernel.org>
 References: <20230908193201.3462957-1-sashal@kernel.org>
@@ -58,123 +58,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wenjing Liu <wenjing.liu@amd.com>, dri-devel@lists.freedesktop.org,
- hamza.mahfooz@amd.com, jun.lei@amd.com, nasir.osman@amd.com,
- Sasha Levin <sashal@kernel.org>, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, alvin.lee2@amd.com,
- George Shen <george.shen@amd.com>, Alan Liu <haoping.liu@amd.com>,
- sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- Mike.Hsieh@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+Cc: dri-devel@lists.freedesktop.org, meenakshikumar.somasundaram@amd.com,
+ Jun.Lei@amd.com, Josip.Pavic@amd.com, Sasha Levin <sashal@kernel.org>,
+ sancchen@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, Martin Tsai <martin.tsai@amd.com>,
+ Alex Hung <alex.hung@amd.com>, duncan.ma@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Daniel.Miess@amd.com,
+ chiahsuan.chung@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, wayne.lin@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: George Shen <george.shen@amd.com>
+From: Martin Tsai <martin.tsai@amd.com>
 
-[ Upstream commit 974764180838516f80a13257da67a1ec6afb87d4 ]
+[ Upstream commit 6917b0b711713b9d84d7e0844e9aa613997a51b2 ]
 
 [Why]
-Current BW calculations do not account for the additional padding added
-for uncompressed pixel-to-symbol packing.
-
-This results in X.Y being too low for 128b/132b SST streams in certain
-scenarios. If X.Y is too low, end user can observe image corruption.
+Panels show corruption with high refresh rate timings when
+ss is enabled.
 
 [How]
-Add function to calculate stream overhead to timing BW calculation for
-128b/132b SST cases.
+Read down-spread percentage from lut to adjust dprefclk.
 
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
-Acked-by: Alan Liu <haoping.liu@amd.com>
-Signed-off-by: George Shen <george.shen@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Martin Tsai <martin.tsai@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc.h         |  2 +
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 42 +++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ .../dc/clk_mgr/dcn314/dcn314_clk_mgr.c        | 33 +++++++++++++++++--
+ .../dc/clk_mgr/dcn314/dcn314_clk_mgr.h        |  7 ++++
+ 2 files changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-index 9279990e43694..508fd6ab58e80 100644
---- a/drivers/gpu/drm/amd/display/dc/dc.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc.h
-@@ -1375,6 +1375,8 @@ struct dc_plane_state *dc_get_surface_for_mpcc(struct dc *dc,
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+index 5cb44f838bde5..db1b15796e307 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c
+@@ -87,6 +87,14 @@ static const struct IP_BASE CLK_BASE = { { { { 0x00016C00, 0x02401800, 0, 0, 0,
+ #define CLK1_CLK_PLL_REQ__PllSpineDiv_MASK	0x0000F000L
+ #define CLK1_CLK_PLL_REQ__FbMult_frac_MASK	0xFFFF0000L
  
- uint32_t dc_get_opp_for_plane(struct dc *dc, struct dc_plane_state *plane);
- 
-+void dc_set_disable_128b_132b_stream_overhead(bool disable);
++#define regCLK1_CLK2_BYPASS_CNTL			0x029c
++#define regCLK1_CLK2_BYPASS_CNTL_BASE_IDX	0
 +
- /* The function returns minimum bandwidth required to drive a given timing
-  * return - minimum required timing bandwidth in kbps.
-  */
-diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-index 2bdc47615543c..9a0c9f9353b41 100644
---- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-@@ -40,6 +40,8 @@ static bool dsc_policy_enable_dsc_when_not_needed;
- 
- static bool dsc_policy_disable_dsc_stream_overhead;
- 
-+static bool disable_128b_132b_stream_overhead;
++#define CLK1_CLK2_BYPASS_CNTL__CLK2_BYPASS_SEL__SHIFT	0x0
++#define CLK1_CLK2_BYPASS_CNTL__LK2_BYPASS_DIV__SHIFT	0x10
++#define CLK1_CLK2_BYPASS_CNTL__CLK2_BYPASS_SEL_MASK		0x00000007L
++#define CLK1_CLK2_BYPASS_CNTL__LK2_BYPASS_DIV_MASK		0x000F0000L
 +
- #ifndef MAX
- #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
- #endif
-@@ -47,6 +49,41 @@ static bool dsc_policy_disable_dsc_stream_overhead;
- #define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
- #endif
+ #define REG(reg_name) \
+ 	(CLK_BASE.instance[0].segment[reg ## reg_name ## _BASE_IDX] + reg ## reg_name)
  
-+/* Need to account for padding due to pixel-to-symbol packing
-+ * for uncompressed 128b/132b streams.
-+ */
-+static uint32_t apply_128b_132b_stream_overhead(
-+	const struct dc_crtc_timing *timing, const uint32_t kbps)
+@@ -440,6 +448,11 @@ static DpmClocks314_t dummy_clocks;
+ 
+ static struct dcn314_watermarks dummy_wms = { 0 };
+ 
++static struct dcn314_ss_info_table ss_info_table = {
++	.ss_divider = 1000,
++	.ss_percentage = {0, 0, 375, 375, 375}
++};
++
+ static void dcn314_build_watermark_ranges(struct clk_bw_params *bw_params, struct dcn314_watermarks *table)
+ {
+ 	int i, num_valid_sets;
+@@ -719,6 +732,20 @@ static struct clk_mgr_funcs dcn314_funcs = {
+ };
+ extern struct clk_mgr_funcs dcn3_fpga_funcs;
+ 
++static void dcn314_read_ss_info_from_lut(struct clk_mgr_internal *clk_mgr)
 +{
-+	uint32_t total_kbps = kbps;
++	uint32_t clock_source;
 +
-+	if (disable_128b_132b_stream_overhead)
-+		return kbps;
++	REG_GET(CLK1_CLK2_BYPASS_CNTL, CLK2_BYPASS_SEL, &clock_source);
 +
-+	if (!timing->flags.DSC) {
-+		struct fixed31_32 bpp;
-+		struct fixed31_32 overhead_factor;
++	clk_mgr->dprefclk_ss_percentage = ss_info_table.ss_percentage[clock_source];
 +
-+		bpp = dc_fixpt_from_int(kbps);
-+		bpp = dc_fixpt_div_int(bpp, timing->pix_clk_100hz / 10);
-+
-+		/* Symbols_per_HActive = HActive * bpp / (4 lanes * 32-bit symbol size)
-+		 * Overhead_factor = ceil(Symbols_per_HActive) / Symbols_per_HActive
-+		 */
-+		overhead_factor = dc_fixpt_from_int(timing->h_addressable);
-+		overhead_factor = dc_fixpt_mul(overhead_factor, bpp);
-+		overhead_factor = dc_fixpt_div_int(overhead_factor, 128);
-+		overhead_factor = dc_fixpt_div(
-+			dc_fixpt_from_int(dc_fixpt_ceil(overhead_factor)),
-+			overhead_factor);
-+
-+		total_kbps = dc_fixpt_ceil(
-+			dc_fixpt_mul_int(overhead_factor, total_kbps));
++	if (clk_mgr->dprefclk_ss_percentage != 0) {
++		clk_mgr->ss_on_dprefclk = true;
++		clk_mgr->dprefclk_ss_divider = ss_info_table.ss_divider;
 +	}
-+
-+	return total_kbps;
 +}
 +
- uint32_t dc_bandwidth_in_kbps_from_timing(
- 	const struct dc_crtc_timing *timing)
- {
-@@ -1160,6 +1197,11 @@ void dc_dsc_policy_set_disable_dsc_stream_overhead(bool disable)
- 	dsc_policy_disable_dsc_stream_overhead = disable;
- }
+ void dcn314_clk_mgr_construct(
+ 		struct dc_context *ctx,
+ 		struct clk_mgr_dcn314 *clk_mgr,
+@@ -791,9 +818,11 @@ void dcn314_clk_mgr_construct(
  
-+void dc_set_disable_128b_132b_stream_overhead(bool disable)
-+{
-+	disable_128b_132b_stream_overhead = disable;
-+}
+ 	clk_mgr->base.base.dprefclk_khz = 600000;
+ 	clk_mgr->base.base.clks.ref_dtbclk_khz = 600000;
+-	dce_clock_read_ss_info(&clk_mgr->base);
 +
- void dc_dsc_get_default_config_option(const struct dc *dc, struct dc_dsc_config_options *options)
- {
- 	options->dsc_min_slice_height_override = dc->debug.dsc_min_slice_height_override;
++	dcn314_read_ss_info_from_lut(&clk_mgr->base);
+ 	/*if bios enabled SS, driver needs to adjust dtb clock, only enable with correct bios*/
+-	//clk_mgr->base.dccg->ref_dtbclk_khz = dce_adjust_dp_ref_freq_for_ss(clk_mgr_internal, clk_mgr->base.base.dprefclk_khz);
++	clk_mgr->base.base.dprefclk_khz =
++		dce_adjust_dp_ref_freq_for_ss(&clk_mgr->base, clk_mgr->base.base.dprefclk_khz);
+ 
+ 	clk_mgr->base.base.bw_params = &dcn314_bw_params;
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.h
+index 171f84340eb2f..e0670dafe2600 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.h
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.h
+@@ -28,6 +28,8 @@
+ #define __DCN314_CLK_MGR_H__
+ #include "clk_mgr_internal.h"
+ 
++#define NUM_CLOCK_SOURCES   5
++
+ struct dcn314_watermarks;
+ 
+ struct dcn314_smu_watermark_set {
+@@ -40,6 +42,11 @@ struct clk_mgr_dcn314 {
+ 	struct dcn314_smu_watermark_set smu_wm_set;
+ };
+ 
++struct dcn314_ss_info_table {
++	uint32_t ss_divider;
++	uint32_t ss_percentage[NUM_CLOCK_SOURCES];
++};
++
+ bool dcn314_are_clock_states_equal(struct dc_clocks *a,
+ 		struct dc_clocks *b);
+ 
 -- 
 2.40.1
 
