@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5318798957
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:56:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D99D79896F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 17:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE8110E8E1;
-	Fri,  8 Sep 2023 14:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C70C10E8E5;
+	Fri,  8 Sep 2023 15:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2060.outbound.protection.outlook.com [40.107.243.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE2E10E8E1;
- Fri,  8 Sep 2023 14:56:06 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2049.outbound.protection.outlook.com [40.107.223.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5AF10E8E5;
+ Fri,  8 Sep 2023 15:02:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EHML0CRuVcQ2kUvigH4LUSLZa2SPpJj9NLNKsmiHPAAz45Ub8ShTFxeKAOjeup/OPqgEDP0LfNRRcoZR0ro5/409qFNWjtDYiQ2vOqqfLmR1g6+S09EZvkE2r5N5J1QxKTK+pwaPT9/5Ddwzm40QEOHDUaj2OSvQKRngphgAn7gv9s14JEsJtSZzQ1F6n90RsjX3btnHcZ41N+mzh73wimSiZfbh0f4UIo86ehED0PHTOWKnNN2IlSmMZWNao4CRAdSTOuovxEhMnNWbQSicBOOYcD03OpL/0dGLCVoZsGToPSURUiCGfb2RbcDJCaQcsJFMSWnyGeb7Kp/AqR/a3Q==
+ b=U8CzEcLSELibZNtrE7Wr/K9wDh/l5P3oPqUGuhaGMvqEoDkt3HGGhMhrVBfv9E5cH4gYZJoROL+BaikhoRvhYSXCNem3k4j/j8Dm9ktAtLPhNZYvygHAnnIYhJ0mIRNlpU46Pp/HRW4aKOkfsgsb+dsuL8uQPZvCE50b0Vi6X/zFMslAyqpndnjSGMrYB5tIDozY4Z9LKXNAMCx5qrQJ6yUSQWR7L8RgcWvLXyGSH0/1BlFE+CeRKevLe11SdGKeofIHrq+qu8W8K4THhThPT3uuqOQEnyApicf411+lcrd5qDc+p7HL6rjypjzLMHNmSfjyTTEZJJONUcEB89nr5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pmzntxb0gHbuT/oLSNvz/e8QfagEgsSkgHFMfu5wYR0=;
- b=NwGasClcKUUuKRTO31RINOwwpyYM0L4FwBnJ9CSIMmkBVmoKrxdOpelwTlxnPO1rLD+zS0ohWxUykWPmnIaL9H3NV9FT+I7IEkveEHyAMvOa5hcyv4tDNp5k/PBG9mHGCjLmH+LugmhTgqElmv+AdHiy/UeM3n1iviIna1A1WAUiMionvgY51RGoLUB/WCdLcPIVpJ5dqb7uMO2+114nIKMP56obhOdhhdLCctEzbll3Xw/x3tTyBZyVyidGAgfsazWPkzmMW1yd8zb8qU1udWf6HY75MOUXfU27UivY3cgEkQtETfdmZLfEDBgVLSdDnh7b6WgJGFsnJHBhS8pVww==
+ bh=teTYHd6i8D0eQGF99lhu8PRCQklWf0r144LGAKI6dEI=;
+ b=VwaCFMXcaH5FM08hic94l+4rvaL2eVrXcsOolt9aLDS8pshyNQGICoLaMZmrqN6e3ISNU5f8GjBKyMTZDH1d/Ba2v50yasdD6+q0TN8Dd1Y2J5o7BjCCCeGE7+442K/BgLZcvzB6kNiZWfuGo16NOKYeJB07V9LxNLyHkr5kOAl8fcVtA1kuRtN0F6klY1JpG8xygwDITqpvBjByYF1e/vdPUmmcztxDY7a7pYBVldAF7WWnpqzSRy3Er842ZavfTqhHg658rrrsp6hKhAYoaK2C2UncLjR3c7CURfRYf4IC/SqLsvwo18EQ3hcausymdPCtWJlhQ/41EtSUB8hHHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pmzntxb0gHbuT/oLSNvz/e8QfagEgsSkgHFMfu5wYR0=;
- b=Y8Z7DFnKxklhVrfvtfioqUZe5G6A7bCO+izeTvwuPjz7ri0L9X37gAxMQMFLtdEjdM+zgKOgsAmEpBuJPhDAj6hP1LRosPMaYVie29QddXh+2V/A9C77v7GpzNmkjKKtCpWB9MOLZAGM1AFhGANr2+z+nv4y8Hff7EWjTXfjuQE=
-Received: from DS7PR03CA0196.namprd03.prod.outlook.com (2603:10b6:5:3b6::21)
- by CYXPR12MB9441.namprd12.prod.outlook.com (2603:10b6:930:dc::6) with
+ bh=teTYHd6i8D0eQGF99lhu8PRCQklWf0r144LGAKI6dEI=;
+ b=tG8D0sdVhq+y4OgWCoYyVuWSDg2NB6HIiwmVYmIKihEUbQkcGzKyRqFRO/K0oXb8DGkGDIGkVG7uaQ7zkfTdGoZyiMitF94hBvPwCJlRSCRdU2D9UDU+jlLQh72xATNFTakymBtgDxi2uptUQmKpWZMelFOihNsWIQWFKeSdwmo=
+Received: from MW4P221CA0014.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::19)
+ by PH7PR12MB5758.namprd12.prod.outlook.com (2603:10b6:510:1d1::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
- 2023 14:56:01 +0000
-Received: from DS1PEPF00017091.namprd03.prod.outlook.com
- (2603:10b6:5:3b6:cafe::39) by DS7PR03CA0196.outlook.office365.com
- (2603:10b6:5:3b6::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Fri, 8 Sep
+ 2023 15:02:43 +0000
+Received: from MWH0EPF000989E8.namprd02.prod.outlook.com
+ (2603:10b6:303:8b:cafe::8a) by MW4P221CA0014.outlook.office365.com
+ (2603:10b6:303:8b::19) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30 via Frontend
- Transport; Fri, 8 Sep 2023 14:56:01 +0000
+ Transport; Fri, 8 Sep 2023 15:02:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,50 +45,47 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF00017091.mail.protection.outlook.com (10.167.17.133) with Microsoft
+ MWH0EPF000989E8.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.11 via Frontend Transport; Fri, 8 Sep 2023 14:56:01 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ 15.20.6792.11 via Frontend Transport; Fri, 8 Sep 2023 15:02:43 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 8 Sep
- 2023 09:55:59 -0500
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] Revert "drm/amd: Disable S/G for APUs when 64GB or
- more host memory"
-Date: Fri, 8 Sep 2023 10:55:13 -0400
-Message-ID: <20230908145521.39044-2-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230908145521.39044-1-hamza.mahfooz@amd.com>
-References: <20230908145521.39044-1-hamza.mahfooz@amd.com>
+ 2023 10:02:42 -0500
+Received: from hwentlanrmb.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Fri, 8 Sep 2023 10:02:41 -0500
+From: Harry Wentland <harry.wentland@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [RFC PATCH 00/10] Color Pipeline API w/ VKMS
+Date: Fri, 8 Sep 2023 11:02:25 -0400
+Message-ID: <20230908150235.75918-1-harry.wentland@amd.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017091:EE_|CYXPR12MB9441:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe5c4660-dff2-4ce7-02fe-08dbb07bb805
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E8:EE_|PH7PR12MB5758:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0706d9af-3cc6-4fe7-8b38-08dbb07ca77c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6pNHeDspQ41NgkyUo3TWEiAKGXD1M4XmftxXSI5FXYtGQDjrq36jJRyhGswa1WRGTfflVcys0D7YVNX6elgv6mXLM6kFnrmYU2GKcLTtB+9RQse6AWr0q6eBiifKZvIyP60SFSfpvnuG1O5UXioGjjfTm4L/bwS4Ys2+5+uR8qTR8cBVis9BPMsoorRq9r5+nIBrPWzZSNtZdIfWhMNQNUincd/0o5KWNYzxrz7Ooz5ld9sBIN2CNLAZ06Z2fdo7LE8xmVE8D49O/yxo9u24V+yeTKVlh5x8lhkaZBLIKTP9H2o8XPJlv1M7vzynppvFhnXqDEkt0xw2fWz+5J1UhZsprNpOOb1N16iFtmXlZSHqseDMJ1r2yQYReIOxZm4G376/XbbsFrfYMskkGwUoP51QYHsTRoFRPj/fZDmcvq6K01HlUsKSq429yYVoTx4lCAC0dc0xxvTPW12rwsC3tmVZszSj0rFH0XQVYWgQZYWIJhcURFG9aeL2/7MD19Dog11hiZgWht60Ckz3Y7NcIXeQ0tvCP8sDhbLvi/8/PWxV4QQuYCt9P1BdETw5WIoi0Bu38mJqpG1QwLkx2QOea5NM/9io6HsOoRQPKaOAOoBrTYwbEBRpUkbUsmqbqgVOJIUzUoTmrHIaeT9QWUhkAP+8/zHEMN2dkkturvWiGcW39rdSv7Bk5VhmW35N/NCGdXKj92qQlqf01nXRYtT0Zr8SBS86U7pzPAtOkQxXBE66gBGPu/JGhqwSBhx1IIJxCKnAjGDhU5uq2XXtvZfa4QXgrPRP9pOl3qnUzuru7+8jNMPcAxaLi6FP96S6pzhMfyQDkYEt4cFjkW+qGo9EGA==
+X-Microsoft-Antispam-Message-Info: G+8AgMcnkMLeQvPRflLSpDQhUTrSLj3+jVqJmZnKj436haRnGcQ9Fbk0NYLs7+Hitwv/SQnQU5mL3RJ+LYdbWlmAnk/zHdxNTXDcDrrSX0ZeHJvFuXuV1KBzyoSi2PrrvMpU4NQObgjp+uU9fXLAkYlvOo5lpu55miRu+GxLUd7tKNnEAPN1Nw3TEmKKHpR5RfsOuVtkmTEixcIJ7gTHbuk6jxXNfJOE9pCMzWH9v2LgnuM77YapUcHgS29irog2grIgAmzm/ngmPQg45VyHxHaLgKbuXWIp5r8b5ZK5WImqmUvhK4tBjE+xzrUSwlJqIAmeT8y3kbrJvfj7BnGoNrW+JuFUdY9QLxM3LJSDXh2QpMfDJlBu/F1SfUUouJ49bWHmg6Ixv9/H2GgNesMn+gbzjTsLOg+jBSyOhtWOL/wN3CjOSYPQDckM63QqhXHZhu2DyUli+7CL6IcNF6wcFccuNgtO64G5XsobZW+l7dYPr2vomWHh4BnHAuNy0lUzuIofSmfqQx6BRXfJmFOwjdMywoqmleFImzAaX9hwfxzvjbDhehIrkK4buH72EKXYVDNTdYc6sWGN8hD46ze4K6HIQOgmbgnP6GIJMnpjPKCF7AWJb5/wf/7m2AjXsJgXM35UYvgjMbXEZgF49saeuQDubDphk9Zgf7ibb5rDXQo+Y98ErVe232z0iBOsnHWwvwFtetSEb+bB2IiRUEg3U/nGS3qFEjq6ADdHCklqBy8X5O2izhWN/MUhLma6jr8UK4RHV3P1Ezd5YvIV9Pa6nuO/XhG4oCjv0Z+QqGcbr4iubVucDTXvzCbs1hFg5FR8
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(136003)(346002)(376002)(396003)(39860400002)(186009)(1800799009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(6666004)(966005)(83380400001)(478600001)(26005)(2616005)(1076003)(426003)(336012)(16526019)(41300700001)(2906002)(4326008)(6916009)(54906003)(44832011)(316002)(70206006)(5660300002)(8676002)(70586007)(8936002)(86362001)(82740400003)(40460700003)(47076005)(40480700001)(36860700001)(36756003)(81166007)(356005)(36900700001)(16060500005);
+ SFS:(13230031)(4636009)(376002)(39860400002)(136003)(396003)(346002)(451199024)(186009)(1800799009)(82310400011)(40470700004)(36840700001)(46966006)(6916009)(7416002)(966005)(41300700001)(43170500006)(36860700001)(5660300002)(86362001)(44832011)(6666004)(478600001)(2906002)(316002)(8936002)(4326008)(8676002)(54906003)(70206006)(70586007)(26005)(1076003)(81166007)(7696005)(2616005)(40460700003)(356005)(336012)(66574015)(426003)(36756003)(82740400003)(47076005)(40480700001)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 14:56:01.7078 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe5c4660-dff2-4ce7-02fe-08dbb07bb805
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 15:02:43.3885 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0706d9af-3cc6-4fe7-8b38-08dbb07ca77c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017091.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989E8.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9441
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5758
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,106 +98,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <haoping.liu@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- dri-devel@lists.freedesktop.org, Mario Limonciello <mario.limonciello@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Stylon Wang <stylon.wang@amd.com>,
- Victor Zhao <Victor.Zhao@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Le Ma <le.ma@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, Candice Li <candice.li@amd.com>,
- Lang Yu <Lang.Yu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <shashank.sharma@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ wayland-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Joshua Ashton <joshua@froggi.es>,
+ Aleix Pol <aleixpol@kde.org>, Naseer Ahmed <quic_naseer@quicinc.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 5b7a256c982636ebc4f16b708b40ff56d33c8a86.
+This is an early RFC set for a color pipeline API, along with a
+sample implementation in VKMS. All the key API bits are here, but
+I would like to show a larger variety of colorop types, as well
+as examples of different possible color pipelines for a given plane.
 
-Since, we now have an actual fix for this issue, we can get rid of this
-workaround as it can cause pin failures if enough VRAM isn't carved out
-by the BIOS.
+The first patch is a doc patch that will explain the motivation
+and reasoning behind this approach and give an overview over the
+API.
 
-Cc: stable@vger.kernel.org # 6.1+
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
-v2: new to the series
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 26 -------------------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 ++--
- 3 files changed, 3 insertions(+), 29 deletions(-)
+IGT tests can be found at
+https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_requests/1
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 83a9607a87b8..3a86d11d1605 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1316,7 +1316,6 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- void amdgpu_device_pci_config_reset(struct amdgpu_device *adev);
- int amdgpu_device_pci_reset(struct amdgpu_device *adev);
- bool amdgpu_device_need_post(struct amdgpu_device *adev);
--bool amdgpu_sg_display_supported(struct amdgpu_device *adev);
- bool amdgpu_device_pcie_dynamic_switching_supported(void);
- bool amdgpu_device_should_use_aspm(struct amdgpu_device *adev);
- bool amdgpu_device_aspm_support_quirk(void);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 5f32e8d4f3d3..3d540b0cf0e1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1358,32 +1358,6 @@ bool amdgpu_device_need_post(struct amdgpu_device *adev)
- 	return true;
- }
- 
--/*
-- * On APUs with >= 64GB white flickering has been observed w/ SG enabled.
-- * Disable S/G on such systems until we have a proper fix.
-- * https://gitlab.freedesktop.org/drm/amd/-/issues/2354
-- * https://gitlab.freedesktop.org/drm/amd/-/issues/2735
-- */
--bool amdgpu_sg_display_supported(struct amdgpu_device *adev)
--{
--	switch (amdgpu_sg_display) {
--	case -1:
--		break;
--	case 0:
--		return false;
--	case 1:
--		return true;
--	default:
--		return false;
--	}
--	if ((totalram_pages() << (PAGE_SHIFT - 10)) +
--	    (adev->gmc.real_vram_size / 1024) >= 64000000) {
--		DRM_WARN("Disabling S/G due to >=64GB RAM\n");
--		return false;
--	}
--	return true;
--}
--
- /*
-  * Intel hosts such as Raptor Lake and Sapphire Rapids don't support dynamic
-  * speed switching. Until we have confirmation from Intel that a specific host
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5f14cd9391ca..740a6fcafe4c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1654,8 +1654,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
- 		}
- 		break;
- 	}
--	if (init_data.flags.gpu_vm_support)
--		init_data.flags.gpu_vm_support = amdgpu_sg_display_supported(adev);
-+	if (init_data.flags.gpu_vm_support &&
-+	    (amdgpu_sg_display == 0))
-+		init_data.flags.gpu_vm_support = false;
- 
- 	if (init_data.flags.gpu_vm_support)
- 		adev->mode_info.gpu_vm_support = true;
--- 
-2.41.0
+IGT patches are also being sent to the igt-dev mailing list.
+
+libdrm changes to support the new IOCTLs are at
+https://gitlab.freedesktop.org/hwentland/drm/-/merge_requests/1
+
+If you prefer a gitlab MR for review you can find it at
+https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5
+
+A slightly different approach for a Color Pipeline API was sent by
+Uma Shankar and can be found at
+https://patchwork.freedesktop.org/series/123024/
+
+The main difference is that his approach is not introducing a new DRM
+core object but instead exposes color pipelines via blob properties.
+There are pros and cons to both approaches.
+
+Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: Jonas Ådahl <jadahl@redhat.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Shashank Sharma <shashank.sharma@amd.com>
+Cc: Alexander Goins <agoins@nvidia.com>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Michel Dänzer <mdaenzer@redhat.com>
+Cc: Aleix Pol <aleixpol@kde.org>
+Cc: Xaver Hugl <xaver.hugl@gmail.com>
+Cc: Victoria Brekenfeld <victoria@system76.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Naseer Ahmed <quic_naseer@quicinc.com>
+Cc: Christopher Braga <quic_cbraga@quicinc.com>
+
+Harry Wentland (10):
+  drm/doc/rfc: Describe why prescriptive color pipeline is needed
+  drm/colorop: Introduce new drm_colorop mode object
+  drm/colorop: Add TYPE property
+  drm/color: Add 1D Curve subtype
+  drm/colorop: Add BYPASS property
+  drm/colorop: Add NEXT property
+  drm/colorop: Add atomic state print for drm_colorop
+  drm/colorop: Add new IOCTLs to retrieve drm_colorop objects
+  drm/plane: Add COLOR PIPELINE property
+  drm/vkms: Add enumerated 1D curve colorop
+
+ Documentation/gpu/rfc/color_pipeline.rst  | 278 ++++++++++++++++++
+ drivers/gpu/drm/Makefile                  |   1 +
+ drivers/gpu/drm/drm_atomic.c              | 154 ++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c       |  12 +
+ drivers/gpu/drm/drm_atomic_state_helper.c |   5 +
+ drivers/gpu/drm/drm_atomic_uapi.c         | 110 +++++++
+ drivers/gpu/drm/drm_colorop.c             | 343 ++++++++++++++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h       |   4 +
+ drivers/gpu/drm/drm_ioctl.c               |   5 +
+ drivers/gpu/drm/drm_mode_config.c         |   7 +
+ drivers/gpu/drm/drm_plane_helper.c        |   2 +-
+ drivers/gpu/drm/vkms/Makefile             |   3 +-
+ drivers/gpu/drm/vkms/vkms_colorop.c       | 108 +++++++
+ drivers/gpu/drm/vkms/vkms_composer.c      | 316 ++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h           |   4 +
+ drivers/gpu/drm/vkms/vkms_plane.c         |   2 +
+ include/drm/drm_atomic.h                  |  82 ++++++
+ include/drm/drm_atomic_uapi.h             |   3 +
+ include/drm/drm_colorop.h                 | 233 +++++++++++++++
+ include/drm/drm_mode_config.h             |  18 ++
+ include/drm/drm_plane.h                   |  10 +
+ include/uapi/drm/drm.h                    |   3 +
+ include/uapi/drm/drm_mode.h               |  22 ++
+ 23 files changed, 1723 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
+ create mode 100644 drivers/gpu/drm/drm_colorop.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+ create mode 100644 include/drm/drm_colorop.h
+
+--
+2.42.0
 
