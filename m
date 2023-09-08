@@ -2,84 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02EB7990C7
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB967990F2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4E310E947;
-	Fri,  8 Sep 2023 20:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84AAA10E21F;
+	Fri,  8 Sep 2023 20:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8D4510E947
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694203410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w7XXAxDLUmZdx81fESQwCFLbPlVQDp3wBmzbmeWO24M=;
- b=ftcERXHCY+QrbOYXa3UvtoK2vTipaVq01e0K0xdNUNW8KK/AAeRc3wHqoCcuAo7dGgKXUL
- vFApQQg9sN62otjm3/GHTTQe6Gbz/82Rug7PuqMaDeiKAAvhei61jrmFFjjPIWcIKLQExH
- SMPyccHved15Hc9NatSSPMhE6Zg+aks=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-OqYXXQ_YOFOwwp6wHCTs1g-1; Fri, 08 Sep 2023 16:03:28 -0400
-X-MC-Unique: OqYXXQ_YOFOwwp6wHCTs1g-1
-Received: by mail-oo1-f69.google.com with SMTP id
- 006d021491bc7-5711c85f02bso414315eaf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 13:03:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694203408; x=1694808208;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w7XXAxDLUmZdx81fESQwCFLbPlVQDp3wBmzbmeWO24M=;
- b=vrUmuEmxxcZ7VtZomm5Z6P8SoAxDSVtoHYRqauGYXPrBTgMtHohBaCVzLCiT5cIkw7
- FpUbETP0C4m4AdaNI6MlVLiO7EQ0jMlFY+C5ZRqtHZFibqWlQ3l8Do+UGy4CwVHs8h4Z
- nS5Bb6tsfipt8Jzn1IHe+e0D5jQzz4yzkLkyW0yCpvlWhkCcWtrAm2H8VjmdhYnLC9Tu
- TDm0nIF19vnvh/Dt0LD1XcNTckGKVWEOPR3QApQu8V6DtpUSzwmAKMnKCT5pCrAz8nd6
- Ua3INO5mZaBCtxCPGHZ3PbARhFtYBU7Kw7PRiuEERUL2zmO+ED6F0c8XSBvydJtm1zKD
- pYdg==
-X-Gm-Message-State: AOJu0YxGHP0VfZC4tgWMt0COLEXM/29YEbM9huOkcu3jt/D/bGnxzC6T
- Vlb+QZgTS/cdShN0bNMD/u0K93HwMioQioIV5bIpaeTH6oXqRdu63r+Zg+YL2zL8RhnfZtNayZW
- weh/oLoq3yCL8W0syeEEPW005po/p
-X-Received: by 2002:a05:6358:e9c:b0:134:c407:681f with SMTP id
- 28-20020a0563580e9c00b00134c407681fmr2557593rwg.1.1694203408130; 
- Fri, 08 Sep 2023 13:03:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE4gCAzKUix7oIOcBNdjPHJEb7aCyOwwUAu2PzcC43CT3hwK4BjknICUG8MLI4Ii5zItWgaJg==
-X-Received: by 2002:a05:6358:e9c:b0:134:c407:681f with SMTP id
- 28-20020a0563580e9c00b00134c407681fmr2557556rwg.1.1694203407699; 
- Fri, 08 Sep 2023 13:03:27 -0700 (PDT)
-Received: from fedorinator.redhat.com
- ([2001:9e8:32da:e500:513e:fbe9:e455:ae67])
- by smtp.gmail.com with ESMTPSA id
- x29-20020a0cb21d000000b0064f53943626sm971150qvd.89.2023.09.08.13.03.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Sep 2023 13:03:27 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Christian Brauner <brauner@kernel.org>, David Disseldorp <ddiss@suse.de>,
- Luis Chamberlain <mcgrof@kernel.org>, Siddh Raman Pant <code@siddh.me>,
- Nick Alcock <nick.alcock@oracle.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v2 5/5] drm: vmgfx_surface.c: copy user-array safely
-Date: Fri,  8 Sep 2023 21:59:44 +0200
-Message-ID: <3d2b36a2cf7bbff1b036f474eb805e19be3c57f5.1694202430.git.pstanner@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1694202430.git.pstanner@redhat.com>
-References: <cover.1694202430.git.pstanner@redhat.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1AFE10E21F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:22:36 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Rj6wq6jprzDrP4;
+ Fri,  8 Sep 2023 20:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1694204556; bh=XS8Z/ShY3WdevYn8UwhbarhBR5GVN6dSAz660ifKJys=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=n38ueekQtSFC9oy/MJWKnXjMfDRGRLuEWDKfaMOwYig8CHw+5odxbogzs9YJ73c95
+ EDN+v7RXLnTDTaUnz4Y3n3ENHJ/aXFsStzBdswveuVY2YE8MAkKehHg5A8yVWaITBU
+ 1OauPRvWXCwBnq4CopPs7ktD6vFWWYPpSjbv0Vxw=
+X-Riseup-User-ID: 84B3D466817817D0C3D032DE7D2F8778771B2143ADF4778A0E28BA413C915E03
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Rj6wl3YTpzJnDb;
+ Fri,  8 Sep 2023 20:22:31 +0000 (UTC)
+Message-ID: <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
+Date: Fri, 8 Sep 2023 17:22:32 -0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 07/10] drm/tests: Add test for drm_framebuffer_init()
+To: Carlos <gcarlos@disroot.org>, dri-devel@lists.freedesktop.org
+References: <20230825161108.13701-1-gcarlos@disroot.org>
+ <e0d67231-f970-f835-6327-13e9e97a752d@riseup.net>
+ <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
+Content-Language: en-US
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philipp Stanner <pstanner@redhat.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- linux-hardening@vger.kernel.org, David Airlie <airlied@redhat.com>
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
+ =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, there is no overflow-check with memdup_user().
+Hi Carlos,
 
-Use the new function memdup_array_user() instead of memdup_user() for
-duplicating the user-space array safely.
+On 9/4/23 14:41, Carlos wrote:
+> Hi Maíra,
+> 
+> On 8/26/23 11:16, Maíra Canal wrote:
+>> Hi Carlos,
+>>
+>> On 8/25/23 13:11, Carlos Eduardo Gallo Filho wrote:
+>>> Add a single KUnit test case for the drm_framebuffer_init function.
+>>>
+>>> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+>>> ---
+>>>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 52 ++++++++++++++++++++
+>>>   1 file changed, 52 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c 
+>>> b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>> index 3d14d35b4c4d..50d88bf3fa65 100644
+>>> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>> @@ -557,8 +557,60 @@ static void drm_test_framebuffer_lookup(struct 
+>>> kunit *test)
+>>>       KUNIT_EXPECT_NULL(test, fb2);
+>>>   }
+>>>   +static void drm_test_framebuffer_init(struct kunit *test)
+>>> +{
+>>> +    struct drm_mock *mock = test->priv;
+>>> +    struct drm_device *dev = &mock->dev;
+>>> +    struct drm_device wrong_drm = { };
+>>> +    struct drm_format_info format = { };
+>>> +    struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
+>>> +    struct drm_framebuffer *fb2;
+>>> +    struct drm_framebuffer_funcs funcs = { };
+>>> +    int ret;
+>>> +
+>>> +    /* Fails if fb->dev doesn't point to the drm_device passed on 
+>>> first arg */
+>>> +    fb1.dev = &wrong_drm;
+>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
+>>> +    fb1.dev = dev;
+>>> +
+>>> +    /* Fails if fb.format isn't set */
+>>> +    fb1.format = NULL;
+>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
+>>> +    fb1.format = &format;
+>>> +
+>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>> +    KUNIT_EXPECT_EQ(test, ret, 0);
+>>> +
+>>> +    /*
+>>> +     * Check if fb->funcs is actually set to the drm_framebuffer_funcs
+>>> +     * passed to it
+>>> +     */
+>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
+>>> +
+>>> +    /* The fb->comm must be set to the current running process */
+>>> +    KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
+>>> +
+>>> +    /* The fb->base must be successfully initialized */
+>>> +    KUNIT_EXPECT_EQ(test, fb1.base.id, 1);
+>>> +    KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
+>>> +    KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
+>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, &drm_framebuffer_free);
 
-Suggested-by: David Airlie <airlied@redhat.com>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+BTW I believe we should also make sure that dev->mode_config.num_fb was
+incremented by 1.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 5db403ee8261..9be185b094cb 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -777,9 +777,9 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 	       sizeof(metadata->mip_levels));
- 	metadata->num_sizes = num_sizes;
- 	metadata->sizes =
--		memdup_user((struct drm_vmw_size __user *)(unsigned long)
-+		memdup_array_user((struct drm_vmw_size __user *)(unsigned long)
- 			    req->size_addr,
--			    sizeof(*metadata->sizes) * metadata->num_sizes);
-+			    metadata->num_sizes, sizeof(*metadata->sizes));
- 	if (IS_ERR(metadata->sizes)) {
- 		ret = PTR_ERR(metadata->sizes);
- 		goto out_no_sizes;
--- 
-2.41.0
+>>> +
+>>> +    /* Checks if the fb is really published and findable */
+>>> +    fb2 = drm_framebuffer_lookup(dev, NULL, fb1.base.id);
+>>> +    KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
+>>> +
+>>> +    /* There must be just that one fb initialized */
+>>> +    KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
+>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, 
+>>> &fb1.head);
+>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, 
+>>> &fb1.head);
+>>
+>> Shouldn't we clean the framebuffer object?
+> What did you mean by "clean"? Firstly I supposed that it would be about
+> freeing some dynamically allocated frambuffer, but it's statically
+> allocated, so I believe it isn't what you are meaning. Is there some
+> collateral effect I'm not taking into account?
 
+I was talking about calling the function `drm_framebuffer_cleanup()`.
+
+Best Regards,
+- Maíra
+
+> 
+> Thanks,
+> Carlos
+> 
+>> Best Regards,
+>> - Maíra
+>>
+>>> +}
+>>> +
+>>>   static struct kunit_case drm_framebuffer_tests[] = {
+>>>       KUNIT_CASE(drm_test_framebuffer_cleanup),
+>>> +    KUNIT_CASE(drm_test_framebuffer_init),
+>>>       KUNIT_CASE(drm_test_framebuffer_lookup),
+>>> KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
+>>>       KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, 
+>>> check_src_coords_gen_params),
