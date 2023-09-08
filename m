@@ -2,66 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E5F7989A1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 17:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365D97989C5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 17:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C71210E8F6;
-	Fri,  8 Sep 2023 15:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2EA10E041;
+	Fri,  8 Sep 2023 15:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4493D10E041
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 15:10:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02FB110E041
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 15:23:01 +0000 (UTC)
+Received: from localhost.localdomain (unknown [171.76.82.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0B3451FF11;
- Fri,  8 Sep 2023 15:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694185847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Se/SZonNLgwhFpnsJpbH16MQCraRXZ5LCPFCyrJCL6o=;
- b=Sb3FtTx1dh3LwZ7Mejaf75srcgZ83N2xfli6RbbwP4vG4893nhQduNguZk3x9rWclSURDx
- XXksbcMYdEJb0dsRuG1D9DJfsROSTvbqCwWOh+gqypFC0TdlT1h7RrPg/SXt+yZa+VfPCe
- dXMDqzbM4vJ6RfNedyX+2b0IMhH3gUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694185847;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Se/SZonNLgwhFpnsJpbH16MQCraRXZ5LCPFCyrJCL6o=;
- b=qQjEP7UOCKdw2jzLAaKtBbmV8G/iBGISS+qPZp4lU/BS4ntHP0mFDZNI3D8stk44NMGBA1
- IBm3Gm3V8PybGlBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DDE2F131FD;
- Fri,  8 Sep 2023 15:10:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id h/5INXY5+2Q8DgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Sep 2023 15:10:46 +0000
-Message-ID: <6d506fe7-3c23-3b50-2d29-549ccb4dbe87@suse.de>
-Date: Fri, 8 Sep 2023 17:10:46 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 908B16607286;
+ Fri,  8 Sep 2023 16:22:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694186580;
+ bh=UH7JSXB6n2DATdqfhUnkdU+dfoIlqt8kj0cMfuz0osk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=igyvzlqK5lTzT29SaRx5bCMKCwY4r6CFAJi1gYFmbWRaZUIY83Itg/T7tDjJxg+Wn
+ +gmlb2G86StkbllazVja93Mzjxf4XsTrgVn8I8N6hw/eDKq/Axc90ABzulch+e8RNS
+ qjMP2pa3vtcjcOeG1g7d7Bqxb+WRUsLG0HGWquZbuXJQBuo2boB/CVSqI6UH8VO/r1
+ idwEN7nFMIxoCttRbLW9Bp+kusAs5wG6Ei2IyR6/x6OZS/32GCIjgRFG119PmOZuFL
+ OB636AUb+930DyYaQwVKApws+/A14fHy4TZnPr2riikJjdg2wMAclhvSTLrEPQJqNr
+ r98mp3sOMYKSw==
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/9] drm: ci: fixes
+Date: Fri,  8 Sep 2023 20:52:16 +0530
+Message-Id: <20230908152225.432139-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
- <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
- <20230908174113.02b65f9c@eldfell>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230908174113.02b65f9c@eldfell>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zPgkq20nJUBdQrT2nFm0lS2o"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,184 +49,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com,
- Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com, mripard@kernel.org
+Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
+ krzysztof.kozlowski+dt@linaro.org, robdclark@google.com,
+ david.heidelberg@collabora.com, sergi.blanch.torne@collabora.com,
+ gustavo.padovan@collabora.com, agross@kernel.org, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, daniels@collabora.com, linux-arm-msm@vger.kernel.org,
+ mripard@kernel.org, helen.koike@collabora.com, anholt@google.com,
+ linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ andersson@kernel.org, linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
+ robh+dt@kernel.org, dmitry.baryshkov@linaro.org, guilherme.gallo@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zPgkq20nJUBdQrT2nFm0lS2o
-Content-Type: multipart/mixed; boundary="------------jHdsaClRpVepfT0uOzcPGVAB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- mripard@kernel.org, dri-devel@lists.freedesktop.org, airlied@redhat.com
-Message-ID: <6d506fe7-3c23-3b50-2d29-549ccb4dbe87@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
- <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
- <20230908174113.02b65f9c@eldfell>
-In-Reply-To: <20230908174113.02b65f9c@eldfell>
+The patch series contains improvements, enabling new ci jobs which
+enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
+fixing issues with the ci jobs and updating the expectation files.
+This series is intended for drm branch topic/drm-ci.
 
---------------jHdsaClRpVepfT0uOzcPGVAB
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+v2:
+  - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
+  - Reworded the commit message for enabling jobs
+  - Added a new patch in the series to use scripts/config to enable/disable configs
 
-SGkNCg0KQW0gMDguMDkuMjMgdW0gMTY6NDEgc2NocmllYiBQZWtrYSBQYWFsYW5lbjoNCj4g
-T24gRnJpLCA4IFNlcCAyMDIzIDE1OjU2OjUxICswMjAwDQo+IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4gDQo+PiBIaQ0KPj4NCj4+IEFtIDA4
-LjA5LjIzIHVtIDEzOjE2IHNjaHJpZWIgUGVra2EgUGFhbGFuZW46DQo+Pj4gT24gRnJpLCA4
-IFNlcCAyMDIzIDExOjIxOjUxICswMjAwDQo+Pj4gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4+ICAgIA0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBB
-bSAyNS4wOC4yMyB1bSAxNjowNCBzY2hyaWViIEpvY2VseW4gRmFsZW1wZToNCj4+Pj4gWy4u
-Ll0NCj4+Pj4+ICsgKg0KPj4+Pj4gKyAqICAgICBCdXQgdGhlcmUgYXJlIHR3byBleGNlcHRp
-b25zIG9ubHkgZm9yIGR1bWIgYnVmZmVyczoNCj4+Pj4+ICsgKiAgICAgKiBUbyBzdXBwb3J0
-IFhSR0I4ODg4IGlmIGl0J3Mgbm90IHN1cHBvcnRlZCBieSB0aGUgaGFyZHdhcmUuDQo+Pj4+
-DQo+Pj4+ICAgDQo+Pj4+PiArICogICAgICogQW55IGRyaXZlciBpcyBmcmVlIHRvIG1vZGlm
-eSBpdHMgaW50ZXJuYWwgcmVwcmVzZW50YXRpb24gb2YgdGhlIGZvcm1hdCwNCj4+Pj4+ICsg
-KiAgICAgICBhcyBsb25nIGFzIGl0IGRvZXNuJ3QgYWx0ZXIgdGhlIHZpc2libGUgY29udGVu
-dCBpbiBhbnkgd2F5LCBhbmQgZG9lc24ndA0KPj4+Pj4gKyAqICAgICAgIG1vZGlmeSB0aGUg
-dXNlci1wcm92aWRlZCBidWZmZXIuIEFuIGV4YW1wbGUgd291bGQgYmUgdG8gZHJvcCB0aGUN
-Cj4+Pj4+ICsgKiAgICAgICBwYWRkaW5nIGNvbXBvbmVudCBmcm9tIGEgZm9ybWF0IHRvIHNh
-dmUgc29tZSBtZW1vcnkgYmFuZHdpZHRoLg0KPj4+Pg0KPj4+PiBJIGhhdmUgc3Ryb25nIG9i
-amVjdGlvbnMgdG8gdGhpcyBwb2ludCwgX2VzcGVjaWFsbHlfIGFzIHlvdSdyZQ0KPj4+PiBh
-cHBhcmVudGx5IHRyeWluZyB0byBzbmVhayB0aGlzIGluIGFmdGVyIG91ciBkaXNjdXNzaW9u
-LiBOQUsgb24gdGhpcw0KPj4+PiBwYXJ0IGZyb20gbXkgc2lkZS4NCj4+Pj4NCj4+Pj4gSWYg
-eW91IHdhbnQgdXNlcnNwYWNlIHRvIGJlIGFibGUgdG8gdXNlIGEgY2VydGFpbiBmb3JtYXQs
-IHRoZW4gZXhwb3J0DQo+Pj4+IHRoZSBjb3JyZXNwb25kaW5nIDRjYyBjb2RlLiBUaGVuIGxl
-dCB1c2Vyc3BhY2UgZGVjaWRlIHdoYXQgdG8gZG8gYWJvdXQNCj4+Pj4gaXQuIElmIHVzZXJz
-cGFjZSBwaWNrIGEgY2VydGFpbiBmb3JtYXQsIGdvIHdpdGggaXQuDQo+Pj4NCj4+PiBXaGF0
-IGlzIHRoZSByZWFzb24gZm9yIHlvdXIgb2JqZWN0aW9uLCBleGFjdGx5Pw0KPj4+ICAgIA0K
-Pj4+PiBIZW5jZSwgbm8gaW1wbGljaXQgY29udmVyc2lvbiBmcm9tIFhSR0I4ODggdG8gUkdC
-ODg4LCBqdXN0IGJlY2F1c2UgaXQncw0KPj4+PiBwb3NzaWJsZS4NCj4+Pg0KPj4+IEZvciB0
-aGUgcGFydGljdWxhciBkcml2ZXIgaW4gcXVlc3Rpb24gdGhvdWdoLCB0aGUgY29udmVyc2lv
-biBhbGxvd3MNCj4+PiB1c2luZyBhIGRpc3BsYXkgcmVzb2x1dGlvbiB0aGF0IGlzIG90aGVy
-d2lzZSBub3QgcG9zc2libGUuIEkgYWxzbyBoZWFyDQo+Pj4gaXQgaW1wcm92ZXMgcGVyZm9y
-bWFuY2Ugc2luY2UgMjUlIGxlc3MgZGF0YSBuZWVkcyB0byB0cmF2ZWwgYWNyb3NzIGENCj4+
-PiBzbG93IGJ1cy4gVGhlcmUgaXMgYWxzbyBzbyBsaXR0bGUgVlJBTSwgdGhhbiBhbGwgZHVt
-YiBidWZmZXJzIG5lZWQgdG8NCj4+PiBiZSBhbGxvY2F0ZWQgZnJvbSBzeXNyYW0gaW5zdGVh
-ZCBhbnl3YXksIHNvIGEgY29weSBpcyBhbHdheXMgbmVjZXNzYXJ5Lg0KPj4+DQo+Pj4gU2lu
-Y2UgWFJHQjg4ODggaXMgdGhlIG9uZSBmb3JtYXQgdGhhdCBpcyByZWNvbW1lbmRlZCB0byBi
-ZSBzdXBwb3J0ZWQgYnkNCj4+PiBhbGwgZHJpdmVycywgSSBkb24ndCBzZWUgYSBwcm9ibGVt
-IGhlcmUuIERpZCB5b3UgdGVzdCBvbiB5b3VyDQo+Pj4gaW5jcmVkaWJseSBzbG93IGcyMDAg
-dGVzdCByaWcgaWYgdGhlIGNvbnZlcnNpb24gZW5kcyB1cCBodXJ0aW5nIGluc3RlYWQNCj4+
-PiBvZiBoZWxwaW5nIHBlcmZvcm1hbmNlIHRoZXJlPw0KPj4+DQo+Pj4gSWYgaXQgaHVydHMs
-IHRoZW4gSSBzZWUgdGhhdCB5b3UgaGF2ZSBhIGdvb2QgcmVhc29uIHRvIE5BSyB0aGlzLg0K
-Pj4+DQo+Pj4gSXQncyBoYXJkIHRvIGltYWdpbmUgaG93IGl0IHdvdWxkIGh1cnQsIHNpbmNl
-IHlvdSBhbHdheXMgbmVlZCBhIGNvcHkNCj4+PiBmcm9tIHN5c3JhbSBkdW1iIGJ1ZmZlcnMg
-dG8gVlJBTSAtIG9yIGRvIHlvdT8NCj4+DQo+PiBJIGhhdmUgYSBudW1iZXIgb2YgY29uY2Vy
-bnMuIE15IHBvaW50IGl0IG5vdCB0aGF0IHdlIHNob3VsZG4ndCBvcHRpbWl6ZS4NCj4+IEkg
-anVzdCBkb24ndCB3YW50IGl0IGluIHRoZSBrZXJuZWwuIE1nYWcyMDAgY2FuIGV4cG9ydCBE
-Uk1fRk9STUFUX1JHQjg4OA0KPj4gZm9yIHVzZXJzcGFjZSB0byB1c2UuDQo+Pg0KPj4gQUZB
-SUNUIHRoZSBtYWluIGFyZ3VtZW50IGFnYWluc3QgdXNlcnNwYWNlIGlzIHRoYXQgTWVzYSBk
-b2Vzbid0IGxpa2UNCj4+IDMtYnl0ZSBwaXhlbHMuIEJ1dCBJIGRvbid0IHNlZSBob3cgdGhp
-cyBjb252ZXJzaW9uIGNhbm5vdCBiZSBhDQo+PiBwb3N0LXByb2Nlc3Npbmcgc3RlcCB3aXRo
-aW4gTWVzYTogZG8gdGhlIHJlbmRlcmluZyBpbiBSR0IzMiBhbmQgdGhlbg0KPj4gY29udmVy
-dCB0byBhIGZyYW1lYnVmZmVyIGluIFJHQjI0LiBVc2Vyc3BhY2UgY2FuIGRvIHRoYXQgbW9y
-ZQ0KPj4gZWZmaWNpZW50bHkgdGhhbiB0aGUga2VybmVsLiBUaGlzIGhhcyBhbGwgb2YgdGhl
-IHVwc2lkZXMgb2YgcmVkdWNlZA0KPj4gYmFuZHdpZHRoLCBidXQgbm9uZSBvZiB0aGUgZG93
-bnNpZGVzIG9mIGtlcm5lbCBjb2RlLiBBcHBsaWNhdGlvbnMgYW5kL29yDQo+PiBNZXNhIHdv
-dWxkIGJlIGluIGNvbnRyb2wgb2YgdGhlIGJ1ZmZlciBmb3JtYXQgYW5kIGFwcGx5IHRoZSBv
-cHRpbWl6YXRpb24NCj4+IHdoZXJlIGl0IG1ha2VzIHNlbnNlLiBBbmQgaXQgd291bGQgYmUg
-YXZhaWxhYmxlIGZvciBhbGwgZHJpdmVycyB0aGF0IGFyZQ0KPj4gc2ltaWxhciB0byBtZ2Fn
-MjAwLg0KPj4NCj4+IE15IG1haW4gcG9pbnQgaXMgc2ltcGxpY2l0eSBvZiB0aGUgZHJpdmVy
-OiBJIHByZWZlciB0aGUgZHJpdmVyIHRvIGJlDQo+PiBzaW1wbGUgd2l0aG91dCB1bm5lY2Vz
-c2FyeSBpbmRpcmVjdGlvbiBvciBvdmVyaGVhZC4gT3B0aW1pemF0aW9ucyBsaWtlDQo+PiB0
-aGVzZSBteSBvciBtYXkgbm90IHdvcmsgb24gYSBnaXZlbiBzeXN0ZW0gd2l0aCBhIGNlcnRh
-aW4gd29ya2xvYWQuIEknZA0KPj4gYmV0dGVyIGxlYXZlIHRoaXMgaGV1cmlzdGljIHRvIHVz
-ZXJzcGFjZS4NCj4+DQo+PiBBbm90aGVyIHBvaW50IG9mIGNvbmNlcm4gaXMgQ1BVIGNvbnN1
-bXB0aW9uOiBTbG93IEkvTyBidXNlcyBtYXkgc3RhbGwNCj4+IHRoZSBkaXNwbGF5IHRocmVh
-ZCwgYnV0IHRoZSBDUFUgY291bGQgZG8gc29tZXRoaW5nIGVsc2UgaW4gdGhlIG1lYW50aW1l
-Lg0KPj4gRG9pbmcgZm9ybWF0IGNvbnZlcnNpb24gb24gdGhlIENQVSBwcmV2ZW50cyB0aGF0
-LCBoZW5jZSBhZmZlY3Rpbmcgb3RoZXINCj4+IHBhcnRzIG9mIHRoZSBzeXN0ZW0gbmVnYXRp
-dmVseS4gT2YgY291cnNlLCB0aGF0J3MgbW9yZSBvZiBhIGd1dCBmZWVsaW5nDQo+PiB0aGFu
-IGhhcmQgZGF0YS4NCj4+DQo+PiBQbGVhc2Ugbm90ZSB0aGF0IHRoZSBrZXJuZWwncyBjb252
-ZXJzaW9uIGNvZGUgdXNlcyBtZW1vcnkgYWxsb2NhdGlvbiBvZg0KPj4gaW50ZXJtZWRpYXRl
-IGJ1ZmZlcnMuIFdlIGV2ZW4gcmVjZW50bHkgaGFkIGEgZGlzY3Vzc2lvbiBhYm91dCBhbGxv
-Y2F0aW9uDQo+PiBvdmVyaGVhZCBkdXJpbmcgZGlzcGxheSB1cGRhdGVzLiBVc2Vyc3BhY2Ug
-Y2FuIHN1cmVseSBkbyBhIGJldHRlciBqb2IgYXQNCj4+IGtlZXBpbmcgc3VjaCBidWZmZXJz
-IGFyb3VuZC4NCj4+DQo+PiBBbmQgZmluYWxseSBhIG5vdGUgdGhlIGhhcmR3YXJlIGl0c2Vs
-Zjogb24gbG93LWVuZCBoYXJkd2FyZSBsaWtlIHRob3NlDQo+PiBNYXRyb3ggY2hpcHMsIGp1
-c3Qgc3dpdGNoIHRvIFJHQjE2LiBUaGF0IHdpbGwgYmUgcHJldHR5IGFuZCBmYXN0IGVub3Vn
-aA0KPj4gZm9yIHRoZXNlIGNoaXBzJyBzZXJ2ZXIgc3lzdGVtcy4gQW55b25lIHdobyBjYXJl
-cyBhYm91dCBmYXN0IGFuZA0KPj4gYmVhdXRpZnVsIHNob3VsZCBidXkgYSByZWFsIGdyYXBo
-aWNzIGNhcmQuDQo+IA0KPiBGYWlyIGVub3VnaC4NCj4gDQo+IERpZCB5b3UgY29uc2lkZXIg
-dGhhdCBldmVyeSBmcmFtZSB3aWxsIGJlIGNvcGllZCB0d2ljZTogb25jZSBpbg0KPiB1c2Vy
-c3BhY2UgdG8gZ2V0IFJHQjg4OCwgdGhlbiBhZ2FpbiBieSB0aGUgZHJpdmVyIGludG8gVlJB
-TSwgc2luY2UgZHVtYg0KPiBidWZmZXJzIHJlc2lkZSBpbiBzeXNyYW0/DQoNCkluIHRoZSBr
-ZXJuZWwsIHdlIHJlZHVjZSB0aGUgY29weWluZyB0byB0aGUgY2hhbmdlZCBwYXJ0cywgaWYg
-d2UgaGF2ZSANCmRhbWFnZSBpbmZvcm1hdGlvbiBmcm9tIHVzZXJzcGFjZS4gSURLIE1lc2En
-cyBzb2Z0d2FyZSByZW5kZXJlciwgYnV0IGl0IA0KY291bGQgY2VydGFpbmx5IGFwcGx5IGEg
-c2ltaWxhciBvcHRpbWl6YXRpb24uDQoNCj4gDQo+IFJHQjU2NSB3b3VsZCBwcm9iYWJseSBn
-byB0aGUgc2FtZSByb3V0ZSBJIGd1ZXNzLg0KDQogRnJvbSB3aGF0IEkga25vdyB1c2Vyc3Bh
-Y2Ugc3RpbGwgc3VwcG9ydHMgUkdCNTY1IHJlbmRlcmluZyBkaXJlY3RseS4gDQpMYXN0IHRp
-bWUgSSB0ZXN0ZWQsIGl0IHdvcmtlZCBmb3IgbWUuDQoNCj4gDQo+IEkgc3VzcGVjdCB0aGUg
-aW50ZXJtZWRpYXRlIGJ1ZmZlcnMgKGR1bWIgYnVmZmVycyBpbiB0aGlzIGNhc2UpIG5lZWQg
-dG8NCj4gYmUgZnVsbCBmcmFtZSBzaXplIHJhdGhlciB0aGFuIGEgc2NhbmxpbmUsIHRvby4g
-SSdtIG5vdCBzdXJlIHdoeSB0aGUNCj4gZHJpdmVyIHdvdWxkIG5lZWQgYW55IHNjcmF0Y2gg
-YnVmZmVycyBiZXlvbmQgYSBjb3VwbGUgZG96ZW4gYnl0ZXMgd2hpbGUNCj4gZG9pbmcgYSBz
-b2Z0d2FyZSBjb252ZXJzaW9uLCBqdXN0IGVub3VnaCB0byBoYXZlIHRoZSBsb3dlc3QgY29t
-bW9uDQo+IG11bHRpcGxlIG9mIDMgYnl0ZXMgYW5kIG9wdGltYWwgYnVzIHdyaXRlIHdpZHRo
-Lg0KDQpGb3IgdGhlIGNvbnZlcnNpb24gaW4gdGhlIGtlcm5lbCB3ZSBhbGxvY2F0ZSBlbm91
-Z2ggdGVtcG9yYXJ5IG1lbW9yeSB0byANCmhvbGQgdGhlIHBhcnQgb2YgZWFjaCBzY2FubGlu
-ZSB0aGF0IGNoYW5nZWQuIFRoZW4gd2UgZ28gb3ZlciBkaXJ0eSANCnNjYW5saW5lcywgY29u
-dmVydCBlYWNoIGludG8gdGhlIG91dHB1dCBmb3JtYXQgYW5kIHN0b3JlIGl0IGluIHRoYXQg
-DQp0ZW1wb3JhcnkgYnVmZmVyLiBUaGVuIGNvcHkgdGhlIHRlbXBvcmFyeSBidWZmZXIgdG8g
-VlJBTS4gVGhlIGJ1ZmZlciBjYW4gDQpiZSByZXVzZWQgZm9yIHRoZSBzY2FubGluZXMgb2Yg
-YSBzaW5nbGUgY29udmVyc2lvbi4gQnV0IHRoZSBuYXR1cmUgb2YgDQp0aGUgZnJhbWVidWZm
-ZXIgKGJ1ZmZlcnMgYXJlIHBvc3NpYmx5IHNoYXJlZCB3aXRoIGNvbmN1cnJlbnQgYWNjZXNz
-IGZyb20gDQptdWx0aXBsZSBwbGFuZXMpIG1ha2VzIGl0IGhhcmQgdG8ga2VlcCB0aGF0IHRl
-bXBvcmFyeSBtZW1vcnkgYXJvdW5kLiANCkhlbmNlIGl0J3MgZnJlZWQgYWZ0ZXIgZWFjaCBj
-b252ZXJzaW9uLiBUaGUgY29kZSBpcyBhdCBbMV0uDQoNCkkgYXNzdW1lIHRoYXQgYSB1c2Vy
-c3BhY2Ugc29mdHdhcmUgcmVuZGVyZXIgY291bGQgZG8gYSBtdWNoIGJldHRlciBqb2IgDQph
-dCBrZWVwaW5nIHRoZSB0ZW1wb3JhcnkgbWVtb3J5IGFsbG9jYXRlZC4NCg0KQmVzdCByZWdh
-cmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgv
-djYuNS9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMjTDg4DQoN
-Cj4gDQo+IA0KPiBUaGFua3MsDQo+IHBxDQo+IA0KPj4NCj4+IEJlc3QgcmVnYXJkcw0KPj4g
-VGhvbWFzDQo+Pg0KPj4+DQo+Pj4NCj4+PiBUaGFua3MsDQo+Pj4gcHENCj4+PiAgICANCj4+
-Pj4+ICsgKiAgICAgT24gbW9zdCBoYXJkd2FyZSwgVlJBTSByZWFkIGFjY2VzcyBhcmUgc2xv
-dywgc28gd2hlbiBkb2luZyB0aGUgc29mdHdhcmUNCj4+Pj4+ICsgKiAgICAgY29udmVyc2lv
-biwgdGhlIGR1bWIgYnVmZmVyIHNob3VsZCBiZSBhbGxvY2F0ZWQgaW4gc3lzdGVtIFJBTSBp
-biBvcmRlciB0bw0KPj4+Pj4gKyAqICAgICBoYXZlIGRlY2VudCBwZXJmb3JtYW5jZS4NCj4+
-Pj4+ICsgKiAgICAgRXh0cmEgY2FyZSBzaG91bGQgYmUgdGFrZW4gd2hlbiBkb2luZyBzb2Z0
-d2FyZSBjb252ZXJzaW9uIHdpdGgNCj4+Pj4+ICsgKiAgICAgRFJNX0NBUF9EVU1CX1BSRUZF
-Ul9TSEFET1csIHRoZXJlIGFyZSBtb3JlIGRldGFpbGVkIGV4cGxhbmF0aW9ucyBoZXJlOg0K
-Pj4+Pj4gKyAqICAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMzA4
-MTgxNjI0MTUuMjE4NWY4ZTNAZWxkZmVsbC8NCj4+Pj4+ICAgICAgKi8NCj4+Pj4+ICAgICAN
-Cj4+Pj4+ICAgICBzdGF0aWMgdW5zaWduZWQgaW50IGRybV9udW1fcGxhbmVzKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYpDQo+Pj4+Pg0KPj4+Pj4gYmFzZS1jb21taXQ6IDgyZDc1MGU5ZDJm
-NWQwNTk0YzhmNzA1N2NlNTkxMjdlNzAxYWY3ODENCj4+Pj4gICANCj4+PiAgICANCj4+DQo+
-IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3Nl
-IDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcg
-TXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFH
-IE51ZXJuYmVyZykNCg==
+v3:
+  - New patch in the series to add device tree overlay in arch/arm64/boot/dts/qcom
+  - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
+  - New patch in the series to enable CONFIG_REGULATOR_DA9211 in defconfig
+  - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
 
---------------jHdsaClRpVepfT0uOzcPGVAB--
+Vignesh Raman (9):
+  drm: ci: igt_runner: Remove todo
+  arm64: dts: qcom: apq8016-sbc: Add overlay for usb host mode
+  drm: ci: Force db410c to host mode
+  drm: ci: virtio: Update ci variables
+  drm: ci: Enable regulator
+  arm64: defconfig: Enable DA9211 regulator
+  drm: ci: Update xfails
+  drm: ci: Enable new jobs
+  drm: ci: Use scripts/config to enable/disable configs
 
---------------zPgkq20nJUBdQrT2nFm0lS2o
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+ .../boot/dts/qcom/apq8016-sbc-usb-host.dtso   |  8 +++++++
+ arch/arm64/configs/defconfig                  |  1 +
+ drivers/gpu/drm/ci/arm64.config               |  1 +
+ drivers/gpu/drm/ci/build.sh                   | 21 ++++++++++++-------
+ drivers/gpu/drm/ci/igt_runner.sh              |  1 -
+ drivers/gpu/drm/ci/test.yml                   | 14 ++++---------
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  1 -
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |  2 ++
+ drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |  1 +
+ .../drm/ci/xfails/mediatek-mt8173-fails.txt   |  2 --
+ .../drm/ci/xfails/mediatek-mt8173-flakes.txt  | 16 ++++++++++++++
+ .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |  2 ++
+ .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  1 +
+ .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  4 ++--
+ .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  3 +++
+ 16 files changed, 54 insertions(+), 25 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.40.1
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT7OXYFAwAAAAAACgkQlh/E3EQov+CI
-mxAAq1IhTvQrk3phY6OKwoRi3vzmDrZwaL8fPgRZxgCP8XWynfOF6my0onJyyoArr9LlbHK4OcfD
-JU63tVq0Bt7wXiiv0JROyEeX12bYDjdVc4Xp9Q0huWei3GhoIcizZ+X59aHoz8eQ23MFYHg8fwXm
-ByHEAmImLKl+6J9BY/Z5lulG9gX/kwzyPzXW3ci1OLoP539WLaoy+tgrGB8EmGHiDZEKQHQW0ytA
-ssAq0DH9yaZzZMhK1wes14XDzVexxuiz8FZmBoSDPfjJkzzem3X6xfjLgaVbmkdTgAON6ra/JgO7
-CIff8yk+rMijuhyz8STWzBZay3xdnpQ0pDm8MdzaP7IGEizP5OI5tb/JR929fp0YyJgigljRV+5c
-zS3izZ5sOqFD6yHIzJywY1568tYgJ6q/p7kSysWIQJa/bzHdDZV9HzCa0mfzYdkG+kOhlS2cEQXg
-gyksBHVXOzNb2iRLg5jndI91K4fWgCU7nHI0pDqtNW+7ilIhs/l3oowrN0OK+aMTWDVPqVdeE3Z1
-DQmOiMyC8ahaUZHVL0xGMNgnfOLCo5f2zIR0BYBKu4+bQ/OXedwI3Hx7/OzAUFV+FKaOy2FO8IOk
-l28ij+PEKGEDk1D77EAdzEIURW2SfrCX3ithgynl/82VAMDVkOlu4yWK+IEJDHeKg/XLiU3qT1Nf
-8rY=
-=YwES
------END PGP SIGNATURE-----
-
---------------zPgkq20nJUBdQrT2nFm0lS2o--
