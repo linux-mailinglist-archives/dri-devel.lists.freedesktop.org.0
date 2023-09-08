@@ -1,17 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6A37988E1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:35:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AD179886E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F52010E8D0;
-	Fri,  8 Sep 2023 14:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A0710E8C2;
+	Fri,  8 Sep 2023 14:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 407 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Sep 2023 14:19:12 UTC
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32C810E8CF;
- Fri,  8 Sep 2023 14:35:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E7B10E0F8;
+ Fri,  8 Sep 2023 14:19:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
@@ -19,31 +21,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=sm5cLPPVnG35jNFyBxl/t+oSTz+wIWhzfnyLq38aQvs=; b=Bnc9BuYin8EAbj4eKmI80pe/ao
- /JISTSOQ8OQ9Y0hgfcI7dzk6ztA+3k6ffIewZXCOYCHW6+tyg09tVyGz5X+IOMJOUGJF8RGOveGEm
- 5FNp+KGqcmd1VR4q//XmQtVfh4dcSPBN+oMqpzid5HX6Vw4Pg7SDmGx81NUFHI8DB2bmK7TrtB8le
- jSmtpHKGiJFAjQOeV7KhlJS75zgqN3D3NNK1938a7c7gT8OqJAZwLV2xFY+69ylrTGgJlostruEmW
- v0xTBiCQXzd5sMYeuWp+MDBk6KYwG8wI59n0pKhUWgG8O8uyKWUHG9+jv9xNKpQr0XfPNfZ7WUJ1q
- jym+Z0ZA==;
+ bh=/3HL/MY3RdtWh1vMQUHby74pl15LcuHyGtAjiuUTn9o=; b=HP0JT8CodInRO7t0G/x2cSWiKb
+ RaUD1gDG99tiv5/ScB3LcXBSM7VnBkf20RRaQB8TwufsQrz0dQ0oKeyci917iqkZQA6yygoCw++Gz
+ gF1XTkVVhDvdGa6ItVIbVXFtQydhdPJjiEfap8p91N8FPY27xiAn7XI+oWci6qOGotzyGhj6mEZZW
+ pJuaG7K0vUXTiL3ZEcUyX/uiZOgNpPpTYbWp8XKwORkkMvDMg+JAMXxAsvp+WG0EfzxtaZ5oJJ9Ph
+ BemoJEYhndR8X1EMhtQwPFRLlyLSG9UGuKFa2VAwFkKa0VibEX9HA1soRNgVuOGOTvkg5VSNhvSrP
+ YWja1a3g==;
 Received: from [38.44.68.151] (helo=mail.igalia.com)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qecFw-001Ot2-7P; Fri, 08 Sep 2023 16:14:43 +0200
-Date: Fri, 8 Sep 2023 13:14:38 -0100
+ id 1qecKC-001OxZ-Od; Fri, 08 Sep 2023 16:19:08 +0200
+Date: Fri, 8 Sep 2023 13:19:02 -0100
 From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v2 07/34] drm/amd/display: explicitly define EOTF and
- inverse EOTF
-Message-ID: <20230908141429.j5qaukyjo4n5na7d@mail.igalia.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v2 10/34] drm/amd/display: add plane 3D LUT
+ driver-specific properties
+Message-ID: <20230908141902.5lfgdjusfcabgluw@mail.igalia.com>
 References: <20230810160314.48225-1-mwen@igalia.com>
- <20230810160314.48225-8-mwen@igalia.com>
- <20230822140242.162a843a.pekka.paalanen@collabora.com>
- <20230825141639.vurga52ysal37n2m@mail.igalia.com>
- <40f1fabe-69ce-4b23-aed8-9f0837fe9988@amd.com>
+ <20230810160314.48225-11-mwen@igalia.com>
+ <758deee7-7530-4931-830e-d5a4acff337f@amd.com>
+ <20230907105701.5b1c115f.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <40f1fabe-69ce-4b23-aed8-9f0837fe9988@amd.com>
+In-Reply-To: <20230907105701.5b1c115f.pekka.paalanen@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,260 +57,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Shashank Sharma <Shashank.Sharma@amd.com>,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ dri-devel@lists.freedesktop.org,
  Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Hung <alex.hung@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, Joshua Ashton <joshua@froggi.es>,
- sungjoon.kim@amd.com
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/06, Harry Wentland wrote:
+On 09/07, Pekka Paalanen wrote:
+> On Wed, 6 Sep 2023 15:30:04 -0400
+> Harry Wentland <harry.wentland@amd.com> wrote:
 > 
-> 
-> On 2023-08-25 10:18, Melissa Wen wrote:
-> > On 08/22, Pekka Paalanen wrote:
-> >> On Thu, 10 Aug 2023 15:02:47 -0100
-> >> Melissa Wen <mwen@igalia.com> wrote:
-> >>
-> >>> Instead of relying on color block names to get the transfer function
-> >>> intention regarding encoding pixel's luminance, define supported
-> >>> Electro-Optical Transfer Functions (EOTFs) and inverse EOTFs, that
-> >>> includes pure gamma or standardized transfer functions.
-> >>>
-> >>> Suggested-by: Harry Wentland <harry.wentland@amd.com>
-> >>> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> >>> ---
-> >>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 19 +++--
-> >>>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 69 +++++++++++++++----
-> >>>  2 files changed, 67 insertions(+), 21 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>> index c749c9cb3d94..f6251ed89684 100644
-> >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>> @@ -718,14 +718,21 @@ extern const struct amdgpu_ip_block_version dm_ip_block;
-> >>>  
-> >>>  enum amdgpu_transfer_function {
-> >>>  	AMDGPU_TRANSFER_FUNCTION_DEFAULT,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_SRGB,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_BT709,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_PQ,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_BT709_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_PQ_EOTF,
-> >>>  	AMDGPU_TRANSFER_FUNCTION_LINEAR,
-> >>>  	AMDGPU_TRANSFER_FUNCTION_UNITY,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA22,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA24,
-> >>> -	AMDGPU_TRANSFER_FUNCTION_GAMMA26,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_SRGB_INV_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_BT709_INV_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_PQ_INV_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA22_INV_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA24_INV_EOTF,
-> >>> +	AMDGPU_TRANSFER_FUNCTION_GAMMA26_INV_EOTF,
-> >>> +        AMDGPU_TRANSFER_FUNCTION_COUNT
-> >>>  };
-> >>>  
-> >>>  struct dm_plane_state {
-> >>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> >>> index 56ce008b9095..cc2187c0879a 100644
-> >>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> >>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> >>> @@ -85,18 +85,59 @@ void amdgpu_dm_init_color_mod(void)
-> >>>  }
-> >>>  
-> >>>  #ifdef AMD_PRIVATE_COLOR
-> >>> -static const struct drm_prop_enum_list amdgpu_transfer_function_enum_list[] = {
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_DEFAULT, "Default" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_SRGB, "sRGB" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_BT709, "BT.709" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_PQ, "PQ (Perceptual Quantizer)" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_LINEAR, "Linear" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_UNITY, "Unity" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA22, "Gamma 2.2" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA24, "Gamma 2.4" },
-> >>> -	{ AMDGPU_TRANSFER_FUNCTION_GAMMA26, "Gamma 2.6" },
-> >>> +static const char * const
-> >>> +amdgpu_transfer_function_names[] = {
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_DEFAULT]		= "Default",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_LINEAR]		= "Linear",
-> >>
-> >> Hi,
-> >>
-> >> if the below is identity, then what is linear? Is there a coefficient
-> >> (multiplier) somewhere? Offset?
-> >>
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_UNITY]		= "Unity",
-> >>
-> >> Should "Unity" be called "Identity"?
+> > On 2023-08-10 12:02, Melissa Wen wrote:
+> > > Add 3D LUT property for plane gamma correction using a 3D lookup table.
+> > > Since a 3D LUT has a limited number of entries in each dimension we want
+> > > to use them in an optimal fashion. This means using the 3D LUT in a
+> > > colorspace that is optimized for human vision, such as sRGB, PQ, or
+> > > another non-linear space. Therefore, userpace may need one 1D LUT
+> > > (shaper) before it to delinearize content and another 1D LUT after 3D
+> > > LUT (blend) to linearize content again for blending. The next patches
+> > > add these 1D LUTs to the plane color mgmt pipeline.
+> > > 
+> > > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > > ---
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 10 ++++++++
+> > >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 ++++++++
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 23 +++++++++++++++++++
+> > >  4 files changed, 56 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > > index 66bae0eed80c..730a88236501 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > > @@ -363,6 +363,16 @@ struct amdgpu_mode_info {
+> > >  	 * @plane_hdr_mult_property:
+> > >  	 */
+> > >  	struct drm_property *plane_hdr_mult_property;
+> > > +	/**
+> > > +	 * @plane_lut3d_property: Plane property for gamma correction using a
+> > > +	 * 3D LUT (pre-blending).
+> > > +	 */  
 > > 
-> > AFAIU, AMD treats Linear and Unity as the same: Identity. So, IIUC,
-> > indeed merging both as identity sounds the best approach.   
-> 
-> Agreed.
-> 
-> >>
-> >> Doesn't unity mean that the output is always 1.0 regardless of input?
-> >>
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF]		= "sRGB EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_BT709_EOTF]		= "BT.709 EOTF",
-> >>
-> >> BT.709 says about "Overall opto-electronic transfer characteristics at
-> >> source":
-> >>
-> >> 	In typical production practice the encoding function of image
-> >> 	sources is adjusted so that the final picture has the desired
-> >> 	look, as viewed on a reference monitor having the reference
-> >> 	decoding function of Recommendation ITU-R BT.1886, in the
-> >> 	reference viewing environment defined in Recommendation ITU-R
-> >> 	BT.2035.
-> >>
-> >> IOW, typically people tweak the encoding function instead of using
-> >> BT.709 OETF as is, which means that inverting the BT.709 OETF produces
-> >> something slightly unknown. The note about BT.1886 means that that
-> >> something is also not quite how it's supposed to be turned into light.
-> >>
-> >> Should this enum item be "BT.709 inverse OETF" and respectively below a
-> >> "BT.709 OETF"?
-> >>
-> >> What curve does the hardware actually implement?
+> > I think we'll want to describe how the 3DLUT entries are laid out.
+> > Something that describes how userspace should fill it, like
+> > gamescope does for example:
+> > https://github.com/ValveSoftware/gamescope/blob/7108880ed80b68c21750369e2ac9b7315fecf264/src/color_helpers.cpp#L302
 > > 
-> > Hmmmm.. I think I got confused in using OETF here since it's done within
-> > a camera. Looking at the coefficients used by AMD color module when not
-> > using ROM but build encoding and decoding curves[1] on pre-defined TF
-> > setup, I understand it's using OETF parameters for building both sRGB
-> > and BT 709:
-> > 
-> > ```
-> > /*sRGB     709     2.2 2.4 P3*/
-> > static const int32_t numerator01[] = { 31308,   180000, 0,  0,  0};
-> > static const int32_t numerator02[] = { 12920,   4500,   0,  0,  0};
-> > static const int32_t numerator03[] = { 55,      99,     0,  0,  0};
-> > static const int32_t numerator04[] = { 55,      99,     0,  0,  0};
-> > static const int32_t numerator05[] = { 2400,    2222,   2200, 2400, 2600};
-> > ```
-> > 
+> > Something like: a three-dimensional array, with each dimension
+> > having a size of the cubed root of lut3d_size, blue being the
+> > outermost dimension, red the innermost.
+> >
 > 
-> The first column here looks like the sRGB coefficients in Skia:
-> https://skia.googlesource.com/skia/+/19936eb1b23fef5187b07fb2e0e67dcf605c0672/include/core/SkColorSpace.h#46
+> Here is an example of how we defined a 3D LUT layout in Weston:
 > 
-> The color module uses the same coefficients to calculate the transform
-> to linear space and from linear space. So it would support a TF and its
-> inverse.
+> https://gitlab.freedesktop.org/wayland/weston/-/blob/68e2a606c056c8453c770263f41f34cd68bdc9d0/libweston/color.h#L114-152
 > 
-> From what I understand for sRGB and PQ its the EOTF and its inverse.
-> 
-> For BT.709 we should probably call it BT.709 inverse OETF (instead of
-> EOTF) and BT.709 OETF (instead of inverse EOTF).
+> I think that is the most clear definition it can be, without needing to
+> understand specific terminology.
 
-I see. I'll update the transfer function list and docs accordingly.
-
-Thanks
+Thanks for sharing it, Pekka! I'll check Weston's definition for 3D LUT
+and also other elements for improving docs.
 
 Melissa
 
 > 
-> While I'm okay to move ahead with these AMD driver-specific properties
-> without IGT tests (since they're not enabled and not UABI) we really
-> need IGT tests once they become UABI with the Color Pipeline API. And we
-> need more than just CRC testing. We'll need to do pixel-by-pixel comparison
-> so we can verify that the KMS driver behaves exactly how we expect for a
-> large range of values.
 > 
-> Harry
+> Thanks,
+> pq
 > 
-> > Then EOTF and inverse EOTF for PQ [2], and OETF and it seems an inverse
-> > OETF but called EOTF for HLG[3]. But I'm an external dev, better if
-> > Harry can confirm.
 > > 
-> > Thank you for pointing it out.
+> > > +	struct drm_property *plane_lut3d_property;
+> > > +	/**
+> > > +	 * @plane_degamma_lut_size_property: Plane property to define the max
+> > > +	 * size of 3D LUT as supported by the driver (read-only).
+> > > +	 */  
 > > 
-> > [1] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n55
-> > [2] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n106
-> > [3] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/amd/display/modules/color/color_gamma.c#n174
+> > We should probably document that the size of the 3DLUT should
+> > be the size of one dimension cubed, or that the cubed root of
+> > the LUT size gives the size per dimension.
 > > 
-> >>
-> >> The others seem fine to me.
-> >>
-> >>
-> >> Thanks,
-> >> pq
-> >>
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_PQ_EOTF]		= "PQ EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF]		= "Gamma 2.2 EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF]		= "Gamma 2.4 EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF]		= "Gamma 2.6 EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_SRGB_INV_EOTF]	= "sRGB inv_EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_BT709_INV_EOTF]	= "BT.709 inv_EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_PQ_INV_EOTF]		= "PQ inv_EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA22_INV_EOTF]	= "Gamma 2.2 inv_EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA24_INV_EOTF]	= "Gamma 2.4 inv_EOTF",
-> >>> +	[AMDGPU_TRANSFER_FUNCTION_GAMMA26_INV_EOTF]	= "Gamma 2.6 inv_EOTF",
-> >>>  };
-> >>>  
-> >>> +static const u32 amdgpu_eotf =
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF) |
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_BT709_EOTF) |
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_PQ_EOTF) |
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF) |
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF) |
-> >>> +	BIT(AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF);
-> >>> +
-> >>> +static struct drm_property *
-> >>> +amdgpu_create_tf_property(struct drm_device *dev,
-> >>> +			  const char *name,
-> >>> +			  u32 supported_tf)
-> >>> +{
-> >>> +	u32 transfer_functions = supported_tf |
-> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_DEFAULT) |
-> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_LINEAR) |
-> >>> +				 BIT(AMDGPU_TRANSFER_FUNCTION_UNITY);
-> >>> +	struct drm_prop_enum_list enum_list[AMDGPU_TRANSFER_FUNCTION_COUNT];
-> >>> +	int i, len;
-> >>> +
-> >>> +	len = 0;
-> >>> +	for (i = 0; i < AMDGPU_TRANSFER_FUNCTION_COUNT; i++) {
-> >>> +		if ((transfer_functions & BIT(i)) == 0)
-> >>> +			continue;
-> >>> +
-> >>> +		enum_list[len].type = i;
-> >>> +		enum_list[len].name = amdgpu_transfer_function_names[i];
-> >>> +		len++;
-> >>> +	}
-> >>> +
-> >>> +	return drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
-> >>> +					name, enum_list, len);
-> >>> +}
-> >>> +
-> >>>  int
-> >>>  amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
-> >>>  {
-> >>> @@ -116,11 +157,9 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
-> >>>  		return -ENOMEM;
-> >>>  	adev->mode_info.plane_degamma_lut_size_property = prop;
-> >>>  
-> >>> -	prop = drm_property_create_enum(adev_to_drm(adev),
-> >>> -					DRM_MODE_PROP_ENUM,
-> >>> -					"AMD_PLANE_DEGAMMA_TF",
-> >>> -					amdgpu_transfer_function_enum_list,
-> >>> -					ARRAY_SIZE(amdgpu_transfer_function_enum_list));
-> >>> +	prop = amdgpu_create_tf_property(adev_to_drm(adev),
-> >>> +					 "AMD_PLANE_DEGAMMA_TF",
-> >>> +					 amdgpu_eotf);
-> >>>  	if (!prop)
-> >>>  		return -ENOMEM;
-> >>>  	adev->mode_info.plane_degamma_tf_property = prop;
-> >>
-> > 
-> > 
-> 
+> > Harry
+
+
