@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F19D798FFF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:36:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 016D179900B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:36:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464E910E93E;
-	Fri,  8 Sep 2023 19:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DDF710E93F;
+	Fri,  8 Sep 2023 19:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D958210E93E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:36:36 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2971E10E93F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:36:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4EB9061564;
- Fri,  8 Sep 2023 19:36:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0696C433C8;
- Fri,  8 Sep 2023 19:36:34 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id DBDBBB821E6;
+ Fri,  8 Sep 2023 19:36:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1225BC4166B;
+ Fri,  8 Sep 2023 19:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201796;
- bh=F9Tan8+RwN6HevTYvxm9Mr+yXSzJHKh/ZLEgPu5sxOo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hFgB/eZsuMiYrXM8wIzwZoLEO4Xr97fTCoHkSWyuRrhgaDAIYO3aBIgbQcZe2Rw5B
- lKTqARGn4MucZya5P8rbpfsUG0rGGhPSdpZJyf1p+6tEGiaVW9gPLvf60o7EWraA9E
- s80huTTLYlgYnotxbALJcfbXVBqkJPIcPg9SWRNarM1YnSjrM0y2RcVmjwyzz4e0Sb
- lgj1N6B4aeNIw3CV024zpKVlMgJHVAmnXr+ysa4mEk1grRLVENiHQJ8NA3SkwyqcEa
- ShivavL5pdBNkui6NCzB0/VgAx+sHMpYn7Axj/piSvlbWFTsF/UFxA7jRWwgXqwUyZ
- PR3VLVwqfW2CA==
+ s=k20201202; t=1694201804;
+ bh=TF1SoaxPYDMDWmbZVmTKas2rZ4pV2PVM3tCpqVxSwaU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uU0PqIiv1u3K1X07PPBpRn5QhtR697OusB4TrB4l+GInsnS5OUZLZSjsdasYBpDgp
+ nUIkfrhzYXt63xeCr5kj/1x8WjyRJ9EqqMdlyezI05BarNPRS3Zj6q7PqH1Tuxhv1l
+ /aF8G2IS/u9Y9ftsNjf3wTCSiFCkkHuL29J06998rMiJCEpxIai0tueQhEgs2yAGPv
+ 5+1Sy0I6ztAkrSQlf6Nj3EhBWic8HjT9sC+jpzpmmMitlHW8hlW+lCoElpflojZzso
+ hIh9ccLON/TljJUP6mqLH2VXRiIhYpZIwCnoPw2k3DODUYbm4SMXNPXIQO6+RC3MtP
+ odvNpIII5IfVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 6/9] drm/exynos: fix a possible null-pointer
+Subject: [PATCH AUTOSEL 5.4 1/4] drm/exynos: fix a possible null-pointer
  dereference due to data race in exynos_drm_crtc_atomic_disable()
-Date: Fri,  8 Sep 2023 15:36:07 -0400
-Message-Id: <20230908193611.3463821-6-sashal@kernel.org>
+Date: Fri,  8 Sep 2023 15:36:37 -0400
+Message-Id: <20230908193641.3463943-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230908193611.3463821-1-sashal@kernel.org>
-References: <20230908193611.3463821-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.194
+X-stable-base: Linux 5.4.256
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,12 +97,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
-index 1c03485676efa..de9fadccf22e5 100644
+index 77ce78986408b..c10eea6db9a80 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
 @@ -39,13 +39,12 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
- 	if (exynos_crtc->ops->atomic_disable)
- 		exynos_crtc->ops->atomic_disable(exynos_crtc);
+ 	if (exynos_crtc->ops->disable)
+ 		exynos_crtc->ops->disable(exynos_crtc);
  
 +	spin_lock_irq(&crtc->dev->event_lock);
  	if (crtc->state->event && !crtc->state->active) {
