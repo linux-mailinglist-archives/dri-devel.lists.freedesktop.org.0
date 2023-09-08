@@ -2,48 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE07798393
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 09:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D50F79839B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 09:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66CB310E87C;
-	Fri,  8 Sep 2023 07:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B7A610E880;
+	Fri,  8 Sep 2023 07:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 361FA10E87C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 07:53:25 +0000 (UTC)
-Received: from [192.168.1.23] (unknown [171.76.82.102])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DEF3566072A2;
- Fri,  8 Sep 2023 08:53:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694159603;
- bh=1Be9Ga17gksJsOil0d5EZoQWNEzJGykPqruhkf331P8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AZ8K5q+HuIaaU6/G04eKJSX0xrkxKxQB3FT9sj7Ftu3/eZFbcjcUuN0wZDB1Uru/+
- SRRAaZZY9CpqexRRTVJwqqy2gLir7pE2gZVNT1DV4X/m0nKY7UEX8kzAk1oZgSXQdL
- Lmq3zfkiEKO5O28VvgFGJu7mu2A9LXIHs4XR/1wUMTNnQo25S7RIs7xdl152ZM7Lwk
- lZi/4cDySYL16Pemg1Mc/OnqIxALgeq5SLlrMVZt/Gj/AY3Xl27NJXEHwaFZnjvpyL
- DFbNN+wBQgmXV+uLAfoCeQfeyyzzPlysSiOmAuLvMu3+DuB7yAYXGyUnQUfJlUSQrX
- Oj81GmCXY/TKg==
-Message-ID: <ff99380a-cb0d-dc6c-0442-7aa60d14cec2@collabora.com>
-Date: Fri, 8 Sep 2023 13:23:12 +0530
+Received: from out30-111.freemail.mail.aliyun.com
+ (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5704010E87F;
+ Fri,  8 Sep 2023 07:54:58 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R321e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VrbinYc_1694159686; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VrbinYc_1694159686) by smtp.aliyun-inc.com;
+ Fri, 08 Sep 2023 15:54:54 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/display: clean up some inconsistent indenting
+Date: Fri,  8 Sep 2023 15:54:45 +0800
+Message-Id: <20230908075445.63410-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 4/6] drm: ci: Enable configs to fix mt8173 boot hang issue
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>
-References: <20230825122435.316272-1-vignesh.raman@collabora.com>
- <20230825122435.316272-5-vignesh.raman@collabora.com>
- <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <6da8136b-be1f-6867-b2af-c636877ef189@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,53 +40,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, linux-doc@vger.kernel.org, david.heidelberg@collabora.com,
- linux-amlogic@lists.infradead.org, jbrunet@baylibre.com, robdclark@google.com,
- corbet@lwn.net, khilman@baylibre.com, sergi.blanch.torne@collabora.com,
- gustavo.padovan@collabora.com, linux-rockchip@lists.infradead.org,
- daniels@collabora.com, martin.blumenstingl@googlemail.com,
- robclark@freedesktop.org, helen.koike@collabora.com, anholt@google.com,
- linux-mediatek@lists.infradead.org, mripard@kernel.org,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
+No functional modification involved.
 
-On 07/09/23 16:16, AngeloGioacchino Del Regno wrote:
-> Il 25/08/23 14:24, Vignesh Raman ha scritto:
->> Enable regulator
->> Enable MT6397 RTC driver
->>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
->>   drivers/gpu/drm/ci/arm64.config | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/ci/arm64.config 
->> b/drivers/gpu/drm/ci/arm64.config
->> index 817e18ddfd4f..ea7a6cceff40 100644
->> --- a/drivers/gpu/drm/ci/arm64.config
->> +++ b/drivers/gpu/drm/ci/arm64.config
->> @@ -184,6 +184,8 @@ CONFIG_HW_RANDOM_MTK=y
->>   CONFIG_MTK_DEVAPC=y
->>   CONFIG_PWM_MTK_DISP=y
->>   CONFIG_MTK_CMDQ=y
->> +CONFIG_REGULATOR_DA9211=y
->> +CONFIG_RTC_DRV_MT6397=y
-> 
-> I wonder if it'd be a better idea to simply add those to the defconfig 
-> instead as
-> 
-> CONFIG_REGULATOR_DA9211=m
-> CONFIG_RTC_DRV_MT6397=m
-> 
-> Any opinion on this? Matthias? Anyone else?
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dpms.c:2476 link_set_dpms_on() warn: if statement not indented.
 
-CONFIG_RTC_DRV_MT6397=m is already present in defconfig.
-We can also add CONFIG_REGULATOR_DA9211=m to defconfig.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6502
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Regards,
-Vignesh
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+index cd9dd270b05f..e7e528c68cb6 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+@@ -2474,9 +2474,8 @@ void link_set_dpms_on(
+ 	 */
+ 	if (pipe_ctx->stream->timing.flags.DSC) {
+ 		if (dc_is_dp_signal(pipe_ctx->stream->signal) ||
+-			dc_is_virtual_signal(pipe_ctx->stream->signal))
+-		link_set_dsc_enable(pipe_ctx, true);
+-
++		    dc_is_virtual_signal(pipe_ctx->stream->signal))
++			link_set_dsc_enable(pipe_ctx, true);
+ 	}
+ 
+ 	status = enable_link(state, pipe_ctx);
+-- 
+2.20.1.7.g153144c
+
