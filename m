@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFF9798F2D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:30:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659E9798F33
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1924E10E11B;
-	Fri,  8 Sep 2023 19:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D7610E172;
+	Fri,  8 Sep 2023 19:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DCC210E123
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:30:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C5B10E123;
+ Fri,  8 Sep 2023 19:30:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CE3DFB821DB;
- Fri,  8 Sep 2023 19:30:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260BDC433AD;
- Fri,  8 Sep 2023 19:30:24 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D4B28B821DA;
+ Fri,  8 Sep 2023 19:30:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A70C433AB;
+ Fri,  8 Sep 2023 19:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201425;
- bh=xG9GQMOTI4mi/zgIV2y6S/fAF8a0rOXL7+eWFhaQDpk=;
+ s=k20201202; t=1694201444;
+ bh=97HxRGknmTKnO4ze6O4fqjQfq5Ux9dsVs4olonDsLho=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CqNnMgiZyF0sv6oxl6GQr40oTKK1voAQBVoZH18U0mslC2qnbRtrP9I4ebVWUAsYS
- h0oYcrImhqaTBXzj2ZYW02b3jEX16PyViPVi9sZIqqVcWVNxLJSyGjaZf1Ry2wy9qC
- j+2rKVedICc4+sjWYwDaIuM2vq4sGvvihxMcwqHhqiIhwl4RgoEqJVXmICp4eLuPcw
- Ir3RuJADUJpuCe3XOXwyJ88b0ZK43NGFSLiZasVuAR99o7+Cnrnyiv0KBcLRDRMXb5
- T8zlB/2Pt+X3EGog5/5d/HIJYh8MKsFLBp+tYHPaMFdrrgtqgOHKKv7mxyxzOXBmEd
- q3b5KHRFkie0g==
+ b=hY66bOuM67RWRKEvjzcT6N2rRliiQxntFUZEDfJzQKIGhL7lkxnUwQGAahK40RtW3
+ VaCaCxegDa8/X2pVlS4WuluCgAdz8Aa9Cp16Qn37Vsvu5ZT9hCgzf49HZLPEqoaS2z
+ XxfII695T1YdFseiaH7BcSPgyoBx/27oEx/VtKBXnJOXOYqb+iUF9pWbOVjZ3BhgGh
+ ZfLnuxh1/54qnMp04fqpmLdKJ9zBUmlQqAoKHNIOOLERe3fvyhijZDvIVHLVdm0fi+
+ LdQIU0AjPUaL8F40+eSWWJ1Y70cPzUnC2fYcCPKXG0hirFKsuK2BmtXu2VjgcMDMLR
+ gVyvUxgS29pdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 16/36] drm/vkms: Fix race-condition between the
- hrtimer and the atomic commit
-Date: Fri,  8 Sep 2023 15:28:27 -0400
-Message-Id: <20230908192848.3462476-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 20/36] drm/amd/display: Use DTBCLK as refclk
+ instead of DPREFCLK
+Date: Fri,  8 Sep 2023 15:28:31 -0400
+Message-Id: <20230908192848.3462476-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908192848.3462476-1-sashal@kernel.org>
 References: <20230908192848.3462476-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.5.2
@@ -59,127 +58,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, rodrigosiqueiramelo@gmail.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Sasha Levin <sashal@kernel.org>, Austin Zheng <austin.zheng@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, dri-devel@lists.freedesktop.org,
+ jiapeng.chong@linux.alibaba.com, sunpeng.li@amd.com, qingqing.zhuo@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com,
+ amd-gfx@lists.freedesktop.org, syedsaaem.rizvi@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, hersenxs.wu@amd.com,
+ Alvin Lee <alvin.lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maíra Canal <mcanal@igalia.com>
+From: Austin Zheng <austin.zheng@amd.com>
 
-[ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
+[ Upstream commit 4a30cc2bd281fa176a68b5305cd3695d636152ad ]
 
-Currently, it is possible for the composer to be set as enabled and then
-as disabled without a proper call for the vkms_vblank_simulate(). This
-is problematic, because the driver would skip one CRC output, causing CRC
-tests to fail. Therefore, we need to make sure that, for each time the
-composer is set as enabled, a composer job is added to the queue.
+[Why]
+Flash of corruption observed when UCLK switching after transitioning
+from DTBCLK to DPREFCLK on subVP(DP) + subVP(HDMI) config
+Scenario where DPREFCLK is required instead of DTBCLK is not expected
 
-In order to provide this guarantee, add a mutex that will lock before
-the composer is set as enabled and will unlock only after the composer
-job is added to the queue. This way, we can have a guarantee that the
-driver won't skip a CRC entry.
+[How]
+Always set the DTBCLK source as DTBCLK0
 
-This race-condition is affecting the IGT test "writeback-check-output",
-making the test fail and also, leaking writeback framebuffers, as the
-writeback job is queued, but it is not signaled. This patch avoids both
-problems.
-
-[v2]:
-    * Create a new mutex and keep the spinlock across the atomic commit in
-      order to avoid interrupts that could result in deadlocks.
-
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.173976-1-mcanal@igalia.com
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Austin Zheng <austin.zheng@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 9 +++++++--
- drivers/gpu/drm/vkms/vkms_crtc.c     | 9 +++++----
- drivers/gpu/drm/vkms/vkms_drv.h      | 4 +++-
- 3 files changed, 15 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdbe..b12188fd6b388 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -320,10 +320,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
- 	if (enabled)
- 		drm_crtc_vblank_get(&out->crtc);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
+index 61ceff6bc0b19..921f58c0c729b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c
+@@ -281,7 +281,8 @@ static void dccg32_set_dpstreamclk(
+ 	struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
  
--	spin_lock_irq(&out->lock);
-+	mutex_lock(&out->enabled_lock);
- 	old_enabled = out->composer_enabled;
- 	out->composer_enabled = enabled;
--	spin_unlock_irq(&out->lock);
-+
-+	/* the composition wasn't enabled, so unlock the lock to make sure the lock
-+	 * will be balanced even if we have a failed commit
-+	 */
-+	if (!out->composer_enabled)
-+		mutex_unlock(&out->enabled_lock);
+ 	/* set the dtbclk_p source */
+-	dccg32_set_dtbclk_p_src(dccg, src, otg_inst);
++	/* always program refclk as DTBCLK. No use-case expected to require DPREFCLK as refclk */
++	dccg32_set_dtbclk_p_src(dccg, DTBCLK0, otg_inst);
  
- 	if (old_enabled)
- 		drm_crtc_vblank_put(&out->crtc);
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b8663..3079013c8b32f 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	struct drm_crtc *crtc = &output->crtc;
- 	struct vkms_crtc_state *state;
- 	u64 ret_overrun;
--	bool ret, fence_cookie;
-+	bool ret, fence_cookie, composer_enabled;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
-@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	if (ret_overrun != 1)
- 		pr_warn("%s: vblank timer overrun\n", __func__);
- 
--	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
- 
- 	state = output->composer_state;
--	spin_unlock(&output->lock);
-+	composer_enabled = output->composer_enabled;
-+	mutex_unlock(&output->enabled_lock);
- 
--	if (state && output->composer_enabled) {
-+	if (state && composer_enabled) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		/* update frame_start only if a queued vkms_composer_worker()
-@@ -292,6 +292,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
-+	mutex_init(&vkms_out->enabled_lock);
- 
- 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
- 	if (!vkms_out->composer_workq)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78cf..dcf4e302fb4db 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -100,8 +100,10 @@ struct vkms_output {
- 	struct workqueue_struct *composer_workq;
- 	/* protects concurrent access to composer */
- 	spinlock_t lock;
-+	/* guarantees that if the composer is enabled, a job will be queued */
-+	struct mutex enabled_lock;
- 
--	/* protected by @lock */
-+	/* protected by @enabled_lock */
- 	bool composer_enabled;
- 	struct vkms_crtc_state *composer_state;
- 
+ 	/* enabled to select one of the DTBCLKs for pipe */
+ 	switch (dp_hpo_inst) {
 -- 
 2.40.1
 
