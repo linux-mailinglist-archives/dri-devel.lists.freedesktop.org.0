@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD0A7990FD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD297990FF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 22:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10FD10E0FB;
-	Fri,  8 Sep 2023 20:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C008110E949;
+	Fri,  8 Sep 2023 20:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE97D10E0FB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:30:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8450610E949
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 20:34:07 +0000 (UTC)
 Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Rj75Y3XlkzDqMF;
- Fri,  8 Sep 2023 20:30:09 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Rj7B65X2TzDqMF;
+ Fri,  8 Sep 2023 20:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1694205009; bh=gDzKMyE9VlLQ32iC39cf3aQDH2SMeHU+7iQRmkRvjpc=;
+ t=1694205247; bh=lHSzR+rdnbhCCW2wAP0xoFfEwKLzYW4vA0CbMo4p5jA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JHwUQeA92F88HF06Yp6W91Y9M1vaqZddJFg+mj3duw4HKIMjlSHcuyuSf4XsddwN7
- rr6Ma4Htks1IshjzqbGapzAWZ4hY8gTznb7OMwhkfaXmo1DVSupEMdV4aVC9z0SO6l
- cYayDUbgzazBg41GYqSICFGT225zHCNN/LZci43I=
-X-Riseup-User-ID: 31F36F2EB33F649AE717090F4B5CE1EEE65A9A35B213FD3E976C591591ADEB0B
+ b=i1GZEhqgrmfYdbD13F83x3OEUprxeLakpMTKy8xpfCdo4w5s8CIaow4NSfzbKzIHP
+ K3fnwDbYicZYIi0MHk3JGOFB6MKzxGQM5epsg9jfy74PRZWtV4ie1HEHOofI6HWNRU
+ j59MPCk8KzrSsHkxTBwlhF2pNGOZ3qd5wlZ+sHTs=
+X-Riseup-User-ID: 9286FF767F914E25B830AF73039756235A228176BD52AA9C83DA36273DFEFB01
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Rj75F4lTjzJnCB;
- Fri,  8 Sep 2023 20:29:53 +0000 (UTC)
-Message-ID: <9a128eff-df0f-49fb-d57f-3389a1e2ff62@riseup.net>
-Date: Fri, 8 Sep 2023 17:29:54 -0300
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Rj79p61Y4zJmyg;
+ Fri,  8 Sep 2023 20:33:50 +0000 (UTC)
+Message-ID: <46d1d909-c9fd-076d-a32d-2e8102a36c56@riseup.net>
+Date: Fri, 8 Sep 2023 17:33:52 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 03/10] drm/tests: Add test case for
- drm_internal_framebuffer_create()
+Subject: Re: [PATCH 06/10] drm/tests: Add test for drm_framebuffer_lookup()
 Content-Language: en-US
 To: Carlos <gcarlos@disroot.org>, dri-devel@lists.freedesktop.org
 References: <20230825160725.12861-1-gcarlos@disroot.org>
- <20230825160725.12861-4-gcarlos@disroot.org>
- <59f0c24e-6483-3242-2af8-a2fac5697425@riseup.net>
- <3a1a7cf0-a6b5-a49c-d2d5-70b98dac2090@disroot.org>
+ <20230825160725.12861-7-gcarlos@disroot.org>
+ <4501ea3a-071a-47ee-5887-8e1e78e84282@riseup.net>
+ <8e52dc5e-bc5a-6be7-44d8-da4f2eb3219d@disroot.org>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <3a1a7cf0-a6b5-a49c-d2d5-70b98dac2090@disroot.org>
+In-Reply-To: <8e52dc5e-bc5a-6be7-44d8-da4f2eb3219d@disroot.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,15 +65,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Carlos,
 
-On 9/4/23 13:57, Carlos wrote:
+On 9/4/23 15:52, Carlos wrote:
 > Hi Maíra,
 > 
-> On 8/26/23 10:58, Maíra Canal wrote:
+> On 8/26/23 11:13, Maíra Canal wrote:
 >> Hi Carlos,
 >>
 >> On 8/25/23 13:07, Carlos Eduardo Gallo Filho wrote:
->>> Introduce a test to cover the creation of framebuffer with
->>> modifier on a device that doesn't support it.
+>>> Add a single KUnit test case for the drm_framebuffer_lookup function.
 >>>
 >>> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 >>> ---
@@ -83,60 +81,39 @@ On 9/4/23 13:57, Carlos wrote:
 >>>
 >>> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c 
 >>> b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>> index aeaf2331f9cc..b20871e88995 100644
+>>> index 16d9cf4bed88..3d14d35b4c4d 100644
 >>> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
 >>> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>> @@ -396,7 +396,35 @@ static void drm_framebuffer_test_to_desc(const 
->>> struct drm_framebuffer_test *t, c
->>>   KUNIT_ARRAY_PARAM(drm_framebuffer_create, 
->>> drm_framebuffer_create_cases,
->>>             drm_framebuffer_test_to_desc);
->>>   +/*
->>> + * This test is very similar to drm_test_framebuffer_create, except 
->>> that it
->>> + * set mock->mode_config.fb_modifiers_not_supported member to 1, 
->>> covering
->>> + * the case of trying to create a framebuffer with modifiers without 
->>> the
->>> + * device really supporting it.
->>> + */
->>> +static void drm_test_framebuffer_modifiers_not_supported(struct 
+>>> @@ -8,6 +8,7 @@
+>>>   #include <kunit/test.h>
+>>>     #include <drm/drm_device.h>
+>>> +#include <drm/drm_drv.h>
+>>>   #include <drm/drm_mode.h>
+>>>   #include <drm/drm_framebuffer.h>
+>>>   #include <drm/drm_fourcc.h>
+>>> @@ -370,6 +371,10 @@ static int drm_framebuffer_test_init(struct 
 >>> kunit *test)
->>> +{
->>> +    struct drm_mock *mock = test->priv;
->>> +    struct drm_device *dev = &mock->dev;
->>> +    int buffer_created = 0;
+>>>       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
+>>>       dev = &mock->dev;
+>>>   +    dev->driver = kunit_kzalloc(test, sizeof(*dev->driver), 
+>>> GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev->driver);
 >>> +
->>> +    /* A valid cmd with modifier */
->>> +    struct drm_mode_fb_cmd2 cmd = {
->>> +        .width = MAX_WIDTH, .height = MAX_HEIGHT,
->>> +        .pixel_format = DRM_FORMAT_ABGR8888, .handles = { 1, 0, 0 },
->>> +        .offsets = { UINT_MAX / 2, 0, 0 }, .pitches = { 4 * 
->>> MAX_WIDTH, 0, 0 },
->>> +        .flags = DRM_MODE_FB_MODIFIERS,
->>> +    };
->>> +
->>> +    mock->private = &buffer_created;
->>> +    dev->mode_config.fb_modifiers_not_supported = 1;
->>> +
->>> +    drm_internal_framebuffer_create(dev, &cmd, NULL);
->>> +    KUNIT_EXPECT_EQ(test, 0, buffer_created);
->>> +}
->>> +
->>>   static struct kunit_case drm_framebuffer_tests[] = {
->>> +    KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
+>>> +    idr_init_base(&dev->mode_config.object_idr, 1);
 >>
->> Could we preserve alphabetical order?
->>
-> I've see a lot of other tests files with this ordered by every KUNIT_CASE()
-> coming before KUNIT_CASE_PARAM(), with each set ordered among themselves.
-> Did younoticed that or are you suggesting ordering it even so? Or maybe
-> you're referring about another unordered thing that I didn't noticed?
+>> Shouldn't we start to use drm_framebuffer_init()?
+> Do you mean about replace drm_mode_object_add() to drm_framebuffer_init()?
 
-Actually, I was suggesting to keep the alphabetical order related to the
-tests naming. So, drm_test_framebuffer_create would come ahead of
-drm_test_framebuffer_modifiers_not_supported.
+Yeah.
 
+> If so, what could be the advantages of using it? It seems to just do the
+> same of drm_mode_object_add() (by actually calling it) but doing some more
+> things which is not really needed by this test (like adding fb to device
+> fb_list and etc). Am I missing something important?
+
+I just suggested to minimize open-code in the tests. If we use the
+function, we are incentivizing the usage of common code, which leads
+to improved maintenance and less code repetition.
 
 Best Regards,
 - Maíra
@@ -148,7 +125,40 @@ Best Regards,
 >> Best Regards,
 >> - Maíra
 >>
->>> KUNIT_CASE_PARAM(drm_test_framebuffer_create, 
+>>> mutex_init(&dev->mode_config.fb_lock);
+>>>       INIT_LIST_HEAD(&dev->mode_config.fb_list);
+>>>       dev->mode_config.num_fb = 0;
+>>> @@ -530,8 +535,31 @@ static void drm_test_framebuffer_cleanup(struct 
+>>> kunit *test)
+>>>       KUNIT_ASSERT_EQ(test, dev->mode_config.num_fb, 0);
+>>>   }
+>>>   +static void drm_test_framebuffer_lookup(struct kunit *test)
+>>> +{
+>>> +    struct drm_mock *mock = test->priv;
+>>> +    struct drm_device *dev = &mock->dev;
+>>> +    struct drm_framebuffer fb1 = { };
+>>> +    struct drm_framebuffer *fb2;
+>>> +    uint32_t id = 0;
+>>> +    int ret;
+>>> +
+>>> +    ret = drm_mode_object_add(dev, &fb1.base, DRM_MODE_OBJECT_FB);
+>>> +    KUNIT_ASSERT_EQ(test, ret, 0);
+>>> +    id = fb1.base.id;
+>>> +
+>>> +    /* Looking for fb1 */
+>>> +    fb2 = drm_framebuffer_lookup(dev, NULL, id);
+>>> +    KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
+>>> +
+>>> +    /* Looking for an inexistent framebuffer */
+>>> +    fb2 = drm_framebuffer_lookup(dev, NULL, id + 1);
+>>> +    KUNIT_EXPECT_NULL(test, fb2);
+>>> +}
+>>> +
+>>>   static struct kunit_case drm_framebuffer_tests[] = {
+>>>       KUNIT_CASE(drm_test_framebuffer_cleanup),
+>>> +    KUNIT_CASE(drm_test_framebuffer_lookup),
+>>> KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
+>>>       KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, 
+>>> check_src_coords_gen_params),
+>>>       KUNIT_CASE_PARAM(drm_test_framebuffer_create, 
 >>> drm_framebuffer_create_gen_params),
->>>       { }
->>>   };
