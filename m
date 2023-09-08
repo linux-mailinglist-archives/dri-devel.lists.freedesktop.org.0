@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD53798FCA
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:34:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DCB798FC5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDCD10E931;
-	Fri,  8 Sep 2023 19:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDFE10E92D;
+	Fri,  8 Sep 2023 19:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0EC10E92D;
- Fri,  8 Sep 2023 19:34:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB0110E92F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:34:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 641D1B821E2;
- Fri,  8 Sep 2023 19:34:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97DBCC433B8;
- Fri,  8 Sep 2023 19:34:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 915016155E;
+ Fri,  8 Sep 2023 19:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2598C433BC;
+ Fri,  8 Sep 2023 19:34:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201684;
- bh=6RzTfWrGwILb+/p5HCgUR1NJFNXE8mm1n6DjqIxjDLU=;
+ s=k20201202; t=1694201686;
+ bh=HiRPRPiuUlogEJSZlVJ8miSjcAoqKybzdS7EhDBGl7Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tK8T+3pkRoCeKwuW6EABx3dK6M0HMlDWvjyE0jx7eodUmfAQMieqqgZAGtxrVfYuR
- 495RzWSKqZMs+XnBnN7DYq15KKCXU+A2SvDXFCak47txziuELsWqnmjO+Lr1VHKvP5
- C57g5co9/1ev2CYR0fy2FCTgNsyhJ9VszNwKJeDcgO7wj7Jw7yS3ZLYkHI1DLGxHJf
- f7dXDMCbLNtb+zvZNW31VTlKlf31qZLH/IPTgDeEpY7TPTJfIs5VVOvNltOZsyqRdb
- P38bRGFirrrOVLnr8EXfjGifirUXnWoZ9Lm3kuEorJ9jhiMleCDWkAcLRco2triy0X
- 5iIWAV/hDljjQ==
+ b=oSv1fQCF02cWYz1f69ulJKELLc4t1kwhtNbM55ak+4Zw9j94tT/0+Dk7kSKearO21
+ 31nHdTBM3s8epN1y+Dq9wtdOcYXPr+tY4jqtXFEiet6bhtVhhw4bU6VjhvI5INGxKh
+ 3pEDctr9rzoWNHi8FwSTbOD6e7Zu4CbE/qO2NDaMK8nDP6r6h4IH4oDxkmoBsiaavr
+ NEnmlj6tjh2aoZBhvWm/5SbDE/jkPG0SiX3Y12W8rBlieIpkJ9rvYWexXmaSJ1sLnd
+ ZXdvqZ/jIt4SzJuCGno+N7YobD4QjzZ1RrpGEPE4mgJqeALew9CPCHV15d2GHTsWFm
+ 6xLnBduacvvKg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 09/22] drm/amd/display: Fix underflow issue on
- 175hz timing
-Date: Fri,  8 Sep 2023 15:33:53 -0400
-Message-Id: <20230908193407.3463368-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/22] drm/vkms: Fix race-condition between the
+ hrtimer and the atomic commit
+Date: Fri,  8 Sep 2023 15:33:54 -0400
+Message-Id: <20230908193407.3463368-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908193407.3463368-1-sashal@kernel.org>
 References: <20230908193407.3463368-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.52
@@ -58,75 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Dillon Varone <dillon.varone@amd.com>,
- chris.park@amd.com, amd-gfx@lists.freedesktop.org,
- Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, samson.tam@amd.com,
- nathan@kernel.org, sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alvin.Lee2@amd.com, george.shen@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, Leo Ma <hanghong.ma@amd.com>,
- Jun.Lei@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, rodrigosiqueiramelo@gmail.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Ma <hanghong.ma@amd.com>
+From: Maíra Canal <mcanal@igalia.com>
 
-[ Upstream commit 735688eb905db529efea0c78466fccc1461c3fde ]
+[ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
 
-[Why]
-Screen underflows happen on 175hz timing for 3 plane overlay case.
+Currently, it is possible for the composer to be set as enabled and then
+as disabled without a proper call for the vkms_vblank_simulate(). This
+is problematic, because the driver would skip one CRC output, causing CRC
+tests to fail. Therefore, we need to make sure that, for each time the
+composer is set as enabled, a composer job is added to the queue.
 
-[How]
-Based on dst y prefetch value clamp to equ or oto for bandwidth
-calculation.
+In order to provide this guarantee, add a mutex that will lock before
+the composer is set as enabled and will unlock only after the composer
+job is added to the queue. This way, we can have a guarantee that the
+driver won't skip a CRC entry.
 
-Reviewed-by: Dillon Varone <dillon.varone@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Leo Ma <hanghong.ma@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+This race-condition is affecting the IGT test "writeback-check-output",
+making the test fail and also, leaking writeback framebuffers, as the
+writeback job is queued, but it is not signaled. This patch avoids both
+problems.
+
+[v2]:
+    * Create a new mutex and keep the spinlock across the atomic commit in
+      order to avoid interrupts that could result in deadlocks.
+
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.173976-1-mcanal@igalia.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dml/dcn32/display_mode_vba_util_32.c    | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_composer.c | 9 +++++++--
+ drivers/gpu/drm/vkms/vkms_crtc.c     | 9 +++++----
+ drivers/gpu/drm/vkms/vkms_drv.h      | 4 +++-
+ 3 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-index b53feeaf5cf11..23e4be2ad63f9 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-@@ -3454,6 +3454,7 @@ bool dml32_CalculatePrefetchSchedule(
- 	double TimeForFetchingMetaPTE = 0;
- 	double TimeForFetchingRowInVBlank = 0;
- 	double LinesToRequestPrefetchPixelData = 0;
-+	double LinesForPrefetchBandwidth = 0;
- 	unsigned int HostVMDynamicLevelsTrips;
- 	double  trip_to_mem;
- 	double  Tvm_trips;
-@@ -3883,11 +3884,15 @@ bool dml32_CalculatePrefetchSchedule(
- 			TimeForFetchingMetaPTE = Tvm_oto;
- 			TimeForFetchingRowInVBlank = Tr0_oto;
- 			*PrefetchBandwidth = prefetch_bw_oto;
-+			/* Clamp to oto for bandwidth calculation */
-+			LinesForPrefetchBandwidth = dst_y_prefetch_oto;
- 		} else {
- 			*DestinationLinesForPrefetch = dst_y_prefetch_equ;
- 			TimeForFetchingMetaPTE = Tvm_equ;
- 			TimeForFetchingRowInVBlank = Tr0_equ;
- 			*PrefetchBandwidth = prefetch_bw_equ;
-+			/* Clamp to equ for bandwidth calculation */
-+			LinesForPrefetchBandwidth = dst_y_prefetch_equ;
- 		}
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 80164e79af006..7f56d1f7eda11 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -296,10 +296,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
+ 	if (enabled)
+ 		drm_crtc_vblank_get(&out->crtc);
  
- 		*DestinationLinesToRequestVMInVBlank = dml_ceil(4.0 * TimeForFetchingMetaPTE / LineTime, 1.0) / 4.0;
-@@ -3895,7 +3900,7 @@ bool dml32_CalculatePrefetchSchedule(
- 		*DestinationLinesToRequestRowInVBlank =
- 				dml_ceil(4.0 * TimeForFetchingRowInVBlank / LineTime, 1.0) / 4.0;
+-	spin_lock_irq(&out->lock);
++	mutex_lock(&out->enabled_lock);
+ 	old_enabled = out->composer_enabled;
+ 	out->composer_enabled = enabled;
+-	spin_unlock_irq(&out->lock);
++
++	/* the composition wasn't enabled, so unlock the lock to make sure the lock
++	 * will be balanced even if we have a failed commit
++	 */
++	if (!out->composer_enabled)
++		mutex_unlock(&out->enabled_lock);
  
--		LinesToRequestPrefetchPixelData = *DestinationLinesForPrefetch -
-+		LinesToRequestPrefetchPixelData = LinesForPrefetchBandwidth -
- 				*DestinationLinesToRequestVMInVBlank - 2 * *DestinationLinesToRequestRowInVBlank;
+ 	if (old_enabled)
+ 		drm_crtc_vblank_put(&out->crtc);
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 57bbd32e9bebb..1b02dee8587ac 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 	struct drm_crtc *crtc = &output->crtc;
+ 	struct vkms_crtc_state *state;
+ 	u64 ret_overrun;
+-	bool ret, fence_cookie;
++	bool ret, fence_cookie, composer_enabled;
  
- #ifdef __DML_VBA_DEBUG__
+ 	fence_cookie = dma_fence_begin_signalling();
+ 
+@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 	if (ret_overrun != 1)
+ 		pr_warn("%s: vblank timer overrun\n", __func__);
+ 
+-	spin_lock(&output->lock);
+ 	ret = drm_crtc_handle_vblank(crtc);
+ 	if (!ret)
+ 		DRM_ERROR("vkms failure on handling vblank");
+ 
+ 	state = output->composer_state;
+-	spin_unlock(&output->lock);
++	composer_enabled = output->composer_enabled;
++	mutex_unlock(&output->enabled_lock);
+ 
+-	if (state && output->composer_enabled) {
++	if (state && composer_enabled) {
+ 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
+ 
+ 		/* update frame_start only if a queued vkms_composer_worker()
+@@ -293,6 +293,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 
+ 	spin_lock_init(&vkms_out->lock);
+ 	spin_lock_init(&vkms_out->composer_lock);
++	mutex_init(&vkms_out->enabled_lock);
+ 
+ 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
+ 	if (!vkms_out->composer_workq)
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index de4efc0a3bd01..263c98534dbcd 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -98,8 +98,10 @@ struct vkms_output {
+ 	struct workqueue_struct *composer_workq;
+ 	/* protects concurrent access to composer */
+ 	spinlock_t lock;
++	/* guarantees that if the composer is enabled, a job will be queued */
++	struct mutex enabled_lock;
+ 
+-	/* protected by @lock */
++	/* protected by @enabled_lock */
+ 	bool composer_enabled;
+ 	struct vkms_crtc_state *composer_state;
+ 
 -- 
 2.40.1
 
