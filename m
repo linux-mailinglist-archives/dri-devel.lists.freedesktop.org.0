@@ -2,65 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCD4798655
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 13:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB35798698
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 13:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277C210E897;
-	Fri,  8 Sep 2023 11:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9FD10E00F;
+	Fri,  8 Sep 2023 11:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B58BC10E897
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 11:16:51 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id
- 2adb3069b0e04-5007abb15e9so3318342e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 04:16:51 -0700 (PDT)
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E85410E00F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 11:51:40 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id
+ ca18e2360f4ac-794d98181f0so72960639f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 04:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694171810; x=1694776610; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=OcN5cw/C+gJCgvXRNdQZdkPx4WgOPpUAOuQOlvAgh8c=;
- b=iuDWzgAshHAkyKR+gtOBqvliWUF7rp9ix0d//QXDeSjkzxqlixFUVYdz6YpMjlNqHb
- QDF5D6+j03A8XLpZ6+DZkn2Hs7KJlsf83Gghe0XpQihLEbjcSAsa8+/7IQoaJoG1azXi
- ETX+MnwrVME5hsoiw12ZC5Hm/FwqInzuBof+ir9RT5zyrOLCenOS9RxfLnREOv6Lns/N
- GWSlrMtUwLlbtqBNbVbqBtwW3J0k8LOFHAtnfVzTkbK0QlB7G+Bf2m8G8C91E9sX9b4w
- a7+L2qvPXPAJ8k3xrx7TZ5CQoH2XPH2xDpMYKsh3rB8bE2x7+jGXEKK0eaSogjCoQ+fV
- hhFg==
+ d=chromium.org; s=google; t=1694173900; x=1694778700;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=etW99NG5BvyY4SuRfU5lZu1cQhINWbdTi13Yac2QPgE=;
+ b=VqdeV0AzyYPBri6C0FZ3RCb+RXEwYfXp4+8xRm4oxZ+Eh0Nmh/UHilfs0Uj0QGuhrA
+ ioPT3+SQNepHHrFRp10P02QRyfJEI4N7gxZKmz/3ySsQSxSb+9Qt7G7/boEpZGSHLpLB
+ N0+vgC/2lEhNw28CCLkmfy58uR/awCnKH/WXs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694171810; x=1694776610;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OcN5cw/C+gJCgvXRNdQZdkPx4WgOPpUAOuQOlvAgh8c=;
- b=DwaGWlNmaHWwxpWzTLzrdchWtg39l2vQh6wj4OUgIZP/WyTP+LF1Ty1gj/ZNZJxWor
- tHixoZ0slu/C6tineKJLCpr2Cs+zZ+nY3MBMO2mHl7IDpAfyjozVJkia2CNAKw2ETrvb
- Lk0gZNtGvaBtX+J7U4fVAtc5MaqSz/hqJ3YF70CHKQY2orDwb7U5Yf52DEs/DX4iLgCe
- Riq1wNkgQiKCNElOdvWNkoRnbdEoHMJ+3Vbw1i0b47cw3Q/F8z5jpb++GmXQEKNCiIYp
- wWAdunHsxPB0WfHUFZr+e1NBFhIpgTV1vpCud9dd7zPxjPlbqCjjKWyjK2vMuvCi5eTF
- OG1A==
-X-Gm-Message-State: AOJu0YxyQhBFZk4Gen+s38fUcuhSZnkDDdBoUsSc9+/UrMtZzXt2tDCS
- 6JmqY/ByUZeg5yCSd9hA9OI=
-X-Google-Smtp-Source: AGHT+IG4OJ3LskPYSkDT4/jdeLf3b7I9JsZ82pW7k+6cnWFfbXilXJTXCWw+6koQDkWD7VhQg6pMbw==
-X-Received: by 2002:ac2:5bcf:0:b0:500:b553:c09e with SMTP id
- u15-20020ac25bcf000000b00500b553c09emr1603445lfn.32.1694171809547; 
- Fri, 08 Sep 2023 04:16:49 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- g25-20020ac25399000000b004fe2a7a2ee2sm249783lfh.160.2023.09.08.04.16.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Sep 2023 04:16:49 -0700 (PDT)
-Date: Fri, 8 Sep 2023 14:16:38 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-Message-ID: <20230908141638.79b31d1e@eldfell>
-In-Reply-To: <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20230601; t=1694173900; x=1694778700;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=etW99NG5BvyY4SuRfU5lZu1cQhINWbdTi13Yac2QPgE=;
+ b=tRQTX2iEiFKVa0lV40iKEVXKOGQjIaAr7O5TYozGeNN5RmvSKe/r0cTExWStG+LbF+
+ n/OZm54DysQg76jmvFmWogFufl/yideJJPYUNhlcEqVDKE92ouo+szS2sMficqthsuf6
+ Im8y8sA8DQTn81KZDmHZ6umHVryu4+3zRchKEg7Y3Y7wTfH+i4GVu4ZmLJTACpEG4lqC
+ 1NjBlnTOSwv3Ne6UJKcn9gQ5joAtsREk2V/Fb7Qj2qXZ53bXQeQCvswCE+XVFQzi85lk
+ biYZ6OHqTIv2LYZst1vAuWmn1JUnR0upwt53NVUrKV3Jglfsehf6GAngDgmMSZgGdren
+ E3cw==
+X-Gm-Message-State: AOJu0YwV77wRAzvUMbHho04eUL8nZTEGJfJ9hBxpKbg0H0CqM3ST1PFD
+ fhCPuUrwnuOHfN7TV7/PVUfYsIqDWmp2TA0USjc=
+X-Google-Smtp-Source: AGHT+IGcnrh2I7wlesl4pidlTBDtnB0w2A6GrbsVn/Y6bJuriTy77UWSq9vAvqmXQA1md1giPN6aQA==
+X-Received: by 2002:a5d:8507:0:b0:791:1739:d525 with SMTP id
+ q7-20020a5d8507000000b007911739d525mr2559693ion.20.1694173899712; 
+ Fri, 08 Sep 2023 04:51:39 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
+ [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a056602034900b007836252a084sm444810iou.48.2023.09.08.04.51.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Sep 2023 04:51:39 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-792975085b2so73784839f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Sep 2023 04:51:38 -0700 (PDT)
+X-Received: by 2002:a6b:e60b:0:b0:791:280:839e with SMTP id
+ g11-20020a6be60b000000b007910280839emr2660662ioh.16.1694173898001; Fri, 08
+ Sep 2023 04:51:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pppjceL.c_/LXi=naHSaMCB";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20230901234202.566951-1-dianders@chromium.org>
+ <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
+In-Reply-To: <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
+From: Fei Shao <fshao@chromium.org>
+Date: Fri, 8 Sep 2023 19:51:00 +0800
+X-Gmail-Original-Message-ID: <CAC=S1niYAC3PFQoAmwVc=1FcK29uu5sC9c1pGo-mku__y7eHcA@mail.gmail.com>
+Message-ID: <CAC=S1niYAC3PFQoAmwVc=1FcK29uu5sC9c1pGo-mku__y7eHcA@mail.gmail.com>
+Subject: Re: [RFT PATCH 05/15] drm/mediatek: Call drm_atomic_helper_shutdown()
+ at shutdown time
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,106 +81,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
- mripard@kernel.org, dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/pppjceL.c_/LXi=naHSaMCB
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Fri, 8 Sep 2023 11:21:51 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Sat, Sep 2, 2023 at 7:42=E2=80=AFAM Douglas Anderson <dianders@chromium.=
+org> wrote:
+...<snip>
+> @@ -952,6 +960,7 @@ static const struct dev_pm_ops mtk_drm_pm_ops =3D {
+>  static struct platform_driver mtk_drm_platform_driver =3D {
+>         .probe  =3D mtk_drm_probe,
+>         .remove =3D mtk_drm_remove,
 
-> Hi
->=20
-> Am 25.08.23 um 16:04 schrieb Jocelyn Falempe:
-> [...]
-> > + *
-> > + *     But there are two exceptions only for dumb buffers:
-> > + *     * To support XRGB8888 if it's not supported by the hardware. =20
->=20
->=20
-> > + *     * Any driver is free to modify its internal representation of t=
-he format,
-> > + *       as long as it doesn't alter the visible content in any way, a=
-nd doesn't
-> > + *       modify the user-provided buffer. An example would be to drop =
-the
-> > + *       padding component from a format to save some memory bandwidth=
-. =20
->=20
-> I have strong objections to this point, _especially_ as you're=20
-> apparently trying to sneak this in after our discussion. NAK on this=20
-> part from my side.
->=20
-> If you want userspace to be able to use a certain format, then export=20
-> the corresponding 4cc code. Then let userspace decide what to do about=20
-> it. If userspace pick a certain format, go with it.
+I think this patch, and perhaps some others in this series, will have
+a trivial conflict to Uwe's work about the remove callback conversion
+e.g. [1], so you might want to rebase the series onto the latest
+linux-next.
 
-What is the reason for your objection, exactly?
+On the other hand, I tested this patch on MT8195 and MT8188
+Chromebooks and I don't see issues during boot / reboot, so
 
-> Hence, no implicit conversion from XRGB888 to RGB888, just because it's=20
-> possible.
+Reviewed-by: Fei Shao <fshao@chromium.org>
+Tested-by: Fei Shao <fshao@chromium.org>
 
-For the particular driver in question though, the conversion allows
-using a display resolution that is otherwise not possible. I also hear
-it improves performance since 25% less data needs to travel across a
-slow bus. There is also so little VRAM, than all dumb buffers need to
-be allocated from sysram instead anyway, so a copy is always necessary.
-
-Since XRGB8888 is the one format that is recommended to be supported by
-all drivers, I don't see a problem here. Did you test on your
-incredibly slow g200 test rig if the conversion ends up hurting instead
-of helping performance there?
-
-If it hurts, then I see that you have a good reason to NAK this.
-
-It's hard to imagine how it would hurt, since you always need a copy
-from sysram dumb buffers to VRAM - or do you?
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git=
+/commit/?h=3Dmediatek-drm-next&id=3Db3af12a0b46888340e024ba8b231605bcf2d0ab=
+3
 
 
-Thanks,
-pq
 
-> > + *     On most hardware, VRAM read access are slow, so when doing the =
-software
-> > + *     conversion, the dumb buffer should be allocated in system RAM i=
-n order to
-> > + *     have decent performance.
-> > + *     Extra care should be taken when doing software conversion with
-> > + *     DRM_CAP_DUMB_PREFER_SHADOW, there are more detailed explanation=
-s here:
-> > + *     https://lore.kernel.org/dri-devel/20230818162415.2185f8e3@eldfe=
-ll/
-> >    */
-> >  =20
-> >   static unsigned int drm_num_planes(struct drm_device *dev)
-> >=20
-> > base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781 =20
->=20
-
-
---Sig_/pppjceL.c_/LXi=naHSaMCB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmT7ApYACgkQI1/ltBGq
-qqe/jA//c5JyRUphetm/8PV7mbgHJTkr2R9o2p5MA5N1RnGDOW4DQROwhhfmnq9W
-yFB8OAbDacCQimDgwvWVSxqKuK3F7K9bWVP9hvO2///HdaeOs8quo26EVLk3p+Vm
-DllnH934T26pjAQQmp6Pg/5J5Rk8K0kw4iQevD4fwjalzsHMaNCA5oehkm6e+Ktx
-DSSayidJtL6rujljdU260wf5xnP+pzjPApP81Gk/AEwJt8iZQ1K5g5FS7ZZoAB7V
-tXSkP/P4b0nDPBzMko9oD+SxMmfb0+d9ZqiprlLIOEDD1mpytDN6VyKidFNuy69D
-0U8XYU4LKuZd844Xx5i9ZgRR8Hg07ZtbFq0IPAqYKXXNr3xk8jJKEE+GfqV3XSq4
-O/yuyHhViOUm8/ads/DpzAjVnjBS4e8Rvz8PQtlCgIEHxvo2xQMH20PEREGVNDpu
-8UdazAKpmCegbS0KbdexmCecp7GzRDzc8oGSGayEy9DEvj81oKtbKCl592A/1Glv
-rNsC+fs1e8FICbsd5AsCmmqrg//IUxFDXVmK2TxDagHaOi7LubuiTEezPQK1xkzi
-190ZSB8Cx2e3KEpP8zPyGTJce+dm7fqcffrQf8Tw6hAT01kypXOpFb4gltVtOiWk
-mDfvaIhRB0ang9s0gjeh9y+Q0Qv4ca89Xq4VhDVXGGBG6HeHrSI=
-=rOp6
------END PGP SIGNATURE-----
-
---Sig_/pppjceL.c_/LXi=naHSaMCB--
+> +       .shutdown =3D mtk_drm_shutdown,
+>         .driver =3D {
+>                 .name   =3D "mediatek-drm",
+>                 .pm     =3D &mtk_drm_pm_ops,
+> --
+> 2.42.0.283.g2d96d420d3-goog
+>
+>
