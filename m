@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69E57980B6
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 04:54:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F22F7980BB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 04:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73BD610E1F8;
-	Fri,  8 Sep 2023 02:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A295810E548;
+	Fri,  8 Sep 2023 02:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6353110E1F8
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 02:54:03 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-99cce6f7de2so198094166b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 19:54:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1694141641; x=1694746441;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=79oYKkiQaAA0k2s9Eo9LOCvdFF3ynWnYmCNUQgtZYfQ=;
- b=gahJtkHFgxqA1XYQPeHJrhgRXCHCayYewUsngLnROZCK9J6l02lku8BZXEr5I5Eoag
- keRKg9Ys2gEONAc6rgVSWpWhJz1dhl5+AGFbyGLzXPxRPlKODXA1WfZsuTmvyLhqY6VX
- c4aNq+hYIhwWjQ3ELxmnAf6vat6U+tUgSl9UU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694141641; x=1694746441;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=79oYKkiQaAA0k2s9Eo9LOCvdFF3ynWnYmCNUQgtZYfQ=;
- b=gms5lFCmF4tqnMy3ULpqfImJoCRJ5IdEyTMfiSA/KndER+g9djBZk/r+aBVKWiQ1ZA
- tZrVd1bz4gvUSlTwdvnctn1IpttM6ZeIZH4472KmJP0Xtw5icL/HBeLm23eXnI50LZ2w
- 6T4rnzM5xczdDFphuFhcsVLFVTm2f+Y0PLRZiLEb6SBOWNihqdKay8m3hxovjPPK9UOz
- K3C8XgD2Q04pM7tFf1eMSg7W+CsXpg+PYOPpLYvd8OHdNZxr75MuTkwASRGg8NjDaEPn
- FbxOcueoRDIjQkHxov7fPvR9IGO1pp9o4X+vPIN9v7IWTyNIlnOBelFyGvIEqHtJpYCb
- KHqQ==
-X-Gm-Message-State: AOJu0YzFdEuJ9u6NVRTbJRJ7ZT2Bycf0N4FJiyFnTPpfXmK9dMuxAcgl
- wOJRONoXk4t8YppsskreMAHI4p4HK6wNQxpvJbfOINK3
-X-Google-Smtp-Source: AGHT+IE1ERWy4Xwnn9ARwEwANPBh9Mt1R/1E0Xn9r+1CbRO++zutwWC7D7nkXHMQ5M6a+QFgbmzfCQ==
-X-Received: by 2002:a17:906:2189:b0:99b:de31:6666 with SMTP id
- 9-20020a170906218900b0099bde316666mr841834eju.22.1694141641527; 
- Thu, 07 Sep 2023 19:54:01 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com.
- [209.85.208.47]) by smtp.gmail.com with ESMTPSA id
- z20-20020a170906241400b009829d2e892csm400782eja.15.2023.09.07.19.54.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Sep 2023 19:54:00 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-52eed139ec2so450873a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Sep 2023 19:54:00 -0700 (PDT)
-X-Received: by 2002:a50:ef14:0:b0:523:1f4d:4029 with SMTP id
- m20-20020a50ef14000000b005231f4d4029mr777471eds.21.1694141640514; Thu, 07 Sep
- 2023 19:54:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAPM=9tx-wOoVEc96nkOh=E5rDhsn-QM+QJF5oeYQK-yi2Cy8uQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tx-wOoVEc96nkOh=E5rDhsn-QM+QJF5oeYQK-yi2Cy8uQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 7 Sep 2023 19:53:43 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjL=mmhfK9NQ3F8aKbSMxp31tPGcKit0=1TsjPDoo2L8w@mail.gmail.com>
-Message-ID: <CAHk-=wjL=mmhfK9NQ3F8aKbSMxp31tPGcKit0=1TsjPDoo2L8w@mail.gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A4B10E548
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 02:55:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 78B73CE1B2F;
+ Fri,  8 Sep 2023 02:55:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AEC50C433C8;
+ Fri,  8 Sep 2023 02:55:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694141735;
+ bh=2x4EIX8a2elX+igj7sK4WgjaaYP5CdkNUDpmldy92AE=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=cu5GcRy5TpOawF51dz8ECEISbkbK3XdEJf2KUL/Zc9wHU00FuM7SosIqPxlFb5V1t
+ XTDLDSF2ralvm5nYyHb7X1mOXZydhIzNdg6NxpMDIDkZIxiTyzQqV5+/2sN8KH+U4i
+ tjHj5K6DoZXdKNxVnSEGTr2RfARF0dIBzi6pf4kPD3EH+BXZqtmVIvuQHvF+PluRZW
+ ozyTVC5cGgoeKp2HyOjMt0kyayEi69wnKZ61CCU1p7b+czdb4UP6ukXHJhORs64Cr9
+ /dBNglRMh6XzclbbpvPTTmrNb2biAhW4VzBGFCsSF4wDPcQGL48I9GRJLvD/4HxX3v
+ n06fE7uytcy7w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 9B80CC4166F; Fri,  8 Sep 2023 02:55:35 +0000 (UTC)
 Subject: Re: [git pull] drm fixes for 6.6-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tx-wOoVEc96nkOh=E5rDhsn-QM+QJF5oeYQK-yi2Cy8uQ@mail.gmail.com>
+References: <CAPM=9tx-wOoVEc96nkOh=E5rDhsn-QM+QJF5oeYQK-yi2Cy8uQ@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tx-wOoVEc96nkOh=E5rDhsn-QM+QJF5oeYQK-yi2Cy8uQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2023-09-08
+X-PR-Tracked-Commit-Id: 43ffcd6fa1635f479ad73145dfbba59edc2b3b28
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: a48fa7efaf1161c1c898931fe4c7f0070964233a
+Message-Id: <169414173562.17056.8974388469030565712.pr-tracker-bot@kernel.org>
+Date: Fri, 08 Sep 2023 02:55:35 +0000
 To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,25 +63,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Sept 2023 at 19:45, Dave Airlie <airlied@gmail.com> wrote:
->
-> Just a poke about the outstanding drm CI support pull request since I
-> haven't see any movement on that in the week, hopefully it's not as
-> difficult a problem as bcachefs :-)
+The pull request you sent on Fri, 8 Sep 2023 12:45:13 +1000:
 
-I was assuming that it wouldn't interfere with anything else... and
-that I could just ignore it until I have all my "real" pulls done. I
-didn't want to even look at it until I was "done".
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2023-09-08
 
-Yes, it's past the mid-way point of the second week of the merge
-window, and I mostly _should_ be "done".
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/a48fa7efaf1161c1c898931fe4c7f0070964233a
 
-But I still keep finding new pull requests in my inbox that aren't
-just fixes and updates for previous main pull requests.
+Thank you!
 
-                Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
