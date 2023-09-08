@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A403C7989CF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 17:23:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACE17989D1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 17:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1AC310E8FA;
-	Fri,  8 Sep 2023 15:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5283610E907;
+	Fri,  8 Sep 2023 15:23:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E7410E8FB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 15:23:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA1A10E8FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 15:23:21 +0000 (UTC)
 Received: from localhost.localdomain (unknown [171.76.82.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B35D666072AB;
- Fri,  8 Sep 2023 16:23:07 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DE52766072E2;
+ Fri,  8 Sep 2023 16:23:13 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694186593;
- bh=70CHDo1InUS+MvNfKVtde3bBDB5t7x+CHUmXN2X4oLI=;
+ s=mail; t=1694186599;
+ bh=WAVH3aE6YH73IbakKHhLz1OxqV6EfdN7Z6LYf6+NDJ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DmBNzam2pyIDL7f9vOBU6avqqZqVetkJHBgrlTVKu21IR6hPJF0iMloPdwXzchkS1
- K70vGsS4Be60btQm1KIp86Ug3vVOzZuycrL1i4Nty7uUWpafXfRvaRSQhR/U4uP/2/
- PNcjA+22nGCVrFaAVOlW+P0ZVKetD0Fee/0yEpbDz6DY7gdihsmffNez/CED4PL/c7
- NlH+8u+LeyKJe2rcjWqRU9pSFDQaAFJpJwfEF349cHTa8vjrL1QdhLaUjXrR+x6Ab0
- qTBXgLv/Ql8ZaHuwxuebp7gpgfgRYyvnxLMeLjjqnj1tfpwSPnnuG5aBf5ix9by4RZ
- t5FwxrzzfFBwQ==
+ b=UcjB6R8jwmybsou4rFMPv9acOAA6HzKPS/vVOGD8KXnqUXT6g0gy7FBu9jA4wS073
+ MQyr50q5xlN02pWwznfoPImf0w7/x8KMWupqET/vWBps2Z15hh+3MinqjDcftckaMY
+ Q+rpXO+WEtoCUE0QRDt4sNX9PYUKotKNEW+XJFlcP8Jx88OVaZDBxzPK1QqzddFTHj
+ wWOda0UB873m1gxtCgMWvi+2bUYeDDBbUtzhxZMI5qXJ+mIWc8t+T5stCx0Jr1PD3k
+ n9DVKtiv0sxiGcvFjqHdHcaqCZJueLcotU853Hh4fJI65qtlomoSXhheaTWX7QAyTi
+ Rj3e9V6F7fY/w==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/9] arm64: dts: qcom: apq8016-sbc: Add overlay for usb
- host mode
-Date: Fri,  8 Sep 2023 20:52:18 +0530
-Message-Id: <20230908152225.432139-3-vignesh.raman@collabora.com>
+Subject: [PATCH v3 3/9] drm: ci: Force db410c to host mode
+Date: Fri,  8 Sep 2023 20:52:19 +0530
+Message-Id: <20230908152225.432139-4-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230908152225.432139-1-vignesh.raman@collabora.com>
 References: <20230908152225.432139-1-vignesh.raman@collabora.com>
@@ -64,46 +63,46 @@ Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to the presence of the fastboot micro cable in the CI farm,
-it causes the hardware to remain in gadget mode instead of host mode.
-So it doesn't find the network, which results in failure to mount root
-fs via NFS.
+Force db410c to host mode to fix network issue which results in failure
+to mount root fs via NFS.
+See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
 
-Add an overlay dtso file that sets the dr_mode to host, allowing
-the USB controllers to work in host mode. This dtso file will be used
-in drm-ci, mesa-ci.
+Compile the base device tree with overlay support and use fdtoverlay
+command to merge base device tree with an overlay which contains the
+fix for USB controllers to work in host mode. [suggested by Maxime Ripard]
 
-Overlay DT file uses the sugar syntax [suggested by Dmitry Baryshkov and Maxime Ripard]
-
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: David Heidelberg <david.heidelberg@collabora.com>
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
 
+v2:
+  - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
+
 v3:
-  - New patch in the series to add device tree overlay in arch/arm64/boot/dts/qcom
+  - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
 
 ---
- arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
+ drivers/gpu/drm/ci/build.sh | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso b/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
-new file mode 100644
-index 000000000000..a82c26b7eae8
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
-@@ -0,0 +1,8 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&usb {
-+         dr_mode = "host";
-+};
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index 7b014287a041..092c195af242 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -91,7 +91,12 @@ for image in ${KERNEL_IMAGE_NAME}; do
+ done
+ 
+ if [[ -n ${DEVICE_TREES} ]]; then
+-    make dtbs
++    make DTC_FLAGS=-@ dtbs
++    if [[ -e arch/arm64/boot/dts/qcom/apq8016-sbc.dtb ]]; then
++        dtc -@ -I dts -O dtb -o arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtbo arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
++        fdtoverlay -i arch/arm64/boot/dts/qcom/apq8016-sbc.dtb -o arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtbo
++        mv arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb arch/arm64/boot/dts/qcom/apq8016-sbc.dtb
++    fi
+     cp ${DEVICE_TREES} /lava-files/.
+ fi
+ 
 -- 
 2.40.1
 
