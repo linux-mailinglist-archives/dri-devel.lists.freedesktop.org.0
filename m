@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3CC7988A9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C51E798906
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 16:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC5110E077;
-	Fri,  8 Sep 2023 14:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D25BA10E8D7;
+	Fri,  8 Sep 2023 14:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC2410E077;
- Fri,  8 Sep 2023 14:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oD02VyAokDurfrZFf/tfrEEr7ulUA834ZVCfV8mMe5I=; b=myhNSfvmLe3eW6kLQsPgJO3zgk
- UC6FgbZ+PrzIkmepKvzH8ZVpIOmhdpX5QZ0ncjKS2EGkx1N+EqO8sgY0NEb7MfIRNhFHNYd0caHW8
- zGTJl0md5+sa2LhF0HxEFXHf1DVCYDzu2XlpeEvk6n4mY0EKHTxt4qVSK28qyRpjAWks2I3ptVbWM
- mnWCCt+8pL8YB2xtFsd5Asnjp2nJH4yS9utfW6Wqm+KUGgxXuSb3KozwXhXgHwyi4mu7zfpLMhiYm
- NBIvwjws3papL6B9pwj6LQ0piMcObnqGYWB5jWYkV8eEh5Ods01PP2aVKaAkXUwi0P1aIkvgTaWMp
- JY7VTyTQ==;
-Received: from [38.44.68.151] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qecTO-001P8M-Dr; Fri, 08 Sep 2023 16:28:37 +0200
-Date: Fri, 8 Sep 2023 13:28:22 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v2 29/34] drm/amd/display: allow newer DC hardware to use
- degamma ROM for PQ/HLG
-Message-ID: <20230908142822.ee27buxk4bg3u4vh@mail.igalia.com>
-References: <20230810160314.48225-1-mwen@igalia.com>
- <20230810160314.48225-30-mwen@igalia.com>
- <75118b7b-5753-41b0-a9f1-8047d79fa4ad@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870A010E8DA;
+ Fri,  8 Sep 2023 14:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694184120; x=1725720120;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=Yqgc7+IYNH9wMTUddUHYFymjVShi7i8GajUcX3pwhKE=;
+ b=CyLn6IJ/HdFko3M47gAvEsaDWr//s1dQWu6Lxc/P745GGGNDM1OZSyr2
+ aEQDIjBh6NO+/nXYHT70xBre+mFHCxOJiBCtjk62sPsQGmUNBcmjUB/41
+ aayh6iXyi/w2x+L28opA6qe/5/WRDi3GB1zlC3eT5xlAsPBvMUZEvkMeq
+ grGlu29ryy/v2TC2uS/4mSdt0UpNbzpsKiznhk2NXgSCk78ieIWnKCFgj
+ F03dT/ddhbg/0GHZQxiomtz2zJ642W6Og5rz5FhIPDs/DYP8npnS+XFX1
+ 5knDSMsVhu/t6DaQTNygN0X+ZrQhO2OpU2LV3CTwbGfG0SknRjefh+Pvl g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="381479656"
+X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; d="scan'208";a="381479656"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2023 07:31:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719175267"
+X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; d="scan'208";a="719175267"
+Received: from binm223x-mobl2.gar.corp.intel.com (HELO [10.249.254.172])
+ ([10.249.254.172])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2023 07:31:39 -0700
+Message-ID: <e848c4f8-431b-1b7d-6300-d7f1fcd2c948@linux.intel.com>
+Date: Fri, 8 Sep 2023 16:31:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <75118b7b-5753-41b0-a9f1-8047d79fa4ad@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 0/2] drm/tests: Fix for UAF and a test for drm_exec
+ lock alloc tracking warning
+Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230907135339.7971-1-thomas.hellstrom@linux.intel.com>
+ <b3ab850d-9da2-0b19-2aa1-fa5a2c3dc079@amd.com>
+ <2a9310b5-cf08-d4fe-c08e-c3fc9d25653c@linux.intel.com>
+ <95610a20-4364-7ba8-88be-3e303018ea79@amd.com>
+ <84b2736f-c225-1421-f245-2de042345dea@linux.intel.com>
+ <ab9f3c50-8098-bbbf-50e2-a1ba63595a47@amd.com>
+ <b831c9f3-97e6-6cbd-0e3c-b1dfc8c71ec1@linux.intel.com>
+ <59839d43-c19c-e27a-51e6-fec44ac09936@amd.com>
+ <de7a7309-9c5b-09a7-7557-2d6050838215@linux.intel.com>
+In-Reply-To: <de7a7309-9c5b-09a7-7557-2d6050838215@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,192 +71,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Hung <alex.hung@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, Joshua Ashton <joshua@froggi.es>,
- sungjoon.kim@amd.com
+Cc: Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/06, Harry Wentland wrote:
-> 
-> 
-> On 2023-08-10 12:03, Melissa Wen wrote:
-> > From: Joshua Ashton <joshua@froggi.es>
-> > 
-> > Need to funnel the color caps through to these functions so it can check
-> > that the hardware is capable.
-> > 
-> > v2:
-> > - remove redundant color caps assignment on plane degamma map (Harry)
-> > - pass color caps to degamma params
-> > 
-> > Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 35 ++++++++++++-------
-> >  1 file changed, 22 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > index f638e5b3a70b..4356846a2bce 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> > @@ -538,6 +538,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
-> >  /**
-> >   * __set_input_tf - calculates the input transfer function based on expected
-> >   * input space.
-> > + * @caps: dc color capabilities
-> >   * @func: transfer function
-> >   * @lut: lookup table that defines the color space
-> >   * @lut_size: size of respective lut.
-> > @@ -545,7 +546,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
-> >   * Returns:
-> >   * 0 in case of success. -ENOMEM if fails.
-> >   */
-> > -static int __set_input_tf(struct dc_transfer_func *func,
-> > +static int __set_input_tf(struct dc_color_caps *caps, struct dc_transfer_func *func,
-> >  			  const struct drm_color_lut *lut, uint32_t lut_size)
-> >  {
-> >  	struct dc_gamma *gamma = NULL;
-> > @@ -562,7 +563,7 @@ static int __set_input_tf(struct dc_transfer_func *func,
-> >  		__drm_lut_to_dc_gamma(lut, gamma, false);
-> >  	}
-> >  
-> > -	res = mod_color_calculate_degamma_params(NULL, func, gamma, gamma != NULL);
-> > +	res = mod_color_calculate_degamma_params(caps, func, gamma, gamma != NULL);
-> >  
-> >  	if (gamma)
-> >  		dc_gamma_release(&gamma);
-> > @@ -725,7 +726,7 @@ static int amdgpu_dm_atomic_blend_lut(const struct drm_color_lut *blend_lut,
-> >  		func_blend->tf = tf;
-> >  		func_blend->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
-> >  
-> > -		ret = __set_input_tf(func_blend, blend_lut, blend_size);
-> > +		ret = __set_input_tf(NULL, func_blend, blend_lut, blend_size);
-> >  	} else {
-> >  		func_blend->type = TF_TYPE_BYPASS;
-> >  		func_blend->tf = TRANSFER_FUNCTION_LINEAR;
-> > @@ -950,7 +951,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
-> >  
-> >  static int
-> >  map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
-> > -			     struct dc_plane_state *dc_plane_state)
-> > +			     struct dc_plane_state *dc_plane_state,
-> > +			     struct dc_color_caps *caps)
-> >  {
-> >  	const struct drm_color_lut *degamma_lut;
-> >  	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
-> > @@ -1005,7 +1007,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
-> >  			dc_plane_state->in_transfer_func->tf =
-> >  				TRANSFER_FUNCTION_LINEAR;
-> >  
-> > -		r = __set_input_tf(dc_plane_state->in_transfer_func,
-> > +		r = __set_input_tf(caps, dc_plane_state->in_transfer_func,
-> >  				   degamma_lut, degamma_size);
-> >  		if (r)
-> >  			return r;
-> > @@ -1018,7 +1020,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
-> >  		dc_plane_state->in_transfer_func->tf = tf;
-> >  
-> >  		if (tf != TRANSFER_FUNCTION_SRGB &&
-> > -		    !mod_color_calculate_degamma_params(NULL,
-> > +		    !mod_color_calculate_degamma_params(caps,
-> >  							dc_plane_state->in_transfer_func,
-> >  							NULL, false))
-> >  			return -ENOMEM;
-> > @@ -1029,7 +1031,8 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
-> >  
-> >  static int
-> >  __set_dm_plane_degamma(struct drm_plane_state *plane_state,
-> > -		       struct dc_plane_state *dc_plane_state)
-> > +		       struct dc_plane_state *dc_plane_state,
-> > +		       struct dc_color_caps *color_caps)
-> >  {
-> >  	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-> >  	const struct drm_color_lut *degamma_lut;
-> > @@ -1060,7 +1063,7 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
-> >  		dc_plane_state->in_transfer_func->type =
-> >  			TF_TYPE_DISTRIBUTED_POINTS;
-> >  
-> > -		ret = __set_input_tf(dc_plane_state->in_transfer_func,
-> > +		ret = __set_input_tf(color_caps, dc_plane_state->in_transfer_func,
-> >  				     degamma_lut, degamma_size);
-> >  		if (ret)
-> >  			return ret;
-> > @@ -1068,7 +1071,7 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
-> >  		dc_plane_state->in_transfer_func->type =
-> >  			TF_TYPE_PREDEFINED;
-> >  
-> > -		if (!mod_color_calculate_degamma_params(NULL,
-> > +		if (!mod_color_calculate_degamma_params(color_caps,
-> >  		    dc_plane_state->in_transfer_func, NULL, false))
-> >  			return -ENOMEM;
-> >  	}
-> > @@ -1077,7 +1080,8 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
-> >  
-> >  static int
-> >  amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
-> > -				     struct dc_plane_state *dc_plane_state)
-> > +				     struct dc_plane_state *dc_plane_state,
-> > +				     struct dc_color_caps *color_caps)
-> 
-> This seems unused.
 
-Nice catch, it isn't. I'll remove in the next version.
+On 9/8/23 13:13, Thomas Hellström wrote:
+>
+> On 9/8/23 11:14, Christian König wrote:
+>> Am 08.09.23 um 11:04 schrieb Thomas Hellström:
+>>>
+>>> On 9/8/23 10:52, Christian König wrote:
+>>>> Am 08.09.23 um 09:37 schrieb Thomas Hellström:
+>>>>> Hi,
+>>>>>
+>>>>> On 9/7/23 16:49, Christian König wrote:
+>>>>>> Am 07.09.23 um 16:47 schrieb Thomas Hellström:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 9/7/23 16:37, Christian König wrote:
+>>>>>>>> Am 07.09.23 um 15:53 schrieb Thomas Hellström:
+>>>>>>>>> While trying to replicate a weird drm_exec lock alloc tracking 
+>>>>>>>>> warning
+>>>>>>>>> using the drm_exec kunit test, the warning was shadowed by a 
+>>>>>>>>> UAF warning
+>>>>>>>>> from KASAN due to a bug in the drm kunit helpers.
+>>>>>>>>>
+>>>>>>>>> Patch 1 fixes that drm kunit UAF.
+>>>>>>>>> Patch 2 introduces a drm_exec kunit subtest that fails if the 
+>>>>>>>>> conditions
+>>>>>>>>>        for the weird warning are met.
+>>>>>>>>>
+>>>>>>>>> The series previously also had a patch with a drm_exec 
+>>>>>>>>> workaround for the
+>>>>>>>>> warning but that patch has already been commited to 
+>>>>>>>>> drm_misc_next_fixes.
+>>>>>>>>
+>>>>>>>> Thinking more about this what happens when somebody calls 
+>>>>>>>> drm_exec_unlock_obj() on the first locked object?
+>>>>>>>>
+>>>>>>> Essentially the same thing. I've been thinking of the best way 
+>>>>>>> to handle that, but not sure what's the best one.
+>>>>>>
+>>>>>> Well what does lockdep store in that object in the first place? 
+>>>>>> Could we fix that somehow?
+>>>>>
+>>>>> Lockdep maintains an array of held locks (lock classes) for each 
+>>>>> task. Upon freeing, that list is traversed to see if the address 
+>>>>> matches the stored memory address. This also has the interesting 
+>>>>> side effect that IICR dma_resv_assert_held() checks if *any* 
+>>>>> dma_resv is held....
+>>>>>
+>>>>> Ideally each object would have its own class instance, but I think 
+>>>>> some applications would then exhaust the array size.
+>>>>
+>>>> IIRC Daniel once explained to me that he designed lockdep for 
+>>>> ww_mutexes like this for some reason, but I don't remember the 
+>>>> details any more.
+>>>>
+>>>> Maybe lockdep wouldn't otherwise be able to deal with the fact that 
+>>>> you could lock them in any order or something like that.
+>>>
+>>> Oh, that's well handled with the mutex_lock_nest_lock()  type of 
+>>> annotation that's used for WW mutexes. IIRC the problem is that 
+>>> lockdep can't really deal with either that vast number of locks 
+>>> overall or the vast number of held locks per process.
+>>
+>> Could we somehow teach lockdep that multiple locks of a lock class 
+>> can be held at the same time? E.g. like a reference count in the 
+>> lockclass or something like that?
+>>
+>>>
+>>>>
+>>>>>
+>>>>> I'll dig a bit deeper into this.
+>>>>>
+>>>>>
+>>>>> Meanwhile for the unlock problem, looking at how the unlocks are 
+>>>>> used in i915 it's typically locks that are grabbed during eviction 
+>>>>> and released again once validation of a single object succeeded. 
+>>>>> The risk of them ending up at the first lock is small, unless they 
+>>>>> are prelocked as the contended lock. But for these "temporary" 
+>>>>> objects, the prelocked lock is immediately dropped after locking 
+>>>>> and are only used to find something suitable to wait for to relax 
+>>>>> the ww transaction.
+>>>>
+>>>> Yeah, I don't see this as an use case in reality. It's more of a 
+>>>> "what if?" thing.
+>>>
+>>> Oh, it's a real use-case. As soon as you start having sleeping locks 
+>>> for eviction you hit it, in particular with WW mutex slowpath 
+>>> debugging. And we will need to work on improving TTM support for 
+>>> that for xe.
+>>
+>> Oh, good point! When we have contention on a lock, rollback and take 
+>> that lock then first it can be that this lock then needs to be 
+>> unlocked again. Unlikely, but certainly possible.
+>>
+>> Sounds like we really need to fix this in lockdep then.
+>
+> So it seems lockdep *does* reference counting in this case, but stores 
+> the address of the first locked lockdep map, and then subsequently 
+> uses it for various things. In short freeing the first lock isn't 
+> something lockdep thinks you should do. Ever.
+>
+> The good thing about this is that this refcounting appears only done 
+> on nest locks, that is, when we have a ww context AFAICT. That means 
+> we can probably store a fake ww_mutex lockdep map with the ww acquire 
+> context and lock it when we initialize the context and unlock it on 
+> ww_acquire_fini().
+>
+> Should take care of the problem I think, although the problem of 
+> lockdep_assert() and lock freeing granularity will remain. It looks 
+> like there is a comparison function one can optionally set to make 
+> different objects look separate to lockdep. Probably something to 
+> think of for enhanced debugging with a limited set of locked objects.
+>
+> Need to also check what happens if we do a sequence of successful 
+> trylocks.
 
-Melissa
+OK, nested trylocks indeed seem to store one instance per lock, so not 
+prone to the problem.
 
-> 
-> Harry
-> 
-> >  {
-> >  	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-> >  	enum amdgpu_transfer_function shaper_tf = AMDGPU_TRANSFER_FUNCTION_DEFAULT;
-> > @@ -1147,6 +1151,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-> >  				      struct dc_plane_state *dc_plane_state)
-> >  {
-> >  	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
-> > +	struct dc_color_caps *color_caps = NULL;
-> >  	bool has_crtc_cm_degamma;
-> >  	int ret;
-> >  
-> > @@ -1156,6 +1161,9 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-> >  		return ret;
-> >  	}
-> >  
-> > +	if (dc_plane_state->ctx && dc_plane_state->ctx->dc)
-> > +		color_caps = &dc_plane_state->ctx->dc->caps.color;
-> > +
-> >  	/* Initially, we can just bypass the DGM block. */
-> >  	dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
-> >  	dc_plane_state->in_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
-> > @@ -1163,7 +1171,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-> >  	/* After, we start to update values according to color props */
-> >  	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
-> >  
-> > -	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
-> > +	ret = __set_dm_plane_degamma(plane_state, dc_plane_state, color_caps);
-> >  	if (ret == -ENOMEM)
-> >  		return ret;
-> >  
-> > @@ -1189,10 +1197,11 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-> >  		 * linearize (implicit degamma) from sRGB/BT709 according to
-> >  		 * the input space.
-> >  		 */
-> > -		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
-> > +		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state, color_caps);
-> >  		if (ret)
-> >  			return ret;
-> >  	}
-> >  
-> > -	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
-> > +	return amdgpu_dm_plane_set_color_properties(plane_state,
-> > +						    dc_plane_state, color_caps);
-> >  }
-> 
+For locks under a ww_acquire_ctx, the solution outlined above appears to 
+work, and it's restricted to lockdep code only.
+
+/Thomas
+
+
+>
+> /Thomas
+>
+>>
+>> Christian.
+>>
+>>>
+>>>>
+>>>>>
+>>>>> If we were to implement something similar in drm_exec, we'd need 
+>>>>> an interface to mark an object as "temporary" when locking, and 
+>>>>> make sure we drop those objects if they end up as "prelocked". 
+>>>>> Personally I think this solution works well and would be my 
+>>>>> preferred choice.
+>>>>>
+>>>>> Yet another alternative would be to keep a reference even of the 
+>>>>> unlocked objects...
+>>>>>
+>>>>> But these workarounds ofc only push the problem out of drm_exec. 
+>>>>> Users of raw dma-resv or ww mutexes would still wonder what's 
+>>>>> going on.
+>>>>
+>>>> Agree, completely. This is really a bug in lockdep or rather how we 
+>>>> designed to implement ww_mutexes in lockdep and should therefore be 
+>>>> fixed there I think.
+>>>
+>>>
+>>>>
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> /Thomas
+>>>>>
+>>>>>
+>>>>>
+>>>>>>
+>>>>>> Christian.
+>>>>>>
+>>>>>>>
+>>>>>>> /Thomas
+>>>>>>>
+>>>>>>>
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> v2:
+>>>>>>>>> - Rewording of commit messages
+>>>>>>>>> - Add some commit message tags
+>>>>>>>>> v3:
+>>>>>>>>> - Remove an already committed patch
+>>>>>>>>> - Rework the test to not require dmesg inspection (Maxime Ripard)
+>>>>>>>>> - Condition the test on CONFIG_LOCK_ALLOC
+>>>>>>>>> - Update code comments and commit messages (Maxime Ripard)
+>>>>>>>>>
+>>>>>>>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>>>>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>>>>>>
+>>>>>>>>> Thomas Hellström (2):
+>>>>>>>>>    drm/tests: helpers: Avoid a driver uaf
+>>>>>>>>>    drm/tests/drm_exec: Add a test for object freeing within
+>>>>>>>>>      drm_exec_fini()
+>>>>>>>>>
+>>>>>>>>>   drivers/gpu/drm/tests/drm_exec_test.c | 82 
+>>>>>>>>> +++++++++++++++++++++++++++
+>>>>>>>>>   include/drm/drm_kunit_helpers.h       |  4 +-
+>>>>>>>>>   2 files changed, 85 insertions(+), 1 deletion(-)
+>>>>>>>>>
+>>>>>>>>
+>>>>>>
+>>>>
+>>
