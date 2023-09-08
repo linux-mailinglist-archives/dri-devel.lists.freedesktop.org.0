@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9927798FF8
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F19D798FFF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Sep 2023 21:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0357A10E93D;
-	Fri,  8 Sep 2023 19:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 464E910E93E;
+	Fri,  8 Sep 2023 19:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E962A10E93D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:36:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D958210E93E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Sep 2023 19:36:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 13E73CE1B8A;
- Fri,  8 Sep 2023 19:36:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D52C433BC;
- Fri,  8 Sep 2023 19:36:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4EB9061564;
+ Fri,  8 Sep 2023 19:36:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0696C433C8;
+ Fri,  8 Sep 2023 19:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694201774;
- bh=7DNKxML1OovOuL0wtQlSR0eXrNBQN/Adr0v9MwgCV4c=;
- h=From:To:Cc:Subject:Date:From;
- b=qew8TfU7iRlPkFp/2HB0EKQu831oV0dIqEIrg/cB0k9trnjOQleHSAwEEI6xghQTt
- Oipy1WA9sB9x799D5XjBYQHYuxVJDeWfBoNnPJGw6b18xhfyIE0UvSf65zP2dFaaru
- RIRc7K7/0qY8gRtaLYD8RGi4FzLRr7bSqvENaGi5kvPy2vxBflXSidNdGkMS9rE0eI
- jcDSgLrIsRIWaxQ8V1HMU2WhODHPHfqF9FHSI/NEIQKrv8hJO005ipIMFXjiXsfKv9
- nCcB4TboA+NLb3gckGiTAgXiomAWQsOvBsDdL6c4fcO+M+GaumFioYgHH+qo+iIt/p
- KM3PWQ8OT4Vsg==
+ s=k20201202; t=1694201796;
+ bh=F9Tan8+RwN6HevTYvxm9Mr+yXSzJHKh/ZLEgPu5sxOo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hFgB/eZsuMiYrXM8wIzwZoLEO4Xr97fTCoHkSWyuRrhgaDAIYO3aBIgbQcZe2Rw5B
+ lKTqARGn4MucZya5P8rbpfsUG0rGGhPSdpZJyf1p+6tEGiaVW9gPLvf60o7EWraA9E
+ s80huTTLYlgYnotxbALJcfbXVBqkJPIcPg9SWRNarM1YnSjrM0y2RcVmjwyzz4e0Sb
+ lgj1N6B4aeNIw3CV024zpKVlMgJHVAmnXr+ysa4mEk1grRLVENiHQJ8NA3SkwyqcEa
+ ShivavL5pdBNkui6NCzB0/VgAx+sHMpYn7Axj/piSvlbWFTsF/UFxA7jRWwgXqwUyZ
+ PR3VLVwqfW2CA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 1/9] drm/bridge: tc358762: Instruct DSI host to
- generate HSE packets
-Date: Fri,  8 Sep 2023 15:36:02 -0400
-Message-Id: <20230908193611.3463821-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 6/9] drm/exynos: fix a possible null-pointer
+ dereference due to data race in exynos_drm_crtc_atomic_disable()
+Date: Fri,  8 Sep 2023 15:36:07 -0400
+Message-Id: <20230908193611.3463821-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230908193611.3463821-1-sashal@kernel.org>
+References: <20230908193611.3463821-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,43 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, neil.armstrong@linaro.org,
- Robert Foss <rfoss@kernel.org>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ BassCheck <bass@buaa.edu.cn>, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Tuo Li <islituo@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit 362fa8f6e6a05089872809f4465bab9d011d05b3 ]
+[ Upstream commit 2e63972a2de14482d0eae1a03a73e379f1c3f44c ]
 
-This bridge seems to need the HSE packet, otherwise the image is
-shifted up and corrupted at the bottom. This makes the bridge
-work with Samsung DSIM on i.MX8MM and i.MX8MP.
+The variable crtc->state->event is often protected by the lock
+crtc->dev->event_lock when is accessed. However, it is accessed as a
+condition of an if statement in exynos_drm_crtc_atomic_disable() without
+holding the lock:
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Robert Foss <rfoss@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230615201902.566182-3-marex@denx.de
+  if (crtc->state->event && !crtc->state->active)
+
+However, if crtc->state->event is changed to NULL by another thread right
+after the conditions of the if statement is checked to be true, a
+null-pointer dereference can occur in drm_crtc_send_vblank_event():
+
+  e->pipe = pipe;
+
+To fix this possible null-pointer dereference caused by data race, the
+spin lock coverage is extended to protect the if statement as well as the
+function call to drm_crtc_send_vblank_event().
+
+Reported-by: BassCheck <bass@buaa.edu.cn>
+Link: https://sites.google.com/view/basscheck/home
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Added relevant link.
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358762.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_drm_crtc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 1bfdfc6affafe..21c57d3435687 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -224,7 +224,7 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = 1;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
--			  MIPI_DSI_MODE_LPM;
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_VIDEO_HSE;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+index 1c03485676efa..de9fadccf22e5 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+@@ -39,13 +39,12 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	if (exynos_crtc->ops->atomic_disable)
+ 		exynos_crtc->ops->atomic_disable(exynos_crtc);
  
- 	ret = tc358762_parse_dt(ctx);
- 	if (ret < 0)
++	spin_lock_irq(&crtc->dev->event_lock);
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
+-
+ 		crtc->state->event = NULL;
+ 	}
++	spin_unlock_irq(&crtc->dev->event_lock);
+ }
+ 
+ static int exynos_crtc_atomic_check(struct drm_crtc *crtc,
 -- 
 2.40.1
 
