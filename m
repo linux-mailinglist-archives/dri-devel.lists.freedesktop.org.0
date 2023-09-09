@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B0A79995A
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 17:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D45D799960
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 17:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCF810E2A9;
-	Sat,  9 Sep 2023 15:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF0E10E157;
+	Sat,  9 Sep 2023 15:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C05C410E2A0
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 15:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694273520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jy97Zm8O5jUoTHurzLr8Pi9ChNRT0Cs6TkosOA15it4=;
- b=EtGNaIaCt/B+twMwvA1eEpzn8ZG9Vpd480jolMQgu4UZZBe/JJjdEAUpnErrETrc2MSlvw
- FpATz+R6MhWP2jSN4iCdZ3r9/S1w9+7ZGnHwsl3RNjE8PUl23qMW17NJnQciyHiuINttYo
- uOsIl711lTvPsplYeWR8afI8xhfRd+c=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-3KRmXKotNPK1GaYv05vFiA-1; Sat, 09 Sep 2023 11:31:58 -0400
-X-MC-Unique: 3KRmXKotNPK1GaYv05vFiA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-521da4c99d4so2128878a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Sep 2023 08:31:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694273517; x=1694878317;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jy97Zm8O5jUoTHurzLr8Pi9ChNRT0Cs6TkosOA15it4=;
- b=SChmhO09/VZLcpQj/GoqrVOMR8/vu6AoL6+WUS0p+C7iCxARIOlH0Oo/tK+cglSgDb
- AoWtJ3GlXgqtD4osE5S24lXG0wimzL8Q5lHrjBk/gBrNGp5QH9YsI9A9H7Y8BG3+8ycx
- DAxsW1wvdBfmdm1iHbN0rx0Dt6I2Tx6nREVS/y/2hBvWHoRS65E6DPsLvYczZ0nY355l
- mzkdTkdb60pcB/Q8mNOTKTvQsi9qKTR0dlyfflzSBa26JWYYZyfUmuVTMtFZm6hLXtdV
- TKH0Btk3okJWJBSTPljy7KUExJDmQFLivspGd24pDCqEhLSjNbHlAW0hJPcG/puQKHq8
- Cy5w==
-X-Gm-Message-State: AOJu0Yx7KCyt8ndPuTkxJ4Pv7Ln5OmNKnKSqsOjfuBh86J3MYMC2AB7E
- xS6dAa08hcnjyssdGgRetboOOmxtxryLUAxDgUreTW8fPD3Nvx+uBdmJERPMZGv23u2ZF40nWPI
- nQRfXKB3wEoevC1MJuN5P5wiawgOf
-X-Received: by 2002:aa7:c748:0:b0:526:9cfb:c12 with SMTP id
- c8-20020aa7c748000000b005269cfb0c12mr4260238eds.38.1694273517307; 
- Sat, 09 Sep 2023 08:31:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHH5Hn7RTYv2p5VY0MW5fEZJ0fCPpDb1yVfDUTKjPPG99JYg9OKHvRVdIxxXJ0mGAXrsvdLFw==
-X-Received: by 2002:aa7:c748:0:b0:526:9cfb:c12 with SMTP id
- c8-20020aa7c748000000b005269cfb0c12mr4260228eds.38.1694273516992; 
- Sat, 09 Sep 2023 08:31:56 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- t11-20020aa7d70b000000b0052e901cef48sm2309820edq.48.2023.09.09.08.31.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Sep 2023 08:31:56 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
-Subject: [PATCH drm-misc-next v3 7/7] drm/nouveau: GPUVM dma-resv/extobj
- handling, GEM validation
-Date: Sat,  9 Sep 2023 17:31:14 +0200
-Message-ID: <20230909153125.30032-8-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230909153125.30032-1-dakr@redhat.com>
-References: <20230909153125.30032-1-dakr@redhat.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D319A10E2AB;
+ Sat,  9 Sep 2023 15:55:08 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 50B6F6607285;
+ Sat,  9 Sep 2023 16:55:07 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694274907;
+ bh=/VE6MYnZDRY2VilA8U4RrFDUgId9z3RuvBUTwX9xUnU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fmIOdwm1d8Z2rRv7T5UTzHkIJ9GlZlZ2olQk58Xw8hBMHS4o9kCvG/acDtPJHBEdD
+ HU5HF4Inu/N3SmEV8ljfEDjt4kQnFwKccki17M6vguGgK22PRbyCBP+iG+SpyicmYj
+ trrbwIFXZ9kovG4UsUf2qUkR5cu2g0EGH/4aanfVIfxal4mZXDSLQuutrgO7IUbr59
+ Gl9Dt0RaDsTCcifHAWmP8gCA8z1G3gR2d71T/f9QlGmHVUU22XjeS+67ZqGJPebSjd
+ CGfBRYAyQxtqnuP04838ylt8zy21y0uu4vKajbS8u6J2WzAQsn6l+3mLocgIz9/bpD
+ 0P9rqS5Ka13xg==
+Date: Sat, 9 Sep 2023 16:55:04 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 2/8] drm/panfrost: Enable cycle counter register upon
+ job submission
+Message-ID: <il5vlcbe5ddvxb7xiwyfcbojrabkvrw6ffrjbswgubruht6vkw@ksl33b2pgage>
+References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
+ <20230905184533.959171-3-adrian.larumbe@collabora.com>
+ <20230906092140.3993d40a@collabora.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <20230906092140.3993d40a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,403 +55,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
+ mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make use of the DRM GPUVA managers GPU-VM common dma-resv, external GEM
-object tracking, dma-resv locking, evicted GEM object tracking and
-validation features.
+On 06.09.2023 09:21, Boris Brezillon wrote:
+>On Tue,  5 Sep 2023 19:45:18 +0100
+>Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+>> In a future development, we will want to keep track of the number of GPU
+>> cycles spent on a given job. That means we should enable it only when the
+>> GPU has work to do, and switch it off whenever it is idle to avoid power
+>> waste.
+>> 
+>> To avoid race conditions during enablement/disabling, a reference counting
+>> mechanism was introduced, and a job flag that tells us whether a given job
+>> increased the refcount. This is necessary, because a future development
+>> will let user space toggle cycle counting through a debugfs file, and a
+>> given job might have been in flight by the time cycle counting was
+>> disabled.
+>> 
+>> Toggling of GPU cycle counting has to be done through a module parameter.
+>> 
+>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>> ---
+>>  drivers/gpu/drm/panfrost/panfrost_device.c |  5 +++
+>>  drivers/gpu/drm/panfrost/panfrost_device.h |  6 +++
+>>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 43 ++++++++++++++++++++++
+>>  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  6 +++
+>>  drivers/gpu/drm/panfrost/panfrost_job.c    | 10 +++++
+>>  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+>>  6 files changed, 71 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> index fa1a086a862b..1ea2ac3804f0 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> @@ -18,6 +18,9 @@
+>>  #include "panfrost_mmu.h"
+>>  #include "panfrost_perfcnt.h"
+>>  
+>> +static bool profile;
+>> +module_param(profile, bool, 0600);
+>
+>Not sure if we should make that a module parameter. Might be better
+>exposed as a debugfs knob attached to the device (even if having
+>multiple Mali devices is rather unlikely, I think I'd prefer to make
+>this toggle per-device).
+>
+>> +
+>>  static int panfrost_reset_init(struct panfrost_device *pfdev)
+>>  {
+>>  	pfdev->rstc = devm_reset_control_array_get_optional_exclusive(pfdev->dev);
+>> @@ -207,6 +210,8 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>>  
+>>  	spin_lock_init(&pfdev->as_lock);
+>>  
+>> +	atomic_set(&pfdev->profile_mode, profile);
+>
+>So, profile_mode can only be set at probe time, meaning any changes to
+>the profile module param is not taken into account after that point.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_bo.c    |  4 +-
- drivers/gpu/drm/nouveau/nouveau_exec.c  | 52 +++----------
- drivers/gpu/drm/nouveau/nouveau_exec.h  |  4 -
- drivers/gpu/drm/nouveau/nouveau_gem.c   |  4 +-
- drivers/gpu/drm/nouveau/nouveau_sched.h |  4 +-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c  | 99 ++++++++++++++++---------
- 6 files changed, 82 insertions(+), 85 deletions(-)
+Not in this patch in the series, that's why I thought of enabling debugfs
+toggling in a later patch.  But I suppose it's best to coalesce them into a
+single one and do away with the module param altogether.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 19cab37ac69c..18c91993dae1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1060,17 +1060,18 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- {
- 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
- 	struct nouveau_bo *nvbo = nouveau_bo(bo);
-+	struct drm_gem_object *obj = &bo->base;
- 	struct ttm_resource *old_reg = bo->resource;
- 	struct nouveau_drm_tile *new_tile = NULL;
- 	int ret = 0;
- 
--
- 	if (new_reg->mem_type == TTM_PL_TT) {
- 		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
- 		if (ret)
- 			return ret;
- 	}
- 
-+	drm_gpuvm_bo_evict(obj, evict);
- 	nouveau_bo_move_ntfy(bo, new_reg);
- 	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
-@@ -1135,6 +1136,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- out_ntfy:
- 	if (ret) {
- 		nouveau_bo_move_ntfy(bo, bo->resource);
-+		drm_gpuvm_bo_evict(obj, !evict);
- 	}
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
-index b4239af29e5a..5f86043046f5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_exec.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
-@@ -1,7 +1,5 @@
- // SPDX-License-Identifier: MIT
- 
--#include <drm/drm_exec.h>
--
- #include "nouveau_drv.h"
- #include "nouveau_gem.h"
- #include "nouveau_mem.h"
-@@ -91,9 +89,6 @@ nouveau_exec_job_submit(struct nouveau_job *job)
- 	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
- 	struct nouveau_cli *cli = job->cli;
- 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
- 	int ret;
- 
- 	ret = nouveau_fence_new(&exec_job->fence);
-@@ -101,52 +96,29 @@ nouveau_exec_job_submit(struct nouveau_job *job)
- 		return ret;
- 
- 	nouveau_uvmm_lock(uvmm);
--	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
--			    DRM_EXEC_IGNORE_DUPLICATES);
--	drm_exec_until_all_locked(exec) {
--		struct drm_gpuva *va;
--
--		drm_gpuvm_for_each_va(va, &uvmm->base) {
--			if (unlikely(va == &uvmm->base.kernel_alloc_node))
--				continue;
--
--			ret = drm_exec_prepare_obj(exec, va->gem.obj, 1);
--			drm_exec_retry_on_contention(exec);
--			if (ret)
--				goto err_uvmm_unlock;
--		}
-+	job->vm_exec.vm = &uvmm->base;
-+	ret = drm_gpuvm_exec_lock(&job->vm_exec, 1, false);
-+	if (ret) {
-+		nouveau_uvmm_unlock(uvmm);
-+		return ret;
- 	}
- 	nouveau_uvmm_unlock(uvmm);
- 
--	drm_exec_for_each_locked_object(exec, index, obj) {
--		struct nouveau_bo *nvbo = nouveau_gem_object(obj);
--
--		ret = nouveau_bo_validate(nvbo, true, false);
--		if (ret)
--			goto err_exec_fini;
-+	ret = drm_gpuvm_validate(&uvmm->base);
-+	if (ret) {
-+		drm_gpuvm_exec_unlock(&job->vm_exec);
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_uvmm_unlock:
--	nouveau_uvmm_unlock(uvmm);
--err_exec_fini:
--	drm_exec_fini(exec);
--	return ret;
--
- }
- 
- static void
- nouveau_exec_job_armed_submit(struct nouveau_job *job)
- {
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
--
--	drm_exec_for_each_locked_object(exec, index, obj)
--		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
--
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_resv_add_fence(&job->vm_exec, job->done_fence,
-+				      job->resv_usage, job->resv_usage);
-+	drm_gpuvm_exec_unlock(&job->vm_exec);
- }
- 
- static struct dma_fence *
-diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.h b/drivers/gpu/drm/nouveau/nouveau_exec.h
-index 778cacd90f65..b815de2428f3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_exec.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_exec.h
-@@ -3,16 +3,12 @@
- #ifndef __NOUVEAU_EXEC_H__
- #define __NOUVEAU_EXEC_H__
- 
--#include <drm/drm_exec.h>
--
- #include "nouveau_drv.h"
- #include "nouveau_sched.h"
- 
- struct nouveau_exec_job_args {
- 	struct drm_file *file_priv;
- 	struct nouveau_sched_entity *sched_entity;
--
--	struct drm_exec exec;
- 	struct nouveau_channel *chan;
- 
- 	struct {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index c0b10d8d3d03..b89b2494af98 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -111,7 +111,7 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
- 	if (vmm->vmm.object.oclass < NVIF_CLASS_VMM_NV50)
- 		return 0;
- 
--	if (nvbo->no_share && uvmm && &uvmm->resv != nvbo->bo.base.resv)
-+	if (nvbo->no_share && uvmm && uvmm->base.resv != nvbo->bo.base.resv)
- 		return -EPERM;
- 
- 	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
-@@ -245,7 +245,7 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
- 		if (unlikely(!uvmm))
- 			return -EINVAL;
- 
--		resv = &uvmm->resv;
-+		resv = uvmm->base.resv;
- 	}
- 
- 	if (!(domain & (NOUVEAU_GEM_DOMAIN_VRAM | NOUVEAU_GEM_DOMAIN_GART)))
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-index 27ac19792597..54379af6f925 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-@@ -5,7 +5,7 @@
- 
- #include <linux/types.h>
- 
--#include <drm/drm_exec.h>
-+#include <drm/drm_gpuvm.h>
- #include <drm/gpu_scheduler.h>
- 
- #include "nouveau_drv.h"
-@@ -54,7 +54,7 @@ struct nouveau_job {
- 	struct drm_file *file_priv;
- 	struct nouveau_cli *cli;
- 
--	struct drm_exec exec;
-+	struct drm_gpuvm_exec vm_exec;
- 	enum dma_resv_usage resv_usage;
- 	struct dma_fence *done_fence;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index cf709afd2ac7..2fc13afaa624 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -438,8 +438,9 @@ nouveau_uvma_region_complete(struct nouveau_uvma_region *reg)
- static void
- op_map_prepare_unwind(struct nouveau_uvma *uvma)
- {
-+	struct drm_gpuva *va = &uvma->va;
- 	nouveau_uvma_gem_put(uvma);
--	drm_gpuva_remove(&uvma->va);
-+	drm_gpuva_remove(va);
- 	nouveau_uvma_free(uvma);
- }
- 
-@@ -468,6 +469,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			break;
- 		case DRM_GPUVA_OP_REMAP: {
- 			struct drm_gpuva_op_remap *r = &op->remap;
-+			struct drm_gpuva *va = r->unmap->va;
- 
- 			if (r->next)
- 				op_map_prepare_unwind(new->next);
-@@ -475,7 +477,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			if (r->prev)
- 				op_map_prepare_unwind(new->prev);
- 
--			op_unmap_prepare_unwind(r->unmap->va);
-+			op_unmap_prepare_unwind(va);
- 			break;
- 		}
- 		case DRM_GPUVA_OP_UNMAP:
-@@ -634,6 +636,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 					goto unwind;
- 				}
- 			}
-+
- 			break;
- 		}
- 		case DRM_GPUVA_OP_REMAP: {
-@@ -1146,13 +1149,44 @@ bind_link_gpuvas(struct bind_job_op *bop)
- 	}
- }
- 
-+static int
-+bind_lock_extra(struct drm_gpuvm_exec *vm_exec, unsigned int num_fences)
-+{
-+	struct nouveau_uvmm_bind_job *bind_job = vm_exec->extra.priv;
-+	struct drm_exec *exec = &vm_exec->exec;
-+	struct bind_job_op *op;
-+	int ret;
-+
-+	list_for_each_op(op, &bind_job->ops) {
-+		struct drm_gpuva_op *va_op;
-+
-+		if (IS_ERR_OR_NULL(op->ops))
-+			continue;
-+
-+		drm_gpuva_for_each_op(va_op, op->ops) {
-+			struct drm_gem_object *obj = op_gem_obj(va_op);
-+
-+			if (unlikely(!obj))
-+				continue;
-+
-+			if (va_op->op != DRM_GPUVA_OP_UNMAP)
-+				continue;
-+
-+			ret = drm_exec_prepare_obj(exec, obj, num_fences);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int
- nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- {
- 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
- 	struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
- 	struct nouveau_sched_entity *entity = job->entity;
--	struct drm_exec *exec = &job->exec;
- 	struct bind_job_op *op;
- 	int ret;
- 
-@@ -1170,6 +1204,8 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 			dma_resv_unlock(obj->resv);
- 			if (IS_ERR(op->vm_bo))
- 				return PTR_ERR(op->vm_bo);
-+
-+			drm_gpuvm_bo_extobj_add(op->vm_bo);
- 		}
- 
- 		ret = bind_validate_op(job, op);
-@@ -1192,6 +1228,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 	 * unwind all GPU VA space changes on failure.
- 	 */
- 	nouveau_uvmm_lock(uvmm);
-+
- 	list_for_each_op(op, &bind_job->ops) {
- 		switch (op->op) {
- 		case OP_MAP_SPARSE:
-@@ -1303,30 +1340,13 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 		}
- 	}
- 
--	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
--			    DRM_EXEC_IGNORE_DUPLICATES);
--	drm_exec_until_all_locked(exec) {
--		list_for_each_op(op, &bind_job->ops) {
--			struct drm_gpuva_op *va_op;
-+	job->vm_exec.vm = &uvmm->base;
-+	job->vm_exec.extra.fn = bind_lock_extra;
-+	job->vm_exec.extra.priv = bind_job;
- 
--			if (IS_ERR_OR_NULL(op->ops))
--				continue;
--
--			drm_gpuva_for_each_op(va_op, op->ops) {
--				struct drm_gem_object *obj = op_gem_obj(va_op);
--
--				if (unlikely(!obj))
--					continue;
--
--				ret = drm_exec_prepare_obj(exec, obj, 1);
--				drm_exec_retry_on_contention(exec);
--				if (ret) {
--					op = list_last_op(&bind_job->ops);
--					goto unwind;
--				}
--			}
--		}
--	}
-+	ret = drm_gpuvm_exec_lock(&job->vm_exec, 1, false);
-+	if (ret)
-+		goto unwind_continue;
- 
- 	list_for_each_op(op, &bind_job->ops) {
- 		struct drm_gpuva_op *va_op;
-@@ -1426,21 +1446,16 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 	}
- 
- 	nouveau_uvmm_unlock(uvmm);
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_unlock(&job->vm_exec);
- 	return ret;
- }
- 
- static void
- nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job)
- {
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
--
--	drm_exec_for_each_locked_object(exec, index, obj)
--		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
--
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_resv_add_fence(&job->vm_exec, job->done_fence,
-+				      job->resv_usage, job->resv_usage);
-+	drm_gpuvm_exec_unlock(&job->vm_exec);
- }
- 
- static struct dma_fence *
-@@ -1832,6 +1847,18 @@ nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo)
- 	}
- }
- 
-+static int
-+nouveau_uvmm_bo_validate(struct drm_gem_object *obj)
-+{
-+	struct nouveau_bo *nvbo = nouveau_gem_object(obj);
-+
-+	return nouveau_bo_validate(nvbo, true, false);
-+}
-+
-+static const struct drm_gpuvm_ops gpuvm_ops = {
-+	.bo_validate = nouveau_uvmm_bo_validate,
-+};
-+
- int
- nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
- 		  u64 kernel_managed_addr, u64 kernel_managed_size)
-@@ -1868,7 +1895,7 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, struct nouveau_cli *cli,
- 		       NOUVEAU_VA_SPACE_START,
- 		       NOUVEAU_VA_SPACE_END,
- 		       kernel_managed_addr, kernel_managed_size,
--		       NULL);
-+		       &gpuvm_ops);
- 
- 	ret = nvif_vmm_ctor(&cli->mmu, "uvmm",
- 			    cli->vmm.vmm.object.oclass, RAW,
--- 
-2.41.0
+>> +
+>>  	err = panfrost_clk_init(pfdev);
+>>  	if (err) {
+>>  		dev_err(pfdev->dev, "clk init failed %d\n", err);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> index b0126b9fbadc..5c09c9f3ae08 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> @@ -107,6 +107,7 @@ struct panfrost_device {
+>>  	struct list_head scheduled_jobs;
+>>  
+>>  	struct panfrost_perfcnt *perfcnt;
+>> +	atomic_t profile_mode;
+>>  
+>>  	struct mutex sched_lock;
+>>  
+>> @@ -121,6 +122,11 @@ struct panfrost_device {
+>>  	struct shrinker shrinker;
+>>  
+>>  	struct panfrost_devfreq pfdevfreq;
+>> +
+>> +	struct {
+>> +		atomic_t use_count;
+>> +		spinlock_t lock;
+>> +	} cycle_counter;
+>>  };
+>>  
+>>  struct panfrost_mmu {
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 2faa344d89ee..fddbc72bf093 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -73,6 +73,8 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+>>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>>  	gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
+>>  
+>> +	atomic_set(&pfdev->cycle_counter.use_count, 0);
+>
+>I think I'd prefer if the jobs that were in-flight at the time a GPU
+>hang occurred explicitly release their reference on use_count. So maybe
+>something like
+>
+>	/* When we reset the GPU we should have no cycle-counter users
+>	 * left.
+>	 */
+>	if (drm_WARN_ON(cycle_counter.use_count != 0))
+>		atomic_set(&pfdev->cycle_counter.use_count, 0);
+>
+>to catch unbalanced get/put situations.
+>
+>> +
+>>  	return 0;
+>>  }
+>>  
+>> @@ -321,6 +323,46 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>>  		 pfdev->features.shader_present, pfdev->features.l2_present);
+>>  }
+>>  
+>> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev)
+>> +{
+>> +	if (atomic_inc_not_zero(&pfdev->cycle_counter.use_count))
+>> +		return;
+>> +
+>> +	spin_lock(&pfdev->cycle_counter.lock);
+>> +	if (atomic_inc_return(&pfdev->cycle_counter.use_count) == 1)
+>> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_START);
+>> +	spin_unlock(&pfdev->cycle_counter.lock);
+>> +}
+>> +
+>> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev)
+>> +{
+>> +	if (atomic_add_unless(&pfdev->cycle_counter.use_count, -1, 1))
+>> +		return;
+>> +
+>> +	spin_lock(&pfdev->cycle_counter.lock);
+>> +	if (atomic_dec_return(&pfdev->cycle_counter.use_count) == 0)
+>> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
+>> +	spin_unlock(&pfdev->cycle_counter.lock);
+>> +}
+>> +
+>> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev)
+>> +{
+>> +	atomic_set(&pfdev->profile_mode, 0);
+>> +	gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
+>
+>Why do we need to issue a STOP here. Setting profile_mode to false
+>should be enough to prevent future jobs from enabling the
+>cycle-counter, and the counter will be naturally disabled when all
+>in-flight jobs that had profiling enabled are done.
+>
+>Actually I'm not even sure I understand why this function exists.
+
+I thought it might be good to stop the cycle counter at once even if there
+were still in-flight jobs, but now that you mention this perhaps it would
+run the risk of disabling it even in the case of a broken refcount.
+
+>> +}
+>> +
+>> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev)
+>> +{
+>> +	U32 hi, lo;
+>> +
+>> +	do {
+>> +		hi = gpu_read(pfdev, GPU_CYCLE_COUNT_HI);
+>> +		lo = gpu_read(pfdev, GPU_CYCLE_COUNT_LO);
+>> +	} while (hi != gpu_read(pfdev, GPU_CYCLE_COUNT_HI));
+>> +
+>> +	return ((u64)hi << 32) | lo;
+>> +}
+>> +
+>>  void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>>  {
+>>  	int ret;
+>> @@ -367,6 +409,7 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>>  
+>>  void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>  {
+>> +	panfrost_cycle_counter_stop(pfdev);
+>
+>So, you're setting profile_mode = 0 in the suspend path, but AFAICT,
+>it's not set back to the module param profile value on resume, which
+>means it's disabled on suspend and never re-enabled after that.
+
+Yep, this is wrong, I missed this path altogether.
+
+>Besides, I don't really see a reason to change the pfdev->profile_mode
+>value in this path. If we suspend the device, that means we have no
+>jobs running, and the use_count refcount should have dropped to zero,
+>thus disabling cycle counting.
+>
+>>  	gpu_write(pfdev, TILER_PWROFF_LO, 0);
+>>  	gpu_write(pfdev, SHADER_PWROFF_LO, 0);
+>>  	gpu_write(pfdev, L2_PWROFF_LO, 0);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> index 468c51e7e46d..4d62e8901c79 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> @@ -16,6 +16,12 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
+>>  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+>>  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+>>  
+>> +void panfrost_stop_cycle_counter(struct panfrost_device *pfdev);
+>> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
+>> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev);
+>> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
+>> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev);
+>> +
+>>  void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
+>>  
+>>  #endif
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index 033f5e684707..8b1bf6ac48f8 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -297,6 +297,11 @@ int panfrost_job_push(struct panfrost_job *job)
+>>  
+>>  	kref_get(&job->refcount); /* put by scheduler job completion */
+>>  
+>> +	if (atomic_read(&pfdev->profile_mode)) {
+>> +		panfrost_cycle_counter_get(pfdev);
+>> +		job->is_profiled = true;
+>> +	}
+>> +
+>>  	drm_sched_entity_push_job(&job->base);
+>>  
+>>  	mutex_unlock(&pfdev->sched_lock);
+>> @@ -351,6 +356,9 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
+>>  
+>>  	drm_sched_job_cleanup(sched_job);
+>>  
+>> +	if (job->is_profiled)
+>> +		panfrost_cycle_counter_put(job->pfdev);
+>> +
+>>  	panfrost_job_put(job);
+>>  }
+>>  
+>> @@ -842,6 +850,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>>  		}
+>>  	}
+>>  
+>> +	spin_lock_init(&pfdev->cycle_counter.lock);
+>> +
+>>  	panfrost_job_enable_interrupts(pfdev);
+>>  
+>>  	return 0;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+>> index 8becc1ba0eb9..2aa0add35459 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+>> @@ -32,6 +32,7 @@ struct panfrost_job {
+>>  
+>>  	/* Fence to be signaled by drm-sched once its done with the job */
+>>  	struct dma_fence *render_done_fence;
+>> +	bool is_profiled;
+>>  };
+>>  
+>>  int panfrost_job_init(struct panfrost_device *pfdev);
 
