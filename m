@@ -1,48 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D45D799960
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 17:55:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A483799965
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 18:09:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF0E10E157;
-	Sat,  9 Sep 2023 15:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A1710E1D7;
+	Sat,  9 Sep 2023 16:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D319A10E2AB;
- Sat,  9 Sep 2023 15:55:08 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 50B6F6607285;
- Sat,  9 Sep 2023 16:55:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694274907;
- bh=/VE6MYnZDRY2VilA8U4RrFDUgId9z3RuvBUTwX9xUnU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fmIOdwm1d8Z2rRv7T5UTzHkIJ9GlZlZ2olQk58Xw8hBMHS4o9kCvG/acDtPJHBEdD
- HU5HF4Inu/N3SmEV8ljfEDjt4kQnFwKccki17M6vguGgK22PRbyCBP+iG+SpyicmYj
- trrbwIFXZ9kovG4UsUf2qUkR5cu2g0EGH/4aanfVIfxal4mZXDSLQuutrgO7IUbr59
- Gl9Dt0RaDsTCcifHAWmP8gCA8z1G3gR2d71T/f9QlGmHVUU22XjeS+67ZqGJPebSjd
- CGfBRYAyQxtqnuP04838ylt8zy21y0uu4vKajbS8u6J2WzAQsn6l+3mLocgIz9/bpD
- 0P9rqS5Ka13xg==
-Date: Sat, 9 Sep 2023 16:55:04 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v3 2/8] drm/panfrost: Enable cycle counter register upon
- job submission
-Message-ID: <il5vlcbe5ddvxb7xiwyfcbojrabkvrw6ffrjbswgubruht6vkw@ksl33b2pgage>
-References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
- <20230905184533.959171-3-adrian.larumbe@collabora.com>
- <20230906092140.3993d40a@collabora.com>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2063.outbound.protection.outlook.com [40.107.212.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CBF10E1D7;
+ Sat,  9 Sep 2023 16:09:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ej1HFGpc9cu6BRVXszR55QUW+4GvuPdmi1c35F8gaB5+sHsaQ/3M3NsmWUe4EH99Tta8iSGkktxLxcQyI5WDAsr0K/vKMqXxMQBNLIknRMubqw9x6mnuxaWdF5a8Ynz56BMHTweFq7wiEKp+jP+i3QP2WSfaHWR6/A+sNXrttM942U82Q46BCLOncNTOXMzibvmKtcKLmrS0QFUjJIkbZZ918+N5l9whM3q7dh3kFdu3oL3rieqMulcxYXSyu90CzEV4RtXKYIVEzOlhorTFZwJ1D+ONlvd6fiefg2zRMBEI+5/pd21JbmFW6momJrruRGVbdn0If51Y/MisPOG1dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eeYI9ei3cySy7fw0d07Ze3dXpIWuVVl7sKT0fnUe6S8=;
+ b=EO5VchbquNIMmkGNOUinvw3FWJEVkHUB/Ox4aFsK+qCpRUzDSGFg8XR5WSGOlvW8bgtVMWdWcjtFlVkz3mnHG82tSMEWQMdbTE/NQPYPc6Fppz3Re8yz1MD3YW+muEaKmz9O5ey2htlihgMjMRs2R/Rl7uA6wAYfVwclQe4IGgUDoO9x8sjuDoQqomrcWQMcy6373So9bkOX4Br36X57/ESYA1eyGVfJXR/7xTqf2OKQNFVY4CYPNUcv2iZ5WAqKJXp1vbIXj+N1ZkPrOwggcwXcYBLa9ucJ1Zhb3w9GUMOTdeWjUm5KzBmJrGvXmg5m4cS69uUHCs45Cs9Pslnkbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eeYI9ei3cySy7fw0d07Ze3dXpIWuVVl7sKT0fnUe6S8=;
+ b=CMF+fx+XfPeBOiSTMZQOdfkFFp8SJg3kdHKBlvwLhphGpBkvNy0VZ0eCbvXI2bcQ5lWQaQqgLzGU4twOZdOe5up89E6drVE8qUQCY/38FqN/pFj+tzmIquR1TPOOPB6MRoJNg96Bzsz67D8id2F5Sxd+RW5D4XiwomDQOurTo0U=
+Received: from BYAPR03CA0004.namprd03.prod.outlook.com (2603:10b6:a02:a8::17)
+ by PH8PR12MB8429.namprd12.prod.outlook.com (2603:10b6:510:258::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Sat, 9 Sep
+ 2023 16:09:27 +0000
+Received: from CO1PEPF000042A9.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8:cafe::8c) by BYAPR03CA0004.outlook.office365.com
+ (2603:10b6:a02:a8::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31 via Frontend
+ Transport; Sat, 9 Sep 2023 16:09:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000042A9.mail.protection.outlook.com (10.167.243.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.11 via Frontend Transport; Sat, 9 Sep 2023 16:09:26 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Sat, 9 Sep 2023 11:09:23 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v2 1/3] drm/buddy: Improve contiguous memory allocation
+Date: Sat, 9 Sep 2023 09:09:00 -0700
+Message-ID: <20230909160902.15644-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230906092140.3993d40a@collabora.com>
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042A9:EE_|PH8PR12MB8429:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8be3e36-4aed-4204-0ffc-08dbb14f23ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: by3Fm1lyqbhLke4WelZNiBVplBa2LnFKcSjeOfsI4qUsWEd0sJncly+BVZO0M3Sub7b3dO4MrG51l5aSJUl5P5boM6Sonb3dKXNk+5eQhW13qb2QN6gsA/yfKZG8wEbSl/yaQkHQSBtATfyGehxPjBhBC5CtfbTBzHMyDnxMoFSI3QrcDpJ448ha87RyNH0vtc26JkUvbcVJfViGUZcEOmsMdmFCiMQcxLtXra4QBOOSJbt2ebUtFI+VgS3mACkkojlJObqUGa2PlxRipK1Q7B7dnxoEhC58IE1Qsjcn8nAU4D/RQUjMQRTGtHwU1FIyJZ42/PdDZhHRBPfnv8D4lrSzQR4abtr3lsU6pWmb6rU8mYGAUtZHVJ3j4JP6UbXfY9zAsjfyimydVc0ZwbB0h0zUZFXMHCoQQureq8MCvfVYrCDMjroCNbkdHTe5mfGFazHGb2XH1YiL2PHdt0OCKdtmdpYvjgFMHjyV77P9x2YGsafOzimxelarDvZrVLVqse5xGI4DSsO4wzxW4MTuMZQ6PqngjbxjesQkqHv3GbKRiGtn0K/53FPCRO0RILUlit1QD7pwvkl9de4ztdW95H6pBvXLR0u+SKcGlbsGEHMoasCwhFIGJd69Eeu/wvz9Fjvx99OQ236PXZ9WlSaBDFVpSrGZ0627wYv+NqJi+IdCIYcvTPz0IwdZrd/Zltw/l0boEKzXRmLcQSqGbBS2GX99+I47HzHBu0Wlf3iIZRVaMrWUZpzB3uKDOM+S4CgzV8OGuwfpV2OfFAw/y0OTV9pPMWHmwvWoLa3J99rMlpg=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(39860400002)(136003)(396003)(376002)(346002)(1800799009)(186009)(82310400011)(451199024)(46966006)(36840700001)(40470700004)(7696005)(40460700003)(6666004)(83380400001)(356005)(82740400003)(81166007)(86362001)(36860700001)(47076005)(36756003)(2616005)(426003)(336012)(1076003)(26005)(16526019)(40480700001)(70586007)(70206006)(54906003)(110136005)(316002)(41300700001)(2906002)(5660300002)(8936002)(8676002)(4326008)(478600001)(25903002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2023 16:09:26.4725 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8be3e36-4aed-4204-0ffc-08dbb14f23ea
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042A9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8429
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,271 +99,295 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
- mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
- healych@amazon.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, kernel@collabora.com,
- linux-kernel@vger.kernel.org
+Cc: alexander.deucher@amd.com,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.09.2023 09:21, Boris Brezillon wrote:
->On Tue,  5 Sep 2023 19:45:18 +0100
->Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
->
->> In a future development, we will want to keep track of the number of GPU
->> cycles spent on a given job. That means we should enable it only when the
->> GPU has work to do, and switch it off whenever it is idle to avoid power
->> waste.
->> 
->> To avoid race conditions during enablement/disabling, a reference counting
->> mechanism was introduced, and a job flag that tells us whether a given job
->> increased the refcount. This is necessary, because a future development
->> will let user space toggle cycle counting through a debugfs file, and a
->> given job might have been in flight by the time cycle counting was
->> disabled.
->> 
->> Toggling of GPU cycle counting has to be done through a module parameter.
->> 
->> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->> ---
->>  drivers/gpu/drm/panfrost/panfrost_device.c |  5 +++
->>  drivers/gpu/drm/panfrost/panfrost_device.h |  6 +++
->>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 43 ++++++++++++++++++++++
->>  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  6 +++
->>  drivers/gpu/drm/panfrost/panfrost_job.c    | 10 +++++
->>  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
->>  6 files changed, 71 insertions(+)
->> 
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
->> index fa1a086a862b..1ea2ac3804f0 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
->> @@ -18,6 +18,9 @@
->>  #include "panfrost_mmu.h"
->>  #include "panfrost_perfcnt.h"
->>  
->> +static bool profile;
->> +module_param(profile, bool, 0600);
->
->Not sure if we should make that a module parameter. Might be better
->exposed as a debugfs knob attached to the device (even if having
->multiple Mali devices is rather unlikely, I think I'd prefer to make
->this toggle per-device).
->
->> +
->>  static int panfrost_reset_init(struct panfrost_device *pfdev)
->>  {
->>  	pfdev->rstc = devm_reset_control_array_get_optional_exclusive(pfdev->dev);
->> @@ -207,6 +210,8 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->>  
->>  	spin_lock_init(&pfdev->as_lock);
->>  
->> +	atomic_set(&pfdev->profile_mode, profile);
->
->So, profile_mode can only be set at probe time, meaning any changes to
->the profile module param is not taken into account after that point.
+Problem statement: The current method roundup_power_of_two()
+to allocate contiguous address triggers -ENOSPC in some cases
+even though we have enough free spaces and so to help with
+that we introduce a try harder mechanism.
 
-Not in this patch in the series, that's why I thought of enabling debugfs
-toggling in a later patch.  But I suppose it's best to coalesce them into a
-single one and do away with the module param altogether.
+In case of -ENOSPC, the new try harder mechanism rounddown the
+original size to power of 2 and iterating over the round down
+sized freelist blocks to allocate the required size traversing
+RHS and LHS.
 
->> +
->>  	err = panfrost_clk_init(pfdev);
->>  	if (err) {
->>  		dev_err(pfdev->dev, "clk init failed %d\n", err);
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
->> index b0126b9fbadc..5c09c9f3ae08 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
->> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
->> @@ -107,6 +107,7 @@ struct panfrost_device {
->>  	struct list_head scheduled_jobs;
->>  
->>  	struct panfrost_perfcnt *perfcnt;
->> +	atomic_t profile_mode;
->>  
->>  	struct mutex sched_lock;
->>  
->> @@ -121,6 +122,11 @@ struct panfrost_device {
->>  	struct shrinker shrinker;
->>  
->>  	struct panfrost_devfreq pfdevfreq;
->> +
->> +	struct {
->> +		atomic_t use_count;
->> +		spinlock_t lock;
->> +	} cycle_counter;
->>  };
->>  
->>  struct panfrost_mmu {
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> index 2faa344d89ee..fddbc72bf093 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->> @@ -73,6 +73,8 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
->>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
->>  	gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
->>  
->> +	atomic_set(&pfdev->cycle_counter.use_count, 0);
->
->I think I'd prefer if the jobs that were in-flight at the time a GPU
->hang occurred explicitly release their reference on use_count. So maybe
->something like
->
->	/* When we reset the GPU we should have no cycle-counter users
->	 * left.
->	 */
->	if (drm_WARN_ON(cycle_counter.use_count != 0))
->		atomic_set(&pfdev->cycle_counter.use_count, 0);
->
->to catch unbalanced get/put situations.
->
->> +
->>  	return 0;
->>  }
->>  
->> @@ -321,6 +323,46 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
->>  		 pfdev->features.shader_present, pfdev->features.l2_present);
->>  }
->>  
->> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev)
->> +{
->> +	if (atomic_inc_not_zero(&pfdev->cycle_counter.use_count))
->> +		return;
->> +
->> +	spin_lock(&pfdev->cycle_counter.lock);
->> +	if (atomic_inc_return(&pfdev->cycle_counter.use_count) == 1)
->> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_START);
->> +	spin_unlock(&pfdev->cycle_counter.lock);
->> +}
->> +
->> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev)
->> +{
->> +	if (atomic_add_unless(&pfdev->cycle_counter.use_count, -1, 1))
->> +		return;
->> +
->> +	spin_lock(&pfdev->cycle_counter.lock);
->> +	if (atomic_dec_return(&pfdev->cycle_counter.use_count) == 0)
->> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
->> +	spin_unlock(&pfdev->cycle_counter.lock);
->> +}
->> +
->> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev)
->> +{
->> +	atomic_set(&pfdev->profile_mode, 0);
->> +	gpu_write(pfdev, GPU_CMD, GPU_CMD_CYCLE_COUNT_STOP);
->
->Why do we need to issue a STOP here. Setting profile_mode to false
->should be enough to prevent future jobs from enabling the
->cycle-counter, and the counter will be naturally disabled when all
->in-flight jobs that had profiling enabled are done.
->
->Actually I'm not even sure I understand why this function exists.
+As part of the above new method implementation we moved
+contiguous/alignment size computation part and trim function
+to the drm buddy file.
 
-I thought it might be good to stop the cycle counter at once even if there
-were still in-flight jobs, but now that you mention this perhaps it would
-run the risk of disabling it even in the case of a broken refcount.
+v2: Modify the alloc_range() function to return total allocated size
+    on -ENOSPC err and traverse RHS/LHS to allocate the required
+    size (Matthew).
 
->> +}
->> +
->> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev)
->> +{
->> +	U32 hi, lo;
->> +
->> +	do {
->> +		hi = gpu_read(pfdev, GPU_CYCLE_COUNT_HI);
->> +		lo = gpu_read(pfdev, GPU_CYCLE_COUNT_LO);
->> +	} while (hi != gpu_read(pfdev, GPU_CYCLE_COUNT_HI));
->> +
->> +	return ((u64)hi << 32) | lo;
->> +}
->> +
->>  void panfrost_gpu_power_on(struct panfrost_device *pfdev)
->>  {
->>  	int ret;
->> @@ -367,6 +409,7 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
->>  
->>  void panfrost_gpu_power_off(struct panfrost_device *pfdev)
->>  {
->> +	panfrost_cycle_counter_stop(pfdev);
->
->So, you're setting profile_mode = 0 in the suspend path, but AFAICT,
->it's not set back to the module param profile value on resume, which
->means it's disabled on suspend and never re-enabled after that.
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 138 ++++++++++++++++++++++++++++++++----
+ include/drm/drm_buddy.h     |   6 +-
+ 2 files changed, 127 insertions(+), 17 deletions(-)
 
-Yep, this is wrong, I missed this path altogether.
-
->Besides, I don't really see a reason to change the pfdev->profile_mode
->value in this path. If we suspend the device, that means we have no
->jobs running, and the use_count refcount should have dropped to zero,
->thus disabling cycle counting.
->
->>  	gpu_write(pfdev, TILER_PWROFF_LO, 0);
->>  	gpu_write(pfdev, SHADER_PWROFF_LO, 0);
->>  	gpu_write(pfdev, L2_PWROFF_LO, 0);
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
->> index 468c51e7e46d..4d62e8901c79 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
->> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
->> @@ -16,6 +16,12 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
->>  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
->>  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
->>  
->> +void panfrost_stop_cycle_counter(struct panfrost_device *pfdev);
->> +void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
->> +void panfrost_cycle_counter_stop(struct panfrost_device *pfdev);
->> +void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
->> +unsigned long long panfrost_cycle_counter_read(struct panfrost_device *pfdev);
->> +
->>  void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
->>  
->>  #endif
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index 033f5e684707..8b1bf6ac48f8 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -297,6 +297,11 @@ int panfrost_job_push(struct panfrost_job *job)
->>  
->>  	kref_get(&job->refcount); /* put by scheduler job completion */
->>  
->> +	if (atomic_read(&pfdev->profile_mode)) {
->> +		panfrost_cycle_counter_get(pfdev);
->> +		job->is_profiled = true;
->> +	}
->> +
->>  	drm_sched_entity_push_job(&job->base);
->>  
->>  	mutex_unlock(&pfdev->sched_lock);
->> @@ -351,6 +356,9 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
->>  
->>  	drm_sched_job_cleanup(sched_job);
->>  
->> +	if (job->is_profiled)
->> +		panfrost_cycle_counter_put(job->pfdev);
->> +
->>  	panfrost_job_put(job);
->>  }
->>  
->> @@ -842,6 +850,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->>  		}
->>  	}
->>  
->> +	spin_lock_init(&pfdev->cycle_counter.lock);
->> +
->>  	panfrost_job_enable_interrupts(pfdev);
->>  
->>  	return 0;
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
->> index 8becc1ba0eb9..2aa0add35459 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
->> @@ -32,6 +32,7 @@ struct panfrost_job {
->>  
->>  	/* Fence to be signaled by drm-sched once its done with the job */
->>  	struct dma_fence *render_done_fence;
->> +	bool is_profiled;
->>  };
->>  
->>  int panfrost_job_init(struct panfrost_device *pfdev);
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 7098f125b54a..e909eed9cf60 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -480,10 +480,12 @@ alloc_from_freelist(struct drm_buddy *mm,
+ static int __alloc_range(struct drm_buddy *mm,
+ 			 struct list_head *dfs,
+ 			 u64 start, u64 size,
+-			 struct list_head *blocks)
++			 struct list_head *blocks,
++			 u64 *total_allocated_on_err)
+ {
+ 	struct drm_buddy_block *block;
+ 	struct drm_buddy_block *buddy;
++	u64 total_allocated = 0;
+ 	LIST_HEAD(allocated);
+ 	u64 end;
+ 	int err;
+@@ -520,6 +522,7 @@ static int __alloc_range(struct drm_buddy *mm,
+ 			}
+ 
+ 			mark_allocated(block);
++			total_allocated += drm_buddy_block_size(mm, block);
+ 			mm->avail -= drm_buddy_block_size(mm, block);
+ 			list_add_tail(&block->link, &allocated);
+ 			continue;
+@@ -551,13 +554,20 @@ static int __alloc_range(struct drm_buddy *mm,
+ 		__drm_buddy_free(mm, block);
+ 
+ err_free:
+-	drm_buddy_free_list(mm, &allocated);
++	if (err == -ENOSPC && total_allocated_on_err) {
++		list_splice_tail(&allocated, blocks);
++		*total_allocated_on_err = total_allocated;
++	} else {
++		drm_buddy_free_list(mm, &allocated);
++	}
++
+ 	return err;
+ }
+ 
+ static int __drm_buddy_alloc_range(struct drm_buddy *mm,
+ 				   u64 start,
+ 				   u64 size,
++				   u64 *total_allocated_on_err,
+ 				   struct list_head *blocks)
+ {
+ 	LIST_HEAD(dfs);
+@@ -566,7 +576,62 @@ static int __drm_buddy_alloc_range(struct drm_buddy *mm,
+ 	for (i = 0; i < mm->n_roots; ++i)
+ 		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
+ 
+-	return __alloc_range(mm, &dfs, start, size, blocks);
++	return __alloc_range(mm, &dfs, start, size,
++			     blocks, total_allocated_on_err);
++}
++
++static int __alloc_contig_try_harder(struct drm_buddy *mm,
++				     u64 size,
++				     u64 min_block_size,
++				     struct list_head *blocks)
++{
++	u64 rhs_offset, lhs_offset, lhs_size, filled;
++	struct drm_buddy_block *block;
++	struct list_head *list;
++	LIST_HEAD(blocks_lhs);
++	unsigned long pages;
++	unsigned int order;
++	u64 modify_size;
++	int err;
++
++	modify_size = rounddown_pow_of_two(size);
++	pages = modify_size >> ilog2(mm->chunk_size);
++	order = fls(pages) - 1;
++	if (order == 0)
++		return -ENOSPC;
++
++	list = &mm->free_list[order];
++	if (list_empty(list))
++		return -ENOSPC;
++
++	list_for_each_entry_reverse(block, list, link) {
++		/* Allocate blocks traversing RHS */
++		rhs_offset = drm_buddy_block_offset(block);
++		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
++					       &filled, blocks);
++		if (!err || err != -ENOSPC)
++			return err;
++
++		lhs_size = max((size - filled), min_block_size);
++		if (!IS_ALIGNED(lhs_size, min_block_size))
++			lhs_size = round_up(lhs_size, min_block_size);
++
++		/* Allocate blocks traversing LHS */
++		lhs_offset = drm_buddy_block_offset(block) - lhs_size;
++		err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
++					       NULL, &blocks_lhs);
++		if (!err) {
++			list_splice(&blocks_lhs, blocks);
++			return 0;
++		} else if (err != -ENOSPC) {
++			drm_buddy_free_list(mm, blocks);
++			return err;
++		}
++		/* Free blocks for the next iteration */
++		drm_buddy_free_list(mm, blocks);
++	}
++
++	return -ENOSPC;
+ }
+ 
+ /**
+@@ -626,7 +691,7 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+ 
+ 	new_start = drm_buddy_block_offset(block);
+ 	list_add(&block->tmp_link, &dfs);
+-	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks);
++	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
+ 	if (err) {
+ 		mark_allocated(block);
+ 		mm->avail -= drm_buddy_block_size(mm, block);
+@@ -645,7 +710,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+  * @start: start of the allowed range for this block
+  * @end: end of the allowed range for this block
+  * @size: size of the allocation
+- * @min_page_size: alignment of the allocation
++ * @min_block_size: alignment of the allocation
+  * @blocks: output list head to add allocated blocks
+  * @flags: DRM_BUDDY_*_ALLOCATION flags
+  *
+@@ -660,23 +725,24 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+  */
+ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 			   u64 start, u64 end, u64 size,
+-			   u64 min_page_size,
++			   u64 min_block_size,
+ 			   struct list_head *blocks,
+ 			   unsigned long flags)
+ {
+ 	struct drm_buddy_block *block = NULL;
++	u64 original_size, original_min_size;
+ 	unsigned int min_order, order;
+-	unsigned long pages;
+ 	LIST_HEAD(allocated);
++	unsigned long pages;
+ 	int err;
+ 
+ 	if (size < mm->chunk_size)
+ 		return -EINVAL;
+ 
+-	if (min_page_size < mm->chunk_size)
++	if (min_block_size < mm->chunk_size)
+ 		return -EINVAL;
+ 
+-	if (!is_power_of_2(min_page_size))
++	if (!is_power_of_2(min_block_size))
+ 		return -EINVAL;
+ 
+ 	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
+@@ -690,14 +756,23 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 
+ 	/* Actual range allocation */
+ 	if (start + size == end)
+-		return __drm_buddy_alloc_range(mm, start, size, blocks);
+-
+-	if (!IS_ALIGNED(size, min_page_size))
+-		return -EINVAL;
++		return __drm_buddy_alloc_range(mm, start, size, NULL, blocks);
++
++	original_size = size;
++	original_min_size = min_block_size;
++
++	/* Roundup the size to power of 2 */
++	if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) {
++		size = roundup_pow_of_two(size);
++		min_block_size = size;
++	/* Align size value to min_block_size */
++	} else if (!IS_ALIGNED(size, min_block_size)) {
++		size = round_up(size, min_block_size);
++	}
+ 
+ 	pages = size >> ilog2(mm->chunk_size);
+ 	order = fls(pages) - 1;
+-	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
++	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
+ 
+ 	do {
+ 		order = min(order, (unsigned int)fls(pages) - 1);
+@@ -716,6 +791,16 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 				break;
+ 
+ 			if (order-- == min_order) {
++				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
++				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
++					/*
++					 * Try contiguous block allocation through
++					 * try harder method
++					 */
++					return __alloc_contig_try_harder(mm,
++									 original_size,
++									 original_min_size,
++									 blocks);
+ 				err = -ENOSPC;
+ 				goto err_free;
+ 			}
+@@ -732,6 +817,31 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 			break;
+ 	} while (1);
+ 
++	/* Trim the allocated block to the required size */
++	if (original_size != size) {
++		struct list_head *trim_list;
++		LIST_HEAD(temp);
++		u64 trim_size;
++
++		trim_list = &allocated;
++		trim_size = original_size;
++
++		if (!list_is_singular(&allocated)) {
++			block = list_last_entry(&allocated, typeof(*block), link);
++			list_move(&block->link, &temp);
++			trim_list = &temp;
++			trim_size = drm_buddy_block_size(mm, block) -
++				(size - original_size);
++		}
++
++		drm_buddy_block_trim(mm,
++				     trim_size,
++				     trim_list);
++
++		if (!list_empty(&temp))
++			list_splice_tail(trim_list, &allocated);
++	}
++
+ 	list_splice_tail(&allocated, blocks);
+ 	return 0;
+ 
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index 572077ff8ae7..a5b39fc01003 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -22,8 +22,9 @@
+ 	start__ >= max__ || size__ > max__ - start__; \
+ })
+ 
+-#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
+-#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
++#define DRM_BUDDY_RANGE_ALLOCATION		BIT(0)
++#define DRM_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
++#define DRM_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+ 
+ struct drm_buddy_block {
+ #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+@@ -155,5 +156,4 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+ void drm_buddy_block_print(struct drm_buddy *mm,
+ 			   struct drm_buddy_block *block,
+ 			   struct drm_printer *p);
+-
+ #endif
+-- 
+2.25.1
 
