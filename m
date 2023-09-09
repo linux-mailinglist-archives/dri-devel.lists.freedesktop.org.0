@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8B7799941
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 17:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5E079994A
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 17:28:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB4210E144;
-	Sat,  9 Sep 2023 15:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304FC10E148;
+	Sat,  9 Sep 2023 15:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF0A10E144
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 15:09:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFA710E13D;
+ Sat,  9 Sep 2023 15:28:25 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 736DEB808C9
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 15:09:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3341CC433C7
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 15:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694272193;
- bh=6x41uDxXTMDukce7+t+p7d3MUC1BYRRTEUdQX+9saQg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lMajj81AC8tVOL4Rb3GHwtlQVx6BtbzmIIWmRAfnTMN8eiWj/1+QFXzr7clqHTTYq
- TnmrHF9L/6VllKFEsGOQJkH1aUkz9451/9TH95rKbaK81IMxfUwqEknfPfRcJ3L7dT
- bQfQ6yHhGpptNJXubxt4EeRbjmKA8vZ0mipo0UwYjm1v/zBZB9Zim3Hrb/FKd+oBJj
- snloFm0KfNsnmLNuymhYNz/IcvYZxbAxjrRSzYC/BiixQ+qnmMP3fMzmGVEJJiIEmw
- mq5siumEzpCT9X2tddLpKi5C7hJ4LDSqvf7paNvGN2NS83Ak6l4AtizZKl/KMeWfVt
- pWrkSmyH4dXWg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 1E420C53BCD; Sat,  9 Sep 2023 15:09:53 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217892] [amdgpu]: system freezes when trying to turn back on
- monitor
-Date: Sat, 09 Sep 2023 15:09:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mmk+bugs@levelnine.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217892-2300-FXzOQtih60@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217892-2300@https.bugzilla.kernel.org/>
-References: <bug-217892-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F28386607285;
+ Sat,  9 Sep 2023 16:28:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694273304;
+ bh=Z2MxcuZipWd2FvUe1wHWLtIgtX0SLjGKnDFobgnzFmI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=apF2hSiCUJLj7Lrao1jzKltnLzYQZMqEizjoWJBKM2J63ernRl+9AOMUSwPt/YcJz
+ sFLPmG2QVMtkqu4jjo2SxLAgK3Tvmw3cxF1e/bdkK6plxjr1cklJq3b4whRaDuBZMl
+ Faj+sIkytZQIEwUAkPsKwg5aBPRtznNvkodpbhZ3LKOSqsbGJ8XrWean5kjOpbwn7w
+ HnpgJmIdKCR8uLZgEFPcs7AXtARSXFcxJXfb97o4OC3yWHJFA6FPkvb7/d0yXzHOxj
+ CEs3qokHYxwKRE9sIoK35koa70nqXdU6xdRSvgGLgmSWwFyF5ZHccqNhHWpMb+TGZp
+ rYgQIOv8T34zA==
+Date: Sat, 9 Sep 2023 16:28:22 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 2/8] drm/panfrost: Enable cycle counter register upon
+ job submission
+Message-ID: <2bw3su4ev5cnyienhfrxbpingtfjbz7nii3npnp7hyllby3n2k@pvzuhrmmfge2>
+References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
+ <20230905184533.959171-3-adrian.larumbe@collabora.com>
+ <20230906095730.27cb394f@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230906095730.27cb394f@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,29 +55,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
+ mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217892
+On 06.09.2023 09:57, Boris Brezillon wrote:
+>On Tue,  5 Sep 2023 19:45:18 +0100
+>Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index 033f5e684707..8b1bf6ac48f8 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -297,6 +297,11 @@ int panfrost_job_push(struct panfrost_job *job)
+>>  
+>>  	kref_get(&job->refcount); /* put by scheduler job completion */
+>>  
+>> +	if (atomic_read(&pfdev->profile_mode)) {
+>> +		panfrost_cycle_counter_get(pfdev);
+>
+>This one should go in panfrost_job_hw_submit() IMO, otherwise you're
+>enabling the cycle-counter before the job has its dependencies met, and
+>depending on what the job depends on, it might take some time.
 
---- Comment #2 from Michael Mair-Keimberger (mmk+bugs@levelnine.at) ---
-Hello Bagas,
+I think at first I decided against this because of a previous thread about
+enabling the cycle counters:
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg352508.html
 
-Thanks for the hint.=20
-I'll wait for the rc1 and then try with the latest kernel.
+But it turns out the fix suggested by Steven Price was what I was doing already
+in the previous patch revision, namely tagging the job with whether it
+had taken the cycle counter refcnt, so I guess it should be fine.
 
-FYI: I've open a issue freedesktop issue [1]
-
-[1] https://gitlab.freedesktop.org/drm/amd/-/issues/2836
-
-BTW, i forgot to mentioned. I think the regression started with 6.4. I alre=
-ady
-mentioned that it worked with 6.2 and 6.3 but i had problems with 6.4 alrea=
-dy
-too.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>> +		job->is_profiled = true;
+>> +	}
+>> +
+>>  	drm_sched_entity_push_job(&job->base);
+>>  
+>>  	mutex_unlock(&pfdev->sched_lock);
+>> @@ -351,6 +356,9 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
+>>  
+>>  	drm_sched_job_cleanup(sched_job);
+>>  
+>> +	if (job->is_profiled)
+>> +		panfrost_cycle_counter_put(job->pfdev);
+>
+>I think I'd move this panfrost_cycle_counter_put() to
+>panfrost_job_handle_{err,done}(), to release the counter as soon as
+>we're done executing the job. We also need to make sure we release
+>cycle counter refs in the reset path (here [1]), to keep get/put
+>balanced when jobs are resubmitted.
+>
+>> +
+>>  	panfrost_job_put(job);
+>>  }
+>
+>[1]https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panfrost/panfrost_job.c#L666
