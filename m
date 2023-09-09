@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7126479982E
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 14:56:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A8079982D
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 14:56:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8700110E278;
-	Sat,  9 Sep 2023 12:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106A910E281;
+	Sat,  9 Sep 2023 12:56:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74E710E278
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 12:56:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8727310E278
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Sep 2023 12:56:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 475436010F;
- Sat,  9 Sep 2023 12:56:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F8AC433C7;
- Sat,  9 Sep 2023 12:56:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 986E96069C;
+ Sat,  9 Sep 2023 12:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABAD5C433C8;
+ Sat,  9 Sep 2023 12:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694264201;
- bh=HbkmRVVSCieLOrWWMI70aR7+IL1sHHlW3ZIsJANb82A=;
+ s=korg; t=1694264199;
+ bh=1mYQnIAOJHidxQg5PLu0S8loGpMbbliylU/5HbTpuf8=;
  h=Subject:To:Cc:From:Date:From;
- b=Vx8YxqR5PpHuwllaIj3vEqvX/7yGMK563Jxe1XU783MfKyVWK1hYulOPA+9aLI0WJ
- l6blWD6M1IjiRdi5HUsotLiWc5VcfgGryG1+bPGLd7mKboclEbizyIIkAA7ig4lxth
- BdfboUMNIJzFkIC1BWujY9GBRNTx6r4LCcXskaUU=
-Subject: Patch "backlight/lv5207lp: Compare against struct fb_info.device" has
- been added to the 5.10-stable tree
+ b=EJAyNBdryaSWN4HhdAGrYYLARjZXsvjzui/9o+vSCxM9LrVI8FJGiSK1vSaZfutHn
+ 2YYQ3CyK7RLVHV5jnh60EJsC3+CaJodBmJUAhe9MNW0YktOMjajfN64HuaXHSNaRhn
+ bowVIzvNC6iibFGDCkv0iGy3TQ1IlTwzAj/h/Uxs=
+Subject: Patch "backlight/gpio_backlight: Compare against struct
+ fb_info.device" has been added to the 5.10-stable tree
 To: dalias@libc.org, daniel.thompson@linaro.org,
  dri-devel@lists.freedesktop.org, glaubitz@physik.fu-berlin.de,
- gregkh@linuxfoundation.org, javierm@redhat.com, jingoohan1@gmail.com,
+ gregkh@linuxfoundation.org, jingoohan1@gmail.com,
  laurent.pinchart+renesas@ideasonboard.com, lee@kernel.org, sam@ravnborg.org,
- tzimmermann@suse.de, ysato@users.sourceforge.jp
+ tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
 Date: Sat, 09 Sep 2023 13:56:22 +0100
-Message-ID: <2023090922-calamity-parched-1723@gregkh>
+Message-ID: <2023090922-ceramics-vagrancy-aa3d@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,30 +62,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    backlight/lv5207lp: Compare against struct fb_info.device
+    backlight/gpio_backlight: Compare against struct fb_info.device
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     backlight-lv5207lp-compare-against-struct-fb_info.device.patch
+     backlight-gpio_backlight-compare-against-struct-fb_info.device.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From 1ca8819320fd84e7d95b04e7668efc5f9fe9fa5c Mon Sep 17 00:00:00 2001
+From 7b91d017f77c1bda56f27c2f4bbb70de7c6eca08 Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 13 Jun 2023 13:06:40 +0200
-Subject: backlight/lv5207lp: Compare against struct fb_info.device
+Date: Tue, 13 Jun 2023 13:06:38 +0200
+Subject: backlight/gpio_backlight: Compare against struct fb_info.device
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 1ca8819320fd84e7d95b04e7668efc5f9fe9fa5c upstream.
+commit 7b91d017f77c1bda56f27c2f4bbb70de7c6eca08 upstream.
 
-Struct lv5207lp_platform_data refers to a platform device within
-the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
+Struct gpio_backlight_platform_data refers to a platform device within
+the Linux device hierarchy. The test in gpio_backlight_check_fb()
 compares it against the fbdev device in struct fb_info.dev, which
 is different. Fix the test by comparing to struct fb_info.device.
 
@@ -95,10 +95,9 @@ struct fb_info.dev optional.
 v2:
 	* move renames into separate patch (Javier, Sam, Michael)
 
-Fixes: 82e5c40d88f9 ("backlight: Add Sanyo LV5207LP backlight driver")
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 8b770e3c9824 ("backlight: Add GPIO-based backlight driver")
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Cc: Rich Felker <dalias@libc.org>
 Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Cc: Lee Jones <lee@kernel.org>
@@ -107,26 +106,25 @@ Cc: Jingoo Han <jingoohan1@gmail.com>
 Cc: linux-sh@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v3.12+
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-6-tzimmermann@suse.de
+Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-4-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/video/backlight/lv5207lp.c |    2 +-
+ drivers/video/backlight/gpio_backlight.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/video/backlight/lv5207lp.c
-+++ b/drivers/video/backlight/lv5207lp.c
-@@ -67,7 +67,7 @@ static int lv5207lp_backlight_check_fb(s
+--- a/drivers/video/backlight/gpio_backlight.c
++++ b/drivers/video/backlight/gpio_backlight.c
+@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struc
  {
- 	struct lv5207lp *lv = bl_get_data(backlight);
+ 	struct gpio_backlight *gbl = bl_get_data(bl);
  
--	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->dev;
-+	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->device;
+-	return gbl->fbdev == NULL || gbl->fbdev == info->dev;
++	return gbl->fbdev == NULL || gbl->fbdev == info->device;
  }
  
- static const struct backlight_ops lv5207lp_backlight_ops = {
+ static const struct backlight_ops gpio_backlight_ops = {
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
