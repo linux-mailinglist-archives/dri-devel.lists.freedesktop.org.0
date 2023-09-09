@@ -1,94 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C8479996C
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 18:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8CA799A0B
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Sep 2023 18:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29E410E2AC;
-	Sat,  9 Sep 2023 16:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60D5510E165;
+	Sat,  9 Sep 2023 16:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DAFE10E2AC;
- Sat,  9 Sep 2023 16:09:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FC9Jom6igeLB96f2b0dFyx6cz5ICFy1lWg1n9yH35E03dPzYOh1WMo4RShch6VvaUHrDPlKWyqOIAUy5TC0xZySMvItdvwg56YcsKWJkHBW43xPIa2QypuxmRUX8vFijxcli1CMo5c0x/RWShpA7wvW4PNVwnJAv6Urq2+yuCjR8Rej9i+EiYfHfoAkdz66JX1WxiMxJpUVyoe/a8iWlEAVJPuySNxNT36/SFrGRP3aRy2lC3sDDDhs0UN7ojV2hGwj8NcK1s48bHbwbxdRxCbJ5x2fxpbjyQ7UAQ+dhYrFUrbNJ7G93vQ5BeSlMmlItDzl196GP6CXrHTwOtJqhqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PpfIuV1k0qKZv5rIxshUaNFdKU54JcQLtzbKX3lOWBA=;
- b=KqOp2/Rl4rUhsJ2LaQLu24HItdYxlATfTGbPQrqXD2tGAwgMXTuofsTh15HOds8io12ptBEM2+TUSnrBrw/IYpBNR2WM4NLLMmZrEto3EIN32+zYV5oi+O8zxD9tWGdWj1gnlX9B56DZ3HO3X46HdDli0l0dmg3q1hT0Ioh3luKoH+sJvZbnBLZN1xm2kLKANX/9aIzntaDghc86EEehclOjcO32tx9HhlDXovXaUCuLUHoRPC4tefMAu7wHRIx52GqVq7468UKi+F375i3vqx8xdVDAwgkbM5MElpIcQOUtWqtVY+7+eUXpYxblimxqHASL3dwQig2d0kZyuvJH2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PpfIuV1k0qKZv5rIxshUaNFdKU54JcQLtzbKX3lOWBA=;
- b=i3rO9abCDHHKGIGJFhbnjCISAyNkPdHuKRR2PgVnHSBLaSqe62FC7Oss9ld8j4gmgNKLsjDLxfAAb9dMyDEtl5ok/Elhl8m3ZcZxWypjR1Myaa3InB23RFpsb30OZv7UqBZN7GlPj67REY+6lpsgW0zuzL0QqD8GsLhb+jFcujA=
-Received: from BYAPR03CA0034.namprd03.prod.outlook.com (2603:10b6:a02:a8::47)
- by PH0PR12MB8824.namprd12.prod.outlook.com (2603:10b6:510:26f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.32; Sat, 9 Sep
- 2023 16:09:38 +0000
-Received: from CO1PEPF000042A9.namprd03.prod.outlook.com
- (2603:10b6:a02:a8:cafe::ee) by BYAPR03CA0034.outlook.office365.com
- (2603:10b6:a02:a8::47) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34 via Frontend
- Transport; Sat, 9 Sep 2023 16:09:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000042A9.mail.protection.outlook.com (10.167.243.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.11 via Frontend Transport; Sat, 9 Sep 2023 16:09:37 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sat, 9 Sep 2023 11:09:34 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v2 3/3] drm/i915: Move the size computations to drm buddy
-Date: Sat, 9 Sep 2023 09:09:02 -0700
-Message-ID: <20230909160902.15644-3-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230909160902.15644-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20230909160902.15644-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3D110E0BE;
+ Sat,  9 Sep 2023 16:42:06 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3E59F66071A3;
+ Sat,  9 Sep 2023 17:42:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694277725;
+ bh=JwzW/m/z8rwilzFPxcgN9AGZ5tDx+AMNanx6fNhBaLE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kTxzHEZn/VJNNJrdRKUZ0dbKEZmO4X0GfGH6iI9Amdsw0WbUq1OqQjsiEJeHGJWqv
+ mg5ON2QRvL5n0LovX51Jj9AM6uyTboO8tlObFP94cDqlBMciG90eTb2qdoUnh6Pd4F
+ idYQAqVKdzNX9sJHUC41N0df6ri4R++JaV3DNsV9SG+XaEFBeqeEOSQxmISGcQvXoO
+ psNGrbFXFaFFr6z8+GtHnpu6DR6WVdL5P9WhQQKAGMaahR1O3lKl0lQRBVervtJX0F
+ fawlZ9W1z8LHY/Qg63hWAPgdRnU5tMaafw1VucH1Egna2rU5sg1i2hCx3iqF7uoo8G
+ 3hjnp1y14WY+Q==
+Date: Sat, 9 Sep 2023 17:42:02 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 7/8] drm/panfrost: Implement generic DRM object RSS
+ reporting function
+Message-ID: <vullvbu3eepdci5dzotppoydeoyfwebpf7e6wle3ubwf6sdrg6@v6luzft4no4r>
+References: <20230905184533.959171-1-adrian.larumbe@collabora.com>
+ <20230905184533.959171-8-adrian.larumbe@collabora.com>
+ <20230906100130.530c4e4a@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042A9:EE_|PH0PR12MB8824:EE_
-X-MS-Office365-Filtering-Correlation-Id: 288e5a50-bab9-438a-3de1-08dbb14f2aa8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HKmGxohtvQw7xoWt5DuR3GwktDwfoLH8mknCQpK+aMKcuVmExmNxW71McmDzO5u2CJ7hMXRhycyOXwcLBi6LSPXKK7Izduy7v4tQDQFr9qPTwK81EUdWhK+l+d212oq3Gow+u3kLjp1kW61mZtF0gWddJpK+Hr2hdzJWcNl43c6afErMcdaAlP94V5aeYebjqsH1xM4pQxqWaEMt9Bal0rtijrbZ/32yO7Ql28ABilIqFa7PgrB8p1YBZHX18lrxd0MtHfRcbituZV0s0OL6AFiTA6AA/mpwbARTqChfXOGQoeqjU2PysjKerByywyUus8u0/E72xkxREQ9tkjwvKqAsk8I7ze6m1lZwP3j8Dn3GuwArBda/mXEgHlEbXMDz38JbE0jH13G2DLf+aUaalkeQfNEM2roYrFwNGL9lxqSBDhHahb18tkMVHrG4xU0t0Nk4Xqbe7/o0PklJuPbHT7vXgniCSh7jse4nsYH6dFSHfmudWny8mlRSrz+hJzXPDOJihScfROqC1n6iwIfBqwUV4OaB8Ph2eMEle/Y+RvlfP+pa/c86gZZ0m8zwfaNZtEoYO8JfTdh52aVOqxHzYuHR1BW38ADStH4WSf//7i5Mm17uozyUDB4gLI1cjq7IHplrbJgoBdz70EfVAKe+a+6GOGW/cyWYvAelwi/xHx2FDOAr94U2gTOx6SsctHMJRWNP9XdD4/8Mf9YWQ9yXjxkeEYnWaOS9zZaAhruboSSF1ZLlW1cOhZ7TXvfTCEU6KBSpJz1XUi4Op5iiGu31cg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(136003)(396003)(39860400002)(346002)(376002)(82310400011)(1800799009)(186009)(451199024)(36840700001)(46966006)(40470700004)(7696005)(6666004)(478600001)(83380400001)(1076003)(2616005)(16526019)(426003)(336012)(2906002)(54906003)(26005)(316002)(70206006)(70586007)(110136005)(41300700001)(5660300002)(4326008)(8936002)(8676002)(40460700003)(356005)(36860700001)(47076005)(40480700001)(86362001)(36756003)(82740400003)(81166007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2023 16:09:37.7852 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 288e5a50-bab9-438a-3de1-08dbb14f2aa8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042A9.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8824
+In-Reply-To: <20230906100130.530c4e4a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,70 +56,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- christian.koenig@amd.com, matthew.auld@intel.com
+Cc: tzimmermann@suse.de, sean@poorly.run, quic_abhinavk@quicinc.com,
+ mripard@kernel.org, steven.price@arm.com, freedreno@lists.freedesktop.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Move roundup_power_of_two() to drm buddy file to support
-  the new try harder mechanism for contiguous allocation.
+On 06.09.2023 10:01, Boris Brezillon wrote:
+>On Tue,  5 Sep 2023 19:45:23 +0100
+>Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+>> BO's RSS is updated every time new pages are allocated on demand and mapped
+>> for the object at GPU page fault's IRQ handler, but only for heap buffers.
+>> The reason this is unnecessary for non-heap buffers is that they are mapped
+>> onto the GPU's VA space and backed by physical memory in their entirety at
+>> BO creation time.
+>> 
+>> This calculation is unnecessary for imported PRIME objects, since heap
+>> buffers cannot be exported by our driver, and the actual BO RSS size is the
+>> one reported in its attached dmabuf structure.
+>> 
+>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>> ---
+>>  drivers/gpu/drm/panfrost/panfrost_gem.c | 14 ++++++++++++++
+>>  drivers/gpu/drm/panfrost/panfrost_gem.h |  5 +++++
+>>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 12 ++++++++----
+>>  3 files changed, 27 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+>> index 7d8f83d20539..cb92c0ed7615 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+>> @@ -208,6 +208,19 @@ static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj
+>>  	return res;
+>>  }
+>>  
+>> +static size_t panfrost_gem_rss(struct drm_gem_object *obj)
+>> +{
+>> +	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+>> +
+>> +	if (bo->is_heap)
+>> +		return bo->heap_rss_size;
+>> +	else if (bo->base.pages) {
+>> +		WARN_ON(bo->heap_rss_size);
+>> +		return bo->base.base.size;
+>> +	} else
+>> +		return 0;
+>
+>Nit: please add brackets on all conditional blocks, even if only the
+>second one needs it.
+>
+>> +}
+>> +
+>>  static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+>>  	.free = panfrost_gem_free_object,
+>>  	.open = panfrost_gem_open,
+>> @@ -220,6 +233,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+>>  	.vunmap = drm_gem_shmem_object_vunmap,
+>>  	.mmap = drm_gem_shmem_object_mmap,
+>>  	.status = panfrost_gem_status,
+>> +	.rss = panfrost_gem_rss,
+>>  	.vm_ops = &drm_gem_shmem_vm_ops,
+>>  };
+>>  
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+>> index ad2877eeeccd..13c0a8149c3a 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+>> @@ -36,6 +36,11 @@ struct panfrost_gem_object {
+>>  	 */
+>>  	atomic_t gpu_usecount;
+>>  
+>> +	/*
+>> +	 * Object chunk size currently mapped onto physical memory
+>> +	 */
+>> +	size_t heap_rss_size;
+>> +
+>>  	bool noexec		:1;
+>>  	bool is_heap		:1;
+>>  };
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> index d54d4e7b2195..67c206124781 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>> @@ -285,17 +285,19 @@ static void panfrost_mmu_flush_range(struct panfrost_device *pfdev,
+>>  	pm_runtime_put_autosuspend(pfdev->dev);
+>>  }
+>>  
+>> -static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+>> +static size_t mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+>>  		      u64 iova, int prot, struct sg_table *sgt)
+>>  {
+>>  	unsigned int count;
+>>  	struct scatterlist *sgl;
+>>  	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
+>>  	u64 start_iova = iova;
+>> +	size_t total = 0;
+>>  
+>>  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+>>  		unsigned long paddr = sg_dma_address(sgl);
+>>  		size_t len = sg_dma_len(sgl);
+>> +		total += len;
+>>  
+>>  		dev_dbg(pfdev->dev, "map: as=%d, iova=%llx, paddr=%lx, len=%zx", mmu->as, iova, paddr, len);
+>>  
+>> @@ -315,7 +317,7 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+>>  
+>>  	panfrost_mmu_flush_range(pfdev, mmu, start_iova, iova - start_iova);
+>>  
+>> -	return 0;
+>> +	return total;
+>>  }
+>>  
+>>  int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+>> @@ -447,6 +449,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>>  	pgoff_t page_offset;
+>>  	struct sg_table *sgt;
+>>  	struct page **pages;
+>> +	size_t mapped_size;
+>>  
+>>  	bomapping = addr_to_mapping(pfdev, as, addr);
+>>  	if (!bomapping)
+>> @@ -518,10 +521,11 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>>  	if (ret)
+>>  		goto err_map;
+>>  
+>> -	mmu_map_sg(pfdev, bomapping->mmu, addr,
+>> -		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+>> +	mapped_size = mmu_map_sg(pfdev, bomapping->mmu, addr,
+>> +				 IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+>>  
+>>  	bomapping->active = true;
+>> +	bo->heap_rss_size += mapped_size;
+>
+>The alloc-on-fault granularity is set static (2MB), so no need to
+>make mmu_map_sg() return the mapped size, we can just do += SZ_2M if
+>things worked.
 
-- Move trim function call to drm_buddy_alloc_blocks() function.
+At the moment mmu_map_sg is treated as though it always succeeds in mapping the
+page. Would it be alright if I changed it so that we take into account the
+unlikely case that ops->map_pages might fail?
+Something like this: https://gitlab.collabora.com/-/snippets/323
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 23 +++----------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-index a1bc804cfa15..0d735d5c2b35 100644
---- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-+++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-@@ -59,6 +59,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 	if (place->flags & TTM_PL_FLAG_TOPDOWN)
- 		bman_res->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
- 
-+	if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
-+		bman_res->flags |= DRM_BUDDY_CONTIGUOUS_ALLOCATION;
-+
- 	if (place->fpfn || lpfn != man->size)
- 		bman_res->flags |= DRM_BUDDY_RANGE_ALLOCATION;
- 
-@@ -72,18 +75,6 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 	GEM_BUG_ON(min_page_size < mm->chunk_size);
- 	GEM_BUG_ON(!IS_ALIGNED(size, min_page_size));
- 
--	if (place->fpfn + PFN_UP(bman_res->base.size) != place->lpfn &&
--	    place->flags & TTM_PL_FLAG_CONTIGUOUS) {
--		unsigned long pages;
--
--		size = roundup_pow_of_two(size);
--		min_page_size = size;
--
--		pages = size >> ilog2(mm->chunk_size);
--		if (pages > lpfn)
--			lpfn = pages;
--	}
--
- 	if (size > lpfn << PAGE_SHIFT) {
- 		err = -E2BIG;
- 		goto err_free_res;
-@@ -107,14 +98,6 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 	if (unlikely(err))
- 		goto err_free_blocks;
- 
--	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
--		u64 original_size = (u64)bman_res->base.size;
--
--		drm_buddy_block_trim(mm,
--				     original_size,
--				     &bman_res->blocks);
--	}
--
- 	if (lpfn <= bman->visible_size) {
- 		bman_res->used_visible_size = PFN_UP(bman_res->base.size);
- 	} else {
--- 
-2.25.1
-
+>>  
+>>  	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
+>>  
