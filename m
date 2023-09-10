@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C057B799E00
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 14:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD3F799EC6
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 17:15:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2288C10E186;
-	Sun, 10 Sep 2023 12:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4DA10E169;
+	Sun, 10 Sep 2023 15:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E93010E186
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:13 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B615810E169
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 15:15:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0225660BA8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 65B41C433C8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:12 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 064BDB80AB9
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 15:15:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BE3F3C433CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 15:15:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694347452;
- bh=k9x6xTgWnmY3ofyYUn7dWOEfuPnTEjRtqVqEM3Esriw=;
+ s=k20201202; t=1694358938;
+ bh=D1lx3t1yo+KyEMn/UX24T6jqA5t2FZ6jnlolK+OdABo=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JoFXa4TgmdrdZ7NU15T9eFO5G6510owGf4baP1wRd1T2z/iRM5JgIpIIYp81ly/56
- z7wm1zvz1qeYQaBj7Moh6U9RciuYlrV2Ql0p6T6zS1MrkDNUxHTXVwHKTW48t5l8Jd
- LeT9Nv7c7fGeal4meISCLxAwJbPfNoRkgQNEcVdDmq1tVJhi7UsW3LUQilMESi7qsC
- gSkgndfovS39ncFhoWKpII0bGIQ5eH5xZ/Kv8KXxVRI3pN/hNp3i7mBaGhzQEUBVnr
- Oacxlh/MvV0A7gn1LSQdiiYNMSmZt4D9UqAhFhuT6mQxNA+5TeGcFFXrRgcOyYa4v5
- 7zNAgPrN/L82A==
+ b=khZiSVsWsbNnMHKXm6HX2gcL4SmVyFiydlpnDJoqF4rvxGTOHbRTUnTSYW1lQqjxI
+ 8zwuMb1H+WiHZYVpVxhwoiNpcuBz2MZJiY/aY5pCHSuB2nlNNP2cRsJzRZ2nopMB4J
+ dtIF79peysQ2Yd3Rb8GkqbhSR7L3Au9NeQ/ESGXvrsc6Rqpis/e8Tzv1sPyQEd+1Yw
+ QnNsywmrq27giXQa2NQZSktgjUkXBhVbC0atw5Za+bjkK9dJMmzkzoc++FtOgL40LB
+ EQq0VzXmTeYEkRLkvnDQuv8x36E/2abp6eRoEoUS5HO7K193IMBUbTiITxrHmOmhBS
+ bCF57w4ez6m3A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 59119C53BC6; Sun, 10 Sep 2023 12:04:12 +0000 (UTC)
+ from userid 48) id A711CC53BD0; Sun, 10 Sep 2023 15:15:38 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217896] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
  information: process Xwayland pid 2985 thread Xwayland:cs0 pid 3129
-Date: Sun, 10 Sep 2023 12:04:12 +0000
+Date: Sun, 10 Sep 2023 15:15:38 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,14 +45,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: ionut_n2001@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-217896-2300-ZAY0ZMgplT@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-217896-2300-8UXAauzM1B@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217896-2300@https.bugzilla.kernel.org/>
 References: <bug-217896-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,11 +77,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217896
 
-sander44 (ionut_n2001@yahoo.com) changed:
+Artem S. Tashkinov (aros@gmx.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-     Kernel Version|                            |6.5.2
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
+
+--- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
+Please repost your bug report here:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
 --=20
 You may reply to this email to add a comment.
