@@ -2,49 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE005799BEC
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 00:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FD4799C79
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 05:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC63F10E154;
-	Sat,  9 Sep 2023 22:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A743510E04F;
+	Sun, 10 Sep 2023 03:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B362C10E14D;
- Sat,  9 Sep 2023 22:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694299131; x=1725835131;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qWxagddqUY+F+NLz7H/grMc56jMGIzfPhbrF4VWCDTU=;
- b=JNz4n+LH1gH469TkS+mvw+NKS71pFQjsBilTlBVkBm0Pdu4l7yuRIbgA
- Kn/GVJcnxzT/5PMsPPUxpuD5Kvg2QjahL3W4QI4DYw6R7NKexbzHvGGPg
- Nn7iBGRCHPGAu+VS49Oc5hDfvlcY6qmFih7Txy+KTviF3myf/5WIBk3zT
- qmfWN2/AaR4ZEab2uFfzx1bZb7J/QRLRPYSE8t5HGMdpAzl9UH/KNE2hx
- RMfKe9K347LspXgsO4bHgILDc77mamUG/O9o4OwHiNegqhAsCbNWEO6UW
- 9mm1pCa72+oyXRsCYkuM7zvtRVX/OUTaBeKhXnCrFJoZjnpUz47aUnD+4 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="377767895"
-X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; d="scan'208";a="377767895"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2023 15:38:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="719532036"
-X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; d="scan'208";a="719532036"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga006.jf.intel.com with ESMTP; 09 Sep 2023 15:38:50 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 3/3] drm/i915/lrc: User PXP contexts requires runalone bit
- in lrc
-Date: Sat,  9 Sep 2023 15:38:48 -0700
-Message-Id: <20230909223848.427849-4-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230909223848.427849-1-alan.previn.teres.alexis@intel.com>
-References: <20230909223848.427849-1-alan.previn.teres.alexis@intel.com>
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6729410E04F
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 03:54:59 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-573429f5874so1973590eaf.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Sep 2023 20:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1694318098; x=1694922898; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=l8I/ytZjYAzCt9rW5QpCR2v7N9TIb41rg0eM/Ys3Nlw=;
+ b=Hs76rOP0YgXHt+gQY/Gtct9O0qopuA6tAc0R+MUouWmv85rsWu6TB0SQhc3eVF4Svq
+ WX2cMWabXYnXqY/R4v0i3nWePBBXRITjo69MfT/8iR7oKgNfY6L/CINzGjpXsXhKmmUZ
+ 4y9bjUOSkq/gokXSMooTBVvYv8ImCKuQu8R5x4CaEdcxxnkHokArhMp5UGVKuCIqiscf
+ DVMAghfsAVny6t/+S43dCyDVArZVWaq7LkhB0Cmj+CeXf/cPzB9tfB+7nd6ABugrHEF9
+ XBWcTpKXtpeeOf8ZBibamlh5sfRk7h6ponOnGE+tkNRzhpGImy2qLtF7/Dp0xhvwetV8
+ tHYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694318098; x=1694922898;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l8I/ytZjYAzCt9rW5QpCR2v7N9TIb41rg0eM/Ys3Nlw=;
+ b=I02mzapt+3x4c8qixjeM4WClw1USpEGrHA5od2ZNFYAXeBIidktl24s/Acke3TQ4UJ
+ 1tjKttLbzQzDnKmjh3xB1LJ6MYtk5ky5Pk0J6Yse9xy7WgSFkcyQObSeoplzXsIWAr/P
+ moch5M5gmoxqDUanTgm83DpFGLLRhAUgYVAxZyjsbo32iuRjYLOesJBEaV7HeniLm/sj
+ V+9g+9r6eu2MQcdCooTDjwMfpzYfX7EZl14SwEUCr8AcUbukJ1YmAWjZbnl9NGPVqjtl
+ RQ/vmnUBHkAm0W1mEdJReDxqQH49thb8I/CFoeU3nkmQBavjzqWz05G583ps1HqItcZ6
+ YR+g==
+X-Gm-Message-State: AOJu0Yz9ykP1MMqIRlZy9K+gjQLZWu/NMemshu0CUFdmkDDA3V+E4dSj
+ bLK/7AYPf6AidCfQ9jTflsU=
+X-Google-Smtp-Source: AGHT+IFmdTBXwP0BmCOvDapnnklEogCQpFivgh7MV+psCiblPD/X9FoNE9kxhyOeikZ+QKi3oWkkrg==
+X-Received: by 2002:a05:6358:7209:b0:134:c37f:4b63 with SMTP id
+ h9-20020a056358720900b00134c37f4b63mr7481569rwa.2.1694318098413; 
+ Sat, 09 Sep 2023 20:54:58 -0700 (PDT)
+Received: from debian.me ([103.124.138.83]) by smtp.gmail.com with ESMTPSA id
+ h2-20020a170902748200b001b9d8688956sm3913678pll.144.2023.09.09.20.54.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Sep 2023 20:54:57 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id 31A2B8152373; Sun, 10 Sep 2023 10:54:53 +0700 (WIB)
+Date: Sun, 10 Sep 2023 10:54:53 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [PATCH] drm: fix doc warnings related to drm connector
+Message-ID: <ZP0-DaW3lIeaZ8xY@debian.me>
+References: <20230909110343.8103-1-bragathemanick0908@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="m24psGSsoqT7l832"
+Content-Disposition: inline
+In-Reply-To: <20230909110343.8103-1-bragathemanick0908@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,62 +76,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Meteorlake onwards, HW specs require that all user contexts that
-run on render or compute engines and require PXP must enforce
-run-alone bit in lrc. Add this enforcement for protected contexts.
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+--m24psGSsoqT7l832
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 967fe4d77a87..3df32177e49e 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -845,6 +845,27 @@ lrc_setup_indirect_ctx(u32 *regs,
- 		lrc_ring_indirect_offset_default(engine) << 6;
- }
- 
-+static bool ctx_needs_runalone(const struct intel_context *ce)
-+{
-+	struct i915_gem_context *gem_ctx;
-+	bool ctx_is_protected = false;
-+
-+	/*
-+	 * On MTL and newer platforms, protected contexts require setting
-+	 * the LRC run-alone bit or else the encryption will not happen.
-+	 */
-+	if (GRAPHICS_VER_FULL(ce->engine->i915) >= IP_VER(12, 70) &&
-+	    (ce->engine->class == COMPUTE_CLASS || ce->engine->class == RENDER_CLASS)) {
-+		rcu_read_lock();
-+		gem_ctx = rcu_dereference(ce->gem_context);
-+		if (gem_ctx)
-+			ctx_is_protected = gem_ctx->uses_protected_content;
-+		rcu_read_unlock();
-+	}
-+
-+	return ctx_is_protected;
-+}
-+
- static void init_common_regs(u32 * const regs,
- 			     const struct intel_context *ce,
- 			     const struct intel_engine_cs *engine,
-@@ -860,6 +881,8 @@ static void init_common_regs(u32 * const regs,
- 	if (GRAPHICS_VER(engine->i915) < 11)
- 		ctl |= _MASKED_BIT_DISABLE(CTX_CTRL_ENGINE_CTX_SAVE_INHIBIT |
- 					   CTX_CTRL_RS_CTX_ENABLE);
-+	if (ctx_needs_runalone(ce))
-+		ctl |= _MASKED_BIT_ENABLE(BIT(7));
- 	regs[CTX_CONTEXT_CONTROL] = ctl;
- 
- 	regs[CTX_TIMESTAMP] = ce->stats.runtime.last;
--- 
-2.39.0
+On Sat, Sep 09, 2023 at 04:33:43PM +0530, Bragatheswaran Manickavel wrote:
+> Addressing drm dp/hdmi connector related kernel documentation
+> warning and add more information about these values.
 
+What are these?
+
+>=20
+> Signed-off-by: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 2 ++
+>  include/drm/drm_connector.h     | 2 ++
+>  2 files changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index bf8371dc2a61..084c95785dda 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2203,6 +2203,7 @@ static int drm_mode_create_colorspace_property(stru=
+ct drm_connector *connector,
+>  /**
+>   * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace pro=
+perty
+>   * @connector: connector to create the Colorspace property on.
+> + * @supported_colorspaces: to get hdmi supported colorspaces.
+>   *
+>   * Called by a driver the first time it's needed, must be attached to de=
+sired
+>   * HDMI connectors.
+> @@ -2227,6 +2228,7 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_prope=
+rty);
+>  /**
+>   * drm_mode_create_dp_colorspace_property - create dp colorspace property
+>   * @connector: connector to create the Colorspace property on.
+> + * @supported_colorspaces: to get dp supported colorspaces.
+>   *
+>   * Called by a driver the first time it's needed, must be attached to de=
+sired
+>   * DP connectors.
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index d300fde6c1a4..556d66dd122c 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -498,6 +498,8 @@ enum drm_privacy_screen_status {
+>   *   ITU-R BT.601 colorimetry format
+>   *   The DP spec does not say whether this is the 525 or the 625
+>   *   line version.
+> + * @DRM_MODE_COLORIMETRY_COUNT:
+> + *   Represents the count of colorspaces.
+>   */
+>  enum drm_colorspace {
+>  	/* For Default case, driver will set the colorspace */
+
+Oh, you mean to add description for colorspace-related fields.
+
+Thanks.
+
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--m24psGSsoqT7l832
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZP0+DQAKCRD2uYlJVVFO
+o72FAQC1/upVU9ceWJaSBr2/nUK7jvc12JhGtDiGaWd0X4kdNQEAjlcMtPpgNEwk
+knUERgY4BXnbaet+xqtbFqc65Zr6+wQ=
+=sgRJ
+-----END PGP SIGNATURE-----
+
+--m24psGSsoqT7l832--
