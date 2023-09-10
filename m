@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1D2799DF4
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 13:58:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C057B799E00
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 14:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB7710E185;
-	Sun, 10 Sep 2023 11:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2288C10E186;
+	Sun, 10 Sep 2023 12:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1896D10E185
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 11:58:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E93010E186
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6F466B80A06
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 11:57:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DAEDC433C8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 11:57:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0225660BA8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65B41C433C8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694347078;
- bh=8y1/pIIBbnLh/+eJNyKi+dqEL8nhT05jVtGt+K8Ozbg=;
+ s=k20201202; t=1694347452;
+ bh=k9x6xTgWnmY3ofyYUn7dWOEfuPnTEjRtqVqEM3Esriw=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lYTamPz7VeMVi1DfqKca04PTTgK5M4dnAZlrMM7bMlLoSwpP5QNb4IETLSh0dCF/e
- 99m2xoVGFxQbfC9jKUki6hKqx3/7wv6r0Itya2++tcDDbHqnupu+4S4EC7zXIQ9zeo
- RFhwSZjNkPd8eWWTIq7wHyktBo5NqbKa2h9QCd3g5IkaBUYkjuD17C/kF6ZrZ4AWlc
- GhzizTSAkM6dfO6D+pSVtwCSYniqKHFXaMG2kkZMwOHfhHr2WBQmCqFDhxYaQ8hs6k
- 2p+rc23VaicAVT57T5cLr0gWxVsJpZC2hpafWa7qTaeBtVdAsE1dtcU45MuUSLu0XF
- 8+sEA7M0FsI8w==
+ b=JoFXa4TgmdrdZ7NU15T9eFO5G6510owGf4baP1wRd1T2z/iRM5JgIpIIYp81ly/56
+ z7wm1zvz1qeYQaBj7Moh6U9RciuYlrV2Ql0p6T6zS1MrkDNUxHTXVwHKTW48t5l8Jd
+ LeT9Nv7c7fGeal4meISCLxAwJbPfNoRkgQNEcVdDmq1tVJhi7UsW3LUQilMESi7qsC
+ gSkgndfovS39ncFhoWKpII0bGIQ5eH5xZ/Kv8KXxVRI3pN/hNp3i7mBaGhzQEUBVnr
+ Oacxlh/MvV0A7gn1LSQdiiYNMSmZt4D9UqAhFhuT6mQxNA+5TeGcFFXrRgcOyYa4v5
+ 7zNAgPrN/L82A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0D53EC53BD0; Sun, 10 Sep 2023 11:57:58 +0000 (UTC)
+ from userid 48) id 59119C53BC6; Sun, 10 Sep 2023 12:04:12 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217896] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
  information: process Xwayland pid 2985 thread Xwayland:cs0 pid 3129
-Date: Sun, 10 Sep 2023 11:57:57 +0000
+Date: Sun, 10 Sep 2023 12:04:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,8 +51,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217896-2300-0R2SUgpnOj@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-217896-2300-ZAY0ZMgplT@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217896-2300@https.bugzilla.kernel.org/>
 References: <bug-217896-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,10 +77,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217896
 
---- Comment #2 from sander44 (ionut_n2001@yahoo.com) ---
-Created attachment 305079
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305079&action=3Dedit
-dmesg
+sander44 (ionut_n2001@yahoo.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|                            |6.5.2
 
 --=20
 You may reply to this email to add a comment.
