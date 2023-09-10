@@ -1,33 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC52799F64
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 21:05:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E82799F62
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 21:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714E210E082;
-	Sun, 10 Sep 2023 19:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46AF89336;
+	Sun, 10 Sep 2023 19:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 397 seconds by postgrey-1.36 at gabe;
- Sun, 10 Sep 2023 19:05:27 UTC
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D36810E0B0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 19:05:27 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
- id 0A026270477; Sun, 10 Sep 2023 20:58:48 +0200 (CEST)
-Date: Sun, 10 Sep 2023 20:58:48 +0200
-From: Janne Grunau <j@jannau.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-Message-ID: <ZP4R6KKglD55jj0A@jannau.net>
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD5B89336
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 19:05:07 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2bceca8a41aso59373091fa.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1694372705; x=1694977505;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oqvxcwzpC3/aD7COrxRo/r5ZoCc7FtwXVuKZgiIZ2z8=;
+ b=bd1mgIWm/22r2/181giaOdOnZckX2UA4jhQr5GSeCxWIh1ASDLNMbynKXKnGRW0zwx
+ 1spt/D3DxBvF+CIBpx3GUSSiQsSvj5Pc3qYTD2A80cKavW9P1bxl1u5rwQp5MFqOrhji
+ XX2yQIkg5lTkEstawAx2SC7oEApzNHpSUgZ+E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694372705; x=1694977505;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oqvxcwzpC3/aD7COrxRo/r5ZoCc7FtwXVuKZgiIZ2z8=;
+ b=U69qN/G2Aw0hONr1xds/al91g3uIRhafs2xRErtRuJG2T0IwFW5f5vuSUWWToiHPO1
+ 3XFn35wjLKfgE7CJwG9iYcFZBObo0Y/byycrzcstaP3V7xSZU1OMq/yYGYQdFd7lX98k
+ Oe2lsDoOl97VJia9Knp8SMqqOUCXySJHV8omFU27H6ZxSaDJi8Bnw3TcRLqM0Q0JY90f
+ XYXNqYLMq/X0EMNCwZdyXoR5DmztoXZs/TcCx2tQKAeEcr4+7DxrDfULnfo/NEwZQ1fy
+ uz6C4/cpfvTnu0kGoASZytcG+HcYgty3+sQRs+9Zic5zxwKF8jnJPBWK+IXZTZvbYdpl
+ PlGA==
+X-Gm-Message-State: AOJu0YwIbuaGpvLXNCkw1+9u81WIvqSz6ysM9jCE6TIf3IlrxZUiSJ/O
+ 3uTYpVNUU7DTwKTutVfjZYcNilAxvs1hqTlGC3GFX16s
+X-Google-Smtp-Source: AGHT+IG4IUoFESW9sPubLEU5EJmgNnRf35Is9586E+jW83SbFlO07+YFWKc+mDVrJT05NMUhhiiHvQ==
+X-Received: by 2002:a2e:8784:0:b0:2bc:fdec:a3f6 with SMTP id
+ n4-20020a2e8784000000b002bcfdeca3f6mr6316463lji.48.1694372704929; 
+ Sun, 10 Sep 2023 12:05:04 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
+ [209.85.208.45]) by smtp.gmail.com with ESMTPSA id
+ ce7-20020a170906b24700b0098f99048053sm4207062ejb.148.2023.09.10.12.05.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Sep 2023 12:05:04 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-52f33659d09so1327031a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 12:05:04 -0700 (PDT)
+X-Received: by 2002:a17:906:3098:b0:9a1:d077:b74f with SMTP id
+ 24-20020a170906309800b009a1d077b74fmr6557487ejv.49.1694372703888; Sun, 10 Sep
+ 2023 12:05:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+References: <CAPM=9tz=gx2_zrQ2XD8JNwW1dg6b+Byr5FgYAAq+2f29rydcgg@mail.gmail.com>
+In-Reply-To: <CAPM=9tz=gx2_zrQ2XD8JNwW1dg6b+Byr5FgYAAq+2f29rydcgg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 10 Sep 2023 12:04:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg7zcmwWwYO=vEVJrTn7fuhpFNmv-6k-MptFYYqFofp4w@mail.gmail.com>
+Message-ID: <CAHk-=wg7zcmwWwYO=vEVJrTn7fuhpFNmv-6k-MptFYYqFofp4w@mail.gmail.com>
+Subject: Re: [git pull] drm CI integration
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,151 +77,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-09-10 18:39:39 +0200, Janne Grunau via B4 Relay wrote:
-> From: Janne Grunau <j@jannau.net>
-> 
-> Multiple power domains need to be handled explicitly in each driver. The
-> driver core can not handle it automatically since it is not aware of
-> power sequencing requirements the hardware might have. This is not a
-> problem for simpledrm since everything is expected to be powered on by
-> the bootloader. simpledrm has just ensure it remains powered on during
-> its lifetime.
-> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
-> systems. The HDMI output initialized by the bootloader requires keeping
-> the display controller and a DP phy power domain on.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 106 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index ff86ba1ae1b8..efedede57d42 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -6,6 +6,7 @@
->  #include <linux/of_address.h>
->  #include <linux/platform_data/simplefb.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
->  
->  #include <drm/drm_aperture.h>
-> @@ -227,6 +228,12 @@ struct simpledrm_device {
->  	unsigned int regulator_count;
->  	struct regulator **regulators;
->  #endif
-> +	/* power-domains */
-> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> +	int pwr_dom_count;
-> +	struct device **pwr_dom_devs;
-> +	struct device_link **pwr_dom_links;
-> +#endif
->  
->  	/* simplefb settings */
->  	struct drm_display_mode mode;
-> @@ -468,6 +475,102 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
->  }
->  #endif
->  
-> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> +/*
-> + * Generic power domain handling code.
-> + *
-> + * Here we handle the power-domains properties of our "simple-framebuffer"
-> + * dt node. This is only necessary if there is more than one power-domain.
-> + * A single power-domains is handled automatically by the driver core. Multiple
-> + * power-domains have to be handled by drivers since the driver core can't know
-> + * the correct power sequencing. Power sequencing is not an issue for simpledrm
-> + * since the bootloader has put the power domains already in the correct state.
-> + * simpledrm has only to ensure they remain active for its lifetime.
-> + *
-> + * When the driver unloads, we detach from the power-domains.
-> + *
-> + * We only complain about errors here, no action is taken as the most likely
-> + * error can only happen due to a mismatch between the bootloader which set
-> + * up the "simple-framebuffer" dt node, and the PM domain providers in the
-> + * device tree. Chances are that there are no adverse effects, and if there are,
-> + * a clean teardown of the fb probe will not help us much either. So just
-> + * complain and carry on, and hope that the user actually gets a working fb at
-> + * the end of things.
-> + */
-> +static void simpledrm_device_detach_genpd(void *res)
-> +{
-> +	int i;
-> +	struct simpledrm_device *sdev = /*(struct simpledrm_device *)*/res;
+On Wed, 30 Aug 2023 at 18:00, Dave Airlie <airlied@gmail.com> wrote:
+>
+> This is a PR to add drm-ci support files to the upstream tree.
 
-commented cast, removed locally for v2
+So I finally had no other pull requests pending, and spent some time
+looking at this, and I see nothing offensive.
 
-> +
-> +
-> +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
+I did wonder how this then expands to having more than one subsystem
+using this (and mixing them possibly on the same CI system), but
+that's more about my ignorance about how the gitlab CI works than
+anything else, so that's certainly not a real concern.
 
-broken log statement as pointed out by kernel test robot, not ment to be 
-included in this change. removed locally for v2
+The other side of that "I do wonder" coin is for when others want to
+use the same tests but using some other CI infrastructure, whether
+it's some AWS or google cloud thing, or github or whatever.
 
-> +	if (sdev->pwr_dom_count <= 1)
-> +		return;
-> +
-> +	for (i = sdev->pwr_dom_count - 1; i >= 0; i--) {
-> +		if (!sdev->pwr_dom_links[i])
-> +			device_link_del(sdev->pwr_dom_links[i]);
-> +		if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
-> +			dev_pm_domain_detach(sdev->pwr_dom_devs[i], true);
-> +	}
-> +}
-> +
-> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
-> +{
-> +	struct device *dev = sdev->dev.dev;
-> +	int i;
-> +
-> +	sdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
-> +							 "#power-domain-cells");
-> +	/*
-> +	 * Single power-domain devices are handled by driver core nothing to do
-> +	 * here. The same for device nodes without "power-domains" property.
-> +	 */
-> +	if (sdev->pwr_dom_count <= 1)
-> +		return 0;
-> +
-> +	sdev->pwr_dom_devs = devm_kcalloc(dev, sdev->pwr_dom_count,
-> +					       sizeof(*sdev->pwr_dom_devs),
-> +					       GFP_KERNEL);
-> +	if (!sdev->pwr_dom_devs)
-> +		return -ENOMEM;
-> +
-> +	sdev->pwr_dom_links = devm_kcalloc(dev, sdev->pwr_dom_count,
-> +						sizeof(*sdev->pwr_dom_links),
-> +						GFP_KERNEL);
-> +	if (!sdev->pwr_dom_links)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < sdev->pwr_dom_count; i++) {
-> +		sdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
-> +		if (IS_ERR(sdev->pwr_dom_devs[i])) {
-> +			int ret = PTR_ERR(sdev->pwr_dom_devs[i]);
-> +			if (ret == -EPROBE_DEFER) {
-> +				simpledrm_device_detach_genpd(sdev);
-> +				return PTR_ERR(sdev->pwr_dom_devs[i]);
-> +			}
-> +			drm_err(&sdev->dev,
-> +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
-> +		}
-> +
-> +		sdev->pwr_dom_links[i] = device_link_add(dev,
-> +							 sdev->pwr_dom_devs[i],
-> +							 DL_FLAG_STATELESS |
-> +							 DL_FLAG_PM_RUNTIME |
-> +							 DL_FLAG_RPM_ACTIVE);
-> +		if (!sdev->pwr_dom_links[i])
-> +			drm_err(&sdev->dev, "failed to link power-domain %u\n", i);
+Anyway, considering that both of my idle curiosity reactions were
+about "if this is successful", I think me having those questions only
+means that I should pull this, rather than questioning the pull
+itself.
 
-wrong format specifier for int, fixed locally for v2
+If it works out so well that others want to actually do this and
+integrate our other selftests in similar manners, I think that would
+be lovely.
 
-Janne
+And if - as you say - this is a failure and the whole thing gets
+deleted a year from now as "this didn't go anywhere", it doesn't look
+like it should cause a ton of problems either.
+
+Anyway, it's in my tree now, let's see where it goes.
+
+                   Linus
