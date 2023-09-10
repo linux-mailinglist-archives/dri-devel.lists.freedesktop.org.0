@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FD4799C79
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 05:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3EE799C80
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 05:59:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A743510E04F;
-	Sun, 10 Sep 2023 03:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F06310E0AD;
+	Sun, 10 Sep 2023 03:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6729410E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 03:54:59 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-573429f5874so1973590eaf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Sep 2023 20:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694318098; x=1694922898; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=l8I/ytZjYAzCt9rW5QpCR2v7N9TIb41rg0eM/Ys3Nlw=;
- b=Hs76rOP0YgXHt+gQY/Gtct9O0qopuA6tAc0R+MUouWmv85rsWu6TB0SQhc3eVF4Svq
- WX2cMWabXYnXqY/R4v0i3nWePBBXRITjo69MfT/8iR7oKgNfY6L/CINzGjpXsXhKmmUZ
- 4y9bjUOSkq/gokXSMooTBVvYv8ImCKuQu8R5x4CaEdcxxnkHokArhMp5UGVKuCIqiscf
- DVMAghfsAVny6t/+S43dCyDVArZVWaq7LkhB0Cmj+CeXf/cPzB9tfB+7nd6ABugrHEF9
- XBWcTpKXtpeeOf8ZBibamlh5sfRk7h6ponOnGE+tkNRzhpGImy2qLtF7/Dp0xhvwetV8
- tHYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694318098; x=1694922898;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l8I/ytZjYAzCt9rW5QpCR2v7N9TIb41rg0eM/Ys3Nlw=;
- b=I02mzapt+3x4c8qixjeM4WClw1USpEGrHA5od2ZNFYAXeBIidktl24s/Acke3TQ4UJ
- 1tjKttLbzQzDnKmjh3xB1LJ6MYtk5ky5Pk0J6Yse9xy7WgSFkcyQObSeoplzXsIWAr/P
- moch5M5gmoxqDUanTgm83DpFGLLRhAUgYVAxZyjsbo32iuRjYLOesJBEaV7HeniLm/sj
- V+9g+9r6eu2MQcdCooTDjwMfpzYfX7EZl14SwEUCr8AcUbukJ1YmAWjZbnl9NGPVqjtl
- RQ/vmnUBHkAm0W1mEdJReDxqQH49thb8I/CFoeU3nkmQBavjzqWz05G583ps1HqItcZ6
- YR+g==
-X-Gm-Message-State: AOJu0Yz9ykP1MMqIRlZy9K+gjQLZWu/NMemshu0CUFdmkDDA3V+E4dSj
- bLK/7AYPf6AidCfQ9jTflsU=
-X-Google-Smtp-Source: AGHT+IFmdTBXwP0BmCOvDapnnklEogCQpFivgh7MV+psCiblPD/X9FoNE9kxhyOeikZ+QKi3oWkkrg==
-X-Received: by 2002:a05:6358:7209:b0:134:c37f:4b63 with SMTP id
- h9-20020a056358720900b00134c37f4b63mr7481569rwa.2.1694318098413; 
- Sat, 09 Sep 2023 20:54:58 -0700 (PDT)
-Received: from debian.me ([103.124.138.83]) by smtp.gmail.com with ESMTPSA id
- h2-20020a170902748200b001b9d8688956sm3913678pll.144.2023.09.09.20.54.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Sep 2023 20:54:57 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 31A2B8152373; Sun, 10 Sep 2023 10:54:53 +0700 (WIB)
-Date: Sun, 10 Sep 2023 10:54:53 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH] drm: fix doc warnings related to drm connector
-Message-ID: <ZP0-DaW3lIeaZ8xY@debian.me>
-References: <20230909110343.8103-1-bragathemanick0908@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66CF10E05F;
+ Sun, 10 Sep 2023 03:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694318328; x=1725854328;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kQTYGaJk8H1kwhbMXB/e1Mu/vDhP+7vNrK1CB+dwSBs=;
+ b=iKrLvWTSyDl+NNfGzIpzzkCWn6Bi2cxr6fb3rUO38TP3Ugv7vlRaMToC
+ DP4a6vzqb9XXwhLRYKq0r6DEy/eYfgvp9USGFdExhke2PqrgH3+TQ7WcD
+ Hs9EauN1xYqbUZVnriYl9VM7jw1lAG/NtTZQrz1BfVyvDTkKD0lFCSEhR
+ ujhJJfVw+e5qBkJZ7OXar49dFfHqrBsJLiipoXDvvH8fxm8mEYXSiz0/J
+ yDLeQT/iAyY3hF+cdaVQSvSB+TZfbJjQVu8uK8znFZSBKt1VsBsDXi9G3
+ Te2OCHc7JkFzOmZF9tROwMGcRJ/s4u1N5x5cvGJk/k9qE5xgFSSDCoEo+ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="381684297"
+X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; d="scan'208";a="381684297"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2023 20:58:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="736377104"
+X-IronPort-AV: E=Sophos;i="6.02,241,1688454000"; d="scan'208";a="736377104"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga007.jf.intel.com with ESMTP; 09 Sep 2023 20:58:47 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/3] Resolve suspend-resume racing with GuC
+ destroy-context-worker
+Date: Sat,  9 Sep 2023 20:58:43 -0700
+Message-Id: <20230910035846.493766-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="m24psGSsoqT7l832"
-Content-Disposition: inline
-In-Reply-To: <20230909110343.8103-1-bragathemanick0908@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +55,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: , Alan Previn <alan.previn.teres.alexis@intel.com>,
+	dri-devel@lists.freedesktop.org,
+	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, intel.com@freedesktop.org,
+	John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is the result of debugging issues root caused to
+races between the GuC's destroyed_worker_func being triggered
+vs repeating suspend-resume cycles with concurrent delayed
+fence signals for engine-freeing.
 
---m24psGSsoqT7l832
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The reproduction steps require that an app is launched right
+before the start of the suspend cycle where it creates a
+new gem context and submits a tiny workload that would
+complete in the middle of the suspend cycle. However this
+app uses dma-buffer sharing or dma-fence with non-GPU
+objects or signals that eventually triggers a FENCE_FREE
+via__i915_sw_fence_notify that connects to engines_notify ->
+free_engines_rcu -> intel_context_put ->
+kref_put(&ce->ref..) that queues the worker after the GuCs
+CTB has been disabled (i.e. after i915-gem's suspend-late).
 
-On Sat, Sep 09, 2023 at 04:33:43PM +0530, Bragatheswaran Manickavel wrote:
-> Addressing drm dp/hdmi connector related kernel documentation
-> warning and add more information about these values.
+This sequence is a corner-case and required repeating this
+app->suspend->resume cycle ~1500 times across 4 identical
+systems to see it once. That said, based on above callstack,
+it is clear that merely flushing the context destruction worker,
+which is obviously missing and needed, isn't sufficient.
 
-What are these?
+Because of that, this series adds additional patches besides
+the obvious (Patch #1) flushing of the worker during the
+suspend flows. It also includes (Patch #2) closing a race
+between sending the context-deregistration H2G vs the CTB
+getting disabled in the midst of it (by detecing the failure
+and unrolling the guc-lrc-unpin flow) and (Patch #32) not
+infinitely waiting in intel_gt_pm_wait_timeout_for_idle
+when in the suspend-flow.
 
->=20
-> Signed-off-by: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 2 ++
->  include/drm/drm_connector.h     | 2 ++
->  2 files changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index bf8371dc2a61..084c95785dda 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2203,6 +2203,7 @@ static int drm_mode_create_colorspace_property(stru=
-ct drm_connector *connector,
->  /**
->   * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace pro=
-perty
->   * @connector: connector to create the Colorspace property on.
-> + * @supported_colorspaces: to get hdmi supported colorspaces.
->   *
->   * Called by a driver the first time it's needed, must be attached to de=
-sired
->   * HDMI connectors.
-> @@ -2227,6 +2228,7 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_prope=
-rty);
->  /**
->   * drm_mode_create_dp_colorspace_property - create dp colorspace property
->   * @connector: connector to create the Colorspace property on.
-> + * @supported_colorspaces: to get dp supported colorspaces.
->   *
->   * Called by a driver the first time it's needed, must be attached to de=
-sired
->   * DP connectors.
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index d300fde6c1a4..556d66dd122c 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -498,6 +498,8 @@ enum drm_privacy_screen_status {
->   *   ITU-R BT.601 colorimetry format
->   *   The DP spec does not say whether this is the 525 or the 625
->   *   line version.
-> + * @DRM_MODE_COLORIMETRY_COUNT:
-> + *   Represents the count of colorspaces.
->   */
->  enum drm_colorspace {
->  	/* For Default case, driver will set the colorspace */
+NOTE: We are still observing one more wakeref leak from gt
+but not necessarilty guc. We are still debugging this so
+this series will very likely get rev'd up again.
 
-Oh, you mean to add description for colorspace-related fields.
+Changes from prior revs:
+   v2: - Patch #2 Restructure code in guc_lrc_desc_unpin so
+         it's more readible to differentiate (1)direct guc-id
+         cleanup ..vs (2) sending the H2G ctx-destroy action ..
+         vs (3) the unrolling steps if the H2G fails.
+       - Patch #2 Add a check to close the race sooner by checking
+         for intel_guc_is_ready from destroyed_worker_func.
+       - Patch #2 When guc_submission_send_busy_loop gets a
+         failure from intel_guc_send_busy_loop, we need to undo
+         i.e. decrement the outstanding_submission_g2h.
+       - Patch #3 In wait_for_suspend, fix checking of return from
+         intel_gt_pm_wait_timeout_for_idle to now use -ETIMEDOUT
+         and add documentation for intel_wakeref_wait_for_idle.
+         (Rodrigo).
 
-Thanks.
+Alan Previn (3):
+  drm/i915/guc: Flush context destruction worker at suspend
+  drm/i915/guc: Close deregister-context race against CT-loss
+  drm/i915/gt: Timeout when waiting for idle in suspending
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  7 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 81 ++++++++++++++++---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +
+ drivers/gpu/drm/i915/intel_wakeref.c          | 14 +++-
+ drivers/gpu/drm/i915/intel_wakeref.h          |  6 +-
+ 8 files changed, 101 insertions(+), 20 deletions(-)
 
 
---=20
-An old man doll... just what I always wanted! - Clara
+base-commit: f8d21cb17a99b75862196036bb4bb93ee9637b74
+-- 
+2.39.0
 
---m24psGSsoqT7l832
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZP0+DQAKCRD2uYlJVVFO
-o72FAQC1/upVU9ceWJaSBr2/nUK7jvc12JhGtDiGaWd0X4kdNQEAjlcMtPpgNEwk
-knUERgY4BXnbaet+xqtbFqc65Zr6+wQ=
-=sgRJ
------END PGP SIGNATURE-----
-
---m24psGSsoqT7l832--
