@@ -1,63 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350EB799CD6
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 08:46:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82F5799CDA
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Sep 2023 08:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4E110E164;
-	Sun, 10 Sep 2023 06:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC7E10E167;
+	Sun, 10 Sep 2023 06:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19EE410E164
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 06:45:53 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id
- af79cd13be357-7708bfce474so197312385a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Sep 2023 23:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694328352; x=1694933152; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sZfQWbGAj1DkhCKxqjczTrzWInqoQboQbdbdyWNQN/U=;
- b=khcYet4p0BhK5aaSYa13WUyzSln71jZXxU0dO1lMWC7eLbqm9w9IPIkA4wuTQhqUdK
- 8SdbZeMSrmopItsdd0jTjic0lrzWN7pi9NmHB9cv/ucjg12sbM3iNuU7xE/VzCnQxD0U
- kCtBsYESLoeYK58l/c2vm/6PUywTHcRArvuXvx+j1VDP0LKe8RrqV5sC2D3tqQDj3JOT
- lNbsPN0tm8P4Wd6N2E1F8tSoyRbThK8fS7YYZ156iFmXzVvFopu5DGWBf6KaoNqCW6of
- GrNTuIqsp32SlJd7OUqTQjtPbHqb2g4+B/AWG7c2D85/drhO3Boh2a193SgHUoByRpjY
- z+Dg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8046610E168
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Sep 2023 06:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694329112;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EF+mREtObA6if9r8T28Dzw3gPzt9UPJWLv6e0kWaOFM=;
+ b=JzvS8dFiBqgGZI0/Hf+cYG+gEPmB7oZSdQsFHipOytxE0J9FGv/QBO806RNIZPHyRVa2oX
+ 943/x4ipNJk0Vc1aOo/13/YogMEGsqSnRcBZfVNBgXp0jRFbGcvA0jcwSTGlEWfXO3VGF5
+ NELfAOtmrf7U0/GRpY/vjimo09qwAc0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-145-7tVt_OWNPg-ikCOFPf0VWw-1; Sun, 10 Sep 2023 02:58:30 -0400
+X-MC-Unique: 7tVt_OWNPg-ikCOFPf0VWw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-31f87a56b46so732119f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Sep 2023 23:58:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694328352; x=1694933152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sZfQWbGAj1DkhCKxqjczTrzWInqoQboQbdbdyWNQN/U=;
- b=SoBb9iOoqzk8AAthcwq2SW9pJskW46Ul4XFiu3l+vgsI/LmktkfRT0l9F6Edfi827R
- l6fONFNBeEIVVIMN6sq8mYldi0XOxIsoCFSAmtt/SdbL/ALc5PLA9Y42DazQRpPWbOGg
- 7tu+0EqN9QbrGufxGro79MXQ8EkjVhJqQAvhJvTgQhn4/ruXNWgwZtt2tVupL5AVOgrX
- oQbczyL+Y/VXJsA7dIuBfuTo1wkl19wt757VlbSXhmMfUfWgksIiv/ri9rAG4sCbfdFw
- L7bSLIyenxTwc3sFM66LcgQI2rtHBpJw0Ynd2drnz69g/B2uoEfEMritrtTMHr143sxG
- t4cw==
-X-Gm-Message-State: AOJu0YxonONNNwG8w0tiJweGJLkEMuSsuvlGQ9pFfw3DS38f0IS50H1S
- 7qGCXhrL+1JpzuC/SBj/dtmXQO0aPURXvV4PwOo=
-X-Google-Smtp-Source: AGHT+IF+s8AFxOidE/A9WAC4m8I9XQH0TrmHOCpV62tnj/qio93DNU+E//PvEOIoGVq8cFPoXHt8PXWv744YZNAa2gI=
-X-Received: by 2002:ac8:7d4f:0:b0:412:da83:484b with SMTP id
- h15-20020ac87d4f000000b00412da83484bmr8894823qtb.10.1694328352002; Sat, 09
- Sep 2023 23:45:52 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694329109; x=1694933909;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EF+mREtObA6if9r8T28Dzw3gPzt9UPJWLv6e0kWaOFM=;
+ b=LD5SJa705gczWkRlv+DFs36nGFRMJsOaBFbTzFtEVEtQ7l4Sg2tfY3vOboeXTsmq7X
+ FKzKZqGSa4seEBK+IybeIMn2jflw8IN9lXq6jrJeVzKkZROVrPCsT1krb82/PQ+u1TFD
+ oHh5btVLG/hW3IUzDAsIBzHE9AqKlTnabdRR+O4OLcyoCotuboEBhfLlIdL1WQgFv6mj
+ UtxjEmHmNiK0m3bCc+uayGITrz8sKvGlBsai/ohsLyLcI3y5xDXVf5P9+gMUM8CsbM0C
+ dYJLyst678xOs7YxLSUEv7LSakSQJLuFDM+NUWdbb53jxC+EXDrBJD8Gb9kqHdC/bjnI
+ w7Hw==
+X-Gm-Message-State: AOJu0Ywwl7T8/E3cpctnOL2P1oq6lHEUd5OoVE14WNGzZJnJaHzAQVlp
+ y7j74mvAeZtHrzxIc7cF2iU13VNMxYu+RvJqNTkxTdu0Ec1YBk14rik0KdSqLRFjoH32u/D8grK
+ hzJbcpOgl8HItX5rH5WKfL8KwJ7jD
+X-Received: by 2002:a5d:6b06:0:b0:319:6e74:1637 with SMTP id
+ v6-20020a5d6b06000000b003196e741637mr4428770wrw.27.1694329109787; 
+ Sat, 09 Sep 2023 23:58:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGSx+L2ni7dhd9xEaYUSqtrodGiDpQly/+lPBox6GKopSYayzZ75i6DkIouMBEt+4EzGlCrUg==
+X-Received: by 2002:a5d:6b06:0:b0:319:6e74:1637 with SMTP id
+ v6-20020a5d6b06000000b003196e741637mr4428761wrw.27.1694329109475; 
+ Sat, 09 Sep 2023 23:58:29 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ i9-20020a5d5589000000b003141e629cb6sm6502547wrv.101.2023.09.09.23.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Sep 2023 23:58:29 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 2/3] video: fbdev: ssd1307fb: Print the PWM's label
+ instead of its number
+In-Reply-To: <20230909202110.bcz5qvb7bfrzco73@pengutronix.de>
+References: <20230728145824.616687-1-u.kleine-koenig@pengutronix.de>
+ <20230728145824.616687-3-u.kleine-koenig@pengutronix.de>
+ <87lef0xcw4.fsf@minerva.mail-host-address-is-not-set>
+ <87zg1vif8b.fsf@minerva.mail-host-address-is-not-set>
+ <20230909202110.bcz5qvb7bfrzco73@pengutronix.de>
+Date: Sun, 10 Sep 2023 08:58:27 +0200
+Message-ID: <87v8ciikfg.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230909110343.8103-1-bragathemanick0908@gmail.com>
- <ZP0-DaW3lIeaZ8xY@debian.me>
- <3ae5be2b-8075-5a4d-65c7-7282a44909f3@infradead.org>
-In-Reply-To: <3ae5be2b-8075-5a4d-65c7-7282a44909f3@infradead.org>
-From: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
-Date: Sun, 10 Sep 2023 12:15:40 +0530
-Message-ID: <CAHZF+Vaf4vJtyFCMGP7DP_rGGtEsxbHQqB50S-46_a4H0_j3GA@mail.gmail.com>
-Subject: Re: [PATCH] drm: fix doc warnings related to drm connector
-To: Randy Dunlap <rdunlap@infradead.org>, airlied@gmail.com, 
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, 
- Bagas Sanjaya <bagasdotme@gmail.com>, mripard@kernel.org, tzimmermann@suse.de
-Content-Type: multipart/alternative; boundary="0000000000008dd6ec0604fb8f41"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,143 +87,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Jilin Yuan <yuanjilin@cdjrlc.com>, kernel@pengutronix.de,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000008dd6ec0604fb8f41
-Content-Type: text/plain; charset="UTF-8"
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
 
->On Sun, 10 Sept 2023 at 09:29, Randy Dunlap <rdunlap@infradead.org> wrote:
->On 9/9/23 20:54, Bagas Sanjaya wrote:
->> On Sat, Sep 09, 2023 at 04:33:43PM +0530, Bragatheswaran Manickavel
-wrote:
->>> Addressing drm dp/hdmi connector related kernel documentation
->>> warning and add more information about these values.
->>
->> What are these?
->>
+Hello Uwe,
+
+> Hello,
 >
->There are already patches for these issues.
+> On Sat, Sep 09, 2023 at 04:38:28PM +0200, Javier Martinez Canillas wrote:
+>> Javier Martinez Canillas <javierm@redhat.com> writes:
+>>=20
+>> > Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
+>> >
+>> >> struct pwm_device::pwm is a write-only variable in the pwm core and u=
+sed
+>> >> nowhere apart from this and another dev_dbg. So it isn't useful to
+>> >> identify the used PWM. Emit the PWM's label instead in the debug
+>> >> message.
+>> >>
+>> >> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>> >> ---
+>> >
+>> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>> >
+>>=20
+>> Pushed to drm-misc (drm-misc-next). Thanks!
 >
->Please check latest linux-next and make patches to it instead of using
-mainline.
+> JFTR: This patch is already in linus/master. And Javier pushed
+> "drm/ssd130x: Print the PWM's label instead of its number" to
+> drm-misc-next which is great. So the "Pushed to ..." mail is just in
+> reply to the wrong patch in this thread and in git everything is fine.
 >
->Thanks.
 
-Just had a look at the latest next-20230908. Changes of
-include/drm/drm_connector.h are
-not present.
+Ups, that's correct. Thanks a lot for pointing that out!
 
-Thanks,
+> Thanks
+> Uwe
 >
->>>
->>> Signed-off-by: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
->>> ---
->>>  drivers/gpu/drm/drm_connector.c | 2 ++
->>>  include/drm/drm_connector.h     | 2 ++
->>>  2 files changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_connector.c
-b/drivers/gpu/drm/drm_connector.c
->>> index bf8371dc2a61..084c95785dda 100644
->>> --- a/drivers/gpu/drm/drm_connector.c
->>> +++ b/drivers/gpu/drm/drm_connector.c
->>> @@ -2203,6 +2203,7 @@ static int
-drm_mode_create_colorspace_property(struct drm_connector *connector,
->>>  /**
->>>   * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace
-property
->>>   * @connector: connector to create the Colorspace property on.
->>> + * @supported_colorspaces: to get hdmi supported colorspaces.
->>>   *
->>>   * Called by a driver the first time it's needed, must be attached to
-desired
->>>   * HDMI connectors.
->>> @@ -2227,6 +2228,7 @@
-EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
->>>  /**
->>>   * drm_mode_create_dp_colorspace_property - create dp colorspace
-property
->>>   * @connector: connector to create the Colorspace property on.
->>> + * @supported_colorspaces: to get dp supported colorspaces.
->>>   *
->>>   * Called by a driver the first time it's needed, must be attached to
-desired
->>>   * DP connectors.
->>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->>> index d300fde6c1a4..556d66dd122c 100644
->>> --- a/include/drm/drm_connector.h
->>> +++ b/include/drm/drm_connector.h
->>> @@ -498,6 +498,8 @@ enum drm_privacy_screen_status {
->>>   *   ITU-R BT.601 colorimetry format
->>>   *   The DP spec does not say whether this is the 525 or the 625
->>>   *   line version.
->>> + * @DRM_MODE_COLORIMETRY_COUNT:
->>> + *   Represents the count of colorspaces.
->>>   */
->>>  enum drm_colorspace {
->>>      /* For Default case, driver will set the colorspace */
->>
->> Oh, you mean to add description for colorspace-related fields.
->>
->> Thanks.
->>
->>
->
---
 
---0000000000008dd6ec0604fb8f41
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><br></div><div><br></div>&gt;On Sun, 10 Sept 2023 at =
-09:29, Randy Dunlap &lt;<a href=3D"mailto:rdunlap@infradead.org">rdunlap@in=
-fradead.org</a>&gt; wrote:<br>&gt;On 9/9/23 20:54, Bagas Sanjaya wrote:<br>=
-&gt;&gt; On Sat, Sep 09, 2023 at 04:33:43PM +0530, Bragatheswaran Manickave=
-l wrote:<br>&gt;&gt;&gt; Addressing drm dp/hdmi connector related kernel do=
-cumentation<br>&gt;&gt;&gt; warning and add more information about these va=
-lues.<br>&gt;&gt;<br>&gt;&gt; What are these?<br>&gt;&gt;<br>&gt;<br>&gt;Th=
-ere are already patches for these issues.<br>&gt;<br>&gt;Please check lates=
-t linux-next and make patches to it instead of using mainline.<br>&gt;<br>&=
-gt;Thanks.<br><br>Just had a look at the latest next-20230908. Changes of i=
-nclude/drm/drm_connector.h are <br>not present. <br><br>Thanks,<br>&gt;<br>=
-&gt;&gt;&gt;<br>&gt;&gt;&gt; Signed-off-by: Bragatheswaran Manickavel &lt;<=
-a href=3D"mailto:bragathemanick0908@gmail.com">bragathemanick0908@gmail.com=
-</a>&gt;<br>&gt;&gt;&gt; ---<br>&gt;&gt;&gt; =C2=A0drivers/gpu/drm/drm_conn=
-ector.c | 2 ++<br>&gt;&gt;&gt; =C2=A0include/drm/drm_connector.h =C2=A0 =C2=
-=A0 | 2 ++<br>&gt;&gt;&gt; =C2=A02 files changed, 4 insertions(+)<br>&gt;&g=
-t;&gt;<br>&gt;&gt;&gt; diff --git a/drivers/gpu/drm/drm_connector.c b/drive=
-rs/gpu/drm/drm_connector.c<br>&gt;&gt;&gt; index bf8371dc2a61..084c95785dda=
- 100644<br>&gt;&gt;&gt; --- a/drivers/gpu/drm/drm_connector.c<br>&gt;&gt;&g=
-t; +++ b/drivers/gpu/drm/drm_connector.c<br>&gt;&gt;&gt; @@ -2203,6 +2203,7=
- @@ static int drm_mode_create_colorspace_property(struct drm_connector *co=
-nnector,<br>&gt;&gt;&gt; =C2=A0/**<br>&gt;&gt;&gt; =C2=A0 * drm_mode_create=
-_hdmi_colorspace_property - create hdmi colorspace property<br>&gt;&gt;&gt;=
- =C2=A0 * @connector: connector to create the Colorspace property on.<br>&g=
-t;&gt;&gt; + * @supported_colorspaces: to get hdmi supported colorspaces.<b=
-r>&gt;&gt;&gt; =C2=A0 *<br>&gt;&gt;&gt; =C2=A0 * Called by a driver the fir=
-st time it&#39;s needed, must be attached to desired<br>&gt;&gt;&gt; =C2=A0=
- * HDMI connectors.<br>&gt;&gt;&gt; @@ -2227,6 +2228,7 @@ EXPORT_SYMBOL(drm=
-_mode_create_hdmi_colorspace_property);<br>&gt;&gt;&gt; =C2=A0/**<br>&gt;&g=
-t;&gt; =C2=A0 * drm_mode_create_dp_colorspace_property - create dp colorspa=
-ce property<br>&gt;&gt;&gt; =C2=A0 * @connector: connector to create the Co=
-lorspace property on.<br>&gt;&gt;&gt; + * @supported_colorspaces: to get dp=
- supported colorspaces.<br>&gt;&gt;&gt; =C2=A0 *<br>&gt;&gt;&gt; =C2=A0 * C=
-alled by a driver the first time it&#39;s needed, must be attached to desir=
-ed<br>&gt;&gt;&gt; =C2=A0 * DP connectors.<br>&gt;&gt;&gt; diff --git a/inc=
-lude/drm/drm_connector.h b/include/drm/drm_connector.h<br>&gt;&gt;&gt; inde=
-x d300fde6c1a4..556d66dd122c 100644<br>&gt;&gt;&gt; --- a/include/drm/drm_c=
-onnector.h<br>&gt;&gt;&gt; +++ b/include/drm/drm_connector.h<br>&gt;&gt;&gt=
-; @@ -498,6 +498,8 @@ enum drm_privacy_screen_status {<br>&gt;&gt;&gt; =C2=
-=A0 * =C2=A0 ITU-R BT.601 colorimetry format<br>&gt;&gt;&gt; =C2=A0 * =C2=
-=A0 The DP spec does not say whether this is the 525 or the 625<br>&gt;&gt;=
-&gt; =C2=A0 * =C2=A0 line version.<br>&gt;&gt;&gt; + * @DRM_MODE_COLORIMETR=
-Y_COUNT:<br>&gt;&gt;&gt; + * =C2=A0 Represents the count of colorspaces.<br=
->&gt;&gt;&gt; =C2=A0 */<br>&gt;&gt;&gt; =C2=A0enum drm_colorspace {<br>&gt;=
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0/* For Default case, driver will set the color=
-space */<br>&gt;&gt;<br>&gt;&gt; Oh, you mean to add description for colors=
-pace-related fields.<br>&gt;&gt;<br>&gt;&gt; Thanks.<br>&gt;&gt;<br>&gt;&gt=
-;<br>&gt;<br>--<br><br></div>
+--=20
+Best regards,
 
---0000000000008dd6ec0604fb8f41--
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
