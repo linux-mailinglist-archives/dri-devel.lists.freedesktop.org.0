@@ -1,86 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B7B79A7E7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:26:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0854D79A7F7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2948910E2DB;
-	Mon, 11 Sep 2023 12:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5389110E1A3;
+	Mon, 11 Sep 2023 12:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D9210E2DB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:26:12 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2F09F1F8A6;
- Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1694435171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
- b=DDZzAoUEucLB9oIlC9fTncVKsqTQbFWodv/VxDq0cCWDfxARJfhFUmfEuypnINVC3jJDcA
- GJmyTV8ObdFU/9dX8SK+ROSQGAWheM1hsH7HefacTTxFLK0jSjWe1k32+pTy/M1JpFz1pU
- BhQ6vBb9nP6WRzlg+baY5nb7NkhItZw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1694435171;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
- b=idQKo5LSb2MP7w21NOZsgcYbVUBd155j1ZDgrAeXcW+433mEqv7jQhacClZVkGjJp/yNff
- WlcJ1HsplNeG7fBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0547F139CC;
- Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id z+csAGMH/2QuCgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Sep 2023 12:26:11 +0000
-Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
-Date: Mon, 11 Sep 2023 14:26:10 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA8F10E2E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:39:09 +0000 (UTC)
+Received: from [192.168.1.23] (unknown [171.76.82.102])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7697366072FE;
+ Mon, 11 Sep 2023 13:39:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694435947;
+ bh=MvnxIayMmPEsq2MzqcxVyvlilHrYAvXUGbuaSX/LxBs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LZ1l9Qf8rixIpz+94pqn/E7NIehaqLf/Jh8WJCYZmTcCqgTQa2ONJuqnA67jpdhKT
+ X21KmOmasjXROM25ITuqounnLMzzSCjVDiqgkRV15kt1le7Q9n+vNhRFom03J7M9Zl
+ dez0ecWl/mjrXet7A1BYTCEJOzEqwiiN/nTjyI6asZvlUm/uQIxpTaiZ5ofEePomjR
+ +WL4/ZD/aGiRPfDFYvuWIeQ60STYhgwtQo/TZTdpNn6vdUJmPVUoilr+Wjx/dnSWng
+ vV844qIYFJT5iAViLP2AG/G58VNVknnvHlDgnJQ6FRYCESGBwRdR1iSZJqVm7+wFf/
+ YTI7qV/10AamQ==
+Message-ID: <ca518c28-1375-9eaf-ffd4-bedf06810000@collabora.com>
+Date: Mon, 11 Sep 2023 18:08:57 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 2/9] arm64: dts: qcom: apq8016-sbc: Add overlay for usb
+ host mode
 Content-Language: en-US
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------4M8cdUHyfNjDPiRMngCSk0qn"
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, dri-devel@lists.freedesktop.org
+References: <20230908152225.432139-1-vignesh.raman@collabora.com>
+ <20230908152225.432139-3-vignesh.raman@collabora.com>
+ <ca53e4cd-1c89-482d-9662-19926efb5b47@linaro.org>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <ca53e4cd-1c89-482d-9662-19926efb5b47@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,172 +57,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
+Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
+ krzysztof.kozlowski+dt@linaro.org, robdclark@google.com,
+ david.heidelberg@collabora.com, sergi.blanch.torne@collabora.com,
+ gustavo.padovan@collabora.com, agross@kernel.org, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, daniels@collabora.com, linux-arm-msm@vger.kernel.org,
+ mripard@kernel.org, helen.koike@collabora.com, anholt@google.com,
+ linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ andersson@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ dmitry.baryshkov@linaro.org, guilherme.gallo@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4M8cdUHyfNjDPiRMngCSk0qn
-Content-Type: multipart/mixed; boundary="------------kpzYvdaKcjH0xuuH5zw29EU8";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
-Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+Hi Konrad,
 
---------------kpzYvdaKcjH0xuuH5zw29EU8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 11/09/23 17:20, Konrad Dybcio wrote:
+> On 8.09.2023 17:22, Vignesh Raman wrote:
+>> Due to the presence of the fastboot micro cable in the CI farm,
+>> it causes the hardware to remain in gadget mode instead of host mode.
+>> So it doesn't find the network, which results in failure to mount root
+>> fs via NFS.
+>>
+>> Add an overlay dtso file that sets the dr_mode to host, allowing
+>> the USB controllers to work in host mode. This dtso file will be used
+>> in drm-ci, mesa-ci.
+>>
+>> Overlay DT file uses the sugar syntax [suggested by Dmitry Baryshkov and Maxime Ripard]
+>>
+>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Suggested-by: Maxime Ripard <mripard@kernel.org>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> Signed-off-by: David Heidelberg <david.heidelberg@collabora.com>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+> For such a small change, maybe you can just use sed in your
+> scripts to alter this?
 
-SGkNCg0KQW0gMTAuMDkuMjMgdW0gMTg6Mzkgc2NocmllYiBKYW5uZSBHcnVuYXUgdmlhIEI0
-IFJlbGF5Og0KPiBGcm9tOiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gDQo+IE11
-bHRpcGxlIHBvd2VyIGRvbWFpbnMgbmVlZCB0byBiZSBoYW5kbGVkIGV4cGxpY2l0bHkgaW4g
-ZWFjaCBkcml2ZXIuIFRoZQ0KPiBkcml2ZXIgY29yZSBjYW4gbm90IGhhbmRsZSBpdCBhdXRv
-bWF0aWNhbGx5IHNpbmNlIGl0IGlzIG5vdCBhd2FyZSBvZg0KPiBwb3dlciBzZXF1ZW5jaW5n
-IHJlcXVpcmVtZW50cyB0aGUgaGFyZHdhcmUgbWlnaHQgaGF2ZS4gVGhpcyBpcyBub3QgYQ0K
-PiBwcm9ibGVtIGZvciBzaW1wbGVkcm0gc2luY2UgZXZlcnl0aGluZyBpcyBleHBlY3RlZCB0
-byBiZSBwb3dlcmVkIG9uIGJ5DQo+IHRoZSBib290bG9hZGVyLiBzaW1wbGVkcm0gaGFzIGp1
-c3QgZW5zdXJlIGl0IHJlbWFpbnMgcG93ZXJlZCBvbiBkdXJpbmcNCj4gaXRzIGxpZmV0aW1l
-Lg0KPiBUaGlzIGlzIHJlcXVpcmVkIG9uIEFwcGxlIHNpbGljb24gTTIgYW5kIE0yIFByby9N
-YXgvVWx0cmEgZGVza3RvcA0KPiBzeXN0ZW1zLiBUaGUgSERNSSBvdXRwdXQgaW5pdGlhbGl6
-ZWQgYnkgdGhlIGJvb3Rsb2FkZXIgcmVxdWlyZXMga2VlcGluZw0KPiB0aGUgZGlzcGxheSBj
-b250cm9sbGVyIGFuZCBhIERQIHBoeSBwb3dlciBkb21haW4gb24uDQo+IA0KPiBTaWduZWQt
-b2ZmLWJ5OiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAxMDYgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEwNiBpbnNlcnRpb25z
-KCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCBmZjg2YmEx
-YWUxYjguLmVmZWRlZGU1N2Q0MiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rp
-bnkvc2ltcGxlZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
-LmMNCj4gQEAgLTYsNiArNiw3IEBADQo+ICAgI2luY2x1ZGUgPGxpbnV4L29mX2FkZHJlc3Mu
-aD4NCj4gICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVmYi5oPg0KPiAg
-ICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxsaW51
-eC9wbV9kb21haW4uaD4NCj4gICAjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVy
-Lmg+DQo+ICAgDQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4NCj4gQEAgLTIy
-Nyw2ICsyMjgsMTIgQEAgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ugew0KPiAgIAl1bnNpZ25l
-ZCBpbnQgcmVndWxhdG9yX2NvdW50Ow0KPiAgIAlzdHJ1Y3QgcmVndWxhdG9yICoqcmVndWxh
-dG9yczsNCj4gICAjZW5kaWYNCj4gKwkvKiBwb3dlci1kb21haW5zICovDQo+ICsjaWYgZGVm
-aW5lZCBDT05GSUdfT0YgJiYgZGVmaW5lZCBDT05GSUdfUE1fR0VORVJJQ19ET01BSU5TDQo+
-ICsJaW50IHB3cl9kb21fY291bnQ7DQo+ICsJc3RydWN0IGRldmljZSAqKnB3cl9kb21fZGV2
-czsNCj4gKwlzdHJ1Y3QgZGV2aWNlX2xpbmsgKipwd3JfZG9tX2xpbmtzOw0KPiArI2VuZGlm
-DQo+ICAgDQo+ICAgCS8qIHNpbXBsZWZiIHNldHRpbmdzICovDQo+ICAgCXN0cnVjdCBkcm1f
-ZGlzcGxheV9tb2RlIG1vZGU7DQo+IEBAIC00NjgsNiArNDc1LDEwMiBAQCBzdGF0aWMgaW50
-IHNpbXBsZWRybV9kZXZpY2VfaW5pdF9yZWd1bGF0b3JzKHN0cnVjdCBzaW1wbGVkcm1fZGV2
-aWNlICpzZGV2KQ0KPiAgIH0NCj4gICAjZW5kaWYNCj4gICANCj4gKyNpZiBkZWZpbmVkIENP
-TkZJR19PRiAmJiBkZWZpbmVkIENPTkZJR19QTV9HRU5FUklDX0RPTUFJTlMNCj4gKy8qDQo+
-ICsgKiBHZW5lcmljIHBvd2VyIGRvbWFpbiBoYW5kbGluZyBjb2RlLg0KPiArICoNCj4gKyAq
-IEhlcmUgd2UgaGFuZGxlIHRoZSBwb3dlci1kb21haW5zIHByb3BlcnRpZXMgb2Ygb3VyICJz
-aW1wbGUtZnJhbWVidWZmZXIiDQo+ICsgKiBkdCBub2RlLiBUaGlzIGlzIG9ubHkgbmVjZXNz
-YXJ5IGlmIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgcG93ZXItZG9tYWluLg0KPiArICogQSBz
-aW5nbGUgcG93ZXItZG9tYWlucyBpcyBoYW5kbGVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGRy
-aXZlciBjb3JlLiBNdWx0aXBsZQ0KPiArICogcG93ZXItZG9tYWlucyBoYXZlIHRvIGJlIGhh
-bmRsZWQgYnkgZHJpdmVycyBzaW5jZSB0aGUgZHJpdmVyIGNvcmUgY2FuJ3Qga25vdw0KPiAr
-ICogdGhlIGNvcnJlY3QgcG93ZXIgc2VxdWVuY2luZy4gUG93ZXIgc2VxdWVuY2luZyBpcyBu
-b3QgYW4gaXNzdWUgZm9yIHNpbXBsZWRybQ0KPiArICogc2luY2UgdGhlIGJvb3Rsb2FkZXIg
-aGFzIHB1dCB0aGUgcG93ZXIgZG9tYWlucyBhbHJlYWR5IGluIHRoZSBjb3JyZWN0IHN0YXRl
-Lg0KPiArICogc2ltcGxlZHJtIGhhcyBvbmx5IHRvIGVuc3VyZSB0aGV5IHJlbWFpbiBhY3Rp
-dmUgZm9yIGl0cyBsaWZldGltZS4NCj4gKyAqDQo+ICsgKiBXaGVuIHRoZSBkcml2ZXIgdW5s
-b2Fkcywgd2UgZGV0YWNoIGZyb20gdGhlIHBvd2VyLWRvbWFpbnMuDQo+ICsgKg0KPiArICog
-V2Ugb25seSBjb21wbGFpbiBhYm91dCBlcnJvcnMgaGVyZSwgbm8gYWN0aW9uIGlzIHRha2Vu
-IGFzIHRoZSBtb3N0IGxpa2VseQ0KPiArICogZXJyb3IgY2FuIG9ubHkgaGFwcGVuIGR1ZSB0
-byBhIG1pc21hdGNoIGJldHdlZW4gdGhlIGJvb3Rsb2FkZXIgd2hpY2ggc2V0DQo+ICsgKiB1
-cCB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZlciIgZHQgbm9kZSwgYW5kIHRoZSBQTSBkb21haW4g
-cHJvdmlkZXJzIGluIHRoZQ0KPiArICogZGV2aWNlIHRyZWUuIENoYW5jZXMgYXJlIHRoYXQg
-dGhlcmUgYXJlIG5vIGFkdmVyc2UgZWZmZWN0cywgYW5kIGlmIHRoZXJlIGFyZSwNCj4gKyAq
-IGEgY2xlYW4gdGVhcmRvd24gb2YgdGhlIGZiIHByb2JlIHdpbGwgbm90IGhlbHAgdXMgbXVj
-aCBlaXRoZXIuIFNvIGp1c3QNCj4gKyAqIGNvbXBsYWluIGFuZCBjYXJyeSBvbiwgYW5kIGhv
-cGUgdGhhdCB0aGUgdXNlciBhY3R1YWxseSBnZXRzIGEgd29ya2luZyBmYiBhdA0KPiArICog
-dGhlIGVuZCBvZiB0aGluZ3MuDQo+ICsgKi8NCj4gK3N0YXRpYyB2b2lkIHNpbXBsZWRybV9k
-ZXZpY2VfZGV0YWNoX2dlbnBkKHZvaWQgKnJlcykNCj4gK3sNCj4gKwlpbnQgaTsNCj4gKwlz
-dHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldiA9IC8qKHN0cnVjdCBzaW1wbGVkcm1fZGV2
-aWNlICopKi9yZXM7DQo+ICsNCj4gKw0KPiArCWRybV9lcnIoJnNkZXYtPmRldiwgIiUgcG93
-ZXItZG9tYWlucyBjb3VudDolZFxuIiwgX19mdW5jX18sIHNkZXYtPnB3cl9kb21fY291bnQp
-Ow0KDQpJZiBhbnl0aGluZywgZHJtX2RiZygpDQoNCj4gKwlpZiAoc2Rldi0+cHdyX2RvbV9j
-b3VudCA8PSAxKQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlmb3IgKGkgPSBzZGV2LT5wd3Jf
-ZG9tX2NvdW50IC0gMTsgaSA+PSAwOyBpLS0pIHsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9t
-X2xpbmtzW2ldKQ0KPiArCQkJZGV2aWNlX2xpbmtfZGVsKHNkZXYtPnB3cl9kb21fbGlua3Nb
-aV0pOw0KPiArCQlpZiAoIUlTX0VSUl9PUl9OVUxMKHNkZXYtPnB3cl9kb21fZGV2c1tpXSkp
-DQo+ICsJCQlkZXZfcG1fZG9tYWluX2RldGFjaChzZGV2LT5wd3JfZG9tX2RldnNbaV0sIHRy
-dWUpOw0KPiArCX0NCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBzaW1wbGVkcm1fZGV2aWNl
-X2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldikNCj4gK3sNCj4g
-KwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSBzZGV2LT5kZXYuZGV2Ow0KPiArCWludCBpOw0KPiAr
-DQo+ICsJc2Rldi0+cHdyX2RvbV9jb3VudCA9IG9mX2NvdW50X3BoYW5kbGVfd2l0aF9hcmdz
-KGRldi0+b2Zfbm9kZSwgInBvd2VyLWRvbWFpbnMiLA0KPiArCQkJCQkJCSAiI3Bvd2VyLWRv
-bWFpbi1jZWxscyIpOw0KPiArCS8qDQo+ICsJICogU2luZ2xlIHBvd2VyLWRvbWFpbiBkZXZp
-Y2VzIGFyZSBoYW5kbGVkIGJ5IGRyaXZlciBjb3JlIG5vdGhpbmcgdG8gZG8NCj4gKwkgKiBo
-ZXJlLiBUaGUgc2FtZSBmb3IgZGV2aWNlIG5vZGVzIHdpdGhvdXQgInBvd2VyLWRvbWFpbnMi
-IHByb3BlcnR5Lg0KPiArCSAqLw0KPiArCWlmIChzZGV2LT5wd3JfZG9tX2NvdW50IDw9IDEp
-DQo+ICsJCXJldHVybiAwOw0KPiArDQo+ICsJc2Rldi0+cHdyX2RvbV9kZXZzID0gZGV2bV9r
-Y2FsbG9jKGRldiwgc2Rldi0+cHdyX2RvbV9jb3VudCwNCj4gKwkJCQkJICAgICAgIHNpemVv
-Zigqc2Rldi0+cHdyX2RvbV9kZXZzKSwNCj4gKwkJCQkJICAgICAgIEdGUF9LRVJORUwpOw0K
-PiArCWlmICghc2Rldi0+cHdyX2RvbV9kZXZzKQ0KPiArCQlyZXR1cm4gLUVOT01FTTsNCj4g
-Kw0KPiArCXNkZXYtPnB3cl9kb21fbGlua3MgPSBkZXZtX2tjYWxsb2MoZGV2LCBzZGV2LT5w
-d3JfZG9tX2NvdW50LA0KPiArCQkJCQkJc2l6ZW9mKCpzZGV2LT5wd3JfZG9tX2xpbmtzKSwN
-Cj4gKwkJCQkJCUdGUF9LRVJORUwpOw0KPiArCWlmICghc2Rldi0+cHdyX2RvbV9saW5rcykN
-Cj4gKwkJcmV0dXJuIC1FTk9NRU07DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgc2Rldi0+
-cHdyX2RvbV9jb3VudDsgaSsrKSB7DQo+ICsJCXNkZXYtPnB3cl9kb21fZGV2c1tpXSA9IGRl
-dl9wbV9kb21haW5fYXR0YWNoX2J5X2lkKGRldiwgaSk7DQo+ICsJCWlmIChJU19FUlIoc2Rl
-di0+cHdyX2RvbV9kZXZzW2ldKSkgew0KPiArCQkJaW50IHJldCA9IFBUUl9FUlIoc2Rldi0+
-cHdyX2RvbV9kZXZzW2ldKTsNCj4gKwkJCWlmIChyZXQgPT0gLUVQUk9CRV9ERUZFUikgew0K
-PiArCQkJCXNpbXBsZWRybV9kZXZpY2VfZGV0YWNoX2dlbnBkKHNkZXYpOw0KPiArCQkJCXJl
-dHVybiBQVFJfRVJSKHNkZXYtPnB3cl9kb21fZGV2c1tpXSk7DQo+ICsJCQl9DQo+ICsJCQlk
-cm1fZXJyKCZzZGV2LT5kZXYsDQo+ICsJCQkJInBtX2RvbWFpbl9hdHRhY2hfYnlfaWQoJXUp
-IGZhaWxlZDogJWRcbiIsIGksIHJldCk7DQoNClRoZSBkcml2ZXIncyBub3QgcmVhbGx5IGZh
-aWxpbmcgdG8gaW5pdGlhbGl6ZSBBRkFJQ1QuIENBbGxpbmcgZHJtX3dhcm4oKSANCm1pZ2h0
-IGJlIG1vcmUgYXBwcm9wcmlhdGUuDQoNCj4gKwkJfQ0KPiArDQo+ICsJCXNkZXYtPnB3cl9k
-b21fbGlua3NbaV0gPSBkZXZpY2VfbGlua19hZGQoZGV2LA0KPiArCQkJCQkJCSBzZGV2LT5w
-d3JfZG9tX2RldnNbaV0sDQo+ICsJCQkJCQkJIERMX0ZMQUdfU1RBVEVMRVNTIHwNCj4gKwkJ
-CQkJCQkgRExfRkxBR19QTV9SVU5USU1FIHwNCj4gKwkJCQkJCQkgRExfRkxBR19SUE1fQUNU
-SVZFKTsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9tX2xpbmtzW2ldKQ0KPiArCQkJZHJtX2Vy
-cigmc2Rldi0+ZGV2LCAiZmFpbGVkIHRvIGxpbmsgcG93ZXItZG9tYWluICV1XG4iLCBpKTsN
-Cg0KQWxzbyBkcm1fd2FybigpID8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArCX0N
-Cj4gKw0KPiArCXJldHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBzaW1wbGVk
-cm1fZGV2aWNlX2RldGFjaF9nZW5wZCwgc2Rldik7DQo+ICt9DQo+ICsjZWxzZQ0KPiArc3Rh
-dGljIGludCBzaW1wbGVkcm1fZGV2aWNlX2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJt
-X2RldmljZSAqc2RldikNCj4gK3sNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKyNlbmRpZg0K
-PiArDQo+ICAgLyoNCj4gICAgKiBNb2Rlc2V0dGluZw0KPiAgICAqLw0KPiBAQCAtNjUxLDYg
-Kzc1NCw5IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2Rl
-dmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJaWYgKHJldCkNCj4g
-ICAJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgCXJldCA9IHNpbXBsZWRybV9kZXZpY2Vf
-aW5pdF9yZWd1bGF0b3JzKHNkZXYpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiBFUlJf
-UFRSKHJldCk7DQo+ICsJcmV0ID0gc2ltcGxlZHJtX2RldmljZV9hdHRhY2hfZ2VucGQoc2Rl
-dik7DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAgIA0K
-PiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiAxNWQzMGI0NjU3M2Q3NWY1Y2I1OGNmYWNkZWQ4
-ZWJhYjljNzZhMmIwDQo+IGNoYW5nZS1pZDogMjAyMzA5MTAtc2ltcGxlZHJtLW11bHRpcGxl
-LXBvd2VyLWRvbWFpbnMtZjQxZWZhNmFkOWJjDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5
-MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywg
-QW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5i
-ZXJnKQ0K
+This was the initial idea 
+https://patchwork.kernel.org/project/linux-mediatek/patch/20230825122435.316272-3-vignesh.raman@collabora.com/
 
---------------kpzYvdaKcjH0xuuH5zw29EU8--
+Since there was a review comment that CI should not make changes to the 
+source tree before building, we went with DT overlay.
 
---------------4M8cdUHyfNjDPiRMngCSk0qn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT/B2IFAwAAAAAACgkQlh/E3EQov+Ca
-GhAArL3TRY+oyOxEkqlrxxZuCcKkj2M6aU6FLjW8zbN6SfT0fhoHFhjnaai7n5pE35yzQYEylleG
-CkEt33cwaAm4tT4ErV5IUOpMYizzAuk6Q273SwizxbJiw6Wulp89wXldSMAoeLZFoNrolqG4YzX+
-8cpvv4zPCCgm+B2HNaH6AZCQsZsy6ACLaHjkP1zMhS5XF6g5X8GKYK+2B7ShEHI8OO93fK2M1f6+
-t6vypQ2fKcWSGl4rjP9G02MNg5OtFug3UbrCHRV7410DAFbWowOZqSh+wETgV20YgWsQrbYoOiCF
-TNnkcNBywndTr/uh+PPiqSOaj9VxTV4UjEwgjVB69ectqm6fZ79GW37ZYcX4wYnBPS5h6yw+AvzD
-ZfKVD7vB9a5GqxDTH/6o7FP1MwZ2Io1+TC5pVI5+psF319YJNEL7X2zYXdauQOEMQYwpfOPGQZ7P
-AWImrNefJQTNK4DmkYInb7S5ZqrO6uFJxLHLWPDft7MG0gW+D49n7T/pP+J7oa7Yv8Kq7v/AgOHb
-glu9xMpwwcNLo0oh8vPYZ66c5CwQO/f9tfJx4UZK+CN35vsVg5ikVAWadX/k0oWYGF9il6/u2cFn
-KCtNr5b7OEwFX3pWRu7EUBnni5Tzhzpv3KfYZ6gl/enoXT8oweerdUbYeRK+GLyNp0sfeV2AGI8x
-0co=
-=kcaf
------END PGP SIGNATURE-----
-
---------------4M8cdUHyfNjDPiRMngCSk0qn--
+Regards,
+Vignesh
