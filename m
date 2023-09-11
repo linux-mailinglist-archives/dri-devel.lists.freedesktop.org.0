@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C2479A568
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 10:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E30E79A57B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 10:06:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8423710E191;
-	Mon, 11 Sep 2023 08:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C841110E194;
+	Mon, 11 Sep 2023 08:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E9C10E11E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:42:53 +0000 (UTC)
-X-UUID: ce04427a507611eea33bb35ae8d461a2-20230911
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=jhXji772hLI0yuv6/flR7J8iZD7soc0SkuwbZh8VPV4=; 
- b=fqJSyDjHBY2vr0sFUG0eAvSJG/QR1YYuZ1DbrjkNuqKm/Aj6XVTQ9qQ2kXSxoWM19uaErAY/rg5ppFFWZGMZgXbb7evk00D7wPLj4bn7O5Tn6cOlLuUxZL3lO/zmkaqm4F12V2CFzDH+OV5xfcWOwyzuRp0aiz2S/y12+8C9ggE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:8f16aa5f-f71f-4a89-9a42-296af915ad12, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:0ad78a4, CLOUDID:7dfab0be-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ce04427a507611eea33bb35ae8d461a2-20230911
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1738525211; Mon, 11 Sep 2023 15:42:48 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.194) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 11 Sep 2023 15:42:47 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 15:42:47 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "CK
- Hu" <ck.hu@mediatek.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>
-Subject: [RESEND PATCH v6 20/20] drm/mediatek: Set DPI input to 1T2P mode
-Date: Mon, 11 Sep 2023 15:42:33 +0800
-Message-ID: <20230911074233.31556-21-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230911074233.31556-1-shawn.sung@mediatek.com>
-References: <20230911074233.31556-1-shawn.sung@mediatek.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA18F10E19B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 08:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694419612; x=1725955612;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=EKc2l8u/kKBul3gNAYJEk/Ck38NKo2uvJewBdyW546M=;
+ b=Oj6HvgWHMdY7ZmoVkRVeOHetxHI4PktPVuuklslZZa+iW8E5NhEV2Tyx
+ UVtSM4IbNUY+BUa+TTKQU+TcVr50R5Z1hKFupZxxA6bV4FfDn5swG3sZk
+ gVOY39AtWblRL4RJBAWzMmiHkhnBc5Ev/NqpG7JViEpxk5jwgAYIRGLL0
+ +6urFXMlfYZlAi5cPpynzq9NarjjxPY4zX9zTBibcuos5dcVHeTOSjEUe
+ zpY/fjStzIO/WR8RMC1Yp0sO3uEFjTQfGn+8hAutEtMjJikgcnUKXaVX0
+ Fk3e+3o7Qv4g0m84yizr/XjlnLkTpBIiSUZ0e73mtxXkUtT1dBDbq1KAr g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444438891"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="444438891"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 01:06:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="693005175"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="693005175"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 11 Sep 2023 01:06:47 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qfbwS-0005yc-30;
+ Mon, 11 Sep 2023 08:06:44 +0000
+Date: Mon, 11 Sep 2023 16:05:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
+Message-ID: <202309111534.u4wfJ4vk-lkp@intel.com>
+References: <20230911023038.30649-5-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--6.788100-8.000000
-X-TMASE-MatchedRID: PHWFXbsmkDRF/TNFimjSuEOZWaJBszmq3zhylsE9dsyOUV82NDH4AlO4
- BD7nLMxnThbvLLI8RvNq7k1NHAqvK5sYdIGP6PlZjtK7dC6UBnl9LQinZ4QefCP/VFuTOXUT3n8
- eBZjGmUzkwjHXXC/4IzsAVzN+Ov/stIQSbsaENgdNt2l9xnSaYRy2fvzjG4gKnxMQcCdlcTFN1W
- 7aDGzFOw==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.788100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 2D16226B424DEBDEADAAD09A20A92CE73EE6C6096DDBA8452C8E346697E298AD2000:8
-X-MTK: N
-X-Mailman-Approved-At: Mon, 11 Sep 2023 08:04:25 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230911023038.30649-5-yong.wu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,39 +62,58 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, "Jason-JH
- . Lin" <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, linux-arm-kernel@lists.infradead.org,
+ oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ Yong Wu <yong.wu@mediatek.com>, tjmercier@google.com,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DPI input is in 1T2P mode on MT8195,
-align the setting of MT8188 with it,
-otherwise the screen will glitch.
+Hi Yong,
 
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 2f931e4e2b60..c6ee21e275ba 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -963,7 +963,7 @@ static const struct mtk_dpi_conf mt8188_dpintf_conf = {
- 	.output_fmts = mt8195_output_fmts,
- 	.num_output_fmts = ARRAY_SIZE(mt8195_output_fmts),
- 	.pixels_per_iter = 4,
--	.input_2pixel = false,
-+	.input_2pixel = true,
- 	.dimension_mask = DPINTF_HPW_MASK,
- 	.hvsize_mask = DPINTF_HSIZE_MASK,
- 	.channel_swap_shift = DPINTF_CH_SWAP,
---
-2.18.0
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on robh/for-next linus/master v6.6-rc1 next-20230911]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Deduplicate-docs-and-adopt-common-format/20230911-103308
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230911023038.30649-5-yong.wu%40mediatek.com
+patch subject: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230911/202309111534.u4wfJ4vk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111534.u4wfJ4vk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111534.u4wfJ4vk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/dma-buf/heaps/mtk_secure_heap.c:68:27: error: initialization of 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  long unsigned int,  long unsigned int)' from incompatible pointer type 'struct dma_buf * (*)(struct dma_heap *, size_t,  long unsigned int,  long unsigned int)' {aka 'struct dma_buf * (*)(struct dma_heap *, unsigned int,  long unsigned int,  long unsigned int)'} [-Werror=incompatible-pointer-types]
+      68 |         .allocate       = mtk_sec_heap_allocate,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/heaps/mtk_secure_heap.c:68:27: note: (near initialization for 'mtk_sec_heap_ops.allocate')
+   cc1: some warnings being treated as errors
+
+
+vim +68 drivers/dma-buf/heaps/mtk_secure_heap.c
+
+    66	
+    67	static const struct dma_heap_ops mtk_sec_heap_ops = {
+  > 68		.allocate	= mtk_sec_heap_allocate,
+    69	};
+    70	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
