@@ -2,85 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FED479AA9E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 19:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE6879AACB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 20:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FC210E1B1;
-	Mon, 11 Sep 2023 17:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9897C10E1BC;
+	Mon, 11 Sep 2023 18:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE0C10E1B1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 17:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694454548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=St0OIFMZR2EddndtcFLYyMwK3Fvt2qDifveALpwjgwM=;
- b=VGLoHgPWw33wfYdLRpqsWxasKzc/GTI8n7ARtBxhM9u90Wnlr6GT5GlfT5qdFo8RS9njAj
- 6yeIMEzICnpmZdiO7NWIRFFkTFyp8VfRYnnSEZ0v2qGdQ9fy2akqHDrCVjpA829TZLBFzU
- FpFffClzcmqOG95oaIfFzOxVAASTRw8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-641-b9xRIYWJNiSMKDebGGE9kg-1; Mon, 11 Sep 2023 13:49:07 -0400
-X-MC-Unique: b9xRIYWJNiSMKDebGGE9kg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-9a63d4c8afbso326322666b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:49:07 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398F710E1B8;
+ Mon, 11 Sep 2023 18:17:59 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-9a9f2827131so466725166b.1; 
+ Mon, 11 Sep 2023 11:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1694456277; x=1695061077; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=2O3Y8vTwkKjYD2RHaXSqIrH4KfUVsOM7ZDxSCNtKlAE=;
+ b=EeFD08q0SVF4U+how4PsHaXlfouai917X02UlPgaTeo/xz85TkwsTxscwBdxvXhg6P
+ 6ZtJbKK/88Jp7ErGmkP2UDfZAD7xDIvfMN8dSwbCnpSS/kh4DFPnJmIgdazr6rVWl1Bf
+ /g3iuKb2TrC1NMg7vtDFyosfkBC9O7ydMwI6PDDjM4F/0NmeQOq1yBc8wGogCe4wBTJe
+ pnySh5s8ZxvTeruWd8cxcQHbM4ot2IErYBgjQUm+7yfEoJCr1bgVBcsgjtLA90lDYRPC
+ 7sfQxaZZ9avSgFwPM7aXxgV5urSRnJfEcgti7wO+dQKh+LuFnOF/Ep7xnEGsVzCw+MBb
+ EZOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694454546; x=1695059346;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
+ d=1e100.net; s=20230601; t=1694456277; x=1695061077;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=St0OIFMZR2EddndtcFLYyMwK3Fvt2qDifveALpwjgwM=;
- b=c345WY9Yk9nEBSoZmF03uNSjj2Edy0Xu3SLsEHpNITcdZP/gW3aKO1PHB8n24ZnrHa
- CvKTdn29JNWSjlhDNq//74mcKq1f4Covpx58Zga1CXPJrTg6yOc4wn64LvlBnxNvXvrr
- +nHaxQLDM1MtgOeQsEHZkwyWiR6EGAYwPLoARKImxSO+/nw+LV6a0cax3JwOadcoTEdc
- QtOBbqvXqqDUMFYhWOHIMw3bVjcGMX67wWIGE1bwmsWzP7WaMf0K0dIXo5nO4SeaXsiY
- IQrxGApjppn0bOXItWiNtWVqM9dS57VHWZkP9clmjhd67jphFXSUG6MISw7t87ermxBc
- rQyA==
-X-Gm-Message-State: AOJu0Yx7BzeP8K3ypUdGx7Yq6ybsuwSUr3qF4PRmGb5XHLf8AsvqLN+0
- b7EKMApk+OUhY4PjuUuw/NEVpPObp1dZXRrtvWpCkJo4GQoERuf5AEQw1pAxZE+AR8LcwjNpJLc
- oMUBeLBCy1Ry6T5PWqaMjdUBE+TEm
-X-Received: by 2002:a17:906:9713:b0:9a1:be5b:f4aa with SMTP id
- k19-20020a170906971300b009a1be5bf4aamr7888323ejx.0.1694454546462; 
- Mon, 11 Sep 2023 10:49:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHJT7jpbp9w+Jd4iB1jj177KBarF5tpW4Kb+y9RLOsrxNRVTCbPPhmW6pX+J4jSq1kcXfWr9Q==
-X-Received: by 2002:a17:906:9713:b0:9a1:be5b:f4aa with SMTP id
- k19-20020a170906971300b009a1be5bf4aamr7888308ejx.0.1694454546201; 
- Mon, 11 Sep 2023 10:49:06 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- u24-20020a170906b11800b0099c971ba285sm5685580ejy.5.2023.09.11.10.49.04
+ bh=2O3Y8vTwkKjYD2RHaXSqIrH4KfUVsOM7ZDxSCNtKlAE=;
+ b=OyuxUsAeh6lXwBTEpsDwXfQKZzEJRUGeAsru8zzIEMCBMLocEkd5bN+/qAsRG77F1+
+ FG6qYB+MvQCy3fEWEI1ithc8/Q60G5WNhcGR7eUL6GJqyxZT8Wuceyhzb1tguWtVRwt6
+ pTBZbbXd1PFIctjSPTgsTL5d85A4MDI6YvBe7gdnlZa6jDauN0dIpRjcE2It3vUYjbPJ
+ PIzjWiMq/HMhoVr6haHTziDFUJnPShxq1B2G1JOq7lrwp5rxmzUDFMmYu6zThkektmru
+ YokusXLrT4MtWcX3hDH99gTSv5GcXAiOOybwYDELWS6Cd0uIY+ZGLw43+/dx9KCOlXuQ
+ nLhw==
+X-Gm-Message-State: AOJu0YzQql2POzr3h/Dk+r/abRox5Z6LqT2dnePquYmAMXPXUVOjH1Cq
+ m0oDJ93kJrJD4bYGxlvYhASWZdRK+E7fWQ==
+X-Google-Smtp-Source: AGHT+IFogFxzedZSDTIRuyY41H5iWfxSmZU99Xblxp3hdVM0z80mjABNGdMK22mwxATNMsGV/Ve+Nw==
+X-Received: by 2002:a17:906:1da9:b0:9a1:688f:cf21 with SMTP id
+ u9-20020a1709061da900b009a1688fcf21mr8920628ejh.43.1694456277141; 
+ Mon, 11 Sep 2023 11:17:57 -0700 (PDT)
+Received: from [0.0.0.0] ([134.134.137.87])
+ by smtp.googlemail.com with ESMTPSA id
+ kj13-20020a170907764d00b009a1b857e3a5sm5690909ejc.54.2023.09.11.11.17.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Sep 2023 10:49:05 -0700 (PDT)
-Message-ID: <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
-Date: Mon, 11 Sep 2023 19:49:04 +0200
+ Mon, 11 Sep 2023 11:17:56 -0700 (PDT)
+Message-ID: <fe78c136-0dc3-6253-21bc-59992efa52da@gmail.com>
+Date: Mon, 11 Sep 2023 21:17:50 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-6-dakr@redhat.com>
- <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [Intel-gfx] [PATCH v2 1/2] drm/i915: Use vblank worker to unpin
+ old legacy cursor fb safely
 Content-Language: en-US
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20230904041640.31297-1-ville.syrjala@linux.intel.com>
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+In-Reply-To: <20230904041640.31297-1-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,52 +79,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Reply-To: juhapekka.heikkila@gmail.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+I didn't spot anything to nag about. Just hope that warning doesn't 
+become excessively noisy. These two patches are
 
-On 9/11/23 19:19, Thomas Hellström wrote:
-> Hi, Danilo
-> 
-> On 9/9/23 17:31, Danilo Krummrich wrote:
->> This patch adds an abstraction layer between the drm_gpuva mappings of
->> a particular drm_gem_object and this GEM object itself. The abstraction
->> represents a combination of a drm_gem_object and drm_gpuvm. The
->> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
->> representing this abstraction), while each drm_gpuvm_bo contains list of
->> mappings of this GEM object.
->>
->> This has multiple advantages:
->>
->> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
->>     of the drm_gpuvm. This is useful for tracking external and evicted
->>     objects per VM, which is introduced in subsequent patches.
->>
->> 2) Finding mappings of a certain drm_gem_object mapped in a certain
->>     drm_gpuvm becomes much cheaper.
->>
->> 3) Drivers can derive and extend the structure to easily represent
->>     driver specific states of a BO for a certain GPUVM.
->>
->> The idea of this abstraction was taken from amdgpu, hence the credit for
->> this idea goes to the developers of amdgpu.
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> 
-> Did you consider having the drivers embed the struct drm_gpuvm_bo in their own bo definition? I figure that would mean using the gem bo's refcounting and providing a helper to call from the driver's bo release. Looks like that could potentially save a lot of code? Or is there something that won't work with that approach?
+Reviewed-by: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 
-There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free callback for drivers to register for that purpose.
-
-- Danilo
-
+On 4.9.2023 7.16, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> Thanks,
+> The cursor hardware only does sync updates, and thus the hardware
+> will be scanning out from the old fb until the next start of vblank.
+> So in order to make the legacy cursor fastpath actually safe we
+> should not unpin the old fb until we're sure the hardware has
+> ceased accessing it. The simplest approach is to just use a vblank
+> work here to do the delayed unpin.
 > 
-> Thomas
+> Not 100% sure it's a good idea to put this onto the same high
+> priority vblank worker as eg. our timing critical gamma updates.
+> But let's keep it simple for now, and it we later discover that
+> this is causing problems we can think about adding a lower
+> priority worker for such things.
 > 
+> v2: wait for cursor unpins before turning off the vblank irq
 > 
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/display/intel_cursor.c   | 36 +++++++++++++++++--
+>   drivers/gpu/drm/i915/display/intel_cursor.h   |  2 ++
+>   drivers/gpu/drm/i915/display/intel_display.c  |  3 ++
+>   .../drm/i915/display/intel_display_types.h    |  4 +++
+>   4 files changed, 43 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
+> index b342fad180ca..625540fd1dab 100644
+> --- a/drivers/gpu/drm/i915/display/intel_cursor.c
+> +++ b/drivers/gpu/drm/i915/display/intel_cursor.c
+> @@ -603,6 +603,26 @@ static bool intel_cursor_format_mod_supported(struct drm_plane *_plane,
+>   	return format == DRM_FORMAT_ARGB8888;
+>   }
+>   
+> +static void intel_cursor_unpin_work(struct kthread_work *base)
+> +{
+> +	struct drm_vblank_work *work = to_drm_vblank_work(base);
+> +	struct intel_plane_state *plane_state =
+> +		container_of(work, typeof(*plane_state), unpin_work);
+> +	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+> +
+> +	intel_plane_unpin_fb(plane_state);
+> +	intel_plane_destroy_state(&plane->base, &plane_state->uapi);
+> +
+> +	if (atomic_dec_and_test(&plane->cursor.pending_unpins))
+> +		wake_up_var(&plane->cursor.pending_unpins);
+> +}
+> +
+> +void intel_cursor_wait_unpin_works(struct intel_plane *plane)
+> +{
+> +	wait_var_event(&plane->cursor.pending_unpins,
+> +		       !atomic_read(&plane->cursor.pending_unpins));
+> +}
+> +
+>   static int
+>   intel_legacy_cursor_update(struct drm_plane *_plane,
+>   			   struct drm_crtc *_crtc,
+> @@ -730,14 +750,26 @@ intel_legacy_cursor_update(struct drm_plane *_plane,
+>   
+>   	local_irq_enable();
+>   
+> -	intel_plane_unpin_fb(old_plane_state);
+> +	if (old_plane_state->hw.fb != new_plane_state->hw.fb) {
+> +		drm_vblank_work_init(&old_plane_state->unpin_work, &crtc->base,
+> +				     intel_cursor_unpin_work);
+> +
+> +		atomic_inc(&plane->cursor.pending_unpins);
+> +		drm_vblank_work_schedule(&old_plane_state->unpin_work,
+> +					 drm_crtc_accurate_vblank_count(&crtc->base) + 1,
+> +					 false);
+> +
+> +		old_plane_state = NULL;
+> +	} else {
+> +		intel_plane_unpin_fb(old_plane_state);
+> +	}
+>   
+>   out_free:
+>   	if (new_crtc_state)
+>   		intel_crtc_destroy_state(&crtc->base, &new_crtc_state->uapi);
+>   	if (ret)
+>   		intel_plane_destroy_state(&plane->base, &new_plane_state->uapi);
+> -	else
+> +	else if (old_plane_state)
+>   		intel_plane_destroy_state(&plane->base, &old_plane_state->uapi);
+>   	return ret;
+>   
+> diff --git a/drivers/gpu/drm/i915/display/intel_cursor.h b/drivers/gpu/drm/i915/display/intel_cursor.h
+> index ce333bf4c2d5..e778aff77129 100644
+> --- a/drivers/gpu/drm/i915/display/intel_cursor.h
+> +++ b/drivers/gpu/drm/i915/display/intel_cursor.h
+> @@ -14,4 +14,6 @@ struct intel_plane *
+>   intel_cursor_plane_create(struct drm_i915_private *dev_priv,
+>   			  enum pipe pipe);
+>   
+> +void intel_cursor_wait_unpin_works(struct intel_plane *plane);
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index f6397462e4c2..90c1ed61ba0e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -63,6 +63,7 @@
+>   #include "intel_crt.h"
+>   #include "intel_crtc.h"
+>   #include "intel_crtc_state_dump.h"
+> +#include "intel_cursor.h"
+>   #include "intel_ddi.h"
+>   #include "intel_de.h"
+>   #include "intel_display_driver.h"
+> @@ -6618,6 +6619,8 @@ static void intel_commit_modeset_disables(struct intel_atomic_state *state)
+>   
+>   		intel_pre_plane_update(state, crtc);
+>   		intel_crtc_disable_planes(state, crtc);
+> +
+> +		intel_cursor_wait_unpin_works(to_intel_plane(crtc->base.cursor));
+>   	}
+>   
+>   	/* Only disable port sync and MST slaves */
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index c21064794f32..f6ca86f1d834 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -702,6 +702,9 @@ struct intel_plane_state {
+>   
+>   	struct intel_fb_view view;
+>   
+> +	/* for legacy cursor fb unpin */
+> +	struct drm_vblank_work unpin_work;
+> +
+>   	/* Plane pxp decryption state */
+>   	bool decrypt;
+>   
+> @@ -1515,6 +1518,7 @@ struct intel_plane {
+>   
+>   	struct {
+>   		u32 base, cntl, size;
+> +		atomic_t pending_unpins;
+>   	} cursor;
+>   
+>   	struct intel_fbc *fbc;
 
