@@ -2,143 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95EA79A7FA
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B20979A7FE
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:45:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCAE10E2D4;
-	Mon, 11 Sep 2023 12:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D432310E2E0;
+	Mon, 11 Sep 2023 12:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A8410E2D4;
- Mon, 11 Sep 2023 12:40:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA5F10E2DD;
+ Mon, 11 Sep 2023 12:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694436037; x=1725972037;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=uA7/uuJH+DamdyK+hQI04MseMpyNnZgG5t/+7pVeONE=;
- b=eGGW2SjVXn1w8InGmrafrebX3gmnXOX2j4tfLbWlwB9lniW+9ycqSve3
- FhkBbSD2SjFiTGgF7+BdYbbCqRuUdyeezASiWk8wHa/lNcUu0dvCAXLCP
- 8oQdtcOGB0/Dm96Wpzv3sd2Rwqz2HvHEoFqncuYZhg4wTmCVTrl6ylKHH
- RdaY44mciXMaxcO7RPcCKFKaoPbeneOdUkIEYGuCp8v4rkdQ02TnQS8+6
- l3d3+18QlsB8OGUw5GH+0lxZT5jjWFLynGdFDfV/fAxuot0TLIj6TmuOV
- ZAcZoxmzceHoI+zD9fgzQ4gFFbhgvZrjMK4qiyIGQ20JhHh1JhZeLC5q0 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409036879"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="409036879"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 05:40:36 -0700
+ t=1694436324; x=1725972324;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=yGqB+cO4oHl1xp//AhLioWKfxeII4gLsZzAZ8XMMB84=;
+ b=PdKFO7YPUaNUl1Qn16A90p6SZ3jyisp44QFH6EPadxdyGC/az/ZSHqOQ
+ nJjElpbuJlZcm4Hx8bqMB3W4HCTIoAT1s/Hgxy4s7MC5l508iZSjop+TQ
+ kmkBSjvwz1Ps02hyUfjcBN7bGCCCkZCagrHB+cR/6vdMbJpj8PfrMflP7
+ LP1OP1spk9/BnZL3aL8h4ei0TE1nSKG/ZIRbXKdsJZGSz/fcqPxZ4eQCK
+ h5zkrGe4DvYYc5XylwYkgwtpIiOCn6fr7Byev5HxnTKG1oS60iEh9FAt5
+ K4x5QX+EwFUpMgX5EY1FoHbgGfxFVcc4GqpnE01fJU28K/54GyH+Tz30V Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="358372892"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="358372892"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 05:45:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="886505757"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="886505757"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Sep 2023 05:40:12 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 05:40:36 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 05:40:35 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 05:40:35 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 05:40:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Md0u8h+FPhQPRFs9ImYsdALg/G6Qxw++wd+67sSmZ06RkrS3sucgU1K3H+IXEkquzFJ9mwcEyeT0orvpU3YnoxAYfcRtpGQfkv5EhuorZJyD7BqcGe7NuUR/iVHN/sIWjNxq5oBny77Fxh5RuX9op0zSwgHl4je1/JqD5efjrqQFAYMNEORaAoYHCxbsYPx2GDq/6MS+rrdaC6qi/EKP6X0/EocFkLlV0gzibCv+SGxrRQmB9sxSiiqqx5inRNjszhL5UvkhjVA3dqUBRQKbZtDHu4cB7yv416/AZTfd5ud2wCkeeHVSOHiexjkRrCHvid58Yvvm/2EH5HJxjgGuSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mEWzU+zWZHHOAuCWjwibdWlOs+JMaORUy8wS7NVykR8=;
- b=Z9NX7CN6Kh7sUGU8P/1LBBmzyV9M4Nmxv4iVu4dZLgnvMrWMCJxycfaErEmp55ItjEev841nXhCTOcduCGxuDXgA9KsdnFqE4j7kaQSUg7qpchRjsTSPYd9t8RTT8SQQcJ+N+9aRvlTMgpnZBZaxgg3hHYBnRTsisBPAFu7vCZzyBpuzsYLAlT5VcFJ6UapxgDRPhwQ4TNshxy/8eLHB6hegDCX9rzVGJn5zck9iitxe99kV2RQ0VimyD2pNtSm0jwyjPLjT6Mg7V41L1YKuZlDty3d+0VJiJS2TUpUWQJMffvQzI2yAtjvjx9BW/bsyOIl5hVcNsfAqLYZmpXIvHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY8PR11MB7828.namprd11.prod.outlook.com (2603:10b6:930:78::8)
- by SN7PR11MB6946.namprd11.prod.outlook.com (2603:10b6:806:2a9::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Mon, 11 Sep
- 2023 12:40:33 +0000
-Received: from CY8PR11MB7828.namprd11.prod.outlook.com
- ([fe80::5772:f514:b746:5723]) by CY8PR11MB7828.namprd11.prod.outlook.com
- ([fe80::5772:f514:b746:5723%5]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 12:40:33 +0000
-Date: Mon, 11 Sep 2023 14:40:25 +0200
-From: Francois Dugast <francois.dugast@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-xe] [PATCH v3 1/2] drm/tests: helpers: Avoid a driver uaf
-Message-ID: <ZP8KuXoyS8RbRWws@fdugast-desk.home>
-References: <20230907135339.7971-1-thomas.hellstrom@linux.intel.com>
- <20230907135339.7971-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230907135339.7971-2-thomas.hellstrom@linux.intel.com>
-Organization: Intel Corporation
-X-ClientProxiedBy: FR0P281CA0233.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b2::6) To CY8PR11MB7828.namprd11.prod.outlook.com
- (2603:10b6:930:78::8)
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="778378797"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="778378797"
+Received: from jpoulsen-mobl.ger.corp.intel.com (HELO [10.249.254.178])
+ ([10.249.254.178])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 05:45:02 -0700
+Message-ID: <3da6554b-3b47-fe7d-c4ea-21f4f819dbb6@linux.intel.com>
+Date: Mon, 11 Sep 2023 14:45:00 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR11MB7828:EE_|SN7PR11MB6946:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8100cddc-eb26-4527-1fce-08dbb2c44a59
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RMVDfxnRjOyueCbtYrpkoBGY9eKFyqAH2YS1Cy9IcN3Uc3TGPCSwNk5J9nQTH+5Cgfn5sTmMGzSWSGiiulT+tXVswNtzNWS18GhUmyVPJJ1GKlwFRIOCZFccnRKbB9bYsOC6mKerDeoapatH5Q7XCcv6bpf0C4WpX38wyOA72BkVWTJ+od2x7irBpmhVAramJwpcXN0Elp58Z6StWiymGarb3j1Wg6tN6WZsybA9dlycV12B3I3MF1w6ODJJw38AijdcXBQnPTqZD0hxWA2XYaB7sM6HDX6XgLTwo4gjhThbOsFnjKNItoulsl5LL/RVOdM63ArYHMGl+5Rch2W5q5K1ZVqEEgwglFMcm0Ht2kIYIUC/h0pJpf1U4FlCYqagXMSgnK7IWgwvPMV+CPK1MbLeJZFkGcVEld2cPxeWrRSVGLl4/+TCeMOktSxEcjDqDhBHwU/2le7Fof3Udb1zH+fC3LK0D/xGzE/wZ2xyVPdMOVbdZ5iEwdULKEpLF8aBA4LVzCNiCwoTo21yqkX+oFLvILmY91G+lKR38kdEkZ0vyjaWw9aeqefUWQX2mvRa
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY8PR11MB7828.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(396003)(366004)(346002)(376002)(451199024)(1800799009)(186009)(83380400001)(9686003)(82960400001)(6512007)(44832011)(36756003)(2906002)(8676002)(5660300002)(54906003)(8936002)(66946007)(4326008)(316002)(41300700001)(66476007)(66556008)(6916009)(6486002)(478600001)(6506007)(6666004)(38100700002)(86362001)(36916002)(66574015)(26005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?CeM+wxEyHbweX1MzEpNiQv46N5eOMCNCQthjfAOi6xSK8G+L2MwPoyvwE2?=
- =?iso-8859-1?Q?ZFKjy0loPr9uOX3453kVf08vDjvlizK/O/sgfxbrZ7jmG6hs6KULgdIxlQ?=
- =?iso-8859-1?Q?hW+28ZRP7HwzOP7Yw16grQmEF8w3Pp0p11KkU5bsuHVxPgw7NyLoa+b9fX?=
- =?iso-8859-1?Q?ARFx8G2ZehhM/Uqfbtv4mOFyieNmn0MFKm/mceghEnt/o5vTKTrhzZY+6c?=
- =?iso-8859-1?Q?qJMJY8Ih0fTZPUx8Pizo0MXcrbgU1/5F2GtNsIPxJfmuvmSe28yBfFDPIF?=
- =?iso-8859-1?Q?cUn+8vP5IfGTLUb1w0L/5vWtzZXWij+XmPGj2+HRoDosSjiXbBtRJPhoem?=
- =?iso-8859-1?Q?VkbhwUZRMesqwIA5qR2k/bzvv7Q/17LEKTX6ofdGBAkij2Kncs2qPZtW9Q?=
- =?iso-8859-1?Q?0htXd1BGf5sAuBcizmEmf+jnpgOhuZA4Y2YB8xEuMpsoamSY6pvyj2aaZw?=
- =?iso-8859-1?Q?i0+fPr93dxAV0fsdf6qqFUNCoEPen0nAQ8u5yzxeCj1CPBiyNPz9QIGTa/?=
- =?iso-8859-1?Q?lzFu6fbWt7TrZ7Qw0d5qdM51LFUUjFAhyMEH0bdAMUar34dfH5oLW78noU?=
- =?iso-8859-1?Q?RmgNSzwLIHf29tX9uRbBVvIRe8BGq3mOTs0lc3lVwakrbB/M0A+wuhCXtD?=
- =?iso-8859-1?Q?khEJuZUxQP1GYC54u1LcKvdNDD5ZdXAcX4pCPUBEyU3Mmk7By6IaV/KxPH?=
- =?iso-8859-1?Q?dR7Xmu/So+G1lItIsBBE0Zgl99Nkek1c/Y/X0mJg2tMKxO8vGS8O9gZEHV?=
- =?iso-8859-1?Q?GmxE3XMG5+JWjIQMuNcUrET9PoAnJWAJf4TtAVAikt8HZdWyxES2UOKBwN?=
- =?iso-8859-1?Q?4u1XV0wz3MRSB4rkgzGfhtbtYlWipFqJyDKUXfAqqCELH3yYX/kwm1hYVv?=
- =?iso-8859-1?Q?wUOZuV5AnfPQ7NJg3CwJEjalJ5GH+rlFWC1acD+kJNTNzCRCUahZ9hsn9C?=
- =?iso-8859-1?Q?RgSgDmYYa5vYI3z44qzW6IYxnYJM6VdmcruEQie9nTzcP7ajZQPiGIdCfv?=
- =?iso-8859-1?Q?j4mZxmUKXYdXSX87tDYkyGenCpSuowe6sooSa8wMPSaPRH8PapLQ1FCgoB?=
- =?iso-8859-1?Q?vTFwe/+cvDm8jF1OZy74yGcWgR2OrSl9u8iki4NIzDhL1iMQsjjhISA6Hu?=
- =?iso-8859-1?Q?bZqXSLTXCXdAyEDjsV0lrZJnlLZQE/2ddXcgeNZkaYsrZyRlHw30nNkJcj?=
- =?iso-8859-1?Q?4r0PdL0fE/T8K3doKBzO/soM5szQFQ9aVAcK7orMWUfLv8XV5p8j1Hj2de?=
- =?iso-8859-1?Q?fclA6CAod186nDnCoY2Qn8BXyEQ/cN0jWZZNurrDKt1LLaVsuU+CqaMsHC?=
- =?iso-8859-1?Q?haCRJ2r/yqlhbqsKtCTNd9zGwi9G/bQx1AX45X/6g5Bqc5aH/uQY02QQPb?=
- =?iso-8859-1?Q?X4y7Qq1MF/iQSgy3jeXsaC6Pr5LomNkWjEJ0rTrMkpUDwvgAMPHR+f0dbV?=
- =?iso-8859-1?Q?8wzbHnIXXh/lgDyppFNl39ffYCUU0uM9peL2UK7avQnmQdkVMVk7W+mcm9?=
- =?iso-8859-1?Q?jhMsOnAa3+RdDplJRsDsMtmPoJ68qgCohTRij6ozCPoH9rkWxm7CLTnv6v?=
- =?iso-8859-1?Q?09uhXtJJnigp9uCwBpV3b0EoJCpTbfeGUmBD/fUcOM7o46BIbLUZkm753a?=
- =?iso-8859-1?Q?7Ndq2Y+V77cLeLfExofmoJZqUD9sBW+X91Tp2QzoME+pt1uU/u3Q1IDQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8100cddc-eb26-4527-1fce-08dbb2c44a59
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7828.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 12:40:33.5575 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4yfNuvaA9HJwPadfpVKqI4M2R7WAwRR/kA8TC8F1xf6mL2FV0sZQkz39PHDfCXhTkCgUlSdLRErCDuAmrbNIAewTNLb87cr7KZLRGS5K9sc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6946
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Subject: [PULL] drm-misc-next
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,169 +59,452 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-xe@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 07, 2023 at 03:53:38PM +0200, Thomas Hellström wrote:
-> when using __drm_kunit_helper_alloc_drm_device() the driver may be
-> dereferenced by device-managed resources up until the device is
-> freed, which is typically later than the kunit-managed resource code
-> frees it. Fix this by simply make the driver device-managed as well.
-> 
-> In short, the sequence leading to the UAF is as follows:
-> 
-> INIT:
-> Code allocates a struct device as a kunit-managed resource.
-> Code allocates a drm driver as a kunit-managed resource.
-> Code allocates a drm device as a device-managed resource.
-> 
-> EXIT:
-> Kunit resource cleanup frees the drm driver
-> Kunit resource cleanup puts the struct device, which starts a
->       device-managed resource cleanup
-> device-managed cleanup calls drm_dev_put()
-> drm_dev_put() dereferences the (now freed) drm driver -> Boom.
-> 
-> Related KASAN message:
-> [55272.551542] ==================================================================
-> [55272.551551] BUG: KASAN: slab-use-after-free in drm_dev_put.part.0+0xd4/0xe0 [drm]
-> [55272.551603] Read of size 8 at addr ffff888127502828 by task kunit_try_catch/10353
-> 
-> [55272.551612] CPU: 4 PID: 10353 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-> [55272.551620] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-> [55272.551626] Call Trace:
-> [55272.551629]  <TASK>
-> [55272.551633]  dump_stack_lvl+0x57/0x90
-> [55272.551639]  print_report+0xcf/0x630
-> [55272.551645]  ? _raw_spin_lock_irqsave+0x5f/0x70
-> [55272.551652]  ? drm_dev_put.part.0+0xd4/0xe0 [drm]
-> [55272.551694]  kasan_report+0xd7/0x110
-> [55272.551699]  ? drm_dev_put.part.0+0xd4/0xe0 [drm]
-> [55272.551742]  drm_dev_put.part.0+0xd4/0xe0 [drm]
-> [55272.551783]  devres_release_all+0x15d/0x1f0
-> [55272.551790]  ? __pfx_devres_release_all+0x10/0x10
-> [55272.551797]  device_unbind_cleanup+0x16/0x1a0
-> [55272.551802]  device_release_driver_internal+0x3e5/0x540
-> [55272.551808]  ? kobject_put+0x5d/0x4b0
-> [55272.551814]  bus_remove_device+0x1f1/0x3f0
-> [55272.551819]  device_del+0x342/0x910
-> [55272.551826]  ? __pfx_device_del+0x10/0x10
-> [55272.551830]  ? lock_release+0x339/0x5e0
-> [55272.551836]  ? kunit_remove_resource+0x128/0x290 [kunit]
-> [55272.551845]  ? __pfx_lock_release+0x10/0x10
-> [55272.551851]  platform_device_del.part.0+0x1f/0x1e0
-> [55272.551856]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [55272.551863]  kunit_remove_resource+0x195/0x290 [kunit]
-> [55272.551871]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-> [55272.551877]  kunit_cleanup+0x78/0x120 [kunit]
-> [55272.551885]  ? __kthread_parkme+0xc1/0x1f0
-> [55272.551891]  ? __pfx_kunit_try_run_case_cleanup+0x10/0x10 [kunit]
-> [55272.551900]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-> [55272.551909]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [55272.551919]  kthread+0x2e7/0x3c0
-> [55272.551924]  ? __pfx_kthread+0x10/0x10
-> [55272.551929]  ret_from_fork+0x2d/0x70
-> [55272.551935]  ? __pfx_kthread+0x10/0x10
-> [55272.551940]  ret_from_fork_asm+0x1b/0x30
-> [55272.551948]  </TASK>
-> 
-> [55272.551953] Allocated by task 10351:
-> [55272.551956]  kasan_save_stack+0x1c/0x40
-> [55272.551962]  kasan_set_track+0x21/0x30
-> [55272.551966]  __kasan_kmalloc+0x8b/0x90
-> [55272.551970]  __kmalloc+0x5e/0x160
-> [55272.551976]  kunit_kmalloc_array+0x1c/0x50 [kunit]
-> [55272.551984]  drm_exec_test_init+0xfa/0x2c0 [drm_exec_test]
-> [55272.551991]  kunit_try_run_case+0xdd/0x250 [kunit]
-> [55272.551999]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [55272.552008]  kthread+0x2e7/0x3c0
-> [55272.552012]  ret_from_fork+0x2d/0x70
-> [55272.552017]  ret_from_fork_asm+0x1b/0x30
-> 
-> [55272.552024] Freed by task 10353:
-> [55272.552027]  kasan_save_stack+0x1c/0x40
-> [55272.552032]  kasan_set_track+0x21/0x30
-> [55272.552036]  kasan_save_free_info+0x27/0x40
-> [55272.552041]  __kasan_slab_free+0x106/0x180
-> [55272.552046]  slab_free_freelist_hook+0xb3/0x160
-> [55272.552051]  __kmem_cache_free+0xb2/0x290
-> [55272.552056]  kunit_remove_resource+0x195/0x290 [kunit]
-> [55272.552064]  kunit_cleanup+0x78/0x120 [kunit]
-> [55272.552072]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-> [55272.552080]  kthread+0x2e7/0x3c0
-> [55272.552085]  ret_from_fork+0x2d/0x70
-> [55272.552089]  ret_from_fork_asm+0x1b/0x30
-> 
-> [55272.552096] The buggy address belongs to the object at ffff888127502800
->                 which belongs to the cache kmalloc-512 of size 512
-> [55272.552105] The buggy address is located 40 bytes inside of
->                 freed 512-byte region [ffff888127502800, ffff888127502a00)
-> 
-> [55272.552115] The buggy address belongs to the physical page:
-> [55272.552119] page:00000000af6c70ff refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x127500
-> [55272.552127] head:00000000af6c70ff order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> [55272.552133] anon flags: 0x17ffffc0010200(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-> [55272.552141] page_type: 0xffffffff()
-> [55272.552145] raw: 0017ffffc0010200 ffff888100042c80 0000000000000000 dead000000000001
-> [55272.552152] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-> [55272.552157] page dumped because: kasan: bad access detected
-> 
-> [55272.552163] Memory state around the buggy address:
-> [55272.552167]  ffff888127502700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [55272.552173]  ffff888127502780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [55272.552178] >ffff888127502800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [55272.552184]                                   ^
-> [55272.552187]  ffff888127502880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [55272.552193]  ffff888127502900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [55272.552198] ==================================================================
-> [55272.552203] Disabling lock debugging due to kernel taint
-> 
-> v2:
-> - Update commit message, add Fixes: tag and Cc stable.
-> v3:
-> - Further commit message updates (Maxime Ripard).
-> 
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.3+
-> Fixes: d98780310719 ("drm/tests: helpers: Allow to pass a custom drm_driver")
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Hi Dave, Daniel,
 
-Reviewed-by: Francois Dugast <francois.dugast@intel.com>
+First pull request for next kernel cycle.
 
-> ---
->  include/drm/drm_kunit_helpers.h | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
-> index 514c8a7a32f0..ba483c87f0e7 100644
-> --- a/include/drm/drm_kunit_helpers.h
-> +++ b/include/drm/drm_kunit_helpers.h
-> @@ -3,6 +3,8 @@
->  #ifndef DRM_KUNIT_HELPERS_H_
->  #define DRM_KUNIT_HELPERS_H_
->  
-> +#include <linux/device.h>
-> +
->  #include <kunit/test.h>
->  
->  struct drm_device;
-> @@ -51,7 +53,7 @@ __drm_kunit_helper_alloc_drm_device(struct kunit *test,
->  {
->  	struct drm_driver *driver;
->  
-> -	driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
-> +	driver = devm_kzalloc(dev, sizeof(*driver), GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_NULL(test, driver);
->  
->  	driver->driver_features = features;
-> -- 
-> 2.41.0
-> 
+Cheers,
+~Maarten
+
+drm-misc-next-2023-09-11-1:
+drm-misc-next for v6.7-rc1:
+
+UAPI Changes:
+- Nouveau changed to not set NO_PREFETCH flag explicitly.
+
+Cross-subsystem Changes:
+- Update documentation of dma-buf intro and uapi.
+- fbdev/sbus fixes.
+- Use initializer macros in a lot of fbdev drivers.
+- Add Boris Brezillon as Panfrost driver maintainer.
+- Add Jessica Zhang as drm/panel reviewer.
+- Make more fbdev drivers use fb_ops helpers for deferred io.
+- Small hid trailing whitespace fix.
+- Use fb_ops in hid/picolcd
+
+Core Changes:
+- Assorted small fixes to ttm tests, drm/mst.
+- Documentation updates to bridge.
+- Add kunit tests for some drm_fb functions.
+- Rework drm_debugfs implementation.
+- Update xe documentation to mark todos as completed.
+
+Driver Changes:
+- Add support to rockchip for rv1126 mipi-dsi and vop.
+- Assorted small fixes to nouveau, bridge/samsung-dsim,
+   bridge/lvds-codec, loongson, rockchip, panfrost, gma500, repaper,
+   komeda, virtio, ssd130x.
+- Add support for simple panels Mitsubishi AA084XE01,
+   JDI LPM102A188A,
+- Documentation updates to accel/ivpu.
+- Some nouveau scheduling/fence fixes.
+- Power management related fixes and other fixes to ivpu.
+- Assorted bridge/it66121 fixes.
+- Make platform drivers return void in remove() callback.
+The following changes since commit 2799804ac651da1375ecb9b9a644eba97218df07:
+
+   drm/ttm: Remove two unused function declarations (2023-08-10 09:12:08 
++0200)
+
+are available in the Git repository at:
+
+   git://anongit.freedesktop.org/drm/drm-misc 
+tags/drm-misc-next-2023-09-11-1
+
+for you to fetch changes up to 15d30b46573d75f5cb58cfacded8ebab9c76a2b0:
+
+   drm/ssd130x: Use bool for ssd130x_deviceinfo flags (2023-09-10 
+09:05:47 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for v6.7-rc1:
+
+UAPI Changes:
+- Nouveau changed to not set NO_PREFETCH flag explicitly.
+
+Cross-subsystem Changes:
+- Update documentation of dma-buf intro and uapi.
+- fbdev/sbus fixes.
+- Use initializer macros in a lot of fbdev drivers.
+- Add Boris Brezillon as Panfrost driver maintainer.
+- Add Jessica Zhang as drm/panel reviewer.
+- Make more fbdev drivers use fb_ops helpers for deferred io.
+- Small hid trailing whitespace fix.
+- Use fb_ops in hid/picolcd
+
+Core Changes:
+- Assorted small fixes to ttm tests, drm/mst.
+- Documentation updates to bridge.
+- Add kunit tests for some drm_fb functions.
+- Rework drm_debugfs implementation.
+- Update xe documentation to mark todos as completed.
+
+Driver Changes:
+- Add support to rockchip for rv1126 mipi-dsi and vop.
+- Assorted small fixes to nouveau, bridge/samsung-dsim,
+   bridge/lvds-codec, loongson, rockchip, panfrost, gma500, repaper,
+   komeda, virtio, ssd130x.
+- Add support for simple panels Mitsubishi AA084XE01,
+   JDI LPM102A188A,
+- Documentation updates to accel/ivpu.
+- Some nouveau scheduling/fence fixes.
+- Power management related fixes and other fixes to ivpu.
+- Assorted bridge/it66121 fixes.
+- Make platform drivers return void in remove() callback.
+
+----------------------------------------------------------------
+Alexander Stein (1):
+       drm/bridge: lvds-codec: Implement atomic_get_input_bus_fmts for 
+LVDS encoder
+
+Arthur Grillo (8):
+       drm/tests: Test default pitch fallback
+       drm/tests: Add KUnit tests for drm_fb_swab()
+       drm/tests: Add KUnit tests for drm_fb_clip_offset()
+       drm/tests: Add KUnit tests for drm_fb_build_fourcc_list()
+       drm/tests: Add multi-plane support to conversion_buf_size()
+       drm/tests: Add KUnit tests for drm_fb_memcpy()
+       drm/debugfs: Add inline to drm_debugfs_dev_init() to suppres 
+-Wunused-function
+       drm/tests: Zero initialize fourccs_out
+
+Biju Das (5):
+       drm: bridge: it66121: Extend match support for OF tables
+       drm: bridge: it66121: Simplify probe()
+       drm/bridge/analogix/anx78xx: Drop ID table
+       drm/bridge: Drop conditionals around of_node pointers
+       drm/bridge: Drop CONFIG_OF conditionals around of_node pointers
+
+Christian KÃ¶nig (5):
+       drm/debugfs: drop debugfs_init() for the render and accel node v2
+       drm/debugfs: disallow debugfs access when device isn't registered
+       drm/debugfs: rework debugfs directory creation v5
+       drm/debugfs: remove dev->debugfs_list and debugfs_mutex v2
+       drm/debugfs: rework drm_debugfs_create_files implementation v2
+
+Daniel Stone (2):
+       doc: dma-buf: Rewrite intro section a little
+       doc: uapi: Add document describing dma-buf semantics
+
+Danilo Krummrich (3):
+       drm/nouveau: sched: avoid job races between entities
+       drm/nouveau: uvmm: fix unset region pointer on remap
+       drm/nouveau: uapi: don't pass NO_PREFETCH flag implicitly
+
+Dave Airlie (1):
+       nouveau/u_memcpya: use vmemdup_user
+
+David Heidelberg (2):
+       drm/panel: JDI LT070ME05000 drop broken link
+       drm/panel: JDI LT070ME05000 simplify with dev_err_probe()
+
+Diogo Ivo (2):
+       dt-bindings: display: Add bindings for JDI LPM102A188A
+       drm/panel: Add driver for JDI LPM102A188A
+
+Dmitry Osipenko (1):
+       MAINTAINERS: Add Boris Brezillon as Panfrost driver maintainer
+
+Douglas Anderson (1):
+       drm/bridge: Fix kernel-doc typo in desc of output_bus_cfg in 
+drm_bridge_state
+
+Geert Uytterhoeven (2):
+       drm/ssd130x: Fix screen clearing
+       drm/ssd130x: Use bool for ssd130x_deviceinfo flags
+
+Harshit Mogalapalli (1):
+       drm/loongson: Fix error handling in lsdc_pixel_pll_setup()
+
+Jacek Lawrynowicz (3):
+       accel/ivpu: Remove duplicated error messages
+       accel/ivpu: Move ivpu_fw_load() to ivpu_fw_init()
+       accel/ivpu: Move MMU register definitions to ivpu_mmu.c
+
+Jagan Teki (4):
+       dt-bindings: display: rockchip-vop: Document rv1126 vop
+       drm/rockchip: vop: Add rv1126 vop_lite support
+       dt-bindings: display: rockchip-dw-mipi-dsi: Document rv1126 DSI
+       drm/rockchip: dsi: Add rv1126 MIPI DSI support
+
+Jai Luthra (1):
+       drm: bridge: it66121: Fix invalid connector dereference
+
+Javier Carrasco (1):
+       drm/connector: document DRM_MODE_COLORIMETRY_COUNT
+
+Jessica Zhang (1):
+       MAINTAINERS: Add Jessica as a reviewer for drm/panel
+
+Jonas Karlman (5):
+       drm/rockchip: vop: Fix reset of state in duplicate state crtc funcs
+       drm/rockchip: vop: Use cleanup helper directly as destroy funcs
+       drm/rockchip: vop: Fix call to crtc reset helper
+       drm/rockchip: vop2: Don't crash for invalid duplicate_state
+       drm/rockchip: vop2: Add missing call to crtc reset helper
+
+Jorge Maidana (1):
+       drm/gma500: remove duplicate macro definitions
+
+Justin Stitt (1):
+       drm/repaper: fix -Wvoid-pointer-to-enum-cast warning
+
+Karol Wachowski (1):
+       accel/ivpu: Initialize context with SSID = 1
+
+Karolina Stolarek (1):
+       drm/ttm/tests: Require MMU when testing
+
+Krystian Pradzynski (1):
+       accel/ivpu: Move set autosuspend delay to HW specific code
+
+Liu Ying (1):
+       drm/bridge: panel: Add a device link between drm device and panel 
+device
+
+Marek Szyprowski (1):
+       drm: bridge: samsung-dsim: Fix waiting for empty cmd transfer 
+FIFO on older Exynos
+
+Marek Vasut (1):
+       drm: bridge: samsung-dsim: Initialize ULPS EXIT for i.MX8M DSIM
+
+Miquel Raynal (1):
+       dt-bindings: display: simple: Add Mitsubishi AA084XE01 panel
+
+Randy Dunlap (1):
+       drm: bridge: for GENERIC_PHY_MIPI_DPHY also select GENERIC_PHY
+
+Rodrigo Vivi (4):
+       drm/doc/rfc: No STAGING out of drivers/staging.
+       drm/doc/rfc: Mark Dev_coredump as completed.
+       drm/doc/rfc: Mark DRM_VM_BIND as complete.
+       drm/doc/rfc: Mark GPU VA as complete.
+
+Ruan Jinjie (1):
+       drm/panfrost: Do not check for 0 return after calling 
+platform_get_irq_byname()
+
+Stanislaw Gruszka (6):
+       accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
+       accel/ivpu: Make ivpu_pm_init() void
+       accel/ivpu: Add information about context on failure
+       accel/ivpu/37xx: Change register rename leftovers
+       accel/ivpu/37xx: White space cleanup
+       accel/ivpu: Print information about used workarounds
+
+Sui Jingfeng (1):
+       drm/gma500: Fix call trace when psb_gem_mm_init() fails
+
+Thomas Weber (1):
+       drm/panel: simple: Add support for Mitsubishi AA084XE01
+
+Thomas Zimmermann (19):
+       fbdev/sbus: Build sbuslib.o if CONFIG_FB_SBUS has been selected
+       fbdev/sbus: Forward declare all necessary structures in header
+       fbdev/sbus: Add initializer macros and Kconfig tokens for SBUS 
+support
+       fbdev/bw2: Use initializer macro for struct fb_ops
+       fbdev/cg14: Use initializer macro for struct fb_ops
+       fbdev/cg3: Use initializer macro for struct fb_ops
+       fbdev/cg6: Use initializer macro for struct fb_ops
+       fbdev/ffb: Use initializer macro for struct fb_ops
+       fbdev/leo: Use initializer macro for struct fb_ops
+       fbdev/p9100: Use initializer macro for struct fb_ops
+       fbdev/tcx: Use initializer macro for struct fb_ops
+       fbdev/smscufx: Use fb_ops helpers for deferred I/O
+       fbdev/udlfb: Use fb_ops helpers for deferred I/O
+       fbdev: Add Kconfig macro FB_IOMEM_HELPERS_DEFERRED
+       fbdev/hyperv_fb: Use fb_ops helpers for deferred I/O
+       hid: Remove trailing whitespace
+       hid/picolcd: Use fb_ops helpers for deferred I/O
+       staging/fbtft: Initialize fb_op struct as static const
+       staging/fbtft: Use fb_ops helpers for deferred I/O
+
+Tomi Valkeinen (4):
+       drm/bridge: lt8912b: Fix bridge_detach
+       drm/bridge: lt8912b: Fix crash on bridge detach
+       drm/bridge: lt8912b: Manually disable HPD only if it was enabled
+       drm/bridge: lt8912b: Add missing drm_bridge_attach call
+
+Uwe Kleine-KÃ¶nig (7):
+       drm/imx/ipuv3: Convert to platform remove callback returning void
+       drm/ingenic: Convert to platform remove callback returning void
+       drm/mediatek: Convert to platform remove callback returning void
+       drm/mediatek: Convert to platform remove callback returning void
+       drm/msm: Convert to platform remove callback returning void
+       drm/shmobile: Convert to platform remove callback returning void
+       drm/ssd130x: Print the PWM's label instead of its number
+
+Wayne Lin (2):
+       drm/mst: delete unnecessary case in drm_dp_add_payload_part2()
+       drm/mst: Refactor the flow for payload allocation/removement
+
+Yue Haibing (2):
+       drm/gma500: Remove unused declarations
+       drm/virtio: Remove unused function declarations
+
+baozhu.liu (1):
+       drm/komeda: drop all currently held locks if deadlock happens
+
+  .../bindings/display/panel/jdi,lpm102a188a.yaml    |  94 +++
+  .../bindings/display/panel/panel-simple.yaml       |   2 +
+  .../display/rockchip/rockchip,dw-mipi-dsi.yaml     |   2 +
+  .../bindings/display/rockchip/rockchip-vop.yaml    |   1 +
+  Documentation/driver-api/dma-buf.rst               |  32 +-
+  Documentation/gpu/drm-uapi.rst                     |   7 +
+  Documentation/gpu/rfc/xe.rst                       |  89 ++-
+  .../userspace-api/dma-buf-alloc-exchange.rst       | 389 ++++++++++
+  Documentation/userspace-api/index.rst              |   1 +
+  MAINTAINERS                                        |   5 +-
+  drivers/accel/drm_accel.c                          |  35 +-
+  drivers/accel/ivpu/ivpu_drv.c                      |  65 +-
+  drivers/accel/ivpu/ivpu_drv.h                      |  18 +-
+  drivers/accel/ivpu/ivpu_fw.c                       |   6 +-
+  drivers/accel/ivpu/ivpu_fw.h                       |   2 +-
+  drivers/accel/ivpu/ivpu_hw_37xx.c                  |  75 +-
+  drivers/accel/ivpu/ivpu_hw_37xx_reg.h              | 187 ++---
+  drivers/accel/ivpu/ivpu_hw_40xx.c                  |   7 +
+  drivers/accel/ivpu/ivpu_ipc.c                      |  13 +-
+  drivers/accel/ivpu/ivpu_mmu.c                      | 117 +--
+  drivers/accel/ivpu/ivpu_mmu_context.c              |  18 +-
+  drivers/accel/ivpu/ivpu_mmu_context.h              |   2 +
+  drivers/accel/ivpu/ivpu_pm.c                       |  16 +-
+  drivers/accel/ivpu/ivpu_pm.h                       |   2 +-
+  drivers/gpu/drm/Kconfig                            |   2 +-
+  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  20 +-
+  .../drm/arm/display/komeda/komeda_pipeline_state.c |   9 +-
+  drivers/gpu/drm/bridge/Kconfig                     |   2 +
+  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |   9 -
+  drivers/gpu/drm/bridge/cadence/Kconfig             |   1 +
+  drivers/gpu/drm/bridge/ite-it66121.c               |  29 +-
+  drivers/gpu/drm/bridge/lontium-lt8912b.c           |  22 +-
+  drivers/gpu/drm/bridge/lvds-codec.c                |  12 +-
+  drivers/gpu/drm/bridge/panel.c                     |  18 +-
+  drivers/gpu/drm/bridge/samsung-dsim.c              |  20 +-
+  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   2 -
+  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |   2 -
+  drivers/gpu/drm/display/drm_dp_mst_topology.c      | 167 +++--
+  drivers/gpu/drm/drm_atomic.c                       |   4 +-
+  drivers/gpu/drm/drm_bridge.c                       |   4 +-
+  drivers/gpu/drm/drm_client.c                       |   4 +-
+  drivers/gpu/drm/drm_crtc_internal.h                |   2 +-
+  drivers/gpu/drm/drm_debugfs.c                      | 162 ++--
+  drivers/gpu/drm/drm_drv.c                          |  28 +-
+  drivers/gpu/drm/drm_framebuffer.c                  |   4 +-
+  drivers/gpu/drm/drm_internal.h                     |  25 +-
+  drivers/gpu/drm/drm_mode_config.c                  |   2 -
+  drivers/gpu/drm/gma500/gma_display.h               |   1 -
+  drivers/gpu/drm/gma500/psb_drv.h                   |   9 +-
+  drivers/gpu/drm/gma500/psb_intel_drv.h             |  14 -
+  drivers/gpu/drm/gma500/psb_irq.c                   |   5 +
+  drivers/gpu/drm/i915/display/intel_dp_mst.c        |  18 +-
+  drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c            |   6 +-
+  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c           |   5 +-
+  drivers/gpu/drm/imx/ipuv3/imx-ldb.c                |   5 +-
+  drivers/gpu/drm/imx/ipuv3/imx-tve.c                |   5 +-
+  drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c             |   5 +-
+  drivers/gpu/drm/imx/ipuv3/parallel-display.c       |   6 +-
+  drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   6 +-
+  drivers/gpu/drm/ingenic/ingenic-ipu.c              |   5 +-
+  drivers/gpu/drm/loongson/lsdc_pixpll.c             |   6 +-
+  drivers/gpu/drm/mediatek/mtk_cec.c                 |   5 +-
+  drivers/gpu/drm/mediatek/mtk_disp_aal.c            |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_color.c          |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_gamma.c          |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_merge.c          |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   6 +-
+  drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   6 +-
+  drivers/gpu/drm/mediatek/mtk_dp.c                  |   6 +-
+  drivers/gpu/drm/mediatek/mtk_dpi.c                 |   6 +-
+  drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   6 +-
+  drivers/gpu/drm/mediatek/mtk_dsi.c                 |   6 +-
+  drivers/gpu/drm/mediatek/mtk_hdmi.c                |   5 +-
+  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c            |   6 +-
+  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |   5 +-
+  drivers/gpu/drm/msm/adreno/adreno_device.c         |   5 +-
+  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   6 +-
+  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |   6 +-
+  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |   5 +-
+  drivers/gpu/drm/msm/dp/dp_display.c                |   6 +-
+  drivers/gpu/drm/msm/dsi/dsi.c                      |   6 +-
+  drivers/gpu/drm/msm/hdmi/hdmi.c                    |   6 +-
+  drivers/gpu/drm/msm/hdmi/hdmi_phy.c                |   6 +-
+  drivers/gpu/drm/msm/msm_drv.c                      |   6 +-
+  drivers/gpu/drm/msm/msm_mdss.c                     |   6 +-
+  drivers/gpu/drm/nouveau/dispnv50/disp.c            |  21 +-
+  drivers/gpu/drm/nouveau/nouveau_dma.c              |   7 +-
+  drivers/gpu/drm/nouveau/nouveau_dma.h              |   8 +-
+  drivers/gpu/drm/nouveau/nouveau_drv.h              |  19 +-
+  drivers/gpu/drm/nouveau/nouveau_exec.c             |  19 +-
+  drivers/gpu/drm/nouveau/nouveau_gem.c              |   6 +-
+  drivers/gpu/drm/nouveau/nouveau_sched.c            |  22 +
+  drivers/gpu/drm/nouveau/nouveau_uvmm.c             |   1 +
+  drivers/gpu/drm/panel/Kconfig                      |  11 +
+  drivers/gpu/drm/panel/Makefile                     |   1 +
+  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c      | 551 ++++++++++++++
+  drivers/gpu/drm/panel/panel-jdi-lt070me05000.c     |  40 +-
+  drivers/gpu/drm/panel/panel-simple.c               |  29 +
+  drivers/gpu/drm/panfrost/panfrost_gpu.c            |   4 +-
+  drivers/gpu/drm/panfrost/panfrost_job.c            |   4 +-
+  drivers/gpu/drm/panfrost/panfrost_mmu.c            |   4 +-
+  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   |   6 +-
+  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |  20 +
+  drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |  24 +-
+  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  39 +-
+  drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |  55 ++
+  drivers/gpu/drm/solomon/ssd130x.c                  |  51 +-
+  drivers/gpu/drm/solomon/ssd130x.h                  |   4 +-
+  drivers/gpu/drm/tegra/dc.c                         |   9 +-
+  drivers/gpu/drm/tegra/dsi.c                        |   1 +
+  drivers/gpu/drm/tegra/hdmi.c                       |   3 +-
+  drivers/gpu/drm/tegra/sor.c                        |   1 +
+  drivers/gpu/drm/tests/drm_format_helper_test.c     | 813 
++++++++++++++++++++--
+  drivers/gpu/drm/tiny/repaper.c                     |   2 +-
+  drivers/gpu/drm/virtio/virtgpu_drv.h               |   7 -
+  drivers/hid/Kconfig                                |   8 +-
+  drivers/hid/hid-picolcd_fb.c                       |  73 +-
+  drivers/staging/fbtft/Kconfig                      |   6 +-
+  drivers/staging/fbtft/fbtft-core.c                 |  99 +--
+  drivers/video/fbdev/Kconfig                        |  35 +-
+  drivers/video/fbdev/Makefile                       |  17 +-
+  drivers/video/fbdev/bw2.c                          |  17 +-
+  drivers/video/fbdev/cg14.c                         |  19 +-
+  drivers/video/fbdev/cg3.c                          |  17 +-
+  drivers/video/fbdev/cg6.c                          |  17 +-
+  drivers/video/fbdev/core/Kconfig                   |   6 +
+  drivers/video/fbdev/ffb.c                          |  17 +-
+  drivers/video/fbdev/hyperv_fb.c                    |  48 +-
+  drivers/video/fbdev/leo.c                          |  19 +-
+  drivers/video/fbdev/p9100.c                        |  18 +-
+  drivers/video/fbdev/sbuslib.h                      |  37 +-
+  drivers/video/fbdev/smscufx.c                      |  85 +--
+  drivers/video/fbdev/tcx.c                          |  20 +-
+  drivers/video/fbdev/udlfb.c                        |  89 +--
+  include/drm/bridge/samsung-dsim.h                  |   1 +
+  include/drm/display/drm_dp_mst_helper.h            |  23 +-
+  include/drm/drm_accel.h                            |   9 +-
+  include/drm/drm_atomic.h                           |   2 +-
+  include/drm/drm_bridge.h                           |   6 +-
+  include/drm/drm_client.h                           |   2 +-
+  include/drm/drm_connector.h                        |   3 +-
+  include/drm/drm_debugfs.h                          |   4 +-
+  include/drm/drm_device.h                           |  14 +-
+  include/drm/drm_drv.h                              |   8 +
+  include/drm/drm_file.h                             |   4 +-
+  include/uapi/drm/ivpu_accel.h                      |  18 +-
+  include/uapi/drm/nouveau_drm.h                     |   8 +-
+  148 files changed, 3136 insertions(+), 1371 deletions(-)
+  create mode 100644 
+Documentation/devicetree/bindings/display/panel/jdi,lpm102a188a.yaml
+  create mode 100644 Documentation/userspace-api/dma-buf-alloc-exchange.rst
+  create mode 100644 drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
