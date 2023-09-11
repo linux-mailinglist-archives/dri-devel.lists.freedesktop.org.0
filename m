@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AA479A523
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 09:56:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0DF79A524
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 09:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E089E10E0C8;
-	Mon, 11 Sep 2023 07:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C536810E11D;
+	Mon, 11 Sep 2023 07:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630DC10E11D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:56:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D279710E11D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:56:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E5837CE0F8E;
- Mon, 11 Sep 2023 07:56:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9DB8C433C7;
- Mon, 11 Sep 2023 07:56:12 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 0096ECE10B6;
+ Mon, 11 Sep 2023 07:56:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B94B3C433C9;
+ Mon, 11 Sep 2023 07:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694418973;
- bh=TcDeqP1CdFF7Zks/G2rBv/cmEg5YhRmWxiNQGI/6MpM=;
+ s=k20201202; t=1694418999;
+ bh=J4By/wtMEr2AEoDW7IigfXfEKp7/CeZK5KPE57g83AQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CZhIdbXc9hdjIVI1sHlh3znecvhGjFlRNouiyFQACPX5/jkuvW2wvMrRC4vtDsmBz
- 69q4krqK8cnjCs8zzBXRfu1V0cQYyFso9nW12l2dv8zSQj81KqFqwj2L6JI36thMyA
- TAHyT2ULHNFDNcsGl5pl9iZAc0BLL+/a8BNRLCl8De0EaNGm19Hs8nJS1VhDcLfEOE
- 0wtsCgsJgnhZ3g/AEmTtpyIM0fL2NiagvTpAZV3u5AjaelqrLiycvWrV2j0y8/dluC
- zKDxEvNt8M1B95ZbsTKiNjqOjvjsZOc4V+K6ZkeqvGGEgk3qhC5uiLOPBHHyU29b5Q
- BltSCR7O/arIw==
-Date: Mon, 11 Sep 2023 09:56:10 +0200
+ b=ZfX6RyGjkbCon6qIymrUuDUmd4zyiw+oq+3UYAwwiRejb+bjeMBacGLrJVk1rq0/6
+ Epnri0SlLSNT0lEAGHQvpMVuUcd2/RK9resXaAfohLmxGBCzZIIHrx7Agczwvu/Ee0
+ 31czy6K1CbffAHojh735ol2bgE4CnY66hmjm0pn6F1mBdWN8voaI8Q2HEOHpFLNRzl
+ yvcxdQ6OE9Fl21SakZehyM4rsYmRvesVp8JReZTn2jV8YMCT5/x7nK38rZarLkg1A/
+ 1oa4bIIvcvkevd5EzXEXDw5eyXcW9i0t/nR43VM6KtPIonud2mgDSNbNgw3I3uFC5u
+ oKb6l2ve2JxUQ==
+Date: Mon, 11 Sep 2023 09:56:36 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: Re: [PATCH v3 3/9] drm: ci: Force db410c to host mode
-Message-ID: <4sejhbn246lxcfdogzlcv5u6gunjcwuplk4victzc223n4cohu@mmdjj6je62p2>
+Subject: Re: [PATCH v3 2/9] arm64: dts: qcom: apq8016-sbc: Add overlay for
+ usb host mode
+Message-ID: <n7pfq63xblrijh7azhqj4zytnq6tuym6dwdw6rrwznnizpoy5p@7vsgezhgs3jg>
 References: <20230908152225.432139-1-vignesh.raman@collabora.com>
- <20230908152225.432139-4-vignesh.raman@collabora.com>
+ <20230908152225.432139-3-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cb6hdljgta37swja"
+ protocol="application/pgp-signature"; boundary="gagdd2k3ghthyhjr"
 Content-Disposition: inline
-In-Reply-To: <20230908152225.432139-4-vignesh.raman@collabora.com>
+In-Reply-To: <20230908152225.432139-3-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +71,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cb6hdljgta37swja
+--gagdd2k3ghthyhjr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 08, 2023 at 08:52:19PM +0530, Vignesh Raman wrote:
-> Force db410c to host mode to fix network issue which results in failure
-> to mount root fs via NFS.
-> See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80=
-a54dda510743cefd1c4b65b8
+On Fri, Sep 08, 2023 at 08:52:18PM +0530, Vignesh Raman wrote:
+> Due to the presence of the fastboot micro cable in the CI farm,
+> it causes the hardware to remain in gadget mode instead of host mode.
+> So it doesn't find the network, which results in failure to mount root
+> fs via NFS.
 >=20
-> Compile the base device tree with overlay support and use fdtoverlay
-> command to merge base device tree with an overlay which contains the
-> fix for USB controllers to work in host mode. [suggested by Maxime Ripard]
+> Add an overlay dtso file that sets the dr_mode to host, allowing
+> the USB controllers to work in host mode. This dtso file will be used
+> in drm-ci, mesa-ci.
 >=20
+> Overlay DT file uses the sugar syntax [suggested by Dmitry Baryshkov and =
+Maxime Ripard]
+>=20
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Signed-off-by: David Heidelberg <david.heidelberg@collabora.com>
 > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 > ---
 >=20
-> v2:
->   - Use fdtoverlay command to merge overlay dtbo with the base dtb instea=
-d of modifying the kernel sources
->=20
 > v3:
->   - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qc=
-om and compile base device tree with overlay support
+>   - New patch in the series to add device tree overlay in arch/arm64/boot=
+/dts/qcom
 >=20
 > ---
->  drivers/gpu/drm/ci/build.sh | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
 >=20
-> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> index 7b014287a041..092c195af242 100644
-> --- a/drivers/gpu/drm/ci/build.sh
-> +++ b/drivers/gpu/drm/ci/build.sh
-> @@ -91,7 +91,12 @@ for image in ${KERNEL_IMAGE_NAME}; do
->  done
-> =20
->  if [[ -n ${DEVICE_TREES} ]]; then
-> -    make dtbs
-> +    make DTC_FLAGS=3D-@ dtbs
-> +    if [[ -e arch/arm64/boot/dts/qcom/apq8016-sbc.dtb ]]; then
-> +        dtc -@ -I dts -O dtb -o arch/arm64/boot/dts/qcom/apq8016-sbc-usb=
--host.dtbo arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
+> diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso b/arch/ar=
+m64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
+> new file mode 100644
+> index 000000000000..a82c26b7eae8
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
+> @@ -0,0 +1,8 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +&usb {
+> +         dr_mode =3D "host";
+> +};
+> --=20
+> 2.40.1
+>=20
 
-You don't need to compile it by hand, make dtbs should do it for you
-
-> +        fdtoverlay -i arch/arm64/boot/dts/qcom/apq8016-sbc.dtb -o arch/a=
-rm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb arch/arm64/boot/dts/qcom/apq801=
-6-sbc-usb-host.dtbo
-> +        mv arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb arch/arm64/=
-boot/dts/qcom/apq8016-sbc.dtb
-> +    fi
-
-That is also supported by the build system already, see
-k3-am642-tqma64xxl-mbax4xxl-sdcard-dtbs in
-arch/arm64/boot/dts/ti/Makefile for example.
+You need to add it to the Makefile too
 
 Maxime
 
---cb6hdljgta37swja
+--gagdd2k3ghthyhjr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP7IEgAKCRDj7w1vZxhR
-xf+VAQCKBhzxM+xyY+/4paz1ptXJnwy/l2JYhG19lwvhdmqzEQEAu8ymNH0xWLT9
-fjwD62FM8tQ1u0IqCUncUJpj3vx5+A0=
-=V7+f
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP7INAAKCRDj7w1vZxhR
+xV6IAQCox48qewzlkPPyfIUdU1lcyOF2tjZGlIie1OkEy+YwewD9HSiqWhPcaU05
+UcmcRvKlRMTRddoOLVSVlt6zHhBNPgI=
+=Cw8P
 -----END PGP SIGNATURE-----
 
---cb6hdljgta37swja--
+--gagdd2k3ghthyhjr--
