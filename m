@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958D379A68D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 11:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E7879A691
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 11:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6C510E19F;
-	Mon, 11 Sep 2023 09:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C271F10E1A2;
+	Mon, 11 Sep 2023 09:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6150010E1A0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:05:03 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6979A6607083;
- Mon, 11 Sep 2023 10:05:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694423101;
- bh=jo+lZBQFX99dvsGk7KaxmmTzA/MbOTJVrWbivOzXhRs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mtbHD9qpBwnAOBT1Pf31tPa8e9/mfxJdawdT3LzaggZOVj+Q/9ZsDK+j9T7vgPg1v
- 0QF3yxm7I/3uMSaQTZRMno7orv74HXfIgajTkAMwer/tSo0iizWjtv6JROGXyIs9jC
- kNlRnJxDA33hBYDTunhybVndN9vhcQMJMRqLs5TLJF3IIFM7dYh27QKsAqfAVEShsS
- 7l9+nrqOq46Mo+H+nE+6uNUVzi/R3h0KQCa0iybQJSo3K6DC/3w3YXqCHGk5rXha5I
- 4DyIE6Z56+o2dgGaNicFofHW4X4zNVtwlhrzcfesJPBf1i6cSs6cvwNZEoILKNf4Zm
- uvECARebonWfA==
-Message-ID: <3cc94def-04b7-fdf7-622d-96db0fdd95c7@collabora.com>
-Date: Mon, 11 Sep 2023 11:04:57 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188E210E1A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694423264; x=1725959264;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pEfd2WdFALj7J5gv13xort2+lXOY+FYQR4DouPlIBvk=;
+ b=VE7+TER7KH7WymyO6q3qODzV0b+PI8YVX3fAPXzZxxDobj3ChVpQUrwU
+ IvRUU/uu1hITNK+/sN0DUiaw+OtSZtjJ/4x4GuWBbteN+01NIPoJMFzu4
+ xhjIgcqMuIcq7+pElQO+oEaNiaY7+3fYIxiHyo8OU0g75fGSpozR1qt3l
+ dNHCCsd8StpP5SlBQYOLXUKHbGdrconA1oLEa4TSRe0FHzERqgGjNj+o3
+ o/1HtZ0ROy6A8iecvGhz82E5tkTXRrRP8sU9FUDX510qC+yfwF96qQjag
+ w4pC/k0VvJGyXmwwWkxlH4WfvuGdBLSbXfe5gv91NomKFd6zoCO00t2Oe g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="380733197"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="380733197"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 02:07:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="833434079"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="833434079"
+Received: from djustese-mobl.ger.corp.intel.com (HELO fedora..)
+ ([10.249.254.185])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 02:07:38 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH] locking/ww_mutex: Adjust to lockdep nest_lock requirements
+Date: Mon, 11 Sep 2023 11:07:29 +0200
+Message-ID: <20230911090729.5287-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v3 6/9] arm64: defconfig: Enable DA9211 regulator
-To: Vignesh Raman <vignesh.raman@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230908152225.432139-1-vignesh.raman@collabora.com>
- <20230908152225.432139-7-vignesh.raman@collabora.com>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230908152225.432139-7-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +57,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
- krzysztof.kozlowski+dt@linaro.org, robdclark@google.com,
- david.heidelberg@collabora.com, sergi.blanch.torne@collabora.com,
- gustavo.padovan@collabora.com, agross@kernel.org, devicetree@vger.kernel.org,
- conor+dt@kernel.org, daniels@collabora.com, linux-arm-msm@vger.kernel.org,
- mripard@kernel.org, helen.koike@collabora.com, anholt@google.com,
- linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
- matthias.bgg@gmail.com, andersson@kernel.org, linux-kernel@vger.kernel.org,
- konrad.dybcio@linaro.org, robh+dt@kernel.org, dmitry.baryshkov@linaro.org,
- guilherme.gallo@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/09/23 17:22, Vignesh Raman ha scritto:
-> Mediatek mt8173 board fails to boot with DA9211 regulator disabled.
-> Enabling CONFIG_REGULATOR_DA9211=y in drm-ci fixes the issue.
-> 
-> So enable it in the defconfig since kernel-ci also requires it.
-> 
-> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+When using mutex_acquire_nest() with a nest_lock, lockdep refcounts the
+number of acquired lockdep_maps of mutexes of the same class, and also
+keeps a pointer to the first acquired lockdep_map of a class. That pointer
+is then used for various comparison-, printing- and checking purposes,
+but there is no mechanism to actively ensure that lockdep_map stays in
+memory. Instead, a warning is printed if the lockdep_map is freed and
+there are still held locks of the same lock class, even if the lockdep_map
+itself has been released.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In the context of WW/WD transactions that means that if a user unlocks
+and frees a ww_mutex from within an ongoing ww transaction, and that
+mutex happens to be the first ww_mutex grabbed in the transaction,
+such a warning is printed and there might be a risk of a UAF.
 
-> ---
-> 
-> v3:
->    - New patch in the series to enable CONFIG_REGULATOR_DA9211 in defconfig
-> 
-> ---
->   arch/arm64/configs/defconfig | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index a25d783dfb95..ef22b532b63a 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -711,6 +711,7 @@ CONFIG_REGULATOR_AXP20X=y
->   CONFIG_REGULATOR_BD718XX=y
->   CONFIG_REGULATOR_BD9571MWV=y
->   CONFIG_REGULATOR_CROS_EC=y
-> +CONFIG_REGULATOR_DA9211=m
->   CONFIG_REGULATOR_FAN53555=y
->   CONFIG_REGULATOR_GPIO=y
->   CONFIG_REGULATOR_HI6421V530=y
+Note that this is only problem when lockdep is enabled and affects only
+dereferences of struct lockdep_map.
+
+Adjust to this by adding a fake lockdep_map to the acquired context and
+make sure it is the first acquired lockdep map of the associated
+ww_mutex class. Then hold it for the duration of the WW/WD transaction.
+
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: intel-xe@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ include/linux/ww_mutex.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+index bb763085479a..a401a2f31a77 100644
+--- a/include/linux/ww_mutex.h
++++ b/include/linux/ww_mutex.h
+@@ -65,6 +65,16 @@ struct ww_acquire_ctx {
+ #endif
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map dep_map;
++	/**
++	 * @first_lock_dep_map: fake lockdep_map for first locked ww_mutex.
++	 *
++	 * lockdep requires the lockdep_map for the first locked ww_mutex
++	 * in a ww transaction to remain in memory until all ww_mutexes of
++	 * the transaction have been unlocked. Ensure this by keeping a
++	 * fake locked ww_mutex lockdep map between ww_acquire_init() and
++	 * ww_acquire_fini().
++	 */
++	struct lockdep_map first_lock_dep_map;
+ #endif
+ #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+ 	unsigned int deadlock_inject_interval;
+@@ -146,7 +156,10 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+ 	debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+ 	lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+ 			 &ww_class->acquire_key, 0);
++	lockdep_init_map(&ctx->first_lock_dep_map, ww_class->mutex_name,
++			 &ww_class->mutex_key, 0);
+ 	mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
++	mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx->dep_map, _RET_IP_);
+ #endif
+ #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+ 	ctx->deadlock_inject_interval = 1;
+@@ -185,6 +198,7 @@ static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+ static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+ {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
++	mutex_release(&ctx->first_lock_dep_map, _THIS_IP_);
+ 	mutex_release(&ctx->dep_map, _THIS_IP_);
+ #endif
+ #ifdef DEBUG_WW_MUTEXES
+-- 
+2.41.0
 
