@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9998679A988
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:19:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E5879A98E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D27810E31B;
-	Mon, 11 Sep 2023 15:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B86D10E31C;
+	Mon, 11 Sep 2023 15:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86C710E31B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:19:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4498810E31C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:21:10 +0000 (UTC)
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38BBTCvp001692; Mon, 11 Sep 2023 15:19:05 GMT
+ 38BEfcWn030165; Mon, 11 Sep 2023 15:21:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=G2JS6CnYhoh3L/C7yzTN0txsaAvPT202aFX5fc0va5s=;
- b=ImEEkTXwlGbs/poVFhooqvK7m3trW6Hvxsvk5aafGZN0Ow+Eb9klq+ec+B2PSSEeoIUK
- VcVSCQhZaJazGDZ7EWTQzOa9gaHTtVA7f0F4cRv3FgS+nj+0V1l2tGR8GuTOp/7uNY/I
- mPt7YNpHHqr8eueT+zAbQvEUCtq2uuA4wkEVqlw/eW4bGpA+0VMWvQWxE5eZ3mFcQO+S
- ryZ2HNqNurYeBSHOfno3FlO92XL2EVVRxF633Gn3yFBGUS2NxUkrsg9lkQwBiQkRuQji
- QTW9dwKfOFR5pz64u8dCgEvpJMLxJuJJYlOk38GqdSzj7KGQSJSUEQ6/9k1/9OAhQMpB jg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=WWbwzPYqqY7vhFf+EpM1RbJP3MYpIrqZYlA2coPtbew=;
+ b=mLnatmlui5p4dpzcI/rvDi4zoGAwCvkmNSruJ8uCFsDCVF5s+NlsF9p6Wl7j6DPPS5Gp
+ 2BrNXxnjZuQYdxPWnP6GWWYDC6lls+GMYsyHgtdPdtyco4A0YDSQfFFVGgoaj+0k0eSo
+ 8kFftVEc4JM4YrBVYnByQk2mPDItBIL9aWOE6VKNCfuKKwwFSFkj3G86CkV6venhVTW5
+ i8JANXejf77Y1grT2sAwrVLdjQXHazuMds4BaPHtcRp0Kc4Tp7ksq7On1nWAjJYI0P8E
+ gbRw06nbL60RMDrU3y8nUYAhAhkRYu5wXuHP3WUEcJTJOg728vX6LfsQnDQ8Qm5m3N5H JQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t20yy0ky0-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t20yy0mhu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 15:19:05 +0000
+ Mon, 11 Sep 2023 15:21:05 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BFJ4U7006589
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BFL4nS016213
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 15:19:04 GMT
+ Mon, 11 Sep 2023 15:21:04 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 08:19:04 -0700
-Message-ID: <62e3769d-b747-9258-c330-97c034ea52ec@quicinc.com>
-Date: Mon, 11 Sep 2023 09:19:03 -0600
+ 2023 08:21:04 -0700
+Message-ID: <1e43477e-f11f-6bc8-ba19-238e526fa196@quicinc.com>
+Date: Mon, 11 Sep 2023 09:21:03 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [RFC 1/4] accel/ivpu: Allocate vpu_addr in gem->open() callback
+Subject: Re: [RFC 2/4] accel/ivpu: Fix locking in
+ ivpu_bo_remove_all_bos_from_context()
 Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20230901164842.178654-1-stanislaw.gruszka@linux.intel.com>
- <20230901164842.178654-2-stanislaw.gruszka@linux.intel.com>
+ <20230901164842.178654-3-stanislaw.gruszka@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230901164842.178654-2-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20230901164842.178654-3-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -61,14 +62,14 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: mV99KdurXRQtgOJ2cSreX8wttOlHHdYN
-X-Proofpoint-GUID: mV99KdurXRQtgOJ2cSreX8wttOlHHdYN
+X-Proofpoint-ORIG-GUID: 7uOZynQ6LRD3a-SB8b0O26lnZrTfv1Il
+X-Proofpoint-GUID: 7uOZynQ6LRD3a-SB8b0O26lnZrTfv1Il
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-11_10,2023-09-05_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  impostorscore=0 phishscore=0
- mlxscore=0 mlxlogscore=822 bulkscore=0 malwarescore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=774 bulkscore=0 malwarescore=0 priorityscore=1501
  suspectscore=0 clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
  definitions=main-2309110140
@@ -92,12 +93,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 9/1/2023 10:48 AM, Stanislaw Gruszka wrote:
 > From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 > 
-> gem->open() is called during handle creation for a gem object.
-> It is called during prime import and in BO_CREATE ioctl.
+> ivpu_bo_remove_all_bos_from_context() could race with ivpu_bo_free()
+> when prime buffer was closed after vpu device was closed.
+> 
+> Move the bo_list from context to vdev and use a dedicated lock to
+> sync it. This list is not modified when BO is added/removed from
+> a context.
+> 
+> Also rename ivpu_bo_free_vpu_addr() to ivpu_bo_unbind() because this
+> function does more then just free vpu_addr.
+> 
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-I feel like the "why" is missing.  This appears to start to explain how 
-gem->open() might be useful for the driver, but does not seem to 
-complete explaining the connection to the driver.  From the code 
-changes, it looks like using gem->open() simplifies the code by 
-allocating the vpu_addr in one place for all BOs.  If that is the goal, 
-I feel that it should be mentioned here.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
