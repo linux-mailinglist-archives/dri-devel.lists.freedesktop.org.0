@@ -2,46 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8C079A8D6
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 16:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035E879A8DB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 16:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1493110E30D;
-	Mon, 11 Sep 2023 14:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3130B10E30F;
+	Mon, 11 Sep 2023 14:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C4F10E30D;
- Mon, 11 Sep 2023 14:45:30 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 24FA86607307;
- Mon, 11 Sep 2023 15:45:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694443529;
- bh=Vbh5fxfeHsI//pUJImwbrwXNHPplRmRgcHeWYzo5SFQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZxEFB2G2VxvoIVzWgRfty+RtK47nanwaOEdssKkHqlndUhjR31wNkkytWiXhtwIFD
- TqzcjTGbMijeW1qZyuVHm7ci1HD1zbf+R2l5GZqK8dBrjHYjqMRLZz4ZoK4xkQjean
- sRRJT3JGU8X5MTDQ0Wfvk9WU/VSTUb9fYenhlkgxrYVUb1MyQsQzrsuWwyQ/vdNhct
- +U4RjNUQ9AF5WHV4R7Q9VJzPCcKTr3EpJPqubV2SKCx1uEUnY9SZcT/WFXEzKRUpIF
- NGhQQYp8dzmhSoaIGC/ilJ7OcfsV2yY0xrOceiWedf6sO+IvXb9an4Rsdx5ghOdUEL
- vh7arZ801o0jw==
-Date: Mon, 11 Sep 2023 16:45:26 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <20230911164526.0192a686@collabora.com>
-In-Reply-To: <20230909153125.30032-7-dakr@redhat.com>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-7-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3056910E30F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 14:46:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA90E1007
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:46:49 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 881173F738
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:46:12 -0700 (PDT)
+Date: Mon, 11 Sep 2023 15:46:08 +0100
+From: "liviu.dudau@arm.com" <liviu.dudau@arm.com>
+To: Liu =?utf-8?B?THVjYXMv5YiY5L+d5p+x?= <lucas.liu@siengine.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= drm/komeda: add
+ NV12 format to support writeback layer type
+Message-ID: <ZP8oMFLFc_Lr090h@e110455-lin.cambridge.arm.com>
+References: <20230829093004.22860-1-lucas.liu@siengine.com>
+ <b393669c80274dfcbcf94c60fea8ae76@siengine.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b393669c80274dfcbcf94c60fea8ae76@siengine.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +44,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat,  9 Sep 2023 17:31:13 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+Hi Liu,
 
-> @@ -807,6 +1262,14 @@ drm_gpuvm_bo_destroy(struct kref *kref)
->  
->  	drm_gem_gpuva_assert_lock_held(vm_bo->obj);
->  
-> +	spin_lock(&gpuvm->extobj.lock);
-> +	list_del(&vm_bo->list.entry.extobj);
-> +	spin_unlock(&gpuvm->extobj.lock);
-> +
-> +	spin_lock(&gpuvm->evict.lock);
-> +	list_del(&vm_bo->list.entry.evict);
-> +	spin_unlock(&gpuvm->evict.lock);
-> +
->  	list_del(&vm_bo->list.entry.gem);
->  
->  	drm_gem_object_put(obj);
+Sorry about the delay, I was on holiday until 28th and while cleaning up the backlog I've accidentally marked the email
+as read and did not reply.
 
-I ran into a UAF situation when the drm_gpuvm_bo object is the last
-owner of obj, because the lock that's supposed to be held when calling
-this function (drm_gem_gpuva_assert_lock_held() call above), belongs to
-obj (either obj->resv, or a driver specific lock that's attached to the
-driver-specific GEM object). I worked around it by taking a ref to obj
-before calling lock()+drm_gpuvm_bo_put()+unlock(), and releasing it
-after I'm node with the lock, but that just feels wrong.
+
+On Fri, Sep 08, 2023 at 08:11:44AM +0000, Liu Lucas/刘保柱 wrote:
+> Hi  all,
+> 
+> 	Do you have any suggestions for the patch I submitted? Please also let me know, thank you!
+> 
+> Best Regards,
+> baozhu.liu
+> -----邮件原件-----
+> 发件人: baozhu.liu <lucas.liu@siengine.com> 
+> 发送时间: 2023年8月29日 17:30
+> 收件人: liviu.dudau@arm.com; airlied@gmail.com; daniel@ffwll.ch
+> 抄送: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Liu Lucas/刘保柱 <lucas.liu@siengine.com>
+> 主题: [PATCH] drm/komeda: add NV12 format to support writeback layer type
+> 
+> When testing the d71 writeback layer function, the output format is set to NV12, and the following error message is displayed:
+> 
+> [drm:komeda_fb_is_layer_supported] Layer TYPE: 4 doesn't support fb FMT: NV12 little-endian (0x3231564e) with modifier: 0x0..
+> 
+> Check the d71 data manual, writeback layer output formats includes NV12 format.
+> 
+> Signed-off-by: baozhu.liu <lucas.liu@siengine.com>
+
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+
+I will push the patch this week into drm-misc-next.
+
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> index 6c56f5662bc7..80973975bfdb 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> @@ -521,7 +521,7 @@ static struct komeda_format_caps d71_format_caps_table[] = {
+>  	{__HW_ID(5, 1),	DRM_FORMAT_YUYV,	RICH,		Rot_ALL_H_V,	LYT_NM, AFB_TH}, /* afbc */
+>  	{__HW_ID(5, 2),	DRM_FORMAT_YUYV,	RICH,		Flip_H_V,		0, 0},
+>  	{__HW_ID(5, 3),	DRM_FORMAT_UYVY,	RICH,		Flip_H_V,		0, 0},
+> -	{__HW_ID(5, 6),	DRM_FORMAT_NV12,	RICH,		Flip_H_V,		0, 0},
+> +	{__HW_ID(5, 6),	DRM_FORMAT_NV12,	RICH_WB,	Flip_H_V,		0, 0},
+>  	{__HW_ID(5, 6),	DRM_FORMAT_YUV420_8BIT,	RICH,		Rot_ALL_H_V,	LYT_NM, AFB_TH}, /* afbc */
+>  	{__HW_ID(5, 7),	DRM_FORMAT_YUV420,	RICH,		Flip_H_V,		0, 0},
+>  	/* YUV 10bit*/
+> --
+> 2.17.1
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
