@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFA479A7D7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:07:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DF779A7DE
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:13:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C3210E2D8;
-	Mon, 11 Sep 2023 12:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE2A10E2DE;
+	Mon, 11 Sep 2023 12:13:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D2F10E2D8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:07:54 +0000 (UTC)
-X-UUID: d23980d8509b11ee8051498923ad61e6-20230911
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=WVs65ar96VYNwtMx+BagNf4gWVLlTPcw+3E5cFR/LY0=; 
- b=M8NZKPazKUmM5AwxyKdEaOss6zqNI7tFs8Pe7p9FXDRucu/mKu/mz5aG9uAAyrqR++y3y0OUDTrdqdNUtLamfjCjhugmVSxVyFbB9/gpyzl9TKJxf7OCNd3IJCQS+gdPgITY4pVDfA4Lv4GCxGFCbcau2TgcYEzAToj07QIx748=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:8e2487bd-4410-449d-b773-b7d512fb43b3, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:0ad78a4, CLOUDID:46ebcd13-4929-4845-9571-38c601e9c3c9,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: d23980d8509b11ee8051498923ad61e6-20230911
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2029090410; Mon, 11 Sep 2023 20:07:47 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.194) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 11 Sep 2023 20:07:45 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 20:07:45 +0800
-From: Shuijing Li <shuijing.li@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, 
- <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
-Subject: [PATCH v4,3/3] drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
-Date: Mon, 11 Sep 2023 20:08:00 +0800
-Message-ID: <20230911120800.17369-4-shuijing.li@mediatek.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230911120800.17369-1-shuijing.li@mediatek.com>
-References: <20230911120800.17369-1-shuijing.li@mediatek.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A9C10E2DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:13:52 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RklxS0gY7z9sqm;
+ Mon, 11 Sep 2023 14:13:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1694434428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EG47cdFKJCzGjz8BT6HLdIq6G6HHROaavD+7fvm6pRA=;
+ b=gk/WPBL/AeACiFu13DVcyVgLkskOoCAH52EePYIAkLR/yZHSovN0zCc4IQtSSJgEOfm1N7
+ AMu2PcpH6mVf7lRUXFyL8dKl2WG0P5jVzg7xgLVXGOgeqr4G30a6sNRf/teOmSBgl1Qt2/
+ P33mCkIAWDp2yL4mBFIRC+rpcHyn8MKPifBqDhsYy+R5BkHFSfwgX8/7gtZjw43jHbD4bE
+ 4S84wiL3owYxagam6VNGz17C1kVw/u+zVnqElckoGWIIXCc0vnB1FPAAfCooK8Y3aE6lNA
+ kWNU+EkQZ6R40yusQNWo10kXZteR/QKRGP2qmFQKKI0GZZl0luz9MUtoZFaOcw==
+Message-ID: <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
+Date: Mon, 11 Sep 2023 14:13:43 +0200
 MIME-Version: 1.0
+Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
+To: Maxime Ripard <mripard@kernel.org>, Daniel Stone <daniels@collabora.com>
+References: <20230811171953.176431-1-helen.koike@collabora.com>
+ <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
+ <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
+ <87bkeo23vs.fsf@intel.com>
+ <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
+ <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
+ <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
+ <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
+ <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
+ <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
+ <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+Content-Language: en-CA
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-MBO-RS-META: ehasp3x5p4ksus1eoywnq1ujg96e9qzj
+X-MBO-RS-ID: 28267585246936505e8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: emma@anholt.net, linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
+ dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io, jbrunet@baylibre.com,
+ robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
+ sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
+ linux-rockchip@lists.infradead.org, martin.blumenstingl@googlemail.com,
+ robclark@freedesktop.org, Helen Koike <helen.koike@collabora.com>,
+ anholt@google.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the compatible because there are different definitions for cmdq
-register bit control in mt8188.
+On 9/11/23 11:34, Maxime Ripard wrote:
+> On Thu, Sep 07, 2023 at 01:40:02PM +0200, Daniel Stone wrote:
+>> Yeah, this is what our experience with Mesa (in particular) has taught us.
+>>
+>> Having 100% of the tests pass 100% of the time on 100% of the platforms is a
+>> great goal that everyone should aim for. But it will also never happen.
+>>
+>> Firstly, we're just not there yet today. Every single GPU-side DRM driver
+>> has userspace-triggerable faults which cause occasional errors in GL/Vulkan
+>> tests. Every single one. We deal with these in Mesa by retrying; if we
+>> didn't retry, across the breadth of hardware we test, I'd expect 99% of
+>> should-succeed merges to fail because of these intermittent bugs in the DRM
+>> drivers.
+> 
+> So the plan is only to ever test rendering devices? It should have been
+> made clearer then.
+> 
+>> We don't have the same figure for KMS - because we don't test it - but
+>> I'd be willing to bet no driver is 100% if you run tests often enough.
+> 
+> And I would still consider that a bug that we ought to fix, and
+> certainly not something we should sweep under the rug. If half the tests
+> are not running on a driver, then fine, they aren't. I'm not really
+> against having failing tests, I'm against not flagging unreliable tests
+> on a given hardware as failing tests.
 
-Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-Changes in v3:
-reorder patch 2/3 and 3/3,
-per suggestion from the previous thread:
-https://lore.kernel.org/lkml/338122485db025f6bfb8be550d426ca11698497c.camel@mediatek.com/
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 ++
- drivers/gpu/drm/mediatek/mtk_dsi.c     | 9 +++++++++
- 2 files changed, 11 insertions(+)
+A flaky test will by definition give a "pass" result at least some of the time, which would be considered a failure by the CI if the test is marked as failing.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 93552d76b6e7..034056d0f741 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -765,6 +765,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8186-dsi",
- 	  .data = (void *)MTK_DSI },
-+	{ .compatible = "mediatek,mt8188-dsi",
-+	  .data = (void *)MTK_DSI },
- 	{ }
- };
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 623aa829ef6b..49bfc1dd11ae 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -1212,6 +1212,13 @@ static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
- 	.has_size_ctl = true,
- };
- 
-+static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
-+	.reg_cmdq_off = 0xd00,
-+	.has_shadow_ctl = true,
-+	.has_size_ctl = true,
-+	.cmdq_long_packet_ctl = true,
-+};
-+
- static const struct of_device_id mtk_dsi_of_match[] = {
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = &mt2701_dsi_driver_data },
-@@ -1221,6 +1228,8 @@ static const struct of_device_id mtk_dsi_of_match[] = {
- 	  .data = &mt8183_dsi_driver_data },
- 	{ .compatible = "mediatek,mt8186-dsi",
- 	  .data = &mt8186_dsi_driver_data },
-+	{ .compatible = "mediatek,mt8188-dsi",
-+	  .data = &mt8188_dsi_driver_data },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
+
+>> Secondly, we will never be there. If we could pause for five years and sit
+>> down making all the current usecases for all the current hardware on the
+>> current kernel run perfectly, we'd probably get there. But we can't: there's
+>> new hardware, new userspace, and hundreds of new kernel trees.
+> 
+> Not with that attitude :)
+
+Attitude is not the issue, the complexity of the multiple systems involved is.
+
+
+> I'm not sure it's actually an argument, really. 10 years ago, we would
+> never have been at "every GPU on the market has an open-source driver"
+> here. 5 years ago, we would never have been at this-series-here. That
+> didn't stop anyone making progress, everyone involved in that thread
+> included.
+
+Even assuming perfection is achievable at all (which is very doubtful, given the experience from the last few years of CI in Mesa and other projects), if you demand perfection before even taking the first step, it will never get off the ground.
+
+
+> How are we even supposed to detect those failures in the first
+> place if tests are flagged as unreliable?
+
+Based on experience with Mesa, only a relatively small minority of tests should need to be marked as flaky / not run at all. The majority of tests are reliable and can catch regressions even while some tests are not yet.
+
+
+> No matter what we do here, what you describe will always happen. Like,
+> if we do flag those tests as unreliable, what exactly prevents another
+> issue to come on top undetected, and what will happen when we re-enable
+> testing?
+
+Any issues affecting a test will need to be fixed before (re-)enabling the test for CI.
+
+
+> On top of that, you kind of hinted at that yourself, but what set of
+> tests will pass is a property linked to a single commit. Having that
+> list within the kernel already alters that: you'll need to merge a new
+> branch, add a bunch of fixes and then change the test list state. You
+> won't have the same tree you originally tested (and defined the test
+> state list for).
+
+Ideally, the test state lists should be changed in the same commits which affect the test results. It'll probably take a while yet to get there for the kernel.
+
+> It might or might not be an issue for Linus' release, but I can
+> definitely see the trouble already for stable releases where fixes will
+> be backported, but the test state list certainly won't be updated.
+
+If the stable branch maintainers want to take advantage of CI for the stable branches, they may need to hunt for corresponding state list commits sometimes. They'll need to take that into account for their decision.
+
+
+>> By keeping those sets of expectations, we've been able to keep Mesa pretty
+>> clear of regressions, whilst having a very clear set of things that should
+>> be fixed to point to. It would be great if those set of things were zero,
+>> but it just isn't. Having that is far better than the two alternatives:
+>> either not testing at all (obviously bad), or having the test always be red
+>> so it's always ignored (might as well just not test).
+> 
+> Isn't that what happens with flaky tests anyway?
+
+For a small minority of tests. Daniel was referring to whole test suites.
+
+> Even more so since we have 0 context when updating that list.
+
+The commit log can provide whatever context is needed.
+
+
+> I've asked a couple of times, I'll ask again. In that other series, on
+> the MT8173, kms_hdmi_inject@inject-4k is setup as flaky (which is a KMS
+> test btw).
+> 
+> I'm a maintainer for that part of the kernel, I'd like to look into it,
+> because it's seriously something that shouldn't fail, ever, the hardware
+> isn't involved.
+> 
+> How can I figure out now (or worse, let's say in a year) how to
+> reproduce it? What kernel version was affected? With what board? After
+> how many occurences?
+> 
+> Basically, how can I see that the bug is indeed there (or got fixed
+> since), and how to start fixing it?
+
+Many of those things should be documented in the commit log of the state list change.
+
+How the CI works in general should be documented in some appropriate place in tree.
+
+
 -- 
-2.40.1
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
