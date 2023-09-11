@@ -2,71 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2427A79AA0A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCB979AA11
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3164E10E329;
-	Mon, 11 Sep 2023 16:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA16010E32D;
+	Mon, 11 Sep 2023 16:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B110310E329
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 16:12:19 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id
- 6a1803df08f44-655d1cf74faso18584956d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1694448739; x=1695053539;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=2Fm3Bafxaxq7OSAQ9sLz+uyVn20YSYfcySqL/LZ4QTY=;
- b=woXz2SVStmHVPXTifOS0OmKKQzYjfox9SzJWkVd8LU41krDzG71TBo90t1YdA73+fb
- NQg6oWnlHlALV0HYNT15q+2/U3GxrxQkeo6k3f0A1IBTtbkwxjAG2OeuEJKVyvDbg1RV
- W657zo73MU5+8fuTfO8JfaUiEZTlFvKQsmiMsRFzh/BbsW/oaWraixLmbXRg394533n6
- WQa5hWRXi2dCWkKH+Rmn0UavfPmwLclmhSF0sLF71Ongn54VYoxPDn3HXbwQ9FYWP0Tj
- HAJVjazLsmsPFRoden9TKbYISrXuM0Spbz1uy0oAOSMR0GFCvYadRKOjCa+TDTsgD1FF
- beBg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B93210E32E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 16:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694449024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lAgyEv8v84Vh6tDzXDpI5U6AfJ7ln7UC0vFeWtEv4VA=;
+ b=Nfrrl7TSV65QbkdpkuKPQUVb+iYCjpLCKeG3Zo0J6u9pMV6Nr75+vAJD9iaO0bCHxmJALU
+ vmvO79p9bGFRb+Dg3EVsiHUG/4q+JjVgyjY5vtlDxg8tRy4AUoqGHdbv4YCX+AISSag25B
+ 9DoEW0PJJOh44YmLVon053oxiHEBYks=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-297-IwjRaDNsNdW7E5oFfxVHGw-1; Mon, 11 Sep 2023 12:17:02 -0400
+X-MC-Unique: IwjRaDNsNdW7E5oFfxVHGw-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-502aafb8ae7so2175346e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694448739; x=1695053539;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2Fm3Bafxaxq7OSAQ9sLz+uyVn20YSYfcySqL/LZ4QTY=;
- b=VcWT6ldZJR4ACucpatazY7RCbc6HuqQYIMXZLWrDNaXCK4XmYUraK8KSDFWB7B8BYQ
- +etRToY2fF25zzQOnm6hijo0AbN1KoKoFs4RA5+ueJ23Tj3yMk6RYawjdgZ5b9LwY6iz
- hP5mTGD5mo61GgiyUsQPtcbAbzdH8nzQGlAx3JaCru1uUhsiq3GrraXPdfPEV/U440UD
- NyAvtU4oRJPnHrlROJf57kulc2SRE/p1F97E0fIJzxtNEgD9qBVxnnSYbusLz5en0yKj
- 4YHtfQynFXVxDW+P31flj1Cv28S+IBqhgcJblsGhFP75Zf/61JIS7W8snfoOKK1DqJRc
- Owkg==
-X-Gm-Message-State: AOJu0YyH1IGd7xBIqwbJepO/rv+/V6jXZpsQFJNy3dONdtj/UpqZkSrv
- YhevxW8DJ1SGd7Y1ZCzRnkBg8A==
-X-Google-Smtp-Source: AGHT+IHfJzEj3YN+IDLa6c5OoOh5gMCnU53CNkVDYUfVOD27Y4SNqPHEBMqIhlGup6+WHXcBbS4pwQ==
-X-Received: by 2002:a05:6214:12da:b0:64f:43b9:fe4c with SMTP id
- s26-20020a05621412da00b0064f43b9fe4cmr10140146qvv.47.1694448738736; 
- Mon, 11 Sep 2023 09:12:18 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+ d=1e100.net; s=20230601; t=1694449021; x=1695053821;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lAgyEv8v84Vh6tDzXDpI5U6AfJ7ln7UC0vFeWtEv4VA=;
+ b=prr4nh4t9MSkG5HDCHOAphMIG8rfa0Y0CohDiw6gPt2hV3cdLlQ8MJtcfNo4WVTlYx
+ ZpnQQ8wWEpJyYvmq8jbtWLmADu7WC27bHa3OU0WFw1svOmUONDYyYoOg7XOg5ZzAuw8a
+ Jg1cmSTNkygitEbW1RtMLbWet3u6Ex0vQ/D27KfTmAJzV/RkEQcJlX/CwNWoLSZ/+kSy
+ fXq3ykJoz+re33YEldhrKqH3LkmDOdREABnz/fjfhvPkzvORNfw8uYeSurpCZFn2ERXP
+ jtkLXtPCDlzDdCojuSuqWvrJDhs1O9ymxuZNozRNpNzsoQb9YR25z/YaLn6vM7HfmmLH
+ tjiA==
+X-Gm-Message-State: AOJu0Yzt3Kffs+BZXssfLSEyhcUPdfRvdW1Nlf1tVi50w7enNf02zpDx
+ pZe2IGLHERp099dhn6f3mlBEADJX9FdARAvS4EibF2WOdNoR9iMkLvCmQlhzh1kX5dASmtPo4ui
+ mRX3gjc5mKy/q9k601Gr4Y8dWJ834
+X-Received: by 2002:a05:6512:ad3:b0:4fb:745e:dd01 with SMTP id
+ n19-20020a0565120ad300b004fb745edd01mr8799043lfu.45.1694449021281; 
+ Mon, 11 Sep 2023 09:17:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFT/b800+k5rxjo807GRz9nrW77AzB8A8eqobtwbZiaP3UyedgpDYvLTqnvwcN3x2j75AAdQ==
+X-Received: by 2002:a05:6512:ad3:b0:4fb:745e:dd01 with SMTP id
+ n19-20020a0565120ad300b004fb745edd01mr8799026lfu.45.1694449020980; 
+ Mon, 11 Sep 2023 09:17:00 -0700 (PDT)
+Received: from cassiopeiae ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- e12-20020a0ce3cc000000b0063d30c10f1esm3038666qvl.70.2023.09.11.09.12.17
+ bm5-20020a0564020b0500b0052e7e1931e2sm4801801edb.57.2023.09.11.09.17.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Sep 2023 09:12:18 -0700 (PDT)
-Message-ID: <827b859e3ff8176ef0b18c29bc17481b4105e368.camel@ndufresne.ca>
-Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel
- drivers can allocate dmabufs from specific heaps
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, Matthias
- Brugger <matthias.bgg@gmail.com>
-Date: Mon, 11 Sep 2023 12:12:17 -0400
-In-Reply-To: <20230911023038.30649-4-yong.wu@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-4-yong.wu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+ Mon, 11 Sep 2023 09:17:00 -0700 (PDT)
+Date: Mon, 11 Sep 2023 18:16:58 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH drm-misc-next v3 4/7] drm/gpuvm: common dma-resv per
+ struct drm_gpuvm
+Message-ID: <ZP89eqnqPdvlDoZg@cassiopeiae>
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-5-dakr@redhat.com>
+ <20230911140035.06159577@collabora.com>
 MIME-Version: 1.0
+In-Reply-To: <20230911140035.06159577@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,227 +84,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, jianjiao.zeng@mediatek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Sep 11, 2023 at 02:00:35PM +0200, Boris Brezillon wrote:
+> On Sat,  9 Sep 2023 17:31:11 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+> > @@ -240,9 +240,22 @@ struct drm_gpuvm {
+> >  	 * @ops: &drm_gpuvm_ops providing the split/merge steps to drivers
+> >  	 */
+> >  	const struct drm_gpuvm_ops *ops;
+> > +
+> > +	/**
+> > +	 * @d_obj: Dummy GEM object; used internally to pass the GPU VMs
+> > +	 * dma-resv to &drm_exec.
+> > +	 */
+> > +	struct drm_gem_object d_obj;
+> > +
+> > +	/**
+> > +	 * @resv: the &dma_resv for &drm_gem_objects mapped in this GPU VA
+> > +	 * space
+> > +	 */
+> > +	struct dma_resv *resv;
+> 
+> Hm, I'd be tempted to drop this field and add a drm_gpuvm_resv() helper
+> returning vm->d_obj.resv;
 
-Le lundi 11 septembre 2023 =C3=A0 10:30 +0800, Yong Wu a =C3=A9crit=C2=A0:
-> From: John Stultz <jstultz@google.com>
->=20
-> This allows drivers who don't want to create their own
-> DMA-BUF exporter to be able to allocate DMA-BUFs directly
-> from existing DMA-BUF Heaps.
->=20
-> There is some concern that the premise of DMA-BUF heaps is
-> that userland knows better about what type of heap memory
-> is needed for a pipeline, so it would likely be best for
-> drivers to import and fill DMA-BUFs allocated by userland
-> instead of allocating one themselves, but this is still
-> up for debate.
+Makes sense, will do that for V4.
 
-
-Would be nice for the reviewers to provide the information about the user o=
-f
-this new in-kernel API. I noticed it because I was CCed, but strangely it d=
-idn't
-make it to the mailing list yet and its not clear in the cover what this is=
- used
-with.=20
-
-I can explain in my words though, my read is that this is used to allocate =
-both
-user visible and driver internal memory segments in MTK VCODEC driver.
-
-I'm somewhat concerned that DMABuf objects are used to abstract secure memo=
-ry
-allocation from tee. For framebuffers that are going to be exported and sha=
-red
-its probably fair use, but it seems that internal shared memory and codec
-specific reference buffers also endup with a dmabuf fd (often called a secu=
-re fd
-in the v4l2 patchset) for data that is not being shared, and requires a 1:1
-mapping to a tee handle anyway. Is that the design we'd like to follow ? Ca=
-n't
-we directly allocate from the tee, adding needed helper to make this as sim=
-ple
-as allocating from a HEAP ?
-
-Nicolas
-
->=20
-> Signed-off-by: John Stultz <jstultz@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> [Yong: Fix the checkpatch alignment warning]
-> ---
->  drivers/dma-buf/dma-heap.c | 60 ++++++++++++++++++++++++++++----------
->  include/linux/dma-heap.h   | 25 ++++++++++++++++
->  2 files changed, 69 insertions(+), 16 deletions(-)
->=20
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index dcc0e38c61fa..908bb30dc864 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -53,12 +53,15 @@ static dev_t dma_heap_devt;
->  static struct class *dma_heap_class;
->  static DEFINE_XARRAY_ALLOC(dma_heap_minors);
-> =20
-> -static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> -				 unsigned int fd_flags,
-> -				 unsigned int heap_flags)
-> +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> +				      unsigned int fd_flags,
-> +				      unsigned int heap_flags)
->  {
-> -	struct dma_buf *dmabuf;
-> -	int fd;
-> +	if (fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> +		return ERR_PTR(-EINVAL);
-> =20
->  	/*
->  	 * Allocations from all heaps have to begin
-> @@ -66,9 +69,20 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap=
-, size_t len,
->  	 */
->  	len =3D PAGE_ALIGN(len);
->  	if (!len)
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
-> =20
-> -	dmabuf =3D heap->ops->allocate(heap, len, fd_flags, heap_flags);
-> +	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_heap_buffer_alloc);
-> +
-> +static int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
-> +				   unsigned int fd_flags,
-> +				   unsigned int heap_flags)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	int fd;
-> +
-> +	dmabuf =3D dma_heap_buffer_alloc(heap, len, fd_flags, heap_flags);
->  	if (IS_ERR(dmabuf))
->  		return PTR_ERR(dmabuf);
-> =20
-> @@ -106,15 +120,9 @@ static long dma_heap_ioctl_allocate(struct file *fil=
-e, void *data)
->  	if (heap_allocation->fd)
->  		return -EINVAL;
-> =20
-> -	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
-> -		return -EINVAL;
-> -
-> -	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> -		return -EINVAL;
-> -
-> -	fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
-> -				   heap_allocation->fd_flags,
-> -				   heap_allocation->heap_flags);
-> +	fd =3D dma_heap_bufferfd_alloc(heap, heap_allocation->len,
-> +				     heap_allocation->fd_flags,
-> +				     heap_allocation->heap_flags);
->  	if (fd < 0)
->  		return fd;
-> =20
-> @@ -205,6 +213,7 @@ const char *dma_heap_get_name(struct dma_heap *heap)
->  {
->  	return heap->name;
->  }
-> +EXPORT_SYMBOL_GPL(dma_heap_get_name);
-> =20
->  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_inf=
-o)
->  {
-> @@ -290,6 +299,24 @@ struct dma_heap *dma_heap_add(const struct dma_heap_=
-export_info *exp_info)
->  	kfree(heap);
->  	return err_ret;
->  }
-> +EXPORT_SYMBOL_GPL(dma_heap_add);
-> +
-> +struct dma_heap *dma_heap_find(const char *name)
-> +{
-> +	struct dma_heap *h;
-> +
-> +	mutex_lock(&heap_list_lock);
-> +	list_for_each_entry(h, &heap_list, list) {
-> +		if (!strcmp(h->name, name)) {
-> +			kref_get(&h->refcount);
-> +			mutex_unlock(&heap_list_lock);
-> +			return h;
-> +		}
-> +	}
-> +	mutex_unlock(&heap_list_lock);
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_heap_find);
-> =20
->  static void dma_heap_release(struct kref *ref)
->  {
-> @@ -315,6 +342,7 @@ void dma_heap_put(struct dma_heap *h)
->  	kref_put(&h->refcount, dma_heap_release);
->  	mutex_unlock(&heap_list_lock);
->  }
-> +EXPORT_SYMBOL_GPL(dma_heap_put);
-> =20
->  static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
->  {
-> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> index f3c678892c5c..59e70f6c7a60 100644
-> --- a/include/linux/dma-heap.h
-> +++ b/include/linux/dma-heap.h
-> @@ -64,10 +64,35 @@ const char *dma_heap_get_name(struct dma_heap *heap);
->   */
->  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_inf=
-o);
-> =20
-> +/**
-> + * dma_heap_find - get the heap registered with the specified name
-> + * @name: Name of the DMA-Heap to find
-> + *
-> + * Returns:
-> + * The DMA-Heap with the provided name.
-> + *
-> + * NOTE: DMA-Heaps returned from this function MUST be released using
-> + * dma_heap_put() when the user is done to enable the heap to be unloade=
-d.
-> + */
-> +struct dma_heap *dma_heap_find(const char *name);
-> +
->  /**
->   * dma_heap_put - drops a reference to a dmabuf heap, potentially freein=
-g it
->   * @heap: the heap whose reference count to decrement
->   */
->  void dma_heap_put(struct dma_heap *heap);
-> =20
-> +/**
-> + * dma_heap_buffer_alloc - Allocate dma-buf from a dma_heap
-> + * @heap:	DMA-Heap to allocate from
-> + * @len:	size to allocate in bytes
-> + * @fd_flags:	flags to set on returned dma-buf fd
-> + * @heap_flags: flags to pass to the dma heap
-> + *
-> + * This is for internal dma-buf allocations only. Free returned buffers =
-with dma_buf_put().
-> + */
-> +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> +				      unsigned int fd_flags,
-> +				      unsigned int heap_flags);
-> +
->  #endif /* _DMA_HEAPS_H */
+> 
+> >  };
+> 
 
