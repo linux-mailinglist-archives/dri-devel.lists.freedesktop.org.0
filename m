@@ -2,51 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C6C79A984
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9998679A988
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EA810E051;
-	Mon, 11 Sep 2023 15:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D27810E31B;
+	Mon, 11 Sep 2023 15:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939B510E051
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=MeQY0pI6Zdhk2aGEY5C7WS4yXEnfwTtX1HkrUhW3Hg0=; b=XbE3TYgW+q3blziN3ZcPDUnJRd
- nbEAZVj0pfUkdV4I3Yf6kvA9JDQvvSP9jDtNAegWVJe/dWQESfYn3bO94ny2na0usCfgqvSMwVRWA
- RzaAQKpGP27xwmG2D0GQWejHDqjygn16Zd3ic9BNAznKEjqDXpO91FdTEHNe8iX4vQJJmSjXDoKbZ
- 11d2jBsm9akr6xvVkBasApmU4Cir5WpgusgedNHEioSD8VY+EQ2+1Krq3AU8WRdWRKzLG4q9ziKmu
- buAeB1wzSkd4tzTyIfIhClj7TYzGdJuHZ23sABndE4vNQl6LtjYlcC1vrSWZSdXzmh/1jMEI19R5i
- /57sASgg==;
-Received: from [2601:1c2:980:9ec0::9fed]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qfien-000rEs-0s; Mon, 11 Sep 2023 15:16:57 +0000
-Message-ID: <e8114d08-724d-d3f8-96a8-9872bf947f3c@infradead.org>
-Date: Mon, 11 Sep 2023 08:16:53 -0700
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86C710E31B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:19:11 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38BBTCvp001692; Mon, 11 Sep 2023 15:19:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=G2JS6CnYhoh3L/C7yzTN0txsaAvPT202aFX5fc0va5s=;
+ b=ImEEkTXwlGbs/poVFhooqvK7m3trW6Hvxsvk5aafGZN0Ow+Eb9klq+ec+B2PSSEeoIUK
+ VcVSCQhZaJazGDZ7EWTQzOa9gaHTtVA7f0F4cRv3FgS+nj+0V1l2tGR8GuTOp/7uNY/I
+ mPt7YNpHHqr8eueT+zAbQvEUCtq2uuA4wkEVqlw/eW4bGpA+0VMWvQWxE5eZ3mFcQO+S
+ ryZ2HNqNurYeBSHOfno3FlO92XL2EVVRxF633Gn3yFBGUS2NxUkrsg9lkQwBiQkRuQji
+ QTW9dwKfOFR5pz64u8dCgEvpJMLxJuJJYlOk38GqdSzj7KGQSJSUEQ6/9k1/9OAhQMpB jg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t20yy0ky0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Sep 2023 15:19:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BFJ4U7006589
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Sep 2023 15:19:04 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
+ 2023 08:19:04 -0700
+Message-ID: <62e3769d-b747-9258-c330-97c034ea52ec@quicinc.com>
+Date: Mon, 11 Sep 2023 09:19:03 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: (subset) [PATCH v2] drm/connector: document
- DRM_MODE_COLORIMETRY_COUNT
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC 1/4] accel/ivpu: Allocate vpu_addr in gem->open() callback
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-References: <20230906-topic-drm_connector_doc-v2-1-1f2dcaa43269@gmail.com>
- <169409716450.2201230.1132363284756871897.b4-ty@kernel.org>
- <87il8hf1p5.fsf@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87il8hf1p5.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230901164842.178654-1-stanislaw.gruszka@linux.intel.com>
+ <20230901164842.178654-2-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230901164842.178654-2-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: mV99KdurXRQtgOJ2cSreX8wttOlHHdYN
+X-Proofpoint-GUID: mV99KdurXRQtgOJ2cSreX8wttOlHHdYN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_10,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=822 bulkscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309110140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +84,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/11/23 03:23, Jani Nikula wrote:
-> On Thu, 07 Sep 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> On Wed, 06 Sep 2023 22:47:38 +0200, Javier Carrasco wrote:
->>> The drm_colorspace enum member DRM_MODE_COLORIMETRY_COUNT has been
->>> properly documented by moving the description out of the enum to the
->>> member description list to get rid of an additional warning and improve
->>> documentation clarity.
->>>
->>>
->>
->> Applied to drm/drm-misc (drm-misc-next).
+On 9/1/2023 10:48 AM, Stanislaw Gruszka wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 > 
-> After the fact, but adding /* private: */ would've been an alternative
-> approach. I think support for that for enums should be there.
+> gem->open() is called during handle creation for a gem object.
+> It is called during prime import and in BO_CREATE ioctl.
 
-Yes, that was the first patch that I sent....
-but nobody picked it up.
-
-> 
-> Anyway, just for future reference, the merged patch is fine.
-> 
-> BR,
-> Jani.
-> 
->>
->> Thanks!
->> Maxime
-
-
--- 
-~Randy
+I feel like the "why" is missing.  This appears to start to explain how 
+gem->open() might be useful for the driver, but does not seem to 
+complete explaining the connection to the driver.  From the code 
+changes, it looks like using gem->open() simplifies the code by 
+allocating the vpu_addr in one place for all BOs.  If that is the goal, 
+I feel that it should be mentioned here.
