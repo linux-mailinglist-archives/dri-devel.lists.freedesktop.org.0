@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399E079A88F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 16:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B344E79A891
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 16:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE2E10E012;
-	Mon, 11 Sep 2023 14:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881AA10E1BF;
+	Mon, 11 Sep 2023 14:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C5210E012
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 14:22:34 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2723F10E1B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 14:22:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D223161004;
- Mon, 11 Sep 2023 14:22:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B417FC433C8;
- Mon, 11 Sep 2023 14:22:32 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 3B117CE14EA;
+ Mon, 11 Sep 2023 14:22:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C16C433C8;
+ Mon, 11 Sep 2023 14:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694442153;
- bh=I/6l7skrUhzfErj6wesPCWCRf2Lt9L3fFo0Fe6Aqfpw=;
+ s=korg; t=1694442156;
+ bh=+py5Vam5iIoaXrhCXhP4F3kzcv1gcAYYQO/ovQQ/Cvk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=icwXPAyXtT6qEGxGMlqnf1yax8eRIiP3MBkXsRxiN4IGvPnAnLCG6rLof+jF8mTuE
- ezB3Y0BvKo7g9/nU8jLv1OiQk8c5WSvIMCWh+ox9B95FReYTjorpyFjBoyRQ9hz/Zt
- pGBLefHCkEI2GoPAEcEzPu0vSxy96eTsgdrQaNJA=
+ b=PG3mypI0bZPzImteirF3FTa7ZMmqlEf/ax3yFRTGzk4Y7ODjWHiTdnaklZ66G5BVv
+ 24fGV0Jq2ea9IPsjL+2ky1pgmL2CypLRckDGu0b0BBQHYFwHPqqIMiuWRRcYYtjN71
+ IMCaVf6goy2hi5Pvg6pqPvxmwNjDBzHcsJQh/AYc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.5 664/739] backlight/gpio_backlight: Compare against struct
+Subject: [PATCH 6.5 665/739] backlight/bd6107: Compare against struct
  fb_info.device
-Date: Mon, 11 Sep 2023 15:47:43 +0200
-Message-ID: <20230911134709.653541686@linuxfoundation.org>
+Date: Mon, 11 Sep 2023 15:47:44 +0200
+Message-ID: <20230911134709.681800437@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230911134650.921299741@linuxfoundation.org>
 References: <20230911134650.921299741@linuxfoundation.org>
@@ -56,11 +56,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-sh@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>,
  patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Rich Felker <dalias@libc.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -71,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 7b91d017f77c1bda56f27c2f4bbb70de7c6eca08 upstream.
+commit 992bdddaabfba19bdc77c1c7a4977b2aa41ec891 upstream.
 
-Struct gpio_backlight_platform_data refers to a platform device within
-the Linux device hierarchy. The test in gpio_backlight_check_fb()
+Struct bd6107_platform_data refers to a platform device within
+the Linux device hierarchy. The test in bd6107_backlight_check_fb()
 compares it against the fbdev device in struct fb_info.dev, which
 is different. Fix the test by comparing to struct fb_info.device.
 
@@ -84,35 +83,33 @@ struct fb_info.dev optional.
 v2:
 	* move renames into separate patch (Javier, Sam, Michael)
 
+Fixes: 67b43e590415 ("backlight: Add ROHM BD6107 backlight driver")
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 8b770e3c9824 ("backlight: Add GPIO-based backlight driver")
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Cc: Lee Jones <lee@kernel.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-sh@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v3.12+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-4-tzimmermann@suse.de
+Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-2-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/video/backlight/gpio_backlight.c |    2 +-
+ drivers/video/backlight/bd6107.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struc
+--- a/drivers/video/backlight/bd6107.c
++++ b/drivers/video/backlight/bd6107.c
+@@ -104,7 +104,7 @@ static int bd6107_backlight_check_fb(str
  {
- 	struct gpio_backlight *gbl = bl_get_data(bl);
+ 	struct bd6107 *bd = bl_get_data(backlight);
  
--	return gbl->fbdev == NULL || gbl->fbdev == info->dev;
-+	return gbl->fbdev == NULL || gbl->fbdev == info->device;
+-	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->dev;
++	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->device;
  }
  
- static const struct backlight_ops gpio_backlight_ops = {
+ static const struct backlight_ops bd6107_backlight_ops = {
 
 
