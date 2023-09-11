@@ -1,79 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F280B79AC16
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:04:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1D579AC1C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5BC110E061;
-	Mon, 11 Sep 2023 23:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F27A010E1CA;
+	Mon, 11 Sep 2023 23:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF5110E061;
- Mon, 11 Sep 2023 23:04:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38BMwgZ4027417; Mon, 11 Sep 2023 23:04:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=SL+PX+GUlXyxgl8CZRRmJ0sxnbf7mz0XyBv1R+MTnF0=;
- b=dn1Hkyrsf5BGYNi0mwqJg7dJ8r5czmIXkFJkDBIPui0NLi+vJiytijfatADu5/00tkVA
- 5UZ374/K6kAb/odXfgCTlPRNA6LfAlD5T+4voXX2Y1C/3pr8Xs6yJ8MvQXEtigIzJQzD
- lZKMIr6UuAIpr8Kz0zaaWFwuTfJ1lwAShq2SMqTUzKzEQJnoO4EG3vyJAQa7liVy0uMA
- KEh2PuRKLTQcEYUl8g3AueXEigfUcPE0hx7U37YBaVmAB19ncbk+a48jcOPgdQVTvdY5
- Sr1mRkM6Ph3o/Fqa43J6QuhG00Ljiqm8rl09QWiwsWOn7TzrYOYIo0tvelQV7AyaN9rD fw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t20yy1mdc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 23:04:48 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BN4lO0018517
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 23:04:47 GMT
-Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 16:04:44 -0700
-Message-ID: <522d2df9-da55-1468-e56b-8117c3d43fd9@quicinc.com>
-Date: Mon, 11 Sep 2023 16:04:42 -0700
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C306210E1C7;
+ Mon, 11 Sep 2023 23:08:26 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id
+ ca18e2360f4ac-7926b7f8636so122840539f.1; 
+ Mon, 11 Sep 2023 16:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1694473706; x=1695078506; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4QPvsUCuesDbdqzdhDuBEQMp4BSGGOAe53BRO5DTLhU=;
+ b=Fo8RcEfpUEb7txFLa63858RK7NwICncC34p6F7RnL56x33h734DhOMHuZ/VGjXSMeY
+ 0B59mUdiAUmzr2yJ0zCFIpx2JQYNBC0Q+l1vrKCXXC8XqPUcRr30QsWfzQ9wO4h5zUM+
+ J+4DpveO256grlAeO3X7ivu7wXPlHSQLoKtj+UmXSroLDOF949JH8uMI1GG9P8j5L+92
+ xAvxZAL1l77Yk6s8iDXT5RxxdQBDv/AFPG1+YRx4+Q/iEhCahaITPUMlYFxVzJX6CRM7
+ Qalxsd8DyICfE8Ck/LdygCW2ciVGOLJESZsNxoHB2nIP4ahC8DNQRBLzy90EbvK9S6ay
+ cqgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694473706; x=1695078506;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4QPvsUCuesDbdqzdhDuBEQMp4BSGGOAe53BRO5DTLhU=;
+ b=A/HAAbL82pSE2n1tYfVaY6NGD5OGEpD5xHmFp02aL+kj2ASMcqwmBR1R8u4gs2body
+ oHXtijqvW8XViFX8WnshK90xaxAAyBcCd2kIMuQ44RVDWrfHzzVzt0RZ9gy6UZvftRZq
+ m/wXzunzaaWtGMF/AWGzA+8UlyY48buMkWBj2MXiT3B8aYnEVbY9kFrq1HPrXK/VlLJv
+ kDbZRH8fyT9XM+Nsd1CgZVGPy4M5EAnkup2PF1y1pWxrB3sX4PvPVYc+3q7SKZ0w0e+P
+ F33dBFXlKR9NSfxsjS8cWHrsjmvrrKWfM9iSxephCfuvEYnwNXDkW+NW/fFfODcd7QvH
+ CrKw==
+X-Gm-Message-State: AOJu0YyfaXSUq8ni4yOgg9/WvD/GnkdMuQeLfk8VvkVG45pbbFlf5sUV
+ VahdDROMVpzcajLrzBzeXy4=
+X-Google-Smtp-Source: AGHT+IG7bYicJCrmUYKVqmd3OJOt+rHV8pZgZGqdIESBV9//RY1GB+4nospOwL2Y8hO5uFJ5BARkiQ==
+X-Received: by 2002:a05:6602:2e89:b0:792:8c29:7b with SMTP id
+ m9-20020a0566022e8900b007928c29007bmr1041872iow.10.1694473705771; 
+ Mon, 11 Sep 2023 16:08:25 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ u1-20020a02c041000000b0042b1061c6a8sm2518671jam.84.2023.09.11.16.08.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Sep 2023 16:08:25 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
+ daniel.vetter@ffwll.ch
+Subject: [PATCH v6 00/22] fix DRM_USE_DYNAMIC_DEBUG regression
+Date: Mon, 11 Sep 2023 17:07:55 -0600
+Message-ID: <20230911230817.14402-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 3/9] drm/msm/dpu: Drop unused qseed_type from catalog
- dpu_caps
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230911214521.787453-1-dmitry.baryshkov@linaro.org>
- <20230911214521.787453-4-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230911214521.787453-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: VNrV667iYi9g5dSJzWSTFD4T6cVowT_c
-X-Proofpoint-GUID: VNrV667iYi9g5dSJzWSTFD4T6cVowT_c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_19,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- mlxscore=0 mlxlogscore=981 bulkscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309110212
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +71,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-doc@vger.kernel.org, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series fixes the regression in DRM_USE_DYNAMIC_DEBUG=y
+
+blame analysis: (all mine)
+
+1. my early test scripts did a lot of 'modprobe $m $*',
+   with dyndbg=.. and debug=.. args
+   this obscured the lack of drm.debug -> drivers propagation
+
+2. I broke K&R rule: "define once, refer many times".
+   the classmaps DECLAREd by the drivers would run on args in 1
+
+The thinko beneath that was imitating the "static struct" in the
+definition of DEFINE_DYNAMIC_DEBUG_METADATA.  Imitating __drm_debug
+export instead broke the mental logjam.
+
+So the patchset splits DECLARE_DYNDBG_CLASSMAP duty in 2: with
+DYNDBG_CLASSMAP_DEFINE/_USE, where _DEFINE exports the classmap, so
+_USE can reference it.  The _USEs are added into a new section:
+__dyndbg_class_users.
+
+ddebug_add_module() now also scans class_users at modprobe time,
+whence it finds the kernel-param that refs the classmap, and applies
+its initialized state to the user/driver.
+
+test-dynamic-debug is extended with a _submod, allowing it to
+recapitulate the drm.ddebug -/-> drivers failure scenario.
 
 
-On 9/11/2023 2:45 PM, Dmitry Baryshkov wrote:
-> From: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> The SSPP scaler subblk is responsible for reporting its version (via the
-> .id field, feature bits on the parent SSPP block, and since recently
-> also from reading a register to supersede a read-but-unset version field
-> in the catalog), leaving this global qseed_type field logically unused.
-> Remove this dead code to lighten the catalog and bringup-overhead.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           | 2 --
->   15 files changed, 16 deletions(-)
-> 
+NOTE: patch-14 does the DECLARE -> _DEFINE/_USE, so it also changes
+DRM to follow the API change.  That makes it buildable, but crosses 2
+trees, which isn't so great.  But since the feature is marked BROKEN
+at this point, perhaps I should have split them.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Finally 3 DRM patches: drops BROKEN on DRM_USE_DYNAMIC_DEBUG, fixes
+drm/Makefile, and wires a bunch more drivers to _USE DRM's
+drm_debug_classmap.
+
+You can bang at the test module with:
+#!/bin/bash
+
+ddcmd () {
+    echo $* > /proc/dynamic_debug/control
+}
+vx () {
+    echo $1 > /sys/module/dynamic_debug/parameters/verbose
+}
+ddgrep () {
+    grep $1 /proc/dynamic_debug/control
+}
+doprints () {
+    cat   /sys/module/test_dynamic_debug/parameters/do_prints
+}
+
+note () {
+    echo NOTE: $* >&2
+    $*
+}
+ddparms () {
+    note ls -l /sys/module/test_dynamic_debug/parameters/
+    note cat   /sys/module/test_dynamic_debug/parameters/*
+}
+up () {
+    modprobe drm debug=0x03 debug_trace=0x1ff
+}
+dn () {
+    rmmod drm
+}
+ddtraceon () {
+    echo 1 > /sys/kernel/tracing/tracing_on
+    echo 1 > /sys/kernel/tracing/events/dyndbg/enable
+}
+
+# replay drm.debug dependent-module scenario
+submod () {
+    echo  MP test_dynamic_debug $1 $2 dyndbg=+pm $3 $4
+
+    # extra complexity to avoid passing param=s since theyre explicit inits
+    if [[ -z $1 ]] ; then
+	modprobe test_dynamic_debug dyndbg=+pm
+    elif [[ -z $2 ]] ; then
+	modprobe test_dynamic_debug dyndbg=+pm \
+		 p_disjoint_bits=${1:-0}
+    elif [[ -z $3 ]] ; then
+	# force 3,4 off, undoing DEBUG - declutter
+	modprobe test_dynamic_debug dyndbg=+pm \
+		 p_disjoint_bits=${1:-0} p_level_num=${2:-0}
+		 # p_disjoint_names=${3:-MID,-LOW,-HI} p_level_names=${4:-L3}
+    elif [[ -z $4 ]] ; then
+	modprobe test_dynamic_debug dyndbg=+pm \
+		 p_disjoint_bits=${1:-0} p_level_num=${2:-0}
+		 # p_disjoint_names=${3:-MID}
+    else
+	modprobe test_dynamic_debug dyndbg=+pm \
+		 p_disjoint_bits=${1:-0} p_level_num=${2:-0}
+		 # p_disjoint_names=${3:-MID} p_level_names=${4:-L3}
+    fi
+    
+    # _submod should pick up kparams
+    echo  MP test_dynamic_debug_submod dyndbg=+pmf
+    modprobe test_dynamic_debug_submod dyndbg=+pmf
+}
+unmod () {
+    rmmod test_dynamic_debug_submod
+    rmmod test_dynamic_debug
+}
+
+# The test:
+submod_test () {
+    unmod
+    submod $*
+    sleep 1
+    
+    note "above submod.s D2_* prdbgs should have printed"
+    note "because they are enabled here:"
+    ddgrep _submod
+
+    echo 1 > /sys/module/test_dynamic_debug/parameters/do_prints
+
+    note submod prdbgs should print here
+    echo 1 > /sys/module/test_dynamic_debug_submod/parameters/do_prints
+}
+
+# old-code: triggered jump-label init panic, fixed by doing
+# dyndbg-init in notifier, after jump-label
+submod_force () {
+    unmod
+    submod $*
+    sleep 1
+    # force all classes off, then on
+    note trigger toggled warning by turning off the supposed enabled prdbgs in submod
+
+    echo 0     > /sys/module/test_dynamic_debug/parameters/disjoint_bits
+    echo 0x2ff > /sys/module/test_dynamic_debug/parameters/disjoint_bits
+
+    note now theyre on
+    doprints
+}
+
+setup () {
+    echo dynbg-verbose-0, clearing kmsg, and running submod_test
+    vx 0
+    dmesg -W &
+    submod_test  7 7
+    ddcmd class V +mfl
+    ddcmd class V2 +tmfsl
+    ddcmd class V3 +mfsl
+    ddcmd class V4 +mfs
+    ddcmd class V5 +mf
+    ddcmd class V6 +m
+    doprints
+}
+
+
+
+Jim Cromie (22):
+  test-dyndbg: fixup CLASSMAP usage error
+  dyndbg: make ddebug_class_param union members same size
+  dyndbg: replace classmap list with a vector
+  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
+  dyndbg: split param_set_dyndbg_classes to module/wrapper fns
+  dyndbg: drop NUM_TYPE_ARRAY
+  dyndbg: reduce verbose/debug clutter
+  dyndbg: silence debugs with no-change updates
+  dyndbg: tighten ddebug_class_name() 1st arg type
+  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
+  dyndbg-API: fix CONFIG_DRM_USE_DYNAMIC_DEBUG regression
+  dyndbg: add for_each_boxed_vector
+  dyndbg: refactor ddebug_classparam_clamp_input
+  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
+  dyndbg-test: build it with just CONFIG_DYNAMIC_DEBUG_CORE
+  dyndbg-doc: add classmap info to howto
+  dyndbg: reserve flag bit _DPRINTK_FLAGS_PREFIX_CACHED
+  dyndbg: add _DPRINTK_FLAGS_INCL_LOOKUP
+  drm: use correct ccflags-y spelling
+  drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+
+ .../admin-guide/dynamic-debug-howto.rst       |  60 ++-
+ MAINTAINERS                                   |   2 +-
+ drivers/gpu/drm/Kconfig                       |   3 +-
+ drivers/gpu/drm/Makefile                      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
+ drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
+ drivers/gpu/drm/drm_print.c                   |  35 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |   2 +
+ drivers/gpu/drm/i915/i915_params.c            |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
+ drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
+ drivers/gpu/drm/udl/udl_main.c                |   2 +
+ drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
+ include/asm-generic/vmlinux.lds.h             |   1 +
+ include/drm/drm_print.h                       |  12 +-
+ include/linux/dynamic_debug.h                 | 122 ++++--
+ kernel/module/main.c                          |   3 +
+ lib/Kconfig.debug                             |  10 +-
+ lib/Makefile                                  |   4 +-
+ lib/dynamic_debug.c                           | 407 +++++++++++-------
+ lib/test_dynamic_debug.c                      | 137 +++---
+ lib/test_dynamic_debug_submod.c               |  17 +
+ 27 files changed, 546 insertions(+), 346 deletions(-)
+ create mode 100644 lib/test_dynamic_debug_submod.c
+
+-- 
+2.41.0
+
