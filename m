@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47B879A777
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D30679A779
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:57:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851FB10E297;
-	Mon, 11 Sep 2023 10:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F0910E29C;
+	Mon, 11 Sep 2023 10:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DD010E297
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:57:27 +0000 (UTC)
-X-UUID: fc34f124509111eea33bb35ae8d461a2-20230911
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D1F10E29C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:57:29 +0000 (UTC)
+X-UUID: fcfa4802509111eea33bb35ae8d461a2-20230911
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=dV1ULk3h2PAC7M9xriUdhpvtpgDPg2AW820hvs34doc=; 
- b=S/GkkHpTzQrm/Exri6GpseQrnSFvi0R37SlaY0qZSlNgQO8dvnRuNV9LH6RBOkD1CHvGnjtM8wCFmwQv4wiSo5uEsLi7c3E3FR3rJW0rSpyo2eDMPzVf/en5fwDLwRDZPAvBvfIn2Bt94SatWI/wLiriedaXnS4167mMnL4x06I=;
+ bh=3aYEs2au1sIKFXZBcjaj2Ss/kCVyM9zSWvnxYGT/igw=; 
+ b=unWFfi+N6g51j1csvBB6qZtpQJH5XXyQgufPo5FcZ2USdZy5e+iojUUUpaSSe1UhseEuL3WqCEcpuY/llh+rdng542ZC2dK4s4aBc2eMIi8PDzHFKKetNfsZhGtE40xxqApm5DeIJgDllIZBMO8yL5f2CeF5JV2dwKDz8MSTSgU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:2882ad8b-3831-4cd0-8c7b-849d9784d546, IP:0,
+X-CID-O-INFO: VERSION:1.1.31, REQID:4f07ae5d-447f-4937-aecc-52137064fcfd, IP:0,
  U
  RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
  :release,TS:-5
-X-CID-META: VersionHash:0ad78a4, CLOUDID:83998fef-9a6e-4c39-b73e-f2bc08ca3dc5,
+X-CID-META: VersionHash:0ad78a4, CLOUDID:0ef1e3c2-1e57-4345-9d31-31ad9818b39f,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
  NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: fc34f124509111eea33bb35ae8d461a2-20230911
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+X-UUID: fcfa4802509111eea33bb35ae8d461a2-20230911
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
  mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2024562942; Mon, 11 Sep 2023 18:57:22 +0800
+ with ESMTP id 1373261044; Mon, 11 Sep 2023 18:57:23 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 11 Sep 2023 18:57:21 +0800
+ 15.2.1118.26; Mon, 11 Sep 2023 18:57:22 +0800
 Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 18:57:21 +0800
+ 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 18:57:22 +0800
 From: Shuijing Li <shuijing.li@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
  <daniel@ffwll.ch>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, 
  <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
  <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
-Subject: [PATCH v3,
- 2/3] drm/mediatek: dsi: Add dsi cmdq_ctl to send panel initial code
-Date: Mon, 11 Sep 2023 18:57:35 +0800
-Message-ID: <20230911105736.11752-3-shuijing.li@mediatek.com>
+Subject: [PATCH v3,3/3] drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
+Date: Mon, 11 Sep 2023 18:57:36 +0800
+Message-ID: <20230911105736.11752-4-shuijing.li@mediatek.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230911105736.11752-1-shuijing.li@mediatek.com>
 References: <20230911105736.11752-1-shuijing.li@mediatek.com>
@@ -60,16 +59,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--6.122000-8.000000
-X-TMASE-MatchedRID: iSQL5szRvdFk2k+SbNFHUlPjo7D4SFg4GK57kZ/2makUtdRZTmEaIXue
- rPMb7lIQzQCEFcQpqph8aEYzFtfkc3Avdl/gU+kWsyNb+yeIRAoRvEpVd3vS1d9RlPzeVuQQVKk
- hiFZhhSiFWYX2TPbDEr1Odlcux5HWHxPMjOKY7A+6vVBUUydJCsRB0bsfrpPIx1FPlNAAmcCS/Q
- 9GtJQAANHVCWPd6c/6iJvyhyuD9BErGewB/EQRgZ6oP1a0mRIj
+X-TM-AS-Result: No-10--7.045300-8.000000
+X-TMASE-MatchedRID: d+baqQ3qUqcRkbqgJpDN9snUT+eskUQP0fwi00MU0DRo5YsPsbyLXdKT
+ OsuIafHqGQdEeHBaW03ijpjet3oGSJCoy9iDotiwFYJUGv4DL3y4vBuE2X0HlRS11FlOYRoheE0
+ 2QNNEBFPi8zVgXoAltsIJ+4gwXrEtIAcCikR3vq9lmGNXrg7z2XJ8NdqlNxRvaL9Jrdm9GpDq3W
+ e3EjLj4igS4psZmMgY
 X-TM-AS-User-Approved-Sender: No
 X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.122000-8.000000
+X-TMASE-Result: 10--7.045300-8.000000
 X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 508B35AC456FF8BF641720E0336AA77CFBCC70327C133A4FEB77B0845E4B15852000:8
+X-TM-SNTS-SMTP: 2B614B0B48E935AB1D18BE3309B26B1232CDD8A01E71A94A9FE28C83E2E971482000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,56 +90,60 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For mt8188, add dsi cmdq reg control to send long packets to panel
-initialization. MT8188 hardware has been changed to automatically
-set the cmdq_size value by default when sending long packets.
-In this patch, the cmdq_size value is set manually instead.
-Remain consistent with previous IC.
+Add the compatible because there are different definitions for cmdq
+register bit control in mt8188.
 
 Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
 ---
 Changes in v3:
-reorder patch 2/3 and 3/3, and describe more about why mt8188 need this
-patch,
+reorder patch 2/3 and 3/3,
 per suggestion from the previous thread:
-https://lore.kernel.org/lkml/411ddbf95e2c2298b84899065691d478069ec273.camel@mediatek.com/
-Changes in v2:
-use mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE_SEL, CMDQ_SIZE_SEL); directly,
-per suggestion from the previous thread:
-https://lore.kernel.org/lkml/015f4c60-ed77-9e1f-8a6b-cda6e4f6ac93@gmail.com/
+https://lore.kernel.org/lkml/338122485db025f6bfb8be550d426ca11698497c.camel@mediatek.com/
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 ++
+ drivers/gpu/drm/mediatek/mtk_dsi.c     | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d8bfc2cce54d..e83705394ada 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -86,6 +86,7 @@
- 
- #define DSI_CMDQ_SIZE		0x60
- #define CMDQ_SIZE			0x3f
-+#define CMDQ_SIZE_SEL		BIT(15)
- 
- #define DSI_HSTX_CKL_WC		0x64
- 
-@@ -178,6 +179,7 @@ struct mtk_dsi_driver_data {
- 	const u32 reg_cmdq_off;
- 	bool has_shadow_ctl;
- 	bool has_size_ctl;
-+	bool cmdq_long_packet_ctl;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 93552d76b6e7..034056d0f741 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -765,6 +765,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
+ 	  .data = (void *)MTK_DSI },
+ 	{ .compatible = "mediatek,mt8186-dsi",
+ 	  .data = (void *)MTK_DSI },
++	{ .compatible = "mediatek,mt8188-dsi",
++	  .data = (void *)MTK_DSI },
+ 	{ }
  };
  
- struct mtk_dsi {
-@@ -996,6 +998,8 @@ static void mtk_dsi_cmdq(struct mtk_dsi *dsi, const struct mipi_dsi_msg *msg)
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index e83705394ada..5596d2399eb9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -1210,6 +1210,13 @@ static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
+ 	.has_size_ctl = true,
+ };
  
- 	mtk_dsi_mask(dsi, reg_cmdq_off, cmdq_mask, reg_val);
- 	mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE, cmdq_size);
-+	if (dsi->driver_data->cmdq_long_packet_ctl)
-+		mtk_dsi_mask(dsi, DSI_CMDQ_SIZE, CMDQ_SIZE_SEL, CMDQ_SIZE_SEL);
- }
- 
- static ssize_t mtk_dsi_host_send_cmd(struct mtk_dsi *dsi,
++static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
++	.reg_cmdq_off = 0xd00,
++	.has_shadow_ctl = true,
++	.has_size_ctl = true,
++	.cmdq_long_packet_ctl = true,
++};
++
+ static const struct of_device_id mtk_dsi_of_match[] = {
+ 	{ .compatible = "mediatek,mt2701-dsi",
+ 	  .data = &mt2701_dsi_driver_data },
+@@ -1219,6 +1226,8 @@ static const struct of_device_id mtk_dsi_of_match[] = {
+ 	  .data = &mt8183_dsi_driver_data },
+ 	{ .compatible = "mediatek,mt8186-dsi",
+ 	  .data = &mt8186_dsi_driver_data },
++	{ .compatible = "mediatek,mt8188-dsi",
++	  .data = &mt8188_dsi_driver_data },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
 -- 
 2.40.1
 
