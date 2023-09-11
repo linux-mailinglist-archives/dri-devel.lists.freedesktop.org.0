@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BE079A999
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC75979A886
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 16:19:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274FE8949C;
-	Mon, 11 Sep 2023 15:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55AB610E300;
+	Mon, 11 Sep 2023 14:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC32810E31F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:26:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70A110E301;
+ Mon, 11 Sep 2023 14:19:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5F036B81696;
- Mon, 11 Sep 2023 15:26:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83757C433C9;
- Mon, 11 Sep 2023 15:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694446002;
- bh=EUGIBxSdmAjFmieVW7DJwK6CHb+ujANFOaFtxBP9u5g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AQYXCXI6xTkv8+au38xLCcs/HFJM9f7YDsUedPM35WSq0UVVD3gep8sUUvE9tDznM
- m47DDEbY72f79wrRjY87O8flym+3+qDRqJErFwBaU8XfqHvBNsJJNz3DU0E2OZRTnj
- yQvxCd4rl8WaOop5YR+athE2m1Ku21dcFuHVbdHc=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.1 540/600] backlight/lv5207lp: Compare against struct
- fb_info.device
-Date: Mon, 11 Sep 2023 15:49:33 +0200
-Message-ID: <20230911134649.561773969@linuxfoundation.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230911134633.619970489@linuxfoundation.org>
-References: <20230911134633.619970489@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 553E72183B;
+ Mon, 11 Sep 2023 14:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694441957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q1opA2wGFDnwe3lA96xWUY1eliPsOV8Yh+R3BdzMEXg=;
+ b=Zhxj6xW/RSpd+Jdj8B98DdfC6dGnt40WV6Axk3GgCITd5WqDLs24+NxQ8phS1DtR1N5lty
+ VeiV+jUYTQD2JQh63CPFz56jmLwBbnmuKhR7OwKHMDKW+Iidx1YMw5bMG47Gvm2gs05ADB
+ LnH1XbZsrX0KoSxys19920R4Xgicfho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694441957;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q1opA2wGFDnwe3lA96xWUY1eliPsOV8Yh+R3BdzMEXg=;
+ b=nTjLtK5HsD/3aJsfw41rmuqaF7wD6En+zp6HgGihFxudOEMu87+VE0cNjvU8IYNR5Feio4
+ C/+llTBjcFuHO7Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 19CA9139CC;
+ Mon, 11 Sep 2023 14:19:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id E2RvBeUh/2QNRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Sep 2023 14:19:17 +0000
+Date: Mon, 11 Sep 2023 16:19:15 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20230911141915.GA983@linux-uq9g>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,68 +64,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jingoo Han <jingoohan1@gmail.com>,
- linux-sh@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lee Jones <lee@kernel.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Rich Felker <dalias@libc.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+Hi Dave and Daniel,
 
-------------------
+here are two more fixes that got stuck in drm-misc-next-fixes. As
+discussed on IRC, they should go directly into drm-fixes.
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Best regards
+Thomas
 
-commit 1ca8819320fd84e7d95b04e7668efc5f9fe9fa5c upstream.
+drm-misc-next-fixes-2023-09-11:
+Short summary of fixes pull:
 
-Struct lv5207lp_platform_data refers to a platform device within
-the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
-compares it against the fbdev device in struct fb_info.dev, which
-is different. Fix the test by comparing to struct fb_info.device.
+ * nouveau: Lockdep workaround
+ * fbdev/g364fb: Build fix
+The following changes since commit 978474dc8278f661930e02e08d292a45a45fa01a:
 
-Fixes a bug in the backlight driver and prepares fbdev for making
-struct fb_info.dev optional.
+  drm/nouveau: fence: fix undefined fence state after emit (2023-08-31 00:46:23 +0200)
 
-v2:
-	* move renames into separate patch (Javier, Sam, Michael)
+are available in the Git repository at:
 
-Fixes: 82e5c40d88f9 ("backlight: Add Sanyo LV5207LP backlight driver")
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-sh@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.12+
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-6-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/backlight/lv5207lp.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-09-11
 
---- a/drivers/video/backlight/lv5207lp.c
-+++ b/drivers/video/backlight/lv5207lp.c
-@@ -67,7 +67,7 @@ static int lv5207lp_backlight_check_fb(s
- {
- 	struct lv5207lp *lv = bl_get_data(backlight);
- 
--	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->dev;
-+	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->device;
- }
- 
- static const struct backlight_ops lv5207lp_backlight_ops = {
+for you to fetch changes up to d20b484c674d2eae816978a98fa38b4054aeca3b:
 
+  drm/drm_exec: Work around a WW mutex lockdep oddity (2023-09-07 10:30:12 +0200)
 
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * nouveau: Lockdep workaround
+ * fbdev/g364fb: Build fix
+
+----------------------------------------------------------------
+Sudip Mukherjee (1):
+      fbdev/g364fb: fix build failure with mips
+
+Thomas Hellström (1):
+      drm/drm_exec: Work around a WW mutex lockdep oddity
+
+ drivers/gpu/drm/drm_exec.c   |  2 +-
+ drivers/video/fbdev/g364fb.c |  2 +-
+ include/drm/drm_exec.h       | 35 +++++++++++++++++++++++++++++++----
+ 3 files changed, 33 insertions(+), 6 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
