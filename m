@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7240B79AC83
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:32:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1B579AE2C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D02E410E1E8;
-	Mon, 11 Sep 2023 23:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928D610E069;
+	Mon, 11 Sep 2023 23:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5A910E1E8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 23:32:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BB410E356
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 23:42:03 +0000 (UTC)
 Received: from [192.168.2.112] (109-252-153-31.dynamic.spd-mgts.ru
  [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5E86C6607083;
- Tue, 12 Sep 2023 00:32:17 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 756AF66072EF;
+ Tue, 12 Sep 2023 00:42:01 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694475138;
- bh=zku9FPqZQ4BrwWJHClmLRwHVmO9XDaBWXmy1+OJPxnE=;
+ s=mail; t=1694475722;
+ bh=OrWMPUr9xPwnLGNG5ZZ649t03TEnkQ5xzPfCCOrwjzk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hXycm77pWg7XeNR1ChG9zPOOuBn1yRIZIPb8G4mjVbjBwYX1nirACTsOsliqnXuU5
- 2bjV3ovPHyrGyxaA/7n5sIe1ujIg+lVFt3nO3YOc8zWIj89RUIL4ZcTWKeJvwsCzBV
- wlVg1DcxtxR3GbpJL66VZoxjO+7IMk8b88bmUzXt51/E1F53fsorj2gLNoDFPySbb7
- 7zyjOtLMSo/ZFHnIJPeVZVDJeczI2TX4bcyierD8kkZHRCOgjNxmNSZXc22+6LfZpn
- 1dLzWLhvHDbMeQ8PTCDCceJWMQw3hl2oz2FhvFUbEUlSGjTBXz+1QEd9v3E2J1sJHM
- 9SedzEO/6oQRQ==
-Message-ID: <b653f475-d1f7-d1b8-e4b4-3a6611e9d70b@collabora.com>
-Date: Tue, 12 Sep 2023 02:32:14 +0300
+ b=bdkmqOWWnk55xFgdFOACT+6rfydSIOpX7SnniGRcA4p2N8h9vRVMKm/y7OLu6xKZ2
+ Hb/AO/1RAjJ1xVJFzvvvegmg81DMjAFc2tx2lorj27emHCLTY/7gX66mhM/iuxXre4
+ YS08ebmyCGsPBrRwIRWOZAUrdFAB4c8Kj85ds8VudrCe5U3lSX7cuhUgpKX/2HTyi8
+ RHgGUQQu8TiSGvSzDAzwqmzFBbSzQ2KYtzKFTAD/bbhrUYCmq5yx8aywMX4zMUbv2H
+ qFq3nohe37BOrJBUuRSKc59EAbH/I51ZBwfjcvlV8X2b5ZF4NuAMcOO9E5IHwOyGoE
+ zFncu+0P3Yf0g==
+Message-ID: <297f5209-603e-a50d-c27b-8e50d23f86de@collabora.com>
+Date: Tue, 12 Sep 2023 02:41:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v16 06/20] drm/virtio: Replace drm_gem_shmem_free() with
- drm_gem_object_put()
+Subject: Re: [PATCH v16 02/20] drm/shmem-helper: Use flag for tracking page
+ count bumped by get_pages_sgt()
+Content-Language: en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>
 References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-7-dmitry.osipenko@collabora.com>
- <20230905092028.182f8ed8@collabora.com>
-Content-Language: en-US
+ <20230903170736.513347-3-dmitry.osipenko@collabora.com>
+ <20230905094050.3c918a43@collabora.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230905092028.182f8ed8@collabora.com>
+In-Reply-To: <20230905094050.3c918a43@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,32 +70,60 @@ Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/5/23 10:20, Boris Brezillon wrote:
-> On Sun,  3 Sep 2023 20:07:22 +0300
+On 9/5/23 10:40, Boris Brezillon wrote:
+> On Sun,  3 Sep 2023 20:07:18 +0300
 > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 > 
->> Prepare virtio_gpu_object_create() to addition of memory shrinker support
->> by replacing open-coded drm_gem_shmem_free() with drm_gem_object_put() that
->> decrements GEM refcount to 0, which becomes important for drm-shmem because
->> it will start to use GEM's refcount during the shmem's BO freeing time in
->> order to prevent spurious lockdep warning about resv lock ordering vs
->> fs_reclaim code paths.
+>> Use separate flag for tracking page count bumped by shmem->sgt to avoid
+>> imbalanced page counter during of drm_gem_shmem_free() time. It's fragile
+>> to assume that populated shmem->pages at a freeing time means that the
+>> count was bumped by drm_gem_shmem_get_pages_sgt(), using a flag removes
+>> the ambiguity.
+>>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 11 ++++++++++-
+>>  drivers/gpu/drm/lima/lima_gem.c        |  1 +
+>>  include/drm/drm_gem_shmem_helper.h     |  7 +++++++
+>>  3 files changed, 18 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index 6693d4061ca1..848435e08eb2 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -152,8 +152,10 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  			sg_free_table(shmem->sgt);
+>>  			kfree(shmem->sgt);
+>>  		}
+>> -		if (shmem->pages)
+>> +		if (shmem->pages) {
+>>  			drm_gem_shmem_put_pages(shmem);
+>> +			drm_WARN_ON(obj->dev, !shmem->got_pages_sgt);
+>> +		}
 > 
-> I think I'm okay with the change (assuming virtio_gpu_free_object()
-> can deal with partially initialized objects), not with the explanation
-> :-). I don't really see why we need to take the resv lock in
-> drm_gem_shmem_free(). As said in my v15 review, I think we should
-> replace the drm_gem_shmem_put_pages() call we have in
-> drm_gem_shmem_free() by a call to a new drm_gem_shmem_free_pages()
-> helper that does exactly what drm_gem_shmem_put_pages() does without
-> the refcounting/locking, because all that should remain at the time
-> drm_gem_shmem_free() is called is the implicit pages ref owned by
-> shmem->sgt, and there's no risk of other threads accessing the GEM
-> object at that point.
+> Already mentioned in v15, but I keep thinking the following:
+> 
+> 		if (shmem->sgt) {
+> 			// existing code in the preceding
+> 			// if (shmem->sgt) branch
+> 			...
+> 
+> 			/*
+> 			 * Release the implicit pages ref taken in
+> 			 * drm_gem_shmem_get_pages_sgt_locked().
+> 			 */
+> 			drm_gem_shmem_put_pages(shmem);
+> 		}
+> 
+> does exactly the same without requiring the addition of a new field.
 
-Apparently I forgot to drop these drm_gem_object_put() patches by
-accident in v16, the drm_gem_shmem_free() doesn't touch resv lock
-anymore. Will re-check for v17.
+I'll factor out these "flag" patches into separate patchset since they
+cause too many questions. This is a fix for a minor bug that existed for
+many years and is difficult to trigger in practice, it can wait.
+
+For now will be better to focus on finishing and landing the refcnt and
+shrinker patches, the rest of drm-shmem core improvements can be done
+afterwards.
 
 -- 
 Best regards,
