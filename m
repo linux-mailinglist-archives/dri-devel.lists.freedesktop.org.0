@@ -1,159 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C31179A84C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 15:33:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428D679A856
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 15:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84E4610E1AB;
-	Mon, 11 Sep 2023 13:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E360A10E2FD;
+	Mon, 11 Sep 2023 13:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DB510E1AB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 13:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694439208; x=1725975208;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=89TIwPOaBMHB005xlGpmtU/I8F0bwar2D37fUE5WNpE=;
- b=Lt4JaDLkTQVFoB6ChQ2BEG7YNn85GsAlmfRD1xXrRtuv1Zu0UOsQcZIc
- Olrv8h8KNg3YCwl4WrwZv/bNGMi3scp2+xh8myAzQtZ884pUvvdYxQNzl
- M8IWY/4uv3ZR7KyjdCoslkjbFB3r8gH5ELL6TuIXpz/gbJgxqWq2Lz/8L
- nxhz/+pangPQNeUUYGe7C1ffRi0ZyHQe8mEyrUTxJKDXawY8g3KTp17aY
- QAcs5L+5Rkw0uHVIqzdgsikKkl90RN2Z547UgXQdihubkofiiwExcX50u
- +d46uDCr5DMPIIEi4KBrJ3hoigpmSYMLOCCh2HdX/8T+Gd1zueDRtUHjr g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="444498402"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="444498402"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 06:33:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833503266"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="833503266"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Sep 2023 06:33:25 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 06:33:25 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 06:33:24 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 06:33:24 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.104)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 06:33:23 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA2E010E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 13:43:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aAxsGZ5+e9oZU5md7MBCgmPSxtgk1i3xTS6fB3xCDixWkWMu3/+s8rrsH559AhoF5DCRRDvW6FH3cIFyZsEx8qNog60DgRpShk/nxDKhwRGVvDhhS3BtNvsuNLJNgSJURaUJp/PuPMbIYmevB0d+X3xs8p+/3P2kQLYOJN2SUgoXfLuSFO/GrjN3jEhbrsvw9cIObv72PXzrl98J3d4sIVHz6AduqjL/sbwdRWKYhoDuMTHXHSzUGxuBehhYGzMqHJOseLUFGnuipeo+SnAARVziK7i8OkKU2aVnJK6PNkd1mkEjl7YFQmlKKhJcIFKJ0G2x1+1LIRIQNMWZyOiyYA==
+ b=GZBckzBPkD0pxyXjQJ/Ym/f3OfuQL4d7cB17Sb+YZhZZD2E0F+jjgVV0v7MIf3uCVSlULrJ4f0zKTPYmO4MOWbPDh5hN6YNVWRhIwl53wh+qb1+xI/DYKkFCNTIspThHvgkUHKqjnJTw+mwZz2k5hUdYOG+HNpas22R+54TOOK+tJwMrmq1l30IBc/5a7OsXwJrrqLa+RfJQAdAkBSboWnIEAVyudPPWHq81NwjTZc9xIdOEVmAgORrszSgG8DtzNcC+fsMjGpkNj7HkgyYrTrQ0vJgIG76AZ053BfOjUNZmbRtwoqnK20AyrBURe3rEP6WL8dm4HOPOMcfWzhzI4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Li+Gotzc+63JPVmUnIfBJwVKkODbPtCMIqxMGe62R6I=;
- b=DySx2acLZzM/KIRH7WfTRa2eDIwlkRHRba5YQrCefvhVwmkYLPdFJ1IXpI47DdPEm1VLJrL2dOGJQ/M6uLUpkot7SZ/+lzHeAdDttq9A0K/1PWJjd25RUvkVLl8qRq/uosp4KyRfa+K66q7WJ3atyOo6Bfst+LvKDIzKAx1D07EqDjVJKkKhY9Oa+a0TlorFrqSYPcmaebSSeBO9wJ3dm0icvl2E44ltod4CMxwpZJk+fIxY8T+pttrslsW0vgexflm7r3f8b0MPxPDYcOa9bySP3i4w2t31alK1AHv3Zj7gI4iIOcd1YzJJLin8pMqlLYLi3RPOW+jTMOg6l3K8yw==
+ bh=7IRQLh8YS4jkNrU9444WNy7ehmpkl03rpRQYyqVFfQ0=;
+ b=cbWusL6f1GdawbqymXlpEm2rJu306siGy9hLVNckGB4Y8/Ei54Py6ADcabIVW3F5XXzm4e3eIeA+L24plu6yL4bOJbXDaX2EBnIDjOJVC3fmdDJYSve+CMNzK31mweLh+vgVez3TSnQYRh8uxvtoOdK6fL4XSpMHFXKxB1Vls7gMzKc2Jd86HHdCqgvBGNssKhLhl3St9G35jajfb7fK72ukRA08N65LoKoWkrFTWxYh+GjpRWusyvowFlj6/kuXcPgjF4/pDz99azKsIwPsbAyZnCExxLvnZMIIPOfDklX57gMWtH/bZJadQVXt0x3eKUQKzd4mNQ+S9ryCd5eDFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7IRQLh8YS4jkNrU9444WNy7ehmpkl03rpRQYyqVFfQ0=;
+ b=s9ramdUrfQldzOF6YLohv37TVSVsCUTvxcjdBAbIqLct/LODu32KerRI4V/7nwy0fAgfCKwqgLzOEYJLYJ9vOdJraQyirJ0WujQ10decBlJQjMGAt858OEuJAp6lixl50qKY0Wy8GBzkSvsjiVv9n9lyD26i99Wzrp1Ku2PJiQE=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
- by DS0PR11MB7767.namprd11.prod.outlook.com (2603:10b6:8:138::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36; Mon, 11 Sep
- 2023 13:33:21 +0000
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::59cb:e244:fe8b:184d]) by BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::59cb:e244:fe8b:184d%5]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 13:33:21 +0000
-Message-ID: <99ef9f6f-a84b-fa4c-8a33-a214b4b9695c@intel.com>
-Date: Mon, 11 Sep 2023 15:33:14 +0200
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH3PR12MB7665.namprd12.prod.outlook.com (2603:10b6:610:14a::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Mon, 11 Sep
+ 2023 13:43:04 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::55cb:215b:389e:eced]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::55cb:215b:389e:eced%5]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
+ 13:43:04 +0000
+Message-ID: <69110ad5-0c6e-ab90-90f6-78a133af183e@amd.com>
+Date: Mon, 11 Sep 2023 15:42:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+ Thunderbird/102.15.0
 Subject: Re: [PATCH v2 1/5] drm/ttm: Update Makefile for KUnit
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
 References: <cover.1694422112.git.karolina.stolarek@intel.com>
  <3782fd55e8479296daab7041430fe7b0848bf621.1694422112.git.karolina.stolarek@intel.com>
  <87fs3lf0ht.fsf@intel.com> <60ffa6fe-4750-c864-9012-7a047a0f1c3b@intel.com>
  <4080bd92-d10e-4cb3-fce4-a76892834baf@amd.com>
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <4080bd92-d10e-4cb3-fce4-a76892834baf@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <99ef9f6f-a84b-fa4c-8a33-a214b4b9695c@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <99ef9f6f-a84b-fa4c-8a33-a214b4b9695c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0200.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ad::11) To BY5PR11MB4243.namprd11.prod.outlook.com
- (2603:10b6:a03:1c8::16)
+X-ClientProxiedBy: FR0P281CA0232.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::16) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|DS0PR11MB7767:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15e78ae0-40d2-4c39-fe3c-08dbb2cbaa7f
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB7665:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7007de35-74c7-4876-13d5-08dbb2cd05c4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xsIETVhOI09xtH4pqCg2E+l/iy3tX0nVHk2S409vIsQIC7XKoB22sWHkO3grecJSm8jjrowrRZu3A8VP3W402BMz95iHr/qqfSQ8LzHLAJrd1jM/ZR47+4SbFWYEW6pIGIB+2pM6dGAwDKKfW5B7+vlVU7kg1MsYkxOjz782oCovK1g6A+2volzpNeyzzY8Hrt5MAaTS+WhU9Vrk6EWwUwCC+tO/kCMOyDwWkZrhCzNmoHQbDjdfMRdLMEWze/x+XPewVTfir1hIllP3pk0cuvcqaLREHKDjQrgbUx44vRKcXcsS+7hVtqQyaaZSaUbSZED3nUkQc8aeX9fW2UNMZIJICwtvh2l9aByphZxzqcvYsgSd1tWM85WvOOLGbYWg2vUGy3AXFU2/lD/ZZieVthZhvyrIYw5WT77jZEuw1h+Xv/e7Q3ogQ9TiLPJPHx/23N6kHABY4rnasHgsZ/gFsUIXZL+BLZHbdB8QCHUnk+9DejcFRJW7+I/qjM9eZXFlXY6VkcywGQuhcS07jh9EM7yXwld1MXhMhMgW3roNvah4n69BWjkTHISa/mrsP/3CaOZhxwdyWEhkdiugNhTs0tZqMcmca6BcGQZE5AEpX1UTVMs75M0j0A8PCH/hv0oR9DVkF7F6q3MX0gQ7UiQUHch1G1qHF3Xa4euOL2N+1y41Jb7UA3znjwFvR0dnajJB
+X-Microsoft-Antispam-Message-Info: ksRqIY9EtUXOkBw2P3+ZP7DIgUO8s8IfoS0wuE8toqlfYP56mX+T7iMoZgQJ52M4nrTGbuSc6t/G+TUPBS64vZh+v784KFKvCgQ4h1Z21ttk4rgz3KiDCrBauP4ZamrCqMe632JsAls35CGVxTERsTBd8vvsrkWHwFuC0ecZMtn1R7Zx/tcmXNR+nVOxdkmuRFae9gs7flUVY7xo4/ZVekea9fK4cFySSJ0u3lIudH8HETmUUVHPnH0lmaWMeE+WOF/PU18F6LmTTMmpNiKkxgov9hm99HF3s81p6CGycgb+5HxOQNlYxqXGGfp8rx6i47JFjCxBNO43TtQwiF7UDghKspBBsT5rr8nwpIEa6MjNIDnrkqEj+w+8taiBWHY/qbr/k9cYOutpptzCJ2rc6bxcnU53jH8T3pwa/l11ziGfwWBkPK2DzaFb+SUxP3DM0TxqiIRzinAd54q65qKjnkJ0LLrV3iqFHm8U2o5yrMS6o5G6QFFt0r90KX76UgSll6VyE0uJv2qqSFGAvDbduc0rkGsDna1bCOQMfVP+xrSyl9iMT6yR1fmSRxEQGqAJ9As9pN0T67LNNARrpW0JWpUUmGVh1Xoo103LfEc8cKb/286ruCAzdXzkmTFy/Gg7hOaZMUk6nexV3CzkGuEiFWv//PZFimpt+q3t6dm//ozqfnYsEGBJvFwuYM1PpLaW
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(136003)(346002)(39860400002)(376002)(451199024)(186009)(1800799009)(5660300002)(8676002)(6486002)(6506007)(8936002)(44832011)(15650500001)(66476007)(41300700001)(66946007)(4326008)(54906003)(66556008)(6512007)(2906002)(478600001)(6666004)(316002)(53546011)(966005)(31686004)(26005)(2616005)(36916002)(66574015)(83380400001)(82960400001)(110136005)(38100700002)(66899024)(31696002)(86362001)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(366004)(376002)(396003)(346002)(136003)(186009)(1800799009)(451199024)(6666004)(6506007)(6486002)(53546011)(966005)(6512007)(478600001)(83380400001)(2616005)(66574015)(2906002)(26005)(15650500001)(54906003)(66476007)(66556008)(66946007)(316002)(110136005)(5660300002)(4326008)(8936002)(8676002)(36756003)(86362001)(31696002)(38100700002)(31686004)(41300700001)(66899024)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDFnUHczdHBkaGtDOCt3NjlMV3Bab2p4Qi9CZ1FqbWs4V1BFSzZiK09SVXVw?=
- =?utf-8?B?akxiUC8vUkFmSU8vOEFVaWVlRStxZnBPb29YZDB1RTF2L1dabDFrWTA2VERP?=
- =?utf-8?B?MGtXSmZmOWRsUU45TkdubnNqa1lFWkkzY2RlcFEyYjh5dFR4VlZmaExaeFZv?=
- =?utf-8?B?dklnRElVR3BJQ0pSV3ZFc3MxTDQ0YWl2OExLVENZdlJkMkhVWEwrWTliWHVR?=
- =?utf-8?B?SThDVlZ0em9XNmpJUng0aEppYkhTMlFTN1NOZCsreEUxY1ZQcEV3S01PQjY0?=
- =?utf-8?B?bEJTbjZDMkhXbXhhcFhtZXhld3o0WjdYVUFOenExcDd2aDNSUmNuWUVITzZ4?=
- =?utf-8?B?TGtBOG5qdTFUUUxQcGkvM0NhRC9ETzB0amJ2UXlrWWZyVjlzUXpVYklwNXhR?=
- =?utf-8?B?eWFrSDh2NzZmVTBma01sNDBiRDdQZ1hlNXpSZVYwWEdGNXM4eUZodFdJbEdv?=
- =?utf-8?B?OFJMMG01WnBxUWM1eVFNRlExVUNxV2U1QTR4YUhEUS8yNDhFKzVIb2t0Mk9D?=
- =?utf-8?B?WEQwRUNTaFlha0Nlamp6TDMxajZkOXFQVmZCSkllRC95cDRLZ1I2NDAyUnpD?=
- =?utf-8?B?a29tWlhRZ0tLR1RreGYyWDhGOUpFNklDeDhjcENEOGdXRURBNmlicmRlWlFo?=
- =?utf-8?B?WnQyZ0tvdVBhWVBSRTZNRHQ5V2RFTi9SQkhYcjdHVnIrcHVQUGhWY2plb1p0?=
- =?utf-8?B?b2pibEJFOHZDdjZuakZGaFZiNXN6OEltTFVJRDRPYWQ3cGowbHVXcm9qcjE1?=
- =?utf-8?B?NUYzNDR1UHFtUytZcTgxQlFNOVVrNStmRmFhSU4vZnVRTVZ3LzdHRENNcE93?=
- =?utf-8?B?YVlyQVM3NkltQ05kRkJYMkw3aWwzaFRNbjFCbzV0Mmgvc0pZNzUyMVIzVFVl?=
- =?utf-8?B?SkdXa3psVFdpSEwzN0hrc25JWFJaY2lQZ3VxSW9xc1N3VVVwK3hYQmpHS2h2?=
- =?utf-8?B?S1cwMTM0OWFPWU0yU2dINzAxM3ZPeEFyL0RiZkR1V216YTBSdVhJZnlZbWVa?=
- =?utf-8?B?bWtEdEFHNmZ1TVRXWmF4aXNLMjRWZ2F2MmJ0dk1XZTZKYlI0aUlLUFpBUFUx?=
- =?utf-8?B?Vmo1Sm54cjlsODNkc25wZENvU3JEWnZSYUxoRGRPMGlaVGhxeFRXMXFNL1do?=
- =?utf-8?B?MG41Y09Fa2pXZDd0RWR5VWFzc3QwM2c2eXNyWnFPMEp5WS8xVlFwNDRvTVlt?=
- =?utf-8?B?eUhpK0JlRmJWNDNHeEZNblBncDdGZGNDTmRBZXBSaGdmRE85cmcveDU2NTFY?=
- =?utf-8?B?aXlGOHNiR25wMS9hWHh6L1JLNi8yaG50WlJVcnREa1l5N1J5dWs5aXhONU9p?=
- =?utf-8?B?VjFIR3V2R2FoS3VYUmtONjMraWFFbWRVYXY4d2prbmlUVjJDak9yeWRGUDBr?=
- =?utf-8?B?anZXTHJZQmdvblFsK0VLM0JxVlM0cmwxT282OVNST3lYNnFJb3ZSeHhHNHZx?=
- =?utf-8?B?ZEhHUVFqYVpaMWdOR3hXOW05YjgyNVh6U3RsK1NYM0UrTG5XeEEwTUZiSUI4?=
- =?utf-8?B?KzRwb1Mya3RMQ05CMm9Rblg1OEs0ZVIwVjI3Ujl5RExhMXRVOWRmUEY3c0lK?=
- =?utf-8?B?cVhRWENHZkdWYmFPVnZUNnBJU2QvV2ZJWDdyemdoNUxOWVhxVCtBY0tablQ5?=
- =?utf-8?B?bklqbDNMZENrM1B3WmVyTzhqdGRLaDI4cFIxSGtoNHQ1UW1Ub2YvMm9FV01I?=
- =?utf-8?B?TFNPQ3B3MFpBYWovN2Y1L2VMVStvMlYva0E4c0p4OExrK3p5Mk1aVkJmTkpv?=
- =?utf-8?B?bGFVWHJsbVpUKzVMZFpJQVdPTEVlZnZrd0dmeXVoWDA3VjF5cXRWdVYzaDlW?=
- =?utf-8?B?d3lodjNwYWJPME41dWpkV09vUDI1SXdHNU1CdHNIZ2pIQmZaRENYZWpJZU03?=
- =?utf-8?B?WEhhRzdTS242Q3pJQ1ZaYTVIeXhsNWRQQ2d1a1NuUnR0eFFTaVRmanJ6Ylc2?=
- =?utf-8?B?TFVBYzFYcHNkVTQ4VkJiYy9SNEVENVloSjFHVXdQbWxLYzRNeXFuZDJzT0NN?=
- =?utf-8?B?R3p4dE9LZTBrYnVwT1d2dXF2Q0NoY3Z5QUxPd3VidTNvWHNYY01Rcm0zbUl0?=
- =?utf-8?B?WUhCcDJPdU5VdkplVG1sTkUrVUVSbDhXMWh5REpIZis5V3dVOGNqV2I3U0ll?=
- =?utf-8?B?OGhIVXd3eGt2V0FyQ3FQdmp4SkFQNWh4cTNMMlVrRUxPTGNhV0pob1EvaytS?=
- =?utf-8?B?aUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15e78ae0-40d2-4c39-fe3c-08dbb2cbaa7f
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2s5UlVKc0t2UENUMldoK3p5NlUrb2x2ZVlmNkVmYXFrVDNHOU8rWHNSdnRL?=
+ =?utf-8?B?OWJtMUtwekE1VHBKRWFUTmdDcnBJdUVwOUFObDE4RUdrTGJ4cHJpdDJKMW5y?=
+ =?utf-8?B?SG1PaTNNRldQbkduakszaU5nQWREYTE5MUNib3NWVGF5ZEFTL2pVWFZJWGNp?=
+ =?utf-8?B?SUVlMHhpTWQ1TkRJcVN5R1ZYR05MTVZMSGozaUVDZ2FEVStZQWg2WXZlSWMr?=
+ =?utf-8?B?dzZ3Nkl5amhaUy8rTEdkbjRXOHZKdmdBRzdWVWt6Rk1JelR1NWdxVjdEc014?=
+ =?utf-8?B?cCs5UlRKYWtMSmJ1UjJLNURtajM3NWFqYW8wVXVmb3QySVFLOFZqTXBDNVVU?=
+ =?utf-8?B?a2tENUhlN3E4VGE2aVJIdFNSN1lLVU84dlFCQjBqWXNSVjhaelFNOHBDcmJ4?=
+ =?utf-8?B?endlMjBOSnovQ3EvRWMwMkJYZXNTR0lOMk4vMXVhUWtZK3R4b2gzZVJHeGU3?=
+ =?utf-8?B?R0s0M0JrRFY1MnhKM0xWTDZSc0Ryb21BbWc1cEJhcEh6WDVzbDZKaTJnOXlk?=
+ =?utf-8?B?T1hibllINzRaL25ZR0Y4UXBYVC80MVRSOEU4WjJOWSs4WkZmRlFRVjNRbWFx?=
+ =?utf-8?B?QTRic3RmbE9JbXY2aHR3czdUZk51RWVyYldtTTFCeFZJRzh1akptL2h4UDJT?=
+ =?utf-8?B?ZTJIT3JWNWVuSTZwRXI2aUVPckszdmZKOG10dkJ4d2J1ekIyVFBTTEwvYnBW?=
+ =?utf-8?B?b0d0SUs4ZHVYUWhNL1YwS1JmTHR2RytjTE9VN2lZV2MxL2loRE1sb1dBeUJj?=
+ =?utf-8?B?TnBXL1p5L3JJa3V4a3lCRVErSGFreEVFck5FY2RRN3lTeUJ6UFM4MDl5ZWRn?=
+ =?utf-8?B?dEhVdjArbXJyRTJRQ3QvVVl3dDczVUlsR2xQeFZiQzBNeUg2bm56RWc4Nnkz?=
+ =?utf-8?B?Mnowb1doK2Y2YklBcC90dzIrbUR6c0Y0Mmh6MVplNnVYOHpaZ2VYc0p4SHdG?=
+ =?utf-8?B?VlB6R2wvd1hNVjNGY2VYOUtMZEh4QVhHSTNDNERFMDlCenRlaXdjeEJ3ODBX?=
+ =?utf-8?B?OVd4dEk1ZzQveExPWDM0d3RndnBEYktNUnhpWTE2Z091c25ucUIvOEkrTkpk?=
+ =?utf-8?B?UmZ1SjI3a2tXcy82ZXJhZnRYTkROMEFvczU2bWdZUDRoc2JWcG9Vck9QTGIr?=
+ =?utf-8?B?YzFPWmhtMGFWOVNpSVJ0UnNNbVk4WGNqNEl2b2pmWlV2NURqSXczVzB4WnNo?=
+ =?utf-8?B?ZWxDSXBRcko0TkEwc21DeVVHNkJZZldOa0VENEZ3ZjdPWFAwNHNXMTU0MXFr?=
+ =?utf-8?B?dnB3UWZmV0IwdUY4Vm1VN2NueGt5L3VGS1VSVy9ydFY5TWVmelRXZEEyNzZ1?=
+ =?utf-8?B?WkpVOXAvM2pCMFlEMUFqNlhxaVd4MU0zTUZzOWFwb2x4dDU2akJXcG9JMTln?=
+ =?utf-8?B?cXdDU2x1ZlY4MjI2Q0RRNnVJUWVVR2Y4ZDJWaDcyOHN1RDJqakZQWDB0d1VB?=
+ =?utf-8?B?U0VueVBERmQ3NW1sQllOOFhpMjRLRVJORlp2NnJlVUVNRkpoTnYxUU4vV0Y2?=
+ =?utf-8?B?b2tiSTBYV3g3ekdDWk9oTHU5cjFSSGozVmQ0UXhneHpzQlJzZGlDZWt3UnNN?=
+ =?utf-8?B?YmVaa1p3SFZVOGJWU2F0R2ROcWlkN1FtV25xd0NYWEVBTUE1aVFWTVE4ZEts?=
+ =?utf-8?B?REFqaXBid0d1L05jeURJVHpCb3RQUlJJY2toV0NHY3lsdnZzY0I5OU5oOXpO?=
+ =?utf-8?B?SldpMCtCeEt5RFUwcGQ3U2Z6ZVpvcC9aN3R1WEM3alcrYjl4VjhKNXhMMmNy?=
+ =?utf-8?B?WUY3UFcyNmhpbWUzNytCY20vQmk1UlprTW1RTU8vYUNmb256T0QydzU1b1Z2?=
+ =?utf-8?B?aHBrSEZWdS9YZlVEcXJxNzBzOGxhSW55dFFqbmVpV3lMeE9EclZVZ2ZmUjFV?=
+ =?utf-8?B?RDBvazJNQlpTN0lpSU5tQ0J5RFd0U0xrRmd1aVRyOUkwQWVwbHpCVVhrdTEw?=
+ =?utf-8?B?eEdmZFJhNzA0ZFhBL2tpOFdMV2VXU3RReWp4SmlJU0dyRmZTNUZ0V21uRmt6?=
+ =?utf-8?B?UFdkc29EYVRNYXlEK0xFdjJHenV0OEdLdTJFa3Q5SEt5ekhwQjV2cTI4UFJL?=
+ =?utf-8?B?RTl4SXE3L3lNNDNJTzBoK3VjMjBJaitPY0IvWkRWVHFscDFhRk9makJRb3lK?=
+ =?utf-8?Q?Aco1wwOtVnukEhYh2CCPM3U4N?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7007de35-74c7-4876-13d5-08dbb2cd05c4
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 13:33:21.4241 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 13:43:03.9932 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tn1mOsCGuJmE2oNGcW7MaW4ChB6yYQJMU09faR9HuJteGWFWW5W+kaKfRysO8SId9Fd4r8qq1puowze40T59Zd4it0MWl+jHNgqqNrWWA4Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7767
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5h4FVsURcZmzU9z1/WTKP3ixdXY8Xjb2Ir2DwZoMEpsYlcnGDlmge2jkxZ5BNOHm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7665
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,152 +134,173 @@ Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.09.2023 15:12, Christian König wrote:
-> Am 11.09.23 um 13:47 schrieb Karolina Stolarek:
->> On 11.09.2023 12:49, Jani Nikula wrote:
->>> On Mon, 11 Sep 2023, Karolina Stolarek <karolina.stolarek@intel.com> 
->>> wrote:
->>>> Update Makefile so it can produce a module that consists of TTM tests.
->>>> This will allow us to test non-exported functions when KUnit tests
->>>> are built as a module. Remove the tests' Makefile.
+
+
+Am 11.09.23 um 15:33 schrieb Karolina Stolarek:
+> On 11.09.2023 15:12, Christian König wrote:
+>> Am 11.09.23 um 13:47 schrieb Karolina Stolarek:
+>>> On 11.09.2023 12:49, Jani Nikula wrote:
+>>>> On Mon, 11 Sep 2023, Karolina Stolarek 
+>>>> <karolina.stolarek@intel.com> wrote:
+>>>>> Update Makefile so it can produce a module that consists of TTM 
+>>>>> tests.
+>>>>> This will allow us to test non-exported functions when KUnit tests
+>>>>> are built as a module. Remove the tests' Makefile.
+>>>>
+>>>> I'm asking questions instead of making assertions, because I'm not 
+>>>> 100%
+>>>> confident, but I don't feel like this Makefile could work right.
 >>>
->>> I'm asking questions instead of making assertions, because I'm not 100%
->>> confident, but I don't feel like this Makefile could work right.
+>>> Questions, assertions and comments are fine, I'm glad you're taking 
+>>> a look at the patch :) I'm not 100% confident either, so I welcome 
+>>> suggestions on how to improve it.
+>>>
+>>> The problem is that TTM tests try to test symbols that are not 
+>>> exported, so I have to compile all the files together into one 
+>>> module if I choose to build KUnit tests as a module. The other 
+>>> option that I'm considering is to make the tests are builtin only. 
+>>> I'm tempted to go with it (for the sake of simplicity), but I'm 
+>>> trying to get the module option to work first.
 >>
->> Questions, assertions and comments are fine, I'm glad you're taking a 
->> look at the patch :) I'm not 100% confident either, so I welcome 
->> suggestions on how to improve it.
+>> I have to admit that this looks pretty awkward, but I'm not an expert 
+>> on the Linux build system in the first place.
+>
+> Neither am I, and it shows :)
+>
+>> Would it be an option to build the unit tests into the standard 
+>> ttm.ko module and let them run whenever that module loads?
+>
+> You mean appending the list of tests to ttm-y, depending on 
+> $(CONFIG_DRM_TTM_KUNIT_TEST)?
+
+Yes.
+
+> I _think_ I tried something similar, and couldn't get it to work, got 
+> a bunch of "twice exported" warnings.
+
+You might need to adjust module_init, and things like MODULE_VERSION 
+etc..., but I would give it a try.
+
+Thanks for looking into this,
+Christian.
+
+>
+>> On the other hand if this solution here works, why not?
+>
+> Because it's complicated and, well, awkward. I'm still thinking about 
+> a use case where we would prefer to have KUnit tests defined as a 
+> module. IIRC, in CI we enable KUnit tests as bultins and run them 
+> during the boot. kunit.py helper also defines the tests as builtins.
+>
+> All the best,
+> Karolina
+>
 >>
->> The problem is that TTM tests try to test symbols that are not 
->> exported, so I have to compile all the files together into one module 
->> if I choose to build KUnit tests as a module. The other option that 
->> I'm considering is to make the tests are builtin only. I'm tempted to 
->> go with it (for the sake of simplicity), but I'm trying to get the 
->> module option to work first.
-> 
-> I have to admit that this looks pretty awkward, but I'm not an expert on 
-> the Linux build system in the first place.
-
-Neither am I, and it shows :)
-
-> Would it be an option to build the unit tests into the standard ttm.ko 
-> module and let them run whenever that module loads?
-
-You mean appending the list of tests to ttm-y, depending on 
-$(CONFIG_DRM_TTM_KUNIT_TEST)? I _think_ I tried something similar, and 
-couldn't get it to work, got a bunch of "twice exported" warnings.
-
-> On the other hand if this solution here works, why not?
-
-Because it's complicated and, well, awkward. I'm still thinking about a 
-use case where we would prefer to have KUnit tests defined as a module. 
-IIRC, in CI we enable KUnit tests as bultins and run them during the 
-boot. kunit.py helper also defines the tests as builtins.
-
-All the best,
-Karolina
-
-> 
-> Regards,
-> Christian.
-> 
+>> Regards,
+>> Christian.
 >>
 >>>
 >>>>
->>>> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Closes: 
->>>> https://lore.kernel.org/oe-kbuild-all/202309010358.50gYLkmw-lkp@intel.com/
->>>> Closes: 
->>>> https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
->>>> Closes: 
->>>> https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
->>>> ---
->>>>   drivers/gpu/drm/ttm/Makefile       | 18 +++++++++++++-----
->>>>   drivers/gpu/drm/ttm/tests/Makefile |  6 ------
->>>>   2 files changed, 13 insertions(+), 11 deletions(-)
->>>>   delete mode 100644 drivers/gpu/drm/ttm/tests/Makefile
+>>>>>
+>>>>> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>> Closes: 
+>>>>> https://lore.kernel.org/oe-kbuild-all/202309010358.50gYLkmw-lkp@intel.com/
+>>>>> Closes: 
+>>>>> https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
+>>>>> Closes: 
+>>>>> https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
+>>>>> ---
+>>>>>   drivers/gpu/drm/ttm/Makefile       | 18 +++++++++++++-----
+>>>>>   drivers/gpu/drm/ttm/tests/Makefile |  6 ------
+>>>>>   2 files changed, 13 insertions(+), 11 deletions(-)
+>>>>>   delete mode 100644 drivers/gpu/drm/ttm/tests/Makefile
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/ttm/Makefile 
+>>>>> b/drivers/gpu/drm/ttm/Makefile
+>>>>> index dad298127226..6322a33e65ed 100644
+>>>>> --- a/drivers/gpu/drm/ttm/Makefile
+>>>>> +++ b/drivers/gpu/drm/ttm/Makefile
+>>>>> @@ -2,10 +2,18 @@
+>>>>>   #
+>>>>>   # Makefile for the drm device driver.  This driver provides 
+>>>>> support for the
+>>>>>   -ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o 
+>>>>> ttm_module.o \
+>>>>> -    ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o 
+>>>>> ttm_pool.o \
+>>>>> -    ttm_device.o ttm_sys_manager.o
+>>>>> +ttm := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+>>>>> +       ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o 
+>>>>> ttm_pool.o \
+>>>>> +       ttm_device.o ttm_sys_manager.o
+>>>>> +obj-$(CONFIG_DRM_TTM) += $(ttm)
 >>>>
->>>> diff --git a/drivers/gpu/drm/ttm/Makefile 
->>>> b/drivers/gpu/drm/ttm/Makefile
->>>> index dad298127226..6322a33e65ed 100644
->>>> --- a/drivers/gpu/drm/ttm/Makefile
->>>> +++ b/drivers/gpu/drm/ttm/Makefile
->>>> @@ -2,10 +2,18 @@
->>>>   #
->>>>   # Makefile for the drm device driver.  This driver provides 
->>>> support for the
->>>>   -ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
->>>> -    ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
->>>> -    ttm_device.o ttm_sys_manager.o
->>>> +ttm := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
->>>> +       ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o 
->>>> ttm_pool.o \
->>>> +       ttm_device.o ttm_sys_manager.o
->>>> +obj-$(CONFIG_DRM_TTM) += $(ttm)
+>>>> Does that not lead to each object in $(ttm) becoming its own module?
 >>>
->>> Does that not lead to each object in $(ttm) becoming its own module?
+>>> Huh, yes, that is what would happen here. Not good...
+>>>
+>>>>
+>>>>>   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
+>>>>
+>>>> Does this not create a ttm.o with just one object, depending on
+>>>> CONFIG_AGP?
+>>>
+>>> I just left it as it was before my changes.
+>>>
+>>>>
+>>>>>   -obj-$(CONFIG_DRM_TTM) += ttm.o
+>>>>> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
+>>>>> +ttm-tests := tests/ttm_kunit_helpers.o tests/ttm_device_test.o \
+>>>>> +             tests/ttm_pool_test.o
+>>>>
+>>>> I'd preserve the one object per line syntax. It's nicer for the 
+>>>> diffs in
+>>>> subsequent updates.
+>>>
+>>> OK, will update it in the next version (if such comes). I just 
+>>> followed the style of "ttm-y".
+>>>
+>>>>
+>>>>> +
+>>>>> +ifeq ($(CONFIG_DRM_TTM_KUNIT_TEST),m)
+>>>>> +    ttm-test-objs := $(ttm) $(ttm-tests)
+>>>>
+>>>> Isn't the -objs syntax for host/userspace programs? And if not, 
+>>>> doesn't
+>>>> it lead to objects with exported symbols being present in two places?
+>>>
+>>> I saw it in use in other Makefiles, so I followed it. As for the 
+>>> exported symbols, I tested both builtin and module configs, and it 
+>>> was fine, but it's possible I missed something. I suspect that the 
+>>> variables are first expanded, and then processed by the Makefile.
+>>>
+>>> Many thanks,
+>>> Karolina
+>>>
+>>>>
+>>>> Confused.
+>>>>
+>>>> BR,
+>>>> Jani.
+>>>>
+>>>>> +    obj-m := ttm-test.o
+>>>>> +else
+>>>>> +    obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += $(ttm-tests)
+>>>>> +endif
+>>>>> diff --git a/drivers/gpu/drm/ttm/tests/Makefile 
+>>>>> b/drivers/gpu/drm/ttm/tests/Makefile
+>>>>> deleted file mode 100644
+>>>>> index ec87c4fc1ad5..000000000000
+>>>>> --- a/drivers/gpu/drm/ttm/tests/Makefile
+>>>>> +++ /dev/null
+>>>>> @@ -1,6 +0,0 @@
+>>>>> -# SPDX-License-Identifier: GPL-2.0 AND MIT
+>>>>> -
+>>>>> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
+>>>>> -        ttm_device_test.o \
+>>>>> -        ttm_pool_test.o \
+>>>>> -        ttm_kunit_helpers.o
+>>>>
 >>
->> Huh, yes, that is what would happen here. Not good...
->>
->>>
->>>>   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
->>>
->>> Does this not create a ttm.o with just one object, depending on
->>> CONFIG_AGP?
->>
->> I just left it as it was before my changes.
->>
->>>
->>>>   -obj-$(CONFIG_DRM_TTM) += ttm.o
->>>> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
->>>> +ttm-tests := tests/ttm_kunit_helpers.o tests/ttm_device_test.o \
->>>> +             tests/ttm_pool_test.o
->>>
->>> I'd preserve the one object per line syntax. It's nicer for the diffs in
->>> subsequent updates.
->>
->> OK, will update it in the next version (if such comes). I just 
->> followed the style of "ttm-y".
->>
->>>
->>>> +
->>>> +ifeq ($(CONFIG_DRM_TTM_KUNIT_TEST),m)
->>>> +    ttm-test-objs := $(ttm) $(ttm-tests)
->>>
->>> Isn't the -objs syntax for host/userspace programs? And if not, doesn't
->>> it lead to objects with exported symbols being present in two places?
->>
->> I saw it in use in other Makefiles, so I followed it. As for the 
->> exported symbols, I tested both builtin and module configs, and it was 
->> fine, but it's possible I missed something. I suspect that the 
->> variables are first expanded, and then processed by the Makefile.
->>
->> Many thanks,
->> Karolina
->>
->>>
->>> Confused.
->>>
->>> BR,
->>> Jani.
->>>
->>>> +    obj-m := ttm-test.o
->>>> +else
->>>> +    obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += $(ttm-tests)
->>>> +endif
->>>> diff --git a/drivers/gpu/drm/ttm/tests/Makefile 
->>>> b/drivers/gpu/drm/ttm/tests/Makefile
->>>> deleted file mode 100644
->>>> index ec87c4fc1ad5..000000000000
->>>> --- a/drivers/gpu/drm/ttm/tests/Makefile
->>>> +++ /dev/null
->>>> @@ -1,6 +0,0 @@
->>>> -# SPDX-License-Identifier: GPL-2.0 AND MIT
->>>> -
->>>> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
->>>> -        ttm_device_test.o \
->>>> -        ttm_pool_test.o \
->>>> -        ttm_kunit_helpers.o
->>>
-> 
+
