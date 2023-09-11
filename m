@@ -2,58 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DF779A7DE
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B7B79A7E7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE2A10E2DE;
-	Mon, 11 Sep 2023 12:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2948910E2DB;
+	Mon, 11 Sep 2023 12:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2A9C10E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:13:52 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D9210E2DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 12:26:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RklxS0gY7z9sqm;
- Mon, 11 Sep 2023 14:13:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1694434428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EG47cdFKJCzGjz8BT6HLdIq6G6HHROaavD+7fvm6pRA=;
- b=gk/WPBL/AeACiFu13DVcyVgLkskOoCAH52EePYIAkLR/yZHSovN0zCc4IQtSSJgEOfm1N7
- AMu2PcpH6mVf7lRUXFyL8dKl2WG0P5jVzg7xgLVXGOgeqr4G30a6sNRf/teOmSBgl1Qt2/
- P33mCkIAWDp2yL4mBFIRC+rpcHyn8MKPifBqDhsYy+R5BkHFSfwgX8/7gtZjw43jHbD4bE
- 4S84wiL3owYxagam6VNGz17C1kVw/u+zVnqElckoGWIIXCc0vnB1FPAAfCooK8Y3aE6lNA
- kWNU+EkQZ6R40yusQNWo10kXZteR/QKRGP2qmFQKKI0GZZl0luz9MUtoZFaOcw==
-Message-ID: <b7d96985-8489-efe2-db67-1f3108e26822@mailbox.org>
-Date: Mon, 11 Sep 2023 14:13:43 +0200
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2F09F1F8A6;
+ Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694435171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
+ b=DDZzAoUEucLB9oIlC9fTncVKsqTQbFWodv/VxDq0cCWDfxARJfhFUmfEuypnINVC3jJDcA
+ GJmyTV8ObdFU/9dX8SK+ROSQGAWheM1hsH7HefacTTxFLK0jSjWe1k32+pTy/M1JpFz1pU
+ BhQ6vBb9nP6WRzlg+baY5nb7NkhItZw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694435171;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
+ b=idQKo5LSb2MP7w21NOZsgcYbVUBd155j1ZDgrAeXcW+433mEqv7jQhacClZVkGjJp/yNff
+ WlcJ1HsplNeG7fBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0547F139CC;
+ Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id z+csAGMH/2QuCgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Sep 2023 12:26:11 +0000
+Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
+Date: Mon, 11 Sep 2023 14:26:10 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v11] drm: Add initial ci/ subdirectory
-To: Maxime Ripard <mripard@kernel.org>, Daniel Stone <daniels@collabora.com>
-References: <20230811171953.176431-1-helen.koike@collabora.com>
- <ZOTFfhtzzWkrQ23Y@phenom.ffwll.local>
- <zorvxwffshrsqx5cy76pe3gn52qrqav7qusz5acav2un2ydvwr@fwjd56qg2xve>
- <87bkeo23vs.fsf@intel.com>
- <4rpsqk4tgrdcxtxtfoum6o4oyglwkirmkh3jj4y5tays2ivb5p@uwqdf3snshkv>
- <25df6189-7b0a-b13d-e93d-c2a388fd45e3@collabora.com>
- <zmq7pz7rtz6h765azg5kl2qgjd264yafctx4q474t5tqai57og@cajbcub4yuwr>
- <5fdf9d29-3f8d-0ee0-027f-57ff3a5cecb8@collabora.com>
- <CAKMK7uGg6n322UugJwErqF_Dvsbqceqae6SVWV3ZWEOR7x36rQ@mail.gmail.com>
- <9a2b1ad8-4359-4f12-b4f9-c1de477bc440@collabora.com>
- <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
-Content-Language: en-CA
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <mnjcsiqjqdnvbbkaaz5r4n42e56qsax667r7radzyagnmmfkip@dfi64z5deqzj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ehasp3x5p4ksus1eoywnq1ujg96e9qzj
-X-MBO-RS-ID: 28267585246936505e8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+Content-Language: en-US
+To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------4M8cdUHyfNjDPiRMngCSk0qn"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,135 +93,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, linux-doc@vger.kernel.org, vignesh.raman@collabora.com,
- dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io, jbrunet@baylibre.com,
- robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
- sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
- linux-rockchip@lists.infradead.org, martin.blumenstingl@googlemail.com,
- robclark@freedesktop.org, Helen Koike <helen.koike@collabora.com>,
- anholt@google.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-amlogic@lists.infradead.org, gustavo.padovan@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- neil.armstrong@linaro.org, guilherme.gallo@collabora.com,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/23 11:34, Maxime Ripard wrote:
-> On Thu, Sep 07, 2023 at 01:40:02PM +0200, Daniel Stone wrote:
->> Yeah, this is what our experience with Mesa (in particular) has taught us.
->>
->> Having 100% of the tests pass 100% of the time on 100% of the platforms is a
->> great goal that everyone should aim for. But it will also never happen.
->>
->> Firstly, we're just not there yet today. Every single GPU-side DRM driver
->> has userspace-triggerable faults which cause occasional errors in GL/Vulkan
->> tests. Every single one. We deal with these in Mesa by retrying; if we
->> didn't retry, across the breadth of hardware we test, I'd expect 99% of
->> should-succeed merges to fail because of these intermittent bugs in the DRM
->> drivers.
-> 
-> So the plan is only to ever test rendering devices? It should have been
-> made clearer then.
-> 
->> We don't have the same figure for KMS - because we don't test it - but
->> I'd be willing to bet no driver is 100% if you run tests often enough.
-> 
-> And I would still consider that a bug that we ought to fix, and
-> certainly not something we should sweep under the rug. If half the tests
-> are not running on a driver, then fine, they aren't. I'm not really
-> against having failing tests, I'm against not flagging unreliable tests
-> on a given hardware as failing tests.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------4M8cdUHyfNjDPiRMngCSk0qn
+Content-Type: multipart/mixed; boundary="------------kpzYvdaKcjH0xuuH5zw29EU8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
+Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
 
-A flaky test will by definition give a "pass" result at least some of the time, which would be considered a failure by the CI if the test is marked as failing.
+--------------kpzYvdaKcjH0xuuH5zw29EU8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMTAuMDkuMjMgdW0gMTg6Mzkgc2NocmllYiBKYW5uZSBHcnVuYXUgdmlhIEI0
+IFJlbGF5Og0KPiBGcm9tOiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gDQo+IE11
+bHRpcGxlIHBvd2VyIGRvbWFpbnMgbmVlZCB0byBiZSBoYW5kbGVkIGV4cGxpY2l0bHkgaW4g
+ZWFjaCBkcml2ZXIuIFRoZQ0KPiBkcml2ZXIgY29yZSBjYW4gbm90IGhhbmRsZSBpdCBhdXRv
+bWF0aWNhbGx5IHNpbmNlIGl0IGlzIG5vdCBhd2FyZSBvZg0KPiBwb3dlciBzZXF1ZW5jaW5n
+IHJlcXVpcmVtZW50cyB0aGUgaGFyZHdhcmUgbWlnaHQgaGF2ZS4gVGhpcyBpcyBub3QgYQ0K
+PiBwcm9ibGVtIGZvciBzaW1wbGVkcm0gc2luY2UgZXZlcnl0aGluZyBpcyBleHBlY3RlZCB0
+byBiZSBwb3dlcmVkIG9uIGJ5DQo+IHRoZSBib290bG9hZGVyLiBzaW1wbGVkcm0gaGFzIGp1
+c3QgZW5zdXJlIGl0IHJlbWFpbnMgcG93ZXJlZCBvbiBkdXJpbmcNCj4gaXRzIGxpZmV0aW1l
+Lg0KPiBUaGlzIGlzIHJlcXVpcmVkIG9uIEFwcGxlIHNpbGljb24gTTIgYW5kIE0yIFByby9N
+YXgvVWx0cmEgZGVza3RvcA0KPiBzeXN0ZW1zLiBUaGUgSERNSSBvdXRwdXQgaW5pdGlhbGl6
+ZWQgYnkgdGhlIGJvb3Rsb2FkZXIgcmVxdWlyZXMga2VlcGluZw0KPiB0aGUgZGlzcGxheSBj
+b250cm9sbGVyIGFuZCBhIERQIHBoeSBwb3dlciBkb21haW4gb24uDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gLS0tDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAxMDYgKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEwNiBpbnNlcnRpb25z
+KCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCBmZjg2YmEx
+YWUxYjguLmVmZWRlZGU1N2Q0MiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rp
+bnkvc2ltcGxlZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
+LmMNCj4gQEAgLTYsNiArNiw3IEBADQo+ICAgI2luY2x1ZGUgPGxpbnV4L29mX2FkZHJlc3Mu
+aD4NCj4gICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVmYi5oPg0KPiAg
+ICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxsaW51
+eC9wbV9kb21haW4uaD4NCj4gICAjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVy
+Lmg+DQo+ICAgDQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4NCj4gQEAgLTIy
+Nyw2ICsyMjgsMTIgQEAgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ugew0KPiAgIAl1bnNpZ25l
+ZCBpbnQgcmVndWxhdG9yX2NvdW50Ow0KPiAgIAlzdHJ1Y3QgcmVndWxhdG9yICoqcmVndWxh
+dG9yczsNCj4gICAjZW5kaWYNCj4gKwkvKiBwb3dlci1kb21haW5zICovDQo+ICsjaWYgZGVm
+aW5lZCBDT05GSUdfT0YgJiYgZGVmaW5lZCBDT05GSUdfUE1fR0VORVJJQ19ET01BSU5TDQo+
+ICsJaW50IHB3cl9kb21fY291bnQ7DQo+ICsJc3RydWN0IGRldmljZSAqKnB3cl9kb21fZGV2
+czsNCj4gKwlzdHJ1Y3QgZGV2aWNlX2xpbmsgKipwd3JfZG9tX2xpbmtzOw0KPiArI2VuZGlm
+DQo+ICAgDQo+ICAgCS8qIHNpbXBsZWZiIHNldHRpbmdzICovDQo+ICAgCXN0cnVjdCBkcm1f
+ZGlzcGxheV9tb2RlIG1vZGU7DQo+IEBAIC00NjgsNiArNDc1LDEwMiBAQCBzdGF0aWMgaW50
+IHNpbXBsZWRybV9kZXZpY2VfaW5pdF9yZWd1bGF0b3JzKHN0cnVjdCBzaW1wbGVkcm1fZGV2
+aWNlICpzZGV2KQ0KPiAgIH0NCj4gICAjZW5kaWYNCj4gICANCj4gKyNpZiBkZWZpbmVkIENP
+TkZJR19PRiAmJiBkZWZpbmVkIENPTkZJR19QTV9HRU5FUklDX0RPTUFJTlMNCj4gKy8qDQo+
+ICsgKiBHZW5lcmljIHBvd2VyIGRvbWFpbiBoYW5kbGluZyBjb2RlLg0KPiArICoNCj4gKyAq
+IEhlcmUgd2UgaGFuZGxlIHRoZSBwb3dlci1kb21haW5zIHByb3BlcnRpZXMgb2Ygb3VyICJz
+aW1wbGUtZnJhbWVidWZmZXIiDQo+ICsgKiBkdCBub2RlLiBUaGlzIGlzIG9ubHkgbmVjZXNz
+YXJ5IGlmIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgcG93ZXItZG9tYWluLg0KPiArICogQSBz
+aW5nbGUgcG93ZXItZG9tYWlucyBpcyBoYW5kbGVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGRy
+aXZlciBjb3JlLiBNdWx0aXBsZQ0KPiArICogcG93ZXItZG9tYWlucyBoYXZlIHRvIGJlIGhh
+bmRsZWQgYnkgZHJpdmVycyBzaW5jZSB0aGUgZHJpdmVyIGNvcmUgY2FuJ3Qga25vdw0KPiAr
+ICogdGhlIGNvcnJlY3QgcG93ZXIgc2VxdWVuY2luZy4gUG93ZXIgc2VxdWVuY2luZyBpcyBu
+b3QgYW4gaXNzdWUgZm9yIHNpbXBsZWRybQ0KPiArICogc2luY2UgdGhlIGJvb3Rsb2FkZXIg
+aGFzIHB1dCB0aGUgcG93ZXIgZG9tYWlucyBhbHJlYWR5IGluIHRoZSBjb3JyZWN0IHN0YXRl
+Lg0KPiArICogc2ltcGxlZHJtIGhhcyBvbmx5IHRvIGVuc3VyZSB0aGV5IHJlbWFpbiBhY3Rp
+dmUgZm9yIGl0cyBsaWZldGltZS4NCj4gKyAqDQo+ICsgKiBXaGVuIHRoZSBkcml2ZXIgdW5s
+b2Fkcywgd2UgZGV0YWNoIGZyb20gdGhlIHBvd2VyLWRvbWFpbnMuDQo+ICsgKg0KPiArICog
+V2Ugb25seSBjb21wbGFpbiBhYm91dCBlcnJvcnMgaGVyZSwgbm8gYWN0aW9uIGlzIHRha2Vu
+IGFzIHRoZSBtb3N0IGxpa2VseQ0KPiArICogZXJyb3IgY2FuIG9ubHkgaGFwcGVuIGR1ZSB0
+byBhIG1pc21hdGNoIGJldHdlZW4gdGhlIGJvb3Rsb2FkZXIgd2hpY2ggc2V0DQo+ICsgKiB1
+cCB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZlciIgZHQgbm9kZSwgYW5kIHRoZSBQTSBkb21haW4g
+cHJvdmlkZXJzIGluIHRoZQ0KPiArICogZGV2aWNlIHRyZWUuIENoYW5jZXMgYXJlIHRoYXQg
+dGhlcmUgYXJlIG5vIGFkdmVyc2UgZWZmZWN0cywgYW5kIGlmIHRoZXJlIGFyZSwNCj4gKyAq
+IGEgY2xlYW4gdGVhcmRvd24gb2YgdGhlIGZiIHByb2JlIHdpbGwgbm90IGhlbHAgdXMgbXVj
+aCBlaXRoZXIuIFNvIGp1c3QNCj4gKyAqIGNvbXBsYWluIGFuZCBjYXJyeSBvbiwgYW5kIGhv
+cGUgdGhhdCB0aGUgdXNlciBhY3R1YWxseSBnZXRzIGEgd29ya2luZyBmYiBhdA0KPiArICog
+dGhlIGVuZCBvZiB0aGluZ3MuDQo+ICsgKi8NCj4gK3N0YXRpYyB2b2lkIHNpbXBsZWRybV9k
+ZXZpY2VfZGV0YWNoX2dlbnBkKHZvaWQgKnJlcykNCj4gK3sNCj4gKwlpbnQgaTsNCj4gKwlz
+dHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldiA9IC8qKHN0cnVjdCBzaW1wbGVkcm1fZGV2
+aWNlICopKi9yZXM7DQo+ICsNCj4gKw0KPiArCWRybV9lcnIoJnNkZXYtPmRldiwgIiUgcG93
+ZXItZG9tYWlucyBjb3VudDolZFxuIiwgX19mdW5jX18sIHNkZXYtPnB3cl9kb21fY291bnQp
+Ow0KDQpJZiBhbnl0aGluZywgZHJtX2RiZygpDQoNCj4gKwlpZiAoc2Rldi0+cHdyX2RvbV9j
+b3VudCA8PSAxKQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlmb3IgKGkgPSBzZGV2LT5wd3Jf
+ZG9tX2NvdW50IC0gMTsgaSA+PSAwOyBpLS0pIHsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9t
+X2xpbmtzW2ldKQ0KPiArCQkJZGV2aWNlX2xpbmtfZGVsKHNkZXYtPnB3cl9kb21fbGlua3Nb
+aV0pOw0KPiArCQlpZiAoIUlTX0VSUl9PUl9OVUxMKHNkZXYtPnB3cl9kb21fZGV2c1tpXSkp
+DQo+ICsJCQlkZXZfcG1fZG9tYWluX2RldGFjaChzZGV2LT5wd3JfZG9tX2RldnNbaV0sIHRy
+dWUpOw0KPiArCX0NCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBzaW1wbGVkcm1fZGV2aWNl
+X2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldikNCj4gK3sNCj4g
+KwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSBzZGV2LT5kZXYuZGV2Ow0KPiArCWludCBpOw0KPiAr
+DQo+ICsJc2Rldi0+cHdyX2RvbV9jb3VudCA9IG9mX2NvdW50X3BoYW5kbGVfd2l0aF9hcmdz
+KGRldi0+b2Zfbm9kZSwgInBvd2VyLWRvbWFpbnMiLA0KPiArCQkJCQkJCSAiI3Bvd2VyLWRv
+bWFpbi1jZWxscyIpOw0KPiArCS8qDQo+ICsJICogU2luZ2xlIHBvd2VyLWRvbWFpbiBkZXZp
+Y2VzIGFyZSBoYW5kbGVkIGJ5IGRyaXZlciBjb3JlIG5vdGhpbmcgdG8gZG8NCj4gKwkgKiBo
+ZXJlLiBUaGUgc2FtZSBmb3IgZGV2aWNlIG5vZGVzIHdpdGhvdXQgInBvd2VyLWRvbWFpbnMi
+IHByb3BlcnR5Lg0KPiArCSAqLw0KPiArCWlmIChzZGV2LT5wd3JfZG9tX2NvdW50IDw9IDEp
+DQo+ICsJCXJldHVybiAwOw0KPiArDQo+ICsJc2Rldi0+cHdyX2RvbV9kZXZzID0gZGV2bV9r
+Y2FsbG9jKGRldiwgc2Rldi0+cHdyX2RvbV9jb3VudCwNCj4gKwkJCQkJICAgICAgIHNpemVv
+Zigqc2Rldi0+cHdyX2RvbV9kZXZzKSwNCj4gKwkJCQkJICAgICAgIEdGUF9LRVJORUwpOw0K
+PiArCWlmICghc2Rldi0+cHdyX2RvbV9kZXZzKQ0KPiArCQlyZXR1cm4gLUVOT01FTTsNCj4g
+Kw0KPiArCXNkZXYtPnB3cl9kb21fbGlua3MgPSBkZXZtX2tjYWxsb2MoZGV2LCBzZGV2LT5w
+d3JfZG9tX2NvdW50LA0KPiArCQkJCQkJc2l6ZW9mKCpzZGV2LT5wd3JfZG9tX2xpbmtzKSwN
+Cj4gKwkJCQkJCUdGUF9LRVJORUwpOw0KPiArCWlmICghc2Rldi0+cHdyX2RvbV9saW5rcykN
+Cj4gKwkJcmV0dXJuIC1FTk9NRU07DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgc2Rldi0+
+cHdyX2RvbV9jb3VudDsgaSsrKSB7DQo+ICsJCXNkZXYtPnB3cl9kb21fZGV2c1tpXSA9IGRl
+dl9wbV9kb21haW5fYXR0YWNoX2J5X2lkKGRldiwgaSk7DQo+ICsJCWlmIChJU19FUlIoc2Rl
+di0+cHdyX2RvbV9kZXZzW2ldKSkgew0KPiArCQkJaW50IHJldCA9IFBUUl9FUlIoc2Rldi0+
+cHdyX2RvbV9kZXZzW2ldKTsNCj4gKwkJCWlmIChyZXQgPT0gLUVQUk9CRV9ERUZFUikgew0K
+PiArCQkJCXNpbXBsZWRybV9kZXZpY2VfZGV0YWNoX2dlbnBkKHNkZXYpOw0KPiArCQkJCXJl
+dHVybiBQVFJfRVJSKHNkZXYtPnB3cl9kb21fZGV2c1tpXSk7DQo+ICsJCQl9DQo+ICsJCQlk
+cm1fZXJyKCZzZGV2LT5kZXYsDQo+ICsJCQkJInBtX2RvbWFpbl9hdHRhY2hfYnlfaWQoJXUp
+IGZhaWxlZDogJWRcbiIsIGksIHJldCk7DQoNClRoZSBkcml2ZXIncyBub3QgcmVhbGx5IGZh
+aWxpbmcgdG8gaW5pdGlhbGl6ZSBBRkFJQ1QuIENBbGxpbmcgZHJtX3dhcm4oKSANCm1pZ2h0
+IGJlIG1vcmUgYXBwcm9wcmlhdGUuDQoNCj4gKwkJfQ0KPiArDQo+ICsJCXNkZXYtPnB3cl9k
+b21fbGlua3NbaV0gPSBkZXZpY2VfbGlua19hZGQoZGV2LA0KPiArCQkJCQkJCSBzZGV2LT5w
+d3JfZG9tX2RldnNbaV0sDQo+ICsJCQkJCQkJIERMX0ZMQUdfU1RBVEVMRVNTIHwNCj4gKwkJ
+CQkJCQkgRExfRkxBR19QTV9SVU5USU1FIHwNCj4gKwkJCQkJCQkgRExfRkxBR19SUE1fQUNU
+SVZFKTsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9tX2xpbmtzW2ldKQ0KPiArCQkJZHJtX2Vy
+cigmc2Rldi0+ZGV2LCAiZmFpbGVkIHRvIGxpbmsgcG93ZXItZG9tYWluICV1XG4iLCBpKTsN
+Cg0KQWxzbyBkcm1fd2FybigpID8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArCX0N
+Cj4gKw0KPiArCXJldHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBzaW1wbGVk
+cm1fZGV2aWNlX2RldGFjaF9nZW5wZCwgc2Rldik7DQo+ICt9DQo+ICsjZWxzZQ0KPiArc3Rh
+dGljIGludCBzaW1wbGVkcm1fZGV2aWNlX2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJt
+X2RldmljZSAqc2RldikNCj4gK3sNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKyNlbmRpZg0K
+PiArDQo+ICAgLyoNCj4gICAgKiBNb2Rlc2V0dGluZw0KPiAgICAqLw0KPiBAQCAtNjUxLDYg
+Kzc1NCw5IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2Rl
+dmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJaWYgKHJldCkNCj4g
+ICAJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgCXJldCA9IHNpbXBsZWRybV9kZXZpY2Vf
+aW5pdF9yZWd1bGF0b3JzKHNkZXYpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiBFUlJf
+UFRSKHJldCk7DQo+ICsJcmV0ID0gc2ltcGxlZHJtX2RldmljZV9hdHRhY2hfZ2VucGQoc2Rl
+dik7DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAgIA0K
+PiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiAxNWQzMGI0NjU3M2Q3NWY1Y2I1OGNmYWNkZWQ4
+ZWJhYjljNzZhMmIwDQo+IGNoYW5nZS1pZDogMjAyMzA5MTAtc2ltcGxlZHJtLW11bHRpcGxl
+LXBvd2VyLWRvbWFpbnMtZjQxZWZhNmFkOWJjDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQoNCi0t
+IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
+U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5
+MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywg
+QW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5i
+ZXJnKQ0K
 
->> Secondly, we will never be there. If we could pause for five years and sit
->> down making all the current usecases for all the current hardware on the
->> current kernel run perfectly, we'd probably get there. But we can't: there's
->> new hardware, new userspace, and hundreds of new kernel trees.
-> 
-> Not with that attitude :)
+--------------kpzYvdaKcjH0xuuH5zw29EU8--
 
-Attitude is not the issue, the complexity of the multiple systems involved is.
+--------------4M8cdUHyfNjDPiRMngCSk0qn
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> I'm not sure it's actually an argument, really. 10 years ago, we would
-> never have been at "every GPU on the market has an open-source driver"
-> here. 5 years ago, we would never have been at this-series-here. That
-> didn't stop anyone making progress, everyone involved in that thread
-> included.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT/B2IFAwAAAAAACgkQlh/E3EQov+Ca
+GhAArL3TRY+oyOxEkqlrxxZuCcKkj2M6aU6FLjW8zbN6SfT0fhoHFhjnaai7n5pE35yzQYEylleG
+CkEt33cwaAm4tT4ErV5IUOpMYizzAuk6Q273SwizxbJiw6Wulp89wXldSMAoeLZFoNrolqG4YzX+
+8cpvv4zPCCgm+B2HNaH6AZCQsZsy6ACLaHjkP1zMhS5XF6g5X8GKYK+2B7ShEHI8OO93fK2M1f6+
+t6vypQ2fKcWSGl4rjP9G02MNg5OtFug3UbrCHRV7410DAFbWowOZqSh+wETgV20YgWsQrbYoOiCF
+TNnkcNBywndTr/uh+PPiqSOaj9VxTV4UjEwgjVB69ectqm6fZ79GW37ZYcX4wYnBPS5h6yw+AvzD
+ZfKVD7vB9a5GqxDTH/6o7FP1MwZ2Io1+TC5pVI5+psF319YJNEL7X2zYXdauQOEMQYwpfOPGQZ7P
+AWImrNefJQTNK4DmkYInb7S5ZqrO6uFJxLHLWPDft7MG0gW+D49n7T/pP+J7oa7Yv8Kq7v/AgOHb
+glu9xMpwwcNLo0oh8vPYZ66c5CwQO/f9tfJx4UZK+CN35vsVg5ikVAWadX/k0oWYGF9il6/u2cFn
+KCtNr5b7OEwFX3pWRu7EUBnni5Tzhzpv3KfYZ6gl/enoXT8oweerdUbYeRK+GLyNp0sfeV2AGI8x
+0co=
+=kcaf
+-----END PGP SIGNATURE-----
 
-Even assuming perfection is achievable at all (which is very doubtful, given the experience from the last few years of CI in Mesa and other projects), if you demand perfection before even taking the first step, it will never get off the ground.
-
-
-> How are we even supposed to detect those failures in the first
-> place if tests are flagged as unreliable?
-
-Based on experience with Mesa, only a relatively small minority of tests should need to be marked as flaky / not run at all. The majority of tests are reliable and can catch regressions even while some tests are not yet.
-
-
-> No matter what we do here, what you describe will always happen. Like,
-> if we do flag those tests as unreliable, what exactly prevents another
-> issue to come on top undetected, and what will happen when we re-enable
-> testing?
-
-Any issues affecting a test will need to be fixed before (re-)enabling the test for CI.
-
-
-> On top of that, you kind of hinted at that yourself, but what set of
-> tests will pass is a property linked to a single commit. Having that
-> list within the kernel already alters that: you'll need to merge a new
-> branch, add a bunch of fixes and then change the test list state. You
-> won't have the same tree you originally tested (and defined the test
-> state list for).
-
-Ideally, the test state lists should be changed in the same commits which affect the test results. It'll probably take a while yet to get there for the kernel.
-
-> It might or might not be an issue for Linus' release, but I can
-> definitely see the trouble already for stable releases where fixes will
-> be backported, but the test state list certainly won't be updated.
-
-If the stable branch maintainers want to take advantage of CI for the stable branches, they may need to hunt for corresponding state list commits sometimes. They'll need to take that into account for their decision.
-
-
->> By keeping those sets of expectations, we've been able to keep Mesa pretty
->> clear of regressions, whilst having a very clear set of things that should
->> be fixed to point to. It would be great if those set of things were zero,
->> but it just isn't. Having that is far better than the two alternatives:
->> either not testing at all (obviously bad), or having the test always be red
->> so it's always ignored (might as well just not test).
-> 
-> Isn't that what happens with flaky tests anyway?
-
-For a small minority of tests. Daniel was referring to whole test suites.
-
-> Even more so since we have 0 context when updating that list.
-
-The commit log can provide whatever context is needed.
-
-
-> I've asked a couple of times, I'll ask again. In that other series, on
-> the MT8173, kms_hdmi_inject@inject-4k is setup as flaky (which is a KMS
-> test btw).
-> 
-> I'm a maintainer for that part of the kernel, I'd like to look into it,
-> because it's seriously something that shouldn't fail, ever, the hardware
-> isn't involved.
-> 
-> How can I figure out now (or worse, let's say in a year) how to
-> reproduce it? What kernel version was affected? With what board? After
-> how many occurences?
-> 
-> Basically, how can I see that the bug is indeed there (or got fixed
-> since), and how to start fixing it?
-
-Many of those things should be documented in the commit log of the state list change.
-
-How the CI works in general should be documented in some appropriate place in tree.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+--------------4M8cdUHyfNjDPiRMngCSk0qn--
