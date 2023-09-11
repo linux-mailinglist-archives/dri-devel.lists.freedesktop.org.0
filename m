@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0DF79A524
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 09:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4751D79A53F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 10:00:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C536810E11D;
-	Mon, 11 Sep 2023 07:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 342AF10E120;
+	Mon, 11 Sep 2023 08:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D279710E11D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 07:56:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A464110E120
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 08:00:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 0096ECE10B6;
- Mon, 11 Sep 2023 07:56:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B94B3C433C9;
- Mon, 11 Sep 2023 07:56:38 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id D1A57CE0A2B;
+ Mon, 11 Sep 2023 08:00:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42D1C433C8;
+ Mon, 11 Sep 2023 08:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694418999;
- bh=J4By/wtMEr2AEoDW7IigfXfEKp7/CeZK5KPE57g83AQ=;
+ s=k20201202; t=1694419244;
+ bh=JHbPrcise+/P/GKewnA0AHCsFPoqJCSTNKxWzvwxnmo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZfX6RyGjkbCon6qIymrUuDUmd4zyiw+oq+3UYAwwiRejb+bjeMBacGLrJVk1rq0/6
- Epnri0SlLSNT0lEAGHQvpMVuUcd2/RK9resXaAfohLmxGBCzZIIHrx7Agczwvu/Ee0
- 31czy6K1CbffAHojh735ol2bgE4CnY66hmjm0pn6F1mBdWN8voaI8Q2HEOHpFLNRzl
- yvcxdQ6OE9Fl21SakZehyM4rsYmRvesVp8JReZTn2jV8YMCT5/x7nK38rZarLkg1A/
- 1oa4bIIvcvkevd5EzXEXDw5eyXcW9i0t/nR43VM6KtPIonud2mgDSNbNgw3I3uFC5u
- oKb6l2ve2JxUQ==
-Date: Mon, 11 Sep 2023 09:56:36 +0200
+ b=LbQFztU9p87RS2T1tgOE70lHIZmbUe7bwhGzVitu3M4UEIIGWOjOBkRs+grlgO8dk
+ JK9rBKNPWWdpQFwHyaRjDm9e4kcvCHxCGzq5AQBI8CmosY79qNr/MUxdQGu4dK6Rr0
+ teFI0XJrM9fSfI3o8YtXaeJFsr3g2s4r/LjDG+vQAT6PN8lJpE6ePOyM3/SXqQohuP
+ AMBc5eeilizLoyD/iUK8a/qHo6sVWJg3pI3VFW/UZwKiPY0lR+b7tzM7Bow99Svx65
+ SK3Zp2HZjMlHnnJHYWZb0yqkHZ0Go4uCS1Fz/Df99kdxdhbeb6ATZ6Ze2CZz1/7bih
+ +XGuYlx1d8MYA==
+Date: Mon, 11 Sep 2023 10:00:41 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: Re: [PATCH v3 2/9] arm64: dts: qcom: apq8016-sbc: Add overlay for
- usb host mode
-Message-ID: <n7pfq63xblrijh7azhqj4zytnq6tuym6dwdw6rrwznnizpoy5p@7vsgezhgs3jg>
-References: <20230908152225.432139-1-vignesh.raman@collabora.com>
- <20230908152225.432139-3-vignesh.raman@collabora.com>
+To: Maira Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH 05/10] drm/tests: Add test for drm_framebuffer_cleanup()
+Message-ID: <jyceyofh7wtrdmua3iwozjmbzgcyejbbpmcfjg7v6533w7bdgd@fv6degdp74b6>
+References: <20230825160725.12861-1-gcarlos@disroot.org>
+ <20230825160725.12861-6-gcarlos@disroot.org>
+ <b78cc390-3d2f-1f02-23e1-7f94d38d03a4@riseup.net>
+ <5d660868-a1d2-ae41-30ee-e90b12aece9c@disroot.org>
+ <3da121e8-b21e-3184-86fa-270e089c56da@riseup.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gagdd2k3ghthyhjr"
+ protocol="application/pgp-signature"; boundary="mobalq7lo5cphg27"
 Content-Disposition: inline
-In-Reply-To: <20230908152225.432139-3-vignesh.raman@collabora.com>
+In-Reply-To: <3da121e8-b21e-3184-86fa-270e089c56da@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,87 +58,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, krzysztof.kozlowski+dt@linaro.org,
- robdclark@google.com, david.heidelberg@collabora.com,
- sergi.blanch.torne@collabora.com, gustavo.padovan@collabora.com,
- agross@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
- daniels@collabora.com, linux-arm-msm@vger.kernel.org,
- helen.koike@collabora.com, anholt@google.com,
- linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- andersson@kernel.org, linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
- robh+dt@kernel.org, dmitry.baryshkov@linaro.org, guilherme.gallo@collabora.com
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Carlos <gcarlos@disroot.org>,
+ dri-devel@lists.freedesktop.org,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ David Gow <davidgow@google.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---gagdd2k3ghthyhjr
-Content-Type: text/plain; charset=us-ascii
+--mobalq7lo5cphg27
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 08, 2023 at 08:52:18PM +0530, Vignesh Raman wrote:
-> Due to the presence of the fastboot micro cable in the CI farm,
-> it causes the hardware to remain in gadget mode instead of host mode.
-> So it doesn't find the network, which results in failure to mount root
-> fs via NFS.
+On Fri, Sep 08, 2023 at 05:42:07PM -0300, Maira Canal wrote:
+> Hi Carlos,
 >=20
-> Add an overlay dtso file that sets the dr_mode to host, allowing
-> the USB controllers to work in host mode. This dtso file will be used
-> in drm-ci, mesa-ci.
+> On 9/4/23 14:22, Carlos wrote:
+> > Hi Ma=EDra,
+> >=20
+> > On 8/26/23 11:06, Ma=EDra Canal wrote:
+> > > Hi Carlos,
+> > >=20
+> > > On 8/25/23 13:07, Carlos Eduardo Gallo Filho wrote:
+> > > > Add a single KUnit test case for the drm_framebuffer_cleanup functi=
+on.
+> > > >=20
+> > > > Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+> > > > ---
+> > > > =A0 drivers/gpu/drm/tests/drm_framebuffer_test.c | 49 +++++++++++++=
++++++++
+> > > > =A0 1 file changed, 49 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> > > > b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> > > > index 0e0e8216bbbc..16d9cf4bed88 100644
+> > > > --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> > > > +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> > > > @@ -370,6 +370,9 @@ static int drm_framebuffer_test_init(struct
+> > > > kunit *test)
+> > > > =A0=A0=A0=A0=A0 KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mock);
+> > > > =A0=A0=A0=A0=A0 dev =3D &mock->dev;
+> > > > =A0 +=A0=A0=A0 mutex_init(&dev->mode_config.fb_lock);
+> > >=20
+> > > What about drmm_mutex_init()?
+> > I took a look into it and as far I understand it would be useful if
+> > the drm_device was allocated with drmm_kalloc(), sure? As far we
 >=20
-> Overlay DT file uses the sugar syntax [suggested by Dmitry Baryshkov and =
-Maxime Ripard]
->=20
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Signed-off-by: David Heidelberg <david.heidelberg@collabora.com>
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
->=20
-> v3:
->   - New patch in the series to add device tree overlay in arch/arm64/boot=
-/dts/qcom
->=20
-> ---
->  arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso | 8 ++++++++
->  1 file changed, 8 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
->=20
-> diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso b/arch/ar=
-m64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
-> new file mode 100644
-> index 000000000000..a82c26b7eae8
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtso
-> @@ -0,0 +1,8 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +&usb {
-> +         dr_mode =3D "host";
-> +};
-> --=20
-> 2.40.1
->=20
+> I'm not sure if we can allocate drm_device with drmm_kzalloc(), as we
+> need a DRM device for drmm_kzalloc(). drmm_kzalloc() is just a
+> &drm_device managed version of kzalloc().
 
-You need to add it to the Makefile too
+We should use drm_kunit_helper_alloc_drm_device_with_driver
 
 Maxime
 
---gagdd2k3ghthyhjr
+--mobalq7lo5cphg27
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP7INAAKCRDj7w1vZxhR
-xV6IAQCox48qewzlkPPyfIUdU1lcyOF2tjZGlIie1OkEy+YwewD9HSiqWhPcaU05
-UcmcRvKlRMTRddoOLVSVlt6zHhBNPgI=
-=Cw8P
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP7JKQAKCRDj7w1vZxhR
+xTIKAQDbBWCByqv8snBN97J7qLMJG+4m0IH2sBBFt/HbtRsutwEA0PEuNUPsrl8V
+ag0QcOci8OeiaO/wXdBX+apeHPpNVw4=
+=BiNT
 -----END PGP SIGNATURE-----
 
---gagdd2k3ghthyhjr--
+--mobalq7lo5cphg27--
