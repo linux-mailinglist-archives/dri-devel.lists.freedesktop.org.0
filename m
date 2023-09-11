@@ -1,77 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CD779AA1C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:23:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB30579AA1D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C26F10E335;
-	Mon, 11 Sep 2023 16:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E4810E336;
+	Mon, 11 Sep 2023 16:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1800110E328
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 16:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694449416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zetrdZPONeG9YLHuQzoKZ5HDVObBlNiSzaWhvus5y8s=;
- b=OxANxiPNj3LUeLKNreIRFDdI2rxasWbhnDBKuSGuQuOTc2ez0zIl90pMMTPM4bOHZMJCbw
- p5Opi7BwtcjwJ+q7vHCuRPfv9LYEMz7dfLm5lman642hl4d44B+goHHRr0ILHUTQ+qolys
- SfflVuDxH1gdoLGr0fpCAmUjUyOt1UY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-350-AbEAj5SkMbiLA5C92oYyNw-1; Mon, 11 Sep 2023 12:23:32 -0400
-X-MC-Unique: AbEAj5SkMbiLA5C92oYyNw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-9aa05c1934aso367048566b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:23:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694449411; x=1695054211;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zetrdZPONeG9YLHuQzoKZ5HDVObBlNiSzaWhvus5y8s=;
- b=nwqgu5FCncEm/JVI49IJL5oQgwQ7fLL4Z4tgKiVfGtwF+9/CXAFSHd5pbYP82o6TTh
- Xr6FcOu59Z/4gSMo/52N3EOcE7SXYga3nUONe3pT8t0ZP30aGItcEybi48NcAg1MnfEH
- h9Tax3OaQRzK7isSNuy0tYM7MhWf1X18rW3nBPL/suKyUOjJXVCXyBJgZa2m+A9CN23Q
- HwnvQ4DQKedtdHDJi7ZmyLnWR+VSyIBXXfY++qtoIMZHPZopdkOOzK6zG0k1FJv4wCoB
- gziYOi9/j6Dfzap5FCaxLiWUlP16wqOz6NUr+OilaJyMrvS4/nNB0BHdpUQoukPP5IWh
- BPBA==
-X-Gm-Message-State: AOJu0Yz5wFvgRmIXFf0YFK1T7Fbl2F7FpvoEJw490pRw+0MXo0QiwWCC
- CYVIfalP8BiwCbK7Q8MdWwdi4mY81/e+NbpcWLH4rb0llYiNR5RNyBuV1chYMg44ZLak3QckJNW
- 0AX/fjK0+5pRFfS2x4B9KGNCfGwau
-X-Received: by 2002:a17:907:75d6:b0:9a5:a543:2744 with SMTP id
- jl22-20020a17090775d600b009a5a5432744mr126857ejc.33.1694449411597; 
- Mon, 11 Sep 2023 09:23:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6VUL0cDAfKiEJclPyM0psTdVvLtqVKNpq4PjGwwT80miyhI3PvRW23DdYuYlfXDJJgNat4Q==
-X-Received: by 2002:a17:907:75d6:b0:9a5:a543:2744 with SMTP id
- jl22-20020a17090775d600b009a5a5432744mr126835ejc.33.1694449411248; 
- Mon, 11 Sep 2023 09:23:31 -0700 (PDT)
-Received: from cassiopeiae ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- e10-20020a170906044a00b0099d0a8ccb5fsm5610916eja.152.2023.09.11.09.23.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Sep 2023 09:23:29 -0700 (PDT)
-Date: Mon, 11 Sep 2023 18:23:26 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <ZP8+/gjvKFBGR/Y4@cassiopeiae>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-7-dakr@redhat.com>
- <20230911123526.6c67feb0@collabora.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1967410E336;
+ Mon, 11 Sep 2023 16:25:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J9sz7E8L+yntiRSty0SnLdnGC4114rChVBo+BteX/9Oni7nmluDciZCq5eOMrB5yw49osuuGWx17AuaiaFV2qGwveR5yVLtjbmYwHxzy7xacgYyOKLvM9/ehtJB7axQu9BZ5osF2/YtXDVZiGWCEdXFb1A7zTkilQmN4QVfQTDHJ71Gr2cBRIFDStMkmt3Ay1dvM6U9KLwKgdoCCGmRNkiLjFBuxpPff4CdjUMRk+9uS2EZeWhdPplgdCwgbvqLvD6v1Bugso0RUgJcDhuOK31mwP92xtQdO9BTSVNdYQ1TCXgjG58zAp7uFRo50uUgwEO+ew0LEbny5VvzZBEfJeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yFztlHopyWHnlWAR2kpQzEtB4cbev9XuCMAymk3+EtA=;
+ b=W8q+mI281OGt7piB2IrTqVJZ+ET2Qb+bN+wgfEQru76XYfQ8yNxKtJ/Z9VQb0Z7z9lldel0dSrh0yZE7gJHiHnyq4/bfA23vtqVZ01CAGHZn5Ylo0lo8NCG1iAi4e9KKlBCA7rdt1bDvGHJexOtV/KQOPENmaPUJ0ziIokgfIXabVLZVYzu0mDx2msqS4p1U6ln7n8phBVVbXVIXRXQjUaBfvYEefhdrXJZMIHzLeWuiXF/uBvMMin+ifNPvRlhlz4+V5gqyH3N0SqfNqDN7rznHw5+EYke6nFOMIiYaUBJTyo2qCk1BzanpUD3RIM7LLQTPzuTQPCcp/9XiTV/LBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yFztlHopyWHnlWAR2kpQzEtB4cbev9XuCMAymk3+EtA=;
+ b=3X12AUgVZVKaAGuoqJ+oysvQMr91uoWlpB2otf3J6ZXsmgVqsITUl4fmY+4OOTI/U1B91E1pLSikOEU43cK01gGJ8MXvjFObuWmJFvQlMuOBH5AEdXlOmSGTF9PHEQDfgPHoKHnK5yGDfICFJ8eJDtSsggfR+xl1KoGzTxUianQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ CYYPR12MB8729.namprd12.prod.outlook.com (2603:10b6:930:c2::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.30; Mon, 11 Sep 2023 16:25:51 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::4196:c9c9:dfe9:8079]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::4196:c9c9:dfe9:8079%3]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
+ 16:25:51 +0000
+Message-ID: <c6823590-4955-439e-b8ce-94be184d6db5@amd.com>
+Date: Mon, 11 Sep 2023 12:25:47 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] Merge all debug module parameters
+Content-Language: en-US
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ christian.koenig@amd.com, alexander.deucher@amd.com
+References: <20230831152903.521404-1-andrealmeid@igalia.com>
+ <63b44028-8f80-4de6-9f17-25c9f713caba@igalia.com>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <63b44028-8f80-4de6-9f17-25c9f713caba@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQZPR01CA0052.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:88::21) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
-In-Reply-To: <20230911123526.6c67feb0@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CYYPR12MB8729:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44b8d4b3-ad8c-494f-20cd-08dbb2e3c35a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z5fPAGERMu/zZX4+uodxNfYet6hlXEh4CSHHRxtuVa2jYdyw/1dWtY5ga+eXC8uqykCQEAsQee95Xj5wknn9ICXSjMnfojRPyHsMNfgzdJOIBkXPH+Bk9DACBVWsNFkUqI2N2sIUy+rZSLxzW/danWcNE8aKl9laccFlv/s1Om6Y+ObXyO0QK2N0sB0a0W1mxl6JUTPTh+pnJr4q0QtI6VuDthh7NvdXu6poCLBMB1Siuw9hySVn6+wfxffZ3Oc4u2kg451F5TI00V7YAYDaLomG6G/TajWfZg0WuDeqGekGGntT9ekZdPkgTdsSVhaga3KW6GqCkmLMPXtJ3g9Ui2QX9HHrqwUwSlIA4VMNJJGACtA+VCduejsNkGMpuCGxpQ3XfkHM1ayY9zPzJzeq2EAqkkWlXumIizKn6EAWFK/umJTx6C44CMeH2WXCVGbtoow7MG3OxFOcGeUSuwshdOenya7ZvQ+WPhNG5IaGYIcHjnQt33yP2EnaDH3zPFTdZccXH63z49V2nMZ1zke6BSsuNWDnV2IlCV62tD0zO90pBPfZgSnYCdaXi3YudOptdVy/go2LDHJ7S7s1LUQ/eF/YfHynqZKZAOH1G5o061QdtP3jl3KloMp7NTwelchLJwMECqrLoQMrwtev8KEzf2riHYu0z1gA9OghrOVArls=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(39860400002)(346002)(136003)(376002)(366004)(1800799009)(451199024)(186009)(31686004)(6666004)(6486002)(6506007)(53546011)(36756003)(38100700002)(31696002)(86362001)(4326008)(2616005)(41300700001)(6512007)(966005)(83380400001)(478600001)(66946007)(316002)(8676002)(26005)(5660300002)(8936002)(6636002)(2906002)(66556008)(44832011)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnJXaDJzQlBMNWR2WUh4bXVEdjJncmxjNERrVzBUb0xVWlVtMU13MncrUm05?=
+ =?utf-8?B?V3JyZVpIQllJU3dPRjFWcXBBdXJOZHI2bkZZTGM2bS9sbXVFd1VRYnR1MkRy?=
+ =?utf-8?B?UnZjQXQyYzFsZUp4L0VCTk5EeGt6Q1N1dmI1SU9DTk02VUMvWEZ4WE10cXRz?=
+ =?utf-8?B?eXZUMW5YTVlDWGozZFVyaE15cWZweldOOFZBU0JmNWw1Q3pGRmlVa21saElN?=
+ =?utf-8?B?MzVqOU9wUVZLV05PRXFQQmtVeUhJRUJJUXcrRHgvME9ld3piK09RZ1FzdGZQ?=
+ =?utf-8?B?UU93VjgrK3NoejUwem52ZFozR284QzJONENRWWhwTTJGRTJJTERaeEJkRDFJ?=
+ =?utf-8?B?MXFnZXlueEFBck1sS1crOXplZGdvUzZud05KbGVkZWlnN3U1Q1J3WHNVeUlv?=
+ =?utf-8?B?Si82US8yNFZOODJkd1RRWkVRenRZMGVXWld6OXd5R2xZRDlhbDk2V1c4M2U5?=
+ =?utf-8?B?YmdPUTdlRHVnZEpVWFJNcmZveXlFRW1Id2VPSjBEMER4amhDWG16M1h2TmRG?=
+ =?utf-8?B?U3VYeTBtSUdDWkZrZmhLb05wSUdyMUM3M0NqZU80N3RYM0REYmxvOGRPazJS?=
+ =?utf-8?B?a0Z6TXJSM0pyT0VCUG5SOVZTR3lMZ1J1ek5aOTNOUE4rKytPVW0wNWJlL29v?=
+ =?utf-8?B?K0NncGVETGFBK3oydnlWVnJXL3Yyd3ZwU1hYL1NFOWplNmU4TzhQNFF5WHY5?=
+ =?utf-8?B?bWxkM0RjeFgyTEppd0JtTXFFakFiTnhVYVBpZ25CMkxXbTJnWmQ4OXFWMFNZ?=
+ =?utf-8?B?M0laQkJzUzk0VGdpVktQZXRXV1ZMSTFYd3ZrVDNlQ1hwYUx1SGdDM0ozbHBC?=
+ =?utf-8?B?d0Fnd1p4KzJPSU9GYTdLbXZHT3l6WU8wUDJhRTR3NW9JK2U5bmtPa1pTckJ6?=
+ =?utf-8?B?NEY3cW9iNFA5VGQrL0ZWbVZrOVJDYi90UFRaanBWTVhaYXJ5NFg2cHlyK25G?=
+ =?utf-8?B?N3ZqSmh4RytnelU2OExIOWo5MDMralJEMkZlWlpjcHc4bEI2YmliQ0kySlBL?=
+ =?utf-8?B?b28rZ1F3TDZxSUF1NFFYS3IxazE1YVkwNldWQm1wRkxhY2Vqc3dUUFI1SEpv?=
+ =?utf-8?B?ZnU2SCtNOGFYMEJ3N1BzYjdWeUhkK1B2cVBCRGM4cVZCb3BPUlhJMEh6YVBV?=
+ =?utf-8?B?TWhibWZBYys4STF3M1V1eXJMdUF3SWpidXgwS1B1QVBSWWx5a2pBR1QyY2Rz?=
+ =?utf-8?B?YzNERkxvUXhyYnFlci9iL0pEQWgzVkZMYlArQ2I3T3Vkc0wwRDBhMXk3dlQ2?=
+ =?utf-8?B?aExRS3VJV2dSa1VMMjA4ZmdvMThoWE9MdzdZQ3REbGpKUGNmZzBVcWl5cEpU?=
+ =?utf-8?B?VEcyZmZKWjM0SUNGU1pWdGNLM2N0TDJPNlNWR2FOendIZ2hRY3grcHZFK0FC?=
+ =?utf-8?B?V2MzaHpuUjNUbzZrcjJvRTZnbkVySFJRZVl5dUZZU2tCMlBnb0xybjlqZFRF?=
+ =?utf-8?B?OHo4QU1VVzZCakVRNjUrYkFyWlNvVGFXRy8wZFo4bWVNTkJ2T0E1RlZsTnNB?=
+ =?utf-8?B?eWlYM1h3MmkwVnYrb003MGtwQzBBZVNIYng1aTlrUTRUc0VlMmpjT2F3MmNo?=
+ =?utf-8?B?S3czRDdSKzdLdnFxVGFHSE5RdUFZbTZjeDNmKzl4MjU4ekVweXJ6MlpOOFRm?=
+ =?utf-8?B?NTZ5S2pKamJtMWtrSnYyUmI2OHZyMkFLRVpzSTAxMmVXYzBCMXV0UnZwbFJT?=
+ =?utf-8?B?RmJWS1QyRDhvRjdrNmFxaUNVcThPdzM5S1F4a1QrVlZYb0hQaXJhM0hBWnQ0?=
+ =?utf-8?B?c09ucm9RUERzMC9zQVpYWkhHS29oUXhIWlA2Zm1GMURqWmN4d2p3ZDl6UDhz?=
+ =?utf-8?B?Z2VGUSt5Z1hIbmFKWTVUb1Iya0JwYUIzR1dHM2dTNGJScTdXbjI3NUV6bmRY?=
+ =?utf-8?B?L3JOS2RQS3pxMGJiMVVPTGJsd0YrRXRVT3cwMXdocm1WWWxhWExqYnZVUUNy?=
+ =?utf-8?B?TG9ycHZxb1RmbVgyQlJaQytmYzZDRzVuUDJqVFpYQ01OL3lOWkk4MEtIQmJr?=
+ =?utf-8?B?c1ZTQ1F6NDZiMXVBaDlGSk10cytyS1ZwVy9jVmU3aWNPT1Zia0JRSEpnVUJ6?=
+ =?utf-8?B?ZnNUWTErVWpvaDNDM25Tc3FZb2RXWHFXRVZmQXFxNmhVeDZxZTZRbE5mOWIy?=
+ =?utf-8?Q?dbXRjRTx8ab8G1kUkQ1pQ0Rb+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44b8d4b3-ad8c-494f-20cd-08dbb2e3c35a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 16:25:51.2943 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /qd/RXTpgSp7pSTEVIw1QugHsCO1Z1vbWbdx9Sk/NbArYinC187XFXBHcgpEsbpgHnRxoUv/kDEG/4xMYjQ9Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8729
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,238 +125,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 11, 2023 at 12:35:26PM +0200, Boris Brezillon wrote:
-> Hello Danilo,
-> 
-> On Sat,  9 Sep 2023 17:31:13 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
-> 
-> > @@ -632,6 +661,131 @@
-> >   *	}
-> >   */
-> >  
-> > +/**
-> > + * get_next_vm_bo_from_list() - get the next vm_bo element
-> > + * @__gpuvm: The GPU VM
-> > + * @__list_name: The name of the list we're iterating on
-> > + * @__local_list: A pointer to the local list used to store already iterated items
-> > + * @__prev_vm_bo: The previous element we got from drm_gpuvm_get_next_cached_vm_bo()
-> > + *
-> > + * This helper is here to provide lockless list iteration. Lockless as in, the
-> > + * iterator releases the lock immediately after picking the first element from
-> > + * the list, so list insertion deletion can happen concurrently.
-> > + *
-> > + * Elements popped from the original list are kept in a local list, so removal
-> > + * and is_empty checks can still happen while we're iterating the list.
-> > + */
-> > +#define get_next_vm_bo_from_list(__gpuvm, __list_name, __local_list, __prev_vm_bo)	\
-> > +	({										\
-> > +		struct drm_gpuvm_bo *__vm_bo;						\
-> > +											\
-> > +		drm_gpuvm_bo_put(__prev_vm_bo);						\
-> > +											\
-> > +		spin_lock(&(__gpuvm)->__list_name.lock);				\
-> 
-> I'm tempted to add a drm_gpuvm::<list_name>::local_list field, so we
-> can catch concurrent iterations with something like:
-> 
-> 		if (!(__gpuvm)->__list_name.local_list)
-> 			(__gpuvm)->__list_name.local_list = __local_list;
-> 		else
-> 			WARN_ON((__gpuvm)->__list_name.local_list != __local_list);
-> 
-> with (__gpuvm)->__list_name.local_list being restored to NULL
-> in restore_vm_bo_list().
-> 
-> > +		while (!list_empty(&(__gpuvm)->__list_name.list)) {			\
-> > +			__vm_bo = list_first_entry(&(__gpuvm)->__list_name.list,	\
-> > +						   struct drm_gpuvm_bo,			\
-> > +						   list.entry.__list_name);		\
-> > +			if (drm_gpuvm_bo_get_unless_zero(__vm_bo)) {			\
-> > +				list_move_tail(&(__vm_bo)->list.entry.__list_name,	\
-> > +					       __local_list);				\
-> > +				break;							\
-> > +			} else {							\
-> > +				list_del_init(&(__vm_bo)->list.entry.__list_name);	\
-> > +				__vm_bo = NULL;						\
-> > +			}								\
-> > +		}									\
-> > +		spin_unlock(&(__gpuvm)->__list_name.lock);				\
-> > +											\
-> > +		__vm_bo;								\
-> > +	})
-> > +
-> > +/**
-> > + * for_each_vm_bo_in_list() - internal vm_bo list iterator
-> > + *
-> > + * This helper is here to provide lockless list iteration. Lockless as in, the
-> > + * iterator releases the lock immediately after picking the first element from the
-> > + * list, so list insertion and deletion can happen concurrently.
-> > + *
-> > + * Typical use:
-> > + *
-> > + *	struct drm_gpuvm_bo *vm_bo;
-> > + *	LIST_HEAD(my_local_list);
-> > + *
-> > + *	ret = 0;
-> > + *	drm_gpuvm_for_each_vm_bo(gpuvm, <list_name>, &my_local_list, vm_bo) {
-> > + *		ret = do_something_with_vm_bo(..., vm_bo);
-> > + *		if (ret)
-> > + *			break;
-> > + *	}
-> > + *	drm_gpuvm_bo_put(vm_bo);
-> > + *	drm_gpuvm_restore_vm_bo_list(gpuvm, <list_name>, &my_local_list);
-> 
-> The names in this example and the helper names don't match.
-> 
-> > + *
-> > + *
-> > + * Only used for internal list iterations, not meant to be exposed to the outside
-> > + * world.
-> > + */
-> > +#define for_each_vm_bo_in_list(__gpuvm, __list_name, __local_list, __vm_bo)	\
-> > +	for (__vm_bo = get_next_vm_bo_from_list(__gpuvm, __list_name,		\
-> > +						__local_list, NULL);		\
-> > +	     __vm_bo;								\
-> > +	     __vm_bo = get_next_vm_bo_from_list(__gpuvm, __list_name,		\
-> > +						__local_list, __vm_bo))		\
-> > +
-> > +/**
-> > + * restore_vm_bo_list() - move vm_bo elements back to their original list
-> > + * @__gpuvm: The GPU VM
-> > + * @__list_name: The name of the list we're iterating on
-> > + * @__local_list: A pointer to the local list used to store already iterated items
-> > + *
-> > + * When we're done iterating a vm_bo list, we should call restore_vm_bo_list()
-> > + * to restore the original state and let new iterations take place.
-> > + */
-> > +#define restore_vm_bo_list(__gpuvm, __list_name, __local_list)				\
-> > +	do {										\
-> > +		/* Merge back the two lists, moving local list elements to the		\
-> > +		 * head to preserve previous ordering, in case it matters.		\
-> > +		 */									\
-> > +		spin_lock(&(__gpuvm)->__list_name.lock);				\
-> > +		list_splice(__local_list, &(__gpuvm)->__list_name.list);		\
-> > +		spin_unlock(&(__gpuvm)->__list_name.lock);				\
-> > +	} while (0)
-> > +/**
-> > + * drm_gpuvm_bo_list_add() - insert a vm_bo into the given list
-> > + * @__vm_bo: the &drm_gpuvm_bo
-> > + * @__list_name: the name of the list to insert into
-> > + *
-> > + * Inserts the given @__vm_bo into the list specified by @__list_name and
-> > + * increases the vm_bo's reference count.
-> > + */
-> > +#define drm_gpuvm_bo_list_add(__vm_bo, __list_name)				\
-> > +	do {									\
-> > +		spin_lock(&(__vm_bo)->vm->__list_name.lock);			\
-> > +		if (list_empty(&(__vm_bo)->list.entry.__list_name))		\
-> > +			list_add_tail(&(__vm_bo)->list.entry.__list_name,	\
-> > +				      &(__vm_bo)->vm->__list_name.list);	\
-> > +		spin_unlock(&(__vm_bo)->vm->__list_name.lock);			\
-> > +	} while (0)
-> > +
-> > +/**
-> > + * drm_gpuvm_bo_list_del() - remove a vm_bo from the given list
-> > + * @__vm_bo: the &drm_gpuvm_bo
-> > + * @__list_name: the name of the list to insert into
-> > + *
-> > + * Removes the given @__vm_bo from the list specified by @__list_name and
-> > + * decreases the vm_bo's reference count.
-> > + */
-> > +#define drm_gpuvm_bo_list_del(__vm_bo, __list_name)				\
-> > +	do {									\
-> > +		spin_lock(&(__vm_bo)->vm->__list_name.lock);			\
-> > +		if (!list_empty(&(__vm_bo)->list.entry.__list_name))		\
-> > +			list_del_init(&(__vm_bo)->list.entry.__list_name);	\
-> > +		spin_unlock(&(__vm_bo)->vm->__list_name.lock);			\
-> > +	} while (0)
-> > +
-> > +static int __must_check
-> > +drm_gpuvm_bo_get_unless_zero(struct drm_gpuvm_bo *vm_bo);
-> 
-> I see no obvious reason to have a forward declaration for this helper,
-> if we decide to keep it, let's at least move the declaration here.
-> 
-> 
-> > @@ -807,6 +1262,14 @@ drm_gpuvm_bo_destroy(struct kref *kref)
-> >  
-> >  	drm_gem_gpuva_assert_lock_held(vm_bo->obj);
-> >  
-> > +	spin_lock(&gpuvm->extobj.lock);
-> > +	list_del(&vm_bo->list.entry.extobj);
-> > +	spin_unlock(&gpuvm->extobj.lock);
-> > +
-> > +	spin_lock(&gpuvm->evict.lock);
-> > +	list_del(&vm_bo->list.entry.evict);
-> > +	spin_unlock(&gpuvm->evict.lock);
-> > +
-> >  	list_del(&vm_bo->list.entry.gem);
-> >  
-> >  	drm_gem_object_put(obj);
-> > @@ -822,6 +1285,11 @@ drm_gpuvm_bo_destroy(struct kref *kref)
-> >   * @vm_bo: the &drm_gpuvm_bo to release the reference of
-> >   *
-> >   * This releases a reference to @vm_bo.
-> > + *
-> > + * If the reference count drops to zero, the &gpuvm_bo is destroyed, which
-> > + * includes removing it from the GEMs gpuva list. Hence, if a call to this
-> > + * function can potentially let the reference count to zero the caller must
-> > + * hold the dma-resv or driver specific GEM gpuva lock.
-> 
-> Looks like this should have been part of the previous patch. I hate
-> the fact we have to worry about GEM gpuva lock being held when we call
-> _put() only if the ref drops to zero though. I think I'd feel more
-> comfortable if the function was named differently. Maybe _return() or
-> _release() to match the _obtain() function, where the object is inserted
-> in the GEM vm_bo list. I would also do the lock_is_held() check
-> unconditionally, move the list removal in this function with a del_init(),
-> and have a WARN_ON(!list_empty) in vm_bo_destroy().
-> 
 
-We can't move the list removal to drm_gpuvm_bo_put(), we need to make sure we
-can't create duplicate drm_gpuvm_bo structures. Everything else pretty much goes
-away with a dedicated GEM gpuva list lock, as I had in my first patch series
-when I introduced the GPUVA manager. At that time it wasn't always needed, hence
-the optional driver specific lock, however with the VM_BO abstraction it really
-makes sense to have a dedicated one.
+On 9/11/23 09:54, André Almeida wrote:
+> Christian, Alex, I think this series is ready to be picked as well.
 
+Can you rebase this onto amd-staging-drm-next
+(https://gitlab.freedesktop.org/agd5f/linux)? Since it currently doesn't
+apply there.
 
-I agree with the other feedback from this reply and will address it in a V4.
-
-> >   */
-> >  void
-> >  drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo)
-> > @@ -831,6 +1299,12 @@ drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo)
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_gpuvm_bo_put);
-> >  
-> > +static int __must_check
-> > +drm_gpuvm_bo_get_unless_zero(struct drm_gpuvm_bo *vm_bo)
-> > +{
-> > +	return kref_get_unless_zero(&vm_bo->kref);
 > 
-> Not convinced this helper is needed. It's only used once, and I
-> don't think we'll need it elsewhere.
-> 
-> > +}
-> > +
-> >  static struct drm_gpuvm_bo *
-> >  __drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
-> >  		    struct drm_gem_object *obj)
-> 
-> 
-> Regards,
-> 
-> Boris
-> 
+> Em 31/08/2023 12:29, André Almeida escreveu:
+>> As suggested by Christian at [0], this patchset merges all debug modules
+>> parameters and creates a new one for disabling soft recovery:
+>>
+>>> Maybe we can overload the amdgpu_gpu_recovery module option with this.
+>>> Or even better merge all the developer module parameter into a
+>>> amdgpu_debug option. This way it should be pretty obvious that this
+>>> isn't meant to be used by someone who doesn't know how to use it.
+>>
+>> [0] 
+>> https://lore.kernel.org/dri-devel/55f69184-1aa2-55d6-4a10-1560d75c7324@amd.com/
+>>
+>> Changelog:
+>> - move enum from include/amd_shared.h to amdgpu/amdgpu_drv.c
+>> v2: 
+>> https://lore.kernel.org/lkml/20230830220808.421935-1-andrealmeid@igalia.com/
+>>
+>> - drop old module params
+>> - use BIT() macros
+>> - replace global var with adev-> vars
+>> v1: 
+>> https://lore.kernel.org/lkml/20230824162505.173399-1-andrealmeid@igalia.com/
+>>
+>> André Almeida (2):
+>>    drm/amdgpu: Merge debug module parameters
+>>    drm/amdgpu: Create an option to disable soft recovery
+>>
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  5 ++
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 63 ++++++++++++++++--------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c |  6 ++-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  2 +-
+>>   drivers/gpu/drm/amd/amdkfd/kfd_crat.c    |  2 +-
+>>   8 files changed, 58 insertions(+), 26 deletions(-)
+>>
+-- 
+Hamza
 
