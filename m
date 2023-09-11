@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9D279AB99
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 23:45:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E3B79ABA7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 23:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D6410E1EF;
-	Mon, 11 Sep 2023 21:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED35610E362;
+	Mon, 11 Sep 2023 21:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 832DF10E1EF
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 21:45:27 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4ff8f2630e3so8387850e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 14:45:27 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8B210E1F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 21:45:28 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-501bd6f7d11so8074680e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 14:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1694468726; x=1695073526; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FDiy42MWQp2cIU+1xSHE+JG1rTLkF3/vTzm9faFHw2w=;
- b=DMMsP/0xbxP22VuQA9FKDD9rA4LibtgCri0ZdDm3C2qdw3JSHWI2uGGQmw3eeg14/R
- 3IwWYtz+u+Ycp9HekjixCTDkkhAxGcnDpdgpPXj46QerlreS6ppMyXN8p3ONDIPAkyFW
- 1HYFYDKFCN+IXUgeqV4o7mwyivSYydUdfFVdf/DLrLaRs0grTGJ4OHEOYHGQLjLAhE+l
- 6uFm+RaE29ayHTt8uN4R14vYIBOxGQ8uS9I4P3gKJK9LDJNdf0JZqJ14GDSPHvFcA5Ny
- VkN56yohOM0d60LcYRPSRGzrQr5OtaGnYyBdIloETx1ICMLEIGJTIY4ouq9CYXgaRmOS
- R1gA==
+ bh=xTOfPIF9LYdHpAxSH/XAFUroqjv5MWy5k+f01k9rwAA=;
+ b=kppsSU2wsl2nce6xS9LFq0IDs1jUEzJ6Ra77UBE0dR6KzpCFInldvsCBxyCAB6OF7s
+ EDMiyl1HwhNdpU4dlHq5jQdbYnsQGZjywBQr2RhcVrDCRoDhcSIP/VLib09qo9yECzOG
+ frUJ38QL0afTKJus5LVXJSUG9ldjGuNvox+j4+cMflZk8vuQZ9Nn5S1xWYrDKlwiWx3u
+ A/cUygm/aYf3Z1CKIKQQZt9QpOn4q0H1/A/Yn7cgCz/J3LIMVZgOKOImJCAjpF6vIz5Z
+ hELpRdi5DcEUP04YoCwADgrJHqkrlN0c0yzzDRU5D4SL94S82szCvXS9xSySPX1TIF/S
+ CbWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1694468726; x=1695073526;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FDiy42MWQp2cIU+1xSHE+JG1rTLkF3/vTzm9faFHw2w=;
- b=bSrRCArjDH+mOUr54x9MvWHfUtb5WKHK3Ddn/Iy6KM8Xrbbt7hX+j21VMqykontHqa
- 8oaZ2tXOXytfGGuriozTfo2zuvpASnSlgq7bD+AVf39r/tCAeXBN9ypmqFvo65+Io2YF
- GUCYz4FgIxiuLCegvwenN6ZbLrKXyNR4lo2rNkxoJm9jvpa7R25Q793blulCtrpIt3aN
- 9ZhkknLzxVKI1Ekz0Hf04dtBNbbna8GJUVCC+Jb3BVEt/oe5L6AMcICtes+oujFI890z
- tXa6lBY+zQNh1P9QSFRIYJotFa3qj0LdkjTDwrWGxB2yzuuRdl8VzXmhaXBHgBCszLsW
- hp+w==
-X-Gm-Message-State: AOJu0YwuQ8oMwehJZEGFTGJeshYAxxk0gNZzwZcrnafT+cHW4TkDX9bX
- tW43R1XSdiODOEHzFieWT7kz8A==
-X-Google-Smtp-Source: AGHT+IHLLB/mlSJqnY+gfz8LBUwzx/Z6tLbsahZqCeIjMplqxljFDeEFziXk82Rq4s8zSIbEwMDQYA==
-X-Received: by 2002:a05:6512:3c8c:b0:500:7f51:d129 with SMTP id
- h12-20020a0565123c8c00b005007f51d129mr10285419lfv.34.1694468725837; 
- Mon, 11 Sep 2023 14:45:25 -0700 (PDT)
+ bh=xTOfPIF9LYdHpAxSH/XAFUroqjv5MWy5k+f01k9rwAA=;
+ b=h6OjgTO1+mEtxBT6PtTQPeoZ74qKJuSQs6H0sdh4TUg6RnrJ+XgTKx0cJ0LDw37CH4
+ houdcOKwl3i+K/pW+ZsywsNVcbsvBNQWANlUeu6a0sSLyTMZIThRTYRQnCplI/W1HEv8
+ XplmOholxxjP9oMw0fYSdibiAhs1AxpgPaN15pmN+QQ9lmKKzA5EFJ5x0WprBDrM0CeG
+ j/Xk76aWbmN82etvhIMeWteMFdgMQH+l/97dNrtGsB7e8RjazyHGtGyDaSVLe2MFWyk3
+ rUnVNMuaeFdr9fFfUTsB0XSYMWbyCezpfCjXWy7mW06eBhWcRR1cUGP6uHWteDKN+b3r
+ YG3g==
+X-Gm-Message-State: AOJu0YwA8P74WOVeaR0j+RfbOBKKjW3OGfaou6RqorF6BcMsWzEAQqF9
+ jkRNqyO/Wa7GYLR0z9d5TCDIWVIKjwsnwZUHEAM=
+X-Google-Smtp-Source: AGHT+IH6L6EO4AM5yWWLtSkl5v7ZE3u25hOZYrK7fN+XJdeB7s18jGU0WzJjjLStLkwWOrcwhy/qlg==
+X-Received: by 2002:a05:6512:4007:b0:500:d970:6541 with SMTP id
+ br7-20020a056512400700b00500d9706541mr10761061lfb.39.1694468726592; 
+ Mon, 11 Sep 2023 14:45:26 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  b5-20020a0565120b8500b004ff9bfda9d6sm1168804lfv.212.2023.09.11.14.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Sep 2023 14:45:25 -0700 (PDT)
+ Mon, 11 Sep 2023 14:45:26 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v4 4/9] drm/msm/dpu: drop the `id' field from
- DPU_HW_SUBBLK_INFO
-Date: Tue, 12 Sep 2023 00:45:16 +0300
-Message-Id: <20230911214521.787453-5-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 5/9] drm/msm/dpu: drop the `smart_dma_priority' field from
+ struct dpu_sspp_sub_blks
+Date: Tue, 12 Sep 2023 00:45:17 +0300
+Message-Id: <20230911214521.787453-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230911214521.787453-1-dmitry.baryshkov@linaro.org>
 References: <20230911214521.787453-1-dmitry.baryshkov@linaro.org>
@@ -82,250 +82,243 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The field `id' is not used for subblocks. The handling code usually
-knows, which sub-block it is now looking at. Drop the field completely.
+In preparation to deduplicating SSPP subblocks, drop the (unused)
+`smart_dma_priority' field from struct dpu_sspp_sub_blks. If it is
+needed later (e.g. for SmartDMA v1), it should be added to the SSPP
+declarations themselves.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 76 +++++++++----------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 -
- 2 files changed, 36 insertions(+), 42 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 112 +++++++-----------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   2 -
+ 2 files changed, 40 insertions(+), 74 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 77d09f961d86..ed7458991509 100644
+index ed7458991509..e9773274bdd6 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -253,17 +253,15 @@ static const uint32_t wb2_formats[] = {
+@@ -253,11 +253,10 @@ static const uint32_t wb2_formats[] = {
  #define SSPP_SCALER_VER(maj, min) (((maj) << 16) | (min))
  
  /* SSPP common configuration */
--#define _VIG_SBLK(sdma_pri, qseed_ver, scaler_ver) \
-+#define _VIG_SBLK(sdma_pri, scaler_ver) \
+-#define _VIG_SBLK(sdma_pri, scaler_ver) \
++#define _VIG_SBLK(scaler_ver) \
  	{ \
  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
  	.maxupscale = MAX_UPSCALE_RATIO, \
- 	.smart_dma_priority = sdma_pri, \
+-	.smart_dma_priority = sdma_pri, \
  	.scaler_blk = {.name = "scaler", \
--		.id = qseed_ver, \
  		.version = scaler_ver, \
  		.base = 0xa00, .len = 0xa0,}, \
- 	.csc_blk = {.name = "csc", \
--		.id = DPU_SSPP_CSC_10BIT, \
- 		.base = 0x1a00, .len = 0x100,}, \
- 	.format_list = plane_formats_yuv, \
- 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
-@@ -272,17 +270,15 @@ static const uint32_t wb2_formats[] = {
+@@ -270,11 +269,10 @@ static const uint32_t wb2_formats[] = {
  	.rotation_cfg = NULL, \
  	}
  
--#define _VIG_SBLK_ROT(sdma_pri, qseed_ver, scaler_ver, rot_cfg) \
-+#define _VIG_SBLK_ROT(sdma_pri, scaler_ver, rot_cfg) \
+-#define _VIG_SBLK_ROT(sdma_pri, scaler_ver, rot_cfg) \
++#define _VIG_SBLK_ROT(scaler_ver, rot_cfg) \
  	{ \
  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
  	.maxupscale = MAX_UPSCALE_RATIO, \
- 	.smart_dma_priority = sdma_pri, \
+-	.smart_dma_priority = sdma_pri, \
  	.scaler_blk = {.name = "scaler", \
--		.id = qseed_ver, \
  		.version = scaler_ver, \
  		.base = 0xa00, .len = 0xa0,}, \
- 	.csc_blk = {.name = "csc", \
--		.id = DPU_SSPP_CSC_10BIT, \
- 		.base = 0x1a00, .len = 0x100,}, \
- 	.format_list = plane_formats_yuv, \
- 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
-@@ -303,16 +299,16 @@ static const uint32_t wb2_formats[] = {
+@@ -287,11 +285,10 @@ static const uint32_t wb2_formats[] = {
+ 	.rotation_cfg = rot_cfg, \
+ 	}
+ 
+-#define _DMA_SBLK(sdma_pri) \
++#define _DMA_SBLK() \
+ 	{ \
+ 	.maxdwnscale = SSPP_UNITY_SCALE, \
+ 	.maxupscale = SSPP_UNITY_SCALE, \
+-	.smart_dma_priority = sdma_pri, \
+ 	.format_list = plane_formats, \
+ 	.num_formats = ARRAY_SIZE(plane_formats), \
+ 	.virt_format_list = plane_formats, \
+@@ -299,17 +296,13 @@ static const uint32_t wb2_formats[] = {
  	}
  
  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_0 =
--				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(0,
- 					  SSPP_SCALER_VER(1, 2));
+-				_VIG_SBLK(0,
+-					  SSPP_SCALER_VER(1, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 2));
  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_1 =
--				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(0,
- 					  SSPP_SCALER_VER(1, 2));
+-				_VIG_SBLK(0,
+-					  SSPP_SCALER_VER(1, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 2));
  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_2 =
--				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(0,
- 					  SSPP_SCALER_VER(1, 2));
+-				_VIG_SBLK(0,
+-					  SSPP_SCALER_VER(1, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 2));
  static const struct dpu_sspp_sub_blks msm8998_vig_sblk_3 =
--				_VIG_SBLK(0, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(0,
- 					  SSPP_SCALER_VER(1, 2));
+-				_VIG_SBLK(0,
+-					  SSPP_SCALER_VER(1, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 2));
  
  static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
-@@ -322,29 +318,29 @@ static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
+ 	.rot_maxheight = 1088,
+@@ -318,107 +311,82 @@ static const struct dpu_rotation_cfg dpu_rot_sc7280_cfg_v2 = {
  };
  
  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
--				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(5,
- 					  SSPP_SCALER_VER(1, 3));
+-				_VIG_SBLK(5,
+-					  SSPP_SCALER_VER(1, 3));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 3));
  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
--				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(6,
- 					  SSPP_SCALER_VER(1, 3));
+-				_VIG_SBLK(6,
+-					  SSPP_SCALER_VER(1, 3));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 3));
  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
--				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(7,
- 					  SSPP_SCALER_VER(1, 3));
+-				_VIG_SBLK(7,
+-					  SSPP_SCALER_VER(1, 3));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 3));
  static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
--				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(8,
- 					  SSPP_SCALER_VER(1, 3));
+-				_VIG_SBLK(8,
+-					  SSPP_SCALER_VER(1, 3));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 3));
  
  static const struct dpu_sspp_sub_blks sm8150_vig_sblk_0 =
--				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(5,
- 					  SSPP_SCALER_VER(1, 4));
+-				_VIG_SBLK(5,
+-					  SSPP_SCALER_VER(1, 4));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 4));
  static const struct dpu_sspp_sub_blks sm8150_vig_sblk_1 =
--				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(6,
- 					  SSPP_SCALER_VER(1, 4));
+-				_VIG_SBLK(6,
+-					  SSPP_SCALER_VER(1, 4));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 4));
  static const struct dpu_sspp_sub_blks sm8150_vig_sblk_2 =
--				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(7,
- 					  SSPP_SCALER_VER(1, 4));
+-				_VIG_SBLK(7,
+-					  SSPP_SCALER_VER(1, 4));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 4));
  static const struct dpu_sspp_sub_blks sm8150_vig_sblk_3 =
--				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED3,
-+				_VIG_SBLK(8,
- 					  SSPP_SCALER_VER(1, 4));
+-				_VIG_SBLK(8,
+-					  SSPP_SCALER_VER(1, 4));
++				_VIG_SBLK(SSPP_SCALER_VER(1, 4));
  
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK(1);
-@@ -353,59 +349,59 @@ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK(3);
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK(4);
+-static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK(1);
+-static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK(2);
+-static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK(3);
+-static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK(4);
++static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK();
++static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK();
++static const struct dpu_sspp_sub_blks sdm845_dma_sblk_2 = _DMA_SBLK();
++static const struct dpu_sspp_sub_blks sdm845_dma_sblk_3 = _DMA_SBLK();
  
  static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
--				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(4,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(4,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  
  static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
--			_VIG_SBLK_ROT(4, DPU_SSPP_SCALER_QSEED4,
-+			_VIG_SBLK_ROT(4,
- 				      SSPP_SCALER_VER(3, 0),
+-			_VIG_SBLK_ROT(4,
+-				      SSPP_SCALER_VER(3, 0),
++			_VIG_SBLK_ROT(SSPP_SCALER_VER(3, 0),
  				      &dpu_rot_sc7280_cfg_v2);
  
  static const struct dpu_sspp_sub_blks sm6115_vig_sblk_0 =
--				_VIG_SBLK(2, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(2,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(2,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  
  static const struct dpu_sspp_sub_blks sm6125_vig_sblk_0 =
--				_VIG_SBLK(3, DPU_SSPP_SCALER_QSEED3LITE,
-+				_VIG_SBLK(3,
- 					  SSPP_SCALER_VER(2, 4));
+-				_VIG_SBLK(3,
+-					  SSPP_SCALER_VER(2, 4));
++				_VIG_SBLK(SSPP_SCALER_VER(2, 4));
  
  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
--				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(5,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(5,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
--				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(6,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(6,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
--				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(7,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(7,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
--				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(8,
- 					  SSPP_SCALER_VER(3, 0));
+-				_VIG_SBLK(8,
+-					  SSPP_SCALER_VER(3, 0));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 0));
  
  static const struct dpu_sspp_sub_blks sm8450_vig_sblk_0 =
--				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(5,
- 					  SSPP_SCALER_VER(3, 1));
+-				_VIG_SBLK(5,
+-					  SSPP_SCALER_VER(3, 1));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 1));
  static const struct dpu_sspp_sub_blks sm8450_vig_sblk_1 =
--				_VIG_SBLK(6, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(6,
- 					  SSPP_SCALER_VER(3, 1));
+-				_VIG_SBLK(6,
+-					  SSPP_SCALER_VER(3, 1));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 1));
  static const struct dpu_sspp_sub_blks sm8450_vig_sblk_2 =
--				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(7,
- 					  SSPP_SCALER_VER(3, 1));
+-				_VIG_SBLK(7,
+-					  SSPP_SCALER_VER(3, 1));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 1));
  static const struct dpu_sspp_sub_blks sm8450_vig_sblk_3 =
--				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(8,
- 					  SSPP_SCALER_VER(3, 1));
+-				_VIG_SBLK(8,
+-					  SSPP_SCALER_VER(3, 1));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 1));
  
  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_0 =
--				_VIG_SBLK(7, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(7,
- 					  SSPP_SCALER_VER(3, 2));
+-				_VIG_SBLK(7,
+-					  SSPP_SCALER_VER(3, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 2));
  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_1 =
--				_VIG_SBLK(8, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(8,
- 					  SSPP_SCALER_VER(3, 2));
+-				_VIG_SBLK(8,
+-					  SSPP_SCALER_VER(3, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 2));
  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_2 =
--				_VIG_SBLK(9, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(9,
- 					  SSPP_SCALER_VER(3, 2));
+-				_VIG_SBLK(9,
+-					  SSPP_SCALER_VER(3, 2));
++				_VIG_SBLK(SSPP_SCALER_VER(3, 2));
  static const struct dpu_sspp_sub_blks sm8550_vig_sblk_3 =
--				_VIG_SBLK(10, DPU_SSPP_SCALER_QSEED4,
-+				_VIG_SBLK(10,
- 					  SSPP_SCALER_VER(3, 2));
- static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK(5);
- static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK(6);
-@@ -474,12 +470,12 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
-  * DSPP sub blocks config
-  *************************************************************/
- static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
--	.pcc = {.name = "pcc", .id = DPU_DSPP_PCC, .base = 0x1700,
-+	.pcc = {.name = "pcc", .base = 0x1700,
- 		.len = 0x90, .version = 0x10007},
- };
+-				_VIG_SBLK(10,
+-					  SSPP_SCALER_VER(3, 2));
+-static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK(5);
+-static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK(6);
++				_VIG_SBLK(SSPP_SCALER_VER(3, 2));
++static const struct dpu_sspp_sub_blks sm8550_dma_sblk_4 = _DMA_SBLK();
++static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK();
  
- static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
--	.pcc = {.name = "pcc", .id = DPU_DSPP_PCC, .base = 0x1700,
-+	.pcc = {.name = "pcc", .base = 0x1700,
- 		.len = 0x90, .version = 0x40000},
- };
+-#define _VIG_SBLK_NOSCALE(sdma_pri) \
++#define _VIG_SBLK_NOSCALE() \
+ 	{ \
+ 	.maxdwnscale = SSPP_UNITY_SCALE, \
+ 	.maxupscale = SSPP_UNITY_SCALE, \
+-	.smart_dma_priority = sdma_pri, \
+ 	.format_list = plane_formats_yuv, \
+ 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
+ 	.virt_format_list = plane_formats, \
+ 	.virt_num_formats = ARRAY_SIZE(plane_formats), \
+ 	}
  
-@@ -487,19 +483,19 @@ static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
-  * PINGPONG sub blocks config
-  *************************************************************/
- static const struct dpu_pingpong_sub_blks sdm845_pp_sblk_te = {
--	.te2 = {.name = "te2", .id = DPU_PINGPONG_TE2, .base = 0x2000, .len = 0x0,
-+	.te2 = {.name = "te2", .base = 0x2000, .len = 0x0,
- 		.version = 0x1},
--	.dither = {.name = "dither", .id = DPU_PINGPONG_DITHER, .base = 0x30e0,
-+	.dither = {.name = "dither", .base = 0x30e0,
- 		.len = 0x20, .version = 0x10000},
- };
+-static const struct dpu_sspp_sub_blks qcm2290_vig_sblk_0 = _VIG_SBLK_NOSCALE(2);
+-static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK(1);
++static const struct dpu_sspp_sub_blks qcm2290_vig_sblk_0 = _VIG_SBLK_NOSCALE();
++static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK();
  
- static const struct dpu_pingpong_sub_blks sdm845_pp_sblk = {
--	.dither = {.name = "dither", .id = DPU_PINGPONG_DITHER, .base = 0x30e0,
-+	.dither = {.name = "dither", .base = 0x30e0,
- 		.len = 0x20, .version = 0x10000},
- };
- 
- static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
--	.dither = {.name = "dither", .id = DPU_PINGPONG_DITHER, .base = 0xe0,
-+	.dither = {.name = "dither", .base = 0xe0,
- 	.len = 0x20, .version = 0x20000},
- };
- 
+ /*************************************************************
+  * MIXER sub blocks config
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 9e7750c47cd0..c47969ba7ed5 100644
+index c47969ba7ed5..19ab36ae6765 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -255,14 +255,12 @@ enum {
- /**
-  * MACRO DPU_HW_SUBBLK_INFO - information of HW sub-block inside DPU
-  * @name:              string name for debug purposes
-- * @id:                enum identifying this sub-block
-  * @base:              offset of this sub-block relative to the block
-  *                     offset
-  * @len                register block length of this sub-block
-  */
- #define DPU_HW_SUBBLK_INFO \
- 	char name[DPU_HW_BLK_NAME_LEN]; \
--	u32 id; \
- 	u32 base; \
- 	u32 len
- 
+@@ -372,7 +372,6 @@ struct dpu_caps {
+  * common: Pointer to common configurations shared by sub blocks
+  * @maxdwnscale: max downscale ratio supported(without DECIMATION)
+  * @maxupscale:  maxupscale ratio supported
+- * @smart_dma_priority: hw priority of rect1 of multirect pipe
+  * @max_per_pipe_bw: maximum allowable bandwidth of this pipe in kBps
+  * @qseed_ver: qseed version
+  * @scaler_blk:
+@@ -386,7 +385,6 @@ struct dpu_caps {
+ struct dpu_sspp_sub_blks {
+ 	u32 maxdwnscale;
+ 	u32 maxupscale;
+-	u32 smart_dma_priority;
+ 	u32 max_per_pipe_bw;
+ 	u32 qseed_ver;
+ 	struct dpu_scaler_blk scaler_blk;
 -- 
 2.39.2
 
