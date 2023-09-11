@@ -1,47 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D875379A96E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C6C79A984
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 17:17:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE5E10E309;
-	Mon, 11 Sep 2023 15:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1EA810E051;
+	Mon, 11 Sep 2023 15:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11EA710E1B2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:08:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 83BCD61208;
- Mon, 11 Sep 2023 15:08:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA0AC433C9;
- Mon, 11 Sep 2023 15:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694444901;
- bh=QQhUsR8kda3/hj6CcImnvWnHoUxICmdWDtUfw+d0L2k=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=oMnmqdvCbB/b9eUNHcCKrZgBIXAfEa4l3Ut8F+Krr/A+TO4Qp5xFRdmhtzOYMkOQW
- 98qwiW7ihtvdhmXn9/JMY3cAkCWfkf2RS329FQiqevC0xj5zMYEDcJaG1IoD/tdcm4
- kpZWOr1Vyd7e3Vmm3u4QL91seR/p4ZlqPgFodnlHBoxj1eBGPhSgK/yrDWOIq40+f5
- aUnUpUTw2aMPaIA27iibLEyT3mePx5Lnjot6mQy4HcSMzruUmZLyKo9qd8lzteD46Z
- 2M1fvO80IowMc9BrQIeMCwHpPKkPdDJZ3fzLDWpXm32vUmqUZe+eAU80MyQvPY7gmH
- AOdhADl4GZdow==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, Julia Lawall <Julia.Lawall@inria.fr>
-In-Reply-To: <20230907095521.14053-1-Julia.Lawall@inria.fr>
-References: <20230907095521.14053-1-Julia.Lawall@inria.fr>
-Subject: Re: (subset) [PATCH 00/11] add missing of_node_put
-Message-Id: <169444489227.1851820.10212594180854433279.b4-ty@kernel.org>
-Date: Mon, 11 Sep 2023 16:08:12 +0100
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939B510E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 15:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=MeQY0pI6Zdhk2aGEY5C7WS4yXEnfwTtX1HkrUhW3Hg0=; b=XbE3TYgW+q3blziN3ZcPDUnJRd
+ nbEAZVj0pfUkdV4I3Yf6kvA9JDQvvSP9jDtNAegWVJe/dWQESfYn3bO94ny2na0usCfgqvSMwVRWA
+ RzaAQKpGP27xwmG2D0GQWejHDqjygn16Zd3ic9BNAznKEjqDXpO91FdTEHNe8iX4vQJJmSjXDoKbZ
+ 11d2jBsm9akr6xvVkBasApmU4Cir5WpgusgedNHEioSD8VY+EQ2+1Krq3AU8WRdWRKzLG4q9ziKmu
+ buAeB1wzSkd4tzTyIfIhClj7TYzGdJuHZ23sABndE4vNQl6LtjYlcC1vrSWZSdXzmh/1jMEI19R5i
+ /57sASgg==;
+Received: from [2601:1c2:980:9ec0::9fed]
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1qfien-000rEs-0s; Mon, 11 Sep 2023 15:16:57 +0000
+Message-ID: <e8114d08-724d-d3f8-96a8-9872bf947f3c@infradead.org>
+Date: Mon, 11 Sep 2023 08:16:53 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: (subset) [PATCH v2] drm/connector: document
+ DRM_MODE_COLORIMETRY_COUNT
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+References: <20230906-topic-drm_connector_doc-v2-1-1f2dcaa43269@gmail.com>
+ <169409716450.2201230.1132363284756871897.b4-ty@kernel.org>
+ <87il8hf1p5.fsf@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87il8hf1p5.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-099c9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,47 +59,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pm@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Amit Kucheria <amitk@kernel.org>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nicholas Piggin <npiggin@gmail.com>, linux-mediatek@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com,
- Christophe Leroy <christophe.leroy@csgroup.eu>, linux-mmc@vger.kernel.org,
- Zhang Rui <rui.zhang@intel.com>, linux-media@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Sep 2023 11:55:10 +0200, Julia Lawall wrote:
-> Add of_node_put on a break out of an of_node loop.
+
+
+On 9/11/23 03:23, Jani Nikula wrote:
+> On Thu, 07 Sep 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> On Wed, 06 Sep 2023 22:47:38 +0200, Javier Carrasco wrote:
+>>> The drm_colorspace enum member DRM_MODE_COLORIMETRY_COUNT has been
+>>> properly documented by moving the description out of the enum to the
+>>> member description list to get rid of an additional warning and improve
+>>> documentation clarity.
+>>>
+>>>
+>>
+>> Applied to drm/drm-misc (drm-misc-next).
 > 
+> After the fact, but adding /* private: */ would've been an alternative
+> approach. I think support for that for enums should be there.
 
-Applied to
+Yes, that was the first patch that I sent....
+but nobody picked it up.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> Anyway, just for future reference, the merged patch is fine.
+> 
+> BR,
+> Jani.
+> 
+>>
+>> Thanks!
+>> Maxime
 
-Thanks!
 
-[10/11] ASoC: rsnd: add missing of_node_put
-        commit: 28115b1c4f2bb76e786436bf6597c5eb27638a5c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+~Randy
