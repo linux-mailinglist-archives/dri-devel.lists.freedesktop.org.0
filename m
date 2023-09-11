@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9A479C807
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEB679C80E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D936810E38C;
-	Tue, 12 Sep 2023 07:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2554B10E396;
+	Tue, 12 Sep 2023 07:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-212.mta1.migadu.com (out-212.mta1.migadu.com
- [95.215.58.212])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C34D310E1A7
+Received: from out-211.mta0.migadu.com (out-211.mta0.migadu.com
+ [91.218.175.211])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E607410E1A4
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:09:31 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1694422961;
+ t=1694422968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ekcF3Bi8RuigTkjZz8yzaTQ4wC4D41rIRScarwtkG1A=;
- b=Rx1r9SCTGSwY+YD2ad9mfOyDPYx1WNVtFqwZXiCvMHLHoy8kAJe697YPbr/Mp2BpRHLik5
- /DOx4El0C+uDkEI9kDmJTmfzQ8/UB5TQ3HZkDIotigbp+PKxMp2QokuMq0prVCfGGroD+M
- CFuwGn1sezZV47xjpD0lo/UfDowOnsYoYD47rHXsdXKKqVesf8qaeniH//MCFpTufLsFOe
- QE9zywaXZtjq/REHTCCXNYAnTFQxXMSjFnIbI9MUrUjZD/NRHNbt38ZE9YIaG9k/ilE+XD
- Rl7F4KRQNQTS1uuY5BUd84Nx2ugwIFwwGWLJZeS+a+3vAthZ5oIs3h8cVNfSIA==
+ bh=QEybRG/z/QiYL8x5ls+wYPU1myIjvupP8IAsRIKh5xg=;
+ b=L4zZ4w9E6I3vJ/yHBEDZ7bNzpDYIxT6oC471yPAYUPUVy8khFrdLFoGbR4WnLs5hsEKiSB
+ yHusLh1PHnuyZPA4BNjhQBBidEshgfx5A1dEMNboZAcGagMxOFU01LEPA1AhaKM0pNg4+T
+ 5nup4MOhOpwkbTG3+NfIxAg1IaJukZKvnmP/o9Sd2LGDG4Wp9T5zYTAh9vWlDXqO40veRm
+ UTNMhxi2NR7MUecIEaC/BmngFO7QdNK3jP2iIgbRBiGGA8JVXo7DrkU9dgyTsqn6Tdo7Zs
+ dxjoikuMXmYExpEv8H61JgiNqhxL+cRz+YzU810n4zRb9NmmP0v+LKEwvw86Gg==
 From: John Watts <contact@jookia.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 2/8] drm/panel: nv3052c: Add SPI device IDs
-Date: Mon, 11 Sep 2023 19:02:00 +1000
-Message-ID: <20230911090206.3121440-3-contact@jookia.org>
+Subject: [RFC PATCH 3/8] drm/panel: nv3052c: Sleep for 150ms after reset
+Date: Mon, 11 Sep 2023 19:02:01 +1000
+Message-ID: <20230911090206.3121440-4-contact@jookia.org>
 In-Reply-To: <20230911090206.3121440-1-contact@jookia.org>
 References: <20230911090206.3121440-1-contact@jookia.org>
 MIME-Version: 1.0
@@ -60,39 +60,30 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SPI drivers needs their own list of compatible device IDs in order
-for automatic module loading to work. Add those for this driver.
+The current code waits after resets for 5 to 20 milliseconds.
+This is appropriate when resetting a sleeping panel, but an awake panel
+requires at least 120ms of waiting.
+
+Sleep for 150ms so the panel always completes it reset properly.
 
 Signed-off-by: John Watts <contact@jookia.org>
 ---
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-index 589431523ce7..90dea21f9856 100644
+index 90dea21f9856..2526b123b1f5 100644
 --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
 +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -465,6 +465,12 @@ static const struct nv3052c_panel_info ltk035c5444t_panel_info = {
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
- };
+@@ -258,7 +258,7 @@ static int nv3052c_prepare(struct drm_panel *panel)
+ 	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+ 	usleep_range(10, 1000);
+ 	gpiod_set_value_cansleep(priv->reset_gpio, 0);
+-	usleep_range(5000, 20000);
++	msleep(150);
  
-+static const struct spi_device_id nv3052c_ids[] = {
-+	{ "ltk035c5444t", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, nv3052c_ids);
-+
- static const struct of_device_id nv3052c_of_match[] = {
- 	{ .compatible = "leadtek,ltk035c5444t", .data = &ltk035c5444t_panel_info },
- 	{ /* sentinel */ }
-@@ -476,6 +482,7 @@ static struct spi_driver nv3052c_driver = {
- 		.name = "nv3052c",
- 		.of_match_table = nv3052c_of_match,
- 	},
-+	.id_table = nv3052c_ids,
- 	.probe = nv3052c_probe,
- 	.remove = nv3052c_remove,
- };
+ 	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
+ 		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
 -- 
 2.42.0
 
