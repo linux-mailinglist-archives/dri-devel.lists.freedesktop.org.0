@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8B179A769
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E15179A76E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D3A10E291;
-	Mon, 11 Sep 2023 10:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F87710E290;
+	Mon, 11 Sep 2023 10:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9BD10E184;
- Mon, 11 Sep 2023 10:46:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F9110E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:49:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694429170; x=1725965170;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ykm6PmoaTeMGY8Jj3BL6u8PkH9OEnE5BuvMjPIvGLeQ=;
- b=SpfCE5gWdTm6qn2+/LKQXyVxKb+G3iz0C8btK7GMgTw0310dc5smzFGQ
- L9jVyEqVcB34vY2BK74YYG3wjuyH5Y+NvJ0/T0mYK1R3GjvQlOD3ai5Ci
- SX7M6QrkBkgLyUG9mKMvtdod10W7aWSIR3xqeaFUWvUC0SqYbyWxF+MYD
- xD/r+ZdBIhQtIid/T9tTUXqGQJngiUGkkamhylol0bo5kYRJO/M+Zyv2/
- pc0oCqy4ij3eTWhVDhGuRZvH3/IofrQdKpNgcAXeJvfovel9bMAIfuoYV
- uGAHY9jZBFzrCVydeR2jQnfEG6pEl2bFU+L6x6KLuwWxuf3mfYRAb+TjI w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="381849537"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="381849537"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 03:46:09 -0700
+ t=1694429380; x=1725965380;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=W0ihdI1gpYeZrR0lNJXdqr/RfBzKCoLICTIE6FOERxI=;
+ b=D9qikMI7zsbtJoAe3acdBk36/P/clEcBAojXrOa5VlJAj26Sc6IDeRvv
+ OKqudA+FgWHL1dcFB9RG39fI0EZVqt0q1YIY0zDe9/mvTylJNHnbcJCnq
+ xyrQBZ2FC98JrTKlv477V9xQrdY1dpbFfpPLlVSpYhI9rDUgCnrkNI3QD
+ 7b/gN6cTSukAibWtqxcWGHkNREZ/7Y/PGL0SwE6unfmFIaKpIsXU4dB8S
+ absQV22hrAWf+LLCyRkU6M7Z0LY20+oxcCGZEllYA+1D/TMRBixW5ia3F
+ 4j9XMGa95ZdhxbgWRYVc0ucU59ObOHjxbwxlcX6QeUOHkm79sIZt8BgSs g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="464423591"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="464423591"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 03:49:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="778345260"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="778345260"
-Received: from dfdonlon-mobl3.ger.corp.intel.com (HELO [10.252.24.122])
- ([10.252.24.122])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 03:46:07 -0700
-Message-ID: <eb7a84ee-a9df-b1b7-0aa8-488146ccd747@intel.com>
-Date: Mon, 11 Sep 2023 11:46:05 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="1074097706"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="1074097706"
+Received: from kschuele-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.119])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 03:49:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/5] drm/ttm: Update Makefile for KUnit
+In-Reply-To: <3782fd55e8479296daab7041430fe7b0848bf621.1694422112.git.karolina.stolarek@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1694422112.git.karolina.stolarek@intel.com>
+ <3782fd55e8479296daab7041430fe7b0848bf621.1694422112.git.karolina.stolarek@intel.com>
+Date: Mon, 11 Sep 2023 13:49:34 +0300
+Message-ID: <87fs3lf0ht.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/3] drm/buddy: Improve contiguous memory allocation
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20230909160902.15644-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20230909160902.15644-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,300 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/09/2023 17:09, Arunpravin Paneer Selvam wrote:
-> Problem statement: The current method roundup_power_of_two()
-> to allocate contiguous address triggers -ENOSPC in some cases
-> even though we have enough free spaces and so to help with
-> that we introduce a try harder mechanism.
-> 
-> In case of -ENOSPC, the new try harder mechanism rounddown the
-> original size to power of 2 and iterating over the round down
-> sized freelist blocks to allocate the required size traversing
-> RHS and LHS.
-> 
-> As part of the above new method implementation we moved
-> contiguous/alignment size computation part and trim function
-> to the drm buddy file.
-> 
-> v2: Modify the alloc_range() function to return total allocated size
->      on -ENOSPC err and traverse RHS/LHS to allocate the required
->      size (Matthew).
-> 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+On Mon, 11 Sep 2023, Karolina Stolarek <karolina.stolarek@intel.com> wrote:
+> Update Makefile so it can produce a module that consists of TTM tests.
+> This will allow us to test non-exported functions when KUnit tests
+> are built as a module. Remove the tests' Makefile.
+
+I'm asking questions instead of making assertions, because I'm not 100%
+confident, but I don't feel like this Makefile could work right.
+
+>
+> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309010358.50gYLkmw-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
 > ---
->   drivers/gpu/drm/drm_buddy.c | 138 ++++++++++++++++++++++++++++++++----
->   include/drm/drm_buddy.h     |   6 +-
->   2 files changed, 127 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 7098f125b54a..e909eed9cf60 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -480,10 +480,12 @@ alloc_from_freelist(struct drm_buddy *mm,
->   static int __alloc_range(struct drm_buddy *mm,
->   			 struct list_head *dfs,
->   			 u64 start, u64 size,
-> -			 struct list_head *blocks)
-> +			 struct list_head *blocks,
-> +			 u64 *total_allocated_on_err)
->   {
->   	struct drm_buddy_block *block;
->   	struct drm_buddy_block *buddy;
-> +	u64 total_allocated = 0;
->   	LIST_HEAD(allocated);
->   	u64 end;
->   	int err;
-> @@ -520,6 +522,7 @@ static int __alloc_range(struct drm_buddy *mm,
->   			}
->   
->   			mark_allocated(block);
-> +			total_allocated += drm_buddy_block_size(mm, block);
->   			mm->avail -= drm_buddy_block_size(mm, block);
->   			list_add_tail(&block->link, &allocated);
->   			continue;
-> @@ -551,13 +554,20 @@ static int __alloc_range(struct drm_buddy *mm,
->   		__drm_buddy_free(mm, block);
->   
->   err_free:
-> -	drm_buddy_free_list(mm, &allocated);
-> +	if (err == -ENOSPC && total_allocated_on_err) {
-> +		list_splice_tail(&allocated, blocks);
-> +		*total_allocated_on_err = total_allocated;
-> +	} else {
-> +		drm_buddy_free_list(mm, &allocated);
-> +	}
-> +
->   	return err;
->   }
->   
->   static int __drm_buddy_alloc_range(struct drm_buddy *mm,
->   				   u64 start,
->   				   u64 size,
-> +				   u64 *total_allocated_on_err,
->   				   struct list_head *blocks)
->   {
->   	LIST_HEAD(dfs);
-> @@ -566,7 +576,62 @@ static int __drm_buddy_alloc_range(struct drm_buddy *mm,
->   	for (i = 0; i < mm->n_roots; ++i)
->   		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
->   
-> -	return __alloc_range(mm, &dfs, start, size, blocks);
-> +	return __alloc_range(mm, &dfs, start, size,
-> +			     blocks, total_allocated_on_err);
-> +}
-> +
-> +static int __alloc_contig_try_harder(struct drm_buddy *mm,
-> +				     u64 size,
-> +				     u64 min_block_size,
-> +				     struct list_head *blocks)
-> +{
-> +	u64 rhs_offset, lhs_offset, lhs_size, filled;
-> +	struct drm_buddy_block *block;
-> +	struct list_head *list;
-> +	LIST_HEAD(blocks_lhs);
-> +	unsigned long pages;
-> +	unsigned int order;
-> +	u64 modify_size;
-> +	int err;
-> +
-> +	modify_size = rounddown_pow_of_two(size);
-> +	pages = modify_size >> ilog2(mm->chunk_size);
-> +	order = fls(pages) - 1;
-> +	if (order == 0)
-> +		return -ENOSPC;
-> +
-> +	list = &mm->free_list[order];
-> +	if (list_empty(list))
-> +		return -ENOSPC;
-> +
-> +	list_for_each_entry_reverse(block, list, link) {
-> +		/* Allocate blocks traversing RHS */
-> +		rhs_offset = drm_buddy_block_offset(block);
-> +		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
-> +					       &filled, blocks);
-> +		if (!err || err != -ENOSPC)
-> +			return err;
-> +
-> +		lhs_size = max((size - filled), min_block_size);
-> +		if (!IS_ALIGNED(lhs_size, min_block_size))
-> +			lhs_size = round_up(lhs_size, min_block_size);
-> +
-> +		/* Allocate blocks traversing LHS */
-> +		lhs_offset = drm_buddy_block_offset(block) - lhs_size;
-> +		err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
-> +					       NULL, &blocks_lhs);
-> +		if (!err) {
-> +			list_splice(&blocks_lhs, blocks);
-> +			return 0;
+>  drivers/gpu/drm/ttm/Makefile       | 18 +++++++++++++-----
+>  drivers/gpu/drm/ttm/tests/Makefile |  6 ------
+>  2 files changed, 13 insertions(+), 11 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/ttm/tests/Makefile
+>
+> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+> index dad298127226..6322a33e65ed 100644
+> --- a/drivers/gpu/drm/ttm/Makefile
+> +++ b/drivers/gpu/drm/ttm/Makefile
+> @@ -2,10 +2,18 @@
+>  #
+>  # Makefile for the drm device driver.  This driver provides support for the
+>  
+> -ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+> -	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+> -	ttm_device.o ttm_sys_manager.o
+> +ttm := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+> +       ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+> +       ttm_device.o ttm_sys_manager.o
+> +obj-$(CONFIG_DRM_TTM) += $(ttm)
 
-I guess we could attempt to trim this also (could tweak the trim to work 
-on multiple nodes)? But I guess in practice should be pretty meh, given 
-that the extra rhs is hopefully not too big in the corner case where the 
-alignment doesn't fit the min_block_size?
+Does that not lead to each object in $(ttm) becoming its own module?
 
-Anyway, for patches 1-3,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>  ttm-$(CONFIG_AGP) += ttm_agp_backend.o
 
-> +		} else if (err != -ENOSPC) {
-> +			drm_buddy_free_list(mm, blocks);
-> +			return err;
-> +		}
-> +		/* Free blocks for the next iteration */
-> +		drm_buddy_free_list(mm, blocks);
-> +	}
+Does this not create a ttm.o with just one object, depending on
+CONFIG_AGP?
+
+>  
+> -obj-$(CONFIG_DRM_TTM) += ttm.o
+> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
+> +ttm-tests := tests/ttm_kunit_helpers.o tests/ttm_device_test.o \
+> +             tests/ttm_pool_test.o
+
+I'd preserve the one object per line syntax. It's nicer for the diffs in
+subsequent updates.
+
 > +
-> +	return -ENOSPC;
->   }
->   
->   /**
-> @@ -626,7 +691,7 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
->   
->   	new_start = drm_buddy_block_offset(block);
->   	list_add(&block->tmp_link, &dfs);
-> -	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks);
-> +	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
->   	if (err) {
->   		mark_allocated(block);
->   		mm->avail -= drm_buddy_block_size(mm, block);
-> @@ -645,7 +710,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
->    * @start: start of the allowed range for this block
->    * @end: end of the allowed range for this block
->    * @size: size of the allocation
-> - * @min_page_size: alignment of the allocation
-> + * @min_block_size: alignment of the allocation
->    * @blocks: output list head to add allocated blocks
->    * @flags: DRM_BUDDY_*_ALLOCATION flags
->    *
-> @@ -660,23 +725,24 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
->    */
->   int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   			   u64 start, u64 end, u64 size,
-> -			   u64 min_page_size,
-> +			   u64 min_block_size,
->   			   struct list_head *blocks,
->   			   unsigned long flags)
->   {
->   	struct drm_buddy_block *block = NULL;
-> +	u64 original_size, original_min_size;
->   	unsigned int min_order, order;
-> -	unsigned long pages;
->   	LIST_HEAD(allocated);
-> +	unsigned long pages;
->   	int err;
->   
->   	if (size < mm->chunk_size)
->   		return -EINVAL;
->   
-> -	if (min_page_size < mm->chunk_size)
-> +	if (min_block_size < mm->chunk_size)
->   		return -EINVAL;
->   
-> -	if (!is_power_of_2(min_page_size))
-> +	if (!is_power_of_2(min_block_size))
->   		return -EINVAL;
->   
->   	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
-> @@ -690,14 +756,23 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   
->   	/* Actual range allocation */
->   	if (start + size == end)
-> -		return __drm_buddy_alloc_range(mm, start, size, blocks);
+> +ifeq ($(CONFIG_DRM_TTM_KUNIT_TEST),m)
+> +    ttm-test-objs := $(ttm) $(ttm-tests)
+
+Isn't the -objs syntax for host/userspace programs? And if not, doesn't
+it lead to objects with exported symbols being present in two places?
+
+Confused.
+
+BR,
+Jani.
+
+> +    obj-m := ttm-test.o
+> +else
+> +    obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += $(ttm-tests)
+> +endif
+> diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
+> deleted file mode 100644
+> index ec87c4fc1ad5..000000000000
+> --- a/drivers/gpu/drm/ttm/tests/Makefile
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0 AND MIT
 > -
-> -	if (!IS_ALIGNED(size, min_page_size))
-> -		return -EINVAL;
-> +		return __drm_buddy_alloc_range(mm, start, size, NULL, blocks);
-> +
-> +	original_size = size;
-> +	original_min_size = min_block_size;
-> +
-> +	/* Roundup the size to power of 2 */
-> +	if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) {
-> +		size = roundup_pow_of_two(size);
-> +		min_block_size = size;
-> +	/* Align size value to min_block_size */
-> +	} else if (!IS_ALIGNED(size, min_block_size)) {
-> +		size = round_up(size, min_block_size);
-> +	}
->   
->   	pages = size >> ilog2(mm->chunk_size);
->   	order = fls(pages) - 1;
-> -	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
->   
->   	do {
->   		order = min(order, (unsigned int)fls(pages) - 1);
-> @@ -716,6 +791,16 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   				break;
->   
->   			if (order-- == min_order) {
-> +				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
-> +				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
-> +					/*
-> +					 * Try contiguous block allocation through
-> +					 * try harder method
-> +					 */
-> +					return __alloc_contig_try_harder(mm,
-> +									 original_size,
-> +									 original_min_size,
-> +									 blocks);
->   				err = -ENOSPC;
->   				goto err_free;
->   			}
-> @@ -732,6 +817,31 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   			break;
->   	} while (1);
->   
-> +	/* Trim the allocated block to the required size */
-> +	if (original_size != size) {
-> +		struct list_head *trim_list;
-> +		LIST_HEAD(temp);
-> +		u64 trim_size;
-> +
-> +		trim_list = &allocated;
-> +		trim_size = original_size;
-> +
-> +		if (!list_is_singular(&allocated)) {
-> +			block = list_last_entry(&allocated, typeof(*block), link);
-> +			list_move(&block->link, &temp);
-> +			trim_list = &temp;
-> +			trim_size = drm_buddy_block_size(mm, block) -
-> +				(size - original_size);
-> +		}
-> +
-> +		drm_buddy_block_trim(mm,
-> +				     trim_size,
-> +				     trim_list);
-> +
-> +		if (!list_empty(&temp))
-> +			list_splice_tail(trim_list, &allocated);
-> +	}
-> +
->   	list_splice_tail(&allocated, blocks);
->   	return 0;
->   
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-> index 572077ff8ae7..a5b39fc01003 100644
-> --- a/include/drm/drm_buddy.h
-> +++ b/include/drm/drm_buddy.h
-> @@ -22,8 +22,9 @@
->   	start__ >= max__ || size__ > max__ - start__; \
->   })
->   
-> -#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
-> -#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
-> +#define DRM_BUDDY_RANGE_ALLOCATION		BIT(0)
-> +#define DRM_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
-> +#define DRM_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
->   
->   struct drm_buddy_block {
->   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
-> @@ -155,5 +156,4 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
->   void drm_buddy_block_print(struct drm_buddy *mm,
->   			   struct drm_buddy_block *block,
->   			   struct drm_printer *p);
-> -
->   #endif
+> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
+> -        ttm_device_test.o \
+> -        ttm_pool_test.o \
+> -        ttm_kunit_helpers.o
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
