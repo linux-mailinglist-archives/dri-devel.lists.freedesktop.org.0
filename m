@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B03179AC65
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C2C79AC69
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F24E010E383;
-	Mon, 11 Sep 2023 23:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D06610E373;
+	Mon, 11 Sep 2023 23:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A346C10E375;
- Mon, 11 Sep 2023 23:09:02 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id
- ca18e2360f4ac-792965813e7so188158439f.2; 
- Mon, 11 Sep 2023 16:09:02 -0700 (PDT)
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7DBC10E361;
+ Mon, 11 Sep 2023 23:09:03 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id
+ ca18e2360f4ac-792975085b2so181217539f.1; 
+ Mon, 11 Sep 2023 16:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694473742; x=1695078542; darn=lists.freedesktop.org;
+ d=gmail.com; s=20221208; t=1694473743; x=1695078543; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BXZWG/nA8iNczDldd6SjpWfFw/ABPHN8JU5LNr6qz3s=;
- b=c0eT2OJ43DQFaCrxkCALrvZDnjGXbLlN84L6M1ttbiFNgF75q8zdNNc2MDh32JL052
- tB9UDKEP782MN6sOFYpJb9DFZ6R6T1PQQyuBkb6bN8RD+xhttncAYeo1Ombm0sKOnBjX
- E7LaStdwwXQC/ajjb2AcF1GdkFVYuBIY2TK+QQi650Ko/u+O0G3NYfwn1nNJ682Cpa0F
- Gd5sR2FGLE4w+aDNSTSxnxTwaBRdG3BcqLF02FRNwG6lPhfQrK+9C7fsGEusW9TeStze
- TYautONgqmv60ompxNRhWG5mlKQqRmB+rnZI5Mv7ssA3t0Q61iPOARydi/9oxZv9OsKu
- G2Nw==
+ bh=vxV5EwVeeWXpJX0Hrevj96jd4dTd0GlqOcLeKugsmAo=;
+ b=ppnZN7octROShenDnlxshoTWoHEtaA2UZFzAQ96H9nQTcx55Ulbt9Cy53q3MNOFof3
+ gEP8ctDfZWtvzwdCnYsGyRO/8p3d/ZQ2Nq0JZoiTmi/z0vLGra8b/yKaVqIvJNoK2+lR
+ pnOP0nx5P6pLZQkN6fIrpd5w6JsRsbrrn4ajmDIYc7sxC+j3pqfAsVt0ZjzR3cqPhmW2
+ NtOYsEL9fNRi5lKAzShHL1LV6+l2TQOtE00BZlcK0BI1YZqY+4EP9wUmIF/OVR6BzC12
+ 2U0ypMqwEDJGiGUz8tiLoUrpUlrYflcfqsK6O9Vv1Pon1Rzbt01BHwr2nuWiALGlksTF
+ nexg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694473742; x=1695078542;
+ d=1e100.net; s=20230601; t=1694473743; x=1695078543;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BXZWG/nA8iNczDldd6SjpWfFw/ABPHN8JU5LNr6qz3s=;
- b=TWg/6tGM/BHNZ8+QO0k/aCLs1isuITveuiUhTk4XoURHGggqWijBNtcqoBrQJF4kVT
- k6ZY7d4VNRZ/osDaucAeTKO2lSSUTCTwmzwFqSUrICbpD85oMwWaS9VcTTA5kNmQf/xW
- 45/T5Jw/Vx8mlL9aUTCN8Np04+6UGy6v7QcAx79tppK/f9Zc45sqzqzUAPBfSrtuVcoi
- 93WeUIXdLr1Nsajw+whA9GDYgxyGWMCkZ/2nLzKqzjY0zaVAhnBXvEOrgGgB2fej278D
- ZHkty1+AhcKKF4jo/Q3TAhkBL2l6fMaVO0L9l7ROlfiHYDeLNBKPXKgGevDxf0JJuvAC
- uRKg==
-X-Gm-Message-State: AOJu0YzXtOH42FxQ7T623aYBluOSIKLpYMgqbjgtMXQ1S1s3fW05IfbE
- mTCxvybqHZQZ5BjdZFmIRIMh8Xgd5g2PBQ==
-X-Google-Smtp-Source: AGHT+IGY+Y9DO+vyrjnMRL7HVOugzwFjUd7HmRNBSMbrU8a8Upu6hXUK9+5a2CqGJ5tFV3wuipMVBQ==
-X-Received: by 2002:a05:6602:388c:b0:798:2665:8939 with SMTP id
- br12-20020a056602388c00b0079826658939mr5726278iob.20.1694473741943; 
- Mon, 11 Sep 2023 16:09:01 -0700 (PDT)
+ bh=vxV5EwVeeWXpJX0Hrevj96jd4dTd0GlqOcLeKugsmAo=;
+ b=OAAc9TUWHqS+ngcPRrvPMUAod37PQChUcfmqCDF+rWVbjLmeb/9SGUtmkZLI00sIzz
+ ROtLZAkwzyLH0ZY0kuUG7QPLV5/3fkjNJmEq+29D5WmR0vxrS4Ry3ockwX9WUrfUVJlA
+ nx+4jQg9N9NEJBn0lg47cE6b1JEBDQ9zqOCLZVfWqYEWX9QBjpEvH2JmJAcshALfg4cs
+ 886AS3D3yF0GhaS3rQKlGOeZ5rgGbvPC2sLv+x5wnMDVd02a9mPeZit00kjVz/9+2c4f
+ Mpbx6jYhMLUsfiZ/LxomMenir4nRZVyvo/UiLl5pMkFxQvnpTcHDsQJgnDz5zn3yt/Ml
+ bjCg==
+X-Gm-Message-State: AOJu0YxHZHxY8j9AYcpQwFVns+amKRXbfKgDT6fQDTp15YtoJKuBAfTP
+ NrglhqhRzF09cA6CcbCdWq8=
+X-Google-Smtp-Source: AGHT+IGToB+JhZTwISt0CgVORoAeQuEFbPe5m0BPaNkuKCYxWUyirqBpKKg2RS9ogJTYNrxKH1TaXw==
+X-Received: by 2002:a05:6602:3352:b0:787:8fc:75d8 with SMTP id
+ c18-20020a056602335200b0078708fc75d8mr13398981ioz.9.1694473743182; 
+ Mon, 11 Sep 2023 16:09:03 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.00
+ z4-20020a029f04000000b00423240c7296sm2512607jal.69.2023.09.11.16.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Sep 2023 16:09:01 -0700 (PDT)
+ Mon, 11 Sep 2023 16:09:02 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, mcgrof@kernel.org,
  daniel.vetter@ffwll.ch
-Subject: [PATCH v6 16/22] dyndbg-test: build it with just
- CONFIG_DYNAMIC_DEBUG_CORE
-Date: Mon, 11 Sep 2023 17:08:32 -0600
-Message-ID: <20230911230838.14461-17-jim.cromie@gmail.com>
+Subject: [PATCH v6 17/22] dyndbg-doc: add classmap info to howto
+Date: Mon, 11 Sep 2023 17:08:33 -0600
+Message-ID: <20230911230838.14461-18-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230911230838.14461-1-jim.cromie@gmail.com>
 References: <20230911230838.14461-1-jim.cromie@gmail.com>
@@ -82,52 +81,90 @@ Cc: linux-doc@vger.kernel.org, jani.nikula@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the test-module buildable with just CONFIG_DYNAMIC_DEBUG_CORE;
-add CFLAGS_$ofile defns to supply -DDYNAMIC_DEBUG_MODULE to cc.
-Change the Kconfig entry to allow building with just _CORE, and fix
-the help text.
+Add some basic info on classmap usage and api
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/Kconfig.debug | 10 +++++-----
- lib/Makefile      |  2 ++
- 2 files changed, 7 insertions(+), 5 deletions(-)
+v5- adjustments per Randy Dunlap, me
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 60 ++++++++++++++++++-
+ 1 file changed, 59 insertions(+), 1 deletion(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d6798513a8c2..a40bc9ab689a 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2794,12 +2794,12 @@ config TEST_STATIC_KEYS
- 	  If unsure, say N.
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0b3d39c610d9..4ad7d184ed9f 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
+ Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
+ To clear all flags at once, use ``=_`` or ``-fslmpt``.
  
- config TEST_DYNAMIC_DEBUG
--	tristate "Test DYNAMIC_DEBUG"
--	depends on DYNAMIC_DEBUG
-+	tristate "Build test-dynamic-debug module"
-+	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
- 	help
--	  This module registers a tracer callback to count enabled
--	  pr_debugs in a 'do_debugging' function, then alters their
--	  enablements, calls the function, and compares counts.
-+	  This module works/demo's the dyndbg's classmap API, by
-+	  creating 2 classes: a DISJOINT classmap (like DRM.debug)
-+	  and a LEVELS/VERBOSE classmap (like verbose2 > verbose1).
+-
+ Debug messages during Boot Process
+ ==================================
  
- 	  If unsure, say N.
- 
-diff --git a/lib/Makefile b/lib/Makefile
-index 31195c75f5a0..943492d94771 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -239,6 +239,8 @@ obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
- obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
- #ensure exported functions have prototypes
- CFLAGS_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug_submod.o := -DDYNAMIC_DEBUG_MODULE
- 
- obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
- 
+@@ -375,3 +374,62 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
++
++Dynamic Debug classmaps
++=======================
++
++Dyndbg allows selection/grouping of *prdbg* callsites using structural
++info: module, file, function, line.  Classes allow authors to add
++their own domain-oriented groupings using class-names.  Classes span
++the kernel, so DRM can define DRM_UT_<*> classes, and helpers &
++drivers can use those definitions.
++
++  # enable classes individually
++  :#> ddcmd class DRM_UT_CORE +p
++  :#> ddcmd class DRM_UT_KMS +p
++  # or more selectively
++  :#> ddcmd class DRM_UT_CORE module drm +p
++
++The "class FOO" syntax protects class'd prdbgs from generic overwrite::
++
++  # IOW this doesn't wipe any DRM.debug settings
++  :#> ddcmd -p
++
++To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
++classes in a classmap, mapping param-bits 0..N onto the classes:
++DRM_UT_<*> for the DRM use-case.
++
++Dynamic Debug Classmap API
++==========================
++
++DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
++each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
++type, and mapping the class-names to consecutive _class_ids.
++
++By doing so, modules tell dyndbg that they are have prdbgs with those
++class_ids, and they authorize dyndbg to accept "class FOO" for modules
++which declare that classname with the DEFINE macro.
++
++There are 2 types of classmaps:
++
++ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
++ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++
++DYNDBG_CLASSMAP_PARAM - refers to a DEFINEd classmap, exposing the set
++of defined classes to manipulation as a group.  This interface
++enforces the relatedness of classes of DD_CLASS_TYPE_LEVEL_NUM typed
++classmaps; all classes are independent in the >control parser itself.
++
++DYNDBG_CLASSMAP_USE - drm drivers use the CLASSMAP that drm DEFINEs.
++This shares the classmap definition, authorizes coordinated changes
++amongst the CLASSMAP DEFINEr and multiple USErs, and tells dyndbg
++how to initialize the user's prdbgs at modprobe.
++
++Modules or module-groups (drm & drivers) can define multiple
++classmaps, as long as they share the limited 0..62 per-module-group
++_class_id range, without overlap.
++
++``#define DEBUG`` will enable all pr_debugs in scope, including any
++class'd ones (__pr_debug_cls(id,fmt..)).  This won't be reflected in
++the PARAM readback value, but the pr_debug callsites can be toggled
++into agreement with the param.
 -- 
 2.41.0
 
