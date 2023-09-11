@@ -1,54 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E30E79A57B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 10:06:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C778679A57E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 10:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C841110E194;
-	Mon, 11 Sep 2023 08:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0919310E19D;
+	Mon, 11 Sep 2023 08:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA18F10E19B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 08:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694419612; x=1725955612;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=EKc2l8u/kKBul3gNAYJEk/Ck38NKo2uvJewBdyW546M=;
- b=Oj6HvgWHMdY7ZmoVkRVeOHetxHI4PktPVuuklslZZa+iW8E5NhEV2Tyx
- UVtSM4IbNUY+BUa+TTKQU+TcVr50R5Z1hKFupZxxA6bV4FfDn5swG3sZk
- gVOY39AtWblRL4RJBAWzMmiHkhnBc5Ev/NqpG7JViEpxk5jwgAYIRGLL0
- +6urFXMlfYZlAi5cPpynzq9NarjjxPY4zX9zTBibcuos5dcVHeTOSjEUe
- zpY/fjStzIO/WR8RMC1Yp0sO3uEFjTQfGn+8hAutEtMjJikgcnUKXaVX0
- Fk3e+3o7Qv4g0m84yizr/XjlnLkTpBIiSUZ0e73mtxXkUtT1dBDbq1KAr g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444438891"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="444438891"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 01:06:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="693005175"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="693005175"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 11 Sep 2023 01:06:47 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qfbwS-0005yc-30;
- Mon, 11 Sep 2023 08:06:44 +0000
-Date: Mon, 11 Sep 2023 16:05:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
- Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-Message-ID: <202309111534.u4wfJ4vk-lkp@intel.com>
-References: <20230911023038.30649-5-yong.wu@mediatek.com>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 017BC10E197
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 08:06:54 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-403012f27e3so20264425e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 01:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694419613; x=1695024413; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BQAVKqReSVnSI4Ydt6YoC8xFDTISY4VfD72WdfhWLqk=;
+ b=ewVJgKhby8PuIOdpveEKxUI+yCaUqhGYWbSxGsPnXADHz5OwauHLNg5/kU7wM3Jp+i
+ D03C5pcJ/LRS/GouT2fJUwJkysKAB+Go0ILaR8ngBv2Y6tC950RU0uAqefsBlzWeIhd4
+ 4Qt2lKMFm0YbpU2bFnfo3L/hJNWIor7sA48hffHPz/aL4hPMh9pZesFLV0iKlmnk21J9
+ 6mkvaTTbm3kDk2pOl2+Cg1eU5jgsN5k4iTMrs/6pM07Kq5gG2meKOXpp72QcnkZSfXx0
+ pCgBz44cPBUoEyXuVhdtflBWwns4f5Y6QPOEy9IfC/NIv61kd6JUhvKLEypyqCf3u2kF
+ DQSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694419613; x=1695024413;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BQAVKqReSVnSI4Ydt6YoC8xFDTISY4VfD72WdfhWLqk=;
+ b=eUcK3gbsjHAEh8LWifHyhd/8ib1T9SX7R7GscxLj+XnM5htqsOkrgtC7C0DtSCwUL2
+ xbdp3OGBymHMEcsOJ8bn1L1JxEaxJwFMtquefsPFdiuVaaHl6TgOX6SDWQq0g5i1OBGw
+ MCdGMCwSkm4Vhef8iCKRw77KZ/RC3SEEQ44cDtycptkeadcEY8LPD4vK5Y6DFsOfgboJ
+ kpOGikltjucf9lNVUaJPlqLIb4wVP7NvOkfF/FSHoJWbZDkB4J5fbJgdKYkYj8JDV8a6
+ FBbxlCIj4aH6/5OMaDpcNKMSnAQP2z4S5OEEk7T+EwxrOGzlmwv6niLT+WfwpS/LQ/70
+ 4UDg==
+X-Gm-Message-State: AOJu0YxMGzIJhwBUDJv+I+Hkajz7EIC9WW4h0lfu4q/gLsb/0hICDplM
+ cFMb48xB33SyyYHmcai7QbO/0g==
+X-Google-Smtp-Source: AGHT+IEftHwy4siFn4uU6kwdtQfQwwzQkqPdTFYx+b5Hws8/3fiLDhgz05H5RrbONLPKhHuEKen7EA==
+X-Received: by 2002:a5d:624d:0:b0:316:efb9:ffa with SMTP id
+ m13-20020a5d624d000000b00316efb90ffamr6497563wrv.35.1694419613045; 
+ Mon, 11 Sep 2023 01:06:53 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+ by smtp.gmail.com with ESMTPSA id
+ b13-20020a5d634d000000b0031c5e9c2ed7sm9318751wrw.92.2023.09.11.01.06.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Sep 2023 01:06:52 -0700 (PDT)
+Message-ID: <9ba6da84-6ef9-1f28-75f6-bbdda571771d@linaro.org>
+Date: Mon, 11 Sep 2023 10:06:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230911023038.30649-5-yong.wu@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v3 0/9] drm: ci: fixes
+Content-Language: en-US
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230908152225.432139-1-vignesh.raman@collabora.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230908152225.432139-1-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +77,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, linux-arm-kernel@lists.infradead.org,
- oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
- Yong Wu <yong.wu@mediatek.com>, tjmercier@google.com,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org
+Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
+ krzysztof.kozlowski+dt@linaro.org, robdclark@google.com,
+ david.heidelberg@collabora.com, sergi.blanch.torne@collabora.com,
+ gustavo.padovan@collabora.com, agross@kernel.org, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, daniels@collabora.com, linux-arm-msm@vger.kernel.org,
+ mripard@kernel.org, helen.koike@collabora.com, anholt@google.com,
+ linux-mediatek@lists.infradead.org, robclark@freedesktop.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ andersson@kernel.org, linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
+ robh+dt@kernel.org, dmitry.baryshkov@linaro.org, guilherme.gallo@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yong,
+On 08/09/2023 17:22, Vignesh Raman wrote:
+> The patch series contains improvements, enabling new ci jobs which
+> enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
+> fixing issues with the ci jobs and updating the expectation files.
+> This series is intended for drm branch topic/drm-ci.
 
-kernel test robot noticed the following build errors:
+Please send DTS and defconfig separately. These patches should go via
+subsystem maintainer, not drm.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next linus/master v6.6-rc1 next-20230911]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Krzysztof
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Deduplicate-docs-and-adopt-common-format/20230911-103308
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230911023038.30649-5-yong.wu%40mediatek.com
-patch subject: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230911/202309111534.u4wfJ4vk-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111534.u4wfJ4vk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309111534.u4wfJ4vk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/dma-buf/heaps/mtk_secure_heap.c:68:27: error: initialization of 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  long unsigned int,  long unsigned int)' from incompatible pointer type 'struct dma_buf * (*)(struct dma_heap *, size_t,  long unsigned int,  long unsigned int)' {aka 'struct dma_buf * (*)(struct dma_heap *, unsigned int,  long unsigned int,  long unsigned int)'} [-Werror=incompatible-pointer-types]
-      68 |         .allocate       = mtk_sec_heap_allocate,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/dma-buf/heaps/mtk_secure_heap.c:68:27: note: (near initialization for 'mtk_sec_heap_ops.allocate')
-   cc1: some warnings being treated as errors
-
-
-vim +68 drivers/dma-buf/heaps/mtk_secure_heap.c
-
-    66	
-    67	static const struct dma_heap_ops mtk_sec_heap_ops = {
-  > 68		.allocate	= mtk_sec_heap_allocate,
-    69	};
-    70	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
