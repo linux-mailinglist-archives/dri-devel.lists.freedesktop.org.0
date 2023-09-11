@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7093379A78B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 13:14:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3999579A78C
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 13:14:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B1C510E068;
-	Mon, 11 Sep 2023 11:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFFB10E2C7;
+	Mon, 11 Sep 2023 11:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FC410E068
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 11:14:37 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0103366072FB;
- Mon, 11 Sep 2023 12:14:34 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694430875;
- bh=wCziWKBrYCLn+iQllKVDANcEQ7lNKBoWAymVUANwCco=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SafZm5o+3vl+C1n72vNwCoE59yHGvzAv4GZYMCY2dItGKGNjoUT/kMolJ0AzxDvs5
- IV4MBnajK0v+Xv0Ihvttsz5UTUsInsIyqDlnxhJ/z0hfsKWsk5PVYPNQFIpxiIT7j7
- LG/J2GH54leijlCRY5QwmKYWRpNWCzrY6HNEniTYQO6/ZOw7wWBouz8Ukd9eRmtxtA
- GecTzamVoYEOk0RGABMREFtAOZD8/SMqEQA5Nuy90iBf9qdNVba8ivmywVNI/YMgHG
- Sx3wE4XbtQljCEeJ3OJFDdI3XsmQZZayKSyVopWccc7ksZmUbzQgDDqGHGGNIv1Tf/
- bTobRshmTPG/w==
-Message-ID: <5146679e-3ae8-edc7-69f9-c89ca1e7199b@collabora.com>
-Date: Mon, 11 Sep 2023 13:14:33 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A847710E2C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 11:14:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 00AB461050;
+ Mon, 11 Sep 2023 11:14:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 102F3C433C8;
+ Mon, 11 Sep 2023 11:14:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694430888;
+ bh=YFgY0/Om0vxSLqBs69K8BlfP82SdlHtGV7vXw++h7iU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CQsmaCHFbwAhdl16LZOYhAp/yu8gRTRMHLmEPwot0ZaWs7tyAZoWDmbzzOI9fqePS
+ 5mS5J8dEw/H11FH9Y0HZYJLivCtlcXiiFJFbSDi0rDzV4wxrh/SmMZ3do4yCf/S3xI
+ vACzulw39T4csrhfC0/Qc/uUIwIij5M/GVapIU/+HRfLIvVfaJUfhADm5MwmZY3I8b
+ 0W67tzu2Lf0C3W2gC1mJYLJ7VTdaJxtP/gSwwKQIesfMo4sOYLXYi8jTtL+OAAso0G
+ z3wgMA26vnHwj0ChwFERVQSllHpjGqUGy1O0vh9fppMVOOs4FHB849KbDfYXKFTTEB
+ 53kQnsLx0mf+Q==
+Date: Mon, 11 Sep 2023 13:14:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
+ conversion.
+Message-ID: <wacxp5imwch76fsacp4uim3d526t5nmaqldnhkk35q6xb7lyr7@souh4bvhs3vv>
+References: <20230825140434.182664-1-jfalempe@redhat.com>
+ <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
+ <20230908141638.79b31d1e@eldfell>
+ <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
+ <d19e0242-da31-1e48-8ff8-7381530bd193@redhat.com>
+ <3fba00ec-d4bc-e7f9-4a7c-8a6a9141a591@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v3,1/3] dt-bindings: display: mediatek: dsi: Add
- compatible for MediaTek MT8188
-Content-Language: en-US
-To: Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, jitao.shi@mediatek.com
-References: <20230911105736.11752-1-shuijing.li@mediatek.com>
- <20230911105736.11752-2-shuijing.li@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230911105736.11752-2-shuijing.li@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iesx3fq6qz4prfuq"
+Content-Disposition: inline
+In-Reply-To: <3fba00ec-d4bc-e7f9-4a7c-8a6a9141a591@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +59,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 11/09/23 12:57, Shuijing Li ha scritto:
-> Add dt-binding documentation of dsi for MediaTek MT8188 SoC.
-> 
-> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+--iesx3fq6qz4prfuq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Sep 08, 2023 at 05:37:27PM +0200, Thomas Zimmermann wrote:
+> > > Please note that the kernel's conversion code uses memory allocation
+> > > of intermediate buffers. We even recently had a discussion about
+> > > allocation overhead during display updates. Userspace can surely do
+> > > a better job at keeping such buffers around.
+> > >=20
+> > > And finally a note the hardware itself: on low-end hardware like
+> > > those Matrox chips, just switch to RGB16. That will be pretty and
+> > > fast enough for these chips' server systems. Anyone who cares about
+> > > fast and beautiful should buy a real graphics card.
+> >=20
+> > There are still sysadmin users that occasionally have to browse the web
+> > to find answer, or read their mail in a GUI client. It turns out that
+> > rgb16 is pretty ugly for today standard, and buying an external card
+> > would be a bit too much, and won't work for remote control.
+>=20
+> I'm sure sysadmins have a computer for work with a decent GPU and don't n=
+eed
+> to browse the web on their server systems.
 
+If your expectation is that there's no capable display stack running on
+those systems, what user-space component would you expect to optimize
+the format/transfers like you previously hinted at exactly?
+
+Maxime
+
+--iesx3fq6qz4prfuq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZP72pQAKCRDj7w1vZxhR
+xWiTAQCyTaEEr8ewXRotvjT4yOEgOH9p8bntGwkUK//oPEqxMgEAh/UP0N5x9iSa
+mCNZQl6tJfxaxdPWt9MGfWoGVSTtsg0=
+=lZ5c
+-----END PGP SIGNATURE-----
+
+--iesx3fq6qz4prfuq--
