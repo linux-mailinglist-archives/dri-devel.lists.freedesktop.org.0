@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225E179A80E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 14:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3263B79A81E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 15:03:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 522AB10E2DD;
-	Mon, 11 Sep 2023 12:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F60A10E2E9;
+	Mon, 11 Sep 2023 13:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B03D10E2DD;
- Mon, 11 Sep 2023 12:54:55 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2A53F66072FF;
- Mon, 11 Sep 2023 13:54:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694436893;
- bh=QWkSHpR8K721vmmxMD9TK8wJGU+63NpvmGFeXTTOPwE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mv5OMi5bt25CT2ddPuDj0Qjzqz28kZwewSvh+7nGmlt12nSCSC7M+0IwbVIo7O/ko
- pUeBYcT2DPya/yx8Wkd2vJ7nRrNU/0DViz192vl5WaMTRa7VQZQ/x5juR+MnBQTGCR
- AkEFjvIE1eVjPaYYfZh2363kX8LaHYV72vZffDFXomG0poH4dw8n5TxevwH3TMPQ48
- 7nOrULO3EBtXg0dCjYHpolp7bPZze8/oc2D5wKwYI9kazQXVMyCUXyTkQR6Fj5Ka5c
- uRTZAD6y4Vs8M1SQmEheoaflwHgJ9UHBpfK29UMsHmwm1PdFljpkLtDWt2WXqp6xhy
- TRs9t0c3GYk9w==
-Date: Mon, 11 Sep 2023 14:54:50 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <20230911145450.54ad833c@collabora.com>
-In-Reply-To: <20230909153125.30032-7-dakr@redhat.com>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-7-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A5810E2E6;
+ Mon, 11 Sep 2023 13:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694437428; x=1725973428;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Cyr9Q5z4LCsDejmv3CjtoMx8Wt7sLQSBTEfCkI3hPS0=;
+ b=n08kAYAqryyyG5VF8WAJfL6jn8WHzaHfF/bQ0SjlTV+otH0Y5q5mBwLf
+ ElRTq0l2Lp/xa2p8GfU/kbVp1TYyxw6YgkF/KheP6OuCX9Tw1dyZt96MP
+ AhsVsXkDM3RPMluoIpofbikV15IPBIAjLAyvHCivroX/sGgELmc35Nuax
+ v+3+FjWQo8C1FvVze2vWroC0P1jwNbV0kMQAB+ezPuoK8/Q7gmIRQyNaG
+ appFoY8jehw+SMucT0KgCJ0LKjrPzFlin/OCykhvg1LEAl+Hmly6SWzRR
+ 1Qo3lAto+JRz5Fg9lPpBqJCwtakEcieOUyHz3b1ANcY7iB6jq78v2zPKm A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="464448218"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="464448218"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 06:03:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="778382303"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; d="scan'208";a="778382303"
+Received: from ppawlows-mobl.ger.corp.intel.com (HELO jkrzyszt-mobl2.intranet)
+ ([10.213.28.208])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2023 06:03:43 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/tests: Fix incorrect argument in drm_test_mm_insert_range
+Date: Mon, 11 Sep 2023 15:03:24 +0200
+Message-ID: <20230911130323.7037-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,92 +57,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Daniel Latypov <dlatypov@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, intel-xe@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ intel-gfx@lists.freedesktop.org,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat,  9 Sep 2023 17:31:13 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+While drm_mm test was converted form igt selftest to kunit, unexpected
+value of "end" argument equal "start" was introduced to one of calls to a
+function that executes the drm_test_mm_insert_range for specific start/end
+pair of arguments.  As a consequence, DRM_MM_BUG_ON(end <= start) is
+triggered.  Fix it by restoring the original value.
 
-> +/**
-> + * get_next_vm_bo_from_list() - get the next vm_bo element
-> + * @__gpuvm: The GPU VM
-> + * @__list_name: The name of the list we're iterating on
-> + * @__local_list: A pointer to the local list used to store already iterated items
-> + * @__prev_vm_bo: The previous element we got from drm_gpuvm_get_next_cached_vm_bo()
-> + *
-> + * This helper is here to provide lockless list iteration. Lockless as in, the
-> + * iterator releases the lock immediately after picking the first element from
-> + * the list, so list insertion deletion can happen concurrently.
-> + *
-> + * Elements popped from the original list are kept in a local list, so removal
-> + * and is_empty checks can still happen while we're iterating the list.
-> + */
-> +#define get_next_vm_bo_from_list(__gpuvm, __list_name, __local_list, __prev_vm_bo)	\
-> +	({										\
-> +		struct drm_gpuvm_bo *__vm_bo;						\
+Fixes: fc8d29e298cf ("drm: selftest: convert drm_mm selftest to KUnit")
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: "Maíra Canal" <mairacanal@riseup.net>
+Cc: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Latypov <dlatypov@google.com>
+Cc: stable@vger.kernel.org # v6.1+
+---
+ drivers/gpu/drm/tests/drm_mm_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Missing NULL assignment here.
+diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
+index 186b28dc70380..05d5e7af6d250 100644
+--- a/drivers/gpu/drm/tests/drm_mm_test.c
++++ b/drivers/gpu/drm/tests/drm_mm_test.c
+@@ -939,7 +939,7 @@ static void drm_test_mm_insert_range(struct kunit *test)
+ 		KUNIT_ASSERT_FALSE(test, __drm_test_mm_insert_range(test, count, size, 0, max - 1));
+ 		KUNIT_ASSERT_FALSE(test, __drm_test_mm_insert_range(test, count, size, 0, max / 2));
+ 		KUNIT_ASSERT_FALSE(test, __drm_test_mm_insert_range(test, count, size,
+-								    max / 2, max / 2));
++								    max / 2, max));
+ 		KUNIT_ASSERT_FALSE(test, __drm_test_mm_insert_range(test, count, size,
+ 								    max / 4 + 1, 3 * max / 4 - 1));
+ 
+-- 
+2.41.0
 
-> +											\
-> +		drm_gpuvm_bo_put(__prev_vm_bo);						\
-> +											\
-> +		spin_lock(&(__gpuvm)->__list_name.lock);				\
-> +		while (!list_empty(&(__gpuvm)->__list_name.list)) {			\
-> +			__vm_bo = list_first_entry(&(__gpuvm)->__list_name.list,	\
-> +						   struct drm_gpuvm_bo,			\
-> +						   list.entry.__list_name);		\
-> +			if (drm_gpuvm_bo_get_unless_zero(__vm_bo)) {			\
-> +				list_move_tail(&(__vm_bo)->list.entry.__list_name,	\
-> +					       __local_list);				\
-> +				break;							\
-> +			} else {							\
-> +				list_del_init(&(__vm_bo)->list.entry.__list_name);	\
-> +				__vm_bo = NULL;						\
-> +			}								\
-> +		}									\
-> +		spin_unlock(&(__gpuvm)->__list_name.lock);				\
-> +											\
-> +		__vm_bo;								\
-> +	})
-> +
-> +/**
-> + * for_each_vm_bo_in_list() - internal vm_bo list iterator
-> + *
-> + * This helper is here to provide lockless list iteration. Lockless as in, the
-> + * iterator releases the lock immediately after picking the first element from the
-> + * list, so list insertion and deletion can happen concurrently.
-> + *
-> + * Typical use:
-> + *
-> + *	struct drm_gpuvm_bo *vm_bo;
-> + *	LIST_HEAD(my_local_list);
-> + *
-> + *	ret = 0;
-> + *	drm_gpuvm_for_each_vm_bo(gpuvm, <list_name>, &my_local_list, vm_bo) {
-> + *		ret = do_something_with_vm_bo(..., vm_bo);
-> + *		if (ret)
-> + *			break;
-> + *	}
-> + *	drm_gpuvm_bo_put(vm_bo);
-> + *	drm_gpuvm_restore_vm_bo_list(gpuvm, <list_name>, &my_local_list);
-
-Might be worth mentioning that the vm_bo pointer shouldn't be
-re-assigned from inside for loop, otherwise
-the next get_next_vm_bo_from_list() will be passed a wrong prev_vm_bo.
-
-> + *
-> + *
-> + * Only used for internal list iterations, not meant to be exposed to the outside
-> + * world.
-> + */
-> +#define for_each_vm_bo_in_list(__gpuvm, __list_name, __local_list, __vm_bo)	\
-> +	for (__vm_bo = get_next_vm_bo_from_list(__gpuvm, __list_name,		\
-> +						__local_list, NULL);		\
-> +	     __vm_bo;								\
-> +	     __vm_bo = get_next_vm_bo_from_list(__gpuvm, __list_name,		\
-> +						__local_list, __vm_bo))		\
