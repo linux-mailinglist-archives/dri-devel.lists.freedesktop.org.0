@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D71A79A6B8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 11:27:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B9279A6BC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 11:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91EC810E1C3;
-	Mon, 11 Sep 2023 09:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0D810E1C6;
+	Mon, 11 Sep 2023 09:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A7110E1A5;
- Mon, 11 Sep 2023 09:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694424417; x=1725960417;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=3XT50acwOT99935HYHZd9Eh7+6woRXf0d4qiF+DAgYk=;
- b=YBXvCeX6rMfZdVfdTSK6gPuSy6bUHgAEMI08FbvydE/I6DfQztNNBhyu
- 2IDh8/Qd12JuO84YAGARBLbPMoZ/oKp0Y11m1k0fQOTgBYhftagYGFuwj
- YgVGBjWMr4OXEAcuw0Wk3oUpDLX3+u6kWBuacq62I2VPJjEcsP9YNIIB3
- rLItX+qCY5GAqPD1JVLry07QrcqJ6EW57tbX2greJ5vy1VDYh1L+klFXN
- KiU8BBS1spJVze6Llgl59ytid5SBK3bloz20Vg60oIrRprQGu7nQJZ5ti
- 27LiZlLtJ5V7a5kZ/DghIaCNqp2CFRWuRCh+650RWtBvvrngpnZIoIQe7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="377952274"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="377952274"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 02:26:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="866871891"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="866871891"
-Received: from kschuele-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.119])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 02:26:37 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v1 1/1] drm/i915/pxp: Add drm_dbgs for critical PXP events.
-In-Reply-To: <20230907002032.81587-1-alan.previn.teres.alexis@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230907002032.81587-1-alan.previn.teres.alexis@intel.com>
-Date: Mon, 11 Sep 2023 12:26:34 +0300
-Message-ID: <87o7i9f4c5.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28FE110E20D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:29:27 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C395966072F0;
+ Mon, 11 Sep 2023 10:29:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694424565;
+ bh=PEkfGXDLYefkrpep6+K+sw4moQH4wOvu/m6wtn7s7qE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hD8i4A7ygMbHzKh2hK4C8OTl2GKieKyk8xGbRPMbHh+6Zkrg0lQgfgxlDZy0HRUJd
+ hEdTk0obzK2Soq+CEJ+T+JLcwnOMUikk0wnKdLVr2vxOLzr9He7w7SYn4K1l3xO6fr
+ /9XwtvQteamqKIqH0Ua418zxn8O/3reRef2Tn5cfAgKXi2NjXIa4UZKoN2ylJKTJve
+ z8tii5c5OgY29mGF7N6lHal7ve+g93RN6lfW2DYL289Pg0knfDSwOkmhpzzOtW8o76
+ EsghCr6u9IYosm3Za/H5v2jfmV2KXgyoLBzSszsENieOawR8bwBqutUX73tcjMXs2U
+ 3EGGiwISa2Ncg==
+Message-ID: <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+Date: Mon, 11 Sep 2023 11:29:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+Content-Language: en-US
+To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230911023038.30649-6-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,148 +57,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, jianjiao.zeng@mediatek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 06 Sep 2023, Alan Previn <alan.previn.teres.alexis@intel.com> wrote:
-> Debugging PXP issues can't even begin without understanding precedding
-> sequence of events. Add drm_dbg into the most important PXP events.
->
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Il 11/09/23 04:30, Yong Wu ha scritto:
+> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't work
+> here since this is not a platform driver, therefore initialise the TEE
+> context/session while we allocate the first secure buffer.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c |  2 ++
->  drivers/gpu/drm/i915/pxp/intel_pxp.c         | 10 ++++++++--
->  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     |  4 ++--
->  drivers/gpu/drm/i915/pxp/intel_pxp_session.c |  6 +++++-
->  drivers/gpu/drm/i915/pxp/intel_pxp_types.h   |  1 +
->  5 files changed, 18 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> index 5f138de3c14f..61216c4abaec 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> @@ -321,6 +321,7 @@ static int i915_gsc_proxy_component_bind(struct device *i915_kdev,
->  	mutex_lock(&gsc->proxy.mutex);
->  	gsc->proxy.component = data;
->  	gsc->proxy.component->mei_dev = mei_kdev;
-> +	gt_dbg(gt, "GSC proxy mei component bound\n");
->  	mutex_unlock(&gsc->proxy.mutex);
->  
->  	return 0;
-> @@ -342,6 +343,7 @@ static void i915_gsc_proxy_component_unbind(struct device *i915_kdev,
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
->  		intel_uncore_rmw(gt->uncore, HECI_H_CSR(MTL_GSC_HECI2_BASE),
->  				 HECI_H_CSR_IE | HECI_H_CSR_RST, 0);
-> +	gt_dbg(gt, "GSC proxy mei component unbound\n");
->  }
->  
->  static const struct component_ops i915_gsc_proxy_component_ops = {
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> index dc327cf40b5a..d285f10bbacc 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> @@ -303,6 +303,8 @@ static int __pxp_global_teardown_final(struct intel_pxp *pxp)
->  
->  	if (!pxp->arb_is_valid)
->  		return 0;
+>   drivers/dma-buf/heaps/mtk_secure_heap.c | 61 +++++++++++++++++++++++++
+>   1 file changed, 61 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> index bbf1c8dce23e..e3da33a3d083 100644
+> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> @@ -10,6 +10,12 @@
+>   #include <linux/err.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> +#include <linux/tee_drv.h>
+> +#include <linux/uuid.h>
 > +
-> +	drm_dbg(&pxp->ctrl_gt->i915->drm, "PXP: %s invoked", __func__);
-
-drm_dbg already covers __func__ (via __builtin_return_address(0) in
-__drm_dev_dbg), it's redundant.
-
-Ditto for all added debugs below.
-
-BR,
-Jani.
-
->  	/*
->  	 * To ensure synchronous and coherent session teardown completion
->  	 * in response to suspend or shutdown triggers, don't use a worker.
-> @@ -324,6 +326,8 @@ static int __pxp_global_teardown_restart(struct intel_pxp *pxp)
->  
->  	if (pxp->arb_is_valid)
->  		return 0;
+> +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-e41f1390d676"
 > +
-> +	drm_dbg(&pxp->ctrl_gt->i915->drm, "PXP: %s invoked", __func__);
->  	/*
->  	 * The arb-session is currently inactive and we are doing a reset and restart
->  	 * due to a runtime event. Use the worker that was designed for this.
-> @@ -414,10 +418,12 @@ int intel_pxp_start(struct intel_pxp *pxp)
->  	int ret = 0;
->  
->  	ret = intel_pxp_get_readiness_status(pxp, PXP_READINESS_TIMEOUT);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		drm_dbg(&pxp->ctrl_gt->i915->drm, "PXP: explicit %s failed on readiness with %d", __func__, ret);
->  		return ret;
-> -	else if (ret > 1)
-> +	} else if (ret > 1) {
->  		return -EIO; /* per UAPI spec, user may retry later */
+
+Is this UUID the same for all SoCs and all TZ versions?
+
+Thanks,
+Angelo
+
+
+> +#define MTK_TEE_PARAM_NUM		4
+>   
+>   /*
+>    * MediaTek secure (chunk) memory type
+> @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
+>   struct mtk_secure_heap {
+>   	const char		*name;
+>   	const enum kree_mem_type mem_type;
+> +	u32			 mem_session;
+> +	struct tee_context	*tee_ctx;
+>   };
+>   
+> +static int mtk_optee_ctx_match(struct tee_ioctl_version_data *ver, const void *data)
+> +{
+> +	return ver->impl_id == TEE_IMPL_ID_OPTEE;
+> +}
+> +
+> +static int mtk_kree_secure_session_init(struct mtk_secure_heap *sec_heap)
+> +{
+> +	struct tee_param t_param[MTK_TEE_PARAM_NUM] = {0};
+> +	struct tee_ioctl_open_session_arg arg = {0};
+> +	uuid_t ta_mem_uuid;
+> +	int ret;
+> +
+> +	sec_heap->tee_ctx = tee_client_open_context(NULL, mtk_optee_ctx_match,
+> +						    NULL, NULL);
+> +	if (IS_ERR(sec_heap->tee_ctx)) {
+> +		pr_err("%s: open context failed, ret=%ld\n", sec_heap->name,
+> +		       PTR_ERR(sec_heap->tee_ctx));
+> +		return -ENODEV;
 > +	}
->  
->  	mutex_lock(&pxp->arb_mutex);
->  
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> index 91e9622c07d0..0637b1d36356 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> @@ -40,11 +40,11 @@ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
->  		   GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT)) {
->  		/* immediately mark PXP as inactive on termination */
->  		intel_pxp_mark_termination_in_progress(pxp);
-> -		pxp->session_events |= PXP_TERMINATION_REQUEST | PXP_INVAL_REQUIRED;
-> +		pxp->session_events |= PXP_TERMINATION_REQUEST | PXP_INVAL_REQUIRED | PXP_EVENT_TYPE_IRQ;
->  	}
->  
->  	if (iir & GEN12_DISPLAY_STATE_RESET_COMPLETE_INTERRUPT)
-> -		pxp->session_events |= PXP_TERMINATION_COMPLETE;
-> +		pxp->session_events |= PXP_TERMINATION_COMPLETE | PXP_EVENT_TYPE_IRQ;
->  
->  	if (pxp->session_events)
->  		queue_work(system_unbound_wq, &pxp->session_work);
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index 0a3e66b0265e..2041dd5221e7 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -137,8 +137,10 @@ void intel_pxp_terminate(struct intel_pxp *pxp, bool post_invalidation_needs_res
->  static void pxp_terminate_complete(struct intel_pxp *pxp)
->  {
->  	/* Re-create the arb session after teardown handle complete */
-> -	if (fetch_and_zero(&pxp->hw_state_invalidated))
-> +	if (fetch_and_zero(&pxp->hw_state_invalidated)) {
-> +		drm_dbg(&pxp->ctrl_gt->i915->drm, "PXP: %s to create arb_session after invalidation", __func__);
->  		pxp_create_arb_session(pxp);
-> +	}
->  
->  	complete_all(&pxp->termination);
->  }
-> @@ -157,6 +159,8 @@ static void pxp_session_work(struct work_struct *work)
->  	if (!events)
->  		return;
->  
-> +	drm_dbg(&gt->i915->drm, "PXP: %s invoked with event-flags 0x%08x", __func__, events);
 > +
->  	if (events & PXP_INVAL_REQUIRED)
->  		intel_pxp_invalidate(pxp);
->  
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> index 7e11fa8034b2..07864b584cf4 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> @@ -124,6 +124,7 @@ struct intel_pxp {
->  #define PXP_TERMINATION_REQUEST  BIT(0)
->  #define PXP_TERMINATION_COMPLETE BIT(1)
->  #define PXP_INVAL_REQUIRED       BIT(2)
-> +#define PXP_EVENT_TYPE_IRQ       BIT(3)
->  };
->  
->  #endif /* __INTEL_PXP_TYPES_H__ */
->
-> base-commit: 5008076127a9599704e98fb4de3761743d943dd0
+> +	arg.num_params = MTK_TEE_PARAM_NUM;
+> +	arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+> +	ret = uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
+> +	if (ret)
+> +		goto close_context;
+> +	memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> +
+> +	ret = tee_client_open_session(sec_heap->tee_ctx, &arg, t_param);
+> +	if (ret < 0 || arg.ret) {
+> +		pr_err("%s: open session failed, ret=%d:%d\n",
+> +		       sec_heap->name, ret, arg.ret);
+> +		ret = -EINVAL;
+> +		goto close_context;
+> +	}
+> +	sec_heap->mem_session = arg.session;
+> +	return 0;
+> +
+> +close_context:
+> +	tee_client_close_context(sec_heap->tee_ctx);
+> +	return ret;
+> +}
+> +
+>   static struct dma_buf *
+>   mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+>   		      unsigned long fd_flags, unsigned long heap_flags)
+>   {
+> +	struct mtk_secure_heap *sec_heap = dma_heap_get_drvdata(heap);
+>   	struct mtk_secure_heap_buffer *sec_buf;
+>   	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>   	struct dma_buf *dmabuf;
+>   	int ret;
+>   
+> +	/*
+> +	 * TEE probe may be late. Initialise the secure session in the first
+> +	 * allocating secure buffer.
+> +	 */
+> +	if (!sec_heap->mem_session) {
+> +		ret = mtk_kree_secure_session_init(sec_heap);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+> +
+>   	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+>   	if (!sec_buf)
+>   		return ERR_PTR(-ENOMEM);
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
