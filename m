@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A933E79AA7D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 19:13:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC3179AA7F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 19:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100C810E343;
-	Mon, 11 Sep 2023 17:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A20010E345;
+	Mon, 11 Sep 2023 17:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10CEB10E1B6;
- Mon, 11 Sep 2023 17:13:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEE410E343;
+ Mon, 11 Sep 2023 17:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,22 +19,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=mJAnqqvASsAP6Cixlu7hXANHs+0IQlO63puyqsOwXww=; b=lQND+Zn3GuxZg3IU27z403exPs
- D/4jWDcvICU1MA5RjUEqGiEJEVD5xn6A1BOqQTqcNlHj8MQAgPAozhXt1Vv6yTFITI5SaWkoAlhKi
- lTJ0Ycnvtr13fLaTJD2X2ZCyHsleGDmsNiNy6kS7js+2M9vL5QSuLbA1J+Vu1rz/Id/rYtur4aY2F
- kT6wQPWfoRSoSBO+Zj0gTbs1UCTjCukwRWZMTarIV/Huri+zMfgz2IQWY865mvNKxG1tB7PLiBiBa
- qFmJnMT3MDrQlMt6BJ+rOrsG+Bny3MLMPEcDuDzfZBtDlRqp31qAurJJ6KUO6uQbF7BYGvyShStJR
- 7JRzp2Fg==;
+ bh=y0rAAye4zMNBjSASBqB4b1RQtLpL4q4XWxq6q2Rv4gM=; b=puMbAwoDDgER5jDqbmXb9wQME0
+ X4k97rYD7YiYsXSYvj88a++AAHscWTxawqcEPyJc6M8Gf1vRAENuopl0fVR70bTLXRzK0cX2lvHCw
+ xjP4GeRMZ01twMjld5Sw3FmHbjDMwX5vxcS7LpVuVy7rGQq+mnR/wTLtgZwDWQMJtjrecZsjXecwp
+ JP03uZrcDEc6tbql52fpXuKhvLZojB2S6yvleno4yosY8EqEEpQ/MWu/jbrA73uoKcKt+YKXlj8ku
+ 89tv2+n/jllkFG8sPwK/qNwhIAA5kYworadG/KWxl82afeZ8bx44rNaJXM49cAJrpLChvZA+00teY
+ DowJckIw==;
 Received: from [187.10.203.89] (helo=steammachine.lan)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qfkT9-002OoM-Pi; Mon, 11 Sep 2023 19:13:04 +0200
+ id 1qfkTC-002OoM-Gm; Mon, 11 Sep 2023 19:13:06 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/2] drm/amdgpu: Merge debug module parameters
-Date: Mon, 11 Sep 2023 14:12:54 -0300
-Message-ID: <20230911171255.143992-2-andrealmeid@igalia.com>
+Subject: [PATCH v4 2/2] drm/amdgpu: Create an option to disable soft recovery
+Date: Mon, 11 Sep 2023 14:12:55 -0300
+Message-ID: <20230911171255.143992-3-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230911171255.143992-1-andrealmeid@igalia.com>
 References: <20230911171255.143992-1-andrealmeid@igalia.com>
@@ -60,226 +60,80 @@ Cc: pierre-eric.pelloux-prayer@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Merge all developer debug options available as separated module
-parameters in one, making it obvious that are for developers.
-
-Drop the obsolete module options in favor of the new ones.
+Create a module option to disable soft recoveries on amdgpu, making
+every recovery go through the device reset path. This option makes
+easier to force device resets for testing and debugging purposes.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
-v3:
-- move from include/amd_shared.h to amdgpu/amdgpu_drv.c
-v2:
-- drop old module params
-- use BIT() macros
-- replace global var with adev-> vars
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  4 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 56 +++++++++++++++---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c    |  2 +-
- 7 files changed, 45 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h      | 1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  | 7 +++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 7 ++++++-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 83a9607a87b8..37eb9b3790a0 100644
+index 37eb9b3790a0..f30490abb3fe 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1099,6 +1099,10 @@ struct amdgpu_device {
- 	bool                            dc_enabled;
- 	/* Mask of active clusters */
- 	uint32_t			aid_mask;
-+
-+	/* Debug */
-+	bool                            debug_vm;
-+	bool                            debug_largebar;
+@@ -1103,6 +1103,7 @@ struct amdgpu_device {
+ 	/* Debug */
+ 	bool                            debug_vm;
+ 	bool                            debug_largebar;
++	bool                            debug_disable_soft_recovery;
  };
  
  static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index db5ecde8f0ec..74769afaa33d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1181,7 +1181,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		job->vm_pd_addr = amdgpu_gmc_pd_addr(vm->root.bo);
- 	}
- 
--	if (amdgpu_vm_debug) {
-+	if (adev->debug_vm) {
- 		/* Invalidate all BOs to test for userspace bugs */
- 		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
- 			struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index ef713806dd60..830146bd61c0 100644
+index 830146bd61c0..3ab7eac131e2 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -118,6 +118,14 @@
- #define KMS_DRIVER_MINOR	54
- #define KMS_DRIVER_PATCHLEVEL	0
+@@ -124,6 +124,7 @@
+ enum AMDGPU_DEBUG_MASK {
+ 	AMDGPU_DEBUG_VM = BIT(0),
+ 	AMDGPU_DEBUG_LARGEBAR = BIT(1),
++	AMDGPU_DEBUG_DISABLE_GPU_SOFT_RECOVERY = BIT(2),
+ };
  
-+/*
-+ * amdgpu.debug module options. Are all disabled by default
-+ */
-+enum AMDGPU_DEBUG_MASK {
-+	AMDGPU_DEBUG_VM = BIT(0),
-+	AMDGPU_DEBUG_LARGEBAR = BIT(1),
-+};
-+
  unsigned int amdgpu_vram_limit = UINT_MAX;
- int amdgpu_vis_vram_limit;
- int amdgpu_gart_size = -1; /* auto */
-@@ -140,7 +148,6 @@ int amdgpu_vm_size = -1;
- int amdgpu_vm_fragment_size = -1;
- int amdgpu_vm_block_size = -1;
- int amdgpu_vm_fault_stop;
--int amdgpu_vm_debug;
- int amdgpu_vm_update_mode = -1;
- int amdgpu_exp_hw_support;
- int amdgpu_dc = -1;
-@@ -195,6 +202,7 @@ int amdgpu_vcnfw_log;
- int amdgpu_sg_display = -1; /* auto */
- int amdgpu_user_partt_mode = AMDGPU_AUTO_COMPUTE_PARTITION_MODE;
- int amdgpu_umsch_mm;
-+uint amdgpu_debug_mask;
- 
- static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
- 
-@@ -406,13 +414,6 @@ module_param_named(vm_block_size, amdgpu_vm_block_size, int, 0444);
- MODULE_PARM_DESC(vm_fault_stop, "Stop on VM fault (0 = never (default), 1 = print first, 2 = always)");
- module_param_named(vm_fault_stop, amdgpu_vm_fault_stop, int, 0444);
- 
--/**
-- * DOC: vm_debug (int)
-- * Debug VM handling (0 = disabled, 1 = enabled). The default is 0 (Disabled).
-- */
--MODULE_PARM_DESC(vm_debug, "Debug VM handling (0 = disabled (default), 1 = enabled)");
--module_param_named(vm_debug, amdgpu_vm_debug, int, 0644);
--
- /**
-  * DOC: vm_update_mode (int)
-  * Override VM update mode. VM updated by using CPU (0 = never, 1 = Graphics only, 2 = Compute only, 3 = Both). The default
-@@ -744,18 +745,6 @@ module_param(send_sigterm, int, 0444);
- MODULE_PARM_DESC(send_sigterm,
- 	"Send sigterm to HSA process on unhandled exception (0 = disable, 1 = enable)");
- 
--/**
-- * DOC: debug_largebar (int)
-- * Set debug_largebar as 1 to enable simulating large-bar capability on non-large bar
-- * system. This limits the VRAM size reported to ROCm applications to the visible
-- * size, usually 256MB.
-- * Default value is 0, diabled.
-- */
--int debug_largebar;
--module_param(debug_largebar, int, 0444);
--MODULE_PARM_DESC(debug_largebar,
--	"Debug large-bar flag used to simulate large-bar capability on non-large bar machine (0 = disable, 1 = enable)");
--
- /**
-  * DOC: halt_if_hws_hang (int)
-  * Halt if HWS hang is detected. Default value, 0, disables the halt on hang.
-@@ -948,6 +937,18 @@ module_param_named(user_partt_mode, amdgpu_user_partt_mode, uint, 0444);
- module_param(enforce_isolation, bool, 0444);
- MODULE_PARM_DESC(enforce_isolation, "enforce process isolation between graphics and compute . enforce_isolation = on");
- 
-+/**
-+ * DOC: debug_mask (uint)
-+ * Debug options for amdgpu, work as a binary mask with the following options:
-+ *
-+ * - 0x1: Debug VM handling
-+ * - 0x2: Enable simulating large-bar capability on non-large bar system. This
-+ *   limits the VRAM size reported to ROCm applications to the visible
-+ *   size, usually 256MB.
-+ */
-+MODULE_PARM_DESC(debug_mask, "debug options for amdgpu, disabled by default");
-+module_param_named(debug_mask, amdgpu_debug_mask, uint, 0444);
-+
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
+@@ -945,6 +946,7 @@ MODULE_PARM_DESC(enforce_isolation, "enforce process isolation between graphics
+  * - 0x2: Enable simulating large-bar capability on non-large bar system. This
+  *   limits the VRAM size reported to ROCm applications to the visible
+  *   size, usually 256MB.
++ * - 0x4: Disable GPU soft recovery, always do a full reset
   */
-@@ -2052,6 +2053,19 @@ static void amdgpu_get_secondary_funcs(struct amdgpu_device *adev)
+ MODULE_PARM_DESC(debug_mask, "debug options for amdgpu, disabled by default");
+ module_param_named(debug_mask, amdgpu_debug_mask, uint, 0444);
+@@ -2064,6 +2066,11 @@ static void amdgpu_init_debug_options(struct amdgpu_device *adev)
+ 		pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
+ 		adev->debug_largebar = true;
  	}
++
++	if (amdgpu_debug_mask & AMDGPU_DEBUG_DISABLE_GPU_SOFT_RECOVERY) {
++		pr_info("debug: soft reset for GPU recovery disabled\n");
++		adev->debug_disable_soft_recovery = true;
++	}
  }
  
-+static void amdgpu_init_debug_options(struct amdgpu_device *adev)
-+{
-+	if (amdgpu_debug_mask & AMDGPU_DEBUG_VM) {
-+		pr_info("debug: VM handling debug enabled\n");
-+		adev->debug_vm = true;
-+	}
-+
-+	if (amdgpu_debug_mask & AMDGPU_DEBUG_LARGEBAR) {
-+		pr_info("debug: enabled simulating large-bar capability on non-large bar system\n");
-+		adev->debug_largebar = true;
-+	}
-+}
-+
  static int amdgpu_pci_probe(struct pci_dev *pdev,
- 			    const struct pci_device_id *ent)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+index da26c555af24..231d49132a56 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+@@ -433,7 +433,12 @@ void amdgpu_ring_emit_reg_write_reg_wait_helper(struct amdgpu_ring *ring,
+ bool amdgpu_ring_soft_recovery(struct amdgpu_ring *ring, unsigned int vmid,
+ 			       struct dma_fence *fence)
  {
-@@ -2230,6 +2244,8 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- 			amdgpu_get_secondary_funcs(adev);
- 	}
- 
-+	amdgpu_init_debug_options(adev);
+-	ktime_t deadline = ktime_add_us(ktime_get(), 10000);
++	ktime_t deadline;
 +
- 	return 0;
++	if (unlikely(ring->adev->debug_disable_soft_recovery))
++		return false;
++
++	deadline = ktime_add_us(ktime_get(), 10000);
  
- err_pci:
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 1134e29a7915..849fffbb367d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -794,7 +794,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 	default:
- 		break;
- 	}
--	if (!r && !(args->flags & AMDGPU_VM_DELAY_UPDATE) && !amdgpu_vm_debug)
-+	if (!r && !(args->flags & AMDGPU_VM_DELAY_UPDATE) && !adev->debug_vm)
- 		amdgpu_gem_va_update_vm(adev, &fpriv->vm, bo_va,
- 					args->operation);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index edaebabc8e60..07a4bcbeb4b8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -1320,7 +1320,7 @@ int amdgpu_vm_handle_moved(struct amdgpu_device *adev,
- 		spin_unlock(&vm->status_lock);
- 
- 		/* Try to reserve the BO to avoid clearing its ptes */
--		if (!amdgpu_vm_debug && dma_resv_trylock(resv))
-+		if (!adev->debug_vm && dma_resv_trylock(resv))
- 			clear = false;
- 		/* Somebody else is using the BO right now */
- 		else
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 08687ce0aa8b..65d2b9ae16bb 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1021,7 +1021,7 @@ static int kfd_ioctl_acquire_vm(struct file *filep, struct kfd_process *p,
- 
- bool kfd_dev_is_large_bar(struct kfd_node *dev)
- {
--	if (debug_largebar) {
-+	if (dev->kfd->adev->debug_largebar) {
- 		pr_debug("Simulate large-bar allocation on non large-bar machine\n");
- 		return true;
- 	}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-index 2e9612cf56ae..b05e06f89814 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-@@ -2115,7 +2115,7 @@ static int kfd_create_vcrat_image_gpu(void *pcrat_image,
- 	sub_type_hdr = (typeof(sub_type_hdr))((char *)sub_type_hdr +
- 			sub_type_hdr->length);
- 
--	if (debug_largebar)
-+	if (kdev->adev->debug_largebar)
- 		local_mem_info.local_mem_size_private = 0;
- 
- 	if (local_mem_info.local_mem_size_private == 0)
+ 	if (amdgpu_sriov_vf(ring->adev) || !ring->funcs->soft_recovery || !fence)
+ 		return false;
 -- 
 2.42.0
 
