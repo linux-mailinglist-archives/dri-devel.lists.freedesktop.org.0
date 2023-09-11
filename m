@@ -1,77 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF1279AA9C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 19:46:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FED479AA9E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 19:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E653910E1BB;
-	Mon, 11 Sep 2023 17:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5FC210E1B1;
+	Mon, 11 Sep 2023 17:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD9E10E1B1;
- Mon, 11 Sep 2023 17:46:49 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38BGL1X7022836; Mon, 11 Sep 2023 17:46:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=tUtEZn658uuIEeAhGleeCRrPIUW33MXT85cB6oBl1xI=;
- b=YETj3TqMbpOUXf3Y3E7lTuIRCRN4SK5hIrRMo+PCyV35rZN72/nECoETX9r6LyMBlFg9
- NAKOBychCnKT0jQkHJYb4gpN9C6QoLQ19RMeBYvK7EDPNlOQn2Op5fOllobtFCiKfD8O
- AsAibdNSa9yE/08erSfKD8/zAyoADYEQsFtgtl1BvBT6Y/hYYaEgV8ep+I+LTtLJPiVi
- jCvsEIHXvSFUNMOjvnNBK/iGVxRqUgI+dxAv37HtaD/AcgkU53I4suvvycoh8qCCLUe+
- WYaX7tpb1YD8J5fYhR53iggl7lpCIajsh34Yyuto8Rg5jTQZbjtO3BmenQ+Tj9q4cSri dw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t22hygsuw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 17:46:29 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38BHkSMr030743
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Sep 2023 17:46:28 GMT
-Received: from [10.71.110.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 11 Sep
- 2023 10:46:24 -0700
-Message-ID: <f4e0d437-bb11-2590-30d1-4feab703306f@quicinc.com>
-Date: Mon, 11 Sep 2023 10:46:23 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE0C10E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 17:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694454548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=St0OIFMZR2EddndtcFLYyMwK3Fvt2qDifveALpwjgwM=;
+ b=VGLoHgPWw33wfYdLRpqsWxasKzc/GTI8n7ARtBxhM9u90Wnlr6GT5GlfT5qdFo8RS9njAj
+ 6yeIMEzICnpmZdiO7NWIRFFkTFyp8VfRYnnSEZ0v2qGdQ9fy2akqHDrCVjpA829TZLBFzU
+ FpFffClzcmqOG95oaIfFzOxVAASTRw8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-641-b9xRIYWJNiSMKDebGGE9kg-1; Mon, 11 Sep 2023 13:49:07 -0400
+X-MC-Unique: b9xRIYWJNiSMKDebGGE9kg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-9a63d4c8afbso326322666b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:49:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694454546; x=1695059346;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=St0OIFMZR2EddndtcFLYyMwK3Fvt2qDifveALpwjgwM=;
+ b=c345WY9Yk9nEBSoZmF03uNSjj2Edy0Xu3SLsEHpNITcdZP/gW3aKO1PHB8n24ZnrHa
+ CvKTdn29JNWSjlhDNq//74mcKq1f4Covpx58Zga1CXPJrTg6yOc4wn64LvlBnxNvXvrr
+ +nHaxQLDM1MtgOeQsEHZkwyWiR6EGAYwPLoARKImxSO+/nw+LV6a0cax3JwOadcoTEdc
+ QtOBbqvXqqDUMFYhWOHIMw3bVjcGMX67wWIGE1bwmsWzP7WaMf0K0dIXo5nO4SeaXsiY
+ IQrxGApjppn0bOXItWiNtWVqM9dS57VHWZkP9clmjhd67jphFXSUG6MISw7t87ermxBc
+ rQyA==
+X-Gm-Message-State: AOJu0Yx7BzeP8K3ypUdGx7Yq6ybsuwSUr3qF4PRmGb5XHLf8AsvqLN+0
+ b7EKMApk+OUhY4PjuUuw/NEVpPObp1dZXRrtvWpCkJo4GQoERuf5AEQw1pAxZE+AR8LcwjNpJLc
+ oMUBeLBCy1Ry6T5PWqaMjdUBE+TEm
+X-Received: by 2002:a17:906:9713:b0:9a1:be5b:f4aa with SMTP id
+ k19-20020a170906971300b009a1be5bf4aamr7888323ejx.0.1694454546462; 
+ Mon, 11 Sep 2023 10:49:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJT7jpbp9w+Jd4iB1jj177KBarF5tpW4Kb+y9RLOsrxNRVTCbPPhmW6pX+J4jSq1kcXfWr9Q==
+X-Received: by 2002:a17:906:9713:b0:9a1:be5b:f4aa with SMTP id
+ k19-20020a170906971300b009a1be5bf4aamr7888308ejx.0.1694454546201; 
+ Mon, 11 Sep 2023 10:49:06 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ u24-20020a170906b11800b0099c971ba285sm5685580ejy.5.2023.09.11.10.49.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Sep 2023 10:49:05 -0700 (PDT)
+Message-ID: <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
+Date: Mon, 11 Sep 2023 19:49:04 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/msm/dpu: try multirect based on mdp clock limits
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
+ VM / BO combination
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
+ sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-6-dakr@redhat.com>
+ <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230908185427.29026-1-quic_abhinavk@quicinc.com>
- <20230908185427.29026-2-quic_abhinavk@quicinc.com>
- <CAA8EJppj+JTA8iZ6+Ui8JkD-kP54YKObRDK2_Oh+Wpn4XjU-4Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppj+JTA8iZ6+Ui8JkD-kP54YKObRDK2_Oh+Wpn4XjU-4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 1aNjUn8nbCt_cfxS5iTozcgbxSTDex57
-X-Proofpoint-GUID: 1aNjUn8nbCt_cfxS5iTozcgbxSTDex57
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-11_13,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 mlxlogscore=742 phishscore=0 spamscore=0
- impostorscore=0 mlxscore=0 adultscore=0 suspectscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2308100000 definitions=main-2309110162
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,83 +95,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean
- Paul <sean@poorly.run>, nespera@igalia.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-
-On 9/8/2023 4:30 PM, Dmitry Baryshkov wrote:
-> On Fri, 8 Sept 2023 at 21:55, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> It's certainly possible that for large resolutions a single DPU SSPP
->> cannot process the image without exceeding the MDP clock limits but
->> it can still process it in multirect mode because the source rectangles
->> will get divided and can fall within the MDP clock limits.
->>
->> If the SSPP cannot process the image even in multirect mode, then it
->> will be rejected in dpu_plane_atomic_check_pipe().
->>
->> Hence try using multirect for resolutions which cannot be processed
->> by a single SSPP without exceeding the MDP clock limits.
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> index 62dd9f9b4dce..85072328cd53 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> @@ -792,6 +792,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>                                                                                   plane);
->>          int ret = 0, min_scale;
->>          struct dpu_plane *pdpu = to_dpu_plane(plane);
->> +       struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
->>          struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
->>          struct dpu_sw_pipe *pipe = &pstate->pipe;
->>          struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
->> @@ -860,7 +861,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>
->>          max_linewidth = pdpu->catalog->caps->max_linewidth;
->>
->> -       if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
->> +       if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
->> +            _dpu_plane_calc_clk(&crtc_state->mode, pipe_cfg) > kms->perf.max_core_clk_rate) {
+On 9/11/23 19:19, Thomas Hellström wrote:
+> Hi, Danilo
 > 
-> First, I think this should be an adjusted_mode too. And this probably
-> needs some more attention in the next few lines of code, since .e.g
-> the UBWC case also needs to be adjusted.
-> 
-
-Ack, will change this to adjusted_mode as well
-
-Yes, need to update UBWC check like below, thanks for catching it.
-
-@@ -869,7 +878,7 @@ static int dpu_plane_atomic_check(struct drm_plane 
-*plane,
-                  * full width is more than max_linewidth, thus each rect is
-                  * wider than allowed.
-                  */
--               if (DPU_FORMAT_IS_UBWC(fmt)) {
-+               if (DPU_FORMAT_IS_UBWC(fmt) && 
-drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-                         DPU_DEBUG_PLANE(pdpu, "invalid src " 
-DRM_RECT_FMT " line:%u, tiled format\n",
- 
-DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-                         return -E2BIG;
-
->>                  /*
->>                   * In parallel multirect case only the half of the usual width
->>                   * is supported for tiled formats. If we are here, we know that
->> --
->> 2.40.1
+> On 9/9/23 17:31, Danilo Krummrich wrote:
+>> This patch adds an abstraction layer between the drm_gpuva mappings of
+>> a particular drm_gem_object and this GEM object itself. The abstraction
+>> represents a combination of a drm_gem_object and drm_gpuvm. The
+>> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
+>> representing this abstraction), while each drm_gpuvm_bo contains list of
+>> mappings of this GEM object.
 >>
+>> This has multiple advantages:
+>>
+>> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
+>>     of the drm_gpuvm. This is useful for tracking external and evicted
+>>     objects per VM, which is introduced in subsequent patches.
+>>
+>> 2) Finding mappings of a certain drm_gem_object mapped in a certain
+>>     drm_gpuvm becomes much cheaper.
+>>
+>> 3) Drivers can derive and extend the structure to easily represent
+>>     driver specific states of a BO for a certain GPUVM.
+>>
+>> The idea of this abstraction was taken from amdgpu, hence the credit for
+>> this idea goes to the developers of amdgpu.
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> 
+> Did you consider having the drivers embed the struct drm_gpuvm_bo in their own bo definition? I figure that would mean using the gem bo's refcounting and providing a helper to call from the driver's bo release. Looks like that could potentially save a lot of code? Or is there something that won't work with that approach?
+
+There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free callback for drivers to register for that purpose.
+
+- Danilo
+
+> 
+> Thanks,
+> 
+> Thomas
 > 
 > 
+
