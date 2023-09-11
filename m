@@ -2,105 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0367B79AA04
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1145279AA09
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 18:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9144C10E326;
-	Mon, 11 Sep 2023 16:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5E210E327;
+	Mon, 11 Sep 2023 16:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05olkn20831.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E1710E326;
- Mon, 11 Sep 2023 16:01:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NXNUbzDWBLvs4W8yQs3qxFvDerWZW9dRgeTA/eIMfHbbCOzH3TqPeyRuYvuHgfDIBSQbgzM7VFb2fdS7BOyJ8T5q/OtjPAEQ6daj0hBptGnQuwIsbKenUMwTDX+9x0P2K8zqVXkjrl3SxZttisRo4jbARvPxJ1YS9yHMpQBRtFax9i6wb78JdMTHn0Gx0RgQLBXofEsYlHai6sHj1/gmfwAUmnONo3tjAo0U+OuSVsFfGjcZSMkrQjlrABJKSLNqJDaJjyTUWulGC8aRahQx4qTx1WQPPQI8Mcile98oqY8D9OmI5W+Gzy4F3o4PijSDJI+CUS42SxrpLH3CVwj8ZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KB8EkG4Iq8pPw1U1hO6IkZ2Z3fojgBIfkC9Wmt5qGaI=;
- b=H+Xge4KqOiVotyXS5UWQaMiCqJr6/chmhMFsrAsAEy09etX4V5+G6Iuc0fR23sXHkztAQHE4Ob59uS834ovGOJNjObxg0N9RtjjQVIKb32O3MUn9rUlcD+82+a33J9dYSbUbd2oJmZmZn+aYHFfSaz4cRAPmHtWVamz8GHJqxtg1qYWmgIdCajs0XOhgv/IDmrq490JWRwSmDVRg557kqAJmCFsXzh5+Mr62LEGXcfIwp7BnfbNJdd/tE8fUpMmySufL4prdjkBaabp7aUq8xN1kvMPshy4NDfy7EQBQjf2Akz8wyrqUE6iYgciLwtFVZz3Na0gPtvlkPsEUeChweg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KB8EkG4Iq8pPw1U1hO6IkZ2Z3fojgBIfkC9Wmt5qGaI=;
- b=oTsvdlIEHszqGfjvtDlyTAlENe6eWfntYTYqR0fB1RZJqNZTUjEfh3+IQUXEbWCut+VOtLVhKq0tmJ6tg2g9OfJWRjZXM7vB2+LbR0t0ofzQrFIkPeQTO7XHLCDkq8XBAlM5lIKcwHN5w7DXNo/mLbYTk1IEsJ+p0eGvocgLgJGjuYo1xQChaX2PNhKXHlT3HnP58/DyG/FhJjYqbwJrgHqzxJEu7h9zPgN+crSCMYTNzoiWfgDl4ojly+Ojk6AqbODYj9wSz+7z8WNWrWBJuyWvGzUD2ls/D16Aj1xZAUju0s6POvWe9kT2P4dXlYjQlaBjVFWLY5lAVdUpwuSFzw==
-Received: from DB6P189MB0568.EURP189.PROD.OUTLOOK.COM (2603:10a6:6:31::16) by
- DB9P189MB1721.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:26f::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6768.35; Mon, 11 Sep 2023 16:01:44 +0000
-Received: from DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
- ([fe80::4dc2:a591:fbfa:d27d]) by DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
- ([fe80::4dc2:a591:fbfa:d27d%7]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 16:01:43 +0000
-From: David Binderman <dcb314@hotmail.com>
-To: "harry.wentland@amd.com" <harry.wentland@amd.com>, "sunpeng.li@amd.com"
- <sunpeng.li@amd.com>, "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
- <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Subject: linux-6.6-rc1/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c:2175:26:
- style: Array index 'i' is used before limits check. [arrayIndexThenCheck]
-Thread-Topic: linux-6.6-rc1/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c:2175:26:
- style: Array index 'i' is used before limits check. [arrayIndexThenCheck]
-Thread-Index: AQHZ5MjY3/KGEO0+iEGQi+iQNhMZww==
-Date: Mon, 11 Sep 2023 16:01:43 +0000
-Message-ID: <DB6P189MB0568B264D795E66A47FC0EFB9CF2A@DB6P189MB0568.EURP189.PROD.OUTLOOK.COM>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [Jo2BmjROJM0BhXtJ9G2/SphacaOt/7PV]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB6P189MB0568:EE_|DB9P189MB1721:EE_
-x-ms-office365-filtering-correlation-id: 2a307586-5e93-4004-7dd8-08dbb2e064ef
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FLsn8f+pmJGtbf2oqa3pUxRSX5efTS2hcZeCST6U2UZVbS+/+ly9RceSmv9NirwsZEnY0yKxkwVmTPolmYlnumi6+8lo0hl342dr5DsYK2KuCRsiV5bF2seH3K/HXLbmfvXAA/15KmRIK+lg30Hcz0Ec/PNSo1WpJAZF0/ViCV7Q5/e4Kil9Otd/DTquwJxJwo9uaK2HmHHXAXjVkFijcWzTuImm+Loc7zZIVAkZJ/0qJ7Y19xbigfZobWjZJip9JT8S/9QNaAWNF4zg5RXhX9G6ouhW7fdsO+pts5Cn9/zls+Midvj/mYefC0rsxhCDWUvz35ba2VfMwU6NsAbvF+BcrPSYRSOKSUCrwlXOHLhTfnkkZBqoqNr6My3Ti03/QL0ChlkaGZnTySu4rGO0wCgEGXYb/RiW+jbAgnEoGNhMk7r83lks+7xB+Fns9P56WT6d+VCWULUCJIKhwt2FihZFBGASei8Jwa+JxisSu+oNON1Ptt26ALu3LGjZYUeDIkBgvOS0OsfGGadRaKyUGVH3VFr3hrzs5rLCoPUCw/eRlbOAyuWoQ9bGpJehhVP0
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?B8l1cM9w96j6HS0rC+TR7ostKF/LEDZSFRiVmf1aaUphdfbGObZo08RQ1o?=
- =?iso-8859-1?Q?TiHgKcY0lL5i7cjjJUJeQqdWvIRJV5FEKKWjGPUX2/Og7LP/aBzedQIPpD?=
- =?iso-8859-1?Q?xuVSNvBg1K2b8qGH/NRwzfGmIF+oMlYi9RYZLFMCpjNaJSL7+70BuWLk8a?=
- =?iso-8859-1?Q?SE9pteKJH8l1gPMFQQi3cPFZhUeC0i53Zz8xWE5Ueww9oV6s89W88gHjsv?=
- =?iso-8859-1?Q?Z1bBcHsZ9NcbCPScDttj7+yqgzZWxMJPEtDySVlnMRPvZAikHvtsdwmbkS?=
- =?iso-8859-1?Q?mRpuJvocSRaN6vVG4zMS5bAuoV+GPkUs3u13qot4Fpu7eNGgWPe0/aDkY7?=
- =?iso-8859-1?Q?pGhyW3CsWL0dP97eXfzzEjhhKjYiap1V0kodmlW9HDNmeiOm7ViKI4qxYL?=
- =?iso-8859-1?Q?Gv1kVeVdg5BZeukogLhOmHertOu4jwwgFbK3nJlQcehIlhihMd8/er/aKV?=
- =?iso-8859-1?Q?xMIjiyrgIQRDZbMcqif5T52h1Asr4tofISnTDQWbbrff0BfkuYx1BM4HzR?=
- =?iso-8859-1?Q?0uSv83BP/soX6+wKPasllGlOKtNj9YSH9O5Bhj8oP8pSx0lv/cDjmf5peM?=
- =?iso-8859-1?Q?/BJeYlMF7WT9MMLlAHaR90sHNIcLoYTFORPnGyrbPvNcKkK7KFdJ8o/6h5?=
- =?iso-8859-1?Q?6wWwggMrwz3vLm8BQs/RF+3QOS65YdHH0erSVREOSRyaFtcbZeQcDCi1RI?=
- =?iso-8859-1?Q?WAFRfVYPcv55wikVjPMrdAiuYYABIsv8sRWAjCiBj+yRF974MN1Ffd+Iv5?=
- =?iso-8859-1?Q?6I6F20A0nlPlvaj0irn9SOW1kUKf+QnoL2M5g0rAvBBR6NKyai0wwyfsDB?=
- =?iso-8859-1?Q?5szY75VNBoyxB/RxX45csmaw17A/gMWZa9f0I3ct1BmGuvpMPmxcZ/21nM?=
- =?iso-8859-1?Q?JfRalVd+4JQtOBJxOMmSpomnUUb5STIBu2bu2pp9QL20iBKKFbHS/4F8DS?=
- =?iso-8859-1?Q?4soty8NtFVLFqlUBPpw9e/tzWrqAQmdlsYSJ4XcP5pkLdRKbF/1OBwyPze?=
- =?iso-8859-1?Q?Xt2zEt9/JR0ZNTznQDiCY9KYHcnAFKYoVtKbom5QIqOzUyPb+vDxXGy4MN?=
- =?iso-8859-1?Q?XsOvc8qWX6O7EJdbZjUDj/Sk8zJ1c2yZxD/Y7ceJpxeFiYwzzJU1M9JmqP?=
- =?iso-8859-1?Q?K2Sb2V90EU2/LkbRpuYVhZupanYYymYfPlwvUVz9OQTn6Pg5XfdCCrdV0n?=
- =?iso-8859-1?Q?ZHoA4kYgnEsjIx8iwX7z2np88O1aPBCre/G3uWpRmyboHUyBFSRugXCO?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B32510E327
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 16:11:04 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-9ad749473baso62385166b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1694448662; x=1695053462;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+QeZPdiVCIBARaAlW5frnuN99j3rzp4a9OMhyKJX2M8=;
+ b=ItBvIkXKPK3Om2oALGwegXJEa6A8PzsLYL9QHK2z7cPU67JmtdU5Kn0sdXnhHXxIBF
+ mRvcGVefKcy+zMJ5MBgp4X09dgSAKBE3H/F58XBDuCRfC/mbjcmL3nDmx5tFV23bp2G3
+ LfSFEhSYSoTmSFyV4dHH0NHiOhxpQf9mTsTaI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694448662; x=1695053462;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+QeZPdiVCIBARaAlW5frnuN99j3rzp4a9OMhyKJX2M8=;
+ b=Dn5ASAOASunkm9FAfin/i9ppcPg4uWDzIgRkCqH0DZD2BMKG5U52vrM+bBNuEx7/HY
+ nnWMhXx/tQWEVFMtrMPSxEpeCCG8UygB1UODX5BHrZ2mCtGQXa5sPXwcSzN6X8iOe+2b
+ zkUKvw7Fl+isoTi+aiDGQDIVUoKeoLxJSCTNP3h65hEvws0MYNY+uLKXPG0yqodIjmNL
+ 6OfiLzxQtieUUgc+FmsTkPOve6tYSQwChU9Tf/Znv3p+QYFpwtZZPtp7NnSaAhFQYdoy
+ KJ1aidifK527VzrxUReIe9QMXzr+77T1i/fcGQWgcK3x1GmlgxtmvBhx3/kdHEmYKdyF
+ J0FQ==
+X-Gm-Message-State: AOJu0YyDPprw7zpt/Ffb7jOOD8Y3mDpANIYUx+Bdo5Dcrfcy17YdzTcj
+ dgbVqB0xYwp0nkRWbhFuxHblM7GRc3/CXSmgXKkb0Q==
+X-Google-Smtp-Source: AGHT+IHxrtZbph3YyLznRTTOjTSkpxAK8pUDvaPrHy3Lgp8tO9TNpzQa+FnlY0YBv9Lkgnnj0i0mpQ==
+X-Received: by 2002:a17:906:3111:b0:9a5:d16b:6631 with SMTP id
+ 17-20020a170906311100b009a5d16b6631mr9000165ejx.70.1694448661995; 
+ Mon, 11 Sep 2023 09:11:01 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
+ [209.85.208.49]) by smtp.gmail.com with ESMTPSA id
+ x18-20020a170906805200b0099cadcf13cesm5543267ejw.66.2023.09.11.09.11.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Sep 2023 09:11:00 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-52f1f1f5125so18156a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 09:11:00 -0700 (PDT)
+X-Received: by 2002:a50:9faa:0:b0:525:573c:6444 with SMTP id
+ c39-20020a509faa000000b00525573c6444mr340372edf.1.1694448660156; Mon, 11 Sep
+ 2023 09:11:00 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a307586-5e93-4004-7dd8-08dbb2e064ef
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2023 16:01:43.8583 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1721
+References: <20230901234202.566951-1-dianders@chromium.org>
+ <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
+ <CAC=S1niYAC3PFQoAmwVc=1FcK29uu5sC9c1pGo-mku__y7eHcA@mail.gmail.com>
+In-Reply-To: <CAC=S1niYAC3PFQoAmwVc=1FcK29uu5sC9c1pGo-mku__y7eHcA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 11 Sep 2023 09:10:44 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VT8ZQkcLn4nsxCygC5SG16qYW5igFfwM762jEK42p12g@mail.gmail.com>
+Message-ID: <CAD=FV=VT8ZQkcLn4nsxCygC5SG16qYW5igFfwM762jEK42p12g@mail.gmail.com>
+Subject: Re: [RFT PATCH 05/15] drm/mediatek: Call drm_atomic_helper_shutdown()
+ at shutdown time
+To: Fei Shao <fshao@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,21 +82,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello there,=0A=
-=0A=
-Static analyser cppcheck noticed the above problem. Source code is=0A=
-=0A=
-            if (dcfclk_sta_targets[i] < optimal_dcfclk_for_uclk[j] && i < n=
-um_dcfclk_sta_targets) {=0A=
-=0A=
-Suggest new code:=0A=
-=0A=
-            if (i < num_dcfclk_sta_targets && dcfclk_sta_targets[i] < optim=
-al_dcfclk_for_uclk[j]) {=0A=
-=0A=
-Regards=0A=
-=0A=
-David Binderman=0A=
+Hi,
+
+On Fri, Sep 8, 2023 at 4:51=E2=80=AFAM Fei Shao <fshao@chromium.org> wrote:
+>
+> Hi,
+>
+> On Sat, Sep 2, 2023 at 7:42=E2=80=AFAM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+> ...<snip>
+> > @@ -952,6 +960,7 @@ static const struct dev_pm_ops mtk_drm_pm_ops =3D {
+> >  static struct platform_driver mtk_drm_platform_driver =3D {
+> >         .probe  =3D mtk_drm_probe,
+> >         .remove =3D mtk_drm_remove,
+>
+> I think this patch, and perhaps some others in this series, will have
+> a trivial conflict to Uwe's work about the remove callback conversion
+> e.g. [1], so you might want to rebase the series onto the latest
+> linux-next.
+>
+> On the other hand, I tested this patch on MT8195 and MT8188
+> Chromebooks and I don't see issues during boot / reboot, so
+>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
+> Tested-by: Fei Shao <fshao@chromium.org>
+>
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.g=
+it/commit/?h=3Dmediatek-drm-next&id=3Db3af12a0b46888340e024ba8b231605bcf2d0=
+ab3
+
+That makes sense. I had based this series on drm-misc-next which
+didn't have those, but now that a new -rc1 is out it then
+drm-misc-next should rebase shortly. I'll make sure that the next
+version includes Uwe's changes as much as possible.
+
+That being said, I also wouldn't object if the maintainer of this DRM
+driver wanted to resolve conflicts themselves and land the patch
+without me needing to resend. The conflict is trivial, there are no
+dependencies and no reason to land the series all at once, so landing
+this patch early would mean less spam for the maintainer since they
+would no longer get CCed on future versions. :-P Just sayin...
+
+-Doug
