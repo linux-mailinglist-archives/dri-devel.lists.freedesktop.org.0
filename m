@@ -2,52 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E15179A76E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB8979A778
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Sep 2023 12:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F87710E290;
-	Mon, 11 Sep 2023 10:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFAEB10E2A3;
+	Mon, 11 Sep 2023 10:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F9110E290
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694429380; x=1725965380;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=W0ihdI1gpYeZrR0lNJXdqr/RfBzKCoLICTIE6FOERxI=;
- b=D9qikMI7zsbtJoAe3acdBk36/P/clEcBAojXrOa5VlJAj26Sc6IDeRvv
- OKqudA+FgWHL1dcFB9RG39fI0EZVqt0q1YIY0zDe9/mvTylJNHnbcJCnq
- xyrQBZ2FC98JrTKlv477V9xQrdY1dpbFfpPLlVSpYhI9rDUgCnrkNI3QD
- 7b/gN6cTSukAibWtqxcWGHkNREZ/7Y/PGL0SwE6unfmFIaKpIsXU4dB8S
- absQV22hrAWf+LLCyRkU6M7Z0LY20+oxcCGZEllYA+1D/TMRBixW5ia3F
- 4j9XMGa95ZdhxbgWRYVc0ucU59ObOHjxbwxlcX6QeUOHkm79sIZt8BgSs g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="464423591"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="464423591"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 03:49:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="1074097706"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; d="scan'208";a="1074097706"
-Received: from kschuele-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.119])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2023 03:49:37 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/5] drm/ttm: Update Makefile for KUnit
-In-Reply-To: <3782fd55e8479296daab7041430fe7b0848bf621.1694422112.git.karolina.stolarek@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1694422112.git.karolina.stolarek@intel.com>
- <3782fd55e8479296daab7041430fe7b0848bf621.1694422112.git.karolina.stolarek@intel.com>
-Date: Mon, 11 Sep 2023 13:49:34 +0300
-Message-ID: <87fs3lf0ht.fsf@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D943D10E297
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 10:57:26 +0000 (UTC)
+X-UUID: fc336156509111eea33bb35ae8d461a2-20230911
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=gElX76EooqTMgZPTL7giI+XlGA/O4bjKB0y+ZAuWYS0=; 
+ b=BXIiaclQk3XdnrOCTIDkqRCukwJJwzNQeyejf2b++Go+DT2OI/gzVItXmwdugcqKZH/GjfbQw/b5ZLC/aYEPGqAMQ4w2FIuRLfhWnPdd/ndtlm0HS+fypj4zv2X6loQmN36Uccn1oX+pC2rgmDitAIhPJ9b7nVDHzYmmBhcM5FE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:04cf4518-16d4-4e4c-983c-bbbb6bbd0c65, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:0ad78a4, CLOUDID:f8f0e3c2-1e57-4345-9d31-31ad9818b39f,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: fc336156509111eea33bb35ae8d461a2-20230911
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 98129765; Mon, 11 Sep 2023 18:57:22 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 11 Sep 2023 18:57:20 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 18:57:20 +0800
+From: Shuijing Li <shuijing.li@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, 
+ <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
+Subject: [PATCH v3,0/3] Add mt8188 compatiable for DSI cmd packet control
+Date: Mon, 11 Sep 2023 18:57:33 +0800
+Message-ID: <20230911105736.11752-1-shuijing.li@mediatek.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--5.997700-8.000000
+X-TMASE-MatchedRID: yvDAzrttxFXHCChNBbZThTvfsoCuAcP+h+w9Wz/xXDqIDxaki6CTmJgZ
+ 2+o9ceX07wgYhNgOzKL/Z0qDAfk1Q6Gsq9dfniq5A9lly13c/gGeEP0DdJrulp2iHEDAUb20o8W
+ MkQWv6iUoTQl7wNH8Pg1fA1QHegDv3QfwsVk0UbtuRXh7bFKB7r+k1NFlulNIlZGidBa7H0aVZ3
+ zXfISSyJKTX6EwXfWI66XHIc5w+gc=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--5.997700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 9F65558BB8E37DB6576E9BCA47856FDB2071D16DFB4AB4D407FEB7A2A12D17432000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,93 +80,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel test robot <lkp@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Sep 2023, Karolina Stolarek <karolina.stolarek@intel.com> wrote:
-> Update Makefile so it can produce a module that consists of TTM tests.
-> This will allow us to test non-exported functions when KUnit tests
-> are built as a module. Remove the tests' Makefile.
+Add dt-binding documentation of DSI for MediaTek MT8188 SoC.
+Because of the difference between SOC and DSI cmd packet control, for
+MT8188, it is necessary to increase the DSI_CMDQ_SIZE control when
+sending long packets to initialize the panel. Of course, this will not
+affect the sending of short packets.
 
-I'm asking questions instead of making assertions, because I'm not 100%
-confident, but I don't feel like this Makefile could work right.
+Base on the branch of linus/master v6.5.
 
->
-> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309010358.50gYLkmw-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
-> ---
->  drivers/gpu/drm/ttm/Makefile       | 18 +++++++++++++-----
->  drivers/gpu/drm/ttm/tests/Makefile |  6 ------
->  2 files changed, 13 insertions(+), 11 deletions(-)
->  delete mode 100644 drivers/gpu/drm/ttm/tests/Makefile
->
-> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
-> index dad298127226..6322a33e65ed 100644
-> --- a/drivers/gpu/drm/ttm/Makefile
-> +++ b/drivers/gpu/drm/ttm/Makefile
-> @@ -2,10 +2,18 @@
->  #
->  # Makefile for the drm device driver.  This driver provides support for the
->  
-> -ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
-> -	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
-> -	ttm_device.o ttm_sys_manager.o
-> +ttm := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
-> +       ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
-> +       ttm_device.o ttm_sys_manager.o
-> +obj-$(CONFIG_DRM_TTM) += $(ttm)
+Shuijing Li (3):
+  dt-bindings: display: mediatek: dsi: Add compatible for MediaTek
+    MT8188
+  drm/mediatek: dsi: Add dsi cmdq_ctl to send panel initial code
+  drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c
 
-Does that not lead to each object in $(ttm) becoming its own module?
-
->  ttm-$(CONFIG_AGP) += ttm_agp_backend.o
-
-Does this not create a ttm.o with just one object, depending on
-CONFIG_AGP?
-
->  
-> -obj-$(CONFIG_DRM_TTM) += ttm.o
-> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
-> +ttm-tests := tests/ttm_kunit_helpers.o tests/ttm_device_test.o \
-> +             tests/ttm_pool_test.o
-
-I'd preserve the one object per line syntax. It's nicer for the diffs in
-subsequent updates.
-
-> +
-> +ifeq ($(CONFIG_DRM_TTM_KUNIT_TEST),m)
-> +    ttm-test-objs := $(ttm) $(ttm-tests)
-
-Isn't the -objs syntax for host/userspace programs? And if not, doesn't
-it lead to objects with exported symbols being present in two places?
-
-Confused.
-
-BR,
-Jani.
-
-> +    obj-m := ttm-test.o
-> +else
-> +    obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += $(ttm-tests)
-> +endif
-> diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-> deleted file mode 100644
-> index ec87c4fc1ad5..000000000000
-> --- a/drivers/gpu/drm/ttm/tests/Makefile
-> +++ /dev/null
-> @@ -1,6 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0 AND MIT
-> -
-> -obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
-> -        ttm_device_test.o \
-> -        ttm_pool_test.o \
-> -        ttm_kunit_helpers.o
+ .../bindings/display/mediatek/mediatek,dsi.yaml     |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c              |  2 ++
+ drivers/gpu/drm/mediatek/mtk_dsi.c                  | 13 +++++++++++++
+ 3 files changed, 16 insertions(+)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.40.1
+
