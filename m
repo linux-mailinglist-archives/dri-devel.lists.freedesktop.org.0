@@ -2,79 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2654379C85C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0FB79C868
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84B2C10E39C;
-	Tue, 12 Sep 2023 07:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8252D10E3A3;
+	Tue, 12 Sep 2023 07:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0100A10E3A1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:40:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 81ED7320025E;
- Tue, 12 Sep 2023 03:40:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Tue, 12 Sep 2023 03:40:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
- 1694504452; x=1694590852; bh=gu4KD8m5ag8/RCIOGmGpJutCwSn5BzTEfiE
- SziH75LY=; b=kpYKvB1xx9wnF8RGHpXtbizWcj1EnE5ANoWRr/mZ6fssEHR4pYG
- AQA38NV7lTMlHM4701jxiBPr9dIhPtjIYEyvvYcK+6IX7wzWf1c6FlxBlfk5vCqj
- 375Lr2NJiJjZCnKlPUMXQ5nzVLez5KmrYPyVdAha3A8PRtAm3xB8hSrl5/9X9Xvc
- ZPeUhO0IT4y+RhJq5id6TmIRY3tiAmNX5+obdeED7H5eg6v/r9fu/YPrvIDWdEXT
- XMpFVx/JBVai/CvjUPGbSHo+h/RIzdsmCxcT0MdxRvpe9ydKszYIAJwcIquixDgA
- RmyiyjSVaaSdHND7tghK7TMifFONIKWLHDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1694504452; x=1694590852; bh=gu4KD8m5ag8/RCIOGmGpJutCwSn5BzTEfiE
- SziH75LY=; b=1GMMROCZOGebXmmwZE3hvLCfOPtQKelh7C5eDmc++WTnzsHQeET
- gDIg44v7H3O2rsrJJaseIrbvnlPUIBHgQ6qbPH0lQuDaABt/JmgpSZT5TQkC5nRe
- dmTV+OAQhlHNy2z6zPPd3Y0QtiEQrltLKgnf9Ux2LUHm4YGF3Bria2QpLX//grvJ
- PklLxeAplTFKTycv4P5y7PTv6AtpXJM/v7aqcrPMRopKwrwYr7TzC9JsFuDjhkK3
- ri0I7yP5APUAdxv5s5Q17EWiBra3XF7SlUaXp1M6UNXp/J9PADBaiUnLx3aDEeiq
- 7WHL5J7e2xn/Jqa3tbuVksL8qJAdrXu0cPg==
-X-ME-Sender: <xms:AxYAZX8lw-EPZzR_s0-gxctsuCJ9K1ljQOY4BYnDdCUNTXsUqhurvA>
- <xme:AxYAZTst0W6PkSUeUuSADygtQQ1vlozgqAu3PV4zyke9Nc-bmzyNmzewIVCWg5wR8
- lii6wiEQfdKY2Gtq5E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeihedguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
- tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
- grthhtvghrnhepudefffehudefvefhjeduvedtkeeujeffudevkeejiedtkedtheeiuedt
- vdekuddunecuffhomhgrihhnpehushgvrhhsphgrtggvrdhhohifnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdgu
- vg
-X-ME-Proxy: <xmx:AxYAZVCcd_FJuFHxjCjPo2pdcDsEj8GcMzAU8kQ3qLHSFQbpnB9lKg>
- <xmx:AxYAZTfaAAXZlbx6_jX1AuRiov2m-jFSPrDE6a_wKoAzrTOK65s-Tg>
- <xmx:AxYAZcMXYv6BcbZ9d2kZszB6mQU31ZXmWeDMovEU_iG_pGoBlhYRxw>
- <xmx:BBYAZRs4I4BjxLQ4oHEvQXTNLAdO2hiy_fs0e6TV3FW3r8xBoVl90g>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 759E7B60089; Tue, 12 Sep 2023 03:40:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <aa935abe-2ccf-4889-a717-4efecc13d48b@app.fastmail.com>
-In-Reply-To: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
-References: <20230911205338.2385278-1-arnd@kernel.org>
- <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
-Date: Tue, 12 Sep 2023 09:39:56 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A3F10E3A2;
+ Tue, 12 Sep 2023 07:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694504570; x=1726040570;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PiPVESGjz4+9B3CmXHVRHfqH0RQNO7dsFUqM+loKVOM=;
+ b=O112YdF4B8sgWFsriIqrfXWFBY7re3Xs/+0KM1TTEXQZp7edh+lz+KI+
+ n1m1NLoTupG/1hxZkp0c0pI4fxzlnC5kUSaDXE95K/Cn92a33KQKvzS8J
+ 2Nb4ezBwCTBCCdTkksCKljW+yv8rHY3a+u/Z887n6Rei0Q/dEY8ZWU4yd
+ HOQxBWkIeBHl4hw+N0mfdGEdIDKtCNv5QCt8jI76qsZcEsjXYZ17AUDaO
+ 7d+fiKqSxOtEGIeiXMI+Vi+iiIt2iAbSRqVvkkaxXMP0W6pUQBLH0csHL
+ G0mmxbTP2O+2NuZ5+Yqk69h3Stcsg9YxWKSojbkPKC6dWWEeQUJr1JHuJ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="368558729"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="368558729"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 00:42:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="886858762"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="886858762"
+Received: from dhermamx-mobl1.amr.corp.intel.com (HELO [10.249.254.193])
+ ([10.249.254.193])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 00:42:20 -0700
+Message-ID: <05b06e5d-03aa-14f4-46b1-6057c4437043@linux.intel.com>
+Date: Tue, 12 Sep 2023 09:42:44 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
+ VM / BO combination
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-6-dakr@redhat.com>
+ <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
+ <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,90 +68,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 12, 2023, at 09:14, Geert Uytterhoeven wrote:
-> On Mon, Sep 11, 2023 at 10:53=E2=80=AFPM Arnd Bergmann <arnd@kernel.or=
-g> wrote:
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -135,7 +135,7 @@ config DRM_FBDEV_EMULATION
->>         bool "Enable legacy fbdev support for your modesetting driver"
->>         depends on DRM
->>         select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONS=
-OLE
->> -       default y
->> +       default FB
+Hi, Danilo
+
+On 9/11/23 19:49, Danilo Krummrich wrote:
+> Hi Thomas,
 >
-> While this is true for existing configs, it is no longer true in gener=
-al,
-> as DRM_FBDEV_EMULATION is no longer related to FB.
-
-I think it still makes some sense though, as configs that have
-both DRM and FB enabled almost certainly want this enabled.
-
->> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kc=
-onfig
->> index b575cf54174af..83c2d7329ca58 100644
->> --- a/drivers/video/console/Kconfig
->> +++ b/drivers/video/console/Kconfig
->> @@ -74,6 +74,7 @@ config DUMMY_CONSOLE_ROWS
->>  config FRAMEBUFFER_CONSOLE
->>         bool "Framebuffer Console support"
->>         depends on FB_CORE && !UML
->> +       default DRM_FBDEV_EMULATION
+> On 9/11/23 19:19, Thomas Hellström wrote:
+>> Hi, Danilo
+>>
+>> On 9/9/23 17:31, Danilo Krummrich wrote:
+>>> This patch adds an abstraction layer between the drm_gpuva mappings of
+>>> a particular drm_gem_object and this GEM object itself. The abstraction
+>>> represents a combination of a drm_gem_object and drm_gpuvm. The
+>>> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
+>>> representing this abstraction), while each drm_gpuvm_bo contains 
+>>> list of
+>>> mappings of this GEM object.
+>>>
+>>> This has multiple advantages:
+>>>
+>>> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
+>>>     of the drm_gpuvm. This is useful for tracking external and evicted
+>>>     objects per VM, which is introduced in subsequent patches.
+>>>
+>>> 2) Finding mappings of a certain drm_gem_object mapped in a certain
+>>>     drm_gpuvm becomes much cheaper.
+>>>
+>>> 3) Drivers can derive and extend the structure to easily represent
+>>>     driver specific states of a BO for a certain GPUVM.
+>>>
+>>> The idea of this abstraction was taken from amdgpu, hence the credit 
+>>> for
+>>> this idea goes to the developers of amdgpu.
+>>>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>>
+>> Did you consider having the drivers embed the struct drm_gpuvm_bo in 
+>> their own bo definition? I figure that would mean using the gem bo's 
+>> refcounting and providing a helper to call from the driver's bo 
+>> release. Looks like that could potentially save a lot of code? Or is 
+>> there something that won't work with that approach?
 >
-> Sounds good to me, although it looks a bit strange at first sight
-> (FRAMEBUFFER_CONSOLE defaults to n on a system with real fbdev, but
-> y on emulated fbdev?).
-> So this is the fix for commit a5ae331edb02b ("drm: Drop select
-> FRAMEBUFFER_CONSOLE for DRM_FBDEV_EMULATION").
-
-Correct, this should restore the console on configs that
-accidentally lost it. The real problem here is much older,
-the assymetry between framebuffer-only configs (with console
-default off) and DRM configs (with console selected
-unconditionally) started back in 2009 with commit 6fcefd56f5060
-("drm/kms: fix kms helper license + Kconfig").
-
-I think that was a mistake, but there is little we can do
-to fix that now without breaking users.
-
-The only alternative I can think of would be to default-enable
-or force-enable FRAMEBUFFER_CONSOLE for any config that includes
-both VT_CONSOLE and FB_CORE. This would increase defconfig
-builds for systems that currently only want CONFIG_FB for
-either FB_DEVICE or LOGO but don't care about
-FRAMEBUFFER_CONSOLE. I have no idea who uses such a config,
-but I think Javier previously said this was an important
-use case.
-
->> diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/c=
-ore/Kconfig
->> index 114cb8aa6c8fd..804c2bec9b43c 100644
->> --- a/drivers/video/fbdev/core/Kconfig
->> +++ b/drivers/video/fbdev/core/Kconfig
->> @@ -28,7 +28,7 @@ config FIRMWARE_EDID
->>  config FB_DEVICE
->>         bool "Provide legacy /dev/fb* device"
->>         depends on FB_CORE
->> -       default y
->> +       default FB
+> There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free 
+> callback for drivers to register for that purpose.
 >
-> Changing this means possibly causing regressions on systems running
-> an fbdev userspace.
+> - Danilo
 
-How? FB_DEVICE is a new config that was just split out from
-CONFIG_FB in 6.6-rc1, so nobody should have any defconfig
-that disables CONFIG_FB but relies on the FB_DEVICE default yet.
+Now after looking a bit deeper, I think actually the question could be 
+rephrased as, why don't we just use the
+struct drm_gem_object::gpuva struct as the drm_gpuvm_bo in the spirit of 
+keeping things simple? Drivers would then just embed it in their bo 
+subclass and we'd avoid unnecessary fields in the struct drm_gem_object 
+for drivers that don't do VM_BIND yet.
 
-    Arnd
+Sure, this won't be per bo and per vm, but it'd really only make a 
+slight difference where we have multiple VMAs per bo, where per-vm 
+per-bo state either needs to be duplicated or attached to a single vma 
+(as in the case of the external bo list).
+
+To me that looks like a substantial amount of less code / complexity?
+
+/Thomas
+
+
+>
+>>
+>> Thanks,
+>>
+>> Thomas
+>>
+>>
+>
