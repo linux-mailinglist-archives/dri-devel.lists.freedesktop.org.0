@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4966479CF81
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56C379CFB0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD3110E3EE;
-	Tue, 12 Sep 2023 11:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2226310E3FC;
+	Tue, 12 Sep 2023 11:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFFA10E401
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 11:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694516993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Iha8C+BE/TMBESY5/Z7PGsbyemw3j0mvo1FB1e9UQIU=;
- b=XnB7Hzp6wDz/MoZInm0gzq4pHerzLRSShcfYoKnwB3n2QarVuXP1tPa9lN3U2Ua849mFPI
- e1OiOoRh8mcjsWkRkmEOaS+wPIvgQCxtUK8m8r2U40yMA3c4/oIDkueXrdZ+xJ7XElsILA
- feN8MHdcRbqKDDEcW9NKo9oAEb+4Jlk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-578-U5Zr-9FIO8WrOzurLs5vtA-1; Tue, 12 Sep 2023 07:09:52 -0400
-X-MC-Unique: U5Zr-9FIO8WrOzurLs5vtA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-401db0c9d3eso42878835e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 04:09:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694516991; x=1695121791;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Iha8C+BE/TMBESY5/Z7PGsbyemw3j0mvo1FB1e9UQIU=;
- b=GSG7B5yoLhyeXs0yZT6EL7V2nQo7NLkAv1JaOwvGA6ljGkOMaBZxowqS7pKH77IR0X
- Vhj1nph9ULl/AfwEi/HmfxhKnzIoamSaPlUOb4O076Nr+Y5wiACiZ6ztp2/XLEezkZup
- NfKsTzcs2KtnQxKuCY5BwaxE/7M4YF3Lwp9chwx0UUT8ShZfZcUR4Z/9fPrqhTelOfMe
- v9xIMMteyBQIcKr2CfphBmthCkCeQWiZi+3SZ69WfjCTQM3uc0ZK38jiViHCMTOTopdg
- 7WicBJh5UvZwCg1GfPhd7fHTNe1jD4h4wNisVT/Aq0KJVgnBXhC9c1ZJtdZS6VUrnB/F
- JJvQ==
-X-Gm-Message-State: AOJu0YwqoxIq2ZCaXbkdOrxnTWxX7fHZWwzy8schzbEbNGP09zUGD/Xj
- AQW7XPt5EfDPzWe/8T4OZdMR5Uyt7qPklw3aDvsYWZUmlJlXIOuJ60qkJkZ+L0KW5Wdey6lj8vh
- ydsr5epvqIMpP5OWlBVceKTJ168US
-X-Received: by 2002:a5d:4ac3:0:b0:31d:cf59:8de with SMTP id
- y3-20020a5d4ac3000000b0031dcf5908demr9559732wrs.19.1694516990743; 
- Tue, 12 Sep 2023 04:09:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEC7QeaDiNTeb3us7hhT2u66huBjQF8B1Y6H9shIubeqxWrRC1mYeXQpC2iP7+EdIPtUrGm8g==
-X-Received: by 2002:a5d:4ac3:0:b0:31d:cf59:8de with SMTP id
- y3-20020a5d4ac3000000b0031dcf5908demr9559722wrs.19.1694516990341; 
- Tue, 12 Sep 2023 04:09:50 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e11-20020adffc4b000000b0031f65cdd271sm12538549wrs.100.2023.09.12.04.09.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 04:09:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/ssd130x: Store the HW buffer in the driver-private
- CRTC state
-Date: Tue, 12 Sep 2023 13:09:42 +0200
-Message-ID: <20230912110946.944791-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4768710E3F7;
+ Tue, 12 Sep 2023 11:18:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694517506; x=1726053506;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=v/i3taSTWqLhaAP15wksvlM9MkSPryqH2IEvYzbAXd0=;
+ b=mSgaO8isAXPavN7fyTPJWTQooMufqw7odqxnN8r4d5i8lmYX6ShJfnWK
+ eL1QEz3E5v27lsFdqbl1a23pGH66RaI7112+EyOgUv3LQGJL3TXc/a8Dh
+ kEUXOSrnfGCB9TGvyCBVdHwH02SQo8UBi/+u0I8SL2CGQLYOjzvCDHAUj
+ 16D9Jth4It4CTZR7XWg1VO72wenH1mtNOWgi78yqO6DTqlAubngJx+9sq
+ xqeMZtIS2rC+gkWs3BWi3jIvO+2yCwkIIjulWIQSfoAHflM6YV22fezBc
+ ebL0Ga5D0kg3VSLVeW0b2t4+n6c55rruKm9ABYb50N4Zdz87XlaWD5A9/ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="442360657"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="442360657"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:18:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="917397310"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="917397310"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:18:21 -0700
+Date: Tue, 12 Sep 2023 14:18:40 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 3/3] drm/mst: adjust the function
+ drm_dp_remove_payload_part2()
+Message-ID: <ZQBJEKg8oHq8sSyN@ideak-desk.fi.intel.com>
+References: <ZM0Z3sZEYMcMTnuP@ideak-desk.fi.intel.com>
+ <CO6PR12MB5489306FA44F5F107180E57DFC0CA@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <ZNEU8j6OR3KirIcS@ideak-desk.fi.intel.com>
+ <CO6PR12MB548978FEE8BE8300F43D4486FC0DA@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <ZN+uWC1fDKZUmDdL@ideak-desk.fi.intel.com>
+ <CO6PR12MB5489E92E7A29CA7285602B20FC1CA@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <ZOiywboCeFxJwCCP@ideak-desk.fi.intel.com>
+ <CO6PR12MB5489FC7230B9D400EEF5735CFCEEA@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <ZPtzhcxqWPB07vfw@ideak-desk.fi.intel.com>
+ <CO6PR12MB5489BBC86F6113C5019F3D96FCF1A@CO6PR12MB5489.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CO6PR12MB5489BBC86F6113C5019F3D96FCF1A@CO6PR12MB5489.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,344 +67,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org
+Reply-To: imre.deak@intel.com
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Zuo,
+ Jerry" <Jerry.Zuo@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
-.atomic_check() callback") moved the allocation of the intermediate and
-HW buffers from the encoder's .atomic_enable callback, to the plane's
-.atomic_check callback.
+On Tue, Sep 12, 2023 at 07:26:29AM +0000, Lin, Wayne wrote:
+> [Public]
+> [...]
+> >
+> > I'd like to be sure that the payload is removed with the size it was added with
+> > in the previous commit and as I wrote above not depend for this on the new
+> > payload state with a mixture of old/current/new states.
+> > Based on that I'd be ok for instance with a new
+> >
+> > int drm_dp_remove_port_payload(mgr, mst_state, port)
+> >
+> > function which looks up / removes the payload with the time_slots calculated
+> > based on the payload table as in your patch and returns the calculated
+> > time_slots.
+> >
+> > The AMD driver could call the above function and the current
+> > drm_dp_remove_payload(mgr, mst_state, old_payload) function would be
+> >
+> >       time_slots = drm_dp_remove_port_payload(mgr, mst_state,
+> > old_payload->port);
+> >       WARN_ON(time_slots != old_payload->time_slots);
+> >
+> > --Imre
+> 
+> Sorry but I might not fully understand what you suggested here. Would like to know
+> if you agree on referring to the time slot number of the payload table at the moment
+> is better then referring old_payload->time_slots for drm_dp_remove_payload()? If
+> you agree on that, my patch actually is just replacing old_payload->time_slots with
+> the more appropriate one. Not adding mixture of old/current but replacing the old
+> with the current one. 
 
-This was suggested by Maxime Ripard, because drivers aren't allowed to
-fail after the drm_atomic_helper_swap_state() function has been called.
+The new_payload state contains a mixture of old/current/new state at the
+moment and this patch adds more dependency on that, recalculating the
+old payload size from that state. For i915 this recalculation isn't
+needed, the size is already available in the old payload state.
 
-And the encoder's .atomic_enable happens after the new atomic state has
-been swapped, so allocations (that can fail) shouldn't be done there.
+> And like what I explained in previous example, when calling
+> drm_dp_remove_payload(), the time slot number to be removed shouldn't be
+> constrained to the one in previous commit. The number in the payload table when
+> we're about to remove the payload might be a better choice. Could you elaborate
+> more what's the mixture that this patch is adding on, please?
+>
+> As for the changing suggestion, are you suggesting to create a new function
+> drm_dp_remove_port_payload() to wrap up the calculation in my patch? If so, I think
+> that's the consensus to use current time slot number to replace the one in old_payload.
+> Therefore, it doesn't have to pass old_payload to drm_dp_remove_port_payload(), and
+> "WARN_ON(time_slots != old_payload->time_slots);" is not appropriate as for the
+> example that I gave previously.
 
-But the HW buffer isn't really tied to the plane's state. It has a fixed
-size that only depends on the (also fixed) display resolution defined in
-the Device Tree Blob.
+I meant something like the following:
 
-That buffer can be considered part of the CRTC state, and for this reason
-makes more sense to do its allocation in the CRTC .atomic_check callback.
-
-The other allocated buffer (used to store a conversion from the emulated
-XR24 format to the native R1 format) is part of the plane's state, since
-it will be optional once the driver supports R1 and allows user-space to
-set that pixel format.
-
-So let's keep the allocation for it in the plane's .atomic_check callback,
-this can't be moved to the CRTC's .atomic_check because changing a format
-does not trigger a CRTC mode set.
-
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Closes: https://lore.kernel.org/dri-devel/CAMuHMdWv_QSatDgihr8=2SXHhvp=icNxumZcZOPwT9Q_QiogNQ@mail.gmail.com/
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
-Changes in v3:
-- Call drm_atomic_get_crtc_state() in the plane's .atomic_check (Maxime Ripard).
-
-Changes in v2:
-- Drop RFC prefix.
-- Fix typo in commit message (Thomas Zimmermann).
-- Store the HW buffer in the driver's private CRTC state (Thomas Zimmermann).
-- Just use kmalloc() kcalloc() when allocating buffers (Thomas Zimmermann).
-- Keep the allocation of the intermediate buffer in the plane's .atomic_check
-
- drivers/gpu/drm/solomon/ssd130x.c | 152 +++++++++++++++++++++++-------
- 1 file changed, 117 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 3b4dde09538a..4204a69f4c74 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -141,14 +141,23 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
- };
- EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
- 
-+struct ssd130x_crtc_state {
-+	struct drm_crtc_state base;
-+	/* Buffer to store pixels in HW format and written to the panel */
-+	u8 *data_array;
-+};
-+
- struct ssd130x_plane_state {
- 	struct drm_shadow_plane_state base;
- 	/* Intermediate buffer to convert pixels from XRGB8888 to HW format */
- 	u8 *buffer;
--	/* Buffer to store pixels in HW format and written to the panel */
--	u8 *data_array;
- };
- 
-+static inline struct ssd130x_crtc_state *to_ssd130x_crtc_state(struct drm_crtc_state *state)
-+{
-+	return container_of(state, struct ssd130x_crtc_state, base);
-+}
-+
- static inline struct ssd130x_plane_state *to_ssd130x_plane_state(struct drm_plane_state *state)
- {
- 	return container_of(state, struct ssd130x_plane_state, base.base);
-@@ -448,13 +457,11 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
- }
- 
- static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
--			       struct ssd130x_plane_state *ssd130x_state,
--			       struct drm_rect *rect)
-+			       struct drm_rect *rect, u8 *buf,
-+			       u8 *data_array)
- {
- 	unsigned int x = rect->x1;
- 	unsigned int y = rect->y1;
--	u8 *buf = ssd130x_state->buffer;
--	u8 *data_array = ssd130x_state->data_array;
- 	unsigned int width = drm_rect_width(rect);
- 	unsigned int height = drm_rect_height(rect);
- 	unsigned int line_length = DIV_ROUND_UP(width, 8);
-@@ -550,12 +557,10 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 	return ret;
- }
- 
--static void ssd130x_clear_screen(struct ssd130x_device *ssd130x,
--				 struct ssd130x_plane_state *ssd130x_state)
-+static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
- {
- 	unsigned int page_height = ssd130x->device_info->page_height;
- 	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
--	u8 *data_array = ssd130x_state->data_array;
- 	unsigned int width = ssd130x->width;
- 	int ret, i;
- 
-@@ -594,15 +599,13 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x,
- 	}
- }
- 
--static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
-+static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb,
- 				const struct iosys_map *vmap,
--				struct drm_rect *rect)
-+				struct drm_rect *rect,
-+				u8 *buf, u8 *data_array)
- {
--	struct drm_framebuffer *fb = state->fb;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
- 	unsigned int page_height = ssd130x->device_info->page_height;
--	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
--	u8 *buf = ssd130x_state->buffer;
- 	struct iosys_map dst;
- 	unsigned int dst_pitch;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index cbef4ff28cd8a..0555433d8050b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -343,7 +343,7 @@ bool dm_helpers_dp_mst_send_payload_allocation(
+ 	struct amdgpu_dm_connector *aconnector;
+ 	struct drm_dp_mst_topology_state *mst_state;
+ 	struct drm_dp_mst_topology_mgr *mst_mgr;
+-	struct drm_dp_mst_atomic_payload *new_payload, *old_payload;
++	struct drm_dp_mst_atomic_payload *new_payload;
+ 	enum mst_progress_status set_flag = MST_ALLOCATE_NEW_PAYLOAD;
+ 	enum mst_progress_status clr_flag = MST_CLEAR_ALLOCATED_PAYLOAD;
  	int ret = 0;
-@@ -622,7 +625,7 @@ static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
- 
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- 
--	ssd130x_update_rect(ssd130x, ssd130x_state, rect);
-+	ssd130x_update_rect(ssd130x, rect, buf, data_array);
- 
- 	return ret;
- }
-@@ -634,12 +637,19 @@ static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
- 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
--	unsigned int page_height = ssd130x->device_info->page_height;
--	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	struct drm_crtc *crtc = plane_state->crtc;
-+	struct drm_crtc_state *crtc_state;
- 	const struct drm_format_info *fi;
- 	unsigned int pitch;
- 	int ret;
- 
-+	if (!crtc)
-+		return -EINVAL;
-+
-+	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
-+
- 	ret = drm_plane_helper_atomic_check(plane, state);
- 	if (ret)
- 		return ret;
-@@ -654,14 +664,6 @@ static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 	if (!ssd130x_state->buffer)
- 		return -ENOMEM;
- 
--	ssd130x_state->data_array = kcalloc(ssd130x->width, pages, GFP_KERNEL);
--	if (!ssd130x_state->data_array) {
--		kfree(ssd130x_state->buffer);
--		/* Set to prevent a double free in .atomic_destroy_state() */
--		ssd130x_state->buffer = NULL;
--		return -ENOMEM;
--	}
--
- 	return 0;
- }
- 
-@@ -671,6 +673,10 @@ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-+	struct ssd130x_crtc_state *ssd130x_crtc_state =  to_ssd130x_crtc_state(crtc_state);
-+	struct ssd130x_plane_state *ssd130x_plane_state = to_ssd130x_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_atomic_helper_damage_iter iter;
- 	struct drm_device *drm = plane->dev;
- 	struct drm_rect dst_clip;
-@@ -687,7 +693,9 @@ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 		if (!drm_rect_intersect(&dst_clip, &damage))
- 			continue;
- 
--		ssd130x_fb_blit_rect(plane_state, &shadow_plane_state->data[0], &dst_clip);
-+		ssd130x_fb_blit_rect(fb, &shadow_plane_state->data[0], &dst_clip,
-+				     ssd130x_plane_state->buffer,
-+				     ssd130x_crtc_state->data_array);
+@@ -366,9 +366,8 @@ bool dm_helpers_dp_mst_send_payload_allocation(
+ 	if (enable) {
+ 		ret = drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, new_payload);
+ 	} else {
+-		dm_helpers_construct_old_payload(stream->link, mst_state->pbn_div,
+-						 new_payload, old_payload);
+-		drm_dp_remove_payload_part2(mst_mgr, mst_state, old_payload, new_payload);
++		drm_dp_remove_current_payload_part2(mst_mgr, mst_state->base.state,
++						    aconnector->mst_output_port);
  	}
  
- 	drm_dev_exit(idx);
-@@ -698,13 +706,21 @@ static void ssd130x_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- {
- 	struct drm_device *drm = plane->dev;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
--	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane->state);
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc_state *crtc_state;
-+	struct ssd130x_crtc_state *ssd130x_crtc_state;
- 	int idx;
- 
-+	if (!plane_state->crtc)
-+		return;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-+	ssd130x_crtc_state = to_ssd130x_crtc_state(crtc_state);
-+
- 	if (!drm_dev_enter(drm, &idx))
- 		return;
- 
--	ssd130x_clear_screen(ssd130x, ssd130x_state);
-+	ssd130x_clear_screen(ssd130x, ssd130x_crtc_state->data_array);
- 
- 	drm_dev_exit(idx);
- }
-@@ -737,9 +753,8 @@ static struct drm_plane_state *ssd130x_primary_plane_duplicate_state(struct drm_
- 	if (!ssd130x_state)
- 		return NULL;
- 
--	/* The buffers are not duplicated and are allocated in .atomic_check */
-+	/* The buffer is not duplicated and is allocated in .atomic_check */
- 	ssd130x_state->buffer = NULL;
--	ssd130x_state->data_array = NULL;
- 
- 	new_shadow_plane_state = &ssd130x_state->base;
- 
-@@ -753,7 +768,6 @@ static void ssd130x_primary_plane_destroy_state(struct drm_plane *plane,
- {
- 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
- 
--	kfree(ssd130x_state->data_array);
- 	kfree(ssd130x_state->buffer);
- 
- 	__drm_gem_destroy_shadow_plane_state(&ssd130x_state->base);
-@@ -793,6 +807,74 @@ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc
- 	return MODE_OK;
- }
- 
-+int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
-+{
-+	struct drm_device *drm = crtc->dev;
-+	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	struct ssd130x_crtc_state *ssd130x_state = to_ssd130x_crtc_state(crtc_state);
-+	unsigned int page_height = ssd130x->device_info->page_height;
-+	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	int ret;
-+
-+	ret = drm_crtc_helper_atomic_check(crtc, state);
-+	if (ret)
-+		return ret;
-+
-+	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
-+	if (!ssd130x_state->data_array)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/* Called during init to allocate the CRTC's atomic state. */
-+static void ssd130x_crtc_reset(struct drm_crtc *crtc)
-+{
-+	struct ssd130x_crtc_state *ssd130x_state;
-+
-+	WARN_ON(crtc->state);
-+
-+	ssd130x_state = kzalloc(sizeof(*ssd130x_state), GFP_KERNEL);
-+	if (!ssd130x_state)
-+		return;
-+
-+	__drm_atomic_helper_crtc_reset(crtc, &ssd130x_state->base);
-+}
-+
-+static struct drm_crtc_state *ssd130x_crtc_duplicate_state(struct drm_crtc *crtc)
-+{
-+	struct ssd130x_crtc_state *old_ssd130x_state;
-+	struct ssd130x_crtc_state *ssd130x_state;
-+
-+	if (WARN_ON(!crtc->state))
-+		return NULL;
-+
-+	old_ssd130x_state = to_ssd130x_crtc_state(crtc->state);
-+	ssd130x_state = kmemdup(old_ssd130x_state, sizeof(*ssd130x_state), GFP_KERNEL);
-+	if (!ssd130x_state)
-+		return NULL;
-+
-+	/* The buffer is not duplicated and is allocated in .atomic_check */
-+	ssd130x_state->data_array = NULL;
-+
-+	__drm_atomic_helper_crtc_duplicate_state(crtc, &ssd130x_state->base);
-+
-+	return &ssd130x_state->base;
-+}
-+
-+static void ssd130x_crtc_destroy_state(struct drm_crtc *crtc,
-+				       struct drm_crtc_state *state)
-+{
-+	struct ssd130x_crtc_state *ssd130x_state = to_ssd130x_crtc_state(state);
-+
-+	kfree(ssd130x_state->data_array);
-+
-+	__drm_atomic_helper_crtc_destroy_state(state);
-+
-+	kfree(ssd130x_state);
-+}
-+
- /*
-  * The CRTC is always enabled. Screen updates are performed by
-  * the primary plane's atomic_update function. Disabling clears
-@@ -800,16 +882,16 @@ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index e04f87ff755ac..4d25dba789e91 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -3382,37 +3382,70 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part1);
+  * drm_dp_remove_payload_part2() - Remove an MST payload locally
+  * @mgr: Manager to use.
+  * @mst_state: The MST atomic state
+- * @old_payload: The payload with its old state
+- * @new_payload: The payload with its latest state
++ * @port: MST port
+  *
+  * Updates the starting time slots of all other payloads which would have been shifted towards
+  * the start of the payload ID table as a result of removing a payload. Driver should call this
+  * function whenever it removes a payload in its HW. It's independent to the result of payload
+  * allocation/deallocation at branch devices along the virtual channel.
   */
- static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
- 	.mode_valid = ssd130x_crtc_helper_mode_valid,
--	.atomic_check = drm_crtc_helper_atomic_check,
-+	.atomic_check = ssd130x_crtc_helper_atomic_check,
- };
+-void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+-				 struct drm_dp_mst_topology_state *mst_state,
+-				 const struct drm_dp_mst_atomic_payload *old_payload,
+-				 struct drm_dp_mst_atomic_payload *new_payload)
++int drm_dp_remove_current_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
++					struct drm_atomic_state *state,
++					struct drm_dp_mst_port *port)
+ {
+ 	struct drm_dp_mst_atomic_payload *pos;
++	struct drm_dp_mst_topology_state *mst_state =
++		drm_atomic_get_new_mst_topology_state(state, mgr);
++	struct drm_dp_mst_atomic_payload *new_payload =
++		drm_atomic_get_mst_payload_state(mst_state, port);
++	int time_slots_to_remove;
++	u8 next_payload_vc_start = mgr->next_start_slot;
++
++	/* Find the current allocated time slot number of the payload */
++	list_for_each_entry(pos, &mst_state->payloads, next) {
++		if (pos != new_payload &&
++		    pos->vc_start_slot > new_payload->vc_start_slot &&
++		    pos->vc_start_slot < next_payload_vc_start)
++			next_payload_vc_start = pos->vc_start_slot;
++	}
++
++	time_slots_to_remove = next_payload_vc_start - new_payload->vc_start_slot;
  
- static const struct drm_crtc_funcs ssd130x_crtc_funcs = {
--	.reset = drm_atomic_helper_crtc_reset,
-+	.reset = ssd130x_crtc_reset,
- 	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
--	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+	.atomic_duplicate_state = ssd130x_crtc_duplicate_state,
-+	.atomic_destroy_state = ssd130x_crtc_destroy_state,
- };
+ 	/* Remove local payload allocation */
+ 	list_for_each_entry(pos, &mst_state->payloads, next) {
+ 		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
+-			pos->vc_start_slot -= old_payload->time_slots;
++			pos->vc_start_slot -= time_slots_to_remove;
+ 	}
+ 	new_payload->vc_start_slot = -1;
  
- static void ssd130x_encoder_helper_atomic_enable(struct drm_encoder *encoder,
--- 
-2.41.0
-
+ 	mgr->payload_count--;
+-	mgr->next_start_slot -= old_payload->time_slots;
++	mgr->next_start_slot -= time_slots_to_remove;
+ 
+ 	if (new_payload->delete)
+ 		drm_dp_mst_put_port_malloc(new_payload->port);
+ 
+ 	new_payload->payload_allocation_status = DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
++
++	return time_slots_to_remove;
++}
++EXPORT_SYMBOL(drm_dp_remove_current_payload_part2);
++
++void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
++				 struct drm_atomic_state *state,
++				 struct drm_dp_mst_port *port)
++{
++	struct drm_dp_mst_topology_state *old_mst_state =
++		drm_atomic_get_old_mst_topology_state(state, mgr);
++	struct drm_dp_mst_atomic_payload *old_payload =
++		drm_atomic_get_mst_payload_state(old_mst_state, port);
++	int time_slots;
++
++	time_slots = drm_dp_remove_current_payload_part2(mgr, state, port);
++
++	drm_WARN_ON(mgr->dev, time_slots != old_payload->time_slots);
+ }
+ EXPORT_SYMBOL(drm_dp_remove_payload_part2);
++
+ /**
+  * drm_dp_add_payload_part2() - Execute payload update part 2
+  * @mgr: Manager to use.
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 1c7f0b6afe475..3ab491d9c8d27 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -576,14 +576,6 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
+ 	struct intel_dp *intel_dp = &dig_port->dp;
+ 	struct intel_connector *connector =
+ 		to_intel_connector(old_conn_state->connector);
+-	struct drm_dp_mst_topology_state *old_mst_state =
+-		drm_atomic_get_old_mst_topology_state(&state->base, &intel_dp->mst_mgr);
+-	struct drm_dp_mst_topology_state *new_mst_state =
+-		drm_atomic_get_new_mst_topology_state(&state->base, &intel_dp->mst_mgr);
+-	const struct drm_dp_mst_atomic_payload *old_payload =
+-		drm_atomic_get_mst_payload_state(old_mst_state, connector->port);
+-	struct drm_dp_mst_atomic_payload *new_payload =
+-		drm_atomic_get_mst_payload_state(new_mst_state, connector->port);
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	bool last_mst_stream;
+ 
+@@ -604,8 +596,7 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
+ 
+ 	wait_for_act_sent(encoder, old_crtc_state);
+ 
+-	drm_dp_remove_payload_part2(&intel_dp->mst_mgr, new_mst_state,
+-				    old_payload, new_payload);
++	drm_dp_remove_payload_part2(&intel_dp->mst_mgr, &state->base, connector->port);
+ 
+ 	intel_ddi_disable_transcoder_func(old_crtc_state);
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index bba01fa0780c9..1ed724fe11f96 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -889,17 +889,13 @@ nv50_msto_cleanup(struct drm_atomic_state *state,
+ 	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
+ 	struct drm_dp_mst_atomic_payload *new_payload =
+ 		drm_atomic_get_mst_payload_state(new_mst_state, msto->mstc->port);
+-	struct drm_dp_mst_topology_state *old_mst_state =
+-		drm_atomic_get_old_mst_topology_state(state, mgr);
+-	const struct drm_dp_mst_atomic_payload *old_payload =
+-		drm_atomic_get_mst_payload_state(old_mst_state, msto->mstc->port);
+ 
+ 	NV_ATOMIC(drm, "%s: msto cleanup\n", msto->encoder.name);
+ 
+ 	if (msto->disabled) {
+ 		msto->mstc = NULL;
+ 		msto->disabled = false;
+-		drm_dp_remove_payload_part2(mgr, new_mst_state, old_payload, new_payload);
++		drm_dp_remove_payload_part2(mgr, state, msto->mstc->port);
+ 	} else if (msto->enabled) {
+ 		drm_dp_add_payload_part2(mgr, state, new_payload);
+ 		msto->enabled = false;
+diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+index 4429d3b1745b6..9288501ffe8d2 100644
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -856,9 +856,11 @@ void drm_dp_remove_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
+ 				 struct drm_dp_mst_topology_state *mst_state,
+ 				 struct drm_dp_mst_atomic_payload *payload);
+ void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+-				 struct drm_dp_mst_topology_state *mst_state,
+-				 const struct drm_dp_mst_atomic_payload *old_payload,
+-				 struct drm_dp_mst_atomic_payload *new_payload);
++				 struct drm_atomic_state *state,
++				 struct drm_dp_mst_port *port);
++int drm_dp_remove_current_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
++					struct drm_atomic_state *state,
++					struct drm_dp_mst_port *port);
+ 
+ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
+ 
+> Thanks for helping me out here.
