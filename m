@@ -1,82 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6880679D276
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 15:34:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BC579D2BA
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 15:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96AE710E23B;
-	Tue, 12 Sep 2023 13:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2638C10E040;
+	Tue, 12 Sep 2023 13:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECA910E24E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 13:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694525686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pqnHcd3R5pX3HjoiMUrseh/pBypspTaW+C/5GBo0BG4=;
- b=bvu8YfxEihRPELq9GpoRJZdK2Lce9hmrfEEtfI1ejxdazkHELA61slFigQBFomCueXOVQw
- /T2ZYoGh1Oz4ZLby3L5DIiq7QmOTRTwQoU/VM0WXfD+x/3MDS8uufcP1uZaBd4VhT9Z5Bk
- N5CYC9m95k0dn0j2nxcX1yyorQJdPMM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-290-VMmNcE6IMzuBEpY_7ay91w-1; Tue, 12 Sep 2023 09:34:45 -0400
-X-MC-Unique: VMmNcE6IMzuBEpY_7ay91w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-52a38baa269so3877668a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 06:34:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694525684; x=1695130484;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pqnHcd3R5pX3HjoiMUrseh/pBypspTaW+C/5GBo0BG4=;
- b=HoYVuNXzwSC2DmoThHe4dXi2FSfJ5ggHOtHIudpowXSWmS9LuFOcz4cMCG4JV7//cl
- 4M5lNK6Xk5rNi54e38/TeeDmV3sdo6h3T/R4YmtY8jAenXX0irJgFogr2opWML+skZDQ
- KGirogoLIhrmDKA77ZnxYOMvsyKzVCgdnFuw6r1Pvh6oiyli+XePSAK7p9ID6CGc3psi
- 8oNx96F2awlZxBU8K2OhH99gBKeNOUwLxakwgdtzx7dgE7u6N1uNdon4yUQC/Gthl/iD
- SiuYz7Y0L/O0UH6APBWyfL7Tmn/NgWkDdXe3VJ7m656x9bNiS6NygZtUK4aiK+QRozzi
- svhA==
-X-Gm-Message-State: AOJu0YxjpJVB1FgWjwxyea3902KAmcOnbhsKOCX7rCZpiksKpSPtAaIw
- skDqylBOxAnIq6heX3CPifzsmYoNt3IrPxO7GM1D1TMtY4VpAKnm3fv26IZHwWCM3e97XHdoZR9
- jESRir0kFYiTV9rf96pTn28s8yBEmPLzhrj08
-X-Received: by 2002:a05:6402:d4f:b0:52f:6641:4ed9 with SMTP id
- ec15-20020a0564020d4f00b0052f66414ed9mr4647290edb.41.1694525684450; 
- Tue, 12 Sep 2023 06:34:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFElDKt7AOIKlbZ7xRPQ3IEj/Di9+ufb6RIf9ow31XQqgGHZL1Z1DLZp4iLuLIwDd+rCfwsaw==
-X-Received: by 2002:a05:6402:d4f:b0:52f:6641:4ed9 with SMTP id
- ec15-20020a0564020d4f00b0052f66414ed9mr4647275edb.41.1694525684169; 
- Tue, 12 Sep 2023 06:34:44 -0700 (PDT)
-Received: from pollux ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- bm5-20020a0564020b0500b0052e7e1931e2sm5934148edb.57.2023.09.12.06.34.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 06:34:43 -0700 (PDT)
-Date: Tue, 12 Sep 2023 15:34:41 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
-Message-ID: <ZQBo8YbjFigHyKc5@pollux>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-5-matthew.brost@intel.com>
- <ZOfh6o2EaGuIqZVe@pollux>
- <ZOgYu1fZQUHeneJC@DUT025-TGLU.fm.intel.com>
- <6ae84066-b690-1562-0598-4694b022c960@amd.com>
- <ZOiuWcFDImBvJtnO@DUT025-TGLU.fm.intel.com>
- <ee56b9ee-36c7-5935-c319-c8d1ad412c7c@amd.com>
- <20230912152705.70064f9f@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2391C10E040
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 13:50:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D06A8215E6;
+ Tue, 12 Sep 2023 13:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694526651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=jfsfCbmV4CKGMsiOpxVuXT74O5izS3toa2d723Akmmw=;
+ b=m64W3uS2e57d3w4nffiJw2Fh7RVuCjr7bt3J7GNJYSsYTztKgQqHhgk+45ttX69+ok4VVh
+ yw99bbZNMAnHVuSsmonUkgR2O2L9e14Mofs81IpcD5l45rxYbx5zcOxWmbHcFcOYwP/nct
+ o5C2uHBJHXRzpiqUOohiTj85xw8bFlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694526651;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=jfsfCbmV4CKGMsiOpxVuXT74O5izS3toa2d723Akmmw=;
+ b=IeqafxgshLUoUAVGjmtdVjMjQk111anVIYX6bOmlE+8+ZaBBtGpsXakjueIXBxBxqhg67j
+ VlS2K9Xq+v6m1vDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 934DD139DB;
+ Tue, 12 Sep 2023 13:50:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 55MhI7tsAGVKQwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 12 Sep 2023 13:50:51 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+ arnd@arndb.de, deller@gmx.de
+Subject: [PATCH v4 0/5] ppc, fbdev: Clean up fbdev mmap helper
+Date: Tue, 12 Sep 2023 15:48:58 +0200
+Message-ID: <20230912135050.17155-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-In-Reply-To: <20230912152705.70064f9f@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,81 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
- sarah.walker@imgtec.com, thomas.hellstrom@linux.intel.com,
- ketil.johnsen@arm.com, lina@asahilina.net, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- luben.tuikov@amd.com, donald.robson@imgtec.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 12, 2023 at 03:27:05PM +0200, Boris Brezillon wrote:
-> On Fri, 25 Aug 2023 15:45:49 +0200
-> Christian König <christian.koenig@amd.com> wrote:
-> 
-> > >>>> I tried this patch with Nouveau and found a race condition:
-> > >>>>
-> > >>>> In drm_sched_run_job_work() the job is added to the pending_list via
-> > >>>> drm_sched_job_begin(), then the run_job() callback is called and the scheduled
-> > >>>> fence is signaled.
-> > >>>>
-> > >>>> However, in parallel drm_sched_get_cleanup_job() might be called from
-> > >>>> drm_sched_free_job_work(), which picks the first job from the pending_list and
-> > >>>> for the next job on the pending_list sets the scheduled fence' timestamp field.  
-> > >> Well why can this happen in parallel? Either the work items are scheduled to
-> > >> a single threaded work queue or you have protected the pending list with
-> > >> some locks.
-> > >>  
-> > > Xe uses a single-threaded work queue, Nouveau does not (desired
-> > > behavior).
-> > >
-> > > The list of pending jobs is protected by a lock (safe), the race is:
-> > >
-> > > add job to pending list
-> > > run_job
-> > > signal scheduled fence
-> > >
-> > > dequeue from pending list
-> > > free_job
-> > > update timestamp
-> > >
-> > > Once a job is on the pending list its timestamp can be accessed which
-> > > can blow up if scheduled fence isn't signaled or more specifically unless
-> > > DMA_FENCE_FLAG_TIMESTAMP_BIT is set.  
-> 
-> I'm a bit lost. How can this lead to a NULL deref? Timestamp is a
-> ktime_t embedded in dma_fence, and finished/scheduled are both
-> dma_fence objects embedded in drm_sched_fence. So, unless
-> {job,next_job}->s_fence is NULL, or {job,next_job} itself is NULL, I
-> don't really see where the NULL deref is. If s_fence is NULL, that means
-> drm_sched_job_init() wasn't called (unlikely to be detected that late),
-> or ->free_job()/drm_sched_job_cleanup() was called while the job was
-> still in the pending list. I don't really see a situation where job
-> could NULL to be honest.
+Clean up and rename fb_pgprotect() to work without struct file. Then
+refactor the implementation for PowerPC. This change has been discussed
+at [1] in the context of refactoring fbdev's mmap code.
 
-I think the problem here was that a dma_fence' timestamp field is within a union
-together with it's cb_list list_head [1]. If a timestamp is set before the fence
-is actually signalled, dma_fence_signal_timestamp_locked() will access the
-cb_list to run the particular callbacks registered to this dma_fence. However,
-writing the timestap will overwrite this list_head since it's a union, hence
-we'd try to dereference the timestamp while iterating the list.
+The first two patches update fbdev and replace fbdev's fb_pgprotect()
+with pgprot_framebuffer() on all architectures. The new helper's stream-
+lined interface enables more refactoring within fbdev's mmap
+implementation.
 
-[1] https://elixir.bootlin.com/linux/latest/source/include/linux/dma-fence.h#L87
+Patches 3 to 5 adapt PowerPC's internal interfaces to provide
+phys_mem_access_prot() that works without struct file. Neither the
+architecture code or fbdev helpers need the parameter.
 
-> 
-> While I agree that updating the timestamp before the fence has been
-> flagged as signaled/timestamped is broken (timestamp will be
-> overwritten when dma_fence_signal(scheduled) is called) I don't see a
-> situation where it would cause a NULL/invalid pointer deref. So I
-> suspect there's another race causing jobs to be cleaned up while
-> they're still in the pending_list.
-> 
-> > 
-> > Ah, that problem again. No that is actually quite harmless.
-> > 
-> > You just need to double check if the DMA_FENCE_FLAG_TIMESTAMP_BIT is 
-> > already set and if it's not set don't do anything.
-> 
+v4:
+	* fix commit message (Christophe)
+v3:
+	* rename fb_pgrotect() to pgprot_framebuffer() (Arnd)
+v2:
+	* reorder patches to simplify merging (Michael)
+
+[1] https://lore.kernel.org/linuxppc-dev/5501ba80-bdb0-6344-16b0-0466a950f82c@suse.com/
+
+Thomas Zimmermann (5):
+  fbdev: Avoid file argument in fb_pgprotect()
+  fbdev: Replace fb_pgprotect() with pgprot_framebuffer()
+  arch/powerpc: Remove trailing whitespaces
+  arch/powerpc: Remove file parameter from phys_mem_access_prot code
+  arch/powerpc: Call internal __phys_mem_access_prot() in fbdev code
+
+ arch/ia64/include/asm/fb.h                | 15 +++++++--------
+ arch/m68k/include/asm/fb.h                | 19 ++++++++++---------
+ arch/mips/include/asm/fb.h                | 11 +++++------
+ arch/powerpc/include/asm/book3s/pgtable.h | 10 ++++++++--
+ arch/powerpc/include/asm/fb.h             | 13 +++++--------
+ arch/powerpc/include/asm/machdep.h        | 13 ++++++-------
+ arch/powerpc/include/asm/nohash/pgtable.h | 10 ++++++++--
+ arch/powerpc/include/asm/pci.h            |  4 +---
+ arch/powerpc/kernel/pci-common.c          |  3 +--
+ arch/powerpc/mm/mem.c                     |  8 ++++----
+ arch/sparc/include/asm/fb.h               | 15 +++++++++------
+ arch/x86/include/asm/fb.h                 | 10 ++++++----
+ arch/x86/video/fbdev.c                    | 15 ++++++++-------
+ drivers/video/fbdev/core/fb_chrdev.c      |  3 ++-
+ include/asm-generic/fb.h                  | 12 ++++++------
+ 15 files changed, 86 insertions(+), 75 deletions(-)
+
+-- 
+2.42.0
 
