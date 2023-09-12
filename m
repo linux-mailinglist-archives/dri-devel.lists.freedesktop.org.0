@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB3D79D6D7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 18:53:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B4779D6DE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 18:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFBD10E23E;
-	Tue, 12 Sep 2023 16:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1AC10E43F;
+	Tue, 12 Sep 2023 16:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 321CB10E23E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 16:52:56 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C8110E448
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 16:53:29 +0000 (UTC)
 Received: from [192.168.0.106] (unknown [186.235.7.101])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CC7D866071C9;
- Tue, 12 Sep 2023 17:52:47 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A4E6366071C9;
+ Tue, 12 Sep 2023 17:53:21 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694537575;
- bh=TVo8blOVOG3UIRsd0gEuMSvu6J/PcJyo+tO8L2Vpang=;
+ s=mail; t=1694537608;
+ bh=6lCw98iaIKfYLWDPpsaLngfvT7UkpYXBkxsUlQltt4U=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WgqcopKFLk6Cp6RK+TO4+r+Pc+vI3zhvU7M99sa3ToH4A0zqU96YwnP5NcsOae1Nt
- GQwZGaxHmvOkQsDW6PuEX2U8yAAfuPZo5l15rHiKMqZa5hVSWGUpNzOGG2H0ydAiaT
- WcDf1rhF62wJGyTlXZMDQTHKJvKwZgvMKkKO+naJRwE+N4lMDTUNQcBDNTiPgJHGPm
- 9fkfIr3BY1S9t30UMea7pQX/FE0Es1u3dT06Vj6jyfWAu+CYwZskcjtlgN9N4ykd60
- BV4IzEMzhniqm5oZfVxzGJN/p4QVF9BL1pd/f0yHwrgJMHNI5pB1cHyzvE7+5ryLES
- 33ChqUPD+xpZg==
-Message-ID: <44b7c0d5-bfa5-bac1-83d5-debc2365b1ae@collabora.com>
-Date: Tue, 12 Sep 2023 13:52:43 -0300
+ b=HYfJFGquoDoVsDxe6BGBe0qelSuhXeWbnnGgmDdlnr0VEJcGlFU1NRGDlWWa1BHPk
+ 3rvq9wH/ct+khzCMCSLfwGZAtFUyhxc44G3pfnwq7En5GmyzxiPqGuRe0bZa1KqZhR
+ udwBfkv5gJ4ZyVZMqmN4Dwo0t109kVqn69E0xSXAak5zH7ZiR6ujn8EgXSb3TxoaTx
+ WGxtHRMLrTdzpv8PEzvTKYGXhXJzsdJ7g0pT3jEduTOIzt+j2WCMIggAlv7ZSOsM8s
+ BKneObztNcl1r+TdzXbUMFdTSmNhOALKKbF8tOVPqV+niknSEws4uu56RIlenGRfpx
+ 9pIcWiuVQhvwg==
+Message-ID: <b15fe4b9-9907-72e9-c1a0-35b065aa4732@collabora.com>
+Date: Tue, 12 Sep 2023 13:53:17 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v3 4/9] drm: ci: virtio: Update ci variables
+Subject: Re: [PATCH v3 5/9] drm: ci: Enable regulator
 Content-Language: en-US
 To: Vignesh Raman <vignesh.raman@collabora.com>,
  dri-devel@lists.freedesktop.org
 References: <20230908152225.432139-1-vignesh.raman@collabora.com>
- <20230908152225.432139-5-vignesh.raman@collabora.com>
+ <20230908152225.432139-6-vignesh.raman@collabora.com>
 From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20230908152225.432139-5-vignesh.raman@collabora.com>
+In-Reply-To: <20230908152225.432139-6-vignesh.raman@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,20 +62,16 @@ Cc: emma@anholt.net, virtualization@lists.linux-foundation.org,
  conor+dt@kernel.org, daniels@collabora.com, linux-arm-msm@vger.kernel.org,
  mripard@kernel.org, anholt@google.com, linux-mediatek@lists.infradead.org,
  robclark@freedesktop.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, guilherme.gallo@collabora.com,
+ angelogioacchino.delregno@collabora.com, andersson@kernel.org,
  linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
- dmitry.baryshkov@linaro.org, andersson@kernel.org
+ dmitry.baryshkov@linaro.org, guilherme.gallo@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
 On 08/09/2023 12:22, Vignesh Raman wrote:
-> Update ci variables to fix the below error,
-> ERROR - Igt error: malloc(): corrupted top size
-> ERROR - Igt error: Received signal SIGABRT.
-> ERROR - Igt error: Stack trace:
-> ERROR - Igt error:  #0 [fatal_sig_handler+0x17b]
+> Enable CONFIG_REGULATOR_DA9211=y to fix mt8173 boot issue.
 > 
 > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 
@@ -88,26 +83,21 @@ Acked-by: Helen Koike <helen.koike@collabora.com>
 >    - No changes
 > 
 > v3:
->    - No changes
+>    - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
 > 
 > ---
->   drivers/gpu/drm/ci/test.yml | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/ci/arm64.config | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-> index 6473cddaa7a9..d85add39f425 100644
-> --- a/drivers/gpu/drm/ci/test.yml
-> +++ b/drivers/gpu/drm/ci/test.yml
-> @@ -316,8 +316,11 @@ virtio_gpu:none:
->     stage: virtio-gpu
->     variables:
->       CROSVM_GALLIUM_DRIVER: llvmpipe
-> -    DRIVER_NAME: virtio_gpu
-> +    DRIVER_NAME: virtio
->       GPU_VERSION: none
-> +    CROSVM_MEMORY: 12288
-> +    CROSVM_CPU: $FDO_CI_CONCURRENT
-> +    CROSVM_GPU_ARGS: "vulkan=true,gles=false,backend=virglrenderer,egl=true,surfaceless=true"
->     extends:
->       - .test-gl
->     tags:
+> diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+> index 817e18ddfd4f..ca95e141a7ae 100644
+> --- a/drivers/gpu/drm/ci/arm64.config
+> +++ b/drivers/gpu/drm/ci/arm64.config
+> @@ -184,6 +184,7 @@ CONFIG_HW_RANDOM_MTK=y
+>   CONFIG_MTK_DEVAPC=y
+>   CONFIG_PWM_MTK_DISP=y
+>   CONFIG_MTK_CMDQ=y
+> +CONFIG_REGULATOR_DA9211=y
+>   
+>   # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+>   CONFIG_ARCH_TEGRA=y
