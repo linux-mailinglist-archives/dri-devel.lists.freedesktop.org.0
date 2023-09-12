@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5139C79D571
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 17:58:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA97279D5C5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 18:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27AF210E080;
-	Tue, 12 Sep 2023 15:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D1C10E437;
+	Tue, 12 Sep 2023 16:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB82C10E080
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 15:58:02 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RlSsf17bCz9sTb;
- Tue, 12 Sep 2023 17:57:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1694534278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ogjrz5GFqjH3DW6OBPDcUdZgmEiIoyhQyyEbaq0f1+k=;
- b=Tth7556KDi1SofDZJrzCHwgwf/WnVcSy1C50XdmpNWTo2f4A+zfwUQut4PDlsRxWjQ5yst
- EcZu7NOzbhiiBCFvuyV/Scmr46l3AV2MVkbA9NfSHBQMvNT0n/lVpxK4QroHBx5VUimU26
- TFxsPt4+aOqybsRTSBLE9MfvPkocC6GDeeHjNWaMEgO+LTEpZr1ScSrRpU0AIOx0ow+Dg+
- TEjBM19TeMo+8AbLwAdeNI1irgps8rckLhSWpFEY1RY0lP3S+KSMUVF8o5GwnYzhyvuKuN
- T5Hu8fAtaniAHV0mWRPqdVFzWJ+mY+++wnljbi8b4OaP6BK86i+7emNdCT0YWQ==
-Message-ID: <cf28003f-6b11-5800-61db-02195d8532be@mailbox.org>
-Date: Tue, 12 Sep 2023 17:57:56 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D6E0B10E437
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 16:06:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6143AC15;
+ Tue, 12 Sep 2023 09:06:46 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 517A53F738;
+ Tue, 12 Sep 2023 09:06:06 -0700 (PDT)
+Message-ID: <e6f236aa-4a16-baf0-6567-1714248e2fc0@arm.com>
+Date: Tue, 12 Sep 2023 17:05:56 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] drm/plane: Add documentation about software color
- conversion.
-Content-Language: en-CA
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>
-References: <20230825140434.182664-1-jfalempe@redhat.com>
- <3f1bd1ad-cd1f-515d-38bd-63e412dec286@suse.de>
- <20230908141638.79b31d1e@eldfell>
- <4e3bd95a-fcda-2e39-46f7-ebbb78ae515d@suse.de>
- <20230908174113.02b65f9c@eldfell>
- <6d506fe7-3c23-3b50-2d29-549ccb4dbe87@suse.de>
- <20230911113827.67ed6c7d@eldfell>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20230911113827.67ed6c7d@eldfell>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org>
+ <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
+ <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+ <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
+ <20230912155338.GA842444-robh@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230912155338.GA842444-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: bfb1d4642c52c7c47a5
-X-MBO-RS-META: ij8wpxx3wc7thpd1m19pk4yb3si8ftfo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +50,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, airlied@redhat.com, javierm@redhat.com,
- dri-devel@lists.freedesktop.org
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/23 10:38, Pekka Paalanen wrote:
-> On Fri, 8 Sep 2023 17:10:46 +0200
-> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Am 08.09.23 um 16:41 schrieb Pekka Paalanen:
->>> On Fri, 8 Sep 2023 15:56:51 +0200
->>> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>> 
->>>> I have a number of concerns. My point it not that we shouldn't optimize.
->>>> I just don't want it in the kernel. Mgag200 can export DRM_FORMAT_RGB888
->>>> for userspace to use.
+On 12/09/2023 4:53 pm, Rob Herring wrote:
+> On Tue, Sep 12, 2023 at 11:13:50AM +0100, Robin Murphy wrote:
+>> On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
+>>> On 12/09/2023 08:16, Yong Wu (吴勇) wrote:
+>>>> Hi Rob,
 >>>>
->>>> AFAICT the main argument against userspace is that Mesa doesn't like
->>>> 3-byte pixels. But I don't see how this conversion cannot be a
->>>> post-processing step within Mesa: do the rendering in RGB32 and then
->>>> convert to a framebuffer in RGB24.
+>>>> Thanks for your review.
+>>>>
+>>>> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+>>>>>    	
+>>>>> External email : Please do not click links or open attachments until
+>>>>> you have verified the sender or the content.
+>>>>>    On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+>>>>>> This adds the binding for describing a CMA memory for MediaTek
+>>>>> SVP(Secure
+>>>>>> Video Path).
+>>>>>
+>>>>> CMA is a Linux thing. How is this related to CMA?
+>>>>
+>>>>>>
+>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>>> ---
+>>>>>>    .../mediatek,secure_cma_chunkmem.yaml         | 42
+>>>>> +++++++++++++++++++
+>>>>>>    1 file changed, 42 insertions(+)
+>>>>>>    create mode 100644 Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>> b/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..cc10e00d35c4
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>> @@ -0,0 +1,42 @@
+>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id:
+>>>>> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
+>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>> +
+>>>>>> +title: MediaTek Secure Video Path Reserved Memory
+>>>>>
+>>>>> What makes this specific to Mediatek? Secure video path is fairly
+>>>>> common, right?
+>>>>
+>>>> Here we just reserve a buffer and would like to create a dma-buf secure
+>>>> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
+>>>> secure buffer through it.
+>>>> But the heap driver is pure SW driver, it is not platform device and
+>>>
+>>> All drivers are pure SW.
+>>>
+>>>> we don't have a corresponding HW unit for it. Thus I don't think I
+>>>> could create a platform dtsi node and use "memory-region" pointer to
+>>>> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in
+>>>> [9/9]). Sorry if this is not right.
+>>>
+>>> If this is not for any hardware and you already understand this (since
+>>> you cannot use other bindings) then you cannot have custom bindings for
+>>> it either.
+>>>
+>>>>
+>>>> Then in our usage case, is there some similar method to do this? or
+>>>> any other suggestion?
+>>>
+>>> Don't stuff software into DTS.
+>>
+>> Aren't most reserved-memory bindings just software policy if you look at it
+>> that way, though? IIUC this is a pool of memory that is visible and
+>> available to the Non-Secure OS, but is fundamentally owned by the Secure
+>> TEE, and pages that the TEE allocates from it will become physically
+>> inaccessible to the OS. Thus the platform does impose constraints on how the
+>> Non-Secure OS may use it, and per the rest of the reserved-memory bindings,
+>> describing it as a "reusable" reservation seems entirely appropriate. If
+>> anything that's *more* platform-related and so DT-relevant than typical
+>> arbitrary reservations which just represent "save some memory to dedicate to
+>> a particular driver" and don't actually bear any relationship to firmware or
+>> hardware at all.
+> 
+> Yes, a memory range defined by hardware or firmware is within scope of
+> DT. (CMA at aribitrary address was questionable.)
+> 
+> My issue here is more that 'secure video memory' is not any way Mediatek
+> specific. AIUI, it's a requirement from certain content providers for
+> video playback to work. So why the Mediatek specific binding?
 
-Even assuming the conversion could be handled transparently in Mesa, it would still require the KMS client to pick RGB888 instead of XRGB8888. Most (all?) KMS clients support XRGB8888, many of them will realistically never support RGB888. (Or even if they did, they might prefer XRGB8888 anyway, if RGB888 requires a final conversion step)
+Based on the implementation, I'd ask the question the other way round - 
+the way it works looks to be at least somewhat dependent on Mediatek's 
+TEE, in ways where other vendors' equivalent implementations may be 
+functionally incompatible, however nothing suggests it's actually 
+specific to video (beyond that presumably being the primary use-case 
+they had in mind).
 
-
->>>> Another point of concern is CPU consumption: Slow I/O buses may stall
->>>> the display thread, but the CPU could do something else in the meantime.
->>>> Doing format conversion on the CPU prevents that, hence affecting other
->>>> parts of the system negatively. Of course, that's more of a gut feeling
->>>> than hard data.
-
-Jocelyn, have you measured if the XRGB8888 -> RGB888 conversion copy takes longer than a straight RGB888 -> RGB888 copy in the kernel?
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+Thanks,
+Robin.
