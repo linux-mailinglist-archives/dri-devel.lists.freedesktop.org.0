@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0FB79C868
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:42:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B9979C87B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8252D10E3A3;
-	Tue, 12 Sep 2023 07:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F2210E3A4;
+	Tue, 12 Sep 2023 07:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A3F10E3A2;
- Tue, 12 Sep 2023 07:42:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8898C10E3A1;
+ Tue, 12 Sep 2023 07:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694504570; x=1726040570;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PiPVESGjz4+9B3CmXHVRHfqH0RQNO7dsFUqM+loKVOM=;
- b=O112YdF4B8sgWFsriIqrfXWFBY7re3Xs/+0KM1TTEXQZp7edh+lz+KI+
- n1m1NLoTupG/1hxZkp0c0pI4fxzlnC5kUSaDXE95K/Cn92a33KQKvzS8J
- 2Nb4ezBwCTBCCdTkksCKljW+yv8rHY3a+u/Z887n6Rei0Q/dEY8ZWU4yd
- HOQxBWkIeBHl4hw+N0mfdGEdIDKtCNv5QCt8jI76qsZcEsjXYZ17AUDaO
- 7d+fiKqSxOtEGIeiXMI+Vi+iiIt2iAbSRqVvkkaxXMP0W6pUQBLH0csHL
- G0mmxbTP2O+2NuZ5+Yqk69h3Stcsg9YxWKSojbkPKC6dWWEeQUJr1JHuJ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="368558729"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="368558729"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 00:42:49 -0700
+ t=1694504836; x=1726040836;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=8EXQG8egyIX1ymK9v/zGLmxWtHpBO73t/7Ai9GgfNWA=;
+ b=LvcTHqkgTF8per1wwTRdNudXt/67+XLMywAC7rDAg+5s4B0C43Fe7Jrm
+ 8Pu7oDAI3lw3kl9E+umXNT62dCgCv4T3IKMLxM9eG5qTfproYG7GlKP2B
+ WTxaIyd1Qo1GCAQK2S7YKUoRpthXtRqcvxdXjKA+uIThYWftC/yFPadOx
+ 6YsipvIW6C5D8RytfkcH4OrEG/IGV0dyQqVoTqsEr/9c4i8ka/h7xmIBW
+ OmL/R23J7WouUV0wbk+/O6zdv/zYxYzdn3UAiifRb6Mi2ZjJEoIRNShYv
+ Bk/BMoaSmVB9jCv00EQ0HMLjng9rXS8fB8QG2sOpq0il3nhx6+M05iRVV A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="444742244"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="444742244"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 00:47:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="886858762"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="886858762"
-Received: from dhermamx-mobl1.amr.corp.intel.com (HELO [10.249.254.193])
- ([10.249.254.193])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 00:42:20 -0700
-Message-ID: <05b06e5d-03aa-14f4-46b1-6057c4437043@linux.intel.com>
-Date: Tue, 12 Sep 2023 09:42:44 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746776228"
+X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="746776228"
+Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.206])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 00:47:13 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: Re: linux-next: Tree for Sep 11
+ (drivers/gpu/drm/i915/display/intel_backlight.o)
+In-Reply-To: <eac933bb-eb6d-8b21-422a-b8c6255facc3@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230911121131.006d3fec@canb.auug.org.au>
+ <eac933bb-eb6d-8b21-422a-b8c6255facc3@infradead.org>
+Date: Tue, 12 Sep 2023 10:47:11 +0300
+Message-ID: <87a5tresu8.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
-Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- matthew.brost@intel.com, sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-6-dakr@redhat.com>
- <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
- <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,80 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Danilo
-
-On 9/11/23 19:49, Danilo Krummrich wrote:
-> Hi Thomas,
+On Mon, 11 Sep 2023, Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 9/10/23 19:11, Stephen Rothwell wrote:
+>> Hi all,
+>> 
+>> Please do *not* include material destined for v6.7 in your linux-next
+>> included branches until *after* v6.6-rc1 has been released.  Also,
+>> do *not* rebase your linu-next included branches onto v6.5.
+>> 
+>> Changes since 20230908:
+>> 
+>> Non-merge commits (relative to Linus' tree): 643
+>>  614 files changed, 227990 insertions(+), 9502 deletions(-)
+>> 
+>> ----------------------------------------------------------------------------
 >
-> On 9/11/23 19:19, Thomas Hellström wrote:
->> Hi, Danilo
->>
->> On 9/9/23 17:31, Danilo Krummrich wrote:
->>> This patch adds an abstraction layer between the drm_gpuva mappings of
->>> a particular drm_gem_object and this GEM object itself. The abstraction
->>> represents a combination of a drm_gem_object and drm_gpuvm. The
->>> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
->>> representing this abstraction), while each drm_gpuvm_bo contains 
->>> list of
->>> mappings of this GEM object.
->>>
->>> This has multiple advantages:
->>>
->>> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
->>>     of the drm_gpuvm. This is useful for tracking external and evicted
->>>     objects per VM, which is introduced in subsequent patches.
->>>
->>> 2) Finding mappings of a certain drm_gem_object mapped in a certain
->>>     drm_gpuvm becomes much cheaper.
->>>
->>> 3) Drivers can derive and extend the structure to easily represent
->>>     driver specific states of a BO for a certain GPUVM.
->>>
->>> The idea of this abstraction was taken from amdgpu, hence the credit 
->>> for
->>> this idea goes to the developers of amdgpu.
->>>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>
->> Did you consider having the drivers embed the struct drm_gpuvm_bo in 
->> their own bo definition? I figure that would mean using the gem bo's 
->> refcounting and providing a helper to call from the driver's bo 
->> release. Looks like that could potentially save a lot of code? Or is 
->> there something that won't work with that approach?
+> on x86_64:
 >
-> There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free 
-> callback for drivers to register for that purpose.
+> # CONFIG_ACPI is not set
+> CONFIG_DRM_I915=y
+> CONFIG_BACKLIGHT_CLASS_DEVICE=m
 >
-> - Danilo
-
-Now after looking a bit deeper, I think actually the question could be 
-rephrased as, why don't we just use the
-struct drm_gem_object::gpuva struct as the drm_gpuvm_bo in the spirit of 
-keeping things simple? Drivers would then just embed it in their bo 
-subclass and we'd avoid unnecessary fields in the struct drm_gem_object 
-for drivers that don't do VM_BIND yet.
-
-Sure, this won't be per bo and per vm, but it'd really only make a 
-slight difference where we have multiple VMAs per bo, where per-vm 
-per-bo state either needs to be duplicated or attached to a single vma 
-(as in the case of the external bo list).
-
-To me that looks like a substantial amount of less code / complexity?
-
-/Thomas
-
-
+> I915 selects BACKLIGHT_CLASS_DEVICE if ACPI is set.
 >
->>
->> Thanks,
->>
->> Thomas
->>
->>
->
+> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_backlight_device_register':
+> intel_backlight.c:(.text+0x4988): undefined reference to `backlight_device_get_by_name'
+> ld: intel_backlight.c:(.text+0x4a1b): undefined reference to `backlight_device_register'
+> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_backlight_device_unregister':
+> intel_backlight.c:(.text+0x4b56): undefined reference to `backlight_device_unregister'
+
+This comes up periodically. The fix is for i915 to depend on backlight,
+but it's not possible to fix just i915, as it'll lead to circular deps
+unless *all* select backlight is switched to depend on backlight.
+
+I've gone through it once [1], and not keen on doing it again unless
+there's buy-in.
+
+IS_REACHABLE() is often suggested as a workaround, but I think it's just
+plain wrong. i915=y backlight=m is not a configuration that makes
+sense. Kernel configuration is hard enough, there's no point in allowing
+dumb configs that just silently don't work.
+
+
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/1413580403-16225-1-git-send-email-jani.nikula@intel.com
+
+
+
+-- 
+Jani Nikula, Intel
