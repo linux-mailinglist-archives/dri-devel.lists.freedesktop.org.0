@@ -1,59 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C6F79CE58
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 12:33:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECA279CEA0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 12:44:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D406B10E3DE;
-	Tue, 12 Sep 2023 10:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA23410E3E7;
+	Tue, 12 Sep 2023 10:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8D8910E3DC;
- Tue, 12 Sep 2023 10:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694514801; x=1726050801;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8t3tN4z2KMBNN5zbS0gpM5Z4a/MQjnGZId8LnAbZIZQ=;
- b=iPcbuqlN4wzMl8f6h7V/9hz35ScOnfTgEiRIEZ8NnEcENk3jpZV3UEDL
- 6TuV50h+0RQPG0SZe/FNt58m7SGEpPyoGCv8mwNcZX9j/ZmO/ICVLrnhq
- kto8+zSOPXEHXxpW7dmEEZxhX9BNPV/FVhup02Pz3c0K1/d+IYmvhK6aA
- 6aEe6RrmvvbNxBq5/LZ6eijjQoqDEDU8v9+RP/iIKTbWa1VjKI+EhIKQg
- P/fnUgBAnW2rqY+nMI1O6G7HxR4skQgjtzW2CAKwyWFBgKqgYFRuB+53x
- 14pC6IGV6B3ti5E6WqS+zV2lfSPn8sXxkInyaYKJ2XzmQfDAvqbtcAUtc A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381037028"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="381037028"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 03:33:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990458988"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="990458988"
-Received: from dhermamx-mobl1.amr.corp.intel.com (HELO [10.249.254.193])
- ([10.249.254.193])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 03:33:17 -0700
-Message-ID: <72461288-4248-9dd9-4417-aaa72b864805@linux.intel.com>
-Date: Tue, 12 Sep 2023 12:33:14 +0200
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1334B10E3E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 10:44:23 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-4013454fa93so61907075e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 03:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694515461; x=1695120261; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VTdB5rC+L5kos1kCslFKv4V1nc0NwlzHiB+VYtRjbQc=;
+ b=MM2V4DNPJ/01Dx83WObWvRq42GBGb3wv3rl+G6M1DEwO2BITIkUsuSRrGJb7tTXRfo
+ eBJ9l3lKduAdE4K8OA8+yegg52DO9DCLNryRfuxULrH+kj70mciuxLmSNv+H5CR1juiH
+ ElsAUxMDmQrwUqu2dEP8P97GQ/yg5dgHjzFchAgKoHHK3bZjXVW6V5K+l+oL4CFQnNq6
+ XI1Lgj7YNiZHVkUtnZsu5HLhpU9HSbB+KtfPnoeiC/IB+dlLMXpsdRZP5Q3uq7MwuU17
+ 0YGKFQ201YVuyupyBjx08oVh+Ugq//oOsOd5lGzz8bpqAKNxaABIBUD4fmr0+t2tOfo8
+ fkmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694515461; x=1695120261;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VTdB5rC+L5kos1kCslFKv4V1nc0NwlzHiB+VYtRjbQc=;
+ b=BgHp+OVAm+1LM09zJMvNi9mKuVMmfkGF1Waf2Gu/nar+YwlfNeo2di1JH0gbuTaTlM
+ IqmNqitSEGLX+AT9F+MMCMmgfZKI1VrtR4s7lQSBkM+nSrl3PRJOHx7TPIyL5tRkTyHs
+ J6/LM0qLn3pT8lmIkPHAYvn/Yl0aM+RF6krjmMULLI7RJu50yqX7q0WlxsH0Jcvcr3pq
+ tIndheTABZYj61uKvqoROl8BnPRjat9YrsiOrqjZh6FTGV6kzASs2esi8Juj54WtBAnV
+ xmAeOTYcGk9h4OtDLHxRWcvbmq/XD6m0wPknKSrYTqh/ZMVf+MlpGEW/Oa+mLuRtCEd4
+ HNTg==
+X-Gm-Message-State: AOJu0YzozpVQ7HGxyso7fJxUdqsiCjjqgQb9W+UyXtaCjMVbiE3rrxOH
+ 0g4YsmqBwFLh0xwOOX3NXDedIQ==
+X-Google-Smtp-Source: AGHT+IFmUaPSQB1JDPwcp1glXmxNaOdHNMq/RaW2YxMYKhbLuySY6XL9AWTg+d2k7jPQno0pliAtWg==
+X-Received: by 2002:a05:600c:d5:b0:401:bf56:8bb2 with SMTP id
+ u21-20020a05600c00d500b00401bf568bb2mr9996207wmm.10.1694515460799; 
+ Tue, 12 Sep 2023 03:44:20 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+ by smtp.gmail.com with ESMTPSA id
+ v11-20020a1cf70b000000b00401d8810c8bsm15728900wmh.15.2023.09.12.03.44.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Sep 2023 03:44:20 -0700 (PDT)
+Message-ID: <56c84195-8cb3-df39-ffd2-f9eb8a445cf6@linaro.org>
+Date: Tue, 12 Sep 2023 12:44:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v5 00/14] add support MDP3 on MT8195 platform
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-6-dakr@redhat.com>
- <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
- <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
- <05b06e5d-03aa-14f4-46b1-6057c4437043@linux.intel.com>
- <ZQA4PkxEKsuukwOW@pollux>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <ZQA4PkxEKsuukwOW@pollux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230912075805.11432-1-moudy.ho@mediatek.com>
+ <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
+ <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
+ <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
+ <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,134 +81,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Moudy Ho <moudy.ho@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 9/12/23 12:06, Danilo Krummrich wrote:
-> On Tue, Sep 12, 2023 at 09:42:44AM +0200, Thomas Hellström wrote:
->> Hi, Danilo
+On 12/09/2023 12:28, Chen-Yu Tsai wrote:
+> On Tue, Sep 12, 2023 at 5:43 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
 >>
->> On 9/11/23 19:49, Danilo Krummrich wrote:
->>> Hi Thomas,
+>> Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
+>>> On Tue, Sep 12, 2023 at 5:00 PM AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>>
+>>>> Il 12/09/23 09:57, Moudy Ho ha scritto:
+>>>>> Changes since v4:
+>>>>> - Rebase on v6.6-rc1
+>>>>> - Remove any unnecessary DTS settings.
+>>>>> - Adjust the usage of MOD and clock in blending components.
+>>>>>
+>>>>> Changes since v3:
+>>>>> - Depend on :
+>>>>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
+>>>>> - Suggested by Krzysztof, integrating all newly added bindings for
+>>>>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+>>>>> - Revise MDP3 nodes with generic names.
+>>>>>
+>>>>> Changes since v2:
+>>>>> - Depend on :
+>>>>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+>>>>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+>>>>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
+>>>>> - Add parallel paths feature.
+>>>>> - Add blended components settings.
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Depend on :
+>>>>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+>>>>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+>>>>> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+>>>>>
+>>>>> Hello,
+>>>>>
+>>>>> This patch is used to add support for MDP3 on the MT8195 platform that
+>>>>> contains more picture quality components, and can arrange more pipelines
+>>>>> through two sets of MMSYS and MUTEX respectively.
+>>>>>
+>>>>> Moudy Ho (14):
+>>>>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
+>>>>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
+>>>>
+>>>> Please send the DTS patches separately, those go through a different maintainer.
 >>>
->>> On 9/11/23 19:19, Thomas Hellström wrote:
->>>> Hi, Danilo
->>>>
->>>> On 9/9/23 17:31, Danilo Krummrich wrote:
->>>>> This patch adds an abstraction layer between the drm_gpuva mappings of
->>>>> a particular drm_gem_object and this GEM object itself. The abstraction
->>>>> represents a combination of a drm_gem_object and drm_gpuvm. The
->>>>> drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
->>>>> representing this abstraction), while each drm_gpuvm_bo contains
->>>>> list of
->>>>> mappings of this GEM object.
->>>>>
->>>>> This has multiple advantages:
->>>>>
->>>>> 1) We can use the drm_gpuvm_bo structure to attach it to various lists
->>>>>      of the drm_gpuvm. This is useful for tracking external and evicted
->>>>>      objects per VM, which is introduced in subsequent patches.
->>>>>
->>>>> 2) Finding mappings of a certain drm_gem_object mapped in a certain
->>>>>      drm_gpuvm becomes much cheaper.
->>>>>
->>>>> 3) Drivers can derive and extend the structure to easily represent
->>>>>      driver specific states of a BO for a certain GPUVM.
->>>>>
->>>>> The idea of this abstraction was taken from amdgpu, hence the
->>>>> credit for
->>>>> this idea goes to the developers of amdgpu.
->>>>>
->>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>>> Did you consider having the drivers embed the struct drm_gpuvm_bo in
->>>> their own bo definition? I figure that would mean using the gem bo's
->>>> refcounting and providing a helper to call from the driver's bo
->>>> release. Looks like that could potentially save a lot of code? Or is
->>>> there something that won't work with that approach?
->>> There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free
->>> callback for drivers to register for that purpose.
+>>> I thought most people prefer the _full_ view in a patchset?
 >>>
->>> - Danilo
->> Now after looking a bit deeper, I think actually the question could be
->> rephrased as, why don't we just use the
->> struct drm_gem_object::gpuva struct as the drm_gpuvm_bo in the spirit of
->> keeping things simple? Drivers would then just embed it in their bo subclass
->> and we'd avoid unnecessary fields in the struct drm_gem_object for drivers
->> that don't do VM_BIND yet.
-> struct drm_gem_object::gpuva is just a container containing a list in order to
-> (currently) attach drm_gpuva structs to it and with this patch attach
-> drm_gpuvm_bo structs (combination of BO + VM) to it. Doing the above basically
-> means "leave everything as it is, but move the list_head of drm_gpuvs per GEM to
-> the driver specific BO structure". Having a common connection between GEM
-> objects and drm_gpuva structs was one of the goals of the initial GPUVA manager
-> patch series however.
->
->> Sure, this won't be per bo and per vm, but it'd really only make a slight
->> difference where we have multiple VMAs per bo, where per-vm per-bo state
->> either needs to be duplicated or attached to a single vma (as in the case of
->> the external bo list).
->
-> Correct, one implication is that we don't get a per VM and BO abstraction, and
-> hence are left with a list of all drm_gpuva structs having the same backing BO,
-> regardless of the VM.
->
-> For amdgpu this was always a concern. Now that we want to keep track of external
-> and evicted objects it's going to be a concern for most drivers I guess. Because
-> the only structure we could use for tracking external and evicted objects we are
-> left with (without having a VM_BO abstraction) is struct drm_gpuva. But this
-> structure isn't unique and we need to consider cases where userspace just
-> allocates rather huge BOs and creates tons of mappings from it. Running the full
-> list of drm_gpuva structs (with even the ones from other VMs included) for
-> adding an external or evicted object isn't very efficient. Not to mention that
-> the maintenance when the mapping we've (randomly) picked as an entry for the
-> external/evicted object list is unmapped, but there are still mappings left in
-> the VM with the same backing BO.
-For the evicted object it's not much of an issue; we maintain a list of 
-vmas needing rebinding for each VM rather than objects evicted, so there 
-is no or very little additional overhead there. The extobj list is 
-indeed a problem if many VMAs are bound to the same bo. Not that the 
-code snippets are complicated, but the list traversals would be excessive.
->
-> Now, a way to get rid of the VM_BO abstraction would be to use maple trees
-> instead, since then we can store drm_gem_object structs directly for each VM.
-> However, Xe had concerns about using maple trees and preferred lists, plus
-> having maple trees wouldn't get rid of the concerns of amdgpu not having a VM_BO
-> abstraction for cases with tons of VMs and tons of mappings per BO. Hence,
-> having a VM_BO abstraction enabling us to track external/evicted objects with
-> lists seems to satisfy everyone's needs.
-
-Indeed this is a tradeoff between a simple implementation that is OK for 
-situations with not many VMs nor VMAs per bo vs a more complex 
-implementation that optimizes for the opposite case.
-
-So if this latter is a case we need to optimize for at this point then I 
-guess it's the way to go.
-(I'm in the process of adapting the xe driver to this, so I just wanted 
-to bring up areas where the implementations differ quite a lot and make 
-sure options are discussed).
-
-Thanks,
-
-Thomas
-
-
->
-> - Danilo
->
->> To me that looks like a substantial amount of less code / complexity?
 >>
->> /Thomas
->>
->>
->>>> Thanks,
->>>>
->>>> Thomas
->>>>
->>>>
+>> Yeah but those going through a different maintainer makes it more straightforward
+>> to pick; besides, essentially, you can also get a full view with dt-bindings
+>> patches instead of devicetrees, as the latter are "constructed from" bindings
+>> anyway.
+> 
+> Sure, but testing, especially by people not in the recipients or CC list,
+> is a bit painful when the full set of patches isn't bundled together.
+> Having them bundled together shows what the submitter tested and makes
+> it easier for others to reproduce.
+> 
+> AFAIK other ARM platforms have been sending patches all grouped together.
+> It's MediaTek that has been different, as they normally have (for Chromebooks)
+> a system integration engineer handling the device tree stuff, while component
+> driver owners just handle the drivers, and by extension, the DT bindings.
+> 
+>> Moreover, it would be definitely nice to add a link to the devicetree series
+>> in the cover letter of this series, so that people *do* get a full overview
+>> by checking both series :-)
+> 
+> Most maintainers seem to know what to do: apply the subset destined for
+> their tree. At least the subsystems that frequently deal with DT-based
+> platforms anyway.
+
+Most, but not all. Some maintainers take entire set - including DTS -
+which is not what we want, because *DTS, as a hardware description, must
+be independent of driver changes*. Most notably Greg and netdev folks
+grab everything. Keeping it together with driver changes brings
+confusion and feeling that there are dependency.
+
+Please don't do this.
+
+Best regards,
+Krzysztof
+
