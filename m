@@ -2,49 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B917A4023
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 06:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33B87A41E8
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 09:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96CF410E0AA;
-	Mon, 18 Sep 2023 04:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CF510E1B9;
+	Mon, 18 Sep 2023 07:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C86410E0AA
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 04:46:25 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF4E4C85;
- Mon, 18 Sep 2023 06:44:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695012288;
- bh=y0RF+BI8BL3G3i24tJIXIt8o19HAYlgYB7kLpnCevas=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aKCTNR/VKWPEgbE+MxaMJhOiOj3ThpZKcNt7+fQlDHZnMiCs+k0EOpApe/NAw953j
- 8LN5T5w4TCZubGecmlVusvIP+ekW2IHeIcoHSE9tRrCtwkp/P1WqrYc78vyPdXIq+7
- CefCl9hDHzzjGPXyHIK5y071Utl9XZc+VvdnOyxM=
-Message-ID: <f521cd35-daaa-94e8-2957-f0bf1c10ee0b@ideasonboard.com>
-Date: Mon, 18 Sep 2023 07:46:19 +0300
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 944BE10E3AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:57:00 +0000 (UTC)
+X-UUID: f089ca60514111eea33bb35ae8d461a2-20230912
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=sxDC13hCNox3S6xlws8mBAukgeaNZbyMb2eB2sZfjGc=; 
+ b=dFL6ydiIGttUFya+PXjfAl8xF9il871Ww9bBPrfsZKsf+VKAqtEbC0i1U6D6HMBve0RvHSYxU5Wn+qZDEYWqFlNmTNXkRiBEOGIx1LO4dvLc/7iosVKAL+6uLbSG3WzpT8R9yE9qOZSpsRgKk6XxEy+3VAnXY7vYSNO2xHyG+ro=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:aece449e-da8d-4ad2-a42a-8d695ab66c43, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:0ad78a4, CLOUDID:12a6edc2-1e57-4345-9d31-31ad9818b39f,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: f089ca60514111eea33bb35ae8d461a2-20230912
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1296828604; Tue, 12 Sep 2023 15:56:54 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 12 Sep 2023 15:56:52 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 12 Sep 2023 15:56:52 +0800
+From: Moudy Ho <moudy.ho@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v5 0/3] introduce more MDP3 components in mt8195
+Date: Tue, 12 Sep 2023 15:56:48 +0800
+Message-ID: <20230912075651.10693-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 00/12] drm/bridge: tc358768: Fixes and timings
- improvements
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230906-tc358768-v4-0-31725f008a50@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230906-tc358768-v4-0-31725f008a50@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--6.185700-8.000000
+X-TMASE-MatchedRID: lxKo1glhVxhA90k3OkvQzh+WEMjoO9WWI6PHNDZGGCKna6U74e0+qA42
+ cI60OgkFzP/fGiNMYHUSEYY/Eb/3khnsS71Oo/HwA9lly13c/gF3Bf9JIqsoeMRi+FlXlWiFsk7
+ 1rgcu7T4spKJBx9J3JKwxH8BPFMeNkfRhdidsajMURSScn+QSXl1PyA7eE+Ph+gtHj7OwNO2BSJ
+ y8ngwKGc9RwvxNQhb0/u1OPsVHrBSWSDISjkI9kZHHe0WsQTWZSQTg4dNf2V4=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--6.185700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: A97BFD844A2DBEFEF0FD06966CC60338C9A0F77A08E0794D06F696412DF613902000:8
+X-MTK: N
+X-Mailman-Approved-At: Mon, 18 Sep 2023 07:16:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,77 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>,
- Marcel Ziswiler <marcel.ziswiler@toradex.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Moudy
+ Ho <moudy.ho@mediatek.com>, linux-mediatek@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi bridge maintainers!
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
 
-On 06/09/2023 09:50, Tomi Valkeinen wrote:
-> This series contains various fixes and cleanups for TC358768. The target
-> of this work is to get TC358768 working on Toradex's AM62 based board,
-> which has the following display pipeline:
-> 
-> AM62 DPI -> TC358768 -> LT8912B -> HDMI connector
-> 
-> The main thing the series does is to improve the DSI HSW, HFP and VSDly
-> calculations.
+Hi,
 
-Any comments on this series?
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
 
-  Tomi
+Moudy Ho (3):
+  dt-binding: mediatek: correct MDP3 node with generic names
+  dt-binding: mediatek: integrate MDP RDMA to one binding
+  dt-binding: mediatek: add MediaTek mt8195 MDP3 components
 
->   Tomi
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v4:
-> - Add Tested-by tags
-> - Fix a typo in a comment
-> - Link to v3: https://lore.kernel.org/r/20230822-tc358768-v3-0-c82405dac0c1@ideasonboard.com
-> 
-> Changes in v3:
-> - Add Peter's reviewed-bys
-> - Move "Default to positive h/v syncs" earlier in the series to avoid
->    regression in the middle of the series
-> - Link to v2: https://lore.kernel.org/r/20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com
-> 
-> Changes in v2:
-> - Add "drm/tegra: rgb: Parameterize V- and H-sync polarities" so that
->    Tegra can configure the polarities correctly.
-> - Add "drm/bridge: tc358768: Default to positive h/v syncs" as we don't
->    (necessarily) have the polarities set in the mode.
-> - Drop "drm/bridge: tc358768: Add DRM_BRIDGE_ATTACH_NO_CONNECTOR
->    support" as it's not needed for DRM_BRIDGE_ATTACH_NO_CONNECTOR
->    support.
-> - Link to v1: https://lore.kernel.org/r/20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com
-> 
-> ---
-> Thierry Reding (1):
->        drm/tegra: rgb: Parameterize V- and H-sync polarities
-> 
-> Tomi Valkeinen (11):
->        drm/bridge: tc358768: Fix use of uninitialized variable
->        drm/bridge: tc358768: Default to positive h/v syncs
->        drm/bridge: tc358768: Fix bit updates
->        drm/bridge: tc358768: Cleanup PLL calculations
->        drm/bridge: tc358768: Use struct videomode
->        drm/bridge: tc358768: Print logical values, not raw register values
->        drm/bridge: tc358768: Use dev for dbg prints, not priv->dev
->        drm/bridge: tc358768: Rename dsibclk to hsbyteclk
->        drm/bridge: tc358768: Clean up clock period code
->        drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
->        drm/bridge: tc358768: Attempt to fix DSI horizontal timings
-> 
->   drivers/gpu/drm/bridge/tc358768.c | 381 ++++++++++++++++++++++++++++----------
->   drivers/gpu/drm/tegra/rgb.c       |  16 +-
->   2 files changed, 295 insertions(+), 102 deletions(-)
-> ---
-> base-commit: f45acf7acf75921c0409d452f0165f51a19a74fd
-> change-id: 20230804-tc358768-1b6949ef2e3d
-> 
-> Best regards,
+ .../display/mediatek/mediatek,aal.yaml        |  2 +-
+ .../display/mediatek/mediatek,color.yaml      |  2 +-
+ .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 -------------------
+ .../display/mediatek/mediatek,merge.yaml      |  1 +
+ .../display/mediatek/mediatek,ovl.yaml        |  2 +-
+ .../display/mediatek/mediatek,split.yaml      |  1 +
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     | 60 +++++++++++++
+ .../bindings/media/mediatek,mdp3-pad.yaml     | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 50 ++++++-----
+ .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     | 60 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 23 +++--
+ 14 files changed, 412 insertions(+), 121 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+
+-- 
+2.18.0
 
