@@ -1,80 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3730879CD29
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 12:07:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D404F79CDA5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 12:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5460310E3DF;
-	Tue, 12 Sep 2023 10:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA43B10E3DA;
+	Tue, 12 Sep 2023 10:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3B710E3DE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 10:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694513219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7nhu9Hfcl5nhmV58zXZR/UKIjUFImL82+R6FawNNB6I=;
- b=QvZxPK4R3a1z4bf4ZE2Z/7wSchnQC1gAaVF3IOUiV/niQBBBH+ix5WK7byg64rSIBn6meO
- 8d6r/OUHXI+geSepJOoH7iCUMfBEC3ATiBSs8+Frz6dyfn+j06nuixAUrS5AE3IQWyzrU3
- VpvMCZhUr2zRKIljlitjBW/ddDDmDoA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-9-gBqzKjVENZibMgGUszNWsg-1; Tue, 12 Sep 2023 06:06:58 -0400
-X-MC-Unique: gBqzKjVENZibMgGUszNWsg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-52a3e9c53e7so3678146a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 03:06:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694513217; x=1695118017;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7nhu9Hfcl5nhmV58zXZR/UKIjUFImL82+R6FawNNB6I=;
- b=Ww3059hmZ9NgH78Y/pjdeMDPyn7uIa8gRjUHBVYFZWbv5EflySpoaJls+c9LHTs3d4
- hqwej58zjCGHXYcAxACrZb6wfipmHtLtpJN8+JdHUjyCTbc2lCIGvlV7E0VpRPXysDPL
- Q1kSrKw/m0TP0XXF7k2tQiLh36kcOKwtvqo7ByvQb/aIrRDAUXCkSA2RmQpFYimjlSx4
- byDB7HO7MWesOR6/FuCYLPW0iV3a8BjXWy8vcp0MqY74zoF4UJ9k1rX5Yb0i54FY3ESK
- /zGDdxqRXlSw5M4oyzp/glPzgpzInq8JprdSlrRh9+4wUbh8qeTXTMFqeLmdmFaA8e4i
- kD8g==
-X-Gm-Message-State: AOJu0Yy7N2afYUFxofvTlVbb5wdmqUPMIjRwwv9QT+E4pIjl9JQuN5qk
- mq0amszYg6lBZOwXUt2XN0LjpwByFCEfOjqQtjVIKo4NnRXr0G6Kp+idCJVa9CwfcPSWPpP5gHO
- qHVjeX9gkR2EIBjli4I6PSkiWotZP
-X-Received: by 2002:aa7:d043:0:b0:525:440a:616a with SMTP id
- n3-20020aa7d043000000b00525440a616amr9923852edo.20.1694513217166; 
- Tue, 12 Sep 2023 03:06:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsWMTNKfhf/YNj5Ad2aInIyy8u38T7zVmNtgZ2pHSOw2xoAVOFPucZK+C3TiE0/jZuAMyRVA==
-X-Received: by 2002:aa7:d043:0:b0:525:440a:616a with SMTP id
- n3-20020aa7d043000000b00525440a616amr9923831edo.20.1694513216863; 
- Tue, 12 Sep 2023 03:06:56 -0700 (PDT)
-Received: from pollux ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- fi23-20020a056402551700b0052f66414ec6sm2427990edb.56.2023.09.12.03.06.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 03:06:56 -0700 (PDT)
-Date: Tue, 12 Sep 2023 12:06:54 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH drm-misc-next v3 5/7] drm/gpuvm: add an abstraction for a
- VM / BO combination
-Message-ID: <ZQA4PkxEKsuukwOW@pollux>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-6-dakr@redhat.com>
- <0a8799c3-1d4c-8d87-ebca-013f6541fbc4@linux.intel.com>
- <06bbb49d-974f-e3bb-f844-1509313066cc@redhat.com>
- <05b06e5d-03aa-14f4-46b1-6057c4437043@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0321E10E3DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 10:14:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54015C15;
+ Tue, 12 Sep 2023 03:14:44 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F3373F738;
+ Tue, 12 Sep 2023 03:14:04 -0700 (PDT)
+Message-ID: <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
+Date: Tue, 12 Sep 2023 11:13:50 +0100
 MIME-Version: 1.0
-In-Reply-To: <05b06e5d-03aa-14f4-46b1-6057c4437043@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+Content-Language: en-GB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org>
+ <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
+ <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,123 +50,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 12, 2023 at 09:42:44AM +0200, Thomas Hellström wrote:
-> Hi, Danilo
+On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
+> On 12/09/2023 08:16, Yong Wu (å´å‹‡) wrote:
+>> Hi Rob,
+>>
+>> Thanks for your review.
+>>
+>> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+>>>   	
+>>> External email : Please do not click links or open attachments until
+>>> you have verified the sender or the content.
+>>>   On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+>>>> This adds the binding for describing a CMA memory for MediaTek
+>>> SVP(Secure
+>>>> Video Path).
+>>>
+>>> CMA is a Linux thing. How is this related to CMA?
+>>
+>>>>
+>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>> ---
+>>>>   .../mediatek,secure_cma_chunkmem.yaml         | 42
+>>> +++++++++++++++++++
+>>>>   1 file changed, 42 insertions(+)
+>>>>   create mode 100644 Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>> b/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..cc10e00d35c4
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>> @@ -0,0 +1,42 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id:
+>>> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: MediaTek Secure Video Path Reserved Memory
+>>>
+>>> What makes this specific to Mediatek? Secure video path is fairly
+>>> common, right?
+>>
+>> Here we just reserve a buffer and would like to create a dma-buf secure
+>> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
+>> secure buffer through it.
+>>   
+>> But the heap driver is pure SW driver, it is not platform device and
 > 
-> On 9/11/23 19:49, Danilo Krummrich wrote:
-> > Hi Thomas,
-> > 
-> > On 9/11/23 19:19, Thomas Hellström wrote:
-> > > Hi, Danilo
-> > > 
-> > > On 9/9/23 17:31, Danilo Krummrich wrote:
-> > > > This patch adds an abstraction layer between the drm_gpuva mappings of
-> > > > a particular drm_gem_object and this GEM object itself. The abstraction
-> > > > represents a combination of a drm_gem_object and drm_gpuvm. The
-> > > > drm_gem_object holds a list of drm_gpuvm_bo structures (the structure
-> > > > representing this abstraction), while each drm_gpuvm_bo contains
-> > > > list of
-> > > > mappings of this GEM object.
-> > > > 
-> > > > This has multiple advantages:
-> > > > 
-> > > > 1) We can use the drm_gpuvm_bo structure to attach it to various lists
-> > > >     of the drm_gpuvm. This is useful for tracking external and evicted
-> > > >     objects per VM, which is introduced in subsequent patches.
-> > > > 
-> > > > 2) Finding mappings of a certain drm_gem_object mapped in a certain
-> > > >     drm_gpuvm becomes much cheaper.
-> > > > 
-> > > > 3) Drivers can derive and extend the structure to easily represent
-> > > >     driver specific states of a BO for a certain GPUVM.
-> > > > 
-> > > > The idea of this abstraction was taken from amdgpu, hence the
-> > > > credit for
-> > > > this idea goes to the developers of amdgpu.
-> > > > 
-> > > > Cc: Christian König <christian.koenig@amd.com>
-> > > > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> > > 
-> > > Did you consider having the drivers embed the struct drm_gpuvm_bo in
-> > > their own bo definition? I figure that would mean using the gem bo's
-> > > refcounting and providing a helper to call from the driver's bo
-> > > release. Looks like that could potentially save a lot of code? Or is
-> > > there something that won't work with that approach?
-> > 
-> > There are drm_gpuvm_ops::vm_bo_alloc and drm_gpuvm_ops::vm_bo_free
-> > callback for drivers to register for that purpose.
-> > 
-> > - Danilo
+> All drivers are pure SW.
 > 
-> Now after looking a bit deeper, I think actually the question could be
-> rephrased as, why don't we just use the
-> struct drm_gem_object::gpuva struct as the drm_gpuvm_bo in the spirit of
-> keeping things simple? Drivers would then just embed it in their bo subclass
-> and we'd avoid unnecessary fields in the struct drm_gem_object for drivers
-> that don't do VM_BIND yet.
-
-struct drm_gem_object::gpuva is just a container containing a list in order to
-(currently) attach drm_gpuva structs to it and with this patch attach
-drm_gpuvm_bo structs (combination of BO + VM) to it. Doing the above basically
-means "leave everything as it is, but move the list_head of drm_gpuvs per GEM to
-the driver specific BO structure". Having a common connection between GEM
-objects and drm_gpuva structs was one of the goals of the initial GPUVA manager
-patch series however.
-
+>> we don't have a corresponding HW unit for it. Thus I don't think I
+>> could create a platform dtsi node and use "memory-region" pointer to
+>> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in
+>> [9/9]). Sorry if this is not right.
 > 
-> Sure, this won't be per bo and per vm, but it'd really only make a slight
-> difference where we have multiple VMAs per bo, where per-vm per-bo state
-> either needs to be duplicated or attached to a single vma (as in the case of
-> the external bo list).
-
-
-Correct, one implication is that we don't get a per VM and BO abstraction, and
-hence are left with a list of all drm_gpuva structs having the same backing BO,
-regardless of the VM.
-
-For amdgpu this was always a concern. Now that we want to keep track of external
-and evicted objects it's going to be a concern for most drivers I guess. Because
-the only structure we could use for tracking external and evicted objects we are
-left with (without having a VM_BO abstraction) is struct drm_gpuva. But this
-structure isn't unique and we need to consider cases where userspace just
-allocates rather huge BOs and creates tons of mappings from it. Running the full
-list of drm_gpuva structs (with even the ones from other VMs included) for
-adding an external or evicted object isn't very efficient. Not to mention that
-the maintenance when the mapping we've (randomly) picked as an entry for the
-external/evicted object list is unmapped, but there are still mappings left in
-the VM with the same backing BO.
-
-Now, a way to get rid of the VM_BO abstraction would be to use maple trees
-instead, since then we can store drm_gem_object structs directly for each VM.
-However, Xe had concerns about using maple trees and preferred lists, plus
-having maple trees wouldn't get rid of the concerns of amdgpu not having a VM_BO
-abstraction for cases with tons of VMs and tons of mappings per BO. Hence,
-having a VM_BO abstraction enabling us to track external/evicted objects with
-lists seems to satisfy everyone's needs.
-
-- Danilo
-
+> If this is not for any hardware and you already understand this (since
+> you cannot use other bindings) then you cannot have custom bindings for
+> it either.
 > 
-> To me that looks like a substantial amount of less code / complexity?
+>>
+>> Then in our usage case, is there some similar method to do this? or
+>> any other suggestion?
 > 
-> /Thomas
-> 
-> 
-> > 
-> > > 
-> > > Thanks,
-> > > 
-> > > Thomas
-> > > 
-> > > 
-> > 
-> 
+> Don't stuff software into DTS.
 
+Aren't most reserved-memory bindings just software policy if you look at 
+it that way, though? IIUC this is a pool of memory that is visible and 
+available to the Non-Secure OS, but is fundamentally owned by the Secure 
+TEE, and pages that the TEE allocates from it will become physically 
+inaccessible to the OS. Thus the platform does impose constraints on how 
+the Non-Secure OS may use it, and per the rest of the reserved-memory 
+bindings, describing it as a "reusable" reservation seems entirely 
+appropriate. If anything that's *more* platform-related and so 
+DT-relevant than typical arbitrary reservations which just represent 
+"save some memory to dedicate to a particular driver" and don't actually 
+bear any relationship to firmware or hardware at all.
+
+However, the fact that Linux's implementation of how to reuse reserved 
+memory areas is called CMA is indeed still irrelevant and has no place 
+in the binding itself.
+
+Thanks,
+Robin.
