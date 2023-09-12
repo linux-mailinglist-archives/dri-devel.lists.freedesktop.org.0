@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93C879D0E0
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 14:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CE579D0E4
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 14:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA6CA10E3FE;
-	Tue, 12 Sep 2023 12:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351FE10E415;
+	Tue, 12 Sep 2023 12:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1357510E3FE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 12:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694521066; x=1726057066;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=FeK5GR4XqptRNtmti6AjB5O3ClkBWcQZODi+lm4X3qc=;
- b=VeuHALC2cyZE9iE8jAF8vbvtZOerx7713ldx6q8iWuwLE13DtVLAJ/eu
- c2gpSysd8z2eoEDBSa6tiPFSrG5Ye22bSqm1wwSVWzb6vHZFDOsI9aMfv
- c9UA7yqW8e6piMq5eysSoQav10zNSV5kJGpbfO8KQfqFMT5uKDcnDHc7o
- VgPJak1E6dUcDnKsrJD7WPuWFxJC7zj5fHhnB09+Djp03FnqhSNhfLTDD
- kdYdP8eFYtV2c4h6OBMoXwkDOQnLB/eYoNzAgxR0Jrn24fU3uLq6J9XnK
- /ifEnTh0499XJQCU4PDnTO6ppYsRadQfD1YM2K+opOWH+WpC6ryh25G6q Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="442371811"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="442371811"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 05:17:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="917412536"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="917412536"
-Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.206])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 05:17:35 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ian Ray <ian.ray@ge.com>
-Subject: Re: EXT: Re: [RFC] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw:
- switch to drm_do_get_edid()
-In-Reply-To: <20230908091350.GA37562@zoo6.em.health.ge.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230901102400.552254-1-jani.nikula@intel.com>
- <87jztahrot.fsf@intel.com> <20230908091350.GA37562@zoo6.em.health.ge.com>
-Date: Tue, 12 Sep 2023 15:17:33 +0300
-Message-ID: <874jjzy49u.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E94E10E415;
+ Tue, 12 Sep 2023 12:18:23 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2FF826607326;
+ Tue, 12 Sep 2023 13:18:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694521101;
+ bh=mnP4Q6AtJQO9a5dqOec94l43iG1/sE3gl0zC4U5Bt+Y=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ur7Ndl838dwISncmGct52sbwJvcbRHoqFaGlO0tUlfRgCdrPUff7G9vfo7+GzA4VX
+ YETJJ1j3rMpMnKWHamsx0+QeXT9qxSSStfOTaRtRKYsLSVw97aPXzhebbixRVS3dJL
+ Gbi6Xelk6A9hqInA0UI82MsfTCsJl30JvHXyWib4jHWe0Vp+xsCzwuVdP6L3SJfPdp
+ pXwXQZBPcOo8Umlcu5xsGTj0jDkoI+X/7rL7KREDwfSGE66MeXbJxFNG5SBIF5wrv9
+ E0HNDFtEnObVngyZFroUeF3i6cGX4aN2wJ96oUZeUBZtKQQjunVfj/VHKABKHQSzv4
+ MIDTwbbY8ZdDg==
+Date: Tue, 12 Sep 2023 14:18:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
+Message-ID: <20230912141818.10827d1d@collabora.com>
+In-Reply-To: <ZQBBgsrohAqIAppA@pollux>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-5-matthew.brost@intel.com>
+ <ZOfh6o2EaGuIqZVe@pollux>
+ <ZOgYu1fZQUHeneJC@DUT025-TGLU.fm.intel.com>
+ <6ae84066-b690-1562-0598-4694b022c960@amd.com>
+ <ZOiuWcFDImBvJtnO@DUT025-TGLU.fm.intel.com>
+ <ee56b9ee-36c7-5935-c319-c8d1ad412c7c@amd.com>
+ <20230912121357.4cc10dec@collabora.com> <ZQBBgsrohAqIAppA@pollux>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,184 +59,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Peter Senna Tschudin <peter.senna@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
- Zheyu Ma <zheyuma97@gmail.com>, Yuan Can <yuancan@huawei.com>,
- dri-devel@lists.freedesktop.org, Ian Ray <ian.ray@ge.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
+ sarah.walker@imgtec.com, thomas.hellstrom@linux.intel.com,
+ ketil.johnsen@arm.com, lina@asahilina.net, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ luben.tuikov@amd.com, donald.robson@imgtec.com, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Sep 2023, Ian Ray <ian.ray@ge.com> wrote:
-> On Fri, Sep 01, 2023 at 05:52:02PM +0300, Jani Nikula wrote:
->> 
->> On Fri, 01 Sep 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> > The driver was originally added in commit fcfa0ddc18ed ("drm/bridge:
->> > Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)"). I tried to
->> > look up the discussion, but didn't find anyone questioning the EDID
->> > reading part.
->> >
->> > Why does it not use drm_get_edid() or drm_do_get_edid()?
->> >
->> > I don't know where client->addr comes from, so I guess it could be
->> > different from DDC_ADDR, rendering drm_get_edid() unusable.
->> >
->> > There's also the comment:
->> >
->> > 	/* Yes, read the entire buffer, and do not skip the first
->> > 	 * EDID_LENGTH bytes.
->> > 	 */
->> >
->> > But again, there's not a word on *why*.
->> >
->> > Maybe we could just use drm_do_get_edid()? I'd like drivers to migrate
->> > away from their own EDID parsing and validity checks, including stop
->> > using drm_edid_block_valid(). (And long term switch to drm_edid_read(),
->> > struct drm_edid, and friends, but this is the first step.)
->> >
->> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> > Cc: Ian Ray <ian.ray@ge.com>
->> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> > Cc: Jonas Karlman <jonas@kwiboo.se>
->> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> > Cc: Martin Donnelly <martin.donnelly@ge.com>
->> > Cc: Martyn Welch <martyn.welch@collabora.co.uk>
->> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> > Cc: Peter Senna Tschudin <peter.senna@gmail.com>
->> > Cc: Robert Foss <rfoss@kernel.org>
->> > Cc: Yuan Can <yuancan@huawei.com>
->> > Cc: Zheyu Ma <zheyuma97@gmail.com>
->> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> >
->> > ---
->> >
->> > I haven't even tried to compile this, and I have no way to test
->> > this. Apologies for the long Cc list; I'm hoping someone could explain
->> > the existing code, and perhaps give this approach a spin.
->> > ---
->> >  .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 57 +++----------------
->> >  1 file changed, 9 insertions(+), 48 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
->> > index 460db3c8a08c..0d9eacf3d9b7 100644
->> > --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
->> > +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
->> > @@ -65,12 +65,11 @@ struct ge_b850v3_lvds {
->> >  
->> >  static struct ge_b850v3_lvds *ge_b850v3_lvds_ptr;
->> >  
->> > -static u8 *stdp2690_get_edid(struct i2c_client *client)
->> > +static int stdp2690_read_block(void *context, u8 *buf, unsigned int block, size_t len)
->> >  {
->> > +	struct i2c_client *client = context;
->> >  	struct i2c_adapter *adapter = client->adapter;
->> > -	unsigned char start = 0x00;
->> > -	unsigned int total_size;
->> > -	u8 *block = kmalloc(EDID_LENGTH, GFP_KERNEL);
->> > +	unsigned char start = block * EDID_LENGTH;
->> >  
->> >  	struct i2c_msg msgs[] = {
->> >  		{
->> > @@ -81,53 +80,15 @@ static u8 *stdp2690_get_edid(struct i2c_client *client)
->> >  		}, {
->> >  			.addr	= client->addr,
->> >  			.flags	= I2C_M_RD,
->> > -			.len	= EDID_LENGTH,
->> > -			.buf	= block,
->> > +			.len	= len,
->> > +			.buf	= buf,
->> >  		}
->> >  	};
->> >  
->> > -	if (!block)
->> > -		return NULL;
->> > +	if (i2c_transfer(adapter, msgs, 2) != 2)
->> > +		return -1;
->> >  
->> > -	if (i2c_transfer(adapter, msgs, 2) != 2) {
->> > -		DRM_ERROR("Unable to read EDID.\n");
->> > -		goto err;
->> > -	}
->> > -
->> > -	if (!drm_edid_block_valid(block, 0, false, NULL)) {
->> > -		DRM_ERROR("Invalid EDID data\n");
->> > -		goto err;
->> > -	}
->> > -
->> > -	total_size = (block[EDID_EXT_BLOCK_CNT] + 1) * EDID_LENGTH;
->> > -	if (total_size > EDID_LENGTH) {
->> > -		kfree(block);
->> > -		block = kmalloc(total_size, GFP_KERNEL);
->> > -		if (!block)
->> > -			return NULL;
->> > -
->> > -		/* Yes, read the entire buffer, and do not skip the first
->> > -		 * EDID_LENGTH bytes.
->> > -		 */
->> > -		start = 0x00;
->> > -		msgs[1].len = total_size;
->> > -		msgs[1].buf = block;
->> > -
->> > -		if (i2c_transfer(adapter, msgs, 2) != 2) {
->> > -			DRM_ERROR("Unable to read EDID extension blocks.\n");
->> > -			goto err;
->> > -		}
->> > -		if (!drm_edid_block_valid(block, 1, false, NULL)) {
->> > -			DRM_ERROR("Invalid EDID data\n");
->> > -			goto err;
->> > -		}
->> > -	}
->> > -
->> > -	return block;
->> > -
->> > -err:
->> > -	kfree(block);
->> > -	return NULL;
->> > +	return 0;
->> >  }
->> >  
->> >  static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
->> > @@ -137,7 +98,7 @@ static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
->> >  
->> >  	client = ge_b850v3_lvds_ptr->stdp2690_i2c;
->> >  
->> > -	return (struct edid *)stdp2690_get_edid(client);
->> > +	return drm_do_get_edid(connector, stdp2690_read_block, client, NULL);
->> 
->> The last NULL param should be dropped, as noted by the build bot.
->
-> Tested with various displays, including displays that have one block of
-> EDID (DELL P2417H) and a second EDID extension block (VES/55UHD_LCD_TV).
->
-> Tested-by: Ian Ray <ian.ray@ge.com>
->
-> Would you like me to submit the patch Jani?
+On Tue, 12 Sep 2023 12:46:26 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-If you have the time to take that on, by all means!
+> > I'm a bit worried that leaving this single vs multi-threaded wq
+> > decision to drivers is going to cause unnecessary pain, because what
+> > was previously a granted in term of run/cleanup execution order (thanks
+> > to the kthread+static-drm_sched_main-workflow approach) is now subject
+> > to the wq ordering guarantees, which depend on the wq type picked by
+> > the driver.  
+> 
+> Not sure if this ends up to be much different. The only thing I could think of
+> is that IIRC with the kthread implementation cleanup was always preferred over
+> run.
 
-Thanks for testing!
+Given the sequence in drm_sched_main(), I'd say that cleanup and run
+operations are naturally interleaved when both are available, but I
+might be wrong.
 
-BR,
-Jani
+> With a single threaded wq this should be a bit more balanced.
 
+With a single threaded wq, it's less clear, because each work
+reschedules itself for further processing, but it's likely to be more
+or less interleaved. Anyway, I'm not too worried about cleanup taking
+precedence on run or the other way around, because the limited amount
+of HW slots (size of the ring-buffer) will regulate that.
 
->
->
->> 
->> BR,
->> Jani.
->> 
->> 
->> >  }
->> >  
->> >  static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
->> 
->> -- 
->> Jani Nikula, Intel Open Source Graphics Center
->> 
+> 
+> With a multi-threaded wq it's still the same, but run and cleanup can run
+> concurrently,
 
--- 
-Jani Nikula, Intel
+What I'm worried about is that ^. I'm not saying it's fundamentally
+unsafe, but I'm saying drm_sched hasn't been designed with this
+concurrency in mind, and I fear we'll face subtle bugs if we go from
+kthread to multi-threaded-wq+run-and-cleanup-split-in-2-work-items.
+
+> which has the nice side effect that free_job() gets out of the
+> fence signaling path. At least as long as the workqueue has max_active > 1.
+
+Oh, yeah, I don't deny using a multi-threaded workqueue has some
+benefits, just saying it might be trickier than it sounds.
+
+> Which is one reason why I'm using a multi-threaded wq in Nouveau.
+
+Note that I'm using a multi-threaded workqueue internally at the moment
+to deal with all sort of interactions with the FW (Mali HW only has a
+limited amount of scheduling slots, and we need to rotate entities
+having jobs to execute so every one gets a chance to run on the GPU),
+but this has been designed this way from the ground up, unlike
+drm_sched_main() operations, which were mostly thought as a fixed
+sequential set of operations. That's not to say it's impossible to get
+right, but I fear we'll face weird/unexpected behavior if we go from
+completely-serialized to multi-threaded-with-pseudo-random-processing
+order.
+
+> 
+> That latter seems a bit subtile, we probably need to document this aspect of
+> under which conditions free_job() is or is not within the fence signaling path.
+
+Well, I'm not even sure it can be clearly defined when the driver is
+using the submit_wq for its own work items (which can be done since we
+pass an optional submit_wq when calling drm_sched_init()). Sure, having
+max_active >= 2 should be enough to guarantee that the free_job work
+won't block the run_job one when these are the 2 only works being
+queued, but what if you have many other work items being queued by the
+driver to this wq, and some of those try to acquire resv locks? Could
+this prevent execution of the run_job() callback, thus preventing
+signaling of fences? I'm genuinely asking, don't know enough about the
+cmwq implementation to tell what's happening when work items are
+blocked (might be that the worker pool is extended to unblock the
+situation).
+
+Anyway, documenting when free_job() is in the dma signalling path should
+be doable (single-threaded wq), but at this point, are we not better
+off considering anything called from the submit_wq as being part of the
+dma signalling path, so we can accommodate with both cases. And if
+there is cleanup processing that require taking dma_resv locks, I'd be
+tempted to queue that to a driver-specific wq (which is what I'm doing
+right now), just to be safe.
