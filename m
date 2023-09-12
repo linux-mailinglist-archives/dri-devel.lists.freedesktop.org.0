@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F22379CF72
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9D979CF58
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F57210E411;
-	Tue, 12 Sep 2023 11:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E92610E402;
+	Tue, 12 Sep 2023 11:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD9610E409;
- Tue, 12 Sep 2023 11:08:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 597AF10E401;
+ Tue, 12 Sep 2023 11:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516929; x=1726052929;
+ t=1694516886; x=1726052886;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+WJEg9s/ERPz9aqCZSeJAqjV1Oo9uT8a6MSiIwmXkYE=;
- b=iEliIzTRewdxq0YFMzl31u2CYRfOg/6sfjZy9hIvXk8rDBlbWYPAZ0gp
- 8+wuajQytlt+OgZuwSClTMUyoqkYi4fNvV+vfFFyvo6gt0N9y7Ocw1zC7
- QGOAHsM0JRtRkqT/RkSq9MQCQdyHclO8s1R9aap9/ruNZITmUpObe7xWV
- s3rn9yMnPdNWP+oZHC86aVPcHSkcqF83zGlE8+hbo5gq2zomODWT+tpla
- Sd4UEUL2IaWomu6oGR2Bcms1n79smuUILa53hDg2WX7jiNEBjvdugdTzP
- r0bt75bb3r5B0dM/pTVk5lLlnxrO006ELkZy6UYcJEw4vEupNFMzeiuHA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378253136"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="378253136"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:08:00 -0700
+ bh=kY6B/GS+/qj8YYnxQ5H5gwfoRUVrD29brphio3IGgUE=;
+ b=epZznVKM+SSsh2uSuTfzGBxwUbxC/+aVa3KLGhM9+0C/JSHNpeOmRXLU
+ MGtHxIEIYBJh7xq8gpi2UZc2UBZIcFD1st6WVeJhex2aqKlaiJvhjek2i
+ cmVICH92uJ6AoBbrCkwKi9akCb3zCu3MqOyuERLbpFHERQIKEPn8S+FSa
+ sHfjrFLSvVvkQ6Rw7hOd1tkGHHqDnRK5suwGNShAJhU8gti7G4h25Cxpk
+ mV5S0KIRCJ1zfWrBHB0ps5MTamshXpyrOXSP+41F/TIhjzQs56GBMPqf8
+ P06dxKzg4BKM7zp9vxfCO8LsmXaxrIOTrpkOELLQ2aHgJRxfxufYx7nwV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="442358488"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="442358488"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:08:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="1074512713"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="1074512713"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="737090718"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="737090718"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:59 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:08:03 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 15/19] drm/i915/display: add I915 conditional build to
- g4x_hdmi.h
-Date: Tue, 12 Sep 2023 14:06:42 +0300
-Message-Id: <ba2eea7ac081d0858a573062f197e00f3b186faf.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 16/19] drm/i915/display: add I915 conditional build to
+ intel_dvo.h
+Date: Tue, 12 Sep 2023 14:06:43 +0300
+Message-Id: <d43b27742297083b37d52222c4bb72b062ef4967.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
 References: <cover.1694514689.git.jani.nikula@intel.com>
@@ -68,35 +68,26 @@ Add stubs for !I915.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/g4x_hdmi.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dvo.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/g4x_hdmi.h b/drivers/gpu/drm/i915/display/g4x_hdmi.h
-index 1e3ea7f3c846..817f55c7a3a1 100644
---- a/drivers/gpu/drm/i915/display/g4x_hdmi.h
-+++ b/drivers/gpu/drm/i915/display/g4x_hdmi.h
-@@ -15,9 +15,21 @@ struct drm_atomic_state;
- struct drm_connector;
+diff --git a/drivers/gpu/drm/i915/display/intel_dvo.h b/drivers/gpu/drm/i915/display/intel_dvo.h
+index 3ed0fdf8efff..bf7a356422ab 100644
+--- a/drivers/gpu/drm/i915/display/intel_dvo.h
++++ b/drivers/gpu/drm/i915/display/intel_dvo.h
+@@ -8,6 +8,12 @@
+ 
  struct drm_i915_private;
  
 +#ifdef I915
- void g4x_hdmi_init(struct drm_i915_private *dev_priv,
- 		   i915_reg_t hdmi_reg, enum port port);
- int g4x_hdmi_connector_atomic_check(struct drm_connector *connector,
- 				    struct drm_atomic_state *state);
+ void intel_dvo_init(struct drm_i915_private *dev_priv);
 +#else
-+static inline void g4x_hdmi_init(struct drm_i915_private *dev_priv,
-+				 i915_reg_t hdmi_reg, int port)
++static inline void intel_dvo_init(struct drm_i915_private *dev_priv)
 +{
-+}
-+static inline int g4x_hdmi_connector_atomic_check(struct drm_connector *connector,
-+						  struct drm_atomic_state *state)
-+{
-+	return 0;
 +}
 +#endif
  
- #endif
+ #endif /* __INTEL_DVO_H__ */
 -- 
 2.39.2
 
