@@ -1,72 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8318179C9E9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C63AB79CA46
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF2E10E3B9;
-	Tue, 12 Sep 2023 08:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0401E10E3C6;
+	Tue, 12 Sep 2023 08:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F15A10E3B9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 08:28:40 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-99c1c66876aso679579966b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 01:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694507318; x=1695112118; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VLzVKDkkOXZ4N+LBDosJ9GVpBHoDNwCkMSqFqUtTQYE=;
- b=d76qqCeE37ewfCRCavwstP5cbyt79zVLP0i+m+96OVvEfmQ6rAveSmaYybd7/opx40
- ePlz/Lw93djNXVTkeVhX34vPyBF5LFeYsNDrX+pK85y+510Pta6jwLlR4COHx5zLlCOm
- BhRRW3EKOTe800kgJY/JGUwRTeny5sbu9k75+H/gmYZa7nmEp3WA5TKVRUxLIF9LB0nK
- kcMWiZkas3rnVw1v0rIawsWeKmpY4j/T1Jt8pUDcJJWNnRhJ4Ay05bWk+41T4qMf5WAv
- oD52n5ZuPs5S0HhgCRW8/rgBekaErg2zHltj1tcaALHMZHVZdoa8/DZAkqYtCznmQXTY
- J2mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694507318; x=1695112118;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VLzVKDkkOXZ4N+LBDosJ9GVpBHoDNwCkMSqFqUtTQYE=;
- b=TmwSa02gP9plsglhKAKXA3TFd8PWz79uNPWFU8EptY7a/mRHOMY2BxH+sbPJ1znagr
- tDMZqv4fHrqShDqCXC1LAn8MyIOxQ7jjxR1vSBAD+64/Tn6B6jmY4OW4e++aTa9K5BrJ
- BIFY9FHFMwjDQKc5XrYwajGsYOr7SyVY0Bxb5MFisgNfNVM13elDPjPCiRzTT/CTv4rh
- NClzJ7NUE11Tyos7k8c2Zz0T3KnxH6eNht5uQsyr/AVGoc4iaQ7Kf4SQzOpPGIWNwRdY
- +7dVZmrGuxpJ1JFpOMLX5E5iHeoubRY7RsWq4Giendn9EpyZTOmS7eJ2Tc8zWycX4EG3
- nKbA==
-X-Gm-Message-State: AOJu0Yzap/hwpZh8LGh0NCO7YCIg4XbaYpi5oNLrhWSdRYxt4eYL+bzI
- VRbBtxUS+IsY1E9FG7+i0qgIQQ==
-X-Google-Smtp-Source: AGHT+IHki0HI2dzDOWH07bBWQQqpwLHYoRHu3OffIZhdj/Y17PLOWS/fEeXHSa+TXIl8iuit84dkTA==
-X-Received: by 2002:a17:907:2ccb:b0:9a9:ee3d:48e3 with SMTP id
- hg11-20020a1709072ccb00b009a9ee3d48e3mr9692911ejc.12.1694507318462; 
- Tue, 12 Sep 2023 01:28:38 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
- by smtp.gmail.com with ESMTPSA id
- q18-20020a170906a09200b0099b8234a9fesm6507600ejy.1.2023.09.12.01.28.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Sep 2023 01:28:37 -0700 (PDT)
-Message-ID: <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
-Date: Tue, 12 Sep 2023 10:28:35 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7916510E3BE;
+ Tue, 12 Sep 2023 08:40:56 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E88AF6607313;
+ Tue, 12 Sep 2023 09:40:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694508055;
+ bh=w+tcMCWhbhlMMnhUWPHaPPRBgo43Wyhwkl2rJlFQENM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=TRFqL8cul6z54KxnfS3jUXo1wpxEQkoEa1/Q554N6pbt5XPWuBU4r9gph2jvCF2XF
+ iiSbTNwqgYIqhpMUOApAvJmYsKXUbtvPbvROsmtSeRYnThNTdyJOQ1huT014djuvj3
+ 9I6/lndAMor664DBtM3PnSjRJPmWSsVecB7KYumB34BmL6MCWggJvknNrXHkBtiJgF
+ 5XXPNs79XA/c+zxmAoeofH2lws2uPl2kLuovaWC+YIlWomR1P2gN0x58kv6teiHqgK
+ CexFruPyHZ/W1PAiBMf7tilp97SE7FAZDBunFOggg4rKh2VQdUExgXIihzZ++fOusJ
+ LzWk9gICSQJuw==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, robh@kernel.org, steven.price@arm.com
+Subject: [PATCH v4 0/6] Add fdinfo support to Panfrost
+Date: Tue, 12 Sep 2023 09:36:54 +0100
+Message-ID: <20230912084044.955864-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Content-Language: en-US
-To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "robh@kernel.org" <robh@kernel.org>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-9-yong.wu@mediatek.com>
- <20230911154448.GA1279317-robh@kernel.org>
- <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,98 +54,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "jstultz@google.com" <jstultz@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, adrian.larumbe@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ healych@amazon.com, kernel@collabora.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/09/2023 08:16, Yong Wu (吴勇) wrote:
-> Hi Rob,
-> 
-> Thanks for your review.
-> 
-> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
->>> This adds the binding for describing a CMA memory for MediaTek
->> SVP(Secure
->>> Video Path).
->>
->> CMA is a Linux thing. How is this related to CMA?
-> 
->>>
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> ---
->>>  .../mediatek,secure_cma_chunkmem.yaml         | 42
->> +++++++++++++++++++
->>>  1 file changed, 42 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/reserved-
->> memory/mediatek,secure_cma_chunkmem.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/reserved-
->> memory/mediatek,secure_cma_chunkmem.yaml
->> b/Documentation/devicetree/bindings/reserved-
->> memory/mediatek,secure_cma_chunkmem.yaml
->>> new file mode 100644
->>> index 000000000000..cc10e00d35c4
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/reserved-
->> memory/mediatek,secure_cma_chunkmem.yaml
->>> @@ -0,0 +1,42 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: 
->> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: MediaTek Secure Video Path Reserved Memory
->>
->> What makes this specific to Mediatek? Secure video path is fairly 
->> common, right?
-> 
-> Here we just reserve a buffer and would like to create a dma-buf secure
-> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
-> secure buffer through it.
->  
-> But the heap driver is pure SW driver, it is not platform device and
+This patch series adds fdinfo support to the Panfrost DRM driver. It will
+display a series of key:value pairs under /proc/pid/fdinfo/fd for render
+processes that open the Panfrost DRM file.
 
-All drivers are pure SW.
+The pairs contain basic drm gpu engine and memory region information that
+can either be cat by a privileged user or accessed with IGT's gputop
+utility.
 
-> we don't have a corresponding HW unit for it. Thus I don't think I
-> could create a platform dtsi node and use "memory-region" pointer to
-> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in 
-> [9/9]). Sorry if this is not right.
+Changelog:
 
-If this is not for any hardware and you already understand this (since
-you cannot use other bindings) then you cannot have custom bindings for
-it either.
+v1: https://lore.kernel.org/lkml/bb52b872-e41b-3894-285e-b52cfc849782@arm.com/T/
 
-> 
-> Then in our usage case, is there some similar method to do this? or
-> any other suggestion?
+v2: https://lore.kernel.org/lkml/20230901084457.5bc1ad69@collabora.com/T/
+ - Changed the way gpu cycles and engine time are calculated, using GPU
+ registers and taking into account potential resets.
+ - Split render engine values into fragment and vertex/tiler ones.
+ - Added more fine-grained calculation of RSS size for BO's.
+ - Implemente selection of drm-memory region size units
+ - Removed locking of shrinker's mutex in GEM obj status function
 
-Don't stuff software into DTS.
+v3: https://lore.kernel.org/lkml/20230905184533.959171-1-adrian.larumbe@collabora.com/
+ - Changed fdinfo engine names to something more descriptive
+ - Mentioned GPU cycle counts aren't an exact measure
+ - Handled the case when job->priv might be NULL
+ - Handled 32 bit overflow of cycle register
+ - Kept fdinfo drm memory stats size unit display within 10k times the
+   previous multiplier for more accurate BO size numbers
+ - Removed special handling of Prime imported BO RSS
+ - Use rss_size only for heap objects
+ - Use bo->base.madv instead of specific purgeable flag
+ - Fixed kernel test robot warnings
 
-Best regards,
-Krzysztof
+v4:
+ - Move cycle counter get and put to panfrost_job_hw_submit and
+   panfrost_job_handle_{err,done} for more accuracy
+ - Make sure cycle counter refs are released in reset path
+ - Drop the model param for toggling cycle counting and do
+   leave it down to the debugfs file
+ - Don't disable cycle counter when togglint debugfs file,
+   let refcounting logic handle it instead.
+ - Remove fdinfo data nested structure definion and 'names' field
+ - When incrementing BO RSS size in GPU MMU page fault IRQ handler, assume
+  granuality of 2MiB for every successful mapping.
+ - drm-file picks an fdinfo memory object size unit that doesn't lose precision.
+
+Adrián Larumbe (6):
+  drm/panfrost: Add cycle count GPU register definitions
+  drm/panfrost: Add fdinfo support GPU load metrics
+  drm/panfrost: Add fdinfo support for memory stats
+  drm/drm_file: Add DRM obj's RSS reporting function for fdinfo
+  drm/panfrost: Implement generic DRM object RSS reporting function
+  drm/drm-file: Show finer-grained BO sizes in drm_show_memory_stats
+
+ drivers/gpu/drm/drm_file.c                  |  7 ++-
+ drivers/gpu/drm/panfrost/Makefile           |  2 +
+ drivers/gpu/drm/panfrost/panfrost_debugfs.c | 20 +++++++
+ drivers/gpu/drm/panfrost/panfrost_debugfs.h | 13 +++++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c |  8 +++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h |  3 ++
+ drivers/gpu/drm/panfrost/panfrost_device.c  |  2 +
+ drivers/gpu/drm/panfrost/panfrost_device.h  | 13 +++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c     | 59 ++++++++++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c     | 29 ++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h     |  5 ++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c     | 41 ++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.h     |  6 +++
+ drivers/gpu/drm/panfrost/panfrost_job.c     | 39 ++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_job.h     |  5 ++
+ drivers/gpu/drm/panfrost/panfrost_mmu.c     |  1 +
+ drivers/gpu/drm/panfrost/panfrost_regs.h    |  5 ++
+ include/drm/drm_gem.h                       |  9 ++++
+ 18 files changed, 264 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+
+
+base-commit: f45acf7acf75921c0409d452f0165f51a19a74fd
+-- 
+2.42.0
 
