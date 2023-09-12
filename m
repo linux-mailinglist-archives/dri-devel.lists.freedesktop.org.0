@@ -1,55 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B9979C87B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:47:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C11879C885
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F2210E3A4;
-	Tue, 12 Sep 2023 07:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8650E10E042;
+	Tue, 12 Sep 2023 07:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8898C10E3A1;
- Tue, 12 Sep 2023 07:47:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694504836; x=1726040836;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=8EXQG8egyIX1ymK9v/zGLmxWtHpBO73t/7Ai9GgfNWA=;
- b=LvcTHqkgTF8per1wwTRdNudXt/67+XLMywAC7rDAg+5s4B0C43Fe7Jrm
- 8Pu7oDAI3lw3kl9E+umXNT62dCgCv4T3IKMLxM9eG5qTfproYG7GlKP2B
- WTxaIyd1Qo1GCAQK2S7YKUoRpthXtRqcvxdXjKA+uIThYWftC/yFPadOx
- 6YsipvIW6C5D8RytfkcH4OrEG/IGV0dyQqVoTqsEr/9c4i8ka/h7xmIBW
- OmL/R23J7WouUV0wbk+/O6zdv/zYxYzdn3UAiifRb6Mi2ZjJEoIRNShYv
- Bk/BMoaSmVB9jCv00EQ0HMLjng9rXS8fB8QG2sOpq0il3nhx6+M05iRVV A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="444742244"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="444742244"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 00:47:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746776228"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; d="scan'208";a="746776228"
-Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.206])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 00:47:13 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: Tree for Sep 11
- (drivers/gpu/drm/i915/display/intel_backlight.o)
-In-Reply-To: <eac933bb-eb6d-8b21-422a-b8c6255facc3@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230911121131.006d3fec@canb.auug.org.au>
- <eac933bb-eb6d-8b21-422a-b8c6255facc3@infradead.org>
-Date: Tue, 12 Sep 2023 10:47:11 +0300
-Message-ID: <87a5tresu8.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3B910E042
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694504895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a+gOdhSF4o6EKWTmDRFivLfAyb8HdVlHUDHb0/rf+sI=;
+ b=KgkfLUx94QzaNBsfcppC4x86m8MctgxA8Y2Gct7irNGLloaHcT94PGCMS3qWNqyXtqAnlk
+ PV77Tt5i3aTSI66s9Vsr/r/WRC++m7qb82zx9XC22a67hB9rkzerfWW0+pC7p1dpKuT9TB
+ hsNdBv9hNr257Qxp+ddvaBohrD0e/V0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-209-wPkoVSMEMyC2tQUHVrAnPw-1; Tue, 12 Sep 2023 03:48:11 -0400
+X-MC-Unique: wPkoVSMEMyC2tQUHVrAnPw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-401c4f03b00so42199205e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:48:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694504890; x=1695109690;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2B0WC8PzLNLdGRasGQ/ag9W7qGL3oBFmynvW1yiJ2zE=;
+ b=VvIWjnuXUQoEzmWWorqNGS9V08BNIMg8cgSnlVZXH1pIi+Iu+MoHTmKDGgmGhMM2Oa
+ P/uEJRuMzWktcCZV5q+nX5HPhjsa1w+Xf3NEvoEpLi1TEsVGDcAnR10D5s6h1asBZ4qt
+ KXroU0rL3um4mMw+VLoT+90Tjr6338Og04htK9WwQXRJcWrXQp/TjLAZMZWjua0K3aWp
+ rxCRZY0VALIMx/WreW/tjyblq5P9TKC7BUNslyO914YHKQcCgRs4KBwkL7BZ0atJhKdP
+ oOeFAxw2E/nbDkTAkgxkB+Hec06BreF9vH2NDuTZQp3uOwdN4xI/xqcLnbQX6uq16Gkf
+ iBfg==
+X-Gm-Message-State: AOJu0Yyr7v6Y8XVS2jP4DACFxaazAFIuHhDymc+4RmLnQdAW4tU3AlyS
+ TX+CcWLYKD7nb8NlNuMUnK9496Ut67MAd73WyTQ3P3QJP3bFtXz2F7w0awOEJn0FDGLOfyNlQUG
+ S/O0Tx6m42C5EuNjzTpximtx4zpTu
+X-Received: by 2002:a1c:7508:0:b0:3fe:1f93:8cf4 with SMTP id
+ o8-20020a1c7508000000b003fe1f938cf4mr9447290wmc.8.1694504890542; 
+ Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF+rSaX2GVdThWkFlifttXlbzNXae8MOoKXkiRAt9ShgN0wMc6R6A+/mp5KLadFPQ6BmDhQJQ==
+X-Received: by 2002:a1c:7508:0:b0:3fe:1f93:8cf4 with SMTP id
+ o8-20020a1c7508000000b003fe1f938cf4mr9447271wmc.8.1694504890238; 
+ Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g17-20020a7bc4d1000000b003fc02e8ea68sm15255183wmk.13.2023.09.12.00.48.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
+In-Reply-To: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+References: <20230911205338.2385278-1-arnd@kernel.org>
+ <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+Date: Tue, 12 Sep 2023 09:48:09 +0200
+Message-ID: <87a5tr3k92.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +83,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Sep 2023, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 9/10/23 19:11, Stephen Rothwell wrote:
->> Hi all,
->> 
->> Please do *not* include material destined for v6.7 in your linux-next
->> included branches until *after* v6.6-rc1 has been released.  Also,
->> do *not* rebase your linu-next included branches onto v6.5.
->> 
->> Changes since 20230908:
->> 
->> Non-merge commits (relative to Linus' tree): 643
->>  614 files changed, 227990 insertions(+), 9502 deletions(-)
->> 
->> ----------------------------------------------------------------------------
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
+
+Hello Geert,
+
+> Hi Arnd,
 >
-> on x86_64:
+> On Mon, Sep 11, 2023 at 10:53=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> =
+wrote:
+
+[...]
+
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -135,7 +135,7 @@ config DRM_FBDEV_EMULATION
+>>         bool "Enable legacy fbdev support for your modesetting driver"
+>>         depends on DRM
+>>         select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+>> -       default y
+>> +       default FB
 >
-> # CONFIG_ACPI is not set
-> CONFIG_DRM_I915=y
-> CONFIG_BACKLIGHT_CLASS_DEVICE=m
+> While this is true for existing configs, it is no longer true in general,
+> as DRM_FBDEV_EMULATION is no longer related to FB.
 >
-> I915 selects BACKLIGHT_CLASS_DEVICE if ACPI is set.
+
+Maybe default y if (FB_DEVICE || FRAMEBUFFER_CONSOLE) ?
+
+>>         help
+>>           Choose this option if you have a need for the legacy fbdev
+>>           support. Note that this support also provides the linux consol=
+e
+>> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconf=
+ig
+>> index b575cf54174af..83c2d7329ca58 100644
+>> --- a/drivers/video/console/Kconfig
+>> +++ b/drivers/video/console/Kconfig
+>> @@ -74,6 +74,7 @@ config DUMMY_CONSOLE_ROWS
+>>  config FRAMEBUFFER_CONSOLE
+>>         bool "Framebuffer Console support"
+>>         depends on FB_CORE && !UML
+>> +       default DRM_FBDEV_EMULATION
 >
-> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_backlight_device_register':
-> intel_backlight.c:(.text+0x4988): undefined reference to `backlight_device_get_by_name'
-> ld: intel_backlight.c:(.text+0x4a1b): undefined reference to `backlight_device_register'
-> ld: drivers/gpu/drm/i915/display/intel_backlight.o: in function `intel_backlight_device_unregister':
-> intel_backlight.c:(.text+0x4b56): undefined reference to `backlight_device_unregister'
+> Sounds good to me, although it looks a bit strange at first sight
+> (FRAMEBUFFER_CONSOLE defaults to n on a system with real fbdev, but
+> y on emulated fbdev?).
 
-This comes up periodically. The fix is for i915 to depend on backlight,
-but it's not possible to fix just i915, as it'll lead to circular deps
-unless *all* select backlight is switched to depend on backlight.
+And there Maybe default y if (FB || DRM_FBDEV_EMULATION) ?
 
-I've gone through it once [1], and not keen on doing it again unless
-there's buy-in.
+> So this is the fix for commit a5ae331edb02b ("drm: Drop select
+> FRAMEBUFFER_CONSOLE for DRM_FBDEV_EMULATION").
+>
+>>         select VT_HW_CONSOLE_BINDING
+>>         select CRC32
+>>         select FONT_SUPPORT
+>> diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core=
+/Kconfig
+>> index 114cb8aa6c8fd..804c2bec9b43c 100644
+>> --- a/drivers/video/fbdev/core/Kconfig
+>> +++ b/drivers/video/fbdev/core/Kconfig
+>> @@ -28,7 +28,7 @@ config FIRMWARE_EDID
+>>  config FB_DEVICE
+>>         bool "Provide legacy /dev/fb* device"
+>>         depends on FB_CORE
+>> -       default y
+>> +       default FB
+>
+> Changing this means possibly causing regressions on systems running
+> an fbdev userspace.
+>
 
-IS_REACHABLE() is often suggested as a workaround, but I think it's just
-plain wrong. i915=y backlight=m is not a configuration that makes
-sense. Kernel configuration is hard enough, there's no point in allowing
-dumb configs that just silently don't work.
+Right, specially if using DRM fbdev emulation since then the default will
+be different between v6.5 and v6.6 (that's what this patch tries to avoid).
 
+So probably we could keept that default as 'y'.
 
-BR,
-Jani.
+--=20
+Best regards,
 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-[1] https://lore.kernel.org/r/1413580403-16225-1-git-send-email-jani.nikula@intel.com
-
-
-
--- 
-Jani Nikula, Intel
