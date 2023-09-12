@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FBB79CF3C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBA479CF40
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF08510E333;
-	Tue, 12 Sep 2023 11:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAB410E228;
+	Tue, 12 Sep 2023 11:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7BD10E333;
- Tue, 12 Sep 2023 11:06:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEEB10E3F2;
+ Tue, 12 Sep 2023 11:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516816; x=1726052816;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=bIbLlDrgxNpvGUCjTaKU/P5D0cTKomAXb3VJtL5p9e8=;
- b=JmZD74yeUqi2GMv3R9Kb4t+l4ISirLxiALnVCkAlK6cIJ2DcnksoLSdM
- sv1OHiG4qBdxCGSD0v2qv6uXMlwv++abueaEyuhY1et/l/xwIKoSLr20H
- s//0IBSBOrTFTiTvmq0DGzTaGpOJqMJYXgIaZ2THorSWsSJYBn056XT9n
- NAXNlQOzpyjUNCEVapHxEc4FFRx96U8EPQwnrjSeinUkpmd86SnxQFgXa
- SmC+ev81Yf6trCnw2J+8SupLyTEk2oRsOM6pcIeVfbM/xO4pmw9W+lSp2
- BTdI2+xKN2Lv+4UxFcf4xB2M4BxQDeMF0Q4hmFpghRHI3DV2nvlMg9ynv A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381042219"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="381042219"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:06:55 -0700
+ t=1694516822; x=1726052822;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=9UwxnqW0C6GtgncGriJ6DzgdXK71g3AJKZpFxXsvPeo=;
+ b=KPLpAGHsncp9Bpz87LMO0kEJ77nWOvjzXK80E8cF0Vl/qC99RFW+heXl
+ SbdazgRukRbxqJ2XUood953RVwqAoALnvCP5Er9kP2jhRjszwj8iwmXDF
+ zzRwYh8BxnrjTyxe5sc1Bv6KZQ5Jo6t1fuh2tG9/NBgJcU79tbEq3u88U
+ PkGoW2QJ/iQ3eDrI6ZOlzMrOJfQpCJ3dPJ32BzfLFhsbSu48usJPyvjmt
+ I6f1noKDz8YelJw4+KvLa/5HjNV2yITqsnBDSI1OBDAFn1kxSemwe4Pc2
+ PLZq1rLksq/vXlq5qOrh8ZWhNTVkjQ2tkcupHifngPqxTWF9saJ8eexM2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409295293"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="409295293"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:07:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="833871050"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="833871050"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743688002"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743688002"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:06:52 -0700
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:06:58 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/19] drm/i915: prepare for xe driver display integration
-Date: Tue, 12 Sep 2023 14:06:27 +0300
-Message-Id: <cover.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 01/19] drm/i915: define I915 during i915 driver build
+Date: Tue, 12 Sep 2023 14:06:28 +0300
+Message-Id: <97558201836115b91cbe32840239df855d0c2e4c.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
+References: <cover.1694514689.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
@@ -63,28 +65,9 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The upcoming drm/xe driver [1][2] will reuse the drm/i915 display code,
-initially by compiling the relevant compilation units separately as part
-of the xe driver. This series prepares for that in i915 side.
-
-The first patch defines I915 during the i915 driver build, to allow
-conditional compilation based on the driver the code is being built for.
-
-The rest of the patches add stubs for functions in files that aren't
-used in xe. The idea is that this is the least intrusive way of skipping
-that code in xe, and is quite similar to the common kconfig stubs.
-
-While this is arguably unused code for the time being, or only used in
-an out-of-tree driver yet to be upstreamed, the upstreaming has to start
-somewhere.
-
-
-BR,
-Jani.
-
-
-[1] https://gitlab.freedesktop.org/drm/xe/kernel/-/tree/drm-xe-next
-[2] https://patchwork.freedesktop.org/series/112188/
+The xe driver will reuse i915 display code by compiling it separately as
+part of xe. We'll want to be able to distinguish between building the
+i915 display code for i915 and xe. Define I915 when building i915.
 
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
@@ -92,49 +75,26 @@ Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/i915/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Jani Nikula (19):
-  drm/i915: define I915 during i915 driver build
-  drm/i915/display: add I915 conditional build to intel_lvds.h
-  drm/i915/display: add I915 conditional build to hsw_ips.h
-  drm/i915/display: add I915 conditional build to i9xx_plane.h
-  drm/i915/display: add I915 conditional build to intel_lpe_audio.h
-  drm/i915/display: add I915 conditional build to intel_pch_refclk.h
-  drm/i915/display: add I915 conditional build to intel_pch_display.h
-  drm/i915/display: add I915 conditional build to intel_sprite.h
-  drm/i915/display: add I915 conditional build to intel_overlay.h
-  drm/i915/display: add I915 conditional build to g4x_dp.h
-  drm/i915/display: add I915 conditional build to intel_dpio_phy.h
-  drm/i915/display: add I915 conditional build to intel_crt.h
-  drm/i915/display: add I915 conditional build to vlv_dsi.h
-  drm/i915/display: add I915 conditional build to i9xx_wm.h
-  drm/i915/display: add I915 conditional build to g4x_hdmi.h
-  drm/i915/display: add I915 conditional build to intel_dvo.h
-  drm/i915/display: add I915 conditional build to intel_sdvo.h
-  drm/i915/display: add I915 conditional build to intel_tv.h
-  drm/i915/display: add I915 conditional build to vlv_dsi_pll.h
-
- drivers/gpu/drm/i915/Makefile                 |  4 +
- drivers/gpu/drm/i915/display/g4x_dp.h         | 26 +++++
- drivers/gpu/drm/i915/display/g4x_hdmi.h       | 12 +++
- drivers/gpu/drm/i915/display/hsw_ips.h        | 35 +++++++
- drivers/gpu/drm/i915/display/i9xx_plane.h     | 23 +++++
- drivers/gpu/drm/i915/display/i9xx_wm.h        | 17 ++++
- drivers/gpu/drm/i915/display/intel_crt.h      | 14 +++
- drivers/gpu/drm/i915/display/intel_dpio_phy.h | 96 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dvo.h      |  6 ++
- .../gpu/drm/i915/display/intel_lpe_audio.h    | 18 ++++
- drivers/gpu/drm/i915/display/intel_lvds.h     | 19 ++++
- drivers/gpu/drm/i915/display/intel_overlay.h  | 35 +++++++
- .../gpu/drm/i915/display/intel_pch_display.h  | 53 ++++++++++
- .../gpu/drm/i915/display/intel_pch_refclk.h   | 23 +++++
- drivers/gpu/drm/i915/display/intel_sdvo.h     | 13 +++
- drivers/gpu/drm/i915/display/intel_sprite.h   |  8 ++
- drivers/gpu/drm/i915/display/intel_tv.h       |  6 ++
- drivers/gpu/drm/i915/display/vlv_dsi.h        | 13 +++
- drivers/gpu/drm/i915/display/vlv_dsi_pll.h    |  9 ++
- 19 files changed, 430 insertions(+)
-
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 1b2e02e9d92c..fa6aa71bb749 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -28,6 +28,10 @@ CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
+ CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
+ CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+ 
++# Support compiling the display code separately for both i915 and xe
++# drivers. Define I915 when building i915.
++subdir-ccflags-y += -DI915
++
+ subdir-ccflags-y += -I$(srctree)/$(src)
+ 
+ # Please keep these build lists sorted!
 -- 
 2.39.2
 
