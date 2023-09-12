@@ -1,81 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2D279D356
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 16:11:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF5279D358
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 16:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F163510E41D;
-	Tue, 12 Sep 2023 14:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E64710E419;
+	Tue, 12 Sep 2023 14:12:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D00E10E231
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 14:10:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694527857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fGygXMZ0CxK1GMoHpcDJP1piG4w47n5YQAFaxGYygjk=;
- b=FMICTQSCce8jDZB+IHjCJF0m5fuul6VaBc0zCcatehhoejKl3m+TfiDDgPT6/zeMhZYJYY
- 903pKKhndmdoK/ruv/nRIri0MaaGQYJTUMSck/5fgtZVWcuATmuSIM3bPYNeSm5ANFF6d9
- YZ5Ck1pFwIVcJPr6j2Jb60guoq+9A8M=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-580-y7_iMBA6MHmpfWTKvtz7cQ-1; Tue, 12 Sep 2023 10:10:54 -0400
-X-MC-Unique: y7_iMBA6MHmpfWTKvtz7cQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-997c891a88dso384301166b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:10:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694527853; x=1695132653;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fGygXMZ0CxK1GMoHpcDJP1piG4w47n5YQAFaxGYygjk=;
- b=RwMCrStcanqfIWZigBx72jfRUe0KHhbgmx03kVoq7qvBN6PY0KA5BHaN4sWIfZ4X4Q
- eh78sFtWzYo5ZVGy2D3jEBv3RF09DUWGl2diX8i7HI6RsC9yDjaMy459QvBZsD9K8vZ7
- y5RqPxA24hMnSW3CY83V9pxFW5gpwnRaq1IM4vrKsiNykjiJSOXaVKXe2LCuLTI6+01B
- 1rR53IiWNnzuFq8y+AHDRGSnesInNDoi5FZydbfy7aoMIqh5PzBvGy9WkKC2KC4TnXxu
- TA8ALDMnEQvVFZSXRn2o0NQkTIRIW26t7qTE9Dd8Vq+h1lwdZbCPO8v6Okv/wW59kFqE
- NtdQ==
-X-Gm-Message-State: AOJu0YyAIVYLZ/QqqpkosqCafMHC+SHMAFfKxrWZgeEHl2Vd96XqlRDO
- e9SJpikpMplegZ2bY/3Skc9jkJo4ZYOCzMZ6vVTSUUU7VCXAd2nWRv1Lti9RQCkz7dNRiXD+llO
- N5J4y3r+ZnL5iZOrvA/Aa43ihHDa/
-X-Received: by 2002:a17:906:319a:b0:9a6:1446:852c with SMTP id
- 26-20020a170906319a00b009a61446852cmr11517946ejy.27.1694527852879; 
- Tue, 12 Sep 2023 07:10:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnY2Ni+tX9cLqUC8Iyp0BhQPyyvk/hZDaQthkddlN49F+jE8zDuZ85SMs1BzZng2XsB9E/dA==
-X-Received: by 2002:a17:906:319a:b0:9a6:1446:852c with SMTP id
- 26-20020a170906319a00b009a61446852cmr11517905ejy.27.1694527852451; 
- Tue, 12 Sep 2023 07:10:52 -0700 (PDT)
-Received: from pollux ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a170906118c00b009a5f1d15642sm6898169eja.158.2023.09.12.07.10.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 07:10:52 -0700 (PDT)
-Date: Tue, 12 Sep 2023 16:10:49 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
-Message-ID: <ZQBxaSZFT1oj9HeB@pollux>
-References: <ZOfh6o2EaGuIqZVe@pollux>
- <ZOgYu1fZQUHeneJC@DUT025-TGLU.fm.intel.com>
- <6ae84066-b690-1562-0598-4694b022c960@amd.com>
- <ZOiuWcFDImBvJtnO@DUT025-TGLU.fm.intel.com>
- <ee56b9ee-36c7-5935-c319-c8d1ad412c7c@amd.com>
- <20230912121357.4cc10dec@collabora.com> <ZQBBgsrohAqIAppA@pollux>
- <20230912141818.10827d1d@collabora.com> <ZQBf5vFhRGrNBINj@pollux>
- <20230912155228.6ee83d62@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A77F10E419;
+ Tue, 12 Sep 2023 14:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694527932; x=1726063932;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wbRiBFZ4+dx/HV/xU4htIqQ3xk7BwZ0yVTxG47NP2co=;
+ b=hDOLjvygOdSrlNkV1RgGQORv8gc6XTlqP0uUU6slIl4qdPbM2uq5P4E1
+ WUgnq/MLZgVQ3qI8Gl+1KQBtOrZORbPwyP00y9fiSlyD89C9y4e2awhvv
+ cR/1Yd8Vnkfqjwh/wvoxfWVkbOGsMb4Uhd2ARYaKEmZ5AMHgp7Vg6OV1I
+ R/QtqwEAUcf9srEK4LMoUdJ3TcLsowSvdJoR/JaM5y8HkWF+nMRo0BG4u
+ eOSVSYIxwBQaY5XYKwQ2W+qkIdIGiCw+UUpkVUqI21x+wUjyXUDWxhcMn
+ 6HwPghp6vv+c7NkpVR47zuvk4gttvOgd/ilk7SygSTF0IOIDGHclczGiR g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375715163"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="375715163"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 07:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="809276394"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="809276394"
+Received: from lkp-server02.sh.intel.com (HELO 0a6943a0b3e1) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 12 Sep 2023 07:12:05 -0700
+Received: from kbuild by 0a6943a0b3e1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qg47V-00003L-2y;
+ Tue, 12 Sep 2023 14:12:01 +0000
+Date: Tue, 12 Sep 2023 22:11:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler /
+ entity
+Message-ID: <202309122100.HAEi8ytJ-lkp@intel.com>
+References: <20230912021615.2086698-4-matthew.brost@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20230912155228.6ee83d62@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230912021615.2086698-4-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,210 +61,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
- sarah.walker@imgtec.com, thomas.hellstrom@linux.intel.com,
- ketil.johnsen@arm.com, lina@asahilina.net, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- luben.tuikov@amd.com, donald.robson@imgtec.com, intel-xe@lists.freedesktop.org,
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com, mcanal@igalia.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ llvm@lists.linux.dev, Liviu.Dudau@arm.com, oe-kbuild-all@lists.linux.dev,
+ luben.tuikov@amd.com, boris.brezillon@collabora.com, donald.robson@imgtec.com,
+ Matthew Brost <matthew.brost@intel.com>, christian.koenig@amd.com,
  faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 12, 2023 at 03:52:28PM +0200, Boris Brezillon wrote:
-> On Tue, 12 Sep 2023 14:56:06 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
-> > On Tue, Sep 12, 2023 at 02:18:18PM +0200, Boris Brezillon wrote:
-> > > On Tue, 12 Sep 2023 12:46:26 +0200
-> > > Danilo Krummrich <dakr@redhat.com> wrote:
-> > >   
-> > > > > I'm a bit worried that leaving this single vs multi-threaded wq
-> > > > > decision to drivers is going to cause unnecessary pain, because what
-> > > > > was previously a granted in term of run/cleanup execution order (thanks
-> > > > > to the kthread+static-drm_sched_main-workflow approach) is now subject
-> > > > > to the wq ordering guarantees, which depend on the wq type picked by
-> > > > > the driver.    
-> > > > 
-> > > > Not sure if this ends up to be much different. The only thing I could think of
-> > > > is that IIRC with the kthread implementation cleanup was always preferred over
-> > > > run.  
-> > > 
-> > > Given the sequence in drm_sched_main(), I'd say that cleanup and run
-> > > operations are naturally interleaved when both are available, but I
-> > > might be wrong.  
-> > 
-> > From drm_sched_main():
-> > 
-> > 	wait_event_interruptible(sched->wake_up_worker,
-> > 				 (cleanup_job = drm_sched_get_cleanup_job(sched)) ||
-> > 				 (!drm_sched_blocked(sched) &&
-> > 				  (entity = drm_sched_select_entity(sched))) ||
-> > 				 kthread_should_stop());
-> > 
-> > 	if (cleanup_job)
-> > 		sched->ops->free_job(cleanup_job);
-> > 
-> > 	if (!entity)
-> > 		continue;
-> > 
-> > If cleanup_job is not NULL the rest shouldn't be evaluated I guess. Hence entity
-> > would be NULL and we'd loop until there are no more cleanup_jobs if I don't miss
-> > anything here.
-> 
-> Indeed, I got tricked by the wait_event() expression.
-> 
-> > 
-> > >   
-> > > > With a single threaded wq this should be a bit more balanced.  
-> > > 
-> > > With a single threaded wq, it's less clear, because each work
-> > > reschedules itself for further processing, but it's likely to be more
-> > > or less interleaved. Anyway, I'm not too worried about cleanup taking
-> > > precedence on run or the other way around, because the limited amount
-> > > of HW slots (size of the ring-buffer) will regulate that.  
-> > 
-> > Yeah, that's what I meant, with to work items rescheduling themselves it starts
-> > to be interleaved. Which I'm not worried about as well.
-> > 
-> > >   
-> > > > 
-> > > > With a multi-threaded wq it's still the same, but run and cleanup can run
-> > > > concurrently,  
-> > > 
-> > > What I'm worried about is that ^. I'm not saying it's fundamentally
-> > > unsafe, but I'm saying drm_sched hasn't been designed with this
-> > > concurrency in mind, and I fear we'll face subtle bugs if we go from
-> > > kthread to multi-threaded-wq+run-and-cleanup-split-in-2-work-items.
-> > >   
-> > 
-> > Yeah, so what we get with that is that job_run() of job A and job_free() of job
-> > B can run in parallel. Unless drivers do weird things there, I'm not seeing an
-> > issue with that as well at a first glance.
-> 
-> I might be wrong of course, but I'm pretty sure the timestamp race you
-> reported is indirectly coming from this ST -> MT transition. Again, I'm
-> not saying we should never use an MT wq, but it feels a bit premature,
-> and I think I'd prefer if we do it in 2 steps to minimize the amount of
-> things that could go wrong, and avoid a late revert.
+Hi Matthew,
 
-Indirectly, yes. I would agree with using an internal single threaded workqueue
-by default although I'm a bit more optimistic about that. Howver, I'd still like
-the driver to choose. Otherwise, in Nouveau I'd need to keep queueing work in
-free_job() to another workqueue, which isn't very nice.
+kernel test robot noticed the following build errors:
 
-> 
-> > 
-> > > > which has the nice side effect that free_job() gets out of the
-> > > > fence signaling path. At least as long as the workqueue has max_active > 1.  
-> > > 
-> > > Oh, yeah, I don't deny using a multi-threaded workqueue has some
-> > > benefits, just saying it might be trickier than it sounds.
-> > >   
-> > > > Which is one reason why I'm using a multi-threaded wq in Nouveau.  
-> > > 
-> > > Note that I'm using a multi-threaded workqueue internally at the moment
-> > > to deal with all sort of interactions with the FW (Mali HW only has a
-> > > limited amount of scheduling slots, and we need to rotate entities
-> > > having jobs to execute so every one gets a chance to run on the GPU),
-> > > but this has been designed this way from the ground up, unlike
-> > > drm_sched_main() operations, which were mostly thought as a fixed
-> > > sequential set of operations. That's not to say it's impossible to get
-> > > right, but I fear we'll face weird/unexpected behavior if we go from
-> > > completely-serialized to multi-threaded-with-pseudo-random-processing
-> > > order.  
-> > 
-> > From a per job perspective it's still all sequential and besides fence
-> > dependencies,
-> 
-> Sure, per job ops are still sequential (run, then cleanup once parent
-> fence is signalled).
-> 
-> > which are still resolved, I don't see where jobs could have cross
-> > dependencies that make this racy. But agree that it's probably worth to think
-> > through it a bit more.
-> > 
-> > >   
-> > > > 
-> > > > That latter seems a bit subtile, we probably need to document this aspect of
-> > > > under which conditions free_job() is or is not within the fence signaling path.  
-> > > 
-> > > Well, I'm not even sure it can be clearly defined when the driver is
-> > > using the submit_wq for its own work items (which can be done since we
-> > > pass an optional submit_wq when calling drm_sched_init()). Sure, having
-> > > max_active >= 2 should be enough to guarantee that the free_job work
-> > > won't block the run_job one when these are the 2 only works being
-> > > queued, but what if you have many other work items being queued by the
-> > > driver to this wq, and some of those try to acquire resv locks? Could
-> > > this prevent execution of the run_job() callback, thus preventing
-> > > signaling of fences? I'm genuinely asking, don't know enough about the
-> > > cmwq implementation to tell what's happening when work items are
-> > > blocked (might be that the worker pool is extended to unblock the
-> > > situation).  
-> > 
-> > Yes, I think so. If max_active would be 2 and you have two jobs running on this
-> > workqueue already waiting on allocations then the 3rd job signaling the fence
-> > the allocation is blocked by would be stuck and we'd have a deadlock I guess.
-> > 
-> > But that's where I start to see the driver being responsible not to pass a
-> > workqueue to the driver where it queues up other work, either at all, or that
-> > interferes with fence signaling paths.
-> > 
-> > So, I guess the message here would be something like: free_job() must be
-> > considered to be in the fence signaling path, unless the submit_wq is a
-> > multi-threaded workqueue with max_active > 1 *dedicated* to the DRM scheduler.
-> 
-> If it's meant to be dedicated to the drm scheduler, is there any point
-> passing a custom submit_wq? I mean, we could start with a dedicated
-> ordered-wq created by the core to replace the kthread, and then, once
-> enough testing has been done to make sure things work correctly in a MT
-> env, switch everyone to a mutithreaded-wq. The fact that we let the
-> caller pass its own workqueue, to then restrict its usage to things
-> directly related to drm_sched is somewhat confusing.
-> 
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6-rc1 next-20230912]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Well, "dedicated to the scheduler" and the other conditions are only related to
-giving a guarantee about free_job() not being in the fence signaling path.
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-drm_sched_submit_-helpers/20230912-102001
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20230912021615.2086698-4-matthew.brost%40intel.com
+patch subject: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler / entity
+config: arm64-randconfig-r032-20230912 (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309122100.HAEi8ytJ-lkp@intel.com/reproduce)
 
-The driver could still just not care about free_job() being in the fence
-signalng path or not.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309122100.HAEi8ytJ-lkp@intel.com/
 
-Also, drivers can also still queue work to the given workqueue as long as it
-does comply with fence signaling critical sections.
+All errors (new ones prefixed by >>):
 
-I'd be absolutey fine leaving this to the driver, as long as we properly
-document it.
+>> drivers/gpu/drm/v3d/v3d_sched.c:403:9: error: use of undeclared identifier 'ULL'
+                                ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+                                ^
+   1 error generated.
 
-It depends on the design goal. If we want to say free_job() is always safe,
-then we need to entirely restrict it.
 
-> > Otherwise it's the drivers full resposibility to make sure it doesn't violate
-> > the rules.
-> 
-> Yeah, that's what I'm worried about tbh. There's so many subtle ways we
-> let DRM drivers shoot themselves in the foot already, using the
-> excuse we want drivers to be in control (for optimization/perf
-> concerns). I'm just not comfortable adding one more way of doing that,
-> especially given drm_sched has been one thread calling multiple hooks
-> sequentially until now, which is essentially what an ordered wq would
-> provide.
-> 
-> > 
-> > > 
-> > > Anyway, documenting when free_job() is in the dma signalling path should
-> > > be doable (single-threaded wq), but at this point, are we not better
-> > > off considering anything called from the submit_wq as being part of the
-> > > dma signalling path, so we can accommodate with both cases. And if
-> > > there is cleanup processing that require taking dma_resv locks, I'd be
-> > > tempted to queue that to a driver-specific wq (which is what I'm doing
-> > > right now), just to be safe.
-> > >   
-> > 
-> > It's not only the dma-resv lock, it's any lock under which allocations may be
-> > performed.
-> 
-> Sure, I was taking the resv lock in example, because that's easy to
-> reason about, but that's indeed any lock being taken while doing
-> allocations that don't have the GFP_{NOWAIT,ATOMIC} flags set.
-> 
+vim +/ULL +403 drivers/gpu/drm/v3d/v3d_sched.c
 
+   381	
+   382	int
+   383	v3d_sched_init(struct v3d_dev *v3d)
+   384	{
+   385		int hw_jobs_limit = 1;
+   386		int job_hang_limit = 0;
+   387		int hang_limit_ms = 500;
+   388		int ret;
+   389	
+   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+   391				     &v3d_bin_sched_ops, NULL,
+   392				     hw_jobs_limit, job_hang_limit,
+   393				     msecs_to_jiffies(hang_limit_ms), NULL,
+   394				     NULL, "v3d_bin", DRM_SCHED_POLICY_DEFAULT,
+   395				     v3d->drm.dev);
+   396		if (ret)
+   397			return ret;
+   398	
+   399		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+   400				     &v3d_render_sched_ops, NULL,
+   401				     hw_jobs_limit, job_hang_limit,
+   402				     msecs_to_jiffies(hang_limit_ms), NULL,
+ > 403				     ULL, "v3d_render", DRM_SCHED_POLICY_DEFAULT,
+   404				     v3d->drm.dev);
+   405		if (ret)
+   406			goto fail;
+   407	
+   408		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
+   409				     &v3d_tfu_sched_ops, NULL,
+   410				     hw_jobs_limit, job_hang_limit,
+   411				     msecs_to_jiffies(hang_limit_ms), NULL,
+   412				     NULL, "v3d_tfu", DRM_SCHED_POLICY_DEFAULT,
+   413				     v3d->drm.dev);
+   414		if (ret)
+   415			goto fail;
+   416	
+   417		if (v3d_has_csd(v3d)) {
+   418			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
+   419					     &v3d_csd_sched_ops, NULL,
+   420					     hw_jobs_limit, job_hang_limit,
+   421					     msecs_to_jiffies(hang_limit_ms), NULL,
+   422					     NULL, "v3d_csd", DRM_SCHED_POLICY_DEFAULT,
+   423					     v3d->drm.dev);
+   424			if (ret)
+   425				goto fail;
+   426	
+   427			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
+   428					     &v3d_cache_clean_sched_ops, NULL,
+   429					     hw_jobs_limit, job_hang_limit,
+   430					     msecs_to_jiffies(hang_limit_ms), NULL,
+   431					     NULL, "v3d_cache_clean",
+   432					     DRM_SCHED_POLICY_DEFAULT, v3d->drm.dev);
+   433			if (ret)
+   434				goto fail;
+   435		}
+   436	
+   437		return 0;
+   438	
+   439	fail:
+   440		v3d_sched_fini(v3d);
+   441		return ret;
+   442	}
+   443	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
