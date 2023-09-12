@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBA479CF40
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:07:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F7F79CF41
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAB410E228;
-	Tue, 12 Sep 2023 11:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDEFD10E3F1;
+	Tue, 12 Sep 2023 11:07:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEEB10E3F2;
- Tue, 12 Sep 2023 11:07:02 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB99D10E3F4;
+ Tue, 12 Sep 2023 11:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516822; x=1726052822;
+ t=1694516825; x=1726052825;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9UwxnqW0C6GtgncGriJ6DzgdXK71g3AJKZpFxXsvPeo=;
- b=KPLpAGHsncp9Bpz87LMO0kEJ77nWOvjzXK80E8cF0Vl/qC99RFW+heXl
- SbdazgRukRbxqJ2XUood953RVwqAoALnvCP5Er9kP2jhRjszwj8iwmXDF
- zzRwYh8BxnrjTyxe5sc1Bv6KZQ5Jo6t1fuh2tG9/NBgJcU79tbEq3u88U
- PkGoW2QJ/iQ3eDrI6ZOlzMrOJfQpCJ3dPJ32BzfLFhsbSu48usJPyvjmt
- I6f1noKDz8YelJw4+KvLa/5HjNV2yITqsnBDSI1OBDAFn1kxSemwe4Pc2
- PLZq1rLksq/vXlq5qOrh8ZWhNTVkjQ2tkcupHifngPqxTWF9saJ8eexM2 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409295293"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="409295293"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:00 -0700
+ bh=6MGfx0GOMz6INcnx6B5Zl0QrJmI8j7xF3zwGm0Ai2CM=;
+ b=YCAYiHEcyPfwUW/8Ebx1ydySfQXynTpyIoKlEIltMKAKTwvYzoZEv3ff
+ tSa7swnYp1AvSywOjqOVlopkciu4/NpxzaWdXNw6jhkSu7r80h1QEkh2c
+ RJTAKIgOuI4d3EsjSLzxmyOuHuUeuqrWWJXqJCerVyh5AN3mj7vn5+0D3
+ 9dxzWrnmacKICWdQU2IVDbJn4gNqAlg3+mbMOnbdCDbmDqo/c490L5tKY
+ ZNI7s9b3Ap0l13HpDxnwHsPnYkH+B/vpVQduPIG+vLPV0FZrzX0Q7SqVA
+ TCVXnoAh0c1p2X/PKN3s3qg45uCETf/iVsOfb+XRdoN3TPVSYnxEKdUuz w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375671314"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="375671314"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:07:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743688002"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743688002"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809200404"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="809200404"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:06:58 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:07:03 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 01/19] drm/i915: define I915 during i915 driver build
-Date: Tue, 12 Sep 2023 14:06:28 +0300
-Message-Id: <97558201836115b91cbe32840239df855d0c2e4c.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 02/19] drm/i915/display: add I915 conditional build to
+ intel_lvds.h
+Date: Tue, 12 Sep 2023 14:06:29 +0300
+Message-Id: <f06a88a69b7e326ff0914baca5e6a0e5f06e1867.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
 References: <cover.1694514689.git.jani.nikula@intel.com>
@@ -59,42 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: jani.nikula@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The xe driver will reuse i915 display code by compiling it separately as
-part of xe. We'll want to be able to distinguish between building the
-i915 display code for i915 and xe. Define I915 when building i915.
+Add stubs for !I915.
 
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/i915/display/intel_lvds.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 1b2e02e9d92c..fa6aa71bb749 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -28,6 +28,10 @@ CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
- CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
- CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+diff --git a/drivers/gpu/drm/i915/display/intel_lvds.h b/drivers/gpu/drm/i915/display/intel_lvds.h
+index 9d3372dc503f..7ad5fa9c0434 100644
+--- a/drivers/gpu/drm/i915/display/intel_lvds.h
++++ b/drivers/gpu/drm/i915/display/intel_lvds.h
+@@ -13,10 +13,29 @@
+ enum pipe;
+ struct drm_i915_private;
  
-+# Support compiling the display code separately for both i915 and xe
-+# drivers. Define I915 when building i915.
-+subdir-ccflags-y += -DI915
-+
- subdir-ccflags-y += -I$(srctree)/$(src)
++#ifdef I915
+ bool intel_lvds_port_enabled(struct drm_i915_private *dev_priv,
+ 			     i915_reg_t lvds_reg, enum pipe *pipe);
+ void intel_lvds_init(struct drm_i915_private *dev_priv);
+ struct intel_encoder *intel_get_lvds_encoder(struct drm_i915_private *dev_priv);
+ bool intel_is_dual_link_lvds(struct drm_i915_private *dev_priv);
++#else
++static inline bool intel_lvds_port_enabled(struct drm_i915_private *dev_priv,
++					   i915_reg_t lvds_reg, enum pipe *pipe)
++{
++	return false;
++}
++static inline void intel_lvds_init(struct drm_i915_private *dev_priv)
++{
++}
++static inline struct intel_encoder *intel_get_lvds_encoder(struct drm_i915_private *dev_priv)
++{
++	return NULL;
++}
++static inline bool intel_is_dual_link_lvds(struct drm_i915_private *dev_priv)
++{
++	return false;
++}
++#endif
  
- # Please keep these build lists sorted!
+ #endif /* __INTEL_LVDS_H__ */
 -- 
 2.39.2
 
