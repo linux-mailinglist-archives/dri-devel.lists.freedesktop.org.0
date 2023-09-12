@@ -1,73 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F7A79D409
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 16:50:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C6079D412
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 16:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9272510E423;
-	Tue, 12 Sep 2023 14:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE1510E424;
+	Tue, 12 Sep 2023 14:52:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D8A10E423
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 14:50:36 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id
- d75a77b69052e-41243a67b62so39066571cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1694530235; x=1695135035;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=24gu3xnStbF9tnpQJ0WbAGs3/nJ8XhTOFkMY3d7yv8A=;
- b=NwM1QMjzJBDCKe38BqLcj4/T8rTzd8ZjebqUvbzOwAvLmrk6/vdq8bT8S4vGJJpzmG
- QuHvfeKEJDtXokUdMSViTIljGxyeYsxk/dtS2mwDaU8mGabvXIbcB9GjK5H0nkXVuyrB
- csRdhKyLyPQIHrI2C2g40dEOfU9+2qUq3eZ+cCTnI+SbCMXBlocxpnb3FWcm1sfdF/Qs
- uopsY0/ADrm/jnd1OHAwhg/q0H7m0O/nh45AO6Eo06YQz1scFKEw3FEkeYdsVHmG//3X
- c7o0vxJ6Eh0BHleWM3hHqcbWKFKzREPYd+UBEdEwwSdvEPoNzbxdmZ3VBgrfq/bb087u
- wl/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694530235; x=1695135035;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=24gu3xnStbF9tnpQJ0WbAGs3/nJ8XhTOFkMY3d7yv8A=;
- b=HduHJeuGh/Qf4kpbVA3kBOZLicP7YhTTru7KA8bWJNg7JRi0Jj6eIMWu6EWoFCUMJC
- 1QIeaMNVArQ8O/WPZhRlGbUW+BA/F1Dj6KQ/ilpsW87RGmlQhiPxDEb3epPUnPbbBaEC
- +2yP3S/IkVCCjNddhsADQNCTQVZVE1vZON3dsrpMwiaZIIRC7ALXjwxxE/3J7x2kSjZp
- qhnsR5VC34Wtl0UGeK48SW5BdCkoPpCK22Q3d0/nyEjbGfNBPsn/bynp6q2gNaHjyfKr
- 1ejssVY84qUdPkEq00KDR3UW9/oLRtr8Glz4WlfFTzIBWOouy0oZ/VS1olySlih9irhG
- z2kg==
-X-Gm-Message-State: AOJu0Yz3Sa3XghLNHRguaBbjfQIbor9FI5DOUDuFyG2iXTPvbCDlhfYL
- MvTBp0xbs/dfLIcRUF0ZNkAMMQ==
-X-Google-Smtp-Source: AGHT+IHIjqtGsqNdxfUolw+Ala7g5YjJUkbLvkQof93NfZ486WisLxIwvrHg6NzE7241vOgooQYo5w==
-X-Received: by 2002:a05:622a:1811:b0:40d:1984:e231 with SMTP id
- t17-20020a05622a181100b0040d1984e231mr16719179qtc.43.1694530235641; 
- Tue, 12 Sep 2023 07:50:35 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
- by smtp.gmail.com with ESMTPSA id
- v12-20020ac8578c000000b0040ff6194ef3sm3352524qta.70.2023.09.12.07.50.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 07:50:35 -0700 (PDT)
-Message-ID: <bbb5af208d08acfb9c7b45283840be8719c4c4e2.camel@ndufresne.ca>
-Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel
- drivers can allocate dmabufs from specific heaps
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Yong Wu
- <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Date: Tue, 12 Sep 2023 10:50:34 -0400
-In-Reply-To: <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-4-yong.wu@mediatek.com>
- <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE40A10E0C5;
+ Tue, 12 Sep 2023 14:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694530346; x=1726066346;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=qOyh8uq/7mBwgXlQWCaFAYAoX64m0KAgUJvPjowAAew=;
+ b=IDIAbEA4Kpaej8nY/WxW6SoYYnIVP1OvriJ/ekMmhVtiYt2xBdLGawcU
+ n57W78OIdtZLoxrhYO0EWuVskeKeih2Wh3oBHpZ3Fn33VHHtuaZZ0ltHO
+ 7B06kACm599k/CwW/FDODkcUf12OgP5qnwTcY7dM0H8FlM9LQcjZqTbvc
+ nwsQkKGXOmBHA7JRy758nBeb/ydV+v8TzwID+jwknUkK0/t54IYtXhjaq
+ w7It+j7HzZqTH7pT2e69Kvm442TxTd4ZdBSJR5eZq32YU9AT+UmmQ9Lu+
+ LWf7nh5fl/kXxc3ACUNY0BbAagk93A2LbNVf7H2ogn+mhOEqW6C9ZqQtC w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="375724875"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="375724875"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 07:52:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="693507083"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="693507083"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 12 Sep 2023 07:52:25 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 12 Sep 2023 07:52:24 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 12 Sep 2023 07:52:24 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 12 Sep 2023 07:52:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VVbKAJyc4FVuqGG/s1YKi5JhbYttdCDpSWTro4XeHxM68gWkAJ4Z8LvlR/20TkCgzSEK9u3msdMA+5szjwDWFPr8A5niGWZiQTVn1W8/RqhgihllBbZC9SwdvdHnDVEXhpy4uLkMWNAiRXFUG3AhF/KA8RRLIaydBjAjevWshXuP+oN1cGUrnjoyZy9lox7iN7ZbLrS9ezwCvQta5oCzpGPYehBPzkZWiKhdjAGHXPc5q3kmKtm6bHmUwD/Z9j/8cOpMjupLPm7YdOLmDsWL5qCImFxe+L4e71TeWc5B3WkSxAZcqQpIaV8cQj7Yn4ZCGYZ7JfBtoT67mE2/4acZgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sk6OjcEK3L15u4hv+JdNPW31vT6wXqUTVLyaeD5hhOQ=;
+ b=ZzdD4goZALcGgJrjK/+znVIqr1ITgf3iQuuI//k8NfeX1i+VERimmvXoDJq4emlIO2SbqCI46Oo7qAtSevLiBAXRpeyWKMdCZAorKdNuCXb2KhZxPeRURjLPd90g1zIiVf7GCG03W77z9pSPkZBeTsvJy4upZpWhdClHrrrR2kYZJTtrudoh+fAWtGycJ++9LSBTxOujs8uLu6vT4G7Ivg1b1bkoBvjzJ/cJqEvDmAfDw1MliZEmDqAQ/D28WLNv8ENqXl0/YMM+9Lg+eoFO82aNSrPYmWiiYHsNyziJKRxMaEp2j8cwBLTTpzBCSnIZtNr610k9NNBjxq1XsF0ZHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA3PR11MB8076.namprd11.prod.outlook.com (2603:10b6:806:2f0::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Tue, 12 Sep
+ 2023 14:52:23 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b%3]) with mapi id 15.20.6745.035; Tue, 12 Sep 2023
+ 14:52:23 +0000
+Date: Tue, 12 Sep 2023 14:50:38 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 06/13] drm/sched: Add generic scheduler message
+ interface
+Message-ID: <ZQB6vm8f7XkqaBUH@DUT025-TGLU.fm.intel.com>
+References: <20230912021615.2086698-1-matthew.brost@intel.com>
+ <20230912021615.2086698-7-matthew.brost@intel.com>
+ <20230912102302.71d798a8@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230912102302.71d798a8@collabora.com>
+X-ClientProxiedBy: SJ0PR13CA0004.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::9) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA3PR11MB8076:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc2cfb91-2367-44f7-77b1-08dbb39fdf48
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DIvaF63KQJFsKg2JdfqTtN4qFWJyo96JSmJ5Pybxi/6ffTl04oV17n/qPRcWx0a2S2HYU6SC21oHbN+MfjNl7oQHCxm7Zp6eml075ZuvKSpWYm/QinobdG06JA24ah4T2PkpmxheemRAGCLl9s0xkeSYwAJOya6hTur1uyCDCtvtAnX5MpcbCw+XEKZcC0OhuAYPgbtalm+pHdjd2Ty74wieQ4pw52XfBSR6yXZ1zHGTF00akD3rkU9hIpzyJ7K6GxYJKrpvkE64dINtz1ULiauwAE2uE3vC77uOHCOBpuXjLNyvs3UGTH8+ICRD7ubqU69SKbLwUp9NY6d91nsWTzF38caHDKcsMvdrIo81yPcbjg6fpeg0TASFdI5tCYf7QN6CHYFg9s8hy68jWtiB70m7+dOvGkahwvbTkOQ7afEYspv8J3ELR+ioxOUCld07DkE+xhvy5ZgO291motse6/K/DQmd4ZKAq/f5AgMe7giY6yq2CPcqyNEX1lnUYgudXUnr3yAds27oI3Yu1823jx23Cv/jb3hhQsQxtVgFTvUGgKtQX2Inq0xEv5/oVfvAm4qaE5/6HjJAzfeh5PZ3fpn41B/VqeC/mwsPO9B7sV4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(366004)(136003)(376002)(346002)(451199024)(1800799009)(186009)(2906002)(26005)(41300700001)(66946007)(15650500001)(316002)(6916009)(8676002)(66556008)(44832011)(66476007)(7416002)(478600001)(4326008)(5660300002)(8936002)(6666004)(6512007)(6506007)(6486002)(83380400001)(38100700002)(86362001)(82960400001)(41533002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9qwQzNvZb/YXbFiTCCdKDdn1bT6wVMk4mER00AdUfv0/eqDmiJbCsWRYJ/BM?=
+ =?us-ascii?Q?WznCnFPfTAhBbs6COx49nHvJ/Jh1P8FqXacMvbika3nq9KtcNd6g5tN+kqRt?=
+ =?us-ascii?Q?FP2Hd9iGSdbmuygXqzvnZfDv8MQMn9dyM+Bu+gjUywN6ftB1XIaRVHrP8OBH?=
+ =?us-ascii?Q?8anmsSZULUIJUD0v8Lm+L96lLRFuguJsmA6m8R+7xrtWTGJ/SnbnbOxvcWdR?=
+ =?us-ascii?Q?TSe3KvrKzk2g5ALGwCOUZGDApjVMRbRg9QpaKjxLJyduVmQym6ZIcQKPUQUz?=
+ =?us-ascii?Q?39A8dlO/lwhom6oBzJ4T2rojZSPmkjaqUx65CzLyMDihTsMRLW6wTYvzNXKu?=
+ =?us-ascii?Q?mYpXvqGXYjbAf424NXdb2pz55bOiHWGPiuDBHIQ4dkzbBtQT9/B9FFe4h47t?=
+ =?us-ascii?Q?1xZlJ93l2MmSZ6X+dk/uUMW05U8sRMsGyGclUi1M4yCRg6vg5Uj9WJksdDZh?=
+ =?us-ascii?Q?Q7q2q6qhwB3/Kijsr+LCt93iE0pREiK5qgD5PntqnVoXkfW48a+Jr9ev9iH7?=
+ =?us-ascii?Q?zxJlQKGgoss5Te+Mj4ZwVRJdvc5v7vrC/QQySwqi6bfjPK8EiPcb2pMk5Jxq?=
+ =?us-ascii?Q?7BqQ5VOc9scHfZqSEoiTeIwqyubQVDUtepAWrXcWVX7duvbpEUZVAqq2DpAY?=
+ =?us-ascii?Q?xINX4MY8AxsJhYx24Aer8L7dlDN6romfrSaJEorYsG68AaSYzcXU7N9Z+q99?=
+ =?us-ascii?Q?76oX3OJ5RXiLHBge3GDAu7BxqJJ/RuB1YmHlBXg9BL7K/OMQcBG4fjNbwjAE?=
+ =?us-ascii?Q?gMweudoqsXHSa+241fPEEfjNhdLyfLIK15RdHDbo8oyUSCy/FoiiufvXpvmq?=
+ =?us-ascii?Q?/JNG7TrVLtMyPrVfEMYFXGmuh4sz9oTUufG5Yap5Dmd84ZOrrwTfHrfedGAU?=
+ =?us-ascii?Q?jW+4vnO0dKv22tdORuGxvt8IJw9dNE9YWxPsfeD5RCa3g4BvA7Z1xTFchCMa?=
+ =?us-ascii?Q?QXyLnfw8i8VJz0wKYmJS9baBL1WipX6Db66BVIqCJ5qiVdT5EpI/8yhdwiD3?=
+ =?us-ascii?Q?V7zqD0aLkEWMj4EmqPIh8qQ2lmPXkz3pWF1Rxkt58SUnGZKum8yCN16fHsc0?=
+ =?us-ascii?Q?hXRPk12cRk8TjQ2TRxfTmxMvTjbpem1nkk0h80TdtQlxgore98PDkKCNhe4z?=
+ =?us-ascii?Q?fbJ+2ECGXfk09O8pW4WvNA5S3MA4if98nkJRT3Kl1WlviYtneVt6bgLmvDix?=
+ =?us-ascii?Q?YP7OGlMjJxSCGxE2alMZfoqH92gxZkouFzc7Bx8SzAjzEx1H8oRibqygF6n6?=
+ =?us-ascii?Q?gqJG73CsSNGQ9ZKsTpBBEw6s+nq2wQDBvcB1LEzVZDBKTOHVCotemjOZTgg1?=
+ =?us-ascii?Q?82YS9DHIwBDipOH2xWwjfY6gskIk0JFHRF6c8jNPS93VqOXknO5/vavA1MqU?=
+ =?us-ascii?Q?2FJ9FVCuiY3aqOqthMUDxfI0DpLXw2iESnpLNo5lK6EAgzI9Wd/RVVEXzy2z?=
+ =?us-ascii?Q?jidXANCzd4q85mcnThFadgqVu99V5pXRSh+nD1ejirR05/vuNeBNFWABoUCk?=
+ =?us-ascii?Q?4tzD5mfA8/Y6G8vNkdWIYpEV6qDhymz/6oyByzLx4ZND0ieloxeLQLePF7hU?=
+ =?us-ascii?Q?x2SjGs8KLYCtdv8sw/ZhGRcDMT2nqk3m63/NrynI0XUBtzfk/9j9/G6UPqtZ?=
+ =?us-ascii?Q?ew=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc2cfb91-2367-44f7-77b1-08dbb39fdf48
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2023 14:52:23.2784 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: quiE+QntGnD9oaJ0vJL7CjaNVPJhi/0a0dzp++7F6cWA7xO8uD9/z56cisXi9q9JBV0uZQdkqT1oQbolaPNpKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8076
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,235 +146,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, jianjiao.zeng@mediatek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ luben.tuikov@amd.com, donald.robson@imgtec.com, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le lundi 11 septembre 2023 =C3=A0 12:13 +0200, Christian K=C3=B6nig a =C3=
-=A9crit=C2=A0:
-> Am 11.09.23 um 04:30 schrieb Yong Wu:
-> > From: John Stultz <jstultz@google.com>
-> >=20
-> > This allows drivers who don't want to create their own
-> > DMA-BUF exporter to be able to allocate DMA-BUFs directly
-> > from existing DMA-BUF Heaps.
-> >=20
-> > There is some concern that the premise of DMA-BUF heaps is
-> > that userland knows better about what type of heap memory
-> > is needed for a pipeline, so it would likely be best for
-> > drivers to import and fill DMA-BUFs allocated by userland
-> > instead of allocating one themselves, but this is still
-> > up for debate.
->=20
-> The main design goal of having DMA-heaps in the first place is to avoid=
-=20
-> per driver allocation and this is not necessary because userland know=20
-> better what type of memory it wants.
+On Tue, Sep 12, 2023 at 10:23:02AM +0200, Boris Brezillon wrote:
+> On Mon, 11 Sep 2023 19:16:08 -0700
+> Matthew Brost <matthew.brost@intel.com> wrote:
+> 
+> > Add generic schedule message interface which sends messages to backend
+> > from the drm_gpu_scheduler main submission thread. The idea is some of
+> > these messages modify some state in drm_sched_entity which is also
+> > modified during submission. By scheduling these messages and submission
+> > in the same thread their is not race changing states in
+> > drm_sched_entity.
+> > 
+> > This interface will be used in Xe, new Intel GPU driver, to cleanup,
+> > suspend, resume, and change scheduling properties of a drm_sched_entity.
+> > 
+> > The interface is designed to be generic and extendable with only the
+> > backend understanding the messages.
+> 
+> I didn't follow the previous discussions closely enough, but it seemed
+> to me that the whole point of this 'ordered-wq for scheduler' approach
+> was so you could interleave your driver-specific work items in the
+> processing without changing the core. This messaging system looks like
+> something that could/should be entirely driver-specific to me, and I'm
+> not convinced this thin 'work -> generic_message_callback' layer is
+> worth it. You can simply have your own xe_msg_process work, and a
+> xe_msg_send helper that schedules this work. Assuming other drivers
+> need this messaging API, they'll probably have their own message ids
+> and payloads, and the automation done here is simple enough that it can
+> be duplicated. That's just my personal opinion, of course, and if
+> others see this message interface as valuable, I fine with it.
 
-If the memory is user visible, yes. When I look at the MTK VCODEC changes, =
-this
-seems to be used for internal codec state and SHM buffers used to communica=
-te
-with firmware.
+Good point. I am fine deleting this from the scheduler and making this
+driver specific.
 
->=20
-> The background is rather that we generally want to decouple allocation=
-=20
-> from having a device driver connection so that we have better chance=20
-> that multiple devices can work with the same memory.
->=20
-> I once create a prototype which gives userspace a hint which DMA-heap to=
-=20
-> user for which device:=20
-> https://patchwork.kernel.org/project/linux-media/patch/20230123123756.401=
-692-2-christian.koenig@amd.com/
->=20
-> Problem is that I don't really have time to look into it and maintain=20
-> that stuff, but I think from the high level design that is rather the=20
-> general direction we should push at.
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Signed-off-by: John Stultz <jstultz@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > [Yong: Fix the checkpatch alignment warning]
-> > ---
-> >   drivers/dma-buf/dma-heap.c | 60 ++++++++++++++++++++++++++++---------=
--
-> >   include/linux/dma-heap.h   | 25 ++++++++++++++++
-> >   2 files changed, 69 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index dcc0e38c61fa..908bb30dc864 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -53,12 +53,15 @@ static dev_t dma_heap_devt;
-> >   static struct class *dma_heap_class;
-> >   static DEFINE_XARRAY_ALLOC(dma_heap_minors);
-> >  =20
-> > -static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> > -				 unsigned int fd_flags,
-> > -				 unsigned int heap_flags)
-> > +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t le=
-n,
-> > +				      unsigned int fd_flags,
-> > +				      unsigned int heap_flags)
-> >   {
-> > -	struct dma_buf *dmabuf;
-> > -	int fd;
-> > +	if (fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> > +		return ERR_PTR(-EINVAL);
-> >  =20
-> >   	/*
-> >   	 * Allocations from all heaps have to begin
-> > @@ -66,9 +69,20 @@ static int dma_heap_buffer_alloc(struct dma_heap *he=
-ap, size_t len,
-> >   	 */
-> >   	len =3D PAGE_ALIGN(len);
-> >   	if (!len)
-> > -		return -EINVAL;
-> > +		return ERR_PTR(-EINVAL);
-> >  =20
-> > -	dmabuf =3D heap->ops->allocate(heap, len, fd_flags, heap_flags);
-> > +	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_heap_buffer_alloc);
-> > +
-> > +static int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
-> > +				   unsigned int fd_flags,
-> > +				   unsigned int heap_flags)
-> > +{
-> > +	struct dma_buf *dmabuf;
-> > +	int fd;
-> > +
-> > +	dmabuf =3D dma_heap_buffer_alloc(heap, len, fd_flags, heap_flags);
-> >   	if (IS_ERR(dmabuf))
-> >   		return PTR_ERR(dmabuf);
-> >  =20
-> > @@ -106,15 +120,9 @@ static long dma_heap_ioctl_allocate(struct file *f=
-ile, void *data)
-> >   	if (heap_allocation->fd)
-> >   		return -EINVAL;
-> >  =20
-> > -	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
-> > -		return -EINVAL;
-> > -
-> > -	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> > -		return -EINVAL;
-> > -
-> > -	fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
-> > -				   heap_allocation->fd_flags,
-> > -				   heap_allocation->heap_flags);
-> > +	fd =3D dma_heap_bufferfd_alloc(heap, heap_allocation->len,
-> > +				     heap_allocation->fd_flags,
-> > +				     heap_allocation->heap_flags);
-> >   	if (fd < 0)
-> >   		return fd;
-> >  =20
-> > @@ -205,6 +213,7 @@ const char *dma_heap_get_name(struct dma_heap *heap=
-)
-> >   {
-> >   	return heap->name;
-> >   }
-> > +EXPORT_SYMBOL_GPL(dma_heap_get_name);
-> >  =20
-> >   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_=
-info)
-> >   {
-> > @@ -290,6 +299,24 @@ struct dma_heap *dma_heap_add(const struct dma_hea=
-p_export_info *exp_info)
-> >   	kfree(heap);
-> >   	return err_ret;
-> >   }
-> > +EXPORT_SYMBOL_GPL(dma_heap_add);
-> > +
-> > +struct dma_heap *dma_heap_find(const char *name)
-> > +{
-> > +	struct dma_heap *h;
-> > +
-> > +	mutex_lock(&heap_list_lock);
-> > +	list_for_each_entry(h, &heap_list, list) {
-> > +		if (!strcmp(h->name, name)) {
-> > +			kref_get(&h->refcount);
-> > +			mutex_unlock(&heap_list_lock);
-> > +			return h;
-> > +		}
-> > +	}
-> > +	mutex_unlock(&heap_list_lock);
-> > +	return NULL;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_heap_find);
-> >  =20
-> >   static void dma_heap_release(struct kref *ref)
-> >   {
-> > @@ -315,6 +342,7 @@ void dma_heap_put(struct dma_heap *h)
-> >   	kref_put(&h->refcount, dma_heap_release);
-> >   	mutex_unlock(&heap_list_lock);
-> >   }
-> > +EXPORT_SYMBOL_GPL(dma_heap_put);
-> >  =20
-> >   static char *dma_heap_devnode(const struct device *dev, umode_t *mode=
-)
-> >   {
-> > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> > index f3c678892c5c..59e70f6c7a60 100644
-> > --- a/include/linux/dma-heap.h
-> > +++ b/include/linux/dma-heap.h
-> > @@ -64,10 +64,35 @@ const char *dma_heap_get_name(struct dma_heap *heap=
-);
-> >    */
-> >   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_=
-info);
-> >  =20
-> > +/**
-> > + * dma_heap_find - get the heap registered with the specified name
-> > + * @name: Name of the DMA-Heap to find
-> > + *
-> > + * Returns:
-> > + * The DMA-Heap with the provided name.
-> > + *
-> > + * NOTE: DMA-Heaps returned from this function MUST be released using
-> > + * dma_heap_put() when the user is done to enable the heap to be unloa=
-ded.
-> > + */
-> > +struct dma_heap *dma_heap_find(const char *name);
-> > +
-> >   /**
-> >    * dma_heap_put - drops a reference to a dmabuf heap, potentially fre=
-eing it
-> >    * @heap: the heap whose reference count to decrement
-> >    */
-> >   void dma_heap_put(struct dma_heap *heap);
-> >  =20
-> > +/**
-> > + * dma_heap_buffer_alloc - Allocate dma-buf from a dma_heap
-> > + * @heap:	DMA-Heap to allocate from
-> > + * @len:	size to allocate in bytes
-> > + * @fd_flags:	flags to set on returned dma-buf fd
-> > + * @heap_flags: flags to pass to the dma heap
-> > + *
-> > + * This is for internal dma-buf allocations only. Free returned buffer=
-s with dma_buf_put().
-> > + */
-> > +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t le=
-n,
-> > +				      unsigned int fd_flags,
-> > +				      unsigned int heap_flags);
-> > +
-> >   #endif /* _DMA_HEAPS_H */
->=20
-
+Matt
