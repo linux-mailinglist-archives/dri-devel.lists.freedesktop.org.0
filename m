@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CE579D0E4
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 14:18:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E57A79D168
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 14:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 351FE10E415;
-	Tue, 12 Sep 2023 12:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F7810E22D;
+	Tue, 12 Sep 2023 12:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E94E10E415;
- Tue, 12 Sep 2023 12:18:23 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2FF826607326;
- Tue, 12 Sep 2023 13:18:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694521101;
- bh=mnP4Q6AtJQO9a5dqOec94l43iG1/sE3gl0zC4U5Bt+Y=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ur7Ndl838dwISncmGct52sbwJvcbRHoqFaGlO0tUlfRgCdrPUff7G9vfo7+GzA4VX
- YETJJ1j3rMpMnKWHamsx0+QeXT9qxSSStfOTaRtRKYsLSVw97aPXzhebbixRVS3dJL
- Gbi6Xelk6A9hqInA0UI82MsfTCsJl30JvHXyWib4jHWe0Vp+xsCzwuVdP6L3SJfPdp
- pXwXQZBPcOo8Umlcu5xsGTj0jDkoI+X/7rL7KREDwfSGE66MeXbJxFNG5SBIF5wrv9
- E0HNDFtEnObVngyZFroUeF3i6cGX4aN2wJ96oUZeUBZtKQQjunVfj/VHKABKHQSzv4
- MIDTwbbY8ZdDg==
-Date: Tue, 12 Sep 2023 14:18:18 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH v2 4/9] drm/sched: Split free_job into own work item
-Message-ID: <20230912141818.10827d1d@collabora.com>
-In-Reply-To: <ZQBBgsrohAqIAppA@pollux>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-5-matthew.brost@intel.com>
- <ZOfh6o2EaGuIqZVe@pollux>
- <ZOgYu1fZQUHeneJC@DUT025-TGLU.fm.intel.com>
- <6ae84066-b690-1562-0598-4694b022c960@amd.com>
- <ZOiuWcFDImBvJtnO@DUT025-TGLU.fm.intel.com>
- <ee56b9ee-36c7-5935-c319-c8d1ad412c7c@amd.com>
- <20230912121357.4cc10dec@collabora.com> <ZQBBgsrohAqIAppA@pollux>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail03.siengine.com (mail03.siengine.com [43.240.192.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B23E10E229
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 12:52:58 +0000 (UTC)
+Received: from dsgsiengine01 ([10.8.1.61])
+ by mail03.siengine.com with ESMTPS id 38CCqQBr076710
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 12 Sep 2023 20:52:26 +0800 (+08)
+ (envelope-from lucas.liu@siengine.com)
+Received: from SEEXMB04-2019.siengine.com (SEEXMB04-2019.siengine.com
+ [10.8.1.34])
+ by dsgsiengine01 (SkyGuard) with ESMTPS id 4RlNlY0v7Mz7ZMCq;
+ Tue, 12 Sep 2023 20:52:25 +0800 (CST)
+Received: from SEEXMB04-2019.siengine.com (10.8.1.34) by
+ SEEXMB04-2019.siengine.com (10.8.1.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1258.25; Tue, 12 Sep 2023 20:52:24 +0800
+Received: from SEEXMB04-2019.siengine.com ([fe80::ebda:7f0d:8ee8:ab8f]) by
+ SEEXMB04-2019.siengine.com ([fe80::ebda:7f0d:8ee8:ab8f%14]) with mapi id
+ 15.02.1258.025; Tue, 12 Sep 2023 20:52:24 +0800
+From: =?utf-8?B?TGl1IEx1Y2FzL+WImOS/neafsQ==?= <lucas.liu@siengine.com>
+To: "liviu.dudau@arm.com" <liviu.dudau@arm.com>
+Subject: =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSF0gZHJtL2tvbWVkYTogYWRkIE5WMTIg?=
+ =?utf-8?Q?format_to_support_writeback_layer_type?=
+Thread-Topic: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIGRybS9rb21lZGE6IGFkZCBOVjEyIGZvcm1hdCB0?=
+ =?utf-8?Q?o_support_writeback_layer_type?=
+Thread-Index: AQHZ2ltn9LP8IvenzkCX2e1v2bsk4rAQoe+AgASgowCAAfUnsA==
+Date: Tue, 12 Sep 2023 12:52:24 +0000
+Message-ID: <77ed4490216c4bee819f3ace386c80b5@siengine.com>
+References: <20230829093004.22860-1-lucas.liu@siengine.com>
+ <b393669c80274dfcbcf94c60fea8ae76@siengine.com>
+ <ZP8oMFLFc_Lr090h@e110455-lin.cambridge.arm.com>
+In-Reply-To: <ZP8oMFLFc_Lr090h@e110455-lin.cambridge.arm.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.12.10.56]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-DKIM-Results: [10.8.1.61]; dkim=none;
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL: mail03.siengine.com 38CCqQBr076710
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,91 +65,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, robdclark@chromium.org,
- sarah.walker@imgtec.com, thomas.hellstrom@linux.intel.com,
- ketil.johnsen@arm.com, lina@asahilina.net, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- luben.tuikov@amd.com, donald.robson@imgtec.com, intel-xe@lists.freedesktop.org,
- faith.ekstrand@collabora.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Sep 2023 12:46:26 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
-
-> > I'm a bit worried that leaving this single vs multi-threaded wq
-> > decision to drivers is going to cause unnecessary pain, because what
-> > was previously a granted in term of run/cleanup execution order (thanks
-> > to the kthread+static-drm_sched_main-workflow approach) is now subject
-> > to the wq ordering guarantees, which depend on the wq type picked by
-> > the driver.  
-> 
-> Not sure if this ends up to be much different. The only thing I could think of
-> is that IIRC with the kthread implementation cleanup was always preferred over
-> run.
-
-Given the sequence in drm_sched_main(), I'd say that cleanup and run
-operations are naturally interleaved when both are available, but I
-might be wrong.
-
-> With a single threaded wq this should be a bit more balanced.
-
-With a single threaded wq, it's less clear, because each work
-reschedules itself for further processing, but it's likely to be more
-or less interleaved. Anyway, I'm not too worried about cleanup taking
-precedence on run or the other way around, because the limited amount
-of HW slots (size of the ring-buffer) will regulate that.
-
-> 
-> With a multi-threaded wq it's still the same, but run and cleanup can run
-> concurrently,
-
-What I'm worried about is that ^. I'm not saying it's fundamentally
-unsafe, but I'm saying drm_sched hasn't been designed with this
-concurrency in mind, and I fear we'll face subtle bugs if we go from
-kthread to multi-threaded-wq+run-and-cleanup-split-in-2-work-items.
-
-> which has the nice side effect that free_job() gets out of the
-> fence signaling path. At least as long as the workqueue has max_active > 1.
-
-Oh, yeah, I don't deny using a multi-threaded workqueue has some
-benefits, just saying it might be trickier than it sounds.
-
-> Which is one reason why I'm using a multi-threaded wq in Nouveau.
-
-Note that I'm using a multi-threaded workqueue internally at the moment
-to deal with all sort of interactions with the FW (Mali HW only has a
-limited amount of scheduling slots, and we need to rotate entities
-having jobs to execute so every one gets a chance to run on the GPU),
-but this has been designed this way from the ground up, unlike
-drm_sched_main() operations, which were mostly thought as a fixed
-sequential set of operations. That's not to say it's impossible to get
-right, but I fear we'll face weird/unexpected behavior if we go from
-completely-serialized to multi-threaded-with-pseudo-random-processing
-order.
-
-> 
-> That latter seems a bit subtile, we probably need to document this aspect of
-> under which conditions free_job() is or is not within the fence signaling path.
-
-Well, I'm not even sure it can be clearly defined when the driver is
-using the submit_wq for its own work items (which can be done since we
-pass an optional submit_wq when calling drm_sched_init()). Sure, having
-max_active >= 2 should be enough to guarantee that the free_job work
-won't block the run_job one when these are the 2 only works being
-queued, but what if you have many other work items being queued by the
-driver to this wq, and some of those try to acquire resv locks? Could
-this prevent execution of the run_job() callback, thus preventing
-signaling of fences? I'm genuinely asking, don't know enough about the
-cmwq implementation to tell what's happening when work items are
-blocked (might be that the worker pool is extended to unblock the
-situation).
-
-Anyway, documenting when free_job() is in the dma signalling path should
-be doable (single-threaded wq), but at this point, are we not better
-off considering anything called from the submit_wq as being part of the
-dma signalling path, so we can accommodate with both cases. And if
-there is cleanup processing that require taking dma_resv locks, I'd be
-tempted to queue that to a driver-specific wq (which is what I'm doing
-right now), just to be safe.
+SGkgTGl2aXUsDQoNCglUaGFuayB5b3Ugc28gbXVjaCBmb3IgcmV2aWV3aW5nIHRoaXMgcGF0Y2gh
+ICBJIGV4cGVjdCB0aGlzIHBhdGNoIHRvIGJlIG1lcmdlZC4NCg0KQmVzdCBSZWdhcmRzLA0KYmFv
+emh1LmxpdQ0KDQotLS0tLemCruS7tuWOn+S7ti0tLS0tDQrlj5Hku7bkuro6IGxpdml1LmR1ZGF1
+QGFybS5jb20gPGxpdml1LmR1ZGF1QGFybS5jb20+IA0K5Y+R6YCB5pe26Ze0OiAyMDIz5bm0Oeac
+iDEx5pelIDIyOjQ2DQrmlLbku7bkuro6IExpdSBMdWNhcy/liJjkv53mn7EgPGx1Y2FzLmxpdUBz
+aWVuZ2luZS5jb20+DQrmioTpgIE6IGFpcmxpZWRAZ21haWwuY29tOyBkYW5pZWxAZmZ3bGwuY2g7
+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
+bC5vcmcNCuS4u+mimDogUmU6IOWbnuWkjTogW1BBVENIXSBkcm0va29tZWRhOiBhZGQgTlYxMiBm
+b3JtYXQgdG8gc3VwcG9ydCB3cml0ZWJhY2sgbGF5ZXIgdHlwZQ0KDQpIaSBMaXUsDQoNClNvcnJ5
+IGFib3V0IHRoZSBkZWxheSwgSSB3YXMgb24gaG9saWRheSB1bnRpbCAyOHRoIGFuZCB3aGlsZSBj
+bGVhbmluZyB1cCB0aGUgYmFja2xvZyBJJ3ZlIGFjY2lkZW50YWxseSBtYXJrZWQgdGhlIGVtYWls
+IGFzIHJlYWQgYW5kIGRpZCBub3QgcmVwbHkuDQoNCg0KT24gRnJpLCBTZXAgMDgsIDIwMjMgYXQg
+MDg6MTE6NDRBTSArMDAwMCwgTGl1IEx1Y2FzL+WImOS/neafsSB3cm90ZToNCj4gSGkgIGFsbCwN
+Cj4gDQo+IAlEbyB5b3UgaGF2ZSBhbnkgc3VnZ2VzdGlvbnMgZm9yIHRoZSBwYXRjaCBJIHN1Ym1p
+dHRlZD8gUGxlYXNlIGFsc28gbGV0IG1lIGtub3csIHRoYW5rIHlvdSENCj4gDQo+IEJlc3QgUmVn
+YXJkcywNCj4gYmFvemh1LmxpdQ0KPiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+IOWPkeS7tuS6
+ujogYmFvemh1LmxpdSA8bHVjYXMubGl1QHNpZW5naW5lLmNvbT4NCj4g5Y+R6YCB5pe26Ze0OiAy
+MDIz5bm0OOaciDI55pelIDE3OjMwDQo+IOaUtuS7tuS6ujogbGl2aXUuZHVkYXVAYXJtLmNvbTsg
+YWlybGllZEBnbWFpbC5jb207IGRhbmllbEBmZndsbC5jaA0KPiDmioTpgIE6IGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IExpdSAN
+Cj4gTHVjYXMv5YiY5L+d5p+xIDxsdWNhcy5saXVAc2llbmdpbmUuY29tPg0KPiDkuLvpopg6IFtQ
+QVRDSF0gZHJtL2tvbWVkYTogYWRkIE5WMTIgZm9ybWF0IHRvIHN1cHBvcnQgd3JpdGViYWNrIGxh
+eWVyIA0KPiB0eXBlDQo+IA0KPiBXaGVuIHRlc3RpbmcgdGhlIGQ3MSB3cml0ZWJhY2sgbGF5ZXIg
+ZnVuY3Rpb24sIHRoZSBvdXRwdXQgZm9ybWF0IGlzIHNldCB0byBOVjEyLCBhbmQgdGhlIGZvbGxv
+d2luZyBlcnJvciBtZXNzYWdlIGlzIGRpc3BsYXllZDoNCj4gDQo+IFtkcm06a29tZWRhX2ZiX2lz
+X2xheWVyX3N1cHBvcnRlZF0gTGF5ZXIgVFlQRTogNCBkb2Vzbid0IHN1cHBvcnQgZmIgRk1UOiBO
+VjEyIGxpdHRsZS1lbmRpYW4gKDB4MzIzMTU2NGUpIHdpdGggbW9kaWZpZXI6IDB4MC4uDQo+IA0K
+PiBDaGVjayB0aGUgZDcxIGRhdGEgbWFudWFsLCB3cml0ZWJhY2sgbGF5ZXIgb3V0cHV0IGZvcm1h
+dHMgaW5jbHVkZXMgTlYxMiBmb3JtYXQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBiYW96aHUubGl1
+IDxsdWNhcy5saXVAc2llbmdpbmUuY29tPg0KDQpBY2tlZC1ieTogTGl2aXUgRHVkYXUgPGxpdml1
+LmR1ZGF1QGFybS5jb20+DQoNCkkgd2lsbCBwdXNoIHRoZSBwYXRjaCB0aGlzIHdlZWsgaW50byBk
+cm0tbWlzYy1uZXh0Lg0KDQpCZXN0IHJlZ2FyZHMsDQpMaXZpdQ0KDQo+IC0tLQ0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9kNzEvZDcxX2Rldi5jIHwgMiArLQ0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9kNzEvZDcxX2Rldi5jIA0K
+PiBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEvZDcxL2Q3MV9kZXYuYw0KPiBp
+bmRleCA2YzU2ZjU2NjJiYzcuLjgwOTczOTc1YmZkYiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9kNzEvZDcxX2Rldi5jDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEvZDcxL2Q3MV9kZXYuYw0KPiBAQCAtNTIxLDcgKzUy
+MSw3IEBAIHN0YXRpYyBzdHJ1Y3Qga29tZWRhX2Zvcm1hdF9jYXBzIGQ3MV9mb3JtYXRfY2Fwc190
+YWJsZVtdID0gew0KPiAgCXtfX0hXX0lEKDUsIDEpLAlEUk1fRk9STUFUX1lVWVYsCVJJQ0gsCQlS
+b3RfQUxMX0hfViwJTFlUX05NLCBBRkJfVEh9LCAvKiBhZmJjICovDQo+ICAJe19fSFdfSUQoNSwg
+MiksCURSTV9GT1JNQVRfWVVZViwJUklDSCwJCUZsaXBfSF9WLAkJMCwgMH0sDQo+ICAJe19fSFdf
+SUQoNSwgMyksCURSTV9GT1JNQVRfVVlWWSwJUklDSCwJCUZsaXBfSF9WLAkJMCwgMH0sDQo+IC0J
+e19fSFdfSUQoNSwgNiksCURSTV9GT1JNQVRfTlYxMiwJUklDSCwJCUZsaXBfSF9WLAkJMCwgMH0s
+DQo+ICsJe19fSFdfSUQoNSwgNiksCURSTV9GT1JNQVRfTlYxMiwJUklDSF9XQiwJRmxpcF9IX1Ys
+CQkwLCAwfSwNCj4gIAl7X19IV19JRCg1LCA2KSwJRFJNX0ZPUk1BVF9ZVVY0MjBfOEJJVCwJUklD
+SCwJCVJvdF9BTExfSF9WLAlMWVRfTk0sIEFGQl9USH0sIC8qIGFmYmMgKi8NCj4gIAl7X19IV19J
+RCg1LCA3KSwJRFJNX0ZPUk1BVF9ZVVY0MjAsCVJJQ0gsCQlGbGlwX0hfViwJCTAsIDB9LA0KPiAg
+CS8qIFlVViAxMGJpdCovDQo+IC0tDQo+IDIuMTcuMQ0KPiANCg0KLS0NCj09PT09PT09PT09PT09
+PT09PT09DQp8IEkgd291bGQgbGlrZSB0byB8DQp8IGZpeCB0aGUgd29ybGQsICB8DQp8IGJ1dCB0
+aGV5J3JlIG5vdCB8DQp8IGdpdmluZyBtZSB0aGUgICB8DQogXCBzb3VyY2UgY29kZSEgIC8NCiAg
+LS0tLS0tLS0tLS0tLS0tDQogICAgwq9cXyjjg4QpXy/Crw0K
