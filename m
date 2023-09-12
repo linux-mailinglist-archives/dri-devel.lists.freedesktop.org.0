@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEAF79CFF1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:31:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 604D779D028
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B257E10E0BA;
-	Tue, 12 Sep 2023 11:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 267D810E032;
+	Tue, 12 Sep 2023 11:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2507910E0BA;
- Tue, 12 Sep 2023 11:31:32 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B9110E032
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 11:38:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C8C0BCE19F6;
- Tue, 12 Sep 2023 11:31:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D419AC433C7;
- Tue, 12 Sep 2023 11:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694518289;
- bh=g/mqhZ5VRqpjqHUFTtCPOZQA0fipLYIPInbPUYFDKgE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XMIzOaXL6n4FSgZS+c5S+Kcf5BL28RO1B0TyizWUzsAXxhv0BjHY/x0zCq7NTLmsD
- 9cdqN9CXeLSvs/chCDtOrrzSklsZ7tyK8vMvjuHdyC/jwdvASI6hY0+Acl497Wfcxl
- KaM1fAFteUmomC7/4Hak+p+yQCOfXU9K8s0w/8IA=
-Date: Tue, 12 Sep 2023 13:31:26 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Bryan Jennings <bryjen423@gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.10 13/22] drm/amdgpu: install stub fence into
- potential unused fence pointers
-Message-ID: <2023091221-reminder-joylessly-8181@gregkh>
-References: <2023083119-phoney-ascend-d4ec@gregkh>
- <d32d6919-47cf-4ddc-955a-0759088220ae@gmail.com>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 59BBEB81CEF;
+ Tue, 12 Sep 2023 11:38:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C8EC433C9;
+ Tue, 12 Sep 2023 11:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694518693;
+ bh=h30b56RrRORKmlU4pC18wtn1e1EQ/8raoGBkCT361sM=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=K4YOz5hNZrqjLdTbhxxFHvS2l4kzfDALcCAxmSU6AUaAhJs3afTFzWBtzbY+FWOxd
+ /LGrRgZYBnek1Y85XT26sSfS+eQZx6uc12ooEAvV0IOKlY80nX6tskwzTg9/c85ymE
+ fQR+hvjnHnkdHiKCPwux7J790Kwu8YmOkreruYmvpvOItqfLUd8BZ26bSLqzzyN3Zg
+ zCoyLw9u9CzQSwSzcKK9W/bxFVRJexG48oHeaNiGi0+xm+32KnoedCoKgMt+96CqjN
+ eAM/NEjdZ7OShOMnE8pBTH8fYY5cGDez5JMFmGUXsiLaRmr+iGRqetl+dVbMtbQu1S
+ AsIApVkwkhzxQ==
+From: Mark Brown <broonie@kernel.org>
+To: ldewangan@nvidia.com, Zhang Shurong <zhang_shurong@foxmail.com>
+In-Reply-To: <tencent_73FCC06A3D1C14EE5175253C6FB46A07B709@qq.com>
+References: <tencent_73FCC06A3D1C14EE5175253C6FB46A07B709@qq.com>
+Subject: Re: [PATCH] spi: tegra: Fix missing IRQ check in tegra_slink_probe()
+Message-Id: <169451868918.2398433.15693451802537494964.b4-ty@kernel.org>
+Date: Tue, 12 Sep 2023 12:38:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d32d6919-47cf-4ddc-955a-0759088220ae@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,19 +53,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sashal@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, stable@vger.kernel.org, Lang.Yu@amd.com,
- christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org, jonathanh@nvidia.com,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 10, 2023 at 03:43:01PM -0500, Bryan Jennings wrote:
-> This is also causing log spam on 5.15.  It was included in 5.15.128 as
-> commit 4921792e04f2125b5eadef9dbe9417a8354c7eff.  I encountered this and
-> found https://gitlab.freedesktop.org/drm/amd/-/issues/2820 while researching
-> the problem.
+On Sat, 26 Aug 2023 18:02:54 +0800, Zhang Shurong wrote:
+> This func misses checking for platform_get_irq()'s call and may passes the
+> negative error codes to request_irq(), which takes unsigned IRQ #,
+> causing it to fail with -EINVAL, overriding an original error code.
+> 
+> Fix this by stop calling request_irq() with invalid IRQ #s.
+> 
+> 
+> [...]
 
-Now reverted, thanks.
+Applied to
 
-greg k-h
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[1/1] spi: tegra: Fix missing IRQ check in tegra_slink_probe()
+      commit: eb9913b511f10968a02cfa5329a896855dd152a3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
