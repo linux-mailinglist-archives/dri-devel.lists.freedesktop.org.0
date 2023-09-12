@@ -2,77 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BFB79C9C5
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8318179C9E9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D886F10E3B8;
-	Tue, 12 Sep 2023 08:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF2E10E3B9;
+	Tue, 12 Sep 2023 08:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BBF810E3B8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 08:23:40 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-9a9d82d73f9so659165966b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 01:23:40 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F15A10E3B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 08:28:40 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-99c1c66876aso679579966b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 01:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694507019; x=1695111819; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1694507318; x=1695112118; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NecnTNhEs6mk/7xS4+yPxPBE+Iq+otCfvP8k/SUlgdY=;
- b=GoYgzKcgQ6xdtkInG06OGG6pwR7u+FFCXhEuxPfxkPlSdLWyMNsB6qZTMdRG3ElJL0
- lDWyvoUnOtHSdrj17V082JmINRJLW/ARvXe4r4VHhiIgWLCbFmv4STGvP/a6dVfKCvZm
- V50S5+SoIUqZggB6WT+O2ww4yOt0lKV8aPmcrj3SCQ994dLI4FYUdzWOr3gxoSNIxgb6
- 51XdJZAp/1GaH+8HTgs/wzTxAyiNf7f2GqRjpLVe1uwuOo8wBDvZVzYOez9vzTb7pXCJ
- JEhDmjk8RVBmDWUeH1jSvUcv08q63uJExMlB853n1VeWVnjkX5T5fTFZoF1xJOh8mFNE
- 0B3w==
+ bh=VLzVKDkkOXZ4N+LBDosJ9GVpBHoDNwCkMSqFqUtTQYE=;
+ b=d76qqCeE37ewfCRCavwstP5cbyt79zVLP0i+m+96OVvEfmQ6rAveSmaYybd7/opx40
+ ePlz/Lw93djNXVTkeVhX34vPyBF5LFeYsNDrX+pK85y+510Pta6jwLlR4COHx5zLlCOm
+ BhRRW3EKOTe800kgJY/JGUwRTeny5sbu9k75+H/gmYZa7nmEp3WA5TKVRUxLIF9LB0nK
+ kcMWiZkas3rnVw1v0rIawsWeKmpY4j/T1Jt8pUDcJJWNnRhJ4Ay05bWk+41T4qMf5WAv
+ oD52n5ZuPs5S0HhgCRW8/rgBekaErg2zHltj1tcaALHMZHVZdoa8/DZAkqYtCznmQXTY
+ J2mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694507019; x=1695111819;
+ d=1e100.net; s=20230601; t=1694507318; x=1695112118;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NecnTNhEs6mk/7xS4+yPxPBE+Iq+otCfvP8k/SUlgdY=;
- b=vbJ1cj/Di9coGAskXs/AR9IM4ms4kOtb7Pzv4oNCvx5M0TLxUscdaQ2nJoIq5RnO7b
- u1hdWb6QSZEHMFLQTf9BkzGk11YvEbCEQbaTj6JqNhMheB63PSwrFTaiHQmfzqoTcUxI
- G0TpNMBZZ8xsDH/gvEqX+HyVjVLDXprYPHzhKJzk284HmARf5R14arC098x9pfUWGYgZ
- /Wm2sO+YwY6k2nXLysrTvpY1v/anFhvcBs65l7cnHjjuyp3Ggk6WUfLwIvT9OaZS9hoF
- m5kNtx+kpBhMUXacJQIaC1lqhqTAYG1axB2dYS0V3CMn1lSUlJpy0uzmsl5VeQ2hbvdM
- yN6w==
-X-Gm-Message-State: AOJu0YzaMz4gFK8uD5JBRQtdMRXayhtjsvcZobqPP9IgzbZkjGxwMsH6
- 8oJu3Mw+aMOxLDKoyqbZGXsZbVuwOjzbd2OIVQw=
-X-Google-Smtp-Source: AGHT+IFUhAhviWgQLFU03MSAKRTyIaNN7fIQ2Ll6cz8uur8tvWrxceUtpGTQvZh5kUvI/HNWPpsu2g==
-X-Received: by 2002:a17:907:a0c6:b0:9a2:86a:f9b7 with SMTP id
- hw6-20020a170907a0c600b009a2086af9b7mr9091015ejc.59.1694507018283; 
- Tue, 12 Sep 2023 01:23:38 -0700 (PDT)
+ bh=VLzVKDkkOXZ4N+LBDosJ9GVpBHoDNwCkMSqFqUtTQYE=;
+ b=TmwSa02gP9plsglhKAKXA3TFd8PWz79uNPWFU8EptY7a/mRHOMY2BxH+sbPJ1znagr
+ tDMZqv4fHrqShDqCXC1LAn8MyIOxQ7jjxR1vSBAD+64/Tn6B6jmY4OW4e++aTa9K5BrJ
+ BIFY9FHFMwjDQKc5XrYwajGsYOr7SyVY0Bxb5MFisgNfNVM13elDPjPCiRzTT/CTv4rh
+ NClzJ7NUE11Tyos7k8c2Zz0T3KnxH6eNht5uQsyr/AVGoc4iaQ7Kf4SQzOpPGIWNwRdY
+ +7dVZmrGuxpJ1JFpOMLX5E5iHeoubRY7RsWq4Giendn9EpyZTOmS7eJ2Tc8zWycX4EG3
+ nKbA==
+X-Gm-Message-State: AOJu0Yzap/hwpZh8LGh0NCO7YCIg4XbaYpi5oNLrhWSdRYxt4eYL+bzI
+ VRbBtxUS+IsY1E9FG7+i0qgIQQ==
+X-Google-Smtp-Source: AGHT+IHki0HI2dzDOWH07bBWQQqpwLHYoRHu3OffIZhdj/Y17PLOWS/fEeXHSa+TXIl8iuit84dkTA==
+X-Received: by 2002:a17:907:2ccb:b0:9a9:ee3d:48e3 with SMTP id
+ hg11-20020a1709072ccb00b009a9ee3d48e3mr9692911ejc.12.1694507318462; 
+ Tue, 12 Sep 2023 01:28:38 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.214.188])
  by smtp.gmail.com with ESMTPSA id
- rh16-20020a17090720f000b0098e0a937a6asm6416288ejb.69.2023.09.12.01.23.36
+ q18-20020a170906a09200b0099b8234a9fesm6507600ejy.1.2023.09.12.01.28.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Sep 2023 01:23:37 -0700 (PDT)
-Message-ID: <c64efa17-704d-0bb0-da91-5658bc0bf34e@linaro.org>
-Date: Tue, 12 Sep 2023 10:23:35 +0200
+ Tue, 12 Sep 2023 01:28:37 -0700 (PDT)
+Message-ID: <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+Date: Tue, 12 Sep 2023 10:28:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v5 02/14] arm64: dts: mediatek: mt8195: add MDP3 nodes
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
 Content-Language: en-US
-To: Moudy Ho <moudy.ho@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20230912075805.11432-1-moudy.ho@mediatek.com>
- <20230912075805.11432-3-moudy.ho@mediatek.com>
+To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org>
+ <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230912075805.11432-3-moudy.ho@mediatek.com>
+In-Reply-To: <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,23 +81,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= <Jianjiao.Zeng@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/09/2023 09:57, Moudy Ho wrote:
-> Add device nodes for Media Data Path 3 (MDP3) modules.
+On 12/09/2023 08:16, Yong Wu (吴勇) wrote:
+> Hi Rob,
 > 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8195.dtsi | 378 +++++++++++++++++++++++
->  1 file changed, 378 insertions(+)
+> Thanks for your review.
+> 
+> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+>>  	 
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>  On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+>>> This adds the binding for describing a CMA memory for MediaTek
+>> SVP(Secure
+>>> Video Path).
+>>
+>> CMA is a Linux thing. How is this related to CMA?
+> 
+>>>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> ---
+>>>  .../mediatek,secure_cma_chunkmem.yaml         | 42
+>> +++++++++++++++++++
+>>>  1 file changed, 42 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/reserved-
+>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/reserved-
+>> memory/mediatek,secure_cma_chunkmem.yaml
+>> b/Documentation/devicetree/bindings/reserved-
+>> memory/mediatek,secure_cma_chunkmem.yaml
+>>> new file mode 100644
+>>> index 000000000000..cc10e00d35c4
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/reserved-
+>> memory/mediatek,secure_cma_chunkmem.yaml
+>>> @@ -0,0 +1,42 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: 
+>> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: MediaTek Secure Video Path Reserved Memory
+>>
+>> What makes this specific to Mediatek? Secure video path is fairly 
+>> common, right?
+> 
+> Here we just reserve a buffer and would like to create a dma-buf secure
+> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
+> secure buffer through it.
+>  
+> But the heap driver is pure SW driver, it is not platform device and
 
-Why is this targeting media? No, don't. DTS goes via SoC, not media.
-Don't mix patches.
+All drivers are pure SW.
+
+> we don't have a corresponding HW unit for it. Thus I don't think I
+> could create a platform dtsi node and use "memory-region" pointer to
+> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in 
+> [9/9]). Sorry if this is not right.
+
+If this is not for any hardware and you already understand this (since
+you cannot use other bindings) then you cannot have custom bindings for
+it either.
+
+> 
+> Then in our usage case, is there some similar method to do this? or
+> any other suggestion?
+
+Don't stuff software into DTS.
 
 Best regards,
 Krzysztof
