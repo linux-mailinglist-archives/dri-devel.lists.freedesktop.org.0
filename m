@@ -2,46 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A6F79C952
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC0E79C962
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 10:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E937510E05B;
-	Tue, 12 Sep 2023 08:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D29210E3B1;
+	Tue, 12 Sep 2023 08:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6756D10E3AD;
- Tue, 12 Sep 2023 08:08:37 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B89F89083
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 08:11:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B4BA66607320;
- Tue, 12 Sep 2023 09:08:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694506116;
- bh=QTLF3QDsWwHgHaiHB3Yc82Zn12gmJPFRsWWKxlcPeUM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=akOhI3Sr47b5aEF4rPwRrabiXBQFspgxPFn1AABoCz+co/MMLvbRcg6qnl3wZVdnr
- F26AM0o0OuzECekuF74XPVDvPN44OOkVOdbYqRfr5zC9BcWh9Dxw2xPqVfoT2987EU
- Ry+RPXdZV4s98uKh0kUca9apP6ORAWTWGrGr1e8gpUPtkiN7YEKUbFVsz/U9Q9p+Ii
- qCNpzAGvEObC7q3krLgt/vsLLnfcsOmTux37ZRDoNw6w6zJkIiMDmqfWCpSRpg32RC
- jQiH+98wuYFG8yS1TgiPZzTYIzuWvMZcAcvGzWGmDlCyYiJyPCgEJ4z23/i8kf6rPE
- sgRzYsbXGrdIw==
-Date: Tue, 12 Sep 2023 10:08:33 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH v3 05/13] drm/sched: Split free_job into own work item
-Message-ID: <20230912100833.792eacb6@collabora.com>
-In-Reply-To: <20230912021615.2086698-6-matthew.brost@intel.com>
-References: <20230912021615.2086698-1-matthew.brost@intel.com>
- <20230912021615.2086698-6-matthew.brost@intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E197D1F85D;
+ Tue, 12 Sep 2023 08:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1694506304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WXdqCK7IJxe5rTLnJmNveWbh8pP8IIVl6oZz8TWuo30=;
+ b=Dnq0OX99SWDBkUkg4NqR285fXpw4UtUQlC6v6a33Ld3VUqbE+ogQNgvnc36ojM+/vAOfZl
+ vyLPpPnn2hmNSxGQIYeG/vaoMBLilloT1NUP1xWVzdHqV5QwEkzocdSeHw70rravqQPclW
+ n0IR3a0JOIQatXAf91xoKGe3m//O16c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1694506304;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WXdqCK7IJxe5rTLnJmNveWbh8pP8IIVl6oZz8TWuo30=;
+ b=p0yWx0VB92CYyXAsKozfKBHpAE6R93eb0u1c7uIHhEX1LSkA7doJgxsHUL6n1OqW0P/6S2
+ ZTFWluW+UjUrp1AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 818FA13A39;
+ Tue, 12 Sep 2023 08:11:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id XQU5G0AdAGVIFAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 12 Sep 2023 08:11:44 +0000
+Message-ID: <637afb25-8ee2-4188-9385-27ee6a97ec59@suse.de>
+Date: Tue, 12 Sep 2023 10:11:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@kernel.org>
+References: <20230911205338.2385278-1-arnd@kernel.org>
+ <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------z16WFs9halpjk3MPJ08ovkgt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,366 +93,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- luben.tuikov@amd.com, donald.robson@imgtec.com, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Sep 2023 19:16:07 -0700
-Matthew Brost <matthew.brost@intel.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------z16WFs9halpjk3MPJ08ovkgt
+Content-Type: multipart/mixed; boundary="------------0NR9gq0a3l3oFllEsTkfW0tM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jim Cromie <jim.cromie@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
+Message-ID: <637afb25-8ee2-4188-9385-27ee6a97ec59@suse.de>
+Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
+References: <20230911205338.2385278-1-arnd@kernel.org>
+ <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
 
-> Rather than call free_job and run_job in same work item have a dedicated
-> work item for each. This aligns with the design and intended use of work
-> queues.
-> 
-> v2:
->    - Test for DMA_FENCE_FLAG_TIMESTAMP_BIT before setting
->      timestamp in free_job() work item (Danilo)
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 143 ++++++++++++++++++-------
->  include/drm/gpu_scheduler.h            |   8 +-
->  2 files changed, 110 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 3820e9ae12c8..d28b6751256e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -213,11 +213,12 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->   * drm_sched_rq_select_entity_rr - Select an entity which could provide a job to run
->   *
->   * @rq: scheduler run queue to check.
-> + * @dequeue: dequeue selected entity
->   *
->   * Try to find a ready entity, returns NULL if none found.
->   */
->  static struct drm_sched_entity *
-> -drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
-> +drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq, bool dequeue)
->  {
->  	struct drm_sched_entity *entity;
->  
-> @@ -227,8 +228,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
->  	if (entity) {
->  		list_for_each_entry_continue(entity, &rq->entities, list) {
->  			if (drm_sched_entity_is_ready(entity)) {
-> -				rq->current_entity = entity;
-> -				reinit_completion(&entity->entity_idle);
-> +				if (dequeue) {
-> +					rq->current_entity = entity;
-> +					reinit_completion(&entity->entity_idle);
-> +				}
->  				spin_unlock(&rq->lock);
->  				return entity;
->  			}
-> @@ -238,8 +241,10 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
->  	list_for_each_entry(entity, &rq->entities, list) {
->  
->  		if (drm_sched_entity_is_ready(entity)) {
-> -			rq->current_entity = entity;
-> -			reinit_completion(&entity->entity_idle);
-> +			if (dequeue) {
-> +				rq->current_entity = entity;
-> +				reinit_completion(&entity->entity_idle);
-> +			}
->  			spin_unlock(&rq->lock);
->  			return entity;
->  		}
-> @@ -257,11 +262,12 @@ drm_sched_rq_select_entity_rr(struct drm_sched_rq *rq)
->   * drm_sched_rq_select_entity_fifo - Select an entity which provides a job to run
->   *
->   * @rq: scheduler run queue to check.
-> + * @dequeue: dequeue selected entity
->   *
->   * Find oldest waiting ready entity, returns NULL if none found.
->   */
->  static struct drm_sched_entity *
-> -drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
-> +drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq, bool dequeue)
->  {
->  	struct rb_node *rb;
->  
-> @@ -271,8 +277,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->  
->  		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
->  		if (drm_sched_entity_is_ready(entity)) {
-> -			rq->current_entity = entity;
-> -			reinit_completion(&entity->entity_idle);
-> +			if (dequeue) {
-> +				rq->current_entity = entity;
-> +				reinit_completion(&entity->entity_idle);
-> +			}
->  			break;
->  		}
->  	}
-> @@ -282,13 +290,54 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->  }
->  
->  /**
-> - * drm_sched_submit_queue - scheduler queue submission
-> + * drm_sched_run_job_queue - queue job submission
->   * @sched: scheduler instance
->   */
-> -static void drm_sched_submit_queue(struct drm_gpu_scheduler *sched)
-> +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
->  {
->  	if (!READ_ONCE(sched->pause_submit))
-> -		queue_work(sched->submit_wq, &sched->work_submit);
-> +		queue_work(sched->submit_wq, &sched->work_run_job);
-> +}
-> +
-> +static struct drm_sched_entity *
-> +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue);
+--------------0NR9gq0a3l3oFllEsTkfW0tM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Nit: Can you drop this forward declaration and move the function here?
+SGkNCg0KQW0gMTIuMDkuMjMgdW0gMDk6MTQgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQpbLi4uXQ0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcNCj4+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9LY29uZmlnDQo+PiBAQCAtMTM1LDcgKzEzNSw3IEBAIGNvbmZpZyBE
+Uk1fRkJERVZfRU1VTEFUSU9ODQo+PiAgICAgICAgICBib29sICJFbmFibGUgbGVnYWN5IGZi
+ZGV2IHN1cHBvcnQgZm9yIHlvdXIgbW9kZXNldHRpbmcgZHJpdmVyIg0KPj4gICAgICAgICAg
+ZGVwZW5kcyBvbiBEUk0NCj4+ICAgICAgICAgIHNlbGVjdCBGUkFNRUJVRkZFUl9DT05TT0xF
+X0RFVEVDVF9QUklNQVJZIGlmIEZSQU1FQlVGRkVSX0NPTlNPTEUNCj4+IC0gICAgICAgZGVm
+YXVsdCB5DQo+PiArICAgICAgIGRlZmF1bHQgRkINCj4gDQo+IFdoaWxlIHRoaXMgaXMgdHJ1
+ZSBmb3IgZXhpc3RpbmcgY29uZmlncywgaXQgaXMgbm8gbG9uZ2VyIHRydWUgaW4gZ2VuZXJh
+bCwNCj4gYXMgRFJNX0ZCREVWX0VNVUxBVElPTiBpcyBubyBsb25nZXIgcmVsYXRlZCB0byBG
+Qi4NCg0KV291bGQgaXQgbWFrZSBzZW5zZSB0byBtYWtlIEZSQU1FQlVGRkVSX0NPTlNPTEUg
+YW4gaW5kZXBlbmRlbnQgb3B0aW9uIA0KYW5kIGhhdmUgRkJERVZfRU1VTEFUSU9OIGRlcGVu
+ZCBvbiBpdD8gU29tZXRoaW5nIGxpa2UgdGhpczoNCg0KRlJBTUVCVUZGRVJfQ09OU09MRQ0K
+CWRlcGVuZHMgb24gRFJNIHx8IEZCDQoJc2VsZWN0IEZCX0NPUkUNCg0KRkJERVZfRU1VTEFU
+SU9ODQoJZGVwZW5kcyBvbiBEUk0NCglkZXBlbmRzIG9uIEZSQU1FQlVGRkVSX0NPTlNPTEUN
+CglkZWZhdWx0IHkNCg0KU28gaWYgYW55IGdyYXBoaWNzIHN1YnN5c3RlbXMgYXJlIGVuYWJs
+ZWQsIEZSQU1FQlVGRkVSX0NPTlNPTEUgaXMgDQpzZWxlY3QtYWJsZS4gQnV0IGZvciBEUk0s
+IEZCREVWX0VNVUxBVElPTiBkaXNhYmxlcyB0aGUgY29uc29sZS4gVGhhdCANCm9wdGlvbiBy
+ZW1haW5zIG1vcmUgZm9yIGhpc3RvcmljYWwgcmVhc29ucyB0aGFuIGFjdHVhbCB1c2VmdWxu
+ZXNzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4gICAgICAgICAgaGVscA0K
+Pj4gICAgICAgICAgICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IGhhdmUgYSBuZWVkIGZv
+ciB0aGUgbGVnYWN5IGZiZGV2DQo+PiAgICAgICAgICAgIHN1cHBvcnQuIE5vdGUgdGhhdCB0
+aGlzIHN1cHBvcnQgYWxzbyBwcm92aWRlcyB0aGUgbGludXggY29uc29sZQ0KPj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS9LY29uZmlnIGIvZHJpdmVycy92aWRlby9j
+b25zb2xlL0tjb25maWcNCj4+IGluZGV4IGI1NzVjZjU0MTc0YWYuLjgzYzJkNzMyOWNhNTgg
+MTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvS2NvbmZpZw0KPj4gKysr
+IGIvZHJpdmVycy92aWRlby9jb25zb2xlL0tjb25maWcNCj4+IEBAIC03NCw2ICs3NCw3IEBA
+IGNvbmZpZyBEVU1NWV9DT05TT0xFX1JPV1MNCj4+ICAgY29uZmlnIEZSQU1FQlVGRkVSX0NP
+TlNPTEUNCj4+ICAgICAgICAgIGJvb2wgIkZyYW1lYnVmZmVyIENvbnNvbGUgc3VwcG9ydCIN
+Cj4+ICAgICAgICAgIGRlcGVuZHMgb24gRkJfQ09SRSAmJiAhVU1MDQo+PiArICAgICAgIGRl
+ZmF1bHQgRFJNX0ZCREVWX0VNVUxBVElPTg0KPiANCj4gU291bmRzIGdvb2QgdG8gbWUsIGFs
+dGhvdWdoIGl0IGxvb2tzIGEgYml0IHN0cmFuZ2UgYXQgZmlyc3Qgc2lnaHQNCj4gKEZSQU1F
+QlVGRkVSX0NPTlNPTEUgZGVmYXVsdHMgdG8gbiBvbiBhIHN5c3RlbSB3aXRoIHJlYWwgZmJk
+ZXYsIGJ1dA0KPiB5IG9uIGVtdWxhdGVkIGZiZGV2PykuDQo+IFNvIHRoaXMgaXMgdGhlIGZp
+eCBmb3IgY29tbWl0IGE1YWUzMzFlZGIwMmIgKCJkcm06IERyb3Agc2VsZWN0DQo+IEZSQU1F
+QlVGRkVSX0NPTlNPTEUgZm9yIERSTV9GQkRFVl9FTVVMQVRJT04iKS4NCj4gDQo+PiAgICAg
+ICAgICBzZWxlY3QgVlRfSFdfQ09OU09MRV9CSU5ESU5HDQo+PiAgICAgICAgICBzZWxlY3Qg
+Q1JDMzINCj4+ICAgICAgICAgIHNlbGVjdCBGT05UX1NVUFBPUlQNCj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvS2NvbmZpZyBiL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvY29yZS9LY29uZmlnDQo+PiBpbmRleCAxMTRjYjhhYTZjOGZkLi44MDRjMmJlYzliNDNj
+IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL0tjb25maWcNCj4+
+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9LY29uZmlnDQo+PiBAQCAtMjgsNyAr
+MjgsNyBAQCBjb25maWcgRklSTVdBUkVfRURJRA0KPj4gICBjb25maWcgRkJfREVWSUNFDQo+
+PiAgICAgICAgICBib29sICJQcm92aWRlIGxlZ2FjeSAvZGV2L2ZiKiBkZXZpY2UiDQo+PiAg
+ICAgICAgICBkZXBlbmRzIG9uIEZCX0NPUkUNCj4+IC0gICAgICAgZGVmYXVsdCB5DQo+PiAr
+ICAgICAgIGRlZmF1bHQgRkINCj4gDQo+IENoYW5naW5nIHRoaXMgbWVhbnMgcG9zc2libHkg
+Y2F1c2luZyByZWdyZXNzaW9ucyBvbiBzeXN0ZW1zIHJ1bm5pbmcNCj4gYW4gZmJkZXYgdXNl
+cnNwYWNlLg0KPiANCj4+ICAgICAgICAgIGhlbHANCj4+ICAgICAgICAgICAgU2F5IFkgaGVy
+ZSBpZiB5b3Ugd2FudCB0aGUgbGVnYWN5IC9kZXYvZmIqIGRldmljZSBmaWxlIGFuZA0KPj4g
+ICAgICAgICAgICBpbnRlcmZhY2VzIHdpdGhpbiBzeXNmcyBhbmMgcHJvY2ZzLiBJdCBpcyBv
+bmx5IHJlcXVpcmVkIGlmIHlvdQ0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcs
+IEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxk
+LCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-> +
-> +/**
-> + * drm_sched_run_job_queue_if_ready - queue job submission if ready
-> + * @sched: scheduler instance
-> + */
-> +static void drm_sched_run_job_queue_if_ready(struct drm_gpu_scheduler *sched)
-> +{
-> +	if (drm_sched_select_entity(sched, false))
-> +		drm_sched_run_job_queue(sched);
-> +}
-> +
-> +/**
-> + * drm_sched_free_job_queue - queue free job
-> + *
-> + * @sched: scheduler instance to queue free job
-> + */
-> +static void drm_sched_free_job_queue(struct drm_gpu_scheduler *sched)
-> +{
-> +	if (!READ_ONCE(sched->pause_submit))
-> +		queue_work(sched->submit_wq, &sched->work_free_job);
-> +}
-> +
-> +/**
-> + * drm_sched_free_job_queue_if_ready - queue free job if ready
-> + *
-> + * @sched: scheduler instance to queue free job
-> + */
-> +static void drm_sched_free_job_queue_if_ready(struct drm_gpu_scheduler *sched)
-> +{
-> +	struct drm_sched_job *job;
-> +
-> +	spin_lock(&sched->job_list_lock);
-> +	job = list_first_entry_or_null(&sched->pending_list,
-> +				       struct drm_sched_job, list);
-> +	if (job && dma_fence_is_signaled(&job->s_fence->finished))
-> +		drm_sched_free_job_queue(sched);
-> +	spin_unlock(&sched->job_list_lock);
->  }
->  
->  /**
-> @@ -310,7 +359,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
->  	dma_fence_get(&s_fence->finished);
->  	drm_sched_fence_finished(s_fence, result);
->  	dma_fence_put(&s_fence->finished);
-> -	drm_sched_submit_queue(sched);
-> +	drm_sched_free_job_queue(sched);
->  }
->  
->  /**
-> @@ -906,18 +955,19 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
->  void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
->  {
->  	if (drm_sched_can_queue(sched))
-> -		drm_sched_submit_queue(sched);
-> +		drm_sched_run_job_queue(sched);
->  }
->  
->  /**
->   * drm_sched_select_entity - Select next entity to process
->   *
->   * @sched: scheduler instance
-> + * @dequeue: dequeue selected entity
->   *
->   * Returns the entity to process or NULL if none are found.
->   */
->  static struct drm_sched_entity *
-> -drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-> +drm_sched_select_entity(struct drm_gpu_scheduler *sched, bool dequeue)
->  {
->  	struct drm_sched_entity *entity;
->  	int i;
-> @@ -936,8 +986,10 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->  	/* Kernel run queue has higher priority than normal run queue*/
->  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
->  		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
-> -			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
-> -			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
-> +			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i],
-> +							dequeue) :
-> +			drm_sched_rq_select_entity_rr(&sched->sched_rq[i],
-> +						      dequeue);
->  		if (entity)
->  			break;
->  	}
-> @@ -974,8 +1026,10 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
->  						typeof(*next), list);
->  
->  		if (next) {
-> -			next->s_fence->scheduled.timestamp =
-> -				job->s_fence->finished.timestamp;
-> +			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
-> +				     &next->s_fence->scheduled.flags))
-> +				next->s_fence->scheduled.timestamp =
-> +					job->s_fence->finished.timestamp;
+--------------0NR9gq0a3l3oFllEsTkfW0tM--
 
-Looks like you are changing the behavior here (unconditional ->
-conditional timestamp update)? Probably something that should go in a
-separate patch.
+--------------z16WFs9halpjk3MPJ08ovkgt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
->  			/* start TO timer for next job */
->  			drm_sched_start_timeout(sched);
->  		}
-> @@ -1025,30 +1079,44 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
->  EXPORT_SYMBOL(drm_sched_pick_best);
->  
->  /**
-> - * drm_sched_main - main scheduler thread
-> + * drm_sched_free_job_work - worker to call free_job
->   *
-> - * @param: scheduler instance
-> + * @w: free job work
->   */
-> -static void drm_sched_main(struct work_struct *w)
-> +static void drm_sched_free_job_work(struct work_struct *w)
->  {
->  	struct drm_gpu_scheduler *sched =
-> -		container_of(w, struct drm_gpu_scheduler, work_submit);
-> -	struct drm_sched_entity *entity;
-> +		container_of(w, struct drm_gpu_scheduler, work_free_job);
->  	struct drm_sched_job *cleanup_job;
-> -	int r;
->  
->  	if (READ_ONCE(sched->pause_submit))
->  		return;
->  
->  	cleanup_job = drm_sched_get_cleanup_job(sched);
-> -	entity = drm_sched_select_entity(sched);
-> +	if (cleanup_job) {
-> +		sched->ops->free_job(cleanup_job);
-> +
-> +		drm_sched_free_job_queue_if_ready(sched);
-> +		drm_sched_run_job_queue_if_ready(sched);
-> +	}
-> +}
->  
-> -	if (!entity && !cleanup_job)
-> -		return;	/* No more work */
-> +/**
-> + * drm_sched_run_job_work - worker to call run_job
-> + *
-> + * @w: run job work
-> + */
-> +static void drm_sched_run_job_work(struct work_struct *w)
-> +{
-> +	struct drm_gpu_scheduler *sched =
-> +		container_of(w, struct drm_gpu_scheduler, work_run_job);
-> +	struct drm_sched_entity *entity;
-> +	int r;
->  
-> -	if (cleanup_job)
-> -		sched->ops->free_job(cleanup_job);
-> +	if (READ_ONCE(sched->pause_submit))
-> +		return;
->  
-> +	entity = drm_sched_select_entity(sched, true);
+-----BEGIN PGP SIGNATURE-----
 
-Nit:
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUAHT8FAwAAAAAACgkQlh/E3EQov+DU
+Pw//bjtTKDkr6zUHhIzruyB3IaL13aLU4GbkVUM6gBsYTyrv99UrVpdnzbI1yip0ayia3l4IuuLi
+zheiwC/0NQAZa6E5l9AqXv5eGMyuBpD9jUy9BYGojo/TfcV/uRq1eBj1ZzJo7TIPEkCC+7zfQ1W4
+pX9oiLPsmkgSvZ2U7C647XcX1SzNRj8lG9ZpoDHJpslEe377rkUJcIY+E2GeUTt7sExDnJlf3q3u
+AHWUWmCyQesHKqiq0KjqOCtQOlm4Q3RrCuswJWKvJR7i76s9qx0RWQCoRbAIh3BWhHrXWQKKTOJ+
+73YcyJtmk8pBbyoUEawWWkaeKVhWFPxR8EEcXF+OOWynRxeP7yZIyxYPffkoFFVcR7uPoMoqhDUe
+J1olUE+hiHc5znxx3QKRNc1+JRkKMTEu2yfP63aKnHAoCsPoTkomSPytLQiCQwdsKCmOjdP1jHSS
+uvR8yNY5NpveaOz8yG7T1s9dxpy1WQbNSiCFQOy07oVB0et459pORhn1PrKVcMy+k+XAvNNLzhCe
+it8aCsF8dmxiqoqAYX/3niD3U7IG9IxZ9xilXi0KlI8RaLz+L+tqwPgjtxn9vXxiiziYzuG+C1A7
+vq36g6rKNNAopoGR7Vh4sUWmlzVt5FS4GK7PbiuuzGwGm6/9Ou8hLQ0lWKbzms5Xf1YYvvz7oEpG
+unM=
+=5E0s
+-----END PGP SIGNATURE-----
 
-	if (!entity)
-		return;
-
-then you can save an indentation level for the rest of the function.
-
->  	if (entity) {
->  		struct dma_fence *fence;
->  		struct drm_sched_fence *s_fence;
-> @@ -1057,9 +1125,7 @@ static void drm_sched_main(struct work_struct *w)
->  		sched_job = drm_sched_entity_pop_job(entity);
->  		if (!sched_job) {
->  			complete_all(&entity->entity_idle);
-> -			if (!cleanup_job)
-> -				return;	/* No more work */
-> -			goto again;
-> +			return;	/* No more work */
->  		}
->  
->  		s_fence = sched_job->s_fence;
-> @@ -1089,10 +1155,8 @@ static void drm_sched_main(struct work_struct *w)
->  		}
->  
->  		wake_up(&sched->job_scheduled);
-> +		drm_sched_run_job_queue_if_ready(sched);
->  	}
-> -
-> -again:
-> -	drm_sched_submit_queue(sched);
->  }
->  
->  /**
-> @@ -1151,7 +1215,8 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  	spin_lock_init(&sched->job_list_lock);
->  	atomic_set(&sched->hw_rq_count, 0);
->  	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
-> -	INIT_WORK(&sched->work_submit, drm_sched_main);
-> +	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
-> +	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
->  	atomic_set(&sched->_score, 0);
->  	atomic64_set(&sched->job_id_count, 0);
->  	sched->pause_submit = false;
-> @@ -1276,7 +1341,8 @@ EXPORT_SYMBOL(drm_sched_submit_ready);
->  void drm_sched_submit_stop(struct drm_gpu_scheduler *sched)
->  {
->  	WRITE_ONCE(sched->pause_submit, true);
-> -	cancel_work_sync(&sched->work_submit);
-> +	cancel_work_sync(&sched->work_run_job);
-> +	cancel_work_sync(&sched->work_free_job);
->  }
->  EXPORT_SYMBOL(drm_sched_submit_stop);
->  
-> @@ -1288,6 +1354,7 @@ EXPORT_SYMBOL(drm_sched_submit_stop);
->  void drm_sched_submit_start(struct drm_gpu_scheduler *sched)
->  {
->  	WRITE_ONCE(sched->pause_submit, false);
-> -	queue_work(sched->submit_wq, &sched->work_submit);
-> +	queue_work(sched->submit_wq, &sched->work_run_job);
-> +	queue_work(sched->submit_wq, &sched->work_free_job);
->  }
->  EXPORT_SYMBOL(drm_sched_submit_start);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 04eec2d7635f..fbc083a92757 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -487,9 +487,10 @@ struct drm_sched_backend_ops {
->   *                 finished.
->   * @hw_rq_count: the number of jobs currently in the hardware queue.
->   * @job_id_count: used to assign unique id to the each job.
-> - * @submit_wq: workqueue used to queue @work_submit
-> + * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
->   * @timeout_wq: workqueue used to queue @work_tdr
-> - * @work_submit: schedules jobs and cleans up entities
-> + * @work_run_job: schedules jobs
-> + * @work_free_job: cleans up jobs
->   * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
->   *            timeout interval is over.
->   * @pending_list: the list of jobs which are currently in the job queue.
-> @@ -518,7 +519,8 @@ struct drm_gpu_scheduler {
->  	atomic64_t			job_id_count;
->  	struct workqueue_struct		*submit_wq;
->  	struct workqueue_struct		*timeout_wq;
-> -	struct work_struct		work_submit;
-> +	struct work_struct		work_run_job;
-> +	struct work_struct		work_free_job;
->  	struct delayed_work		work_tdr;
->  	struct list_head		pending_list;
->  	spinlock_t			job_list_lock;
-
+--------------z16WFs9halpjk3MPJ08ovkgt--
