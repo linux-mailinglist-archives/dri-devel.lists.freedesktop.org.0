@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E6C79C7C5
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B962779C7B3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E135910E360;
-	Tue, 12 Sep 2023 07:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB0510E35C;
+	Tue, 12 Sep 2023 07:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Tue, 12 Sep 2023 07:12:08 UTC
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6045C10E360;
- Tue, 12 Sep 2023 07:12:08 +0000 (UTC)
-X-UUID: 4c5f962676df41fd88c33b35345abea5-20230912
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:99d3588d-76c7-47f3-8d5b-9077c3b64bd4, IP:5,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-4
-X-CID-INFO: VERSION:1.1.31, REQID:99d3588d-76c7-47f3-8d5b-9077c3b64bd4, IP:5,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:-4
-X-CID-META: VersionHash:0ad78a4, CLOUDID:17ad98ef-9a6e-4c39-b73e-f2bc08ca3dc5,
- B
- ulkID:2309121506533HBDAXDZ,BulkQuantity:0,Recheck:0,SF:19|43|64|38|24|17|1
- 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
- L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-UUID: 4c5f962676df41fd88c33b35345abea5-20230912
-X-User: zhouzongmin@kylinos.cn
-Received: from [172.20.12.156] [(111.48.58.12)] by mailgw
- (envelope-from <zhouzongmin@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1882865759; Tue, 12 Sep 2023 15:06:52 +0800
-Message-ID: <0fce832b81d676da8bde28bc7acf4d56932f244d.camel@kylinos.cn>
-Subject: Re: [RESEND PATCH] drm/qxl: prevent memory leak
-From: zongmin zhou <zhouzongmin@kylinos.cn>
-To: airlied@redhat.com, kraxel@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Date: Tue, 12 Sep 2023 15:06:35 +0800
-In-Reply-To: <20230801025309.4049813-1-zhouzongmin@kylinos.cn>
-References: <20230425014543.3448839-1-zhouzongmin@kylinos.cn>
- <20230801025309.4049813-1-zhouzongmin@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF0E10E369
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:07:15 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C098566072FB;
+ Tue, 12 Sep 2023 08:07:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694502434;
+ bh=0bDv/Gse7UVvtEQH3mZnutrtEjAlK95RuXH2e30TfrU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=KRtSmH7QnR8S7UkJfPXEyGU0kP6vvA48GzbleYQdWBENY+H4A31CYTxK69tTr2dX+
+ i01d7HYh3ihwij7//xslYBZL5J1WFKvONp6qmIYw2cz84CFypEwOEQrOryRGWFuyIc
+ UxJ56XMQp5X5rdoXlCHnX+PZ0co/PQZez3LDqkJecbNYoBm9i+zeqNTl9+saowwmBz
+ n3GZgxyokdntSmj9zAxhZTlonyX2HgaIYSCKv3J9ml1ARtSJU7K8yi5MA0dVz6iOVK
+ 3Ey0yu6xTgGhDepjWopuzQycPrtUPgtFh1AQCejr3WkemwQZ8GiWiiInLiNgKocJXU
+ GI1E+jcz92LEw==
+Date: Tue, 12 Sep 2023 09:07:10 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v16 02/20] drm/shmem-helper: Use flag for tracking page
+ count bumped by get_pages_sgt()
+Message-ID: <20230912090710.72e998e6@collabora.com>
+In-Reply-To: <297f5209-603e-a50d-c27b-8e50d23f86de@collabora.com>
+References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
+ <20230903170736.513347-3-dmitry.osipenko@collabora.com>
+ <20230905094050.3c918a43@collabora.com>
+ <297f5209-603e-a50d-c27b-8e50d23f86de@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +56,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2023-08-01 at 10:53 +0800, Zongmin Zhou wrote:
-> The allocated memory for qdev->dumb_heads should be released
-> in qxl_destroy_monitors_object before qxl suspend.
-> otherwise,qxl_create_monitors_object will be called to
-> reallocate memory for qdev->dumb_heads after qxl resume,
-> it will cause memory leak.
->=20
-> Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
-> ---
-> =C2=A0drivers/gpu/drm/qxl/qxl_display.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c
-> b/drivers/gpu/drm/qxl/qxl_display.c
-> index 6492a70e3c39..404b0483bb7c 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1229,6 +1229,9 @@ int qxl_destroy_monitors_object(struct
-> qxl_device *qdev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!qdev->monitors_confi=
-g_bo)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kfree(qdev->dumb_heads);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qdev->dumb_heads =3D NULL;
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qdev->monitors_config =3D=
- NULL;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qdev->ram_header->monitor=
-s_config =3D 0;
-> =C2=A0
-Friendly ping...
+On Tue, 12 Sep 2023 02:41:58 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Hello, I sent this patch a few months ago.
-Could you please help me review it as well and see if there are any
-issues?
+> On 9/5/23 10:40, Boris Brezillon wrote:
+> > On Sun,  3 Sep 2023 20:07:18 +0300
+> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> >   
+> >> Use separate flag for tracking page count bumped by shmem->sgt to avoid
+> >> imbalanced page counter during of drm_gem_shmem_free() time. It's fragile
+> >> to assume that populated shmem->pages at a freeing time means that the
+> >> count was bumped by drm_gem_shmem_get_pages_sgt(), using a flag removes
+> >> the ambiguity.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 11 ++++++++++-
+> >>  drivers/gpu/drm/lima/lima_gem.c        |  1 +
+> >>  include/drm/drm_gem_shmem_helper.h     |  7 +++++++
+> >>  3 files changed, 18 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> index 6693d4061ca1..848435e08eb2 100644
+> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> @@ -152,8 +152,10 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+> >>  			sg_free_table(shmem->sgt);
+> >>  			kfree(shmem->sgt);
+> >>  		}
+> >> -		if (shmem->pages)
+> >> +		if (shmem->pages) {
+> >>  			drm_gem_shmem_put_pages(shmem);
+> >> +			drm_WARN_ON(obj->dev, !shmem->got_pages_sgt);
+> >> +		}  
+> > 
+> > Already mentioned in v15, but I keep thinking the following:
+> > 
+> > 		if (shmem->sgt) {
+> > 			// existing code in the preceding
+> > 			// if (shmem->sgt) branch
+> > 			...
+> > 
+> > 			/*
+> > 			 * Release the implicit pages ref taken in
+> > 			 * drm_gem_shmem_get_pages_sgt_locked().
+> > 			 */
+> > 			drm_gem_shmem_put_pages(shmem);
+> > 		}
+> > 
+> > does exactly the same without requiring the addition of a new field.  
+> 
+> I'll factor out these "flag" patches into separate patchset since they
+> cause too many questions.
 
-I'm looking forward to your reply.
-Thanks
+So patch 1 and 2 in this series right?
+
+> This is a fix for a minor bug that existed for
+> many years
+
+I'm not denying the fact there's a bug, but I'm convinced this can be
+fixed without adding new flags. If there's something wrong with the
+suggested solution, I'd be interested to hear more about it.
+
+> and is difficult to trigger in practice, it can wait.
+
+Triggering it with a real fault is hard, but you can manually fake
+errors at any point in the initialization process and check what
+happens.
+
+> 
+> For now will be better to focus on finishing and landing the refcnt and
+> shrinker patches, the rest of drm-shmem core improvements can be done
+> afterwards.
+> 
+
+Sounds good to me.
