@@ -1,76 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B376979C6E4
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 08:29:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF5379C71F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 08:44:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFFB810E321;
-	Tue, 12 Sep 2023 06:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A67310E038;
+	Tue, 12 Sep 2023 06:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C797A10E321
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 06:29:11 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id
- e9e14a558f8ab-34f6c725d94so7381465ab.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 23:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694500151; x=1695104951;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hzZ0g5ZlS6sJREICVBNJdNjzNdZ31/yPMuU7RoyizV0=;
- b=LuZAuJxqmN2KNME9HNje5He38/GCYd0mamlEhcwREBlG0YZbOl2196TE16VHZ9A3vZ
- 9QwrW6MLxTaFPaYOvw0qEJ7pGmcZgpW9PR7c+MIR3RAj0kJiu98BuGEqfjYe321RCeTF
- RQiEjR7IrYHk6h73IRjONOhYGgAPjokXNsZSM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694500151; x=1695104951;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hzZ0g5ZlS6sJREICVBNJdNjzNdZ31/yPMuU7RoyizV0=;
- b=CjQ1SBLNM4hZyXXvV2IlLIfE8eDoEjS7uMI0pM4qaCbFQXPf3U4UJpFngSZ8agZ0Om
- VpzfdlwQqXP0ZiSnZ6iOz4ZNkZZJ9el5O9R50rW8ia9EkiZ1Qljx7iawH62YqBkuM31O
- sVM4ab5IbgwQK24w5R50CQ/DzwmkxgcUindaSWI6rg0pPrfn8skqvwd9w9Sx5hbLHDHX
- M/d4F0pOk1G60L6OmOvhBWaA86sA9AOibNwYvfYu5cW16m4hwAZUUoTpr1m/hd2HUkxw
- KpNT+z4CTZVq0+VMtW74HHNuv76MTqC7+C4kd/pQKkJ2ajq3opMfECkPub9pUKPyV+oc
- X+dw==
-X-Gm-Message-State: AOJu0YwUZc4fQ/u4tpP93gsMDvp31IfNhyQZUgixrF7qdBsiW+djqu67
- mWsJIyFpdqOMu77cTI1aVZw/sfuaAlBZCbphQsM=
-X-Google-Smtp-Source: AGHT+IHj//KaMjt7masS60rXlCrQZeuHPYLB0Gf/PAqjivoOrE8sV/XF+E38OjJdsHwYFoSjsE7Zlw==
-X-Received: by 2002:a05:6e02:1151:b0:34d:ec00:2ce8 with SMTP id
- o17-20020a056e02115100b0034dec002ce8mr11589268ill.21.1694500150889; 
- Mon, 11 Sep 2023 23:29:10 -0700 (PDT)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com.
- [209.85.166.53]) by smtp.gmail.com with ESMTPSA id
- p14-20020a056e02104e00b0034f6f2eca21sm1580918ilj.69.2023.09.11.23.29.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Sep 2023 23:29:10 -0700 (PDT)
-Received: by mail-io1-f53.google.com with SMTP id
- ca18e2360f4ac-79565370a93so164782639f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 23:29:10 -0700 (PDT)
-X-Received: by 2002:a6b:610a:0:b0:786:25a3:ef30 with SMTP id
- v10-20020a6b610a000000b0078625a3ef30mr13376283iob.7.1694500149823; Mon, 11
- Sep 2023 23:29:09 -0700 (PDT)
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E490E10E038
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 06:44:17 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+ id D9EEF270487; Tue, 12 Sep 2023 08:44:15 +0200 (CEST)
+Date: Tue, 12 Sep 2023 08:44:15 +0200
+From: Janne Grunau <j@jannau.net>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+Message-ID: <ZQAIv3KchAMsXgIr@jannau.net>
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+ <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
 MIME-Version: 1.0
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.5.I2b014f90afc4729b6ecc7b5ddd1f6dedcea4625b@changeid>
- <CAC=S1niYAC3PFQoAmwVc=1FcK29uu5sC9c1pGo-mku__y7eHcA@mail.gmail.com>
- <CAD=FV=VT8ZQkcLn4nsxCygC5SG16qYW5igFfwM762jEK42p12g@mail.gmail.com>
-In-Reply-To: <CAD=FV=VT8ZQkcLn4nsxCygC5SG16qYW5igFfwM762jEK42p12g@mail.gmail.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Tue, 12 Sep 2023 14:28:32 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njNfjOaSidUHSGPKC+-625Ysx66wx9Sk02ZXGvpUKYBbA@mail.gmail.com>
-Message-ID: <CAC=S1njNfjOaSidUHSGPKC+-625Ysx66wx9Sk02ZXGvpUKYBbA@mail.gmail.com>
-Subject: Re: [RFT PATCH 05/15] drm/mediatek: Call drm_atomic_helper_shutdown()
- at shutdown time
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,35 +38,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 12, 2023 at 12:11=E2=80=AFAM Doug Anderson <dianders@chromium.o=
-rg> wrote:
->
-[...]
->
-> That makes sense. I had based this series on drm-misc-next which
-> didn't have those, but now that a new -rc1 is out it then
-> drm-misc-next should rebase shortly. I'll make sure that the next
-> version includes Uwe's changes as much as possible.
->
-> That being said, I also wouldn't object if the maintainer of this DRM
-> driver wanted to resolve conflicts themselves and land the patch
-> without me needing to resend. The conflict is trivial, there are no
-> dependencies and no reason to land the series all at once, so landing
-> this patch early would mean less spam for the maintainer since they
-> would no longer get CCed on future versions. :-P Just sayin...
+On 2023-09-10 22:16:05 +0200, Christophe JAILLET wrote:
+> Le 10/09/2023 à 18:39, Janne Grunau via B4 Relay a écrit :
+> > From: Janne Grunau <j@jannau.net>
+> > 
+> > Multiple power domains need to be handled explicitly in each driver. The
+> > driver core can not handle it automatically since it is not aware of
+> > power sequencing requirements the hardware might have. This is not a
+> > problem for simpledrm since everything is expected to be powered on by
+> > the bootloader. simpledrm has just ensure it remains powered on during
+> > its lifetime.
+> > This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+> > systems. The HDMI output initialized by the bootloader requires keeping
+> > the display controller and a DP phy power domain on.
+> > 
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> >   drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 106 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+> > index ff86ba1ae1b8..efedede57d42 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -6,6 +6,7 @@
+> >   #include <linux/of_address.h>
+> >   #include <linux/platform_data/simplefb.h>
+> >   #include <linux/platform_device.h>
+> > +#include <linux/pm_domain.h>
+> >   #include <linux/regulator/consumer.h>
+> >   #include <drm/drm_aperture.h>
+> > @@ -227,6 +228,12 @@ struct simpledrm_device {
+> >   	unsigned int regulator_count;
+> >   	struct regulator **regulators;
+> >   #endif
+> > +	/* power-domains */
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +	int pwr_dom_count;
+> > +	struct device **pwr_dom_devs;
+> > +	struct device_link **pwr_dom_links;
+> > +#endif
+> >   	/* simplefb settings */
+> >   	struct drm_display_mode mode;
+> > @@ -468,6 +475,102 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
+> >   }
+> >   #endif
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +/*
+> > + * Generic power domain handling code.
+> > + *
+> > + * Here we handle the power-domains properties of our "simple-framebuffer"
+> > + * dt node. This is only necessary if there is more than one power-domain.
+> > + * A single power-domains is handled automatically by the driver core. Multiple
+> > + * power-domains have to be handled by drivers since the driver core can't know
+> > + * the correct power sequencing. Power sequencing is not an issue for simpledrm
+> > + * since the bootloader has put the power domains already in the correct state.
+> > + * simpledrm has only to ensure they remain active for its lifetime.
+> > + *
+> > + * When the driver unloads, we detach from the power-domains.
+> > + *
+> > + * We only complain about errors here, no action is taken as the most likely
+> > + * error can only happen due to a mismatch between the bootloader which set
+> > + * up the "simple-framebuffer" dt node, and the PM domain providers in the
+> > + * device tree. Chances are that there are no adverse effects, and if there are,
+> > + * a clean teardown of the fb probe will not help us much either. So just
+> > + * complain and carry on, and hope that the user actually gets a working fb at
+> > + * the end of things.
+> > + */
+> > +static void simpledrm_device_detach_genpd(void *res)
+> > +{
+> > +	int i;
+> > +	struct simpledrm_device *sdev = /*(struct simpledrm_device *)*/res;
+> > +
+> > +
+> > +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
+> > +	if (sdev->pwr_dom_count <= 1)
+> > +		return;
+> > +
+> > +	for (i = sdev->pwr_dom_count - 1; i >= 0; i--) {
+> > +		if (!sdev->pwr_dom_links[i])
+> > +			device_link_del(sdev->pwr_dom_links[i]);
+> > +		if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
+> > +			dev_pm_domain_detach(sdev->pwr_dom_devs[i], true);
+> > +	}
+> > +}
+> > +
+> > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+> > +{
+> > +	struct device *dev = sdev->dev.dev;
+> > +	int i;
+> > +
+> > +	sdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
+> > +							 "#power-domain-cells");
+> > +	/*
+> > +	 * Single power-domain devices are handled by driver core nothing to do
+> > +	 * here. The same for device nodes without "power-domains" property.
+> > +	 */
+> > +	if (sdev->pwr_dom_count <= 1)
+> > +		return 0;
+> > +
+> > +	sdev->pwr_dom_devs = devm_kcalloc(dev, sdev->pwr_dom_count,
+> > +					       sizeof(*sdev->pwr_dom_devs),
+> > +					       GFP_KERNEL);
+> > +	if (!sdev->pwr_dom_devs)
+> > +		return -ENOMEM;
+> > +
+> > +	sdev->pwr_dom_links = devm_kcalloc(dev, sdev->pwr_dom_count,
+> > +						sizeof(*sdev->pwr_dom_links),
+> > +						GFP_KERNEL);
+> > +	if (!sdev->pwr_dom_links)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i = 0; i < sdev->pwr_dom_count; i++) {
+> > +		sdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
+> > +		if (IS_ERR(sdev->pwr_dom_devs[i])) {
+> > +			int ret = PTR_ERR(sdev->pwr_dom_devs[i]);
+> > +			if (ret == -EPROBE_DEFER) {
+> > +				simpledrm_device_detach_genpd(sdev);
+> > +				return PTR_ERR(sdev->pwr_dom_devs[i]);
+> > +			}
+> > +			drm_err(&sdev->dev,
+> > +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
+> > +		}
+> > +
+> 
+> sdev->pwr_dom_devs[i] can be an ERR_PTR here.
+> Maybe a break or a continue missing after drm_err() above?
 
-Oh then feel free to ignore that if the changes weren't in the tree at
-that time... It was just a gentle reminder. Thanks for clarifying.  :)
+yes, a continue is missing, added, locally for v2.
 
-Regards,
-Fei
+thanks
 
->
-> -Doug
+Janne
