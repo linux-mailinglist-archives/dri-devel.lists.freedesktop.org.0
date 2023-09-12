@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C0079CF65
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C629579CF6D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D764110E3F8;
-	Tue, 12 Sep 2023 11:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB48710E3FD;
+	Tue, 12 Sep 2023 11:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1759310E40A;
- Tue, 12 Sep 2023 11:08:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDAC10E3FD;
+ Tue, 12 Sep 2023 11:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516900; x=1726052900;
+ t=1694516927; x=1726052927;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FVAh4On5XdvV9iSCLEiakjacIZp6jEqoSMEB6aLwj64=;
- b=g+ut6h3hUzLcJ+hdA7nA/ehL9gg4X/hEq0+4FuE9NbqgBEpkD0r6DRlo
- QVIyjmNii443s56F4EuYgdxlS1tPAl26r9aALJCqaLGTqyYB8/T1wwnJL
- sYfXopFJ+BTZk0eoMucD+7Eekg3tmhuZzvDlUceQK/+Kkef68OviTrSY1
- MkQe2demf4iDfb5mMfUzSRRbYOIFxpx2Ev6J8K3hVSumWdfHJkmxZPnOu
- pFFtlsXroKqjsI2hC10NdDqFLVB3SRJAXqD5m1TMAztaMOVGmXVHzqWfZ
- Asy7DBx8i9nXSFUxhFG+nfyVMAKeHURoQEx8StZwO/5p1g8m2iEbyh/no Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409295586"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="409295586"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:48 -0700
+ bh=8rPCdIxqGsqJNXINHrxSR54PoT6U/948h0IaXHU3bho=;
+ b=JhpGKTGhnmPnS68PWHEwRmnpTdl6eNLgBeUQakWo2ixU90YkvENK/GT4
+ ymYlw/T/+wPhN5EOwWrXMQeQNCic2gWj/kDMuE5pajflyaRPvVarrMgTe
+ vJhPlOC3CZNQbBcaK2EE07AYuchvuPNu54kc2l0L/aBU2XXp0eetJNjp4
+ cPbiC9str8Sut+fS/jhaEWwsxXVrwpBMrwrFgG0+xTG0U48hFJNlGzogQ
+ 2aKv1hw9CwrYj7o+AJ2o0iYl8x8o+zgAyPGW4ejktCY6p4OUkU4Q9KP0S
+ cuNqKDCqjuKWcT0mGO/6qT/j+YIzKLrtcPeIHShgLI6ljv1HZHgVCIIhX g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="378253111"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="378253111"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:07:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743688248"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743688248"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="1074512697"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="1074512697"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:46 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 04:07:50 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 12/19] drm/i915/display: add I915 conditional build to
- intel_crt.h
-Date: Tue, 12 Sep 2023 14:06:39 +0300
-Message-Id: <89a6daca98f87ed1a8a54367a977f146216330d2.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 13/19] drm/i915/display: add I915 conditional build to
+ vlv_dsi.h
+Date: Tue, 12 Sep 2023 14:06:40 +0300
+Message-Id: <9f538824f15096b0c1444ee50d175a0a22d7bd5e.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
 References: <cover.1694514689.git.jani.nikula@intel.com>
@@ -68,37 +68,35 @@ Add stubs for !I915.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_crt.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/i915/display/vlv_dsi.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crt.h b/drivers/gpu/drm/i915/display/intel_crt.h
-index c6071efd93ce..fe7690c2b948 100644
---- a/drivers/gpu/drm/i915/display/intel_crt.h
-+++ b/drivers/gpu/drm/i915/display/intel_crt.h
-@@ -12,9 +12,23 @@ enum pipe;
- struct drm_encoder;
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.h b/drivers/gpu/drm/i915/display/vlv_dsi.h
+index 0c2b279df9d4..cf9d7b82f288 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.h
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.h
+@@ -12,8 +12,21 @@ enum port;
  struct drm_i915_private;
+ struct intel_dsi;
  
 +#ifdef I915
- bool intel_crt_port_enabled(struct drm_i915_private *dev_priv,
- 			    i915_reg_t adpa_reg, enum pipe *pipe);
- void intel_crt_init(struct drm_i915_private *dev_priv);
- void intel_crt_reset(struct drm_encoder *encoder);
+ void vlv_dsi_wait_for_fifo_empty(struct intel_dsi *intel_dsi, enum port port);
+ enum mipi_dsi_pixel_format pixel_format_from_register_bits(u32 fmt);
+ void vlv_dsi_init(struct drm_i915_private *dev_priv);
 +#else
-+static inline bool intel_crt_port_enabled(struct drm_i915_private *dev_priv,
-+					  i915_reg_t adpa_reg, enum pipe *pipe)
-+{
-+	return false;
-+}
-+static inline void intel_crt_init(struct drm_i915_private *dev_priv)
++static inline void vlv_dsi_wait_for_fifo_empty(struct intel_dsi *intel_dsi, enum port port)
 +{
 +}
-+static inline void intel_crt_reset(struct drm_encoder *encoder)
++static inline enum mipi_dsi_pixel_format pixel_format_from_register_bits(u32 fmt)
++{
++	return 0;
++}
++static inline void vlv_dsi_init(struct drm_i915_private *dev_priv)
 +{
 +}
 +#endif
  
- #endif /* __INTEL_CRT_H__ */
+ #endif /* __VLV_DSI_H__ */
 -- 
 2.39.2
 
