@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CFC79CF5E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9741679CF60
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A62710E407;
-	Tue, 12 Sep 2023 11:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787B710E405;
+	Tue, 12 Sep 2023 11:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6422410E404;
- Tue, 12 Sep 2023 11:08:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7602B10E405;
+ Tue, 12 Sep 2023 11:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516895; x=1726052895;
+ t=1694516897; x=1726052897;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uOO2PgFugq5SunLhIgn8wopturCtoXlIy0pYUjPimvs=;
- b=eupH0F6C/9ZJrevnNy9wjUU0ya5Kq+fKVN/CBB5BOQ8SVcEnX3IFQHQl
- HzzFQMfGxrf6aksCRI5XxkCYrHP0SvkmTRfDdw5rZ8p5sQBpBY2utiDio
- 6O8dEGo283RuiCS/IIWFzkln4m0gt3yk1aas0N744rdh/MuhUk/UWU04W
- yuC9O38GAd1WXVMzM1O2PFW/1S3sWXgZ4VBtQ3NuGEwDpgJzLNhAd+ewr
- hSaMLaOk93PzemHbzTpzwNkDPVYb1RFVFjOp3OERRTezIgLCv+iXc1SAC
- ciabPySVHAZoeFuDJHE9VLT4omwAwLtb3Eg9IA+no/vShAN81Q+0w4DYB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409295514"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="409295514"
+ bh=4XAQW1BHI2dlnaaUbv9hWIVV7GbB7gnTaTbdd1yN9G0=;
+ b=LEXUXNmnJnJWUHZ38QpnMPE/H2YGhqEyuLlcLZDM3TLFauWDjbaYPVb2
+ Tx8GogNo4p+M7ZIkpGY6r0SlKAGlrPk882ssShq259+407AQLL7uChWOH
+ +Ar4k/C1wOXAFxknYGevgbNy5jJhzfNToPusku57o+83xFAgJ3My3jsDy
+ ykf7hrD669xqfhwaEixcXtliyZ/ayoYq6BFISPy1NCD6ejeBES9ISX617
+ 0Vwx+jSjlICuhmnIdjqu1cz5yWrgP1XtNizzOjuplSFlNzElN4YLzU7vw
+ X2G6SYWmhmMc5RAp0QZN/sNFjFQHDxbAWMa1gRLyRnIhwDiwTmIRYT5To Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="409295550"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="409295550"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:35 -0700
+ 12 Sep 2023 04:07:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743688160"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743688160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="743688202"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743688202"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:34 -0700
+ 12 Sep 2023 04:07:38 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 09/19] drm/i915/display: add I915 conditional build to
- intel_overlay.h
-Date: Tue, 12 Sep 2023 14:06:36 +0300
-Message-Id: <45a127d37816ac97dfe493beeed060e323047014.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 10/19] drm/i915/display: add I915 conditional build to g4x_dp.h
+Date: Tue, 12 Sep 2023 14:06:37 +0300
+Message-Id: <ba92fc1dee1f71018179dbe10b91982c9c93e7e6.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
 References: <cover.1694514689.git.jani.nikula@intel.com>
@@ -68,61 +67,52 @@ Add stubs for !I915.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_overlay.h | 35 ++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/gpu/drm/i915/display/g4x_dp.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_overlay.h b/drivers/gpu/drm/i915/display/intel_overlay.h
-index a167c28acd27..c3f68fce6f08 100644
---- a/drivers/gpu/drm/i915/display/intel_overlay.h
-+++ b/drivers/gpu/drm/i915/display/intel_overlay.h
-@@ -13,6 +13,7 @@ struct drm_i915_private;
- struct intel_overlay;
- struct intel_overlay_error_state;
+diff --git a/drivers/gpu/drm/i915/display/g4x_dp.h b/drivers/gpu/drm/i915/display/g4x_dp.h
+index a38b3e1e01d3..a10638ab749c 100644
+--- a/drivers/gpu/drm/i915/display/g4x_dp.h
++++ b/drivers/gpu/drm/i915/display/g4x_dp.h
+@@ -17,6 +17,7 @@ struct intel_crtc_state;
+ struct intel_dp;
+ struct intel_encoder;
  
 +#ifdef I915
- void intel_overlay_setup(struct drm_i915_private *dev_priv);
- void intel_overlay_cleanup(struct drm_i915_private *dev_priv);
- int intel_overlay_switch_off(struct intel_overlay *overlay);
-@@ -25,5 +26,39 @@ struct intel_overlay_error_state *
- intel_overlay_capture_error_state(struct drm_i915_private *dev_priv);
- void intel_overlay_print_error_state(struct drm_i915_error_state_buf *e,
- 				     struct intel_overlay_error_state *error);
+ const struct dpll *vlv_get_dpll(struct drm_i915_private *i915);
+ enum pipe vlv_active_pipe(struct intel_dp *intel_dp);
+ void g4x_dp_set_clock(struct intel_encoder *encoder,
+@@ -26,5 +27,30 @@ bool g4x_dp_port_enabled(struct drm_i915_private *dev_priv,
+ 			 enum pipe *pipe);
+ bool g4x_dp_init(struct drm_i915_private *dev_priv,
+ 		 i915_reg_t output_reg, enum port port);
 +#else
-+static inline void intel_overlay_setup(struct drm_i915_private *dev_priv)
-+{
-+}
-+static inline void intel_overlay_cleanup(struct drm_i915_private *dev_priv)
-+{
-+}
-+static inline int intel_overlay_switch_off(struct intel_overlay *overlay)
-+{
-+	return 0;
-+}
-+static inline int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
-+				  struct drm_file *file_priv)
-+{
-+	return 0;
-+}
-+static inline int intel_overlay_attrs_ioctl(struct drm_device *dev, void *data,
-+					    struct drm_file *file_priv)
-+{
-+	return 0;
-+}
-+static inline void intel_overlay_reset(struct drm_i915_private *dev_priv)
-+{
-+}
-+static inline struct intel_overlay_error_state *
-+intel_overlay_capture_error_state(struct drm_i915_private *dev_priv)
++static inline const struct dpll *vlv_get_dpll(struct drm_i915_private *i915)
 +{
 +	return NULL;
 +}
-+static inline void intel_overlay_print_error_state(struct drm_i915_error_state_buf *e,
-+						   struct intel_overlay_error_state *error)
++static inline int vlv_active_pipe(struct intel_dp *intel_dp)
 +{
++	return 0;
++}
++static inline void g4x_dp_set_clock(struct intel_encoder *encoder,
++				    struct intel_crtc_state *pipe_config)
++{
++}
++static inline bool g4x_dp_port_enabled(struct drm_i915_private *dev_priv,
++				       i915_reg_t dp_reg, int port,
++				       enum pipe *pipe)
++{
++	return false;
++}
++static inline bool g4x_dp_init(struct drm_i915_private *dev_priv,
++			       i915_reg_t output_reg, int port)
++{
++	return false;
 +}
 +#endif
  
- #endif /* __INTEL_OVERLAY_H__ */
+ #endif
 -- 
 2.39.2
 
