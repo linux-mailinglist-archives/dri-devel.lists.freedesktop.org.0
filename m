@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8ED79D632
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 18:24:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C154079D691
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 18:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4D510E05E;
-	Tue, 12 Sep 2023 16:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF59E10E43C;
+	Tue, 12 Sep 2023 16:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4DF10E438
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 16:23:54 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id
- d75a77b69052e-412b073a82bso81cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 09:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1694535833; x=1695140633;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=N+ugFgOb5iS2vOO7DahZWqOi4I/gSUmJb5jnpjTlaDk=;
- b=y21+ISD5E8S2Zt4n2j+6mj70AStUK7xw+G81J5pd30Xyx8M5GFWjfHvohrmOzqkJs0
- 0LSgr8qMd6qih8h1k4AOGna5+mJtyevN69yKJCz8yQt6F3ANobncigtF1m40Z+tQAxut
- TF/s40jaoorBcGn0UDQO/MZeTqNmpufd6b6AMdyDcoMo6hFI1MRXIIfGJGnCVMHM0TW5
- 7Pzcvh29gbP3MgP0PsOguNaqBoAulwP9CGuT4rjT77fnBnFmnpVPehrWaTEP6Cd/vXXQ
- 9OkdLL7X44X8cUUQpY93/rWqgLE4IAnJOLslSFBF+E0OykjJTq49DFX+JdvAO0qiQ8Vv
- i/Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694535833; x=1695140633;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N+ugFgOb5iS2vOO7DahZWqOi4I/gSUmJb5jnpjTlaDk=;
- b=Z+KZLSqvoPmObg3TeleKHz1Nw4Hq35UxlLZtG8BkpuKnrF8IFL6cmsYxGyDyllkd3C
- xoF4egFIuhF7gr7fOsPXzhBD/jgQ4xxOf4NLcGjH+o6VtkmKAXB819Yz1jvKF6jQ0ZpG
- PnhHM0aKu4BNttYBUU+qgUB1/DJUFi+JwajjISp9HTuGB5mH+in3ThbYPclNDVLzCbtU
- qn0bhvN2Sa3836FYdS9Pyne9PUtqZb3bNABCf1OEAH+DSNl6RgloA49pxFbQxc1+OurC
- Wpy8dL+dB4zznzeS2feeUJthOeeVl9V3OIBfxgb481k9WZG9hLEUlw7dbBwZLFR4w+Vk
- VS1w==
-X-Gm-Message-State: AOJu0YzRudlp/mFTrHPifjpnJ3jjkbnw6M8oAFddCm/3bMi2YIOtOmxr
- Qp11b9bHHzvhMKNM3/rqaDzhutzk/ffdN9la83fg
-X-Google-Smtp-Source: AGHT+IGZKq1neVdPa5doNGKg4ZeW48OcCeQNtBQcguqv/oZA7QzGQDO5RyH2blcv1AqWSyJKVDQlyqsbKQeiYJ53mNw=
-X-Received: by 2002:ac8:6b04:0:b0:405:4662:d1b6 with SMTP id
- w4-20020ac86b04000000b004054662d1b6mr729qts.0.1694535832436; Tue, 12 Sep 2023
- 09:23:52 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4E410E43C;
+ Tue, 12 Sep 2023 16:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694536979; x=1726072979;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LFwoAzGcgfTdCv06R9eEJe9ZHNV7Me3WZC6kAbcHnOQ=;
+ b=WyA++gf+bppz2+8Rul+Icuofp4BF7flTtaWGoUW3M/Vuw5yaPQ2ULY0U
+ 9Fy5gb9GMWPdTLbg9BMpCdokyrN+uVq8t66xjv8vsMFkukOXuZAv4kgfl
+ MvqPxpq0mhT15t+FszW52VMloU7aE5/UtU3I/5bvMo2gR6BUfQCnjNdTu
+ q4pKk+6HSW58x33sqRgZ2cmXAPTR+glDw9bLKzDkKmafwu5nQh7HthhsQ
+ sNSGESiUZw5dWMZnul0w4t+7w45lNPAsDIoapTtw1ZBLQZscMrZw9SHN8
+ PQQM+qDiIlhPZ/HTYd8YY5H7PYmz1HWRjPccRb832I5qlAj7abGw0jK2e Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="442446796"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="442446796"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 09:42:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743775621"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="743775621"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 09:42:56 -0700
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] Add DSC fractional bpp support
+Date: Tue, 12 Sep 2023 22:07:27 +0530
+Message-Id: <20230912163735.1075868-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Joshua Pius <joshuapius@google.com>
-Date: Tue, 12 Sep 2023 12:23:14 -0400
-Message-ID: <CAFs7P=hZVfUnTKYgOUwfwT6S9TO72iuJMBPbBG0i+U-4Au=O=Q@mail.gmail.com>
-Subject: Re: [v3] drm/i915/display/lspcon: Increase LSPCON mode settle timeout
-To: Ankit K Nautiyal <ankit.k.nautiyal@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +55,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Niko Tsirakis <ntsirakis@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Pablo Ceballos <pceballos@google.com>
+Cc: jani.nikula@intel.com, suraj.kandpal@intel.com,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ ankit.k.nautiyal@intel.com, swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Yes, we've proposed this change before. The reasoning is still the
-same. Added below to include in this thread as well. Is there a reason
-the below explanation and test is not sufficient?
+This patch series adds support for DSC fractional compressed bpp
+for MTL+. The series starts with some fixes, followed by patches that
+lay groundwork to iterate over valid compressed bpps to select the
+'best' compressed bpp with optimal link configuration (taken from
+upstream series: https://patchwork.freedesktop.org/series/105200/).
 
-This issue affected several different CometLake-based Chrome OS device
-designs. The details of the original report are in the Google partner
-issue tracker (issue # 178169843), but I believe this requires a
-Google partner account to access:
-https://partnerissuetracker.corp.google.com/issues/178169843
+The later patches, add changes to accommodate compressed bpp with
+fractional part, including changes to QP calculations.
+To get the 'best' compressed bpp, we iterate over the valid compressed
+bpp values, but with fractional step size 1/16, 1/8, 1/4 or 1/2 as per
+sink support.
 
-The summary is that we were seeing these "*ERROR* LSPCON mode hasn't
-settled" messages in the kernel logs followed by the display not
-working at all. We increased the timeout to 500ms while investigation
-continued and this reduced the number of occurrences of this issue:
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/7b2899fc1a6f9409e8075b3153baaf02c4d1fc75
+The last 2 patches add support to depict DSC sink's fractional support,
+and debugfs to enforce use of fractional bpp, while choosing an
+appropriate compressed bpp.
 
-The problem continued to occur on about 2% of devices even after
-increasing the timeout to 500ms. The investigation continued in issue
-# 188035814, with engineers from Parade and Intel involved.
-Ultimately, the recommendation from Intel engineers was to increase
-the timeout further:
-https://partnerissuetracker.corp.google.com/issues/188035814
+Ankit Nautiyal (5):
+  drm/display/dp: Add helper function to get DSC bpp prescision
+  drm/i915/display: Store compressed bpp in U6.4 format
+  drm/i915/display: Consider fractional vdsc bpp while computing m_n
+    values
+  drm/i915/audio : Consider fractional vdsc bpp while computing tu_data
+  drm/i915/dp: Iterate over output bpp with fractional step size
 
-The timeout was then increased to 1000ms:
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/a16cfc2062e768c8e5ad8fa09b8ca127aa1ead9a
+Swati Sharma (2):
+  drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+  drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+    debugfs
 
-I recently ran 100 reboot trials on one device and found that the
-median time for the LSPCON mode to settle was 440ms and the max was
-444ms. But we know from the original reports that even after we set
-the timeout to 500ms the issue continued to happen on some small
-percentage of devices. So this is why I picked the larger value of
-800ms.
+Vandita Kulkarni (1):
+  drm/i915/dsc/mtl: Add support for fractional bpp
 
->> This is to eliminate all cases of "*ERROR* LSPCON mode hasn't settled",
->> followed by link training errors. Intel engineers recommended increasing
->> this timeout and that does resolve the issue.
->>
->> On some CometLake-based device designs the Parade PS175 takes more than
->> 400ms to settle in PCON mode. 100 reboot trials on one device resulted
->> in a median settle time of 440ms and a maximum of 444ms. Even after
->> increasing the timeout to 500ms, 2% of devices still had this error. So
->> this increases the timeout to 800ms.
->>
->> Signed-off-by: Pablo Ceballos <pceballos@google.com>
->
->I think we've been here before. Do you have a publicly available gitlab
->issue with the proper logs? If not, please file one at [1].
->
->BR,
->Jani.
->
->[1] https://gitlab.freedesktop.org/drm/intel/issues/new
->
->
->> ---
->>
->> V2: Added more details in the commit message
->> V3: Only apply the increased timeout if the vendor is Parade
->>
->> drivers/gpu/drm/i915/display/intel_lspcon.c | 21 ++++++++++++++++++++-
->>  1 file changed, 20 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
->> index bb3b5355a0d9..b07eab84cc63 100644
->> --- a/drivers/gpu/drm/i915/display/intel_lspcon.c
->> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
->> @@ -153,6 +153,24 @@ static enum drm_lspcon_mode lspcon_get_current_mode(struct intel_lspcon *lspcon)
->>   return current_mode;
->>  }
->>
->> +static u32 lspcon_get_mode_settle_timeout(struct intel_lspcon *lspcon)
->> +{
->> + u32 timeout_ms = 400;
->> +
->> + /*
->> + * On some CometLake-based device designs the Parade PS175 takes more
->> + * than 400ms to settle in PCON mode. 100 reboot trials on one device
->> + * resulted in a median settle time of 440ms and a maximum of 444ms.
->> + * Even after increasing the timeout to 500ms, 2% of devices still had
->> + * this error. So this sets the timeout to 800ms.
->> + */
->> + if (lspcon->vendor == LSPCON_VENDOR_PARADE)
->> + timeout_ms = 800;
->> +
->> + return timeout_ms;
->> +}
->> +
->> +
->>  static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
->>       enum drm_lspcon_mode mode)
->>  {
->> @@ -167,7 +185,8 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
->>   drm_dbg_kms(&i915->drm, "Waiting for LSPCON mode %s to settle\n",
->>      lspcon_mode_name(mode));
->>
->> - wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
->> + wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode,
->> + lspcon_get_mode_settle_timeout(lspcon));
->>   if (current_mode != mode)
->>   drm_err(&i915->drm, "LSPCON mode hasn't settled\n");
+Ankit Nautiyal (5):
+  drm/display/dp: Add helper function to get DSC bpp prescision
+  drm/i915/display: Store compressed bpp in U6.4 format
+  drm/i915/display: Consider fractional vdsc bpp while computing m_n
+    values
+  drm/i915/audio : Consider fractional vdsc bpp while computing tu_data
+  drm/i915/dp: Iterate over output bpp with fractional step size
+
+Swati Sharma (2):
+  drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+  drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+    debugfs
+
+Vandita Kulkarni (1):
+  drm/i915/dsc/mtl: Add support for fractional bpp
+
+Ankit Nautiyal (5):
+  drm/display/dp: Add helper function to get DSC bpp prescision
+  drm/i915/display: Store compressed bpp in U6.4 format
+  drm/i915/display: Consider fractional vdsc bpp while computing m_n
+    values
+  drm/i915/audio : Consider fractional vdsc bpp while computing tu_data
+  drm/i915/dp: Iterate over output bpp with fractional step size
+
+Swati Sharma (2):
+  drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+  drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+    debugfs
+
+Vandita Kulkarni (1):
+  drm/i915/dsc/mtl: Add support for fractional bpp
+
+ drivers/gpu/drm/display/drm_dp_helper.c       | 27 ++++++
+ drivers/gpu/drm/i915/display/icl_dsi.c        | 11 +--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 17 ++--
+ drivers/gpu/drm/i915/display/intel_bios.c     |  6 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  5 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  8 +-
+ drivers/gpu/drm/i915/display/intel_display.h  |  2 +-
+ .../drm/i915/display/intel_display_debugfs.c  | 83 +++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       | 78 ++++++++++-------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 28 ++++---
+ drivers/gpu/drm/i915/display/intel_fdi.c      |  2 +-
+ .../i915/display/intel_fractional_helper.h    | 36 ++++++++
+ .../gpu/drm/i915/display/intel_qp_tables.c    |  3 -
+ drivers/gpu/drm/i915/display/intel_vdsc.c     | 30 +++++--
+ include/drm/display/drm_dp_helper.h           |  1 +
+ 16 files changed, 268 insertions(+), 73 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_fractional_helper.h
+
+-- 
+2.25.1
+
