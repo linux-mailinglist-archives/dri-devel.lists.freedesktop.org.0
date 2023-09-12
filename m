@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F25E79D05F
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A7D79D0DC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 14:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437D510E40C;
-	Tue, 12 Sep 2023 11:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B797A10E232;
+	Tue, 12 Sep 2023 12:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D4110E40B
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 11:49:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FD510E414;
+ Tue, 12 Sep 2023 12:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694519388; x=1726055388;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uREWBZ3QE3lo5PZJ/8XOcyWiLRSSuZeDtPbh0pmAYkg=;
- b=b06rKM+Wk7JjnErRDr82CgMjbWWy67PyXiMtEYUGRaie2DueRxEUTb5V
- +LNAmR4Dzg8ul/iIpDTOgRCkvbTMCMvZODcG0F3nM5+Ivt+1LkwV93Qv4
- qBd4LC33NgzjEQlKLq6denqWi4xo363WYUju0DJLY8BHkkseMvvJk94MB
- 1Ety85vlfOmbOH2uKe55i4qvTA9P2+H1pYhJ51As6+BvxtB4yEa+zW5Im
- pjkn9y00LeF+pTeZ30OlEcAgcmvi0STY1dezE3m7Rl3VLjV5RFdqowK/d
- dS4RtBJjlG7HbYjQqc1celSd6eXqDXUPk2AjWCUJ57evGbzR+zgImbn99 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="382161533"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="382161533"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:49:48 -0700
+ t=1694520997; x=1726056997;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=xrcWnldaWQwjzXDP3YbSlyGeUmu/rx8EuqxZ8uUms7o=;
+ b=ZmQHtEguz5ohu3PWX719u8YmXxpkb4mKNaGhdAmYGVbrgASNz0opm9HD
+ xWdTaNIriYZgNm+0h06G5/hrWX7zOtrVT2zX0/Jiia2S6PSa+q421t+Iq
+ Z56hbw4qoNfD2O/5EP88FI8ws2hwAVajYlt5E1gk+AhSLhE3wL6mFZl29
+ G0FmPA0ep+DZusATqzzHQAbu4Cnr6qV5DP/n/TOYwyHF2GlXkHFfsD/oL
+ 3Hyd3kyVWjKwJhgio2jIoWjJSlvwthZZ2/yTdgUiJRoLnozro0qfDIApO
+ FhhhiF0TK5gT/tmG2dLXzg8MiGGUs67k5F+j9UcHRfY99oTX82Uj/NE/3 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="368614101"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="368614101"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 05:16:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="772969526"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="772969526"
-Received: from kwasilew-mobl8.ger.corp.intel.com (HELO
- kdrobnik-desk.intel.com) ([10.213.3.126])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:49:45 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 4/4] drm/ttm/tests: Fix argument in ttm_tt_kunit_init()
-Date: Tue, 12 Sep 2023 13:49:21 +0200
-Message-Id: <eebae34f42f581a2b5adfac5dcf3a1e3d1d8dfa2.1694517411.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1694517411.git.karolina.stolarek@intel.com>
-References: <cover.1694517411.git.karolina.stolarek@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809223237"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="809223237"
+Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.206])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2023 05:16:32 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/msm/dp: skip validity check for DP CTS EDID checksum
+In-Reply-To: <CAE-0n52T4VGVVKqZCJwhpxe=vLUb7WNi=J0hdsHFOqA95u-Ymg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230901142034.580802-1-jani.nikula@intel.com>
+ <CAE-0n52T4VGVVKqZCJwhpxe=vLUb7WNi=J0hdsHFOqA95u-Ymg@mail.gmail.com>
+Date: Tue, 12 Sep 2023 15:16:30 +0300
+Message-ID: <877covy4bl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,36 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove a leftover definition of page order and pass an empty flag value
-in ttm_pool_pre_populated().
+On Thu, 07 Sep 2023, Stephen Boyd <swboyd@chromium.org> wrote:
+> Quoting Jani Nikula (2023-09-01 07:20:34)
+>> The DP CTS test for EDID last block checksum expects the checksum for
+>> the last block, invalid or not. Skip the validity check.
+>>
+>> For the most part (*), the EDIDs returned by drm_get_edid() will be
+>> valid anyway, and there's the CTS workaround to get the checksum for
+>> completely invalid EDIDs. See commit 7948fe12d47a ("drm/msm/dp: return
+>> correct edid checksum after corrupted edid checksum read").
+>>
+>> This lets us remove one user of drm_edid_block_valid() with hopes the
+>> function can be removed altogether in the future.
+>>
+>> (*) drm_get_edid() ignores checksum errors on CTA extensions.
+>>
+>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Cc: Kuogee Hsieh <khsieh@codeaurora.org>
+>> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+>> Cc: Rob Clark <robdclark@gmail.com>
+>> Cc: Sean Paul <sean@poorly.run>
+>> Cc: Stephen Boyd <swboyd@chromium.org>
+>> Cc: linux-arm-msm@vger.kernel.org
+>> Cc: freedreno@lists.freedesktop.org
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
----
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks; is that enough to merge? I can't claim I would have been able to
+test this.
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-index 2d9cae8cd984..b97f7b6daf5b 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-@@ -78,10 +78,9 @@ static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
- 	struct ttm_test_devices *devs = priv->devs;
- 	struct ttm_pool *pool;
- 	struct ttm_tt *tt;
--	unsigned long order = __fls(size / PAGE_SIZE);
- 	int err;
- 
--	tt = ttm_tt_kunit_init(test, order, caching, size);
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
- 	KUNIT_ASSERT_NOT_NULL(test, tt);
- 
- 	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
+>
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> index 42d52510ffd4..86a8e06c7a60 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> @@ -289,26 +289,9 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
+>>
+>>  static u8 dp_panel_get_edid_checksum(struct edid *edid)
+>
+> It would be nice to make 'edid' const here in another patch.
+
+Sure.
+
+BR,
+Jani.
+
+
 -- 
-2.25.1
-
+Jani Nikula, Intel
