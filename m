@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B69379B152
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 01:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD2E79C1A3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 03:28:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9884C10E209;
-	Mon, 11 Sep 2023 23:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C06910E132;
+	Tue, 12 Sep 2023 01:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A7410E209
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 23:51:33 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id
- 3f1490d57ef6-d7ba4c5f581so4408709276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Sep 2023 16:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1694476293; x=1695081093;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e9FHti0UeaT45a62FC88dUwVtXoyU66QnGu8MY083Gc=;
- b=Y3KhYwSyDsR284HGcH8TH2jHblTlxbFbbPL4M7WzrAOp8luGKsKZpHx188rLfpI58/
- cj9ODYhjaHpTKAbELCJn5/S3QsikCUIk4JXHLFYux2rc98d4J40Dm3pYAwtjsXIu8Sym
- iiRtnzKRq/8rGSh12G4Mtt5Iup3vpa/eCjoOfvgc8p7fjN77t3QeF9BqvDiITTv7nW4c
- pO+VIIRA9f+szvUziBmcQhgMaG6qz+pjju5qC/EG2SKzaw2hjgEeVqsQGab1W9J0GYlf
- GihpOLVIRalxEbwfIm8YP3KrGOOff3Aq7UWnrsJzDksCleJSObFVrYJcg2dqIfatPL/l
- rwaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694476293; x=1695081093;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e9FHti0UeaT45a62FC88dUwVtXoyU66QnGu8MY083Gc=;
- b=Qi9JKKlowMcOfOvUyWTAjYqKhOWGVzEi5w3lm1ej+TBMwO4GsFe0s73ES5L57SEc7c
- M63xsOKyKBxhlDgrCTxpCdaPv5BkxovBAY7618+sGzpqOj4hmzxFwmMmpc0eix1fVINw
- iv/wem8BR6S+Gj9Wac7GdDeNY+9nVAsqXO2n4saJlGDDAYDknhRmiBWSfi06/zGq1ASK
- fkj5T6X2nIEj3BFhqQs5hYZh60Qq+IBVla3QJQLhSWT6QaUuAUNp/vEhsVrBnwgZ/W+k
- W+WKLD+hc2relzs/IpIaH5zvPK+XQI7+aENvy3WlJwjPWGfOVmA9gvqaEPDUOccpE0Z3
- ZZ8w==
-X-Gm-Message-State: AOJu0YwuJSuDkkZXeV3rtKpYkjYqfIB+oNGI3i/8ELZMu560xCqhsU1g
- gTd7lYycIK0NT7RQ8KqPWGEvzGsiFRXjee+8zpdkxw==
-X-Google-Smtp-Source: AGHT+IGFOM/4w9EDJt7MB2VEaaVKgVLAWXiT0CbJ/s1mQvZfpoxvSUlNkizqXQqtn0mkteVDRyeHoSWnwX1ZfV5oYr4=
-X-Received: by 2002:a25:ce03:0:b0:d09:f934:f2fe with SMTP id
- x3-20020a25ce03000000b00d09f934f2femr9212180ybe.18.1694476292641; Mon, 11 Sep
- 2023 16:51:32 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8237610E03D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 01:27:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B7811614C6;
+ Tue, 12 Sep 2023 01:27:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1135AC116A1;
+ Tue, 12 Sep 2023 01:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694482073;
+ bh=i1OpMkK8nN3ugs7HSsHaoziL6+KbW09I3yNP+41/i54=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=coMndRYw55qf5oJQ4mYnWLWjpikXmT0btw0FXm928IRMwJjHPrV8RIjVgNnO6qoCw
+ JT3hvN9kCotKz/cGKyE+wS3Ei9Zwjbvbh5paGnFIT241HNCrBV6JwSsk7sgvWZdwrx
+ g6bohU08+jLacNfIRcHXNR05VIr4EviYjWIB+srXf1V5bplTmm9u/boTLm9f/LeY+/
+ vFcP4Qo/XhwDVgHhlC2oOKiXiBTfmI2kb/I83qwCxA7xUwacibfht0JwFwA/cLJh99
+ QVXYNV//NiaIcTvCjAhHRKRlnSyY34LnNunLnYVl07pdDJgFbAvpgncKRlFndex/0O
+ MsTnACCDqW6Sw==
+Date: Mon, 11 Sep 2023 18:27:50 -0700
+From: Kees Cook <kees@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>, Kees Cook <keescook@chromium.org>, 
+ Andy Shevchenko <andy@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+ Christian Brauner <brauner@kernel.org>, David Disseldorp <ddiss@suse.de>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Siddh Raman Pant <code@siddh.me>,
+ Nick Alcock <nick.alcock@oracle.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH v2 0/5] Introduce new wrappers to copy user-arrays
+User-Agent: K-9 Mail for Android
+In-Reply-To: <cover.1694202430.git.pstanner@redhat.com>
+References: <cover.1694202430.git.pstanner@redhat.com>
+Message-ID: <CA1AA415-FDF0-4A7A-9BB0-FFF055803F77@kernel.org>
 MIME-Version: 1.0
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-2-yong.wu@mediatek.com>
- <46532644-a38b-98d5-13a1-8b51b9276a1d@amd.com>
-In-Reply-To: <46532644-a38b-98d5-13a1-8b51b9276a1d@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 11 Sep 2023 16:51:20 -0700
-Message-ID: <CABdmKX0-x53hjkKeSw1oDu2yFTKEXc1z_TFg0EMyWF2aBNbk2w@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dma-buf: heaps: Deduplicate docs and adopt common
- format
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,102 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- jianjiao.zeng@mediatek.com,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kuohong.wang@mediatek.com,
+Cc: kexec@lists.infradead.org,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
- John Stultz <jstultz@google.com>, linux-arm-kernel@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Yong Wu <yong.wu@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 11, 2023 at 2:36=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On September 8, 2023 12:59:39 PM PDT, Philipp Stanner <pstanner@redhat=2Eco=
+m> wrote:
+>Hi!
 >
-> m 11.09.23 um 04:30 schrieb Yong Wu:
-> > From: "T.J. Mercier" <tjmercier@google.com>
-> >
-> > The docs for dma_heap_get_name were incorrect, and since they were
-> > duplicated in the implementation file they were wrong there too.
-> >
-> > The docs formatting was inconsistent so I tried to make it more
-> > consistent across functions since I'm already in here doing cleanup.
-> >
-> > Remove multiple unused includes.
-> >
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > [Yong: Just add a comment for "priv" to mute build warning]
-> > ---
-> >   drivers/dma-buf/dma-heap.c | 29 +++++++----------------------
-> >   include/linux/dma-heap.h   | 11 +++++------
-> >   2 files changed, 12 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index 84ae708fafe7..51030f6c9d6e 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -7,17 +7,15 @@
-> >    */
-> >
-> >   #include <linux/cdev.h>
-> > -#include <linux/debugfs.h>
-> >   #include <linux/device.h>
-> >   #include <linux/dma-buf.h>
-> > +#include <linux/dma-heap.h>
-> >   #include <linux/err.h>
-> > -#include <linux/xarray.h>
-> >   #include <linux/list.h>
-> > -#include <linux/slab.h>
-> >   #include <linux/nospec.h>
-> > -#include <linux/uaccess.h>
-> >   #include <linux/syscalls.h>
-> > -#include <linux/dma-heap.h>
-> > +#include <linux/uaccess.h>
-> > +#include <linux/xarray.h>
-> >   #include <uapi/linux/dma-heap.h>
-> >
-> >   #define DEVNAME "dma_heap"
-> > @@ -28,9 +26,10 @@
-> >    * struct dma_heap - represents a dmabuf heap in the system
-> >    * @name:           used for debugging/device-node name
-> >    * @ops:            ops struct for this heap
-> > - * @heap_devt                heap device node
-> > - * @list             list head connecting to list of heaps
-> > - * @heap_cdev                heap char device
-> > + * @priv:            private data for this heap
-> > + * @heap_devt:               heap device node
-> > + * @list:            list head connecting to list of heaps
-> > + * @heap_cdev:               heap char device
-> >    *
-> >    * Represents a heap of memory from which buffers can be made.
-> >    */
-> > @@ -192,25 +191,11 @@ static const struct file_operations dma_heap_fops=
- =3D {
-> >   #endif
-> >   };
-> >
-> > -/**
-> > - * dma_heap_get_drvdata() - get per-subdriver data for the heap
-> > - * @heap: DMA-Heap to retrieve private data for
-> > - *
-> > - * Returns:
-> > - * The per-subdriver data for the heap.
-> > - */
+>David Airlie suggested that we could implement new wrappers around
+>(v)memdup_user() for duplicating user arrays=2E
 >
-> Kernel documentation is usually kept on the implementation and not the
-> definition.
+>This small patch series first implements the two new wrapper functions
+>memdup_array_user() and vmemdup_array_user()=2E They calculate the
+>array-sizes safely, i=2Ee=2E, they return an error in case of an overflow=
+=2E
 >
-> So I strongly suggest to remove the documentation from the header
-> instead and if there is any additional information in there add it here.
+>It then implements the new wrappers in two components in kernel/ and two
+>in the drm-subsystem=2E
 >
-> Regards,
-> Christian.
+>In total, there are 18 files in the kernel that use (v)memdup_user() to
+>duplicate arrays=2E My plan is to provide patches for the other 14
+>successively once this series has been merged=2E
 >
-Ok thanks for looking. I'll move all the function docs over to the
-implementation.
+>
+>Changes since v1:
+>- Insert new headers alphabetically ordered
+>- Remove empty lines in functions' docstrings
+>- Return -EOVERFLOW instead of -EINVAL from wrapper functions
+>
+>
+>@Andy:
+>I test-build it for UM on my x86_64=2E Builds successfully=2E
+>A kernel build (localmodconfig) for my Fedora38 @ x86_64 does also boot
+>fine=2E
+>
+>If there is more I can do to verify the early boot stages are fine,
+>please let me know!
+>
+>P=2E
+>
+>Philipp Stanner (5):
+>  string=2Eh: add array-wrappers for (v)memdup_user()
+>  kernel: kexec: copy user-array safely
+>  kernel: watch_queue: copy user-array safely
+>  drm_lease=2Ec: copy user-array safely
+>  drm: vmgfx_surface=2Ec: copy user-array safely
+>
+> drivers/gpu/drm/drm_lease=2Ec             |  4 +--
+> drivers/gpu/drm/vmwgfx/vmwgfx_surface=2Ec |  4 +--
+> include/linux/string=2Eh                  | 40 +++++++++++++++++++++++++
+> kernel/kexec=2Ec                          |  2 +-
+> kernel/watch_queue=2Ec                    |  2 +-
+> 5 files changed, 46 insertions(+), 6 deletions(-)
+>
+
+Nice=2E For the series:
+
+Reviewed-by: Kees Cook <keescook@chromium=2Eorg>
+
+
+
+--=20
+Kees Cook
