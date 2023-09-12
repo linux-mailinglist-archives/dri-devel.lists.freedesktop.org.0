@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F7F79CF41
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:07:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0A779CF43
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 13:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDEFD10E3F1;
-	Tue, 12 Sep 2023 11:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC8010E3F5;
+	Tue, 12 Sep 2023 11:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB99D10E3F4;
- Tue, 12 Sep 2023 11:07:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0458C10E3F5;
+ Tue, 12 Sep 2023 11:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694516825; x=1726052825;
+ t=1694516829; x=1726052829;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6MGfx0GOMz6INcnx6B5Zl0QrJmI8j7xF3zwGm0Ai2CM=;
- b=YCAYiHEcyPfwUW/8Ebx1ydySfQXynTpyIoKlEIltMKAKTwvYzoZEv3ff
- tSa7swnYp1AvSywOjqOVlopkciu4/NpxzaWdXNw6jhkSu7r80h1QEkh2c
- RJTAKIgOuI4d3EsjSLzxmyOuHuUeuqrWWJXqJCerVyh5AN3mj7vn5+0D3
- 9dxzWrnmacKICWdQU2IVDbJn4gNqAlg3+mbMOnbdCDbmDqo/c490L5tKY
- ZNI7s9b3Ap0l13HpDxnwHsPnYkH+B/vpVQduPIG+vLPV0FZrzX0Q7SqVA
- TCVXnoAh0c1p2X/PKN3s3qg45uCETf/iVsOfb+XRdoN3TPVSYnxEKdUuz w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375671314"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="375671314"
+ bh=Nf0Qsw4wCohlJTd4J1JigV87Nwbvi5a08HZffpPbinQ=;
+ b=ICa2bRTPG2tIa4BeNCF0u//JaYWATAGr/Mu1FVFsJu12fvWLWLIHU2pK
+ hIvwOOtiiKEPWinrL1+iChM+nU+N1iHiXlOGT9aG2g/Jys/N/0oU7k53C
+ TWTulfVdypRCYSy3B3M1JQDUdVKEWG1Yl/b+ZLbyDgkY5lxSIaoWYOtV9
+ UkFxvH9DmkRtfNXYg6ExSqfChQ3wqaeS9VOY0Dzaq6d4VB97Dpdaw57OT
+ mrkn33V1rxfRrhOj4GldOdVvl6flQRNMPMOtUgeg7HMC8dNLYVEDAmUX+
+ CH91TD2nCgk0ieDgKNHmw2PR5ZQJbaMSTzlCQ+7FlVJSkwbAwNNLhB5gL A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="375671324"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="375671324"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:04 -0700
+ 12 Sep 2023 04:07:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809200404"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="809200404"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="809200436"
+X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; d="scan'208";a="809200436"
 Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.206])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2023 04:07:03 -0700
+ 12 Sep 2023 04:07:07 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 02/19] drm/i915/display: add I915 conditional build to
- intel_lvds.h
-Date: Tue, 12 Sep 2023 14:06:29 +0300
-Message-Id: <f06a88a69b7e326ff0914baca5e6a0e5f06e1867.1694514689.git.jani.nikula@intel.com>
+Subject: [PATCH 03/19] drm/i915/display: add I915 conditional build to
+ hsw_ips.h
+Date: Tue, 12 Sep 2023 14:06:30 +0300
+Message-Id: <04469b92be51b8394d74a508174f041aa7e011e8.1694514689.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1694514689.git.jani.nikula@intel.com>
 References: <cover.1694514689.git.jani.nikula@intel.com>
@@ -68,43 +68,61 @@ Add stubs for !I915.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_lvds.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/i915/display/hsw_ips.h | 35 ++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.h b/drivers/gpu/drm/i915/display/intel_lvds.h
-index 9d3372dc503f..7ad5fa9c0434 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.h
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.h
-@@ -13,10 +13,29 @@
- enum pipe;
- struct drm_i915_private;
+diff --git a/drivers/gpu/drm/i915/display/hsw_ips.h b/drivers/gpu/drm/i915/display/hsw_ips.h
+index 4eb83b350791..35364228e1c1 100644
+--- a/drivers/gpu/drm/i915/display/hsw_ips.h
++++ b/drivers/gpu/drm/i915/display/hsw_ips.h
+@@ -12,6 +12,7 @@ struct intel_atomic_state;
+ struct intel_crtc;
+ struct intel_crtc_state;
  
 +#ifdef I915
- bool intel_lvds_port_enabled(struct drm_i915_private *dev_priv,
- 			     i915_reg_t lvds_reg, enum pipe *pipe);
- void intel_lvds_init(struct drm_i915_private *dev_priv);
- struct intel_encoder *intel_get_lvds_encoder(struct drm_i915_private *dev_priv);
- bool intel_is_dual_link_lvds(struct drm_i915_private *dev_priv);
+ bool hsw_ips_disable(const struct intel_crtc_state *crtc_state);
+ bool hsw_ips_pre_update(struct intel_atomic_state *state,
+ 			struct intel_crtc *crtc);
+@@ -23,5 +24,39 @@ int hsw_ips_compute_config(struct intel_atomic_state *state,
+ 			   struct intel_crtc *crtc);
+ void hsw_ips_get_config(struct intel_crtc_state *crtc_state);
+ void hsw_ips_crtc_debugfs_add(struct intel_crtc *crtc);
 +#else
-+static inline bool intel_lvds_port_enabled(struct drm_i915_private *dev_priv,
-+					   i915_reg_t lvds_reg, enum pipe *pipe)
++static inline bool hsw_ips_disable(const struct intel_crtc_state *crtc_state)
 +{
 +	return false;
 +}
-+static inline void intel_lvds_init(struct drm_i915_private *dev_priv)
-+{
-+}
-+static inline struct intel_encoder *intel_get_lvds_encoder(struct drm_i915_private *dev_priv)
-+{
-+	return NULL;
-+}
-+static inline bool intel_is_dual_link_lvds(struct drm_i915_private *dev_priv)
++static inline bool hsw_ips_pre_update(struct intel_atomic_state *state,
++				      struct intel_crtc *crtc)
 +{
 +	return false;
++}
++static inline void hsw_ips_post_update(struct intel_atomic_state *state,
++				       struct intel_crtc *crtc)
++{
++}
++static inline bool hsw_crtc_supports_ips(struct intel_crtc *crtc)
++{
++	return false;
++}
++static inline bool hsw_crtc_state_ips_capable(const struct intel_crtc_state *crtc_state)
++{
++	return false;
++}
++static inline int hsw_ips_compute_config(struct intel_atomic_state *state,
++					 struct intel_crtc *crtc)
++{
++	return 0;
++}
++static inline void hsw_ips_get_config(struct intel_crtc_state *crtc_state)
++{
++}
++static inline void hsw_ips_crtc_debugfs_add(struct intel_crtc *crtc)
++{
 +}
 +#endif
  
- #endif /* __INTEL_LVDS_H__ */
+ #endif /* __HSW_IPS_H__ */
 -- 
 2.39.2
 
