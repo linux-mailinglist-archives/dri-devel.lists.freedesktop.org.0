@@ -1,75 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C11879C885
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:48:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E2879C8A9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8650E10E042;
-	Tue, 12 Sep 2023 07:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F7210E3A8;
+	Tue, 12 Sep 2023 07:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3B910E042
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694504895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a+gOdhSF4o6EKWTmDRFivLfAyb8HdVlHUDHb0/rf+sI=;
- b=KgkfLUx94QzaNBsfcppC4x86m8MctgxA8Y2Gct7irNGLloaHcT94PGCMS3qWNqyXtqAnlk
- PV77Tt5i3aTSI66s9Vsr/r/WRC++m7qb82zx9XC22a67hB9rkzerfWW0+pC7p1dpKuT9TB
- hsNdBv9hNr257Qxp+ddvaBohrD0e/V0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-209-wPkoVSMEMyC2tQUHVrAnPw-1; Tue, 12 Sep 2023 03:48:11 -0400
-X-MC-Unique: wPkoVSMEMyC2tQUHVrAnPw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-401c4f03b00so42199205e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:48:11 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A1510E3A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:50:44 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-591ba8bd094so50003007b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:50:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694504890; x=1695109690;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1694505043; x=1695109843;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2B0WC8PzLNLdGRasGQ/ag9W7qGL3oBFmynvW1yiJ2zE=;
- b=VvIWjnuXUQoEzmWWorqNGS9V08BNIMg8cgSnlVZXH1pIi+Iu+MoHTmKDGgmGhMM2Oa
- P/uEJRuMzWktcCZV5q+nX5HPhjsa1w+Xf3NEvoEpLi1TEsVGDcAnR10D5s6h1asBZ4qt
- KXroU0rL3um4mMw+VLoT+90Tjr6338Og04htK9WwQXRJcWrXQp/TjLAZMZWjua0K3aWp
- rxCRZY0VALIMx/WreW/tjyblq5P9TKC7BUNslyO914YHKQcCgRs4KBwkL7BZ0atJhKdP
- oOeFAxw2E/nbDkTAkgxkB+Hec06BreF9vH2NDuTZQp3uOwdN4xI/xqcLnbQX6uq16Gkf
- iBfg==
-X-Gm-Message-State: AOJu0Yyr7v6Y8XVS2jP4DACFxaazAFIuHhDymc+4RmLnQdAW4tU3AlyS
- TX+CcWLYKD7nb8NlNuMUnK9496Ut67MAd73WyTQ3P3QJP3bFtXz2F7w0awOEJn0FDGLOfyNlQUG
- S/O0Tx6m42C5EuNjzTpximtx4zpTu
-X-Received: by 2002:a1c:7508:0:b0:3fe:1f93:8cf4 with SMTP id
- o8-20020a1c7508000000b003fe1f938cf4mr9447290wmc.8.1694504890542; 
- Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF+rSaX2GVdThWkFlifttXlbzNXae8MOoKXkiRAt9ShgN0wMc6R6A+/mp5KLadFPQ6BmDhQJQ==
-X-Received: by 2002:a1c:7508:0:b0:3fe:1f93:8cf4 with SMTP id
- o8-20020a1c7508000000b003fe1f938cf4mr9447271wmc.8.1694504890238; 
- Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g17-20020a7bc4d1000000b003fc02e8ea68sm15255183wmk.13.2023.09.12.00.48.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 00:48:10 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
-In-Reply-To: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+ bh=RA+GxIpXP8cITPYqZGKmspSNybpN4+ElppCVJJUtNRE=;
+ b=UrEx325alrzVlHEm3QGXdYvIBOMfOwm8PcBSmWp9p+DHHIdl+do89L9nSC5Ks2qHCf
+ 4LG4qYEpaMvFy5kt60uQr3Gy0fiOLhpOM8wYbj6wngMlG23xAM66LPv5IxqtqNpfImqu
+ KhcYo60Rrwt88Yjp+/jOSMx+BZkXaLEhj5b2wa4rWCUrmvIRHGo4NcYPiWVSkXi7Kekk
+ 9wacdaCr/eOdTnFLA66uiCcwCKO+U0lxlNYxvOW9hM5eVkTE/TshqehfBn+TaYNs/1Jd
+ TJKJC9iJ6ROcxgjGxnSCBMZDjmYjJ7B1JE9Mye362oyIGNUHAgYUus16SSaH6YfN48yt
+ hPtA==
+X-Gm-Message-State: AOJu0YyR21l9HCo8ixEvjRdxgO5MRzrrtJi4xngC51zgqwm8AsiJ7A8y
+ JbCvnGKDZ3OioDkIly3one6tTUr01eHqSQ==
+X-Google-Smtp-Source: AGHT+IGgatmauPSLEXSnsuaWxVuC58gw5BbEtn11SYX16in7bezjSVwyBVl+nMJrw+/r/WfUESE2MA==
+X-Received: by 2002:a81:a1c5:0:b0:595:2de4:c991 with SMTP id
+ y188-20020a81a1c5000000b005952de4c991mr12684633ywg.29.1694505043140; 
+ Tue, 12 Sep 2023 00:50:43 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ t7-20020a0dd107000000b00595394ba94asm2440040ywd.55.2023.09.12.00.50.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Sep 2023 00:50:42 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-d78328bc2abso4989967276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:50:42 -0700 (PDT)
+X-Received: by 2002:a25:512:0:b0:ba8:2e05:3e9c with SMTP id
+ 18-20020a250512000000b00ba82e053e9cmr11393965ybf.24.1694505042631; Tue, 12
+ Sep 2023 00:50:42 -0700 (PDT)
+MIME-Version: 1.0
 References: <20230911205338.2385278-1-arnd@kernel.org>
  <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
-Date: Tue, 12 Sep 2023 09:48:09 +0200
-Message-ID: <87a5tr3k92.fsf@minerva.mail-host-address-is-not-set>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ <aa935abe-2ccf-4889-a717-4efecc13d48b@app.fastmail.com>
+In-Reply-To: <aa935abe-2ccf-4889-a717-4efecc13d48b@app.fastmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Sep 2023 09:50:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUAu27grxoGmtDAZVL_ZHd7vvPcZq-FJ_zYXKKQVg_idg@mail.gmail.com>
+Message-ID: <CAMuHMdUAu27grxoGmtDAZVL_ZHd7vvPcZq-FJ_zYXKKQVg_idg@mail.gmail.com>
+Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
+To: Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,94 +71,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+Hi Arnd,
 
-Hello Geert,
-
-> Hi Arnd,
+On Tue, Sep 12, 2023 at 9:40=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+> On Tue, Sep 12, 2023, at 09:14, Geert Uytterhoeven wrote:
+> > On Mon, Sep 11, 2023 at 10:53=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
+> wrote:
+> >> --- a/drivers/gpu/drm/Kconfig
+> >> +++ b/drivers/gpu/drm/Kconfig
+> >> @@ -135,7 +135,7 @@ config DRM_FBDEV_EMULATION
+> >>         bool "Enable legacy fbdev support for your modesetting driver"
+> >>         depends on DRM
+> >>         select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSO=
+LE
+> >> -       default y
+> >> +       default FB
+> >
+> > While this is true for existing configs, it is no longer true in genera=
+l,
+> > as DRM_FBDEV_EMULATION is no longer related to FB.
 >
-> On Mon, Sep 11, 2023 at 10:53=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> =
-wrote:
+> I think it still makes some sense though, as configs that have
+> both DRM and FB enabled almost certainly want this enabled.
 
-[...]
+OK.
 
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -135,7 +135,7 @@ config DRM_FBDEV_EMULATION
->>         bool "Enable legacy fbdev support for your modesetting driver"
->>         depends on DRM
->>         select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
->> -       default y
->> +       default FB
+People who use DRM drivers only, and now realize they no longer need
+CONFIG_FB, may need to enable CONFIG_DRM_FBDEV_EMULATION
+manually when disabling CONFIG_FB, depending on their use case.
+
+> >> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kco=
+nfig
+> >> index b575cf54174af..83c2d7329ca58 100644
+> >> --- a/drivers/video/console/Kconfig
+> >> +++ b/drivers/video/console/Kconfig
+> >> @@ -74,6 +74,7 @@ config DUMMY_CONSOLE_ROWS
+> >>  config FRAMEBUFFER_CONSOLE
+> >>         bool "Framebuffer Console support"
+> >>         depends on FB_CORE && !UML
+> >> +       default DRM_FBDEV_EMULATION
+> >
+> > Sounds good to me, although it looks a bit strange at first sight
+> > (FRAMEBUFFER_CONSOLE defaults to n on a system with real fbdev, but
+> > y on emulated fbdev?).
+> > So this is the fix for commit a5ae331edb02b ("drm: Drop select
+> > FRAMEBUFFER_CONSOLE for DRM_FBDEV_EMULATION").
 >
-> While this is true for existing configs, it is no longer true in general,
-> as DRM_FBDEV_EMULATION is no longer related to FB.
+> Correct, this should restore the console on configs that
+> accidentally lost it. The real problem here is much older,
+> the assymetry between framebuffer-only configs (with console
+> default off) and DRM configs (with console selected
+> unconditionally) started back in 2009 with commit 6fcefd56f5060
+> ("drm/kms: fix kms helper license + Kconfig").
 >
+> I think that was a mistake, but there is little we can do
+> to fix that now without breaking users.
 
-Maybe default y if (FB_DEVICE || FRAMEBUFFER_CONSOLE) ?
+Right...
 
->>         help
->>           Choose this option if you have a need for the legacy fbdev
->>           support. Note that this support also provides the linux consol=
-e
->> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconf=
-ig
->> index b575cf54174af..83c2d7329ca58 100644
->> --- a/drivers/video/console/Kconfig
->> +++ b/drivers/video/console/Kconfig
->> @@ -74,6 +74,7 @@ config DUMMY_CONSOLE_ROWS
->>  config FRAMEBUFFER_CONSOLE
->>         bool "Framebuffer Console support"
->>         depends on FB_CORE && !UML
->> +       default DRM_FBDEV_EMULATION
 >
-> Sounds good to me, although it looks a bit strange at first sight
-> (FRAMEBUFFER_CONSOLE defaults to n on a system with real fbdev, but
-> y on emulated fbdev?).
-
-And there Maybe default y if (FB || DRM_FBDEV_EMULATION) ?
-
-> So this is the fix for commit a5ae331edb02b ("drm: Drop select
-> FRAMEBUFFER_CONSOLE for DRM_FBDEV_EMULATION").
+> The only alternative I can think of would be to default-enable
+> or force-enable FRAMEBUFFER_CONSOLE for any config that includes
+> both VT_CONSOLE and FB_CORE. This would increase defconfig
+> builds for systems that currently only want CONFIG_FB for
+> either FB_DEVICE or LOGO but don't care about
+> FRAMEBUFFER_CONSOLE. I have no idea who uses such a config,
+> but I think Javier previously said this was an important
+> use case.
 >
->>         select VT_HW_CONSOLE_BINDING
->>         select CRC32
->>         select FONT_SUPPORT
->> diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core=
-/Kconfig
->> index 114cb8aa6c8fd..804c2bec9b43c 100644
->> --- a/drivers/video/fbdev/core/Kconfig
->> +++ b/drivers/video/fbdev/core/Kconfig
->> @@ -28,7 +28,7 @@ config FIRMWARE_EDID
->>  config FB_DEVICE
->>         bool "Provide legacy /dev/fb* device"
->>         depends on FB_CORE
->> -       default y
->> +       default FB
+> >> diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/co=
+re/Kconfig
+> >> index 114cb8aa6c8fd..804c2bec9b43c 100644
+> >> --- a/drivers/video/fbdev/core/Kconfig
+> >> +++ b/drivers/video/fbdev/core/Kconfig
+> >> @@ -28,7 +28,7 @@ config FIRMWARE_EDID
+> >>  config FB_DEVICE
+> >>         bool "Provide legacy /dev/fb* device"
+> >>         depends on FB_CORE
+> >> -       default y
+> >> +       default FB
+> >
+> > Changing this means possibly causing regressions on systems running
+> > an fbdev userspace.
 >
-> Changing this means possibly causing regressions on systems running
-> an fbdev userspace.
->
+> How? FB_DEVICE is a new config that was just split out from
+> CONFIG_FB in 6.6-rc1, so nobody should have any defconfig
+> that disables CONFIG_FB but relies on the FB_DEVICE default yet.
 
-Right, specially if using DRM fbdev emulation since then the default will
-be different between v6.5 and v6.6 (that's what this patch tries to avoid).
+Right, from the PoV of running "make oldconfig" that is true.
 
-So probably we could keept that default as 'y'.
+(I was incorrectly considering the defconfigs which I maintain,
+ and where I already disabled CONFIG_FB after the FB/FB_CORE
+ split in linux-next).
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --=20
-Best regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
