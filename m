@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B962779C7B3
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F2B79C7DF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Sep 2023 09:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB0510E35C;
-	Tue, 12 Sep 2023 07:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE2E10E03E;
+	Tue, 12 Sep 2023 07:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF0E10E369
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:07:15 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C098566072FB;
- Tue, 12 Sep 2023 08:07:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694502434;
- bh=0bDv/Gse7UVvtEQH3mZnutrtEjAlK95RuXH2e30TfrU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=KRtSmH7QnR8S7UkJfPXEyGU0kP6vvA48GzbleYQdWBENY+H4A31CYTxK69tTr2dX+
- i01d7HYh3ihwij7//xslYBZL5J1WFKvONp6qmIYw2cz84CFypEwOEQrOryRGWFuyIc
- UxJ56XMQp5X5rdoXlCHnX+PZ0co/PQZez3LDqkJecbNYoBm9i+zeqNTl9+saowwmBz
- n3GZgxyokdntSmj9zAxhZTlonyX2HgaIYSCKv3J9ml1ARtSJU7K8yi5MA0dVz6iOVK
- 3Ey0yu6xTgGhDepjWopuzQycPrtUPgtFh1AQCejr3WkemwQZ8GiWiiInLiNgKocJXU
- GI1E+jcz92LEw==
-Date: Tue, 12 Sep 2023 09:07:10 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v16 02/20] drm/shmem-helper: Use flag for tracking page
- count bumped by get_pages_sgt()
-Message-ID: <20230912090710.72e998e6@collabora.com>
-In-Reply-To: <297f5209-603e-a50d-c27b-8e50d23f86de@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-3-dmitry.osipenko@collabora.com>
- <20230905094050.3c918a43@collabora.com>
- <297f5209-603e-a50d-c27b-8e50d23f86de@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47B6110E38E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 07:15:08 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-59b9d255037so11814027b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:15:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694502907; x=1695107707;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UQRallN7a7RlN4ob4UzNdS6lCadZKR5S0w4gWNgqx4U=;
+ b=LdWPYdIdyckj+iIKqaS45OwLyypvpYZ48PLMA4efo3djOCon/XY+gNn0EwSGbATtpG
+ SE1bA0a+KEv7jZRZ6QqNEK26EUFmPb/Tr70FnmydzPKXcOYmIbbVZx9Q5cLOJP5/f4p0
+ FItwyc7WhHBwJrm3IeUNpzQ6PJaqlsOUPbd5mhuWAMo32eGULA2KcAoJTJiLSzrOghFj
+ tnJAG6itd4c7AOTL+yAcX5oMLE2ncl6Hv2jMXAfhyHPYjXiJfHqqmYoMWwis6kHr9c+V
+ mxoyCkXKJUp8FPHC8ueQf1FJPnTFT3GIrVwSqWuGKuDCdUPTa21Czow0YrQevTH2l1WZ
+ mlCg==
+X-Gm-Message-State: AOJu0YwUezLq5iuQfxt9D9kkggcrLcZfyrhOARhzSDN6AH2L7u/GMP/z
+ 256hJuHaVblLkYGmIYfZhSx1RULPpKF0lg==
+X-Google-Smtp-Source: AGHT+IGei1S4VnArJ9xPaQqLDWaefVjY/J0iImk8zLzVUYqZdGdkANo2BEqaKY6bLxi9I8VNmj6nOg==
+X-Received: by 2002:a0d:cbd0:0:b0:589:a9fd:a with SMTP id
+ n199-20020a0dcbd0000000b00589a9fd000amr12063540ywd.10.1694502907140; 
+ Tue, 12 Sep 2023 00:15:07 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ p63-20020a815b42000000b005837633d9cbsm2386934ywb.64.2023.09.12.00.15.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Sep 2023 00:15:06 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-d7ba4c5f581so4604476276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 00:15:06 -0700 (PDT)
+X-Received: by 2002:a25:d695:0:b0:d3c:58ef:ef7b with SMTP id
+ n143-20020a25d695000000b00d3c58efef7bmr11682985ybg.6.1694502906112; Tue, 12
+ Sep 2023 00:15:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230911205338.2385278-1-arnd@kernel.org>
+In-Reply-To: <20230911205338.2385278-1-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Sep 2023 09:14:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+Message-ID: <CAMuHMdWizKkuLEcv8sFFOWPib-0e1onCRuQEZm6OhV592VWUKQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: fix up fbdev Kconfig defaults
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,89 +69,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Sep 2023 02:41:58 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+Hi Arnd,
 
-> On 9/5/23 10:40, Boris Brezillon wrote:
-> > On Sun,  3 Sep 2023 20:07:18 +0300
-> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> >   
-> >> Use separate flag for tracking page count bumped by shmem->sgt to avoid
-> >> imbalanced page counter during of drm_gem_shmem_free() time. It's fragile
-> >> to assume that populated shmem->pages at a freeing time means that the
-> >> count was bumped by drm_gem_shmem_get_pages_sgt(), using a flag removes
-> >> the ambiguity.
-> >>
-> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 11 ++++++++++-
-> >>  drivers/gpu/drm/lima/lima_gem.c        |  1 +
-> >>  include/drm/drm_gem_shmem_helper.h     |  7 +++++++
-> >>  3 files changed, 18 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> index 6693d4061ca1..848435e08eb2 100644
-> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> >> @@ -152,8 +152,10 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
-> >>  			sg_free_table(shmem->sgt);
-> >>  			kfree(shmem->sgt);
-> >>  		}
-> >> -		if (shmem->pages)
-> >> +		if (shmem->pages) {
-> >>  			drm_gem_shmem_put_pages(shmem);
-> >> +			drm_WARN_ON(obj->dev, !shmem->got_pages_sgt);
-> >> +		}  
-> > 
-> > Already mentioned in v15, but I keep thinking the following:
-> > 
-> > 		if (shmem->sgt) {
-> > 			// existing code in the preceding
-> > 			// if (shmem->sgt) branch
-> > 			...
-> > 
-> > 			/*
-> > 			 * Release the implicit pages ref taken in
-> > 			 * drm_gem_shmem_get_pages_sgt_locked().
-> > 			 */
-> > 			drm_gem_shmem_put_pages(shmem);
-> > 		}
-> > 
-> > does exactly the same without requiring the addition of a new field.  
-> 
-> I'll factor out these "flag" patches into separate patchset since they
-> cause too many questions.
+On Mon, Sep 11, 2023 at 10:53=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As a result of the recent Kconfig reworks, the default settings for the
+> framebuffer interfaces changed in unexpected ways:
+>
+> Configurations that leave CONFIG_FB disabled but use DRM now get
+> DRM_FBDEV_EMULATION by default. This also turns on the deprecated /dev/fb
+> device nodes for machines that don't actually want it.
+>
+> In turn, configurations that previously had DRM_FBDEV_EMULATION enabled
+> now only get the /dev/fb front-end but not the more useful framebuffer
+> console, which is not selected any more.
+>
+> We had previously decided that any combination of the three frontends
+> (FB_DEVICE, FRAMEBUFFER_CONSOLE and LOGO) should be selectable, but the
+> new default settings mean that a lot of defconfig files would have to
+> get adapted.
+>
+> Change the defaults back to what they were in Linux 6.5:
+>
+>  - Leave DRM_FBDEV_EMULATION turned off unless CONFIG_FB
+>    is enabled. Previously this was a hard dependency but now the two are
+>    independent. However, configurations that enable CONFIG_FB probably
+>    also want to keep the emulation for DRM, while those without FB
+>    presumably did that intentionally in the past.
+>
+>  - Leave FB_DEVICE turned off for FB=3Dn. Following the same
+>    logic, the deprecated option should not automatically get enabled
+>    here, most users that had FB turned off in the past do not want it,
+>    even if they want the console
+>
+>  - Turn the FRAMEBUFFER_CONSOLE option on if
+>    DRM_FBDEV_EMULATION is set to avoid having to change defconfig
+>    files that relied on it being selected unconditionally in the past.
+>    This also makes sense since both LOGO and FB_DEVICE are now disabled
+>    by default for builds without CONFIG_FB, but DRM_FBDEV_EMULATION
+>    would make no sense if all three are disabled.
+>
+> Fixes: a5ae331edb02b ("drm: Drop select FRAMEBUFFER_CONSOLE for DRM_FBDEV=
+_EMULATION")
+> Fixes: 701d2054fa317 ("fbdev: Make support for userspace interfaces confi=
+gurable")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-So patch 1 and 2 in this series right?
+Thanks for your patch!
 
-> This is a fix for a minor bug that existed for
-> many years
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -135,7 +135,7 @@ config DRM_FBDEV_EMULATION
+>         bool "Enable legacy fbdev support for your modesetting driver"
+>         depends on DRM
+>         select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+> -       default y
+> +       default FB
 
-I'm not denying the fact there's a bug, but I'm convinced this can be
-fixed without adding new flags. If there's something wrong with the
-suggested solution, I'd be interested to hear more about it.
+While this is true for existing configs, it is no longer true in general,
+as DRM_FBDEV_EMULATION is no longer related to FB.
 
-> and is difficult to trigger in practice, it can wait.
+>         help
+>           Choose this option if you have a need for the legacy fbdev
+>           support. Note that this support also provides the linux console
+> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfi=
+g
+> index b575cf54174af..83c2d7329ca58 100644
+> --- a/drivers/video/console/Kconfig
+> +++ b/drivers/video/console/Kconfig
+> @@ -74,6 +74,7 @@ config DUMMY_CONSOLE_ROWS
+>  config FRAMEBUFFER_CONSOLE
+>         bool "Framebuffer Console support"
+>         depends on FB_CORE && !UML
+> +       default DRM_FBDEV_EMULATION
 
-Triggering it with a real fault is hard, but you can manually fake
-errors at any point in the initialization process and check what
-happens.
+Sounds good to me, although it looks a bit strange at first sight
+(FRAMEBUFFER_CONSOLE defaults to n on a system with real fbdev, but
+y on emulated fbdev?).
+So this is the fix for commit a5ae331edb02b ("drm: Drop select
+FRAMEBUFFER_CONSOLE for DRM_FBDEV_EMULATION").
 
-> 
-> For now will be better to focus on finishing and landing the refcnt and
-> shrinker patches, the rest of drm-shmem core improvements can be done
-> afterwards.
-> 
+>         select VT_HW_CONSOLE_BINDING
+>         select CRC32
+>         select FONT_SUPPORT
+> diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/=
+Kconfig
+> index 114cb8aa6c8fd..804c2bec9b43c 100644
+> --- a/drivers/video/fbdev/core/Kconfig
+> +++ b/drivers/video/fbdev/core/Kconfig
+> @@ -28,7 +28,7 @@ config FIRMWARE_EDID
+>  config FB_DEVICE
+>         bool "Provide legacy /dev/fb* device"
+>         depends on FB_CORE
+> -       default y
+> +       default FB
 
-Sounds good to me.
+Changing this means possibly causing regressions on systems running
+an fbdev userspace.
+
+>         help
+>           Say Y here if you want the legacy /dev/fb* device file and
+>           interfaces within sysfs anc procfs. It is only required if you
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
