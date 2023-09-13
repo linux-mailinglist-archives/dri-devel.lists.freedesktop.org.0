@@ -1,66 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01F379E653
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 13:14:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 150A179E6A2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 13:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7CB88697;
-	Wed, 13 Sep 2023 11:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D0910E027;
+	Wed, 13 Sep 2023 11:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7DA88697
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:14:43 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-307d20548adso6774243f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 04:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694603682; x=1695208482; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Sz/2Xhp1w0ethYXV/2klfVqKt4JNZvE9WLZJG9+QLJc=;
- b=GEyuBq6A3pMbPS/fJjMMopVCWH8Rs46zKYr2wbrRtZKqR7dL7prUrJtvhG/yA+yqes
- 74r+EdnutSKNSGmdgr4lnft9MYGnWTFMRrdvNUmEra5lGw/kiESRNWjfpWEya9CzUdlG
- hTrk6/1fvw47pnSlhquOZ6ib4U7vIAO3KZvPfipHdcghWtdImzp0rpq9sj/2cTPm5RrG
- bEGg5UgZMAEXTL8edZSZu2KzZX8ibR5NcnRfXIg6JYiI5l7K6uQhNZY6HhgsPdehtBvl
- SHoxu/0X16RB4d5Y4+PbbW1m1LMbbcQ/sK61qcn5SIxFq+9xYo5kSpZJq4F0EEH1fCEf
- HgPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694603682; x=1695208482;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Sz/2Xhp1w0ethYXV/2klfVqKt4JNZvE9WLZJG9+QLJc=;
- b=D3RWAYknB8w7R04w0KLDYGdrnQBaLvPt4KGkfBzBKAnqbPgt3wO3p4Y+ue0NkX849Y
- b+BDWIFhopLMWjjruxl2zblh2rO43Ufx9W0w68zfxk+XCgmGl5ZW5CaZGfUTpLZrHgri
- LufKRauHezu4O9MMnoB/Ed+LZ0/+etTSog0XKq8q3yz8Ss0/7SeHRCWj2NuoAYbYV0iG
- 10JLvOPaeZOIdp6G/nw3Pnw6UfGWMp2LnQm4jpwCaQDbYOIbqvTCdtK3rKFSdL/QJaO0
- CoxtwYUNxKKucKKwK4S0DhK92FiqMZzPGYolI2PKzXjrbE4CSlITIkD+2GiBJmQGuG2Q
- fOTA==
-X-Gm-Message-State: AOJu0YwIFeZ3TM/zHv5CfgrhUZUm0N7J7q7STjjSoeSiPoSSwKggsuSt
- P/BYNHvYCDiNHmPstD66m8irSg==
-X-Google-Smtp-Source: AGHT+IFKzaCiQkryqApXLRa+CYcF3hfZn25Ngb2HWUfxb6L7XhhpPpyalv8q/7qHay4WnBD23TidEQ==
-X-Received: by 2002:a5d:6650:0:b0:315:a1bb:4d7b with SMTP id
- f16-20020a5d6650000000b00315a1bb4d7bmr1947207wrw.35.1694603682309; 
- Wed, 13 Sep 2023 04:14:42 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- h17-20020a056000001100b003197c2316ecsm15115280wrx.112.2023.09.13.04.14.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Sep 2023 04:14:42 -0700 (PDT)
-Date: Wed, 13 Sep 2023 14:14:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Johannes Zink <j.zink@pengutronix.de>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0389110E027
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:25:18 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[127.0.0.1])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <j.zink@pengutronix.de>)
+ id 1qgNzW-00048k-NV; Wed, 13 Sep 2023 13:25:06 +0200
+Message-ID: <089e6ed7-4d87-9469-b547-1f14d975ed62@pengutronix.de>
+Date: Wed, 13 Sep 2023 13:24:51 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
 Subject: Re: [PATCH v4 3/3] drm/panel-simple: allow LVDS format override
-Message-ID: <e6a2df72-46cb-4f22-b983-ac5ad2995da8@kadam.mountain>
+Content-Language: en-US, de-DE
+To: Dan Carpenter <dan.carpenter@linaro.org>
 References: <20230523-simplepanel_support_nondefault_datamapping-v4-0-e6e7011f34b5@pengutronix.de>
  <20230523-simplepanel_support_nondefault_datamapping-v4-3-e6e7011f34b5@pengutronix.de>
  <96898dbb-3fdf-7a74-ae80-f18ae2244f50@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96898dbb-3fdf-7a74-ae80-f18ae2244f50@pengutronix.de>
+ <e6a2df72-46cb-4f22-b983-ac5ad2995da8@kadam.mountain>
+From: Johannes Zink <j.zink@pengutronix.de>
+In-Reply-To: <e6a2df72-46cb-4f22-b983-ac5ad2995da8@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: j.zink@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,20 +65,43 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 18, 2023 at 09:04:34AM +0200, Johannes Zink wrote:
-> Hi Dan,
+Hi Dan,
+
+On 9/13/23 13:14, Dan Carpenter wrote:
+> On Fri, Aug 18, 2023 at 09:04:34AM +0200, Johannes Zink wrote:
+>> Hi Dan,
+>>
+>> do you have any input on this for me?
+>>
 > 
-> do you have any input on this for me?
+> Sorry, I was out of office and the truth is that I'm never going to
+> catch up on all the email I missed.  :/
 > 
 
-Sorry, I was out of office and the truth is that I'm never going to
-catch up on all the email I missed.  :/
+nevermind, that's why I sent ping...
 
-Looks okay to me.  I can't remember what I said about this code in v3
-but it looks good now.  I'm not a DRM dev so I'm not sure my review
-counts for much.  You should always just assume that if I'm quiet
-then I'm happy.  :)
+> Looks okay to me.  I can't remember what I said about this code in v3
+> but it looks good now.  I'm not a DRM dev so I'm not sure my review
+> counts for much.  
 
-regards,
-dan carpenter
+IIRC it was a mistake I made with a return value that I have fixed in v4.
+
+You should always just assume that if I'm quiet
+> then I'm happy.  :)
+
+That's good to know ;-) Thanks for your review!
+
+Johannes
+
+> 
+> regards,
+> dan carpenter
+> 
+> 
+
+-- 
+Pengutronix e.K.                | Johannes Zink                  |
+Steuerwalder Str. 21            | https://www.pengutronix.de/    |
+31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
+Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
 
