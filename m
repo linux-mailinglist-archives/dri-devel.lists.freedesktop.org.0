@@ -1,72 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1485279F111
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA42079F11B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFA810E4D7;
-	Wed, 13 Sep 2023 18:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE9C10E4DA;
+	Wed, 13 Sep 2023 18:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE2010E4D7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:21:28 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-52a40cf952dso53914a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:21:28 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5434710E4DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:29:09 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-501ce655fcbso124416e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694629285; x=1695234085;
+ d=chromium.org; s=google; t=1694629747; x=1695234547;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=l5QGC6faED9UJjdk62LCMZfSOuUFJeBirWltiWK+61M=;
- b=HAVHLIdnW7RE45+MO6nfnCHhAT6LcW2wFDFruZ7RHgaxayPJ6keZrqS9OpNasDLGFM
- xWMZPRsaERPyOQmwXJDOO2US48tUc0kPyvlTUn0DeqjGfxIe5PtkTVmOShe+vW4yJ9Xq
- qJa/fsICwCK9wZcMvgmZILLmh8+1wmfsHQiY4=
+ bh=ukvdFrW0mu6Dhs/IRD1IZUwR2wIREV2auFM3wAgq3Xs=;
+ b=KBXz5utCIxmbY/5z+KsPB4oEvMbPC0XGUvp1JxEyAu5ilMf/+LtG9bZ8+YDkI8Ca0x
+ Dl2oS65U8hoD82EkfUFjsD3Sjh1CaDhg1/RIO9BhFLaa9ldUNUIpDRRCpk7VKZcjff8g
+ Es8InQNlr575yQ7JacclXT08zz+1ylQ16PAsg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694629285; x=1695234085;
+ d=1e100.net; s=20230601; t=1694629747; x=1695234547;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l5QGC6faED9UJjdk62LCMZfSOuUFJeBirWltiWK+61M=;
- b=XpqIEl+cFEOeWIPxrGudPgiSzojZJy3vILgMNna32HTUb38PpR3juEDQpvoONgkaEI
- 1Xwk2bHAt+k6agjJUusbAkInW/Rf7X6Uld7xPJ6V1TGHLn9SZpgaZVtTjnnbTUh4dnHw
- xlKQGPtQXFuY+MUVPKaXkUsmK1MCqRSAZlm8blyqwHbOgMJkSqZu5HMKlUnIrP6DBOqr
- bku7rNzYjoSWXKYuhtn3n4TmbSEF4LJm6gfhCHvunutaeO45vQqbwE7Yb1YqbNqV0jpR
- u4r/XauaD+O02uyht7AzRG990VktiX+DmGVG0GdI4blaJQdAtwMTB1zbsQPog0u6STn+
- tFZw==
-X-Gm-Message-State: AOJu0Yyw6IJNnL/SpT6vvS+huGrsXwi9nv1NUqUO2ou6Qbi7YZiTabU2
- dGi0QHzzc28iMSbYb9JtDixdh9ijLsjXpcWks5xPpr8m
-X-Google-Smtp-Source: AGHT+IGZJAncpGv/YQLQFKNwq5BGwLFCFGfscelQnuEx++egvAkYXPEi8MKV/Nwh0E23B4gjy+ySbg==
-X-Received: by 2002:aa7:d6c3:0:b0:522:2ba9:6fce with SMTP id
- x3-20020aa7d6c3000000b005222ba96fcemr3177842edr.8.1694629285572; 
- Wed, 13 Sep 2023 11:21:25 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
- [209.85.208.48]) by smtp.gmail.com with ESMTPSA id
- w9-20020aa7cb49000000b0051bed21a635sm7705497edt.74.2023.09.13.11.21.24
+ bh=ukvdFrW0mu6Dhs/IRD1IZUwR2wIREV2auFM3wAgq3Xs=;
+ b=knqGot+vaSdbGpe0dzJGYLtf2kwoNif48lKtJJ4JEXRa61HncEOt6mNrat4PihQ5Ek
+ qq/vXJ5slupSk/3yTzOBTeQJEAIPV8TEQxCK5o0DSVs6v6Jp9BelGcRkmFxoG/lIq4Rr
+ 8y8qIe3Imn1hkfqPOZjeG0rAt2K9dyHnlVchjlQZ7Ifp2K8Rl6ce6+JWYcGBqC40nJWD
+ hsaoL6MDD5e3p1U3zgGUQYcK690AQR9+pK8qfoTjQVMvfHCQIabAkMZ3edtwQ7UhI/4N
+ E/UbkeZe1pNtAFyrjXYxPiMSVM25OeK7k+k43FcwnDBmID8bQFV57i6VynsYMMzDUXqr
+ VIqw==
+X-Gm-Message-State: AOJu0YxeqvV6TUTKXlVQSt0N8hxXZanl88sr7dpem6tYyWpZKtzKilDD
+ 4To5/4T1NjgHV6mQ/LYFfXCK1gaFmZAsao+IL/fgnyyl
+X-Google-Smtp-Source: AGHT+IFsXNOjSJ4ZN8Pw1Dy+mfuXNYotRrc72UkTqCkWrbtVW2cg9RfymeHofx1SN/JU1034yR7q8w==
+X-Received: by 2002:a05:6512:2386:b0:4fe:5741:9eb9 with SMTP id
+ c6-20020a056512238600b004fe57419eb9mr3421739lfv.49.1694629747247; 
+ Wed, 13 Sep 2023 11:29:07 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
+ o3-20020ac24343000000b004fdb85646f1sm2239090lfl.201.2023.09.13.11.29.06
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Sep 2023 11:21:25 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-52c96d5df86so2157a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:21:24 -0700 (PDT)
-X-Received: by 2002:a50:cd59:0:b0:522:4741:d992 with SMTP id
- d25-20020a50cd59000000b005224741d992mr219125edj.4.1694629284486; Wed, 13 Sep
- 2023 11:21:24 -0700 (PDT)
+ Wed, 13 Sep 2023 11:29:06 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5009687f822so598e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:29:06 -0700 (PDT)
+X-Received: by 2002:a19:a40a:0:b0:502:cdb6:f316 with SMTP id
+ q10-20020a19a40a000000b00502cdb6f316mr106284lfc.3.1694629746197; Wed, 13 Sep
+ 2023 11:29:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
-In-Reply-To: <20230901164111.RFT.13.I0a9940ff6f387d6acf4e71d8c7dbaff8c42e3aaa@changeid>
+References: <lhd6ai7d6swlxhisjhikytguor7pptrymo3bmfwej4k7zqrnv4@hp2gvhw7mh3m>
+ <CAD=FV=XUhzguFCC=aKzHFMV0bBnZzkHXP_tx+P=PNkVr=8SnTA@mail.gmail.com>
+ <mumiep5q7x7qj7k64h3cyodxrgk737iy5rum5keguquwymf2gy@3qruwfrqjgy7>
+ <CAD=FV=VEene+nr1us87iA+bomxzQ039r-E+wqvizvFGbxXjDvA@mail.gmail.com>
+ <wwzbd7dt5qyimshnd7sbgkf5gxk7tq5dxtrerz76uw5p6s7tzt@cbiezkfeuqqn>
+ <CAD=FV=XcUVvg5Om__dD=i9zu7ZtQmvWicms9yN7w0c2nWGhqYg@mail.gmail.com>
+ <p7okuysh442hulqls3ekbaar2bguqv67fum3gsb2cj75kjvdpx@uebwlgvf46sy>
+ <CAD=FV=Xr4nZUeHY-FdiedcV=BuP5szNBEHPKjdRnA7c+3MADqg@mail.gmail.com>
+ <nahwibpea2akyg7swbdb3f6xyv7fqs35v5spqbjfzfchxnoqqz@glgg5core75d>
+ <CAD=FV=UKSc4mNjWcvLCXT9Tdeok=xRjA0oVoLKVkq+kQ9-4M0A@mail.gmail.com>
+ <xtyiu2i2m2xokxfrgwocdcw4sy2oreszgwczmbnfvp4kbmrdvb@vr5huyfhmmmh>
+In-Reply-To: <xtyiu2i2m2xokxfrgwocdcw4sy2oreszgwczmbnfvp4kbmrdvb@vr5huyfhmmmh>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 13 Sep 2023 11:21:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VvbkKo9i994-GGFBKte=f_d9Vzh3o1UkTpTPSqCCEdeQ@mail.gmail.com>
-Message-ID: <CAD=FV=VvbkKo9i994-GGFBKte=f_d9Vzh3o1UkTpTPSqCCEdeQ@mail.gmail.com>
-Subject: Re: [RFT PATCH 13/15] drm/imx/ipuv3: Call drm_atomic_helper_shutdown()
- at shutdown/unbind time
-To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Date: Wed, 13 Sep 2023 11:28:54 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UfxdK9PsungMC0EiPvfPN7O+SVPq+CdCZ44GQyjwfmqQ@mail.gmail.com>
+Message-ID: <CAD=FV=UfxdK9PsungMC0EiPvfPN7O+SVPq+CdCZ44GQyjwfmqQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
+To: Maxime Ripard <mripard@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,99 +89,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, Sep 1, 2023 at 4:42=E2=80=AFPM Douglas Anderson <dianders@chromium.=
-org> wrote:
+On Thu, Sep 7, 2023 at 7:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
+rote:
 >
-> Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown time
-> and at driver unbind time. Among other things, this means that if a
-> panel is in use that it won't be cleanly powered off at system
-> shutdown time.
+> > a) Block landing the change to "panel-tdo-tl070wsh30.c" until after
+> > all drivers properly call drm_atomic_helper_shutdown().
 >
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart and at driver remove (or unbind) time comes
-> straight out of the kernel doc "driver instance overview" in
-> drm_drv.c.
->
-> A few notes about this fix:
-> - When adding drm_atomic_helper_shutdown() to the unbind path, I added
->   it after drm_kms_helper_poll_fini() since that's when other drivers
->   seemed to have it.
-> - Technically with a previous patch, ("drm/atomic-helper:
->   drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
->   actually need to check to see if our "drm" pointer is NULL before
->   calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
->   though, so that this patch can land without any dependencies. It
->   could potentially be removed later.
-> - This patch also makes sure to set the drvdata to NULL in the case of
->   bind errors to make sure that shutdown can't access freed data.
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This commit is only compile-time tested.
->
->  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/i=
-mx/ipuv3/imx-drm-core.c
-> index 4a866ac60fff..4c8bc49758a7 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-> @@ -257,6 +257,7 @@ static int imx_drm_bind(struct device *dev)
->         drm_kms_helper_poll_fini(drm);
->         component_unbind_all(drm->dev, drm);
->  err_kms:
-> +       dev_set_drvdata(dev, NULL);
->         drm_dev_put(drm);
->
->         return ret;
-> @@ -269,6 +270,7 @@ static void imx_drm_unbind(struct device *dev)
->         drm_dev_unregister(drm);
->
->         drm_kms_helper_poll_fini(drm);
-> +       drm_atomic_helper_shutdown(drm);
->
->         component_unbind_all(drm->dev, drm);
->
-> @@ -298,6 +300,14 @@ static int imx_drm_platform_remove(struct platform_d=
-evice *pdev)
->         return 0;
->  }
->
-> +static void imx_drm_platform_shutdown(struct platform_device *pdev)
-> +{
-> +       struct drm_device *drm =3D platform_get_drvdata(pdev);
-> +
-> +       if (drm)
-> +               drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+> I don't think we care about all drivers here. Only the driver it's
+> enabled with would be a blocker. Like, let's say sun4i hasn't been
+> converted but that panel is only used with rockchip anyway, we don't
+> really care that sun4i shutdown patch hasn't been merged (yet).
 
-Since this is now landing through the drm-misc-next tree, I got rid of
-the check for NULL when applying and landed this after the patch
-("drm/atomic-helper: drm_atomic_helper_shutdown(NULL) should be a
-noop").
+Yeah, I suppose that would work, though it would require a bit of
+research. Some other things have popped onto my plate recently, but
+for now I'm going to focus on seeing how much of the drivers can get
+their shutdown fixed. When that stalls out then we can see if we can
+unblock some of the panels by digging into which DRM drivers they're
+used with.
 
+Also, as my proposal in the cover letter [1], I'm leaving a breadcrumb
+here that I landed the first 3 patches in this series just to get them
+out of the way. Those 3 patches didn't depend on the resolution of the
+issues discussed here.
 
-> @@ -325,6 +335,7 @@ MODULE_DEVICE_TABLE(of, imx_drm_dt_ids);
->  static struct platform_driver imx_drm_pdrv =3D {
->         .probe          =3D imx_drm_platform_probe,
->         .remove         =3D imx_drm_platform_remove,
-> +       .shutdown       =3D imx_drm_platform_shutdown,
-
-There was a trivial context conflict with commit 3095f1122203
-("drm/imx/ipuv3: Convert to platform remove callback returning void")
-that I resolved while applying.
-
-I've now pushed to drm-misc-next:
-
-02680d71dea8 drm/imx/ipuv3: Call drm_atomic_helper_shutdown() at
-shutdown/unbind time
+[1] https://lore.kernel.org/lkml/CAD=3DFV=3DUFuUsrrZmkL8_RL5WLvkJryDwRSAy_P=
+WTa-hX_p0dF+Q@mail.gmail.com/
