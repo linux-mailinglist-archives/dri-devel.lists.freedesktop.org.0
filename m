@@ -2,41 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A1079F0C4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360A079F102
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9AC10E4D8;
-	Wed, 13 Sep 2023 18:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A5B10E0B1;
+	Wed, 13 Sep 2023 18:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEBE10E4D2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1694628041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F7Etp2gwXXN1Lvy/uBfbUYk8A2C1RiABpvJPDeacEFM=;
- b=RPVJ3zKZ2xJ/SsGdaPGI1IswGijnANnjJw4pUYBsX17Z38SXmpAo+z/8HAYmTyJBYLTGXC
- uRiKYB2qbN9Y683g78Vg2/Zh6/Id42JfCB/M5raTdOSdnWsqftmTC3cVoyKiiT+beNrGf9
- laQ8Hz6dYFCfsFV7iBbQlSMSwxvqJYU=
-Message-ID: <ac04dbc27e4d5f0fd3ec458b1ad7d4d2f2b39092.camel@crapouillou.net>
-Subject: Re: [RFT PATCH 03/15] drm/ingenic: Call
- drm_atomic_helper_shutdown() at shutdown time
-From: Paul Cercueil <paul@crapouillou.net>
-To: Doug Anderson <dianders@chromium.org>
-Date: Wed, 13 Sep 2023 20:00:39 +0200
-In-Reply-To: <CAD=FV=UFkTHhsxFZGPqFVOX6ra+bx=1P-jAdh1wz-_Q=GBJc4Q@mail.gmail.com>
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.3.Iea742f06d8bec41598aa40378fc625fbd7e8a3d6@changeid>
- <288af70dafc5e73d0fdfac71a33449385d4d6bd3.camel@crapouillou.net>
- <CAD=FV=VuJe7ACFw3pt1z=EAh14_Z4iTOc5VKJt24CGwZYjRpeQ@mail.gmail.com>
- <CAD=FV=UFkTHhsxFZGPqFVOX6ra+bx=1P-jAdh1wz-_Q=GBJc4Q@mail.gmail.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376E910E4D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:19:51 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-50098cc8967so124063e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1694629189; x=1695233989;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lEAPfLQPyHWPs22S6K8OqWidoAHb8MCtHTLAq4j3yQg=;
+ b=JbHZ4VBxcyRWCfdi+aBzC0CQkNhJsms+G/7QcFnpMST4Z1HhsMxk+/JtN6+kDUTBND
+ vbNco33rRxs/avuN0xuZsMSrL71FuMVv4sWAb6yVOQwPXr6pMCA4LohCKd0/aIWY7HRX
+ XYbZXSiAQSwssjFv1XiOW+za3293/RAnPEYQ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694629189; x=1695233989;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lEAPfLQPyHWPs22S6K8OqWidoAHb8MCtHTLAq4j3yQg=;
+ b=SPfOdcIEtYG/hARlOktF2GuHX54NskYqVzUqWL8KMYT1VCAORbrKuIOCwGS27+AZcr
+ kpXlBGv79/Y36bcnlKj2AmJo8SySUNlW1PX/s/DbdH57iTSCFE7zLWpeOpDQ1nDyX2dI
+ VZJoWvO2nIboDX1uPlU7K+LxfZ6M9kTT0gcufeMCG/lkImywrgBvGA6VfhOFRYLiz36T
+ vkyuH81CCd0TKgRW3RtKidF8VWLT5P7+BzpdesAKSg50JENYnJUNVAxEhkZVBGUBgbAo
+ rSk2ZNI3oZnieov7cnVoLd+mLbGLQ6EpzTxcl0qSyl1Tu0X3VHf2ppJpn8sq7aZHQLyV
+ WU6w==
+X-Gm-Message-State: AOJu0YxeCRz5bG6tRy0eycI6FLLk6fX8Y03KRAZGYa0N5KwoDJ020NoH
+ iu2PPrA7Ss3YDLjfIQtLt2bD53DVTpP+Gbpg2pbhhd4z
+X-Google-Smtp-Source: AGHT+IELXYD1HxfNAQhsGH6KPqdVwTIgwr2TdP2FLOqlkcDRkl/LEhqidH6AUIWBzbtsC1Aan8bMAw==
+X-Received: by 2002:a05:6512:559:b0:4f4:dbcc:54da with SMTP id
+ h25-20020a056512055900b004f4dbcc54damr2685215lfl.27.1694629188803; 
+ Wed, 13 Sep 2023 11:19:48 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ c2-20020aa7c982000000b0052e2aa1a0fcsm7664605edt.77.2023.09.13.11.19.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Sep 2023 11:19:48 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4009fdc224dso10175e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:19:48 -0700 (PDT)
+X-Received: by 2002:a05:600c:1827:b0:3fe:f32f:c57f with SMTP id
+ n39-20020a05600c182700b003fef32fc57fmr197792wmp.0.1694629187934; Wed, 13 Sep
+ 2023 11:19:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230906072803.1.Idef7e77e8961cbeb8625183eec9db0356b2eccd0@changeid>
+In-Reply-To: <20230906072803.1.Idef7e77e8961cbeb8625183eec9db0356b2eccd0@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 13 Sep 2023 11:19:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X4OuYAkPbEL23DbNDRNhHT+0LNSfd01aY2nmkUhSvZ1A@mail.gmail.com>
+Message-ID: <CAD=FV=X4OuYAkPbEL23DbNDRNhHT+0LNSfd01aY2nmkUhSvZ1A@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Update DRM DRIVERS FOR FREESCALE IMX entry
+To: dri-devel@lists.freedesktop.org, Philipp Zabel <p.zabel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,119 +79,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+Hi,
 
-Le mercredi 13 septembre 2023 =C3=A0 09:25 -0700, Doug Anderson a =C3=A9cri=
-t=C2=A0:
-> Hi,
->=20
-> On Tue, Sep 5, 2023 at 1:16=E2=80=AFPM Doug Anderson <dianders@chromium.o=
-rg>
-> wrote:
-> >=20
-> > Paul,
-> >=20
-> > On Mon, Sep 4, 2023 at 2:15=E2=80=AFAM Paul Cercueil <paul@crapouillou.=
-net>
-> > wrote:
-> > >=20
-> > > Hi Douglas,
-> > >=20
-> > > Le vendredi 01 septembre 2023 =C3=A0 16:41 -0700, Douglas Anderson a
-> > > =C3=A9crit :
-> > > > Based on grepping through the source code this driver appears
-> > > > to be
-> > > > missing a call to drm_atomic_helper_shutdown() at system
-> > > > shutdown
-> > > > time. Among other things, this means that if a panel is in use
-> > > > that
-> > > > it
-> > > > won't be cleanly powered off at system shutdown time.
-> > > >=20
-> > > > The fact that we should call drm_atomic_helper_shutdown() in
-> > > > the case
-> > > > of OS shutdown/restart comes straight out of the kernel doc
-> > > > "driver
-> > > > instance overview" in drm_drv.c.
-> > > >=20
-> > > > Since this driver uses the component model and shutdown happens
-> > > > at
-> > > > the
-> > > > base driver, we communicate whether we have to call
-> > > > drm_atomic_helper_shutdown() by seeing if drvdata is non-NULL.
-> > > >=20
-> > > > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > >=20
-> > > LGTM.
-> > > Acked-by: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> > Thanks for the Ack! Would you expect this patch to land through
-> > "drm-misc", or do you expect it to go through some other tree?
-> > Running:
-> >=20
-> > ./scripts/get_maintainer.pl --scm -f
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> >=20
-> > ...does not show that this driver normally goes through drm-misc,
-> > but
-> > it also doesn't show that it goes through any other tree so maybe
-> > it's
-> > just an artifact of the way it's tagged in the MAINTAINERS file? If
-> > it's fine for this to go through drm-misc, I'll probably land it
-> > (with
-> > your Ack and Maxime's Review) sooner rather than later just to make
-> > this patch series less unwieldy.
-> >=20
-> >=20
-> > > > ---
-> > > > This commit is only compile-time tested.
-> > > >=20
-> > > > NOTE: this patch touches a lot more than other similar patches
-> > > > since
-> > > > the bind() function is long and we want to make sure that we
-> > > > unset
-> > > > the
-> > > > drvdata if bind() fails.
-> > > >=20
-> > > > While making this patch, I noticed that the bind() function of
-> > > > this
-> > > > driver is using "devm" and thus assumes it doesn't need to do
-> > > > much
-> > > > explicit error handling. That's actually a bug. As per kernel
-> > > > docs
-> > > > [1]
-> > > > "the lifetime of the aggregate driver does not align with any
-> > > > of the
-> > > > underlying struct device instances. Therefore devm cannot be
-> > > > used and
-> > > > all resources acquired or allocated in this callback must be
-> > > > explicitly released in the unbind callback". Fixing that is
-> > > > outside
-> > > > the scope of this commit.
-> > > >=20
-> > > > [1] https://docs.kernel.org/driver-api/component.html
-> > > >=20
-> > >=20
-> > > Noted, thanks.
-> >=20
-> > FWIW, I think that at least a few other DRM drivers handle this by
-> > doing some of their resource allocation / acquiring in the probe()
-> > function and then only doing things in the bind() that absolutely
-> > need
-> > to be in the bind. ;-)
->=20
-> I've been collecting patches that are ready to land in drm-misc but,
-> right now, I'm not taking this patch since I didn't get any
-> clarification of whether it should land through drm-misc or somewhere
-> else.
+On Wed, Sep 6, 2023 at 7:28=E2=80=AFAM Douglas Anderson <dianders@chromium.=
+org> wrote:
+>
+> As per the discussion on the lists [1], changes to this driver
+> generally flow through drm-misc. If they need to be coordinated with
+> v4l2 they sometimes go through Philipp Zabel's tree instead. List both
+> trees in MAINTAINERS. Also update the title of this driver to specify
+> that it's just for IMX 5/6 since, as per Philipp "There are a lot more
+> i.MX that do not use IPUv3 than those that do."
+>
+> [1] https://lore.kernel.org/r/d56dfb568711b4b932edc9601010feda020c2c22.ca=
+mel@pengutronix.de
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> I'd expect this MAINTAINERS update to go through drm-misc.
+>
+>  MAINTAINERS | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Sorry, you can take it in drm-misc, yes.
+Pushed to drm-misc-next:
 
-Cheers,
--Paul
+92e62478b62c MAINTAINERS: Update DRM DRIVERS FOR FREESCALE IMX entry
