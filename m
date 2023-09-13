@@ -1,82 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9878979E2CB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 10:58:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1920F79E2D9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 11:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD3B10E05D;
-	Wed, 13 Sep 2023 08:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781D210E18A;
+	Wed, 13 Sep 2023 09:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B56C10E05D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 08:58:43 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-51e28cac164so1503643a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 01:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694595521; x=1695200321; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vc1DY5wzwzaibqui8TMdK8lO4RUiDXh6n26JHSshLyk=;
- b=hWYylbk5xn15f+Hoy7sR9ch/K921epw9UsV2ZL79UgaeevAB5jv+AGnRnKOB6GCoZq
- ABYNxkj3uq6vDMzFLGeY5DeheaEBc1qJnOLodpH5HJlaj2iaxWhaHT8cpfYem9PgPDCl
- TKREsMpXrzp8Jak+0ngEp9O9Eaal/iq2fpPU5ioRqIHV7D1Kk+LxdTTw69NJVOTORGTr
- BY4/gP4qZSF8ucJhddWwEwxvvGIhUWlWuITrdLlTqnXt5oyF+mbyocD70oZpTawyeft3
- Iq2angc6ktWNE0KawSXqGRhbCs7uGQDTJA9PAzKh33IwIiHXrWDmPlG68dONcttmcdQL
- d4jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694595521; x=1695200321;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vc1DY5wzwzaibqui8TMdK8lO4RUiDXh6n26JHSshLyk=;
- b=V3uqq3JdAHIFZXIFouNoDCJn6bagoUQL6plGA0foYP/TDbBJfKpBhf+lPvhqV3C6w6
- 8/FL/1lTFajFAU47Fg5BZAEcg2/08deocUPoob7IlxL8t6EuAlH8gMX5v9QnVLg5uSFr
- k7iSWvtOyNpxGVnVyvXdNPHEJjHApFfsRzNI1HlEyL9ADX/r47yW6fFKfIametAn1ixn
- U+quhi1uEdCr/Cjf52QLY6nXZDts0dc0JiDg7WbfFVXhPgCUarry6Dwrfw7la+YONsLf
- VaIfq0T6nTToGkGf6bIcZMqYe7iLers/ya31nkwZYLfB4q4kHa8IIzQG2BY1xf3ROXsW
- MpLA==
-X-Gm-Message-State: AOJu0YwnwiKxxl+JjrsE7mHuNGJDxRvtXYrPm1K7Ip1DrolK2Y4xvpFn
- tq0Enu1ajpsq5WzcZSIh0L9Irw==
-X-Google-Smtp-Source: AGHT+IGmJS6RbMoHG5npa8M9J1HCW+qcpAcwXT+onT2fFYSrjW4H0h6ONgbWtYQVCYNkV70DiYAXSA==
-X-Received: by 2002:aa7:d8d0:0:b0:523:b37e:b83b with SMTP id
- k16-20020aa7d8d0000000b00523b37eb83bmr3001054eds.13.1694595521375; 
- Wed, 13 Sep 2023 01:58:41 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
- by smtp.gmail.com with ESMTPSA id
- w7-20020aa7d287000000b0052a063e52b8sm6952013edq.83.2023.09.13.01.58.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Sep 2023 01:58:40 -0700 (PDT)
-Message-ID: <c0cf592a-3cde-4bad-431b-6d80c1970638@linaro.org>
-Date: Wed, 13 Sep 2023 10:58:38 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE98310E098;
+ Wed, 13 Sep 2023 09:01:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 6AC8FCE20B8;
+ Wed, 13 Sep 2023 09:01:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 711E6C433C8;
+ Wed, 13 Sep 2023 09:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694595698;
+ bh=Feb4J9LX4ImkTbr7yjcTSpSpgAU86GJulnnkLr0gYrw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BkuW1dDbZkdBCmIICjA3dSTunrbBByXY/vrx4Vz13Fmom6MsGlUKezfJxA8r2b1ig
+ k9IGGYVYlrcTO3PnipRC60R7oyBxkV91CZ628WHxyB5pxEBvjJbSbppFOKiDbV4M8x
+ ZdK2fcI6QrHA7fI5V5dcoZrLXW+p/GTjn8OD+SHn3tnevmqLe/ScFL41e8bqk2EG/E
+ T7dN6enkt5awz+v9kR+z6y9JbILGKfmdqnqVy2BUnlwKaMi7V1BffdGFkOKhFFUtgV
+ CekUnziijoqLwhcBEi5/AqS3siDsfCgPe3k/NoV6Zn1A/HMl40SwdmLTYJHkGI8R2r
+ N8H2mJrx7fADQ==
+Date: Wed, 13 Sep 2023 11:01:35 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] drm/i915/gt: Prevent error pointer dereference
+Message-ID: <20230913090135.yikme2rv2kjmcqag@zenone.zhora.eu>
+References: <455b2279-2e08-4d00-9784-be56d8ee42e3@moroto.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v5 3/3] dt-binding: mediatek: add MediaTek mt8195 MDP3
- components
-Content-Language: en-US
-To: =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-References: <20230912075651.10693-1-moudy.ho@mediatek.com>
- <20230912075651.10693-4-moudy.ho@mediatek.com>
- <e4119fa6-a4b7-f59e-7115-044fa83c9063@linaro.org>
- <0b4f1ab2753d4fdb4934e8f76df6e584bba2d628.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0b4f1ab2753d4fdb4934e8f76df6e584bba2d628.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <455b2279-2e08-4d00-9784-be56d8ee42e3@moroto.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,73 +52,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ kernel-janitors@vger.kernel.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Zhanjun Dong <zhanjun.dong@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Fei Yang <fei.yang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/09/2023 10:39, Moudy Ho (何宗原) wrote:
+Hi Dan,
 
->>> @@ -63,7 +64,6 @@ properties:
->>>  required:
->>>    - compatible
->>>    - reg
->>> -  - interrupts
->>
->> Why? commit msg tells nothing about it. Why interrupt is not erquired
->> in
->> mt8173? How dropping such requirement is anyhow related to mt8195?
->>
->>
-> The signals of the MDP engines are completely controlled by MTK's MUTEX
-> for starting and stopping frame processing, eliminating the need for
-> additional interrupts.
+On Wed, Sep 13, 2023 at 11:17:41AM +0300, Dan Carpenter wrote:
+> Move the check for "if (IS_ERR(obj))" in front of the call to
+> i915_gem_object_set_cache_coherency() which dereferences "obj".
+> Otherwise it will lead to a crash.
+> 
+> Fixes: 43aa755eae2c ("drm/i915/mtl: Update cache coherency setting for context structure")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_lrc.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> index 957d0aeb0c02..c378cc7c953c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> @@ -1094,6 +1094,9 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
+>  					  I915_BO_ALLOC_PM_VOLATILE);
+>  	if (IS_ERR(obj)) {
+>  		obj = i915_gem_object_create_shmem(engine->i915, context_size);
+> +		if (IS_ERR(obj))
+> +			return ERR_CAST(obj);
+> +
 
-Then it does not look like related to this patch at all.
+that's correct! When the workaround was added later it wasn't
+checking whether obj had a valid value or not, leading to a
+potential segfault.
 
-...
+Thanks for fixing it!
 
->>>  
->>>    reg:
->>>      maxItems: 1
->>> @@ -50,17 +51,19 @@ properties:
->>>      maxItems: 1
->>>  
->>>    clocks:
->>> -    items:
->>> -      - description: RDMA clock
->>> -      - description: RSZ clock
->>> +    oneOf:
->>> +      - items:
->>> +          - description: RDMA clock
->>> +          - description: SRAM shared component clock
->>> +      - items:
->>> +          - description: RDMA clock
->>
->> Why now mt8183 can have SRAM clock optional? How changing mt8183 is
->> related to this patch?
->>
->> I'll finish the review, sorry fix basics here.
->>
->> Best regards,
->> Krzysztof
->>
-> The RDMA of only the 8183 needed to share SRMA with other component due
-> to the old desgin.
-> I attempted to describe both the situation of the 8183 and new designs
-> like the 8195, but it appears that this writing style may lead to
-> misunderstandings.
-> I am unsure if there are any ways to enhance it.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
-Just like many other bindings, just look at Qualcomm, use allOf to
-restrict entries per variants.
+Andi
 
-Best regards,
-Krzysztof
-
+>  		/*
+>  		 * Wa_22016122933: For Media version 13.0, all Media GT shared
+>  		 * memory needs to be mapped as WC on CPU side and UC (PAT
+> @@ -1102,8 +1105,6 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
+>  		if (intel_gt_needs_wa_22016122933(engine->gt))
+>  			i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+>  	}
+> -	if (IS_ERR(obj))
+> -		return ERR_CAST(obj);
+>  
+>  	vma = i915_vma_instance(obj, &engine->gt->ggtt->vm, NULL);
+>  	if (IS_ERR(vma)) {
