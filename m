@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A2679F108
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DC179F10A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 20:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A2A10E4D4;
-	Wed, 13 Sep 2023 18:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 534F210E4D6;
+	Wed, 13 Sep 2023 18:21:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A58310E4D4
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:20:47 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-9a58dbd5daeso18913366b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:20:47 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EFD10E4D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 18:21:03 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-9a65f9147ccso18425266b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694629245; x=1695234045;
+ d=chromium.org; s=google; t=1694629260; x=1695234060;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wB9rIbKtdC8vvE0Z9iK8mxaspRNseaVhibM5IMYjY18=;
- b=ePJOgzDaTY3dEHYDW2aAIjHrgomYq5cqSU1ySbR2xEhX78d8h3MZJTR5+GFmE9lmTX
- EltWQIUUmmPJuzKupGeL85myXhgf9QZjvtTsFmzD6Ml5KO5C/TO0JFl5y+ezK3DRzMFQ
- iSwiBYdQKXc9ssL4cX7j3x7Rp97/2ULR3+cBA=
+ bh=2GTNFmg4KNiHvvcZa1WQZtY848dk0rdfmjYkArIU+oo=;
+ b=i3Ueuw601Gqnk89IFj4noMj9k86L6h/rMDAJEOCUnQ9qn472b+ua4JkpRuFxrrvK1n
+ zOcC0vxEr5WMOWfFQA+/XfpONLJG7YKEiWkGLBY/5Y3HjJOSTdTbzNFdjfL4NEvGpkrd
+ jYdynppDVSnguIfi5h7AuK1d5tVb6RIbzumu0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694629245; x=1695234045;
+ d=1e100.net; s=20230601; t=1694629260; x=1695234060;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wB9rIbKtdC8vvE0Z9iK8mxaspRNseaVhibM5IMYjY18=;
- b=VH0M647mLRRsM0WSg4BC5ce7vNQzkINBH+5JWe+r0oLzoqxG9qBiOUTRF6GT0bVVlT
- L7gHcnwMRjhCpmD2WsORRmIsqIERJoD8nWd4JssrXPW+mXWpYeXSSgrV3I7Wc1si620H
- F7vM3f8aXpjHwdQ+Ql/oALKqjbsuPexYVApVukEAatOXjhP6L/aMjuCCNDj1ogqdwWiP
- JvaMRr/xuVBMPdyEhsOArHtTYOojyGuUF0cFKhx4si1XkxJ9eG2XTTc/DYQuYkutqwTy
- BHHT4lWK/2cwzru3Tww8X1CyJfx9ubtscCujxvMM8O9IbBxNrtGxwyKCskgiYbj275fb
- +/EA==
-X-Gm-Message-State: AOJu0YyzYRB2cUVlvC7HRN1teUKyVO0vwQdbMGPIe389v1vfyOuD32pK
- ojitlwNXzInldsHA3XGKvIDsjtSfm6egxx+WNOdMq81i
-X-Google-Smtp-Source: AGHT+IGWw8dUnWLflRt/IYZYoj56RJOM7ekk4u75C14Rml4po689ZkAYxHGarprt7bSrJPbkGwJtlA==
-X-Received: by 2002:a17:906:5199:b0:9ad:7d5b:ba68 with SMTP id
- y25-20020a170906519900b009ad7d5bba68mr2531550ejk.32.1694629245538; 
- Wed, 13 Sep 2023 11:20:45 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- a26-20020a170906369a00b0099cc1ffd8f5sm8789086ejc.53.2023.09.13.11.20.45
+ bh=2GTNFmg4KNiHvvcZa1WQZtY848dk0rdfmjYkArIU+oo=;
+ b=wjbIbiWtGFFA4kc1eIzZAdbqSeq25BZsLxDZuIeuglMIz+PNeK2DkX2M4S64lQZTu5
+ 4GsSYK75OaO4qkUH218ztLc8qbbMAs6A0mUSo6qaElwDdQXjVvQeAPFN8JnSIUorqZrx
+ IgNCV+EDwi+1xklucG/q6YXYKVAZQl5k803ClQYmsMOnF1n9zQYPF0wx5MNz61oTZcqO
+ GcF8UYTKsh0Fs6Yrj1JiQ2dx+jmuKblEC1Lrq062f8q9eE7UoreZpnX3rwWwUuc4tC1H
+ wA3kcbzu2rTRhLVmxSHtYSefKSPeQ2OB8N/pqSj3HCaKThZDVOuZRbuXamX+cPTasvxB
+ n9rw==
+X-Gm-Message-State: AOJu0YxsaQJcfTb7KoDA1uzlFcJv9aujmd40tSsmY+7jHDe2RX1Oj9t9
+ 7W/1fXqJJbJZqMnwzm196bW0cwRkBsZfdSaP6q5VsVgi
+X-Google-Smtp-Source: AGHT+IG9y54kv4TsXuaEZuOv6vXKvZgxQ6tWlFgJAbh4CIAjUdT6gkVc6dJhrhSOiLlexrSQ13yDbA==
+X-Received: by 2002:a17:906:5a59:b0:9ad:7f13:4db8 with SMTP id
+ my25-20020a1709065a5900b009ad7f134db8mr2801544ejc.36.1694629260767; 
+ Wed, 13 Sep 2023 11:21:00 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ gi33-20020a1709070ca100b009ad81554c1bsm3037496ejc.55.2023.09.13.11.21.00
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Sep 2023 11:20:45 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4005f0a6c2bso9355e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:20:45 -0700 (PDT)
-X-Received: by 2002:a7b:c3c8:0:b0:400:fffe:edf6 with SMTP id
- t8-20020a7bc3c8000000b00400fffeedf6mr157674wmj.1.1694629244702; Wed, 13 Sep
- 2023 11:20:44 -0700 (PDT)
+ Wed, 13 Sep 2023 11:21:00 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4009fdc224dso10485e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 11:21:00 -0700 (PDT)
+X-Received: by 2002:a05:600c:1c24:b0:401:a494:2bbb with SMTP id
+ j36-20020a05600c1c2400b00401a4942bbbmr160314wms.5.1694629259696; Wed, 13 Sep
+ 2023 11:20:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230804210644.1862287-1-dianders@chromium.org>
- <20230804140605.RFC.2.Iabafd062e70f6b6b554cf23eeb75f57a80f7e985@changeid>
-In-Reply-To: <20230804140605.RFC.2.Iabafd062e70f6b6b554cf23eeb75f57a80f7e985@changeid>
+ <20230804140605.RFC.3.I6a4a3c81c78acf5acdc2e5b5d936e19bf57ec07a@changeid>
+In-Reply-To: <20230804140605.RFC.3.I6a4a3c81c78acf5acdc2e5b5d936e19bf57ec07a@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 13 Sep 2023 11:20:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UCMsgAgdiRiL5_a7BWsj+unGZzuJrxr+OdyNfXtzsWiw@mail.gmail.com>
-Message-ID: <CAD=FV=UCMsgAgdiRiL5_a7BWsj+unGZzuJrxr+OdyNfXtzsWiw@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/10] drm/panel: s6e63m0: Don't store+check
+Date: Wed, 13 Sep 2023 11:20:47 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WtN_Ag5JsmZGb2arPr8RjhkaBPb14j+a2-+FB-aeTeXw@mail.gmail.com>
+Message-ID: <CAD=FV=WtN_Ag5JsmZGb2arPr8RjhkaBPb14j+a2-+FB-aeTeXw@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/10] drm/panel: otm8009a: Don't double check
  prepared/enabled
 To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -98,17 +98,44 @@ org> wrote:
 > double-check before, that double-check is now in the core and not
 > needed in individual drivers.
 >
-> For the s6e63m0 panel driver, this actually fixes a subtle/minor error
-> handling bug in s6e63m0_prepare(). In one error case s6e63m0_prepare()
-> called s6e63m0_unprepare() directly if there was an error. This call
-> to s6e63m0_unprepare() would have been a no-op since ctx->prepared
-> wasn't set yet.
+> For the "otm8009a" driver we fully remove the storing of the "enabled"
+> state and we remove the double-checking, but we still keep the storing
+> of the "prepared" state since the backlight code in the driver checks
+> it. This backlight code may not be perfectly safe since there doesn't
+> appear to be sufficient synchronization between the backlight driver
+> (which userspace can call into directly) and the code that's
+> unpreparing the panel. However, this lack of safety is not new and can
+> be addressed in a future patch.
 >
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
+> From quick inspection, I think the right way to handle the backlight
+> properly is:
+> 1. Start calling backlight_get_brightness() instead of directly
+>    getting "bd->props.brightness" and bd->props.power. This should
+>    return 0 for a disabled (or blanked or powered off) backlight.
+> 2. Cache the backlight level in "struct otm8009a"
+> 3. If the backlight isn't changing compared to the cached value, make
+>    otm8009a_backlight_update_status() a no-op.
+> 4. Remove the caching of the "prepared" value.
 >
->  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 25 -------------------
->  1 file changed, 25 deletions(-)
+> That should work and always be safe because we always enable/disable
+> the backlight in the panel's enable() and disable() functions. The
+> backlight core has proper locking in this case. A disabled backlight
+> will always return a level of 0 which will always make the backlight's
+> update_status a no-op when the panel is disabled and keep us from
+> trying to talk to the panel when it's off. Userspace can't directly
+> cause a backlight to be enabled/disabled, it can only affect the other
+> blanking modes.
+
+Note: I'm not planning to take on the cleanup of making the backlight
+of this driver work better. Ideally someone who uses / maintains the
+affected hardware could give it a shot.
+
+
+>  .../gpu/drm/panel/panel-orisetech-otm8009a.c    | 17 -----------------
+>  1 file changed, 17 deletions(-)
+
 
 In response to the cover letter [1], I proposed landing patches #1-#3
 directly from here while we resolve the issues talked about in
@@ -116,7 +143,7 @@ response to patch #4 [2]. I didn't hear any complaints, so I took
 Linus W's review tag from the cover letter and pushed this to
 drm-misc-next.
 
-d43f0fe153dc drm/panel: s6e63m0: Don't store+check prepared/enabled
+1e0465eb16a4 drm/panel: otm8009a: Don't double check prepared/enabled
 
 [1] https://lore.kernel.org/r/CAD=3DFV=3DUFuUsrrZmkL8_RL5WLvkJryDwRSAy_PWTa=
 -hX_p0dF+Q@mail.gmail.com
