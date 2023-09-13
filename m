@@ -2,47 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738D179EF15
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 18:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A04C79EF2F
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 18:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B794610E4BA;
-	Wed, 13 Sep 2023 16:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF92F10E4B8;
+	Wed, 13 Sep 2023 16:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263F210E4B3;
- Wed, 13 Sep 2023 16:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=+ZMJI5Sj2Rg9CxMIiUKOPSK0emM/G0J4TLRMWorV5dQ=; b=pWWmY+LnEfGVsQBJ48hLlPaoRJ
- piQLu7k3MVlyjcs+IMlQ4hC616qGxgRNzQA4StPjZohod6t9TNsK9QhEQTSvomtILuJbuNugJnSDb
- NxgMNNcBWIIgzcCcF2LOfI1M+yFGAHGqiQsqI0MbjWA58HYRy+A9PtcE3j6dQQQ77IdEQfONKzFH5
- WC8fRePoL8OEF/u2rVgEtoFjmdS8kBnrww4qudEDhyT8+dw27tbOjI2lmM9KT1OZXfttoDWF+QkmN
- pZMA0vEo1heNkVAw+frK7QYJkLzwIflGjf+4YTyTebvml3cx9lJ2G28l3gDixgA8d7gKJvDgo2BO0
- s/+112GQ==;
-Received: from [38.44.68.151] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qgSxn-003PbD-O6; Wed, 13 Sep 2023 18:43:39 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [RFC PATCH v2 5/5] drm/amd/display: add DPP and MPC color caps to DTN
- log
-Date: Wed, 13 Sep 2023 15:43:29 -0100
-Message-Id: <20230913164329.123687-6-mwen@igalia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230913164329.123687-1-mwen@igalia.com>
-References: <20230913164329.123687-1-mwen@igalia.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B4A10E0D1;
+ Wed, 13 Sep 2023 16:46:59 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-523100882f2so9093195a12.2; 
+ Wed, 13 Sep 2023 09:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1694623618; x=1695228418; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C5YGng7LquR7VbitExATGwfX7+5OwRblTGs4u5vbxVs=;
+ b=KHzfbAcjiSU5PsCXgrJOAClcDT/KvtiW0NHnAu5MDN5cO6Q9mxGxMN0sMYBurBS8Aj
+ MIaN4i1BTZ0RGJjFgDblLl+t858X5iaNTuhmMUJ6xQivBhq6NRIsecu8D4Y0xChu1JM7
+ bYxH6akfWAt1yFYyMowF6fHu+hpMVWhuzxOP4o7KmbtrHtTTPODaS2p+ryAMZixFt5Xe
+ eew/XdlS039UbSsHFBXy8p2U4A0Os7g4u8XID/whyAAQC24S1b4Q79j/GCDpParHTGF9
+ TgSdQrmg+/a2QpnwFyJvcmL80x6E9boWjC+jx5gtasS98FDq8MQHkVhqLDvPShQxJgjb
+ C07A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694623618; x=1695228418;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C5YGng7LquR7VbitExATGwfX7+5OwRblTGs4u5vbxVs=;
+ b=TK7k6LHAep8aJ3XtOYECY1bsLRcX+f07OVzcM1ULlpquWYxacsag4czw5asUFlWbWR
+ 4Mju/JcDo/2JRY1Nu1NNZU1GLStKyxNmTMM2dmQDk/5va8mHCPW6rc+2sIN0NNagiLXI
+ KB/zMxd1XyyfLOUZv6ZLUI7CMMEbf6BbLB9wuOVe0LtPcSA/aPUDb1Vk87Ju18AbVe6H
+ JHhlyp+UNVZRtGW7CCcdQPpjNTZAWtLPeOzCvJ/dVfiq2r3NHrCkGRaVOtKVHZI7wgx5
+ rWISP5XDv7YRreZR/pkadTDMTtoKsj9hsLupFjnUfVSpO2+lV5xFdd4TVNYJ8MlULpS/
+ lmqA==
+X-Gm-Message-State: AOJu0Yy8YSjQEGUY/ST/oJm+NP9kHBYJ4/Bwr+pBI2CGiJ8gmHIcOPeo
+ 5ei+3x1sfGZFs8cHreIYF9vYsKcS24ZmSdI+pqrIsDCf
+X-Google-Smtp-Source: AGHT+IEc2KBgN3FRWC0KNxdRSFvRYj33UjiqQW/x5aJZfHR0AmWtDWPkiHn6xF3C8Knu1WGuANLSFzngKfOIKzJec/o=
+X-Received: by 2002:aa7:c0cb:0:b0:523:47b0:9077 with SMTP id
+ j11-20020aa7c0cb000000b0052347b09077mr2728747edp.38.1694623617692; Wed, 13
+ Sep 2023 09:46:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230912084044.955864-1-adrian.larumbe@collabora.com>
+ <20230912084044.955864-7-adrian.larumbe@collabora.com>
+ <20230912113210.65897aab@collabora.com>
+ <CAF6AEGtzOS89V1vbobpSEb9KX8x9T0FfmkW2OAaxAKLs+GugKA@mail.gmail.com>
+ <CAF6AEGup93tQMYrmx6iKex2Fxz+Yu5m-MMWPmeOQ4yx_Racnag@mail.gmail.com>
+ <20230913093637.2748d217@collabora.com>
+In-Reply-To: <20230913093637.2748d217@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 13 Sep 2023 09:46:45 -0700
+Message-ID: <CAF6AEGu+NeMfeP3yVLr76fUmXeWPx86D9ckw_WjXu+Xpn6DJvA@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] drm/drm-file: Show finer-grained BO sizes in
+ drm_show_memory_stats
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,103 +74,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, sungjoon.kim@amd.com
+Cc: tzimmermann@suse.de, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ sean@poorly.run,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
+ freedreno@lists.freedesktop.org, healych@amazon.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
+ kernel@collabora.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add color caps information for DPP and MPC block to show HW color caps.
+On Wed, Sep 13, 2023 at 12:36=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Tue, 12 Sep 2023 19:14:35 -0700
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > On Tue, Sep 12, 2023 at 6:46=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> > >
+> > > On Tue, Sep 12, 2023 at 2:32=E2=80=AFAM Boris Brezillon
+> > > <boris.brezillon@collabora.com> wrote:
+> > > >
+> > > > On Tue, 12 Sep 2023 09:37:00 +0100
+> > > > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+> > > >
+> > > > > The current implementation will try to pick the highest available=
+ size
+> > > > > display unit as soon as the BO size exceeds that of the previous
+> > > > > multiplier. That can lead to loss of precision in BO's whose size=
+ is
+> > > > > not a multiple of a MiB.
+> > > > >
+> > > > > Fix it by changing the unit selection criteria.
+> > > > >
+> > > > > For much bigger BO's, their size will naturally be aligned on som=
+ething
+> > > > > bigger than a 4 KiB page, so in practice it is very unlikely thei=
+r display
+> > > > > unit would default to KiB.
+> > > >
+> > > > Let's wait for Rob's opinion on this.
+> > >
+> > > This would mean that if you have SZ_1G + SZ_1K worth of buffers, you'=
+d
+> > > report the result in KiB.. which seems like overkill to me, esp given
+> > > that the result is just a snapshot in time of a figure that
+> > > realistically is dynamic.
+>
+> Yeah, my point was that, generally, such big buffers tend to have
+> a bigger size alignment (like 2MB for anything bigger than 1GB), but
+> maybe this assumption doesn't stand for all drivers.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 23 +++++++++++++++++++
- .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 23 +++++++++++++++++++
- 2 files changed, 46 insertions(+)
+Maybe for CMA?  Regardless, this # is the sum of buffer sizes, so you
+could still get that 1G+1K scenario
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index 9255425ef794..49285f0a146a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -330,6 +330,24 @@ dcn10_log_color_state(struct dc *dc,
- 		DTN_INFO("\n");
- 	}
- 	DTN_INFO("\n");
-+	DTN_INFO("DPP Color Caps: input_lut_shared:%d  icsc:%d"
-+		 "  dgam_ram:%d  dgam_rom: srgb:%d,bt2020:%d,gamma2_2:%d,pq:%d,hlg:%d"
-+		 "  post_csc:%d  gamcor:%d  dgam_rom_for_yuv:%d  3d_lut:%d"
-+		 "  blnd_lut:%d  oscs:%d\n\n",
-+		 dc->caps.color.dpp.input_lut_shared,
-+		 dc->caps.color.dpp.icsc,
-+		 dc->caps.color.dpp.dgam_ram,
-+		 dc->caps.color.dpp.dgam_rom_caps.srgb,
-+		 dc->caps.color.dpp.dgam_rom_caps.bt2020,
-+		 dc->caps.color.dpp.dgam_rom_caps.gamma2_2,
-+		 dc->caps.color.dpp.dgam_rom_caps.pq,
-+		 dc->caps.color.dpp.dgam_rom_caps.hlg,
-+		 dc->caps.color.dpp.post_csc,
-+		 dc->caps.color.dpp.gamma_corr,
-+		 dc->caps.color.dpp.dgam_rom_for_yuv,
-+		 dc->caps.color.dpp.hw_3d_lut,
-+		 dc->caps.color.dpp.ogam_ram,
-+		 dc->caps.color.dpp.ocsc);
- 
- 	DTN_INFO("MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE\n");
- 	for (i = 0; i < pool->pipe_count; i++) {
-@@ -343,6 +361,11 @@ dcn10_log_color_state(struct dc *dc,
- 				s.idle);
- 	}
- 	DTN_INFO("\n");
-+	DTN_INFO("MPC Color Caps: gamut_remap:%d, 3dlut:%d, ogam_ram:%d, ocsc:%d\n\n",
-+		 dc->caps.color.mpc.gamut_remap,
-+		 dc->caps.color.mpc.num_3dluts,
-+		 dc->caps.color.mpc.ogam_ram,
-+		 dc->caps.color.mpc.ocsc);
- }
- 
- void dcn10_log_hw_state(struct dc *dc,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index 47119ae80e98..f604c684c853 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -124,6 +124,24 @@ dcn30_log_color_state(struct dc *dc,
- 		DTN_INFO("\n");
- 	}
- 	DTN_INFO("\n");
-+	DTN_INFO("DPP Color Caps: input_lut_shared:%d  icsc:%d"
-+		 "  dgam_ram:%d  dgam_rom: srgb:%d,bt2020:%d,gamma2_2:%d,pq:%d,hlg:%d"
-+		 "  post_csc:%d  gamcor:%d  dgam_rom_for_yuv:%d  3d_lut:%d"
-+		 "  blnd_lut:%d  oscs:%d\n\n",
-+		 dc->caps.color.dpp.input_lut_shared,
-+		 dc->caps.color.dpp.icsc,
-+		 dc->caps.color.dpp.dgam_ram,
-+		 dc->caps.color.dpp.dgam_rom_caps.srgb,
-+		 dc->caps.color.dpp.dgam_rom_caps.bt2020,
-+		 dc->caps.color.dpp.dgam_rom_caps.gamma2_2,
-+		 dc->caps.color.dpp.dgam_rom_caps.pq,
-+		 dc->caps.color.dpp.dgam_rom_caps.hlg,
-+		 dc->caps.color.dpp.post_csc,
-+		 dc->caps.color.dpp.gamma_corr,
-+		 dc->caps.color.dpp.dgam_rom_for_yuv,
-+		 dc->caps.color.dpp.hw_3d_lut,
-+		 dc->caps.color.dpp.ogam_ram,
-+		 dc->caps.color.dpp.ocsc);
- 
- 	DTN_INFO("MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE"
- 		 "  SHAPER mode  3DLUT mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT"
-@@ -155,6 +173,11 @@ dcn30_log_color_state(struct dc *dc,
- 				s.gamut_remap_c11_c12, s.gamut_remap_c33_c34);
- 	}
- 	DTN_INFO("\n");
-+	DTN_INFO("MPC Color Caps: gamut_remap:%d, 3dlut:%d, ogam_ram:%d, ocsc:%d\n\n",
-+		 dc->caps.color.mpc.gamut_remap,
-+		 dc->caps.color.mpc.num_3dluts,
-+		 dc->caps.color.mpc.ogam_ram,
-+		 dc->caps.color.mpc.ocsc);
- }
- 
- bool dcn30_set_blend_lut(
--- 
-2.40.1
+> > >
+> > > Maybe if you have SZ_1G+SZ_1K worth of buffers you should report the
+> > > result with more precision than GiB, but more than MiB seems a bit
+> > > overkill.
+> > >
+> > > BR,
+> > > -R
+> > >
+> > > > >
+> > > > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_file.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_fil=
+e.c
+> > > > > index 762965e3d503..bf7d2fe46bfa 100644
+> > > > > --- a/drivers/gpu/drm/drm_file.c
+> > > > > +++ b/drivers/gpu/drm/drm_file.c
+> > > > > @@ -879,7 +879,7 @@ static void print_size(struct drm_printer *p,=
+ const char *stat,
+> > > > >       unsigned u;
+> > > > >
+> > > > >       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
+> > > > > -             if (sz < SZ_1K)
+> >
+> > btw, I was thinking more along the lines of:
+> >
+> >    if (sz < 10*SZ_1K)
+> >
+> > (or perhaps maybe 100*SZ_1K)
+>
+> I think I suggested doing that at some point:
+>
+>                 if ((sz & (SZ_1K - 1)) &&
+>                     sz < UPPER_UNIT_THRESHOLD * SZ_1K)
+>                         break;
+>
+> so we can keep using the upper unit if the size is a multiple of this
+> upper unit, even if it's smaller than the selected threshold.
 
+yeah, that wfm
+
+BR,
+-R
+
+>
+> >
+> > I mean, any visualization tool is going to scale the y axis based on
+> > the order of magnitude.. and if I'm looking at the fdinfo with my
+> > eyeballs I don't want to count the # of digits manually to do the
+> > conversion in my head.  The difference btwn 4 or 5 or maybe 6 digits
+> > is easy enough to eyeball, but more than that is too much for my
+> > eyesight, and I'm not seeing how it is useful ;-)
+> >
+> > But if someone really has a valid use case for having precision in 1KB
+> > then I'm willing to be overruled.
+>
+> So, precision loss was one aspect, but my main concern was having
+> things displayed in KiB when they could have been displayed in MiB,
+> because the size is a multiple of a MiB but still not big enough to
+> pass the threshold test (which was set to 10000x in the previous
+> version).
+>
+> > But I'm not a fan of the earlier
+> > approach of different drivers reporting results differently, the whole
+> > point of fdinfo was to have some standardized reporting.
+>
+> Totally agree with that.
+>
+> >
+> > BR,
+> > -R
+> >
+> > > > > +             if (sz & (SZ_1K - 1))
+> > > > >                       break;
+> > > > >               sz =3D div_u64(sz, SZ_1K);
+> > > > >       }
+> > > >
+>
