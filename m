@@ -1,71 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B9779DD95
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 03:32:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74D679DDE7
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 03:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9452010E04C;
-	Wed, 13 Sep 2023 01:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BACA210E037;
+	Wed, 13 Sep 2023 01:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F8210E04C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 01:32:24 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 46e09a7af769-6bd0a0a6766so4541788a34.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Sep 2023 18:32:24 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15AE810E037;
+ Wed, 13 Sep 2023 01:47:07 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-9a9d6b98845so97014866b.0; 
+ Tue, 12 Sep 2023 18:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694568744; x=1695173544; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Vq8SgHFXKS/TzFJSEmQtwxfAWXj6dXC3+mc9FsXzQZg=;
- b=YE2M8hiePYwCTFhOLixodnJHWY1PyMVPZXDWpo4GrYnkO8nrU/dGqQIyfwWoPzI+xT
- +aP9i1pltNvFqVg1yungpbE32c0kC8u9a4Ru6n9DCl12d+Ia5QnG7nq4sq8Z7xgdg7KP
- yX3WTuC0+edfxAlGVB0dk+pVAjkoNXHbnSA1R9xNWUJjEfXNM/rJ5hkFOF1VpefI5mPk
- 0dKKU1Gzj/PocSobQef9Vkt1ZElBjM/mtc2aJ5v1DM09fsRiR0LW2g1g7/V8TmMZpBe0
- f3eN0KzuPEXTHC98t8VK+vF8GQWEkbo6UasiDAPl75x1rpqAW4nG8ea1fsegQq5DsHeb
- EDQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694568744; x=1695173544;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1694569625; x=1695174425; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Vq8SgHFXKS/TzFJSEmQtwxfAWXj6dXC3+mc9FsXzQZg=;
- b=u7zKE/KbrOdsceftkwmE13QvZ0HRD6Q8FaTP8GKmtnlO6if6oyvHj8lZvK9nnVkcpB
- hinsYNAzaTAjg8blcwPKi29cd+qV4h+O/tdrmN7KT9glMgLyM8Kx9HN5Km2EPOjqfvUM
- slKcVFSWOzdMbxzOhcd+6pQbAxww1rlCB6jJ2Z3pNsA22R/X1JCC6MO52HQdoqATkCew
- TbCGVrchpETrnXAnl/yDjSaPbdegjV/wUNp9ZFHbD6+MrVEuuxLtejhkMDjiXlg1ATAe
- ISk2hKLshKZ95VBzsdLP+pBse1mOSMRdHs75CD9GFhCATjy8RlhWGJy/Z4/+iW4qMF3F
- Snhw==
-X-Gm-Message-State: AOJu0YyDv84WgYM8n/M36PiyvHmWYQYiw8a/oQCVGuawyh1CcwmuKBuu
- 9jSWwR7aeRvNY1QwsKfZVhY=
-X-Google-Smtp-Source: AGHT+IEt/bNpU0mRtK+AR7hsEVoqnuNX7FLGK81vCmsCoUDqeDEL7zNOB7lGTmHbnmb1jDXtdgZqDQ==
-X-Received: by 2002:a05:6358:2611:b0:135:3f5c:9675 with SMTP id
- l17-20020a056358261100b001353f5c9675mr1730097rwc.19.1694568743861; 
- Tue, 12 Sep 2023 18:32:23 -0700 (PDT)
-Received: from debian.me ([103.124.138.83]) by smtp.gmail.com with ESMTPSA id
- c14-20020aa781ce000000b00687dde8ae5dsm7997630pfn.154.2023.09.12.18.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Sep 2023 18:32:23 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 6773E89F3BBE; Wed, 13 Sep 2023 08:32:20 +0700 (WIB)
-Date: Wed, 13 Sep 2023 08:32:20 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Angus Gardner <angusg778@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Removed unnecessary parenthesis around
- conditions to comply with the checkpatch coding style.
-Message-ID: <ZQERJIGOOeYxgX3E@debian.me>
-References: <ZQEKFR1OPoXGI2lO@midnight>
+ bh=Nw2vbwh9Prl2aL4eCjxqEEuY3ibeNqCIYYpwmGgbBKk=;
+ b=KD8xTCPA+gK/N4QuzSRFl9NaqOUpAE2q6vDSzozOveyWkMjVsy5DGCI3P1F7D9l19U
+ G6i7TZZBHxjTZhrIYCYrLX8logRAlEqMjFAHXyNKO5m7cxhpYQ5B+xR9qTsh+8MxdfKO
+ w5CPqz2XD+seGcsZs+DD6/XiCfTVFa7Hc0Ziu5UBxodptx0bId2pE3jP0CJJDZA8Lfy1
+ pakPe4/xdbdDsLtXvATs/m9IMcPgAqmo5mu+AFStLMZ4cI+1LHhJG4MZgPRUPKfAS13L
+ JRT6EHC5MmjaNX8H0SP+gvQAdbTnsQUCPxAnUAMIRQT9fIzo5mtr3sWAcuXb/FjFXF5E
+ qiBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694569625; x=1695174425;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Nw2vbwh9Prl2aL4eCjxqEEuY3ibeNqCIYYpwmGgbBKk=;
+ b=f6F902h+MwqjiFpLI3cOpVOlKQ4WX4pG5+LLj8H5YSicaT0UEvh1l0OOV3R8vJvBg0
+ aeJl2Ruv2USIIi6HO7y21k2OhpI4i7ME+vnuYHzU82szk2zTZ3mdBrbHWMh6rkLwge4Q
+ 0EhqcpmhuZ1onRCoQjGHEB1jc1NpjoBVxxtun/yPREHU8/JTwjFhYigg8FWShyVZm7dt
+ +EQr9C/nZqiPGOED0E9AgIL2IUVrZJc/njsbUhW185YPQd9WKSOo+z9vFWbZOUpALxlq
+ eIIoeyUUQfCRt4gZQsqHcgh2Mc7eisyY+JMvGHtDUqgoa2iyZ6bOYKwo4D+Rs1bRmdpC
+ Ix1g==
+X-Gm-Message-State: AOJu0Yyhtc9UFOL525tSY1uCbgMAZMpiyUMdsElqwYgtbHgBtUx5z+JR
+ Jh1LQtryRw//YojrYWLTqxl30HHRfoqjCVxMFS4=
+X-Google-Smtp-Source: AGHT+IH9cpCU/7Zs/hX2BjtG9840MbiSgk277qyUw73/CDt/MTKZHbRGAldZh5h9dMja6DQe2blemM8bcrEFXPMnBd0=
+X-Received: by 2002:a17:906:cc0d:b0:9a2:86a:f9c0 with SMTP id
+ ml13-20020a170906cc0d00b009a2086af9c0mr1955824ejb.1.1694569625097; Tue, 12
+ Sep 2023 18:47:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="x1+FQVa4UDBiUUPt"
-Content-Disposition: inline
-In-Reply-To: <ZQEKFR1OPoXGI2lO@midnight>
+References: <20230912084044.955864-1-adrian.larumbe@collabora.com>
+ <20230912084044.955864-7-adrian.larumbe@collabora.com>
+ <20230912113210.65897aab@collabora.com>
+In-Reply-To: <20230912113210.65897aab@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 12 Sep 2023 18:46:52 -0700
+Message-ID: <CAF6AEGtzOS89V1vbobpSEb9KX8x9T0FfmkW2OAaxAKLs+GugKA@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] drm/drm-file: Show finer-grained BO sizes in
+ drm_show_memory_stats
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +71,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: tzimmermann@suse.de, sean@poorly.run,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
+ freedreno@lists.freedesktop.org, healych@amazon.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
+ kernel@collabora.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 12, 2023 at 2:32=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Tue, 12 Sep 2023 09:37:00 +0100
+> Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+> > The current implementation will try to pick the highest available size
+> > display unit as soon as the BO size exceeds that of the previous
+> > multiplier. That can lead to loss of precision in BO's whose size is
+> > not a multiple of a MiB.
+> >
+> > Fix it by changing the unit selection criteria.
+> >
+> > For much bigger BO's, their size will naturally be aligned on something
+> > bigger than a 4 KiB page, so in practice it is very unlikely their disp=
+lay
+> > unit would default to KiB.
+>
+> Let's wait for Rob's opinion on this.
 
---x1+FQVa4UDBiUUPt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This would mean that if you have SZ_1G + SZ_1K worth of buffers, you'd
+report the result in KiB.. which seems like overkill to me, esp given
+that the result is just a snapshot in time of a figure that
+realistically is dynamic.
 
-On Wed, Sep 13, 2023 at 11:02:13AM +1000, Angus Gardner wrote:
-> ---
->  drivers/staging/fbtft/fb_ra8875.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+Maybe if you have SZ_1G+SZ_1K worth of buffers you should report the
+result with more precision than GiB, but more than MiB seems a bit
+overkill.
 
-No patch description and SoB, so Greg can't take this as-is.
+BR,
+-R
 
-> -	if ((par->info->var.xres =3D=3D 320) && (par->info->var.yres =3D=3D 240=
-)) {
-> +	if (par->info->var.xres =3D=3D 320 && par->info->var.yres =3D=3D 240) {
-
-Greg prefers explicit parentheses on complex expressions (see [1] and [2]
-for examples), hence NAK.
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-staging/ZCWGOZqdH1kWtOEq@kroah.com/
-[2]: https://lore.kernel.org/linux-staging/Y%2FiaYtKk4VSokAFz@kroah.com/
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---x1+FQVa4UDBiUUPt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZQERHgAKCRD2uYlJVVFO
-o73FAQCZr9WVvTPdXrwCR23Z8ew/F2TTSZkLjZY6t94QNZFc4gD8CN1oD399IWU0
-p9IhzWXKtA85w37Q5pwbRZUfvAEcmwg=
-=8y2y
------END PGP SIGNATURE-----
-
---x1+FQVa4UDBiUUPt--
+> >
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_file.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index 762965e3d503..bf7d2fe46bfa 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -879,7 +879,7 @@ static void print_size(struct drm_printer *p, const=
+ char *stat,
+> >       unsigned u;
+> >
+> >       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
+> > -             if (sz < SZ_1K)
+> > +             if (sz & (SZ_1K - 1))
+> >                       break;
+> >               sz =3D div_u64(sz, SZ_1K);
+> >       }
+>
