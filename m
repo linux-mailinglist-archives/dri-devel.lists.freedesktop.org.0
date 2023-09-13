@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A04C79EF2F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 18:47:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B093779EF43
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 18:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF92F10E4B8;
-	Wed, 13 Sep 2023 16:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C3E10E0D1;
+	Wed, 13 Sep 2023 16:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B4A10E0D1;
- Wed, 13 Sep 2023 16:46:59 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-523100882f2so9093195a12.2; 
- Wed, 13 Sep 2023 09:46:59 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7890310E0D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 16:48:18 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-502a4f33440so8511207e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 09:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694623618; x=1695228418; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C5YGng7LquR7VbitExATGwfX7+5OwRblTGs4u5vbxVs=;
- b=KHzfbAcjiSU5PsCXgrJOAClcDT/KvtiW0NHnAu5MDN5cO6Q9mxGxMN0sMYBurBS8Aj
- MIaN4i1BTZ0RGJjFgDblLl+t858X5iaNTuhmMUJ6xQivBhq6NRIsecu8D4Y0xChu1JM7
- bYxH6akfWAt1yFYyMowF6fHu+hpMVWhuzxOP4o7KmbtrHtTTPODaS2p+ryAMZixFt5Xe
- eew/XdlS039UbSsHFBXy8p2U4A0Os7g4u8XID/whyAAQC24S1b4Q79j/GCDpParHTGF9
- TgSdQrmg+/a2QpnwFyJvcmL80x6E9boWjC+jx5gtasS98FDq8MQHkVhqLDvPShQxJgjb
- C07A==
+ d=linux-foundation.org; s=google; t=1694623696; x=1695228496;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UQjO5I3ejJ11+YkmxgcLlgBI7nBSQ5PbV23tc1Goj3o=;
+ b=YWyjkdnieNwIzCq5cPCJUg11LIjjoUCrWuqVYM0c2AlQwBHMwyaF5QzOyBgwiSY2TL
+ Djs7xPQbKNhELvwMaXy6kFmJ/eI+p3ylMSRrwtDcr3NGY4ayJkJ/HfcRfmTNdzhrKisa
+ ak4qotqroPNjqO7rcyl1FuN6olO98oOP4Gc2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694623618; x=1695228418;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C5YGng7LquR7VbitExATGwfX7+5OwRblTGs4u5vbxVs=;
- b=TK7k6LHAep8aJ3XtOYECY1bsLRcX+f07OVzcM1ULlpquWYxacsag4czw5asUFlWbWR
- 4Mju/JcDo/2JRY1Nu1NNZU1GLStKyxNmTMM2dmQDk/5va8mHCPW6rc+2sIN0NNagiLXI
- KB/zMxd1XyyfLOUZv6ZLUI7CMMEbf6BbLB9wuOVe0LtPcSA/aPUDb1Vk87Ju18AbVe6H
- JHhlyp+UNVZRtGW7CCcdQPpjNTZAWtLPeOzCvJ/dVfiq2r3NHrCkGRaVOtKVHZI7wgx5
- rWISP5XDv7YRreZR/pkadTDMTtoKsj9hsLupFjnUfVSpO2+lV5xFdd4TVNYJ8MlULpS/
- lmqA==
-X-Gm-Message-State: AOJu0Yy8YSjQEGUY/ST/oJm+NP9kHBYJ4/Bwr+pBI2CGiJ8gmHIcOPeo
- 5ei+3x1sfGZFs8cHreIYF9vYsKcS24ZmSdI+pqrIsDCf
-X-Google-Smtp-Source: AGHT+IEc2KBgN3FRWC0KNxdRSFvRYj33UjiqQW/x5aJZfHR0AmWtDWPkiHn6xF3C8Knu1WGuANLSFzngKfOIKzJec/o=
-X-Received: by 2002:aa7:c0cb:0:b0:523:47b0:9077 with SMTP id
- j11-20020aa7c0cb000000b0052347b09077mr2728747edp.38.1694623617692; Wed, 13
- Sep 2023 09:46:57 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694623696; x=1695228496;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UQjO5I3ejJ11+YkmxgcLlgBI7nBSQ5PbV23tc1Goj3o=;
+ b=G8jYd+DfFFecqYKZefpESLRJOtFqORI/jUwnAg1gAsdOfl5ocvdbcrE0hJpqX6i9Lt
+ pxSZg0vhe2eGW/gziLZt5WipLXbSFFdpiP8eFCmJ46SGt+7Ab8qUmCdOTOEaPjMwjdOM
+ KsOmVFdo5YvvGUeoLiDaw2f/uTrV5FKsY9l2wlLXV6tcPXeq2tFVlSKEZGC7CL5h7riM
+ 1bxwGksEw5gI+91PtOL0j14YOH7Y1eL4W03Zzi4riyiDg9nDwAtl21G+rxLyYusyya43
+ 7IqbrekZMvDArpZlwmkEHDvzU8WOXzoPHeAZmv2iOsLZZX8k+NQCrs4FBbIMX+izQ0ar
+ 3zhg==
+X-Gm-Message-State: AOJu0YzK4ujPlItF5gQ9rtL8IfkokeETJsI1oTSYtTglGyTdImhkE3Z2
+ Qu3FXZWsa6pUEal6hhTkvHdNJC/Ic0k/aU0DjCO3/EUk
+X-Google-Smtp-Source: AGHT+IGnmyyK0nml9QBQOqZokl3RPb87YV1y8czs9hjRHViwLgSJpEd/3ubyAMlmZI3LyipzKGu/ig==
+X-Received: by 2002:a05:6512:224b:b0:502:9253:c56f with SMTP id
+ i11-20020a056512224b00b005029253c56fmr3491230lfu.44.1694623696177; 
+ Wed, 13 Sep 2023 09:48:16 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
+ [209.85.208.170]) by smtp.gmail.com with ESMTPSA id
+ m3-20020ac24243000000b004ff8d9ed368sm2213186lfl.258.2023.09.13.09.48.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Sep 2023 09:48:15 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2bfb1167277so23973861fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 09:48:15 -0700 (PDT)
+X-Received: by 2002:a2e:8206:0:b0:2b9:ee3e:2412 with SMTP id
+ w6-20020a2e8206000000b002b9ee3e2412mr2818557ljg.22.1694623695030; Wed, 13 Sep
+ 2023 09:48:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230912084044.955864-1-adrian.larumbe@collabora.com>
- <20230912084044.955864-7-adrian.larumbe@collabora.com>
- <20230912113210.65897aab@collabora.com>
- <CAF6AEGtzOS89V1vbobpSEb9KX8x9T0FfmkW2OAaxAKLs+GugKA@mail.gmail.com>
- <CAF6AEGup93tQMYrmx6iKex2Fxz+Yu5m-MMWPmeOQ4yx_Racnag@mail.gmail.com>
- <20230913093637.2748d217@collabora.com>
-In-Reply-To: <20230913093637.2748d217@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 13 Sep 2023 09:46:45 -0700
-Message-ID: <CAF6AEGu+NeMfeP3yVLr76fUmXeWPx86D9ckw_WjXu+Xpn6DJvA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] drm/drm-file: Show finer-grained BO sizes in
- drm_show_memory_stats
-To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230913110709.6684-1-hdanton@sina.com>
+ <99d99007-8385-31df-a659-665bf50193bc@I-love.SAKURA.ne.jp>
+In-Reply-To: <99d99007-8385-31df-a659-665bf50193bc@I-love.SAKURA.ne.jp>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 13 Sep 2023 09:47:57 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgb9ccWN3Nks5STYUDqQUeHZdCLsK4kA37SdDJuGZfukg@mail.gmail.com>
+Message-ID: <CAHk-=wgb9ccWN3Nks5STYUDqQUeHZdCLsK4kA37SdDJuGZfukg@mail.gmail.com>
+Subject: Re: drm/vkms: deadlock between dev->event_lock and timer
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,139 +78,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- sean@poorly.run,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
- freedreno@lists.freedesktop.org, healych@amazon.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- kernel@collabora.com, linux-kernel@vger.kernel.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Hillf Danton <hdanton@sina.com>,
+ Sanan Hasanov <Sanan.Hasanov@ucf.edu>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>, Maira Canal <mairacanal@riseup.net>,
+ syzkaller@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 13, 2023 at 12:36=E2=80=AFAM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
+On Wed, 13 Sept 2023 at 07:21, Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
 >
-> On Tue, 12 Sep 2023 19:14:35 -0700
-> Rob Clark <robdclark@gmail.com> wrote:
+> Hello. A deadlock was reported in drivers/gpu/drm/vkms/ .
+> It looks like this locking pattern remains as of 6.6-rc1. Please fix.
 >
-> > On Tue, Sep 12, 2023 at 6:46=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
- wrote:
-> > >
-> > > On Tue, Sep 12, 2023 at 2:32=E2=80=AFAM Boris Brezillon
-> > > <boris.brezillon@collabora.com> wrote:
-> > > >
-> > > > On Tue, 12 Sep 2023 09:37:00 +0100
-> > > > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-> > > >
-> > > > > The current implementation will try to pick the highest available=
- size
-> > > > > display unit as soon as the BO size exceeds that of the previous
-> > > > > multiplier. That can lead to loss of precision in BO's whose size=
- is
-> > > > > not a multiple of a MiB.
-> > > > >
-> > > > > Fix it by changing the unit selection criteria.
-> > > > >
-> > > > > For much bigger BO's, their size will naturally be aligned on som=
-ething
-> > > > > bigger than a 4 KiB page, so in practice it is very unlikely thei=
-r display
-> > > > > unit would default to KiB.
-> > > >
-> > > > Let's wait for Rob's opinion on this.
-> > >
-> > > This would mean that if you have SZ_1G + SZ_1K worth of buffers, you'=
-d
-> > > report the result in KiB.. which seems like overkill to me, esp given
-> > > that the result is just a snapshot in time of a figure that
-> > > realistically is dynamic.
->
-> Yeah, my point was that, generally, such big buffers tend to have
-> a bigger size alignment (like 2MB for anything bigger than 1GB), but
-> maybe this assumption doesn't stand for all drivers.
+> void drm_crtc_vblank_off(struct drm_crtc *crtc) {
+>   spin_lock_irq(&dev->event_lock);
+>   drm_vblank_disable_and_save(dev, pipe) {
+>     __disable_vblank(dev, pipe) {
+>       crtc->funcs->disable_vblank(crtc) == vkms_disable_vblank {
+>         hrtimer_cancel(&out->vblank_hrtimer) { // Retries with dev->event_lock held until lock_hrtimer_base() succeeds.
+>           ret = hrtimer_try_to_cancel(timer) {
+>             base = lock_hrtimer_base(timer, &flags); // Fails forever because vkms_vblank_simulate() is in progress.
 
-Maybe for CMA?  Regardless, this # is the sum of buffer sizes, so you
-could still get that 1G+1K scenario
+Heh. Ok. This is clearly a bug, but it does seem to be limited to just
+the vkms driver, and literally only to the "simulate vblank" case.
 
-> > >
-> > > Maybe if you have SZ_1G+SZ_1K worth of buffers you should report the
-> > > result with more precision than GiB, but more than MiB seems a bit
-> > > overkill.
-> > >
-> > > BR,
-> > > -R
-> > >
-> > > > >
-> > > > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_file.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_fil=
-e.c
-> > > > > index 762965e3d503..bf7d2fe46bfa 100644
-> > > > > --- a/drivers/gpu/drm/drm_file.c
-> > > > > +++ b/drivers/gpu/drm/drm_file.c
-> > > > > @@ -879,7 +879,7 @@ static void print_size(struct drm_printer *p,=
- const char *stat,
-> > > > >       unsigned u;
-> > > > >
-> > > > >       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> > > > > -             if (sz < SZ_1K)
-> >
-> > btw, I was thinking more along the lines of:
-> >
-> >    if (sz < 10*SZ_1K)
-> >
-> > (or perhaps maybe 100*SZ_1K)
->
-> I think I suggested doing that at some point:
->
->                 if ((sz & (SZ_1K - 1)) &&
->                     sz < UPPER_UNIT_THRESHOLD * SZ_1K)
->                         break;
->
-> so we can keep using the upper unit if the size is a multiple of this
-> upper unit, even if it's smaller than the selected threshold.
+The worst part about it is that it's so subtle and not obvious.
 
-yeah, that wfm
+Some light grepping seems to show that amdgpu has almost the exact
+same pattern in its own vkms thing, except it uses
 
-BR,
--R
+        hrtimer_try_to_cancel(&amdgpu_crtc->vblank_timer);
 
->
-> >
-> > I mean, any visualization tool is going to scale the y axis based on
-> > the order of magnitude.. and if I'm looking at the fdinfo with my
-> > eyeballs I don't want to count the # of digits manually to do the
-> > conversion in my head.  The difference btwn 4 or 5 or maybe 6 digits
-> > is easy enough to eyeball, but more than that is too much for my
-> > eyesight, and I'm not seeing how it is useful ;-)
-> >
-> > But if someone really has a valid use case for having precision in 1KB
-> > then I'm willing to be overruled.
->
-> So, precision loss was one aspect, but my main concern was having
-> things displayed in KiB when they could have been displayed in MiB,
-> because the size is a multiple of a MiB but still not big enough to
-> pass the threshold test (which was set to 10000x in the previous
-> version).
->
-> > But I'm not a fan of the earlier
-> > approach of different drivers reporting results differently, the whole
-> > point of fdinfo was to have some standardized reporting.
->
-> Totally agree with that.
->
-> >
-> > BR,
-> > -R
-> >
-> > > > > +             if (sz & (SZ_1K - 1))
-> > > > >                       break;
-> > > > >               sz =3D div_u64(sz, SZ_1K);
-> > > > >       }
-> > > >
->
+directly, which presumably fixes the livelock, but means that the
+cancel will fail if it's currently running.
+
+So just doing the same thing in the vkms driver probably fixes things.
+
+Maybe the vkms people need to add a flag to say "it's canceled" so
+that it doesn't then get re-enabled?  Or maybe it doesn't matter
+and/or already happens for some reason I didn't look into.
+
+                       Linus
