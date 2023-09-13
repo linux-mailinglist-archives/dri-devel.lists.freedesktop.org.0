@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBC979F1EF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 21:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BB879F1FC
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 21:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDFE10E0F3;
-	Wed, 13 Sep 2023 19:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0438E10E0F4;
+	Wed, 13 Sep 2023 19:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB73E10E0F3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 19:23:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D1010E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 19:24:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6E4F9B82676;
- Wed, 13 Sep 2023 19:23:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1CF4C433C7;
- Wed, 13 Sep 2023 19:23:18 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EBC31B821BD;
+ Wed, 13 Sep 2023 19:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A43C433C7;
+ Wed, 13 Sep 2023 19:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694632999;
- bh=igcyQZCGIqZW7jTDdneGY+c34mQ+D/T++fEJ1cpp/u8=;
+ s=korg; t=1694633069;
+ bh=uHw72KdB8C0PN95KDhJ3mOlNpcjxQMI8YhFuD2MX/WQ=;
  h=Subject:To:Cc:From:Date:From;
- b=UG+odY48/Zbj4FpdDinZc7Y8Kov1zZhsu7vX4zLV6i9R21xxycO29FpHg4qez/HYL
- ZLeFjQG5BaqwgM6W8iasEUMW+ubfmpP2JD5icWF7W18z00luZBnS8KQ0lSporyCFA4
- +xq9pSU55I9EsuRrDnrCMvPF8DgKo3yNt2XecA6c=
+ b=HUxiZInR/FQfekbRKHnVBqmhCXB37bYr6UcCczz7ByySlUJs8ny2OT1fzMBcjimzD
+ m5/W6YwFuKMV+dvd098Y0Lwhcv25yUtYyef34PTshJDo2NNzQKV6Tq+XCMD1HHpzxi
+ qZvV5C3M19lzBCgGQ2vzEomvE4vMXLhQUzDM1vJo=
 Subject: Patch "drm/ast: Fix DRAM init on AST2200" has been added to the
- 5.10-stable tree
+ 5.15-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jfalempe@redhat.com, suijingfeng@loongson.cn,
  tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 13 Sep 2023 21:22:50 +0200
-Message-ID: <2023091350-unfold-limping-9094@gregkh>
+Date: Wed, 13 Sep 2023 21:23:11 +0200
+Message-ID: <2023091310-throat-juror-c29c@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ast: Fix DRAM init on AST2200
 
-to the 5.10-stable tree which can be found at:
+to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ast-fix-dram-init-on-ast2200.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -105,7 +105,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_post.c
 +++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -290,7 +290,7 @@ static void ast_init_dram_reg(struct drm
+@@ -291,7 +291,7 @@ static void ast_init_dram_reg(struct drm
  				;
  			} while (ast_read32(ast, 0x10100) != 0xa8);
  		} else {/* AST2100/1100 */
@@ -118,8 +118,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.10/backlight-gpio_backlight-compare-against-struct-fb_info.device.patch
-queue-5.10/fbdev-ep93xx-fb-do-not-assign-to-struct-fb_info.dev.patch
-queue-5.10/backlight-lv5207lp-compare-against-struct-fb_info.device.patch
-queue-5.10/backlight-bd6107-compare-against-struct-fb_info.device.patch
-queue-5.10/drm-ast-fix-dram-init-on-ast2200.patch
+queue-5.15/backlight-gpio_backlight-compare-against-struct-fb_info.device.patch
+queue-5.15/fbdev-ep93xx-fb-do-not-assign-to-struct-fb_info.dev.patch
+queue-5.15/backlight-lv5207lp-compare-against-struct-fb_info.device.patch
+queue-5.15/backlight-bd6107-compare-against-struct-fb_info.device.patch
+queue-5.15/drm-ast-fix-dram-init-on-ast2200.patch
