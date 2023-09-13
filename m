@@ -1,67 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5919279F3AB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 23:18:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DEC79F3E3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 23:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72ADC10E10D;
-	Wed, 13 Sep 2023 21:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10ED10E118;
+	Wed, 13 Sep 2023 21:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF1610E10D;
- Wed, 13 Sep 2023 21:18:01 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-52a39a1c4d5so233849a12.3; 
- Wed, 13 Sep 2023 14:18:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1694639879; x=1695244679; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EF449AIlL6XYD426YEW6S8zbtOg73mCSG4ZzOl+W5Oo=;
- b=ib/Qvk1UM4Rl4rbS2b2oTgzsMVwIhfJstZP9x6D5uq68SX6uOvl6CjdsEhqX89KkXv
- CTfoL9lYNW7n+2h0qTfeqv4vLi7gX/WQLrFBXki8W6mGTyId3SGoLR/JqLy1pyN38cD1
- ISeFfusBxAyRBT0veSeK+5vpLvF3xlorun+B9gY77AcLjV4UcnpWKqRK+rDXyEjuY+UQ
- RayEmNziPvUmb1cK6ju4nTlBtg/1lr46jXpITjnhpsFGE2ZQlF8mN5ZDfdmdNUyRd3A1
- e/8o6gXDIWCGNfQ3ErqSiZCeEsvPB0uTRB/95lIQ3EHU2hp4RtHVXh9twJ9Ci4zWHGy6
- SEuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694639879; x=1695244679;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EF449AIlL6XYD426YEW6S8zbtOg73mCSG4ZzOl+W5Oo=;
- b=T3TVRJoOf8Dlx4xtIdQka92RarbdwYHWg4aUBlnBX6I10OHh2CuilSjThgj3LAi0hu
- 9Q6tNdA8Rl/k2WzTR4nHZGF91Kt22NuyWzfObc8vaAE6YtvIOsiBVKZtmBJ5JGLVdm3N
- 8NJI4HCLVp9myq4xknA6s5CRLWxQRmrbubX1BQLWMhEc3FXoRf5EDuZBwFeQAsSm2Dcc
- ACbBSxrQmKjxIGGKKqscctSmp7ok1SCGnUaRBk78cqD7HOpM1PzwucMct0slK6MI9v9s
- KU7vn+g9v3QK7eb/qKOh52OWeMYuAlg/rHGV/HYJysyxTLUgWhPqt1Qsb8GfcsOt34Hr
- gpXw==
-X-Gm-Message-State: AOJu0Yx/bEY+mm542BwDmwYOSfRud53jA40TQIYIUpQ4x3WVJl3BP8In
- j0qwb0LMK7xF2lz/msanOXl3FlSrgLXHidcCDKM=
-X-Google-Smtp-Source: AGHT+IETKy2hamoh5trTYjKH/mUZmeqeeIJzKFwxuCLL0meTkX20nzuzsF+vhZWUBzg2AV4JJHmDU2yE4G+n1Li3IIU=
-X-Received: by 2002:aa7:c459:0:b0:523:bfec:4913 with SMTP id
- n25-20020aa7c459000000b00523bfec4913mr3340114edr.0.1694639879272; Wed, 13 Sep
- 2023 14:17:59 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4BB10E0FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 21:35:02 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38DLM1iD013279; Wed, 13 Sep 2023 21:34:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iMlTnaroKZ9nRGZVKhyWFjjAvtP4hFgeb9nX/asKSwQ=;
+ b=AyX1jMzPvGcvRCaKy9IIp/9nkJ+U96okm+SkbYj2Y3J23Sui05PTNK5mchVGryg2thuO
+ gELw8u3NB9aKHuCsWQq2wmso7PJ1nIIOnM5GV9ppdm9M8f4SFxaTtVI37qinhY6BrN6n
+ bf4puRHE2KBXkiDqxNDaEHm/CXQeKJoIdosDR8c8bbt2cLnhH28pLDQ8rVwwMuNm/U7H
+ DymLM6n2dS/w51j0iljeJNnuSq7uRdp6RHDwngauim2Z2Vb+PGirP0WhQUXyMX8SpC/X
+ VHnZreNhiGvB1lUKg4nNk1/d6++pNrQseNsfQHOPHhdY1rjWWnroyDBshHQHgOhHJeCZ tQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t2yp3jpm4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Sep 2023 21:34:54 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38DLYr3J006174
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Sep 2023 21:34:53 GMT
+Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 13 Sep
+ 2023 14:34:53 -0700
+Message-ID: <d46ee183-a010-e585-c47c-fa3229eafb33@quicinc.com>
+Date: Wed, 13 Sep 2023 14:34:38 -0700
 MIME-Version: 1.0
-References: <20230913-fix-wuninitialized-dm_helpers_dp_mst_send_payload_allocation-v1-1-2d1b0a3ef16c@kernel.org>
- <b11cce07-7e13-49b5-aed3-88517356281b@amd.com>
- <CADnq5_MsHwC94F_2SdyUM39FRoeVZMNa-8quxB4TVOVqM05=zQ@mail.gmail.com>
- <b1396feb-9bd5-4aa4-97b1-9d743fffe5ef@amd.com>
- <CADnq5_NZ6Bv5zyNxJc13Bb4bPmHTTDPEWqtV_VFt5y1gzsgGzQ@mail.gmail.com>
- <327f018f-c810-4e99-8003-f0dfa9f7d156@amd.com>
-In-Reply-To: <327f018f-c810-4e99-8003-f0dfa9f7d156@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 13 Sep 2023 17:17:45 -0400
-Message-ID: <CADnq5_Oo9Qm+CHe3tdkN7fQ=ZMw5wZNssk3rxDRSPK8F9DxBDw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix -Wuninitialized in
- dm_helpers_dp_mst_send_payload_allocation()
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 5/8] drm/panel: nv3052c: Allow specifying registers
+ per panel
+Content-Language: en-US
+To: John Watts <contact@jookia.org>, <dri-devel@lists.freedesktop.org>
+References: <20230911090206.3121440-1-contact@jookia.org>
+ <20230911090206.3121440-6-contact@jookia.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230911090206.3121440-6-contact@jookia.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: dgQBajD7WHk4_83fTZM1vvg3kRDGX8bp
+X-Proofpoint-ORIG-GUID: dgQBajD7WHk4_83fTZM1vvg3kRDGX8bp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-13_16,2023-09-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 phishscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2308100000 definitions=main-2309130178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,147 +83,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ndesaulniers@google.com, llvm@lists.linux.dev, sunpeng.li@amd.com,
- trix@redhat.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- patches@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
- Wayne.Lin@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@edgeble.ai>,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 13, 2023 at 4:46=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.co=
-m> wrote:
->
-> On 9/13/23 16:03, Alex Deucher wrote:
-> > On Wed, Sep 13, 2023 at 3:57=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@am=
-d.com> wrote:
-> >>
-> >>
-> >> On 9/13/23 15:54, Alex Deucher wrote:
-> >>> On Wed, Sep 13, 2023 at 12:17=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz=
-@amd.com> wrote:
-> >>>>
-> >>>>
-> >>>> On 9/13/23 12:10, Nathan Chancellor wrote:
-> >>>>> When building with clang, there is a warning (or error when
-> >>>>> CONFIG_WERROR is set):
-> >>>>>
-> >>>>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_help=
-ers.c:368:21: error: variable 'old_payload' is uninitialized when used here=
- [-Werror,-Wuninitialized]
-> >>>>>        368 |                                                  new_p=
-ayload, old_payload);
-> >>>>>            |                                                       =
-        ^~~~~~~~~~~
-> >>>>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_help=
-ers.c:344:61: note: initialize the variable 'old_payload' to silence this w=
-arning
-> >>>>>        344 |         struct drm_dp_mst_atomic_payload *new_payload,=
- *old_payload;
-> >>>>>            |                                                       =
-             ^
-> >>>>>            |                                                       =
-              =3D NULL
-> >>>>>      1 error generated.
-> >>>>>
-> >>>>> This variable is not required outside of this function so allocate
-> >>>>> old_payload on the stack and pass it by reference to
-> >>>>> dm_helpers_construct_old_payload(), resolving the warning.
-> >>>>>
-> >>>>> Closes: https://github.com/ClangBuiltLinux/linux/issues/1931
-> >>>>> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload alloca=
-tion/removement")
-> >>>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> >>>>
-> >>>> Reviewed-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> >>>>
-> >>>> Hm, seems like this was pushed through drm-misc-next and as such our=
- CI
-> >>>> didn't get a chance to test it.
-> >>>
-> >>> Can you push this to drm-misc?  That is where Wayne's patches landed.
-> >>> If not, I can push it.
-> >>
-> >> No need, I cherry-picked Wayne's patches to amd-staging-drm-next and
-> >> applied Nathan's fix.
-> >
-> > Yes, but we can only have patches go upstream via one tree.  Wayne's
-> > patches are in drm-misc, so that is where the fix should be.  It's
-> > fine to have them in amd-staging-drm-next for testing purposes, but I
-> > won't be upstreaming them via the amdgpu -next tree since they are
-> > already in drm-misc.
->
-> In that case can you push it to drm-misc?
-
-Pushed.  Thanks!
-
-Alex
 
 
-Alex
+On 9/11/2023 2:02 AM, John Watts wrote:
+> Panel initialization registers are per-display and not tied to the
+> controller itself. Different panels will specify their own registers.
+> Attach the sequences to the panel info struct so future panels
+> can specify their own sequences.
+> 
+> Signed-off-by: John Watts <contact@jookia.org>
+> ---
+>   .../gpu/drm/panel/panel-newvision-nv3052c.c   | 25 ++++++++++++-------
+>   1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> index 307335d0f1fc..b2ad9b3a5eb7 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> @@ -20,11 +20,18 @@
+>   #include <drm/drm_modes.h>
+>   #include <drm/drm_panel.h>
+>   
+> +struct nv3052c_reg {
+> +	u8 cmd;
+> +	u8 val;
+> +};
+> +
+>   struct nv3052c_panel_info {
+>   	const struct drm_display_mode *display_modes;
+>   	unsigned int num_modes;
+>   	u16 width_mm, height_mm;
+>   	u32 bus_format, bus_flags;
+> +	const struct nv3052c_reg *panel_regs;
+> +	int panel_regs_len;
 
->
-> >
-> > Alex
-> >
-> >>
-> >>>
-> >>> Alex
-> >>>
-> >>>
-> >>>>
-> >>>>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 +=
-++---
-> >>>>>     1 file changed, 3 insertions(+), 3 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helper=
-s.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> >>>>> index 9ad509279b0a..c4c35f6844f4 100644
-> >>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> >>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> >>>>> @@ -341,7 +341,7 @@ bool dm_helpers_dp_mst_send_payload_allocation(
-> >>>>>         struct amdgpu_dm_connector *aconnector;
-> >>>>>         struct drm_dp_mst_topology_state *mst_state;
-> >>>>>         struct drm_dp_mst_topology_mgr *mst_mgr;
-> >>>>> -     struct drm_dp_mst_atomic_payload *new_payload, *old_payload;
-> >>>>> +     struct drm_dp_mst_atomic_payload *new_payload, old_payload;
-> >>>>>         enum mst_progress_status set_flag =3D MST_ALLOCATE_NEW_PAYL=
-OAD;
-> >>>>>         enum mst_progress_status clr_flag =3D MST_CLEAR_ALLOCATED_P=
-AYLOAD;
-> >>>>>         int ret =3D 0;
-> >>>>> @@ -365,8 +365,8 @@ bool dm_helpers_dp_mst_send_payload_allocation(
-> >>>>>                 ret =3D drm_dp_add_payload_part2(mst_mgr, mst_state=
-->base.state, new_payload);
-> >>>>>         } else {
-> >>>>>                 dm_helpers_construct_old_payload(stream->link, mst_=
-state->pbn_div,
-> >>>>> -                                              new_payload, old_pay=
-load);
-> >>>>> -             drm_dp_remove_payload_part2(mst_mgr, mst_state, old_p=
-ayload, new_payload);
-> >>>>> +                                              new_payload, &old_pa=
-yload);
-> >>>>> +             drm_dp_remove_payload_part2(mst_mgr, mst_state, &old_=
-payload, new_payload);
-> >>>>>         }
-> >>>>>
-> >>>>>         if (ret) {
-> >>>>>
-> >>>>> ---
-> >>>>> base-commit: 8569c31545385195bdb0c021124e68336e91c693
-> >>>>> change-id: 20230913-fix-wuninitialized-dm_helpers_dp_mst_send_paylo=
-ad_allocation-c37b33aaad18
-> >>>>>
-> >>>>> Best regards,
-> >>>> --
-> >>>> Hamza
-> >>>>
-> >> --
-> >> Hamza
-> >>
-> --
-> Hamza
->
+Hi John,
+
+Having a separate panel_regs_len field seems a bit unnecessary to me.
+
+Looks like it's only being called in the panel prepare() and I don't 
+seen any reason why we shouldn't just call the ARRAY_SIZE() macro there.
+
+Thanks,
+
+Jessica Zhang
+
+>   };
+>   
+>   struct nv3052c {
+> @@ -36,12 +43,7 @@ struct nv3052c {
+>   	struct gpio_desc *reset_gpio;
+>   };
+>   
+> -struct nv3052c_reg {
+> -	u8 cmd;
+> -	u8 val;
+> -};
+> -
+> -static const struct nv3052c_reg nv3052c_panel_regs[] = {
+> +static const struct nv3052c_reg ltk035c5444t_panel_regs[] = {
+>   	// EXTC Command set enable, select page 1
+>   	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x01 },
+>   	// Mostly unknown registers
+> @@ -244,6 +246,7 @@ static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
+>   static int nv3052c_prepare(struct drm_panel *panel)
+>   {
+>   	struct nv3052c *priv = to_nv3052c(panel);
+> +	const struct nv3052c_reg *panel_regs = priv->panel_info->panel_regs;
+>   	struct mipi_dbi *dbi = &priv->dbi;
+>   	unsigned int i;
+>   	int err;
+> @@ -260,9 +263,11 @@ static int nv3052c_prepare(struct drm_panel *panel)
+>   	gpiod_set_value_cansleep(priv->reset_gpio, 0);
+>   	msleep(150);
+>   
+> -	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
+> -		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
+> -				       nv3052c_panel_regs[i].val);
+> +	int panel_regs_len = priv->panel_info->panel_regs_len;
+> +
+> +	for (i = 0; i < panel_regs_len; i++) {
+> +		err = mipi_dbi_command(dbi, panel_regs[i].cmd,
+> +				       panel_regs[i].val);
+>   
+>   		if (err) {
+>   			dev_err(priv->dev, "Unable to set register: %d\n", err);
+> @@ -466,6 +471,8 @@ static const struct nv3052c_panel_info ltk035c5444t_panel_info = {
+>   	.height_mm = 64,
+>   	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+>   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.panel_regs = ltk035c5444t_panel_regs,
+> +	.panel_regs_len = ARRAY_SIZE(ltk035c5444t_panel_regs),
+>   };
+>   
+>   static const struct spi_device_id nv3052c_ids[] = {
+> -- 
+> 2.42.0
+> 
