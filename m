@@ -1,33 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF6179E0F4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:38:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C1F79E11D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00DA310E473;
-	Wed, 13 Sep 2023 07:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F65A10E0F0;
+	Wed, 13 Sep 2023 07:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id B9B6C10E473
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 07:37:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id E3D438088;
- Wed, 13 Sep 2023 07:37:56 +0000 (UTC)
-Date: Wed, 13 Sep 2023 10:37:55 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm/omap: dsi: Fix deferred probe warnings
-Message-ID: <20230913073755.GE5285@atomide.com>
-References: <20230412073954.20601-1-tony@atomide.com>
- <20230412085044.GP11253@pendragon.ideasonboard.com>
- <2bf56c04-733b-24a5-a344-166a94cd51f7@ideasonboard.com>
- <20230412085926.GR11253@pendragon.ideasonboard.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F91510E0F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 07:48:36 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 88D0F6607319;
+ Wed, 13 Sep 2023 08:48:34 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694591315;
+ bh=EGLX0+KxN7hUT9YpTYg5LgU9mcegZL1wrYeI+JeqTiA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ny8/LDYyxVRceVVvo1mDSez4K8treZJHNLwGat1Kx7Ch8uyC4nbACQ38l2HmCMepj
+ 9EmeCTADZ9KYKBjFmJ3llXRgUxX/n4xa1IzopwnvvTH0KtaLYHKWMH12Xqr1/2GLOY
+ 2iWGVJDd5Pt7oAAh4k0jw0iMGEMoEbkyD4HBGcm3ZOoWUOporKCd1xJJ7+eqyEQGkQ
+ jBS9nqhtV09nauFdB/+3HKQJeNuCMHSzPGLO4zV6Nmey7D1mmu0ZEXCmNeM7HT9o9c
+ rGp9yblZmNpUHGWmvZBkgXR2a96y+P4UUFtNVe6n2u71/F3iptvf/XVusa2clwzM3a
+ CSneCkV3NNjWg==
+Date: Wed, 13 Sep 2023 09:48:32 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
+Message-ID: <20230913094832.3317c2df@collabora.com>
+In-Reply-To: <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
+References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
+ <20230903170736.513347-16-dmitry.osipenko@collabora.com>
+ <20230905100306.3564e729@collabora.com>
+ <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230412085926.GR11253@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,68 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Laurent Pinchart <laurent.pinchart@ideasonboard.com> [230412 11:59]:
-> On Wed, Apr 12, 2023 at 11:55:34AM +0300, Tomi Valkeinen wrote:
-> > On 12/04/2023 11:50, Laurent Pinchart wrote:
-> > > Hi Tony,
-> > > 
-> > > Thank you for the patch.
-> > > 
-> > > On Wed, Apr 12, 2023 at 10:39:53AM +0300, Tony Lindgren wrote:
-> > >> We may not have dsi->dsidev initialized during probe, and that can
-> > >> lead into various dsi related warnings as omap_dsi_host_detach() gets
-> > >> called with dsi->dsidev set to NULL.
-> > >>
-> > >> The warnings can be "Fixed dependency cycle(s)" followed by a
-> > >> WARNING: CPU: 0 PID: 787 at drivers/gpu/drm/omapdrm/dss/dsi.c:4414.
-> > > 
-> > > How can this happen ? I assume .detach() can't be called without a
-> > > priori successful call to .attach(), that that sets dsi->dsidev.
-> > 
-> > I had a quick look, and the driver calls mipi_dsi_host_register() in 
-> > probe, and mipi_dsi_host_unregister() in remove.
-> > 
-> > mipi_dsi_host_unregister() always calls mipi_dsi_detach(), but I don't 
-> > think mipi_dsi_host_register() always calls attach, which happens later 
-> > when the peripheral probes.
-> 
-> Is this something that should be addressed in the DRM MIPI DSI helpers,
-> to only detach after an attach ?
+On Wed, 13 Sep 2023 03:56:14 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Tomi, any comments on detach after attach?
-
-Regards,
-
-Tony
-
-> > >> Let's fix the warnings by checking for a valid dsi->dsidev.
-> > >>
-> > >> Signed-off-by: Tony Lindgren <tony@atomide.com>
-> > >> ---
-> > >>   drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
-> > >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > >> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > >> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> > >> @@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
-> > >>   {
-> > >>   	struct dsi_data *dsi = host_to_omap(host);
-> > >>   
-> > >> -	if (WARN_ON(dsi->dsidev != client))
-> > >> +	if (dsi->dsidev && WARN_ON(dsi->dsidev != client))
-> > >>   		return -EINVAL;
-> > >>   
-> > >>   	cancel_delayed_work_sync(&dsi->dsi_disable_work);
+> On 9/5/23 11:03, Boris Brezillon wrote:
+> >>                * But
+> >> +		 * acquiring the obj lock in drm_gem_shmem_release_pages_locked() can
+> >> +		 * cause a locking order inversion between reservation_ww_class_mutex
+> >> +		 * and fs_reclaim.
+> >> +		 *
+> >> +		 * This deadlock is not actually possible, because no one should
+> >> +		 * be already holding the lock when drm_gem_shmem_free() is called.
+> >> +		 * Unfortunately lockdep is not aware of this detail.  So when the
+> >> +		 * refcount drops to zero, don't touch the reservation lock.
+> >> +		 */
+> >> +		if (shmem->got_pages_sgt &&
+> >> +		    refcount_dec_and_test(&shmem->pages_use_count)) {
+> >> +			drm_gem_shmem_do_release_pages_locked(shmem);
+> >> +			shmem->got_pages_sgt = false;
+> >>  		}  
+> > Leaking memory is the right thing to do if pages_use_count > 1 (it's
+> > better to leak than having someone access memory it no longer owns), but
+> > I think it's worth mentioning in the above comment.  
 > 
-> -- 
-> Regards,
+> It's unlikely that it will be only a leak without a following up
+> use-after-free. Neither is acceptable.
+
+Not necessarily, if you have a page leak, it could be that the GPU has
+access to those pages, but doesn't need the GEM object anymore
+(pages are mapped by the iommu, which doesn't need shmem->sgt or
+shmem->pages after the mapping is created). Without a WARN_ON(), this
+can go unnoticed and lead to memory corruptions/information leaks.
+
 > 
-> Laurent Pinchart
-> 
+> The drm_gem_shmem_free() could be changed such that kernel won't blow up
+> on a refcnt bug, but that's not worthwhile doing because drivers
+> shouldn't have silly bugs.
+
+We definitely don't want to fix that, but we want to complain loudly
+(WARN_ON()), and make sure the risk is limited (preventing memory from
+being re-assigned to someone else by not freeing it).
+
