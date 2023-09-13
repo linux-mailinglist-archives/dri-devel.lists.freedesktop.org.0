@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C1F79E11D
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DEF79E139
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:55:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F65A10E0F0;
-	Wed, 13 Sep 2023 07:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDB310E474;
+	Wed, 13 Sep 2023 07:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F91510E0F0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 07:48:36 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 88D0F6607319;
- Wed, 13 Sep 2023 08:48:34 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694591315;
- bh=EGLX0+KxN7hUT9YpTYg5LgU9mcegZL1wrYeI+JeqTiA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ny8/LDYyxVRceVVvo1mDSez4K8treZJHNLwGat1Kx7Ch8uyC4nbACQ38l2HmCMepj
- 9EmeCTADZ9KYKBjFmJ3llXRgUxX/n4xa1IzopwnvvTH0KtaLYHKWMH12Xqr1/2GLOY
- 2iWGVJDd5Pt7oAAh4k0jw0iMGEMoEbkyD4HBGcm3ZOoWUOporKCd1xJJ7+eqyEQGkQ
- jBS9nqhtV09nauFdB/+3HKQJeNuCMHSzPGLO4zV6Nmey7D1mmu0ZEXCmNeM7HT9o9c
- rGp9yblZmNpUHGWmvZBkgXR2a96y+P4UUFtNVe6n2u71/F3iptvf/XVusa2clwzM3a
- CSneCkV3NNjWg==
-Date: Wed, 13 Sep 2023 09:48:32 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
-Message-ID: <20230913094832.3317c2df@collabora.com>
-In-Reply-To: <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-16-dmitry.osipenko@collabora.com>
- <20230905100306.3564e729@collabora.com>
- <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA0710E474
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 07:54:57 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id
+ ca18e2360f4ac-792726d3aeeso221154339f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 00:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1694591696; x=1695196496;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eVi9HWsbyhPpxRlpwWkXgfmiV8lk8qQbW6adbUERlyM=;
+ b=WlgjpynvPnFkWoTa79bVrKsKvSZXXWtdT3K5cjBjWlEI/MPkkgl6sSZOMneyh6HUHR
+ jQ+6+lgV7YacQiqTfXTe2GT77gPfRvPfwdiCMpiH6d94EErRZu+Ki2FZsxmhqNeBDsVB
+ jtzQoUhe8Z+yG+0V+h2OSNiHITTe9kZR2oAGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694591696; x=1695196496;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eVi9HWsbyhPpxRlpwWkXgfmiV8lk8qQbW6adbUERlyM=;
+ b=OkmIWG6oRHaUFCsiajNcOnMPppteZUnt+USTZTsfJgSpG+0M1TUyzmxkRgwKpG888d
+ B6qp0fHGhgXDDIiiIGB0MPd7KrcZpiPFe3HKjhqA+rGUFrZ4fQLkbKwfsxrelTKpHKqP
+ H1k7mAt+8iE4TgIoTJ0MDCXpIdnQl/ao7T75ToXzdZCkhIN09FuTqxB+jNPnC3/tmPlx
+ Yx0duVaDPT5dzIFe7wKGlb/ymN9YP1JQtq/wT2/QTL6KBO/BQVCUb09DzhL5q6ZpPiny
+ WbH7HFuJq/zgZbsiGUB5fGtBxnI95dqpp1qsoUYxkncPmfkXV7FuagvS+ih5VhgLAuWH
+ m+7w==
+X-Gm-Message-State: AOJu0YygUU2vijNHEhWCR4X+R1o8ZW5Ji4D12NI7Si19PmhTy4Ls5o/u
+ bopNTRDIFBhDqSl+CE8Y1oM+YFZS9cU9Qf2TrJg=
+X-Google-Smtp-Source: AGHT+IFIEJ6+Y3AABnjlT88TDS+hrZZI40ZQR+mwVoIwUB8PBTlYZW13+Q77ElT1z645uJ2kimsHiQ==
+X-Received: by 2002:a05:6602:3a0e:b0:799:2163:418a with SMTP id
+ by14-20020a0566023a0e00b007992163418amr1830998iob.13.1694591696513; 
+ Wed, 13 Sep 2023 00:54:56 -0700 (PDT)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
+ [209.85.166.45]) by smtp.gmail.com with ESMTPSA id
+ x5-20020a6bda05000000b0076373f90e46sm3354895iob.33.2023.09.13.00.54.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Sep 2023 00:54:55 -0700 (PDT)
+Received: by mail-io1-f45.google.com with SMTP id
+ ca18e2360f4ac-79834a7a5d8so61077439f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 00:54:55 -0700 (PDT)
+X-Received: by 2002:a05:6602:3281:b0:786:7100:72de with SMTP id
+ d1-20020a056602328100b00786710072demr2263328ioz.16.1694591694827; Wed, 13 Sep
+ 2023 00:54:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230822132646.9811-1-jason-jh.lin@mediatek.com>
+ <CAC=S1njUVqt969Wv+dMc5wD3Uyu-2Cm4qCUwkp7kfeG_uBbpVw@mail.gmail.com>
+In-Reply-To: <CAC=S1njUVqt969Wv+dMc5wD3Uyu-2Cm4qCUwkp7kfeG_uBbpVw@mail.gmail.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Wed, 13 Sep 2023 15:54:18 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhhAevMct0SoipCRpVmHmMGEuvu2yKmkjuVVUpeZxZ5ug@mail.gmail.com>
+Message-ID: <CAC=S1nhhAevMct0SoipCRpVmHmMGEuvu2yKmkjuVVUpeZxZ5ug@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Add spinlock for setting vblank event in
+ atomic_begin
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,55 +81,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, dri-devel@lists.freedesktop.org,
+ Shawn Sung <shawn.sung@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Sep 2023 03:56:14 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On Thu, Aug 31, 2023 at 3:12=E2=80=AFPM Fei Shao <fshao@chromium.org> wrote=
+:
+>
+> On Tue, Aug 22, 2023 at 10:27=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@media=
+tek.com> wrote:
+> >
+> > Add spinlock protection to avoid race condition on vblank event
+> > between mtk_drm_crtc_atomic_begin() and mtk_drm_finish_page_flip().
+> >
+> > Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8=
+173.")
+> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
 
-> On 9/5/23 11:03, Boris Brezillon wrote:
-> >>                * But
-> >> +		 * acquiring the obj lock in drm_gem_shmem_release_pages_locked() can
-> >> +		 * cause a locking order inversion between reservation_ww_class_mutex
-> >> +		 * and fs_reclaim.
-> >> +		 *
-> >> +		 * This deadlock is not actually possible, because no one should
-> >> +		 * be already holding the lock when drm_gem_shmem_free() is called.
-> >> +		 * Unfortunately lockdep is not aware of this detail.  So when the
-> >> +		 * refcount drops to zero, don't touch the reservation lock.
-> >> +		 */
-> >> +		if (shmem->got_pages_sgt &&
-> >> +		    refcount_dec_and_test(&shmem->pages_use_count)) {
-> >> +			drm_gem_shmem_do_release_pages_locked(shmem);
-> >> +			shmem->got_pages_sgt = false;
-> >>  		}  
-> > Leaking memory is the right thing to do if pages_use_count > 1 (it's
-> > better to leak than having someone access memory it no longer owns), but
-> > I think it's worth mentioning in the above comment.  
-> 
-> It's unlikely that it will be only a leak without a following up
-> use-after-free. Neither is acceptable.
+Also, I verified that this fixes a real world system hang issue on the
+MT8195 Chromebook.
 
-Not necessarily, if you have a page leak, it could be that the GPU has
-access to those pages, but doesn't need the GEM object anymore
-(pages are mapped by the iommu, which doesn't need shmem->sgt or
-shmem->pages after the mapping is created). Without a WARN_ON(), this
-can go unnoticed and lead to memory corruptions/information leaks.
-
-> 
-> The drm_gem_shmem_free() could be changed such that kernel won't blow up
-> on a refcnt bug, but that's not worthwhile doing because drivers
-> shouldn't have silly bugs.
-
-We definitely don't want to fix that, but we want to complain loudly
-(WARN_ON()), and make sure the risk is limited (preventing memory from
-being re-assigned to someone else by not freeing it).
-
+Tested-by: Fei Shao <fshao@chromium.org>
