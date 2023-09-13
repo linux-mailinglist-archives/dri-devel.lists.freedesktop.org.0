@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B857379E8E4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 15:15:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D7479E91D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 15:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294E510E4C0;
-	Wed, 13 Sep 2023 13:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB0FE10E04D;
+	Wed, 13 Sep 2023 13:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE56710E0A8;
- Wed, 13 Sep 2023 13:15:02 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47DE110E04D;
+ Wed, 13 Sep 2023 13:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694610902; x=1726146902;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gCHxFvVoCPyl/gU+DH/2T/d2oTiFZNc4QrXmsWqFM/I=;
- b=NYwnBbrhJnf9746uY5fejsgGllxmW2qpBPZtihHT8y/YhF5JWbVUJWOd
- ODTYJuggbHDcbObX6sWDREl7oBol/cJR/L4bmEzlM8ALWkq8Zp+siyyDX
- d49tHY67Pu+0SoWAaEv9qQwdYYOlMU2X50Q3awq9jKkMAie5Nb0r8U05U
- jhYHhGGAxVnXkOtO1G3FcsNSK/iDYXYzllB7Ka+kqDbJ/ZQv+LyUpHEt9
- g2VIqXET5IMWmGJKn3XJJU6KvF2dhfVRefB7VUYjoHMa2Mz2VM5GR5yZ0
- p3fGVPEcaRmV75zv3KDgQmZ/EOAtRMVBxl7ak1x2WYfoQdS2zGP2FO+NQ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="363688817"
-X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="363688817"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2023 06:15:01 -0700
+ t=1694611383; x=1726147383;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SkZ0qdGoaTI3adQaFJu7Vm+31dVXllmFjQUdLwyvb4Y=;
+ b=TDreyFAvd/QqpduenubBW/R0C99y+szNVSV1Gvy3ysai1xxqc30eiQs0
+ dX9tya6ROUhLnEtqarQM2RzrvuaK/6s2nr/I1J75nYwqexS//FFmV0PUA
+ 8emD7SSG5NOES31Ze1dkk8pG91cD3c43Y4hcvnkCOmoGECbDBi7ClewFJ
+ ov2lMWXGHKjLzCEx7w9cHD43sHItApHMib3vyGodT8aOJpePbowmoVOvm
+ uOcwSdg3+yu09pST1+kpdSJ6gRaG9CKPtlRMjnSi8oWp6/XVTb6qhWWmw
+ o0fTYBoe2aDKQf/P100uTt4ZvLsvAq0zemanUnZ/QacyadNCxARfFTJMs Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="377569945"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="377569945"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2023 06:23:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="990915260"
-X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="990915260"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga006.fm.intel.com with SMTP; 13 Sep 2023 06:14:53 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Wed, 13 Sep 2023 16:14:53 +0300
-Date: Wed, 13 Sep 2023 16:14:52 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [RFC PATCH v1 01/12] Revert "drm/sysfs: Link DRM connectors to
- corresponding Type-C connectors"
-Message-ID: <ZQG1zMbjWNLtx8lk@kuha.fi.intel.com>
-References: <ZPbrtAlO2Y+bjDhf@kuha.fi.intel.com>
- <CAA8EJpqUg2-k7LLBL38RHU1sThkXB54ca68xEMd1yMnHQcQ++w@mail.gmail.com>
- <ZPh0Ps9UJ3HLzdeR@kuha.fi.intel.com>
- <CAA8EJpratbBybgk8woD3maA=J_HuQis44Unq0n+c_UvaFs__AA@mail.gmail.com>
- <ZPiAwOf00RREiYPr@kuha.fi.intel.com>
- <6b6bacee-f7b6-4cfe-be3d-24bda44bfbcf@linaro.org>
- <ZQBGD8CY5OVKYX63@kuha.fi.intel.com>
- <a97a33f4-71f3-4610-a59e-0c2d5ae86670@linaro.org>
- <ZQGAfnKt9HMB7j6H@kuha.fi.intel.com>
- <CAA8EJpqaipCT66x698R6dKDTSMk-D2iNHv8NSnMzPy-X_jFJ1Q@mail.gmail.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="1074958673"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="1074958673"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.211])
+ ([10.249.254.211])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2023 06:22:59 -0700
+Message-ID: <6f4c047d-0e6d-c45b-3092-cd0bc84849dc@linux.intel.com>
+Date: Wed, 13 Sep 2023 15:22:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpqaipCT66x698R6dKDTSMk-D2iNHv8NSnMzPy-X_jFJ1Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
+ dma_resv/extobj handling and GEM validation
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-7-dakr@redhat.com>
+ <a9ef04d2-2525-65c0-2eda-45ca9a95a3a0@linux.intel.com>
+ <20230913090311.5eeb026a@collabora.com>
+ <CAPM=9tyf4m6gtUQ0BCraf0gB06_pxXV8gpQQsvWjeJnczmJkQQ@mail.gmail.com>
+ <20230913091918.62c06a30@collabora.com>
+ <df85257a-02ed-4869-2421-0039a9c97db5@linux.intel.com>
+ <20230913133318.15edec7c@collabora.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230913133318.15edec7c@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,244 +69,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Won Chung <wonchung@google.com>, freedreno@lists.freedesktop.org
+Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 13, 2023 at 01:26:14PM +0300, Dmitry Baryshkov wrote:
-> Hi Heikki,
-> 
-> On Wed, 13 Sept 2023 at 12:27, Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> > On Tue, Sep 12, 2023 at 08:39:45PM +0300, Dmitry Baryshkov wrote:
-> > > On 12/09/2023 14:05, Heikki Krogerus wrote:
-> > > > On Tue, Sep 12, 2023 at 12:15:10AM +0300, Dmitry Baryshkov wrote:
-> > > > > On 06/09/2023 16:38, Heikki Krogerus wrote:
-> > > > > > On Wed, Sep 06, 2023 at 03:48:35PM +0300, Dmitry Baryshkov wrote:
-> > > > > > > On Wed, 6 Sept 2023 at 15:44, Heikki Krogerus
-> > > > > > > <heikki.krogerus@linux.intel.com> wrote:
-> > > > > > > >
-> > > > > > > > On Tue, Sep 05, 2023 at 01:56:59PM +0300, Dmitry Baryshkov wrote:
-> > > > > > > > > Hi Heikki,
-> > > > > > > > >
-> > > > > > > > > On Tue, 5 Sept 2023 at 11:50, Heikki Krogerus
-> > > > > > > > > <heikki.krogerus@linux.intel.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > Hi Dmitry,
-> > > > > > > > > >
-> > > > > > > > > > On Mon, Sep 04, 2023 at 12:41:39AM +0300, Dmitry Baryshkov wrote:
-> > > > > > > > > > > The kdev->fwnode pointer is never set in drm_sysfs_connector_add(), so
-> > > > > > > > > > > dev_fwnode() checks never succeed, making the respective commit NOP.
-> > > > > > > > > >
-> > > > > > > > > > That's not true. The dev->fwnode is assigned when the device is
-> > > > > > > > > > created on ACPI platforms automatically. If the drm_connector fwnode
-> > > > > > > > > > member is assigned before the device is registered, then that fwnode
-> > > > > > > > > > is assigned also to the device - see drm_connector_acpi_find_companion().
-> > > > > > > > > >
-> > > > > > > > > > But please note that even if drm_connector does not have anything in
-> > > > > > > > > > its fwnode member, the device may still be assigned fwnode, just based
-> > > > > > > > > > on some other logic (maybe in drivers/acpi/acpi_video.c?).
-> > > > > > > > > >
-> > > > > > > > > > > And if drm_sysfs_connector_add() is modified to set kdev->fwnode, it
-> > > > > > > > > > > breaks drivers already using components (as it was pointed at [1]),
-> > > > > > > > > > > resulting in a deadlock. Lockdep trace is provided below.
-> > > > > > > > > > >
-> > > > > > > > > > > Granted these two issues, it seems impractical to fix this commit in any
-> > > > > > > > > > > sane way. Revert it instead.
-> > > > > > > > > >
-> > > > > > > > > > I think there is already user space stuff that relies on these links,
-> > > > > > > > > > so I'm not sure you can just remove them like that. If the component
-> > > > > > > > > > framework is not the correct tool here, then I think you need to
-> > > > > > > > > > suggest some other way of creating them.
-> > > > > > > > >
-> > > > > > > > > The issue (that was pointed out during review) is that having a
-> > > > > > > > > component code in the framework code can lead to lockups. With the
-> > > > > > > > > patch #2 in place (which is the only logical way to set kdev->fwnode
-> > > > > > > > > for non-ACPI systems) probing of drivers which use components and set
-> > > > > > > > > drm_connector::fwnode breaks immediately.
-> > > > > > > > >
-> > > > > > > > > Can we move the component part to the respective drivers? With the
-> > > > > > > > > patch 2 in place, connector->fwnode will be copied to the created
-> > > > > > > > > kdev's fwnode pointer.
-> > > > > > > > >
-> > > > > > > > > Another option might be to make this drm_sysfs component registration optional.
-> > > > > > > >
-> > > > > > > > You don't need to use the component framework at all if there is
-> > > > > > > > a better way of determining the connection between the DP and its
-> > > > > > > > Type-C connector (I'm assuming that that's what this series is about).
-> > > > > > > > You just need the symlinks, not the component.
-> > > > > > >
-> > > > > > > The problem is that right now this component registration has become
-> > > > > > > mandatory. And if I set the kdev->fwnode manually (like in the patch
-> > > > > > > 2), the kernel hangs inside the component code.
-> > > > > > > That's why I proposed to move the components to the place where they
-> > > > > > > are really necessary, e.g. i915 and amd drivers.
-> > > > > >
-> > > > > > So why can't we replace the component with the method you are
-> > > > > > proposing in this series of finding out the Type-C port also with
-> > > > > > i915, AMD, or whatever driver and platform (that's the only thing that
-> > > > > > component is used for)?
-> > > > >
-> > > > > The drm/msm driver uses drm_bridge for the pipeline (including the last DP
-> > > > > entry) and the drm_bridge_connector to create the connector. I think that
-> > > > > enabling i915 and AMD drivers to use drm_bridge fells out of scope for this
-> > > > > series.
-> > > > >
-> > > > >
-> > > > > > Determining the connection between a DP and its Type-C connector is
-> > > > > > starting to get really important, so ideally we have a common solution
-> > > > > > for that.
-> > > > >
-> > > > > Yes. This is what we have been discussing with Simon for quite some time on
-> > > > > #dri-devel.
-> > > > >
-> > > > > Unfortunately I think the solution that got merged was pretty much hastened
-> > > > > in instead of being well-thought. For example, it is also not always
-> > > > > possible to provide the drm_connector / typec_connector links (as you can
-> > > > > see from the patch7. Sometimes we can only express that this is a Type-C DP
-> > > > > connector, but we can not easily point it to the particular USB-C port.
-> > > > >
-> > > > > So, I'm not sure, how can we proceed here. Currently merged patch breaks
-> > > > > drm/msm if we even try to use it by setting kdef->fwnode to
-> > > > > drm_connector->fwnode. The pointed out `drivers/usb/typec/port-mapper.c` is
-> > > > > an ACPI-only thing, which is not expected to work in a non-ACPI cases.
-> > > >
-> > > > You really have to always supply not only the Type-C ports and partners,
-> > > > but also the alt modes. You need them, firstly to keep things sane
-> > > > inside kernel, but more importantly, so they are always exposed to the
-> > > > user space, AND, always the same way. We have ABIs for all this stuff,
-> > > > including the DP alt mode. Use them. No shortcuts.
-> > > >
-> > > > So here's what you need to do. UCSI does not seem to bring you
-> > > > anything useful, so just disable it for now. You don't need it. Your
-> > > > port driver is clearly drivers/soc/qcom/pmic_glink_altmode.c, so
-> > > > that's where you need to register all these components - the ports,
-> > > > partners and alt modes. You have all the needed information there.
-> > >
-> > > To make things even more complicate, UCSI is necessary for the USB part of
-> > > the story. It handles vbus and direction.
-> > >
-> > > > Only after you've done that we can start to look at how should the
-> > > > connection between the DPs and their USB Type-C connectors be handled.
-> > >
-> > > But sure enough, I can add typec port registration to the altmode driver.
-> > > This will solve the 'port not existing' part of the story.
-> > >
-> > > I'd like to hear your opinion on:
-> > >
-> > > - components. Using them breaks drm/msm. How can we proceed?
-> >
-> > I don't think replacing the components is going to be a problem once
-> > you have described everything properly in you DT. I'm fairly certain now
-> > that that is the main problem here. You don't have this connection
-> > described in your DT as it should.
-> 
-> We have. See https://lore.kernel.org/linux-arm-msm/20230817145940.9887-1-dmitry.baryshkov@linaro.org/
-> (for non-PMIC-GLINK platform)
-> Or arch/arm64/boot/dts/qcom/sm8350-hdk.dts, which already has a full
-> description of USB-C connector and signal flow.
-> 
-> In fact, thanks to this representation I can properly set
-> 'connector->fwnode' to point to the OF node corresponding to the
-> connector's drm_bridge. I can even propagate it to the kdef->fwnode /
-> kdev->of_node in drm_sysfs_connector_add(). But then a component_add()
-> call looks the kernel up.
-> 
-> And to add on top of that, here is another reason why I think that
-> this sysfs links ABI/implementation was not well thought. The
-> typec_connector_ops are added to all fwnode-enabled connector devices.
-> It doesn't even bother checking that the device is really the DP
-> connector and that the device on the other side of fwnode link is a
-> typec port device. The symlink is named 'typec_connector', so one can
-> not easily extend this ABI to support SlimPort aka MyDP (which uses
-> micro-USB-B connectors instead of USB-C). Neither can we extend it to
-> represent MHL connections (again, micro-USB-B).
-> 
-> > > - PATH property usage. This way we make USB-C DisplayPort behave like the
-> > > MST ports.
-> >
-> > That looks to me like an attempt to exploit a feature that is not
-> > designed for this purposes at all. Just drop all that.
-> 
-> But why? From the docs: 'Connector path property to identify how this
-> sink is physically connected.'
-> 
-> So far we have been using it for MST only. But the description above
-> also suits properly for the 'connected to the Type-C port0 device'
-> kind of data. Then the userspace can use this property to change the
-> representation of the controller. Or to rename it as it does for
-> DP-MST connectors. Or just add the USB-C icon in the UI.
-> 
-> Having this data in sysfs only requires userspace first to map the
-> connector to the device under sysfs (which is not trivial since Xorg
-> renames DP-MST connectors), then to look for the symlink value. Quite
-> complicated compared to checking the DRM property.
-> 
-> Moreover, once we get to the SlimPort / MyDP / MHL, we can extend the
-> schema to support 'microusb:something' values for this property.
-> 
-> > The connection has to be first described in your DT, and the way you
-> > usually describe connections in DT is by using the device graph (OF
-> > graph). It seems that you have everything needed for that - the USB
-> > Type-C connectors have their own OF nodes (what you register as
-> > drm_bridges are in fact USB Type-C connectors), and presumable you
-> > also have OF nodes for all your video ports (DisplayPorts) - so
-> > applying the graph between the two really should not be a problem. The
-> > DP is endpoint for the USB Type-C connector, and vice versa.
-> 
-> Not quite. There is no direct connection between the USB Type-C
-> connector and DP controller. The USB-C connector has three ports.
-> 
-> port@0 goes to theHS-USB controller. This is simple.
-> 
-> port@1 goes to the USB+DP PHY. All retimers and SS line muxes are
-> included in between. And it is the USB+DP PHY that is connected to the
-> DP and USB-SS controllers.
-> 
-> port@2 goes to SBU lines mux (e.g. fsa4480).
-> 
-> > After you have everything needed in your DT, the problem here isn't
-> > actually much of a problem at all. We will have options how to move
-> > forward after that.
-> 
-> Could you please describe what is missing there?
 
-We are not after the direct connections here, we are after the final
-endpoints. So you are missing description of the logical connection
-between your DP and Type-C connector.
+On 9/13/23 13:33, Boris Brezillon wrote:
+> On Wed, 13 Sep 2023 12:39:01 +0200
+> Thomas Hellström <thomas.hellstrom@linux.intel.com> wrote:
+>
+>> Hi,
+>>
+>> On 9/13/23 09:19, Boris Brezillon wrote:
+>>> On Wed, 13 Sep 2023 17:05:42 +1000
+>>> Dave Airlie <airlied@gmail.com> wrote:
+>>>   
+>>>> On Wed, 13 Sept 2023 at 17:03, Boris Brezillon
+>>>> <boris.brezillon@collabora.com> wrote:
+>>>>> On Tue, 12 Sep 2023 18:20:32 +0200
+>>>>> Thomas Hellström <thomas.hellstrom@linux.intel.com> wrote:
+>>>>>      
+>>>>>>> +/**
+>>>>>>> + * get_next_vm_bo_from_list() - get the next vm_bo element
+>>>>>>> + * @__gpuvm: The GPU VM
+>>>>>>> + * @__list_name: The name of the list we're iterating on
+>>>>>>> + * @__local_list: A pointer to the local list used to store already iterated items
+>>>>>>> + * @__prev_vm_bo: The previous element we got from drm_gpuvm_get_next_cached_vm_bo()
+>>>>>>> + *
+>>>>>>> + * This helper is here to provide lockless list iteration. Lockless as in, the
+>>>>>>> + * iterator releases the lock immediately after picking the first element from
+>>>>>>> + * the list, so list insertion deletion can happen concurrently.
+>>>>>> Are the list spinlocks needed for that async state update from within
+>>>>>> the dma-fence critical section we've discussed previously?
+>>>>> Any driver calling _[un]link() from its drm_gpu_scheduler::run_job()
+>>>>> hook will be in this situation (Panthor at the moment, PowerVR soon). I
+>>>>> get that Xe and Nouveau don't need that because they update the VM
+>>>>> state early (in the ioctl path), but I keep thinking this will hurt us
+>>>>> if we don't think it through from the beginning, because once you've
+>>>>> set this logic to depend only on resv locks, it will be pretty hard to
+>>>>> get back to a solution which lets synchronous VM_BINDs take precedence
+>>>>> on asynchronous request, and, with vkQueueBindSparse() passing external
+>>>>> deps (plus the fact the VM_BIND queue might be pretty deep), it can
+>>>>> take a long time to get your synchronous VM_BIND executed...
+>> So this would boil down to either (possibly opt-in) keeping the spinlock
+>> approach or pushing the unlink out to a wq then?
+> Deferred _unlink() would not be an issue, since I already defer the
+> drm_gpuva destruction to a wq, it would just a be a matter of moving the
+> _unlink() call there as well. But _link() also takes the GEM gpuva list
+> lock, and that one is bit tricky, in that sm_map() can trigger 2 more
+> _link() calls for the prev/next mappings, which we can't guess until we
+> get to execute the VM update. If we mandate the use of the GEM resv
+> lock, that simply means async VM updates (AKA calling
+> drm_gpuvm_sm_[un]map()) are not an option. And if this is what everyone
+> agrees on, then I'd like the APIs that make this sort of async VM
+> update possible (drm_gpuvm_sm_[un]map(), the drm_gpuvm_ops::sm_step*
+> methods, and probably other things) to be dropped, so we don't make it
+> look like it's something we support.
+>
+>> BTW, as also asked in a reply to Danilo, how do you call unlink from
+>> run_job() when it was requiring the obj->dma_resv lock, or was that a WIP?
+> _unlink() makes sure the GEM gpuva list lock is taken, but this can be
+> a custom lock (see drm_gem_gpuva_set_lock()). In panthor we have
+> panthor_gem_object::gpuva_list_lock that's dedicated the gpuva list
+> protection. We make sure we never take this lock while allocating
+> memory to guarantee the dma-signalling path can't deadlock.
+>
+>>>>>      
+>>>> btw what is the use case for this? do we have actual vulkan
+>>>> applications we know will have problems here?
+>>> I don't, but I think that's a concern Faith raised at some point (dates
+>>> back from when I was reading threads describing how VM_BIND on i915
+>>> should work, and I was clearly discovering this whole VM_BIND thing at
+>>> that time, so maybe I misunderstood).
+>>>   
+>>>> it feels like a bit of premature optimisation, but maybe we have use cases.
+>>> Might be, but that's the sort of thing that would put us in a corner if
+>>> we don't have a plan for when the needs arise. Besides, if we don't
+>>> want to support that case because it's too complicated, I'd recommend
+>>> dropping all the drm_gpuvm APIs that let people think this mode is
+>>> valid/supported (map/remap/unmap hooks in drm_gpuvm_ops,
+>>> drm_gpuvm_sm_[un]map helpers, etc). Keeping them around just adds to the
+>>> confusion.
+>> Xe allows bypassing the bind-queue with another bind-queue, but to
+>> completely avoid dependencies between queues the Operations may not
+>> overlap.
+> So, you check the VM state with some VM lock held (would be the VM resv
+> in my case), and if the mapping is new (no overlaps with pre-existing
+> mappings), you queue it to the fast-track/sync-VM_BIND queue. What would
+> be missing I guess is a way to know if the mapping is active (MMU has
+> been updated) or pending (MMU update queued to the bind-queue), so I can
+> fast-track mapping/unmapping of active mappings. This would leave
+> overlapping sync/async VM updates, which can't happen in practice
+> unless userspace is doing something wrong (sparse bindings always go
+> through vkQueueBindSparse).
 
-I understand that the idea is to build the graph to describe only the
-physical connections, but with just the physical connections you are
-doomed to write separate software solution for almost every single
-platform, even though the final endpoints are always the same (DP to
-Type-C). You just can not generalise the components (muxes, phys,
-retimers, etc.) behind USB Type-C connectors (or anything else for
-that matter), it's not possible. The components and their order vary
-on almost every single platform. On some platforms the stack of parts
-after the connector is also incredibly complex.
+User-space is allowed to create new bind queues at will, and they 
+execute independently save for range overlaps.
 
-Having the logical final endpoint connection described in your DT/ACPI
-on top of the physical connections costs very little, but at the same
-time it's usually the only thing that the software needs (like in this
-case).
+And the overlapping granularity depends very much on the detail of the 
+range tracking.
+We drafted this fenced range utility
 
-So, either you add one more port to your graph for the DP to Type-C
-connection, or, if that's not an option, then you need to describe
-that connection in some other way. Named references work also quite
-well in my experience.
+https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/353
 
-Br,
+That tracks active ranges that remove themselves when the attached fence 
+signals. Not sure if we ended up using it, though. A new binding would 
+scan this utility for dma-fences it needs to depend upon. Ranges in Xe 
+are actually page-table modification ranges, so can exceed the actual VA 
+range in some situations, but if you can build page-table structures 
+async the granularity indeed becomes better.
 
--- 
-heikki
+/Thomas
+
+
+
+>
+> I'll give it a try.
+>
+>> (And the definition of overlap is currently page-table
+>> structure updates may not overlap) but no guarantees are made about
+>> priority.
+>>
+>> /Thomas
+>>
+>>
+>>
