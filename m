@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B9779DD49
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 02:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D34E79DD66
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 03:10:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39AAA10E0DF;
-	Wed, 13 Sep 2023 00:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5E110E11A;
+	Wed, 13 Sep 2023 01:10:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABE110E0DF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 00:56:20 +0000 (UTC)
-Received: from [192.168.2.112] (109-252-153-31.dynamic.spd-mgts.ru
- [109.252.153.31])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 44D9766072F1;
- Wed, 13 Sep 2023 01:56:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694566578;
- bh=B4W7pjVOWkb2G7sLJ6XC/Gd9ZbgLTD16lqLUgQ1+rTg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kP5fdOEN5h6usdOBFOJ+J0yMygCVmvvfdfCn7ce8MMxK/QYYJqMlSmo8cCD5wBEAj
- U3Dlpshx0OoomJihvk6sbmd9YIbYPfPFq0BzyJE3wemqWRn5p2PBy5Gny1XN77yCuh
- BYb8HUwHkjWJKlXJX6jL9XTWNk89RoCyn/T9bid7Grwv1kmOaf9qw91hs13c1+N/n6
- BLMz2JxaUiSzR+oPgifQfbAUlolCXfknJRR9/4rY6YcQ9eMT9G414Xeksy+1SBg9KP
- T0HO4LYXnT2Mxhp6jcufEPYRffF0mdczq6CQcO4WOVlAcs2HfI0p49XPBxrNugnCZs
- XAcwaTP89mFzA==
-Message-ID: <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
-Date: Wed, 13 Sep 2023 03:56:14 +0300
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74FB310E11A
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 01:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1694567403;
+ bh=Bgqmvp6Vvzr/QlZJbVXlrj7k1IFmb3uGG7LW/EaoHdM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ZkKQVRR2DriYryMHGjVtGxLWECn8xVT9Nvnbx6+agJI5dZWsMiYtgJmZdg/i6RfNK
+ 7bXR8yWVs8Opqvl1PFMTEiF1bzD8dlmzx/X1hm+sb8L6C/JoUMztuOvoNPRL/tWf8m
+ XsQAYyaCSxygaASOojLtt21AemFTM1yxeDWkpl8JPskkPVmqFOpjbiOvxhSrvfvHLN
+ Vlc6REtBvgxtWB84NyoyXRNOnzY2wqyisM4pjPVhcNMAPlZz/MWM24CegtCUIlhRDW
+ QmWb5+cNSNQVjH3q4OEohV77tSUnsvnGEUUuDR5yFImh9KlmcHIMfwi6ZvCGqyfoax
+ b671Ul1Y7xuTw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rlj6f62ktz4x3D;
+ Wed, 13 Sep 2023 11:10:02 +1000 (AEST)
+Date: Wed, 13 Sep 2023 11:09:39 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20230913110939.574c7ec2@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-16-dmitry.osipenko@collabora.com>
- <20230905100306.3564e729@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230905100306.3564e729@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Ed9H9=+yKJKWcjudP/1OMa+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/5/23 11:03, Boris Brezillon wrote:
->>                * But
->> +		 * acquiring the obj lock in drm_gem_shmem_release_pages_locked() can
->> +		 * cause a locking order inversion between reservation_ww_class_mutex
->> +		 * and fs_reclaim.
->> +		 *
->> +		 * This deadlock is not actually possible, because no one should
->> +		 * be already holding the lock when drm_gem_shmem_free() is called.
->> +		 * Unfortunately lockdep is not aware of this detail.  So when the
->> +		 * refcount drops to zero, don't touch the reservation lock.
->> +		 */
->> +		if (shmem->got_pages_sgt &&
->> +		    refcount_dec_and_test(&shmem->pages_use_count)) {
->> +			drm_gem_shmem_do_release_pages_locked(shmem);
->> +			shmem->got_pages_sgt = false;
->>  		}
-> Leaking memory is the right thing to do if pages_use_count > 1 (it's
-> better to leak than having someone access memory it no longer owns), but
-> I think it's worth mentioning in the above comment.
+--Sig_/Ed9H9=+yKJKWcjudP/1OMa+
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-It's unlikely that it will be only a leak without a following up
-use-after-free. Neither is acceptable.
+Hi all,
 
-The drm_gem_shmem_free() could be changed such that kernel won't blow up
-on a refcnt bug, but that's not worthwhile doing because drivers
-shouldn't have silly bugs.
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
--- 
-Best regards,
-Dmitry
+  drivers/gpu/drm/mediatek/mtk_dpi.c
 
+between commits:
+
+  47d4bb6bbcdb ("drm/mediatek: mtk_dpi: Simplify with devm_drm_bridge_add()=
+")
+  90c95c3892dd ("drm/mediatek: mtk_dpi: Switch to .remove_new() void callba=
+ck")
+
+from Linus' tree and commit:
+
+  c04ca6bbb7ea ("drm/mediatek: Convert to platform remove callback returnin=
+g void")
+
+from the drm-misc tree.
+
+I fixed it up (the latter is the same as 90c95c3892dd) and can carry the
+fix as necessary. This is now fixed as far as linux-next is concerned,
+but any non trivial conflicts should be mentioned to your upstream
+maintainer when your tree is submitted for merging.  You may also want
+to consider cooperating with the maintainer of the conflicting tree to
+minimise any particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/Ed9H9=+yKJKWcjudP/1OMa+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmUBC9MACgkQAVBC80lX
+0Gz+YQf/czaMUHm7Pn2zchw6gWWTMLOVA5z8YP5XY+9R7tyumgL77f8Dk/HX3Z3v
+8pd5sID37cNZUYraYV3hEi2FgmYRvf6zMiyy4jhqpz6VGgeD/zwRPfDuMsiaxaTp
+7QbO5d5CmzAZk3lEBCnJjOKxhapgdSggB8l3iLgWjhKGLENt7Oc2jjQf+VmeYE3o
+OyZwR04TndcYbUODmqR40l7xomTTd2jyshXKcdAtDU+wZNyQM+SP/zSq5jQTCg3b
+R649yfI0T2ZzMw2dXxRQkGDZbsa9GoPCk036EesHzQUDa0kKN3irPrJmPYq5Vgw5
+NYtZX/qmr+3kKxEyysZI4dIJpP9JFg==
+=kpxN
+-----END PGP SIGNATURE-----
+
+--Sig_/Ed9H9=+yKJKWcjudP/1OMa+--
