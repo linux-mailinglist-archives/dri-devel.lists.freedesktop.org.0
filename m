@@ -2,45 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB76979EB63
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 16:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C0E79EB94
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 16:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5967B10E072;
-	Wed, 13 Sep 2023 14:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD8B10E077;
+	Wed, 13 Sep 2023 14:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4239310E072
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 14:44:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 32403B82455;
- Wed, 13 Sep 2023 14:44:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910A5C433C7;
- Wed, 13 Sep 2023 14:44:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694616258;
- bh=9ZQgwHgqxVAXKGcz9taL3dWt54QfzarU5zsDIL92KPs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pZhkaePwyH2VlxakhlsEMOiQzlKMp83G72UhzB8B4fk58SihtGmXrG0XrqIVF7NpW
- HWy4FJkK/x8DT8Fp3+qjvVmCmdNfNlJ6xjASBG/Sr00Nb7FDXlcRRNP3adzjg5Jmkf
- IY32+aHUioxeiOjdPL2xb+jCGHuJuMy1az3Izs8SLlxb8CXFhGh9ci6DpmDvAZCHm2
- bCswD00R53DPmS/pJslWQ2C970hHTYS85nvWdw/7C14sxU9u0G/v/CW9hEAqxFxcQp
- tqDhZPbRhDMDR1Or13bfjnu0ipIdLscqfaoliFvnugQgeNdS9JBcfTIQ4N7Wcg4b98
- 2qS33Fmb8kxkw==
-Date: Wed, 13 Sep 2023 16:44:16 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?Sm9zw6k=?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Subject: Re: [PATCH] drm/tests: provide exit function
-Message-ID: <jz6st74sskec75oqrndxbrqxvvkbnts3gmmt2ylubpul3cl7pf@dnaev24djdot>
-References: <20230913121900.11814-1-jose.pekkarinen@foxhound.fi>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bqousrfzrswaymep"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 594FE10E077
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 14:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694616637; x=1726152637;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=sq6M/flokF9WuaA5JmAJu63oOnCkbSZlzGboJRMrK58=;
+ b=dMTNYwArfZ0jxFhiyRGkjvj4zzor2u5r3z72iEk5wHRQfj7MjKFmIGTE
+ lpm76FopYbRw7cwqrb7sGT0g1mvzLpumdMhaqnAG9JYo1mkQ7hZNTg0OG
+ zxdqBT7BuXcJtQcHG6Xy7+dmrKI0q6yy2VW4GGf+PjiqnvZTLo9M74UyL
+ UlnqJgL3z4/HBt30A5cActGeQgZ/tO6YsHglxdoQ/mNkpOy4Q+uraq4MC
+ GafQWXJkqIiPeUA8InGKrOp8OsrsOLmdOChE3WVo6rrI4F65z8y+4O93B
+ EY4hScduJQ7ccvhn5gu+lqRY83RbDkmP+UcM8y2q3xnOS+6CSJWPCXpC6 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="445120903"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="445120903"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2023 07:50:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="814244496"
+X-IronPort-AV: E=Sophos;i="6.02,143,1688454000"; d="scan'208";a="814244496"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Sep 2023 07:50:35 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 13 Sep 2023 07:50:34 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 13 Sep 2023 07:50:28 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 13 Sep 2023 07:50:28 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 13 Sep 2023 07:50:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OC2TzblyRle2RKSWAFPiTlpn9/Wi6OHp7t+NkDURXLKetuTCAkXpnISpTE6xCbTY6hXjl7TZLY6aHDW2JVgwRj3OmkKqwpjBAFgsWr8VyaoKWU4QH97Idogc0kohaJVKhOUig2K7+0bVA1OUilINBDb6d0t/HuP/zDfDYDE2GW5062zPo49cYzUSWIKTiE4cD0s1dW7OWX/eELC7oc0E7lShhGxXCjsnmvJbPAPnmqJgxAtwR4JkAzNucxrgJT6wVThdbZJqsl6RmIoXBIEgXdfkPDjX4qBXYXQvWLk0/pXCkgQ/RoKPW9ycWn4lzwj2hwq0wRtNN3XYb81XaKkBWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3VC6ybvG0aGKPs11rgA8bPAUCSGEAHWJkFzGgIko/mo=;
+ b=ejkQTPl6f5zfwZdldAR4Z4MhmanUQJWyYBn9YdPkjxtMF7vooQQiLvAnJdsfDVuDeo+z6RkFtpFjQqWPP60lynn68edwcibAEt3Kk5Jp11s4Ymgth2wYtp5/qyKx4R35oTxcWhwOOKy/TdThfJ1WiJlTnYrYAowmkTllN9IoaUIFhxSE/LLq6Xjrv+CuDcxIS9udeueoJ/szV4XWrW2yYudRYzcNZRewfxcZRk1U3k0fkyupumWkX94YiCjAsQaVNzoTuol0XUuu8QuyTWwBOKoCjmm1W9zOYIHkM2ASjsRUV08TYHbfLXiCBCMwSKOv7onY1YOtFUex4lbpV7HHcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com (2603:10b6:510:1ca::17)
+ by PH7PR11MB7148.namprd11.prod.outlook.com (2603:10b6:510:1ef::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Wed, 13 Sep
+ 2023 14:50:25 +0000
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924]) by PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924%4]) with mapi id 15.20.6768.029; Wed, 13 Sep 2023
+ 14:50:25 +0000
+Date: Wed, 13 Sep 2023 22:50:14 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Arvind Yadav <Arvind.Yadav@amd.com>
+Subject: [linus:master] [dma]  d62c43a953:
+ WARNING:at_mm/slab_common.c:#kmem_cache_destroy
+Message-ID: <202309132239.70437559-oliver.sang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230913121900.11814-1-jose.pekkarinen@foxhound.fi>
+X-ClientProxiedBy: SI1PR02CA0017.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::10) To PH8PR11MB6779.namprd11.prod.outlook.com
+ (2603:10b6:510:1ca::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6779:EE_|PH7PR11MB7148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e713cb5-44eb-40cd-f54c-08dbb468c372
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wGTVPP3N8g8htj/sKWrCweYfPnap1JOXT5DAIiX+kArE0rrQAeDcznc+QCKQxL65eh0zDvdqR0j0JfhAOqH7W6kO9ttPxPjO8bUTsX1dPucPxF5tkVdJkmCBVgin1QVVwUhdwDhwnpVpLf1OqWD9p/hyA3oUxLGY/imY8poNK8QWeyWmM+acs7FUG9YLSIzHzFayOVjaSW/FMR7g8IKUxgUKwxK2cpo2ZcmBOFZfW8pGuHH0V+QuXOnWQ5o2I5JXtFgR9O3XjGmgfm6yCa/MHq1dQHjUx82IZJ58jxO2lqpkjh5gDoG9HsNlkvcb3qy4A4sZ8B99ykE0ax3Qu6mQY9b4gIBp9HD7o4TeKd0i3fmYQkcmjxkcGaajzIfW4CJ/3C0SC80AzGzOoPF62HHtA3mC/df8fRm++pB2hU2zyrVrqAAaPwhScicxEl57pWUyIvDn9te0rpRdIFTKWoXHfKzxaRfBU+gOy+l0jPuSpeN6XxrmbQ/Ny2BZ8DQlLOMpe14ooVs7AKpzrawoUtgXM0KBL31tUY1Ngze+CJrmVnFKLHwaUXNPe7o3XqeVsD1cYtm5UYm9h9I2rMF2Vh9HVBQ+Q8P15Drww6T+Yo94Je/KtHQbfEKxbQvPsetDFvy6Uu8O3JhV2uMOvCQZJduvTQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6779.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(1800799009)(451199024)(186009)(6486002)(6666004)(6506007)(2906002)(36756003)(86362001)(2616005)(82960400001)(107886003)(38100700002)(8936002)(1076003)(45080400002)(26005)(478600001)(6512007)(83380400001)(966005)(41300700001)(8676002)(5660300002)(4326008)(6916009)(66476007)(316002)(66556008)(66946007)(568244002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tDqmCHeMG30l76Uf345cC1AdSQjUGi6fCcQilAoCw/62X4uNwO1Zxnec8uuF?=
+ =?us-ascii?Q?0C4mR3+d+1coKPPFWHcNxOOnWJ4NIBz7IsYoOy5HQho0PIum3srzi6atN9GP?=
+ =?us-ascii?Q?ac3k9Sw2SOkk0usr+cGWs/gF4inHELMRCoB37DMjmNLENgmryO4qBLGOV+bF?=
+ =?us-ascii?Q?vYYHBkzdWMSmOoAT0WyLyx1ZeswQ+eu1Fr59CXzC02dB6cy/m8BEC60TMHcX?=
+ =?us-ascii?Q?NDSXmKkqT+7LyBviBF5W+n3OvWOMml8C9AHl2gkAWGS00HYosCXUH8Op8fEc?=
+ =?us-ascii?Q?6xR8tMZXcJhRrsaSVpNvRbvpJWxFLLB6bLRI1EY0fuvZ+eGsyReFYEezKydJ?=
+ =?us-ascii?Q?90PRWuWznzfcAbnkPenpbwtlptOodGgNJoYMM2oqs9Urv0cph/+iMjDnEVSU?=
+ =?us-ascii?Q?738859I2On9fA3UsaG3PvN4IMugyFab+1NtBm6Y4KPyN3IS4fKL0GjxKe9kH?=
+ =?us-ascii?Q?ZQ5s3NCnQJXg48hkviItKmZ6JClmnua3h5AQvOcJ3nCrNgr1TufLvuDvVOHG?=
+ =?us-ascii?Q?4Y6m68opjbTtsJIPK4HPC8iqi6uTTAOjv7oJ4ZNTVevaRXqu8VYHD8iCLXmt?=
+ =?us-ascii?Q?9s0JBwn8OjyNN9Vv3eF9wHwpfHeroE726M4X7kro+kcktRMURZePGIKeGMlv?=
+ =?us-ascii?Q?FN50CoEJtJS9PZi83Ty7rtbdwp9HbG2OwBOPOK1QKvD89L36DOEGygqykL8t?=
+ =?us-ascii?Q?oLxPWO9Ok57Xhp7jm2ruaKDwquMBEH/pWfgL3Y+9rEa/C17XwsSc9VxUK72H?=
+ =?us-ascii?Q?jjEboLf39qmh+YwHcj4ZzSHznxmhw1G20lAiRnNUmwmLHYfZW61NRj9CU9AB?=
+ =?us-ascii?Q?2laFQHEaw0IS/I4AHm/QOXl+YmBPFItyGWrsTUdHwSIAC1iZ2QRWPDzStHcB?=
+ =?us-ascii?Q?xDmC/rUUGBJsPbxLcOVB6qYmi/xcIfyqtSaL6P93FHAI14wIuMSK8lPezAOt?=
+ =?us-ascii?Q?dEoviGMpe+ytgV6Dm/EuWYKq1bLQWqMq7MYIH2/GevNuJgg9a8VFRPsFAsbh?=
+ =?us-ascii?Q?TwIkyN0vc3Rid3U7/y2j3MOSghhYxdqRzUdfNvqTLK5COTVQMKWMkbQ4tPe9?=
+ =?us-ascii?Q?58f14lKF1cu2Y04jA8PFLOlpTlL94vjr6/MhdXi5+d+uBNZElnNglFZI5ou2?=
+ =?us-ascii?Q?m7lbvSPMNjlkVxPvibF8dVahxK2FMCvVjbovjCChuYKlTMF3BxQhXAPFbSWV?=
+ =?us-ascii?Q?TNz66iu7rontCmC4ucuyoArAwmf2dDj6bnNk6zbHNwdIkuwd8pCj6LUR9JK4?=
+ =?us-ascii?Q?PrRsRh+OWj/C5MvwvhtmDPJVp0bkH2/Wa+/xtwGoZCe1UatNnFIBchafqctd?=
+ =?us-ascii?Q?z9a8y39ow0s9pPRlbQjvLd4FRC3jYEvX2tCI4wPakCa6bdBkUKGALuHX4dTV?=
+ =?us-ascii?Q?shBliIV0w7bCDu6sK9zebuOkCUwk6gOJQaU51Ou5by71cnwVJvwjZvICALCZ?=
+ =?us-ascii?Q?GmpUc6eJAIxI+51A/zLhrD1vBnd0EwbN0qd/zprBH4TvGRNReNVSIUcitsFN?=
+ =?us-ascii?Q?SWC3G7P4QlsDstnZgw8eLDNhjdKOetDa2/48xEvNLWv5tkkHymlEIWufSl1A?=
+ =?us-ascii?Q?uNN3feDb0ZBnyMHj5vy+HDqaceaOiiX6eBaLXHDAOBIHihNWrypYhh+lRbSz?=
+ =?us-ascii?Q?Bg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e713cb5-44eb-40cd-f54c-08dbb468c372
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6779.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2023 14:50:25.3535 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hPjaRNihFoq7iGYu639n80dQfIC+/HIgMBC3d86lQWY62Cl8T6QWAJd07Xelzv0w2eCUfQaWCOuuJRgZXQ/huA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7148
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,350 +146,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, skhan@linuxfoundation.org
+Cc: lkp@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ oliver.sang@intel.com, oe-lkp@lists.linux.dev,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---bqousrfzrswaymep
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+hi, Arvind Yadav,
 
-On Wed, Sep 13, 2023 at 03:19:00PM +0300, Jos=E9 Pekkarinen wrote:
-> Similarly to the drm_exec_test module, the drm_modes_test
-> shows the following output on dmesg on load:
->=20
-> [ 5556.674834] KTAP version 1
-> [ 5556.674841] 1..1
-> [ 5556.675317]     KTAP version 1
-> [ 5556.675321]     # Subtest: drm_modes_analog_tv
-> [ 5556.675323]     # module: drm_modes_test
-> [ 5556.675327]     1..4
-> [ 5556.683731] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [ 5556.683777] BUG: KASAN: slab-use-after-free in drm_dev_put.part.0+0x4b=
-/0x90 [drm]
-> [ 5556.683882] Read of size 8 at addr ffff88812db30428 by task kunit_try_=
-catch/75921
-> [ 5556.683882]
-> [ 5556.683882] CPU: 1 PID: 75921 Comm: kunit_try_catch Tainted: G        =
-W        N 6.6.0-rc1-dirty #2
-> [ 5556.683882] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0=
-=2E0.0 02/06/2015
-> [ 5556.683882] Call Trace:
-> [ 5556.683882]  <TASK>
-> [ 5556.683882]  dump_stack_lvl+0x43/0x60
-> [ 5556.683882]  print_report+0xcf/0x660
-> [ 5556.683882]  ? __virt_addr_valid+0xd9/0x160
-> [ 5556.683882]  ? drm_dev_put.part.0+0x4b/0x90 [drm]
-> [ 5556.683882]  kasan_report+0xda/0x110
-> [ 5556.683882]  ? drm_dev_put.part.0+0x4b/0x90 [drm]
-> [ 5556.683882]  drm_dev_put.part.0+0x4b/0x90 [drm]
-> [ 5556.683882]  release_nodes+0x83/0x160
-> [ 5556.683882]  devres_release_all+0xe6/0x130
-> [ 5556.683882]  ? __pfx_devres_release_all+0x10/0x10
-> [ 5556.683882]  ? mutex_unlock+0x80/0xd0
-> [ 5556.683882]  ? __pfx_mutex_unlock+0x10/0x10
-> [ 5556.683882]  device_unbind_cleanup+0x16/0xc0
-> [ 5556.683882]  device_release_driver_internal+0x28b/0x2e0
-> [ 5556.683882]  bus_remove_device+0x124/0x1d0
-> [ 5556.683882]  device_del+0x23d/0x580
-> [ 5556.683882]  ? __pfx_device_del+0x10/0x10
-> [ 5556.683882]  ? kasan_set_track+0x21/0x30
-> [ 5556.683882]  ? _raw_spin_lock_irqsave+0x98/0xf0
-> [ 5556.683882]  platform_device_del.part.0+0x19/0xe0
-> [ 5556.683882]  kunit_remove_resource+0xfa/0x140 [kunit]
-> [ 5556.683882]  kunit_cleanup+0x47/0xa0 [kunit]
-> [ 5556.683882]  ? __pfx_kunit_try_run_case_cleanup+0x10/0x10 [kunit]
-> [ 5556.683882]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kun=
-it]
-> [ 5556.683882]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [ 5556.683882]  kthread+0x184/0x1c0
-> [ 5556.683882]  ? __pfx_kthread+0x10/0x10
-> [ 5556.683882]  ret_from_fork+0x30/0x50
-> [ 5556.683882]  ? __pfx_kthread+0x10/0x10
-> [ 5556.683882]  ret_from_fork_asm+0x1b/0x30
-> [ 5556.683882]  </TASK>
-> [ 5556.683882]
-> [ 5556.683882] Allocated by task 75920:
-> [ 5556.683882]  kasan_save_stack+0x2f/0x50
-> [ 5556.683882]  kasan_set_track+0x21/0x30
-> [ 5556.683882]  __kasan_kmalloc+0xa6/0xb0
-> [ 5556.683882]  __kmalloc+0x5d/0x160
-> [ 5556.683882]  kunit_kmalloc_array+0x1c/0x50 [kunit]
-> [ 5556.683882]  drm_test_modes_init+0xda/0x260 [drm_modes_test]
-> [ 5556.683882]  kunit_try_run_case+0x6e/0x100 [kunit]
-> [ 5556.683882]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [ 5556.683882]  kthread+0x184/0x1c0
-> [ 5556.683882]  ret_from_fork+0x30/0x50
-> [ 5556.683882]  ret_from_fork_asm+0x1b/0x30
-> [ 5556.683882]
-> [ 5556.683882] Freed by task 75921:
-> [ 5556.683882]  kasan_save_stack+0x2f/0x50
-> [ 5556.683882]  kasan_set_track+0x21/0x30
-> [ 5556.683882]  kasan_save_free_info+0x27/0x40
-> [ 5556.683882]  ____kasan_slab_free+0x166/0x1c0
-> [ 5556.683882]  slab_free_freelist_hook+0x9f/0x1e0
-> [ 5556.683882]  __kmem_cache_free+0x187/0x2d0
-> [ 5556.683882]  kunit_remove_resource+0xfa/0x140 [kunit]
-> [ 5556.683882]  kunit_cleanup+0x47/0xa0 [kunit]
-> [ 5556.683882]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [ 5556.683882]  kthread+0x184/0x1c0
-> [ 5556.683882]  ret_from_fork+0x30/0x50
-> [ 5556.683882]  ret_from_fork_asm+0x1b/0x30
-> [ 5556.683882]
-> [ 5556.683882] The buggy address belongs to the object at ffff88812db30400
-> [ 5556.683882]  which belongs to the cache kmalloc-256 of size 256
-> [ 5556.683882] The buggy address is located 40 bytes inside of
-> [ 5556.683882]  freed 256-byte region [ffff88812db30400, ffff88812db30500)
-> [ 5556.683882]
-> [ 5556.683882] The buggy address belongs to the physical page:
-> [ 5556.683882] page:00000000b3a5f157 refcount:1 mapcount:0 mapping:000000=
-0000000000 index:0x0 pfn:0x12db30
-> [ 5556.683882] head:00000000b3a5f157 order:2 entire_mapcount:0 nr_pages_m=
-apped:0 pincount:0
-> [ 5556.683882] ksm flags: 0x17ffffc0000840(slab|head|node=3D0|zone=3D2|la=
-stcpupid=3D0x1fffff)
-> [ 5556.683882] page_type: 0xffffffff()
-> [ 5556.683882] raw: 0017ffffc0000840 ffff888100042b40 ffffea00053e2000 de=
-ad000000000003
-> [ 5556.683882] raw: 0000000000000000 0000000080200020 00000001ffffffff 00=
-00000000000000
-> [ 5556.683882] page dumped because: kasan: bad access detected
-> [ 5556.683882]
-> [ 5556.683882] Memory state around the buggy address:
-> [ 5556.683882]  ffff88812db30300: fc fc fc fc fc fc fc fc fc fc fc fc fc =
-fc fc fc
-> [ 5556.683882]  ffff88812db30380: fc fc fc fc fc fc fc fc fc fc fc fc fc =
-fc fc fc
-> [ 5556.683882] >ffff88812db30400: fa fb fb fb fb fb fb fb fb fb fb fb fb =
-fb fb fb
-> [ 5556.683882]                                   ^
-> [ 5556.683882]  ffff88812db30480: fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb fb fb
-> [ 5556.683882]  ffff88812db30500: fc fc fc fc fc fc fc fc fc fc fc fc fc =
-fc fc fc
-> [ 5556.683882] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [ 5556.687191] Disabling lock debugging due to kernel taint
-> [ 5556.689341]     not ok 1 drm_test_modes_analog_tv_ntsc_480i
-> [ 5556.700913]     ok 2 drm_test_modes_analog_tv_ntsc_480i_inlined
-> [ 5556.713501]     ok 3 drm_test_modes_analog_tv_pal_576i
-> [ 5556.724240]     ok 4 drm_test_modes_analog_tv_pal_576i_inlined
-> [ 5556.724260] # drm_modes_analog_tv: pass:3 fail:1 skip:0 total:4
-> [ 5556.724270] # Totals: pass:3 fail:1 skip:0 total:4
-> [ 5556.724279] not ok 8 drm_modes_analog_tv
->=20
-> Unlike the drm_exec_test, this time it is required
-> to guarantee that de drm mode is destroyed on the
-> test that is created, otherwise it will trigger the
-> following output:
->=20
-> [  876.491050] KTAP version 1
-> [  876.491057] 1..1
-> [  876.491467]     KTAP version 1
-> [  876.491469]     # Subtest: drm_modes_analog_tv
-> [  876.491473]     # module: drm_modes_test
-> [  876.491477]     1..4
-> [  876.502373] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [  876.502386] BUG: KASAN: slab-use-after-free in drm_dev_put.part.0+0x1b=
-/0x90 [drm]
-> [  876.502531] Write of size 4 at addr ffff8881330b8004 by task kunit_try=
-_catch/13563
-> [  876.502536]
-> [  876.502539] CPU: 6 PID: 13563 Comm: kunit_try_catch Tainted: G        =
-         N 6.6.0-rc1+ #3
-> [  876.502546] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0=
-=2E0.0 02/06/2015
-> [  876.502550] Call Trace:
-> [  876.502554]  <TASK>
-> [  876.502557]  dump_stack_lvl+0x43/0x60
-> [  876.502568]  print_report+0xcf/0x660
-> [  876.502577]  ? __virt_addr_valid+0xd9/0x160
-> [  876.502586]  ? drm_dev_put.part.0+0x1b/0x90 [drm]
-> [  876.502737]  kasan_report+0xda/0x110
-> [  876.502744]  ? drm_dev_put.part.0+0x1b/0x90 [drm]
-> [  876.502831]  kasan_check_range+0xfc/0x1b0
-> [  876.502831]  drm_dev_put.part.0+0x1b/0x90 [drm]
-> [  876.502831]  drm_test_modes_exit+0xa8/0x160 [drm_modes_test]
-> [  876.502831]  ? __pfx_drm_test_modes_exit+0x10/0x10 [drm_modes_test]
-> [  876.502831]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
-> [  876.502831]  ? __pfx_set_cpus_allowed_ptr+0x10/0x10
-> [  876.502831]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kun=
-it]
-> [  876.502831]  kunit_try_run_case_cleanup+0x5f/0x70 [kunit]
-> [  876.502831]  ? __pfx_kunit_try_run_case_cleanup+0x10/0x10 [kunit]
-> [  876.502831]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [  876.502831]  kthread+0x184/0x1c0
-> [  876.502831]  ? __pfx_kthread+0x10/0x10
-> [  876.502831]  ret_from_fork+0x30/0x50
-> [  876.502831]  ? __pfx_kthread+0x10/0x10
-> [  876.502831]  ret_from_fork_asm+0x1b/0x30
-> [  876.502831]  </TASK>
-> [  876.502831]
-> [  876.502831] Allocated by task 13562:
-> [  876.502831]  kasan_save_stack+0x2f/0x50
-> [  876.502831]  kasan_set_track+0x21/0x30
-> [  876.502831]  __kasan_kmalloc+0xa6/0xb0
-> [  876.502831]  __kmalloc+0x5d/0x160
-> [  876.502831]  __devm_drm_dev_alloc+0x21/0xb0 [drm]
-> [  876.502831]  __drm_kunit_helper_alloc_drm_device_with_driver+0x15/0x60=
- [drm_kunit_helpers]
-> [  876.502831]  drm_test_modes_init+0x112/0x260 [drm_modes_test]
-> [  876.502831]  kunit_try_run_case+0x6e/0x100 [kunit]
-> [  876.502831]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [  876.502831]  kthread+0x184/0x1c0
-> [  876.502831]  ret_from_fork+0x30/0x50
-> [  876.502831]  ret_from_fork_asm+0x1b/0x30
-> [  876.502831]
-> [  876.502831] Freed by task 13563:
-> [  876.502831]  kasan_save_stack+0x2f/0x50
-> [  876.502831]  kasan_set_track+0x21/0x30
-> [  876.502831]  kasan_save_free_info+0x27/0x40
-> [  876.502831]  ____kasan_slab_free+0x166/0x1c0
-> [  876.502831]  slab_free_freelist_hook+0x9f/0x1e0
-> [  876.502831]  __kmem_cache_free+0x187/0x2d0
-> [  876.502831]  release_nodes+0x83/0x160
-> [  876.502831]  devres_release_all+0xe6/0x130
-> [  876.502831]  device_unbind_cleanup+0x16/0xc0
-> [  876.502831]  device_release_driver_internal+0x28b/0x2e0
-> [  876.502831]  bus_remove_device+0x124/0x1d0
-> [  876.502831]  device_del+0x23d/0x580
-> [  876.502831]  platform_device_del.part.0+0x19/0xe0
-> [  876.502831]  kunit_release_action+0x1d7/0x230 [kunit]
-> [  876.502831]  drm_kunit_helper_free_device+0x1d/0x50 [drm_kunit_helpers]
-> [  876.502831]  drm_test_modes_exit+0x7f/0x160 [drm_modes_test]
-> [  876.502831]  kunit_try_run_case_cleanup+0x5f/0x70 [kunit]
-> [  876.502831]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
-> [  876.502831]  kthread+0x184/0x1c0
-> [  876.502831]  ret_from_fork+0x30/0x50
-> [  876.502831]  ret_from_fork_asm+0x1b/0x30
-> [  876.502831]
-> [  876.502831] Last potentially related work creation:
-> [  876.502831]  kasan_save_stack+0x2f/0x50
-> [  876.502831]  __kasan_record_aux_stack+0xaf/0xc0
-> [  876.502831]  __call_rcu_common.constprop.0+0x9b/0x990
-> [  876.502831]  netlink_release+0x6d3/0xb70
-> [  876.502831]  __sock_release+0x66/0x120
-> [  876.502831]  sock_close+0x11/0x20
-> [  876.502831]  __fput+0x1db/0x450
-> [  876.502831]  __x64_sys_close+0x51/0x90
-> [  876.502831]  do_syscall_64+0x5b/0xc0
-> [  876.502831]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> [  876.502831]
-> [  876.502831] The buggy address belongs to the object at ffff8881330b8000
-> [  876.502831]  which belongs to the cache kmalloc-2k of size 2048
-> [  876.502831] The buggy address is located 4 bytes inside of
-> [  876.502831]  freed 2048-byte region [ffff8881330b8000, ffff8881330b880=
-0)
-> [  876.502831]
-> [  876.502831] The buggy address belongs to the physical page:
-> [  876.502831] page:000000007d194834 refcount:1 mapcount:0 mapping:000000=
-0000000000 index:0xffff8881330bf000 pfn:0x1330b8
-> [  876.502831] head:000000007d194834 order:3 entire_mapcount:0 nr_pages_m=
-apped:0 pincount:0
-> [  876.502831] flags: 0x17ffffc0000840(slab|head|node=3D0|zone=3D2|lastcp=
-upid=3D0x1fffff)
-> [  876.502831] page_type: 0xffffffff()
-> [  876.502831] raw: 0017ffffc0000840 ffff888100042f00 dead000000000100 de=
-ad000000000122
-> [  876.502831] raw: ffff8881330bf000 0000000080080007 00000001ffffffff 00=
-00000000000000
-> [  876.502831] page dumped because: kasan: bad access detected
-> [  876.502831]
-> [  876.502831] Memory state around the buggy address:
-> [  876.502831]  ffff8881330b7f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 =
-00 00 00
-> [  876.502831]  ffff8881330b7f80: 00 00 00 00 fc fc fc fc fc fc fc fc fc =
-fc fc fc
-> [  876.502831] >ffff8881330b8000: fa fb fb fb fb fb fb fb fb fb fb fb fb =
-fb fb fb
-> [  876.502831]                    ^
-> [  876.502831]  ffff8881330b8080: fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb fb fb
-> [  876.502831]  ffff8881330b8100: fb fb fb fb fb fb fb fb fb fb fb fb fb =
-fb fb fb
-> [  876.502831] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [  876.503733] Disabling lock debugging due to kernel taint
->=20
-> Applying the patch, the output will look like:
->=20
-> [ 1098.895487] KTAP version 1
-> [ 1098.895499] 1..1
-> [ 1098.896132]     KTAP version 1
-> [ 1098.896139]     # Subtest: drm_modes_analog_tv
-> [ 1098.896144]     # module: drm_modes_test
-> [ 1098.896150]     1..4
-> [ 1098.906634]     ok 1 drm_test_modes_analog_tv_ntsc_480i
-> [ 1098.920305]     ok 2 drm_test_modes_analog_tv_ntsc_480i_inlined
-> [ 1098.931438]     ok 3 drm_test_modes_analog_tv_pal_576i
-> [ 1098.941509]     ok 4 drm_test_modes_analog_tv_pal_576i_inlined
-> [ 1098.941533] # drm_modes_analog_tv: pass:4 fail:0 skip:0 total:4
-> [ 1098.941546] # Totals: pass:4 fail:0 skip:0 total:4
-> [ 1098.941556] ok 1 drm_modes_analog_tv
->=20
-> Signed-off-by: Jos=E9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->  drivers/gpu/drm/tests/drm_modes_test.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_modes_test.c b/drivers/gpu/drm/tes=
-ts/drm_modes_test.c
-> index 1e9f63fbfead..059c790810d6 100644
-> --- a/drivers/gpu/drm/tests/drm_modes_test.c
-> +++ b/drivers/gpu/drm/tests/drm_modes_test.c
-> @@ -36,6 +36,19 @@ static int drm_test_modes_init(struct kunit *test)
->  	return 0;
->  }
-> =20
-> +static void drm_test_modes_exit(struct kunit *test)
-> +{
-> +	struct drm_test_modes_priv *priv =3D test->priv;
-> +
-> +	drm_kunit_helper_free_device(test, priv->dev);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
-> +
-> +	drm_dev_put(priv->drm);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
-> +
-> +	kunit_kfree(test, priv);
-> +}
+we know this commit is quite old, but it shows persistent low rate issue and
+parent keeps clean even when we run both this commit and parent up to ~300
+times.
 
-Again, this isn't necessary.
+the config to build both kernel is a randconfig as in
+https://download.01.org/0day-ci/archive/20230913/202309132239.70437559-oliver.sang@intel.com
 
->  static void drm_test_modes_analog_tv_ntsc_480i(struct kunit *test)
->  {
->  	struct drm_test_modes_priv *priv =3D test->priv;
-> @@ -64,6 +77,7 @@ static void drm_test_modes_analog_tv_ntsc_480i(struct k=
-unit *test)
-> =20
->  	KUNIT_EXPECT_EQ(test, mode->vdisplay, 480);
->  	KUNIT_EXPECT_EQ(test, mode->vtotal, 525);
-> +	drm_mode_destroy(priv->drm, mode);
->  }
+c85d00d4fd8b98ea d62c43a953ce02d54521ec06217
+---------------- ---------------------------
+       fail:runs  %reproduction    fail:runs
+           |             |             |
+           :300          6%          17:312   dmesg.BUG_mock_fence(Tainted:G_T):Objects_remaining_in_mock_fence_on__kmem_cache_shutdown()
+           :300         11%          33:312   dmesg.EIP:kmem_cache_destroy
+           :300         11%          33:312   dmesg.WARNING:at_mm/slab_common.c:#kmem_cache_destroy
 
-Any call to drm_analog_tv_mode should have it, not only this test. And
-please make it a DRM managed action.
+at the same time, as in below formal report mentioned, we still observed
+similar issue on latest linus/master and linux-next/master, so we just send
+out this report FYI.
 
-Maxime
---bqousrfzrswaymep
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Hello,
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQHKwAAKCRDj7w1vZxhR
-xTDgAQD0RB2znVIP5yH60WA/StSz6atEs0By8Wd1QovqLf6powEA47Ll/jSvc5DF
-YclhgF4zS+E4hxo6wNrjdahoP5HDkgU=
-=TbjQ
------END PGP SIGNATURE-----
+kernel test robot noticed "WARNING:at_mm/slab_common.c:#kmem_cache_destroy" on:
 
---bqousrfzrswaymep--
+commit: d62c43a953ce02d54521ec06217d0c2ed6d489af ("dma-buf: Enable signaling on fence for selftests")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+[test failed on linus/master 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
+[test failed on linux-next/master 3c13c772fc233a10342c8e1605ff0855dfdf0c89]
+
+in testcase: boot
+
+compiler: gcc-12
+test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202309132239.70437559-oliver.sang@intel.com
+
+
+[   21.601153][    T1] ------------[ cut here ]------------
+[ 21.693224][ T1] kmem_cache_destroy mock_fence: Slab cache still has objects when called from dma_fence_chain (drivers/dma-buf/st-dma-fence-chain.c:709) 
+[ 21.693275][ T1] WARNING: CPU: 0 PID: 1 at mm/slab_common.c:478 kmem_cache_destroy (mm/slab_common.c:478) 
+[   21.697039][    T1] Modules linked in:
+[   21.697859][    T1] CPU: 0 PID: 1 Comm: swapper Tainted: G                T  6.0.0-rc2-00744-gd62c43a953ce #1 26be6099e9dfaf1dc1fa091a1f5a61f95afa9121
+[   21.700290][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[ 21.702175][ T1] EIP: kmem_cache_destroy (mm/slab_common.c:478) 
+[ 21.707576][ T1] Code: 00 ff 4b 2c 0f 85 b2 00 00 00 89 d8 e8 ea 4a 02 00 85 c0 74 1f ff 75 04 ff 73 40 68 6c ff 96 d7 68 7d 44 09 d8 e8 40 c8 da 00 <0f> 0b 83 c4 10 e9 88 00 00 00 8d 73 44 89 f0 e8 8a 8e 2e 00 84 c0
+All code
+========
+   0:	00 ff                	add    %bh,%bh
+   2:	4b 2c 0f             	rex.WXB sub $0xf,%al
+   5:	85 b2 00 00 00 89    	test   %esi,-0x77000000(%rdx)
+   b:	d8 e8                	fsubr  %st(0),%st
+   d:	ea                   	(bad)
+   e:	4a 02 00             	rex.WX add (%rax),%al
+  11:	85 c0                	test   %eax,%eax
+  13:	74 1f                	je     0x34
+  15:	ff 75 04             	push   0x4(%rbp)
+  18:	ff 73 40             	push   0x40(%rbx)
+  1b:	68 6c ff 96 d7       	push   $0xffffffffd796ff6c
+  20:	68 7d 44 09 d8       	push   $0xffffffffd809447d
+  25:	e8 40 c8 da 00       	call   0xdac86a
+  2a:*	0f 0b                	ud2		<-- trapping instruction
+  2c:	83 c4 10             	add    $0x10,%esp
+  2f:	e9 88 00 00 00       	jmp    0xbc
+  34:	8d 73 44             	lea    0x44(%rbx),%esi
+  37:	89 f0                	mov    %esi,%eax
+  39:	e8 8a 8e 2e 00       	call   0x2e8ec8
+  3e:	84 c0                	test   %al,%al
+
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2
+   2:	83 c4 10             	add    $0x10,%esp
+   5:	e9 88 00 00 00       	jmp    0x92
+   a:	8d 73 44             	lea    0x44(%rbx),%esi
+   d:	89 f0                	mov    %esi,%eax
+   f:	e8 8a 8e 2e 00       	call   0x2e8e9e
+  14:	84 c0                	test   %al,%al
+[   21.711048][    T1] EAX: 00000066 EBX: ee62b680 ECX: 00000001 EDX: 80000001
+[   21.712412][    T1] ESI: d87beb98 EDI: ffffffff EBP: c128dee8 ESP: c128decc
+[   21.713723][    T1] DS: 007b ES: 007b FS: 0000 GS: 0000 SS: 0068 EFLAGS: 00010292
+[   21.715192][    T1] CR0: 80050033 CR2: b7d07070 CR3: 189fe000 CR4: 00040690
+[   21.716533][    T1] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[   21.717859][    T1] DR6: fffe0ff0 DR7: 00000400
+[   21.718792][    T1] Call Trace:
+[ 21.719488][ T1] ? dma_fence_chain (drivers/dma-buf/st-dma-fence-chain.c:709) 
+[ 21.720419][ T1] dma_fence_chain (drivers/dma-buf/st-dma-fence-chain.c:709) 
+[ 21.721327][ T1] st_init (drivers/dma-buf/selftest.c:141 drivers/dma-buf/selftest.c:155) 
+[ 21.722117][ T1] ? udmabuf_dev_init (drivers/dma-buf/selftest.c:154) 
+[ 21.723147][ T1] do_one_initcall (init/main.c:1296) 
+[ 21.724108][ T1] do_initcalls (init/main.c:1368 init/main.c:1385) 
+[ 21.725029][ T1] kernel_init_freeable (init/main.c:1615) 
+[ 21.726030][ T1] ? rest_init (init/main.c:1492) 
+[ 21.726907][ T1] kernel_init (init/main.c:1502) 
+[ 21.727732][ T1] ret_from_fork (arch/x86/entry/entry_32.S:770) 
+[   21.728608][    T1] irq event stamp: 1964001
+[ 21.729500][ T1] hardirqs last enabled at (1964011): __up_console_sem (arch/x86/include/asm/irqflags.h:29 (discriminator 1) arch/x86/include/asm/irqflags.h:70 (discriminator 1) arch/x86/include/asm/irqflags.h:130 (discriminator 1) kernel/printk/printk.c:264 (discriminator 1)) 
+[ 21.731230][ T1] hardirqs last disabled at (1964020): __up_console_sem (kernel/printk/printk.c:262 (discriminator 1)) 
+[ 21.735324][ T1] softirqs last enabled at (1963746): __do_softirq (arch/x86/include/asm/preempt.h:27 kernel/softirq.c:415 kernel/softirq.c:600) 
+[ 21.736992][ T1] softirqs last disabled at (1963735): do_softirq_own_stack (arch/x86/kernel/irq_32.c:60 arch/x86/kernel/irq_32.c:150) 
+[   21.738743][    T1] ---[ end trace 0000000000000000 ]---
+[   21.739776][    T1] dma-buf: Running dma_fence_unwrap
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20230913/202309132239.70437559-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
