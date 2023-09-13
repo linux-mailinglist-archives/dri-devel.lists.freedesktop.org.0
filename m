@@ -2,49 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF6979E0EC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF6179E0F4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 09:38:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D681E10E470;
-	Wed, 13 Sep 2023 07:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DA310E473;
+	Wed, 13 Sep 2023 07:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4FE10E470;
- Wed, 13 Sep 2023 07:36:42 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 29A3C6607319;
- Wed, 13 Sep 2023 08:36:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694590600;
- bh=BoaxSmoEMOcQoMOW33cqNIU5YTH3LaR/kBpDcxa9Mtg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MVB4UZdGG1sGVKpv2lA3Ecoc1NWOzsc+C/PO55PphJsf94STiVCVsDY2R3D7RQuHX
- bB1H6jIjjFuswdr7pyL0clLnmEFe+HCxHyGxdbtcBYuGrqCXanA+N7bnCL+1AMcvkH
- LXL1X03aCVuheK5YjaOj9xx1p2NS8aQegZoWzih2qDRGLz47mz5EfZ0sPHq2cBtkAh
- Hj0uPC6QxDFcjug7ldcQR6GDLm91ruCD4xhSTgZyJvp2cZLraWmPrSSC+1LnuArx7Q
- QlJXWR5lg3+vw19v7UzSZLgsrHSSW3UsR3xf6h8rTjg4rwtDi+dNYuKFPTKJ6mdK7c
- RW+DbDu7jt9FA==
-Date: Wed, 13 Sep 2023 09:36:37 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 6/6] drm/drm-file: Show finer-grained BO sizes in
- drm_show_memory_stats
-Message-ID: <20230913093637.2748d217@collabora.com>
-In-Reply-To: <CAF6AEGup93tQMYrmx6iKex2Fxz+Yu5m-MMWPmeOQ4yx_Racnag@mail.gmail.com>
-References: <20230912084044.955864-1-adrian.larumbe@collabora.com>
- <20230912084044.955864-7-adrian.larumbe@collabora.com>
- <20230912113210.65897aab@collabora.com>
- <CAF6AEGtzOS89V1vbobpSEb9KX8x9T0FfmkW2OAaxAKLs+GugKA@mail.gmail.com>
- <CAF6AEGup93tQMYrmx6iKex2Fxz+Yu5m-MMWPmeOQ4yx_Racnag@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9B6C10E473
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 07:37:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id E3D438088;
+ Wed, 13 Sep 2023 07:37:56 +0000 (UTC)
+Date: Wed, 13 Sep 2023 10:37:55 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/omap: dsi: Fix deferred probe warnings
+Message-ID: <20230913073755.GE5285@atomide.com>
+References: <20230412073954.20601-1-tony@atomide.com>
+ <20230412085044.GP11253@pendragon.ideasonboard.com>
+ <2bf56c04-733b-24a5-a344-166a94cd51f7@ideasonboard.com>
+ <20230412085926.GR11253@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412085926.GR11253@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,124 +40,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- sean@poorly.run,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
- freedreno@lists.freedesktop.org, healych@amazon.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- kernel@collabora.com, linux-kernel@vger.kernel.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Sep 2023 19:14:35 -0700
-Rob Clark <robdclark@gmail.com> wrote:
+* Laurent Pinchart <laurent.pinchart@ideasonboard.com> [230412 11:59]:
+> On Wed, Apr 12, 2023 at 11:55:34AM +0300, Tomi Valkeinen wrote:
+> > On 12/04/2023 11:50, Laurent Pinchart wrote:
+> > > Hi Tony,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Wed, Apr 12, 2023 at 10:39:53AM +0300, Tony Lindgren wrote:
+> > >> We may not have dsi->dsidev initialized during probe, and that can
+> > >> lead into various dsi related warnings as omap_dsi_host_detach() gets
+> > >> called with dsi->dsidev set to NULL.
+> > >>
+> > >> The warnings can be "Fixed dependency cycle(s)" followed by a
+> > >> WARNING: CPU: 0 PID: 787 at drivers/gpu/drm/omapdrm/dss/dsi.c:4414.
+> > > 
+> > > How can this happen ? I assume .detach() can't be called without a
+> > > priori successful call to .attach(), that that sets dsi->dsidev.
+> > 
+> > I had a quick look, and the driver calls mipi_dsi_host_register() in 
+> > probe, and mipi_dsi_host_unregister() in remove.
+> > 
+> > mipi_dsi_host_unregister() always calls mipi_dsi_detach(), but I don't 
+> > think mipi_dsi_host_register() always calls attach, which happens later 
+> > when the peripheral probes.
+> 
+> Is this something that should be addressed in the DRM MIPI DSI helpers,
+> to only detach after an attach ?
 
-> On Tue, Sep 12, 2023 at 6:46=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
-rote:
-> >
-> > On Tue, Sep 12, 2023 at 2:32=E2=80=AFAM Boris Brezillon
-> > <boris.brezillon@collabora.com> wrote: =20
-> > >
-> > > On Tue, 12 Sep 2023 09:37:00 +0100
-> > > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-> > > =20
-> > > > The current implementation will try to pick the highest available s=
-ize
-> > > > display unit as soon as the BO size exceeds that of the previous
-> > > > multiplier. That can lead to loss of precision in BO's whose size is
-> > > > not a multiple of a MiB.
-> > > >
-> > > > Fix it by changing the unit selection criteria.
-> > > >
-> > > > For much bigger BO's, their size will naturally be aligned on somet=
-hing
-> > > > bigger than a 4 KiB page, so in practice it is very unlikely their =
-display
-> > > > unit would default to KiB. =20
-> > >
-> > > Let's wait for Rob's opinion on this. =20
-> >
-> > This would mean that if you have SZ_1G + SZ_1K worth of buffers, you'd
-> > report the result in KiB.. which seems like overkill to me, esp given
-> > that the result is just a snapshot in time of a figure that
-> > realistically is dynamic.
+Tomi, any comments on detach after attach?
 
-Yeah, my point was that, generally, such big buffers tend to have
-a bigger size alignment (like 2MB for anything bigger than 1GB), but
-maybe this assumption doesn't stand for all drivers.
+Regards,
 
-> >
-> > Maybe if you have SZ_1G+SZ_1K worth of buffers you should report the
-> > result with more precision than GiB, but more than MiB seems a bit
-> > overkill.
-> >
-> > BR,
-> > -R
-> > =20
-> > > >
-> > > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_file.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> > > > index 762965e3d503..bf7d2fe46bfa 100644
-> > > > --- a/drivers/gpu/drm/drm_file.c
-> > > > +++ b/drivers/gpu/drm/drm_file.c
-> > > > @@ -879,7 +879,7 @@ static void print_size(struct drm_printer *p, c=
-onst char *stat,
-> > > >       unsigned u;
-> > > >
-> > > >       for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> > > > -             if (sz < SZ_1K) =20
->=20
-> btw, I was thinking more along the lines of:
->=20
->    if (sz < 10*SZ_1K)
->=20
-> (or perhaps maybe 100*SZ_1K)
+Tony
 
-I think I suggested doing that at some point:
-
-		if ((sz & (SZ_1K - 1)) &&
-		    sz < UPPER_UNIT_THRESHOLD * SZ_1K)
-			break;
-
-so we can keep using the upper unit if the size is a multiple of this
-upper unit, even if it's smaller than the selected threshold.
-
->=20
-> I mean, any visualization tool is going to scale the y axis based on
-> the order of magnitude.. and if I'm looking at the fdinfo with my
-> eyeballs I don't want to count the # of digits manually to do the
-> conversion in my head.  The difference btwn 4 or 5 or maybe 6 digits
-> is easy enough to eyeball, but more than that is too much for my
-> eyesight, and I'm not seeing how it is useful ;-)
->=20
-> But if someone really has a valid use case for having precision in 1KB
-> then I'm willing to be overruled.
-
-So, precision loss was one aspect, but my main concern was having
-things displayed in KiB when they could have been displayed in MiB,
-because the size is a multiple of a MiB but still not big enough to
-pass the threshold test (which was set to 10000x in the previous
-version).
-
-> But I'm not a fan of the earlier
-> approach of different drivers reporting results differently, the whole
-> point of fdinfo was to have some standardized reporting.
-
-Totally agree with that.
-
->=20
-> BR,
-> -R
->=20
-> > > > +             if (sz & (SZ_1K - 1))
-> > > >                       break;
-> > > >               sz =3D div_u64(sz, SZ_1K);
-> > > >       } =20
-> > > =20
-
+> > >> Let's fix the warnings by checking for a valid dsi->dsidev.
+> > >>
+> > >> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> > >> ---
+> > >>   drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
+> > >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > >> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > >> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > >> @@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
+> > >>   {
+> > >>   	struct dsi_data *dsi = host_to_omap(host);
+> > >>   
+> > >> -	if (WARN_ON(dsi->dsidev != client))
+> > >> +	if (dsi->dsidev && WARN_ON(dsi->dsidev != client))
+> > >>   		return -EINVAL;
+> > >>   
+> > >>   	cancel_delayed_work_sync(&dsi->dsi_disable_work);
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
