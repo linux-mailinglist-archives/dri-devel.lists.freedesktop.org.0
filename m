@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BB879F1FC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 21:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CDD79F1FF
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 21:25:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0438E10E0F4;
-	Wed, 13 Sep 2023 19:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3406F10E495;
+	Wed, 13 Sep 2023 19:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D1010E0F4
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 19:24:32 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3658510E495
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 19:25:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id EBC31B821BD;
- Wed, 13 Sep 2023 19:24:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A43C433C7;
- Wed, 13 Sep 2023 19:24:29 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id A11C2CE213B;
+ Wed, 13 Sep 2023 19:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A4AC433C7;
+ Wed, 13 Sep 2023 19:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694633069;
- bh=uHw72KdB8C0PN95KDhJ3mOlNpcjxQMI8YhFuD2MX/WQ=;
+ s=korg; t=1694633138;
+ bh=SEK9Ki6Cco0qcbXmFq8tWerwmjcmZtj0vEYvuFLQrWg=;
  h=Subject:To:Cc:From:Date:From;
- b=HUxiZInR/FQfekbRKHnVBqmhCXB37bYr6UcCczz7ByySlUJs8ny2OT1fzMBcjimzD
- m5/W6YwFuKMV+dvd098Y0Lwhcv25yUtYyef34PTshJDo2NNzQKV6Tq+XCMD1HHpzxi
- qZvV5C3M19lzBCgGQ2vzEomvE4vMXLhQUzDM1vJo=
+ b=kgMA3CVORQnlRke1G4a0QAWiRy83bqW6vpdJZLmZemWW9X6UN86w0Zgi7ftaKjgxW
+ ms9xAvh8bS4uxVG9ZCNUJs6NzrtgUHnyElz+VUTGadQjTF0tsIPWdRWhrbcdJW/SOr
+ JrjvUFGeiIZeuLtXcoMK22tTLR+8EEwEXIBGLzYA=
 Subject: Patch "drm/ast: Fix DRAM init on AST2200" has been added to the
- 5.15-stable tree
+ 6.1-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jfalempe@redhat.com, suijingfeng@loongson.cn,
  tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Wed, 13 Sep 2023 21:23:11 +0200
-Message-ID: <2023091310-throat-juror-c29c@gregkh>
+Date: Wed, 13 Sep 2023 21:23:33 +0200
+Message-ID: <2023091333-kilt-kindness-21c8@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ast: Fix DRAM init on AST2200
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ast-fix-dram-init-on-ast2200.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -118,8 +118,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/backlight-gpio_backlight-compare-against-struct-fb_info.device.patch
-queue-5.15/fbdev-ep93xx-fb-do-not-assign-to-struct-fb_info.dev.patch
-queue-5.15/backlight-lv5207lp-compare-against-struct-fb_info.device.patch
-queue-5.15/backlight-bd6107-compare-against-struct-fb_info.device.patch
-queue-5.15/drm-ast-fix-dram-init-on-ast2200.patch
+queue-6.1/fbdev-ep93xx-fb-do-not-assign-to-struct-fb_info.dev.patch
+queue-6.1/drm-ast-fix-dram-init-on-ast2200.patch
