@@ -1,70 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B989879EFCF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 19:04:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C29A479F044
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 19:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A28910E0E8;
-	Wed, 13 Sep 2023 17:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706DB10E0C9;
+	Wed, 13 Sep 2023 17:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352B710E4BE
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 17:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694624694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wlBkryVN5rhiL8WAT3ByIZQA9frdvlEqEkS+xlVMCtM=;
- b=HWrYeo2+HhlQPdk4GHFhjPwHi76Wh+zB/bw3tLUnqirm1A5+kLKWkX8zWYlroTSJk5X9mw
- p1Fp933cfLjP+IzDPVjKe/DUTU0xJ154pNt9CqkQV6BAgicTB6QMrTUFsOVO+LJ8PaSTdH
- MwqTFO4Q9fP5Wo8nBaamThTv4oEjmyU=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-22_tVnh6PfWtU5sppsEHSA-1; Wed, 13 Sep 2023 13:04:52 -0400
-X-MC-Unique: 22_tVnh6PfWtU5sppsEHSA-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-59b5d4a8242so627617b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 10:04:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694624692; x=1695229492;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wlBkryVN5rhiL8WAT3ByIZQA9frdvlEqEkS+xlVMCtM=;
- b=ENtmyo9hrTErnm7SRlJcw3VGMibpTm5K+iQ9PU/CkqgZydkcMmkPM8DR4EZILBBlZu
- WV9ox02526Ou0WXT1YFuEthdmKPfFPGBuRP85Q7sJSDSXI5S4TgCi23y+ZHzREpcUOF3
- pb5u8QtkMZXGTcnd396hJTmwaEHF0RhLUrvIYeU9+PJ9AKt0kS1UxrZnI4MBmLuEtKh5
- 0KO5tRPHDnwOeIu6XhFrsxSHCU1pue8mPnXdjwHSmQUudSxBxOeNYOQDxvE9pcOKKoHf
- THWu+fN7ztL3SRhtjXRbCLjzctXZC+I5ZRxAGoBEHH0u6MBqfxhckNTJJScdOASnZhMH
- +fng==
-X-Gm-Message-State: AOJu0Yyyvy2bXrRD3xi7JIVWJ8lyctBoEgsOw9wYOKwrdDKKlr9Pig9i
- zpzUB4t/0BV8czPFD8L7/Hnd13EUAJTe32siTwtgdktIOVPiuW/thZO5xHRT93ogjkMWT8UlQNh
- 7oCD7wPDgssEE345YQEaj4cWx/RML6fJHPrN2dDVyjVIa
-X-Received: by 2002:a81:9216:0:b0:56c:e706:2e04 with SMTP id
- j22-20020a819216000000b0056ce7062e04mr3327022ywg.0.1694624692325; 
- Wed, 13 Sep 2023 10:04:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHfDrGChagCPCvOX8SHQTPvb2eWO5VPBBVjxJJp2+fNqeE+FvInV2CYjAO7+dDzC/Ut+qqa07ULTSeuSXjb6cc=
-X-Received: by 2002:a81:9216:0:b0:56c:e706:2e04 with SMTP id
- j22-20020a819216000000b0056ce7062e04mr3327004ywg.0.1694624692136; Wed, 13 Sep
- 2023 10:04:52 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C332F10E0C9;
+ Wed, 13 Sep 2023 17:18:02 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 918336607334;
+ Wed, 13 Sep 2023 18:18:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694625481;
+ bh=qkQc0xPkJZv4MQDkYeq0TPKFPY0tuZwz54peEXg8Lxg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mQHUyJ8sPtv2kQ3oCun3pRUeCO1BT6ite9Mp5p1x3f6RUWGGTN+L+NIhLEQyjwd7h
+ vIp1ISlItO1EfT60aPYOXLfXDtVuYUg+4dQ/Fl2KZTwuv7tv2lIF8KBttczEUhk2zw
+ 8+RD462sEzN1RN9mKuoZ3BnBf0QYnRYP6XcNpzQbkEJ4cD1/k/JJXIdesj1BTJKRsD
+ y1ysYJNIZ1YfmHHRf/rvec4Q6glIpVft1UN7vTv5dmnSTjHd7fuXmDAfHw3HjFJ5uc
+ F/Tn9HGehmvgLpwVmjUqgVruXFj/wToU9vdP11MRSlyTzs5Fthgu/8HhqlVEl6Lylc
+ Q79mfzKTllSVQ==
+Date: Wed, 13 Sep 2023 19:17:57 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 6/6] drm/drm-file: Show finer-grained BO sizes in
+ drm_show_memory_stats
+Message-ID: <20230913191757.6594f8c8@collabora.com>
+In-Reply-To: <CAF6AEGu+NeMfeP3yVLr76fUmXeWPx86D9ckw_WjXu+Xpn6DJvA@mail.gmail.com>
+References: <20230912084044.955864-1-adrian.larumbe@collabora.com>
+ <20230912084044.955864-7-adrian.larumbe@collabora.com>
+ <20230912113210.65897aab@collabora.com>
+ <CAF6AEGtzOS89V1vbobpSEb9KX8x9T0FfmkW2OAaxAKLs+GugKA@mail.gmail.com>
+ <CAF6AEGup93tQMYrmx6iKex2Fxz+Yu5m-MMWPmeOQ4yx_Racnag@mail.gmail.com>
+ <20230913093637.2748d217@collabora.com>
+ <CAF6AEGu+NeMfeP3yVLr76fUmXeWPx86D9ckw_WjXu+Xpn6DJvA@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230705093025.3689748-1-tvrtko.ursulin@linux.intel.com>
- <20230913080819.xnpM7Ybx@linutronix.de>
-In-Reply-To: <20230913080819.xnpM7Ybx@linutronix.de>
-From: Valentin Schneider <vschneid@redhat.com>
-Date: Wed, 13 Sep 2023 19:04:40 +0200
-Message-ID: <CAD235PRj3PzMwfwL6zaFko__XjQctKyMZAAXEmf_0==n_nCGpQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Do not disable preemption for resets
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,33 +60,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- Chris Wilson <chris.p.wilson@intel.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: tzimmermann@suse.de, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ sean@poorly.run,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
+ freedreno@lists.freedesktop.org, healych@amazon.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
+ kernel@collabora.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Sept 2023 at 18:48, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2023-07-05 10:30:25 [+0100], Tvrtko Ursulin wrote:
-> > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Wed, 13 Sep 2023 09:46:45 -0700
+Rob Clark <robdclark@gmail.com> wrote:
+
+> On Wed, Sep 13, 2023 at 12:36=E2=80=AFAM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
 > >
-> > Commit ade8a0f59844 ("drm/i915: Make all GPU resets atomic") added a
-> > preempt disable section over the hardware reset callback to prepare the
-> > driver for being able to reset from atomic contexts.
-> =E2=80=A6
->
-> This missed the v6.6 merge window. Has this been dropped for some reason
-> or just missed by chance? Can this be still applied, please?
->
+> > On Tue, 12 Sep 2023 19:14:35 -0700
+> > Rob Clark <robdclark@gmail.com> wrote:
+> > =20
+> > > On Tue, Sep 12, 2023 at 6:46=E2=80=AFPM Rob Clark <robdclark@gmail.co=
+m> wrote: =20
+> > > >
+> > > > On Tue, Sep 12, 2023 at 2:32=E2=80=AFAM Boris Brezillon
+> > > > <boris.brezillon@collabora.com> wrote: =20
+> > > > >
+> > > > > On Tue, 12 Sep 2023 09:37:00 +0100
+> > > > > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+> > > > > =20
+> > > > > > The current implementation will try to pick the highest availab=
+le size
+> > > > > > display unit as soon as the BO size exceeds that of the previous
+> > > > > > multiplier. That can lead to loss of precision in BO's whose si=
+ze is
+> > > > > > not a multiple of a MiB.
+> > > > > >
+> > > > > > Fix it by changing the unit selection criteria.
+> > > > > >
+> > > > > > For much bigger BO's, their size will naturally be aligned on s=
+omething
+> > > > > > bigger than a 4 KiB page, so in practice it is very unlikely th=
+eir display
+> > > > > > unit would default to KiB. =20
+> > > > >
+> > > > > Let's wait for Rob's opinion on this. =20
+> > > >
+> > > > This would mean that if you have SZ_1G + SZ_1K worth of buffers, yo=
+u'd
+> > > > report the result in KiB.. which seems like overkill to me, esp giv=
+en
+> > > > that the result is just a snapshot in time of a figure that
+> > > > realistically is dynamic. =20
+> >
+> > Yeah, my point was that, generally, such big buffers tend to have
+> > a bigger size alignment (like 2MB for anything bigger than 1GB), but
+> > maybe this assumption doesn't stand for all drivers. =20
+>=20
+> Maybe for CMA?  Regardless, this # is the sum of buffer sizes, so you
+> could still get that 1G+1K scenario
 
-Just an FYI, but I happened to be looking at an internal bug report
-for exactly this
-error site, so +1 here :)
-
->
-> Sebastian
->
-
+My bad, for some reason I had per-buffer size printing in mind.
