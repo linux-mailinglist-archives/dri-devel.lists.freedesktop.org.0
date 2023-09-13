@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1920F79E2D9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 11:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E85179E2E9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Sep 2023 11:04:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781D210E18A;
-	Wed, 13 Sep 2023 09:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747F410E34F;
+	Wed, 13 Sep 2023 09:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE98310E098;
- Wed, 13 Sep 2023 09:01:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 6AC8FCE20B8;
- Wed, 13 Sep 2023 09:01:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 711E6C433C8;
- Wed, 13 Sep 2023 09:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694595698;
- bh=Feb4J9LX4ImkTbr7yjcTSpSpgAU86GJulnnkLr0gYrw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BkuW1dDbZkdBCmIICjA3dSTunrbBByXY/vrx4Vz13Fmom6MsGlUKezfJxA8r2b1ig
- k9IGGYVYlrcTO3PnipRC60R7oyBxkV91CZ628WHxyB5pxEBvjJbSbppFOKiDbV4M8x
- ZdK2fcI6QrHA7fI5V5dcoZrLXW+p/GTjn8OD+SHn3tnevmqLe/ScFL41e8bqk2EG/E
- T7dN6enkt5awz+v9kR+z6y9JbILGKfmdqnqVy2BUnlwKaMi7V1BffdGFkOKhFFUtgV
- CekUnziijoqLwhcBEi5/AqS3siDsfCgPe3k/NoV6Zn1A/HMl40SwdmLTYJHkGI8R2r
- N8H2mJrx7fADQ==
-Date: Wed, 13 Sep 2023 11:01:35 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] drm/i915/gt: Prevent error pointer dereference
-Message-ID: <20230913090135.yikme2rv2kjmcqag@zenone.zhora.eu>
-References: <455b2279-2e08-4d00-9784-be56d8ee42e3@moroto.mountain>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2BA110E34F
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 09:04:10 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qgLn3-0005KH-BZ; Wed, 13 Sep 2023 11:04:05 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qgLn1-005yTW-MW; Wed, 13 Sep 2023 11:04:03 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qgLn0-001Htc-UT; Wed, 13 Sep 2023 11:04:02 +0200
+Date: Wed, 13 Sep 2023 11:04:00 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20230913090400.ujxm7zv66qe4weuj@pengutronix.de>
+References: <20230913110939.574c7ec2@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="clcng7srrdwctgdk"
 Content-Disposition: inline
-In-Reply-To: <455b2279-2e08-4d00-9784-be56d8ee42e3@moroto.mountain>
+In-Reply-To: <20230913110939.574c7ec2@canb.auug.org.au>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,63 +53,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- kernel-janitors@vger.kernel.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Zhanjun Dong <zhanjun.dong@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Fei Yang <fei.yang@intel.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
 
-On Wed, Sep 13, 2023 at 11:17:41AM +0300, Dan Carpenter wrote:
-> Move the check for "if (IS_ERR(obj))" in front of the call to
-> i915_gem_object_set_cache_coherency() which dereferences "obj".
-> Otherwise it will lead to a crash.
-> 
-> Fixes: 43aa755eae2c ("drm/i915/mtl: Update cache coherency setting for context structure")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/i915/gt/intel_lrc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 957d0aeb0c02..c378cc7c953c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -1094,6 +1094,9 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
->  					  I915_BO_ALLOC_PM_VOLATILE);
->  	if (IS_ERR(obj)) {
->  		obj = i915_gem_object_create_shmem(engine->i915, context_size);
-> +		if (IS_ERR(obj))
-> +			return ERR_CAST(obj);
-> +
+--clcng7srrdwctgdk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-that's correct! When the workaround was added later it wasn't
-checking whether obj had a valid value or not, leading to a
-potential segfault.
+On Wed, Sep 13, 2023 at 11:09:39AM +1000, Stephen Rothwell wrote:
+> Today's linux-next merge of the drm-misc tree got a conflict in:
+>=20
+>   drivers/gpu/drm/mediatek/mtk_dpi.c
+>=20
+> between commits:
+>=20
+>   47d4bb6bbcdb ("drm/mediatek: mtk_dpi: Simplify with devm_drm_bridge_add=
+()")
+>   90c95c3892dd ("drm/mediatek: mtk_dpi: Switch to .remove_new() void call=
+back")
+>=20
+> from Linus' tree and commit:
+>=20
+>   c04ca6bbb7ea ("drm/mediatek: Convert to platform remove callback return=
+ing void")
+>=20
+> from the drm-misc tree.
+>=20
+> I fixed it up (the latter is the same as 90c95c3892dd)
 
-Thanks for fixing it!
+That's not entirely true:
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+uwe@taurus:~/gsrc/linux$ git show --oneline --stat 90c95c3892dd
+90c95c3892dd drm/mediatek: mtk_dpi: Switch to .remove_new() void callback
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+uwe@taurus:~/gsrc/linux$ git show --oneline --stat c04ca6bbb7ea
+c04ca6bbb7ea drm/mediatek: Convert to platform remove callback returning vo=
+id
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c   | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_color.c | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c  | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dp.c         | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c    | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dsi.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c       | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c   | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c   | 5 ++---
+ 14 files changed, 28 insertions(+), 54 deletions(-)
 
-Andi
+But yes, restricted to drivers/gpu/drm/mediatek/mtk_dpi.c the patches do
+the same (but have a different base, so there is some fuzz):
 
->  		/*
->  		 * Wa_22016122933: For Media version 13.0, all Media GT shared
->  		 * memory needs to be mapped as WC on CPU side and UC (PAT
-> @@ -1102,8 +1105,6 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
->  		if (intel_gt_needs_wa_22016122933(engine->gt))
->  			i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
->  	}
-> -	if (IS_ERR(obj))
-> -		return ERR_CAST(obj);
->  
->  	vma = i915_vma_instance(obj, &engine->gt->ggtt->vm, NULL);
->  	if (IS_ERR(vma)) {
+$ diff -u <(git show c04ca6bbb7ea drivers/gpu/drm/mediatek/mtk_dpi.c ) <(gi=
+t show 90c95c3892dd)
+--- /dev/fd/63	2023-09-13 10:22:37.368055450 +0200
++++ /dev/fd/62	2023-09-13 10:22:37.372055516 +0200
+@@ -1,46 +1,36 @@
+-commit c04ca6bbb7ea6ea7cba9ba8d3d4d4c767008d189
+-Author: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+-Date:   Sun May 7 18:25:52 2023 +0200
++commit 90c95c3892dde019182ceac984d4ca1f3c85844b
++Author: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.co=
+m>
++Date:   Wed Jul 26 10:22:43 2023 +0200
+
+[...]
+
+ diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek=
+/mtk_dpi.c
+-index 28bdb1f427ff..0ef722c24150 100644
++index e9c5a0f44537..3a140498c98a 100644
+ --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+ +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+-@@ -1101,14 +1101,12 @@ static int mtk_dpi_probe(struct platform_device *p=
+dev)
++@@ -1087,11 +1087,9 @@ static int mtk_dpi_probe(struct platform_device *pd=
+ev)
+  	return 0;
+  }
+
+ -static int mtk_dpi_remove(struct platform_device *pdev)
+ +static void mtk_dpi_remove(struct platform_device *pdev)
+  {
+- 	struct mtk_dpi *dpi =3D platform_get_drvdata(pdev);
+-
+  	component_del(&pdev->dev, &mtk_dpi_component_ops);
+- 	drm_bridge_remove(&dpi->bridge);
+ -
+ -	return 0;
+  }
+
+  static const struct of_device_id mtk_dpi_of_ids[] =3D {
+-@@ -1139,7 +1137,7 @@ MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
++@@ -1122,7 +1120,7 @@ MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
+
+  struct platform_driver mtk_dpi_driver =3D {
+  	.probe =3D mtk_dpi_probe,
+
+
+e44dd16393896b2545a6d57b2c11381fe7628aa0 looks right.
+
+Best regards and thanks,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--clcng7srrdwctgdk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUBev8ACgkQj4D7WH0S
+/k4qSAf+OV1nuZBGo6mnwuIyxTR3yFNLsReHPsPo/eGwdbSr8OPllw1tww+TVmBm
+rejF5b22dIqLvQri5u1qfc9vNhgU+re7zvsL2xwT6kSnfc21kShAIV7sq/qt9wui
+JDLdvtR6q2SR1C5JxUOeOB/fxEb6W2SD5SZklt4v7Kw0OAHzcAcYJisaUps8dKfS
+Pf2hhnGP6mvgM2N1uxoRo973zzWQk3RinM6vBY0l201ddUpAisyqaSDWlzK/I80J
+fVz3isnr81e8scItpDW9PuOnqjgM5kP9guGK8bAl/k/KMulTTHhVyCnuyjLcSjPU
+egLhqdY/KoxwPtK66jQXxuKAqJj08w==
+=hXQN
+-----END PGP SIGNATURE-----
+
+--clcng7srrdwctgdk--
