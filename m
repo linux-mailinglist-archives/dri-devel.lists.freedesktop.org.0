@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF0279F9DA
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 07:07:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931B779F9E0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 07:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5194310E504;
-	Thu, 14 Sep 2023 05:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1782010E505;
+	Thu, 14 Sep 2023 05:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5025E10E4FD
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002AF10E4FD
  for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 05:07:13 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2bfc68be09bso4967961fa.1
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2bfb1167277so7845051fa.2
  for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 22:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694668031; x=1695272831; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1694668032; x=1695272832; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=plrluv5QV8EPu2mUJr8YqU8PvbWDvsdMpqG8T+T+sN8=;
- b=Ij5xf0hKDn6sUdjTivFlFWfUKeOh6IxqxXa58yWI/KfPI33lrPUHuu0/dBu3B0XKuF
- jIosdUzEthH6hKvqTrxLhnR5LUReEe7Oq8vBT7OGuv07sxVdjeutlPW9XmyaFQC6hfUI
- WF5lQ9DQHk3cIRPovvYf8WJzinL9qbY1Fb7XaWO5fQcvLt589rogxUerBEflPQ9jXv02
- hcydK2VlC3Own7hliGSdQ1v2dhkqgURE0Y6HuJglvH884ILSwdJ3aDkhdzgAA5tY5mAZ
- TQngJJHnOpFMEop/9ysxoSnFKv7q4BalBnHI7BqsQI8bt/U/jsLmoBMpD+0sK4lO46Gt
- 8gqQ==
+ bh=rAJOYbkCwi6igXorCw7AL5xujbFojr8I27YXVJp7tDQ=;
+ b=awQowzm+6zJY2YgiOlnMHRn2p7lst54cwFOnOxf4o6pXyfXYNzm9UJLc79M5EZiMUk
+ rBM7pi8T7DSRpo5ZjjVlDh0MDlrOK+lF8e++xK+HTVwIwxCNOTVi1PwuhW1f3l49yXcT
+ TxQlVug5oIK50Y0XWXTqKYQPtJQryJsnApMeI7m2x1fhDyXssgbm3kGOvanfxA6KrjWQ
+ LK/zGjXaxdg+WXYAJu+3QrlX/kImxUMO/cEt+daFlFmlrxyvHsi1Qw7bhEaetlNKQY07
+ zj8EkMi+yCdIZu3dw3IjMtyK9roR3qB/ndi6dakeIWWnQ4witBq8YqS7eZJPpBPhHsan
+ K50Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694668031; x=1695272831;
+ d=1e100.net; s=20230601; t=1694668032; x=1695272832;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=plrluv5QV8EPu2mUJr8YqU8PvbWDvsdMpqG8T+T+sN8=;
- b=qenyaJrBiboJNMqJS0uzJg+BleWAsx1UM92JMfdRYazGBeSGvUA6ZFpBeGXbJB5q0L
- 4hjUyMfRpj0RD2weFWBVRYXqcD1gjY/iiGSrkcgIF68gndZJS+RAXzv1EzA2YBRTsVRg
- aicZHGg6qE/yR8UpqvfL4K+pkgX9tqJJLlou5rU14B0+tF0Z2bbnqzNusdndDiHIijCG
- bgWtUMMCe6fMjOLv06Ieu7+g+PqoJlLxQpNwPACGIwliTpwq1H04lhdff6DnSMSm/+el
- AeTygFlfgWWNEmv5c6rIUfgbRE3F9GwHVGL8ln+IYALowNCmQRXxOPcTt8YTGrv3+rRA
- v1tw==
-X-Gm-Message-State: AOJu0YyYgC7KmaB1FXv0ByS8aI/whtHrqfvQb4qjn9EZmAYrST6YPnuH
- 3BfWiklz0TIy3Wzswhnd1tYufw==
-X-Google-Smtp-Source: AGHT+IHPmITUAbGJTINrlVxZxGUD11N+A3ABBhpQJSR+Sp6EAE1W7ImEI847Ug7zcvatgNaa8bNgsQ==
-X-Received: by 2002:a2e:a372:0:b0:2bf:af6e:9420 with SMTP id
- i18-20020a2ea372000000b002bfaf6e9420mr193041ljn.19.1694668031454; 
- Wed, 13 Sep 2023 22:07:11 -0700 (PDT)
+ bh=rAJOYbkCwi6igXorCw7AL5xujbFojr8I27YXVJp7tDQ=;
+ b=K43ZTuEl2i/8c+HcR5HtKcQvureDSGMujHSSVlf00Oir83+glpXi2uL1FQOC7tdwHA
+ jZMdiUgIDaqjK7FJ/OI+YvceSpjX/YMZD+EVDu8XI1gjkZCAloHlpe7fijSwQOPsO05l
+ VoD0vJLgbdNFxH9UNxHOsT4lvn5Pk07TFhrg9P2Iq8PwbiV2JH7liz3/3f/hA2BltTKd
+ sq9f5wk3yspXQT+4VFVOiJ2kV7+ba65jAQYSv3L1PsLiodjNF9a81ZO0FL4V0u0meYhH
+ QNFPs39M8ksvBu19YIJhMK9U25Ad/yGrsTJ9jUqUuV9ZG1r68i8vYwaypL8PSFEq0m8x
+ k2Cw==
+X-Gm-Message-State: AOJu0Yzd3+WSRqGVEFVTnuwvOsqri7tUZWity2A9v1JKMXO55iliDSMg
+ IhNIt9yqfwzv41fXQft842+vyA==
+X-Google-Smtp-Source: AGHT+IGz5aVaT6PloYyby22j6mw84AN51ePTCrlaMkUGulLfiTf40LDUKkyueI3vPK/CKNOUy4Lyhw==
+X-Received: by 2002:a2e:948a:0:b0:2b9:b4eb:c39c with SMTP id
+ c10-20020a2e948a000000b002b9b4ebc39cmr3419546ljh.8.1694668032197; 
+ Wed, 13 Sep 2023 22:07:12 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- y15-20020a2e978f000000b002bce38190a3sm124777lji.34.2023.09.13.22.07.10
+ y15-20020a2e978f000000b002bce38190a3sm124777lji.34.2023.09.13.22.07.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Sep 2023 22:07:11 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 05/12] drm/msm/dpu: split dpu_plane_atomic_check()
-Date: Thu, 14 Sep 2023 08:06:59 +0300
-Message-Id: <20230914050706.1058620-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 06/12] drm/msm/dpu: move rot90 checking to
+ dpu_plane_atomic_check_pipe()
+Date: Thu, 14 Sep 2023 08:07:00 +0300
+Message-Id: <20230914050706.1058620-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
 References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
@@ -81,263 +82,201 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split dpu_plane_atomic_check() function into two pieces:
-
-dpu_plane_atomic_check_nopipe() performing generic checks on the pstate,
-without touching the associated pipe,
-
-and
-
-dpu_plane_atomic_check_pipes(), which takes into account used pipes.
+Move a call to dpu_plane_check_inline_rotation() to the
+dpu_plane_atomic_check_pipe() function, so that the rot90 constraints
+are checked for both pipes. Also move rotation field from struct
+dpu_plane_state to struct dpu_sw_pipe_cfg.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 178 ++++++++++++++--------
- 1 file changed, 112 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 55 +++++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  2 -
+ 3 files changed, 31 insertions(+), 28 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index cbf4f95ff0fd..21b0c5a13ba8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -157,10 +157,12 @@ struct dpu_hw_pixel_ext {
+  * @src_rect:  src ROI, caller takes into account the different operations
+  *             such as decimation, flip etc to program this field
+  * @dest_rect: destination ROI.
++ * @rotation: simplified drm rotation hint
+  */
+ struct dpu_sw_pipe_cfg {
+ 	struct drm_rect src_rect;
+ 	struct drm_rect dst_rect;
++	unsigned int rotation;
+ };
+ 
+ /**
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 3a75c474c4cd..4b1fbe9dbb3f 100644
+index 4b1fbe9dbb3f..4cf69f93b44f 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -777,46 +777,20 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
- 	return 0;
- }
+@@ -527,8 +527,7 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_sw_pipe *pipe,
  
--static int dpu_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_atomic_state *state)
-+static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
-+					 struct drm_plane_state *new_plane_state,
-+					 const struct drm_crtc_state *crtc_state)
+ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+ 		const struct dpu_format *fmt, bool color_fill,
+-		struct dpu_sw_pipe_cfg *pipe_cfg,
+-		unsigned int rotation)
++		struct dpu_sw_pipe_cfg *pipe_cfg)
  {
--	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
--										 plane);
--	int ret = 0, min_scale;
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
--	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
--	struct dpu_sw_pipe *pipe = &pstate->pipe;
--	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
--	const struct drm_crtc_state *crtc_state = NULL;
--	const struct dpu_format *fmt;
- 	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
- 	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
- 	struct drm_rect fb_rect = { 0 };
- 	uint32_t max_linewidth;
--	unsigned int rotation;
--	uint32_t supported_rotations;
--	const struct dpu_sspp_cfg *pipe_hw_caps;
--	const struct dpu_sspp_sub_blks *sblk;
-+	int ret = 0;
+ 	struct dpu_hw_sspp *pipe_hw = pipe->sspp;
+ 	const struct drm_format_info *info = drm_format_info(fmt->base.pixel_format);
+@@ -551,7 +550,7 @@ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+ 			dst_height,
+ 			&scaler3_cfg, fmt,
+ 			info->hsub, info->vsub,
+-			rotation);
++			pipe_cfg->rotation);
  
--	if (new_plane_state->crtc)
--		crtc_state = drm_atomic_get_new_crtc_state(state,
--							   new_plane_state->crtc);
--
--	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
--	r_pipe->sspp = NULL;
--
--	if (!pipe->sspp)
--		return -EINVAL;
--
--	pipe_hw_caps = pipe->sspp->cap;
--	sblk = pipe->sspp->cap->sblk;
--
--	min_scale = FRAC_16_16(1, sblk->maxupscale);
--	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
--						  min_scale,
--						  sblk->maxdwnscale << 16,
--						  true, true);
-+	ret = drm_atomic_helper_check_plane_noscale(new_plane_state, crtc_state,
-+						    true, true);
- 	if (ret) {
- 		DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
- 		return ret;
-@@ -824,11 +798,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->visible)
- 		return 0;
+ 	/* configure pixel extension based on scalar config */
+ 	_dpu_plane_setup_pixel_ext(&scaler3_cfg, &pixel_ext,
+@@ -603,7 +602,7 @@ static void _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
+ 	if (pipe->sspp->ops.setup_rects)
+ 		pipe->sspp->ops.setup_rects(pipe, &pipe_cfg);
  
--	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
--	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
--	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
--	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
--
- 	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
- 	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
- 		DPU_ERROR("> %d plane stages assigned\n",
-@@ -847,8 +816,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		return -E2BIG;
- 	}
- 
--	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
--
- 	max_linewidth = pdpu->catalog->caps->max_linewidth;
- 
- 	/* state->src is 16.16, src_rect is not */
-@@ -861,6 +828,77 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 			new_plane_state->rotation);
- 
- 	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-+		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-+			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-+					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-+			return -E2BIG;
-+		}
-+
-+		*r_pipe_cfg = *pipe_cfg;
-+		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
-+		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
-+		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
-+		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
-+	} else {
-+		memset(r_pipe_cfg, 0, sizeof(*r_pipe_cfg));
-+	}
-+
-+	drm_rect_rotate_inv(&pipe_cfg->src_rect,
-+			    new_plane_state->fb->width, new_plane_state->fb->height,
-+			    new_plane_state->rotation);
-+	if (r_pipe_cfg->src_rect.x1 != 0)
-+		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-+				    new_plane_state->fb->width, new_plane_state->fb->height,
-+				    new_plane_state->rotation);
-+
-+	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
-+
-+	return 0;
-+}
-+
-+static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
-+					struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state =
-+		drm_atomic_get_new_plane_state(state, plane);
-+	int ret = 0, min_scale, max_scale;
-+	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-+	struct dpu_sw_pipe *pipe = &pstate->pipe;
-+	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-+	const struct dpu_format *fmt;
-+	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
-+	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-+	uint32_t max_linewidth;
-+	unsigned int rotation;
-+	uint32_t supported_rotations;
-+	const struct dpu_sspp_cfg *pipe_hw_caps;
-+	const struct dpu_sspp_sub_blks *sblk;
-+
-+	pipe_hw_caps = pipe->sspp->cap;
-+	sblk = pipe->sspp->cap->sblk;
-+
-+	min_scale = FRAC_16_16(1, sblk->maxupscale);
-+	max_scale = sblk->maxdwnscale << 16;
-+
-+	ret = drm_atomic_helper_check_plane_scale(new_plane_state, min_scale, max_scale);
-+	if (ret)
-+		return ret;
-+
-+	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-+	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-+	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+
-+	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
-+
-+	max_linewidth = pdpu->catalog->caps->max_linewidth;
-+
-+	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
-+	if (ret)
-+		return ret;
-+
-+	if (r_pipe_cfg->src_rect.x1 != 0) {
- 		/*
- 		 * In parallel multirect case only the half of the usual width
- 		 * is supported for tiled formats. If we are here, we know that
-@@ -873,12 +911,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 			return -E2BIG;
- 		}
- 
--		if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
--			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
--					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
--			return -E2BIG;
--		}
--
- 		if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
- 		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
- 		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
-@@ -900,26 +932,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		r_pipe->multirect_index = DPU_SSPP_RECT_1;
- 		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
- 
--		*r_pipe_cfg = *pipe_cfg;
--		pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
--		pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
--		r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
--		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
--	}
--
--	drm_rect_rotate_inv(&pipe_cfg->src_rect,
--			    new_plane_state->fb->width, new_plane_state->fb->height,
--			    new_plane_state->rotation);
--	if (r_pipe->sspp)
--		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
--				    new_plane_state->fb->width, new_plane_state->fb->height,
--				    new_plane_state->rotation);
--
--	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
--	if (ret)
--		return ret;
--
--	if (r_pipe->sspp) {
- 		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt);
- 		if (ret)
- 			return ret;
-@@ -941,11 +953,45 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	}
- 
- 	pstate->rotation = rotation;
--	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
- 
- 	return 0;
+-	_dpu_plane_setup_scaler(pipe, fmt, true, &pipe_cfg, pstate->rotation);
++	_dpu_plane_setup_scaler(pipe, fmt, true, &pipe_cfg);
  }
  
-+static int dpu_plane_atomic_check(struct drm_plane *plane,
-+				  struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
-+	int ret = 0;
-+	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-+	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-+	struct dpu_sw_pipe *pipe = &pstate->pipe;
-+	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-+	const struct drm_crtc_state *crtc_state = NULL;
-+
-+	if (new_plane_state->crtc)
-+		crtc_state = drm_atomic_get_new_crtc_state(state,
-+							   new_plane_state->crtc);
-+
-+	if (pdpu->pipe != SSPP_NONE) {
-+		pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-+		r_pipe->sspp = NULL;
-+	}
-+
-+	if (!pipe->sspp)
+ /**
+@@ -703,12 +702,17 @@ static void dpu_plane_cleanup_fb(struct drm_plane *plane,
+ }
+ 
+ static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
+-						const struct dpu_sspp_sub_blks *sblk,
+-						struct drm_rect src, const struct dpu_format *fmt)
++					   struct dpu_sw_pipe *pipe,
++					   struct drm_rect src,
++					   const struct dpu_format *fmt)
+ {
++	const struct dpu_sspp_sub_blks *sblk = pipe->sspp->cap->sblk;
+ 	size_t num_formats;
+ 	const u32 *supported_formats;
+ 
++	if (!test_bit(DPU_SSPP_INLINE_ROTATION, &pipe->sspp->cap->features))
 +		return -EINVAL;
 +
-+	ret = dpu_plane_atomic_check_nopipe(plane, new_plane_state, crtc_state);
-+	if (ret)
-+		return ret;
-+
-+	if (!new_plane_state->visible)
-+		return 0;
-+
-+	return dpu_plane_atomic_check_pipes(plane, state);
-+}
-+
- static void dpu_plane_flush_csc(struct dpu_plane *pdpu, struct dpu_sw_pipe *pipe)
+ 	if (!sblk->rotation_cfg) {
+ 		DPU_ERROR("invalid rotation cfg\n");
+ 		return -EINVAL;
+@@ -736,6 +740,7 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 		const struct dpu_format *fmt)
  {
- 	const struct dpu_format *format =
+ 	uint32_t min_src_size;
++	int ret;
+ 
+ 	min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
+ 
+@@ -774,6 +779,12 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 		return -EINVAL;
+ 	}
+ 
++	if (pipe_cfg->rotation & DRM_MODE_ROTATE_90) {
++		ret = dpu_plane_check_inline_rotation(pdpu, pipe, pipe_cfg->src_rect, fmt);
++		if (ret)
++			return ret;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -870,7 +881,6 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+ 	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+ 	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+ 	uint32_t max_linewidth;
+-	unsigned int rotation;
+ 	uint32_t supported_rotations;
+ 	const struct dpu_sspp_cfg *pipe_hw_caps;
+ 	const struct dpu_sspp_sub_blks *sblk;
+@@ -894,6 +904,15 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+ 
+ 	max_linewidth = pdpu->catalog->caps->max_linewidth;
+ 
++	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
++
++	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
++		supported_rotations |= DRM_MODE_ROTATE_90;
++
++	pipe_cfg->rotation = drm_rotation_simplify(new_plane_state->rotation,
++						   supported_rotations);
++	r_pipe_cfg->rotation = pipe_cfg->rotation;
++
+ 	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+ 	if (ret)
+ 		return ret;
+@@ -915,6 +934,7 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+ 		    drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
+ 		    (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
+ 		     !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
++		    pipe_cfg->rotation & DRM_MODE_ROTATE_90 ||
+ 		    DPU_FORMAT_IS_YUV(fmt)) {
+ 			DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
+ 					DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+@@ -937,23 +957,6 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+ 			return ret;
+ 	}
+ 
+-	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
+-
+-	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
+-		supported_rotations |= DRM_MODE_ROTATE_90;
+-
+-	rotation = drm_rotation_simplify(new_plane_state->rotation,
+-					supported_rotations);
+-
+-	if ((pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
+-		(rotation & DRM_MODE_ROTATE_90)) {
+-		ret = dpu_plane_check_inline_rotation(pdpu, sblk, pipe_cfg->src_rect, fmt);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	pstate->rotation = rotation;
+-
+ 	return 0;
+ }
+ 
+@@ -1093,14 +1096,14 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
+ 				pipe_cfg);
+ 	}
+ 
+-	_dpu_plane_setup_scaler(pipe, fmt, false, pipe_cfg, pstate->rotation);
++	_dpu_plane_setup_scaler(pipe, fmt, false, pipe_cfg);
+ 
+ 	if (pipe->sspp->ops.setup_multirect)
+ 		pipe->sspp->ops.setup_multirect(
+ 				pipe);
+ 
+ 	if (pipe->sspp->ops.setup_format) {
+-		unsigned int rotation = pstate->rotation;
++		unsigned int rotation = pipe_cfg->rotation;
+ 
+ 		src_flags = 0x0;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+index abd6b21a049b..a3ae45dc95d0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+@@ -30,7 +30,6 @@
+  * @plane_fetch_bw: calculated BW per plane
+  * @plane_clk: calculated clk per plane
+  * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
+- * @rotation: simplified drm rotation hint
+  */
+ struct dpu_plane_state {
+ 	struct drm_plane_state base;
+@@ -47,7 +46,6 @@ struct dpu_plane_state {
+ 	u64 plane_clk;
+ 
+ 	bool needs_dirtyfb;
+-	unsigned int rotation;
+ };
+ 
+ #define to_dpu_plane_state(x) \
 -- 
 2.39.2
 
