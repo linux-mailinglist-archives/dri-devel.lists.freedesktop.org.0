@@ -1,72 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172297A0FF7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 23:40:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B16567A0FFC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 23:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C31810E58B;
-	Thu, 14 Sep 2023 21:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51AE10E2B7;
+	Thu, 14 Sep 2023 21:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
- [IPv6:2607:f8b0:4864:20::114a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C02410E58E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 21:40:51 +0000 (UTC)
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-5924b2aac52so19472567b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 14:40:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1694727650; x=1695332450;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=yg6NbhhS6bNBw/im5wDGZLYsqmgcXnTvleG//pORS78=;
- b=ViV+2MlHpvEkPYYhXwoACUOitXjJXwvQBcymKFzVQqnMsnZCyzjk8ebYv/EsvhOVsn
- qKZ8ZFEz+1XFoNE15vKWXWKKSNjOD6xhyd3YgyUi9gicDPevP2C6lgwNnBzMFHbUv67l
- kPDznnQZmBH/Mszges7xhFKpDmiqySKDXWbOKX3eITbhrXlCUoYG26CGjFXFE7TuYNpB
- UIEXzyws7VgdnZqf8Y+WNFEMQf5NArgVFfWwwmoa8bJ+6RcUf+OjROm0J9eASKu+Qots
- TkRs6zuCB1JjUoub5uye2JzrBlhN8+P6gDRC5mP8zW/ke5hIDBLSDwOBnZEG2rclHNiE
- 5FrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694727650; x=1695332450;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yg6NbhhS6bNBw/im5wDGZLYsqmgcXnTvleG//pORS78=;
- b=S9joLw/4F3a4bOFN7ZYQPkfjvecjdC93SmIDm6XK2rry0jkByJVOyBdQnR9/EUW+qp
- ZNMsuIrAs/z0zLksjc4OQtLbWDkwBxAFWrjHl3pLZCPzFHK+BYvprjuOpiPkx+0IuADE
- pIp/JuYOAaJUh7xwhxvzWKAyzCZijm8kiZKASkl8jmHlotJB5Xh1ti5hPYfXFpfsjQov
- Ubzv+++3k5hubKlYOnwtayGzHT1OG8uoMk/psrrWropgWwW73kmUO5JlbZuBxtplLk3b
- W7GsnC1LhmElCQRUnUcPgWIbF3ls5yqyR93hc78GdO/nYK77zKtdt9SSUCKOHPxoM9M6
- Bm6w==
-X-Gm-Message-State: AOJu0YyU1eiEqxt192fQvQQxeZFpbcDsCCaptgqLzArGCmSlD67oWAUH
- lPKudjraq3BAABo6MINdUyc5UmCGVXcfzwULJA==
-X-Google-Smtp-Source: AGHT+IHIwo1uxVWE4qpMcXDY+I8QuHt0NGAH38LuWxAvqb8Hw+peynTElFPrZBbvCY+tn1X9WNxQ4+n8wAYBwLiIEw==
-X-Received: from jstitt-linux1.c.googlers.com
- ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a05:690c:d8f:b0:59b:ea96:887f with
- SMTP id da15-20020a05690c0d8f00b0059bea96887fmr125429ywb.0.1694727650404;
- Thu, 14 Sep 2023 14:40:50 -0700 (PDT)
-Date: Thu, 14 Sep 2023 21:40:49 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAOF9A2UC/x2Nyw6CMBAAf4Xs2U1oSwL4K8ZDLQtuTB/Z2ioh/
- LuNt5nLzAGZhCnDtTtAqHLmGJqoSwfuacNGyEtz0L02/awGzG8JLu24CFeSjFsqjT2GWCrZgqG
- +PLoohCuL/9gGDsdZaW0mMz1GDS2dhFb+/re3+3n+AGeHtrSGAAAA
-X-Developer-Key: i=justinstitt@google.com; a=ed25519;
- pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694727649; l=1779;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=veRS+F8fLCXOEB+IwiJ2Jr1EVTbkT3rdWvzzy6w4YBI=;
- b=mxTJZ6DGijn6/IfaObu6+S9iqoBOFL/VXV+IETu4YWEw2MiDJWtx0Af8fFwoaDQuBhONmsZIu
- cVfnCIxjq5WDEKO2xTXXXVEW93KmK0oIwx+SXuNXj091829J4/96aii
-X-Mailer: b4 0.12.3
-Message-ID: <20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-v1-1-3aeae46c032f@google.com>
-Subject: [PATCH] drm/nouveau/core: refactor deprecated strncpy
-From: Justin Stitt <justinstitt@google.com>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, 
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F0D10E2B7;
+ Thu, 14 Sep 2023 21:44:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B570DE5;
+ Thu, 14 Sep 2023 23:42:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1694727750;
+ bh=Ls6Iqpj4d+iGrGYu3xYKdLqh+5iuBjo1ZErfbO+0uUc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vrlss3I858TYlhOLMdeM85lhnvtnyVS7sPPwsOqa+Kb8N/JxxiCff0loPMEIDgw62
+ 1nM6YuwsRts4UkZ0MZkjY9DqerhRGs9JvBtp8J29XNHGIc7EiIjUD3PuM5c33b6E9m
+ R1gnv8htcFXotv/S0J6hCiF2TNumyyDdc7wZeUsw=
+Date: Fri, 15 Sep 2023 00:44:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 0/3] drm: simplify support for transparent DRM bridges
+Message-ID: <20230914214416.GB11890@pendragon.ideasonboard.com>
+References: <20230817145516.5924-1-dmitry.baryshkov@linaro.org>
+ <20230822141735.GA14396@pendragon.ideasonboard.com>
+ <CAA8EJpp_FYOKHziHOWF6E1RTkHEJ8oXXH90EDmJbLG1UDO1ofA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpp_FYOKHziHOWF6E1RTkHEJ8oXXH90EDmJbLG1UDO1ofA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,53 +48,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Justin Stitt <justinstitt@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`strncpy` is deprecated for use on NUL-terminated destination strings [1].
+Hi Dmitry,
 
-We should prefer more robust and less ambiguous string interfaces.
+On Mon, Sep 04, 2023 at 12:02:18AM +0300, Dmitry Baryshkov wrote:
+> On Tue, 22 Aug 2023 at 17:17, Laurent Pinchart wrote:
+> > On Thu, Aug 17, 2023 at 05:55:13PM +0300, Dmitry Baryshkov wrote:
+> > > Supporting DP/USB-C can result in a chain of several transparent
+> > > bridges (PHY, redrivers, mux, etc). This results in drivers having
+> > > similar boilerplate code for such bridges.
+> >
+> > What do you mean by transparent bridge here ? Bridges are a DRM concept,
+> > and as far as I can tell, a PHY isn't a bridge. Why does it need to be
+> > handled as one, especially if it's completely transparent ?
+> >
+> > > Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
+> > > bridge can either be probed from the bridge->attach callback, when it is
+> > > too late to return -EPROBE_DEFER, or from the probe() callback, when the
+> > > next bridge might not yet be available, because it depends on the
+> > > resources provided by the probing device.
+> >
+> > Can't device links help avoiding defer probing in those cases ?
+> 
+> It looks like both Neil and I missed this question.
 
-A suitable replacement is `strscpy` [2] due to the fact that it guarantees
-NUL-termination on the destination buffer without unnecessarily NUL-padding.
+And I missed this reply before replying to Neil and pointing to device
+links again :-)
 
-There is likely no bug in the current implementation due to the safeguard:
-| 	cname[sizeof(cname) - 1] = '\0';
-... however we can provide simpler and easier to understand code using
-the newer (and recommended) `strscpy` api.
+> Two items wrt devlinks. First, I view them as a helper. So if one
+> disables the devlinks enforcement, he'd still get a deferral loop.
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+That may be true, but I don't think that's a compelling argument. If one
+disables components meant to avoid probe deferral, they should expect
+probe deferral :-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-index 91fb494d4009..374212da9e95 100644
---- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-@@ -79,8 +79,7 @@ nvkm_firmware_get(const struct nvkm_subdev *subdev, const char *fwname, int ver,
- 	int i;
- 
- 	/* Convert device name to lowercase */
--	strncpy(cname, device->chip->name, sizeof(cname));
--	cname[sizeof(cname) - 1] = '\0';
-+	strscpy(cname, device->chip->name, sizeof(cname));
- 	i = strlen(cname);
- 	while (i) {
- 		--i;
+> Second, in this case we can not enforce devlinks (or return
+> -EPROBE_DEFER from the probe() function) because the next bridge is
+> not yet available when the main driver probes. Unfortunately bridges
+> are allocated in the opposite order. So, using AUX devices helps us to
+> break it. Because first typec mux/retimer/switch/etc devices probe (in
+> the direction from the typec source to the typec port). Then DRM
+> bridge devices are probed starting from the end of the chain
+> (connector) to the DP source (root DP bridge/controller).
 
----
-base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-change-id: 20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-791223838b72
+I'm not too familiar with the drivers involved in the typec chain. Do
+you mean that the sink driver needs to get hold of the source device at
+probe time, deferring probe if the source is not available ? Does the
+driver handler the USB connector need to do the same ? I'm looking at
+the qcom_pmic_typec driver and I don't immediately see where it would
+defer probing if its source isn't available, but I may well be missing
+something.
 
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
+> > > Last, but not least, this results in the the internal knowledge of DRM
+> > > subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
+> >
+> > Why so ? The PHY subsystem should provide a PHY, without considering
+> > what subsystem it will be used by. This patch series seems to me to
+> > actually create this DRM dependency in other subsystems, which I don't
+> > think is a very good idea. Resources should be registered in their own
+> > subsystem with the appropriate API, not in a way that is tied to a
+> > particular consumer.
+> >
+> > > To solve all these issues, define a separate DRM helper, which creates
+> > > separate aux device just for the bridge. During probe such aux device
+> > > doesn't result in the EPROBE_DEFER loops. Instead it allows the device
+> > > drivers to probe properly, according to the actual resource
+> > > dependencies. The bridge auxdevs are then probed when the next bridge
+> > > becomes available, sparing drivers from drm_bridge_attach() returning
+> > > -EPROBE_DEFER.
+> >
+> > I'm not thrilled :-( Let's discuss the questions above first.
+> 
+> Laurent, please excuse me for the ping. Any further response from your side?
+> I'd like to send the next iteration of this patchset.
+> 
+> > > Proposed merge strategy: immutable branch with the drm commit, which is
+> > > then merged into PHY and USB subsystems together with the corresponding
+> > > patch.
 
+-- 
+Regards,
+
+Laurent Pinchart
