@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5757A0FE0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 23:30:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 172297A0FF7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 23:40:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1830910E58D;
-	Thu, 14 Sep 2023 21:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C31810E58B;
+	Thu, 14 Sep 2023 21:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
  [IPv6:2607:f8b0:4864:20::114a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D98710E58B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 21:30:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C02410E58E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 21:40:51 +0000 (UTC)
 Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-58d9e327d3aso18773817b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 14:30:39 -0700 (PDT)
+ 00721157ae682-5924b2aac52so19472567b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 14:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1694727039; x=1695331839;
+ d=google.com; s=20230601; t=1694727650; x=1695332450;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
  :date:message-id:reply-to;
- bh=tHD/q/SJLFYWSfqzhKThHqH+If9tHeimdGSeLbCxs0o=;
- b=fx8mvjfTB46z3jybINWn4SufMmEgQk627PfVB9d08qh6BN2wydXlK3NH2coaJwixIQ
- tDSr2uZwCRmBXYAFB6c8dfObMe288gfdN6rWsI4Y7ladMHkLDDcy2q/V+XjijPSWfIbG
- izFqpxIKgZjMOfM+h33cGZrpEUl4Nt/PFUw4VaebX+FImssNM7UR2tR4O6t0BjCyJKgr
- zLDAluUPc7FgjGyqCaeO7GxyQBIrEJhS4qinrlbf2/zJR2KKq1S850Ea6zPXzHb2Y19i
- O2cEvWsaWnKIJV1DDUNHKC90UIP6AIQvPwRFUkyLakk1zr//DXyQdOMa0TIgracltmIW
- 8iOA==
+ bh=yg6NbhhS6bNBw/im5wDGZLYsqmgcXnTvleG//pORS78=;
+ b=ViV+2MlHpvEkPYYhXwoACUOitXjJXwvQBcymKFzVQqnMsnZCyzjk8ebYv/EsvhOVsn
+ qKZ8ZFEz+1XFoNE15vKWXWKKSNjOD6xhyd3YgyUi9gicDPevP2C6lgwNnBzMFHbUv67l
+ kPDznnQZmBH/Mszges7xhFKpDmiqySKDXWbOKX3eITbhrXlCUoYG26CGjFXFE7TuYNpB
+ UIEXzyws7VgdnZqf8Y+WNFEMQf5NArgVFfWwwmoa8bJ+6RcUf+OjROm0J9eASKu+Qots
+ TkRs6zuCB1JjUoub5uye2JzrBlhN8+P6gDRC5mP8zW/ke5hIDBLSDwOBnZEG2rclHNiE
+ 5FrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694727039; x=1695331839;
+ d=1e100.net; s=20230601; t=1694727650; x=1695332450;
  h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=tHD/q/SJLFYWSfqzhKThHqH+If9tHeimdGSeLbCxs0o=;
- b=acyaHGsV9s6abI5N8NsAO0EcmgVTtNdo+OEoMHtSy/88H3i/7TlIsLh2ugZkeyt0k/
- 6H/vCjx9nGXYBQT1zJSdX7Qw35UmsvdalqYE8Hj0AX4NZis2kUA7udZsNLO5PuvJjV4N
- B61Tf8zq4mFTiKphA7hDPdZ6Numku2VGL4Vswag8h2sfH0XCkNlq/mS1um7jbNw9XxKt
- hc8myJvmOFPwoLKek4Qsjk1nji0oOR/TL7so27qWIV9ciHXGzhfuVHUehbBiX6CuLYqc
- rrRS/MMjvdutnUQZRRsT6UCQCIzvIJzYJn9jD4m4F//t/NDbs+mY1+ApIXcX9Z0Ojy5G
- CVng==
-X-Gm-Message-State: AOJu0YwJlusq64+N7+E+p4/KpS2scj3+wYfdUajXZ077du6vUunfv4xC
- +Nk74qK224NfwwzMvdXCsuY8iQIfRbzxfdHMnA==
-X-Google-Smtp-Source: AGHT+IGX8yvrtUoKVn7mJlx7ANqKychzQ3OooCdQznWtzGJrkQcp6QG1fyYuUP8f+T6DjKoeAxURtoAR54eD/SD2gQ==
+ bh=yg6NbhhS6bNBw/im5wDGZLYsqmgcXnTvleG//pORS78=;
+ b=S9joLw/4F3a4bOFN7ZYQPkfjvecjdC93SmIDm6XK2rry0jkByJVOyBdQnR9/EUW+qp
+ ZNMsuIrAs/z0zLksjc4OQtLbWDkwBxAFWrjHl3pLZCPzFHK+BYvprjuOpiPkx+0IuADE
+ pIp/JuYOAaJUh7xwhxvzWKAyzCZijm8kiZKASkl8jmHlotJB5Xh1ti5hPYfXFpfsjQov
+ Ubzv+++3k5hubKlYOnwtayGzHT1OG8uoMk/psrrWropgWwW73kmUO5JlbZuBxtplLk3b
+ W7GsnC1LhmElCQRUnUcPgWIbF3ls5yqyR93hc78GdO/nYK77zKtdt9SSUCKOHPxoM9M6
+ Bm6w==
+X-Gm-Message-State: AOJu0YyU1eiEqxt192fQvQQxeZFpbcDsCCaptgqLzArGCmSlD67oWAUH
+ lPKudjraq3BAABo6MINdUyc5UmCGVXcfzwULJA==
+X-Google-Smtp-Source: AGHT+IHIwo1uxVWE4qpMcXDY+I8QuHt0NGAH38LuWxAvqb8Hw+peynTElFPrZBbvCY+tn1X9WNxQ4+n8wAYBwLiIEw==
 X-Received: from jstitt-linux1.c.googlers.com
  ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a81:450c:0:b0:586:a8ab:f8fe with SMTP
- id s12-20020a81450c000000b00586a8abf8femr176035ywa.10.1694727038901; Thu, 14
- Sep 2023 14:30:38 -0700 (PDT)
-Date: Thu, 14 Sep 2023 21:30:37 +0000
+ (user=justinstitt job=sendgmr) by 2002:a05:690c:d8f:b0:59b:ea96:887f with
+ SMTP id da15-20020a05690c0d8f00b0059bea96887fmr125429ywb.0.1694727650404;
+ Thu, 14 Sep 2023 14:40:50 -0700 (PDT)
+Date: Thu, 14 Sep 2023 21:40:49 +0000
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAHx7A2UC/x2NQQ6CQAxFr0K6tgnMqBGvYlxgKdhEy6RlJhrC3
- Z24e2/x/t/A2YQdrs0GxkVcFq3SHRqg56Azo4zVIbQhtn13RF9NKX1xNClsjnPKld+oSy48ZNQ
- iE9JLWFckvIRHDSme+1OEupmMJ/n8/273ff8B4I28qX8AAAA=
+X-B4-Tracking: v=1; b=H4sIAOF9A2UC/x2Nyw6CMBAAf4Xs2U1oSwL4K8ZDLQtuTB/Z2ioh/
+ LuNt5nLzAGZhCnDtTtAqHLmGJqoSwfuacNGyEtz0L02/awGzG8JLu24CFeSjFsqjT2GWCrZgqG
+ +PLoohCuL/9gGDsdZaW0mMz1GDS2dhFb+/re3+3n+AGeHtrSGAAAA
 X-Developer-Key: i=justinstitt@google.com; a=ed25519;
  pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694727038; l=1659;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694727649; l=1779;
  i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=Q5CFsZyxCfw6hgNgrBpo5UsVYRuZcWL5zSBOa/5AHCg=;
- b=J+RLdusJNzQ1fs2a8n+U6McsahNsvZ0DMJXnqsKtVDvGrjExGw+WOkTee3/eBqCw8pmFfoQkt
- 3+dBjHWINIqCOHsLbFQ4KpmqaC+OrdCs40Utc/nsxWtXyWMQ05+y3O9
+ bh=veRS+F8fLCXOEB+IwiJ2Jr1EVTbkT3rdWvzzy6w4YBI=;
+ b=mxTJZ6DGijn6/IfaObu6+S9iqoBOFL/VXV+IETu4YWEw2MiDJWtx0Af8fFwoaDQuBhONmsZIu
+ cVfnCIxjq5WDEKO2xTXXXVEW93KmK0oIwx+SXuNXj091829J4/96aii
 X-Mailer: b4 0.12.3
-Message-ID: <20230914-strncpy-drivers-gpu-drm-nouveau-nvif-client-c-v1-1-dc3b3719fcb4@google.com>
-Subject: [PATCH] drm/nouveau/nvif: refactor deprecated strncpy
+Message-ID: <20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-v1-1-3aeae46c032f@google.com>
+Subject: [PATCH] drm/nouveau/core: refactor deprecated strncpy
 From: Justin Stitt <justinstitt@google.com>
 To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, 
  Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
@@ -85,43 +85,45 @@ Cc: nouveau@lists.freedesktop.org, Justin Stitt <justinstitt@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`strncpy` is deprecated and as such we should prefer more robust and
-less ambiguous string interfaces.
+`strncpy` is deprecated for use on NUL-terminated destination strings [1].
 
-A suitable replacement is `strscpy_pad` due to the fact that it
-guarantees NUL-termination on the destination buffer whilst also
-maintaining the NUL-padding behavior that `strncpy` provides. I am not
-sure whether NUL-padding is strictly needed but I see in
-`nvif_object_ctor()` args is memcpy'd elsewhere so I figured we'd keep
-the same functionality.
+We should prefer more robust and less ambiguous string interfaces.
+
+A suitable replacement is `strscpy` [2] due to the fact that it guarantees
+NUL-termination on the destination buffer without unnecessarily NUL-padding.
+
+There is likely no bug in the current implementation due to the safeguard:
+| 	cname[sizeof(cname) - 1] = '\0';
+... however we can provide simpler and easier to understand code using
+the newer (and recommended) `strscpy` api.
 
 Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
 Link: https://github.com/KSPP/linux/issues/90
 Cc: linux-hardening@vger.kernel.org
 Signed-off-by: Justin Stitt <justinstitt@google.com>
 ---
-Note: build-tested only.
----
- drivers/gpu/drm/nouveau/nvif/client.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvif/client.c b/drivers/gpu/drm/nouveau/nvif/client.c
-index a3264a0e933a..3a27245f467f 100644
---- a/drivers/gpu/drm/nouveau/nvif/client.c
-+++ b/drivers/gpu/drm/nouveau/nvif/client.c
-@@ -69,7 +69,7 @@ nvif_client_ctor(struct nvif_client *parent, const char *name, u64 device,
- 	} nop = {};
- 	int ret;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+index 91fb494d4009..374212da9e95 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+@@ -79,8 +79,7 @@ nvkm_firmware_get(const struct nvkm_subdev *subdev, const char *fwname, int ver,
+ 	int i;
  
--	strncpy(args.name, name, sizeof(args.name));
-+	strscpy_pad(args.name, name, sizeof(args.name));
- 	ret = nvif_object_ctor(parent != client ? &parent->object : NULL,
- 			       name ? name : "nvifClient", 0,
- 			       NVIF_CLASS_CLIENT, &args, sizeof(args),
+ 	/* Convert device name to lowercase */
+-	strncpy(cname, device->chip->name, sizeof(cname));
+-	cname[sizeof(cname) - 1] = '\0';
++	strscpy(cname, device->chip->name, sizeof(cname));
+ 	i = strlen(cname);
+ 	while (i) {
+ 		--i;
 
 ---
 base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-change-id: 20230914-strncpy-drivers-gpu-drm-nouveau-nvif-client-c-82b023c36953
+change-id: 20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-791223838b72
 
 Best regards,
 --
