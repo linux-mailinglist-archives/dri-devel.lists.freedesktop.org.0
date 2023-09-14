@@ -1,50 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9417A056D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:20:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FCF7A057B
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:24:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE9C10E270;
-	Thu, 14 Sep 2023 13:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A89510E09A;
+	Thu, 14 Sep 2023 13:24:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0607A10E275
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:20:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694697600; x=1726233600;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ihyT6FgKas55qGA/LG6gHTbvZOGbWFoKByYLZaxZ9gk=;
- b=Uhxqvz3OVRs2ppefgH2aa9PO5BkLnHW40lOiEjIC0udllSuBxai+w/EU
- iPoB+0jGCJ1gYS8OL/PW5gVbFqYcJEhkwPETfmXoGxHX8Md0nyovJIDmq
- yTB31DEe9uRSRGkatQdyCPtnNIdF4cFtMwqOWv9T0DTRWXWrFREoBCHYB
- oLJ+KO677b3WWdCOOWRWZd3fkJMcvWqhFIwcbis3Cs3jRkJNbigCxbNxl
- oxHgNWBQuNMtrN2lB6L64v8OIuv6SAOQfNZPGx988OTkwIRoDRBjUiAYh
- YokGZNYP5lMWFVQ3BO5XcXtQMLp4hM0uHJUf6HY8Wb/PEtzEXqeuHffz7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378867720"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="378867720"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 06:20:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744528130"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="744528130"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 06:19:57 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: add drm_bridge_connector.[ch] files under bridge
- chips
-Date: Thu, 14 Sep 2023 16:19:51 +0300
-Message-Id: <20230914131951.2473844-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64CB410E09A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:23:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694697838;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uFwzQssh5fc2VAqJw0Fiz1bE1/NvSD7FuRwvnyf3cNo=;
+ b=dzFCr32ImeTaMCEstZVo2DqiatwtOUsCEln/y8pp5uHKmTK1U66MwQujN3+Ae7Cj53ySzK
+ KIt/+BwIu5TqigaPxKIQq8cH2y9W4cRHWEh7H32kuZhPdW5WSsoK96JaKmcmumqYe94yAm
+ IKpVOtMdA7SbFRPM85nok7dde/IoZGQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-397-bwyoRCnYPgy9xLtK8ERKsw-1; Thu, 14 Sep 2023 09:23:56 -0400
+X-MC-Unique: bwyoRCnYPgy9xLtK8ERKsw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-31c5c762f97so667090f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 06:23:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694697834; x=1695302634;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uFwzQssh5fc2VAqJw0Fiz1bE1/NvSD7FuRwvnyf3cNo=;
+ b=BFbNqYI+4itsLeTTPNL+bOT3FfZK8NT4nTlfYaO7Noyt2m8bN/DCo94s48ZVlriwbg
+ v2RQwwWHoeZvrgvF5Kbs5sF89cSyc4KnoxuLvWJDf5QJVCog60qDTm9cBSm2CIgWMAr0
+ Jn860f0U1nW3pSEb/9pa73wOUQLM+6YoTyDtfSAMwoEzbSjmeKj8NHC5Cgjeqo06N2ww
+ c4D9wm25Gi5pFbJjgxTWDd3FVIK8S9ylPP3qZ7d/KNsGREHs241QccEgBDp9q1D7vzJe
+ cmT2fwXvkJ77/0rC5KIow5A9Di3qI0IDUYvO8rOgDODllAAB7sS7KsDWLp0E5HmTPN11
+ gaDw==
+X-Gm-Message-State: AOJu0YyvaRZuzyoxrMqYn1Bq3sWHlTG15lWhU8xAxxipumGuS24J7wAk
+ 7aAhSNfiFgocywqQ5G+GzfCL9gx7FPYFciThLlql0R8tLQKTvLpZ0niz6epZItCUoPqvbtdD9vo
+ 1M8A0uIfEldiZYDi3xtDsxex0pLcTWK8gsV6x
+X-Received: by 2002:adf:a45c:0:b0:31f:d52a:82b4 with SMTP id
+ e28-20020adfa45c000000b0031fd52a82b4mr1962682wra.57.1694697834744; 
+ Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEV6PIj0s5P5W7Ebly6ktcl1cL+Olu/RKBWGxM4016ZL3sE37WLvQXfMuCZC/k6rZ1Jgt5cMw==
+X-Received: by 2002:adf:a45c:0:b0:31f:d52a:82b4 with SMTP id
+ e28-20020adfa45c000000b0031fd52a82b4mr1962661wra.57.1694697834368; 
+ Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w16-20020adfec50000000b0031ad5470f89sm1755283wrn.18.2023.09.14.06.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v4] drm/ssd130x: Store the HW buffer in the
+ driver-private CRTC state
+In-Reply-To: <4norb2kxq4uxs3imi3qjxhyxpvnyf5cpl4sg7yyf3ydrykqhfl@cb3w4wstak7r>
+References: <20230913052938.1114651-1-javierm@redhat.com>
+ <4norb2kxq4uxs3imi3qjxhyxpvnyf5cpl4sg7yyf3ydrykqhfl@cb3w4wstak7r>
+Date: Thu, 14 Sep 2023 15:23:53 +0200
+Message-ID: <871qf028ie.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,35 +81,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clearly this should be under bridge chips.
+Maxime Ripard <mripard@kernel.org> writes:
 
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Hello Maxime,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 354ac7ef553d..c331f2ea89d7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6909,7 +6909,9 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/bridge/
- F:	drivers/gpu/drm/bridge/
- F:	drivers/gpu/drm/drm_bridge.c
-+F:	drivers/gpu/drm/drm_bridge_connector.c
- F:	include/drm/drm_bridge.h
-+F:	include/drm/drm_bridge_connector.h
- 
- DRM DRIVERS FOR EXYNOS
- M:	Inki Dae <inki.dae@samsung.com>
+> Hi,
+>
+> On Wed, Sep 13, 2023 at 07:29:25AM +0200, Javier Martinez Canillas wrote:
+>>  static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
+>>  	.mode_valid = ssd130x_crtc_helper_mode_valid,
+>> -	.atomic_check = drm_crtc_helper_atomic_check,
+>> +	.atomic_check = ssd130x_crtc_helper_atomic_check,
+>>  };
+>
+> Sorry I didn't catch that sooner, but there's no reason to call that
+> function a helper.
+>
+
+Yeah, agreed that there's no reason but others drivers already add the
+_helper prefix for struct drm_*_helper_funcs callbacks, and I did that
+in this driver as well to follow (what appears to be?) a convention.
+
+So I've to that now for the struct drm_crtc_helper_funcs handlers to be
+consistent with the rest of the driver, e.g for plane:
+
+static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
+	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
+	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
+};
+
+static const struct drm_plane_funcs ssd130x_primary_plane_funcs = {
+	.update_plane = drm_atomic_helper_update_plane,
+	.disable_plane = drm_atomic_helper_disable_plane,
+	.reset = ssd130x_primary_plane_reset,
+	.atomic_duplicate_state = ssd130x_primary_plane_duplicate_state,
+	.atomic_destroy_state = ssd130x_primary_plane_destroy_state,
+	.destroy = drm_plane_cleanup,
+};
+
+> With that fixed (and feel free to fix while applying)
+>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+>
+> Maxime
+
 -- 
-2.39.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
