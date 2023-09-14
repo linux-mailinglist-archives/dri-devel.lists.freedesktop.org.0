@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB50979FF1C
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 10:55:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEF579FF1F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 10:55:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D4610E557;
-	Thu, 14 Sep 2023 08:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65ECC10E558;
+	Thu, 14 Sep 2023 08:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A908F10E557
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 08:55:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B76410E558
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 08:55:08 +0000 (UTC)
 Received: from localhost.localdomain (unknown [171.76.82.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0794C6607345;
- Thu, 14 Sep 2023 09:54:59 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0576B6607341;
+ Thu, 14 Sep 2023 09:55:03 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694681703;
- bh=iqkGflrVKzvWChpnMmvFIz/t+1AkvVH+SXZ6L/+eCjQ=;
+ s=mail; t=1694681707;
+ bh=zENsozfUsG28BDpE/lFC/hQUZaZONyzVCg0HBSjy2Ek=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jY1+P4V0bcOVSVMY2zdd6hIC/JY0RWkFyKupN3Kmg06mi6TQd8YPticLyuThDUg6X
- 11NhrKUZ4Delmpc8iUs2TvYpLG5ISq52ynNcG4I1q6mjNpoJxbvuTNxXuBZHYEwvZO
- YqQ1GnaSZZUqWgysGKBUeD3eF+qI8o7x+41yFvYEW6MXg1GCXhMLIpejwr2bPdaSiI
- efvZKsnwEhd43z/7XXDk6QWHppEdjOoKRa9GrFR8YbYWm1ccLAlmW49H+zF+KPNQOp
- LcnO7RTZGNmbbqBJWE9N0opS+04br4ivqI9/ujrk0qrfR5LAp0qp9WpmcIjqV7ZKrX
- LRBnuy9CGZJmA==
+ b=L2U/iAERmuKstZOpmzII6rshziJBI0086ArkXzKd42+PuLdps71ACh5Drio12ZmDD
+ eCo4zNmBGn59IvVUZnMiyta46KTJ0CeKTI3Ezntcx4zxC1GgGwT/+qOWZcE1Dz+5MN
+ EqjjPVGAaIqnS1chnAjmvjCOZTfmEHzROmb2V7bmXm+0RDadzQqfL/qD6HHfG0/wss
+ PF6ZM205gB8+KcVEy05EtON7TL6TsAUQ56kVSzZCQN5lSPMmAv+nk72S57lDoEgHei
+ e1/F1rF7Gp4UoRD/Fn8FnkC490T6av3zPrfdlzJsSo9IA47S7Mug5cSyJR5QMbqRJk
+ Th0tXImRyKjDw==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: helen.koike@collabora.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH v4 6/7] drm: ci: Enable new jobs
-Date: Thu, 14 Sep 2023 14:24:25 +0530
-Message-Id: <20230914085426.883255-7-vignesh.raman@collabora.com>
+Subject: [PATCH v4 7/7] drm: ci: Use scripts/config to enable/disable configs
+Date: Thu, 14 Sep 2023 14:24:26 +0530
+Message-Id: <20230914085426.883255-8-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230914085426.883255-1-vignesh.raman@collabora.com>
 References: <20230914085426.883255-1-vignesh.raman@collabora.com>
@@ -62,25 +62,17 @@ Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the following jobs, as the issues noted in the
-TODO comments have been resolved. This will ensure that these jobs
-are now included and executed as part of the CI/CD pipeline.
+Instead of modifying files in git to enable/disable
+configs, use scripts/config on the .config file which
+will be used for building the kernel.
 
-msm:apq8016:
-TODO: current issue: it is not fiding the NFS root. Fix and remove this rule.
-
-mediatek:mt8173:
-TODO: current issue: device is hanging. Fix and remove this rule.
-
-virtio_gpu:none:
-TODO: current issue: malloc(): corrupted top size. Fix and remove this rule.
-
+Suggested-by: Jani Nikula <jani.nikula@intel.com>
 Acked-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
 
 v2:
-  - Reworded the commit message
+  - Added a new patch in the series to use scripts/config to enable/disable configs
 
 v3:
   - No changes
@@ -89,41 +81,40 @@ v4:
   - No changes
 
 ---
- drivers/gpu/drm/ci/test.yml | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/gpu/drm/ci/build.sh | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index e8503a533be0..ef694f619c3f 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -108,9 +108,6 @@ msm:apq8016:
-     RUNNER_TAG: google-freedreno-db410c
-   script:
-     - ./install/bare-metal/fastboot.sh
--  rules:
--    # TODO: current issue: it is not fiding the NFS root. Fix and remove this rule.
--    - when: never
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index 58b71538f489..bfe161b47951 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -70,19 +70,19 @@ if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
+     fi
+ fi
  
- msm:apq8096:
-   extends:
-@@ -273,9 +270,6 @@ mediatek:mt8173:
-     DEVICE_TYPE: mt8173-elm-hana
-     GPU_VERSION: mt8173
-     RUNNER_TAG: mesa-ci-x86-64-lava-mt8173-elm-hana
--  rules:
--    # TODO: current issue: device is hanging. Fix and remove this rule.
--    - when: never
+-for opt in $ENABLE_KCONFIGS; do
+-  echo CONFIG_$opt=y >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
+-done
+-for opt in $DISABLE_KCONFIGS; do
+-  echo CONFIG_$opt=n >> drivers/gpu/drm/ci/${KERNEL_ARCH}.config
+-done
+-
+ if [[ -n "${MERGE_FRAGMENT}" ]]; then
+     ./scripts/kconfig/merge_config.sh ${DEFCONFIG} drivers/gpu/drm/ci/${MERGE_FRAGMENT}
+ else
+     make `basename ${DEFCONFIG}`
+ fi
  
- mediatek:mt8183:
-   extends:
-@@ -333,6 +327,3 @@ virtio_gpu:none:
-     - debian/x86_64_test-gl
-     - testing:x86_64
-     - igt:x86_64
--  rules:
--    # TODO: current issue: malloc(): corrupted top size. Fix and remove this rule.
--    - when: never
-\ No newline at end of file
++for opt in $ENABLE_KCONFIGS; do
++    ./scripts/config --enable CONFIG_$opt
++done
++for opt in $DISABLE_KCONFIGS; do
++    ./scripts/config --disable CONFIG_$opt
++done
++
+ make ${KERNEL_IMAGE_NAME}
+ 
+ mkdir -p /lava-files/
 -- 
 2.40.1
 
