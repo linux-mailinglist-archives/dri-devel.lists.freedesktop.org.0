@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2A67A04EC
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:05:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F8A7A0519
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA0110E0CC;
-	Thu, 14 Sep 2023 13:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B3510E56D;
+	Thu, 14 Sep 2023 13:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6056310E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:05:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 38BF2CE2319;
- Thu, 14 Sep 2023 13:05:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D38DC433CA;
- Thu, 14 Sep 2023 13:05:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694696725;
- bh=YHbADKQ6uhUELFMVb5GWya0ymsNBgFatl1XxYxyNA7Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KWyJ43+jLMGArriTRLaEhSVb9CDR3iUsmGMnpCRQW7g1WMmbzEI1HqZohhDfDCHs3
- O2eSB3418GU3+/vtDV+wMVBjdmVxxsA/Qmz900QVLR39LFsZa/BoNk70w9Q2NtuBho
- tV3+5HVnP1yNR9jFoXtt1mEbc6wpTPD6RdHiZoBpMJK0kWoj16bv7y2YEdGw03eoc1
- +45inNYAbPlPLUpwj4RYbwgUqEO3QQh6AW3fQ8WCIra/5A25oCjlNazynbPXoIIJ47
- CezSY/QxP4FxPYCTMSd+uNo83d7a9OeIET/x+K2Ah2U4vI6FHg9TOKW4/P5mOBSAfc
- yh9/qaxIUZk0w==
-Date: Thu, 14 Sep 2023 15:05:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v4] drm/ssd130x: Store the HW buffer in the
- driver-private CRTC state
-Message-ID: <4norb2kxq4uxs3imi3qjxhyxpvnyf5cpl4sg7yyf3ydrykqhfl@cb3w4wstak7r>
-References: <20230913052938.1114651-1-javierm@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6047F10E56D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:11:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694697108; x=1726233108;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9eVtr7Sm2yrP7NrW5lUGQE9mQKVpwxVDMhXgaOG0os0=;
+ b=kjh/cKTmZxxn2Y1kBgRJBjZ4MkGxp+QRja86FZXy5akjCxLcA0uRj0YU
+ iKdlrjgRPxtGwnQmEIEq4YG7nwkZBWgHdsDna95C8WcOT5i95mA0twCVP
+ ONcgpcLW2NKGCXxuVsQK0s+cvc79dPNTV9Keu2NR7ctMAB4YZXeFBuRNt
+ IrmbIhzuqp3LqtnRQO4QUi60iXcs3Xc+cAH4SoolYBXmyP6kRok5B8eP5
+ RodFe4RJsV7BchND1LYvTsdFoc0tN0GvTT8N8Y2zqvbunj4OLaPKV5JeW
+ Uee2duGwbt8ltq2j//DlOSSxZpMg6xf9bQNhzaJhUritsAFzYxZOflidO w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="358366685"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="358366685"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 06:10:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859696945"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="859696945"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 06:10:23 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/meson: fix memory leak on ->hpd_notify callback
+Date: Thu, 14 Sep 2023 16:10:15 +0300
+Message-Id: <20230914131015.2472029-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dov6lznkfrfwqaip"
-Content-Disposition: inline
-In-Reply-To: <20230913052938.1114651-1-javierm@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +56,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, jani.nikula@intel.com,
+ Kevin Hilman <khilman@baylibre.com>, stable@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The EDID returned by drm_bridge_get_edid() needs to be freed.
 
---dov6lznkfrfwqaip
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fixes: 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: <stable@vger.kernel.org> # v5.17+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Hi,
+---
 
-On Wed, Sep 13, 2023 at 07:29:25AM +0200, Javier Martinez Canillas wrote:
->  static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
->  	.mode_valid = ssd130x_crtc_helper_mode_valid,
-> -	.atomic_check = drm_crtc_helper_atomic_check,
-> +	.atomic_check = ssd130x_crtc_helper_atomic_check,
->  };
+UNTESTED
+---
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Sorry I didn't catch that sooner, but there's no reason to call that
-function a helper.
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+index 9913971fa5d2..25ea76558690 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+@@ -334,6 +334,8 @@ static void meson_encoder_hdmi_hpd_notify(struct drm_bridge *bridge,
+ 			return;
+ 
+ 		cec_notifier_set_phys_addr_from_edid(encoder_hdmi->cec_notifier, edid);
++
++		kfree(edid);
+ 	} else
+ 		cec_notifier_phys_addr_invalidate(encoder_hdmi->cec_notifier);
+ }
+-- 
+2.39.2
 
-With that fixed (and feel free to fix while applying)
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---dov6lznkfrfwqaip
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQMFEgAKCRDj7w1vZxhR
-xXIhAP9OFI6JCdZluvIUtxdFCWKErbu4NsjR8lWb+91ICcT0mQEAmOI1mtSwaYXY
-8foP5Le4d57nb7aRnPbzxWptxjeoOgI=
-=wLxW
------END PGP SIGNATURE-----
-
---dov6lznkfrfwqaip--
