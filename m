@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637287A0534
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61BE7A0559
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:18:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB9F10E56E;
-	Thu, 14 Sep 2023 13:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1041310E266;
+	Thu, 14 Sep 2023 13:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAAF210E56E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:13:35 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCCF910E266
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694697215; x=1726233215;
+ t=1694697495; x=1726233495;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=7XDGJ0Ht6oXKb4r3a9CM/U+PgCZCGhp2zPWfhO1jsQk=;
- b=ElVFWKffWehIkqzg8WHyxqRfDAzs1Qq8RIhlNHso3a+ipASLq5ex1dXu
- fmiTwrXqA54vf+ZDNj+KGwbQPmLjoAq3Ko7uRqtZ81ZaCR78wgHt4KHxx
- GIpap+mLOX7ThTkERM/5lOLTlF2Sq8KE4ywB4aU8XBHQkppPcdom03yRL
- VqqMY6nceVji+bp46Ph1zEAMFbSIboPQNCMVmgCPEeSx9n6PV5iR1Waop
- Fwug2FMzFEt1Rne4nZOBTZfK5m0EfL7Gg1XXH6iKXnxnVduCiqJEBblXl
- xq67xyLOoTZmo2+ztTfb/K4rdO6JguDsTCLpO+LrBbrB9fDXiKnEsGllo w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="376281302"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="376281302"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 06:11:07 -0700
+ bh=CyfAwXIGzlI10RnfLvRO0I9qqTFdV9kGEZ5Hpj5bsLA=;
+ b=JXy4yHb7Gwj81jIp2flEN/wkU0mLIXPH8swfiKLIVf2EzOHegN2D8O9d
+ b/OH5zroeyMX+YAq2wTB1jGNw381xOlfKZMklVig8eQjAFtJGE0RGcLb5
+ 1PGjiFhPXYuJb9wnutzV6TaPTsYPxTeotGxvIBpBrWNeogyT484U/jwSs
+ ljl+gEkkYNeBht6To86Wq7RxwZLDR7s5M1HXS2Y47SZtIdSsqgfTtpm1R
+ T7pqYBWb5xOVJRIATohmbDoZZt2WJzJw+ZPsRIS4JTYM3NoNMvOSfHZq4
+ 35lQcQlMuDT6WZIyQ7nkYubCwxiE149Q0CYMFeUuARYznXMmEZXVSSqLS g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="442977293"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="442977293"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 06:12:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="887801992"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="887801992"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="918246568"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="918246568"
 Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 06:10:31 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 06:12:08 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback error
- path
-Date: Thu, 14 Sep 2023 16:10:58 +0300
-Message-Id: <20230914131058.2472260-1-jani.nikula@intel.com>
+Subject: [PATCH] drm: bridge: it66121: ->get_edid callback must not return err
+ pointers
+Date: Thu, 14 Sep 2023 16:11:59 +0300
+Message-Id: <20230914131159.2472513-1-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
@@ -57,54 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, jani.nikula@intel.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, jani.nikula@intel.com,
+ Robert Foss <robert.foss@linaro.org>, Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Phong LE <ple@baylibre.com>,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setting new_edid to NULL leaks the buffer.
+The drm stack does not expect error valued pointers for EDID anywhere.
 
-Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: Guillaume Ranquet <granquet@baylibre.com>
-Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-Cc: CK Hu <ck.hu@mediatek.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: <stable@vger.kernel.org> # v6.1+
+Fixes: e66856508746 ("drm: bridge: it66121: Set DDC preamble only once before reading EDID")
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Phong LE <ple@baylibre.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: <stable@vger.kernel.org> # v6.3+
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
 UNTESTED
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/ite-it66121.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 2cb47f663756..8fc6eff68e30 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2049,6 +2049,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 	 */
- 	if (mtk_dp_parse_capabilities(mtk_dp)) {
- 		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-+		kfree(new_edid);
- 		new_edid = NULL;
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 3c9b42c9d2ee..1cf3fb1f13dc 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -884,14 +884,14 @@ static struct edid *it66121_bridge_get_edid(struct drm_bridge *bridge,
+ 	mutex_lock(&ctx->lock);
+ 	ret = it66121_preamble_ddc(ctx);
+ 	if (ret) {
+-		edid = ERR_PTR(ret);
++		edid = NULL;
+ 		goto out_unlock;
+ 	}
+ 
+ 	ret = regmap_write(ctx->regmap, IT66121_DDC_HEADER_REG,
+ 			   IT66121_DDC_HEADER_EDID);
+ 	if (ret) {
+-		edid = ERR_PTR(ret);
++		edid = NULL;
+ 		goto out_unlock;
  	}
  
 -- 
