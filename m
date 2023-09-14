@@ -2,89 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18757A0BA7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 19:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89F27A0BDF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 19:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0031610E29D;
-	Thu, 14 Sep 2023 17:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4B2D10E578;
+	Thu, 14 Sep 2023 17:37:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2681010E29E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 17:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694712336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Aol6jxzlWnzdNb3Rodg0NX62ZcMK0/Glt3uyTv0sUs=;
- b=YQXx7qd4L2xN0220s7Ptvg+DnY95E8YQ5B4adBf0JU4m82VnPopOqEWpDpV9+R4CAvrQxw
- 0/jOjbiD3+TnvdPpUJoh0EZn30JADrT/5f4WeHwhdrpGPXsDsGgyU37gr7BVrPs/qeLa7b
- eReFvPzpy6dQqxC3xg4n+adpgCNIi48=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-437--1feMyOFMfC7ULnCnUF9NQ-1; Thu, 14 Sep 2023 13:25:35 -0400
-X-MC-Unique: -1feMyOFMfC7ULnCnUF9NQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-993c2d9e496so95349366b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 10:25:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694712334; x=1695317134;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0Aol6jxzlWnzdNb3Rodg0NX62ZcMK0/Glt3uyTv0sUs=;
- b=jafUzzElR/B3RKzQJyvTGJIH8VcTDZEhd1VVL3SBr+LINlp1blhUpdj7x2IkgG8ETt
- Mck2F5EHKGc4Ocou6KFQkebSA8wdYuce5wcF3pK5YXBsWBN84Yx+VFOwTyF2tDuq6S9c
- 6PD6dtZI6TzaS50avTN9D/jObGDERaNnIaVlL//KEH6Es0jtwu0QvMenvG0sY5YjDJcc
- yAcy8Xo0Pa4n8kFBGEa+fnw6VN6pnQyBLf1xhKuOqGcLjsahIeN7tX8yXS+lfF8yTJqw
- pS4SQFgxL6Et4v0CMhOMqM3m0dziTM4LQscSzfyf3EIgIuWYjLD4+QI7gs14TUG62zUp
- UQ2A==
-X-Gm-Message-State: AOJu0YwOQTe9zwqHIZlw1lD0H7VdJcM6i2a2IunJ6s3UD7Os9gcq0pVH
- 4uxCKfey330N8EF01P8EE/1cjUJAP2xwtLBGabaMvv+Dxm8NkKWl9q6kWAyhvPRReuf+cdZPBda
- 0q1SgD9y66ljLmB0DAqU3XZJZelKm
-X-Received: by 2002:a17:906:cc58:b0:9a9:f3df:80cd with SMTP id
- mm24-20020a170906cc5800b009a9f3df80cdmr4499932ejb.72.1694712333765; 
- Thu, 14 Sep 2023 10:25:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH47inJm7FoAmrJdqXXrLDU5mF4jvBJ0EWuzOIG7HxwUpDSiewi1WBkIlurKQHelbeLV7HiYw==
-X-Received: by 2002:a17:906:cc58:b0:9a9:f3df:80cd with SMTP id
- mm24-20020a170906cc5800b009a9f3df80cdmr4499920ejb.72.1694712333361; 
- Thu, 14 Sep 2023 10:25:33 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- u22-20020a170906409600b0099d9dee8108sm1290752ejj.149.2023.09.14.10.25.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Sep 2023 10:25:32 -0700 (PDT)
-Message-ID: <803e4aa0-0c46-05ba-e90b-188771227f0a@redhat.com>
-Date: Thu, 14 Sep 2023 19:25:31 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B450810E2A1;
+ Thu, 14 Sep 2023 17:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694713055; x=1726249055;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=DrVsVJ/oavYZgc4M3kwAS4xSSe02wGeglnB6HJ/0H4s=;
+ b=lLsnpV4YTMM9ufxizwUSAloG4405f9Ic6epROtFYgfmwPSkeIsmdvTd5
+ 1ICZQBbrD8onstC/Gzj0iic4tn7SSwzMmI0T6i34PFIhe9ucdo2VY62m7
+ yuiEP3j1xPoooeGJCVpBDrCfq0d+0bW0KlKhtKxB+IFfYBqS5t/ARvDtG
+ VEbhnRs+NMa5QCpRoLSJudhvuNMkJSSE6khqYMl2tsOFVtItx4svkRznp
+ tQv+hF/RRmuP4XpA+WugbC3lzcW3JMZ298Y4nxpGAnpXt87TTL1cWK1cL
+ Ll0QH9ej5E2WLhesN7x51jPKlqmCk3KietD23KlqX5UQ2ZJsDUT3VfIdq g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="445463969"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="445463969"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 10:37:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744622750"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="744622750"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 Sep 2023 10:37:34 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 14 Sep 2023 10:37:34 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 14 Sep 2023 10:37:33 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 10:37:33 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 14 Sep 2023 10:37:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UCqaWP+/RW8ZmtN5TqWKKhDxMbKMukPbmjLqEyA/IhW1sYj94kO4tdIFbBV7sqA0nj2j8VIAEMqPbxZ5ZZc6/lSBCIvYC/way/SeGMXuge+MKd4VkoGTJVMxFNPsdAy9AWxZxsHAaNxkMswxy4IZkNvoR4/365XEaT1jxdKZmwEV5lmCTYqHdUryMBgoWEiEpm0WYgrWBnHgvOLGrF3lRKgXlPPeWDb+Ldp7+/JjRFRv5GLNhKhr66ixVToYQqQGkwB1aFOSAIQ8Ed4O1hY2e1qFKDv4pUXdCuDXtqV16Glvgs8cA++sg7TwUfctBoiQoTojddsyvShCR2/sK4Fl2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j2uQ0bPIWWTpC8kp7R7OwH6QdVfq6aAlOf00pGBOLcw=;
+ b=LePDGqUlEG9P1Se5F/HieSo/kpN+2EWWdGXHQsfGJqehor6HIeU4+bdWbnc10JRsueXQALk76RtoUoUbodjHGWp/D6PI/Gnzrw2NNqCJNT1gIH+JcFKh3UDoHt6IaMM8s4FyGu0OLmzpmVofvKzGqJXZw/xy4VvMZPlWhxcPedoh8J5ocMTE3CMw1R8TO9JeZqBjxgVHYjOI+O3g5lOWShHi4p9mXOR9+RChReuqR6XLSpTafiEdVSXtEEMV9J5kGHM9i28oUG8AxMDW6IoantOIFLvBm5Gx6sRGowNVemykmd38eCM00sLc4hpzWgPtc794yPB5IOFCK7lbxZu2kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH0PR11MB7613.namprd11.prod.outlook.com (2603:10b6:510:285::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Thu, 14 Sep
+ 2023 17:37:32 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b%3]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
+ 17:37:32 +0000
+Date: Thu, 14 Sep 2023 17:36:27 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH v3 10/13] drm/sched: Add helper to set TDR timeout
+Message-ID: <ZQNEm/82c4tSK8gm@DUT025-TGLU.fm.intel.com>
+References: <20230912021615.2086698-1-matthew.brost@intel.com>
+ <20230912021615.2086698-11-matthew.brost@intel.com>
+ <93a1dd2d-72e3-42b1-914f-d325b104580b@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <93a1dd2d-72e3-42b1-914f-d325b104580b@amd.com>
+X-ClientProxiedBy: BY5PR04CA0021.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0::31) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- sarah.walker@imgtec.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-7-dakr@redhat.com>
- <62d9b00a-547a-2106-5ec3-6f6a88023496@linux.intel.com>
- <c620c142-ea38-415d-729e-2561f1f4bae3@redhat.com>
- <476c46cfddaef125108a117b47ea9f76299ea85c.camel@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <476c46cfddaef125108a117b47ea9f76299ea85c.camel@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH0PR11MB7613:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62b5db57-f4cb-4c7d-a80b-08dbb5494636
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0EpBrLpGdFoUV1PZ7JJXZyTVd84fqHyxjsrNoxMLWIw7+7urYPnsdBA3WbquJUH12dVF+uo9SmP6d7j45+1Kdforer7KffmNH7C56lIsxnpsLDnuFGk8DbQWp7/JNNv1llX9jbVpE6x1GTRrGcJMlhLt9evmkAlBQSowYF8IQjk5DRnFAeSsDd4rOlisEYOizDJlH6DbWf3cbUORgMGIge6fNPUh0Fi3iTTzipGZrLIvEDoQh3jX5FwP3HMSaZ4Avef6/okS7TX/Lu92zbLd9SjV5DOcq8/yvmJtKsG8xk5+ANshbBg4mdgBwmczvlgNjxRQ3HZFzH90sitIW8sNcnbD0mnD7iemPg8aX2UE4Vv07+XILK7sHgBKYcTkkholrBYwEptlpoGGYAoRRgweYPlxBAJVc2Na6oRG0MojR3XlVBc1SiVsF8z7YWGVBfZOvfeOl1KoRSixeZ5mP3YhOdvgvpl14Qj+0LCZeqsSu+G045pNIRzB/MwxIvcHECV1+18hRYjkhNY8rSfDGAn2Wmc/5u1bhr5a31qBcQ4urOnYChTRlbDV04XchAKbK+mo
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(366004)(396003)(39860400002)(376002)(451199024)(186009)(1800799009)(26005)(38100700002)(6506007)(6666004)(6486002)(53546011)(83380400001)(66556008)(6916009)(2906002)(66946007)(66476007)(316002)(44832011)(8936002)(4326008)(478600001)(5660300002)(8676002)(7416002)(86362001)(6512007)(82960400001)(41300700001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OIlu3zE3xunsV5eGXoJtNyx+aUL+R3ehK061rS7DFaKjXdiEfyTJlmh08jBh?=
+ =?us-ascii?Q?NoEcA1jCI1/IN6g+NEVyDSvkp4bIYcxboQqMJxUYWSaHkLw+p/3VxP++crqe?=
+ =?us-ascii?Q?KIdBCuDIxshAxdUN1cntuWIM711TNBtt8DMgLQpbM3sCZBi3v64F82Os4QUq?=
+ =?us-ascii?Q?HWbGCfes+nH1cTX+PTcLnTzvSgUwQkY/4qr31GjcC2/xp6shGCIjqakWuSxa?=
+ =?us-ascii?Q?Ll9xn5cNtU1ze1Shj2Nzm3HQdy8RFFgXoMwXXvYbRDdT469LShtttTQ63h0a?=
+ =?us-ascii?Q?fOetcpX4ltLU1u8VQGVmR5foIZAd1Q/eTvGi2pQze3UqjCuCK1gX9QrXyfwc?=
+ =?us-ascii?Q?G7J7V2yS/lSWPQOHjxUqFfCm7sF+oap8JEfv28/jJ1ICpQKHdusCU3Ws87Xv?=
+ =?us-ascii?Q?637VrLCNvUZgUgbQW3/Oho7atkA3qNUn9VNKgLo31ZROvAu7l9foTUle2K98?=
+ =?us-ascii?Q?wH7AQA55ZY52VQca9i3x7q5t+uzGRCZgIdf4xwwYlwxG5bZV5qe4eRbEuFhB?=
+ =?us-ascii?Q?yZfdBhCz39neVGqZeO3dCKJ4dyNx95Y8nc4qUJ26X4p+u0o4lmGFRpgFEfoU?=
+ =?us-ascii?Q?rr6fwiK0O/ADoUk9gSlKAr1dAoLmsvlVyQTIFi/RapxYoebL1yWdlQp2cKQC?=
+ =?us-ascii?Q?CnUgcbsaqejuWqBOdVpf6YbZt6fAFDNKWdt6Yh4DnZmkjLYSNafCbSwWe15U?=
+ =?us-ascii?Q?FH4iMJ+TeKkHW9y51Lk9NFWmu6wWhq5G4sreyKFOEifmIn/TWqSlGvxizLjE?=
+ =?us-ascii?Q?G8CJh0VcrsV9OdgpxKUAKQX+wP14X0hECgl2WnRxQYEE6LOIgLgR/c/zXEv9?=
+ =?us-ascii?Q?RPD0Nrr/48rPiNmHqYokhj8BJHWwNmHj7TDVaiocN5qjVbeVMYyQH3utJpj2?=
+ =?us-ascii?Q?IZERYDUgYuElGPr/euM16NbRIj4mBYBSnNBxBqzt/sHapuw0KSs3sgwZgzKi?=
+ =?us-ascii?Q?ushovCb660RzpC9ON7bbtCz84u6iKilL6ChNj6byO5Mmha2iFWXxXQOHNzoS?=
+ =?us-ascii?Q?KxYIVyxhPbqutahpvPDayNI0oc2zvVkuV+xDBE7VBRlQccongwuVY7c6OLW8?=
+ =?us-ascii?Q?mzqfbEqq1cPtLPOTwo8Ho+3ye5bKp3PA8dSoqem06+bAmWPasqAUs5V79L3b?=
+ =?us-ascii?Q?lUxUgHJt8nJbNRPXw25ZkN6NQXY0ZXuynRflxh991Mr7AJY5Yj1Hxc+3n3/a?=
+ =?us-ascii?Q?ti0cVlR2/TdA7uthdE546oB/qlhrvh+9hITK9by6PMKtrKNnnYmTkLfOsOJB?=
+ =?us-ascii?Q?KNfEluY2gehPSh5ulqvV0+nSR5LTmDT+oNzgXjBMkTJaGRF047m/hKKcW6J3?=
+ =?us-ascii?Q?zmMkXvu583j/NLgG1vOiOjlziQr5UhXWbotBPGxq9kSLeeuJuMd7CsdbzDuq?=
+ =?us-ascii?Q?5z2x76x0EcVHZ0PO1BFLlOw/5F0jdyQJjvGNOfJ5SOaZA/x8wr+wHrRb9OD+?=
+ =?us-ascii?Q?zEzLtC4hHDslXiQRpjZ3ddRnT7I/NzSTC0mxZywww3yTDclWBxd4zzkRL+5q?=
+ =?us-ascii?Q?G3rft1KEQZset7ASCyyrff0A7gNdk/7cvggDxPQi0PmfqmWf1WwY3LeHk2zP?=
+ =?us-ascii?Q?Nc1J+rogull7mHjAlTsfZTmKbzThqgP95n2G3e7aPZZYHxS+LuZOgMAemxCY?=
+ =?us-ascii?Q?+w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62b5db57-f4cb-4c7d-a80b-08dbb5494636
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 17:37:32.1468 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TB/+vGzXmCTVANKJzMMKjOJqxR3AEXOkUHhxjE87rFYOhsbVnCRhZpTjBeBUu9qxfXPXabjhRFTCoXdRNMWENQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7613
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,409 +149,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ boris.brezillon@collabora.com, donald.robson@imgtec.com, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/14/23 19:21, Thomas Hellström wrote:
-> On Thu, 2023-09-14 at 18:36 +0200, Danilo Krummrich wrote:
->> On 9/14/23 15:48, Thomas Hellström wrote:
->>> Hi, Danilo
->>>
->>> Some additional minor comments as xe conversion progresses.
->>>
->>> On 9/9/23 17:31, Danilo Krummrich wrote:
->>>> So far the DRM GPUVA manager offers common infrastructure to
->>>> track GPU VA
->>>> allocations and mappings, generically connect GPU VA mappings to
->>>> their
->>>> backing buffers and perform more complex mapping operations on
->>>> the GPU VA
->>>> space.
->>>>
->>>> However, there are more design patterns commonly used by drivers,
->>>> which
->>>> can potentially be generalized in order to make the DRM GPUVA
->>>> manager
->>>> represent a basic GPU-VM implementation. In this context, this
->>>> patch aims
->>>> at generalizing the following elements.
->>>>
->>>> 1) Provide a common dma-resv for GEM objects not being used
->>>> outside of
->>>>      this GPU-VM.
->>>>
->>>> 2) Provide tracking of external GEM objects (GEM objects which
->>>> are
->>>>      shared with other GPU-VMs).
->>>>
->>>> 3) Provide functions to efficiently lock all GEM objects dma-resv
->>>> the
->>>>      GPU-VM contains mappings of.
->>>>
->>>> 4) Provide tracking of evicted GEM objects the GPU-VM contains
->>>> mappings
->>>>      of, such that validation of evicted GEM objects is
->>>> accelerated.
->>>>
->>>> 5) Provide some convinience functions for common patterns.
->>>>
->>>> Rather than being designed as a "framework", the target is to
->>>> make all
->>>> features appear as a collection of optional helper functions,
->>>> such that
->>>> drivers are free to make use of the DRM GPUVA managers basic
->>>> functionality and opt-in for other features without setting any
->>>> feature
->>>> flags, just by making use of the corresponding functions.
->>>>
->>>> Big kudos to Boris Brezillon for his help to figure out locking
->>>> for drivers
->>>> updating the GPU VA space within the fence signalling path.
->>>>
->>>> Suggested-by: Matthew Brost <matthew.brost@intel.com>
->>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->>>> ---
->>>>
->>>> +/**
->>>> + * drm_gpuvm_bo_evict() - add / remove a &drm_gem_object to /
->>>> from a
->>>> + * &drm_gpuvms evicted list
->>>> + * @obj: the &drm_gem_object to add or remove
->>>> + * @evict: indicates whether the object is evicted
->>>> + *
->>>> + * Adds a &drm_gem_object to or removes it from all &drm_gpuvms
->>>> evicted
->>>> + * list containing a mapping of this &drm_gem_object.
->>>> + */
->>>> +void
->>>> +drm_gpuvm_bo_evict(struct drm_gem_object *obj, bool evict)
->>>> +{
->>>> +    struct drm_gpuvm_bo *vm_bo;
->>>> +
->>>> +    drm_gem_for_each_gpuvm_bo(vm_bo, obj) {
->>>> +        if (evict)
->>>> +            drm_gpuvm_bo_list_add(vm_bo, evict);
->>>> +        else
->>>> +            drm_gpuvm_bo_list_del(vm_bo, evict);
->>>> +    }
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(drm_gpuvm_bo_evict);
->>>> +
->>>
->>> We need a drm_gpuvm_bo_evict(struct drm_gpuvm_bo *vm_bo, ...) that
->>> puts a single gpuvm_bo on the list, the above function could
->>> perhaps be renamed as drm_gpuvm_gem_obj_evict(obj, ....).
->>
->> Makes sense - gonna change that.
->>
->>>
->>> Reason is some vm's are faulting vms which don't have an evict
->>> list, but validate from the pagefault handler. Also evict == false
->>> is dangerous because if called from within an exec, it might remove
->>> the obj from other vm's evict list before they've had a chance to
->>> rebind their VMAs.
->>>
->>>>    static int
->>>>    __drm_gpuva_insert(struct drm_gpuvm *gpuvm,
->>>>               struct drm_gpuva *va)
->>>> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
->>>> index afa50b9059a2..834bb6d6617e 100644
->>>> --- a/include/drm/drm_gpuvm.h
->>>> +++ b/include/drm/drm_gpuvm.h
->>>> @@ -26,10 +26,12 @@
->>>>     */
->>>>    #include <linux/list.h>
->>>> +#include <linux/dma-resv.h>
->>>>    #include <linux/rbtree.h>
->>>>    #include <linux/types.h>
->>>>    #include <drm/drm_gem.h>
->>>> +#include <drm/drm_exec.h>
->>>>    struct drm_gpuvm;
->>>>    struct drm_gpuvm_bo;
->>>> @@ -259,6 +261,38 @@ struct drm_gpuvm {
->>>>         * space
->>>>         */
->>>>        struct dma_resv *resv;
->>>> +
->>>> +    /**
->>>> +     * @extobj: structure holding the extobj list
->>>> +     */
->>>> +    struct {
->>>> +        /**
->>>> +         * @list: &list_head storing &drm_gpuvm_bos serving as
->>>> +         * external object
->>>> +         */
->>>> +        struct list_head list;
->>>> +
->>>> +        /**
->>>> +         * @lock: spinlock to protect the extobj list
->>>> +         */
->>>> +        spinlock_t lock;
->>>> +    } extobj;
->>>> +
->>>> +    /**
->>>> +     * @evict: structure holding the evict list and evict list
->>>> lock
->>>> +     */
->>>> +    struct {
->>>> +        /**
->>>> +         * @list: &list_head storing &drm_gpuvm_bos currently
->>>> being
->>>> +         * evicted
->>>> +         */
->>>> +        struct list_head list;
->>>> +
->>>> +        /**
->>>> +         * @lock: spinlock to protect the evict list
->>>> +         */
->>>> +        spinlock_t lock;
->>>> +    } evict;
->>>>    };
->>>>    void drm_gpuvm_init(struct drm_gpuvm *gpuvm, struct drm_device
->>>> *drm,
->>>> @@ -268,6 +302,21 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm,
->>>> struct drm_device *drm,
->>>>                const struct drm_gpuvm_ops *ops);
->>>>    void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
->>>> +/**
->>>> + * drm_gpuvm_is_extobj() - indicates whether the given
->>>> &drm_gem_object is an
->>>> + * external object
->>>> + * @gpuvm: the &drm_gpuvm to check
->>>> + * @obj: the &drm_gem_object to check
->>>> + *
->>>> + * Returns: true if the &drm_gem_object &dma_resv differs from
->>>> the
->>>> + * &drm_gpuvms &dma_resv, false otherwise
->>>> + */
->>>> +static inline bool drm_gpuvm_is_extobj(struct drm_gpuvm *gpuvm,
->>>> +                       struct drm_gem_object *obj)
->>>> +{
->>>> +    return obj && obj->resv != gpuvm->resv;
->>>> +}
->>>> +
->>>>    static inline struct drm_gpuva *
->>>>    __drm_gpuva_next(struct drm_gpuva *va)
->>>>    {
->>>> @@ -346,6 +395,128 @@ __drm_gpuva_next(struct drm_gpuva *va)
->>>>    #define drm_gpuvm_for_each_va_safe(va__, next__, gpuvm__) \
->>>>        list_for_each_entry_safe(va__, next__, &(gpuvm__)->rb.list,
->>>> rb.entry)
->>>> +/**
->>>> + * struct drm_gpuvm_exec - &drm_gpuvm abstraction of &drm_exec
->>>> + *
->>>> + * This structure should be created on the stack as &drm_exec
->>>> should be.
->>>> + *
->>>> + * Optionally, @extra can be set in order to lock additional
->>>> &drm_gem_objects.
->>>> + */
->>>> +struct drm_gpuvm_exec {
->>>> +    /**
->>>> +     * @exec: the &drm_exec structure
->>>> +     */
->>>> +    struct drm_exec exec;
->>>> +
->>>> +    /**
->>>> +     * @vm: the &drm_gpuvm to lock its DMA reservations
->>>> +     */
->>>> +    struct drm_gpuvm *vm;
->>>> +
->>>> +    /**
->>>> +     * @extra: Callback and corresponding private data for the
->>>> driver to
->>>> +     * lock arbitrary additional &drm_gem_objects.
->>>> +     */
->>>> +    struct {
->>>> +        /**
->>>> +         * @fn: The driver callback to lock additional
->>>> &drm_gem_objects.
->>>> +         */
->>>> +        int (*fn)(struct drm_gpuvm_exec *vm_exec,
->>>> +              unsigned int num_fences);
->>>> +
->>>> +        /**
->>>> +         * @priv: driver private data for the @fn callback
->>>> +         */
->>>> +        void *priv;
->>>> +    } extra;
->>>> +};
->>>> +
->>>> +/**
->>>> + * drm_gpuvm_prepare_vm() - prepare the GPUVMs common dma-resv
->>>> + * @gpuvm: the &drm_gpuvm
->>>> + * @exec: the &drm_exec context
->>>> + * @num_fences: the amount of &dma_fences to reserve
->>>> + *
->>>> + * Calls drm_exec_prepare_obj() for the GPUVMs dummy
->>>> &drm_gem_object.
->>>> + *
->>>> + * Using this function directly, it is the drivers
->>>> responsibility to call
->>>> + * drm_exec_init() and drm_exec_fini() accordingly.
->>>> + *
->>>> + * Returns: 0 on success, negative error code on failure.
->>>> + */
->>>> +static inline int
->>>> +drm_gpuvm_prepare_vm(struct drm_gpuvm *gpuvm,
->>>> +             struct drm_exec *exec,
->>>> +             unsigned int num_fences)
->>>> +{
->>>> +    return drm_exec_prepare_obj(exec, &gpuvm->d_obj,
->>>> num_fences);
->>>> +}
->>>> +
->>>> +int drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
->>>> +                  struct drm_exec *exec,
->>>> +                  unsigned int num_fences);
->>>> +
->>>> +int drm_gpuvm_prepare_range(struct drm_gpuvm *gpuvm,
->>>> +                struct drm_exec *exec,
->>>> +                u64 addr, u64 range,
->>>> +                unsigned int num_fences);
->>>> +
->>>> +int drm_gpuvm_exec_lock(struct drm_gpuvm_exec *vm_exec,
->>>> +            unsigned int num_fences,
->>>> +            bool interruptible);
->>>> +
->>>> +int drm_gpuvm_exec_lock_array(struct drm_gpuvm_exec *vm_exec,
->>>> +                  struct drm_gem_object **objs,
->>>> +                  unsigned int num_objs,
->>>> +                  unsigned int num_fences,
->>>> +                  bool interruptible);
->>>> +
->>>> +int drm_gpuvm_exec_lock_range(struct drm_gpuvm_exec *vm_exec,
->>>> +                  u64 addr, u64 range,
->>>> +                  unsigned int num_fences,
->>>> +                  bool interruptible);
->>>> +
->>>> +/**
->>>> + * drm_gpuvm_lock() - lock all dma-resv of all assoiciated BOs
->>>> + * @gpuvm: the &drm_gpuvm
->>>> + *
->>>> + * Releases all dma-resv locks of all &drm_gem_objects
->>>> previously acquired
->>>> + * through drm_gpuvm_lock() or its variants.
->>>> + *
->>>> + * Returns: 0 on success, negative error code on failure.
->>>> + */
->>>> +static inline void
->>>> +drm_gpuvm_exec_unlock(struct drm_gpuvm_exec *vm_exec)
->>>> +{
->>>> +    drm_exec_fini(&vm_exec->exec);
->>>> +}
->>>> +
->>>> +int drm_gpuvm_validate(struct drm_gpuvm *gpuvm);
->>>> +void drm_gpuvm_resv_add_fence(struct drm_gpuvm *gpuvm,
->>>> +                  struct drm_exec *exec,
->>>> +                  struct dma_fence *fence,
->>>> +                  enum dma_resv_usage private_usage,
->>>> +                  enum dma_resv_usage extobj_usage);
->>>> +
->>>> +/**
->>>> + * drm_gpuvm_exec_resv_add_fence()
->>>> + * @vm_exec: the &drm_gpuvm_exec abstraction
->>>> + * @fence: fence to add
->>>> + * @private_usage: private dma-resv usage
->>>> + * @extobj_usage: extobj dma-resv usage
->>>> + *
->>>> + * See drm_gpuvm_resv_add_fence().
->>>> + */
->>>> +static inline void
->>>> +drm_gpuvm_exec_resv_add_fence(struct drm_gpuvm_exec *vm_exec,
->>>> +                  struct dma_fence *fence,
->>>> +                  enum dma_resv_usage private_usage,
->>>> +                  enum dma_resv_usage extobj_usage)
->>>> +{
->>>> +    drm_gpuvm_resv_add_fence(vm_exec->vm, &vm_exec->exec, fence,
->>>> +                 private_usage, extobj_usage);
->>>> +}
->>>> +
->>>>    /**
->>>>     * struct drm_gpuvm_bo - structure representing a &drm_gpuvm
->>>> and
->>>>     * &drm_gem_object combination
->>>> @@ -398,6 +569,18 @@ struct drm_gpuvm_bo {
->>>>                 * gpuva list.
->>>>                 */
->>>>                struct list_head gem;
->>>> +
->>>> +            /**
->>>> +             * @evict: List entry to attach to the &drm_gpuvms
->>>> +             * extobj list.
->>>> +             */
->>>> +            struct list_head extobj;
->>>> +
->>>> +            /**
->>>> +             * @evict: List entry to attach to the &drm_gpuvms
->>>> evict
->>>> +             * list.
->>>> +             */
->>>> +            struct list_head evict;
->>>>            } entry;
->>>>        } list;
->>>>    };
->>>> @@ -432,6 +615,9 @@ struct drm_gpuvm_bo *
->>>>    drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
->>>>              struct drm_gem_object *obj);
->>>> +void drm_gpuvm_bo_evict(struct drm_gem_object *obj, bool evict);
->>>> +void drm_gpuvm_bo_extobj_add(struct drm_gpuvm_bo *vm_bo);
->>>> +
->>>>    /**
->>>>     * drm_gpuvm_bo_for_each_va() - iterator to walk over a list of
->>>> &drm_gpuva
->>>>     * @va__: &drm_gpuva structure to assign to in each iteration
->>>> step
->>>> @@ -837,6 +1023,17 @@ struct drm_gpuvm_ops {
->>>>         * used.
->>>>         */
->>>>        int (*sm_step_unmap)(struct drm_gpuva_op *op, void *priv);
->>>> +
->>>> +    /**
->>>> +     * @bo_validate: called from drm_gpuvm_validate()
->>>> +     *
->>>> +     * Drivers receive this callback for every evicted
->>>> &drm_gem_object being
->>>> +     * mapped in the corresponding &drm_gpuvm.
->>>> +     *
->>>> +     * Typically, drivers would call their driver specific
->>>> variant of
->>>> +     * ttm_bo_validate() from within this callback.
->>>> +     */
->>>> +    int (*bo_validate)(struct drm_gem_object *obj);
->>>
->>> Same here. Could we have a vm_bo as an argument instead, so that
->>> the callback knows what gpuvm we're targeting and can mark all its
->>> gpu_vas for revalidation? Or is that intended to be done elsewhere?
->>
->> Makes sense as well. I'll change that too.
+On Wed, Sep 13, 2023 at 10:38:24PM -0400, Luben Tuikov wrote:
+> On 2023-09-11 22:16, Matthew Brost wrote:
+> > Add helper to set TDR timeout and restart the TDR with new timeout
+> > value. This will be used in XE, new Intel GPU driver, to trigger the TDR
+> > to cleanup drm_sched_entity that encounter errors.
 > 
-> I forgot, drm_gpuvm_validate() would preferably take an drm_gpuvm_exec
-> argument because we need it in the validate callback. It's also easy
-> for the driver to subclass further if needed, to pass even more
-> arguments to its validate callback.
+> Do you just want to trigger the cleanup or do you really want to
+> modify the timeout and requeue TDR delayed work (to be triggered
+> later at a different time)?
+> 
+> If the former, then might as well just add a function to queue that
+> right away. If the latter, then this would do, albeit with a few
 
-Hm.. that implies that a driver open coding the drm_exec loop, still needs
-to use a struct drm_gpuvm_exec rather than just a struct drm_exec. What is
-this needed for in Xe? Do we expect other drivers needing it? Might a priv
-void pointer maybe make more sense?
+Let me change the function to queue it immediately as that is what is
+needed.
 
-> 
-> /Thomas
-> 
-> 
->>
->>>
->>>>    };
->>>>    int drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
->>>
->>> Thanks,
->>>
->>> Thomas
->>>
->>>
->>
-> 
+Matt
 
+> notes as mentioned below.
+> 
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/scheduler/sched_main.c | 18 ++++++++++++++++++
+> >  include/drm/gpu_scheduler.h            |  1 +
+> >  2 files changed, 19 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 9dbfab7be2c6..689fb6686e01 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -426,6 +426,24 @@ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+> >  	spin_unlock(&sched->job_list_lock);
+> >  }
+> >  
+> > +/**
+> > + * drm_sched_set_timeout - set timeout for reset worker
+> > + *
+> > + * @sched: scheduler instance to set and (re)-start the worker for
+> > + * @timeout: timeout period
+> > + *
+> > + * Set and (re)-start the timeout for the given scheduler.
+> > + */
+> > +void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout)
+> > +{
+> 
+> Well, I'd perhaps call this "drm_sched_set_tdr_timeout()", or something
+> to that effect, as "drm_sched_set_timeout()" isn't clear that it is indeed
+> a cleanup timeout. However, it's totally up to you. :-)
+> 
+> It appears that "long timeout" is the new job timeout, so it is possible
+> that a stuck job might be given old timeout + new timeout recovery time,
+> after this function is called.
+> 
+> > +	spin_lock(&sched->job_list_lock);
+> > +	sched->timeout = timeout;
+> > +	cancel_delayed_work(&sched->work_tdr);
+> > +	drm_sched_start_timeout(sched);
+> > +	spin_unlock(&sched->job_list_lock);
+> > +}
+> > +EXPORT_SYMBOL(drm_sched_set_timeout);
+> 
+> Well, drm_sched_start_timeout() (which also has a name lacking description, perhaps
+> it should be "drm_sched_start_tdr_timeout()" or "...start_cleanup_timeout()"), anyway,
+> so that function compares to MAX_SCHEDULE_TIMEOUT and pending list not being empty
+> before it requeues delayed TDR work item. So, while a remote possibility, this new
+> function may have the unintended consequence of canceling TDR, and never restarting it.
+> I see it grabs the lock, however. Maybe wrap it in "if (sched->timeout != MAX_SCHEDULE_TIMEOUT)"?
+> How about using mod_delayed_work()?
+> -- 
+> Regards,
+> Luben
+> 
+> > +
+> >  /**
+> >   * drm_sched_fault - immediately start timeout handler
+> >   *
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index 5d753ecb5d71..b7b818cd81b6 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -596,6 +596,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+> >  				    struct drm_gpu_scheduler **sched_list,
+> >                                     unsigned int num_sched_list);
+> >  
+> > +void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout);
+> >  void drm_sched_job_cleanup(struct drm_sched_job *job);
+> >  void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
+> >  void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
+> 
