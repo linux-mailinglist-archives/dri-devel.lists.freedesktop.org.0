@@ -1,74 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FCF7A057B
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:24:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C135B7A0581
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A89510E09A;
-	Thu, 14 Sep 2023 13:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1B7810E26E;
+	Thu, 14 Sep 2023 13:24:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64CB410E09A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:23:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694697838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uFwzQssh5fc2VAqJw0Fiz1bE1/NvSD7FuRwvnyf3cNo=;
- b=dzFCr32ImeTaMCEstZVo2DqiatwtOUsCEln/y8pp5uHKmTK1U66MwQujN3+Ae7Cj53ySzK
- KIt/+BwIu5TqigaPxKIQq8cH2y9W4cRHWEh7H32kuZhPdW5WSsoK96JaKmcmumqYe94yAm
- IKpVOtMdA7SbFRPM85nok7dde/IoZGQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-397-bwyoRCnYPgy9xLtK8ERKsw-1; Thu, 14 Sep 2023 09:23:56 -0400
-X-MC-Unique: bwyoRCnYPgy9xLtK8ERKsw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-31c5c762f97so667090f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 06:23:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694697834; x=1695302634;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uFwzQssh5fc2VAqJw0Fiz1bE1/NvSD7FuRwvnyf3cNo=;
- b=BFbNqYI+4itsLeTTPNL+bOT3FfZK8NT4nTlfYaO7Noyt2m8bN/DCo94s48ZVlriwbg
- v2RQwwWHoeZvrgvF5Kbs5sF89cSyc4KnoxuLvWJDf5QJVCog60qDTm9cBSm2CIgWMAr0
- Jn860f0U1nW3pSEb/9pa73wOUQLM+6YoTyDtfSAMwoEzbSjmeKj8NHC5Cgjeqo06N2ww
- c4D9wm25Gi5pFbJjgxTWDd3FVIK8S9ylPP3qZ7d/KNsGREHs241QccEgBDp9q1D7vzJe
- cmT2fwXvkJ77/0rC5KIow5A9Di3qI0IDUYvO8rOgDODllAAB7sS7KsDWLp0E5HmTPN11
- gaDw==
-X-Gm-Message-State: AOJu0YyvaRZuzyoxrMqYn1Bq3sWHlTG15lWhU8xAxxipumGuS24J7wAk
- 7aAhSNfiFgocywqQ5G+GzfCL9gx7FPYFciThLlql0R8tLQKTvLpZ0niz6epZItCUoPqvbtdD9vo
- 1M8A0uIfEldiZYDi3xtDsxex0pLcTWK8gsV6x
-X-Received: by 2002:adf:a45c:0:b0:31f:d52a:82b4 with SMTP id
- e28-20020adfa45c000000b0031fd52a82b4mr1962682wra.57.1694697834744; 
- Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEV6PIj0s5P5W7Ebly6ktcl1cL+Olu/RKBWGxM4016ZL3sE37WLvQXfMuCZC/k6rZ1Jgt5cMw==
-X-Received: by 2002:adf:a45c:0:b0:31f:d52a:82b4 with SMTP id
- e28-20020adfa45c000000b0031fd52a82b4mr1962661wra.57.1694697834368; 
- Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w16-20020adfec50000000b0031ad5470f89sm1755283wrn.18.2023.09.14.06.23.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Sep 2023 06:23:54 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v4] drm/ssd130x: Store the HW buffer in the
- driver-private CRTC state
-In-Reply-To: <4norb2kxq4uxs3imi3qjxhyxpvnyf5cpl4sg7yyf3ydrykqhfl@cb3w4wstak7r>
-References: <20230913052938.1114651-1-javierm@redhat.com>
- <4norb2kxq4uxs3imi3qjxhyxpvnyf5cpl4sg7yyf3ydrykqhfl@cb3w4wstak7r>
-Date: Thu, 14 Sep 2023 15:23:53 +0200
-Message-ID: <871qf028ie.fsf@minerva.mail-host-address-is-not-set>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71CA10E294
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:24:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id C7D4ACE26B1;
+ Thu, 14 Sep 2023 13:24:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D36C433C8;
+ Thu, 14 Sep 2023 13:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694697883;
+ bh=ApqBLmkZaOR9bG+HCuUd45NKWx9gUEFfpn0IjLXQiSA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MsZpkq2Qfg4PGoVIOMmE06NU8NwcxYgQWuzHyaEdgO4eFr1TmqhlFmr3Zow5EoaoY
+ NsyBod+a1fCTNP5TSmgFnVSn1TOyVnmR08NOdRzzpc4hroDQEoXQrOPVTxXrLyAbh1
+ bZqy+saUO0I+jw60sp06sPMEJ5CzQVLPF82U2v3/d/YbUfwCrT8j4bQTuVW9xLrOH8
+ Z/89qoW9RZsKT9zz9x2CeDZk4saVDdP5F+rg9aLHKKw9/JC8U3ufljvKGLZ7UtmbUy
+ xzIKb2ALVWNZrWf79H2I4PIvOSF5T4M6KKF453tW+3ZBgznKKmRm0gO/RrJCGi47p8
+ O7vc+ggnYTsgg==
+Date: Thu, 14 Sep 2023 15:24:40 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 2/2] drm/tests: Flag slow tests as such
+Message-ID: <wnqxfgo7tljhecw2cajoeb3aga3szfen6eohowjrepfqwakka5@pm6a7iaii7fy>
+References: <20230911-kms-slow-tests-v1-0-d3800a69a1a1@kernel.org>
+ <20230911-kms-slow-tests-v1-2-d3800a69a1a1@kernel.org>
+ <ZQAU7Juw5WM1LAAM@phenom.ffwll.local>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="s2sns2gwxynnnns6"
+Content-Disposition: inline
+In-Reply-To: <ZQAU7Juw5WM1LAAM@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,61 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
 
-Hello Maxime,
+--s2sns2gwxynnnns6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hi,
->
-> On Wed, Sep 13, 2023 at 07:29:25AM +0200, Javier Martinez Canillas wrote:
->>  static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs = {
->>  	.mode_valid = ssd130x_crtc_helper_mode_valid,
->> -	.atomic_check = drm_crtc_helper_atomic_check,
->> +	.atomic_check = ssd130x_crtc_helper_atomic_check,
->>  };
->
-> Sorry I didn't catch that sooner, but there's no reason to call that
-> function a helper.
->
+Hi Sima,
 
-Yeah, agreed that there's no reason but others drivers already add the
-_helper prefix for struct drm_*_helper_funcs callbacks, and I did that
-in this driver as well to follow (what appears to be?) a convention.
+(For some reason, it looks like your mailer sets up the headers to reply
+to every recipient but you)
 
-So I've to that now for the struct drm_crtc_helper_funcs handlers to be
-consistent with the rest of the driver, e.g for plane:
+On Tue, Sep 12, 2023 at 09:36:12AM +0200, Daniel Vetter wrote:
+> On Mon, Sep 11, 2023 at 11:51:06AM +0200, Maxime Ripard wrote:
+> > Kunit recently gained a speed attribute that allows to filter out slow
+> > tests. A slow test is defined in the documentation as a test taking more
+> > than a second to execute.
+> >=20
+> > Let's flag the few tests that are doing so on my machine when running:
+> >=20
+> > ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm/test=
+s \
+> > 	--cross_compile aarch64-linux-gnu- --arch arm64
+> >=20
+> > Suggested-by: David Gow <davidgow@google.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>=20
+> Ugh ... not a fan.
+>=20
+> igt has a really bad habit of making disastrously combinatorial tests with
+> impossible runtimes, and then just filtering these out so it's still fast.
+>=20
+> Maybe some stress tests for overall system make sense like this, but
+> absolutely not for unit tests.
 
-static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
-	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
-	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
-	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
-};
+I agree, I didn't want to reduce testing though.
 
-static const struct drm_plane_funcs ssd130x_primary_plane_funcs = {
-	.update_plane = drm_atomic_helper_update_plane,
-	.disable_plane = drm_atomic_helper_disable_plane,
-	.reset = ssd130x_primary_plane_reset,
-	.atomic_duplicate_state = ssd130x_primary_plane_duplicate_state,
-	.atomic_destroy_state = ssd130x_primary_plane_destroy_state,
-	.destroy = drm_plane_cleanup,
-};
+> And I did spot check some of these, they're just combinatorial
+> explosions with large repetition counts and some fun stuff like going
+> through prime numbers because surely that's a good idea.
+>=20
+> Imo delete them all, and if that causes a real gap in coverage, ask
+> the authors to write some actual good unit tests for these corner
+> cases.
 
-> With that fixed (and feel free to fix while applying)
->
-> Acked-by: Maxime Ripard <mripard@kernel.org>
->
-> Maxime
+Ack, I will send a patch doing so.
 
--- 
-Best regards,
+Thanks!
+Maxime
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+--s2sns2gwxynnnns6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQMJmAAKCRDj7w1vZxhR
+xWU7AQCec2+TjFtEJCwvBH+eX+OLCselkl5YoaquXV57CrLH8gEApqmPauoZqE05
+5F2myjAiz2vFlA78a+oQ1h6+efFs6Qc=
+=Lwvb
+-----END PGP SIGNATURE-----
+
+--s2sns2gwxynnnns6--
