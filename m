@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0FB79FDFE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 10:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7974A79FE22
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 10:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A781C10E511;
-	Thu, 14 Sep 2023 08:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9CA10E25D;
+	Thu, 14 Sep 2023 08:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42E110E25D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 08:14:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3997710E25D;
+ Thu, 14 Sep 2023 08:20:15 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 33D98B82816;
- Thu, 14 Sep 2023 08:14:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82AFCC433C8;
- Thu, 14 Sep 2023 08:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694679264;
- bh=4jPpt1pf/9ex67WszErnzRElXHLpBUsazSupaDspZOY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YpgzMtpbFr0/Gg+9573PEBLdPbNlgCXV7v0ucfGGPipa6mb3ZBv4vImUF2cXJrDFt
- AckYY5AGo41B4Tm2MtOFWHqpAj10ZhDqmll9RJ9BSGE3Xu4CczjH1VP2Np11nNirSG
- 7zDtlZHnkXO9mNJCRUMnB31g8IwCu3iDLdn2UT/mdGLHOPn36YYzgpHq0ctMvtOzxs
- SEdxFSoS90bht9DkFaM+Yb6N69Kur03PjasWzwpU1cxnYWli3FJ3gyY+dLDoozbArl
- LpK9bUqyg38t6mOj1rvnGLazdXr+mb4eAC+3B0R/EiYJF0rseVKyXncCxSwe/+EV4v
- GhpYk51YzmJlw==
-Date: Thu, 14 Sep 2023 10:14:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [RFT PATCH 03/15] drm/ingenic: Call drm_atomic_helper_shutdown()
- at shutdown time
-Message-ID: <vkdjbjda23fwofsbt23wtjgiya3uhelby7evwtvteqkpwb4dr4@ybla63hqndic>
-References: <20230901234202.566951-1-dianders@chromium.org>
- <20230901164111.RFT.3.Iea742f06d8bec41598aa40378fc625fbd7e8a3d6@changeid>
- <288af70dafc5e73d0fdfac71a33449385d4d6bd3.camel@crapouillou.net>
- <CAD=FV=VuJe7ACFw3pt1z=EAh14_Z4iTOc5VKJt24CGwZYjRpeQ@mail.gmail.com>
- <3prgpsxxnf3hzeqcpjs5r37nfojbkuwk4ezizrwfrcthm666k6@t2q2qcpnfkiu>
- <CAD=FV=VSTP2g1RttMu_9+AGQbMK87MzQO+tw1cZBEJ3g-jAmYg@mail.gmail.com>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 924926607342;
+ Thu, 14 Sep 2023 09:20:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694679614;
+ bh=XmOy1TN76cj9cvodR85I1aqGC2AUgCfgcCmXyrTjSXA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=m2FQgzEStPR1ikv5QUMyynbn5VwhhE8Iof/lbEctTJJ104xbSPIoa9JFvNW4lPjKx
+ 0VGLHMLiWjZDg+bX83BGo4ch5mOOUolXa/3JLvSb8PF4XErwAPf1FQRxD/JQr+qkcg
+ UGsoXTykpkmQ2Bf4yUi8YN5UPplmGYytmNwY5j5b3ZoZdWfYgk+3MI41UL7hMp06mv
+ ba5N7jwLPqBcchDTq0VoPwGEWpmY7by/tDrcu5OLrpQJQ+n+DSeern1f2YyQtB3EAW
+ xmHMtwPmma+4q/cnsH8gDeZ6d61ZmLEF+krRPfD3B0zNbT+qhxbJ7ePg1k4vrQnQ2U
+ pafzFaDrC1q6w==
+Date: Thu, 14 Sep 2023 10:20:10 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
+ dma_resv/extobj handling and GEM validation
+Message-ID: <20230914102010.628ea823@collabora.com>
+In-Reply-To: <6f4c047d-0e6d-c45b-3092-cd0bc84849dc@linux.intel.com>
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-7-dakr@redhat.com>
+ <a9ef04d2-2525-65c0-2eda-45ca9a95a3a0@linux.intel.com>
+ <20230913090311.5eeb026a@collabora.com>
+ <CAPM=9tyf4m6gtUQ0BCraf0gB06_pxXV8gpQQsvWjeJnczmJkQQ@mail.gmail.com>
+ <20230913091918.62c06a30@collabora.com>
+ <df85257a-02ed-4869-2421-0039a9c97db5@linux.intel.com>
+ <20230913133318.15edec7c@collabora.com>
+ <6f4c047d-0e6d-c45b-3092-cd0bc84849dc@linux.intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2du6jspwxvnyl5mc"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VSTP2g1RttMu_9+AGQbMK87MzQO+tw1cZBEJ3g-jAmYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,204 +62,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
+Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 13 Sep 2023 15:22:56 +0200
+Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
 
---2du6jspwxvnyl5mc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Sep 13, 2023 at 09:23:29AM -0700, Doug Anderson wrote:
-> On Wed, Sep 6, 2023 at 1:39=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> > On Tue, Sep 05, 2023 at 01:16:08PM -0700, Doug Anderson wrote:
-> > > > > This commit is only compile-time tested.
-> > > > >
-> > > > > NOTE: this patch touches a lot more than other similar patches si=
+> On 9/13/23 13:33, Boris Brezillon wrote:
+> > On Wed, 13 Sep 2023 12:39:01 +0200
+> > Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
+> > =20
+> >> Hi,
+> >>
+> >> On 9/13/23 09:19, Boris Brezillon wrote: =20
+> >>> On Wed, 13 Sep 2023 17:05:42 +1000
+> >>> Dave Airlie <airlied@gmail.com> wrote:
+> >>>    =20
+> >>>> On Wed, 13 Sept 2023 at 17:03, Boris Brezillon
+> >>>> <boris.brezillon@collabora.com> wrote: =20
+> >>>>> On Tue, 12 Sep 2023 18:20:32 +0200
+> >>>>> Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
+> >>>>>       =20
+> >>>>>>> +/**
+> >>>>>>> + * get_next_vm_bo_from_list() - get the next vm_bo element
+> >>>>>>> + * @__gpuvm: The GPU VM
+> >>>>>>> + * @__list_name: The name of the list we're iterating on
+> >>>>>>> + * @__local_list: A pointer to the local list used to store alre=
+ady iterated items
+> >>>>>>> + * @__prev_vm_bo: The previous element we got from drm_gpuvm_get=
+_next_cached_vm_bo()
+> >>>>>>> + *
+> >>>>>>> + * This helper is here to provide lockless list iteration. Lockl=
+ess as in, the
+> >>>>>>> + * iterator releases the lock immediately after picking the firs=
+t element from
+> >>>>>>> + * the list, so list insertion deletion can happen concurrently.=
+ =20
+> >>>>>> Are the list spinlocks needed for that async state update from wit=
+hin
+> >>>>>> the dma-fence critical section we've discussed previously? =20
+> >>>>> Any driver calling _[un]link() from its drm_gpu_scheduler::run_job()
+> >>>>> hook will be in this situation (Panthor at the moment, PowerVR soon=
+). I
+> >>>>> get that Xe and Nouveau don't need that because they update the VM
+> >>>>> state early (in the ioctl path), but I keep thinking this will hurt=
+ us
+> >>>>> if we don't think it through from the beginning, because once you've
+> >>>>> set this logic to depend only on resv locks, it will be pretty hard=
+ to
+> >>>>> get back to a solution which lets synchronous VM_BINDs take precede=
 nce
-> > > > > the bind() function is long and we want to make sure that we unset
-> > > > > the
-> > > > > drvdata if bind() fails.
-> > > > >
-> > > > > While making this patch, I noticed that the bind() function of th=
-is
-> > > > > driver is using "devm" and thus assumes it doesn't need to do much
-> > > > > explicit error handling. That's actually a bug. As per kernel docs
-> > > > > [1]
-> > > > > "the lifetime of the aggregate driver does not align with any of =
+> >>>>> on asynchronous request, and, with vkQueueBindSparse() passing exte=
+rnal
+> >>>>> deps (plus the fact the VM_BIND queue might be pretty deep), it can
+> >>>>> take a long time to get your synchronous VM_BIND executed... =20
+> >> So this would boil down to either (possibly opt-in) keeping the spinlo=
+ck
+> >> approach or pushing the unlink out to a wq then? =20
+> > Deferred _unlink() would not be an issue, since I already defer the
+> > drm_gpuva destruction to a wq, it would just a be a matter of moving the
+> > _unlink() call there as well. But _link() also takes the GEM gpuva list
+> > lock, and that one is bit tricky, in that sm_map() can trigger 2 more
+> > _link() calls for the prev/next mappings, which we can't guess until we
+> > get to execute the VM update. If we mandate the use of the GEM resv
+> > lock, that simply means async VM updates (AKA calling
+> > drm_gpuvm_sm_[un]map()) are not an option. And if this is what everyone
+> > agrees on, then I'd like the APIs that make this sort of async VM
+> > update possible (drm_gpuvm_sm_[un]map(), the drm_gpuvm_ops::sm_step*
+> > methods, and probably other things) to be dropped, so we don't make it
+> > look like it's something we support.
+> > =20
+> >> BTW, as also asked in a reply to Danilo, how do you call unlink from
+> >> run_job() when it was requiring the obj->dma_resv lock, or was that a =
+WIP? =20
+> > _unlink() makes sure the GEM gpuva list lock is taken, but this can be
+> > a custom lock (see drm_gem_gpuva_set_lock()). In panthor we have
+> > panthor_gem_object::gpuva_list_lock that's dedicated the gpuva list
+> > protection. We make sure we never take this lock while allocating
+> > memory to guarantee the dma-signalling path can't deadlock.
+> > =20
+> >>>>>       =20
+> >>>> btw what is the use case for this? do we have actual vulkan
+> >>>> applications we know will have problems here? =20
+> >>> I don't, but I think that's a concern Faith raised at some point (dat=
+es
+> >>> back from when I was reading threads describing how VM_BIND on i915
+> >>> should work, and I was clearly discovering this whole VM_BIND thing at
+> >>> that time, so maybe I misunderstood).
+> >>>    =20
+> >>>> it feels like a bit of premature optimisation, but maybe we have use=
+ cases. =20
+> >>> Might be, but that's the sort of thing that would put us in a corner =
+if
+> >>> we don't have a plan for when the needs arise. Besides, if we don't
+> >>> want to support that case because it's too complicated, I'd recommend
+> >>> dropping all the drm_gpuvm APIs that let people think this mode is
+> >>> valid/supported (map/remap/unmap hooks in drm_gpuvm_ops,
+> >>> drm_gpuvm_sm_[un]map helpers, etc). Keeping them around just adds to =
 the
-> > > > > underlying struct device instances. Therefore devm cannot be used=
- and
-> > > > > all resources acquired or allocated in this callback must be
-> > > > > explicitly released in the unbind callback". Fixing that is outsi=
-de
-> > > > > the scope of this commit.
-> > > > >
-> > > > > [1] https://docs.kernel.org/driver-api/component.html
-> > > > >
-> > > >
-> > > > Noted, thanks.
-> > >
-> > > FWIW, I think that at least a few other DRM drivers handle this by
-> > > doing some of their resource allocation / acquiring in the probe()
-> > > function and then only doing things in the bind() that absolutely need
-> > > to be in the bind. ;-)
-> >
-> > That doesn't change much. The fundamental issue is that the DRM device
-> > sticks around until the last application that has an open fd to it
-> > closes it.
-> >
-> > So it doesn't have any relationship with the unbind/remove timing, and
-> > for all we know it can be there indefinitely, while the application
-> > continues to interact with the driver.
+> >>> confusion. =20
+> >> Xe allows bypassing the bind-queue with another bind-queue, but to
+> >> completely avoid dependencies between queues the Operations may not
+> >> overlap. =20
+> > So, you check the VM state with some VM lock held (would be the VM resv
+> > in my case), and if the mapping is new (no overlaps with pre-existing
+> > mappings), you queue it to the fast-track/sync-VM_BIND queue. What would
+> > be missing I guess is a way to know if the mapping is active (MMU has
+> > been updated) or pending (MMU update queued to the bind-queue), so I can
+> > fast-track mapping/unmapping of active mappings.
+
+Ok, so I started modifying the implementation, and quickly realized the
+overlap test can't be done without your xe_range_fence tree because of
+unmaps. Since we call drm_gpuva_unmap() early/in the IOCTL path (IOW,
+before the mapping teardown is effective), we lose track of this
+yet-to-be-executed-unmap operation, and if we do our
+va_range_overlaps_with_existing_mappings() test after such an unmap has
+been queued using just the drm_gpuvm tree, we might get false even if
+the mapping still exists and is expected to be torn down when the
+VM_BIND(unmap) job is executed on the bind-queue. As a result, this
+might execute the VM_BIND(map,sync) immediately (because the dependency
+went undetected), and then the vm_bind_run_job() function kicks in and
+undoes what the synchronous VM_BIND(map) did. Am I missing something?
+
+If I'm correct, that means I'm back to having synchronous VM_BIND ops
+queued after all asynchronous ones unless I use something like your
+xe_range_fence solution (which I was hoping I could postpone until we
+decide to expose multiple bind queues).
+
+I'm still a bit skeptical about this 'update VM mappings tree early,
+defer MMU page table updates' approach, where the VM state and the
+actual page table tree are temporarily out of sync until all operations
+have been flushed on all queues targeting a VM. This means any test we
+do on the gpuvm, like, 'give me the BO mapped at VA xxx', is subject to
+'is this the current state or the future state?' questioning. Note that
+we can't even get the current VM state anymore, because all the
+drm_gpuvm::tree stores with this solution is the future state, and
+to-be-unmapped mappings are lost during the transitioning period (when
+vm_bind jobs are queued but not executed yet).
+
+> > This would leave
+> > overlapping sync/async VM updates, which can't happen in practice
+> > unless userspace is doing something wrong (sparse bindings always go
+> > through vkQueueBindSparse). =20
 >=20
-> I spent some time thinking about similar issues recently and, assuming
-> my understanding is correct, I'd at least partially disagree.
+> User-space is allowed to create new bind queues at will, and they=20
+> execute independently save for range overlaps.
 >=20
-> Specifically, I _think_ the only thing that's truly required to remain
-> valid until userspace closes the last open "fd" is the memory for the
-> "struct drm_device" itself, right? My understanding is that this is
-> similar to how "struct device" works. The memory backing a "struct
-> device" has to live until the last client releases a reference to it
-> even if everything else about a device has gone away. So if it was all
-> working perfectly then if the Linux driver backing the "struct
-> drm_device" goes away then we'd release resources and NULL out a bunch
-> of stuff in the "struct drm_device" but still keep the actual "struct
-> drm_device" around since userspace still has a reference. Pretty much
-> all userspace calls would fail, but at least they wouldn't crash. Is
-> that roughly the gist?
+> And the overlapping granularity depends very much on the detail of the=20
+> range tracking.
+> We drafted this fenced range utility
+>
+> https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/353
 
-Yes, but also, no.
-
-In the spirit, you're right. However, there's three things interfering
-here:
-
-  - You don't always have a match between device and KMS entity. Display
-    pipelines are usually multiple devices working together, and while
-    you probably have a 1:1 relationship with bridges and panels (and to
-    some extent encoders/connectors), the planes and framebuffers for
-    example are a mess :) So, if the device backing the planes is to be
-    removed, what are you removing exactly? All of the planes and
-    framebuffers? Do you free the buffers allocated by the userspace
-    (that it might still use?)?
-
-  - In addition to that, KMS doesn't deal with individual entities being
-    hotplugged so neither the subsystem nor the application expect to
-    have a connector being removed.
-
-  - ioctl's aren't filtered once the device is starting to get removed
-    on most drivers.
-
-So due to 1 and 2, we can't really partially remove components unless
-the application is aware of it, and it doesn't expect to. And most
-drivers still allow (probably unwillingly though) the application to
-call ioctls once the DRM device has lost at least one of its backing
-devices.
-
-> Assuming that's correct, then _most_ of the resource acquiring /
-> memory allocation can still happen in the device probe() routine and
-> can still use devm as long as we do something to ensure that any
-> resources released are no longer pointed to by anything in the "struct
-> drm_device".
->=20
-> To make it concrete, I think we want this (feel free to correct). For
-> simplicity, I'm assuming a driver that _doesn't_ use the component
-> framework:
->=20
-> a) Linux driver probe() happens. The "struct drm_device" is allocated
-> in probe() by devm_drm_dev_alloc(). This takes a reference to the
-> "struct drm_device". The device also acquires resources / allocates
-> memory.
-
-You need to differentiate resources and allocations there. Resources can
-be expected to go away at the same time than the device, so using devm
-is fine. Allocations are largely disconnected from the device lifetime,
-and using devm leads to UAF.
-
-> b) Userspace acquires a reference to the "struct drm_device". Refcount
-> is now 2 (one from userspace, one from the Linux driver).
->=20
-> c) The Linux driver unbinds, presumably because userspace requested
-> it. From earlier I think we decided that we can't (by design) block
-> unbind. Once unbind happens then we shouldn't try to keep operating
-> the device
-
-That part is correct, because the resources aren't there anymore.
-
-> the driver should stop running.
-
-But for the reasons above, the driver needs to still operate (in a
-degraded mode).
-
-> As part of the unbind, the remove() is called and also "devm"
-> resources are deallocated. If any of the things freed are pointed to
-> by the "struct drm_device" then the code needs to NULL them out at
-> this time.
-
-Right, we also need to make sure we don't access any of the resources
-that got freed. This is typically done by protecting all the accesses
-with drm_dev_enter/drm_dev_exit.
-
-> Also we should make sure that any callback functions that userspace
-> could cause to be invoked return errors.
-
-That would prevent any new ioctl from occuring after the device has been
-removed, but that doesn't fix the race condition if it's removed while
-there's a commit happening. This is further complicated by the fact that
-commits can be queued (so you would have multiple submitted already) or
-made asynchronous.
-
-> Our code could go away at any point here since userspace could "rmmod"
-> our module.
-
-Yeah, we probably have a bug there. Boris also reported something like
-that recently where if you add an action with drmm_add_action, and then
-remove the module, the function would have been free'd by the time it
-executes.
-
-> d) Eventually userspace releases the reference and the "struct
-> drm_device" memory gets automatically freed because it was allocated
-> by devm_drm_dev_alloc()
-
-It was allocated by devm_drm_dev_alloc() but wasn't by devm_kzalloc().
-devm_drm_dev_alloc() will "only" register an action to put back its
-reference, but any application that opens the DRM device file will take
-a reference as well (through drm_minor_acquire()).
-
-So it's not freed at device_release_all() time, but when the last
-reference is given back which could happen much later.
-
-> NOTE: potentially some things could be allocated / managed by
-> drmm_xyz() function, like drmm_kmalloc() and that could simplify some
-> things.
-
-The general rule is that any allocation needed for the framework
-interactions need to be allocated by drmm, any allocation/resource
-needed to operate the device need to be allocated by devm.
-
-> However, it's not a panacea for everything. Specifically once
-> the Linux driver unbind finishes then the device isn't functional
-> anymore.
-
-What's wrong with it then?
-
-Maxime
-
---2du6jspwxvnyl5mc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQLA3gAKCRDj7w1vZxhR
-xa+5AP9o4+vOzSZHs7vOSuXvf5IEzBcS2oaleKG3SymcHI67HAEAzjF3V+vvKqhN
-XUuFtiWgTabwwQ7Scd8H60DV4lgQjwQ=
-=FHBU
------END PGP SIGNATURE-----
-
---2du6jspwxvnyl5mc--
+I'll try to see if there's a way we can have something generic shared
+at the gpuvm level.
