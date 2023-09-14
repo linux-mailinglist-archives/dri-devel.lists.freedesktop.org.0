@@ -1,76 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739997A0EEC
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 22:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF6A7A0F1A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 22:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4124510E2B2;
-	Thu, 14 Sep 2023 20:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2AA910E417;
+	Thu, 14 Sep 2023 20:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABB010E2B2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 20:27:13 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38EKFtA6000787; Thu, 14 Sep 2023 20:27:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=spiH3gFH19/jm7I7++wwwkP9fPV76kgclzFFFCYsQDE=;
- b=jsPwM167QYqmHfbMdY1iB3rysmBZ66EGCRyCo75Fs/Akm1oLnc6PaAb1/1rqsUyGkuoN
- x5PnmZFfmBU9HfOR7cwNC2pU86OtO4Ov0Magd50J+lioJhr4OMj/bx3tNVMTzXcMStO/
- 0izSyPWjH0EHVp/6qOdVw6SDuTX2/iwkHXIl3U3w2M2Cq2R8wRXoAgpMi5XvQvsEgcGj
- FxUGOESFlAyUsvcRiP+wpfO+mUo3TmjVaArufMoUGs67bVDG10mNo1Vgdlb+8ucCGmL8
- OhccPgK7PTLkR9t/lvePeMgHuC9Qjjm9n79tPhfN8bA4y7zVzkdYo8MOOKorkZMf0kDP AQ== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t3v4gabh6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Sep 2023 20:27:02 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38EKR1qQ000788
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Sep 2023 20:27:01 GMT
-Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 14 Sep
- 2023 13:27:00 -0700
-Message-ID: <2d49a4a2-01f0-1625-0cbf-d414499e47ca@quicinc.com>
-Date: Thu, 14 Sep 2023 13:27:00 -0700
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D1110E2B3;
+ Thu, 14 Sep 2023 20:40:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mQoVhNJkR9rABz9i9N6j2XZdXe9a2wL9gF6vigSRglykB5+Q1cWDdSzJ7JuTkO0My4CMMyMUr//gVVeYMnkUXov/wpf0MWmgxZMlfVlC79dI/tawLgPch3+0pNxDi0gH1Nar1bLyemhz9yPjTy0mYKSr3msWJU1mOPZfCEqwINLRoHXKM9gnyO45YMjayz0G4bjqoVOHGPV8MUCPi7xmRZrxelXx+1vLrJ1u1fvfpgzunblIELR+orsf9nJO0oF7GGqT7x5l+ycZs3eYuPMyvrmWK5kTQM17rx8eiB4aaYDOb6M11C5r6MWXI/ecK2SNNCSWpaLx4Jhl/TEK+iy2ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BlCSwCVttT4GpQ+N7oP90coj5rZVKKb2G3tUooi1puI=;
+ b=AIrtbCkJJYVxQofwryZVodi2PAPoYH+8hNkmq7//oyosG0IIMfYFMpfYjm2lpOysDgB0ccmwS97i2ykco1s5f/QXPUwa6ZWJWsrSQ7XrSi16tlJLGH5l0KGiDLqH9b7t0Ijs/JEgVtmunvPQy08rZToaH6fRv/O1/1RWQ0w5zSu6JphpmjpsLgrp61TCabpyNon+58myeugyJU/D07NDI+53zNmJB1m0jgDpexaGTDgURZrDl74USjjWsIwD2QXSbwUhtfWvXAZMlxGngOCN/fK/sf9CasJzYEoVw1ffiqefFpn5K9G/niIbx6CY6aE2wItdiCTvzZr8PecmpO9hYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BlCSwCVttT4GpQ+N7oP90coj5rZVKKb2G3tUooi1puI=;
+ b=MOJakMXELxzSy8LqXL5IU4S/SQXe8g2LXetB4U2yFh7DY6sQAyAhMc1jhIc6OA3/IATb5qoeoa2SZn+ZXdzsSs0Jh97lomQ3+VI8x/E1/jBuv5YzG204ApwS7SuqiyeIrO2cetJxcRFcde/lg/JehNoUrbZCZKSR3TKcM9YthlM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by DS0PR12MB7996.namprd12.prod.outlook.com (2603:10b6:8:14f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.20; Thu, 14 Sep
+ 2023 20:40:57 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::121e:5e68:c78a:1f2f%3]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
+ 20:40:57 +0000
+Message-ID: <3630bc42-c04c-4c22-99f2-5dc6bd5d8e2f@amd.com>
+Date: Thu, 14 Sep 2023 16:40:52 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/8] drm/panel: nv3052c: Document known register names
+Subject: Re: [PATCH] drm/amd/display: fix the ability to use lower resolution
+ modes on eDP
 Content-Language: en-US
-To: John Watts <contact@jookia.org>
-References: <20230911090206.3121440-1-contact@jookia.org>
- <20230911090206.3121440-2-contact@jookia.org>
- <977a8de9-26ec-1789-4c72-fd36f34480c3@quicinc.com> <ZQKIED7jCc1FuPP1@titan>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <ZQKIED7jCc1FuPP1@titan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20230914175354.102709-1-hamza.mahfooz@amd.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230914175354.102709-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: oN9uX6SQC4NWwccyzUfTryGXaPcoKS8n
-X-Proofpoint-GUID: oN9uX6SQC4NWwccyzUfTryGXaPcoKS8n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-14_12,2023-09-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=973
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0
- spamscore=0 impostorscore=0 clxscore=1015 phishscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309140178
+X-ClientProxiedBy: YT4PR01CA0127.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d5::29) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DS0PR12MB7996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9117f9ae-e3c6-40e5-dd1c-08dbb562e5dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jPmA9PO1yWbqQsdZ06/Kaj9k3gUAWzywSA81VnZFhXTXdLA5ui2q8Lp5woi0QCP2gvhQHqX0kzSEe+aCniNgSVnfD9uTItxskXneXFJzp3wS0yPSzwS1TNrpsCfMQ98Ro2UQQYTQC30wqjqjKiUtcWK80BNfMIlX/z56zWhFJCNGqVDUjL66iMQ8SzR7JkK+T6IyTAut6OWCeg3yz65LQo83fBp+kWsaZqJuPwrAHpKwfKhrL1reLX3xAkKKhUdARHFFXfgGKbt91uVnNPK7OeORMk666QOaDglL464nyi793clg6ahxrqBmI6jZdgct0JQVPLBoRxV5BhqGuuVIm+6u1h2AQav7Rn9NcY3DuFJGTjXveMuqDWquYfED25PuJXseody3cQpWx+yz4OtxnCdz8clVxh4UMNdTc/djbPqAM+qM8TcqnSt15UUkCSNz5HFNOB1U27jqp9MTjJaDBM2RNtMzhV3GAZHU89GLgDovBCxRf0x/cvU6CUgF/UHGFB3jI+87/IsqQFt6NBBDqh95PG2GNjhnXT1RS1kTGxehgsW91pS0nzLCEy0DF+3SdPcxFcrTog0BV4O/FhkN7PdTdG/DTD3f45d9bFg/NEfuNb4Rqu257X9cQT9Bgn93
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(396003)(136003)(39860400002)(376002)(186009)(1800799009)(451199024)(36756003)(31686004)(316002)(41300700001)(86362001)(66476007)(66946007)(66556008)(4326008)(5660300002)(31696002)(8676002)(38100700002)(44832011)(8936002)(54906003)(83380400001)(478600001)(26005)(966005)(2616005)(2906002)(6666004)(6512007)(6486002)(53546011)(6506007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzJmN05xTGlFSmkzS29BcHVOSkpRTjVhSnJNcDhCTitPRWFFQjhhU2p6THN3?=
+ =?utf-8?B?UWRqTkRSRFI0NkF1UXg2dkNueGhsMHpSUytHa2hPN0xKbUYyUEJDR3NkOXZD?=
+ =?utf-8?B?SEFNUitLTmRYc2c5R1E5OUFTbUROcklwK3hHWDZWRTBRT0lucnpTWkdaeHlW?=
+ =?utf-8?B?ZktFenNWM2RQVnRSV0QyMGZoMEx6NjUvQXJFb3g0dzRYVVNFelJxZ2dLM2NG?=
+ =?utf-8?B?bk1abmR6TGVOcURPU3JuYW5hMHpvUnJleVhiSzMrWEk2YmU2RG9GMTR6bUQ4?=
+ =?utf-8?B?QURONGFROUt4ekhpZG94cnFwN01lZWJoMmg3VzZ0ZWtiSmNQR0NTeHg3Zy9n?=
+ =?utf-8?B?T1ZFcTJmK3lEZ21waFV1ZnNFRTRjWnZzOUJQWlhBOC95cERjLzJ4NzhlNGpj?=
+ =?utf-8?B?MnVUSlk0MHRLeW13QXFEMGQxMytKNFF1WHcvN29WYmxkSlVTMitqRlhGNXha?=
+ =?utf-8?B?ckFnUjcxYkN0dEVaQWFSZy9id2pJZ1VuWkxNcElnSTNsTFRwKzZ6RFNXeTF2?=
+ =?utf-8?B?aURlK1h4UXkwWjJxUjdzdm5YN3ZLLzF0Q3hPYTY1eFZPOWNoQ003WDlzajJ3?=
+ =?utf-8?B?WHoxOW9xOWR0cTg3MHRMZXUrWlkxRGtFdWh0ZlVUb3NPVUJ5dmNTRk9TMWE4?=
+ =?utf-8?B?SjQ3ZjdHdVhmT3FScWRXa3B4VG4xRzloK2ZXRHhoeE1BMS9WYXllNEZOMExB?=
+ =?utf-8?B?elNjOGx5UXp0a1VKaTFZWW9LTlhLcEVGcitFYngzWCt3eUhNekt0NDJHVm96?=
+ =?utf-8?B?RWV4ck85TjlkVlcvbXFmcTZUWnMvZUt5dTJzS0FlVHZsNTNnUXlLNHlpcTF3?=
+ =?utf-8?B?bWpNbmNsOHhlZ3dtanAzS25Qb1poRzdvV0ZwR0FORU5LTlFyZXB6TnV1ajV0?=
+ =?utf-8?B?aGg5V2xxUVhqaVFNT1piRGJ1K1BWTUFQRkF0ZlEzS1FRL3B2MmM1MkFsRlJq?=
+ =?utf-8?B?cU9tQnBOSDFEamdQdURENjUyb015YmpQczA4dHAxT2dFVWs2T0R1L01VclJD?=
+ =?utf-8?B?QWhzamJhUm9pUmlLdEt2SjBVM2RlMXM3Z0lGbVBPeFpJaW1oNERqVVVuaE04?=
+ =?utf-8?B?clhZeW1lUWNmVUF2RjNsK0ZSaGQ3bFFNazFKUDRiZ1BZNC9ZZjVMUXlyRDlJ?=
+ =?utf-8?B?ZVVxV3Yvb0lkRk9yaXhXdjRSSUIzUlZTTG1IU0c1UEtlVVlCQVJDd0lDMVVB?=
+ =?utf-8?B?cHpDeXB3R0dud2I3cmwvOXhBUDZ2NU9vMWowbXUyQXZhRnQxaXk4TmdHdmw4?=
+ =?utf-8?B?a0pNZ1ZkcFZWS2p0MC9RdHlkM056Q1grRWxkUFRvUXRZdW53eDRJOXVWNDB6?=
+ =?utf-8?B?eFVGeDFDQ1BqUEdicEFnSG1OU1BoUmJTYnRjdFM2c2dZbWwzSmt0VnowWjhk?=
+ =?utf-8?B?Z2E3clhoTHJ1dGZ4Wk9FdzFRVUtSYVJad1RYcGwyQVBVTE9Ca0JqVHl1S0Rs?=
+ =?utf-8?B?dzFGcXJKNTM5RFhOKzJsK1plckY3ZDh5enA5aGlkSU5QTkNJNytTM2VzanFH?=
+ =?utf-8?B?YllnM3cxZFZIY1BTZG14bkRRYzNFMWFGRVVtMFF5amdZQndxNnNta1Q1aS9O?=
+ =?utf-8?B?aE5Tc0tJdHFEN2hjNnRucjhZeFhDbEozc1lkUUM2ZUh6ZG5IZmgvUXVTMkRr?=
+ =?utf-8?B?SDZTZXMzU1EyR2Ixd2o0clVLczU5Q0FvbjgrSWtEdFpMTTloTVQzNUhpSHRY?=
+ =?utf-8?B?eUF1UGtYRFVETGduNFUzdDltMFZGL0d4dG1kYXRPNndCR0tWS2FWcitUcURm?=
+ =?utf-8?B?cXhSVk9yNDlXbHFnbzBJTW9LcHhKVXhPN3g4elV2VVRWQkt2QU5sTXNLaW1r?=
+ =?utf-8?B?MG00S1R3YTZmK2RkOVoyeHMxRHdwZEFvZW5sWTltZDhtbFYzNzBLUVV6NGN6?=
+ =?utf-8?B?N21CVmJYUjI0MUJhd2hTQlVHVGRGQ0c4V0ZNelVIRldGRkNpOVhlLzFwUktl?=
+ =?utf-8?B?YnhPeXJaRWV1eVJTZis3MzYvKzdjNDIvVzZkK3RJeFpqdlUyVitiZkprL2Ni?=
+ =?utf-8?B?czcvV080cmtYUVRBYVZndlRLVENYbFpnOEhQWS9GRmlrQVA3ZG91ODVPa3Uv?=
+ =?utf-8?B?SVJYSTRaLzdLdDhzRXZJLzNpbnBJaG9ibTM4Qkdma25ZMHFYVmJpSzZIVUJF?=
+ =?utf-8?Q?wOYNM2t7tHH2UV3cfbDCwLmN5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9117f9ae-e3c6-40e5-dd1c-08dbb562e5dd
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 20:40:57.2861 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w9mcZXEU+NKQE1vQV5NwTUjtVnVoBWxtt9oPueGZzK6SixPoMFCcET/jxN6NooXNXDv36HKKRX2QJU0neiIERA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7996
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,47 +124,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@edgeble.ai>, Rob Herring <robh+dt@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Stylon Wang <stylon.wang@amd.com>, Alan Liu <haoping.liu@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ dri-devel@lists.freedesktop.org, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/13/2023 9:12 PM, John Watts wrote:
-> On Wed, Sep 13, 2023 at 02:43:43PM -0700, Jessica Zhang wrote:
->> Hi John,
->>
->> Just curious, what do you mean by these registers being mostly unknown?
->>
->> I do see them specified in the online specs -- some even seem to map to
->> existing MIPI_DCS_* enums (ex. 0x01 to MIPI_DCS_SOFT_RESET, and 0x04 to
->> MIPI_DCS_GET_DISPLAY_ID).
->>
->> Thanks,
->>
->> Jessica Zhang
+On 2023-09-14 13:53, Hamza Mahfooz wrote:
+> On eDP we can receive invalid modes from dm_update_crtc_state() for
+> entirely new streams for which drm_mode_set_crtcinfo() shouldn't be
+> called on. So, instead of calling drm_mode_set_crtcinfo() from within
+> create_stream_for_sink() we can instead call it from
+> amdgpu_dm_connector_mode_valid(). Since, we are guaranteed to only call
+> drm_mode_set_crtcinfo() for valid modes from that function (invalid
+> modes are rejected by that callback) and that is the only user
+> of create_validate_stream_for_sink() that we need to call
+> drm_mode_set_crtcinfo() for (as before commit cb841d27b876
+> ("drm/amd/display: Always pass connector_state to stream validation"),
+> that is the only place where create_validate_stream_for_sink()'s
+> dm_state was NULL).
 > 
-> Hi Jessica,
+
+I don't seem to see how a NULL dm_state in
+create_validate_stream_for_sink() (or create_stream_for_sink() for that
+matter) has an impact on the drm_mode_set_crtcinfo() call. That one depends
+on !old_stream and &mode.
+
+It does look like &mode is an empty mode if we can't find a preferred_mode,
+though. Not sure if that can cause an issue.
+
+Harry
+
+> Cc: stable@vger.kernel.org
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2693
+> Fixes: cb841d27b876 ("drm/amd/display: Always pass connector_state to stream validation")
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Unfortunately these registers are not MIPI ones, but on a separate page of
-> registers. So page 2 register 1 isn't MIPI_DCS_SOFT_RESET, that is page 0
-> register 1.
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 933c9b5d5252..beef4fef7338 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6128,8 +6128,6 @@ create_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+>  
+>  	if (recalculate_timing)
+>  		drm_mode_set_crtcinfo(&saved_mode, 0);
+> -	else if (!old_stream)
+> -		drm_mode_set_crtcinfo(&mode, 0);
+>  
+>  	/*
+>  	 * If scaling is enabled and refresh rate didn't change
+> @@ -6691,6 +6689,8 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
+>  		goto fail;
+>  	}
+>  
+> +	drm_mode_set_crtcinfo(mode, 0);
+> +
+>  	stream = create_validate_stream_for_sink(aconnector, mode,
+>  						 to_dm_connector_state(connector->state),
+>  						 NULL);
 
-Got it -- thanks for the explanation.
-
-In that case,
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-Thanks,
-
-Jessica Zhang
-
-> 
-> John.
