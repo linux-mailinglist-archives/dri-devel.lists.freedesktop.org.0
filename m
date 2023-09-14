@@ -1,135 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C137A03FD
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 14:36:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC13C7A04BE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB17710E56A;
-	Thu, 14 Sep 2023 12:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D4610E27A;
+	Thu, 14 Sep 2023 13:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B581E10E562;
- Thu, 14 Sep 2023 12:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694694975; x=1726230975;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=BLDy6P7ezZszo0JnrBvHWkb+fxSbulk/FBisqnX7MAA=;
- b=DCydmmdHC8nssct+rGm8zsRUdkvHRX23HbV63gUHIAOsYIeN9hpXEIoy
- Qg4Vb2jpl2QclgHBL1R5Vu8ZHEomhJOUVnFAUm8jz3C/WqcfxTWHQoppe
- MBCkfm8XlAx/ZfypZ1qd4UL8ixHkGCWHj8i2f5A4fNyn43WJ6SM1IP1DG
- z0PBj/8Kj53u1tqdv5JzRGtSuuAXUrXm+0AIikMlZVRr2yYSphgkmEWIW
- Y/JaZ0danHNFdoTryv0ExEJ4lXPyE+45rbEToy9UwdS9ElkIsVEPaYSKt
- dho4U1oJx8P16PZWP4CNMJfZUCQP3m161KR6b/y9NJ395Vcg08nTeB9zo Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="442966461"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="442966461"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 05:36:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="737907941"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="737907941"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 14 Sep 2023 05:36:14 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 14 Sep 2023 05:36:14 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 05:36:14 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.103)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 14 Sep 2023 05:36:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F1CHca7n8lTymGeCYVXJtOKmo/EYKFhnMtfEUV7ZHKLIBnjD1+I9STSvADFY0+dwfI1mxef80LckZxJGXFosGnYKWaFYnh1pMz144TFBXoRTfrsAE4PWu0H9Pi+RJYikrfdkq6308W8vB9G0H7+VN186ChC75jqUqvTFd+WmWCGIoMtEVOBhpX4i1xa/kNbsdpVn6BMPLjoqmvAlWb0t5ZlVGR2j6mF/lw8obF9zz/4SxQK+KhUmgIcyURtEsYACtX0C6ei61ARPSHowlDt+dNRRyX+D8UDsgPpivU5fL/QtIwbanJfS7JL9InnxCTnuZKEhOvcBAnXpepwAJVd1rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ULyZSSUrqsYEnMZiOGJleJXIe5I5f8DXZhUf1mYyEYo=;
- b=COqpFULKUOQ3BYfhZGFlBgGI+1g8ROCirScQsaCbFtdGLZkziAYwFAs4iypIV1IShoqpeXrmEMj+OLyYrUbZyAR123bmRI9KhojDf9iagxqlE1yiVa2fjdoQgd7kSOqyR5pRGuz6MpGNW05hDvhHBjLaU++A9EfvmnlLWIIXo44bFbLq/RPtv5nO0ZFZTskueM1M2UoJoHh/5YPASLqOzuUwJ08Oyy+QVYu9U5oiuis+SMyyvPipipB3bFHGKO4T37hPvbKL4AqzO4Nhh9I2YXTp3t4KQzawzVkoGNiZYbt5oCXvhprh3ohc8nhVebEZYfwjmF3/1LFifIDsDY/gCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BN9PR11MB5322.namprd11.prod.outlook.com (2603:10b6:408:137::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.20; Thu, 14 Sep
- 2023 12:36:12 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6745.034; Thu, 14 Sep 2023
- 12:36:12 +0000
-Date: Thu, 14 Sep 2023 08:36:06 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <ZQL+NqtIZH5F/Nxr@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0274.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::9) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9805210E273
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:01:43 +0000 (UTC)
+Received: from [192.168.2.134] (109-252-153-31.dynamic.spd-mgts.ru
+ [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BA1766607343;
+ Thu, 14 Sep 2023 14:01:40 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694696502;
+ bh=v7DarGRquMfyLEjGWgeGuwbNfFGcYNditgZ8c3FOQkc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MuOydnq9IblIDeVrXJoWXbCc90YL4c+0X+qvYlSpCQSNtCHdfkykV9fyMKZ1v7osv
+ 9r0arWbahiqks3T9c/BmCN9p22Q7YYbf/dzdTApio/+o3PMEBora1NYlTMA40yUVRx
+ 1ipiGfyY9Evi7G7X2sXiahvygnSAug+BskUIgUv85lIk9F1erwyL0NYKrkk1T3TUGu
+ ll8RQ9toWpzZ4WmNy2tHwLiJZqlUGbJiF3svdASEI4JeiftdBMwLeZNfcE3evFplEx
+ 0MCNIrbj5vIC/R+UjT0403wA2dCudHcG4ZK+W837YV5ImNkP2R3HW6qlbipmqpVXRe
+ B/Lz+QTRBjkew==
+Message-ID: <ca7e905b-2809-fce4-1b56-7909efb1a229@collabora.com>
+Date: Thu, 14 Sep 2023 16:01:37 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BN9PR11MB5322:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5bedb066-708d-4c95-273f-08dbb51f2dd6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s0gP/9fYJ7inu8qa4RtuRRJT4fNWBh3g1wt68h+TLWX+dklIi5XS7RgtUdn4pAfHvzg02bCd4zYt7jiYHzGlX2Ex8QwP0FWmXZI1CZKisKda2Yn8HvWUtlppr8HoOGDQe8mVbWvsJhm5VaKr6jEa8mI7EWuL/8yu0j5BQEVViqQrF9vt90uWMjwtpJkXabmZq2KXccVpzNmmDiD6B9dYi/i9Jzpaiu/jnnH05LMt1nQlWtisduiLQ2tBS7MzPjhgQt4zXqwtvZIo1Mxnv9YaliXJj7IejwRd4YKlF1CwAW4kIxyh2WiU1/XA0wVGrt6GQ7cHrwi1SOrudQqMUsaQpPU2SzaumWVb+tEMSoZb7UTNyhjuUUOqBOZwd+HPVGbjnXbZShjjF/il0QBFlUiineii5QxFFd0XiaK+4b8+8Cb9uo6RF2HuMQlVvQgB4vetXtdzKZYRTc+jSwQo0dxiWJexMAqatXcLOCaiGHnHdOSTYQvS1ysLjHPn+QyHbrGUpjyPCT72VcQ9P1sB+VSRZCArhq4ZqT3AcZwYQQoU8/FK/ISv9eP1GJEfNU0FRPQn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(396003)(136003)(366004)(376002)(39860400002)(451199024)(1800799009)(186009)(36756003)(66574015)(44832011)(5660300002)(26005)(83380400001)(86362001)(7416002)(41300700001)(4326008)(8676002)(8936002)(6486002)(6506007)(2616005)(6666004)(6512007)(66946007)(66556008)(478600001)(2906002)(38100700002)(82960400001)(110136005)(66476007)(316002)(54906003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?16sWnwKgVIpbiH3kIFXej508i5btKav5VtZWrf+hebMzsffRqMrC3oqBjh?=
- =?iso-8859-1?Q?/TKJgSEyJ7nKe3PH33zED4D+pu/konE3nYv7nJ5IrlSq2DGhOdTYDaP8q5?=
- =?iso-8859-1?Q?fgn3nQ7MNOFn2laqwWaTmXY+gpSJvjhOnl3BWfYA5Q4Jdc4pPbjYQe9Vkc?=
- =?iso-8859-1?Q?pkOXZN+22ToFV0OYMxpqo41DArKiJ10t/FetTkrvbgW4l/rpCXS9mI8+J9?=
- =?iso-8859-1?Q?KKd15OuDujYt5osubZHr1BElag4d5dB6iJyLJ6tDuMn0X3pPyZRjzBBibU?=
- =?iso-8859-1?Q?poZwyuohScKSiUs110wO38uz7oZjt219ICs+C0qo+O1sfe9LToWvEKfrEf?=
- =?iso-8859-1?Q?lHe3+/iIDsOwvludVQl6m30QKWSyV5JthkqTa3HwJ3/Yu+ZWYMc41nEs+e?=
- =?iso-8859-1?Q?MaYXPjncsIi7CizG9y6KsovFfDKT708MKRiJtyjPi+G/sUrv0zMIvfZ2GP?=
- =?iso-8859-1?Q?4RvLPJZUDI3H8wIAjTOyZzcAeFHiXukcL/f1jAlvQanTcZehdZs1d1/VOg?=
- =?iso-8859-1?Q?vIPZ9Z9uV7gL5yyyggUHakPYSl8qjTfy7PODsigoEtzxRFvPL8AH/4sfcI?=
- =?iso-8859-1?Q?S8Uslvuj+ud9l2+rL2T0z2aweRDQcJnW5bMWTKmbHO82EWBM6PhFF2tTr5?=
- =?iso-8859-1?Q?sXJyN0mdRj/YxXYWUfE8wV5aPXOUnaGBS5THEDpjnYvojWdqNSuyxn8AJh?=
- =?iso-8859-1?Q?Sk6Kwx+Bv+g7sikLDZfOuQXHhFEfBfXMxnE0i8++z7/Gu50I++R2rSbHzR?=
- =?iso-8859-1?Q?p0IlCb1wA3CK9nWwY70ubg6nUm8OujHM27g4sBUATd2sSB6hDQj+W2yORY?=
- =?iso-8859-1?Q?UaCCM7y39rQe58HyqhRfLTnhFQK7vlMug2dU6RRlTKg3tKnvKeV6l/CO+o?=
- =?iso-8859-1?Q?KX0kn3+zFmwmUARpIIQaMN+XXbUFCdZmpp896gbGT/6uMcPsph5bMtyMJE?=
- =?iso-8859-1?Q?h9LsKca56tNejtoI4brkQ9ouTVQypOXyYEirpGycanvv8zL5P377u+Kp1i?=
- =?iso-8859-1?Q?lFCxmAyOnDPAm6PtOKry3UT/ONNSABV5PKPFJwAitsXG5iZwDo06Hfb4rh?=
- =?iso-8859-1?Q?ye4ojaZsejdzi7LQi/08VfDVwjjwILDZrvijlEMb3LAwu/1rSzTBHSdvns?=
- =?iso-8859-1?Q?agF7EbluG07BCsJnHgFoBciKEewpKLVQw36ZA5VifQ+Q3ZghIl1VdFvLic?=
- =?iso-8859-1?Q?wn2lsknOTgRYu1H0KN//imk4MUI08guPZAtlQx8obWRmCj2yGoJ+bm9x+0?=
- =?iso-8859-1?Q?cX2AN4kO1L5J/+8yiUo9Ehed0e++aJFZEJkPZdna0Bse5FBmn8EGAYLPom?=
- =?iso-8859-1?Q?WkvAwXc5+lKZRFJrZuAXOYDmXqZkkilDbfN8p+yGcR3IYUrCWE+ZTqATUb?=
- =?iso-8859-1?Q?SsvxKe/syPX4ftIB4xjm3h92EtfJx04/n/sTn5JLK0TP3a7SKKULLPM7lX?=
- =?iso-8859-1?Q?TCB3n7FtnOC8AI7KM6GPvyp7HjKVD2ioCv9P2ispwLzl8t1uUfTLF3IL39?=
- =?iso-8859-1?Q?oQy9pfX6DXGOKlF8X9ZDgMRjTe9iHEVFWlsYV9p/RmWNEwSnz8Mktm/DD7?=
- =?iso-8859-1?Q?aLvcwsdD4xDGbuqAG8PA6e03o7hCCLYSvGJ3pis8ffHtJEcPbFkXvK1X4o?=
- =?iso-8859-1?Q?Mh9SBIGaJpMIiB2mu868BkoBScqBXVSBMq?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bedb066-708d-4c95-273f-08dbb51f2dd6
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 12:36:12.2993 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P65EbeDwjsDMEs5nn4kpPhuW4MYWeiMEfMM9Ku5RFeBosTitXZxmcHo10oLWCB2uOTKVo2Un4XAMGL+fVX/C6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5322
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
+ <20230903170736.513347-16-dmitry.osipenko@collabora.com>
+ <20230905100306.3564e729@collabora.com>
+ <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
+ <20230913094832.3317c2df@collabora.com>
+ <aa270715-89ae-2aac-e2e3-018c21e1ff0e@collabora.com>
+ <20230914093626.19692c24@collabora.com>
+ <21dda0bd-4264-b480-dbbc-29a7744bc96c@collabora.com>
+ <20230914102737.08e61498@collabora.com>
+ <a89cc9c1-5054-e45f-edec-819fdbfef2b5@collabora.com>
+ <20230914135840.5e0e11fe@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230914135840.5e0e11fe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,44 +65,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On 9/14/23 14:58, Boris Brezillon wrote:
+> On Thu, 14 Sep 2023 14:36:23 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+>> On 9/14/23 11:27, Boris Brezillon wrote:
+>>> On Thu, 14 Sep 2023 10:50:32 +0300
+>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>>   
+>>>> On 9/14/23 10:36, Boris Brezillon wrote:  
+>>>>> On Thu, 14 Sep 2023 07:02:52 +0300
+>>>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>>>>     
+>>>>>> On 9/13/23 10:48, Boris Brezillon wrote:    
+>>>>>>> On Wed, 13 Sep 2023 03:56:14 +0300
+>>>>>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>>>>>>       
+>>>>>>>> On 9/5/23 11:03, Boris Brezillon wrote:      
+>>>>>>>>>>                * But
+>>>>>>>>>> +		 * acquiring the obj lock in drm_gem_shmem_release_pages_locked() can
+>>>>>>>>>> +		 * cause a locking order inversion between reservation_ww_class_mutex
+>>>>>>>>>> +		 * and fs_reclaim.
+>>>>>>>>>> +		 *
+>>>>>>>>>> +		 * This deadlock is not actually possible, because no one should
+>>>>>>>>>> +		 * be already holding the lock when drm_gem_shmem_free() is called.
+>>>>>>>>>> +		 * Unfortunately lockdep is not aware of this detail.  So when the
+>>>>>>>>>> +		 * refcount drops to zero, don't touch the reservation lock.
+>>>>>>>>>> +		 */
+>>>>>>>>>> +		if (shmem->got_pages_sgt &&
+>>>>>>>>>> +		    refcount_dec_and_test(&shmem->pages_use_count)) {
+>>>>>>>>>> +			drm_gem_shmem_do_release_pages_locked(shmem);
+>>>>>>>>>> +			shmem->got_pages_sgt = false;
+>>>>>>>>>>  		}        
+>>>>>>>>> Leaking memory is the right thing to do if pages_use_count > 1 (it's
+>>>>>>>>> better to leak than having someone access memory it no longer owns), but
+>>>>>>>>> I think it's worth mentioning in the above comment.        
+>>>>>>>>
+>>>>>>>> It's unlikely that it will be only a leak without a following up
+>>>>>>>> use-after-free. Neither is acceptable.      
+>>>>>>>
+>>>>>>> Not necessarily, if you have a page leak, it could be that the GPU has
+>>>>>>> access to those pages, but doesn't need the GEM object anymore
+>>>>>>> (pages are mapped by the iommu, which doesn't need shmem->sgt or
+>>>>>>> shmem->pages after the mapping is created). Without a WARN_ON(), this
+>>>>>>> can go unnoticed and lead to memory corruptions/information leaks.
+>>>>>>>       
+>>>>>>>>
+>>>>>>>> The drm_gem_shmem_free() could be changed such that kernel won't blow up
+>>>>>>>> on a refcnt bug, but that's not worthwhile doing because drivers
+>>>>>>>> shouldn't have silly bugs.      
+>>>>>>>
+>>>>>>> We definitely don't want to fix that, but we want to complain loudly
+>>>>>>> (WARN_ON()), and make sure the risk is limited (preventing memory from
+>>>>>>> being re-assigned to someone else by not freeing it).      
+>>>>>>
+>>>>>> That's what the code did and continues to do here. Not exactly sure what
+>>>>>> you're trying to say. I'm going to relocate the comment in v17 to
+>>>>>> put_pages(), we can continue discussing it there if I'm missing yours point.
+>>>>>>    
+>>>>>
+>>>>> I'm just saying it would be worth mentioning that we're intentionally
+>>>>> leaking memory if shmem->pages_use_count > 1. Something like:
+>>>>>
+>>>>> 	/**
+>>>>> 	 * shmem->pages_use_count should be 1 when ->sgt != NULL and
+>>>>> 	 * zero otherwise. If some users still hold a pages reference
+>>>>> 	 * that's a bug, and we intentionally leak the pages so they
+>>>>> 	 * can't be re-allocated to someone else while the GPU/CPU
+>>>>> 	 * still have access to it.
+>>>>> 	 */
+>>>>> 	drm_WARN_ON(drm,
+>>>>> 		    refcount_read(&shmem->pages_use_count) == (shmem->sgt ? 1 : 0));
+>>>>> 	if (shmem->sgt && refcount_dec_and_test(&shmem->pages_use_count))
+>>>>> 		drm_gem_shmem_free_pages(shmem);    
+>>>>
+>>>> That may be acceptable, but only once there will a driver using this
+>>>> feature.  
+>>>
+>>> Which feature? That's not related to a specific feature, that's just
+>>> how drm_gem_shmem_get_pages_sgt() works, it takes a pages ref that can
+>>> only be released in drm_gem_shmem_free(), because sgt users are not
+>>> refcounted and the sgt stays around until the GEM object is freed or
+>>> its pages are evicted. The only valid cases we have at the moment are:
+>>>
+>>> - pages_use_count == 1 && sgt != NULL
+>>> - pages_use_count == 0
+>>>
+>>> any other situations are buggy.  
+>>
+>> sgt may belong to dma-buf for which pages_use_count=0, this can't be
+>> done until sgt mess is sorted out
+> 
+> No it can't, not in that path, because the code you're adding is in the
+> if (!obj->import_branch) branch:
+> 
+> 
+>  	if (obj->import_attach) {
+>  		drm_prime_gem_destroy(obj, shmem->sgt);
+>  	} else {
+> 		...
+> 		// Your changes are here.
+> 		...
 
-Only a fix for blank-screen regression on Chromebooks,
-targeting stable 6.5.
+This branch is taken for the dma-buf in the prime import error code path. But yes, the pages_use_count=0 for the dma-buf and then it can be written as:
 
-Here goes drm-intel-fixes-2023-09-14:
-- Only check eDP HPD when AUX CH is shared. (Ville)
+	if (obj->import_attach) {
+		drm_prime_gem_destroy(obj, shmem->sgt);
+	} else {
+		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
 
-Thanks,
-Rodrigo.
+		if (shmem->sgt && refcount_read(&shmem->pages_use_count)) {
+			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+					  DMA_BIDIRECTIONAL, 0);
+			sg_free_table(shmem->sgt);
+			kfree(shmem->sgt);
 
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
+			__drm_gem_shmem_put_pages(shmem);
+		}
 
-  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
 
-are available in the Git repository at:
+Alright, I'll check if it works as expected for fixing the error code path bug for v17
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-09-14
+-- 
+Best regards,
+Dmitry
 
-for you to fetch changes up to 7c95ec3b59479bb24093918bbfc801c9f31826f2:
-
-  drm/i915: Only check eDP HPD when AUX CH is shared (2023-09-12 08:35:32 -0400)
-
-----------------------------------------------------------------
-- Only check eDP HPD when AUX CH is shared.
-
-----------------------------------------------------------------
-Ville Syrjälä (1):
-      drm/i915: Only check eDP HPD when AUX CH is shared
-
- drivers/gpu/drm/i915/display/intel_bios.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_bios.h |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++++++-
- 3 files changed, 28 insertions(+), 1 deletion(-)
