@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77FC7A11AF
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 01:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DD97A11B3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 01:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2B310E14D;
-	Thu, 14 Sep 2023 23:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA7D10E154;
+	Thu, 14 Sep 2023 23:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D948F10E14D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:28:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B2A10E14D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:28:59 +0000 (UTC)
 Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 121316607346;
- Fri, 15 Sep 2023 00:28:55 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 85D096607353;
+ Fri, 15 Sep 2023 00:28:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694734136;
- bh=/LKbx1rP6xdPUE67bARCVL0MUAfs+uHRw9zpOlZewF8=;
- h=From:To:Cc:Subject:Date:From;
- b=PEeGU18Gbonz85N/EQMNph8flI4wlC3ad0Vw17X2i/LR0nUlvMkPY3wtiqs31Nc5W
- 9pRq4HGvF6yRgtPk5RQBaB3fQi35Zu3rCUNuciYCOrqyFWKNr0L1LtWJMcUeX8tieq
- VPhVQCi/z3+rmZLw0/X5sGBxRfxVSz8oUH+fGSyFxXau2pbVdOVJmfggkbkC79KIx3
- 4c09dM1VBnGoNNCnpO/dH9id8VRS0zb5PEIt9qsIv2rsTnGDg4YXe4sUnOKhZrv7op
- VGuZT/YRaBBrOnNXzexaVS06GX8oFpy9+9eeidklOr8ckHvoQHwbTUgbSKj04e5TPN
- XBKOErCxbhhew==
+ s=mail; t=1694734137;
+ bh=x/957Q63aZNgd2pgJOjfAVQpimSWMBU2xPvHQ+4AM3g=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IcfAKEDRHqx6iHXNMz+sbeAwARfA4LgBgdzEcrfHgGJVGue5FW22PF2NCk4yora6/
+ 5gDcr1IO67jB+GSyQtNHlSYyqsW47clrtB95EKct1rjLcxxhrHKMjTU/XbPoaAxxbU
+ MTqEZWO4MMOwJ1DsZh5FE5Y7Le30i+dg0PtLCgkZ/unQoBhNapKV9vwtgDbFOqhSVH
+ sybPaWKUagT+G68KgcR+MLgDtReNIP2+piGDv77dSUHHupodqwp/OtsCrhOhw4KppX
+ FNeZMKtbEQtLENe58oPZM/MRCD/AWSxeyxuCohCsCTFahBl+8wuonL1fMw07yarknQ
+ tp2XB4EUUjxrg==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -40,11 +40,13 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v17 00/18] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
-Date: Fri, 15 Sep 2023 02:27:03 +0300
-Message-ID: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
+Subject: [PATCH v17 01/18] drm/gem: Change locked/unlocked postfix of
+ drm_gem_v/unmap() function names
+Date: Fri, 15 Sep 2023 02:27:04 +0300
+Message-ID: <20230914232721.408581-2-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
+References: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,214 +66,275 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series:
+Make drm/gem API function names consistent by having locked function
+use the _locked postfix in the name, while the unlocked variants don't
+use the _unlocked postfix. Rename drm_gem_v/unmap() function names to
+make them consistent with the rest of the API functions.
 
-  1. Adds common drm-shmem memory shrinker
-  2. Enables shrinker for VirtIO-GPU driver
-  3. Switches Panfrost driver to the common shrinker
-  4. Fixes bugs and improves drm-shmem code
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/gpu/drm/drm_client.c                 |  6 +++---
+ drivers/gpu/drm/drm_gem.c                    | 20 ++++++++++----------
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |  6 +++---
+ drivers/gpu/drm/drm_internal.h               |  4 ++--
+ drivers/gpu/drm/drm_prime.c                  |  4 ++--
+ drivers/gpu/drm/lima/lima_sched.c            |  4 ++--
+ drivers/gpu/drm/panfrost/panfrost_dump.c     |  4 ++--
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c  |  6 +++---
+ include/drm/drm_gem.h                        |  4 ++--
+ 9 files changed, 29 insertions(+), 29 deletions(-)
 
-Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
-IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
-      https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
-
-Changelog:
-
-v17:- Dropped patches that added new drm-shmem sgt flags, fixing dma-buf UAF
-      in drm-prime error code path and preventing invalid page_count when GEM
-      is freed. Will revist them later on and then factor them out into a
-      seprate patchset.
-
-    - Dropped patches that replaced drm_gem_shmem_free() with
-      drm_gem_object_put(), they not needed anymore after changing
-      drm_gem_shmem_free() to not touch reservation lock.
-
-    - Addressed review comments from Boris Brezillon:
-
-        - Added new patch to clean up error unwinding in
-          drm_gem_shmem_vmap_locked()
-
-        - Added new __drm_gem_shmem_put_pages() to let the callers
-          to assert the held reservation lock themselves
-
-        - Moved replacement of shmem->pages check with refcount_read()
-          in drm_gem_shmem_free() to the shrinker addition patch
-
-        - Improved commit message of the vmap_use_count patch
-
-    - Added r-bs from Boris Brezillon that he gave to v16
-
-v16:- Added more comments to the code for the new drm-shmem flags
-
-    - Added r-bs from Boris Brezillon
-
-    - Fixed typos and made impovements pointed out by Boris Brezillon
-
-    - Replaced kref with refcount_t as was suggested by Boris Brezillon
-
-    - Corrected placement of got_sgt flag in the Lima driver, also renamed
-      flag to got_pages_sgt
-
-    - Removed drm_gem_shmem_resv_assert_held() and made drm_gem_shmem_free()
-      to free pages without a new func that doesn't touch resv lock, as was
-      suggested by Boris Brezillon
-
-    - Added pages_pin_count to drm_gem_shmem_print_info()
-
-v15:- Moved drm-shmem reference counters to use kref that allows to
-      optimize unlocked functions, like was suggested by Boris Brezillon.
-
-    - Changed drm/gem/shmem function names to use _locked postfix and
-      dropped the _unlocked, making the naming scheme consistent across
-      DRM code, like was suggested by Boris Brezillon.
-
-    - Added patch that fixes UAF in drm-shmem for drivers that import
-      dma-buf and then release buffer in the import error code path.
-
-    - Added patch that makes drm-shmem use new flag for SGT's get_pages()
-      refcounting, preventing unbalanced refcounting when GEM is freed.
-
-    - Fixed guest blob pinning in virtio-gpu driver that was missed
-      previously in the shrinker patch.
-
-    - Moved VC4 and virtio-gpu drivers to use drm_gem_put() in
-      GEM-creation error code paths, which is now required by drm-shmem
-      and was missed in a previous patch versions.
-
-    - Virtio-GPU now attaches shmem pages to host on first use and not
-      when BO is created. In older patch versions there was a potential
-      race condition in the BO creation code path where both
-      get_sgt()+object_attach() should've been made under same resv lock,
-      otherwise pages could be evicted before attachment is invoked.
-
-    - Virtio-GPU and drm-shmem shrinker patches are split into smaller
-      ones.
-
-v14:- All the prerequisite reservation locking patches landed upstream,
-      previously were a part of this series in v13 and older.
-
-        https://lore.kernel.org/dri-devel/20230529223935.2672495-1-dmitry.osipenko@collabora.com/
-
-    - Added patches to improve locked/unlocked function names, like was
-      suggested by Boris Brezillon for v13.
-
-    - Made all exported drm-shmem symbols GPL, like was previously
-      discussed with Thomas Zimmermann on this series.
-
-    - Improved virtio-gpu shrinker patch. Now it won't detach purged BO
-      when userspace closes GEM. Crosvm (and not qemu) checks res_id on
-      CMD_CTX_DETACH_RESOURCE and prints noisy error message if ID is
-      invalid, which wasn't noticed before.
-
-v13:- Updated virtio-gpu shrinker patch to use drm_gem_shmem_object_pin()
-      directly instead of drm_gem_pin() and dropped patch that exported
-      drm_gem_pin() functions, like was requested by Thomas Zimmermann in
-      v12.
-
-v12:- Fixed the "no previous prototype for function" warning reported by
-      kernel build bot for v11.
-
-    - Fixed the missing reservation lock reported by Intel CI for VGEM
-      driver. Other drivers using drm-shmem were affected similarly to
-      VGEM. The problem was in the dma-buf attachment code path that led
-      to drm-shmem pinning function which assumed the held reservation lock
-      by drm_gem_pin(). In the past that code path was causing trouble for
-      i915 driver and we've changed the locking scheme for the attachment
-      code path in the dma-buf core to let exporters to handle the locking
-      themselves. After a closer investigation, I realized that my assumption
-      about testing of dma-buf export code path using Panfrost driver was
-      incorrect. Now I created additional local test to exrecise the Panfrost
-      export path. I also reproduced the issue reported by the Intel CI for
-      v10. It's all fixed now by making the drm_gem_shmem_pin() to take the
-      resv lock by itself.
-
-    - Patches are based on top of drm-tip, CC'd intel-gfx CI for testing.
-
-v11:- Rebased on a recent linux-next. Added new patch as a result:
-
-        drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
-
-        It's needed by the virtio-gpu driver to swap-in/unevict shmem
-        object, previously get_pages_sgt() didn't use locking.
-
-    - Separated the "Add memory shrinker" patch into smaller parts to ease
-      the reviewing, as was requested by Thomas Zimmermann:
-
-        drm/shmem-helper: Factor out pages alloc/release from
-          drm_gem_shmem_get/put_pages()
-        drm/shmem-helper: Add pages_pin_count field
-        drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
-        drm/shmem-helper: Factor out unpinning part from drm_gem_shmem_purge()
-
-    - Addessed the v10 review comments from Thomas Zimmermann: return errno
-      instead of bool, sort code alphabetically, rename function and etc
-      minor changes.
-
-    - Added new patch to remove the "map->is_iomem" from drm-shmem, as
-      was suggested by Thomas Zimmermann.
-
-    - Added acks and r-b's that were given to v10.
-
-v10:- Was partially applied to misc-fixes/next.
-
-      https://lore.kernel.org/dri-devel/6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com/T/
-
-Dmitry Osipenko (18):
-  drm/gem: Change locked/unlocked postfix of drm_gem_v/unmap() function
-    names
-  drm/gem: Add _locked postfix to functions that have unlocked
-    counterpart
-  drm/shmem-helper: Make all exported symbols GPL
-  drm/shmem-helper: Refactor locked/unlocked functions
-  drm/shmem-helper: Remove obsoleted is_iomem test
-  drm/shmem-helper: Add and use pages_pin_count
-  drm/shmem-helper: Use refcount_t for pages_use_count
-  drm/shmem-helper: Add and use lockless drm_gem_shmem_get_pages()
-  drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
-  drm/shmem-helper: Use refcount_t for vmap_use_count
-  drm/shmem-helper: Improve drm_gem_shmem_vmap_locked() error handling
-  drm/shmem-helper: Prepare drm_gem_shmem_free() to shrinker addition
-  drm/shmem-helper: Add memory shrinker
-  drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
-  drm/virtio: Pin display framebuffer BO
-  drm/virtio: Attach shmem BOs dynamically
-  drm/virtio: Support memory shrinking
-  drm/panfrost: Switch to generic memory shrinker
-
- drivers/gpu/drm/drm_client.c                  |   6 +-
- drivers/gpu/drm/drm_gem.c                     |  26 +-
- drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 588 +++++++++++++++---
- drivers/gpu/drm/drm_internal.h                |   4 +-
- drivers/gpu/drm/drm_prime.c                   |   4 +-
- drivers/gpu/drm/lima/lima_gem.c               |  10 +-
- drivers/gpu/drm/lima/lima_sched.c             |   4 +-
- drivers/gpu/drm/panfrost/Makefile             |   1 -
- drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  29 +-
- drivers/gpu/drm/panfrost/panfrost_dump.c      |   4 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  36 +-
- drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ----
- drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |   4 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
- drivers/gpu/drm/v3d/v3d_bo.c                  |   4 +-
- drivers/gpu/drm/virtio/virtgpu_drv.h          |  22 +-
- drivers/gpu/drm/virtio/virtgpu_gem.c          |  80 +++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  57 +-
- drivers/gpu/drm/virtio/virtgpu_kms.c          |   8 +
- drivers/gpu/drm/virtio/virtgpu_object.c       | 145 ++++-
- drivers/gpu/drm/virtio/virtgpu_plane.c        |  17 +-
- drivers/gpu/drm/virtio/virtgpu_submit.c       |  15 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c           |  40 ++
- include/drm/drm_device.h                      |  10 +-
- include/drm/drm_gem.h                         |   6 +-
- include/drm/drm_gem_shmem_helper.h            | 127 +++-
- include/uapi/drm/virtgpu_drm.h                |  14 +
- 31 files changed, 1050 insertions(+), 376 deletions(-)
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index 037e36f2049c..29306657117a 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -265,7 +265,7 @@ void drm_client_dev_restore(struct drm_device *dev)
+ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+ {
+ 	if (buffer->gem) {
+-		drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
++		drm_gem_vunmap(buffer->gem, &buffer->map);
+ 		drm_gem_object_put(buffer->gem);
+ 	}
+ 
+@@ -349,7 +349,7 @@ drm_client_buffer_vmap(struct drm_client_buffer *buffer,
+ 	 * fd_install step out of the driver backend hooks, to make that
+ 	 * final step optional for internal users.
+ 	 */
+-	ret = drm_gem_vmap_unlocked(buffer->gem, map);
++	ret = drm_gem_vmap(buffer->gem, map);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -371,7 +371,7 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
+ {
+ 	struct iosys_map *map = &buffer->map;
+ 
+-	drm_gem_vunmap_unlocked(buffer->gem, map);
++	drm_gem_vunmap(buffer->gem, map);
+ }
+ EXPORT_SYMBOL(drm_client_buffer_vunmap);
+ 
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 6129b89bb366..fae5832bb0bd 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1173,7 +1173,7 @@ void drm_gem_unpin(struct drm_gem_object *obj)
+ 		obj->funcs->unpin(obj);
+ }
+ 
+-int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
++int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+ 	int ret;
+ 
+@@ -1190,9 +1190,9 @@ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL(drm_gem_vmap);
++EXPORT_SYMBOL(drm_gem_vmap_locked);
+ 
+-void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
++void drm_gem_vunmap_locked(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+ 	dma_resv_assert_held(obj->resv);
+ 
+@@ -1205,27 +1205,27 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 	/* Always set the mapping to NULL. Callers may rely on this. */
+ 	iosys_map_clear(map);
+ }
+-EXPORT_SYMBOL(drm_gem_vunmap);
++EXPORT_SYMBOL(drm_gem_vunmap_locked);
+ 
+-int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
++int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+ 	int ret;
+ 
+ 	dma_resv_lock(obj->resv, NULL);
+-	ret = drm_gem_vmap(obj, map);
++	ret = drm_gem_vmap_locked(obj, map);
+ 	dma_resv_unlock(obj->resv);
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(drm_gem_vmap_unlocked);
++EXPORT_SYMBOL(drm_gem_vmap);
+ 
+-void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
++void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+ 	dma_resv_lock(obj->resv, NULL);
+-	drm_gem_vunmap(obj, map);
++	drm_gem_vunmap_locked(obj, map);
+ 	dma_resv_unlock(obj->resv);
+ }
+-EXPORT_SYMBOL(drm_gem_vunmap_unlocked);
++EXPORT_SYMBOL(drm_gem_vunmap);
+ 
+ /**
+  * drm_gem_lock_reservations - Sets up the ww context and acquires
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+index 3bdb6ba37ff4..3808f47310bf 100644
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -362,7 +362,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
+ 			ret = -EINVAL;
+ 			goto err_drm_gem_vunmap;
+ 		}
+-		ret = drm_gem_vmap_unlocked(obj, &map[i]);
++		ret = drm_gem_vmap(obj, &map[i]);
+ 		if (ret)
+ 			goto err_drm_gem_vunmap;
+ 	}
+@@ -384,7 +384,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
+ 		obj = drm_gem_fb_get_obj(fb, i);
+ 		if (!obj)
+ 			continue;
+-		drm_gem_vunmap_unlocked(obj, &map[i]);
++		drm_gem_vunmap(obj, &map[i]);
+ 	}
+ 	return ret;
+ }
+@@ -411,7 +411,7 @@ void drm_gem_fb_vunmap(struct drm_framebuffer *fb, struct iosys_map *map)
+ 			continue;
+ 		if (iosys_map_is_null(&map[i]))
+ 			continue;
+-		drm_gem_vunmap_unlocked(obj, &map[i]);
++		drm_gem_vunmap(obj, &map[i]);
+ 	}
+ }
+ EXPORT_SYMBOL(drm_gem_fb_vunmap);
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index ba12acd55139..243d9aa52881 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -175,8 +175,8 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
+ 
+ int drm_gem_pin(struct drm_gem_object *obj);
+ void drm_gem_unpin(struct drm_gem_object *obj);
+-int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+-void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
++int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
++void drm_gem_vunmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
+ 
+ /* drm_debugfs.c drm_debugfs_crc.c */
+ #if defined(CONFIG_DEBUG_FS)
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 63b709a67471..57ac5623f09a 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -682,7 +682,7 @@ int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
+ {
+ 	struct drm_gem_object *obj = dma_buf->priv;
+ 
+-	return drm_gem_vmap(obj, map);
++	return drm_gem_vmap_locked(obj, map);
+ }
+ EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
+ 
+@@ -698,7 +698,7 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
+ {
+ 	struct drm_gem_object *obj = dma_buf->priv;
+ 
+-	drm_gem_vunmap(obj, map);
++	drm_gem_vunmap_locked(obj, map);
+ }
+ EXPORT_SYMBOL(drm_gem_dmabuf_vunmap);
+ 
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index ffd91a5ee299..843487128544 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -371,7 +371,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
+ 		} else {
+ 			buffer_chunk->size = lima_bo_size(bo);
+ 
+-			ret = drm_gem_vmap_unlocked(&bo->base.base, &map);
++			ret = drm_gem_vmap(&bo->base.base, &map);
+ 			if (ret) {
+ 				kvfree(et);
+ 				goto out;
+@@ -379,7 +379,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
+ 
+ 			memcpy(buffer_chunk + 1, map.vaddr, buffer_chunk->size);
+ 
+-			drm_gem_vunmap_unlocked(&bo->base.base, &map);
++			drm_gem_vunmap(&bo->base.base, &map);
+ 		}
+ 
+ 		buffer_chunk = (void *)(buffer_chunk + 1) + buffer_chunk->size;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
+index e7942ac449c6..0f30bbea9895 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_dump.c
++++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
+@@ -209,7 +209,7 @@ void panfrost_core_dump(struct panfrost_job *job)
+ 			goto dump_header;
+ 		}
+ 
+-		ret = drm_gem_vmap_unlocked(&bo->base.base, &map);
++		ret = drm_gem_vmap(&bo->base.base, &map);
+ 		if (ret) {
+ 			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
+ 			iter.hdr->bomap.valid = 0;
+@@ -236,7 +236,7 @@ void panfrost_core_dump(struct panfrost_job *job)
+ 		vaddr = map.vaddr;
+ 		memcpy(iter.data, vaddr, bo->base.base.size);
+ 
+-		drm_gem_vunmap_unlocked(&bo->base.base, &map);
++		drm_gem_vunmap(&bo->base.base, &map);
+ 
+ 		iter.hdr->bomap.valid = 1;
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+index ba9b6e2b2636..52befead08c6 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
++++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+@@ -106,7 +106,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ 		goto err_close_bo;
+ 	}
+ 
+-	ret = drm_gem_vmap_unlocked(&bo->base, &map);
++	ret = drm_gem_vmap(&bo->base, &map);
+ 	if (ret)
+ 		goto err_put_mapping;
+ 	perfcnt->buf = map.vaddr;
+@@ -165,7 +165,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ 	return 0;
+ 
+ err_vunmap:
+-	drm_gem_vunmap_unlocked(&bo->base, &map);
++	drm_gem_vunmap(&bo->base, &map);
+ err_put_mapping:
+ 	panfrost_gem_mapping_put(perfcnt->mapping);
+ err_close_bo:
+@@ -195,7 +195,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
+ 		  GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_OFF));
+ 
+ 	perfcnt->user = NULL;
+-	drm_gem_vunmap_unlocked(&perfcnt->mapping->obj->base.base, &map);
++	drm_gem_vunmap(&perfcnt->mapping->obj->base.base, &map);
+ 	perfcnt->buf = NULL;
+ 	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
+ 	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index bc9f6aa2f3fe..110a9c0ea42b 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -518,8 +518,8 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj);
+ void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
+ 		bool dirty, bool accessed);
+ 
+-int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
+-void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
++int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
++void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+ 
+ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+ 			   int count, struct drm_gem_object ***objs_out);
 -- 
 2.41.0
 
