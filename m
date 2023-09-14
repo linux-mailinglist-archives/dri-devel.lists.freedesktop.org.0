@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C967A11C2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 01:29:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 123D27A11C3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 01:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C20210E5A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A283910E5AA;
 	Thu, 14 Sep 2023 23:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17C4610E5A9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:29:12 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689C610E5A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:29:13 +0000 (UTC)
 Received: from workpc.. (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9CC4C6607361;
- Fri, 15 Sep 2023 00:29:09 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 18A936607358;
+ Fri, 15 Sep 2023 00:29:11 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694734150;
- bh=95RvGfyJ8q6zGTTDbjPVGjLvvotKmfU2Ktoc4dGTUKQ=;
+ s=mail; t=1694734152;
+ bh=H4//Ufjdpiez8DbccVn6AG/tNaxHtIsDVyQbjhwP95k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mJDAivmpg/D+DaEAG229AKQ7UmZIT61e/n0KyYcX1e+9ozi6FpRQX9xYrzL3K1U51
- 5tWAJBHIgbacmJA2z5RORt3iW0NM9tq3miw5EiDAaz9EmmKsfIkGjJfoGBbSn5bOAH
- zY2HBF/TX9YGBQJwt05dOCEgRojEELEU/V00gPLGBeg8fX3K+JfwgWpDVqREwUS3pY
- GrjRWVYu+eSUCSkxNQYZmMfkf9V+MfPRSgL+YDVLi2gGI6tN+Hxl4yxPBvFJeo4RCy
- q4yyaX0YAC/edn8qHd2zm2TtHq7qKFC53VsMqX1rHM438cBtrYnpJC0OHvSg8L0YHI
- 0VkhUEm2ZAbJw==
+ b=NAQlPi7KeS+igUiEi/Xyrp4ykvqp34kPm2V/gfZSfw+V4ej4bIeMXFS5GxBbuKY9x
+ vh2ais+pPNtCRH0EnQm0Do8a5WFFl1sXmYwl6R//WuZ0zdF70ZR9RGNSl59iFLv+J7
+ F8QLVIACwLUpK3AD+4nW0u4wb48pQxxOHsTbtQQNhUxGDw1VfNuTYpol8022xLHlwx
+ 67STPwF0DANHhCrSZOWRUnBBSPD5fvK7CNRVS34B9MGClrwx/AZcYj2aQBhQE0tO/y
+ SbCwnQdqG2qzgFo+uBKjpVmbdTSH5NFLggQTInoWRrhSRosKqzshedMy9jWRMJFcpb
+ zjaV9+3VLjNuw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -40,10 +41,9 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v17 09/18] drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap
- to use pin/unpin
-Date: Fri, 15 Sep 2023 02:27:12 +0300
-Message-ID: <20230914232721.408581-10-dmitry.osipenko@collabora.com>
+Subject: [PATCH v17 10/18] drm/shmem-helper: Use refcount_t for vmap_use_count
+Date: Fri, 15 Sep 2023 02:27:13 +0300
+Message-ID: <20230914232721.408581-11-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
 References: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
@@ -66,92 +66,111 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vmapped pages shall be pinned in memory and previously get/put_pages()
-were implicitly hard-pinning/unpinning the pages. This will no longer be
-the case with addition of memory shrinker because pages_use_count > 0 won't
-determine anymore whether pages are hard-pinned (they will be soft-pinned),
-while the new pages_pin_count will do the hard-pinning. Switch the
-vmap/vunmap() to use pin/unpin() functions in a preparation of addition
-of the memory shrinker support to drm-shmem.
+Use refcount_t helper for vmap_use_count to make refcounting consistent
+with pages_use_count and pages_pin_count that use refcount_t. This also
+makes vmapping to benefit from the refcount_t's overflow checks.
 
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 19 ++++++++++++-------
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 28 +++++++++++---------------
  include/drm/drm_gem_shmem_helper.h     |  2 +-
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ 2 files changed, 13 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index a5964f347dda..e33810450324 100644
+index e33810450324..e1fcb5154209 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -255,6 +255,14 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
- 	return ret;
- }
+@@ -144,7 +144,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+ 	} else {
+ 		dma_resv_lock(shmem->base.resv, NULL);
  
-+static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
-+{
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	if (refcount_dec_and_test(&shmem->pages_pin_count))
-+		drm_gem_shmem_put_pages_locked(shmem);
-+}
-+
- /**
-  * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-  * @shmem: shmem GEM object
-@@ -302,10 +310,7 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- 		return;
+-		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
++		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
  
- 	dma_resv_lock(shmem->base.resv, NULL);
--
--	if (refcount_dec_and_test(&shmem->pages_pin_count))
--		drm_gem_shmem_put_pages_locked(shmem);
--
-+	drm_gem_shmem_unpin_locked(shmem);
- 	dma_resv_unlock(shmem->base.resv);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_unpin);
-@@ -343,7 +348,7 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 		if (shmem->sgt) {
+ 			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+@@ -343,23 +343,25 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 
+ 		dma_resv_assert_held(shmem->base.resv);
+ 
+-		if (shmem->vmap_use_count++ > 0) {
++		if (refcount_inc_not_zero(&shmem->vmap_use_count)) {
+ 			iosys_map_set_vaddr(map, shmem->vaddr);
  			return 0;
  		}
  
--		ret = drm_gem_shmem_get_pages_locked(shmem);
-+		ret = drm_gem_shmem_pin_locked(shmem);
+ 		ret = drm_gem_shmem_pin_locked(shmem);
  		if (ret)
- 			goto err_zero_use;
+-			goto err_zero_use;
++			return ret;
  
-@@ -366,7 +371,7 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 		if (shmem->map_wc)
+ 			prot = pgprot_writecombine(prot);
+ 		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+ 				    VM_MAP, prot);
+-		if (!shmem->vaddr)
++		if (!shmem->vaddr) {
+ 			ret = -ENOMEM;
+-		else
++		} else {
+ 			iosys_map_set_vaddr(map, shmem->vaddr);
++			refcount_set(&shmem->vmap_use_count, 1);
++		}
+ 	}
  
+ 	if (ret) {
+@@ -372,8 +374,6 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
  err_put_pages:
  	if (!obj->import_attach)
--		drm_gem_shmem_put_pages_locked(shmem);
-+		drm_gem_shmem_unpin_locked(shmem);
- err_zero_use:
- 	shmem->vmap_use_count = 0;
+ 		drm_gem_shmem_unpin_locked(shmem);
+-err_zero_use:
+-	shmem->vmap_use_count = 0;
  
-@@ -403,7 +408,7 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- 			return;
+ 	return ret;
+ }
+@@ -401,14 +401,10 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+ 	} else {
+ 		dma_resv_assert_held(shmem->base.resv);
  
- 		vunmap(shmem->vaddr);
--		drm_gem_shmem_put_pages_locked(shmem);
-+		drm_gem_shmem_unpin_locked(shmem);
+-		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
+-			return;
+-
+-		if (--shmem->vmap_use_count > 0)
+-			return;
+-
+-		vunmap(shmem->vaddr);
+-		drm_gem_shmem_unpin_locked(shmem);
++		if (refcount_dec_and_test(&shmem->vmap_use_count)) {
++			vunmap(shmem->vaddr);
++			drm_gem_shmem_unpin_locked(shmem);
++		}
  	}
  
  	shmem->vaddr = NULL;
+@@ -654,7 +650,7 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+ 
+ 	drm_printf_indent(p, indent, "pages_pin_count=%u\n", refcount_read(&shmem->pages_pin_count));
+ 	drm_printf_indent(p, indent, "pages_use_count=%u\n", refcount_read(&shmem->pages_use_count));
+-	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
++	drm_printf_indent(p, indent, "vmap_use_count=%u\n", refcount_read(&shmem->vmap_use_count));
+ 	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_print_info);
 diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 3947f5c6bff7..5b1ce7f7a39c 100644
+index 5b1ce7f7a39c..53dbd6a86edf 100644
 --- a/include/drm/drm_gem_shmem_helper.h
 +++ b/include/drm/drm_gem_shmem_helper.h
-@@ -123,7 +123,7 @@ int drm_gem_shmem_madvise_locked(struct drm_gem_shmem_object *shmem, int madv);
- static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
- {
- 	return (shmem->madv > 0) &&
--		!shmem->vmap_use_count && shmem->sgt &&
-+		!refcount_read(&shmem->pages_pin_count) && shmem->sgt &&
- 		!shmem->base.dma_buf && !shmem->base.import_attach;
- }
+@@ -81,7 +81,7 @@ struct drm_gem_shmem_object {
+ 	 * Reference count on the virtual address.
+ 	 * The address are un-mapped when the count reaches zero.
+ 	 */
+-	unsigned int vmap_use_count;
++	refcount_t vmap_use_count;
  
+ 	/**
+ 	 * @pages_mark_dirty_on_put:
 -- 
 2.41.0
 
