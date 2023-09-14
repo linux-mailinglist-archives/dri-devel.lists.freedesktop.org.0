@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4038E7A059B
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C6A7A063A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90C7310E27B;
-	Thu, 14 Sep 2023 13:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB42E10E27F;
+	Thu, 14 Sep 2023 13:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB1310E28B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:30:46 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7EE7B660734B;
- Thu, 14 Sep 2023 14:30:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694698245;
- bh=s4vst/Ez8mUQ4XmFnXcyatF86C+jChenHUTOQpxRlaY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FpeatmoC/rpQA8OrdxxYeSUlOGPtksLLxBhfwRgzMQS9Kl4VqEma2uMnZaZE+Uhtg
- p7OTKJe72Xey/UI2zds6wfY+hRnSUjCXPIqX7ZqCMj3LuC9jstK9t0UXhYoP8BNIr+
- tKOay4D3yzf9wWawNrNNFFWsfn1Di1QBybmoig0mSc2PV3mDokVl+e12uvYTydG2T+
- iSWSwYDe87vV5ks2xn5YIHE86Tioh0YZQuUf1Q4b7OzY1e5Rtfa7GkZ4xQAFr1gBJ7
- Q3aHYFrPkTeFe/oufa/TZ50SqibVOxh1uAEMg1X2pea9SCx+24KyZ4aZnT/ldBCuDd
- xsjR/5qN8KZpA==
-Date: Thu, 14 Sep 2023 15:30:41 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
-Message-ID: <20230914153041.569f39bb@collabora.com>
-In-Reply-To: <20230914152703.78b1ac82@collabora.com>
-References: <20230903170736.513347-1-dmitry.osipenko@collabora.com>
- <20230903170736.513347-16-dmitry.osipenko@collabora.com>
- <20230905100306.3564e729@collabora.com>
- <26f7ba6d-3520-0311-35e2-ef5706a98232@collabora.com>
- <20230913094832.3317c2df@collabora.com>
- <aa270715-89ae-2aac-e2e3-018c21e1ff0e@collabora.com>
- <20230914093626.19692c24@collabora.com>
- <21dda0bd-4264-b480-dbbc-29a7744bc96c@collabora.com>
- <20230914102737.08e61498@collabora.com>
- <a89cc9c1-5054-e45f-edec-819fdbfef2b5@collabora.com>
- <20230914135840.5e0e11fe@collabora.com>
- <ca7e905b-2809-fce4-1b56-7909efb1a229@collabora.com>
- <20230914152703.78b1ac82@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A86AD10E27F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:38:45 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1d5a1965a9aso543096fac.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 06:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694698724; x=1695303524;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cmkM3eTScVXDHH0jlpqEzGVs0jKDHtYdRBTAlD8i+NE=;
+ b=e9f4i2qTbHYPce/paY+E0UPyMQqV1RO6tQADQ6gD/+5jsXg0RowwvXnCl9fwOBMCge
+ s7g47lv6mDf/auKvyuxUAD1MlVbmUBL3ijvTLXEnClkK8EnTvKzLwFfDy/F5JrUx/J0E
+ PwdzATCqmgCBkFykbJj43FHXwBAFNy0QNbDqrwkQ/KB889SDUuQlWAaQck3wsOl1OeA3
+ +1APPZ3Jm24OB2O872nm8goRWN6gbGvUla5jwJx9oO7S5z+qvqgA2aZK553U9uLiFq6P
+ m77Z/xoOMGYYFX31wJpJZKu3pnpr2vhxFBHwtmeJlU2CyQDlPmpR3MZwExHdLgMMuf4o
+ /x/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694698724; x=1695303524;
+ h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
+ :user-agent:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cmkM3eTScVXDHH0jlpqEzGVs0jKDHtYdRBTAlD8i+NE=;
+ b=r9I+5h5kgKcQ8c90yuWH00ACaUiUHzF0DUoyA4pKsnDGI8srAmh12bgG7GCzJpTdQY
+ 22C86Z9jXAS8Regpwi/7mL4bpGvBMHxmKjr0RXSmJmXFUietPhoJWxdRZ7NozMB5EweI
+ /s2MkZoFDqLDjLc/buyz03tSh+A2jcoieQt2R779cCgjQNHO4qFWWTIlxmfdI2XWo8+A
+ 0TmW4qi8kAHIRzBLhDPsHXmcQTy17hi8Z+06YNxYZVDAJmi5RvKm4WLPxZ+lFTPLljpf
+ fDOcDr5vNG6TRrPL7ICG3HWRPMzYwLkaq9T1bvc0+cnfP6W2ohr/2Hf4GD54tgGqqf6L
+ CE6g==
+X-Gm-Message-State: AOJu0YyIy0iNTsUMlwQkPy1WU74NY1VaHdRPB3NwWrqbvvbaPeoXIYEH
+ uqVH7cQNSHN5wrnofxv931pcBYJjiGIbI7sBwItLXA==
+X-Google-Smtp-Source: AGHT+IFh7Yh89j5toiLrapBEM+lFJrnPKMRKQDggX4YR83wnaK2tnE/8N6Y+YLTaga5Qlr9XmuCrRhn8q0u0c8VABfw=
+X-Received: by 2002:a05:6870:b69d:b0:1d5:b0b9:f6f1 with SMTP id
+ cy29-20020a056870b69d00b001d5b0b9f6f1mr6386214oab.8.1694698724531; Thu, 14
+ Sep 2023 06:38:44 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 14 Sep 2023 13:38:43 +0000
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.7.3
+References: <20230914131058.2472260-1-jani.nikula@intel.com>
+In-Reply-To: <20230914131058.2472260-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Date: Thu, 14 Sep 2023 13:38:43 +0000
+Message-ID: <CABnWg9sy_u5+TRvuRXEN8FB8BGdSadYimUQ-R6=PYEKZn2RZRw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
+ error path
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +71,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023 15:27:03 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Thu, 14 Sep 2023 15:10, Jani Nikula <jani.nikula@intel.com> wrote:
+>Setting new_edid to NULL leaks the buffer.
+>
+>Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+>Cc: Markus Schneider-Pargmann <msp@baylibre.com>
+>Cc: Guillaume Ranquet <granquet@baylibre.com>
+>Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+>Cc: CK Hu <ck.hu@mediatek.com>
+>Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>Cc: Philipp Zabel <p.zabel@pengutronix.de>
+>Cc: Matthias Brugger <matthias.bgg@gmail.com>
+>Cc: dri-devel@lists.freedesktop.org
+>Cc: linux-mediatek@lists.infradead.org
+>Cc: linux-kernel@vger.kernel.org
+>Cc: linux-arm-kernel@lists.infradead.org
+>Cc: <stable@vger.kernel.org> # v6.1+
+>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
 
-> You should drop the '&& refcount_read(&shmem->pages_use_count)',
-> otherwise you'll never enter this branch (sgt allocation retained
-> a ref, so pages_use_count > 0 when ->sgt != NULL).
-
-Sorry for the brain fart. You can drop this extra test because its
-redundant (->sgt != NULL implies pages_use_count > 0), but it shouldn't
-prevent you from entering the branch.
+Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
+>---
+>
+>UNTESTED
+>---
+> drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
+> 1 file changed, 1 insertion(+)
+>
+>diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+>index 2cb47f663756..8fc6eff68e30 100644
+>--- a/drivers/gpu/drm/mediatek/mtk_dp.c
+>+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+>@@ -2049,6 +2049,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
+> 	 */
+> 	if (mtk_dp_parse_capabilities(mtk_dp)) {
+> 		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
+>+		kfree(new_edid);
+> 		new_edid = NULL;
+> 	}
+>
+>--
+>2.39.2
+>
