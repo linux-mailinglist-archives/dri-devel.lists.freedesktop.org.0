@@ -2,57 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C1D7A0974
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 17:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACD87A09B4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 17:49:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7ACE10E1A9;
-	Thu, 14 Sep 2023 15:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8044D10E577;
+	Thu, 14 Sep 2023 15:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5ACA10E144;
- Thu, 14 Sep 2023 15:37:26 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E1AFF660734B;
- Thu, 14 Sep 2023 16:37:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694705845;
- bh=TQbpv8vHzEEc4Jv5PirNSqWfWBrF0+Zj/8K0ohiEBWU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FnYHLVV8Y+XCR2nU5T1akcRhS4g00GcXKA9cSGiy2iDYCBVMsVJd8E6VjOHEBSJ0U
- 3xtb/cOUeBLmtEB32OkhfOaNdG5rDrQRi78WUIcfgf9TFMFdLkI70KroQP2MoDDR3x
- 5CU9dkt070t3M5vHuV5DoQXavbKXyTWjr9LosrJqptPcObxjOtKceCBzrQ0UaJhXLf
- bWBeWNzi+S8UkttePU7koXyOZv7jpsVZC6B+QedFzYvb1miCBXz7bNehU1TvbJIcSH
- voFCluEfEOf7QTwUfGWC2s/sTiHQjauJgd0jF2zVURUrzoIOQqCDZ9qulIxAMAXGg1
- 2nZXh38pF8jRA==
-Date: Thu, 14 Sep 2023 17:37:22 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <20230914173722.0acb980b@collabora.com>
-In-Reply-To: <d06a667e-145d-5aab-d31b-8b87742c4a56@linux.intel.com>
-References: <20230909153125.30032-1-dakr@redhat.com>
- <20230909153125.30032-7-dakr@redhat.com>
- <a9ef04d2-2525-65c0-2eda-45ca9a95a3a0@linux.intel.com>
- <20230913090311.5eeb026a@collabora.com>
- <CAPM=9tyf4m6gtUQ0BCraf0gB06_pxXV8gpQQsvWjeJnczmJkQQ@mail.gmail.com>
- <20230913091918.62c06a30@collabora.com>
- <df85257a-02ed-4869-2421-0039a9c97db5@linux.intel.com>
- <20230913133318.15edec7c@collabora.com>
- <6f4c047d-0e6d-c45b-3092-cd0bc84849dc@linux.intel.com>
- <20230914102010.628ea823@collabora.com>
- <c32bb890-b06e-6b5d-1ff8-b67f6c9d92a6@linux.intel.com>
- <20230914135439.3bec8eca@collabora.com>
- <d06a667e-145d-5aab-d31b-8b87742c4a56@linux.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7209510E13B;
+ Thu, 14 Sep 2023 15:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694706577; x=1726242577;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=TfcbRhUcfN+bK539eAHtVTu+Uhd0gX2EA2u1IlNnmrY=;
+ b=K2tCTH5AltlOz+/0d7heSY6RyIY5niSv/pcKt0inlBsc1hN78kNbZRla
+ inbpHz/cRGkZMfQI3X0waFnu5OiJyWfbhQYmDSPUXMMDscOHQKftVp5Oc
+ SyHsmSFacd7YRIHS2bm7ObooohvJUoZrANok3SjFVuIby4Lxfs15UjL1u
+ /CNnAO28ptI8+84/x1C2hGJb7wzbje79kJp3uN+Ad3K8IxQtnynstIv/Z
+ JvwT2xR21FcQj2CaEULtoSHjlANTFG6H4rPWSBuDnhCDoazu0o7Kt8Cle
+ d51A8iICaG3uIYkDxXe/XzC9chOe+G/MrHQGAvZYJ53OUbA+cLIpHxTSf A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="369291490"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="369291490"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2023 08:49:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="810130909"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; d="scan'208";a="810130909"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 Sep 2023 08:49:36 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 14 Sep 2023 08:49:36 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 14 Sep 2023 08:49:35 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 08:49:35 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 14 Sep 2023 08:49:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jLEUTkVIU1aw3W7/C2M769cW3l7ZVPahI5mevhaqE1syO+ykFa/T3ADbPxMCQ0O7g+wkmW4HhxAZGkUCBVDoZnUObzoECaOHTKD3jNlr6HRqIutKRDqrb/T16H4ltIq8jVh16y62dx127YeAKnDCj9F6GSjPAxpMjXeIIhesd4kV2CcZ0cBzSs4taAsRiPw+TQY2GCSpq811qKFB5N/D1Rx2elDlMRLSqbnq/bjvesjFFm111iv2rNqc2Q5EF28EtZ9rTlPvjtzSpir7n18qfvzRZXP31e79z57fQljk4DFj6iJ/2vaE1464lOGih1U9Dy9Hucdl7Wes19EcPDKVFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gBU6R0XK1KMrf0aRomp08llxaNWuWQBzGRnvOwfs3G4=;
+ b=el9/+bOMvePFP71r5FWAuLkgDidTGukUYGkjkaHml6fHWVxiAh3BrlcFo5DmETLvFE70ppzSRAavCt7kGsxYKxwN129fJDdr4VHa1He8SvhKO7IKJs/fi0qOBJxAjt45pRn1ZQ/GsAt05sejDDj5mfp0tIey3/2yVaGH9WZN2IJYPi1H8TBOX/xmYTTq1Y/NWnqtqeaWz2MzFX9mXbtwBirarUtW0R07XHEbnqvp1728gzxCGghRPrHW2LmHS7FabBkQyJGlqrAvTBln634ZCx+q9oMjOGUaF0aZT9TYG6SQgMaMPjGtF97fCwSZi2yrxzmXXuRTiHjtYV3WueuaEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by CO1PR11MB4849.namprd11.prod.outlook.com (2603:10b6:303:90::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.37; Thu, 14 Sep
+ 2023 15:49:33 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::99cc:830:3ea5:d42b%3]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
+ 15:49:33 +0000
+Date: Thu, 14 Sep 2023 15:48:29 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH v3 03/13] drm/sched: Move schedule policy to scheduler /
+ entity
+Message-ID: <ZQMrTXzRBH+rM+MQ@DUT025-TGLU.fm.intel.com>
+References: <20230912021615.2086698-1-matthew.brost@intel.com>
+ <20230912021615.2086698-4-matthew.brost@intel.com>
+ <da5a4c90-5a8d-4248-bc8e-b0bd2a03aa5f@amd.com>
+ <7c54b2d7-0a17-43e8-9da2-766b0464f4f8@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <7c54b2d7-0a17-43e8-9da2-766b0464f4f8@amd.com>
+X-ClientProxiedBy: SJ0PR05CA0076.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::21) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CO1PR11MB4849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50e8c721-a070-413b-e963-08dbb53a30af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lv7JpefWfsDokGdIJlYzIFlT4pJ4Hnsr2g+hu3UkLy9CWyt16qrGXOQI5xbIzW9NTL07B/AzMcVA1JeLgeJH2BTD6fqLeMdtpPqvL6WT/elbiz55dOxVCLLMCFIOT5WrcvZQe4DD3ZZRu9IxvWhxn4D9TdkhNX3ZNn7T8M9sNRxXviQ+jdxBaL5X8PhFQDYfijjuxf6TFrMq6AbXrCj0BuxxiMXbjbaAgXAV/6LuWS5/SbIseyJgZ+A5/bwLpZRLLzPQ6BvOLXvmKJpMBhuLhdTKv7ayQZS8DeMSMnPpysHQYkMnR+wjV58O+J8S5XFZo4nIKSNUaZtsSwsKnzzbBskwyd2JPH8Eo0vyCzuAOWDqpwPRa29IoUgBlYlRguHBRJwZKGx+hVXv6VK9qRhycvqJBqttV4vL7ctrnFwjxjMDU3uylOsUrKxuUvvQXoyFHYDj79YscNygoT/kE3sQ4iKaIC4tOuIy5F6NbR2Jl8tE1GjV590lhP5d2d1YooEcgr5vx6/CSd/9BQG0UdIv1un8THPXNcTN6xz67cw6C5UenK+xHqa6bXVn3yLB2T5q
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(39860400002)(366004)(136003)(396003)(376002)(186009)(1800799009)(451199024)(41300700001)(66556008)(66476007)(316002)(478600001)(6916009)(66946007)(82960400001)(38100700002)(7416002)(2906002)(86362001)(5660300002)(44832011)(8676002)(4326008)(8936002)(83380400001)(30864003)(6512007)(6666004)(6486002)(6506007)(53546011)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vRrTY6krs7Zz0t1peszW6Z/HXnq8UXeQAxeBKoXFAWtEYwlxNfaaeNT7cxxn?=
+ =?us-ascii?Q?bSQvNFmzt6CVDtJjDkxiSEnbM3ZVTZE1KwsfL1G+z40CuaRr+XMyhioSNpSS?=
+ =?us-ascii?Q?9LhV7dVrMufCorllt6cuce4KW5Ca9aGJU44A6+27tGFpPxFKWhS3UZkAQ/XZ?=
+ =?us-ascii?Q?8cOUzIcp+l42SLAkYWjEQX1HnLJC0b47Ju2aNKeoOmjbINHEqy9iMnmzB4re?=
+ =?us-ascii?Q?JC8B3YSHFaA75Maae5dAY1F+jYGaaLbdWp/W0k0L/CJsN99GfsGp9b1upVpf?=
+ =?us-ascii?Q?HqC5Bc/JIBjmEeODkKkn/OMuSQZx3x0FNuzJfI/mxUQlegWj9rsacvWaz0fk?=
+ =?us-ascii?Q?pF5q7XdnWCQwUV57//qGXVMHQ6i9MC2g8D1KJbgJk+3ImjdhSazKCe7Rx9ZE?=
+ =?us-ascii?Q?3+jUXpoJxhVqs4cCrjRQRdFQO6L4DufX3rzBTKwsRWrwHyA5b8B3QNVJ2teR?=
+ =?us-ascii?Q?MMc4o4Xb+lsHNcfvCu/8QpmYAbpvyuPufWYcdGXtUEY52jGOMFlPFft0Ob3U?=
+ =?us-ascii?Q?z7s4Vu2x4QHCBmB174gmGOARIZ4Dba63osYgvVUTMmoVUb4tOHXeTK5RqjvZ?=
+ =?us-ascii?Q?TpnYb9M67rHZB0ZsjDX+bA8f5J8XUwIEqSbT9aD/evVUr+cSf70F/+ePQE7I?=
+ =?us-ascii?Q?4vVlY+/sk0aYCaqKGIDrsznMWiE2l7EsNqs11fFWiU4OpJpA9V3Io1wZ1ch8?=
+ =?us-ascii?Q?SRZqcQX6qP4p6cK4T2qtf9PmN6XpvFEwOnf1ysXgV95JrJdj8Vhz29v/cC2v?=
+ =?us-ascii?Q?LTV764bTZXiaIEdl2Ua1GEYOplyURxol+EJVr/rz1yunIceNIQBxpTu8qhpS?=
+ =?us-ascii?Q?hLaszNnqcqu3FYDt+6re1/LmeglEFMw+xoCOTM7yklrtmkyNJQOFtyU9lGUI?=
+ =?us-ascii?Q?zcUTUDnVgolyCpaxVNuk3Ysxahd8btSEEUZ1qUDOTrKXd9N1FMyd2vAN/P1A?=
+ =?us-ascii?Q?chPW3RaMGOLSfsDlhcMmr3gSYDC+6cY9XjjcuCjKZT+kxnONtHvjnWCs6+UH?=
+ =?us-ascii?Q?DLmc3EK2oLOiRbVqbmdci8bEgtPewNFWMszBxAA1IoHGs53/240uU1Sli+2E?=
+ =?us-ascii?Q?Qhg9mtAi3lrgIjxVWNsk3WVQ5nUW84OmJ7hiZ0KYXT8vhO1sDFRvvTCvztge?=
+ =?us-ascii?Q?tDyTdLxUetVCwxsSqceUpQTxRYTmzKLL4moFQtoq1gmP7Z1EhtZ2vlk2Gvc+?=
+ =?us-ascii?Q?AAuSJ4ukzuglImVDc/8ubBt/V/ZaZZAQDfgfO5JpMHz/9FAF/mVdsEDFxDNs?=
+ =?us-ascii?Q?65hVIRu5qquoWamZicoNo17UbZaTK0iqLxRtFah626AHz2R4fAQGshQdn9wQ?=
+ =?us-ascii?Q?8OIWkJv7MOJVaymwo7s+KmqW695e2j99wMlwRTS5k3yPENDpDhTCqiiLLHEC?=
+ =?us-ascii?Q?z6sIcGwnJgoafse4N5j3eDvtZmCl11Ws34hGBG4uqQlMdAvnM+jpwMX0dUWf?=
+ =?us-ascii?Q?O40UDZJ3SB+6FEdc/JYFzW4kHnF+I0Ijk/J9I+e/jd/SCMDw9vzinGV0TwkU?=
+ =?us-ascii?Q?LC5fh0nxS9Gq0EsI9gVI6hE2UHW2JY3SNy2T1Vx5HwZaRdfka968L7XpcoeH?=
+ =?us-ascii?Q?nUBYeYtmtmgsQgJ3+ocX8cSbLbhXD1FogXjFDqGEgBfMhrvxv1lax1lFZPKQ?=
+ =?us-ascii?Q?VQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50e8c721-a070-413b-e963-08dbb53a30af
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 15:49:33.4341 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /LbrdQp+xaRjPzPedTZ5OyQvd6Dy7soiAcjIm6EOlDgzhtXzrsOaht/QqLlAzMZVXPbdkZ9ZcMnsvFOnZZq1hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4849
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,356 +151,301 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ mcanal@igalia.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ boris.brezillon@collabora.com, donald.robson@imgtec.com, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023 15:33:50 +0200
-Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
+On Thu, Sep 14, 2023 at 12:23:35AM -0400, Luben Tuikov wrote:
+> On 2023-09-14 00:18, Luben Tuikov wrote:
+> > On 2023-09-11 22:16, Matthew Brost wrote:
+> >> Rather than a global modparam for scheduling policy, move the scheduling
+> >> policy to scheduler / entity so user can control each scheduler / entity
+> >> policy.
+> >>
+> >> v2:
+> >>   - s/DRM_SCHED_POLICY_MAX/DRM_SCHED_POLICY_COUNT (Luben)
+> >>   - Only include policy in scheduler (Luben)
+> >>
+> >> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  1 +
+> >>  drivers/gpu/drm/etnaviv/etnaviv_sched.c    |  3 ++-
+> >>  drivers/gpu/drm/lima/lima_sched.c          |  3 ++-
+> >>  drivers/gpu/drm/msm/msm_ringbuffer.c       |  3 ++-
+> >>  drivers/gpu/drm/nouveau/nouveau_sched.c    |  3 ++-
+> >>  drivers/gpu/drm/panfrost/panfrost_job.c    |  3 ++-
+> >>  drivers/gpu/drm/scheduler/sched_entity.c   | 24 ++++++++++++++++++----
+> >>  drivers/gpu/drm/scheduler/sched_main.c     | 23 +++++++++++++++------
+> >>  drivers/gpu/drm/v3d/v3d_sched.c            | 15 +++++++++-----
+> >>  include/drm/gpu_scheduler.h                | 20 ++++++++++++------
+> >>  10 files changed, 72 insertions(+), 26 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >> index c83a76bccc1d..ecb00991dd51 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >> @@ -2309,6 +2309,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
+> >>  				   ring->num_hw_submission, 0,
+> >>  				   timeout, adev->reset_domain->wq,
+> >>  				   ring->sched_score, ring->name,
+> >> +				   DRM_SCHED_POLICY_DEFAULT,
+> >>  				   adev->dev);
+> >>  		if (r) {
+> >>  			DRM_ERROR("Failed to create scheduler on ring %s.\n",
+> >> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> >> index 618a804ddc34..3646f995ca94 100644
+> >> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> >> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> >> @@ -137,7 +137,8 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+> >>  	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops, NULL,
+> >>  			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+> >>  			     msecs_to_jiffies(500), NULL, NULL,
+> >> -			     dev_name(gpu->dev), gpu->dev);
+> >> +			     dev_name(gpu->dev), DRM_SCHED_POLICY_DEFAULT,
+> >> +			     gpu->dev);
+> >>  	if (ret)
+> >>  		return ret;
+> >>  
+> >> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> >> index 8d858aed0e56..465d4bf3882b 100644
+> >> --- a/drivers/gpu/drm/lima/lima_sched.c
+> >> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> >> @@ -491,7 +491,8 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+> >>  	return drm_sched_init(&pipe->base, &lima_sched_ops, NULL, 1,
+> >>  			      lima_job_hang_limit,
+> >>  			      msecs_to_jiffies(timeout), NULL,
+> >> -			      NULL, name, pipe->ldev->dev);
+> >> +			      NULL, name, DRM_SCHED_POLICY_DEFAULT,
+> >> +			      pipe->ldev->dev);
+> >>  }
+> >>  
+> >>  void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
+> >> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+> >> index b8865e61b40f..f45e674a0aaf 100644
+> >> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
+> >> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+> >> @@ -96,7 +96,8 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+> >>  
+> >>  	ret = drm_sched_init(&ring->sched, &msm_sched_ops, NULL,
+> >>  			num_hw_submissions, 0, sched_timeout,
+> >> -			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
+> >> +			NULL, NULL, to_msm_bo(ring->bo)->name,
+> >> +			DRM_SCHED_POLICY_DEFAULT, gpu->dev->dev);
+> >>  	if (ret) {
+> >>  		goto fail;
+> >>  	}
+> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> >> index d458c2227d4f..70e497e40c70 100644
+> >> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+> >> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> >> @@ -431,7 +431,8 @@ int nouveau_sched_init(struct nouveau_drm *drm)
+> >>  
+> >>  	return drm_sched_init(sched, &nouveau_sched_ops, NULL,
+> >>  			      NOUVEAU_SCHED_HW_SUBMISSIONS, 0, job_hang_limit,
+> >> -			      NULL, NULL, "nouveau_sched", drm->dev->dev);
+> >> +			      NULL, NULL, "nouveau_sched",
+> >> +			      DRM_SCHED_POLICY_DEFAULT, drm->dev->dev);
+> >>  }
+> >>  
+> >>  void nouveau_sched_fini(struct nouveau_drm *drm)
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> >> index 326ca1ddf1d7..ad36bf3a4699 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> >> @@ -835,7 +835,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+> >>  				     nentries, 0,
+> >>  				     msecs_to_jiffies(JOB_TIMEOUT_MS),
+> >>  				     pfdev->reset.wq,
+> >> -				     NULL, "pan_js", pfdev->dev);
+> >> +				     NULL, "pan_js", DRM_SCHED_POLICY_DEFAULT,
+> >> +				     pfdev->dev);
+> >>  		if (ret) {
+> >>  			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+> >>  			goto err_sched;
+> >> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> >> index a42763e1429d..65a972b52eda 100644
+> >> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> >> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> >> @@ -33,6 +33,20 @@
+> >>  #define to_drm_sched_job(sched_job)		\
+> >>  		container_of((sched_job), struct drm_sched_job, queue_node)
+> >>  
+> >> +static bool bad_policies(struct drm_gpu_scheduler **sched_list,
+> >> +			 unsigned int num_sched_list)
+> > 
+> > Rename the function to the status quo,
+> > 	drm_sched_policy_mismatch(...
+> > 
 
-> Hi,
->=20
-> On 9/14/23 13:54, Boris Brezillon wrote:
-> > On Thu, 14 Sep 2023 12:45:44 +0200
-> > Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
-> > =20
-> >> On 9/14/23 10:20, Boris Brezillon wrote: =20
-> >>> On Wed, 13 Sep 2023 15:22:56 +0200
-> >>> Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
-> >>>    =20
-> >>>> On 9/13/23 13:33, Boris Brezillon wrote: =20
-> >>>>> On Wed, 13 Sep 2023 12:39:01 +0200
-> >>>>> Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
-> >>>>>       =20
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> On 9/13/23 09:19, Boris Brezillon wrote: =20
-> >>>>>>> On Wed, 13 Sep 2023 17:05:42 +1000
-> >>>>>>> Dave Airlie <airlied@gmail.com> wrote:
-> >>>>>>>          =20
-> >>>>>>>> On Wed, 13 Sept 2023 at 17:03, Boris Brezillon
-> >>>>>>>> <boris.brezillon@collabora.com> wrote: =20
-> >>>>>>>>> On Tue, 12 Sep 2023 18:20:32 +0200
-> >>>>>>>>> Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com> wrote:
-> >>>>>>>>>             =20
-> >>>>>>>>>>> +/**
-> >>>>>>>>>>> + * get_next_vm_bo_from_list() - get the next vm_bo element
-> >>>>>>>>>>> + * @__gpuvm: The GPU VM
-> >>>>>>>>>>> + * @__list_name: The name of the list we're iterating on
-> >>>>>>>>>>> + * @__local_list: A pointer to the local list used to store =
-already iterated items
-> >>>>>>>>>>> + * @__prev_vm_bo: The previous element we got from drm_gpuvm=
-_get_next_cached_vm_bo()
-> >>>>>>>>>>> + *
-> >>>>>>>>>>> + * This helper is here to provide lockless list iteration. L=
-ockless as in, the
-> >>>>>>>>>>> + * iterator releases the lock immediately after picking the =
-first element from
-> >>>>>>>>>>> + * the list, so list insertion deletion can happen concurren=
-tly. =20
-> >>>>>>>>>> Are the list spinlocks needed for that async state update from=
- within
-> >>>>>>>>>> the dma-fence critical section we've discussed previously? =20
-> >>>>>>>>> Any driver calling _[un]link() from its drm_gpu_scheduler::run_=
-job()
-> >>>>>>>>> hook will be in this situation (Panthor at the moment, PowerVR =
-soon). I
-> >>>>>>>>> get that Xe and Nouveau don't need that because they update the=
- VM
-> >>>>>>>>> state early (in the ioctl path), but I keep thinking this will =
-hurt us
-> >>>>>>>>> if we don't think it through from the beginning, because once y=
-ou've
-> >>>>>>>>> set this logic to depend only on resv locks, it will be pretty =
-hard to
-> >>>>>>>>> get back to a solution which lets synchronous VM_BINDs take pre=
-cedence
-> >>>>>>>>> on asynchronous request, and, with vkQueueBindSparse() passing =
-external
-> >>>>>>>>> deps (plus the fact the VM_BIND queue might be pretty deep), it=
- can
-> >>>>>>>>> take a long time to get your synchronous VM_BIND executed... =20
-> >>>>>> So this would boil down to either (possibly opt-in) keeping the sp=
-inlock
-> >>>>>> approach or pushing the unlink out to a wq then? =20
-> >>>>> Deferred _unlink() would not be an issue, since I already defer the
-> >>>>> drm_gpuva destruction to a wq, it would just a be a matter of movin=
-g the
-> >>>>> _unlink() call there as well. But _link() also takes the GEM gpuva =
-list
-> >>>>> lock, and that one is bit tricky, in that sm_map() can trigger 2 mo=
-re
-> >>>>> _link() calls for the prev/next mappings, which we can't guess unti=
-l we
-> >>>>> get to execute the VM update. If we mandate the use of the GEM resv
-> >>>>> lock, that simply means async VM updates (AKA calling
-> >>>>> drm_gpuvm_sm_[un]map()) are not an option. And if this is what ever=
-yone
-> >>>>> agrees on, then I'd like the APIs that make this sort of async VM
-> >>>>> update possible (drm_gpuvm_sm_[un]map(), the drm_gpuvm_ops::sm_step*
-> >>>>> methods, and probably other things) to be dropped, so we don't make=
- it
-> >>>>> look like it's something we support.
-> >>>>>       =20
-> >>>>>> BTW, as also asked in a reply to Danilo, how do you call unlink fr=
-om
-> >>>>>> run_job() when it was requiring the obj->dma_resv lock, or was tha=
-t a WIP? =20
-> >>>>> _unlink() makes sure the GEM gpuva list lock is taken, but this can=
- be
-> >>>>> a custom lock (see drm_gem_gpuva_set_lock()). In panthor we have
-> >>>>> panthor_gem_object::gpuva_list_lock that's dedicated the gpuva list
-> >>>>> protection. We make sure we never take this lock while allocating
-> >>>>> memory to guarantee the dma-signalling path can't deadlock.
-> >>>>>       =20
-> >>>>>>>>>             =20
-> >>>>>>>> btw what is the use case for this? do we have actual vulkan
-> >>>>>>>> applications we know will have problems here? =20
-> >>>>>>> I don't, but I think that's a concern Faith raised at some point =
-(dates
-> >>>>>>> back from when I was reading threads describing how VM_BIND on i9=
-15
-> >>>>>>> should work, and I was clearly discovering this whole VM_BIND thi=
-ng at
-> >>>>>>> that time, so maybe I misunderstood).
-> >>>>>>>          =20
-> >>>>>>>> it feels like a bit of premature optimisation, but maybe we have=
- use cases. =20
-> >>>>>>> Might be, but that's the sort of thing that would put us in a cor=
-ner if
-> >>>>>>> we don't have a plan for when the needs arise. Besides, if we don=
-'t
-> >>>>>>> want to support that case because it's too complicated, I'd recom=
-mend
-> >>>>>>> dropping all the drm_gpuvm APIs that let people think this mode is
-> >>>>>>> valid/supported (map/remap/unmap hooks in drm_gpuvm_ops,
-> >>>>>>> drm_gpuvm_sm_[un]map helpers, etc). Keeping them around just adds=
- to the
-> >>>>>>> confusion. =20
-> >>>>>> Xe allows bypassing the bind-queue with another bind-queue, but to
-> >>>>>> completely avoid dependencies between queues the Operations may not
-> >>>>>> overlap. =20
-> >>>>> So, you check the VM state with some VM lock held (would be the VM =
-resv
-> >>>>> in my case), and if the mapping is new (no overlaps with pre-existi=
-ng
-> >>>>> mappings), you queue it to the fast-track/sync-VM_BIND queue. What =
-would
-> >>>>> be missing I guess is a way to know if the mapping is active (MMU h=
-as
-> >>>>> been updated) or pending (MMU update queued to the bind-queue), so =
-I can
-> >>>>> fast-track mapping/unmapping of active mappings. =20
-> >>> Ok, so I started modifying the implementation, and quickly realized t=
-he
-> >>> overlap test can't be done without your xe_range_fence tree because of
-> >>> unmaps. Since we call drm_gpuva_unmap() early/in the IOCTL path (IOW,
-> >>> before the mapping teardown is effective), we lose track of this
-> >>> yet-to-be-executed-unmap operation, and if we do our
-> >>> va_range_overlaps_with_existing_mappings() test after such an unmap h=
-as
-> >>> been queued using just the drm_gpuvm tree, we might get false even if
-> >>> the mapping still exists and is expected to be torn down when the
-> >>> VM_BIND(unmap) job is executed on the bind-queue. As a result, this
-> >>> might execute the VM_BIND(map,sync) immediately (because the dependen=
-cy
-> >>> went undetected), and then the vm_bind_run_job() function kicks in and
-> >>> undoes what the synchronous VM_BIND(map) did. Am I missing something?
-> >>>
-> >>> If I'm correct, that means I'm back to having synchronous VM_BIND ops
-> >>> queued after all asynchronous ones unless I use something like your
-> >>> xe_range_fence solution (which I was hoping I could postpone until we
-> >>> decide to expose multiple bind queues). =20
-> >> Yes, unfortunately fine-granular async range-tracking comes with a cos=
-t.
-> >> Still, if you are doing page-table updates solely with the CPU, you
-> >> could probably short-circuit the fence part of the fenced ranges? =20
-> > I'm doing it with the CPU, but asynchronously (bind-queue), so I'm
-> > facing pretty much the same problems, I think.
-> > =20
-> >> =20
-> >>> I'm still a bit skeptical about this 'update VM mappings tree early,
-> >>> defer MMU page table updates' approach, where the VM state and the
-> >>> actual page table tree are temporarily out of sync until all operatio=
-ns
-> >>> have been flushed on all queues targeting a VM. This means any test we
-> >>> do on the gpuvm, like, 'give me the BO mapped at VA xxx', is subject =
-to
-> >>> 'is this the current state or the future state?' questioning. Note th=
-at
-> >>> we can't even get the current VM state anymore, because all the
-> >>> drm_gpuvm::tree stores with this solution is the future state, and
-> >>> to-be-unmapped mappings are lost during the transitioning period (when
-> >>> vm_bind jobs are queued but not executed yet). =20
-> >> Understandable. But this is the way we historically have been doing
-> >> things, (I think the whole async atomic page-flipping is using the same
-> >> concept), but rather than refering to it as current state and future
-> >> state, I'd like to think it as Synchronous CPU state (What an API user
-> >> sees) vs GPU state (What the GPU sees where it's currently executing).=
- =20
-> > Actually, the latency incurred by the fact the page table updates are
-> > done by the GPU is one thing, and I guess I could agree with you if that
-> > was the only difference between the GPU and CPU view. But the fact
-> > VM_BIND jobs can have external dependencies makes things a lot more
-> > confusing. I might be wrong, but I think atomic page-flip is simpler.
-> > Yes you can have implicit deps on your scanout buffer, and yes the HW
-> > will wait for these fences to signal before updating the plane pointer,
-> > but that's still just a simple pipeline with one resource to deal with.
-> > A VM is a whole range with virtual memory regions being attached
-> > physical mem chunks, possibly with each range having its own lifecycle,
-> > etc. It'd make more sense to me to have a way to know the current
-> > state, and the future state. =20
->=20
-> Yeah so in Xe we support async bind jobs solely to be able to do deep=20
-> pipelining and it's not only the pagetable jobs, You could have multiple=
-=20
-> bind-evict-restore-exec-unbind-bind-evict-restore-exec all piplelined=20
-> and only the available memory resources sets the limit. In fact you can=20
-> even have physical VRAM assigned to a bo which won't be used until exec=20
-> #5 in the pipeline and released in exec #4 since TTM is aware of async=20
-> memory management.
->=20
-> So something needs to absorb the state discrepancy between what you=20
-> refer to as the current state and the future state. The question is what=
-=20
-> should absorb it? Should it be the gpuvm or some associated driver state=
-=20
-> tracking?
+Will do.
 
-That's exactly what I'd like to sort out.
-
->=20
-> Now let's say that you have a deferred bind state-update pending and=20
-> track the *current* state in the gpuvm so that a number of vma unmaps=20
-> and maps aren't yet visible to gpuvm and then you submit an exec ioctl.=20
-> How does the exec ioctl know the gpuvm state?
-
-A tree of pending VM ops, ordered per VA-range, with overlapping
-allowed (to support pipelining), who are assigned fence objects? With
-the fence + explicit deps passed to a job, we should know which extra
-extobjs to add to the currently mapped extobjs. But I wasn't even
-considering something as complex. Extobjs can be added early, even
-before the mapping is active (that's what I was doing in my previous
-PoC, using the async VM update model). Same goes for evicted BOs, they
-can be re-pinned early. The only downside is that we might force BO
-residency to last longer than strictly needed (because we'd be adding
-our GPU job fence to extobjs we don't necessarily need if these extobjs
-end up being mapped after the GPU job is executed, which can happen if
-the deps passed to VM_BIND prevent its execution).
-
-> Like external bos to=20
-> validate or bos that become evicted, userptr vmas that have been=20
-> invalidated? Does the exec need to block waiting for the bind fence to=20
-> complete so that it can assess the VM state that UMD intended to be there?
-
-I'd say no, given the GPU job added its fence to the VM resv and all
-extobjs resvs. If a mapping update is queued, it should be waiting for
-the job using the previous mapping to complete, thus making BO
-retrieval from an exception path okay (and when I say exception path, I
-intentionally exclude any allocation requests, because those would need
-extra precautions, like non-blocking allocation, and I don't even want
-to think about it at the moment).
-
->=20
+> >> +{
+> >> +	enum drm_sched_policy sched_policy = sched_list[0]->sched_policy;
+> >> +	unsigned int i;
+> >> +
+> >> +	/* All schedule policies must match */
+> >> +	for (i = 1; i < num_sched_list; ++i)
+> >> +		if (sched_policy != sched_list[i]->sched_policy)
+> >> +			return true;
+> >> +
+> >> +	return false;
+> >> +}
+> >> +
+> >>  /**
+> >>   * drm_sched_entity_init - Init a context entity used by scheduler when
+> >>   * submit to HW ring.
+> >> @@ -62,7 +76,8 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+> >>  			  unsigned int num_sched_list,
+> >>  			  atomic_t *guilty)
+> >>  {
+> >> -	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])))
+> >> +	if (!(entity && sched_list && (num_sched_list == 0 || sched_list[0])) ||
+> >> +	    bad_policies(sched_list, num_sched_list))
+> >>  		return -EINVAL;
+> >>  
+> >>  	memset(entity, 0, sizeof(struct drm_sched_entity));
+> >> @@ -486,7 +501,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+> >>  	 * Update the entity's location in the min heap according to
+> >>  	 * the timestamp of the next job, if any.
+> >>  	 */
+> >> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
+> >> +	if (entity->rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO) {
+> >>  		struct drm_sched_job *next;
+> >>  
+> >>  		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> >> @@ -558,7 +573,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+> >>  void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> >>  {
+> >>  	struct drm_sched_entity *entity = sched_job->entity;
+> >> -	bool first;
+> >> +	bool first, fifo = entity->rq->sched->sched_policy ==
+> >> +		DRM_SCHED_POLICY_FIFO;
+> >>  	ktime_t submit_ts;
+> >>  
+> >>  	trace_drm_sched_job(sched_job, entity);
+> >> @@ -587,7 +603,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> >>  		drm_sched_rq_add_entity(entity->rq, entity);
+> >>  		spin_unlock(&entity->rq_lock);
+> >>  
+> >> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+> >> +		if (fifo)
+> >>  			drm_sched_rq_update_fifo(entity, submit_ts);
+> >>  
+> >>  		drm_sched_wakeup_if_can_queue(entity->rq->sched);
+> >> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> >> index 614e8c97a622..545d5298c086 100644
+> >> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> >> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> >> @@ -66,14 +66,14 @@
+> >>  #define to_drm_sched_job(sched_job)		\
+> >>  		container_of((sched_job), struct drm_sched_job, queue_node)
+> >>  
+> >> -int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+> >> +int default_drm_sched_policy = DRM_SCHED_POLICY_FIFO;
+> >>  
+> >>  /**
+> >>   * DOC: sched_policy (int)
+> >>   * Used to override default entities scheduling policy in a run queue.
+> >>   */
+> >> -MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
+> >> -module_param_named(sched_policy, drm_sched_policy, int, 0444);
+> >> +MODULE_PARM_DESC(sched_policy, "Specify the default scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
+> > 
+> > Note, that you don't need to add "default" in the text as it is already there at the very end "FIFO (default)."
+> > Else, it gets confusing what is meant by "default". Like this:
+> > 
+> > 	Specify the default scheduling policy for entities on a run-queue, 1 = Round Robin, 2 = FIFO (default).
+> > 
+> > See "default" appear twice and it creates confusion? We don't need our internal "default" play to get
+> > exported all the way to the casual user reading this. It is much clear, however,
+> > 
+> > 	Specify the scheduling policy for entities on a run-queue, 1 = Round Robin, 2 = FIFO (default).
+> > 
+> > To mean, if unset, the default one would be used. But this is all internal code stuff.
+> > 
+> > So I'd say leave this one alone.
 > >
-> > Just one example, say you have a GPU job that triggers some fault
-> > that's supposed to be handled by the kernel driver to unblock the
-> > situation. In order to have some context, the kernel driver needs to
-> > read a GPU buffer that's passed back as a virtual address by the GPU/FW,
-> > so it calls drm_gpuvm_bo_find(), and now it might potentially get a BO
-> > that's not the current BO being mapped at this address, but the future
-> > BO after some asynchronous VM_BIND(map) has been executed, and of
-> > course, the VM_BIND job leading to this future state, could have a
-> > dependency on the GPU job, because this GPU job was using the old
-> > mapping. It might sound completely hypothetical, but that's actually
-> > the sort of things the Mali FW does in a few occasions. =20
->=20
-> Recoverable faults are typically requiring some sort of memory operation=
-=20
-> that requires the dma_resv or outer lock, like validation or=20
-> get_user_pages(), and can thus not be performed in the fence signalling=20
-> critical path and on Xe they are reserved for Long-Running VMs. On=20
-> those, pipelining is not really needed and is disallowed in Xe to avoid=20
-> having to deal with the state discrepancy.
 
-I intentionally didn't take the map/alloc-on-fault example, because
-that one is bit complicated, and we don't need it (at least not yet).
+Ok.
+ 
+> >> +module_param_named(sched_policy, default_drm_sched_policy, int, 0444);
+> > 
+> > Put "default" as a postfix:
+> > default_drm_sched_policy --> drm_sched_policy_default
+> > 
 
->=20
-> But to the actual problem you mention, let's say its a fault that=20
-> triggers a need to dump bo contents, then yes in order to be able to do=20
-> deep pipelining in this way the driver needs to track some state=20
-> discrepancy, and that's an additional overhead.
+Sure.
 
-Yes, more something like that.
+> >>  
+> >>  static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+> >>  							    const struct rb_node *b)
+> >> @@ -177,7 +177,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> >>  	if (rq->current_entity == entity)
+> >>  		rq->current_entity = NULL;
+> >>  
+> >> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+> >> +	if (rq->sched->sched_policy == DRM_SCHED_POLICY_FIFO)
+> >>  		drm_sched_rq_remove_fifo_locked(entity);
+> >>  
+> >>  	spin_unlock(&rq->lock);
+> >> @@ -898,7 +898,7 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+> >>  
+> >>  	/* Kernel run queue has higher priority than normal run queue*/
+> >>  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> >> -		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
+> >> +		entity = sched->sched_policy == DRM_SCHED_POLICY_FIFO ?
+> >>  			drm_sched_rq_select_entity_fifo(&sched->sched_rq[i]) :
+> >>  			drm_sched_rq_select_entity_rr(&sched->sched_rq[i]);
+> >>  		if (entity)
+> >> @@ -1071,6 +1071,7 @@ static void drm_sched_main(struct work_struct *w)
+> >>   *		used
+> >>   * @score: optional score atomic shared with other schedulers
+> >>   * @name: name used for debugging
+> >> + * @sched_policy: schedule policy
+> >>   * @dev: target &struct device
+> >>   *
+> >>   * Return 0 on success, otherwise error code.
+> >> @@ -1080,9 +1081,15 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+> >>  		   struct workqueue_struct *submit_wq,
+> >>  		   unsigned hw_submission, unsigned hang_limit,
+> >>  		   long timeout, struct workqueue_struct *timeout_wq,
+> >> -		   atomic_t *score, const char *name, struct device *dev)
+> >> +		   atomic_t *score, const char *name,
+> >> +		   enum drm_sched_policy sched_policy,
+> >> +		   struct device *dev)
+> >>  {
+> >>  	int i;
+> >> +
+> >> +	if (sched_policy >= DRM_SCHED_POLICY_COUNT)
+> >> +		return -EINVAL;
+> >> +
+> >>  	sched->ops = ops;
+> >>  	sched->hw_submission_limit = hw_submission;
+> >>  	sched->name = name;
+> >> @@ -1092,6 +1099,10 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+> >>  	sched->hang_limit = hang_limit;
+> >>  	sched->score = score ? score : &sched->_score;
+> >>  	sched->dev = dev;
+> >> +	if (sched_policy == DRM_SCHED_POLICY_DEFAULT)
+> >> +		sched->sched_policy = default_drm_sched_policy;
+> >> +	else
+> >> +		sched->sched_policy = sched_policy;
+> 
+> Note also that here you can use a ternary operator as opposed to an if-control.
+> 
+> 	sched->sched_policy = sched_policy == DRM_SCHED_POLICY_UNSET ?
+> 				drm_sched_policy_default : sched_policy;
 
->=20
-> >
-> > So yeah, I'm still not convinced we can always get away with just the
-> > future representation of the VM. Sometimes you have to know what's
-> > mapped at the moment.
-> > =20
-> >> To bring them in sync you need to wait for fences. =20
-> > Wouldn't solve the case I mentioned above, AFAICT.
-> > =20
-> >> And ideally the async
-> >> work should never fail. =20
-> > Sure, that I considered for granted. If async VM_BIND fails, we just
-> > flag the VM as unusable, and cancel any GPU job submission happening on
-> > the VM. The user then has to recreate the VM to take a fresh start
-> > (DEVICE_LOST situation).
-> >
-> > It a bit tricky when we want to clean things up after a failure,
-> > because we might have lost track of some of mappings (early
-> > gpuva_unmap(), but the MMU page tables are still lying around). In our
-> > case (Panthor) that's not really an issue though, because
-> > free_io_pgtable_ops() will take care of that for us.
-> > =20
-> >> If one wants to push async work out to be handled solely by the GPU,
-> >> this is the way things must be done since the GPU can't take locks or
-> >> allocate memory, but as part or all of async work is sometimes done
-> >> using the CPU, it might make sense to challenge that to some extent. =
-=20
-> > I think updating the VM state in the run_job() with drm_gpuva_[un]map()
-> > would still account for the GPU-is-executing-pgtable-updates latency,
-> > and that's not really the sort of desynchronization I'm worried about,
-> > because when you get to submit your VM_BIND job, you know all the job
-> > deps are met, and the VM update is about to happen. What I'm worried
-> > about is the desynchronization incurred by complex VM_BIND job deps
-> > that make it hard to know what's the diff between the drm_gpuvm state
-> > (predicting the future) and the VM state a GPU job expects (the
-> > present). =20
->=20
-> Yes that sort of deep pipeling requires additional "current" state=20
-> tracking for some situations, but waiting in exec for the current state=20
-> to catch up with future state, which it seems is a consequence of async=20
-> state updates, isn't really an option for us.
+Sure, will fix in next rev.
 
-I wasn't really considering waits as an option, and I do intend to
-pipeline VM_BIND and GPU jobs, with deps taking care of further
-ordering constraints. What I had in mind was more a way to retrieve the
-future state from the current state + a list of diffs. Actually I don't
-even mind doing it the other way around (retrieving the current state
-from the future state plus a list of pending operations reverted),
-because such exceptions are rare enough that we can accept the extra
-cost. My point was, having just the future state doesn't always work,
-and there's currently no way we can have a list of diffs to revert,
-because we lose track of some operations, like unmaps.
+Matt
 
->=20
-> Now if you think the decision to remove those spinlocks from drm_gpuvm=20
-> was premature, I'm fully OK to have them in there again, but opt-in so=20
-> that we have helpers that fit all purposes.
-
-Well, with the dual-mode APIs, at least the driver could decide what
-the drm_gpuvm state was encoding (current if you call
-drm_gpuva_[un]map() from the run_job() path, or future if you do it
-from the the IOCTL/submit path). With the new model, that's no longer
-an option. But even the new model could work out, if I have way to get
-the current state from the future state, I was just hoping we could
-make this logic generic...
-
+> 
+> -- 
+> Regards,
+> Luben
+> 
