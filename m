@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096547A01FB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 12:49:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A977C7A01BC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 12:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D71310E262;
-	Thu, 14 Sep 2023 10:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C2C10E0EC;
+	Thu, 14 Sep 2023 10:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1744 seconds by postgrey-1.36 at gabe;
- Thu, 14 Sep 2023 10:49:47 UTC
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807B310E262
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 10:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=7xrk9agHZXIsMQu7lfcBnZM62uO342/LylrKQ86z6zY=; b=dWX7CIQU61Bjsx9xqg0M0AQZrb
- pX1efUVK0R2wNMSWguDKpjek5EjJ980rzUNT8OSzKQVqMJfIiTAgeUnPXfIbBQF4XFABdvRVG4dls
- bnH35IQD94+l4KTNoESg9sOZhxKcduqxEWjTV0nvSeT6qaYOls4wdTzdVlUVs7iYDqc/GCMTi9nYV
- qz+LXaNtv5PRN9O6shguYmi255eh4qcorUChK8p4d81dBepTEwdVvZOKVJWmnpydVesMcWXitVc0P
- PeFdr+Hao7cZQC3+eBvJPQP67uBwpnJpfXBsjTGvKBMKnBWy5oZt/qtNu+PjWxNLgQvR/DexSbEWS
- jkBHTp5A==;
-Received: from [177.34.168.16] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qgjSe-003qXh-PR; Thu, 14 Sep 2023 12:20:37 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Subject: [PATCH] Revert "drm/vkms: Fix race-condition between the hrtimer and
- the atomic commit"
-Date: Thu, 14 Sep 2023 07:19:02 -0300
-Message-ID: <20230914102024.1789154-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.41.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0270D10E0EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 10:33:02 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E26AF6607268;
+ Thu, 14 Sep 2023 11:32:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694687580;
+ bh=xOPOFCSTLWONSaEqKeJKgUn6Me6AMdatcI9b6/BlVZI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KjqtjvbF2VeHrkkMS0rQpntlmhDD2zU0lzLN0GGmIcT10qaOg9riOlDKuprHOvM7j
+ j4wJEehMk9GI/uYcSB8Qw6CW0qOB3HPHqANpmrZgFMghrRapPuQW747wMens0Y0pLk
+ eRbLGe+UhCgN/RdLzzP8HjqkUl0qewsJskx2MMZf9NVdB3X5RqR1zDczWiY0cLAy2T
+ R7/gd0Gu028hB2t2VMkETQrSCwg2AVzzFOoiRwlHcepsXJusGLw+fB0eK8z/12pYDo
+ Y9SMl3ndiXgQtdM8ZsOD4RZ2NAcq235hH49BVQGsqXpZN5fxphfgXJ4BktRxqcbPqA
+ Q3EcHhcS0nm8Q==
+Message-ID: <223a5636-d399-afc6-748a-06835e7bf54d@collabora.com>
+Date: Thu, 14 Sep 2023 12:32:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v10 11/16] drm/mediatek: gamma: Add support for 12-bit LUT
+ and MT8195
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20230804072850.89365-1-angelogioacchino.delregno@collabora.com>
+ <20230804072850.89365-12-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5Hw2QqRVCqxZ+P96uM4hcm3qSQESA8Kh5b6RyJDQLFqQQ@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5Hw2QqRVCqxZ+P96uM4hcm3qSQESA8Kh5b6RyJDQLFqQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,104 +58,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit a0e6a017ab56936c0405fe914a793b241ed25ee0.
+Il 15/08/23 09:57, Chen-Yu Tsai ha scritto:
+> On Fri, Aug 4, 2023 at 3:29 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Add support for 12-bit gamma lookup tables and introduce the first
+>> user for it: MT8195.
+>> While at it, also reorder the variables in mtk_gamma_set_common()
+>> and rename `lut_base` to `lut0_base` to improve readability.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 74 +++++++++++++++++++----
+>>   1 file changed, 62 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> index 3f1c6815ea5a..7d2f8042ace0 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> @@ -26,12 +26,20 @@
+>>   #define DISP_GAMMA_SIZE_VSIZE                          GENMASK(12, 0)
+>>   #define DISP_GAMMA_BANK                                0x0100
+>>   #define DISP_GAMMA_BANK_BANK                           GENMASK(1, 0)
+>> +#define DISP_GAMMA_BANK_DATA_MODE                      BIT(2)
+>>   #define DISP_GAMMA_LUT                         0x0700
+>> +#define DISP_GAMMA_LUT1                                0x0b00
+>>
+>> +/* For 10 bit LUT layout, R/G/B are in the same register */
+>>   #define DISP_GAMMA_LUT_10BIT_R                 GENMASK(29, 20)
+>>   #define DISP_GAMMA_LUT_10BIT_G                 GENMASK(19, 10)
+>>   #define DISP_GAMMA_LUT_10BIT_B                 GENMASK(9, 0)
+>>
+>> +/* For 12 bit LUT layout, R/G are in LUT, B is in LUT1 */
+>> +#define DISP_GAMMA_LUT_12BIT_R                 GENMASK(11, 0)
+>> +#define DISP_GAMMA_LUT_12BIT_G                 GENMASK(23, 12)
+>> +#define DISP_GAMMA_LUT_12BIT_B                 GENMASK(11, 0)
+>> +
+>>   #define LUT_10BIT_MASK                         0x03ff
+>>   #define LUT_BITS_DEFAULT                       10
+>>   #define LUT_SIZE_DEFAULT                       512
+>> @@ -77,14 +85,30 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
+>>          return LUT_SIZE_DEFAULT;
+>>   }
+>>
+>> +/*
+>> + * SoCs supporting 12-bits LUTs are using a new register layout that does
+>> + * always support (by HW) both 12-bits and 10-bits LUT but, on those, we
+>> + * ignore the support for 10-bits in this driver and always use 12-bits.
+>> + *
+>> + * Summarizing:
+>> + * - SoC HW support 9/10-bits LUT only
+>> + *   - Old register layout
+>> + *     - 10-bits LUT supported
+>> + *     - 9-bits LUT not supported
+>> + * - SoC HW support both 10/12bits LUT
+>> + *   - New register layout
+>> + *     - 12-bits LUT supported
+>> + *     - 10-its LUT not supported
+>> + */
+>>   void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>>   {
+>>          struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+>> -       unsigned int i;
+>> -       struct drm_color_lut *lut;
+>> -       void __iomem *lut_base;
+>> -       u32 cfg_val, lbank_val, word;
+>> +       void __iomem *lut0_base = gamma->regs + DISP_GAMMA_LUT;
+>> +       void __iomem *lut1_base = gamma->regs + DISP_GAMMA_LUT1;
+>> +       u32 cfg_val, data_mode, lbank_val, word[2];
+>>          int cur_bank, num_lut_banks;
+>> +       struct drm_color_lut *lut;
+>> +       unsigned int i;
+>>
+>>          /* If there's no gamma lut there's nothing to do here. */
+>>          if (!state->gamma_lut)
+>> @@ -92,14 +116,17 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>>
+>>          num_lut_banks = gamma->data->lut_size / gamma->data->lut_bank_size;
+>>          cfg_val = readl(gamma->regs + DISP_GAMMA_CFG);
+>> -       lut_base = gamma->regs + DISP_GAMMA_LUT;
+>>          lut = (struct drm_color_lut *)state->gamma_lut->data;
+>>
+>> +       /* Switch to 12 bits data mode if supported */
+>> +       data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(gamma->data->lut_bits == 12));
+>> +
+>>          for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
+>>
+>>                  /* Switch gamma bank and set data mode before writing LUT */
+>>                  if (num_lut_banks > 1) {
+>>                          lbank_val = FIELD_PREP(DISP_GAMMA_BANK_BANK, cur_bank);
+>> +                       lbank_val |= data_mode;
+>>                          writel(lbank_val, gamma->regs + DISP_GAMMA_BANK);
+>>                  }
+>>
+>> @@ -112,9 +139,15 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>>                          hwlut.blue = drm_color_lut_extract(lut[n].blue, gamma->data->lut_bits);
+>>
+>>                          if (!gamma->data->lut_diff || (i % 2 == 0)) {
+>> -                               word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+>> -                               word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+>> -                               word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+>> +                               if (gamma->data->lut_bits == 12) {
+>> +                                       word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, hwlut.red);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, hwlut.green);
+>> +                                       word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, hwlut.blue);
+>> +                               } else {
+>> +                                       word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+>> +                               }
+>>                          } else {
+>>                                  diff.red = lut[n].red - lut[n - 1].red;
+>>                                  diff.red = drm_color_lut_extract(diff.red, gamma->data->lut_bits);
+>> @@ -125,11 +158,19 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>>                                  diff.blue = lut[n].blue - lut[n - 1].blue;
+>>                                  diff.blue = drm_color_lut_extract(diff.blue, gamma->data->lut_bits);
+>>
+>> -                               word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+>> -                               word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+>> -                               word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+>> +                               if (gamma->data->lut_bits == 12) {
+>> +                                       word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, diff.red);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, diff.green);
+>> +                                       word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, diff.blue);
+>> +                               } else {
+>> +                                       word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+>> +                                       word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+>> +                               }
+>>                          }
+>> -                       writel(word, (lut_base + i * 4));
+>> +                       writel(word[0], (lut0_base + i * 4));
+>> +                       if (gamma->data->lut_bits == 12)
+>> +                               writel(word[1], (lut1_base + i * 4));
+>>                  }
+>>          }
+>>
+>> @@ -246,11 +287,20 @@ static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
+>>          .lut_size = 512,
+>>   };
+>>
+>> +static const struct mtk_disp_gamma_data mt8195_gamma_driver_data = {
+>> +       .lut_bank_size = 256,
+>> +       .lut_bits = 12,
+>> +       .lut_diff = true,
+>> +       .lut_size = 1024,
+>> +};
+>> +
+>>   static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
+>>          { .compatible = "mediatek,mt8173-disp-gamma",
+>>            .data = &mt8173_gamma_driver_data},
+>>          { .compatible = "mediatek,mt8183-disp-gamma",
+>>            .data = &mt8183_gamma_driver_data},
+>> +       { .compatible = "mediatek,mt8195-disp-gamma",
+>> +         .data = &mt8195_gamma_driver_data},
+> 
+> I assume we need matching changes for the DT binding and to the DT?
+> 
 
-Unlocking a mutex in the context of a hrtimer callback is violating mutex
-locking rules, as mutex_unlock() from interrupt context is not permitted.
+Sorry for the late reply; no, we don't need any bindings/dt changes for this,
+as the bindings are matching the current devicetree node in mt8195.dtsi, and
+the node has
 
-Links: https://lore.kernel.org/dri-devel/ZQLAc%2FFwkv%2FGiVoK@phenom.ffwll.local/T/#t
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 9 ++-------
- drivers/gpu/drm/vkms/vkms_crtc.c     | 9 ++++-----
- drivers/gpu/drm/vkms/vkms_drv.h      | 4 +---
- 3 files changed, 7 insertions(+), 15 deletions(-)
+compatible = "mediatek,mt8195-disp-gamma", "mediatek,mt8183-disp-gamma";
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index d5d4f642d367..3c99fb8b54e2 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -408,15 +408,10 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
- 	if (enabled)
- 		drm_crtc_vblank_get(&out->crtc);
+so, no devicetree and/or bindings modification is needed.
 
--	mutex_lock(&out->enabled_lock);
-+	spin_lock_irq(&out->lock);
- 	old_enabled = out->composer_enabled;
- 	out->composer_enabled = enabled;
--
--	/* the composition wasn't enabled, so unlock the lock to make sure the lock
--	 * will be balanced even if we have a failed commit
--	 */
--	if (!out->composer_enabled)
--		mutex_unlock(&out->enabled_lock);
-+	spin_unlock_irq(&out->lock);
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/mediatek/mt8195.dtsi?h=next-20230914#n2724
 
- 	if (old_enabled)
- 		drm_crtc_vblank_put(&out->crtc);
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 3c5ebf106b66..61e500b8c9da 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	struct drm_crtc *crtc = &output->crtc;
- 	struct vkms_crtc_state *state;
- 	u64 ret_overrun;
--	bool ret, fence_cookie, composer_enabled;
-+	bool ret, fence_cookie;
+Regards,
+Angelo
 
- 	fence_cookie = dma_fence_begin_signalling();
-
-@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	if (ret_overrun != 1)
- 		pr_warn("%s: vblank timer overrun\n", __func__);
-
-+	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
-
- 	state = output->composer_state;
--	composer_enabled = output->composer_enabled;
--	mutex_unlock(&output->enabled_lock);
-+	spin_unlock(&output->lock);
-
--	if (state && composer_enabled) {
-+	if (state && output->composer_enabled) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
-
- 		/* update frame_start only if a queued vkms_composer_worker()
-@@ -295,7 +295,6 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
-
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
--	mutex_init(&vkms_out->enabled_lock);
-
- 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
- 	if (!vkms_out->composer_workq)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index c7ae6c2ba1df..8f5710debb1e 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -108,10 +108,8 @@ struct vkms_output {
- 	struct workqueue_struct *composer_workq;
- 	/* protects concurrent access to composer */
- 	spinlock_t lock;
--	/* guarantees that if the composer is enabled, a job will be queued */
--	struct mutex enabled_lock;
-
--	/* protected by @enabled_lock */
-+	/* protected by @lock */
- 	bool composer_enabled;
- 	struct vkms_crtc_state *composer_state;
-
---
-2.41.0
+> ChenYu
+> 
+>>          {},
+>>   };
+>>   MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+>> --
+>> 2.41.0
+>>
 
