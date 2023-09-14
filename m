@@ -2,147 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2138B7A107B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 00:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7677A1099
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 00:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E74AD10E585;
-	Thu, 14 Sep 2023 22:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D94610E594;
+	Thu, 14 Sep 2023 22:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35D410E585
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 22:03:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694728995; x=1726264995;
- h=message-id:date:subject:to:references:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=KPqwZ8J1zGwwtcvxDu0MDlMTFbZfGEYrrQ5J+enLY2g=;
- b=BTdbKhM8H6R7yMknb1erNmPGoZvja0Jac/rAyLG6htBqAaXJI//VlcBA
- te81Mo5ox35WWRlaSxslH8xYo9jwZby+24uyLwNwsf/E/MnFE9MDKzuMW
- b78UTN/b6Iv8rfIcWuURbtKmR5zG8crpwkcsCx8A6ZwSbweSP3XsHgRqD
- Wp1wJHpIkA+9qCOWstnkyjcSZf7ZZuI/mxtdRVklcNrnhEJvexgIqRebt
- A9lhwXtqBSAHIh/hncKZBHeHAgVFL6HHwUfoQe6Y1M35a0H5rFC7oXwAq
- 91C8kbQkNhTWopt58zH8oSIQXFkInvdmmjAeMR+hRrmf00IkHaBzb6gOi g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="376423890"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; d="scan'208";a="376423890"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 15:03:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="1075549113"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; d="scan'208";a="1075549113"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 14 Sep 2023 15:03:15 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 14 Sep 2023 15:03:14 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 15:03:14 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 14 Sep 2023 15:03:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nqHBrxY5oJSPRhKgnTESpmt8OPkm0Ha2UaB0hGRaZ6R+R0NiUX1v1t6poM2q+LiPTKsOI2ikbUxBSX1AVNmZ4fQDCSJ00Kmr8K5F6XzOEn3dvaFo7kgncUShxfFj9g6iKsfdWgprPfRNBc3mD6nVrPIbZRqNrUVCf+0braH30EKKr+XfLAXkq1j2D+Nq4rXlCUAlikXXFyYOz/+geOyrkpnOdBSNorYEUhp/D13887CVls+5/aPl4ypLTrDq89zGHtsL7R4GPovhaQlyVYTEATEtoinov6vrL3FbAIge2iOddTd8T6q4SM7/NmWDxVXSxGD1Dx2tX1aek1TF8ugsaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fN1xahaxeDCXwJ3RNUbMyGT6u86V21mFNUPyRKgSDVc=;
- b=dvarjm34YzGvXHY8v/Ps/ywK8Awt7TZcetVKH2241tIhKONKnfZujcBYFJhj3aG33vlqDaeUztMWeUq0B5YDcUIS8YXAp31ejPsQRwqIY0yz5mpA9ZDRIy8eNKncEk5OIVJBE/+xu///jy2e3datajVGEIcpUiEFht87LJxPUx+NGIzjMEAd7QDPf7oJw0SWZdF/GGNdP4LP2Z1sTE9Nr7Ogsot5SMgfxFuTUHQBWo4fYovgFkj9WaZFwdf9T7fRtUwTvwL5s5kp8rfCJW/QM67eDTq4yw+2Txkm4vmGenH+yPMhGJ0ymFwNVqWlDhfBF10OV5nVrqyhIJeg3l+brA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3398.namprd11.prod.outlook.com (2603:10b6:a03:19::19)
- by IA0PR11MB7837.namprd11.prod.outlook.com (2603:10b6:208:406::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Thu, 14 Sep
- 2023 22:03:12 +0000
-Received: from BYAPR11MB3398.namprd11.prod.outlook.com
- ([fe80::110f:4bac:8cd9:c359]) by BYAPR11MB3398.namprd11.prod.outlook.com
- ([fe80::110f:4bac:8cd9:c359%4]) with mapi id 15.20.6792.021; Thu, 14 Sep 2023
- 22:03:12 +0000
-Message-ID: <a28eca84-3a55-0e00-6287-48a24de28b94@intel.com>
-Date: Thu, 14 Sep 2023 15:03:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 1/1] drm/i915/pxp: Add drm_dbgs for critical PXP events.
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>
-References: <20230913225714.877627-1-alan.previn.teres.alexis@intel.com>
-From: "Balasubrawmanian, Vivaik" <vivaik.balasubrawmanian@intel.com>
-In-Reply-To: <20230913225714.877627-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0284.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::19) To BYAPR11MB3398.namprd11.prod.outlook.com
- (2603:10b6:a03:19::19)
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C695610E594
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 22:10:35 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id
+ 3f1490d57ef6-d8020510203so1484114276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 15:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694729435; x=1695334235; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ydz4VNWHxl7vquKRgl2cF7wVYd1wnbI72/KihA7USaQ=;
+ b=OEBq/rpPBgy4NISnuwPje6qWVrRP3n7doebsEDdry6NDFkl7xXTTmwcn8Tdc01tpC+
+ p5WUBxWmcCD9RfBO5GC4S06k9LrmChM7oHaaAukk9k2f2e4KJ/2NMVr9sQVh4gvgj4n7
+ AScv5MmYdH/MtiV3dal86bFantzvWNUNdXfzjlvgMkVmho801KMcq35QKx7aJm9rz0iV
+ r2DYsVWRv9TLtF6oMv7YCva86A/Z11Xh+mH2rreuVJqZp0EWGZP15w36Ck2HBwDh706B
+ hghETooMU6LXBSOeFYNzHek3VU8CnQXzfXuXmAOsRySQQ8m4ELxLsg2JYxWWkfhRh8e0
+ 9N7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694729435; x=1695334235;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ydz4VNWHxl7vquKRgl2cF7wVYd1wnbI72/KihA7USaQ=;
+ b=dWIpidcdQP5ruBezSIr7IU1hFBnxb40kRVgMNKHSgshH53uLTcQTudHVMeX+yJ40QP
+ u0gYD8XYzSNx42aCj0/kAdnMDLACbdL+9q3XpAwV5prbdcxfDWOP+C843LgJDg9dWsVq
+ kPNEiZDWQWHzzd2aIbjJqrNNH0wxu0aF+/u2Ub/MzJVq0CUnNI9ly95NCGw942w5RuST
+ 3RzbDpQaKee8tGVQWw43stlGjiwfLK9fE50wCvBalpdp/AyRkl93zTsMtj44pZxsCy8i
+ 7mpCt9Wixs0cTLZdxJd6aPRNyS6qlkZlZ8hoNpm6y+1kHrT2LgU2Bans5K14BPT4abQ+
+ lMrQ==
+X-Gm-Message-State: AOJu0Yy0r0CeVP97RHsO3oyorzg5EgzUqse36JULIPM0DlAhtASoc2vP
+ jdwf+dDkjTs8yMYSvfQW12OybnzIqd992xxu8rASow==
+X-Google-Smtp-Source: AGHT+IGXs3YdLZIpSHR4XnGKwzk3ARY+nqGST2uf+bqwIFUcO/ZO1Nfc2mvXSXIJT9v00dyqaQJIj4SjhBurj1bltNY=
+X-Received: by 2002:a5b:84f:0:b0:d77:c0b9:b182 with SMTP id
+ v15-20020a5b084f000000b00d77c0b9b182mr6188622ybq.46.1694729434741; Thu, 14
+ Sep 2023 15:10:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3398:EE_|IA0PR11MB7837:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3141f579-8def-4308-ced2-08dbb56e633a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3Aqq5tcv5AWBGRicI1d9TsNt6LQEZm5zIs+U21HDc5CiWeCcFmBEvnr6wB48cQ71CTYWsmxp/Iio0H2w7HZKnhzk3787gaMo8AKm7cUsa7du14LTdRYIJW4JwsRr4aCzSnabpTvoYNfCXa1Xd/H5YJM2yrcJSJZizF10akD5AHnewPQQCZz3HSr5Dj1ETOSm+nvjyomAgSPQQWzgyFi59kk07QVOKnNNJKkY3La0WEsgOk1JzgL3W0tpCgT/N74vmh2RRR7BpxrmqL+DBHZuMZsKPuFArq2Swt7h4bfeOJ1UY2N9WPzv/zdT9W0N8b3vVtxVJWDEMyXLoPjuZBUbpsBggbZkrjqzPfOVGqUvWRsgk87JHCDrZiQG95kr1EPQQzjn/h4RvNjshFI2MYFscPp68AJHYUF8bONQ+yxDE1/8ni4Eu9/QTneWPdwANVrwtobZjgyIFQ2UhNpy6RypszRjbrSuqM2eWVrBo2anf878GDWBhisARwXW6RWz04GJHPPb5VNQxShSouLhEX9o6s5A0+BWEAYDLtWrTa5JnldXiZpThibXCPrTqWG8LsUl9ulLYgs56+pFWwWLYMRVg3yeAph/JBzZkytkCJ5139XeF2rtksaBNkZSwyh3X/LNESWhGJaRqGuO4AGDhWEvdA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3398.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(366004)(396003)(39860400002)(346002)(451199024)(1800799009)(186009)(2906002)(8676002)(66556008)(6486002)(53546011)(6916009)(41300700001)(83380400001)(66476007)(66946007)(2616005)(6512007)(478600001)(26005)(6666004)(6506007)(8936002)(31696002)(5660300002)(316002)(82960400001)(38100700002)(86362001)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bXU3Y2xjRkFVUjhUT0MvUEZXRWFFSVlLaGRVaFh2dEMzMXFTeUg0d1hweHlM?=
- =?utf-8?B?UTBGaW4yL1hTOFFWMnpsNkt5U0NzR0tRc24rUGJFR3RiM0hYSEUwNUlUcjFP?=
- =?utf-8?B?emxLY3NTUHJOQW5ESThMVGp1djJOaVFFcUJQVWNmcHhIYkxidjc3MXhqS0F4?=
- =?utf-8?B?d0Q2U1pYUlozeC94TW1TUmpMdWVGK3FoOW5TbU5PZlF1SElkYm80bVI1WlhR?=
- =?utf-8?B?ejQ3QkJBUVlmQ2Q5bFAvYmxTZmlqc0xGZk9zNzU4d09sSVRvLzZiME1yTGpC?=
- =?utf-8?B?SCsrRDUwS0pWMFlZZWxCOURhZTFTdUtuODJOV0srbGF1Q3FPY3VQWXFDTGtM?=
- =?utf-8?B?R00vaTJQcEtPQkNuYUxYTkF5WGNlUUFwRWUvYzUvZzY1dm5NbjVQM2s1WVJP?=
- =?utf-8?B?eU1yeDJ4S2VUa3BobklNSk1HTFR3NUxjTFV4bGVaYXpsMUltOUZ6YzRLM0E3?=
- =?utf-8?B?THBZd3JDU1d4TVhkMEw3Z3UyRUtVQXBLaUFTUG1vRnJzR2Y5Q3QyekdaRkJq?=
- =?utf-8?B?cE5nc3BLZ0N6ZDZwazVGUTY2T0xYWjhjUFVqVDd2N3J6Yys5Y1VvNElBQ1lk?=
- =?utf-8?B?Z1dpQkdrRXlhY1lPaUN4d2YyRlZVSUlWVm9kRXVKakJxOW55Tnh3TWFKN25z?=
- =?utf-8?B?MW5oV3hVeURKbEx2SnFCUnRUQ08xRW96RWZVTkZTRnAxa3FzczJWeEEzU2V2?=
- =?utf-8?B?M0dBQlNYbWJvNDA0WCtoNkU5dlNnaG90VWZNN1BHTFJQQ2c2dWNFQkNxUmVR?=
- =?utf-8?B?bUhMa04zcEFEZ2NCWVpFUDRuci9BS0p5NE5ObmNjQlVQU1JGQkhBbk5KUC9H?=
- =?utf-8?B?TTFXVTErY2I1VW9mMjd2OFB0aUVzTTlHZVRTRFRvWFVKemhlMkhnbnZCMDYz?=
- =?utf-8?B?RjF3OUQycWVlQzVzcENMdmU1MUY0cnlrUXZOU2c5QytwaThZT29yZEtLWkxu?=
- =?utf-8?B?VnZaRWxpbzZhWW5iN0pSekpTR3NWM2Z0bE1jaklPVWJRYWRBZjljRkNUbFlr?=
- =?utf-8?B?MXBwclBuYW9KRFlPNWlEd3VJQTNDWjhRZS9uK3V0dCt5WWhhYWN4QjVjYXdQ?=
- =?utf-8?B?OTBqRFZpZUJPVXN0V0dCZVo4TmlHMU9qUkY3U0pJSW13TVpvdk5ha0F0ZEN2?=
- =?utf-8?B?c2JBVjhaUXpSQnYvMVQxTG5BUkQvbnM2U0ttUFBNMzBMZnh3aFdLc0pnRC9y?=
- =?utf-8?B?UDJ2SmF3NnZzSFlwSUlFbzdXNHBPczRQUmJDNFNzdHNNL3k0KzJoWmhLa01J?=
- =?utf-8?B?WERPR0t1MEM4ZEFJak5FTGllVW1EcC9LRm0rM1Uwa25WNWVEYjBCNk1LbDJY?=
- =?utf-8?B?SWhta2paUW13OTJtdzdCc0tuQlpJNXF0bEYxb2l6Mk9YVWxaWUMwd1FwZHRR?=
- =?utf-8?B?S0VVVFZTTnA5UFdFY1JsbWpoTFdGNXcwbU9LOXhma3B1MzVNa2ttYURMa0dD?=
- =?utf-8?B?VFlKVTg1ZC9uN1d0OUdoaGlqY295V08vOVRPZGZmZDRkUmJLVWNycE91QW51?=
- =?utf-8?B?VWl5ZEd2OWtzUll2MmtMc2xsMGVNQWwyUUdQL2d3S01EUFJyMUxYbnJ5cVcv?=
- =?utf-8?B?dXhxb1NoOXVtVmRTMHF6a2h5ODliL01PWk9yQWg5UjlFZVhTYTBBaElvWkor?=
- =?utf-8?B?S3VDc1lBVm9mS0NBTkpucURWcnYrVU9vSFVwSW9LdlJIbmMyLzJENVUzV1JJ?=
- =?utf-8?B?QkZpcFkzTjlVRFhlRTB6T2tEb1M1cUlXWlZCSytjMTI5MjI0TG1pSFo2a0Vl?=
- =?utf-8?B?ZklOb0VtTFROM3kxWWRKeUZGdGdGVjYyMldGUTV1anJzT0I0UDFVSDU0VXNQ?=
- =?utf-8?B?Qy9YMkxMbFdkR0RJeStpa3BVcktiaVQ4WTE5RU1TKzNKMEFTNDRaQktkSkhl?=
- =?utf-8?B?aEkvT0c0em1YZzVTdmJTQ25md1FNdDUyZkphUWNVNUhuYzNUZ2hHZll5TStV?=
- =?utf-8?B?NmtYWC9KNmJWcjErd292WDFzNW8wbktQSndKb1JwMzBlUGxpc3FXU2xhTWZp?=
- =?utf-8?B?TGJEazliMnFKNFdtS1hjbFdiWVNBbnJ3b3d2bFJQaU5vVmMxRXA5dVJ2c2FE?=
- =?utf-8?B?TEN4TnJNUm9sNVJYeGZJbmJKdk9TZnlleTJzWndFV3piVG1oZWtPQkU5eFNV?=
- =?utf-8?B?aWdzdFJtcjUxaWdJQ3g4QWJRVU5hbjFvZy8zZGFWMlJXQzhsVytPMldlNWpq?=
- =?utf-8?Q?hVrOFZVVeNU5sFQGHUo5XOM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3141f579-8def-4308-ced2-08dbb56e633a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3398.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 22:03:12.0664 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MUOXxBIEzliGIztLKgR8/mEd9lAG4NMC+PMzB/2Khuq6pZaHfWDF4+YPSCqFwYaEPE3OvhyiXbspv9r20jrx12HHfvMheFUCvmPyE2S9nkO3HGmKecHpTpoF59oPKTh1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7837
-X-OriginatorOrg: intel.com
+References: <20230817145516.5924-1-dmitry.baryshkov@linaro.org>
+ <20230822141735.GA14396@pendragon.ideasonboard.com>
+ <20230822141918.GB14396@pendragon.ideasonboard.com>
+ <c266b761-ddd3-4b29-aeb7-fc40348f0662@linaro.org>
+ <20230914212339.GA11890@pendragon.ideasonboard.com>
+In-Reply-To: <20230914212339.GA11890@pendragon.ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 15 Sep 2023 01:10:23 +0300
+Message-ID: <CAA8EJpqzGimMmD=jbGQVsuJTfgoCjUf3HV0JGCFimaS73Qq6VQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] drm: simplify support for transparent DRM bridges
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,48 +70,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/13/2023 3:57 PM, Alan Previn wrote:
-> Debugging PXP issues can't even begin without understanding precedding
-> sequence of events. Add drm_dbg into the most important PXP events.
+On Fri, 15 Sept 2023 at 00:23, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
->   v2 : - remove __func__ since drm_dbg covers that (Jani).
->        - add timeout of the restart from front-end (Alan).
+> Hi Neil,
 >
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c |  2 ++
->   drivers/gpu/drm/i915/pxp/intel_pxp.c         | 15 ++++++++++++---
->   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     |  4 ++--
->   drivers/gpu/drm/i915/pxp/intel_pxp_session.c |  6 +++++-
->   drivers/gpu/drm/i915/pxp/intel_pxp_types.h   |  1 +
->   5 files changed, 22 insertions(+), 6 deletions(-)
+> Sorry about the delay, the series got burried in my inbox.
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> index 5f138de3c14f..61216c4abaec 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-> @@ -321,6 +321,7 @@ static int i915_gsc_proxy_component_bind(struct device *i915_kdev,
->   	mutex_lock(&gsc->proxy.mutex);
->   	gsc->proxy.component = data;
->   	gsc->proxy.component->mei_dev = mei_kdev;
-> +	gt_dbg(gt, "GSC proxy mei component bound\n");
->   	mutex_unlock(&gsc->proxy.mutex);
->   
-> <snip>
+> On Tue, Aug 22, 2023 at 04:27:37PM +0200, Neil Armstrong wrote:
+> > On 22/08/2023 16:19, Laurent Pinchart wrote:
+> > > On Tue, Aug 22, 2023 at 05:17:37PM +0300, Laurent Pinchart wrote:
+> > >> On Thu, Aug 17, 2023 at 05:55:13PM +0300, Dmitry Baryshkov wrote:
+> > >>> Supporting DP/USB-C can result in a chain of several transparent
+> > >>> bridges (PHY, redrivers, mux, etc). This results in drivers having
+> > >>> similar boilerplate code for such bridges.
+> > >>
+> > >> What do you mean by transparent bridge here ? Bridges are a DRM concept,
+> > >> and as far as I can tell, a PHY isn't a bridge. Why does it need to be
+> > >> handled as one, especially if it's completely transparent ?
+> > >>
+> > >>> Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
+> > >>> bridge can either be probed from the bridge->attach callback, when it is
+> > >>> too late to return -EPROBE_DEFER, or from the probe() callback, when the
+> > >>> next bridge might not yet be available, because it depends on the
+> > >>> resources provided by the probing device.
+> > >>
+> > >> Can't device links help avoiding defer probing in those cases ?
+> > >>
+> > >>> Last, but not least, this results in the the internal knowledge of DRM
+> > >>> subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
+> > >>
+> > >> Why so ? The PHY subsystem should provide a PHY, without considering
+> > >> what subsystem it will be used by. This patch series seems to me to
+> > >> actually create this DRM dependency in other subsystems,
+> > >
+> > > I was wrong on this one, there are indeed existing drm_bridge instances
+> > > in drivers/usb/ and drivers/phy/. That's certainly not nice. Why do we
+> > > even need drm_bridge there, why can't the PHYs be acquired by their
+> > > consumers in DRM (and anywhere else) using the PHY API ?
+> >
+> > Because with USB-C Altmode/USB4/Thunderbolt, DisplayPort is one of the
+> > data streams handled by PHYs, USB-C PD manager, re-timers, SBU muxes...
+> > and all this must be coordinated with the display controller and can
+> > be considered as bridges between the DP controller and the USB-C connector.
+> >
+> > As of today, it has been handled by OOB events on Intel & AMD, but the entirety
+> > of USB-C chain is handled in firmare, so this scales.
+> > When we need to describe the entire USB-C data stream chain as port/endpoint
+> > in DT, OOB handling doesn't work anymore since we need to sync the entire
+> > USB-C chain (muxes, switches, retimers, phys...) handled by Linux before
+> > starting the DP stream.
+>
+> No disagreement here. Handling the component as part of the bridges
+> chain certainly helps. Ideally, this should be done without spreading
+> usage of drm_bridge outside of the DRM subsystem. For instance, we
+> handle (some) D-PHYs in DRM and V4L2 by exposing them as PHYs, and
+> acquiring them in DSI or CSI-2 controller drivers.
 
-Can we move the debug print to outside the mutex block?
+This is true. We tried doing that. This quickly results in DT not
+describing the actual hardware.
+Consider the SS lanes of the USB-C controller. They should go to some
+kind of mux that switches them between DP and USB-SS controllers. In
+our case such a mux is the USB+DP PHY. So it becomes used both via tha
+phys = <> property and via the OF graph. And as we do not want to
+circumvent the drm_bridge OF-related code, this OF graph link results
+in an extra drm_bridge being created on the path to the final
+drm_bridge in TCPM, which actually implements HPD ops.
 
-review complete conditional to the above fix.
+> Do I understand correctly that, in this case, the video stream is fully
+> handled by the PHY (& related) component, without any other device (in
+> the OF sense) wrapping the PHY like the DSI and CSI-2 controllers do ?
+> If so that would indeed make it difficult to create the drm_bridge in a
+> DRM driver that would acquire the PHY. We could come up with a different
+> mechanism, but that's likely overkill to solve this particular issue (at
+> least until other similar use cases create a critical mass that will
+> call for a major refactoring).
+>
+> In this specific case, however, I'm a bit puzzled. What coordination is
+> required between the PHYs and the display controller ? The two drivers
+> modified in patches 2/3 and 3/3 indeed create bridges, but those bridges
+> don't implement any operation other than attach. Is this needed only
+> because the PHY has an OF node that sits between the display controller
+> and the connector, requiring a drm_bridge to exist to bridge the gap and
+> create a complete chain of bridges up to the connector ? This would
+> simplify the use case, but probably still call for creating a
+> drm_bridge in the PHY driver, as other solutions are likely still too
+> complex.
 
-Reviewed-by: Balasubrawmanian, Vivaik 
-<vivaik.balasubrawmanian@intel.com> 
-<mailto:vivaik.balasubrawmanian@intel.com>
+Yes, these bridges just fill gaps in the bridge chain. HPD events are
+generated in the TCPM / altmode driver, so there should be a bridge
+there.
 
-<snip>
+>
+> It seems to me that this series tries to address two issues. One of them
+> is minimizing the DRM-specific amount of code needed in the PHY drivers.
+> The second one is to avoid probe deferrals. For the first issue, I agree
+> that a helper is currently a good option. For the second issue, however,
+> couldn't device links help avoiding probe deferral ? If so, the helper
+> could be simplified, avoiding the need to create an auxiliary device.
 
-> base-commit: 45460a37f9be43072b509ca6044b215648f56221
+This is largely discussed in the other subthread.
+
+>
+> > >> which I don't
+> > >> think is a very good idea. Resources should be registered in their own
+> > >> subsystem with the appropriate API, not in a way that is tied to a
+> > >> particular consumer.
+> > >>
+> > >>> To solve all these issues, define a separate DRM helper, which creates
+> > >>> separate aux device just for the bridge. During probe such aux device
+> > >>> doesn't result in the EPROBE_DEFER loops. Instead it allows the device
+> > >>> drivers to probe properly, according to the actual resource
+> > >>> dependencies. The bridge auxdevs are then probed when the next bridge
+> > >>> becomes available, sparing drivers from drm_bridge_attach() returning
+> > >>> -EPROBE_DEFER.
+> > >>
+> > >> I'm not thrilled :-( Let's discuss the questions above first.
+> > >>
+> > >>> Proposed merge strategy: immutable branch with the drm commit, which is
+> > >>> then merged into PHY and USB subsystems together with the corresponding
+> > >>> patch.
+> > >>>
+> > >>> Changes since v3:
+> > >>>   - Moved bridge driver to gpu/drm/bridge (Neil Armstrong)
+> > >>>   - Renamed it to aux-bridge (since there is already a simple_bridge driver)
+> > >>>   - Made CONFIG_OF mandatory for this driver (Neil Armstrong)
+> > >>>   - Added missing kfree and ida_free (Dan Carpenter)
+> > >>>
+> > >>> Changes since v2:
+> > >>>   - ifdef'ed bridge->of_node access (LKP)
+> > >>>
+> > >>> Changes since v1:
+> > >>>   - Added EXPORT_SYMBOL_GPL / MODULE_LICENSE / etc. to drm_simple_bridge
+> > >>>
+> > >>> Dmitry Baryshkov (3):
+> > >>>    drm/bridge: add transparent bridge helper
+> > >>>    phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
+> > >>>    usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE
+> > >>>
+> > >>>   drivers/gpu/drm/bridge/Kconfig            |   9 ++
+> > >>>   drivers/gpu/drm/bridge/Makefile           |   1 +
+> > >>>   drivers/gpu/drm/bridge/aux-bridge.c       | 132 ++++++++++++++++++++++
+> > >>>   drivers/phy/qualcomm/Kconfig              |   2 +-
+> > >>>   drivers/phy/qualcomm/phy-qcom-qmp-combo.c |  44 +-------
+> > >>>   drivers/usb/typec/mux/Kconfig             |   2 +-
+> > >>>   drivers/usb/typec/mux/nb7vpq904m.c        |  44 +-------
+> > >>>   include/drm/bridge/aux-bridge.h           |  19 ++++
+> > >>>   8 files changed, 167 insertions(+), 86 deletions(-)
+> > >>>   create mode 100644 drivers/gpu/drm/bridge/aux-bridge.c
+> > >>>   create mode 100644 include/drm/bridge/aux-bridge.h
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
+
+-- 
+With best wishes
+Dmitry
