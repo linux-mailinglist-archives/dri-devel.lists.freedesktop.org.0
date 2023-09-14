@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA4579F9D0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 07:07:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6DB79F9D3
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 07:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE2610E4FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BBA310E4FF;
 	Thu, 14 Sep 2023 05:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E89610E4F7
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4BE810E4F8
  for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 05:07:11 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2bcb50e194dso8080591fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 22:07:10 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2bfc8c02e82so3896231fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Sep 2023 22:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694668029; x=1695272829; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1694668030; x=1695272830; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R10mXVtDMcWIBom4B4RANApmxfehNpaKxAb93aUCAhw=;
- b=nWibQ5VSvFQi8FaqiSQ2jXx3B43Fbw6EBPnQcLc9IHwNzJsRpBcDmTXbcF5blbDWzU
- LUZ51iX2WLhipFS6M0vi+hkru70iqrXaS58E/CkK3J1mx7zJlqQyIX/DrzzHpJeqvoi6
- 8lFXLX4V1hlif0pKlsvHml/OPJPYIftW6B5tIaaweWUxNFO00Wv9CA1cnD4nE4ruK/8L
- atjdHLiZT1+I7G3XjMLx1PeNmSzMju70Htwcdr0HYRK4WvdEHg75/1+xxqfg++yMBb/G
- 5Et9ME9uxlcbtKPGgDs8aEcA6BkbE2GJLGspDTuI0N1ysb4aBfH4sf8O9vy/MUIEZPHb
- JFeQ==
+ bh=WDVBklRS/zpCaNNSChXZ8oT1YIvTUFQciSEHjoiQ7eM=;
+ b=SxswQ2tzER7E7PXyTXo3LVl/GteC1m+ZfDokJubsUWzW35duOfEkVfi+yuUCLPH+z/
+ KApM8NK1QIZke/yv7QF4cWYeyjz5DpJKjR6x0BQIueCJ99Ismy9V2SYtSJGl6F25rmdb
+ 8zS4GiVcsi0SIX5mJOzBGYUEIWhHfPBp0QWr+OnKC2ap9rOezwgbyTR3i9RNlEwr9jpz
+ nRl5eu7FUQwENB/x5xb5kvJDm4n39xeHIiZto1SxOph025mFo1h2KDCIovpWAVCpAls6
+ URwSQrm3hWfkOENgJaofcEGl7YbEk0g+XnZqD2yzReajHR1zKyDmQi7+mMTA3qG75zS0
+ KmKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694668029; x=1695272829;
+ d=1e100.net; s=20230601; t=1694668030; x=1695272830;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R10mXVtDMcWIBom4B4RANApmxfehNpaKxAb93aUCAhw=;
- b=uAWEBD8gKPlGicvgPgfOD3tl/fnHw8bJHFkkYNpwFZrUcqdhfV3A6Kqr0/+VZf7RSg
- AKZ3wEoZbZQEOYMKaini+FM3O/DhgPl2m7n5aU8wclQQlAqM7rbVDe5emHILMYF3kN7P
- nyURaA4QvWm+JFUR0R7EjIHzZM3ZdWz9wxjJO/wfkNklCF7jD1gDYXmlZMGIieUTUJvX
- 8ZVQ6/DBRYfjPH4Y7gCtJwUCHfd8j7JkA87h1vcTWUgNt7SwpXcSLjXnlZr4P5WpQ+Op
- AjHLE6d1k6e3jWA+Hhb/eFS9Amoo3KNXK7DqPmDJllr6g5ljkaMfWXp4GruqkS3CSlQQ
- RQJw==
-X-Gm-Message-State: AOJu0Yy3PXgc5un9PFJpsalbcnhxONq/9TjDUbVm1clhXM12xWQ78Ho7
- DspZRUce5ip7AywjBDMmL75AMZd6wRtZutb+PT4=
-X-Google-Smtp-Source: AGHT+IHnihmtc2vsv5dhrZBDc8UMldl6OVUIYcXEBdHEa7UfMhDIENjazXuDNb321U3p6nkW1W1rlA==
-X-Received: by 2002:a2e:98d7:0:b0:2b9:48f1:b195 with SMTP id
- s23-20020a2e98d7000000b002b948f1b195mr3853326ljj.44.1694668029333; 
- Wed, 13 Sep 2023 22:07:09 -0700 (PDT)
+ bh=WDVBklRS/zpCaNNSChXZ8oT1YIvTUFQciSEHjoiQ7eM=;
+ b=aMi/eF5WoMRHlYbhcnfJzp6GzFLNJ4DF0EZs0GZdQ8LGnR38S10XW+0YBtWVd+cpT2
+ UOpeuo4UDl5+8BYZlH7xfI7Y5VC028nO9b6EYinsw/lAIVYfcyu3OWEk37IWi1iK9jgj
+ YQvy5P10JDkOmMWaVRHlwLd7czj0NSzlkQ3rW2BbaAasjD7dcM+Y12F3r/eN4JBZKUOS
+ d3yv+udfkiXYMITKS/qDeujHZnOri5MMnL4LpRUHVgnXgVESDB1chGD7SYKM+RKmqbRF
+ 4sj4l5odk2fJdfQiwg3RCKqcKXtOhZ5ByZOSUca3kYOyI/HXs25XtS4YfWXB1D38eKEB
+ rW8A==
+X-Gm-Message-State: AOJu0YzlozRyeaMyiI5+xRVd+H5kczXUijRPKoOKAGWYHWgxmGz3AXgE
+ 3IZG/I4JG/DjTALljxGyBtuxyA==
+X-Google-Smtp-Source: AGHT+IHPChJTKjldNEoz195k+W1j/GESq9pdPTvGHhkhrGfQyU4w3OWF9yh/r4UEcZrnrjDEfCYaoQ==
+X-Received: by 2002:a2e:9bc3:0:b0:2b9:3684:165 with SMTP id
+ w3-20020a2e9bc3000000b002b936840165mr3830429ljj.8.1694668030013; 
+ Wed, 13 Sep 2023 22:07:10 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- y15-20020a2e978f000000b002bce38190a3sm124777lji.34.2023.09.13.22.07.08
+ y15-20020a2e978f000000b002bce38190a3sm124777lji.34.2023.09.13.22.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Sep 2023 22:07:08 -0700 (PDT)
+ Wed, 13 Sep 2023 22:07:09 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 02/12] drm/msm/dpu: add current resource allocation to
- dumped state
-Date: Thu, 14 Sep 2023 08:06:56 +0300
-Message-Id: <20230914050706.1058620-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 03/12] drm/msm/dpu: take plane rotation into account for
+ wide planes
+Date: Thu, 14 Sep 2023 08:06:57 +0300
+Message-Id: <20230914050706.1058620-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
 References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
@@ -82,127 +82,73 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide atomic_print_state callback to the DPU's private object. This
-way the debugfs/dri/0/state will also include RM's internal state.
+Take into account the plane rotation and flipping when calculating src
+positions for the wide plane parts.
 
+This is not an issue yet, because rotation is only supported for the
+UBWC planes and wide UBWC planes are rejected anyway because in parallel
+multirect case only the half of the usual width is supported for tiled
+formats. However it's better to fix this now rather than stumbling upon
+it later.
+
+Fixes: 80e8ae3b38ab ("drm/msm/dpu: add support for wide planes")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  4 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c  | 48 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h  |  8 +++++
- 4 files changed, 62 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index ee84160592ce..172b64dc60e6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -362,6 +362,7 @@ static void dpu_kms_global_destroy_state(struct drm_private_obj *obj,
- static const struct drm_private_state_funcs dpu_kms_global_state_funcs = {
- 	.atomic_duplicate_state = dpu_kms_global_duplicate_state,
- 	.atomic_destroy_state = dpu_kms_global_destroy_state,
-+	.atomic_print_state = dpu_rm_print_state,
- };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index c2aaaded07ed..67f9c2a62a17 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -827,16 +827,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 	}
  
- static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
-@@ -375,6 +376,9 @@ static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
- 	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
- 				    &state->base,
- 				    &dpu_kms_global_state_funcs);
-+
-+	state->rm = &dpu_kms->rm;
-+
- 	return 0;
- }
+-	pipe_cfg->src_rect = new_plane_state->src;
+-
+-	/* state->src is 16.16, src_rect is not */
+-	pipe_cfg->src_rect.x1 >>= 16;
+-	pipe_cfg->src_rect.x2 >>= 16;
+-	pipe_cfg->src_rect.y1 >>= 16;
+-	pipe_cfg->src_rect.y2 >>= 16;
+-
+-	pipe_cfg->dst_rect = new_plane_state->dst;
+-
+ 	fb_rect.x2 = new_plane_state->fb->width;
+ 	fb_rect.y2 = new_plane_state->fb->height;
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index ed549f0f7c65..dd2be279b366 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -130,6 +130,8 @@ struct vsync_info {
- struct dpu_global_state {
- 	struct drm_private_state base;
+@@ -852,6 +842,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
  
-+	struct dpu_rm *rm;
-+
- 	uint32_t pingpong_to_enc_id[PINGPONG_MAX - PINGPONG_0];
- 	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
- 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index f9215643c71a..5e3442fb8678 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -652,3 +652,51 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+ 	max_linewidth = pdpu->catalog->caps->max_linewidth;
  
- 	return num_blks;
- }
++	/* state->src is 16.16, src_rect is not */
++	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
 +
-+void dpu_rm_print_state(struct drm_printer *p,
-+			const struct drm_private_state *state)
-+{
-+	const struct dpu_global_state *global_state = to_dpu_global_state(state);
-+	const struct dpu_rm *rm = global_state->rm;
-+	int i;
++	pipe_cfg->dst_rect = new_plane_state->dst;
 +
-+	drm_puts(p, "pingpong:");
-+	for (i = 0; i < ARRAY_SIZE(global_state->pingpong_to_enc_id); i++)
-+		if (rm->pingpong_blks[i])
-+			drm_printf(p, " %d,", global_state->pingpong_to_enc_id[i]);
-+		else
-+			drm_puts(p, " -,");
-+	drm_puts(p, "\n");
++	drm_rect_rotate(&pipe_cfg->src_rect,
++			new_plane_state->fb->width, new_plane_state->fb->height,
++			new_plane_state->rotation);
 +
-+	drm_puts(p, "mixer:");
-+	for (i = 0; i < ARRAY_SIZE(global_state->mixer_to_enc_id); i++)
-+		if (rm->mixer_blks[i])
-+			drm_printf(p, " %d,", global_state->mixer_to_enc_id[i]);
-+		else
-+			drm_puts(p, " -,");
-+	drm_puts(p, "\n");
-+
-+	drm_puts(p, "ctl:");
-+	for (i = 0; i < ARRAY_SIZE(global_state->ctl_to_enc_id); i++)
-+		if (rm->ctl_blks[i])
-+			drm_printf(p, " %d,", global_state->ctl_to_enc_id[i]);
-+		else
-+			drm_puts(p, " -,");
-+	drm_puts(p, "\n");
-+
-+	drm_puts(p, "dspp:");
-+	for (i = 0; i < ARRAY_SIZE(global_state->dspp_to_enc_id); i++)
-+		if (rm->dspp_blks[i])
-+			drm_printf(p, " %d,", global_state->dspp_to_enc_id[i]);
-+		else
-+			drm_puts(p, " -,");
-+	drm_puts(p, "\n");
-+
-+	drm_puts(p, "dsc:");
-+	for (i = 0; i < ARRAY_SIZE(global_state->dsc_to_enc_id); i++)
-+		if (rm->dsc_blks[i])
-+			drm_printf(p, " %d,", global_state->dsc_to_enc_id[i]);
-+		else
-+			drm_puts(p, " -,");
-+	drm_puts(p, "\n");
-+}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-index 2b551566cbf4..913baca81a42 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-@@ -92,6 +92,14 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 	struct dpu_global_state *global_state, uint32_t enc_id,
- 	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
+ 	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+ 		/*
+ 		 * In parallel multirect case only the half of the usual width
+@@ -899,6 +898,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+ 	}
  
-+/**
-+ * dpu_rm_print_state - output the RM private state
-+ * @p: DRM printer
-+ * @state: private object state
-+ */
-+void dpu_rm_print_state(struct drm_printer *p,
-+			const struct drm_private_state *state);
++	drm_rect_rotate_inv(&pipe_cfg->src_rect,
++			    new_plane_state->fb->width, new_plane_state->fb->height,
++			    new_plane_state->rotation);
++	if (r_pipe->sspp)
++		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
++				    new_plane_state->fb->width, new_plane_state->fb->height,
++				    new_plane_state->rotation);
 +
- /**
-  * dpu_rm_get_intf - Return a struct dpu_hw_intf instance given it's index.
-  * @rm: DPU Resource Manager handle
+ 	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+ 	if (ret)
+ 		return ret;
 -- 
 2.39.2
 
