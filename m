@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCA679F84A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 04:38:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AED679F883
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 04:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1008B10E4EC;
-	Thu, 14 Sep 2023 02:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2747F10E4EB;
+	Thu, 14 Sep 2023 02:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20630.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62C1410E4EC;
- Thu, 14 Sep 2023 02:38:30 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F188A10E4EB;
+ Thu, 14 Sep 2023 02:56:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jCZqFvyNvJQLEuYsVLuBSXJkPZnyEt5snNN1puEs1A2kUkeQlttRB7xOHxf0I5paRnCmRN2ol8c2pA+QhkzIm+ENTV4JxwEJbhZwd3A3bpGIuPv5rRcSIc3cvQvYjjXFVVRAg7TWvZkk9fSWP2LQyJsSCJ1wGzP3Bb3IpsZ3FSXO8Mj0bsPBIRWTQX+jIYwybxf02YoIVf4nAkcDJ8Cb9jlWrqLCasAmY2QEls6PXYfam2y0+qrgOfbEsveQPuL962t3mUWUEgHRbDkrmXlObGb8Qp6BtNrFOvKJK8v7BDANWXtM/1u+66xzql163fATlg7qToff1BWQbrbR5C/MiA==
+ b=Qej56RZ+AL+35FeWt419sVcS1+5WZhbqyHHJQEirh3xAxVZ/D8jg9NsB3IxWvQZbErYDfQbWvgEbA/tesMWV1DsZmQR8WJqHUgUajScOmBuXxE9CujOGhDcfmDIYh+4cMZsyzbgXbq+x8gDou5P9WQIKJ+Yt5ey7MGcRFLhBUVtQkC8nJUGSwMzyhFAC8vOHAbZSoYM9O6LBCI+GXUOI0IiaK+3lQTGeBBXdJdJ3igcQPUAbdtSI69PUJ3Xd0keOSDZr5pE5qCzznG9qNr790Lx2esfh+KzKyOabfmHtGG6oCwLBlkM5yNLImyPKd7eBGAOUzXgq7ulK2Sv+X4ag/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XrJlZ2zeZV4WFJcrYSx/dCmB60jWps3yJvDyCmvK7oA=;
- b=cKFA8XzcgAC6sHoAogoacV0UWLRHdsxpN1a+zJSMhRVda/hDEQsaXLGMvEZS2uHYBmHrfTk36qZPlZ/T+nSC/mqMf3Zp+MbSWBY8zpMM43qsiMc17ijbelknl7alyfU63jOpkViQUVib5AZnqHxDWx0+pY5RvgPF9flOEUYhmIvrhT6GhKv0parMePGHEOHf4WFGTWvKdNk8NijJ2H/Os+aXCD/3IdQ4diCMBuoks4btsrlmc0fGBP9eFHaSzt8PJq94T/IP5p+rG3qqW2MSCv74FLrTcJUb75UgRV+wEI7PXL88xkplbn7pNdFQLyCSBXCxDGeAkHaFN0PrV7vLPQ==
+ bh=PPmO8db4grVQSYWFwibThTUkjumOFjcTuHypimrA8pA=;
+ b=IpA9FToV0xm88HkBiJNfV159XeZrwP39twXku0jJ2Mv7hoZkNwGUtqrsMIRKUJn6SUVHmlrYmCo/joghGrs28YV+b7VY3RIgryTLtWuqD6R23W2Lkzw2atXJ83Iz77U2j+cjLRcP8LnKEu2jylj1MxldDhbuLaxIkf5ETpnjekOGOzThoSoBlCClr+7H3uaF13xDqlNBP58ywloJ9TVQKPvOT2YYCdTorKSnFBQWawWDuuIrXwrIjkg6VeotxUfpcA527vQUzS28pSWsFwCIAa0Y3gIp2uczrAAHSqS3XtfXLyogtMcsq5+sZnsSZK91YGrO6jyJn++P2uBYl1lRPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XrJlZ2zeZV4WFJcrYSx/dCmB60jWps3yJvDyCmvK7oA=;
- b=ZHUb4oEIl50zO1Hnq3JnxRIG4MeSb/ONO3ND9P5UhZzH31ATXW6Zo10KLkxfecC/5bJhQaL+swp9jtvUVpg1yUpLLg0Rs8y2gAQqdLwSyfg2lFvn12b0brHuIW9ZthO1ZfHQoRtVZPlfOYchNWPIv+13QU5U7bJ/GXgs6SWUIGk=
+ bh=PPmO8db4grVQSYWFwibThTUkjumOFjcTuHypimrA8pA=;
+ b=5a0M/uWTveqCS/KzCtblKWd4kqtdz7ZFUa2z/Ph2KrU5ThmB9EOkBax42Lu9h47LVQsd7phYIMZuSjt5jhK+i7KZxeOcu4z2g9/x1COqJP9/qUIZSpakBe4tSYHPesIasxCIwiPWYno5GmsCzHPIfjMU5Wo+TsRV789bdFX6SqY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- IA0PR12MB7579.namprd12.prod.outlook.com (2603:10b6:208:43c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 14 Sep
- 2023 02:38:27 +0000
+ BN9PR12MB5164.namprd12.prod.outlook.com (2603:10b6:408:11d::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6792.19; Thu, 14 Sep 2023 02:56:14 +0000
 Received: from DM6PR12MB3370.namprd12.prod.outlook.com
  ([fe80::8a67:3bbe:8309:4f87]) by DM6PR12MB3370.namprd12.prod.outlook.com
  ([fe80::8a67:3bbe:8309:4f87%3]) with mapi id 15.20.6768.029; Thu, 14 Sep 2023
- 02:38:27 +0000
-Message-ID: <93a1dd2d-72e3-42b1-914f-d325b104580b@amd.com>
-Date: Wed, 13 Sep 2023 22:38:24 -0400
+ 02:56:14 +0000
+Message-ID: <ed3aca10-8a9f-4698-92f4-21558fa6cfe3@amd.com>
+Date: Wed, 13 Sep 2023 22:56:10 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.2.2
-Subject: Re: [PATCH v3 10/13] drm/sched: Add helper to set TDR timeout
+Subject: Re: [PATCH v3 09/13] drm/sched: Submit job before starting TDR
 Content-Language: en-CA, en-US
 To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
  intel-xe@lists.freedesktop.org
 References: <20230912021615.2086698-1-matthew.brost@intel.com>
- <20230912021615.2086698-11-matthew.brost@intel.com>
+ <20230912021615.2086698-10-matthew.brost@intel.com>
 From: Luben Tuikov <luben.tuikov@amd.com>
 Autocrypt: addr=luben.tuikov@amd.com; keydata=
  xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
@@ -59,71 +58,71 @@ Autocrypt: addr=luben.tuikov@amd.com; keydata=
  a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
  /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
  8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <20230912021615.2086698-11-matthew.brost@intel.com>
+In-Reply-To: <20230912021615.2086698-10-matthew.brost@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YTBP288CA0019.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::32) To DM6PR12MB3370.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT4P288CA0094.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d0::22) To DM6PR12MB3370.namprd12.prod.outlook.com
  (2603:10b6:5:38::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|IA0PR12MB7579:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95094a9e-57b6-41be-1076-08dbb4cbacd3
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|BN9PR12MB5164:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf67a203-da74-4c2d-adc9-08dbb4ce28d5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mn4QYLauAZOP2WrEP5MAczHo3HbYmkQ9j/Ag3Fyf8mYpzZ2TY4oFLax16YAThIujtkZGfKLk9SwrBgSaAhT2nP88kMOTYoHe0qFZv2FWWFu6mMC8gKti+/Ws0qK2x/EpkDRwlTFXv/31Fr+bjC2PO8ZQUwQR0/fTXHRUzCokCmzT2CmBB7kRrIH4LBqYO14Ru54ZlkUVcXzuobwn6dr32PrZzJYQny2VDAdrBVm5Ubz9K7AzScsO0xiPamAg/aAmTqCcUzuIBezueF8Q60pLgpr9NQtKlPEyWvGSE2O0hhwS7dUnXWR1UE2X3wI72KGbmpVRB8SCKZkthwGh1kLdpXGu5O1lKPCPnm45zUix/HP3vUGSWDyYZqn+pFkdGCsESuB5jg3M194GLwJJE/cBpobzJezfc2RWIZinOINrs+q7TriyybTVPPPBolM1qQlgFjFSdSG1C6lpsylPumh0fntSEWcGY6Fp7z6fddJprYoJ27xeJr6ILBBE377hoykFXBCZbt+7VpI9m74+CSsTjkT6Gz4MQiKlPn14qbnq68cRcFmcmNXwJhjVUYlPGec4A8XysmgKlQRqS+xSxa+VBbdM2kz0PejTCKcWJVF8YQ9gZ2jX1+N33CDdKELVUHw/p+p7y+9MkNzcVIS9eKkU9g==
+X-Microsoft-Antispam-Message-Info: p+FF819T7GWmjr8HKdq69KURz+Nc2W/Xlj6hDKK7qk+e2Va2kkCXMVxDCK5TTnMuTfK/4PoHX3ru5Sup57Hj/K4/CqU+YW9SO+yk3dIPE22Vs0e9Uq4csZNLzfl74cEjEd/2wwGBTsRxwnwACDqpINW7VUNRodoXLnk2gppbfnqj++m9lpZhs40xhPml8uup+8K+vIUoq6+/C+LTHvUiGZWiv1Q9YufWnC0h5dXx8LER1mcQmc/LHvvOskRrJzA2FFsGeqgh6Whsp2iMaR+JZhv3Mk31jk0ZGXOLcM0+jIT5xflz4LCS/lixBR3URnKdmZZOmYBuJN1qHIeEOEgJrPcP5gFJt5Yb61epZFM1Izy1l09ItHAHkIcOTgE6Vi3mYKEzdx8N+KSlZXNNdJ/Z73C5UjzbNir6Su4veTqAxpZX/ylVA7hEC9HeBd2QLBvkh9UVzgvMGqmzX0sDuMcrL/kdUJItY+yxGGScGLaO3YEEaxN4lVxOakCzJ0Ym7VWc0oLj/lh5oXoEU1abpQGJpitmy7npOqXVWJXNPmmffYTm/itY5f30FfFsvQ842/aj5YZBWwXcbg0cqYyUY4xKjpwzL5P+XIx+FPJmTjEXBY3S9XOAHQ4k7DuPuDhni7ilr2t4ExoW+k73+J0mgPjAwg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(396003)(376002)(136003)(39860400002)(366004)(1800799009)(451199024)(186009)(66556008)(66476007)(8936002)(4326008)(8676002)(2616005)(38100700002)(66946007)(53546011)(41300700001)(6512007)(316002)(26005)(6506007)(83380400001)(5660300002)(6486002)(6666004)(478600001)(44832011)(31686004)(7416002)(2906002)(86362001)(31696002)(36756003)(45980500001)(43740500002);
+ SFS:(13230031)(39860400002)(346002)(366004)(376002)(396003)(136003)(186009)(1800799009)(451199024)(53546011)(6666004)(6506007)(6486002)(2906002)(6512007)(478600001)(44832011)(83380400001)(26005)(2616005)(7416002)(66556008)(66946007)(66476007)(5660300002)(316002)(4326008)(8936002)(8676002)(41300700001)(86362001)(31696002)(36756003)(38100700002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UW1sT2pwSDhocTVIS2RoQitDOEYxYlp1VlkwWTVYQmNMdGlrSGdhUHFRaFZT?=
- =?utf-8?B?OHd5OCs2NkRrRFhxMG9VbDFiRmYrVm1IMExnUWpSNG9LRXNyNW01OERWU3I1?=
- =?utf-8?B?V0EyRlp1bGtaSitGL3daaEpCeGpPOXFWQTdSY0JBOFhEMjBid3c0djR6TkJi?=
- =?utf-8?B?djQyZzNZQUZSb3hNN0QwNFFTaHBMd1FjMW5MVTFoMzZnVE5WMTV1MlhQOXlK?=
- =?utf-8?B?Q1ZrdGNmZXFnRU1yT0VCYy9lbk1pdzEvTC9JUDljMkVFTE1PeDRzRkU4NTRK?=
- =?utf-8?B?WWg5QXlyMmZMWlBwYWQ1QVZQSDV0ZXdzYnZ2WlhzdVl3YlZKRXhnc09iZC9M?=
- =?utf-8?B?ZHBTYW9uZEtlZFpCY1gzVkpxSVRuNDd4S2g2VldyUmlJVGk5NGNUMFpaQmpV?=
- =?utf-8?B?Y2RFUEdpL0pnOFRVdDBFbWgybnNDc0VUUi91QWsxU0xiTEliQjJmUk1QbXJG?=
- =?utf-8?B?ZE1mTFA2TTZta2pnQVZ1WC9ET0lVNnpzc2hPaTN3Z3BwZE40RzZhTFRqcWM5?=
- =?utf-8?B?cDJOejF4YThiY2NBNmVPNUtEMUZSTmI2MmhXUzJraXNHOHRFNVFqelZ3VzBy?=
- =?utf-8?B?V1J4SDZaMDhHRGlWYVNLQWhTd01xSGY1eEJwb2cyTkI0OG41ME5IeWl0QXJ2?=
- =?utf-8?B?SjZLRUdXTU4wVExxenFvc29FUkpjeDdxMFhsYTE4QkVHekVQR2hMSmNnUVZL?=
- =?utf-8?B?eER6d3pNY2VBK1I5bkplNUVyTDVMRGlIREZmR05LTDJ3ZHNmcmdycGRUc0lS?=
- =?utf-8?B?RWV3ODErZjRJMnB4UGQrZ013bHg2OXdzSnBKWFZoU0RZZm1mYzFTQ1lVYlZm?=
- =?utf-8?B?bzZ5MnlBcnRvY1MrU25ibnE1cE5JdVV0cGR0RXlESUxJMlBTbTRFK01KVWkx?=
- =?utf-8?B?QzV3cVUrdjF2WTdvL0QxNzNoM0ZxbHUxMGhjTWt5MGlyZktMVElTa1BZbk5U?=
- =?utf-8?B?a2hSMzRwZnJOK2I2WGhCT3FweGhuUnZjNWEyMGFRUGx4YS9KckVwaW1IQVJP?=
- =?utf-8?B?L1o0WEEwK3hjMzZ2S1c1S1ZsV1NvWllGT2RKRE5wN3hXYXBhL1lkclh3NjRZ?=
- =?utf-8?B?K0VNWGQ0dEs0SEJLRC9qdEUrYzBoa0ljNlovYldUTWd0TW5iYXc5VmhFZlpI?=
- =?utf-8?B?TFRDS0MvQWdqVmxiZlhZOTlKQzRVUkZ1djhvNlZzNFc4VzF1TnNqQVVwVUZC?=
- =?utf-8?B?K0ZiREpGcG4xaVVsYjFONktyNlN3ZTBHQTd6c2xXMG54QmZOQk5HS2FhR0R6?=
- =?utf-8?B?UGZmWGxuNEE0WlErS3kyY09hWWdXWmxwWVRHbkRkZ2Z6Uml6RVZuTlNHRS8y?=
- =?utf-8?B?RWtoZW9WVkxlbnZuMmFrWThzNnVwZm1SQVRkNmZ1ZUVVUXJVMDJWTjlheEsz?=
- =?utf-8?B?V3hXcDkvQzcxUU5aU3IxZTJhRVdib0VJUGY1VDhNVS9Zd3Qrc05POE9PRVM0?=
- =?utf-8?B?d0k5eXVPelpXdStrMEdJSG5JSFVzVHdiTUFQcjdCUy8rWDg5RndFbk9EZ3ZM?=
- =?utf-8?B?OERrMEg0UEE0RW9PYjFoRDRyT3kvTnRkWWEveDNJKzcxUGYxNWNIbCtYZ1BW?=
- =?utf-8?B?MThYV0FOMGZhNkhZUEdad2RwSnFPSjRiYnFtVkp1L1Z0QU5kbFRhazZwUXRs?=
- =?utf-8?B?OUxjN0l3dURPUE52cUxraHAyQ0FadVVzN0J4VGRUejlXVUFLSU5FK3JoNXQx?=
- =?utf-8?B?OGdGNXEvVVJmdFdwYlBxODJXQTdMbUM2OFNjYkw5TUZ2NC84UlF1WlNNWldx?=
- =?utf-8?B?MG5sUmxmYnF4RmtrbUFndllWSjVOMk5FdWMvZ2JEalJLSUlIdWlQdTdLOGtP?=
- =?utf-8?B?OEJCUHpQenpuOGdWYzF1RVN6cmg3QUY0b0M4NWdNSHpMcXVvb1VrZVB2ekR6?=
- =?utf-8?B?VnBUbjF5cXFxcGNKdGFaQzRocGw4UFRRMVV4cEdSS2wyZ2JheDZJQmE3b2hD?=
- =?utf-8?B?NFBWRkJrenBkLy90TzZ5YzRCRU0wekR2eUNTZEluSTZndFBtYXg4VjJpVjBD?=
- =?utf-8?B?dFN6VE1KYkJCU1dLSkhXVSsxblBCcTJRcEhFekN3SWEzVmFjd09Jek9IRzNQ?=
- =?utf-8?B?dGpEeFNwUFZBM0FnRFNCaWxTd3NEeC84ZGpDSUludkdsOTVibFBPOFp0cmVM?=
- =?utf-8?Q?C78Yw0sI3SN2eXOG2xb7C9r4T?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVVHdThTZmZmSmRyYkM0bDRqUXBQdXg4UkM3SWJLaWk4SkhjL1R1NXVuWS9a?=
+ =?utf-8?B?QmVLQW9TWDhtVElIYUhjMExyYkFBNnVNOTdGTFdjN1dtUTR0VE1yMWhuVlAz?=
+ =?utf-8?B?amxwWEE0d2JmRUJEVUpWT090NUs1Uk1ic3Y2Qk5FTjR3dmRwSzVPTFdpQ2Iw?=
+ =?utf-8?B?WmxtbkZuNko1eldqUTBqODF2d0gvMlkxZEhwdDN4VHlUVlFlMENscGE2cVFY?=
+ =?utf-8?B?ZEJtTWV5eFhOaXJCNHEzdmFnd2RqdmM5N1lyNFFLR0RxNXJ1L05aR0NNTlJp?=
+ =?utf-8?B?QVplR0p4OGlIUUdsWEpZMktiRENLV29rZUIxNTNlcm4xMUZZRzZoeDlqaDgv?=
+ =?utf-8?B?cjVwSzZzV1l5L3RrTXlTbXNJNkQ3dHZ6MU9vaU44M1MzS2MxUm9kYWpCU3VR?=
+ =?utf-8?B?WHM0M1VtQUh1ckpua200WERoVXIzZGg5c3MwZ1V0OUJ0Y0xWYjB6UlFFUzJF?=
+ =?utf-8?B?azhCWTlCQ3p3dGNldWhxVjd5VVovTFVPdm5TZXdSaTRBa2x5eE1sTVVvUHlj?=
+ =?utf-8?B?Uk1hOGZFUkx5RnJwWEV3QzdyWGV3azlMdFFYcThTMTRBQjJtZ2xTc2k5MDNh?=
+ =?utf-8?B?dTJUQ0NOd1kvbmFMcmpSSTdudHNDL0dTaGd4bmRXL2dXTHQxWmlydnBWQ3Iy?=
+ =?utf-8?B?U1d0Z1JCT1JBQnNSVVM1S0x1NXAyZmVVYlJUVGQrNUdwUkxkR0RkZHQ1dXZC?=
+ =?utf-8?B?RUVSVzZjN0JFOHZiWit5VS9zQ2RYNzRQeHZkTTI0aktUTFo3TCtFTjkzOEpH?=
+ =?utf-8?B?dUIxdEF3RXRhRk9yZkdScjVrMVJMMHllUk1vck00cVdDbU1hVk5MTGllZWdN?=
+ =?utf-8?B?dGhyVjFLMXNzRlBlVzd1OUt6aFJyRk1NK1p3UTh2a3dORVBxZytPVGJxM0d3?=
+ =?utf-8?B?N0p6MHEvNmNxVUF5UEROekNwL05va3orWEVDUDR5eFAybXd0eTZPVjIwMTQw?=
+ =?utf-8?B?YjBobVlGT1hMK3VOWld4RzE0ZU1ZcGpaelF2SDlpR0hKTGhhUVhIUDYyeEFC?=
+ =?utf-8?B?bUVIUmdUUklsaGljMW5DY1JSL2YvamF6Yy9vL1NjLzRhdUN1aHZhYW5NMWkz?=
+ =?utf-8?B?blpNei9kK1duNUVnam9EVXpid2VsUUx0eDFJUXhUa2RLWTRBd1FiZjVBcWty?=
+ =?utf-8?B?ZXZ5RHkvaC85RkIraU1CTnBHbWFuSnJ0S0I0cmJBNWJRMW1GWXZVZkQ4VHZk?=
+ =?utf-8?B?VWlYUC9JemxkQlczUStGM2Y5aVl0eXRac0F5U2IyS1MrT04rMXhXZStjRGpH?=
+ =?utf-8?B?MXNSWFBWelhQSlZJOERBdEVtblp0NjZDS2VkMmpTekhpUkRoTFk1cEdpRkZk?=
+ =?utf-8?B?RHlqZVN2Zmh3VkdWeUdGR2pOazZKQ3FUaWIvNUVnOTR5SjR6OFRJd2p0TGxC?=
+ =?utf-8?B?U3lhZlZqR3FRM25zanNpbkxEVmx5cHpjakY4ekRMeWhpek1QZmpRRkI1aVpa?=
+ =?utf-8?B?aHZiUHo4eFBjT2Uxc3JVclAxazM3alptdlptVDFMdCtLcURNQzBSRzE4UWVu?=
+ =?utf-8?B?MnJyN0hpMlJNZHIrUU5pb2htYmlPQWVzTVJYakUzeXZ3OWt0RFp6VWxnelcx?=
+ =?utf-8?B?UTM0Vk9VajQxZnZHVkVDenUyWi9lZkdpcW9VeDRKcERNRUpIOUZyL1ovK0Zu?=
+ =?utf-8?B?TGdjL3lsdVZoNGRJRFVsTzJkSm9ZY00yanVCVUtMWmpXY2duaFN0TGZVaVBC?=
+ =?utf-8?B?MzZ3R3JSOFZJalJRdmZoWWRqZmpET2Izc3FocG8yZGxTUENSRUlMeC9PK1dG?=
+ =?utf-8?B?THFNeTFyVW1HUHBDZGlxT3pYNmw4SHVpeG9GOEd6dWJKMTVPbFFsbVAydEh0?=
+ =?utf-8?B?WnBqU2pmeXFVbkc2Z2hMbnFEYnlaOUM4V09WTUVKNkFPYTZMeTJ4dDNnVXFP?=
+ =?utf-8?B?NmRHT2pHOU9Mbk9IYXNjaGdMVjV2WXhjcGl5cmRIS1c3UCt3cHVDWnBpMk05?=
+ =?utf-8?B?MWg3MmhqUGY3ZThPYTU2enI0NHl0UFZ0MmdJWm9tY2JNSmRKQzRnanZhSy9S?=
+ =?utf-8?B?QmZTemloK1VmdlIvYUd6bDVkZW5kd2VpSnJ6SytRdlNKeGt0VjQwYnFuSEZ0?=
+ =?utf-8?B?aURkOFNwNS9zS2h6TnM2c2hQS0FlVjlRNWN0dEVrWXI1R256RVV3LzdQY2xM?=
+ =?utf-8?Q?zjmYqE6r1zdLmDGMhm/teZtkw?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95094a9e-57b6-41be-1076-08dbb4cbacd3
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf67a203-da74-4c2d-adc9-08dbb4ce28d5
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 02:38:27.5087 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 02:56:14.5541 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kCAKWKJDY27l+HdYxlTNp2z9bfvoQbPeZ2Tws8bwuVUivN72NQrPLntH7VH3d2is
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7579
+X-MS-Exchange-CrossTenant-UserPrincipalName: F1BG7/WMRVMh6t9T/wlntEFb8/LIUvsDBUW41d8eNB39H/NIhlAPoS8Q6KtBFKOW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,85 +143,55 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2023-09-11 22:16, Matthew Brost wrote:
-> Add helper to set TDR timeout and restart the TDR with new timeout
-> value. This will be used in XE, new Intel GPU driver, to trigger the TDR
-> to cleanup drm_sched_entity that encounter errors.
-
-Do you just want to trigger the cleanup or do you really want to
-modify the timeout and requeue TDR delayed work (to be triggered
-later at a different time)?
-
-If the former, then might as well just add a function to queue that
-right away. If the latter, then this would do, albeit with a few
-notes as mentioned below.
-
+> If the TDR is set to a value, it can fire before a job is submitted in
+> drm_sched_main. The job should be always be submitted before the TDR
+> fires, fix this ordering.
+> 
+> v2:
+>   - Add to pending list before run_job, start TDR after (Luben, Boris)
 > 
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->  drivers/gpu/drm/scheduler/sched_main.c | 18 ++++++++++++++++++
->  include/drm/gpu_scheduler.h            |  1 +
->  2 files changed, 19 insertions(+)
+>  drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 9dbfab7be2c6..689fb6686e01 100644
+> index c627d3e6494a..9dbfab7be2c6 100644
 > --- a/drivers/gpu/drm/scheduler/sched_main.c
 > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -426,6 +426,24 @@ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+> @@ -498,7 +498,6 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
+>  
+>  	spin_lock(&sched->job_list_lock);
+>  	list_add_tail(&s_job->list, &sched->pending_list);
+> -	drm_sched_start_timeout(sched);
 >  	spin_unlock(&sched->job_list_lock);
 >  }
 >  
-> +/**
-> + * drm_sched_set_timeout - set timeout for reset worker
-> + *
-> + * @sched: scheduler instance to set and (re)-start the worker for
-> + * @timeout: timeout period
-> + *
-> + * Set and (re)-start the timeout for the given scheduler.
-> + */
-> +void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout)
-> +{
+> @@ -1234,6 +1233,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>  		fence = sched->ops->run_job(sched_job);
+>  		complete_all(&entity->entity_idle);
+>  		drm_sched_fence_scheduled(s_fence, fence);
+> +		drm_sched_start_timeout_unlocked(sched);
+>  
+>  		if (!IS_ERR_OR_NULL(fence)) {
+>  			/* Drop for original kref_init of the fence */
 
-Well, I'd perhaps call this "drm_sched_set_tdr_timeout()", or something
-to that effect, as "drm_sched_set_timeout()" isn't clear that it is indeed
-a cleanup timeout. However, it's totally up to you. :-)
+So, sched->ops->run_job(), is a "job inflection point" from the point of view of
+the DRM scheduler. After that call, DRM has relinquished control of the job to the
+firmware/hardware.
 
-It appears that "long timeout" is the new job timeout, so it is possible
-that a stuck job might be given old timeout + new timeout recovery time,
-after this function is called.
-
-> +	spin_lock(&sched->job_list_lock);
-> +	sched->timeout = timeout;
-> +	cancel_delayed_work(&sched->work_tdr);
-> +	drm_sched_start_timeout(sched);
-> +	spin_unlock(&sched->job_list_lock);
-> +}
-> +EXPORT_SYMBOL(drm_sched_set_timeout);
-
-Well, drm_sched_start_timeout() (which also has a name lacking description, perhaps
-it should be "drm_sched_start_tdr_timeout()" or "...start_cleanup_timeout()"), anyway,
-so that function compares to MAX_SCHEDULE_TIMEOUT and pending list not being empty
-before it requeues delayed TDR work item. So, while a remote possibility, this new
-function may have the unintended consequence of canceling TDR, and never restarting it.
-I see it grabs the lock, however. Maybe wrap it in "if (sched->timeout != MAX_SCHEDULE_TIMEOUT)"?
-How about using mod_delayed_work()?
+Putting the job in the pending list, before submitting it to down to the firmware/hardware,
+goes along with starting a timeout timer for the job. The timeout always includes
+time for the firmware/hardware to get it prepped, as well as time for the actual
+execution of the job (task). Thus, we want to do this:
+	1. Put the job in pending list. "Pending list" means "pends in hardware".
+	2. Start a timeout timer for the job.
+	3. Start executing the job/task. This usually involves giving it to firmware/hardware,
+	   i.e. ownership of the job/task changes to another domain. In our case this is accomplished
+	   by calling sched->ops->run_job().
+Perhaps move drm_sched_start_timeout() closer to sched->ops->run_job() from above and/or increase
+the timeout value?
 -- 
 Regards,
 Luben
-
-> +
->  /**
->   * drm_sched_fault - immediately start timeout handler
->   *
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 5d753ecb5d71..b7b818cd81b6 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -596,6 +596,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->  				    struct drm_gpu_scheduler **sched_list,
->                                     unsigned int num_sched_list);
->  
-> +void drm_sched_set_timeout(struct drm_gpu_scheduler *sched, long timeout);
->  void drm_sched_job_cleanup(struct drm_sched_job *job);
->  void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
->  void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
 
