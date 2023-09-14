@@ -1,64 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C6A7A063A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:38:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2417A0652
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Sep 2023 15:43:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB42E10E27F;
-	Thu, 14 Sep 2023 13:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C46E110E12C;
+	Thu, 14 Sep 2023 13:43:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86AD10E27F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:38:45 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-1d5a1965a9aso543096fac.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 06:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694698724; x=1695303524;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cmkM3eTScVXDHH0jlpqEzGVs0jKDHtYdRBTAlD8i+NE=;
- b=e9f4i2qTbHYPce/paY+E0UPyMQqV1RO6tQADQ6gD/+5jsXg0RowwvXnCl9fwOBMCge
- s7g47lv6mDf/auKvyuxUAD1MlVbmUBL3ijvTLXEnClkK8EnTvKzLwFfDy/F5JrUx/J0E
- PwdzATCqmgCBkFykbJj43FHXwBAFNy0QNbDqrwkQ/KB889SDUuQlWAaQck3wsOl1OeA3
- +1APPZ3Jm24OB2O872nm8goRWN6gbGvUla5jwJx9oO7S5z+qvqgA2aZK553U9uLiFq6P
- m77Z/xoOMGYYFX31wJpJZKu3pnpr2vhxFBHwtmeJlU2CyQDlPmpR3MZwExHdLgMMuf4o
- /x/w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6456710E12C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 13:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694699031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7g/3uMhl9MZDE/ThW7epr+QQ++XKktE4v6z5BQlLBX0=;
+ b=Ywgb9CRfUC4AfovCXURIzTGAzL+xRPyQMO6CGHnPhAIAHDao49yheFzVVuQytWf55SDzMr
+ JW6CijpIZZxX7SAEs1BbSOqZjfotX6Z8QqcwL5abcvlnnzm4i873PyTXZm38cWUqvvNp3G
+ HorRXg92QrQj3lzfiiDJxjmN/6LJV0s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-539-aV7U56fKN9qIFF566K-zzA-1; Thu, 14 Sep 2023 09:43:48 -0400
+X-MC-Unique: aV7U56fKN9qIFF566K-zzA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2f2981b8364so592391f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 06:43:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694698724; x=1695303524;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cmkM3eTScVXDHH0jlpqEzGVs0jKDHtYdRBTAlD8i+NE=;
- b=r9I+5h5kgKcQ8c90yuWH00ACaUiUHzF0DUoyA4pKsnDGI8srAmh12bgG7GCzJpTdQY
- 22C86Z9jXAS8Regpwi/7mL4bpGvBMHxmKjr0RXSmJmXFUietPhoJWxdRZ7NozMB5EweI
- /s2MkZoFDqLDjLc/buyz03tSh+A2jcoieQt2R779cCgjQNHO4qFWWTIlxmfdI2XWo8+A
- 0TmW4qi8kAHIRzBLhDPsHXmcQTy17hi8Z+06YNxYZVDAJmi5RvKm4WLPxZ+lFTPLljpf
- fDOcDr5vNG6TRrPL7ICG3HWRPMzYwLkaq9T1bvc0+cnfP6W2ohr/2Hf4GD54tgGqqf6L
- CE6g==
-X-Gm-Message-State: AOJu0YyIy0iNTsUMlwQkPy1WU74NY1VaHdRPB3NwWrqbvvbaPeoXIYEH
- uqVH7cQNSHN5wrnofxv931pcBYJjiGIbI7sBwItLXA==
-X-Google-Smtp-Source: AGHT+IFh7Yh89j5toiLrapBEM+lFJrnPKMRKQDggX4YR83wnaK2tnE/8N6Y+YLTaga5Qlr9XmuCrRhn8q0u0c8VABfw=
-X-Received: by 2002:a05:6870:b69d:b0:1d5:b0b9:f6f1 with SMTP id
- cy29-20020a056870b69d00b001d5b0b9f6f1mr6386214oab.8.1694698724531; Thu, 14
- Sep 2023 06:38:44 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 14 Sep 2023 13:38:43 +0000
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.3
-References: <20230914131058.2472260-1-jani.nikula@intel.com>
-In-Reply-To: <20230914131058.2472260-1-jani.nikula@intel.com>
+ d=1e100.net; s=20230601; t=1694699027; x=1695303827;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7g/3uMhl9MZDE/ThW7epr+QQ++XKktE4v6z5BQlLBX0=;
+ b=rddLss8xABbq5zhWV79MKKNqIqYhLF8+6WNDbH5LxBtClm5rRdl59W5TfCpmt1CIci
+ JQtBNMGdOHv4X6XXAH+395n2e8Wgn/f3vitAbW/IYNJyBS+9fZZWntR8nzFV2VIjKASO
+ KsAuw0qUUYq7Q9lRDZHpBHeWP0x3CCtLuDz5Q7ucTmeoyVx4KT6OMTIH8Jf3l/jP7mFg
+ c9So0QSNlVr/bGlsOmohX6MHhZB3PQnIPsUAgzKGjiM4KFaFg7I+wjreNBnJghcVwkgy
+ rwK5/EmJLt5Si9TIRvmQX+0vpP71fq8pwn4y2PchyCHeJRhc0iN5MyHk3MRzoxIZ+Wo4
+ hk2A==
+X-Gm-Message-State: AOJu0Yy5EReEdAmtX/WbIva2waNh5NGvYwJW+UsUg+rPchohm+rXpyv/
+ 3AsJq4hkIo5l1h22yPtvWPIE+ps1F8WJHOdpQ8Kp7hp9uSzq44gOjsEmW0OzEvSqdXag1AerzlD
+ GIiqpVo8icKP55c1RnbNvNUvxk/jB
+X-Received: by 2002:a5d:5489:0:b0:317:3a18:df26 with SMTP id
+ h9-20020a5d5489000000b003173a18df26mr4798220wrv.39.1694699026759; 
+ Thu, 14 Sep 2023 06:43:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGl3gx0f8m6ucbY2oUSgYxRo2mV5lZMn5wTHlPG74xgWBAx8MD0rSNrk9s8t7gMoNBNYNBF3g==
+X-Received: by 2002:a5d:5489:0:b0:317:3a18:df26 with SMTP id
+ h9-20020a5d5489000000b003173a18df26mr4798199wrv.39.1694699026303; 
+ Thu, 14 Sep 2023 06:43:46 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
+ ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+ by smtp.gmail.com with ESMTPSA id
+ r4-20020adfdc84000000b0031753073abcsm1810179wrj.36.2023.09.14.06.43.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Sep 2023 06:43:45 -0700 (PDT)
+Message-ID: <d7b8d777-d97e-6465-01e7-9702efafab43@redhat.com>
+Date: Thu, 14 Sep 2023 15:43:44 +0200
 MIME-Version: 1.0
-Date: Thu, 14 Sep 2023 13:38:43 +0000
-Message-ID: <CABnWg9sy_u5+TRvuRXEN8FB8BGdSadYimUQ-R6=PYEKZn2RZRw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
- error path
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1 0/3] udmabuf: Add support for page migration out of
+ movable zone or CMA
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+References: <IA0PR11MB7185ABFBB06771B7646F8F50F81FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZOSo2cuw1ashK3+Z@nvidia.com>
+ <8afa35bb-c3ed-c939-46a4-a9a277b6d4e2@redhat.com>
+ <IA0PR11MB7185B7B437E98F7F594D3E0EF81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <b35cd8f7-e7dd-e47b-112c-62ee84c92768@redhat.com>
+ <ZOeh4x58eGel7WwI@nvidia.com>
+ <20e38c1d-24e0-4705-6acb-87921962ccee@redhat.com>
+ <ZOjlBGcj2VMP+ptd@nvidia.com>
+ <IA0PR11MB71857A044B51DBEBD7D131F7F8E1A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <IA0PR11MB7185D5451D4DFBDFD4C258E6F8E1A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZO98rj4y0TA4+CfO@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <ZO98rj4y0TA4+CfO@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +100,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Kim, Dongwon" <dongwon.kim@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
+ Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023 15:10, Jani Nikula <jani.nikula@intel.com> wrote:
->Setting new_edid to NULL leaks the buffer.
->
->Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
->Cc: Markus Schneider-Pargmann <msp@baylibre.com>
->Cc: Guillaume Ranquet <granquet@baylibre.com>
->Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
->Cc: CK Hu <ck.hu@mediatek.com>
->Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
->Cc: Philipp Zabel <p.zabel@pengutronix.de>
->Cc: Matthias Brugger <matthias.bgg@gmail.com>
->Cc: dri-devel@lists.freedesktop.org
->Cc: linux-mediatek@lists.infradead.org
->Cc: linux-kernel@vger.kernel.org
->Cc: linux-arm-kernel@lists.infradead.org
->Cc: <stable@vger.kernel.org> # v6.1+
->Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
+>> I think it makes sense to have a generic (non-GUP) version of
+>> check_and_migrate_movable_pages() available in migration.h that
+>> drivers can use to ensure that they don't break memory hotunplug
+>> accidentally.
+> 
+> Definately not.
+> 
+> Either use the VMA and pin_user_pages(), or implement
+> pin_user_pages_fd() in core code.
+> 
+> Do not open code something wonky in drivers.
 
-Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
->---
->
->UNTESTED
->---
-> drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
->index 2cb47f663756..8fc6eff68e30 100644
->--- a/drivers/gpu/drm/mediatek/mtk_dp.c
->+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
->@@ -2049,6 +2049,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
-> 	 */
-> 	if (mtk_dp_parse_capabilities(mtk_dp)) {
-> 		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
->+		kfree(new_edid);
-> 		new_edid = NULL;
-> 	}
->
->--
->2.39.2
->
+Agreed. pin_user_pages_fd() might become relevant in the context of 
+vfio/mdev + KVM gmem -- don't mmap guest memory but instead provide it 
+via a special memfd to the kernel.
+
+So there might be value in having such a core infrastructure.
+
+-- 
+Cheers,
+
+David / dhildenb
+
