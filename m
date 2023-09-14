@@ -1,153 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46C07A10F7
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 00:29:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6495C7A10FA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 00:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F38B410E12D;
-	Thu, 14 Sep 2023 22:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE1510E593;
+	Thu, 14 Sep 2023 22:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 398E510E12D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 22:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694730563; x=1726266563;
- h=message-id:date:subject:to:references:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=rRSy8ahWruHOTwjiGvIyB7F2IwZgFZAXxUf+RZsjCsY=;
- b=BXX78tGm2TeKpLgO3CylyYXNyE0ymmdqeJR1qI0y8jNo5bDLCSFddGAW
- nLqoxX6p8th08SG+4jgSyF/akbkmeTPZI3BL9ePja9ZFGVKzbGl/hAlmV
- vuGYUnnmDXOs48gMMW4bP96++iTj+8yfzUMklfjjNnmecuFX3ik7YsOxp
- yVojv4K6z++rlRykUm4nmHL+rWnZo4xrCU6yGqaSMMR0bpMitOo0eTJKi
- kdmDKEaQGynaVTm39nQjXL8wsfKYm3uOQbhcq1Ikb5LNQuMN2sfHsOzTt
- c0iuIrQIQe63801c0OpZmFEg6Rg8gg60/uKSB1Wqh0Lt+/vlFbjThUtwL g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="379015876"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; d="scan'208";a="379015876"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2023 15:28:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="834935698"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; d="scan'208";a="834935698"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 14 Sep 2023 15:28:56 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 14 Sep 2023 15:28:56 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 14 Sep 2023 15:28:55 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Thu, 14 Sep 2023 15:28:55 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 14 Sep 2023 15:28:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WElrbKCDYni9LOGWE/FY8bgaqm42Hgg/92P4QpUhkbXWnOjoSFtraI/oCadexq+rRe9OJ3kX4Yx6vEKJFLjV6AaNaEbEzxtin2CbvGZX6FAFrSfPMIu8EDHBeEPChOiTqcB6ClCBFofqEMVpkJ/9AKYbLliwEXfL6LSJMpCANexxZxmQcNvLsYJwsKd1lTMM8Sbdu+RcnOLO/zQeAXmeZi75q16HFKuh275DCuSGNLiZcYi5ncKHbE0VBg0wdxQwO1tv2SrJPqVxkcPMaY2OYCAzEfkzqmumbrdvpRrZ2qqcxIC9N7gAuFosx1ctrK6wMz6lmLYdPtmbaKSab566Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DzFOgPb/MpdpNHSHWk0hxULWMBjOo6i21EuQ0KaGqAk=;
- b=NI0oGreO0zQrI7yQUU4rnDm+GKhFfsBD1voKzWNk28DKi8vxcQquAXV8zH26TnwWALF58DjJz2ljro5EkMA99pA5GNglUbV3kz4XOpEaOAT1ZkoUfThZuxRX8ObiS200M3OJW5vb3nSMCsD+qvzrVOO7yEH9PIuSwLmuRdcZKLV8J4+bWOmgXa04F4noEMuKnAJ64JpAG63cKU1cCBsTeX6n8Moi5/0T+VvlmXU44DJ+yAjV6VWY9W78L1CfkaCzzU8OwbqFu1l2ZkmKJjqC4f0B2sxiuZIsRUStupq5dUF1rOV0/EkHEOkyZRDBdBMWZ29d86s+pmOAfrmVnxgJtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3398.namprd11.prod.outlook.com (2603:10b6:a03:19::19)
- by SA0PR11MB4717.namprd11.prod.outlook.com (2603:10b6:806:9f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.20; Thu, 14 Sep
- 2023 22:28:53 +0000
-Received: from BYAPR11MB3398.namprd11.prod.outlook.com
- ([fe80::110f:4bac:8cd9:c359]) by BYAPR11MB3398.namprd11.prod.outlook.com
- ([fe80::110f:4bac:8cd9:c359%4]) with mapi id 15.20.6792.021; Thu, 14 Sep 2023
- 22:28:53 +0000
-Message-ID: <3c729821-a96e-7d9c-9172-4c1ea8fb17ab@intel.com>
-Date: Thu, 14 Sep 2023 15:28:51 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 2/3] drm/i915/pxp/mtl: Update pxp-firmware packet size
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>
-References: <20230907001549.81262-1-alan.previn.teres.alexis@intel.com>
- <20230907001549.81262-3-alan.previn.teres.alexis@intel.com>
-From: "Balasubrawmanian, Vivaik" <vivaik.balasubrawmanian@intel.com>
-In-Reply-To: <20230907001549.81262-3-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0056.prod.exchangelabs.com (2603:10b6:a03:94::33)
- To BYAPR11MB3398.namprd11.prod.outlook.com
- (2603:10b6:a03:19::19)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B478C10E593
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 22:29:36 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-9ada6b0649fso208575966b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 15:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1694730574; x=1695335374;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=obV8+bcnRi/J9RquhfwwRZFHOsJK4qK3A3iNjPmPcnM=;
+ b=KVSUgw+J3Ss4IhXXEPHgUDqTcRjtAVx//xPwCMe6Sv2H+nh0MxK5Cao6lwEGtmU+OI
+ Sg/yWgsfnvZnTr9NuJdav/UDkWUUtY2kiRu65mJcu6gl5MJ+oSZCIU9nbVAgrriVorLV
+ c12nCRyA3SSlF+iSBwIZCjd1bgTKtHPDbZDGg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694730574; x=1695335374;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=obV8+bcnRi/J9RquhfwwRZFHOsJK4qK3A3iNjPmPcnM=;
+ b=PF4Pk+dqWt/4fGZU3uHRUJnqnjwdQXz8040da6ddrJld9Av4qjDGhtqhAUVI1yZxTi
+ 0ilEml9qQWHzUXv124zTJcF9V9iwmxG75s+ijcMb/4sjvVWzbh6gIa8yd/1reG+V43+C
+ 6WkAog/BzKMQ7qXJP/tzvcciHeTMnaMWc+COSLb3QuSXyExuh3qDZsFD6mlGVEx48wwT
+ dMGEtY/t7DBGPp0j/oXB30wMjPThD9ozAvLxi9Lli0BMQd1FHOnv/Fjq3JF1++kHeoP7
+ 7WTQ6wGS762i06a+2MjGKOqT6N3KRHzkLxaYACTZ3jvObiK6KK5gEHH+Ue56jD9X04Ol
+ cmsg==
+X-Gm-Message-State: AOJu0Yyb8N0yTd8a4VbjYU/3jBEkZQbNIDzIR0PVmc8/T8dB/4yZcXOB
+ JGUsXYaPxpT3xVAuKFBFL4B0p1B2qth1dK3aJg2HTg==
+X-Google-Smtp-Source: AGHT+IEGKRn17rEXiP9yT/OxrbDP5rm11bwcZ4k0SI2V3uBCIeUD/CYgHNF5HfTnr9RcGcB8bQmEYQ==
+X-Received: by 2002:a17:906:30da:b0:9a5:ac56:3b63 with SMTP id
+ b26-20020a17090630da00b009a5ac563b63mr5742168ejb.63.1694730574225; 
+ Thu, 14 Sep 2023 15:29:34 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
+ [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
+ j19-20020a170906411300b009930308425csm1555932ejk.31.2023.09.14.15.29.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Sep 2023 15:29:33 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4005f0a6c2bso11625e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 15:29:33 -0700 (PDT)
+X-Received: by 2002:a1c:4b02:0:b0:3fe:e9ea:9653 with SMTP id
+ y2-20020a1c4b02000000b003fee9ea9653mr55567wma.4.1694730573066; Thu, 14 Sep
+ 2023 15:29:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3398:EE_|SA0PR11MB4717:EE_
-X-MS-Office365-Filtering-Correlation-Id: f52b9019-12c5-4045-d1eb-08dbb571f9e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OJJL9Dls/QnhZXBFQPL+ZyqxYX20+ab4clYkE0NfnvtSOEKhd9h7AUTPqZrWj1ii7f8ug7RDReqo0dC0rziKFBtjns0WBf8WNxFuyng6LxoZDKDuolp7HjC3oa0kiqib6gBNrAFX4FGlkCcAMyCsgBrqwyyaC7BaTueXeGPpdHKAIIqUfqjD1aXkeHBGZ3WnCQmotXRW3HvU5xmT9WwIMRknPKoUACBxEHY1X4aDbPKEEraWsYVa+tpDo6aoUJwIDTSzdwPRVataBLtBDkCYZ+O9mjhS+FkOTI3nfdXi6vnKLjBe+3kv6QfCpAVi1am8FnH0fuvYJclFugoI1ZfNXDCO5sweY2OQa/h+mIHCwI0QIYAxfsFn3nNTsiq45GFnsaww2TUGAzjYBqHkRzywDdJGf/zGEqVzOsz2lrXD5mPa4xRAQpvf2z7Twkxf+bATxOqSyro+KlRf8nQmWx/48o28oh/TEXEiusi3eKH7fyjSYGN829bGNxcpCgj/N7l387sDo0L3TDknWjNSEir8U7sJ0O5fXzD8aIXFmJCPg+kr1wqKvwR5hILeltYWN7tejmBlCP56ytN+vNl1U2CksqSqHy/ff7LRSthGnd4FX/lRnojIVDZ5+id1zSTzAgmHOmulxTuWMnQsZYsirhnLdg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3398.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(136003)(39860400002)(376002)(396003)(346002)(451199024)(1800799009)(186009)(478600001)(31686004)(6486002)(6506007)(86362001)(2616005)(38100700002)(6512007)(82960400001)(26005)(53546011)(83380400001)(6916009)(316002)(41300700001)(66476007)(66556008)(66946007)(5660300002)(15650500001)(2906002)(36756003)(31696002)(8676002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVlCK0luT0VnNHhnZFlMeHhRcGFBOWV3dVYrRmYxVDNNNzJzVWNsczIrZ3Jo?=
- =?utf-8?B?ZVFEajA5QXZNVnh2dW1ycTh1Q2k3cHRMb1k3dkVFUU9Ec2IxaXhLSVAwZXZH?=
- =?utf-8?B?WlJ0VHhCNW9GNkhBNTgwTm55L3E4SlRKa0xMbS9UZXBFUVFwMlJrMHJoRjJm?=
- =?utf-8?B?dWRoQzJmb0NyLy9FS2JjbjBRZFJzaEZjR2lWUWtrcUFlOTNwQzIycGZmaUdD?=
- =?utf-8?B?ZmNlUGJ0Q29NNldCdm90dnhPT0p1cnZZaldmV0RGZTJUYk9adkgxQVJPSk1x?=
- =?utf-8?B?eGFUaEY4MzVzdTNpTFpOV0xpNVRZT29sY1JZQjdhK0NsMnFkOUlqODE0Wm1T?=
- =?utf-8?B?allOTEM2ck12a2JzTStYUE5kdTE4akFmM2hFVm9ZRVVQWVErcXpMcUxpTEVB?=
- =?utf-8?B?ZlVobEhndW14OUlhT0Y1WTQvaXo2U1hUN0Z4QXRsREhHbjQxYU94aUd4c0Z5?=
- =?utf-8?B?c1R4RXVPLzRXTWliUWVWVWp2SUZ1OEhFZWZlVkx5QWtDOW5HSGNLODAxMGpp?=
- =?utf-8?B?QUJYNWdlZUtHQnhGZjNtVHZ2dFpwSUdGK1R3UEIzaW5UY0I2S25SczJVZTRq?=
- =?utf-8?B?RlRFc1hULzRlQmp4M0xIdzFyVzMxZ0hKYXZYbUNGVXdSeUtpMkowbmdGaEhr?=
- =?utf-8?B?bFI5Q2R1QVNyL0NpTyt0WGpKSUdDU1NDM1libzBBMGcreGpoejJIdjJ2VDVp?=
- =?utf-8?B?ZXMrYUErZHpnam9ad1hwZ3V0M1JFZ0lJeFNBNE9pQ2lSc09IUndYS0cxbjFL?=
- =?utf-8?B?NXBzODUwQUVKSkpKZm4vVUhGZVdOVXE5RTZPUjRsNTZ0NzVKVXVwU1RCTUNo?=
- =?utf-8?B?N29MYnM4eHI3TkMxV1ZvQ0JJc2kwdUo0a2h1OGZyRG9PUWsyM2MvY1F2NFFD?=
- =?utf-8?B?YzF0NzFKUGgwcnVNejBhV240WGkxQ1hXMCtGMFI3SEZQNWZQSDBQNWpzNDZD?=
- =?utf-8?B?aE9KeWVEWThXaHQxRkRmNHJRVHU5WWNxZDN1d05ZV2xNNXgrUmptMmlCZFcy?=
- =?utf-8?B?dDN1M2FjUWY3dWNHcW1CQWVRQ2cwUEtybCtlK0pNb2lsMFRnRi9MZXh3anR2?=
- =?utf-8?B?Y0NGMzVpQ2RKenRCRUlPQkdtSkdVdlg5ZlgwWEtyb2ovVWhsWGhjQjlaemNm?=
- =?utf-8?B?bmY2TUFXRzFNVElOTkZFd0Q2UlVCVU8rRFA0ejFYajBQOXAzYTBaMjZtaXMx?=
- =?utf-8?B?VWtIRjluWjNWV25VN1MxQ0hiZzFWTThUeWhVN1p0YnU1RGhmL1gzVldzZndr?=
- =?utf-8?B?N2dVcG1rOVB3eUdSWTRxa0JndmVLbjhicTBDa2RCN0UxYmlaSnpYMnN1NW01?=
- =?utf-8?B?Y21wckpFNjIrT3Z5V29BVkg3V2UrbVp0K0phMy9OdTYrY1VtT0lZelNlTGdn?=
- =?utf-8?B?QURVSDNMalIrZCtQa0JWVVFGOEM1b2owc1kvYWRsODVZZTEzb3QyVjVIV1BZ?=
- =?utf-8?B?VDhGRnhKVTd4L28wM0RkZVRCK2Q3N0czVzhudnRaWWdOWXo4dzgyenJDQ3ZZ?=
- =?utf-8?B?RWsrL0dQVDN4eFBEOWw3Qkc1a0ZuMm9vekViQXN4dTB0NTM4aEtMU2RmRk9j?=
- =?utf-8?B?V0k1Nkp1U3dwUlJZNk1vMGJWQXJOSExvQmtOYjYvU3grVXQrbVVZVDVMME9U?=
- =?utf-8?B?TUN4Z1VXY3oxNHFLTlU3ekFPMGVjOThuVzZDMms3aUc3RElSQ2FIVUdqb0hQ?=
- =?utf-8?B?R2J2ajlySy9YMEgzMEJ5YkpSNU5FVTJwMithRHJIU05JclFzRFBWY3BwN3hY?=
- =?utf-8?B?R3VYT2Y5cGJhb042STZ0UVo1VTB4NVE3bU5zTWlLWDUxUG41OS85b1BUSFRM?=
- =?utf-8?B?V2VtemQwd3lGRU9PaVh0Z0tMN1ZJSGhKL2VZL1lKU3lOWk5ZYmdjSnBDQnBr?=
- =?utf-8?B?NWlBZ0l2R05qYmI2Y1NndGROTUZTeXhxMHZ4cDFuL0ZacFZ2YzM1eW1Dci9P?=
- =?utf-8?B?czV2RENDek96TUZ6OUQxVWlhcTh4eitEb3BxMkg4WFlQM01hZllkNU9MUTN3?=
- =?utf-8?B?aW5XQWlVMFBTdFdKSlh2bVJoK2ZydjFJeWRHNnhNK1pjNk1UcW1uZFVDdStL?=
- =?utf-8?B?b3BSUVVTdC9qUmRhQWM1Y0NpV0l3SEZId3UzS1k4ZHdwc2YydXkzL0FyUFJB?=
- =?utf-8?B?ZkFNWjVJVjhzZmoySG5KcmhjeE5PMUZ4aVdlTzAvQ1pFQVdqeEpxVHJxRjYr?=
- =?utf-8?Q?Wk22UxWpTet/5YmAbNw/94Y=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f52b9019-12c5-4045-d1eb-08dbb571f9e3
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3398.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 22:28:53.4359 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 07BQJRS8lQbevNe7QoO/uw9IspvAeUOYtnBl9E/1ZdTyVSaG8naKa35kG1cuzogeqaNxuhSeKudoq4XjxXhD6Wu1Esn49iLxmmyQht1pTXQgV4LiF2UPl2bNq7AhfsGx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4717
-X-OriginatorOrg: intel.com
+References: <20230901234202.566951-1-dianders@chromium.org>
+ <20230901164111.RFT.3.Iea742f06d8bec41598aa40378fc625fbd7e8a3d6@changeid>
+ <288af70dafc5e73d0fdfac71a33449385d4d6bd3.camel@crapouillou.net>
+ <CAD=FV=VuJe7ACFw3pt1z=EAh14_Z4iTOc5VKJt24CGwZYjRpeQ@mail.gmail.com>
+ <3prgpsxxnf3hzeqcpjs5r37nfojbkuwk4ezizrwfrcthm666k6@t2q2qcpnfkiu>
+ <CAD=FV=VSTP2g1RttMu_9+AGQbMK87MzQO+tw1cZBEJ3g-jAmYg@mail.gmail.com>
+ <vkdjbjda23fwofsbt23wtjgiya3uhelby7evwtvteqkpwb4dr4@ybla63hqndic>
+In-Reply-To: <vkdjbjda23fwofsbt23wtjgiya3uhelby7evwtvteqkpwb4dr4@ybla63hqndic>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 14 Sep 2023 15:29:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VWF8tP2aykNW7+4tkqQExdoja71OqtiDFGZs+c7Gjttw@mail.gmail.com>
+Message-ID: <CAD=FV=VWF8tP2aykNW7+4tkqQExdoja71OqtiDFGZs+c7Gjttw@mail.gmail.com>
+Subject: Re: [RFT PATCH 03/15] drm/ingenic: Call drm_atomic_helper_shutdown()
+ at shutdown time
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,35 +86,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/6/2023 5:15 PM, Alan Previn wrote:
-> Update the GSC-fw input/output HECI packet size to match
-> updated internal fw specs.
->
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->   drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-> index 0165d38fbead..b2196b008f26 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-> @@ -14,8 +14,8 @@
->   #define PXP43_CMDID_NEW_HUC_AUTH 0x0000003F /* MTL+ */
->   #define PXP43_CMDID_INIT_SESSION 0x00000036
->   
-> -/* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
-> -#define PXP43_MAX_HECI_INOUT_SIZE (SZ_32K)
-> +/* PXP-Packet sizes for MTL's GSCCS-HECI instruction is 65K*/
-> +#define PXP43_MAX_HECI_INOUT_SIZE (SZ_64K + SZ_1K)
->   
->   /* PXP-Packet size for MTL's NEW_HUC_AUTH instruction */
->   #define PXP43_HUC_AUTH_INOUT_SIZE (SZ_4K)
+Hi,
 
-Reviewed-by: Balasubrawmanian, Vivaik 
-<vivaik.balasubrawmanian@intel.com> 
-<mailto:vivaik.balasubrawmanian@intel.com>
+On Thu, Sep 14, 2023 at 1:14=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> > > So it doesn't have any relationship with the unbind/remove timing, an=
+d
+> > > for all we know it can be there indefinitely, while the application
+> > > continues to interact with the driver.
+> >
+> > I spent some time thinking about similar issues recently and, assuming
+> > my understanding is correct, I'd at least partially disagree.
+> >
+> > Specifically, I _think_ the only thing that's truly required to remain
+> > valid until userspace closes the last open "fd" is the memory for the
+> > "struct drm_device" itself, right? My understanding is that this is
+> > similar to how "struct device" works. The memory backing a "struct
+> > device" has to live until the last client releases a reference to it
+> > even if everything else about a device has gone away. So if it was all
+> > working perfectly then if the Linux driver backing the "struct
+> > drm_device" goes away then we'd release resources and NULL out a bunch
+> > of stuff in the "struct drm_device" but still keep the actual "struct
+> > drm_device" around since userspace still has a reference. Pretty much
+> > all userspace calls would fail, but at least they wouldn't crash. Is
+> > that roughly the gist?
+>
+> Yes, but also, no.
+>
+> In the spirit, you're right. However, there's three things interfering
+> here:
+>
+>   - You don't always have a match between device and KMS entity. Display
+>     pipelines are usually multiple devices working together, and while
+>     you probably have a 1:1 relationship with bridges and panels (and to
+>     some extent encoders/connectors), the planes and framebuffers for
+>     example are a mess :) So, if the device backing the planes is to be
+>     removed, what are you removing exactly? All of the planes and
+>     framebuffers? Do you free the buffers allocated by the userspace
+>     (that it might still use?)?
+>
+>   - In addition to that, KMS doesn't deal with individual entities being
+>     hotplugged so neither the subsystem nor the application expect to
+>     have a connector being removed.
+>
+>   - ioctl's aren't filtered once the device is starting to get removed
+>     on most drivers.
+>
+> So due to 1 and 2, we can't really partially remove components unless
+> the application is aware of it, and it doesn't expect to. And most
+> drivers still allow (probably unwillingly though) the application to
+> call ioctls once the DRM device has lost at least one of its backing
+> devices.
 
+We "can't", but we "can", right? Userspace can freely unbind a driver.
+Unless you want to dig into if the community would allow a driver to
+block "unbind" then we have to, at the very least, not crash the
+kernel when userspace does this. Ideally we'd have something more
+elegant than just "don't crash the kernel", but at least we shouldn't
+crash.
+
+
+> > Assuming that's correct, then _most_ of the resource acquiring /
+> > memory allocation can still happen in the device probe() routine and
+> > can still use devm as long as we do something to ensure that any
+> > resources released are no longer pointed to by anything in the "struct
+> > drm_device".
+> >
+> > To make it concrete, I think we want this (feel free to correct). For
+> > simplicity, I'm assuming a driver that _doesn't_ use the component
+> > framework:
+> >
+> > a) Linux driver probe() happens. The "struct drm_device" is allocated
+> > in probe() by devm_drm_dev_alloc(). This takes a reference to the
+> > "struct drm_device". The device also acquires resources / allocates
+> > memory.
+>
+> You need to differentiate resources and allocations there. Resources can
+> be expected to go away at the same time than the device, so using devm
+> is fine. Allocations are largely disconnected from the device lifetime,
+> and using devm leads to UAF.
+
+Right. I think my original point was looking at "ingenic-drm-drv.c".
+Much of the "devm" stuff there is resources and those specific things
+could be moved to probe() instead of bind(), right?
+
+For allocations, I think you'd have to look at each allocation. If the
+allocation needed to live as long as the "struct drm_device" then devm
+is clearly the wrong choice. ...but not every allocation needs to live
+that long. Also, even if in the "simple" case allocations need to live
+as long as a "struct drm_device", it's possible that there are some
+cases where there's only an indirect reference to the memory. In that
+case, you could NULL out the indirect reference and then free it.
+Obviously someone would need to take care here.
+
+
+> > b) Userspace acquires a reference to the "struct drm_device". Refcount
+> > is now 2 (one from userspace, one from the Linux driver).
+> >
+> > c) The Linux driver unbinds, presumably because userspace requested
+> > it. From earlier I think we decided that we can't (by design) block
+> > unbind. Once unbind happens then we shouldn't try to keep operating
+> > the device
+>
+> That part is correct, because the resources aren't there anymore.
+>
+> > the driver should stop running.
+>
+> But for the reasons above, the driver needs to still operate (in a
+> degraded mode).
+
+So I think here is where the disconnect is from our viewpoints. IMO
+when a Linux driver is unbound then it makes no sense to try to
+operate the device in "a degraded mode". When a Linux driver is
+unbound then it should be releasing all of the resources from the
+device (iomaps, IRQs, regulators, GPIOs, etc). That's just what
+unbinding a driver is supposed to do.
+
+I understand what you're saying above about display pipelines being
+multiple Linux drivers working together and that it doesn't make lots
+of sense to just unbind a random Linux device driver in the middle of
+things. ...and I don't really have a simple/great answer for how to do
+something super elegant if userspace tries to just randomly unbind one
+of the many drivers in an active display pipeline.
+
+
+> > As part of the unbind, the remove() is called and also "devm"
+> > resources are deallocated. If any of the things freed are pointed to
+> > by the "struct drm_device" then the code needs to NULL them out at
+> > this time.
+>
+> Right, we also need to make sure we don't access any of the resources
+> that got freed. This is typically done by protecting all the accesses
+> with drm_dev_enter/drm_dev_exit.
+>
+> > Also we should make sure that any callback functions that userspace
+> > could cause to be invoked return errors.
+>
+> That would prevent any new ioctl from occuring after the device has been
+> removed, but that doesn't fix the race condition if it's removed while
+> there's a commit happening. This is further complicated by the fact that
+> commits can be queued (so you would have multiple submitted already) or
+> made asynchronous.
+
+I guess I would have expected that the remove() callback in the device
+would prevent new commits from starting and then block waiting until
+any in-progress commits were finished? ...kinda like how drivers call
+del_timer_sync() in their remove functions...
+
+
+> > Our code could go away at any point here since userspace could "rmmod"
+> > our module.
+>
+> Yeah, we probably have a bug there. Boris also reported something like
+> that recently where if you add an action with drmm_add_action, and then
+> remove the module, the function would have been free'd by the time it
+> executes.
+
+I'm fairly certain that you can prevent a module from being unloaded
+by just grabbing a refcount to it. However, I'm not sure that's the
+right solution. If we're trying to run driver code after a driver has
+been unbound then, IMO, that's the bug.
+
+
+> > However, it's not a panacea for everything. Specifically once
+> > the Linux driver unbind finishes then the device isn't functional
+> > anymore.
+>
+> What's wrong with it then?
+
+I'm mostly just saying don't just search-and-replace "devm" with
+"drmm" in your driver and call it done. You need to think carefully
+about which things are which lifetime.
+
+---
+
+Ironically, while digging into this I'm tempted to take back my
+original request. Despite the kernel docs I pointed at [1], it
+actually looks like it might be fine to use "devm" within a
+component's bind() function. In try_to_bring_up_aggregate_device() it
+seems like the code is opening up a nested "devres" group specifically
+to allow this to work. A little bit of testing that I did with this
+shows that, indeed, the nesting seems to be working. Am I missing
+something here?
+
+[1] https://docs.kernel.org/driver-api/component.html
