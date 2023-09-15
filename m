@@ -1,84 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7627A11F9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 01:43:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72AB47A12CD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 03:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DE710E5AE;
-	Thu, 14 Sep 2023 23:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF1510E5BC;
+	Fri, 15 Sep 2023 01:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785F510E5AE
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:43:22 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b962c226ceso24387641fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 16:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694735000; x=1695339800;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
- b=A2RJl2IWh6gAcpFY1rwhMvZ0j3i2sOQcfaELrqu8j9zjgMLJNBsf5tYcpC+4DCVg3v
- 4bxDQqh9MuhwdFuiXyWLaqLF5QzLoFzQTjUuNz43LnFJWgUmZNrx8cGY7CbWBYQJE05x
- Ic8JJSsRrDVr9CDTHlxDcmc/LA3ykYuGKf1Dw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694735000; x=1695339800;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ffsw5m1PXl5CYPaF5hVOzi1zPkWams0dilWKJC5stN8=;
- b=ZleLTGlyAfF9yp3ehgOxQvst53eem49MZEx7+95XbnS3uObPXm8rvg4Th5gdUfr9ZE
- TpySRDo0KHQQ0l6xLll9V96E66RHtoHs9BhixAKuuAutxrOfwaEjF+F+yQRkyeY+2VMA
- b4EdpUR5JWMXjBEQKcwuRwPw1eRpnSAFag8265xdpRvMTsRXfj63AndMPC6yLUXqZFw7
- dOaYD6Zw0HfG7wSyi7H/7WG43I5vgnNecXcLRHajbK9pQ1OwSt9YHWo9k5jSMLmmuZsG
- IFrG27A2gpdgrpinZ46b+hMDNubUHAi4to5LyB+iF7Spbz7OymUiY/Qt0sDjAmmfOsZ9
- T+Fw==
-X-Gm-Message-State: AOJu0YyedQ40XZ8n6LYcDpmZa9SlV1oT+c9O0aYwMaj9ib1DboQXzWtj
- b2smAMBd2H1EWwVX7GPcFNKJmevc/kCi1vT/u0kkDxOI
-X-Google-Smtp-Source: AGHT+IHLdDtGyVwouAnNeBSBJjCn4C2GOju7ZcGoId3267f/yTAowItjSst02F+i3kxDU7rYMW9uZw==
-X-Received: by 2002:ac2:505c:0:b0:500:9026:a290 with SMTP id
- a28-20020ac2505c000000b005009026a290mr133650lfm.9.1694735000220; 
- Thu, 14 Sep 2023 16:43:20 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- fy20-20020a170906b7d400b009ada9f7217asm1636231ejb.88.2023.09.14.16.43.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Sep 2023 16:43:20 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-52fa364f276so3208a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 16:43:20 -0700 (PDT)
-X-Received: by 2002:a05:600c:1daa:b0:3fe:f32f:c57f with SMTP id
- p42-20020a05600c1daa00b003fef32fc57fmr70422wms.0.1694734979632; Thu, 14 Sep
- 2023 16:42:59 -0700 (PDT)
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E886A10E2BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 01:11:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 2A110402BF;
+ Fri, 15 Sep 2023 03:11:38 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ph1OUOheECLn; Fri, 15 Sep 2023 03:11:37 +0200 (CEST)
+Message-ID: <fc5e8ee4-20fa-a31a-2461-8e7b47e9cb9f@disroot.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1694740297; bh=DT+VUOOsRxop+bmlw6qkJ/Pr6cbDRxJGeZpt3LLLXCQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=ZD3WpKCK3TFQ6VBLERXayzjn6cNhDj5GYTiAuNZiLExy8G8Gt3qiNm8nzOgQpC04O
+ Cu97rj77NraiQdiPDxPJoKj+287VTt9/NdFqYtqx8fQdPghMnwHElwQfP1YqPOXbWD
+ bEaANYv85O4uJzRDISc22dVk6Psxc8UouQrBrhbIGaX4VLoVxvKEfkUA/Aeg0etK1b
+ kMGcJ6GO54GcSCD/Un/RyWd9BS2NFR4Bg0u7yPNTvqXXJQmf96WTVr+uQlFDP1nifu
+ dMNHiKrXUnnokJs41ZI4Fm/wukfRgQwMkRzlJelVA4+oSS8GoHWVp3XonuPEZO+Enx
+ l9pAKa688QONQ==
+Date: Thu, 14 Sep 2023 22:11:52 -0300
 MIME-Version: 1.0
-References: <20230727171750.633410-1-dianders@chromium.org>
- <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-In-Reply-To: <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 14 Sep 2023 16:42:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
-Message-ID: <CAD=FV=Ued9suf95ub1-rftO2Ffx_Rwv7XvAf7yX-s7djO889+Q@mail.gmail.com>
-Subject: Re: [PATCH v4 11/11] arm64: dts: qcom: sc7180: Link trogdor
- touchscreens to the panels
-To: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 07/10] drm/tests: Add test for drm_framebuffer_init()
+Content-Language: en-US
+To: Maira Canal <mairacanal@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230825161108.13701-1-gcarlos@disroot.org>
+ <e0d67231-f970-f835-6327-13e9e97a752d@riseup.net>
+ <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
+ <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
+From: Carlos <gcarlos@disroot.org>
+In-Reply-To: <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,47 +54,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
+ =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maíra,
 
-On Thu, Jul 27, 2023 at 10:19=E2=80=AFAM Douglas Anderson <dianders@chromiu=
-m.org> wrote:
+On 9/8/23 5:22 PM, Maira Canal wrote:
+> Hi Carlos,
 >
-> Let's provide the proper link from the touchscreen to the panel on
-> trogdor devices where the touchscreen support it. This allows the OS
-> to power sequence the touchscreen more properly.
+> On 9/4/23 14:41, Carlos wrote:
+>> Hi Maíra,
+>>
+>> On 8/26/23 11:16, Maíra Canal wrote:
+>>> Hi Carlos,
+>>>
+>>> On 8/25/23 13:11, Carlos Eduardo Gallo Filho wrote:
+>>>> Add a single KUnit test case for the drm_framebuffer_init function.
+>>>>
+>>>> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+>>>> ---
+>>>>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 52 
+>>>> ++++++++++++++++++++
+>>>>   1 file changed, 52 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c 
+>>>> b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>>> index 3d14d35b4c4d..50d88bf3fa65 100644
+>>>> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>>> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+>>>> @@ -557,8 +557,60 @@ static void drm_test_framebuffer_lookup(struct 
+>>>> kunit *test)
+>>>>       KUNIT_EXPECT_NULL(test, fb2);
+>>>>   }
+>>>>   +static void drm_test_framebuffer_init(struct kunit *test)
+>>>> +{
+>>>> +    struct drm_mock *mock = test->priv;
+>>>> +    struct drm_device *dev = &mock->dev;
+>>>> +    struct drm_device wrong_drm = { };
+>>>> +    struct drm_format_info format = { };
+>>>> +    struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
+>>>> +    struct drm_framebuffer *fb2;
+>>>> +    struct drm_framebuffer_funcs funcs = { };
+>>>> +    int ret;
+>>>> +
+>>>> +    /* Fails if fb->dev doesn't point to the drm_device passed on 
+>>>> first arg */
+>>>> +    fb1.dev = &wrong_drm;
+>>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
+>>>> +    fb1.dev = dev;
+>>>> +
+>>>> +    /* Fails if fb.format isn't set */
+>>>> +    fb1.format = NULL;
+>>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
+>>>> +    fb1.format = &format;
+>>>> +
+>>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
+>>>> +    KUNIT_EXPECT_EQ(test, ret, 0);
+>>>> +
+>>>> +    /*
+>>>> +     * Check if fb->funcs is actually set to the 
+>>>> drm_framebuffer_funcs
+>>>> +     * passed to it
+>>>> +     */
+>>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
+>>>> +
+>>>> +    /* The fb->comm must be set to the current running process */
+>>>> +    KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
+>>>> +
+>>>> +    /* The fb->base must be successfully initialized */
+>>>> +    KUNIT_EXPECT_EQ(test, fb1.base.id, 1);
+>>>> +    KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
+>>>> +    KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
+>>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, 
+>>>> &drm_framebuffer_free);
 >
-> For the most part, this is just expected to marginally improve power
-> consumption while the screen is off. However, in at least one trogdor
-> model (wormdingler) it's suspected that this will fix some behavorial
-> corner cases when the panel power cycles (like for a modeset) without
-> the touchscreen power cycling.
+> BTW I believe we should also make sure that dev->mode_config.num_fb was
+> incremented by 1.
+Isn't that already tested below? Since the start value for
+dev->mode_config.num_fb is 0, by expecting it to be 1 seems
+to test that it's being incremented by 1. Or what are you suggesting
+it to let it more explicit?
 >
-> NOTE: some trogdor variants use touchscreens that don't (yet) support
-> linking the touchscreen and the panel. Those variants are left alone.
+>>>> +
+>>>> +    /* Checks if the fb is really published and findable */
+>>>> +    fb2 = drm_framebuffer_lookup(dev, NULL, fb1.base.id);
+>>>> +    KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
+>>>> +
+>>>> +    /* There must be just that one fb initialized */
+>>>> +    KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
+>>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, 
+>>>> &fb1.head);
+>>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, 
+>>>> &fb1.head);
+>>>
+>>> Shouldn't we clean the framebuffer object?
+>> What did you mean by "clean"? Firstly I supposed that it would be about
+>> freeing some dynamically allocated frambuffer, but it's statically
+>> allocated, so I believe it isn't what you are meaning. Is there some
+>> collateral effect I'm not taking into account?
 >
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> (no changes since v1)
->
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi        | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi      | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi         | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi        | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi | 1 +
->  arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi   | 1 +
->  6 files changed, 6 insertions(+)
+> I was talking about calling the function `drm_framebuffer_cleanup()`.
+Would you explain why we should need that here? Since the drm_device
+(and that fb, of course) is destroyed after the test, do we need to
+worry about this?
 
-FWIW, this old patch could land any time. All the earlier patches in
-the series have landed.
+Thanks,
+Carlos
 
--Doug
+>
+> Best Regards,
+> - Maíra
+>
+>>
+>> Thanks,
+>> Carlos
+>>
+>>> Best Regards,
+>>> - Maíra
+>>>
+>>>> +}
+>>>> +
+>>>>   static struct kunit_case drm_framebuffer_tests[] = {
+>>>>       KUNIT_CASE(drm_test_framebuffer_cleanup),
+>>>> +    KUNIT_CASE(drm_test_framebuffer_init),
+>>>>       KUNIT_CASE(drm_test_framebuffer_lookup),
+>>>> KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
+>>>> KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, 
+>>>> check_src_coords_gen_params),
