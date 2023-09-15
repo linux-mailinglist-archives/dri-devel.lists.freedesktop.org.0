@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4B87A299E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:39:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C969C7A29A5
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B82D10E68D;
-	Fri, 15 Sep 2023 21:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DE410E697;
+	Fri, 15 Sep 2023 21:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D66FC10E696;
- Fri, 15 Sep 2023 21:38:51 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E7C10E69B;
+ Fri, 15 Sep 2023 21:39:02 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38FLVsM4027285; Fri, 15 Sep 2023 21:38:47 GMT
+ 38FET77R029717; Fri, 15 Sep 2023 21:38:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=efuSWbn2u+iFrnRwxcDgf3AY9tYWMo/dVl/ugt0Xau0=;
- b=CNGX8n4VNAp2CxZ1niCZk0ELNmsWvgGOjspj8hrd0l40b9Ay8ac+cSL8bJsshvf50Zih
- r4/vSE9eCRZhJmgLJLqFUkUIY5h1WX1w2GSXkNQPdZq6/Efk+jv0hz4kS+Luw9JQFpGJ
- 7JtLnDKnCzuc0tTSk4sLnmdq/eGR74ahlUpB/L1i4wK8LmBHc+BFmo0ruZu/u4TScTtx
- lZEpNPsSzntjkcZECDAZl1uhmh7qCf8UaUCZUiCcSN1GEu5Bay9Ei32Wwo+IiUKYJ7hN
- YlQcQvIZKjjUmx1z1gDwUyVAN0IUlZrvJyl7Pkz07ZdzCjkvHWYIx2XKHuKqj0UF7LYf 4g== 
+ bh=V4kVOKgck2xwpLN88VujySdujP0s0yj2kNuJri9+fn8=;
+ b=UNilhdgiJ6WnNTUJPzBjn5iSqYmM/9+qKlQ6yWQE1YXAVKMspVGYy7PQ5we3fnotpQ0M
+ dcvmqr880GquQKcI4oGEEiTSWdPcZnQthUl72tlrhDY4yugW5zjF748EdZTBVvFuk/xF
+ jtekgEkak+QHuZDiWQVYz69a1EBBaQq3ps8hbsoRNqGJRAEe6VQl+pjmZZQmVGgdGIB+
+ YjzLSN9rtDCpfkirsQ16FKMgr0RSy3wYUddmn5+xwW2FW3GQY+OTiTa8/+ulNCgdEkhm
+ DDFVubd2SQV3KX3ii3qjz122hzOYmDHcT2KHc0Yar9+UVlzXQLc7x02LTY60bUgc8qlp VA== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g3gt6ah-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4fsfad1s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 21:38:47 +0000
+ Fri, 15 Sep 2023 21:38:48 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FLckKU014548
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FLclmQ014563
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 21:38:46 GMT
+ Fri, 15 Sep 2023 21:38:47 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 15 Sep 2023 14:38:45 -0700
+ 15.2.1118.36; Fri, 15 Sep 2023 14:38:46 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-Date: Fri, 15 Sep 2023 14:38:20 -0700
-Message-ID: <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v3 7/7] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
+ probe()
+Date: Fri, 15 Sep 2023 14:38:21 -0700
+Message-ID: <1694813901-26952-8-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
@@ -59,16 +60,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: mVmtGT4uDoQGybl_g8oOg2c1YnzqdYgh
-X-Proofpoint-ORIG-GUID: mVmtGT4uDoQGybl_g8oOg2c1YnzqdYgh
+X-Proofpoint-ORIG-GUID: L1UjIB69er1oqSTGghp4PQVpJJJcP_a1
+X-Proofpoint-GUID: L1UjIB69er1oqSTGghp4PQVpJJJcP_a1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-15_18,2023-09-15_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015
- mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2308100000 definitions=main-2309150194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,156 +90,199 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add pm_runtime_force_suspend()/resume() to complete incorporating pm
-runtime framework into DP driver. Both dp_pm_prepare() and dp_pm_complete()
-are added to set hpd_state to correct state. After resume, DP driver will
-re training its main link after .hpd_enable() callback enabled HPD
-interrupts and bring up display accordingly.
+Currently eDP population is done at msm_dp_modeset_init() which happen
+at binding time. Move eDP population to be done at display probe time
+so that probe deferral cases can be handled effectively.
+wait_for_hpd_asserted callback is added during drm_dp_aux_init()
+to ensure eDP's HPD is up before proceeding eDP population.
 
 Changes in v3:
--- replace dp_pm_suspend() with pm_runtime_force_suspend()
--- replace dp_pm_resume() with pm_runtime_force_resume()
+-- add done_probing callback into devm_of_dp_aux_populate_bus()
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 87 +++++--------------------------------
- 1 file changed, 10 insertions(+), 77 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 25 ++++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.c | 79 ++++++++++++++++++-------------------
+ 2 files changed, 64 insertions(+), 40 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+index 8fa93c5..79f0c6e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.c
++++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+@@ -507,6 +507,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
+ 	drm_dp_aux_unregister(dp_aux);
+ }
+ 
++static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
++				 unsigned long wait_us)
++{
++	int ret;
++	struct dp_aux_private *aux;
++
++	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
++
++	pm_runtime_get_sync(aux->dev);
++	ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
++	pm_runtime_put_sync(aux->dev);
++
++	return ret;
++}
++
+ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+ 			      bool is_edp)
+ {
+@@ -530,6 +545,16 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+ 	aux->catalog = catalog;
+ 	aux->retry_cnt = 0;
+ 
++	/*
++	 * Use the drm_dp_aux_init() to use the aux adapter
++	 * before registering aux with the DRM device.
++	 */
++	aux->dp_aux.name = "dpu_dp_aux";
++	aux->dp_aux.dev = dev;
++	aux->dp_aux.transfer = dp_aux_transfer;
++	aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
++	drm_dp_aux_init(&aux->dp_aux);
++
+ 	return &aux->dp_aux;
+ }
+ 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b6992202..b58cb02 100644
+index b58cb02..886fae5 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1333,101 +1333,35 @@ static int dp_pm_runtime_resume(struct device *dev)
+@@ -310,8 +310,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 
+ 	kthread_stop(dp->ev_tsk);
+ 
+-	of_dp_aux_depopulate_bus(dp->aux);
+-
+ 	dp_power_client_deinit(dp->power);
+ 	dp_unregister_audio_driver(dev, dp->audio);
+ 	dp_aux_unregister(dp->aux);
+@@ -1217,6 +1215,31 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+ 	return NULL;
+ }
+ 
++static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
++{
++	int rc;
++
++	rc = component_add(aux->dev, &dp_display_comp_ops);
++	if (rc)
++		DRM_ERROR("eDP component add failed, rc=%d\n", rc);
++
++	return rc;
++}
++
++static int dp_display_auxbus_population(struct dp_display_private *dp)
++{
++	struct device *dev = &dp->pdev->dev;
++	struct device_node *aux_bus;
++	int ret = 0;
++
++	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
++
++	if (aux_bus)
++		ret = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
++
++	return ret;
++}
++
+ static int dp_display_probe(struct platform_device *pdev)
+ {
+ 	int rc = 0;
+@@ -1282,10 +1305,16 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	if (rc)
+ 		return rc;
+ 
+-	rc = component_add(&pdev->dev, &dp_display_comp_ops);
+-	if (rc) {
+-		DRM_ERROR("component add failed, rc=%d\n", rc);
+-		dp_display_deinit_sub_modules(dp);
++	if (dp->dp_display.is_edp) {
++		rc = dp_display_auxbus_population(dp);
++		if (rc)
++			DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
++	} else {
++		rc = component_add(&pdev->dev, &dp_display_comp_ops);
++		if (rc) {
++			DRM_ERROR("component add failed, rc=%d\n", rc);
++			dp_display_deinit_sub_modules(dp);
++		}
+ 	}
+ 
+ 	return rc;
+@@ -1296,14 +1325,13 @@ static int dp_display_remove(struct platform_device *pdev)
+ 	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+ 
+ 	component_del(&pdev->dev, &dp_display_comp_ops);
+-	dp_display_deinit_sub_modules(dp);
+-
+ 	platform_set_drvdata(pdev, NULL);
+ 
+-	pm_runtime_put_sync_suspend(&pdev->dev);
+ 	pm_runtime_dont_use_autosuspend(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+ 
++	dp_display_deinit_sub_modules(dp);
++
  	return 0;
  }
  
--static int dp_pm_resume(struct device *dev)
-+static void dp_pm_complete(struct device *dev)
+@@ -1432,31 +1460,10 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+ 
+ static int dp_display_get_next_bridge(struct msm_dp *dp)
  {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_dp *dp_display = platform_get_drvdata(pdev);
--	struct dp_display_private *dp;
--	int sink_count = 0;
+-	int rc;
++	int rc = 0;
+ 	struct dp_display_private *dp_priv;
+-	struct device_node *aux_bus;
+-	struct device *dev;
+ 
+ 	dp_priv = container_of(dp, struct dp_display_private, dp_display);
+-	dev = &dp_priv->pdev->dev;
+-	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
 -
--	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+	struct dp_display_private *dp = dev_get_dp_display_private(dev);
- 
- 	mutex_lock(&dp->event_mutex);
- 
- 	drm_dbg_dp(dp->drm_dev,
--		"Before, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
-+		"type=%d core_inited=%d phy_inited=%d power_on=%d\n",
- 		dp->dp_display.connector_type, dp->core_initialized,
--		dp->phy_initialized, dp_display->power_on);
-+		dp->phy_initialized, dp->dp_display.power_on);
- 
- 	/* start from disconnected state */
- 	dp->hpd_state = ST_DISCONNECTED;
- 
--	/* turn on dp ctrl/phy */
--	dp_display_host_init(dp);
--
--	if (dp_display->is_edp)
--		dp_catalog_ctrl_hpd_enable(dp->catalog);
--
--	if (dp_catalog_link_is_connected(dp->catalog)) {
+-	if (aux_bus && dp->is_edp) {
 -		/*
--		 * set sink to normal operation mode -- D0
--		 * before dpcd read
+-		 * The code below assumes that the panel will finish probing
+-		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
+-		 * This isn't a great assumption since it will fail if the
+-		 * panel driver is probed asynchronously but is the best we
+-		 * can do without a bigger driver reorganization.
 -		 */
--		dp_display_host_phy_init(dp);
--		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
--		sink_count = drm_dp_read_sink_count(dp->aux);
--		if (sink_count < 0)
--			sink_count = 0;
--
--		dp_display_host_phy_exit(dp);
+-		rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
+-		of_node_put(aux_bus);
+-		if (rc)
+-			goto error;
+-	} else if (dp->is_edp) {
+-		DRM_ERROR("eDP aux_bus not found\n");
+-		return -ENODEV;
 -	}
--
--	dp->link->sink_count = sink_count;
--	/*
--	 * can not declared display is connected unless
--	 * HDMI cable is plugged in and sink_count of
--	 * dongle become 1
--	 * also only signal audio when disconnected
--	 */
--	if (dp->link->sink_count) {
--		dp->dp_display.link_ready = true;
--	} else {
--		dp->dp_display.link_ready = false;
--		dp_display_handle_plugged_change(dp_display, false);
+ 
+ 	/*
+ 	 * External bridges are mandatory for eDP interfaces: one has to
+@@ -1469,17 +1476,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ 	if (!dp->is_edp && rc == -ENODEV)
+ 		return 0;
+ 
+-	if (!rc) {
++	if (!rc)
+ 		dp->next_bridge = dp_priv->parser->next_bridge;
+-		return 0;
 -	}
--
--	drm_dbg_dp(dp->drm_dev,
--		"After, type=%d sink=%d conn=%d core_init=%d phy_init=%d power=%d\n",
--		dp->dp_display.connector_type, dp->link->sink_count,
--		dp->dp_display.link_ready, dp->core_initialized,
--		dp->phy_initialized, dp_display->power_on);
--
- 	mutex_unlock(&dp->event_mutex);
--
--	return 0;
+ 
+-error:
+-	if (dp->is_edp) {
+-		of_dp_aux_depopulate_bus(dp_priv->aux);
+-		dp_display_host_phy_exit(dp_priv);
+-		dp_display_host_deinit(dp_priv);
+-	}
+ 	return rc;
  }
  
--static int dp_pm_suspend(struct device *dev)
-+static int dp_pm_prepare(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_dp *dp_display = platform_get_drvdata(pdev);
--	struct dp_display_private *dp;
--
--	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+	struct dp_display_private *dp = dev_get_dp_display_private(dev);
- 
- 	mutex_lock(&dp->event_mutex);
- 
--	drm_dbg_dp(dp->drm_dev,
--		"Before, type=%d core_inited=%d  phy_inited=%d power_on=%d\n",
--		dp->dp_display.connector_type, dp->core_initialized,
--		dp->phy_initialized, dp_display->power_on);
--
- 	/* mainlink enabled */
- 	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
- 		dp_ctrl_off_link_stream(dp->ctrl);
- 
--	dp_display_host_phy_exit(dp);
--
--	/* host_init will be called at pm_resume */
--	dp_display_host_deinit(dp);
--
- 	dp->hpd_state = ST_SUSPENDED;
- 
--	drm_dbg_dp(dp->drm_dev,
--		"After, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
--		dp->dp_display.connector_type, dp->core_initialized,
--		dp->phy_initialized, dp_display->power_on);
--
- 	mutex_unlock(&dp->event_mutex);
- 
- 	return 0;
-@@ -1435,8 +1369,10 @@ static int dp_pm_suspend(struct device *dev)
- 
- static const struct dev_pm_ops dp_pm_ops = {
- 	SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
--	.suspend = dp_pm_suspend,
--	.resume =  dp_pm_resume,
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+                                pm_runtime_force_resume)
-+	.prepare = dp_pm_prepare,
-+	.complete = dp_pm_complete,
- };
- 
- static struct platform_driver dp_display_driver = {
-@@ -1670,9 +1606,6 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 
--	if (dp->is_edp)
--		dp_hpd_unplug_handle(dp_display, 0);
--
- 	mutex_lock(&dp_display->event_mutex);
- 
- 	state = dp_display->hpd_state;
 -- 
 2.7.4
 
