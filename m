@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AB47A12CD
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 03:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3D57A1415
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 04:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF1510E5BC;
-	Fri, 15 Sep 2023 01:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B3410E5C5;
+	Fri, 15 Sep 2023 02:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E886A10E2BB
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 01:11:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 2A110402BF;
- Fri, 15 Sep 2023 03:11:38 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ph1OUOheECLn; Fri, 15 Sep 2023 03:11:37 +0200 (CEST)
-Message-ID: <fc5e8ee4-20fa-a31a-2461-8e7b47e9cb9f@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1694740297; bh=DT+VUOOsRxop+bmlw6qkJ/Pr6cbDRxJGeZpt3LLLXCQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=ZD3WpKCK3TFQ6VBLERXayzjn6cNhDj5GYTiAuNZiLExy8G8Gt3qiNm8nzOgQpC04O
- Cu97rj77NraiQdiPDxPJoKj+287VTt9/NdFqYtqx8fQdPghMnwHElwQfP1YqPOXbWD
- bEaANYv85O4uJzRDISc22dVk6Psxc8UouQrBrhbIGaX4VLoVxvKEfkUA/Aeg0etK1b
- kMGcJ6GO54GcSCD/Un/RyWd9BS2NFR4Bg0u7yPNTvqXXJQmf96WTVr+uQlFDP1nifu
- dMNHiKrXUnnokJs41ZI4Fm/wukfRgQwMkRzlJelVA4+oSS8GoHWVp3XonuPEZO+Enx
- l9pAKa688QONQ==
-Date: Thu, 14 Sep 2023 22:11:52 -0300
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1A510E5C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 02:58:03 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2bf66a32f25so25847251fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 19:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1694746682; x=1695351482; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q/d7yn2DC4L0fegrQpHp27LXsp/VCS7XWImBV1S1DnI=;
+ b=Ur7hRaVXX9soVDU7aQZx9TTQ28kJAlM4zNVofelD5j7qV4TjtkqwL/p1iyy2lcH4ln
+ iyqDD6dQWM5FEdb5bm/LgRLmbx2xaOqX0MDheD3/i4GIRMqtOInBNun1FWwx87/mlA+i
+ oYD7STk+ttsQiO9FVYcxVKXCYEoQWYstvnM0DqnTzVLWJGRzi5UiChnSvDK8uIqBWlLh
+ EUrQ+ZCScbyZ8gwWgmezPCJqdYKQOE1TXZvwGJuk4Xo3yNIEJgr3gczCjD1hLn1KZ/9l
+ V5EmFHBu96ipRS9c+aQO/JZ1dF677r80Vnx1R1WJZk1PrfF9/hY8xrfgYlq8ZQceYBz6
+ qFDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694746682; x=1695351482;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Q/d7yn2DC4L0fegrQpHp27LXsp/VCS7XWImBV1S1DnI=;
+ b=rsuMHhG62v0wIv7PNfgchX1XDBY/+zan+JhexeG7+QsRDiIaWNpwCpjSbdAo9QV83J
+ wFw7DwPyzulRpedIKpK4n7Ta7BmmJ4NvJquBN6af+PfC2FoO+L11FJazIkf1cd/b0MoT
+ t8miCa6mzdaRBAONhC55q3bfkFZRgrQigQr4Q4UgO4phwJnSMs8IX58tCuCsQ6HN7BZ0
+ y8CUKB6TPbtfHaIdxGvegXUz6kw3By8uWEUvajAQbwNJx/9+j46o8ImU4h+P9JOhs4Yi
+ 4kbqSCnyO5D9CrxE+k4YYgdIrj00jk+lyphKqiiPG7psa5UO5LQJ4CVgQZtGTiEm/euU
+ dM+A==
+X-Gm-Message-State: AOJu0YwlmFAkNJoUiakVgwg1RSlrubv/zduAkFP3uYBs0UH7xMtplm52
+ b4gHeHZTrJU/xxxA2QSXgp1JBHKcm4lsbaYJwZ8=
+X-Google-Smtp-Source: AGHT+IESEi/BoCHM2ENgtnkj2D7MdMefPR9OBCXXZSr7BlvRxNXhPQijzhHi3/GwAQiiWtKMyn+wO1OL9G3mCSBf370=
+X-Received: by 2002:a05:651c:149:b0:2b9:c4f6:fdd with SMTP id
+ c9-20020a05651c014900b002b9c4f60fddmr475618ljd.14.1694746681316; Thu, 14 Sep
+ 2023 19:58:01 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 07/10] drm/tests: Add test for drm_framebuffer_init()
-Content-Language: en-US
-To: Maira Canal <mairacanal@riseup.net>, dri-devel@lists.freedesktop.org
-References: <20230825161108.13701-1-gcarlos@disroot.org>
- <e0d67231-f970-f835-6327-13e9e97a752d@riseup.net>
- <c9c08978-f42f-3653-0b07-a628c7318406@disroot.org>
- <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
-From: Carlos <gcarlos@disroot.org>
-In-Reply-To: <8790dbd1-525e-faba-717f-3af1eda02a5b@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 15 Sep 2023 12:57:50 +1000
+Message-ID: <CAPM=9tx4M13E1G_a2CsE0W_48g-n4=HDpsiWoHnE_raBaLQoxA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.6-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,138 +66,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
- =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maíra,
+Hey Linus,
 
-On 9/8/23 5:22 PM, Maira Canal wrote:
-> Hi Carlos,
->
-> On 9/4/23 14:41, Carlos wrote:
->> Hi Maíra,
->>
->> On 8/26/23 11:16, Maíra Canal wrote:
->>> Hi Carlos,
->>>
->>> On 8/25/23 13:11, Carlos Eduardo Gallo Filho wrote:
->>>> Add a single KUnit test case for the drm_framebuffer_init function.
->>>>
->>>> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
->>>> ---
->>>>   drivers/gpu/drm/tests/drm_framebuffer_test.c | 52 
->>>> ++++++++++++++++++++
->>>>   1 file changed, 52 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c 
->>>> b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>>> index 3d14d35b4c4d..50d88bf3fa65 100644
->>>> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>>> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
->>>> @@ -557,8 +557,60 @@ static void drm_test_framebuffer_lookup(struct 
->>>> kunit *test)
->>>>       KUNIT_EXPECT_NULL(test, fb2);
->>>>   }
->>>>   +static void drm_test_framebuffer_init(struct kunit *test)
->>>> +{
->>>> +    struct drm_mock *mock = test->priv;
->>>> +    struct drm_device *dev = &mock->dev;
->>>> +    struct drm_device wrong_drm = { };
->>>> +    struct drm_format_info format = { };
->>>> +    struct drm_framebuffer fb1 = { .dev = dev, .format = &format };
->>>> +    struct drm_framebuffer *fb2;
->>>> +    struct drm_framebuffer_funcs funcs = { };
->>>> +    int ret;
->>>> +
->>>> +    /* Fails if fb->dev doesn't point to the drm_device passed on 
->>>> first arg */
->>>> +    fb1.dev = &wrong_drm;
->>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
->>>> +    fb1.dev = dev;
->>>> +
->>>> +    /* Fails if fb.format isn't set */
->>>> +    fb1.format = NULL;
->>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>>> +    KUNIT_EXPECT_EQ(test, ret, -EINVAL);
->>>> +    fb1.format = &format;
->>>> +
->>>> +    ret = drm_framebuffer_init(dev, &fb1, &funcs);
->>>> +    KUNIT_EXPECT_EQ(test, ret, 0);
->>>> +
->>>> +    /*
->>>> +     * Check if fb->funcs is actually set to the 
->>>> drm_framebuffer_funcs
->>>> +     * passed to it
->>>> +     */
->>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.funcs, &funcs);
->>>> +
->>>> +    /* The fb->comm must be set to the current running process */
->>>> +    KUNIT_EXPECT_STREQ(test, fb1.comm, current->comm);
->>>> +
->>>> +    /* The fb->base must be successfully initialized */
->>>> +    KUNIT_EXPECT_EQ(test, fb1.base.id, 1);
->>>> +    KUNIT_EXPECT_EQ(test, fb1.base.type, DRM_MODE_OBJECT_FB);
->>>> +    KUNIT_EXPECT_EQ(test, kref_read(&fb1.base.refcount), 1);
->>>> +    KUNIT_EXPECT_PTR_EQ(test, fb1.base.free_cb, 
->>>> &drm_framebuffer_free);
->
-> BTW I believe we should also make sure that dev->mode_config.num_fb was
-> incremented by 1.
-Isn't that already tested below? Since the start value for
-dev->mode_config.num_fb is 0, by expecting it to be 1 seems
-to test that it's being incremented by 1. Or what are you suggesting
-it to let it more explicit?
->
->>>> +
->>>> +    /* Checks if the fb is really published and findable */
->>>> +    fb2 = drm_framebuffer_lookup(dev, NULL, fb1.base.id);
->>>> +    KUNIT_EXPECT_PTR_EQ(test, fb2, &fb1);
->>>> +
->>>> +    /* There must be just that one fb initialized */
->>>> +    KUNIT_EXPECT_EQ(test, dev->mode_config.num_fb, 1);
->>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.prev, 
->>>> &fb1.head);
->>>> +    KUNIT_EXPECT_PTR_EQ(test, dev->mode_config.fb_list.next, 
->>>> &fb1.head);
->>>
->>> Shouldn't we clean the framebuffer object?
->> What did you mean by "clean"? Firstly I supposed that it would be about
->> freeing some dynamically allocated frambuffer, but it's statically
->> allocated, so I believe it isn't what you are meaning. Is there some
->> collateral effect I'm not taking into account?
->
-> I was talking about calling the function `drm_framebuffer_cleanup()`.
-Would you explain why we should need that here? Since the drm_device
-(and that fb, of course) is destroyed after the test, do we need to
-worry about this?
+Regular rc2 fixes pull, mostly made up of amdgpu stuff, one i915, and
+a bunch of others, one vkms locking violation is reverted.
 
 Thanks,
-Carlos
+Dave.
 
->
-> Best Regards,
-> - Maíra
->
->>
->> Thanks,
->> Carlos
->>
->>> Best Regards,
->>> - Maíra
->>>
->>>> +}
->>>> +
->>>>   static struct kunit_case drm_framebuffer_tests[] = {
->>>>       KUNIT_CASE(drm_test_framebuffer_cleanup),
->>>> +    KUNIT_CASE(drm_test_framebuffer_init),
->>>>       KUNIT_CASE(drm_test_framebuffer_lookup),
->>>> KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
->>>> KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, 
->>>> check_src_coords_gen_params),
+drm-fixes-2023-09-15:
+drm fixes for 6.6-rc2
+
+connector:
+- doc fix
+
+exec:
+- workaround lockdep issue
+
+tests:
+- fix a UAF
+
+vkms:
+- revert hrtimer fix
+
+fbdev:
+- g364fb: fix build failure with mips
+
+i915:
+- Only check eDP HPD when AUX CH is shared.
+
+amdgpu:
+- GC 9.4.3 fixes
+- Fix white screen issues with S/G display on system with >=3D 64G of ram
+- Replay fixes
+- SMU 13.0.6 fixes
+- AUX backlight fix
+- NBIO 4.3 SR-IOV fixes for HDP
+- RAS fixes
+- DP MST resume fix
+- Fix segfault on systems with no vbios
+- DPIA fixes
+
+amdkfd:
+- CWSR grace period fix
+- Unaligned doorbell fix
+- CRIU fix for GFX11
+- Add missing TLB flush on gfx10 and newer
+
+radeon:
+- make fence wait in suballocator uninterrruptable
+
+gm12u320:
+- Fix the timeout usage for usb_bulk_msg()
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d=
+:
+
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-09-15
+
+for you to fetch changes up to c3c9acb8b2466ddf7f00fc11e2efb736b5252172:
+
+  Merge tag 'drm-misc-fixes-2023-09-14' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-09-15
+12:13:01 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.6-rc2
+
+connector:
+- doc fix
+
+exec:
+- workaround lockdep issue
+
+tests:
+- fix a UAF
+
+vkms:
+- revert hrtimer fix
+
+fbdev:
+- g364fb: fix build failure with mips
+
+i915:
+- Only check eDP HPD when AUX CH is shared.
+
+amdgpu:
+- GC 9.4.3 fixes
+- Fix white screen issues with S/G display on system with >=3D 64G of ram
+- Replay fixes
+- SMU 13.0.6 fixes
+- AUX backlight fix
+- NBIO 4.3 SR-IOV fixes for HDP
+- RAS fixes
+- DP MST resume fix
+- Fix segfault on systems with no vbios
+- DPIA fixes
+
+amdkfd:
+- CWSR grace period fix
+- Unaligned doorbell fix
+- CRIU fix for GFX11
+- Add missing TLB flush on gfx10 and newer
+
+radeon:
+- make fence wait in suballocator uninterrruptable
+
+gm12u320:
+- Fix the timeout usage for usb_bulk_msg()
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/radeon: make fence wait in suballocator uninterrruptable
+      drm/amdgpu/soc21: don't remap HDP registers for SR-IOV
+      drm/amdgpu/nbio4.3: set proper rmmio_remap.reg_offset for SR-IOV
+
+Bhawanpreet Lakha (1):
+      drm/amd/display: Add dirty rect support for Replay
+
+Dan Carpenter (1):
+      drm/amdgpu: fix retry loop test
+
+Daniel Vetter (2):
+      Merge tag 'drm-misc-next-fixes-2023-09-11' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-misc-fixes-2023-09-07' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Dave Airlie (3):
+      Merge tag 'amd-drm-fixes-6.6-2023-09-13' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-09-14' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-misc-fixes-2023-09-14' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+David Francis (2):
+      drm/amdkfd: Checkpoint and restore queues on GFX11
+      drm/amdgpu: Handle null atom context in VBIOS info ioctl
+
+Hamza Mahfooz (1):
+      Revert "drm/amd: Disable S/G for APUs when 64GB or more host memory"
+
+Harish Kasiviswanathan (1):
+      drm/amdkfd: Insert missing TLB flush on GFX10 and later
+
+Hawking Zhang (1):
+      drm/amdgpu: fallback to old RAS error message for aqua_vanjaram
+
+Jinjie Ruan (1):
+      drm: gm12u320: Fix the timeout usage for usb_bulk_msg()
+
+Lee Jones (1):
+      drm/drm_connector: Provide short description of param
+'supported_colorspaces'
+
+Ma=C3=ADra Canal (1):
+      Revert "drm/vkms: Fix race-condition between the hrtimer and the
+atomic commit"
+
+Mukul Joshi (5):
+      drm/amdkfd: Fix reg offset for setting CWSR grace period
+      drm/amdkfd: Fix unaligned 64-bit doorbell warning
+      drm/amdgpu: Store CU info from all XCCs for GFX v9.4.3
+      drm/amdkfd: Update cache info reporting for GFX v9.4.3
+      drm/amdkfd: Update CU masking for GFX 9.4.3
+
+Mustapha Ghaddar (2):
+      drm/amd/display: Add DPIA Link Encoder Assignment Fix
+      drm/amd/display: Fix 2nd DPIA encoder Assignment
+
+Randy Dunlap (1):
+      drm/amd/display: fix replay_mode kernel-doc warning
+
+Simon Pilkington (1):
+      drm/amd: Make fence wait in suballocator uninterruptible
+
+Sudip Mukherjee (1):
+      fbdev/g364fb: fix build failure with mips
+
+Swapnil Patel (1):
+      drm/amd/display: Don't check registers, if using AUX BL control
+
+Thomas Hellstr=C3=B6m (2):
+      drm/drm_exec: Work around a WW mutex lockdep oddity
+      drm/tests: helpers: Avoid a driver uaf
+
+Thomas Zimmermann (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Only check eDP HPD when AUX CH is shared
+
+Wayne Lin (1):
+      drm/amd/display: Adjust the MST resume flow
+
+Yifan Zhang (1):
+      drm/amd/display: fix the white screen issue when >=3D 64GB DRAM
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.h |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h  |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  26 -----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  19 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c              |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c              |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |  76 ++++++--------
+ drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c             |   3 +
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.h              |   4 +
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c          |   2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |  34 ++++--
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h       |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c   |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c   |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |  43 +++++++-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c    |  46 ++++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c    |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |  77 ++++++++------
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.h          |   2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 115 +++++++++++++++++=
+----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   2 +-
+ .../gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c  |  35 +++++--
+ drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   4 +-
+ .../drm/amd/display/dc/dcn314/dcn314_resource.c    |  23 +++++
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   1 +
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c |   4 +
+ drivers/gpu/drm/amd/include/kgd_kfd_interface.h    |   9 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |   2 +-
+ drivers/gpu/drm/drm_connector.c                    |   2 +
+ drivers/gpu/drm/drm_exec.c                         |   2 +-
+ drivers/gpu/drm/i915/display/intel_bios.c          |  21 ++++
+ drivers/gpu/drm/i915/display/intel_bios.h          |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c            |   7 +-
+ drivers/gpu/drm/radeon/radeon_sa.c                 |   2 +-
+ drivers/gpu/drm/tiny/gm12u320.c                    |  10 +-
+ drivers/gpu/drm/vkms/vkms_composer.c               |   9 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c                   |   9 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |   4 +-
+ include/drm/drm_exec.h                             |  35 ++++++-
+ include/drm/drm_kunit_helpers.h                    |   4 +-
+ 57 files changed, 464 insertions(+), 235 deletions(-)
