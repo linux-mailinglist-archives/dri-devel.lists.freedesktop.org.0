@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195757A1DE5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 14:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CC97A1E3C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 14:15:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DABF10E61D;
-	Fri, 15 Sep 2023 12:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5068410E181;
+	Fri, 15 Sep 2023 12:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E6D10E61D;
- Fri, 15 Sep 2023 12:02:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D76910E181;
+ Fri, 15 Sep 2023 12:15:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694779335; x=1726315335;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oWLIDmT8V8yYTYSf+Z4MKL980NvQzXj0f/SDHZh0VdQ=;
- b=Y9159pSIuvrK4qQhk+Q8PvaF+vtuq4B5y1syorMmjmbqT6cmS1eRa18U
- HQhHHvw3xLahBS9JBnUpg774hbIl95AkFtJlZ9+byPB6tOPudJZ5/Uocy
- 1RiNI2HLWaReBdzuNIGNanTPjsZPiPXtMGP3HNH1ZBFWHkXNJoreAU4QE
- JAAto/Mq8/ZVYDhL4EFY/3ZbI3yYFNhHlGNgU9oqKBt7KRvbdICm/FIBn
- Hvqkc6HuPU/ST0NYgKDTkvsLqbQZJuFzjlAAW//hB/QQnSBKlRmyCxeuh
- 2UXRdUA4WNFIcNkIgL/6ZNL6sGZLb2805WIByIm4LaT/2kRrFqbDLVJvs g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378145978"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="378145978"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 05:02:14 -0700
+ t=1694780105; x=1726316105;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=jH6v5bbbkkEM6BDUb1aHP3gU8Bm1CEPG4JUxxTB7iDI=;
+ b=fsde/vXU3HuwMCrzIEoccDRLDRxXJbMaO4meSXbukv8h/Cv8NPkjeSlI
+ 0++bxDPznL7/I8Uwztgo9F4AQsmZaJi9+6mtQpcciLOPQqCR6KPbn5/qq
+ fBgReRRf42tQhD5gc0QjpOKb0pvWWzaUMl4cTO64J8dUD+M4gdYaJJnKY
+ tF2dT9R3WJueQfa0IwC64xxmdxx0oFRMnmSq320lPSDK1gU0f5dWDuzZn
+ 4cHRptDHWoRS9FF9DDdsMup8wgVkt0MlYXwt7IxQZ9c/kbRYsjE5yXqD/
+ P+9wFLnUY3QJ85W4TaYxVQTp9DfhSj5fJfTRR3N9Cmet+SnQl7vXVSonW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="359490905"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="359490905"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 05:14:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="774292805"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="774292805"
-Received: from srdoo-mobl1.ger.corp.intel.com (HELO
- ijarvine-mobl2.ger.corp.intel.com) ([10.252.38.99])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 05:02:08 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Rob Herring <robh@kernel.org>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- Lukas Wunner <lukas@wunner.de>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
- Krishna chaitanya chundru <quic_krichai@quicinc.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 03/10] drm/amdgpu: Use RMW accessors for changing LNKCTL2
-Date: Fri, 15 Sep 2023 15:01:35 +0300
-Message-Id: <20230915120142.32987-4-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
-References: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="835190933"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="835190933"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by FMSMGA003.fm.intel.com with SMTP; 15 Sep 2023 05:14:36 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Fri, 15 Sep 2023 15:14:35 +0300
+Date: Fri, 15 Sep 2023 15:14:35 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [RFC PATCH v1 12/12] usb: typec: qcom: define the bridge's path
+Message-ID: <ZQRKq7K8jKlH/Y4X@kuha.fi.intel.com>
+References: <20230903214150.2877023-1-dmitry.baryshkov@linaro.org>
+ <20230903214150.2877023-13-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230903214150.2877023-13-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,157 +59,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Zhang Rui <rui.zhang@intel.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Amit Kucheria <amitk@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't assume that only the driver would be accessing LNKCTL2. In the
-case of upstream (parent), the driver does not even own the device it's
-changing the registers for.
+Hi Dmitry,
 
-Use RMW capability accessors which do proper locking to avoid losing
-concurrent updates to the register value. This change is also useful as
-a cleanup.
+On Mon, Sep 04, 2023 at 12:41:50AM +0300, Dmitry Baryshkov wrote:
+> In order to notify the userspace about the DRM connector's USB-C port,
+> export the corresponding port's name as the bridge's path field.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c     | 11 +++++++----
+>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.c |  4 +++-
+>  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_drm.h |  6 ++++--
+>  3 files changed, 14 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> index b9d4856101c7..452dc6437861 100644
+> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
+> @@ -156,6 +156,7 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+>  	struct device_node *np = dev->of_node;
+>  	const struct pmic_typec_resources *res;
+>  	struct regmap *regmap;
+> +	char *tcpm_name;
+>  	u32 base[2];
+>  	int ret;
+>  
+> @@ -211,10 +212,6 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+>  	mutex_init(&tcpm->lock);
+>  	platform_set_drvdata(pdev, tcpm);
+>  
+> -	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev);
+> -	if (IS_ERR(tcpm->pmic_typec_drm))
+> -		return PTR_ERR(tcpm->pmic_typec_drm);
+> -
+>  	tcpm->tcpc.fwnode = device_get_named_child_node(tcpm->dev, "connector");
+>  	if (!tcpm->tcpc.fwnode)
+>  		return -EINVAL;
+> @@ -225,6 +222,12 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
+>  		goto fwnode_remove;
+>  	}
+>  
+> +	tcpm_name = tcpm_port_get_name(tcpm->tcpm_port);
+> +	tcpm->pmic_typec_drm = qcom_pmic_typec_init_drm(dev, tcpm_name);
 
-Suggested-by: Lukas Wunner <lukas@wunner.de>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/gpu/drm/amd/amdgpu/cik.c | 41 ++++++++++++--------------------
- drivers/gpu/drm/amd/amdgpu/si.c  | 41 ++++++++++++--------------------
- 2 files changed, 30 insertions(+), 52 deletions(-)
+So I got some questions and concerns off-list. This was one of the
+concerns. That tcpm_name is now the actual port device name, so I'm
+afraid this is not acceptable.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/cik.c b/drivers/gpu/drm/amd/amdgpu/cik.c
-index e63abdf52b6c..7bcd41996927 100644
---- a/drivers/gpu/drm/amd/amdgpu/cik.c
-+++ b/drivers/gpu/drm/amd/amdgpu/cik.c
-@@ -1638,28 +1638,18 @@ static void cik_pcie_gen3_enable(struct amdgpu_device *adev)
- 								   PCI_EXP_LNKCTL_HAWD);
- 
- 				/* linkctl2 */
--				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
--							  &tmp16);
--				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN);
--				tmp16 |= (bridge_cfg2 &
--					  (PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN));
--				pcie_capability_write_word(root,
--							   PCI_EXP_LNKCTL2,
--							   tmp16);
--
--				pcie_capability_read_word(adev->pdev,
--							  PCI_EXP_LNKCTL2,
--							  &tmp16);
--				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN);
--				tmp16 |= (gpu_cfg2 &
--					  (PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN));
--				pcie_capability_write_word(adev->pdev,
--							   PCI_EXP_LNKCTL2,
--							   tmp16);
-+				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
-+								   PCI_EXP_LNKCTL2_ENTER_COMP |
-+								   PCI_EXP_LNKCTL2_TX_MARGIN,
-+								   bridge_cfg2 &
-+								   (PCI_EXP_LNKCTL2_ENTER_COMP |
-+								    PCI_EXP_LNKCTL2_TX_MARGIN));
-+				pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL2,
-+								   PCI_EXP_LNKCTL2_ENTER_COMP |
-+								   PCI_EXP_LNKCTL2_TX_MARGIN,
-+								   gpu_cfg2 &
-+								   (PCI_EXP_LNKCTL2_ENTER_COMP |
-+								    PCI_EXP_LNKCTL2_TX_MARGIN));
- 
- 				tmp = RREG32_PCIE(ixPCIE_LC_CNTL4);
- 				tmp &= ~PCIE_LC_CNTL4__LC_SET_QUIESCE_MASK;
-@@ -1674,16 +1664,15 @@ static void cik_pcie_gen3_enable(struct amdgpu_device *adev)
- 	speed_cntl &= ~PCIE_LC_SPEED_CNTL__LC_FORCE_DIS_SW_SPEED_CHANGE_MASK;
- 	WREG32_PCIE(ixPCIE_LC_SPEED_CNTL, speed_cntl);
- 
--	pcie_capability_read_word(adev->pdev, PCI_EXP_LNKCTL2, &tmp16);
--	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
--
-+	tmp16 = 0;
- 	if (adev->pm.pcie_gen_mask & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
- 	else if (adev->pm.pcie_gen_mask & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN2)
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
- 	else
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
--	pcie_capability_write_word(adev->pdev, PCI_EXP_LNKCTL2, tmp16);
-+	pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL2,
-+					   PCI_EXP_LNKCTL2_TLS, tmp16);
- 
- 	speed_cntl = RREG32_PCIE(ixPCIE_LC_SPEED_CNTL);
- 	speed_cntl |= PCIE_LC_SPEED_CNTL__LC_INITIATE_LINK_SPEED_CHANGE_MASK;
-diff --git a/drivers/gpu/drm/amd/amdgpu/si.c b/drivers/gpu/drm/amd/amdgpu/si.c
-index 4b81f29e5fd5..8ea60fdd1b1d 100644
---- a/drivers/gpu/drm/amd/amdgpu/si.c
-+++ b/drivers/gpu/drm/amd/amdgpu/si.c
-@@ -2331,28 +2331,18 @@ static void si_pcie_gen3_enable(struct amdgpu_device *adev)
- 								   gpu_cfg &
- 								   PCI_EXP_LNKCTL_HAWD);
- 
--				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
--							  &tmp16);
--				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN);
--				tmp16 |= (bridge_cfg2 &
--					  (PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN));
--				pcie_capability_write_word(root,
--							   PCI_EXP_LNKCTL2,
--							   tmp16);
--
--				pcie_capability_read_word(adev->pdev,
--							  PCI_EXP_LNKCTL2,
--							  &tmp16);
--				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN);
--				tmp16 |= (gpu_cfg2 &
--					  (PCI_EXP_LNKCTL2_ENTER_COMP |
--					   PCI_EXP_LNKCTL2_TX_MARGIN));
--				pcie_capability_write_word(adev->pdev,
--							   PCI_EXP_LNKCTL2,
--							   tmp16);
-+				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
-+								   PCI_EXP_LNKCTL2_ENTER_COMP |
-+								   PCI_EXP_LNKCTL2_TX_MARGIN,
-+								   bridge_cfg2 &
-+								   (PCI_EXP_LNKCTL2_ENTER_COMP |
-+								    PCI_EXP_LNKCTL2_TX_MARGIN));
-+				pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL2,
-+								   PCI_EXP_LNKCTL2_ENTER_COMP |
-+								   PCI_EXP_LNKCTL2_TX_MARGIN,
-+								   gpu_cfg2 &
-+								   (PCI_EXP_LNKCTL2_ENTER_COMP |
-+								    PCI_EXP_LNKCTL2_TX_MARGIN));
- 
- 				tmp = RREG32_PCIE_PORT(PCIE_LC_CNTL4);
- 				tmp &= ~LC_SET_QUIESCE;
-@@ -2365,16 +2355,15 @@ static void si_pcie_gen3_enable(struct amdgpu_device *adev)
- 	speed_cntl &= ~LC_FORCE_DIS_SW_SPEED_CHANGE;
- 	WREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL, speed_cntl);
- 
--	pcie_capability_read_word(adev->pdev, PCI_EXP_LNKCTL2, &tmp16);
--	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
--
-+	tmp16 = 0;
- 	if (adev->pm.pcie_gen_mask & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN3)
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
- 	else if (adev->pm.pcie_gen_mask & CAIL_PCIE_LINK_SPEED_SUPPORT_GEN2)
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
- 	else
- 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
--	pcie_capability_write_word(adev->pdev, PCI_EXP_LNKCTL2, tmp16);
-+	pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL2,
-+					   PCI_EXP_LNKCTL2_TLS, tmp16);
- 
- 	speed_cntl = RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
- 	speed_cntl |= LC_INITIATE_LINK_SPEED_CHANGE;
+You can't use device name as a reference, ever. There is no way to
+guarantee that a device with a specific name is what you meant it to
+be by the time it's accessed.
+
+If you need to deal with a device, then you have to get an actual
+reference to it (class_find_device_by_fwnode() should work in this
+case).
+
+Ideally you would get the reference in the place where you actually
+use it (so drm_connector.c or more likely drm_sysfs.c) but that would
+mean a dependency on typec in there, if the component framework or
+something like that (device links?) is not an option. You could of
+course try to confine the dependency somehow. drm_class does not have
+implementation for dev_uevent, so you could take over that as a
+temporary solution.
+
+The only way to avoid the dependency completely would be to pass that
+device reference from here through your drm bridge chain somehow.
+But that's also really fragile. But it could be acceptable as a
+temporary solution perhaps, if it's even possible.
+
+Br,
+
 -- 
-2.30.2
-
+heikki
