@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293DA7A1F60
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 14:59:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FDA7A1F63
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 14:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5107910E25C;
-	Fri, 15 Sep 2023 12:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A004810E627;
+	Fri, 15 Sep 2023 12:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D027510E25C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 12:59:26 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-31dca134c83so2080590f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 05:59:26 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6066A10E625
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 12:59:45 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-402c46c49f4so22860745e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 05:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694782765; x=1695387565; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1694782784; x=1695387584; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=thYoe0BNHvEOMDMTZOyxjv7HxezTMf3wBNBDqm2Ezmw=;
- b=Lqvt59pK4DG+KfVGRh7Lg+tphk3Ao9wRQPCSmicp4+1HFkjnfA65PnG7fDyXQGb7QC
- scrDsn4XtuCEYGMtzCAS06QYu7OLm4kCn553wbF9jedyZCqp4+3WgJIjodnUyKY31Aou
- psaCDS1X6+nwr7qUK+EfzMy7hGYlSG5udO9EI/kuL1LolbZ3jOqqBWIHXiIVft5/d7gY
- /e02Y14drOyKp3n+EAIVW3sevWk1hoBTYomOSvXnzVgdBmBtSzKGmlU2CyKch8+tg7/O
- 9isjj8qKPluOyVO/91qWCAgzI1i4M2IIlWse3H2JuJwNHnkGP8k36OjlNuRGYm2bRH2O
- VV2w==
+ bh=ZBjLzWWXqag1yraVARE9n+lKqu6pTxol3i6MhDouFAw=;
+ b=ZK8tMH/iT6PJqSnMgyZav5IJbTtfiI/WjWGWarHwfdtwYb5yEEWhLEe3LTDJg5/kdX
+ jKx0XwYoZf9PuUaLru4/G5i8vDMHc+MA0hYc45BQSSEXHS4J08hNeDcHLiGVaRyEgz96
+ lJuOknIKKcT4ja9ylejkIQKQxRtu80G6IK2nFYdckMbcZ6uvSZ0g03SYygzLsZZYT2+S
+ qJmO3UUMbzGf1G8fuop2i6pxTsfYLPYyjtszfxhpCCBRQoS5DdZZqLGaUINxvXgcAB2z
+ hFhAYqh2NnLO/YUeQI9tSc2GKQx6+6318rcaGBOdOoIbmJbZOp2cUOAqxG3S85cpgH0Z
+ O7dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694782765; x=1695387565;
+ d=1e100.net; s=20230601; t=1694782784; x=1695387584;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=thYoe0BNHvEOMDMTZOyxjv7HxezTMf3wBNBDqm2Ezmw=;
- b=SrUcJz+FXw7s+EEpGGMu1tx0x+MnXnBf4Sey7Y/BoaBvuB2r7PWup/HvcCfTMBP3Ua
- 2R6nvhVU1HvvUM8WZu3W/S+dpIQFiYx2wxck0ivTnoTsPVhPDo47+i5T1u30Vw3z9LMp
- 4xqB1B66OS56djGXsshhkKOWWn534DxvFSKy7OQmHwT6xp9jRm36e5kXMw98LIXXJA6k
- 6OvhOY45vdntUXcUmysBJHL+JC7FUuiUSbRriOQPDudpyppGfVvo2hKSaDxVOtgJ2Uz0
- efkWvTMEU+4NiUoxkeG4KH0LoFETRF2wVlvHkm6d70XYvhuuFOLhUqiEVUJ3Pt238tzV
- 3+Xw==
-X-Gm-Message-State: AOJu0YytLnQHxuBx+RL4tlNOM3yT+xCraYgPNNvmVc8denmSgie+QnDd
- T+r9cm1TrMFoN0jponpdpL7kAg==
-X-Google-Smtp-Source: AGHT+IHDdih5KavdMKTqMTv6Tmh6hfVUdgWGAPg7mzToh5I5IaoOvsPv/APF1zZtGBwwQ9m0ia1rNg==
-X-Received: by 2002:adf:f5ca:0:b0:31a:d4d0:6e98 with SMTP id
- k10-20020adff5ca000000b0031ad4d06e98mr1282751wrp.8.1694782765099; 
- Fri, 15 Sep 2023 05:59:25 -0700 (PDT)
+ bh=ZBjLzWWXqag1yraVARE9n+lKqu6pTxol3i6MhDouFAw=;
+ b=NlDzD59fDii4dipFwAajmIdxw3XlSGVCUONH49FujNr/SwMpQqisXzYZWI0CxVHmVU
+ EgBh330VX0TJe8B/Kb2smeI/XyKYCYe7YscFO3QqQ6da9asjaxWfCJQF905CZKj5UKbo
+ eH7I+ZIAP1DKlt+/bmCHNPYGxCQw1AnzdaNIzgTVtXLPulcjjTYvWt7i6yHmfoGLs2ON
+ 1zckMJPgmTi/SbQn8cPY4fR/CbIQnK0L1tTtVNFxrNldqcs13TzErmfhWTaT032jiwX2
+ t3p2k2foQmwEyijd6Gv9TXN2K85q6sv9MqHpCLF9XHNw0oQF8qoQjyOP6QJg+qimnbaz
+ HzNw==
+X-Gm-Message-State: AOJu0Yx8ylWRZhY/lL4nd8Q4OoqnTa2C/Q2jPjDTuReSve0oIjlN/Eoi
+ azdDHivC4gfuxUgdN6a1hX9FHQ==
+X-Google-Smtp-Source: AGHT+IFc8Uw7ChZ541s7ZfDx5J0oDr/O+QkUoZ9jlAAj8nlQTtlVtdYU7vkKZ9OJ1800nSO6KAFtFQ==
+X-Received: by 2002:a1c:7209:0:b0:401:bf62:9456 with SMTP id
+ n9-20020a1c7209000000b00401bf629456mr1420706wmc.8.1694782783609; 
+ Fri, 15 Sep 2023 05:59:43 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- n4-20020a1c7204000000b00402f713c56esm4566639wmc.2.2023.09.15.05.59.24
+ l20-20020a1c7914000000b003fe29dc0ff2sm4635302wme.21.2023.09.15.05.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Sep 2023 05:59:24 -0700 (PDT)
-Date: Fri, 15 Sep 2023 15:59:21 +0300
+ Fri, 15 Sep 2023 05:59:43 -0700 (PDT)
+Date: Fri, 15 Sep 2023 15:59:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] nouveau/u_memcpya: fix NULL vs error pointer bug
-Message-ID: <10fd258b-466f-4c5b-9d48-fe61a3f21424@moroto.mountain>
+To: Hai Li <hali@codeaurora.org>
+Subject: [PATCH] drm/msm/dsi: fix irq_of_parse_and_map() error checking
+Message-ID: <4f3c5c98-04f7-43f7-900f-5d7482c83eef@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -69,34 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The u_memcpya() function is supposed to return error pointers on
-error.  Returning NULL will lead to an Oops.
+The irq_of_parse_and_map() function returns zero on error.  It
+never returns negative error codes.  Fix the check.
 
-Fixes: 68132cc6d1bc ("nouveau/u_memcpya: use vmemdup_user")
+Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_drv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index 3666a7403e47..52a708a98915 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -193,7 +193,7 @@ u_memcpya(uint64_t user, unsigned int nmemb, unsigned int size)
- 	size_t bytes;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 5d9ec27c89d3..13da53737a6a 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1894,10 +1894,9 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 	}
  
- 	if (unlikely(check_mul_overflow(nmemb, size, &bytes)))
--		return NULL;
-+		return ERR_PTR(-ENOMEM);
- 	return vmemdup_user(userptr, bytes);
- }
+ 	msm_host->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+-	if (msm_host->irq < 0) {
+-		ret = msm_host->irq;
+-		dev_err(&pdev->dev, "failed to get irq: %d\n", ret);
+-		return ret;
++	if (!msm_host->irq) {
++		dev_err(&pdev->dev, "failed to get irq\n");
++		return -EINVAL;
+ 	}
  
+ 	/* do not autoenable, will be enabled later */
 -- 
 2.39.2
 
