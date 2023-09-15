@@ -2,95 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8597A1C48
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 12:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BED47A1CB0
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 12:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3552A10E60C;
-	Fri, 15 Sep 2023 10:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DFE910E60A;
+	Fri, 15 Sep 2023 10:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1365910E60C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 10:32:30 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-31fc91d5ca6so1854043f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 03:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694773948; x=1695378748; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=V0aca7PnmjAHHqfJ62cWuej3CDSoPPa06Inr7vVa8Ts=;
- b=HB3c1QMFjCA0RIE8drSx7nhWATl4ug5bHPseNcO14inlSowwPHUZj+kPahRhqVpMs8
- 7pnDiBdhw2d9m1stqJN6MZvh+ZZFJGXS3sool62Zh//pUBTy5tvY554NVQLEkFRR7bc1
- ZtPM1pZGQc4/Nz+491gu8UUsRITjWERdvzZAm4MM0iY9HIjRqTVZbOE4aPFE2qkw41ZW
- BPfFFxKtCcR8yqlsn/JK0z8B9mo5y6wNcA5BL1wSln8MMLCtltQmLHwC474bcNYDhc51
- uFBZ9Da9qDV37/32a1IX+Q6mMQQDFUXkLAMRix8k/vUV993mKtwhgPg460dYDzxhCpoG
- jYqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694773948; x=1695378748;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=V0aca7PnmjAHHqfJ62cWuej3CDSoPPa06Inr7vVa8Ts=;
- b=ekBiU/NvzaTl62rjXHBVLUp0a2Rg+wFCoS9gGQlqNiCZ9UxnEtuf+0SI4D2BlQ5i1J
- /cX/lA6cjI51LY+cfAXLvHDqv/IVU/uOc4XbJNdAgy8MvYql4h1SLhg5Q3iEtorPz9jf
- KOkUGvT1dGhGviUrvLp/2QqtLpVrRvpiOgmodIzN3KAfX2dONaJr9k18mgkheehS9C+G
- ktpuG6v7YmK2AdHI3MvibRhrMy07dJrtWmJTz0+nILx1/snreZHb+r2+bNqfkJjxdObh
- 4WIwcuv/ZMUN5hTFadLB+mBNR6DnDgNP0iXbnP+kXMY1NuKuS9Mo+D5laA8+CV4LWTs8
- qYDQ==
-X-Gm-Message-State: AOJu0YxP1BPa+8li5K9m1bN5486XBUq1BxqNaLKNwc0Tk/l7tHl9WDz9
- ioz3jHWz2k3SNpeUvqcbyAk+ZirjQj6DLeJ1Teqhemub
-X-Google-Smtp-Source: AGHT+IFybQKfEBpNlItCVpee/8rq+0HFpuzq/V78nKm58xypS5dbiUu0yQcIrVjidKY6MOBSpi12bg==
-X-Received: by 2002:a05:6000:1f89:b0:31f:f72c:df95 with SMTP id
- bw9-20020a0560001f8900b0031ff72cdf95mr754975wrb.21.1694773948559; 
- Fri, 15 Sep 2023 03:32:28 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:990a:74e6:266e:2294?
- ([2a01:e0a:982:cbb0:990a:74e6:266e:2294])
- by smtp.gmail.com with ESMTPSA id
- n7-20020adffe07000000b003140f47224csm4046204wrr.15.2023.09.15.03.32.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Sep 2023 03:32:27 -0700 (PDT)
-Message-ID: <4de57018-e7fd-488d-b564-a79176b79fc6@linaro.org>
-Date: Fri, 15 Sep 2023 12:32:26 +0200
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44F410E60A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 10:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1694774935; x=1726310935;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kOVTLNWDqfOVwrIwey7uiqf1pGWo1Bl1GlH5YpX1HbE=;
+ b=lq3xgEWePW+0CxEsEVtNLjcHFz8yl3EcEyqy82YJxJ9O+AR+b30ZWI4T
+ YBsm/r2yVJpnu6nFj0dkoMng6k8vszyqjcFSFk+YdFjVHA9tGWvU7FOrS
+ u51VVlGwPlo3/EwqzWTM++WncZqyS+NFWvcqR72EgjI6rcTUW5fquL5yn
+ /Hn4uu+z8b1yGcyTaDz5i8kdQTMhgojSI1wl2YHgSd0O43Qm3OX+50H1q
+ xKi2LtEMO8yHa9AHHMgLo7WgKFFdxATtmmwQhwpMtnIpjwuQ+QNZqhfCd
+ oht+pzKTJVg65QO7FHc1rFhaZ2+T4W2Y7gb94v6eqDS8dI0YQ3OSDLIGM g==;
+X-CSE-ConnectionGUID: U0ykML+bTMil71KHYckU0A==
+X-CSE-MsgGUID: v+Z4ELqZQaGG6Gasb00Nng==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="4711949"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 15 Sep 2023 03:48:52 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 15 Sep 2023 03:48:52 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Fri, 15 Sep 2023 03:48:45 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <lee@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/8] Add support for XLCDC to sam9x7 SoC family.
+Date: Fri, 15 Sep 2023 16:18:41 +0530
+Message-ID: <20230915104849.187146-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm: bridge: it66121: ->get_edid callback must not return
- err pointers
-Content-Language: en-US, fr
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <20230914131159.2472513-1-jani.nikula@intel.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20230914131159.2472513-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,58 +66,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Phong LE <ple@baylibre.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <robert.foss@linaro.org>, Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, stable@vger.kernel.org
+Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
+ Balamanikandan.Gunasundar@microchip.com,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
+ Durai.ManickamKR@microchip.com, Hari.PrasathGE@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/09/2023 15:11, Jani Nikula wrote:
-> The drm stack does not expect error valued pointers for EDID anywhere.
-> 
-> Fixes: e66856508746 ("drm: bridge: it66121: Set DDC preamble only once before reading EDID")
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Phong LE <ple@baylibre.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: <stable@vger.kernel.org> # v6.3+
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> ---
-> 
-> UNTESTED
-> ---
->   drivers/gpu/drm/bridge/ite-it66121.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 3c9b42c9d2ee..1cf3fb1f13dc 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -884,14 +884,14 @@ static struct edid *it66121_bridge_get_edid(struct drm_bridge *bridge,
->   	mutex_lock(&ctx->lock);
->   	ret = it66121_preamble_ddc(ctx);
->   	if (ret) {
-> -		edid = ERR_PTR(ret);
-> +		edid = NULL;
->   		goto out_unlock;
->   	}
->   
->   	ret = regmap_write(ctx->regmap, IT66121_DDC_HEADER_REG,
->   			   IT66121_DDC_HEADER_EDID);
->   	if (ret) {
-> -		edid = ERR_PTR(ret);
-> +		edid = NULL;
->   		goto out_unlock;
->   	}
->   
+This patch series aims to add support for XLCDC IP of sam9x7 SoC family
+to the DRM subsystem.XLCDC IP has additional registers and new
+configuration bits compared to the existing register set of HLCDC IP.
+The new compatible string "microchip,sam9x75-xlcdc" is defined for sam9x75
+variant of the sam9x7 SoC family.The is_xlcdc flag under driver data and
+IP specific driver ops helps to differentiate the XLCDC and existing HLCDC
+code within the same driver.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+changes in v5:
+* return value of regmap_read_poll_timeout is checked in failure
+case.
+* HLCDC and XLCDC specific driver functions are now invoked
+using its IP specific driver ops w/o the need of checking is_xlcdc flag.
+* Removed empty spaces and blank lines.
+
+changes in v4:
+* fixed kernel warnings reported by kernel test robot.
+
+changes in v3:
+* Removed de-referencing the value of is_xlcdc flag multiple times in
+a single function.
+* Removed cpu_relax() call when using regmap_read_poll_timeout.
+* Updated xfactor and yfactor equations using shift operators
+* Defined CSC co-efficients in an array for code readability.
+
+changes in v2:
+* Change the driver compatible name from "microchip,sam9x7-xlcdc" to
+"microchip,sam9x75-xlcdc".
+* Move is_xlcdc flag to driver data.
+* Remove unsed Macro definitions.
+* Add co-developed-bys tags
+* Replace regmap_read() with regmap_read_poll_timeout() call
+* Split code into two helpers for code readablitity.
+
+Durai Manickam KR (1):
+  drm: atmel-hlcdc: Define SAM9X7 SoC XLCDC specific registers
+
+Manikandan Muralidharan (7):
+  mfd: atmel-hlcdc: Add compatible for sam9x75 XLCD controller
+  drm: atmel-hlcdc: add flag and driver ops to differentiate XLCDC and
+    HLCDC IP
+  drm: atmel-hlcdc: add LCD controller layer definition for sam9x75
+  drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
+  drm: atmel-hlcdc: add DPI mode support for XLCDC
+  drm: atmel-hlcdc: add vertical and horizontal scaling support for
+    XLCDC
+  drm: atmel-hlcdc: add support for DSI output formats
+
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 176 +++++++--
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 125 +++++++
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h  | 114 ++++++
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 337 +++++++++++++++---
+ drivers/mfd/atmel-hlcdc.c                     |   1 +
+ include/linux/mfd/atmel-hlcdc.h               |  10 +
+ 6 files changed, 665 insertions(+), 98 deletions(-)
+
+-- 
+2.25.1
+
