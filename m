@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5017D7A25BE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 20:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADD47A25CD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 20:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0F510E66C;
-	Fri, 15 Sep 2023 18:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 486C410E66E;
+	Fri, 15 Sep 2023 18:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6601410E66B;
- Fri, 15 Sep 2023 18:30:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26BFD10E021;
+ Fri, 15 Sep 2023 18:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694802654; x=1726338654;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=muW+YPLpDWw2JGWgI/7fLzSR/aoqenIXx4FJB/YPGhg=;
- b=RlIjtASDrXVhU5oxJzAMJe4kR9daa/w9xD8hFcx1oXlX/T0dLmmWPANL
- +WgNfUPh4QSwsR96Nlf9V5pmCpa3Ps1dszA7IG5L/2XzJchJ6K8X5zDIz
- 2nS1SzrdnrUmdgApzFPpFPsMgRXjR7Ywc4VVosguurKFgTZgqCiLHMpsN
- pyOpUXBLIgHQbWhp1vBZ5SCHakdmqYD93d44wx2DGa2wJpsNhh6v0oG6k
- eyauf/aPlfgqdyPqm1t4MrjO9kRlaUj8XARsZMawBTyVr8Iqn9DSnjC02
- QTZnYbc0CR9lQWVOvMNDWzXV26s8hv5Wy7mr4pgaUciqvusuqI1eSjZMB g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="445789295"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="445789295"
+ t=1694802718; x=1726338718;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=j58zNPJRrigHIdyHdXY008rH6ymZ+hM8ZO+Wz3ozsts=;
+ b=YQkfKvQYeFmAQu1w1C2zi1izq5schZtJWAm41JHZmnzH//CnEJf7VaoV
+ wSFxQ8allDC4Ph+QJAJQ6rJxkdjKt1m6sc6NxL2etUH+asZexw5lXk5UV
+ fKqYrC1Z3PFs8J7IAbnafUWajIc1NbzfOrabivesM7qzjdchW6r2rSb1H
+ X6G9Y2fuh90Hx+scQmNjBWuAyCHGmqgFjwOOw/Q6FBzy7liDHcT3WUj7a
+ HuXHBrDvHNt4WOcWR2Om5L58pMmIhE7ckQRCGUOTegVKHJiFWyxxc6oHX
+ U+TaAYg2RTDLXFeFXUO5+BaD2DPXr8Wyvh9f2+bYfMJgfKXtjvPntUmf7 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="445789407"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="445789407"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 11:30:53 -0700
+ 15 Sep 2023 11:31:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="991949766"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="991949766"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga006.fm.intel.com with ESMTP; 15 Sep 2023 11:30:53 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 3/3] drm/i915/lrc: User PXP contexts requires runalone bit
- in lrc
-Date: Fri, 15 Sep 2023 11:30:51 -0700
-Message-Id: <20230915183051.1232026-4-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230915183051.1232026-1-alan.previn.teres.alexis@intel.com>
-References: <20230915183051.1232026-1-alan.previn.teres.alexis@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="991950051"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="991950051"
+Received: from cschimpe-mobl1.ger.corp.intel.com (HELO [10.249.254.223])
+ ([10.249.254.223])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 11:31:55 -0700
+Message-ID: <e02934dc-0366-ba4c-c27a-758169a12380@linux.intel.com>
+Date: Fri, 15 Sep 2023 20:31:52 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 0/4] drm/xe: Support optional pinning of userptr pages
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20230822162136.25895-1-thomas.hellstrom@linux.intel.com>
+ <169416265636.18944.11104812487971466589@jlahtine-mobl.ger.corp.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <169416265636.18944.11104812487971466589@jlahtine-mobl.ger.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,77 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Meteorlake onwards, HW specs require that all user contexts that
-run on render or compute engines and require PXP must enforce
-run-alone bit in lrc. Add this enforcement for protected contexts.
+Hi,
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-Reviewed-by: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_regs.h |  1 +
- drivers/gpu/drm/i915/gt/intel_lrc.c         | 23 +++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+On 9/8/23 10:44, Joonas Lahtinen wrote:
+> Quoting Thomas Hellström (2023-08-22 19:21:32)
+>> This series adds a flag at VM_BIND time to pin the memory backing a VMA.
+>> Initially this is needed for long-running workloads on hardware that
+>> neither support mid-thread preemption nor pagefaults, since without it
+>> the userptr MMU notifier will wait for preemption until preemption times
+>> out.
+>  From terminology perspective we have a lot of folks in the userspace and
+> kernel developers who have come to understand pinned memory as something
+> that is locked in place while a dependent context is active on the
+> hardware. And that has been related to lack of page-fault support.
+>
+> As here the plan is to go a step forward and never move that memory, would
+> it be worthy to call such memory LOCKED (would also align with CPU side).
+> And per my understanding the aspiration is to keep supporting locking
+> memory in place (within sysadmin configured limits) even if page-faults
+> will become de-facto usage.
+>
+> So, in short, should we do s/pinned/locked/, to avoid terminology
+> confusion between new and old drivers which userspace may have to deal
+> from same codebase?
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_regs.h b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-index 6b9d9f837669..fdd4ddd3a978 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-@@ -177,6 +177,7 @@
- #define   CTX_CTRL_RS_CTX_ENABLE		REG_BIT(1)
- #define	  CTX_CTRL_ENGINE_CTX_SAVE_INHIBIT	REG_BIT(2)
- #define	  CTX_CTRL_INHIBIT_SYN_CTX_SWITCH	REG_BIT(3)
-+#define	  GEN12_CTX_CTRL_RUNALONE_MODE		REG_BIT(7)
- #define	  GEN12_CTX_CTRL_OAR_CONTEXT_ENABLE	REG_BIT(8)
- #define RING_CTX_SR_CTL(base)			_MMIO((base) + 0x244)
- #define RING_SEMA_WAIT_POLL(base)		_MMIO((base) + 0x24c)
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 147b6f44ad56..eaf66d903166 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -845,6 +845,27 @@ lrc_setup_indirect_ctx(u32 *regs,
- 		lrc_ring_indirect_offset_default(engine) << 6;
- }
- 
-+static bool ctx_needs_runalone(const struct intel_context *ce)
-+{
-+	struct i915_gem_context *gem_ctx;
-+	bool ctx_is_protected = false;
-+
-+	/*
-+	 * On MTL and newer platforms, protected contexts require setting
-+	 * the LRC run-alone bit or else the encryption will not happen.
-+	 */
-+	if (GRAPHICS_VER_FULL(ce->engine->i915) >= IP_VER(12, 70) &&
-+	    (ce->engine->class == COMPUTE_CLASS || ce->engine->class == RENDER_CLASS)) {
-+		rcu_read_lock();
-+		gem_ctx = rcu_dereference(ce->gem_context);
-+		if (gem_ctx)
-+			ctx_is_protected = gem_ctx->uses_protected_content;
-+		rcu_read_unlock();
-+	}
-+
-+	return ctx_is_protected;
-+}
-+
- static void init_common_regs(u32 * const regs,
- 			     const struct intel_context *ce,
- 			     const struct intel_engine_cs *engine,
-@@ -860,6 +881,8 @@ static void init_common_regs(u32 * const regs,
- 	if (GRAPHICS_VER(engine->i915) < 11)
- 		ctl |= _MASKED_BIT_DISABLE(CTX_CTRL_ENGINE_CTX_SAVE_INHIBIT |
- 					   CTX_CTRL_RS_CTX_ENABLE);
-+	if (ctx_needs_runalone(ce))
-+		ctl |= _MASKED_BIT_ENABLE(GEN12_CTX_CTRL_RUNALONE_MODE);
- 	regs[CTX_CONTEXT_CONTROL] = ctl;
- 
- 	regs[CTX_TIMESTAMP] = ce->stats.runtime.last;
--- 
-2.39.0
+This is mainly a problem for people used to i915 pinning where we at 
+some point used the term "short term pinning" and "long term pinning".
 
+There are some discussions about the terminology here:
+https://lwn.net/Articles/600502/
+although I'm not sure what the outcome of that patchset was, but in this 
+patchset, we're at least using pin_user_pages() for these VMAS. TTM and 
+dma-buf also uses the term pinning.
+
+The Linux distinction appears to be that locked pages are never paged 
+out but may be migrated, (allowed to cause minor but not major 
+pagefaults). Pinned pages are neither swapped nor migrated, and we're 
+using the latter.
+
+So I think pinning is the correct terminology?
+
+(As a side note, Maarten was spending considerable time trying to remove 
+the short term pinning from upstream i915 before xe work started).
+
+Anyway, this patch series is on hold until we've merged Xe and can 
+follow up with a discussion on exactly how we can support pinning in drm.
+
+/Thomas
+
+
+>
+> Regards, Joonas
+>
+>> Moving forward this could be supported also for bo-backed VMAs given
+>> a proper accounting takes place. A sysadmin could then optionally configure
+>> a system to be optimized for dealing with a single GPU application
+>> at a time.
+>>
+>> The series will be followed up with an igt series to exercise the uAPI.
+>>
+>> v2:
+>> - Address review comments by Matthew Brost.
+>>
+>> Thomas Hellström (4):
+>>    drm/xe/vm: Use onion unwind for xe_vma_userptr_pin_pages()
+>>    drm/xe/vm: Implement userptr page pinning
+>>    drm/xe/vm: Perform accounting of userptr pinned pages
+>>    drm/xe/uapi: Support pinning of userptr vmas
+>>
+>>   drivers/gpu/drm/xe/xe_vm.c       | 194 ++++++++++++++++++++++++-------
+>>   drivers/gpu/drm/xe/xe_vm.h       |   9 ++
+>>   drivers/gpu/drm/xe/xe_vm_types.h |  14 +++
+>>   include/uapi/drm/xe_drm.h        |  18 +++
+>>   4 files changed, 190 insertions(+), 45 deletions(-)
+>>
+>> -- 
+>> 2.41.0
+>>
