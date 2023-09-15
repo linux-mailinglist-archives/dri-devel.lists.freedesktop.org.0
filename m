@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE4B7A1BD3
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 12:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54547A1BDE
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 12:16:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2105410E16C;
-	Fri, 15 Sep 2023 10:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B325310E16F;
+	Fri, 15 Sep 2023 10:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E17E10E16C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 10:11:50 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE78D10E16F
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 10:16:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7D925B82B7B;
- Fri, 15 Sep 2023 10:11:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6E2C433C8;
- Fri, 15 Sep 2023 10:11:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694772707;
- bh=K0S1/7rjMJZap+e2ud7JWlak5LJu8FuoEdX+Kx2fq1k=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hwc3sq4NUs6XsWymG3LHd+7pjFr2rCrrVAW6fRTVYsXCUWZihNz2fagsUbBPPR6+r
- xmnsnL+uXsGhZ5DhWv4A+bQKBmgwOjOnZtof3qNqZsVe/GPBWAuD2O5bZ67v9mnA3s
- S10h0DVF6lLG4l0wWOfq43wu9Zi7Ybsdtgpcrahe71URAqCvr8QlYfGKyFs+LlH88M
- z8q/MTuLNGhy66aNB7vp/Fd3l6XiV3zAqcTpeg0rH7TTcyoM9Hv39wHMQM5+Vegz98
- 2FJHbYcS7KjNcMglWhNKyeSMspE5PZyw3UNxQm770ZuL/j6c6kGha3nxRQ7Dp1PUTK
- +zjI85AJuHWFA==
-From: Michael Walle <mwalle@kernel.org>
-To: angelogioacchino.delregno@collabora.com
-Subject: Re: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET
- settings/handling
-Date: Fri, 15 Sep 2023 12:11:24 +0200
-Message-Id: <20230915101124.283232-1-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
-References: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
+ by sin.source.kernel.org (Postfix) with ESMTPS id D9092CE2AD2;
+ Fri, 15 Sep 2023 10:16:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D74C433C7;
+ Fri, 15 Sep 2023 10:16:19 +0000 (UTC)
+Message-ID: <11cc64e0-ab30-4cb1-ae99-1ef72aff7bfb@xs4all.nl>
+Date: Fri, 15 Sep 2023 12:16:17 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/14] add support MDP3 on MT8195 platform
+Content-Language: en-US, nl
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230912075805.11432-1-moudy.ho@mediatek.com>
+ <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
+ <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
+ <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
+ <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,40 +49,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
- Michael Walle <mwalle@kernel.org>, shaoming.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Moudy Ho <moudy.ho@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
-> renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
-> both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
-> later calculation for horizontal sync-active (HSA), back (HBP) and
-> front (HFP) porches got incorrect due to the logic being inverted.
+On 12/09/2023 12:28, Chen-Yu Tsai wrote:
+> On Tue, Sep 12, 2023 at 5:43 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
+>>> On Tue, Sep 12, 2023 at 5:00 PM AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>>
+>>>> Il 12/09/23 09:57, Moudy Ho ha scritto:
+>>>>> Changes since v4:
+>>>>> - Rebase on v6.6-rc1
+>>>>> - Remove any unnecessary DTS settings.
+>>>>> - Adjust the usage of MOD and clock in blending components.
+>>>>>
+>>>>> Changes since v3:
+>>>>> - Depend on :
+>>>>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
+>>>>> - Suggested by Krzysztof, integrating all newly added bindings for
+>>>>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+>>>>> - Revise MDP3 nodes with generic names.
+>>>>>
+>>>>> Changes since v2:
+>>>>> - Depend on :
+>>>>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+>>>>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+>>>>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
+>>>>> - Add parallel paths feature.
+>>>>> - Add blended components settings.
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Depend on :
+>>>>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+>>>>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+>>>>> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+>>>>>
+>>>>> Hello,
+>>>>>
+>>>>> This patch is used to add support for MDP3 on the MT8195 platform that
+>>>>> contains more picture quality components, and can arrange more pipelines
+>>>>> through two sets of MMSYS and MUTEX respectively.
+>>>>>
+>>>>> Moudy Ho (14):
+>>>>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
+>>>>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
+>>>>
+>>>> Please send the DTS patches separately, those go through a different maintainer.
+>>>
+>>> I thought most people prefer the _full_ view in a patchset?
+>>>
+>>
+>> Yeah but those going through a different maintainer makes it more straightforward
+>> to pick; besides, essentially, you can also get a full view with dt-bindings
+>> patches instead of devicetrees, as the latter are "constructed from" bindings
+>> anyway.
 > 
-> This means that a number of settings were wrong because....:
->  - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
->    set in order to disable the End of Transmission packet;
->  - Horizontal Sync and Back/Front porches: The delta used to
->    calculate all of HSA, HBP and HFP should account for the
->    additional EOT packet.
+> Sure, but testing, especially by people not in the recipients or CC list,
+> is a bit painful when the full set of patches isn't bundled together.
+> Having them bundled together shows what the submitter tested and makes
+> it easier for others to reproduce.
 > 
-> Before this change...
->  - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
->  - For HSA/HBP/HFP delta... all three were wrong, as words were
->    added when EOT disabled, instead of when EOT packet enabled!
+> AFAIK other ARM platforms have been sending patches all grouped together.
+> It's MediaTek that has been different, as they normally have (for Chromebooks)
+> a system integration engineer handling the device tree stuff, while component
+> driver owners just handle the drivers, and by extension, the DT bindings.
 > 
-> Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
-> MediaTek DSI driver to fix the aforementioned issues.
+>> Moreover, it would be definitely nice to add a link to the devicetree series
+>> in the cover letter of this series, so that people *do* get a full overview
+>> by checking both series :-)
 > 
-> Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time caused by EOTp")
-> Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and EOT packet control")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Most maintainers seem to know what to do: apply the subset destined for
+> their tree. At least the subsystems that frequently deal with DT-based
+> platforms anyway.
 
-Tested-by: Michael Walle <mwalle@kernel.org>
+As maintainer I know that I need to skip dts patches, but there is a risk that
+I forget to drop them. So my preference is also to have them as a separate
+patch series, but it's a preference only. If you *do* send it as a separate series,
+then also include the linux-media mailinglist in the CC, that way I do have
+the full overview if I need it.
 
-Thanks,
--michael
+Regards,
+
+	Hans
+
+> 
+> 
+> ChenYu
+> 
+>> Cheers!
+>>
+>>>> P.S.: The dt-bindings patch can be sent inside of this series, please do that.
+>>>>
+>>>> Thanks!
+>>>> Angelo
+>>>>
+>>>>
+>>
+
