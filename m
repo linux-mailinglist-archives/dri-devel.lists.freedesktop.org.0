@@ -2,68 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F437A17DA
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F857A17E0
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C9610E5C6;
-	Fri, 15 Sep 2023 07:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC6610E16A;
+	Fri, 15 Sep 2023 07:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3065F10E5C6
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:56:43 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1c328b53aeaso15808445ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 00:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1694764602; x=1695369402; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Sa23m9Sh+czmtoCmVFBbzydEhVvJnPH9LtopoO7enGk=;
- b=QRa0nJUsymWHVHi+xhl4j8toKjMQ50zHpDIX5Oa+l3OOdpRpYv66MnmhtKoAk/X/W7
- V937Y1V6u8Xm4yBGUwEHozbidcxGDe3qUMGb1A/bLcUh6qxijPwJ+j9OVzR3ZKPycsJc
- tAG5Qo7MOAWZq4RE03NshmcqNG2LZbBm3/2mpJDEwops3M8pAN5UUHqLFlAfwpdIA+Xc
- 6r1fxhaJze1f4swBgQ+COlDfzy5FblS7FNj5aIQ4tyworw1s0NhqhHA1z2/MK1FOrgfw
- H2RVmEG3DFj1EV6CQRoAsglmRjda5HhtgzKIuxQ2keu84pHD+2JWrob2WLqy2ueBv8sa
- kjCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694764602; x=1695369402;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Sa23m9Sh+czmtoCmVFBbzydEhVvJnPH9LtopoO7enGk=;
- b=DxV2gLl2FZffwW1EMypDY6V9qwH1ux+hQx3ysBQt+GAQMi6qp5O54iv7r4/rwxBugU
- YowOyv6NnwP5ANV92yrbCFfa434gJl3IuyUlOg1mRlZAcCqF8XBQPKnz+CN0WzSS1sXg
- 0hMnjJrGzRa2pZt5V1BvT3lSPpUCoCb/Wxb7waeNDoc+AP2teLYahu2fR7Y1uc099R7P
- F3ql3E3uA7T+JMwKfoiFSOPLZWpWlcSa07HSU4LJUjJyUMi4om/65YfO2EWa9u4BVPIW
- 6aEqfBjYOxL6BFkYETyLErPfjlfjosrJk7UNs7LLLsgwleJ7EEMY545p8j6A4ekJE+Ox
- V+Aw==
-X-Gm-Message-State: AOJu0Yz5Hb/1Xdo6sH/UfTXXCsTdSujqDH+doB5Atbn5z5F3IdPrjkc/
- kU/RIURF5gBg1rEn2KeKjFk=
-X-Google-Smtp-Source: AGHT+IE9RcRJ910CnL7JvJNrqjoaC0IFvFSCZdBwD31Y9Swflcx2melRR4bsTZgiId84hdnlKqufcA==
-X-Received: by 2002:a17:903:1210:b0:1bb:7f71:df43 with SMTP id
- l16-20020a170903121000b001bb7f71df43mr1107314plh.34.1694764602592; 
- Fri, 15 Sep 2023 00:56:42 -0700 (PDT)
-Received: from debian.me ([103.124.138.83]) by smtp.gmail.com with ESMTPSA id
- u5-20020a170902b28500b001bb750189desm2836147plr.255.2023.09.15.00.56.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Sep 2023 00:56:42 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 88F408AA8414; Fri, 15 Sep 2023 14:56:38 +0700 (WIB)
-Date: Fri, 15 Sep 2023 14:56:38 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: angus gardner <angusg778@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: Removed unnecessary parenthesis around
- conditions to comply with the checkpatch coding style.
-Message-ID: <ZQQONo8biMWlCiG3@debian.me>
-References: <ZQEKFR1OPoXGI2lO@midnight> <ZQERJIGOOeYxgX3E@debian.me>
- <CAC5tM5u8L50fAhReAmP0dqexSmv-PdZJKa_ES2hxZMp41MJjGQ@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB2C10E16A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:58:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E8E4161F11;
+ Fri, 15 Sep 2023 07:58:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4B6C433C9;
+ Fri, 15 Sep 2023 07:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694764691;
+ bh=t+ZshDk3vSry1uc6hCwYDbU+R1dULuj35xmF6dRVMrk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rvwj7lj8FTEWHvf1wUbhIc8CK5XVM4UyBTKgXnVGlvnMvDvIiuwrT/7wJJHf8L0/j
+ DQLpHPOpajgELw/genwY5AfrHU5D1bHCuW6T49J9ge+LlUSOPyhj7o9KzuqPyblGT4
+ iBeGAJoKwE5SH581mv/T5N5N1tit9oDbbA4VThjaayi07QnsmCLKIFl/rIQvc0lfUQ
+ JEb+NxHkp8yCmzPRNnSUk11iIZijw9jWj90cvNjn2WzJPll/L01f1DCDP7JJVJit+l
+ 03onA6v36HsZ/+RKmw/UU+AOoCqlTnxeWDIm7kfiuGeBOIxMSvceyppdQTViv7Yp1p
+ P5P33W5K4xkuA==
+From: Michael Walle <mwalle@kernel.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] drm/mediatek: dsi: Fix EOTp generation
+Date: Fri, 15 Sep 2023 09:57:56 +0200
+Message-Id: <20230915075756.263591-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jzeagO5P9A3kQsYx"
-Content-Disposition: inline
-In-Reply-To: <CAC5tM5u8L50fAhReAmP0dqexSmv-PdZJKa_ES2hxZMp41MJjGQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +54,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Michael Walle <mwalle@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Jitao Shi <jitao.shi@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The commit c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register
+definition") inverted the logic of the control bit. Maybe it was because
+of the bad naming which was fixed in commit 0f3b68b66a6d ("drm/dsi: Add
+_NO_ to MIPI_DSI_* flags disabling features"). In any case, the logic
+wrong and there will be no EOTp on the DSI link by default. Fix it.
 
---jzeagO5P9A3kQsYx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register definition")
+Signed-off-by: Michael Walle <mwalle@kernel.org>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Sep 15, 2023 at 11:58:47AM +1000, angus gardner wrote:
-> Thanks for the feedback Bagas,
->=20
-> "Then checkpatch is wrong, " lol
->=20
-> Ill double check my SoB.
->=20
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index d67e5c61a9b9..8024b20f6b13 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ 	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+ 		tmp_reg |= HSTX_CKLP_EN;
+ 
+-	if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
++	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+ 		tmp_reg |= DIS_EOT;
+ 
+ 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+-- 
+2.39.2
 
-tl;dr:
-
-> A: http://en.wikipedia.org/wiki/Top_post
-> Q: Were do I find info about this thing called top-posting?
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
->=20
-> A: No.
-> Q: Should I include quotations after my reply?
->=20
-> http://daringfireball.net/2007/07/on_top
-
-Also, don't send HTML emails as mailing lists reject them away.
-
-Last but not least, this is the third time you do parentheses fixup, for
-which Greg's bot said:
-
->   You sent a patch that has been sent multiple times in the past few
->   days, and is identical to ones that has been recently rejected.
->   Please always look at the mailing list traffic to determine if you are
->   duplicating other people's work.
-
-Again, read all Documentation/process/*.rst docs so that you won't make
-mistakes again as kernel developer.
-
-Bye!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---jzeagO5P9A3kQsYx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZQQOMQAKCRD2uYlJVVFO
-ozABAP9f4cJ4x4CFW0UEkBJrggxsKLo1ON0XZG0LmZPzzQI2JQD/fEkTFsH2KkSP
-z0qFevhjEpUHaH2/N4WS6Tya9TaUdwo=
-=iIZ2
------END PGP SIGNATURE-----
-
---jzeagO5P9A3kQsYx--
