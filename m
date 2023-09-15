@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF057A2884
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 22:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6278B7A294D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3D410E68B;
-	Fri, 15 Sep 2023 20:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B9E10E68A;
+	Fri, 15 Sep 2023 21:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFABB10E68B;
- Fri, 15 Sep 2023 20:48:43 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 808FC10E68A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 21:24:13 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38FGZZQj006346; Fri, 15 Sep 2023 20:48:38 GMT
+ 38FJt3GG008372; Fri, 15 Sep 2023 21:23:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=T9KC0/VJaRP9Vu4FnBUo4lUAlYG9XSXJBtWYlsNkTro=;
- b=YhXTSeufJxRA8/XRewoKap8qdFYUCmHD/WDgsrLs7n/tV92cVQUdPpTj3R9J0Pu9Gf+w
- f5KYDs5rih/N4h7oG4hBXkSePH7q9gwlojI5ztLfwwcBCwOzHKLOyQ5UysKsxm7x1zig
- TBIV03R3Y5kaoJW3zTI6NhtwRJG8eOUWannEb8h17ef3zl7Oc5G9tZtD7tI+g5TlxIE1
- qOJkgLTBLLi6A64ioLirtD30jE8FLnGB0Y/mM/Glh9XOEkNj40BInprCIcOzvwCSKVxS
- h5jj0Uyyw5bOjGpxYTuDjeUjLTYfWkXL0wGTC1QBfsG41UWZYQ7hZiz/Bsb+T4Trv80J fQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g3gt3pg-1
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=j2srMlgd+gSkKgJyE08vvd3NQ0c7NlhfaDS/LP6uMFM=;
+ b=ff6ue9Q3as93DGU1bIye5qHvjAZIRmy8gZQHRlUetZcNyffjtzHjrs0DZf6QkyeFrSgq
+ JuUE//udbgfarjf35n/6PdCJRBOcY63CoymEoeBOG6Zdu0Ekag1dDdj/wzUTWks/qHTQ
+ GfSJLKVF4P0vmpuQRPFP1AwZJO6gv5Ms59eYO//0bGqkV6ZCtBVYDf8VMnd2/6NNBWgY
+ 9zkwStdlT00YRxlCVBTKuuIMq8Ia0kJHSX4Y7CnRr7OHjGFAp3Fo7TpqwoY190VsgY+k
+ VoY4qSs/xhiqyW83crwNm2YOC3X4g/cXkMXIol4MU43sRoGL+ZLGW1+11JcOo54Iuake uA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g86t5pe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 20:48:38 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FKmb5s000623
+ Fri, 15 Sep 2023 21:23:56 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FLNtRj020242
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 20:48:37 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Fri, 15 Sep 2023 13:48:36 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v2 7/7] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
- probe()
-Date: Fri, 15 Sep 2023 13:48:08 -0700
-Message-ID: <1694810888-24461-8-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1694810888-24461-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1694810888-24461-1-git-send-email-quic_khsieh@quicinc.com>
+ Fri, 15 Sep 2023 21:23:55 GMT
+Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 15 Sep
+ 2023 14:23:55 -0700
+Message-ID: <66dacc5c-fa00-1903-43d9-53094c516ebb@quicinc.com>
+Date: Fri, 15 Sep 2023 14:23:54 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 5/8] drm/panel: nv3052c: Allow specifying registers
+ per panel
+Content-Language: en-US
+To: John Watts <contact@jookia.org>, <dri-devel@lists.freedesktop.org>
+References: <20230911090206.3121440-1-contact@jookia.org>
+ <20230911090206.3121440-6-contact@jookia.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230911090206.3121440-6-contact@jookia.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: S960LPi1Mmp0ZLJMMYnozw3xS_g7g-am
-X-Proofpoint-ORIG-GUID: S960LPi1Mmp0ZLJMMYnozw3xS_g7g-am
+X-Proofpoint-GUID: KEpVqJR02qWL-WP30iz1EDOS-YkFArgK
+X-Proofpoint-ORIG-GUID: KEpVqJR02qWL-WP30iz1EDOS-YkFArgK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-15_17,2023-09-15_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015
- mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=999
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309150186
+ engine=8.12.0-2308100000 definitions=main-2309150191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,203 +83,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@edgeble.ai>,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently eDP population is done at msm_dp_modeset_init() which happen
-at binding time. Move eDP population to be done at display probe time
-so that probe deferral cases can be handled effectively.
-wait_for_hpd_asserted callback is added during drm_dp_aux_init()
-to ensure eDP's HPD is up before proceeding eDP population.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     | 25 ++++++++++++
- drivers/gpu/drm/msm/dp/dp_display.c | 79 ++++++++++++++++++-------------------
- 2 files changed, 64 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 8fa93c5..79f0c6e 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -507,6 +507,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
- 	drm_dp_aux_unregister(dp_aux);
- }
- 
-+static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
-+				 unsigned long wait_us)
-+{
-+	int ret;
-+	struct dp_aux_private *aux;
-+
-+	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
-+
-+	pm_runtime_get_sync(aux->dev);
-+	ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
-+	pm_runtime_put_sync(aux->dev);
-+
-+	return ret;
-+}
-+
- struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
- 			      bool is_edp)
- {
-@@ -530,6 +545,16 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
- 	aux->catalog = catalog;
- 	aux->retry_cnt = 0;
- 
-+	/*
-+	 * Use the drm_dp_aux_init() to use the aux adapter
-+	 * before registering aux with the DRM device.
-+	 */
-+	aux->dp_aux.name = "dpu_dp_aux";
-+	aux->dp_aux.dev = dev;
-+	aux->dp_aux.transfer = dp_aux_transfer;
-+	aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
-+	drm_dp_aux_init(&aux->dp_aux);
-+
- 	return &aux->dp_aux;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b58cb02..886fae5 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -310,8 +310,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 
- 	kthread_stop(dp->ev_tsk);
- 
--	of_dp_aux_depopulate_bus(dp->aux);
--
- 	dp_power_client_deinit(dp->power);
- 	dp_unregister_audio_driver(dev, dp->audio);
- 	dp_aux_unregister(dp->aux);
-@@ -1217,6 +1215,31 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
- 	return NULL;
- }
- 
-+static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
-+{
-+	int rc;
-+
-+	rc = component_add(aux->dev, &dp_display_comp_ops);
-+	if (rc)
-+		DRM_ERROR("eDP component add failed, rc=%d\n", rc);
-+
-+	return rc;
-+}
-+
-+static int dp_display_auxbus_population(struct dp_display_private *dp)
-+{
-+	struct device *dev = &dp->pdev->dev;
-+	struct device_node *aux_bus;
-+	int ret = 0;
-+
-+	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
-+
-+	if (aux_bus)
-+		ret = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
-+
-+	return ret;
-+}
-+
- static int dp_display_probe(struct platform_device *pdev)
- {
- 	int rc = 0;
-@@ -1282,10 +1305,16 @@ static int dp_display_probe(struct platform_device *pdev)
- 	if (rc)
- 		return rc;
- 
--	rc = component_add(&pdev->dev, &dp_display_comp_ops);
--	if (rc) {
--		DRM_ERROR("component add failed, rc=%d\n", rc);
--		dp_display_deinit_sub_modules(dp);
-+	if (dp->dp_display.is_edp) {
-+		rc = dp_display_auxbus_population(dp);
-+		if (rc)
-+			DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
-+	} else {
-+		rc = component_add(&pdev->dev, &dp_display_comp_ops);
-+		if (rc) {
-+			DRM_ERROR("component add failed, rc=%d\n", rc);
-+			dp_display_deinit_sub_modules(dp);
-+		}
- 	}
- 
- 	return rc;
-@@ -1296,14 +1325,13 @@ static int dp_display_remove(struct platform_device *pdev)
- 	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
- 
- 	component_del(&pdev->dev, &dp_display_comp_ops);
--	dp_display_deinit_sub_modules(dp);
--
- 	platform_set_drvdata(pdev, NULL);
- 
--	pm_runtime_put_sync_suspend(&pdev->dev);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 
-+	dp_display_deinit_sub_modules(dp);
-+
- 	return 0;
- }
- 
-@@ -1432,31 +1460,10 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
- 
- static int dp_display_get_next_bridge(struct msm_dp *dp)
- {
--	int rc;
-+	int rc = 0;
- 	struct dp_display_private *dp_priv;
--	struct device_node *aux_bus;
--	struct device *dev;
- 
- 	dp_priv = container_of(dp, struct dp_display_private, dp_display);
--	dev = &dp_priv->pdev->dev;
--	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
--
--	if (aux_bus && dp->is_edp) {
--		/*
--		 * The code below assumes that the panel will finish probing
--		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
--		 * This isn't a great assumption since it will fail if the
--		 * panel driver is probed asynchronously but is the best we
--		 * can do without a bigger driver reorganization.
--		 */
--		rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
--		of_node_put(aux_bus);
--		if (rc)
--			goto error;
--	} else if (dp->is_edp) {
--		DRM_ERROR("eDP aux_bus not found\n");
--		return -ENODEV;
--	}
- 
- 	/*
- 	 * External bridges are mandatory for eDP interfaces: one has to
-@@ -1469,17 +1476,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- 	if (!dp->is_edp && rc == -ENODEV)
- 		return 0;
- 
--	if (!rc) {
-+	if (!rc)
- 		dp->next_bridge = dp_priv->parser->next_bridge;
--		return 0;
--	}
- 
--error:
--	if (dp->is_edp) {
--		of_dp_aux_depopulate_bus(dp_priv->aux);
--		dp_display_host_phy_exit(dp_priv);
--		dp_display_host_deinit(dp_priv);
--	}
- 	return rc;
- }
- 
--- 
-2.7.4
+On 9/11/2023 2:02 AM, John Watts wrote:
+> Panel initialization registers are per-display and not tied to the
+> controller itself. Different panels will specify their own registers.
+> Attach the sequences to the panel info struct so future panels
+> can specify their own sequences.
+> 
+> Signed-off-by: John Watts <contact@jookia.org>
+> ---
+>   .../gpu/drm/panel/panel-newvision-nv3052c.c   | 25 ++++++++++++-------
+>   1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> index 307335d0f1fc..b2ad9b3a5eb7 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> @@ -20,11 +20,18 @@
+>   #include <drm/drm_modes.h>
+>   #include <drm/drm_panel.h>
+>   
+> +struct nv3052c_reg {
+> +	u8 cmd;
+> +	u8 val;
+> +};
+> +
+>   struct nv3052c_panel_info {
+>   	const struct drm_display_mode *display_modes;
+>   	unsigned int num_modes;
+>   	u16 width_mm, height_mm;
+>   	u32 bus_format, bus_flags;
+> +	const struct nv3052c_reg *panel_regs;
+> +	int panel_regs_len;
+>   };
+>   
+>   struct nv3052c {
+> @@ -36,12 +43,7 @@ struct nv3052c {
+>   	struct gpio_desc *reset_gpio;
+>   };
+>   
+> -struct nv3052c_reg {
+> -	u8 cmd;
+> -	u8 val;
+> -};
+> -
+> -static const struct nv3052c_reg nv3052c_panel_regs[] = {
+> +static const struct nv3052c_reg ltk035c5444t_panel_regs[] = {
+>   	// EXTC Command set enable, select page 1
+>   	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x01 },
+>   	// Mostly unknown registers
+> @@ -244,6 +246,7 @@ static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
+>   static int nv3052c_prepare(struct drm_panel *panel)
+>   {
+>   	struct nv3052c *priv = to_nv3052c(panel);
+> +	const struct nv3052c_reg *panel_regs = priv->panel_info->panel_regs;
+>   	struct mipi_dbi *dbi = &priv->dbi;
+>   	unsigned int i;
+>   	int err;
+> @@ -260,9 +263,11 @@ static int nv3052c_prepare(struct drm_panel *panel)
+>   	gpiod_set_value_cansleep(priv->reset_gpio, 0);
+>   	msleep(150);
+>   
+> -	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
+> -		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
+> -				       nv3052c_panel_regs[i].val);
+> +	int panel_regs_len = priv->panel_info->panel_regs_len;
 
+Hi John,
+
+Sorry for not catching this earlier -- can you move the declaration of 
+panel_regs_len to the top of the function? Otherwise this throws a 
+compiler warning.
+
+With that change,
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> +
+> +	for (i = 0; i < panel_regs_len; i++) {
+> +		err = mipi_dbi_command(dbi, panel_regs[i].cmd,
+> +				       panel_regs[i].val);
+>   
+>   		if (err) {
+>   			dev_err(priv->dev, "Unable to set register: %d\n", err);
+> @@ -466,6 +471,8 @@ static const struct nv3052c_panel_info ltk035c5444t_panel_info = {
+>   	.height_mm = 64,
+>   	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+>   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.panel_regs = ltk035c5444t_panel_regs,
+> +	.panel_regs_len = ARRAY_SIZE(ltk035c5444t_panel_regs),
+>   };
+>   
+>   static const struct spi_device_id nv3052c_ids[] = {
+> -- 
+> 2.42.0
+> 
