@@ -1,94 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BFE7A16B2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 08:59:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202027A16DF
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A78A10E163;
-	Fri, 15 Sep 2023 06:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE55F10E59E;
+	Fri, 15 Sep 2023 07:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E803D10E163
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 06:59:04 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-403004a96a4so20123315e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 23:59:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694761143; x=1695365943; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=mt0/vU7tS/I4WdeJ1B6LJJREbXiomv2o0TbUICA5gLw=;
- b=wfrfYs5Fupys5fnOGPIld7eKm62/s4Qz4oe0Y1kpJNT7941iKl5s9T5C2sebBjXHxD
- y/zSVNGRz0VCyz9rBZRxuz7rbKahk3+yuUF9eq4+HqYh/kxwR0rT7F2JeU0vookHV3LQ
- Coza2J7W5FOz7iKvaDe9ZtFsjhYHfj6Ymn/zPNzsQ8hoA3332y6shOUCV0/hJsJWudBk
- YviFucFFSBagoTwKloHr3oo4cAleUwQpepwLsdLE5LWNX2zCgcBdSX/ChUnlbvGE2uRy
- NlteYZl9o9KtcgRH1nmaHFA8dZSeuXuAQWNprnqJETqtPtVwXY7XZ9K0n7mF0BnmGo7x
- XQBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694761143; x=1695365943;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=mt0/vU7tS/I4WdeJ1B6LJJREbXiomv2o0TbUICA5gLw=;
- b=CdhLPwTTReZ/VyN4uYemt+F5AKwCkpJK5UcMDUAyzxQzGY0C1oi4+zm4wN2xIm33yJ
- 9NaZ4omRBhzj2a7w8+XE8fFOoMdyFPFcxNc1ilTW1dOLYCs1CXHBuaErAGGDIkm50H+3
- OKn7NQHaQCTIWROhi9mxeMZfcpaWfC8MyzU0AlIluClC3anJVUsvEvySzQfbOWR3/BKZ
- 6CfO5pxfg4dyjnzO2z01qrt5PWfgzhDeYAm0CcW0WNiVdkXFA2QCkhVDCkUf3Qp7UMI4
- 9gzJOjYATYusus/wUm0K2AK6RnGoScLS16AQxwb2L9dBX/BqhSCqYgV9oyjJ+6KTLTi5
- R4lA==
-X-Gm-Message-State: AOJu0YxBNurjEzfJU0qwdBqJt7C9OuOyqJ3YGTQazmhen9nRu7bU/60q
- ooUjsmIcB7MiwO/3/ri8E6aUutjdBRQNe6bSCsaf2Xit
-X-Google-Smtp-Source: AGHT+IE4jAQc/f0JC4LzXetxAe50ENFFr3PqEcIIEvx8Zg3C7YQLWDUFz7j8SYv1FN1qOLzLY1IAQQ==
-X-Received: by 2002:a7b:c8d0:0:b0:3fe:173e:4a34 with SMTP id
- f16-20020a7bc8d0000000b003fe173e4a34mr674179wml.40.1694761143262; 
- Thu, 14 Sep 2023 23:59:03 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:990a:74e6:266e:2294?
- ([2a01:e0a:982:cbb0:990a:74e6:266e:2294])
- by smtp.gmail.com with ESMTPSA id
- x13-20020a05600c21cd00b00402ff8d6086sm3779272wmj.18.2023.09.14.23.59.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Sep 2023 23:59:02 -0700 (PDT)
-Message-ID: <a4b4432b-fdde-4922-8d95-3697807eefdb@linaro.org>
-Date: Fri, 15 Sep 2023 08:59:00 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4742A10E59E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:06:16 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3EEE46607326;
+ Fri, 15 Sep 2023 08:06:14 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1694761574;
+ bh=rc98ZOI7ZqctL2JotTjeK5vCrSKc4a7st9KAVMD/t3s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PYnfri2rszTkkwtqrOGMVnDdTSCzImxjBR+F1duI9+VjMEsevoABW/KQQznlqMoBy
+ FFmB+edoeNB86P/i4EY73eVAxdSKr9l/wMwQvNGavwg442X2w4IE6s2sbZT6MbZAkc
+ Xc6v0TIoY51pk8kbo0G/9mPGc3R571f3fudIrw2HF8M3hatf9ZPvpyAUeEXdl0wVmq
+ n8fp02QD7foVXBp6/WPJrxLywyWY8/A5rz/QhX23NYLPCIg2eFveGDGsQuR3SreRO0
+ K3HjFxDaKcOo2RI7eAv9adfBtvfW/c+HjONcSoCKtMP6F1G518OF0i5SMChgal+fpl
+ jBOWPn9TfmsVA==
+Date: Fri, 15 Sep 2023 09:06:11 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v17 07/18] drm/shmem-helper: Use refcount_t for
+ pages_use_count
+Message-ID: <20230915090611.5c4f1ef7@collabora.com>
+In-Reply-To: <20230914232721.408581-8-dmitry.osipenko@collabora.com>
+References: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
+ <20230914232721.408581-8-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/meson: fix memory leak on ->hpd_notify callback
-Content-Language: en-US, fr
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <20230914131015.2472029-1-jani.nikula@intel.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20230914131015.2472029-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,50 +55,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, stable@vger.kernel.org,
- linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/09/2023 15:10, Jani Nikula wrote:
-> The EDID returned by drm_bridge_get_edid() needs to be freed.
-> 
-> Fixes: 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: <stable@vger.kernel.org> # v5.17+
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> ---
-> 
-> UNTESTED
-> ---
->   drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> index 9913971fa5d2..25ea76558690 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> @@ -334,6 +334,8 @@ static void meson_encoder_hdmi_hpd_notify(struct drm_bridge *bridge,
->   			return;
->   
->   		cec_notifier_set_phys_addr_from_edid(encoder_hdmi->cec_notifier, edid);
-> +
-> +		kfree(edid);
->   	} else
->   		cec_notifier_phys_addr_invalidate(encoder_hdmi->cec_notifier);
->   }
+On Fri, 15 Sep 2023 02:27:10 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Use atomic refcount_t helper for pages_use_count to optimize pin/unpin
+> functions by skipping reservation locking while GEM's pin refcount > 1.
+> 
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 33 +++++++++++--------------
+>  drivers/gpu/drm/lima/lima_gem.c         |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c |  2 +-
+>  include/drm/drm_gem_shmem_helper.h      |  2 +-
+>  4 files changed, 18 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 286f0ca51309..e9d9fbd52b34 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -155,7 +155,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  		if (shmem->pages)
+>  			drm_gem_shmem_put_pages_locked(shmem);
+>  
+> -		drm_WARN_ON(obj->dev, shmem->pages_use_count);
+> +		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
+>  
+>  		dma_resv_unlock(shmem->base.resv);
+>  	}
+> @@ -172,14 +172,13 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> -	if (shmem->pages_use_count++ > 0)
+> +	if (refcount_inc_not_zero(&shmem->pages_use_count))
+>  		return 0;
+>  
+>  	pages = drm_gem_get_pages(obj);
+>  	if (IS_ERR(pages)) {
+>  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
+>  			    PTR_ERR(pages));
+> -		shmem->pages_use_count = 0;
+>  		return PTR_ERR(pages);
+>  	}
+>  
+> @@ -195,6 +194,8 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>  
+>  	shmem->pages = pages;
+>  
+> +	refcount_set(&shmem->pages_use_count, 1);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -210,21 +211,17 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> -	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+> -		return;
+> -
+> -	if (--shmem->pages_use_count > 0)
+> -		return;
+> -
+> +	if (refcount_dec_and_test(&shmem->pages_use_count)) {
+>  #ifdef CONFIG_X86
+> -	if (shmem->map_wc)
+> -		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> +		if (shmem->map_wc)
+> +			set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+>  #endif
+>  
+> -	drm_gem_put_pages(obj, shmem->pages,
+> -			  shmem->pages_mark_dirty_on_put,
+> -			  shmem->pages_mark_accessed_on_put);
+> -	shmem->pages = NULL;
+> +		drm_gem_put_pages(obj, shmem->pages,
+> +				  shmem->pages_mark_dirty_on_put,
+> +				  shmem->pages_mark_accessed_on_put);
+> +		shmem->pages = NULL;
+> +	}
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+>  
+> @@ -551,8 +548,8 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+>  	 * mmap'd, vm_open() just grabs an additional reference for the new
+>  	 * mm the vma is getting copied into (ie. on fork()).
+>  	 */
+> -	if (!drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+> -		shmem->pages_use_count++;
+> +	drm_WARN_ON_ONCE(obj->dev,
+> +			 !refcount_inc_not_zero(&shmem->pages_use_count));
+>  
+>  	dma_resv_unlock(shmem->base.resv);
+>  
+> @@ -640,7 +637,7 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+>  		return;
+>  
+>  	drm_printf_indent(p, indent, "pages_pin_count=%u\n", refcount_read(&shmem->pages_pin_count));
+> -	drm_printf_indent(p, indent, "pages_use_count=%u\n", shmem->pages_use_count);
+> +	drm_printf_indent(p, indent, "pages_use_count=%u\n", refcount_read(&shmem->pages_use_count));
+>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
+>  	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
+>  }
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 62d4a409faa8..988e74f67465 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -47,7 +47,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>  		}
+>  
+>  		bo->base.pages = pages;
+> -		bo->base.pages_use_count = 1;
+> +		refcount_set(&bo->base.pages_use_count, 1);
+>  
+>  		mapping_set_unevictable(mapping);
+>  	}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index 7771769f0ce0..a91252053aa3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -487,7 +487,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  			goto err_unlock;
+>  		}
+>  		bo->base.pages = pages;
+> -		bo->base.pages_use_count = 1;
+> +		refcount_set(&bo->base.pages_use_count, 1);
+>  	} else {
+>  		pages = bo->base.pages;
+>  		if (pages[page_offset]) {
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 268b3127d150..3947f5c6bff7 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -37,7 +37,7 @@ struct drm_gem_shmem_object {
+>  	 * Reference count on the pages table.
+>  	 * The pages are put when the count reaches zero.
+>  	 */
+> -	unsigned int pages_use_count;
+> +	refcount_t pages_use_count;
+>  
+>  	/**
+>  	 * @pages_pin_count:
+
