@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28AE7A19B2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 10:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE67F7A19D1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 10:58:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D5510E601;
-	Fri, 15 Sep 2023 08:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2BAF10E240;
+	Fri, 15 Sep 2023 08:58:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97E610E5FB;
- Fri, 15 Sep 2023 08:55:44 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F198966072BB;
- Fri, 15 Sep 2023 09:55:42 +0100 (BST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F1C10E240
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 08:58:39 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3496366072BA;
+ Fri, 15 Sep 2023 09:58:37 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694768143;
- bh=+lTKM1jeejz9rZU9eT5TrluIuSbG1Vh8fDRF3LgkNnI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=SI3i9Zhj0Qsd/nfH6idkojingBexc2muS7LOU6kgO+YvSTWmnAZgZITNki40fV4tY
- LUwABop1vgFEjK7f4d8nof45yOERdeRyD0Do6IB5GXgrbCOxCsP9NhKDujWUm0AqHH
- vtBuDgFWnODvdO8SLMNUcu7PPOzC/2HAFzJLoaVqEPjdixXHZEJntaZU+2siPos/tJ
- 6CQ+/CYsn5qFcCayqgvAKbAB9nlYHs4TeCIhVx2j0XEh6J9dBAKA2Maodu1+bUc+9V
- 1bhU1pNw1NlQGeiOUclOX3QC+yqie0qDlbLj4g4AUMEih0R/aVyDeqpG15e1ZL0tZ9
- X7mSLmf2cdmMA==
-Date: Fri, 15 Sep 2023 10:55:39 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Subject: Re: [PATCH v5 6/6] drm/drm-file: Show finer-grained BO sizes in
- drm_show_memory_stats
-Message-ID: <20230915105539.23724780@collabora.com>
-In-Reply-To: <20230914223928.2374933-7-adrian.larumbe@collabora.com>
-References: <20230914223928.2374933-1-adrian.larumbe@collabora.com>
- <20230914223928.2374933-7-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ s=mail; t=1694768317;
+ bh=QvOarZtm9q0/2Kba7YS408C3On3CckrdIr72iCDGik0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=R69HQPLoeSJeRPnLMYl37vbwbaKYVtZ638yOLvIiYj8GORIrmSChH0A86OyLeP3WK
+ szQREpUVuA8jzgUFa1NzVasateqS26xlwtwPcVMmnLLQmlKDdbnraH2fDpaAMRythX
+ pbctN3GX+1bMVJ18SZIHOgyF1WeOzbz8IsX00JFpnAlPV8Kp4yRj2FKGLttIc+83bg
+ V5ITMSFDWwLqcxc1+UNzeknVQ6RWXUTm4kt1xIqs1jMVxIP7yjjMdtidGnnjSofEwY
+ wmUAoyN9wNxHI9lSerXXcAcsKk+99WTGY0yYqfxPguiez+aWO/cUCcGJellnTtL4RA
+ xR7TrWis50apQ==
+Message-ID: <0a184b35-133b-483c-d475-01120fbdc2ca@collabora.com>
+Date: Fri, 15 Sep 2023 10:58:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] drm/mediatek: dsi: Fix EOTp generation
+Content-Language: en-US
+To: Michael Walle <mwalle@kernel.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230915075756.263591-1-mwalle@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230915075756.263591-1-mwalle@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,58 +58,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, tzimmermann@suse.de, sean@poorly.run,
- quic_abhinavk@quicinc.com, mripard@kernel.org, steven.price@arm.com,
- healych@amazon.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Jitao Shi <jitao.shi@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023 23:38:44 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Il 15/09/23 09:57, Michael Walle ha scritto:
+> The commit c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register
+> definition") inverted the logic of the control bit. Maybe it was because
+> of the bad naming which was fixed in commit 0f3b68b66a6d ("drm/dsi: Add
+> _NO_ to MIPI_DSI_* flags disabling features"). In any case, the logic
+> wrong and there will be no EOTp on the DSI link by default. Fix it.
+> 
+> Fixes: c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register definition")
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 
-> The current implementation will try to pick the highest available size
-> display unit as soon as the BO size exceeds that of the previous
-> multiplier. That can lead to loss of precision in contexts of low memory
-> usage.
->=20
-> The new selection criteria try to preserve precision, whilst also
-> increasing the display unit selection threshold to render more accurate
-> values.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+Hello Michael,
+your commit is missing a small piece! :-)
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Besides, I've already sent a fix for what you're trying to do here:
+https://lore.kernel.org/linux-arm-kernel/07c93d61-c5fd-f074-abb2-73fdaa81fd65@collabora.com/T/
+
+Cheers,
+Angelo
 
 > ---
->  drivers/gpu/drm/drm_file.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 762965e3d503..34cfa128ffe5 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -872,6 +872,8 @@ void drm_send_event(struct drm_device *dev, struct dr=
-m_pending_event *e)
->  }
->  EXPORT_SYMBOL(drm_send_event);
-> =20
-> +#define UPPER_UNIT_THRESHOLD 100
-> +
->  static void print_size(struct drm_printer *p, const char *stat,
->  		       const char *region, u64 sz)
->  {
-> @@ -879,7 +881,8 @@ static void print_size(struct drm_printer *p, const c=
-har *stat,
->  	unsigned u;
-> =20
->  	for (u =3D 0; u < ARRAY_SIZE(units) - 1; u++) {
-> -		if (sz < SZ_1K)
-> +		if ((sz & (SZ_1K - 1)) &&
-> +		    sz < UPPER_UNIT_THRESHOLD * SZ_1K)
->  			break;
->  		sz =3D div_u64(sz, SZ_1K);
->  	}
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index d67e5c61a9b9..8024b20f6b13 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+>   	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+>   		tmp_reg |= HSTX_CKLP_EN;
+>   
+> -	if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
+> +	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+>   		tmp_reg |= DIS_EOT;
+>   
+>   	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+
 
