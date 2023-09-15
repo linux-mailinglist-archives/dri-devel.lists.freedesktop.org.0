@@ -1,51 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418F17A29DB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3074C7A2ABA
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 00:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DA410E69D;
-	Fri, 15 Sep 2023 21:56:51 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA7010E69A;
- Fri, 15 Sep 2023 21:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694815009; x=1726351009;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VW2JB+KtOULOX6eC0AmCHdWmvMEadYmFHX+zyxtELhM=;
- b=K4A2q7zMbMNoYuqPy2Z96MSHNlOLPMbI+UcAgl2DTwzmbBdz0rquAndq
- vbTNnD+GUFwoMWCi9GZD2kwBU8DRb/sgwvHDbADzYVHxV/In+TyoePO0C
- 2BL6uhMUtAV9eHGIWOVcBCthEVXcFgg2VfpC+8YucRrhkqMCfPB8rZhnM
- C8H3WBbRh9b3nFtcWtdDrcNC0+Wx1TWuyafRVFh4tCQM7cT/v2OyKJS3g
- Vox7lyzQGCEtu1amgX0evDiLX1DCEaX3tPhdOCN4qo1VCtaGC2r0uzJo4
- H+Fbi3MHY+6HhXIx2/BGCpuLtxLkHzAwL4vGQ+hMgCoTDvYpRRr1cydvA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="410297711"
-X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; d="scan'208";a="410297711"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 14:56:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="918792875"
-X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; d="scan'208";a="918792875"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga005.jf.intel.com with ESMTP; 15 Sep 2023 14:56:34 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 4/4] drm/i915/guc: Enable Wa_14019159160
-Date: Fri, 15 Sep 2023 14:55:37 -0700
-Message-ID: <20230915215537.220331-5-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230915215537.220331-1-John.C.Harrison@Intel.com>
-References: <20230915215537.220331-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA22110E6AC;
+	Fri, 15 Sep 2023 22:49:58 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2081.outbound.protection.outlook.com [40.107.100.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FA310E6AB;
+ Fri, 15 Sep 2023 22:49:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MuD2m/rWFoSNPqXS4QRZ9nMSVCShIykuirJfguWMtEiqRbUGbkJ9+jDNCP8CjrgNrNVmJCNhIljJ4Leha5sWKZ2tUtJequiRTzLtpCWTVJz0wkmz4LMV9qz/6gysxpBvUAb5BbLKn8jYjiR2mVrv4iLqlyYQPaoM7gxmXaea1SuPhOpFi6X3esuaIz1U66j5RgGct+cObVawo2l94iLnFDReSqov9EbztpI+7Fv2mxqGdpSLmugbmW+F5Mmca/NXwC6A3mYCGusggANv9KJePZoDB4iPuuhU+9R2364iWfIMNWD4195XhS+RcYO5FdqjqoNG+R25/tOLycWOOFebPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LFGq0WPDMya86KgTg90rbBEq255QJ9sJQAs0A7vVLPM=;
+ b=Z5h3es3u3RGMMJPTJ4RrnB+/XUXnkyuFQdWy1Q1VK78a1E1FgaAI42NrDDRG91O4ijFw4Ktxx+24k8bIf/Gl/vo6uHjhvfGBF0VMgcJndibMAMyUfGZvmmLA/dr8O8HecjSfUn6mU7pFfkj0E39hfL7wABRhfhncSTazJvC5dnb4/iIjqM88oWOhdjVjy0Th6OAFju4ZOsw2Og1+qLSttozelcLAgOxyfijX9oHEFTbgI0E9aZHGUy8EBF7D+BR18zpzXYBDiPVJtDus8eKSZYFzTZRgEdYriD3Ey3FBjDdTy4Fz6IsuQGVpsgs3R+ytKzkAm6xjPeGL8t+340D/OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LFGq0WPDMya86KgTg90rbBEq255QJ9sJQAs0A7vVLPM=;
+ b=tN2PO4scVeUNmWEAdcKbyeN8jrRX/BVzgeckXmtAa2LpPlGk1JRSGRcyaU/Ke6dkJCu2FUuyvPRRBwkM26mb/UwNLtYNOE4diiiUXy0baL2TGjuBonS9chWXTtru7ZTDXJrbPwD1NxI5hzppd57EuUnEbOOaeDbIYmKp109P0Og=
+Received: from DM6PR06CA0005.namprd06.prod.outlook.com (2603:10b6:5:120::18)
+ by IA0PR12MB8975.namprd12.prod.outlook.com (2603:10b6:208:48f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Fri, 15 Sep
+ 2023 22:49:53 +0000
+Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
+ (2603:10b6:5:120:cafe::f1) by DM6PR06CA0005.outlook.office365.com
+ (2603:10b6:5:120::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21 via Frontend
+ Transport; Fri, 15 Sep 2023 22:49:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6792.20 via Frontend Transport; Fri, 15 Sep 2023 22:49:53 +0000
+Received: from dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Sep
+ 2023 17:49:50 -0500
+From: Alex Hung <alex.hung@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH][V2] drm/amd/display: Remove unwanted drm edid references
+Date: Fri, 15 Sep 2023 16:49:26 -0600
+Message-ID: <20230915224926.104072-1-alex.hung@amd.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|IA0PR12MB8975:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38201162-a4e7-40e7-59d0-08dbb63e137c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5Btb0V89gFYfvi1r3IyhrHp/9pwT/8xhCqUSy8D1GyUw7N2zpyLhyq7oJYSYrsjbKlVB1JHrq1ddjFfd/rD55/M0c4JKAjPSKec/mk4annrjWXvz28682FOTbhXAYjG6IlnsKq3rhiUp0THBWYt1w61/pAZcb0JAKWBijGqq+mPWEq+LFSG5zCWHoSWV9yw0MamUZkjjOGWlnON7Caku23MY/glHgdwFScrdugfjMNkwr5wLtZkZtnCm3kYpFMAaKx3WItyycjTwP4T1I+voD1fp51JnF8bGMCJmMb3zz07tDSsZtCgsn26rqsJ7rM9GIxkCAgtpLL4y/FHQ48nIuw+TC8jTPUjt4OvxY2wTbxFVs1xEUdMD5fae81VeQX5GbooTAMG8Z1HreDPCN19gjeUt3QeUd3hD1Cq0a35EFly/lVcUMaP/Mjp8Vp3q6cPd7buPrG0WalNRn1VCLZhoOEU0IVfImBmm1fLG+NaA4a4flBw1SxSmEPLITD3xqymVEY+O8+CCoZvvutXxJWcXOzsBbbu/yrSX+sbQhZKtPtCyFznQsUlQeLLAjizZuU0Or/V3WKXWa6Lc3nV+XkHh+no90n+lT6OEbpe94eNmUMgeq4nQ6OzgF95HrnN7pFi4aa08LwC6HwPcPIjX78l2i3nOBBHzhlxdbLx/LH3GhNJ0jW5WDnMC2Fm9FNh7ANIFyDJQon8DCqY/vkEXQKOA9cxy8flGClFbJFABs9v7IiBrc+jgcCLKo5X+MRauLbl2z5ErAGtGU5ROjJIKPw1OxZ1IkumJ2e5NRQqJsBCG/K4=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(346002)(376002)(396003)(136003)(39860400002)(82310400011)(451199024)(186009)(1800799009)(40470700004)(46966006)(36840700001)(81166007)(7696005)(6666004)(41300700001)(36860700001)(40460700003)(47076005)(82740400003)(40480700001)(86362001)(336012)(2906002)(1076003)(16526019)(426003)(478600001)(83380400001)(5660300002)(356005)(316002)(54906003)(4326008)(70586007)(8676002)(110136005)(8936002)(26005)(70206006)(44832011)(36756003)(2616005)(26123001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 22:49:53.3107 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38201162-a4e7-40e7-59d0-08dbb63e137c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE34.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8975
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,150 +98,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
+ jani.nikula@intel.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, Alex Hung <alex.hung@amd.com>, sunpeng.li@amd.com,
+ daniel.wheeler@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
+ hamza.mahfooz@amd.com, wayne.lin@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+[WHY]
+edid_override and drm_edid_override_connector_update, according to drm
+documentation, should not be referred outside drm_edid.
 
-Use the new w/a KLV support to enable a MTL w/a. Note, this w/a is a
-super-set of Wa_16019325821, so requires turning that one as well as
-setting the new flag for Wa_14019159160 itself.
+[HOW]
+Remove and replace them accordingly. This can tested by IGT's
+kms_hdmi_inject test.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  3 +++
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  7 +++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 26 ++++++++++++++++++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  1 +
- 6 files changed, 38 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 8b494825c55f2..d31c405b095b7 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -734,6 +734,7 @@ static u32 *gen12_emit_preempt_busywait(struct i915_request *rq, u32 *cs)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- #define HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET	0x540
- static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
+V2 - add comments for drm_get_edid and check edid before use.
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 44 +++++++++++--------
+ 1 file changed, 25 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5efebc06296b..b29ef87c27a9 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6444,15 +6444,24 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
  {
-@@ -743,6 +744,7 @@ static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
+ 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
++	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+ 	struct dc_link *dc_link = aconnector->dc_link;
+ 	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+ 	struct edid *edid;
  
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static u32 *hold_switchout_emit_wa_busywait(struct i915_request *rq, u32 *cs)
- {
- 	int i;
-@@ -783,6 +785,7 @@ gen12_emit_fini_breadcrumb_tail(struct i915_request *rq, u32 *cs)
- 
- 	/* Wa_14014475959:dg2 */
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (intel_engine_uses_wa_hold_switchout(rq->engine))
- 		cs = hold_switchout_emit_wa_busywait(rq, cs);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 68fe1cef9cd94..9b3051600856e 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -684,6 +684,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static inline bool
- intel_engine_uses_wa_hold_switchout(struct intel_engine_cs *engine)
- {
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 58012edd4eb0e..bebf28e3c4794 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -101,4 +101,11 @@ enum {
- 	GUC_CONTEXT_POLICIES_KLV_NUM_IDS = 5,
- };
- 
-+/*
-+ * Workaround keys:
-+ */
-+enum {
-+	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
-+};
-+
- #endif /* _ABI_GUC_KLVS_ABI_H */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 4001679ba0793..e74590a71d113 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -295,6 +295,7 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
- 		flags |= GUC_WA_HOLD_CCS_SWITCHOUT;
- 
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
- 		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 792910af3a481..a9fd2e96f27f5 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -810,6 +810,25 @@ guc_capture_prep_lists(struct intel_guc *guc)
- 	return PAGE_ALIGN(total_size);
- }
- 
-+/* Wa_14019159160 */
-+static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
-+{
-+	u32 size;
-+	u32 klv_entry[] = {
-+		/* 16:16 key/length */
-+		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
-+		FIELD_PREP(GUC_KLV_0_LEN, 0),
-+		/* 0 dwords data */
-+	};
-+
-+	size = sizeof(klv_entry);
-+	GEM_BUG_ON(remain < size);
-+
-+	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
-+
-+	return size;
-+}
-+
- static void guc_waklv_init(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
-@@ -825,7 +844,12 @@ static void guc_waklv_init(struct intel_guc *guc)
- 	offset = guc_ads_waklv_offset(guc);
- 	remain = guc_ads_waklv_size(guc);
- 
--	/* Add workarounds here */
-+	/* Wa_14019159160 */
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
-+		size = guc_waklv_ra_mode(guc, offset, remain);
-+		offset += size;
-+		remain -= size;
+-	if (!connector->edid_override)
++	/*
++	 * Note: drm_get_edid gets edid in the following order:
++	 * 1) override EDID if set via edid_override debugfs,
++	 * 2) firmware EDID if set via edid_firmware module parameter
++	 * 3) regular DDC read.
++	 */
++	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
++	if (!edid) {
++		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
++		connector->force = DRM_FORCE_OFF;
+ 		return;
 +	}
  
- 	size = guc_ads_waklv_size(guc) - remain;
- 	if (!size)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ff38a815701ce..c8428e4b03592 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4270,6 +4270,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
- 			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
+-	drm_edid_override_connector_update(&aconnector->base);
+-	edid = aconnector->base.edid_blob_ptr->data;
+ 	aconnector->edid = edid;
  
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS)
- 		if (IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
- 			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
+ 	/* Update emulated (virtual) sink's EDID */
+@@ -6487,30 +6496,27 @@ static int get_modes(struct drm_connector *connector)
+ 
+ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+ {
++	struct drm_connector *connector = &aconnector->base;
++	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(&aconnector->base);
+ 	struct dc_sink_init_data init_params = {
+ 			.link = aconnector->dc_link,
+ 			.sink_signal = SIGNAL_TYPE_VIRTUAL
+ 	};
+ 	struct edid *edid;
+ 
+-	if (!aconnector->base.edid_blob_ptr) {
+-		/* if connector->edid_override valid, pass
+-		 * it to edid_override to edid_blob_ptr
+-		 */
+-
+-		drm_edid_override_connector_update(&aconnector->base);
+-
+-		if (!aconnector->base.edid_blob_ptr) {
+-			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
+-					aconnector->base.name);
+-
+-			aconnector->base.force = DRM_FORCE_OFF;
+-			return;
+-		}
++	/*
++	 * Note: drm_get_edid gets edid in the following order:
++	 * 1) override EDID if set via edid_override debugfs,
++	 * 2) firmware EDID if set via edid_firmware module parameter
++	 * 3) regular DDC read.
++	 */
++	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
++	if (!edid) {
++		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
++		connector->force = DRM_FORCE_OFF;
++		return;
+ 	}
+ 
+-	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
+-
+ 	aconnector->edid = edid;
+ 
+ 	aconnector->dc_em_sink = dc_link_add_remote_sink(
 -- 
-2.41.0
+2.42.0
 
