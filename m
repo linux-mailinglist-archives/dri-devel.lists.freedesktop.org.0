@@ -2,59 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD4C7A26D8
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 21:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFD57A26FC
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 21:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5906B10E033;
-	Fri, 15 Sep 2023 19:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCAF10E679;
+	Fri, 15 Sep 2023 19:11:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D133910E66F
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 19:02:36 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-d818d4230f6so2217250276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 12:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694804556; x=1695409356; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=euz/IHIc0mhpSJvprvTibU0nvlspa5qnPH9if5eZjIU=;
- b=oJyvypkzWX/njjAngyGgidYwICbMmkFTjq0tvIw/nEvla7y1KKTOAV0SRCbOqsD5+D
- fEruVnp0BAkradOB/htM9qaSAhv62D6g5TIAzB5pJX+KFuK21hpaSDfliTP1RbRfvom9
- GOrKi+/u/2+PWynMsCymr2lvutfKHlas4uGNombut+a+4NozrvTRdC+BPOgff2zuqL7O
- q0XrHLbXO9fnLsqsdIEEI4gouhfFqZFXDPqUluHCrIZDVNi6R6ttXGthReoZA3U0gYtq
- mjxR3QYl8OyVnaeNgOkXEV7N+Xk5TUBRGjpftlr3kooYNgAj4gI6L7xmkvcsiO08Vnhi
- WI0Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 403CF10E679
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 19:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694805105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qlhBGfkitPynpuyk3bM+Zz7nsea7S00PAWmpHtl+RHc=;
+ b=AYwmhdNpQIi1bCv7/YxFdOq/FNmrPP0BCgU0f9B5mhjbx8sgAaLBcwe8czqh/umYGFhniA
+ 5haliTGbtKE/CAR+q0+VO2iXVWozGjyQrSDSJGijXs8OR6pUq5WmOSXtRhwIrReplFcjFe
+ hBV/FUJZUN23sOyp5PtuQzlZIEVhTU4=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-353-jKPYgkt_OqCszA_5UiUtzA-1; Fri, 15 Sep 2023 15:11:44 -0400
+X-MC-Unique: jKPYgkt_OqCszA_5UiUtzA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-414e9ea97e9so29306131cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 12:11:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694804556; x=1695409356;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=euz/IHIc0mhpSJvprvTibU0nvlspa5qnPH9if5eZjIU=;
- b=ehWO8IlVyc3VI9CwHhapnTqXHTptyL1M5wzIN31uBq0VjcXCdkB7ACVLGsV9H5vZNT
- tB9pU60Fs+3kLX5hqL8Ooc+sm/qXlg5zThQV9tUh97RJkmlqlK6eOhaEiGO+uwVnkLgh
- kvrdsYjaNhsb6QZPYOv1tyn69bsw+uyu0PtuFGjG1YMf6kxaPGSdHOSkmmv0+oxvfFEX
- 7HII1dU/PTv9lme7ihDnDcO5OD9YLiZjt0lrhgyb+DwEaVLUmDAB5GNqK9dM3+ataBKq
- MqaIVyBVKOOR/4SeSftpxJFZgLs/zaQ9VM8DeEUNirilEQ0okCtuVJ9r9j2YkA62SJ9U
- J4lA==
-X-Gm-Message-State: AOJu0YxRHlixwxnVAdzANNSCB1jnXI8YcG1i9w/kkDIPME/X8umCVG6F
- 8Wq7fNScmdw88wuQ6tw8l12Q0YqOTjWBEAAyeGVCpg==
-X-Google-Smtp-Source: AGHT+IHjvbgo6WAOZyaLXnz4gisXVihpdX/YxZz482tKbWXr6KliN8j5UIIdtWwak5bLhfxaD9Fmf6SeDLlP6dEFAas=
-X-Received: by 2002:a25:8250:0:b0:d81:43ea:d018 with SMTP id
- d16-20020a258250000000b00d8143ead018mr2631057ybn.42.1694804555819; Fri, 15
- Sep 2023 12:02:35 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694805103; x=1695409903;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C+xFlo2phjIOoSkAoWqGNtjiMQDertNO4uHm/G4t30c=;
+ b=W6xMEmfPl8eQilpF6jryjtPt3jmdbdt88I7/1bhL5tTe8CGT2NcDzsig5BIX6LjCmU
+ liLLsxxk0JBlTRSeawKz2qqk0yZh77UH3gPrFCJZyCaTTBL3UMd5AWArF8qSjnT280Qw
+ zAmBwZDM2roNXTHOr+dDwyAe7s8Rpnw5yOgjB6k6pl+c/a6iUaOBL8oMqe3sCTYa0N0J
+ XH/J/5dviCCbtEHr4MbMnsbxl4lZ7fyvRX5JtbF5Ae6PTpAfPvONG3tn50Bwoi2OaTPc
+ SWtW0cUMigxbi8KP8q0HSn/3bfhEdE035FDjUIAfT0OHdzgK7yMYrpN2tTICFaHSIoHI
+ aJCw==
+X-Gm-Message-State: AOJu0YyaU771oPrwkXc3aptor53YwlQsMmdK9EFtxOs1BCoG8FFa0Eti
+ GKUY82oS6Zl57OxeWnQ7RXIqcIqREKrFlQ/sQkuvLGhazy5To+SqxgPAsWaYdK1IhwNZ7MxRTVw
+ ZzEs+hFbzgvwOFMaIsqF72wawJIjiGO6Df0qf
+X-Received: by 2002:a05:622a:1988:b0:403:2c55:3568 with SMTP id
+ u8-20020a05622a198800b004032c553568mr2772998qtc.4.1694805103436; 
+ Fri, 15 Sep 2023 12:11:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECYsNBQJE1AB6Z7FOZWSrSbdiIB0pUluydANBUWg33WdJgAsEfBhnnciVSM57ZyMizUL3bzA==
+X-Received: by 2002:a05:622a:1988:b0:403:2c55:3568 with SMTP id
+ u8-20020a05622a198800b004032c553568mr2772981qtc.4.1694805103186; 
+ Fri, 15 Sep 2023 12:11:43 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ kf10-20020a05622a2a8a00b00411fcc18cc1sm1340654qtb.64.2023.09.15.12.11.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Sep 2023 12:11:42 -0700 (PDT)
+Message-ID: <39edd165d79673b0ce66f27fefa8d72a46348b0d.camel@redhat.com>
+Subject: Re: [PATCH 1/4] drm/dp_mst: Fix NULL dereference during payload
+ addition
+From: Lyude Paul <lyude@redhat.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
+Date: Fri, 15 Sep 2023 15:11:41 -0400
+In-Reply-To: <20230913223218.540365-1-imre.deak@intel.com>
+References: <20230913223218.540365-1-imre.deak@intel.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-References: <20230915183010.32077-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20230915183010.32077-1-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 15 Sep 2023 22:02:24 +0300
-Message-ID: <CAA8EJpp-eK1spEBSJtT0YtRkJtSL6MWPyxN5c4AB-1MJMJXs9A@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: skip the wait for video mode done if not
- applicable
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,69 +85,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hai Li <hali@codeaurora.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_parellan@quicinc.com,
- quic_jesszhan@quicinc.com, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Sept 2023 at 21:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> dsi_wait4video_done() API wait for the DSI video mode engine to
-> become idle so that we can transmit the DCS commands in the
-> beginning of BLLP. However, with the current sequence, the MDP
-> timing engine is turned on after the panel's pre_enable() callback
-> which can send out the DCS commands needed to power up the panel.
->
-> During those cases, this API will always timeout and print out the
-> error spam leading to long bootup times and log flooding.
->
-> Fix this by checking if the DSI video engine was actually busy before
-> waiting for it to become idle otherwise this is a redundant wait.
->
-> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Thanks for catching all of this! for the whole series:
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+
+On Thu, 2023-09-14 at 01:32 +0300, Imre Deak wrote:
+> Fix the NULL dereference leading to the following stack trace:
+>=20
+> [  129.687181] i915 0000:00:02.0: [drm:drm_dp_add_payload_part1 [drm_disp=
+lay_helper]] VCPI 1 for port 000000005be4423e not in topology, not creating=
+ a payload to remote
+> [  129.687257] BUG: kernel NULL pointer dereference, address: 00000000000=
+00560
+> [  129.694276] #PF: supervisor read access in kernel mode
+> [  129.699459] #PF: error_code(0x0000) - not-present page
+> [  129.704612] PGD 0 P4D 0
+> [  129.707178] Oops: 0000 [#1] PREEMPT SMP NOPTI
+> [  129.711556] CPU: 2 PID: 1623 Comm: Xorg Tainted: G     U             6=
+.6.0-rc1-imre+ #985
+> [  129.719744] Hardware name: Intel Corporation Alder Lake Client Platfor=
+m/AlderLake-P DDR5 RVP, BIOS RPLPFWI1.R00.4035.A00.2301200723 01/20/2023
+> [  129.732509] RIP: 0010:drm_dp_mst_topology_put_port+0x19/0x170 [drm_dis=
+play_helper]
+> [  129.740111] Code: 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0=
+f 1f 44 00 00 55 48 89 e5 41 57 41 56 41 55 41 54 53 48 89 fb 48 83 ec 08 <=
+48> 8b 87 60 05 00 00 44 8b 0f 48 8b 70 58 41 83 e9 01 48 85 f6 74
+> [  129.758842] RSP: 0018:ffffc90001daf900 EFLAGS: 00010286
+> [  129.764104] RAX: 0000000000000001 RBX: 0000000000000000 RCX: 000000000=
+0000000
+> [  129.771246] RDX: 0000000000000000 RSI: ffffffff9e73d613 RDI: 000000000=
+0000000
+> [  129.778394] RBP: ffffc90001daf930 R08: 0000000000000000 R09: 000000000=
+0000020
+> [  129.785533] R10: 0000000000ffff10 R11: 000000000000000f R12: ffff88811=
+6c65e40
+> [  129.792680] R13: 0000000000000000 R14: 0000000000000000 R15: 000000000=
+0000000
+> [  129.799822] FS:  00007f39f74b1a80(0000) GS:ffff88840f680000(0000) knlG=
+S:0000000000000000
+> [  129.807913] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  129.813670] CR2: 0000000000000560 CR3: 0000000138b88000 CR4: 000000000=
+0750ee0
+> [  129.820815] PKRU: 55555554
+> [  129.823551] Call Trace:
+> [  129.826022]  <TASK>
+> [  129.828154]  ? show_regs+0x65/0x70
+> [  129.831599]  ? __die+0x24/0x70
+> [  129.834683]  ? page_fault_oops+0x160/0x480
+> [  129.838824]  ? dev_printk_emit+0x83/0xb0
+> [  129.842797]  ? do_user_addr_fault+0x2e2/0x680
+> [  129.847175]  ? exc_page_fault+0x78/0x180
+> [  129.851143]  ? asm_exc_page_fault+0x27/0x30
+> [  129.855353]  ? drm_dp_mst_topology_put_port+0x19/0x170 [drm_display_he=
+lper]
+> [  129.862354]  drm_dp_add_payload_part1+0x85/0x100 [drm_display_helper]
+> [  129.868832]  intel_mst_pre_enable_dp+0x1ef/0x240 [i915]
+> [  129.874170]  intel_encoders_pre_enable+0x83/0xa0 [i915]
+> [  129.879524]  hsw_crtc_enable+0xbe/0x750 [i915]
+> [  129.884095]  intel_enable_crtc+0x68/0xa0 [i915]
+> [  129.888752]  skl_commit_modeset_enables+0x2c4/0x5d0 [i915]
+> [  129.894365]  intel_atomic_commit_tail+0x765/0x1070 [i915]
+> [  129.899885]  intel_atomic_commit+0x3ba/0x400 [i915]
+> [  129.904892]  drm_atomic_commit+0x96/0xd0 [drm]
+> [  129.909405]  ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+> [  129.914698]  drm_atomic_helper_set_config+0x7e/0xc0 [drm_kms_helper]
+> [  129.921102]  drm_mode_setcrtc+0x5af/0x8d0 [drm]
+> [  129.925695]  ? __pfx_drm_mode_setcrtc+0x10/0x10 [drm]
+> [  129.930810]  drm_ioctl_kernel+0xc4/0x170 [drm]
+> [  129.935317]  drm_ioctl+0x2a4/0x520 [drm]
+> [  129.939305]  ? __pfx_drm_mode_setcrtc+0x10/0x10 [drm]
+> [  129.944415]  ? __fget_light+0xa5/0x110
+> [  129.948212]  __x64_sys_ioctl+0x98/0xd0
+> [  129.951985]  do_syscall_64+0x37/0x90
+> [  129.955581]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+>=20
+> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload allocation/r=
+emovement")
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 0c4ec0530efc..31495e423c56 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1075,9 +1075,21 @@ static void dsi_wait4video_done(struct msm_dsi_host *msm_host)
->
->  static void dsi_wait4video_eng_busy(struct msm_dsi_host *msm_host)
->  {
-> +       u32 data;
-> +
-> +       data = dsi_read(msm_host, REG_DSI_STATUS0);
-> +
->         if (!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO))
->                 return;
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
+drm/display/drm_dp_mst_topology.c
+> index e04f87ff755ac..5f90860d49c34 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -3341,7 +3341,8 @@ int drm_dp_add_payload_part1(struct drm_dp_mst_topo=
+logy_mgr *mgr,
+>  =09=09(!allocate || ret < 0) ? DRM_DP_MST_PAYLOAD_ALLOCATION_LOCAL :
+>  =09=09=09=09=09=09=09=09DRM_DP_MST_PAYLOAD_ALLOCATION_DFP;
+> =20
+> -=09drm_dp_mst_topology_put_port(port);
+> +=09if (port)
+> +=09=09drm_dp_mst_topology_put_port(port);
+> =20
+>  =09return ret;
+>  }
 
-We can probably skip reading REG_DSI_STATUS0 if the host is in CMD mode.
-LGTM otherwise.
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
->
-> +       /* if video mode engine is not busy, its because
-> +        * either timing engine was not turned on or the
-> +        * DSI controller has finished transmitting the video
-> +        * data already, so no need to wait in those cases
-> +        */
-> +       if (!(data & DSI_STATUS0_VIDEO_MODE_ENGINE_BUSY))
-> +               return;
-> +
->         if (msm_host->power_on && msm_host->enabled) {
->                 dsi_wait4video_done(msm_host);
->                 /* delay 4 ms to skip BLLP */
-> --
-> 2.40.1
->
-
-
--- 
-With best wishes
-Dmitry
