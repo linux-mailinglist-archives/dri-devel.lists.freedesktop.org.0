@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F857A17E0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:58:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1C87A18F8
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 10:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC6610E16A;
-	Fri, 15 Sep 2023 07:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A101510E5CD;
+	Fri, 15 Sep 2023 08:35:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDB2C10E16A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:58:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC8E10E5CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 08:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1694766939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3z6Vo+ImVC82WYLqo4WzC78sdixCQlRqUPDN2j6e6vY=;
+ b=JOTxEduiqyobVwzY6kr3LYsfBj4XZ2BOqr181vHW7atekjn2UuIeGy/oeeDfvgMBgJjvmz
+ 09wmKxsrRUPcjJoxrNxnAE5bkOXDiRxwO9sxA3B9mL9cJkCOMUwCFo4euxGkFMyL45TBm6
+ /ufN4JjauvvO76p5n1azsEwNIpR8KaQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-59-EJnJsGoGPlG16mWzTo9JEw-1; Fri, 15 Sep 2023 04:35:35 -0400
+X-MC-Unique: EJnJsGoGPlG16mWzTo9JEw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E8E4161F11;
- Fri, 15 Sep 2023 07:58:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4B6C433C9;
- Fri, 15 Sep 2023 07:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694764691;
- bh=t+ZshDk3vSry1uc6hCwYDbU+R1dULuj35xmF6dRVMrk=;
- h=From:To:Cc:Subject:Date:From;
- b=rvwj7lj8FTEWHvf1wUbhIc8CK5XVM4UyBTKgXnVGlvnMvDvIiuwrT/7wJJHf8L0/j
- DQLpHPOpajgELw/genwY5AfrHU5D1bHCuW6T49J9ge+LlUSOPyhj7o9KzuqPyblGT4
- iBeGAJoKwE5SH581mv/T5N5N1tit9oDbbA4VThjaayi07QnsmCLKIFl/rIQvc0lfUQ
- JEb+NxHkp8yCmzPRNnSUk11iIZijw9jWj90cvNjn2WzJPll/L01f1DCDP7JJVJit+l
- 03onA6v36HsZ/+RKmw/UU+AOoCqlTnxeWDIm7kfiuGeBOIxMSvceyppdQTViv7Yp1p
- P5P33W5K4xkuA==
-From: Michael Walle <mwalle@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] drm/mediatek: dsi: Fix EOTp generation
-Date: Fri, 15 Sep 2023 09:57:56 +0200
-Message-Id: <20230915075756.263591-1-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 858E5800888;
+ Fri, 15 Sep 2023 08:35:34 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAA2640C2070;
+ Fri, 15 Sep 2023 08:35:27 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, bluescreen_avenger@verizon.net
+Subject: [RFC][PATCH v2 0/2] drm/panic: Add a drm panic handler
+Date: Fri, 15 Sep 2023 10:28:20 +0200
+Message-ID: <20230915083307.1185571-1-jfalempe@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Walle <mwalle@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Jitao Shi <jitao.shi@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register
-definition") inverted the logic of the control bit. Maybe it was because
-of the bad naming which was fixed in commit 0f3b68b66a6d ("drm/dsi: Add
-_NO_ to MIPI_DSI_* flags disabling features"). In any case, the logic
-wrong and there will be no EOTp on the DSI link by default. Fix it.
+This introduces a new drm panic handler, which displays a message when a panic occurs.
+So when fbcon is disabled, you can still see a kernel panic.
 
-Fixes: c87d1c4b5b9a ("drm/mediatek: dsi: Use symbolized register definition")
-Signed-off-by: Michael Walle <mwalle@kernel.org>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is one of the missing feature, when disabling VT/fbcon in the kernel:
+https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d67e5c61a9b9..8024b20f6b13 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
- 	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
- 		tmp_reg |= HSTX_CKLP_EN;
+This is a proof of concept, and works only with simpledrm, using a new get_scanout_buffer() api
+
+To test it, make sure you're using the simpledrm driver, and trigger a panic:
+echo c > /proc/sysrq-trigger
+
+v2
+ * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
+ * Add the panic reason to the panic message (Nerdopolis)
+ * Add an exclamation mark (Nerdopolis)
  
--	if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
-+	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
- 		tmp_reg |= DIS_EOT;
- 
- 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+I didn't reuse the fbdev functions yet, that would need some fbdev refactoring, because they rely on struct fb_info, and struct vc_data (for font/console). But I still plan to at least try it for v3.
+
+A few more though:
+ 1) what about gpu with multiple monitor connected ?
+maybe get_scanout_buffer() could return a list of scanout buffers ?
+ 2) I think for some GPU drivers, there might need a flush_scanout_buffer() function, that should be called after the scanout buffer has been filled ?
+
+Best regards,
+
+Jocelyn Falempe (2):
+  drm/panic: Add a drm panic handler
+  drm/simpledrm: Add drm_panic support
+
+ drivers/gpu/drm/Kconfig          |  11 ++
+ drivers/gpu/drm/Makefile         |   1 +
+ drivers/gpu/drm/drm_drv.c        |   3 +
+ drivers/gpu/drm/drm_panic.c      | 270 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/tiny/simpledrm.c |  17 ++
+ include/drm/drm_drv.h            |  14 ++
+ include/drm/drm_panic.h          |  41 +++++
+ 7 files changed, 357 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_panic.c
+ create mode 100644 include/drm/drm_panic.h
+
+
+base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
 -- 
-2.39.2
+2.41.0
 
