@@ -2,75 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6278B7A294D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85E57A29A3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 23:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B9E10E68A;
-	Fri, 15 Sep 2023 21:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10FB10E698;
+	Fri, 15 Sep 2023 21:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808FC10E68A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 21:24:13 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951A010E694;
+ Fri, 15 Sep 2023 21:38:49 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38FJt3GG008372; Fri, 15 Sep 2023 21:23:57 GMT
+ 38FLV5Im020956; Fri, 15 Sep 2023 21:38:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=j2srMlgd+gSkKgJyE08vvd3NQ0c7NlhfaDS/LP6uMFM=;
- b=ff6ue9Q3as93DGU1bIye5qHvjAZIRmy8gZQHRlUetZcNyffjtzHjrs0DZf6QkyeFrSgq
- JuUE//udbgfarjf35n/6PdCJRBOcY63CoymEoeBOG6Zdu0Ekag1dDdj/wzUTWks/qHTQ
- GfSJLKVF4P0vmpuQRPFP1AwZJO6gv5Ms59eYO//0bGqkV6ZCtBVYDf8VMnd2/6NNBWgY
- 9zkwStdlT00YRxlCVBTKuuIMq8Ia0kJHSX4Y7CnRr7OHjGFAp3Fo7TpqwoY190VsgY+k
- VoY4qSs/xhiqyW83crwNm2YOC3X4g/cXkMXIol4MU43sRoGL+ZLGW1+11JcOo54Iuake uA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g86t5pe-1
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=bTin8ICIQq+L+P/4iilsv+GOSQtbD973pC4K61+EGDI=;
+ b=cw3yVw3HbfSsdjEuvdRLNB0gXwUJ0WmmD6/9kVzot2prlIja98O3X7Sh6jkT3FgfjIQC
+ a0/rSCRyPVkN67jwaB7czwopDinrJXT+c1qLXHFF9eHIrfPYI+W5KIap0GbAAUIIkwvB
+ 9ud5M0E642X3ZvuN2VEJRj61NUcZzUuczzHexfemdkGmmhmp+CDxFznfASMWJWBfrI08
+ zMkiCNXVqxwW7NEmHgJUfm1VHaWh/ogwTtI+VmqOa+uA+lPra/rFUDqnsaRoY7jJ/VCv
+ mxyMFhc6uCJNtmB6m4hUzplNGupsMTI79tM6Eb0AOi/rZP0O4NOJdGChZVTQbogE7OkM xQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4dvqtk1f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 21:23:56 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FLNtRj020242
+ Fri, 15 Sep 2023 21:38:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FLcY2t015942
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 21:23:55 GMT
-Received: from [10.71.110.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 15 Sep
- 2023 14:23:55 -0700
-Message-ID: <66dacc5c-fa00-1903-43d9-53094c516ebb@quicinc.com>
-Date: Fri, 15 Sep 2023 14:23:54 -0700
+ Fri, 15 Sep 2023 21:38:34 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Fri, 15 Sep 2023 14:38:34 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+Subject: [PATCH v3 0/7] incorporate pm runtime framework and eDP clean up
+Date: Fri, 15 Sep 2023 14:38:14 -0700
+Message-ID: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 5/8] drm/panel: nv3052c: Allow specifying registers
- per panel
-Content-Language: en-US
-To: John Watts <contact@jookia.org>, <dri-devel@lists.freedesktop.org>
-References: <20230911090206.3121440-1-contact@jookia.org>
- <20230911090206.3121440-6-contact@jookia.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20230911090206.3121440-6-contact@jookia.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: KEpVqJR02qWL-WP30iz1EDOS-YkFArgK
-X-Proofpoint-ORIG-GUID: KEpVqJR02qWL-WP30iz1EDOS-YkFArgK
+X-Proofpoint-GUID: pJN8zWHYdFVhwqXsbWGoMd7e5gOkUcjr
+X-Proofpoint-ORIG-GUID: pJN8zWHYdFVhwqXsbWGoMd7e5gOkUcjr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-15_17,2023-09-15_01,2023-05-22_02
+ definitions=2023-09-15_18,2023-09-15_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- bulkscore=0 impostorscore=0 adultscore=0 suspectscore=0 malwarescore=0
- spamscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309150191
+ mlxscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ mlxlogscore=935 phishscore=0 adultscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309150194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,113 +79,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
- linux-kernel@vger.kernel.org, Jagan Teki <jagan@edgeble.ai>,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Incorporate pm runtime framework into DP driver and clean up eDP
+by moving of_dp_aux_populate_bus() to probe().
 
+-- add v3 changes log
 
-On 9/11/2023 2:02 AM, John Watts wrote:
-> Panel initialization registers are per-display and not tied to the
-> controller itself. Different panels will specify their own registers.
-> Attach the sequences to the panel info struct so future panels
-> can specify their own sequences.
-> 
-> Signed-off-by: John Watts <contact@jookia.org>
-> ---
->   .../gpu/drm/panel/panel-newvision-nv3052c.c   | 25 ++++++++++++-------
->   1 file changed, 16 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> index 307335d0f1fc..b2ad9b3a5eb7 100644
-> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> @@ -20,11 +20,18 @@
->   #include <drm/drm_modes.h>
->   #include <drm/drm_panel.h>
->   
-> +struct nv3052c_reg {
-> +	u8 cmd;
-> +	u8 val;
-> +};
-> +
->   struct nv3052c_panel_info {
->   	const struct drm_display_mode *display_modes;
->   	unsigned int num_modes;
->   	u16 width_mm, height_mm;
->   	u32 bus_format, bus_flags;
-> +	const struct nv3052c_reg *panel_regs;
-> +	int panel_regs_len;
->   };
->   
->   struct nv3052c {
-> @@ -36,12 +43,7 @@ struct nv3052c {
->   	struct gpio_desc *reset_gpio;
->   };
->   
-> -struct nv3052c_reg {
-> -	u8 cmd;
-> -	u8 val;
-> -};
-> -
-> -static const struct nv3052c_reg nv3052c_panel_regs[] = {
-> +static const struct nv3052c_reg ltk035c5444t_panel_regs[] = {
->   	// EXTC Command set enable, select page 1
->   	{ 0xff, 0x30 }, { 0xff, 0x52 }, { 0xff, 0x01 },
->   	// Mostly unknown registers
-> @@ -244,6 +246,7 @@ static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
->   static int nv3052c_prepare(struct drm_panel *panel)
->   {
->   	struct nv3052c *priv = to_nv3052c(panel);
-> +	const struct nv3052c_reg *panel_regs = priv->panel_info->panel_regs;
->   	struct mipi_dbi *dbi = &priv->dbi;
->   	unsigned int i;
->   	int err;
-> @@ -260,9 +263,11 @@ static int nv3052c_prepare(struct drm_panel *panel)
->   	gpiod_set_value_cansleep(priv->reset_gpio, 0);
->   	msleep(150);
->   
-> -	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
-> -		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
-> -				       nv3052c_panel_regs[i].val);
-> +	int panel_regs_len = priv->panel_info->panel_regs_len;
+Kuogee Hsieh (7):
+  drm/msm/dp: tie dp_display_irq_handler() with dp driver
+  drm/msm/dp: replace is_connected with link_ready
+  drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status changes
+  drm/msm/dp: incorporate pm_runtime framework into DP driver
+  drm/msm/dp: delete EV_HPD_INIT_SETUP
+  drm/msm/dp: add pm_runtime_force_suspend()/resume()
+  drm/msm/dp: move of_dp_aux_populate_bus() to eDP probe()
 
-Hi John,
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |   4 -
+ drivers/gpu/drm/msm/dp/dp_aux.c         |  30 +++
+ drivers/gpu/drm/msm/dp/dp_display.c     | 348 ++++++++++++++------------------
+ drivers/gpu/drm/msm/dp/dp_display.h     |   3 +-
+ drivers/gpu/drm/msm/dp/dp_drm.c         |  14 +-
+ drivers/gpu/drm/msm/dp/dp_power.c       |   9 -
+ drivers/gpu/drm/msm/msm_drv.h           |   5 -
+ 7 files changed, 185 insertions(+), 228 deletions(-)
 
-Sorry for not catching this earlier -- can you move the declaration of 
-panel_regs_len to the top of the function? Otherwise this throws a 
-compiler warning.
+-- 
+2.7.4
 
-With that change,
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-Thanks,
-
-Jessica Zhang
-
-> +
-> +	for (i = 0; i < panel_regs_len; i++) {
-> +		err = mipi_dbi_command(dbi, panel_regs[i].cmd,
-> +				       panel_regs[i].val);
->   
->   		if (err) {
->   			dev_err(priv->dev, "Unable to set register: %d\n", err);
-> @@ -466,6 +471,8 @@ static const struct nv3052c_panel_info ltk035c5444t_panel_info = {
->   	.height_mm = 64,
->   	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
->   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-> +	.panel_regs = ltk035c5444t_panel_regs,
-> +	.panel_regs_len = ARRAY_SIZE(ltk035c5444t_panel_regs),
->   };
->   
->   static const struct spi_device_id nv3052c_ids[] = {
-> -- 
-> 2.42.0
-> 
