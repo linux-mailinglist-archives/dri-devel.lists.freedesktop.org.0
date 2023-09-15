@@ -2,52 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448DC7A2217
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC657A2266
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9ACA10E63E;
-	Fri, 15 Sep 2023 15:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFD810E646;
+	Fri, 15 Sep 2023 15:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B536E10E63E;
- Fri, 15 Sep 2023 15:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694790854; x=1726326854;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vk2Bi0+4astxw6y3MMSSHQ1DdZqNr7Yyfg6oxwVJFw0=;
- b=RnlxZaj21HT7v0F95usCq1iZkNsjXFYwB5LyDhSx/5kLPmGAjknlZza/
- LWVr47VkEPm9knEDtFZ2mn20NdY0cl3nv8uVZ2IUlJpDF4sXZ22b4vdko
- y6PmbrlIvSNc+PdnbT2PgHYJGlRKG6GihtvYP9rukwiLHGHRroqo7uHnd
- gXZKVnezUUyn/25QeS2LM405wMPI2v2PBvRU1S+dRk8rL7hNfGye2MeEN
- VDPIi8nbDkQR/ndUQCwC4W24yk1lbd/FxLeuEG+bVUPhiIeUefS+68rPF
- LlaaIyBJSwEprd0jKjRpzdRxVcY1NnLaL9q75UA+XKSCwZW35SuKUMHrE A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="410209799"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="410209799"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 08:14:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="868741923"
-X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="868741923"
-Received: from azafrani-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.48.177])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 08:14:08 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/amd/display: Remove unwanted drm edid references
-In-Reply-To: <39a7f19a-e6b6-4962-b7e0-4f33cb78938c@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230905171354.2657889-1-alex.hung@amd.com>
- <39a7f19a-e6b6-4962-b7e0-4f33cb78938c@amd.com>
-Date: Fri, 15 Sep 2023 18:14:02 +0300
-Message-ID: <87led7v58l.fsf@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35B5910E646
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 15:30:46 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38FD57d3021589; Fri, 15 Sep 2023 15:30:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7b9tNqDpW5CWcp9W5rqhdY6QXbeAvFKa/GigIvPPIZM=;
+ b=URwoA3vcpoKestNKX2vxGjJnp4REYrXgBGpxWMbj38EA/AYk7TdzdMcoB/R49CyDJqoh
+ SgmTBYa7tge6IoesDNruO7msBQszu8tD5+n9zIPTYqZGaoqhEbL18MMGia0vCzKXTALW
+ BQBl84OX4r/qnL0M+3+pb83vYzKM93OiJ/Oz0768x/Abr7JCG8ThUjMFdikmML5Y3sef
+ bkoowU+awUognjoO97pCIBhEC+ftKALRX48eZcwF5HQM3UWF4sckiWGC67TNfp9rNYvO
+ PCOT+/h17iuyJr8oei8PpkrIqEVe/6IhUbjAAU7vCn2KDDhD9xsypdvpLJ9wwjq89/Aj cA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g071fvp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Sep 2023 15:30:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FFUfGb031302
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Sep 2023 15:30:41 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 15 Sep
+ 2023 08:30:41 -0700
+Message-ID: <b5627dc8-56e9-41f4-84a1-31ab500d2774@quicinc.com>
+Date: Fri, 15 Sep 2023 09:30:40 -0600
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Register for PCI driver at the beginning of
+ module init
+Content-Language: en-US
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <stanislaw.gruszka@linux.intel.com>
+References: <20230901161037.6124-1-quic_jhugo@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230901161037.6124-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: kbIjOeUn4BeiLSTmhx_BHgb8p99kW42M
+X-Proofpoint-ORIG-GUID: kbIjOeUn4BeiLSTmhx_BHgb8p99kW42M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-15_12,2023-09-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 clxscore=1015 phishscore=0 spamscore=0 mlxscore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ mlxlogscore=879 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309150138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,104 +84,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
- sunpeng.li@amd.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, daniel.wheeler@amd.com, aurabindo.pillai@amd.com,
- hersenxs.wu@amd.com, hamza.mahfooz@amd.com, wayne.lin@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org, ogabbay@kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Sep 2023, Harry Wentland <harry.wentland@amd.com> wrote:
-> On 2023-09-05 13:13, Alex Hung wrote:
->> [WHY]
->> edid_override and drm_edid_override_connector_update, according to drm
->> documentation, should not be referred outside drm_edid.
->> 
->> [HOW]
->> Remove and replace them accordingly.
->> 
->> Signed-off-by: Alex Hung <alex.hung@amd.com>
->> ---
->>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 ++-----------------
->>  1 file changed, 2 insertions(+), 21 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 1bb1a394f55f..f6a255773242 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -6372,15 +6372,12 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
->>  static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
->>  {
->>  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
->> +	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
->>  	struct dc_link *dc_link = aconnector->dc_link;
->>  	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
->>  	struct edid *edid;
->>  
->> -	if (!connector->edid_override)
->> -		return;
->> -
->> -	drm_edid_override_connector_update(&aconnector->base);
->> -	edid = aconnector->base.edid_blob_ptr->data;
->> +	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
->
-> Looks like we only call this in the case where a connector is forced, so
-> drm_get_edid will never try to read the edid from the ddc but always gives
-> us the override_edid. Please spell that out in the commit description so
-> anyone else looking at the patch doesn't have to trace it themselves.
+On 9/1/2023 10:10 AM, Jeffrey Hugo wrote:
+> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> 
+> As qaic drivers base device is connected to host via PCI framework, it
+> makes sense to register in PCI framework at the beginning of module
+> init.
+> 
+> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Connector forcing is only about forcing the connector status. The probe
-helper will call ->force instead of ->detect.
+Pushed to drm-misc-next.
 
-But this has nothing to do with override_edid. That's completely
-orthogonal.
-
-Here, you can call drm_get_edid() if you like. Connector forcing just
-bypasses the DDC probe for determining connector status. If connector is
-forced off, you won't get the EDID, regardless of override/firmware
-EDID, but if it's forced on, the EDID read proceeds.
-
-And the EDID read has the priority order 1) override EDID if set via
-edid_override debugfs, 2) firmware EDID if set via edid_firmware module
-parameter, and 3) regular DDC read.
-
-BR,
-Jani.
-
->
->>  	aconnector->edid = edid;
->>  
->>  	/* Update emulated (virtual) sink's EDID */
->> @@ -6421,22 +6418,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
->>  	};
->>  	struct edid *edid;
->>  
->> -	if (!aconnector->base.edid_blob_ptr) {
->
-> Can edid_blob_ptr never be NULL?
->
-> Harry
->
->> -		/* if connector->edid_override valid, pass
->> -		 * it to edid_override to edid_blob_ptr
->> -		 */
->> -
->> -		drm_edid_override_connector_update(&aconnector->base);
->> -
->> -		if (!aconnector->base.edid_blob_ptr) {
->> -			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
->> -					aconnector->base.name);
->> -
->> -			aconnector->base.force = DRM_FORCE_OFF;
->> -			return;
->> -		}
->> -	}
->> -
->>  	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
->>  
->>  	aconnector->edid = edid;
->
-
--- 
-Jani Nikula, Intel
+-Jeff
