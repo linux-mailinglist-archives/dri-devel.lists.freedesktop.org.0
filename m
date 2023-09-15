@@ -1,48 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7767A175F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:28:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F437A17DA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 09:56:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB1E010E167;
-	Fri, 15 Sep 2023 07:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C9610E5C6;
+	Fri, 15 Sep 2023 07:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09FF710E167
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:27:55 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1721B6607326;
- Fri, 15 Sep 2023 08:27:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1694762873;
- bh=YMYjtrrkf8T9IjXqAxdfDX4QRVZqiwOsrCaZpTx70xg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ToXMSRFiOqX74YLFMRGj6dsDbWl7RvH/a5lC+ySzYZPEgPmEAxRjkn5nafDVeyFoS
- /tmOKxFF3h/4iHcLnytcSrh9Yk+nXka8vSaM7fjv+x5q9ZE7F15Rgt5XJioNHjIUc1
- gC3vrHXNDfoqRJ3h5XHw9cS+GnHCn9IyzPzSGTAUINgmJNrZx7xf0e8VxbrApbP1xy
- SO8GkscB8VV79QVdopjmWE0Ney+pUN97ptNBp8m5acEG5UateTRpHOhRuqtNKeOYFU
- +OKmaQr/Yfs80o9d9R3zWa+Cv63jc4oHlBTaN51v3B1RaPAsPUX50LjfIExOCt8OtM
- 5XI/RVmAnwwZA==
-Date: Fri, 15 Sep 2023 09:27:50 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v17 12/18] drm/shmem-helper: Prepare
- drm_gem_shmem_free() to shrinker addition
-Message-ID: <20230915092750.17e88b23@collabora.com>
-In-Reply-To: <20230914232721.408581-13-dmitry.osipenko@collabora.com>
-References: <20230914232721.408581-1-dmitry.osipenko@collabora.com>
- <20230914232721.408581-13-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3065F10E5C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 07:56:43 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1c328b53aeaso15808445ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 00:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1694764602; x=1695369402; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Sa23m9Sh+czmtoCmVFBbzydEhVvJnPH9LtopoO7enGk=;
+ b=QRa0nJUsymWHVHi+xhl4j8toKjMQ50zHpDIX5Oa+l3OOdpRpYv66MnmhtKoAk/X/W7
+ V937Y1V6u8Xm4yBGUwEHozbidcxGDe3qUMGb1A/bLcUh6qxijPwJ+j9OVzR3ZKPycsJc
+ tAG5Qo7MOAWZq4RE03NshmcqNG2LZbBm3/2mpJDEwops3M8pAN5UUHqLFlAfwpdIA+Xc
+ 6r1fxhaJze1f4swBgQ+COlDfzy5FblS7FNj5aIQ4tyworw1s0NhqhHA1z2/MK1FOrgfw
+ H2RVmEG3DFj1EV6CQRoAsglmRjda5HhtgzKIuxQ2keu84pHD+2JWrob2WLqy2ueBv8sa
+ kjCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694764602; x=1695369402;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Sa23m9Sh+czmtoCmVFBbzydEhVvJnPH9LtopoO7enGk=;
+ b=DxV2gLl2FZffwW1EMypDY6V9qwH1ux+hQx3ysBQt+GAQMi6qp5O54iv7r4/rwxBugU
+ YowOyv6NnwP5ANV92yrbCFfa434gJl3IuyUlOg1mRlZAcCqF8XBQPKnz+CN0WzSS1sXg
+ 0hMnjJrGzRa2pZt5V1BvT3lSPpUCoCb/Wxb7waeNDoc+AP2teLYahu2fR7Y1uc099R7P
+ F3ql3E3uA7T+JMwKfoiFSOPLZWpWlcSa07HSU4LJUjJyUMi4om/65YfO2EWa9u4BVPIW
+ 6aEqfBjYOxL6BFkYETyLErPfjlfjosrJk7UNs7LLLsgwleJ7EEMY545p8j6A4ekJE+Ox
+ V+Aw==
+X-Gm-Message-State: AOJu0Yz5Hb/1Xdo6sH/UfTXXCsTdSujqDH+doB5Atbn5z5F3IdPrjkc/
+ kU/RIURF5gBg1rEn2KeKjFk=
+X-Google-Smtp-Source: AGHT+IE9RcRJ910CnL7JvJNrqjoaC0IFvFSCZdBwD31Y9Swflcx2melRR4bsTZgiId84hdnlKqufcA==
+X-Received: by 2002:a17:903:1210:b0:1bb:7f71:df43 with SMTP id
+ l16-20020a170903121000b001bb7f71df43mr1107314plh.34.1694764602592; 
+ Fri, 15 Sep 2023 00:56:42 -0700 (PDT)
+Received: from debian.me ([103.124.138.83]) by smtp.gmail.com with ESMTPSA id
+ u5-20020a170902b28500b001bb750189desm2836147plr.255.2023.09.15.00.56.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Sep 2023 00:56:42 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id 88F408AA8414; Fri, 15 Sep 2023 14:56:38 +0700 (WIB)
+Date: Fri, 15 Sep 2023 14:56:38 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: angus gardner <angusg778@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: Removed unnecessary parenthesis around
+ conditions to comply with the checkpatch coding style.
+Message-ID: <ZQQONo8biMWlCiG3@debian.me>
+References: <ZQEKFR1OPoXGI2lO@midnight> <ZQERJIGOOeYxgX3E@debian.me>
+ <CAC5tM5u8L50fAhReAmP0dqexSmv-PdZJKa_ES2hxZMp41MJjGQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jzeagO5P9A3kQsYx"
+Content-Disposition: inline
+In-Reply-To: <CAC5tM5u8L50fAhReAmP0dqexSmv-PdZJKa_ES2hxZMp41MJjGQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,135 +76,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Sep 2023 02:27:15 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> Prepare drm_gem_shmem_free() to addition of memory shrinker support
-> to drm-shmem by adding and using variant of put_pages() that doesn't
-> touch reservation lock. Reservation shouldn't be touched because lockdep
-> will trigger a bogus warning about locking contention with fs_reclaim
-> code paths that can't happen during the time when GEM is freed and
-> lockdep doesn't know about that.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 55 +++++++++++++++++---------
->  1 file changed, 37 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 8a8eab4d0332..4959f51b647a 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -128,6 +128,41 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
->  
-> +static void
-> +__drm_gem_shmem_release_pages(struct drm_gem_shmem_object *shmem)
+--jzeagO5P9A3kQsYx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Could we find more descriptive names to replace those __ prefixes?
-drm_gem_shmem_free_pages(), drm_gem_shmem_drop_pages()?
+On Fri, Sep 15, 2023 at 11:58:47AM +1000, angus gardner wrote:
+> Thanks for the feedback Bagas,
+>=20
+> "Then checkpatch is wrong, " lol
+>=20
+> Ill double check my SoB.
+>=20
 
-> +{
-> +	struct drm_gem_object *obj = &shmem->base;
-> +
-> +#ifdef CONFIG_X86
-> +	if (shmem->map_wc)
-> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> +#endif
-> +
-> +	drm_gem_put_pages(obj, shmem->pages,
-> +			  shmem->pages_mark_dirty_on_put,
-> +			  shmem->pages_mark_accessed_on_put);
-> +	shmem->pages = NULL;
-> +}
-> +
-> +static void
-> +__drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+tl;dr:
 
-Maybe drm_gem_shmem_put_pages_no_lock_check()? But honestly, I'm not
-sure we want to make it a function since it's only going to be needed in
-drm_gem_shmem_free(). I think we can just inline
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>=20
+> A: No.
+> Q: Should I include quotations after my reply?
+>=20
+> http://daringfireball.net/2007/07/on_top
 
-	if (refcount_dec_and_test(&shmem->pages_use_count))
-		__drm_gem_shmem_release_pages(shmem);
+Also, don't send HTML emails as mailing lists reject them away.
 
-there.
+Last but not least, this is the third time you do parentheses fixup, for
+which Greg's bot said:
 
-> +{
-> +	/*
-> +	 * Destroying the object is a special case.  Acquiring the obj
-> +	 * lock in drm_gem_shmem_put_pages_locked() can cause a locking
-> +	 * order inversion between reservation_ww_class_mutex and fs_reclaim
-> +	 * when called from drm_gem_shmem_free().
-> +	 *
-> +	 * This deadlock is not actually possible, because no one should
-> +	 * be already holding the lock when drm_gem_shmem_free() is called.
-> +	 * Unfortunately lockdep is not aware of this detail.  So when the
-> +	 * refcount drops to zero, make sure that the reservation lock
-> +	 * isn't touched here.
-> +	 */
-> +	if (refcount_dec_and_test(&shmem->pages_use_count))
-> +		__drm_gem_shmem_release_pages(shmem);
-> +}
-> +
->  /**
->   * drm_gem_shmem_free - Free resources associated with a shmem GEM object
->   * @shmem: shmem GEM object to free
-> @@ -142,8 +177,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  	if (obj->import_attach) {
->  		drm_prime_gem_destroy(obj, shmem->sgt);
->  	} else {
-> -		dma_resv_lock(shmem->base.resv, NULL);
-> -
->  		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
->  
->  		if (shmem->sgt) {
-> @@ -153,11 +186,9 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  			kfree(shmem->sgt);
->  		}
->  		if (shmem->pages)
-> -			drm_gem_shmem_put_pages_locked(shmem);
-> +			__drm_gem_shmem_put_pages(shmem);
->  
->  		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
-> -
-> -		dma_resv_unlock(shmem->base.resv);
->  	}
->  
->  	drm_gem_object_release(obj);
-> @@ -207,21 +238,9 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->   */
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->  {
-> -	struct drm_gem_object *obj = &shmem->base;
-> -
->  	dma_resv_assert_held(shmem->base.resv);
->  
-> -	if (refcount_dec_and_test(&shmem->pages_use_count)) {
-> -#ifdef CONFIG_X86
-> -		if (shmem->map_wc)
-> -			set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> -#endif
-> -
-> -		drm_gem_put_pages(obj, shmem->pages,
-> -				  shmem->pages_mark_dirty_on_put,
-> -				  shmem->pages_mark_accessed_on_put);
-> -		shmem->pages = NULL;
-> -	}
-> +	__drm_gem_shmem_put_pages(shmem);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
->  
+>   You sent a patch that has been sent multiple times in the past few
+>   days, and is identical to ones that has been recently rejected.
+>   Please always look at the mailing list traffic to determine if you are
+>   duplicating other people's work.
 
+Again, read all Documentation/process/*.rst docs so that you won't make
+mistakes again as kernel developer.
+
+Bye!
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--jzeagO5P9A3kQsYx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZQQOMQAKCRD2uYlJVVFO
+ozABAP9f4cJ4x4CFW0UEkBJrggxsKLo1ON0XZG0LmZPzzQI2JQD/fEkTFsH2KkSP
+z0qFevhjEpUHaH2/N4WS6Tya9TaUdwo=
+=iIZ2
+-----END PGP SIGNATURE-----
+
+--jzeagO5P9A3kQsYx--
