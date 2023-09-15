@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8FC7A14E4
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 06:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65517A14F3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 06:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F119110E0BE;
-	Fri, 15 Sep 2023 04:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85EAF10E075;
+	Fri, 15 Sep 2023 04:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5229D10E04F
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 04:54:46 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1c364fb8a4cso15958465ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 21:54:46 -0700 (PDT)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D5B10E075
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 04:58:36 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-577fb90bbebso1146350a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Sep 2023 21:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1694753686; x=1695358486;
+ d=chromium.org; s=google; t=1694753916; x=1695358716;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ToW+0xnZZSn2haYogSaseRbGCEN/c/VaxynOQEBf2ck=;
- b=bu+fNzpb97DRq/51XqPO0HE9ObGYESTwTiaj3X34uzpmqbTderARtlFfx6ApwK/SHS
- s3z+IzprU4fKOiKaSxoz8b1n7fp9FQdYMbbeTgN4ObmwcdZ4915QWQ24jbGD0LI8D0uN
- Dp3XPKzPVeyX0N07gmgShGh7Jk/p3Lcyje7vc=
+ bh=fhsajtpeOeh2nBytWoKmEmN9EZC9U8e31FJLV6iox60=;
+ b=m6rmh8o8lbdtonto2uYMnotJE6sEWhOG7NpNYK5QmgBMdP0XxyGDabfbuEwuLG9Yjk
+ nCyd4gNTUJXeJdUfWuwgLczANscCJlCORMFAUA8wOAjAksA1F+iWRjyeUFkJpoboQKap
+ rWfjZl7fGSHc5XP1s4aPJBXcFmy5OoUnqB3e8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694753686; x=1695358486;
+ d=1e100.net; s=20230601; t=1694753916; x=1695358716;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ToW+0xnZZSn2haYogSaseRbGCEN/c/VaxynOQEBf2ck=;
- b=t8q3/hukp+aKc3p4FMQi3gaIlGCgxS53k8mM20EPtvX5vyV8kZufsHQkW0XULCNwVg
- QOX/HT4x2d18HXJ+hZLDb0XKwOk7w55yZEUorJWBO/99yS+aLIzKWYzZpzs3EpK3arUz
- EeLjDclKYUQAxBCV2I/iFAASEUrYIJKejvrn6X134q+g0qyYQBiP8MbroDwwJn8YCFK9
- T4JFq+Xs/6mKR1GS1f6LK8tvD6ZaiWCvRVBBrVeF9GC0TlmqpBZN5nE+usxuP+HJXAqv
- Ifq/BekqP8Gdkc8DdnDArPbI01OA9IuqNN/YLQJMdFVCdsSaf5Clz/FF1XVEivmRCDVt
- o9Rw==
-X-Gm-Message-State: AOJu0YzMRSuZ6VfGId3QxyV0Pma3Bq2Nc1gc+OgdIhFMeAHr3OvldMPH
- BJSD8SINWDowTLn4YTsv6R/QXg==
-X-Google-Smtp-Source: AGHT+IEcCPpurVZaVmMfJTxE+QBrjIRFGRhM4z9e+DIud9rnr99x7LR9itVZkiVtL8ZoPc40jrO71A==
-X-Received: by 2002:a17:903:2447:b0:1c3:a396:25ae with SMTP id
- l7-20020a170903244700b001c3a39625aemr647937pls.56.1694753685862; 
- Thu, 14 Sep 2023 21:54:45 -0700 (PDT)
+ bh=fhsajtpeOeh2nBytWoKmEmN9EZC9U8e31FJLV6iox60=;
+ b=SHPN3qepd2F9DWzRCg1LcJfOuumBPRYjBZFS4ayOGYqcCrA3Q/eaEyLai0sahP2Dz2
+ QUklzRU1VDHtwB+15XW4SXBxlE0Vd8u9xouM9A8MDL77PNnG/NNAXIlJTYJiQf9jgGe/
+ Kyo2DLOEmIa0IXSwvWmLbj+2o8XVJiAV8HSEFRoelNBL/hvioc3G5f6DZoWr4lOoCVLs
+ G4IPNsn2XFrfRQ567B+GUvPiZHqPByes448PLqGM5ebwQilamxnTfIsHsoFIo+glaMJO
+ wyjK2YF4x44JnYw3Ds5l0SwUeEWIQsr2YXAFYZJu9s47ciysoijUB4CfkgVTNEzkewJK
+ 8IUA==
+X-Gm-Message-State: AOJu0Yzw2MsuBY3PdmVoui6ZHWrLvcwC2OQJKN5Oi4pcIh0WRIcxlNBS
+ IDUvCGRFdAYwXclYpYagSmoqww==
+X-Google-Smtp-Source: AGHT+IHAmWQcAvThssqgWXbggJNS/TydsVAkxf1KlDv9GNBO38qD+u6WVPMGPpXVEOqFJJZtDsV7lg==
+X-Received: by 2002:a17:90a:7503:b0:26b:6a2f:7d90 with SMTP id
+ q3-20020a17090a750300b0026b6a2f7d90mr523526pjk.23.1694753916448; 
+ Thu, 14 Sep 2023 21:58:36 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
  [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- q23-20020a170902789700b001b8a3dd5a4asm2425048pll.283.2023.09.14.21.54.45
+ w2-20020a170902d70200b001bbaf09ce15sm2448050ply.152.2023.09.14.21.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Sep 2023 21:54:45 -0700 (PDT)
-Date: Thu, 14 Sep 2023 21:54:44 -0700
+ Thu, 14 Sep 2023 21:58:35 -0700 (PDT)
+Date: Thu, 14 Sep 2023 21:58:35 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH] drm/nouveau/nvif: refactor deprecated strncpy
-Message-ID: <202309142139.1C068523@keescook>
-References: <20230914-strncpy-drivers-gpu-drm-nouveau-nvif-client-c-v1-1-dc3b3719fcb4@google.com>
+Subject: Re: [PATCH] drm/nouveau/core: refactor deprecated strncpy
+Message-ID: <202309142158.9D766D97@keescook>
+References: <20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-v1-1-3aeae46c032f@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230914-strncpy-drivers-gpu-drm-nouveau-nvif-client-c-v1-1-dc3b3719fcb4@google.com>
+In-Reply-To: <20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-v1-1-3aeae46c032f@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,96 +76,54 @@ Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 14, 2023 at 09:30:37PM +0000, Justin Stitt wrote:
-> `strncpy` is deprecated and as such we should prefer more robust and
-> less ambiguous string interfaces.
+On Thu, Sep 14, 2023 at 09:40:49PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
 > 
-> A suitable replacement is `strscpy_pad` due to the fact that it
-> guarantees NUL-termination on the destination buffer whilst also
-> maintaining the NUL-padding behavior that `strncpy` provides. I am not
-> sure whether NUL-padding is strictly needed but I see in
-> `nvif_object_ctor()` args is memcpy'd elsewhere so I figured we'd keep
-> the same functionality.
+> We should prefer more robust and less ambiguous string interfaces.
+> 
+> A suitable replacement is `strscpy` [2] due to the fact that it guarantees
+> NUL-termination on the destination buffer without unnecessarily NUL-padding.
+> 
+> There is likely no bug in the current implementation due to the safeguard:
+> | 	cname[sizeof(cname) - 1] = '\0';
+> ... however we can provide simpler and easier to understand code using
+> the newer (and recommended) `strscpy` api.
 > 
 > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
 > Link: https://github.com/KSPP/linux/issues/90
 > Cc: linux-hardening@vger.kernel.org
 > Signed-off-by: Justin Stitt <justinstitt@google.com>
 > ---
-> Note: build-tested only.
-> ---
->  drivers/gpu/drm/nouveau/nvif/client.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nvif/client.c b/drivers/gpu/drm/nouveau/nvif/client.c
-> index a3264a0e933a..3a27245f467f 100644
-> --- a/drivers/gpu/drm/nouveau/nvif/client.c
-> +++ b/drivers/gpu/drm/nouveau/nvif/client.c
-> @@ -69,7 +69,7 @@ nvif_client_ctor(struct nvif_client *parent, const char *name, u64 device,
->  	} nop = {};
->  	int ret;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+> index 91fb494d4009..374212da9e95 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+> @@ -79,8 +79,7 @@ nvkm_firmware_get(const struct nvkm_subdev *subdev, const char *fwname, int ver,
+>  	int i;
 >  
-> -	strncpy(args.name, name, sizeof(args.name));
-> +	strscpy_pad(args.name, name, sizeof(args.name));
->  	ret = nvif_object_ctor(parent != client ? &parent->object : NULL,
->  			       name ? name : "nvifClient", 0,
->  			       NVIF_CLASS_CLIENT, &args, sizeof(args),
+>  	/* Convert device name to lowercase */
+> -	strncpy(cname, device->chip->name, sizeof(cname));
+> -	cname[sizeof(cname) - 1] = '\0';
+> +	strscpy(cname, device->chip->name, sizeof(cname));
+>  	i = strlen(cname);
+>  	while (i) {
+>  		--i;
 
-Right, I see the memcpy too:
-
-nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
-                 s32 oclass, void *data, u32 size, struct nvif_object *object)
-{
-	...
-                memcpy(args->new.data, data, size);
-
-However, "args" is already zeroed:
-
-        struct nvif_client_v0 args = { .device = device };
-
-So there's no need for _pad(). However, I couldn't immediatley see
-why args.name must be %NUL terminated. It's ultimately passed through
-an ioctl:
-
-        return client->driver->ioctl(client->object.priv, data, size, hack);
-
-But I did find it...
-
-args is:
-
-struct nvif_client_v0 {
-	...
-        char  name[32];
-};
-
-And "name" only ever comes through nvif_client_ctor(), which all end up
-via here, using "cli":
-
-struct nouveau_cli {
-	...
-        char name[32];
-...
-
-
-        snprintf(cli->name, sizeof(cli->name), "%s", sname);
-	...
-                ret = nvif_client_ctor(&drm->master.base, cli->name, device,
-                                       &cli->base);
-
-So we'll always be %NUL terminated.
-
-Therefore, yes, conversion looks good:
+Yup, consumed by strlen() and snprintf(). Looks like a standard
+conversion. :)
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
-
-Thanks!
 
 -Kees
 
 > 
 > ---
 > base-commit: 3669558bdf354cd352be955ef2764cde6a9bf5ec
-> change-id: 20230914-strncpy-drivers-gpu-drm-nouveau-nvif-client-c-82b023c36953
+> change-id: 20230914-strncpy-drivers-gpu-drm-nouveau-nvkm-core-firmware-c-791223838b72
 > 
 > Best regards,
 > --
