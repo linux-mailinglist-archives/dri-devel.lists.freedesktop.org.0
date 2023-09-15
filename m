@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0213E7A228E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7987A22B1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:43:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9BB10E624;
-	Fri, 15 Sep 2023 15:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5EC510E643;
+	Fri, 15 Sep 2023 15:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C4610E624
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 15:37:49 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38FEMRdR009598; Fri, 15 Sep 2023 15:37:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=/aQt/tzEPrBWNKumdKJRGCDl1yBVMqn2t4UXFWyo7+0=;
- b=Udc4uxpw1BZm/BJOp1aw/EQjCzzMtI9H+WY13PTFkCHrgW3cdX4xJSMnsJwcAsIepcbm
- VOHjGu9xZXRjMMvUeJynfoHThZuwVv3y4+mURG45RlPyNC0xuHu6pRbHqBRVRKgVReU7
- V9p3ab2YkOuDfSTEfpApT6dXkOL6kmTKSVYL3LbHoBEj2d/dJo4FOI7utISqTxFHte5f
- lKBgHutGrwoVHWcfWAZ3wDkA5NwOFtnN3Bkpao0JiPmjSnQRKmJMGZxUvNkmJR5HK1Em
- EvOJb3HpnuCirs3dESPera+b42QmgkUOzDGWAftukkuS40b8YKGgSmYjwmlTrVoBzpRn fg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4g841cp0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 15:37:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FFbh5M021083
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Sep 2023 15:37:43 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 15 Sep
- 2023 08:37:43 -0700
-Message-ID: <152652c0-471a-5d0a-2bd3-d002b67f66f2@quicinc.com>
-Date: Fri, 15 Sep 2023 09:37:42 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F1410E643
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 15:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694792580; x=1726328580;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=+bhmUCWZzNmLPGMd0PHFWWoi5JXlJtf/KEHz5FM7kaA=;
+ b=YKp0J/yGyW6H2sDqsKJ10ttbQ5Bd5GUfwzOlU1oIA0YZNVuUp/TZksbJ
+ KVaaQ1BBQ9SxtDBZMvbPMz+RPpkqw5OqZjT1sZK/l96ord6jTj6zyAuXC
+ MiSf++jFeikwsbPxBoNqLGA0CvmCxHiWP0/WFb1tNY/R56lsigf9Upsfk
+ gN1dehRUiL5gbgsYizYMSaA998EoIoKFsbRp4u++X+0NN7TkSIwdgO+NL
+ b6nLeZdpiP5JM2pW9mXoJFcVGJx8E28SM+ObGnmyqiwRhBcDprdL2SnBT
+ dgOGdWSwDhQmgeKvlCZOGjvzEfGO2ar8u/RF2PfgxsnIdzHt9vDO4PIzS Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="358695923"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="358695923"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 08:43:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="918693516"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="918693516"
+Received: from azafrani-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.177])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 08:42:58 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Robert Foss <rfoss@kernel.org>, neil.armstrong@linaro.org
+Subject: Re: [PATCH] MAINTAINERS: add drm_bridge_connector.[ch] files under
+ bridge chips
+In-Reply-To: <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230914131951.2473844-1-jani.nikula@intel.com>
+ <e20aa74f-3b40-4901-963d-41fa8286244f@linaro.org>
+ <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
+Date: Fri, 15 Sep 2023 18:42:53 +0300
+Message-ID: <87a5tnv3wi.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] accel/qaic: Use devm_drm_dev_alloc() instead of
- drm_dev_alloc()
-Content-Language: en-US
-To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
- <stanislaw.gruszka@linux.intel.com>
-References: <20230901161236.8371-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230901161236.8371-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Uu1PETgZKifpCtrbZTfLdZ_iWGhAjlgV
-X-Proofpoint-ORIG-GUID: Uu1PETgZKifpCtrbZTfLdZ_iWGhAjlgV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-15_11,2023-09-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=831
- malwarescore=0 phishscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
- impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309150137
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,23 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, ogabbay@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/1/2023 10:12 AM, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> 
-> Since drm_dev_alloc() is deprecated it is recommended to use
-> devm_drm_dev_alloc() instead. Update the driver to start using
-> devm_drm_dev_alloc().
-> 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Fri, 15 Sep 2023, Robert Foss <rfoss@kernel.org> wrote:
+> On Fri, Sep 15, 2023 at 12:31=E2=80=AFPM Neil Armstrong
+> <neil.armstrong@linaro.org> wrote:
+>>
+>> On 14/09/2023 15:19, Jani Nikula wrote:
+>> > Clearly this should be under bridge chips.
+>> >
+>> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> > Cc: Robert Foss <rfoss@kernel.org>
+>> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> > ---
+>> >   MAINTAINERS | 2 ++
+>> >   1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/MAINTAINERS b/MAINTAINERS
+>> > index 354ac7ef553d..c331f2ea89d7 100644
+>> > --- a/MAINTAINERS
+>> > +++ b/MAINTAINERS
+>> > @@ -6909,7 +6909,9 @@ T:      git git://anongit.freedesktop.org/drm/dr=
+m-misc
+>> >   F:  Documentation/devicetree/bindings/display/bridge/
+>> >   F:  drivers/gpu/drm/bridge/
+>> >   F:  drivers/gpu/drm/drm_bridge.c
+>> > +F:   drivers/gpu/drm/drm_bridge_connector.c
+>> >   F:  include/drm/drm_bridge.h
+>> > +F:   include/drm/drm_bridge_connector.h
+>> >
+>> >   DRM DRIVERS FOR EXYNOS
+>> >   M:  Inki Dae <inki.dae@samsung.com>
+>>
+>> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>
+>
+> Acked-by: Robert Foss <rfoss@kernel.org>
 
-Pushed to drm-misc-next
+Thanks, pushed to drm-misc-next.
 
--Jeff
+BR,
+Jani.
+
+--=20
+Jani Nikula, Intel
