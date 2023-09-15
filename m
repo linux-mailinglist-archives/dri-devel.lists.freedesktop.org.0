@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57DE7A1D07
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 13:02:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A944B7A1DA1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 13:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632CD10E61F;
-	Fri, 15 Sep 2023 11:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 373C010E177;
+	Fri, 15 Sep 2023 11:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DA410E61F
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:01:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1694775711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pgqvvVn/6dCIhXw29WugfytAKiTjkJ56RVwcLGYEqn8=;
- b=NWLkophElwmTJGffxn/hJuSZuUHEjVKzcpXzWqedY1ty1baxXnbtGcgyTkYvr4f+GIEZPR
- yMZV9inditckvKxSOmSGkgpGC/cHkrwtP3gnHik9pPVzgrtEyx0Ou3tR7Dm3UoDmqRfJvT
- xFfffgnDSl9H1NqqjRTbgiBLshvJGK0=
-Message-ID: <3dff2bfa521a03cd652a65d44ddd77c53f190f23.camel@crapouillou.net>
-Subject: Re: [PATCH] drm: bridge: it66121: ->get_edid callback must not
- return err pointers
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Date: Fri, 15 Sep 2023 13:01:50 +0200
-In-Reply-To: <20230914131159.2472513-1-jani.nikula@intel.com>
-References: <20230914131159.2472513-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 928F210E177
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:39 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 96E31B82D2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4574CC433C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694778216;
+ bh=FlAHMnQkvWyp23uJAvJzhK6xAIyf+lyO3vske58RO3o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QNHUtpw18u6+udjFQsqTWGxhVUWD0IzQnCCoF7X3x0CuWB1cZCi2wlOZ010/hlhB3
+ KHpBPRclBuesfORKB0TUnmVIUTxBuZvVZei38UVFBU59RMEOC2vP+MMpLJp0akDZqy
+ jfSLhZBb7RVTQsUtuS5ZukQXnGUkeSX7lzOD/TT/EXBT6GuF52608QMnN/XZQ+qxLD
+ NIsy1gGaz/B1rL9Nweq9LKkwg2WA0k0FerERj4sf1lS6rIRw8TLebC0cxX3pyChJq2
+ MGNR1zxJHxGswFOUNgDJru2ZF7BsEKm/9wkxgaPYw5aKDYS2mUoyp6yCT3ua+ibYnB
+ jne3QBuMteV1Q==
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-68fac16ee5fso1863182b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 04:43:36 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw9DsWZu7XcgTjZnOHlpIahjFRDFH5BMEKqpqvq1aYxBorf2t1N
+ 5b2uNBF88lHFs6ZZa/r+B/M2OQKW/o4rf2opwVns/A==
+X-Google-Smtp-Source: AGHT+IGUuLKgUwNtIjG1fIGjq/Ez1QTYt06r5r84TvYJ54GxUMB058oLN/ORSHhyBlBTkhJxXDYp9jz3IIFX4/sP1+g=
+X-Received: by 2002:a05:6a20:2446:b0:147:fd40:2482 with SMTP id
+ t6-20020a056a20244600b00147fd402482mr1772669pzc.44.1694778215877; Fri, 15 Sep
+ 2023 04:43:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230914131951.2473844-1-jani.nikula@intel.com>
+ <e20aa74f-3b40-4901-963d-41fa8286244f@linaro.org>
+In-Reply-To: <e20aa74f-3b40-4901-963d-41fa8286244f@linaro.org>
+From: Robert Foss <rfoss@kernel.org>
+Date: Fri, 15 Sep 2023 13:43:24 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
+Message-ID: <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: add drm_bridge_connector.[ch] files under
+ bridge chips
+To: neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,47 +65,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
- Phong LE <ple@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, stable@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFuaSwKCkxlIGpldWRpIDE0IHNlcHRlbWJyZSAyMDIzIMOgIDE2OjExICswMzAwLCBKYW5p
-IE5pa3VsYSBhIMOpY3JpdMKgOgo+IFRoZSBkcm0gc3RhY2sgZG9lcyBub3QgZXhwZWN0IGVycm9y
-IHZhbHVlZCBwb2ludGVycyBmb3IgRURJRAo+IGFueXdoZXJlLgo+IAo+IEZpeGVzOiBlNjY4NTY1
-MDg3NDYgKCJkcm06IGJyaWRnZTogaXQ2NjEyMTogU2V0IEREQyBwcmVhbWJsZSBvbmx5Cj4gb25j
-ZSBiZWZvcmUgcmVhZGluZyBFRElEIikKPiBDYzogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3Vp
-bGxvdS5uZXQ+Cj4gQ2M6IFJvYmVydCBGb3NzIDxyb2JlcnQuZm9zc0BsaW5hcm8ub3JnPgo+IENj
-OiBQaG9uZyBMRSA8cGxlQGJheWxpYnJlLmNvbT4KPiBDYzogTmVpbCBBcm1zdHJvbmcgPG5laWwu
-YXJtc3Ryb25nQGxpbmFyby5vcmc+Cj4gQ2M6IEFuZHJ6ZWogSGFqZGEgPGFuZHJ6ZWouaGFqZGFA
-aW50ZWwuY29tPgo+IENjOiBSb2JlcnQgRm9zcyA8cmZvc3NAa2VybmVsLm9yZz4KPiBDYzogTGF1
-cmVudCBQaW5jaGFydCA8TGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+IENjOiBK
-b25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+Cj4gQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJu
-ZWouc2tyYWJlY0BnbWFpbC5jb20+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY2
-LjMrCj4gU2lnbmVkLW9mZi1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4K
-CkFwcGxpZWQgdG8gZHJtLW1pc2MtbmV4dCwgdGhhbmtzLgoKQ2hlZXJzLAotUGF1bAoKPiAKPiAt
-LS0KPiAKPiBVTlRFU1RFRAo+IC0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2
-NjEyMS5jIHwgNCArKy0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1p
-dDY2MTIxLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjYxMjEuYwo+IGluZGV4
-IDNjOWI0MmM5ZDJlZS4uMWNmM2ZiMWYxM2RjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvaXRlLWl0NjYxMjEuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRl
-LWl0NjYxMjEuYwo+IEBAIC04ODQsMTQgKzg4NCwxNCBAQCBzdGF0aWMgc3RydWN0IGVkaWQKPiAq
-aXQ2NjEyMV9icmlkZ2VfZ2V0X2VkaWQoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiDCoMKg
-wqDCoMKgwqDCoMKgbXV0ZXhfbG9jaygmY3R4LT5sb2NrKTsKPiDCoMKgwqDCoMKgwqDCoMKgcmV0
-ID0gaXQ2NjEyMV9wcmVhbWJsZV9kZGMoY3R4KTsKPiDCoMKgwqDCoMKgwqDCoMKgaWYgKHJldCkg
-ewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlZGlkID0gRVJSX1BUUihyZXQpOwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlZGlkID0gTlVMTDsKPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gb3V0X3VubG9jazsKPiDCoMKgwqDCoMKgwqDCoMKg
-fQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoHJldCA9IHJlZ21hcF93cml0ZShjdHgtPnJlZ21hcCwg
-SVQ2NjEyMV9ERENfSEVBREVSX1JFRywKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIElUNjYxMjFfRERDX0hFQURFUl9FRElEKTsKPiDCoMKgwqDC
-oMKgwqDCoMKgaWYgKHJldCkgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlZGlk
-ID0gRVJSX1BUUihyZXQpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlZGlkID0g
-TlVMTDsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gb3V0X3VubG9jazsK
-PiDCoMKgwqDCoMKgwqDCoMKgfQo+IMKgCgo=
+On Fri, Sep 15, 2023 at 12:31=E2=80=AFPM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
+>
+> On 14/09/2023 15:19, Jani Nikula wrote:
+> > Clearly this should be under bridge chips.
+> >
+> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> > Cc: Robert Foss <rfoss@kernel.org>
+> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> > ---
+> >   MAINTAINERS | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 354ac7ef553d..c331f2ea89d7 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -6909,7 +6909,9 @@ T:      git git://anongit.freedesktop.org/drm/drm=
+-misc
+> >   F:  Documentation/devicetree/bindings/display/bridge/
+> >   F:  drivers/gpu/drm/bridge/
+> >   F:  drivers/gpu/drm/drm_bridge.c
+> > +F:   drivers/gpu/drm/drm_bridge_connector.c
+> >   F:  include/drm/drm_bridge.h
+> > +F:   include/drm/drm_bridge_connector.h
+> >
+> >   DRM DRIVERS FOR EXYNOS
+> >   M:  Inki Dae <inki.dae@samsung.com>
+>
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+>
 
+Acked-by: Robert Foss <rfoss@kernel.org>
