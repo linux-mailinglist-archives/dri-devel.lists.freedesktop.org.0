@@ -2,46 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A106F7A227C
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0383B7A2282
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 17:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8273810E647;
-	Fri, 15 Sep 2023 15:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F5210E64D;
+	Fri, 15 Sep 2023 15:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F240E10E647
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 15:35:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 2D4D0CE2C3E;
- Fri, 15 Sep 2023 15:35:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26ECCC433C8;
- Fri, 15 Sep 2023 15:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694792137;
- bh=eh4hH43/skbLq/T9F77bp8BlsF0bG5I501rYqNbey9I=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=PPfKUYXYtMuseNUQg+5lGAAzQpjpqobvavjqmSNov9pCRHaXxXwA3VOahu6pTywRJ
- kF/716J3AjK2BZyzwSHbObop64Kf/Amu4S1oUefCLx2hVJZXs3V8yb7fTTTJrefYIc
- SV8L152VzFsrESorWxN6Snp17XhJl0SEaxrmi1r4OqtH81C1xvJ2A2gorhPxpgY79s
- fAnH1I0ZpHyhZxQ49Vzpxs1xw1VWS+nF1qPo36SEuPVcIA8DhAYrWEHEApdC5FUNG0
- NfrwNWvCVqTOqy0yc1Mth7v5IK26vFM/p122KNYdozchdw4PgoccKsSOqkcPDzJH7E
- cwzCeNYaQiO+Q==
-Received: (nullmailer pid 3764874 invoked by uid 1000);
- Fri, 15 Sep 2023 15:35:35 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C718310E64B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 15:36:13 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38FD5fgs010932; Fri, 15 Sep 2023 15:36:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=//QBrf3RuwpRYUZBA/EpAD1PbEHaiVhCrFfFXQ94wp0=;
+ b=YWMUxZ5HuK1sW619wJSAZnC+IO171/134ly0klObd4su6QL+mBVGq8zy2Ke/SbEgjEEk
+ HkT32ju7apQ8IxIitlSfTWXtAL7lqkMXldBDasEVLg2Hde/VGsYazs7is8ML2zqv1Nt5
+ LFEuVekn9P51Eh7FTRr2zQdNu47TBcXYfltV56JTzSB+OYk1dck9ZVIL8q14qtzsf25T
+ p+75lbg9gjjd+HtnQ7AsTBs04uxwWWMOVmGQuHeRWBySHZDgnYjFrY4NRiDAfHD/iT8G
+ Xybw4Eeso9TQz4Tu4PGABjCelkgCremqhVvsXpF/ooKOotv8UfcNCOYRU8TXQt7TTMXW Sg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t4f6v1mqs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Sep 2023 15:36:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38FFa95v019896
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Sep 2023 15:36:09 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 15 Sep
+ 2023 08:36:08 -0700
+Message-ID: <d1c41779-bcdb-9633-4372-9589e7ccbf1b@quicinc.com>
+Date: Fri, 15 Sep 2023 09:36:07 -0600
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-In-Reply-To: <20230915140516.1294925-1-f.suligoi@asem.it>
-References: <20230915140516.1294925-1-f.suligoi@asem.it>
-Message-Id: <169479213508.3764858.9372771347269509988.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: Add MPS MP3309C
-Date: Fri, 15 Sep 2023 10:35:35 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Use devm_drm_dev_alloc() instead of
+ drm_dev_alloc()
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230901161236.8371-1-quic_jhugo@quicinc.com>
+ <20230904092855.GC184247@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230904092855.GC184247@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ZpVx7sKG7y9ZDFpXe-CPZIWXXnEROu75
+X-Proofpoint-ORIG-GUID: ZpVx7sKG7y9ZDFpXe-CPZIWXXnEROu75
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-15_12,2023-09-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=963 spamscore=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309150139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,73 +84,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-leds@vger.kernel.org
+Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 15 Sep 2023 16:05:15 +0200, Flavio Suligoi wrote:
-> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> programmable switching frequency to optimize efficiency.
-> The brightness can be controlled either by I2C commands (called "analog"
-> mode) or by a PWM input signal (PWM mode).
-> This driver supports both modes.
+On 9/4/2023 3:28 AM, Stanislaw Gruszka wrote:
+> On Fri, Sep 01, 2023 at 10:12:36AM -0600, Jeffrey Hugo wrote:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>
+>> Since drm_dev_alloc() is deprecated it is recommended to use
+>> devm_drm_dev_alloc() instead. Update the driver to start using
+>> devm_drm_dev_alloc().
+>>
+>> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> +	/*
+>> +	 * drm_dev_unregister() sets the driver data to NULL and
+>> +	 * drm_dev_register() does not update the driver data. During a SOC
+>> +	 * reset drm dev is unregistered and registered again leaving the
+>> +	 * driver data to NULL.
+>> +	 */
+>> +	dev_set_drvdata(to_accel_kdev(qddev), drm->accel);
 > 
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
-> 
-> The datasheet is available at:
-> - https://www.monolithicpower.com/en/mp3309c.html
-> 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
-> 
-> v2:
->  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
->    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
->    reset-on-length-ms)
->  - add common.yaml#
->  - remove already included properties (default-brightness, max-brightness)
->  - substitute three boolean properties, used for the overvoltage-protection
->    values, with a single enum property
->  - remove some conditional definitions
->  - remove the 2nd example
-> v1:
->  - first version
-> 
->  .../bindings/leds/backlight/mps,mp3309c.yaml  | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> 
+> Yeah, explicitly nullified in drm_minor_unregister() with ' /* safety belt */
+> comment. I think in long term goal would be device reset not require
+> unregister/register.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Having a look at that.  It does tweak some of the semantics.  Would be 
+nice on the driver side though.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.example.dtb: /example-0/i2c/backlight@17: failed to match any schema with compatible: ['mps,mp3309c-backlight']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230915140516.1294925-1-f.suligoi@asem.it
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-Jeff
