@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A944B7A1DA1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 13:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F037A1DE1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 14:02:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 373C010E177;
-	Fri, 15 Sep 2023 11:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB4E510E17C;
+	Fri, 15 Sep 2023 12:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928F210E177
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:39 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 96E31B82D2C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4574CC433C8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 11:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1694778216;
- bh=FlAHMnQkvWyp23uJAvJzhK6xAIyf+lyO3vske58RO3o=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=QNHUtpw18u6+udjFQsqTWGxhVUWD0IzQnCCoF7X3x0CuWB1cZCi2wlOZ010/hlhB3
- KHpBPRclBuesfORKB0TUnmVIUTxBuZvVZei38UVFBU59RMEOC2vP+MMpLJp0akDZqy
- jfSLhZBb7RVTQsUtuS5ZukQXnGUkeSX7lzOD/TT/EXBT6GuF52608QMnN/XZQ+qxLD
- NIsy1gGaz/B1rL9Nweq9LKkwg2WA0k0FerERj4sf1lS6rIRw8TLebC0cxX3pyChJq2
- MGNR1zxJHxGswFOUNgDJru2ZF7BsEKm/9wkxgaPYw5aKDYS2mUoyp6yCT3ua+ibYnB
- jne3QBuMteV1Q==
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-68fac16ee5fso1863182b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 04:43:36 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw9DsWZu7XcgTjZnOHlpIahjFRDFH5BMEKqpqvq1aYxBorf2t1N
- 5b2uNBF88lHFs6ZZa/r+B/M2OQKW/o4rf2opwVns/A==
-X-Google-Smtp-Source: AGHT+IGUuLKgUwNtIjG1fIGjq/Ez1QTYt06r5r84TvYJ54GxUMB058oLN/ORSHhyBlBTkhJxXDYp9jz3IIFX4/sP1+g=
-X-Received: by 2002:a05:6a20:2446:b0:147:fd40:2482 with SMTP id
- t6-20020a056a20244600b00147fd402482mr1772669pzc.44.1694778215877; Fri, 15 Sep
- 2023 04:43:35 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 119B910E17C;
+ Fri, 15 Sep 2023 12:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1694779328; x=1726315328;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=gwM5fnXuG8powd+ajq+cI+5GyVGOVUj5BEzCq+gdTz4=;
+ b=nGCUZJa3up8s4GxdRRWlm3y9/LwtBBBzhukqc0LiHPiqyFNT092RIBkD
+ Z1go+IzkuixgAtrhCDWc6YWL3VGcoANGj4G32bFDk8TsWxt6Xz+NMZuXh
+ nu1mp+oMJGwFjn6uhEwo5NKNgYHOg9ifW6Q73ncQE1spAA5oH9urVpGtv
+ /+NiN+6+r2J1T2dNEAjcaUeWb5T3cTfGUK82JF9YyeFasiXqKjB3Y2NWN
+ reBJJHOoRh7cNUXNradGfpkOY414erNYRGf7WsUPESPGfcGoa5ybRKgNt
+ XdjK76EITE0ul/YImBhyfUwnOdEwCu2lyDPwTGx2/jtC0RTRYg14Iz7mH w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378145956"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="378145956"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 05:02:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="774292786"
+X-IronPort-AV: E=Sophos;i="6.02,149,1688454000"; d="scan'208";a="774292786"
+Received: from srdoo-mobl1.ger.corp.intel.com (HELO
+ ijarvine-mobl2.ger.corp.intel.com) ([10.252.38.99])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2023 05:02:01 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ Lukas Wunner <lukas@wunner.de>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+ Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/10] drm/radeon: Use RMW accessors for changing LNKCTL2
+Date: Fri, 15 Sep 2023 15:01:34 +0300
+Message-Id: <20230915120142.32987-3-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
+References: <20230915120142.32987-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-References: <20230914131951.2473844-1-jani.nikula@intel.com>
- <e20aa74f-3b40-4901-963d-41fa8286244f@linaro.org>
-In-Reply-To: <e20aa74f-3b40-4901-963d-41fa8286244f@linaro.org>
-From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 15 Sep 2023 13:43:24 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
-Message-ID: <CAN6tsi5EBbRmKn9A_2R5MHzuqw5+-5UMWe7b4ZF1vRdR+5oHwA@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: add drm_bridge_connector.[ch] files under
- bridge chips
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +71,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Zhang Rui <rui.zhang@intel.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Amit Kucheria <amitk@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 15, 2023 at 12:31=E2=80=AFPM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 14/09/2023 15:19, Jani Nikula wrote:
-> > Clearly this should be under bridge chips.
-> >
-> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> > Cc: Robert Foss <rfoss@kernel.org>
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> > ---
-> >   MAINTAINERS | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 354ac7ef553d..c331f2ea89d7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -6909,7 +6909,9 @@ T:      git git://anongit.freedesktop.org/drm/drm=
--misc
-> >   F:  Documentation/devicetree/bindings/display/bridge/
-> >   F:  drivers/gpu/drm/bridge/
-> >   F:  drivers/gpu/drm/drm_bridge.c
-> > +F:   drivers/gpu/drm/drm_bridge_connector.c
-> >   F:  include/drm/drm_bridge.h
-> > +F:   include/drm/drm_bridge_connector.h
-> >
-> >   DRM DRIVERS FOR EXYNOS
-> >   M:  Inki Dae <inki.dae@samsung.com>
->
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
->
+Don't assume that only the driver would be accessing LNKCTL2. In the
+case of upstream (parent), the driver does not even own the device it's
+changing the registers for.
 
-Acked-by: Robert Foss <rfoss@kernel.org>
+Use RMW capability accessors which do proper locking to avoid losing
+concurrent updates to the register value. This change is also useful as
+a cleanup.
+
+Suggested-by: Lukas Wunner <lukas@wunner.de>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/gpu/drm/radeon/cik.c | 40 ++++++++++++++----------------------
+ drivers/gpu/drm/radeon/si.c  | 40 ++++++++++++++----------------------
+ 2 files changed, 30 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+index 10be30366c2b..b5e96a8fc2c1 100644
+--- a/drivers/gpu/drm/radeon/cik.c
++++ b/drivers/gpu/drm/radeon/cik.c
+@@ -9592,28 +9592,18 @@ static void cik_pcie_gen3_enable(struct radeon_device *rdev)
+ 								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				/* linkctl2 */
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (bridge_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(root,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
+-
+-				pcie_capability_read_word(rdev->pdev,
+-							  PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (gpu_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(rdev->pdev,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   bridge_cfg2 |
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
++				pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   gpu_cfg2 |
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
+ 
+ 				tmp = RREG32_PCIE_PORT(PCIE_LC_CNTL4);
+ 				tmp &= ~LC_SET_QUIESCE;
+@@ -9627,15 +9617,15 @@ static void cik_pcie_gen3_enable(struct radeon_device *rdev)
+ 	speed_cntl &= ~LC_FORCE_DIS_SW_SPEED_CHANGE;
+ 	WREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL, speed_cntl);
+ 
+-	pcie_capability_read_word(rdev->pdev, PCI_EXP_LNKCTL2, &tmp16);
+-	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
++	tmp16 = 0;
+ 	if (speed_cap == PCIE_SPEED_8_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
+ 	else if (speed_cap == PCIE_SPEED_5_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
+ 	else
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
+-	pcie_capability_write_word(rdev->pdev, PCI_EXP_LNKCTL2, tmp16);
++	pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++					   PCI_EXP_LNKCTL2_TLS, tmp16);
+ 
+ 	speed_cntl = RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
+ 	speed_cntl |= LC_INITIATE_LINK_SPEED_CHANGE;
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index a91012447b56..32871ca09a0f 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -7189,28 +7189,18 @@ static void si_pcie_gen3_enable(struct radeon_device *rdev)
+ 								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				/* linkctl2 */
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (bridge_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(root,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
+-
+-				pcie_capability_read_word(rdev->pdev,
+-							  PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (gpu_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(rdev->pdev,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   bridge_cfg2 &
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
++				pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   gpu_cfg2 &
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
+ 
+ 				tmp = RREG32_PCIE_PORT(PCIE_LC_CNTL4);
+ 				tmp &= ~LC_SET_QUIESCE;
+@@ -7224,15 +7214,15 @@ static void si_pcie_gen3_enable(struct radeon_device *rdev)
+ 	speed_cntl &= ~LC_FORCE_DIS_SW_SPEED_CHANGE;
+ 	WREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL, speed_cntl);
+ 
+-	pcie_capability_read_word(rdev->pdev, PCI_EXP_LNKCTL2, &tmp16);
+-	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
++	tmp16 = 0;
+ 	if (speed_cap == PCIE_SPEED_8_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
+ 	else if (speed_cap == PCIE_SPEED_5_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
+ 	else
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
+-	pcie_capability_write_word(rdev->pdev, PCI_EXP_LNKCTL2, tmp16);
++	pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++					   PCI_EXP_LNKCTL2_TLS, tmp16);
+ 
+ 	speed_cntl = RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
+ 	speed_cntl |= LC_INITIATE_LINK_SPEED_CHANGE;
+-- 
+2.30.2
+
