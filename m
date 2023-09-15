@@ -1,85 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2907B7A26D9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 21:02:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD4C7A26D8
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Sep 2023 21:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26F610E677;
-	Fri, 15 Sep 2023 19:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5906B10E033;
+	Fri, 15 Sep 2023 19:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Fri, 15 Sep 2023 19:02:47 UTC
-Received: from omta34.uswest2.a.cloudfilter.net
- (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5F610E679
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 19:02:47 +0000 (UTC)
-Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
- by cmsmtp with ESMTP
- id hCX9q9Jf1OzKlhDydqHQ1a; Fri, 15 Sep 2023 18:55:39 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id hDycqYBWxnxNghDydq273q; Fri, 15 Sep 2023 18:55:39 +0000
-X-Authority-Analysis: v=2.4 cv=PrSA0iA3 c=1 sm=1 tr=0 ts=6504a8ab
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=cm27Pg_UAAAA:8 a=nsourIgpG9fxkvA2dtoA:9 a=QEXdDO2ut3YA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+yyGAcG5aiTScB77D4ddFEWmEpNCxP+1ch2FK/sWkJ0=; b=ETgwp8I05RAqPuPQc4BXIeQdas
- poD6RrPDUERgRHEOLDgnob4I/CZHf87fcXS2PHWfcOv6GWIEq0hRNLD0su8PhviEzdydO04TDjONT
- fXqTcLkECnqQi/9V5EQBbCkiqR7b6zjbYxT2a/uGOSjDLj+nXfzvJ/SSBnPGI8UMJlQy8VUJXzQuQ
- +OwM82uOjao5Gq2BsIdBlWwZ1m+OZ3uZmDVpzy2iviGrj+QZBj2VwiI685vz9nbvMlXIQby4qKEpL
- Y+sEOnH9sbROA11BaxVG38uZvqgV7AJQtVCGvv95r3b2k1HN6/wyIz13XFMuVNXvgqmd5dRrpOhnc
- ojOPuljw==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:55148
- helo=[192.168.15.8])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <gustavo@embeddedor.com>) id 1qhDyc-000xBv-07;
- Fri, 15 Sep 2023 13:55:38 -0500
-Message-ID: <df8f30c2-7a94-110d-cc99-876979ec28c3@embeddedor.com>
-Date: Fri, 15 Sep 2023 12:56:34 -0600
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D133910E66F
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 19:02:36 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id
+ 3f1490d57ef6-d818d4230f6so2217250276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 12:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694804556; x=1695409356; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=euz/IHIc0mhpSJvprvTibU0nvlspa5qnPH9if5eZjIU=;
+ b=oJyvypkzWX/njjAngyGgidYwICbMmkFTjq0tvIw/nEvla7y1KKTOAV0SRCbOqsD5+D
+ fEruVnp0BAkradOB/htM9qaSAhv62D6g5TIAzB5pJX+KFuK21hpaSDfliTP1RbRfvom9
+ GOrKi+/u/2+PWynMsCymr2lvutfKHlas4uGNombut+a+4NozrvTRdC+BPOgff2zuqL7O
+ q0XrHLbXO9fnLsqsdIEEI4gouhfFqZFXDPqUluHCrIZDVNi6R6ttXGthReoZA3U0gYtq
+ mjxR3QYl8OyVnaeNgOkXEV7N+Xk5TUBRGjpftlr3kooYNgAj4gI6L7xmkvcsiO08Vnhi
+ WI0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694804556; x=1695409356;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=euz/IHIc0mhpSJvprvTibU0nvlspa5qnPH9if5eZjIU=;
+ b=ehWO8IlVyc3VI9CwHhapnTqXHTptyL1M5wzIN31uBq0VjcXCdkB7ACVLGsV9H5vZNT
+ tB9pU60Fs+3kLX5hqL8Ooc+sm/qXlg5zThQV9tUh97RJkmlqlK6eOhaEiGO+uwVnkLgh
+ kvrdsYjaNhsb6QZPYOv1tyn69bsw+uyu0PtuFGjG1YMf6kxaPGSdHOSkmmv0+oxvfFEX
+ 7HII1dU/PTv9lme7ihDnDcO5OD9YLiZjt0lrhgyb+DwEaVLUmDAB5GNqK9dM3+ataBKq
+ MqaIVyBVKOOR/4SeSftpxJFZgLs/zaQ9VM8DeEUNirilEQ0okCtuVJ9r9j2YkA62SJ9U
+ J4lA==
+X-Gm-Message-State: AOJu0YxRHlixwxnVAdzANNSCB1jnXI8YcG1i9w/kkDIPME/X8umCVG6F
+ 8Wq7fNScmdw88wuQ6tw8l12Q0YqOTjWBEAAyeGVCpg==
+X-Google-Smtp-Source: AGHT+IHjvbgo6WAOZyaLXnz4gisXVihpdX/YxZz482tKbWXr6KliN8j5UIIdtWwak5bLhfxaD9Fmf6SeDLlP6dEFAas=
+X-Received: by 2002:a25:8250:0:b0:d81:43ea:d018 with SMTP id
+ d16-20020a258250000000b00d8143ead018mr2631057ybn.42.1694804555819; Fri, 15
+ Sep 2023 12:02:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH][next] drm/gud: Use size_add() in call to struct_size()
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <ZQSlyHKPdw/zsy4c@work> <202309151150.74DBDCA039@keescook>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <202309151150.74DBDCA039@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qhDyc-000xBv-07
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8])
- [187.162.21.192]:55148
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 10
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCjD+GRfpwfJBFmjF15c/Lzqwj9gzId6CaFkd+2IRBtri77MG6Gcf8xxgrxL6mIYarbDNECv0lE8fN9el0bInl+PRKenGGfIA6WVxYTsUkqPVfe8tvi1
- BHrzr+KTvY65VxIOP1RZcxyfeKXpGIUxkkmgwK/NKLQ7eeWbT0Keax5nU/bItuw3gN50jbWKraPLXoczdJDYPSqMwrU3cHPCCNoh8+HzNs/LQo3dqZmyOoaR
+References: <20230915183010.32077-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20230915183010.32077-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 15 Sep 2023 22:02:24 +0300
+Message-ID: <CAA8EJpp-eK1spEBSJtT0YtRkJtSL6MWPyxN5c4AB-1MJMJXs9A@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dsi: skip the wait for video mode done if not
+ applicable
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,57 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-hardening@vger.kernel.org, Peter Stuge <peter@stuge.se>
+Cc: Hai Li <hali@codeaurora.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_parellan@quicinc.com,
+ quic_jesszhan@quicinc.com, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 15 Sept 2023 at 21:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> dsi_wait4video_done() API wait for the DSI video mode engine to
+> become idle so that we can transmit the DCS commands in the
+> beginning of BLLP. However, with the current sequence, the MDP
+> timing engine is turned on after the panel's pre_enable() callback
+> which can send out the DCS commands needed to power up the panel.
+>
+> During those cases, this API will always timeout and print out the
+> error spam leading to long bootup times and log flooding.
+>
+> Fix this by checking if the DSI video engine was actually busy before
+> waiting for it to become idle otherwise this is a redundant wait.
+>
+> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 0c4ec0530efc..31495e423c56 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1075,9 +1075,21 @@ static void dsi_wait4video_done(struct msm_dsi_host *msm_host)
+>
+>  static void dsi_wait4video_eng_busy(struct msm_dsi_host *msm_host)
+>  {
+> +       u32 data;
+> +
+> +       data = dsi_read(msm_host, REG_DSI_STATUS0);
+> +
+>         if (!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO))
+>                 return;
+
+We can probably skip reading REG_DSI_STATUS0 if the host is in CMD mode.
+LGTM otherwise.
+
+>
+> +       /* if video mode engine is not busy, its because
+> +        * either timing engine was not turned on or the
+> +        * DSI controller has finished transmitting the video
+> +        * data already, so no need to wait in those cases
+> +        */
+> +       if (!(data & DSI_STATUS0_VIDEO_MODE_ENGINE_BUSY))
+> +               return;
+> +
+>         if (msm_host->power_on && msm_host->enabled) {
+>                 dsi_wait4video_done(msm_host);
+>                 /* delay 4 ms to skip BLLP */
+> --
+> 2.40.1
+>
 
 
-On 9/15/23 12:52, Kees Cook wrote:
-> On Fri, Sep 15, 2023 at 12:43:20PM -0600, Gustavo A. R. Silva wrote:
->> If, for any reason, the open-coded arithmetic causes a wraparound, the
->> protection that `struct_size()` adds against potential integer overflows
->> is defeated. Fix this by hardening call to `struct_size()` with `size_add()`.
->>
->> Fixes: 40e1a70b4aed ("drm: Add GUD USB Display driver")
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
->> index d2f199ea3c11..a02f75be81f0 100644
->> --- a/drivers/gpu/drm/gud/gud_pipe.c
->> +++ b/drivers/gpu/drm/gud/gud_pipe.c
->> @@ -503,7 +503,7 @@ int gud_pipe_check(struct drm_simple_display_pipe *pipe,
->>   		return -ENOENT;
->>   
->>   	len = struct_size(req, properties,
->> -			  GUD_PROPERTIES_MAX_NUM + GUD_CONNECTOR_PROPERTIES_MAX_NUM);
->> +			  size_add(GUD_PROPERTIES_MAX_NUM, GUD_CONNECTOR_PROPERTIES_MAX_NUM));
-> 
-> There are both constant expressions, so there's not too much value in
-> wrapping them with size_add(), but for maintaining a common coding style
-> for dealing with allocation sizes, I can be convinced of the change. :)
-
-Yep; I've found a mix of constant expressions and variables doing open-coded arithmetic
-in `struct_size()`, so I'm sending them all.
-
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-
-Thanks!
---
-Gustavo
-
-> 
-> 
->>   	req = kzalloc(len, GFP_KERNEL);
->>   	if (!req)
->>   		return -ENOMEM;
->> -- 
->> 2.34.1
->>
-> 
+-- 
+With best wishes
+Dmitry
