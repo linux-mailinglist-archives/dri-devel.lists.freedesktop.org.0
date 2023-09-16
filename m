@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A677A2E0C
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 07:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3253A7A2EC4
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 10:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 087EB10E0BC;
-	Sat, 16 Sep 2023 05:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1117610E0D2;
+	Sat, 16 Sep 2023 08:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C19910E0BB;
- Sat, 16 Sep 2023 05:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694841983; x=1726377983;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sQqNUz8NvUk6DBasGIZFf64Imf283b8WYPr38zLikEA=;
- b=OIZ4pbKaFCn0nM0FDzobFYXxyceV5hWbYn0mEmLEFnHci7Sygv12/SRe
- Wlsnh5OZJvLbHoi5J23cz9+iAfYvFAWzX7SBu3nUeExPQB/DbLkSZ+cKD
- 0QhlR+dImVEMSv2U6y/drkDcRvrcmFThB854oYUjrSqdqfPtSwiJSUmgt
- Xy3/0hQmm2NALE9UVhDNRPnkeMbyNihs/+bLu3smHin3T3LnFqE/77Muv
- iMiYFkE3ZM5AciacFWkkT3G6cuhCCsbw99WXzjMECE+uchKoc5r+fd69F
- FpHNXHZ5qmkAGSjUymnmP+tuxYO4op07iBlI2h9CpEsRBd8OvxiphWxzH A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="445860726"
-X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; d="scan'208";a="445860726"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2023 22:26:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="860400269"
-X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; d="scan'208";a="860400269"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
- by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2023 22:26:18 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qhNou-0003ts-09;
- Sat, 16 Sep 2023 05:26:16 +0000
-Date: Sat, 16 Sep 2023 13:25:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
- airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
- andersson@kernel.org
-Subject: Re: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into
- DP driver
-Message-ID: <202309161321.UeiYRcIs-lkp@intel.com>
-References: <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31EE310E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 08:15:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 34855CE1D31
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 08:15:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 747F2C433C9
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 08:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694852112;
+ bh=Umtj6rh3FeMB0z1VyVhxTrF4X4x/A5iGSrrmA4nEeqM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=QbuoB0bbAcequxoHg8qU1YRNg62SVxAEKRUwhnVJu/Re3uGn9EfmmgEZfEg6eHvKM
+ YO4jbCZAkE9mG58Yy/pjXfpsN5bj4PMg8eBjxeEIr38uJxAU8mQxDaI88ry2fNEviK
+ Sm/PbncxnpKGbOV5oD1vImi05ZzK/5Cce4YaMhLX0bPCH4Rbf3mKWjpWzou1yfaqx3
+ HnEI/9al6xkLXAeChvrIZtZ98BIiRDdr8FiXs8eDUdjFsRHFqV/9xL3fK+UazbfxhF
+ dDvsf0qgQ2X47tN+pbAf2gO4C+N9dpiOVQuLwaNTXZy0pjli3rZUEB9qP2XGh3GzK2
+ F1bK2btMtq1Ng==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 516D3C53BD0; Sat, 16 Sep 2023 08:15:12 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217916] amdgpu: ring gfx_low timeout (Google Maps zooming)
+Date: Sat, 16 Sep 2023 08:15:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-217916-2300-bPWMbYEOFf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217916-2300@https.bugzilla.kernel.org/>
+References: <bug-217916-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_jesszhan@quicinc.com,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, oe-kbuild-all@lists.linux.dev,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kuogee,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217916
 
-kernel test robot noticed the following build warnings:
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.6-rc1]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip next-20230915]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dp-tie-dp_display_irq_handler-with-dp-driver/20230916-054014
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1694813901-26952-5-git-send-email-quic_khsieh%40quicinc.com
-patch subject: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into DP driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230916/202309161321.UeiYRcIs-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230916/202309161321.UeiYRcIs-lkp@intel.com/reproduce)
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please repost here:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309161321.UeiYRcIs-lkp@intel.com/
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
-All warnings (new ones prefixed by >>):
+--=20
+You may reply to this email to add a comment.
 
-   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_client_deinit':
->> drivers/gpu/drm/msm/dp/dp_power.c:160:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
-     160 |         struct dp_power_private *power;
-         |                                  ^~~~~
-   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_init':
-   drivers/gpu/drm/msm/dp/dp_power.c:168:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
-     168 |         struct dp_power_private *power = NULL;
-         |                                  ^~~~~
-   drivers/gpu/drm/msm/dp/dp_power.c: In function 'dp_power_deinit':
-   drivers/gpu/drm/msm/dp/dp_power.c:179:34: warning: variable 'power' set but not used [-Wunused-but-set-variable]
-     179 |         struct dp_power_private *power;
-         |                                  ^~~~~
-
-
-vim +/power +160 drivers/gpu/drm/msm/dp/dp_power.c
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  157  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  158  void dp_power_client_deinit(struct dp_power *dp_power)
-c943b4948b5848 Chandan Uddaraju 2020-08-27  159  {
-c943b4948b5848 Chandan Uddaraju 2020-08-27 @160  	struct dp_power_private *power;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  161  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  162  	power = container_of(dp_power, struct dp_power_private, dp_power);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  163  }
-c943b4948b5848 Chandan Uddaraju 2020-08-27  164  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You are receiving this mail because:
+You are watching the assignee of the bug.=
