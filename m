@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952787A2D01
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BAF7A2D02
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7C610E6BC;
-	Sat, 16 Sep 2023 01:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F3410E6BE;
+	Sat, 16 Sep 2023 01:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0113D10E6BD
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:21:56 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-59c2ca01f27so5371367b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1694827316; x=1695432116; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=m8BKz5UCMmU/bXzuDaUcle9qWzHdZ3DqG5/pm4LxWZc=;
- b=bSA58/J3fJxX6keyVUKPEX1kt1iSnIXNMWtGHlMLxdVoktZCiCN3dsh9wnqBCnVj5M
- +8I1ubZTRrv8n9Kdj+/9VTdeyqvNHgLuFnrt2g3FE+BZTgMnYud9FtMEu4XkFkdk6t/N
- yxtG/qYQtdyb9MIpb20d38167xX/3vkqsGxtt4X0ToxNDqfJnANht/6nP/1GnsxmpCW0
- b35qWjir7fOTlN9oc40QKKEqatDbo9MsWfVZY9fRulK2pHo+Vfy99/B3G09qH2LJu8aE
- ZJE0qcDx71/wUH2Cpt39c/cPOZYN83aFH30CznL/+lpNtf/YObCLGfuQgZVuho39BwwP
- VQsA==
+Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com
+ [209.85.210.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E048110E6BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:22:08 +0000 (UTC)
+Received: by mail-ot1-f77.google.com with SMTP id
+ 46e09a7af769-6bc7afd0498so3508125a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:22:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694827316; x=1695432116;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m8BKz5UCMmU/bXzuDaUcle9qWzHdZ3DqG5/pm4LxWZc=;
- b=f6JIr3voP6vfgN78t+Y6ym4CQbOo7WAiwMSedzzqfwfype8TSvd2x6sZBaQBYh8OTA
- RuNn1frnIvmq4xuYUsBxaaA2eAtXZIkGDTuwXMRpUo33AiJ+RVwADXiocQUTFPOlu2yC
- pTZiIWjKHVEVqsaOu2qHVmn6hPpUSk+whiKD3TO8w3PYrQD14nQVFIwRyrhQaqzZCjb9
- SEvT+zierv8QK+seJLdDP3ziWlAn+kNpWls88JyR4Fk76q8VOqO2XiHFk3977JPt9j1G
- V4bEdSTv2t8vXaYNpVv/oEjvS0QlGdCNJN1LROKHuqtuoohaIK2Hw1tpqatowX7mJA04
- hEaw==
-X-Gm-Message-State: AOJu0Yzy4TX5nnV35IZ5KpZqJTIkMUuIT7gMmSzz42We2YIkDyl+hfbW
- AxpPvlF7U8x9CnjfWuErlFwa76iXQKC67ZgbTBMhUg==
-X-Google-Smtp-Source: AGHT+IGirGUvVmFPjV1cL+A1J69fNhmFXvjIP8Zn0NDxSV0Q4j7kEjWfjiCMmV5s1uEqTsShPsx9NphwFc9WmDZ13ck=
-X-Received: by 2002:a81:914d:0:b0:570:65df:21dc with SMTP id
- i74-20020a81914d000000b0057065df21dcmr3509921ywg.3.1694827316007; Fri, 15 Sep
- 2023 18:21:56 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694827328; x=1695432128;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=M/Or17Flbww0J850VcncFpV3Fsrp6uiNhx9j7RzszSc=;
+ b=ZLjEEFWMk1zkmiKlRlSB+3DBuDLQmin6qTWZuffM0yz5qDM9OMlpRIt0sqBz8qD/yy
+ A/gjvigAg+8YPmWWsjmZHXpQEpK52kUOI6rHmdZ0HRlcOUDJRX/PHXcyq+ePizGxeNas
+ S1b2gkHV/tIRPTcI15Fnu1aduOUYZ+1ZLg31B3KH/gSzDM0FBrWKc5bKx7+VFlPbM9sp
+ SZPmI0Wued+G0EsdgbLLV9huJreNGNVzaJRwEgk2fvk6SKcKyieWUG4mumnhR+bsFxMg
+ sNvbMMa746Ww5hHZ7grg7e6Kvf71khsqOa5fJK7+xSzwAhcUjtJuh3YaQyABBG7LUCsh
+ cVwQ==
+X-Gm-Message-State: AOJu0YwaQKGRuV+SLhZGw0kT/51ci33lG5jroUz5zTd6K7bK4O1d7aps
+ bSqgDrViI+ferVwzuWC5BzR8nQ9sNsEH89oCnBSa1P1xcNT6
+X-Google-Smtp-Source: AGHT+IF7058y1jehsUMZxBzb298llpz98s99IIVfGF8a2JYv7XWxrtU97dgqMTRab9leMlgD/BstJmGv7wgxjNXLcFiMriSt0/Xg
 MIME-Version: 1.0
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 16 Sep 2023 04:21:44 +0300
-Message-ID: <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+X-Received: by 2002:a9d:6d92:0:b0:6c0:a3e0:f9e3 with SMTP id
+ x18-20020a9d6d92000000b006c0a3e0f9e3mr895784otp.5.1694827328228; Fri, 15 Sep
+ 2023 18:22:08 -0700 (PDT)
+Date: Fri, 15 Sep 2023 18:22:08 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000dad29506056fbc93@google.com>
+Subject: [syzbot] [dri?] WARNING in drm_gem_object_handle_put_unlocked
+From: syzbot <syzbot+ef3256a360c02207a4cb@syzkaller.appspotmail.com>
+To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,177 +58,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> Add pm_runtime_force_suspend()/resume() to complete incorporating pm
-> runtime framework into DP driver. Both dp_pm_prepare() and dp_pm_complete()
-> are added to set hpd_state to correct state. After resume, DP driver will
-> re training its main link after .hpd_enable() callback enabled HPD
-> interrupts and bring up display accordingly.
+Hello,
 
-How will it re-train the main link? What is the code path for that?
+syzbot found the following issue on:
 
-I think this is a misuse for prepare/complete callbacks, at least
-judging from their documentation.
+HEAD commit:    0bb80ecc33a8 Linux 6.6-rc1
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1002530c680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f4894cf58531f
+dashboard link: https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a79ca0680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16900402680000
 
->
-> Changes in v3:
-> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
-> -- replace dp_pm_resume() with pm_runtime_force_resume()
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 87 +++++--------------------------------
->  1 file changed, 10 insertions(+), 77 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index b6992202..b58cb02 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1333,101 +1333,35 @@ static int dp_pm_runtime_resume(struct device *dev)
->         return 0;
->  }
->
-> -static int dp_pm_resume(struct device *dev)
-> +static void dp_pm_complete(struct device *dev)
->  {
-> -       struct platform_device *pdev = to_platform_device(dev);
-> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
-> -       struct dp_display_private *dp;
-> -       int sink_count = 0;
-> -
-> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
->
->         mutex_lock(&dp->event_mutex);
->
->         drm_dbg_dp(dp->drm_dev,
-> -               "Before, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
-> +               "type=%d core_inited=%d phy_inited=%d power_on=%d\n",
->                 dp->dp_display.connector_type, dp->core_initialized,
-> -               dp->phy_initialized, dp_display->power_on);
-> +               dp->phy_initialized, dp->dp_display.power_on);
->
->         /* start from disconnected state */
->         dp->hpd_state = ST_DISCONNECTED;
->
-> -       /* turn on dp ctrl/phy */
-> -       dp_display_host_init(dp);
-> -
-> -       if (dp_display->is_edp)
-> -               dp_catalog_ctrl_hpd_enable(dp->catalog);
-> -
-> -       if (dp_catalog_link_is_connected(dp->catalog)) {
-> -               /*
-> -                * set sink to normal operation mode -- D0
-> -                * before dpcd read
-> -                */
-> -               dp_display_host_phy_init(dp);
-> -               dp_link_psm_config(dp->link, &dp->panel->link_info, false);
-> -               sink_count = drm_dp_read_sink_count(dp->aux);
-> -               if (sink_count < 0)
-> -                       sink_count = 0;
-> -
-> -               dp_display_host_phy_exit(dp);
-> -       }
-> -
-> -       dp->link->sink_count = sink_count;
-> -       /*
-> -        * can not declared display is connected unless
-> -        * HDMI cable is plugged in and sink_count of
-> -        * dongle become 1
-> -        * also only signal audio when disconnected
-> -        */
-> -       if (dp->link->sink_count) {
-> -               dp->dp_display.link_ready = true;
-> -       } else {
-> -               dp->dp_display.link_ready = false;
-> -               dp_display_handle_plugged_change(dp_display, false);
-> -       }
-> -
-> -       drm_dbg_dp(dp->drm_dev,
-> -               "After, type=%d sink=%d conn=%d core_init=%d phy_init=%d power=%d\n",
-> -               dp->dp_display.connector_type, dp->link->sink_count,
-> -               dp->dp_display.link_ready, dp->core_initialized,
-> -               dp->phy_initialized, dp_display->power_on);
-> -
->         mutex_unlock(&dp->event_mutex);
-> -
-> -       return 0;
->  }
->
-> -static int dp_pm_suspend(struct device *dev)
-> +static int dp_pm_prepare(struct device *dev)
->  {
-> -       struct platform_device *pdev = to_platform_device(dev);
-> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
-> -       struct dp_display_private *dp;
-> -
-> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
->
->         mutex_lock(&dp->event_mutex);
->
-> -       drm_dbg_dp(dp->drm_dev,
-> -               "Before, type=%d core_inited=%d  phy_inited=%d power_on=%d\n",
-> -               dp->dp_display.connector_type, dp->core_initialized,
-> -               dp->phy_initialized, dp_display->power_on);
-> -
->         /* mainlink enabled */
->         if (dp_power_clk_status(dp->power, DP_CTRL_PM))
->                 dp_ctrl_off_link_stream(dp->ctrl);
->
-> -       dp_display_host_phy_exit(dp);
-> -
-> -       /* host_init will be called at pm_resume */
-> -       dp_display_host_deinit(dp);
-> -
->         dp->hpd_state = ST_SUSPENDED;
->
-> -       drm_dbg_dp(dp->drm_dev,
-> -               "After, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
-> -               dp->dp_display.connector_type, dp->core_initialized,
-> -               dp->phy_initialized, dp_display->power_on);
-> -
->         mutex_unlock(&dp->event_mutex);
->
->         return 0;
-> @@ -1435,8 +1369,10 @@ static int dp_pm_suspend(struct device *dev)
->
->  static const struct dev_pm_ops dp_pm_ops = {
->         SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
-> -       .suspend = dp_pm_suspend,
-> -       .resume =  dp_pm_resume,
-> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +                                pm_runtime_force_resume)
-> +       .prepare = dp_pm_prepare,
-> +       .complete = dp_pm_complete,
->  };
->
->  static struct platform_driver dp_display_driver = {
-> @@ -1670,9 +1606,6 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
->
->         dp_display = container_of(dp, struct dp_display_private, dp_display);
->
-> -       if (dp->is_edp)
-> -               dp_hpd_unplug_handle(dp_display, 0);
-> -
->         mutex_lock(&dp_display->event_mutex);
->
->         state = dp_display->hpd_state;
-> --
-> 2.7.4
->
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/eeb0cac260c7/disk-0bb80ecc.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a3c360110254/vmlinux-0bb80ecc.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/22b81065ba5f/bzImage-0bb80ecc.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ef3256a360c02207a4cb@syzkaller.appspotmail.com
+
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fda971e917c
+R13: 00007fda97153210 R14: 0023647261632f69 R15: 6972642f7665642f
+ </TASK>
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 5043 at drivers/gpu/drm/drm_gem.c:225 drm_gem_object_handle_put_unlocked+0x299/0x390 drivers/gpu/drm/drm_gem.c:225
+Modules linked in:
+CPU: 1 PID: 5043 Comm: syz-executor141 Not tainted 6.6.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/04/2023
+RIP: 0010:drm_gem_object_handle_put_unlocked+0x299/0x390 drivers/gpu/drm/drm_gem.c:225
+Code: ea 03 0f b6 04 02 84 c0 74 0c 3c 03 7f 08 4c 89 f7 e8 2b 06 2a fd c7 83 20 01 00 00 00 00 00 00 e9 98 fe ff ff e8 57 44 d4 fc <0f> 0b 5b 5d 41 5c 41 5d 41 5e e9 48 44 d4 fc e8 43 44 d4 fc 48 8d
+RSP: 0018:ffffc90003d5fbb8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888027b61000 RCX: 0000000000000000
+RDX: ffff888014fcbb80 RSI: ffffffff84b38a29 RDI: 0000000000000005
+RBP: ffff888027b61004 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff88801d140000
+R13: ffff888027b61008 R14: 0000000000000000 R15: ffff888027b61018
+FS:  00007fda971536c0(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fda971fe794 CR3: 0000000072975000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ drm_gem_handle_create_tail+0x32f/0x540 drivers/gpu/drm/drm_gem.c:407
+ drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:417 [inline]
+ drm_gem_shmem_dumb_create+0x21a/0x310 drivers/gpu/drm/drm_gem_shmem_helper.c:505
+ drm_mode_create_dumb drivers/gpu/drm/drm_dumb_buffers.c:96 [inline]
+ drm_mode_create_dumb_ioctl+0x268/0x2f0 drivers/gpu/drm/drm_dumb_buffers.c:102
+ drm_ioctl_kernel+0x280/0x4c0 drivers/gpu/drm/drm_ioctl.c:789
+ drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:892
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fda971954e9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 51 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fda971531f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fda9721c3e8 RCX: 00007fda971954e9
+RDX: 0000000020000080 RSI: 00000000c02064b2 RDI: 0000000000000003
+RBP: 00007fda9721c3e0 R08: 00007fda97152f96 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fda971e917c
+R13: 00007fda97153210 R14: 0023647261632f69 R15: 6972642f7665642f
+ </TASK>
 
 
--- 
-With best wishes
-Dmitry
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
