@@ -1,74 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671837A2CF5
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:15:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 952787A2D01
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF4710E6BB;
-	Sat, 16 Sep 2023 01:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7C610E6BC;
+	Sat, 16 Sep 2023 01:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA13110E6C6
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1694826926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WTvJns8PYkGFFmakegCzthUJw5bg+bFo9pou/fXqqxk=;
- b=Y/8h353Eo5bbUInoZo9+QPUjTj4p9cuakJ8BDwj5m/8zN6jEFaoJhOYJisRbm9oDJQcxjd
- bOI/9ReDlBaLKn1aSPAEq9uNESwyANuT8rHlaAlVqPMLtyR7fFvDcvN3ftJR/5jxVCdOQ1
- DS78FDdvWpwTDEZm8Cb7edZYhkQuT5M=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-392-hO3t7a7nMbGHDcvlKK5-vw-1; Fri, 15 Sep 2023 21:15:24 -0400
-X-MC-Unique: hO3t7a7nMbGHDcvlKK5-vw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-502d7ccdda3so3240101e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:15:24 -0700 (PDT)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0113D10E6BD
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:21:56 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-59c2ca01f27so5371367b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694827316; x=1695432116; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m8BKz5UCMmU/bXzuDaUcle9qWzHdZ3DqG5/pm4LxWZc=;
+ b=bSA58/J3fJxX6keyVUKPEX1kt1iSnIXNMWtGHlMLxdVoktZCiCN3dsh9wnqBCnVj5M
+ +8I1ubZTRrv8n9Kdj+/9VTdeyqvNHgLuFnrt2g3FE+BZTgMnYud9FtMEu4XkFkdk6t/N
+ yxtG/qYQtdyb9MIpb20d38167xX/3vkqsGxtt4X0ToxNDqfJnANht/6nP/1GnsxmpCW0
+ b35qWjir7fOTlN9oc40QKKEqatDbo9MsWfVZY9fRulK2pHo+Vfy99/B3G09qH2LJu8aE
+ ZJE0qcDx71/wUH2Cpt39c/cPOZYN83aFH30CznL/+lpNtf/YObCLGfuQgZVuho39BwwP
+ VQsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694826923; x=1695431723;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1694827316; x=1695432116;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WTvJns8PYkGFFmakegCzthUJw5bg+bFo9pou/fXqqxk=;
- b=lSjFNpb5ymEHmfmOtOkAltNIbaIjPjX5j4Qa5ZgpPmaNTKqbDwubOkkVcxJvHSGK2h
- p7bDuFyMToZ/ihio3MdPhNUejbBIDRXvoEzav+SZzonaBc+ix2EIfevMFFf1h6l5vxkv
- ttEDeNyqpvbHFim9BKXz+oq5nHpq+MVAq2L8tir+tXEIqVYQsQ1kwUD3AoPFh0HvS1AS
- xGR5W0/EqPd3MmeGgSwGCiF6fDWfbs3TKJe/8w1zlH3e5AMvufjNf3PWDQtSNqBkVZHL
- EyT5nauL3z6yJGPcK7FsB3ClZWkVrSsdxKPhH+SqNZFAaPG5mN8yC6RdZiAOxaDhiqvn
- IS9g==
-X-Gm-Message-State: AOJu0YzybXWI+ZMWWZmTyk8cArI/5Usanel1w3POWzwg/g7aZDfkvu0A
- fNtoGRKBCSgmc6rPv66buxy/Hk2gbLZ9MmDSoW844zsBtRKvt/3Cn5newbrcNnVSdaxDnN8G6Vf
- sbSitZKJ9nO59a7FGrFzPuIlRjGNZ
-X-Received: by 2002:a05:6512:3096:b0:4fe:95e:159a with SMTP id
- z22-20020a056512309600b004fe095e159amr2908404lfd.23.1694826922948; 
- Fri, 15 Sep 2023 18:15:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHz0EMvJd4TNeQ4YjHEYLo6LbSsfrSNyVgn/6D+3ZUxelFgWP/9aJ5mKCk+DEZTvO2FIAJ6pQ==
-X-Received: by 2002:a05:6512:3096:b0:4fe:95e:159a with SMTP id
- z22-20020a056512309600b004fe095e159amr2908384lfd.23.1694826922425; 
- Fri, 15 Sep 2023 18:15:22 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- q18-20020aa7da92000000b0052cdc596652sm2874967eds.23.2023.09.15.18.15.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Sep 2023 18:15:21 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau: fence: fix type cast warning in
- nouveau_fence_emit()
-Date: Sat, 16 Sep 2023 03:14:58 +0200
-Message-ID: <20230916011501.15813-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
+ bh=m8BKz5UCMmU/bXzuDaUcle9qWzHdZ3DqG5/pm4LxWZc=;
+ b=f6JIr3voP6vfgN78t+Y6ym4CQbOo7WAiwMSedzzqfwfype8TSvd2x6sZBaQBYh8OTA
+ RuNn1frnIvmq4xuYUsBxaaA2eAtXZIkGDTuwXMRpUo33AiJ+RVwADXiocQUTFPOlu2yC
+ pTZiIWjKHVEVqsaOu2qHVmn6hPpUSk+whiKD3TO8w3PYrQD14nQVFIwRyrhQaqzZCjb9
+ SEvT+zierv8QK+seJLdDP3ziWlAn+kNpWls88JyR4Fk76q8VOqO2XiHFk3977JPt9j1G
+ V4bEdSTv2t8vXaYNpVv/oEjvS0QlGdCNJN1LROKHuqtuoohaIK2Hw1tpqatowX7mJA04
+ hEaw==
+X-Gm-Message-State: AOJu0Yzy4TX5nnV35IZ5KpZqJTIkMUuIT7gMmSzz42We2YIkDyl+hfbW
+ AxpPvlF7U8x9CnjfWuErlFwa76iXQKC67ZgbTBMhUg==
+X-Google-Smtp-Source: AGHT+IGirGUvVmFPjV1cL+A1J69fNhmFXvjIP8Zn0NDxSV0Q4j7kEjWfjiCMmV5s1uEqTsShPsx9NphwFc9WmDZ13ck=
+X-Received: by 2002:a81:914d:0:b0:570:65df:21dc with SMTP id
+ i74-20020a81914d000000b0057065df21dcmr3509921ywg.3.1694827316007; Fri, 15 Sep
+ 2023 18:21:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+ <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 16 Sep 2023 04:21:44 +0300
+Message-ID: <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,42 +67,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
- kherbst@redhat.com, kernel test robot <lkp@intel.com>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following warning.
+On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> Add pm_runtime_force_suspend()/resume() to complete incorporating pm
+> runtime framework into DP driver. Both dp_pm_prepare() and dp_pm_complete()
+> are added to set hpd_state to correct state. After resume, DP driver will
+> re training its main link after .hpd_enable() callback enabled HPD
+> interrupts and bring up display accordingly.
 
-  drivers/gpu/drm/nouveau/nouveau_fence.c:210:45: sparse: sparse:
-  incorrect type in initializer (different address spaces)
-  @@     expected struct nouveau_channel *chan
-  @@     got struct nouveau_channel [noderef] __rcu *channel
+How will it re-train the main link? What is the code path for that?
 
-We're just about to emit the fence, there is nothing to protect against
-yet, hence it is safe to just cast __rcu away.
+I think this is a misuse for prepare/complete callbacks, at least
+judging from their documentation.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202309140340.BwKXzaDx-lkp@intel.com/
-Fixes: 978474dc8278 ("drm/nouveau: fence: fix undefined fence state after emit")
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Changes in v3:
+> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
+> -- replace dp_pm_resume() with pm_runtime_force_resume()
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 87 +++++--------------------------------
+>  1 file changed, 10 insertions(+), 77 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index b6992202..b58cb02 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1333,101 +1333,35 @@ static int dp_pm_runtime_resume(struct device *dev)
+>         return 0;
+>  }
+>
+> -static int dp_pm_resume(struct device *dev)
+> +static void dp_pm_complete(struct device *dev)
+>  {
+> -       struct platform_device *pdev = to_platform_device(dev);
+> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
+> -       struct dp_display_private *dp;
+> -       int sink_count = 0;
+> -
+> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>
+>         mutex_lock(&dp->event_mutex);
+>
+>         drm_dbg_dp(dp->drm_dev,
+> -               "Before, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+> +               "type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+>                 dp->dp_display.connector_type, dp->core_initialized,
+> -               dp->phy_initialized, dp_display->power_on);
+> +               dp->phy_initialized, dp->dp_display.power_on);
+>
+>         /* start from disconnected state */
+>         dp->hpd_state = ST_DISCONNECTED;
+>
+> -       /* turn on dp ctrl/phy */
+> -       dp_display_host_init(dp);
+> -
+> -       if (dp_display->is_edp)
+> -               dp_catalog_ctrl_hpd_enable(dp->catalog);
+> -
+> -       if (dp_catalog_link_is_connected(dp->catalog)) {
+> -               /*
+> -                * set sink to normal operation mode -- D0
+> -                * before dpcd read
+> -                */
+> -               dp_display_host_phy_init(dp);
+> -               dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+> -               sink_count = drm_dp_read_sink_count(dp->aux);
+> -               if (sink_count < 0)
+> -                       sink_count = 0;
+> -
+> -               dp_display_host_phy_exit(dp);
+> -       }
+> -
+> -       dp->link->sink_count = sink_count;
+> -       /*
+> -        * can not declared display is connected unless
+> -        * HDMI cable is plugged in and sink_count of
+> -        * dongle become 1
+> -        * also only signal audio when disconnected
+> -        */
+> -       if (dp->link->sink_count) {
+> -               dp->dp_display.link_ready = true;
+> -       } else {
+> -               dp->dp_display.link_ready = false;
+> -               dp_display_handle_plugged_change(dp_display, false);
+> -       }
+> -
+> -       drm_dbg_dp(dp->drm_dev,
+> -               "After, type=%d sink=%d conn=%d core_init=%d phy_init=%d power=%d\n",
+> -               dp->dp_display.connector_type, dp->link->sink_count,
+> -               dp->dp_display.link_ready, dp->core_initialized,
+> -               dp->phy_initialized, dp_display->power_on);
+> -
+>         mutex_unlock(&dp->event_mutex);
+> -
+> -       return 0;
+>  }
+>
+> -static int dp_pm_suspend(struct device *dev)
+> +static int dp_pm_prepare(struct device *dev)
+>  {
+> -       struct platform_device *pdev = to_platform_device(dev);
+> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
+> -       struct dp_display_private *dp;
+> -
+> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>
+>         mutex_lock(&dp->event_mutex);
+>
+> -       drm_dbg_dp(dp->drm_dev,
+> -               "Before, type=%d core_inited=%d  phy_inited=%d power_on=%d\n",
+> -               dp->dp_display.connector_type, dp->core_initialized,
+> -               dp->phy_initialized, dp_display->power_on);
+> -
+>         /* mainlink enabled */
+>         if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+>                 dp_ctrl_off_link_stream(dp->ctrl);
+>
+> -       dp_display_host_phy_exit(dp);
+> -
+> -       /* host_init will be called at pm_resume */
+> -       dp_display_host_deinit(dp);
+> -
+>         dp->hpd_state = ST_SUSPENDED;
+>
+> -       drm_dbg_dp(dp->drm_dev,
+> -               "After, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+> -               dp->dp_display.connector_type, dp->core_initialized,
+> -               dp->phy_initialized, dp_display->power_on);
+> -
+>         mutex_unlock(&dp->event_mutex);
+>
+>         return 0;
+> @@ -1435,8 +1369,10 @@ static int dp_pm_suspend(struct device *dev)
+>
+>  static const struct dev_pm_ops dp_pm_ops = {
+>         SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
+> -       .suspend = dp_pm_suspend,
+> -       .resume =  dp_pm_resume,
+> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +                                pm_runtime_force_resume)
+> +       .prepare = dp_pm_prepare,
+> +       .complete = dp_pm_complete,
+>  };
+>
+>  static struct platform_driver dp_display_driver = {
+> @@ -1670,9 +1606,6 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>
+>         dp_display = container_of(dp, struct dp_display_private, dp_display);
+>
+> -       if (dp->is_edp)
+> -               dp_hpd_unplug_handle(dp_display, 0);
+> -
+>         mutex_lock(&dp_display->event_mutex);
+>
+>         state = dp_display->hpd_state;
+> --
+> 2.7.4
+>
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 61d9e70da9fd..ca762ea55413 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -207,7 +207,7 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
- int
- nouveau_fence_emit(struct nouveau_fence *fence)
- {
--	struct nouveau_channel *chan = fence->channel;
-+	struct nouveau_channel *chan = unrcu_pointer(fence->channel);
- 	struct nouveau_fence_chan *fctx = chan->fence;
- 	struct nouveau_fence_priv *priv = (void*)chan->drm->fence;
- 	int ret;
+
 -- 
-2.41.0
-
+With best wishes
+Dmitry
