@@ -1,50 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BAF7A2D02
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E367A2D1A
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 03:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F3410E6BE;
-	Sat, 16 Sep 2023 01:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 479E210E0A5;
+	Sat, 16 Sep 2023 01:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com
- [209.85.210.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E048110E6BE
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:22:08 +0000 (UTC)
-Received: by mail-ot1-f77.google.com with SMTP id
- 46e09a7af769-6bc7afd0498so3508125a34.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:22:08 -0700 (PDT)
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF83810E0A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 01:48:58 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-59bbdb435bfso28715887b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Sep 2023 18:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694828938; x=1695433738; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5JTYH8flv3ccT8c+yWqT7G6+6E5/spC5WmqITXpaM+4=;
+ b=japIyZ/SIP4BczgLqfjOuRTGhXxCOFEpqwQQYIOJRVzXjjAzPp2Wqor2e+Ek++R4uP
+ UbzcCwbzZ+qQk5M696sZOEv9+RE4PrBS427ZesRdB4Yy0wMdAJ+JsG3+6cOQRwDtKEBW
+ 9+500L6VJL+CLHYhjOGtL022uDPPJKQyRNGUFauk+hP09u2nwbXtkHVHmzPSor7RRzvv
+ XnadYKqLZTUusL4jrlUMne2U2vKNd3RsU2zqflZWA4vNe1Kh89ncPF7e3YU9Vuy/f4KE
+ HF80RBK5qnKHkM4eOhyAQzoNxyg7elyBCQHWpBrnDWTjlaGsQNpD6ZyrjDSbcS6hKeCg
+ fhgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694827328; x=1695432128;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M/Or17Flbww0J850VcncFpV3Fsrp6uiNhx9j7RzszSc=;
- b=ZLjEEFWMk1zkmiKlRlSB+3DBuDLQmin6qTWZuffM0yz5qDM9OMlpRIt0sqBz8qD/yy
- A/gjvigAg+8YPmWWsjmZHXpQEpK52kUOI6rHmdZ0HRlcOUDJRX/PHXcyq+ePizGxeNas
- S1b2gkHV/tIRPTcI15Fnu1aduOUYZ+1ZLg31B3KH/gSzDM0FBrWKc5bKx7+VFlPbM9sp
- SZPmI0Wued+G0EsdgbLLV9huJreNGNVzaJRwEgk2fvk6SKcKyieWUG4mumnhR+bsFxMg
- sNvbMMa746Ww5hHZ7grg7e6Kvf71khsqOa5fJK7+xSzwAhcUjtJuh3YaQyABBG7LUCsh
- cVwQ==
-X-Gm-Message-State: AOJu0YwaQKGRuV+SLhZGw0kT/51ci33lG5jroUz5zTd6K7bK4O1d7aps
- bSqgDrViI+ferVwzuWC5BzR8nQ9sNsEH89oCnBSa1P1xcNT6
-X-Google-Smtp-Source: AGHT+IF7058y1jehsUMZxBzb298llpz98s99IIVfGF8a2JYv7XWxrtU97dgqMTRab9leMlgD/BstJmGv7wgxjNXLcFiMriSt0/Xg
+ d=1e100.net; s=20230601; t=1694828938; x=1695433738;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5JTYH8flv3ccT8c+yWqT7G6+6E5/spC5WmqITXpaM+4=;
+ b=LGCV1JrJ4HiKiupZlbbo45zc8pLmdG48Pu5pcpOyEVnTEM5Lvlj9HddHijkJ/eqxlC
+ lygwkdjhusL9jgWS3AI8Hf7egojWwP0lbLIhyVMRkiWKtRkaEj0bskdAiOGGQOoeeH4u
+ ogWs58jWa77iQS69ZFDd7gbkArOQ3rF1uj4XMz496gsj8WlpjKE6SpisWJrrZRA2ume4
+ zYcxyKzWlH0Q+vsLplPpXEYXEra2F2t5a+EVirJCNYWWFlxDvs8Pdb4CP107Kpg1c/FL
+ 7ALlGWHLDH5IP7D6G8YYR2TLDp8j39pn5JOyVTa0cNZIPLYO5/hYDfVsUq3gQusradyo
+ 8Zkg==
+X-Gm-Message-State: AOJu0YyUkP3O36ZShVmEXq15mAoLVJx2AmQShiIhyalVUBNkWlYLQtGz
+ b9QAYOhLm6oyChcKZAhr6hZ0UuhDTf2ugC4pK2Xkhg==
+X-Google-Smtp-Source: AGHT+IGRwD+CVCZwzYDp2F79teBO7fCL/jHf+5wWXzV3pA94Oz27NZOScR4iVc75l04OEdB8BVk2xlaaSO+CFmQeENU=
+X-Received: by 2002:a81:d551:0:b0:599:241d:3a31 with SMTP id
+ l17-20020a81d551000000b00599241d3a31mr3623512ywj.43.1694828937863; Fri, 15
+ Sep 2023 18:48:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a9d:6d92:0:b0:6c0:a3e0:f9e3 with SMTP id
- x18-20020a9d6d92000000b006c0a3e0f9e3mr895784otp.5.1694827328228; Fri, 15 Sep
- 2023 18:22:08 -0700 (PDT)
-Date: Fri, 15 Sep 2023 18:22:08 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dad29506056fbc93@google.com>
-Subject: [syzbot] [dri?] WARNING in drm_gem_object_handle_put_unlocked
-From: syzbot <syzbot+ef3256a360c02207a4cb@syzkaller.appspotmail.com>
-To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+ <1694813901-26952-8-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1694813901-26952-8-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 16 Sep 2023 04:48:46 +0300
+Message-ID: <CAA8EJpo7tM+DHWhWD8o2oXU+Htosqv5q6JfzK3hrNi-h8fwRFg@mail.gmail.com>
+Subject: Re: [PATCH v3 7/7] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
+ probe()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,99 +68,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Sat, 16 Sept 2023 at 00:39, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> Currently eDP population is done at msm_dp_modeset_init() which happen
+> at binding time. Move eDP population to be done at display probe time
+> so that probe deferral cases can be handled effectively.
+> wait_for_hpd_asserted callback is added during drm_dp_aux_init()
+> to ensure eDP's HPD is up before proceeding eDP population.
+>
+> Changes in v3:
+> -- add done_probing callback into devm_of_dp_aux_populate_bus()
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     | 25 ++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 79 ++++++++++++++++++-------------------
+>  2 files changed, 64 insertions(+), 40 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 8fa93c5..79f0c6e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -507,6 +507,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
+>         drm_dp_aux_unregister(dp_aux);
+>  }
+>
+> +static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
+> +                                unsigned long wait_us)
+> +{
+> +       int ret;
+> +       struct dp_aux_private *aux;
+> +
+> +       aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+> +
+> +       pm_runtime_get_sync(aux->dev);
+> +       ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
+> +       pm_runtime_put_sync(aux->dev);
+> +
+> +       return ret;
+> +}
+> +
+>  struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+>                               bool is_edp)
+>  {
+> @@ -530,6 +545,16 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+>         aux->catalog = catalog;
+>         aux->retry_cnt = 0;
+>
+> +       /*
+> +        * Use the drm_dp_aux_init() to use the aux adapter
+> +        * before registering aux with the DRM device.
+> +        */
 
-syzbot found the following issue on:
+Usual comment: this describes what, but should be documenting why.
 
-HEAD commit:    0bb80ecc33a8 Linux 6.6-rc1
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1002530c680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f4894cf58531f
-dashboard link: https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a79ca0680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16900402680000
+> +       aux->dp_aux.name = "dpu_dp_aux";
+> +       aux->dp_aux.dev = dev;
+> +       aux->dp_aux.transfer = dp_aux_transfer;
+> +       aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/eeb0cac260c7/disk-0bb80ecc.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/a3c360110254/vmlinux-0bb80ecc.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/22b81065ba5f/bzImage-0bb80ecc.xz
+Then the relevant code should be removed before a call to drm_dp_aux_register().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ef3256a360c02207a4cb@syzkaller.appspotmail.com
+> +       drm_dp_aux_init(&aux->dp_aux);
+> +
+>         return &aux->dp_aux;
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index b58cb02..886fae5 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -310,8 +310,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>
+>         kthread_stop(dp->ev_tsk);
+>
+> -       of_dp_aux_depopulate_bus(dp->aux);
+> -
+>         dp_power_client_deinit(dp->power);
+>         dp_unregister_audio_driver(dev, dp->audio);
+>         dp_aux_unregister(dp->aux);
+> @@ -1217,6 +1215,31 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+>         return NULL;
+>  }
+>
+> +static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
+> +{
+> +       int rc;
+> +
+> +       rc = component_add(aux->dev, &dp_display_comp_ops);
+> +       if (rc)
+> +               DRM_ERROR("eDP component add failed, rc=%d\n", rc);
+> +
+> +       return rc;
+> +}
+> +
+> +static int dp_display_auxbus_population(struct dp_display_private *dp)
+> +{
+> +       struct device *dev = &dp->pdev->dev;
+> +       struct device_node *aux_bus;
+> +       int ret = 0;
+> +
+> +       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
 
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fda971e917c
-R13: 00007fda97153210 R14: 0023647261632f69 R15: 6972642f7665642f
- </TASK>
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 5043 at drivers/gpu/drm/drm_gem.c:225 drm_gem_object_handle_put_unlocked+0x299/0x390 drivers/gpu/drm/drm_gem.c:225
-Modules linked in:
-CPU: 1 PID: 5043 Comm: syz-executor141 Not tainted 6.6.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/04/2023
-RIP: 0010:drm_gem_object_handle_put_unlocked+0x299/0x390 drivers/gpu/drm/drm_gem.c:225
-Code: ea 03 0f b6 04 02 84 c0 74 0c 3c 03 7f 08 4c 89 f7 e8 2b 06 2a fd c7 83 20 01 00 00 00 00 00 00 e9 98 fe ff ff e8 57 44 d4 fc <0f> 0b 5b 5d 41 5c 41 5d 41 5e e9 48 44 d4 fc e8 43 44 d4 fc 48 8d
-RSP: 0018:ffffc90003d5fbb8 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888027b61000 RCX: 0000000000000000
-RDX: ffff888014fcbb80 RSI: ffffffff84b38a29 RDI: 0000000000000005
-RBP: ffff888027b61004 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: ffff88801d140000
-R13: ffff888027b61008 R14: 0000000000000000 R15: ffff888027b61018
-FS:  00007fda971536c0(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fda971fe794 CR3: 0000000072975000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- drm_gem_handle_create_tail+0x32f/0x540 drivers/gpu/drm/drm_gem.c:407
- drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:417 [inline]
- drm_gem_shmem_dumb_create+0x21a/0x310 drivers/gpu/drm/drm_gem_shmem_helper.c:505
- drm_mode_create_dumb drivers/gpu/drm/drm_dumb_buffers.c:96 [inline]
- drm_mode_create_dumb_ioctl+0x268/0x2f0 drivers/gpu/drm/drm_dumb_buffers.c:102
- drm_ioctl_kernel+0x280/0x4c0 drivers/gpu/drm/drm_ioctl.c:789
- drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:892
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fda971954e9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 51 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fda971531f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fda9721c3e8 RCX: 00007fda971954e9
-RDX: 0000000020000080 RSI: 00000000c02064b2 RDI: 0000000000000003
-RBP: 00007fda9721c3e0 R08: 00007fda97152f96 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fda971e917c
-R13: 00007fda97153210 R14: 0023647261632f69 R15: 6972642f7665642f
- </TASK>
+device_node refcount leak.
+
+But I think that the aux-bus existence check is incorrect here.
+of_dp_aux_populate_bus() will check and return -ENODEV if there is no
+aux-bus subnode.
+
+And once you have dropped the aux_bus check, you can safely inline
+this function.
+
+> +
+> +       if (aux_bus)
+> +               ret = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
+> +
+> +       return ret;
+> +}
+> +
+>  static int dp_display_probe(struct platform_device *pdev)
+>  {
+>         int rc = 0;
+> @@ -1282,10 +1305,16 @@ static int dp_display_probe(struct platform_device *pdev)
+>         if (rc)
+>                 return rc;
+>
+> -       rc = component_add(&pdev->dev, &dp_display_comp_ops);
+> -       if (rc) {
+> -               DRM_ERROR("component add failed, rc=%d\n", rc);
+> -               dp_display_deinit_sub_modules(dp);
+> +       if (dp->dp_display.is_edp) {
+> +               rc = dp_display_auxbus_population(dp);
+> +               if (rc)
+> +                       DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
+> +       } else {
+> +               rc = component_add(&pdev->dev, &dp_display_comp_ops);
+> +               if (rc) {
+> +                       DRM_ERROR("component add failed, rc=%d\n", rc);
+> +                       dp_display_deinit_sub_modules(dp);
+> +               }
+>         }
+>
+>         return rc;
+> @@ -1296,14 +1325,13 @@ static int dp_display_remove(struct platform_device *pdev)
+>         struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+>
+>         component_del(&pdev->dev, &dp_display_comp_ops);
+> -       dp_display_deinit_sub_modules(dp);
+> -
+>         platform_set_drvdata(pdev, NULL);
+>
+> -       pm_runtime_put_sync_suspend(&pdev->dev);
+>         pm_runtime_dont_use_autosuspend(&pdev->dev);
+>         pm_runtime_disable(&pdev->dev);
+>
+> +       dp_display_deinit_sub_modules(dp);
+
+These changes should be reasoned.
+
+> +
+>         return 0;
+>  }
+>
+> @@ -1432,31 +1460,10 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+>
+>  static int dp_display_get_next_bridge(struct msm_dp *dp)
+>  {
+> -       int rc;
+> +       int rc = 0;
+
+Is there a need to set it to 0?
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+>         struct dp_display_private *dp_priv;
+> -       struct device_node *aux_bus;
+> -       struct device *dev;
+>
+>         dp_priv = container_of(dp, struct dp_display_private, dp_display);
+> -       dev = &dp_priv->pdev->dev;
+> -       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+> -
+> -       if (aux_bus && dp->is_edp) {
+> -               /*
+> -                * The code below assumes that the panel will finish probing
+> -                * by the time devm_of_dp_aux_populate_ep_devices() returns.
+> -                * This isn't a great assumption since it will fail if the
+> -                * panel driver is probed asynchronously but is the best we
+> -                * can do without a bigger driver reorganization.
+> -                */
+> -               rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
+> -               of_node_put(aux_bus);
+> -               if (rc)
+> -                       goto error;
+> -       } else if (dp->is_edp) {
+> -               DRM_ERROR("eDP aux_bus not found\n");
+> -               return -ENODEV;
+> -       }
+>
+>         /*
+>          * External bridges are mandatory for eDP interfaces: one has to
+> @@ -1469,17 +1476,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>         if (!dp->is_edp && rc == -ENODEV)
+>                 return 0;
+>
+> -       if (!rc) {
+> +       if (!rc)
+>                 dp->next_bridge = dp_priv->parser->next_bridge;
+> -               return 0;
+> -       }
+>
+> -error:
+> -       if (dp->is_edp) {
+> -               of_dp_aux_depopulate_bus(dp_priv->aux);
+> -               dp_display_host_phy_exit(dp_priv);
+> -               dp_display_host_deinit(dp_priv);
+> -       }
+>         return rc;
+>  }
+>
+> --
+> 2.7.4
+>
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--
+With best wishes
+Dmitry
