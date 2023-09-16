@@ -1,78 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B777A308B
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 15:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E577A30DD
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Sep 2023 16:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C7F10E0EF;
-	Sat, 16 Sep 2023 13:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9810E028;
+	Sat, 16 Sep 2023 14:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic310-13.consmr.mail.bf2.yahoo.com
- (sonic310-13.consmr.mail.bf2.yahoo.com [74.6.135.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D5E10E102
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 13:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verizon.net; s=a2048;
- t=1694869771; bh=6OJAEqxlo11CSjfjkuHZ5tKnpD3PG1s3Kd3OiXjvdlA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=ZHId/cnKmd7bDqNT/BI2ZJnFaui/3+b9ZX88vJ/e4xAoEKMREOGZBWUbbMAJg6c2OznrQupfJqrR6z3y36pyvGTKLT8dX38LOkiZc5vm13aF0K1Jng3EnQnvAL5DvB60/3tT0NygWukHiYVU7MTm+1j19QnC16JG29xMBJKgF7/RZpnES1KiVKSP7CNeRM6Aqj6K/3HHmigQ4rV1lSaB5qtqJOvDiXZqT268Hn0YKeUS8Rr8wTGu1hr5jifHAmbLXW8Pm5d7LkWln+Hd5d9jJkv6RMiSH2Vs4SHqlcxnBhje2nl6qk4hBvclLl5sj/Eui76fAbAKEbagMXcP5qIrfA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1694869771; bh=Qs9zxBOuzOqJ1uGsKO7HRenAAMkiApEycoC0IvyehLG=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=Xzd7c2xEQGw1TNAhDfGmhimnuDLTP4c2I9W/3Oaf3IGU+iSu06iQmMHn3lKJYrM/lkg++TBqoVIWVQ0BLUCza1dnN4lRTFa36Ht8COaq3CazaVW/jnu/NZjnzYw9rt6gwZI2+96168IjCclZ8YmPGy48w89o8yXvqz4Y0dIP+fJAkmpM+bIo7JW8IJz3ZPF+ITun0CmOXJ3Bt75Wrt6fAHHoUtrpDc8wQor3V2N/NdyL9JfufQ5C87glB6OWrdafaMcaIkIIueVlPOFdGNW7jfVPINU+GP3VPooAiRflMBatFfFDX8whvntLe4+1yZA/P57G/Zg7aux9rzVqoVEmDw==
-X-YMail-OSG: Re04V6oVM1nByVsUDmAKnwgr.jJvuoQw4Lw2axKvb.wAwQ3Ptl3xzsK2vTUOz6.
- caODF6S_vPb1j8FFwAcq_uxV5GmJMVIVLLTFtWlcWQgkaqvqMwpcf.TzC0RfXcV4FRhMo6QbGqg4
- 95uBvtzEQtrkTAyVhNxdmuMDtajQfMyHtmBGnNYwyQgO2g1nGeVYj87iNPaW4.Cpzfr1KD7Y5Fh6
- so7HlEARs9gkQg6bA4IOFSaji8RzlXtmr1A722b5jGBId.O.LQ.tFN2iTO4SGelffF512mIt41xI
- spkAaj_PgkpRT4YKDXNIIAgQue.2AS2ENexdnGg6eEF92d9Pmsao6Lir46p4w.h9Aqoge.raSfg.
- lXmGWQg_4BXktRdKxGkhE.P9.OilsCvj5LoETL5enzy3LZ3L0oGDNcQvbOybnM.qFbWcPjCV1dV9
- e6bINd_u8BUpPq.CFPW1M5wOIDNYdJVCWjtYWdb2MxxqAT1r5VC6t1wpolsDTH9QXXEw3zpH.8tP
- WhTgCaN0vk_ixtDHsh4FfBFToV0PsMzRxDBwWKgURCPF6L4MrK7a.t5nC394LRY0gPZBHz7SrD0D
- U9zOwrps51AEVcktcCgcY6AjrzIC8iLwROY1MfQ8HXOslpqhZsltu1PlDzXdiH3BJ5AEafwQnM_w
- ZH.p5mE27ubbiU9TOHhbLayRp_.meyv.QF.O5CWrdt.eSdiRTKXLhXpwL1ATgpOZ1fw4hQCy6TK6
- NSfN8L7IOdDsWwS_tncxX9h.jsHYtwZZvhDv15gKTC3FV3ZD9YEVyvJ3mS5D4dk1dIX0YM_FuQO5
- BYaOCBj3KlxcUx3cQsaUtrlYmrjAYK1rQDz0.IT82GBm83Nxkjt7X2C0ez_P_GfiDcXBQWiPiOVA
- cUewCmnJbDxQA3390UkDsHbla51bssJcbC.k.zrMzCMGR3itK2uVIgJSzV8ms1H8MAM286vgW4Vr
- N.2Qt4I89RUADw0T5K_WpFEYo3c7OJObaOGpwNyVXp4X3KfF5tAJfdSKEJCMJUoU3dWFjKYCcuGu
- zRh8zrSibGJI2W1HYvQONXAJuB75_SejIz9vS6_Elp018s62Xk4GYEwiIxQuzt8SWtvPfaSIrBUD
- sALnhnPfh19Vr2K7JKsOGI52QFdvqOn.KHNvjJ3aJaF8lg9aQa8kQo95b_GPcf4aWEwcu7PjQfwV
- pQJr0SYKSwkRDRZ_3YLraF0R.Ok1SR0S.R9PlAdumApb_bwijNm7MDEBAUtbKyj4v8Q4op2i9xGj
- lu5Az2msF4JVwSCXVA3uZuYWD7M351OITPsN88bIgj85M6usQwLmgz4UELfqYwR10.ivvS0hOh.o
- merlB0h9KaLxGNQTBDfzCQcs1nyYkfo_YjZ9nAdVPZx.sQ0_fgH8IUoSWAMQrdD2V8S_zgt1GWhe
- a_oRsafD7ljj9FEGlj4rdQjnJRMr7h0QksTeMDn.zqSqWpknLj33W0vPhRIoMYpAAVBKqBQyXrgw
- ZrFYdH.vk0wTE5dHoizotN7xlOvLxcwe0xl_AjvhDqQL8wbsO2AGLgffLk6_R1SXormZmOqWBZq0
- dQfJ30TiMZ449QtKX5PSbiqGagtQ_LZ4BBhVuKeyO0lDXNuYkE_bxESHyMnjFM6CCBGLGaFF457_
- 11p1pfU0FWwEwUll.ti04wChKM1esiSUVhalsjtnsy0F2bkf0MSany6JtAP7wdgCT4.k4iMXAVTn
- REpFBMcpRpC0Djs_dtFjJZBOJE017HPEDuya8zSWkDaaVxLcL50iyn1R2L_DRHNHz9l0TKhvQ52g
- U48XBhyPod1bnGZGU8ACQk0mdkesEuix20ny0lRheWeT396ys3xzI3NLCn91Gn7rCCsVacCmU0Hi
- 0awi86iGsG56aw3hYkpiYqeBMdCrEVEo7GGi.LzjzUpfCHoeP0Z9qHeaY578o03_AWY9T1Tq0c.t
- yUhoYS_EWeZydgMY2d8IWhAg2LK_uiDmbudJSy6WAByJYI97CSzQhecRbdeUHGNcBQWDZ25JGpny
- RRA8QbMNFCAYn93RlnQ1n5B3re9ZIPatirtmzWIciv62b.UVh5sxMysIGaWQnuEp9CNdvTJASb9k
- FyXlUrB0QVofPt_ptuq_XX_Mp3OZ3VIK6m3AyaiO4T37m8tpHhfsugLlihPaX5VuVZME6RwLnExi
- 874NAf7XfjddjqZ2merGxc3EsOHaxYHK7FIzMErvwk_WRzSyBgwCAkDLjOdQPNu8B5CLjxTjeM7j
- BO2KkfPogbLrn1Tsxi5xt65uKLSKRpv1JTBThF4197uXeY1nt1Ms_3rZrn1g-
-X-Sonic-MF: <bluescreen_avenger@verizon.net>
-X-Sonic-ID: 45a6165b-12ca-4664-a7ad-ac7ab71a676a
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.bf2.yahoo.com with HTTP; Sat, 16 Sep 2023 13:09:31 +0000
-Received: by hermes--production-bf1-678f64c47b-7r85z (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID ca9e3aa6f01dbd3746eadfc90478dc3e; 
- Sat, 16 Sep 2023 13:09:26 +0000 (UTC)
-From: nerdopolis <bluescreen_avenger@verizon.net>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com
-Subject: Re: [RFC][PATCH v2 0/2] drm/panic: Add a drm panic handler
-Date: Sat, 16 Sep 2023 09:09:25 -0400
-Message-ID: <6657118.e9J7NaK4W3@nerdopolis2>
-In-Reply-To: <20230915083307.1185571-1-jfalempe@redhat.com>
-References: <20230915083307.1185571-1-jfalempe@redhat.com>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11DA10E11D
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 14:24:09 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-4018af103bcso20085545e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Sep 2023 07:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1694874248; x=1695479048; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1VUAsOBNA2UelmG0YB0ECv/9F8gno9lGmN4dd2u9r00=;
+ b=hxyLiOmOUje/1VyfjlU/62a20CDse6M1L7k6AXaMTcCKESIUbqzIFd9QamSHruBCsp
+ OzqA0kg525HYlvimh7Jv0FLX8of/a6WJyEz5jDkIcaehkGyS+m9jJaUgtqnij0rL0uq4
+ gLX04mwHt4uZ3Ikce4PIrqWeM3h4b3m2O33hcDhrB/lr4Wsf/W+wBxRmPnthSHGDfdP0
+ IHhBS2oC6rSH2gaVwEZ7RKzfr5KvP9keYmh8yYgmpjmFABonP45b/r1++kp31Gb+REpl
+ txOXnMZeIx5uEPL3gWLa1Jj6aQi0k4p8Mp/H/SH6bDqgcS9Z6Dg7UH7LTj2ZYoQRmpUR
+ UDsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1694874248; x=1695479048;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1VUAsOBNA2UelmG0YB0ECv/9F8gno9lGmN4dd2u9r00=;
+ b=xT6Ed1+nVw2ifx9JSC8BYBbDB/Junoqqil1ean+NGPQLBW30kX53j+4Y94dvGhqA+7
+ qy4vpBDku+NoqJeyTEuggSP9SNe0C4f3y6s/6sOSVCC3KYuyH8czNBoM8/EN0GPmOabI
+ zw1Kz9u3od8abs0htyLmfzVuR5qQbI4DgrbkwpygCgNJDOikZU7fWQMC4W/D5eR59TRN
+ imJBY41txrhBkhDOCZT28UPNbvEHVX+qkHDk5l0lAUqSTYd0Nn9eF71b/6LHAq0hxGWG
+ I1pVQYl4ud6giqBz4HMEKbn8RxKty3sCgzdZ5LtY3qcM+n2x0brUcux/fOvi778huRTc
+ 5EDg==
+X-Gm-Message-State: AOJu0YwPDMRs1a1RSm7hKYXhfnhdBnxLm6FrC4NAG9y3pV+A6iIWCGyN
+ 1zS1KgBGG/wPkyS/vnrlESv06Q==
+X-Google-Smtp-Source: AGHT+IFtFYGIZIADf3ER5VqIcxXW6g6h2GQovX61KCfsw1b/Wj/OY0SFnQoRu2LYqqjRK/Bmdju5HQ==
+X-Received: by 2002:a7b:cd0d:0:b0:3ff:516b:5c4c with SMTP id
+ f13-20020a7bcd0d000000b003ff516b5c4cmr3514084wmj.18.1694874247889; 
+ Sat, 16 Sep 2023 07:24:07 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ 19-20020a05600c235300b003fe2a40d287sm7552003wmq.1.2023.09.16.07.24.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Sep 2023 07:24:07 -0700 (PDT)
+Date: Sat, 16 Sep 2023 17:24:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [Nouveau] [PATCH] nouveau/u_memcpya: fix NULL vs error pointer bug
+Message-ID: <813a260a-80ac-4c11-a0c5-f50edb399b5c@kadam.mountain>
+References: <10fd258b-466f-4c5b-9d48-fe61a3f21424@moroto.mountain>
+ <91865741-dd19-39ad-9042-d34ed32e0552@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Mailer: WebService/1.1.21797
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91865741-dd19-39ad-9042-d34ed32e0552@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +72,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: nouveau@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, September 15, 2023 4:28:20 AM EDT Jocelyn Falempe wrote:
-> This introduces a new drm panic handler, which displays a message when a panic occurs.
-> So when fbcon is disabled, you can still see a kernel panic.
+On Sat, Sep 16, 2023 at 01:41:43AM +0200, Danilo Krummrich wrote:
+> Hi Dan,
 > 
-> This is one of the missing feature, when disabling VT/fbcon in the kernel:
-> https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
-> Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
+> On 9/15/23 14:59, Dan Carpenter wrote:
+> > The u_memcpya() function is supposed to return error pointers on
+> > error.  Returning NULL will lead to an Oops.
+> > 
+> > Fixes: 68132cc6d1bc ("nouveau/u_memcpya: use vmemdup_user")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >   drivers/gpu/drm/nouveau/nouveau_drv.h | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > index 3666a7403e47..52a708a98915 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > @@ -193,7 +193,7 @@ u_memcpya(uint64_t user, unsigned int nmemb, unsigned int size)
+> >   	size_t bytes;
+> >   	if (unlikely(check_mul_overflow(nmemb, size, &bytes)))
+> > -		return NULL;
+> > +		return ERR_PTR(-ENOMEM);
 > 
-> This is a proof of concept, and works only with simpledrm, using a new get_scanout_buffer() api
+> I plan to replace this function with an upcoming vmemdup_array_user() helper,
+> which returns -EOVERFLOW instead, hence mind using that?
 > 
-> To test it, make sure you're using the simpledrm driver, and trigger a panic:
-> echo c > /proc/sysrq-trigger
-> 
-This seems to work pretty good! With this one, I don't need to have Weston (or another display server) running for it to work this time.
-The panic reason works, which is pretty sweet.
+> Unless you disagree, no need to resubmit the patch, I can change it
+> before applying the patch.
 
-FYI: I do get a hunk that fails to apply in simpledrm_remove in drivers/gpu/drm/tiny/simpledrm.c
-Seems to be a change in a recentish commit
-https://github.com/torvalds/linux/commit/84e6da7ad5537826343636b846530ec2167d4a19
+Generally, I would say that ENOMEM is the correct error code.  I feel
+like someone thinks EOVERFLOW means integer overflow and that's not
+correct.  I means like if you pass a number higher than INT_MAX to
+kstroint().
 
-Thanks!
-> v2
->  * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
->  * Add the panic reason to the panic message (Nerdopolis)
->  * Add an exclamation mark (Nerdopolis)
->  
-> I didn't reuse the fbdev functions yet, that would need some fbdev refactoring, because they rely on struct fb_info, and struct vc_data (for font/console). But I still plan to at least try it for v3.
-> 
-> A few more though:
->  1) what about gpu with multiple monitor connected ?
-> maybe get_scanout_buffer() could return a list of scanout buffers ?
->  2) I think for some GPU drivers, there might need a flush_scanout_buffer() function, that should be called after the scanout buffer has been filled ?
-> 
-> Best regards,
-> 
-> Jocelyn Falempe (2):
->   drm/panic: Add a drm panic handler
->   drm/simpledrm: Add drm_panic support
-> 
->  drivers/gpu/drm/Kconfig          |  11 ++
->  drivers/gpu/drm/Makefile         |   1 +
->  drivers/gpu/drm/drm_drv.c        |   3 +
->  drivers/gpu/drm/drm_panic.c      | 270 +++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tiny/simpledrm.c |  17 ++
->  include/drm/drm_drv.h            |  14 ++
->  include/drm/drm_panic.h          |  41 +++++
->  7 files changed, 357 insertions(+)
->  create mode 100644 drivers/gpu/drm/drm_panic.c
->  create mode 100644 include/drm/drm_panic.h
-> 
-> 
-> base-commit: 2dde18cd1d8fac735875f2e4987f11817cc0bc2c
-> 
+But I don't care strongly about this.  You can change it if you want to.
 
-
-
+regards,
+dan carpenter
 
