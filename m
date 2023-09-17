@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B17A3905
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 21:44:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C58C7A3882
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 21:37:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC1C10E107;
-	Sun, 17 Sep 2023 19:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A02410E09D;
+	Sun, 17 Sep 2023 19:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A6810E107
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 19:44:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C970010E09D
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 19:37:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AF20760C00;
- Sun, 17 Sep 2023 19:44:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605D7C433C8;
- Sun, 17 Sep 2023 19:43:59 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 184E8CE0AE6;
+ Sun, 17 Sep 2023 19:36:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88F8C433C7;
+ Sun, 17 Sep 2023 19:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694979840;
- bh=AT5ef4lAPMyGH97Q0BTUIgaTLeyYZHVyphuPvJvfoq8=;
+ s=korg; t=1694979417;
+ bh=WYPLCF6Fcs+e55ESX9C/k2f6cxIfXCkcBgSzbIWLuzo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0RTodSQsEBgpD8z0qmAez48DhdHyRazb+/K6oN70IKMmLzCFVvkgPdF0f1Fyp1hJZ
- LKTtAv9vbnGhtCa/anOGHNF8RKGmx3mDKKANqDNqYRA7zv7Wq+sm4/jgbV4GrR0fQ4
- b5JkWuNRaEqGwKpGvLkF+IdDLaYzDyK3K2q085qY=
+ b=OJP1HDh6GkEg+zk2GwyMLMwvbKLlqu4jmAzd1aF4rBBeSzFKDn+PnGnyJ80AF4qFU
+ DhV983Zj/yT7FhpsdEukdp4a4CRbbRfyfBMb03jVp4tKKw3CxYDJGHAsUWFzLfdX10
+ KIWA/4Ypja6NNHD+8E/oVROoB2yrePcGrCIaBnfM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.5 022/285] drm/ast: Fix DRAM init on AST2200
-Date: Sun, 17 Sep 2023 21:10:22 +0200
-Message-ID: <20230917191052.400729090@linuxfoundation.org>
+Subject: [PATCH 5.10 280/406] backlight/gpio_backlight: Compare against struct
+ fb_info.device
+Date: Sun, 17 Sep 2023 21:12:14 +0200
+Message-ID: <20230917191108.685383417@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230917191051.639202302@linuxfoundation.org>
-References: <20230917191051.639202302@linuxfoundation.org>
+In-Reply-To: <20230917191101.035638219@linuxfoundation.org>
+References: <20230917191101.035638219@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -53,53 +54,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@redhat.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-sh@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Rich Felker <dalias@libc.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.5-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 4cfe75f0f14f044dae66ad0e6eea812d038465d9 upstream.
+commit 7b91d017f77c1bda56f27c2f4bbb70de7c6eca08 upstream.
 
-Fix the test for the AST2200 in the DRAM initialization. The value
-in ast->chip has to be compared against an enum constant instead of
-a numerical value.
+Struct gpio_backlight_platform_data refers to a platform device within
+the Linux device hierarchy. The test in gpio_backlight_check_fb()
+compares it against the fbdev device in struct fb_info.dev, which
+is different. Fix the test by comparing to struct fb_info.device.
 
-This bug got introduced when the driver was first imported into the
-kernel.
+Fixes a bug in the backlight driver and prepares fbdev for making
+struct fb_info.dev optional.
+
+v2:
+	* move renames into separate patch (Javier, Sam, Michael)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
-Cc: Dave Airlie <airlied@redhat.com>
+Fixes: 8b770e3c9824 ("backlight: Add GPIO-based backlight driver")
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: linux-sh@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.5+
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
-Link: https://patchwork.freedesktop.org/patch/msgid/20230621130032.3568-2-tzimmermann@suse.de
+Cc: <stable@vger.kernel.org> # v3.12+
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-4-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_post.c |    2 +-
+ drivers/video/backlight/gpio_backlight.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -291,7 +291,7 @@ static void ast_init_dram_reg(struct drm
- 				;
- 			} while (ast_read32(ast, 0x10100) != 0xa8);
- 		} else {/* AST2100/1100 */
--			if (ast->chip == AST2100 || ast->chip == 2200)
-+			if (ast->chip == AST2100 || ast->chip == AST2200)
- 				dram_reg_info = ast2100_dram_table_data;
- 			else
- 				dram_reg_info = ast1100_dram_table_data;
+--- a/drivers/video/backlight/gpio_backlight.c
++++ b/drivers/video/backlight/gpio_backlight.c
+@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struc
+ {
+ 	struct gpio_backlight *gbl = bl_get_data(bl);
+ 
+-	return gbl->fbdev == NULL || gbl->fbdev == info->dev;
++	return gbl->fbdev == NULL || gbl->fbdev == info->device;
+ }
+ 
+ static const struct backlight_ops gpio_backlight_ops = {
 
 
