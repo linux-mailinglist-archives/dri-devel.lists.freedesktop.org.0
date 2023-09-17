@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB15F7A34C1
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 10:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559777A35D8
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 16:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292B310E03D;
-	Sun, 17 Sep 2023 08:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6111E10E074;
+	Sun, 17 Sep 2023 14:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9654B10E03D
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 08:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694941122; x=1726477122;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=UZiSRUpOl31OpNQus71BPULMDreAmUWYkGF1yNo0RTo=;
- b=Iea5RsCnCMfsbXo1P+O5eQOkOg/AkMINzf+ROV6ti7MX4ubEqFvYWjG2
- XqpH9s8tl75dKtkvg8mOSGl2PHRv1/X73dmO9J3J3ugHFUBNk1bnqdFj/
- Cqx0CWeLmtH3rHdHAkDf7xOPtKblICe0reCI1QeOVUc5WraFDovqijm+Y
- c0dByPUopQtWddKhbbeuxabD+8LNQxegzO5n4v2CyiLudM5RCnfVB5RIL
- lexBXgUOzSItY3LzzX/8OVfZJ5dqC1yCNZUvyHeH0Gy1MXCSwMQWEXjB5
- PCWFQcOYnDBSIxNfbLuni6A8nKPqrsco8P7SUw/E93jysK/CqufKwOjYS w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="364529543"
-X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="364529543"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2023 01:58:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="815677282"
-X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="815677282"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2023 01:58:40 -0700
-Date: Sun, 17 Sep 2023 10:58:38 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 0/7] accel/qaic: Extend uAPI to support undoing
- ATTACH_SLICE_BO
-Message-ID: <20230917085838.GC441281@linux.intel.com>
-References: <20230901172247.11410-1-quic_jhugo@quicinc.com>
+Received: from mail.andi.de1.cc (mail.andi.de1.cc
+ [IPv6:2a02:c205:3004:2154::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 193B210E071
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 14:34:46 +0000 (UTC)
+Received: from [185.224.57.162] (helo=akair)
+ by mail.andi.de1.cc with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <andreas@kemnade.info>)
+ id 1qhsr9-003tmW-OQ; Sun, 17 Sep 2023 16:34:39 +0200
+Date: Sun, 17 Sep 2023 16:34:35 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [RFC PATCH] drm: omapdrm: dsi: add refsel also for omap4
+Message-ID: <20230917163435.6bc68110@akair>
+In-Reply-To: <9efde4d8-385d-54da-fb0d-55625d3c4571@ideasonboard.com>
+References: <20230913065911.1551166-1-andreas@kemnade.info>
+ <48972ab0-e4ed-11b2-31fb-ad93695a4db1@ideasonboard.com>
+ <20230913124828.GL5285@atomide.com>
+ <9efde4d8-385d-54da-fb0d-55625d3c4571@ideasonboard.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230901172247.11410-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +44,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
+Cc: arnd@arndb.de, Tony Lindgren <tony@atomide.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, laurent.pinchart@ideasonboard.com,
+ u.kleine-koenig@pengutronix.de, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 01, 2023 at 11:22:40AM -0600, Jeffrey Hugo wrote:
-> A BO for a QAIC device has two states -
-> 1. Allocated
-> 2. Sliced
-> 
-> A BO can be allocated at any time, and is initialized in the allocated state.
-> A BO can transition to the sliced state via ATTACH_SLICE_BO.  This prepares the
-> BO for use with an active workload.  Currently a BO in the sliced state can
-> only be used with a single workload, and will only transition back to the
-> allocated state once the workload is deactivated.
-> 
-> Userspace would like the ability to trigger a BO transition from the sliced
-> state to the allocated state. This would support the usecase of a userspace
-> client that has two active workloads, where the output of the first workload
-> becomes the input of the second workload. Currently, the client would need
-> two BOs, once for each workload, and copy from one BO to the other.
-> 
-> To support this usecase, we create the detach slice concept which is the
-> inverse operation of ATTACH_SLICE_BO.  We extend the uAPI with a new
-> DETACH_SLICE_BO ioctl that allows userspace to perform this operation.
-> 
-> Since ATTACH_SLICE_BO and DETACH_SLICE_BO are related operations, they share
-> a decent amount of code. This series starts with restructuring the common code
-> for use in both ioctls before finally adding the DETACH_SLICE_BO.
-> 
-> Pranjal Ramajor Asha Kanojiya (7):
->   accel/qaic: Remove ->size field from struct qaic_bo
->   accel/qaic: Update BO metadata in a central location
->   accel/qaic: Declare BO 'sliced' after all the operations are complete
->   accel/qaic: Undo slicing setup done in qaic_attach_slicing_bo()
->   accel/qaic: Clean up BO during flushing of transfer list
->   accel/qaic: Create a function to initialize BO
->   accel/qaic: Add QAIC_DETACH_SLICE_BO IOCTL
-> 
->  Documentation/accel/qaic/qaic.rst |  10 ++
->  drivers/accel/qaic/qaic.h         |   6 +-
->  drivers/accel/qaic/qaic_data.c    | 187 +++++++++++++++++++++++-------
->  drivers/accel/qaic/qaic_drv.c     |   1 +
->  include/uapi/drm/qaic_accel.h     |  24 +++-
->  5 files changed, 175 insertions(+), 53 deletions(-)
+Am Wed, 13 Sep 2023 15:58:11 +0300
+schrieb Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>:
 
+> On 13/09/2023 15:48, Tony Lindgren wrote:
+> > * Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> [230913 12:11]:  
+> >> I'm somewhat sure that the upstream driver used to work on omap4
+> >> sdp, which has two DSI panels. But I can't even remember what
+> >> omap4 version it had.  
+> > 
+> > I think those were both dsi command mode panels though, not video
+> > mode?  
+> 
+> Yes, true. If the PLL is totally wrong due to refsel, I'm sure a
+> command mode panel would also fail. But it's true that video mode
+> panels are more sensitive to the clock rate.
+> 
+hmm, still analyzing:
+What works:
+  OMAP5 + Pyra (Videomode display requiring some init commands) 
+  some command mode stuff with OMAP4 (droid4)
+ 
+What does not work:
+  OMAP4 with some dsi videomode to something else (LVDS/DPI) converter
+       if init commands are sent through dsi, then these commands fail
+       with bta sync problems.
 
-Do not see any serious issues with the set.
+So sending init commands to video mode displays seems not to be a
+principal problem.
+But looking deeper at the drivers, there seem to be commands sent
+to the converters to configure lanes on that side, e.g.
+tc358762_write(ctx, DSI_LANEENABLE,
+                       LANEENABLE_L0EN | LANEENABLE_CLEN);
 
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com> for the whole series.
+There might be trouble if these are not sent in low power mode.
 
+So probably the next analyzing step would be to check if things
+are really sent in low power mode.
+
+Regards,
+Andreas
