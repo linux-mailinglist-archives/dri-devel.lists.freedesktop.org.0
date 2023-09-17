@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6804C7A3A3A
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 22:01:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110257A3890
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 21:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC89E10E10C;
-	Sun, 17 Sep 2023 20:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE0010E0EA;
+	Sun, 17 Sep 2023 19:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78FFD10E10C
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 20:00:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADFF10E107
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 19:37:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AEEF9B80A7C;
- Sun, 17 Sep 2023 20:00:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1968C433C9;
- Sun, 17 Sep 2023 20:00:54 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 22DB2B8069F;
+ Sun, 17 Sep 2023 19:37:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 556F4C433C8;
+ Sun, 17 Sep 2023 19:37:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1694980855;
- bh=gwVcaf30Pfjogt0h9om2AC4GabOGeu71ECpEXmIirHk=;
+ s=korg; t=1694979471;
+ bh=pXPb369sNK/PmOUb3CnSmvVUTE05/xbh2CSvGeQjNqg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UmMXqyezHGs4Q1MuebIlXnYzYlMIqnV928rdA0pdtvUuMIR0m62KccYWbqKwgDN4e
- avOkD0Q06ZcjD9WLwWZrDtBVxNFgjWoRPig5efZMzdVaLTQQVZoPrvPl9zY0usGXbZ
- WLffd6YX8NADtAXSUBv4+ZOplXZ8Qxozz7DbYhc8=
+ b=cU4thoZq6geHRb1TSBH1ITUWQe3C37FuKwBHhIFJnLHmnTi8dUnuFw4bi8IbvwM1x
+ x4sh47Y5GuJpqAlBL4trD08WIdLuCYGTSiokDqKku5Lw2wG4chg+Kf5/cAY+a3qW8q
+ WOBGH3xm7F2+t1ZOHRYx0d436zSYXdWr/Y8S4RiI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.1 028/219] drm/ast: Fix DRAM init on AST2200
-Date: Sun, 17 Sep 2023 21:12:35 +0200
-Message-ID: <20230917191042.010511579@linuxfoundation.org>
+Subject: [PATCH 5.10 323/406] drm/ast: Fix DRAM init on AST2200
+Date: Sun, 17 Sep 2023 21:12:57 +0200
+Message-ID: <20230917191109.824164431@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230917191040.964416434@linuxfoundation.org>
-References: <20230917191040.964416434@linuxfoundation.org>
+In-Reply-To: <20230917191101.035638219@linuxfoundation.org>
+References: <20230917191101.035638219@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -60,7 +60,7 @@ Cc: Jocelyn Falempe <jfalempe@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -91,7 +91,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_post.c
 +++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -291,7 +291,7 @@ static void ast_init_dram_reg(struct drm
+@@ -290,7 +290,7 @@ static void ast_init_dram_reg(struct drm
  				;
  			} while (ast_read32(ast, 0x10100) != 0xa8);
  		} else {/* AST2100/1100 */
