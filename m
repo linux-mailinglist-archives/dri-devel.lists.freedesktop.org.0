@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D667A349F
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 10:48:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 459937A34BC
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Sep 2023 10:57:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202E410E03C;
-	Sun, 17 Sep 2023 08:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7B110E05B;
+	Sun, 17 Sep 2023 08:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4422510E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 08:48:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F61310E03D
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Sep 2023 08:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1694940514; x=1726476514;
+ t=1694941010; x=1726477010;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=0Boe7Gc2DP0E8eOe/KIMoMoyqtMVHIVrqsWDAKZBOPE=;
- b=c0wD/aaNqgE629p6Siptvjs2hc78/F6tACJoh+SStrSbYTSB54D33puz
- tx8BzCcAtmYlJp2/FSN9abLpjjpDy9QGMGS4zsea8YI5aUIWSmCAGCSpR
- WE4FSynFJ3q1MAh79tzuFUJDU70UL9VtU7iw4f1UrvOd4yPF8IN2WUZIl
- l/wA8KBea5gVgqRQx8s32Md5N0Fw7wvb5rzFF19Fo3A2T2c3PHOu+9usV
- j+TAKvclq1Hr2+Iz6sCyMYbKDKeuzartDqkvYK++LuEFvqyWhq1ODZ9/v
- 32vXGfwyLWCx0voq7S9+i6Cqi+foP3+6XgFI03YYpf4qEuwvBHVnd4+qe A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="364528905"
-X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="364528905"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2023 01:48:33 -0700
+ bh=/FZmYgdLnKk9UUknM7aBnIojq8H4iqGyH5Fc7MtHhsk=;
+ b=Icm4zZsGZpmBSkHDgAgJiFISoZ5j1pSNi2ylE3hrXjInQZeNwqqoJcV5
+ 75/GMoysdms29HYeNIu1zFgt1m9BnlTeuFsHZYXCoLN5z8/tKUlXG99FK
+ 6VpWPMIanE91iXCRQhbsvyz1rnIa9qCBCLsNqj1M7sYCBqEl9HyyNoOBm
+ NCbEK4SuRk9funshlIwQo75LM2qnsrJ08k5QK3DrCp+2PiHrCQh9cQTVp
+ K3GCQRMFEiSEPXDeYQrvGhVWmYIHROzLdbw9NKiXzpmu9X7hdD/YQHawB
+ rFfZQ87tN3/tTGVzzMtRCwQbRPim/dLVMvUakj2VbEamp2cjE5ol1V1W6 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="376809577"
+X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="376809577"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2023 01:56:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="738808548"
-X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="738808548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="748688793"
+X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; d="scan'208";a="748688793"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2023 01:48:31 -0700
-Date: Sun, 17 Sep 2023 10:48:29 +0200
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2023 01:56:48 -0700
+Date: Sun, 17 Sep 2023 10:56:46 +0200
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 6/7] accel/qaic: Create a function to initialize BO
-Message-ID: <20230917084829.GA441281@linux.intel.com>
+Subject: Re: [PATCH 7/7] accel/qaic: Add QAIC_DETACH_SLICE_BO IOCTL
+Message-ID: <20230917085646.GB441281@linux.intel.com>
 References: <20230901172247.11410-1-quic_jhugo@quicinc.com>
- <20230901172247.11410-7-quic_jhugo@quicinc.com>
+ <20230901172247.11410-8-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901172247.11410-7-quic_jhugo@quicinc.com>
+In-Reply-To: <20230901172247.11410-8-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +63,39 @@ Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 01, 2023 at 11:22:46AM -0600, Jeffrey Hugo wrote:
+On Fri, Sep 01, 2023 at 11:22:47AM -0600, Jeffrey Hugo wrote:
 > From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 > 
-> This makes sure that we have a single place to initialize and
-> re-initialize BO.
+> Once a BO is attached with slicing configuration that BO can only be used
+> for that particular setting. With this new feature user can detach slicing
+> configuration off an already sliced BO and attach new slicing configuration
+> using QAIC_ATTACH_SLICE_BO.
 > 
-> Use this new API to cleanup release_dbc()
+> This will support BO recycling.
 > 
-> We will need this for next patch to detach slicing to a BO.
+> detach_slice_bo() detaches slicing configuration from a BO. This new
+> helper function can also be used in release_dbc() as we are doing the
+> exact same thing.
 > 
 > Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 > Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> [jhugo: add documentation for new ioctl]
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/accel/qaic/qaic_data.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index 6e44e00937af..2acb9dbac88b 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -635,6 +635,18 @@ static const struct drm_gem_object_funcs qaic_gem_funcs = {
->  	.vm_ops = &drm_vm_ops,
->  };
->  
-> +static void qaic_init_bo(struct qaic_bo *bo, bool reinit)
-> +{
-> +	if (reinit) {
-> +		bo->sliced = false;
-> +		reinit_completion(&bo->xfer_done);
-> +	} else {
-> +		init_completion(&bo->xfer_done);
+<snip>
+
+> +	/* Check if BO is committed to H/W for DMA */
+> +	spin_lock_irqsave(&dbc->xfer_lock, flags);
+> +	if (bo->queued) {
+> +		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+> +		ret = -EBUSY;
+> +		goto unlock_ch_srcu;
 > +	}
-> +	complete_all(&bo->xfer_done);
-Why do you need complete_all() here ? 
+> +	spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+
+This looks like race condition. If some other thread will take the xfer_lock
+and set bo->queued (HERE just after _unlock())  we will not return -EBUSY.
+Something seems to be missing here or xfer_lock is not needed to protect
+bo->queued.
 
 Regards
 Stanislaw
