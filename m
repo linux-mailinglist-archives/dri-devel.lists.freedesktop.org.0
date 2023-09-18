@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC3B7A52F0
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2997A52FB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D8810E2CF;
-	Mon, 18 Sep 2023 19:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC1510E2DB;
+	Mon, 18 Sep 2023 19:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E6F10E2C7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 19:22:14 +0000 (UTC)
-X-UUID: a9a058b4565811eea33bb35ae8d461a2-20230919
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887DF10E2CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 19:22:15 +0000 (UTC)
+X-UUID: aa01a07e565811eea33bb35ae8d461a2-20230919
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=2JKozlV/+qeFwVZSE63lvGL4jVJkDwVCkXaW23hxI1I=; 
- b=XfuVO2YzKh/f5E12/icyfLhyao3Qh/xFIU0elvLdMunNz1me+/HU1LsaW6Rm9uP3OerjunbFHLIcV7UNsQ8iOdwVT9ps05t8+A+sLQph/IAn+XLPjWyVfWD1GkgxOF3B1khh2WCvuhZLU/KvFC7jlwQnHlcc4lLk6zI5mx28x5I=;
+ bh=GaB7gNearRizvMqJwMwpc6UR2HMDeuolfDXhrDkhLsM=; 
+ b=pFzqr0zKsfL4cNpTGBeyOhmGM6M/KTfNgDp0fW2sspd35Sy6wLOS5D3zRXXSZY+7uViFXBPSYJLFHpnfVZJ7pNVsAhM1dzCjx/xs2aPdonmruT6p3ghvvxGn6TFpVwEg95/xmzFo5pA4V3FfQKifk2Y4CRV5iwr+zOZxJH7G/U8=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:80a8e4cb-6e74-41b5-8a46-83605228f5c9, IP:0,
+X-CID-O-INFO: VERSION:1.1.31, REQID:03d09f99-3835-483d-900f-134ad3daee3b, IP:0,
  U
- RL:0,TC:0,Content:100,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:100
-X-CID-META: VersionHash:0ad78a4, CLOUDID:f79a2bc3-1e57-4345-9d31-31ad9818b39f,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:0ad78a4, CLOUDID:0ddafabe-14cc-44ca-b657-2d2783296e72,
  B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:801|102,TC:nil,Content:3,EDM:-3,IP:n
- il,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR
- :NO,DKR:0,DKP:0,BRR:0,BRE:0
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: a9a058b4565811eea33bb35ae8d461a2-20230919
+X-UUID: aa01a07e565811eea33bb35ae8d461a2-20230919
 Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 833162899; Tue, 19 Sep 2023 03:22:09 +0800
+ with ESMTP id 1950283061; Tue, 19 Sep 2023 03:22:10 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 19 Sep 2023 03:22:08 +0800
+ 15.2.1118.26; Tue, 19 Sep 2023 03:22:09 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 03:22:08 +0800
+ 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 03:22:09 +0800
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Jassi Brar <jassisinghbrar@gmail.com>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 14/15] mailbox: mediatek: Add mt8195 support for CMDQ secure
- driver
-Date: Tue, 19 Sep 2023 03:22:03 +0800
-Message-ID: <20230918192204.32263-15-jason-jh.lin@mediatek.com>
+Subject: [PATCH 15/15] arm64: dts: mediatek: mt8195: Add CMDQ secure driver
+ support for gce0
+Date: Tue, 19 Sep 2023 03:22:04 +0800
+Message-ID: <20230918192204.32263-16-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
 References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
@@ -83,25 +83,30 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add mt8195 support for CMDQ secure driver.
+Add CMDQ secure driver support for GCE0.
+
+CMDQ secure driver will requset a GCE HW thread in GCE0 core to support
+sending a CMDQ packet through secure mailbox.
+Then ask GCE HW thread to excute commands in the secure world.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index 4e047dc916b9..d27d033c587d 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -735,6 +735,7 @@ static const struct gce_plat gce_plat_v6 = {
- 	.thread_nr = 24,
- 	.shift = 3,
- 	.control_by_sw = true,
-+	.has_sec = true,
- 	.gce_num = 2
- };
+diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+index 4dbbf8fdab75..201eb3bc0273 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+@@ -910,6 +910,8 @@
+ 			interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH 0>;
+ 			#mbox-cells = <2>;
+ 			clocks = <&infracfg_ao CLK_INFRA_AO_GCE>;
++			mboxes = <&gce0 15 CMDQ_THR_PRIO_1>;
++			mediatek,gce-events = <CMDQ_SYNC_TOKEN_SECURE_THR_EOF>;
+ 		};
  
+ 		gce1: mailbox@10330000 {
 -- 
 2.18.0
 
