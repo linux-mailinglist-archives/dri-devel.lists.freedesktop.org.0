@@ -2,46 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A337A4BEF
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 17:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EA7A4E99
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 18:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23BAB10E072;
-	Mon, 18 Sep 2023 15:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA66110E098;
+	Mon, 18 Sep 2023 16:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550BD10E072
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 15:23:41 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FB4F8A5F;
- Mon, 18 Sep 2023 17:22:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695050524;
- bh=eUeGACMHyZhM2g7i0GeSAmr3+zMDlgtDBBJJ5VCvzd8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZGKbN7IwyXjMBQs0fHMLzXURSn1AGbY+U+0UN5o/ZUHVgnvRnUrTD7xGHSCoaIY2E
- BSXk0K3+hGkPNfQZ15HzjPwTA/QERvQD9Z95swmRFptXk4GKdpkw2atxYDnNI7bhzw
- gJ3gqRrzVQvT64Ov395rz6OfHKPjQq9PsB/NpLlA=
-Message-ID: <a8c5d3a8-5c1f-7b37-5f5f-41773d66b7e3@ideasonboard.com>
-Date: Mon, 18 Sep 2023 18:23:35 +0300
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13A9E10E0F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 16:19:52 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2b974031aeaso77248181fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1695053989; x=1695658789;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pbOQzNmAo2PKtDx0msSwuX8Ix4PNWb6iOgapQHbD27Q=;
+ b=lCgHwGEtUH/LvGhIHqjcBzUB/VSQUAby2L7/7EKD7F6pHLVfoqH9GGf3T2hffh78oL
+ qt0G8LbPdH/JOm1nikLyOBOKzS4PaR54EEp/9LzaGEpsevmqNALvIuwLg0TzFJdUex9c
+ AqtxhprExAqPKkl/g/mKEA2ML7JMECtBfjih0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695053989; x=1695658789;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pbOQzNmAo2PKtDx0msSwuX8Ix4PNWb6iOgapQHbD27Q=;
+ b=nqG3qaK7kSv94ZqQHGMD0C5pWenK6wjaYk9Ehm/TWAwIIfPuFEKp+uMCeN3QRnXhZ/
+ PYQ1RLIffTjpSaD3dmrZkwL13pSrjGjReevjzEzsoybRo4e/p2V3K7Mprmh+ytR3PQk3
+ z8SmHvGdrQZiAj5oEykmwge8kJo/Vf3FFMVpBM3Oh1Nl3SzWbCzNIsdx2+JukILKmmoZ
+ yfDxBX39KlwoEsi4ghUxIlWqzAa/UZRM3ucA9NRUaIIUj8VWWTHoyLY1H8N6TD32Amba
+ Z/0210vU97XqhWf1G1XL5IHxjTvSela8toCC4PFOM4V1VkA3vgb6I3+8WprikUkIKPNA
+ 2VsQ==
+X-Gm-Message-State: AOJu0YyHWdAC0Ik3r8xgy2v0Cj5xi6n5ytutsExFM3xA3TiKHqN4/agw
+ TgXEEiohA9WCn9Z848TXOVZL+YF6ben/vkOUGMoqFM08
+X-Google-Smtp-Source: AGHT+IEB0fhZWUbrtUW92xwVVQLbYO6PRHs1e3FgDW4LXb1oHnVjs+2XrHfKEbO3ePV704a9L9WW0g==
+X-Received: by 2002:a2e:8756:0:b0:2bf:7894:a490 with SMTP id
+ q22-20020a2e8756000000b002bf7894a490mr8574157ljj.38.1695053988853; 
+ Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ u14-20020a170906068e00b0099ce025f8ccsm6586848ejb.186.2023.09.18.09.19.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4009fdc224dso106885e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
+X-Received: by 2002:a05:600c:3b14:b0:3fe:f32f:c57f with SMTP id
+ m20-20020a05600c3b1400b003fef32fc57fmr206022wms.0.1695053987860; Mon, 18 Sep
+ 2023 09:19:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 2/2] drivers/tidss: Add support for AM62A7 DSS
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230818142124.8561-1-a-bhatia1@ti.com>
- <20230818142124.8561-3-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230818142124.8561-3-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 18 Sep 2023 09:19:35 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
+Message-ID: <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,171 +79,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/08/2023 17:21, Aradhya Bhatia wrote:
-> Add support for the DSS controller on TI's AM62A7 SoC in the tidss
-> driver.
-> 
-> This contrller has 2 video pipelines that can render 2 video planes on
+Hi,
 
-"controller".
-
-> over a screen, using the overlay managers. The output of the DSS comes
-> from video port 2 (VP2) in the form of RGB88 DPI signals, while the VP1
-> is tied off inside the SoC.
-
-If the VP1 is tied off, I think we should somehow mark it in the feats 
-below. Maybe just a comment, or perhaps a new DISPC_VP_* flag.
-
-  Tomi
-
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+On Mon, Jul 3, 2023 at 6:21=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> This is two patches fixing things I would normally complain about
+> in reviews, but alas I missed this one, so I go in and fix it up
+> myself.
+>
+> Discovering that a completely unrelated driver has been merged
+> into this panel driver I had to bite the bullet and break it out.
+> I am pretty suspicious of the other recently added panel as well.
+>
+> I am surprised that contributors from manufacturers do not seem
+> to have datasheets for the display controllers embedded in the
+> panels of their products. Can you take a second look?
+>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
-> Notes:
->         Changes from V1:
->         * Correctly sort DISPC_AM62A7 macro after DISPC_AM625.
-> 
->   drivers/gpu/drm/tidss/tidss_dispc.c | 53 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->   drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
->   3 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 9d9dee7abaef..5539ddb7f338 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -322,6 +322,54 @@ const struct dispc_features dispc_am625_feats = {
->   	.vid_order = { 1, 0 },
->   };
->   
-> +const struct dispc_features dispc_am62a7_feats = {
-> +	.max_pclk_khz = {
-> +		[DISPC_VP_DPI] = 165000,
-> +	},
-> +
-> +	.scaling = {
-> +		.in_width_max_5tap_rgb = 1280,
-> +		.in_width_max_3tap_rgb = 2560,
-> +		.in_width_max_5tap_yuv = 2560,
-> +		.in_width_max_3tap_yuv = 4096,
-> +		.upscale_limit = 16,
-> +		.downscale_limit_5tap = 4,
-> +		.downscale_limit_3tap = 2,
-> +		/*
-> +		 * The max supported pixel inc value is 255. The value
-> +		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-> +		 * The maximum bpp of all formats supported by the HW
-> +		 * is 8. So the maximum supported xinc value is 32,
-> +		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-> +		 */
-> +		.xinc_max = 32,
-> +	},
-> +
-> +	.subrev = DISPC_AM62A7,
-> +
-> +	.common = "common",
-> +	.common_regs = tidss_am65x_common_regs,
-> +
-> +	.num_vps = 2,
-> +	.vp_name = { "vp1", "vp2" },
-> +	.ovr_name = { "ovr1", "ovr2" },
-> +	.vpclk_name =  { "vp1", "vp2" },
-> +	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
-> +
-> +	.vp_feat = { .color = {
-> +			.has_ctm = true,
-> +			.gamma_size = 256,
-> +			.gamma_type = TIDSS_GAMMA_8BIT,
-> +		},
-> +	},
-> +
-> +	.num_planes = 2,
-> +	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> +	.vid_name = { "vid", "vidl1" },
-> +	.vid_lite = { false, true, },
-> +	.vid_order = { 1, 0 },
-> +};
-> +
->   static const u16 *dispc_common_regmap;
->   
->   struct dss_vp_data {
-> @@ -824,6 +872,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
->   	case DISPC_K2G:
->   		return dispc_k2g_read_and_clear_irqstatus(dispc);
->   	case DISPC_AM625:
-> +	case DISPC_AM62A7:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
->   		return dispc_k3_read_and_clear_irqstatus(dispc);
-> @@ -840,6 +889,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
->   		dispc_k2g_set_irqenable(dispc, mask);
->   		break;
->   	case DISPC_AM625:
-> +	case DISPC_AM62A7:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
->   		dispc_k3_set_irqenable(dispc, mask);
-> @@ -1331,6 +1381,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
->   					x, y, layer);
->   		break;
->   	case DISPC_AM625:
-> +	case DISPC_AM62A7:
->   	case DISPC_AM65X:
->   		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
->   					  x, y, layer);
-> @@ -2250,6 +2301,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
->   		dispc_k2g_plane_init(dispc);
->   		break;
->   	case DISPC_AM625:
-> +	case DISPC_AM62A7:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
->   		dispc_k3_plane_init(dispc);
-> @@ -2357,6 +2409,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
->   		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
->   		break;
->   	case DISPC_AM625:
-> +	case DISPC_AM62A7:
->   	case DISPC_AM65X:
->   		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
->   		break;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 33ac5ad7a423..7f203f83559b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -60,6 +60,7 @@ enum dispc_vp_bus_type {
->   enum dispc_dss_subrevision {
->   	DISPC_K2G,
->   	DISPC_AM625,
-> +	DISPC_AM62A7,
->   	DISPC_AM65X,
->   	DISPC_J721E,
->   };
-> @@ -88,6 +89,7 @@ struct dispc_features {
->   
->   extern const struct dispc_features dispc_k2g_feats;
->   extern const struct dispc_features dispc_am625_feats;
-> +extern const struct dispc_features dispc_am62a7_feats;
->   extern const struct dispc_features dispc_am65x_feats;
->   extern const struct dispc_features dispc_j721e_feats;
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 4d063eb9cd0b..edf69d020544 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -231,6 +231,7 @@ static void tidss_shutdown(struct platform_device *pdev)
->   static const struct of_device_id tidss_of_table[] = {
->   	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
->   	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
-> +	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
->   	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
->   	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
->   	{ }
+> Changes in v3:
+> - Rebase on drm-misc-next
+> - Convert the two newly added Starry panels as well.
+> - Break out the obvious ILI9882t-based panel into its own driver.
+> - Link to v2: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v2-=
+0-457d7ece4590@linaro.org
+>
+> Changes in v2:
+> - Fix a missed static keyword
+> - Link to v1: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v1-=
+0-8ac378405fb7@linaro.org
+>
+> ---
+> Linus Walleij (4):
+>       drm/panel: boe-tv101wum-nl6: Drop macros and open code sequences
+>       drm/panel: boe-tv101wum-nl6: Drop surplus prepare tracking
+>       drm/panel: ili9882t: Break out as separate driver
+>       drm/panel: ili9882t: Break out function for switching page
+>
+>  drivers/gpu/drm/panel/Kconfig                  |    9 +
+>  drivers/gpu/drm/panel/Makefile                 |    1 +
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 3037 ++++++++++--------=
+------
+>  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  |  759 ++++++
+>  4 files changed, 2067 insertions(+), 1739 deletions(-)
 
+I'm curious what the latest on this patch series is. Is it abandoned,
+or is it still on your list to move forward with it? If it's
+abandoned, does that mean we've abandoned the idea of breaking
+ili9882t into a separate driver?
+
+From looking at things that have landed downstream in the ChromeOS
+kernel trees it looks as if additional fixes are getting blocked from
+being posted/landed because of the limbo state that this is in.
+
+-Doug
