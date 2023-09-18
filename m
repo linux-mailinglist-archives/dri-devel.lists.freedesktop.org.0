@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82E77A52FF
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FD07A533A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:46:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F8210E2D9;
-	Mon, 18 Sep 2023 19:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB8B10E0F3;
+	Mon, 18 Sep 2023 19:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr
- [80.12.242.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECC810E2DB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 19:22:49 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178]) by smtp.orange.fr with ESMTPA
- id iJpUqXaW8vRSUiJpVqOPuM; Mon, 18 Sep 2023 21:22:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1695064967;
- bh=qUTILhPdiaRO8mrn/9Xa/LyWEJmc0jgEzY8KobjS0VU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=IOzxAW2lb1j3Wwnmt0nnTQ9t31+qJFPnpTRxYU9+Wupy4Kk82Di9jWTUtPUXyQ48R
- PvIEWdTX/wwZQY5s+RLBnI/tga8o72m10FsOXACjCxkuxPZNG+wY5TEO5oUW0g+KkE
- nz5N5o3jtwVqEbus7SQSHMAlLcDb/iJW3QhZjErBHCdDbMuqeRxLtGTSPdEwnCQeR1
- xCwIs3USoUec9heY2cu3RZ/bcuj3VXmsX4MiYCI/dWA9mdFaUiW1rVygJ09aqNC21n
- L7cK7pAwtCxzt3irmbIoBQTzRGoJcLhzKyqSq8pa+OEfzXsuWf6BWSdVOvRloEd75X
- M1lDb3Pv0IOjA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 18 Sep 2023 21:22:47 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
-Date: Mon, 18 Sep 2023 21:22:44 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3FF10E025;
+ Mon, 18 Sep 2023 19:46:36 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38IHSHP9008425; Mon, 18 Sep 2023 19:46:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vzrpQ4gweLl+IByBQuhzYD2oZHDx2mZxj2oAr9SBgw8=;
+ b=fNvNNToFgp5qI7qACvPEetTx/7epUbk1mjdDAc2jgNizSuUnQc4J+GEQ65WHs/VklNaE
+ n87gUxT9hFn9FeMGe+BLR3HEI9JenzjW4KE4lXANxl56UHck1mkW3RKT7BZJUFQhke2W
+ 2xASUYFRG94pbjWlqYcf9shn9lt+9WQREMcpqhqzzvV/38hGWpONObLIvwMLxKdupVoG
+ aGLAL2UHlkDV3VtVKeMgZzuNdodux0tLlPjlUq2E7j0VelhH9OI5rdvLdfzZ+12Ll1ik
+ qrk1zPybH91VFPWOTKJvLV2mfGIvs1WB7cfMJK3G2XoyEqGAdFBTY35MZTUjgfsmK3mN aw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t54f13xum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 19:46:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38IJk7PK018104
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 19:46:07 GMT
+Received: from [10.110.56.54] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 18 Sep
+ 2023 12:46:07 -0700
+Message-ID: <4d1d4d46-84f2-0308-7a93-39a87b974139@quicinc.com>
+Date: Mon, 18 Sep 2023 12:45:53 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
- <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
-Content-Language: fr, en-US
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm/dsi: fix irq_of_parse_and_map() error checking
+To: Dan Carpenter <dan.carpenter@linaro.org>, Hai Li <hali@codeaurora.org>
+References: <4f3c5c98-04f7-43f7-900f-5d7482c83eef@moroto.mountain>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <4f3c5c98-04f7-43f7-900f-5d7482c83eef@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: FqOkq3A1JBPzuHlNSRAXRsfiPRi28fGB
+X-Proofpoint-GUID: FqOkq3A1JBPzuHlNSRAXRsfiPRi28fGB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-18_08,2023-09-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1011 spamscore=0 mlxscore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309180173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,87 +82,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-hardening@vger.kernel.org, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 18/09/2023 à 05:10, Gustavo A. R. Silva a écrit :
-> 
-> 
-> On 9/18/23 12:46, Christophe JAILLET wrote:
->> If 'list_limit' is set to a very high value, 'lsize' computation could
->> overflow if 'head.count' is big enough.
->>
->> In such a case, udmabuf_create() will access to memory beyond 'list'.
->>
->> Use size_mul() to saturate the value, and have memdup_user() fail.
->>
->> Fixes: fbb0de795078 ("Add udmabuf misc device")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/dma-buf/udmabuf.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index c40645999648..fb4c4b5b3332 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct 
->> file *filp, unsigned long arg)
->>       struct udmabuf_create_list head;
->>       struct udmabuf_create_item *list;
->>       int ret = -EINVAL;
->> -    u32 lsize;
->> +    size_t lsize;
->>       if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->>           return -EFAULT;
->>       if (head.count > list_limit)
->>           return -EINVAL;
->> -    lsize = sizeof(struct udmabuf_create_item) * head.count;
->> +    lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
->>       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
->>       if (IS_ERR(list))
->>           return PTR_ERR(list);
-> 
-> How about this, and we get rid of `lsize`:
 
-Keeping or removing lsize is mostly a matter of taste, I think.
 
-Using sizeof(*list) is better.
-
-Let see if there are some other comments, and I'll send a v2.
-
-Thanks for the feed-back.
-
-CJ
-
+On 9/15/2023 5:59 AM, Dan Carpenter wrote:
+> The irq_of_parse_and_map() function returns zero on error.  It
+> never returns negative error codes.  Fix the check.
 > 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c40645999648..5cf9d849aaa8 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -314,14 +314,13 @@ static long udmabuf_ioctl_create_list(struct file 
-> *filp, unsigned long arg)
->          struct udmabuf_create_list head;
->          struct udmabuf_create_item *list;
->          int ret = -EINVAL;
-> -       u32 lsize;
-> 
->          if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->                  return -EFAULT;
->          if (head.count > list_limit)
->                  return -EINVAL;
-> -       lsize = sizeof(struct udmabuf_create_item) * head.count;
-> -       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-> +       list = memdup_user((void __user *)(arg + sizeof(head)),
-> +                          size_mul(sizeof(*list), head.count));
->          if (IS_ERR(list))
->                  return PTR_ERR(list);
-> 
-> 
-> -- 
-> Gustavo
+> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
 > 
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+Will queue it up for -fixes
