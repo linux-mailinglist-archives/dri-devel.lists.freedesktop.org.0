@@ -2,53 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07A27A453D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 10:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E807A4539
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 10:57:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D4510E224;
-	Mon, 18 Sep 2023 08:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C76E10E083;
+	Mon, 18 Sep 2023 08:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBE810E224
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 08:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695027458; x=1726563458;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HeFp7tILd3nxt9A1X2feyEpN3APhXPS4vq/kQkpBxPg=;
- b=YCIYknpCE2wod6/MSYNgDTQVn78byEvgaxDDQPT1zLTBBo7cigcIhoLS
- 7GBkvS65sL5KAk9Xj1Ap26fMd3OMY/diTm0r0Feb86hYhdOmuMZXYkF5z
- DAD+J+DFRG1t2jrs24x8w65SYOhS4wmFJYIjDCLLeaCvZgItYq7cVRInc
- F8W1OD9xQb1vErsJTRviXz3aWZFsCk2009krvpMB+E+BK0hJlQWLJUEJc
- dPlUCsYZ5yRqGt7sRb//xMEhEetp0DddvohKIZF5/hjWv+twSSETN/Qb6
- eXgTQwdAjSaMNelYxwAKTTe6PcdsJZnjxcYz0yHhFAhZDTqSKKSvPF/JA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="376916429"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="376916429"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 01:55:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="811280109"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="811280109"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 01:55:42 -0700
-Date: Mon, 18 Sep 2023 11:55:38 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH for-next v2 02/10] PM: Update EXPORT_*_DEV_PM_OPS() to
- EXPORT_*_RUNTIME_PM_OPS()
-Message-ID: <ZQgQilY20yEUPtt3@black.fi.intel.com>
-References: <20230918080951.3615-1-raag.jadav@intel.com>
- <20230918080951.3615-3-raag.jadav@intel.com>
- <a31817a460f8ee66c9d460e97aeea62b2bcfbc51.camel@crapouillou.net>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E4310E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 08:56:59 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 38C6D6607038;
+ Mon, 18 Sep 2023 09:56:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695027417;
+ bh=9BQdC/JHkHcdOqMH85ztpqyqjqMwin/967MJsdBXVpk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GjhmQ/oT89hKNZL51q4P1v5TzHe7qLIabTL366gJs7IMO6eF2+ppo1lUDnicxG6d7
+ J6sQwSYRh0PCvqBkt1RogueXr5PlpLz+dLtt+HoUxat03wS5dmtM+3Ji4su8by/MTp
+ POUDWq/bUCfggy4rFiCMF1pC5KAyGpaRCTS6RnnWmzA/FFQ6CJiWMW2NNs16prEHXR
+ HM0f/K6PlMtgU2HEwu+AFsZZZAjsYzfc6cWGhE8z+tEKV1MrHa1y81LmAGoo2++ZkZ
+ /yICq5aXagG4iGLjulIHPlbWhxfn63RxDn2g52Qs+blFm8OHvdI9ktc3s1rD+8amGB
+ m7yC+84dq4/mA==
+Message-ID: <6e37b93f-7806-8d50-d169-12171a2b29ae@collabora.com>
+Date: Mon, 18 Sep 2023 10:56:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a31817a460f8ee66c9d460e97aeea62b2bcfbc51.camel@crapouillou.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 1/1] drm/mediatek: Add missing plane settings when async
+ update
+Content-Language: en-US
+To: Hsiao Chien Sung <shawn.sung@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+References: <20230918070028.17915-1-shawn.sung@mediatek.com>
+ <20230918070028.17915-2-shawn.sung@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230918070028.17915-2-shawn.sung@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +56,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jean-baptiste.maneyrol@tdk.com, len.brown@intel.com,
- laurentiu.palcu@oss.nxp.com, rafael@kernel.org, linux-iio@vger.kernel.org,
- patches@opensource.cirrus.com, linux-pm@vger.kernel.org, lee@kernel.org,
- mallikarjunappa.sangannavar@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, james.schulman@cirrus.com, rmfrfs@gmail.com,
- rf@opensource.cirrus.com, bala.senthil@intel.com, pavel@ucw.cz,
- Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
- david.rhodes@cirrus.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 18, 2023 at 10:20:29AM +0200, Paul Cercueil wrote:
-> Le lundi 18 septembre 2023 à 13:39 +0530, Raag Jadav a écrit :
-> > Rename EXPORT_*_DEV_PM_OPS() macros to EXPORT_*_RUNTIME_PM_OPS()
-> > and while at it, move them to pm_runtime.h.
-> > This is done in conjunction with the introduction of
-> > EXPORT_*_SIMPLE_PM_OPS() set of macros, to make things less
-> > confusing.
-> > This makes both _RUNTIME_ and _SIMPLE_ variants of export macros more
-> > distinguishable and self explanatory.
+Il 18/09/23 09:00, Hsiao Chien Sung ha scritto:
+> Fix an issue that plane coordinate was not saved when
+> calling async update.
 > 
-> Well I don't really agree with this one. The EXPORT_*_DEV_PM_OPS() can
-> be used with any callback you need, not just the typical runtime-PM
-> callbacks. They are generic PM macros.
+> Fixes: 920fffcc8912 ("drm/mediatek: update cursors by using async atomic update")
+> 
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 
-I agree on the usage part. But with the introduction of export macros for
-_SIMPLE_ variants, current naming scheme would make things unnecessarily
-confusing to the users in my opinion.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Perhaps we can have it simplified some other way?
 
-Raag
