@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AFD7A5596
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 00:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A247A5599
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 00:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACE210E103;
-	Mon, 18 Sep 2023 22:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2E610E118;
+	Mon, 18 Sep 2023 22:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C714C10E103
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 22:01:21 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-3214d4ecd39so1539118f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 15:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695074480; x=1695679280; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=28L3b3LgO4dSGT7nPX8WAFQW8XZe7uZK0YDgAHn+49c=;
- b=UHZQLSNLNcIPSKND2S9ESsiFBTm0AAwrPDABMsrNORt6uRrYElOeoXq8nthh8pSZX+
- ZKY+RKL3F/QOLBNWmVRFoUM+dep2E3wsr+UNTzNfoL6JWWo8JNeDuLNLD73G27WKSleS
- GLt3XBjhmc4UVR/rgrWF7dOEDzH6aoEKx48s55W8CQju0IehjV/LGXE6Iu3nJa3w8SXu
- 5rJYrMrPq9i/KG/d+Ygh1rxLZnD6TWp90rHTl08DurxbwH5FMWA56HWia5bXhbbbB7iE
- nod5TJnFUXpL+ttf8+bt5MpKvMq5tdsamuiSVfZ9nLazZdzUeqvz/+2W5UplouZIpyCR
- bO2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695074480; x=1695679280;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=28L3b3LgO4dSGT7nPX8WAFQW8XZe7uZK0YDgAHn+49c=;
- b=LaNdXdEaUyPNr0lO2jhVHTA3ZB6Iw4H4tx+rZIy5ynacap/eHlaGYYZsBh91tNUSCB
- Ok3+dHFCp5y00cbnNkqKZ2xEWwLZgQdJ+qBc79zdF9UcUreII594Iag89vIofLRI/X7a
- Gph2/1BfwNew5Loj87elm9wFlhSSOUB4t6x03e6gnFeOjFRzKzczO9iuyTKpXLVqxyS1
- kpYaUaEy6nQAwBoQFnTfXVNrTvtcz/WyEjYqLzf+hsqzz5ftDysA57BALrz9UQ2kxfm3
- HqNU59Jw9PiSJNbchF5ezsDptzs4Lmj5rQ50IOxmEun33R5/SX+YcSGlwhwyy+pv4BFy
- nELg==
-X-Gm-Message-State: AOJu0Yynr7GvSfRE0v1fupBrLaIhq2tl/bpBE9owDyXj6rf8tPbLmZLd
- vOpYYG7ko3gQAr/i4Bo18qE=
-X-Google-Smtp-Source: AGHT+IH2UFa49DtdyamG5yUSfknKQZJStRs6qw3xl7JLBXb7QNt0RMC9JPqUZOrGR/bIZOJt/+JegQ==
-X-Received: by 2002:a5d:444a:0:b0:31d:da10:e47e with SMTP id
- x10-20020a5d444a000000b0031dda10e47emr8949546wrr.57.1695074479899; 
- Mon, 18 Sep 2023 15:01:19 -0700 (PDT)
-Received: from [192.168.1.167] ([37.165.191.167])
- by smtp.gmail.com with ESMTPSA id
- f16-20020a5d4dd0000000b0031c6cc74882sm13634566wru.107.2023.09.18.15.01.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Sep 2023 15:01:19 -0700 (PDT)
-Message-ID: <8dc0e1c3-b132-4c31-a0c1-de78221985b0@gmail.com>
-Date: Tue, 19 Sep 2023 00:01:14 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F269C10E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 22:02:44 +0000 (UTC)
+Received: from [192.168.68.123] (unknown [177.98.21.184])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8604C660716C;
+ Mon, 18 Sep 2023 23:02:38 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695074563;
+ bh=2Eh1ZnRMxZh6W34W3r4wk+vuNL3sb0RCnb6WZGtk7/M=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=SXlIrtYKRF21TYijMB9mNYAljh+FXb39GWY8zC7d5HrLmq7Ec8cNZ4JduOyfD9Iyf
+ qf5AYBre3572rIFb/hz4TiyHsplXYjtivEl5h96fNx+YiKzND1IToJYsdMJ2nyWO14
+ 97WVVy5tddup0/1Kt8dLbVlVwNAHG1AHL2eQ9TmLgycvlwwOIG5x7N7elGIN8YLNGv
+ stavAnUz3RtPQIAPWswWeW7rugI1IrVDPgKF+CjsqEkfirCFHyy1piCy3spVLnEQHb
+ h0/RRz8M3Hut5sLK396MW4t4wwQwcytF1pLoYwoWXTBHySSCh/ysIsweCNEP69TPcC
+ MywbE1fOYJQyQ==
+Message-ID: <2784f5e8-ebf4-a000-509e-415e14390e23@collabora.com>
+Date: Mon, 18 Sep 2023 19:02:33 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge/analogix/anx78xx: Add missing definition
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: drm/vkms: deadlock between dev->event_lock and timer
 Content-Language: en-US
-To: Robert Foss <rfoss@kernel.org>
-References: <ZPvagaXnQ/TlNEkJ@tora>
- <CAN6tsi7K6JqvaBcNrM2KhB=_Wg7JffGu+zWb13DeNrOwF_xrGw@mail.gmail.com>
-From: Alicja Michalska <ahplka19@gmail.com>
-In-Reply-To: <CAN6tsi7K6JqvaBcNrM2KhB=_Wg7JffGu+zWb13DeNrOwF_xrGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Maira Canal <mairacanal@riseup.net>, Arthur Grillo
+ <arthurgrillo@riseup.net>, Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@gmail.com>,
+ DRI <dri-devel@lists.freedesktop.org>, syzkaller@googlegroups.com,
+ LKML <linux-kernel@vger.kernel.org>, Hillf Danton <hdanton@sina.com>,
+ Sanan Hasanov <Sanan.Hasanov@ucf.edu>, Thomas Gleixner <tglx@linutronix.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Stone <daniels@collabora.com>,
+ David Heidelberg <david.heidelberg@collabora.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>
+References: <20230913110709.6684-1-hdanton@sina.com>
+ <99d99007-8385-31df-a659-665bf50193bc@I-love.SAKURA.ne.jp>
+ <CAHk-=wgb9ccWN3Nks5STYUDqQUeHZdCLsK4kA37SdDJuGZfukg@mail.gmail.com>
+ <87pm2lzsqi.ffs@tglx>
+ <167ee2ad-6a7e-876c-f5c9-f0a227070a78@I-love.SAKURA.ne.jp>
+ <ZQLAc/Fwkv/GiVoK@phenom.ffwll.local>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <ZQLAc/Fwkv/GiVoK@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,21 +69,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oops, my bad. I'm new to ARM development, so I forgot to update dt-bindings.
 
-You should see a patch dropping soon (or already did), although I decided to move to a new email address (which hopefully shouldn't cause any issues).
 
-On 18/09/2023 12:07, Robert Foss wrote:
-> On Sat, Sep 9, 2023 at 4:43 AM Alicja Michalska <ahplka19@gmail.com> wrote:
-> This compatible string needs to be added to
-> Documentation/devicetree/bindings/ in a separate patch before this
-> one.
+On 14/09/2023 05:12, Daniel Vetter wrote:
+> On Thu, Sep 14, 2023 at 03:33:41PM +0900, Tetsuo Handa wrote:
+>> On 2023/09/14 6:08, Thomas Gleixner wrote:
+>>> Maybe the VKMS people need to understand locking in the first place. The
+>>> first thing I saw in this code is:
+>>>
+>>> static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>>> {
+>>>     ...
+>>>     mutex_unlock(&output->enabled_lock);
+>>>
+>>> What?
+>>>
+>>> Unlocking a mutex in the context of a hrtimer callback is simply
+>>> violating all mutex locking rules.
+>>>
+>>> How has this code ever survived lock debugging without triggering a big
+>>> fat warning?
+>>
+>> Commit a0e6a017ab56936c ("drm/vkms: Fix race-condition between the hrtimer
+>> and the atomic commit") in 6.6-rc1 replaced spinlock with mutex. So we haven't
+>> tested with the lock debugging yet...
 > 
+> Yeah that needs an immediate revert, there's not much that looks legit in
+> that patch. I'll chat with Maira.
 > 
-> Rob.
+> Also yes how that landed without anyone running lockdep is ... not good. I
+> guess we need a lockdep enabled drm ci target that runs vkms tests asap
+> :-)
+
+btw, I just executed a draft version of vkms targed on the ci, we do get 
+the warning:
+
+https://gitlab.freedesktop.org/helen.fornazier/linux/-/jobs/49156305#L623
+
+I'm just not sure if tests would fail (since it is a warning) and it has 
+a chance to be ignored if people don't look at the logs (unless if igt 
+already handles that).
+
+I still need to do some adjustments (it seems the tests is hanging 
+somewhere and we got a timeout) but we should have vkms in drm ci soon.
+
+Regards,
+Helen
+
+
+> 
+>> Maíra and Arthur, mutex_unlock() from interrupt context is not permitted.
+>> Please revert that patch immediately.
+>> I guess that a semaphore (down()/up()) could be used instead of a mutex.
+> 
+>  From a quick look this smells like a classic "try to use locking when you
+> want synchronization primitives", so semaphore here doesn't look any
+> better. The vkms_set_composer() function was originally for crc
+> generation, where it's userspace's job to make sure they wait for all the
+> crc they need to be generated before they shut it down again. But for
+> writeback the kernel must guarantee that the compositiona actually
+> happens, and the current function just doesn't make any such guarantees.
+> 
+> Cheers, Daniel
