@@ -1,52 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DF57A46E3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 12:26:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 911937A4713
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 12:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8180510E25F;
-	Mon, 18 Sep 2023 10:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D48B410E268;
+	Mon, 18 Sep 2023 10:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C21210E25F;
- Mon, 18 Sep 2023 10:26:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695032771; x=1726568771;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Z3iL/y6QJ7h0kqxXMPKW9Xen6z9Asf9eYXxhADrOF38=;
- b=eEoMvWNJRqCPPX+SX349qcAROcQ3KoqGarojaqnEmH56iddvKsp1a7wy
- LxqR5dQtoaLA+3c7BKsReWMW2g+8wK+KBuv4Vn1JpvBxb8WNeIxeRpRWJ
- KZ/dpRNb6BtBmfCrz688y3LVbXVe2/9ewARBABDxD5lWq84+Zpz2X2S3u
- bgUssIfasUHWGm9uKB7/Ho6RXU5FGmdmsKphvyLYtF0hvB+P/pR2Bd3Zd
- 4hzsCjehoMSLLubFBla7PHgbGAyyIMwmy3j5iyr7drhl3OhIPEql/v8km
- xH1e2/BVBtljAlbmk/zmfKhagTmtDqvoYN3Yt6S5/F3ORqAyokYdgvdEv A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410574691"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="410574691"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 03:26:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="739079716"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="739079716"
-Received: from mkhokhlx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.38.60])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 03:26:01 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH][V2] drm/amd/display: Remove unwanted drm edid references
-In-Reply-To: <20230915224926.104072-1-alex.hung@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230915224926.104072-1-alex.hung@amd.com>
-Date: Mon, 18 Sep 2023 13:25:59 +0300
-Message-ID: <87zg1ju6a0.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0048110E04E;
+ Mon, 18 Sep 2023 10:32:22 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 03E856607033;
+ Mon, 18 Sep 2023 11:32:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695033141;
+ bh=HGMvGDB1wXK1aRkUwoJnCxcXLdv/SVTCzXE3f2Tt9xM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RsE+wqV8sbDR9OSTd+VuqzXCftzJcvO21AdTW1ssvOFGHr0mdkQUHpA6Gf2pDQS8M
+ MFb7079lvPGsDPOwehksrjU4P0lBX+pv+EFkh+KT94I96tHIIIhq/8dnPe0Ahcgc5C
+ cdujUQ7GSp2mQ+rJ9BbCcBxu3duhnxAyltmQpyU/P7pUurHHlt6UsIZWso7fyb4Jd9
+ rW7FllLfPZBHluppsY+e8LYxKFlx1amx076LYhLbyK597vh3WW0XBNWzrd44ISk+5f
+ j71082ERaq4BvLeNkcGVo1uOSqr2quygMvWnFydnCU521gtWKZEgiRfa38aSToeau8
+ J2uVpMSO+8WJQ==
+Date: Mon, 18 Sep 2023 12:32:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v5 5/6] drm/panfrost: Implement generic DRM object RSS
+ reporting function
+Message-ID: <20230918123218.14ca9fde@collabora.com>
+In-Reply-To: <a8d9fe07-7acc-db10-5660-293a449d9dd2@arm.com>
+References: <20230914223928.2374933-1-adrian.larumbe@collabora.com>
+ <20230914223928.2374933-6-adrian.larumbe@collabora.com>
+ <a8d9fe07-7acc-db10-5660-293a449d9dd2@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,125 +56,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
- sunpeng.li@amd.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, Alex Hung <alex.hung@amd.com>,
- daniel.wheeler@amd.com, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
- hamza.mahfooz@amd.com, wayne.lin@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: kernel@collabora.com, tzimmermann@suse.de, sean@poorly.run,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
+ quic_abhinavk@quicinc.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ healych@amazon.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Sep 2023, Alex Hung <alex.hung@amd.com> wrote:
-> [WHY]
-> edid_override and drm_edid_override_connector_update, according to drm
-> documentation, should not be referred outside drm_edid.
->
-> [HOW]
-> Remove and replace them accordingly. This can tested by IGT's
-> kms_hdmi_inject test.
->
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> ---
->
-> V2 - add comments for drm_get_edid and check edid before use.
->
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 44 +++++++++++--------
->  1 file changed, 25 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 5efebc06296b..b29ef87c27a9 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6444,15 +6444,24 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
->  static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
->  {
->  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-> +	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
->  	struct dc_link *dc_link = aconnector->dc_link;
->  	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
->  	struct edid *edid;
->  
-> -	if (!connector->edid_override)
-> +	/*
-> +	 * Note: drm_get_edid gets edid in the following order:
-> +	 * 1) override EDID if set via edid_override debugfs,
-> +	 * 2) firmware EDID if set via edid_firmware module parameter
-> +	 * 3) regular DDC read.
-> +	 */
-> +	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
-> +	if (!edid) {
-> +		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
-> +		connector->force = DRM_FORCE_OFF;
+On Mon, 18 Sep 2023 11:01:43 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Drivers aren't supposed to modify connector->force.
+> On 14/09/2023 23:38, Adri=C3=A1n Larumbe wrote:
+> > BO's RSS is updated every time new pages are allocated on demand and ma=
+pped
+> > for the object at GPU page fault's IRQ handler, but only for heap buffe=
+rs.
+> > The reason this is unnecessary for non-heap buffers is that they are ma=
+pped
+> > onto the GPU's VA space and backed by physical memory in their entirety=
+ at
+> > BO creation time.
+> >=20
+> > This calculation is unnecessary for imported PRIME objects, since heap
+> > buffers cannot be exported by our driver, and the actual BO RSS size is=
+ the
+> > one reported in its attached dmabuf structure.
+> >=20
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> =20
+>=20
+> Am I missing something, or are we missing a way of resetting
+> heap_rss_size when the shrinker purges? It looks like after several
+> grow/purge cycles, heap_rss_size could actually grow to be larger than
+> the BO which is clearly wrong.
 
-Why would you do that anyway? This connects EDID probe success with
-connector forcing, and I've been repeatedly saying these are two
-separate things that should not be conflated.
+Didn't even consider this case since we don't flag heap BOs purgeable
+in mesa(panfrost), but let's assume we did. If the BO is purged, I'd
+expect the core to report 0MB of resident memory anyway. And purged BOs
+are not supposed to be re-used if MADVISE(WILL_NEED) returns
+retained=3Dfalse, they should be destroyed. Not 100% sure this is
+enforced everywhere though (we might actually miss tests to make sure
+users don't pass purged BOs to jobs, or make the alloc-on-fault logic
+doesn't try to grow a purged GEM).
 
-Maybe the user has set connector->force, because the display probe is
-flaky. This switches connector->force off if the display does not
-respond, undermining one of the main purposes of the whole thing.
+If we want to implement transparent BO swap{out,in} (Dmitry's
+patchset), that's be a different story, and we'll indeed have to set
+heap_rss_size back to zero on eviction.
 
->  		return;
-> +	}
->  
-> -	drm_edid_override_connector_update(&aconnector->base);
-> -	edid = aconnector->base.edid_blob_ptr->data;
->  	aconnector->edid = edid;
->  
->  	/* Update emulated (virtual) sink's EDID */
-> @@ -6487,30 +6496,27 @@ static int get_modes(struct drm_connector *connector)
->  
->  static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
->  {
-> +	struct drm_connector *connector = &aconnector->base;
-> +	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(&aconnector->base);
->  	struct dc_sink_init_data init_params = {
->  			.link = aconnector->dc_link,
->  			.sink_signal = SIGNAL_TYPE_VIRTUAL
->  	};
->  	struct edid *edid;
->  
-> -	if (!aconnector->base.edid_blob_ptr) {
-> -		/* if connector->edid_override valid, pass
-> -		 * it to edid_override to edid_blob_ptr
-> -		 */
-> -
-> -		drm_edid_override_connector_update(&aconnector->base);
-> -
-> -		if (!aconnector->base.edid_blob_ptr) {
-> -			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
-> -					aconnector->base.name);
-> -
-> -			aconnector->base.force = DRM_FORCE_OFF;
-> -			return;
-> -		}
-> +	/*
-> +	 * Note: drm_get_edid gets edid in the following order:
-> +	 * 1) override EDID if set via edid_override debugfs,
-> +	 * 2) firmware EDID if set via edid_firmware module parameter
-> +	 * 3) regular DDC read.
-> +	 */
-> +	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
-> +	if (!edid) {
-> +		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
-> +		connector->force = DRM_FORCE_OFF;
+>=20
+> Steve
+>=20
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_gem.c | 15 +++++++++++++++
+> >  drivers/gpu/drm/panfrost/panfrost_gem.h |  5 +++++
+> >  drivers/gpu/drm/panfrost/panfrost_mmu.c |  1 +
+> >  3 files changed, 21 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/=
+panfrost/panfrost_gem.c
+> > index 7d8f83d20539..4365434b48db 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> > @@ -208,6 +208,20 @@ static enum drm_gem_object_status panfrost_gem_sta=
+tus(struct drm_gem_object *obj
+> >  	return res;
+> >  }
+> > =20
+> > +static size_t panfrost_gem_rss(struct drm_gem_object *obj)
+> > +{
+> > +	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
+> > +
+> > +	if (bo->is_heap) {
+> > +		return bo->heap_rss_size;
+> > +	} else if (bo->base.pages) {
+> > +		WARN_ON(bo->heap_rss_size);
+> > +		return bo->base.base.size;
+> > +	} else {
+> > +		return 0;
+> > +	}
+> > +}
+> > +
+> >  static const struct drm_gem_object_funcs panfrost_gem_funcs =3D {
+> >  	.free =3D panfrost_gem_free_object,
+> >  	.open =3D panfrost_gem_open,
+> > @@ -220,6 +234,7 @@ static const struct drm_gem_object_funcs panfrost_g=
+em_funcs =3D {
+> >  	.vunmap =3D drm_gem_shmem_object_vunmap,
+> >  	.mmap =3D drm_gem_shmem_object_mmap,
+> >  	.status =3D panfrost_gem_status,
+> > +	.rss =3D panfrost_gem_rss,
+> >  	.vm_ops =3D &drm_gem_shmem_vm_ops,
+> >  };
+> > =20
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/=
+panfrost/panfrost_gem.h
+> > index ad2877eeeccd..13c0a8149c3a 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> > @@ -36,6 +36,11 @@ struct panfrost_gem_object {
+> >  	 */
+> >  	atomic_t gpu_usecount;
+> > =20
+> > +	/*
+> > +	 * Object chunk size currently mapped onto physical memory
+> > +	 */
+> > +	size_t heap_rss_size;
+> > +
+> >  	bool noexec		:1;
+> >  	bool is_heap		:1;
+> >  };
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/=
+panfrost/panfrost_mmu.c
+> > index d54d4e7b2195..7b1490cdaa48 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> > @@ -522,6 +522,7 @@ static int panfrost_mmu_map_fault_addr(struct panfr=
+ost_device *pfdev, int as,
+> >  		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+> > =20
+> >  	bomapping->active =3D true;
+> > +	bo->heap_rss_size +=3D SZ_2;
+> > =20
+> >  	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
+> >   =20
+>=20
 
-Ditto.
-
-BR,
-Jani.
-
-> +		return;
->  	}
->  
-> -	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
-> -
->  	aconnector->edid = edid;
->  
->  	aconnector->dc_em_sink = dc_link_add_remote_sink(
-
--- 
-Jani Nikula, Intel
