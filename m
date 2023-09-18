@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538BF7A4B16
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5175D7A4B11
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 954A110E290;
-	Mon, 18 Sep 2023 14:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B73F10E1A4;
+	Mon, 18 Sep 2023 14:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B33110E190
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4789B10E190
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 037ADB80E3D;
- Mon, 18 Sep 2023 14:32:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE07BC32788;
- Mon, 18 Sep 2023 14:32:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B8D7B61140;
+ Mon, 18 Sep 2023 14:32:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 395EDC32789;
+ Mon, 18 Sep 2023 14:32:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695047533;
- bh=H+SspTrUvoR2QTMJuVAGKvR7+leUmqiHwlWLm0zDOc4=;
+ s=k20201202; t=1695047535;
+ bh=sq1acTii1lIjGqy8tMjofVj9BdiUZdcszq3xd7MNZRA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dZgpsW+oahqq0e59ohFRHXyoMNIr0+t1VL3dMNee+JmKLPT+P6X0jqTBGfMnAHKjO
- gA/jzz6N+UBOvY1bAStC3lra2taBnBzR+18xSL9j3HSViiVPRhprmEsyVx4IIz9cug
- 7yLitHWq/GClSEzVuUJOuO3WAfPZCkBpfEbx/fDQzWJmO5AomM126N8TxuIE8RMWRU
- LLriBtTiLiw5rN4rMOXsn4B1Q0MYGa/T+yi9l8R35Iefpl6xQaf8zWog0HoKvr+E8f
- EqZd3z0nJfDWXJj+aXr2gUA5thWI0BwavEKUE6jZH5CF8FZtg2f+o5lQZUvpVyeksE
- 61hMRyGe/Sf3Q==
+ b=MO1bz00QYbdgOgflrqOnQuIe2kburzb/X2OhV76Cp4uIL1A6kz/j5rjliYQBmCKuP
+ U8xApsMIrdz8GtQI5eGmMn+SqVxDw/ScbRp5aqxzSEH5tvtg7cMvfgKPvxPJjTe/2X
+ G3Bn+kPCL+uu5L1HSCfg31NivZNobO4wIycHtYH+oqslkilMgZu5D737v6BFWRb9dA
+ ntPuVTJ3i8LkTLPb8YDDN3sDzxYh96NAKHuzSrn0awzQIdaBigIqZGB5PvEHaqbNrH
+ MdSIDAWu2bzymxBQV7XMYxxkLyHP0aBdQCPSAGUIsxDWKRmIfylnMP6XkLnIQ3yu1q
+ AOaGRqlc0Py1A==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/10] accel/habanalabs: add debug prints to dump content of
- SG table for dma-buf
-Date: Mon, 18 Sep 2023 17:31:55 +0300
-Message-Id: <20230918143158.903207-7-ogabbay@kernel.org>
+Subject: [PATCH 08/10] accel/habanalabs: add fw status SHUTDOWN_PREP
+Date: Mon, 18 Sep 2023 17:31:56 +0300
+Message-Id: <20230918143158.903207-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918143158.903207-1-ogabbay@kernel.org>
 References: <20230918143158.903207-1-ogabbay@kernel.org>
@@ -53,40 +53,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-Add debug prints to dump the content of the SG table which is prepared
-when the dma-buf map op is called.
+update hl_boot_if.h from specs to include
+CPU_BOOT_STATUS_FW_SHUTDOWN_PREP
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/memory.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/linux/habanalabs/hl_boot_if.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-index 00e73b5573be..33fb78aba812 100644
---- a/drivers/accel/habanalabs/common/memory.c
-+++ b/drivers/accel/habanalabs/common/memory.c
-@@ -1679,6 +1679,13 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
- 	 */
- 	sgt->orig_nents = 0;
+diff --git a/include/linux/habanalabs/hl_boot_if.h b/include/linux/habanalabs/hl_boot_if.h
+index 7de8a5786a36..93366d5621fd 100644
+--- a/include/linux/habanalabs/hl_boot_if.h
++++ b/include/linux/habanalabs/hl_boot_if.h
+@@ -394,6 +394,8 @@ enum cpu_boot_status {
+ 	CPU_BOOT_STATUS_WAITING_FOR_BOOT_FIT = 16,
+ 	/* Internal Security has been initialized, device can be accessed */
+ 	CPU_BOOT_STATUS_SECURITY_READY = 17,
++	/* FW component is preparing to shutdown and communication with host is not available */
++	CPU_BOOT_STATUS_FW_SHUTDOWN_PREP = 18,
+ };
  
-+	dev_dbg(hdev->dev, "prepared SG table with %u entries for importer %s\n",
-+		nents, dev_name(dev));
-+	for_each_sgtable_dma_sg(sgt, sg, i)
-+		dev_dbg(hdev->dev,
-+			"SG entry %d: address %#llx, length %#x\n",
-+			i, sg_dma_address(sg), sg_dma_len(sg));
-+
- 	return sgt;
- 
- err_unmap:
+ enum kmd_msg {
 -- 
 2.34.1
 
