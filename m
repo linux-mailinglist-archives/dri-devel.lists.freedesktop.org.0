@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2997A52FB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:22:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82E77A52FF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 21:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDC1510E2DB;
-	Mon, 18 Sep 2023 19:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F8210E2D9;
+	Mon, 18 Sep 2023 19:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 887DF10E2CB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 19:22:15 +0000 (UTC)
-X-UUID: aa01a07e565811eea33bb35ae8d461a2-20230919
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=GaB7gNearRizvMqJwMwpc6UR2HMDeuolfDXhrDkhLsM=; 
- b=pFzqr0zKsfL4cNpTGBeyOhmGM6M/KTfNgDp0fW2sspd35Sy6wLOS5D3zRXXSZY+7uViFXBPSYJLFHpnfVZJ7pNVsAhM1dzCjx/xs2aPdonmruT6p3ghvvxGn6TFpVwEg95/xmzFo5pA4V3FfQKifk2Y4CRV5iwr+zOZxJH7G/U8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:03d09f99-3835-483d-900f-134ad3daee3b, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:0ad78a4, CLOUDID:0ddafabe-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: aa01a07e565811eea33bb35ae8d461a2-20230919
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1950283061; Tue, 19 Sep 2023 03:22:10 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 19 Sep 2023 03:22:09 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 03:22:09 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Jassi Brar <jassisinghbrar@gmail.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 15/15] arm64: dts: mediatek: mt8195: Add CMDQ secure driver
- support for gce0
-Date: Tue, 19 Sep 2023 03:22:04 +0800
-Message-ID: <20230918192204.32263-16-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
-References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr
+ [80.12.242.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECC810E2DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 19:22:49 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id iJpUqXaW8vRSUiJpVqOPuM; Mon, 18 Sep 2023 21:22:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1695064967;
+ bh=qUTILhPdiaRO8mrn/9Xa/LyWEJmc0jgEzY8KobjS0VU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=IOzxAW2lb1j3Wwnmt0nnTQ9t31+qJFPnpTRxYU9+Wupy4Kk82Di9jWTUtPUXyQ48R
+ PvIEWdTX/wwZQY5s+RLBnI/tga8o72m10FsOXACjCxkuxPZNG+wY5TEO5oUW0g+KkE
+ nz5N5o3jtwVqEbus7SQSHMAlLcDb/iJW3QhZjErBHCdDbMuqeRxLtGTSPdEwnCQeR1
+ xCwIs3USoUec9heY2cu3RZ/bcuj3VXmsX4MiYCI/dWA9mdFaUiW1rVygJ09aqNC21n
+ L7cK7pAwtCxzt3irmbIoBQTzRGoJcLhzKyqSq8pa+OEfzXsuWf6BWSdVOvRloEd75X
+ M1lDb3Pv0IOjA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 18 Sep 2023 21:22:47 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
+Date: Mon, 18 Sep 2023 21:22:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
+ <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
+Content-Language: fr, en-US
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +59,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Elvis Wang <Elvis.Wang@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-hardening@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add CMDQ secure driver support for GCE0.
+Le 18/09/2023 à 05:10, Gustavo A. R. Silva a écrit :
+> 
+> 
+> On 9/18/23 12:46, Christophe JAILLET wrote:
+>> If 'list_limit' is set to a very high value, 'lsize' computation could
+>> overflow if 'head.count' is big enough.
+>>
+>> In such a case, udmabuf_create() will access to memory beyond 'list'.
+>>
+>> Use size_mul() to saturate the value, and have memdup_user() fail.
+>>
+>> Fixes: fbb0de795078 ("Add udmabuf misc device")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>>   drivers/dma-buf/udmabuf.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index c40645999648..fb4c4b5b3332 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct 
+>> file *filp, unsigned long arg)
+>>       struct udmabuf_create_list head;
+>>       struct udmabuf_create_item *list;
+>>       int ret = -EINVAL;
+>> -    u32 lsize;
+>> +    size_t lsize;
+>>       if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>>           return -EFAULT;
+>>       if (head.count > list_limit)
+>>           return -EINVAL;
+>> -    lsize = sizeof(struct udmabuf_create_item) * head.count;
+>> +    lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
+>>       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+>>       if (IS_ERR(list))
+>>           return PTR_ERR(list);
+> 
+> How about this, and we get rid of `lsize`:
 
-CMDQ secure driver will requset a GCE HW thread in GCE0 core to support
-sending a CMDQ packet through secure mailbox.
-Then ask GCE HW thread to excute commands in the secure world.
+Keeping or removing lsize is mostly a matter of taste, I think.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+Using sizeof(*list) is better.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index 4dbbf8fdab75..201eb3bc0273 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -910,6 +910,8 @@
- 			interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH 0>;
- 			#mbox-cells = <2>;
- 			clocks = <&infracfg_ao CLK_INFRA_AO_GCE>;
-+			mboxes = <&gce0 15 CMDQ_THR_PRIO_1>;
-+			mediatek,gce-events = <CMDQ_SYNC_TOKEN_SECURE_THR_EOF>;
- 		};
- 
- 		gce1: mailbox@10330000 {
--- 
-2.18.0
+Let see if there are some other comments, and I'll send a v2.
+
+Thanks for the feed-back.
+
+CJ
+
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c40645999648..5cf9d849aaa8 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -314,14 +314,13 @@ static long udmabuf_ioctl_create_list(struct file 
+> *filp, unsigned long arg)
+>          struct udmabuf_create_list head;
+>          struct udmabuf_create_item *list;
+>          int ret = -EINVAL;
+> -       u32 lsize;
+> 
+>          if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>                  return -EFAULT;
+>          if (head.count > list_limit)
+>                  return -EINVAL;
+> -       lsize = sizeof(struct udmabuf_create_item) * head.count;
+> -       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+> +       list = memdup_user((void __user *)(arg + sizeof(head)),
+> +                          size_mul(sizeof(*list), head.count));
+>          if (IS_ERR(list))
+>                  return PTR_ERR(list);
+> 
+> 
+> -- 
+> Gustavo
+> 
 
