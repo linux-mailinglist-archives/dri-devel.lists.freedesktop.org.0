@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08EE7A54D0
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 23:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D389A7A54CF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 23:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD6D10E344;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF4810E342;
 	Mon, 18 Sep 2023 21:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25D7C10E106
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892C310E0FF
  for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 21:07:24 +0000 (UTC)
 Received: from localhost.localdomain (178.176.74.219) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Mon, 18 Sep
- 2023 23:52:16 +0300
+ 2023 23:52:17 +0300
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
  <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] video: fbdev: core: cfbcopyarea: fix sloppy typing
-Date: Mon, 18 Sep 2023 23:52:08 +0300
-Message-ID: <20230918205209.11709-2-s.shtylyov@omp.ru>
+Subject: [PATCH 2/2] video: fbdev: core: syscopyarea: fix sloppy typing
+Date: Mon, 18 Sep 2023 23:52:09 +0300
+Message-ID: <20230918205209.11709-3-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20230918205209.11709-1-s.shtylyov@omp.ru>
 References: <20230918205209.11709-1-s.shtylyov@omp.ru>
@@ -85,7 +85,7 @@ Cc: stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In cfb_copyarea(), when initializing *unsigned long const* bits_per_line
+In sys_copyarea(), when initializing *unsigned long const* bits_per_line
 __u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- which
 might overflow __u32; multiplying by 8UL instead should fix that...
 Also, that bits_per_line constant is used to advance *unsigned* src_idx
@@ -98,27 +98,27 @@ analysis tool.
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Cc: stable@vger.kernel.org
 ---
- drivers/video/fbdev/core/cfbcopyarea.c | 5 +++--
+ drivers/video/fbdev/core/syscopyarea.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/cfbcopyarea.c b/drivers/video/fbdev/core/cfbcopyarea.c
-index 6d4bfeecee35..b67ba69ea2fb 100644
---- a/drivers/video/fbdev/core/cfbcopyarea.c
-+++ b/drivers/video/fbdev/core/cfbcopyarea.c
-@@ -382,10 +382,11 @@ void cfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
+index c1eda3190968..1035131383a6 100644
+--- a/drivers/video/fbdev/core/syscopyarea.c
++++ b/drivers/video/fbdev/core/syscopyarea.c
+@@ -316,10 +316,11 @@ void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
  {
  	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
  	u32 height = area->height, width = area->width;
 -	unsigned long const bits_per_line = p->fix.line_length*8u;
 +	unsigned long const bits_per_line = p->fix.line_length * 8UL;
- 	unsigned long __iomem *base = NULL;
+ 	unsigned long *base = NULL;
  	int bits = BITS_PER_LONG, bytes = bits >> 3;
 -	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
 +	unsigned long dst_idx = 0, src_idx = 0;
 +	unsigned int rev_copy = 0;
- 	u32 bswapmask = fb_compute_bswapmask(p);
  
  	if (p->state != FBINFO_STATE_RUNNING)
+ 		return;
 -- 
 2.26.3
 
