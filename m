@@ -1,118 +1,159 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27B27A4A79
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 15:04:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 299AE7A4A7A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 15:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB55610E276;
-	Mon, 18 Sep 2023 13:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E86810E27E;
+	Mon, 18 Sep 2023 13:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5373E10E272;
- Mon, 18 Sep 2023 13:04:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 550CC10E27E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 13:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695042290; x=1726578290;
+ h=message-id:date:subject:from:to:cc:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=IBPSolL1RMd1ZFrRQ/VonPyAO1SFcL4JwS3vlTuvOmM=;
+ b=cVY4GrVL2LRnl5haU8eunea+dZL7rrNTaQB2MoSSqfgZuFdppQCKFh3u
+ wwhWiospMt0gPk7WDI9eya9cc3zT89go0hj2SsRVxgvyx6q99+HUdS/gW
+ x1tskqh767QR4srAJ9P9ebELo48bmZvKu9GbgIBPSNcgs2btNgE8KuOhS
+ znnSEEpwPcankBoYP4PAiP7TvTKPz93mHWIh4x+4kDdU5rjRbOaD/x+x8
+ l/KOegFq2sGC6y7u8TbQk6XooiEWXuwKKtSM/34xKcE3Knpx0cszofWbW
+ bcQ2kaEOOAJUOl4ly2GbIf++X5cPJYP8zeXJkU6YFXk03O7ET5XjUeIOe g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="410601787"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="410601787"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2023 06:04:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775124497"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="775124497"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Sep 2023 06:04:47 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 18 Sep 2023 06:04:47 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 18 Sep 2023 06:04:46 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 18 Sep 2023 06:04:46 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 18 Sep 2023 06:04:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f9SkpCdO2HI6r5tQ33w/AvG7IuJqkbFflfaTssptXdG6cgL4jXzEpRpS9dLuNhnIMQl0oAiQtYD21w09aZ/mPZ5Knx7zAHnD94htmDb5KgBl5i9k7zCbb/+4Y+zX1YCT23v/cvn+kI4gzI+pgJheVjyWIgikFmqQ9IJZE9Td/aCH1nVN4/7ytkf8rmys6SjukQd4bfvj4KFjMjlUoYeiAOkYDEG46u3x7Z+vwSBNt0MG+05RBm+pO4M1GcoxN9FA9QH/teF48bqoBT/70Dv+glOqSrQ1phftARI/5GkGIxChHhpjMVtouuZN3HDGQv4XntQjD3jqppCO/5w5UboyZg==
+ b=l6Lb23lD0/FEOHxAHBbjH+1g4K8K00UOmUUkl1CsUFQcNTdqEf7pondQCuYPAob+8ftN9cE0/4A95AuzxcXzxpvc9OkzYJ3mkOSvfcS4wAu86BniV9rvrp/JvlVWbtQ3SWKOalmz4U6XoRSBCBsHIeBBxSm+FGm4uD14WBzn0GDO0AYMEsQR1hoqMB15YkG4AvH/5h1Dwtkdf/vOFK+yt3nU7nPAlVOXdiwj3HCbFNNfARWEvP8baS3VA2pWrAhF7/pUw7jx1NnNGxKZ151t5V6U7YJV3kEEvvlUIKXPsBpSpTVTmfkagLXh+LAyZwD/ji3F6AHdF34Tpr/EyuVPHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rtjzNiSlJZNmrgdhhseOAOZvDt1qpMnHbheSkRktZk0=;
- b=QueWtp1jAMQvK067vViCVmyda3ecuU17MabBRO4fbh9ObddyrVQUZ+km/0crFi/Xn5j/ZuKqbeuPYPsFwl20S/0ovo49ZcQbmklyjreIFHtrIQmZM/rpTWUOhHONTwYkUFCJFzryNRp7HpCatJb079qTXIwux8GTSSjxh8bAAxuqgIoqcfpMp6IFvWqakQYLpnXCw5RcM7/0nmd5+s/n8KI9BLcvjhDoYeYd7tNccJ3pDjXF0MYLsYrMcYF1qq4Uo1/LDhMEoDSNPL4q63L/qWRj7RgfQXq/YGT9OzxWF8epvlbjnQ/cMVbIQmfVUoY/2qIe6Tb75Oh0OX7bhp+8zA==
+ bh=RpPMj/yqFjWoSN+vR0dJR3KGqbPj0zq1KZ+tH9a0MGo=;
+ b=a6B16G6eovyITi79hgdzZo/MXMZ+AGRZb16YeMup7p5IhNK6YuKLdEvs5x0xPh9M675s4qgmL60npt74lTwGuQcXEDNOcpdNl/2yOLWxpEYeBYCxz2JazBlkFu/buPwgInTskbd7FkHqevUt61LPQbyKBpyLa/dwPxK55L5qQQ3s/2l93T0hWTFQIB5SKeb6Wmk0GcZzoltvc0cTu89BD1bEqFbN/YCeYxiHWbSPhyzhMoZ0FPpyTgc33u8vMOIW0uwBela4/Oq44n0QXbk2lt3cqwFpPPW42/kLZmAdZ9IK3BNiAntP4RsPP+41gDztLRS1tFkF8pziZDKovfrWbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rtjzNiSlJZNmrgdhhseOAOZvDt1qpMnHbheSkRktZk0=;
- b=Tj3Xfc2fRpmgyXKxE598IoOuQIweFa98clQZT8zOZkcznhPCR0QhoA73HSLYFprTXwOHN3SErNkAyfk4OlnM3i2y9Eljj/lWA7PIfJWEDXtThzJeqodhiU8HiwzfO37dG0pFdFGKKxtRLsd6NetrwdplA4mfddNvxZiYrMPHuuA=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6095.namprd12.prod.outlook.com (2603:10b6:8:9c::19) by
- DM4PR12MB7623.namprd12.prod.outlook.com (2603:10b6:8:108::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.27; Mon, 18 Sep 2023 13:04:19 +0000
-Received: from DS7PR12MB6095.namprd12.prod.outlook.com
- ([fe80::44a:f414:7a0f:9dae]) by DS7PR12MB6095.namprd12.prod.outlook.com
- ([fe80::44a:f414:7a0f:9dae%7]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
- 13:04:19 +0000
-Message-ID: <57fb0391-dd90-4a1c-b67f-b24fe544f6e6@amd.com>
-Date: Mon, 18 Sep 2023 08:04:16 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [V11 1/8] ACPI: Add support for AMD ACPI based Wifi band RFI
- mitigation feature
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20230831062031.1014799-1-evan.quan@amd.com>
- <20230831062031.1014799-2-evan.quan@amd.com>
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
+ by MN0PR11MB6208.namprd11.prod.outlook.com (2603:10b6:208:3c4::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Mon, 18 Sep
+ 2023 13:04:41 +0000
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::59cb:e244:fe8b:184d]) by BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::59cb:e244:fe8b:184d%5]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
+ 13:04:41 +0000
+Message-ID: <ed77db8f-9469-c68d-3bf0-82cb33716dc3@intel.com>
+Date: Mon, 18 Sep 2023 15:04:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/4] drm/ttm/tests: Add tests for ttm_resource and
+ ttm_sys_man
 Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20230831062031.1014799-2-evan.quan@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0039.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2d0::12) To DS7PR12MB6095.namprd12.prod.outlook.com
- (2603:10b6:8:9c::19)
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <cover.1694517411.git.karolina.stolarek@intel.com>
+ <97d52e1c257f91c7d0ff53a764fe1e590c070691.1694517411.git.karolina.stolarek@intel.com>
+ <c4e66bca-a8e8-da53-1a96-7dbdd8a6d5bf@amd.com>
+ <b662f3ae-037d-ffee-9aae-6c51c5d4f587@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <b662f3ae-037d-ffee-9aae-6c51c5d4f587@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BE1P281CA0235.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8c::10) To BY5PR11MB4243.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c8::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6095:EE_|DM4PR12MB7623:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19f5c89f-0914-4110-62a7-08dbb847c4ef
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|MN0PR11MB6208:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1976501f-9654-445a-5a56-08dbb847d253
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G5Jc2V3l1WwzkCGee6eHNs0O7tyFeyqnWcuCgQXvccifw8MPxOBRAoBVKsCQLp1/P78Uvmgaqv4/XDQ8hW9piziDkAhA/oJ/pKlw4ZpuoaYnQ9w09onUIZOhLwQo3OBHtHtCAi4uYjDK/1C4a9IG63eA/jZgPLOxF2aR0O+3aB6o4T0q3sS32+VfvH3z0PiHVmZ9upve0NLBrPpvkXDLdbfK2/9XXlZcjP5ZrhvrAaE1D4xUbymY7nBVWQon7yO3dTsst7s/rj0FL211l4rSZ/yLtQKKb7EXLMAX/X49NkSGyW+u/XpFQ6GJBkpZRSis3UGai2fXGBUl68p6tn1HxheZ7yT8NOr0IGzq5yETYkNyd5J0s6N6jdl3S+dSH0nbkvIQmdh1XYJJAbOy2AAvLlNk8VCRoIUozFQMGeiKBiY5yfcWGrU57AFzeY7cht+mZq93Br19bizNyc16C86Udstzb9NLM+YtIx7bkfeWKjXsXP69Ue5DAY8u4ENHmWDb7PzLLJXQEmKB4oY30FX0AiwWGPsm4SsRZqj+SD5+gbQj4porBFu5wTHmfe5VhXv8F2GzJdS9hwfj2GVLZ72UG0lYwGe58sXKX2+B0I7skfLo7Ft3PCv0Y8hanRETJmykXU+UxYOajFIlVaYSB526CQ==
+X-Microsoft-Antispam-Message-Info: oZSnJbi9S4tMLMOO+4Pva+CggnFgCN/PRdzM0FV//50Y9jRyO03xDKpOOml0Ukvn4tX3dpXTF+0X9KIGsKMCXMbS6+8MmgSnXmiU5D2lAE1+2VsYoUcmD8r9gAiIV5ZOGuvSTAPLJKnjbtwBmGiJAGB92RxuY+nNlvxiMT69BxWTF3VULXae8WVT16XIrClZA/z49ybyjqgOpVGDDlE+GhmDDdaExqyFbkRm9rwDIi2xNipHnqGgDGOA2aOV3TkELVvzNT1EyYM0hHsBiD4N0XeF6/GhL7EX0BZXRYfZ9QmCnwZwz194mFzW8C5RT5DQorGvBw53h1iNbd3B/xD6F5lFATlid01kWqtpU59Lr87r6AynYKJgy4O4w+v/Oq4htynNPWw8Cr/fecIAXC9UkznrWq4S+DseKMgqgT7difyhGfXh8gZOAtCUoZUvEUj5Y4LGbe9d6Fw35Lcb5VAnexhWaf8+StY9Aw24exERJUStyNoCuyT6OUe2OHV1bXokW0SKiS6V6CPRkEaWRnPqW77LomSXksVht28hxSQsVCjamZXdaCnWTY9V1tekhY4OyaQ0rcdGIQHTq2H2R9SrE1MUBUv0SPqPX5oY9wwB0BP/em0N4gjw36b5pDwd8aFU+w7+rvId1/8hZORSkn+k/g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB6095.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(346002)(366004)(376002)(39860400002)(451199024)(1800799009)(186009)(38100700002)(36756003)(86362001)(31696002)(478600001)(66946007)(66556008)(66476007)(6916009)(30864003)(2906002)(6512007)(6666004)(53546011)(6506007)(6486002)(8676002)(8936002)(4326008)(5660300002)(44832011)(31686004)(41300700001)(7416002)(316002)(26005)(2616005)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(346002)(39860400002)(136003)(366004)(396003)(186009)(451199024)(1800799009)(2906002)(30864003)(83380400001)(38100700002)(36756003)(6512007)(53546011)(6506007)(6486002)(36916002)(86362001)(6666004)(2616005)(31696002)(478600001)(26005)(8936002)(8676002)(4326008)(41300700001)(66574015)(5660300002)(44832011)(31686004)(316002)(82960400001)(66556008)(66476007)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SlBKQ24wT3Q2d0xqS3ZuS2Mwa2NYQkRqcFZFbCtlckVQMUlLdUNoeE5CTG8x?=
- =?utf-8?B?NE0zcGxPdTZIQ1pNS0tQWGQ3TmExMWhwOVBCVzI4MVp4WDdTekNSeHBEQVd4?=
- =?utf-8?B?UGhnRExzam5YcWFzUnlyTlU5Yks2Vng4Z0t6ZVVsQmFvaVpiblR5cUcxZjNC?=
- =?utf-8?B?Znk4V3pIckZtTFVkbm9iQnljZzh3OTUvbzA0MHhYRlVncm1EeWVBWHNWRi9U?=
- =?utf-8?B?MGduNmJkeEdGUWdrTWNzWmpqcGU5d0xlaFNHQXkrQUhmY2RSZXZXNWtjYTlV?=
- =?utf-8?B?ZlB3VzFCa1ZIWVpKMS9vWjhuTXFHVzVkblJRcWlkQW1jeDd6aUFzdHlQejhh?=
- =?utf-8?B?ZUlJTEVwblgwUEUyZFN3Q09XVDRSRVc1YlV6ZVBJM3Z2cVZPQ3kvTnJFYzFs?=
- =?utf-8?B?TUxoaUNyR2NNQm1vdmYxUmpXY29SVjBNdkVlTEM5b0hqUGFQcTBBdUdUcDU1?=
- =?utf-8?B?YUZ2UWM2UGRBd09KVHZrK0U0TUNFOS9DUVR0c3ZkdlovVFNYZG5lZ2xscWs5?=
- =?utf-8?B?U3ZKYWQrclAvL0FJUVBYRHEvTnFvTVFCaTJIU3cvNytpYnd0S0pVWXpoNUZC?=
- =?utf-8?B?VXhGYjlwT2lHSHc3ckxTWVdwQlM1K0ptMXZhVGVnNUorR2NQekI2cWJiMkN4?=
- =?utf-8?B?T2NvYWlOaGtLRURoZ0o3RGtHYU1oa2xHMlRKVjFlOVlqcGdtOTlLVFg4bWR0?=
- =?utf-8?B?K1RpZlZubzhraVBsaVJnVlg5Kzl0ZGp0MWxLMlpVQnFhWTlmaFFLcWt5eDY1?=
- =?utf-8?B?ckpxQWs5dk1pV2pheXhMODQ3a3ZOd1ZxbW5Zei9pWEoza2VJcFFOTUZ1Wk9h?=
- =?utf-8?B?Q3I0Yk1HT1BJVVR1dERtakZuTUJFeXprOVRPWjJ3aVhPeGVHR0FzUXUwYWlV?=
- =?utf-8?B?UWVwZVFEYnNlejA4UjV6eGVoUFMvbktycEl6clh1RU0weUFxY1B2RmFUNmNi?=
- =?utf-8?B?SEtGWUgwVFI3eEVib0ZWRnBIY29jeXF0WllIZ0t6eTBLUWlid2U4dFpwa3Jl?=
- =?utf-8?B?SW12UUNERjhZZURPTXdnZS8yYlF2aGRoWDFnMDRFR0tJQ3JHM0E1ZWRwNXJr?=
- =?utf-8?B?NU5POFhSQ0hSZEFIbElxUENyOU1zaTRuNzU1VUZ5VTFKbFFCRmIyMGduU0pM?=
- =?utf-8?B?RUp6L28xZGF0VWtQdHlUSDZvcDBwOG9pcUQ2UGNoc0ZzSEN3TjNmNVFqY1NH?=
- =?utf-8?B?cGJqanAyT2IvTXRpQWp6Z0tFcTlQak55aEpkdHAyWElVNXNLOCsxRUV4Tjh5?=
- =?utf-8?B?dEt6dXZXZ3RtbnBmRXExUWU4OFE1cFVmWmhxUWpkWWZuZjFoUkY4VWFTb2RN?=
- =?utf-8?B?VGtta2tjenJXU25hMTZ4eGR5Uk0xRXZYZnBHWW1mVzNvMjBoYU5iQTFxelc5?=
- =?utf-8?B?VWxVQjgyQmsvOTl5SXlLU3FxaGNhRzZOMSt5VXY4UGpXNFpuSjdNRC9NeDd0?=
- =?utf-8?B?SCsyNmZIWlQ4N002T3B0RlNLR1NyRzRHZU9Wd1NLTDVkNytza0g4SSs4OHhh?=
- =?utf-8?B?Ylp0bzE0RFNZdCtWMFkyOHVHeXk5cnpBQ1Z6WVR0U0tySXk0YU85SVRMU1pT?=
- =?utf-8?B?VzhwTTFPNkMyaERmU0Qyc2cyMk4vNmlRM25Pd2N5RVk2aDYvRXFzTmViRUZm?=
- =?utf-8?B?UEljblZudGVWNFA1ZW9SSHVEM05Lbk1ZOVpiMit1dGpsbkZ0VGdLeVZEUmV1?=
- =?utf-8?B?elppR1ovNlBZQ0xlSmU4cE5LZkUybEd2THV5bEhYQjlGd2U5Tk1NT2dGRFhp?=
- =?utf-8?B?dUg5Tzh3alYwWVNHNWZEcGZIcXpoZEFZV3ZsSVpNd2h6UFVTbkNYc3Rrb3ZC?=
- =?utf-8?B?UnZMU05VcEgxb0F2TDluOXYwVk9kaFVac0ZsTzVEY1dvVys2eDd4RTNvTkFT?=
- =?utf-8?B?Ky90TitIaU9FRWxBcU5BUG5XeGphZzBSMGUvVlFSaEpWWFdkRmUwekFEZkJt?=
- =?utf-8?B?QmszNkRIVTByOGsyUU5rUnBxNW41SFd0RGY0LzJRRFhWWVIvN3F6cURUVEp4?=
- =?utf-8?B?TklZUEFlZG1nNTdPa1EwdUFZbWFmOXFZN3JjZkR3dTV4YS9JTUV6Vi95WjR3?=
- =?utf-8?B?Q09sY2FFOW05c1BOenpBSUg3c1FLaDdxWEN2WnVuZmJmZ1RQeUZ1TzVvN01y?=
- =?utf-8?Q?cc2R7FmBqiHsCMMeXZIJbaOS9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19f5c89f-0914-4110-62a7-08dbb847c4ef
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6095.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3pWblN6eHhLMlliSm82ZS8rVXVxKzA0VU1ZbXJMcExUbUx4VnNkSDk3empU?=
+ =?utf-8?B?QVhWdWphYjRjS0xSclVSNHd2ZXJ0WDh0T0cvN0FlQzBHNmZnT1JKNXQrSVRr?=
+ =?utf-8?B?dWNNUTkyc2x5bUpGeTBFQkFvci95Qm82RjVDcWllTXdiYXVEdXM1azZaRFVG?=
+ =?utf-8?B?ZTFrcjQ4U3hlNXExY1F3K0NxSWQ0N3R0WkVibjRwN0MzdEZQeW5uVU42cEdm?=
+ =?utf-8?B?YWVCYVFuRytUcDhXZkxjOTJCLzN1UE9yR0NJemNuRkNqMnlBNHJSK2JYTU54?=
+ =?utf-8?B?RDRGZjZkelBqbmdnUkNPMUl0STVCVjRmNGxnUmdqWWFSY255eFdwMzB3Z3NU?=
+ =?utf-8?B?TjN1ME05OWkrYXI0dno1UjB3a2xpSkpVaXgxTGRnNDJDcDFpTDBQdlg5TVpr?=
+ =?utf-8?B?blEyYmd4a1UzWEhTSkpQaFltSFhwTWVnMHRVcjB3ZFY4NlhtQlBPUG5jaEhJ?=
+ =?utf-8?B?VGU0SjRFRnlUQzd1SkU3Uk55QktQSGUrczZCK0JidWxUVE1mUktqUUNENFZ5?=
+ =?utf-8?B?cGl3MEVEWDY4dU9XUXJPNERSZXFiZTFpSXpVSWRNS1BpOEorMHhoWERxQkFI?=
+ =?utf-8?B?MUIrU2xTY0lpZjI1aXhqUDhwVVU3bUVGYnA3WGNndWxhT01FR3hxeXNaM255?=
+ =?utf-8?B?WWp6WmRrYWZrY0wrMFBob1AzMTZJMFB1T21oZkozL3RLdTlpeTROSjBCemIr?=
+ =?utf-8?B?OWRtVWk2RzBEalpHTkJoSUo2bkdyVlhLZ3VYaksxUE16TDRESThuQXN6eEJ0?=
+ =?utf-8?B?MkxYa1Nzay9MaUVmMzFoN3V5cFF3QTRYeS94Y0I3THlIdkppbXM2Ti9oeGNH?=
+ =?utf-8?B?MHBYZU5EUG9wOWNoQjEvMktnYm1BdU9LVGVuQ0txdm1SZjFndmUvQWxacm9W?=
+ =?utf-8?B?TjRnVTIwbVlZd2t4QXFmMmVhVTFXWHA2d0YvTmQ2TExwWlhNNk5nVDRsRng4?=
+ =?utf-8?B?Z3dFN2NCZHM0N21PQ3hjQVREZm4zbXY3VS8zOHQ1Qitjb1UxMWR4NXdaci9h?=
+ =?utf-8?B?ZGF3OWpPQmdJVzRycWZMbDVZVGlRejg4WU1tSU1OQ2pPR0NRRzNwZ1M3T0Zr?=
+ =?utf-8?B?M2ZNNlNGdkQ0ZHF6dzBKUlJRdUt3dUZ2aWdoVEZPLzlzRWdzcjlwUHM3aUJN?=
+ =?utf-8?B?aFFIZjlTMTN2NVFtU3hGQzJXb21ESWQxdUdGVGhtQnA1aStlOUVUMEYzdUJa?=
+ =?utf-8?B?Q1FGYytrVkFkckpRR2U1cWhsQkluOEtuYTVuM0hBNGk2MG5qaFpUMUE1RW9n?=
+ =?utf-8?B?cU41cVZUM3F4cVRoNDlzOVVmcXBoU0M4RHZEYUVGNDNxWGEzdStLcGlLK1Ba?=
+ =?utf-8?B?ZDlvSWZibEJaRStBcXpUZ0RYNFB0U2QraEFsUHVLa2hCT3grdFlPWklxNXJL?=
+ =?utf-8?B?QjV6Y29qUjJ4Y1Bic1FPTlFrVi90VHhLcFVBaFU1U3p1STRZY2h4dytTbnFx?=
+ =?utf-8?B?SFBwYWpNYlIzZkRkMXk3ZWlTbUdBSVZNZll4M3UyWVdwMkJzbTlNV2x2d3hO?=
+ =?utf-8?B?ZlR6NDNjcUVwT2hiUWhqeFJCck1ZTWptWkp2cjFTeXVBQWx6OHJ2YTVLZmh1?=
+ =?utf-8?B?K2JxKzh3eVVJdkI5Tm1kSDlpN0FBdXYzT0VsK0tLZkZCTGI5OEtDVTl1NTl0?=
+ =?utf-8?B?dHBkNUlKM2NZUTlYQlJoNTBkMkUydlZReGNMMkI2eFkwVGpuRkVMZVNlT0FT?=
+ =?utf-8?B?NmlINkxaVUk5bTVFeFY4a29RZzhyaXBTNVpaaWNObXZ6QzJtZFZyR0NMMHlW?=
+ =?utf-8?B?dlpud2RYaFA3RTdyQ0ZuLzhJK1VabjlsanZwRGw2Z01xODNCVUo4dTRoQjNO?=
+ =?utf-8?B?bCtTbFZxVWFUd09FQktINURhMjViSlhXMW9VMy8zWUdOdjNQUFNvaGh0Mjli?=
+ =?utf-8?B?UE91RnNiRXpBUHJzNWxoUk13SWMyQmpNMnptNS8xOXdRbkprc0VJQkdRSFZz?=
+ =?utf-8?B?cGQ5TjhaK0lxWWM4RzhpUTdNenBCV3FEUHRYR2ZjNTNGdHkyQUw2UWNVRmVB?=
+ =?utf-8?B?SVc0UGFqYllVbU5WOFBUeld5OGVRSlBOREVtYUh0Ty9JUG1OSUU3aTB3SGtT?=
+ =?utf-8?B?cVZwM0Y2bGJtOU90dGtIaTdVS3pvemd5UFNRQUtRQTlxSmh5ODJ4OXNOTmlr?=
+ =?utf-8?B?VGg3aitpZmovMm03Vm15NktGcXM0dFdtQkVOeGxsOWtESTg1ejQ2eVV6d21q?=
+ =?utf-8?B?SXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1976501f-9654-445a-5a56-08dbb847d253
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 13:04:19.2650 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 13:04:41.5114 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UgP6zacAV1D54UYwYaQFVOOnqn6C+c/E3hPMZfskSoHoyJqBmJ/ScI9Y9czbiP7hXUn3bN/1vZgMuVim4WfpZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7623
+X-MS-Exchange-CrossTenant-UserPrincipalName: N9zIW4beoFbmUc3a1JutX7k1+zlIjcaBOY+1oN//WfsCvb0sb7udSQXtmCjg8UGSC8P/WtECBptE+6ztnia4fd+KnIcxJMXyrAxZdFe7dsk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6208
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,647 +166,507 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pabeni@redhat.com, netdev@vger.kernel.org, Lijo.Lazar@amd.com,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
- edumazet@google.com, amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- kuba@kernel.org, johannes@sipsolutions.net, Evan Quan <evan.quan@amd.com>,
- davem@davemloft.net, lenb@kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/31/2023 01:20, Evan Quan wrote:
-> Due to electrical and mechanical constraints in certain platform designs
-> there may be likely interference of relatively high-powered harmonics of
-> the (G-)DDR memory clocks with local radio module frequency bands used
-> by Wifi 6/6e/7.
+On 18.09.2023 13:48, Karolina Stolarek wrote:
+> On 12.09.2023 14:54, Christian König wrote:
+>> Am 12.09.23 um 13:49 schrieb Karolina Stolarek:
+>>> Test initialization of ttm_resource using different memory domains.
+>>> Add tests for a system memory manager and functions that can be
+>>> tested without a fully-featured resource manager. Update
+>>> ttm_bo_kunit_init() to initialize BO's kref and reservation object.
+>>> Export ttm_resource_alloc symbol for test purposes only.
+>>>
+>>> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/ttm/tests/Makefile            |   1 +
+>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  23 ++
+>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   4 +
+>>>   drivers/gpu/drm/ttm/tests/ttm_resource_test.c | 335 ++++++++++++++++++
+>>>   drivers/gpu/drm/ttm/ttm_resource.c            |   3 +
+>>>   5 files changed, 366 insertions(+)
+>>>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/tests/Makefile 
+>>> b/drivers/gpu/drm/ttm/tests/Makefile
+>>> index ec87c4fc1ad5..c92fe2052ef6 100644
+>>> --- a/drivers/gpu/drm/ttm/tests/Makefile
+>>> +++ b/drivers/gpu/drm/ttm/tests/Makefile
+>>> @@ -3,4 +3,5 @@
+>>>   obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
+>>>           ttm_device_test.o \
+>>>           ttm_pool_test.o \
+>>> +        ttm_resource_test.o \
+>>>           ttm_kunit_helpers.o
+>>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c 
+>>> b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>>> index 81661d8827aa..eccc59b981f8 100644
+>>> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>>> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>>> @@ -38,10 +38,33 @@ struct ttm_buffer_object 
+>>> *ttm_bo_kunit_init(struct kunit *test,
+>>>       bo->base = gem_obj;
+>>>       bo->bdev = devs->ttm_dev;
+>>> +    kref_init(&bo->kref);
+>>> +
+>>> +    dma_resv_init(&bo->base._resv);
+>>> +    bo->base.resv = &bo->base._resv;
+>>> +
+>>
+>> I'm really wondering if we shouldn't now initialize the GEM object 
+>> properly?
+>>
+>> That would also initialize the reservation object if I remember 
+>> correctly.
 > 
-> To mitigate this, AMD has introduced a mechanism that devices can use to
-> notify active use of particular frequencies so that other devices can make
-> relative internal adjustments as necessary to avoid this resonance.
+> Do you mean by using drm_gem_object_init()?
+
+I tried initializing bo.base with drm_gem_object_init() and it's looking 
+good, but one check in that function makes testing of "Misaligned size" 
+subtest of ttm_tt_init_basic impossible:
+
+BUG_ON((size & (PAGE_SIZE - 1)) != 0);
+
+I wanted to test if ttm_tt_init properly calculates the number of pages, 
+but it looks like in the normal circuimstances it already gets a GEM 
+object of a size that is page-aligned. Would you prefer to write this 
+subtest as a separate test with a dummy misaligned GEM object, or to 
+delete this subtest altogether?
+
+Many thanks,
+Karolina
+
 > 
-> Signed-off-by: Evan Quan <evan.quan@amd.com>
-> --
-> v10->v11:
->    - fix typo(Simon)
-
-Rafael,
-
-Friendly ping on reviewing patch 1 from v11.
-
-Thank you,
-
-> ---
->   drivers/acpi/Kconfig          |  17 ++
->   drivers/acpi/Makefile         |   2 +
->   drivers/acpi/amd_wbrf.c       | 414 ++++++++++++++++++++++++++++++++++
->   include/linux/acpi_amd_wbrf.h | 140 ++++++++++++
->   4 files changed, 573 insertions(+)
->   create mode 100644 drivers/acpi/amd_wbrf.c
->   create mode 100644 include/linux/acpi_amd_wbrf.h
+>>
+>> The solution with EXPORT_SYMBOL_FOR_TESTS_ONLY looks really nice I 
+>> think and apart from that I can't see anything obviously wrong either, 
+>> but I only skimmed over the code.
 > 
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index 00dd309b6682..a092ea72d152 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -594,6 +594,23 @@ config ACPI_PRMT
->   	  substantially increase computational overhead related to the
->   	  initialization of some server systems.
->   
-> +config WBRF_AMD_ACPI
-> +	bool "ACPI based WBRF mechanism introduced by AMD"
-> +	depends on ACPI
-> +	default n
-> +	help
-> +	  Wifi band RFI mitigation mechanism allows multiple drivers from
-> +	  different domains to notify the frequencies in use so that hardware
-> +	  can be reconfigured to avoid harmonic conflicts.
-> +
-> +	  AMD has introduced an ACPI based mechanism to support WBRF for some
-> +	  platforms with AMD dGPU and WLAN. This needs support from BIOS equipped
-> +	  with necessary AML implementations and dGPU firmwares.
-> +
-> +	  Before enabling this ACPI based mechanism, it is suggested to confirm
-> +	  with the hardware designer/provider first whether your platform
-> +	  equipped with necessary BIOS and firmwares.
-> +
->   endif	# ACPI
->   
->   config X86_PM_TIMER
-> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-> index eaa09bf52f17..a3d2f259d0a5 100644
-> --- a/drivers/acpi/Makefile
-> +++ b/drivers/acpi/Makefile
-> @@ -132,3 +132,5 @@ obj-$(CONFIG_ARM64)		+= arm64/
->   obj-$(CONFIG_ACPI_VIOT)		+= viot.o
->   
->   obj-$(CONFIG_RISCV)		+= riscv/
-> +
-> +obj-$(CONFIG_WBRF_AMD_ACPI)	+= amd_wbrf.o
-> diff --git a/drivers/acpi/amd_wbrf.c b/drivers/acpi/amd_wbrf.c
-> new file mode 100644
-> index 000000000000..8ee0e2977a30
-> --- /dev/null
-> +++ b/drivers/acpi/amd_wbrf.c
-> @@ -0,0 +1,414 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Wifi Band Exclusion Interface (AMD ACPI Implementation)
-> + * Copyright (C) 2023 Advanced Micro Devices
-> + *
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/acpi_amd_wbrf.h>
-> +
-> +#define ACPI_AMD_WBRF_METHOD	"\\WBRF"
-> +
-> +/*
-> + * Functions bit vector for WBRF method
-> + *
-> + * Bit 0: Supported for any functions other than function 0.
-> + * Bit 1: Function 1 (Add / Remove frequency) is supported.
-> + * Bit 2: Function 2 (Get frequency list) is supported.
-> + */
-> +#define WBRF_ENABLED				0x0
-> +#define WBRF_RECORD				0x1
-> +#define WBRF_RETRIEVE				0x2
-> +
-> +/* record actions */
-> +#define WBRF_RECORD_ADD		0x0
-> +#define WBRF_RECORD_REMOVE	0x1
-> +
-> +#define WBRF_REVISION		0x1
-> +
-> +/*
-> + * The data structure used for WBRF_RETRIEVE is not naturally aligned.
-> + * And unfortunately the design has been settled down.
-> + */
-> +struct amd_wbrf_ranges_out {
-> +	u32			num_of_ranges;
-> +	struct exclusion_range	band_list[MAX_NUM_OF_WBRF_RANGES];
-> +} __packed;
-> +
-> +static const guid_t wifi_acpi_dsm_guid =
-> +	GUID_INIT(0x7b7656cf, 0xdc3d, 0x4c1c,
-> +		  0x83, 0xe9, 0x66, 0xe7, 0x21, 0xde, 0x30, 0x70);
-> +
-> +static BLOCKING_NOTIFIER_HEAD(wbrf_chain_head);
-> +
-> +static int wbrf_dsm(struct acpi_device *adev,
-> +		    u8 fn,
-> +		    union acpi_object *argv4)
-> +{
-> +	union acpi_object *obj;
-> +	int rc;
-> +
-> +	obj = acpi_evaluate_dsm(adev->handle, &wifi_acpi_dsm_guid,
-> +				WBRF_REVISION, fn, argv4);
-> +	if (!obj)
-> +		return -ENXIO;
-> +
-> +	switch (obj->type) {
-> +	case ACPI_TYPE_INTEGER:
-> +		rc = obj->integer.value ? -EINVAL : 0;
-> +		break;
-> +	default:
-> +		rc = -EOPNOTSUPP;
-> +	}
-> +
-> +	ACPI_FREE(obj);
-> +
-> +	return rc;
-> +}
-> +
-> +static int wbrf_record(struct acpi_device *adev, uint8_t action,
-> +		       struct wbrf_ranges_in_out *in)
-> +{
-> +	union acpi_object argv4;
-> +	union acpi_object *tmp;
-> +	u32 num_of_ranges = 0;
-> +	u32 num_of_elements;
-> +	u32 arg_idx = 0;
-> +	u32 loop_idx;
-> +	int ret;
-> +
-> +	if (!in)
-> +		return -EINVAL;
-> +
-> +	for (loop_idx = 0; loop_idx < ARRAY_SIZE(in->band_list);
-> +	     loop_idx++)
-> +		if (in->band_list[loop_idx].start &&
-> +		    in->band_list[loop_idx].end)
-> +			num_of_ranges++;
-> +
-> +	/*
-> +	 * The valid entry counter does not match with this told.
-> +	 * Something must went wrong.
-> +	 */
-> +	if (num_of_ranges != in->num_of_ranges)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Every input frequency band comes with two end points(start/end)
-> +	 * and each is accounted as an element. Meanwhile the range count
-> +	 * and action type are accounted as an element each.
-> +	 * So, the total element count = 2 * num_of_ranges + 1 + 1.
-> +	 */
-> +	num_of_elements = 2 * num_of_ranges + 1 + 1;
-> +
-> +	tmp = kcalloc(num_of_elements, sizeof(*tmp), GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-> +	argv4.package.type = ACPI_TYPE_PACKAGE;
-> +	argv4.package.count = num_of_elements;
-> +	argv4.package.elements = tmp;
-> +
-> +	tmp[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-> +	tmp[arg_idx++].integer.value = num_of_ranges;
-> +	tmp[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-> +	tmp[arg_idx++].integer.value = action;
-> +
-> +	for (loop_idx = 0; loop_idx < ARRAY_SIZE(in->band_list);
-> +	     loop_idx++) {
-> +		if (!in->band_list[loop_idx].start ||
-> +		    !in->band_list[loop_idx].end)
-> +			continue;
-> +
-> +		tmp[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-> +		tmp[arg_idx++].integer.value = in->band_list[loop_idx].start;
-> +		tmp[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-> +		tmp[arg_idx++].integer.value = in->band_list[loop_idx].end;
-> +	}
-> +
-> +	ret = wbrf_dsm(adev, WBRF_RECORD, &argv4);
-> +
-> +	kfree(tmp);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * acpi_amd_wbrf_add_exclusion - broadcast the frequency band the device
-> + *                               is using
-> + *
-> + * @dev: device pointer
-> + * @in: input structure containing the frequency band the device is using
-> + *
-> + * Broadcast to other consumers the frequency band the device starts
-> + * to use. Underneath the surface the information is cached into an
-> + * internal buffer first. Then a notification is sent to all those
-> + * registered consumers. So then they can retrieve that buffer to
-> + * know the latest active frequency bands. The benefit with such design
-> + * is for those consumers which have not been registered yet, they can
-> + * still have a chance to retrieve such information later.
-> + */
-> +int acpi_amd_wbrf_add_exclusion(struct device *dev,
-> +				struct wbrf_ranges_in_out *in)
-> +{
-> +	struct acpi_device *adev = ACPI_COMPANION(dev);
-> +	int ret;
-> +
-> +	if (!adev)
-> +		return -ENODEV;
-> +
-> +	ret = wbrf_record(adev, WBRF_RECORD_ADD, in);
-> +	if (ret)
-> +		return ret;
-> +
-> +	blocking_notifier_call_chain(&wbrf_chain_head,
-> +				     WBRF_CHANGED,
-> +				     NULL);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_add_exclusion);
-> +
-> +/**
-> + * acpi_amd_wbrf_remove_exclusion - broadcast the frequency band the device
-> + *                                  is no longer using
-> + *
-> + * @dev: device pointer
-> + * @in: input structure containing the frequency band which is not used
-> + *      by the device any more
-> + *
-> + * Broadcast to other consumers the frequency band the device stops
-> + * to use. The stored information paired with this will be dropped
-> + * from the internal buffer. And then a notification is sent to
-> + * all registered consumers.
-> + */
-> +int acpi_amd_wbrf_remove_exclusion(struct device *dev,
-> +				   struct wbrf_ranges_in_out *in)
-> +{
-> +	struct acpi_device *adev = ACPI_COMPANION(dev);
-> +	int ret;
-> +
-> +	if (!adev)
-> +		return -ENODEV;
-> +
-> +	ret = wbrf_record(adev, WBRF_RECORD_REMOVE, in);
-> +	if (ret)
-> +		return ret;
-> +
-> +	blocking_notifier_call_chain(&wbrf_chain_head,
-> +				     WBRF_CHANGED,
-> +				     NULL);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_remove_exclusion);
-> +
-> +static bool acpi_amd_wbrf_supported_system(void)
-> +{
-> +	acpi_status status;
-> +	acpi_handle handle;
-> +
-> +	status = acpi_get_handle(NULL, ACPI_AMD_WBRF_METHOD, &handle);
-> +
-> +	return ACPI_SUCCESS(status);
-> +}
-> +
-> +/**
-> + * acpi_amd_wbrf_supported_producer - determine if the WBRF can be enabled
-> + *                                    for the device as a producer
-> + *
-> + * @dev: device pointer
-> + *
-> + * Determine if the platform equipped with necessary implementations to
-> + * support WBRF for the device as a producer.
-> + */
-> +bool acpi_amd_wbrf_supported_producer(struct device *dev)
-> +{
-> +	struct acpi_device *adev = ACPI_COMPANION(dev);
-> +
-> +	if (!acpi_amd_wbrf_supported_system())
-> +		return false;
-> +
-> +	if (!adev)
-> +		return false;
-> +
-> +	return acpi_check_dsm(adev->handle, &wifi_acpi_dsm_guid,
-> +			      WBRF_REVISION,
-> +			      BIT(WBRF_RECORD));
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_supported_producer);
-> +
-> +static union acpi_object *
-> +acpi_evaluate_wbrf(acpi_handle handle, u64 rev, u64 func)
-> +{
-> +	acpi_status ret;
-> +	struct acpi_buffer buf = {ACPI_ALLOCATE_BUFFER, NULL};
-> +	union acpi_object params[4];
-> +	struct acpi_object_list input = {
-> +		.count = 4,
-> +		.pointer = params,
-> +	};
-> +
-> +	params[0].type = ACPI_TYPE_INTEGER;
-> +	params[0].integer.value = rev;
-> +	params[1].type = ACPI_TYPE_INTEGER;
-> +	params[1].integer.value = func;
-> +	params[2].type = ACPI_TYPE_PACKAGE;
-> +	params[2].package.count = 0;
-> +	params[2].package.elements = NULL;
-> +	params[3].type = ACPI_TYPE_STRING;
-> +	params[3].string.length = 0;
-> +	params[3].string.pointer = NULL;
-> +
-> +	ret = acpi_evaluate_object(handle, "WBRF", &input, &buf);
-> +	if (ACPI_FAILURE(ret))
-> +		return NULL;
-> +
-> +	return buf.pointer;
-> +}
-> +
-> +static bool check_acpi_wbrf(acpi_handle handle, u64 rev, u64 funcs)
-> +{
-> +	int i;
-> +	u64 mask = 0;
-> +	union acpi_object *obj;
-> +
-> +	if (funcs == 0)
-> +		return false;
-> +
-> +	obj = acpi_evaluate_wbrf(handle, rev, 0);
-> +	if (!obj)
-> +		return false;
-> +
-> +	if (obj->type != ACPI_TYPE_BUFFER)
-> +		return false;
-> +
-> +	/*
-> +	 * Bit vector providing supported functions information.
-> +	 * Each bit marks support for one specific function of the WBRF method.
-> +	 */
-> +	for (i = 0; i < obj->buffer.length && i < 8; i++)
-> +		mask |= (u64)obj->buffer.pointer[i] << i * 8;
-> +
-> +	ACPI_FREE(obj);
-> +
-> +	return mask & BIT(WBRF_ENABLED) && (mask & funcs) == funcs;
-> +}
-> +
-> +/**
-> + * acpi_amd_wbrf_supported_consumer - determine if the WBRF can be enabled
-> + *                                    for the device as a consumer
-> + *
-> + * @dev: device pointer
-> + *
-> + * Determine if the platform equipped with necessary implementations to
-> + * support WBRF for the device as a consumer.
-> + */
-> +bool acpi_amd_wbrf_supported_consumer(struct device *dev)
-> +{
-> +	struct acpi_device *adev = ACPI_COMPANION(dev);
-> +
-> +	if (!acpi_amd_wbrf_supported_system())
-> +		return false;
-> +
-> +	if (!adev)
-> +		return false;
-> +
-> +	return check_acpi_wbrf(adev->handle,
-> +			       WBRF_REVISION,
-> +			       BIT(WBRF_RETRIEVE));
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_supported_consumer);
-> +
-> +/**
-> + * acpi_amd_wbrf_retrieve_exclusions - retrieve current active frequency
-> + *                                     bands
-> + *
-> + * @dev: device pointer
-> + * @out: output structure containing all the active frequency bands
-> + *
-> + * Retrieve the current active frequency bands which were broadcasted
-> + * by other producers. The consumer who calls this API should take
-> + * proper actions if any of the frequency band may cause RFI with its
-> + * own frequency band used.
-> + */
-> +int acpi_amd_wbrf_retrieve_exclusions(struct device *dev,
-> +				      struct wbrf_ranges_in_out *out)
-> +{
-> +	struct acpi_device *adev = ACPI_COMPANION(dev);
-> +	struct amd_wbrf_ranges_out acpi_out = {0};
-> +	union acpi_object *obj;
-> +	int ret = 0;
-> +
-> +	if (!adev)
-> +		return -ENODEV;
-> +
-> +	obj = acpi_evaluate_wbrf(adev->handle,
-> +				 WBRF_REVISION,
-> +				 WBRF_RETRIEVE);
-> +	if (!obj)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * The return buffer is with variable length and the format below:
-> +	 * number_of_entries(1 DWORD):       Number of entries
-> +	 * start_freq of 1st entry(1 QWORD): Start frequency of the 1st entry
-> +	 * end_freq of 1st entry(1 QWORD):   End frequency of the 1st entry
-> +	 * ...
-> +	 * ...
-> +	 * start_freq of the last entry(1 QWORD)
-> +	 * end_freq of the last entry(1 QWORD)
-> +	 *
-> +	 * Thus the buffer length is determined by the number of entries.
-> +	 * - For zero entry scenario, the buffer length will be 4 bytes.
-> +	 * - For one entry scenario, the buffer length will be 20 bytes.
-> +	 */
-> +	if (obj->buffer.length > sizeof(acpi_out) ||
-> +	    obj->buffer.length < 4) {
-> +		dev_err(dev, "Wrong sized WBRT information");
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +	memcpy(&acpi_out, obj->buffer.pointer, obj->buffer.length);
-> +
-> +	out->num_of_ranges = acpi_out.num_of_ranges;
-> +	memcpy(out->band_list, acpi_out.band_list, sizeof(acpi_out.band_list));
-> +
-> +out:
-> +	ACPI_FREE(obj);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_retrieve_exclusions);
-> +
-> +/**
-> + * acpi_amd_wbrf_register_notifier - register for notifications of frequency
-> + *                                   band update
-> + *
-> + * @nb: driver notifier block
-> + *
-> + * The consumer should register itself via this API. So that it can get
-> + * notified timely on the frequency band updates from other producers.
-> + */
-> +int acpi_amd_wbrf_register_notifier(struct notifier_block *nb)
-> +{
-> +	return blocking_notifier_chain_register(&wbrf_chain_head, nb);
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_register_notifier);
-> +
-> +/**
-> + * acpi_amd_wbrf_unregister_notifier - unregister for notifications of
-> + *                                     frequency band update
-> + *
-> + * @nb: driver notifier block
-> + *
-> + * The consumer should call this API when it is longer interested with
-> + * the frequency band updates from other producers. Usually, this should
-> + * be performed during driver cleanup.
-> + */
-> +int acpi_amd_wbrf_unregister_notifier(struct notifier_block *nb)
-> +{
-> +	return blocking_notifier_chain_unregister(&wbrf_chain_head, nb);
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_amd_wbrf_unregister_notifier);
-> diff --git a/include/linux/acpi_amd_wbrf.h b/include/linux/acpi_amd_wbrf.h
-> new file mode 100644
-> index 000000000000..c2363d664641
-> --- /dev/null
-> +++ b/include/linux/acpi_amd_wbrf.h
-> @@ -0,0 +1,140 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Wifi Band Exclusion Interface (AMD ACPI Implementation)
-> + * Copyright (C) 2023 Advanced Micro Devices
-> + *
-> + * Due to electrical and mechanical constraints in certain platform designs
-> + * there may be likely interference of relatively high-powered harmonics of
-> + * the (G-)DDR memory clocks with local radio module frequency bands used
-> + * by Wifi 6/6e/7.
-> + *
-> + * To mitigate this, AMD has introduced an ACPI based mechanism to support
-> + * WBRF(Wifi Band RFI mitigation Feature) for platforms with AMD dGPU + WLAN.
-> + * This needs support from BIOS equipped with necessary AML implementations
-> + * and dGPU firmwares.
-> + *
-> + * Some general terms:
-> + * Producer: such component who can produce high-powered radio frequency
-> + * Consumer: such component who can adjust its in-use frequency in
-> + *           response to the radio frequencies of other components to
-> + *           mitigate the possible RFI.
-> + *
-> + * To make the mechanism function, those producers should notify active use
-> + * of their particular frequencies so that other consumers can make relative
-> + * internal adjustments as necessary to avoid this resonance.
-> + */
-> +
-> +#ifndef _ACPI_AMD_WBRF_H
-> +#define _ACPI_AMD_WBRF_H
-> +
-> +#include <linux/device.h>
-> +#include <linux/notifier.h>
-> +
-> +/*
-> + * A wbrf range is defined as a frequency band with start and end
-> + * frequency point specified(in Hz). And a vaild range should have
-> + * its start and end frequency point filled with non-zero values.
-> + * Meanwhile, the maximum number of wbrf ranges is limited as
-> + * `MAX_NUM_OF_WBRF_RANGES`.
-> + */
-> +#define MAX_NUM_OF_WBRF_RANGES		11
-> +
-> +struct exclusion_range {
-> +	u64		start;
-> +	u64		end;
-> +};
-> +
-> +struct wbrf_ranges_in_out {
-> +	u64			num_of_ranges;
-> +	struct exclusion_range	band_list[MAX_NUM_OF_WBRF_RANGES];
-> +};
-> +
-> +/*
-> + * The notification types for the consumers are defined as below.
-> + * The consumers may need to take different actions in response to
-> + * different notifications.
-> + * WBRF_CHANGED: there was some frequency band updates. The consumers
-> + *               should retrieve the latest active frequency bands.
-> + */
-> +enum wbrf_notifier_actions {
-> +	WBRF_CHANGED,
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_WBRF_AMD_ACPI)
-> +/*
-> + * The expected flow for the producers:
-> + * 1) During probe, call `acpi_amd_wbrf_supported_producer` to check
-> + *    if WBRF can be enabled for the device.
-> + * 2) On using some frequency band, call `acpi_amd_wbrf_add_exclusion`
-> + *    to get other consumers properly notified.
-> + * 3) Or on stopping using some frequency band, call
-> + *    `acpi_amd_wbrf_remove_exclusion` to get other consumers notified.
-> + */
-> +bool acpi_amd_wbrf_supported_producer(struct device *dev);
-> +int acpi_amd_wbrf_remove_exclusion(struct device *dev,
-> +				   struct wbrf_ranges_in_out *in);
-> +int acpi_amd_wbrf_add_exclusion(struct device *dev,
-> +				struct wbrf_ranges_in_out *in);
-> +
-> +/*
-> + * The expected flow for the consumers:
-> + * 1) During probe, call `acpi_amd_wbrf_supported_consumer` to check if WBRF
-> + *    can be enabled for the device.
-> + * 2) Call `acpi_amd_wbrf_register_notifier` to register for notification
-> + *    of frequency band change(add or remove) from other producers.
-> + * 3) Call the `acpi_amd_wbrf_retrieve_exclusions` intentionally to retrieve
-> + *    current active frequency bands considering some producers may broadcast
-> + *    such information before the consumer is up.
-> + * 4) On receiving a notification for frequency band change, run
-> + *    `acpi_amd_wbrf_retrieve_exclusions` again to retrieve the latest
-> + *    active frequency bands.
-> + * 5) During driver cleanup, call `acpi_amd_wbrf_unregister_notifier` to
-> + *    unregister the notifier.
-> + */
-> +bool acpi_amd_wbrf_supported_consumer(struct device *dev);
-> +int acpi_amd_wbrf_retrieve_exclusions(struct device *dev,
-> +				      struct wbrf_ranges_in_out *out);
-> +int acpi_amd_wbrf_register_notifier(struct notifier_block *nb);
-> +int acpi_amd_wbrf_unregister_notifier(struct notifier_block *nb);
-> +#else
-> +static inline
-> +bool acpi_amd_wbrf_supported_consumer(struct device *dev)
-> +{
-> +	return false;
-> +}
-> +static inline
-> +int acpi_amd_wbrf_remove_exclusion(struct device *dev,
-> +				   struct wbrf_ranges_in_out *in)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline
-> +int acpi_amd_wbrf_add_exclusion(struct device *dev,
-> +				struct wbrf_ranges_in_out *in)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline
-> +bool acpi_amd_wbrf_supported_producer(struct device *dev)
-> +{
-> +	return false;
-> +}
-> +static inline
-> +int acpi_amd_wbrf_retrieve_exclusions(struct device *dev,
-> +				      struct wbrf_ranges_in_out *out)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline
-> +int acpi_amd_wbrf_register_notifier(struct notifier_block *nb)
-> +{
-> +	return -ENODEV;
-> +}
-> +static inline
-> +int acpi_amd_wbrf_unregister_notifier(struct notifier_block *nb)
-> +{
-> +	return -ENODEV;
-> +}
-> +#endif
-> +
-> +#endif /* _ACPI_AMD_WBRF_H */
-
+> I'm also glad with EXPORT_SYMBOL_FOR_TESTS_ONLY solution, it's much 
+> better now. Right, you can take a closer look at the next version. I'll 
+> try to get an actual GEM object here, if you think that's feasible.
+> 
+> All the best,
+> Karolina
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>>       return bo;
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(ttm_bo_kunit_init);
+>>> +struct ttm_place *ttm_place_kunit_init(struct kunit *test,
+>>> +                       uint32_t mem_type, uint32_t flags,
+>>> +                       size_t size)
+>>> +{
+>>> +    struct ttm_place *place;
+>>> +
+>>> +    place = kunit_kzalloc(test, sizeof(*place), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, place);
+>>> +
+>>> +    place->mem_type = mem_type;
+>>> +    place->flags = flags;
+>>> +    place->fpfn = size >> PAGE_SHIFT;
+>>> +    place->lpfn = place->fpfn + (size >> PAGE_SHIFT);
+>>> +
+>>> +    return place;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(ttm_place_kunit_init);
+>>> +
+>>>   struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test)
+>>>   {
+>>>       struct ttm_test_devices *devs;
+>>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h 
+>>> b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+>>> index e261e3660d0b..f38140f93c05 100644
+>>> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+>>> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+>>> @@ -8,6 +8,7 @@
+>>>   #include <drm/drm_drv.h>
+>>>   #include <drm/ttm/ttm_device.h>
+>>>   #include <drm/ttm/ttm_bo.h>
+>>> +#include <drm/ttm/ttm_placement.h>
+>>>   #include <drm/drm_kunit_helpers.h>
+>>>   #include <kunit/test.h>
+>>> @@ -28,6 +29,9 @@ int ttm_device_kunit_init(struct ttm_test_devices 
+>>> *priv,
+>>>   struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
+>>>                           struct ttm_test_devices *devs,
+>>>                           size_t size);
+>>> +struct ttm_place *ttm_place_kunit_init(struct kunit *test,
+>>> +                       uint32_t mem_type, uint32_t flags,
+>>> +                       size_t size);
+>>>   struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test);
+>>>   struct ttm_test_devices *ttm_test_devices_all(struct kunit *test);
+>>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c 
+>>> b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+>>> new file mode 100644
+>>> index 000000000000..851cdc43dc37
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+>>> @@ -0,0 +1,335 @@
+>>> +// SPDX-License-Identifier: GPL-2.0 AND MIT
+>>> +/*
+>>> + * Copyright © 2023 Intel Corporation
+>>> + */
+>>> +#include <drm/ttm/ttm_resource.h>
+>>> +
+>>> +#include "ttm_kunit_helpers.h"
+>>> +
+>>> +#define RES_SIZE        SZ_4K
+>>> +#define TTM_PRIV_DUMMY_REG    (TTM_NUM_MEM_TYPES - 1)
+>>> +
+>>> +struct ttm_resource_test_case {
+>>> +    const char *description;
+>>> +    uint32_t mem_type;
+>>> +    uint32_t flags;
+>>> +};
+>>> +
+>>> +struct ttm_resource_test_priv {
+>>> +    struct ttm_test_devices *devs;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +};
+>>> +
+>>> +static const struct ttm_resource_manager_func 
+>>> ttm_resource_manager_mock_funcs = { };
+>>> +
+>>> +static int ttm_resource_test_init(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv;
+>>> +
+>>> +    priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, priv);
+>>> +
+>>> +    priv->devs = ttm_test_devices_all(test);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, priv->devs);
+>>> +
+>>> +    test->priv = priv;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static void ttm_resource_test_fini(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +
+>>> +    ttm_test_devices_put(test, priv->devs);
+>>> +}
+>>> +
+>>> +static void ttm_init_test_mocks(struct kunit *test,
+>>> +                struct ttm_resource_test_priv *priv,
+>>> +                uint32_t mem_type, uint32_t flags)
+>>> +{
+>>> +    size_t size = RES_SIZE;
+>>> +
+>>> +    /* Make sure we have what we need for a good BO mock */
+>>> +    KUNIT_ASSERT_NOT_NULL(test, priv->devs->ttm_dev);
+>>> +
+>>> +    priv->bo = ttm_bo_kunit_init(test, priv->devs, size);
+>>> +    priv->place = ttm_place_kunit_init(test, mem_type, flags, size);
+>>> +}
+>>> +
+>>> +static void ttm_init_test_manager(struct kunit *test,
+>>> +                  struct ttm_resource_test_priv *priv,
+>>> +                  uint32_t mem_type)
+>>> +{
+>>> +    struct ttm_device *ttm_dev = priv->devs->ttm_dev;
+>>> +    struct ttm_resource_manager *man;
+>>> +    size_t size = SZ_16K;
+>>> +
+>>> +    man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, man);
+>>> +
+>>> +    man->use_tt = false;
+>>> +    man->func = &ttm_resource_manager_mock_funcs;
+>>> +
+>>> +    ttm_resource_manager_init(man, ttm_dev, size);
+>>> +    ttm_set_driver_manager(ttm_dev, mem_type, man);
+>>> +    ttm_resource_manager_set_used(man, true);
+>>> +}
+>>> +
+>>> +static const struct ttm_resource_test_case ttm_resource_cases[] = {
+>>> +    {
+>>> +        .description = "Init resource in TTM_PL_SYSTEM",
+>>> +        .mem_type = TTM_PL_SYSTEM,
+>>> +    },
+>>> +    {
+>>> +        .description = "Init resource in TTM_PL_VRAM",
+>>> +        .mem_type = TTM_PL_VRAM,
+>>> +    },
+>>> +    {
+>>> +        .description = "Init resource in a private placement",
+>>> +        .mem_type = TTM_PRIV_DUMMY_REG,
+>>> +    },
+>>> +    {
+>>> +        .description = "Init resource in TTM_PL_SYSTEM, set 
+>>> placement flags",
+>>> +        .mem_type = TTM_PL_SYSTEM,
+>>> +        .flags = TTM_PL_FLAG_TOPDOWN,
+>>> +    },
+>>> +};
+>>> +
+>>> +static void ttm_resource_case_desc(const struct 
+>>> ttm_resource_test_case *t, char *desc)
+>>> +{
+>>> +    strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
+>>> +}
+>>> +
+>>> +KUNIT_ARRAY_PARAM(ttm_resource, ttm_resource_cases, 
+>>> ttm_resource_case_desc);
+>>> +
+>>> +static void ttm_resource_init_basic(struct kunit *test)
+>>> +{
+>>> +    const struct ttm_resource_test_case *params = test->param_value;
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource *res;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource_manager *man;
+>>> +    uint64_t expected_usage;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, params->mem_type, params->flags);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    if (params->mem_type > TTM_PL_SYSTEM)
+>>> +        ttm_init_test_manager(test, priv, params->mem_type);
+>>> +
+>>> +    res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, res);
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
+>>> +    expected_usage = man->usage + RES_SIZE;
+>>> +
+>>> +    KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[bo->priority]));
+>>> +
+>>> +    ttm_resource_init(bo, place, res);
+>>> +
+>>> +    KUNIT_ASSERT_EQ(test, res->start, 0);
+>>> +    KUNIT_ASSERT_EQ(test, res->size, RES_SIZE);
+>>> +    KUNIT_ASSERT_EQ(test, res->mem_type, place->mem_type);
+>>> +    KUNIT_ASSERT_EQ(test, res->placement, place->flags);
+>>> +    KUNIT_ASSERT_PTR_EQ(test, res->bo, bo);
+>>> +
+>>> +    KUNIT_ASSERT_NULL(test, res->bus.addr);
+>>> +    KUNIT_ASSERT_EQ(test, res->bus.offset, 0);
+>>> +    KUNIT_ASSERT_FALSE(test, res->bus.is_iomem);
+>>> +    KUNIT_ASSERT_EQ(test, res->bus.caching, ttm_cached);
+>>> +    KUNIT_ASSERT_EQ(test, man->usage, expected_usage);
+>>> +
+>>> +    KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo->priority]));
+>>> +
+>>> +    ttm_resource_fini(man, res);
+>>> +}
+>>> +
+>>> +static void ttm_resource_init_pinned(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource *res;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource_manager *man;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 0);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
+>>> +
+>>> +    res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, res);
+>>> +    KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
+>>> +
+>>> +    dma_resv_lock(bo->base.resv, NULL);
+>>> +    ttm_bo_pin(bo);
+>>> +    ttm_resource_init(bo, place, res);
+>>> +    KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev->pinned));
+>>> +
+>>> +    ttm_bo_unpin(bo);
+>>> +    ttm_resource_fini(man, res);
+>>> +    dma_resv_unlock(bo->base.resv);
+>>> +
+>>> +    KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
+>>> +}
+>>> +
+>>> +static void ttm_resource_fini_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource *res;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource_manager *man;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 0);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
+>>> +
+>>> +    res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, res);
+>>> +
+>>> +    ttm_resource_init(bo, place, res);
+>>> +    ttm_resource_fini(man, res);
+>>> +
+>>> +    KUNIT_ASSERT_TRUE(test, list_empty(&res->lru));
+>>> +    KUNIT_ASSERT_EQ(test, man->usage, 0);
+>>> +}
+>>> +
+>>> +static void ttm_resource_manager_init_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource_manager *man;
+>>> +    size_t size = SZ_16K;
+>>> +
+>>> +    man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, man);
+>>> +
+>>> +    ttm_resource_manager_init(man, priv->devs->ttm_dev, size);
+>>> +
+>>> +    KUNIT_ASSERT_PTR_EQ(test, man->bdev, priv->devs->ttm_dev);
+>>> +    KUNIT_ASSERT_EQ(test, man->size, size);
+>>> +    KUNIT_ASSERT_EQ(test, man->usage, 0);
+>>> +    KUNIT_ASSERT_NULL(test, man->move);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, &man->move_lock);
+>>> +
+>>> +    for (int i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>>> +        KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[i]));
+>>> +}
+>>> +
+>>> +static void ttm_resource_manager_usage_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource *res;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource_manager *man;
+>>> +    uint64_t actual_usage;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 
+>>> TTM_PL_FLAG_TOPDOWN);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, res);
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
+>>> +
+>>> +    ttm_resource_init(bo, place, res);
+>>> +    actual_usage = ttm_resource_manager_usage(man);
+>>> +
+>>> +    KUNIT_ASSERT_EQ(test, actual_usage, RES_SIZE);
+>>> +
+>>> +    ttm_resource_fini(man, res);
+>>> +}
+>>> +
+>>> +static void ttm_resource_manager_set_used_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource_manager *man;
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, TTM_PL_SYSTEM);
+>>> +    KUNIT_ASSERT_TRUE(test, man->use_type);
+>>> +
+>>> +    ttm_resource_manager_set_used(man, false);
+>>> +    KUNIT_ASSERT_FALSE(test, man->use_type);
+>>> +}
+>>> +
+>>> +static void ttm_sys_man_alloc_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource_manager *man;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource *res;
+>>> +    uint32_t mem_type = TTM_PL_SYSTEM;
+>>> +    int ret;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, mem_type, 0);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, mem_type);
+>>> +    ret = man->func->alloc(man, bo, place, &res);
+>>> +
+>>> +    KUNIT_ASSERT_EQ(test, ret, 0);
+>>> +    KUNIT_ASSERT_EQ(test, res->size, RES_SIZE);
+>>> +    KUNIT_ASSERT_EQ(test, res->mem_type, mem_type);
+>>> +    KUNIT_ASSERT_PTR_EQ(test, res->bo, bo);
+>>> +
+>>> +    ttm_resource_fini(man, res);
+>>> +}
+>>> +
+>>> +static void ttm_sys_man_free_basic(struct kunit *test)
+>>> +{
+>>> +    struct ttm_resource_test_priv *priv = test->priv;
+>>> +    struct ttm_resource_manager *man;
+>>> +    struct ttm_buffer_object *bo;
+>>> +    struct ttm_place *place;
+>>> +    struct ttm_resource *res;
+>>> +    uint32_t mem_type = TTM_PL_SYSTEM;
+>>> +
+>>> +    ttm_init_test_mocks(test, priv, mem_type, 0);
+>>> +    bo = priv->bo;
+>>> +    place = priv->place;
+>>> +
+>>> +    res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
+>>> +    KUNIT_ASSERT_NOT_NULL(test, res);
+>>> +
+>>> +    ttm_resource_alloc(bo, place, &res);
+>>> +
+>>> +    man = ttm_manager_type(priv->devs->ttm_dev, mem_type);
+>>> +    man->func->free(man, res);
+>>> +
+>>> +    KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[bo->priority]));
+>>> +    KUNIT_ASSERT_EQ(test, man->usage, 0);
+>>> +}
+>>> +
+>>> +static struct kunit_case ttm_resource_test_cases[] = {
+>>> +    KUNIT_CASE_PARAM(ttm_resource_init_basic, ttm_resource_gen_params),
+>>> +    KUNIT_CASE(ttm_resource_init_pinned),
+>>> +    KUNIT_CASE(ttm_resource_fini_basic),
+>>> +    KUNIT_CASE(ttm_resource_manager_init_basic),
+>>> +    KUNIT_CASE(ttm_resource_manager_usage_basic),
+>>> +    KUNIT_CASE(ttm_resource_manager_set_used_basic),
+>>> +    KUNIT_CASE(ttm_sys_man_alloc_basic),
+>>> +    KUNIT_CASE(ttm_sys_man_free_basic),
+>>> +    {}
+>>> +};
+>>> +
+>>> +static struct kunit_suite ttm_resource_test_suite = {
+>>> +    .name = "ttm_resource",
+>>> +    .init = ttm_resource_test_init,
+>>> +    .exit = ttm_resource_test_fini,
+>>> +    .test_cases = ttm_resource_test_cases,
+>>> +};
+>>> +
+>>> +kunit_test_suites(&ttm_resource_test_suite);
+>>> +
+>>> +MODULE_LICENSE("GPL");
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
+>>> b/drivers/gpu/drm/ttm/ttm_resource.c
+>>> index 46ff9c75bb12..02b96d23fdb9 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>>> @@ -30,6 +30,8 @@
+>>>   #include <drm/ttm/ttm_placement.h>
+>>>   #include <drm/ttm/ttm_resource.h>
+>>> +#include <drm/drm_util.h>
+>>> +
+>>>   /**
+>>>    * ttm_lru_bulk_move_init - initialize a bulk move structure
+>>>    * @bulk: the structure to init
+>>> @@ -240,6 +242,7 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>>>       spin_unlock(&bo->bdev->lru_lock);
+>>>       return 0;
+>>>   }
+>>> +EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_resource_alloc);
+>>>   void ttm_resource_free(struct ttm_buffer_object *bo, struct 
+>>> ttm_resource **res)
+>>>   {
+>>
