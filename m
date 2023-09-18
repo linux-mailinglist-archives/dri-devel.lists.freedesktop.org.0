@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE507A45A1
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:13:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77397A45A9
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A80CF10E236;
-	Mon, 18 Sep 2023 09:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA9210E241;
+	Mon, 18 Sep 2023 09:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB0E10E233
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:45 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE8F210E237
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2679660CF7;
- Mon, 18 Sep 2023 09:13:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E53C433C7;
- Mon, 18 Sep 2023 09:13:43 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 826EBCE0A0B;
+ Mon, 18 Sep 2023 09:13:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04474C433CA;
+ Mon, 18 Sep 2023 09:13:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695028424;
- bh=81TY+X/zYD3utV7chAR+whOPap4/nbU57ppgHVQ9bsA=;
+ s=k20201202; t=1695028426;
+ bh=zodNnixLrbstuOswbxN+fWiJxkLR9+sM5/mxmqhTVXQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H1u/iAMyRLCR0NaNS2Hlg+56JHMUGHejrEjkdvUNlbnuwqLmUI5tmcQhxlv6Gj2j1
- W4OaPJ7lB3q3gcYmoOtnv+qn6xz1AVBop1IAex6pGELvyYHGxkc3LxUfVzb+U985go
- ySGnT6YMM+bR+Maa0T38i1khnMCFrAnnXoiuFMn2WX2rrJri7HkkwXaIibNd+CB/4I
- WRFCpMEnJW/GQ94dODwiDC92BQyfuqVidOH33CsvNwSRKSY9+jKiIvAvwDzRKKSnFk
- 3wr0g9cR5v3zPfobThDY7vM2a7iXnqtyW4rhq1VPiS6vF37vJ9he/95i6OQdOfRmdZ
- j/zpBKPPHStvg==
+ b=EME/oURXieCa1sfLmE3YlZhm+wtm8PZ145+lR/Vy4z1husDiDrTjlljZKBKoyrIM4
+ pb5Jaoy5cpgSEzauA4QbDzPKgCVphCQtCSgSh7dcvB+Myaasqc8e733J1T3wDLPHZo
+ pjs0RdGGRSCAd4bH3we68nMwXkeheL2UGID2yvZ+maR5A9W4Z2rR0qABPwlY2kezSi
+ LwkKykDsWqhd1PfLX9+jpq2+NdBT9hdGHP3V3S677lCyoQFTnE0I+AQ/3vv0hpCkXq
+ Z8lmRRGNg0w5+ot/z0kFcJl6bWu8J9FlfL0TmWia1BM3imDBGJxhWBZnpsVoUlTnB0
+ loAo9r5pJc8Pg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/14] accel/habanalabs: use exported size from dma_buf and
- not from phys_pg_pack
-Date: Mon, 18 Sep 2023 12:13:19 +0300
-Message-Id: <20230918091321.855943-12-ogabbay@kernel.org>
+Subject: [PATCH 13/14] accel/habanalabs: export dma-buf only if size/offset
+ multiples of PAGE_SIZE
+Date: Mon, 18 Sep 2023 12:13:20 +0300
+Message-Id: <20230918091321.855943-13-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918091321.855943-1-ogabbay@kernel.org>
 References: <20230918091321.855943-1-ogabbay@kernel.org>
@@ -60,63 +59,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-The 'exported_size' member in 'struct hl_vm_phys_pg_pack' is used to
-keep the exported dma-buf size, to be later used when the buffer is
-mapped.
-However it is possible that the same phys_pg_pack will be exported more
-than once, and independently of when the mapping takes place.
-Remove this member from the phys_pg_pack structure, and simply use the
-size in the dma-buf object as the exported size when mapping.
+It is currently allowed for a user to export dma-buf with size and
+offset that are not multiples of PAGE_SIZE.
+The exported memory is mapped for the importer device, and there it will
+be rounded to PAGE_SIZE, leading to actually exporting more than the
+user intended to.
+To make the user be aware of it, accept only size and offset which are
+multiple of PAGE_SIZE.
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/habanalabs.h | 2 --
- drivers/accel/habanalabs/common/memory.c     | 3 +--
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/accel/habanalabs/common/memory.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 6f2cbd3c2e95..4c5d55c9109d 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -2159,7 +2159,6 @@ struct hl_vm_hw_block_list_node {
-  * @pages: the physical page array.
-  * @npages: num physical pages in the pack.
-  * @total_size: total size of all the pages in this list.
-- * @exported_size: buffer exported size.
-  * @node: used to attach to deletion list that is used when all the allocations are cleared
-  *        at the teardown of the context.
-  * @mapping_cnt: number of shared mappings.
-@@ -2176,7 +2175,6 @@ struct hl_vm_phys_pg_pack {
- 	u64			*pages;
- 	u64			npages;
- 	u64			total_size;
--	u64			exported_size;
- 	struct list_head	node;
- 	atomic_t		mapping_cnt;
- 	u32			asid;
 diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-index c7e49cb383cf..27ab176c55c1 100644
+index 27ab176c55c1..b4a9ff692ebc 100644
 --- a/drivers/accel/habanalabs/common/memory.c
 +++ b/drivers/accel/habanalabs/common/memory.c
-@@ -1719,7 +1719,7 @@ static struct sg_table *hl_map_dmabuf(struct dma_buf_attachment *attachment,
- 						phys_pg_pack->pages,
- 						phys_pg_pack->npages,
- 						phys_pg_pack->page_size,
--						phys_pg_pack->exported_size,
-+						hl_dmabuf->dmabuf->size,
- 						attachment->dev,
- 						dir);
- 	else
-@@ -2044,7 +2044,6 @@ static int export_dmabuf_from_addr(struct hl_ctx *ctx, u64 addr, u64 size, u64 o
- 		if (rc)
- 			goto dec_memhash_export_cnt;
+@@ -1877,16 +1877,16 @@ static int export_dmabuf(struct hl_ctx *ctx,
  
--		phys_pg_pack->exported_size = size;
- 		hl_dmabuf->phys_pg_pack = phys_pg_pack;
- 		hl_dmabuf->memhash_hnode = hnode;
- 	} else {
+ static int validate_export_params_common(struct hl_device *hdev, u64 device_addr, u64 size)
+ {
+-	if (!IS_ALIGNED(device_addr, PAGE_SIZE)) {
++	if (!PAGE_ALIGNED(device_addr)) {
+ 		dev_dbg(hdev->dev,
+-			"exported device memory address 0x%llx should be aligned to 0x%lx\n",
++			"exported device memory address 0x%llx should be aligned to PAGE_SIZE 0x%lx\n",
+ 			device_addr, PAGE_SIZE);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (size < PAGE_SIZE) {
++	if (!size || !PAGE_ALIGNED(size)) {
+ 		dev_dbg(hdev->dev,
+-			"exported device memory size %llu should be equal to or greater than %lu\n",
++			"exported device memory size %llu should be a multiple of PAGE_SIZE %lu\n",
+ 			size, PAGE_SIZE);
+ 		return -EINVAL;
+ 	}
+@@ -1937,6 +1937,13 @@ static int validate_export_params(struct hl_device *hdev, u64 device_addr, u64 s
+ 	if (rc)
+ 		return rc;
+ 
++	if (!PAGE_ALIGNED(offset)) {
++		dev_dbg(hdev->dev,
++			"exported device memory offset %llu should be a multiple of PAGE_SIZE %lu\n",
++			offset, PAGE_SIZE);
++		return -EINVAL;
++	}
++
+ 	if ((offset + size) > phys_pg_pack->total_size) {
+ 		dev_dbg(hdev->dev, "offset %#llx and size %#llx exceed total map size %#llx\n",
+ 				offset, size, phys_pg_pack->total_size);
 -- 
 2.34.1
 
