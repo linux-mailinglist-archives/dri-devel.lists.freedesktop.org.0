@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F997A4B0F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0EF7A4B0E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81E1B10E18C;
-	Mon, 18 Sep 2023 14:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC50210E0A8;
+	Mon, 18 Sep 2023 14:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6D9210E04D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:08 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC63F10E0A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 35B68B80E9F;
- Mon, 18 Sep 2023 14:32:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A16C3278A;
- Mon, 18 Sep 2023 14:32:04 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 321C4B80E3D;
+ Mon, 18 Sep 2023 14:32:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DC2AC32788;
+ Mon, 18 Sep 2023 14:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695047525;
- bh=0S4QcskDYEILA7KkaPHsta8Hjw18p8gI5+R+R6/O6/0=;
+ s=k20201202; t=1695047527;
+ bh=XKkDjv0e/eMNWjG9jRQocyFRrh7/5+36OBy3yTELA+U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WaAGEHsVGmlJpGKlK2ZtrnOqC4tjuvBlaavjfkgkld+iYoxbty5AYFDLUq78QzxFY
- 7vA8ijJsYQoVSmZyPPhFhUw5WUpk1jQdRjwt6wr0hDT8SGrJRmuY2s821gqUiHodWJ
- iPGv/SjLyv5s6MhMkVzlISU7OlKRiVArxmxfXlozqBare8YX43fIj5NuTE86/V1q3+
- cF2sWlvPn8+Zg5S9k2e+Tfni8RU8rWmB2sz6M4OxUrFQeimCd0Q3OZ/sH5olVGta4l
- cG4faBIjfukYMbU0O6V04nifo8Z8l2uhf31xcC8qJ2/B7BpqDWhq8Ud5ET4LzvK83T
- tsqhNKkS9L5pw==
+ b=m6M5A2UvQEKxKx/YnfHcVQRwpDbpl883sUgnsDZlx1ywJ9Nzgi9yZqFucLD2HJCTU
+ OoAuNlFDRtOG9vqaLaMQZ6dX/CvL/p+uV1wxW+UF7yvU9GlBxNcQUnvQJOlLkF0Kno
+ IuXoc5NKnX9XK6AWr45kJGatIK/2mkFcAflQgjsAZBvt/5SJGN2L+qqCVU6TAB98OY
+ pPfT9mIZXBmAOmb5I81UFZQpMgHdKnqOb1KWywHInNl5anlvmXsKjJhtmokE5DDVt1
+ xCrmL4VcIEG2uaxfaKOYcRXbA/Ehxj21zKUcwOKCz0DddgvahdpEO4gt18jmAtSs9i
+ GCHZ5or2RnvOA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/10] accel/habanalabs: optimize timestamp registration
- handler
-Date: Mon, 18 Sep 2023 17:31:50 +0300
-Message-Id: <20230918143158.903207-2-ogabbay@kernel.org>
+Subject: [PATCH 03/10] accel/habanalabs: split user interrupts pending list
+Date: Mon, 18 Sep 2023 17:31:51 +0300
+Message-Id: <20230918143158.903207-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918143158.903207-1-ogabbay@kernel.org>
 References: <20230918143158.903207-1-ogabbay@kernel.org>
@@ -60,499 +58,673 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: farah kassabri <fkassabri@habana.ai>
 
-Currently we use dynamic allocation inside the irq handler
-in order to allocate free node to be used for the free jobs.
-
-This operation is expensive, especially when we deal with large
-burst of events records that get released at the same time.
-
-The alternative is to have pre allocated pool of free nodes
-and just fetch nodes from this pool at irq handling time instead
-of allocating them.
-
-In case the pool becomes full, then the driver will fallback to
-dynamic allocations.
-
-As part of the optimization also update the unregister flow
-upon re-using a timestamp record, by making the operation much
-simpler and quicker. We already have the record in the registration
-flow and now we just seek to re-use with different interrupt.
-Therefore, no need to look for buffer according to the user handle.
+Currently driver maintain one list for both pending user interrupts
+which seeks to wait till CQ reaches it's target value and also the ones
+that seeks to get timestamp records when the CQ reaches it's target
+value.
+This causes delay in handling the waiters which gets higher priority
+than the timestamp records.
+In order to solve this, let's split the list into two,
+one for each case and each one is protected by it's own spinlock.
+Waiters will be handled within the interrupt context first,
+then the timestamp records will be set.
+Freeing the timestamp related memory will be handled in a workqueue.
 
 Signed-off-by: farah kassabri <fkassabri@habana.ai>
 Reviewed-by: Tomer Tayar <ttayar@habana.ai>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../habanalabs/common/command_submission.c    | 83 +++++++------------
- drivers/accel/habanalabs/common/device.c      | 59 ++++++++++++-
- drivers/accel/habanalabs/common/habanalabs.h  | 27 ++++++
- drivers/accel/habanalabs/common/irq.c         | 77 ++++++++++++++---
- 4 files changed, 179 insertions(+), 67 deletions(-)
+ .../habanalabs/common/command_submission.c    | 235 ++++++++++--------
+ drivers/accel/habanalabs/common/habanalabs.h  |  12 +-
+ drivers/accel/habanalabs/common/irq.c         |  89 ++++---
+ drivers/accel/habanalabs/gaudi2/gaudi2.c      |  20 +-
+ 4 files changed, 209 insertions(+), 147 deletions(-)
 
 diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index daaa3cbe0b12..02049bd26356 100644
+index 02049bd26356..751d2c7d3fb8 100644
 --- a/drivers/accel/habanalabs/common/command_submission.c
 +++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -3246,60 +3246,29 @@ static int validate_and_get_ts_record(struct device *dev,
- 	return 0;
+@@ -1098,19 +1098,22 @@ static void
+ wake_pending_user_interrupt_threads(struct hl_user_interrupt *interrupt)
+ {
+ 	struct hl_user_pending_interrupt *pend, *temp;
++	unsigned long flags;
+ 
+-	spin_lock(&interrupt->wait_list_lock);
+-	list_for_each_entry_safe(pend, temp, &interrupt->wait_list_head, wait_list_node) {
+-		if (pend->ts_reg_info.buf) {
+-			list_del(&pend->wait_list_node);
+-			hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
+-			hl_cb_put(pend->ts_reg_info.cq_cb);
+-		} else {
+-			pend->fence.error = -EIO;
+-			complete_all(&pend->fence.completion);
+-		}
++	spin_lock_irqsave(&interrupt->wait_list_lock, flags);
++	list_for_each_entry_safe(pend, temp, &interrupt->wait_list_head, list_node) {
++		pend->fence.error = -EIO;
++		complete_all(&pend->fence.completion);
+ 	}
+-	spin_unlock(&interrupt->wait_list_lock);
++	spin_unlock_irqrestore(&interrupt->wait_list_lock, flags);
++
++	spin_lock_irqsave(&interrupt->ts_list_lock, flags);
++	list_for_each_entry_safe(pend, temp, &interrupt->ts_list_head, list_node) {
++		list_del(&pend->list_node);
++		hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
++		hl_cb_put(pend->ts_reg_info.cq_cb);
++	}
++	spin_unlock_irqrestore(&interrupt->ts_list_lock, flags);
  }
  
--static int unregister_timestamp_node(struct hl_device *hdev, struct hl_ctx *ctx,
--			struct hl_mem_mgr *mmg, u64 ts_handle, u64 ts_offset,
--			struct hl_user_interrupt *interrupt)
-+static void unregister_timestamp_node(struct hl_device *hdev,
-+			struct hl_user_pending_interrupt *record, bool need_lock)
+ void hl_release_pending_user_interrupts(struct hl_device *hdev)
+@@ -3251,18 +3254,19 @@ static void unregister_timestamp_node(struct hl_device *hdev,
  {
--	struct hl_user_pending_interrupt *req_event_record, *pend, *temp_pend;
--	struct hl_mmap_mem_buf *buff;
--	struct hl_ts_buff *ts_buff;
-+	struct hl_user_interrupt *interrupt = record->ts_reg_info.interrupt;
+ 	struct hl_user_interrupt *interrupt = record->ts_reg_info.interrupt;
  	bool ts_rec_found = false;
--	int rc;
--
--	buff = hl_mmap_mem_buf_get(mmg, ts_handle);
--	if (!buff) {
--		dev_err(hdev->dev, "invalid TS buff handle!\n");
--		return -EINVAL;
--	}
--
--	ts_buff = buff->private;
--
--	rc = validate_and_get_ts_record(hdev->dev, ts_buff, ts_offset, &req_event_record);
--	if (rc)
--		goto put_buf;
++	unsigned long flags;
  
--	/*
--	 * Note: we don't use the ts in_use field here, but we rather scan the list
--	 * because we cannot rely on the user to keep the order of register/unregister calls
--	 * and since we might have races here all the time between the irq and register/unregister
--	 * calls so it safer to lock the list and scan it to find the node.
--	 * If the node found on the list we mark it as not in use and delete it from the list,
--	 * if it's not here then the node was handled already in the irq before we get into
--	 * this ioctl.
--	 */
--	spin_lock(&interrupt->wait_list_lock);
-+	if (need_lock)
-+		spin_lock(&interrupt->wait_list_lock);
+ 	if (need_lock)
+-		spin_lock(&interrupt->wait_list_lock);
++		spin_lock_irqsave(&interrupt->ts_list_lock, flags);
  
--	list_for_each_entry_safe(pend, temp_pend, &interrupt->wait_list_head, wait_list_node) {
--		if (pend == req_event_record) {
--			pend->ts_reg_info.in_use = false;
--			list_del(&pend->wait_list_node);
--			ts_rec_found = true;
--			break;
--		}
-+	if (record->ts_reg_info.in_use) {
-+		record->ts_reg_info.in_use = false;
-+		list_del(&record->wait_list_node);
-+		ts_rec_found = true;
+ 	if (record->ts_reg_info.in_use) {
+ 		record->ts_reg_info.in_use = false;
+-		list_del(&record->wait_list_node);
++		list_del(&record->list_node);
+ 		ts_rec_found = true;
  	}
  
--	spin_unlock(&interrupt->wait_list_lock);
-+	if (need_lock)
-+		spin_unlock(&interrupt->wait_list_lock);
+ 	if (need_lock)
+-		spin_unlock(&interrupt->wait_list_lock);
++		spin_unlock_irqrestore(&interrupt->ts_list_lock, flags);
  
  	/* Put refcounts that were taken when we registered the event */
  	if (ts_rec_found) {
--		hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
--		hl_cb_put(pend->ts_reg_info.cq_cb);
-+		hl_mmap_mem_buf_put(record->ts_reg_info.buf);
-+		hl_cb_put(record->ts_reg_info.cq_cb);
- 	}
--
--put_buf:
--	hl_mmap_mem_buf_put(buff);
--
--	return rc;
+@@ -3272,7 +3276,7 @@ static void unregister_timestamp_node(struct hl_device *hdev,
  }
  
  static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx *ctx,
-@@ -3308,6 +3277,7 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
+-					struct wait_interrupt_data *data,
++					struct wait_interrupt_data *data, unsigned long *flags,
+ 					struct hl_user_pending_interrupt **pend)
  {
  	struct hl_user_pending_interrupt *req_offset_record;
- 	struct hl_ts_buff *ts_buff = data->buf->private;
-+	bool need_lock = false;
- 	int rc;
+@@ -3302,13 +3306,13 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
+ 				req_offset_record->ts_reg_info.interrupt->interrupt_id) {
  
- 	rc = validate_and_get_ts_record(data->buf->mmg->dev, ts_buff, data->ts_offset,
-@@ -3315,21 +3285,30 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
- 	if (rc)
- 		return rc;
+ 			need_lock = true;
+-			spin_unlock(&data->interrupt->wait_list_lock);
++			spin_unlock_irqrestore(&data->interrupt->ts_list_lock, *flags);
+ 		}
  
--	/* In case the node already registered, need to unregister first then re-use*/
-+	/* In case the node already registered, need to unregister first then re-use */
- 	if (req_offset_record->ts_reg_info.in_use) {
- 		dev_dbg(data->buf->mmg->dev,
--				"Requested ts offset(%llx) is in use, unregister first\n",
--							data->ts_offset);
-+				"Requested record %p is in use on irq: %u ts addr: %p, unregister first then put on irq: %u\n",
-+				req_offset_record,
-+				req_offset_record->ts_reg_info.interrupt->interrupt_id,
-+				req_offset_record->ts_reg_info.timestamp_kernel_addr,
-+				data->interrupt->interrupt_id);
- 		/*
- 		 * Since interrupt here can be different than the one the node currently registered
--		 * on, and we don't wan't to lock two lists while we're doing unregister, so
-+		 * on, and we don't want to lock two lists while we're doing unregister, so
- 		 * unlock the new interrupt wait list here and acquire the lock again after you done
- 		 */
--		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
-+		if (data->interrupt->interrupt_id !=
-+				req_offset_record->ts_reg_info.interrupt->interrupt_id) {
+ 		unregister_timestamp_node(hdev, req_offset_record, need_lock);
  
--		unregister_timestamp_node(hdev, ctx, data->mmg, data->ts_handle,
--				data->ts_offset, req_offset_record->ts_reg_info.interrupt);
--		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
-+			need_lock = true;
-+			spin_unlock(&data->interrupt->wait_list_lock);
-+		}
-+
-+		unregister_timestamp_node(hdev, req_offset_record, need_lock);
-+
-+		if (need_lock)
-+			spin_lock(&data->interrupt->wait_list_lock);
+ 		if (need_lock)
+-			spin_lock(&data->interrupt->wait_list_lock);
++			spin_lock_irqsave(&data->interrupt->ts_list_lock, *flags);
  	}
  
  	/* Fill up the new registration node info and add it to the list */
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 13f14b80a7d4..d31f228533c0 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -2033,7 +2033,9 @@ void hl_notifier_event_send_all(struct hl_device *hdev, u64 event_mask)
- int hl_device_init(struct hl_device *hdev)
- {
- 	int i, rc, cq_cnt, user_interrupt_cnt, cq_ready_cnt;
-+	struct hl_ts_free_jobs *free_jobs_data;
- 	bool expose_interfaces_on_err = false;
-+	void *p;
- 
- 	/* Initialize ASIC function pointers and perform early init */
- 	rc = device_early_init(hdev);
-@@ -2050,15 +2052,43 @@ int hl_device_init(struct hl_device *hdev)
- 			rc = -ENOMEM;
- 			goto early_fini;
- 		}
-+
-+		/* Timestamp records supported only if CQ supported in device */
-+		if (hdev->asic_prop.first_available_cq[0] != USHRT_MAX) {
-+			for (i = 0 ; i < user_interrupt_cnt ; i++) {
-+				p = vzalloc(TIMESTAMP_FREE_NODES_NUM *
-+						sizeof(struct timestamp_reg_free_node));
-+				if (!p) {
-+					rc = -ENOMEM;
-+					goto free_usr_intr_mem;
-+				}
-+				free_jobs_data = &hdev->user_interrupt[i].ts_free_jobs_data;
-+				free_jobs_data->free_nodes_pool = p;
-+				free_jobs_data->free_nodes_length = TIMESTAMP_FREE_NODES_NUM;
-+				free_jobs_data->next_avail_free_node_idx = 0;
-+			}
-+		}
-+	}
-+
-+	free_jobs_data = &hdev->common_user_cq_interrupt.ts_free_jobs_data;
-+	p = vzalloc(TIMESTAMP_FREE_NODES_NUM *
-+				sizeof(struct timestamp_reg_free_node));
-+	if (!p) {
-+		rc = -ENOMEM;
-+		goto free_usr_intr_mem;
- 	}
- 
-+	free_jobs_data->free_nodes_pool = p;
-+	free_jobs_data->free_nodes_length = TIMESTAMP_FREE_NODES_NUM;
-+	free_jobs_data->next_avail_free_node_idx = 0;
-+
- 	/*
- 	 * Start calling ASIC initialization. First S/W then H/W and finally
- 	 * late init
- 	 */
- 	rc = hdev->asic_funcs->sw_init(hdev);
- 	if (rc)
--		goto free_usr_intr_mem;
-+		goto free_common_usr_intr_mem;
- 
- 
- 	/* initialize completion structure for multi CS wait */
-@@ -2297,8 +2327,17 @@ int hl_device_init(struct hl_device *hdev)
- 	hl_hw_queues_destroy(hdev);
- sw_fini:
- 	hdev->asic_funcs->sw_fini(hdev);
-+free_common_usr_intr_mem:
-+	vfree(hdev->common_user_cq_interrupt.ts_free_jobs_data.free_nodes_pool);
- free_usr_intr_mem:
--	kfree(hdev->user_interrupt);
-+	if (user_interrupt_cnt) {
-+		for (i = 0 ; i < user_interrupt_cnt ; i++) {
-+			if (!hdev->user_interrupt[i].ts_free_jobs_data.free_nodes_pool)
-+				break;
-+			vfree(hdev->user_interrupt[i].ts_free_jobs_data.free_nodes_pool);
-+		}
-+		kfree(hdev->user_interrupt);
-+	}
- early_fini:
- 	device_early_fini(hdev);
- out_disabled:
-@@ -2323,6 +2362,7 @@ int hl_device_init(struct hl_device *hdev)
-  */
- void hl_device_fini(struct hl_device *hdev)
- {
-+	u32 user_interrupt_cnt;
- 	bool device_in_reset;
- 	ktime_t timeout;
- 	u64 reset_sec;
-@@ -2449,7 +2489,20 @@ void hl_device_fini(struct hl_device *hdev)
- 	for (i = 0 ; i < hdev->asic_prop.completion_queues_count ; i++)
- 		hl_cq_fini(hdev, &hdev->completion_queue[i]);
- 	kfree(hdev->completion_queue);
--	kfree(hdev->user_interrupt);
-+
-+	user_interrupt_cnt = hdev->asic_prop.user_dec_intr_count +
-+					hdev->asic_prop.user_interrupt_count;
-+
-+	if (user_interrupt_cnt) {
-+		if (hdev->asic_prop.first_available_cq[0] != USHRT_MAX) {
-+			for (i = 0 ; i < user_interrupt_cnt ; i++)
-+				vfree(hdev->user_interrupt[i].ts_free_jobs_data.free_nodes_pool);
-+		}
-+
-+		kfree(hdev->user_interrupt);
-+	}
-+
-+	vfree(hdev->common_user_cq_interrupt.ts_free_jobs_data.free_nodes_pool);
- 
- 	hl_hw_queues_destroy(hdev);
- 
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 4c5d55c9109d..1342686d0ce5 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -106,6 +106,8 @@ struct hl_fpriv;
- /* MMU */
- #define MMU_HASH_TABLE_BITS		7 /* 1 << 7 buckets */
- 
-+#define TIMESTAMP_FREE_NODES_NUM	512
-+
- /**
-  * enum hl_mmu_page_table_location - mmu page table location
-  * @MMU_DR_PGT: page-table is located on device DRAM.
-@@ -1104,9 +1106,26 @@ enum hl_user_interrupt_type {
- 	HL_USR_INTERRUPT_UNEXPECTED
- };
- 
-+/**
-+ * struct hl_ts_free_jobs - holds user interrupt ts free nodes related data
-+ * @free_nodes_pool: pool of nodes to be used for free timestamp jobs
-+ * @free_nodes_length: number of nodes in free_nodes_pool
-+ * @next_avail_free_node_idx: index of the next free node in the pool
-+ *
-+ * the free nodes pool must be protected by the user interrupt lock
-+ * to avoid race between different interrupts which are using the same
-+ * ts buffer with different offsets.
-+ */
-+struct hl_ts_free_jobs {
-+	struct timestamp_reg_free_node *free_nodes_pool;
-+	u32				free_nodes_length;
-+	u32				next_avail_free_node_idx;
-+};
-+
- /**
-  * struct hl_user_interrupt - holds user interrupt information
-  * @hdev: pointer to the device structure
-+ * @ts_free_jobs_data: timestamp free jobs related data
-  * @type: user interrupt type
-  * @wait_list_head: head to the list of user threads pending on this interrupt
-  * @wait_list_lock: protects wait_list_head
-@@ -1115,6 +1134,7 @@ enum hl_user_interrupt_type {
-  */
- struct hl_user_interrupt {
- 	struct hl_device		*hdev;
-+	struct hl_ts_free_jobs		ts_free_jobs_data;
- 	enum hl_user_interrupt_type	type;
- 	struct list_head		wait_list_head;
- 	spinlock_t			wait_list_lock;
-@@ -1127,11 +1147,15 @@ struct hl_user_interrupt {
-  * @free_objects_node: node in the list free_obj_jobs
-  * @cq_cb: pointer to cq command buffer to be freed
-  * @buf: pointer to timestamp buffer to be freed
-+ * @in_use: indicates whether the node still in use in workqueue thread.
-+ * @dynamic_alloc: indicates whether the node was allocated dynamically in the interrupt handler
-  */
- struct timestamp_reg_free_node {
- 	struct list_head	free_objects_node;
- 	struct hl_cb		*cq_cb;
- 	struct hl_mmap_mem_buf	*buf;
-+	atomic_t		in_use;
-+	u8			dynamic_alloc;
- };
- 
- /* struct timestamp_reg_work_obj - holds the timestamp registration free objects job
-@@ -1140,11 +1164,14 @@ struct timestamp_reg_free_node {
-  * @free_obj: workqueue object to free timestamp registration node objects
-  * @hdev: pointer to the device structure
-  * @free_obj_head: list of free jobs nodes (node type timestamp_reg_free_node)
-+ * @dynamic_alloc_free_obj_head: list of free jobs nodes which were dynamically allocated in the
-+ *                               interrupt handler.
-  */
- struct timestamp_reg_work_obj {
- 	struct work_struct	free_obj;
- 	struct hl_device	*hdev;
- 	struct list_head	*free_obj_head;
-+	struct list_head	*dynamic_alloc_free_obj_head;
- };
- 
- /* struct timestamp_reg_info - holds the timestamp registration related data.
-diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
-index 058f27040805..0947d286a5ab 100644
---- a/drivers/accel/habanalabs/common/irq.c
-+++ b/drivers/accel/habanalabs/common/irq.c
-@@ -204,8 +204,10 @@ static void hl_ts_free_objects(struct work_struct *work)
- {
- 	struct timestamp_reg_work_obj *job =
- 			container_of(work, struct timestamp_reg_work_obj, free_obj);
-+	struct list_head *dynamic_alloc_free_list_head = job->dynamic_alloc_free_obj_head;
- 	struct timestamp_reg_free_node *free_obj, *temp_free_obj;
- 	struct list_head *free_list_head = job->free_obj_head;
-+
- 	struct hl_device *hdev = job->hdev;
- 
- 	list_for_each_entry_safe(free_obj, temp_free_obj, free_list_head, free_objects_node) {
-@@ -215,10 +217,28 @@ static void hl_ts_free_objects(struct work_struct *work)
- 
- 		hl_mmap_mem_buf_put(free_obj->buf);
- 		hl_cb_put(free_obj->cq_cb);
--		kfree(free_obj);
-+		atomic_set(&free_obj->in_use, 0);
- 	}
- 
- 	kfree(free_list_head);
-+
-+	if (dynamic_alloc_free_list_head) {
-+		list_for_each_entry_safe(free_obj, temp_free_obj, dynamic_alloc_free_list_head,
-+								free_objects_node) {
-+			dev_dbg(hdev->dev,
-+				"Dynamic_Alloc list: About to put refcount to buf (%p) cq_cb(%p)\n",
-+						free_obj->buf,
-+						free_obj->cq_cb);
-+
-+			hl_mmap_mem_buf_put(free_obj->buf);
-+			hl_cb_put(free_obj->cq_cb);
-+			list_del(&free_obj->free_objects_node);
-+			kfree(free_obj);
-+		}
-+
-+		kfree(dynamic_alloc_free_list_head);
-+	}
-+
- 	kfree(job);
+@@ -3325,18 +3329,14 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
+ 	return rc;
  }
  
-@@ -233,12 +253,18 @@ static void hl_ts_free_objects(struct work_struct *work)
-  * list to a dedicated workqueue to do the actual put.
-  */
- static int handle_registration_node(struct hl_device *hdev, struct hl_user_pending_interrupt *pend,
--						struct list_head **free_list, ktime_t now,
--						u32 interrupt_id)
-+						struct list_head **free_list,
-+						struct list_head **dynamic_alloc_list,
-+						struct hl_user_interrupt *intr)
+-static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
++static int _hl_interrupt_ts_reg_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 				struct wait_interrupt_data *data,
+-				bool register_ts_record,
+ 				u32 *status, u64 *timestamp)
  {
-+	struct hl_ts_free_jobs *ts_free_jobs_data;
- 	struct timestamp_reg_free_node *free_node;
-+	u32 free_node_index;
- 	u64 timestamp;
+ 	struct hl_user_pending_interrupt *pend;
+-	unsigned long timeout;
+-	long completion_rc;
++	unsigned long flags;
+ 	int rc = 0;
  
-+	ts_free_jobs_data = &intr->ts_free_jobs_data;
-+	free_node_index = ts_free_jobs_data->next_avail_free_node_idx;
-+
- 	if (!(*free_list)) {
- 		/* Alloc/Init the timestamp registration free objects list */
- 		*free_list = kmalloc(sizeof(struct list_head), GFP_ATOMIC);
-@@ -248,16 +274,35 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
- 		INIT_LIST_HEAD(*free_list);
+-	timeout = hl_usecs64_to_jiffies(data->intr_timeout_us);
+-
+ 	hl_ctx_get(ctx);
+ 
+ 	data->cq_cb = hl_cb_get(data->mmg, data->cq_handle);
+@@ -3352,61 +3352,109 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 		goto put_cq_cb;
  	}
  
--	free_node = kmalloc(sizeof(*free_node), GFP_ATOMIC);
--	if (!free_node)
--		return -ENOMEM;
-+	free_node = &ts_free_jobs_data->free_nodes_pool[free_node_index];
-+	if (atomic_cmpxchg(&free_node->in_use, 0, 1)) {
-+		dev_dbg(hdev->dev,
-+			"Timestamp free node pool is full, buff: %p, record: %p, irq: %u\n",
-+				pend->ts_reg_info.buf,
-+				pend,
-+				intr->interrupt_id);
+-	if (register_ts_record) {
+-		dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
+-				data->interrupt->interrupt_id, data->ts_handle,
+-				data->ts_offset, data->cq_offset);
++	dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
++					data->interrupt->interrupt_id, data->ts_handle,
++					data->ts_offset, data->cq_offset);
  
--	timestamp = ktime_to_ns(now);
-+		if (!(*dynamic_alloc_list)) {
-+			*dynamic_alloc_list = kmalloc(sizeof(struct list_head), GFP_ATOMIC);
-+			if (!(*dynamic_alloc_list))
-+				return -ENOMEM;
-+
-+			INIT_LIST_HEAD(*dynamic_alloc_list);
-+		}
-+
-+		free_node = kmalloc(sizeof(struct timestamp_reg_free_node), GFP_ATOMIC);
-+		if (!free_node)
-+			return -ENOMEM;
-+
-+		free_node->dynamic_alloc = 1;
+-		data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
+-		if (!data->buf) {
+-			rc = -EINVAL;
+-			goto put_cq_cb;
+-		}
++	data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
++	if (!data->buf) {
++		rc = -EINVAL;
++		goto put_cq_cb;
 +	}
-+
-+	timestamp = ktime_to_ns(intr->timestamp);
  
- 	*pend->ts_reg_info.timestamp_kernel_addr = timestamp;
+-		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
++	spin_lock_irqsave(&data->interrupt->ts_list_lock, flags);
  
- 	dev_dbg(hdev->dev, "Irq handle: Timestamp record (%p) ts cb address (%p), interrupt_id: %u\n",
--			pend, pend->ts_reg_info.timestamp_kernel_addr, interrupt_id);
-+			pend, pend->ts_reg_info.timestamp_kernel_addr, intr->interrupt_id);
+-		/* get ts buffer record */
+-		rc = ts_get_and_handle_kernel_record(hdev, ctx, data, &pend);
+-		if (rc) {
+-			spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+-			goto put_ts_buff;
+-		}
+-	} else {
+-		pend = kzalloc(sizeof(*pend), GFP_KERNEL);
+-		if (!pend) {
+-			rc = -ENOMEM;
+-			goto put_cq_cb;
+-		}
+-		hl_fence_init(&pend->fence, ULONG_MAX);
+-		pend->cq_kernel_addr = (u64 *) data->cq_cb->kernel_address + data->cq_offset;
+-		pend->cq_target_value = data->target_value;
+-		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
++	/* get ts buffer record */
++	rc = ts_get_and_handle_kernel_record(hdev, ctx, data, &flags, &pend);
++	if (rc) {
++		spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
++		goto put_ts_buff;
+ 	}
  
- 	list_del(&pend->wait_list_node);
- 
-@@ -266,7 +311,14 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
+ 	/* We check for completion value as interrupt could have been received
+-	 * before we add the wait/timestamp node to the wait list.
++	 * before we add the timestamp node to the ts list.
  	 */
- 	free_node->buf = pend->ts_reg_info.buf;
- 	free_node->cq_cb = pend->ts_reg_info.cq_cb;
--	list_add(&free_node->free_objects_node, *free_list);
+ 	if (*pend->cq_kernel_addr >= data->target_value) {
+-		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
++		spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
+ 
+-		if (register_ts_record) {
+-			dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
+-					pend, data->ts_offset, data->interrupt->interrupt_id);
+-			pend->ts_reg_info.in_use = false;
+-		}
++		dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
++				pend, data->ts_offset, data->interrupt->interrupt_id);
+ 
++		pend->ts_reg_info.in_use = 0;
+ 		*status = HL_WAIT_CS_STATUS_COMPLETED;
++		*pend->ts_reg_info.timestamp_kernel_addr = ktime_get_ns();
 +
-+	if (free_node->dynamic_alloc) {
-+		list_add(&free_node->free_objects_node, *dynamic_alloc_list);
-+	} else {
-+		ts_free_jobs_data->next_avail_free_node_idx =
-+				(++free_node_index) % ts_free_jobs_data->free_nodes_length;
-+		list_add(&free_node->free_objects_node, *free_list);
++		goto put_ts_buff;
 +	}
++
++	list_add_tail(&pend->list_node, &data->interrupt->ts_list_head);
++	spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
++
++	rc = *status = HL_WAIT_CS_STATUS_COMPLETED;
++
++	hl_ctx_put(ctx);
++
++	return rc;
++
++put_ts_buff:
++	hl_mmap_mem_buf_put(data->buf);
++put_cq_cb:
++	hl_cb_put(data->cq_cb);
++put_ctx:
++	hl_ctx_put(ctx);
++
++	return rc;
++}
++
++static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
++				struct wait_interrupt_data *data,
++				u32 *status, u64 *timestamp)
++{
++	struct hl_user_pending_interrupt *pend;
++	unsigned long timeout, flags;
++	long completion_rc;
++	int rc = 0;
++
++	timeout = hl_usecs64_to_jiffies(data->intr_timeout_us);
++
++	hl_ctx_get(ctx);
++
++	data->cq_cb = hl_cb_get(data->mmg, data->cq_handle);
++	if (!data->cq_cb) {
++		rc = -EINVAL;
++		goto put_ctx;
++	}
++
++	/* Validate the cq offset */
++	if (((u64 *) data->cq_cb->kernel_address + data->cq_offset) >=
++			((u64 *) data->cq_cb->kernel_address + (data->cq_cb->size / sizeof(u64)))) {
++		rc = -EINVAL;
++		goto put_cq_cb;
++	}
++
++	pend = kzalloc(sizeof(*pend), GFP_KERNEL);
++	if (!pend) {
++		rc = -ENOMEM;
++		goto put_cq_cb;
++	}
++
++	hl_fence_init(&pend->fence, ULONG_MAX);
++	pend->cq_kernel_addr = (u64 *) data->cq_cb->kernel_address + data->cq_offset;
++	pend->cq_target_value = data->target_value;
++	spin_lock_irqsave(&data->interrupt->wait_list_lock, flags);
++
++
++	/* We check for completion value as interrupt could have been received
++	 * before we add the wait node to the wait list.
++	 */
++	if (*pend->cq_kernel_addr >= data->target_value || (!data->intr_timeout_us)) {
++		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
++
++		if (*pend->cq_kernel_addr >= data->target_value)
++			*status = HL_WAIT_CS_STATUS_COMPLETED;
++		else
++			*status = HL_WAIT_CS_STATUS_BUSY;
  
- 	/* Mark TS record as free */
- 	pend->ts_reg_info.in_use = false;
-@@ -276,8 +328,8 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
+-		if (register_ts_record) {
+-			*pend->ts_reg_info.timestamp_kernel_addr = ktime_get_ns();
+-			goto put_ts_buff;
+-		} else {
+-			pend->fence.timestamp = ktime_get();
+-			goto set_timestamp;
+-		}
+-	} else if (!data->intr_timeout_us) {
+-		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+-		*status = HL_WAIT_CS_STATUS_BUSY;
+ 		pend->fence.timestamp = ktime_get();
+ 		goto set_timestamp;
+ 	}
+@@ -3417,13 +3465,8 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 	 * in order to shorten the list pass loop, since
+ 	 * same list could have nodes for different cq counter handle.
+ 	 */
+-	list_add_tail(&pend->wait_list_node, &data->interrupt->wait_list_head);
+-	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+-
+-	if (register_ts_record) {
+-		rc = *status = HL_WAIT_CS_STATUS_COMPLETED;
+-		goto ts_registration_exit;
+-	}
++	list_add_tail(&pend->list_node, &data->interrupt->wait_list_head);
++	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
  
- static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interrupt *intr)
+ 	/* Wait for interrupt handler to signal completion */
+ 	completion_rc = wait_for_completion_interruptible_timeout(&pend->fence.completion,
+@@ -3462,21 +3505,18 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 	 * for ts record, the node will be deleted in the irq handler after
+ 	 * we reach the target value.
+ 	 */
+-	spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
+-	list_del(&pend->wait_list_node);
+-	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
++	spin_lock_irqsave(&data->interrupt->wait_list_lock, flags);
++	list_del(&pend->list_node);
++	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
+ 
+ set_timestamp:
+ 	*timestamp = ktime_to_ns(pend->fence.timestamp);
+ 	kfree(pend);
+ 	hl_cb_put(data->cq_cb);
+-ts_registration_exit:
+ 	hl_ctx_put(ctx);
+ 
+ 	return rc;
+ 
+-put_ts_buff:
+-	hl_mmap_mem_buf_put(data->buf);
+ put_cq_cb:
+ 	hl_cb_put(data->cq_cb);
+ put_ctx:
+@@ -3513,7 +3553,7 @@ static int _hl_interrupt_wait_ioctl_user_addr(struct hl_device *hdev, struct hl_
+ 	 * handler to monitor
+ 	 */
+ 	spin_lock(&interrupt->wait_list_lock);
+-	list_add_tail(&pend->wait_list_node, &interrupt->wait_list_head);
++	list_add_tail(&pend->list_node, &interrupt->wait_list_head);
+ 	spin_unlock(&interrupt->wait_list_lock);
+ 
+ 	/* We check for completion value as interrupt could have been received
+@@ -3590,7 +3630,7 @@ static int _hl_interrupt_wait_ioctl_user_addr(struct hl_device *hdev, struct hl_
+ 
+ remove_pending_user_interrupt:
+ 	spin_lock(&interrupt->wait_list_lock);
+-	list_del(&pend->wait_list_node);
++	list_del(&pend->list_node);
+ 	spin_unlock(&interrupt->wait_list_lock);
+ 
+ 	*timestamp = ktime_to_ns(pend->fence.timestamp);
+@@ -3649,16 +3689,6 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * Allow only one registration at a time. this is needed in order to prevent issues
+-	 * while handling the flow of re-use of the same offset.
+-	 * Since the registration flow is protected only by the interrupt lock, re-use flow
+-	 * might request to move ts node to another interrupt list, and in such case we're
+-	 * not protected.
+-	 */
+-	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
+-		mutex_lock(&hpriv->ctx->ts_reg_lock);
+-
+ 	if (args->in.flags & HL_WAIT_CS_FLAGS_INTERRUPT_KERNEL_CQ) {
+ 		struct wait_interrupt_data wait_intr_data = {0};
+ 
+@@ -3671,9 +3701,23 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 		wait_intr_data.target_value = args->in.target;
+ 		wait_intr_data.intr_timeout_us = args->in.interrupt_timeout_us;
+ 
+-		rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &wait_intr_data,
+-				!!(args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT),
+-				&status, &timestamp);
++		if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT) {
++			/*
++			 * Allow only one registration at a time. this is needed in order to prevent
++			 * issues while handling the flow of re-use of the same offset.
++			 * Since the registration flow is protected only by the interrupt lock,
++			 * re-use flow might request to move ts node to another interrupt list,
++			 * and in such case we're not protected.
++			 */
++			mutex_lock(&hpriv->ctx->ts_reg_lock);
++
++			rc = _hl_interrupt_ts_reg_ioctl(hdev, hpriv->ctx, &wait_intr_data,
++						&status, &timestamp);
++
++			mutex_unlock(&hpriv->ctx->ts_reg_lock);
++		} else
++			rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &wait_intr_data,
++						&status, &timestamp);
+ 	} else {
+ 		rc = _hl_interrupt_wait_ioctl_user_addr(hdev, hpriv->ctx,
+ 				args->in.interrupt_timeout_us, args->in.addr,
+@@ -3681,9 +3725,6 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 				&timestamp);
+ 	}
+ 
+-	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
+-		mutex_unlock(&hpriv->ctx->ts_reg_lock);
+-
+ 	if (rc)
+ 		return rc;
+ 
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 1342686d0ce5..7c2da8cfe844 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -1128,7 +1128,9 @@ struct hl_ts_free_jobs {
+  * @ts_free_jobs_data: timestamp free jobs related data
+  * @type: user interrupt type
+  * @wait_list_head: head to the list of user threads pending on this interrupt
++ * @ts_list_head: head to the list of timestamp records
+  * @wait_list_lock: protects wait_list_head
++ * @ts_list_lock: protects ts_list_head
+  * @timestamp: last timestamp taken upon interrupt
+  * @interrupt_id: msix interrupt id
+  */
+@@ -1137,7 +1139,9 @@ struct hl_user_interrupt {
+ 	struct hl_ts_free_jobs		ts_free_jobs_data;
+ 	enum hl_user_interrupt_type	type;
+ 	struct list_head		wait_list_head;
++	struct list_head		ts_list_head;
+ 	spinlock_t			wait_list_lock;
++	spinlock_t			ts_list_lock;
+ 	ktime_t				timestamp;
+ 	u32				interrupt_id;
+ };
+@@ -1199,7 +1203,7 @@ struct timestamp_reg_info {
+  * struct hl_user_pending_interrupt - holds a context to a user thread
+  *                                    pending on an interrupt
+  * @ts_reg_info: holds the timestamps registration nodes info
+- * @wait_list_node: node in the list of user threads pending on an interrupt
++ * @list_node: node in the list of user threads pending on an interrupt or timestamp
+  * @fence: hl fence object for interrupt completion
+  * @cq_target_value: CQ target value
+  * @cq_kernel_addr: CQ kernel address, to be used in the cq interrupt
+@@ -1207,7 +1211,7 @@ struct timestamp_reg_info {
+  */
+ struct hl_user_pending_interrupt {
+ 	struct timestamp_reg_info	ts_reg_info;
+-	struct list_head		wait_list_node;
++	struct list_head		list_node;
+ 	struct hl_fence			fence;
+ 	u64				cq_target_value;
+ 	u64				*cq_kernel_addr;
+@@ -2742,6 +2746,8 @@ void hl_wreg(struct hl_device *hdev, u32 reg, u32 val);
+ 	usr_intr.type = intr_type; \
+ 	INIT_LIST_HEAD(&usr_intr.wait_list_head); \
+ 	spin_lock_init(&usr_intr.wait_list_lock); \
++	INIT_LIST_HEAD(&usr_intr.ts_list_head); \
++	spin_lock_init(&usr_intr.ts_list_lock); \
+ })
+ 
+ struct hwmon_chip_info;
+@@ -3712,7 +3718,7 @@ void hl_eq_reset(struct hl_device *hdev, struct hl_eq *q);
+ irqreturn_t hl_irq_handler_cq(int irq, void *arg);
+ irqreturn_t hl_irq_handler_eq(int irq, void *arg);
+ irqreturn_t hl_irq_handler_dec_abnrm(int irq, void *arg);
+-irqreturn_t hl_irq_handler_user_interrupt(int irq, void *arg);
++irqreturn_t hl_irq_user_interrupt_handler(int irq, void *arg);
+ irqreturn_t hl_irq_user_interrupt_thread_handler(int irq, void *arg);
+ irqreturn_t hl_irq_eq_error_interrupt_thread_handler(int irq, void *arg);
+ u32 hl_cq_inc_ptr(u32 ptr);
+diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
+index 0947d286a5ab..978b7f4d5eeb 100644
+--- a/drivers/accel/habanalabs/common/irq.c
++++ b/drivers/accel/habanalabs/common/irq.c
+@@ -304,7 +304,7 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
+ 	dev_dbg(hdev->dev, "Irq handle: Timestamp record (%p) ts cb address (%p), interrupt_id: %u\n",
+ 			pend, pend->ts_reg_info.timestamp_kernel_addr, intr->interrupt_id);
+ 
+-	list_del(&pend->wait_list_node);
++	list_del(&pend->list_node);
+ 
+ 	/* Putting the refcount for ts_buff and cq_cb objects will be handled
+ 	 * in workqueue context, just add job to free_list.
+@@ -326,12 +326,13 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
+ 	return 0;
+ }
+ 
+-static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interrupt *intr)
++static void handle_user_interrupt_ts_list(struct hl_device *hdev, struct hl_user_interrupt *intr)
  {
-+	struct list_head *ts_reg_free_list_head = NULL, *dynamic_alloc_list_head = NULL;
+ 	struct list_head *ts_reg_free_list_head = NULL, *dynamic_alloc_list_head = NULL;
  	struct hl_user_pending_interrupt *pend, *temp_pend;
--	struct list_head *ts_reg_free_list_head = NULL;
  	struct timestamp_reg_work_obj *job;
  	bool reg_node_handle_fail = false;
++	unsigned long flags;
  	int rc;
-@@ -303,8 +355,8 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
- 			if (pend->ts_reg_info.buf) {
- 				if (!reg_node_handle_fail) {
- 					rc = handle_registration_node(hdev, pend,
--							&ts_reg_free_list_head, intr->timestamp,
--							intr->interrupt_id);
-+							&ts_reg_free_list_head,
-+							&dynamic_alloc_list_head, intr);
- 					if (rc)
- 						reg_node_handle_fail = true;
- 				}
-@@ -320,6 +372,7 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
+ 
+ 	/* For registration nodes:
+@@ -340,34 +341,27 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
+ 	 * or in irq handler context at all (since release functions are long and
+ 	 * might sleep), so we will need to handle that part in workqueue context.
+ 	 * To avoid handling kmalloc failure which compels us rolling back actions
+-	 * and move nodes hanged on the free list back to the interrupt wait list
++	 * and move nodes hanged on the free list back to the interrupt ts list
+ 	 * we always alloc the job of the WQ at the beginning.
+ 	 */
+ 	job = kmalloc(sizeof(*job), GFP_ATOMIC);
+ 	if (!job)
+ 		return;
+ 
+-	spin_lock(&intr->wait_list_lock);
+-
+-	list_for_each_entry_safe(pend, temp_pend, &intr->wait_list_head, wait_list_node) {
++	spin_lock_irqsave(&intr->ts_list_lock, flags);
++	list_for_each_entry_safe(pend, temp_pend, &intr->ts_list_head, list_node) {
+ 		if ((pend->cq_kernel_addr && *(pend->cq_kernel_addr) >= pend->cq_target_value) ||
+ 				!pend->cq_kernel_addr) {
+-			if (pend->ts_reg_info.buf) {
+-				if (!reg_node_handle_fail) {
+-					rc = handle_registration_node(hdev, pend,
+-							&ts_reg_free_list_head,
+-							&dynamic_alloc_list_head, intr);
+-					if (rc)
+-						reg_node_handle_fail = true;
+-				}
+-			} else {
+-				/* Handle wait target value node */
+-				pend->fence.timestamp = intr->timestamp;
+-				complete_all(&pend->fence.completion);
++			if (!reg_node_handle_fail) {
++				rc = handle_registration_node(hdev, pend,
++						&ts_reg_free_list_head,
++						&dynamic_alloc_list_head, intr);
++				if (rc)
++					reg_node_handle_fail = true;
+ 			}
+ 		}
+ 	}
+-	spin_unlock(&intr->wait_list_lock);
++	spin_unlock_irqrestore(&intr->ts_list_lock, flags);
+ 
  	if (ts_reg_free_list_head) {
  		INIT_WORK(&job->free_obj, hl_ts_free_objects);
- 		job->free_obj_head = ts_reg_free_list_head;
-+		job->dynamic_alloc_free_obj_head = dynamic_alloc_list_head;
- 		job->hdev = hdev;
- 		queue_work(hdev->ts_free_obj_wq, &job->free_obj);
- 	} else {
+@@ -380,6 +374,23 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
+ 	}
+ }
+ 
++static void handle_user_interrupt_wait_list(struct hl_device *hdev, struct hl_user_interrupt *intr)
++{
++	struct hl_user_pending_interrupt *pend, *temp_pend;
++	unsigned long flags;
++
++	spin_lock_irqsave(&intr->wait_list_lock, flags);
++	list_for_each_entry_safe(pend, temp_pend, &intr->wait_list_head, list_node) {
++		if ((pend->cq_kernel_addr && *(pend->cq_kernel_addr) >= pend->cq_target_value) ||
++				!pend->cq_kernel_addr) {
++			/* Handle wait target value node */
++			pend->fence.timestamp = intr->timestamp;
++			complete_all(&pend->fence.completion);
++		}
++	}
++	spin_unlock_irqrestore(&intr->wait_list_lock, flags);
++}
++
+ static void handle_tpc_interrupt(struct hl_device *hdev)
+ {
+ 	u64 event_mask;
+@@ -401,19 +412,38 @@ static void handle_unexpected_user_interrupt(struct hl_device *hdev)
+ }
+ 
+ /**
+- * hl_irq_handler_user_interrupt - irq handler for user interrupts
++ * hl_irq_user_interrupt_handler - irq handler for user interrupts.
+  *
+  * @irq: irq number
+  * @arg: pointer to user interrupt structure
+- *
+  */
+-irqreturn_t hl_irq_handler_user_interrupt(int irq, void *arg)
++irqreturn_t hl_irq_user_interrupt_handler(int irq, void *arg)
+ {
+ 	struct hl_user_interrupt *user_int = arg;
++	struct hl_device *hdev = user_int->hdev;
+ 
+ 	user_int->timestamp = ktime_get();
++	switch (user_int->type) {
++	case HL_USR_INTERRUPT_CQ:
++		/* First handle user waiters threads */
++		handle_user_interrupt_wait_list(hdev, &hdev->common_user_cq_interrupt);
++		handle_user_interrupt_wait_list(hdev, user_int);
++
++		/* Second handle user timestamp registrations */
++		handle_user_interrupt_ts_list(hdev,  &hdev->common_user_cq_interrupt);
++		handle_user_interrupt_ts_list(hdev, user_int);
++		break;
++	case HL_USR_INTERRUPT_DECODER:
++		handle_user_interrupt_wait_list(hdev, &hdev->common_decoder_interrupt);
++
++		/* Handle decoder interrupt registered on this specific irq */
++		handle_user_interrupt_wait_list(hdev, user_int);
++		break;
++	default:
++		break;
++	}
+ 
+-	return IRQ_WAKE_THREAD;
++	return IRQ_HANDLED;
+ }
+ 
+ /**
+@@ -429,19 +459,8 @@ irqreturn_t hl_irq_user_interrupt_thread_handler(int irq, void *arg)
+ 	struct hl_user_interrupt *user_int = arg;
+ 	struct hl_device *hdev = user_int->hdev;
+ 
++	user_int->timestamp = ktime_get();
+ 	switch (user_int->type) {
+-	case HL_USR_INTERRUPT_CQ:
+-		handle_user_interrupt(hdev, &hdev->common_user_cq_interrupt);
+-
+-		/* Handle user cq interrupt registered on this specific irq */
+-		handle_user_interrupt(hdev, user_int);
+-		break;
+-	case HL_USR_INTERRUPT_DECODER:
+-		handle_user_interrupt(hdev, &hdev->common_decoder_interrupt);
+-
+-		/* Handle decoder interrupt registered on this specific irq */
+-		handle_user_interrupt(hdev, user_int);
+-		break;
+ 	case HL_USR_INTERRUPT_TPC:
+ 		handle_tpc_interrupt(hdev);
+ 		break;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index b0ba62b691ec..867175431418 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -4227,9 +4227,7 @@ static int gaudi2_dec_enable_msix(struct hl_device *hdev)
+ 			rc = request_irq(irq, hl_irq_handler_dec_abnrm, 0,
+ 						gaudi2_irq_name(i), (void *) dec);
+ 		} else {
+-			rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
+-					hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
+-					gaudi2_irq_name(i),
++			rc = request_irq(irq, hl_irq_user_interrupt_handler, 0, gaudi2_irq_name(i),
+ 					(void *) &hdev->user_interrupt[dec->core_id]);
+ 		}
+ 
+@@ -4287,17 +4285,17 @@ static int gaudi2_enable_msix(struct hl_device *hdev)
+ 	}
+ 
+ 	irq = pci_irq_vector(hdev->pdev, GAUDI2_IRQ_NUM_TPC_ASSERT);
+-	rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
+-			hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
+-			gaudi2_irq_name(GAUDI2_IRQ_NUM_TPC_ASSERT), &hdev->tpc_interrupt);
++	rc = request_threaded_irq(irq, NULL, hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
++					gaudi2_irq_name(GAUDI2_IRQ_NUM_TPC_ASSERT),
++					&hdev->tpc_interrupt);
+ 	if (rc) {
+ 		dev_err(hdev->dev, "Failed to request IRQ %d", irq);
+ 		goto free_dec_irq;
+ 	}
+ 
+ 	irq = pci_irq_vector(hdev->pdev, GAUDI2_IRQ_NUM_UNEXPECTED_ERROR);
+-	rc = request_irq(irq, hl_irq_handler_user_interrupt, 0,
+-			gaudi2_irq_name(GAUDI2_IRQ_NUM_UNEXPECTED_ERROR),
++	rc = request_threaded_irq(irq, NULL, hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
++					gaudi2_irq_name(GAUDI2_IRQ_NUM_UNEXPECTED_ERROR),
+ 					&hdev->unexpected_error_interrupt);
+ 	if (rc) {
+ 		dev_err(hdev->dev, "Failed to request IRQ %d", irq);
+@@ -4309,10 +4307,8 @@ static int gaudi2_enable_msix(struct hl_device *hdev)
+ 			i++, j++, user_irq_init_cnt++) {
+ 
+ 		irq = pci_irq_vector(hdev->pdev, i);
+-		rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
+-						hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
+-						gaudi2_irq_name(i), &hdev->user_interrupt[j]);
+-
++		rc = request_irq(irq, hl_irq_user_interrupt_handler, 0, gaudi2_irq_name(i),
++				&hdev->user_interrupt[j]);
+ 		if (rc) {
+ 			dev_err(hdev->dev, "Failed to request IRQ %d", irq);
+ 			goto free_user_irq;
 -- 
 2.34.1
 
