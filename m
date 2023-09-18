@@ -2,72 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044027A5A66
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E13B7A5A46
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 08:59:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC49C10E37A;
-	Tue, 19 Sep 2023 07:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6587110E315;
+	Tue, 19 Sep 2023 06:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33DC710E225
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 08:42:19 +0000 (UTC)
-X-UUID: 44c0b5d255ff11ee8051498923ad61e6-20230918
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=1zOwWFeG5NGBnZYWyrLagHyH+cMh1aLIgKpN5K4YYzs=; 
- b=EquVFZf3kBVP4fs0wTKFSKqaT1+Ru5TQk3OZN0A2Wq/HjSPn4Kt/8i61fVURmzk7vZ8imGrAi+fIeehj733+dvMcFgLix87n+hCbdloKm/RJBDng2ZMytiLft38EPeq9RpThrVLN/+ceIBdXHxfK/QOS/VIgpI7HGe+axVAUAgg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:dfc5adf8-8dc5-4acd-9f4b-dea5ec466ccc, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:0ad78a4, CLOUDID:4d93f6be-14cc-44ca-b657-2d2783296e72,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: 44c0b5d255ff11ee8051498923ad61e6-20230918
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1982334087; Mon, 18 Sep 2023 16:42:15 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 18 Sep 2023 16:42:12 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 18 Sep 2023 16:42:12 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Subject: [PATCH v2 11/11] drm/mediatek: Support CRC in VDOSYS1
-Date: Mon, 18 Sep 2023 16:42:07 +0800
-Message-ID: <20230918084207.23604-12-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230918084207.23604-1-shawn.sung@mediatek.com>
-References: <20230918084207.23604-1-shawn.sung@mediatek.com>
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com
+ (mail-am0eur02on2085.outbound.protection.outlook.com [40.107.247.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C06610E0A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 12:22:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mTQXNDMwvDbJ2k8lGU55VcEriNk/H38Ep9JtagXSb0VeRzV9bdUbR4MFxd49IYygWImaUIDHHE7oozpXc/J1ci5ufL82eosz8zVrJbOzm3a5LT0jv+0WIFweGDKs+7+DzQRzUvIw4yZlXiLoOQr8MTeGEnSK4LvpPySQsq8TNR7oCffCaZddq8p9tjSDbCaJdj+077idxJYRKKBjoM6ZDWg1YStIoMkoV77FcGEFkCQTflp1oLtdeMOZyrv67oK80mbhH8xIkvipO6bkPrNMS/gaZMIl1JH2NQMa1H6RuRncHviQ9c8NRwwSgQpvjTZHXiVNRAFcBAiiRvqBeHx6xA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eT5TLfbod9WNxDAkzKu/viKH5r15oYqM7J6YirYKn0o=;
+ b=SaA+XBT2ins15hUErZ5kc3o0ApnnWzQ2AH2MddD8SVG+SaHo/QVL9eOLrNI0jJTZwjNfN156O02F/Zc4tkxNfeQFDDsUKgJTl34jYYBz/ycTUPJ2JXs+siuj8lPWW3CjdndNzan4SkglKV2VpnyILvfoYcCAet2X/NlyXadOmnmij4KdHCwsGPAdkdsouHAerYbRPyVnv6ZpBrFM0idqYwmVCUtQJ6/obrXU27oqrkzoy8QGBBCNYQC5NHJQd7PGsTbKuPzDUWFOeqQDM06gREe5ieABUO7q5qVNpNF9WMOVIa2H/cKc3Q9a+TEXfGOSA4bhd5AwGhVke5fi/q40Wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
+ header.d=asem.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eT5TLfbod9WNxDAkzKu/viKH5r15oYqM7J6YirYKn0o=;
+ b=orJLgGTnAvlWV6B+MUJisKxMQ/58WPMb3zt84sgnbhErA59tLOZCMZh3eCBEioGIBf1mwHfCEwwegYeGQwKOruBLqrvDsiOh2x40bApPQKdGnrVs0iCZc+qKB0FEZW3bk+TeFShNRMLYrAG13glwDEhWN9l0ht6ALg4eGuMIYPU=
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:273::14) by AM0PR01MB6306.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:16a::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.15; Mon, 18 Sep
+ 2023 12:22:51 +0000
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::11d:15c1:fca6:e077]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::11d:15c1:fca6:e077%7]) with mapi id 15.20.6813.013; Mon, 18 Sep 2023
+ 12:22:51 +0000
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Conor Dooley <conor@kernel.org>
+Subject: RE: [PATCH v2 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Topic: [PATCH v2 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Index: AQHZ592r0UV0+OQAK0qc65NPyGpwxrAcB2yAgAR937A=
+Date: Mon, 18 Sep 2023 12:22:51 +0000
+Message-ID: <DU2PR01MB80342BFB3FC5C5B49EDA3E73F9FBA@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
+References: <20230915140516.1294925-1-f.suligoi@asem.it>
+ <20230915-sinuous-domestic-80cd8775ecb0@spud>
+In-Reply-To: <20230915-sinuous-domestic-80cd8775ecb0@spud>
+Accept-Language: it-IT, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=asem.it;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|AM0PR01MB6306:EE_
+x-ms-office365-filtering-correlation-id: c0c416de-d132-4ce0-e0fb-08dbb841fa51
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4Y9hoUwdn1TIPmCqI1lg4BiR/xlGQK6oTXZYDRUmgf2u7vLDq4rzXp/vK3eVh09fYHHxj+hYuKzRcbLNqxc7eC8uJNGjmCFEJq9AFbI0Mu9mq54crpNYkNDZCNArIv/Xafxb+o5b7fcnvJp5wk4cfYYEvEvxVd9q2AtvnLb/GhV4V9UORz6bfmIT2BqB0Ys8o5UBNnsneuOvVGx2D2KTuaDlp4xpDq97jsG4bd6Ze8KRUeu+kUsiapiAXtVTeA7fOTr+jNWicXg0TVRIKq+yhwQW1XCR3rkeKeYkPSBFBE8cYzyMafkOrGNvtTGGUdccb9ufYoXD1gM4wq8f6aZAMPIj76HLPUgXnc8rGG5aXTbubG+BiCUNcUCG0EgkJ/bT73gtgk+lzoinUaKI17FiYz2C/sJ2ECPtP3Rq/Y24nF+81C+zVeF4MbDRRyEaXwkV59Wq9fW1eWWfwf7Z55clR/CygqZp92A7HtlLv0DYKaUFlk/j5dotYs1585OuGAaqBYg/ZMmL2ZmIhAWFAp7BiFuo+DBcB9XRNcnwCQmmn1RxcmSJW/BDI7J8ixv4rLIGvaxOqBi2kTFhXauG/JzGCCbVls2Fsjc/aOsrLhAGJbY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com; PTR:;
+ CAT:NONE;
+ SFS:(13230031)(376002)(346002)(39850400004)(366004)(136003)(396003)(1800799009)(186009)(451199024)(7696005)(6506007)(966005)(71200400001)(9686003)(478600001)(26005)(2906002)(7416002)(66446008)(76116006)(66946007)(64756008)(54906003)(316002)(66476007)(6916009)(66556008)(4326008)(8676002)(52536014)(5660300002)(8936002)(41300700001)(55016003)(86362001)(33656002)(38070700005)(38100700002)(122000001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?K0Dq9iQwmr9z99yDPMpNKDjPoa26xybdJtTCbJv4CuvhcZySyba119RWa2ir?=
+ =?us-ascii?Q?iwu3qehmodGpFtGGa45OZAch36nsKJzY6MX+m3a3xKHVKZ9OM2cmqRaJBokP?=
+ =?us-ascii?Q?suFDCOTiNs2ofhpa+tbvASoOB/4NMmKrRV+Qm/IV/ruXSPYCYsjtJDOBnbK1?=
+ =?us-ascii?Q?FwhP+nx23nNaYvqvWHBnlLIQmRT7en+HCguZOIWKQk5LAa9zcyRzwK/cm62H?=
+ =?us-ascii?Q?u+BrhAOaR6hAVYwEYnlCtD2VxMyYJrVhynGue9ruz6LBSg5zjkVvjWmXTAjz?=
+ =?us-ascii?Q?vAJZQXXp7AAVWNENh9AFuXGvTnmAtKe6XffJqPvnf3BybH12m8VAT+fjOQOl?=
+ =?us-ascii?Q?SSbBTlfmTFkyM6OgvPdF55JRyyNLJPa/ThAiCvnPZYT5sMK7jZHV/oQiojuG?=
+ =?us-ascii?Q?X4ZCw9OccAt0xGRbo0Cojsj2hAeiM2ZU1KxypDrDjo301BjV8TVacnLrXdku?=
+ =?us-ascii?Q?gdOiAwukQCAa1r6BbHukTPzmzfpDPJ4JNaAxsCb+zrghO0O9mMBZuhjn2/un?=
+ =?us-ascii?Q?6I3EyLyv5DXyFAcoAPxQYScjfUQfcr2a31Tsu2Y5yCw7AuTADFpuJdBOYMhj?=
+ =?us-ascii?Q?cRvC/L+4xP3kWpFcKKSV1X026u9NZCNs0Q59Zu3RupuniJnngtHURg2ROi3q?=
+ =?us-ascii?Q?GNWRJd9KPaYnqwybvVNpgOFV6n8Gs0nfCGkLwqr9MrAMf0ZrnuaHp29/m01g?=
+ =?us-ascii?Q?x1LFJat/2yaP/6n0SRot6SuxCra0qgPtE1XNm6AjYPfBt+UY6R6RLEZNWfJJ?=
+ =?us-ascii?Q?lAxJ1+kTy6lldh9gENyrImzY1r7YUwGUnPqat2670Wd2WC+z5/ZThOG2Ur/p?=
+ =?us-ascii?Q?AvB/5eQtCHvLX6FOraI7BlBQVCQi3AQ8F3UtiIZXd9wLO+YQ3UpBqLYYbT/2?=
+ =?us-ascii?Q?wkjl8qIiY2H6kTMmu3Ok4ostc1n3nVsZ/qm8SKEQsnSNhzIIEvK0ouEGFJE+?=
+ =?us-ascii?Q?dyd7tbR/cCeqR/8Rriz3pcFIsEpwd/varAlxN03fB4ej6csWSvoFQlbw0Abj?=
+ =?us-ascii?Q?Hbwgo2TGqldpCkeo2/JIJcaDbGAO397ylHvZ8B+5Dr2aSuSwlvphnJ4QNGfV?=
+ =?us-ascii?Q?pOqhx5li+I6yuGbU0N4ib6DYwA6DXV2VJrBm8g4UVCVW67Fi6C26ReAEEy7A?=
+ =?us-ascii?Q?6OmtC9JBW0Mq14SCX5c3y2DAz8f159Cw0wD0DIN/oTQhXAet4wZIw5nmXcQw?=
+ =?us-ascii?Q?1GTQORtH0JBTUuZ8qxE35QAKEq23xmFm/pSKw3yCfadBjvjIx3z/SXDiE1Mz?=
+ =?us-ascii?Q?iRHKDB4JoC+Y4kfx/ohd6ue7qG7GG2bGRVn3jkFHdDLw/OeJwYWuCr1ehh+S?=
+ =?us-ascii?Q?5TLmdv7ONPQlbyt5F3s1fN2o1yBo8159W3mKempIARAXEzZm9OV0PhktIrXs?=
+ =?us-ascii?Q?ZRpLkTojof5xae9iGPImfPMR+HKrwcQS8GyE3UCxfIRJH8dHuDqhncDPtpPr?=
+ =?us-ascii?Q?/V5HxOtlosklFZlCvMYXdP0bJ0EBEvs0nmCpMhUAz7nuDLyaDGRluTxjiIGD?=
+ =?us-ascii?Q?r6MteH7wXG0D98xBdL6HWU1lkxgwo5TZjBf1NRuHFEIBiE3SsjKZEPOPp5h2?=
+ =?us-ascii?Q?vBY9FtBydag2gCgtnLc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.538200-8.000000
-X-TMASE-MatchedRID: bHUmO6Ydv7rXldNKzKPlvawxbZnudyr73FYvKmZiVnOCsBeCv8CM/a9q
- iUd5V6DYAak79SdgQsDW9RHvDZKnVSUtdpGicV4RA9lly13c/gEraL2mh8ZVK35h6y4KCSJcjse
- 1+4fQ7uvLqCJZs0VuwGSLax1QSEcDqH7dGVt6/4kOSj4RiINDEZKLNrbpy/A0DZjzHLL3eRahBi
- oZvW2mjSxzuGmAt8MyuPAycf9X/Euns5Q49D70/XV7tdtvoibaGEfoClqBl86bKItl61J/yZ+in
- TK0bC9eKrauXd3MZDVjsiBcbMhSNLkWSzA8xpNrThYReVz0uCphQolsfFVqEvfiLzqKam7O
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.538200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: BDB18C1E7868CACE935102C79273B68ACFF6A43E4A6E96C97603EF594E8EE2522000:8
-X-MTK: N
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0c416de-d132-4ce0-e0fb-08dbb841fa51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2023 12:22:51.4684 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OSaHs4GhYzWneQIuE0DP6QknkbJsnwmFfj1Ib04J2uXtRbHQmB14USRpmGGSMgwKQ/L4IGZ+sUhsK6BNAKR+Mw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR01MB6306
 X-Mailman-Approved-At: Tue, 19 Sep 2023 06:59:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,251 +118,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Chen-Yu Tsai <wenst@chromium.org>,
- Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We choose Mixer as CRC generator in VDOSYS1 since
-its frame done event will trigger vblanks, we can know
-when is safe to retrieve CRC of the frame.
+Hi Conor,
 
-In VDOSYS1, there's no image procession after Mixer,
-unlike OVL in VDOSYS0, Mixer's CRC will include all the
-effects that are applied to the frame.
+...
 
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  3 +
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 21 ++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  3 +
- drivers/gpu/drm/mediatek/mtk_ethdr.c          | 73 +++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h          |  5 ++
- 5 files changed, 105 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 3e2f8084913c..ac8468917a2e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -129,6 +129,9 @@ unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
- struct device *mtk_ovl_adaptor_dma_dev_get(struct device *dev);
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev);
- size_t mtk_ovl_adaptor_get_num_formats(struct device *dev);
-+size_t mtk_ovl_adaptor_crc_cnt(struct device *dev);
-+u32 *mtk_ovl_adaptor_crc_entry(struct device *dev);
-+void mtk_ovl_adaptor_crc_read(struct device *dev);
- 
- void mtk_rdma_bypass_shadow(struct device *dev);
- int mtk_rdma_clk_enable(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 6bf6367853fb..8fe706ccee72 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -160,6 +160,27 @@ void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
- 	mtk_ethdr_layer_config(ethdr, idx, state, cmdq_pkt);
- }
- 
-+size_t mtk_ovl_adaptor_crc_cnt(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_crc_cnt(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
-+u32 *mtk_ovl_adaptor_crc_entry(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_crc_entry(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
-+void mtk_ovl_adaptor_crc_read(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	mtk_ethdr_crc_read(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
- void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
- 			    unsigned int h, unsigned int vrefresh,
- 			    unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index b8b3884dfa63..7dfb37ae2c80 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -400,6 +400,9 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.clk_enable = mtk_ovl_adaptor_clk_enable,
- 	.clk_disable = mtk_ovl_adaptor_clk_disable,
- 	.config = mtk_ovl_adaptor_config,
-+	.crc_cnt = mtk_ovl_adaptor_crc_cnt,
-+	.crc_entry = mtk_ovl_adaptor_crc_entry,
-+	.crc_read = mtk_ovl_adaptor_crc_read,
- 	.start = mtk_ovl_adaptor_start,
- 	.stop = mtk_ovl_adaptor_stop,
- 	.layer_nr = mtk_ovl_adaptor_layer_nr,
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index a41b3950e081..693b9a438a3d 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -24,6 +24,9 @@
- #define MIX_FME_CPL_INTEN			BIT(1)
- #define MIX_INTSTA			0x8
- #define MIX_EN				0xc
-+#define MIX_TRIG			0x10
-+#define MIX_TRIG_CRC_EN				BIT(8)
-+#define MIX_TRIG_CRC_RST			BIT(9)
- #define MIX_RST				0x14
- #define MIX_ROI_SIZE			0x18
- #define MIX_DATAPATH_CON		0x1c
-@@ -39,6 +42,11 @@
- #define PREMULTI_SOURCE				(3 << 12)
- #define MIX_L_SRC_SIZE(n)		(0x30 + 0x18 * (n))
- #define MIX_L_SRC_OFFSET(n)		(0x34 + 0x18 * (n))
-+
-+/* CRC register offsets for odd and even lines */
-+#define MIX_CRC_ODD			0x110
-+#define MIX_CRC_EVEN			0x114
-+
- #define MIX_FUNC_DCM0			0x120
- #define MIX_FUNC_DCM1			0x124
- #define MIX_FUNC_DCM_ENABLE			0xffffffff
-@@ -74,6 +82,17 @@ struct mtk_ethdr_comp {
- 	struct cmdq_client_reg	cmdq_base;
- };
- 
-+/**
-+ * struct mtk_ethdr - ethdr driver data
-+ * @ethdr_comp: components of ethdr(mixer)
-+ * @ethdr_clk: clocks of ethdr components
-+ * @mmsys_dev: mmsys device that ethdr binds to
-+ * @vblank_cb: callback function when vblank irq occurs
-+ * @vblank_cb_data: data fo vblank callback
-+ * @irq: irq that triggers irq handler
-+ * @reset_ctl: reset control of ethdr
-+ * @crc: crc information
-+ */
- struct mtk_ethdr {
- 	struct mtk_ethdr_comp	ethdr_comp[ETHDR_ID_MAX];
- 	struct clk_bulk_data	ethdr_clk[ETHDR_CLK_NUM];
-@@ -82,6 +101,7 @@ struct mtk_ethdr {
- 	void			*vblank_cb_data;
- 	int			irq;
- 	struct reset_control	*reset_ctl;
-+	struct mtk_drm_crc	crc;
- };
- 
- static const char * const ethdr_clk_str[] = {
-@@ -100,6 +120,32 @@ static const char * const ethdr_clk_str[] = {
- 	"vdo_be_async",
- };
- 
-+static const u32 ethdr_crc_ofs[] = {
-+	MIX_CRC_ODD,
-+	MIX_CRC_EVEN,
-+};
-+
-+size_t mtk_ethdr_crc_cnt(struct device *dev)
-+{
-+	struct mtk_ethdr *priv = dev_get_drvdata(dev);
-+
-+	return priv->crc.cnt;
-+}
-+
-+u32 *mtk_ethdr_crc_entry(struct device *dev)
-+{
-+	struct mtk_ethdr *priv = dev_get_drvdata(dev);
-+
-+	return priv->crc.va;
-+}
-+
-+void mtk_ethdr_crc_read(struct device *dev)
-+{
-+	struct mtk_ethdr *priv = dev_get_drvdata(dev);
-+
-+	mtk_drm_crc_read(&priv->crc, priv->ethdr_comp[ETHDR_MIXER].regs);
-+}
-+
- void mtk_ethdr_register_vblank_cb(struct device *dev,
- 				  void (*vblank_cb)(void *),
- 				  void *vblank_cb_data)
-@@ -267,6 +313,13 @@ void mtk_ethdr_start(struct device *dev)
- 	struct mtk_ethdr_comp *mixer = &priv->ethdr_comp[ETHDR_MIXER];
- 
- 	writel(1, mixer->regs + MIX_EN);
-+
-+	if (priv->crc.cnt) {
-+		writel(MIX_TRIG_CRC_EN, mixer->regs + MIX_TRIG);
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+		mtk_drm_crc_cmdq_start(&priv->crc);
-+#endif
-+	}
- }
- 
- void mtk_ethdr_stop(struct device *dev)
-@@ -274,6 +327,9 @@ void mtk_ethdr_stop(struct device *dev)
- 	struct mtk_ethdr *priv = dev_get_drvdata(dev);
- 	struct mtk_ethdr_comp *mixer = &priv->ethdr_comp[ETHDR_MIXER];
- 
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	mtk_drm_crc_cmdq_stop(&priv->crc);
-+#endif
- 	writel(0, mixer->regs + MIX_EN);
- 	writel(1, mixer->regs + MIX_RST);
- 	reset_control_reset(priv->reset_ctl);
-@@ -328,6 +384,10 @@ static int mtk_ethdr_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	mtk_drm_crc_init(&priv->crc,
-+			 ethdr_crc_ofs, ARRAY_SIZE(ethdr_crc_ofs),
-+			 MIX_TRIG, MIX_TRIG_CRC_RST);
-+
- 	for (i = 0; i < ETHDR_ID_MAX; i++) {
- 		priv->ethdr_comp[i].dev = dev;
- 		priv->ethdr_comp[i].regs = of_iomap(dev->of_node, i);
-@@ -336,6 +396,16 @@ static int mtk_ethdr_probe(struct platform_device *pdev)
- 					      &priv->ethdr_comp[i].cmdq_base, i);
- 		if (ret)
- 			dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
-+
-+		if (i == ETHDR_MIXER) {
-+			if (of_property_read_u32_index(dev->of_node,
-+						       "mediatek,gce-events", i,
-+						       &priv->crc.cmdq_event)) {
-+				dev_warn(dev, "failed to get gce-events for crc\n");
-+			}
-+			priv->crc.cmdq_reg = &priv->ethdr_comp[i].cmdq_base;
-+			mtk_drm_crc_cmdq_create(dev, &priv->crc);
-+		}
- #endif
- 		dev_dbg(dev, "[DRM]regs:0x%p, node:%d\n", priv->ethdr_comp[i].regs, i);
- 	}
-@@ -376,6 +446,9 @@ static int mtk_ethdr_probe(struct platform_device *pdev)
- 
- static int mtk_ethdr_remove(struct platform_device *pdev)
- {
-+	struct mtk_ethdr *priv = dev_get_drvdata(&pdev->dev);
-+
-+	mtk_drm_crc_destroy(&priv->crc);
- 	component_del(&pdev->dev, &mtk_ethdr_component_ops);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.h b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-index 81af9edea3f7..d17d7256bd12 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-@@ -22,4 +22,9 @@ void mtk_ethdr_register_vblank_cb(struct device *dev,
- void mtk_ethdr_unregister_vblank_cb(struct device *dev);
- void mtk_ethdr_enable_vblank(struct device *dev);
- void mtk_ethdr_disable_vblank(struct device *dev);
-+
-+size_t mtk_ethdr_crc_cnt(struct device *dev);
-+u32 *mtk_ethdr_crc_entry(struct device *dev);
-+void mtk_ethdr_crc_read(struct device *dev);
-+
- #endif
--- 
-2.18.0
+> On Fri, Sep 15, 2023 at 04:05:15PM +0200, Flavio Suligoi wrote:
+> > The Monolithic Power (MPS) MP3309C is a WLED step-up converter,
+> > featuring a programmable switching frequency to optimize efficiency.
+> > The brightness can be controlled either by I2C commands (called "analog=
+"
+> > mode) or by a PWM input signal (PWM mode).
+> > This driver supports both modes.
+> >
+> > For device driver details, please refer to:
+> > - drivers/video/backlight/mp3309c_bl.c
+> >
+> > The datasheet is available at:
+> > - https://www.monolithicpower.com/en/mp3309c.html
+> >
+> > Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> > ---
+> >
+> > v2:
+> >  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
+> >    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay=
+-ms,
+> >    reset-on-length-ms)
+> >  - add common.yaml#
+> >  - remove already included properties (default-brightness,
+> > max-brightness)
+> >  - substitute three boolean properties, used for the overvoltage-protec=
+tion
+> >    values, with a single enum property
+> >  - remove some conditional definitions
+> >  - remove the 2nd example
+> > v1:
+> >  - first version
+> >
+> >  .../bindings/leds/backlight/mps,mp3309c.yaml  | 73
+> > +++++++++++++++++++
+> >  1 file changed, 73 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> > b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> > new file mode 100644
+> > index 000000000000..99ccdba2c08f
+> > --- /dev/null
+> > +++
+> b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yam
+> > +++ l
+> > @@ -0,0 +1,73 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MPS MP3309C backlight
+> > +
+> > +maintainers:
+> > +  - Flavio Suligoi <f.suligoi@asem.it>
 
+...
+
+> > +  mps,overvoltage-protection-microvolt:
+> > +    description: Overvoltage protection (13.5V, 24V or 35.5V). If miss=
+ing, the
+> > +      hardware default of 35.5V is used.
+> > +    enum: [ 13500000, 24000000, 35500000 ]
+> You can add "default: 35500000" and drop the free form default as text in=
+ the
+> description.
+
+Ok, thanks.
+
+>=20
+> Cheers,
+> Conor.
+>=20
+> > +
+> > +  mps,no-sync-mode:
+> > +    description: disable synchronous rectification mode
+> > +    type: boolean
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - max-brightness
+> > +  - default-brightness
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        /* Backlight with PWM control */
+> > +        backlight_pwm: backlight@17 {
+> > +            compatible =3D "mps,mp3309c-backlight";
+>=20
+> As the bot pointed out, the compatible doesn't contain "backlight".
+
+Right, fixed!
+
+Thanks and regards,
+Flavio
