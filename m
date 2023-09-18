@@ -1,59 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F187A50AC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 19:11:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CC17A513E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 19:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C295210E26D;
-	Mon, 18 Sep 2023 17:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB6BC10E2BA;
+	Mon, 18 Sep 2023 17:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D756D10E26D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 17:11:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695057108; x=1726593108;
- h=message-id:date:mime-version:subject:to:references:cc:
- from:in-reply-to:content-transfer-encoding;
- bh=nNMVW3fRZcJWksvHbg8Bdc93HVugXXkPSBcjkhuLjIA=;
- b=lIC+uN4e+rM8TbJeNSFN4xhtDJeIKFhPvMt2euFmfXOh3Lg+O4cx1eVL
- enr8TGUx1TYLheCBseAuTyMIitevIRR1q/5NzbPNsp/rgsXVWYTaxg3jK
- AjeMwi0fxoKnlVNb+/+Tv3z1Cm7qwU3v5lF0AJ6HeEr7WsiYOOyvfFFaY
- sm//AQnEYU1JKgAFt9GpXVyBQ43Wo1GaO53QKJpnEdT0RgMqb08S5nKuy
- GTyDKAOo5g5AFBtzF5c2KAz9AxpCtxxaGGS0rwA6hXPgA7hbyzJLba7Iu
- L/rpVWw5Zypu/Cjcenn4z9IWRji+gklOTMh1bPky49F+jogy0/CPgGVgJ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="377038035"
-X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; d="scan'208";a="377038035"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 10:11:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775204903"
-X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; d="scan'208";a="775204903"
-Received: from clanggaa-mobl.ger.corp.intel.com (HELO [10.249.254.250])
- ([10.249.254.250])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 10:11:46 -0700
-Message-ID: <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
-Date: Mon, 18 Sep 2023 19:11:43 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01FC710E2BA;
+ Mon, 18 Sep 2023 17:48:07 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38IGMAwr002222; Mon, 18 Sep 2023 17:48:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=uUbP9kQV+ThBkIavYQf5xISOTHSD636KoaAoeeOli5M=;
+ b=jqvmDqUEG362Dekj8vMU+Y0YYO35eYNr5UtZXD82LFn3lsR36xZbXv2sfccrtotD7wih
+ ok4/PPGlJXA4eY9I8mI5rn430Nbs4eDok3nSv/v/yNrFQjPP91GmdzAis+yM7HK+PE5U
+ PVXe140O2Qm3qt2/NuIMig4wBI6Af6YoJJLhsBKssqX1EXcgcphsN8jtZhu4vbvnvwhi
+ ejaz5rr4HpOjEwlCz+fuMH1caz7sdf6pMF7TkkOSxYL/S1Qlx907MMCpQELobanJmnJT
+ dm+FhTzGzspGrHvk6//WhZTnr3cCxwuhoNMt1ZBwPuKodwUv8yyNe06JRuHXIPIqHicn 6g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t53ps3pgd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 17:48:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38IHm1R1009244
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 17:48:01 GMT
+Received: from [10.71.109.209] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 18 Sep
+ 2023 10:48:00 -0700
+Message-ID: <2f98d5f1-57c1-d9fe-cb1c-b975db057287@quicinc.com>
+Date: Mon, 18 Sep 2023 10:47:59 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: Decrypting tt maps in ttm
+Subject: Re: [PATCH v3 6/7] drm/msm/dp: add pm_runtime_force_suspend()/resume()
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
-References: <15c9beb5f8dcb091b00c35d6206b84aa100d729e.camel@vmware.com>
- <60f15275-ebfd-2fd6-64c4-c8907520e5dd@amd.com>
- <3fa9b4d0-e12a-59b6-14c5-68f7406df129@linux.intel.com>
- <fc935b9f-9b25-bcab-717c-0c31373fcfee@linux.intel.com>
- <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+ <1694813901-26952-7-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpqPXoFX4LXyXYgfh07Vpxg-KgD8VBR6x5bXf4GOJmbOtw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 2yRmZoFFq4PYJjGmGlmP9W4LESvPS1d0
+X-Proofpoint-GUID: 2yRmZoFFq4PYJjGmGlmP9W4LESvPS1d0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-18_08,2023-09-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ malwarescore=0 mlxlogscore=999 spamscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309180157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +84,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 9/18/23 17:52, Zack Rusin wrote:
-> On Mon, 2023-09-18 at 17:13 +0200, Thomas Hellström wrote:
->> Hi,
+On 9/15/2023 6:21 PM, Dmitry Baryshkov wrote:
+> On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> Add pm_runtime_force_suspend()/resume() to complete incorporating pm
+>> runtime framework into DP driver. Both dp_pm_prepare() and dp_pm_complete()
+>> are added to set hpd_state to correct state. After resume, DP driver will
+>> re training its main link after .hpd_enable() callback enabled HPD
+>> interrupts and bring up display accordingly.
+> How will it re-train the main link? What is the code path for that?
+
+1) for edp, dp_bridge_atomic_enable(), called from framework, to start 
+link training and bring up display.
+
+2) for external DP, HPD_PLUG_INT will be generated to start link 
+training and bring up display.
+
+>
+> I think this is a misuse for prepare/complete callbacks, at least
+> judging from their documentation.
+
+1) dp_pm_prepare() is called to make sure eDP/DP related power/clocks 
+are off and set hpd_state  to ST_SUSPENDED and nothing else.
+
+2) dp_pm_completed() is called to set hpd_state to ST_ST_DISCONNECTED 
+(default state) and nothing else.
+
+I think both are doing proper action.
+
+
+>
+>> Changes in v3:
+>> -- replace dp_pm_suspend() with pm_runtime_force_suspend()
+>> -- replace dp_pm_resume() with pm_runtime_force_resume()
 >>
->> On 9/18/23 16:56, Thomas Hellström wrote:
->>> Hi Zack, Christian
->>>
->>> On 9/18/23 13:36, Christian König wrote:
->>>> Hi Zack,
->>>>
->>>> adding Thomas and Daniel.
->>>>
->>>> I briefly remember that I talked with Thomas and some other people
->>>> about that quite a while ago as well, but I don't fully remember the
->>>> outcome.
->>> Found one old thread, but didn't read it:
->>>
->>> https://lists.freedesktop.org/archives/dri-devel/2019-September/234100.html
->>>
->>>
->>> /Thomas
->>>
->>>
->> Ugh. Now starting to read that thread I have a vague recollection it all
->> ended with not supporting mapping any device pages whatsoever when SEV
->> was enabled, but rather resorting to llvmpipe and VM-local bos.
-> Hi, Thomas.
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 87 +++++--------------------------------
+>>   1 file changed, 10 insertions(+), 77 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index b6992202..b58cb02 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1333,101 +1333,35 @@ static int dp_pm_runtime_resume(struct device *dev)
+>>          return 0;
+>>   }
+>>
+>> -static int dp_pm_resume(struct device *dev)
+>> +static void dp_pm_complete(struct device *dev)
+>>   {
+>> -       struct platform_device *pdev = to_platform_device(dev);
+>> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
+>> -       struct dp_display_private *dp;
+>> -       int sink_count = 0;
+>> -
+>> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
+>> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>
+>>          mutex_lock(&dp->event_mutex);
+>>
+>>          drm_dbg_dp(dp->drm_dev,
+>> -               "Before, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+>> +               "type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+>>                  dp->dp_display.connector_type, dp->core_initialized,
+>> -               dp->phy_initialized, dp_display->power_on);
+>> +               dp->phy_initialized, dp->dp_display.power_on);
+>>
+>>          /* start from disconnected state */
+>>          dp->hpd_state = ST_DISCONNECTED;
+>>
+>> -       /* turn on dp ctrl/phy */
+>> -       dp_display_host_init(dp);
+>> -
+>> -       if (dp_display->is_edp)
+>> -               dp_catalog_ctrl_hpd_enable(dp->catalog);
+>> -
+>> -       if (dp_catalog_link_is_connected(dp->catalog)) {
+>> -               /*
+>> -                * set sink to normal operation mode -- D0
+>> -                * before dpcd read
+>> -                */
+>> -               dp_display_host_phy_init(dp);
+>> -               dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>> -               sink_count = drm_dp_read_sink_count(dp->aux);
+>> -               if (sink_count < 0)
+>> -                       sink_count = 0;
+>> -
+>> -               dp_display_host_phy_exit(dp);
+>> -       }
+>> -
+>> -       dp->link->sink_count = sink_count;
+>> -       /*
+>> -        * can not declared display is connected unless
+>> -        * HDMI cable is plugged in and sink_count of
+>> -        * dongle become 1
+>> -        * also only signal audio when disconnected
+>> -        */
+>> -       if (dp->link->sink_count) {
+>> -               dp->dp_display.link_ready = true;
+>> -       } else {
+>> -               dp->dp_display.link_ready = false;
+>> -               dp_display_handle_plugged_change(dp_display, false);
+>> -       }
+>> -
+>> -       drm_dbg_dp(dp->drm_dev,
+>> -               "After, type=%d sink=%d conn=%d core_init=%d phy_init=%d power=%d\n",
+>> -               dp->dp_display.connector_type, dp->link->sink_count,
+>> -               dp->dp_display.link_ready, dp->core_initialized,
+>> -               dp->phy_initialized, dp_display->power_on);
+>> -
+>>          mutex_unlock(&dp->event_mutex);
+>> -
+>> -       return 0;
+>>   }
+>>
+>> -static int dp_pm_suspend(struct device *dev)
+>> +static int dp_pm_prepare(struct device *dev)
+>>   {
+>> -       struct platform_device *pdev = to_platform_device(dev);
+>> -       struct msm_dp *dp_display = platform_get_drvdata(pdev);
+>> -       struct dp_display_private *dp;
+>> -
+>> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
+>> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>
+>>          mutex_lock(&dp->event_mutex);
+>>
+>> -       drm_dbg_dp(dp->drm_dev,
+>> -               "Before, type=%d core_inited=%d  phy_inited=%d power_on=%d\n",
+>> -               dp->dp_display.connector_type, dp->core_initialized,
+>> -               dp->phy_initialized, dp_display->power_on);
+>> -
+>>          /* mainlink enabled */
+>>          if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+>>                  dp_ctrl_off_link_stream(dp->ctrl);
+>>
+>> -       dp_display_host_phy_exit(dp);
+>> -
+>> -       /* host_init will be called at pm_resume */
+>> -       dp_display_host_deinit(dp);
+>> -
+>>          dp->hpd_state = ST_SUSPENDED;
+>>
+>> -       drm_dbg_dp(dp->drm_dev,
+>> -               "After, type=%d core_inited=%d phy_inited=%d power_on=%d\n",
+>> -               dp->dp_display.connector_type, dp->core_initialized,
+>> -               dp->phy_initialized, dp_display->power_on);
+>> -
+>>          mutex_unlock(&dp->event_mutex);
+>>
+>>          return 0;
+>> @@ -1435,8 +1369,10 @@ static int dp_pm_suspend(struct device *dev)
+>>
+>>   static const struct dev_pm_ops dp_pm_ops = {
+>>          SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
+>> -       .suspend = dp_pm_suspend,
+>> -       .resume =  dp_pm_resume,
+>> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>> +                                pm_runtime_force_resume)
+>> +       .prepare = dp_pm_prepare,
+>> +       .complete = dp_pm_complete,
+>>   };
+>>
+>>   static struct platform_driver dp_display_driver = {
+>> @@ -1670,9 +1606,6 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>>
+>>          dp_display = container_of(dp, struct dp_display_private, dp_display);
+>>
+>> -       if (dp->is_edp)
+>> -               dp_hpd_unplug_handle(dp_display, 0);
+>> -
+>>          mutex_lock(&dp_display->event_mutex);
+>>
+>>          state = dp_display->hpd_state;
+>> --
+>> 2.7.4
+>>
 >
-> Thanks for finding this! I'd (of course) like to solve it properly and get vmwgfx
-> running with 3d support with SEV-ES active instead of essentially disabling the
-> driver when SEV-ES is active.
->
-> I think there are two separate discussions there, the non-controversial one and the
-> controversial one:
-> 1) The non-controversial: is there a case where drivers would want encrypted memory
-> for TT pages but not for io mem mappings? Because if not then as Christian pointed
-> out we could just add pgprot_decrypted to ttm_io_prot and be essentially done. The
-> current method of decrypting io mem but leaving sys mem mappings encrypted is a bit
-> weird anyway.
->
-> If the answer to that question is "yes, some driver does want the TT mappings to be
-> encrypted" then your "[PATCH v2 3/4] drm/ttm, drm/vmwgfx: Correctly support support
-> AMD memory encryption" solves that. I think getting one of those two in makes sense
-> regardless of everything else, agreed?
-
-Well, there is more to it I think.
-
-IIRC, the AMD SME encryption mode has a way for a device to have the 
-memory controller (?) encrypt / decrypt device traffic by using an 
-address range alias, so in theory it supports encrypted TT pages, and 
-the dma-layer may indeed hand encrypted DMA pages to TTM on such systems 
-depending on the device's DMA mask. That's why I think that 
-force_dma_unencrypted() export was needed, and If the amdgpu driver 
-accesses TT memory in SME mode *without* pgprot_decrypted() and it still 
-works, then I think that mode is actually used. How could it otherwise work?
-
-But anyway, I agree SEV-ES mode would *always* want pgprot_decrypted for 
-dma allocated memory, whether it's in PL_SYSTEM or in PL_TT, but I guess 
-the above SME case need to be sorted out first.
-
->
-> 2) The controversial part of your series seems to be exporting of
-> force_dma_unencrypted and its usage within ttm. Personally I'm perfectly ok with
-> ignoring that for now. Getting #1 in is still a million times (rounded up to the
-> nearest million) faster than just using llvmpipe in the guest. And getting #1 also
-> fixes modern presentation on vmwgfx.
-
-
->
-> So #1 is "make the driver work", while #2 is an optimisation - I think we should
-> treat them as separate things/series. Does that make sense?
-
-I guess that depends on the tradeoff between security and speed for 
-people running SEV-enabled VMs. But giving them a choice is probably not 
-a bad idea.
-
-/Thomas
-
-
->
-> z
->
-> P.S. I forgot to cc dri-devel on the initial email, that wasn't by design. Sorry.
-> I'm ok with moving the discussion to dri-devel.
