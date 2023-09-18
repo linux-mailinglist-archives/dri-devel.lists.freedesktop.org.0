@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B1A7A4402
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 10:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591957A4403
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 10:11:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D580E10E202;
-	Mon, 18 Sep 2023 08:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B4910E203;
+	Mon, 18 Sep 2023 08:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 720C110E202
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 08:10:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD85010E203
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 08:11:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695024655; x=1726560655;
+ t=1695024660; x=1726560660;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=qZ3GjX/cquXbN0My6239EnQBA462WhVjaagN9mFDH+A=;
- b=aOOUNf1dB8NQhFpxBfTUmLLT9+Xn7IpkF25++WlSTro29m9iaIwrxfGv
- ScbAczXiDuge+90WKciM8cd/Ciz3R0gcFe4FXKAbmfLnnySE2iK0OF3Mh
- T+1xdn75LTl1/xyGuKkQCsqGwjs8EVkbm/60brUAVdb/trRAaJEGd0frF
- Syvr93ISGIrQSeO7grYzr/x4nHB7TUJxZKTyZJWbv9TKRbT//ltD42l1c
- 63vMi0bFLJ9/cPVqE4NFwgxGxrURCdbRRE7XWg3lDwnoleMDDxiCFCw85
- 9hssYEXU+dF9/DYHuzhhjqvv06/UkmqxECv8b+oOMRwA/Iqb7DhtzCJVl Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410551060"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="410551060"
+ bh=bMaJFzdoHE251RPoOCQQLiNWqIMAearCyzsonP9+vmg=;
+ b=dZu+o9d0xzJ0wMzJnhjDFsqHGqYaqg91dS2QeOjJySznH+HDDuXpt8ZB
+ 83JPMpHgNhINkRS4TIYhigRtKBSiuVss6BGimDHYL4aDMpWAHtGvwN8KI
+ FIebT0EBCnHPmrlKLM4N+S3eWzFi110x1vkqkbIGLmQHsKaZ98LNczV1I
+ Tu1HhM0FA/XC3I5iak//VVUMY6tnZfL9dxgNMdUfdNuMId4B0G/N/REgl
+ UkjO0nYoghuIagKRxfMavDtbMC8/s2ulnchpY3YxZmBCizeEED52Uvdpb
+ O1tJ5OwFRd68Dpw/sjjPP1AYFsxXtkKxX2nov9MSDBBMoMHwLBmfFSI/1 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410551116"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="410551116"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 01:10:53 -0700
+ 18 Sep 2023 01:11:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="695442560"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="695442560"
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="695442632"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; d="scan'208";a="695442632"
 Received: from inlubt0316.iind.intel.com ([10.191.20.213])
- by orsmga003.jf.intel.com with ESMTP; 18 Sep 2023 01:10:46 -0700
+ by orsmga003.jf.intel.com with ESMTP; 18 Sep 2023 01:10:54 -0700
 From: Raag Jadav <raag.jadav@intel.com>
 To: rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz,
  Jonathan.Cameron@huawei.com, paul@crapouillou.net,
@@ -41,10 +41,10 @@ To: rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz,
  laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
  james.schulman@cirrus.com, david.rhodes@cirrus.com,
  rf@opensource.cirrus.com
-Subject: [PATCH for-next v2 05/10] iio: imu: inv_icm42600: convert to
+Subject: [PATCH for-next v2 06/10] iio: imu: inv_mpu: convert to
  EXPORT_NS_GPL_RUNTIME_PM_OPS()
-Date: Mon, 18 Sep 2023 13:39:46 +0530
-Message-Id: <20230918080951.3615-6-raag.jadav@intel.com>
+Date: Mon, 18 Sep 2023 13:39:47 +0530
+Message-Id: <20230918080951.3615-7-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230918080951.3615-1-raag.jadav@intel.com>
 References: <20230918080951.3615-1-raag.jadav@intel.com>
@@ -72,22 +72,22 @@ use the new macro.
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- drivers/iio/imu/inv_icm42600/inv_icm42600_core.c | 2 +-
+ drivers/iio/imu/inv_mpu6050/inv_mpu_core.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/imu/inv_icm42600/inv_icm42600_core.c b/drivers/iio/imu/inv_icm42600/inv_icm42600_core.c
-index a5e81906e37e..d0c7e4702981 100644
---- a/drivers/iio/imu/inv_icm42600/inv_icm42600_core.c
-+++ b/drivers/iio/imu/inv_icm42600/inv_icm42600_core.c
-@@ -790,7 +790,7 @@ static int inv_icm42600_runtime_resume(struct device *dev)
- 	return ret;
+diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
+index 29f906c884bd..3872514538b7 100644
+--- a/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
++++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_core.c
+@@ -1795,7 +1795,7 @@ static int inv_mpu_runtime_resume(struct device *dev)
+ 	return inv_mpu6050_set_power_itg(st, true);
  }
  
--EXPORT_NS_GPL_DEV_PM_OPS(inv_icm42600_pm_ops, IIO_ICM42600) = {
-+EXPORT_NS_GPL_RUNTIME_PM_OPS(inv_icm42600_pm_ops, IIO_ICM42600) = {
- 	SYSTEM_SLEEP_PM_OPS(inv_icm42600_suspend, inv_icm42600_resume)
- 	RUNTIME_PM_OPS(inv_icm42600_runtime_suspend,
- 		       inv_icm42600_runtime_resume, NULL)
+-EXPORT_NS_GPL_DEV_PM_OPS(inv_mpu_pmops, IIO_MPU6050) = {
++EXPORT_NS_GPL_RUNTIME_PM_OPS(inv_mpu_pmops, IIO_MPU6050) = {
+ 	SYSTEM_SLEEP_PM_OPS(inv_mpu_suspend, inv_mpu_resume)
+ 	RUNTIME_PM_OPS(inv_mpu_runtime_suspend, inv_mpu_runtime_resume, NULL)
+ };
 -- 
 2.17.1
 
