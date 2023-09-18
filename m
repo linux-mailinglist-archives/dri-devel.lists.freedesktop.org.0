@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C5F7A45A0
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BE57A45A6
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A76010E234;
-	Mon, 18 Sep 2023 09:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F8010E23F;
+	Mon, 18 Sep 2023 09:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2451410E22D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:38 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B64810E233
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 920C560F80;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 89DE8B80CA2;
+ Mon, 18 Sep 2023 09:13:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57419C433C7;
  Mon, 18 Sep 2023 09:13:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDDE9C433C9;
- Mon, 18 Sep 2023 09:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695028416;
- bh=rm/2o0Yzt0/LI9xoFfNtzYLF1kipUM2YHJa2kQoVsiM=;
+ s=k20201202; t=1695028418;
+ bh=IOe4pvYHZifdZAT1ElJWSs1UKoCsNyEBNwCY0FpORoo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h2F9tMm7wn7mi4gCp6ENOiLCITvs7zMF0dkGdi/EeUAaWvJd+cAAszmiGxLMNz1ao
- vSdmnRxD5t0WoQNT4XqL50Usp8NcjPPSpSMnM9ybFpE7iPqa4EOjNKNPPpY2mVdoDh
- Cd2LmhJaozcHmWTYUSuMMTlx4wfchbPopa56Vq7awJs9YyduG3yOO+oCCDmnmznkXU
- BWT4kw91ULoHRGM+026BjsRdKhmRdD/Dt6R+GzYw9i3QNqcat8hC94WfN6kG63LqB+
- t3a8XLvCDZSRYKk6r8xFNUItiw/S0JBroKR3M7jWAfF12tngCCLDJZCqXehxoR2lwX
- O7mCLfPa3PKxQ==
+ b=fxTK3E7e+gz3U3z3h9/AjIrEtHjCMqDcZYxPSaXNoi5MliA3UdtJqyxN/nHgLBWx/
+ d2eeQYRQrN2mPJSlP9W95EYGF9qNjZ1sJw6u72VCR/OshM2OUrfDi50KPuSp/u+k9r
+ +9G1WS7Se/uRnKs7vb1pNWdkuxCPi5OuYEW/hzik3GDklZwH/v57cJaxmK4EhjBdKG
+ IUt28Nm/0DB4A7lzD9TSIBPQ3hy6IkE3QdHkm7mvZnvLbygG7DPWh2iWuwX41spBvG
+ IJhFY2/tV2FtFc+kRLZ1aZ9tvmzkDokFLev+BvuXODME+U1tODNm280z+c6ikscAwn
+ PpL4kikpIh8MA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/14] accel/habanalabs/gaudi2: print power-mode changes
-Date: Mon, 18 Sep 2023 12:13:14 +0300
-Message-Id: <20230918091321.855943-7-ogabbay@kernel.org>
+Subject: [PATCH 08/14] accel/habanalabs/gaudi2: handle eq health heartbeat
+ check
+Date: Mon, 18 Sep 2023 12:13:15 +0300
+Message-Id: <20230918091321.855943-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918091321.855943-1-ogabbay@kernel.org>
 References: <20230918091321.855943-1-ogabbay@kernel.org>
@@ -53,95 +53,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Moti Haimovski <mhaimovski@habana.ai>
+Cc: farah kassabri <fkassabri@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Moti Haimovski <mhaimovski@habana.ai>
+From: farah kassabri <fkassabri@habana.ai>
 
-Print to kernel log any device power mode changes events reported by
-the FW.
+Add mechanism for fw eq health check. this will be done using two flows:
+using the heartbeat mechanism and raising a dedicated interrupt to
+indicate an eq failure like EQ full.
+This patch will add implementation for the eq heartbeat for gaudi2 asic.
 
-Signed-off-by: Moti Haimovski <mhaimovski@habana.ai>
+More info about the heartbeat mechanism:
+Expand the heartbeat mechanism to monitor a new event that
+will be sent from FW upon receiving heartbeat message.
+that way driver can know that the eq is working or not.
+
+Signed-off-by: farah kassabri <fkassabri@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c             | 12 ++++++++++++
- .../habanalabs/include/gaudi2/gaudi2_async_events.h  |  7 +++++++
- .../include/gaudi2/gaudi2_async_ids_map_extended.h   | 12 ++++++++++++
- 3 files changed, 31 insertions(+)
+ drivers/accel/habanalabs/common/device.c      | 37 ++++++++++++++++++-
+ drivers/accel/habanalabs/common/habanalabs.h  |  2 +
+ drivers/accel/habanalabs/gaudi2/gaudi2.c      | 10 +++++
+ .../gaudi2/gaudi2_async_ids_map_extended.h    | 14 ++++---
+ include/linux/habanalabs/cpucp_if.h           | 14 ++++++-
+ 5 files changed, 68 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index bf1b53f7fce9..1d68d2233171 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -989,6 +989,25 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
+ 	return (vendor_id == PCI_VENDOR_ID_HABANALABS);
+ }
+ 
++static void hl_device_eq_heartbeat(struct hl_device *hdev)
++{
++	u64 event_mask = HL_NOTIFIER_EVENT_DEVICE_RESET | HL_NOTIFIER_EVENT_DEVICE_UNAVAILABLE;
++	struct asic_fixed_properties *prop = &hdev->asic_prop;
++
++	 /*
++	  * This feature supported in FW version 1.12.0 45.2.0 and above,
++	  * only on those FW versions eq_health_check_supported will be set.
++	  * Start checking eq health only after driver has enabled events from FW.
++	  */
++	if (!prop->cpucp_info.eq_health_check_supported || !hdev->init_done)
++		return;
++
++	if (hdev->eq_heartbeat_received)
++		hdev->eq_heartbeat_received = false;
++	else
++		hl_device_cond_reset(hdev, HL_DRV_RESET_HARD, event_mask);
++}
++
+ static void hl_device_heartbeat(struct work_struct *work)
+ {
+ 	struct hl_device *hdev = container_of(work, struct hl_device,
+@@ -999,6 +1018,12 @@ static void hl_device_heartbeat(struct work_struct *work)
+ 	if (!hl_device_operational(hdev, NULL))
+ 		goto reschedule;
+ 
++	/*
++	 * For EQ health check need to check if driver received the heartbeat eq event
++	 * in order to validate the eq is working.
++	 */
++	hl_device_eq_heartbeat(hdev);
++
+ 	if (!hdev->asic_funcs->send_heartbeat(hdev))
+ 		goto reschedule;
+ 
+@@ -1055,7 +1080,15 @@ static int device_late_init(struct hl_device *hdev)
+ 	hdev->high_pll = hdev->asic_prop.high_pll;
+ 
+ 	if (hdev->heartbeat) {
++		/*
++		 * Before scheduling the heartbeat driver will check if eq event has received.
++		 * for the first schedule we need to set the indication as true then for the next
++		 * one this indication will be true only if eq event was sent by FW.
++		 */
++		hdev->eq_heartbeat_received = true;
++
+ 		INIT_DELAYED_WORK(&hdev->work_heartbeat, hl_device_heartbeat);
++
+ 		schedule_delayed_work(&hdev->work_heartbeat,
+ 				usecs_to_jiffies(HL_HEARTBEAT_PER_USEC));
+ 	}
+@@ -2235,8 +2268,6 @@ int hl_device_init(struct hl_device *hdev)
+ 		"Successfully added device %s to habanalabs driver\n",
+ 		dev_name(&(hdev)->pdev->dev));
+ 
+-	hdev->init_done = true;
+-
+ 	/* After initialization is done, we are ready to receive events from
+ 	 * the F/W. We can't do it before because we will ignore events and if
+ 	 * those events are fatal, we won't know about it and the device will
+@@ -2244,6 +2275,8 @@ int hl_device_init(struct hl_device *hdev)
+ 	 */
+ 	hdev->asic_funcs->enable_events_from_fw(hdev);
+ 
++	hdev->init_done = true;
++
+ 	return 0;
+ 
+ cb_pool_fini:
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index f8c597903cac..e5b416852996 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -3314,6 +3314,7 @@ struct hl_reset_info {
+  *                             device.
+  * @supports_ctx_switch: true if a ctx switch is required upon first submission.
+  * @support_preboot_binning: true if we support read binning info from preboot.
++ * @eq_heartbeat_received: indication that eq heartbeat event has received from FW.
+  * @nic_ports_mask: Controls which NIC ports are enabled. Used only for testing.
+  * @fw_components: Controls which f/w components to load to the device. There are multiple f/w
+  *                 stages and sometimes we want to stop at a certain stage. Used only for testing.
+@@ -3474,6 +3475,7 @@ struct hl_device {
+ 	u8				reset_upon_device_release;
+ 	u8				supports_ctx_switch;
+ 	u8				support_preboot_binning;
++	u8				eq_heartbeat_received;
+ 
+ 	/* Parameters for bring-up to be upstreamed */
+ 	u64				nic_ports_mask;
 diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index dca19be42d5f..677900e18519 100644
+index 677900e18519..e507847bf460 100644
 --- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
 +++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -7798,6 +7798,7 @@ static inline bool is_info_event(u32 event)
- 	switch (event) {
- 	case GAUDI2_EVENT_CPU_CPLD_SHUTDOWN_CAUSE:
- 	case GAUDI2_EVENT_CPU_FIX_POWER_ENV_S ... GAUDI2_EVENT_CPU_FIX_THERMAL_ENV_E:
-+	case GAUDI2_EVENT_ARC_PWR_BRK_ENTRY ... GAUDI2_EVENT_ARC_PWR_RD_MODE3:
- 
- 	/* return in case of NIC status event - these events are received periodically and not as
+@@ -7804,6 +7804,7 @@ static inline bool is_info_event(u32 event)
  	 * an indication to an error.
-@@ -10178,6 +10179,17 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
- 		is_critical = true;
+ 	 */
+ 	case GAUDI2_EVENT_CPU0_STATUS_NIC0_ENG0 ... GAUDI2_EVENT_CPU11_STATUS_NIC11_ENG1:
++	case GAUDI2_EVENT_ARC_EQ_HEARTBEAT:
+ 		return true;
+ 	default:
+ 		return false;
+@@ -9765,6 +9766,11 @@ static u16 event_id_to_engine_id(struct hl_device *hdev, u16 event_type)
+ 	return U16_MAX;
+ }
+ 
++static void hl_eq_heartbeat_event_handle(struct hl_device *hdev)
++{
++	hdev->eq_heartbeat_received = true;
++}
++
+ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_entry)
+ {
+ 	struct gaudi2_device *gaudi2 = hdev->asic_specific;
+@@ -10190,6 +10196,10 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 					gaudi2_irq_map_table[event_type].name);
  		break;
  
-+	case GAUDI2_EVENT_ARC_PWR_BRK_ENTRY:
-+	case GAUDI2_EVENT_ARC_PWR_BRK_EXT:
-+	case GAUDI2_EVENT_ARC_PWR_RD_MODE0:
-+	case GAUDI2_EVENT_ARC_PWR_RD_MODE1:
-+	case GAUDI2_EVENT_ARC_PWR_RD_MODE2:
-+	case GAUDI2_EVENT_ARC_PWR_RD_MODE3:
++	case GAUDI2_EVENT_ARC_EQ_HEARTBEAT:
++		hl_eq_heartbeat_event_handle(hdev);
 +		error_count = GAUDI2_NA_EVENT_CAUSE;
-+		dev_info_ratelimited(hdev->dev, "%s event received\n",
-+					gaudi2_irq_map_table[event_type].name);
 +		break;
-+
  	default:
  		if (gaudi2_irq_map_table[event_type].valid) {
  			dev_err_ratelimited(hdev->dev, "Cannot find handler for event %d\n",
-diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
-index f661068d0c5f..a426410139af 100644
---- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
-+++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
-@@ -959,6 +959,13 @@ enum gaudi2_async_event_id {
- 	GAUDI2_EVENT_ARC_DCCM_FULL = 1319,
- 	GAUDI2_EVENT_CPU_FP32_NOT_SUPPORTED = 1320,
- 	GAUDI2_EVENT_CPU_DEV_RESET_REQ = 1321,
-+	GAUDI2_EVENT_ARC_PWR_BRK_ENTRY = 1322,
-+	GAUDI2_EVENT_ARC_PWR_BRK_EXT = 1323,
-+	GAUDI2_EVENT_ARC_PWR_RD_MODE0 = 1324,
-+	GAUDI2_EVENT_ARC_PWR_RD_MODE1 = 1325,
-+	GAUDI2_EVENT_ARC_PWR_RD_MODE2 = 1326,
-+	GAUDI2_EVENT_ARC_PWR_RD_MODE3 = 1327,
-+	GAUDI2_EVENT_ARC_EQ_HEARTBEAT = 1328,
- 	GAUDI2_EVENT_SIZE,
- };
- 
 diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-index ad01fc4e9940..6cb0f615fc3e 100644
+index 6cb0f615fc3e..57e661771b6c 100644
 --- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
 +++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-@@ -2673,6 +2673,18 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 		 .name = "FP32_NOT_SUPPORTED" },
+@@ -2674,17 +2674,19 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
  	{ .fc_id = 1321, .cpu_id = 627, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_HARD,
  		 .name = "DEV_RESET_REQ" },
-+	{ .fc_id = 1322, .cpu_id = 628, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_BRK_ENTRY" },
-+	{ .fc_id = 1323, .cpu_id = 629, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_BRK_EXT" },
-+	{ .fc_id = 1324, .cpu_id = 630, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_RD_MODE0" },
-+	{ .fc_id = 1325, .cpu_id = 631, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_RD_MODE1" },
-+	{ .fc_id = 1326, .cpu_id = 632, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_RD_MODE2" },
-+	{ .fc_id = 1327, .cpu_id = 633, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
-+		 .name = "PWR_RD_MODE3" },
+ 	{ .fc_id = 1322, .cpu_id = 628, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_BRK_ENTRY" },
++		 .name = "ARC_PWR_BRK_ENTRY" },
+ 	{ .fc_id = 1323, .cpu_id = 629, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_BRK_EXT" },
++		 .name = "ARC_PWR_BRK_EXT" },
+ 	{ .fc_id = 1324, .cpu_id = 630, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_RD_MODE0" },
++		 .name = "ARC_PWR_RD_MODE0" },
+ 	{ .fc_id = 1325, .cpu_id = 631, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_RD_MODE1" },
++		 .name = "ARC_PWR_RD_MODE1" },
+ 	{ .fc_id = 1326, .cpu_id = 632, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_RD_MODE2" },
++		 .name = "ARC_PWR_RD_MODE2" },
+ 	{ .fc_id = 1327, .cpu_id = 633, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
+-		 .name = "PWR_RD_MODE3" },
++		 .name = "ARC_PWR_RD_MODE3" },
++	{ .fc_id = 1328, .cpu_id = 634, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_NONE,
++		 .name = "ARC_EQ_HEARTBEAT" },
  };
  
  #endif /* __GAUDI2_ASYNC_IDS_MAP_EVENTS_EXT_H_ */
+diff --git a/include/linux/habanalabs/cpucp_if.h b/include/linux/habanalabs/cpucp_if.h
+index 4cdedb603ecb..a18fa81aad1f 100644
+--- a/include/linux/habanalabs/cpucp_if.h
++++ b/include/linux/habanalabs/cpucp_if.h
+@@ -33,6 +33,17 @@
+ #define PLL_MAP_MAX_BITS	128
+ #define PLL_MAP_LEN		(PLL_MAP_MAX_BITS / 8)
+ 
++enum eq_event_id {
++	EQ_EVENT_NIC_STS_REQUEST = 0,
++	EQ_EVENT_PWR_MODE_0,
++	EQ_EVENT_PWR_MODE_1,
++	EQ_EVENT_PWR_MODE_2,
++	EQ_EVENT_PWR_MODE_3,
++	EQ_EVENT_PWR_BRK_ENTRY,
++	EQ_EVENT_PWR_BRK_EXIT,
++	EQ_EVENT_HEARTBEAT,
++};
++
+ /*
+  * info of the pkt queue pointers in the first async occurrence
+  */
+@@ -1143,6 +1154,7 @@ struct cpucp_security_info {
+  *                     (0 = functional 1 = binned)
+  * @interposer_version: Interposer version programmed in eFuse
+  * @substrate_version: Substrate version programmed in eFuse
++ * @eq_health_check_supported: eq health check feature supported in FW.
+  * @fw_hbm_region_size: Size in bytes of FW reserved region in HBM.
+  * @fw_os_version: Firmware OS Version
+  */
+@@ -1169,7 +1181,7 @@ struct cpucp_info {
+ 	__u8 xbar_binning_mask;
+ 	__u8 interposer_version;
+ 	__u8 substrate_version;
+-	__u8 reserved2;
++	__u8 eq_health_check_supported;
+ 	struct cpucp_security_info sec_info;
+ 	__le32 fw_hbm_region_size;
+ 	__u8 pll_map[PLL_MAP_LEN];
 -- 
 2.34.1
 
