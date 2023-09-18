@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA627A4598
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8BC7A45A2
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8F810E22E;
-	Mon, 18 Sep 2023 09:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A151C10E238;
+	Mon, 18 Sep 2023 09:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24CD10E22D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB4410E22D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:13:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8C349B80C02;
- Mon, 18 Sep 2023 09:13:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A35CC433C9;
- Mon, 18 Sep 2023 09:13:28 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 114FCB80CA2;
+ Mon, 18 Sep 2023 09:13:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08D8C433C8;
+ Mon, 18 Sep 2023 09:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695028409;
- bh=9cdXrTw+/xKd2cIdxIiF2QqBtcopA1xELWmurmcutPQ=;
+ s=k20201202; t=1695028410;
+ bh=DKlCHJ1BfrgX6X6/lxRyiL9q1TBqxd84Oj8p7ZwR7Zk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZAik4hO06gLlycr2aB+5sQ+GdcyuEFGNCy3wXx3ayf6iiH3AFxIJ4E8VmYUhRDnYf
- 0mjjcdj3zD3H4MBiRjCpljUKKU5Q54qVFzIuMym5zWVFOkUtObaj/ZTNWeoKVn+3g5
- n1kapv04rq+IlPFOXjvTGdFNfH4SoeuK/cgX5mapQjJb7NZayXeHgssbgVQMw0uPDU
- xAHCX/YXSvVXZHfd5cO/j+OsmpFoPe0yE/sF5dcgCUMDLKRni/JpsAHFARWgjJtHuS
- ruULQNi+9uXJ+vpvMbFktyrKUWORlYH6kNQNsZJ8xuG552IH279YI9UYkzee5M73th
- 3s6XfIlP3PWjg==
+ b=BBqeOuJGJdSu44etL3D+aEFE2n+DhAdUcsiWdveIL4AKde8n8iMnti19zRE3IZme3
+ 8/vg/OQk4mrm8hKsfCin7SOlJsBnx0wCJOQDd345OYtKHG2gB08bpMkbY1QUuFMeWA
+ B6bGvrhXn0R6sy1UL+fwyBcC54r/HuNSigQwObUz2zHoW7cKNiT9QfLmBSOeK6oBei
+ GYoj/acNIbBBXsAW8Emk3JLz42L70uLLopNo0FegRD3jfk/ZO2xvPQBIug9Au9FucJ
+ Z1RtKm4ksg70Kn19XjwJrBDiwKynmHrSi22EMIrhTAGTNHcTf3XrjvKtuz0crWSeHy
+ TYToFCFXpUNBA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/14] accel/habanalabs/gaudi2: include block id in ECC error
- reporting
-Date: Mon, 18 Sep 2023 12:13:09 +0300
-Message-Id: <20230918091321.855943-2-ogabbay@kernel.org>
+Subject: [PATCH 03/14] accel/habanalabs: move cpucp interface to
+ linux/habanalabs
+Date: Mon, 18 Sep 2023 12:13:10 +0300
+Message-Id: <20230918091321.855943-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918091321.855943-1-ogabbay@kernel.org>
 References: <20230918091321.855943-1-ogabbay@kernel.org>
@@ -54,77 +54,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: David Meriin <dmeriin@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+From: David Meriin <dmeriin@habana.ai>
 
-During ECC event handling, Memory wrapper id was mistakenly
-printed as block id. Fix the print and in addition fetch the actual
-block-id from firmware.
+The CPUCP interface is moved to a shared folder outside of accel as
+a pre-requisite to upstream the NIC drivers that will also include
+this file.
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Signed-off-by: David Meriin <dmeriin@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c      | 23 +++++++++++++++----
- .../habanalabs/include/common/cpucp_if.h      |  3 ++-
- 2 files changed, 20 insertions(+), 6 deletions(-)
+ MAINTAINERS                                         |  1 +
+ drivers/accel/habanalabs/common/firmware_if.c       |  2 +-
+ drivers/accel/habanalabs/common/habanalabs.h        |  2 +-
+ drivers/accel/habanalabs/gaudi/gaudiP.h             |  2 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2P.h           |  2 +-
+ drivers/accel/habanalabs/goya/goyaP.h               |  2 +-
+ .../common => include/linux/habanalabs}/cpucp_if.h  | 13 +++++++++----
+ .../linux/habanalabs}/hl_boot_if.h                  |  0
+ 8 files changed, 15 insertions(+), 9 deletions(-)
+ rename {drivers/accel/habanalabs/include/common => include/linux/habanalabs}/cpucp_if.h (99%)
+ rename {drivers/accel/habanalabs/include/common => include/linux/habanalabs}/hl_boot_if.h (100%)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index d60389b6700f..dca19be42d5f 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -7834,16 +7834,29 @@ static void gaudi2_print_event(struct hl_device *hdev, u16 event_type,
- static bool gaudi2_handle_ecc_event(struct hl_device *hdev, u16 event_type,
- 		struct hl_eq_ecc_data *ecc_data)
- {
--	u64 ecc_address = 0, ecc_syndrom = 0;
-+	u64 ecc_address = 0, ecc_syndrome = 0;
- 	u8 memory_wrapper_idx = 0;
-+	bool has_block_id = false;
-+	u16 block_id;
-+
-+	if (!hl_is_fw_sw_ver_below(hdev, 1, 12))
-+		has_block_id = true;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 90f13281d297..a9dad911add9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9067,6 +9067,7 @@ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git
+ F:	Documentation/ABI/testing/debugfs-driver-habanalabs
+ F:	Documentation/ABI/testing/sysfs-driver-habanalabs
+ F:	drivers/accel/habanalabs/
++F:	include/linux/habanalabs/
+ F:	include/trace/events/habanalabs.h
+ F:	include/uapi/drm/habanalabs_accel.h
  
- 	ecc_address = le64_to_cpu(ecc_data->ecc_address);
--	ecc_syndrom = le64_to_cpu(ecc_data->ecc_syndrom);
-+	ecc_syndrome = le64_to_cpu(ecc_data->ecc_syndrom);
- 	memory_wrapper_idx = ecc_data->memory_wrapper_idx;
+diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
+index 2bc775d29854..2a6dfea3d27d 100644
+--- a/drivers/accel/habanalabs/common/firmware_if.c
++++ b/drivers/accel/habanalabs/common/firmware_if.c
+@@ -6,7 +6,7 @@
+  */
  
--	gaudi2_print_event(hdev, event_type, !ecc_data->is_critical,
--		"ECC error detected. address: %#llx. Syndrom: %#llx. block id %u. critical %u.",
--		ecc_address, ecc_syndrom, memory_wrapper_idx, ecc_data->is_critical);
-+	if (has_block_id) {
-+		block_id = le16_to_cpu(ecc_data->block_id);
-+		gaudi2_print_event(hdev, event_type, !ecc_data->is_critical,
-+			"ECC error detected. address: %#llx. Syndrome: %#llx. wrapper id %u. block id %#x. critical %u.",
-+			ecc_address, ecc_syndrome, memory_wrapper_idx, block_id,
-+			ecc_data->is_critical);
-+	} else {
-+		gaudi2_print_event(hdev, event_type, !ecc_data->is_critical,
-+			"ECC error detected. address: %#llx. Syndrome: %#llx. wrapper id %u. critical %u.",
-+			ecc_address, ecc_syndrome, memory_wrapper_idx, ecc_data->is_critical);
-+	}
+ #include "habanalabs.h"
+-#include "../include/common/hl_boot_if.h"
++#include <linux/habanalabs/hl_boot_if.h>
  
- 	return !!ecc_data->is_critical;
- }
-diff --git a/drivers/accel/habanalabs/include/common/cpucp_if.h b/drivers/accel/habanalabs/include/common/cpucp_if.h
-index 33807b839c37..ef7d32224066 100644
+ #include <linux/firmware.h>
+ #include <linux/crc32.h>
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index efb046370f2e..8b5fd2b92676 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -8,7 +8,7 @@
+ #ifndef HABANALABSP_H_
+ #define HABANALABSP_H_
+ 
+-#include "../include/common/cpucp_if.h"
++#include <linux/habanalabs/cpucp_if.h>
+ #include "../include/common/qman_if.h"
+ #include "../include/hw_ip/mmu/mmu_general.h"
+ #include <uapi/drm/habanalabs_accel.h>
+diff --git a/drivers/accel/habanalabs/gaudi/gaudiP.h b/drivers/accel/habanalabs/gaudi/gaudiP.h
+index b8fa724be5a1..831be53bb9d7 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudiP.h
++++ b/drivers/accel/habanalabs/gaudi/gaudiP.h
+@@ -10,7 +10,7 @@
+ 
+ #include <uapi/drm/habanalabs_accel.h>
+ #include "../common/habanalabs.h"
+-#include "../include/common/hl_boot_if.h"
++#include <linux/habanalabs/hl_boot_if.h>
+ #include "../include/gaudi/gaudi_packets.h"
+ #include "../include/gaudi/gaudi.h"
+ #include "../include/gaudi/gaudi_async_events.h"
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2P.h b/drivers/accel/habanalabs/gaudi2/gaudi2P.h
+index 5f3ce086928e..4535aa5ab561 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2P.h
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2P.h
+@@ -10,7 +10,7 @@
+ 
+ #include <uapi/drm/habanalabs_accel.h>
+ #include "../common/habanalabs.h"
+-#include "../include/common/hl_boot_if.h"
++#include <linux/habanalabs/hl_boot_if.h>
+ #include "../include/gaudi2/gaudi2.h"
+ #include "../include/gaudi2/gaudi2_packets.h"
+ #include "../include/gaudi2/gaudi2_fw_if.h"
+diff --git a/drivers/accel/habanalabs/goya/goyaP.h b/drivers/accel/habanalabs/goya/goyaP.h
+index 5df3d30b91fd..194c2ae157cd 100644
+--- a/drivers/accel/habanalabs/goya/goyaP.h
++++ b/drivers/accel/habanalabs/goya/goyaP.h
+@@ -9,8 +9,8 @@
+ #define GOYAP_H_
+ 
+ #include <uapi/drm/habanalabs_accel.h>
++#include <linux/habanalabs/hl_boot_if.h>
+ #include "../common/habanalabs.h"
+-#include "../include/common/hl_boot_if.h"
+ #include "../include/goya/goya_packets.h"
+ #include "../include/goya/goya.h"
+ #include "../include/goya/goya_async_events.h"
+diff --git a/drivers/accel/habanalabs/include/common/cpucp_if.h b/include/linux/habanalabs/cpucp_if.h
+similarity index 99%
+rename from drivers/accel/habanalabs/include/common/cpucp_if.h
+rename to include/linux/habanalabs/cpucp_if.h
+index ef7d32224066..4cdedb603ecb 100644
 --- a/drivers/accel/habanalabs/include/common/cpucp_if.h
-+++ b/drivers/accel/habanalabs/include/common/cpucp_if.h
-@@ -69,7 +69,8 @@ struct hl_eq_ecc_data {
- 	__le64 ecc_syndrom;
- 	__u8 memory_wrapper_idx;
- 	__u8 is_critical;
--	__u8 pad[6];
-+	__le16 block_id;
-+	__u8 pad[4];
++++ b/include/linux/habanalabs/cpucp_if.h
+@@ -668,7 +668,11 @@ enum pq_init_status {
+  *       Packet to register interrupts indicating LKD is ready to receive events from FW.
+  *
+  * CPUCP_PACKET_SOFT_RESET -
+- *	 Packet to perform soft-reset.
++ *      Packet to perform soft-reset.
++ *
++ * CPUCP_PACKET_INTS_REGISTER -
++ *       Packet to inform FW that queues have been established and LKD is ready to receive
++ *       EQ events.
+  */
+ 
+ enum cpucp_packet_id {
+@@ -734,9 +738,10 @@ enum cpucp_packet_id {
+ 	CPUCP_PACKET_RESERVED10,		/* not used */
+ 	CPUCP_PACKET_RESERVED11,		/* not used */
+ 	CPUCP_PACKET_RESERVED12,		/* internal */
+-	CPUCP_PACKET_REGISTER_INTERRUPTS,	/* internal */
+-	CPUCP_PACKET_SOFT_RESET,		/* internal */
+-	CPUCP_PACKET_ID_MAX			/* must be last */
++	CPUCP_PACKET_RESERVED13,                /* internal */
++	CPUCP_PACKET_SOFT_RESET,                /* internal */
++	CPUCP_PACKET_INTS_REGISTER,             /* internal */
++	CPUCP_PACKET_ID_MAX                     /* must be last */
  };
  
- enum hl_sm_sei_cause {
+ #define CPUCP_PACKET_FENCE_VAL	0xFE8CE7A5
+diff --git a/drivers/accel/habanalabs/include/common/hl_boot_if.h b/include/linux/habanalabs/hl_boot_if.h
+similarity index 100%
+rename from drivers/accel/habanalabs/include/common/hl_boot_if.h
+rename to include/linux/habanalabs/hl_boot_if.h
 -- 
 2.34.1
 
