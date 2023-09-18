@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E607A55AA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 00:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA0A7A55BA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 00:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6021610E354;
-	Mon, 18 Sep 2023 22:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F02989F4F;
+	Mon, 18 Sep 2023 22:25:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6776410E34F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 22:19:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D54C89F4F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 22:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695075556;
+ s=mimecast20190719; t=1695075902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SLkFt0WcZ6RXdaNFLWO3tvzhrPsMNj6vdbQGFMg75Sk=;
- b=RFKeCdDKzG4a1JgnWaO20IwKTAFoRo717DenDvENc217/oNlWIULQtvGr2Y70uxeYQeTmz
- tNMbXqwyVz8jGktGB8xJMGQmmx8nSo4XQe2HgD8Tsk4KsgKT+TNx/u3PMwWp8ox9Bp33wv
- sDnnj5Oty+qfvqeeJri4F3a1eJeixR0=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QPyNutSLkkHTZxI3B0PY2u8QnFtvmNqTwCfplTU4uRc=;
+ b=YWLZCSz3yQ21rpNbGRiAEqNtK6xC6Q4nI1QECh4IYKV75CfDn5W2RgtYGafPpQbQWtb8Pf
+ vLopl0Tg6+8Ted8HqqaKEr5EAfGQ1gDJGfTMTjlPj92o/tUDZSY1drTKLnhigcRa49fh/n
+ eu6qfOkwfJaYiWnIqp6IF7PNd7fuya4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-rrTioGp_PzGw-cRnIVS_jQ-1; Mon, 18 Sep 2023 18:19:15 -0400
-X-MC-Unique: rrTioGp_PzGw-cRnIVS_jQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-6564b4f78dfso18903016d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 15:19:15 -0700 (PDT)
+ us-mta-657-cGnFcDk4ObS4DPg9bi1QSQ-1; Mon, 18 Sep 2023 18:24:58 -0400
+X-MC-Unique: cGnFcDk4ObS4DPg9bi1QSQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-655d89a574eso59501406d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 15:24:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695075555; x=1695680355;
+ d=1e100.net; s=20230601; t=1695075898; x=1695680698;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZSoEALyFQ5Hgu/o72FnEqXupIq+EGY1EoFTQth+rByc=;
- b=TPaDa580qMFCjwmsqXw3lSIeRApr7LtvgTSl1qMAiSGlJJlebI8KD0EaOIBGXnA3dy
- L2UEBWjxpbqi+hcLHhYFAxQlMqiI9PlLzbUZTD2frefE6imM97KcnuBGmvBNiEYDtsXv
- 3glIpaHeMI2rEyU71A5XbUhdT4UCJm8qLzZGjeqpHH8B9NGlnttZIzj2zj2t2znYYx7U
- vXVJUWNxMAhcrXAsiq0yTenlydDkdoQUaGDEN0zRNRPyGdeQC89nTPxjRdCOieiR0c7f
- XogFUp9Pqzvh9nIUI3AdcuOmrMQArh1DmcsZ9s/bAT3Orhc9ZuGkyF/aRrfFeflDLhcV
- s+PQ==
-X-Gm-Message-State: AOJu0Yx3awGz0VjzVu+2Q1nK1IrQtUCPpIcX0c6XCj5mI3ezfYCvqQa8
- +Zumc2gOQiWUCecY2bve9TZcByPJ+w5wSE8w70cKPFi4vrDItRmwEDg+O5JldgP9DovdJLm6uik
- LIdgi7tPc+TaMJTGRths5geb97c8l
-X-Received: by 2002:a0c:f706:0:b0:658:4cae:b432 with SMTP id
- w6-20020a0cf706000000b006584caeb432mr577320qvn.5.1695075554943; 
- Mon, 18 Sep 2023 15:19:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHw55jWZldbWm4cxdzBsvpvm0KyWAYpbNaOxMH9SThTxodmZg49xyqFG4ZvCELj6jzbeb7oQ==
-X-Received: by 2002:a0c:f706:0:b0:658:4cae:b432 with SMTP id
- w6-20020a0cf706000000b006584caeb432mr577308qvn.5.1695075554630; 
- Mon, 18 Sep 2023 15:19:14 -0700 (PDT)
+ bh=WG8Pu+Mw6aXgo3oVLCA7cZJ3LSi2mKUayS+JlD6Q7jo=;
+ b=rJba4AbI96bW0+CNr7mTBbhouQH8KZ0ECTpaSCbSZJOXnLbaK5IsLU45o6mgjJ9Owr
+ 79KttL+LepgEuUY7LvTQtn8YjowskDrCfnHwX59bRSjqptJPNqmPmtrk7xfuTmmofikP
+ EHdCMWUtMvp5IOe7hyPZU6J2xueqihHET5ap9ECEXr/2r+YzX/pOnqGlz1yUINi/sS5V
+ zrSlzX6/N7BODfVlIjs8bayun8jlwF2/Wbt0qItF5XR6qZLgvaZ5cxPuBpJKW9uinF9u
+ ohxn64Z3d+bKL8R2F9MD2BYoY3MUxpsHNZrW3b/8bV0LDJBC6bG7cqXgpnjDG3Wp1B0D
+ L7fw==
+X-Gm-Message-State: AOJu0YwUqWB3QV1Lo1j9ifG6uudliTnbEsWjIBK5fg7ljZGu7Ga40Jzi
+ 6DnZAYGeVgrjDb1UDlEHzdJXyf0bNgY60wJkh8EARvQndhDF/Bnve2Hw8GWe4Y755OaD7LmFhA9
+ JqShErcs7aXF0gtCtwllluzSSn3Bm
+X-Received: by 2002:a0c:cdcd:0:b0:655:88e9:1b0c with SMTP id
+ a13-20020a0ccdcd000000b0065588e91b0cmr10311584qvn.38.1695075898341; 
+ Mon, 18 Sep 2023 15:24:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHj7nahJ/IxATPNQUGSshqEPQ29nHykvjD/+zTI+gGvnxe5EWaVWGI/vQ9GRABMAcnfQ+LBUg==
+X-Received: by 2002:a0c:cdcd:0:b0:655:88e9:1b0c with SMTP id
+ a13-20020a0ccdcd000000b0065588e91b0cmr10311573qvn.38.1695075898129; 
+ Mon, 18 Sep 2023 15:24:58 -0700 (PDT)
 Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
  by smtp.gmail.com with ESMTPSA id
- i18-20020a0cf492000000b006585069e894sm116021qvm.109.2023.09.18.15.19.13
+ o10-20020a0cf4ca000000b00656329bb3b1sm3217669qvm.10.2023.09.18.15.24.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Sep 2023 15:19:13 -0700 (PDT)
-Message-ID: <c938aabcd97eb6b118ed853799a30c729ec3eafa.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau: sched: fix leaking memory of timedout job
+ Mon, 18 Sep 2023 15:24:57 -0700 (PDT)
+Message-ID: <10db3f25dc671ca0b8f50be548d409fcd3fc896c.camel@redhat.com>
+Subject: Re: [PATCH] nouveau/u_memcpya: fix NULL vs error pointer bug
 From: Lyude Paul <lyude@redhat.com>
-To: Danilo Krummrich <dakr@redhat.com>, nouveau@lists.freedesktop.org
-Date: Mon, 18 Sep 2023 18:19:13 -0400
-In-Reply-To: <20230916162835.5719-1-dakr@redhat.com>
-References: <20230916162835.5719-1-dakr@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Dave Airlie <airlied@redhat.com>
+Date: Mon, 18 Sep 2023 18:24:56 -0400
+In-Reply-To: <10fd258b-466f-4c5b-9d48-fe61a3f21424@moroto.mountain>
+References: <10fd258b-466f-4c5b-9d48-fe61a3f21424@moroto.mountain>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
@@ -84,78 +84,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kherbst@redhat.com
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BTW - Would you like me to review work like this? I'm totally happy to do
-that, although I'm not terribly familiar with these parts of nouveau/drm (b=
-ut
-I'm always willing to learn, and would like to know more about these areas
-anyway :)
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-=E2=80=A6if the answer is yes, this patch looks fine to me so far - I guess=
- the one
-question I have that might have an obvious answer - how are jobs without an
-job->ops->timeout callback cleaned up?
+I assume you need me to push this to drm-misc?
 
-On Sat, 2023-09-16 at 18:28 +0200, Danilo Krummrich wrote:
-> Always stop and re-start the scheduler in order to let the scheduler
-> free up the timedout job in case it got signaled. In case of exec jobs
-> the job type specific callback will take care to signal all fences and
-> tear down the channel.
+On Fri, 2023-09-15 at 15:59 +0300, Dan Carpenter wrote:
+> The u_memcpya() function is supposed to return error pointers on
+> error.  Returning NULL will lead to an Oops.
 >=20
-> Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> Fixes: 68132cc6d1bc ("nouveau/u_memcpya: use vmemdup_user")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_exec.c  |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c | 12 +++++++++---
->  2 files changed, 10 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/nouveau/nouveau_drv.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nou=
-veau/nouveau_exec.c
-> index 9c031d15fe0b..49d83ac9e036 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_exec.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
-> @@ -185,7 +185,7 @@ nouveau_exec_job_timeout(struct nouveau_job *job)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouv=
+eau/nouveau_drv.h
+> index 3666a7403e47..52a708a98915 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> @@ -193,7 +193,7 @@ u_memcpya(uint64_t user, unsigned int nmemb, unsigned=
+ int size)
+>  =09size_t bytes;
 > =20
->  =09nouveau_sched_entity_fini(job->entity);
-> =20
-> -=09return DRM_GPU_SCHED_STAT_ENODEV;
-> +=09return DRM_GPU_SCHED_STAT_NOMINAL;
+>  =09if (unlikely(check_mul_overflow(nmemb, size, &bytes)))
+> -=09=09return NULL;
+> +=09=09return ERR_PTR(-ENOMEM);
+>  =09return vmemdup_user(userptr, bytes);
 >  }
 > =20
->  static struct nouveau_job_ops nouveau_exec_job_ops =3D {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/no=
-uveau/nouveau_sched.c
-> index 88217185e0f3..3b7ea5221226 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -375,14 +375,20 @@ nouveau_sched_run_job(struct drm_sched_job *sched_j=
-ob)
->  static enum drm_gpu_sched_stat
->  nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
->  {
-> +=09struct drm_gpu_scheduler *sched =3D sched_job->sched;
->  =09struct nouveau_job *job =3D to_nouveau_job(sched_job);
-> +=09enum drm_gpu_sched_stat stat =3D DRM_GPU_SCHED_STAT_NOMINAL;
-> =20
-> -=09NV_PRINTK(warn, job->cli, "Job timed out.\n");
-> +=09drm_sched_stop(sched, sched_job);
-> =20
->  =09if (job->ops->timeout)
-> -=09=09return job->ops->timeout(job);
-> +=09=09stat =3D job->ops->timeout(job);
-> +=09else
-> +=09=09NV_PRINTK(warn, job->cli, "Generic job timeout.\n");
-> +
-> +=09drm_sched_start(sched, true);
-> =20
-> -=09return DRM_GPU_SCHED_STAT_ENODEV;
-> +=09return stat;
->  }
-> =20
->  static void
 
 --=20
 Cheers,
