@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0EF7A4B0E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800627A4B15
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 16:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC50210E0A8;
-	Mon, 18 Sep 2023 14:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3F3910E0AC;
+	Mon, 18 Sep 2023 14:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC63F10E0A8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9F810E0A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 14:32:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 321C4B80E3D;
- Mon, 18 Sep 2023 14:32:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DC2AC32788;
- Mon, 18 Sep 2023 14:32:06 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9BA27B80EA0;
+ Mon, 18 Sep 2023 14:32:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62728C32789;
+ Mon, 18 Sep 2023 14:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695047527;
- bh=XKkDjv0e/eMNWjG9jRQocyFRrh7/5+36OBy3yTELA+U=;
+ s=k20201202; t=1695047529;
+ bh=vGUOt9KcUO/z+qvU+mkl7UIBpqBXYYdyCaU0w8vD7zU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m6M5A2UvQEKxKx/YnfHcVQRwpDbpl883sUgnsDZlx1ywJ9Nzgi9yZqFucLD2HJCTU
- OoAuNlFDRtOG9vqaLaMQZ6dX/CvL/p+uV1wxW+UF7yvU9GlBxNcQUnvQJOlLkF0Kno
- IuXoc5NKnX9XK6AWr45kJGatIK/2mkFcAflQgjsAZBvt/5SJGN2L+qqCVU6TAB98OY
- pPfT9mIZXBmAOmb5I81UFZQpMgHdKnqOb1KWywHInNl5anlvmXsKjJhtmokE5DDVt1
- xCrmL4VcIEG2uaxfaKOYcRXbA/Ehxj21zKUcwOKCz0DddgvahdpEO4gt18jmAtSs9i
- GCHZ5or2RnvOA==
+ b=ohQ64hBuen7t2T3SdkUaYZ+OtRz/T/m5gYYm3HCeqLKImVzBUCAjnBbclXVoQ0CdP
+ EMjazYl5Vyd67uo0yvJ7KK7BYrzLbNmUlWZqvwwnO7g3G0m4KEKj8Ck/YkBGeN+Z28
+ 4a+kf5ybkYpym+z8dIt+DuawU7Nc3H3/lKSlqFEb9XoXjDXi1zIZRL9AOB4ffJ1rF5
+ 3yTb/ObJDV00ofVXawPpXimD492MJLGCJ9FrCXe3wZOfPtntAM6fJBWpubC2OwGCu7
+ 7cl7IYZQLsJSQXsu486ZjUta/Qo3F50TF1e+xirkH9SdKomvVXRUpPlUmOuwViAnsl
+ fsFtvXnrTabfg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/10] accel/habanalabs: split user interrupts pending list
-Date: Mon, 18 Sep 2023 17:31:51 +0300
-Message-Id: <20230918143158.903207-3-ogabbay@kernel.org>
+Subject: [PATCH 04/10] accel/habanalabs: fix SG table creation for dma-buf
+ mapping
+Date: Mon, 18 Sep 2023 17:31:52 +0300
+Message-Id: <20230918143158.903207-4-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918143158.903207-1-ogabbay@kernel.org>
 References: <20230918143158.903207-1-ogabbay@kernel.org>
@@ -52,679 +53,280 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>, farah kassabri <fkassabri@habana.ai>
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: farah kassabri <fkassabri@habana.ai>
+From: Tomer Tayar <ttayar@habana.ai>
 
-Currently driver maintain one list for both pending user interrupts
-which seeks to wait till CQ reaches it's target value and also the ones
-that seeks to get timestamp records when the CQ reaches it's target
-value.
-This causes delay in handling the waiters which gets higher priority
-than the timestamp records.
-In order to solve this, let's split the list into two,
-one for each case and each one is protected by it's own spinlock.
-Waiters will be handled within the interrupt context first,
-then the timestamp records will be set.
-Freeing the timestamp related memory will be handled in a workqueue.
+In some cases the calculated number of required entries for the dma-buf
+SG table is wrong. For example, if the page size is larger than both the
+dma max segment size of the importer device and from the exported side,
+or if the exported size is part of a phys_pg_pack that is composed of
+several pages.
+In these cases, redundant entries will be added to the SG table.
 
-Signed-off-by: farah kassabri <fkassabri@habana.ai>
-Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+Modify the method that the number of entries is calculated, and the way
+they are prepared.
+
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../habanalabs/common/command_submission.c    | 235 ++++++++++--------
- drivers/accel/habanalabs/common/habanalabs.h  |  12 +-
- drivers/accel/habanalabs/common/irq.c         |  89 ++++---
- drivers/accel/habanalabs/gaudi2/gaudi2.c      |  20 +-
- 4 files changed, 209 insertions(+), 147 deletions(-)
+ drivers/accel/habanalabs/common/memory.c | 199 ++++++++++++-----------
+ 1 file changed, 104 insertions(+), 95 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index 02049bd26356..751d2c7d3fb8 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -1098,19 +1098,22 @@ static void
- wake_pending_user_interrupt_threads(struct hl_user_interrupt *interrupt)
+diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+index d0edbe4b4210..5c1e98e73a47 100644
+--- a/drivers/accel/habanalabs/common/memory.c
++++ b/drivers/accel/habanalabs/common/memory.c
+@@ -1535,21 +1535,17 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
+ 						u64 page_size, u64 exported_size,
+ 						struct device *dev, enum dma_data_direction dir)
  {
- 	struct hl_user_pending_interrupt *pend, *temp;
-+	unsigned long flags;
+-	u64 chunk_size, bar_address, dma_max_seg_size, cur_size_to_export, cur_npages;
+-	struct asic_fixed_properties *prop;
+-	int rc, i, j, nents, cur_page;
++	u64 dma_max_seg_size, curr_page, size, chunk_size, left_size_to_export, left_size_in_page,
++		left_size_in_dma_seg, device_address, bar_address;
++	struct asic_fixed_properties *prop = &hdev->asic_prop;
+ 	struct scatterlist *sg;
++	unsigned int nents, i;
+ 	struct sg_table *sgt;
++	bool next_sg_entry;
++	int rc;
  
--	spin_lock(&interrupt->wait_list_lock);
--	list_for_each_entry_safe(pend, temp, &interrupt->wait_list_head, wait_list_node) {
--		if (pend->ts_reg_info.buf) {
--			list_del(&pend->wait_list_node);
--			hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
--			hl_cb_put(pend->ts_reg_info.cq_cb);
--		} else {
--			pend->fence.error = -EIO;
--			complete_all(&pend->fence.completion);
--		}
-+	spin_lock_irqsave(&interrupt->wait_list_lock, flags);
-+	list_for_each_entry_safe(pend, temp, &interrupt->wait_list_head, list_node) {
-+		pend->fence.error = -EIO;
-+		complete_all(&pend->fence.completion);
- 	}
--	spin_unlock(&interrupt->wait_list_lock);
-+	spin_unlock_irqrestore(&interrupt->wait_list_lock, flags);
-+
-+	spin_lock_irqsave(&interrupt->ts_list_lock, flags);
-+	list_for_each_entry_safe(pend, temp, &interrupt->ts_list_head, list_node) {
-+		list_del(&pend->list_node);
-+		hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
-+		hl_cb_put(pend->ts_reg_info.cq_cb);
-+	}
-+	spin_unlock_irqrestore(&interrupt->ts_list_lock, flags);
- }
- 
- void hl_release_pending_user_interrupts(struct hl_device *hdev)
-@@ -3251,18 +3254,19 @@ static void unregister_timestamp_node(struct hl_device *hdev,
- {
- 	struct hl_user_interrupt *interrupt = record->ts_reg_info.interrupt;
- 	bool ts_rec_found = false;
-+	unsigned long flags;
- 
- 	if (need_lock)
--		spin_lock(&interrupt->wait_list_lock);
-+		spin_lock_irqsave(&interrupt->ts_list_lock, flags);
- 
- 	if (record->ts_reg_info.in_use) {
- 		record->ts_reg_info.in_use = false;
--		list_del(&record->wait_list_node);
-+		list_del(&record->list_node);
- 		ts_rec_found = true;
- 	}
- 
- 	if (need_lock)
--		spin_unlock(&interrupt->wait_list_lock);
-+		spin_unlock_irqrestore(&interrupt->ts_list_lock, flags);
- 
- 	/* Put refcounts that were taken when we registered the event */
- 	if (ts_rec_found) {
-@@ -3272,7 +3276,7 @@ static void unregister_timestamp_node(struct hl_device *hdev,
- }
- 
- static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx *ctx,
--					struct wait_interrupt_data *data,
-+					struct wait_interrupt_data *data, unsigned long *flags,
- 					struct hl_user_pending_interrupt **pend)
- {
- 	struct hl_user_pending_interrupt *req_offset_record;
-@@ -3302,13 +3306,13 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
- 				req_offset_record->ts_reg_info.interrupt->interrupt_id) {
- 
- 			need_lock = true;
--			spin_unlock(&data->interrupt->wait_list_lock);
-+			spin_unlock_irqrestore(&data->interrupt->ts_list_lock, *flags);
- 		}
- 
- 		unregister_timestamp_node(hdev, req_offset_record, need_lock);
- 
- 		if (need_lock)
--			spin_lock(&data->interrupt->wait_list_lock);
-+			spin_lock_irqsave(&data->interrupt->ts_list_lock, *flags);
- 	}
- 
- 	/* Fill up the new registration node info and add it to the list */
-@@ -3325,18 +3329,14 @@ static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx
- 	return rc;
- }
- 
--static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
-+static int _hl_interrupt_ts_reg_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
- 				struct wait_interrupt_data *data,
--				bool register_ts_record,
- 				u32 *status, u64 *timestamp)
- {
- 	struct hl_user_pending_interrupt *pend;
--	unsigned long timeout;
--	long completion_rc;
-+	unsigned long flags;
- 	int rc = 0;
- 
--	timeout = hl_usecs64_to_jiffies(data->intr_timeout_us);
+-	prop = &hdev->asic_prop;
 -
- 	hl_ctx_get(ctx);
- 
- 	data->cq_cb = hl_cb_get(data->mmg, data->cq_handle);
-@@ -3352,61 +3352,109 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
- 		goto put_cq_cb;
- 	}
- 
--	if (register_ts_record) {
--		dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
--				data->interrupt->interrupt_id, data->ts_handle,
--				data->ts_offset, data->cq_offset);
-+	dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
-+					data->interrupt->interrupt_id, data->ts_handle,
-+					data->ts_offset, data->cq_offset);
- 
--		data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
--		if (!data->buf) {
--			rc = -EINVAL;
--			goto put_cq_cb;
--		}
-+	data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
-+	if (!data->buf) {
-+		rc = -EINVAL;
-+		goto put_cq_cb;
-+	}
- 
--		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
-+	spin_lock_irqsave(&data->interrupt->ts_list_lock, flags);
- 
--		/* get ts buffer record */
--		rc = ts_get_and_handle_kernel_record(hdev, ctx, data, &pend);
--		if (rc) {
--			spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
--			goto put_ts_buff;
--		}
--	} else {
--		pend = kzalloc(sizeof(*pend), GFP_KERNEL);
--		if (!pend) {
--			rc = -ENOMEM;
--			goto put_cq_cb;
--		}
--		hl_fence_init(&pend->fence, ULONG_MAX);
--		pend->cq_kernel_addr = (u64 *) data->cq_cb->kernel_address + data->cq_offset;
--		pend->cq_target_value = data->target_value;
--		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
-+	/* get ts buffer record */
-+	rc = ts_get_and_handle_kernel_record(hdev, ctx, data, &flags, &pend);
-+	if (rc) {
-+		spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
-+		goto put_ts_buff;
- 	}
- 
- 	/* We check for completion value as interrupt could have been received
--	 * before we add the wait/timestamp node to the wait list.
-+	 * before we add the timestamp node to the ts list.
- 	 */
- 	if (*pend->cq_kernel_addr >= data->target_value) {
--		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
-+		spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
- 
--		if (register_ts_record) {
--			dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
--					pend, data->ts_offset, data->interrupt->interrupt_id);
--			pend->ts_reg_info.in_use = false;
--		}
-+		dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
-+				pend, data->ts_offset, data->interrupt->interrupt_id);
- 
-+		pend->ts_reg_info.in_use = 0;
- 		*status = HL_WAIT_CS_STATUS_COMPLETED;
-+		*pend->ts_reg_info.timestamp_kernel_addr = ktime_get_ns();
-+
-+		goto put_ts_buff;
-+	}
-+
-+	list_add_tail(&pend->list_node, &data->interrupt->ts_list_head);
-+	spin_unlock_irqrestore(&data->interrupt->ts_list_lock, flags);
-+
-+	rc = *status = HL_WAIT_CS_STATUS_COMPLETED;
-+
-+	hl_ctx_put(ctx);
-+
-+	return rc;
-+
-+put_ts_buff:
-+	hl_mmap_mem_buf_put(data->buf);
-+put_cq_cb:
-+	hl_cb_put(data->cq_cb);
-+put_ctx:
-+	hl_ctx_put(ctx);
-+
-+	return rc;
-+}
-+
-+static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
-+				struct wait_interrupt_data *data,
-+				u32 *status, u64 *timestamp)
-+{
-+	struct hl_user_pending_interrupt *pend;
-+	unsigned long timeout, flags;
-+	long completion_rc;
-+	int rc = 0;
-+
-+	timeout = hl_usecs64_to_jiffies(data->intr_timeout_us);
-+
-+	hl_ctx_get(ctx);
-+
-+	data->cq_cb = hl_cb_get(data->mmg, data->cq_handle);
-+	if (!data->cq_cb) {
-+		rc = -EINVAL;
-+		goto put_ctx;
-+	}
-+
-+	/* Validate the cq offset */
-+	if (((u64 *) data->cq_cb->kernel_address + data->cq_offset) >=
-+			((u64 *) data->cq_cb->kernel_address + (data->cq_cb->size / sizeof(u64)))) {
-+		rc = -EINVAL;
-+		goto put_cq_cb;
-+	}
-+
-+	pend = kzalloc(sizeof(*pend), GFP_KERNEL);
-+	if (!pend) {
-+		rc = -ENOMEM;
-+		goto put_cq_cb;
-+	}
-+
-+	hl_fence_init(&pend->fence, ULONG_MAX);
-+	pend->cq_kernel_addr = (u64 *) data->cq_cb->kernel_address + data->cq_offset;
-+	pend->cq_target_value = data->target_value;
-+	spin_lock_irqsave(&data->interrupt->wait_list_lock, flags);
-+
-+
-+	/* We check for completion value as interrupt could have been received
-+	 * before we add the wait node to the wait list.
-+	 */
-+	if (*pend->cq_kernel_addr >= data->target_value || (!data->intr_timeout_us)) {
-+		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
-+
-+		if (*pend->cq_kernel_addr >= data->target_value)
-+			*status = HL_WAIT_CS_STATUS_COMPLETED;
-+		else
-+			*status = HL_WAIT_CS_STATUS_BUSY;
- 
--		if (register_ts_record) {
--			*pend->ts_reg_info.timestamp_kernel_addr = ktime_get_ns();
--			goto put_ts_buff;
--		} else {
--			pend->fence.timestamp = ktime_get();
--			goto set_timestamp;
--		}
--	} else if (!data->intr_timeout_us) {
--		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
--		*status = HL_WAIT_CS_STATUS_BUSY;
- 		pend->fence.timestamp = ktime_get();
- 		goto set_timestamp;
- 	}
-@@ -3417,13 +3465,8 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
- 	 * in order to shorten the list pass loop, since
- 	 * same list could have nodes for different cq counter handle.
- 	 */
--	list_add_tail(&pend->wait_list_node, &data->interrupt->wait_list_head);
--	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+-	dma_max_seg_size = dma_get_max_seg_size(dev);
 -
--	if (register_ts_record) {
--		rc = *status = HL_WAIT_CS_STATUS_COMPLETED;
--		goto ts_registration_exit;
--	}
-+	list_add_tail(&pend->list_node, &data->interrupt->wait_list_head);
-+	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
- 
- 	/* Wait for interrupt handler to signal completion */
- 	completion_rc = wait_for_completion_interruptible_timeout(&pend->fence.completion,
-@@ -3462,21 +3505,18 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
- 	 * for ts record, the node will be deleted in the irq handler after
- 	 * we reach the target value.
- 	 */
--	spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
--	list_del(&pend->wait_list_node);
--	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
-+	spin_lock_irqsave(&data->interrupt->wait_list_lock, flags);
-+	list_del(&pend->list_node);
-+	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, flags);
- 
- set_timestamp:
- 	*timestamp = ktime_to_ns(pend->fence.timestamp);
- 	kfree(pend);
- 	hl_cb_put(data->cq_cb);
--ts_registration_exit:
- 	hl_ctx_put(ctx);
- 
- 	return rc;
- 
--put_ts_buff:
--	hl_mmap_mem_buf_put(data->buf);
- put_cq_cb:
- 	hl_cb_put(data->cq_cb);
- put_ctx:
-@@ -3513,7 +3553,7 @@ static int _hl_interrupt_wait_ioctl_user_addr(struct hl_device *hdev, struct hl_
- 	 * handler to monitor
- 	 */
- 	spin_lock(&interrupt->wait_list_lock);
--	list_add_tail(&pend->wait_list_node, &interrupt->wait_list_head);
-+	list_add_tail(&pend->list_node, &interrupt->wait_list_head);
- 	spin_unlock(&interrupt->wait_list_lock);
- 
- 	/* We check for completion value as interrupt could have been received
-@@ -3590,7 +3630,7 @@ static int _hl_interrupt_wait_ioctl_user_addr(struct hl_device *hdev, struct hl_
- 
- remove_pending_user_interrupt:
- 	spin_lock(&interrupt->wait_list_lock);
--	list_del(&pend->wait_list_node);
-+	list_del(&pend->list_node);
- 	spin_unlock(&interrupt->wait_list_lock);
- 
- 	*timestamp = ktime_to_ns(pend->fence.timestamp);
-@@ -3649,16 +3689,6 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 		return -EINVAL;
- 	}
- 
--	/*
--	 * Allow only one registration at a time. this is needed in order to prevent issues
--	 * while handling the flow of re-use of the same offset.
--	 * Since the registration flow is protected only by the interrupt lock, re-use flow
--	 * might request to move ts node to another interrupt list, and in such case we're
--	 * not protected.
+-	/* We would like to align the max segment size to PAGE_SIZE, so the
+-	 * SGL will contain aligned addresses that can be easily mapped to
+-	 * an MMU
 -	 */
--	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
--		mutex_lock(&hpriv->ctx->ts_reg_lock);
+-	dma_max_seg_size = ALIGN_DOWN(dma_max_seg_size, PAGE_SIZE);
++	/* Align max segment size to PAGE_SIZE to fit the minimal IOMMU mapping granularity */
++	dma_max_seg_size = ALIGN_DOWN(dma_get_max_seg_size(dev), PAGE_SIZE);
+ 	if (dma_max_seg_size < PAGE_SIZE) {
+ 		dev_err_ratelimited(hdev->dev,
+ 				"dma_max_seg_size %llu can't be smaller than PAGE_SIZE\n",
+@@ -1561,120 +1557,133 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
+ 	if (!sgt)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	cur_size_to_export = exported_size;
++	/* Calculate the required number of entries for the SG table */
++	curr_page = 0;
++	nents = 1;
++	left_size_to_export = exported_size;
++	left_size_in_page = page_size;
++	left_size_in_dma_seg = dma_max_seg_size;
++	next_sg_entry = false;
++
++	while (true) {
++		size = min3(left_size_to_export, left_size_in_page, left_size_in_dma_seg);
++		left_size_to_export -= size;
++		left_size_in_page -= size;
++		left_size_in_dma_seg -= size;
++
++		if (!left_size_to_export)
++			break;
+ 
+-	/* If the size of each page is larger than the dma max segment size,
+-	 * then we can't combine pages and the number of entries in the SGL
+-	 * will just be the
+-	 * <number of pages> * <chunks of max segment size in each page>
+-	 */
+-	if (page_size > dma_max_seg_size) {
+-		/* we should limit number of pages according to the exported size */
+-		cur_npages = DIV_ROUND_UP_SECTOR_T(cur_size_to_export, page_size);
+-		nents = cur_npages * DIV_ROUND_UP_SECTOR_T(page_size, dma_max_seg_size);
+-	} else {
+-		cur_npages = npages;
 -
- 	if (args->in.flags & HL_WAIT_CS_FLAGS_INTERRUPT_KERNEL_CQ) {
- 		struct wait_interrupt_data wait_intr_data = {0};
- 
-@@ -3671,9 +3701,23 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 		wait_intr_data.target_value = args->in.target;
- 		wait_intr_data.intr_timeout_us = args->in.interrupt_timeout_us;
- 
--		rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &wait_intr_data,
--				!!(args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT),
--				&status, &timestamp);
-+		if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT) {
-+			/*
-+			 * Allow only one registration at a time. this is needed in order to prevent
-+			 * issues while handling the flow of re-use of the same offset.
-+			 * Since the registration flow is protected only by the interrupt lock,
-+			 * re-use flow might request to move ts node to another interrupt list,
-+			 * and in such case we're not protected.
-+			 */
-+			mutex_lock(&hpriv->ctx->ts_reg_lock);
+-		/* Get number of non-contiguous chunks */
+-		for (i = 1, nents = 1, chunk_size = page_size ; i < cur_npages ; i++) {
+-			if (pages[i - 1] + page_size != pages[i] ||
+-					chunk_size + page_size > dma_max_seg_size) {
+-				nents++;
+-				chunk_size = page_size;
+-				continue;
+-			}
++		if (!left_size_in_page) {
++			/* left_size_to_export is not zero so there must be another page */
++			if (pages[curr_page] + page_size != pages[curr_page + 1])
++				next_sg_entry = true;
 +
-+			rc = _hl_interrupt_ts_reg_ioctl(hdev, hpriv->ctx, &wait_intr_data,
-+						&status, &timestamp);
++			++curr_page;
++			left_size_in_page = page_size;
++		}
+ 
+-			chunk_size += page_size;
++		if (!left_size_in_dma_seg) {
++			next_sg_entry = true;
++			left_size_in_dma_seg = dma_max_seg_size;
++		}
 +
-+			mutex_unlock(&hpriv->ctx->ts_reg_lock);
-+		} else
-+			rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &wait_intr_data,
-+						&status, &timestamp);
- 	} else {
- 		rc = _hl_interrupt_wait_ioctl_user_addr(hdev, hpriv->ctx,
- 				args->in.interrupt_timeout_us, args->in.addr,
-@@ -3681,9 +3725,6 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 				&timestamp);
++		if (next_sg_entry) {
++			++nents;
++			next_sg_entry = false;
+ 		}
  	}
  
--	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
--		mutex_unlock(&hpriv->ctx->ts_reg_lock);
--
+ 	rc = sg_alloc_table(sgt, nents, GFP_KERNEL | __GFP_ZERO);
  	if (rc)
- 		return rc;
- 
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 1342686d0ce5..7c2da8cfe844 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -1128,7 +1128,9 @@ struct hl_ts_free_jobs {
-  * @ts_free_jobs_data: timestamp free jobs related data
-  * @type: user interrupt type
-  * @wait_list_head: head to the list of user threads pending on this interrupt
-+ * @ts_list_head: head to the list of timestamp records
-  * @wait_list_lock: protects wait_list_head
-+ * @ts_list_lock: protects ts_list_head
-  * @timestamp: last timestamp taken upon interrupt
-  * @interrupt_id: msix interrupt id
-  */
-@@ -1137,7 +1139,9 @@ struct hl_user_interrupt {
- 	struct hl_ts_free_jobs		ts_free_jobs_data;
- 	enum hl_user_interrupt_type	type;
- 	struct list_head		wait_list_head;
-+	struct list_head		ts_list_head;
- 	spinlock_t			wait_list_lock;
-+	spinlock_t			ts_list_lock;
- 	ktime_t				timestamp;
- 	u32				interrupt_id;
- };
-@@ -1199,7 +1203,7 @@ struct timestamp_reg_info {
-  * struct hl_user_pending_interrupt - holds a context to a user thread
-  *                                    pending on an interrupt
-  * @ts_reg_info: holds the timestamps registration nodes info
-- * @wait_list_node: node in the list of user threads pending on an interrupt
-+ * @list_node: node in the list of user threads pending on an interrupt or timestamp
-  * @fence: hl fence object for interrupt completion
-  * @cq_target_value: CQ target value
-  * @cq_kernel_addr: CQ kernel address, to be used in the cq interrupt
-@@ -1207,7 +1211,7 @@ struct timestamp_reg_info {
-  */
- struct hl_user_pending_interrupt {
- 	struct timestamp_reg_info	ts_reg_info;
--	struct list_head		wait_list_node;
-+	struct list_head		list_node;
- 	struct hl_fence			fence;
- 	u64				cq_target_value;
- 	u64				*cq_kernel_addr;
-@@ -2742,6 +2746,8 @@ void hl_wreg(struct hl_device *hdev, u32 reg, u32 val);
- 	usr_intr.type = intr_type; \
- 	INIT_LIST_HEAD(&usr_intr.wait_list_head); \
- 	spin_lock_init(&usr_intr.wait_list_lock); \
-+	INIT_LIST_HEAD(&usr_intr.ts_list_head); \
-+	spin_lock_init(&usr_intr.ts_list_lock); \
- })
- 
- struct hwmon_chip_info;
-@@ -3712,7 +3718,7 @@ void hl_eq_reset(struct hl_device *hdev, struct hl_eq *q);
- irqreturn_t hl_irq_handler_cq(int irq, void *arg);
- irqreturn_t hl_irq_handler_eq(int irq, void *arg);
- irqreturn_t hl_irq_handler_dec_abnrm(int irq, void *arg);
--irqreturn_t hl_irq_handler_user_interrupt(int irq, void *arg);
-+irqreturn_t hl_irq_user_interrupt_handler(int irq, void *arg);
- irqreturn_t hl_irq_user_interrupt_thread_handler(int irq, void *arg);
- irqreturn_t hl_irq_eq_error_interrupt_thread_handler(int irq, void *arg);
- u32 hl_cq_inc_ptr(u32 ptr);
-diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
-index 0947d286a5ab..978b7f4d5eeb 100644
---- a/drivers/accel/habanalabs/common/irq.c
-+++ b/drivers/accel/habanalabs/common/irq.c
-@@ -304,7 +304,7 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
- 	dev_dbg(hdev->dev, "Irq handle: Timestamp record (%p) ts cb address (%p), interrupt_id: %u\n",
- 			pend, pend->ts_reg_info.timestamp_kernel_addr, intr->interrupt_id);
- 
--	list_del(&pend->wait_list_node);
-+	list_del(&pend->list_node);
- 
- 	/* Putting the refcount for ts_buff and cq_cb objects will be handled
- 	 * in workqueue context, just add job to free_list.
-@@ -326,12 +326,13 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
- 	return 0;
- }
- 
--static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interrupt *intr)
-+static void handle_user_interrupt_ts_list(struct hl_device *hdev, struct hl_user_interrupt *intr)
- {
- 	struct list_head *ts_reg_free_list_head = NULL, *dynamic_alloc_list_head = NULL;
- 	struct hl_user_pending_interrupt *pend, *temp_pend;
- 	struct timestamp_reg_work_obj *job;
- 	bool reg_node_handle_fail = false;
-+	unsigned long flags;
- 	int rc;
- 
- 	/* For registration nodes:
-@@ -340,34 +341,27 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
- 	 * or in irq handler context at all (since release functions are long and
- 	 * might sleep), so we will need to handle that part in workqueue context.
- 	 * To avoid handling kmalloc failure which compels us rolling back actions
--	 * and move nodes hanged on the free list back to the interrupt wait list
-+	 * and move nodes hanged on the free list back to the interrupt ts list
- 	 * we always alloc the job of the WQ at the beginning.
- 	 */
- 	job = kmalloc(sizeof(*job), GFP_ATOMIC);
- 	if (!job)
- 		return;
- 
--	spin_lock(&intr->wait_list_lock);
+-		goto error_free;
 -
--	list_for_each_entry_safe(pend, temp_pend, &intr->wait_list_head, wait_list_node) {
-+	spin_lock_irqsave(&intr->ts_list_lock, flags);
-+	list_for_each_entry_safe(pend, temp_pend, &intr->ts_list_head, list_node) {
- 		if ((pend->cq_kernel_addr && *(pend->cq_kernel_addr) >= pend->cq_target_value) ||
- 				!pend->cq_kernel_addr) {
--			if (pend->ts_reg_info.buf) {
--				if (!reg_node_handle_fail) {
--					rc = handle_registration_node(hdev, pend,
--							&ts_reg_free_list_head,
--							&dynamic_alloc_list_head, intr);
--					if (rc)
--						reg_node_handle_fail = true;
--				}
+-	cur_page = 0;
+-
+-	if (page_size > dma_max_seg_size) {
+-		u64 size_left, cur_device_address = 0;
++		goto err_free_sgt;
+ 
+-		size_left = page_size;
++	/* Prepare the SG table entries */
++	curr_page = 0;
++	device_address = pages[curr_page];
++	left_size_to_export = exported_size;
++	left_size_in_page = page_size;
++	left_size_in_dma_seg = dma_max_seg_size;
++	next_sg_entry = false;
+ 
+-		/* Need to split each page into the number of chunks of
+-		 * dma_max_seg_size
+-		 */
+-		for_each_sgtable_dma_sg(sgt, sg, i) {
+-			if (size_left == page_size)
+-				cur_device_address =
+-					pages[cur_page] - prop->dram_base_address;
+-			else
+-				cur_device_address += dma_max_seg_size;
+-
+-			/* make sure not to export over exported size */
+-			chunk_size = min3(size_left, dma_max_seg_size, cur_size_to_export);
+-
+-			bar_address = hdev->dram_pci_bar_start + cur_device_address;
+-
+-			rc = set_dma_sg(sg, bar_address, chunk_size, dev, dir);
+-			if (rc)
+-				goto error_unmap;
++	for_each_sgtable_dma_sg(sgt, sg, i) {
++		bar_address = hdev->dram_pci_bar_start + (device_address - prop->dram_base_address);
++		chunk_size = 0;
++
++		for ( ; curr_page < npages ; ++curr_page) {
++			size = min3(left_size_to_export, left_size_in_page, left_size_in_dma_seg);
++			chunk_size += size;
++			left_size_to_export -= size;
++			left_size_in_page -= size;
++			left_size_in_dma_seg -= size;
++
++			if (!left_size_to_export)
++				break;
++
++			if (!left_size_in_page) {
++				/* left_size_to_export is not zero so there must be another page */
++				if (pages[curr_page] + page_size != pages[curr_page + 1]) {
++					device_address = pages[curr_page + 1];
++					next_sg_entry = true;
++				}
++
++				left_size_in_page = page_size;
++			}
+ 
+-			cur_size_to_export -= chunk_size;
++			if (!left_size_in_dma_seg) {
++				/*
++				 * Skip setting a new device address if already moving to a page
++				 * which is not contiguous with the current page.
++				 */
++				if (!next_sg_entry) {
++					device_address += chunk_size;
++					next_sg_entry = true;
++				}
++
++				left_size_in_dma_seg = dma_max_seg_size;
++			}
+ 
+-			if (size_left > dma_max_seg_size) {
+-				size_left -= dma_max_seg_size;
 -			} else {
--				/* Handle wait target value node */
--				pend->fence.timestamp = intr->timestamp;
--				complete_all(&pend->fence.completion);
-+			if (!reg_node_handle_fail) {
-+				rc = handle_registration_node(hdev, pend,
-+						&ts_reg_free_list_head,
-+						&dynamic_alloc_list_head, intr);
-+				if (rc)
-+					reg_node_handle_fail = true;
+-				cur_page++;
+-				size_left = page_size;
++			if (next_sg_entry) {
++				next_sg_entry = false;
++				break;
  			}
  		}
- 	}
--	spin_unlock(&intr->wait_list_lock);
-+	spin_unlock_irqrestore(&intr->ts_list_lock, flags);
+-	} else {
+-		/* Merge pages and put them into the scatterlist */
+-		for_each_sgtable_dma_sg(sgt, sg, i) {
+-			chunk_size = page_size;
+-			for (j = cur_page + 1 ; j < cur_npages ; j++) {
+-				if (pages[j - 1] + page_size != pages[j] ||
+-						chunk_size + page_size > dma_max_seg_size)
+-					break;
+-
+-				chunk_size += page_size;
+-			}
+-
+-			bar_address = hdev->dram_pci_bar_start +
+-					(pages[cur_page] - prop->dram_base_address);
  
- 	if (ts_reg_free_list_head) {
- 		INIT_WORK(&job->free_obj, hl_ts_free_objects);
-@@ -380,6 +374,23 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
- 	}
- }
- 
-+static void handle_user_interrupt_wait_list(struct hl_device *hdev, struct hl_user_interrupt *intr)
-+{
-+	struct hl_user_pending_interrupt *pend, *temp_pend;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&intr->wait_list_lock, flags);
-+	list_for_each_entry_safe(pend, temp_pend, &intr->wait_list_head, list_node) {
-+		if ((pend->cq_kernel_addr && *(pend->cq_kernel_addr) >= pend->cq_target_value) ||
-+				!pend->cq_kernel_addr) {
-+			/* Handle wait target value node */
-+			pend->fence.timestamp = intr->timestamp;
-+			complete_all(&pend->fence.completion);
-+		}
-+	}
-+	spin_unlock_irqrestore(&intr->wait_list_lock, flags);
-+}
-+
- static void handle_tpc_interrupt(struct hl_device *hdev)
- {
- 	u64 event_mask;
-@@ -401,19 +412,38 @@ static void handle_unexpected_user_interrupt(struct hl_device *hdev)
- }
- 
- /**
-- * hl_irq_handler_user_interrupt - irq handler for user interrupts
-+ * hl_irq_user_interrupt_handler - irq handler for user interrupts.
-  *
-  * @irq: irq number
-  * @arg: pointer to user interrupt structure
-- *
-  */
--irqreturn_t hl_irq_handler_user_interrupt(int irq, void *arg)
-+irqreturn_t hl_irq_user_interrupt_handler(int irq, void *arg)
- {
- 	struct hl_user_interrupt *user_int = arg;
-+	struct hl_device *hdev = user_int->hdev;
- 
- 	user_int->timestamp = ktime_get();
-+	switch (user_int->type) {
-+	case HL_USR_INTERRUPT_CQ:
-+		/* First handle user waiters threads */
-+		handle_user_interrupt_wait_list(hdev, &hdev->common_user_cq_interrupt);
-+		handle_user_interrupt_wait_list(hdev, user_int);
-+
-+		/* Second handle user timestamp registrations */
-+		handle_user_interrupt_ts_list(hdev,  &hdev->common_user_cq_interrupt);
-+		handle_user_interrupt_ts_list(hdev, user_int);
-+		break;
-+	case HL_USR_INTERRUPT_DECODER:
-+		handle_user_interrupt_wait_list(hdev, &hdev->common_decoder_interrupt);
-+
-+		/* Handle decoder interrupt registered on this specific irq */
-+		handle_user_interrupt_wait_list(hdev, user_int);
-+		break;
-+	default:
-+		break;
+-			/* make sure not to export over exported size */
+-			chunk_size = min(chunk_size, cur_size_to_export);
+-			rc = set_dma_sg(sg, bar_address, chunk_size, dev, dir);
+-			if (rc)
+-				goto error_unmap;
++		rc = set_dma_sg(sg, bar_address, chunk_size, dev, dir);
++		if (rc)
++			goto err_unmap;
 +	}
  
--	return IRQ_WAKE_THREAD;
-+	return IRQ_HANDLED;
+-			cur_size_to_export -= chunk_size;
+-			cur_page = j;
+-		}
++	/* There should be nothing left to export exactly after looping over all SG elements */
++	if (left_size_to_export) {
++		dev_err(hdev->dev,
++			"left size to export %#llx after initializing %u SG elements\n",
++			left_size_to_export, sgt->nents);
++		rc = -ENOMEM;
++		goto err_unmap;
+ 	}
+ 
+-	/* Because we are not going to include a CPU list we want to have some
+-	 * chance that other users will detect this by setting the orig_nents
+-	 * to 0 and using only nents (length of DMA list) when going over the
+-	 * sgl
++	/*
++	 * Because we are not going to include a CPU list, we want to have some chance that other
++	 * users will detect this when going over SG table, by setting the orig_nents to 0 and using
++	 * only nents (length of DMA list).
+ 	 */
+ 	sgt->orig_nents = 0;
+ 
+ 	return sgt;
+ 
+-error_unmap:
++err_unmap:
+ 	for_each_sgtable_dma_sg(sgt, sg, i) {
+ 		if (!sg_dma_len(sg))
+ 			continue;
+ 
+-		dma_unmap_resource(dev, sg_dma_address(sg),
+-					sg_dma_len(sg), dir,
++		dma_unmap_resource(dev, sg_dma_address(sg), sg_dma_len(sg), dir,
+ 					DMA_ATTR_SKIP_CPU_SYNC);
+ 	}
+ 
+ 	sg_free_table(sgt);
+ 
+-error_free:
++err_free_sgt:
+ 	kfree(sgt);
+ 	return ERR_PTR(rc);
  }
- 
- /**
-@@ -429,19 +459,8 @@ irqreturn_t hl_irq_user_interrupt_thread_handler(int irq, void *arg)
- 	struct hl_user_interrupt *user_int = arg;
- 	struct hl_device *hdev = user_int->hdev;
- 
-+	user_int->timestamp = ktime_get();
- 	switch (user_int->type) {
--	case HL_USR_INTERRUPT_CQ:
--		handle_user_interrupt(hdev, &hdev->common_user_cq_interrupt);
--
--		/* Handle user cq interrupt registered on this specific irq */
--		handle_user_interrupt(hdev, user_int);
--		break;
--	case HL_USR_INTERRUPT_DECODER:
--		handle_user_interrupt(hdev, &hdev->common_decoder_interrupt);
--
--		/* Handle decoder interrupt registered on this specific irq */
--		handle_user_interrupt(hdev, user_int);
--		break;
- 	case HL_USR_INTERRUPT_TPC:
- 		handle_tpc_interrupt(hdev);
- 		break;
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index b0ba62b691ec..867175431418 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -4227,9 +4227,7 @@ static int gaudi2_dec_enable_msix(struct hl_device *hdev)
- 			rc = request_irq(irq, hl_irq_handler_dec_abnrm, 0,
- 						gaudi2_irq_name(i), (void *) dec);
- 		} else {
--			rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
--					hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
--					gaudi2_irq_name(i),
-+			rc = request_irq(irq, hl_irq_user_interrupt_handler, 0, gaudi2_irq_name(i),
- 					(void *) &hdev->user_interrupt[dec->core_id]);
- 		}
- 
-@@ -4287,17 +4285,17 @@ static int gaudi2_enable_msix(struct hl_device *hdev)
- 	}
- 
- 	irq = pci_irq_vector(hdev->pdev, GAUDI2_IRQ_NUM_TPC_ASSERT);
--	rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
--			hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
--			gaudi2_irq_name(GAUDI2_IRQ_NUM_TPC_ASSERT), &hdev->tpc_interrupt);
-+	rc = request_threaded_irq(irq, NULL, hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
-+					gaudi2_irq_name(GAUDI2_IRQ_NUM_TPC_ASSERT),
-+					&hdev->tpc_interrupt);
- 	if (rc) {
- 		dev_err(hdev->dev, "Failed to request IRQ %d", irq);
- 		goto free_dec_irq;
- 	}
- 
- 	irq = pci_irq_vector(hdev->pdev, GAUDI2_IRQ_NUM_UNEXPECTED_ERROR);
--	rc = request_irq(irq, hl_irq_handler_user_interrupt, 0,
--			gaudi2_irq_name(GAUDI2_IRQ_NUM_UNEXPECTED_ERROR),
-+	rc = request_threaded_irq(irq, NULL, hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
-+					gaudi2_irq_name(GAUDI2_IRQ_NUM_UNEXPECTED_ERROR),
- 					&hdev->unexpected_error_interrupt);
- 	if (rc) {
- 		dev_err(hdev->dev, "Failed to request IRQ %d", irq);
-@@ -4309,10 +4307,8 @@ static int gaudi2_enable_msix(struct hl_device *hdev)
- 			i++, j++, user_irq_init_cnt++) {
- 
- 		irq = pci_irq_vector(hdev->pdev, i);
--		rc = request_threaded_irq(irq, hl_irq_handler_user_interrupt,
--						hl_irq_user_interrupt_thread_handler, IRQF_ONESHOT,
--						gaudi2_irq_name(i), &hdev->user_interrupt[j]);
--
-+		rc = request_irq(irq, hl_irq_user_interrupt_handler, 0, gaudi2_irq_name(i),
-+				&hdev->user_interrupt[j]);
- 		if (rc) {
- 			dev_err(hdev->dev, "Failed to request IRQ %d", irq);
- 			goto free_user_irq;
 -- 
 2.34.1
 
