@@ -1,72 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003837A492E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 14:06:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D28CD7A495C
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 14:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFC5510E004;
-	Mon, 18 Sep 2023 12:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5EB10E044;
+	Mon, 18 Sep 2023 12:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAB5410E004
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 12:06:25 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-52a5c0d949eso5342928a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 05:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695038784; x=1695643584; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aumliCM8GUMBUS2SEdLGQ85Th+kHvEeQ+AEeZe5dib8=;
- b=MPWFfK9clCA/4ivewEM7CTmRW41V/02GdyRAzXx9QAELFnoJaGkRVrqiORygEvo6rA
- Xrjlc2G3/ilBjravGXZhlcPu88lGMRvsNHtww05x9GQCSNIukcffNwys9c+zi3RddRrH
- rK/LUWKZmNd64yoc6ax5aXsOq/QZGf1uI7+Zy+8o11lSm0c8fVD2FCKVzYscIKQXuZig
- tt1wHCxARCEj+rf6z0duX4Truk4t304IbjKGu/tWXCme+Q7mmlNgd+HDD9buVkDtSfpg
- W9EMhGcCKmD20dua+0klWf4E/F3IuEg+IfBxbMDAO1U6OHjMYjWgkklVdOG57PltCSJ7
- Qw6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695038784; x=1695643584;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aumliCM8GUMBUS2SEdLGQ85Th+kHvEeQ+AEeZe5dib8=;
- b=OTdfVg+K8vEQ06hL1/ejQdnTTdlV3gJxHbV5Pqg91oD3Mz+XoubOFi2Z+OpVNiI2aM
- zZOiJ+1xwxvG7ZttiJiiOHKGARUYdAozHN2/HOiSwuM4P8vCaiJQbVWOZ1j2/535Ed4A
- y6yR98PRMIerZAbG5GHaMeT7eBS41sbTz47IPD8M8ekQOn8WVaoDs4DaR3lLJ6pW+3zC
- Z5XkpilZV1aAobn0h7Nsjccws/mR/OKvRbept7TPlLL4g9GroGmTFg7p+DmSqAQ3G6qI
- xhyBDn7FrMr6ELZXvgsWNGkd6FoiknPDjpGTQPlnoiqB+rSOgYQ7fybtotnGVS+s1L/a
- y3nQ==
-X-Gm-Message-State: AOJu0YziACVMC/KVzldu/F9NNXf9V89XLOiruWr5xNBwXcWLhG94vMuL
- uBfzGp4zNuDlXXsb8e5U2pqSdQ==
-X-Google-Smtp-Source: AGHT+IF5uZI+RrO4UyOx4conpZwE0U5Px/QCIg8MSJ51Cyg3pLAceDda5BuKxe/6jm0PrW80qcEXBg==
-X-Received: by 2002:a17:906:2255:b0:9a5:d972:af43 with SMTP id
- 21-20020a170906225500b009a5d972af43mr7668013ejr.65.1695038784221; 
- Mon, 18 Sep 2023 05:06:24 -0700 (PDT)
-Received: from [172.25.80.114] ([217.67.225.27])
- by smtp.gmail.com with ESMTPSA id
- sb4-20020a170906edc400b00992b8d56f3asm6357088ejb.105.2023.09.18.05.06.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Sep 2023 05:06:23 -0700 (PDT)
-Message-ID: <837865e5-739e-72c2-140f-2299e9ae03ae@linaro.org>
-Date: Mon, 18 Sep 2023 14:06:22 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20615.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::615])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC65510E044;
+ Mon, 18 Sep 2023 12:15:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OBjBc3Wz0pCyaG0LJDw8QN7T1TXYdA1eSrzTjId4P3266+X5REJho6aRK/Ruj7PrvVYGdg8nJOdHGFDN8ZJaq2hICph0nzU0uhFgbcbm0Rf30GMJ6YvcurvuVPBMKzE1xHuJwZGmjvfC9fKqF44vNrrn9DNqHb5bRH6j3zL9MjSphVQ2DRf6TMVBBm0WyTHSkm6HDmdNaHMgPLgMaJAFZrXfxDJQ9zAWMaUDecKKCSq2n3FhXkh41UwQltKZxq3hx868JvMBqCG+WBFQ4WMYFVqcj1HyGRrzNJF/cNQnvQiVTXbmjFIuPlbe/hZAwGaMZNG4HlMwKCbRH9I+2w9hnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oYDn3sYvPAuD3MGhFfSroTqZpKboJcrzfGmGwESYpL0=;
+ b=CxjhLG6ebJeJUw2aEkaFRGKdnhB6WE4tcDOcsNjmMaDBxZsDN+9+eyo+CU7uEL4Hzn0Gk7iD1P0iVYxNy6nkdHdN7tbb/dAgpMFbcJio5Xev15P7pKDehm+yFyyD+nbXfDYP1JpxUrtMTM9nT3lIbZI1yqQNC5fK2d2FIxPs+TJ4+WmeCMRXP+YWHdMH/fcGXb4Ca69RlgX3hEdh0vVh4u7mLCB0UpJ09nAW+AU3osv52hztA9QTv2vDmttLDXkP5gV+voS42rRc59bB4QGIxb7S/NopxRV5GwHwh9kakhkg8I5cki1fgFlv1HeLfZEq/vrvlZVR4sMIuJUE16HoxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oYDn3sYvPAuD3MGhFfSroTqZpKboJcrzfGmGwESYpL0=;
+ b=D75JuwMWOFZ20d8On9a8irumjmk2jTb2Cu5w+G+l5XkjD1MBXZGbR/Vs4gFnkOym4fEHwwI1HvAo2Q651VOvQZbcUWVFyEiX3PBniXOTWh09+0G2m2RTTA3zC2dNEU+SXAGfbhlJgBN0/S24wcPzJe6Ll+oixVMMszwVsI0t0Dg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3048.namprd12.prod.outlook.com (2603:10b6:a03:ad::33)
+ by SJ2PR12MB8848.namprd12.prod.outlook.com (2603:10b6:a03:537::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Mon, 18 Sep
+ 2023 12:14:59 +0000
+Received: from BYAPR12MB3048.namprd12.prod.outlook.com
+ ([fe80::3331:4281:58a0:bacb]) by BYAPR12MB3048.namprd12.prod.outlook.com
+ ([fe80::3331:4281:58a0:bacb%6]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
+ 12:14:58 +0000
+Message-ID: <f72379a4-8a15-e3b6-beec-d7a4cdf94a88@amd.com>
+Date: Mon, 18 Sep 2023 06:14:50 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [RFC PATCH 8/8] dt-bindings: display: panel: add Fascontek
- FS035VG158 panel
+Subject: Re: [PATCH][V2] drm/amd/display: Remove unwanted drm edid references
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20230915224926.104072-1-alex.hung@amd.com>
+ <87zg1ju6a0.fsf@intel.com>
 Content-Language: en-US
-To: John Watts <contact@jookia.org>
-References: <20230911090206.3121440-1-contact@jookia.org>
- <20230911090206.3121440-9-contact@jookia.org>
- <e22e61e7-02b1-8127-888d-e470838f4a18@linaro.org> <ZQdgeA5tQA4xK5qL@titan>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZQdgeA5tQA4xK5qL@titan>
-Content-Type: text/plain; charset=UTF-8
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <87zg1ju6a0.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0109.namprd04.prod.outlook.com
+ (2603:10b6:303:83::24) To BYAPR12MB3048.namprd12.prod.outlook.com
+ (2603:10b6:a03:ad::33)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3048:EE_|SJ2PR12MB8848:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa940bd5-4b11-4c72-57c9-08dbb840e00d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +zJx2DMXD49s0DbglmRJFD2MZ42UNIgR2sqQX28xqrYqkrLSXg6CplnnexIP3e9PxT8jq2F4ycjB/iSGaSM5SPh+/IgxNzVaKx5Gg6PsGQRVBLrIX1YJ2ZTJTPA9LJ4puWHEqmbxRrtkXxAHc26JBJ3+Yrz5znkxOqz5xn+psHnpaMlu8EI7jeRMTyS+1U7dCLz+EK5Xk8UJ27/FjlAkU70DzQXjYGFLfs3F6ZtcQGIOZ5RZlrYne7PCbKgFZgwOK3kswmwOnnMIGuKo+zvi88JF8+SPj6rLUxPoLX9z7awY9QFFCnrvs1hbh+9daWvTWrQph/s6F9omvbx/3ADsMQ86oGJx60+7lzr9kuFadIsdG9rkVERqW0yb2pq2OZcyP9YBMuOtIiGlptIssfepey+u8j3RpU7bpqJhFPHHUVec96AEHPfU1NVcVN1ulhECsmeDXgmNkINDyds3FwiygN3QO+JVx14X+FHUgMYCs2NStBlSkjyIh1BRvdqlNcBtIuAWBMY+dirPJefK30QxKiQY1cBQ5oNqeThUJWGWJoOwocFIkhfxV8XDaEfMVi4agQn67JPZQn/FExkCUb+45ZNFL0vZ6X0HJHEnkDn5882XdsggQd0PEulR2v97cUqnziuX/baoMed9EzGP7rNtcACNSz4VxVelUlKlxczaGPw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3048.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(346002)(39860400002)(396003)(136003)(366004)(1800799009)(451199024)(186009)(6486002)(6506007)(6512007)(53546011)(2906002)(26005)(2616005)(5660300002)(38100700002)(4326008)(36756003)(41300700001)(66946007)(66476007)(66556008)(316002)(8936002)(8676002)(6666004)(44832011)(478600001)(83380400001)(86362001)(31696002)(31686004)(26123001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmZXbXdnT0FnWU1GRUhIUDJUUVo3MWdPMWJBd1RzNlZQeDZxb2IzbEJmbjJu?=
+ =?utf-8?B?YVVyMVIvWllwU0R6cm15dkJOUlpHUTdINjVHVC9vdlJTNEl4MHBaQzBGa3ZW?=
+ =?utf-8?B?RVdLVTVEUEVoTXp1Ylp4bi9xQ3NBK2tvazFiQkpCcE1BZUJpNkJLdUJ3OURr?=
+ =?utf-8?B?cnRoMGtTU0ozT2VYSnVYUll6dXhDZlZuL0xTUnNGRTF0RTEzWTlwMFJiakxG?=
+ =?utf-8?B?cThISFQ2SnV0Y3ZiTjlwY0tOajZwRkM4UkVnaUptMmcvcWJrRHNBZlMwbzRF?=
+ =?utf-8?B?RnV4WEY0YzYrM20vL2RQOXFqbnVLOFYxRlBUd0JUcCtyQnc3MDF3QXBmK0RD?=
+ =?utf-8?B?ZWdTYnltYTF3SXlyallNZFFTTkVnOWFnK0twV1lFUWlEM3h4RHR3NTRORWR3?=
+ =?utf-8?B?b08rUyt6dHdUZFhLMkEvUXBnQ0FvT3BYSjlLZ29TakZZcmpQcGJCb3crTGgv?=
+ =?utf-8?B?a0xReTRDRFdYWkIwN0RBZ1QxNVJTOXpEL05CcXRrKzEyb04wZmt4cUZTckVQ?=
+ =?utf-8?B?R3o1c2xKK3dhK1JrM0t3S3JXYWM2NjRxN0VuNkR1OGNhWFUwaXJyWXlQTmdm?=
+ =?utf-8?B?aHBpNm9LZ1NYYlZJN1d4RXZTSE1LdU5oRVB5YmdlejZKSUVDVmQ0Zk5iTEJ1?=
+ =?utf-8?B?dkpXdHVGTXJ5VzlNNEdDNFJIRmtBeHlvU0I5d3RreHc0USt5LzBkTUc4TTlk?=
+ =?utf-8?B?UjJVWFZrOEdiYVFvckg0RVdvamtJeXBEb0srYjFVNjR2eG1yVDlWaHJGNm5M?=
+ =?utf-8?B?MXJIWWNPb2VtbzVLbXo4YTg2cVpwMW1qeG4vYnYxelEySys0RkxVc1BHZWxH?=
+ =?utf-8?B?T2Y3dFRndDc5RGF0WUhGejgzUmtrVlcyUW93V3pXWGNhM0NBcHo3RVZ4MHVu?=
+ =?utf-8?B?RDBkSDZEWnIrdGx0eWhPUUNnNEtja3ZUUHdWZWlLODJaZWxDSVQ4cGlTZ3Nl?=
+ =?utf-8?B?TWZMOU1SeHZsZ29helNOSHp6ZWpVbE1haWZPNUhGaXkvWnhnajloY3hBYzZa?=
+ =?utf-8?B?VS9YdktoWGpFL1kyNDltUGdrZzhsWFJka2dSV1VkSnRZamZhcUpOOWdXM0NB?=
+ =?utf-8?B?L08yM0RyR1hFczlERWFVTGR6RkdEVjh4S0pGN2N6ZGREYW4zbldROXZNNmVj?=
+ =?utf-8?B?R3lGcFVjVWpWY1hZUmVhQzVXZjIwSVpyOXpwdk80NXVZTkdYM1k1cllhV25E?=
+ =?utf-8?B?VEVQUGtkT2Z5STlMQ2dZVThXKzFYVDBsb3NWdlZmWnB1dmhYYlJkR0U4cndo?=
+ =?utf-8?B?cm5tb1duWmRvUm9aVzlaUUFkNWJmS24ycXJIT1d5bWFIU2p0SDY2dTY3TlhO?=
+ =?utf-8?B?MzdUUDFtbzVMNWNYK2dFNVRvVmJJWVZHK3NobnkyT0xvK0xWSWg1WlZBeDlM?=
+ =?utf-8?B?dW5xZzhFZHhrZ1p3SGFkVGtFejBuQ2Y3N1VlTWljMWpCNTNkaE1NTG5rMHpo?=
+ =?utf-8?B?ZTVnSkRXaFd5cldjc0xvdTZMeWRVd3ZSNU5JOWczMFdLWGJrbWJ0RGQ4YjRy?=
+ =?utf-8?B?UUQzNEUwaDdXSUxJWUFOdzFSM0JBWEpyaHZoaWw0ekszMy84YTJtNlZJQUNl?=
+ =?utf-8?B?d2M5UUlHdVRDaG5UQVdQTHg2TEMxQ2V2Nk9rUm9pQmw4V291c3kyQy94QkNM?=
+ =?utf-8?B?SCtCME5LaHBtbEVwVVJkSjhkMUlEZ0MvRDNBbjlaZjk0Tlh4OWV3VEZSdTE1?=
+ =?utf-8?B?UXltbDBrWHM3ZnR4dWtncWxnK0xGOGc4YUxUaHptQ2lybE5Gc21uWHFldzhz?=
+ =?utf-8?B?a2RraWRsSzdEL2p1NnlZZkcvazIxNXB2Y2xVUkltemwzZDMrME5IS2twS01S?=
+ =?utf-8?B?UHJ4NDNnVlVDamY2MGVYQjRGdU9vSkxVbXlYTVlSVGtuQm9zV0NWSm1QN244?=
+ =?utf-8?B?OFJXbnJBSDdxU1VGSUZlcFdkSHRnQi95UUtpdHJtbSt2byt3QjBLU3RSRTlI?=
+ =?utf-8?B?Q05RWDlmNmxzc0Yvdm9NZHhrYm44d1g3S0JWYUs2MUhYWFI1L1FnN1oxMlNM?=
+ =?utf-8?B?MDhTSlpoYVRoWWdUeXVZMWliR2FSWm1PYW1KWmdWQitFR3BCWjBvSEFrMGlm?=
+ =?utf-8?B?cE1OMDlSeVhEQkhCM3lFL0tBYXBxazJKSmNlWUU0SCtTcTNuWUMrVGxHZmZ2?=
+ =?utf-8?Q?mTZVyrjaJx0+fMY1gK67eE1B0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa940bd5-4b11-4c72-57c9-08dbb840e00d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 12:14:58.1465 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vGA7wl+cc9BgIntHbFwxUxtpPIGDAqm7AsmdfROcT0Nhy7Nu9BMMA82mGueRguh2NR47iRatunevw3bgIw4E8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8848
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +127,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
- Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>
+Cc: stylon.wang@amd.com, haoping.liu@amd.com, srinivasan.shanmugam@amd.com,
+ sunpeng.li@amd.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, daniel.wheeler@amd.com, aurabindo.pillai@amd.com,
+ hersenxs.wu@amd.com, hamza.mahfooz@amd.com, wayne.lin@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/09/2023 22:24, John Watts wrote:
-> On Mon, Sep 11, 2023 at 11:41:12AM +0200, Krzysztof Kozlowski wrote:
->> Missing reg. Probably also port.
-> 
-> Hello again,
-> 
-> I've been working on v2 of this series and done some initial cleanup.
-> 
-> Right now it looks a bit like this:
-> 
->> allOf:
->>   - $ref: panel-common.yaml#
->>   - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>
->> properties:
->>   compatible:
->>     const: fascontek,fs035vg158
->>
->>   spi-3wire: true
->>
->> required:
->>   - compatible
->>   - reg
->>   - port
->>   - power-supply
->>   - reset-gpios
-> 
-> Does this seem correct?
-> - reg is required by spi-controller
-> - port is listed in panel-common
-> - power-supply is listed in panel-common
-> 
-> I'm guessing that the required section just lists the minimal
-> properties needed for this specific device tree yaml?
-> There's nothing implied by allOf?
 
-Ah, then it is fine.
 
-Best regards,
-Krzysztof
+On 2023-09-18 04:25, Jani Nikula wrote:
+> On Fri, 15 Sep 2023, Alex Hung <alex.hung@amd.com> wrote:
+>> [WHY]
+>> edid_override and drm_edid_override_connector_update, according to drm
+>> documentation, should not be referred outside drm_edid.
+>>
+>> [HOW]
+>> Remove and replace them accordingly. This can tested by IGT's
+>> kms_hdmi_inject test.
+>>
+>> Signed-off-by: Alex Hung <alex.hung@amd.com>
+>> ---
+>>
+>> V2 - add comments for drm_get_edid and check edid before use.
+>>
+>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 44 +++++++++++--------
+>>   1 file changed, 25 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> index 5efebc06296b..b29ef87c27a9 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> @@ -6444,15 +6444,24 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>>   static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>>   {
+>>   	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+>> +	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+>>   	struct dc_link *dc_link = aconnector->dc_link;
+>>   	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+>>   	struct edid *edid;
+>>   
+>> -	if (!connector->edid_override)
+>> +	/*
+>> +	 * Note: drm_get_edid gets edid in the following order:
+>> +	 * 1) override EDID if set via edid_override debugfs,
+>> +	 * 2) firmware EDID if set via edid_firmware module parameter
+>> +	 * 3) regular DDC read.
+>> +	 */
+>> +	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
+>> +	if (!edid) {
+>> +		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
+>> +		connector->force = DRM_FORCE_OFF;
+> 
+> Drivers aren't supposed to modify connector->force.
+> 
+> Why would you do that anyway? This connects EDID probe success with
+> connector forcing, and I've been repeatedly saying these are two
+> separate things that should not be conflated.
+> 
+> Maybe the user has set connector->force, because the display probe is
+> flaky. This switches connector->force off if the display does not
+> respond, undermining one of the main purposes of the whole thing.
 
+Thanks. I will removed this and sent V3.
+
+> 
+>>   		return;
+>> +	}
+>>   
+>> -	drm_edid_override_connector_update(&aconnector->base);
+>> -	edid = aconnector->base.edid_blob_ptr->data;
+>>   	aconnector->edid = edid;
+>>   
+>>   	/* Update emulated (virtual) sink's EDID */
+>> @@ -6487,30 +6496,27 @@ static int get_modes(struct drm_connector *connector)
+>>   
+>>   static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
+>>   {
+>> +	struct drm_connector *connector = &aconnector->base;
+>> +	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(&aconnector->base);
+>>   	struct dc_sink_init_data init_params = {
+>>   			.link = aconnector->dc_link,
+>>   			.sink_signal = SIGNAL_TYPE_VIRTUAL
+>>   	};
+>>   	struct edid *edid;
+>>   
+>> -	if (!aconnector->base.edid_blob_ptr) {
+>> -		/* if connector->edid_override valid, pass
+>> -		 * it to edid_override to edid_blob_ptr
+>> -		 */
+>> -
+>> -		drm_edid_override_connector_update(&aconnector->base);
+>> -
+>> -		if (!aconnector->base.edid_blob_ptr) {
+>> -			DRM_ERROR("No EDID firmware found on connector: %s ,forcing to OFF!\n",
+>> -					aconnector->base.name);
+>> -
+>> -			aconnector->base.force = DRM_FORCE_OFF;
+>> -			return;
+>> -		}
+>> +	/*
+>> +	 * Note: drm_get_edid gets edid in the following order:
+>> +	 * 1) override EDID if set via edid_override debugfs,
+>> +	 * 2) firmware EDID if set via edid_firmware module parameter
+>> +	 * 3) regular DDC read.
+>> +	 */
+>> +	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
+>> +	if (!edid) {
+>> +		DRM_ERROR("No EDID found on connector: %s, forcing to OFF!\n", connector->name);
+>> +		connector->force = DRM_FORCE_OFF;
+> 
+> Ditto.
+> 
+> BR,
+> Jani.
+> 
+>> +		return;
+>>   	}
+>>   
+>> -	edid = (struct edid *) aconnector->base.edid_blob_ptr->data;
+>> -
+>>   	aconnector->edid = edid;
+>>   
+>>   	aconnector->dc_em_sink = dc_link_add_remote_sink(
+> 
