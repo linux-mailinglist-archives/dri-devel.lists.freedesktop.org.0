@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AC87A5A67
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:01:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC147A5A42
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 08:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A4D10E38A;
-	Tue, 19 Sep 2023 07:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC1010E1C5;
+	Tue, 19 Sep 2023 06:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-214.mta1.migadu.com (out-214.mta1.migadu.com
- [95.215.58.214])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6155B10E27E
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 13:00:30 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1695042028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R5G1aT+AHi7jek6Uf/y5TeohqhmCW5n4KHyN+Nw2tzQ=;
- b=bun50opM5dimzLsCGjkw0y6gEd/JNoD69i4kGYHbMosSzIWcI6JEbEe3YOPdIkVMtmlYMc
- eHk5W2A6fZmjDuawkH3jAU2G1rjte6655tRV/3p/gvxH7aMLbwULpSUc55a04VxZ69jdGT
- EgQjHwChB8NVupEWTmUQH52l8To57xkrOsawTvyWNxCpyRLJDvydVoiEvIylak4iT32pEC
- OktAc0d2GpWkM67mx8BO4YJxMmjRucC41ecehCnulaDNxK7DHeKu99aoqbAuvcCPFkuIkT
- iLV9vaq+5JWP/nYqeMFUy8wIqO5gVitcquNkVyfdnWkDzgUPwunWYIqZ2LQsLQ==
-From: John Watts <contact@jookia.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v2 9/9] dt-bindings: display: panel: add Fascontek
- FS035VG158 panel
-Date: Mon, 18 Sep 2023 22:58:53 +1000
-Message-ID: <20230918125853.2249187-10-contact@jookia.org>
-In-Reply-To: <20230918125853.2249187-1-contact@jookia.org>
-References: <20230918125853.2249187-1-contact@jookia.org>
+Received: from 3.mo576.mail-out.ovh.net (3.mo576.mail-out.ovh.net
+ [188.165.52.203])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09A8510E041
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 16:54:03 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.210])
+ by mo576.mail-out.ovh.net (Postfix) with ESMTP id 7F5E223A8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 16:54:01 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-ql8wh (unknown [10.110.115.91])
+ by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5C6E31FE3E;
+ Mon, 18 Sep 2023 16:54:00 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.99])
+ by ghost-submission-6684bf9d7b-ql8wh with ESMTPSA
+ id adfcCaiACGU3agUANQvNOQ
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Mon, 18 Sep 2023 16:54:00 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0037c8a767e-0457-49d5-a574-5fea09979b6f,
+ AE3083DFCBC61AB1F6EF444133692A68B539629B)
+ smtp.auth=jose.pekkarinen@foxhound.fi
+X-OVh-ClientIp: 91.157.107.67
+From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, skhan@linuxfoundation.org
+Subject: [PATCH] drm/atomic-helper: prevent uaf in wait_for_vblanks
+Date: Mon, 18 Sep 2023 19:53:39 +0300
+Message-Id: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Ovh-Tracer-Id: 9270941311783970470
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudejkedguddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepfedtleeuteeitedvtedtteeuieevudejfeffvdetfeekleehhfelleefteetjeejnecukfhppeduvdejrddtrddtrddupdeluddrudehjedruddtjedrieejpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
 X-Mailman-Approved-At: Tue, 19 Sep 2023 06:59:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,89 +55,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
- John Watts <contact@jookia.org>, Rob Herring <robh+dt@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a small 3.5" 640x480 IPS LCD panel.
+Kasan reported the following in my system:
 
-Signed-off-by: John Watts <contact@jookia.org>
+[ 3935.321003] ==================================================================
+[ 3935.321022] BUG: KASAN: slab-use-after-free in drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+[ 3935.321124] Read of size 1 at addr ffff88818a6f8009 by task kworker/u16:3/5268
+
+[ 3935.321124] CPU: 7 PID: 5268 Comm: kworker/u16:3 Not tainted 6.6.0-rc2+ #1
+[ 3935.321124] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+[ 3935.321124] Workqueue: events_unbound commit_work [drm_kms_helper]
+[ 3935.321124] Call Trace:
+[ 3935.321124]  <TASK>
+[ 3935.321124]  dump_stack_lvl+0x43/0x60
+[ 3935.321124]  print_report+0xcf/0x660
+[ 3935.321124]  ? remove_entity_load_avg+0xdc/0x100
+[ 3935.321124]  ? __virt_addr_valid+0xd9/0x160
+[ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+[ 3935.321124]  kasan_report+0xda/0x110
+[ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+[ 3935.321124]  drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+[ 3935.321124]  ? __pfx_drm_atomic_helper_wait_for_vblanks.part.0+0x10/0x10 [drm_kms_helper]
+[ 3935.321124]  ? complete_all+0x48/0x100
+[ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x19/0x40
+[ 3935.321124]  ? preempt_count_sub+0x14/0xc0
+[ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x23/0x40
+[ 3935.321124]  ? drm_atomic_helper_commit_hw_done+0x1ac/0x240 [drm_kms_helper]
+[ 3935.321124]  drm_atomic_helper_commit_tail+0x82/0x90 [drm_kms_helper]
+[ 3935.321124]  commit_tail+0x15c/0x1d0 [drm_kms_helper]
+[ 3935.323185]  process_one_work+0x31a/0x610
+[ 3935.323185]  worker_thread+0x38e/0x5f0
+[ 3935.323185]  ? __pfx_worker_thread+0x10/0x10
+[ 3935.323185]  kthread+0x184/0x1c0
+[ 3935.323185]  ? __pfx_kthread+0x10/0x10
+[ 3935.323185]  ret_from_fork+0x30/0x50
+[ 3935.323185]  ? __pfx_kthread+0x10/0x10
+[ 3935.323185]  ret_from_fork_asm+0x1b/0x30
+[ 3935.323185]  </TASK>
+
+[ 3935.323185] Allocated by task 3751:
+[ 3935.323185]  kasan_save_stack+0x2f/0x50
+[ 3935.323185]  kasan_set_track+0x21/0x30
+[ 3935.323185]  __kasan_kmalloc+0xa6/0xb0
+[ 3935.323185]  drm_atomic_helper_crtc_duplicate_state+0x42/0x70 [drm_kms_helper]
+[ 3935.323185]  drm_atomic_get_crtc_state+0xc3/0x1e0 [drm]
+[ 3935.323185]  page_flip_common+0x42/0x160 [drm_kms_helper]
+[ 3935.323185]  drm_atomic_helper_page_flip+0x6b/0xf0 [drm_kms_helper]
+[ 3935.323185]  drm_mode_page_flip_ioctl+0x8ad/0x900 [drm]
+[ 3935.323185]  drm_ioctl_kernel+0x169/0x240 [drm]
+[ 3935.323185]  drm_ioctl+0x399/0x6b0 [drm]
+[ 3935.324772]  __x64_sys_ioctl+0xc5/0x100
+[ 3935.324772]  do_syscall_64+0x5b/0xc0
+[ 3935.324772]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+
+[ 3935.324772] Freed by task 3751:
+[ 3935.324772]  kasan_save_stack+0x2f/0x50
+[ 3935.324772]  kasan_set_track+0x21/0x30
+[ 3935.324772]  kasan_save_free_info+0x27/0x40
+[ 3935.324772]  ____kasan_slab_free+0x166/0x1c0
+[ 3935.324772]  slab_free_freelist_hook+0x9f/0x1e0
+[ 3935.324772]  __kmem_cache_free+0x187/0x2d0
+[ 3935.324772]  drm_atomic_state_default_clear+0x226/0x5e0 [drm]
+[ 3935.324772]  __drm_atomic_state_free+0xc8/0x130 [drm]
+[ 3935.324772]  drm_atomic_helper_update_plane+0x17d/0x1b0 [drm_kms_helper]
+[ 3935.324772]  drm_mode_cursor_universal+0x2a4/0x4d0 [drm]
+[ 3935.324772]  drm_mode_cursor_common+0x1cf/0x430 [drm]
+[ 3935.324772]  drm_mode_cursor_ioctl+0xc6/0x100 [drm]
+[ 3935.326167]  drm_ioctl_kernel+0x169/0x240 [drm]
+[ 3935.326167]  drm_ioctl+0x399/0x6b0 [drm]
+[ 3935.326614]  __x64_sys_ioctl+0xc5/0x100
+[ 3935.326614]  do_syscall_64+0x5b/0xc0
+[ 3935.326614]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+
+[ 3935.326614] The buggy address belongs to the object at ffff88818a6f8000
+                which belongs to the cache kmalloc-512 of size 512
+[ 3935.326614] The buggy address is located 9 bytes inside of
+                freed 512-byte region [ffff88818a6f8000, ffff88818a6f8200)
+
+[ 3935.326614] The buggy address belongs to the physical page:
+[ 3935.326614] page:00000000b0fb0816 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x18a6f8
+[ 3935.326614] head:00000000b0fb0816 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+[ 3935.326614] anon flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
+[ 3935.326614] page_type: 0xffffffff()
+[ 3935.326614] raw: 0017ffffc0000840 ffff888100042c80 0000000000000000 dead000000000001
+[ 3935.326614] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+[ 3935.326614] page dumped because: kasan: bad access detected
+
+[ 3935.326614] Memory state around the buggy address:
+[ 3935.326614]  ffff88818a6f7f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[ 3935.326614]  ffff88818a6f7f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[ 3935.326614] >ffff88818a6f8000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[ 3935.326772]                       ^
+[ 3935.326772]  ffff88818a6f8080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[ 3935.326772]  ffff88818a6f8100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[ 3935.326772] ==================================================================
+
+This suggest there may be some situation where a
+struct drm_crtc_state is referenced after already
+being freed by drm_atomic_state_default_clear. This
+patch will check the new_crtc_state is not null before
+using it.
+
+Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 ---
- .../display/panel/fascontek,fs035vg158.yaml   | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
+ drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml b/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
-new file mode 100644
-index 000000000000..d13c4bd26de4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/fascontek,fs035vg158.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/fascontek,fs035vg158.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Fascontek FS035VG158 3.5" (640x480 pixels) 24-bit IPS LCD panel
-+
-+maintainers:
-+  - John Watts <contact@jookia.org>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: fascontek,fs035vg158
-+
-+  spi-3wire: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - port
-+  - power-supply
-+  - reset-gpios
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "fascontek,fs035vg158";
-+            reg = <0>;
-+
-+            spi-3wire;
-+            spi-max-frequency = <3125000>;
-+
-+            reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-+
-+            backlight = <&backlight>;
-+            power-supply = <&vcc>;
-+
-+            port {
-+                panel_input: endpoint {
-+                    remote-endpoint = <&panel_output>;
-+                };
-+            };
-+        };
-+    };
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 292e38eb6218..cc75d387a542 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1647,7 +1647,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+ 		return;
+ 
+ 	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
+-		if (!new_crtc_state->active)
++		if (new_crtc_state && !new_crtc_state->active)
+ 			continue;
+ 
+ 		ret = drm_crtc_vblank_get(crtc);
 -- 
-2.42.0
+2.39.2
 
