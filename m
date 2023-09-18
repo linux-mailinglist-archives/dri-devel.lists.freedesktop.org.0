@@ -1,122 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB03F7A47C2
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 13:03:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED1A7A4839
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 13:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACFC10E05C;
-	Mon, 18 Sep 2023 11:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D3D10E274;
+	Mon, 18 Sep 2023 11:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5B6A10E05C;
- Mon, 18 Sep 2023 11:03:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F+vOd9NUgw5gtBrgzg4Iu8RO9CaHm0fPrrYLsk9vKu4WCpaEpgZx+hQUKZO/bA9GaD/ADNDDToNJsVVuQfzwGQLAeibskzpzKhXtI6g4foKfndGL3a5ZBR6nIF3WVTNu8OmfTTv5jaGi7tr9yU/tE0WSUD0XZTiAPKggPsaAPNcWJxfSfJH5OTFN7yzNSU5DYNXUxOaHfTKTsIHwu0vqiRz6YQbV/dzQbQULx8GqMdwC5wlBMhD/n5MFibLt/PYWPUXM85KNbfcrmKpvBLLWUCLcMAFZs6n5F9wO81sUfI1V6V70X+jJSy6Vft9vxYakZkdrJg7ByjWUpJmsV0szCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EJMHKFDTR/OflUM5kbpwwyNSpFlP1tf47R40oIhcohM=;
- b=l3cFVyGztId8woxWVRyvZPHJZSK2IEaRYZElwwa+agoejVmMtQ7QqeqWcRgOTuboya8FdfgSkVPMugV4jiXpmV6HRQYpd9/PpqRGwcY64e1DSo2cnLEIoUWNn6k7VF8AX7sQES+TaaiY00fHp1Ns1pro/4pgYFxjoBcpg9Zw1VpFSKwuGhSYGaPjjQgiqtJPqtJOKCS95zupnXazf4O7/iMejuiIIXjsHo/fsF2hhofbZNulPWw96IeixC44irBzVP2MIed24az4djpamt4BT46vdFOZASRItfue5LPiyZVYLXsdWlvbcqtjy74ciEHE4k0RMHIHRlbvYlPKNuWHIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EJMHKFDTR/OflUM5kbpwwyNSpFlP1tf47R40oIhcohM=;
- b=wJc+lWWWjxYEloUcOox9dh8m73Qm6xUmCO9r36AR8PV/p3R1xhtwuaJydtmvIWvWWcyk5ZfAU2F29WSAUSXhUzm4ruMr/Lpq16KxH6QRgTwwTLdXSYzfafDXukh0luTFH/4Hez7jJE/VeeIGWGZs6dADwijDT40X22m6BHJ5Wis=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Mon, 18 Sep
- 2023 11:03:37 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced%5]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
- 11:03:36 +0000
-Message-ID: <9bbaa40e-d839-10c6-5a5e-c9cfb36c578f@amd.com>
-Date: Mon, 18 Sep 2023 13:03:30 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4EF10E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 11:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695036090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=caZBuHO02JTq4izkwN1/2mH03NPW+7BFGaAKa0BCkPU=;
+ b=YNhD5BybBrzql7oC2vQsRcL3kw7hP78iSTZntQUFgO0u3+J3Nb/MGYMG6cppA/VCS7945q
+ s/UnE+eX8xDN/UQoj9h0ekXj9DGTYPBgWKqE3EKnZr2jwXCEoRW4JNcfQmTHgREk1xTfVn
+ /xWiEh9m4RcSeENjGRfNEVezrkfvsw0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-364-mNwlfOgwOGGk0LHAGgN9PQ-1; Mon, 18 Sep 2023 07:21:28 -0400
+X-MC-Unique: mNwlfOgwOGGk0LHAGgN9PQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-99bca0b9234so282868866b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 04:21:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695036087; x=1695640887;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :from:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=caZBuHO02JTq4izkwN1/2mH03NPW+7BFGaAKa0BCkPU=;
+ b=uVX7uL4w2vdL+O0i9KJn1/cqDJDQ9jeXsW9Id2vGMQf7ysTN6cpscm1LHjiRZcIlzw
+ zpYP53JG+U9BKJPQete+u1/8EgJQvlNbBk3lbFdpmpw9Iaio/tw7IaVoUaDv4CxKyqL+
+ O6uO6pxSIbq962iaKfa7i9P+iIS3zlo5F4bBqnoqvh5T3FtYG2vn55lZD9BPwcvof7M9
+ 1oD2kpUo/chHT44vnU6qTAYPOc0a72xunHrlMfw2nwqD3fxH2fMP0SCIWC0GF+IQXC75
+ W7j+VqxvsjFxtKXRQhmFeT20MnavTP+YgSX+/Sa595j98XXbwcXVAGF/5amsQgBV7yub
+ /1XQ==
+X-Gm-Message-State: AOJu0YxmoXDPn3K2sU/dn+gZDpsRsCuVu6Of0f8N1VesI54dN+EKVnuG
+ 20njNS3o+So3T5+ttO55Eupo76x/+51FF12rFPFOZqA/5jC9Y8AoysTwdx2GY1sged8N8qdZay3
+ tOe1MXDNcyVguGTlLujvaYZQ19+ya
+X-Received: by 2002:a17:906:ef8b:b0:99e:f3b:2f78 with SMTP id
+ ze11-20020a170906ef8b00b0099e0f3b2f78mr6887998ejb.67.1695036087515; 
+ Mon, 18 Sep 2023 04:21:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFKBeaIMtKSN+PQ9xk2jJqYcltfzlDVIZ/zML2GbxV4AM0vQzV2UBQOLUiQN5WboaLzn81l9w==
+X-Received: by 2002:a17:906:ef8b:b0:99e:f3b:2f78 with SMTP id
+ ze11-20020a170906ef8b00b0099e0f3b2f78mr6887978ejb.67.1695036087099; 
+ Mon, 18 Sep 2023 04:21:27 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ kg11-20020a17090776eb00b009a1a653770bsm6341125ejc.87.2023.09.18.04.21.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Sep 2023 04:21:26 -0700 (PDT)
+Message-ID: <d8a61464-b3f5-ca9b-4852-ec6ee2b85ce2@redhat.com>
+Date: Mon, 18 Sep 2023 13:21:25 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 11/13] drm/sched: Waiting for pending jobs to complete
- in scheduler kill
+ Thunderbird/102.13.0
+Subject: Re: [Nouveau] [PATCH drm-misc-next v3 6/7] drm/gpuvm: generalize
+ dma_resv/extobj handling and GEM validation
+From: Danilo Krummrich <dakr@redhat.com>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20230909153125.30032-1-dakr@redhat.com>
+ <20230909153125.30032-7-dakr@redhat.com>
+ <a9ef04d2-2525-65c0-2eda-45ca9a95a3a0@linux.intel.com>
+ <ZQCW6wzHYVdxl/IV@pollux>
+ <701dfead-e240-b3fb-422c-d49fc7e04595@linux.intel.com>
+ <ZQD2FFLP28bFgHXT@pollux>
+ <cbff08ca845655dee44fbf498cdb37a3d5251bf3.camel@linux.intel.com>
+ <ZQGoNovGz/4Y3xvf@pollux> <ef29b21d-157c-ead7-4b09-edf763d1f8b0@redhat.com>
+ <e8b9a298-d4ea-9ee7-69fe-eb8ea1f9dc3d@linux.intel.com>
+ <bdca7ebe-bc65-1db1-a247-490286a31307@redhat.com>
+ <7c8c606dbf515bfe9aa3dc3ed6c23ae00d84ef9d.camel@linux.intel.com>
+ <2c4bbd8c-ec2c-91ad-9f27-5476b7e65b4f@redhat.com>
+Organization: RedHat
+In-Reply-To: <2c4bbd8c-ec2c-91ad-9f27-5476b7e65b4f@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20230912021615.2086698-1-matthew.brost@intel.com>
- <20230912021615.2086698-12-matthew.brost@intel.com>
- <2b5c148c-51e6-c9f4-b950-fe16db5bad17@amd.com>
- <ZQB57X3TI2m2cECE@DUT025-TGLU.fm.intel.com>
- <be7fe6bd-0744-b33e-71b0-2c66eaa39382@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <be7fe6bd-0744-b33e-71b0-2c66eaa39382@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0063.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB7982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c88d6de-8665-47c1-5f91-08dbb836e837
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ud/SlZzp3mfhMuLZiYBgu+2a0pkZO+CLbPqWRTNWAPJUl41jZ5PBaOV8ie+k1OU3uFUj+VipACh8F/jxEsAx6YpuFI8qyRBBAyUwgIxsOjxmR+mZqedUkCFBtsA+FX3cVSmabueUxMQF2T3SSgxpYmDeDvdNJD2o9Job/n/FP3An5PUqjGa/NKBrFYmgjqtbMxVSwukQXSq+odt3XPux+pZa4BkUe96EuxRUvSeDLruduo0HTMTzYw0koUqG2f9z8HyGQwmZtyD4yqRtj5SDN4eKhl6f4cJUs9bxAn88JAUs9RISncuulS9dNkXH353z3EZP87mTbcgwN10mzgB9rg7zhi5B7XwjqPE43My5MXKTRcDGcEyWvIIiasNaeWBgw8/or3J8tFC8XfBLSlz32+QKu5/i/e/A6ugcs2zcdCSuXgSVk53N7oWMZs9V6QFi2Jcs1Hr41B92S0zebeHTiLvUSdEqMYIyaCw9ykXX3dIEsydp3GRw217zAFk85XsXQwflcmW+xRr0JrW/xCaFyZdgpYcxfPJHpf10J8WLrQiSm0Po48Uy34pvuOzyl6OaFEMTaYNu+7myyRT6z5r9yAZl/5YmMFkQxGoo+m0hxTptXK+tNn5pG6WbIyL+KUUOr16OSvTAm3Df+3gamov96g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(396003)(346002)(39860400002)(136003)(1800799009)(186009)(451199024)(31686004)(36756003)(86362001)(38100700002)(31696002)(6486002)(6506007)(53546011)(478600001)(2906002)(5660300002)(66556008)(66946007)(66476007)(8936002)(6666004)(8676002)(4326008)(66574015)(6512007)(83380400001)(41300700001)(7416002)(110136005)(30864003)(316002)(26005)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UjVuWVJrU2hVdVNRSjRGQ3cxcHJNelB1aHFvc2V5OFlWTldCWXoxWmdZcDE1?=
- =?utf-8?B?SnpFV2t5ZmJEa0JEWWlhZnFjRU9pYllhcmVKNEdiangrenNvSmo2NjRHWmth?=
- =?utf-8?B?TytjcXJPZ2dVTzJYUjRIeDYyWlpJUGdnbGJnM0xHTVRNSG1Wa3JuYlY4MmRp?=
- =?utf-8?B?a3lhTE5icG55VmxMeXZXUm5VL3VJTlpBUDdFMURab2J4d3Q4aXFkTTI1VWN6?=
- =?utf-8?B?bi9LV1EyOTRDQys3enZLOThMemVXN21wMENPOVIyZS92V0VGWFlTZXNtYnZP?=
- =?utf-8?B?U0llVjNLaWxsR2VTUnR2Q1ZHbDMzSUJmZ0pNS2d5Ui9mWEhHT0JUVmhMU3RM?=
- =?utf-8?B?YXdWN2Q1R1JZSEtBY0FzOXVXU3RXTHF5ZHZCQkhJVEtGVFJWZjVpNy9MR2w1?=
- =?utf-8?B?b2FwclVoZzg1UllFVUdUZ3FQSEJGUTdqbTlkYXdVMnZCVnVpV21wUVJVL0N0?=
- =?utf-8?B?TmdYdXRXczYvQjh6SlcrVHNtdEdyTmZJTjRwYjg3Z1g1TXovS2xjWUt0MllI?=
- =?utf-8?B?Z3E1MG4zdis5NU55d1RacmRjbmxqNzlXNlhrSFNDSWkwd1RIaEVKU2EyZ283?=
- =?utf-8?B?M1VVMEEzaHBTM3hRZG94WVltTTJoSXg3OVk3NnFhSnZ4UzZjZ2FuMUxzNjFU?=
- =?utf-8?B?SHROYWFBNWVlYktTU1UrY2xvNlhqa2RSY3BSUjQ2Y2tpR0pPenRiUzExWXRS?=
- =?utf-8?B?NDAvREN2TUl5L2tKK1g5Tmlvenk0bzBSS2EvSXU5VG1yTFRrLzM4SFhvMHRD?=
- =?utf-8?B?b2JCTm1BY2xOemcrTE5CY1ZlTTNUVEwwSS9pVWI1Z1F2NFg5Qm1pcXpNeXdT?=
- =?utf-8?B?dHZhZXVLVi96RU5YRWExVXhHWHZEY3NGdE1UMUh5YWI3RVdKSDQwS1dWRWRK?=
- =?utf-8?B?TlJlenpCTXhtcFVVU2pFMUNzRUptVjF2K05rL1ZZaGtZckNzVmJSRUhIT1Z2?=
- =?utf-8?B?YWVDT0ZBellzeTdwdlUxMG5sUEZIQ05TTEVuNDBkYi9rQy9yaW9jeFVnRS95?=
- =?utf-8?B?dzVBMWx5OHFZWm9TVHc1RkhBcklVU2FCL1BRbXBJaHk2VnoybDNsdDdzcUE5?=
- =?utf-8?B?ejYvMDNLbXhXc2pnVWV2bzV5eWNPTkZRTHI3NjhuQUE4N0lWTnRTZVpOWHl3?=
- =?utf-8?B?bDhXdWxKWUN6aEp1SXpyNmNZM3A5cS9veE5PSnVtcGNzR1haRWFrZ0IrOHdU?=
- =?utf-8?B?SFcwbWtua1pBdThiT3lZNkE5RFpZeUNjalFHWFFsNGZMMDVISEhoWndxTTgz?=
- =?utf-8?B?TlRiT1VLSXVkS3R2aVhVWWY2aGdkdlRHaksrOGZ4QVp5UHFvbUtnMVNwNW9F?=
- =?utf-8?B?OTF3b3g3R0k1elEwQUt4Vms5ZVR2ZGZnL3pDQ2QyWkgvSTBEM2NRRXQrNUR1?=
- =?utf-8?B?bEtUWkpuKy9qZ2RnSGk1L2RQRytodi93UXdESFZwb21LS0tub3Bzd3VkUStz?=
- =?utf-8?B?bG12citGS2ZNejV1cy9peDlXUFVMZlZ5UGNva1hQa0IwbEMyVnVOYXJ0eHRw?=
- =?utf-8?B?RlM1Mm9DRHdZVXpuN05Fck4rUlFBY2dUQzZ2ai9uTG1lZVBMWDhGQVVnVWR0?=
- =?utf-8?B?cEpXVWlSVXI4clcwazVObE1FVHdSYmxjMmdzWENMMVhXRUEzUjFPSzM2c0Vp?=
- =?utf-8?B?L2hVeDFBWHEzazhwaVZwM2V3enkwNENUU2xxaHFRTUQxOFhDRysyOXg4NUQ3?=
- =?utf-8?B?bHBMKzdRdjhhaWpOWGpINnovc2N6R041RGJna0hPRjROS0g2S3hjZndNc1B2?=
- =?utf-8?B?SEk3bVV1OC9BZlNwQ2V0cERHazdYL2Z2Ynd2TkdVYUc2NVFvM0dFOTR3bG5x?=
- =?utf-8?B?TENLM2hsaXVoekVDTGhaWjZWYXZoSlJSUWtJUW4rZFgrQ2c1NmY5NkZ1RStP?=
- =?utf-8?B?WlpkZ1kxanNQODQ0Zkx2dmpjQmFPWXV1SGpXM3p3K29JaXdLYWFoZEJSMW1I?=
- =?utf-8?B?Ujhtalg5S0xRSmtQQUViL090NHNNOG9vQ0M0Qk12SUtDdTM0TEltTWNPd1dM?=
- =?utf-8?B?NGZJMmFBK0Q2bFhTSDBvai9RY1ZFd0hSMDAvdnVVd0w3dXhLYmhmeGlCSG42?=
- =?utf-8?B?NTJkM0h4Ri9BMENGNGkxZlBCeGs0L0VKUFdqL29xd0tQQXBrZzJRMG5nQ3Z4?=
- =?utf-8?Q?Vywc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c88d6de-8665-47c1-5f91-08dbb836e837
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 11:03:36.8480 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tb2fV0wTDvKZzOOOq8TkXmb7KUuv5fqlEHEM0rtXf07P6okoz+pjgP20n5+DCh8U
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7982
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,307 +100,411 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- luben.tuikov@amd.com, donald.robson@imgtec.com, boris.brezillon@collabora.com,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.09.23 um 19:52 schrieb Danilo Krummrich:
-> On 9/12/23 16:47, Matthew Brost wrote:
->> On Tue, Sep 12, 2023 at 11:57:30AM +0200, Christian König wrote:
->>> Am 12.09.23 um 04:16 schrieb Matthew Brost:
->>>> Wait for pending jobs to be complete before signaling queued jobs. 
->>>> This
->>>> ensures dma-fence signaling order correct and also ensures the 
->>>> entity is
->>>> not running on the hardware after drm_sched_entity_flush or
->>>> drm_sched_entity_fini returns.
+On 9/14/23 19:15, Danilo Krummrich wrote:
+> On 9/14/23 19:13, Thomas Hellström wrote:
+>> On Thu, 2023-09-14 at 17:27 +0200, Danilo Krummrich wrote:
+>>> On 9/14/23 13:32, Thomas Hellström wrote:
+>>>>
+>>>> On 9/14/23 12:57, Danilo Krummrich wrote:
+>>>>> On 9/13/23 14:16, Danilo Krummrich wrote:
+>>>>>
+>>>>> <snip>
+>>>>>
+>>>>>>>> And validate() can remove it while still holding all dma-
+>>>>>>>> resv locks,
+>>>>>>>> neat!
+>>>>>>>> However, what if two tasks are trying to lock the VA space
+>>>>>>>> concurrently? What
+>>>>>>>> do we do when the drm_gpuvm_bo's refcount drops to zero in
+>>>>>>>> drm_gpuva_unlink()?
+>>>>>>>> Are we guaranteed that at this point of time the
+>>>>>>>> drm_gpuvm_bo is not
+>>>>>>>> on the
+>>>>>>>> evicted list? Because otherwise we would call
+>>>>>>>> drm_gpuvm_bo_destroy()
+>>>>>>>> with the
+>>>>>>>> dma-resv lock held, which wouldn't be allowed, since
+>>>>>>>> drm_gpuvm_bo_destroy()
+>>>>>>>> might drop the last reference to the drm_gem_object and
+>>>>>>>> hence we'd
+>>>>>>>> potentially
+>>>>>>>> free the dma-resv lock while holding it, at least if it's
+>>>>>>>> an external
+>>>>>>>> object.
+>>>>>>>
+>>>>>>> Easiest way in this scheme is to think of the lists as being
+>>>>>>> protected
+>>>>>>> by the vm's resv lock. That means anybody calling unlink()
+>>>>>>> must also
+>>>>>>> hold the vm's resv lock. (Which is OK from an UAF point of
+>>>>>>> view, but
+>>>>>>> perhaps not from a locking inversion POW from an async list
+>>>>>>> update).
+>>>>>>
+>>>>>> This would mean that on unlink() we'd need to hold the VM's
+>>>>>> resv lock and the
+>>>>>> corresponding GEM's resv lock (in case they're not the same
+>>>>>> anyways) because the
+>>>>>> VM's resv lock would protect the external / evicted object
+>>>>>> lists and the GEM
+>>>>>> objects resv lock protects the GEM's list of drm_gpuvm_bos and
+>>>>>> the
+>>>>>> drm_gpuvm_bo's list of drm_gpuvas.
+>>>>>
+>>>>> As mentioned below the same applies for drm_gpuvm_bo_put() since
+>>>>> it might
+>>>>> destroy the vm_bo, which includes removing the vm_bo from
+>>>>> external / evicted
+>>>>> object lists and the GEMs list of vm_bos.
+>>>>>
+>>>>> As mentioned, if the GEM's dma-resv is different from the VM's
+>>>>> dma-resv we need
+>>>>> to take both locks. Ultimately, this would mean we need a
+>>>>> drm_exec loop, because
+>>>>> we can't know the order in which to take these locks. Doing a
+>>>>> full drm_exec loop
+>>>>> just to put() a vm_bo doesn't sound reasonable to me.
+>>>>>
+>>>>> Can we instead just have an internal mutex for locking the lists
+>>>>> such that we
+>>>>> avoid taking and dropping the spinlocks, which we use currently,
+>>>>> in a loop?
+>>>>
+>>>> You'd have the same locking inversion problem with a mutex, right?
+>>>> Since in the eviction path you have resv->mutex, from exec you have
+>>>> resv->mutex->resv because validate would attempt to grab resv.
 >>>
->>> Entities are *not* supposed to outlive the submissions they carry 
->>> and we
->>> absolutely *can't* wait for submissions to finish while killing the 
->>> entity.
+>>> Both lists, evict and extobj, would need to have a separate mutex,
+>>> not a common one.
+>>> We'd also need a dedicated GEM gpuva lock. Then the only rule would
+>>> be that you can't
+>>> hold the dma-resv lock when calling put(). Which I admit is not that
+>>> nice.
 >>>
->>> In other words it is perfectly expected that entities doesn't exists 
->>> any
->>> more while the submissions they carried are still running on the 
->>> hardware.
+>>> With the current spinlock solution drivers wouldn't need to worry
+>>> about anything locking
+>>> related though. So maybe I come back to your proposal of having a
+>>> switch for external
+>>> locking with dma-resv locks entirely. Such that with external dma-
+>>> resv locking I skip
+>>> all the spinlocks and add lockdep checks instead.
 >>>
->>> I somehow better need to document how this working and especially 
->>> why it is
->>> working like that.
->>>
->>> This approach came up like four or five times now and we already 
->>> applied and
->>> reverted patches doing this.
->>>
->>> For now let's take a look at the source code of 
->>> drm_sched_entity_kill():
->>>
->>>         /* The entity is guaranteed to not be used by the scheduler */
->>>          prev = rcu_dereference_check(entity->last_scheduled, true);
->>>          dma_fence_get(prev);
->>>
->>>          while ((job = 
->>> to_drm_sched_job(spsc_queue_pop(&entity->job_queue))))
->>> {
->>>                  struct drm_sched_fence *s_fence = job->s_fence;
->>>
->>>                  dma_fence_get(&s_fence->finished);
->>>                  if (!prev || dma_fence_add_callback(prev, 
->>> &job->finish_cb,
->>> drm_sched_entity_kill_jobs_cb))
->>>                          drm_sched_entity_kill_jobs_cb(NULL,
->>> &job->finish_cb);
->>>
->>>                  prev = &s_fence->finished;
->>>          }
->>>          dma_fence_put(prev);
->>>
->>> This ensures the dma-fence signaling order by delegating signaling 
->>> of the
->>> scheduler fences into callbacks.
->>>
+>>> I think that makes the most sense in terms of taking advantage of
+>>> external dma-resv locking
+>>> where possible and on the other hand having a self-contained solution
+>>> if not. This should
+>>> get all concerns out of the way, yours, Christian's and Boris'.
 >>
->> Thanks for the explaination, this code makes more sense now. Agree this
->> patch is not correct.
+>> If we need additional locks yes, I'd prefer the opt-in/opt-out spinlock
+>> solution, and check back after a while to see if we can remove either
+>> option once most pitfalls are hit.
+> 
+> Sounds good, I'll prepare this for a V4.
+
+I was considering getting rid of the spinlocks using srcu for both external and
+evicted objects instead. This would get us rid of taking/dropping the spinlock in
+every iteration step of the lists, limiting it to a single srcu_read_{lock,unlock}
+call per list walk. Plus, obviously the list_add_rcu() and list_del_rcu() variants
+as accessors. The accessors, would probably still need a spinlock to protect against
+concurrent list_add_rcu()/list_del_rcu() calls, but I think those are not a concern.
+
+Any concerns from your side with variant?
+
+> 
+> - Danilo
+> 
 >>
->> This patch really is an RFC for something Nouveau needs, I can delete
->> this patch in the next rev and let Nouveau run with a slightly different
->> version if needed.
->
-> Maybe there was a misunderstanding, I do not see any need for this in 
-> Nouveau.
->
-> Instead, what I think we need is a way to wait for the pending_list 
-> being empty
-> (meaning all jobs on the pending_list are freed) before we call 
-> drm_sched_fini().
->
-> Currently, if we call drm_sched_fini() there might still be pending 
-> jobs on the
-> pending_list (unless the driver implements something driver specific).
-> drm_sched_fini() stops the scheduler work though, hence pending jobs 
-> will never be
-> freed up leaking their memory.
->
-> This might also be true for existing drivers, but since they call 
-> drm_sched_fini()
-> from their driver remove callback, this race is extremely unlikely. 
-> However, it
-> definitely is an issue for drivers using the single entitiy policy 
-> calling
-> drm_sched_fini() from a context where it is much more likely pending 
-> jobs still
-> exist.
-
-Yeah, that's exactly one of the reasons why I want to get away from the 
-idea that the scheduler is necessary for executing the commands.
-
-What this component should do is to push jobs to the hardware and not 
-overview their execution, that's the job of the driver.
-
-In other words drivers should be able to call drm_sched_fini() while 
-there are jobs still pending on the hardware.
-
-Also keep in mind that you *can't* wait for all hw operations to finish 
-in your flush or file descriptor close callback or you create 
-un-killable processes.
-
-Regards,
-Christian.
-
->
+>> Thanks,
+>> /Thomas
 >>
->> Matt
 >>
->>> Regards,
->>> Christian.
 >>>
 >>>>
->>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  2 +-
->>>>    drivers/gpu/drm/scheduler/sched_entity.c    |  7 ++-
->>>>    drivers/gpu/drm/scheduler/sched_main.c      | 50 
->>>> ++++++++++++++++++---
->>>>    include/drm/gpu_scheduler.h                 | 18 ++++++++
->>>>    4 files changed, 70 insertions(+), 7 deletions(-)
+>>>> That said, xe currently indeed does the vm+bo exec dance on vma
+>>>> put.
 >>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->>>> index fb5dad687168..7835c0da65c5 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->>>> @@ -1873,7 +1873,7 @@ static void 
->>>> amdgpu_ib_preempt_mark_partial_job(struct amdgpu_ring *ring)
->>>>        list_for_each_entry_safe(s_job, tmp, &sched->pending_list, 
->>>> list) {
->>>>            if (dma_fence_is_signaled(&s_job->s_fence->finished)) {
->>>>                /* remove job from ring_mirror_list */
->>>> -            list_del_init(&s_job->list);
->>>> +            drm_sched_remove_pending_job(s_job);
->>>>                sched->ops->free_job(s_job);
->>>>                continue;
->>>>            }
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> index 1dec97caaba3..37557fbb96d0 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> @@ -104,9 +104,11 @@ int drm_sched_entity_init(struct 
->>>> drm_sched_entity *entity,
->>>>        }
->>>>        init_completion(&entity->entity_idle);
->>>> +    init_completion(&entity->jobs_done);
->>>> -    /* We start in an idle state. */
->>>> +    /* We start in an idle and jobs done state. */
->>>>        complete_all(&entity->entity_idle);
->>>> +    complete_all(&entity->jobs_done);
->>>>        spin_lock_init(&entity->rq_lock);
->>>>        spsc_queue_init(&entity->job_queue);
->>>> @@ -256,6 +258,9 @@ static void drm_sched_entity_kill(struct 
->>>> drm_sched_entity *entity)
->>>>        /* Make sure this entity is not used by the scheduler at the 
->>>> moment */
->>>>        wait_for_completion(&entity->entity_idle);
->>>> +    /* Make sure all pending jobs are done */
->>>> +    wait_for_completion(&entity->jobs_done);
->>>> +
->>>>        /* The entity is guaranteed to not be used by the scheduler */
->>>>        prev = rcu_dereference_check(entity->last_scheduled, true);
->>>>        dma_fence_get(prev);
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 689fb6686e01..ed6f5680793a 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -510,12 +510,52 @@ void drm_sched_resume_timeout(struct 
->>>> drm_gpu_scheduler *sched,
->>>>    }
->>>>    EXPORT_SYMBOL(drm_sched_resume_timeout);
->>>> +/**
->>>> + * drm_sched_add_pending_job - Add pending job to scheduler
->>>> + *
->>>> + * @job: scheduler job to add
->>>> + * @tail: add to tail of pending list
->>>> + */
->>>> +void drm_sched_add_pending_job(struct drm_sched_job *job, bool tail)
->>>> +{
->>>> +    struct drm_gpu_scheduler *sched = job->sched;
->>>> +    struct drm_sched_entity *entity = job->entity;
->>>> +
->>>> +    lockdep_assert_held(&sched->job_list_lock);
->>>> +
->>>> +    if (tail)
->>>> +        list_add_tail(&job->list, &sched->pending_list);
->>>> +    else
->>>> +        list_add(&job->list, &sched->pending_list);
->>>> +    if (!entity->pending_job_count++)
->>>> +        reinit_completion(&entity->jobs_done);
->>>> +}
->>>> +EXPORT_SYMBOL(drm_sched_add_pending_job);
->>>> +
->>>> +/**
->>>> + * drm_sched_remove_pending_job - Remove pending job from` scheduler
->>>> + *
->>>> + * @job: scheduler job to remove
->>>> + */
->>>> +void drm_sched_remove_pending_job(struct drm_sched_job *job)
->>>> +{
->>>> +    struct drm_gpu_scheduler *sched = job->sched;
->>>> +    struct drm_sched_entity *entity = job->entity;
->>>> +
->>>> +    lockdep_assert_held(&sched->job_list_lock);
->>>> +
->>>> +    list_del_init(&job->list);
->>>> +    if (!--entity->pending_job_count)
->>>> +        complete_all(&entity->jobs_done);
->>>> +}
->>>> +EXPORT_SYMBOL(drm_sched_remove_pending_job);
->>>> +
->>>>    static void drm_sched_job_begin(struct drm_sched_job *s_job)
->>>>    {
->>>>        struct drm_gpu_scheduler *sched = s_job->sched;
->>>>        spin_lock(&sched->job_list_lock);
->>>> -    list_add_tail(&s_job->list, &sched->pending_list);
->>>> +    drm_sched_add_pending_job(s_job, true);
->>>>        spin_unlock(&sched->job_list_lock);
->>>>    }
->>>> @@ -538,7 +578,7 @@ static void drm_sched_job_timedout(struct 
->>>> work_struct *work)
->>>>             * drm_sched_cleanup_jobs. It will be reinserted back 
->>>> after sched->thread
->>>>             * is parked at which point it's safe.
->>>>             */
->>>> -        list_del_init(&job->list);
->>>> +        drm_sched_remove_pending_job(job);
->>>>            spin_unlock(&sched->job_list_lock);
->>>>            status = job->sched->ops->timedout_job(job);
->>>> @@ -589,7 +629,7 @@ void drm_sched_stop(struct drm_gpu_scheduler 
->>>> *sched, struct drm_sched_job *bad)
->>>>             * Add at the head of the queue to reflect it was the 
->>>> earliest
->>>>             * job extracted.
->>>>             */
->>>> -        list_add(&bad->list, &sched->pending_list);
->>>> +        drm_sched_add_pending_job(bad, false);
->>>>        /*
->>>>         * Iterate the job list from later to  earlier one and 
->>>> either deactive
->>>> @@ -611,7 +651,7 @@ void drm_sched_stop(struct drm_gpu_scheduler 
->>>> *sched, struct drm_sched_job *bad)
->>>>                 * Locking here is for concurrent resume timeout
->>>>                 */
->>>>                spin_lock(&sched->job_list_lock);
->>>> -            list_del_init(&s_job->list);
->>>> +            drm_sched_remove_pending_job(s_job);
->>>>                spin_unlock(&sched->job_list_lock);
->>>>                /*
->>>> @@ -1066,7 +1106,7 @@ drm_sched_get_cleanup_job(struct 
->>>> drm_gpu_scheduler *sched)
->>>>        if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
->>>>            /* remove job from pending_list */
->>>> -        list_del_init(&job->list);
->>>> +        drm_sched_remove_pending_job(job);
->>>>            /* cancel this job's TO timer */
->>>>            cancel_delayed_work(&sched->work_tdr);
->>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>>> index b7b818cd81b6..7c628f36fe78 100644
->>>> --- a/include/drm/gpu_scheduler.h
->>>> +++ b/include/drm/gpu_scheduler.h
->>>> @@ -233,6 +233,21 @@ struct drm_sched_entity {
->>>>         */
->>>>        struct completion        entity_idle;
->>>> +    /**
->>>> +     * @pending_job_count:
->>>> +     *
->>>> +     * Number of pending jobs.
->>>> +     */
->>>> +    unsigned int                    pending_job_count;
->>>> +
->>>> +    /**
->>>> +     * @jobs_done:
->>>> +     *
->>>> +     * Signals when entity has no pending jobs, used to sequence 
->>>> entity
->>>> +     * cleanup in drm_sched_entity_fini().
->>>> +     */
->>>> +    struct completion        jobs_done;
->>>> +
->>>>        /**
->>>>         * @oldest_job_waiting:
->>>>         *
->>>> @@ -656,4 +671,7 @@ struct drm_gpu_scheduler *
->>>>    drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
->>>>                 unsigned int num_sched_list);
->>>> +void drm_sched_add_pending_job(struct drm_sched_job *job, bool tail);
->>>> +void drm_sched_remove_pending_job(struct drm_sched_job *job);
->>>> +
->>>>    #endif
+>>>> One reason why that seemingly horrible construct is good, is that
+>>>> when evicting an extobj and you need to access individual vmas to
+>>>> Zap page table entries or TLB flush, those VMAs are not allowed to
+>>>> go away (we're not refcounting them). Holding the bo resv on gpuva
+>>>> put prevents that from happening. Possibly one could use another
+>>>> mutex to protect the gem->vm_bo list to achieve the same, but we'd
+>>>> need to hold it on gpuva put.
+>>>>
+>>>> /Thomas
+>>>>
+>>>>
+>>>>>
+>>>>> - Danilo
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> For extobjs an outer lock would be enough in case of
+>>>>>>>>>> Xe, but I
+>>>>>>>>>> really would not
+>>>>>>>>>> like to add even more complexity just to get the
+>>>>>>>>>> spinlock out of
+>>>>>>>>>> the way in case
+>>>>>>>>>> the driver already has an outer lock protecting this
+>>>>>>>>>> path.
+>>>>>>>>>
+>>>>>>>>> I must disagree here. These spinlocks and atomic
+>>>>>>>>> operations are
+>>>>>>>>> pretty
+>>>>>>>>> costly and as discussed earlier this type of locking was
+>>>>>>>>> the reason
+>>>>>>>>> (at
+>>>>>>>>> least according to the commit message) that made
+>>>>>>>>> Christian drop the
+>>>>>>>>> XArray
+>>>>>>>>> use in drm_exec for the same set of objects: "The locking
+>>>>>>>>> overhead
+>>>>>>>>> is
+>>>>>>>>> unecessary and measurable". IMHO the spinlock is the
+>>>>>>>>> added
+>>>>>>>>> complexity and a
+>>>>>>>>> single wide lock following the drm locking guidelines set
+>>>>>>>>> out by
+>>>>>>>>> Daniel and
+>>>>>>>>> David should really be the default choice with an opt-in
+>>>>>>>>> for a
+>>>>>>>>> spinlock if
+>>>>>>>>> needed for async and pushing out to a wq is not an
+>>>>>>>>> option.
+>>>>>>>>
+>>>>>>>> For the external object list an outer lock would work as
+>>>>>>>> long as it's
+>>>>>>>> not the
+>>>>>>>> dma-resv lock of the corresponding GEM object, since here
+>>>>>>>> we actually
+>>>>>>>> need to
+>>>>>>>> remove the list entry from the external object list on
+>>>>>>>> drm_gpuvm_bo_destroy().
+>>>>>>>> It's just a bit weird design wise that drivers would need
+>>>>>>>> to take
+>>>>>>>> this outer
+>>>>>>>> lock on:
+>>>>>>>>
+>>>>>>>> - drm_gpuvm_bo_extobj_add()
+>>>>>>>> - drm_gpuvm_bo_destroy()        (and hence also
+>>>>>>>> drm_gpuvm_bo_put())
+>>>>>>>> - drm_gpuva_unlink()            (because it needs to call
+>>>>>>>> drm_gpuvm_bo_put())
+>>>>>>>> - drm_gpuvm_exec_lock()
+>>>>>>>> - drm_gpuvm_exec_lock_array()
+>>>>>>>> - drm_gpuvm_prepare_range()
+>>>>>>>>
+>>>>>>>> Given that it seems reasonable to do all the required
+>>>>>>>> locking
+>>>>>>>> internally.
+>>>>>>>
+>>>>>>>   From a design POW, there has been a clear direction in XE to
+>>>>>>> make
+>>>>>>> things similar to mmap() / munmap(), so this outer lock,
+>>>>>>> which in Xe is
+>>>>>>> an rwsem, is used in a similar way as the mmap_lock. It's
+>>>>>>> protecting
+>>>>>>> the page-table structures and vma rb tree, the userptr
+>>>>>>> structures and
+>>>>>>> the extobj list. Basically it's taken early in the exec
+>>>>>>> IOCTL, the
+>>>>>>> VM_BIND ioctl, the compute rebind worker and the pagefault
+>>>>>>> handler, so
+>>>>>>> all of the above are just asserting that it is taken in the
+>>>>>>> correct
+>>>>>>> mode.
+>>>>>>>
+>>>>>>> But strictly with this scheme one could also use the vm's
+>>>>>>> dma_resv for
+>>>>>>> the extobj list since with drm_exec, it's locked before
+>>>>>>> traversing the
+>>>>>>> list.
+>>>>>>>
+>>>>>>> The whole point of this scheme is to rely on locks that you
+>>>>>>> already are
+>>>>>>> supposed to be holding for various reasons and is simple to
+>>>>>>> comprehend.
+>>>>>>
+>>>>>> I don't agree that we're supposed to hold the VM's resv lock
+>>>>>> anyways for
+>>>>>> functions like drm_gpuvm_bo_put() or drm_gpuva_unlink(), but
+>>>>>> I'm fine using it
+>>>>>> for that purpose nevertheless.
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>> In order to at least place lockdep checks, the driver would
+>>>>>>>> need to
+>>>>>>>> supply the
+>>>>>>>> corresponding lock's lockdep_map, because the GPUVM
+>>>>>>>> otherwise doesn't
+>>>>>>>> know about
+>>>>>>>> the lock.
+>>>>>>>
+>>>>>>> Yes, that sounds reasonable. One lockdep map per list.
+>>>>>>
+>>>>>> I'd really like to avoid that, especially now that everything
+>>>>>> got simpler. We
+>>>>>> should define the actual locks to take instead.
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Out of curiosity, what is the overhead of a spin_lock()
+>>>>>>>> that doesn't
+>>>>>>>> need to
+>>>>>>>> spin?
+>>>>>>>
+>>>>>>> I guess it's hard to tell exactly, but it is much lower on
+>>>>>>> modern x86
+>>>>>>> than what it used to be. Not sure about ARM, which is the
+>>>>>>> other
+>>>>>>> architecture important to us. I figure if there is little
+>>>>>>> cache-line
+>>>>>>> bouncing the main overhead comes from the implied barriers.
+>>>>>>>
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> A pretty simple way that would not add much code would be
+>>>>>>>>>
+>>>>>>>>> static void gpuvm_cond_spin_lock(const struct drm_gpuvm
+>>>>>>>>> *gpuvm,
+>>>>>>>>> spinlock_t
+>>>>>>>>> *lock)
+>>>>>>>>>
+>>>>>>>>> {
+>>>>>>>>>
+>>>>>>>>>       if (!gpuvm->resv_protected_lists)
+>>>>>>>>>           spin_lock(lock);
+>>>>>>>>>
+>>>>>>>>> }
+>>>>>>>>>
+>>>>>>>>>>> For such drivers, that would require anybody calling
+>>>>>>>>>>> unlink to
+>>>>>>>>>>> hold the vm's
+>>>>>>>>>>> resv, though.
+>>>>>>>>>> In V4 I want to go back to having a dedicated lock for
+>>>>>>>>>> the GEMs
+>>>>>>>>>> gpuva list (or
+>>>>>>>>>> VM_BO list to be more precise). We can't just use the
+>>>>>>>>>> dma-resv
+>>>>>>>>>> lock for that
+>>>>>>>>>> with VM_BO abstractions, because on destruction of a
+>>>>>>>>>> VM_BO we
+>>>>>>>>>> otherwise wouldn't
+>>>>>>>>>> be allowed to already hold the dma-resv lock. That's
+>>>>>>>>>> the fix I
+>>>>>>>>>> was referring to
+>>>>>>>>>> earlier.
+>>>>>>>>>
+>>>>>>>>> Yeah, I can see the need for a dedicated lock for the
+>>>>>>>>> GEM's gpuva
+>>>>>>>>> list, but
+>>>>>>>>> holding the vm's dma-resv lock across the unlink
+>>>>>>>>> shouldn't be a
+>>>>>>>>> problem. We
+>>>>>>>>> may free the object and a pointer to the vm's resv during
+>>>>>>>>> unlink
+>>>>>>>>> but we
+>>>>>>>>> don't free the vm's resv.  It'd be a matter of ensuring
+>>>>>>>>> that any
+>>>>>>>>> calls to
+>>>>>>>>> unlink from *within* drm_gpuvm allows it to be held.
+>>>>>>>>
+>>>>>>>> Drivers calling unlink() from the fence signaling path
+>>>>>>>> can't use the
+>>>>>>>> VM's
+>>>>>>>> dma-resv lock.
+>>>>>>>
+>>>>>>> Yes, that made me a bit curious because in the current
+>>>>>>> version the code
+>>>>>>> required the object's dma_resv for unlink() which can't be
+>>>>>>> grabbed
+>>>>>>> either from the fence signaling path. So are there any
+>>>>>>> drivers actually
+>>>>>>> wanting to do that? If so, they will either need to resort to
+>>>>>>> the
+>>>>>>> current spinlock solution or they will need to call unlink
+>>>>>>> from a
+>>>>>>> workqueue item.
+>>>>>>
+>>>>>> As Boris already mentioned we have the dma-resv lock by default
+>>>>>> or a driver
+>>>>>> specific GEM gpuva lock as opt-in. Now, we can get rid of the
+>>>>>> latter.
+>>>>>>
+>>>>>>>>
+>>>>>>>> Also, what if the object is an external object? We can't
+>>>>>>>> use the VM's
+>>>>>>>> dma-resv
+>>>>>>>> lock here.
+>>>>>>>
+>>>>>>> Why? Typically (sync) unlink is only ever called from an
+>>>>>>> unbind-like
+>>>>>>> operation where it should be trivial to grab the vm's resv.
+>>>>>>> Or, for
+>>>>>>> that matter any outer lock protecting the extobj list. Rule
+>>>>>>> would be
+>>>>>>> the drm_gpuvm_bo::entry::extobj  and
+>>>>>>> drm_gpuvm_bo::entry::evict would
+>>>>>>> be protected by either the vm's dma_resv (or possibly an
+>>>>>>> outer lock in
+>>>>>>> the case of the extobj list).
+>>>>>>
+>>>>>> Outer lock wouldn't have been working for updates in the async
+>>>>>> path, but
+>>>>>> shouldn't be relevant anymore. We could use the VM's resv for
+>>>>>> that.
+>>>>>>
+>>>>>>>
+>>>>>>>>    And we can't have the GEM objs dma-resv lock held when
+>>>>>>>> calling
+>>>>>>>> unlink(), since unlink() calls drm_gpuvm_bo_put(), which if
+>>>>>>>> the
+>>>>>>>> refcount drops
+>>>>>>>> to zero calls drm_gpuvm_bo_destroy() and
+>>>>>>>> drm_gpuvm_bo_destroy() might
+>>>>>>>> drop the
+>>>>>>>> last reference of the GEM object.
+>>>>>>>
+>>>>>>> Yes, but this is a different problem as to what exactly
+>>>>>>> protects
+>>>>>>> drm_gpuvm_bo::entry::gem. Either as you suggest an internal
+>>>>>>> per bo list
+>>>>>>> lock, or if we want to keep the bo's dma_resv we need to
+>>>>>>> ensure that
+>>>>>>> the caller of dma_resv_unlock(obj->resv) actually refcounts
+>>>>>>> its obj
+>>>>>>> pointer, and doesn't implicitly rely on the gpuvm_bo's
+>>>>>>> refcount (I know
+>>>>>>> Boris didn't like that, but requiring an explicit refcount
+>>>>>>> for a
+>>>>>>> pointer you dereference unless you're under a lock that
+>>>>>>> ensures keeping
+>>>>>>> the object alive is pretty much required?) But anyway for the
+>>>>>>> drm_gpuvm_bo::entry::gem list protection (bo resv or internal
+>>>>>>> spinlock)
+>>>>>>> I don't have a strong preference.
+>>>>>>
+>>>>>> We can keep the GEM objects dma-resv lock, however as mentioned
+>>>>>> above
+>>>>>> drm_gpuva_unlink() and drm_gpuvm_bo_put() then requires both
+>>>>>> the VM's resv lock
+>>>>>> and the GEM's resv lock in case they differ.
+>>>>>>
+>>>>>
+>>>>>>>>>
+>>>>>
+>>>>
 >>>
->
+>>
 
