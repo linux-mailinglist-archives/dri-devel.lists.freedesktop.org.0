@@ -1,75 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5301C7A53CA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 22:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3245F7A53D9
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 22:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB0B110E110;
-	Mon, 18 Sep 2023 20:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9149110E302;
+	Mon, 18 Sep 2023 20:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F53E10E110
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 20:19:19 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38IJVARB008267; Mon, 18 Sep 2023 20:19:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qoL1peJgI4Z3/seMES33sPfDRXNv7Ya2/T8Tlk0Bs00=;
- b=Tm40X+naZD9DpiigjEk8e29h8Nr3A3yT3OfQ2KQzKDc8MDPk7CU20uh3r8IYWESGU1LO
- Yq8l287eFkzRwhHTyTfdc66ktaO7nH/Zw4PoHkgPpKTBJdorf3SSzIz0lPjlULJaJ182
- W4MSqHwumoBCGR/APBswTKfRNXjLbuN9wjZ2d9E+NXAHsvnD30+vgGVnuX4mgSM5zpBB
- CsWmGPFN3rGCdWPBXMo2yemFTVzL7jKhiH2WT4cMl8JJb4kl7LbZootZOHtB51vQPj9L
- 5wK715T1p74gLizTargvvvrsqg7ZYlLRgZcoEwUDHT69Y+p/R0/8WRyACGCM8vqgLRWw Uw== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t6trqgbj6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Sep 2023 20:19:05 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38IKJ47X027242
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Sep 2023 20:19:04 GMT
-Received: from [10.110.125.66] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 18 Sep
- 2023 13:19:03 -0700
-Message-ID: <7fc1ca68-ca7c-59b2-0b70-27bc34d83cee@quicinc.com>
-Date: Mon, 18 Sep 2023 13:19:03 -0700
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D06BB10E302
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 20:21:15 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1d676732587so1883471fac.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 13:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1695068475; x=1695673275; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RGQraY7zQHFmt60LcSsuv7lTX4r8xUrNdEp1P6pHzIQ=;
+ b=Oidgh3mk94+9NFgUBTAgYOyrGZh/Lvm0ATQaHoHrXVRLndITsQwDnviEG20xykkJrT
+ MoN2ti90NGngofFZu+zUsPYJCsgbVGFZ1R6p+rcFVcw6d+A2BSmQpWhHcjcEmS0Bl3on
+ b5PQ3ymnZXa8v6tv+oLtWzyHLLdQwtScLuwna6Y/TgZSWP26jdhOxqsO72yiUf+JUkmK
+ byk0NcJjv/KsAKhdYkwEQi7qZ9P5qPWX3+8FLKtSYrt92PaZ1nqX7tk4oibskmkDWpNZ
+ YcJnoo7U2Eh8O5Atj6bYMRT2OZZBM/1VKfsIF9A1Y3+Khh8aKA1/GQ8lrc3l5/0c0nQE
+ g13g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695068475; x=1695673275;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RGQraY7zQHFmt60LcSsuv7lTX4r8xUrNdEp1P6pHzIQ=;
+ b=cXQGSZpufEADFG+MVkYCdr1s0dXED6dvr/xY4RH3MRNi5R9lk5hftiGuCOXq4uNOul
+ etZmBeGNIdOx3KDFVIG52iyd5Ho7nF07H4Am5mXqGs1cYpJw8jv5B0q4qr3jUBBWhhDB
+ rG3A4OZ+dH+La1tAe/rc5dGJGSVSQ01uJJKxTVF0e+Bj6zW+GIhnaXGlSVtxGNWHVrBr
+ pEcbUS+ixDXlRC6AKwm36YJB/0rARHjWbwTMR9PNm77vq1YsxViUrckN5HoPR5MhX37Y
+ 4n7jtU1bsrpMj8mTMf2/4eKb/AMT5AhiPkAFRhZQNG/NioyYP2RD1qi3kFbfuDhssLZr
+ kJ5A==
+X-Gm-Message-State: AOJu0YwUuXqw/HzIi/9w/I+BkR3Z3p+/rcGfehaJZDusZa/A4yebKNLm
+ JBzkGAYCSxYKxjzqSdDVPFXB6Q0B4I7flbUmV3w=
+X-Google-Smtp-Source: AGHT+IEYM7pGfUGuzqSwEu8wDrh38MF0lPn1BkHzTgT8gHtaB9nDx123Fb7uiBqGhm9O7SjT2BC/KvE5mW5Hvegix38=
+X-Received: by 2002:a05:6870:e256:b0:1d5:c134:cecb with SMTP id
+ d22-20020a056870e25600b001d5c134cecbmr11301583oac.1.1695068474833; Mon, 18
+ Sep 2023 13:21:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 3/9] drm/panel: nv3052c: Sleep for 150ms after reset
-Content-Language: en-US
-To: John Watts <contact@jookia.org>, <dri-devel@lists.freedesktop.org>
-References: <20230918125853.2249187-1-contact@jookia.org>
- <20230918125853.2249187-4-contact@jookia.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20230918125853.2249187-4-contact@jookia.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ayYnVZ53QKPnSQW0EEoa2IqOF-3MnFQ4
-X-Proofpoint-ORIG-GUID: ayYnVZ53QKPnSQW0EEoa2IqOF-3MnFQ4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-18_09,2023-09-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0
- mlxlogscore=999 priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309180177
+References: <15c9beb5f8dcb091b00c35d6206b84aa100d729e.camel@vmware.com>
+ <60f15275-ebfd-2fd6-64c4-c8907520e5dd@amd.com>
+ <3fa9b4d0-e12a-59b6-14c5-68f7406df129@linux.intel.com>
+ <fc935b9f-9b25-bcab-717c-0c31373fcfee@linux.intel.com>
+ <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
+ <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
+In-Reply-To: <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 18 Sep 2023 16:21:03 -0400
+Message-ID: <CADnq5_PPAZqusAoMTrG3OE3seZTQZbj1HC1u-4d5hcCQHsPD0g@mail.gmail.com>
+Subject: Re: Decrypting tt maps in ttm
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,58 +73,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Chris Morgan <macromorgan@hotmail.com>,
- linux-kernel@vger.kernel.org, Jagan Teki <jagan@edgeble.ai>,
- Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 18, 2023 at 3:06=E2=80=AFPM Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+>
+> On 9/18/23 17:52, Zack Rusin wrote:
+> > On Mon, 2023-09-18 at 17:13 +0200, Thomas Hellstr=C3=B6m wrote:
+> >> Hi,
+> >>
+> >> On 9/18/23 16:56, Thomas Hellstr=C3=B6m wrote:
+> >>> Hi Zack, Christian
+> >>>
+> >>> On 9/18/23 13:36, Christian K=C3=B6nig wrote:
+> >>>> Hi Zack,
+> >>>>
+> >>>> adding Thomas and Daniel.
+> >>>>
+> >>>> I briefly remember that I talked with Thomas and some other people
+> >>>> about that quite a while ago as well, but I don't fully remember the
+> >>>> outcome.
+> >>> Found one old thread, but didn't read it:
+> >>>
+> >>> https://lists.freedesktop.org/archives/dri-devel/2019-September/23410=
+0.html
+> >>>
+> >>>
+> >>> /Thomas
+> >>>
+> >>>
+> >> Ugh. Now starting to read that thread I have a vague recollection it a=
+ll
+> >> ended with not supporting mapping any device pages whatsoever when SEV
+> >> was enabled, but rather resorting to llvmpipe and VM-local bos.
+> > Hi, Thomas.
+> >
+> > Thanks for finding this! I'd (of course) like to solve it properly and =
+get vmwgfx
+> > running with 3d support with SEV-ES active instead of essentially disab=
+ling the
+> > driver when SEV-ES is active.
+> >
+> > I think there are two separate discussions there, the non-controversial=
+ one and the
+> > controversial one:
+> > 1) The non-controversial: is there a case where drivers would want encr=
+ypted memory
+> > for TT pages but not for io mem mappings? Because if not then as Christ=
+ian pointed
+> > out we could just add pgprot_decrypted to ttm_io_prot and be essentiall=
+y done. The
+> > current method of decrypting io mem but leaving sys mem mappings encryp=
+ted is a bit
+> > weird anyway.
+> >
+> > If the answer to that question is "yes, some driver does want the TT ma=
+ppings to be
+> > encrypted" then your "[PATCH v2 3/4] drm/ttm, drm/vmwgfx: Correctly sup=
+port support
+> > AMD memory encryption" solves that. I think getting one of those two in=
+ makes sense
+> > regardless of everything else, agreed?
+>
+> Well, there is more to it I think.
+>
+> IIRC, the AMD SME encryption mode has a way for a device to have the
+> memory controller (?) encrypt / decrypt device traffic by using an
+> address range alias, so in theory it supports encrypted TT pages, and
+> the dma-layer may indeed hand encrypted DMA pages to TTM on such systems
+> depending on the device's DMA mask. That's why I think that
+> force_dma_unencrypted() export was needed, and If the amdgpu driver
+> accesses TT memory in SME mode *without* pgprot_decrypted() and it still
+> works, then I think that mode is actually used. How could it otherwise wo=
+rk?
 
+For SME, as long as the encrypted bit is set in the physical address
+used for DMA, the memory controller will handle the encrypt/decrypt
+for the device.  For devices with a limited dma mask, you need to use
+the IOMMU so that the encrypted bit is retained when the address hits
+the memory controller.
 
-On 9/18/2023 5:58 AM, John Watts wrote:
-> The current code waits after resets for 5 to 20 milliseconds.
-> This is appropriate when resetting a sleeping panel, but an awake panel
-> requires at least 120ms of waiting.
-> 
-> Sleep for 150ms so the panel always completes it reset properly.
-> 
-> Signed-off-by: John Watts <contact@jookia.org>
+Alex
 
-Hi John,
-
-Just wondering, is there some context to this change? I.e., was this 
-made to fix a specific issue?
-
-This seems like a pretty significant increase in wait time so, if it's 
-not a fix, I'm not sure if this would be an improvement on the current 
-behavior.
-
-Thanks,
-
-Jessica Zhang
-
-> ---
->   drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> index 90dea21f9856..2526b123b1f5 100644
-> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> @@ -258,7 +258,7 @@ static int nv3052c_prepare(struct drm_panel *panel)
->   	gpiod_set_value_cansleep(priv->reset_gpio, 1);
->   	usleep_range(10, 1000);
->   	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-> -	usleep_range(5000, 20000);
-> +	msleep(150);
->   
->   	for (i = 0; i < ARRAY_SIZE(nv3052c_panel_regs); i++) {
->   		err = mipi_dbi_command(dbi, nv3052c_panel_regs[i].cmd,
-> -- 
-> 2.42.0
-> 
+>
+> But anyway, I agree SEV-ES mode would *always* want pgprot_decrypted for
+> dma allocated memory, whether it's in PL_SYSTEM or in PL_TT, but I guess
+> the above SME case need to be sorted out first.
+>
+> >
+> > 2) The controversial part of your series seems to be exporting of
+> > force_dma_unencrypted and its usage within ttm. Personally I'm perfectl=
+y ok with
+> > ignoring that for now. Getting #1 in is still a million times (rounded =
+up to the
+> > nearest million) faster than just using llvmpipe in the guest. And gett=
+ing #1 also
+> > fixes modern presentation on vmwgfx.
+>
+>
+> >
+> > So #1 is "make the driver work", while #2 is an optimisation - I think =
+we should
+> > treat them as separate things/series. Does that make sense?
+>
+> I guess that depends on the tradeoff between security and speed for
+> people running SEV-enabled VMs. But giving them a choice is probably not
+> a bad idea.
+>
+> /Thomas
+>
+>
+> >
+> > z
+> >
+> > P.S. I forgot to cc dri-devel on the initial email, that wasn't by desi=
+gn. Sorry.
+> > I'm ok with moving the discussion to dri-devel.
