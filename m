@@ -2,82 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56557A4605
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100847A465C
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 11:50:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 826EE10E247;
-	Mon, 18 Sep 2023 09:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E6F10E24B;
+	Mon, 18 Sep 2023 09:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0950310E247
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695029562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q7qrwVvMDp31iIKnPY847V/Wv7JXOSGTGg3AgrFPMus=;
- b=DyIQx2JJt9G5dg9PMqUHb2Mj39/j42ozi2gnC/lQGQLK/kkN1Wvlo6oobEBR18sw3Me6QJ
- HkRxzZVbJ4KgoXjsF1/6RsJR3n/908Qb+ZafondoWJOlwseO+rqOm6JodWSG6RBrbRBd+Q
- 1qHub0jOqNCFvIADVmVczErcJZ/aWoY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-imPoB-GMPwaqHR1WONpDyQ-1; Mon, 18 Sep 2023 05:32:38 -0400
-X-MC-Unique: imPoB-GMPwaqHR1WONpDyQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-31aef4011cfso2873301f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 02:32:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695029557; x=1695634357;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q7qrwVvMDp31iIKnPY847V/Wv7JXOSGTGg3AgrFPMus=;
- b=N4zG1BVuXOQwM/s3ngzXz71dbGI0nArHAjn3+f49bj6OfRHLJqlO5qyFv9/dTuM49n
- Pj9Ut/m4mjypt6N34p2nU42ecmUzxoK2WNqoTP9XYC3WOF1irLLb6Nm8Q0S9TJE+r6Q5
- Zja7cs3m5I8BLlQwirIPSqkdbn6/x4kl97do/WK2rbLxx9mjRONKYvhFahqt5R7wMyvv
- jet8uY5SPejuddeg0jJ5W/f69wP/Ok03EBQaSJUT+NMeuI+95DF/ETWCkUR0vth9Hl95
- vhNSBs+EQ6Yj+s3K5Hfx6CP/z0NgnpjiNPQd14Wp5yPR6dF58sRN41IeTXyfmX8QSHBt
- IZwA==
-X-Gm-Message-State: AOJu0Yz9UZIOuFTCCKscDEwK/rEubCEV2vkEGbdR/2jjPaX33Lf6hrUg
- Q1v4EDHifuTrEdUWotLyr7TuGFOA7+Wp9teUv8e3KBf/oeP3DIH95XjjbTMpgim0QD5CN/g3oY7
- MewN9jYcUTAFp26fAQSLZdw5NjXlJ
-X-Received: by 2002:adf:ee03:0:b0:317:727f:3bc7 with SMTP id
- y3-20020adfee03000000b00317727f3bc7mr7100106wrn.17.1695029557659; 
- Mon, 18 Sep 2023 02:32:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0zgUdXgJ3XD5v1cI4BnbP5e02Ff8uwLpBrq7ZmgD/ZJrj3YHpEdEsDKx1mgfV8C5axhRdDw==
-X-Received: by 2002:adf:ee03:0:b0:317:727f:3bc7 with SMTP id
- y3-20020adfee03000000b00317727f3bc7mr7100093wrn.17.1695029557362; 
- Mon, 18 Sep 2023 02:32:37 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- e17-20020adffc51000000b0031435731dfasm11985309wrs.35.2023.09.18.02.32.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Sep 2023 02:32:36 -0700 (PDT)
-Message-ID: <0a6f869c-3c0c-8c7c-ca09-b885d9b5bafe@redhat.com>
-Date: Mon, 18 Sep 2023 11:32:35 +0200
+X-Greylist: delayed 569 seconds by postgrey-1.36 at gabe;
+ Mon, 18 Sep 2023 09:50:42 UTC
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA4C10E24B
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:50:42 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
+ 38I8v258029351; Mon, 18 Sep 2023 04:40:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ PODMain02222019; bh=tDYDrUE8KUp7GB4gAn7w0+RcJkFc+kAlLQPGRSM5MI0=; b=
+ AmiVsjgACewQFGYadXqbHRvJlbelXRFxRlVmvCNRsb2YGLS8SQEqrv+wQCfGK7Tv
+ 3Tpjwxj+XQsOQs+mkJIKEyagA63dWvvHjSFRmpfmi0eth4QR3mzMeh/AJ7IaOcAc
+ amNQhrQIiu8UpbS5kYsKTIl/PVXV2QNJ4RUt7dS2mo4BsIVCAUurwNOR+nGlRLYq
+ SPIuwSJ/hm2QQBtYEyNfvVvo/lX5kEV+l5l38g8XK9dz6Nt9TqXyGs8zuiNMNfdw
+ IL27KCxM2wYnZjFLYLCBQ2MW880uCtLN98UwVYAPIMKH6Ib5QocSahCJaWNqhzoP
+ Uld65Kj81kskNCrla4aggQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3t58shsmpt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 04:40:53 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Mon, 18 Sep
+ 2023 10:40:52 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.37 via
+ Frontend Transport; Mon, 18 Sep 2023 10:40:52 +0100
+Received: from [198.90.238.137] (EDIN4L06LR3.ad.cirrus.com [198.90.238.137])
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 1215B11AA;
+ Mon, 18 Sep 2023 09:40:51 +0000 (UTC)
+Message-ID: <b67c7c31-9d20-4e62-adf6-0ab0c678bed2@opensource.cirrus.com>
+Date: Mon, 18 Sep 2023 10:40:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC][PATCH v2 0/2] drm/panic: Add a drm panic handler
-To: nerdopolis <bluescreen_avenger@verizon.net>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com
-References: <20230915083307.1185571-1-jfalempe@redhat.com>
- <6657118.e9J7NaK4W3@nerdopolis2>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <6657118.e9J7NaK4W3@nerdopolis2>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH for-next v2 03/10] iio: accel: fxls8962af: convert to
+ EXPORT_NS_GPL_RUNTIME_PM_OPS()
+To: Raag Jadav <raag.jadav@intel.com>, <rafael@kernel.org>,
+ <len.brown@intel.com>, <pavel@ucw.cz>, <Jonathan.Cameron@huawei.com>,
+ <paul@crapouillou.net>, <andriy.shevchenko@linux.intel.com>,
+ <lars@metafoo.de>, <rmfrfs@gmail.com>,
+ <jean-baptiste.maneyrol@tdk.com>, <lee@kernel.org>,
+ <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
+ <james.schulman@cirrus.com>, <david.rhodes@cirrus.com>
+References: <20230918080951.3615-1-raag.jadav@intel.com>
+ <20230918080951.3615-4-raag.jadav@intel.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20230918080951.3615-4-raag.jadav@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: pCPaWPCaYvDXkhq71Lq1IqHI-dv8mtpT
+X-Proofpoint-ORIG-GUID: pCPaWPCaYvDXkhq71Lq1IqHI-dv8mtpT
+X-Proofpoint-Spam-Reason: safe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,39 +78,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
+ patches@opensource.cirrus.com, mallikarjunappa.sangannavar@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bala.senthil@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/09/2023 15:09, nerdopolis wrote:
-> On Friday, September 15, 2023 4:28:20 AM EDT Jocelyn Falempe wrote:
->> This introduces a new drm panic handler, which displays a message when a panic occurs.
->> So when fbcon is disabled, you can still see a kernel panic.
->>
->> This is one of the missing feature, when disabling VT/fbcon in the kernel:
->> https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
->> Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
->>
->> This is a proof of concept, and works only with simpledrm, using a new get_scanout_buffer() api
->>
->> To test it, make sure you're using the simpledrm driver, and trigger a panic:
->> echo c > /proc/sysrq-trigger
->>
-> This seems to work pretty good! With this one, I don't need to have Weston (or another display server) running for it to work this time.
-> The panic reason works, which is pretty sweet.
-
-Thanks for testing, that's really appreciated.
+On 18/9/23 09:09, Raag Jadav wrote:
+> With original macro being renamed to EXPORT_NS_GPL_RUNTIME_PM_OPS(),
+> use the new macro.
 > 
-> FYI: I do get a hunk that fails to apply in simpledrm_remove in drivers/gpu/drm/tiny/simpledrm.c
-> Seems to be a change in a recentish commit
-> https://github.com/torvalds/linux/commit/84e6da7ad5537826343636b846530ec2167d4a19
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> ---
+>   drivers/iio/accel/fxls8962af-core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/accel/fxls8962af-core.c b/drivers/iio/accel/fxls8962af-core.c
+> index be8a15cb945f..69e73c54047e 100644
+> --- a/drivers/iio/accel/fxls8962af-core.c
+> +++ b/drivers/iio/accel/fxls8962af-core.c
+> @@ -1282,7 +1282,7 @@ static int fxls8962af_resume(struct device *dev)
+>   	return 0;
+>   }
+>   
+> -EXPORT_NS_GPL_DEV_PM_OPS(fxls8962af_pm_ops, IIO_FXLS8962AF) = {
+> +EXPORT_NS_GPL_RUNTIME_PM_OPS(fxls8962af_pm_ops, IIO_FXLS8962AF) = {
+>   	SYSTEM_SLEEP_PM_OPS(fxls8962af_suspend, fxls8962af_resume)
+>   	RUNTIME_PM_OPS(fxls8962af_runtime_suspend, fxls8962af_runtime_resume, NULL)
+>   };
+This change doesn't make sense. It changes the struct definition to use
+a EXPORT_*_RUNTIME_PM_OPS() macro, which leads me to expect this is
+exporting runtime pm ops. But then the struct has both SYSTEM and
+RUNTIME functions.
 
-Thanks for the head-up, when doing this RFC, I'm based on latest 
-released version v6.5, to avoid having to rebase too often.
-When it's closer to merging, I will rebase to drm-misc-next.
-
-Best regards,
-
--- 
-
-Jocelyn
+Maybe the underlying implementations of the macros result in "doing the
+right thing", but the source reads like it must be a mistake.
 
