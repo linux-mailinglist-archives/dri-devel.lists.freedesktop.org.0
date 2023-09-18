@@ -1,72 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EA7A4E99
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 18:19:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 744F27A5052
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 19:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA66110E098;
-	Mon, 18 Sep 2023 16:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99C110E125;
+	Mon, 18 Sep 2023 17:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13A9E10E0F8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 16:19:52 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b974031aeaso77248181fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:19:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695053989; x=1695658789;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pbOQzNmAo2PKtDx0msSwuX8Ix4PNWb6iOgapQHbD27Q=;
- b=lCgHwGEtUH/LvGhIHqjcBzUB/VSQUAby2L7/7EKD7F6pHLVfoqH9GGf3T2hffh78oL
- qt0G8LbPdH/JOm1nikLyOBOKzS4PaR54EEp/9LzaGEpsevmqNALvIuwLg0TzFJdUex9c
- AqtxhprExAqPKkl/g/mKEA2ML7JMECtBfjih0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695053989; x=1695658789;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pbOQzNmAo2PKtDx0msSwuX8Ix4PNWb6iOgapQHbD27Q=;
- b=nqG3qaK7kSv94ZqQHGMD0C5pWenK6wjaYk9Ehm/TWAwIIfPuFEKp+uMCeN3QRnXhZ/
- PYQ1RLIffTjpSaD3dmrZkwL13pSrjGjReevjzEzsoybRo4e/p2V3K7Mprmh+ytR3PQk3
- z8SmHvGdrQZiAj5oEykmwge8kJo/Vf3FFMVpBM3Oh1Nl3SzWbCzNIsdx2+JukILKmmoZ
- yfDxBX39KlwoEsi4ghUxIlWqzAa/UZRM3ucA9NRUaIIUj8VWWTHoyLY1H8N6TD32Amba
- Z/0210vU97XqhWf1G1XL5IHxjTvSela8toCC4PFOM4V1VkA3vgb6I3+8WprikUkIKPNA
- 2VsQ==
-X-Gm-Message-State: AOJu0YyHWdAC0Ik3r8xgy2v0Cj5xi6n5ytutsExFM3xA3TiKHqN4/agw
- TgXEEiohA9WCn9Z848TXOVZL+YF6ben/vkOUGMoqFM08
-X-Google-Smtp-Source: AGHT+IEB0fhZWUbrtUW92xwVVQLbYO6PRHs1e3FgDW4LXb1oHnVjs+2XrHfKEbO3ePV704a9L9WW0g==
-X-Received: by 2002:a2e:8756:0:b0:2bf:7894:a490 with SMTP id
- q22-20020a2e8756000000b002bf7894a490mr8574157ljj.38.1695053988853; 
- Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
- [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
- u14-20020a170906068e00b0099ce025f8ccsm6586848ejb.186.2023.09.18.09.19.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4009fdc224dso106885e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 09:19:48 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b14:b0:3fe:f32f:c57f with SMTP id
- m20-20020a05600c3b1400b003fef32fc57fmr206022wms.0.1695053987860; Mon, 18 Sep
- 2023 09:19:47 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B397410E034;
+ Mon, 18 Sep 2023 17:03:14 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38IEvJSv026033; Mon, 18 Sep 2023 17:02:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lbb9poKKnoIX5f99teaqOdZfia9gsHyX0zdOJWkDC/w=;
+ b=gB0k+5Yvi9ejpCfMAIp91MV5IikEfIYphWkqT7Us4KMLqkSTJfhm/OPgoBopzp1qoX85
+ 1iG1nP0o709Wd2PaDVCi9zonv1sgVNfwkh2xNDXPSdedJdO7zI/voA3DwjLRqbHZfoEo
+ pQKWrrTBNvxgamQ2MsfimaAT0vwCiKcU1daTenCZgOswzB8RlquPY0Mnsqqk6jElp+ly
+ qUw6fOi58OhWcU//vk3OVa3S9CBaDDWr68stfZiyGg8DctL0r/AyZP8ovIcQyqiPJ6D+
+ VFDnFNPayA96Uf9hmO/TnAMD2h8sRNm2dNJyyP83MyXvmV/gnnUckUGvpZOyZYANscBo Cg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t6pmq0mxj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 17:02:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38IH2ucq028956
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Sep 2023 17:02:56 GMT
+Received: from [10.71.109.209] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 18 Sep
+ 2023 10:02:55 -0700
+Message-ID: <4634ca79-e12b-0608-a123-6ed123f4a03c@quicinc.com>
+Date: Mon, 18 Sep 2023 10:02:44 -0700
 MIME-Version: 1.0
-References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
-In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Sep 2023 09:19:35 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
-Message-ID: <CAD=FV=W2AKQSnWh02Lxbqi47M325JNCaEn1_B0xAW3PKPKKF7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/7] drm/msm/dp: tie dp_display_irq_handler() with dp
+ driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
+ <1694813901-26952-2-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJprRFYMF-6yxcL75rftfii0kt7hmg_+TeOMJw+BRyDYdeg@mail.gmail.com>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJprRFYMF-6yxcL75rftfii0kt7hmg_+TeOMJw+BRyDYdeg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yDS0sS-dKLbuPrJtNyiZxcMdH_2Qzb9r
+X-Proofpoint-ORIG-GUID: yDS0sS-dKLbuPrJtNyiZxcMdH_2Qzb9r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-18_08,2023-09-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309180150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,68 +85,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jitao Shi <jitao.shi@mediatek.com>,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Jul 3, 2023 at 6:21=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> This is two patches fixing things I would normally complain about
-> in reviews, but alas I missed this one, so I go in and fix it up
-> myself.
->
-> Discovering that a completely unrelated driver has been merged
-> into this panel driver I had to bite the bullet and break it out.
-> I am pretty suspicious of the other recently added panel as well.
->
-> I am surprised that contributors from manufacturers do not seem
-> to have datasheets for the display controllers embedded in the
-> panels of their products. Can you take a second look?
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> Changes in v3:
-> - Rebase on drm-misc-next
-> - Convert the two newly added Starry panels as well.
-> - Break out the obvious ILI9882t-based panel into its own driver.
-> - Link to v2: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v2-=
-0-457d7ece4590@linaro.org
->
-> Changes in v2:
-> - Fix a missed static keyword
-> - Link to v1: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v1-=
-0-8ac378405fb7@linaro.org
->
-> ---
-> Linus Walleij (4):
->       drm/panel: boe-tv101wum-nl6: Drop macros and open code sequences
->       drm/panel: boe-tv101wum-nl6: Drop surplus prepare tracking
->       drm/panel: ili9882t: Break out as separate driver
->       drm/panel: ili9882t: Break out function for switching page
->
->  drivers/gpu/drm/panel/Kconfig                  |    9 +
->  drivers/gpu/drm/panel/Makefile                 |    1 +
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 3037 ++++++++++--------=
-------
->  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  |  759 ++++++
->  4 files changed, 2067 insertions(+), 1739 deletions(-)
+On 9/15/2023 5:29 PM, Dmitry Baryshkov wrote:
+> On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> Currently the dp_display_irq_handler() is executed at msm_dp_modeset_init()
+>> which ties irq registration to the DPU device's life cycle, while depending on
+>> resources that are released as the DP device is torn down. Move register DP
+>> driver irq handler at dp_display_probe() to have dp_display_irq_handler()
+>> is tied with DP device.
+>>
+>> Changes in v3:
+>> -- move calling dp_display_irq_handler() to probe
+> Was there a changelog for the previous reivions? What is the
+> difference between v1 and v2?
 
-I'm curious what the latest on this patch series is. Is it abandoned,
-or is it still on your list to move forward with it? If it's
-abandoned, does that mean we've abandoned the idea of breaking
-ili9882t into a separate driver?
+Sorry, v2 is same as v3.
 
-From looking at things that have landed downstream in the ChromeOS
-kernel trees it looks as if additional fixes are getting blocked from
-being posted/landed because of the limbo state that this is in.
+I submitted v2 first but found i forget to add change logs from review 
+comments of v1.
 
--Doug
+Therefore i submit v3 to add changes logs which missing at v2.
+
+
+
+>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 35 +++++++++++++----------------------
+>>   drivers/gpu/drm/msm/dp/dp_display.h |  1 -
+>>   2 files changed, 13 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 76f1395..c217430 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1193,30 +1193,23 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+>>          return ret;
+>>   }
+>>
+>> -int dp_display_request_irq(struct msm_dp *dp_display)
+>> +static int dp_display_request_irq(struct dp_display_private *dp)
+>>   {
+>>          int rc = 0;
+>> -       struct dp_display_private *dp;
+>> -
+>> -       if (!dp_display) {
+>> -               DRM_ERROR("invalid input\n");
+>> -               return -EINVAL;
+>> -       }
+>> -
+>> -       dp = container_of(dp_display, struct dp_display_private, dp_display);
+>> +       struct device *dev = &dp->pdev->dev;
+>>
+>> -       dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
+>>          if (!dp->irq) {
+> What is the point in this check?
+>
+>> -               DRM_ERROR("failed to get irq\n");
+>> -               return -EINVAL;
+>> +               dp->irq = platform_get_irq(dp->pdev, 0);
+>> +               if (!dp->irq) {
+>> +                       DRM_ERROR("failed to get irq\n");
+>> +                       return -EINVAL;
+>> +               }
+>>          }
+>>
+>> -       rc = devm_request_irq(dp_display->drm_dev->dev, dp->irq,
+>> -                       dp_display_irq_handler,
+>> +       rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
+>>                          IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
+>>          if (rc < 0) {
+>> -               DRM_ERROR("failed to request IRQ%u: %d\n",
+>> -                               dp->irq, rc);
+>> +               DRM_ERROR("failed to request IRQ%u: %d\n", dp->irq, rc);
+>>                  return rc;
+>>          }
+>>
+>> @@ -1287,6 +1280,10 @@ static int dp_display_probe(struct platform_device *pdev)
+>>
+>>          platform_set_drvdata(pdev, &dp->dp_display);
+>>
+>> +       rc = dp_display_request_irq(dp);
+>> +       if (rc)
+>> +               return rc;
+> This way the IRQ ends up being enabled in _probe. Are we ready to
+> handle it here? Is the DP device fully setup at this moment?
+>
+>> +
+>>          rc = component_add(&pdev->dev, &dp_display_comp_ops);
+>>          if (rc) {
+>>                  DRM_ERROR("component add failed, rc=%d\n", rc);
+>> @@ -1549,12 +1546,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>>
+>>          dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
+>>
+>> -       ret = dp_display_request_irq(dp_display);
+>> -       if (ret) {
+>> -               DRM_ERROR("request_irq failed, ret=%d\n", ret);
+>> -               return ret;
+>> -       }
+>> -
+>>          ret = dp_display_get_next_bridge(dp_display);
+>>          if (ret)
+>>                  return ret;
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+>> index 1e9415a..b3c08de 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+>> @@ -35,7 +35,6 @@ struct msm_dp {
+>>   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
+>>                  hdmi_codec_plugged_cb fn, struct device *codec_dev);
+>>   int dp_display_get_modes(struct msm_dp *dp_display);
+>> -int dp_display_request_irq(struct msm_dp *dp_display);
+>>   bool dp_display_check_video_test(struct msm_dp *dp_display);
+>>   int dp_display_get_test_bpp(struct msm_dp *dp_display);
+>>   void dp_display_signal_audio_start(struct msm_dp *dp_display);
+>> --
+>> 2.7.4
+>>
+>
