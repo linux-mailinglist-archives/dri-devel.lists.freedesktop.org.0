@@ -1,74 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D389A7A54CF
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 23:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A09817A54B5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Sep 2023 23:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF4810E342;
-	Mon, 18 Sep 2023 21:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4039610E345;
+	Mon, 18 Sep 2023 21:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 892C310E0FF
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 21:07:24 +0000 (UTC)
-Received: from localhost.localdomain (178.176.74.219) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Mon, 18 Sep
- 2023 23:52:17 +0300
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] video: fbdev: core: syscopyarea: fix sloppy typing
-Date: Mon, 18 Sep 2023 23:52:09 +0300
-Message-ID: <20230918205209.11709-3-s.shtylyov@omp.ru>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20230918205209.11709-1-s.shtylyov@omp.ru>
-References: <20230918205209.11709-1-s.shtylyov@omp.ru>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA3A110E345
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 21:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1695070877;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PGvKmZ4gaTSql+5Gg/EmBcBsE1/45EteF32nr/hxcZo=;
+ b=ijlY7zatBWXUmIxq4VkOLaBZC2y/y4fDubHLt9REXR9DJhzjsscveIfKT8vlGE8SvHjBhp
+ iMRuIIreS9ezl3Xt6wHwmc+6ryYcL/rw+KMW6mrpRkDtAZJc3tB6zmqros4UFA7XpU1XSE
+ FQqp4lIKDXcTMUEZGMhTp/Ml8h3Sm7E=
+Message-ID: <4d2079d66249a7052acded0abf30169a4e95d151.camel@crapouillou.net>
+Subject: Re: [RFC PATCH v2 3/9] drm/panel: nv3052c: Sleep for 150ms after reset
+From: Paul Cercueil <paul@crapouillou.net>
+To: John Watts <contact@jookia.org>, Jessica Zhang <quic_jesszhan@quicinc.com>
+Date: Mon, 18 Sep 2023 23:01:15 +0200
+In-Reply-To: <ZQi4fFZ0VnsUIiXO@titan>
+References: <20230918125853.2249187-1-contact@jookia.org>
+ <20230918125853.2249187-4-contact@jookia.org>
+ <7fc1ca68-ca7c-59b2-0b70-27bc34d83cee@quicinc.com> <ZQi4fFZ0VnsUIiXO@titan>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [178.176.74.219]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 09/18/2023 20:36:01
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 179936 [Sep 18 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 530 530 ecb1547b3f72d1df4c71c0b60e67ba6b4aea5432
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.219 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.219 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; omp.ru:7.1.1
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: {rdns complete}
-X-KSE-AntiSpam-Info: {fromrtbl complete}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.219
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/18/2023 20:41:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/18/2023 6:04:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +46,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
+ Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In sys_copyarea(), when initializing *unsigned long const* bits_per_line
-__u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- which
-might overflow __u32; multiplying by 8UL instead should fix that...
-Also, that bits_per_line constant is used to advance *unsigned* src_idx
-and dst_idx variables -- which might be overflowed as well; declaring
-them as *unsigned long* should fix that too...
+Hi John,
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
+Le mardi 19 septembre 2023 =C3=A0 06:52 +1000, John Watts a =C3=A9crit=C2=
+=A0:
+> On Mon, Sep 18, 2023 at 01:19:03PM -0700, Jessica Zhang wrote:
+> > Hi John,
+> >=20
+> > Just wondering, is there some context to this change? I.e., was
+> > this made to
+> > fix a specific issue?
+> >=20
+> > This seems like a pretty significant increase in wait time so, if
+> > it's not a
+> > fix, I'm not sure if this would be an improvement on the current
+> > behavior.
+> >=20
+> > Thanks,
+> >=20
+> > Jessica Zhang
+>=20
+> Hi Jessica,
+>=20
+> Thank you for the feedback.
+>=20
+> This patch here is required by the data sheet if the screen was
+> already running
+> and was reset. This is necessary if for example the bootloader set up
+> and had
+> the screen running. However I have not tested this, it's possible the
+> specific
+> panels have shorter tolerances for resets. This is purely
+> precautionary at
+> this stage based on what the data sheet says.
+>=20
+> That said I will be investigating this specific use case with this
+> panel over
+> the next few months. I am okay separating out this patch until I have
+> proof it's
+> needed for my particular display. I don't know anything about the ltk
+> display.
+>=20
+> The second sleep patch can probably be omitted as I don't think the
+> panel being
+> prepared then unprepared in rapid succession is a realistic
+> situation, but I=20
+> figured I might as well propose it to see if it's the right thing to
+> do.
+>=20
+> Thanks for your time and review,
+> John.
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: stable@vger.kernel.org
----
- drivers/video/fbdev/core/syscopyarea.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The datasheet does say a 5ms sleep time is necesary after a reset. I
+assume the 120ms delay you quote is when a *software* reset is
+performed in Sleep-out mode. The code here does a hard-reset.
 
-diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
-index c1eda3190968..1035131383a6 100644
---- a/drivers/video/fbdev/core/syscopyarea.c
-+++ b/drivers/video/fbdev/core/syscopyarea.c
-@@ -316,10 +316,11 @@ void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
- {
- 	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
- 	u32 height = area->height, width = area->width;
--	unsigned long const bits_per_line = p->fix.line_length*8u;
-+	unsigned long const bits_per_line = p->fix.line_length * 8UL;
- 	unsigned long *base = NULL;
- 	int bits = BITS_PER_LONG, bytes = bits >> 3;
--	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
-+	unsigned long dst_idx = 0, src_idx = 0;
-+	unsigned int rev_copy = 0;
- 
- 	if (p->state != FBINFO_STATE_RUNNING)
- 		return;
--- 
-2.26.3
-
+Cheers,
+-Paul
