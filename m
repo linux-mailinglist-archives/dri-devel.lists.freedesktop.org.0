@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191887A5A52
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:00:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076127A5A47
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE24C10E355;
-	Tue, 19 Sep 2023 06:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F7D10E33D;
+	Tue, 19 Sep 2023 06:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-224.mta1.migadu.com (out-224.mta1.migadu.com
- [IPv6:2001:41d0:203:375::e0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD67410E349
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 21:41:12 +0000 (UTC)
-Date: Tue, 19 Sep 2023 07:40:58 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
- t=1695073271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OKF5pL6j1FaLIvd2+LW2+OTS2g0SVXD9k2NzY4oj/+o=;
- b=eAJF0wJ6X+530eG3LxNkM63PN7qnRhh/PzY1ZTLxsu03jkiohE+49ByAC21ZDo4tPqDmtD
- Utn+P2HHAWUCvdC82d1DJZj0HWLlFu7mjzqztVYJuCuS5sYcUXfbGos0zKvYfKnhR7Z5qA
- qsZyeZ553i9kSJquTAxHnKvwFOqfq7ojHi4OXupJ5Ksrc+skSooeb1y5IKQ9gRlRxHPlBd
- Gq+2ryiO6nAieBGVdorZt/bQxqNXWh2iM5PgGV7fJTiz2Y6F3ZwH7oPw7iAwLBvrwWlW9+
- mD/6OBOASGm4iSvTSmfKC45Yy3MNMGO/0KHhvpuKeDWRO5DGQMM1wyjRIxgOyA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: John Watts <contact@jookia.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RFC PATCH v2 3/9] drm/panel: nv3052c: Sleep for 150ms after reset
-Message-ID: <ZQjD6gCEo62gMBX2@titan>
-References: <20230918125853.2249187-1-contact@jookia.org>
- <20230918125853.2249187-4-contact@jookia.org>
- <7fc1ca68-ca7c-59b2-0b70-27bc34d83cee@quicinc.com>
- <ZQi4fFZ0VnsUIiXO@titan>
- <4d2079d66249a7052acded0abf30169a4e95d151.camel@crapouillou.net>
- <ZQi8Z45VCqr-GqN6@titan>
- <0d6b0159552b10548391a9bd88449d12c13fdcd6.camel@crapouillou.net>
+X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
+ Mon, 18 Sep 2023 21:57:27 UTC
+Received: from mail.sakamoto.pl (mail.sakamoto.pl [185.236.240.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2AE10E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 21:57:27 +0000 (UTC)
+Authentication-Results: mail.sakamoto.pl;
+	auth=pass (plain)
+Date: Mon, 18 Sep 2023 23:49:44 +0200
+From: Alicja Michalska <alka@sakamoto.pl>
+To: devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: anx7814: Add definition for anx7816
+Message-ID: <ZQjFabKW7QvrvsnG@tora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d6b0159552b10548391a9bd88449d12c13fdcd6.camel@crapouillou.net>
-X-Migadu-Flow: FLOW_OUT
+X-Haraka-GeoIP: FR
+X-Haraka-GeoIP-Received: 37.165.191.167:FR
+Received: from localhost (Unknown [127.0.0.1])
+ by mail.sakamoto.pl (Haraka/2.8.28) with ESMTPSA id
+ 00563704-9D56-448D-AC2A-1D164520EB98.1
+ envelope-from <alka@sakamoto.pl>
+ tls TLS_AES_256_GCM_SHA384 (authenticated bits=0);
+ Mon, 18 Sep 2023 23:49:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=sakamoto.pl; s=s20200705610;
+ h=from:subject:date:message-id:to:cc:mime-version;
+ bh=sI571ETAaL0Us0YlexREagZHnhYjl//syzK9E0tVq1U=;
+ b=gLhvsyYwxgka72wBii+b4ZJ8YMKsQMkTMIuTAq1Uss5mNwKYZXZh5an1lYSrGaeY1ZaOFJw7o+
+ 6Ku5p9u/H3a4GwhwJM9mMngwSJplp48Yiy8bpZ6qA5fu8i9L33aZt52q3MdNB/13C+K9w4Y5kA54
+ c27hLPdEy2V5kSzgCb5Z6ALrAR6C+USrZ83tQUol20WVUzYeXhBkHNFg7HB+DS/C/PbSdHzaI4IU
+ enwrOgzdH+Y+xH+GpNhklu6jp9PrLQq9qdz8rElXfpvb+uirOGNIq1y1OBl9PLIQXrHMtILGAP+Z
+ DGLoBPn8Qskfk38P7QrWju0CdslEWh4nXa1FDfTQ==
 X-Mailman-Approved-At: Tue, 19 Sep 2023 06:59:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,40 +54,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Chris Morgan <macromorgan@hotmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>,
- Rob Herring <robh+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 18, 2023 at 11:34:51PM +0200, Paul Cercueil wrote:
-> The driver is guaranteed to always reset the panel in sleep-in mode -
-> as long as the panel was off when the driver started.
-> 
-> What I'd suggest if you really need to support a case where the panel
-> was enabled by the bootloader, is to read the 0x0a register after
-> enabling the regulator to read the mode, and sleep 120ms if it was in
-> sleep-out mode.
-> 
-> But that's only if it's a case that you can test with. I won't accept a
-> patch that makes sense on the surface if it addresses a corner case
-> that nobody ever tested for.
-> 
-> For what I know, this patch just adds a huge delay to panel boot-up for
-> all existing users for no valid reason.
->
-> 
-> Cheers,
-> -Paul
+As requested by Robert Foss <rfoss@kernel.org>, this patch adds
+definition for anx7816. It supplements the patch submitted to dri-devel.
 
-Thank you very much for this feedback. I am more than happy to throw these
-sleep patches in the trash and come back later with a proper solution when
-I have an actual hardware setup and use case to test on.
+Signed-off-by: Alicja Michalska <ahplka19@gmail.com>
+---
+ .../devicetree/bindings/display/bridge/analogix,anx7814.yaml     | 1 +
+ 1 file changed, 1 insertion(+)
 
-John.
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+index 4a5e5d9d6f90..4509c496731b 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+@@ -17,6 +17,7 @@ properties:
+       - analogix,anx7808
+       - analogix,anx7812
+       - analogix,anx7814
++      - analogix,anx7816
+       - analogix,anx7818
+ 
+   reg:
+-- 
+2.41.0
+
