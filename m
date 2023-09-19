@@ -1,77 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD057A655E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 15:38:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B137A65B3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 15:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4179110E266;
-	Tue, 19 Sep 2023 13:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E007310E09A;
+	Tue, 19 Sep 2023 13:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF3FE10E266
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 13:38:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1695130657; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=fmNCdrliKmKlDo9QFTbljpsJthBV+utp8y7CMMjQS2cI7k4YGcLSaoOZ/gNUBE9sF7
- bUIQMKzJLh30qi/eZxLqTpEK7Gz44KiS9SXW/ePRMxca7wFe+uOcBfXxsuchE1QXNXd6
- 66qKlGTAz+xlK5ynlDjvPCGmXzsLam9mxWTHm5Ss9sJoUR3NUj4M38xUgkQjwqh7xuHD
- y3nJ7JgPTG13aiYXb+rfDB4RUWoNbkQLA3b9XLqvBt0DCcHrsTkZKGzCRhlFMk0TaJtv
- R6nzuexHMXYZZb1FRSWE/SKc/GN6SImfH5ma52vsC/znrLlOD4keN+aQHhsWqezs8/jr
- h/+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1695130657;
- s=strato-dkim-0002; d=strato.com;
- h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
- bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
- b=qAK5LNPrtWq9JY4GDjefVmvqwUJ2sEwqglqxTPy3dLaDT+pIYRaezv/8uokyl0ZVk5
- IVc51zFv1yb541MSm0zm4jRf2djdJ6q8V9QJr81y+l/+BTtqMoDqFiq1Nk4FVdqpw8RG
- 3YXyenqF1KRadAVnCoy30I1Yh9wXfEdbuzrIHSCGfKj6LHywzH0HzCknZzEEWsuobqfy
- uS5aoojhsGVwYf/YG3rvDq9KixgxxOp5UHEnRRptsFkf63eo+zgVp71f1b2QS0/i7dVb
- eCiEMRFOMh7riFMtu2IcQhBzhmFsb8HM3DEF8a7bq3EykafzSTldAJGwdakHyPVGiimY
- 6Ujg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1695130657;
- s=strato-dkim-0002; d=goldelico.com;
- h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
- bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
- b=ZMdtX+2xP1lj3TfciIVF5fsah7wY+MfWwpbvVQttJWfya/seJu5lk4WsgZi/JOO+jC
- E92uty4UKec96v8dATYwSAjSVH2SE1KsgoT0MzXExJild6lYv7xie7jyMU+mEx9K+a4+
- wsLqDT13loVkRwIzRCL5N2yKewPT0Wk1ihmmKC2FwhJenM9b+50ORsh+zgY0SRmOUE6K
- tbXf9f4N3Z3n03VyJNyaMdhxyR314FWO9iIMFlWT540BOuM8qg/TXctKK0Hm1LNvirKU
- rZbyeR+3h7JOpBUbZ0fu2fFSMuHI95OMBZL+gRkEQBNlhHlfNC5iyc+x2OHkjfEwhRIS
- TpIw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1695130657;
- s=strato-dkim-0003; d=goldelico.com;
- h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
- bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
- b=ifLmEvTKOnMXlMzR3QBCX0YGjjxz8aTIuO14dJRB3MjzPCwotBsh4xxAE0dXltYj8h
- 14bzI3TlgCCkbFK7ASCA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1iTDUhfN4hi3qVZrWLJ"
-Received: from localhost.localdomain by smtp.strato.de (RZmta 49.8.2 DYNA|AUTH)
- with ESMTPSA id Y04dd7z8JDbYhZC
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 19 Sep 2023 15:37:34 +0200 (CEST)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, tony@atomide.com,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Douglas Anderson <dianders@chromium.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- sre@kernel.org, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH] omap: dsi: do not WARN on detach if dsidev was never attached
-Date: Tue, 19 Sep 2023 15:37:28 +0200
-Message-ID: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.42.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D86F10E09A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 13:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695131433;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wyjlC6jvKki/d/AFtWf0GNSkfVlfpkzAsY5hgPuCaGk=;
+ b=KWda+f+Z0BDvq4YeoLLcjB6o86h/TQuXt4F3d/X6uFuucl/LG5b6nsRwUT2oI0XJM7nOZi
+ QpyHF4yxkRUxe2ztv7TlnoABfmQ0qsVK1nefAWGVC9vpNMMPrX2dpytsYTWCNIUT3NCQ92
+ rMJeBisEB+xpOjEV2PW5IdzNgCaevFA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-307-jeJDGZhaPG2CKqqWVIzFMQ-1; Tue, 19 Sep 2023 09:50:12 -0400
+X-MC-Unique: jeJDGZhaPG2CKqqWVIzFMQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-402d63aeea0so44476645e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 06:50:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695131402; x=1695736202;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wyjlC6jvKki/d/AFtWf0GNSkfVlfpkzAsY5hgPuCaGk=;
+ b=D1hC8wxNbJSOdX5TLBuknp7JjATaY+25+FiJYQl90hA/7/b8coIYFA2Nx4uYm1wi4e
+ GUzdAK4VEoWpn5dRAL7zk5OhhLdDeOdnmtTieNK5YWYl/rqakkYaun6z5dKvZ7WWGvjg
+ kfHMVDP7UOIYVU2SwmjhI63m6FrfMMS8Hmazb86aD9O6VXG8zLzMk25t3/t2LCAS6eab
+ 8xlEWmNyNUxgYDsNhOJAgu9tk/TVIK8dLak7N84+hZakbQqY/rC6t/CfPsBFbRZyqcXT
+ q4iS8qTb5rNf8nJbNV93oh0PNPteF1rv4FlIRXBYmHBvOrRjQInWYmUc9HaLpU/aluo1
+ NU5g==
+X-Gm-Message-State: AOJu0YyOkFp1ojlydr1UyHKagFHumJnpjmf3Tee0AD1HDW1hsYGa2rHv
+ MqFDHJuBOd4Ey/tWcvVcJH6fcpjKcA4srT0L4IF98L+MOcDHmAa2d/Rhnk+QI+40i+ncZ1ObFdK
+ FoPvAISdPo+lX2mEXRb2rHX5aj5ZC
+X-Received: by 2002:a5d:6845:0:b0:319:6d91:28bf with SMTP id
+ o5-20020a5d6845000000b003196d9128bfmr10172737wrw.60.1695131402524; 
+ Tue, 19 Sep 2023 06:50:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE0iYYDeXqv2TFX2qqzd5kEt/uXjFh1qbfAteCkbBkcJsaT3iSm1X2kX0l/P4l0pxG9s5UzGQ==
+X-Received: by 2002:a5d:6845:0:b0:319:6d91:28bf with SMTP id
+ o5-20020a5d6845000000b003196d9128bfmr10172715wrw.60.1695131402076; 
+ Tue, 19 Sep 2023 06:50:02 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w4-20020a5d6804000000b003197efd1e7bsm15736497wru.114.2023.09.19.06.50.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Sep 2023 06:50:01 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Janne Grunau <j@jannau.net>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
+In-Reply-To: <c6dd2daf-f833-4c2f-9a67-640fb2c424fc@app.fastmail.com>
+References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
+ <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
+ <c6dd2daf-f833-4c2f-9a67-640fb2c424fc@app.fastmail.com>
+Date: Tue, 19 Sep 2023 15:50:00 +0200
+Message-ID: <87led2l1br.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,71 +83,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: letux-kernel@openphoenux.org, linux-omap@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@pyra-handheld.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dsi_init_output() called by dsi_probe() may fail. In that
-case mipi_dsi_host_unregister() is called which may call
-omap_dsi_host_detach() with uninitialized dsi->dsidev
-because omap_dsi_host_attach() was never called before.
+"Sven Peter" <sven@svenpeter.dev> writes:
 
-This happens if the panel driver asks for an EPROBE_DEFER.
+> Hi,
+>
+>
+> On Mon, Sep 18, 2023, at 09:11, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
+>>> From: Janne Grunau <j@jannau.net>
+>>> 
+>>> Multiple power domains need to be handled explicitly in each driver. The
+>>> driver core can not handle it automatically since it is not aware of
+>>> power sequencing requirements the hardware might have. This is not a
+>>> problem for simpledrm since everything is expected to be powered on by
+>>> the bootloader. simpledrm has just ensure it remains powered on during
+>>> its lifetime.
+>>> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+>>> systems. The HDMI output initialized by the bootloader requires keeping
+>>> the display controller and a DP phy power domain on.
+>>> 
+>>> Signed-off-by: Janne Grunau <j@jannau.net>
+>>
+>> As a simpledrm patch:
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>> Do you want to wait for another review from  someone with 
+>> power-management expertise?
+>
+> I can't claim to have a lot of genpd experience but we use very similar
+> code in a few other M1/M2 drivers that also require multiple power domains
+> to be up without any sequencing constraints. So for whatever it's worth:
+>
+> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+>
 
-So let's suppress the WARN() in this special case.
+Can't claim to be an expert on genpd either but it looks good to me as well.
 
-[    7.416759] WARNING: CPU: 0 PID: 32 at drivers/gpu/drm/omapdrm/dss/dsi.c:4419 omap_dsi_host_detach+0x3c/0xbc [omapdrm]
-[    7.436053] Modules linked in: ina2xx_adc snd_soc_ts3a227e bq2429x_charger bq27xxx_battery_i2c(+) bq27xxx_battery ina2xx tca8418_keypad as5013(+) omapdrm hci_uart cec palmas_pwrbutton btbcm bmp280_spi palmas_gpadc bluetooth usb3503 ecdh_generic bmc150_accel_i2c bmg160_i2c ecc bmc150_accel_core bmg160_core bmc150_magn_i2c bmp280_i2c bmc150_magn bno055 industrialio_triggered_buffer bmp280 kfifo_buf snd_soc_omap_aess display_connector drm_kms_helper syscopyarea snd_soc_omap_mcbsp snd_soc_ti_sdma sysfillrect ti_tpd12s015 sysimgblt fb_sys_fops wwan_on_off snd_soc_gtm601 generic_adc_battery drm snd_soc_w2cbw003_bt industrialio drm_panel_orientation_quirks pwm_bl pwm_omap_dmtimer ip_tables x_tables ipv6 autofs4
-[    7.507068] CPU: 0 PID: 32 Comm: kworker/u4:2 Tainted: G        W          6.1.0-rc3-letux-lpae+ #11107
-[    7.516964] Hardware name: Generic OMAP5 (Flattened Device Tree)
-[    7.523284] Workqueue: events_unbound deferred_probe_work_func
-[    7.529456]  unwind_backtrace from show_stack+0x10/0x14
-[    7.534972]  show_stack from dump_stack_lvl+0x40/0x4c
-[    7.540315]  dump_stack_lvl from __warn+0xb0/0x164
-[    7.545379]  __warn from warn_slowpath_fmt+0x70/0x9c
-[    7.550625]  warn_slowpath_fmt from omap_dsi_host_detach+0x3c/0xbc [omapdrm]
-[    7.558137]  omap_dsi_host_detach [omapdrm] from mipi_dsi_remove_device_fn+0x10/0x20
-[    7.566376]  mipi_dsi_remove_device_fn from device_for_each_child+0x60/0x94
-[    7.573729]  device_for_each_child from mipi_dsi_host_unregister+0x20/0x54
-[    7.580992]  mipi_dsi_host_unregister from dsi_probe+0x5d8/0x744 [omapdrm]
-[    7.588315]  dsi_probe [omapdrm] from platform_probe+0x58/0xa8
-[    7.594542]  platform_probe from really_probe+0x144/0x2ac
-[    7.600249]  really_probe from __driver_probe_device+0xc4/0xd8
-[    7.606411]  __driver_probe_device from driver_probe_device+0x3c/0xb8
-[    7.613216]  driver_probe_device from __device_attach_driver+0x58/0xbc
-[    7.620115]  __device_attach_driver from bus_for_each_drv+0xa0/0xb4
-[    7.626737]  bus_for_each_drv from __device_attach+0xdc/0x150
-[    7.632808]  __device_attach from bus_probe_device+0x28/0x80
-[    7.638792]  bus_probe_device from deferred_probe_work_func+0x84/0xa0
-[    7.645595]  deferred_probe_work_func from process_one_work+0x1a4/0x2d8
-[    7.652587]  process_one_work from worker_thread+0x214/0x2b8
-[    7.658567]  worker_thread from kthread+0xe4/0xf0
-[    7.663542]  kthread from ret_from_fork+0x14/0x1c
-[    7.668515] Exception stack(0xf01b5fb0 to 0xf01b5ff8)
-[    7.673827] 5fa0:                                     00000000 00000000 00000000 00000000
-[    7.682435] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    7.691038] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index ea63c64d3a1ab..c37eb6b1b9a39 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
- {
- 	struct dsi_data *dsi = host_to_omap(host);
- 
--	if (WARN_ON(dsi->dsidev != client))
-+	if (!dsi->dsidev || WARN_ON(dsi->dsidev != client))
- 		return -EINVAL;
- 
- 	cancel_delayed_work_sync(&dsi->dsi_disable_work);
 -- 
-2.42.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
