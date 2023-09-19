@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D82C7A6923
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 18:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369567A6940
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 18:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E39410E1A9;
-	Tue, 19 Sep 2023 16:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E079410E1B3;
+	Tue, 19 Sep 2023 16:56:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D342210E144
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 16:46:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org
+ [IPv6:2001:67c:2050:0:465::201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5129810E13B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 16:56:23 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id D0FF2CE135F;
- Tue, 19 Sep 2023 16:46:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E16DC433C7;
- Tue, 19 Sep 2023 16:46:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695141982;
- bh=oQBTHZEBTOvXdSVkdIA/zgv1qFEEOofNEvBKr5+eM1A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rZd3z/e6yMneQVmt+zvjNYwc+UJ8MIJ4tDk8BYAe9zSSN9LBCTuj7Rf3LNE1AHqJk
- Ur3cXcNEEqb/+izOs428MAfFoL3gK9Q1+4bQxiJpgRFpHUdl18Bol8Qj9J8o1BCG0J
- eQSIZFntIb+E4JaknXOSCkpB6FR4vFAaNpLc0uBgw+kiRSZsFlkt/n0sP4vXY0kivJ
- 5BcO22Uy5kuOBURNDs5dbe77F+vCPPGLN7Nya9z/bWJi8DCxt8YVk2f8+/1AVtaP2L
- F9GOzuKEH18NvdhkJQVs9JY+WvDIDztVjrl6Fglok1E8k+GSn9DfGtWXFJZPAuFNrD
- PlBoDcpNrD4kQ==
-Received: (nullmailer pid 4078623 invoked by uid 1000);
- Tue, 19 Sep 2023 16:46:14 -0000
-Date: Tue, 19 Sep 2023 11:46:14 -0500
-From: Rob Herring <robh@kernel.org>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Subject: Re: [PATCH 01/15] dt-bindings: mailbox: Add property for CMDQ secure
- driver
-Message-ID: <20230919164614.GA4059766-robh@kernel.org>
-References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
- <20230918192204.32263-2-jason-jh.lin@mediatek.com>
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Rqnql53xvz9sqL;
+ Tue, 19 Sep 2023 18:56:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1695142579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VMi5+7ZvzTwfMWgziI09KuaClzuCuTi5rZ6FResnfjI=;
+ b=BJxxuTuiJOMSiYUeDmM3bjDc489nXarPKkX2R3CfQvSfuBtti8g2LUBfG15NgiI4Lqtbyg
+ Cj/x79QYZJkSYUyDLJiTaflRpB05kvMqxPApVKK15MdhtqJxQ5JgqiUcUTpvEQ81DgHjEN
+ m46Sr4Y+uRvFYmkuMoIHR2dV6opa8ifzmFpW8CjlntMuy1HrUQ2yK/U9fzS4+EWmWPP3UI
+ mkG92UG6s+e9d7jnRA8fU+u1ZI2EFefQ0JyLgbGMD6vWsWIcD4aBnOE8B8qVYwlgA2jLzN
+ WMRRMCu/NCzGmXDkncE5IJTPrYdI6zNBiFPbfvSejZxaGdwYBka5RLcCHr0bCg==
+Message-ID: <c64d38db-cb55-a511-3f19-0cf2ee2c7557@mailbox.org>
+Date: Tue, 19 Sep 2023 18:56:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230918192204.32263-2-jason-jh.lin@mediatek.com>
+Subject: Re: [PATCH] drm/atomic-helper: prevent uaf in wait_for_vblanks
+Content-Language: en-CA
+To: =?UTF-8?Q?Jos=c3=a9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, skhan@linuxfoundation.org
+References: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: df75b5c6e5d5e56e260
+X-MBO-RS-META: k337c4z4wicfa4jjcbc7kusitecbk4nb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,109 +59,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Elvis Wang <Elvis.Wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 19, 2023 at 03:21:50AM +0800, Jason-JH.Lin wrote:
-> Add mboxes to define a GCE loopping thread as a secure irq handler.
-> Add mediatek,event to define a GCE software event siganl as a secure
-> irq.
+On 9/18/23 18:53, José Pekkarinen wrote:
+> Kasan reported the following in my system:
 > 
-> These 2 properties are required for CMDQ secure driver.
+> [ 3935.321003] ==================================================================
+> [ 3935.321022] BUG: KASAN: slab-use-after-free in drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+> [ 3935.321124] Read of size 1 at addr ffff88818a6f8009 by task kworker/u16:3/5268
 > 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> [ 3935.321124] CPU: 7 PID: 5268 Comm: kworker/u16:3 Not tainted 6.6.0-rc2+ #1
+> [ 3935.321124] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+> [ 3935.321124] Workqueue: events_unbound commit_work [drm_kms_helper]
+> [ 3935.321124] Call Trace:
+> [ 3935.321124]  <TASK>
+> [ 3935.321124]  dump_stack_lvl+0x43/0x60
+> [ 3935.321124]  print_report+0xcf/0x660
+> [ 3935.321124]  ? remove_entity_load_avg+0xdc/0x100
+> [ 3935.321124]  ? __virt_addr_valid+0xd9/0x160
+> [ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+> [ 3935.321124]  kasan_report+0xda/0x110
+> [ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+> [ 3935.321124]  drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
+> [ 3935.321124]  ? __pfx_drm_atomic_helper_wait_for_vblanks.part.0+0x10/0x10 [drm_kms_helper]
+> [ 3935.321124]  ? complete_all+0x48/0x100
+> [ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x19/0x40
+> [ 3935.321124]  ? preempt_count_sub+0x14/0xc0
+> [ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x23/0x40
+> [ 3935.321124]  ? drm_atomic_helper_commit_hw_done+0x1ac/0x240 [drm_kms_helper]
+> [ 3935.321124]  drm_atomic_helper_commit_tail+0x82/0x90 [drm_kms_helper]
+> [ 3935.321124]  commit_tail+0x15c/0x1d0 [drm_kms_helper]
+> [ 3935.323185]  process_one_work+0x31a/0x610
+> [ 3935.323185]  worker_thread+0x38e/0x5f0
+> [ 3935.323185]  ? __pfx_worker_thread+0x10/0x10
+> [ 3935.323185]  kthread+0x184/0x1c0
+> [ 3935.323185]  ? __pfx_kthread+0x10/0x10
+> [ 3935.323185]  ret_from_fork+0x30/0x50
+> [ 3935.323185]  ? __pfx_kthread+0x10/0x10
+> [ 3935.323185]  ret_from_fork_asm+0x1b/0x30
+> [ 3935.323185]  </TASK>
+> 
+> [ 3935.323185] Allocated by task 3751:
+> [ 3935.323185]  kasan_save_stack+0x2f/0x50
+> [ 3935.323185]  kasan_set_track+0x21/0x30
+> [ 3935.323185]  __kasan_kmalloc+0xa6/0xb0
+> [ 3935.323185]  drm_atomic_helper_crtc_duplicate_state+0x42/0x70 [drm_kms_helper]
+> [ 3935.323185]  drm_atomic_get_crtc_state+0xc3/0x1e0 [drm]
+> [ 3935.323185]  page_flip_common+0x42/0x160 [drm_kms_helper]
+> [ 3935.323185]  drm_atomic_helper_page_flip+0x6b/0xf0 [drm_kms_helper]
+> [ 3935.323185]  drm_mode_page_flip_ioctl+0x8ad/0x900 [drm]
+> [ 3935.323185]  drm_ioctl_kernel+0x169/0x240 [drm]
+> [ 3935.323185]  drm_ioctl+0x399/0x6b0 [drm]
+> [ 3935.324772]  __x64_sys_ioctl+0xc5/0x100
+> [ 3935.324772]  do_syscall_64+0x5b/0xc0
+> [ 3935.324772]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+> 
+> [ 3935.324772] Freed by task 3751:
+> [ 3935.324772]  kasan_save_stack+0x2f/0x50
+> [ 3935.324772]  kasan_set_track+0x21/0x30
+> [ 3935.324772]  kasan_save_free_info+0x27/0x40
+> [ 3935.324772]  ____kasan_slab_free+0x166/0x1c0
+> [ 3935.324772]  slab_free_freelist_hook+0x9f/0x1e0
+> [ 3935.324772]  __kmem_cache_free+0x187/0x2d0
+> [ 3935.324772]  drm_atomic_state_default_clear+0x226/0x5e0 [drm]
+> [ 3935.324772]  __drm_atomic_state_free+0xc8/0x130 [drm]
+> [ 3935.324772]  drm_atomic_helper_update_plane+0x17d/0x1b0 [drm_kms_helper]
+> [ 3935.324772]  drm_mode_cursor_universal+0x2a4/0x4d0 [drm]
+> [ 3935.324772]  drm_mode_cursor_common+0x1cf/0x430 [drm]
+> [ 3935.324772]  drm_mode_cursor_ioctl+0xc6/0x100 [drm]
+> [ 3935.326167]  drm_ioctl_kernel+0x169/0x240 [drm]
+> [ 3935.326167]  drm_ioctl+0x399/0x6b0 [drm]
+> [ 3935.326614]  __x64_sys_ioctl+0xc5/0x100
+> [ 3935.326614]  do_syscall_64+0x5b/0xc0
+> [ 3935.326614]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+> 
+> [ 3935.326614] The buggy address belongs to the object at ffff88818a6f8000
+>                 which belongs to the cache kmalloc-512 of size 512
+> [ 3935.326614] The buggy address is located 9 bytes inside of
+>                 freed 512-byte region [ffff88818a6f8000, ffff88818a6f8200)
+> 
+> [ 3935.326614] The buggy address belongs to the physical page:
+> [ 3935.326614] page:00000000b0fb0816 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x18a6f8
+> [ 3935.326614] head:00000000b0fb0816 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> [ 3935.326614] anon flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
+> [ 3935.326614] page_type: 0xffffffff()
+> [ 3935.326614] raw: 0017ffffc0000840 ffff888100042c80 0000000000000000 dead000000000001
+> [ 3935.326614] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+> [ 3935.326614] page dumped because: kasan: bad access detected
+> 
+> [ 3935.326614] Memory state around the buggy address:
+> [ 3935.326614]  ffff88818a6f7f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> [ 3935.326614]  ffff88818a6f7f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> [ 3935.326614] >ffff88818a6f8000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [ 3935.326772]                       ^
+> [ 3935.326772]  ffff88818a6f8080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [ 3935.326772]  ffff88818a6f8100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> [ 3935.326772] ==================================================================
+> 
+> This suggest there may be some situation where a
+> struct drm_crtc_state is referenced after already
+> being freed by drm_atomic_state_default_clear. This
+> patch will check the new_crtc_state is not null before
+> using it.
+> 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 > ---
->  .../mailbox/mediatek,gce-mailbox.yaml         | 30 +++++++++++++++----
->  1 file changed, 24 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> index cef9d7601398..5c9aebe83d2d 100644
-> --- a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
-> @@ -49,6 +49,21 @@ properties:
->      items:
->        - const: gce
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 292e38eb6218..cc75d387a542 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1647,7 +1647,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+>  		return;
 >  
-> +  mboxes:
-> +    description:
-> +      A mailbox channel used as a secure irq handler in normal world.
-> +      Using mailbox to communicate with GCE to setup looping thread,
-> +      it should have this property and a phandle, mailbox specifiers.
-
-All cases of 'mboxes' have a phandle and specifiers. No need to repeat 
-that here.
-
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-
-Already has a type definition too. You need to define how many entries 
-and what each entry is if more than one. IOW, the same thing as clocks, 
-resets, interrupts, etc.
-
-> +
-> +  mediatek,gce-events:
-
-This is used all over. It really needs a single definition which is then 
-referenced by the users.
-
-> +    description:
-> +      The event id which is mapping to a software event signal to gce.
-> +      It is used as a secure irq for every secure gce threads.
-> +      The event id is defined in the gce header
-> +      include/dt-bindings/mailbox/mediatek,<chip>-gce.h of each chips.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
->  required:
->    - compatible
->    - "#mbox-cells"
-> @@ -71,20 +86,23 @@ additionalProperties: false
+>  	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
+> -		if (!new_crtc_state->active)
+> +		if (new_crtc_state && !new_crtc_state->active)
+>  			continue;
 >  
->  examples:
->    - |
-> -    #include <dt-bindings/clock/mt8173-clk.h>
-> +    #include <dt-bindings/clock/mediatek,mt8188-clk.h>
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/mailbox/mediatek,mt8188-gce.h>
->  
->      soc {
->          #address-cells = <2>;
->          #size-cells = <2>;
->  
-> -        gce: mailbox@10212000 {
-> -            compatible = "mediatek,mt8173-gce";
-> -            reg = <0 0x10212000 0 0x1000>;
-> -            interrupts = <GIC_SPI 135 IRQ_TYPE_LEVEL_LOW>;
-> +        gce0: mailbox@10320000 {
-> +            compatible = "mediatek,mt8188-gce";
+>  		ret = drm_crtc_vblank_get(crtc);
 
-Are these new properties only for mt8188? If so, then you need a schema 
-saying that. If not, then this is an unnecessary change to the example.
+I'm not quite seeing the connection between this change and the KASAN report.
 
-> +            reg = <0 0x10320000 0 0x4000>;
-> +            interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH 0>;
->              #mbox-cells = <2>;
-> -            clocks = <&infracfg CLK_INFRA_GCE>;
-> +            clocks = <&infracfg_ao CLK_INFRA_AO_GCE>;
->              clock-names = "gce";
-> +            mboxes = <&gce0 15 CMDQ_THR_PRIO_1>;
+If new_crtc_state was NULL, I would have expected a normal NULL pointer dereference oops, not a KASAN report.
 
-The provider is also a consumer?
+The KASAN report instead indicates that new_crtc_state isn't NULL, but points to memory which has already been freed. This could be e.g. due to incorrect reference counting somewhere else.
 
-> +            mediatek,gce-events = <CMDQ_SYNC_TOKEN_SECURE_THR_EOF>;
->          };
->      };
-> -- 
-> 2.18.0
-> 
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
