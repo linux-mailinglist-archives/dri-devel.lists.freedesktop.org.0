@@ -1,50 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588527A7520
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 10:01:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110E77A751F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 10:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C9C10E447;
-	Wed, 20 Sep 2023 08:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E50010E036;
+	Wed, 20 Sep 2023 08:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1800 seconds by postgrey-1.36 at gabe;
- Tue, 19 Sep 2023 11:51:49 UTC
-Received: from 17.mo584.mail-out.ovh.net (17.mo584.mail-out.ovh.net
- [46.105.41.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 896D010E10F
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 11:51:49 +0000 (UTC)
-Received: from director7.ghost.mail-out.ovh.net (unknown [10.109.143.24])
- by mo584.mail-out.ovh.net (Postfix) with ESMTP id F168D23B76
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 11:12:12 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-ql8wh (unknown [10.110.208.79])
- by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 23DBF1FEAC;
- Tue, 19 Sep 2023 11:12:12 +0000 (UTC)
-Received: from RCM-web1.webmail.mail.ovh.net ([176.31.238.120])
- by ghost-submission-6684bf9d7b-ql8wh with ESMTPSA
- id LpbEBgyCCWVJ7wcANQvNOQ
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 19 Sep 2023 11:12:12 +0000
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBC8510E273
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 13:35:25 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id CFB7D5C01A1;
+ Tue, 19 Sep 2023 09:35:24 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute5.internal (MEProxy); Tue, 19 Sep 2023 09:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=cc:cc:content-type:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1695130524; x=
+ 1695216924; bh=bzYopflC5Ycg8A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=G
+ xkvsvm1Lv3PVPu/1d0UOhoBRpcl6vGaXwglXl7zL/K2X4XwXEcu26QIVR96ZqJ9D
+ ve09wgF21jfWJmXoRdEVt4GRq+wP8NEDQhF+bnIBsehFnzxw1gDCoxOeXNfsEctx
+ dsDNbVOkNYx93GJzeQJLRdOI1t5vszmAOJnXyILewQu/uD2AiEqSii94BQd4l97M
+ bFlGX6j0M1nit11hzi2d52OMqb2LU7a+1HhvpyvwYmsfxwbkLpzqs7B6VtPFqNzn
+ P+cM6CdSyPmT5RFV8aAuhSW0fZ3WZqfVQwqqEjYERFarlYudYxv6vyRj3Yvv477d
+ 0ZXUhUYSwKh+niWI9+Kow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1695130524; x=1695216924; bh=bzYopflC5Ycg8
+ A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=cJ40j89MtlxPv1P76qx03WptbAU0Y
+ N1XDGCPeqOJ+a+vXaaujdtlx2+ahVGHk1BuhjHklocmR6jgySY+AtophrMYRUTaZ
+ 1l48dPYYaHWmH+0dKwI6+toRv1FwmMDchseSCaqqavhEAt14mrhsWoOpocM16XN0
+ +yhL3h2SDsGVt4lZ496YIi6UcOKCeRg1PHd1F31zKPHbLO1Vc9XQel+QPZqvExZm
+ EQwN00GMvYFHicAGxbYTNEU2Bz5nopZ44sPybpkcZQmk0rXPbkbEoJ9eQ9BtlAxq
+ 2GXV5V5yAE4roHzux5EVGepdzDWWZuKfmdNGvKdIAPy9wNvMrI54cAkAA==
+X-ME-Sender: <xms:m6MJZeYPlnBDGfO9EiuXstpqZbWk8fH-neCoq2pQXg1LBVz7MVpoYQ>
+ <xme:m6MJZRaFKyZX62E7ATL4RRdobt_AbADJtLsolBlpya6eHc1mrOtyPvhwZC3Z6gEel
+ tFWq9FbO5p8htHy6oY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgfeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+ vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+ grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+ ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:m6MJZY_GwRUhftXlMxJCw9Rv6bQwZ82is_lAZf-TKrplb4vS0jHQrA>
+ <xmx:m6MJZQpxna4jNlTNejkmH80f-rv4cqSCu4syUY6nzphWXsb3uwRQ0Q>
+ <xmx:m6MJZZrhE-qHyacNyyye8opYDn8qgylQyWjL5D1DjksUzl8hLjTzzg>
+ <xmx:nKMJZSA0wjtME7UWU_7b4iBqgE-CqN8PVX8G9dgEPNlQhHa6DoT0wA>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 93789A60077; Tue, 19 Sep 2023 09:35:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
 MIME-Version: 1.0
-Date: Tue, 19 Sep 2023 14:12:11 +0300
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: airlied@redhat.com, kraxel@redhat.com, skhan@linuxfoundation.org
-Subject: Re: [PATCH] drm/virtio: clean out_fence on complete_submit
-In-Reply-To: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
-References: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <36155537ca2f99762bde8bf23b3eb45f@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 185.220.102.251
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 9370864926515504806
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeggfffhvfevufgjfhgfkfigohhitgfgsehtkehjtddtreejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepkefhgeduudefgedvleegtddvffeghedvtdekveekjeevvdegiedtfeelhedtiedtnecukfhppeduvdejrddtrddtrddupddukeehrddvvddtrddutddvrddvhedupddujeeirdefuddrvdefkedruddvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkeegpdhmohguvgepshhmthhpohhuth
+Message-Id: <c6dd2daf-f833-4c2f-9a67-640fb2c424fc@app.fastmail.com>
+In-Reply-To: <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
+References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
+ <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
+Date: Tue, 19 Sep 2023 15:34:56 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Janne Grunau" <j@jannau.net>, 
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
+Content-Type: text/plain
 X-Mailman-Approved-At: Wed, 20 Sep 2023 08:01:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,77 +87,46 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, gurchetansingh@chromium.org,
- linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-09-12 09:08, José Pekkarinen wrote:
-> The removed line prevents the following cleanup function
-> to execute a dma_fence_put on the out_fence to free its
-> memory, producing the following output in kmemleak:
-> 
-> unreferenced object 0xffff888126d8ee00 (size 128):
->   comm "kwin_wayland", pid 981, jiffies 4295380296 (age 390.060s)
->   hex dump (first 32 bytes):
->     c8 a1 c2 27 81 88 ff ff e0 14 a9 c0 ff ff ff ff  ...'............
->     30 1a e1 2e a6 00 00 00 28 fc 5b 17 81 88 ff ff  0.......(.[.....
->   backtrace:
->     [<0000000011655661>] kmalloc_trace+0x26/0xa0
->     [<0000000055f15b82>] virtio_gpu_fence_alloc+0x47/0xc0 [virtio_gpu]
->     [<00000000fa6d96f9>] virtio_gpu_execbuffer_ioctl+0x1a8/0x800 
-> [virtio_gpu]
->     [<00000000e6cb5105>] drm_ioctl_kernel+0x169/0x240 [drm]
->     [<000000005ad33e27>] drm_ioctl+0x399/0x6b0 [drm]
->     [<00000000a19dbf65>] __x64_sys_ioctl+0xc5/0x100
->     [<0000000011fa801e>] do_syscall_64+0x5b/0xc0
->     [<0000000065c76d8a>] entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> unreferenced object 0xffff888121930500 (size 128):
->   comm "kwin_wayland", pid 981, jiffies 4295380313 (age 390.096s)
->   hex dump (first 32 bytes):
->     c8 a1 c2 27 81 88 ff ff e0 14 a9 c0 ff ff ff ff  ...'............
->     f9 ec d7 2f a6 00 00 00 28 fc 5b 17 81 88 ff ff  .../....(.[.....
->   backtrace:
->     [<0000000011655661>] kmalloc_trace+0x26/0xa0
->     [<0000000055f15b82>] virtio_gpu_fence_alloc+0x47/0xc0 [virtio_gpu]
->     [<00000000fa6d96f9>] virtio_gpu_execbuffer_ioctl+0x1a8/0x800 
-> [virtio_gpu]
->     [<00000000e6cb5105>] drm_ioctl_kernel+0x169/0x240 [drm]
->     [<000000005ad33e27>] drm_ioctl+0x399/0x6b0 [drm]
->     [<00000000a19dbf65>] __x64_sys_ioctl+0xc5/0x100
->     [<0000000011fa801e>] do_syscall_64+0x5b/0xc0
->     [<0000000065c76d8a>] entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> [...]
-> 
-> This memleak will grow quickly, being possible to see the
-> following line in dmesg after few minutes of life in the
-> virtual machine:
-> 
-> [  706.217388] kmemleak: 10731 new suspected memory leaks (see
-> /sys/kernel/debug/kmemleak)
-> 
-> The patch will remove the line to allow the cleanup
-> function do its job.
-> 
-> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> index 3c00135ead45..5c514946bbad 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -361,7 +361,6 @@ static void virtio_gpu_complete_submit(struct
-> virtio_gpu_submit *submit)
->  	submit->buf = NULL;
->  	submit->buflist = NULL;
->  	submit->sync_file = NULL;
-> -	submit->out_fence = NULL;
->  	submit->out_fence_fd = -1;
->  }
+Hi,
 
-     Ping.
 
-     José.
+On Mon, Sep 18, 2023, at 09:11, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
+>> From: Janne Grunau <j@jannau.net>
+>> 
+>> Multiple power domains need to be handled explicitly in each driver. The
+>> driver core can not handle it automatically since it is not aware of
+>> power sequencing requirements the hardware might have. This is not a
+>> problem for simpledrm since everything is expected to be powered on by
+>> the bootloader. simpledrm has just ensure it remains powered on during
+>> its lifetime.
+>> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+>> systems. The HDMI output initialized by the bootloader requires keeping
+>> the display controller and a DP phy power domain on.
+>> 
+>> Signed-off-by: Janne Grunau <j@jannau.net>
+>
+> As a simpledrm patch:
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Do you want to wait for another review from  someone with 
+> power-management expertise?
+
+I can't claim to have a lot of genpd experience but we use very similar
+code in a few other M1/M2 drivers that also require multiple power domains
+to be up without any sequencing constraints. So for whatever it's worth:
+
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+
+
+Best,
+
+
+Sven
