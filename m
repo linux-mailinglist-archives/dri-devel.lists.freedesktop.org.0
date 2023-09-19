@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBD67A6B4B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 21:15:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7D17A6BC3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 21:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE0E10E15A;
-	Tue, 19 Sep 2023 19:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D91AA10E2AC;
+	Tue, 19 Sep 2023 19:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6576110E15A;
- Tue, 19 Sep 2023 19:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=mtuH2w3GgKbuTZlNeOSy72cGHogSsKnbkktpBiLKKzQ=; b=WPBKNjv+cN0N06hRNxRWfKuikF
- MeTj9F0doLhLJAMbL+0JKSgbX02n3Z4uzWUTW8pymxXwNYU+JrbYNhNK3KBCfea85Sleu4J1qv2s7
- +7q6WEFM3IFN1rz1pchFHlt/Rxl7wimI5+hxLjAAkU0dcuvuoy86DNOc1I56vK7DVpg97On1atJWo
- JTJ+a40iN4Av25ZvSc8CG9k+3m38X6LgUOT9W2xV6wQisahd88K4lCnTTBHLKMH3hMJLsOZQ69j2m
- QM/CP6tFYeVy2e84YyZ+7KsyHj5s45XNqG9NHNTCHERay5zlmU1EdfakUC5d8HKCRMqbIEBoVpZWl
- u6IffTNA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qigBt-001KcU-F0; Tue, 19 Sep 2023 19:15:21 +0000
-Date: Tue, 19 Sep 2023 20:15:21 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [REGRESSION] [BISECTED] Panic in gen8_ggtt_insert_entries() with
- v6.5
-Message-ID: <ZQnzSQzspy6kejo4@casper.infradead.org>
-References: <4857570.31r3eYUQgx@natalenko.name>
- <6287208.lOV4Wx5bFT@natalenko.name>
- <ZQnBrLCPnZfG0A1s@casper.infradead.org>
- <2554845.iZASKD2KPV@natalenko.name>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E82DB10E29E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 19:49:08 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-4051039701eso1175e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 12:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1695152947; x=1695757747;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/YB5lVTEo2oIGM22JEX9SYzDoyZreOUPzeoeG//8zcw=;
+ b=kxzD+OjZZT8ygFUCyOfA3Ak0uU4T3Itu7oSwDwdn0P92ZzC2e/HnL/iTLpG7bE/U2+
+ 3UICYJwTcjU0hehOQkhwTd0mp29Iif0juDNbXHQfbrfxZfPSe2Jn/jE0AyeGsthG8Nc8
+ Yvb+CkNdeprQ5B8R0OnGFwngNjLW3jNjbc6JSpI4084DHNT2uyZ1l1dxwdzVTfz5x0DH
+ Thfn4kqYaQDJdo5O6nX7qW4G5DI8SXlAKAJTMfnzRDgJFtoI4dojND/IdcRW5LetBLWa
+ ziNa1yuExABnBgp6jYjs7OKMhWqSsByabh05lKqV23QQXj5sBEGcal92L8tcjsIx1xJR
+ 4DHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695152947; x=1695757747;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/YB5lVTEo2oIGM22JEX9SYzDoyZreOUPzeoeG//8zcw=;
+ b=Wp+NoNFnog6sCAvJCcF7sOEjtsG9lVny+X1TZrzhIm091QbKa7P6IPyDW3H6pTZs1d
+ 7ga14y6goxcKo3fXfvGxcYGgvNMydGpeFf/9AlN6cfIcPdPp3Iyjmz3jBpOEyveYsvUn
+ UQWgFyFRr2MYxSiDOnV4o36tiXSCAsAMhW8UunJwHj8RAHme/pwQYEA2y1al/QFw9vjW
+ Ig77FvsLoYhohiOkAukAx+QblAW+LRk2U0H5X6Wz7glo6rOeYF5Lq4rN7VizEeNC1sn8
+ zfidW+qswvUbTAR47RaWrfh0rDIiPiscKVx2lvN3SxDCwsXZ2eoKQE+CuwmbZqljLDIj
+ lurA==
+X-Gm-Message-State: AOJu0YwifAPyI7Gfkcovq4So5iXlQYalwU+BaaQGs+E5q70LQcNlhiUl
+ 9nnBkTzMkNBgYi9okaUnndpDCLmZFP+WwfDfOPP6yg==
+X-Google-Smtp-Source: AGHT+IEeHVmf20rC/G4IyqVK9B1XveSpZx9ksqGyeNUYQvj6A7jFxrBpFhywFsvx1XPrY0bCbW2fPEHPrYz5CNEv4jo=
+X-Received: by 2002:a05:600c:1d06:b0:3fe:d691:7d63 with SMTP id
+ l6-20020a05600c1d0600b003fed6917d63mr16494wms.6.1695152947216; Tue, 19 Sep
+ 2023 12:49:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2554845.iZASKD2KPV@natalenko.name>
+References: <20230911-kms-slow-tests-v1-0-d3800a69a1a1@kernel.org>
+ <20230911-kms-slow-tests-v1-1-d3800a69a1a1@kernel.org>
+In-Reply-To: <20230911-kms-slow-tests-v1-1-d3800a69a1a1@kernel.org>
+From: Rae Moar <rmoar@google.com>
+Date: Tue, 19 Sep 2023 15:48:55 -0400
+Message-ID: <CA+GJov6sQMmEiTQ7cupyC2cx-aWvV7M6ki4W8naEHyA8tbSbdg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kunit: Warn if tests are slow
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,44 +70,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Nathan Chancellor <nathan@kernel.org>, linux-mm@kvack.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Fei Yang <fei.yang@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Brendan Higgins <brendan.higgins@linux.dev>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 19, 2023 at 08:11:47PM +0200, Oleksandr Natalenko wrote:
-> I can confirm this one fixes the issue for me on T460s laptop. Thank you!
+On Mon, Sep 11, 2023 at 5:51=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Kunit recently gained support to setup attributes, the first one being
+> the speed of a given test, then allowing to filter out slow tests.
+>
+> A slow test is defined in the documentation as taking more than one
+> second. There's an another speed attribute called "super slow" but whose
+> definition is less clear.
+>
+> Add support to the test runner to check the test execution time, and
+> report tests that should be marked as slow but aren't.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Yay!
+Hi!
 
-> Should you submit it, please add:
-> 
-> Fixes: 0b62af28f2 ("i915: convert shmem_sg_free_table() to use a folio_batch")
+I like this idea especially if it was helpful in identifying slow
+tests already! I have a few thoughts on this. I share Jani's concern
+for warning all tests on slow machines. I can think of a few options.
 
-Thanks for collecting all these; you're making my life really easy.
-One minor point is that the standard format for Fixes: is 12 characters,
-not 10.  eg,
+First, we could increase the threshold to about 2s even though that
+would eliminate warnings on potentially slow tests. However, this
+would point out the slowest tests.
 
-Documentation/process/5.Posting.rst:    Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
+Second, we could change this to warn users only when they choose by
+making this a configurable option or making this a script to output a
+list of all unmarked slow tests.
 
-I have this in my .gitconfig:
+Third, we could leave this as is. As the KUnit warnings do not show up
+in the kunit.py output and do not cause the test to fail in any way
+they are relatively harmless if they are unwanted by the user.
 
-[pretty]
-        fixes = Fixes: %h (\"%s\")
+Not quite sure which I prefer? The second option might be the cleanest
+for the user and the time threshold could even be customizable. Let me
+know what you think.
 
-and in .git/config,
+> ---
+>  lib/kunit/test.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+> index 49698a168437..a3b924501f3d 100644
+> --- a/lib/kunit/test.c
+> +++ b/lib/kunit/test.c
+> @@ -379,6 +379,9 @@ static void kunit_run_case_internal(struct kunit *tes=
+t,
+>                                     struct kunit_suite *suite,
+>                                     struct kunit_case *test_case)
+>  {
+> +       struct timespec64 start, end;
+> +       struct timespec64 duration;
+> +
+>         if (suite->init) {
+>                 int ret;
+>
+> @@ -390,7 +393,20 @@ static void kunit_run_case_internal(struct kunit *te=
+st,
+>                 }
+>         }
+>
+> +       ktime_get_ts64(&start);
+> +
+>         test_case->run_case(test);
+> +
+> +       ktime_get_ts64(&end);
+> +
+> +       duration =3D timespec64_sub(end, start);
+> +
+> +       if (duration.tv_sec >=3D 1 &&
+> +           (test_case->attr.speed =3D=3D KUNIT_SPEED_UNSET ||
+> +            test_case->attr.speed >=3D KUNIT_SPEED_NORMAL))
+> +               kunit_warn(test,
+> +                          "Test should be marked slow (runtime: %lld.%09=
+lds)",
+> +                          duration.tv_sec, duration.tv_nsec);
 
-[core]
-        abbrev = 12
+I would consider moving this if statement into a separate function.
 
-I'm working on the commit message now.
+>  }
+>
+>  static void kunit_case_internal_cleanup(struct kunit *test)
+>
+> --
+> 2.41.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kunit-dev/20230911-kms-slow-tests-v1-1-d3800a69a1a1%40kernel.org.
