@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0ED37A6081
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 13:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74527A6091
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 13:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB2C10E109;
-	Tue, 19 Sep 2023 11:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A8810E39E;
+	Tue, 19 Sep 2023 11:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02A3410E109
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 11:02:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695121353; x=1726657353;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=uELnytT+CuvLOJY3ZLfkVdcq80klKvGzS1iwGb1zs7A=;
- b=ILXCxyhqmPluZn6tNm2lpLQCWD7/+bl643Ji7Z3KuN8NUfNEF9eDxaFp
- TxBuAhVl+eIpZJkJ/2cUx5R6kFOmGfXix+l6zjwb5ikm+ZrV82NBwCRSN
- 6GaeBCfU1wQ7C5TX6ua8DXEyg0U8S+FdXrYrRh5Uo5ztzT5gRUayQ3B1E
- mOAKD4vLFO8O9nN4ZeINWbtK1KHH5kWWlvAHrQH2FJkK8hwWH5A26zSh5
- uh+StVbrzkXy42JfAdnVI0kMQTFcLsEEnSVSXEysAGkQNZ7aIPkNEh7Yt
- Y1xeY64sdyoUQgxbPZur1vxHFnsGkrXJ8p14txxlbXId4EQWuqzPwvULd Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="370229177"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="370229177"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 04:02:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="919830091"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="919830091"
-Received: from tjquresh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.37.227])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 04:02:20 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
- audio detection
-In-Reply-To: <CAGXv+5GJxEobJKKWuc_UN+Gf_z8g6eb6KWTz-L+RqtyLYKK3Jg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD24510E39B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 11:04:29 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-50300e9e75bso4918962e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 04:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1695121468; x=1695726268;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cnnQ3s+GwRKjZuujvx+iDfiO0JJCCFMA1JGV0fiu7C8=;
+ b=U9bP7chxlljG8OgXHhLgnqFX0IT9ooFhlqUOtdXbXdLmoEBOCrGLcmgPOhQfZyQBmR
+ Z6kl/xr0QG0EUprHC7+hO9/qsjxSqxkruxUsmt7nszOXR2RXtYGRKD+5jfDJ965rtZbd
+ TVfmyf9FQD5l9nOT8RXDyXMXXndWL5EH5u/CA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695121468; x=1695726268;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cnnQ3s+GwRKjZuujvx+iDfiO0JJCCFMA1JGV0fiu7C8=;
+ b=NjUA1j3kLamBFN9oROP2kKyNDXy5K5KA3/E/S9On2Ljrc2MFoJ2ETjv3kgHIKe6r/N
+ tDpEq7LDr5PCQOHau9P+pgRVwSWlQODtXIdHR2cf/dHF+yMkylgsRbycWg8GptWwyOJT
+ NBM2IdfvK8cnm6PaVwlHwX2tMWQrx2Q84AtClmFJvYCXaUp65XUSVZc/BqKIKBlsVhnL
+ 5uo0FvkIrKyzzA6wKCdC2VnQFHkneDZW0Hd3N7bXrzhiyFA8wdz0MswgOdURKfliZyuG
+ 9pBwjN1fCXRvdTMIQ8fa1WWTJUZ5fCwmDPANEAplfvezsrFNA4zFjHpWF2h4O2O3jRWG
+ RVeg==
+X-Gm-Message-State: AOJu0Yy3+19W49dyVu0higlWJMNpilKGUa5050mtGvbGZ2wYc/fEE3Uv
+ WPCtHeopufJ79kgjAnZC8yJagTDFn1ArLaOoFt8z/Q==
+X-Google-Smtp-Source: AGHT+IGcV1dfcbMagRfMyNyQcnzYkHiXYtQedB3yY9VjknrAYCXYI60T/bUj3J0z+oKX3RZLt4u29SWWXZup/QVezkM=
+X-Received: by 2002:a05:6512:312d:b0:4ff:9aaa:6e3e with SMTP id
+ p13-20020a056512312d00b004ff9aaa6e3emr8647917lfd.41.1695121467746; Tue, 19
+ Sep 2023 04:04:27 -0700 (PDT)
+MIME-Version: 1.0
 References: <20230914131058.2472260-1-jani.nikula@intel.com>
  <20230914155317.2511876-1-jani.nikula@intel.com>
  <CAGXv+5GJxEobJKKWuc_UN+Gf_z8g6eb6KWTz-L+RqtyLYKK3Jg@mail.gmail.com>
-Date: Tue, 19 Sep 2023 14:02:18 +0300
-Message-ID: <87cyyetohx.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ <87cyyetohx.fsf@intel.com>
+In-Reply-To: <87cyyetohx.fsf@intel.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 19 Sep 2023 19:04:16 +0800
+Message-ID: <CAGXv+5FvmwMW+bxJ9d_ULbOJA9qpd-vybn0VyE5iyQLHCET1=A@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek/dp: fix memory leak on ->get_edid callback
+ audio detection
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,37 +81,39 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
-> On Thu, Sep 14, 2023 at 11:53=E2=80=AFPM Jani Nikula <jani.nikula@intel.c=
-om> wrote:
->>
->> The sads returned by drm_edid_to_sad() needs to be freed.
->>
->> Fixes: e71a8ebbe086 ("drm/mediatek: dp: Audio support for MT8195")
->> Cc: Guillaume Ranquet <granquet@baylibre.com>
->> Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
->> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> Cc: Matthias Brugger <matthias.bgg@gmail.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-mediatek@lists.infradead.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: <stable@vger.kernel.org> # v6.1+
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Tue, Sep 19, 2023 at 7:02=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
 >
-> Looks correct to me.
+> On Fri, 15 Sep 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> > On Thu, Sep 14, 2023 at 11:53=E2=80=AFPM Jani Nikula <jani.nikula@intel=
+.com> wrote:
+> >>
+> >> The sads returned by drm_edid_to_sad() needs to be freed.
+> >>
+> >> Fixes: e71a8ebbe086 ("drm/mediatek: dp: Audio support for MT8195")
+> >> Cc: Guillaume Ranquet <granquet@baylibre.com>
+> >> Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.co=
+m>
+> >> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> >> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> >> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> >> Cc: dri-devel@lists.freedesktop.org
+> >> Cc: linux-mediatek@lists.infradead.org
+> >> Cc: linux-kernel@vger.kernel.org
+> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> Cc: <stable@vger.kernel.org> # v6.1+
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >
+> > Looks correct to me.
+> >
+> > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 >
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Thanks for the reviews Chen-Yu and Guillaume. Will you push this to
+> drm-misc-next or shall I?
 
-Thanks for the reviews Chen-Yu and Guillaume. Will you push this to
-drm-misc-next or shall I?
+Patches for the MediaTek drm driver go through their own separate tree,
+maintained by CK (Chun-Kuang).
 
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+ChenYu
