@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D090A7A62D4
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 14:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACF37A6356
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 14:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22CA10E3B2;
-	Tue, 19 Sep 2023 12:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B74E10E3BA;
+	Tue, 19 Sep 2023 12:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCC410E3B2;
- Tue, 19 Sep 2023 12:26:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E9310E3B5;
+ Tue, 19 Sep 2023 12:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695126387; x=1726662387;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=socAqtYmLc8UH92sXDVRlaPEWdFRJv5zG558q7u/pe8=;
- b=Ns1SL58WcZ0x9Hw2ppEQLHCDmm7VGLfJVzDLUov7PYBcfJO8X+kfjZ4C
- xR5P9ETFIEbNOoOkIhTu1X5mGN9ZugCUlAfdf0vFjmPOkJgu03VIXheYU
- g1TTVAPHYHZQF7vKErJUTr/BqD5QdONmAFdd7dBQKOouVfL9ZTqqIwXdr
- CuFrwUXyBtvXYYadhTeXD/eGA2Fnor6pbd4iKN25pS8CDKdoKNZhB82zf
- hJB6+po6TkD+mjgWl5pZ7jwYfkQrRh0lCIRmLHvJnWhRTpCYfTHWXmA7j
- QwtARHJur8gQ85XZXMIuiL2K/RGR1GMSnxfmnnxR+L+ekD8SahVfoVepb w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="382677186"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="382677186"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 05:26:14 -0700
+ t=1695127361; x=1726663361;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vBKQwdegdCh2J7T7Rwh8O/CTG5o6wANbnNbVpQVFRWk=;
+ b=MxKzW0S62ks1KNFNV5cueopIq/2sjw44yyrEyIKex9ZWSxCUe9UcAuXD
+ IadZEjIEl17RyK4uxo1cXKW15OuJI2nTD6K3+8OXK9YbJmek/rt98ocfs
+ GCEa60jaZAQL+7gsw+QG14AG/7DsO8aL/UvUy9pqLvDI2i1NO0Oa//Tn0
+ EsSxba2sodnNCwXTg22uhxsCAJXo29NrfOikCtDxD77z6Wwnoe8mZGE7z
+ dDh/sJUBd3mvFptL7Gu+pzHSRBrSogcQjG3e60SS6qRV3pVJWGhSywsQ6
+ rezcjYusIHdRKmvSvijSjBUvRFqrKuUNyS9vzTpindNkQSP78TaME/ROu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="410858823"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="410858823"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2023 05:42:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="775528664"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="775528664"
-Received: from tjquresh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.37.227])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 05:26:11 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 2/4] drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus
- and panel size on Lenovo Yoga Tablet 2 series (v2)
-In-Reply-To: <20230916125455.237325-3-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230916125455.237325-1-hdegoede@redhat.com>
- <20230916125455.237325-3-hdegoede@redhat.com>
-Date: Tue, 19 Sep 2023 15:26:09 +0300
-Message-ID: <874jjqtkm6.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="722859934"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="722859934"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.8.52])
+ ([10.213.8.52])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2023 05:42:36 -0700
+Message-ID: <db23e7bf-eb94-8f74-ca45-340b9a9db278@intel.com>
+Date: Tue, 19 Sep 2023 14:42:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/i915: Fix aux invalidation with proper pipe_control
+ flag
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230919114716.19378-1-nirmoy.das@intel.com>
+Content-Language: en-US
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230919114716.19378-1-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,128 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Sep 2023, Hans de Goede <hdegoede@redhat.com> wrote:
-> On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
+
+
+On 19.09.2023 13:47, Nirmoy Das wrote:
+> The suggestion from the spec is to do l3 fabric flush not L3 flush.
 >
-> 1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
->    which under Linux become bus 0 - 6. And the MIPI sequence reference
->    to bus 3 is indented for I2C3 which is bus 2 under Linux.
->
->    This leads to errors like these:
->    [  178.244049] i2c_designware 80860F41:03: controller timed out
->    [  178.245703] i915 0000:00:02.0: [drm] *ERROR* Failed to xfer payload of size (1) to reg (169)
->    There are 3 timeouts when the panel is on, delaying
->    waking up the screen on a key press by 3 seconds.
->
->    Note mipi_exec_i2c() cannot just subtract 1 from the bus
->    given in the I2C MIPI sequence element. Since on other
->    devices the I2C bus-numbers used in the MIPI sequences do
->    actually start at 0.
->
-> 2. width_/height_mm contain a bogus 192mm x 120mm size. This is
->    especially a problem on the 8" 830 version which uses a 10:16
->    portrait screen where as the bogus size is 16:10.
->
-> Add a DMI quirk to override the I2C bus and the panel size with
-> the correct values.
->
-> Note both the 10" 1050 models as well as the 8" 830 models use the same
-> mainboard and thus the same DMI strings. The 10" 1050 uses a 1920x1200
-> landscape screen, where as the 8" 830 uses a 1200x1920 portrait screen,
-> so the quirk handling uses the display resolution to detect the model.
->
-> Changes in v2:
-> - Also override i2c_bus_num to fix mipi_exec_i2c() timeouts
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before
+> invalidation")
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.8+
+> Cc: Nirmoy Das <nirmoy.das@intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
 > ---
->  drivers/gpu/drm/i915/display/vlv_dsi.c | 50 ++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 6 +++++-
+>   drivers/gpu/drm/i915/gt/intel_gpu_commands.h | 1 +
+>   2 files changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-> index 51c4b1491fa2..e247e3413d90 100644
-> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-> @@ -1765,6 +1765,42 @@ static void vlv_dsi_asus_tf103c_mode_fixup(struct intel_dsi *intel_dsi)
->  		fixed_mode->vtotal -= 4;
->  }
->  
-> +/*
-> + * On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
-> + * 1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
-> + *    which under Linux become bus 0 - 6. And the MIPI sequence reference
-> + *    to bus 3 is indented for I2C3 which is bus 2 under Linux.
-> + *
-> + *    Note mipi_exec_i2c() cannot just subtract 1 from the bus
-> + *    given in the I2C MIPI sequence element. Since on other
-> + *    devices the I2C bus-numbers used in the MIPI sequences do
-> + *    actually start at 0.
-> + *
-> + * 2. width_/height_mm contain a bogus 192mm x 120mm size. This is
-> + *    especially a problem on the 8" 830 version which uses a 10:16
-> + *    portrait screen where as the bogus size is 16:10.
-> + */
-> +static void vlv_dsi_lenovo_yoga_tab2_size_fixup(struct intel_dsi *intel_dsi)
-> +{
-> +	const struct drm_display_mode *fixed_mode =
-> +		intel_panel_preferred_fixed_mode(intel_dsi->attached_connector);
-> +	struct drm_display_info *info = &intel_dsi->attached_connector->base.display_info;
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 0143445dba83..a4b241d502c8 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -272,7 +272,11 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
+>   
+>   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+> -		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+> +		if (mode & EMIT_FLUSH)
+> +			bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+> +		else if (gen12_needs_ccs_aux_inv(engine))
+> +			bit_group_1 |= PIPE_CONTROL_L3_FABRIC_FLUSH;
 > +
-> +	intel_dsi->i2c_bus_num = 2;
-> +
-> +	/*
-> +	 * The 10" 1050 uses a 1920x1200 landscape screen, where as the 8" 830
-> +	 * uses a 1200x1920 portrait screen.
-> +	 */
-> +	if (fixed_mode->hdisplay == 1920) {
-> +		info->width_mm = 216;
-> +		info->height_mm = 135;
-> +	} else {
-> +		info->width_mm = 107;
-> +		info->height_mm = 171;
-> +	}
+>   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+>   		bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+>   		/* Wa_1409600907:tgl,adl-p */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> index 2bd8d98d2110..12e8dc481c53 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> @@ -284,6 +284,7 @@
+>   #define   DISPLAY_PLANE_A           (0<<20)
+>   #define   DISPLAY_PLANE_B           (1<<20)
+>   #define GFX_OP_PIPE_CONTROL(len)	((0x3<<29)|(0x3<<27)|(0x2<<24)|((len)-2))
+> +#define   PIPE_CONTROL_L3_FABRIC_FLUSH			(1<<30)
+>   #define   PIPE_CONTROL_COMMAND_CACHE_INVALIDATE		(1<<29) /* gen11+ */
+>   #define   PIPE_CONTROL_TILE_CACHE_FLUSH			(1<<28) /* gen11+ */
+>   #define   PIPE_CONTROL_FLUSH_L3				(1<<27)
 
-Not a problem here it seems... but generally we should (at drm level)
-separate display info originating from EDID (which will get erased at
-display probe) and display info originating from other channels (which
-should not be erased at display probe).
-
-BR,
-Jani.
-
-
-> +}
-> +
->  static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
->  	{
->  		/* Asus Transformer Pad TF103C */
-> @@ -1774,6 +1810,20 @@ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
->  		},
->  		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
->  	},
-> +	{
-> +		/*
-> +		 * Lenovo Yoga Tablet 2 830F/L or 1050F/L (The 8" and 10"
-> +		 * Lenovo Yoga Tablet 2 use the same mainboard)
-> +		 */
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
-> +			/* Partial match on beginning of BIOS version */
-> +			DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
-> +		},
-> +		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab2_size_fixup,
-> +	},
->  	{ }
->  };
-
--- 
-Jani Nikula, Intel
