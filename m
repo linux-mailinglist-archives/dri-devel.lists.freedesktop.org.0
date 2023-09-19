@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369567A6940
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 18:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2787A69D6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 19:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E079410E1B3;
-	Tue, 19 Sep 2023 16:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB4D710E13A;
+	Tue, 19 Sep 2023 17:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org
- [IPv6:2001:67c:2050:0:465::201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5129810E13B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 16:56:23 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Rqnql53xvz9sqL;
- Tue, 19 Sep 2023 18:56:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1695142579;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VMi5+7ZvzTwfMWgziI09KuaClzuCuTi5rZ6FResnfjI=;
- b=BJxxuTuiJOMSiYUeDmM3bjDc489nXarPKkX2R3CfQvSfuBtti8g2LUBfG15NgiI4Lqtbyg
- Cj/x79QYZJkSYUyDLJiTaflRpB05kvMqxPApVKK15MdhtqJxQ5JgqiUcUTpvEQ81DgHjEN
- m46Sr4Y+uRvFYmkuMoIHR2dV6opa8ifzmFpW8CjlntMuy1HrUQ2yK/U9fzS4+EWmWPP3UI
- mkG92UG6s+e9d7jnRA8fU+u1ZI2EFefQ0JyLgbGMD6vWsWIcD4aBnOE8B8qVYwlgA2jLzN
- WMRRMCu/NCzGmXDkncE5IJTPrYdI6zNBiFPbfvSejZxaGdwYBka5RLcCHr0bCg==
-Message-ID: <c64d38db-cb55-a511-3f19-0cf2ee2c7557@mailbox.org>
-Date: Tue, 19 Sep 2023 18:56:17 +0200
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de
+ [185.244.194.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDD1310E13A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 17:46:29 +0000 (UTC)
+Received: from relay01-mors.netcup.net (localhost [127.0.0.1])
+ by relay01-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY6gJLz8vYk;
+ Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zint.sh; s=key2;
+ t=1695145585; bh=IoDopC/FI0Xw8EhjdeXx3lkqipHTvqW2eqTVLHiaOTs=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=MzHvvI9eBXMIZWmg+tCAcbxZuAVznBOkFqzsgyH1TSCU61HOHyOF/mU7ZlFoCsvWM
+ 0pCLXW2q3yVxuDqwAGg8nG0gYkuONS69gv0POr+FXcz89WB1hb7ng6tlTH6hiV3LY1
+ p+F7mozEWXcCCN0Ov3/vzHe0el0cC6QZ5jYZjSXhI3PTZVhVTaR/kki2JBznBE05E/
+ dvUTVSJltCM4JA7DIIIit75UMJf1/i2jyobPqEbQqbypgWhaNxUB2C8aqniyM+MfJ3
+ LaU0Y3ULdZRoA7CAuV5Na7XdNPUbsZZNTJMUkXBqhfpN7JFFVUQBq+Sgo07zw3qXYW
+ 3ohMQRYj96vVQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+ by relay01-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY5yk3z7wXm;
+ Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
+Received: from mxe217.netcup.net (unknown [10.243.12.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by policy02-mors.netcup.net (Postfix) with ESMTPS id 4RqpxY1Qx7z8sZR;
+ Tue, 19 Sep 2023 19:46:25 +0200 (CEST)
+Received: from thinkpad (p5795fada.dip0.t-ipconnect.de [87.149.250.218])
+ by mxe217.netcup.net (Postfix) with ESMTPSA id 9D3D481CC0;
+ Tue, 19 Sep 2023 19:46:09 +0200 (CEST)
+Date: Tue, 19 Sep 2023 19:46:09 +0200 (CEST)
+From: Julius Zint <julius@zint.sh>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 1/1] backlight: hid_bl: Add VESA VCP HID backlight
+ driver
+In-Reply-To: <f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redhat.com>
+Message-ID: <afed6395-8680-7e2c-d88c-8bb5f3c39346@zint.sh>
+References: <20230820094118.20521-1-julius@zint.sh>
+ <20230820094118.20521-2-julius@zint.sh>
+ <f2e1ab9e-e691-42e1-a600-42744f692922@t-8ch.de>
+ <9a5364de-28e1-1d4a-1d3a-d6dcedb7e659@zint.sh>
+ <f95da7ff-06dd-2c0e-d563-7e5ad61c3bcc@redhat.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/atomic-helper: prevent uaf in wait_for_vblanks
-Content-Language: en-CA
-To: =?UTF-8?Q?Jos=c3=a9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, skhan@linuxfoundation.org
-References: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: df75b5c6e5d5e56e260
-X-MBO-RS-META: k337c4z4wicfa4jjcbc7kusitecbk4nb
+Content-Type: multipart/mixed;
+ boundary="-1463806431-1318981254-1695145580=:112385"
+X-Rspamd-Queue-Id: 9D3D481CC0
+X-Rspamd-Server: rspamd-worker-8404
+X-NC-CID: rOoqEf3663s8YZEX+EphuZt68xJXACRwen9fb7xg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,139 +66,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jiri Kosina <jikos@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
+ =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/18/23 18:53, José Pekkarinen wrote:
-> Kasan reported the following in my system:
-> 
-> [ 3935.321003] ==================================================================
-> [ 3935.321022] BUG: KASAN: slab-use-after-free in drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-> [ 3935.321124] Read of size 1 at addr ffff88818a6f8009 by task kworker/u16:3/5268
-> 
-> [ 3935.321124] CPU: 7 PID: 5268 Comm: kworker/u16:3 Not tainted 6.6.0-rc2+ #1
-> [ 3935.321124] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
-> [ 3935.321124] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [ 3935.321124] Call Trace:
-> [ 3935.321124]  <TASK>
-> [ 3935.321124]  dump_stack_lvl+0x43/0x60
-> [ 3935.321124]  print_report+0xcf/0x660
-> [ 3935.321124]  ? remove_entity_load_avg+0xdc/0x100
-> [ 3935.321124]  ? __virt_addr_valid+0xd9/0x160
-> [ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-> [ 3935.321124]  kasan_report+0xda/0x110
-> [ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-> [ 3935.321124]  drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-> [ 3935.321124]  ? __pfx_drm_atomic_helper_wait_for_vblanks.part.0+0x10/0x10 [drm_kms_helper]
-> [ 3935.321124]  ? complete_all+0x48/0x100
-> [ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x19/0x40
-> [ 3935.321124]  ? preempt_count_sub+0x14/0xc0
-> [ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x23/0x40
-> [ 3935.321124]  ? drm_atomic_helper_commit_hw_done+0x1ac/0x240 [drm_kms_helper]
-> [ 3935.321124]  drm_atomic_helper_commit_tail+0x82/0x90 [drm_kms_helper]
-> [ 3935.321124]  commit_tail+0x15c/0x1d0 [drm_kms_helper]
-> [ 3935.323185]  process_one_work+0x31a/0x610
-> [ 3935.323185]  worker_thread+0x38e/0x5f0
-> [ 3935.323185]  ? __pfx_worker_thread+0x10/0x10
-> [ 3935.323185]  kthread+0x184/0x1c0
-> [ 3935.323185]  ? __pfx_kthread+0x10/0x10
-> [ 3935.323185]  ret_from_fork+0x30/0x50
-> [ 3935.323185]  ? __pfx_kthread+0x10/0x10
-> [ 3935.323185]  ret_from_fork_asm+0x1b/0x30
-> [ 3935.323185]  </TASK>
-> 
-> [ 3935.323185] Allocated by task 3751:
-> [ 3935.323185]  kasan_save_stack+0x2f/0x50
-> [ 3935.323185]  kasan_set_track+0x21/0x30
-> [ 3935.323185]  __kasan_kmalloc+0xa6/0xb0
-> [ 3935.323185]  drm_atomic_helper_crtc_duplicate_state+0x42/0x70 [drm_kms_helper]
-> [ 3935.323185]  drm_atomic_get_crtc_state+0xc3/0x1e0 [drm]
-> [ 3935.323185]  page_flip_common+0x42/0x160 [drm_kms_helper]
-> [ 3935.323185]  drm_atomic_helper_page_flip+0x6b/0xf0 [drm_kms_helper]
-> [ 3935.323185]  drm_mode_page_flip_ioctl+0x8ad/0x900 [drm]
-> [ 3935.323185]  drm_ioctl_kernel+0x169/0x240 [drm]
-> [ 3935.323185]  drm_ioctl+0x399/0x6b0 [drm]
-> [ 3935.324772]  __x64_sys_ioctl+0xc5/0x100
-> [ 3935.324772]  do_syscall_64+0x5b/0xc0
-> [ 3935.324772]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> 
-> [ 3935.324772] Freed by task 3751:
-> [ 3935.324772]  kasan_save_stack+0x2f/0x50
-> [ 3935.324772]  kasan_set_track+0x21/0x30
-> [ 3935.324772]  kasan_save_free_info+0x27/0x40
-> [ 3935.324772]  ____kasan_slab_free+0x166/0x1c0
-> [ 3935.324772]  slab_free_freelist_hook+0x9f/0x1e0
-> [ 3935.324772]  __kmem_cache_free+0x187/0x2d0
-> [ 3935.324772]  drm_atomic_state_default_clear+0x226/0x5e0 [drm]
-> [ 3935.324772]  __drm_atomic_state_free+0xc8/0x130 [drm]
-> [ 3935.324772]  drm_atomic_helper_update_plane+0x17d/0x1b0 [drm_kms_helper]
-> [ 3935.324772]  drm_mode_cursor_universal+0x2a4/0x4d0 [drm]
-> [ 3935.324772]  drm_mode_cursor_common+0x1cf/0x430 [drm]
-> [ 3935.324772]  drm_mode_cursor_ioctl+0xc6/0x100 [drm]
-> [ 3935.326167]  drm_ioctl_kernel+0x169/0x240 [drm]
-> [ 3935.326167]  drm_ioctl+0x399/0x6b0 [drm]
-> [ 3935.326614]  __x64_sys_ioctl+0xc5/0x100
-> [ 3935.326614]  do_syscall_64+0x5b/0xc0
-> [ 3935.326614]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> 
-> [ 3935.326614] The buggy address belongs to the object at ffff88818a6f8000
->                 which belongs to the cache kmalloc-512 of size 512
-> [ 3935.326614] The buggy address is located 9 bytes inside of
->                 freed 512-byte region [ffff88818a6f8000, ffff88818a6f8200)
-> 
-> [ 3935.326614] The buggy address belongs to the physical page:
-> [ 3935.326614] page:00000000b0fb0816 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x18a6f8
-> [ 3935.326614] head:00000000b0fb0816 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> [ 3935.326614] anon flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-> [ 3935.326614] page_type: 0xffffffff()
-> [ 3935.326614] raw: 0017ffffc0000840 ffff888100042c80 0000000000000000 dead000000000001
-> [ 3935.326614] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-> [ 3935.326614] page dumped because: kasan: bad access detected
-> 
-> [ 3935.326614] Memory state around the buggy address:
-> [ 3935.326614]  ffff88818a6f7f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [ 3935.326614]  ffff88818a6f7f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> [ 3935.326614] >ffff88818a6f8000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [ 3935.326772]                       ^
-> [ 3935.326772]  ffff88818a6f8080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [ 3935.326772]  ffff88818a6f8100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [ 3935.326772] ==================================================================
-> 
-> This suggest there may be some situation where a
-> struct drm_crtc_state is referenced after already
-> being freed by drm_atomic_state_default_clear. This
-> patch will check the new_crtc_state is not null before
-> using it.
-> 
-> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 292e38eb6218..cc75d387a542 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1647,7 +1647,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
->  		return;
->  
->  	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
-> -		if (!new_crtc_state->active)
-> +		if (new_crtc_state && !new_crtc_state->active)
->  			continue;
->  
->  		ret = drm_crtc_vblank_get(crtc);
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I'm not quite seeing the connection between this change and the KASAN report.
-
-If new_crtc_state was NULL, I would have expected a normal NULL pointer dereference oops, not a KASAN report.
-
-The KASAN report instead indicates that new_crtc_state isn't NULL, but points to memory which has already been freed. This could be e.g. due to incorrect reference counting somewhere else.
+---1463806431-1318981254-1695145580=:112385
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
 
+On Wed, 6 Sep 2023, Hans de Goede wrote:
+
+> Hi Julius,
+> 
+> On 9/4/23 21:02, Julius Zint wrote:
+> > 
+> > 
+> > On Mon, 4 Sep 2023, Thomas Weißschuh wrote:
+> > 
+> >> +Cc Hans who ins involved with the backlight subsystem
+> >>
+> >> Hi Julius,
+> >>
+> >> today I stumbled upon a mail from Hans [0], which explains that the
+> >> backlight subsystem is not actually a good fit (yet?) for external
+> >> displays.
+> >>
+> >> It seems a new API is in the works that would better fit, but I'm not
+> >> sure about the state of this API. Maybe Hans can clarify.
+> >>
+> >> This also ties back to my review question how userspace can figure out
+> >> to which display a backlight devices applies. So far it can not.
+> >>
+> >> [0] https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
+> >>
+> > 
+> > Hi Thomas,
+> > 
+> > thanks for the hint. I will make sure to give this a proper read and
+> > see, if it fits my use case better then the current backlight subsystem.
+> 
+> Note the actual proposal for the new usespace API for display brightness
+> control is here:
+> 
+> https://lore.kernel.org/dri-devel/b61d3eeb-6213-afac-2e70-7b9791c86d2e@redhat.com/
+> 
+> I have finished / stabilized the backlight code refactor which I landed
+> in 6.1, which is a prerequisite for the above proposal. But I have not
+> been able to make time to actually implement the above proposal; and
+> I don't know when I will be able to make time for this.
+> 
+> > Especially since I wasnt able to properly address your other review
+> > comments for now. You are right that the name should align better with
+> > the kernel module and also, that it is possible for multiple displays to
+> > be attached.
+> > 
+> > In its current state, this would mean that you could only control the
+> > backlight for the first HID device (enough for me :-).
+> > 
+> > The systemd-backlight@.service uses not only the file name, but also the
+> > full bus path for storing/restoring backlights. I did not yet get around
+> > to see how the desktops handle brightness control, but since the
+> > systemd-backlight@.service already uses the name, its important to stay
+> > the same over multiple boots.
+> > 
+> > I would be able to get a handle on the underlying USB device and use the
+> > serial to uniquely (and persistently) name the backlight. But it does
+> > feel hacky doing it this way.
+> 
+> So mutter (gnome-shell compositor library) has a similar issue when saving
+> monitor layouts and I can tell you beforehand that monitor serial numbers
+> by themselves are not unique enough. Some models just report 123456789
+> as serial and if you have a dual-monitor setup with 2 such monitors
+> and name the backlight class device <serial>-vcp-hid or something like that
+> you will still end up with 2 identical names.
+> 
+> To avoid this when saving monitor layouts mutter saves both the port
+> to which the monitor is attached (e.g. DP-1 DP-2) and the serialnumber
+> and on startup / monitor hotplug when it checks to see if it has saved
+> layout info for the monitor it checks the port+serialnr combination.
+> 
+> So what I think you should do is figure out a way to map which
+> VCP HID device maps to which drm-connector and then use
+> the connector-name + serial-nr to generate the backlight device name.
+> 
+> We will need the mapping the a drm-connector object anyway for
+> the new brightness API proposal from above.
+> 
+> Note this does NOT solve the fact that registering a new backlight
+> class device for an external monitor on a laptop will hopelessly
+> confuse userspace, see:
+> 
+> https://lore.kernel.org/lkml/7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com/
+> 
+> Regards,
+> 
+> Hans
+> 
+
+Thank you for all this additional information. I have watched the talks
+and read up upon the mail threads you`ve linked.
+
+I will see if I can make the mapping to the DRM connector and plan to
+update this patchset.
+
+Thanks,
+
+Julius
+---1463806431-1318981254-1695145580=:112385--
