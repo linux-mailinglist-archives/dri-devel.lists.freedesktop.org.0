@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CDA7A5FF5
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 12:46:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0A07A5FF6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 12:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 523BD10E38E;
-	Tue, 19 Sep 2023 10:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6ED210E396;
+	Tue, 19 Sep 2023 10:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C26DF10E38E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 10:46:43 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2057.outbound.protection.outlook.com [40.107.95.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC8F10E390
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 10:46:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BvZVOSsMcAtEuiqFq4D3ZtSVl2ViOWrKKK7K5pVz5JZQARvgTW4cpKzu/QV1/kv9iB2m2IbYhjChQv6bxHFCZ28X52SiyrIDvtX7ByLzhBlS81vz9idmsSDh03igGco4zySUQ1yr0c+PUrCfDqZpJC+kYTERx26rCWkbqyEszCim6MtGXh9fUagkvwckid4mr6YS8WkOH7Tt4qsmzju4VHLdICR4d/k80CDKawVuwSTcSk6bQbVIdWhRpsxffSaEZJnsqzdJGG/PRtoLaYmfVzyhg0pFlGgrmoAHs7e15Ljz385/zpxvwpr9yjx8V6eUX3Gz8QW31HL9aeu+RPzpIQ==
+ b=EqyqgadTfy3+UT3N6heakvn1nlnOQatzaJyJG2/Exm8/cosrdSVu6Ahw/WywvS3akbeQ09MQNZVno5BX3YEMa2g2Th8s7XVIiZlr5KQEWC3CPH6DD89G0eKe27QrZGLb1NHrY4Ys2jFV7T9uc0/QqZnle/PY4NhN89PK17cProhJK98i6TkgK5UGKsxzqUzh9t2yY0fpeZFh5n4oxfnK/oL+XWPHOeBi6iiNhLGuxLmljkGEMiC8GM74swII3FXyom2traGCutKzfJoTcaALDZ74+aIy8KxN9dqFEjR9znRXHcV23JDbn9/jNKLbg5gvk03x/iGPZ3L0IfnF0NmlEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q0mjqhN6Eblsxxvoe22O8tWrfD7McvWF7geAzxfgWwg=;
- b=jBd/qumS0pnpfOjSCbdbhm3/46LHjurc9v7HB+YSfFBN/tQpd7KLrYti9fVDBjLB5e1aYawK2qFFPiWmYCYLrUX885u6PCM8+98HfYwQr98SKNRUgHacpUxmG3KzDXpcm9QUW0RFBbGRTcwjMvQmbw9X6RK1EPSECoxUCK9fiLkcuQCqZbN+cg1rZjQUpPBwGMfrf2mUwS0AUmKA1vki70Gn+6etu8uaXXcX5oeYXR6C8HpO8X1wI62iXDek7wbKdGDPRuh14Cajfq1G/pcA5SgBoW/Fz5TibKKLT+hXx1mfHGe/KNu9jZb6eGuzHi2Op+ikCZyjeQYmtiE23QRO8g==
+ bh=pSQWkK0PcI0rD/QERaWodfqwMMw0fl35aoPyxDH1Ghc=;
+ b=T8bm4zWyi6GLTXGbw0JmvkwCHIJI8sLj15LuTzzNlCP+0CONjBNdWo3mlVRCQs6qJCZoKazsYcIQ7PyhZHJW6xwtev4k6NXTMq4Je2bm62FG8KPVidOuv9dxL0vg9ZmC7yyCAxURQjGt2P4fZkMRUthuzn/l0Wv5F+dlQl6NOl30u9dIKJxRJF8nRgoOIK0mQDCX9X/ivJvWWPJzvjGggcN8t5urLe6QCtu1V+1/bY6X/DFZDSjAZakPPyoYtj2nebAdA9du4U+3ZX2upOrvnEzauFtno7u4Txn5U2fYkuwQeVEmyl6Sok/uqwS+i/w9dF4lwC+ziXBo38nNlCdyFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0mjqhN6Eblsxxvoe22O8tWrfD7McvWF7geAzxfgWwg=;
- b=Dytf/xdCoosOsydmpW5JUDSFwbCbEUq63yLjXJrHpupDKON6h8yklLMQ2XyzXWJYUERaUdZl8ebJ5hz6GG6Ps8lZ/MSGBQywTm8K2FumXhYmnPOSq/NmwmBV8Q+xYEBasSVTfBaBG+S4DHI8uPaoxzAW8cwkQVt5omOnabIHiac=
-Received: from BL0PR0102CA0032.prod.exchangelabs.com (2603:10b6:207:18::45) by
- CY5PR12MB6347.namprd12.prod.outlook.com (2603:10b6:930:20::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.27; Tue, 19 Sep 2023 10:46:38 +0000
-Received: from BL02EPF0001A0FF.namprd03.prod.outlook.com
- (2603:10b6:207:18:cafe::3a) by BL0PR0102CA0032.outlook.office365.com
- (2603:10b6:207:18::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21 via Frontend
- Transport; Tue, 19 Sep 2023 10:46:37 +0000
+ bh=pSQWkK0PcI0rD/QERaWodfqwMMw0fl35aoPyxDH1Ghc=;
+ b=UWHYQ48GlHRm1QLk4lip84NufDFL4iCutQssulSkqi1JKlYDcyTFmm2c4wBZQ0Iq/JTUs/SnQ8JhZmZQx2JZesinhJUA+kt1CvmlB5qIrpgaS0Uq0Jj55TTST+ts2K9yYG+7ZiMKWyHsY6ExBOuTI+DmmutNqOLKuYm3Br7pCts=
+Received: from BLAPR03CA0168.namprd03.prod.outlook.com (2603:10b6:208:32f::6)
+ by IA1PR12MB7637.namprd12.prod.outlook.com (2603:10b6:208:427::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Tue, 19 Sep
+ 2023 10:46:43 +0000
+Received: from BL02EPF0001A0FC.namprd03.prod.outlook.com
+ (2603:10b6:208:32f:cafe::85) by BLAPR03CA0168.outlook.office365.com
+ (2603:10b6:208:32f::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27 via Frontend
+ Transport; Tue, 19 Sep 2023 10:46:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,13 +45,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0001A0FF.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ BL02EPF0001A0FC.mail.protection.outlook.com (10.167.242.103) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.20 via Frontend Transport; Tue, 19 Sep 2023 10:46:37 +0000
+ 15.20.6792.20 via Frontend Transport; Tue, 19 Sep 2023 10:46:42 +0000
 Received: from cjq-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 19 Sep
- 2023 05:46:30 -0500
+ 2023 05:46:36 -0500
 From: Jiqian Chen <Jiqian.Chen@amd.com>
 To: Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, Xuan Zhuo
@@ -61,10 +61,10 @@ To: Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Beckett" <bob.beckett@collabora.com>,
  <virtualization@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [LINUX KERNEL PATCH v5 1/2] virtio_pci: Add freeze_mode for
- virtio_pci_common_cfg
-Date: Tue, 19 Sep 2023 18:46:06 +0800
-Message-ID: <20230919104607.2282248-2-Jiqian.Chen@amd.com>
+Subject: [LINUX KERNEL PATCH v5 2/2] virtgpu: Add freeze and restore func to
+ reinit vqs
+Date: Tue, 19 Sep 2023 18:46:07 +0800
+Message-ID: <20230919104607.2282248-3-Jiqian.Chen@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230919104607.2282248-1-Jiqian.Chen@amd.com>
 References: <20230919104607.2282248-1-Jiqian.Chen@amd.com>
@@ -76,26 +76,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FF:EE_|CY5PR12MB6347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93312f9a-8049-4a14-fe62-08dbb8fdb340
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FC:EE_|IA1PR12MB7637:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07f5be26-03a4-41df-dc9a-08dbb8fdb664
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iloywI+wP2fK1vC0Z34f796V6NoX7w2/bT73YCil8FCERFhT0v7jKRDA3pKVkBWEJQdlWf7AsJwzHuBC4/8hT42pl2hAuqdOtz7QM1ViyaecaO96d8XKlPNACp5CoII+xbWWOfsVjzKiJcuHXmC9ZpugT8dHZ1HyYuMjbkxnwZki4pKbUkTzmnNK23bvw48haNrRFU6Pehauh51/i9UQ18wNAwMN02YOxg0GnXtDvD0nmWqCIg7H/kC/4D0GwZtoAFbNgYG/SJPswsOLdcBqvs6rWR9F3HLMY1lihgOiHeguSYt6wJHOGkdEukRQuvWR9c9Insi2GhGBKWEm1d76cRlRmU22fdyOMWxCrMvVBJ5elEeL47JXdapiiZWspD7Gwd0qeqMYPaBelB3hBsGibKUrnChmUDt06aoSeXVWuReAsEOHVWhU6e4cw+IOQD779zC4lg2U7q+ch9VqLRENcSfoWpkOc5ETGNiGaVO4b/B+3ncypZcKR84sjnpRi0gM9yW3QnIIREaosRnknZAzger/PIyLJW7uZS1wId/9yAvfuEqTKEWvFdNpRzs/spmO+cl588UOMcxYnZ3SvJ5WtiBy1b5A/elbg3prZEQsTgdyqFhyVANFzzcdsY3a0HfKvCxIT87KPv4Pp1K+Rgenh4ostcvgnxJ8CljqBUbFVL08YyJAPavs9TudFyN4LS7hjjO2uSejoTolLcC++o+YY/PjGvaN2x/lG0CMbf6Ck+gB5uNJ9iuIRzZltIko6O3MNzUZicS7alU9TUMz9JnzrVyrEEXI/SGr24HwmJy/z00=
+X-Microsoft-Antispam-Message-Info: cDOB4mkMnYPWCwmhoiwQ7HvT3AXROf9eYiss1w3edq9a3yvowRoRhUZFd9UWpvr+5DwvsEsCAwBZcpp9WL9Y7oHXCkAgMVk925HAazvb35nL8UVPijb8xOb6i/iTz7d0FhHqQxf4XzEr86tqy3R4ip0+KqCfE6OyMxB8rVCyrKNV4Iw4RcklGl+NnVq677/14aXsjFCzRNAFR9pwTHqAELJskHNoYOjlT/6R/MD35mwO5OA91kRZJDPqe/bUcHLSb+EiEA6JY+s/SZkVkGSiMv+tdPZ4OwE2Sm1qQg48e57xGLxc0ii0V4FZOXjGPkuLx2q1JY1LKf8hs9PeHx+nypur76Y43jJrqrWXOiWCr6QDuoA+RrGewKwQ9i3yaCFEr9PEyEOebhCpBlHjK4RyCAH18Hj7de3fTWys2Lw2zQPxyBxidwYgPYbCNH22NfeyJjEJ5pxjpg7AhdNwFcs86bBeECcQXwuPuip4aP3DPqixDCuVs7m4H8MzHTVnN5R8JcapctvFS8CTKtel2QznGsXkD7RHl994hzUIGql2R6pfndN4A7Y9k+4A+JulYU2T62eC8OnGi5riV+K9uWvdC6nqlvTZKQ2AN5Lqay2qIGvNyd4YfijoDf0GSWWsB6+KeAUP7xaFnYuMCgm3VUVftNtbsuBLLGy9ZPFr1ax8YYAPCcOeLeP1aPfkLL3kQonRrCq7MxsZt7XhgQmEQQX4MKNOHbs8cmJlr/JuFNbSH+Q3J6SZGB7dAXzT6Hf1WXyb23S+9ZxJODZW2ptQ/0xJDxjB0YMCfiOEaeCX0U5xdZc=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199024)(1800799009)(186009)(82310400011)(36840700001)(46966006)(40470700004)(41300700001)(7696005)(7416002)(40460700003)(110136005)(70206006)(82740400003)(81166007)(70586007)(356005)(921005)(36756003)(478600001)(86362001)(40480700001)(2906002)(6666004)(54906003)(316002)(8676002)(4326008)(8936002)(2616005)(83380400001)(1076003)(5660300002)(26005)(16526019)(426003)(336012)(36860700001)(47076005)(36900700001);
+ SFS:(13230031)(4636009)(136003)(376002)(39860400002)(396003)(346002)(186009)(82310400011)(1800799009)(451199024)(46966006)(36840700001)(40470700004)(86362001)(2906002)(81166007)(921005)(82740400003)(356005)(36756003)(41300700001)(47076005)(40460700003)(16526019)(26005)(336012)(426003)(83380400001)(8676002)(2616005)(5660300002)(7696005)(6666004)(478600001)(36860700001)(1076003)(70586007)(8936002)(70206006)(316002)(110136005)(40480700001)(7416002)(4326008)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2023 10:46:37.6206 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93312f9a-8049-4a14-fe62-08dbb8fdb340
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2023 10:46:42.8888 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07f5be26-03a4-41df-dc9a-08dbb8fdb664
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FC.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6347
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7637
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,203 +121,143 @@ Cc: Juergen Gross <jgross@suse.com>, Honglei Huang <Honglei1.Huang@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When guest vm does S3, Qemu will reset and clear some things of virtio
-devices, but guest can't aware that, so that may cause some problems.
-For excample, Qemu calls virtio_reset->virtio_gpu_gl_reset, that will
-destroy render resources of virtio-gpu. As a result, after guest resume,
-the display can't come back and we only saw a black screen. Due to guest
-can't re-create all the resources, so we need to let Qemu not to destroy
-them when S3.
+When we suspended guest VM, it called into Qemu to call
+virtio_reset->__virtio_queue_reset, this cleared all virtqueue information
+of virtgpu on Qemu end, but guest kernel still keep the virtqueus. As a
+result, after guest resumed, if guest sent ctrl/cursor requests to Qemu
+through virtqueue, but now Qemu can't get requests from the virtqueue.
+(Failed in function virtio_queue_notify, vq->vring.desc is NULL)
 
-For above purpose, this patch add a new parameter named freeze_mode to
-struct virtio_pci_common_cfg, and when guest suspends, it can set
-freeze_mode to be FREEZE_S3, so that virtio devices can change their
-reset behavior on Qemu side according to that mode.
+So, this patch add freeze and restore function for virtgpu driver. In
+freeze function, it flushes all virtqueue works and deletes virtqueues. In
+restore function, it re-initializes virtqueues. And then, Qemu and guest
+can communicate normally.
 
 Signed-off-by: Jiqian Chen <Jiqian.Chen@amd.com>
 ---
- drivers/virtio/virtio.c                | 13 +++++++++++++
- drivers/virtio/virtio_pci_modern.c     |  9 +++++++++
- drivers/virtio/virtio_pci_modern_dev.c | 16 ++++++++++++++++
- include/linux/virtio_config.h          |  1 +
- include/linux/virtio_pci_modern.h      |  2 ++
- include/uapi/linux/virtio_pci.h        | 16 ++++++++++++++--
- 6 files changed, 55 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 23 +++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.h |  1 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 30 +++++++++++++++++++---------
+ 3 files changed, 45 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index 3893dc29eb26..b4eb8369d5a1 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -7,6 +7,7 @@
- #include <linux/idr.h>
- #include <linux/of.h>
- #include <uapi/linux/virtio_ids.h>
-+#include <uapi/linux/virtio_pci.h>
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index 644b8ee51009..8e751db129e4 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -130,6 +130,25 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
+ 	schedule_work(&vgdev->config_changed_work);
+ }
  
- /* Unique numbering for virtio devices. */
- static DEFINE_IDA(virtio_index_ida);
-@@ -486,10 +487,20 @@ void unregister_virtio_device(struct virtio_device *dev)
- EXPORT_SYMBOL_GPL(unregister_virtio_device);
- 
- #ifdef CONFIG_PM_SLEEP
-+static void virtio_set_freeze_mode(struct virtio_device *dev, u16 mode)
++#ifdef CONFIG_PM
++static int virtio_gpu_freeze(struct virtio_device *dev)
 +{
-+	if (!dev->config->set_freeze_mode)
-+		return;
-+	might_sleep();
-+	dev->config->set_freeze_mode(dev, mode);
++	struct drm_device *ddev = dev->priv;
++	struct virtio_gpu_device *vgdev = ddev->dev_private;
++
++	flush_work(&vgdev->ctrlq.dequeue_work);
++	flush_work(&vgdev->cursorq.dequeue_work);
++	vgdev->vdev->config->del_vqs(vgdev->vdev);
++
++	return 0;
 +}
 +
- int virtio_device_freeze(struct virtio_device *dev)
++static int virtio_gpu_restore(struct virtio_device *dev)
++{
++	return virtio_gpu_init_vqs(dev);
++}
++#endif
++
+ static struct virtio_device_id id_table[] = {
+ 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
+ 	{ 0 },
+@@ -156,6 +175,10 @@ static struct virtio_driver virtio_gpu_driver = {
+ 	.driver.owner = THIS_MODULE,
+ 	.id_table = id_table,
+ 	.probe = virtio_gpu_probe,
++#ifdef CONFIG_PM
++	.freeze = virtio_gpu_freeze,
++	.restore = virtio_gpu_restore,
++#endif
+ 	.remove = virtio_gpu_remove,
+ 	.config_changed = virtio_gpu_config_changed
+ };
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 4126c384286b..d93dd53a947d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -282,6 +282,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+ void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
+ 
+ /* virtgpu_kms.c */
++int virtio_gpu_init_vqs(struct virtio_device *vdev);
+ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev);
+ void virtio_gpu_deinit(struct drm_device *dev);
+ void virtio_gpu_release(struct drm_device *dev);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 5a3b5aaed1f3..871b7ba98257 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -114,16 +114,33 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ 	vgdev->num_capsets = num_capsets;
+ }
+ 
+-int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
++int virtio_gpu_init_vqs(struct virtio_device *vdev)
  {
- 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
- 
-+	virtio_set_freeze_mode(dev, VIRTIO_PCI_FREEZE_MODE_FREEZE_S3);
+ 	static vq_callback_t *callbacks[] = {
+ 		virtio_gpu_ctrl_ack, virtio_gpu_cursor_ack
+ 	};
+ 	static const char * const names[] = { "control", "cursor" };
++	struct drm_device *dev = vdev->priv;
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct virtqueue *vqs[2];
++	int ret;
 +
- 	virtio_config_disable(dev);
- 
- 	dev->failed = dev->config->get_status(dev) & VIRTIO_CONFIG_S_FAILED;
-@@ -544,6 +555,8 @@ int virtio_device_restore(struct virtio_device *dev)
- 
- 	virtio_config_enable(dev);
- 
-+	virtio_set_freeze_mode(dev, VIRTIO_PCI_FREEZE_MODE_UNFREEZE);
++	virtio_gpu_init_vq(&vgdev->ctrlq, virtio_gpu_dequeue_ctrl_func);
++	virtio_gpu_init_vq(&vgdev->cursorq, virtio_gpu_dequeue_cursor_func);
 +
- 	return 0;
- 
- err:
-diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
-index d6bb68ba84e5..846b70919cbd 100644
---- a/drivers/virtio/virtio_pci_modern.c
-+++ b/drivers/virtio/virtio_pci_modern.c
-@@ -491,6 +491,13 @@ static bool vp_get_shm_region(struct virtio_device *vdev,
- 	return true;
- }
- 
-+static void vp_set_freeze_mode(struct virtio_device *vdev, u16 mode)
-+{
-+	struct virtio_pci_device *vp_dev = to_vp_device(vdev);
-+
-+	vp_modern_set_freeze_mode(&vp_dev->mdev, mode);
++	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
++	if (ret) {
++		DRM_ERROR("failed to find virt queues\n");
++		return ret;
++	}
++	vgdev->ctrlq.vq = vqs[0];
++	vgdev->cursorq.vq = vqs[1];
++	return 0;
 +}
-+
- static const struct virtio_config_ops virtio_pci_config_nodev_ops = {
- 	.get		= NULL,
- 	.set		= NULL,
-@@ -509,6 +516,7 @@ static const struct virtio_config_ops virtio_pci_config_nodev_ops = {
- 	.get_shm_region  = vp_get_shm_region,
- 	.disable_vq_and_reset = vp_modern_disable_vq_and_reset,
- 	.enable_vq_after_reset = vp_modern_enable_vq_after_reset,
-+	.set_freeze_mode = vp_set_freeze_mode,
- };
  
- static const struct virtio_config_ops virtio_pci_config_ops = {
-@@ -529,6 +537,7 @@ static const struct virtio_config_ops virtio_pci_config_ops = {
- 	.get_shm_region  = vp_get_shm_region,
- 	.disable_vq_and_reset = vp_modern_disable_vq_and_reset,
- 	.enable_vq_after_reset = vp_modern_enable_vq_after_reset,
-+	.set_freeze_mode = vp_set_freeze_mode,
- };
- 
- /* the PCI probing function */
-diff --git a/drivers/virtio/virtio_pci_modern_dev.c b/drivers/virtio/virtio_pci_modern_dev.c
-index aad7d9296e77..4a6f7d130b6e 100644
---- a/drivers/virtio/virtio_pci_modern_dev.c
-+++ b/drivers/virtio/virtio_pci_modern_dev.c
-@@ -203,6 +203,8 @@ static inline void check_offsets(void)
- 		     offsetof(struct virtio_pci_common_cfg, queue_used_lo));
- 	BUILD_BUG_ON(VIRTIO_PCI_COMMON_Q_USEDHI !=
- 		     offsetof(struct virtio_pci_common_cfg, queue_used_hi));
-+	BUILD_BUG_ON(VIRTIO_PCI_COMMON_F_MODE !=
-+		     offsetof(struct virtio_pci_common_cfg, freeze_mode));
- }
- 
- /*
-@@ -714,6 +716,20 @@ void __iomem *vp_modern_map_vq_notify(struct virtio_pci_modern_device *mdev,
- }
- EXPORT_SYMBOL_GPL(vp_modern_map_vq_notify);
- 
-+/*
-+ * vp_modern_set_freeze_mode - set freeze mode to device
-+ * @mdev: the modern virtio-pci device
-+ * @mode: the mode set to device
-+ */
-+void vp_modern_set_freeze_mode(struct virtio_pci_modern_device *mdev,
-+				 u16 mode)
++int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
 +{
-+	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
-+
-+	vp_iowrite16(mode, &cfg->freeze_mode);
-+}
-+EXPORT_SYMBOL_GPL(vp_modern_set_freeze_mode);
-+
- MODULE_VERSION("0.1");
- MODULE_DESCRIPTION("Modern Virtio PCI Device");
- MODULE_AUTHOR("Jason Wang <jasowang@redhat.com>");
-diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
-index 2b3438de2c4d..2a7443ff7f12 100644
---- a/include/linux/virtio_config.h
-+++ b/include/linux/virtio_config.h
-@@ -120,6 +120,7 @@ struct virtio_config_ops {
- 			       struct virtio_shm_region *region, u8 id);
- 	int (*disable_vq_and_reset)(struct virtqueue *vq);
- 	int (*enable_vq_after_reset)(struct virtqueue *vq);
-+	void (*set_freeze_mode)(struct virtio_device *vdev, u16 mode);
- };
+ 	struct virtio_gpu_device *vgdev;
+-	/* this will expand later */
+-	struct virtqueue *vqs[2];
+ 	u32 num_scanouts, num_capsets;
+ 	int ret = 0;
  
- /* If driver didn't advertise the feature, it will never appear. */
-diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
-index 067ac1d789bc..ba6eed216ded 100644
---- a/include/linux/virtio_pci_modern.h
-+++ b/include/linux/virtio_pci_modern.h
-@@ -121,4 +121,6 @@ int vp_modern_probe(struct virtio_pci_modern_device *mdev);
- void vp_modern_remove(struct virtio_pci_modern_device *mdev);
- int vp_modern_get_queue_reset(struct virtio_pci_modern_device *mdev, u16 index);
- void vp_modern_set_queue_reset(struct virtio_pci_modern_device *mdev, u16 index);
-+void vp_modern_set_freeze_mode(struct virtio_pci_modern_device *mdev,
-+		   u16 mode);
- #endif
-diff --git a/include/uapi/linux/virtio_pci.h b/include/uapi/linux/virtio_pci.h
-index f703afc7ad31..725ace458a1b 100644
---- a/include/uapi/linux/virtio_pci.h
-+++ b/include/uapi/linux/virtio_pci.h
-@@ -140,6 +140,15 @@ struct virtio_pci_notify_cap {
- 	__le32 notify_off_multiplier;	/* Multiplier for queue_notify_off. */
- };
+@@ -144,8 +161,6 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	ida_init(&vgdev->ctx_id_ida);
+ 	ida_init(&vgdev->resource_ida);
+ 	init_waitqueue_head(&vgdev->resp_wq);
+-	virtio_gpu_init_vq(&vgdev->ctrlq, virtio_gpu_dequeue_ctrl_func);
+-	virtio_gpu_init_vq(&vgdev->cursorq, virtio_gpu_dequeue_cursor_func);
  
-+typedef enum {
-+       VIRTIO_PCI_FREEZE_MODE_UNFREEZE = 0,
-+       VIRTIO_PCI_FREEZE_MODE_FREEZE_S3 = 3,
-+} virtio_pci_freeze_mode_t;
-+
-+#define VIRTIO_PCI_FREEZE_MODE_MASK \
-+	((1 << VIRTIO_PCI_FREEZE_MODE_UNFREEZE) | \
-+	(1 << VIRTIO_PCI_FREEZE_MODE_FREEZE_S3))
-+
- /* Fields in VIRTIO_PCI_CAP_COMMON_CFG: */
- struct virtio_pci_common_cfg {
- 	/* About the whole device. */
-@@ -164,6 +173,8 @@ struct virtio_pci_common_cfg {
- 	__le32 queue_avail_hi;		/* read-write */
- 	__le32 queue_used_lo;		/* read-write */
- 	__le32 queue_used_hi;		/* read-write */
-+
-+	__le16 freeze_mode;		/* read-write */
- };
+ 	vgdev->fence_drv.context = dma_fence_context_alloc(1);
+ 	spin_lock_init(&vgdev->fence_drv.lock);
+@@ -207,13 +222,10 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	DRM_INFO("features: %ccontext_init\n",
+ 		 vgdev->has_context_init ? '+' : '-');
  
- /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
-@@ -202,8 +213,9 @@ struct virtio_pci_cfg_cap {
- #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
- #define VIRTIO_PCI_COMMON_Q_USEDLO	48
- #define VIRTIO_PCI_COMMON_Q_USEDHI	52
--#define VIRTIO_PCI_COMMON_Q_NDATA	56
--#define VIRTIO_PCI_COMMON_Q_RESET	58
-+#define VIRTIO_PCI_COMMON_F_MODE	56
-+#define VIRTIO_PCI_COMMON_Q_NDATA	58
-+#define VIRTIO_PCI_COMMON_Q_RESET	60
- 
- #endif /* VIRTIO_PCI_NO_MODERN */
- 
+-	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
++	ret = virtio_gpu_init_vqs(vdev);
+ 	if (ret) {
+-		DRM_ERROR("failed to find virt queues\n");
+ 		goto err_vqs;
+ 	}
+-	vgdev->ctrlq.vq = vqs[0];
+-	vgdev->cursorq.vq = vqs[1];
+ 	ret = virtio_gpu_alloc_vbufs(vgdev);
+ 	if (ret) {
+ 		DRM_ERROR("failed to alloc vbufs\n");
 -- 
 2.34.1
 
