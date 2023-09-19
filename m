@@ -1,50 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8087A5A50
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:00:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 297827A59FC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 08:33:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90EB10E351;
-	Tue, 19 Sep 2023 06:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4714810E12B;
+	Tue, 19 Sep 2023 06:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 444 seconds by postgrey-1.36 at gabe;
- Tue, 19 Sep 2023 05:33:59 UTC
-Received: from 10.mo576.mail-out.ovh.net (10.mo576.mail-out.ovh.net
- [46.105.73.241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CAC10E3C3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 05:33:59 +0000 (UTC)
-Received: from director3.ghost.mail-out.ovh.net (unknown [10.108.1.59])
- by mo576.mail-out.ovh.net (Postfix) with ESMTP id 5FE2C265EF
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 05:26:33 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-vplpw (unknown [10.110.115.108])
- by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id BC0711FDDA;
- Tue, 19 Sep 2023 05:26:31 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.108])
- by ghost-submission-6684bf9d7b-vplpw with ESMTPSA
- id slhdKQcxCWU2JwAAE4/cmQ
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 19 Sep 2023 05:26:31 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-108S002f5644fc6-c8ef-44a9-9f28-2e18ebae5885,
- 61319568CE96F564A5D0425DA56CF2A67D3354CD)
- smtp.auth=jose.pekkarinen@foxhound.fi
-X-OVh-ClientIp: 91.157.109.57
-From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, skhan@linuxfoundation.org
-Subject: [PATCH v2] drm/atomic-helper: prevent uaf in wait_for_vblanks
-Date: Tue, 19 Sep 2023 08:26:17 +0300
-Message-Id: <20230919052617.4242-1-jose.pekkarinen@foxhound.fi>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B910410E12B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 06:32:58 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-9aa0495f9cfso1390047466b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Sep 2023 23:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1695105177; x=1695709977;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GbXneqlvqIGCYRFq8SaQCy+9zDbbsrcbESBLAJ+M0h4=;
+ b=MkXibE7zdUgJUBL/QsSjv/lPcPA/MAXP6ae1zArw7rnFGC3JYNtl2EGyuF3ozrwNyI
+ O3DIfzetQ+Ot2w78LeuJY0rWBRAHHpRb7cjyCvUhVMD4eJ9bEWvRVv9vuUnhuhjJJc8K
+ ssmi6fDyD998L/N7iaQBWs6vyT/tQ/3ZiQ2biMMqkAxZYTKmBuNgwi8W6oPtW846iYR6
+ LEKZwIPopKKkaXg8bVE33IPDDewODDOQaLIcM7Fx8W+zvzbY9NKIAjjY2dUHD2yQVK5J
+ EqdT5hSZYdr37DKY9ezjIUOuw3cuOvuaFv3i5OyfDgv4+uSem6fTrFT+UAcYQQcKwaco
+ D5Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695105177; x=1695709977;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GbXneqlvqIGCYRFq8SaQCy+9zDbbsrcbESBLAJ+M0h4=;
+ b=W6I/gPCdaChnk6vtaOQK8JTdUCWfxVhDL1vcbN1sme8tP5Jg+tAJ9Qfz8RhJ1YvlGR
+ MsWMVQuBiBBFvxgTfJGoB+Y/uYA4o3U8T3rhZoTtsIdycjYykfrfr5ksvPr0D8ixpsWM
+ XSeEuKsa4RS1ay3VcaKWl24a3vE2/25OfdnT+IRlrPsGAZ97VAZf3eZaqFivoe1ZTzuT
+ p/p/M3JJefqCmRhM3jqiuH1mtxXB+B4gZkS1IpIt4rjXRuX+5SOuswWAoYxxfJN7GZA4
+ jzjRRi/KkTQ5p12ItHEUprisQgwQr9dlWy49TtT3fEGE7A78suE+V/QVHcgF4rzRu8Q/
+ YK+w==
+X-Gm-Message-State: AOJu0Yz0nVt8Qc5usSb+jIe/5DJSv/qitV00I401PH5voSXzmGTFOSeP
+ frXglWRtf4WvcOvHiyZGHdLgQReT+yXK7kxnvpCXdA==
+X-Google-Smtp-Source: AGHT+IHpV5Vew41sZRDC2b41rJaSvmNBj24K6LKHAVA5Q188InmpQ7BMq5mvfnybMr2PJTT4+AhBMJwTFm7hYcrfhYw=
+X-Received: by 2002:a17:907:97cb:b0:9aa:f7f:e276 with SMTP id
+ js11-20020a17090797cb00b009aa0f7fe276mr2314608ejc.38.1695105176878; Mon, 18
+ Sep 2023 23:32:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3533355386718758566
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudejledgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpledurdduheejrddutdelrdehjedpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
-X-Mailman-Approved-At: Tue, 19 Sep 2023 06:59:32 +0000
+References: <20230919030345.8629-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20230919030345.8629-1-jason-jh.lin@mediatek.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 19 Sep 2023 07:32:44 +0100
+Message-ID: <CAPj87rOHctwHJM-7HiQpt8Q0b09x0WWw_T4XsL0qT=dS+XzyZQ@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Add mediate-drm secure flow for SVP
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,132 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Shawn Sung <shawn.sung@mediatek.com>, devicetree@vger.kernel.org,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kasan reported the following in my system:
+Hi Jason, CK,
 
-[ 3935.321003] ==================================================================
-[ 3935.321022] BUG: KASAN: slab-use-after-free in drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-[ 3935.321124] Read of size 1 at addr ffff88818a6f8009 by task kworker/u16:3/5268
+On Tue, 19 Sept 2023 at 04:04, Jason-JH.Lin <jason-jh.lin@mediatek.com> wrote:
+> The patch series provides drm driver support for enabling secure video
+> path (SVP) playback on MediaiTek hardware in the Linux kernel.
+>
+> [...]
+>
+> Memory Usage in SVP:
+> The overall flow of SVP starts with encrypted video coming in from an
+> outside source into the REE. The REE will then allocate a 'secure
+> buffer' and send the corresponding 'secure handle' along with the
+> encrypted, compressed video data to the TEE. The TEE will then decrypt
+> the video and store the result in the 'secure buffer'. The REE will
+> then allocate a 'secure surface'. The REE will pass the 'secure
+> handles' for both the 'secure buffer' and 'secure surface' into the
+> TEE for video decoding. The video decoder HW will then decode the
+> contents of the 'secure buffer' and place the result in the 'secure
+> surface'. The REE will then attach the 'secure surface' to the overlay
+> plane for rendering of the video.
+>
+> Everything relating to ensuring security of the actual contents of the
+> 'secure buffer' and 'secure surface' is out of scope for the REE and
+> is the responsibility of the TEE.
+>
+> DRM driver handles allocation of gem objects that are backed by a 'secure
+> surface' and for displaying a 'secure surface' on the overlay plane.
+> This introduces a new flag for object creation called
+> DRM_MTK_GEM_CREATE_ENCRYPTED which indicates it should be a 'secure
+> surface'. All changes here are in MediaTek specific code.
 
-[ 3935.321124] CPU: 7 PID: 5268 Comm: kworker/u16:3 Not tainted 6.6.0-rc2+ #1
-[ 3935.321124] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
-[ 3935.321124] Workqueue: events_unbound commit_work [drm_kms_helper]
-[ 3935.321124] Call Trace:
-[ 3935.321124]  <TASK>
-[ 3935.321124]  dump_stack_lvl+0x43/0x60
-[ 3935.321124]  print_report+0xcf/0x660
-[ 3935.321124]  ? remove_entity_load_avg+0xdc/0x100
-[ 3935.321124]  ? __virt_addr_valid+0xd9/0x160
-[ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-[ 3935.321124]  kasan_report+0xda/0x110
-[ 3935.321124]  ? drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-[ 3935.321124]  drm_atomic_helper_wait_for_vblanks.part.0+0x116/0x450 [drm_kms_helper]
-[ 3935.321124]  ? __pfx_drm_atomic_helper_wait_for_vblanks.part.0+0x10/0x10 [drm_kms_helper]
-[ 3935.321124]  ? complete_all+0x48/0x100
-[ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x19/0x40
-[ 3935.321124]  ? preempt_count_sub+0x14/0xc0
-[ 3935.321124]  ? _raw_spin_unlock_irqrestore+0x23/0x40
-[ 3935.321124]  ? drm_atomic_helper_commit_hw_done+0x1ac/0x240 [drm_kms_helper]
-[ 3935.321124]  drm_atomic_helper_commit_tail+0x82/0x90 [drm_kms_helper]
-[ 3935.321124]  commit_tail+0x15c/0x1d0 [drm_kms_helper]
-[ 3935.323185]  process_one_work+0x31a/0x610
-[ 3935.323185]  worker_thread+0x38e/0x5f0
-[ 3935.323185]  ? __pfx_worker_thread+0x10/0x10
-[ 3935.323185]  kthread+0x184/0x1c0
-[ 3935.323185]  ? __pfx_kthread+0x10/0x10
-[ 3935.323185]  ret_from_fork+0x30/0x50
-[ 3935.323185]  ? __pfx_kthread+0x10/0x10
-[ 3935.323185]  ret_from_fork_asm+0x1b/0x30
-[ 3935.323185]  </TASK>
+To be honest, it seems strange that DRM is being used as the allocator
+for buffers which will mostly be used by codec hardware which is not
+mentioned here. I can understand that minigbm and gbm_gralloc make
+this easy to implement, but it's not really right to add this all to
+mtk-drm just to support some codec features.
 
-[ 3935.323185] Allocated by task 3751:
-[ 3935.323185]  kasan_save_stack+0x2f/0x50
-[ 3935.323185]  kasan_set_track+0x21/0x30
-[ 3935.323185]  __kasan_kmalloc+0xa6/0xb0
-[ 3935.323185]  drm_atomic_helper_crtc_duplicate_state+0x42/0x70 [drm_kms_helper]
-[ 3935.323185]  drm_atomic_get_crtc_state+0xc3/0x1e0 [drm]
-[ 3935.323185]  page_flip_common+0x42/0x160 [drm_kms_helper]
-[ 3935.323185]  drm_atomic_helper_page_flip+0x6b/0xf0 [drm_kms_helper]
-[ 3935.323185]  drm_mode_page_flip_ioctl+0x8ad/0x900 [drm]
-[ 3935.323185]  drm_ioctl_kernel+0x169/0x240 [drm]
-[ 3935.323185]  drm_ioctl+0x399/0x6b0 [drm]
-[ 3935.324772]  __x64_sys_ioctl+0xc5/0x100
-[ 3935.324772]  do_syscall_64+0x5b/0xc0
-[ 3935.324772]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+NXP posted a patchset a while ago to add secure-memory support to
+dma-heaps[0]. This would be much cleaner (e.g. avoiding strcmp on
+allocating name, avoiding mtk-drm being a render node when it can't
+render) I think, and also allow common secure-path semantics between
+different vendors.
 
-[ 3935.324772] Freed by task 3751:
-[ 3935.324772]  kasan_save_stack+0x2f/0x50
-[ 3935.324772]  kasan_set_track+0x21/0x30
-[ 3935.324772]  kasan_save_free_info+0x27/0x40
-[ 3935.324772]  ____kasan_slab_free+0x166/0x1c0
-[ 3935.324772]  slab_free_freelist_hook+0x9f/0x1e0
-[ 3935.324772]  __kmem_cache_free+0x187/0x2d0
-[ 3935.324772]  drm_atomic_state_default_clear+0x226/0x5e0 [drm]
-[ 3935.324772]  __drm_atomic_state_free+0xc8/0x130 [drm]
-[ 3935.324772]  drm_atomic_helper_update_plane+0x17d/0x1b0 [drm_kms_helper]
-[ 3935.324772]  drm_mode_cursor_universal+0x2a4/0x4d0 [drm]
-[ 3935.324772]  drm_mode_cursor_common+0x1cf/0x430 [drm]
-[ 3935.324772]  drm_mode_cursor_ioctl+0xc6/0x100 [drm]
-[ 3935.326167]  drm_ioctl_kernel+0x169/0x240 [drm]
-[ 3935.326167]  drm_ioctl+0x399/0x6b0 [drm]
-[ 3935.326614]  __x64_sys_ioctl+0xc5/0x100
-[ 3935.326614]  do_syscall_64+0x5b/0xc0
-[ 3935.326614]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+Having common secure-path semantics between different vendors would be
+very helpful, because the first question when we add new uAPI is
+'where is the open-source userspace?'. If there is at least a common
+interface through e.g. dma-heaps, then we could have some standard
+cross-vendor userspace code which would work well with the standard
+interface.
 
-[ 3935.326614] The buggy address belongs to the object at ffff88818a6f8000
-                which belongs to the cache kmalloc-512 of size 512
-[ 3935.326614] The buggy address is located 9 bytes inside of
-                freed 512-byte region [ffff88818a6f8000, ffff88818a6f8200)
+Cheers,
+Daniel
 
-[ 3935.326614] The buggy address belongs to the physical page:
-[ 3935.326614] page:00000000b0fb0816 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x18a6f8
-[ 3935.326614] head:00000000b0fb0816 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[ 3935.326614] anon flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-[ 3935.326614] page_type: 0xffffffff()
-[ 3935.326614] raw: 0017ffffc0000840 ffff888100042c80 0000000000000000 dead000000000001
-[ 3935.326614] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-[ 3935.326614] page dumped because: kasan: bad access detected
-
-[ 3935.326614] Memory state around the buggy address:
-[ 3935.326614]  ffff88818a6f7f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[ 3935.326614]  ffff88818a6f7f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[ 3935.326614] >ffff88818a6f8000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 3935.326772]                       ^
-[ 3935.326772]  ffff88818a6f8080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 3935.326772]  ffff88818a6f8100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 3935.326772] ==================================================================
-
-This suggest there may be some situation where a
-struct drm_crtc_state is referenced after already
-being freed by drm_atomic_state_default_clear. This
-patch will check the new_crtc_state is not null before
-using it.
-
-Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
----
-[v1->v2] continue loop if new_crtc_state is null
-
- drivers/gpu/drm/drm_atomic_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 292e38eb6218..0f17b3b406bb 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1647,7 +1647,7 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
- 		return;
- 
- 	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
--		if (!new_crtc_state->active)
-+		if (!new_crtc_state || !new_crtc_state->active)
- 			continue;
- 
- 		ret = drm_crtc_vblank_get(crtc);
--- 
-2.39.2
-
+[0]: https://lore.kernel.org/lkml/20220805135330.970-2-olivier.masse@nxp.com/
