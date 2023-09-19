@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4B27A5745
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 04:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5FD7A57AE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 05:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74ED10E394;
-	Tue, 19 Sep 2023 02:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C33B10E21A;
+	Tue, 19 Sep 2023 03:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62CF10E1FC;
- Tue, 19 Sep 2023 02:13:52 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-523100882f2so6578304a12.2; 
- Mon, 18 Sep 2023 19:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695089631; x=1695694431; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8enow6g+/RJmfm+Tb3h+OWjZ+y5LOoFSVEtB17XBSXQ=;
- b=KoYqNB26NPDiWXhPeLqKAXhV0wKNjcohTxeQtzpSCcNqFiO4ELd00WPTuG4IzmJ9MX
- zNY1rA0r9QPMyNWgLkWkllhQqGNjhiS2Vt6ZBnVRXQkMLyMGrsz01B/u7oXTSEFZesW+
- odOzCaN9hSlPvw5vf38IStGC41muWFUj7IYtpOfbisAi3DNENUVOlNnEfrqWxbpr/+y0
- A2ECQCQAmbBkKWWHX/1/Y464I4tP4t12PfIpTyR+R3ce12bzavrm/TQZwyPfu5k1wzby
- /yfS3GlcQH01bGliN16GR5bUwdQnZVzLpPYYOlS5VBcT0wSlsYEZ9FcQivEQeoE6oOMA
- WhoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695089631; x=1695694431;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8enow6g+/RJmfm+Tb3h+OWjZ+y5LOoFSVEtB17XBSXQ=;
- b=fRB2KUhyhcveEwNR9M5JzHntjuo4vbJ/VPLQ4CSivf+3Rhz32yPKVX8smadue+ruz/
- o16KUmzABw1h9imND+1eiXXTbhCuLdZK+AOlnYkJ7hSjRmSywGo9Pv1Sa+dR8voV9osJ
- fFhx0zW8TKZI0mFEdKV9DsVm4j1WlaZnX5lG6VUSKXfg/uPnLXVy/gMi8g5zmcKohD9z
- RvJ3oB7JQjBrXgH2qBd19tGLWcbNU+A7C6ixCjJtl647KxCdrkJEU32KtA3aLTcUJhYu
- Qkmx14tra3XBruQ1LBElH7JaZgeZz9x226fTHED1l3+dkzqvNlhgJ69WO+OUIWuutEF7
- QAhQ==
-X-Gm-Message-State: AOJu0YxgS1+ocyYbIMEKbUPDu3ASNlqvJIvABMiKRHtSK+beDHuVVJwy
- n36EKYJ6vMDc4lDnqUPJ/BwReIbV+faKy7q5Mbf0a6X61BA=
-X-Google-Smtp-Source: AGHT+IGje2NOLWZyBvTbOKFz2RQvOvf3tGEdMWOIivPGExiKqzKydUmMnill6Bh8Ml4MIQCJU1H6jPwjffcE6nLb3R4=
-X-Received: by 2002:a17:906:101b:b0:9a1:f21e:cdff with SMTP id
- 27-20020a170906101b00b009a1f21ecdffmr9585879ejm.23.1695089630839; Mon, 18 Sep
- 2023 19:13:50 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83CB510E211
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 03:03:54 +0000 (UTC)
+X-UUID: 27353cfa569911ee8051498923ad61e6-20230919
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=oXsyJo1VmfxEd/RpIUBg1e3nF5UWAh822BaOaPLQSIY=; 
+ b=iiVAUHvUi08ZCLOOKS57KqVfHBvoD4peGiNyP070qdz3ULpPW633LWR7LZpi5yl5KNFvYbOQG3RCtaZXb4hSJZWfwz7NwB9p5OcMPJTVQUDPCGW6S2KqvG5VKJk6oKSRn2IQ/Vy1+eFxyVQ+1MNFu4KNGa/IcOs96m0bfEV+9kc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:ef020b7c-878e-4fae-b690-a1ed559c2f7a, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:0ad78a4, CLOUDID:128e1814-4929-4845-9571-38c601e9c3c9,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 27353cfa569911ee8051498923ad61e6-20230919
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 520481946; Tue, 19 Sep 2023 11:03:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 19 Sep 2023 11:03:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 19 Sep 2023 11:03:46 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>
+Subject: [PATCH 00/10] Add mediate-drm secure flow for SVP
+Date: Tue, 19 Sep 2023 11:03:35 +0800
+Message-ID: <20230919030345.8629-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20230916162835.5719-1-dakr@redhat.com>
-In-Reply-To: <20230916162835.5719-1-dakr@redhat.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 19 Sep 2023 12:13:39 +1000
-Message-ID: <CAPM=9tz=-KE-CVJtDYtHQf8A_tXNZ4yoOj31reiDYob_MtaEXQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau: sched: fix leaking memory of timedout job
-To: Danilo Krummrich <dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +68,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, kherbst@redhat.com,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Shawn Sung <shawn.sung@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 17 Sept 2023 at 02:28, Danilo Krummrich <dakr@redhat.com> wrote:
->
-> Always stop and re-start the scheduler in order to let the scheduler
-> free up the timedout job in case it got signaled. In case of exec jobs
-> the job type specific callback will take care to signal all fences and
-> tear down the channel.
+The patch series provides drm driver support for enabling secure video
+path (SVP) playback on MediaiTek hardware in the Linux kernel.
 
-Reviewed-by: Dave Airlie <airlied@redhat.com>
->
-> Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_exec.c  |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_sched.c | 12 +++++++++---
->  2 files changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
-> index 9c031d15fe0b..49d83ac9e036 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_exec.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
-> @@ -185,7 +185,7 @@ nouveau_exec_job_timeout(struct nouveau_job *job)
->
->         nouveau_sched_entity_fini(job->entity);
->
-> -       return DRM_GPU_SCHED_STAT_ENODEV;
-> +       return DRM_GPU_SCHED_STAT_NOMINAL;
->  }
->
->  static struct nouveau_job_ops nouveau_exec_job_ops = {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> index 88217185e0f3..3b7ea5221226 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -375,14 +375,20 @@ nouveau_sched_run_job(struct drm_sched_job *sched_job)
->  static enum drm_gpu_sched_stat
->  nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
->  {
-> +       struct drm_gpu_scheduler *sched = sched_job->sched;
->         struct nouveau_job *job = to_nouveau_job(sched_job);
-> +       enum drm_gpu_sched_stat stat = DRM_GPU_SCHED_STAT_NOMINAL;
->
-> -       NV_PRINTK(warn, job->cli, "Job timed out.\n");
-> +       drm_sched_stop(sched, sched_job);
->
->         if (job->ops->timeout)
-> -               return job->ops->timeout(job);
-> +               stat = job->ops->timeout(job);
-> +       else
-> +               NV_PRINTK(warn, job->cli, "Generic job timeout.\n");
-> +
-> +       drm_sched_start(sched, true);
->
-> -       return DRM_GPU_SCHED_STAT_ENODEV;
-> +       return stat;
->  }
->
->  static void
-> --
-> 2.41.0
->
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/userspace).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
+
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
+
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
+
+DRM driver handles allocation of gem objects that are backed by a 'secure
+surface' and for displaying a 'secure surface' on the overlay plane.
+This introduces a new flag for object creation called
+DRM_MTK_GEM_CREATE_ENCRYPTED which indicates it should be a 'secure
+surface'. All changes here are in MediaTek specific code.
+
+---
+Based on 2 series:
+[1] Add CMDQ secure driver for SVP
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=785332
+
+[2] dma-buf: heaps: Add MediaTek secure heap
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=782776
+---
+
+CK Hu (1):
+  drm/mediatek: Add interface to allocate MediaTek GEM buffer.
+
+Jason-JH.Lin (9):
+  drm/mediatek/uapi: Add DRM_MTK_GEM_CREATED_ENCRYPTTED flag
+  drm/mediatek: Add secure buffer control flow to mtk_drm_gem
+  drm/mediatek: Add secure identify flag and funcution to mtk_drm_plane
+  drm/mediatek: Add mtk_ddp_sec_write to config secure buffer info
+  drm/mediatek: Add get_sec_port interface to mtk_ddp_comp
+  drm/mediatek: Add secure layer config support for ovl
+  drm/mediatek: Add secure layer config support for ovl_adaptor
+  drm/mediatek: Add secure flow support to mediatek-drm
+  arm64: dts: mt8195-cherry: Add secure mbox settings for vdosys
+
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |  10 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   3 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  31 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  15 +
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 271 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  14 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  13 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  16 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 121 ++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_gem.h        |  16 ++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   7 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   2 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  11 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |   2 +
+ include/uapi/drm/mediatek_drm.h               |  59 ++++
+ 16 files changed, 575 insertions(+), 17 deletions(-)
+ create mode 100644 include/uapi/drm/mediatek_drm.h
+
+-- 
+2.18.0
+
