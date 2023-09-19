@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76677A5A3A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 08:57:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D62F7A5A74
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 09:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D0F10E113;
-	Tue, 19 Sep 2023 06:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F18910E36F;
+	Tue, 19 Sep 2023 07:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C6D10E113
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 06:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695106623; x=1726642623;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lfiaHnZfKd/3p//evG8fdGJkYBW1P2GrgEqscKPGV0E=;
- b=k42Cr6mk/TPviPHgt1HVDr4aL6hjq/PFfDHiSG8+hfMkK0ked+CzkrxM
- q+HxlROs3Ei5bnLm1D+R7RfLZ36JZCqJykOvpGAvY/TYzr799WvQa3c4V
- d0F+OE36z7fvk0xRlGghYUJxbCZPSs0ld5yrSrnriSSaFROv2oZpAzbsW
- cxpcTAw1oO8eDzB8gj+D9Pxn4DOueJ8ZSYftUJ0zxrvV9MOFxbql1leIh
- 0ITmRroWFP/GO6VwOo8qakXK49I9xyfbCewOYNN68V16qkDOkjocdfUcq
- qaN5momSq66FEIPU8XS824yrJkwTIe1pBabVfNL8hIsSFyI0zQFJAPj1D g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="360121899"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; d="scan'208";a="360121899"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 23:57:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="816336694"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; d="scan'208";a="816336694"
-Received: from sorenthe-mobl.ger.corp.intel.com (HELO [10.249.254.70])
- ([10.249.254.70])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2023 23:57:00 -0700
-Message-ID: <53e09f13-eb54-9662-a511-77c012df9646@linux.intel.com>
-Date: Tue, 19 Sep 2023 08:56:58 +0200
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC9010E36F
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 07:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1695107154; x=1695711954; i=deller@gmx.de;
+ bh=Zb8UbBJCHEgdL43lsa3Niz8Ev8QPFiNTo7x+pbv3iGI=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=HkV7kl3a0VMXqvZ2IhZUQFFjznapvW4AvwJk+Lazzh90Xvy/23rLHi4KLLLXhQCWG6VI+m/o/tm
+ cTiKNIraQIj/pzBkZNAoih0F1eAyDlay1XIYocusinqqc1zSYbXbpe8SSO1OMfy+h/xa1IyLlk4bF
+ Q38I0SNHn8OITKjBs4Duc9dfCwRgDiZji8UiUC9boshLTJO8b6wvwXP4TFi+7KPf3xgLkE/xay9gO
+ OF5kii2DwZxLIyupLbv8ja6X5zV78aNnO+l/c4YzguyFmQlSQaDLrjtlCQDohqO3u0sFXJsD/rSI0
+ 3S1d3zk1xgcYAMhLuk5EvxPF8A/leR3ba5kA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.149.158]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mn2aD-1rS32T1ljD-00kBbM; Tue, 19
+ Sep 2023 09:05:54 +0200
+Message-ID: <d436d191-9580-c3ca-1583-02c9cff58494@gmx.de>
+Date: Tue, 19 Sep 2023 09:05:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: Decrypting tt maps in ttm
+Subject: Re: [PATCH 1/2] video: fbdev: core: cfbcopyarea: fix sloppy typing
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Zack Rusin <zackr@vmware.com>, "alexdeucher@gmail.com"
- <alexdeucher@gmail.com>
-References: <15c9beb5f8dcb091b00c35d6206b84aa100d729e.camel@vmware.com>
- <60f15275-ebfd-2fd6-64c4-c8907520e5dd@amd.com>
- <3fa9b4d0-e12a-59b6-14c5-68f7406df129@linux.intel.com>
- <fc935b9f-9b25-bcab-717c-0c31373fcfee@linux.intel.com>
- <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
- <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
- <CADnq5_PPAZqusAoMTrG3OE3seZTQZbj1HC1u-4d5hcCQHsPD0g@mail.gmail.com>
- <b8fa7c6a4cd01fdfabef512972f79b67a1cbe58c.camel@vmware.com>
- <5efd9a5d-7c88-855a-8a2f-5d984ea4a5e7@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <5efd9a5d-7c88-855a-8a2f-5d984ea4a5e7@amd.com>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20230918205209.11709-1-s.shtylyov@omp.ru>
+ <20230918205209.11709-2-s.shtylyov@omp.ru>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230918205209.11709-2-s.shtylyov@omp.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:lVjQ7lcRchmjcsTxUJBEj88dbvm3qtopU+G1P9tSGeXbqJ/KIvz
+ MVvqf/DcicD5urzpRkJOppGcNEg8lGSgui0/h1/w6IZSylX/KgJSS8Us+6qAi002JlpIq+l
+ t2oTERmW9LplOuy6e3dtzJcSaOv8dCpstwGJHbGc0YLsWzm22s9vSX0uSAumYsLOAoXjSPr
+ x0h16h1sMj0zOslXymwNg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:U70Dlbn1t0A=;5o6mtjsjRDBjB0nNRSGG474TNsF
+ yC7U4RblR+FYUpFFIiFojFpIJ0wsEzRy1PlTzjyUSL62gtJN1MRpo4Y4HMB5WuAZuSzwQiSjd
+ vJxr5lX/N+JkZtVYaJIa64GWh1wNZuWI7ys/xVYCOk5eZS69vQtPyyRnqv1vtiwp8cf8z0N/z
+ iPT/8wm0VQvzoNEahwRyyUZsolmJXsAYV4rUBsjk5PuQX3xGHMIQ8T07MKby518CKbCAKjHe1
+ GjyRUQCKkfDEVim/OkNZDKDQCaVJlGK706tO9v5wysctwxI8tBHuDeDUOPAYvi1UJi7OBFAgg
+ Twj6TyX9bHS/FKKGQNyuAHwPVPhBG6DsZOxiXdojNrplqgu8HhXVOLoIoFEYUJo/t4IxMQIMg
+ JknpVTs79u5cLpj4R1oSBQG2aeEpGsqQS15fgKFWFctnr5v1OrcB+saNXUA/fQq87SunAqxry
+ Q963E9vCz7SuN0zvEGlyG7nszX56YikUxI/D1uHizVDd3iM1Pf8pe5IeUH3qyqjcMFbdpwoLe
+ 4r3rG5IX2aGV+DkkEbF1Qq5Fb11GGEWAw1DP8cApByctK2iYF/gtBnMjDEGA16wvXoj5bFC+R
+ N1T7dNYBkZuYpV3QDU/BxknOz+VrlWXqMnxyb7P11ldOtQaAvClpEq/8SvjQeuxvQq/sZWE4S
+ HbUsJ6DGz0uh6M8I+FIP0dkl1spQBNZeAapc84CUnqwIm27CiPrJApZ/7vtYKNmPRVukVf7Ag
+ +TfMVtcFtzFcbhdP3DpFKOuhDPkaE9toHKWQv5eBm0VCNk3QQ+J1ctDE4NbruUltvNOJPdS04
+ es0pxSlS95biVOZlgzYxxTpZDJtWKt2moIIH05/eFEtbrKdLTYfg84JMsOLML2HApbu+5QRnR
+ 1b69zbn8QyyeogOEb6kdJ12MwFhCtSPJtOkK8JuMP9Ynm4vYYo9qVimdF+A2waLDwPhPzPO2l
+ 8gui9HZyZDFeSz8QSpyl+eh6tn0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,154 +72,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 9/19/23 07:39, Christian König wrote:
-> Am 19.09.23 um 03:26 schrieb Zack Rusin:
->> On Mon, 2023-09-18 at 16:21 -0400, Alex Deucher wrote:
->>> !! External Email
->>>
->>> On Mon, Sep 18, 2023 at 3:06 PM Thomas Hellström
->>> <thomas.hellstrom@linux.intel.com> wrote:
->>>>
->>>> On 9/18/23 17:52, Zack Rusin wrote:
->>>>> On Mon, 2023-09-18 at 17:13 +0200, Thomas Hellström wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On 9/18/23 16:56, Thomas Hellström wrote:
->>>>>>> Hi Zack, Christian
->>>>>>>
->>>>>>> On 9/18/23 13:36, Christian König wrote:
->>>>>>>> Hi Zack,
->>>>>>>>
->>>>>>>> adding Thomas and Daniel.
->>>>>>>>
->>>>>>>> I briefly remember that I talked with Thomas and some other people
->>>>>>>> about that quite a while ago as well, but I don't fully 
->>>>>>>> remember the
->>>>>>>> outcome.
->>>>>>> Found one old thread, but didn't read it:
->>>>>>>
->>>>>>> https://lists.freedesktop.org/archives/dri-devel/2019-September/234100.html 
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> /Thomas
->>>>>>>
->>>>>>>
->>>>>> Ugh. Now starting to read that thread I have a vague recollection 
->>>>>> it all
->>>>>> ended with not supporting mapping any device pages whatsoever 
->>>>>> when SEV
->>>>>> was enabled, but rather resorting to llvmpipe and VM-local bos.
->>>>> Hi, Thomas.
->>>>>
->>>>> Thanks for finding this! I'd (of course) like to solve it properly 
->>>>> and get
->>>>> vmwgfx
->>>>> running with 3d support with SEV-ES active instead of essentially 
->>>>> disabling
->>>>> the
->>>>> driver when SEV-ES is active.
->>>>>
->>>>> I think there are two separate discussions there, the 
->>>>> non-controversial one
->>>>> and the
->>>>> controversial one:
->>>>> 1) The non-controversial: is there a case where drivers would want 
->>>>> encrypted
->>>>> memory
->>>>> for TT pages but not for io mem mappings? Because if not then as 
->>>>> Christian
->>>>> pointed
->>>>> out we could just add pgprot_decrypted to ttm_io_prot and be 
->>>>> essentially done.
->>>>> The
->>>>> current method of decrypting io mem but leaving sys mem mappings 
->>>>> encrypted is
->>>>> a bit
->>>>> weird anyway.
->>>>>
->>>>> If the answer to that question is "yes, some driver does want the 
->>>>> TT mappings
->>>>> to be
->>>>> encrypted" then your "[PATCH v2 3/4] drm/ttm, drm/vmwgfx: 
->>>>> Correctly support
->>>>> support
->>>>> AMD memory encryption" solves that. I think getting one of those 
->>>>> two in makes
->>>>> sense
->>>>> regardless of everything else, agreed?
->>>> Well, there is more to it I think.
->>>>
->>>> IIRC, the AMD SME encryption mode has a way for a device to have the
->>>> memory controller (?) encrypt / decrypt device traffic by using an
->>>> address range alias, so in theory it supports encrypted TT pages, and
->>>> the dma-layer may indeed hand encrypted DMA pages to TTM on such 
->>>> systems
->>>> depending on the device's DMA mask. That's why I think that
->>>> force_dma_unencrypted() export was needed, and If the amdgpu driver
->>>> accesses TT memory in SME mode *without* pgprot_decrypted() and it 
->>>> still
->>>> works, then I think that mode is actually used. How could it 
->>>> otherwise work?
->>> For SME, as long as the encrypted bit is set in the physical address
->>> used for DMA, the memory controller will handle the encrypt/decrypt
->>> for the device.  For devices with a limited dma mask, you need to use
->>> the IOMMU so that the encrypted bit is retained when the address hits
->>> the memory controller.
->> How does that work on systems with swiotlb, e.g. swiotlb=force, or 
->> i.e. what would
->> decrypt the ttm tt mappings when copying between system and vram when 
->> iommu is
->> disabled/absent?
+On 9/18/23 22:52, Sergey Shtylyov wrote:
+> In cfb_copyarea(), when initializing *unsigned long const* bits_per_line
+> __u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- whic=
+h
+> might overflow __u32; multiplying by 8UL instead should fix that...
+> Also, that bits_per_line constant is used to advance *unsigned* src_idx
+> and dst_idx variables -- which might be overflowed as well; declaring
+> them as *unsigned long* should fix that too...
 >
-> SME makes it mandatory that all devices can handle the physical 
-> address used for DMA, either native or with the help of IOMMU.
+> Found by Linux Verification Center (linuxtesting.org) with the Svace sta=
+tic
+> analysis tool.
 >
-> Hacks like SWIOTLB are not directly supported as far as I know. Maybe 
-> somehow SWIOTLB manually decrypts the data while copying it or 
-> something like this, but I'm not 100% sure if that is actually 
-> implemented.
+> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Cc: stable@vger.kernel.org
+> ---
+>   drivers/video/fbdev/core/cfbcopyarea.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> Regards,
-> Christian.
+> diff --git a/drivers/video/fbdev/core/cfbcopyarea.c b/drivers/video/fbde=
+v/core/cfbcopyarea.c
+> index 6d4bfeecee35..b67ba69ea2fb 100644
+> --- a/drivers/video/fbdev/core/cfbcopyarea.c
+> +++ b/drivers/video/fbdev/core/cfbcopyarea.c
+> @@ -382,10 +382,11 @@ void cfb_copyarea(struct fb_info *p, const struct =
+fb_copyarea *area)
+>   {
+>   	u32 dx =3D area->dx, dy =3D area->dy, sx =3D area->sx, sy =3D area->s=
+y;
+>   	u32 height =3D area->height, width =3D area->width;
+> -	unsigned long const bits_per_line =3D p->fix.line_length*8u;
+> +	unsigned long const bits_per_line =3D p->fix.line_length * 8UL;
 
-A bold guess after looking at various code and patches:
+you wrote:
+> __u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- whic=
+h
+> might overflow __u32; multiplying by 8UL instead should fix that...
 
-1) Devices under SME that don't support the encryption bit and SEV:
-a) Coherent memory is unencrypted.
-b) Streaming DMA under IOMMU: The IOMMU sets the encrypted bit.
-c) Streaming DMA with SWIOTLB: The bounce buffer is unencrypted. Copying 
-to/from bounce-buffer decrypts/encrypts.
+This would only be true on 64-bit CPUs, where unsigned long is 64 bits,
+while on 32-bit CPUs, it's still 32 bits (same as _u32).
 
-2) Devices under SME that do support the encryption bit (which I believe 
-is most graphics devices in general on SME systems, not just amdgpu; it 
-"just works")
-*) Coherent memory is encrypted. The DMA layer sets dma addresses and 
-pgprot accordingly.
-*) Streaming DMA is encrypted.
+Instead we could make bits_per_line __u32 (or unsigned int) too.
 
-So the bug in TTM would then be it's not handling 1a) and 1b) correctly.
+>   	unsigned long __iomem *base =3D NULL;
+>   	int bits =3D BITS_PER_LONG, bytes =3D bits >> 3;
+> -	unsigned dst_idx =3D 0, src_idx =3D 0, rev_copy =3D 0;
+> +	unsigned long dst_idx =3D 0, src_idx =3D 0;
 
-Remedy:
-1b) Shouldn't be used with encryption.
-1a) This is what we should try to fix. Exporting dma_force_unencrypted() 
-didn't seem to be a way forward. Properly fixing this would, I guess, 
-mean implement the missing functionality in the dma layer: For vmap / 
-kmap we could simply reuse the virtual addresses we get back from 
-dma_alloc_coherent(), but for faulting one would want something like 
-dma_coherent_insert_pfn() (if it doesn't exist already) after a proper 
-disussion with Christoph Hellwig.
+An "unsigned int" can address at least up to 4GB, which is fully sufficent=
+ here.
 
-/Thomas
+So, both patches don't have any real effect.
+NAK.
 
+Helge
 
->
->>
->> z
->>
->
