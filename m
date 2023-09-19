@@ -1,46 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBBF7A64CF
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 15:23:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD057A655E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 15:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA5710E3C0;
-	Tue, 19 Sep 2023 13:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4179110E266;
+	Tue, 19 Sep 2023 13:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 17806 seconds by postgrey-1.36 at gabe;
- Tue, 19 Sep 2023 13:23:46 UTC
-Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAB410E0CC;
- Tue, 19 Sep 2023 13:23:46 +0000 (UTC)
-Received: from spock.localnet (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vulcan.natalenko.name (Postfix) with ESMTPSA id 7E91D1505BC0;
- Tue, 19 Sep 2023 15:23:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1695129822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Tq3JgcNh99UaG2q9/1V/2rlmDp+hgSkFOwAuTwify40=;
- b=EFQn3dLIjGw2NfMY0Mw+zSYng4/2xEivklVs1aPyZtufAL0Lq4Nqiyi6HpVhdS7itx/CEb
- yGDsRTNNyQYfqfPlXZMoj8OyQJa/NAyjd66+SF4pLuPq6x1A6I4tBCO2EoTGAuKCesF2dv
- O+DFMhteDnsG9m5MrIY6EwOyoYqC7nA=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION] [BISECTED] Panic in gen8_ggtt_insert_entries() with
- v6.5
-Date: Tue, 19 Sep 2023 15:23:28 +0200
-Message-ID: <2612319.ElGaqSPkdT@natalenko.name>
-In-Reply-To: <6287208.lOV4Wx5bFT@natalenko.name>
-References: <4857570.31r3eYUQgx@natalenko.name>
- <6287208.lOV4Wx5bFT@natalenko.name>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3FE10E266
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 13:38:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1695130657; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=fmNCdrliKmKlDo9QFTbljpsJthBV+utp8y7CMMjQS2cI7k4YGcLSaoOZ/gNUBE9sF7
+ bUIQMKzJLh30qi/eZxLqTpEK7Gz44KiS9SXW/ePRMxca7wFe+uOcBfXxsuchE1QXNXd6
+ 66qKlGTAz+xlK5ynlDjvPCGmXzsLam9mxWTHm5Ss9sJoUR3NUj4M38xUgkQjwqh7xuHD
+ y3nJ7JgPTG13aiYXb+rfDB4RUWoNbkQLA3b9XLqvBt0DCcHrsTkZKGzCRhlFMk0TaJtv
+ R6nzuexHMXYZZb1FRSWE/SKc/GN6SImfH5ma52vsC/znrLlOD4keN+aQHhsWqezs8/jr
+ h/+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1695130657;
+ s=strato-dkim-0002; d=strato.com;
+ h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
+ b=qAK5LNPrtWq9JY4GDjefVmvqwUJ2sEwqglqxTPy3dLaDT+pIYRaezv/8uokyl0ZVk5
+ IVc51zFv1yb541MSm0zm4jRf2djdJ6q8V9QJr81y+l/+BTtqMoDqFiq1Nk4FVdqpw8RG
+ 3YXyenqF1KRadAVnCoy30I1Yh9wXfEdbuzrIHSCGfKj6LHywzH0HzCknZzEEWsuobqfy
+ uS5aoojhsGVwYf/YG3rvDq9KixgxxOp5UHEnRRptsFkf63eo+zgVp71f1b2QS0/i7dVb
+ eCiEMRFOMh7riFMtu2IcQhBzhmFsb8HM3DEF8a7bq3EykafzSTldAJGwdakHyPVGiimY
+ 6Ujg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1695130657;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
+ b=ZMdtX+2xP1lj3TfciIVF5fsah7wY+MfWwpbvVQttJWfya/seJu5lk4WsgZi/JOO+jC
+ E92uty4UKec96v8dATYwSAjSVH2SE1KsgoT0MzXExJild6lYv7xie7jyMU+mEx9K+a4+
+ wsLqDT13loVkRwIzRCL5N2yKewPT0Wk1ihmmKC2FwhJenM9b+50ORsh+zgY0SRmOUE6K
+ tbXf9f4N3Z3n03VyJNyaMdhxyR314FWO9iIMFlWT540BOuM8qg/TXctKK0Hm1LNvirKU
+ rZbyeR+3h7JOpBUbZ0fu2fFSMuHI95OMBZL+gRkEQBNlhHlfNC5iyc+x2OHkjfEwhRIS
+ TpIw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1695130657;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=C+Lkr4ss6MZINaRjRWZbodjkKT7ulOoKXpAu4jeNUT0=;
+ b=ifLmEvTKOnMXlMzR3QBCX0YGjjxz8aTIuO14dJRB3MjzPCwotBsh4xxAE0dXltYj8h
+ 14bzI3TlgCCkbFK7ASCA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1iTDUhfN4hi3qVZrWLJ"
+Received: from localhost.localdomain by smtp.strato.de (RZmta 49.8.2 DYNA|AUTH)
+ with ESMTPSA id Y04dd7z8JDbYhZC
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 19 Sep 2023 15:37:34 +0200 (CEST)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, tony@atomide.com,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ sre@kernel.org, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] omap: dsi: do not WARN on detach if dsidev was never attached
+Date: Tue, 19 Sep 2023 15:37:28 +0200
+Message-ID: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5147933.GXAFRqVoOG";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,181 +84,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Fei Yang <fei.yang@intel.com>,
- Linux Regressions <regressions@lists.linux.dev>,
- Matthew Wilcox <willy@infradead.org>, Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: letux-kernel@openphoenux.org, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@pyra-handheld.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart5147933.GXAFRqVoOG
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org
-Date: Tue, 19 Sep 2023 15:23:28 +0200
-Message-ID: <2612319.ElGaqSPkdT@natalenko.name>
-In-Reply-To: <6287208.lOV4Wx5bFT@natalenko.name>
-MIME-Version: 1.0
+dsi_init_output() called by dsi_probe() may fail. In that
+case mipi_dsi_host_unregister() is called which may call
+omap_dsi_host_detach() with uninitialized dsi->dsidev
+because omap_dsi_host_attach() was never called before.
 
-/cc Bagas as well (see below).
+This happens if the panel driver asks for an EPROBE_DEFER.
 
-On =C3=BAter=C3=BD 19. z=C3=A1=C5=99=C3=AD 2023 10:26:42 CEST Oleksandr Nat=
-alenko wrote:
-> /cc Matthew Wilcox and Andrew Morton because of folios (please see below).
->=20
-> On sobota 2. z=C3=A1=C5=99=C3=AD 2023 18:14:12 CEST Oleksandr Natalenko w=
-rote:
-> > Hello.
-> >=20
-> > Since v6.5 kernel the following HW:
-> >=20
-> > * Lenovo T460s laptop with Skylake GT2 [HD Graphics 520] (rev 07)
-> > * Lenovo T490s laptop with WhiskeyLake-U GT2 [UHD Graphics 620] (rev 02)
-> >=20
-> > is affected by the following crash once KDE on either X11 or Wayland is=
- started:
-> >=20
-> > i915 0000:00:02.0: enabling device (0006 -> 0007)
-> > i915 0000:00:02.0: vgaarb: deactivate vga console
-> > i915 0000:00:02.0: vgaarb: changed VGA decodes: olddecodes=3Dio+mem,dec=
-odes=3Dio+mem:owns=3Dmem
-> > i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/skl_dmc_ver=
-1_27.bin (v1.27)
-> > [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on minor 1
-> > fbcon: i915drmfb (fb0) is primary device
-> > i915 0000:00:02.0: [drm] fb0: i915drmfb frame buffer device
-> > =E2=80=A6
-> > memfd_create() without MFD_EXEC nor MFD_NOEXEC_SEAL, pid=3D674 'kwin_wa=
-yland'
-> > BUG: unable to handle page fault for address: ffffb422c2800000
-> > #PF: supervisor write access in kernel mode
-> > #PF: error_code(0x0002) - not-present page
-> > PGD 100000067 P4D 100000067 PUD 1001df067 PMD 10d1cf067 PTE 0
-> > Oops: 0002 [#1] PREEMPT SMP PTI
-> > CPU: 1 PID: 674 Comm: kwin_wayland Not tainted 6.5.0-pf1 #1 a6c58ff41a7=
-b8bb16a19f5af9e0e9bce20f9f38d
-> > Hardware name: LENOVO 20FAS2BM0F/20FAS2BM0F, BIOS N1CET90W (1.58 ) 11/1=
-5/2022
-> > RIP: 0010:gen8_ggtt_insert_entries+0xc2/0x140 [i915]
-> > =E2=80=A6
-> > Call Trace:
-> >  <TASK>
-> >  intel_ggtt_bind_vma+0x3e/0x60 [i915 a83fdc6539431252dba13053979a8b680a=
-f86836]
-> >  i915_vma_bind+0x216/0x4b0 [i915 a83fdc6539431252dba13053979a8b680af868=
-36]
-> >  i915_vma_pin_ww+0x405/0xa80 [i915 a83fdc6539431252dba13053979a8b680af8=
-6836]
-> >  __i915_ggtt_pin+0x5a/0x130 [i915 a83fdc6539431252dba13053979a8b680af86=
-836]
-> >  i915_ggtt_pin+0x78/0x1f0 [i915 a83fdc6539431252dba13053979a8b680af8683=
-6]
-> >  __intel_context_do_pin_ww+0x312/0x700 [i915 a83fdc6539431252dba1305397=
-9a8b680af86836]
-> >  i915_gem_do_execbuffer+0xfc6/0x2720 [i915 a83fdc6539431252dba13053979a=
-8b680af86836]
-> >  i915_gem_execbuffer2_ioctl+0x111/0x260 [i915 a83fdc6539431252dba130539=
-79a8b680af86836]
-> >  drm_ioctl_kernel+0xca/0x170
-> >  drm_ioctl+0x30f/0x580
-> >  __x64_sys_ioctl+0x94/0xd0
-> >  do_syscall_64+0x5d/0x90
-> >  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-> > =E2=80=A6
-> > note: kwin_wayland[674] exited with irqs disabled
-> >=20
-> > RIP seems to translate into this:
-> >=20
-> > $ scripts/faddr2line drivers/gpu/drm/i915/gt/intel_ggtt.o gen8_ggtt_ins=
-ert_entries+0xc2
-> > gen8_ggtt_insert_entries+0xc2/0x150:
-> > writeq at /home/pf/work/devel/own/pf-kernel/linux/./arch/x86/include/as=
-m/io.h:99
-> > (inlined by) gen8_set_pte at /home/pf/work/devel/own/pf-kernel/linux/dr=
-ivers/gpu/drm/i915/gt/intel_ggtt.c:257
-> > (inlined by) gen8_ggtt_insert_entries at /home/pf/work/devel/own/pf-ker=
-nel/linux/drivers/gpu/drm/i915/gt/intel_ggtt.c:300
-> >=20
-> > Probably, recent PTE-related changes are relevant:
-> >=20
-> > $ git log --oneline --no-merges v6.4..v6.5 -- drivers/gpu/drm/i915/gt/i=
-ntel_ggtt.c
-> > 3532e75dfadcf drm/i915/uc: perma-pin firmwares
-> > 4722e2ebe6f21 drm/i915/gt: Fix second parameter type of pre-gen8 pte_en=
-code callbacks
-> > 9275277d53248 drm/i915: use pat_index instead of cache_level
-> > 5e352e32aec23 drm/i915: preparation for using PAT index
-> > 341ad0e8e2542 drm/i915/mtl: Add PTE encode function
-> >=20
-> > Also note Lenovo T14s laptop with TigerLake-LP GT2 [Iris Xe Graphics] (=
-rev 01) is not affected by this issue.
-> >=20
-> > Full dmesg with DRM debug enabled is available in the bugreport I've re=
-ported earlier [1]. I'm sending this email to make the issue more visible.
-> >=20
-> > Please help.
-> >=20
-> > Thanks.
-> >=20
-> > [1] https://gitlab.freedesktop.org/drm/intel/-/issues/9256
->=20
-> Matthew,
->=20
-> Andrzej asked me to try to revert commits 0b62af28f249, e0b72c14d8dc and =
-1e0877d58b1e, and reverting those fixed the i915 crash for me. The e0b72c14=
-d8dc and 1e0877d58b1e commits look like just prerequisites, so I assume 0b6=
-2af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch") is t=
-he culprit here.
->=20
-> Could you please check this?
->=20
-> Our conversation with Andrzej is available at drm-intel GitLab [1].
->=20
-> Thanks.
->=20
-> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/9256
+So let's suppress the WARN() in this special case.
 
-Bagas,
+[    7.416759] WARNING: CPU: 0 PID: 32 at drivers/gpu/drm/omapdrm/dss/dsi.c:4419 omap_dsi_host_detach+0x3c/0xbc [omapdrm]
+[    7.436053] Modules linked in: ina2xx_adc snd_soc_ts3a227e bq2429x_charger bq27xxx_battery_i2c(+) bq27xxx_battery ina2xx tca8418_keypad as5013(+) omapdrm hci_uart cec palmas_pwrbutton btbcm bmp280_spi palmas_gpadc bluetooth usb3503 ecdh_generic bmc150_accel_i2c bmg160_i2c ecc bmc150_accel_core bmg160_core bmc150_magn_i2c bmp280_i2c bmc150_magn bno055 industrialio_triggered_buffer bmp280 kfifo_buf snd_soc_omap_aess display_connector drm_kms_helper syscopyarea snd_soc_omap_mcbsp snd_soc_ti_sdma sysfillrect ti_tpd12s015 sysimgblt fb_sys_fops wwan_on_off snd_soc_gtm601 generic_adc_battery drm snd_soc_w2cbw003_bt industrialio drm_panel_orientation_quirks pwm_bl pwm_omap_dmtimer ip_tables x_tables ipv6 autofs4
+[    7.507068] CPU: 0 PID: 32 Comm: kworker/u4:2 Tainted: G        W          6.1.0-rc3-letux-lpae+ #11107
+[    7.516964] Hardware name: Generic OMAP5 (Flattened Device Tree)
+[    7.523284] Workqueue: events_unbound deferred_probe_work_func
+[    7.529456]  unwind_backtrace from show_stack+0x10/0x14
+[    7.534972]  show_stack from dump_stack_lvl+0x40/0x4c
+[    7.540315]  dump_stack_lvl from __warn+0xb0/0x164
+[    7.545379]  __warn from warn_slowpath_fmt+0x70/0x9c
+[    7.550625]  warn_slowpath_fmt from omap_dsi_host_detach+0x3c/0xbc [omapdrm]
+[    7.558137]  omap_dsi_host_detach [omapdrm] from mipi_dsi_remove_device_fn+0x10/0x20
+[    7.566376]  mipi_dsi_remove_device_fn from device_for_each_child+0x60/0x94
+[    7.573729]  device_for_each_child from mipi_dsi_host_unregister+0x20/0x54
+[    7.580992]  mipi_dsi_host_unregister from dsi_probe+0x5d8/0x744 [omapdrm]
+[    7.588315]  dsi_probe [omapdrm] from platform_probe+0x58/0xa8
+[    7.594542]  platform_probe from really_probe+0x144/0x2ac
+[    7.600249]  really_probe from __driver_probe_device+0xc4/0xd8
+[    7.606411]  __driver_probe_device from driver_probe_device+0x3c/0xb8
+[    7.613216]  driver_probe_device from __device_attach_driver+0x58/0xbc
+[    7.620115]  __device_attach_driver from bus_for_each_drv+0xa0/0xb4
+[    7.626737]  bus_for_each_drv from __device_attach+0xdc/0x150
+[    7.632808]  __device_attach from bus_probe_device+0x28/0x80
+[    7.638792]  bus_probe_device from deferred_probe_work_func+0x84/0xa0
+[    7.645595]  deferred_probe_work_func from process_one_work+0x1a4/0x2d8
+[    7.652587]  process_one_work from worker_thread+0x214/0x2b8
+[    7.658567]  worker_thread from kthread+0xe4/0xf0
+[    7.663542]  kthread from ret_from_fork+0x14/0x1c
+[    7.668515] Exception stack(0xf01b5fb0 to 0xf01b5ff8)
+[    7.673827] 5fa0:                                     00000000 00000000 00000000 00000000
+[    7.682435] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    7.691038] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
 
-would you mind adding this to the regression tracker please?
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+---
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks.
-
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart5147933.GXAFRqVoOG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUJoNAACgkQil/iNcg8
-M0vh4xAAt1VYPW8Fr0UHrGvXeZmvGqtxzOHB2BsshvL666iQn9vyVPPz0DyOPLa+
-MlrXGBuvObmjsTyYF/bPlfFACWcP0Sx3AVFD8BSJ9spDNL7DdUPEpYLcY2Q0UZTr
-JFJ/BcASjOr7LIUIG5hsOJY7cWIj1l796QtsSjRXr5QqEOzoqm0c24B4VTPbNyDI
-TEsqg3sy52OvDqvcn6EcSwltn3hrxxIUCF6bxgxselWwwmUs6NosvoC4g+rQRCaX
-wGB5d8DTDTt8TBK3Ye/p4l1WgnCjoWexETPOF9j46ZdsxVDYZHP7ZzFlMuZ4SeEu
-M3mew5MFlvCxJkVCeIzn7M35PiAr2fkHCpHpEdH0xdhNSufGk01NtCBBBeNlqYi4
-xBM9cYtNGT1lUw+74XAYnkiHwlYQVYVgAV9uW2Op80zX2NYmEpt9afQfL3nmqxk/
-1S/1+x7eszn7PDW8jxzSsvZSCVYEglUHbfOT5/fp81VKh0Q9eLWrU6wOM8CHcDSe
-ff3hXUH8MsTHTIgYX7nzhmsiVLu5K4j3S/xIJMFWyg2G8Gs8irdfkEPQw2P0f8+5
-1zAG7WMsb3CDhTOAdfmWQ5GtmxKjExbt850Ujoei5mXtG55kxLztzHEylsw5UH5p
-rBmQK2ApIWTLUZF7yV2Md0pT7iKZ9Y2dBseeuW0EH19nkcmEy3E=
-=GhwR
------END PGP SIGNATURE-----
-
---nextPart5147933.GXAFRqVoOG--
-
-
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index ea63c64d3a1ab..c37eb6b1b9a39 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
+ {
+ 	struct dsi_data *dsi = host_to_omap(host);
+ 
+-	if (WARN_ON(dsi->dsidev != client))
++	if (!dsi->dsidev || WARN_ON(dsi->dsidev != client))
+ 		return -EINVAL;
+ 
+ 	cancel_delayed_work_sync(&dsi->dsi_disable_work);
+-- 
+2.42.0
 
