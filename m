@@ -1,42 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A2C7A6A9E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 20:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62207A6AF4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 20:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2910E220;
-	Tue, 19 Sep 2023 18:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A10788E26;
+	Tue, 19 Sep 2023 18:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B42E10E1D7;
- Tue, 19 Sep 2023 18:23:16 +0000 (UTC)
-Received: from ginger.. (unknown [191.33.115.175])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C75A5660319E;
- Tue, 19 Sep 2023 19:23:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695147794;
- bh=MIhVHMuMS8iI5c/lxHJyWBy4zZOfp/8Z+Dcp2sjs9HE=;
- h=From:To:Cc:Subject:Date:From;
- b=iuLqsyfB8fSIgvACmga4IETDB20ZBCSv6kG9g0vdiSY90VLIoO5vB+mCeuaQ797AG
- deeVUmA7lrgGv9vjb8L+n9ivv+BYXlQ97hOgJAcc8oUfPQUvVg0rqJy7YT2p0ropxM
- 2B/0usnIHgzo7dCz5jDoNqOyNoRd5QY2SEUV0+MMsYIJjLCwuMy/JEwmEh8EMfcZfM
- bNg/j+rwyOlY8WCVavlnK0ME2MfX5iaG6KDEMfbzUN94thOpuwPGD2Fezw7ILuMv23
- b49RvWTo0OYFhrlHd/RwJEkbQuRt/xr2bn62owJXsXY4flp6K4/13XbOBBK0T9zRSM
- O2mMc1ScM99kw==
-From: Helen Koike <helen.koike@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: drm/ci: add entries for xfail files
-Date: Tue, 19 Sep 2023 15:22:49 -0300
-Message-Id: <20230919182249.153499-1-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E6F88E26
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 18:55:32 +0000 (UTC)
+Received: from [192.168.1.103] (178.176.79.31) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Tue, 19 Sep
+ 2023 21:55:26 +0300
+Subject: Re: [PATCH 1/2] video: fbdev: core: cfbcopyarea: fix sloppy typing
+To: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
+ <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20230918205209.11709-1-s.shtylyov@omp.ru>
+ <20230918205209.11709-2-s.shtylyov@omp.ru>
+ <d436d191-9580-c3ca-1583-02c9cff58494@gmx.de>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <03096350-c12a-b442-b695-3233a46d1008@omp.ru>
+Date: Tue, 19 Sep 2023 21:55:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <d436d191-9580-c3ca-1583-02c9cff58494@gmx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [178.176.79.31]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 09/19/2023 18:39:25
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 179974 [Sep 19 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 534 534 808c2ea49f7195c68d40844e073217da4fa0d1e3
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.79.31 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2; omp.ru:7.1.1;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: {rdns complete}
+X-KSE-AntiSpam-Info: {fromrtbl complete}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.79.31
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 09/19/2023 18:46:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 9/19/2023 4:23:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,87 +83,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, neil.armstrong@linaro.org, michel.daenzer@mailbox.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, airlied@redhat.com, alexander.deucher@amd.com,
- linux-amlogic@lists.infradead.org
+Cc: stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM CI keeps track of which tests are failing, flaking or being skipped
-by the ci in the expectations files. Add entries for those files to the
-corresponding driver maintainer, so they can be notified when they
-change.
+Hello!
 
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
----
+On 9/19/23 10:05 AM, Helge Deller wrote:
 
-For reference: https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg463165.html
+>> In cfb_copyarea(), when initializing *unsigned long const* bits_per_line
+>> __u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- which
+>> might overflow __u32; multiplying by 8UL instead should fix that...
+>> Also, that bits_per_line constant is used to advance *unsigned* src_idx
+>> and dst_idx variables -- which might be overflowed as well; declaring
+>> them as *unsigned long* should fix that too...
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with the Svace static
+>> analysis tool.
+>>
+>> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>> Cc: stable@vger.kernel.org
+>> ---
+>>   drivers/video/fbdev/core/cfbcopyarea.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/video/fbdev/core/cfbcopyarea.c b/drivers/video/fbdev/core/cfbcopyarea.c
+>> index 6d4bfeecee35..b67ba69ea2fb 100644
+>> --- a/drivers/video/fbdev/core/cfbcopyarea.c
+>> +++ b/drivers/video/fbdev/core/cfbcopyarea.c
+>> @@ -382,10 +382,11 @@ void cfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
+>>   {
+>>       u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
+>>       u32 height = area->height, width = area->width;
+>> -    unsigned long const bits_per_line = p->fix.line_length*8u;
+>> +    unsigned long const bits_per_line = p->fix.line_length * 8UL;
+> 
+> you wrote:
+>> __u32 typed fb_fix_screeninfo::line_length gets multiplied by 8u -- which
+>> might overflow __u32; multiplying by 8UL instead should fix that...
+> 
+> This would only be true on 64-bit CPUs, where unsigned long is 64 bits,
 
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+   Right, Svace was run with the arm64 and x86_64 configs -- and I forgot
+to make the emphasis on the 64-bit specifics here...
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 90f13281d297..740a2ce2689c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6614,6 +6614,7 @@ S:	Maintained
- B:	https://gitlab.freedesktop.org/drm/msm/-/issues
- T:	git https://gitlab.freedesktop.org/drm/msm.git
- F:	Documentation/devicetree/bindings/display/msm/
-+F:	drivers/gpu/drm/ci/xfails/msm*
- F:	drivers/gpu/drm/msm/
- F:	include/uapi/drm/msm_drm.h
- 
-@@ -6886,6 +6887,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
- F:	Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
- F:	Documentation/gpu/meson.rst
-+F:	drivers/gpu/drm/ci/xfails/meson*
- F:	drivers/gpu/drm/meson/
- 
- DRM DRIVERS FOR ATMEL HLCDC
-@@ -6994,6 +6996,7 @@ L:	dri-devel@lists.freedesktop.org
- L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/display/mediatek/
-+F:	drivers/gpu/drm/ci/xfails/mediatek*
- F:	drivers/gpu/drm/mediatek/
- F:	drivers/phy/mediatek/phy-mtk-dp.c
- F:	drivers/phy/mediatek/phy-mtk-hdmi*
-@@ -7034,6 +7037,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/rockchip/
-+F:	drivers/gpu/drm/ci/xfails/rockchip*
- F:	drivers/gpu/drm/rockchip/
- 
- DRM DRIVERS FOR STI
-@@ -10476,6 +10480,7 @@ C:	irc://irc.oftc.net/intel-gfx
- T:	git git://anongit.freedesktop.org/drm-intel
- F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
- F:	Documentation/gpu/i915.rst
-+F:	drivers/gpu/drm/ci/xfails/i915*
- F:	drivers/gpu/drm/i915/
- F:	include/drm/i915*
- F:	include/uapi/drm/i915_drm.h
-@@ -17862,6 +17867,7 @@ C:	irc://irc.oftc.net/radeon
- T:	git https://gitlab.freedesktop.org/agd5f/linux.git
- F:	Documentation/gpu/amdgpu/
- F:	drivers/gpu/drm/amd/
-+F:	drivers/gpu/drm/ci/xfails/amd*
- F:	drivers/gpu/drm/radeon/
- F:	include/uapi/drm/amdgpu_drm.h
- F:	include/uapi/drm/radeon_drm.h
-@@ -22846,6 +22852,7 @@ L:	dri-devel@lists.freedesktop.org
- L:	virtualization@lists.linux-foundation.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/ci/xfails/virtio*
- F:	drivers/gpu/drm/virtio/
- F:	include/uapi/linux/virtio_gpu.h
- 
--- 
-2.34.1
+> while on 32-bit CPUs, it's still 32 bits (same as _u32).
 
+   Yes, indeed. That *unsigned long const* doesn't seem justified
+at all then...
+
+> Instead we could make bits_per_line __u32 (or unsigned int) too.
+
+   Yes. Will you accept such a patch? :-)
+
+>>       unsigned long __iomem *base = NULL;
+>>       int bits = BITS_PER_LONG, bytes = bits >> 3;
+>> -    unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
+>> +    unsigned long dst_idx = 0, src_idx = 0;
+> 
+> An "unsigned int" can address at least up to 4GB, which is fully sufficent here.
+
+   Good to know! :-)
+
+> So, both patches don't have any real effect.
+> NAK.
+
+   Thanks for your time!
+
+> Helge
+
+MBR, Sergey
