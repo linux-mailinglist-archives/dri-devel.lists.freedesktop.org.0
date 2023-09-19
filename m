@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F8F7A6DF2
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 00:05:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E3D7A6DF8
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 00:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604AF10E2A7;
-	Tue, 19 Sep 2023 22:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8C910E2B3;
+	Tue, 19 Sep 2023 22:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 129FC10E2A9
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 22:05:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E26D10E2AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 22:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695161129;
+ s=mimecast20190719; t=1695161132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOp44erh93Op166lIwiGxIOz02Snc9ZtqEI8RrC7P5o=;
- b=H8MydYlI7JbpBw+nyL4NUIt4cZZrRrH3r5RNOwtgShdSZfHF8lWnXSxGHE+rrD0cY1ugFy
- 9qLimhGXt5IqHzqkTBl/ejLPcfLDlzwCMwqV8YzJ/N6l9Gq5EesgtuzwSfXpHWqfMoFfXU
- v6BN8VLmYHeRiAWZ02JggoKDqqfnfPs=
+ bh=VeWrNv6y0A8UxFC0LMaVVA7Eb9rkM6ihmiHF44TJExE=;
+ b=Ho0wPt1EIb64B8plBIxUllReh6fIFwVZq655nGogiorbVCbSPFnLgOutkLCtVod57ihH6i
+ bNMtOXDkSOzRqnB126TE8D1phtbGwYwVevj3UBMEqA4g3f3x8LPRVCuLDUyPpQepT1BU9L
+ J5UWK6QaXpjoTBeWfHK9qYZSw+sJlLs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-6PTi3dMMNEOYkUk3s3qIjA-1; Tue, 19 Sep 2023 18:05:26 -0400
-X-MC-Unique: 6PTi3dMMNEOYkUk3s3qIjA-1
+ us-mta-687-0Ns_hya6O_K3zMaJ2yMAyg-1; Tue, 19 Sep 2023 18:05:29 -0400
+X-MC-Unique: 0Ns_hya6O_K3zMaJ2yMAyg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B086858299;
- Tue, 19 Sep 2023 22:05:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0CAD185A790;
+ Tue, 19 Sep 2023 22:05:28 +0000 (UTC)
 Received: from emerald.lyude.net (unknown [10.22.18.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4BD540C2064;
- Tue, 19 Sep 2023 22:05:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5884B40C2064;
+ Tue, 19 Sep 2023 22:05:28 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org
-Subject: [PATCH v3 08/44] drm/nouveau/disp: add output method to fetch edid
-Date: Tue, 19 Sep 2023 17:56:03 -0400
-Message-ID: <20230919220442.202488-9-lyude@redhat.com>
+Subject: [PATCH v3 09/44] drm/nouveau/disp: rename internal output
+ acquire/release functions
+Date: Tue, 19 Sep 2023 17:56:04 -0400
+Message-ID: <20230919220442.202488-10-lyude@redhat.com>
 In-Reply-To: <20230919220442.202488-1-lyude@redhat.com>
 References: <20230919220442.202488-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -68,188 +69,146 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ben Skeggs <bskeggs@redhat.com>
 
-- needed to support TMDS EDID on RM
+These will be made static later in the patch series, after the code that
+uses them has been cleaned up in preparation for GSP-RM support.
 
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 Acked-by: Danilo Krummrich <me@dakr.org>
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/nouveau/include/nvif/if0012.h | 10 +++++++
- drivers/gpu/drm/nouveau/include/nvif/outp.h   |  1 +
- drivers/gpu/drm/nouveau/nouveau_connector.c   | 22 ++++++++------
- drivers/gpu/drm/nouveau/nvif/outp.c           | 30 +++++++++++++++++++
- .../gpu/drm/nouveau/nvkm/engine/disp/outp.h   |  1 +
- .../gpu/drm/nouveau/nvkm/engine/disp/uoutp.c  | 15 ++++++++++
- 6 files changed, 70 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c  | 10 ++++++++--
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h  |  5 +++--
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c | 16 ++++++++--------
+ 3 files changed, 19 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/if0012.h b/drivers/gpu/drm/nouveau/include/nvif/if0012.h
-index 923bc30af2a92..725d6e8e3d2d3 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/if0012.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/if0012.h
-@@ -13,6 +13,7 @@ union nvif_outp_args {
- };
- 
- #define NVIF_OUTP_V0_DETECT        0x00
-+#define NVIF_OUTP_V0_EDID_GET      0x01
- 
- #define NVIF_OUTP_V0_ACQUIRE       0x11
- #define NVIF_OUTP_V0_RELEASE       0x12
-@@ -36,6 +37,15 @@ union nvif_outp_detect_args {
- 	} v0;
- };
- 
-+union nvif_outp_edid_get_args {
-+	struct nvif_outp_edid_get_v0 {
-+		__u8  version;
-+		__u8  pad01;
-+		__u16 size;
-+		__u8  data[2048];
-+	} v0;
-+};
-+
- union nvif_outp_load_detect_args {
- 	struct nvif_outp_load_detect_v0 {
- 		__u8  version;
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/outp.h b/drivers/gpu/drm/nouveau/include/nvif/outp.h
-index c3e1e4d2f1a11..7c2c34a84fbd8 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/outp.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/outp.h
-@@ -25,6 +25,7 @@ enum nvif_outp_detect_status {
- };
- 
- enum nvif_outp_detect_status nvif_outp_detect(struct nvif_outp *);
-+int nvif_outp_edid_get(struct nvif_outp *, u8 **pedid);
- 
- int nvif_outp_load_detect(struct nvif_outp *, u32 loadval);
- int nvif_outp_acquire_rgb_crt(struct nvif_outp *);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index a290a2844547c..c079686fa2408 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -570,7 +570,6 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = NULL;
- 	struct nouveau_encoder *nv_partner;
--	struct i2c_adapter *i2c;
- 	int type;
- 	int ret;
- 	enum drm_connector_status conn_status = connector_status_disconnected;
-@@ -593,15 +592,20 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	nv_encoder = nouveau_connector_ddc_detect(connector);
--	if (nv_encoder && (i2c = nv_encoder->i2c) != NULL) {
--		struct edid *new_edid;
-+	if (nv_encoder) {
-+		struct edid *new_edid = NULL;
- 
--		if ((vga_switcheroo_handler_flags() &
--		     VGA_SWITCHEROO_CAN_SWITCH_DDC) &&
--		    nv_connector->type == DCB_CONNECTOR_LVDS)
--			new_edid = drm_get_edid_switcheroo(connector, i2c);
--		else
--			new_edid = drm_get_edid(connector, i2c);
-+		if (nv_encoder->i2c) {
-+			if ((vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC) &&
-+			    nv_connector->type == DCB_CONNECTOR_LVDS)
-+				new_edid = drm_get_edid_switcheroo(connector, nv_encoder->i2c);
-+			else
-+				new_edid = drm_get_edid(connector, nv_encoder->i2c);
-+		} else {
-+			ret = nvif_outp_edid_get(&nv_encoder->outp, (u8 **)&new_edid);
-+			if (ret < 0)
-+				return connector_status_disconnected;
-+		}
- 
- 		nouveau_connector_set_edid(nv_connector, new_edid);
- 		if (!nv_connector->edid) {
-diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouveau/nvif/outp.c
-index 7f1daab35a0d2..10480142eea5a 100644
---- a/drivers/gpu/drm/nouveau/nvif/outp.c
-+++ b/drivers/gpu/drm/nouveau/nvif/outp.c
-@@ -210,6 +210,36 @@ nvif_outp_load_detect(struct nvif_outp *outp, u32 loadval)
- 	return ret < 0 ? ret : args.load;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c
+index fb061144438dc..3ed93df475fcc 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c
+@@ -89,7 +89,7 @@ nvkm_outp_xlat(struct nvkm_outp *outp, enum nvkm_ior_type *type)
  }
  
-+int
-+nvif_outp_edid_get(struct nvif_outp *outp, u8 **pedid)
-+{
-+	struct nvif_outp_edid_get_v0 *args;
-+	int ret;
-+
-+	args = kmalloc(sizeof(*args), GFP_KERNEL);
-+	if (!args)
-+		return -ENOMEM;
-+
-+	args->version = 0;
-+
-+	ret = nvif_mthd(&outp->object, NVIF_OUTP_V0_EDID_GET, args, sizeof(*args));
-+	NVIF_ERRON(ret, &outp->object, "[EDID_GET] size:%d", args->size);
-+	if (ret)
-+		goto done;
-+
-+	*pedid = kmalloc(args->size, GFP_KERNEL);
-+	if (!*pedid) {
-+		ret = -ENOMEM;
-+		goto done;
-+	}
-+
-+	memcpy(*pedid, args->data, args->size);
-+	ret = args->size;
-+done:
-+	kfree(args);
-+	return ret;
-+}
-+
- enum nvif_outp_detect_status
- nvif_outp_detect(struct nvif_outp *outp)
+ void
+-nvkm_outp_release(struct nvkm_outp *outp, u8 user)
++nvkm_outp_release_or(struct nvkm_outp *outp, u8 user)
  {
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
-index 8c9fe878f3209..1cd70868f2255 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
-@@ -87,6 +87,7 @@ struct nvkm_outp_func {
- 	void (*fini)(struct nvkm_outp *);
+ 	struct nvkm_ior *ior = outp->ior;
+ 	OUTP_TRACE(outp, "release %02x &= %02x %p", outp->acquired, ~user, ior);
+@@ -142,7 +142,7 @@ nvkm_outp_acquire_hda(struct nvkm_outp *outp, enum nvkm_ior_type type,
+ }
  
- 	int (*detect)(struct nvkm_outp *);
-+	int (*edid_get)(struct nvkm_outp *, u8 *data, u16 *size);
- 
- 	int (*acquire)(struct nvkm_outp *);
- 	void (*release)(struct nvkm_outp *);
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-index 43752e216ce88..0c4ffa3ffb288 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-@@ -275,6 +275,20 @@ nvkm_uoutp_mthd_load_detect(struct nvkm_outp *outp, void *argv, u32 argc)
+ int
+-nvkm_outp_acquire(struct nvkm_outp *outp, u8 user, bool hda)
++nvkm_outp_acquire_or(struct nvkm_outp *outp, u8 user, bool hda)
+ {
+ 	struct nvkm_ior *ior = outp->ior;
+ 	enum nvkm_ior_proto proto;
+@@ -234,6 +234,12 @@ nvkm_outp_detect(struct nvkm_outp *outp)
  	return ret;
  }
  
-+static int
-+nvkm_uoutp_mthd_edid_get(struct nvkm_outp *outp, void *argv, u32 argc)
++void
++nvkm_outp_release(struct nvkm_outp *outp)
 +{
-+	union nvif_outp_edid_get_args *args = argv;
-+
-+	if (argc != sizeof(args->v0) || args->v0.version != 0)
-+		return -ENOSYS;
-+	if (!outp->func->edid_get)
-+		return -EINVAL;
-+
-+	args->v0.size = ARRAY_SIZE(args->v0.data);
-+	return outp->func->edid_get(outp, args->v0.data, &args->v0.size);
++	nvkm_outp_release_or(outp, NVKM_OUTP_USER);
 +}
 +
+ void
+ nvkm_outp_fini(struct nvkm_outp *outp)
+ {
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
+index 1cd70868f2255..76d83fb9c6e59 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h
+@@ -77,8 +77,9 @@ void nvkm_outp_fini(struct nvkm_outp *);
+ 
+ int nvkm_outp_detect(struct nvkm_outp *);
+ 
+-int nvkm_outp_acquire(struct nvkm_outp *, u8 user, bool hda);
+-void nvkm_outp_release(struct nvkm_outp *, u8 user);
++int nvkm_outp_acquire_or(struct nvkm_outp *, u8 user, bool hda);
++void nvkm_outp_release(struct nvkm_outp *);
++void nvkm_outp_release_or(struct nvkm_outp *, u8 user);
+ void nvkm_outp_route(struct nvkm_disp *);
+ 
+ struct nvkm_outp_func {
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+index 0c4ffa3ffb288..828db77af242b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+@@ -141,7 +141,7 @@ nvkm_uoutp_mthd_release(struct nvkm_outp *outp, void *argv, u32 argc)
+ 		ior->func->hdmi->ctrl(ior, head->id, false, 0, 0);
+ 	}
+ 
+-	nvkm_outp_release(outp, NVKM_OUTP_USER);
++	nvkm_outp_release(outp);
+ 	return 0;
+ }
+ 
+@@ -151,7 +151,7 @@ nvkm_uoutp_mthd_acquire_dp(struct nvkm_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SIZE]
+ {
+ 	int ret;
+ 
+-	ret = nvkm_outp_acquire(outp, NVKM_OUTP_USER, hda);
++	ret = nvkm_outp_acquire_or(outp, NVKM_OUTP_USER, hda);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -172,7 +172,7 @@ nvkm_uoutp_mthd_acquire_tmds(struct nvkm_outp *outp, u8 head, u8 hdmi, u8 hdmi_m
+ 	if (!(outp->asy.head = nvkm_head_find(outp->disp, head)))
+ 		return -EINVAL;
+ 
+-	ret = nvkm_outp_acquire(outp, NVKM_OUTP_USER, hdmi && hdmi_hda);
++	ret = nvkm_outp_acquire_or(outp, NVKM_OUTP_USER, hdmi && hdmi_hda);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -182,7 +182,7 @@ nvkm_uoutp_mthd_acquire_tmds(struct nvkm_outp *outp, u8 head, u8 hdmi, u8 hdmi_m
+ 		if (!ior->func->hdmi ||
+ 		    hdmi_max_ac_packet > 0x1f || hdmi_rekey > 0x7f ||
+ 		    (hdmi_scdc && !ior->func->hdmi->scdc)) {
+-			nvkm_outp_release(outp, NVKM_OUTP_USER);
++			nvkm_outp_release_or(outp, NVKM_OUTP_USER);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -203,7 +203,7 @@ nvkm_uoutp_mthd_acquire_lvds(struct nvkm_outp *outp, bool dual, bool bpc8)
+ 	outp->lvds.dual = dual;
+ 	outp->lvds.bpc8 = bpc8;
+ 
+-	return nvkm_outp_acquire(outp, NVKM_OUTP_USER, false);
++	return nvkm_outp_acquire_or(outp, NVKM_OUTP_USER, false);
+ }
+ 
  static int
- nvkm_uoutp_mthd_detect(struct nvkm_outp *outp, void *argv, u32 argc)
- {
-@@ -319,6 +333,7 @@ nvkm_uoutp_mthd_noacquire(struct nvkm_outp *outp, u32 mthd, void *argv, u32 argc
- {
- 	switch (mthd) {
- 	case NVIF_OUTP_V0_DETECT     : return nvkm_uoutp_mthd_detect     (outp, argv, argc);
-+	case NVIF_OUTP_V0_EDID_GET   : return nvkm_uoutp_mthd_edid_get   (outp, argv, argc);
- 	case NVIF_OUTP_V0_ACQUIRE    : return nvkm_uoutp_mthd_acquire    (outp, argv, argc);
- 	case NVIF_OUTP_V0_LOAD_DETECT: return nvkm_uoutp_mthd_load_detect(outp, argv, argc);
- 	case NVIF_OUTP_V0_DP_AUX_PWR : return nvkm_uoutp_mthd_dp_aux_pwr (outp, argv, argc);
+@@ -219,7 +219,7 @@ nvkm_uoutp_mthd_acquire(struct nvkm_outp *outp, void *argv, u32 argc)
+ 
+ 	switch (args->v0.proto) {
+ 	case NVIF_OUTP_ACQUIRE_V0_RGB_CRT:
+-		ret = nvkm_outp_acquire(outp, NVKM_OUTP_USER, false);
++		ret = nvkm_outp_acquire_or(outp, NVKM_OUTP_USER, false);
+ 		break;
+ 	case NVIF_OUTP_ACQUIRE_V0_TMDS:
+ 		ret = nvkm_uoutp_mthd_acquire_tmds(outp, args->v0.tmds.head,
+@@ -261,7 +261,7 @@ nvkm_uoutp_mthd_load_detect(struct nvkm_outp *outp, void *argv, u32 argc)
+ 	if (argc != sizeof(args->v0) || args->v0.version != 0)
+ 		return -ENOSYS;
+ 
+-	ret = nvkm_outp_acquire(outp, NVKM_OUTP_PRIV, false);
++	ret = nvkm_outp_acquire_or(outp, NVKM_OUTP_PRIV, false);
+ 	if (ret == 0) {
+ 		if (outp->ior->func->sense) {
+ 			ret = outp->ior->func->sense(outp->ior, args->v0.data);
+@@ -269,7 +269,7 @@ nvkm_uoutp_mthd_load_detect(struct nvkm_outp *outp, void *argv, u32 argc)
+ 		} else {
+ 			ret = -EINVAL;
+ 		}
+-		nvkm_outp_release(outp, NVKM_OUTP_PRIV);
++		nvkm_outp_release_or(outp, NVKM_OUTP_PRIV);
+ 	}
+ 
+ 	return ret;
 -- 
 2.41.0
 
