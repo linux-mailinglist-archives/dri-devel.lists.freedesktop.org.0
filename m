@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D797A67F7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 17:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369157A6848
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 17:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A559310E28C;
-	Tue, 19 Sep 2023 15:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1F210E27A;
+	Tue, 19 Sep 2023 15:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB7D10E28C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 15:24:17 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7479B53;
- Tue, 19 Sep 2023 17:22:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695136959;
- bh=9vIyKWF61Oki0ViP0MM9OtlYNdPRel3PPjwYgBK9PgM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fxBxJ7GxeYlxsv1O+e8OcB0xbaq3uqYvHMy6CJ+TAxNH9W/dGWlrG+m/XoCY3m6z6
- QH/kgnB92SDfVDlD79tXdPCTTTNCgerQ8jVda95uBOVKtQVkPsKmtQuPAwhTeAbQXP
- BBt/QdZG/1mxqJrUUV1gCD1fW4Gj21NPLG2qfhvI=
-Date: Tue, 19 Sep 2023 18:24:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT
- support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
- + DT support)
-Message-ID: <20230919152428.GB18426@pendragon.ideasonboard.com>
-References: <cover.1694767208.git.geert+renesas@glider.be>
- <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8AF10E27A;
+ Tue, 19 Sep 2023 15:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=K4XOxDjoQc0tDKul2sAFg8dPE5RBNC5v+ER7EvKWlro=; b=NUUqRKI9eBera0KC3gXkeqZtkM
+ /GFKMZSxhT/N4WSHKiJ/LnKARML8J4fVRmJAK6vS+sngTB3qVVyL5CZ7+aYjPzEBzodj/t51kyRLt
+ +lC5J68P8dYuCckGOdMcFiLmJTQjK6XnyMKf+KwyMI7oVjFXRLoLzSfMEgkQla6fltpCc33xk0tTD
+ jkWzrEOofVLacRE1OsH9DD0Y3UrJuKKDfV9dv6ARDpn1HVgbpIj1e8+kk7CJygrv6/VjTWV4BPRkl
+ RwV6MSNc1q6jXJklBhtoCEN0yr3A6DbNe1h+LuJ/9Kx0mqQ2fnY4HswW1WJ8xjBYMRuhM1tY0rMmS
+ FoqlIc6w==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1qict2-000Qnd-Tt; Tue, 19 Sep 2023 15:43:40 +0000
+Date: Tue, 19 Sep 2023 16:43:40 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Oleksandr Natalenko <oleksandr@natalenko.name>
+Subject: Re: [REGRESSION] [BISECTED] Panic in gen8_ggtt_insert_entries() with
+ v6.5
+Message-ID: <ZQnBrLCPnZfG0A1s@casper.infradead.org>
+References: <4857570.31r3eYUQgx@natalenko.name>
+ <6287208.lOV4Wx5bFT@natalenko.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+In-Reply-To: <6287208.lOV4Wx5bFT@natalenko.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,142 +49,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Nathan Chancellor <nathan@kernel.org>, linux-mm@kvack.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Fei Yang <fei.yang@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
-> Hi David, Daniel,
+On Tue, Sep 19, 2023 at 10:26:42AM +0200, Oleksandr Natalenko wrote:
+> Andrzej asked me to try to revert commits 0b62af28f249, e0b72c14d8dc and 1e0877d58b1e, and reverting those fixed the i915 crash for me. The e0b72c14d8dc and 1e0877d58b1e commits look like just prerequisites, so I assume 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch") is the culprit here.
 > 
-> The following changes since commit 0663e1da5ba8e6459e3555ac12c62741668c0d30:
+> Could you please check this?
 > 
->   drm/dp_mst: Tune down error message during payload addition
-> (2023-09-18 16:38:21 +0300)
+> Our conversation with Andrzej is available at drm-intel GitLab [1].
 > 
-> are available in the Git repository at:
+> Thanks.
 > 
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-> tags/shmob-drm-atomic-dt-tag1
-> 
-> for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87b7:
-> 
->   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
-> 
-> ----------------------------------------------------------------
-> drm: renesas: shmobile: Atomic conversion + DT support
-> 
-> Currently, there are two drivers for the LCD controller on Renesas
-> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
->   1. sh_mobile_lcdcfb, using the fbdev framework,
->   2. shmob_drm, using the DRM framework.
-> However, only the former driver is used, as all platform support
-> integrates the former.  None of these drivers support DT-based systems.
-> 
-> Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
-> support, complemented by the customary set of fixes and improvements.
-> 
-> Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
-> 
-> This PR is based on today's drm-misc/for-linux-next, to avoid a
-> conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
-> platform remove callback returning void") in drm-misc/for-linux-next
-> .
-> Thanks for pulling!
-> ----------------------------------------------------------------
-> Geert Uytterhoeven (36):
->       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/9256
 
-I'm technically listed as the maintainer for this driver until Geert
-takes over, so for this pull request,
+Wow, that is some great debugging.  Thanks for all the time & effort
+you and others have invested.  Sorry for breaking your system.
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+You're almost right about the "prerequisites", but it's in the other
+direction; 0b62af28f249 is a prerequisite for the later two cleanups,
+so reverting all three is necessary to test 0b62af28f249.
 
-And after that, shmobile won't need my ack to merge further changes :-)
+It seems to me that you've isolated the problem to constructing overly
+long sg lists.  I didn't realise that was going to be a problem, so
+that's my fault.
 
-This is very nice work Geert. I'm looking forward to dropping the
-sh_mobile_lcdcfb driver.
+Could I ask you to try this patch?  I'll follow up with another patch
+later because I think I made another assumption that may not be valid.
 
->       dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
->       media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
->       drm: renesas: shmobile: Fix overlay plane disable
->       drm: renesas: shmobile: Fix ARGB32 overlay format typo
->       drm: renesas: shmobile: Correct encoder/connector types
->       drm: renesas: shmobile: Add support for Runtime PM
->       drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
->       drm: renesas: shmobile: Use %p4cc to print fourcc code
->       drm: renesas: shmobile: Add missing YCbCr formats
->       drm: renesas: shmobile: Improve shmob_drm_format_info table
->       drm: renesas: shmobile: Improve error handling
->       drm: renesas: shmobile: Convert to use devm_request_irq()
->       drm: renesas: shmobile: Remove custom plane destroy callback
->       drm: renesas: shmobile: Use drmm_universal_plane_alloc()
->       drm: renesas: shmobile: Embed drm_device in shmob_drm_device
->       drm: renesas: shmobile: Convert container helpers to static inline functions
->       drm: renesas: shmobile: Replace .dev_private with container_of()
->       drm: renesas: shmobile: Use media bus formats in platform data
->       drm: renesas: shmobile: Move interface handling to connector setup
->       drm: renesas: shmobile: Unify plane allocation
->       drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
->       drm: renesas: shmobile: Rename shmob_drm_connector.connector
->       drm: renesas: shmobile: Rename shmob_drm_plane.plane
->       drm: renesas: shmobile: Use drm_crtc_handle_vblank()
->       drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
->       drm: renesas: shmobile: Wait for page flip when turning CRTC off
->       drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
->       drm: renesas: shmobile: Shutdown the display on remove
->       drm: renesas: shmobile: Cleanup encoder
->       drm: renesas: shmobile: Atomic conversion part 1
->       drm: renesas: shmobile: Atomic conversion part 2
->       drm: renesas: shmobile: Use suspend/resume helpers
->       drm: renesas: shmobile: Remove internal CRTC state tracking
->       drm: renesas: shmobile: Atomic conversion part 3
->       drm: renesas: shmobile: Add DT support
-> 
-> Laurent Pinchart (5):
->       drm: renesas: shmobile: Remove backlight support
->       drm: renesas: shmobile: Don't set display info width and height twice
->       drm: renesas: shmobile: Rename input clocks
->       drm: renesas: shmobile: Remove support for SYS panels
->       drm: renesas: shmobile: Use struct videomode in platform data
-> 
->  .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
->  .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
->  MAINTAINERS                                        |  13 +-
->  drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
->  drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
->  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
->  include/linux/platform_data/shmob_drm.h            |  57 +-
->  include/uapi/linux/media-bus-format.h              |   3 +-
->  17 files changed, 860 insertions(+), 813 deletions(-)
->  create mode 100644
-> Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
->  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
->  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
-
--- 
-Regards,
-
-Laurent Pinchart
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 8f1633c3fb93..73a4a4eb29e0 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -100,6 +100,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 	st->nents = 0;
+ 	for (i = 0; i < page_count; i++) {
+ 		struct folio *folio;
++		unsigned long nr_pages;
+ 		const unsigned int shrink[] = {
+ 			I915_SHRINK_BOUND | I915_SHRINK_UNBOUND,
+ 			0,
+@@ -150,6 +151,8 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 			}
+ 		} while (1);
+ 
++		nr_pages = min_t(unsigned long,
++				folio_nr_pages(folio), page_count - i);
+ 		if (!i ||
+ 		    sg->length >= max_segment ||
+ 		    folio_pfn(folio) != next_pfn) {
+@@ -157,13 +160,13 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 				sg = sg_next(sg);
+ 
+ 			st->nents++;
+-			sg_set_folio(sg, folio, folio_size(folio), 0);
++			sg_set_folio(sg, folio, nr_pages * PAGE_SIZE, 0);
+ 		} else {
+ 			/* XXX: could overflow? */
+-			sg->length += folio_size(folio);
++			sg->length += nr_pages * PAGE_SIZE;
+ 		}
+-		next_pfn = folio_pfn(folio) + folio_nr_pages(folio);
+-		i += folio_nr_pages(folio) - 1;
++		next_pfn = folio_pfn(folio) + nr_pages;
++		i += nr_pages - 1;
+ 
+ 		/* Check that the i965g/gm workaround works. */
+ 		GEM_BUG_ON(gfp & __GFP_DMA32 && next_pfn >= 0x00100000UL);
