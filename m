@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6DB7A6E99
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 00:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8013B7A6EDC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 00:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7863310E414;
-	Tue, 19 Sep 2023 22:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF6ED10E12D;
+	Tue, 19 Sep 2023 22:53:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFBF10E408
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 22:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695162241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iu9scWxa8/Kic0aeMHk9swfJe1CpFtZjtsKcvFgigt0=;
- b=N1kdmYidjS/mVMOJw1vKEOAmc0DAFHV9iZ3ZV9slwBhXJEszcttNrN1YhmoLMNNV7I3Mov
- Bz9QKwWeI5a99aJxeb4PGuR5EdCg/V/oaTzPdkhMn83oGpq4ioDoBeHa7jF861VWJl1yG5
- sUG6W+OkOiACaa4f0hQLvTWGttQwCBU=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-lSeWCXz2PO-54Bxx2RV7kA-1; Tue, 19 Sep 2023 18:23:59 -0400
-X-MC-Unique: lSeWCXz2PO-54Bxx2RV7kA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2b8405aace3so77688761fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 15:23:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695162238; x=1695767038;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iu9scWxa8/Kic0aeMHk9swfJe1CpFtZjtsKcvFgigt0=;
- b=kNA/os0pJW8BeOurx4WtnKSpoFksdyyT2+0cvmNPvLJM1CwmBhmmD9OUwx+R3g5fru
- acP75N9oNMzEBX5hkOJyF5AXMT/sMVahQKeSIRIeMx3mSgANoKZKgYVnh44G/yMywibI
- syX39J12hz+oMr7KugZpkT/c9U7+SqQVwyPi4PFWlcRswoztHLqO6s+wj8CrqzOU4DjW
- OILkHSfPPkQQtFp6WRg7pYknAewBt9p8Oqurx+OLbzfk1BFrfAcbNKYPSK7pit2u/FIv
- mWx+zaZM9CVcxSHwu78/HR9fG0AacEk5TFbzEvIl+RymCVfh9sFU45C7b8kZD6Y2fFxc
- Xv0Q==
-X-Gm-Message-State: AOJu0YxbC3Nl6AjmrI0QrtlqwmQv51FvO1fEldukbZfpON3u4evwsrt2
- MTWVMgww3sfHUtqKbPoA73JjWs3QLFo3LBb0kdL8SBCqsMl2nXurqS74btUMoMLOW9zUTjg/rR/
- St7YCGCeBtc4luNFFEc2s280lwtLp
-X-Received: by 2002:a2e:9dd4:0:b0:2c0:3284:64d5 with SMTP id
- x20-20020a2e9dd4000000b002c0328464d5mr566293ljj.47.1695162238076; 
- Tue, 19 Sep 2023 15:23:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSLfTM/e2pj9i25MZfS/WM7Ty4jUCTezq3kTq4v+sE6/bvXNCRHvHUXT0YlVrk/G/yCtRqIA==
-X-Received: by 2002:a2e:9dd4:0:b0:2c0:3284:64d5 with SMTP id
- x20-20020a2e9dd4000000b002c0328464d5mr566282ljj.47.1695162237631; 
- Tue, 19 Sep 2023 15:23:57 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- br13-20020a170906d14d00b0099cf9bf4c98sm8464321ejb.8.2023.09.19.15.23.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Sep 2023 15:23:57 -0700 (PDT)
-Message-ID: <3f643295-f742-ab49-18fa-f0d07981e59b@redhat.com>
-Date: Wed, 20 Sep 2023 00:23:55 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 335DD10E12D;
+ Tue, 19 Sep 2023 22:53:35 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38JLOoaq007293; Tue, 19 Sep 2023 22:53:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=yFvkAN2U77GZQzYs3I/vg/aVIL6xZ9s/4RXI0DI68lo=;
+ b=WPCKnLsYZhN6BwmrysIUYUlg90n9pWY/zcmazsA2k1asDuyTBSfdqCB2T0CoCdonBLTt
+ oVydH4SMZxnL5NzSStxs272Uz14shqozZ1YDHXvMRi8p0hS97mzxydYps5p/Q8IMphNZ
+ DXMNDAQyAgH/mXY7KaklugF9Jw6ddo0xNzEKc/pGb5f1RL53IkdOYCZlU6RY3Qje4FVZ
+ 3XnwUS9bAYHtOI+y4tpNV1ng7t3mHEzm41nsaDT+LPeVnW/a5RKSdVi6XXknUA61ie1p
+ g6I/SsGHTPO6/jbjOX1VGDROTNmktoqo0jjWip63Vv/6IaWZTEXrQsYiEw0smy3rp9Nm vw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t6pmq3upq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Sep 2023 22:53:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38JMrHU5027195
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Sep 2023 22:53:17 GMT
+Received: from [10.71.111.102] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 19 Sep
+ 2023 15:53:16 -0700
+Message-ID: <24afa449-afe5-fdf4-0ad4-f2174e412569@quicinc.com>
+Date: Tue, 19 Sep 2023 15:53:16 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Nouveau] [PATCH] nouveau/u_memcpya: fix NULL vs error pointer bug
-To: Dan Carpenter <dan.carpenter@linaro.org>
-References: <10fd258b-466f-4c5b-9d48-fe61a3f21424@moroto.mountain>
- <91865741-dd19-39ad-9042-d34ed32e0552@redhat.com>
- <813a260a-80ac-4c11-a0c5-f50edb399b5c@kadam.mountain>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <813a260a-80ac-4c11-a0c5-f50edb399b5c@kadam.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm: remove drm_bridge_hpd_disable() from
+ drm_bridge_connector_destroy()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230919174813.26958-1-quic_abhinavk@quicinc.com>
+ <20230919181246.GA24325@pendragon.ideasonboard.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230919181246.GA24325@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -C_-drNL20fqcxiFF3LbtRn6farci87o
+X-Proofpoint-ORIG-GUID: -C_-drNL20fqcxiFF3LbtRn6farci87o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-19_12,2023-09-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=813 mlxscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309190195
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,56 +84,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org,
+ andersson@kernel.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, quic_parellan@quicinc.com,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/16/23 16:24, Dan Carpenter wrote:
-> On Sat, Sep 16, 2023 at 01:41:43AM +0200, Danilo Krummrich wrote:
->> Hi Dan,
+Hi Laurent
+
+On 9/19/2023 11:12 AM, Laurent Pinchart wrote:
+> Hi Abhinav,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Sep 19, 2023 at 10:48:12AM -0700, Abhinav Kumar wrote:
+>> drm_bridge_hpd_enable()/drm_bridge_hpd_disable() callbacks call into
+>> the respective driver's hpd_enable()/hpd_disable() ops. These ops control
+>> the HPD enable/disable logic which in some cases like MSM can be a
+>> dedicate hardware block to control the HPD.
 >>
->> On 9/15/23 14:59, Dan Carpenter wrote:
->>> The u_memcpya() function is supposed to return error pointers on
->>> error.  Returning NULL will lead to an Oops.
->>>
->>> Fixes: 68132cc6d1bc ("nouveau/u_memcpya: use vmemdup_user")
->>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> ---
->>>    drivers/gpu/drm/nouveau/nouveau_drv.h | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
->>> index 3666a7403e47..52a708a98915 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
->>> @@ -193,7 +193,7 @@ u_memcpya(uint64_t user, unsigned int nmemb, unsigned int size)
->>>    	size_t bytes;
->>>    	if (unlikely(check_mul_overflow(nmemb, size, &bytes)))
->>> -		return NULL;
->>> +		return ERR_PTR(-ENOMEM);
+>> During probe_defer cases, a connector can be initialized and then later
+>> destroyed till the probe is retried. During connector destroy in these
+>> cases, the hpd_disable() callback gets called without a corresponding
+>> hpd_enable() leading to an unbalanced state potentially causing even
+>> a crash.
 >>
->> I plan to replace this function with an upcoming vmemdup_array_user() helper,
->> which returns -EOVERFLOW instead, hence mind using that?
+>> This can be avoided by the respective drivers maintaining their own
+>> state logic to ensure that a hpd_disable() without a corresponding
+>> hpd_enable() just returns without doing anything.
 >>
->> Unless you disagree, no need to resubmit the patch, I can change it
->> before applying the patch.
+>> However, to have a generic fix it would be better to avoid the
+>> hpd_disable() callback from the connector destroy path and let
+>> the hpd_enable() / hpd_disable() balance be maintained by the
+>> corresponding drm_bridge_connector_enable_hpd() /
+>> drm_bridge_connector_disable_hpd() APIs which should get called by
+>> drm_kms_helper_disable_hpd().
 > 
-> Generally, I would say that ENOMEM is the correct error code.  I feel
-> like someone thinks EOVERFLOW means integer overflow and that's not
-> correct.  I means like if you pass a number higher than INT_MAX to
-> kstroint().
+> The change makes sense to me, but I'm a bit worried this could introduce
+> a regression by leaving HPD enabled in some cases.
 > 
-> But I don't care strongly about this.  You can change it if you want to.
-
-I seems that vmemdup_array_user() will keep using EOVERFLOW, hence aligning to
-that.
-
-Pushed the patch to drm-misc-fixes, thanks!
-
+> I agree that bridges shouldn't track the HPD state, it should be tracked
+> by the core and the .enable_hpd() and .disable_hpd() operations should
+> be balanced. Their documentation, however, doesn't clearly state this,
+> and the documentation of the callers of these operations is also fairly
+> unclear.
 > 
-> regards,
-> dan carpenter
+> Could you perhaps try to improve the documentation ? With that,
 > 
 
+Yes, sure, Let me upload another patch to improve the documentation of 
+.enable_hpd(), .disable_hpd() and its callers.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> for this patch.
+> 
+
+Thanks
+
+Abhinav
+
+>> changes in v2:
+>> 	- minor change in commit text (Dmitry)
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/drm_bridge_connector.c | 6 ------
+>>   1 file changed, 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+>> index 1da93d5a1f61..c4dba39acfd8 100644
+>> --- a/drivers/gpu/drm/drm_bridge_connector.c
+>> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+>> @@ -187,12 +187,6 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+>>   	struct drm_bridge_connector *bridge_connector =
+>>   		to_drm_bridge_connector(connector);
+>>   
+>> -	if (bridge_connector->bridge_hpd) {
+>> -		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+>> -
+>> -		drm_bridge_hpd_disable(hpd);
+>> -	}
+>> -
+>>   	drm_connector_unregister(connector);
+>>   	drm_connector_cleanup(connector);
+>>   
+> 
