@@ -1,38 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF527A6BBF
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 21:49:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EDA7A6BE4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 21:55:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83BC310E24F;
-	Tue, 19 Sep 2023 19:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5958610E1D9;
+	Tue, 19 Sep 2023 19:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECC710E1D9;
- Tue, 19 Sep 2023 19:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=vdqM9SRxwQlx1Icm+Y2BUJy4OvZR+xQvc2NZy3lMllo=; b=VWvC7AOVyrmVZ69EWYqETfNWzM
- LPPoTgCAgs4/flhJBcgd+KtrL41recfIOYc97OXcwTy2/XisT9/fyRKo92+DG/HibXDm3sfwJa7Tp
- mFppHnAcdd1GI4b1f54NifXzQz5dvzHMvnIAnOcg7A/wg1t/gRpwe+rkRfNmhucG3jRt23yOfNgq6
- 3fXjc2HAGJgyOCGN0qmi4IYySbOa3MHBZJNJnQtUNGrpcLFkdV0ljAvzoNQh/bp8Wzin21yO716Wv
- GeAICBMRtoA9Kt8WBv/KYftqNKtTBlvJrrtUb/C6LhSgUhPSRuJXLwe9FnU7JEYw2kO7WP0B6m3G2
- s/GClI4A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qigiR-001SQP-2I; Tue, 19 Sep 2023 19:48:59 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH] i915: Limit the length of an sg list to the requested length
-Date: Tue, 19 Sep 2023 20:48:55 +0100
-Message-Id: <20230919194855.347582-1-willy@infradead.org>
-X-Mailer: git-send-email 2.37.1
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AACA10E1D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 19:55:51 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qigp2-0002Ho-Vt; Tue, 19 Sep 2023 21:55:49 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qigp2-007Wh3-8Y; Tue, 19 Sep 2023 21:55:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qigp1-0035rs-VN; Tue, 19 Sep 2023 21:55:47 +0200
+Date: Tue, 19 Sep 2023 21:55:46 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Shawn Guo <shawnguo@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx/lcdc: Fix double-free of driver data
+Message-ID: <20230919195546.xykqgt6kvqohe6eb@pengutronix.de>
+References: <20230706092731.2630232-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yogaf7bvz6vg4bpm"
+Content-Disposition: inline
+In-Reply-To: <20230706092731.2630232-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,74 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Oleksandr Natalenko <oleksandr@natalenko.name>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stable@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The folio conversion changed the behaviour of shmem_sg_alloc_table() to
-put the entire length of the last folio into the sg list, even if the sg
-list should have been shorter.  gen8_ggtt_insert_entries() relied on the
-list being the right langth and would overrun the end of the page tables.
-Other functions may also have been affected.
 
-Clamp the length of the last entry in the sg list to be the expected
-length.
+--yogaf7bvz6vg4bpm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch")
-Cc: stable@vger.kernel.org # 6.5.x
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/9256
-Link: https://lore.kernel.org/lkml/6287208.lOV4Wx5bFT@natalenko.name/
-Reported-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
----
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Hello,
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 8f1633c3fb93..73a4a4eb29e0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -100,6 +100,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 	st->nents = 0;
- 	for (i = 0; i < page_count; i++) {
- 		struct folio *folio;
-+		unsigned long nr_pages;
- 		const unsigned int shrink[] = {
- 			I915_SHRINK_BOUND | I915_SHRINK_UNBOUND,
- 			0,
-@@ -150,6 +151,8 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 			}
- 		} while (1);
- 
-+		nr_pages = min_t(unsigned long,
-+				folio_nr_pages(folio), page_count - i);
- 		if (!i ||
- 		    sg->length >= max_segment ||
- 		    folio_pfn(folio) != next_pfn) {
-@@ -157,13 +160,13 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 				sg = sg_next(sg);
- 
- 			st->nents++;
--			sg_set_folio(sg, folio, folio_size(folio), 0);
-+			sg_set_folio(sg, folio, nr_pages * PAGE_SIZE, 0);
- 		} else {
- 			/* XXX: could overflow? */
--			sg->length += folio_size(folio);
-+			sg->length += nr_pages * PAGE_SIZE;
- 		}
--		next_pfn = folio_pfn(folio) + folio_nr_pages(folio);
--		i += folio_nr_pages(folio) - 1;
-+		next_pfn = folio_pfn(folio) + nr_pages;
-+		i += nr_pages - 1;
- 
- 		/* Check that the i965g/gm workaround works. */
- 		GEM_BUG_ON(gfp & __GFP_DMA32 && next_pfn >= 0x00100000UL);
--- 
-2.40.1
+On Thu, Jul 06, 2023 at 11:27:31AM +0200, Uwe Kleine-K=F6nig wrote:
+> The struct imx_lcdc driver data is allocated using devm_drm_dev_alloc()
+> so it must not be explicitly kfree()d.
+>=20
+> Also drm_kms_helper_poll_fini() should not be called as there is no
+> matching drm_kms_helper_poll_init(). So drop the release function
+> completely.
+>=20
+> Fixes: c87e859cdeb5 ("drm/imx/lcdc: Implement DRM driver for imx25")
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
+This fix is now waiting for two months to be picked up. Who feels
+responsible?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--yogaf7bvz6vg4bpm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUJ/MEACgkQj4D7WH0S
+/k745Qf/dAWyiIlIH8Ho83DpP3R/2bmeUhrb1PSbtZgy//peF7TnghJx/uBtsRBK
+2uc4SB60+nZDpSy+NrsCvDLZlW6CCS/LnC0UR8ZT3GSJj3V7a6bXFIioj/7GQfPV
+F5FkDniNRfku6jXV4aB31nQPVsSqVZ2EwoX6WZUmadDEcccPzyRhHmeuFx2TRMkZ
+a9PFgAbU71be4+X7N5chiBsjxFNEW9bIVDMlnQ8K8FvWgVYWDPADBQqO5fTW/Xw1
+3a0TUeI4Y9kGuJ93ler3fdMOKNONfxQnaUBpae/WLCapptvnMFZCJ8Gac5Ifl8A8
+icUjBt1HTsBOW0OwnMWCwOK+f6D/5w==
+=y55O
+-----END PGP SIGNATURE-----
+
+--yogaf7bvz6vg4bpm--
