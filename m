@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B435A7A66E8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 16:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA327A66EB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Sep 2023 16:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68D410E3D6;
-	Tue, 19 Sep 2023 14:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A047710E3E1;
+	Tue, 19 Sep 2023 14:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9F310E3DB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A2010E3D6
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Sep 2023 14:41:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1695134461; x=1726670461;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UrbS1p7pigbrMoHkWIybzrrP47ZIFFyuQBqtKPafbPQ=;
- b=hrbFwid41QwxeyUV62IsbYmmipjna4QuHD213doxefziTLXiJuJ5YoQG
- 5M4SSOa/brCS5MFnuXaDLIWihQ2spZJwq2/2OlTH/+8v6aomCLX4kULwr
- ZpQ+sH37nE/yalzadsL5rKyGPcTyUfvCsJHiuR9dallDEYu2FDW0aQ/Of
- DBJi5WrQspn5f1fVBP5eZShtyzWQBUQS7nb0frJkuQWir6usVjxNXR5qN
- aGWrJOhkK5rqzCLI3fsEsedu2DbgEgXsS22bXcstLg3vBt8oBpp/w+vqg
- Nx5EEE4sliSQjsPa9J5R2EN276MycapEH/QWh9aiDCYq5ZOh/q/rXtEnA g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="410886788"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="410886788"
+ bh=3RY5rg+TK5jWt5Qe/5M48pIpPhYJFnjmqSr3u+jvJKg=;
+ b=G+JMg1fdoI9VL1tEx2OAoRBDsuOMMJCIiso0PKD9aKOyN7xUcCzhy8m2
+ q36+h+FvaFZkVizNO8w9zDQAuGnjAlXfZXA7KW8jzDAjJTJ/3mgVIZft0
+ UgUYxVF9rVbyrPNT/HXNioHDCJ2vBIkPk4pnzJF7CviF5wQiPlGN3v4sI
+ xlrMgqCICsczPFq38h08fueKT7lHKzDFHt43Lzs6uqQ9gTud/xdDNM/8T
+ XKeQPg5CzS4aI264MIfulxRSV092mZnn5BP2otUTRearrh2IQ0Ck59O3f
+ 9cKGkC/5esTQM24C+UiEQjSeUflN9dS9PvFb45+xVttLOwwvzsHJTV4WP w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="410886790"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="410886790"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 07:40:03 -0700
+ 19 Sep 2023 07:40:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="811743066"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="811743066"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="811743110"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; d="scan'208";a="811743110"
 Received: from jbrzezin-mobl.ger.corp.intel.com (HELO kdrobnik-desk.intel.com)
  ([10.213.17.188])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2023 07:40:01 -0700
+ 19 Sep 2023 07:40:03 -0700
 From: Karolina Stolarek <karolina.stolarek@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 1/4] drm/ttm/tests: Add tests for ttm_resource and
- ttm_sys_man
-Date: Tue, 19 Sep 2023 16:39:42 +0200
-Message-Id: <d65fd0f3ae6e51fb4a63bfd92939704d1267e1e0.1695133574.git.karolina.stolarek@intel.com>
+Subject: [PATCH v4 2/4] drm/ttm/tests: Add tests for ttm_tt
+Date: Tue, 19 Sep 2023 16:39:43 +0200
+Message-Id: <00a0457075cbfafbb016d33831f838a59dfc3bba.1695133574.git.karolina.stolarek@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1695133574.git.karolina.stolarek@intel.com>
 References: <cover.1695133574.git.karolina.stolarek@intel.com>
@@ -66,464 +65,391 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Test initialization of ttm_resource using different memory domains.
-Add tests for a system memory manager and functions that can be
-tested without a fully-featured resource manager. Update
-ttm_bo_kunit_init() to initialize BO's kref and a genuine GEM drm
-object. Export ttm_resource_alloc for test purposes only.
+Test initialization, creation and destruction of ttm_tt instances.
+Export ttm_tt_destroy and ttm_tt_create symbols for testing purposes.
 
 Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
 ---
  drivers/gpu/drm/ttm/tests/Makefile            |   1 +
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  25 +-
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   4 +
- drivers/gpu/drm/ttm/tests/ttm_resource_test.c | 335 ++++++++++++++++++
- drivers/gpu/drm/ttm/ttm_resource.c            |   3 +
- 5 files changed, 367 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  20 ++
+ drivers/gpu/drm/ttm/tests/ttm_tt_test.c       | 295 ++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_tt.c                  |   3 +
+ 4 files changed, 319 insertions(+)
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_tt_test.c
 
 diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-index ec87c4fc1ad5..c92fe2052ef6 100644
+index c92fe2052ef6..f570530bbb60 100644
 --- a/drivers/gpu/drm/ttm/tests/Makefile
 +++ b/drivers/gpu/drm/ttm/tests/Makefile
-@@ -3,4 +3,5 @@
- obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
+@@ -4,4 +4,5 @@ obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
          ttm_device_test.o \
          ttm_pool_test.o \
-+        ttm_resource_test.o \
+         ttm_resource_test.o \
++        ttm_tt_test.o \
          ttm_kunit_helpers.o
 diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index 81661d8827aa..c605f010ea08 100644
+index c605f010ea08..76c94d6afef1 100644
 --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
 +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -29,19 +29,42 @@ struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- 					    struct ttm_test_devices *devs,
- 					    size_t size)
- {
--	struct drm_gem_object gem_obj = { .size = size };
-+	struct drm_gem_object gem_obj = { };
- 	struct ttm_buffer_object *bo;
-+	int err;
- 
- 	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, bo);
- 
- 	bo->base = gem_obj;
-+	err = drm_gem_object_init(devs->drm, &bo->base, size);
-+	KUNIT_ASSERT_EQ(test, err, 0);
+@@ -2,9 +2,29 @@
+ /*
+  * Copyright © 2023 Intel Corporation
+  */
++#include <drm/ttm/ttm_tt.h>
 +
- 	bo->bdev = devs->ttm_dev;
-+	kref_init(&bo->kref);
+ #include "ttm_kunit_helpers.h"
  
- 	return bo;
- }
- EXPORT_SYMBOL_GPL(ttm_bo_kunit_init);
- 
-+struct ttm_place *ttm_place_kunit_init(struct kunit *test,
-+				       uint32_t mem_type, uint32_t flags,
-+				       size_t size)
++static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo,
++					   uint32_t page_flags)
 +{
-+	struct ttm_place *place;
++	struct ttm_tt *tt;
 +
-+	place = kunit_kzalloc(test, sizeof(*place), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, place);
++	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
++	ttm_tt_init(tt, bo, 0, ttm_cached, 0);
 +
-+	place->mem_type = mem_type;
-+	place->flags = flags;
-+	place->fpfn = size >> PAGE_SHIFT;
-+	place->lpfn = place->fpfn + (size >> PAGE_SHIFT);
-+
-+	return place;
++	return tt;
 +}
-+EXPORT_SYMBOL_GPL(ttm_place_kunit_init);
 +
- struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test)
- {
- 	struct ttm_test_devices *devs;
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-index e261e3660d0b..f38140f93c05 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -8,6 +8,7 @@
- #include <drm/drm_drv.h>
- #include <drm/ttm/ttm_device.h>
- #include <drm/ttm/ttm_bo.h>
-+#include <drm/ttm/ttm_placement.h>
++static void ttm_tt_simple_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
++{
++	kfree(ttm);
++}
++
+ struct ttm_device_funcs ttm_dev_funcs = {
++	.ttm_tt_create = ttm_tt_simple_create,
++	.ttm_tt_destroy = ttm_tt_simple_destroy,
+ };
+ EXPORT_SYMBOL_GPL(ttm_dev_funcs);
  
- #include <drm/drm_kunit_helpers.h>
- #include <kunit/test.h>
-@@ -28,6 +29,9 @@ int ttm_device_kunit_init(struct ttm_test_devices *priv,
- struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
- 					    struct ttm_test_devices *devs,
- 					    size_t size);
-+struct ttm_place *ttm_place_kunit_init(struct kunit *test,
-+				       uint32_t mem_type, uint32_t flags,
-+				       size_t size);
- 
- struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test);
- struct ttm_test_devices *ttm_test_devices_all(struct kunit *test);
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
 new file mode 100644
-index 000000000000..851cdc43dc37
+index 000000000000..4f5fc4d460b4
 --- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-@@ -0,0 +1,335 @@
++++ b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
+@@ -0,0 +1,295 @@
 +// SPDX-License-Identifier: GPL-2.0 AND MIT
 +/*
 + * Copyright © 2023 Intel Corporation
 + */
-+#include <drm/ttm/ttm_resource.h>
++#include <linux/shmem_fs.h>
++#include <drm/ttm/ttm_tt.h>
 +
 +#include "ttm_kunit_helpers.h"
 +
-+#define RES_SIZE		SZ_4K
-+#define TTM_PRIV_DUMMY_REG	(TTM_NUM_MEM_TYPES - 1)
++#define BO_SIZE		SZ_4K
 +
-+struct ttm_resource_test_case {
++struct ttm_tt_test_case {
 +	const char *description;
-+	uint32_t mem_type;
-+	uint32_t flags;
++	uint32_t size;
++	uint32_t extra_pages_num;
 +};
 +
-+struct ttm_resource_test_priv {
-+	struct ttm_test_devices *devs;
-+	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+};
-+
-+static const struct ttm_resource_manager_func ttm_resource_manager_mock_funcs = { };
-+
-+static int ttm_resource_test_init(struct kunit *test)
++static int ttm_tt_test_init(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv;
++	struct ttm_test_devices *priv;
 +
 +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
 +	KUNIT_ASSERT_NOT_NULL(test, priv);
 +
-+	priv->devs = ttm_test_devices_all(test);
-+	KUNIT_ASSERT_NOT_NULL(test, priv->devs);
-+
++	priv = ttm_test_devices_all(test);
 +	test->priv = priv;
 +
 +	return 0;
 +}
 +
-+static void ttm_resource_test_fini(struct kunit *test)
-+{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+
-+	ttm_test_devices_put(test, priv->devs);
-+}
-+
-+static void ttm_init_test_mocks(struct kunit *test,
-+				struct ttm_resource_test_priv *priv,
-+				uint32_t mem_type, uint32_t flags)
-+{
-+	size_t size = RES_SIZE;
-+
-+	/* Make sure we have what we need for a good BO mock */
-+	KUNIT_ASSERT_NOT_NULL(test, priv->devs->ttm_dev);
-+
-+	priv->bo = ttm_bo_kunit_init(test, priv->devs, size);
-+	priv->place = ttm_place_kunit_init(test, mem_type, flags, size);
-+}
-+
-+static void ttm_init_test_manager(struct kunit *test,
-+				  struct ttm_resource_test_priv *priv,
-+				  uint32_t mem_type)
-+{
-+	struct ttm_device *ttm_dev = priv->devs->ttm_dev;
-+	struct ttm_resource_manager *man;
-+	size_t size = SZ_16K;
-+
-+	man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, man);
-+
-+	man->use_tt = false;
-+	man->func = &ttm_resource_manager_mock_funcs;
-+
-+	ttm_resource_manager_init(man, ttm_dev, size);
-+	ttm_set_driver_manager(ttm_dev, mem_type, man);
-+	ttm_resource_manager_set_used(man, true);
-+}
-+
-+static const struct ttm_resource_test_case ttm_resource_cases[] = {
++static const struct ttm_tt_test_case ttm_tt_init_basic_cases[] = {
 +	{
-+		.description = "Init resource in TTM_PL_SYSTEM",
-+		.mem_type = TTM_PL_SYSTEM,
++		.description = "Page-aligned size",
++		.size = SZ_4K,
 +	},
 +	{
-+		.description = "Init resource in TTM_PL_VRAM",
-+		.mem_type = TTM_PL_VRAM,
-+	},
-+	{
-+		.description = "Init resource in a private placement",
-+		.mem_type = TTM_PRIV_DUMMY_REG,
-+	},
-+	{
-+		.description = "Init resource in TTM_PL_SYSTEM, set placement flags",
-+		.mem_type = TTM_PL_SYSTEM,
-+		.flags = TTM_PL_FLAG_TOPDOWN,
++		.description = "Extra pages requested",
++		.size = SZ_4K,
++		.extra_pages_num = 1,
 +	},
 +};
 +
-+static void ttm_resource_case_desc(const struct ttm_resource_test_case *t, char *desc)
++static void ttm_tt_init_case_desc(const struct ttm_tt_test_case *t,
++				  char *desc)
 +{
 +	strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
 +}
 +
-+KUNIT_ARRAY_PARAM(ttm_resource, ttm_resource_cases, ttm_resource_case_desc);
++KUNIT_ARRAY_PARAM(ttm_tt_init_basic, ttm_tt_init_basic_cases,
++		  ttm_tt_init_case_desc);
 +
-+static void ttm_resource_init_basic(struct kunit *test)
++static void ttm_tt_init_basic(struct kunit *test)
 +{
-+	const struct ttm_resource_test_case *params = test->param_value;
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource *res;
++	const struct ttm_tt_test_case *params = test->param_value;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource_manager *man;
-+	uint64_t expected_usage;
++	struct ttm_tt *tt;
++	uint32_t page_flags = TTM_TT_FLAG_ZERO_ALLOC;
++	enum ttm_caching caching = ttm_cached;
++	uint32_t extra_pages = params->extra_pages_num;
++	int num_pages = params->size >> PAGE_SHIFT;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, params->mem_type, params->flags);
-+	bo = priv->bo;
-+	place = priv->place;
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	if (params->mem_type > TTM_PL_SYSTEM)
-+		ttm_init_test_manager(test, priv, params->mem_type);
++	bo = ttm_bo_kunit_init(test, test->priv, params->size);
 +
-+	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, res);
++	err = ttm_tt_init(tt, bo, page_flags, caching, extra_pages);
++	KUNIT_ASSERT_EQ(test, err, 0);
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
-+	expected_usage = man->usage + RES_SIZE;
++	KUNIT_ASSERT_EQ(test, tt->num_pages, num_pages + extra_pages);
 +
-+	KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[bo->priority]));
++	KUNIT_ASSERT_EQ(test, tt->page_flags, page_flags);
++	KUNIT_ASSERT_EQ(test, tt->caching, caching);
 +
-+	ttm_resource_init(bo, place, res);
-+
-+	KUNIT_ASSERT_EQ(test, res->start, 0);
-+	KUNIT_ASSERT_EQ(test, res->size, RES_SIZE);
-+	KUNIT_ASSERT_EQ(test, res->mem_type, place->mem_type);
-+	KUNIT_ASSERT_EQ(test, res->placement, place->flags);
-+	KUNIT_ASSERT_PTR_EQ(test, res->bo, bo);
-+
-+	KUNIT_ASSERT_NULL(test, res->bus.addr);
-+	KUNIT_ASSERT_EQ(test, res->bus.offset, 0);
-+	KUNIT_ASSERT_FALSE(test, res->bus.is_iomem);
-+	KUNIT_ASSERT_EQ(test, res->bus.caching, ttm_cached);
-+	KUNIT_ASSERT_EQ(test, man->usage, expected_usage);
-+
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo->priority]));
-+
-+	ttm_resource_fini(man, res);
++	KUNIT_ASSERT_NULL(test, tt->dma_address);
++	KUNIT_ASSERT_NULL(test, tt->swap_storage);
 +}
 +
-+static void ttm_resource_init_pinned(struct kunit *test)
++static void ttm_tt_init_misaligned(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource *res;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource_manager *man;
++	struct ttm_tt *tt;
++	enum ttm_caching caching = ttm_cached;
++	uint32_t size = SZ_8K;
++	int num_pages = (size + SZ_4K) >> PAGE_SHIFT;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 0);
-+	bo = priv->bo;
-+	place = priv->place;
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
++	bo = ttm_bo_kunit_init(test, test->priv, size);
 +
-+	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, res);
-+	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
++	/* Make the object size misaligned */
++	bo->base.size += 1;
++
++	err = ttm_tt_init(tt, bo, 0, caching, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
++
++	KUNIT_ASSERT_EQ(test, tt->num_pages, num_pages);
++}
++
++static void ttm_tt_fini_basic(struct kunit *test)
++{
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
++	enum ttm_caching caching = ttm_cached;
++	int err;
++
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
++
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
++
++	err = ttm_tt_init(tt, bo, 0, caching, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_NOT_NULL(test, tt->pages);
++
++	ttm_tt_fini(tt);
++	KUNIT_ASSERT_NULL(test, tt->pages);
++}
++
++static void ttm_tt_fini_sg(struct kunit *test)
++{
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
++	enum ttm_caching caching = ttm_cached;
++	int err;
++
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
++
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
++
++	err = ttm_sg_tt_init(tt, bo, 0, caching);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_NOT_NULL(test, tt->dma_address);
++
++	ttm_tt_fini(tt);
++	KUNIT_ASSERT_NULL(test, tt->dma_address);
++}
++
++static void ttm_tt_fini_shmem(struct kunit *test)
++{
++	struct ttm_buffer_object *bo;
++	struct ttm_tt *tt;
++	struct file *shmem;
++	enum ttm_caching caching = ttm_cached;
++	int err;
++
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
++
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
++
++	err = ttm_tt_init(tt, bo, 0, caching, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
++
++	shmem = shmem_file_setup("ttm swap", BO_SIZE, 0);
++	tt->swap_storage = shmem;
++
++	ttm_tt_fini(tt);
++	KUNIT_ASSERT_NULL(test, tt->swap_storage);
++}
++
++static void ttm_tt_create_basic(struct kunit *test)
++{
++	struct ttm_buffer_object *bo;
++	int err;
++
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
++	bo->type = ttm_bo_type_device;
 +
 +	dma_resv_lock(bo->base.resv, NULL);
-+	ttm_bo_pin(bo);
-+	ttm_resource_init(bo, place, res);
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo->bdev->pinned));
-+
-+	ttm_bo_unpin(bo);
-+	ttm_resource_fini(man, res);
++	err = ttm_tt_create(bo, false);
 +	dma_resv_unlock(bo->base.resv);
 +
-+	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev->pinned));
++	KUNIT_EXPECT_EQ(test, err, 0);
++	KUNIT_EXPECT_NOT_NULL(test, bo->ttm);
++
++	/* Free manually, as it was allocated outside of KUnit */
++	kfree(bo->ttm);
 +}
 +
-+static void ttm_resource_fini_basic(struct kunit *test)
++static void ttm_tt_create_invalid_bo_type(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource *res;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource_manager *man;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, 0);
-+	bo = priv->bo;
-+	place = priv->place;
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
++	bo->type = ttm_bo_type_sg + 1;
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
++	dma_resv_lock(bo->base.resv, NULL);
++	err = ttm_tt_create(bo, false);
++	dma_resv_unlock(bo->base.resv);
 +
-+	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, res);
-+
-+	ttm_resource_init(bo, place, res);
-+	ttm_resource_fini(man, res);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&res->lru));
-+	KUNIT_ASSERT_EQ(test, man->usage, 0);
++	KUNIT_EXPECT_EQ(test, err, -EINVAL);
++	KUNIT_EXPECT_NULL(test, bo->ttm);
 +}
 +
-+static void ttm_resource_manager_init_basic(struct kunit *test)
++static void ttm_tt_create_ttm_exists(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource_manager *man;
-+	size_t size = SZ_16K;
-+
-+	man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, man);
-+
-+	ttm_resource_manager_init(man, priv->devs->ttm_dev, size);
-+
-+	KUNIT_ASSERT_PTR_EQ(test, man->bdev, priv->devs->ttm_dev);
-+	KUNIT_ASSERT_EQ(test, man->size, size);
-+	KUNIT_ASSERT_EQ(test, man->usage, 0);
-+	KUNIT_ASSERT_NULL(test, man->move);
-+	KUNIT_ASSERT_NOT_NULL(test, &man->move_lock);
-+
-+	for (int i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
-+		KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[i]));
-+}
-+
-+static void ttm_resource_manager_usage_basic(struct kunit *test)
-+{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource *res;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource_manager *man;
-+	uint64_t actual_usage;
++	struct ttm_tt *tt;
++	enum ttm_caching caching = ttm_cached;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, TTM_PL_SYSTEM, TTM_PL_FLAG_TOPDOWN);
-+	bo = priv->bo;
-+	place = priv->place;
++	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, tt);
 +
-+	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, res);
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, place->mem_type);
++	err = ttm_tt_init(tt, bo, 0, caching, 0);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	bo->ttm = tt;
 +
-+	ttm_resource_init(bo, place, res);
-+	actual_usage = ttm_resource_manager_usage(man);
++	dma_resv_lock(bo->base.resv, NULL);
++	err = ttm_tt_create(bo, false);
++	dma_resv_unlock(bo->base.resv);
 +
-+	KUNIT_ASSERT_EQ(test, actual_usage, RES_SIZE);
-+
-+	ttm_resource_fini(man, res);
++	/* Expect to keep the previous TTM */
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_PTR_EQ(test, tt, bo->ttm);
 +}
 +
-+static void ttm_resource_manager_set_used_basic(struct kunit *test)
++static struct ttm_tt *ttm_tt_null_create(struct ttm_buffer_object *bo,
++					 uint32_t page_flags)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource_manager *man;
-+
-+	man = ttm_manager_type(priv->devs->ttm_dev, TTM_PL_SYSTEM);
-+	KUNIT_ASSERT_TRUE(test, man->use_type);
-+
-+	ttm_resource_manager_set_used(man, false);
-+	KUNIT_ASSERT_FALSE(test, man->use_type);
++	return NULL;
 +}
 +
-+static void ttm_sys_man_alloc_basic(struct kunit *test)
++struct ttm_device_funcs ttm_dev_empty_funcs = {
++	.ttm_tt_create = ttm_tt_null_create,
++};
++
++static void ttm_tt_create_failed(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource_manager *man;
++	const struct ttm_test_devices *devs = test->priv;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource *res;
-+	uint32_t mem_type = TTM_PL_SYSTEM;
-+	int ret;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, mem_type, 0);
-+	bo = priv->bo;
-+	place = priv->place;
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, mem_type);
-+	ret = man->func->alloc(man, bo, place, &res);
++	/* Update ttm_device_funcs so we don't alloc ttm_tt */
++	devs->ttm_dev->funcs = &ttm_dev_empty_funcs;
 +
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_EQ(test, res->size, RES_SIZE);
-+	KUNIT_ASSERT_EQ(test, res->mem_type, mem_type);
-+	KUNIT_ASSERT_PTR_EQ(test, res->bo, bo);
++	dma_resv_lock(bo->base.resv, NULL);
++	err = ttm_tt_create(bo, false);
++	dma_resv_unlock(bo->base.resv);
 +
-+	ttm_resource_fini(man, res);
++	KUNIT_ASSERT_EQ(test, err, -ENOMEM);
 +}
 +
-+static void ttm_sys_man_free_basic(struct kunit *test)
++static void ttm_tt_destroy_basic(struct kunit *test)
 +{
-+	struct ttm_resource_test_priv *priv = test->priv;
-+	struct ttm_resource_manager *man;
++	const struct ttm_test_devices *devs = test->priv;
 +	struct ttm_buffer_object *bo;
-+	struct ttm_place *place;
-+	struct ttm_resource *res;
-+	uint32_t mem_type = TTM_PL_SYSTEM;
++	int err;
 +
-+	ttm_init_test_mocks(test, priv, mem_type, 0);
-+	bo = priv->bo;
-+	place = priv->place;
++	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
 +
-+	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, res);
++	dma_resv_lock(bo->base.resv, NULL);
++	err = ttm_tt_create(bo, false);
++	dma_resv_unlock(bo->base.resv);
 +
-+	ttm_resource_alloc(bo, place, &res);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_ASSERT_NOT_NULL(test, bo->ttm);
 +
-+	man = ttm_manager_type(priv->devs->ttm_dev, mem_type);
-+	man->func->free(man, res);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[bo->priority]));
-+	KUNIT_ASSERT_EQ(test, man->usage, 0);
++	ttm_tt_destroy(devs->ttm_dev, bo->ttm);
 +}
 +
-+static struct kunit_case ttm_resource_test_cases[] = {
-+	KUNIT_CASE_PARAM(ttm_resource_init_basic, ttm_resource_gen_params),
-+	KUNIT_CASE(ttm_resource_init_pinned),
-+	KUNIT_CASE(ttm_resource_fini_basic),
-+	KUNIT_CASE(ttm_resource_manager_init_basic),
-+	KUNIT_CASE(ttm_resource_manager_usage_basic),
-+	KUNIT_CASE(ttm_resource_manager_set_used_basic),
-+	KUNIT_CASE(ttm_sys_man_alloc_basic),
-+	KUNIT_CASE(ttm_sys_man_free_basic),
++static struct kunit_case ttm_tt_test_cases[] = {
++	KUNIT_CASE_PARAM(ttm_tt_init_basic, ttm_tt_init_basic_gen_params),
++	KUNIT_CASE(ttm_tt_init_misaligned),
++	KUNIT_CASE(ttm_tt_fini_basic),
++	KUNIT_CASE(ttm_tt_fini_sg),
++	KUNIT_CASE(ttm_tt_fini_shmem),
++	KUNIT_CASE(ttm_tt_create_basic),
++	KUNIT_CASE(ttm_tt_create_invalid_bo_type),
++	KUNIT_CASE(ttm_tt_create_ttm_exists),
++	KUNIT_CASE(ttm_tt_create_failed),
++	KUNIT_CASE(ttm_tt_destroy_basic),
 +	{}
 +};
 +
-+static struct kunit_suite ttm_resource_test_suite = {
-+	.name = "ttm_resource",
-+	.init = ttm_resource_test_init,
-+	.exit = ttm_resource_test_fini,
-+	.test_cases = ttm_resource_test_cases,
++static struct kunit_suite ttm_tt_test_suite = {
++	.name = "ttm_tt",
++	.init = ttm_tt_test_init,
++	.exit = ttm_test_devices_fini,
++	.test_cases = ttm_tt_test_cases,
 +};
 +
-+kunit_test_suites(&ttm_resource_test_suite);
++kunit_test_suites(&ttm_tt_test_suite);
 +
 +MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 46ff9c75bb12..02b96d23fdb9 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -30,6 +30,8 @@
- #include <drm/ttm/ttm_placement.h>
- #include <drm/ttm/ttm_resource.h>
- 
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index e0a77671edd6..d978dc539a9b 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -36,6 +36,7 @@
+ #include <linux/file.h>
+ #include <linux/module.h>
+ #include <drm/drm_cache.h>
 +#include <drm/drm_util.h>
-+
- /**
-  * ttm_lru_bulk_move_init - initialize a bulk move structure
-  * @bulk: the structure to init
-@@ -240,6 +242,7 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
- 	spin_unlock(&bo->bdev->lru_lock);
+ #include <drm/ttm/ttm_bo.h>
+ #include <drm/ttm/ttm_tt.h>
+ 
+@@ -91,6 +92,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+ 
  	return 0;
  }
-+EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_resource_alloc);
++EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_create);
  
- void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
+ /*
+  * Allocates storage for pointers to the pages that back the ttm.
+@@ -129,6 +131,7 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
  {
+ 	bdev->funcs->ttm_tt_destroy(bdev, ttm);
+ }
++EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_destroy);
+ 
+ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ 			       struct ttm_buffer_object *bo,
 -- 
 2.25.1
 
