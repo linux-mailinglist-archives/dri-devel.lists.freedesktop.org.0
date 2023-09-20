@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5C47A8D35
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 21:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5697E7A8D3A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 21:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D34B10E54A;
-	Wed, 20 Sep 2023 19:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B726410E551;
+	Wed, 20 Sep 2023 19:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4185010E549
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 19:56:29 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDEB210E54D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 19:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695239788;
+ s=mimecast20190719; t=1695239792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v3T+czyitWrtp3eEwAqWaiPKr4Rn2bJhI+5NClCA/ZA=;
- b=i1uyPhQ4J4QwEWFQ5kwUkg2bW5tw5N7R/f1Hj6Fj0dd8FZSXg8l08Ko2qYjMIsxSA8zNbK
- 5qnxQZOb+n1AqEtTmZ9/dqjter/dyUxNLA+pBK9zroslnp9cfvOT7Ng4FZ5gjtB9bxUZ1r
- so4YxO+PCT+LvE8stxmPR/CWpaJDN+8=
+ bh=rqNzyDz4cREI90UtQiQYs75oZQPILvBZMvQm1D6ktbw=;
+ b=L5jUY5ERFlH3wuN5OE7oDqPFBmUqY0BfcrjCn35DrH0desUs1pt1ItiCi97IIxTrs6VTas
+ tAzJ02OFQ+m6a+ae7d20Y426+z5Ygcop0SFGtwkAv04mDjDLb95/ioUM4Lq0PNjeNOBefl
+ c+L8OQoxdHeWMkeN+JloHkEEqK+OE00=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-Fy-flD4gMUaAQ76h3IN_MQ-1; Wed, 20 Sep 2023 15:56:25 -0400
-X-MC-Unique: Fy-flD4gMUaAQ76h3IN_MQ-1
+ us-mta-659-Uwbpmm6RMH6W7XwmKX2B-g-1; Wed, 20 Sep 2023 15:56:26 -0400
+X-MC-Unique: Uwbpmm6RMH6W7XwmKX2B-g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91CB128EC106;
- Wed, 20 Sep 2023 19:56:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FD7028EC107;
+ Wed, 20 Sep 2023 19:56:26 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59664C158BA;
- Wed, 20 Sep 2023 19:56:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C31D2C15BB8;
+ Wed, 20 Sep 2023 19:56:24 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH 1/4] drm/i915/vlv_dsi: Add DMI quirk for wrong panel modeline
- in BIOS on Asus TF103C (v3)
-Date: Wed, 20 Sep 2023 21:56:10 +0200
-Message-ID: <20230920195613.304091-2-hdegoede@redhat.com>
+Subject: [PATCH 2/4] drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus and
+ panel size on Lenovo Yoga Tablet 2 series (v3)
+Date: Wed, 20 Sep 2023 21:56:11 +0200
+Message-ID: <20230920195613.304091-3-hdegoede@redhat.com>
 In-Reply-To: <20230920195613.304091-1-hdegoede@redhat.com>
 References: <20230920195613.304091-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -73,111 +73,118 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vtotal is wrong in the BIOS supplied modeline for the DSI panel on
-the Asus TF103C leading to the last line of the display being shown
-as the first line.
+On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
 
-Original: "1280x800": 60 67700 1280 1312 1328 1376 800 808 812 820 0x8 0xa
-Fixed:    "1280x800": 60 67700 1280 1312 1328 1376 800 808 812 816 0x8 0xa
+1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
+   which under Linux become bus 0 - 6. And the MIPI sequence reference
+   to bus 3 is indented for I2C3 which is bus 2 under Linux.
 
-The factory installed Android has a hardcoded modeline in its kernel,
-causing it to not suffer from this BIOS bug;
-and the Android boot-splash which uses the EFI FB which does have this bug
-has the last line all black causing the bug to not be visible.
+   This leads to errors like these:
+   [  178.244049] i2c_designware 80860F41:03: controller timed out
+   [  178.245703] i915 0000:00:02.0: [drm] *ERROR* Failed to xfer payload of size (1) to reg (169)
+   There are 3 timeouts when the panel is on, delaying
+   waking up the screen on a key press by 3 seconds.
 
-This commit introduces a generic DMI based quirk mechanism to vlv_dsi for
-doing various fixups, and uses this to correct the modeline.
+   Note mipi_exec_i2c() cannot just subtract 1 from the bus
+   given in the I2C MIPI sequence element. Since on other
+   devices the I2C bus-numbers used in the MIPI sequences do
+   actually start at 0.
+
+2. width_/height_mm contain a bogus 192mm x 120mm size. This is
+   especially a problem on the 8" 830 version which uses a 10:16
+   portrait screen where as the bogus size is 16:10.
+
+Add a DMI quirk to override the I2C bus and the panel size with
+the correct values.
+
+Note both the 10" 1050 models as well as the 8" 830 models use the same
+mainboard and thus the same DMI strings. The 10" 1050 uses a 1920x1200
+landscape screen, where as the 8" 830 uses a 1200x1920 portrait screen,
+so the quirk handling uses the display resolution to detect the model.
 
 v2:
-- s/mode_fixup/dmi_quirk/ to make the new DMI quirk mechanism more generic
-- Add a comment with the old and new modelines to the patch and commit msg
+- Also override i2c_bus_num to fix mipi_exec_i2c() timeouts
 
 v3:
 - Add Closes tag to gitlab issue with drm.debug=0xe, VBT info
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9381
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9379
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/display/vlv_dsi.c | 44 ++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ drivers/gpu/drm/i915/display/vlv_dsi.c | 52 ++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index a96e7d028c5c..0d3aabf6a1dd 100644
+index 0d3aabf6a1dd..f69cafe8a17d 100644
 --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
 +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -23,6 +23,7 @@
-  * Author: Jani Nikula <jani.nikula@intel.com>
-  */
- 
-+#include <linux/dmi.h>
- #include <linux/slab.h>
- 
- #include <drm/drm_atomic_helper.h>
-@@ -1744,6 +1745,40 @@ static void vlv_dphy_param_init(struct intel_dsi *intel_dsi)
- 	intel_dsi_log_params(intel_dsi);
+@@ -1767,6 +1767,44 @@ static void vlv_dsi_asus_tf103c_mode_fixup(struct intel_dsi *intel_dsi)
+ 		fixed_mode->vtotal -= 4;
  }
  
-+typedef void (*vlv_dsi_dmi_quirk_func)(struct intel_dsi *intel_dsi);
-+
 +/*
-+ * Vtotal is wrong on the Asus TF103C leading to the last line of the display
-+ * being shown as the first line. The factory installed Android has a hardcoded
-+ * modeline, causing it to not suffer from this BIOS bug.
++ * On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
++ * 1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
++ *    which under Linux become bus 0 - 6. And the MIPI sequence reference
++ *    to bus 3 is indented for I2C3 which is bus 2 under Linux.
 + *
-+ * Original mode: "1280x800": 60 67700 1280 1312 1328 1376 800 808 812 820 0x8 0xa
-+ * Fixed    mode: "1280x800": 60 67700 1280 1312 1328 1376 800 808 812 816 0x8 0xa
++ *    Note mipi_exec_i2c() cannot just subtract 1 from the bus
++ *    given in the I2C MIPI sequence element. Since on other
++ *    devices the I2C bus-numbers used in the MIPI sequences do
++ *    actually start at 0.
 + *
-+ * https://gitlab.freedesktop.org/drm/intel/-/issues/9381
++ * 2. width_/height_mm contain a bogus 192mm x 120mm size. This is
++ *    especially a problem on the 8" 830 version which uses a 10:16
++ *    portrait screen where as the bogus size is 16:10.
++ *
++ * https://gitlab.freedesktop.org/drm/intel/-/issues/9379
 + */
-+static void vlv_dsi_asus_tf103c_mode_fixup(struct intel_dsi *intel_dsi)
++static void vlv_dsi_lenovo_yoga_tab2_size_fixup(struct intel_dsi *intel_dsi)
 +{
-+	/* Cast away the const as we want to fixup the mode */
-+	struct drm_display_mode *fixed_mode = (struct drm_display_mode *)
++	const struct drm_display_mode *fixed_mode =
 +		intel_panel_preferred_fixed_mode(intel_dsi->attached_connector);
++	struct drm_display_info *info = &intel_dsi->attached_connector->base.display_info;
 +
-+	if (fixed_mode->vtotal == 820)
-+		fixed_mode->vtotal -= 4;
++	intel_dsi->i2c_bus_num = 2;
++
++	/*
++	 * The 10" 1050 uses a 1920x1200 landscape screen, where as the 8" 830
++	 * uses a 1200x1920 portrait screen.
++	 */
++	if (fixed_mode->hdisplay == 1920) {
++		info->width_mm = 216;
++		info->height_mm = 135;
++	} else {
++		info->width_mm = 107;
++		info->height_mm = 171;
++	}
 +}
 +
-+static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
+ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
+ 	{
+ 		/* Asus Transformer Pad TF103C */
+@@ -1776,6 +1814,20 @@ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
+ 	},
 +	{
-+		/* Asus Transformer Pad TF103C */
++		/*
++		 * Lenovo Yoga Tablet 2 830F/L or 1050F/L (The 8" and 10"
++		 * Lenovo Yoga Tablet 2 use the same mainboard)
++		 */
 +		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TF103C"),
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
++			DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
++			/* Partial match on beginning of BIOS version */
++			DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
 +		},
-+		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
++		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab2_size_fixup,
 +	},
-+	{ }
-+};
-+
- void vlv_dsi_init(struct drm_i915_private *dev_priv)
- {
- 	struct intel_dsi *intel_dsi;
-@@ -1752,6 +1787,7 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 	struct intel_connector *intel_connector;
- 	struct drm_connector *connector;
- 	struct drm_display_mode *current_mode;
-+	const struct dmi_system_id *dmi_id;
- 	enum port port;
- 	enum pipe pipe;
+ 	{ }
+ };
  
-@@ -1883,6 +1919,14 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err_cleanup_connector;
- 	}
- 
-+	dmi_id = dmi_first_match(vlv_dsi_dmi_quirk_table);
-+	if (dmi_id) {
-+		vlv_dsi_dmi_quirk_func quirk_func =
-+			(vlv_dsi_dmi_quirk_func)dmi_id->driver_data;
-+
-+		quirk_func(intel_dsi);
-+	}
-+
- 	intel_panel_init(intel_connector, NULL);
- 
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
 -- 
 2.41.0
 
