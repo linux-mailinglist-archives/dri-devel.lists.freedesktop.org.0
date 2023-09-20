@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25007A8AFE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F267A8AB7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84E110E532;
-	Wed, 20 Sep 2023 17:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8CB10E517;
+	Wed, 20 Sep 2023 17:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3483C10E52C
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:56:41 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 77C2E86BEB;
- Wed, 20 Sep 2023 19:56:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1695232599;
- bh=Bjr3o8UTERBvtPZ2mOiCNnFlwFXjn5RbZJsdVQ3LxK8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MrtkGmciiTV1THQlnfU6BzaIdReBlkE49rz+tGGDbYL23CV26CXaAqoT1LTZuMbjz
- 32+/4XCpAoI77EoCsOGCu8noZcsHS0enNhUZ8w7krI5zeGSg/1uYxF6YmVGo3rCIa/
- BqyTap36qTCsU/O91AQEtQS1mWXnSshNEINWgCYKQl5k4E8M6u3q6aDUZD1O8dbzdn
- yhj4hdjuaq8rsNSn4Qu8QRiyUG0wMDZqpPUdPk0nXHWg3UI9QC8WVcR5kjsfrAdbFS
- Mh3xgVgPmJMFpolIwraeMTOCqOA9BYnKaOqRHptq7u98ZpBubcZMQKiJQarvZVwfG6
- g/X5XWdqEIMcg==
-Message-ID: <c0871d55-807d-93b3-1c9a-acbf4270bc7c@denx.de>
-Date: Wed, 20 Sep 2023 19:33:52 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B97AB10E517;
+ Wed, 20 Sep 2023 17:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695231605; x=1726767605;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=uDX9/nqSC9pHxD0vJh8X6LLyWdaKxMDcJfC+wR/V9q4=;
+ b=NXwfJkHMOaBxNlFDFROK7y3BUbhikqgVtA0gwumWAqXXtiQZjvfuuzCL
+ gLcBpgVsOX6GXKOBAHLpO0+FUbRgR7ZKYcM5TSNApfNlC9UB5yzcipl3W
+ gPrDeLkXKjZJHvBexg4PtRnZrat7Ke3RPsBmYtVTrm/dbVdf3tpoiPaom
+ o1oVCMY+LGFAe6Sjbv0i/lrCW4x1cGgHQXYAPeSetCQgxyVZA+yDU7eQy
+ GiNburOrzCPtKxiTPIbNgpn4BuTHFi4OuL/bgnU9YRWufJqQl3T17XeNt
+ hh5Qj88jnd9vIMVba4KiMyPqF/kFXEOehhx/v93iEW3NC3AAsHFRo9G5B A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="379178407"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="379178407"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 10:40:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890021035"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="890021035"
+Received: from ptelkov-mobl2.ccr.corp.intel.com (HELO localhost)
+ ([10.252.38.103])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 10:39:14 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/edid: Fixup h/vsync_end instead of
+ h/vtotal
+In-Reply-To: <20230914112258.27156-1-ville.syrjala@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230914112258.27156-1-ville.syrjala@linux.intel.com>
+Date: Wed, 20 Sep 2023 20:40:00 +0300
+Message-ID: <87jzskrbf3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 5/5] drm: lcdif: force modeset when FB format changes
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Liu Ying <victor.liu@nxp.com>
-References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-6-l.stach@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230920103126.2759601-6-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,101 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, patchwork-lst@pengutronix.de
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/20/23 12:31, Lucas Stach wrote:
-> Force a modeset if the new FB has a different format than the
-> currently active one. While it might be possible to change between
-> compatible formats without a full modeset as the format control is
-> also supposed to be double buffered, the colorspace conversion is
-> not, so when the CSC changes we need a modeset.
-> 
-> For now just always force a modeset when the FB format changes to
-> properly reconfigure all parts of the device for the new format.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+On Thu, 14 Sep 2023, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> There are some weird EDIDs floating around that have the sync
+> pulse extending beyond the end of the blanking period.
+>
+> On the currently problemtic machine (HP Omni 120) EDID reports
+> the following mode:
+> "1600x900": 60 108000 1600 1780 1860 1800 900 910 913 1000 0x40 0x5
+> which is then "corrected" to have htotal=3D1861 by the current drm_edid.c
+> code.
+>
+> The fixup code was originally added in commit 7064fef56369 ("drm: work
+> around EDIDs with bad htotal/vtotal values"). Googling around we end up in
+> https://bugs.launchpad.net/ubuntu/hardy/+source/xserver-xorg-video-intel/=
++bug/297245
+> where we find an EDID for a Dell Studio 15, which reports:
+> (II) VESA(0): clock: 65.0 MHz   Image Size:  331 x 207 mm
+> (II) VESA(0): h_active: 1280  h_sync: 1328  h_sync_end 1360 h_blank_end 1=
+337 h_border: 0
+> (II) VESA(0): v_active: 800  v_sync: 803  v_sync_end 809 v_blanking: 810 =
+v_border: 0
+>
+> Note that if we use the hblank size (as opposed of the hsync_end)
+> from the DTD to determine htotal we get exactly 60Hz refresh rate in
+> both cases, whereas using hsync_end to determine htotal we get a
+> slightly lower refresh rates. This makes me believe the using the
+> hblank size is what was intended even in those cases.
+>
+> Also note that in case of the HP Onmi 120 the VBIOS boots with these:
+>   crtc timings: 108000 1600 1780 1860 1800 900 910 913 1000, type: 0x40 f=
+lags: 0x5
+> ie. it just blindly stuffs the bogus hsync_end and htotal from the DTD
+> into the transcoder timing registers, and the display works. I believe
+> the (at least more modern) hardware will automagically terminate the hsync
+> pulse when the timing generator reaches htotal, which again points that we
+> should use the hblank size to determine htotal. Unfortunatley the old bug
+> reports for the Dell machines are extremely lacking in useful details so
+> we have no idea what kind of timings the VBIOS programmed into the
+> hardware :(
+>
+> Let's just flip this quirk around and reduce the length of the sync
+> pulse instead of extending the blanking period. This at least seems
+> to be the correct thing to do on more modern hardware. And if any
+> issues crop up on older hardware we need to debug them properly.
+>
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8895
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 > ---
->   drivers/gpu/drm/mxsfb/lcdif_drv.c | 18 +++++++++++++++++-
->   drivers/gpu/drm/mxsfb/lcdif_kms.c | 26 ++++++++++++++++++++------
->   2 files changed, 37 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> index 18de2f17e249..b74f0cf1e240 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -30,9 +30,25 @@
->   #include "lcdif_drv.h"
->   #include "lcdif_regs.h"
->   
-> +static int lcdif_atomic_check(struct drm_device *dev,
-> +				struct drm_atomic_state *state)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_atomic_helper_check(dev, state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Check modeset again in case crtc_state->mode_changed is
-> +	 * updated in plane's ->atomic_check callback.
-> +	 */
-> +	return drm_atomic_helper_check_modeset(dev, state);
-> +}
-> +
->   static const struct drm_mode_config_funcs lcdif_mode_config_funcs = {
->   	.fb_create		= drm_gem_fb_create,
-> -	.atomic_check		= drm_atomic_helper_check,
-> +	.atomic_check		= lcdif_atomic_check,
->   	.atomic_commit		= drm_atomic_helper_commit,
->   };
->   
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> index 3ebf55d06027..8167604bd3f8 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> @@ -647,18 +647,32 @@ static const struct drm_crtc_funcs lcdif_crtc_funcs = {
->   static int lcdif_plane_atomic_check(struct drm_plane *plane,
->   				    struct drm_atomic_state *state)
->   {
-> -	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
-> -									     plane);
-> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-> +									   plane);
-> +	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-> +									   plane);
->   	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
->   	struct drm_crtc_state *crtc_state;
-> +	int ret;
-> +
-> +	/* always okay to disable the plane */
-> +	if (!new_state->fb)
-> +		return 0;
->   
->   	crtc_state = drm_atomic_get_new_crtc_state(state,
->   						   &lcdif->crtc);
->   
-> -	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> -						   DRM_PLANE_NO_SCALING,
-> -						   DRM_PLANE_NO_SCALING,
-> -						   false, true);
-> +	ret = drm_atomic_helper_check_plane_state(new_state, crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, true);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (old_state->fb && new_state->fb->format != old_state->fb->format)
-> +		crtc_state->mode_changed = true;
-> +
-> +	return 0;
->   }
->   
->   static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
+>  drivers/gpu/drm/drm_edid.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 39dd3f694544..0c5563b4d21e 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3497,11 +3497,11 @@ static struct drm_display_mode *drm_mode_detailed=
+(struct drm_connector *connecto
+>  	mode->vsync_end =3D mode->vsync_start + vsync_pulse_width;
+>  	mode->vtotal =3D mode->vdisplay + vblank;
+>=20=20
+> -	/* Some EDIDs have bogus h/vtotal values */
+> +	/* Some EDIDs have bogus h/vsync_end values */
+>  	if (mode->hsync_end > mode->htotal)
+> -		mode->htotal =3D mode->hsync_end + 1;
+> +		mode->hsync_end =3D mode->htotal;
+>  	if (mode->vsync_end > mode->vtotal)
+> -		mode->vtotal =3D mode->vsync_end + 1;
+> +		mode->vsync_end =3D mode->vtotal;
 
-Reviewed-by: Marek Vasut <marex@denx.de>
+I wonder if we shouldn't debug log these to help our future selves?
+
+Anyway,
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+>=20=20
+>  	drm_mode_do_interlace_quirk(mode, pt);
+
+--=20
+Jani Nikula, Intel
