@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57617A73AF
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 09:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1BE7A740D
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 09:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C89010E156;
-	Wed, 20 Sep 2023 07:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F7710E161;
+	Wed, 20 Sep 2023 07:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9666D10E156
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:06:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 14664CE134C;
- Wed, 20 Sep 2023 07:06:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DCF0C433C7;
- Wed, 20 Sep 2023 07:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695193611;
- bh=uAwpxEnfMfZSyuDkr+wBXoclcsWoX/crp/2v537NsYA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rVXelshMFXxpUMfQZXtgjcSNRlJArQohPg0xpfnyMtmW4OvryXBUR7wRRgGk7z2Tc
- rr22LZTDQMfKWzCuVXubSyjSdGRmx+fvwSPEWJ1Vf0Q8IlZgs3Bgta8c8GtEJRQmup
- pavE6spjJxNZviF8lFQyyYVwz12TM2LcXhO0OvdbxWCsrUBiBsAg5dqgmFjnjXJn4N
- U5SO1PsVaLOOtk5ku7whFpscYsxzhh+PvcJV9dJ4XJtxki63+Bzk3rlwO5qnCPlxXV
- gPBDia1CD6nd1qTCW5dp7hdA9aCbmsBIFGfksWmjwhtIU4eR3GuWuOSmwJH8TWCJ36
- bhOGsTfM0Smmw==
-Date: Wed, 20 Sep 2023 09:06:48 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rae Moar <rmoar@google.com>
-Subject: Re: [PATCH 1/2] kunit: Warn if tests are slow
-Message-ID: <2rks5qxxetsbv657qhnevsxyq4q2wi7m3y66wit5fg2cg4rbb6@zpwsmru3khmi>
-References: <20230911-kms-slow-tests-v1-0-d3800a69a1a1@kernel.org>
- <20230911-kms-slow-tests-v1-1-d3800a69a1a1@kernel.org>
- <CA+GJov6sQMmEiTQ7cupyC2cx-aWvV7M6ki4W8naEHyA8tbSbdg@mail.gmail.com>
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C463A10E162
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:28:02 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-59c2ca01f27so41617587b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 00:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695194882; x=1695799682; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=gwW/aKgkBI8jvoRbmdXukbiIBoNPv5CCX3I1vI78hY0=;
+ b=whfn6B49YV+aXQ0xP/vIm8YzUst5z/UBqttdmpQEBPBN7F+G60c1MHfm7J88qIsZGX
+ MSAiizcySFkjTJgXh/2ltoAOSqHUVL4k/RGrfkvbptFXppmjT3MEvbyYy2a7FxwScRlw
+ nPkmaMyX/f3VaIXSl+fGun8JPt6DrQrF4wh3ZlW4tihnZHCmQx4PCATy4UGgTixc6P8Q
+ HJYmuT2/2HjStQUE5A5BWYr25RWY0gMEBzYoH6TAayykC2NLKcjR2nTIRJ38Fqotu4EQ
+ Uw37ylIymbkaSpXjPLyKYDrdsVuK/GzzFX2BBTxEBr8I5c0xDYeUew9Fjt/BaXO7kekT
+ G64A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695194882; x=1695799682;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gwW/aKgkBI8jvoRbmdXukbiIBoNPv5CCX3I1vI78hY0=;
+ b=VWCl9ABZF6QJ/rKqk92bqLc1cAKVvlFHa6zZgdlP8rjgCjs30wikzk3WRYhgI0ILoj
+ MXwFx2XILyKnvuNaDt1iZruUBnH+d5NHF6ZHnCKb41p+Sfn67hR2k9MqMkdRbDNXlRnA
+ RADYnCogJPp6loo/z0KWbu3/9pOi2uG+RlKpW0wB7ggZqqxb8VGIb3f9AVqqcWQIVBxe
+ MkGaUTsVr4huz5trEuK7IUAromyUxZxWbB42o+mqhQWWdVHGGU4qUJz+FDhdGYeGx320
+ lZZqHdX8FpW98HvBeEjSWemhqtfC1FsQjjW/xw7tZtHAY4aDLaaPmXu1ZPuT15mVAkE8
+ jDiQ==
+X-Gm-Message-State: AOJu0YxzVBPjP8VStHlRNlDQldV/g/Sp/HC8ArwTO/Mk4iF804o1Yc6G
+ wNpaqn30nqCmDv+zWd/ACQV2vIJV0h5/Edoo8UclNg==
+X-Google-Smtp-Source: AGHT+IFcGwxsD14iTBsfb5A6WM9HKpgER1VektslYkA2MPFERnEZVoaEsnHQM17447rTKPxBIUUzlSQbAxSsLf5oFEA=
+X-Received: by 2002:a81:9e10:0:b0:579:effb:ae1c with SMTP id
+ m16-20020a819e10000000b00579effbae1cmr1828509ywj.26.1695194881940; Wed, 20
+ Sep 2023 00:28:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="w74ncfsnmb5fumc5"
-Content-Disposition: inline
-In-Reply-To: <CA+GJov6sQMmEiTQ7cupyC2cx-aWvV7M6ki4W8naEHyA8tbSbdg@mail.gmail.com>
+References: <20230817145940.9887-1-dmitry.baryshkov@linaro.org>
+ <20230817145940.9887-2-dmitry.baryshkov@linaro.org>
+ <4eaekxgmikdacvvprysb6btdqootbc6paomzhuqjtzd6rgqxkc@birohtqp4rbo>
+In-Reply-To: <4eaekxgmikdacvvprysb6btdqootbc6paomzhuqjtzd6rgqxkc@birohtqp4rbo>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 20 Sep 2023 10:27:50 +0300
+Message-ID: <CAA8EJpozPp2-oqr2mWAuA_8mTSc8whnOAg+zYZSWNmQBg_eLxw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] arm64: dts: qcom: sm8250: Add DisplayPort device
+ node
+To: Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,145 +69,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Brendan Higgins <brendan.higgins@linux.dev>,
- kunit-dev@googlegroups.com
+Cc: devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---w74ncfsnmb5fumc5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Sep 19, 2023 at 03:48:55PM -0400, Rae Moar wrote:
-> On Mon, Sep 11, 2023 at 5:51=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > Kunit recently gained support to setup attributes, the first one being
-> > the speed of a given test, then allowing to filter out slow tests.
-> >
-> > A slow test is defined in the documentation as taking more than one
-> > second. There's an another speed attribute called "super slow" but whose
-> > definition is less clear.
-> >
-> > Add support to the test runner to check the test execution time, and
-> > report tests that should be marked as slow but aren't.
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Wed, 20 Sept 2023 at 05:08, Bjorn Andersson <andersson@kernel.org> wrote:
 >
-> I like this idea especially if it was helpful in identifying slow
-> tests already! I have a few thoughts on this. I share Jani's concern
-> for warning all tests on slow machines. I can think of a few options.
->=20
-> First, we could increase the threshold to about 2s even though that
-> would eliminate warnings on potentially slow tests. However, this
-> would point out the slowest tests.
-
-I don't have a strong opinion there, so whatever works for you :)
-
-> Second, we could change this to warn users only when they choose by
-> making this a configurable option or making this a script to output a
-> list of all unmarked slow tests.
-
-I'm not really sure. Adding an option would hide it away from users and
-only a fraction of the users (including devs working on tests) would see
-that their test should actually be marked as slow.
-
-That will prevent the wider use of it imo, and instead of catching it
-early (when we're working on it), will lead to more patches.
-
-Plus, a runtime of more than a second, no matter the platform, is
-usually a good indication that what your test is doing probably
-shouldn't be done that way.
-
-> Third, we could leave this as is. As the KUnit warnings do not show up
-> in the kunit.py output and do not cause the test to fail in any way
-> they are relatively harmless if they are unwanted by the user.
-
-I was looking at it the other day, and I think we can modify the TAP
-output to expose the warning through the kunit.py command to the user.
-
-It looks like it allows to provide any keyword after the comment mark
-and allows to extend it, so we could have something like
-
-ok $TEST # KUNIT_WARN $MESSAGE
-
-and then parse that in kunit.py, pretty much like we handle SKIP. But
-that's a separate discussion really.
-
-But yeah, whether or not this is reported to the user, it must not fail
-the test.
-
-> Not quite sure which I prefer? The second option might be the cleanest
-> for the user and the time threshold could even be customizable. Let me
-> know what you think.
-
-I'm in favour of the second one as well.
-
+> On Thu, Aug 17, 2023 at 05:59:37PM +0300, Dmitry Baryshkov wrote:
+> > Declare the displayport controller present on the Qualcomm SM8250 SoC.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  lib/kunit/test.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
+> >  arch/arm64/boot/dts/qcom/sm8250.dtsi | 89 ++++++++++++++++++++++++++++
+> >  1 file changed, 89 insertions(+)
 > >
-> > diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> > index 49698a168437..a3b924501f3d 100644
-> > --- a/lib/kunit/test.c
-> > +++ b/lib/kunit/test.c
-> > @@ -379,6 +379,9 @@ static void kunit_run_case_internal(struct kunit *t=
-est,
-> >                                     struct kunit_suite *suite,
-> >                                     struct kunit_case *test_case)
-> >  {
-> > +       struct timespec64 start, end;
-> > +       struct timespec64 duration;
-> > +
-> >         if (suite->init) {
-> >                 int ret;
+> > diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+> > index eb00bbd3e1f3..8d705a1713fb 100644
+> > --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+> > @@ -3638,6 +3638,8 @@ port@1 {
 > >
-> > @@ -390,7 +393,20 @@ static void kunit_run_case_internal(struct kunit *=
-test,
-> >                 }
-> >         }
+> >                               port@2 {
+> >                                       reg = <2>;
+> > +
+> > +                                     usb_1_qmpphy_dp_in: endpoint {};
+> >                               };
+> >                       };
+> >               };
+> > @@ -4405,6 +4407,14 @@ dpu_intf2_out: endpoint {
+> >                                                       remote-endpoint = <&mdss_dsi1_in>;
+> >                                               };
+> >                                       };
+> > +
+> > +                                     port@2 {
+> > +                                             reg = <2>;
+> > +
+> > +                                             dpu_intf0_out: endpoint {
+> > +                                                     remote-endpoint = <&mdss_dp_in>;
+> > +                                             };
+> > +                                     };
+> >                               };
 > >
-> > +       ktime_get_ts64(&start);
-> > +
-> >         test_case->run_case(test);
-> > +
-> > +       ktime_get_ts64(&end);
-> > +
-> > +       duration =3D timespec64_sub(end, start);
-> > +
-> > +       if (duration.tv_sec >=3D 1 &&
-> > +           (test_case->attr.speed =3D=3D KUNIT_SPEED_UNSET ||
-> > +            test_case->attr.speed >=3D KUNIT_SPEED_NORMAL))
-> > +               kunit_warn(test,
-> > +                          "Test should be marked slow (runtime: %lld.%=
-09lds)",
-> > +                          duration.tv_sec, duration.tv_nsec);
->=20
-> I would consider moving this if statement into a separate function.
+> >                               mdp_opp_table: opp-table {
+> > @@ -4432,6 +4442,85 @@ opp-460000000 {
+> >                               };
+> >                       };
+> >
+> > +                     mdss_dp: displayport-controller@ae90000 {
+>
+> displayport-controller does not seem to be a valid child node of the
+> sm8250 mdss. Please make sure that the binding is updated, if not
+> already done.
 
-Ack.
+True. I added the compatibility string to dp-controller.yaml, but
+missed the mdss schema. I'll send a fix ASAP.
 
-I'll send a v2 with your suggestions
+>
+> Thanks,
+> Bjorn
 
-Thanks!
-Maxime
 
---w74ncfsnmb5fumc5
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQqaCAAKCRDj7w1vZxhR
-xWFVAQCscyH4BdpULUcyKdzrJnqg4NjTunlwcCoBUnaXdcwPuAEAtSZgjTTai4MB
-pmFajOsaPbjnfsaZqqQlaWvbK+LxdgQ=
-=RD7P
------END PGP SIGNATURE-----
-
---w74ncfsnmb5fumc5--
+-- 
+With best wishes
+Dmitry
