@@ -1,41 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2C07A8E08
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 22:57:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C6F7A8E46
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 23:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10AF510E55B;
-	Wed, 20 Sep 2023 20:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E2510E08C;
+	Wed, 20 Sep 2023 21:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 383C310E55A
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 20:57:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C9698C1;
- Wed, 20 Sep 2023 22:55:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695243347;
- bh=z6N9CvJjIZruwOxk9WxBuXmd5Sfk5damI8NfgyS8fHo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cihD9CRmaW9EH7FvEQx0/c7qAsUP6CyEWCJLUknDaZUJNRkcOqCh1pd1Y4b818ly8
- PCFrClpWOverjbRIQdjsAqMuoVnyly1DzgAPVNhGDksJ7Fi9cQOtXKpS1u7pQiHTDC
- KNKk5B1ib6jS3I0wVEVMCUUaf+Evpm7RPGx2yd50=
-Date: Wed, 20 Sep 2023 23:57:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
- Video Interface
-Message-ID: <20230920205736.GB7723@pendragon.ideasonboard.com>
-References: <20230920171009.3193296-1-l.stach@pengutronix.de>
- <20230920171009.3193296-2-l.stach@pengutronix.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0A610E08C
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 21:14:00 +0000 (UTC)
+Received: from [192.168.2.59] (109-252-153-31.dynamic.spd-mgts.ru
+ [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A50F6607243;
+ Wed, 20 Sep 2023 22:13:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695244438;
+ bh=AEY7xSy+XlWvC67wCNaiGkWUgOsbIuFYHHmnxBCjy3I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OVtEQlBJBAtJi9tb4FkbfpRmsugl2ETOMWGjfNX2zARe4zatOkyv2qFJys4qpZtAF
+ +Pd04c3WENeHGNveAmVQjypZBCeUc+c3fmfZbTJ2yHcQiA7cdicWuFvMkGH+n3TRTC
+ xMNh9WWDUw4RunEtbk8xx8tLFjrKDMQJOSJGXl9t3FkCbgj0JSaYOa8v/SiZtqvHp2
+ EcMhgaMKvguYPbjpwINvIxme70frCQjPc81NrM7RCkxjaGlNIzwfyrePkf6ASLYE+o
+ mf9DkAuGVNsiaI/F26kgzkV66Gg9aLL+UXmsce2VOVwbfv1f+LeTqxhXQFWC8u9ttg
+ 75roO4Mdw5y1Q==
+Message-ID: <e944b37b-87e2-5cd4-1140-f7bb7e28519f@collabora.com>
+Date: Thu, 21 Sep 2023 00:13:54 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230920171009.3193296-2-l.stach@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/virtio: clean out_fence on complete_submit
+Content-Language: en-US
+To: =?UTF-8?Q?Jos=c3=a9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ airlied@redhat.com, kraxel@redhat.com, skhan@linuxfoundation.org
+References: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,300 +56,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- patchwork-lst@pengutronix.de, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sandor Yu <sandor.yu@nxp.com>,
- Adam Ford <aford173@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Richard Leitner <richard.leitner@skidata.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, gurchetansingh@chromium.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
-
-Thank you for the patch.
-
-On Wed, Sep 20, 2023 at 07:10:09PM +0200, Lucas Stach wrote:
-> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
-> full timing generator and can switch between different video sources. On
-> the i.MX8MP however the only supported source is the LCDIF. The block
-> just needs to be powered up and told about the polarity of the video
-> sync signals to act in bypass mode.
+On 9/12/23 09:08, José Pekkarinen wrote:
+> The removed line prevents the following cleanup function
+> to execute a dma_fence_put on the out_fence to free its
+> memory, producing the following output in kmemleak:
 > 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
-> Tested-by: Marek Vasut <marex@denx.de> (v1)
-> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
-> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
+> unreferenced object 0xffff888126d8ee00 (size 128):
+>   comm "kwin_wayland", pid 981, jiffies 4295380296 (age 390.060s)
+>   hex dump (first 32 bytes):
+>     c8 a1 c2 27 81 88 ff ff e0 14 a9 c0 ff ff ff ff  ...'............
+>     30 1a e1 2e a6 00 00 00 28 fc 5b 17 81 88 ff ff  0.......(.[.....
+>   backtrace:
+>     [<0000000011655661>] kmalloc_trace+0x26/0xa0
+>     [<0000000055f15b82>] virtio_gpu_fence_alloc+0x47/0xc0 [virtio_gpu]
+>     [<00000000fa6d96f9>] virtio_gpu_execbuffer_ioctl+0x1a8/0x800 [virtio_gpu]
+>     [<00000000e6cb5105>] drm_ioctl_kernel+0x169/0x240 [drm]
+>     [<000000005ad33e27>] drm_ioctl+0x399/0x6b0 [drm]
+>     [<00000000a19dbf65>] __x64_sys_ioctl+0xc5/0x100
+>     [<0000000011fa801e>] do_syscall_64+0x5b/0xc0
+>     [<0000000065c76d8a>] entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+> unreferenced object 0xffff888121930500 (size 128):
+>   comm "kwin_wayland", pid 981, jiffies 4295380313 (age 390.096s)
+>   hex dump (first 32 bytes):
+>     c8 a1 c2 27 81 88 ff ff e0 14 a9 c0 ff ff ff ff  ...'............
+>     f9 ec d7 2f a6 00 00 00 28 fc 5b 17 81 88 ff ff  .../....(.[.....
+>   backtrace:
+>     [<0000000011655661>] kmalloc_trace+0x26/0xa0
+>     [<0000000055f15b82>] virtio_gpu_fence_alloc+0x47/0xc0 [virtio_gpu]
+>     [<00000000fa6d96f9>] virtio_gpu_execbuffer_ioctl+0x1a8/0x800 [virtio_gpu]
+>     [<00000000e6cb5105>] drm_ioctl_kernel+0x169/0x240 [drm]
+>     [<000000005ad33e27>] drm_ioctl+0x399/0x6b0 [drm]
+>     [<00000000a19dbf65>] __x64_sys_ioctl+0xc5/0x100
+>     [<0000000011fa801e>] do_syscall_64+0x5b/0xc0
+>     [<0000000065c76d8a>] entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+> [...]
+> 
+> This memleak will grow quickly, being possible to see the
+> following line in dmesg after few minutes of life in the
+> virtual machine:
+> 
+> [  706.217388] kmemleak: 10731 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> 
+> The patch will remove the line to allow the cleanup
+> function do its job.
+> 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 > ---
->  drivers/gpu/drm/bridge/imx/Kconfig           |   7 +
->  drivers/gpu/drm/bridge/imx/Makefile          |   1 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c | 206 +++++++++++++++++++
->  3 files changed, 214 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 9fae28db6aa7..3a4e663d922a 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -3,6 +3,13 @@ if ARCH_MXC || COMPILE_TEST
->  config DRM_IMX_LDB_HELPER
->  	tristate
->  
-> +config DRM_IMX8MP_HDMI_PVI
-> +	tristate "Freescale i.MX8MP HDMI PVI bridge support"
-> +	depends on OF
-> +	help
-> +	  Choose this to enable support for the internal HDMI TX Parallel
-> +	  Video Interface found on the Freescale i.MX8MP SoC.
-> +
->  config DRM_IMX8QM_LDB
->  	tristate "Freescale i.MX8QM LVDS display bridge"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> index 8e2ebf3399a1..be9b4f9adb50 100644
-> --- a/drivers/gpu/drm/bridge/imx/Makefile
-> +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> @@ -1,4 +1,5 @@
->  obj-$(CONFIG_DRM_IMX_LDB_HELPER) += imx-ldb-helper.o
-> +obj-$(CONFIG_DRM_IMX8MP_HDMI_PVI) += imx8mp-hdmi-pvi.o
->  obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
->  obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-> new file mode 100644
-> index 000000000000..5ccd70c98187
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-> @@ -0,0 +1,206 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +/*
-> + * Copyright (C) 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
-> + */
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_crtc.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#define HTX_PVI_CTRL			0x0
-> +#define  PVI_CTRL_OP_VSYNC_POL		BIT(18)
-> +#define  PVI_CTRL_OP_HSYNC_POL		BIT(17)
-> +#define  PVI_CTRL_OP_DE_POL		BIT(16)
-> +#define  PVI_CTRL_INP_VSYNC_POL		BIT(14)
-> +#define  PVI_CTRL_INP_HSYNC_POL		BIT(13)
-> +#define  PVI_CTRL_INP_DE_POL		BIT(12)
-> +#define  PVI_CTRL_MODE_MASK		GENMASK(2, 1)
-> +#define  PVI_CTRL_MODE_LCDIF		2
-> +#define  PVI_CTRL_EN			BIT(0)
-> +
-> +struct imx8mp_hdmi_pvi {
-> +	struct drm_bridge	bridge;
-> +	struct device		*dev;
-> +	struct drm_bridge	*next_bridge;
-> +	void __iomem		*regs;
-> +};
-> +
-> +static inline struct imx8mp_hdmi_pvi *
-> +to_imx8mp_hdmi_pvi(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct imx8mp_hdmi_pvi, bridge);
-> +}
-> +
-> +static int imx8mp_hdmi_pvi_bridge_attach(struct drm_bridge *bridge,
-> +					 enum drm_bridge_attach_flags flags)
-> +{
-> +	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
-> +
-> +	return drm_bridge_attach(bridge->encoder, pvi->next_bridge,
-> +				 bridge, flags);
-> +}
-> +
-> +static void imx8mp_hdmi_pvi_bridge_enable(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state)
-> +{
-> +	struct drm_atomic_state *state = bridge_state->base.state;
-> +	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
-> +	struct drm_connector_state *conn_state;
-> +	const struct drm_display_mode *mode;
-> +	struct drm_crtc_state *crtc_state;
-> +	struct drm_connector *connector;
-> +	u32 bus_flags, val;
-> +
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +
-> +	if (WARN_ON(pm_runtime_resume_and_get(pvi->dev)))
-> +		return;
-> +
-> +	mode = &crtc_state->adjusted_mode;
-> +
-> +	val = FIELD_PREP(PVI_CTRL_MODE_MASK, PVI_CTRL_MODE_LCDIF) | PVI_CTRL_EN;
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-> +		val |= PVI_CTRL_OP_VSYNC_POL | PVI_CTRL_INP_VSYNC_POL;
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-> +		val |= PVI_CTRL_OP_HSYNC_POL | PVI_CTRL_INP_HSYNC_POL;
-> +
-> +	if (pvi->next_bridge->timings)
-> +		bus_flags = pvi->next_bridge->timings->input_bus_flags;
-> +	else if (bridge_state)
-> +		bus_flags = bridge_state->input_bus_cfg.flags;
-> +
-> +	if (bus_flags & DRM_BUS_FLAG_DE_HIGH)
-> +		val |= PVI_CTRL_OP_DE_POL | PVI_CTRL_INP_DE_POL;
-> +
-> +	writel(val, pvi->regs + HTX_PVI_CTRL);
-> +}
-> +
-> +static void imx8mp_hdmi_pvi_bridge_disable(struct drm_bridge *bridge,
-> +					   struct drm_bridge_state *bridge_state)
-> +{
-> +	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
-> +
-> +	writel(0x0, pvi->regs + HTX_PVI_CTRL);
-> +
-> +	pm_runtime_put(pvi->dev);
-> +}
-> +
-> +static u32 *
-> +imx8mp_hdmi_pvi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state,
-> +					  struct drm_crtc_state *crtc_state,
-> +					  struct drm_connector_state *conn_state,
-> +					  u32 output_fmt,
-> +					  unsigned int *num_input_fmts)
-> +{
-> +	struct imx8mp_hdmi_pvi *pvi = to_imx8mp_hdmi_pvi(bridge);
-> +	struct drm_bridge *next_bridge = pvi->next_bridge;
-> +	struct drm_bridge_state *next_state;
-> +
-> +	if (!next_bridge->funcs->atomic_get_input_bus_fmts)
-> +		return 0;
-> +
-> +	next_state = drm_atomic_get_new_bridge_state(crtc_state->state,
-> +						     next_bridge);
-> +
-> +	return next_bridge->funcs->atomic_get_input_bus_fmts(next_bridge,
-> +							     next_state,
-> +							     crtc_state,
-> +							     conn_state,
-> +							     output_fmt,
-> +							     num_input_fmts);
-> +}
-> +
-> +static const struct drm_bridge_funcs imx_hdmi_pvi_bridge_funcs = {
-> +	.attach		= imx8mp_hdmi_pvi_bridge_attach,
-> +	.atomic_enable	= imx8mp_hdmi_pvi_bridge_enable,
-> +	.atomic_disable	= imx8mp_hdmi_pvi_bridge_disable,
-> +	.atomic_get_input_bus_fmts = imx8mp_hdmi_pvi_bridge_get_input_bus_fmts,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +};
-> +
-> +static int imx8mp_hdmi_pvi_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *remote;
-> +	struct imx8mp_hdmi_pvi *pvi;
-> +
-> +	pvi = devm_kzalloc(&pdev->dev, sizeof(*pvi), GFP_KERNEL);
-> +	if (!pvi)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, pvi);
-> +	pvi->dev = &pdev->dev;
-> +
-> +	pvi->regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(pvi->regs))
-> +		return PTR_ERR(pvi->regs);
-> +
-> +	/* Get the next bridge in the pipeline. */
-> +	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
-> +	if (!remote)
-> +		return -EINVAL;
-> +
-> +	pvi->next_bridge = of_drm_find_bridge(remote);
-> +	of_node_put(remote);
-> +
-> +	if (!pvi->next_bridge)
-> +		return dev_err_probe(&pdev->dev, -EPROBE_DEFER,
-> +				     "could not find next bridge\n");
-> +
-> +	/* Register the bridge. */
-> +	pvi->bridge.funcs = &imx_hdmi_pvi_bridge_funcs;
-> +	pvi->bridge.of_node = pdev->dev.of_node;
-> +	pvi->bridge.timings = pvi->next_bridge->timings;
-> +
-> +	drm_bridge_add(&pvi->bridge);
-> +
-> +	pm_runtime_enable(&pdev->dev);
+>  drivers/gpu/drm/virtio/virtgpu_submit.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-I would move this just before drm_bridge_add(). In theory, as soon as
-the bridge is added, it could get used, so it's a good practice to
-initialize everything before adding it.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mp_hdmi_pvi_remove(struct platform_device *pdev)
-> +{
-> +	struct imx8mp_hdmi_pvi *pvi = platform_get_drvdata(pdev);
-> +
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	drm_bridge_remove(&pvi->bridge);
-
-And here you could flip the two as well for consistency.
-
-With these minor changes,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id imx8mp_hdmi_pvi_match[] = {
-> +	{
-> +		.compatible = "fsl,imx8mp-hdmi-pvi",
-> +	}, {
-> +		/* sentinel */
-> +	}
-> +};
-> +MODULE_DEVICE_TABLE(of, imx8mp_hdmi_pvi_match);
-> +
-> +static struct platform_driver imx8mp_hdmi_pvi_driver = {
-> +	.probe	= imx8mp_hdmi_pvi_probe,
-> +	.remove	= imx8mp_hdmi_pvi_remove,
-> +	.driver		= {
-> +		.name = "imx-hdmi-pvi",
-> +		.of_match_table	= imx8mp_hdmi_pvi_match,
-> +	},
-> +};
-> +module_platform_driver(imx8mp_hdmi_pvi_driver);
-> +
-> +MODULE_DESCRIPTION("i.MX8MP HDMI TX Parallel Video Interface bridge driver");
-> +MODULE_LICENSE("GPL");
+Added fixes tag and pushed to misc-fixes
 
 -- 
-Regards,
+Best regards,
+Dmitry
 
-Laurent Pinchart
