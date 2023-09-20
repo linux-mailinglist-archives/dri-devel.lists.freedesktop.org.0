@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653037A86E7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:36:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7147A86E5
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D7D10E4E5;
-	Wed, 20 Sep 2023 14:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD8E010E4E3;
+	Wed, 20 Sep 2023 14:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5B5510E4DD
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3CF10E4DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3A5A861CD2;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8FDC761CD3;
+ Wed, 20 Sep 2023 14:36:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10151C433C8;
  Wed, 20 Sep 2023 14:36:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C16DC433CB;
- Wed, 20 Sep 2023 14:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695220596;
- bh=fuZjkFl/jqhwO48bmKJwJvIB0H4MjJa9mxi0LwhfDmM=;
+ s=k20201202; t=1695220599;
+ bh=612NFeh5NOImp0JEmAQppe78uklCbIwDoN+fmJSIsz0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=PBCmUUVD4phyz8ZtxdO8mxzkohSSj2HpK6SL/ZSBMiuhwEj6HYNeiz4wza1P7IrE3
- V8HJidQBlt9MDmzxpIgsvXn6h10vEGA3JURZqYuzS4crUjIwSp2Z56gYGvO7jpCs+J
- OydUXYW8Dp1yAb/diIRO+FQfUVdsnKKrxoYj3R7B85VWgIsPnGqeQ8aNYWFXjCzGFt
- Dv8OvXrQVsp71v/vkh0EcLJXOWfVj9ALkgHH9Qm4/rHaFLOMm39/JJdkmR+Bnm0LDh
- fI40x0S0h44RTovcVj21QMnuV7OTyKaqNO8WOuZr4VeuQJvTMilAFPSH4GZNYyaNdL
- bCBJD02oRvtyw==
+ b=RmjQJGqHnwXWN/LOAwR+eZGFjPd6bbcva2EllOuLaYiXTetvvaJe+LOzWUmXP/VnA
+ SEuOKCf1G/Sfh74r5f6g4G/yUxxzcBfQlmhjPzL77qbEddnzkuCogLuajdZhkjc6pY
+ 6BG0Cdg8aUt9HyeDo1kb53hgHb6Gow9yS+sKcM434Xlwvb2Njm7fntYRvyR5ZsXKf9
+ nWbKnmtNkBK9efIjDEhjMEzGkZsrR7ipzLjrk3bRBQSreQv9ynasJyoMKi0RMsUKg8
+ WKIW6b9APj0KDuAXlrwzI6L2oDiA8NEaLcdp5kIMg3AYuYKccaRIpsxga3u2pn4sFe
+ GiVnkGAVuET1A==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 20 Sep 2023 16:35:34 +0200
-Subject: [PATCH RFC v2 19/37] drm/rockchip: inno_hdmi: no need to store vic
+Date: Wed, 20 Sep 2023 16:35:35 +0200
+Subject: [PATCH RFC v2 20/37] drm/rockchip: inno_hdmi: Remove unneeded has
+ audio flag
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-kms-hdmi-connector-state-v2-19-17932daddd7d@kernel.org>
+Message-Id: <20230920-kms-hdmi-connector-state-v2-20-17932daddd7d@kernel.org>
 References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 In-Reply-To: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -47,12 +49,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1633; i=mripard@kernel.org;
- h=from:subject:message-id; bh=fuZjkFl/jqhwO48bmKJwJvIB0H4MjJa9mxi0LwhfDmM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczFZnP6ZX7pe40nJCaRn7GtOmTa4rdmw1To2f4Jj38
- 7DN3l0PO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARvgcMfziOqd9wYGjz3bBr
- ph63RoIy+4fVU7xjaqUeh4Q/c2r/rcHIsPVk2KPZu6Ktdx76s5P5Ccd2c52dM2awq8UbssVVbJp
- VwAcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1051; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=612NFeh5NOImp0JEmAQppe78uklCbIwDoN+fmJSIsz0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczFZR9Ty6coK/5XpP97q+EqvfHCPlGxNcrL3KsHPex
+ FNPurZ0lLIwiHExyIopssQImy+JOzXrdScb3zyYOaxMIEMYuDgFYCKCuxn+V9028rcIen2m74zr
+ mkOP5G/wRd6SfOBSe8L+qVt+5vnvRxkZttiLL5jVucPle1XjvxuW2yWDvRt0jutJOc6/PXPunAO
+ CvAA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,48 +77,34 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mode's VIC is only ever used in the inno_hdmi_setup() function so
-there's no need to store it in the main structure.
+The sink_has_audio flag is not used anywhere in the driver so let's get
+rid of it. It's redundant with drm_display_info.has_audio anyway.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 4db18195246e..294f0d442c0c 100644
+index 294f0d442c0c..3908dc09d85f 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
 @@ -28,7 +28,6 @@
  #include "inno_hdmi.h"
  
  struct hdmi_data_info {
--	int vic;
- 	bool sink_has_audio;
+-	bool sink_has_audio;
  	unsigned int enc_in_format;
  	unsigned int enc_out_format;
-@@ -443,16 +442,15 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 			   struct drm_display_mode *mode)
- {
- 	struct drm_display_info *display = &hdmi->connector.display_info;
--
--	hdmi->hdmi_data.vic = drm_match_cea_mode(mode);
-+	u8 vic = drm_match_cea_mode(mode);
+ 	unsigned int colorimetry;
+@@ -554,7 +553,6 @@ static int inno_hdmi_connector_get_modes(struct drm_connector *connector)
  
- 	hdmi->hdmi_data.enc_in_format = HDMI_COLORSPACE_RGB;
- 	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
- 
--	if ((hdmi->hdmi_data.vic == 6) || (hdmi->hdmi_data.vic == 7) ||
--	    (hdmi->hdmi_data.vic == 21) || (hdmi->hdmi_data.vic == 22) ||
--	    (hdmi->hdmi_data.vic == 2) || (hdmi->hdmi_data.vic == 3) ||
--	    (hdmi->hdmi_data.vic == 17) || (hdmi->hdmi_data.vic == 18))
-+	if ((vic == 6) || (vic == 7) ||
-+	    (vic == 21) || (vic == 22) ||
-+	    (vic == 2) || (vic == 3) ||
-+	    (vic == 17) || (vic == 18))
- 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
- 	else
- 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
+ 	edid = drm_get_edid(connector, hdmi->ddc);
+ 	if (edid) {
+-		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
+ 		drm_connector_update_edid_property(connector, edid);
+ 		ret = drm_add_edid_modes(connector, edid);
+ 		kfree(edid);
 
 -- 
 2.41.0
