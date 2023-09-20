@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094F37A7E33
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:16:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E857A7E35
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F4A10E497;
-	Wed, 20 Sep 2023 12:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45F410E499;
+	Wed, 20 Sep 2023 12:16:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D274E10E497
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:16:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6A710E499
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:16:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4DC3F61BAD;
- Wed, 20 Sep 2023 12:16:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C33FBC433CC;
- Wed, 20 Sep 2023 12:16:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EF1DC61BB8;
+ Wed, 20 Sep 2023 12:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 436A0C433C9;
+ Wed, 20 Sep 2023 12:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1695212166;
- bh=bOEABJEfJZ2BcVjKvIMby2RO7uv0NjZm1PDO+S236Kk=;
+ s=korg; t=1695212168;
+ bh=b4MSMyJh/b3Ho3pTP5ItMLMHcbfmY9YpwuBQ4lt0QMA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=anexjQZlW5WXm1c2jKZW8NVyaJHsSZ59FzI6HBls9701XTApKgIGD9RPKOt2x50eP
- PxWDxc1mdGIz1gLj0tSwZ70W6dAC5GxVBWB/c1HtAW9Q6nTtSjCk7/hvmbo/OB3pu6
- D4h/TkcUREfwmCro0l7jAGUKB73k7A4prVUDO6ZQ=
+ b=LIHFAzQJ9JMTmptbPmRNOH+tdd/r4hVQu6MeZf7rIOwFeqwcqvHP2qZ2z6KbFyu1o
+ Ucwz3Meux8a+GKfx3USZ+njGa93bXGos6LDID7CShId5Q2ZhD7jYjHYtW82DRWFClO
+ XCPc0ewRgS9I+CwXFlkPKaUIxTddPfzJEG2So6cw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 4.19 176/273] backlight/bd6107: Compare against struct
+Subject: [PATCH 4.19 177/273] backlight/lv5207lp: Compare against struct
  fb_info.device
-Date: Wed, 20 Sep 2023 13:30:16 +0200
-Message-ID: <20230920112851.955152216@linuxfoundation.org>
+Date: Wed, 20 Sep 2023 13:30:17 +0200
+Message-ID: <20230920112851.986257747@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230920112846.440597133@linuxfoundation.org>
 References: <20230920112846.440597133@linuxfoundation.org>
@@ -55,10 +56,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-sh@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lee Jones <lee@kernel.org>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Rich Felker <dalias@libc.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -69,10 +72,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 992bdddaabfba19bdc77c1c7a4977b2aa41ec891 upstream.
+commit 1ca8819320fd84e7d95b04e7668efc5f9fe9fa5c upstream.
 
-Struct bd6107_platform_data refers to a platform device within
-the Linux device hierarchy. The test in bd6107_backlight_check_fb()
+Struct lv5207lp_platform_data refers to a platform device within
+the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
 compares it against the fbdev device in struct fb_info.dev, which
 is different. Fix the test by comparing to struct fb_info.device.
 
@@ -82,33 +85,37 @@ struct fb_info.dev optional.
 v2:
 	* move renames into separate patch (Javier, Sam, Michael)
 
-Fixes: 67b43e590415 ("backlight: Add ROHM BD6107 backlight driver")
+Fixes: 82e5c40d88f9 ("backlight: Add Sanyo LV5207LP backlight driver")
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Cc: Lee Jones <lee@kernel.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: linux-sh@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v3.12+
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-2-tzimmermann@suse.de
+Link: https://patchwork.freedesktop.org/patch/msgid/20230613110953.24176-6-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/video/backlight/bd6107.c |    2 +-
+ drivers/video/backlight/lv5207lp.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/video/backlight/bd6107.c
-+++ b/drivers/video/backlight/bd6107.c
-@@ -110,7 +110,7 @@ static int bd6107_backlight_check_fb(str
+--- a/drivers/video/backlight/lv5207lp.c
++++ b/drivers/video/backlight/lv5207lp.c
+@@ -75,7 +75,7 @@ static int lv5207lp_backlight_check_fb(s
  {
- 	struct bd6107 *bd = bl_get_data(backlight);
+ 	struct lv5207lp *lv = bl_get_data(backlight);
  
--	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->dev;
-+	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->device;
+-	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->dev;
++	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->device;
  }
  
- static const struct backlight_ops bd6107_backlight_ops = {
+ static const struct backlight_ops lv5207lp_backlight_ops = {
 
 
