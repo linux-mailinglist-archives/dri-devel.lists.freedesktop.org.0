@@ -2,50 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6337A8E57
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 23:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF087A8EC7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 23:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4E410E567;
-	Wed, 20 Sep 2023 21:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9CBD10E085;
+	Wed, 20 Sep 2023 21:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21BDA10E56B;
- Wed, 20 Sep 2023 21:20:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0FB10E082;
+ Wed, 20 Sep 2023 21:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695244857; x=1726780857;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=YJAYIV5p2+KM7HLqocbEj70PwpD0CSfqSHDXdPkW+Ko=;
- b=MefqbfWoApIbP+1KqXLLugB4ZEjEzgLsgMnl1uJsB9ewvhyZuScqYqvh
- Ki0QXeoZ8LmVr9Ft6XOhhyBY94GOgRUMkFwx/keyqesT/8B3Vm4P2ANKi
- kPOVCdpg9CVukhqd3jnWvEUQ89R5kbsoQ8uhKex9DeNMToCILwqxbVes0
- JiO6rNUIdIEvZvOictOERox0BteyaP9AooDxElUU0tpmKtYBZYJerroQE
- p9K+o4wjDpOfZWkShae+rzC9MXfDYq6mrmVIWxyGvve25G/td0D699CJQ
- M0cBJtVguxVkU31up0kwEWy5zCWY3ajw5vACn/m6IQKu9sSBq13a6xoUj Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="359727158"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="359727158"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 14:19:52 -0700
+ t=1695247172; x=1726783172;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+UfZKgjN/aXBcFicuvsoxd+ZUslBdBfshjCH7giZQ/M=;
+ b=LQjG5T21u6mw0eYZww4H/RP/X6TlkLsZBnAUDRpFM2syIVQjVWCwxNWe
+ XYPKvUczcZhD2decY41KjyRUzv7u2BJx7uuQUmSucsgCGaVQKb5jR2QMR
+ bFAhVEFEASYSuuCxEEqCwVAWCC7KwReolwNOeA0g5mLp4cXqCO+EStMO0
+ CyEwVOpU2i8gy0uRbChX5Fh2TxIu2UXmIvcpXSGUz03J2KzTpaDPjxlBN
+ zGzpRzHRs3BpMWTrtgdduSDdF8mES2Mwa4S22XzBGar36JoqaCBBFYAFB
+ VT6vrPD1Pe0uSrTUOWQ1kOQbijQFs4FW8kEDyGcsm1yZjR5NdlTCnbSxy A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466659916"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="466659916"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 14:59:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="776155755"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="776155755"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
- by orsmga008.jf.intel.com with SMTP; 20 Sep 2023 14:19:39 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 21 Sep 2023 00:19:38 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/bios: Fixup h/vsync_end instead of h/vtotal
-Date: Thu, 21 Sep 2023 00:19:34 +0300
-Message-ID: <20230920211934.14920-2-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230920211934.14920-1-ville.syrjala@linux.intel.com>
-References: <20230920211934.14920-1-ville.syrjala@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890113651"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="890113651"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 14:58:42 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gem: Allow users to disable waitboost
+Date: Wed, 20 Sep 2023 14:56:24 -0700
+Message-Id: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,83 +55,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Provide a bit to disable waitboost while waiting on a gem object.
+Waitboost results in increased power consumption by requesting RP0
+while waiting for the request to complete. Add a bit in the gem_wait()
+IOCTL where this can be disabled.
 
-We have the same h/vsync_end vs. h/vtotal quirk in the VBT parser
-that was also present in EDID parser. Adjust the VBT parser the
-same way as was done for hte EDID parser to fixup h/vsync_end
-instead of h/vtotal. While I'm not currently aware of any machines
-that need this for the VBT it seems prudent to keep both parsers
-in sync.
+This is related to the libva API change here -
+Link: https://github.com/XinfengZhang/libva/commit/3d90d18c67609a73121bb71b20ee4776b54b61a7
 
-And while at it let's add some debugs here as well. A bit
-lackluster but didn't feel like plumbing the connector all
-the way down at this time.
-
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_bios.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c | 9 ++++++---
+ drivers/gpu/drm/i915/i915_request.c      | 3 ++-
+ drivers/gpu/drm/i915/i915_request.h      | 1 +
+ include/uapi/drm/i915_drm.h              | 1 +
+ 4 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-index f735b035436c..863ff54fffd1 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -521,7 +521,8 @@ static void init_bdb_blocks(struct drm_i915_private *i915,
- }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+index d4b918fb11ce..955885ec859d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+@@ -72,7 +72,8 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+ 	struct dma_fence *fence;
+ 	long ret = timeout ?: 1;
  
- static void
--fill_detail_timing_data(struct drm_display_mode *panel_fixed_mode,
-+fill_detail_timing_data(struct drm_i915_private *i915,
-+			struct drm_display_mode *panel_fixed_mode,
- 			const struct lvds_dvo_timing *dvo_timing)
- {
- 	panel_fixed_mode->hdisplay = (dvo_timing->hactive_hi << 8) |
-@@ -561,11 +562,17 @@ fill_detail_timing_data(struct drm_display_mode *panel_fixed_mode,
- 	panel_fixed_mode->height_mm = (dvo_timing->vimage_hi << 8) |
- 		dvo_timing->vimage_lo;
+-	i915_gem_object_boost(resv, flags);
++	if (!(flags & I915_WAITBOOST_DISABLE))
++		i915_gem_object_boost(resv, flags);
  
--	/* Some VBTs have bogus h/vtotal values */
--	if (panel_fixed_mode->hsync_end > panel_fixed_mode->htotal)
--		panel_fixed_mode->htotal = panel_fixed_mode->hsync_end + 1;
--	if (panel_fixed_mode->vsync_end > panel_fixed_mode->vtotal)
--		panel_fixed_mode->vtotal = panel_fixed_mode->vsync_end + 1;
-+	/* Some VBTs have bogus h/vsync_end values */
-+	if (panel_fixed_mode->hsync_end > panel_fixed_mode->htotal) {
-+		drm_dbg_kms(&i915->drm, "reducing hsync_end %d->%d\n",
-+			    panel_fixed_mode->hsync_end, panel_fixed_mode->htotal);
-+		panel_fixed_mode->hsync_end = panel_fixed_mode->htotal;
-+	}
-+	if (panel_fixed_mode->vsync_end > panel_fixed_mode->vtotal) {
-+		drm_dbg_kms(&i915->drm, "reducing vsync_end %d->%d\n",
-+			    panel_fixed_mode->vsync_end, panel_fixed_mode->vtotal);
-+		panel_fixed_mode->vsync_end = panel_fixed_mode->vtotal;
-+	}
+ 	dma_resv_iter_begin(&cursor, resv,
+ 			    dma_resv_usage_rw(flags & I915_WAIT_ALL));
+@@ -236,7 +237,7 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 	ktime_t start;
+ 	long ret;
  
- 	drm_mode_set_name(panel_fixed_mode);
- }
-@@ -849,7 +856,7 @@ parse_lfp_panel_dtd(struct drm_i915_private *i915,
- 	if (!panel_fixed_mode)
- 		return;
+-	if (args->flags != 0)
++	if (args->flags != 0 || args->flags != I915_GEM_WAITBOOST_DISABLE)
+ 		return -EINVAL;
  
--	fill_detail_timing_data(panel_fixed_mode, panel_dvo_timing);
-+	fill_detail_timing_data(i915, panel_fixed_mode, panel_dvo_timing);
+ 	obj = i915_gem_object_lookup(file, args->bo_handle);
+@@ -248,7 +249,9 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 	ret = i915_gem_object_wait(obj,
+ 				   I915_WAIT_INTERRUPTIBLE |
+ 				   I915_WAIT_PRIORITY |
+-				   I915_WAIT_ALL,
++				   I915_WAIT_ALL |
++				   (args->flags & I915_GEM_WAITBOOST_DISABLE ?
++				    I915_WAITBOOST_DISABLE : 0),
+ 				   to_wait_timeout(args->timeout_ns));
  
- 	panel->vbt.lfp_lvds_vbt_mode = panel_fixed_mode;
+ 	if (args->timeout_ns > 0) {
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index f59081066a19..2957409b4b2a 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -2044,7 +2044,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
+ 	 * but at a cost of spending more power processing the workload
+ 	 * (bad for battery).
+ 	 */
+-	if (flags & I915_WAIT_PRIORITY && !i915_request_started(rq))
++	if (!(flags & I915_WAITBOOST_DISABLE) && (flags & I915_WAIT_PRIORITY) &&
++	    !i915_request_started(rq))
+ 		intel_rps_boost(rq);
  
-@@ -1134,7 +1141,7 @@ parse_sdvo_panel_data(struct drm_i915_private *i915,
- 	if (!panel_fixed_mode)
- 		return;
+ 	wait.tsk = current;
+diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+index 0ac55b2e4223..3cc00e8254dc 100644
+--- a/drivers/gpu/drm/i915/i915_request.h
++++ b/drivers/gpu/drm/i915/i915_request.h
+@@ -445,6 +445,7 @@ long i915_request_wait(struct i915_request *rq,
+ #define I915_WAIT_INTERRUPTIBLE	BIT(0)
+ #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
+ #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
++#define I915_WAITBOOST_DISABLE	BIT(3) /* used by i915_gem_object_wait() */
  
--	fill_detail_timing_data(panel_fixed_mode, &dtds->dtds[index]);
-+	fill_detail_timing_data(i915, panel_fixed_mode, &dtds->dtds[index]);
- 
- 	panel->vbt.sdvo_lvds_vbt_mode = panel_fixed_mode;
- 
+ void i915_request_show(struct drm_printer *m,
+ 		       const struct i915_request *rq,
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 7000e5910a1d..4adee70e39cf 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1928,6 +1928,7 @@ struct drm_i915_gem_wait {
+ 	/** Handle of BO we shall wait on */
+ 	__u32 bo_handle;
+ 	__u32 flags;
++#define I915_GEM_WAITBOOST_DISABLE      (1u<<0)
+ 	/** Number of nanoseconds to wait, Returns time remaining. */
+ 	__s64 timeout_ns;
+ };
 -- 
-2.41.0
+2.38.1
 
