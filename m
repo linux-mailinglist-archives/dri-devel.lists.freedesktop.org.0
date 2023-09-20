@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609897A793D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:31:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C257A793B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:31:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA7B10E46E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19FCC10E240;
 	Wed, 20 Sep 2023 10:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4105810E468
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 401B610E21B
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 10:31:30 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qiuUR-0003mR-Ps; Wed, 20 Sep 2023 12:31:27 +0200
+ id 1qiuUR-0003mS-Pu; Wed, 20 Sep 2023 12:31:27 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qiuUR-007fJ0-7Z; Wed, 20 Sep 2023 12:31:27 +0200
+ id 1qiuUR-007fJ0-94; Wed, 20 Sep 2023 12:31:27 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>,
 	Liu Ying <victor.liu@nxp.com>
-Subject: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
-Date: Wed, 20 Sep 2023 12:31:23 +0200
-Message-Id: <20230920103126.2759601-3-l.stach@pengutronix.de>
+Subject: [PATCH 3/5] drm: lcdif: remove superfluous setup of framebuffer DMA
+ address
+Date: Wed, 20 Sep 2023 12:31:24 +0200
+Message-Id: <20230920103126.2759601-4-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230920103126.2759601-1-l.stach@pengutronix.de>
 References: <20230920103126.2759601-1-l.stach@pengutronix.de>
@@ -56,45 +57,43 @@ Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow drm_atomic_helper_commit_tail_rpm to setup all the plane
-state before the scanout is started.
+Now that the plane state is fully programmed into the hardware before
+the scanout is started there is no need to program the plane framebuffer
+DMA address from the CRTC atomic_enable anymore.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index f5bfe8b52920..4acf6914a8d1 100644
+index 4acf6914a8d1..33a082366b25 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -505,6 +505,8 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
- static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
- 				    struct drm_atomic_state *state)
- {
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
-+									  crtc);
- 	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
- 	struct drm_pending_vblank_event *event;
- 	u32 reg;
-@@ -513,6 +515,9 @@ static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
- 	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
- 	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+@@ -541,7 +541,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+ 									    crtc->primary);
+ 	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+ 	struct drm_device *drm = lcdif->drm;
+-	dma_addr_t paddr;
  
-+	if (drm_atomic_crtc_needs_modeset(crtc_state))
-+		lcdif_enable_controller(lcdif);
-+
- 	event = crtc->state->event;
- 	crtc->state->event = NULL;
+ 	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
  
-@@ -552,7 +557,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
- 		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
- 		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
- 	}
--	lcdif_enable_controller(lcdif);
+@@ -549,15 +548,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
  
+ 	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
+ 
+-	/* Write cur_buf as well to avoid an initial corrupt frame */
+-	paddr = drm_fb_dma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+-	if (paddr) {
+-		writel(lower_32_bits(paddr),
+-		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+-		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+-		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+-	}
+-
  	drm_crtc_vblank_on(crtc);
  }
+ 
 -- 
 2.39.2
 
