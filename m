@@ -1,92 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFCA7A8F6F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:30:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6EF7A8F75
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0F810E164;
-	Wed, 20 Sep 2023 22:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF3210E449;
+	Wed, 20 Sep 2023 22:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F1310E089;
- Wed, 20 Sep 2023 22:30:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NaFVsZ4CfRG7ltVJtM7rOQfvVeiwoMOlTz09SNNQdnnG0Ja4x95Gp7SNw0WG8XeNPVMbbxT+z1gFMtSrBcW5mxUia2FqjSB7df0QRRu/iBXJDV/tQl4VBz/Cza0tk8hoouznAKPOi0WmhoWAdQwzpYnm7XEIfwrR+v7iABX3NagqeybBIk64eBgbDQrwFiXxdEvhQoiomAfkmmYo3kGgELhwJ0iS15VkcPj316Q7Kq+Ar9IjluW6ceTyOZ96+wh1hWkIHuKWvBM0kemd+8avSQTHX7EPxlCmHBRVcm8tPWvV5YodKFPqfbcS20XFEHJhGjQnwzNQiJ4xrygaDnH1jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jVbbefazgbBG1p/CdLVZXQ/9jLC3X7DvTFIbnWnxCXg=;
- b=oVA9JViGb90w04sNxGXkzhieGVJrMp88SVwHSm8mQlytR8XoxN/qPQONX4qY5xpmGfVj7LqjyW+c9O3HEvYq+MsknnWpm9b1NPCcpT/8McCCoc6w+YCa9uuPP0e6+eIW1IheutBkj2vmRep9SoXl0ECooXYNEi54b7XdKjUJYqiAf4k/kM+OzpL/fG/uNtZuCKgh41e7ABGJKyc1UDj7snXkWjDjNpB2Hs/KewX4TkzlHvBxJfudQ7MqaKYa7HgnXvwsHSVRLKzoDc3I+BQBQBLaE2vZblNaCMyURuodBMiy6alFb/dCI0BY1wqun/Qvzo10UPEhPlavuvHKexQjeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jVbbefazgbBG1p/CdLVZXQ/9jLC3X7DvTFIbnWnxCXg=;
- b=1XYjLrnlY3U8FLhvW4WlPBO6FIXa+OuNVFVTW5EDRdtw8AC3hiQNsF5EYyA1keUWwdJMvXwaJIgRzJ6OOCEaH91X8MCDs7osoRpugDSgz/2zhsImCV2xVogm74fKGGBwaa7V6ee/KWZG2yCG8xAnYY2rVXZZ+HPlmmIsFXyO7rU=
-Received: from SN7PR04CA0039.namprd04.prod.outlook.com (2603:10b6:806:120::14)
- by DS0PR12MB8341.namprd12.prod.outlook.com (2603:10b6:8:f8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.42; Wed, 20 Sep
- 2023 22:30:32 +0000
-Received: from SN1PEPF0002636D.namprd02.prod.outlook.com
- (2603:10b6:806:120:cafe::41) by SN7PR04CA0039.outlook.office365.com
- (2603:10b6:806:120::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.29 via Frontend
- Transport; Wed, 20 Sep 2023 22:30:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002636D.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6792.20 via Frontend Transport; Wed, 20 Sep 2023 22:30:32 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 20 Sep
- 2023 17:30:30 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu, amdkfd drm-fixes-6.6
-Date: Wed, 20 Sep 2023 18:29:15 -0400
-Message-ID: <20230920222915.7789-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 493A410E449
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 22:33:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 78C0D61E1B;
+ Wed, 20 Sep 2023 22:33:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E143C433CC;
+ Wed, 20 Sep 2023 22:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695249189;
+ bh=SBThQbOMOMdYmyDrdiY4+dScgD2UaJ6Jd/k2Lspawco=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=uOk2QfJTBwQDO+Hv2Hn3QAXr/yVpQ9Mklh4At1SracF88uIUlVaZVZnpQeAz3F2wX
+ HFKXu5ZOvVj49fbD/n++FrtR3JQ8t7AF5+9QV75HrhB3oH9TxnXg9WCiNEFZvZL97I
+ MIYKOXv1zU4lqw/sHcXBderrAwdQYWLq3aF3p4mWzJiAAx6kLVbR/gezIT1iEfTdi6
+ oAKIRAipLXWtar8tSCbX/2Cc5iyTAK9hQbJZ9iQtWpZfUhelilA2K1PU5ygLkZMhbC
+ svL8G+8aLdHXeAogiW1WUhZUzs3ZNmX8K/xEFe97mzaYHU8/oOhcvXBbCI2GMsSBYF
+ xlBz+uD+KMzSw==
+Received: (nullmailer pid 3103973 invoked by uid 1000);
+ Wed, 20 Sep 2023 22:33:04 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636D:EE_|DS0PR12MB8341:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c649cd9-8d74-4a03-f77c-08dbba29335e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4PbqEKSAMt+FKCV77dtNA9C/2HGWUSBn4+yr5luL0ygNieSDjQd4Sro52acYiC2mEoMuKTn8oJMkcXjA9OkLyMifuNd+CJIWiDHe5zSvHDrq/i6qO1vfMrbmICsmFq/W9SceTUwGuwtQ04i1+K3bXnWi17zcRXUJO9MFjxQI26VGfGBU/SETJ7MtaR7CdZvuBZMhBHP2Dgkers6y1uJEeLQhCHXQdARrixqlj8s4po5iWDaZclCi2a8LnI92mOYB0+pi+Oo5Its9v211BwXNypp2ASMs9IwTc3VDjqCM+co9dHd5QWD3yEqNs3nUmZb22NZn72bwLDYQoGXn4VFCW6aGWnUVrBhVrJnLOesyXCMlfiN6+flEMyRTn7iPCvnfZFrt9x7LxxBvT76L9MGNNxlGPqsO205+ksJIo+UZvx+Nl9TQx5+Qp6HP23jenBUYjj4z9RG0lYnmpVL15RELIcNhDR9bwQQx1oJNL0L6QvKv7QdqRZ7QhSwvgRJ7zlRKSbxGfNINM70G1lCz53p+qseKfWexPth43LjpxOfsQUTq2hPQqhnum9o5Y8zvgKEwKpwn8+X2+hjvMtcZVCL33/3ZM46YYEjNBwqn64WjFeiNp7sM2PupcxdXs1G8BUQaUEicGfkrgaY3xXusHcu44xvW2MwHRu1TQuJXTjtct0DIvFwvG+KvaGYlnTJf+v0SRO2dv9LYJgpQePp67neb93ewzEjIXE0gNqQVXIVEh1UFNwGMmxX20m5moVJzg12f
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(376002)(396003)(346002)(136003)(186009)(451199024)(1800799009)(82310400011)(36840700001)(46966006)(40470700004)(81166007)(40460700003)(356005)(7696005)(82740400003)(5660300002)(83380400001)(47076005)(2616005)(36860700001)(36756003)(6666004)(40480700001)(16526019)(8936002)(336012)(1076003)(426003)(26005)(4326008)(2906002)(8676002)(70586007)(70206006)(316002)(41300700001)(86362001)(110136005)(478600001)(966005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 22:30:32.0406 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c649cd9-8d74-4a03-f77c-08dbba29335e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636D.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8341
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <20230920171009.3193296-1-l.stach@pengutronix.de>
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+Message-Id: <169524918454.3103954.3587892243903347971.robh@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI PVI
+Date: Wed, 20 Sep 2023 17:33:04 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,59 +56,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: devicetree@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Sandor Yu <sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, patchwork-lst@pengutronix.de,
+ Rob Herring <robh+dt@kernel.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
 
-Fixes for 6.6.
+On Wed, 20 Sep 2023 19:10:08 +0200, Lucas Stach wrote:
+> Add binding for the i.MX8MP HDMI parallel video interface block.
+> 
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      | 80 +++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+> 
 
-The following changes since commit ce9ecca0238b140b88f43859b211c9fdfd8e5b70:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-  Linux 6.6-rc2 (2023-09-17 14:40:24 -0700)
+yamllint warnings/errors:
 
-are available in the Git repository at:
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dtb: display-bridge@32fc4000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pvi.yaml#
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.6-2023-09-20
+doc reference errors (make refcheckdocs):
 
-for you to fetch changes up to cc39f9ccb82426e576734b493e1777ea01b144a8:
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230920171009.3193296-1-l.stach@pengutronix.de
 
-  drm/amdkfd: Use gpu_offset for user queue's wptr (2023-09-20 17:30:42 -0400)
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-----------------------------------------------------------------
-amd-drm-fixes-6.6-2023-09-20:
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-amdgpu:
-- MST fix
-- Vbios part number reporting fix
-- Fix a possible memory leak in an error case in the RAS code
-- Fix low resolution modes on eDP
+pip3 install dtschema --upgrade
 
-amdkfd:
-- Fix GPU address for user queue wptr when GART is not at 0
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-----------------------------------------------------------------
-Cong Liu (1):
-      drm/amdgpu: fix a memory leak in amdgpu_ras_feature_enable
-
-Hamza Mahfooz (1):
-      drm/amd/display: fix the ability to use lower resolution modes on eDP
-
-Lijo Lazar (1):
-      Revert "drm/amdgpu: Report vbios version instead of PN"
-
-Muhammad Ahmed (1):
-      drm/amd/display: Fix MST recognizes connected displays as one
-
-YuBiao Wang (1):
-      drm/amdkfd: Use gpu_offset for user queue's wptr
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  1 +
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  4 +--
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 30 ++++++++++++----------
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  8 ++----
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_mpc.c   |  2 +-
- 7 files changed, 25 insertions(+), 24 deletions(-)
