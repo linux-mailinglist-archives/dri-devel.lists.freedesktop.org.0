@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B437A7941
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:31:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917407A793E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:31:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD9A10E477;
-	Wed, 20 Sep 2023 10:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E19510E468;
+	Wed, 20 Sep 2023 10:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD2F10E477
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404F910E240
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 10:31:30 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qiuUR-0003mO-Ps; Wed, 20 Sep 2023 12:31:27 +0200
+ id 1qiuUR-0003mP-Ps; Wed, 20 Sep 2023 12:31:27 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qiuUR-007fJ0-2A; Wed, 20 Sep 2023 12:31:27 +0200
+ id 1qiuUR-007fJ0-4t; Wed, 20 Sep 2023 12:31:27 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>,
 	Liu Ying <victor.liu@nxp.com>
-Subject: [PATCH 0/5] imx-lcdif modeset changes
-Date: Wed, 20 Sep 2023 12:31:21 +0200
-Message-Id: <20230920103126.2759601-1-l.stach@pengutronix.de>
+Subject: [PATCH 1/5] drm: lcdif: improve burst size configuration comment
+Date: Wed, 20 Sep 2023 12:31:22 +0200
+Message-Id: <20230920103126.2759601-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230920103126.2759601-1-l.stach@pengutronix.de>
+References: <20230920103126.2759601-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -54,28 +56,35 @@ Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This changes the modeset flow in the imx-lcdif driver to work
-better with runtime PM and get rid of duplicate hardware setup.
+The comment regarding AXI bust size configuration is a bit hard
+to read. Improve the wording somewhat.
 
-This series is a result of looking a bit more into the issue and
-feedback received on some earlier patches [1].
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Regards,
-Lucas
-
-[1] https://lore.kernel.org/all/CAOcKUNWMU6tjWwtnU+COggrr--G19EvZaHrxAp0-0i5dK394jg@mail.gmail.com/
-
-Lucas Stach (5):
-  drm: lcdif: improve burst size configuration comment
-  drm: lcdif: move controller enable into atomic_flush
-  drm: lcdif: remove superfluous setup of framebuffer DMA address
-  drm: lcdif: move pitch setup to plane atomic update
-  drm: lcdif: force modeset when FB format changes
-
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 18 +++++++-
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 68 +++++++++++++++++--------------
- 2 files changed, 55 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+index 2541d2de4e45..f5bfe8b52920 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+@@ -329,12 +329,12 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+ 	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
+ 
+ 	/*
+-	 * Undocumented P_SIZE and T_SIZE register but those written in the
+-	 * downstream kernel those registers control the AXI burst size. As of
+-	 * now there are two known values:
++	 * Undocumented P_SIZE and T_SIZE bitfields written in the downstream
++	 * driver. Those bitfields control the AXI burst size. As of now there
++	 * are two known values:
+ 	 *  1 - 128Byte
+ 	 *  2 - 256Byte
+-	 * Downstream set it to 256B burst size to improve the memory
++	 * Downstream sets this to 256B burst size to improve the memory access
+ 	 * efficiency so set it here too.
+ 	 */
+ 	ctrl = CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
 -- 
 2.39.2
 
