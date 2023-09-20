@@ -1,78 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7994A7A8F9A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:46:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49CE7A8FD1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 01:23:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E8110E54B;
-	Wed, 20 Sep 2023 22:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C403210E44B;
+	Wed, 20 Sep 2023 23:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9C610E54B;
- Wed, 20 Sep 2023 22:46:49 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 38KMeDKk018555; Wed, 20 Sep 2023 22:46:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5PP8wcWR6zQGvHtfw/aZdhlV+JUGqGnfQeq1CUzqJSk=;
- b=KVTla2pkmguc5LVPmLVEcEQgCM6Ba/R12qw6GdyQqzNVvXSBv0kdbcJEbGTWpdR/EBYL
- aLgbecj+WFubL+qlylaiwbfhUh4fE4QTanR0BhUralLlp25R2GBBKG/0ewOoxfK5MTku
- Pf3eD4DxRMmgziwFybsAK44dTZ+qob9Jnxb+4oaKLxKYrZdsShIuoo5Ckmzu6B4gQtLw
- 02gz/iRaGR+l+m27VTKO6w8f1lqIZ8DH6LViZE1oJy8qT30oX1k0GKdyjyfhZfAJYRFa
- Ko++KNnkTPwubZAwsqVB7/LtmX8xkRNdkJnFrcnjmuEo5qw/uYNx84yOQZ8GYTw6S957 yw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t875108vt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Sep 2023 22:46:35 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38KMkYu5009887
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Sep 2023 22:46:34 GMT
-Received: from [10.110.124.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 20 Sep
- 2023 15:46:33 -0700
-Message-ID: <febc4aaf-c36c-b683-d1c5-403279bd980a@quicinc.com>
-Date: Wed, 20 Sep 2023 15:46:32 -0700
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B373710E44B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 23:23:04 +0000 (UTC)
+Received: from [192.168.68.123] (unknown [177.98.21.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 848E866071F4;
+ Thu, 21 Sep 2023 00:23:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695252183;
+ bh=+YZpoRmce8OurCbnO+g1RkxNh8kILN8Pm0hmQiuUJow=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IC8IAmTPSxv+Im6k4NJe2Pk7Wfav6sU+pQjM9vnJfNF/NlzQzu6QxUT9/H0v5S+Gr
+ bcFTPVR3TzhDebh8rhYGZo0l0uARJZHlzZuMFvmKv0QkZJOsKtUGTRb/h/8ZdHRHf+
+ MaVnYaRscPtnOLQ0vOil/YNXEbXXXxL7GsxzzQxGzQICvSDLZskFt0tfdxaIGOdAkt
+ f1NSnfamQQRrEXzQJ0905Kbv7LEELWamwG4t4MTietpE+EeXSOp4gc/K6ehe5XV3fZ
+ Zx1nOAwRlycY7Ncx3ugNYSSc0GIGfk/Ct+4in7MKdz5oha9LeDaMIWTePoJ0+PW76A
+ 10XVrneKXdIxA==
+Message-ID: <7318d141-12b7-eab7-52dd-8953305d85c6@collabora.com>
+Date: Wed, 20 Sep 2023 20:22:55 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 4/7] drm/msm/dp: incorporate pm_runtime framework into
- DP driver
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/ci: Uprev IGT to pull in fixes
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1694813901-26952-1-git-send-email-quic_khsieh@quicinc.com>
- <1694813901-26952-5-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJprxf5RBfuiJVJsfnb7buC9Mbxr=U7VSaPRc1+OMJcBFZg@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJprxf5RBfuiJVJsfnb7buC9Mbxr=U7VSaPRc1+OMJcBFZg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: qDOVYOYykcjUf6zvDv-kWTRk6dxufKPf
-X-Proofpoint-ORIG-GUID: qDOVYOYykcjUf6zvDv-kWTRk6dxufKPf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-20_11,2023-09-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- phishscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309200191
+To: Rob Clark <robdclark@gmail.com>
+References: <20230920180526.137369-1-robdclark@gmail.com>
+ <CAF6AEGvUOX-D+-vwov-FDp46rJdo8wq1Do-9Gj3k5v313wVJhA@mail.gmail.com>
+ <2ec320ca-d768-89ec-200f-695839e48538@collabora.com>
+ <CAF6AEGvhav3kX0fRpjeGbJYqQ_J5gonng-wYjZUeRunOBuUC1A@mail.gmail.com>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <CAF6AEGvhav3kX0fRpjeGbJYqQ_J5gonng-wYjZUeRunOBuUC1A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,386 +56,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+ "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 9/15/2023 6:07 PM, Dmitry Baryshkov wrote:
-> On Sat, 16 Sept 2023 at 00:38, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->> Currently DP driver is executed independent of PM runtime framework.
->> This lead DP driver incompatible with others. Incorporating pm runtime
-> Why is it incompatible? Which others are mentioned here?
->
->> framework into DP driver so that both power and clocks to enable/disable
->> host controller fits with PM runtime mechanism. Once pm runtime framework
->> is incorporated into DP driver, wake up device from power up path is not
->> necessary. Hence remove it. Both EV_POWER_PM_GET and EV_POWER_PM_PUT events
->> are introduced to perform pm runtime control for the HPD GPIO routing to a
->> display-connector case.
->>
->> Changes in v3:
->> -- incorporate removing pm_runtime_xx() from dp_pwer.c to this patch
->> -- use pm_runtime_resume_and_get() instead of pm_runtime_get()
->> -- error checking pm_runtime_resume_and_get() return value
->> -- add EV_POWER_PM_GET and PM_EV_POWER_PUT to handle HPD_GPIO case
-> Previous changelog?
->
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_aux.c     |   5 ++
->>   drivers/gpu/drm/msm/dp/dp_display.c | 114 +++++++++++++++++++++++++++---------
->>   drivers/gpu/drm/msm/dp/dp_power.c   |   9 ---
->>   3 files changed, 90 insertions(+), 38 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
->> index 8e3b677..8fa93c5 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
->> @@ -291,6 +291,9 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
->>                  return -EINVAL;
->>          }
->>
->> +       if (pm_runtime_resume_and_get(dp_aux->dev))
->> +               return  -EINVAL;
-> Please propagate error values instead of reinventing them.
->
->> +
->>          mutex_lock(&aux->mutex);
->>          if (!aux->initted) {
->>                  ret = -EIO;
->> @@ -364,6 +367,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
->>
->>   exit:
->>          mutex_unlock(&aux->mutex);
->> +       pm_runtime_mark_last_busy(dp_aux->dev);
->> +       pm_runtime_put_autosuspend(dp_aux->dev);
-> What is the reason for using autosuspend? Such design decisions should
-> be described in the commit message.
->
->>          return ret;
->>   }
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 59f9d85..e7af7f7 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -60,6 +60,8 @@ enum {
->>          EV_IRQ_HPD_INT,
->>          EV_HPD_UNPLUG_INT,
->>          EV_USER_NOTIFICATION,
->> +       EV_POWER_PM_GET,
->> +       EV_POWER_PM_PUT,
->>   };
->>
->>   #define EVENT_TIMEOUT  (HZ/10) /* 100ms */
->> @@ -276,13 +278,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
->>          dp->dp_display.drm_dev = drm;
->>          priv->dp[dp->id] = &dp->dp_display;
->>
->> -       rc = dp->parser->parse(dp->parser);
->> -       if (rc) {
->> -               DRM_ERROR("device tree parsing failed\n");
->> -               goto end;
->> -       }
->> -
->> -
->>          dp->drm_dev = drm;
->>          dp->aux->drm_dev = drm;
->>          rc = dp_aux_register(dp->aux);
->> @@ -291,12 +286,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
->>                  goto end;
->>          }
->>
->> -       rc = dp_power_client_init(dp->power);
->> -       if (rc) {
->> -               DRM_ERROR("Power client create failed\n");
->> -               goto end;
->> -       }
->> -
->>          rc = dp_register_audio_driver(dev, dp->audio);
->>          if (rc) {
->>                  DRM_ERROR("Audio registration Dp failed\n");
->> @@ -320,10 +309,6 @@ static void dp_display_unbind(struct device *dev, struct device *master,
->>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
->>          struct msm_drm_private *priv = dev_get_drvdata(master);
->>
->> -       /* disable all HPD interrupts */
->> -       if (dp->core_initialized)
->> -               dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
->> -
->>          kthread_stop(dp->ev_tsk);
->>
->>          of_dp_aux_depopulate_bus(dp->aux);
->> @@ -467,6 +452,18 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
->>          dp->core_initialized = false;
->>   }
->>
->> +static void dp_display_pm_get(struct dp_display_private *dp)
->> +{
->> +       if (pm_runtime_resume_and_get(&dp->pdev->dev))
->> +               DRM_ERROR("failed to start power\n");
->> +}
-> Huge NAK here. This means that the error is completely ignored (other
-> than being dumped to the log). This is a short path to Sync error and
-> other kinds of reboot.
->
->> +
->> +static void dp_display_pm_put(struct dp_display_private *dp)
->> +{
->> +       pm_runtime_mark_last_busy(&dp->pdev->dev);
->> +       pm_runtime_put_autosuspend(&dp->pdev->dev);
->> +}
->> +
->>   static int dp_display_usbpd_configure_cb(struct device *dev)
->>   {
->>          struct dp_display_private *dp = dev_get_dp_display_private(dev);
->> @@ -1096,7 +1093,6 @@ static int hpd_event_thread(void *data)
->>
->>                  switch (todo->event_id) {
->>                  case EV_HPD_INIT_SETUP:
->> -                       dp_display_host_init(dp_priv);
->>                          break;
->>                  case EV_HPD_PLUG_INT:
->>                          dp_hpd_plug_handle(dp_priv, todo->data);
->> @@ -1111,6 +1107,12 @@ static int hpd_event_thread(void *data)
->>                          dp_display_send_hpd_notification(dp_priv,
->>                                                  todo->data);
->>                          break;
->> +               case EV_POWER_PM_GET:
->> +                       dp_display_pm_get(dp_priv);
->> +                       break;
->> +               case EV_POWER_PM_PUT:
->> +                       dp_display_pm_put(dp_priv);
->> +                       break;
-> No. runtime_get / runtime_put are not HPD events. They should be
-> executed directly from the place where the drivers needs the device to
-> be powered up.
->
->>                  default:
->>                          break;
->>                  }
->> @@ -1251,6 +1253,18 @@ static int dp_display_probe(struct platform_device *pdev)
->>                  return -EPROBE_DEFER;
->>          }
->>
->> +       rc = dp->parser->parse(dp->parser);
->> +       if (rc) {
->> +               DRM_ERROR("device tree parsing failed\n");
->> +               return -EPROBE_DEFER;
->> +       }
->> +
->> +       rc = dp_power_client_init(dp->power);
->> +       if (rc) {
->> +               DRM_ERROR("Power client create failed\n");
->> +               return -EPROBE_DEFER;
->> +       }
-> Why? This moves resource allocation to the probe function, which is
-> irrelevant to the pm_runtime code. If this is required, you can move
-> these changes to a separate patch.
->
->> +
->>          /* setup event q */
->>          mutex_init(&dp->event_mutex);
->>          init_waitqueue_head(&dp->event_q);
->> @@ -1263,6 +1277,10 @@ static int dp_display_probe(struct platform_device *pdev)
->>
->>          platform_set_drvdata(pdev, &dp->dp_display);
->>
->> +       devm_pm_runtime_enable(&pdev->dev);
-> error code handling?
->
->> +       pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
->> +       pm_runtime_use_autosuspend(&pdev->dev);
->> +
->>          rc = dp_display_request_irq(dp);
->>          if (rc)
->>                  return rc;
->> @@ -1285,6 +1303,36 @@ static int dp_display_remove(struct platform_device *pdev)
->>
->>          platform_set_drvdata(pdev, NULL);
->>
->> +       pm_runtime_put_sync_suspend(&pdev->dev);
-> Why? Who is holding the pm count here?
->
->> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
->> +       pm_runtime_disable(&pdev->dev);
-> Why do you need _disable if you have a devm_pm_runtime_enable()? Not
-> to mention that pm_runtime_disable_action() already has a call to
-> pm_runtime_dont_use_autosuspend()
->
->> +
->> +       return 0;
->> +}
->> +
->> +static int dp_pm_runtime_suspend(struct device *dev)
->> +{
->> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
->> +
->> +       if (dp->dp_display.is_edp) {
->> +               dp_display_host_phy_exit(dp);
->> +               dp_catalog_ctrl_hpd_disable(dp->catalog);
->> +       }
->> +       dp_display_host_deinit(dp);
->> +
->> +       return 0;
->> +}
->> +
->> +static int dp_pm_runtime_resume(struct device *dev)
->> +{
->> +       struct dp_display_private *dp = dev_get_dp_display_private(dev);
->> +
->> +       dp_display_host_init(dp);
->> +       if (dp->dp_display.is_edp) {
->> +               dp_catalog_ctrl_hpd_enable(dp->catalog);
->> +               dp_display_host_phy_init(dp);
->> +       }
->> +
->>          return 0;
->>   }
->>
->> @@ -1389,6 +1437,7 @@ static int dp_pm_suspend(struct device *dev)
->>   }
->>
->>   static const struct dev_pm_ops dp_pm_ops = {
->> +       SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
->>          .suspend = dp_pm_suspend,
->>          .resume =  dp_pm_resume,
->>   };
->> @@ -1473,10 +1522,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
->>          aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
->>
->>          if (aux_bus && dp->is_edp) {
->> -               dp_display_host_init(dp_priv);
->> -               dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
->> -               dp_display_host_phy_init(dp_priv);
->> -
->>                  /*
->>                   * The code below assumes that the panel will finish probing
->>                   * by the time devm_of_dp_aux_populate_ep_devices() returns.
->> @@ -1578,6 +1623,11 @@ void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
->>                  dp_hpd_plug_handle(dp_display, 0);
->>
->>          mutex_lock(&dp_display->event_mutex);
->> +       if (pm_runtime_resume_and_get(&dp_display->pdev->dev)) {
->> +               DRM_ERROR("failed to start power\n");
->> +               mutex_unlock(&dp_display->event_mutex);
->> +               return;
->> +       }
->>
->>          state = dp_display->hpd_state;
->>          if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
->> @@ -1658,6 +1708,8 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
->>          }
->>
->>          drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
->> +
->> +       pm_runtime_put_sync(&dp_display->pdev->dev);
-> So, no autosuspend now?
->
-> Also, I think we can get an unbalanced runtime status, as there is no
-> guarantee that atomic_enable / atomic_disable will be paired. Please
-> correct me if I'm wrong.
 
-  I always assume atomic_enable / atomic_disable should be paired.
-Otherwise nothing will work.
-Could you please give me example what situations they are not paired?
+On 20/09/2023 16:44, Rob Clark wrote:
+> On Wed, Sep 20, 2023 at 11:53 AM Helen Koike <helen.koike@collabora.com> wrote:
+>>
+>> Hi Rob,
+>>
+>> Thanks for the patch.
+>>
+>> On 20/09/2023 15:10, Rob Clark wrote:
+>>> On Wed, Sep 20, 2023 at 11:06 AM Rob Clark <robdclark@gmail.com> wrote:
+>>>>
+>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>
+>>>> There have been a few igt test fixes compared to the commit that we were
+>>>> currently using.  Pull in a newer igt and update expectations.
+>>>>
+>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>> ---
+>>
+>> Could you send here the url of a pipeline run with this change?
+> 
+> https://gitlab.freedesktop.org/drm/msm/-/pipelines/989913
 
-> And also there is a possible return earlier in this function. The
-> driver will leak the runtime status again.
->
->>          mutex_unlock(&dp_display->event_mutex);
->>   }
+Thanks, lgtm.
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+> 
+> That was before I wrote a proper commit msg so you can ignore the
+> checkpatch job.. and there is an unrelated issue with the sdm845
+> runners not booting w/ v6.6-rc2, which still needs to be tracked down.
+> 
+> BR,
+> -R
+> 
+>>>>    drivers/gpu/drm/ci/gitlab-ci.yml               |  2 +-
+>>>>    .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |  4 ++--
+>>>>    drivers/gpu/drm/ci/xfails/i915-apl-fails.txt   | 11 -----------
+>>>>    drivers/gpu/drm/ci/xfails/i915-cml-fails.txt   |  2 +-
+>>>>    drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt   |  1 -
+>>>>    drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt | 18 +-----------------
+>>>>    .../drm/ci/xfails/rockchip-rk3288-fails.txt    |  2 ++
+>>>>    7 files changed, 7 insertions(+), 33 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> index 2c4df53f5dfe..3ecb5879e80f 100644
+>>>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+>>>> @@ -5,7 +5,7 @@ variables:
+>>>>      UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>>>>      TARGET_BRANCH: drm-next
+>>>>
+>>>> -  IGT_VERSION: 471bfababd070e1dac0ebb87470ac4f2ae85e663
+>>>> +  IGT_VERSION: 2517e42d612e0c1ca096acf8b5f6177f7ef4bce7
+>>>>
+>>>>      DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
+>>>>      DEQP_RUNNER_GIT_TAG: v0.15.0
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+>>>> index bd9392536e7c..bab21930a0d4 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
+>>>> @@ -1,7 +1,6 @@
+>>>>    kms_addfb_basic@bad-pitch-65536,Fail
+>>>>    kms_addfb_basic@bo-too-small,Fail
+>>>>    kms_async_flips@invalid-async-flip,Fail
+>>>> -kms_atomic@plane-immutable-zpos,Fail
+>>>>    kms_atomic_transition@plane-toggle-modeset-transition,Fail
+>>>>    kms_bw@linear-tiling-1-displays-2560x1440p,Fail
+>>>>    kms_bw@linear-tiling-1-displays-3840x2160p,Fail
+>>>> @@ -11,9 +10,10 @@ kms_color@degamma,Fail
+>>>>    kms_cursor_crc@cursor-size-change,Fail
+>>>>    kms_cursor_crc@pipe-A-cursor-size-change,Fail
+>>>>    kms_cursor_crc@pipe-B-cursor-size-change,Fail
+>>>> -kms_cursor_legacy@forked-move,Fail
+>>>>    kms_hdr@bpc-switch,Fail
+>>>>    kms_hdr@bpc-switch-dpms,Fail
+>>>>    kms_plane_multiple@atomic-pipe-A-tiling-none,Fail
+>>>>    kms_rmfb@close-fd,Fail
+>>>>    kms_rotation_crc@primary-rotation-180,Fail
+>>>> +kms_flip@flip-vs-modeset-vs-hang,Fail
+>>>> +kms_flip@flip-vs-panning-vs-hang,Fail
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
+>>>> index 46397ce38d5a..2e3b7c5dac3c 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
+>>>> @@ -8,13 +8,6 @@ kms_bw@linear-tiling-3-displays-3840x2160p,Fail
+>>>>    kms_bw@linear-tiling-4-displays-1920x1080p,Fail
+>>>>    kms_bw@linear-tiling-4-displays-2560x1440p,Fail
+>>>>    kms_bw@linear-tiling-4-displays-3840x2160p,Fail
+>>>> -kms_color@ctm-0-25,Fail
+>>>> -kms_color@ctm-0-50,Fail
+>>>> -kms_color@ctm-0-75,Fail
+>>>> -kms_color@ctm-max,Fail
+>>>> -kms_color@ctm-negative,Fail
+>>>> -kms_color@ctm-red-to-blue,Fail
+>>>> -kms_color@ctm-signed,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
+>>>> @@ -38,8 +31,6 @@ kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
+>>>> -kms_hdmi_inject@inject-4k,Timeout
+>>>> -kms_plane@plane-position-hole,Timeout
+>>>>    kms_plane_alpha_blend@alpha-basic,Fail
+>>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
+>>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
+>>>> @@ -53,6 +44,4 @@ kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
+>>>>    kms_plane_alpha_blend@pipe-C-alpha-opaque-fb,Fail
+>>>>    kms_plane_alpha_blend@pipe-C-alpha-transparent-fb,Fail
+>>>>    kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
+>>>> -kms_plane_multiple@tiling-y,Timeout
+>>>> -kms_pwrite_crc,Timeout
+>>>>    kms_sysfs_edid_timing,Fail
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
+>>>> index 6139b410e767..13c0a25fc627 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
+>>>> @@ -1,4 +1,3 @@
+>>>> -kms_color@ctm-0-25,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
+>>>> @@ -16,3 +15,4 @@ kms_plane_alpha_blend@alpha-basic,Fail
+>>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
+>>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
+>>>>    kms_plane_alpha_blend@constant-alpha-max,Fail
+>>>> +kms_async_flips@crc,Fail
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
+>>>> index a6da5544e198..27bfca1c6f2c 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
+>>>> @@ -8,7 +8,6 @@ kms_bw@linear-tiling-4-displays-3840x2160p,Fail
+>>>>    kms_bw@linear-tiling-5-displays-1920x1080p,Fail
+>>>>    kms_bw@linear-tiling-5-displays-2560x1440p,Fail
+>>>>    kms_bw@linear-tiling-5-displays-3840x2160p,Fail
+>>>> -kms_color@ctm-0-25,Fail
+>>>>    kms_flip@flip-vs-panning-vs-hang,Timeout
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
+>>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
+>>>> index 410e0eeb3161..e59a2fddfde0 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
+>>>
+>>> Side note, I noticed for sc7180-skips (and a lot of other boards) we have:
+>>>
+>>> # Suspend to RAM seems to be broken on this machine
+>>> .*suspend.*
+>>>
+>>> Locally I've not had problems with the suspend tests, I'm guessing the
+>>> actual issue is usb-ethernet vs nfsroot.  But maybe the filesys for
+>>> igt jobs is small enough that we can do initramfs instead?  Someone
+>>> should probably confirm what the root issue is and update the
+>>> comments, so developers aren't thinking that suspend is something that
+>>> needs to be debugged
 >>
->> @@ -1697,6 +1749,9 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
->>          struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+>> Agreed.
 >>
->>          mutex_lock(&dp->event_mutex);
->> +       if (pm_runtime_resume_and_get(&dp->pdev->dev))
->> +               DRM_ERROR("failed to start power\n");
-> Return?
->
->> +
->>          dp_catalog_ctrl_hpd_enable(dp->catalog);
+>> Regards,
+>> Helen
 >>
->>          /* enable HDP interrupts */
->> @@ -1718,6 +1773,9 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
->>          dp_catalog_ctrl_hpd_disable(dp->catalog);
->>
->>          dp_display->internal_hpd = false;
->> +
->> +       pm_runtime_mark_last_busy(&dp->pdev->dev);
->> +       pm_runtime_put_autosuspend(&dp->pdev->dev);
->>          mutex_unlock(&dp->event_mutex);
->>   }
->>
->> @@ -1732,13 +1790,11 @@ void dp_bridge_hpd_notify(struct drm_bridge *bridge,
->>          if (dp_display->internal_hpd)
->>                  return;
->>
->> -       if (!dp->core_initialized) {
->> -               drm_dbg_dp(dp->drm_dev, "not initialized\n");
->> -               return;
->> -       }
->> -
->> -       if (!dp_display->link_ready && status == connector_status_connected)
->> +       if (!dp_display->link_ready && status == connector_status_connected) {
->> +               dp_add_event(dp, EV_POWER_PM_GET, 0, 0);
-> Why? What for?
->
->>                  dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
->> -       else if (dp_display->link_ready && status == connector_status_disconnected)
->> +       } else if (dp_display->link_ready && status == connector_status_disconnected) {
->>                  dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
->> +               dp_add_event(dp, EV_POWER_PM_PUT, 0, 0);
->> +       }
->>   }
->> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
->> index 5cb84ca..ed2f62a 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_power.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
->> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
->>
->>          power = container_of(dp_power, struct dp_power_private, dp_power);
->>
->> -       pm_runtime_enable(power->dev);
->> -
->>          return dp_power_clk_init(power);
->>   }
->>
->> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power *dp_power)
->>          struct dp_power_private *power;
->>
->>          power = container_of(dp_power, struct dp_power_private, dp_power);
->> -
->> -       pm_runtime_disable(power->dev);
->>   }
->>
->>   int dp_power_init(struct dp_power *dp_power)
->> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
->>
->>          power = container_of(dp_power, struct dp_power_private, dp_power);
->>
->> -       pm_runtime_get_sync(power->dev);
->> -
->>          rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
->> -       if (rc)
->> -               pm_runtime_put_sync(power->dev);
->>
->>          return rc;
->>   }
->> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
->>          power = container_of(dp_power, struct dp_power_private, dp_power);
->>
->>          dp_power_clk_enable(dp_power, DP_CORE_PM, false);
->> -       pm_runtime_put_sync(power->dev);
->>          return 0;
->>   }
->>
->> --
->> 2.7.4
->>
->
+>>>
+>>> BR,
+>>> -R
+>>>
+>>>
+>>>> @@ -4,20 +4,4 @@
+>>>>    # Test incorrectly assumes that CTM support implies gamma/degamma
+>>>>    # LUT support.  None of the subtests handle the case of only having
+>>>>    # CTM support
+>>>> -kms_color.*
+>>>> -
+>>>> -# 4k@60 is not supported on this hw, but driver doesn't handle it
+>>>> -# too gracefully.. https://gitlab.freedesktop.org/drm/msm/-/issues/15
+>>>> -kms_bw@linear-tiling-.*-displays-3840x2160p
+>>>> -
+>>>> -# Until igt fix lands: https://patchwork.freedesktop.org/patch/493175/
+>>>> -kms_bw@linear-tiling-2.*
+>>>> -kms_bw@linear-tiling-3.*
+>>>> -kms_bw@linear-tiling-4.*
+>>>> -kms_bw@linear-tiling-5.*
+>>>> -kms_bw@linear-tiling-6.*
+>>>> -
+>>>> -# igt fix posted: https://patchwork.freedesktop.org/patch/499926/
+>>>> -# failure mode is flakey due to randomization but fails frequently
+>>>> -# enough to be detected as a Crash or occasionally UnexpectedPass.
+>>>> -kms_plane_multiple@atomic-pipe-A-tiling-none
+>>>> +#kms_color.*
+>>>> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+>>>> index 2a1baa948e12..15ac861a58bf 100644
+>>>> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+>>>> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+>>>> @@ -46,3 +46,5 @@ kms_properties@connector-properties-legacy,Crash
+>>>>    kms_properties@get_properties-sanity-atomic,Crash
+>>>>    kms_properties@get_properties-sanity-non-atomic,Crash
+>>>>    kms_setmode@invalid-clone-single-crtc,Crash
+>>>> +kms_flip@flip-vs-modeset-vs-hang,Crash
+>>>> +kms_flip@flip-vs-panning-vs-hang,Crash
+>>>> --
+>>>> 2.41.0
+>>>>
