@@ -1,63 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9B87A874E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:39:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFFB7A875B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:44:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A955110E4E9;
-	Wed, 20 Sep 2023 14:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356E810E4F9;
+	Wed, 20 Sep 2023 14:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 369E510E4E9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:39:41 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id
- ca18e2360f4ac-7955636f500so275721939f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695220780; x=1695825580;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OScehdxYuBaDwfv0La59cCpoJc+gwLUHhYmawOtLQcY=;
- b=cPnzNFwbfx0jvwo4lWe9/ByNQjlg6qHLU5D9XdIOf8Z0r+vyEcF/fFUw029aHPxRnt
- D5TvxtW0roOhqbBWmzhywLj4ntRttTEShr1+3RPuEtXm1VPrqcVW9I42yyKnCvMEWPVO
- lfIdmNEbYXNbTzjwD9WrOPB2yAy+w7PPE9S9Y=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6607B10E4F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695221033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e7ISnof8CX/FfcYGpifrhlGlhpyX8hQnhgl+VqBLEeg=;
+ b=PJrNRZ21XXQCEAgJP9XN1/2IUZA4a/nd5KDElDZCuanUbPV2GPNUWHGZJUlxkVtR+8RtiE
+ 6Q51dxqRX17ZcjgEGLEGO7Xpr76xw8q7e70KB1AwIhkuR417kXhf966hctfDqmo9FJ3RMm
+ pzr3OqmlPZhwNDPNPgVUwG2SDsDLN+4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-97-HzDpPfVTM1Wzu9nhir-fYg-1; Wed, 20 Sep 2023 10:43:50 -0400
+X-MC-Unique: HzDpPfVTM1Wzu9nhir-fYg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9a5d86705e4so512209366b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:43:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695220780; x=1695825580;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OScehdxYuBaDwfv0La59cCpoJc+gwLUHhYmawOtLQcY=;
- b=tbyIWTrxNIywxzqghaaK1xv45eDREr22GUagGbTuvRJfhANAIWFvP45+O9Qf779bT4
- IArW6Yy+tY+pZFvKehYInuXYUCfmLjOcKBCf1vSP25W38yOEby/t4gQBXKeNbXnQ/qQK
- x1sZKMlFqFUHNlWR+yLAv73HAbWBck+BNKqT9FMXCKr30qdFaqTOKA/lfi0Hwd3oySjG
- SFok0A3jOobgRm6TJJUBSMDs6tWtxhdipQx/f0WuCNDNGkT4HGapNHMQDy4OyFjximAv
- S4in8uP1hMeCxbTVSzSzfg8EvP6h9qR/ez8h9Med/LQx1JX7/dZ1luYIY+oOEbOOmWAg
- ZRzg==
-X-Gm-Message-State: AOJu0YyH1NOrfHxDwKWghnnbx7OQ70RJhziYIa4GlBbQUYe/XkZh+gMu
- NabdL0GeoaLKu8xyFDFlJCOzzw23/jexxskB4QRoL43eo9J87B1e
-X-Google-Smtp-Source: AGHT+IHHppqJECtMcUFnv/VREl7AS8OThu/r1Q3jxYlMuLImsJ4eaVqWC3EuRRa/6kEj5kBXEHUv9ddD6eiuXb5RRwU=
-X-Received: by 2002:a05:6e02:b24:b0:348:6736:6605 with SMTP id
- e4-20020a056e020b2400b0034867366605mr3541115ilu.9.1695220780424; Wed, 20 Sep
- 2023 07:39:40 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1695221029; x=1695825829;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e7ISnof8CX/FfcYGpifrhlGlhpyX8hQnhgl+VqBLEeg=;
+ b=Vbzx17eQ6qJEq4T9ySfT7ygCyg7RKyGH+bUCaxzKxynLlavGfP350Wl1ti3Pgft6Ph
+ d9khNISbiMVnBxCXb/XfQ9iGbkMhVuEkw4PMX3yR3FnCuTSh0pilVgYw/UNMnjX7IVE0
+ gO9sVo2gxlX+XsHlUriyUDWNfvh7cPU9NLQCAI0FtEjYWsf0veMvvMrHPGDxW1RlUvH5
+ lBv48TAb+jDBkzcbe6zmlAqE29pS3Ia/Y6K5gJjUGaU1VOJ+kqttpwXdQLmX9LS+0Ih2
+ RxccSdBSEzQbMmHLuW5W9XBFv4vz3+BZfTamjBu3gfAHjya4NXMp0JDlmU0l4LgpT0+Q
+ s+kA==
+X-Gm-Message-State: AOJu0Yyt5lhPUJZoNZ/Z3INk0YgUJBe7nv4/MItc1ZaYXw4mlx4aCvlA
+ 11w0VQXxvtanygN9o3G6JsJl/TQO1okQ6vsettjHdRVijmDErzIZtsFK7gknIXhG9s4t9+zuQwd
+ 1q/6xd1NVFanlKt+JheEbN3hSTWu4
+X-Received: by 2002:a17:906:3098:b0:9aa:23c9:aa52 with SMTP id
+ 24-20020a170906309800b009aa23c9aa52mr2526311ejv.20.1695221029288; 
+ Wed, 20 Sep 2023 07:43:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGi8DifgwJBpyuwjYui0T/46qhPXxJizkNbjvUY9cG/IGS2/pBMoeEhNOGLTzQIKq97RA5gjA==
+X-Received: by 2002:a17:906:3098:b0:9aa:23c9:aa52 with SMTP id
+ 24-20020a170906309800b009aa23c9aa52mr2526295ejv.20.1695221028945; 
+ Wed, 20 Sep 2023 07:43:48 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020a1709067c4900b0099c53c4407dsm9437889ejp.78.2023.09.20.07.43.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Sep 2023 07:43:48 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
+Subject: [PATCH drm-misc-next v4 0/8] [RFC] DRM GPUVA Manager GPU-VM features
+Date: Wed, 20 Sep 2023 16:42:33 +0200
+Message-ID: <20230920144343.64830-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230707130220.3966836-1-tvrtko.ursulin@linux.intel.com>
- <20230707130220.3966836-6-tvrtko.ursulin@linux.intel.com>
- <SJ1PR11MB620442619CCB434B2A5A87EF811DA@SJ1PR11MB6204.namprd11.prod.outlook.com>
- <83cc1270-1924-cd39-8eab-c89b5b5a8ee7@linux.intel.com>
-In-Reply-To: <83cc1270-1924-cd39-8eab-c89b5b5a8ee7@linux.intel.com>
-From: Rob Clark <robdclark@chromium.org>
-Date: Wed, 20 Sep 2023 07:39:29 -0700
-Message-ID: <CAJs_Fx5CM8HPgfyJoNN21ThK8WEPx1=Msthh_72-DBTamF-Cyw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm/i915: Implement fdinfo memory stats
- printing
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,181 +83,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
- "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 20, 2023 at 7:35=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 24/08/2023 12:35, Upadhyay, Tejas wrote:
-> >> -----Original Message-----
-> >> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of=
- Tvrtko
-> >> Ursulin
-> >> Sent: Friday, July 7, 2023 6:32 PM
-> >> To: Intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> >> Subject: [Intel-gfx] [PATCH 5/5] drm/i915: Implement fdinfo memory sta=
-ts
-> >> printing
-> >>
-> >> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>
-> >> Use the newly added drm_print_memory_stats helper to show memory
-> >> utilisation of our objects in drm/driver specific fdinfo output.
-> >>
-> >> To collect the stats we walk the per memory regions object lists and
-> >> accumulate object size into the respective drm_memory_stats categories=
-.
-> >>
-> >> Objects with multiple possible placements are reported in multiple reg=
-ions for
-> >> total and shared sizes, while other categories are counted only for th=
-e
-> >> currently active region.
-> >>
-> >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> >> Cc: Rob Clark <robdclark@gmail.com>
-> >> ---
-> >>   drivers/gpu/drm/i915/i915_drm_client.c | 85 ++++++++++++++++++++++++=
-++
-> >>   1 file changed, 85 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c
-> >> b/drivers/gpu/drm/i915/i915_drm_client.c
-> >> index ffccb6239789..5c77d6987d90 100644
-> >> --- a/drivers/gpu/drm/i915/i915_drm_client.c
-> >> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-> >> @@ -45,6 +45,89 @@ void __i915_drm_client_free(struct kref *kref)  }
-> >>
-> >>   #ifdef CONFIG_PROC_FS
-> >> +static void
-> >> +obj_meminfo(struct drm_i915_gem_object *obj,
-> >> +        struct drm_memory_stats stats[INTEL_REGION_UNKNOWN]) {
-> >> +    struct intel_memory_region *mr;
-> >> +    u64 sz =3D obj->base.size;
-> >> +    enum intel_region_id id;
-> >> +    unsigned int i;
-> >> +
-> >> +    /* Attribute size and shared to all possible memory regions. */
-> >> +    for (i =3D 0; i < obj->mm.n_placements; i++) {
-> >> +            mr =3D obj->mm.placements[i];
-> >> +            id =3D mr->id;
-> >> +
-> >> +            if (obj->base.handle_count > 1)
-> >> +                    stats[id].shared +=3D sz;
-> >> +            else
-> >> +                    stats[id].private +=3D sz;
-> >> +    }
-> >> +
-> >> +    /* Attribute other categories to only the current region. */
-> >> +    mr =3D obj->mm.region;
-> >> +    if (mr)
-> >> +            id =3D mr->id;
-> >> +    else
-> >> +            id =3D INTEL_REGION_SMEM;
-> >> +
-> >> +    if (!obj->mm.n_placements) {
-> >> +            if (obj->base.handle_count > 1)
-> >> +                    stats[id].shared +=3D sz;
-> >> +            else
-> >> +                    stats[id].private +=3D sz;
-> >> +    }
-> >> +
-> >> +    if (i915_gem_object_has_pages(obj)) {
-> >> +            stats[id].resident +=3D sz;
-> >> +
-> >> +            if (!dma_resv_test_signaled(obj->base.resv,
-> >> +                                        dma_resv_usage_rw(true)))
-> >
-> > Should not DMA_RESV_USAGE_BOOKKEEP also considered active (why only "rw=
-")? Some app is syncing with syncjobs and has added dma_fence with DMA_RESV=
-_USAGE_BOOKKEEP during execbuf while that BO is busy on waiting on work!
->
-> Hmm do we have a path which adds DMA_RESV_USAGE_BOOKKEEP usage in execbuf=
-?
->
-> Rob, any comments here? Given how I basically lifted the logic from
-> 686b21b5f6ca ("drm: Add fdinfo memory stats"), does it sound plausible
-> to upgrade the test against all fences?
+So far the DRM GPUVA manager offers common infrastructure to track GPU VA
+allocations and mappings, generically connect GPU VA mappings to their
+backing buffers and perform more complex mapping operations on the GPU VA
+space.
 
-Yes, I think so.. I don't have any use for BOOKKEEP so I hadn't considered =
-it
+However, there are more design patterns commonly used by drivers, which
+can potentially be generalized in order to make the DRM GPUVA manager
+represent a basic GPU-VM implementation. In this context, this patch series
+aims at generalizing the following elements.
 
-BR,
--R
+1) Provide a common dma-resv for GEM objects not being used outside of
+   this GPU-VM.
+
+2) Provide tracking of external GEM objects (GEM objects which are
+   shared with other GPU-VMs).
+
+3) Provide functions to efficiently lock all GEM objects dma-resv the
+   GPU-VM contains mappings of.
+
+4) Provide tracking of evicted GEM objects the GPU-VM contains mappings
+   of, such that validation of evicted GEM objects is accelerated.
+
+5) Provide some convinience functions for common patterns.
+
+The implementation introduces struct drm_gpuvm_bo, which serves as abstraction
+combining a struct drm_gpuvm and struct drm_gem_object, similar to what
+amdgpu does with struct amdgpu_bo_vm. While this adds a bit of complexity it
+improves the efficiency of tracking external and evicted GEM objects.
+
+This patch series also renames struct drm_gpuva_manager to struct drm_gpuvm
+including corresponding functions. This way the GPUVA manager's structures align
+better with the documentation of VM_BIND [1] and VM_BIND locking [2]. It also
+provides a better foundation for the naming of data structures and functions
+introduced for implementing the features of this patch series.
+
+This patch series is also available at [3].
+
+[1] Documentation/gpu/drm-vm-bind-async.rst
+[2] Documentation/gpu/drm-vm-bind-locking.rst
+[3] https://gitlab.freedesktop.org/nouvelles/kernel/-/commits/gpuvm-next
+
+Changes in V2:
+==============
+  - rename 'drm_gpuva_manager' -> 'drm_gpuvm' which generally leads to more
+    consistent naming
+  - properly separate commits (introduce common dma-resv, drm_gpuvm_bo
+    abstraction, etc.)
+  - remove maple tree for tracking external objects, use a list drm_gpuvm_bos
+    per drm_gpuvm instead
+  - rework dma-resv locking helpers (Thomas)
+  - add a locking helper for a given range of the VA space (Christian)
+  - make the GPUVA manager buildable as module, rather than drm_exec
+    builtin (Christian)
+
+Changes in V3:
+==============
+  - rename missing function and files (Boris)
+  - warn if vm_obj->obj != obj in drm_gpuva_link() (Boris)
+  - don't expose drm_gpuvm_bo_destroy() (Boris)
+  - unlink VM_BO from GEM in drm_gpuvm_bo_destroy() rather than
+    drm_gpuva_unlink() and link within drm_gpuvm_bo_obtain() to keep
+    drm_gpuvm_bo instances unique
+  - add internal locking to external and evicted object lists to support drivers
+    updating the VA space from within the fence signalling critical path (Boris)
+  - unlink external objects and evicted objects from the GPUVM's list in
+    drm_gpuvm_bo_destroy()
+  - add more documentation and fix some kernel doc issues
+
+Changes in V4:
+==============
+  - add a drm_gpuvm_resv() helper (Boris)
+  - add a drm_gpuvm::<list_name>::local_list field (Boris)
+  - remove drm_gpuvm_bo_get_unless_zero() helper (Boris)
+  - fix missing NULL assignment in get_next_vm_bo_from_list() (Boris)
+  - keep a drm_gem_object reference on potential vm_bo destroy (alternatively we
+    could free the vm_bo and drop the vm_bo's drm_gem_object reference through
+    async work)
+  - introduce DRM_GPUVM_RESV_PROTECTED flag to indicate external locking through
+    the corresponding dma-resv locks to optimize for drivers already holding
+    them when needed; add the corresponding lock_assert_held() calls (Thomas)
+  - make drm_gpuvm_bo_evict() per vm_bo and add a drm_gpuvm_bo_gem_evict()
+    helper (Thomas)
+  - pass a drm_gpuvm_bo in drm_gpuvm_ops::vm_bo_validate() (Thomas)
+  - documentation fixes
+
+Danilo Krummrich (8):
+  drm/gpuvm: rename struct drm_gpuva_manager to struct drm_gpuvm
+  drm/gpuvm: allow building as module
+  drm/nouveau: uvmm: rename 'umgr' to 'base'
+  drm/gpuvm: add common dma-resv per struct drm_gpuvm
+  drm/gpuvm: add an abstraction for a VM / BO combination
+  drm/gpuvm: add drm_gpuvm_flags to drm_gpuvm
+  drm/gpuvm: generalize dma_resv/extobj handling and GEM validation
+  drm/nouveau: GPUVM dma-resv/extobj handling, GEM validation
+
+ drivers/gpu/drm/Kconfig                   |    7 +
+ drivers/gpu/drm/Makefile                  |    2 +-
+ drivers/gpu/drm/drm_debugfs.c             |   16 +-
+ drivers/gpu/drm/drm_gpuva_mgr.c           | 1725 --------------
+ drivers/gpu/drm/drm_gpuvm.c               | 2600 +++++++++++++++++++++
+ drivers/gpu/drm/nouveau/Kconfig           |    1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c      |    4 +-
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c    |   52 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.h    |    4 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c     |    5 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.h   |    4 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c    |  207 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h    |    8 +-
+ include/drm/drm_debugfs.h                 |    6 +-
+ include/drm/drm_gem.h                     |   32 +-
+ include/drm/drm_gpuva_mgr.h               |  706 ------
+ include/drm/drm_gpuvm.h                   | 1142 +++++++++
+ 18 files changed, 3934 insertions(+), 2589 deletions(-)
+ delete mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+ create mode 100644 drivers/gpu/drm/drm_gpuvm.c
+ delete mode 100644 include/drm/drm_gpuva_mgr.h
+ create mode 100644 include/drm/drm_gpuvm.h
 
 
->
-> Regards,
->
-> Tvrtko
->
-> >> +                    stats[id].active +=3D sz;
-> >> +            else if (i915_gem_object_is_shrinkable(obj) &&
-> >> +                     obj->mm.madv =3D=3D I915_MADV_DONTNEED)
-> >> +                    stats[id].purgeable +=3D sz;
-> >> +    }
-> >> +}
-> >> +
-> >> +static void show_meminfo(struct drm_printer *p, struct drm_file *file=
-)
-> >> +{
-> >> +    struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] =3D {};
-> >> +    struct drm_i915_file_private *fpriv =3D file->driver_priv;
-> >> +    struct i915_drm_client *client =3D fpriv->client;
-> >> +    struct drm_i915_private *i915 =3D fpriv->i915;
-> >> +    struct drm_i915_gem_object *obj;
-> >> +    struct intel_memory_region *mr;
-> >> +    struct list_head *pos;
-> >> +    unsigned int id;
-> >> +
-> >> +    /* Public objects. */
-> >> +    spin_lock(&file->table_lock);
-> >> +    idr_for_each_entry (&file->object_idr, obj, id)
-> >> +            obj_meminfo(obj, stats);
-> >> +    spin_unlock(&file->table_lock);
-> >> +
-> >> +    /* Internal objects. */
-> >> +    rcu_read_lock();
-> >> +    list_for_each_rcu(pos, &client->objects_list) {
-> >> +            obj =3D i915_gem_object_get_rcu(list_entry(pos, typeof(*o=
-bj),
-> >> +                                                     client_link));
-> >> +            if (!obj)
-> >> +                    continue;
-> >> +            obj_meminfo(obj, stats);
-> >> +            i915_gem_object_put(obj);
-> >> +    }
-> >> +    rcu_read_unlock();
-> >> +
-> >> +    for_each_memory_region(mr, i915, id)
-> >> +            drm_print_memory_stats(p,
-> >> +                                   &stats[id],
-> >> +                                   DRM_GEM_OBJECT_RESIDENT |
-> >> +                                   DRM_GEM_OBJECT_PURGEABLE,
-> >> +                                   mr->name);
-> >> +}
-> >> +
-> >>   static const char * const uabi_class_names[] =3D {
-> >>      [I915_ENGINE_CLASS_RENDER] =3D "render",
-> >>      [I915_ENGINE_CLASS_COPY] =3D "copy",
-> >> @@ -106,6 +189,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p,
-> >> struct drm_file *file)
-> >>       *
-> >> ****************************************************************
-> >> **
-> >>       */
-> >>
-> >> +    show_meminfo(p, file);
-> >> +
-> >>      if (GRAPHICS_VER(i915) < 8)
-> >>              return;
-> >>
-> >> --
-> >> 2.39.2
-> >
+base-commit: 1c7a387ffef894b1ab3942f0482dac7a6e0a909c
+-- 
+2.41.0
+
