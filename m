@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E6A7A8AC7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F4E7A8AC9
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:45:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A876310E52B;
-	Wed, 20 Sep 2023 17:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A7210E52D;
+	Wed, 20 Sep 2023 17:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB18210E52B
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:44:57 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5274510E52D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:45:02 +0000 (UTC)
 Received: from ginger.. (unknown [177.98.21.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A648C66071EF;
- Wed, 20 Sep 2023 18:44:52 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0E8C766071F1;
+ Wed, 20 Sep 2023 18:44:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695231896;
- bh=7izphSNlUlY6toAYO8sGMEscU9ZreXBpSqo3489vsfo=;
- h=From:To:Cc:Subject:Date:From;
- b=SuC7+g/stbjbvv3I1wIMW1PtOS4W4G1VV1Ow7Tn/nJulcClzdzqfTs5OJRptgpBEY
- W+xlQjH4aCX9gRDERpcQSD3vdJchKU08FmujX1Sn6GBh6k6p1hZajstsiZthwAs+6/
- n8SfNt7Fxc5XW017QSG2fuEW4m7GswbD7gUNbrYTrP05jp5l/KGzEgp8UXVcyosSMx
- OAz3v9JVAIGL48SK3ct58Qupo2t4Ji0In9R2iG0QEbyUHLSOwL5eRf32t3v8i+lO2U
- XKw3OvI9+Zv27KxbNp0eC+qJKE1lDVrUUiIe4Kc0CaOk8W4kPGBlbmuvG68Y8hCVAL
- +y0gmvi8F+Y7Q==
+ s=mail; t=1695231900;
+ bh=iyG/zP8lsWiF85bEI9JxB8hb6fP+W/W/tsnhlVaZ8bE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WSHrB/qXm8D0ocZ2VmfoJZhAHtFM52Ri7lmTj87RiAAiqjlWyUqRdHA+Oo9Tu2rFc
+ gB9+TU/BESm9AVA/wcSorGpoQr2/A92NbAG8w1OfTyAd0+J2CpStqQQjnEMoT5/Xon
+ of0UoQ20p9dg/N9/EkQZJFXLZGpXHpysGOtol7+Ss8RTVlUTIiEv4eftVZITgQosEI
+ sSTLf12W9oJvtk3ow61khH31HaS7qpOrRwSWuLveK0acpsdOP7Wdljfc2MzUWCHj6R
+ w7mG3wWzaEl68/UAGFofCZtxz+gpwlCEFzozJ6Wmpe5EUz/t26fNlgH+YossG/mDea
+ 8XHcXhNtmV8lQ==
 From: Helen Koike <helen.koike@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 0/2] drm/ci: Update Mesa and Introduce VKMS Support
-Date: Wed, 20 Sep 2023 14:44:42 -0300
-Message-Id: <20230920174444.409586-1-helen.koike@collabora.com>
+Subject: [RFC PATCH 1/2] drm/ci: uprev mesa version - fix container build
+Date: Wed, 20 Sep 2023 14:44:43 -0300
+Message-Id: <20230920174444.409586-2-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230920174444.409586-1-helen.koike@collabora.com>
+References: <20230920174444.409586-1-helen.koike@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,42 +56,82 @@ Cc: mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset offers two enhancements to drm/ci:
+When building containers, some rust packages were installed without
+locking the dependencies version, which got updated and started giving
+errors like:
 
-1. Mesa Version Update. drm/ci re-uses components from Mesa project.
-A recent bug in MesaCI was fixed. The first patch updates drm/ci
-Mesa's version, re-allowing containers rebuilds when uncached,
-essencial for new runs.
+error: failed to compile `bindgen-cli v0.62.0`, intermediate artifacts can be found at `/tmp/cargo-installkNKRwf`
+Caused by:
+  package `rustix v0.38.13` cannot be built because it requires rustc 1.63 or newer, while the currently active rustc version is 1.60.0
 
-At this moment, this change depends on the following MR:
-	https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25238
-For now, I'm just pointing to a branch in my personal repo (this is why
-it is an RFC) so people can already review and test it.
+A patch to Mesa was recently added fixing this error, so update it.
 
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
-2. VKMS Driver Testing, together with the -skips.txt and -fails.txt
-list that were found during the tests.
+---
 
-Helen Koike (2):
-  drm/ci: uprev mesa version - fix container build
-  drm: ci: add tests on vkms
+I'm submitting this to make it available for other to run and test. I'd
+like to solve the TODO below (blocked on Mesa) before this is picked up.
+---
+ drivers/gpu/drm/ci/gitlab-ci.yml  | 19 +++++++++++++++++--
+ drivers/gpu/drm/ci/lava-submit.sh |  2 +-
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
- MAINTAINERS                                   |  1 +
- drivers/gpu/drm/ci/build.sh                   |  1 -
- drivers/gpu/drm/ci/gitlab-ci.yml              | 20 +++++++++++--
- drivers/gpu/drm/ci/igt_runner.sh              |  6 ++--
- drivers/gpu/drm/ci/image-tags.yml             |  2 +-
- drivers/gpu/drm/ci/lava-submit.sh             |  2 +-
- drivers/gpu/drm/ci/test.yml                   | 24 ++++++++++++++-
- drivers/gpu/drm/ci/x86_64.config              |  1 +
- .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |  0
- drivers/gpu/drm/ci/xfails/vkms-none-fails.txt | 29 +++++++++++++++++++
- drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 10 +++++++
- 11 files changed, 87 insertions(+), 9 deletions(-)
- delete mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
-
+diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+index 2c4df53f5dfe..73725070702b 100644
+--- a/drivers/gpu/drm/ci/gitlab-ci.yml
++++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+@@ -1,6 +1,8 @@
+ variables:
+-  DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+-  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 0dc961645c4f0241f8512cb0ec3ad59635842072
++  # TODO: point back to mesa/mesa once the following issue is fixed:
++  # https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25238
++  DRM_CI_PROJECT_PATH: &drm-ci-project-path helen.fornazier/mesa
++  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha inc-files
+ 
+   UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+   TARGET_BRANCH: drm-next
+@@ -24,6 +26,8 @@ variables:
+   PIPELINE_ARTIFACTS_BASE: ${S3_HOST}/artifacts/${CI_PROJECT_PATH}/${CI_PIPELINE_ID}
+   # per-job artifact storage on MinIO
+   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
++  # default kernel for rootfs before injecting the current kernel tree
++  KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/gfx-ci/linux/v6.4.12-for-mesa-ci-f6b4ad45f48d
+ 
+   LAVA_JOB_PRIORITY: 30
+ 
+@@ -86,6 +90,17 @@ include:
+       - '/.gitlab-ci/container/gitlab-ci.yml'
+       - '/.gitlab-ci/test/gitlab-ci.yml'
+       - '/.gitlab-ci/lava/lava-gitlab-ci.yml'
++      - '/src/microsoft/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/zink/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/crocus/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/softpipe/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/llvmpipe/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/virgl/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/drivers/nouveau/ci/gitlab-ci-inc.yml'
++      - '/src/gallium/frontends/lavapipe/ci/gitlab-ci-inc.yml'
++      - '/src/intel/ci/gitlab-ci-inc.yml'
++      - '/src/freedreno/ci/gitlab-ci-inc.yml'
++      - '/src/amd/ci/gitlab-ci-inc.yml'
+   - drivers/gpu/drm/ci/image-tags.yml
+   - drivers/gpu/drm/ci/container.yml
+   - drivers/gpu/drm/ci/static-checks.yml
+diff --git a/drivers/gpu/drm/ci/lava-submit.sh b/drivers/gpu/drm/ci/lava-submit.sh
+index 0c4456b21b0f..379f26ea87cc 100755
+--- a/drivers/gpu/drm/ci/lava-submit.sh
++++ b/drivers/gpu/drm/ci/lava-submit.sh
+@@ -22,7 +22,7 @@ cp "$SCRIPTS_DIR"/setup-test-env.sh results/job-rootfs-overlay/
+ 
+ # Prepare env vars for upload.
+ section_start variables "Variables passed through:"
+-KERNEL_IMAGE_BASE_URL="https://${BASE_SYSTEM_HOST_PATH}" \
++KERNEL_IMAGE_BASE="https://${BASE_SYSTEM_HOST_PATH}" \
+ 	artifacts/ci-common/generate-env.sh | tee results/job-rootfs-overlay/set-job-env-vars.sh
+ section_end variables
+ 
 -- 
 2.34.1
 
