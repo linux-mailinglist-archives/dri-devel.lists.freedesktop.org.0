@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64C47A8AFD
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:56:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3B77A8AFC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:56:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A46910E530;
-	Wed, 20 Sep 2023 17:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A841810E531;
+	Wed, 20 Sep 2023 17:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA1A10E525
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:56:39 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A75A10E52C
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:56:40 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7567A86BDE;
- Wed, 20 Sep 2023 19:56:37 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6E38186BE1;
+ Wed, 20 Sep 2023 19:56:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1695232597;
- bh=Dego5ZFECI6K8hlnXLU1eWaBL362exYmkDXYRqbegG4=;
+ s=phobos-20191101; t=1695232598;
+ bh=v9ctbSa6+X3M+pofEXhCjN2ZqkfsWRMCu6w2Udy3yjA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=d18ccH+Lef0eMuIiVDtTjSuQcsC1yimo+uAxtzyM/Hj2RE2GC9nrNVaIpqYt87bCA
- p9SjF/95ji94KZTaVVEH93Ge6ODaX4d5jINgyZtZt6TJS679IA675P0Z7uKgOsQ/oH
- qPY1L6pvTTfetMEIBWE+M67XY/fGaddk2Owakbr/hYiiftHsFTbATq7Th9fWh1F1WP
- XXdCvceN4IpunX7zM5CTFRyDgTFjSMmKvDKG7b74FT9UFoSssWmoteiqLm0H0zc6Ht
- VYdR81eb4xHnz3Hh2OXQ2MB4KEgqKUujQzZVCTtc7Ty7HY3xDj4acma563ctPLAuL7
- 9urTdY0uQqI6A==
-Message-ID: <73aa0552-f3d3-d15d-5f60-c0eb4cfe07a4@denx.de>
-Date: Wed, 20 Sep 2023 19:32:27 +0200
+ b=rJjuV92cbXq3nWR+D5Cf8t9Q6elbrXKNAKhFZYDLmFi4I+1MEjv5UXkXNS0I6KX5O
+ OSaiq3j/EO9wtes/mwCaX9IHWEWBTdrFL/z/epmdHv59nhcRPwuYJV2acKVTtt4OIo
+ wf+wY3Qpp8Qrg8HeOtWC/xRUgG+hHGSEbQ4kt1g7a0I1IpQsVatJRtJ9eUjlY0/eLu
+ 5D27t0S9QZI1aXcIqvpbvt4hw40yItC3CFJLLic0ydCGGe3J0Cd2XrGBQO5T+0ZZ/Z
+ 5NrX46fQWH44NzS+tZE/vNWNHgmggVfQMdwerqCOHWyEnBaB/fH4xXO1M1ZVy9LNHg
+ k2sbkGaeYdmDg==
+Message-ID: <c01540fa-b99a-96d8-95f9-aae582afcf80@denx.de>
+Date: Wed, 20 Sep 2023 19:32:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 3/5] drm: lcdif: remove superfluous setup of framebuffer
- DMA address
+Subject: Re: [PATCH 4/5] drm: lcdif: move pitch setup to plane atomic update
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>, Liu Ying <victor.liu@nxp.com>
 References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-4-l.stach@pengutronix.de>
+ <20230920103126.2759601-5-l.stach@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230920103126.2759601-4-l.stach@pengutronix.de>
+In-Reply-To: <20230920103126.2759601-5-l.stach@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -64,41 +64,58 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/20/23 12:31, Lucas Stach wrote:
-> Now that the plane state is fully programmed into the hardware before
-> the scanout is started there is no need to program the plane framebuffer
-> DMA address from the CRTC atomic_enable anymore.
+> The buffer pitch may change when switching the buffer on a
+> atomic update. As the register is double buffered it can be
+> safely changed while the display is active.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->   drivers/gpu/drm/mxsfb/lcdif_kms.c | 10 ----------
->   1 file changed, 10 deletions(-)
+>   drivers/gpu/drm/mxsfb/lcdif_kms.c | 26 +++++++++++++-------------
+>   1 file changed, 13 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> index 4acf6914a8d1..33a082366b25 100644
+> index 33a082366b25..3ebf55d06027 100644
 > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> @@ -541,7 +541,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
->   									    crtc->primary);
->   	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
->   	struct drm_device *drm = lcdif->drm;
-> -	dma_addr_t paddr;
->   
->   	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
->   
-> @@ -549,15 +548,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
->   
->   	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
->   
-> -	/* Write cur_buf as well to avoid an initial corrupt frame */
-> -	paddr = drm_fb_dma_get_gem_addr(new_pstate->fb, new_pstate, 0);
-> -	if (paddr) {
-> -		writel(lower_32_bits(paddr),
-> -		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
-> -		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
-> -		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
-> -	}
+> @@ -327,19 +327,6 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+>   	writel(CTRLDESCL0_1_HEIGHT(m->vdisplay) |
+>   	       CTRLDESCL0_1_WIDTH(m->hdisplay),
+>   	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
 > -
->   	drm_crtc_vblank_on(crtc);
+> -	/*
+> -	 * Undocumented P_SIZE and T_SIZE bitfields written in the downstream
+> -	 * driver. Those bitfields control the AXI burst size. As of now there
+> -	 * are two known values:
+> -	 *  1 - 128Byte
+> -	 *  2 - 256Byte
+> -	 * Downstream sets this to 256B burst size to improve the memory access
+> -	 * efficiency so set it here too.
+> -	 */
+> -	ctrl = CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
+> -	       CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb->pitches[0]);
+> -	writel(ctrl, lcdif->base + LCDC_V8_CTRLDESCL0_3);
 >   }
+>   
+>   static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
+> @@ -689,6 +676,19 @@ static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
+>   		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+>   		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+>   	}
+> +
+> +	/*
+> +	 * Undocumented P_SIZE and T_SIZE bitfields written in the downstream
+> +	 * driver. Those bitfields control the AXI burst size. As of now there
+> +	 * are two known values:
+> +	 *  1 - 128Byte
+> +	 *  2 - 256Byte
+> +	 * Downstream sets this to 256B burst size to improve the memory access
+> +	 * efficiency so set it here too.
+> +	 */
+> +	writel(CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
+> +	       CTRLDESCL0_3_PITCH(new_pstate->fb->pitches[0]),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
+>   }
+>   
+>   static bool lcdif_format_mod_supported(struct drm_plane *plane,
 
 Reviewed-by: Marek Vasut <marex@denx.de>
