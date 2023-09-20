@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5697E7A8D3A
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 21:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C241F7A8D39
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 21:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B726410E551;
-	Wed, 20 Sep 2023 19:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9302A10E54E;
+	Wed, 20 Sep 2023 19:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDEB210E54D
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 19:56:32 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2108910E551
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 19:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1695239792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rqNzyDz4cREI90UtQiQYs75oZQPILvBZMvQm1D6ktbw=;
- b=L5jUY5ERFlH3wuN5OE7oDqPFBmUqY0BfcrjCn35DrH0desUs1pt1ItiCi97IIxTrs6VTas
- tAzJ02OFQ+m6a+ae7d20Y426+z5Ygcop0SFGtwkAv04mDjDLb95/ioUM4Lq0PNjeNOBefl
- c+L8OQoxdHeWMkeN+JloHkEEqK+OE00=
+ bh=9MD0RrfpQRpRBiB63gzF2nYaMsSToXY1skWl+a5+PJM=;
+ b=OiNw7LWdP+gA1e37BnlHhzsf4v7u5OYl5KF09dt0JUtdnKab6e9JQ8F0MXqGm6lyOI/RAx
+ WU2lGLLjDALHl+TqkMAbnkZ+Qby8ArKvKHQjIZgKB1bbQZg3V4UY73Ms0CjhKcwi4KKl4P
+ 9+E6+BEPyxzJB41YyqVxbErNWxhdGr0=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-Uwbpmm6RMH6W7XwmKX2B-g-1; Wed, 20 Sep 2023 15:56:26 -0400
-X-MC-Unique: Uwbpmm6RMH6W7XwmKX2B-g-1
+ us-mta-550-9doLGUQJNKm7f6Hhq9bTEg-1; Wed, 20 Sep 2023 15:56:29 -0400
+X-MC-Unique: 9doLGUQJNKm7f6Hhq9bTEg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FD7028EC107;
- Wed, 20 Sep 2023 19:56:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87F333800BB8;
+ Wed, 20 Sep 2023 19:56:27 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C31D2C15BB8;
- Wed, 20 Sep 2023 19:56:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70452C15BB8;
+ Wed, 20 Sep 2023 19:56:26 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH 2/4] drm/i915/vlv_dsi: Add DMI quirk for wrong I2C bus and
- panel size on Lenovo Yoga Tablet 2 series (v3)
-Date: Wed, 20 Sep 2023 21:56:11 +0200
-Message-ID: <20230920195613.304091-3-hdegoede@redhat.com>
+Subject: [PATCH 3/4] drm/i915/vlv_dsi: Add DMI quirk for backlight control
+ issues on Lenovo Yoga Tab 3 (v2)
+Date: Wed, 20 Sep 2023 21:56:12 +0200
+Message-ID: <20230920195613.304091-4-hdegoede@redhat.com>
 In-Reply-To: <20230920195613.304091-1-hdegoede@redhat.com>
 References: <20230920195613.304091-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -68,119 +68,78 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
+On the Lenovo Yoga Tab 3 Pro YT3-X90F there are 2 issues with the backlight
+on/off MIPI sequences:
 
-1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
-   which under Linux become bus 0 - 6. And the MIPI sequence reference
-   to bus 3 is indented for I2C3 which is bus 2 under Linux.
+1. The backlight on sequence has an I2C MIPI sequence element which uses
+   bus 0, but there is a bogus I2cSerialBus resource under the GPU in
+   the DSDT which causes i2c_acpi_find_adapter() to pick the wrong bus.
 
-   This leads to errors like these:
-   [  178.244049] i2c_designware 80860F41:03: controller timed out
-   [  178.245703] i915 0000:00:02.0: [drm] *ERROR* Failed to xfer payload of size (1) to reg (169)
-   There are 3 timeouts when the panel is on, delaying
-   waking up the screen on a key press by 3 seconds.
+2. There is no backlight off sequence, causing the backlight to stay on.
 
-   Note mipi_exec_i2c() cannot just subtract 1 from the bus
-   given in the I2C MIPI sequence element. Since on other
-   devices the I2C bus-numbers used in the MIPI sequences do
-   actually start at 0.
-
-2. width_/height_mm contain a bogus 192mm x 120mm size. This is
-   especially a problem on the 8" 830 version which uses a 10:16
-   portrait screen where as the bogus size is 16:10.
-
-Add a DMI quirk to override the I2C bus and the panel size with
-the correct values.
-
-Note both the 10" 1050 models as well as the 8" 830 models use the same
-mainboard and thus the same DMI strings. The 10" 1050 uses a 1920x1200
-landscape screen, where as the 8" 830 uses a 1200x1920 portrait screen,
-so the quirk handling uses the display resolution to detect the model.
+Add a DMI quirk fixing both issues.
 
 v2:
-- Also override i2c_bus_num to fix mipi_exec_i2c() timeouts
-
-v3:
 - Add Closes tag to gitlab issue with drm.debug=0xe, VBT info
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9379
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9380
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/display/vlv_dsi.c | 52 ++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/gpu/drm/i915/display/vlv_dsi.c | 34 ++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index 0d3aabf6a1dd..f69cafe8a17d 100644
+index f69cafe8a17d..55da627a8b8d 100644
 --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
 +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -1767,6 +1767,44 @@ static void vlv_dsi_asus_tf103c_mode_fixup(struct intel_dsi *intel_dsi)
- 		fixed_mode->vtotal -= 4;
+@@ -1805,6 +1805,31 @@ static void vlv_dsi_lenovo_yoga_tab2_size_fixup(struct intel_dsi *intel_dsi)
+ 	}
  }
  
 +/*
-+ * On the Lenovo Yoga Tablet 2 830 / 1050 there are 2 problems:
-+ * 1. The I2C MIPI sequence elements reference bus 3. ACPI has I2C1 - I2C7
-+ *    which under Linux become bus 0 - 6. And the MIPI sequence reference
-+ *    to bus 3 is indented for I2C3 which is bus 2 under Linux.
++ * On the Lenovo Yoga Tab 3 Pro YT3-X90F there are 2 problems:
++ * 1. i2c_acpi_find_adapter() picks the wrong adapter causing mipi_exec_i2c()
++ *    to not work. Fix this by setting i2c_bus_num.
++ * 2. There is no backlight off MIPI sequence, causing the backlight to stay on.
++ *    Add a backlight off sequence mirroring the existing backlight on sequence.
 + *
-+ *    Note mipi_exec_i2c() cannot just subtract 1 from the bus
-+ *    given in the I2C MIPI sequence element. Since on other
-+ *    devices the I2C bus-numbers used in the MIPI sequences do
-+ *    actually start at 0.
-+ *
-+ * 2. width_/height_mm contain a bogus 192mm x 120mm size. This is
-+ *    especially a problem on the 8" 830 version which uses a 10:16
-+ *    portrait screen where as the bogus size is 16:10.
-+ *
-+ * https://gitlab.freedesktop.org/drm/intel/-/issues/9379
++ * https://gitlab.freedesktop.org/drm/intel/-/issues/9380
 + */
-+static void vlv_dsi_lenovo_yoga_tab2_size_fixup(struct intel_dsi *intel_dsi)
++static void vlv_dsi_lenovo_yoga_tab3_backlight_fixup(struct intel_dsi *intel_dsi)
 +{
-+	const struct drm_display_mode *fixed_mode =
-+		intel_panel_preferred_fixed_mode(intel_dsi->attached_connector);
-+	struct drm_display_info *info = &intel_dsi->attached_connector->base.display_info;
++	static const u8 backlight_off_sequence[16] = {
++		/* Header Seq-id 7, length after header 11 bytes */
++		0x07, 0x0b, 0x00, 0x00, 0x00,
++		/* MIPI_SEQ_ELEM_I2C bus 0 addr 0x2c reg 0x00 data-len 1 data 0x00 */
++		0x04, 0x08, 0x00, 0x00, 0x00, 0x2c, 0x00, 0x00, 0x01, 0x00,
++		/* MIPI_SEQ_ELEM_END */
++		0x00
++	};
++	struct intel_connector *connector = intel_dsi->attached_connector;
 +
-+	intel_dsi->i2c_bus_num = 2;
-+
-+	/*
-+	 * The 10" 1050 uses a 1920x1200 landscape screen, where as the 8" 830
-+	 * uses a 1200x1920 portrait screen.
-+	 */
-+	if (fixed_mode->hdisplay == 1920) {
-+		info->width_mm = 216;
-+		info->height_mm = 135;
-+	} else {
-+		info->width_mm = 107;
-+		info->height_mm = 171;
-+	}
++	intel_dsi->i2c_bus_num = 0;
++	connector->panel.vbt.dsi.sequence[MIPI_SEQ_BACKLIGHT_OFF] = backlight_off_sequence;
 +}
 +
  static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
  	{
  		/* Asus Transformer Pad TF103C */
-@@ -1776,6 +1814,20 @@ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
+@@ -1828,6 +1853,15 @@ static const struct dmi_system_id vlv_dsi_dmi_quirk_table[] = {
  		},
- 		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
+ 		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab2_size_fixup,
  	},
 +	{
-+		/*
-+		 * Lenovo Yoga Tablet 2 830F/L or 1050F/L (The 8" and 10"
-+		 * Lenovo Yoga Tablet 2 use the same mainboard)
-+		 */
++		/* Lenovo Yoga Tab 3 Pro YT3-X90F */
 +		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corp."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "VALLEYVIEW C0 PLATFORM"),
-+			DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
-+			/* Partial match on beginning of BIOS version */
-+			DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
 +		},
-+		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab2_size_fixup,
++		.driver_data = (void *)vlv_dsi_lenovo_yoga_tab3_backlight_fixup,
 +	},
  	{ }
  };
