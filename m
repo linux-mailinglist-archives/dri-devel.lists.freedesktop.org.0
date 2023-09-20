@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6887A80A7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3207A7CE9
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B719E10E49F;
-	Wed, 20 Sep 2023 12:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587A610E177;
+	Wed, 20 Sep 2023 12:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF73010E49F
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:38:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8142210E177
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:05:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5BFC7619B6;
- Wed, 20 Sep 2023 12:38:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD089C433CB;
- Wed, 20 Sep 2023 12:38:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 051D061BA6;
+ Wed, 20 Sep 2023 12:05:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A80C433C9;
+ Wed, 20 Sep 2023 12:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1695213529;
- bh=07RqPkdGi1fu9o1EZNTKSVDQDEX2CI5yQUcFK05QZlM=;
+ s=korg; t=1695211520;
+ bh=nQT3TPgg8EdMx8koM7A+mSb23LZfGXMg5M2KoWVu9Kw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1Td8cPYFf2MywSDOeio+NTgujcNFeIJxJM2FmfhcqBkyw+TTm+s64L7+grDH6Lrun
- BIEfchYSsyo8rmUpD/5a3/CUcO1mbSMuuiZlQw1bz/2crG0Av8dwsoUPf1qANG+oNa
- RLKXSTb4eeFaPOuv7l+OZYDsnh533OCJEBuHdDWs=
+ b=0RK4BVeqWfG7/+TNy9DWzHjwVEhgZPFrsHVmHuAJ5F8avvm3zMApVV9mUNb/8gj/p
+ K9yLNwfjdB9AiidOjmOluTXJgzMvgu2W7q5VUqWOBEPSjjCfz4fhoy1/fznx24PWGT
+ s4o6Wx/jyJdawOljwZ4sCSuyKlKxg++MVUkcrNWc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 5.4 245/367] drm/ast: Fix DRAM init on AST2200
-Date: Wed, 20 Sep 2023 13:30:22 +0200
-Message-ID: <20230920112904.896644501@linuxfoundation.org>
+Subject: [PATCH 4.14 123/186] drm/ast: Fix DRAM init on AST2200
+Date: Wed, 20 Sep 2023 13:30:26 +0200
+Message-ID: <20230920112841.479794424@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230920112858.471730572@linuxfoundation.org>
-References: <20230920112858.471730572@linuxfoundation.org>
+In-Reply-To: <20230920112836.799946261@linuxfoundation.org>
+References: <20230920112836.799946261@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,7 +60,7 @@ Cc: Jocelyn Falempe <jfalempe@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.4-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -92,7 +91,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_post.c
 +++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -294,7 +294,7 @@ static void ast_init_dram_reg(struct drm
+@@ -291,7 +291,7 @@ static void ast_init_dram_reg(struct drm
  				;
  			} while (ast_read32(ast, 0x10100) != 0xa8);
  		} else {/* AST2100/1100 */
