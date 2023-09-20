@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4997A8AFB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64C47A8AFD
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F160710E52C;
-	Wed, 20 Sep 2023 17:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A46910E530;
+	Wed, 20 Sep 2023 17:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC54610E525
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:56:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA1A10E525
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:56:39 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6CA3886BD2;
- Wed, 20 Sep 2023 19:56:36 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7567A86BDE;
+ Wed, 20 Sep 2023 19:56:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1695232596;
- bh=zGSG+wQzXiReh5w92CS90m/6oNkexVzRGdXMFeGJshg=;
+ s=phobos-20191101; t=1695232597;
+ bh=Dego5ZFECI6K8hlnXLU1eWaBL362exYmkDXYRqbegG4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fVo7cOL+xBKWOLOdhDxX1rjXigBtoBcGgD025Bu4BCRdSjUkR8kKom6b9+D4Eqbcw
- y6qMZSFe3ALkv8I39p/WrECqEgaEm5iBLQ52nfoqYo6sz2vSvYtIqfRGqadnCktX88
- vKHNu9VL+N1qG6m3lZex9C4TWeSLY5UcOZ1jJNnTA66Meelub+E9ZIeG+anQPLz5D1
- dAfS9kb6r2f+6UTLud/HkoDBD0FZVbpaHkKHwkjtgEMTbFNcfJvMqrmQgyx/tXa4Ta
- XvxS1F9dTgThi7w8CPSCaps/SDRb/73jRZQ2LCPsKvZrks9zFdl3yCCNW5wAaV2wTl
- y3aECCkYklU6g==
-Message-ID: <ef70eae2-97df-b244-a20e-3d7ec543365e@denx.de>
-Date: Wed, 20 Sep 2023 19:31:53 +0200
+ b=d18ccH+Lef0eMuIiVDtTjSuQcsC1yimo+uAxtzyM/Hj2RE2GC9nrNVaIpqYt87bCA
+ p9SjF/95ji94KZTaVVEH93Ge6ODaX4d5jINgyZtZt6TJS679IA675P0Z7uKgOsQ/oH
+ qPY1L6pvTTfetMEIBWE+M67XY/fGaddk2Owakbr/hYiiftHsFTbATq7Th9fWh1F1WP
+ XXdCvceN4IpunX7zM5CTFRyDgTFjSMmKvDKG7b74FT9UFoSssWmoteiqLm0H0zc6Ht
+ VYdR81eb4xHnz3Hh2OXQ2MB4KEgqKUujQzZVCTtc7Ty7HY3xDj4acma563ctPLAuL7
+ 9urTdY0uQqI6A==
+Message-ID: <73aa0552-f3d3-d15d-5f60-c0eb4cfe07a4@denx.de>
+Date: Wed, 20 Sep 2023 19:32:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
+Subject: Re: [PATCH 3/5] drm: lcdif: remove superfluous setup of framebuffer
+ DMA address
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>, Liu Ying <victor.liu@nxp.com>
 References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-3-l.stach@pengutronix.de>
+ <20230920103126.2759601-4-l.stach@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230920103126.2759601-3-l.stach@pengutronix.de>
+In-Reply-To: <20230920103126.2759601-4-l.stach@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -63,43 +64,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/20/23 12:31, Lucas Stach wrote:
-> Allow drm_atomic_helper_commit_tail_rpm to setup all the plane
-> state before the scanout is started.
+> Now that the plane state is fully programmed into the hardware before
+> the scanout is started there is no need to program the plane framebuffer
+> DMA address from the CRTC atomic_enable anymore.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->   drivers/gpu/drm/mxsfb/lcdif_kms.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/mxsfb/lcdif_kms.c | 10 ----------
+>   1 file changed, 10 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> index f5bfe8b52920..4acf6914a8d1 100644
+> index 4acf6914a8d1..33a082366b25 100644
 > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> @@ -505,6 +505,8 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
->   static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
->   				    struct drm_atomic_state *state)
->   {
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
-> +									  crtc);
->   	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
->   	struct drm_pending_vblank_event *event;
->   	u32 reg;
-> @@ -513,6 +515,9 @@ static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
->   	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
->   	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> @@ -541,7 +541,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+>   									    crtc->primary);
+>   	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+>   	struct drm_device *drm = lcdif->drm;
+> -	dma_addr_t paddr;
 >   
-> +	if (drm_atomic_crtc_needs_modeset(crtc_state))
-> +		lcdif_enable_controller(lcdif);
-> +
->   	event = crtc->state->event;
->   	crtc->state->event = NULL;
+>   	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
 >   
-> @@ -552,7 +557,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
->   		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
->   		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
->   	}
-> -	lcdif_enable_controller(lcdif);
+> @@ -549,15 +548,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
 >   
+>   	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
+>   
+> -	/* Write cur_buf as well to avoid an initial corrupt frame */
+> -	paddr = drm_fb_dma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+> -	if (paddr) {
+> -		writel(lower_32_bits(paddr),
+> -		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+> -		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+> -		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+> -	}
+> -
 >   	drm_crtc_vblank_on(crtc);
 >   }
 
