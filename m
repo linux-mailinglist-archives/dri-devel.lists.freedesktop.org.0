@@ -2,46 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BE27A794A
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3E57A7943
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 12:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803B010E47A;
-	Wed, 20 Sep 2023 10:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B6A10E47C;
+	Wed, 20 Sep 2023 10:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1CAF10E47A
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 10:32:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DB6E761B63;
- Wed, 20 Sep 2023 10:31:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962A4C433CA;
- Wed, 20 Sep 2023 10:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1695205918;
- bh=aF2Gtta1Z8w8vAJCUm8smnqhNwsirZUIvdI+Z5wkIJY=;
- h=Subject:To:Cc:From:Date:From;
- b=xK65PPnq9Sq4o8Hr6LNA4PP0rL4qIrk0xR+LSRNEBO0ui6iXdecJqWKlo22833ffH
- Mu1oPM6Y0M6RpBjCF1hm1Yyg8tem9dtNALBCzbhWA/Y/vWr01HK05ZUTwJhcLVldQ7
- BjIhiWqt7VXDhFxdBbwXIVhbzlSde2GeqZziE3N4=
-Subject: Patch "drm/tests: helpers: Avoid a driver uaf" has been added to the
- 6.5-stable tree
-To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- francois.dugast@intel.com, gregkh@linuxfoundation.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- thomas.hellstrom@linux.intel.com, tzimmermann@suse.de
-From: <gregkh@linuxfoundation.org>
-Date: Wed, 20 Sep 2023 12:29:53 +0200
-Message-ID: <2023092052-monogram-nutlike-19de@gregkh>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C295B10E478;
+ Wed, 20 Sep 2023 10:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695205895; x=1726741895;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=uNqz+Yla7EfyKlyW0wxQKn5PLomgRhI1RvTHNrrqz4o=;
+ b=RbLOoHOxN3scP7GmHrrF2bIXsza0jzyVphPzNfC2MYBqS6/qJ1fYS77g
+ XcLVWNBVb4UzAjc8/v+XExMqy+uvYoUSwK5VRkVz45GeycUl7IBHrqqRQ
+ fPKyU6QcSM8BGNvPMFGcklbFZz+5tc3EeRHHghUE7IRLvWgyNHbySBHMw
+ /f/6hV7cm+BibpJLo7gdfZZEbgGAAVHJvJGM/nP/RxasEVSfPZhZSHbTj
+ XT+aX5MoKJfcAMsZzGC5ayNVcEQbGM3rBpfxPppgk/q/bWHhWgarP1uFc
+ 9Nm+X8IGbSEaoshWJt3pydstGno5dWUtHq9fhRv9VfAiLRv9M/MTsPGzy w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365233838"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="365233838"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 03:31:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="740150229"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="740150229"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Sep 2023 03:31:18 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 20 Sep 2023 03:31:17 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 20 Sep 2023 03:31:17 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 20 Sep 2023 03:31:17 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 20 Sep 2023 03:31:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DPHY9oOayjYgtXGa/XEKXcfIH6Zz1EP1/yR2iKThNRo2a+QbiqRXxmm9vo7ua4e1D7Q72ZfiFyQ8Q+WE18Mo3DYgfshCW2UZPs2Ewgaq1heiWkDBG/1vuQ+JFNrwZRsaggJm4YauV37NG/SrT5Ws0X6XqduyKh1kj8Vw5MW+O0iXRigZJiW6+vt5Ly4RpYp04KgMSAUlilcqkgNHD1GDc/GtHeA0k9w+ms4v4y2I5XGma0YJngYPqp9ssXvivARDS3byD32P8i0eMhPgIMgALjX/7/ExIzR9l68FWQf/PvbiPmr8h5idn4C/zO2nHGzOv73aC8Qwj0q0wwNbd2kIWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KpUWIJEjyT0vHjEULxECeRpT5NzyLnv4bk1a/DMkE7c=;
+ b=V8R+ouNVqLZUBtfux0UifklB+kgjA/5p8Og7+mgk98sSaaVpi6bIsd+1X4KmAks3JdF9/zFTMp3n4XK2xHblO5c0wdVU08KbG+mK9seE6mJRxuLK9k304ezgLjfM0e/5aCh671Y9BHlu4SOTJAt8J2FhVmKdNeK0WLKwN/wmLMMWGn13fnkW9QUYtDswtJmwos2ofClyGNR42WAqFK9Nx03SFxxTNbf9Sp2BpCJjJm791l/uSOkJPehB74DWhoXJeenUTtoykVNx9dVdXSoizuHZnfdA/nYpxTnyApjsPmx8Szw4+H/GJOiCJ7P9IC3ubvFVgXAZolwBK4AG5b2e/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com (2603:10b6:8:5e::7) by
+ IA0PR11MB8335.namprd11.prod.outlook.com (2603:10b6:208:493::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6792.21; Wed, 20 Sep 2023 10:31:15 +0000
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::da59:e1cb:a9b5:5e4f]) by DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::da59:e1cb:a9b5:5e4f%3]) with mapi id 15.20.6792.021; Wed, 20 Sep 2023
+ 10:31:15 +0000
+From: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915: Zap some empty lines
+Thread-Topic: [PATCH] drm/i915: Zap some empty lines
+Thread-Index: AQHZ66CMO7Uslv2IqEqfE2kQ1/pk5rAjg5wQ
+Date: Wed, 20 Sep 2023 10:31:15 +0000
+Message-ID: <DM4PR11MB5971CC2A1BDFC36C4FB9857F87F9A@DM4PR11MB5971.namprd11.prod.outlook.com>
+References: <20230920085715.6905-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20230920085715.6905-1-tvrtko.ursulin@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5971:EE_|IA0PR11MB8335:EE_
+x-ms-office365-filtering-correlation-id: d2452d4d-5cba-43f2-a6eb-08dbb9c4b7d7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /XC8Gbjf+Lgz7vRztiebCt0OKH/4LaNBt7lR4qlzbl8D/qWWKI0uoEtyihl4/terY/cfCfmBwFhb5JKXFXLB5sLTmaR76MUsyUNXBkaSF02mCydzW7sGXEIdkpcx6tbGk8xgSA0gTXB7y0jmIBf70DP4zWAuvHDHOOScGMivCiTKwDBcJIbfVLm8blJw3diJ/l75GSquFWUFKytF88gxOLfpSBOwGwp+jQV3sA3yYcPRmTHrga0/Vp56ZWdyYmFyYCCSL5gKaAw6N7cNyD65fAiSKUH7BivIenpmopfOzQOkNgjPPSQ8TUwH3Mpnq8Sgqi0ObIoSa0sr+qeXMYUUtSpYgOlwztvC+MOiBBISfBkMTBn69XdW7fXkasQXZnYjKjkpIEiP/iG3F5TVAqgi6bWm4jhr158rXtTP6Q8qp4goJ2HSESWXZKJl82tlkajPhPrxRbFhMSXFXRSiry7R6+Ym1IiDXbiFvWjcxhqusnslTC3OO+YOgNOJ+X7bbI1EAnWstxecP9UYCoCPfB0VJxoLWPjCmA3YO+jaQuDOpDTwp0nr+58F7m1byl6xaW3yNfDA5Mfv6oAHIrZfepyMQruGrLnZ04pRssIzlDANx5FqMnWr9Iq7tbGVVMlMU2QV
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5971.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(376002)(39860400002)(366004)(346002)(1800799009)(186009)(451199024)(83380400001)(6506007)(7696005)(53546011)(5660300002)(71200400001)(26005)(64756008)(52536014)(66476007)(478600001)(2906002)(9686003)(66446008)(66556008)(76116006)(54906003)(66946007)(316002)(110136005)(41300700001)(8676002)(8936002)(4326008)(38100700002)(82960400001)(86362001)(38070700005)(33656002)(122000001)(55016003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GQ0jHKv5ScwDxv/qqQBS2Ivs9KJQOEEiSim9F9W4I7i+11uIEAz+tgV4iGya?=
+ =?us-ascii?Q?/OR6bAaIg7T8wE9YIgmihoBG8E09gu5Qp2dN2rrubDpqBbo5THOnLD3LBIRb?=
+ =?us-ascii?Q?sV9Zpue2Ge3aH787Rdzw2mXxbgKHKeJpm2IghzWictLZMPD6bpqghm8TUCGn?=
+ =?us-ascii?Q?EIh8AG5vJVrs6k/QHIkP46kdSgvOisZ8doIVBZj/odqOtN4t77ZKjM0BLo9X?=
+ =?us-ascii?Q?twab0YzcXNB7kFNR/6f2jnZtTspnurX3CC0xD+B1svpUe70X1OuDXbAv7OXy?=
+ =?us-ascii?Q?/jaw0iCS1Mxbjp437znzOi5P3egrbfc3Kiqe+ELLpJyXI2LZ2NAQ0stlavNX?=
+ =?us-ascii?Q?QJcKI8XEteRB2p8jXM59GLCKnB/rXdv1Ij1OfBLF2T0vKJe5b7ddFmRVBfod?=
+ =?us-ascii?Q?4N3IscnodIkKqAI0vsIzmFM5QcxfvBRMsUVvWlNeRY61WBv5LgolgcMxDKNs?=
+ =?us-ascii?Q?fhSAGFDbHxNh4OgYAJoPGNs34Xuoe+q9Bx5/YXl1+uWnChHbdZll8R7kQtH/?=
+ =?us-ascii?Q?zopM+oERg2F6oIP+8uR70EKZMCJmCJmNapJT+i71GRKWeG2fjpIm13DVKBJZ?=
+ =?us-ascii?Q?33n5QnmC9Yn4T0a9oPNbcl9hyMV9kb3312Lwktqhe3Kpa/+nSEaS9jp/QL+u?=
+ =?us-ascii?Q?ZR/szVBCKJkXyng4n6e9yIZe1NixCeZK7zWy0iM3s00KRRs6XpHavUtE9+4d?=
+ =?us-ascii?Q?HxwoAw6kxnQ2l4AkS8qHf9sMgl0019gkBAcHZ7xw7Zt/fM8PhZExTbR6NCyv?=
+ =?us-ascii?Q?2qt0cHZBjuoxC7xH/LXwf9BRlGYqUvvztSF/qIwSbkR3cgFnvryDdrPCaeGE?=
+ =?us-ascii?Q?ulPLamowOmXMwQf/vUG1MZjeqKr8CpehCseDFsNXc8CI4YmhOLwDJyCS0NtJ?=
+ =?us-ascii?Q?XGVJTa4JVs7XaSfwl1afxxd7gDICtdSyKAhk2n4dKDYkL3EbQsLkasM6oiWP?=
+ =?us-ascii?Q?IcZrqsza3IypHUP76sEOvt5xwafZ/1x8zzBVYSPK24Y0cWhr8wTKCEqKhSVj?=
+ =?us-ascii?Q?EmeOmFND8ZlzdoAJMo0w1HEXL/tWHVxqz0+xUjExzD0IHB3hE6bMLo8hcgNL?=
+ =?us-ascii?Q?xFTCOabNsDQAjchni2vX67GFQfZpCXB+/CKNGRQjknnZSnaKCw7oK/ztnzdk?=
+ =?us-ascii?Q?/Us7A2fTo2zO93PnqwXLllGzHxaRbfrirdpECldnoHPTvlwXQZwdTolJ7w7k?=
+ =?us-ascii?Q?3S2QyxUk2iHKlkUC9pqM45zvgcVCKtxvIxqwPbL3mlQSeJ0cB+FxIS+GNjQa?=
+ =?us-ascii?Q?AQeuHpCPDwI8u6D59cKuUhhK7uhoWDhoXZ2DkW/0ITJSUMFGTyC982FJw0km?=
+ =?us-ascii?Q?7g8vPcSH+dRgeVoTe02JTccaXeiw+RHfkH+173k9Oz33pn8vfn3wiC7ooVCo?=
+ =?us-ascii?Q?KD+Dyy33v52xaGhFwQFdiuW+QfXdxZem8Ct68JNKfDA23JmxqyTA98MLtLxS?=
+ =?us-ascii?Q?j9cI4RwHQro35qWsOittxSA+61Cb+ZqXvbVbP2Rqu99K2qZpqrH1Hp0VcO7D?=
+ =?us-ascii?Q?hWV5P2ikMP93s6iI4szlNH+q0uaYLypTz8JSoZKfZHPwXJqXqYkn2SXlLaa3?=
+ =?us-ascii?Q?3cncPEC6u21ryBFT+XAbLHqIg8ZZvVCpYPrP+/B4TbtHimn1HAuV6GlsRiV5?=
+ =?us-ascii?Q?uA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5971.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2452d4d-5cba-43f2-a6eb-08dbb9c4b7d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2023 10:31:15.2085 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ysg/JWtNikDIedqJpoM9u5Ml3F+Y2pxx/9PPLWE+7n50OPJ3xq/Dv0TcKQU/wHk34TVCVn8W7ki2VfxXPO7sc5Pp5Inpi6S6+wAwvF9uoSs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8335
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,201 +152,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>, "Bhadane,
+ Dnyaneshwar" <dnyaneshwar.bhadane@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-This is a note to let you know that I've just added the patch titled
 
-    drm/tests: helpers: Avoid a driver uaf
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Tv=
+rtko
+> Ursulin
+> Sent: Wednesday, September 20, 2023 2:27 PM
+> To: Intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Srivatsa, Anusha <anusha.srivatsa@intel.com>; Bhadane, Dnyaneshwar
+> <dnyaneshwar.bhadane@intel.com>; Sripada, Radhakrishna
+> <radhakrishna.sripada@intel.com>; Ursulin, Tvrtko <tvrtko.ursulin@intel.c=
+om>
+> Subject: [PATCH] drm/i915: Zap some empty lines
+>=20
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>=20
+> Recent refactoring left an unsightly block of empty lines. Remove them.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
+> Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-to the 6.5-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+LGTM,
+Reviewed-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-The filename of the patch is:
-     drm-tests-helpers-avoid-a-driver-uaf.patch
-and it can be found in the queue-6.5 subdirectory.
+> ---
+>  drivers/gpu/drm/i915/i915_drv.h | 7 -------
+>  1 file changed, 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
+drv.h
+> index 87ffc477c3b1..511eba3bbdba 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -646,13 +646,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  #define IS_TIGERLAKE_UY(i915) \
+>  	IS_SUBPLATFORM(i915, INTEL_TIGERLAKE, INTEL_SUBPLATFORM_UY)
+>=20
+> -
+> -
+> -
+> -
+> -
+> -
+> -
+>  #define IS_XEHPSDV_GRAPHICS_STEP(__i915, since, until) \
+>  	(IS_XEHPSDV(__i915) && IS_GRAPHICS_STEP(__i915, since, until))
+>=20
+> --
+> 2.39.2
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 139a27854bf5ce93ff9805f9f7683b88c13074dc Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Date: Thu, 7 Sep 2023 15:53:38 +0200
-Subject: drm/tests: helpers: Avoid a driver uaf
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-commit 139a27854bf5ce93ff9805f9f7683b88c13074dc upstream.
-
-when using __drm_kunit_helper_alloc_drm_device() the driver may be
-dereferenced by device-managed resources up until the device is
-freed, which is typically later than the kunit-managed resource code
-frees it. Fix this by simply make the driver device-managed as well.
-
-In short, the sequence leading to the UAF is as follows:
-
-INIT:
-Code allocates a struct device as a kunit-managed resource.
-Code allocates a drm driver as a kunit-managed resource.
-Code allocates a drm device as a device-managed resource.
-
-EXIT:
-Kunit resource cleanup frees the drm driver
-Kunit resource cleanup puts the struct device, which starts a
-      device-managed resource cleanup
-device-managed cleanup calls drm_dev_put()
-drm_dev_put() dereferences the (now freed) drm driver -> Boom.
-
-Related KASAN message:
-[55272.551542] ==================================================================
-[55272.551551] BUG: KASAN: slab-use-after-free in drm_dev_put.part.0+0xd4/0xe0 [drm]
-[55272.551603] Read of size 8 at addr ffff888127502828 by task kunit_try_catch/10353
-
-[55272.551612] CPU: 4 PID: 10353 Comm: kunit_try_catch Tainted: G     U           N 6.5.0-rc7+ #155
-[55272.551620] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
-[55272.551626] Call Trace:
-[55272.551629]  <TASK>
-[55272.551633]  dump_stack_lvl+0x57/0x90
-[55272.551639]  print_report+0xcf/0x630
-[55272.551645]  ? _raw_spin_lock_irqsave+0x5f/0x70
-[55272.551652]  ? drm_dev_put.part.0+0xd4/0xe0 [drm]
-[55272.551694]  kasan_report+0xd7/0x110
-[55272.551699]  ? drm_dev_put.part.0+0xd4/0xe0 [drm]
-[55272.551742]  drm_dev_put.part.0+0xd4/0xe0 [drm]
-[55272.551783]  devres_release_all+0x15d/0x1f0
-[55272.551790]  ? __pfx_devres_release_all+0x10/0x10
-[55272.551797]  device_unbind_cleanup+0x16/0x1a0
-[55272.551802]  device_release_driver_internal+0x3e5/0x540
-[55272.551808]  ? kobject_put+0x5d/0x4b0
-[55272.551814]  bus_remove_device+0x1f1/0x3f0
-[55272.551819]  device_del+0x342/0x910
-[55272.551826]  ? __pfx_device_del+0x10/0x10
-[55272.551830]  ? lock_release+0x339/0x5e0
-[55272.551836]  ? kunit_remove_resource+0x128/0x290 [kunit]
-[55272.551845]  ? __pfx_lock_release+0x10/0x10
-[55272.551851]  platform_device_del.part.0+0x1f/0x1e0
-[55272.551856]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-[55272.551863]  kunit_remove_resource+0x195/0x290 [kunit]
-[55272.551871]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-[55272.551877]  kunit_cleanup+0x78/0x120 [kunit]
-[55272.551885]  ? __kthread_parkme+0xc1/0x1f0
-[55272.551891]  ? __pfx_kunit_try_run_case_cleanup+0x10/0x10 [kunit]
-[55272.551900]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10 [kunit]
-[55272.551909]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-[55272.551919]  kthread+0x2e7/0x3c0
-[55272.551924]  ? __pfx_kthread+0x10/0x10
-[55272.551929]  ret_from_fork+0x2d/0x70
-[55272.551935]  ? __pfx_kthread+0x10/0x10
-[55272.551940]  ret_from_fork_asm+0x1b/0x30
-[55272.551948]  </TASK>
-
-[55272.551953] Allocated by task 10351:
-[55272.551956]  kasan_save_stack+0x1c/0x40
-[55272.551962]  kasan_set_track+0x21/0x30
-[55272.551966]  __kasan_kmalloc+0x8b/0x90
-[55272.551970]  __kmalloc+0x5e/0x160
-[55272.551976]  kunit_kmalloc_array+0x1c/0x50 [kunit]
-[55272.551984]  drm_exec_test_init+0xfa/0x2c0 [drm_exec_test]
-[55272.551991]  kunit_try_run_case+0xdd/0x250 [kunit]
-[55272.551999]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-[55272.552008]  kthread+0x2e7/0x3c0
-[55272.552012]  ret_from_fork+0x2d/0x70
-[55272.552017]  ret_from_fork_asm+0x1b/0x30
-
-[55272.552024] Freed by task 10353:
-[55272.552027]  kasan_save_stack+0x1c/0x40
-[55272.552032]  kasan_set_track+0x21/0x30
-[55272.552036]  kasan_save_free_info+0x27/0x40
-[55272.552041]  __kasan_slab_free+0x106/0x180
-[55272.552046]  slab_free_freelist_hook+0xb3/0x160
-[55272.552051]  __kmem_cache_free+0xb2/0x290
-[55272.552056]  kunit_remove_resource+0x195/0x290 [kunit]
-[55272.552064]  kunit_cleanup+0x78/0x120 [kunit]
-[55272.552072]  kunit_generic_run_threadfn_adapter+0x4a/0x90 [kunit]
-[55272.552080]  kthread+0x2e7/0x3c0
-[55272.552085]  ret_from_fork+0x2d/0x70
-[55272.552089]  ret_from_fork_asm+0x1b/0x30
-
-[55272.552096] The buggy address belongs to the object at ffff888127502800
-                which belongs to the cache kmalloc-512 of size 512
-[55272.552105] The buggy address is located 40 bytes inside of
-                freed 512-byte region [ffff888127502800, ffff888127502a00)
-
-[55272.552115] The buggy address belongs to the physical page:
-[55272.552119] page:00000000af6c70ff refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x127500
-[55272.552127] head:00000000af6c70ff order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[55272.552133] anon flags: 0x17ffffc0010200(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-[55272.552141] page_type: 0xffffffff()
-[55272.552145] raw: 0017ffffc0010200 ffff888100042c80 0000000000000000 dead000000000001
-[55272.552152] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-[55272.552157] page dumped because: kasan: bad access detected
-
-[55272.552163] Memory state around the buggy address:
-[55272.552167]  ffff888127502700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[55272.552173]  ffff888127502780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[55272.552178] >ffff888127502800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[55272.552184]                                   ^
-[55272.552187]  ffff888127502880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[55272.552193]  ffff888127502900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[55272.552198] ==================================================================
-[55272.552203] Disabling lock debugging due to kernel taint
-
-v2:
-- Update commit message, add Fixes: tag and Cc stable.
-v3:
-- Further commit message updates (Maxime Ripard).
-
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org # v6.3+
-Fixes: d98780310719 ("drm/tests: helpers: Allow to pass a custom drm_driver")
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Francois Dugast <francois.dugast@intel.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Link: https://lore.kernel.org/r/20230907135339.7971-2-thomas.hellstrom@linux.intel.com
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- include/drm/drm_kunit_helpers.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
-index 514c8a7a32f0..ba483c87f0e7 100644
---- a/include/drm/drm_kunit_helpers.h
-+++ b/include/drm/drm_kunit_helpers.h
-@@ -3,6 +3,8 @@
- #ifndef DRM_KUNIT_HELPERS_H_
- #define DRM_KUNIT_HELPERS_H_
- 
-+#include <linux/device.h>
-+
- #include <kunit/test.h>
- 
- struct drm_device;
-@@ -51,7 +53,7 @@ __drm_kunit_helper_alloc_drm_device(struct kunit *test,
- {
- 	struct drm_driver *driver;
- 
--	driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
-+	driver = devm_kzalloc(dev, sizeof(*driver), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, driver);
- 
- 	driver->driver_features = features;
--- 
-2.42.0
-
-
-
-Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
-
-queue-6.5/drm-tests-helpers-avoid-a-driver-uaf.patch
