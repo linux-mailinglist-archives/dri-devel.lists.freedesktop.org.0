@@ -2,48 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6EF7A8F75
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B77F7A8F91
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:46:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF3210E449;
-	Wed, 20 Sep 2023 22:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F3410E53B;
+	Wed, 20 Sep 2023 22:46:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 493A410E449
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 22:33:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 78C0D61E1B;
- Wed, 20 Sep 2023 22:33:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E143C433CC;
- Wed, 20 Sep 2023 22:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695249189;
- bh=SBThQbOMOMdYmyDrdiY4+dScgD2UaJ6Jd/k2Lspawco=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=uOk2QfJTBwQDO+Hv2Hn3QAXr/yVpQ9Mklh4At1SracF88uIUlVaZVZnpQeAz3F2wX
- HFKXu5ZOvVj49fbD/n++FrtR3JQ8t7AF5+9QV75HrhB3oH9TxnXg9WCiNEFZvZL97I
- MIYKOXv1zU4lqw/sHcXBderrAwdQYWLq3aF3p4mWzJiAAx6kLVbR/gezIT1iEfTdi6
- oAKIRAipLXWtar8tSCbX/2Cc5iyTAK9hQbJZ9iQtWpZfUhelilA2K1PU5ygLkZMhbC
- svL8G+8aLdHXeAogiW1WUhZUzs3ZNmX8K/xEFe97mzaYHU8/oOhcvXBbCI2GMsSBYF
- xlBz+uD+KMzSw==
-Received: (nullmailer pid 3103973 invoked by uid 1000);
- Wed, 20 Sep 2023 22:33:04 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5AC110E545
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 22:46:09 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-9ae2cc4d17eso31127766b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 15:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695249968; x=1695854768; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oYdcY0DcGe67NgqwyBu5FTTz8YAdNQwb3MR5ZbpO8t0=;
+ b=d3rOOkGjmJYH6RU2ifJCQWpI9dUqT6LEpSerRW1Mm5CXzWAV8WciZsWIf0dJhGGQf0
+ vj6d1eVTABd4qpJrEZ9BC0Rr0kpg4LB6dym/Zv6kLHU4e0YfS4ngWC6dDPUiDLMsHCiY
+ 22IF5mNLtoaUbsXrJNSkghAYv5IMYJlFGViP8thANKU050N5ZnSElfeNNHMb7osARnPl
+ GQ8IwPJwJisMXbVn6SkEipNEug8bBSNZJfyenNgdvuQbzTIZSAa1jAngZT2uh4YwraDM
+ 7RqW7AY+MflXitEUV3J34/UhuzYBKuknZAXwVRTnueIYUgsB912oBA6xKLuyVOJTG3Jz
+ uk/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695249968; x=1695854768;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oYdcY0DcGe67NgqwyBu5FTTz8YAdNQwb3MR5ZbpO8t0=;
+ b=RTb57N8KHR0LKb1hyyDxdtFeMK5+Ez8itEGYCYyhuvvk2+2i2qVsJMFwreQTIQZFl4
+ KG5DZjI7GgDK9YMMK2SvKM3LTvi1IHJuuXicf8zk4izl7JUL3X2XvrBxFiokEWN3y9f8
+ 2Zw/ncF8SwX9LwmHyBVbtkAOvfbYdGJiwrMYvcNy+fHpij62yIQZqg9YTgw8CodXDwWv
+ sYQUOGdsude/g4/JkGnpx1DMnBLhxv8rz7iEpZKJLHy29yvzGkRPpbWKxOjqv2eG8J7K
+ MY73rbeBy6bNRHMsu7VC2A1EyYCrsH6vOv7+aI5ue8kGNxWg+9JxYOOzouUpEEKfAi9p
+ VHxg==
+X-Gm-Message-State: AOJu0Yy9RONcQ70Zsdz2UBdbXGriMHXHGmA6EnQlkr0RQ1xA65AkhxnX
+ 2Zb4Nde7QRO1fk90qw1K/qBbYQ==
+X-Google-Smtp-Source: AGHT+IFa3rKPBGbMiv5r+wZtefSamWAegDbMuYEFn/StayXODb0Qn9SHx1kh5ZK8H8oo42epAKi5/w==
+X-Received: by 2002:a17:906:209a:b0:9a5:da6c:6539 with SMTP id
+ 26-20020a170906209a00b009a5da6c6539mr3585083ejq.75.1695249968267; 
+ Wed, 20 Sep 2023 15:46:08 -0700 (PDT)
+Received: from [127.0.1.1] ([217.67.225.27]) by smtp.gmail.com with ESMTPSA id
+ z23-20020a170906435700b00992f309cfe8sm118285ejm.178.2023.09.20.15.46.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Sep 2023 15:46:07 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 0/3] SC7280 DPU fixups
+Date: Thu, 21 Sep 2023 00:46:05 +0200
+Message-Id: <20230921-topic-7280_dpu-v1-0-6912a97183d5@linaro.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-In-Reply-To: <20230920171009.3193296-1-l.stach@pengutronix.de>
-References: <20230920171009.3193296-1-l.stach@pengutronix.de>
-Message-Id: <169524918454.3103954.3587892243903347971.robh@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: imx: add binding for
- i.MX8MP HDMI PVI
-Date: Wed, 20 Sep 2023 17:33:04 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC12C2UC/x3MTQqAIBBA4avErBNsoh+7SkSITjUbE60IxLsnL
+ b/FewkiBaYIU5Ug0MORT1fQ1BWYQ7udBNtiQImtVCjFdXo2YsBRrtbfolMalSFrdE9QIh9o4/c
+ fzkvOH7K9vZJgAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+X-Mailer: b4 0.13-dev-0438c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,57 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Sandor Yu <sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>, NXP Linux Team <linux-imx@nxp.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, patchwork-lst@pengutronix.de,
- Rob Herring <robh+dt@kernel.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- Richard Leitner <richard.leitner@skidata.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Found a couple mistakes, this series attempts to fix it.
 
-On Wed, 20 Sep 2023 19:10:08 +0200, Lucas Stach wrote:
-> Add binding for the i.MX8MP HDMI parallel video interface block.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
-> 
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (3):
+      drm/msm/dpu: Fix SC7280 PP length
+      drm/msm/dpu: Add missing DPU_DSC_OUTPUT_CTRL to SC7280
+      drm/msm/dpu: Fix SC7280 DSC block length
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+---
+base-commit: 926f75c8a5ab70567eb4c2d82fbc96963313e564
+change-id: 20230920-topic-7280_dpu-59a29cedca6e
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dtb: display-bridge@32fc4000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pvi.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230920171009.3193296-1-l.stach@pengutronix.de
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
