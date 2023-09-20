@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6356F7A76DC
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 11:08:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39327A7703
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 11:15:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832E910E46C;
-	Wed, 20 Sep 2023 09:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F38C10E470;
+	Wed, 20 Sep 2023 09:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2B710E46C;
- Wed, 20 Sep 2023 09:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695200928; x=1726736928;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=AfhwoS7uXIFUvf4f5ZkpilRwaDSDXoWJQQj3zfGwfrk=;
- b=EdQHEEzeyWO/4pMYsrtA3ROQKO1nY8VdrFF+EdY3dGXm0qbuqKBW5E2D
- 0c5rs5ck6DmWzKbIdHt5Ajh4Odmw4XBL1KgVyk1quYX+H6lL+c5wM8Q2C
- 25lnB5AjgTX7b7Ib/9+mJi8TyxKYDeiG9vgwmgF3YXS/vgeN2VhweUbla
- Ij2TS0ZE3jVyYUPIfrRPvKRf6NsQHG7BbUfCpxzW6j6MDRgHlXbZbNeFh
- uGKamvXNiuSKBbsLcV/k0gd9Iw2lXoqwxa9zE0ABJl3OmTQ8z2xabq9eO
- YaY6Ox/rLaOgXeO33cNdtwYTORxnUbXy4L3glVMLP4fmgGAPs21/qHOLG A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380075502"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="380075502"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 02:08:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="781617993"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="781617993"
-Received: from ptelkov-mobl2.ccr.corp.intel.com (HELO localhost)
- ([10.252.38.103])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 02:08:46 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Zap some empty lines
-In-Reply-To: <20230920085715.6905-1-tvrtko.ursulin@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230920085715.6905-1-tvrtko.ursulin@linux.intel.com>
-Date: Wed, 20 Sep 2023 12:08:43 +0300
-Message-ID: <87r0mtrz38.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6EA10E471
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 09:15:15 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AA0C36602173;
+ Wed, 20 Sep 2023 10:15:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695201314;
+ bh=x0Esi80mdMUdifaJpkmgw+xW2uN1cQWlFCth15rOVuc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LZTwubqliiJ3jXqLEsaInqpxrA0CUnmRDEjlMtg0RFeqiSje2g0FgsSFNWUMiMtAo
+ Ms795fFYax4zXrTLTBBaj6uOUgfv+HrT0XsTPEdlOzyx2s00uiXNPJQ7QK+1J7rVd0
+ ZCvcxNqUXCD7cYUpjne2jnJYKwcownWEkjmF1HzkqKt+HZH0EGVxab7I6QUdEs9Umf
+ pQOobuL93DQhNxBxO1guq9lAucI1JlxUgV9plEY2vIF1vERSDXOIBPKcztg7r7zuKh
+ PpHNVxdbHf2zTmrClVrpGnYtsGLao60ZKhviGXNoUzeGRKood3u9kAdJYUo1sR93WJ
+ 3NdK0GPZHWcCw==
+Message-ID: <eba543f6-444c-3e7f-4f33-4c7114be16c0@collabora.com>
+Date: Wed, 20 Sep 2023 11:15:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v2] drm/mediatek: Add spinlock for setting vblank event in
+ atomic_begin
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20230920090658.31181-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230920090658.31181-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,44 +57,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+ Singo Chang <singo.chang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Sep 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> Recent refactoring left an unsightly block of empty lines. Remove them.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
-> Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
-> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Il 20/09/23 11:06, Jason-JH.Lin ha scritto:
+> Add spinlock protection to avoid race condition on vblank event
+> between mtk_drm_crtc_atomic_begin() and mtk_drm_finish_page_flip().
+> 
+> Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
+> Tested-by: Fei Shao <fshao@chromium.org>
 
-One of the harder patches I've reviewed this week.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> ---
->  drivers/gpu/drm/i915/i915_drv.h | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 87ffc477c3b1..511eba3bbdba 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -646,13 +646,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define IS_TIGERLAKE_UY(i915) \
->  	IS_SUBPLATFORM(i915, INTEL_TIGERLAKE, INTEL_SUBPLATFORM_UY)
->  
-> -
-> -
-> -
-> -
-> -
-> -
-> -
->  #define IS_XEHPSDV_GRAPHICS_STEP(__i915, since, until) \
->  	(IS_XEHPSDV(__i915) && IS_GRAPHICS_STEP(__i915, since, until))
-
--- 
-Jani Nikula, Intel
+Cheers!
