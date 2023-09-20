@@ -2,48 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49CE7A8FD1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 01:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295007A8FEC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 01:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C403210E44B;
-	Wed, 20 Sep 2023 23:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C89510E519;
+	Wed, 20 Sep 2023 23:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B373710E44B
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 23:23:04 +0000 (UTC)
-Received: from [192.168.68.123] (unknown [177.98.21.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 848E866071F4;
- Thu, 21 Sep 2023 00:23:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695252183;
- bh=+YZpoRmce8OurCbnO+g1RkxNh8kILN8Pm0hmQiuUJow=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IC8IAmTPSxv+Im6k4NJe2Pk7Wfav6sU+pQjM9vnJfNF/NlzQzu6QxUT9/H0v5S+Gr
- bcFTPVR3TzhDebh8rhYGZo0l0uARJZHlzZuMFvmKv0QkZJOsKtUGTRb/h/8ZdHRHf+
- MaVnYaRscPtnOLQ0vOil/YNXEbXXXxL7GsxzzQxGzQICvSDLZskFt0tfdxaIGOdAkt
- f1NSnfamQQRrEXzQJ0905Kbv7LEELWamwG4t4MTietpE+EeXSOp4gc/K6ehe5XV3fZ
- Zx1nOAwRlycY7Ncx3ugNYSSc0GIGfk/Ct+4in7MKdz5oha9LeDaMIWTePoJ0+PW76A
- 10XVrneKXdIxA==
-Message-ID: <7318d141-12b7-eab7-52dd-8953305d85c6@collabora.com>
-Date: Wed, 20 Sep 2023 20:22:55 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44B8610E550;
+ Wed, 20 Sep 2023 23:41:52 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38KMkDIW019187; Wed, 20 Sep 2023 23:41:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=8KAHJyb7ukMJL9JrE9n3VvcVa5V7tnW/DWUd0mk62fY=;
+ b=HbjQATyCTC/6PLpQbAbTPJyU4Bt2xzoFAIuicO2LiX9htYKQ4ZFqhCwTX41d3yoUBX4O
+ Y++bZz6kRwDQw1wzY4L1DrgKsMYPuZJwJTyuxxYHHqF/wY16QI1R4j+aVEnIcxEa6w2v
+ 1VdXRD377BcPbz15VMC0IZcIWoOooLLGNaHcvxJhaY+xZg7PWl2tPdn6+TxmGEWEpkky
+ GK4wwdSwQDK8hya8HvNWLxO3BIK7DEnX9QC3aI9bcs6RZNeu3tYyh9FFhGj+Z7/OO4FD
+ IThn2+zNKEh2riDJQvTYSAW8KHLVNN5LolV8y7asnlBE9FnpocFrgXUDoaUDLqxuUrvC Dg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t7rhuthv5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Sep 2023 23:41:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38KNffS5026075
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Sep 2023 23:41:41 GMT
+Received: from [10.71.111.102] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 20 Sep
+ 2023 16:41:39 -0700
+Message-ID: <3b23270c-ec89-2177-8252-6ccaf58d37ac@quicinc.com>
+Date: Wed, 20 Sep 2023 16:41:39 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] drm/ci: Uprev IGT to pull in fixes
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Fix SC7280 PP length
 Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230920180526.137369-1-robdclark@gmail.com>
- <CAF6AEGvUOX-D+-vwov-FDp46rJdo8wq1Do-9Gj3k5v313wVJhA@mail.gmail.com>
- <2ec320ca-d768-89ec-200f-695839e48538@collabora.com>
- <CAF6AEGvhav3kX0fRpjeGbJYqQ_J5gonng-wYjZUeRunOBuUC1A@mail.gmail.com>
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <CAF6AEGvhav3kX0fRpjeGbJYqQ_J5gonng-wYjZUeRunOBuUC1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <20230921-topic-7280_dpu-v1-0-6912a97183d5@linaro.org>
+ <20230921-topic-7280_dpu-v1-1-6912a97183d5@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230921-topic-7280_dpu-v1-1-6912a97183d5@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 5aMlcQT71gL4U0CQLsyPDlhyxVdm4f83
+X-Proofpoint-GUID: 5aMlcQT71gL4U0CQLsyPDlhyxVdm4f83
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-20_12,2023-09-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 clxscore=1015 adultscore=0 mlxlogscore=858 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309200199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,216 +88,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 20/09/2023 16:44, Rob Clark wrote:
-> On Wed, Sep 20, 2023 at 11:53 AM Helen Koike <helen.koike@collabora.com> wrote:
->>
->> Hi Rob,
->>
->> Thanks for the patch.
->>
->> On 20/09/2023 15:10, Rob Clark wrote:
->>> On Wed, Sep 20, 2023 at 11:06 AM Rob Clark <robdclark@gmail.com> wrote:
->>>>
->>>> From: Rob Clark <robdclark@chromium.org>
->>>>
->>>> There have been a few igt test fixes compared to the commit that we were
->>>> currently using.  Pull in a newer igt and update expectations.
->>>>
->>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>> ---
->>
->> Could you send here the url of a pipeline run with this change?
+On 9/20/2023 3:46 PM, Konrad Dybcio wrote:
+> Commit 194347df5844 ("drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2
+> macros") unrolled a macro incorrectly. Fix that.
 > 
-> https://gitlab.freedesktop.org/drm/msm/-/pipelines/989913
 
-Thanks, lgtm.
+No, its correct from what i can tell.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
+Before inlining it was using PP_BLK_DITHER macro and not PP_BLK.
 
+PP_BLK_DITHER has a len of 0 and not 0xd4.
+
+Hence I cannot see whats wrong here.
+
+> Fixes: 194347df5844 ("drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2 macros")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> That was before I wrote a proper commit msg so you can ignore the
-> checkpatch job.. and there is an unrelated issue with the sdm845
-> runners not booting w/ v6.6-rc2, which still needs to be tracked down.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> index 3b5061c4402a..dc3198335164 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> @@ -126,7 +126,7 @@ static const struct dpu_dspp_cfg sc7280_dspp[] = {
+>   static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>   	{
+>   		.name = "pingpong_0", .id = PINGPONG_0,
+> -		.base = 0x69000, .len = 0,
+> +		.base = 0x69000, .len = 0xd4,
+>   		.features = BIT(DPU_PINGPONG_DITHER),
+>   		.sblk = &sc7280_pp_sblk,
+>   		.merge_3d = 0,
+> @@ -134,7 +134,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>   		.intr_rdptr = -1,
+>   	}, {
+>   		.name = "pingpong_1", .id = PINGPONG_1,
+> -		.base = 0x6a000, .len = 0,
+> +		.base = 0x6a000, .len = 0xd4,
+>   		.features = BIT(DPU_PINGPONG_DITHER),
+>   		.sblk = &sc7280_pp_sblk,
+>   		.merge_3d = 0,
+> @@ -142,7 +142,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>   		.intr_rdptr = -1,
+>   	}, {
+>   		.name = "pingpong_2", .id = PINGPONG_2,
+> -		.base = 0x6b000, .len = 0,
+> +		.base = 0x6b000, .len = 0xd4,
+>   		.features = BIT(DPU_PINGPONG_DITHER),
+>   		.sblk = &sc7280_pp_sblk,
+>   		.merge_3d = 0,
+> @@ -150,7 +150,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>   		.intr_rdptr = -1,
+>   	}, {
+>   		.name = "pingpong_3", .id = PINGPONG_3,
+> -		.base = 0x6c000, .len = 0,
+> +		.base = 0x6c000, .len = 0xd4,
+>   		.features = BIT(DPU_PINGPONG_DITHER),
+>   		.sblk = &sc7280_pp_sblk,
+>   		.merge_3d = 0,
 > 
-> BR,
-> -R
-> 
->>>>    drivers/gpu/drm/ci/gitlab-ci.yml               |  2 +-
->>>>    .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |  4 ++--
->>>>    drivers/gpu/drm/ci/xfails/i915-apl-fails.txt   | 11 -----------
->>>>    drivers/gpu/drm/ci/xfails/i915-cml-fails.txt   |  2 +-
->>>>    drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt   |  1 -
->>>>    drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt | 18 +-----------------
->>>>    .../drm/ci/xfails/rockchip-rk3288-fails.txt    |  2 ++
->>>>    7 files changed, 7 insertions(+), 33 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> index 2c4df53f5dfe..3ecb5879e80f 100644
->>>> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->>>> @@ -5,7 +5,7 @@ variables:
->>>>      UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->>>>      TARGET_BRANCH: drm-next
->>>>
->>>> -  IGT_VERSION: 471bfababd070e1dac0ebb87470ac4f2ae85e663
->>>> +  IGT_VERSION: 2517e42d612e0c1ca096acf8b5f6177f7ef4bce7
->>>>
->>>>      DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
->>>>      DEQP_RUNNER_GIT_TAG: v0.15.0
->>>> diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>> index bd9392536e7c..bab21930a0d4 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->>>> @@ -1,7 +1,6 @@
->>>>    kms_addfb_basic@bad-pitch-65536,Fail
->>>>    kms_addfb_basic@bo-too-small,Fail
->>>>    kms_async_flips@invalid-async-flip,Fail
->>>> -kms_atomic@plane-immutable-zpos,Fail
->>>>    kms_atomic_transition@plane-toggle-modeset-transition,Fail
->>>>    kms_bw@linear-tiling-1-displays-2560x1440p,Fail
->>>>    kms_bw@linear-tiling-1-displays-3840x2160p,Fail
->>>> @@ -11,9 +10,10 @@ kms_color@degamma,Fail
->>>>    kms_cursor_crc@cursor-size-change,Fail
->>>>    kms_cursor_crc@pipe-A-cursor-size-change,Fail
->>>>    kms_cursor_crc@pipe-B-cursor-size-change,Fail
->>>> -kms_cursor_legacy@forked-move,Fail
->>>>    kms_hdr@bpc-switch,Fail
->>>>    kms_hdr@bpc-switch-dpms,Fail
->>>>    kms_plane_multiple@atomic-pipe-A-tiling-none,Fail
->>>>    kms_rmfb@close-fd,Fail
->>>>    kms_rotation_crc@primary-rotation-180,Fail
->>>> +kms_flip@flip-vs-modeset-vs-hang,Fail
->>>> +kms_flip@flip-vs-panning-vs-hang,Fail
->>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>> index 46397ce38d5a..2e3b7c5dac3c 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->>>> @@ -8,13 +8,6 @@ kms_bw@linear-tiling-3-displays-3840x2160p,Fail
->>>>    kms_bw@linear-tiling-4-displays-1920x1080p,Fail
->>>>    kms_bw@linear-tiling-4-displays-2560x1440p,Fail
->>>>    kms_bw@linear-tiling-4-displays-3840x2160p,Fail
->>>> -kms_color@ctm-0-25,Fail
->>>> -kms_color@ctm-0-50,Fail
->>>> -kms_color@ctm-0-75,Fail
->>>> -kms_color@ctm-max,Fail
->>>> -kms_color@ctm-negative,Fail
->>>> -kms_color@ctm-red-to-blue,Fail
->>>> -kms_color@ctm-signed,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
->>>> @@ -38,8 +31,6 @@ kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail
->>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail
->>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail
->>>>    kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-upscaling,Fail
->>>> -kms_hdmi_inject@inject-4k,Timeout
->>>> -kms_plane@plane-position-hole,Timeout
->>>>    kms_plane_alpha_blend@alpha-basic,Fail
->>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
->>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
->>>> @@ -53,6 +44,4 @@ kms_plane_alpha_blend@pipe-B-constant-alpha-max,Fail
->>>>    kms_plane_alpha_blend@pipe-C-alpha-opaque-fb,Fail
->>>>    kms_plane_alpha_blend@pipe-C-alpha-transparent-fb,Fail
->>>>    kms_plane_alpha_blend@pipe-C-constant-alpha-max,Fail
->>>> -kms_plane_multiple@tiling-y,Timeout
->>>> -kms_pwrite_crc,Timeout
->>>>    kms_sysfs_edid_timing,Fail
->>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>> index 6139b410e767..13c0a25fc627 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->>>> @@ -1,4 +1,3 @@
->>>> -kms_color@ctm-0-25,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail
->>>> @@ -16,3 +15,4 @@ kms_plane_alpha_blend@alpha-basic,Fail
->>>>    kms_plane_alpha_blend@alpha-opaque-fb,Fail
->>>>    kms_plane_alpha_blend@alpha-transparent-fb,Fail
->>>>    kms_plane_alpha_blend@constant-alpha-max,Fail
->>>> +kms_async_flips@crc,Fail
->>>> diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>> index a6da5544e198..27bfca1c6f2c 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->>>> @@ -8,7 +8,6 @@ kms_bw@linear-tiling-4-displays-3840x2160p,Fail
->>>>    kms_bw@linear-tiling-5-displays-1920x1080p,Fail
->>>>    kms_bw@linear-tiling-5-displays-2560x1440p,Fail
->>>>    kms_bw@linear-tiling-5-displays-3840x2160p,Fail
->>>> -kms_color@ctm-0-25,Fail
->>>>    kms_flip@flip-vs-panning-vs-hang,Timeout
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail
->>>>    kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail
->>>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>> index 410e0eeb3161..e59a2fddfde0 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->>>
->>> Side note, I noticed for sc7180-skips (and a lot of other boards) we have:
->>>
->>> # Suspend to RAM seems to be broken on this machine
->>> .*suspend.*
->>>
->>> Locally I've not had problems with the suspend tests, I'm guessing the
->>> actual issue is usb-ethernet vs nfsroot.  But maybe the filesys for
->>> igt jobs is small enough that we can do initramfs instead?  Someone
->>> should probably confirm what the root issue is and update the
->>> comments, so developers aren't thinking that suspend is something that
->>> needs to be debugged
->>
->> Agreed.
->>
->> Regards,
->> Helen
->>
->>>
->>> BR,
->>> -R
->>>
->>>
->>>> @@ -4,20 +4,4 @@
->>>>    # Test incorrectly assumes that CTM support implies gamma/degamma
->>>>    # LUT support.  None of the subtests handle the case of only having
->>>>    # CTM support
->>>> -kms_color.*
->>>> -
->>>> -# 4k@60 is not supported on this hw, but driver doesn't handle it
->>>> -# too gracefully.. https://gitlab.freedesktop.org/drm/msm/-/issues/15
->>>> -kms_bw@linear-tiling-.*-displays-3840x2160p
->>>> -
->>>> -# Until igt fix lands: https://patchwork.freedesktop.org/patch/493175/
->>>> -kms_bw@linear-tiling-2.*
->>>> -kms_bw@linear-tiling-3.*
->>>> -kms_bw@linear-tiling-4.*
->>>> -kms_bw@linear-tiling-5.*
->>>> -kms_bw@linear-tiling-6.*
->>>> -
->>>> -# igt fix posted: https://patchwork.freedesktop.org/patch/499926/
->>>> -# failure mode is flakey due to randomization but fails frequently
->>>> -# enough to be detected as a Crash or occasionally UnexpectedPass.
->>>> -kms_plane_multiple@atomic-pipe-A-tiling-none
->>>> +#kms_color.*
->>>> diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>> index 2a1baa948e12..15ac861a58bf 100644
->>>> --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>> +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->>>> @@ -46,3 +46,5 @@ kms_properties@connector-properties-legacy,Crash
->>>>    kms_properties@get_properties-sanity-atomic,Crash
->>>>    kms_properties@get_properties-sanity-non-atomic,Crash
->>>>    kms_setmode@invalid-clone-single-crtc,Crash
->>>> +kms_flip@flip-vs-modeset-vs-hang,Crash
->>>> +kms_flip@flip-vs-panning-vs-hang,Crash
->>>> --
->>>> 2.41.0
->>>>
