@@ -2,62 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103F77A8682
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039117A8681
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 378DC10E4CF;
-	Wed, 20 Sep 2023 14:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB7D10E4CE;
+	Wed, 20 Sep 2023 14:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4D210E16A
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:25:40 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5FE8E21DBA;
- Wed, 20 Sep 2023 14:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695219939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IZ9wh6LAOBPze+O/DbBY/8tUFsMzm7ATol1SOMCfXEw=;
- b=dKDq1KgRPu0o7zVrQH1+PMN0E1cjpZ3LCMzGtGEtHXVcLMfRy6wUL8RFNu3MAsNEBdnOXF
- EVc4HpvGwkO25k0DeSr2q8m2HgJXyEYeWElA1buDhlAcNKn0U5VllxMeSSbJ5a0FXNplLI
- ca5+TpsWOQI+goKUpCGMZ9Q0bU6faJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695219939;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IZ9wh6LAOBPze+O/DbBY/8tUFsMzm7ATol1SOMCfXEw=;
- b=OpSBilcXDPIp204MbqOJYfllimmgwga5evKzYutWKVNaXDF1vQVMONBs0spekZvzhWiPtH
- H/Zhgc8gNaJcV7AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C2F913A64;
- Wed, 20 Sep 2023 14:25:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IN3xAeMAC2W+IQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 20 Sep 2023 14:25:39 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
- arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: [PATCH v2 5/5] drm/ssd130x: Store xfrm buffer in device instance
-Date: Wed, 20 Sep 2023 16:24:31 +0200
-Message-ID: <20230920142535.19321-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230920142535.19321-1-tzimmermann@suse.de>
-References: <20230920142535.19321-1-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 18AA410E4CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:25:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF18D1FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:26:20 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 87F3E3F5A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:25:43 -0700 (PDT)
+Date: Wed, 20 Sep 2023 15:25:36 +0100
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 14/15] dt-bindings: gpu: mali-valhall-csf: Add initial
+ bindings for panthor driver
+Message-ID: <ZQsA4DTuWjNwRiOk@e110455-lin.cambridge.arm.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-15-boris.brezillon@collabora.com>
+ <3517f2e9-d9d7-5bf8-1905-62f52d68c512@linaro.org>
+ <ZQr2cTMz1-PsOMRP@e110455-lin.cambridge.arm.com>
+ <ed4cb30d-2eec-580f-0b4a-1b108a745a9a@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ed4cb30d-2eec-580f-0b4a-1b108a745a9a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,102 +47,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store and instance of struct drm_xfrm_buf in struct ssd130x_device and
-keep the allocated memory allocated across display updates. Avoid
-possibly reallocating temporary memory on each display update. Instead
-preallocate temporary memory during initialization. Releasing the DRM
-device also releases the xfrm buffer.
+On Wed, Sep 20, 2023 at 03:51:36PM +0200, Krzysztof Kozlowski wrote:
+> On 20/09/2023 15:41, Liviu Dudau wrote:
+> >>> +properties:
+> >>> +  $nodename:
+> >>> +    pattern: '^gpu@[a-f0-9]+$'
+> >>> +
+> >>> +  compatible:
+> >>> +    oneOf:
+> >>
+> >> Drop oneOf.
+> > 
+> > The idea was to allow for future compatible strings to be added later, but
+> > I guess we can re-introduce the oneOf entry later. Will remove it.
+> 
+> If you already predict that new list will be added (so new fallback
+> compatible!), then it's fine.
+> 
+> > 
+> >>
+> >>> +      - items:
+> >>> +          - enum:
+> >>> +              - rockchip,rk3588-mali
+> >>> +          - const: arm,mali-valhall-csf   # Mali Valhall GPU model/revision is fully discoverable
+> >>> +
+> >>> +  reg:
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  interrupts:
+> >>> +    items:
+> >>> +      - description: Job interrupt
+> >>> +      - description: MMU interrupt
+> >>> +      - description: GPU interrupt
+> >>> +
+> >>> +  interrupt-names:
+> >>> +    items:
+> >>> +      - const: job
+> >>> +      - const: mmu
+> >>> +      - const: gpu
+> >>> +
+> >>> +  clocks:
+> >>> +    minItems: 1
+> >>> +    maxItems: 3
+> >>> +
+> >>> +  clock-names:
+> >>> +    minItems: 1
+> >>> +    items:
+> >>> +      - const: core
+> >>> +      - const: coregroup
+> >>> +      - const: stacks
+> >>> +
+> >>> +  mali-supply: true
+> >>> +
+> >>> +  sram-supply: true
+> >>> +
+> >>> +  operating-points-v2: true
+> >>
+> >> Missing opp-table.
+> > 
+> > This is the main topic I want to clarify. See further down for the main comment,
+> > but I would like to understand what you are asking here. To copy the schema
+> > from bindings/opp/opp-v2.yaml and bindings/opp/opp-v2-base.yaml?
+> 
+> No, "opp-table" property.
+> git grep "opp-table:"
 
-v2:
-	* reserve storage during probe
+You mean adding
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/solomon/ssd130x.c | 19 +++++++++++++++----
- drivers/gpu/drm/solomon/ssd130x.h |  3 +++
- 2 files changed, 18 insertions(+), 4 deletions(-)
+     opp-table:
+       type: object
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index d11079733bc0e..93a5df31d0d9a 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -571,7 +571,6 @@ static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
- 	unsigned int page_height = ssd130x->device_info->page_height;
- 	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
--	struct drm_xfrm_buf xfrm = DRM_XFRM_BUF_INIT;
- 	u8 *buf = ssd130x_state->buffer;
- 	struct iosys_map dst;
- 	unsigned int dst_pitch;
-@@ -588,14 +587,12 @@ static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
- 		return ret;
- 
- 	iosys_map_set_vaddr(&dst, buf);
--	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, &xfrm);
-+	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, &ssd130x->xfrm);
- 
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- 
- 	ssd130x_update_rect(ssd130x, ssd130x_state, rect);
- 
--	drm_xfrm_buf_release(&xfrm);
--
- 	return ret;
- }
- 
-@@ -1084,6 +1081,8 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
- 	struct ssd130x_device *ssd130x;
- 	struct backlight_device *bl;
- 	struct drm_device *drm;
-+	const struct drm_format_info *fi;
-+	void *buf;
- 	int ret;
- 
- 	ssd130x = devm_drm_dev_alloc(dev, &ssd130x_drm_driver,
-@@ -1117,6 +1116,18 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
- 	bl->props.max_brightness = MAX_CONTRAST;
- 	ssd130x->bl_dev = bl;
- 
-+	ret = drmm_xfrm_buf_init(drm, &ssd130x->xfrm);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	fi = drm_format_info(DRM_FORMAT_R1);
-+	if (!fi)
-+		return ERR_PTR(-EINVAL);
-+	buf = drm_xfrm_buf_reserve(&ssd130x->xfrm,
-+				   drm_format_info_min_pitch(fi, 0, ssd130x->width),
-+				   GFP_KERNEL);
-+	if (!buf)
-+		return ERR_PTR(-ENOMEM);
-+
- 	ret = ssd130x_init_modeset(ssd130x);
- 	if (ret)
- 		return ERR_PTR(ret);
-diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-index 87968b3e7fb82..f4e525feb2188 100644
---- a/drivers/gpu/drm/solomon/ssd130x.h
-+++ b/drivers/gpu/drm/solomon/ssd130x.h
-@@ -17,6 +17,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_format_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include <linux/regmap.h>
-@@ -55,6 +56,8 @@ struct ssd130x_device {
- 	struct drm_connector connector;
- 	struct i2c_client *client;
- 
-+	struct drm_xfrm_buf xfrm;
-+
- 	struct regmap *regmap;
- 
- 	const struct ssd130x_deviceinfo *device_info;
+as property? What's the difference between opp-table: true (like in
+'display/msm/dp-controller.yaml') and 'opp-table: type: object' like in other
+places that I can find? Does that mean you need to have an opp-table node somewhere
+but it doesn't have to be inside the gpu node? 'arm,mali-midgard.yaml' that was
+my original source of inspiration has an 'opp-table: type: object' in the properties
+but the example still shows a separate node for table.
+
+> 
+> > 
+> >>
+> >>> +
+> >>> +  power-domains:
+> >>> +    minItems: 1
+> >>> +    maxItems: 5
+> >>> +
+> >>> +  power-domain-names:
+> >>> +    minItems: 1
+> >>> +    maxItems: 5
+> >>> +
+> >>> +  "#cooling-cells":
+> >>> +    const: 2
+> >>> +
+> >>> +  dynamic-power-coefficient:
+> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>> +    description:
+> >>> +      A u32 value that represents the running time dynamic
+> >>> +      power coefficient in units of uW/MHz/V^2. The
+> >>> +      coefficient can either be calculated from power
+> >>> +      measurements or derived by analysis.
+> >>> +
+> >>> +      The dynamic power consumption of the GPU is
+> >>> +      proportional to the square of the Voltage (V) and
+> >>> +      the clock frequency (f). The coefficient is used to
+> >>> +      calculate the dynamic power as below -
+> >>> +
+> >>> +      Pdyn = dynamic-power-coefficient * V^2 * f
+> >>> +
+> >>> +      where voltage is in V, frequency is in MHz.
+> >>> +
+> >>> +  dma-coherent: true
+> >>> +
+> >>> +required:
+> >>> +  - compatible
+> >>> +  - reg
+> >>> +  - interrupts
+> >>> +  - interrupt-names
+> >>> +  - clocks
+> >>> +  - mali-supply
+> >>> +
+> >>> +additionalProperties: false
+> >>> +
+> >>> +allOf:
+> >>> +  - if:
+> >>> +      properties:
+> >>> +        compatible:
+> >>> +          contains:
+> >>> +            const: rockchip,rk3588-mali
+> >>> +    then:
+> >>> +      properties:
+> >>> +        clocks:
+> >>> +          minItems: 3
+> >>> +        clock-names:
+> >>> +          items:
+> >>> +            - const: core
+> >>> +            - const: coregroup
+> >>> +            - const: stacks
+> >>
+> >> This duplicates top-level. Just minItems: 3.
+> > 
+> > Will remove the duplicated names.
+> > 
+> >>
+> >> Please describe also power domains - constrains and names.
+> > 
+> > I'm not sure the power domains and how to handle them have been
+> > entirely settled for Rockchip, hence why they were not included. Will
+> > check with Collabora to see if they have anything to add here, but
+> > for non-Rockchip platforms (like Juno with FPGAs) the constraints
+> > are going to be different.
+> > 
+> >>
+> >>> +
+> >>> +examples:
+> >>> +  - |
+> >>> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> >>> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >>> +    #include <dt-bindings/power/rk3588-power.h>
+> >>> +
+> >>> +    gpu: gpu@fb000000 {
+> >>> +        compatible = "rockchip,rk3588-mali", "arm,mali-valhall-csf";
+> >>> +        reg = <0xfb000000 0x200000>;
+> >>> +        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH 0>,
+> >>> +                     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH 0>,
+> >>> +                     <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH 0>;
+> >>> +        interrupt-names = "job", "mmu", "gpu";
+> >>> +        clock-names = "core", "coregroup", "stacks";
+> >>> +        clocks = <&cru CLK_GPU>, <&cru CLK_GPU_COREGROUP>,
+> >>> +                 <&cru CLK_GPU_STACKS>;
+> >>> +        power-domains = <&power RK3588_PD_GPU>;
+> >>> +        operating-points-v2 = <&gpu_opp_table>;
+> >>> +        mali-supply = <&vdd_gpu_s0>;
+> >>> +        sram-supply = <&vdd_gpu_mem_s0>;
+> >>> +        status = "disabled";
+> >>
+> >> Drop status.
+> > 
+> > Will do.
+> > 
+> >>
+> >>> +    };
+> >>> +
+> >>> +    gpu_opp_table: opp-table {
+> >>
+> >> Opp table should be inside the device node.
+> > 
+> > I cannot find any device tree that supports your suggested usage. Most (all?) of
+> 
+> Really? All Qcom have it embedded.
+
+The arm,mali-* ones seem to have them outside the gpu node. See "arm,mali-midgard.yaml"
+
+Best regards,
+Liviu
+
+> 
+> > the device trees that I can find have the opp table as a separate node from
+> > the gpu and make use of the 'operating-points-v2 = <&opp_node_name>' reference
+> 
+> operating-points-v2 is needed anyway, I am not suggesting to drop it.
+> 
+> > in the board fragment. To me that makes more sense as different boards can have
+> > different operating points and is no reason to make them sub-nodes of the gpu.
+> 
+> How boards do it, is independent. They can keep it inside, outside,
+> override etc.
+> 
+> For majority of simple cases, the OPPs come from the SoC, thus they are
+> in DTSI.
+> 
+> Best regards,
+> Krzysztof
+> 
+
 -- 
-2.42.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
