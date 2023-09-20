@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE42B7A86DD
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:36:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 653037A86E7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0064310E4DF;
-	Wed, 20 Sep 2023 14:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99D7D10E4E5;
+	Wed, 20 Sep 2023 14:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE1C10E4DD
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B5510E4DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 18BC061CCE;
- Wed, 20 Sep 2023 14:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0DFC433D9;
- Wed, 20 Sep 2023 14:36:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3A5A861CD2;
+ Wed, 20 Sep 2023 14:36:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C16DC433CB;
+ Wed, 20 Sep 2023 14:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695220593;
- bh=NPcmog8rmIBDaqZDT4O0fzD3K2AFLpEEWCR2cLRhvQQ=;
+ s=k20201202; t=1695220596;
+ bh=fuZjkFl/jqhwO48bmKJwJvIB0H4MjJa9mxi0LwhfDmM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dFiXFmHUTKnj6NvyMNzPPY+oci/F+xV+LQ0BT0gzWbZry4cOvnWkTDDjCuZWWVMqp
- EtdRGyXIJ9qc4wczWkcRGWYYkNCh3XiREhDdrcQK2GhuvXTKeWfPiYtOv4pQFo+nSw
- qbgQEfKRNENbPuXMBNIQxgXCkMWZLp5Vk5sHOCRTqYtRnyV3vD2e82p7lr8DpKtTY6
- 9AnYw2QRvgZvQuG+AEhgpSvKlt6SFBLNTPch7XnT/CTJrmj84sYIJLF3RHFl7lWlRo
- 8vgL7aDa97j8/UWtg63Ta7q7t7O31eYGFDkxjXm1awk1Z/81+CZ6eZapKEUUmTvhEb
- ZVNJenYuT84aw==
+ b=PBCmUUVD4phyz8ZtxdO8mxzkohSSj2HpK6SL/ZSBMiuhwEj6HYNeiz4wza1P7IrE3
+ V8HJidQBlt9MDmzxpIgsvXn6h10vEGA3JURZqYuzS4crUjIwSp2Z56gYGvO7jpCs+J
+ OydUXYW8Dp1yAb/diIRO+FQfUVdsnKKrxoYj3R7B85VWgIsPnGqeQ8aNYWFXjCzGFt
+ Dv8OvXrQVsp71v/vkh0EcLJXOWfVj9ALkgHH9Qm4/rHaFLOMm39/JJdkmR+Bnm0LDh
+ fI40x0S0h44RTovcVj21QMnuV7OTyKaqNO8WOuZr4VeuQJvTMilAFPSH4GZNYyaNdL
+ bCBJD02oRvtyw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 20 Sep 2023 16:35:33 +0200
-Subject: [PATCH RFC v2 18/37] drm/rockchip: inno_hdmi: Get rid of mode_set
+Date: Wed, 20 Sep 2023 16:35:34 +0200
+Subject: [PATCH RFC v2 19/37] drm/rockchip: inno_hdmi: no need to store vic
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-kms-hdmi-connector-state-v2-18-17932daddd7d@kernel.org>
+Message-Id: <20230920-kms-hdmi-connector-state-v2-19-17932daddd7d@kernel.org>
 References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 In-Reply-To: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -47,12 +47,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1884; i=mripard@kernel.org;
- h=from:subject:message-id; bh=NPcmog8rmIBDaqZDT4O0fzD3K2AFLpEEWCR2cLRhvQQ=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczJa1O/2Y9BYrR3B9Yj+f0jvbzEo0Yc3Je48/8G05n
- fYp1+9tRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACay6j4jwztdwXe5TeUX+ENm
- hx2dkF+5bsnfMLVl904urNLf8YV3vS/D//z4IuXYZ3Pc592ZqDZpmcdT843/IwyEvoZWvDQsFav
- ewgYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1633; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=fuZjkFl/jqhwO48bmKJwJvIB0H4MjJa9mxi0LwhfDmM=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczFZnP6ZX7pe40nJCaRn7GtOmTa4rdmw1To2f4Jj38
+ 7DN3l0PO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARvgcMfziOqd9wYGjz3bBr
+ ph63RoIy+4fVU7xjaqUeh4Q/c2r/rcHIsPVk2KPZu6Ktdx76s5P5Ccd2c52dM2awq8UbssVVbJp
+ VwAcA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,59 +75,48 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're not doing anything special in atomic_mode_set so we can simply
-merge it into atomic_enable.
+The mode's VIC is only ever used in the inno_hdmi_setup() function so
+there's no need to store it in the main structure.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index cc86d273ca4a..4db18195246e 100644
+index 4db18195246e..294f0d442c0c 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -490,21 +490,22 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 	return 0;
- }
+@@ -28,7 +28,6 @@
+ #include "inno_hdmi.h"
  
--static void inno_hdmi_encoder_mode_set(struct drm_encoder *encoder,
--				       struct drm_crtc_state *crtc_state,
--				       struct drm_connector_state *conn_state)
--{
--	struct drm_display_mode *adj_mode = &crtc_state->adjusted_mode;
--	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
--
--	inno_hdmi_setup(hdmi, adj_mode);
--}
--
- static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
- 				     struct drm_atomic_state *state)
+ struct hdmi_data_info {
+-	int vic;
+ 	bool sink_has_audio;
+ 	unsigned int enc_in_format;
+ 	unsigned int enc_out_format;
+@@ -443,16 +442,15 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+ 			   struct drm_display_mode *mode)
  {
- 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-+	struct drm_connector_state *conn_state;
-+	struct drm_crtc_state *crtc_state;
+ 	struct drm_display_info *display = &hdmi->connector.display_info;
+-
+-	hdmi->hdmi_data.vic = drm_match_cea_mode(mode);
++	u8 vic = drm_match_cea_mode(mode);
  
-+	conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-+	if (WARN_ON(!conn_state))
-+		return;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+	if (WARN_ON(!crtc_state))
-+		return;
-+
-+	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
- 	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
- }
+ 	hdmi->hdmi_data.enc_in_format = HDMI_COLORSPACE_RGB;
+ 	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
  
-@@ -533,7 +534,6 @@ static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
- 	.atomic_check	= inno_hdmi_encoder_atomic_check,
- 	.atomic_enable	= inno_hdmi_encoder_enable,
- 	.atomic_disable	= inno_hdmi_encoder_disable,
--	.atomic_mode_set	= inno_hdmi_encoder_mode_set,
- };
- 
- static enum drm_connector_status
+-	if ((hdmi->hdmi_data.vic == 6) || (hdmi->hdmi_data.vic == 7) ||
+-	    (hdmi->hdmi_data.vic == 21) || (hdmi->hdmi_data.vic == 22) ||
+-	    (hdmi->hdmi_data.vic == 2) || (hdmi->hdmi_data.vic == 3) ||
+-	    (hdmi->hdmi_data.vic == 17) || (hdmi->hdmi_data.vic == 18))
++	if ((vic == 6) || (vic == 7) ||
++	    (vic == 21) || (vic == 22) ||
++	    (vic == 2) || (vic == 3) ||
++	    (vic == 17) || (vic == 18))
+ 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
+ 	else
+ 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
 
 -- 
 2.41.0
