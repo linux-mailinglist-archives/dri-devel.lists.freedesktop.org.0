@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A927A80D4
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:40:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B28C7A822F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D81A510E4AF;
-	Wed, 20 Sep 2023 12:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1987010E46D;
+	Wed, 20 Sep 2023 12:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8658E10E4AA
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:40:31 +0000 (UTC)
-Received: (qmail 11716 invoked by uid 990); 20 Sep 2023 12:40:29 -0000
-Authentication-Results: devico.uberspace.de;
-	auth=pass (plain)
-Message-ID: <b96daf56-8ca3-4527-adea-d96937c8343f@lausen.nl>
-Date: Wed, 20 Sep 2023 08:40:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6063210E185
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:58:14 +0000 (UTC)
+Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 553688C1;
+ Wed, 20 Sep 2023 14:56:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1695214595;
+ bh=5q1owDkQaoGqwq0Zdzsk/qGzGO+Yc+ytGxQsqq2luVY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=fvHJLS0E0Tqy1a71xDBQADRFgiE56um5w0FsplxpmiwA9aQtv0r581E1VmcerxWpT
+ aBBlRL3KHCJ4Dh3noO11AECSfCbeKFERfBUtRrlQ7IxYGhENwSBFyTt/A67cOWzcWz
+ S0hNaLx2A+3kd1jr7PeZTpPGqO3TaWPAxeixb5EQ=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/2] drm: Revert dma-fence annotations from omapdrm and tidss
+Date: Wed, 20 Sep 2023 15:57:15 +0300
+Message-Id: <20230920-dma-fence-annotation-revert-v1-0-7ebf6f7f5bf6@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: MT8192 panel_edp_probe trace due to Unknown panel CMN
- 0x142b
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <ca32347a879c794577f272a1473e44ee39f2acdc@lausen.nl>
- <6dd87d1b-255f-aeea-0445-37d34d242282@collabora.com>
-From: Leonard Lausen <leonard@lausen.nl>
-In-Reply-To: <6dd87d1b-255f-aeea-0445-37d34d242282@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Bar: /
-X-Rspamd-Report: BAYES_HAM(-0.22044) XM_UA_NO_VERSION(0.01) MIME_GOOD(-0.1)
-X-Rspamd-Score: -0.31044
-Received: from unknown (HELO unkown) (::1)
- by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
- Wed, 20 Sep 2023 14:40:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
- h=from; bh=HYAfRhXW3+fSJNB7JcVwgI/6cZJPCwWaAnpZPm6RMfg=;
- b=A86MvfwTGNMv2+EtS1Vw7YhtfdbVWiGDlG1L7Wx2YTWtvfCWC4Cb6BuRE/oZVE8MfJftlGlivs
- uFpjYhYaEczyP8OsF7hYUIlUFW3P0kOdV03Rln04uOfW2p7wl0CzKJS/GFyHKzsFuWzN91VIWzb1
- N5uhiI/GG1jGEETVRcGV3VuQy4G1FxoMYiDGIB0YxOKEJsjObHLRLXJMWnCKtwiDA63U+izkaQyi
- HZ6rxhMfQ1JAqgM8YwVtbqhNt+ZZBr3gkf0UflnbJvi5kLqdf7GQpq9F23ku9mvitJkjThVyXpV3
- 0Dh4jfWIHAq6iog3ofjf0ojd4SrXH98cbcRuEiM+JzLfuHDLCzNbRqvO5t4vTdWkvjBzHKW+Benp
- arM154+Kp+QUqVih8TLiru5QACz8drY3LoasIA2hY/Lynt+/QTQqchF9BesVNBGyXpEWAswESftl
- Dg4pzCRQeWKij5FlK4Rs8+7nk7Q0VHf/WX6kk/6Ex8XIZTfFQk8u7ID5GQChBb0zW+mHHeQC92q2
- keCPaZGa3QA3+e8tkN4BWyi+rthUetEI6EwukManW0JX+EckXCGGBk8hX8Csogh6GnLfhX1cET/v
- HDFo+yhVlwCQOF5aa2DVrKb0UQoiGVgzV7mZkTmzUsYFQuUqRLLLT0VcbWkZHm+cenD3poL+bLQk
- c=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACvsCmUC/x3MQQrCMBBG4auUWTuQphCqVxEXY/PHzsKpJEEKp
+ Xd3cPkW3zuooSoa3YaDKr7adDOP8TLQsoq9wJq9KYY4hWsMnN/CBbaAxWzr0h2wS9TOY0o5oMh
+ zSjP54VNRdP/f74/z/AHJjfhKbQAAAA==
+To: Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1203;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=5q1owDkQaoGqwq0Zdzsk/qGzGO+Yc+ytGxQsqq2luVY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlCuxfkEWU98ub7pHgA8iAQXohfVqLaobnR488E
+ eS3ra1zl9OJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZQrsXwAKCRD6PaqMvJYe
+ 9TlNEACild+chY2IvxEVyN5tomstOEsOd07E3ec8Br5CcX0PdSlXgqiEi4+jlxmX95THoNIKZa0
+ 6c+p4SWHTzNXxXuqHcOhvajCy1L9GRmZUhNLzRBhEAtq9Q8cL7tU34y43kSWK5ab5skSWMFIwZf
+ nGmdRI5CpP9C2DzrwAHeUCF0bIGZyE+ukBb/mJtPIIRtJyBLvG8KorxFVVfh5E/yciWc2r4rFVA
+ yS9k112OunuD/q2AMOBJ2ohujJggc/bgGXv24YJpQrTeSh/yJx2JQJVHtDe0zBY4ZiQjzvW/IsX
+ vzKmFQzWfEI6J6icWv5CIRIMI9v9nGcPeFpKgtM3z5TjikG8z1TBWXy4mcwaIVS1dIwN0eT7uZ5
+ i9EwBgo9q3aVp8Kw1U6UnCTWAkmWun2htBhsbcnh7sP/T2YP1DNASJ9JnqzFCRi4JUMk9pEwkOo
+ cY77uQ7O1NE7xQwj/rjuP3R7UFAbz/QM0fbtA1j4dizrBszjU10IaSiR6IEi8MyWnsrDNmtg8ZZ
+ zMjYVB5m2OCXgZLACIwGbfiM+Q3zQZw8CSn6YM7Yk5Ohe1t9VI4jzVYaUc7rbySQN+o83uVavJ+
+ 7yZyOsp0IeA7YKm24+OoGvsJVPSMcvoFo0ufgmnjdgrgyTpXf8Yp977CcNl/oUfjYUa0udSpUGh
+ 1NvShHSK3HZghmQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,31 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: Francesco Dolcini <francesco@dolcini.it>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Hello Leonard,
-> thanks for sending me this snippet.
-> 
-> This is not in any way connected to my eDP/aux-bus patch series, infact this
-> warning happens because your machine has got a new/different panel, read below:
-> 
->     if (WARN_ON(!panel->detected_panel)) {
->         dev_warn(dev,
->              "Unknown panel %s %#06x, using conservative timings\n",
->              vend, product_id);
-> 
-> [    4.089721] panel-simple-dp-aux aux-3-0058: Unknown panel CMN 0x142b, using conservative timings
-> 
-> I'll try to retrieve informations about this new panel and add it to panel-edp
-> as soon as possible.
+Both omapdrm and tidss give quite similar lockdep warnings ever since
+the "Annotate dma-fence critical section in commit path" patches.
 
-Hello Angelo,
+I've tried to look at this, but I haven't gotten far with understanding
+all this, and I feel that I'd need to really dive deep into the details
+to understand all the locking dependencies relevant here.
 
-Thank you for taking a look. The Asurada Spherion is sold with either a
-touchscreen or non-touchscreen panel. This one is a CB514-2H-K2HN without
-touchscreen functionality. Hope this helps.
+With some git-log digging, I noticed this:
 
-Thank you
-Leonard
+https://patchwork.freedesktop.org/patch/462170/
+
+So maybe the "fix" is just to revert the patches. If yes, great, we can
+apply the patches here. If not, not so great, and I'll just have to
+start the diving =).
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Tomi Valkeinen (2):
+      Revert "drm/tidss: Annotate dma-fence critical section in commit path"
+      Revert "drm/omapdrm: Annotate dma-fence critical section in commit path"
+
+ drivers/gpu/drm/omapdrm/omap_drv.c | 9 ++++-----
+ drivers/gpu/drm/tidss/tidss_kms.c  | 4 ----
+ 2 files changed, 4 insertions(+), 9 deletions(-)
+---
+base-commit: 9fc75c40faa29df14ba16066be6bdfaea9f39ce4
+change-id: 20230920-dma-fence-annotation-revert-166d0efab368
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
