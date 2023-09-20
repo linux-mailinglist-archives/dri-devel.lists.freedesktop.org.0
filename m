@@ -1,48 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF087A8EC7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 23:59:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EA17A8F25
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 00:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9CBD10E085;
-	Wed, 20 Sep 2023 21:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A18810E082;
+	Wed, 20 Sep 2023 22:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0FB10E082;
- Wed, 20 Sep 2023 21:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695247172; x=1726783172;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+UfZKgjN/aXBcFicuvsoxd+ZUslBdBfshjCH7giZQ/M=;
- b=LQjG5T21u6mw0eYZww4H/RP/X6TlkLsZBnAUDRpFM2syIVQjVWCwxNWe
- XYPKvUczcZhD2decY41KjyRUzv7u2BJx7uuQUmSucsgCGaVQKb5jR2QMR
- bFAhVEFEASYSuuCxEEqCwVAWCC7KwReolwNOeA0g5mLp4cXqCO+EStMO0
- CyEwVOpU2i8gy0uRbChX5Fh2TxIu2UXmIvcpXSGUz03J2KzTpaDPjxlBN
- zGzpRzHRs3BpMWTrtgdduSDdF8mES2Mwa4S22XzBGar36JoqaCBBFYAFB
- VT6vrPD1Pe0uSrTUOWQ1kOQbijQFs4FW8kEDyGcsm1yZjR5NdlTCnbSxy A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466659916"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="466659916"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 14:59:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890113651"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="890113651"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2023 14:58:42 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: Allow users to disable waitboost
-Date: Wed, 20 Sep 2023 14:56:24 -0700
-Message-Id: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.38.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF57410E082;
+ Wed, 20 Sep 2023 22:13:47 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38KLvnqQ013400; Wed, 20 Sep 2023 22:13:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wLy9ZuT3wPvKTwBKpSkA0+5HBXOIkeLFyP43M1pbTXI=;
+ b=DTsM1gxLESbGBPPe0gy8ZesfDdJl2Bwz9a9HI60kKfUrzHKNF08VjFcJbfMiLeSGA5Dd
+ qWkJRtVq9QiDwAC52Z/1NxSbLPcEfHoW7yMtublcEQ7EqUlYJFALsZR3xyOg23njWFn2
+ bJ8E+1SMaGGEzZDlf3v0zPisfC+IIMIWMqyPJuKX8CMQz82c0ikUIe5UeJuc+wGOnrhB
+ a3TU9f4Gw5hBpmy/PUIkDw0ug9EdfLPWJvKNsBM2tX+mG6kwgmyjXIvCJQ1kmDayICuy
+ uX8zLKw2T4C8JXzzK5dXOBL8kuhj8ZLbfVRZmlGmb1IUMSaFUxFzNdUiVKbfTCsJihoP kg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t7qj92hww-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Sep 2023 22:13:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38KMDWHw018308
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Sep 2023 22:13:32 GMT
+Received: from [10.71.111.102] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Wed, 20 Sep
+ 2023 15:13:31 -0700
+Message-ID: <d2df8304-76c1-6918-35bf-6b2886568fb3@quicinc.com>
+Date: Wed, 20 Sep 2023 15:13:31 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/6] drm/msm/mdss: fix highest-bank-bit for msm8998
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230905174353.3118648-1-dmitry.baryshkov@linaro.org>
+ <20230905174353.3118648-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230905174353.3118648-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: cO8i2DOl1L8P7Z3NtatouXqH-0WZ1AB-
+X-Proofpoint-ORIG-GUID: cO8i2DOl1L8P7Z3NtatouXqH-0WZ1AB-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-20_11,2023-09-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 suspectscore=0 mlxlogscore=759
+ mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
+ malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309200186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,100 +85,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide a bit to disable waitboost while waiting on a gem object.
-Waitboost results in increased power consumption by requesting RP0
-while waiting for the request to complete. Add a bit in the gem_wait()
-IOCTL where this can be disabled.
 
-This is related to the libva API change here -
-Link: https://github.com/XinfengZhang/libva/commit/3d90d18c67609a73121bb71b20ee4776b54b61a7
 
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_wait.c | 9 ++++++---
- drivers/gpu/drm/i915/i915_request.c      | 3 ++-
- drivers/gpu/drm/i915/i915_request.h      | 1 +
- include/uapi/drm/i915_drm.h              | 1 +
- 4 files changed, 10 insertions(+), 4 deletions(-)
+On 9/5/2023 10:43 AM, Dmitry Baryshkov wrote:
+> According to the vendor DT files, msm8998 has highest-bank-bit equal to
+> 2. Update the data accordingly.
+> 
+> Fixes: 6f410b246209 ("drm/msm/mdss: populate missing data")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-index d4b918fb11ce..955885ec859d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-@@ -72,7 +72,8 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
- 	struct dma_fence *fence;
- 	long ret = timeout ?: 1;
- 
--	i915_gem_object_boost(resv, flags);
-+	if (!(flags & I915_WAITBOOST_DISABLE))
-+		i915_gem_object_boost(resv, flags);
- 
- 	dma_resv_iter_begin(&cursor, resv,
- 			    dma_resv_usage_rw(flags & I915_WAIT_ALL));
-@@ -236,7 +237,7 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	ktime_t start;
- 	long ret;
- 
--	if (args->flags != 0)
-+	if (args->flags != 0 || args->flags != I915_GEM_WAITBOOST_DISABLE)
- 		return -EINVAL;
- 
- 	obj = i915_gem_object_lookup(file, args->bo_handle);
-@@ -248,7 +249,9 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	ret = i915_gem_object_wait(obj,
- 				   I915_WAIT_INTERRUPTIBLE |
- 				   I915_WAIT_PRIORITY |
--				   I915_WAIT_ALL,
-+				   I915_WAIT_ALL |
-+				   (args->flags & I915_GEM_WAITBOOST_DISABLE ?
-+				    I915_WAITBOOST_DISABLE : 0),
- 				   to_wait_timeout(args->timeout_ns));
- 
- 	if (args->timeout_ns > 0) {
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index f59081066a19..2957409b4b2a 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -2044,7 +2044,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
- 	 * but at a cost of spending more power processing the workload
- 	 * (bad for battery).
- 	 */
--	if (flags & I915_WAIT_PRIORITY && !i915_request_started(rq))
-+	if (!(flags & I915_WAITBOOST_DISABLE) && (flags & I915_WAIT_PRIORITY) &&
-+	    !i915_request_started(rq))
- 		intel_rps_boost(rq);
- 
- 	wait.tsk = current;
-diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-index 0ac55b2e4223..3cc00e8254dc 100644
---- a/drivers/gpu/drm/i915/i915_request.h
-+++ b/drivers/gpu/drm/i915/i915_request.h
-@@ -445,6 +445,7 @@ long i915_request_wait(struct i915_request *rq,
- #define I915_WAIT_INTERRUPTIBLE	BIT(0)
- #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
- #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
-+#define I915_WAITBOOST_DISABLE	BIT(3) /* used by i915_gem_object_wait() */
- 
- void i915_request_show(struct drm_printer *m,
- 		       const struct i915_request *rq,
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 7000e5910a1d..4adee70e39cf 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1928,6 +1928,7 @@ struct drm_i915_gem_wait {
- 	/** Handle of BO we shall wait on */
- 	__u32 bo_handle;
- 	__u32 flags;
-+#define I915_GEM_WAITBOOST_DISABLE      (1u<<0)
- 	/** Number of nanoseconds to wait, Returns time remaining. */
- 	__s64 timeout_ns;
- };
--- 
-2.38.1
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
