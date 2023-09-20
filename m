@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85D27A822D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C9F7A8231
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B138910E185;
-	Wed, 20 Sep 2023 12:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4E410E4AC;
+	Wed, 20 Sep 2023 12:58:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9C710E46D
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:58:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3D910E185
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:58:15 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C2D4B75;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8820162B;
  Wed, 20 Sep 2023 14:56:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695214596;
- bh=IW7T3Hmhw5PD2Ji9iO/gJ84F73CLdNZ+VKCKWdPttok=;
+ s=mail; t=1695214597;
+ bh=tPGq1Ihckle4eJAoNTTym1ACYmHu0ImqZWFhxyXuBpw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SpmwnSn7r04dCymj8vXOLL/zcn1pT/hmUcV4QnAh2+AGRxDfASWhHZ+QayzP06YYs
- NTT5agQ8AAiAfjnyVWwG55ahNDIXT3DJyIykE5NV9EvPuXY0vVSkTS7wKPeMcOtsCo
- VHnbfhQFzX0ICYwB54UkFjhorZGR0Sg75DV6jMVY=
+ b=nHY8EOSI8r84Kw0vTU0uoWNCW13o3ZzivVpGYIRZqIKsR/XBJoWNbCKUDUGnVhmhs
+ uNWuM+7JlWzaahk3Xe0V413tTFy40h6an48RrYuPxHxWVlm4xKAGwpDtoVcku8sRME
+ qyZ8Y6+Jafu0UAy2Euw7+UOwZMMyV13s9Kxq/s5c=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 20 Sep 2023 15:57:16 +0300
-Subject: [PATCH 1/2] Revert "drm/tidss: Annotate dma-fence critical section
- in commit path"
+Date: Wed, 20 Sep 2023 15:57:17 +0300
+Subject: [PATCH 2/2] Revert "drm/omapdrm: Annotate dma-fence critical
+ section in commit path"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-dma-fence-annotation-revert-v1-1-7ebf6f7f5bf6@ideasonboard.com>
+Message-Id: <20230920-dma-fence-annotation-revert-v1-2-7ebf6f7f5bf6@ideasonboard.com>
 References: <20230920-dma-fence-annotation-revert-v1-0-7ebf6f7f5bf6@ideasonboard.com>
 In-Reply-To: <20230920-dma-fence-annotation-revert-v1-0-7ebf6f7f5bf6@ideasonboard.com>
 To: Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6043;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6751;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=IW7T3Hmhw5PD2Ji9iO/gJ84F73CLdNZ+VKCKWdPttok=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlCuxirH8Wtxss+l4PKmHRWB9GMdTUTcFF93ADN
- +jTgdQUYzqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZQrsYgAKCRD6PaqMvJYe
- 9edXD/9Ubku3IOaE5I0e0VSUEefvkGeX6Q2UBaZokvlsfZYhYJV/Hsehb00zES/Im/GIhWZEwWl
- FdrFAI2YAkL9dMvumEuWyK186knJB/haCGtn21OuammLxLodkkcgx/Ajh6+jri5kmsyQ7It8IDd
- RDBpHoJJbZW4jvVnJCAKH+IHuC4eiMZz1e/tfLdEyxfxVbnwrQFF5tPuBOXrke5qGxhHvZz1mVE
- nR/kwhgJ8sAy10BFbDtvyn5p60JVv9BbvVlx8ri2HhCCnU8kvdUWLHfNO0l2qxfvYuPYy6H4q07
- wuW6NOqSOdBO/Mrgh3KX69xYrLFFE72FAlXpCVHMFPn7sFIH2LKTfQQKtiDJkEIugx/8FKupC8v
- HQBS6jY76l5BOSusp5x7ELvRMICsHgJu8dzzhygwmWcVWYGps7viAK8Rwd41WNmhtw38LLTwv5k
- Uvrbtw5Oix1lh9EkJroT8+Tdp8oIwf1zpgWn/Tagy7ISggKtT2+8wq7AAUfICBjyrOHoA9mayss
- Sas+RkL9tj4NpYG1LVZOt9RgQII7po1c7qTj3LwpehSC3rW8D0DedGL24fvczRLrZJA1oP+/4+7
- GAn0cuJD0wtynfFDZNc1D4CYFiVmJvN6QRIlLrBaszt+7cF6ZQqQ/w+Ulzr1tM/qXSrhG6prooA
- y8lZ8vTvePa4Y1w==
+ bh=tPGq1Ihckle4eJAoNTTym1ACYmHu0ImqZWFhxyXuBpw=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlCuxjmVJFjx5D0ZxLclHlaNda4s3KGW641XEhu
+ c9/Xl4cbYuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZQrsYwAKCRD6PaqMvJYe
+ 9dI7D/42qk/uP0i7iq62L0LqWMu02oG8QGJHRUEsPmnB8/xJ0QkfCHQGhub/ia+me5g9SZYL1CQ
+ sgZtpYXXWDlHt8JWgKi9+gsZb1U3Z5IR4aS4pJNMNEylEpyyP5ZeaXnRwfynTPPyvUF37HsiC8Y
+ UKjR+LK+3Gx2IRBokdJ289wrIzUHoT0dXsPH1XXZrVcQ1aIM1Ix9eMvItookQopir/bophT05ec
+ CMc+eWoky6dfi2AaoPAzEoNDCkSg1iujGO6wZGboF6eShxbPN52naCzOw9MUqeY81lp6WNHvmC/
+ v70NZyn+2XQjhUeBnv2Qc7aSR58FTcGqy17MaS1Jg8nOyFj9D3iGhyLhatTeNtIh98L/vCl28NR
+ gDCQ3SXjgupHkn+fBbjADEbGA1li7lYxW7pl7Sv6u+Oy9X5fr93Bepu0k8MdR0NMH/whsitCaXj
+ 3EE1NV1LK0vfjSaCs4HuK/BiLUhRhfG7XPpU3o/b8X+m6Mi82L8Rdz3/vy45fhIOdTU+xm7coZh
+ IefcefM2dBqcjLN3wzp8gsSn2BESQSmbY7glA1aGpUMEkpgL6nTdPfg8qLR391+58r2aWYT+Rkb
+ BVJtDsFifzpglyXQDztfUqbWIG3CwCylOGI45oRX2beCMdzkfLvCkZ7Fagjb0lkz9HiCu6h3TjH
+ wOmI3lkOs1eJeRA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,7 +71,7 @@ Cc: Francesco Dolcini <francesco@dolcini.it>, Aradhya Bhatia <a-bhatia1@ti.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 4d56a4f08391857ba93465de489707b66adad114.
+This reverts commit 250aa22920cd5d956a5d3e9c6a43d671c2bae217.
 
 The DMA-fence annotations cause a lockdep warning (see below). As per
 https://patchwork.freedesktop.org/patch/462170/ it sounds like the
@@ -79,158 +79,173 @@ annotations don't work correctly.
 
 ======================================================
 WARNING: possible circular locking dependency detected
-6.6.0-rc2+ #1 Not tainted
+6.5.0-rc2+ #2 Not tainted
 ------------------------------------------------------
-kmstest/733 is trying to acquire lock:
-ffff8000819377f0 (fs_reclaim){+.+.}-{0:0}, at: __kmem_cache_alloc_node+0x58/0x2d4
+kmstest/219 is trying to acquire lock:
+c4705838 (&hdmi->lock){+.+.}-{3:3}, at: hdmi5_bridge_mode_set+0x1c/0x50
 
 but task is already holding lock:
-ffff800081a06aa0 (dma_fence_map){++++}-{0:0}, at: tidss_atomic_commit_tail+0x20/0xc0 [tidss]
+c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
 
 which lock already depends on the new lock.
 
 the existing dependency chain (in reverse order) is:
 
 -> #2 (dma_fence_map){++++}-{0:0}:
-       __dma_fence_might_wait+0x5c/0xd0
-       dma_resv_lockdep+0x1a4/0x32c
-       do_one_initcall+0x84/0x2fc
-       kernel_init_freeable+0x28c/0x4c4
-       kernel_init+0x24/0x1dc
-       ret_from_fork+0x10/0x20
+       __dma_fence_might_wait+0x48/0xb4
+       dma_resv_lockdep+0x1b8/0x2bc
+       do_one_initcall+0x68/0x3b0
+       kernel_init_freeable+0x260/0x34c
+       kernel_init+0x14/0x140
+       ret_from_fork+0x14/0x28
 
--> #1 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}:
-       fs_reclaim_acquire+0x70/0xe4
-       __kmem_cache_alloc_node+0x58/0x2d4
-       kmalloc_trace+0x38/0x78
-       __kthread_create_worker+0x3c/0x150
-       kthread_create_worker+0x64/0x8c
-       workqueue_init+0x1e8/0x2f0
-       kernel_init_freeable+0x11c/0x4c4
-       kernel_init+0x24/0x1dc
-       ret_from_fork+0x10/0x20
+-> #1 (fs_reclaim){+.+.}-{0:0}:
+       fs_reclaim_acquire+0x70/0xa8
+       __kmem_cache_alloc_node+0x3c/0x368
+       kmalloc_trace+0x28/0x58
+       _drm_do_get_edid+0x7c/0x35c
+       hdmi5_bridge_get_edid+0xc8/0x1ac
+       drm_bridge_connector_get_modes+0x64/0xc0
+       drm_helper_probe_single_connector_modes+0x170/0x528
+       drm_client_modeset_probe+0x208/0x1334
+       __drm_fb_helper_initial_config_and_unlock+0x30/0x548
+       omap_fbdev_client_hotplug+0x3c/0x6c
+       drm_client_register+0x58/0x94
+       pdev_probe+0x544/0x6b0
+       platform_probe+0x58/0xbc
+       really_probe+0xd8/0x3fc
+       __driver_probe_device+0x94/0x1f4
+       driver_probe_device+0x2c/0xc4
+       __device_attach_driver+0xa4/0x11c
+       bus_for_each_drv+0x84/0xdc
+       __device_attach+0xac/0x20c
+       bus_probe_device+0x8c/0x90
+       device_add+0x588/0x7e0
+       platform_device_add+0x110/0x24c
+       platform_device_register_full+0x108/0x15c
+       dss_bind+0x90/0xc0
+       try_to_bring_up_aggregate_device+0x1e0/0x2c8
+       __component_add+0xa4/0x174
+       hdmi5_probe+0x1c8/0x270
+       platform_probe+0x58/0xbc
+       really_probe+0xd8/0x3fc
+       __driver_probe_device+0x94/0x1f4
+       driver_probe_device+0x2c/0xc4
+       __device_attach_driver+0xa4/0x11c
+       bus_for_each_drv+0x84/0xdc
+       __device_attach+0xac/0x20c
+       bus_probe_device+0x8c/0x90
+       deferred_probe_work_func+0x8c/0xd8
+       process_one_work+0x2ac/0x6e4
+       worker_thread+0x30/0x4ec
+       kthread+0x100/0x124
+       ret_from_fork+0x14/0x28
 
--> #0 (fs_reclaim){+.+.}-{0:0}:
-       __lock_acquire+0x1370/0x20d8
-       lock_acquire+0x1e8/0x308
-       fs_reclaim_acquire+0xd0/0xe4
-       __kmem_cache_alloc_node+0x58/0x2d4
-       __kmalloc_node_track_caller+0x58/0xf0
-       kmemdup+0x34/0x60
-       regmap_bulk_write+0x64/0x2c0
-       tc358768_bridge_pre_enable+0x8c/0x12d0 [tc358768]
-       drm_atomic_bridge_call_pre_enable+0x68/0x80 [drm]
-       drm_atomic_bridge_chain_pre_enable+0x50/0x158 [drm]
-       drm_atomic_helper_commit_modeset_enables+0x164/0x264 [drm_kms_helper]
-       tidss_atomic_commit_tail+0x58/0xc0 [tidss]
-       commit_tail+0xa0/0x188 [drm_kms_helper]
-       drm_atomic_helper_commit+0x1a8/0x1c0 [drm_kms_helper]
-       drm_atomic_commit+0xa8/0xe0 [drm]
-       drm_mode_atomic_ioctl+0x9ec/0xc80 [drm]
-       drm_ioctl_kernel+0xc4/0x170 [drm]
-       drm_ioctl+0x234/0x4b0 [drm]
-       drm_compat_ioctl+0x110/0x12c [drm]
-       __arm64_compat_sys_ioctl+0x128/0x150
-       invoke_syscall+0x48/0x110
-       el0_svc_common.constprop.0+0x40/0xe0
-       do_el0_svc_compat+0x1c/0x38
-       el0_svc_compat+0x48/0xb4
-       el0t_32_sync_handler+0xb0/0x138
-       el0t_32_sync+0x194/0x198
+-> #0 (&hdmi->lock){+.+.}-{3:3}:
+       __lock_acquire+0x145c/0x29cc
+       lock_acquire.part.0+0xb4/0x258
+       __mutex_lock+0x90/0x950
+       mutex_lock_nested+0x1c/0x24
+       hdmi5_bridge_mode_set+0x1c/0x50
+       drm_bridge_chain_mode_set+0x48/0x5c
+       crtc_set_mode+0x188/0x1d0
+       omap_atomic_commit_tail+0x2c/0xbc
+       commit_tail+0x9c/0x188
+       drm_atomic_helper_commit+0x158/0x18c
+       drm_atomic_commit+0xa4/0xe8
+       drm_mode_atomic_ioctl+0x9a4/0xc38
+       drm_ioctl+0x210/0x4a8
+       sys_ioctl+0x138/0xf00
+       ret_fast_syscall+0x0/0x1c
 
 other info that might help us debug this:
 
 Chain exists of:
-  fs_reclaim --> mmu_notifier_invalidate_range_start --> dma_fence_map
+  &hdmi->lock --> fs_reclaim --> dma_fence_map
 
  Possible unsafe locking scenario:
 
        CPU0                    CPU1
        ----                    ----
   rlock(dma_fence_map);
-                               lock(mmu_notifier_invalidate_range_start);
+                               lock(fs_reclaim);
                                lock(dma_fence_map);
-  lock(fs_reclaim);
+  lock(&hdmi->lock);
 
  *** DEADLOCK ***
 
-3 locks held by kmstest/733:
- #0: ffff800082e5bba0 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0x118/0xc80 [drm]
- #1: ffff000004224c88 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xdc/0x1a0 [drm]
- #2: ffff800081a06aa0 (dma_fence_map){++++}-{0:0}, at: tidss_atomic_commit_tail+0x20/0xc0 [tidss]
+3 locks held by kmstest/219:
+ #0: f1011de4 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0xf0/0xc38
+ #1: c47059c8 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xf8/0x230
+ #2: c11e1128 (dma_fence_map){++++}-{0:0}, at: omap_atomic_commit_tail+0x14/0xbc
 
 stack backtrace:
-CPU: 0 PID: 733 Comm: kmstest Not tainted 6.6.0-rc2+ #1
-Hardware name: Toradex Verdin AM62 on Verdin Development Board (DT)
-Call trace:
- dump_backtrace+0x98/0x118
- show_stack+0x18/0x24
- dump_stack_lvl+0x60/0xac
- dump_stack+0x18/0x24
- print_circular_bug+0x288/0x368
- check_noncircular+0x168/0x17c
- __lock_acquire+0x1370/0x20d8
- lock_acquire+0x1e8/0x308
- fs_reclaim_acquire+0xd0/0xe4
- __kmem_cache_alloc_node+0x58/0x2d4
- __kmalloc_node_track_caller+0x58/0xf0
- kmemdup+0x34/0x60
- regmap_bulk_write+0x64/0x2c0
- tc358768_bridge_pre_enable+0x8c/0x12d0 [tc358768]
- drm_atomic_bridge_call_pre_enable+0x68/0x80 [drm]
- drm_atomic_bridge_chain_pre_enable+0x50/0x158 [drm]
- drm_atomic_helper_commit_modeset_enables+0x164/0x264 [drm_kms_helper]
- tidss_atomic_commit_tail+0x58/0xc0 [tidss]
- commit_tail+0xa0/0x188 [drm_kms_helper]
- drm_atomic_helper_commit+0x1a8/0x1c0 [drm_kms_helper]
- drm_atomic_commit+0xa8/0xe0 [drm]
- drm_mode_atomic_ioctl+0x9ec/0xc80 [drm]
- drm_ioctl_kernel+0xc4/0x170 [drm]
- drm_ioctl+0x234/0x4b0 [drm]
- drm_compat_ioctl+0x110/0x12c [drm]
- __arm64_compat_sys_ioctl+0x128/0x150
- invoke_syscall+0x48/0x110
- el0_svc_common.constprop.0+0x40/0xe0
- do_el0_svc_compat+0x1c/0x38
- el0_svc_compat+0x48/0xb4
- el0t_32_sync_handler+0xb0/0x138
- el0t_32_sync+0x194/0x198
+CPU: 1 PID: 219 Comm: kmstest Not tainted 6.5.0-rc2+ #2
+Hardware name: Generic DRA74X (Flattened Device Tree)
+ unwind_backtrace from show_stack+0x10/0x14
+ show_stack from dump_stack_lvl+0x58/0x70
+ dump_stack_lvl from check_noncircular+0x164/0x198
+ check_noncircular from __lock_acquire+0x145c/0x29cc
+ __lock_acquire from lock_acquire.part.0+0xb4/0x258
+ lock_acquire.part.0 from __mutex_lock+0x90/0x950
+ __mutex_lock from mutex_lock_nested+0x1c/0x24
+ mutex_lock_nested from hdmi5_bridge_mode_set+0x1c/0x50
+ hdmi5_bridge_mode_set from drm_bridge_chain_mode_set+0x48/0x5c
+ drm_bridge_chain_mode_set from crtc_set_mode+0x188/0x1d0
+ crtc_set_mode from omap_atomic_commit_tail+0x2c/0xbc
+ omap_atomic_commit_tail from commit_tail+0x9c/0x188
+ commit_tail from drm_atomic_helper_commit+0x158/0x18c
+ drm_atomic_helper_commit from drm_atomic_commit+0xa4/0xe8
+ drm_atomic_commit from drm_mode_atomic_ioctl+0x9a4/0xc38
+ drm_mode_atomic_ioctl from drm_ioctl+0x210/0x4a8
+ drm_ioctl from sys_ioctl+0x138/0xf00
+ sys_ioctl from ret_fast_syscall+0x0/0x1c
+Exception stack(0xf1011fa8 to 0xf1011ff0)
+1fa0:                   00466d58 be9ab510 00000003 c03864bc be9ab510 be9ab4e0
+1fc0: 00466d58 be9ab510 c03864bc 00000036 00466ef0 00466fc0 00467020 00466f20
+1fe0: b6bc7ef4 be9ab4d0 b6bbbb00 b6cb2cc0
 
-Fixes: 4d56a4f08391 ("drm/tidss: Annotate dma-fence critical section in commit path")
+Fixes: 250aa22920cd ("drm/omapdrm: Annotate dma-fence critical section in commit path")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_kms.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_drv.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index c979ad1af236..d096d8d2bc8f 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -4,8 +4,6 @@
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
--#include <linux/dma-fence.h>
--
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -25,7 +23,6 @@ static void tidss_atomic_commit_tail(struct drm_atomic_state *old_state)
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index afeeb7737552..e000577a95dd 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -69,7 +69,6 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
  {
- 	struct drm_device *ddev = old_state->dev;
- 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct drm_device *dev = old_state->dev;
+ 	struct omap_drm_private *priv = dev->dev_private;
 -	bool fence_cookie = dma_fence_begin_signalling();
  
- 	dev_dbg(ddev->dev, "%s\n", __func__);
+ 	dispc_runtime_get(priv->dispc);
  
-@@ -36,7 +33,6 @@ static void tidss_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	drm_atomic_helper_commit_modeset_enables(ddev, old_state);
+@@ -92,6 +91,8 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 		omap_atomic_wait_for_completion(dev, old_state);
  
- 	drm_atomic_helper_commit_hw_done(old_state);
+ 		drm_atomic_helper_commit_planes(dev, old_state, 0);
++
++		drm_atomic_helper_commit_hw_done(old_state);
+ 	} else {
+ 		/*
+ 		 * OMAP3 DSS seems to have issues with the work-around above,
+@@ -101,11 +102,9 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 		drm_atomic_helper_commit_planes(dev, old_state, 0);
+ 
+ 		drm_atomic_helper_commit_modeset_enables(dev, old_state);
+-	}
+ 
+-	drm_atomic_helper_commit_hw_done(old_state);
+-
 -	dma_fence_end_signalling(fence_cookie);
- 	drm_atomic_helper_wait_for_flip_done(ddev, old_state);
++		drm_atomic_helper_commit_hw_done(old_state);
++	}
  
- 	drm_atomic_helper_cleanup_planes(ddev, old_state);
+ 	/*
+ 	 * Wait for completion of the page flips to ensure that old buffers
 
 -- 
 2.34.1
