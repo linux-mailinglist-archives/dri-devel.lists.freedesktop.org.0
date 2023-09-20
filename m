@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F267A8AB7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E6A7A8AC7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 19:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8CB10E517;
-	Wed, 20 Sep 2023 17:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A876310E52B;
+	Wed, 20 Sep 2023 17:44:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B97AB10E517;
- Wed, 20 Sep 2023 17:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695231605; x=1726767605;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=uDX9/nqSC9pHxD0vJh8X6LLyWdaKxMDcJfC+wR/V9q4=;
- b=NXwfJkHMOaBxNlFDFROK7y3BUbhikqgVtA0gwumWAqXXtiQZjvfuuzCL
- gLcBpgVsOX6GXKOBAHLpO0+FUbRgR7ZKYcM5TSNApfNlC9UB5yzcipl3W
- gPrDeLkXKjZJHvBexg4PtRnZrat7Ke3RPsBmYtVTrm/dbVdf3tpoiPaom
- o1oVCMY+LGFAe6Sjbv0i/lrCW4x1cGgHQXYAPeSetCQgxyVZA+yDU7eQy
- GiNburOrzCPtKxiTPIbNgpn4BuTHFi4OuL/bgnU9YRWufJqQl3T17XeNt
- hh5Qj88jnd9vIMVba4KiMyPqF/kFXEOehhx/v93iEW3NC3AAsHFRo9G5B A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="379178407"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="379178407"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 10:40:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890021035"
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; d="scan'208";a="890021035"
-Received: from ptelkov-mobl2.ccr.corp.intel.com (HELO localhost)
- ([10.252.38.103])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 10:39:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/edid: Fixup h/vsync_end instead of
- h/vtotal
-In-Reply-To: <20230914112258.27156-1-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230914112258.27156-1-ville.syrjala@linux.intel.com>
-Date: Wed, 20 Sep 2023 20:40:00 +0300
-Message-ID: <87jzskrbf3.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB18210E52B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 17:44:57 +0000 (UTC)
+Received: from ginger.. (unknown [177.98.21.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A648C66071EF;
+ Wed, 20 Sep 2023 18:44:52 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695231896;
+ bh=7izphSNlUlY6toAYO8sGMEscU9ZreXBpSqo3489vsfo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SuC7+g/stbjbvv3I1wIMW1PtOS4W4G1VV1Ow7Tn/nJulcClzdzqfTs5OJRptgpBEY
+ W+xlQjH4aCX9gRDERpcQSD3vdJchKU08FmujX1Sn6GBh6k6p1hZajstsiZthwAs+6/
+ n8SfNt7Fxc5XW017QSG2fuEW4m7GswbD7gUNbrYTrP05jp5l/KGzEgp8UXVcyosSMx
+ OAz3v9JVAIGL48SK3ct58Qupo2t4Ji0In9R2iG0QEbyUHLSOwL5eRf32t3v8i+lO2U
+ XKw3OvI9+Zv27KxbNp0eC+qJKE1lDVrUUiIe4Kc0CaOk8W4kPGBlbmuvG68Y8hCVAL
+ +y0gmvi8F+Y7Q==
+From: Helen Koike <helen.koike@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 0/2] drm/ci: Update Mesa and Introduce VKMS Support
+Date: Wed, 20 Sep 2023 14:44:42 -0300
+Message-Id: <20230920174444.409586-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +49,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ michel.daenzer@mailbox.org, vignesh.raman@collabora.com,
+ linux-kernel@vger.kernel.org, melissa.srw@gmail.com, mairacanal@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Sep 2023, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> There are some weird EDIDs floating around that have the sync
-> pulse extending beyond the end of the blanking period.
->
-> On the currently problemtic machine (HP Omni 120) EDID reports
-> the following mode:
-> "1600x900": 60 108000 1600 1780 1860 1800 900 910 913 1000 0x40 0x5
-> which is then "corrected" to have htotal=3D1861 by the current drm_edid.c
-> code.
->
-> The fixup code was originally added in commit 7064fef56369 ("drm: work
-> around EDIDs with bad htotal/vtotal values"). Googling around we end up in
-> https://bugs.launchpad.net/ubuntu/hardy/+source/xserver-xorg-video-intel/=
-+bug/297245
-> where we find an EDID for a Dell Studio 15, which reports:
-> (II) VESA(0): clock: 65.0 MHz   Image Size:  331 x 207 mm
-> (II) VESA(0): h_active: 1280  h_sync: 1328  h_sync_end 1360 h_blank_end 1=
-337 h_border: 0
-> (II) VESA(0): v_active: 800  v_sync: 803  v_sync_end 809 v_blanking: 810 =
-v_border: 0
->
-> Note that if we use the hblank size (as opposed of the hsync_end)
-> from the DTD to determine htotal we get exactly 60Hz refresh rate in
-> both cases, whereas using hsync_end to determine htotal we get a
-> slightly lower refresh rates. This makes me believe the using the
-> hblank size is what was intended even in those cases.
->
-> Also note that in case of the HP Onmi 120 the VBIOS boots with these:
->   crtc timings: 108000 1600 1780 1860 1800 900 910 913 1000, type: 0x40 f=
-lags: 0x5
-> ie. it just blindly stuffs the bogus hsync_end and htotal from the DTD
-> into the transcoder timing registers, and the display works. I believe
-> the (at least more modern) hardware will automagically terminate the hsync
-> pulse when the timing generator reaches htotal, which again points that we
-> should use the hblank size to determine htotal. Unfortunatley the old bug
-> reports for the Dell machines are extremely lacking in useful details so
-> we have no idea what kind of timings the VBIOS programmed into the
-> hardware :(
->
-> Let's just flip this quirk around and reduce the length of the sync
-> pulse instead of extending the blanking period. This at least seems
-> to be the correct thing to do on more modern hardware. And if any
-> issues crop up on older hardware we need to debug them properly.
->
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8895
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 39dd3f694544..0c5563b4d21e 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3497,11 +3497,11 @@ static struct drm_display_mode *drm_mode_detailed=
-(struct drm_connector *connecto
->  	mode->vsync_end =3D mode->vsync_start + vsync_pulse_width;
->  	mode->vtotal =3D mode->vdisplay + vblank;
->=20=20
-> -	/* Some EDIDs have bogus h/vtotal values */
-> +	/* Some EDIDs have bogus h/vsync_end values */
->  	if (mode->hsync_end > mode->htotal)
-> -		mode->htotal =3D mode->hsync_end + 1;
-> +		mode->hsync_end =3D mode->htotal;
->  	if (mode->vsync_end > mode->vtotal)
-> -		mode->vtotal =3D mode->vsync_end + 1;
-> +		mode->vsync_end =3D mode->vtotal;
+This patchset offers two enhancements to drm/ci:
 
-I wonder if we shouldn't debug log these to help our future selves?
+1. Mesa Version Update. drm/ci re-uses components from Mesa project.
+A recent bug in MesaCI was fixed. The first patch updates drm/ci
+Mesa's version, re-allowing containers rebuilds when uncached,
+essencial for new runs.
 
-Anyway,
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+At this moment, this change depends on the following MR:
+	https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25238
+For now, I'm just pointing to a branch in my personal repo (this is why
+it is an RFC) so people can already review and test it.
 
 
->=20=20
->  	drm_mode_do_interlace_quirk(mode, pt);
+2. VKMS Driver Testing, together with the -skips.txt and -fails.txt
+list that were found during the tests.
 
---=20
-Jani Nikula, Intel
+Helen Koike (2):
+  drm/ci: uprev mesa version - fix container build
+  drm: ci: add tests on vkms
+
+ MAINTAINERS                                   |  1 +
+ drivers/gpu/drm/ci/build.sh                   |  1 -
+ drivers/gpu/drm/ci/gitlab-ci.yml              | 20 +++++++++++--
+ drivers/gpu/drm/ci/igt_runner.sh              |  6 ++--
+ drivers/gpu/drm/ci/image-tags.yml             |  2 +-
+ drivers/gpu/drm/ci/lava-submit.sh             |  2 +-
+ drivers/gpu/drm/ci/test.yml                   | 24 ++++++++++++++-
+ drivers/gpu/drm/ci/x86_64.config              |  1 +
+ .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |  0
+ drivers/gpu/drm/ci/xfails/vkms-none-fails.txt | 29 +++++++++++++++++++
+ drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 10 +++++++
+ 11 files changed, 87 insertions(+), 9 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
+
+-- 
+2.34.1
+
