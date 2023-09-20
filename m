@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18467A806B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB20F7A8071
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11BF210E4A4;
-	Wed, 20 Sep 2023 12:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7A010E4A0;
+	Wed, 20 Sep 2023 12:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF0710E4A0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:37:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE02F10E4A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695213421;
+ s=mimecast20190719; t=1695213432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CkUiTYo02brbH9rdldgLT7YiM95DCTjC6m+zHLs+f1Y=;
- b=amz9ztIh2WqHpki1KC6uHy1zXJICfGQXzAcYtXaOGfsQ53TsLMaIIVqvhYhkteyhuo4xI6
- ifibXytfMIFe7uzk1/l4yUWaB+fGA9Mb5OgL5NGm2g4sLOFs+2fnfoEMY6BK0numYkYExK
- e+tuj6x+yXS8ocL84bgtMPWWlVESyhU=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7KRPqkETTBVBC/zv1aXEUiiiXJ1Cft936yka0iGNazc=;
+ b=GDssDO8BIGhK6TKMZh04cGJJnpoaaAjR4Dkx9sAIlFD1POzPVWi4Zot2wniwcVPb+TQMwX
+ VkZNBuiV2wuvq60oXW+bmakbfa8VIYK3nwbn7CJfPH9+rGZKxxBbIbrAwkZTZ4dXlC5CPi
+ n6nDeuOtyyiclJLWf7fxdpy5lAxOiB8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-lgN8HLBkPUq69FKtUhSnAQ-1; Wed, 20 Sep 2023 08:37:00 -0400
-X-MC-Unique: lgN8HLBkPUq69FKtUhSnAQ-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2b6fdb8d0acso15768631fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 05:36:59 -0700 (PDT)
+ us-mta-638-yx_31ZEgMM-B6ghO52NY_w-1; Wed, 20 Sep 2023 08:37:10 -0400
+X-MC-Unique: yx_31ZEgMM-B6ghO52NY_w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-404daa4f5a7so15032565e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 05:37:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695213418; x=1695818218;
+ d=1e100.net; s=20230601; t=1695213429; x=1695818229;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CkUiTYo02brbH9rdldgLT7YiM95DCTjC6m+zHLs+f1Y=;
- b=Cz//LIqbkdKqHKjbOI2m/NQsARPjv/ojUwJCjQmhBEnuASoYiviq63S5i4yPR9zs57
- uHTX/yV/Y6uRCXkdLtmuJJpF9rw96VVmQ1iWjF8EBDuhJa0d98feOLCcvZfdxeXswE4/
- J/W5hNafxadDr47SlcW6p5QgRv63wN+PRcrsa8IOVRt9cdsluHTK09227OcWR6FrCwiD
- 43zndTCt/nQgZ1y5u67wt0hv3XMKQ7WUNfx3ZffT8SixwPRnJ0fVehUxrVvdP/jdS4Ub
- 9FFXXNZOQ6hWWSHQXr6PjYqylrLG49AzINndDya+kBYiV8Likw9pzAFsLFxRKp5gNjw7
- tylA==
-X-Gm-Message-State: AOJu0YzOz2M31sMPFz4fs73ukbUGjmmm95ZN6AJFWqE0pl7FegvO1rmw
- UNwixeLN4ntuTy/IxyNGe0eASaF4BW1wKcEn8c76JMgoAcfoa+9rt0rszPso+hJ/fopm/TKPIRB
- EvCrFnpn42v/sj2njqJfeuGo4MIUc
-X-Received: by 2002:a05:651c:1693:b0:2c0:196c:e38f with SMTP id
- bd19-20020a05651c169300b002c0196ce38fmr1921140ljb.1.1695213418530; 
- Wed, 20 Sep 2023 05:36:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHGtYN79a4/Uyeq8meM3+9mCAQ2LGvBXOKnKduArpSa1zP3qsVYH9Wh1PFHrd4S88GImDITZQ==
-X-Received: by 2002:a05:651c:1693:b0:2c0:196c:e38f with SMTP id
- bd19-20020a05651c169300b002c0196ce38fmr1921120ljb.1.1695213418185; 
- Wed, 20 Sep 2023 05:36:58 -0700 (PDT)
+ bh=7KRPqkETTBVBC/zv1aXEUiiiXJ1Cft936yka0iGNazc=;
+ b=cpnBF9zxIhNXpXisO9Qxv+JJMv7vyE6VkyKJmwNAZIybA31/o4lPRbzG8Q8wBDaDv5
+ OV4/5EGJb2bDig5jputUNSFzWa7EKyJ6HBm14EIFVts6KLkDolPWPeXKMMAJgz462h++
+ rsT2lr/i8VyaoEqof2kWP5eFDU38EUiI8bLIVziZtDlT/TcLHhz3G86uRSwaoqyz/FZY
+ rj35axZqp2kIS4dZMAZMpXFP8uylak4x53OKFL1vdXS1drK2SFr5oY8MpnoYww97zDhb
+ TJUr8ixFjg+voJUwt9J6DvRFlzjxpzaXpoydEslAvDEcL9j/EpytAkT7vlGVGfuCLIqC
+ XJuQ==
+X-Gm-Message-State: AOJu0YzVuWVmaERtNJXfp+e0eisGs4SB9sn1cGMiD2hmCbUIcQILE4NM
+ PW0qDqGSHUrnIsr0WKPhuAmitvuAhS2XY58C0TBQGCq96CzTzKn4ijALuyRck1QE7JdDtTD/aIG
+ Mve8kx+Y1b7rbJgASyt7X9GQYhX0j
+X-Received: by 2002:adf:ec48:0:b0:317:630d:1e8e with SMTP id
+ w8-20020adfec48000000b00317630d1e8emr2031495wrn.2.1695213429447; 
+ Wed, 20 Sep 2023 05:37:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGorWXFxi2CZ+i0Bq4z7I+sy7K13wS44rMjIuskory3+gtAyjUda2GeiUfH2k5vq773C10/rA==
+X-Received: by 2002:adf:ec48:0:b0:317:630d:1e8e with SMTP id
+ w8-20020adfec48000000b00317630d1e8emr2031462wrn.2.1695213429120; 
+ Wed, 20 Sep 2023 05:37:09 -0700 (PDT)
 Received: from fedorinator.. ([2a01:599:906:7772:a505:d891:dcff:9565])
  by smtp.gmail.com with ESMTPSA id
- op15-20020a170906bcef00b009ae4ead6c01sm660073ejb.163.2023.09.20.05.36.54
+ lg13-20020a170906f88d00b009ad88839665sm9297787ejb.70.2023.09.20.05.37.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Sep 2023 05:36:55 -0700 (PDT)
+ Wed, 20 Sep 2023 05:37:03 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Eric Biederman <ebiederm@xmission.com>,
@@ -68,9 +68,9 @@ To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v3 3/5] kernel: watch_queue: copy user-array safely
-Date: Wed, 20 Sep 2023 14:36:11 +0200
-Message-ID: <20230920123612.16914-5-pstanner@redhat.com>
+Subject: [PATCH v3 4/5] drm_lease.c: copy user-array safely
+Date: Wed, 20 Sep 2023 14:36:12 +0200
+Message-ID: <20230920123612.16914-6-pstanner@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230920123612.16914-2-pstanner@redhat.com>
 References: <20230920123612.16914-2-pstanner@redhat.com>
@@ -108,22 +108,24 @@ Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Zack Rusin <zackr@vmware.com>
 ---
- kernel/watch_queue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_lease.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
-index d0b6b390ee42..778b4056700f 100644
---- a/kernel/watch_queue.c
-+++ b/kernel/watch_queue.c
-@@ -331,7 +331,7 @@ long watch_queue_set_filter(struct pipe_inode_info *pipe,
- 	    filter.__reserved != 0)
- 		return -EINVAL;
- 
--	tf = memdup_user(_filter->filters, filter.nr_filters * sizeof(*tf));
-+	tf = memdup_array_user(_filter->filters, filter.nr_filters, sizeof(*tf));
- 	if (IS_ERR(tf))
- 		return PTR_ERR(tf);
- 
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index 150fe1555068..94375c6a5425 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -510,8 +510,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+ 	/* Handle leased objects, if any */
+ 	idr_init(&leases);
+ 	if (object_count != 0) {
+-		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+-					 array_size(object_count, sizeof(__u32)));
++		object_ids = memdup_array_user(u64_to_user_ptr(cl->object_ids),
++					       object_count, sizeof(__u32));
+ 		if (IS_ERR(object_ids)) {
+ 			ret = PTR_ERR(object_ids);
+ 			idr_destroy(&leases);
 -- 
 2.41.0
 
