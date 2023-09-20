@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2C47A86F9
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:37:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D637A86FC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12EF10E4ED;
-	Wed, 20 Sep 2023 14:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6940F10E4F1;
+	Wed, 20 Sep 2023 14:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF2F10E4E8
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C4E10E4E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:36:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CBE7A61CCA;
- Wed, 20 Sep 2023 14:36:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E78C433CC;
- Wed, 20 Sep 2023 14:36:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD2F961CCB;
+ Wed, 20 Sep 2023 14:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFCDC43395;
+ Wed, 20 Sep 2023 14:36:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695220607;
- bh=XYcftkSLjd/7MG53JZE43R8v3MnE5w+0sf3V4jSByaM=;
+ s=k20201202; t=1695220610;
+ bh=49oNkv+eu8/9sfrO1BY+OxAGBqGgL52MLLkCN1HQuy0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=DL5ng33Ymrmd6sOz+pHmX32b973632plfUTpjcjwJ/XaNks5dh6UWGOuEs67LLhl/
- mbdMj409ozXkbO5sxZf2F46k5Ua3pdtj3USUeNH1jo434odkoCcvCDM9DtKwhJ2ESK
- pJ8+xnhzxj+9AVjpYq+n9cSh7ofiPnJS1cZP/7oFaabpcPbh3ew8F9xKtuod0/Widr
- UtGtH85epYTgKoR1AQEJucOFTpH/Qh9q9uMDWsEv0tHnZ13Jaf5cFvOjPuZC+O/W2d
- 1QmLAZ09z296bV6dGavTVnVD4+8qGCNxFa7mbUjo65emZMrBrPXJUuZqr6ckLG2qFF
- 3tG6dWImo4g2w==
+ b=aOgea8Oufck4KqpFXGAZP9PytPrnLq2C23QsweyLEIvg7D6uqBFPqEZNi9WLLzVF0
+ o9VeHh37x01XlCj3W03A2YwGyJe5wt5vBbGNbQgiyBo/ZZVj91PUbruyMPQUzYJbRE
+ YiHQGyHXmARFSp/huCH+BoNu+O0B0pLj19kFHe6BjiPsLo4zhTLcIsE9/dnf/miI60
+ A/AWgojFvsyp5iw9jIkJyVhUUuiyPce8zqj8WRffO8S5NsfUwdZG+duetU5NyyEASN
+ DqiGWPDp4YjGcOY00zNSW1Ex4z3tU27lyR5lo29H27LukLmLJOXw5UUeBOUvPtF7Dm
+ lF9RGGNA46EuA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 20 Sep 2023 16:35:38 +0200
-Subject: [PATCH RFC v2 23/37] drm/rockchip: inno_hdmi: Remove useless
- colorimetry
+Date: Wed, 20 Sep 2023 16:35:39 +0200
+Subject: [PATCH RFC v2 24/37] drm/rockchip: inno_hdmi: Remove useless enum
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230920-kms-hdmi-connector-state-v2-23-17932daddd7d@kernel.org>
+Message-Id: <20230920-kms-hdmi-connector-state-v2-24-17932daddd7d@kernel.org>
 References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 In-Reply-To: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -49,12 +47,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=mripard@kernel.org;
- h=from:subject:message-id; bh=XYcftkSLjd/7MG53JZE43R8v3MnE5w+0sf3V4jSByaM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczFbsif5anvxhss+mSD6Y0dY42/LnHu1LnnUZp39uk
- hUVZPvWUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIkcucXIcO/8a4PFChs3NKzY
- 3cVuzrWs47F6XNjfzdNFzxVNrFzld4nhD99un/WcwYHcst+Tb56+ueaX6zLxE7MeWJ7kELf1/vK
- wkhkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=968; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=49oNkv+eu8/9sfrO1BY+OxAGBqGgL52MLLkCN1HQuy0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczFafn2r+73JW1ub2Unzs7sW/bkb3woDLc4RSjqkd2
+ ZuVeSu/o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABO53MTIsKBxb96VFU3LjGe+
+ 8kypZvx0wmLb6V1LkiL4DT5YTv1VGcHwi5kpj+/xarOaEGPNwDL5tqdWcr9a1glL7Awp4yy69TK
+ cEwA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,55 +75,33 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The colorimetry field of hdmi_data_info is not used anywhere so we can
-get rid of it. This was the last field left in that structure so we can
-get rid of it too.
+The CSC_* enum has no users left, so let's remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 0c6c550e0ce7..c342bc8b3a23 100644
+index c342bc8b3a23..f05417c6b637 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -27,10 +27,6 @@
+@@ -66,15 +66,6 @@ static struct inno_hdmi *connector_to_inno_hdmi(struct drm_connector *connector)
+ 	return container_of(connector, struct inno_hdmi, connector);
+ }
  
- #include "inno_hdmi.h"
- 
--struct hdmi_data_info {
--	unsigned int colorimetry;
+-enum {
+-	CSC_ITU601_16_235_TO_RGB_0_255_8BIT,
+-	CSC_ITU601_0_255_TO_RGB_0_255_8BIT,
+-	CSC_ITU709_16_235_TO_RGB_0_255_8BIT,
+-	CSC_RGB_0_255_TO_ITU601_16_235_8BIT,
+-	CSC_RGB_0_255_TO_ITU709_16_235_8BIT,
+-	CSC_RGB_0_255_TO_RGB_16_235_8BIT,
 -};
 -
- struct inno_hdmi_i2c {
- 	struct i2c_adapter adap;
- 
-@@ -56,8 +52,6 @@ struct inno_hdmi {
- 	struct i2c_adapter *ddc;
- 
- 	unsigned int tmds_rate;
--
--	struct hdmi_data_info	hdmi_data;
- };
- 
- static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
-@@ -380,15 +374,6 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 			   struct drm_display_mode *mode)
- {
- 	struct drm_display_info *display = &hdmi->connector.display_info;
--	u8 vic = drm_match_cea_mode(mode);
--
--	if ((vic == 6) || (vic == 7) ||
--	    (vic == 21) || (vic == 22) ||
--	    (vic == 2) || (vic == 3) ||
--	    (vic == 17) || (vic == 18))
--		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
--	else
--		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
- 
- 	/* Mute video and audio output */
- 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+ static const char coeff_csc[][24] = {
+ 	/*
+ 	 * YUV2RGB:601 SD mode(Y[16:235], UV[16:240], RGB[0:255]):
 
 -- 
 2.41.0
