@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6DC7A7A5E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7949F7A7A25
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:11:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F017010E48B;
-	Wed, 20 Sep 2023 11:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 196AD10E483;
+	Wed, 20 Sep 2023 11:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D109C10E484
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 11:25:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5EC6E21CEE;
- Wed, 20 Sep 2023 11:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695209112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/bKqEo0072BkdPApn8FPNvTRQh3WDDsLnfyCvM6q4FM=;
- b=X8XWE8dHbmcj4vFE9Bc9tOAiZYsdsQJ6Z2f7cqAWFjRUkSLFBcLRM2oE+ArE0OiEx7knQy
- d+0ULu8vHqXYIYCjylXY04xbH7A6GfG3BQwK7J9nDjnBpiCI7N4gonpoyS1MB/josttJrj
- A/K4gJBmriWOZzErboHsbaCvvTcXfMI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695209112;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/bKqEo0072BkdPApn8FPNvTRQh3WDDsLnfyCvM6q4FM=;
- b=IjPhrUrc4Jkn8skoT3dp4xdf1XVZW+4t0DV8ixSaM4Pa4aEQtsudJYscwbzxJ2Ziq7gmOs
- JuONNWm29mADL9DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 24F2513A64;
- Wed, 20 Sep 2023 11:25:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GEUsCJjWCmX3NwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 20 Sep 2023 11:25:12 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
- arthurgrillo@riseup.net, mairacanal@riseup.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, noralf@tronnes.org
-Subject: [PATCH 8/8] drm/ssd130x: Preallocate xfrm buffer in plane's
- atomic_check
-Date: Wed, 20 Sep 2023 13:10:20 +0200
-Message-ID: <20230920112508.11770-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230920112508.11770-1-tzimmermann@suse.de>
-References: <20230920112508.11770-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDF010E483;
+ Wed, 20 Sep 2023 11:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695208301; x=1726744301;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=c0SZhvlhnSQl1roMwUzMg8nEoyStVAs4NBGX89KR3Bg=;
+ b=mqL4Dnb5Qx/63JX2YZk0v8gO1zWmu5op5DZbsPFjFJBufu2z8BYm/XMk
+ IW/szEYWBTf6YXZaao4+Ih4wxa4y4ylKRWIB7IlZYlind5G6cZtyhrWgX
+ CDiwkc8nUXpSFYDYTDl01o8uR9eKnvsnGdaHgaswo8FoHh/a6pCzVz993
+ 36SZKc9p07iBIX8MoC1/z80NukWrgF/k6C46UaEp51YlMr5mYX2pnNva2
+ FCDVVdxhRxmpgoQEfUggbUV6nj1s8C9dnNSpgfxt3jzOg1bycl7TKpdcT
+ dWZp7a6JG46N/kWc+VySzo1q49Ibe6uQ518tF0v8wZnmjqc/A2TrThYpZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="384038946"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="384038946"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 04:11:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="775960934"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="775960934"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 04:11:37 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Remove unnecessary memory quiescing for aux inval
+Date: Wed, 20 Sep 2023 13:11:31 +0200
+Message-ID: <20230920111131.2696-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,75 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Janes <mark.janes@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Preallocate the xfrm buffer's storage in the plane's atomic_check
-function if a format conversion will be necessary. Allows the update
-to fail if no memory is available. Avoids the same allocation within
-atomic_update, which may not fail.
+i915 already does memory quiesce before signaling
+breadcrumb so remove extra memory quiescing for aux
+invalidation which can cause unnecessary side effects.
 
-Also inline drm_plane_helper_atomic_check() into the driver and thus
-return early for invisible planes. Avoids memory allocation entirely
-in this case.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before invalidation")
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.8+
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: Tapani Pälli <tapani.palli@intel.com>
+Cc: Mark Janes <mark.janes@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 50 ++++++++++++------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 508588bd2d565..3788d847e50ff 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -601,17 +601,27 @@ static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 0143445dba83..5001670046a0 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -248,11 +248,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
  {
- 	struct drm_device *drm = plane->dev;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
--	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
--	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(new_plane_state);
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
- 	unsigned int page_height = ssd130x->device_info->page_height;
- 	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
- 	const struct drm_format_info *fi;
- 	unsigned int pitch;
- 	int ret;
+ 	struct intel_engine_cs *engine = rq->engine;
  
--	ret = drm_plane_helper_atomic_check(plane, state);
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
+-	/*
+-	 * On Aux CCS platforms the invalidation of the Aux
+-	 * table requires quiescing memory traffic beforehand
+-	 */
+-	if (mode & EMIT_FLUSH || gen12_needs_ccs_aux_inv(engine)) {
++	if (mode & EMIT_FLUSH) {
+ 		u32 bit_group_0 = 0;
+ 		u32 bit_group_1 = 0;
+ 		int err;
+@@ -264,13 +260,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 
+ 		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+ 
+-		/*
+-		 * When required, in MTL and beyond platforms we
+-		 * need to set the CCS_FLUSH bit in the pipe control
+-		 */
+-		if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
+-			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
+-
+ 		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+ 		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+ 		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+@@ -800,14 +789,15 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
+ {
+ 	struct drm_i915_private *i915 = rq->i915;
+ 	struct intel_gt *gt = rq->engine->gt;
+-	u32 flags = (PIPE_CONTROL_CS_STALL |
+-		     PIPE_CONTROL_TLB_INVALIDATE |
+-		     PIPE_CONTROL_TILE_CACHE_FLUSH |
+-		     PIPE_CONTROL_FLUSH_L3 |
+-		     PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
+-		     PIPE_CONTROL_DEPTH_CACHE_FLUSH |
+-		     PIPE_CONTROL_DC_FLUSH_ENABLE |
+-		     PIPE_CONTROL_FLUSH_ENABLE);
++	u32 bit_group_0 = PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
++	u32 bit_group_1 = (PIPE_CONTROL_CS_STALL |
++			   PIPE_CONTROL_TLB_INVALIDATE |
++			   PIPE_CONTROL_TILE_CACHE_FLUSH |
++			   PIPE_CONTROL_FLUSH_L3 |
++			   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
++			   PIPE_CONTROL_DEPTH_CACHE_FLUSH |
++			   PIPE_CONTROL_DC_FLUSH_ENABLE |
++			   PIPE_CONTROL_FLUSH_ENABLE);
+ 
+ 	/* Wa_14016712196 */
+ 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || IS_DG2(i915))
+@@ -817,14 +807,26 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
+ 
+ 	if (GRAPHICS_VER(i915) == 12 && GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
+ 		/* Wa_1409600907 */
+-		flags |= PIPE_CONTROL_DEPTH_STALL;
++		bit_group_1 |= PIPE_CONTROL_DEPTH_STALL;
+ 
+ 	if (!HAS_3D_PIPELINE(rq->i915))
+-		flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
++		bit_group_1 &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
+ 	else if (rq->engine->class == COMPUTE_CLASS)
+-		flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
++		bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
 +
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
- 	if (ret)
- 		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
- 
- 	fi = drm_format_info(DRM_FORMAT_R1);
- 	if (!fi)
-@@ -619,6 +629,15 @@ static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 
- 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
- 
-+	if (new_plane_state->fb->format != fi) {
-+		void *buf;
++	/*
++	 * On Aux CCS platforms the invalidation of the Aux
++	 * table requires quiescing memory traffic beforehand.
++	 * gen12_emit_fini_breadcrumb_rcs() does this for us as
++	 * all memory traffic has to be completed before we signal
++	 * the breadcrumb. In MTL and beyond platforms, we need to also
++	 * add CCS_FLUSH bit in the pipe control for that purpose.
++	 */
 +
-+		/* format conversion necessary; reserve buffer */
-+		buf = drm_xfrm_buf_reserve(&ssd130x->xfrm, pitch, GFP_KERNEL);
-+		if (!buf)
-+			return -ENOMEM;
-+	}
-+
- 	ssd130x_state->buffer = kcalloc(pitch, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->buffer)
- 		return -ENOMEM;
++	if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
++		bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
+ 
+-	cs = gen12_emit_pipe_control(cs, PIPE_CONTROL0_HDC_PIPELINE_FLUSH, flags, 0);
++	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1, 0);
+ 
+ 	/*XXX: Look at gen8_emit_fini_breadcrumb_rcs */
+ 	cs = gen12_emit_ggtt_write_rcs(cs,
 -- 
-2.42.0
+2.41.0
 
