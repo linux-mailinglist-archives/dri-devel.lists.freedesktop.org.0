@@ -1,40 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039117A8681
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:26:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7607A86AF
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 16:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB7D10E4CE;
-	Wed, 20 Sep 2023 14:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B24110E4D1;
+	Wed, 20 Sep 2023 14:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18AA410E4CB
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:25:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF18D1FB
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:26:20 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 87F3E3F5A1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 07:25:43 -0700 (PDT)
-Date: Wed, 20 Sep 2023 15:25:36 +0100
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 14/15] dt-bindings: gpu: mali-valhall-csf: Add initial
- bindings for panthor driver
-Message-ID: <ZQsA4DTuWjNwRiOk@e110455-lin.cambridge.arm.com>
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-15-boris.brezillon@collabora.com>
- <3517f2e9-d9d7-5bf8-1905-62f52d68c512@linaro.org>
- <ZQr2cTMz1-PsOMRP@e110455-lin.cambridge.arm.com>
- <ed4cb30d-2eec-580f-0b4a-1b108a745a9a@linaro.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A77F10E4D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 14:35:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id B1905CE1B53;
+ Wed, 20 Sep 2023 14:35:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71722C433C7;
+ Wed, 20 Sep 2023 14:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695220542;
+ bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+ h=From:Subject:Date:To:Cc:From;
+ b=G+iqEvtI91oD9Gvhu+88PxzS8E24ExbtGQ5fcakyWpDsmhiFwhb0RUSjNDOw8GBoY
+ 37EFpMiql+e16zqxJJuPvMkvRKCPmlolTlzAUSznrPjoiDaNbl/UnXmOH4aMFSed4Y
+ CJUh5T/3jVp+BqdeOufDkILWisc2pHuCSHiFSskri3CxtYvRiT1/wRS7fBzCN9sLSp
+ 44pIHJyxK7DutAdStUiI75mJQy4B3LJwM3qgjwrfDA4aIAgKqHbitfqn0NAlVF18dF
+ pI44W4LmbLZg9Bu4qdmblOSTDmWj7y/MxikAEim6JJbFxzfFV3fthz3V5KtLyn/nhu
+ dui7/UIfveZjA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Wed, 20 Sep 2023 16:35:15 +0200
+Message-Id: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ed4cb30d-2eec-580f-0b4a-1b108a745a9a@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACMDC2UC/4WNQQqDMBBFryKz7pQkxsR2VSj0AN0WF6KjDmpSE
+ pEW8e4NXqDL/z/v/Q0iBaYI12yDQCtH9i4FdcqgGWrXE3KbMiihclFKjeMccWhnxsY7R83iA8a
+ lXgiNNLa0ZOxFWUj4O1DHn0P9gufjDlUqB46J+B53qzym/+ZVokChS1HotstNoW8jBUfT2Yceq
+ n3ff/7/jnPGAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5802; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczBZcvZvWvvnx9OB3fnaN/W8nFaj9Oz5dIO7b2kjDS
+ baeucd2dJSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiPl8ZGe6lP2ufnP3PYeFl
+ tv7ZBlaV2b6t0usis3xFq2/JeNee9mT4H1tSKODo+Wy7bMD8ZXsip8zcqlN23W1leYiYb7r9yaQ
+ URgA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,240 +70,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
- =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Maxime Ripard <mripard@kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 20, 2023 at 03:51:36PM +0200, Krzysztof Kozlowski wrote:
-> On 20/09/2023 15:41, Liviu Dudau wrote:
-> >>> +properties:
-> >>> +  $nodename:
-> >>> +    pattern: '^gpu@[a-f0-9]+$'
-> >>> +
-> >>> +  compatible:
-> >>> +    oneOf:
-> >>
-> >> Drop oneOf.
-> > 
-> > The idea was to allow for future compatible strings to be added later, but
-> > I guess we can re-introduce the oneOf entry later. Will remove it.
-> 
-> If you already predict that new list will be added (so new fallback
-> compatible!), then it's fine.
-> 
-> > 
-> >>
-> >>> +      - items:
-> >>> +          - enum:
-> >>> +              - rockchip,rk3588-mali
-> >>> +          - const: arm,mali-valhall-csf   # Mali Valhall GPU model/revision is fully discoverable
-> >>> +
-> >>> +  reg:
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  interrupts:
-> >>> +    items:
-> >>> +      - description: Job interrupt
-> >>> +      - description: MMU interrupt
-> >>> +      - description: GPU interrupt
-> >>> +
-> >>> +  interrupt-names:
-> >>> +    items:
-> >>> +      - const: job
-> >>> +      - const: mmu
-> >>> +      - const: gpu
-> >>> +
-> >>> +  clocks:
-> >>> +    minItems: 1
-> >>> +    maxItems: 3
-> >>> +
-> >>> +  clock-names:
-> >>> +    minItems: 1
-> >>> +    items:
-> >>> +      - const: core
-> >>> +      - const: coregroup
-> >>> +      - const: stacks
-> >>> +
-> >>> +  mali-supply: true
-> >>> +
-> >>> +  sram-supply: true
-> >>> +
-> >>> +  operating-points-v2: true
-> >>
-> >> Missing opp-table.
-> > 
-> > This is the main topic I want to clarify. See further down for the main comment,
-> > but I would like to understand what you are asking here. To copy the schema
-> > from bindings/opp/opp-v2.yaml and bindings/opp/opp-v2-base.yaml?
-> 
-> No, "opp-table" property.
-> git grep "opp-table:"
+Hi,
 
-You mean adding
+Here's a series that creates a subclass of drm_connector specifically
+targeted at HDMI controllers.
 
-     opp-table:
-       type: object
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else. 
 
-as property? What's the difference between opp-table: true (like in
-'display/msm/dp-controller.yaml') and 'opp-table: type: object' like in other
-places that I can find? Does that mean you need to have an opp-table node somewhere
-but it doesn't have to be inside the gpu node? 'arm,mali-midgard.yaml' that was
-my original source of inspiration has an 'opp-table: type: object' in the properties
-but the example still shows a separate node for table.
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-> 
-> > 
-> >>
-> >>> +
-> >>> +  power-domains:
-> >>> +    minItems: 1
-> >>> +    maxItems: 5
-> >>> +
-> >>> +  power-domain-names:
-> >>> +    minItems: 1
-> >>> +    maxItems: 5
-> >>> +
-> >>> +  "#cooling-cells":
-> >>> +    const: 2
-> >>> +
-> >>> +  dynamic-power-coefficient:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description:
-> >>> +      A u32 value that represents the running time dynamic
-> >>> +      power coefficient in units of uW/MHz/V^2. The
-> >>> +      coefficient can either be calculated from power
-> >>> +      measurements or derived by analysis.
-> >>> +
-> >>> +      The dynamic power consumption of the GPU is
-> >>> +      proportional to the square of the Voltage (V) and
-> >>> +      the clock frequency (f). The coefficient is used to
-> >>> +      calculate the dynamic power as below -
-> >>> +
-> >>> +      Pdyn = dynamic-power-coefficient * V^2 * f
-> >>> +
-> >>> +      where voltage is in V, frequency is in MHz.
-> >>> +
-> >>> +  dma-coherent: true
-> >>> +
-> >>> +required:
-> >>> +  - compatible
-> >>> +  - reg
-> >>> +  - interrupts
-> >>> +  - interrupt-names
-> >>> +  - clocks
-> >>> +  - mali-supply
-> >>> +
-> >>> +additionalProperties: false
-> >>> +
-> >>> +allOf:
-> >>> +  - if:
-> >>> +      properties:
-> >>> +        compatible:
-> >>> +          contains:
-> >>> +            const: rockchip,rk3588-mali
-> >>> +    then:
-> >>> +      properties:
-> >>> +        clocks:
-> >>> +          minItems: 3
-> >>> +        clock-names:
-> >>> +          items:
-> >>> +            - const: core
-> >>> +            - const: coregroup
-> >>> +            - const: stacks
-> >>
-> >> This duplicates top-level. Just minItems: 3.
-> > 
-> > Will remove the duplicated names.
-> > 
-> >>
-> >> Please describe also power domains - constrains and names.
-> > 
-> > I'm not sure the power domains and how to handle them have been
-> > entirely settled for Rockchip, hence why they were not included. Will
-> > check with Collabora to see if they have anything to add here, but
-> > for non-Rockchip platforms (like Juno with FPGAs) the constraints
-> > are going to be different.
-> > 
-> >>
-> >>> +
-> >>> +examples:
-> >>> +  - |
-> >>> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> >>> +    #include <dt-bindings/interrupt-controller/irq.h>
-> >>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >>> +    #include <dt-bindings/power/rk3588-power.h>
-> >>> +
-> >>> +    gpu: gpu@fb000000 {
-> >>> +        compatible = "rockchip,rk3588-mali", "arm,mali-valhall-csf";
-> >>> +        reg = <0xfb000000 0x200000>;
-> >>> +        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH 0>,
-> >>> +                     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH 0>,
-> >>> +                     <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH 0>;
-> >>> +        interrupt-names = "job", "mmu", "gpu";
-> >>> +        clock-names = "core", "coregroup", "stacks";
-> >>> +        clocks = <&cru CLK_GPU>, <&cru CLK_GPU_COREGROUP>,
-> >>> +                 <&cru CLK_GPU_STACKS>;
-> >>> +        power-domains = <&power RK3588_PD_GPU>;
-> >>> +        operating-points-v2 = <&gpu_opp_table>;
-> >>> +        mali-supply = <&vdd_gpu_s0>;
-> >>> +        sram-supply = <&vdd_gpu_mem_s0>;
-> >>> +        status = "disabled";
-> >>
-> >> Drop status.
-> > 
-> > Will do.
-> > 
-> >>
-> >>> +    };
-> >>> +
-> >>> +    gpu_opp_table: opp-table {
-> >>
-> >> Opp table should be inside the device node.
-> > 
-> > I cannot find any device tree that supports your suggested usage. Most (all?) of
-> 
-> Really? All Qcom have it embedded.
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-The arm,mali-* ones seem to have them outside the gpu node. See "arm,mali-midgard.yaml"
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+This entire series is only build-tested at the moment. Let me know what
+you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (37):
+      drm/connector: Introduce an HDMI connector
+      drm/connector: hdmi: Create a custom state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add helper to get the RGB range
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv      |   1 -
+ drivers/gpu/drm/Kconfig                   |   1 +
+ drivers/gpu/drm/drm_atomic.c              |  10 +
+ drivers/gpu/drm/drm_atomic_state_helper.c | 634 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         |   4 +
+ drivers/gpu/drm/drm_connector.c           | 196 +++++++++
+ drivers/gpu/drm/drm_debugfs.c             | 110 ++++++
+ drivers/gpu/drm/rockchip/inno_hdmi.c      | 409 +++++++------------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c    | 203 +++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 624 ++++-------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |  44 +--
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c        |   6 +-
+ include/drm/drm_atomic_state_helper.h     |  15 +
+ include/drm/drm_connector.h               | 245 ++++++++++++
+ 14 files changed, 1557 insertions(+), 945 deletions(-)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
 
 Best regards,
-Liviu
-
-> 
-> > the device trees that I can find have the opp table as a separate node from
-> > the gpu and make use of the 'operating-points-v2 = <&opp_node_name>' reference
-> 
-> operating-points-v2 is needed anyway, I am not suggesting to drop it.
-> 
-> > in the board fragment. To me that makes more sense as different boards can have
-> > different operating points and is no reason to make them sub-nodes of the gpu.
-> 
-> How boards do it, is independent. They can keep it inside, outside,
-> override etc.
-> 
-> For majority of simple cases, the OPPs come from the SoC, thus they are
-> in DTSI.
-> 
-> Best regards,
-> Krzysztof
-> 
-
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Maxime Ripard <mripard@kernel.org>
+
