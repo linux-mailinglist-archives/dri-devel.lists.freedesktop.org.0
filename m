@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F647A7A5F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E482E7A7A60
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09EAF10E489;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF4410E48C;
 	Wed, 20 Sep 2023 11:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C6810E485
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6FD10E484
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 11:25:13 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9BE8221CBF;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D727F1FF9C;
  Wed, 20 Sep 2023 11:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695209111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gOzQ7qpNA+KclMliSOuSDd4MVYyYAHN23hnajIi4Ch0=;
- b=M8zcAjYu2zqo9iOAfLuu1t3pTlVDkSxBH15/S8SKiOsHV/+xxehzABfRp38nwBhMXHYpfD
- 7wYL5YxgyMojcIh9B1n93PSESY1aznqte2hX4yduOcaTq5o2vKVc6lYNSLn4Ob5GLWnKYp
- G2Dodu6JaRSa/090H9g55FTR/gT0ZyA=
+ bh=FklN7FgOieAM+RqRuqakrVoRnco73GVSVrqzoaYlB/M=;
+ b=CHB1S3b4dTM+M/k8CG0jKmp/P7LWgy9PjGliIAz8YxAMLaL/O9HgdkHFET0JwltZrmTAQk
+ XDnPxK1JkaUKueiCRjRjeVAprVo0np38d3pOhMAcwMpmile2QZsstpFxgcqCrKn9I1wk82
+ tghORPbGETDximwG2BhZ9Q7WF+LTE9Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695209111;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gOzQ7qpNA+KclMliSOuSDd4MVYyYAHN23hnajIi4Ch0=;
- b=5DVyPeWPJok4p5E9i+RJjVYSXx2MWH5Bm11rrw2bPJL+KgvQbXOxupGX9BjT+t0d5pt1ej
- aEgTbXXlebPBgABA==
+ bh=FklN7FgOieAM+RqRuqakrVoRnco73GVSVrqzoaYlB/M=;
+ b=XH7S9WRNoYuVx7UJ76uYswE4XRuCeIoqouxr4Em8UqueGPBQNpSXfjn73Uu8lEauwZYb3U
+ a/ygvuxcGflSpKDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 647E013A64;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A12601333E;
  Wed, 20 Sep 2023 11:25:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UIWkF5fWCmX3NwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id gM9mJpfWCmX3NwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 20 Sep 2023 11:25:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
  arthurgrillo@riseup.net, mairacanal@riseup.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, noralf@tronnes.org
-Subject: [PATCH 5/8] drm/ofdrm: Store xfrm buffer in device instance
-Date: Wed, 20 Sep 2023 13:10:17 +0200
-Message-ID: <20230920112508.11770-6-tzimmermann@suse.de>
+Subject: [PATCH 6/8] drm/ofdrm: Preallocate xfrm buffer in plane's atomic_check
+Date: Wed, 20 Sep 2023 13:10:18 +0200
+Message-ID: <20230920112508.11770-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230920112508.11770-1-tzimmermann@suse.de>
 References: <20230920112508.11770-1-tzimmermann@suse.de>
@@ -74,62 +74,45 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store and instance of struct drm_xfrm_buf in struct ofdrm_device and
-keep the allocated memory allocated across display updates. Avoid
-possibly reallocating temporary memory on each display update. Unloading
-the DRM device also releases the xfrm buffer.
+Preallocate the xfrm buffer's storage in the plane's atomic_check
+function if a format conversion will be necessary. Allows the update
+to fail if no memory is available. Avoids the same allocation within
+atomic_update, which may not fail.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/ofdrm.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tiny/ofdrm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-index 1add55c872670..08e4b04e0590e 100644
+index 08e4b04e0590e..d81b986f5cbc6 100644
 --- a/drivers/gpu/drm/tiny/ofdrm.c
 +++ b/drivers/gpu/drm/tiny/ofdrm.c
-@@ -301,6 +301,7 @@ struct ofdrm_device {
- 	struct drm_display_mode mode;
- 	const struct drm_format_info *format;
- 	unsigned int pitch;
-+	struct drm_xfrm_buf xfrm;
+@@ -759,6 +759,8 @@ static const uint64_t ofdrm_primary_plane_format_modifiers[] = {
+ static int ofdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 						   struct drm_atomic_state *new_state)
+ {
++	struct drm_device *dev = plane->dev;
++	struct ofdrm_device *odev = ofdrm_device_of_dev(dev);
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
+ 	struct drm_framebuffer *new_fb = new_plane_state->fb;
+ 	struct drm_crtc *new_crtc = new_plane_state->crtc;
+@@ -778,6 +780,15 @@ static int ofdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 	else if (!new_plane_state->visible)
+ 		return 0;
  
- 	/* colormap */
- 	void __iomem *cmap_base;
-@@ -796,7 +797,6 @@ static void ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	unsigned int dst_pitch = odev->pitch;
- 	const struct drm_format_info *dst_format = odev->format;
--	struct drm_xfrm_buf xfrm = DRM_XFRM_BUF_INIT;
- 	struct drm_atomic_helper_damage_iter iter;
- 	struct drm_rect damage;
- 	int ret, idx;
-@@ -818,13 +818,12 @@ static void ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 
- 		iosys_map_incr(&dst, drm_fb_clip_offset(dst_pitch, dst_format, &dst_clip));
- 		drm_fb_blit(&dst, &dst_pitch, dst_format->format, shadow_plane_state->data, fb,
--			    &damage, &xfrm);
-+			    &damage, &odev->xfrm);
- 	}
- 
- 	drm_dev_exit(idx);
- out_drm_gem_fb_end_cpu_access:
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
--	drm_xfrm_buf_release(&xfrm);
- }
- 
- static void ofdrm_primary_plane_helper_atomic_disable(struct drm_plane *plane,
-@@ -1248,6 +1247,10 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, linebytes=%d byte\n",
- 		&format->format, width, height, linebytes);
- 
-+	ret = drmm_xfrm_buf_init(dev, &odev->xfrm);
-+	if (ret)
-+		return ERR_PTR(ret);
++	if (new_fb->format != odev->format) {
++		void *buf;
 +
- 	/*
- 	 * Mode-setting pipeline
- 	 */
++		/* format conversion necessary; reserve buffer */
++		buf = drm_xfrm_buf_reserve(&odev->xfrm, odev->pitch, GFP_KERNEL);
++		if (!buf)
++			return -ENOMEM;
++	}
++
+ 	new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_plane_state->crtc);
+ 
+ 	new_ofdrm_crtc_state = to_ofdrm_crtc_state(new_crtc_state);
 -- 
 2.42.0
 
