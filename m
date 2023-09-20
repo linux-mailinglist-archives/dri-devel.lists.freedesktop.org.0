@@ -1,58 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481BB7A7A3F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:18:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 211E17A7A73
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C014110E146;
-	Wed, 20 Sep 2023 11:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB7EA10E179;
+	Wed, 20 Sep 2023 11:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0A110E146;
- Wed, 20 Sep 2023 11:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695208729; x=1726744729;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=V/blwaER0AEA6MQ0muNozilAvVoc4x9ou18moN7caUY=;
- b=CH7/c/KhYcm5ry1nevrTPEkkJxjVM7oGsFU2oUpKnFqqZee9yDm5Pgda
- FqD1qRlMKZyjpwuRw70o01sFDWwEIi283jQ14/4sGOaDARxTFx1Kw0K8j
- xjXKEaaGO8GOX2vdY6btVrHTylAGnPa9REJsKBTTxrlefFtPQFxt3hlI5
- deHuA0364qRC8xm2CfRfYvUusrJgF/ss6T5eUS+6P1Cjk5NE/H/JxwmjH
- LTTUsyYsokgNkrsOXRKH5ljKujG7xCaNHeUy3d0wr1XNCzIhX0KDjTzQ4
- JfgU5vxwhXAK+3TxhY5o9yBVaGDpLKOkAXWTW3KL3RRfs8ZW32hcjr2ML w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446662748"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="446662748"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 04:18:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746604130"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="746604130"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.39.128])
- ([10.252.39.128])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 04:18:46 -0700
-Message-ID: <5ff2eb37-fa7b-84a5-4354-7e1b54dba907@linux.intel.com>
-Date: Wed, 20 Sep 2023 13:18:43 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4F6910E179
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 11:30:28 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 761811FDC2;
+ Wed, 20 Sep 2023 11:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1695209427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9ivdlzK5DQ1af3mnDFKb2JZLiwihtoZ+2zne03qKW6M=;
+ b=VDeCfwV+yeuC8ltYYM1ws9aBou9HQO+0YxGlqaJaF0zbTe8dzBacFbT11KO9Xsu+V4KI7T
+ oeIpZNAK6U7YxPe6y5amn1as4sS/huUkAlp6WH41g9RK3ORMvi64yP1lGPNgdYm8NetyH8
+ xJwBvv3ALRZTwjkyUfLR2NcdbogtjNg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1695209427;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9ivdlzK5DQ1af3mnDFKb2JZLiwihtoZ+2zne03qKW6M=;
+ b=rCl36co9Gmqok7j+BKnGBLGjtJJIdluveunFEks9QfrTSgcwFPrAxu9p2rSMPHFBTvAS38
+ tRLnPZVj+xLQ9qCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3EE511333E;
+ Wed, 20 Sep 2023 11:30:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id phtkDtPXCmVMOwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Sep 2023 11:30:27 +0000
+Message-ID: <e726bb94-1722-422b-8d55-d01661274be3@suse.de>
+Date: Wed, 20 Sep 2023 13:30:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] drm/i915: Fix aux invalidation with proper pipe_control
- flag
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] drm/ssd130x: Preallocate xfrm buffer in plane's
+ atomic_check
+To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
+ arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+References: <20230920112508.11770-1-tzimmermann@suse.de>
+ <20230920112508.11770-9-tzimmermann@suse.de>
 Content-Language: en-US
-To: =?UTF-8?Q?Tapani_P=c3=a4lli?= <tapani.palli@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
-References: <20230919114716.19378-1-nirmoy.das@intel.com>
- <ZQmP+IWIcu1yUkSC@ashyti-mobl2.lan>
- <aa102a2e-0b73-9f1b-8fcf-75eb5b741d03@intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <aa102a2e-0b73-9f1b-8fcf-75eb5b741d03@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20230920112508.11770-9-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------joeAbDg5B2VDzRMn72i0RH6d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +97,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sent out https://patchwork.freedesktop.org/series/123975/
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------joeAbDg5B2VDzRMn72i0RH6d
+Content-Type: multipart/mixed; boundary="------------rKGdpznHVSzftcoZ1md1LT3D";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
+ arthurgrillo@riseup.net, mairacanal@riseup.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, noralf@tronnes.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <e726bb94-1722-422b-8d55-d01661274be3@suse.de>
+Subject: Re: [PATCH 8/8] drm/ssd130x: Preallocate xfrm buffer in plane's
+ atomic_check
+References: <20230920112508.11770-1-tzimmermann@suse.de>
+ <20230920112508.11770-9-tzimmermann@suse.de>
+In-Reply-To: <20230920112508.11770-9-tzimmermann@suse.de>
 
-to replace this one as this not really fixing the issue.
+--------------rKGdpznHVSzftcoZ1md1LT3D
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+DQoNCkFtIDIwLjA5LjIzIHVtIDEzOjEwIHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQpb
+Li4uXQ0KPiAgIAlpZiAoIWZpKQ0KPiBAQCAtNjE5LDYgKzYyOSwxNSBAQCBzdGF0aWMgaW50
+IHNzZDEzMHhfcHJpbWFyeV9wbGFuZV9oZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1f
+cGxhbmUgKnBsYW5lLA0KPiAgIA0KPiAgIAlwaXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5f
+cGl0Y2goZmksIDAsIHNzZDEzMHgtPndpZHRoKTsNCj4gICANCj4gKwlpZiAobmV3X3BsYW5l
+X3N0YXRlLT5mYi0+Zm9ybWF0ICE9IGZpKSB7DQo+ICsJCXZvaWQgKmJ1ZjsNCj4gKw0KPiAr
+CQkvKiBmb3JtYXQgY29udmVyc2lvbiBuZWNlc3Nhcnk7IHJlc2VydmUgYnVmZmVyICovDQo+
+ICsJCWJ1ZiA9IGRybV94ZnJtX2J1Zl9yZXNlcnZlKCZzc2QxMzB4LT54ZnJtLCBwaXRjaCwg
+R0ZQX0tFUk5FTCk7DQo+ICsJCWlmICghYnVmKQ0KPiArCQkJcmV0dXJuIC1FTk9NRU07DQo+
+ICsJfQ0KDQpHcnJyISBSaWdodCBpbiB0aGUgbW9tZW50IEkgc2VudCB0aGlzIHBhdGNoLCBJ
+IHJlYWxpemVkIHRoYXQgdGhpcyBjb2RlIA0Kd291bGQgcnVuIGNvbmN1cnJlbnRseSB3aXRo
+IGF0b21pY191cGRhdGUuIEhlbmNlLCBpdCBjYW5ub3QgcmVhbGxvYyB0aGUgDQp0ZW1wb3Jh
+cnkgYnVmZmVyLg0KDQpJIHRoaW5rIGRyaXZlcnMgY291bGQgYWxzbyBwcmUtYWxsb2NhdGUg
+aW4gdGhlIGRldmljZSdzIHByb2JlIGZ1bmN0aW9uIA0KYWZ0ZXIgY2FsbGluZyBkcm1tX3hm
+cm1fYnVmX2luaXQoKS4gSXQncyBqdXN0IGVub3VnaCBtZW1vcnkgZm9yIGEgc2luZ2xlIA0K
+c2NhbmxpbmUuDQoNCg0KPiArDQo+ICAgCXNzZDEzMHhfc3RhdGUtPmJ1ZmZlciA9IGtjYWxs
+b2MocGl0Y2gsIHNzZDEzMHgtPmhlaWdodCwgR0ZQX0tFUk5FTCk7DQo+ICAgCWlmICghc3Nk
+MTMweF9zdGF0ZS0+YnVmZmVyKQ0KPiAgIAkJcmV0dXJuIC1FTk9NRU07DQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
+dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
+IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
 
-Thanks,
+--------------rKGdpznHVSzftcoZ1md1LT3D--
 
-Nirmoy
+--------------joeAbDg5B2VDzRMn72i0RH6d
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-On 9/19/2023 2:19 PM, Tapani Pälli wrote:
->
-> On 19.9.2023 15.11, Andi Shyti wrote:
->> Hi Nirmoy,
->>
->> On Tue, Sep 19, 2023 at 01:47:16PM +0200, Nirmoy Das wrote:
->>> The suggestion from the spec is to do l3 fabric flush not L3 flush.
->>>
->>> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before
->>> invalidation")
->> please put this in one line.
->>
->>> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
->>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>> Cc: <stable@vger.kernel.org> # v5.8+
->>> Cc: Nirmoy Das <nirmoy.das@intel.com>
->>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
->>> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
->>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->>
->> and I believe
->>
->> Tested-by: Tapani Pälli <tapani.palli@intel.com>
->
-> Yes, tested on TGL LP (0x9a49)!
->
->
->> Thanks,
->> Andi
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUK19IFAwAAAAAACgkQlh/E3EQov+AR
+rBAAv6qmGfevH6iqcGdViKcqfrsjiv+3nQrEQL/Tvdq2KGB3t2L8LlhV6hmORmQAgkLuaX4V9UxQ
++27OsguY3nfaFF5v3BIX8Ma8UITCD5xBY3bLcw2rU1qJCpbPKbiW2xRaNwlqx6JpptkC6I84iEso
+3U3U/KhZVqTTqdZ9F3sZkIphqXwACgc5iVzHzAORV+BL1xEWUY7L/xp+WnLqy39GV4MS1Ej/x8O7
+ZAMzEAGQa/KxurPU++ksGd6pnLzPBxH53VuJIjY2nY2dUkv1Rk4pMhfSoPvr8d7DYb9Y5zXsp50J
+OnnN99ucN2/K86T9M7On4wxutV92coiqHmVOcrE/kN4ctureNvqd/xn6FHB27jyJtP/GHwvZrVSt
+6GzfyoD9Q8Jx1J55/T0dvAjCLWbd9V4zFfmjG1ZybV3n0q1l7msKey9w+db4Xozw2DNcK/iWeRXc
+RHT8x6OryrZiEVatGAP/WLOH1A0avtpqLcdsJqTJKQxEFcWzLwCBAlVbmc0BdWxCwC/KbfX7WVh/
+aZcAGvbxCmU274UoEAx9OOFt/SF8rRmIKaopuAP2G7c5oAPxmE+TQKcKE2ktXIvJDvm7AJvfjp1F
+fuPfXSQK10FEi7mtOcfOvH5r21ML9VnKuXwER0NN2147JePBk7Jq+h5pInSqZC8iOq9gDUaSOkU+
+0is=
+=Obf5
+-----END PGP SIGNATURE-----
+
+--------------joeAbDg5B2VDzRMn72i0RH6d--
