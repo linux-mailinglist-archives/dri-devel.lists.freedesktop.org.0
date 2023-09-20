@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A617A7A5B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F647A7A5F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F7510E486;
-	Wed, 20 Sep 2023 11:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09EAF10E489;
+	Wed, 20 Sep 2023 11:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5C110E486
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 11:25:12 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09C6810E485
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 11:25:13 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 615171FF97;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9BE8221CBF;
  Wed, 20 Sep 2023 11:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1695209111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W4w2mmLKsTHwPsYyL7tyuZbkasiKl94xOLrwSFt+B/E=;
- b=L9D6SoHsJAFCBZgFXVzvPWGLkRv077oQep+YjdjKD23mGnN49y/K8o/I13WUl2wiI/8skQ
- cH90rYtWzg50U8Wu8fN3QBllodi6FTP3UsI5GTkV3H1xQOQ33JqnLjScH9QMBYT0o6he6V
- t57h50EjnWP+MFruwZ5zoxx7fdJGe1w=
+ bh=gOzQ7qpNA+KclMliSOuSDd4MVYyYAHN23hnajIi4Ch0=;
+ b=M8zcAjYu2zqo9iOAfLuu1t3pTlVDkSxBH15/S8SKiOsHV/+xxehzABfRp38nwBhMXHYpfD
+ 7wYL5YxgyMojcIh9B1n93PSESY1aznqte2hX4yduOcaTq5o2vKVc6lYNSLn4Ob5GLWnKYp
+ G2Dodu6JaRSa/090H9g55FTR/gT0ZyA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1695209111;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W4w2mmLKsTHwPsYyL7tyuZbkasiKl94xOLrwSFt+B/E=;
- b=4ZaTo8KIZDr9v/zDqTM07omlwfvOO6lOsu2EPKMLDLrzZ22BwHz/rI3Hi3hGjA43F+8PHy
- uB/v2TbOlXkt8WCg==
+ bh=gOzQ7qpNA+KclMliSOuSDd4MVYyYAHN23hnajIi4Ch0=;
+ b=5DVyPeWPJok4p5E9i+RJjVYSXx2MWH5Bm11rrw2bPJL+KgvQbXOxupGX9BjT+t0d5pt1ej
+ aEgTbXXlebPBgABA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 29F8B1333E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 647E013A64;
  Wed, 20 Sep 2023 11:25:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8JtlCZfWCmX3NwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id UIWkF5fWCmX3NwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 20 Sep 2023 11:25:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jfalempe@redhat.com, jose.exposito89@gmail.com,
  arthurgrillo@riseup.net, mairacanal@riseup.net,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  daniel@ffwll.ch, noralf@tronnes.org
-Subject: [PATCH 4/8] drm/simpledrm: Preallocate xfrm buffer in plane's
- atomic_check
-Date: Wed, 20 Sep 2023 13:10:16 +0200
-Message-ID: <20230920112508.11770-5-tzimmermann@suse.de>
+Subject: [PATCH 5/8] drm/ofdrm: Store xfrm buffer in device instance
+Date: Wed, 20 Sep 2023 13:10:17 +0200
+Message-ID: <20230920112508.11770-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230920112508.11770-1-tzimmermann@suse.de>
 References: <20230920112508.11770-1-tzimmermann@suse.de>
@@ -75,83 +74,62 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Preallocate the xfrm buffer's storage in the plane's atomic_check
-function if a format conversion will be necessary. Allows the update
-to fail if no memory is available. Avoids the same allocation within
-atomic_update, which may not fail.
-
-Also inline drm_plane_helper_atomic_check() into the driver and thus
-return early for invisible planes. Avoids memory allocation entirely
-in this case.
+Store and instance of struct drm_xfrm_buf in struct ofdrm_device and
+keep the allocated memory allocated across display updates. Avoid
+possibly reallocating temporary memory on each display update. Unloading
+the DRM device also releases the xfrm buffer.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 38 +++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tiny/ofdrm.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 31fc32a00d0a5..8ccd95795ecc8 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_generic.h>
- #include <drm/drm_format_helper.h>
-+#include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
-@@ -478,6 +479,41 @@ static const uint64_t simpledrm_primary_plane_format_modifiers[] = {
- 	DRM_FORMAT_MOD_INVALID
- };
+diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+index 1add55c872670..08e4b04e0590e 100644
+--- a/drivers/gpu/drm/tiny/ofdrm.c
++++ b/drivers/gpu/drm/tiny/ofdrm.c
+@@ -301,6 +301,7 @@ struct ofdrm_device {
+ 	struct drm_display_mode mode;
+ 	const struct drm_format_info *format;
+ 	unsigned int pitch;
++	struct drm_xfrm_buf xfrm;
  
-+static int simpledrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						       struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_framebuffer *new_fb = new_plane_state->fb;
-+	struct drm_crtc *new_crtc = new_plane_state->crtc;
-+	struct drm_crtc_state *new_crtc_state = NULL;
-+	struct drm_device *dev = plane->dev;
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
-+	int ret;
-+
-+	if (new_crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
+ 	/* colormap */
+ 	void __iomem *cmap_base;
+@@ -796,7 +797,6 @@ static void ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb = plane_state->fb;
+ 	unsigned int dst_pitch = odev->pitch;
+ 	const struct drm_format_info *dst_format = odev->format;
+-	struct drm_xfrm_buf xfrm = DRM_XFRM_BUF_INIT;
+ 	struct drm_atomic_helper_damage_iter iter;
+ 	struct drm_rect damage;
+ 	int ret, idx;
+@@ -818,13 +818,12 @@ static void ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 
+ 		iosys_map_incr(&dst, drm_fb_clip_offset(dst_pitch, dst_format, &dst_clip));
+ 		drm_fb_blit(&dst, &dst_pitch, dst_format->format, shadow_plane_state->data, fb,
+-			    &damage, &xfrm);
++			    &damage, &odev->xfrm);
+ 	}
+ 
+ 	drm_dev_exit(idx);
+ out_drm_gem_fb_end_cpu_access:
+ 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+-	drm_xfrm_buf_release(&xfrm);
+ }
+ 
+ static void ofdrm_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+@@ -1248,6 +1247,10 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
+ 	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, linebytes=%d byte\n",
+ 		&format->format, width, height, linebytes);
+ 
++	ret = drmm_xfrm_buf_init(dev, &odev->xfrm);
 +	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
++		return ERR_PTR(ret);
 +
-+	if (new_fb->format != sdev->format) {
-+		/* format conversion necessary; reserve buffer */
-+		void *buf;
-+
-+		buf = drm_xfrm_buf_reserve(&sdev->xfrm, sdev->pitch, GFP_KERNEL);
-+		if (!buf)
-+			return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
- static void simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 							 struct drm_atomic_state *state)
- {
-@@ -534,7 +570,7 @@ static void simpledrm_primary_plane_helper_atomic_disable(struct drm_plane *plan
- 
- static const struct drm_plane_helper_funcs simpledrm_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = drm_plane_helper_atomic_check,
-+	.atomic_check = simpledrm_primary_plane_helper_atomic_check,
- 	.atomic_update = simpledrm_primary_plane_helper_atomic_update,
- 	.atomic_disable = simpledrm_primary_plane_helper_atomic_disable,
- };
+ 	/*
+ 	 * Mode-setting pipeline
+ 	 */
 -- 
 2.42.0
 
