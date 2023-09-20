@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB20F7A8071
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA637A807C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 14:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED7A010E4A0;
-	Wed, 20 Sep 2023 12:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A4810E4A9;
+	Wed, 20 Sep 2023 12:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE02F10E4A0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:37:12 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9922610E045
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 12:37:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695213432;
+ s=mimecast20190719; t=1695213447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7KRPqkETTBVBC/zv1aXEUiiiXJ1Cft936yka0iGNazc=;
- b=GDssDO8BIGhK6TKMZh04cGJJnpoaaAjR4Dkx9sAIlFD1POzPVWi4Zot2wniwcVPb+TQMwX
- VkZNBuiV2wuvq60oXW+bmakbfa8VIYK3nwbn7CJfPH9+rGZKxxBbIbrAwkZTZ4dXlC5CPi
- n6nDeuOtyyiclJLWf7fxdpy5lAxOiB8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/re3vPWoYJ/6xHLpunyVTZgfJ3oWhQoot3M15Xf93m8=;
+ b=E2OP29vLDk4eh5/V7/D5SKXxSO5RoM5HB41hLgMOPlLhV8MOamYL82/noDOQ7QinN7z01b
+ GJcmkR+B6Sdzp6HxJmm0yzG10cMMkjbDidnawKuLvMTyzjWPGYySM5RSLhZOun+lFRxBVY
+ qZv07IqsnoFNJY3/U6zMZfFo1j+IOgw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-yx_31ZEgMM-B6ghO52NY_w-1; Wed, 20 Sep 2023 08:37:10 -0400
-X-MC-Unique: yx_31ZEgMM-B6ghO52NY_w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-404daa4f5a7so15032565e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 05:37:10 -0700 (PDT)
+ us-mta-411-4QXxlugCMV6ZTWx0XNIWmA-1; Wed, 20 Sep 2023 08:37:25 -0400
+X-MC-Unique: 4QXxlugCMV6ZTWx0XNIWmA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9a9cd336c9cso154954566b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Sep 2023 05:37:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695213429; x=1695818229;
+ d=1e100.net; s=20230601; t=1695213444; x=1695818244;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7KRPqkETTBVBC/zv1aXEUiiiXJ1Cft936yka0iGNazc=;
- b=cpnBF9zxIhNXpXisO9Qxv+JJMv7vyE6VkyKJmwNAZIybA31/o4lPRbzG8Q8wBDaDv5
- OV4/5EGJb2bDig5jputUNSFzWa7EKyJ6HBm14EIFVts6KLkDolPWPeXKMMAJgz462h++
- rsT2lr/i8VyaoEqof2kWP5eFDU38EUiI8bLIVziZtDlT/TcLHhz3G86uRSwaoqyz/FZY
- rj35axZqp2kIS4dZMAZMpXFP8uylak4x53OKFL1vdXS1drK2SFr5oY8MpnoYww97zDhb
- TJUr8ixFjg+voJUwt9J6DvRFlzjxpzaXpoydEslAvDEcL9j/EpytAkT7vlGVGfuCLIqC
- XJuQ==
-X-Gm-Message-State: AOJu0YzVuWVmaERtNJXfp+e0eisGs4SB9sn1cGMiD2hmCbUIcQILE4NM
- PW0qDqGSHUrnIsr0WKPhuAmitvuAhS2XY58C0TBQGCq96CzTzKn4ijALuyRck1QE7JdDtTD/aIG
- Mve8kx+Y1b7rbJgASyt7X9GQYhX0j
-X-Received: by 2002:adf:ec48:0:b0:317:630d:1e8e with SMTP id
- w8-20020adfec48000000b00317630d1e8emr2031495wrn.2.1695213429447; 
- Wed, 20 Sep 2023 05:37:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGorWXFxi2CZ+i0Bq4z7I+sy7K13wS44rMjIuskory3+gtAyjUda2GeiUfH2k5vq773C10/rA==
-X-Received: by 2002:adf:ec48:0:b0:317:630d:1e8e with SMTP id
- w8-20020adfec48000000b00317630d1e8emr2031462wrn.2.1695213429120; 
- Wed, 20 Sep 2023 05:37:09 -0700 (PDT)
+ bh=/re3vPWoYJ/6xHLpunyVTZgfJ3oWhQoot3M15Xf93m8=;
+ b=vvg/RD1IN0ygcp6hXWxojJhjGbXMBcFjYy4FModbBPOTLIYcvazdHwuPsFi0qZIeXN
+ T5N7W0FHygZwfVVw+cKedZghmFBiD+ms/fEeLsZVUC8ozg2nI5VIRbdKRnCnuSCshfZD
+ 8uCu4RDxUKpzl9a0sEIZaBaR9U3rwv7RTW1vG4KgK9QPBSROh14gzmWtzSNvc9J6mwDZ
+ 75/+C1wcfAwWnAB46DlLsj2kxEeiAkRJHYnflwiY0DUPp+q5+pZCBEvTkgxLu8SfsA/s
+ /7FRQY5UJVqzNgUibcMt/za9uS5bUlKp7nZRBW2m3lDiZRm+oIM53uMMyRF9ydrQMqbk
+ pb1Q==
+X-Gm-Message-State: AOJu0YyT/uhkn61s6MqJVPEmUxilBxCVYuyAL1YheCV4KsnCmfUaysC2
+ Sj4ZqSUvKJ3yZwK3W0PZZX0jxVhh5ASEtUk0hdFFdsBQfaZ2snPxe5hsdyt7Kgmebj9L/SyeaLu
+ GlJPkVjvGzBPUJeE4CT0IwaHfSyAS
+X-Received: by 2002:a17:906:1d4:b0:9ad:f4d9:f6f2 with SMTP id
+ 20-20020a17090601d400b009adf4d9f6f2mr1978103ejj.5.1695213444580; 
+ Wed, 20 Sep 2023 05:37:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhjndQs4UNSwfullLxNR+tIZdKn1iy3aRr+eKNx4dO54tFLsdtNfZQxNfsH7DoGs3jy6KzlA==
+X-Received: by 2002:a17:906:1d4:b0:9ad:f4d9:f6f2 with SMTP id
+ 20-20020a17090601d400b009adf4d9f6f2mr1978090ejj.5.1695213444350; 
+ Wed, 20 Sep 2023 05:37:24 -0700 (PDT)
 Received: from fedorinator.. ([2a01:599:906:7772:a505:d891:dcff:9565])
  by smtp.gmail.com with ESMTPSA id
- lg13-20020a170906f88d00b009ad88839665sm9297787ejb.70.2023.09.20.05.37.01
+ h11-20020a170906854b00b0099ccee57ac2sm9233184ejy.194.2023.09.20.05.37.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Sep 2023 05:37:03 -0700 (PDT)
+ Wed, 20 Sep 2023 05:37:19 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Eric Biederman <ebiederm@xmission.com>,
@@ -68,9 +68,9 @@ To: Kees Cook <keescook@chromium.org>, Andy Shevchenko <andy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
-Subject: [PATCH v3 4/5] drm_lease.c: copy user-array safely
-Date: Wed, 20 Sep 2023 14:36:12 +0200
-Message-ID: <20230920123612.16914-6-pstanner@redhat.com>
+Subject: [PATCH v3 5/5] drm: vmgfx_surface.c: copy user-array safely
+Date: Wed, 20 Sep 2023 14:36:13 +0200
+Message-ID: <20230920123612.16914-7-pstanner@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230920123612.16914-2-pstanner@redhat.com>
 References: <20230920123612.16914-2-pstanner@redhat.com>
@@ -108,24 +108,25 @@ Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/drm_lease.c | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 150fe1555068..94375c6a5425 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -510,8 +510,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Handle leased objects, if any */
- 	idr_init(&leases);
- 	if (object_count != 0) {
--		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
--					 array_size(object_count, sizeof(__u32)));
-+		object_ids = memdup_array_user(u64_to_user_ptr(cl->object_ids),
-+					       object_count, sizeof(__u32));
- 		if (IS_ERR(object_ids)) {
- 			ret = PTR_ERR(object_ids);
- 			idr_destroy(&leases);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 5db403ee8261..9be185b094cb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -777,9 +777,9 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 	       sizeof(metadata->mip_levels));
+ 	metadata->num_sizes = num_sizes;
+ 	metadata->sizes =
+-		memdup_user((struct drm_vmw_size __user *)(unsigned long)
++		memdup_array_user((struct drm_vmw_size __user *)(unsigned long)
+ 			    req->size_addr,
+-			    sizeof(*metadata->sizes) * metadata->num_sizes);
++			    metadata->num_sizes, sizeof(*metadata->sizes));
+ 	if (IS_ERR(metadata->sizes)) {
+ 		ret = PTR_ERR(metadata->sizes);
+ 		goto out_no_sizes;
 -- 
 2.41.0
 
