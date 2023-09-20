@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7949F7A7A25
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481BB7A7A3F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Sep 2023 13:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196AD10E483;
-	Wed, 20 Sep 2023 11:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C014110E146;
+	Wed, 20 Sep 2023 11:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDF010E483;
- Wed, 20 Sep 2023 11:11:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0A110E146;
+ Wed, 20 Sep 2023 11:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695208301; x=1726744301;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=c0SZhvlhnSQl1roMwUzMg8nEoyStVAs4NBGX89KR3Bg=;
- b=mqL4Dnb5Qx/63JX2YZk0v8gO1zWmu5op5DZbsPFjFJBufu2z8BYm/XMk
- IW/szEYWBTf6YXZaao4+Ih4wxa4y4ylKRWIB7IlZYlind5G6cZtyhrWgX
- CDiwkc8nUXpSFYDYTDl01o8uR9eKnvsnGdaHgaswo8FoHh/a6pCzVz993
- 36SZKc9p07iBIX8MoC1/z80NukWrgF/k6C46UaEp51YlMr5mYX2pnNva2
- FCDVVdxhRxmpgoQEfUggbUV6nj1s8C9dnNSpgfxt3jzOg1bycl7TKpdcT
- dWZp7a6JG46N/kWc+VySzo1q49Ibe6uQ518tF0v8wZnmjqc/A2TrThYpZ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="384038946"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="384038946"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 04:11:40 -0700
+ t=1695208729; x=1726744729;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=V/blwaER0AEA6MQ0muNozilAvVoc4x9ou18moN7caUY=;
+ b=CH7/c/KhYcm5ry1nevrTPEkkJxjVM7oGsFU2oUpKnFqqZee9yDm5Pgda
+ FqD1qRlMKZyjpwuRw70o01sFDWwEIi283jQ14/4sGOaDARxTFx1Kw0K8j
+ xjXKEaaGO8GOX2vdY6btVrHTylAGnPa9REJsKBTTxrlefFtPQFxt3hlI5
+ deHuA0364qRC8xm2CfRfYvUusrJgF/ss6T5eUS+6P1Cjk5NE/H/JxwmjH
+ LTTUsyYsokgNkrsOXRKH5ljKujG7xCaNHeUy3d0wr1XNCzIhX0KDjTzQ4
+ JfgU5vxwhXAK+3TxhY5o9yBVaGDpLKOkAXWTW3KL3RRfs8ZW32hcjr2ML w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446662748"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="446662748"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 04:18:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="775960934"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="775960934"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2023 04:11:37 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Remove unnecessary memory quiescing for aux inval
-Date: Wed, 20 Sep 2023 13:11:31 +0200
-Message-ID: <20230920111131.2696-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.41.0
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746604130"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; d="scan'208";a="746604130"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.39.128])
+ ([10.252.39.128])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2023 04:18:46 -0700
+Message-ID: <5ff2eb37-fa7b-84a5-4354-7e1b54dba907@linux.intel.com>
+Date: Wed, 20 Sep 2023 13:18:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/i915: Fix aux invalidation with proper pipe_control
+ flag
+Content-Language: en-US
+To: =?UTF-8?Q?Tapani_P=c3=a4lli?= <tapani.palli@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+References: <20230919114716.19378-1-nirmoy.das@intel.com>
+ <ZQmP+IWIcu1yUkSC@ashyti-mobl2.lan>
+ <aa102a2e-0b73-9f1b-8fcf-75eb5b741d03@intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <aa102a2e-0b73-9f1b-8fcf-75eb5b741d03@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,127 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Janes <mark.janes@intel.com>,
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Matt Roper <matthew.d.roper@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i915 already does memory quiesce before signaling
-breadcrumb so remove extra memory quiescing for aux
-invalidation which can cause unnecessary side effects.
+Sent out https://patchwork.freedesktop.org/series/123975/
 
-Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before invalidation")
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.8+
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
-Cc: Tapani Pälli <tapani.palli@intel.com>
-Cc: Mark Janes <mark.janes@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 50 ++++++++++++------------
- 1 file changed, 26 insertions(+), 24 deletions(-)
+to replace this one as this not really fixing the issue.
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 0143445dba83..5001670046a0 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -248,11 +248,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- {
- 	struct intel_engine_cs *engine = rq->engine;
- 
--	/*
--	 * On Aux CCS platforms the invalidation of the Aux
--	 * table requires quiescing memory traffic beforehand
--	 */
--	if (mode & EMIT_FLUSH || gen12_needs_ccs_aux_inv(engine)) {
-+	if (mode & EMIT_FLUSH) {
- 		u32 bit_group_0 = 0;
- 		u32 bit_group_1 = 0;
- 		int err;
-@@ -264,13 +260,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- 		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
- 
--		/*
--		 * When required, in MTL and beyond platforms we
--		 * need to set the CCS_FLUSH bit in the pipe control
--		 */
--		if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
--			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
--
- 		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
- 		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
- 		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
-@@ -800,14 +789,15 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
- {
- 	struct drm_i915_private *i915 = rq->i915;
- 	struct intel_gt *gt = rq->engine->gt;
--	u32 flags = (PIPE_CONTROL_CS_STALL |
--		     PIPE_CONTROL_TLB_INVALIDATE |
--		     PIPE_CONTROL_TILE_CACHE_FLUSH |
--		     PIPE_CONTROL_FLUSH_L3 |
--		     PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
--		     PIPE_CONTROL_DEPTH_CACHE_FLUSH |
--		     PIPE_CONTROL_DC_FLUSH_ENABLE |
--		     PIPE_CONTROL_FLUSH_ENABLE);
-+	u32 bit_group_0 = PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
-+	u32 bit_group_1 = (PIPE_CONTROL_CS_STALL |
-+			   PIPE_CONTROL_TLB_INVALIDATE |
-+			   PIPE_CONTROL_TILE_CACHE_FLUSH |
-+			   PIPE_CONTROL_FLUSH_L3 |
-+			   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
-+			   PIPE_CONTROL_DEPTH_CACHE_FLUSH |
-+			   PIPE_CONTROL_DC_FLUSH_ENABLE |
-+			   PIPE_CONTROL_FLUSH_ENABLE);
- 
- 	/* Wa_14016712196 */
- 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) || IS_DG2(i915))
-@@ -817,14 +807,26 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
- 
- 	if (GRAPHICS_VER(i915) == 12 && GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
- 		/* Wa_1409600907 */
--		flags |= PIPE_CONTROL_DEPTH_STALL;
-+		bit_group_1 |= PIPE_CONTROL_DEPTH_STALL;
- 
- 	if (!HAS_3D_PIPELINE(rq->i915))
--		flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-+		bit_group_1 &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
- 	else if (rq->engine->class == COMPUTE_CLASS)
--		flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-+		bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-+
-+	/*
-+	 * On Aux CCS platforms the invalidation of the Aux
-+	 * table requires quiescing memory traffic beforehand.
-+	 * gen12_emit_fini_breadcrumb_rcs() does this for us as
-+	 * all memory traffic has to be completed before we signal
-+	 * the breadcrumb. In MTL and beyond platforms, we need to also
-+	 * add CCS_FLUSH bit in the pipe control for that purpose.
-+	 */
-+
-+	if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
-+		bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
- 
--	cs = gen12_emit_pipe_control(cs, PIPE_CONTROL0_HDC_PIPELINE_FLUSH, flags, 0);
-+	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1, 0);
- 
- 	/*XXX: Look at gen8_emit_fini_breadcrumb_rcs */
- 	cs = gen12_emit_ggtt_write_rcs(cs,
--- 
-2.41.0
 
+Thanks,
+
+Nirmoy
+
+On 9/19/2023 2:19 PM, Tapani Pälli wrote:
+>
+> On 19.9.2023 15.11, Andi Shyti wrote:
+>> Hi Nirmoy,
+>>
+>> On Tue, Sep 19, 2023 at 01:47:16PM +0200, Nirmoy Das wrote:
+>>> The suggestion from the spec is to do l3 fabric flush not L3 flush.
+>>>
+>>> Fixes: 78a6ccd65fa3 ("drm/i915/gt: Ensure memory quiesced before
+>>> invalidation")
+>> please put this in one line.
+>>
+>>> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>> Cc: <stable@vger.kernel.org> # v5.8+
+>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+>>> Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>
+>> and I believe
+>>
+>> Tested-by: Tapani Pälli <tapani.palli@intel.com>
+>
+> Yes, tested on TGL LP (0x9a49)!
+>
+>
+>> Thanks,
+>> Andi
