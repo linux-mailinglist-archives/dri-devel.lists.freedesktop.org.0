@@ -1,68 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F647A92C6
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:46:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6CA7A92CA
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 834D910E588;
-	Thu, 21 Sep 2023 08:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB3010E0D2;
+	Thu, 21 Sep 2023 08:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA1410E588
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:46:20 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-d81b803b09aso853990276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 01:46:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695285979; x=1695890779;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6wRswdA+hUPT84SfQuestnzzAlGgjNnTThx2x+1h1rI=;
- b=s38m4kfdvjjyn89+Hz0JqvnF7dNfGHxiG3ax359zaW34Uv8MKvU5dyIl7COIs4Ausu
- yrPYhIVuNuU2yGvaWrTrYP8sI8bjx3E8S3RFBNKHKgZoPIXUzP2e2yuPsVvQk8rciF7n
- G4hI9FnTeD2bpkz3kJDDPHKPqUYVwKWunLwtcL5NHXbX32d5K6L+CJiovayRBUQxu/t9
- 6isop3vUiWwFFV1G39aIlDl57s/WxWEDSMzAPnI2DNGMbjxeNEeK+aOz3zUlT0fpkk0z
- pb7Y5xpWvz0mtGqk6DrXi6QVypZkjKmdj6NbW0ABtZv2WAOIZwDP4TFOK4G/l01KBeJ7
- 9Yyg==
-X-Gm-Message-State: AOJu0YxWL/wRADfPzmZfhJGKB4TDpV8MyTtyCftDfNUT5tBVbGg2b4em
- NfBN9qfMnzbUOh50Oy9zhHRe4AyNasqaTw==
-X-Google-Smtp-Source: AGHT+IFLTjqcBZJvnFlKciJKB57k6o4KgNyIoa2L4ozq4puoPg9AfFpwDPBt9excVpOqjICkQDJJ3g==
-X-Received: by 2002:a25:bdcf:0:b0:d81:97c:c016 with SMTP id
- g15-20020a25bdcf000000b00d81097cc016mr4244037ybk.15.1695285978943; 
- Thu, 21 Sep 2023 01:46:18 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
- [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
- 14-20020a25050e000000b00d3596aca5bcsm248794ybf.34.2023.09.21.01.46.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Sep 2023 01:46:18 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-59c0b5f984aso8558817b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 01:46:18 -0700 (PDT)
-X-Received: by 2002:a81:5dd7:0:b0:59b:ce0b:7829 with SMTP id
- r206-20020a815dd7000000b0059bce0b7829mr4365474ywb.35.1695285978536; Thu, 21
- Sep 2023 01:46:18 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9049010E0D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:48:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 96D60CE1D4D;
+ Thu, 21 Sep 2023 08:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F018C116D3;
+ Thu, 21 Sep 2023 08:48:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695286080;
+ bh=KmendGjAj9mcIv/qAR8I0o69GyeYEy8iA0laqXgqu4U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z2qrGfYTUxHKu3NNGQvn6GS3KvYbUGdIPMz7Zq+zbhGL/71IWQhpmvSNwmci85IP9
+ 3uEkHnylqAOWmS26Exf148JI89ZWtIJvRBFvHbmIE6M/HoZ1glHQ8aDwnh5H/4UVWY
+ ZQi8YKnLZJINnV3FqE4uzgxmlaQKGTFT5Qbp2pAoWWieBA5bKBwZJJZNKagOE27+Jw
+ siJ1FVbkQLWJQtY5Qsa3VxwjRcY0fQ8wf3THhEZrCTNn68FAT0ZBTida10L2Dxoxqe
+ s7k8ll8+LaeJbTUfmGYI0Zo61Rnzt1fFGjZHSjd1Bq228ZTxEfH6HQ8fW9p6rGY1g3
+ liEoGmJx9PQJA==
+Date: Thu, 21 Sep 2023 10:47:58 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: suijingfeng <suijingfeng@loongson.cn>
+Subject: Re: MAINTAINERS: Update drm-misc entry to match all drivers
+Message-ID: <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
+References: <20230919131235.759959-1-mripard@kernel.org>
+ <afc3da23-81ce-edcf-6ea6-8fd8711e17b0@loongson.cn>
 MIME-Version: 1.0
-References: <20230914195138.1518065-1-javierm@redhat.com>
- <f5620d32-2705-498b-a65c-7dc663340a6d@suse.de>
- <87wmwo3q50.fsf@minerva.mail-host-address-is-not-set>
- <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
- <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
- <2p53aei56tlr7k6w5oawlwpmv2k7agpbb6wfwpxcg3rqyueyrx@2as7tijrgnh4>
-In-Reply-To: <2p53aei56tlr7k6w5oawlwpmv2k7agpbb6wfwpxcg3rqyueyrx@2as7tijrgnh4>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 21 Sep 2023 10:46:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
-Message-ID: <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
- drm_*_helper_funcs callbacks
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="nfekatucbu5p3sge"
+Content-Disposition: inline
+In-Reply-To: <afc3da23-81ce-edcf-6ea6-8fd8711e17b0@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,103 +55,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-On Thu, Sep 21, 2023 at 10:12=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> On Thu, Sep 21, 2023 at 09:57:22AM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Sep 21, 2023 at 9:44=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > On Mon, Sep 18, 2023 at 09:19:07AM +0200, Javier Martinez Canillas wr=
-ote:
-> > > > Thomas Zimmermann <tzimmermann@suse.de> writes:
-> > > > > Am 14.09.23 um 21:51 schrieb Javier Martinez Canillas:
-> > > > >> The driver uses a naming convention where functions for struct d=
-rm_*_funcs
-> > > > >> callbacks are named ssd130x_$object_$operation, while the callba=
-cks for
-> > > > >> struct drm_*_helper_funcs are named ssd130x_$object_helper_$oper=
-ation.
-> > > > >>
-> > > > >> The idea is that this helper_ prefix in the function names denot=
-e that are
-> > > > >> for struct drm_*_helper_funcs callbacks. This convention was cop=
-ied from
-> > > > >> other drivers, when ssd130x was written but Maxime pointed out t=
-hat is the
-> > > > >> exception rather than the norm.
-> > > > >
-> > > > > I guess you found this in my code. I want to point out that I use=
+--nfekatucbu5p3sge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Adding Paul in Cc
+
+On Thu, Sep 21, 2023 at 04:25:50PM +0800, suijingfeng wrote:
+> On 2023/9/19 21:12, Maxime Ripard wrote:
+> > We've had a number of times when a patch slipped through and we couldn't
+> > pick them up either because our MAINTAINERS entry only covers the
+> > framework and thus we weren't Cc'd.
+> >=20
+> > Let's take another approach where we match everything, and remove all
+> > the drivers that are not maintained through drm-misc.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > Acked-by: Jani Nikula <jani.nikula@intel.com>
+> > ---
+> >   MAINTAINERS | 23 ++++++++++++++++++++---
+> >   1 file changed, 20 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 90f13281d297..757d4f33e158 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -6860,12 +6860,29 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
+> >   S:	Maintained
+> >   W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.ht=
+ml
+> >   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > +F:	Documentation/devicetree/bindings/display/
+> > +F:	Documentation/devicetree/bindings/gpu/
+> >   F:	Documentation/gpu/
+> > -F:	drivers/gpu/drm/*
+> > +F:	drivers/gpu/drm/
+> >   F:	drivers/gpu/vga/
+> > -F:	include/drm/drm*
+> > +F:	include/drm/drm
+> >   F:	include/linux/vga*
+> > -F:	include/uapi/drm/drm*
+> > +F:	include/uapi/drm/
+> > +X:	drivers/gpu/drm/amd/
+> > +X:	drivers/gpu/drm/armada/
+> > +X:	drivers/gpu/drm/etnaviv/
+> > +X:	drivers/gpu/drm/exynos/
+> > +X:	drivers/gpu/drm/gma500/
+> > +X:	drivers/gpu/drm/i915/
+> > +X:	drivers/gpu/drm/imx/
+> > +X:	drivers/gpu/drm/ingenic/
+> > +X:	drivers/gpu/drm/kmb/
+> > +X:	drivers/gpu/drm/mediatek/
+> > +X:	drivers/gpu/drm/msm/
+> > +X:	drivers/gpu/drm/nouveau/
+> > +X:	drivers/gpu/drm/radeon/
+> > +X:	drivers/gpu/drm/renesas/
+> > +X:	drivers/gpu/drm/tegra/
+> >   DRM DRIVERS FOR ALLWINNER A10
+> >   M:	Maxime Ripard <mripard@kernel.org>
+>=20
+>=20
+> Nice patch!
+>=20
+> Well, I'm just curious about why the drm/ingenic and drm/gma500 are not m=
+aintained through drm-misc?
+>=20
+> As far as I know:
+> 1) the drm/ingenic driver don't have a "T" annotation (location of the li=
+nk).
+
+Yeah, I wasn't sure about that one indeed. I remained conservative since it=
+'s a
+sensitive topic for some.
+
+Paul, is drm/ingenic supposed to be maintained through drm-misc? Either way,
+could you clarify which git tree is supposed to merge those patches in
+MAINTAINERS?
+
+> 2) the "T" of drm/gma500 is "git git://github.com/patjak/drm-gma500", but=
  the
-> > > > > _helper infix to signal that these are callback for
-> > > > > drm_primary_plane_helper_funcs and *not* drm_primary_plane_funcs.=
- The
-> > > > > naming is intentional.
-> > > >
-> > > > Yes, that's what tried to say in the commit message and indeed I go=
-t the
-> > > > convention from drivers in drivers/gpu/drm/tiny. In fact I believe =
-these
-> > > > function names are since first iteration of the driver, when was me=
-ant to
-> > > > be a tiny driver.
-> > > >
-> > > > According to Maxime it's the exception rather than the rule and sug=
-gested
-> > > > to change it, I don't really have a strong opinion on either naming=
- TBH.
-> > >
-> > > Maybe that's just me, but the helper in the name indeed throws me off=
-. In my
-> > > mind, it's supposed to be used only for helpers, not functions implem=
-enting the
-> > > helpers hooks.
-> >
-> > With several callbacks using the same (field) name, it is very helpful
-> > to name the actual implementation by combining the struct type name
-> > and the field name.
->
-> I can't think of any (at least for a given object). Which one do you have=
- in
-> mind?
+  code for this link is not up to date.
 
-E.g. atomic_check():
+For gma500, I think it's mostly historical since it was there before drm-mi=
+sc
+was a thing.
 
-    drm_crtc_helper_funcs.atomic_check()
-    drm_encoder_helper_funcs.atomic_check()
-    drm_connector_helper_funcs.atomic_check()
-    drm_plane_helper_funcs.atomic_check()
+> I think at least the drm/ingenic and drm/gma500 drivers are *actually*
+> maintained through drm-misc, So perhaps, these two drivers should not be
+> excluded. Am I correct?
 
-Interestingly, drm_mode_config_helper_funcs does not have an
-atomic_check() callback, but drm_mode_config_funcs has.
+It's likely :)
 
-> > Anything else confuses the casual reader. Perhaps the real question is =
-whether
-> > the structures should have "helper" in their name in the first place?
->
-> Those structures are meant for functions used by the helpers, they are no=
-t
-> helper functions.
+Either way, I think it can be solved/clarified later on
 
-That might be how they started, but to me it looks like all these helpers
-are no longer helpers, but part of the core...
+Maxime
 
-Gr{oetje,eeting}s,
+--nfekatucbu5p3sge
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQwDPgAKCRDj7w1vZxhR
+xdCIAQCnStvwrzY8522+bj04SgY30MKu9eI5/IH98To/cEJTfAEAnY4a0h5B+v6u
+1X9x2tE812i05cb1Z+D0rRJhBs7HAwA=
+=/4I4
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--nfekatucbu5p3sge--
