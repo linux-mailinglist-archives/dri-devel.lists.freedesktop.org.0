@@ -2,44 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4D17A91E4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B707A91D8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:01:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB9210E0CD;
-	Thu, 21 Sep 2023 07:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF25510E564;
+	Thu, 21 Sep 2023 07:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 466 seconds by postgrey-1.36 at gabe;
- Thu, 21 Sep 2023 07:09:30 UTC
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966E010E0CD
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:09:30 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1qjDgo-003G9s-Fd; Thu, 21 Sep 2023 09:01:30 +0200
-Received: from p5b13a40a.dip0.t-ipconnect.de ([91.19.164.10]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1qjDgo-0028oM-87; Thu, 21 Sep 2023 09:01:30 +0200
-Message-ID: <a720e92592db824e65d0fcc03d89e20ea59b11a6.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- sam@ravnborg.org,  arnd@arndb.de, javierm@redhat.com, rdunlap@infradead.org
-Date: Thu, 21 Sep 2023 09:01:29 +0200
-In-Reply-To: <20230918090400.13264-1-tzimmermann@suse.de>
-References: <20230918090400.13264-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E822510E568
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:01:51 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-532addba879so1211272a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 00:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1695279710; x=1695884510; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TXv2swyixrrXvv0zGvrj0+c4WbYkAz74mw7u1eEONl8=;
+ b=m7MO/vNzO7+eTU+iOCsbIFp7QY0xRktgjJ/seYmeT9emZpPRU6hZo7EwyBl43pIqUk
+ r7WE+cWcf1DSWOsg4JKskwS/ZrxSy1VRMOLOH6qc9bW6XbMvDKuiuwqY0nvngo4gBmcd
+ RSkl5UPpAwqlb4zYZp2w4yEXufKAhFSOcU7ng51swv8BRV1uL9tU/90dKKm7QjQ58hkw
+ k2Uh5TbTnIRCvLzoguzhx90lfqxEQL6QLgCLa6GNaQQ/FtlmrfQ/mS9XEbq7MTY68uX2
+ gJSG6sVmMkHWQ5JIF872/0SLGwcD8urwUFMqkkc8hJffCyeV0zdIbmLfROb9O3u+sJLW
+ YSeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695279710; x=1695884510;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TXv2swyixrrXvv0zGvrj0+c4WbYkAz74mw7u1eEONl8=;
+ b=QN9UrXaNgsRDmneRP+igNXMLA4FhnUYMhWXpeZRDIOKj+yokaBPr4NbX69UDGIDXq8
+ 53jBUA1oTb8JsJ1IN3lgYOvi4/2mPSot3RFWeqhvPTcit2bctDgg12XtWt1fC1Ce9zav
+ NuaiI1Cs5+BetYh1fLx4vn0CWD4NSp5AgmzYMe8s7rX1SzFDUytm8NpKuueG9Om2QvYO
+ P/jkRmHcFooU+8hrNOogVF2fn52m2HqtcAf5zNsy77SLhTZY/e4Rf0CPUX5arrhs8txB
+ AE4h712C1lmRuIw0sWrNxV+VlXL+B/eLZwk+2h4b1rFEnlSV+WOAHuvfFdn+GSAFmaJ0
+ CssA==
+X-Gm-Message-State: AOJu0YzV3+CJl6fIhreodlvWgujJ2CFG4zDyJbQZE1jS2NYBthSKMoNH
+ pQer221TlYLabqR4TVpBkxhnDQ==
+X-Google-Smtp-Source: AGHT+IF33ZszVwsMibxsoJczJ31Md6SkIWFl+NgIPjyaeu55oxkozMwjQ2+h4m7DsUHVeCJrMeMh0Q==
+X-Received: by 2002:a50:ec83:0:b0:531:1f3b:cb47 with SMTP id
+ e3-20020a50ec83000000b005311f3bcb47mr7302479edr.0.1695279710178; 
+ Thu, 21 Sep 2023 00:01:50 -0700 (PDT)
+Received: from [172.20.15.189] (static-212-193-78-212.thenetworkfactory.nl.
+ [212.78.193.212]) by smtp.gmail.com with ESMTPSA id
+ m26-20020a056402051a00b00532d2b5126bsm389571edv.94.2023.09.21.00.01.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Sep 2023 00:01:49 -0700 (PDT)
+Message-ID: <8f24963f-a016-3095-29da-a2fcae5ec9eb@linaro.org>
+Date: Thu, 21 Sep 2023 09:01:50 +0200
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.19.164.10
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Fix SC7280 PP length
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <20230921-topic-7280_dpu-v1-0-6912a97183d5@linaro.org>
+ <20230921-topic-7280_dpu-v1-1-6912a97183d5@linaro.org>
+ <3b23270c-ec89-2177-8252-6ccaf58d37ac@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <3b23270c-ec89-2177-8252-6ccaf58d37ac@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +82,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-09-18 at 11:03 +0200, Thomas Zimmermann wrote:
-> Fix linker error if FB=3Dm about missing fb_io_read and fb_io_write. The
-> linker's error message suggests that this config setting has already
-> been broken for other symbols.
->=20
->   All errors (new ones prefixed by >>):
->=20
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_=
-probe':
->      sh7760fb.c:(.text+0x374): undefined reference to `framebuffer_alloc'
->      sh4-linux-ld: sh7760fb.c:(.text+0x394): undefined reference to `fb_v=
-ideomode_to_var'
->      sh4-linux-ld: sh7760fb.c:(.text+0x39c): undefined reference to `fb_a=
-lloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x3a4): undefined reference to `regi=
-ster_framebuffer'
->      sh4-linux-ld: sh7760fb.c:(.text+0x3ac): undefined reference to `fb_d=
-ealloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x434): undefined reference to `fram=
-ebuffer_release'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o: in function `sh7760fb_=
-remove':
->      sh7760fb.c:(.text+0x800): undefined reference to `unregister_framebu=
-ffer'
->      sh4-linux-ld: sh7760fb.c:(.text+0x804): undefined reference to `fb_d=
-ealloc_cmap'
->      sh4-linux-ld: sh7760fb.c:(.text+0x814): undefined reference to `fram=
-ebuffer_release'
->   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0xc): undefine=
-d reference to `fb_io_read'
->   >> sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x10): undefin=
-ed reference to `fb_io_write'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x2c): undefin=
-ed reference to `cfb_fillrect'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x30): undefin=
-ed reference to `cfb_copyarea'
->      sh4-linux-ld: drivers/video/fbdev/sh7760fb.o:(.rodata+0x34): undefin=
-ed reference to `cfb_imageblit'
->=20
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309130632.LS04CPWu-lkp@i=
-ntel.com/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/fbdev/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 4455bfd57f0ec..64ccb34d882dd 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -1756,7 +1756,7 @@ config FB_COBALT
-> =20
->  config FB_SH7760
->  	bool "SH7760/SH7763/SH7720/SH7721 LCDC support"
-> -	depends on FB && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
-> +	depends on FB=3Dy && (CPU_SUBTYPE_SH7760 || CPU_SUBTYPE_SH7763 \
->  		|| CPU_SUBTYPE_SH7720 || CPU_SUBTYPE_SH7721)
->  	select FB_IOMEM_HELPERS
->  	help
 
-Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+On 9/21/23 01:41, Abhinav Kumar wrote:
+> 
+> 
+> On 9/20/2023 3:46 PM, Konrad Dybcio wrote:
+>> Commit 194347df5844 ("drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2
+>> macros") unrolled a macro incorrectly. Fix that.
+>>
+> 
+> No, its correct from what i can tell.
+> 
+> Before inlining it was using PP_BLK_DITHER macro and not PP_BLK.
+> 
+> PP_BLK_DITHER has a len of 0 and not 0xd4.
+> 
+> Hence I cannot see whats wrong here.
+Right, I misread the thing..
+
+Konrad
