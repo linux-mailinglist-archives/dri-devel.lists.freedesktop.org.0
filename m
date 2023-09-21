@@ -1,43 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D12E7A92E1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:57:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8567A92E2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A7A10E58E;
-	Thu, 21 Sep 2023 08:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A1E10E58F;
+	Thu, 21 Sep 2023 08:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB7410E58E
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:57:00 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qjFUY-0006Sw-LM; Thu, 21 Sep 2023 10:56:58 +0200
-Message-ID: <f43e25f5b1bbf4b681629198b92ce0deceb2e893.camel@pengutronix.de>
-Subject: Re: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Ying Liu <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>
-Date: Thu, 21 Sep 2023 10:56:58 +0200
-In-Reply-To: <AM7PR04MB704644037955946CE3B3A1E698F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-3-l.stach@pengutronix.de>
- <AM7PR04MB7046AA99475489B1220D309998F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
- <fa07e69431066065ab6dc6df8d4649ba04124aa4.camel@pengutronix.de>
- <AM7PR04MB704644037955946CE3B3A1E698F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAD410E58F
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1695286668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GD0I7DelIklg6Wdyz3YyitDbVlTesItMu2ytbmOwkrg=;
+ b=sO74B/ZFgF4/vEPfJNv43mrEoSJnOC5dCBHqiLcwhVBAd/joa7zpr01ERQq5kTc3z6si02
+ jelbxffpbsn3AIMFtUCuv3LCqwHGqZFwoHUPA/mqfTObvFphdaET4SMn1i6RJwDUv5ZuVV
+ KJ0p3UxZIxec/LBCgsLfCX7d8XPh1us=
+Message-ID: <c07432575d33184eef2461f1c22510e9a8ab770f.camel@crapouillou.net>
+Subject: Re: MAINTAINERS: Update drm-misc entry to match all drivers
+From: Paul Cercueil <paul@crapouillou.net>
+To: Maxime Ripard <mripard@kernel.org>, suijingfeng <suijingfeng@loongson.cn>
+Date: Thu, 21 Sep 2023 10:57:46 +0200
+In-Reply-To: <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
+References: <20230919131235.759959-1-mripard@kernel.org>
+ <afc3da23-81ce-edcf-6ea6-8fd8711e17b0@loongson.cn>
+ <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,143 +46,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- dl-linux-imx <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 21.09.2023 um 08:18 +0000 schrieb Ying Liu:
-> On Thursday, September 21, 2023 3:55 PM Lucas Stach <l.stach@pengutronix.=
-de> wrote:
-> > Am Donnerstag, dem 21.09.2023 um 07:13 +0000 schrieb Ying Liu:
-> > > Hi,
-> > >=20
-> > > On Wednesday, September 20, 2023 6:31 PM Lucas Stach
-> > <l.stach@pengutronix.de> wrote:
-> > > > Allow drm_atomic_helper_commit_tail_rpm to setup all the plane
-> > > > state before the scanout is started.
-> > > >=20
-> > > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > > > ---
-> > > >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 6 +++++-
-> > > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > index f5bfe8b52920..4acf6914a8d1 100644
-> > > > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > > > @@ -505,6 +505,8 @@ static int lcdif_crtc_atomic_check(struct drm_c=
-rtc
-> > > > *crtc,
-> > > >  static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
-> > > >  				    struct drm_atomic_state *state)
-> > > >  {
-> > > > +	struct drm_crtc_state *crtc_state =3D
-> > > > drm_atomic_get_new_crtc_state(state,
-> > > > +									  crtc);
-> > > >  	struct lcdif_drm_private *lcdif =3D to_lcdif_drm_private(crtc->de=
-v);
-> > > >  	struct drm_pending_vblank_event *event;
-> > > >  	u32 reg;
-> > > > @@ -513,6 +515,9 @@ static void lcdif_crtc_atomic_flush(struct drm_=
-crtc
-> > > > *crtc,
-> > > >  	reg |=3D CTRLDESCL0_5_SHADOW_LOAD_EN;
-> > > >  	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> > > >=20
-> > > > +	if (drm_atomic_crtc_needs_modeset(crtc_state))
-> > > > +		lcdif_enable_controller(lcdif);
-> > >=20
-> > > Moving lcdif_enable_controller() function call from atomic_enable to
-> > > atomic_flush would change CRTC vs bridge enablement order, which
-> > > effectively makes bridge enablement happen prior to CRTC enablement,
-> > > see drm_atomic_helper_commit_tail_rpm() detail implementation.  The
-> > > reversed order potentially causes malfunctions of the bridge.
-> > >=20
-> > This has nothing to do with the bridge after the LCDIF controller. The
->=20
-> IMHO, the reserved CRTC vs bridge enablement order is relevant for
-> the overall display pipeline.
->=20
-Ah, I see what you mean now. Moving the controller enable into flush is
-violating the documented flow that bridges might assume the display
-link to be running in their enable callback. I don't think any of the
-bridges connected to the LCDIF really care about this, but it's bad
-nevertheless.
+Hi,
 
-This seems to be a generic issue with the RPM commit tail. Enabling the
-display link in the CRTC atomic_enable without all the plane state
-being set up in the HW sounds wrong and I think we also don't want to
-hoist (duplicate) all the plane setup into the CRTC enable.
-
-I'll look into this some more to see if we can do something better that
-doesn't violate the bridge chain constraints.
-
-Regards,
-Lucas
-
-> > RPM commit_tail implementation enables the CRTC before all the plane
-> > state is set up. To avoid having to program the plane state in the CRTC
-> > enable this series defers the actual controller enable to the last step
-> > of the atomic commit. This way the plane state is programmed the usual
-> > way via the atomic update_plane callback and we don't need to duplicate
-> > this setup.
+Le jeudi 21 septembre 2023 =C3=A0 10:47 +0200, Maxime Ripard a =C3=A9crit=
+=C2=A0:
+> Hi,
 >=20
-> I understand the patch avoids some duplications via deferral controller
-> enablement time point, but the reversed CRTC vs bridge enablement order
-> is the concern here.
+> Adding Paul in Cc
 >=20
-> >=20
-> > > BTW, even if it's ok to move the function call, it would be better to=
- call
-> > > lcdif_enable_controller() before CTRLDESCL0_5_SHADOW_LOAD_EN is
-> > > set so that the original sequence is kept.  Also, LCDIF chapter in So=
-C RMs
-> > > indicates that the shadow load enablement is the last step in
-> > > "Software flow diagram".
-> >=20
-> > This flow chart shows how the double buffered update should work, it
-> > doesn't show the initial controller enable sequence. Without the shadow
->=20
-> You are right.  The downstream driver also enables shadow load before
-> the entire controller.
->=20
-> Regards,
-> Liu Ying
->=20
-> > load enable bit being set before the controller enable I could observe
-> > sporadic issues on the first frame where the DMA engine would read the
-> > wrong memory address.
-> >=20
-> > Regards,
-> > Lucas
-> >=20
+> On Thu, Sep 21, 2023 at 04:25:50PM +0800, suijingfeng wrote:
+> > On 2023/9/19 21:12, Maxime Ripard wrote:
+> > > We've had a number of times when a patch slipped through and we
+> > > couldn't
+> > > pick them up either because our MAINTAINERS entry only covers the
+> > > framework and thus we weren't Cc'd.
 > > >=20
-> > > Regards,
-> > > Liu Ying
+> > > Let's take another approach where we match everything, and remove
+> > > all
+> > > the drivers that are not maintained through drm-misc.
 > > >=20
-> > > > +
-> > > >  	event =3D crtc->state->event;
-> > > >  	crtc->state->event =3D NULL;
-> > > >=20
-> > > > @@ -552,7 +557,6 @@ static void lcdif_crtc_atomic_enable(struct
-> > drm_crtc
-> > > > *crtc,
-> > > >=20
-> > > > 	writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
-> > > >  		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
-> > > >  	}
-> > > > -	lcdif_enable_controller(lcdif);
-> > > >=20
-> > > >  	drm_crtc_vblank_on(crtc);
-> > > >  }
-> > > > --
-> > > > 2.39.2
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > Acked-by: Jani Nikula <jani.nikula@intel.com>
+> > > ---
+> > > =C2=A0 MAINTAINERS | 23 ++++++++++++++++++++---
+> > > =C2=A0 1 file changed, 20 insertions(+), 3 deletions(-)
 > > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 90f13281d297..757d4f33e158 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -6860,12 +6860,29 @@ M:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Thomas =
+Zimmermann
+> > > <tzimmermann@suse.de>
+> > > =C2=A0 S:=C2=A0=C2=A0=C2=A0=C2=A0Maintained
+> > > =C2=A0
+> > > W:=C2=A0=C2=A0=C2=A0=C2=A0https://01.org/linuxgraphics/gfx-docs/maint=
+ainer-tools/drm-
+> > > misc.html
+> > > =C2=A0 T:=C2=A0=C2=A0=C2=A0=C2=A0git git://anongit.freedesktop.org/dr=
+m/drm-misc
+> > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Documentation/devicetree/bindings/di=
+splay/
+> > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Documentation/devicetree/bindings/gp=
+u/
+> > > =C2=A0 F:=C2=A0=C2=A0=C2=A0=C2=A0Documentation/gpu/
+> > > -F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/*
+> > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/
+> > > =C2=A0 F:=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/vga/
+> > > -F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0include/drm/drm*
+> > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0include/drm/drm
+> > > =C2=A0 F:=C2=A0=C2=A0=C2=A0=C2=A0include/linux/vga*
+> > > -F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0include/uapi/drm/drm*
+> > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0include/uapi/drm/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/amd/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/armada/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/etnaviv/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/exynos/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/gma500/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/i915/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/imx/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/ingenic/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/kmb/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/mediatek/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/msm/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/nouveau/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/radeon/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/renesas/
+> > > +X:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/tegra/
+> > > =C2=A0 DRM DRIVERS FOR ALLWINNER A10
+> > > =C2=A0 M:=C2=A0=C2=A0=C2=A0=C2=A0Maxime Ripard <mripard@kernel.org>
+> >=20
+> >=20
+> > Nice patch!
+> >=20
+> > Well, I'm just curious about why the drm/ingenic and drm/gma500 are
+> > not maintained through drm-misc?
+> >=20
+> > As far as I know:
+> > 1) the drm/ingenic driver don't have a "T" annotation (location of
+> > the link).
 >=20
+> Yeah, I wasn't sure about that one indeed. I remained conservative
+> since it's a
+> sensitive topic for some.
+>=20
+> Paul, is drm/ingenic supposed to be maintained through drm-misc?
+> Either way,
+> could you clarify which git tree is supposed to merge those patches
+> in
+> MAINTAINERS?
+
+drm/ingenic is maintained through drm-misc, yes.
+
+Looking at the MAINTAINERS file, it seems to be one of the only DRM
+drivers without its own entry. I'll add one then.
+
+Cheers,
+-Paul
+
+>=20
+> > 2) the "T" of drm/gma500 is "git git://github.com/patjak/drm-
+> > gma500", but the
+> =C2=A0 code for this link is not up to date.
+>=20
+> For gma500, I think it's mostly historical since it was there before
+> drm-misc
+> was a thing.
+>=20
+> > I think at least the drm/ingenic and drm/gma500 drivers are
+> > *actually*
+> > maintained through drm-misc, So perhaps, these two drivers should
+> > not be
+> > excluded. Am I correct?
+>=20
+> It's likely :)
+>=20
+> Either way, I think it can be solved/clarified later on
+>=20
+> Maxime
 
