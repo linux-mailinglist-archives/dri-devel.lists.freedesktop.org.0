@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9169D7A9B24
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 20:54:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 563B47A9AA8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 20:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB6610E31A;
-	Thu, 21 Sep 2023 18:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6701410E2A4;
+	Thu, 21 Sep 2023 18:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315F010E31A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 18:54:22 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-50307acd445so2253215e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 11:54:22 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75EB10E2A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 18:46:55 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-99bdcade7fbso155911066b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 11:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695322460; x=1695927260;
+ d=chromium.org; s=google; t=1695322014; x=1695926814;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+SgMdBTw9y+aSwwtmwk5xQ1ZAPfF4LIv2yTZ0dNleis=;
- b=SMhtWHyf1yy2bn4I87o0Pdji/bMt8OZNQ96Ag6zGayHFqDL+iFESK//y4KAbsvjQXu
- sBkMzYpB/VhduSFcmNxEtSV8p7c3sIfdBQQBxqW31BIdeBorSR3IN6iR7/m8BY93tseT
- a+BKkYozt/VJl3mXl1SvZ3xZo618qJ4Mylthk=
+ bh=oGNO3fxjlHQ6BuBtNnDhbEjBaZDga+bo39FJcPPhcUQ=;
+ b=X9mEtrpY8dJaovSoQ2D0CG+XhsP5xm2M+VbXHSBBHwHCqGXwlmoPbDDJE3ZJEvPp+b
+ tzjjTWADfAwnS5Csx/wWto3QZY1OW4sYaxtSa1X7d96JbaYsrI2yNA2Gdyrh25s6xfAn
+ ua7qGr/W0qSpAgxpv3qOnKRRTaAaRToH+1M6A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695322460; x=1695927260;
+ d=1e100.net; s=20230601; t=1695322014; x=1695926814;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+SgMdBTw9y+aSwwtmwk5xQ1ZAPfF4LIv2yTZ0dNleis=;
- b=kTU7OAi7SITKD73/R9B9wPcyYiCVSvpJgv+/nh/H5hWvhDMD+G8NT7Iml0TZrRhGNZ
- ABXczdWUkbgWTcnt8DkkhLHnpzY389zpLKWo8/jUlnNW7lYksqibKMQbFIid2Sq6B9rM
- vaf1+IV1IznY6cEwvLWc6hDnFfLMSzVef92iiPLmPrO6v3VA+HGKB8N3Y3aHekDPucPn
- 2ouylE3wuc9sCetk1Or8ew9kKZMt8vAvG7hlbK4qBNR9tR0B6B538akQCNMRU1nufJgu
- zhxvqsDwoWKRV+aH6ZVGtEeyk+pqQoquwdVtqRGuMva80cqcVoaIFDRBboRk9Nur1ml2
- JP9Q==
-X-Gm-Message-State: AOJu0YyVlfvt7JjihCOgavtZcu8gG7bQU0Ad81O9FCIiWdBYHmI7KB1V
- yShP+fhEi/qerj69EmnoRr2YFXiJgsGYXFqfKi1kUb1/
-X-Google-Smtp-Source: AGHT+IG2O+vG2i7qfmfpuLG0ZDq33Tb6EMbEmPhNimXQrhwzoneonWT3OP28lDIFgnunPxdOZc76Cw==
-X-Received: by 2002:a05:6512:3484:b0:503:3590:fc5e with SMTP id
- v4-20020a056512348400b005033590fc5emr5586215lfr.31.1695322459692; 
- Thu, 21 Sep 2023 11:54:19 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- v22-20020a056402185600b0052a3aa50d72sm1188360edy.40.2023.09.21.11.54.17
+ bh=oGNO3fxjlHQ6BuBtNnDhbEjBaZDga+bo39FJcPPhcUQ=;
+ b=BpRi8f39PsiBfNuxdyEL33ml7PWvbaD1XxEtx/xnvQhby745iBgLRtvfMGpMVma6Fg
+ 3mG2G2YXUHOTcai2Hck3djpcpLlMJyFysPMtUDaQp4Rp45vpnEf5+KUXfEq8s1Pj8e6D
+ qcAwWWZ4nIVDrH1UlvrYc60c0o4VlgH587vVmvev7OItqBdYfrTLacsV6Dqr4GKGi33X
+ /+C37AOlbkywnDwwJ/O9izKHtEvBNkWiCXcQ30LDJWSxszgRaMIPzMRUC5TioaBqLt48
+ zgRgcfI+CAI3/WrqzPoNddPbNdNpAkyDV15Q1b5fdW05TRHFyqDw3A4rtzv7Aw8JywW5
+ 7FCQ==
+X-Gm-Message-State: AOJu0Ywe2ZGljJPr+HmhVGJZ2TbJ3LCKIfIay3u4EqtB902NPIFHwFzV
+ /fYlzVBujNUqatC0XWcUrtsQdCgPq1vUjvFuh0sXFg==
+X-Google-Smtp-Source: AGHT+IGYMz7duQvCpl9TbQuk1yp101Hik2NbMQuo33EwpEMMFyslSz4KdZHy3/43J300gncD0petzw==
+X-Received: by 2002:a17:907:2e0d:b0:9ae:6a60:81a2 with SMTP id
+ ig13-20020a1709072e0d00b009ae6a6081a2mr1499502ejc.25.1695322013819; 
+ Thu, 21 Sep 2023 11:46:53 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ y16-20020a1709064b1000b009adc7733f98sm1452117eju.97.2023.09.21.11.46.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Sep 2023 11:54:17 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4053a7b36b0so18955e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 11:54:17 -0700 (PDT)
-X-Received: by 2002:a05:600c:1ca4:b0:405:320a:44f9 with SMTP id
- k36-20020a05600c1ca400b00405320a44f9mr98844wms.5.1695321993367; Thu, 21 Sep
- 2023 11:46:33 -0700 (PDT)
+ Thu, 21 Sep 2023 11:46:53 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-405290ab4b6so23305e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 11:46:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:d3:b0:405:38d1:e146 with SMTP id
+ u19-20020a05600c00d300b0040538d1e146mr59361wmm.4.1695322013017; Thu, 21 Sep
+ 2023 11:46:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230901234015.566018-1-dianders@chromium.org>
- <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
-In-Reply-To: <20230901163944.RFT.2.I9115e5d094a43e687978b0699cc1fe9f2a3452ea@changeid>
+ <20230901163944.RFT.3.I10dbe099fb1059d304ba847d19fc45054f7ffe9f@changeid>
+In-Reply-To: <20230901163944.RFT.3.I10dbe099fb1059d304ba847d19fc45054f7ffe9f@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 21 Sep 2023 11:46:21 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WRqe7twJ+eLb3DavumknCxWFK5ey007fLuWkCBrzzyPQ@mail.gmail.com>
-Message-ID: <CAD=FV=WRqe7twJ+eLb3DavumknCxWFK5ey007fLuWkCBrzzyPQ@mail.gmail.com>
-Subject: Re: [RFT PATCH 2/6] drm: Call drm_atomic_helper_shutdown() at
- shutdown time for misc drivers
+Date: Thu, 21 Sep 2023 11:46:40 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VTDuvjD8t8amWg=4r8=z3EhnbVms1DcskmYNX8sG4-kw@mail.gmail.com>
+Message-ID: <CAD=FV=VTDuvjD8t8amWg=4r8=z3EhnbVms1DcskmYNX8sG4-kw@mail.gmail.com>
+Subject: Re: [RFT PATCH 3/6] drm/vc4: Call drm_atomic_helper_shutdown() at
+ shutdown time
 To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,21 +81,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, xinliang.liu@linaro.org,
- tomi.valkeinen@ideasonboard.com, liviu.dudau@arm.com,
- linux-hyperv@vger.kernel.org, nicolas.ferre@microchip.com, wens@csie.org,
- jstultz@google.com, kraxel@redhat.com, sumit.semwal@linaro.org,
- yongqin.liu@linaro.org, samuel@sholland.org, sam@ravnborg.org,
- javierm@redhat.com, jernej.skrabec@gmail.com, drawat.floss@gmail.com,
- kong.kongxinwei@hisilicon.com, alain.volmat@foss.st.com,
- linux-sunxi@lists.linux.dev, suijingfeng@loongson.cn, tzimmermann@suse.de,
- alison.wang@nxp.com, airlied@redhat.com,
- virtualization@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org, jfalempe@redhat.com,
- bbrezillon@kernel.org, linux-kernel@vger.kernel.org, christian.koenig@amd.com,
- paul.kocialkowski@bootlin.com, spice-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, tiantao6@hisilicon.com,
- claudiu.beznea@microchip.com
+Cc: emma@anholt.net, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -113,54 +99,27 @@ org> wrote:
 > of OS shutdown/restart comes straight out of the kernel doc "driver
 > instance overview" in drm_drv.c.
 >
-> All of the drivers in this patch were fairly straightforward to fix
-> since they already had a call to drm_atomic_helper_shutdown() at
-> remove/unbind time but were just lacking one at system shutdown. The
-> only hitch is that some of these drivers use the component model to
-> register/unregister their DRM devices. The shutdown callback is part
-> of the original device. The typical solution here, based on how other
-> DRM drivers do this, is to keep track of whether the device is bound
-> based on drvdata. In most cases the drvdata is the drm_device, so we
-> can just make sure it is NULL when the device is not bound. In some
-> drivers, this required minor code changes. To make things simpler,
-> drm_atomic_helper_shutdown() has been modified to consider a NULL
-> drm_device as a noop in the patch ("drm/atomic-helper:
-> drm_atomic_helper_shutdown(NULL) should be a noop").
->
 > Suggested-by: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 > This commit is only compile-time tested.
 >
-> Note that checkpatch yells that "drivers/gpu/drm/tiny/cirrus.c" is
-> marked as 'obsolete', but it seems silly not to include the fix if
-> it's already been written. If someone wants me to take that out,
-> though, I can.
+> Though this patch could be squashed into the patch ("drm: Call
+> drm_atomic_helper_shutdown() at shutdown time for misc drivers"), I
+> kept it separate to call attention to this driver. While writing this
+> patch, I noticed that the bind() function is using "devm" and thus
+> assumes it doesn't need to do much explicit error handling. That's
+> actually a bug. As per kernel docs [1] "the lifetime of the aggregate
+> driver does not align with any of the underlying struct device
+> instances. Therefore devm cannot be used and all resources acquired or
+> allocated in this callback must be explicitly released in the unbind
+> callback". Fixing that is outside the scope of this commit.
 >
->  drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 9 +++++++++
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 7 +++++++
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.h | 1 +
->  drivers/gpu/drm/arm/hdlcd_drv.c                 | 6 ++++++
->  drivers/gpu/drm/arm/malidp_drv.c                | 6 ++++++
->  drivers/gpu/drm/ast/ast_drv.c                   | 6 ++++++
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c    | 6 ++++++
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       | 8 ++++++++
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 ++++++
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 6 ++++++
->  drivers/gpu/drm/logicvc/logicvc_drm.c           | 9 +++++++++
->  drivers/gpu/drm/loongson/lsdc_drv.c             | 6 ++++++
->  drivers/gpu/drm/mcde/mcde_drv.c                 | 9 +++++++++
->  drivers/gpu/drm/omapdrm/omap_drv.c              | 8 ++++++++
->  drivers/gpu/drm/qxl/qxl_drv.c                   | 7 +++++++
->  drivers/gpu/drm/sti/sti_drv.c                   | 7 +++++++
->  drivers/gpu/drm/sun4i/sun4i_drv.c               | 6 ++++++
->  drivers/gpu/drm/tiny/bochs.c                    | 6 ++++++
->  drivers/gpu/drm/tiny/cirrus.c                   | 6 ++++++
->  19 files changed, 125 insertions(+)
+> [1] https://docs.kernel.org/driver-api/component.html
+>
+>  drivers/gpu/drm/vc4/vc4_drv.c | 36 ++++++++++++++++++++++-------------
+>  1 file changed, 23 insertions(+), 13 deletions(-)
 
-This has been about 3 weeks now and it feels like that's enough bake
-time and several people have managed to test it (thanks!). Landing in
-drm-misc-next:
+Landed to drm-misc-next:
 
-ce3d99c83495 drm: Call drm_atomic_helper_shutdown() at shutdown time
-for misc drivers
+013d382d11a2 drm/vc4: Call drm_atomic_helper_shutdown() at shutdown time
