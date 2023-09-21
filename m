@@ -1,41 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677E57A9251
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:55:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 473167A925D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA66010E579;
-	Thu, 21 Sep 2023 07:55:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6323A10E581;
+	Thu, 21 Sep 2023 07:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A8310E579
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:55:22 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qjEWt-0007Ur-Up; Thu, 21 Sep 2023 09:55:20 +0200
-Message-ID: <fa07e69431066065ab6dc6df8d4649ba04124aa4.camel@pengutronix.de>
-Subject: Re: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Ying Liu <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>
-Date: Thu, 21 Sep 2023 09:55:19 +0200
-In-Reply-To: <AM7PR04MB7046AA99475489B1220D309998F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-3-l.stach@pengutronix.de>
- <AM7PR04MB7046AA99475489B1220D309998F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 449C610E581
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:57:36 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-59bfb0825efso7962397b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 00:57:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695283055; x=1695887855;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1b4te39uCS0E/NkoW2Yy3eXJPfyE4+wAq2OQTK/UETI=;
+ b=VW+jRuVYj2QJ9F4Blo4inked9JKe77cssSOHe8SP+TpSmOlgePlBXT+YmgpXTreaxy
+ 3QKc0F2tKuCORW/l6QLhu1NzAjKM8hwp0xTIfD2pVVvcJKxDSLkTmpT7lFczn/sLqnXu
+ 8eBSnJ12cEYL8EjP2jns9kY5LVAUu+BBL1gPHmpd/SCrXPCvZxNcAywHF9YtC6UIXnNP
+ JB3FJF7/oQLdE04ezbmcYbJPwFcPYb3fA9ervs93hbwtTS1ckgdp0mmCYMiz0DLSGu42
+ M3sJL5LFqqBQ5JxLLf78SA4zv53sp09C7Ryf5yAEsugodnezTklIrcFljY9VX3Vb7SDR
+ 9zFw==
+X-Gm-Message-State: AOJu0YzblVwfyUx2cx7Tpt2xJdA+7x1f6tog/PPMGug2IvqCIW1biZmx
+ CGNZb6U5JQNg2HwR9R3H05I+VQU4/SkkWQ==
+X-Google-Smtp-Source: AGHT+IFv6jcK+39wkg6KwFtEVu0GnUVeZ6TV3oWRv3JcOTK5JW8Y0YvliusW3ECb0BgbEenwCMT7wg==
+X-Received: by 2002:a0d:fd45:0:b0:58a:83cd:115d with SMTP id
+ n66-20020a0dfd45000000b0058a83cd115dmr3863837ywf.50.1695283055080; 
+ Thu, 21 Sep 2023 00:57:35 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
+ [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
+ c64-20020a0dc143000000b0059a34cfa2a5sm204091ywd.67.2023.09.21.00.57.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Sep 2023 00:57:34 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-59c00b5c8b2so8053317b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 00:57:34 -0700 (PDT)
+X-Received: by 2002:a0d:d205:0:b0:59b:de0f:c23b with SMTP id
+ u5-20020a0dd205000000b0059bde0fc23bmr4756114ywd.46.1695283054573; Thu, 21 Sep
+ 2023 00:57:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230914195138.1518065-1-javierm@redhat.com>
+ <f5620d32-2705-498b-a65c-7dc663340a6d@suse.de>
+ <87wmwo3q50.fsf@minerva.mail-host-address-is-not-set>
+ <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
+In-Reply-To: <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 21 Sep 2023 09:57:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
+Message-ID: <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
+Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
+ drm_*_helper_funcs callbacks
+To: Maxime Ripard <mripard@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,103 +73,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- dl-linux-imx <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 21.09.2023 um 07:13 +0000 schrieb Ying Liu:
-> Hi,
->=20
-> On Wednesday, September 20, 2023 6:31 PM Lucas Stach <l.stach@pengutronix=
-.de> wrote:
-> > Allow drm_atomic_helper_commit_tail_rpm to setup all the plane
-> > state before the scanout is started.
-> >=20
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > index f5bfe8b52920..4acf6914a8d1 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > @@ -505,6 +505,8 @@ static int lcdif_crtc_atomic_check(struct drm_crtc
-> > *crtc,
-> >  static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
-> >  				    struct drm_atomic_state *state)
-> >  {
-> > +	struct drm_crtc_state *crtc_state =3D
-> > drm_atomic_get_new_crtc_state(state,
-> > +									  crtc);
-> >  	struct lcdif_drm_private *lcdif =3D to_lcdif_drm_private(crtc->dev);
-> >  	struct drm_pending_vblank_event *event;
-> >  	u32 reg;
-> > @@ -513,6 +515,9 @@ static void lcdif_crtc_atomic_flush(struct drm_crtc
-> > *crtc,
-> >  	reg |=3D CTRLDESCL0_5_SHADOW_LOAD_EN;
-> >  	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> >=20
-> > +	if (drm_atomic_crtc_needs_modeset(crtc_state))
-> > +		lcdif_enable_controller(lcdif);
->=20
-> Moving lcdif_enable_controller() function call from atomic_enable to
-> atomic_flush would change CRTC vs bridge enablement order, which
-> effectively makes bridge enablement happen prior to CRTC enablement,
-> see drm_atomic_helper_commit_tail_rpm() detail implementation.  The
-> reversed order potentially causes malfunctions of the bridge.
->=20
-This has nothing to do with the bridge after the LCDIF controller. The
-RPM commit_tail implementation enables the CRTC before all the plane
-state is set up. To avoid having to program the plane state in the CRTC
-enable this series defers the actual controller enable to the last step
-of the atomic commit. This way the plane state is programmed the usual
-way via the atomic update_plane callback and we don't need to duplicate
-this setup.
+Hi Maxime,
 
-> BTW, even if it's ok to move the function call, it would be better to cal=
-l
-> lcdif_enable_controller() before CTRLDESCL0_5_SHADOW_LOAD_EN is
-> set so that the original sequence is kept.  Also, LCDIF chapter in SoC RM=
-s
-> indicates that the shadow load enablement is the last step in
-> "Software flow diagram".
+On Thu, Sep 21, 2023 at 9:44=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> On Mon, Sep 18, 2023 at 09:19:07AM +0200, Javier Martinez Canillas wrote:
+> > Thomas Zimmermann <tzimmermann@suse.de> writes:
+> > > Am 14.09.23 um 21:51 schrieb Javier Martinez Canillas:
+> > >> The driver uses a naming convention where functions for struct drm_*=
+_funcs
+> > >> callbacks are named ssd130x_$object_$operation, while the callbacks =
+for
+> > >> struct drm_*_helper_funcs are named ssd130x_$object_helper_$operatio=
+n.
+> > >>
+> > >> The idea is that this helper_ prefix in the function names denote th=
+at are
+> > >> for struct drm_*_helper_funcs callbacks. This convention was copied =
+from
+> > >> other drivers, when ssd130x was written but Maxime pointed out that =
+is the
+> > >> exception rather than the norm.
+> > >
+> > > I guess you found this in my code. I want to point out that I use the
+> > > _helper infix to signal that these are callback for
+> > > drm_primary_plane_helper_funcs and *not* drm_primary_plane_funcs. The
+> > > naming is intentional.
+> >
+> > Yes, that's what tried to say in the commit message and indeed I got th=
+e
+> > convention from drivers in drivers/gpu/drm/tiny. In fact I believe thes=
+e
+> > function names are since first iteration of the driver, when was meant =
+to
+> > be a tiny driver.
+> >
+> > According to Maxime it's the exception rather than the rule and suggest=
+ed
+> > to change it, I don't really have a strong opinion on either naming TBH=
+.
+>
+> Maybe that's just me, but the helper in the name indeed throws me off. In=
+ my
+> mind, it's supposed to be used only for helpers, not functions implementi=
+ng the
+> helpers hooks.
 
-This flow chart shows how the double buffered update should work, it
-doesn't show the initial controller enable sequence. Without the shadow
-load enable bit being set before the controller enable I could observe
-sporadic issues on the first frame where the DMA engine would read the
-wrong memory address.
+With several callbacks using the same (field) name, it is very helpful
+to name the actual implementation by combining the struct type name
+and the field name.  Anything else confuses the casual reader.
+Perhaps the real question is whether the structures should have "helper"
+in their name in the first place?
 
-Regards,
-Lucas
+Just my 2=E2=82=ACc as a DRM novice...
 
->=20
-> Regards,
-> Liu Ying
->=20
-> > +
-> >  	event =3D crtc->state->event;
-> >  	crtc->state->event =3D NULL;
-> >=20
-> > @@ -552,7 +557,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crt=
-c
-> > *crtc,
-> >=20
-> > 	writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
-> >  		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
-> >  	}
-> > -	lcdif_enable_controller(lcdif);
-> >=20
-> >  	drm_crtc_vblank_on(crtc);
-> >  }
-> > --
-> > 2.39.2
->=20
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
