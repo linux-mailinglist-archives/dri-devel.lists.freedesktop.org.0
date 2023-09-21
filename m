@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD487A9D1F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9DD7A9D23
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7449110E5F9;
-	Thu, 21 Sep 2023 19:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8985910E5FB;
+	Thu, 21 Sep 2023 19:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7ABA10E5F9
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:33 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id
- 41be03b00d2f7-517ab9a4a13so947920a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:33 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA0910E5F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:37 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1c364fb8a4cso12168835ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695324512; x=1695929312;
+ d=chromium.org; s=google; t=1695324515; x=1695929315;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cZtAYqJWE7JpdsZxb5rfWkU3kZ2lTrkKomU0ysGX5d0=;
- b=Bz5WsbUmerrwH62CmE9A3H5TynFU43dnEPTvRNO0H50pXApql2LQvwrNok8BkGcVpR
- oMyVfkY8bBAws1HeFNgxGwuiCk1sPGdN9htgc6zR5DXURc46E1+GgprkNAM8mTiJ34fQ
- 40JmX78hDY4hKHrEoU73Kz3ZnO9FbYEnBTuSs=
+ bh=yIB9Su1U7bIPFr+7ANN/OcavTAqWwcBq0GS4I1/bwSs=;
+ b=l2BIvCiTSlEeYV3AHCWuG1EjJtQ1Tq5QFsmA3+WnxpRaDsLpSyXGzP99/Px3S/RYJi
+ OvzoY4Gl3kOSm/S7jqJLV4cexx3bDlUbgwNqqP2KNNRVI+/KwqZfMTDYiR8dwe7sbWVw
+ dXaK1YcV25iuN1inqY9GzbFqqORYTKFO66QoA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695324512; x=1695929312;
+ d=1e100.net; s=20230601; t=1695324515; x=1695929315;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cZtAYqJWE7JpdsZxb5rfWkU3kZ2lTrkKomU0ysGX5d0=;
- b=gkjS4+jbt30o/+QkrThMU2pVFVEeTL8rli0EvCr+zX75awVO+WhLKLLqOLE5I4jOpU
- JD1/d3EyR4Higw5E+KxK7VMIYCtYFlYa8mTfLeA7nFytY8xbv7Ksq5gQUpMnxS3n9Ck2
- JS9smZS0sJW1JSDScvBVEK3oRdIL97HXT24uydMe5tqd33Mlm01lQeMEriYWbSa4Y+Rn
- h+ioFcvo8m47WRH80NKX1HzzbL+s66wCgSu1dRr71wuigIH7QLaPijFVqJiQWn8IHuKa
- BrRl/eIFqfbTCmmYlJsjOus0J2phhjDmQKGX7TgK0fHbiolpUHNSsrcEnZl1q2iF7AFp
- wh8Q==
-X-Gm-Message-State: AOJu0YwX/LbEqg2xW+Tq51GSTqheH+T0UCf+PoXmNWZxzYeb5WA+btCB
- PhGgqGJxTf919S5H0mKmZiyLNxgoJgDB+ck8ws5UIGzW
-X-Google-Smtp-Source: AGHT+IFLfEFOKyhwKb3FZnAY6hGcxUNsWis48sb0QkS+Rc27anChCNA3mxZflSD413ezokJ4zowvTw==
-X-Received: by 2002:a05:6a20:7f93:b0:152:6b63:f1e5 with SMTP id
- d19-20020a056a207f9300b001526b63f1e5mr8883328pzj.38.1695324512344; 
- Thu, 21 Sep 2023 12:28:32 -0700 (PDT)
+ bh=yIB9Su1U7bIPFr+7ANN/OcavTAqWwcBq0GS4I1/bwSs=;
+ b=rFHqH1IkSB9Ww1j3pbODFKn+71AvmflBcyd32YtM+fnLHBPrxbY9NC0ZBRE3QyaakI
+ xxdh4h9bYO+eF72PAdv5S5IxDkQ/CBpa9/wkqG1d0/qQB/pV96ZqyphESi+RuCSOcB9t
+ z7uIT0iQaDw9Mr9R4ACWyByy6urzvTaKxY1mREQztkG77DBkkgUAT2E/BPwU3I/r3VsX
+ WvE23OrnKi7lt44D01d4/KLTnPsQ14w/Hogg0Mqkl9RKFCDCbDs0epoA4mBZYKjXdJcf
+ sUYwrjbS3fuf/o6W9eYQgEZqOTCX80+QkK0pwaqYEKqvtNQHbs80qg+rBJSFoI76r02J
+ cPWQ==
+X-Gm-Message-State: AOJu0YxNtLj7ItGVkIT+GObYszcQayDTkY9y6cWtJ0ZbqnJSNOGMAlxF
+ KXgCC2o8WCc8F1Yda9+bUz2Mjol40TYgIBt6kokIM9vY
+X-Google-Smtp-Source: AGHT+IG6gT2BLC16ToMT+YRTSkTdSEdEW0H2PnMiZoFRHOn+2vS6h4Vr0OhvW/jKYuQ4kfyd3+axAQ==
+X-Received: by 2002:a17:902:bb83:b0:1c2:82e:32de with SMTP id
+ m3-20020a170902bb8300b001c2082e32demr5155768pls.0.1695324515416; 
+ Thu, 21 Sep 2023 12:28:35 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:e6ed:6d49:f262:8041])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.30
+ w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 12:28:30 -0700 (PDT)
+ Thu, 21 Sep 2023 12:28:34 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFT PATCH v2 06/12] drm/arcpgu: Call drm_atomic_helper_shutdown() at
+Subject: [RFT PATCH v2 07/12] drm/amdgpu: Call drm_atomic_helper_shutdown() at
  shutdown time
-Date: Thu, 21 Sep 2023 12:26:49 -0700
-Message-ID: <20230921122641.RFT.v2.6.I8a0a246fea222059881d01a8fff2adcf7ef3d7a4@changeid>
+Date: Thu, 21 Sep 2023 12:26:50 -0700
+Message-ID: <20230921122641.RFT.v2.7.I27914059cc822b52db9bf72b4013b525b60e06fd@changeid>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 In-Reply-To: <20230921192749.1542462-1-dianders@chromium.org>
 References: <20230921192749.1542462-1-dianders@chromium.org>
@@ -74,8 +74,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: abrodkin@synopsys.com, Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org
+Cc: Victor.Zhao@amd.com, linux-kernel@vger.kernel.org, mdaenzer@redhat.com,
+ mario.limonciello@amd.com, amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com,
+ srinivasan.shanmugam@amd.com, Bokun.Zhang@amd.com, shiwu.zhang@amd.com,
+ le.ma@amd.com, James.Zhu@amd.com, felix.kuehling@amd.com, Xinhui.Pan@amd.com,
+ Douglas Anderson <dianders@chromium.org>, tzimmermann@suse.de,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -89,40 +93,70 @@ of OS shutdown/restart comes straight out of the kernel doc "driver
 instance overview" in drm_drv.c.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 This commit is only compile-time tested.
 
+...and further, I'd say that this patch is more of a plea for help
+than a patch I think is actually right. I'm _fairly_ certain that
+drm/amdgpu needs this call at shutdown time but the logic is a bit
+hard for me to follow. I'd appreciate if anyone who actually knows
+what this should look like could illuminate me, or perhaps even just
+post a patch themselves!
+
 (no changes since v1)
 
- drivers/gpu/drm/tiny/arcpgu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  2 ++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index e5b10e41554a..c1e851c982e4 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -414,6 +414,11 @@ static int arcpgu_remove(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 8f2255b3a38a..cfcff0b37466 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1104,6 +1104,7 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_device *bdev)
+ int amdgpu_device_init(struct amdgpu_device *adev,
+ 		       uint32_t flags);
+ void amdgpu_device_fini_hw(struct amdgpu_device *adev);
++void amdgpu_device_shutdown_hw(struct amdgpu_device *adev);
+ void amdgpu_device_fini_sw(struct amdgpu_device *adev);
+ 
+ int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index a2cdde0ca0a7..fa5925c2092d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4247,6 +4247,16 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 
  }
  
-+static void arcpgu_shutdown(struct platform_device *pdev)
++void amdgpu_device_shutdown_hw(struct amdgpu_device *adev)
 +{
-+	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
++	if (adev->mode_info.mode_config_initialized) {
++		if (!drm_drv_uses_atomic_modeset(adev_to_drm(adev)))
++			drm_helper_force_disable_all(adev_to_drm(adev));
++		else
++			drm_atomic_helper_shutdown(adev_to_drm(adev));
++	}
 +}
 +
- static const struct of_device_id arcpgu_of_table[] = {
- 	{.compatible = "snps,arcpgu"},
- 	{}
-@@ -424,6 +429,7 @@ MODULE_DEVICE_TABLE(of, arcpgu_of_table);
- static struct platform_driver arcpgu_platform_driver = {
- 	.probe = arcpgu_probe,
- 	.remove = arcpgu_remove,
-+	.shutdown = arcpgu_shutdown,
- 	.driver = {
- 		   .name = "arcpgu",
- 		   .of_match_table = arcpgu_of_table,
+ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+ {
+ 	int idx;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index e90f730eb715..3a7cbff111d1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2333,6 +2333,8 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
++	amdgpu_device_shutdown_hw(adev);
++
+ 	if (amdgpu_ras_intr_triggered())
+ 		return;
+ 
 -- 
 2.42.0.515.g380fc7ccd1-goog
 
