@@ -1,50 +1,161 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20357A952D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 16:25:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2942A7A952E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 16:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1409D10E5D0;
-	Thu, 21 Sep 2023 14:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D5810E5BB;
+	Thu, 21 Sep 2023 14:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C9A10E5C6;
- Thu, 21 Sep 2023 14:25:14 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 151286607314;
- Thu, 21 Sep 2023 15:25:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695306313;
- bh=DlUl7K2Jfdpi0pNYf8DOEltxjHEAnDBJ4slsXEHa5Fw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lxeB5v9MSblUV0VbcWui7WJlTULdDdSip6T5/ZurFg4X6FXn5MAtWl25ISvL5YQWO
- GqSgyzYihLnwtsUb1lvhMrpJXhhBQRaAALUI7Lv9dO5Tbi2PKDHhR2iuHPLyaZNV2a
- uudbxB24sAYh764BvOOWE90RkTCj9HfrYaUgykqUz+TkwiaDEmoReka91JemOvh4GZ
- Fj3mcjVCPj7oFVpNXKy9sZZjEZlJ1pjPEmodG/cuhk+1xi6LTILiVwAbunUNfb5iww
- /s8Y9gbR2wprbtXlnqY51jnmqO5OWGkMZKo/VN0kPL/DACbYZQFi6v/C/rbG3yXqzP
- O/y0yji02T4gQ==
-Date: Thu, 21 Sep 2023 16:25:10 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v4 4/8] drm/gpuvm: add common dma-resv per
- struct drm_gpuvm
-Message-ID: <20230921162510.10903d90@collabora.com>
-In-Reply-To: <964a1bdd-549d-7850-9a8c-8278c4cd32ec@redhat.com>
-References: <20230920144343.64830-1-dakr@redhat.com>
- <20230920144343.64830-5-dakr@redhat.com>
- <7951dc11-6047-6beb-8ef8-98c862e26ec3@amd.com>
- <964a1bdd-549d-7850-9a8c-8278c4cd32ec@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE46C10E5BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 14:25:45 +0000 (UTC)
+X-UUID: be1d1960588a11eea33bb35ae8d461a2-20230921
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=YY0qAG4lpmQHfWJBWCeoG1lHh7zfl2zXaizzjCG1uz0=; 
+ b=mmKLXbt/eXn4AX9hY6ZQg6t1AoR9W3W1C7kFu0emqYD+/b4qQtixPQ1s+r8LW4rUHelD8aeVo0WzLDhTaNp252QYO7uSXPXOKFnE/TxUR44rUEI2pY45K0aynXKzKgey4tvzVUi8NkSQZVQw+vk0vk5vt7l+H0MIwJyzPXHv4Qg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:9924c10f-3b20-4029-9ba5-52ba0f0e0935, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5f78ec9, CLOUDID:f4d9f8ef-9a6e-4c39-b73e-f2bc08ca3dc5,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: be1d1960588a11eea33bb35ae8d461a2-20230921
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 795248450; Thu, 21 Sep 2023 22:25:41 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 21 Sep 2023 22:25:40 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 21 Sep 2023 22:25:39 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Nm5n47LNiAHlAJBxYHmqI0Ojd2w5Qn9yOkG8wBUYkoWAH2/dp1i40p1qowRT1Ko1gXfkgFD2ujvkqfdOpduPO3r4MDL0TRteEmbp8Oezz4iY4BIjOf7X+1/glOmjJqS1ApNl2RNL4vP7b1URQzVH9nyKGpPM3S7vLZi836Ydmg+tDi4vMpK+fsz3GggP1meErzYE/phwGDa3jSXlVEiaN3TwlYGdvMEgTeHc0EWgywIfjf1OYhsY82Xd4gXVqqanYYo0QzEx1/soQcPV1f99t33RMsy2RHoNqI7onmp1v8qqBeCdno712OwVw7oSCiKXckU9OXx5n5DhbmVluHxVXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JiNIMV1IL1s5AWsQwb4DcbaZvi4/kWTIBXY7OWCmxrs=;
+ b=aUVDzBQ2I2857RODDUSJmHyyIPuWlgIg88En+eAlsziocwfvnqGwiJ6ce9P/EpuPRGuXLmUvdbYPwrnITF0swmPhwrSjaAXYiEQTrh/Vqt6VRaB/lIHBjZN6SJlsiJvtN5vCOyKb72PoatUv2DJcg4LDd1boJot51OYaNfBO2kgypemxIVOaT1LM62uFJmq0jINX04vJucbJNEEagKZEsHAehbs6bpZy7PVxyu17CI8P4HtVhGwPuEHBp3t8e2fGPw7qQtG10B3XVawpWUYqyerZFJOc5oBrVShPk2LU8AQlvuX+NagqAjR3yV+fekgfKUO6AZQn4DlRGYTTEQjDBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JiNIMV1IL1s5AWsQwb4DcbaZvi4/kWTIBXY7OWCmxrs=;
+ b=Wq/K0tV3HpK5jsBTBXSWwXGn8xml/V0O39QjPx2JELbkgUA9v5tFft+aqe87Cn4r11KvBUiOoeu0/l/GhCK7DvUO0f0aJvSPXITVUe9vaZGs4riOPCoaRvKnkBWNOO5eogAu1jv7OZKL5WCVLydvossJkwV74fnZPiiUzEz1Wu8=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by TYSPR03MB8158.apcprd03.prod.outlook.com (2603:1096:400:471::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.29; Thu, 21 Sep
+ 2023 14:25:37 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::1b82:a45d:e171:62e8]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::1b82:a45d:e171:62e8%4]) with mapi id 15.20.6813.017; Thu, 21 Sep 2023
+ 14:25:37 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 08/15] soc: mediatek: Add cmdq_pkt_finalize_loop to CMDQ
+ driver
+Thread-Topic: [PATCH 08/15] soc: mediatek: Add cmdq_pkt_finalize_loop to CMDQ
+ driver
+Thread-Index: AQHZ6mWDa+rwkVDFL06SYTk3XuyKWbAhX0kAgAP65IA=
+Date: Thu, 21 Sep 2023 14:25:37 +0000
+Message-ID: <6a80acb293cbc7e1b544f85b22800b5343a931b0.camel@mediatek.com>
+References: <20230918192204.32263-1-jason-jh.lin@mediatek.com>
+ <20230918192204.32263-9-jason-jh.lin@mediatek.com>
+ <54799d50c0b4427102e275117e715d9d4a190375.camel@mediatek.com>
+In-Reply-To: <54799d50c0b4427102e275117e715d9d4a190375.camel@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TYSPR03MB8158:EE_
+x-ms-office365-filtering-correlation-id: 41702999-597f-4ecd-ab84-08dbbaae9fc6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: t006leVW38ClsW8n7grKKm1akAirI5ar+4feRFHNngmk57N676vaFXlMH2YOkbnig4yME4AKYNxi/vOtkGgMaWMhXHcgYVKNFN+HZi6NzCXfCVCLUeRDmWKf5LYGPGW03lFWau3OdD2HXyfg4DnjMqTPSK783uITvYK5qNqBphsaOw7azvJePPBk8Zo4mmUEMiMDpEpDWgVJZvG+0jNtUGjjtiXzVsWLNluoVyyccq6yc1YH28KqhmbMTh2Q1ll9LdayYuCKPgoHYTWhO+fhwtrQlMtGny9aHBIgPEXnCArNWIk0M8kU7xweUrNxLttPzj6Kjz9rvLMPwUx9Mqg7AWYOwAfxI1CWicL32b2oJ3Z4PLGyWLqTJ7SrdCpAuUewWWM6zAnTJma1A6gwX1BGGHE/FkKmxjqM/tXHohSG1du9t2tObt2s+IZagP+yCJdQz4nmb3Xr7tkkO3yiPulhj9ukmINn9gvuRsmLW0elBNChJjMbMTgD4aVyDXtbIYHA1TvPQeTXiK7PI3IqucDoZoO81q6XRBni+x4tOOrCwI0teGShAOoLHn8F1KxkF+fUwffdM+DKqmO5zXwtylpwqG4vyOjSuaTDDcVczgayzblp/qXdSEGRnyew9bHZFm32zgr/vYW2HQqAR6LGCAM2djyn1El9rBKphmRSHIYKNLc=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(39860400002)(376002)(396003)(346002)(366004)(1800799009)(451199024)(186009)(64756008)(54906003)(316002)(66556008)(91956017)(66946007)(66476007)(110136005)(66446008)(76116006)(26005)(107886003)(38070700005)(83380400001)(6506007)(36756003)(71200400001)(6486002)(6512007)(2616005)(38100700002)(86362001)(122000001)(85182001)(478600001)(2906002)(7416002)(5660300002)(8936002)(4326008)(8676002)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q0NScUpnOGlnQWlyT21tRXpxUlU3NlAwQi8xRGQyNkhPM0YrNmRhWDBtWE5k?=
+ =?utf-8?B?Q1c3YnFkSlFPYS96aGpLSjBPWnNabnduRGlaNmUwV2ZHRjVVcXdFUzZPSFJW?=
+ =?utf-8?B?VlNVOVZ6c0lpTGp3cHJPVXlRL3Z5ejJVR3dYYTY0em1udWlwUjBCVkZ0bFNC?=
+ =?utf-8?B?OUZXSWprcHRnRmJuckpIRUZCeFNSb3BvdllhQmhCQStOQzJQd05jT2MwQnI2?=
+ =?utf-8?B?VmZSQlRjTkwrNStZQVhyekdzdlA4aVFYZCtGVGtqRCt4TWdPR2lPSU1nbWt6?=
+ =?utf-8?B?WXRaaVV0VUg0bzVVMm44MUtrMFpUQmF4Zk1mRmdEOU5vRTNweDBvTW5qcDI0?=
+ =?utf-8?B?em00NTRldng3SVB5THM1UXVRNDZMYWN0UFVEZUxMd2FXRGx6WWdiTUVWbU0y?=
+ =?utf-8?B?VDlVdFRKUmhDYm4vSWdsWFo5MldZdEpES1B2N3AzM2hEZWJaTlZRZ3haU2xx?=
+ =?utf-8?B?NWx2V0QyaWV4WW5MUFVQck9mR2pLOVhVZkJPbnMvMlVCU05GOFdWeWYwZjMz?=
+ =?utf-8?B?NGxSQ3o4WHdITy9PVUlpOXMxNmdPSmR5OVc1ODBVNURyMFBJWUxObEU0WFJu?=
+ =?utf-8?B?cUl4ekZCc2R4UE84KzJJRDBEOXE0M1BZWCt1ZVZFaU5BL1pDVFhXbjI1K0pu?=
+ =?utf-8?B?bVh6ZzE3ZEdDNjNlSHhkOVdyWldrdVhYOE5RWklCeHlIdXZyYWJySUpDY0Vm?=
+ =?utf-8?B?U2g3RnVCTDl5SjJjbDc4VkhtVWtGd0xCb0hwT0JBMkhpSXdGNW5neDAwUGtV?=
+ =?utf-8?B?emprcCtqYnVaQ0NReXFpd2wvUDdkMHB3V1dMUVF3am83ZTJaL1R0L2w4WDV1?=
+ =?utf-8?B?cUtFOG50Z1EzaUtmNHJWYzVCck5wQTlhUFdEMXY5K29tRi9TUDJpNnRsZ21r?=
+ =?utf-8?B?eWcycno1U1A4RHBLNEVOaUV3dVQyalFFM0JqNEVEZzFQQytjTlpDMzExdXVl?=
+ =?utf-8?B?eGpwZ1kyVDRVOHBDM1hVblVjR1VBUnZPSlU3ZWsxclBMWEVXcmlid2QvTTVa?=
+ =?utf-8?B?NXkwajUzbmJyMDhwbGpuZ1JYVnNBUHRDTjJ3MDNUdmlsa2Qzd1VWcEoyRTY2?=
+ =?utf-8?B?dUp4NlNYNmJJbE9RQkxSNHpFZGNOQkdJTTYrVWlGU3AxWkZCU3lIb0M3bE1D?=
+ =?utf-8?B?SURFQlR3NFAySU9HQkJ1T3BkRGUxUy9TRzhzZWVKbTkzd2k1cW1vL0h0Y0hO?=
+ =?utf-8?B?MTA4YVc1NmR0bmllK1RseVA3NWwwNkRFZkVwbGhGS08wazhnRlNLVk8wSHNz?=
+ =?utf-8?B?L2UzMjR5aVNrS3gvenFyM096S1lLUi9LY2locXVydTd2QVFIS1lzTEVFQm1l?=
+ =?utf-8?B?YWRJcVpMTVU4NEZBT3Y5SC9pdENWQTJ6MzJOUTJWVTR1cVVHVU5ncHl5SDE3?=
+ =?utf-8?B?QXlrM3FlSjZWZjdnV1Q0ZGlNSWJLT0VPWnBPR1lBMTRncXlvQkdOc3BVTmpJ?=
+ =?utf-8?B?U1J3N1hMZzI0WG95dHlKZ2lyU0UvczRNcFBwdzVuSE1Ub2FJcUtpSnB4ZU9x?=
+ =?utf-8?B?aHJDUmNLcE1WNTR1MFUyczJ5QUFlSGt4SlBTU2tGSDQwSkZHOWJ3OHpBWkNv?=
+ =?utf-8?B?SG9aaDBYK3JBRG9sQjVLK0FrNzd5NS9sa1JpRDM4bmYzdWh5aG53Nmkwa3do?=
+ =?utf-8?B?Y0syS3dMVTdWS2hid0dFMzhKV01CNmF4WVI1cmRFQXNYQzZXUHM0eHh6MXd0?=
+ =?utf-8?B?MThnN1BVYSt6TnM3RFd0cVVjaGw2cTBUdEtTWk5EVHZqeVhlV3FtM0JJdXhN?=
+ =?utf-8?B?a05sUHpzQTVUeEEwMm9DVXpSNmM3YkNJNVZMT0E3Z3k2TmU2K1dxTWtsRzFi?=
+ =?utf-8?B?T0xBMEVEN0lTOUh4b3lBeTJtMGhWMFdPR3BPS0tXbFpoeTRrWVRIWFRsVGls?=
+ =?utf-8?B?S3RuMFhPY3RzZEpwYmMvNU1JTEF5aVFRbWhZZjZWK0ord3BJeGxXTjdSQTlU?=
+ =?utf-8?B?SE9xR1BnQzZMOVNwREhmSVd1TjVEL2luRkZLUkZPWkxlcmE5L01vb1lYUHNH?=
+ =?utf-8?B?VnQyaVBjSlV4UnByRjdzVUY0UHNGeTBBdzNnNmpoV0wzM0VzVWNIU25pU25Z?=
+ =?utf-8?B?VGsxTHZFS0ZzMFoxSFZTTTd6Y2pBMEV2QWcyeklkeGRLbmdRWEJ5c3Y2c0d4?=
+ =?utf-8?B?QU82UVUrYVhKeUtFWjdYK0drNmgrYVFMMkc2a0VXSm5RTDlhWjlmejV2TXZa?=
+ =?utf-8?B?RFE9PQ==?=
+Content-ID: <32EA922727127F418AACCDB1120B55EA@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41702999-597f-4ecd-ab84-08dbbaae9fc6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2023 14:25:37.0264 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Md538O2SkmFy07RN109hmOKEq1/HO0pOUFIONEMn8T7xCJXTYuY0zOeieSPiZS1okXCBzZXNbYZTt2YYBJzAYY5E6G9xNdYTgy7W8+RZ0a4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8158
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_004_1898348002.1964580323"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,189 +168,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?utf-8?B?RWx2aXMgV2FuZyAo546L5YabKQ==?= <Elvis.Wang@mediatek.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Sep 2023 15:34:44 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+--__=_Part_Boundary_004_1898348002.1964580323
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> On 9/21/23 09:39, Christian K=C3=B6nig wrote:
-> > Am 20.09.23 um 16:42 schrieb Danilo Krummrich: =20
-> >> Provide a common dma-resv for GEM objects not being used outside of th=
-is
-> >> GPU-VM. This is used in a subsequent patch to generalize dma-resv,
-> >> external and evicted object handling and GEM validation.
-> >>
-> >> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> >> ---
-> >> =C2=A0 drivers/gpu/drm/drm_gpuvm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++++++--
-> >> =C2=A0 drivers/gpu/drm/nouveau/nouveau_uvmm.c |=C2=A0 2 +-
-> >> =C2=A0 include/drm/drm_gpuvm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 17 ++++++++++++++++-
-> >> =C2=A0 3 files changed, 24 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> >> index bfea4a8a19ec..cbf4b738a16c 100644
-> >> --- a/drivers/gpu/drm/drm_gpuvm.c
-> >> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> >> @@ -655,6 +655,7 @@ drm_gpuva_range_valid(struct drm_gpuvm *gpuvm,
-> >> =C2=A0 /**
-> >> =C2=A0=C2=A0 * drm_gpuvm_init() - initialize a &drm_gpuvm
-> >> =C2=A0=C2=A0 * @gpuvm: pointer to the &drm_gpuvm to initialize
-> >> + * @drm: the drivers &drm_device
-> >> =C2=A0=C2=A0 * @name: the name of the GPU VA space
-> >> =C2=A0=C2=A0 * @start_offset: the start offset of the GPU VA space
-> >> =C2=A0=C2=A0 * @range: the size of the GPU VA space
-> >> @@ -668,7 +669,7 @@ drm_gpuva_range_valid(struct drm_gpuvm *gpuvm,
-> >> =C2=A0=C2=A0 * &name is expected to be managed by the surrounding driv=
-er structures.
-> >> =C2=A0=C2=A0 */
-> >> =C2=A0 void
-> >> -drm_gpuvm_init(struct drm_gpuvm *gpuvm,
-> >> +drm_gpuvm_init(struct drm_gpuvm *gpuvm, struct drm_device *drm,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 const char *name,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 u64 start_offset, u64 range,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 u64 reserve_offset, u64 reserve_range,
-> >> @@ -694,6 +695,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reserve_range)))
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 __drm_gpuva_insert(gpuvm, &gpuvm->kernel_alloc_node);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >> +
-> >> +=C2=A0=C2=A0=C2=A0 drm_gem_private_object_init(drm, &gpuvm->d_obj, 0);
-> >> =C2=A0 }
-> >> =C2=A0 EXPORT_SYMBOL_GPL(drm_gpuvm_init);
-> >> @@ -713,7 +716,9 @@ drm_gpuvm_destroy(struct drm_gpuvm *gpuvm)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __drm_gpuva_rem=
-ove(&gpuvm->kernel_alloc_node);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARN(!RB_EMPTY_ROOT(&gpuvm->rb.tree.rb_=
-root),
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "GPUVA tree is not e=
-mpty, potentially leaking memory.");
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "GPUVA tree is not e=
-mpty, potentially leaking memory.\n");
-> >> +
-> >> +=C2=A0=C2=A0=C2=A0 drm_gem_private_object_fini(&gpuvm->d_obj);
-> >> =C2=A0 }
-> >> =C2=A0 EXPORT_SYMBOL_GPL(drm_gpuvm_destroy);
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/=
-nouveau/nouveau_uvmm.c
-> >> index 6c86b64273c3..a80ac8767843 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> >> @@ -1836,7 +1836,7 @@ nouveau_uvmm_init(struct nouveau_uvmm *uvmm, str=
-uct nouveau_cli *cli,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uvmm->kernel_managed_addr =3D kernel_ma=
-naged_addr;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uvmm->kernel_managed_size =3D kernel_ma=
-naged_size;
-> >> -=C2=A0=C2=A0=C2=A0 drm_gpuvm_init(&uvmm->base, cli->name,
-> >> +=C2=A0=C2=A0=C2=A0 drm_gpuvm_init(&uvmm->base, cli->drm->dev, cli->na=
-me,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 NOUVEAU_VA_SPACE_START,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 NOUVEAU_VA_SPACE_END,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_managed_addr, kernel_managed_size,
-> >> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> >> index 0e802676e0a9..6666c07d7c3e 100644
-> >> --- a/include/drm/drm_gpuvm.h
-> >> +++ b/include/drm/drm_gpuvm.h
-> >> @@ -240,14 +240,29 @@ struct drm_gpuvm {
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @ops: &drm_gpuvm_ops providing =
-the split/merge steps to drivers
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_gpuvm_ops *ops;
-> >> +
-> >> +=C2=A0=C2=A0=C2=A0 /**
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0 * @d_obj: Dummy GEM object; used internally =
-to pass the GPU VMs
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0 * dma-resv to &drm_exec. Provides the GPUVM'=
-s &dma-resv.
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >> +=C2=A0=C2=A0=C2=A0 struct drm_gem_object d_obj; =20
-> >=20
-> > Yeah, as pointed out in the other mail that won't work like this. =20
->=20
-> Which one? Seems that I missed it.
->=20
-> >=20
-> > The GPUVM contains GEM objects and therefore should probably have a ref=
-erence to those objects.
-> >=20
-> > When those GEM objects now use the dma-resv object embedded inside the =
-GPUVM then they also need a reference to the GPUVM to make sure the dma-res=
-v object won't be freed before they are freed. =20
->=20
-> My assumption here is that GEM objects being local to a certain VM never =
-out-live the VM. We never share it with anyone, otherwise it would be exter=
-nal and hence wouldn't carray the VM's dma-resv. The only references I see =
-are from the VM itself (which is fine) and from userspace. The latter isn't=
- a problem as long as all GEM handles are closed before the VM is destroyed=
- on FD close.
+PHByZT4NCk9uJiMzMjtUdWUsJiMzMjsyMDIzLTA5LTE5JiMzMjthdCYjMzI7MDE6MzgmIzMyOysw
+MDAwLCYjMzI7Q0smIzMyO0h1JiMzMjsoJiMzMjk5MzsmIzIwNDI2OyYjMjA4MDk7KSYjMzI7d3Jv
+dGU6DQomZ3Q7JiMzMjtIaSwmIzMyO0phc29uOg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtPbiYjMzI7
+VHVlLCYjMzI7MjAyMy0wOS0xOSYjMzI7YXQmIzMyOzAzOjIxJiMzMjsrMDgwMCwmIzMyO0phc29u
+LUpILkxpbiYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtBZGQmIzMyO2NtZHFfcGt0X2Zp
+bmFsaXplX2xvb3AmIzMyO3RvJiMzMjtDTURRJiMzMjtkcml2ZXIuDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsNCiZndDsmIzMyOyZndDsmIzMyO2NtZHFfcGt0X2ZpbmFsaXplX2xvb3AmIzMyO2FwcGVuZHMm
+IzMyO2VuZCYjMzI7b2YmIzMyO2NvbW1hbmQoRU9DKSYjMzI7aW5zdHJ1Y3Rpb24mIzMyO2FuZA0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7anVtcCYjMzI7dG8mIzMyO3N0YXJ0JiMzMjtvZiYjMzI7Y29tbWFu
+ZCYjMzI7YnVmZmVyJiMzMjtpbnN0cnVjdGlvbiYjMzI7dG8mIzMyO21ha2UmIzMyO3RoZSYjMzI7
+Y29tbWFuZA0KJmd0OyYjMzI7Jmd0OyYjMzI7YnVmZmVyJiMzMjtsb29wYWJsZS4NCiZndDsmIzMy
+OyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0phc29uLUpI
+LkxpbiYjMzI7Jmx0O2phc29uLWpoLmxpbkBtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjstLS0NCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7ZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRr
+LWNtZHEtaGVscGVyLmMmIzMyO3wmIzMyOzIzDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrKysrKysrKysr
+KysrKysrKysrKysrKw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtpbmNsdWRlL2xpbnV4L3NvYy9t
+ZWRpYXRlay9tdGstY21kcS5oJiMzMjsmIzMyO3wmIzMyOyYjMzI7OCYjMzI7KysrKysrKysNCiZn
+dDsmIzMyOyZndDsmIzMyOyYjMzI7MiYjMzI7ZmlsZXMmIzMyO2NoYW5nZWQsJiMzMjszMSYjMzI7
+aW5zZXJ0aW9ucygrKQ0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtkaWZm
+JiMzMjstLWdpdCYjMzI7YS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYw0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7Yi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIu
+Yw0KJmd0OyYjMzI7Jmd0OyYjMzI7aW5kZXgmIzMyOzRiZTJhMThhNGEwMi4uYmJiMTI3NjIwYmIz
+JiMzMjsxMDA2NDQNCiZndDsmIzMyOyZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL3NvYy9tZWRp
+YXRlay9tdGstY21kcS1oZWxwZXIuYw0KJmd0OyYjMzI7Jmd0OyYjMzI7KysrJiMzMjtiL2RyaXZl
+cnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtAQCYj
+MzI7LTQ3NSw2JiMzMjsrNDc1LDI5JiMzMjtAQCYjMzI7aW50JiMzMjtjbWRxX3BrdF9maW5hbGl6
+ZShzdHJ1Y3QmIzMyO2NtZHFfcGt0JiMzMjsqcGt0KQ0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjt9
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyO0VYUE9SVF9TWU1CT0woY21kcV9wa3RfZmluYWxpemUp
+Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOytpbnQmIzMyO2Nt
+ZHFfcGt0X2ZpbmFsaXplX2xvb3Aoc3RydWN0JiMzMjtjbWRxX3BrdCYjMzI7KnBrdCkNCiZndDsm
+IzMyOyZndDsmIzMyOyt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrc3RydWN0JiMzMjtjbWRxX2luc3Ry
+dWN0aW9uJiMzMjtpbnN0JiMzMjs9JiMzMjt7JiMzMjt7MH0mIzMyO307DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjsraW50JiMzMjtlcnI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsrLyomIzMyO2luc2VydCYjMzI7RU9DJiMzMjthbmQmIzMyO2dlbmVyYXRlJiMzMjtJUlEmIzMy
+O2ZvciYjMzI7ZWFjaCYjMzI7Y29tbWFuZCYjMzI7aXRlcmF0aW9uJiMzMjsqLw0KJmd0OyYjMzI7
+Jmd0OyYjMzI7K2luc3Qub3AmIzMyOz0mIzMyO0NNRFFfQ09ERV9FT0M7DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjsraW5zdC52YWx1ZSYjMzI7PSYjMzI7Q01EUV9FT0NfSVJRX0VOOw0KJmd0OyYjMzI7Jmd0
+OyYjMzI7K2VyciYjMzI7PSYjMzI7Y21kcV9wa3RfYXBwZW5kX2NvbW1hbmQocGt0LCYjMzI7aW5z
+dCk7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsraWYmIzMyOyhlcnImIzMyOyZsdDsmIzMyOzApDQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjsrcmV0dXJuJiMzMjtlcnI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrDQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjsrLyomIzMyO0pVTVAmIzMyO3RvJiMzMjtzdGFydCYjMzI7b2YmIzMyO3Br
+dCYjMzI7Ki8NCiZndDsmIzMyOyZndDsmIzMyOytlcnImIzMyOz0mIzMyO2NtZHFfcGt0X2p1bXAo
+cGt0LCYjMzI7cGt0LSZndDtwYV9iYXNlKTsNCiZndDsmIzMyOyZndDsmIzMyOytpZiYjMzI7KGVy
+ciYjMzI7Jmx0OyYjMzI7MCkNCiZndDsmIzMyOyZndDsmIzMyOytyZXR1cm4mIzMyO2VycjsNCiZn
+dDsmIzMyOw0KJmd0OyYjMzI7Q291bGQmIzMyO3lvdSYjMzI7ZXhwbGFpbiYjMzI7dGhlJiMzMjtj
+YXNlJiMzMjt0aGF0JiMzMjthJiMzMjtsb29wJiMzMjt0aHJlYWQmIzMyO3dvdWxkJiMzMjt0cmln
+Z2VyJiMzMjthbg0KJmd0OyYjMzI7aW50ZXJydXB0JiM2MzsmIzMyO0luJiMzMjtEUk0mIzMyO2Ny
+YyYjMzI7ZnVuY3Rpb24sJiMzMjt0aGUmIzMyO2xvb3AmIzMyO3RocmVhZCYjMzI7bmVlZCYjMzI7
+bm90JiMzMjt0byYjMzI7dHJpZ2dlcg0KJmd0OyYjMzI7aW50ZXJydXB0LCYjMzI7c28mIzMyO0km
+IzM5O20mIzMyO2N1cmlvdXMmIzMyO2Fib3V0JiMzMjt0aGlzLg0KJmd0OyYjMzI7DQpUaGUmIzMy
+O2xvb3BpbmcmIzMyO3RocmVhZCYjMzI7aW4mIzMyO0RSTSYjMzI7Y3JjJiMzMjtmdW50aW9uJiMz
+MjtpcyYjMzI7Zm9yJiMzMjt1cGRhdGUmIzMyO0NSQyYjMzI7dmFsdWUmIzMyO3RvJiMzMjtEUkFN
+DQpkdXJpbmcmIzMyO2V2ZXJ5JiMzMjt2YmxhbmsmIzMyO2V2ZW50JiMzMjtjb21pbmcuJiMzMjtJ
+dCYjMzI7ZG9lc24mIzM5O3QmIzMyO25lZWQmIzMyO3RvJiMzMjtoYW5kbGUmIzMyO3RoZQ0Kc29m
+dHdhcmUmIzMyO2Zsb3cmIzMyO2FmdGVyJiMzMjt0aGUmIzMyO0VPQy4NCg0KVGhlJiMzMjtsb29w
+aW5nJiMzMjt0aHJlYWQmIzMyO2luJiMzMjtjbWRxX3NlY19pcnFfbm90aWZ5X3N0YXJ0KCkmIzMy
+O2lzJiMzMjt3YWl0aW5nJiMzMjtmb3ImIzMyO2V2ZXJ5DQpDTURRX1NZTkNfVE9LRU5fU0VDX1RI
+Ul9FT0YmIzMyO2JlaW5nJiMzMjtzZXQsJiMzMjt0aGF0JiMzMjttZWFucyYjMzI7dGhlJiMzMjtH
+Q0UmIzMyO2luJiMzMjtzZWN1cmUNCndvcmxkJiMzMjtoYXMmIzMyO2ZpbmlzaGVkJiMzMjthbGwm
+IzMyO2NvbW1hbmRzJiMzMjtpbiYjMzI7YSYjMzI7Y29tbWFuZCYjMzI7YnVmZmVyLiYjMzI7VGhl
+biYjMzI7aXQmIzMyO25lZWRzJiMzMjthDQpHQ0UmIzMyO2lycSYjMzI7dG8mIzMyO3RyaWdnZXIm
+IzMyO3NlY3VyZSYjMzI7bWFpbGJveCYjMzI7cnhfY2FsbGJhY2soKSYjMzI7dG8mIzMyO2hhbmRs
+ZSYjMzI7dGhlJiMzMjt0YXNrJiMzMjtvZg0Kc2VjdXJlJiMzMjtjbWRxX3BrdCYjMzI7ZG9uZSYj
+MzI7aW4mIzMyO3NvZnR3YXJlLg0KDQpSZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCiZndDsmIzMy
+O1JlZ2FyZHMsDQomZ3Q7JiMzMjtDSw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrDQom
+Z3Q7JiMzMjsmZ3Q7JiMzMjsrcGt0LSZndDtsb29wJiMzMjs9JiMzMjt0cnVlOw0KJmd0OyYjMzI7
+Jmd0OyYjMzI7Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7K3JldHVybiYjMzI7ZXJyOw0KJmd0OyYjMzI7
+Jmd0OyYjMzI7K30NCiZndDsmIzMyOyZndDsmIzMyOytFWFBPUlRfU1lNQk9MKGNtZHFfcGt0X2Zp
+bmFsaXplX2xvb3ApOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMz
+MjtpbnQmIzMyO2NtZHFfcGt0X2ZsdXNoX2FzeW5jKHN0cnVjdCYjMzI7Y21kcV9wa3QmIzMyOypw
+a3QpDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyO3sNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7aW50
+JiMzMjtlcnI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9pbmNsdWRl
+L2xpbnV4L3NvYy9tZWRpYXRlay9tdGstY21kcS5oDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtiL2luY2x1
+ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgNCiZndDsmIzMyOyZndDsmIzMyO2luZGV4
+JiMzMjs4MzdhZDg2NTZhZGMuLjM4YThlNDdkYTMzOCYjMzI7MTAwNjQ0DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjstLS0mIzMyO2EvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEuaA0KJmd0
+OyYjMzI7Jmd0OyYjMzI7KysrJiMzMjtiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1j
+bWRxLmgNCiZndDsmIzMyOyZndDsmIzMyO0BAJiMzMjstMzIzLDYmIzMyOyszMjMsMTQmIzMyO0BA
+JiMzMjtpbnQmIzMyO2NtZHFfcGt0X2p1bXAoc3RydWN0JiMzMjtjbWRxX3BrdCYjMzI7KnBrdCwN
+CiZndDsmIzMyOyZndDsmIzMyO2RtYV9hZGRyX3QmIzMyO2FkZHIpOw0KJmd0OyYjMzI7Jmd0OyYj
+MzI7JiMzMjsmIzMyOyovDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyO2ludCYjMzI7Y21kcV9wa3Rf
+ZmluYWxpemUoc3RydWN0JiMzMjtjbWRxX3BrdCYjMzI7KnBrdCk7DQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Ky8qKg0KJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMzI7
+KiYjMzI7Y21kcV9wa3RfZmluYWxpemVfbG9vcCgpJiMzMjstJiMzMjtBcHBlbmQmIzMyO0VPQyYj
+MzI7YW5kJiMzMjtqdW1wJiMzMjt0byYjMzI7c3RhcnQNCiZndDsmIzMyOyZndDsmIzMyO2NvbW1h
+bmQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqJiMzMjtAcGt0OnRoZSYjMzI7Q01EUSYjMzI7
+cGFja2V0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMz
+MjsqJiMzMjtSZXR1cm46JiMzMjswJiMzMjtmb3ImIzMyO3N1Y2Nlc3M7JiMzMjtlbHNlJiMzMjt0
+aGUmIzMyO2Vycm9yJiMzMjtjb2RlJiMzMjtpcyYjMzI7cmV0dXJuZWQNCiZndDsmIzMyOyZndDsm
+IzMyOysmIzMyOyovDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsraW50JiMzMjtjbWRxX3BrdF9maW5hbGl6
+ZV9sb29wKHN0cnVjdCYjMzI7Y21kcV9wa3QmIzMyOypwa3QpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsvKioNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMz
+MjsqJiMzMjtjbWRxX3BrdF9mbHVzaF9hc3luYygpJiMzMjstJiMzMjt0cmlnZ2VyJiMzMjtDTURR
+JiMzMjt0byYjMzI7YXN5bmNocm9ub3VzbHkmIzMyO2V4ZWN1dGUNCiZndDsmIzMyOyZndDsmIzMy
+O3RoZSYjMzI7Q01EUQ0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyomIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7cGFja2V0JiMzMjthbmQmIzMyO2NhbGwmIzMyO2JhY2smIzMyO2F0JiMzMjt0aGUmIzMyO2Vu
+ZCYjMzI7b2YNCiZndDsmIzMyOyZndDsmIzMyO2RvbmUNCiZndDsmIzMyOyZndDsmIzMyO3BhY2tl
+dA0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVE
+SUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGlu
+Zm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55
+IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxl
+Z2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJs
+ZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2ln
+bmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlv
+biwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRp
+bmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmlj
+dGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBp
+bnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBo
+YXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5k
+ZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55
+IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVu
+dHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9m
+IHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19
+LS0+
 
-But we don't want to rely on userspace doing the right thing (calling
-GEM_CLOSE before releasing the VM), do we?
+--__=_Part_Boundary_004_1898348002.1964580323
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-BTW, even though my private BOs have a ref to their exclusive VM, I just
-ran into a bug because drm_gem_shmem_free() acquires the resv lock
-(which is questionable, but that's not the topic :-)) and
-I was calling vm_put(bo->exclusive_vm) before drm_gem_shmem_free(),
-leading to a use-after-free when the gem->resv is acquired. This has
-nothing to do with drm_gpuvm, but it proves that this sort of bug is
-likely to happen if we don't pay attention.
+T24gVHVlLCAyMDIzLTA5LTE5IGF0IDAxOjM4ICswMDAwLCBDSyBIdSAo6IOh5L+K5YWJKSB3cm90
+ZToNCj4gSGksIEphc29uOg0KPiANCj4gT24gVHVlLCAyMDIzLTA5LTE5IGF0IDAzOjIxICswODAw
+LCBKYXNvbi1KSC5MaW4gd3JvdGU6DQo+ID4gQWRkIGNtZHFfcGt0X2ZpbmFsaXplX2xvb3AgdG8g
+Q01EUSBkcml2ZXIuDQo+ID4gDQo+ID4gY21kcV9wa3RfZmluYWxpemVfbG9vcCBhcHBlbmRzIGVu
+ZCBvZiBjb21tYW5kKEVPQykgaW5zdHJ1Y3Rpb24gYW5kDQo+ID4ganVtcCB0byBzdGFydCBvZiBj
+b21tYW5kIGJ1ZmZlciBpbnN0cnVjdGlvbiB0byBtYWtlIHRoZSBjb21tYW5kDQo+ID4gYnVmZmVy
+IGxvb3BhYmxlLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IEphc29uLUpILkxpbiA8amFzb24t
+amgubGluQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsv
+bXRrLWNtZHEtaGVscGVyLmMgfCAyMw0KPiA+ICsrKysrKysrKysrKysrKysrKysrKysrDQo+ID4g
+IGluY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmggIHwgIDggKysrKysrKysNCj4g
+PiAgMiBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jDQo+ID4gYi9kcml2ZXJz
+L3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYw0KPiA+IGluZGV4IDRiZTJhMThhNGEwMi4u
+YmJiMTI3NjIwYmIzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1j
+bWRxLWhlbHBlci5jDQo+ID4gKysrIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEtaGVs
+cGVyLmMNCj4gPiBAQCAtNDc1LDYgKzQ3NSwyOSBAQCBpbnQgY21kcV9wa3RfZmluYWxpemUoc3Ry
+dWN0IGNtZHFfcGt0ICpwa3QpDQo+ID4gIH0NCj4gPiAgRVhQT1JUX1NZTUJPTChjbWRxX3BrdF9m
+aW5hbGl6ZSk7DQo+ID4gIA0KPiA+ICtpbnQgY21kcV9wa3RfZmluYWxpemVfbG9vcChzdHJ1Y3Qg
+Y21kcV9wa3QgKnBrdCkNCj4gPiArew0KPiA+ICsJc3RydWN0IGNtZHFfaW5zdHJ1Y3Rpb24gaW5z
+dCA9IHsgezB9IH07DQo+ID4gKwlpbnQgZXJyOw0KPiA+ICsNCj4gPiArCS8qIGluc2VydCBFT0Mg
+YW5kIGdlbmVyYXRlIElSUSBmb3IgZWFjaCBjb21tYW5kIGl0ZXJhdGlvbiAqLw0KPiA+ICsJaW5z
+dC5vcCA9IENNRFFfQ09ERV9FT0M7DQo+ID4gKwlpbnN0LnZhbHVlID0gQ01EUV9FT0NfSVJRX0VO
+Ow0KPiA+ICsJZXJyID0gY21kcV9wa3RfYXBwZW5kX2NvbW1hbmQocGt0LCBpbnN0KTsNCj4gPiAr
+CWlmIChlcnIgPCAwKQ0KPiA+ICsJCXJldHVybiBlcnI7DQo+ID4gKw0KPiA+ICsJLyogSlVNUCB0
+byBzdGFydCBvZiBwa3QgKi8NCj4gPiArCWVyciA9IGNtZHFfcGt0X2p1bXAocGt0LCBwa3QtPnBh
+X2Jhc2UpOw0KPiA+ICsJaWYgKGVyciA8IDApDQo+ID4gKwkJcmV0dXJuIGVycjsNCj4gDQo+IENv
+dWxkIHlvdSBleHBsYWluIHRoZSBjYXNlIHRoYXQgYSBsb29wIHRocmVhZCB3b3VsZCB0cmlnZ2Vy
+IGFuDQo+IGludGVycnVwdD8gSW4gRFJNIGNyYyBmdW5jdGlvbiwgdGhlIGxvb3AgdGhyZWFkIG5l
+ZWQgbm90IHRvIHRyaWdnZXINCj4gaW50ZXJydXB0LCBzbyBJJ20gY3VyaW91cyBhYm91dCB0aGlz
+Lg0KPiANClRoZSBsb29waW5nIHRocmVhZCBpbiBEUk0gY3JjIGZ1bnRpb24gaXMgZm9yIHVwZGF0
+ZSBDUkMgdmFsdWUgdG8gRFJBTQ0KZHVyaW5nIGV2ZXJ5IHZibGFuayBldmVudCBjb21pbmcuIEl0
+IGRvZXNuJ3QgbmVlZCB0byBoYW5kbGUgdGhlDQpzb2Z0d2FyZSBmbG93IGFmdGVyIHRoZSBFT0Mu
+DQoNClRoZSBsb29waW5nIHRocmVhZCBpbiBjbWRxX3NlY19pcnFfbm90aWZ5X3N0YXJ0KCkgaXMg
+d2FpdGluZyBmb3IgZXZlcnkNCkNNRFFfU1lOQ19UT0tFTl9TRUNfVEhSX0VPRiBiZWluZyBzZXQs
+IHRoYXQgbWVhbnMgdGhlIEdDRSBpbiBzZWN1cmUNCndvcmxkIGhhcyBmaW5pc2hlZCBhbGwgY29t
+bWFuZHMgaW4gYSBjb21tYW5kIGJ1ZmZlci4gVGhlbiBpdCBuZWVkcyBhDQpHQ0UgaXJxIHRvIHRy
+aWdnZXIgc2VjdXJlIG1haWxib3ggcnhfY2FsbGJhY2soKSB0byBoYW5kbGUgdGhlIHRhc2sgb2YN
+CnNlY3VyZSBjbWRxX3BrdCBkb25lIGluIHNvZnR3YXJlLg0KDQpSZWdhcmRzLA0KSmFzb24tSkgu
+TGluDQoNCj4gUmVnYXJkcywNCj4gQ0sNCj4gDQo+ID4gKw0KPiA+ICsJcGt0LT5sb29wID0gdHJ1
+ZTsNCj4gPiArDQo+ID4gKwlyZXR1cm4gZXJyOw0KPiA+ICt9DQo+ID4gK0VYUE9SVF9TWU1CT0wo
+Y21kcV9wa3RfZmluYWxpemVfbG9vcCk7DQo+ID4gKw0KPiA+ICBpbnQgY21kcV9wa3RfZmx1c2hf
+YXN5bmMoc3RydWN0IGNtZHFfcGt0ICpwa3QpDQo+ID4gIHsNCj4gPiAgCWludCBlcnI7DQo+ID4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgNCj4gPiBi
+L2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgNCj4gPiBpbmRleCA4MzdhZDg2
+NTZhZGMuLjM4YThlNDdkYTMzOCAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L3NvYy9t
+ZWRpYXRlay9tdGstY21kcS5oDQo+ID4gKysrIGIvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsv
+bXRrLWNtZHEuaA0KPiA+IEBAIC0zMjMsNiArMzIzLDE0IEBAIGludCBjbWRxX3BrdF9qdW1wKHN0
+cnVjdCBjbWRxX3BrdCAqcGt0LA0KPiA+IGRtYV9hZGRyX3QgYWRkcik7DQo+ID4gICAqLw0KPiA+
+ICBpbnQgY21kcV9wa3RfZmluYWxpemUoc3RydWN0IGNtZHFfcGt0ICpwa3QpOw0KPiA+ICANCj4g
+PiArLyoqDQo+ID4gKyAqIGNtZHFfcGt0X2ZpbmFsaXplX2xvb3AoKSAtIEFwcGVuZCBFT0MgYW5k
+IGp1bXAgdG8gc3RhcnQNCj4gPiBjb21tYW5kLg0KPiA+ICsgKiBAcGt0Ogl0aGUgQ01EUSBwYWNr
+ZXQNCj4gPiArICoNCj4gPiArICogUmV0dXJuOiAwIGZvciBzdWNjZXNzOyBlbHNlIHRoZSBlcnJv
+ciBjb2RlIGlzIHJldHVybmVkDQo+ID4gKyAqLw0KPiA+ICtpbnQgY21kcV9wa3RfZmluYWxpemVf
+bG9vcChzdHJ1Y3QgY21kcV9wa3QgKnBrdCk7DQo+ID4gKw0KPiA+ICAvKioNCj4gPiAgICogY21k
+cV9wa3RfZmx1c2hfYXN5bmMoKSAtIHRyaWdnZXIgQ01EUSB0byBhc3luY2hyb25vdXNseSBleGVj
+dXRlDQo+ID4gdGhlIENNRFENCj4gPiAgICogICAgICAgICAgICAgICAgICAgICAgICAgIHBhY2tl
+dCBhbmQgY2FsbCBiYWNrIGF0IHRoZSBlbmQgb2YNCj4gPiBkb25lDQo+ID4gcGFja2V0DQo=
 
->=20
-> Do I miss something? Do we have use cases where this isn't true?
+--__=_Part_Boundary_004_1898348002.1964580323--
 
-The other case I can think of is GEM being v[un]map-ed (kernel
-mapping) after the VM was released.
-
->=20
-> >=20
-> > This is a circle reference dependency.
-
-FWIW, I solved that by having a vm_destroy() function that kills all the
-mappings in a VM, which in turn releases all the refs the VM had on
-private BOs. Then, it's just a matter of waiting for all private GEMs
-to be destroyed to get the final steps of the VM destruction, which is
-really just about releasing resources (it's called panthor_vm_release()
-in my case) executed when the VM refcount drops to zero.
-
-> >=20
-> > The simplest solution I can see is to let the driver provide the GEM ob=
-ject to use. Amdgpu uses the root page directory object for this. =20
->=20
-> Sure, we can do that, if we see cases where VM local GEM objects can out-=
-live the VM.
-> >=20
-> > Apart from that I strongly think that we shouldn't let the GPUVM code c=
-reate a driver GEM object. We did that in TTM for the ghost objects and it =
-turned out to be a bad idea. =20
-
-Would that really solve the circular ref issue? I mean, if you're
-taking the root page dir object as your VM resv, you still have to make
-sure it outlives the private GEMs, which means, you either need
-to take a ref on the object, leading to the same circular ref mess, or
-you need to reset private GEMs resvs before destroying this root page
-dir GEM (whose lifecyle is likely the same as your VM object which
-embeds the drm_gpuvm instance).
-
-Making it driver-specific just moves the responsibility back to drivers
-(and also allows re-using an real GEM object instead of a dummy one,
-but I'm not sure we care about saving a few hundreds bytes at that
-point), which is a good way to not take the blame if the driver does
-something wrong, but also doesn't really help people do the right thing.
