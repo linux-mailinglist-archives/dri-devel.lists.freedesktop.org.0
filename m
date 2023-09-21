@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1E37A9D16
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2877A9D1E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D35F310E5F7;
-	Thu, 21 Sep 2023 19:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43CB110E5F1;
+	Thu, 21 Sep 2023 19:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 239E110E5F6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:28 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-690bc3f82a7so1285094b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:28 -0700 (PDT)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9C210E5F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:31 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-690bc3f82a7so1285151b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695324506; x=1695929306;
+ d=chromium.org; s=google; t=1695324510; x=1695929310;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XHA8WV61h1sCTUoopvu6jUmhZo1/0sc2wBZa91YnlqI=;
- b=FiaARAKeySvDrEEDMpN9tDIaZSRTKBTUxEcLENrZUYG2Uuh80yWYVRZgyq+1uAvIql
- EHcjAplEfmc8n04TzJASaqasPY3fGfAg431GEAxCBBjZakPaXmTO/HZ+2HcZgFL1+uug
- KpY1Kd0F4vyrdkJ+GUiodNei4pM/2QATXrM/U=
+ bh=EjE+v7+9YV8M91Wchnv2I6StT/F66BSqTQ0jlAjsGeo=;
+ b=PxPtm23I2KXI8mTNMWlE8PxOyOl5b343WNWZQ/98T4tFTI1dlljrcs4cSNfFXCRabw
+ 16GCijb01FNsPu5PcLbB7ke1VdBJGqJZuarz2sR+UarDZl24IEGYOzYWDzAoOzSJz6qx
+ Q4nrMCu8HTxFHLfxuB8JFnxV/zD1C+0dmuQoE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695324506; x=1695929306;
+ d=1e100.net; s=20230601; t=1695324510; x=1695929310;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XHA8WV61h1sCTUoopvu6jUmhZo1/0sc2wBZa91YnlqI=;
- b=T+rEOlHAqK9PhXb6j+ERazyIfy5L024rjpw7uNEw/fFM+j9RWpzTwI6RtauZpeHj1t
- 7e9o2lwptfR3dLEokCuuO1nH+reIDm0FG3O3wvNghDoGbQp7ukSTyJcgpaUcfAm9NJ1v
- 2Ma3eARqC1xR3qmq8EDGMRAJbI5K6oseD8XVQk9Nh3CJZGGSpw6Np16dYa+ZZvTCVUGk
- +rlfqI88F6E5FpgksJdk+7hyrSZhdYrZsgp8D4dh5us2F48VGzXYQ1DOliibgNNfMEGz
- pwvFWrMTh3U+G3NX2LQ2H+k5xkUYD0XLDgKgJGm1xp5AUJCfM53kWdXlUC5HtwG8VwxT
- mlQQ==
-X-Gm-Message-State: AOJu0YzwO//WvgjakmwFKQdw3zNm7tDsq+teVkCNUGf/5GXKlaEYqFNf
- MeHk6grqgMrooQnZl8Qx21Hi/7koHgq3NAa3iznekgSW
-X-Google-Smtp-Source: AGHT+IHqTEJgRF5kJ5LaOV5RP1ReQKOtcWcO7Dx6XuYKQwxO/AtAnwFW/vbvFSlG1XFJXQbmien+fA==
-X-Received: by 2002:a05:6a20:3ca8:b0:15c:e0bf:40ec with SMTP id
- b40-20020a056a203ca800b0015ce0bf40ecmr5940561pzj.17.1695324506566; 
- Thu, 21 Sep 2023 12:28:26 -0700 (PDT)
+ bh=EjE+v7+9YV8M91Wchnv2I6StT/F66BSqTQ0jlAjsGeo=;
+ b=ba0MGP6NBmYHJxjTTdJ9B2U02bRw2IBv6giBrGicPqax+B5q7/17quMUns6bkK7otp
+ 6ijv92J0HUPD01LJTFB8kRa+ZtaJgLECPcJvLeKBatRYeKDE9O3ahnFUFHvrIrWfsTBJ
+ TMwjfLZxNZ61s29wxJO14bu4mbp7UVkchHWDoNVe+8gmgushk3mhPE/HLhfslU0s/o4U
+ r8lRqIaVngZFQJ+kBodLvF/hPS0xKDm9LKNQe54ajtsZnZXDHqHqElkhDVljIzeWYjDO
+ UsK5VMva31I9xF0W8WUD0HrqJ+Atw01LlqIml22SuYavg0SQLVb9N0A0kZZdgn+ihMz+
+ 4seQ==
+X-Gm-Message-State: AOJu0YxppHZgBmsHzSnsK4qGGW9DLAPG4AWdS3t9lN/dalBPLTZaf6FK
+ wR6uGc5qEIHJdgSN/MlJkkmH7k7WG9ydjWIcuyoE6Kwj
+X-Google-Smtp-Source: AGHT+IE+we6oLujL1MkhnRpx7DOVM1KJZ/SsmSrAejYsuJZcNIFP8yRibQZNs1+sdIdQDwROK48mpw==
+X-Received: by 2002:a05:6a20:840d:b0:154:6480:83b4 with SMTP id
+ c13-20020a056a20840d00b00154648083b4mr7513077pzd.14.1695324509805; 
+ Thu, 21 Sep 2023 12:28:29 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:e6ed:6d49:f262:8041])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.23
+ w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 12:28:24 -0700 (PDT)
+ Thu, 21 Sep 2023 12:28:28 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFT PATCH v2 04/12] drm/nouveau: Call drm_atomic_helper_shutdown()
- or equiv at shutdown time
-Date: Thu, 21 Sep 2023 12:26:47 -0700
-Message-ID: <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
+Subject: [RFT PATCH v2 05/12] drm/tegra: Call drm_atomic_helper_shutdown() at
+ shutdown time
+Date: Thu, 21 Sep 2023 12:26:48 -0700
+Message-ID: <20230921122641.RFT.v2.5.Ifb4450979b62976fd5a98847dade2e5b377d47c8@changeid>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 In-Reply-To: <20230921192749.1542462-1-dianders@chromium.org>
 References: <20230921192749.1542462-1-dianders@chromium.org>
@@ -74,15 +74,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- bskeggs@redhat.com
+Cc: mperttunen@nvidia.com, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, thierry.reding@gmail.com,
+ linux-tegra@vger.kernel.org, jonathanh@nvidia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Based on grepping through the source code this driver appears to be
-missing a call to drm_atomic_helper_shutdown() (or
-drm_helper_force_disable_all() if not using atomic) at system shutdown
+missing a call to drm_atomic_helper_shutdown() at system shutdown
 time. Among other things, this means that if a panel is in use that it
 won't be cleanly powered off at system shutdown time.
 
@@ -94,116 +93,37 @@ Suggested-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-This commit is only compile-time tested. I made my best guess about
-how to fit this into the existing code. If someone wishes a different
-style, please yell.
+This commit is only compile-time tested.
 
 (no changes since v1)
 
- drivers/gpu/drm/nouveau/nouveau_display.c  |  9 +++++++++
- drivers/gpu/drm/nouveau/nouveau_display.h  |  1 +
- drivers/gpu/drm/nouveau/nouveau_drm.c      | 13 +++++++++++++
- drivers/gpu/drm/nouveau/nouveau_drv.h      |  1 +
- drivers/gpu/drm/nouveau/nouveau_platform.c |  6 ++++++
- 5 files changed, 30 insertions(+)
+ drivers/gpu/drm/tegra/drm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index d8c92521226d..05c3688ccb76 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -642,6 +642,15 @@ nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime)
- 	disp->fini(dev, runtime, suspend);
- }
- 
-+void
-+nouveau_display_shutdown(struct drm_device *dev)
-+{
-+	if (drm_drv_uses_atomic_modeset(dev))
-+		drm_atomic_helper_shutdown(dev);
-+	else
-+		drm_helper_force_disable_all(dev);
-+}
-+
- static void
- nouveau_display_create_properties(struct drm_device *dev)
- {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
-index 2ab2ddb1eadf..9df62e833cda 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.h
-@@ -47,6 +47,7 @@ void nouveau_display_destroy(struct drm_device *dev);
- int  nouveau_display_init(struct drm_device *dev, bool resume, bool runtime);
- void nouveau_display_hpd_resume(struct drm_device *dev);
- void nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime);
-+void nouveau_display_shutdown(struct drm_device *dev);
- int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
- void nouveau_display_resume(struct drm_device *dev, bool runtime);
- int  nouveau_display_vblank_enable(struct drm_crtc *crtc);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 50589f982d1a..8ecfd66b7aab 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -879,6 +879,18 @@ nouveau_drm_remove(struct pci_dev *pdev)
- 	pci_disable_device(pdev);
- }
- 
-+void
-+nouveau_drm_device_shutdown(struct drm_device *dev)
-+{
-+	nouveau_display_shutdown(dev);
-+}
-+
-+static void
-+nouveau_drm_shutdown(struct pci_dev *pdev)
-+{
-+	nouveau_drm_device_shutdown(pci_get_drvdata(pdev));
-+}
-+
- static int
- nouveau_do_suspend(struct drm_device *dev, bool runtime)
- {
-@@ -1346,6 +1358,7 @@ nouveau_drm_pci_driver = {
- 	.id_table = nouveau_drm_pci_table,
- 	.probe = nouveau_drm_probe,
- 	.remove = nouveau_drm_remove,
-+	.shutdown = nouveau_drm_shutdown,
- 	.driver.pm = &nouveau_pm_ops,
- };
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index 3666a7403e47..aa936cabb6cf 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -327,6 +327,7 @@ struct drm_device *
- nouveau_platform_device_create(const struct nvkm_device_tegra_func *,
- 			       struct platform_device *, struct nvkm_device **);
- void nouveau_drm_device_remove(struct drm_device *dev);
-+void nouveau_drm_device_shutdown(struct drm_device *dev);
- 
- #define NV_PRINTK(l,c,f,a...) do {                                             \
- 	struct nouveau_cli *_cli = (c);                                        \
-diff --git a/drivers/gpu/drm/nouveau/nouveau_platform.c b/drivers/gpu/drm/nouveau/nouveau_platform.c
-index 23cd43a7fd19..b2e82a96411c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_platform.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_platform.c
-@@ -50,6 +50,11 @@ static int nouveau_platform_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index ff36171c8fb7..ce2d4153f7bd 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1312,6 +1312,11 @@ static int host1x_drm_remove(struct host1x_device *dev)
  	return 0;
  }
  
-+static void nouveau_platform_shutdown(struct platform_device *pdev)
++static void host1x_drm_shutdown(struct host1x_device *dev)
 +{
-+	nouveau_drm_device_shutdown(platform_get_drvdata(pdev));
++	drm_atomic_helper_shutdown(dev_get_drvdata(&dev->dev));
 +}
 +
- #if IS_ENABLED(CONFIG_OF)
- static const struct nvkm_device_tegra_func gk20a_platform_data = {
- 	.iommu_bit = 34,
-@@ -94,4 +99,5 @@ struct platform_driver nouveau_platform_driver = {
+ #ifdef CONFIG_PM_SLEEP
+ static int host1x_drm_suspend(struct device *dev)
+ {
+@@ -1380,6 +1385,7 @@ static struct host1x_driver host1x_drm_driver = {
  	},
- 	.probe = nouveau_platform_probe,
- 	.remove = nouveau_platform_remove,
-+	.shutdown = nouveau_platform_shutdown,
+ 	.probe = host1x_drm_probe,
+ 	.remove = host1x_drm_remove,
++	.shutdown = host1x_drm_shutdown,
+ 	.subdevs = host1x_drm_subdevs,
  };
+ 
 -- 
 2.42.0.515.g380fc7ccd1-goog
 
