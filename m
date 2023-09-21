@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805997A9537
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 16:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAD27A953A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 16:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0EE10E5CA;
-	Thu, 21 Sep 2023 14:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0837210E5C9;
+	Thu, 21 Sep 2023 14:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73B910E5CA
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 14:29:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880F010E5C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 14:29:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B7EC6609E9;
- Thu, 21 Sep 2023 14:29:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F2B1C4E766;
- Thu, 21 Sep 2023 14:29:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BCF74609E9;
+ Thu, 21 Sep 2023 14:29:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF82C4E76A;
+ Thu, 21 Sep 2023 14:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695306555;
- bh=VLihWTTWDyRcN1oKbSXsMzwTgw3e5f2Nt4JgNqgjmHc=;
+ s=k20201202; t=1695306572;
+ bh=+i068JrUC9snrrF/aptxkD1gDc/gyHcWbhpnMhJEpI8=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=SuLiY+Tf7wIE6HHdVRCxC/G1lDF/gX0c75BgE/AgAsn5nX2ZKPM3+Z++XNKC0svQJ
- HfQbsEaMJh+rA+a0YH4xaqhnT4kOef4nrv9ecIYbjV+CSIDgJFM8q32cIE3Mbhtiev
- f7dSWqUSt5OMbhSWI5Qae26S0NKOij9BSt1wBncwhEOVT3aA8hiWtoi7PrI/fVPcBF
- cJowBwpV6q+fia1qTvE+4vML1ae0iosmzIw0YzMB9KxyO/z2rNAaZGBKQMMkRKEX14
- bbqPeBFnkK0n8n3GPrVtOYfDpo3kEioTgoddzPejSuiASIRvVansYwxQXue70uQcOr
- QbqdeBZ2sIQOw==
+ b=KowGEjiCcgXvUWCBv0lqUoM9lhoukicU5tova2ahPaP7PLVe9Ad0a2ovAQFWB03/W
+ Qfdg0KP/xrlWZu7OyKWgpb4zb0BwlR27vpfJxMd3eAoTHcslw7asAfx66vU7ceWNTP
+ 7TGS7pOLJbeqXxJjDeXOjVF6yWxUmkir5a2BOprqMnXwkdSdhaMTfmR2VY298pF0wy
+ DpjVD/GpJtWZepTope+ERXAAhaLhLD5VimnE0dvxjzpjF0F9J3YnOAkJdNZ4Gla+Vs
+ +9XhUhduxagNJ7xqTqIPeiQZ9YVU2amorBBoH+Luhs9K94JhPfT7eTxcXgqet13ixO
+ d5WX8llkEEoyQ==
 From: Vinod Koul <vkoul@kernel.org>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
@@ -39,13 +39,13 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
  s.hauer@pengutronix.de, festevam@gmail.com, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- Robert Foss <rfoss@kernel.org>, Sandor Yu <Sandor.yu@nxp.com>
-In-Reply-To: <cover.1686729444.git.Sandor.yu@nxp.com>
-References: <cover.1686729444.git.Sandor.yu@nxp.com>
-Subject: Re: [PATCH v6 0/8] Initial support for Cadence MHDP8501(HDMI/DP)
- for i.MX8MQ
-Message-Id: <169530654998.106263.143064512083801166.b4-ty@kernel.org>
-Date: Thu, 21 Sep 2023 16:29:09 +0200
+ Sandor Yu <Sandor.yu@nxp.com>
+In-Reply-To: <cover.1694047629.git.Sandor.yu@nxp.com>
+References: <cover.1694047629.git.Sandor.yu@nxp.com>
+Subject: Re: (subset) [PATCH v9 0/7] Initial support Cadence
+ MHDP8501(HDMI/DP) for i.MX8MQ
+Message-Id: <169530656692.106263.15400414640520611543.b4-ty@kernel.org>
+Date: Thu, 21 Sep 2023 16:29:26 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -62,13 +62,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oliver.brown@nxp.com, linux-imx@nxp.com, kernel@pengutronix.de
+Cc: oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org,
+ linux-imx@nxp.com, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 15 Jun 2023 09:38:10 +0800, Sandor Yu wrote:
-> The patch set initial support for Cadence MHDP8501(HDMI/DP) DRM bridge
+On Thu, 07 Sep 2023 09:05:27 +0800, Sandor Yu wrote:
+> The patch set initial support Cadence MHDP8501(HDMI/DP) DRM bridge
 > drivers and Cadence HDP-TX PHY(HDMI/DP) drivers for Freescale i.MX8MQ.
 > 
 > The patch set compose of DRM bridge drivers and PHY drivers.
@@ -81,21 +82,11 @@ On Thu, 15 Jun 2023 09:38:10 +0800, Sandor Yu wrote:
 
 Applied, thanks!
 
-[1/8] drm: bridge: Cadence: convert mailbox functions to macro functions
-      (no commit info)
-[2/8] dt-bindings: display: bridge: Add Cadence MHDP8501 HDMI and DP
-      (no commit info)
-[3/8] drm: bridge: Cadence: Add MHDP8501 DP driver
-      (no commit info)
-[4/8] phy: Add HDMI configuration options
+[2/7] phy: Add HDMI configuration options
       commit: 7f90516edb5cbfa4108b92bb83cbc8ef35a4cccd
-[5/8] drm: bridge: Cadence: Add MHDP8501 HDMI driver
-      (no commit info)
-[6/8] dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
-      (no commit info)
-[7/8] phy: freescale: Add DisplayPort PHY driver for i.MX8MQ
+[6/7] phy: freescale: Add DisplayPort PHY driver for i.MX8MQ
       commit: a2717f1d7c64660679441c407b96103abb7c4a8c
-[8/8] phy: freescale: Add HDMI PHY driver for i.MX8MQ
+[7/7] phy: freescale: Add HDMI PHY driver for i.MX8MQ
       commit: 8e36091a94d2d28e8dccb9bfda081b2e42e951ae
 
 Best regards,
