@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746647A93B3
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7837A93B9
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5266C10E5B6;
-	Thu, 21 Sep 2023 10:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8909810E5BA;
+	Thu, 21 Sep 2023 10:57:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9B310E5B6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:53:51 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D9361221;
- Thu, 21 Sep 2023 12:52:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695293533;
- bh=evsrHftkQwFAxL8amZWxtP/1lqAGbj0iizDgAfNOiGc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GTpuehWEjiEy2hxVAiR3Ku96s1dd8dttvDDsLbOHZRECt4msxNU2ugIxPPfebTFlU
- J0zud40J3oO+9Q8xmfAO5kmQA+78GfHwIfTOcUmtxpLfr3V+Jkl999w+IkBMUq8a7Y
- tIdh3m6JY89vtWMo3GYl+qufioD85LlAq+SbhKQU=
-Message-ID: <6200f2c7-4e56-ee07-ec1e-589ba81c1b32@ideasonboard.com>
-Date: Thu, 21 Sep 2023 13:53:45 +0300
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFBA10E5B7;
+ Thu, 21 Sep 2023 10:57:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0F2ADB81D2D;
+ Thu, 21 Sep 2023 10:57:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3167DC116A6;
+ Thu, 21 Sep 2023 10:57:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695293868;
+ bh=D4CJzvXGDbUYSM2SUe0zO0nRz+N5sMZBQz4rRqjlLLY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ovyCAQunUD8FAaXg9OtUqXZhsrTYi1dn5KtiZMZH/U/3JXJVk4BzPUIQfGjILVryM
+ PAltff/R3xr3GdI8B2rcpK+Z1SJ+2YFnH1uS8QZyQfrmtFk7Dar8+1iLruMuxMIGF7
+ FECBrYYe4iUw9jKTSyvJIGMUXLaQlp4xE7M8Chg5OjVmmz3t6GZiMd8PaewRSV1Gl1
+ MJHlMkDZ7PkbJzKZrrfl85+7hLMj8YBJDlAgTx+tGh4PFAysYBiW5VK5ujJ2T8XWVl
+ FZDOJrP45soBmrVYcG1eUSEcmS3wwdCHXknnLO7dO5s56Z/S9eYq1c9lUvDtp0Vu4t
+ dkeKkkqt7HFAQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2] MAINTAINERS: Update drm-misc entry to match all drivers
+Date: Thu, 21 Sep 2023 12:57:43 +0200
+Message-ID: <20230921105743.2611263-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] omap: dsi: do not WARN on detach if dsidev was never
- attached
-Content-Language: en-US
-To: "H. Nikolaus Schaller" <hns@goldelico.com>, tony@atomide.com,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Douglas Anderson <dianders@chromium.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- sre@kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>
-References: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,81 +54,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: letux-kernel@openphoenux.org, linux-omap@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@pyra-handheld.com
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ Edmund Dea <edmund.j.dea@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Russell King <linux@armlinux.org.uk>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ etnaviv@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+We've had a number of times when a patch slipped through and we couldn't
+pick them up either because our MAINTAINERS entry only covers the
+framework and thus we weren't Cc'd.
 
-On 19/09/2023 16:37, H. Nikolaus Schaller wrote:
-> dsi_init_output() called by dsi_probe() may fail. In that
-> case mipi_dsi_host_unregister() is called which may call
-> omap_dsi_host_detach() with uninitialized dsi->dsidev
-> because omap_dsi_host_attach() was never called before.
-> 
-> This happens if the panel driver asks for an EPROBE_DEFER.
-> 
-> So let's suppress the WARN() in this special case.
-> 
-> [    7.416759] WARNING: CPU: 0 PID: 32 at drivers/gpu/drm/omapdrm/dss/dsi.c:4419 omap_dsi_host_detach+0x3c/0xbc [omapdrm]
-> [    7.436053] Modules linked in: ina2xx_adc snd_soc_ts3a227e bq2429x_charger bq27xxx_battery_i2c(+) bq27xxx_battery ina2xx tca8418_keypad as5013(+) omapdrm hci_uart cec palmas_pwrbutton btbcm bmp280_spi palmas_gpadc bluetooth usb3503 ecdh_generic bmc150_accel_i2c bmg160_i2c ecc bmc150_accel_core bmg160_core bmc150_magn_i2c bmp280_i2c bmc150_magn bno055 industrialio_triggered_buffer bmp280 kfifo_buf snd_soc_omap_aess display_connector drm_kms_helper syscopyarea snd_soc_omap_mcbsp snd_soc_ti_sdma sysfillrect ti_tpd12s015 sysimgblt fb_sys_fops wwan_on_off snd_soc_gtm601 generic_adc_battery drm snd_soc_w2cbw003_bt industrialio drm_panel_orientation_quirks pwm_bl pwm_omap_dmtimer ip_tables x_tables ipv6 autofs4
-> [    7.507068] CPU: 0 PID: 32 Comm: kworker/u4:2 Tainted: G        W          6.1.0-rc3-letux-lpae+ #11107
-> [    7.516964] Hardware name: Generic OMAP5 (Flattened Device Tree)
-> [    7.523284] Workqueue: events_unbound deferred_probe_work_func
-> [    7.529456]  unwind_backtrace from show_stack+0x10/0x14
-> [    7.534972]  show_stack from dump_stack_lvl+0x40/0x4c
-> [    7.540315]  dump_stack_lvl from __warn+0xb0/0x164
-> [    7.545379]  __warn from warn_slowpath_fmt+0x70/0x9c
-> [    7.550625]  warn_slowpath_fmt from omap_dsi_host_detach+0x3c/0xbc [omapdrm]
-> [    7.558137]  omap_dsi_host_detach [omapdrm] from mipi_dsi_remove_device_fn+0x10/0x20
-> [    7.566376]  mipi_dsi_remove_device_fn from device_for_each_child+0x60/0x94
-> [    7.573729]  device_for_each_child from mipi_dsi_host_unregister+0x20/0x54
-> [    7.580992]  mipi_dsi_host_unregister from dsi_probe+0x5d8/0x744 [omapdrm]
-> [    7.588315]  dsi_probe [omapdrm] from platform_probe+0x58/0xa8
-> [    7.594542]  platform_probe from really_probe+0x144/0x2ac
-> [    7.600249]  really_probe from __driver_probe_device+0xc4/0xd8
-> [    7.606411]  __driver_probe_device from driver_probe_device+0x3c/0xb8
-> [    7.613216]  driver_probe_device from __device_attach_driver+0x58/0xbc
-> [    7.620115]  __device_attach_driver from bus_for_each_drv+0xa0/0xb4
-> [    7.626737]  bus_for_each_drv from __device_attach+0xdc/0x150
-> [    7.632808]  __device_attach from bus_probe_device+0x28/0x80
-> [    7.638792]  bus_probe_device from deferred_probe_work_func+0x84/0xa0
-> [    7.645595]  deferred_probe_work_func from process_one_work+0x1a4/0x2d8
-> [    7.652587]  process_one_work from worker_thread+0x214/0x2b8
-> [    7.658567]  worker_thread from kthread+0xe4/0xf0
-> [    7.663542]  kthread from ret_from_fork+0x14/0x1c
-> [    7.668515] Exception stack(0xf01b5fb0 to 0xf01b5ff8)
-> [    7.673827] 5fa0:                                     00000000 00000000 00000000 00000000
-> [    7.682435] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [    7.691038] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
->   drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index ea63c64d3a1ab..c37eb6b1b9a39 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
->   {
->   	struct dsi_data *dsi = host_to_omap(host);
->   
-> -	if (WARN_ON(dsi->dsidev != client))
-> +	if (!dsi->dsidev || WARN_ON(dsi->dsidev != client))
->   		return -EINVAL;
->   
->   	cancel_delayed_work_sync(&dsi->dsi_disable_work);
+Let's take another approach where we match everything, and remove all
+the drivers that are not maintained through drm-misc.
 
-I sent a patch to the DSI framework code,
-"[PATCH] drm/mipi-dsi: Fix detach call without attach".
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-If that fixes the issue (please test, I don't have a suitable platform), 
-perhaps it's a better fix as detach really shouldn't be called if attach 
-has not been called.
+---
 
-  Tomi
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Cc: Edmund Dea <edmund.j.dea@intel.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+
+Changes from v1:
+- Remove ingenic and gma500 from the excluded list
+---
+ MAINTAINERS | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 90f13281d297..1012402dada5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6860,12 +6860,27 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ S:	Maintained
+ W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	Documentation/devicetree/bindings/display/
++F:	Documentation/devicetree/bindings/gpu/
+ F:	Documentation/gpu/
+-F:	drivers/gpu/drm/*
++F:	drivers/gpu/drm/
+ F:	drivers/gpu/vga/
+-F:	include/drm/drm*
++F:	include/drm/drm
+ F:	include/linux/vga*
+-F:	include/uapi/drm/drm*
++F:	include/uapi/drm/
++X:	drivers/gpu/drm/amd/
++X:	drivers/gpu/drm/armada/
++X:	drivers/gpu/drm/etnaviv/
++X:	drivers/gpu/drm/exynos/
++X:	drivers/gpu/drm/i915/
++X:	drivers/gpu/drm/imx/
++X:	drivers/gpu/drm/kmb/
++X:	drivers/gpu/drm/mediatek/
++X:	drivers/gpu/drm/msm/
++X:	drivers/gpu/drm/nouveau/
++X:	drivers/gpu/drm/radeon/
++X:	drivers/gpu/drm/renesas/
++X:	drivers/gpu/drm/tegra/
+ 
+ DRM DRIVERS FOR ALLWINNER A10
+ M:	Maxime Ripard <mripard@kernel.org>
+-- 
+2.41.0
 
