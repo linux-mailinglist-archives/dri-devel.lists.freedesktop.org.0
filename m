@@ -1,72 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11217A91ED
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:12:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D587A91F1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653BA10E574;
-	Thu, 21 Sep 2023 07:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C32110E556;
+	Thu, 21 Sep 2023 07:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D1B10E573
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695280330; x=1726816330;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=7+g5wvDAQ0GF49CVuaB/AaHl/Sqz25cmMYcZn5MN5r4=;
- b=g79qh6hW9c8oWMYM8j1B2wodnChCf3qo4Vf0rfGk84FLEw8XS5EEiDF7
- p5cW/lkev0VZSV88m8IyAtrYzIIlxwKgqsfkYDwUcGnw7mSRCK7ifKP28
- KhYdxCB4bNeMlGceqb6omBmmdMt4+Xqwl3loFFOwFaL0QzEvN4lCN/o2b
- 9goNu/07kHVr6DTE47ENxtwHh4ZoQU8uirFXkgem0etujnyzJtcIXPxkc
- TS/ZTb4F3lts9qQV+p664UZ7NlX2IML2lpf5sYvXB+kpoFGqTDrv1esak
- nD3GXUtyEVhIlZH2orTBnzY3NUVyYe9xvUexZwOWR2lEDuc/98IVoifSw A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="360690355"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="360690355"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 00:12:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="746961438"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="746961438"
-Received: from kinstrum-mobl.ger.corp.intel.com (HELO [10.249.254.152])
- ([10.249.254.152])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 00:12:07 -0700
-Message-ID: <c8d90961-798b-a0cd-8564-6bb5d1816e4f@linux.intel.com>
-Date: Thu, 21 Sep 2023 09:12:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Decrypting tt maps in ttm
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2061.outbound.protection.outlook.com [40.107.104.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA92810E556
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:13:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qdy8kBRUG6cMmNxeY2OUtmDsoO6RSGcYXCD4SX+Uo8F1BRKrP1+q3P2b0etM3aHyZRjM5E+I5XdzDJwcBiT3rc27Or1bIZdCpzJWFJqRs/jM0ZMhaJ1+w1bYTPlKB86AhaJqLZURCwKFTPtosldD5rYnvhNHTyeVK7EU4vzlCeUv930Jkuzq+huIN/wCLwkBndJt9AOrMNt5UooZIqLUfW7zIvkSn1X9iDvQfa2lQjgm4DQ8Zl5A9mMeTssRMX+JLpgNcBe7zgUkXgRexF8EkJh446Ur1GOWeGK7Pox4/ApW3FiPipjIvu4ww8i44XXctpmQ7Q0nBWDO1+mfdNPvMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xXV91J2swl/OTWe7PDTxtmIo7Ys5S7/JDsISLtV4wvI=;
+ b=OBCgE0v2o8HIZUqLm5eTnPRmPZ3BAj6roFA0Ikoe8GVwea3uZX8iD1PVTsdyI+m3cpbbZFXwQHC8qWJf/fas6mOdnSteJhYCB60m90/lJ+WqKBEVZCXjM7+eg6Ve36UJTXBfX0JxXlYiurc9ToqqmuZNH+8Zy7kBt7JW4xbDg5CuiA58Yvy3VVLR1AKNIkzeAO/fYwRkbOrb6iQlkc91Es753KKSDbcAxqooWn+XdxXJKGz8ojixqqD7jZQ7993+YXf8grsjn16go/MH5IZ7MI0r8GPIlPWdA0m4qz5U3nFdkSrqUVnVrukDPqZEWq84jU/4sUi/xBcHPfOCxCTc8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xXV91J2swl/OTWe7PDTxtmIo7Ys5S7/JDsISLtV4wvI=;
+ b=L1C1VSf/hn5RKbu51EmXjZRuBssSgo8kfBKEM4uksmO85j4iH6Co1XeuTb1xwdzWtvo9yWOIr6TeBwy7bdQqBfpD/9GzKckISbhf1wTZYTBihHBdoq+ZortH1SZOPIYtYJ/y7Q6IEQ48PFxl++2s9d7zbdRA+3TUAemDtUxc23k=
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS8PR04MB7608.eurprd04.prod.outlook.com (2603:10a6:20b:293::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Thu, 21 Sep
+ 2023 07:13:44 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::1ace:f566:c57a:7d4b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::1ace:f566:c57a:7d4b%3]) with mapi id 15.20.6813.017; Thu, 21 Sep 2023
+ 07:13:44 +0000
+From: Ying Liu <victor.liu@nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Marek Vasut <marex@denx.de>
+Subject: RE: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
+Thread-Topic: [PATCH 2/5] drm: lcdif: move controller enable into atomic_flush
+Thread-Index: AQHZ662fEUnhuutWEkO/NTaz1A0SHLAk2e8A
+Date: Thu, 21 Sep 2023 07:13:44 +0000
+Message-ID: <AM7PR04MB7046AA99475489B1220D309998F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+References: <20230920103126.2759601-1-l.stach@pengutronix.de>
+ <20230920103126.2759601-3-l.stach@pengutronix.de>
+In-Reply-To: <20230920103126.2759601-3-l.stach@pengutronix.de>
+Accept-Language: en-US
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "alexdeucher@gmail.com" <alexdeucher@gmail.com>
-References: <15c9beb5f8dcb091b00c35d6206b84aa100d729e.camel@vmware.com>
- <fc935b9f-9b25-bcab-717c-0c31373fcfee@linux.intel.com>
- <e9ba0f7a0620cd252adfc1df43cd15d16dcea74d.camel@vmware.com>
- <883309f9-fcd3-51c5-52e7-3e0ae5650cba@linux.intel.com>
- <CADnq5_PPAZqusAoMTrG3OE3seZTQZbj1HC1u-4d5hcCQHsPD0g@mail.gmail.com>
- <b8fa7c6a4cd01fdfabef512972f79b67a1cbe58c.camel@vmware.com>
- <5efd9a5d-7c88-855a-8a2f-5d984ea4a5e7@amd.com>
- <53e09f13-eb54-9662-a511-77c012df9646@linux.intel.com>
- <beb209b5-fb67-5b53-62b8-bc1c78b41cc5@amd.com>
- <d61a3236737e13a6a303fd9902cf6938e29cf32d.camel@vmware.com>
- <70af0fd3-3dbb-b19a-8a4d-dcddab60d3e9@linux.intel.com>
- <690a0d33-0091-fdbf-7a1c-c9de89bb79eb@amd.com>
- <78999ee1dc22edb6acb49ae936e5ad7a7470b591.camel@vmware.com>
- <2b22e309-26bf-c553-fc6c-3cfc6c701d51@linux.intel.com>
- <36a2ebcecf79e71bd0a310427de674e07ded6198.camel@vmware.com>
- <222b98d0-7e5b-ff69-269d-6f6c6c26736c@linux.intel.com>
- <a2dc67f5356381a4c56ca52549f79941de66da83.camel@vmware.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <a2dc67f5356381a4c56ca52549f79941de66da83.camel@vmware.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|AS8PR04MB7608:EE_
+x-ms-office365-filtering-correlation-id: 42142e30-3308-456e-dd12-08dbba724ae7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: m6elffpXR2BvvqkR+47y8HM3fJ/qyXH8sg3ZvGVdvtvr5uhCSs7M7+zxwv/hMDB5azsQJOyAbxHvAzeXCUt9BMwCOkVYSzQcrCeljStaipwVI26e7n8/hQchtjNclL7Xny2H3bxkvl1Hauy/58n7RAtswDSRGKS5IkKzggO7SZ3/U1oZDjQdSo+dfr3toewl0x8cJ3feEVDTds6KmmHugYimW/5LdRPb1z6DprqGHBSi9yv43tJPdBE6y6TyUH0wkoDhsJrkJ5RZgUAfSXxAUYboN+4QiNJygCCIgOHya0yRRPRgA2U6YAOrwIpAGrbyEGYqBzDMwSVj6MJjEZMNqJ8UIJYMEqT4ck93FCRB5un2Rmzsf7isH5mzYDo9eETZGJgDhE4PG/oykzfVQUEvxtoE/IMauf3dr5YgAEHOYefGYmTrkLI64jSFQGzFx89BXBvGveUjhhwtDc+w5kzT/cR/qNVpXyjsgwR5AF/VEOokWZCBJIkvpV3xKxWF8dbpSSpLhNQBmq0FKZeO1mN+oeI2i0c8PFpua+az62E151EEIc2dWJYxRo33X43ltg3w25P6ykICwVqZW2g0W7cU/725jTARtrJThdE7Z+kxtgfLwVUK09KE06E50wvZBmky
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(396003)(366004)(346002)(376002)(136003)(186009)(1800799009)(451199024)(9686003)(53546011)(7696005)(6506007)(38100700002)(38070700005)(55016003)(122000001)(86362001)(76116006)(66946007)(110136005)(71200400001)(478600001)(26005)(66556008)(66476007)(66446008)(5660300002)(52536014)(4326008)(8676002)(54906003)(316002)(64756008)(41300700001)(33656002)(8936002)(2906002)(83380400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Iv0UkyUF5vjshnm+9VtAQNVDA0xuzS4Wzm0S0dFcy1jZv+1EvFnIUHbhIOrI?=
+ =?us-ascii?Q?1kxgLbYMiawAzJMo4R/5ae5YETZ4xHQWqYf0toqYDpAzovJ6cLSPt7AtbutW?=
+ =?us-ascii?Q?ME/2gSzJ48l4IL6t+KH8XUpsh9l9cWVLDkjGOwQFiDVoI/sRZhTzZ1upoZn/?=
+ =?us-ascii?Q?EWfV3SM1ANU8hjtbf27KjCYRUY3LNLzvKt8mVFJoVg1TFZDPtzQyiWASeFBH?=
+ =?us-ascii?Q?8fIJ9Qj34McHI1ZWK4rjDl8IzBcruglPUSnxuDzcB2qXhbCxiK+zDB8UL8V3?=
+ =?us-ascii?Q?15UezofPTxAqDBUQzlIf+CR1ViY5M/YVK/zNXlHvqFuBNbH/C2Xa0DFmWqM2?=
+ =?us-ascii?Q?/Hsd8SaJ6wvAKp6Hxzh6eLLroodCLwVGAgueK4i7hWtBrBnLgx80AnYvqeGr?=
+ =?us-ascii?Q?tD7HyPiNCcdRaegLtD1zF271bHzXlSmAOPN46aHM4YWNs2vN8bt4Mkoh8/js?=
+ =?us-ascii?Q?/miMoyPBiXE3V9dMbnhJC5Xxt4QAZ6QMibH9iwvTbEv2ark8UcMwXI1MzpH9?=
+ =?us-ascii?Q?oi84b6x/zHUiv0MCh+jp2B/F3AAcbh5S0f0NmX1Oiml5FHEiQUbhwlBkgjTs?=
+ =?us-ascii?Q?kdDNZ4ThEE0ctJiU8X74Xsrf14Xaf66s2aMz5Vnu448iBvigtqfcgVeRRD5F?=
+ =?us-ascii?Q?saCL2PZ7cQG95KrgcTz6GtH+2PxXaWZ8IEA6+VvGwtUhrc9CGA3QLAQbDxy3?=
+ =?us-ascii?Q?+BOOxpkJffOA4uVsUa20qCfYxwt7JzVGVoqINHd0b7kvDqSqcrTXFOsqjTqG?=
+ =?us-ascii?Q?o9jhVFaEauXp2Wm+43kPpMBbxF27N8GWj9b0X52xy838uLlSZgIuRvtv0Cmx?=
+ =?us-ascii?Q?JabO/JNAAiiDLSg3Y1BTM7/FwTEOi56bSGTEyOxNEIQOL98sKehIyzphKhJg?=
+ =?us-ascii?Q?sMmzosSbiNgaS5Rcnk0yB/Mes/kpklVXviTmsa51dDJneH1YmJcJmYVNv3ip?=
+ =?us-ascii?Q?KPKXROA4ue+h9u4bqYQe5f8HmKy0NBw/Qc/2bBawTyVGJISUZwydUeP3ttRE?=
+ =?us-ascii?Q?bXDC2pDUjf840BfHnaAw7IOM++WXYPxO7Ugz1nstAoz4R7EXWqnst8EqcXf6?=
+ =?us-ascii?Q?Va9QEZXuQ5dEsNy3VhHG8/Emk3bdolTWnnDg7k/1QzqL1PKnMpcKAcYoqjui?=
+ =?us-ascii?Q?T5h5HZVr+TfaOm6tyi2qNCSi4UU7Yk81+qcdbbluRoO3edLvaLPT2Vi+VuTl?=
+ =?us-ascii?Q?6zMKYdZCDKZM9kB6xYGa+B0pHCLyeZG8VIqxUrMc5ABg6bwIyAy/2q/hf+HW?=
+ =?us-ascii?Q?Bh4ZZbZfMAuMRIuPi0rgh9DEpkiTT5GLiqZ2bD9ElXml9IDyKw3Wt0gHKvT3?=
+ =?us-ascii?Q?qkNeMyteciTOmxA65l8en6a4kG25uz1SJbnHDELwMy7drvSLA9fSOppqz3Up?=
+ =?us-ascii?Q?khfhMOvdzRth2+3kx5M5VwYu+RetVGvxDovHommzWcygG8IQqb5MlWZ2NdZ6?=
+ =?us-ascii?Q?DMl+oKa1vZn3DkpXRlNri5SvkIxyle/64ooKuiH2O5MUBxoVmmhRrSQ1Y5bt?=
+ =?us-ascii?Q?4WIr3/0cM79A5JtmFraQRBviGhX4pMrAu1R4dpVvT2mS2m5TNCws6PxE+Yac?=
+ =?us-ascii?Q?5rBabCQ1MZkl6jPhcS0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42142e30-3308-456e-dd12-08dbba724ae7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2023 07:13:44.8573 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 31jOzqBu5WBnV5nlcvre3atB3iXSVhB7syx7DN9bCmxYWuHTYKaSBktpmKPrPCyJM5Ut0MgpXEKssMH5rzZmYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7608
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,304 +116,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 9/21/23 05:51, Zack Rusin wrote:
-> On Wed, 2023-09-20 at 21:22 +0200, Thomas Hellström wrote:
->> !! External Email
->>
->> On 9/20/23 20:24, Zack Rusin wrote:
->>> On Wed, 2023-09-20 at 19:17 +0200, Thomas Hellström wrote:
->>>> !! External Email
->>>>
->>>> Hi, Zack
->>>>
->>>> On 9/20/23 18:39, Zack Rusin wrote:
->>>>> On Wed, 2023-09-20 at 12:48 +0200, Christian König wrote:
->>>>>> !! External Email
->>>>>>
->>>>>> Am 20.09.23 um 09:36 schrieb Thomas Hellström:
->>>>>>> Hi, Zack,
->>>>>>>
->>>>>>> On 9/20/23 05:43, Zack Rusin wrote:
->>>>>>>> On Tue, 2023-09-19 at 09:47 +0200, Christian König wrote:
->>>>>>>>> !! External Email
->>>>>>>>>
->>>>>>>>> Am 19.09.23 um 08:56 schrieb Thomas Hellström:
->>>>>>>>>> On 9/19/23 07:39, Christian König wrote:
->>>>>>>>>>> Am 19.09.23 um 03:26 schrieb Zack Rusin:
->>>>>>>>>>>> On Mon, 2023-09-18 at 16:21 -0400, Alex Deucher wrote:
->>>>>>>>>>>>> !! External Email
->>>>>>>>>>>>>
->>>>>>>>>>>>> On Mon, Sep 18, 2023 at 3:06 PM Thomas Hellström
->>>>>>>>>>>>> <thomas.hellstrom@linux.intel.com> wrote:
->>>>>>>>>>>>>> On 9/18/23 17:52, Zack Rusin wrote:
->>>>>>>>>>>>>>> On Mon, 2023-09-18 at 17:13 +0200, Thomas Hellström
->>>>>>>>>>>>>>> wrote:
->>>>>>>>>>>>>>>> Hi,
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> On 9/18/23 16:56, Thomas Hellström wrote:
->>>>>>>>>>>>>>>>> Hi Zack, Christian
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> On 9/18/23 13:36, Christian König wrote:
->>>>>>>>>>>>>>>>>> Hi Zack,
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> adding Thomas and Daniel.
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> I briefly remember that I talked with Thomas and
->>>>>>>>>>>>>>>>>> some
->>>>>>>>>>>>>>>>>> other
->>>>>>>>>>>>>>>>>> people
->>>>>>>>>>>>>>>>>> about that quite a while ago as well, but I don't
->>>>>>>>>>>>>>>>>> fully
->>>>>>>>>>>>>>>>>> remember the
->>>>>>>>>>>>>>>>>> outcome.
->>>>>>>>>>>>>>>>> Found one old thread, but didn't read it:
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> https://lists.freedesktop.org/archives/dri-devel/2019-September/234100.html
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> /Thomas
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Ugh. Now starting to read that thread I have a vague
->>>>>>>>>>>>>>>> recollection it all
->>>>>>>>>>>>>>>> ended with not supporting mapping any device pages
->>>>>>>>>>>>>>>> whatsoever
->>>>>>>>>>>>>>>> when SEV
->>>>>>>>>>>>>>>> was enabled, but rather resorting to llvmpipe and VM-
->>>>>>>>>>>>>>>> local
->>>>>>>>>>>>>>>> bos.
->>>>>>>>>>>>>>> Hi, Thomas.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Thanks for finding this! I'd (of course) like to solve
->>>>>>>>>>>>>>> it
->>>>>>>>>>>>>>> properly and get
->>>>>>>>>>>>>>> vmwgfx
->>>>>>>>>>>>>>> running with 3d support with SEV-ES active instead of
->>>>>>>>>>>>>>> essentially
->>>>>>>>>>>>>>> disabling
->>>>>>>>>>>>>>> the
->>>>>>>>>>>>>>> driver when SEV-ES is active.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> I think there are two separate discussions there, the
->>>>>>>>>>>>>>> non-controversial one
->>>>>>>>>>>>>>> and the
->>>>>>>>>>>>>>> controversial one:
->>>>>>>>>>>>>>> 1) The non-controversial: is there a case where drivers
->>>>>>>>>>>>>>> would
->>>>>>>>>>>>>>> want encrypted
->>>>>>>>>>>>>>> memory
->>>>>>>>>>>>>>> for TT pages but not for io mem mappings? Because if not
->>>>>>>>>>>>>>> then as
->>>>>>>>>>>>>>> Christian
->>>>>>>>>>>>>>> pointed
->>>>>>>>>>>>>>> out we could just add pgprot_decrypted to ttm_io_prot
->>>>>>>>>>>>>>> and be
->>>>>>>>>>>>>>> essentially done.
->>>>>>>>>>>>>>> The
->>>>>>>>>>>>>>> current method of decrypting io mem but leaving sys mem
->>>>>>>>>>>>>>> mappings
->>>>>>>>>>>>>>> encrypted is
->>>>>>>>>>>>>>> a bit
->>>>>>>>>>>>>>> weird anyway.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> If the answer to that question is "yes, some driver does
->>>>>>>>>>>>>>> want
->>>>>>>>>>>>>>> the
->>>>>>>>>>>>>>> TT mappings
->>>>>>>>>>>>>>> to be
->>>>>>>>>>>>>>> encrypted" then your "[PATCH v2 3/4] drm/ttm,
->>>>>>>>>>>>>>> drm/vmwgfx:
->>>>>>>>>>>>>>> Correctly support
->>>>>>>>>>>>>>> support
->>>>>>>>>>>>>>> AMD memory encryption" solves that. I think getting one
->>>>>>>>>>>>>>> of
->>>>>>>>>>>>>>> those
->>>>>>>>>>>>>>> two in makes
->>>>>>>>>>>>>>> sense
->>>>>>>>>>>>>>> regardless of everything else, agreed?
->>>>>>>>>>>>>> Well, there is more to it I think.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> IIRC, the AMD SME encryption mode has a way for a device
->>>>>>>>>>>>>> to
->>>>>>>>>>>>>> have the
->>>>>>>>>>>>>> memory controller (?) encrypt / decrypt device traffic by
->>>>>>>>>>>>>> using an
->>>>>>>>>>>>>> address range alias, so in theory it supports encrypted TT
->>>>>>>>>>>>>> pages, and
->>>>>>>>>>>>>> the dma-layer may indeed hand encrypted DMA pages to TTM
->>>>>>>>>>>>>> on
->>>>>>>>>>>>>> such
->>>>>>>>>>>>>> systems
->>>>>>>>>>>>>> depending on the device's DMA mask. That's why I think
->>>>>>>>>>>>>> that
->>>>>>>>>>>>>> force_dma_unencrypted() export was needed, and If the
->>>>>>>>>>>>>> amdgpu
->>>>>>>>>>>>>> driver
->>>>>>>>>>>>>> accesses TT memory in SME mode *without*
->>>>>>>>>>>>>> pgprot_decrypted()
->>>>>>>>>>>>>> and it
->>>>>>>>>>>>>> still
->>>>>>>>>>>>>> works, then I think that mode is actually used. How could
->>>>>>>>>>>>>> it
->>>>>>>>>>>>>> otherwise work?
->>>>>>>>>>>>> For SME, as long as the encrypted bit is set in the physical
->>>>>>>>>>>>> address
->>>>>>>>>>>>> used for DMA, the memory controller will handle the
->>>>>>>>>>>>> encrypt/decrypt
->>>>>>>>>>>>> for the device.  For devices with a limited dma mask, you
->>>>>>>>>>>>> need
->>>>>>>>>>>>> to use
->>>>>>>>>>>>> the IOMMU so that the encrypted bit is retained when the
->>>>>>>>>>>>> address
->>>>>>>>>>>>> hits
->>>>>>>>>>>>> the memory controller.
->>>>>>>>>>>> How does that work on systems with swiotlb, e.g.
->>>>>>>>>>>> swiotlb=force, or
->>>>>>>>>>>> i.e. what would
->>>>>>>>>>>> decrypt the ttm tt mappings when copying between system and
->>>>>>>>>>>> vram
->>>>>>>>>>>> when iommu is
->>>>>>>>>>>> disabled/absent?
->>>>>>>>>>> SME makes it mandatory that all devices can handle the physical
->>>>>>>>>>> address used for DMA, either native or with the help of IOMMU.
->>>>>>>>>>>
->>>>>>>>>>> Hacks like SWIOTLB are not directly supported as far as I know.
->>>>>>>>>>> Maybe
->>>>>>>>>>> somehow SWIOTLB manually decrypts the data while copying it or
->>>>>>>>>>> something like this, but I'm not 100% sure if that is actually
->>>>>>>>>>> implemented.
->>>>>>>>>>>
->>>>>>>>>>> Regards,
->>>>>>>>>>> Christian.
->>>>>>>>>> A bold guess after looking at various code and patches:
->>>>>>>>>>
->>>>>>>>>> 1) Devices under SME that don't support the encryption bit and
->>>>>>>>>> SEV:
->>>>>>>>>> a) Coherent memory is unencrypted.
->>>>>>>>>> b) Streaming DMA under IOMMU: The IOMMU sets the encrypted bit.
->>>>>>>>>> c) Streaming DMA with SWIOTLB: The bounce buffer is unencrypted.
->>>>>>>>>> Copying to/from bounce-buffer decrypts/encrypts.
->>>>>>>>>>
->>>>>>>>>> 2) Devices under SME that do support the encryption bit (which I
->>>>>>>>>> believe is most graphics devices in general on SME systems, not
->>>>>>>>>> just
->>>>>>>>>> amdgpu; it "just works")
->>>>>>>>>> *) Coherent memory is encrypted. The DMA layer sets dma addresses
->>>>>>>>>> and
->>>>>>>>>> pgprot accordingly.
->>>>>>>>>> *) Streaming DMA is encrypted.
->>>>>>>>>>
->>>>>>>>>> So the bug in TTM would then be it's not handling 1a) and 1b)
->>>>>>>>>> correctly.
->>>>>>>>>>
->>>>>>>>>> Remedy:
->>>>>>>>>> 1b) Shouldn't be used with encryption.
->>>>>>>>>> 1a) This is what we should try to fix. Exporting
->>>>>>>>>> dma_force_unencrypted() didn't seem to be a way forward. Properly
->>>>>>>>>> fixing this would, I guess, mean implement the missing
->>>>>>>>>> functionality
->>>>>>>>>> in the dma layer: For vmap / kmap we could simply reuse the
->>>>>>>>>> virtual
->>>>>>>>>> addresses we get back from dma_alloc_coherent(), but for faulting
->>>>>>>>>> one
->>>>>>>>>> would want something like dma_coherent_insert_pfn() (if it doesn't
->>>>>>>>>> exist already) after a proper disussion with Christoph Hellwig.
->>>>>>>>> Christoph once pointed me to dma_mmap_attrs() for this, but I never
->>>>>>>>> found the time to fully look into it.
->>>>>>>> Hmm, yea, that would make sense
->>>>>>>> https://elixir.bootlin.com/linux/latest/source/kernel/dma/direct.c#L564
->>>>>>>> Replacing the vmap's with dma_mmap_attrs would probably fix this, but
->>>>>>>> it would
->>>>>>>> require a bit of extra setup.
->>>>>>>>
->>>>>>>> So we're saying that yes, we don't want unconditional pgprot_decrypt
->>>>>>>> in ttm_io_prot.
->>>>>>>> We'd like to leave those tt mappings as encrypted when possible and
->>>>>>>> instead maybe
->>>>>>>> add a vaddr to ttm_tt (or extract it from the pages->private via the
->>>>>>>> ttm_pool_dma,
->>>>>>>> but that seems rather ugly),
->>>>>>> It could probably be extracted from pages->private from a helper in
->>>>>>> the ttm pool code, (Christian has a final saying here). However, that
->>>>>>> requires that all ttm_tts are built from a single dma_alloc chunk. Not
->>>>>>> sure that's the case? In that case we're back to square zero for vmaps.
->>>>>> Nope they aren't and yes we are back to square one with that.
->>>>> Well, that's my favorite square. Number one, just like me...
->>>>>
->>>>> Maybe we're overthinking this particular problem a bit. As is use_dma_alloc
->>>>> in
->>>>> ttm
->>>>> is only set in two cases:
->>>>> - driver explicitly wants coherent mappings (vmwgfx, which require decrypted
->>>>> pages)
->>>>> - driver needs swiotlb (which, as was pointed out, would require the pages
->>>>> to be
->>>>> decrypted as well)
->>>>>
->>>>> So use_dma_alloc always requires the pages to be decrypted.
->>>> IIRC moving forward it doesn't, since there is (or at least there was)
->>>> implement missing TTM functionality in the dma layer and most TTM
->>>> drivers should at least support dma coherent memory. That means all
->>>> devices supporting a sufficiently large dma mask will break with SME and
->>>> your proposal then.
->>>>
->>>> Perhaps if we condition that on
->>>> "cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)" that will capture all the
->>>> SEV cases, and limit the existing bug to the hopefully very few TTM
->>>> devices with limited dma mask on SME.
->>> Ah, I wasn't aware those exist, do you know what platforms are those? I can try
->>> to
->>> find one around here to see.
->> My understanding is cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) will
->> return true in the guest iff SEV is active, and can be used in TTM as a
->> poor man's force_dma_unencrypted(), enabling the functionality in your
->> diff. It looks like a similar check is present in vmwgfx to detect SEV,
->> but also see below.
->>
->>> And they don't really break, they just might unnecessarily decrypt tt pages,
->>> right?
->> No, with SME, dma from hw will encrypt the content, because the dma
->> layer will set the "encrypt" bit in the physical address given to the
->> iommu or the device in case iommu is not active, but a subsequent
->> reading the content using the CPU won't decrypt so CPU and device will
->> have different views of the page.
->>
->> Also the linear kernel mapping PTEs will conflict in encryption mode
->> with the ones TTM sets up, and IIRC that's forbidden in the SEV spec.
->> (The x86 arch code goes through some serious work to flush out caches
->> and TLBs to convert a page kernel linear mapping from encrypted to
->> non-encrypted,
->>
->> https://elixir.bootlin.com/linux/latest/source/arch/x86/mm/pat/set_memory.c#L2129
->>
->> and that is also seen as pretty heavy dma_alloc_coherent() latency).
-> Thanks for this!
->
->> So the pgprot_t TTM sets up *must* be identical to the one used by the
->> dma layer, so anything we should be aware here that anything we do in
->> TTM less than adding needed functionality in the dma layer is
->> second-guessing what the dma layer does internally and is not really the
->> right solution.
-> I think this is already the case for virtualized drivers, but I see what you're
-> saying that fixing this for them might break some real hardware and that's bad.
-> Playing those games with matching pgprot between ttm and dma is really fragile.
->
-> cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) is also used in drm_need_swiotlb so
-> adding that check to the last patch would seem to make sense. Of course, it's up to
-> Christian whether that's robust enough or whether we need to think about the
-> dma/page fault rework to fix it properly. I'm not sure if I see any other reasonable
-> solution besides these two options.
-Agreed.
+On Wednesday, September 20, 2023 6:31 PM Lucas Stach <l.stach@pengutronix.d=
+e> wrote:
+> Allow drm_atomic_helper_commit_tail_rpm to setup all the plane
+> state before the scanout is started.
+>=20
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> index f5bfe8b52920..4acf6914a8d1 100644
+> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -505,6 +505,8 @@ static int lcdif_crtc_atomic_check(struct drm_crtc
+> *crtc,
+>  static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+>  				    struct drm_atomic_state *state)
+>  {
+> +	struct drm_crtc_state *crtc_state =3D
+> drm_atomic_get_new_crtc_state(state,
+> +									  crtc);
+>  	struct lcdif_drm_private *lcdif =3D to_lcdif_drm_private(crtc->dev);
+>  	struct drm_pending_vblank_event *event;
+>  	u32 reg;
+> @@ -513,6 +515,9 @@ static void lcdif_crtc_atomic_flush(struct drm_crtc
+> *crtc,
+>  	reg |=3D CTRLDESCL0_5_SHADOW_LOAD_EN;
+>  	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+>=20
+> +	if (drm_atomic_crtc_needs_modeset(crtc_state))
+> +		lcdif_enable_controller(lcdif);
 
-/Thomas
+Moving lcdif_enable_controller() function call from atomic_enable to
+atomic_flush would change CRTC vs bridge enablement order, which
+effectively makes bridge enablement happen prior to CRTC enablement,
+see drm_atomic_helper_commit_tail_rpm() detail implementation.  The
+reversed order potentially causes malfunctions of the bridge.
 
+BTW, even if it's ok to move the function call, it would be better to call
+lcdif_enable_controller() before CTRLDESCL0_5_SHADOW_LOAD_EN is
+set so that the original sequence is kept.  Also, LCDIF chapter in SoC RMs
+indicates that the shadow load enablement is the last step in
+"Software flow diagram".
 
->
-> z
+Regards,
+Liu Ying
+
+> +
+>  	event =3D crtc->state->event;
+>  	crtc->state->event =3D NULL;
+>=20
+> @@ -552,7 +557,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc
+> *crtc,
+>=20
+> 	writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+>  		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+>  	}
+> -	lcdif_enable_controller(lcdif);
+>=20
+>  	drm_crtc_vblank_on(crtc);
+>  }
+> --
+> 2.39.2
+
