@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312747AA2B0
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 23:31:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C002D7AA2B9
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 23:33:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB47D10E619;
-	Thu, 21 Sep 2023 21:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1879C10E61A;
+	Thu, 21 Sep 2023 21:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F7610E618;
- Thu, 21 Sep 2023 21:30:59 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-1dc5e0c251cso819420fac.2; 
- Thu, 21 Sep 2023 14:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695331859; x=1695936659; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZRQx4MtP7CogAM2k3egutAbad1iU42X+I8tMH6KQiSE=;
- b=NoIZ3vEIVQfDD+XRvGIzO1u5SPv92V+yh3I5FNAzqtTa72nZqOWBN+/jtW1goRQZa+
- a8Am7pnx5+4wCjGYZ+rTGUqc+zyhJVC345YhClI8Rmc+9frhCy1kYXNVO7XiKXZvIMAl
- ZMaaIW2TSlyw5KcKyfnPKkFFfl8Goms2gE5VIL3JowUy1lI/rYdn0ge4qhbr81otv+7+
- BUi9jDSNgQG/SE21X+dZBeQsbqgtvJZqWuHtIzeccd0XPIS45+h8ABiFD8PvunJXjI3Z
- Wgw1WNoDxWH0KFvjIRP4NabOgu1d1MOzPoPVc6heafWdKCA/ueZY2HigzEfYgjt8/Vpe
- YWSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695331859; x=1695936659;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZRQx4MtP7CogAM2k3egutAbad1iU42X+I8tMH6KQiSE=;
- b=qzArv9G2ApJYBpe01og6PpteXNjiXD1AAiGZOWjlg+Qaw8o3skps5F5aO/+QX3b1UO
- CYgZfBU1tb2oCoDCIsjHd0kKwft6LAkBppY9zGoBhpp2GMHaNNlWr+TqI1r+Up/LwHaZ
- dTUB94oI0XCcAl3CXZCWwtqqfsCGkzW3tYp2FNwKFt+xSOLQ9/XDgrD54Mbyr1j/1wDD
- VvljMGAib9HM7aE8C95SwDW56xOQRfYoCTbh2ClEItT2uqv2sOtlR1dh59AlYaEfaYmn
- RM3Nx52aaXvKBSpYn4lxJfYnmBI0BgmV1GH5COSx2ah/O/oP1U+dY5P3SjHO6nWRn5BM
- EfnA==
-X-Gm-Message-State: AOJu0YxXY3JS7pkvqaOcfK4J+bPxp8cNYVHGJ+rZMpolqj35Z0d0cc+k
- H/r7hiXM2DGRFvKna0ifZpvWXKx9DAmecupmg34PMfVPp/U=
-X-Google-Smtp-Source: AGHT+IFt715I00380osbYtVzdclqr/hqNJL/SOFApm38LHhReKMJ8aaGPy2id0D33lpMxWkdkzW+T2Hsq2jmIfMxkhk=
-X-Received: by 2002:a05:6870:b506:b0:1c8:c313:3e0d with SMTP id
- v6-20020a056870b50600b001c8c3133e0dmr8078539oap.46.1695331859015; Thu, 21 Sep
- 2023 14:30:59 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA1610E61A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 21:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695331999; x=1726867999;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=B3NF89Ap9PsrlaAMkAw5YbXb0M806OUO1GxY05QCtr4=;
+ b=ZbiOgHQ6dLuepTA88qD6yjG1BeBXqG0NrculeFxNQKgA/xxZAscwRd9l
+ ZXGkrOVjv0l2UX20ejeV/iHDi9B/6G7kk82Hlm0OzeMRvBhLA0UIddLg7
+ 7OKd0JjievnTgbZ1MQPouKMKJChXwV1XRI6XUu09gXL+1soubp7+o7yUd
+ W9yUq4F3dGO8MlHF44lSgDpHL8L96rRuzOEQzXSh4ue9Ohdj3zbV9UsxL
+ mPmKL8h+ttBoQICqJyZ2BaI1E0w/+3DA8AeSaWA/4yWM/HKQZFgCjVr4g
+ RtFXgYOlG/B2R1/46zvWrWYv5eVr0VM/APIBJekauLPL+ghLUT9AERxKN g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447150760"
+X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; d="scan'208";a="447150760"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 14:33:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="747293905"
+X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; d="scan'208";a="747293905"
+Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 21 Sep 2023 14:33:00 -0700
+Received: from kbuild by b77866e22201 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qjRIA-0000Qg-27;
+ Thu, 21 Sep 2023 21:32:58 +0000
+Date: Fri, 22 Sep 2023 05:32:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Marek Vasut <marex@denx.de>,
+ Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the
+ atomic commit
+Message-ID: <202309220530.84SlbdTU-lkp@intel.com>
+References: <20230921200312.3989073-3-l.stach@pengutronix.de>
 MIME-Version: 1.0
-References: <CACna6rxtaHG6QTinuHyNyA7rck_aEBiMHtxSCLktArU1OoqxLg@mail.gmail.com>
- <BL1PR12MB51444F28FD848B91BAEDE88AF7F8A@BL1PR12MB5144.namprd12.prod.outlook.com>
- <8bc269a0-b720-4f7b-a9df-c50d90ea41c3@gmail.com>
-In-Reply-To: <8bc269a0-b720-4f7b-a9df-c50d90ea41c3@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 21 Sep 2023 17:30:47 -0400
-Message-ID: <CADnq5_NDokcoJ_bht+oEEyo+PYHJmTjyH5mGLCpWkL++F_Ok8w@mail.gmail.com>
-Subject: Re: WARNING in amdgpu_sync_keep_later / dma_fence_is_later should be
- rate limited
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230921200312.3989073-3-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +61,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Yu, Lang" <Lang.Yu@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 21, 2023 at 4:21=E2=80=AFPM Rafa=C5=82 Mi=C5=82ecki <zajec5@gma=
-il.com> wrote:
->
-> On 21.09.2023 21:52, Deucher, Alexander wrote:
-> >> backporting commit 187916e6ed9d ("drm/amdgpu: install stub fence into
-> >> potential unused fence pointers") to stable kernels resulted in lots o=
-f
-> >> WARNINGs on some devices. In my case I was getting 3 WARNINGs per
-> >> second (~150 lines logged every second). Commit ended up being reverte=
-d for
-> >> stable but it exposed a potential problem. My messages log size was re=
-aching
-> >> gigabytes and was running my /tmp/ out of space.
-> >>
-> >> Could someone take a look at amdgpu_sync_keep_later / dma_fence_is_lat=
-er
-> >> and make sure its logging is rate limited to avoid such situations in =
-the future,
-> >> please?
-> >>
-> >> Revert in linux-5.15.x:
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commi=
-t/?h=3Dli
-> >> nux-5.15.y&id=3Dfae2d591f3cb31f722c7f065acf586830eab8c2a
-> >>
-> >> openSUSE bug report:
-> >> https://bugzilla.opensuse.org/show_bug.cgi?id=3D1215523
-> >
-> > These patches were never intended for stable.  They were picked up by S=
-asha's stable autoselect tools and automatically applied to stable kernels.
->
-> Are you saying massive WARNINGs in dma_fence_is_later() can't happen
-> in any other case? I understand it was an incorrect backport action but
-> I thought we may learn from it and still add some rate limit.
+Hi Lucas,
 
-All of the current places where that function is used check the
-contexts before calling it so it should be safe as is in the tree.
-That said, something like this could potentially happen again.  I
-don't think using WARN_ON_RATELIMIT() would be a problem.
+kernel test robot noticed the following build warnings:
 
-Alex
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-lcdif-don-t-clear-unrelated-bits-in-CTRLDESCL0_5-when-setting-up-format/20230922-040438
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230921200312.3989073-3-l.stach%40pengutronix.de
+patch subject: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the atomic commit
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230922/202309220530.84SlbdTU-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220530.84SlbdTU-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309220530.84SlbdTU-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/mxsfb/lcdif_drv.c:39:6: warning: no previous prototype for 'lcdif_commit_tail' [-Wmissing-prototypes]
+      39 | void lcdif_commit_tail(struct drm_atomic_state *old_state)
+         |      ^~~~~~~~~~~~~~~~~
+
+
+vim +/lcdif_commit_tail +39 drivers/gpu/drm/mxsfb/lcdif_drv.c
+
+    38	
+  > 39	void lcdif_commit_tail(struct drm_atomic_state *old_state)
+    40	{
+    41		struct drm_device *drm = old_state->dev;
+    42	
+    43		pm_runtime_get_sync(drm->dev);
+    44	
+    45		drm_atomic_helper_commit_modeset_disables(drm, old_state);
+    46		drm_atomic_helper_commit_planes(drm, old_state,
+    47						DRM_PLANE_COMMIT_ACTIVE_ONLY);
+    48		drm_atomic_helper_commit_modeset_enables(drm, old_state);
+    49	
+    50		drm_atomic_helper_fake_vblank(old_state);
+    51		drm_atomic_helper_commit_hw_done(old_state);
+    52		drm_atomic_helper_wait_for_vblanks(drm, old_state);
+    53	
+    54		pm_runtime_put(drm->dev);
+    55	
+    56		drm_atomic_helper_cleanup_planes(drm, old_state);
+    57	}
+    58	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
