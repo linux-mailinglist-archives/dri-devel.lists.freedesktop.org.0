@@ -2,61 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB9D7A93B1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746647A93B3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C8D10E5B4;
-	Thu, 21 Sep 2023 10:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5266C10E5B6;
+	Thu, 21 Sep 2023 10:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B02910E5B4
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:51:08 +0000 (UTC)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C2DBB75;
- Thu, 21 Sep 2023 12:49:28 +0200 (CEST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9B310E5B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:53:51 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D9361221;
+ Thu, 21 Sep 2023 12:52:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1695293369;
- bh=GtelloX72BG0KpOKNT08ravq8i4jklKRI0NqaQwnfmY=;
- h=From:Date:Subject:To:Cc:From;
- b=b3dK9v+1Zms30TB3W9ZPNRpNm5qpTHgSNMOGzHKiqCQc9UPaAsN49na3FtZvl2CjH
- eML8+Pi15aqegXktXe3pgrCrkvQrgyR1sGcH4Y+iB84PoHQPhTb0KVb9h1P6Dfl+CH
- xWicZQTB1agftUc9lyqIprMKP1Yv3JdarfOlwvf8=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 21 Sep 2023 13:50:32 +0300
-Subject: [PATCH] drm/mipi-dsi: Fix detach call without attach
+ s=mail; t=1695293533;
+ bh=evsrHftkQwFAxL8amZWxtP/1lqAGbj0iizDgAfNOiGc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GTpuehWEjiEy2hxVAiR3Ku96s1dd8dttvDDsLbOHZRECt4msxNU2ugIxPPfebTFlU
+ J0zud40J3oO+9Q8xmfAO5kmQA+78GfHwIfTOcUmtxpLfr3V+Jkl999w+IkBMUq8a7Y
+ tIdh3m6JY89vtWMo3GYl+qufioD85LlAq+SbhKQU=
+Message-ID: <6200f2c7-4e56-ee07-ec1e-589ba81c1b32@ideasonboard.com>
+Date: Thu, 21 Sep 2023 13:53:45 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] omap: dsi: do not WARN on detach if dsidev was never
+ attached
+Content-Language: en-US
+To: "H. Nikolaus Schaller" <hns@goldelico.com>, tony@atomide.com,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ sre@kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Arnd Bergmann <arnd@arndb.de>
+References: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <929c46beecf77f2ebfa9f8c9b1c09f6ec610c31a.1695130648.git.hns@goldelico.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230921-dsi-detach-fix-v1-1-d0de2d1621d9@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAPcfDGUC/x2MywqAIBAAf0X23IKPyOpXooPlmnux0Igg+vek4
- wzMPFAoMxUYxQOZLi68pwqqEbBGlzZC9pVBS23koBX6wujpdGvEwDd21nTBurZfnIUaHZmq/of
- T/L4ffU4YumAAAAA=
-To: "H. Nikolaus Schaller" <hns@goldelico.com>, 
- Tony Lindgren <tony@atomide.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4464;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=GtelloX72BG0KpOKNT08ravq8i4jklKRI0NqaQwnfmY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlDCAYl+B54Nb5SeNh3o0z42dOJKO+9qwZHo/FL
- m+U3tupsPGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZQwgGAAKCRD6PaqMvJYe
- 9Td5D/9tSIAGMyzurWvslVtJRJCj7Dcqji/ukpDthj6E/e4KjnAasDqROAqhNno0V/nudEOMnks
- 796BQ9cbAZ9st10LecAKAQiRWeBE8MgRR1FE4D0k7C9jKNA+3jv4auS3/UCOMyTHPFzklS/cInf
- 5tYJMQ4Myaep6L9xUq3/SozRtMo1ZY+2CRaHI8bmUkgzW7rXWiEt5I8vXB6wn0QDNmATR2/Atia
- sh7c55ybOSQS06kDI1+kjCmGODn9TDwlP347/doOkrFHWUuMvQzfoMoasS+VJ/Oa0Co/TtVuzcl
- yF4Idlzf5nLo6qkn6J+pqY+rc4GKMnb45h8A5awKEeLttJ8KV0sOSgUqYbhm9atoBhkyiBj6HiL
- TmJ9GSwqr15NQ5Jzr+jKvcEoUpH73Z6WfWgBbrFINC2olgGcyupivgUThLcHtA6HHU78bUiBy/J
- TnrTMNvmGVQhVTphX0RpuXh0+r55Yl3+3rspSL+I0dvuLPBURTI02tm+3hcQ2tvGWZVLwzGQY2J
- lgCn6jl3pirW0urqBk/RzdvtbIZcCNPYvz9slsZsYal+DQK1iRlqsQMSF4aW2tjwTfTt//0MxFB
- 8JbEXyTUhUpW7fZc26ZiGFjA4CcauKylXHzOXWHwE9TfTCc7n6Qi03L9VGV9lJ5xWz3JHe8l1Dq
- u2XpRVgTbdN4dkw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,138 +55,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+Cc: letux-kernel@openphoenux.org, linux-omap@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ kernel@pyra-handheld.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's been reported that DSI host driver's detach can be called without
-the attach ever happening:
+Hi,
 
-https://lore.kernel.org/all/20230412073954.20601-1-tony@atomide.com/
+On 19/09/2023 16:37, H. Nikolaus Schaller wrote:
+> dsi_init_output() called by dsi_probe() may fail. In that
+> case mipi_dsi_host_unregister() is called which may call
+> omap_dsi_host_detach() with uninitialized dsi->dsidev
+> because omap_dsi_host_attach() was never called before.
+> 
+> This happens if the panel driver asks for an EPROBE_DEFER.
+> 
+> So let's suppress the WARN() in this special case.
+> 
+> [    7.416759] WARNING: CPU: 0 PID: 32 at drivers/gpu/drm/omapdrm/dss/dsi.c:4419 omap_dsi_host_detach+0x3c/0xbc [omapdrm]
+> [    7.436053] Modules linked in: ina2xx_adc snd_soc_ts3a227e bq2429x_charger bq27xxx_battery_i2c(+) bq27xxx_battery ina2xx tca8418_keypad as5013(+) omapdrm hci_uart cec palmas_pwrbutton btbcm bmp280_spi palmas_gpadc bluetooth usb3503 ecdh_generic bmc150_accel_i2c bmg160_i2c ecc bmc150_accel_core bmg160_core bmc150_magn_i2c bmp280_i2c bmc150_magn bno055 industrialio_triggered_buffer bmp280 kfifo_buf snd_soc_omap_aess display_connector drm_kms_helper syscopyarea snd_soc_omap_mcbsp snd_soc_ti_sdma sysfillrect ti_tpd12s015 sysimgblt fb_sys_fops wwan_on_off snd_soc_gtm601 generic_adc_battery drm snd_soc_w2cbw003_bt industrialio drm_panel_orientation_quirks pwm_bl pwm_omap_dmtimer ip_tables x_tables ipv6 autofs4
+> [    7.507068] CPU: 0 PID: 32 Comm: kworker/u4:2 Tainted: G        W          6.1.0-rc3-letux-lpae+ #11107
+> [    7.516964] Hardware name: Generic OMAP5 (Flattened Device Tree)
+> [    7.523284] Workqueue: events_unbound deferred_probe_work_func
+> [    7.529456]  unwind_backtrace from show_stack+0x10/0x14
+> [    7.534972]  show_stack from dump_stack_lvl+0x40/0x4c
+> [    7.540315]  dump_stack_lvl from __warn+0xb0/0x164
+> [    7.545379]  __warn from warn_slowpath_fmt+0x70/0x9c
+> [    7.550625]  warn_slowpath_fmt from omap_dsi_host_detach+0x3c/0xbc [omapdrm]
+> [    7.558137]  omap_dsi_host_detach [omapdrm] from mipi_dsi_remove_device_fn+0x10/0x20
+> [    7.566376]  mipi_dsi_remove_device_fn from device_for_each_child+0x60/0x94
+> [    7.573729]  device_for_each_child from mipi_dsi_host_unregister+0x20/0x54
+> [    7.580992]  mipi_dsi_host_unregister from dsi_probe+0x5d8/0x744 [omapdrm]
+> [    7.588315]  dsi_probe [omapdrm] from platform_probe+0x58/0xa8
+> [    7.594542]  platform_probe from really_probe+0x144/0x2ac
+> [    7.600249]  really_probe from __driver_probe_device+0xc4/0xd8
+> [    7.606411]  __driver_probe_device from driver_probe_device+0x3c/0xb8
+> [    7.613216]  driver_probe_device from __device_attach_driver+0x58/0xbc
+> [    7.620115]  __device_attach_driver from bus_for_each_drv+0xa0/0xb4
+> [    7.626737]  bus_for_each_drv from __device_attach+0xdc/0x150
+> [    7.632808]  __device_attach from bus_probe_device+0x28/0x80
+> [    7.638792]  bus_probe_device from deferred_probe_work_func+0x84/0xa0
+> [    7.645595]  deferred_probe_work_func from process_one_work+0x1a4/0x2d8
+> [    7.652587]  process_one_work from worker_thread+0x214/0x2b8
+> [    7.658567]  worker_thread from kthread+0xe4/0xf0
+> [    7.663542]  kthread from ret_from_fork+0x14/0x1c
+> [    7.668515] Exception stack(0xf01b5fb0 to 0xf01b5ff8)
+> [    7.673827] 5fa0:                                     00000000 00000000 00000000 00000000
+> [    7.682435] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> [    7.691038] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> 
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/dsi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index ea63c64d3a1ab..c37eb6b1b9a39 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4411,7 +4411,7 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
+>   {
+>   	struct dsi_data *dsi = host_to_omap(host);
+>   
+> -	if (WARN_ON(dsi->dsidev != client))
+> +	if (!dsi->dsidev || WARN_ON(dsi->dsidev != client))
+>   		return -EINVAL;
+>   
+>   	cancel_delayed_work_sync(&dsi->dsi_disable_work);
 
-After reading the code, I think this is what happens:
+I sent a patch to the DSI framework code,
+"[PATCH] drm/mipi-dsi: Fix detach call without attach".
 
-We have a DSI host defined in the device tree and a DSI peripheral under
-that host (i.e. an i2c device using the DSI as data bus doesn't exhibit
-this behavior).
+If that fixes the issue (please test, I don't have a suitable platform), 
+perhaps it's a better fix as detach really shouldn't be called if attach 
+has not been called.
 
-The host driver calls mipi_dsi_host_register(), which causes (via a few
-functions) mipi_dsi_device_add() to be called for the DSI peripheral. So
-now we have a DSI device under the host, but attach hasn't been called.
-
-Normally the probing of the devices continues, and eventually the DSI
-peripheral's driver will call mipi_dsi_attach(), attaching the
-peripheral.
-
-However, if the host driver's probe encounters an error after calling
-mipi_dsi_host_register(), and before the peripheral has called
-mipi_dsi_attach(), the host driver will do cleanups and return an error
-from its probe function. The cleanups include calling
-mipi_dsi_host_unregister().
-
-mipi_dsi_host_unregister() will call two functions for all its DSI
-peripheral devices: mipi_dsi_detach() and mipi_dsi_device_unregister().
-The latter makes sense, as the device exists, but the former may be
-wrong as attach has not necessarily been done.
-
-To fix this, track the attached state of the peripheral, and only detach
-from mipi_dsi_host_unregister() if the peripheral was attached.
-
-Note that I have only tested this with a board with an i2c DSI
-peripheral, not with a "pure" DSI peripheral.
-
-However, slightly related, the unregister machinery still seems broken.
-E.g. if the DSI host driver is unbound, it'll detach and unregister the
-DSI peripherals. After that, when the DSI peripheral driver unbound
-it'll call detach either directly or using the devm variant, leading to
-a crash. And probably the driver will crash if it happens, for some
-reason, to try to send a message via the DSI bus.
-
-But that's another topic.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/drm_mipi_dsi.c | 17 +++++++++++++++--
- include/drm/drm_mipi_dsi.h     |  2 ++
- 2 files changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 14201f73aab1..843a6dbda93a 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -347,7 +347,8 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
- 
--	mipi_dsi_detach(dsi);
-+	if (dsi->attached)
-+		mipi_dsi_detach(dsi);
- 	mipi_dsi_device_unregister(dsi);
- 
- 	return 0;
-@@ -370,11 +371,18 @@ EXPORT_SYMBOL(mipi_dsi_host_unregister);
- int mipi_dsi_attach(struct mipi_dsi_device *dsi)
- {
- 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
-+	int ret;
- 
- 	if (!ops || !ops->attach)
- 		return -ENOSYS;
- 
--	return ops->attach(dsi->host, dsi);
-+	ret = ops->attach(dsi->host, dsi);
-+	if (ret)
-+		return ret;
-+
-+	dsi->attached = true;
-+
-+	return 0;
- }
- EXPORT_SYMBOL(mipi_dsi_attach);
- 
-@@ -386,9 +394,14 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
- {
- 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
- 
-+	if (WARN_ON(!dsi->attached))
-+		return -EINVAL;
-+
- 	if (!ops || !ops->detach)
- 		return -ENOSYS;
- 
-+	dsi->attached = false;
-+
- 	return ops->detach(dsi->host, dsi);
- }
- EXPORT_SYMBOL(mipi_dsi_detach);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index c9df0407980c..c0aec0d4d664 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -168,6 +168,7 @@ struct mipi_dsi_device_info {
-  * struct mipi_dsi_device - DSI peripheral device
-  * @host: DSI host for this peripheral
-  * @dev: driver model device node for this peripheral
-+ * @attached: the DSI device has been successfully attached
-  * @name: DSI peripheral chip type
-  * @channel: virtual channel assigned to the peripheral
-  * @format: pixel format for video mode
-@@ -184,6 +185,7 @@ struct mipi_dsi_device_info {
- struct mipi_dsi_device {
- 	struct mipi_dsi_host *host;
- 	struct device dev;
-+	bool attached;
- 
- 	char name[DSI_DEV_NAME_SIZE];
- 	unsigned int channel;
-
----
-base-commit: 9fc75c40faa29df14ba16066be6bdfaea9f39ce4
-change-id: 20230921-dsi-detach-fix-6736f7a48ba7
-
-Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  Tomi
 
