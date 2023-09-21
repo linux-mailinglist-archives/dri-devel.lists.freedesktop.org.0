@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96367A9D14
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434607A9D15
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D994B10E5F3;
-	Thu, 21 Sep 2023 19:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE7B10E5F0;
+	Thu, 21 Sep 2023 19:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
  [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F269610E5EF
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECBC110E5F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:21 +0000 (UTC)
 Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1c46b30a1ceso11386835ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:17 -0700 (PDT)
+ d9443c01a7336-1bf6ea270b2so11209995ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695324497; x=1695929297;
+ d=chromium.org; s=google; t=1695324500; x=1695929300;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NI6y381yNrtia6QcCIC7z4DDn4lzJBG1Oz9c+agvn3E=;
- b=Ee0HTb1RsY1m4W/L4lJN5wV5Mi01d8HR4oRNkwHwOR73sJrLyet5HyQxI6w5dz1BLQ
- Ro2SJwbrSZ0DIJhpy0ExYmhzqmCHRsXp8q6hfWHIyOmvv7SF6+Z0Un4bGWJAUtYFBp6a
- hFGriRtaK26LLNg2UTDtQmHHIprCckBVYtqro=
+ bh=hhxODKU/1KHUMb12P9tKCTdkzqsk+8BNlEjNG+/jd3Y=;
+ b=EWohkUNdUOCnAEBo3vWGpbWQ7/o4zLYvSaC+5vwuql7qE5jhtUqzrnrszdsaKxkwYa
+ 6m/dbXIe7L/7/Csg9r4QI3dV2++o/fjgoMArIUb7YPnviX78bUCCd3cadT2f5O/5jwU2
+ LJhkuajAiqdQLRWILftqCnzPdGMq2R/M/xoJ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695324497; x=1695929297;
+ d=1e100.net; s=20230601; t=1695324500; x=1695929300;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NI6y381yNrtia6QcCIC7z4DDn4lzJBG1Oz9c+agvn3E=;
- b=SuYPz3cdf/F0255jYxTPaaTndoxg9wMJNgBmuVVecGmtsCBF6fZ5JieThD3J0Q0lJ1
- OdBooA1LQNCbjEU7+C7iLOz+V9pBHLf4dV3FsRMXsA0oC6Ghbak58WTO4yx5rwu6VeAq
- DRplxsGbzQjmG+ZoepPsfwF6wGGOtKZ2CWhGVsnmAiKYjHzx4L90hd9Esm4vUhAUp1rg
- 3JocxiSv9XDPkqLdpRVXfgVDGO1f+mflzjFsL8Asr/wOhaNJOBGBMVGD43tHl5y5lsWZ
- x+AMm23r2DcxJjlQdaj8j2Jv8gTIiZGIe0jfGqYQ200gYX/LDN787SFIo8v70MXK11yQ
- 1L5g==
-X-Gm-Message-State: AOJu0YwIQRWAB4LXZuVzdCWyf0hJwe6Q1KdBKnIyfvBVlADq1A7J1h8r
- HEZeZJvdTwqhpEn3kOiWUrKtkfl/o5/Mu1+Tu/wQuu1U
-X-Google-Smtp-Source: AGHT+IEwO0wT0IFYtUWxf8dEr+TXDKdYpZSldG17COiUXE+UPVFkQVI7f6AGosPMSTOkM8sO3JyqHw==
-X-Received: by 2002:a17:902:ab17:b0:1c4:4efc:90a6 with SMTP id
- ik23-20020a170902ab1700b001c44efc90a6mr6250166plb.38.1695324496702; 
- Thu, 21 Sep 2023 12:28:16 -0700 (PDT)
+ bh=hhxODKU/1KHUMb12P9tKCTdkzqsk+8BNlEjNG+/jd3Y=;
+ b=F4EyA4DfjOBfh0JCNAhszDdfoRC4cHhHqZKTLH5O8U4C05A7RvZne/riK3On52b9/j
+ iuNbc2bXVUT5BtObuj2aQXN0RzcxHaDR0wjZ055suA54gL+A/w/UxIfidJvbeBCxkJs7
+ 7WmyDOvPPMpcB4YZY8b2q/tOBBjH2ptm05i0n9xIffGbjHYckvDvBsaZ118o5O43b9Sw
+ vFQ1GF1dmeO+F//trikLSFENH5Geue52+tqqGPe6kmrNHpZQXn37scOL4BFZV2gJmMfw
+ v3Js5phGBujOCOW/2VNd7XboiFvdRkURbq07L6dC4VWyWiUSwJUquftYArBw1psMa9hT
+ 9bvw==
+X-Gm-Message-State: AOJu0YzIdlNvKBEW0VVHy4lsFKzmibTaWtGoy+NOI0azYX5V+IOQrZK8
+ P2L0ytYfr0h8o5ENl4DsAtVHABVbBq/REjWVOQ7/SNjg
+X-Google-Smtp-Source: AGHT+IHUQlNIbJeLrvAj7jWESgKPAFex7wB5VnwlWGMQsi3fiVSh6nFpJjIAzbg6QtOMH1SG8wCkdQ==
+X-Received: by 2002:a17:902:6ac8:b0:1bb:1523:b311 with SMTP id
+ i8-20020a1709026ac800b001bb1523b311mr5075598plt.41.1695324500459; 
+ Thu, 21 Sep 2023 12:28:20 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:e6ed:6d49:f262:8041])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.15
+ w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 12:28:15 -0700 (PDT)
+ Thu, 21 Sep 2023 12:28:19 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFT PATCH v2 01/12] drm/imx/dcss: Call drm_atomic_helper_shutdown()
- at shutdown time
-Date: Thu, 21 Sep 2023 12:26:44 -0700
-Message-ID: <20230921122641.RFT.v2.1.I134336fce7eac5a63bdac46d57b0888858fc8081@changeid>
+Subject: [RFT PATCH v2 02/12] drm/kmb: Call drm_atomic_helper_shutdown() at
+ shutdown time
+Date: Thu, 21 Sep 2023 12:26:45 -0700
+Message-ID: <20230921122641.RFT.v2.2.I20cb02bafa7c2368e4bd579df0716eb62a3a21bf@changeid>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 In-Reply-To: <20230921192749.1542462-1-dianders@chromium.org>
 References: <20230921192749.1542462-1-dianders@chromium.org>
@@ -74,10 +74,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- linux-imx@nxp.com, kernel@pengutronix.de, laurentiu.palcu@oss.nxp.com,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: edmund.j.dea@intel.com, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, anitha.chrisanthus@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -98,64 +96,33 @@ This commit is only compile-time tested.
 
 (no changes since v1)
 
- drivers/gpu/drm/imx/dcss/dcss-drv.c | 8 ++++++++
- drivers/gpu/drm/imx/dcss/dcss-kms.c | 7 +++++++
- drivers/gpu/drm/imx/dcss/dcss-kms.h | 1 +
- 3 files changed, 16 insertions(+)
+ drivers/gpu/drm/kmb/kmb_drv.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-drv.c b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-index c68b0d93ae9e..b61cec0cc79d 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-drv.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-@@ -92,6 +92,13 @@ static int dcss_drv_platform_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index 24035b53441c..af9bd34fefc0 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -476,6 +476,11 @@ static int kmb_remove(struct platform_device *pdev)
  	return 0;
  }
  
-+static void dcss_drv_platform_shutdown(struct platform_device *pdev)
++static void kmb_shutdown(struct platform_device *pdev)
 +{
-+	struct dcss_drv *mdrv = dev_get_drvdata(&pdev->dev);
-+
-+	dcss_kms_shutdown(mdrv->kms);
++	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
 +}
 +
- static struct dcss_type_data dcss_types[] = {
- 	[DCSS_IMX8MQ] = {
- 		.name = "DCSS_IMX8MQ",
-@@ -114,6 +121,7 @@ MODULE_DEVICE_TABLE(of, dcss_of_match);
- static struct platform_driver dcss_platform_driver = {
- 	.probe	= dcss_drv_platform_probe,
- 	.remove	= dcss_drv_platform_remove,
-+	.shutdown = dcss_drv_platform_shutdown,
- 	.driver	= {
- 		.name = "imx-dcss",
- 		.of_match_table	= dcss_of_match,
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index 896de946f8df..d0ea4e97cded 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -172,3 +172,10 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
- 	dcss_crtc_deinit(&kms->crtc, drm);
- 	drm->dev_private = NULL;
- }
-+
-+void dcss_kms_shutdown(struct dcss_kms_dev *kms)
-+{
-+	struct drm_device *drm = &kms->base;
-+
-+	drm_atomic_helper_shutdown(drm);
-+}
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.h b/drivers/gpu/drm/imx/dcss/dcss-kms.h
-index dfe5dd99eea3..62521c1fd6d2 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.h
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.h
-@@ -34,6 +34,7 @@ struct dcss_kms_dev {
- 
- struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss);
- void dcss_kms_detach(struct dcss_kms_dev *kms);
-+void dcss_kms_shutdown(struct dcss_kms_dev *kms);
- int dcss_crtc_init(struct dcss_crtc *crtc, struct drm_device *drm);
- void dcss_crtc_deinit(struct dcss_crtc *crtc, struct drm_device *drm);
- struct dcss_plane *dcss_plane_init(struct drm_device *drm,
+ static int kmb_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = get_device(&pdev->dev);
+@@ -622,6 +627,7 @@ static SIMPLE_DEV_PM_OPS(kmb_pm_ops, kmb_pm_suspend, kmb_pm_resume);
+ static struct platform_driver kmb_platform_driver = {
+ 	.probe = kmb_probe,
+ 	.remove = kmb_remove,
++	.shutdown = kmb_shutdown,
+ 	.driver = {
+ 		.name = "kmb-drm",
+ 		.pm = &kmb_pm_ops,
 -- 
 2.42.0.515.g380fc7ccd1-goog
 
