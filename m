@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1782A7A939E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F27A93AC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0483E10E5AE;
-	Thu, 21 Sep 2023 10:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7292C10E5B1;
+	Thu, 21 Sep 2023 10:48:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4772A10E5AE;
- Thu, 21 Sep 2023 10:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695292888; x=1726828888;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9MzcViTHAM5U1tyZ+NUKjht9mv61PUUT1hTlte9VqAA=;
- b=ZYTFWlB4lCMznbXj3WqTf/QlqbGinNqgW77tpB0LiPhambNQdq47OqW7
- /oQeTgnp/a9Z/QsHXbm1w8J10WZpRakqKWwA8tzG34dOoPqNTSgsw21I2
- vjqHnwRuJdhfTjd4lu/zVmn3937K+JYruI+a1RsqJr7Dx3VRP4MgfK5qe
- ZlkbwU2UiQlcGm7gdV/6crC0PMllmkG+lHeob7j7lut3Maw0ZVa1CgqHx
- z+PEqvi9YMnauffDREGHBj05yJwCMpzV2QIMB2sX9tNzIOjEeOXbyhig4
- RkYfXFP3S0FP7yR6oiYykgwM2L8eP1+PG9tol4PRgqTRZKntbjhHQClQL w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="379369578"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="379369578"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 03:41:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="696686481"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="696686481"
-Received: from asilke-mobl2.ger.corp.intel.com (HELO [10.213.199.249])
- ([10.213.199.249])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 03:41:25 -0700
-Message-ID: <5f7f3950-bc9b-06cf-611c-46c360bb90e9@linux.intel.com>
-Date: Thu, 21 Sep 2023 11:41:23 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Allow users to disable waitboost
-Content-Language: en-US
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+ [67.231.157.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0E810E5AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:47:59 +0000 (UTC)
+Received: from pps.filterd (m0048204.ppops.net [127.0.0.1])
+ by m0048204.ppops.net-00176a03. (8.17.1.19/8.17.1.19) with ESMTP id
+ 38LAAl7A045758
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 06:47:58 -0400
+From: Ian Ray <ian.ray@ge.com>
+To: peter.senna@gmail.com, martyn.welch@collabora.co.uk,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH v3 1/2] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: switch to
+ drm_do_get_edid()
+Date: Thu, 21 Sep 2023 13:47:50 +0300
+Message-Id: <20230921104751.56544-1-ian.ray@ge.com>
+X-Mailer: git-send-email 2.10.1
+X-Proofpoint-GUID: 1hB-cLnsCKSySaO0IDFOJQdFBPJxStCR
+X-Proofpoint-ORIG-GUID: 1hB-cLnsCKSySaO0IDFOJQdFBPJxStCR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-21_07,2023-09-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ priorityscore=1501
+ mlxscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 adultscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309210093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,118 +50,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Migrate away from custom EDID parsing and validity checks.
 
-On 20/09/2023 22:56, Vinay Belgaumkar wrote:
-> Provide a bit to disable waitboost while waiting on a gem object.
-> Waitboost results in increased power consumption by requesting RP0
-> while waiting for the request to complete. Add a bit in the gem_wait()
-> IOCTL where this can be disabled.
-> 
-> This is related to the libva API change here -
-> Link: https://github.com/XinfengZhang/libva/commit/3d90d18c67609a73121bb71b20ee4776b54b61a7
+Note:  This is a follow-up to the original RFC by Jani [1].  The first
+submission in this series should have been marked v2.
 
-This link does not appear to lead to userspace code using this uapi?
+[1] https://patchwork.freedesktop.org/patch/msgid/20230901102400.552254-1-jani.nikula@intel.com
 
-> 
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 9 ++++++---
->   drivers/gpu/drm/i915/i915_request.c      | 3 ++-
->   drivers/gpu/drm/i915/i915_request.h      | 1 +
->   include/uapi/drm/i915_drm.h              | 1 +
->   4 files changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index d4b918fb11ce..955885ec859d 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -72,7 +72,8 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->   	struct dma_fence *fence;
->   	long ret = timeout ?: 1;
->   
-> -	i915_gem_object_boost(resv, flags);
-> +	if (!(flags & I915_WAITBOOST_DISABLE))
-> +		i915_gem_object_boost(resv, flags);
->   
->   	dma_resv_iter_begin(&cursor, resv,
->   			    dma_resv_usage_rw(flags & I915_WAIT_ALL));
-> @@ -236,7 +237,7 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
->   	ktime_t start;
->   	long ret;
->   
-> -	if (args->flags != 0)
-> +	if (args->flags != 0 || args->flags != I915_GEM_WAITBOOST_DISABLE)
->   		return -EINVAL;
->   
->   	obj = i915_gem_object_lookup(file, args->bo_handle);
-> @@ -248,7 +249,9 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
->   	ret = i915_gem_object_wait(obj,
->   				   I915_WAIT_INTERRUPTIBLE |
->   				   I915_WAIT_PRIORITY |
-> -				   I915_WAIT_ALL,
-> +				   I915_WAIT_ALL |
-> +				   (args->flags & I915_GEM_WAITBOOST_DISABLE ?
-> +				    I915_WAITBOOST_DISABLE : 0),
->   				   to_wait_timeout(args->timeout_ns));
->   
->   	if (args->timeout_ns > 0) {
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index f59081066a19..2957409b4b2a 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -2044,7 +2044,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
->   	 * but at a cost of spending more power processing the workload
->   	 * (bad for battery).
->   	 */
-> -	if (flags & I915_WAIT_PRIORITY && !i915_request_started(rq))
-> +	if (!(flags & I915_WAITBOOST_DISABLE) && (flags & I915_WAIT_PRIORITY) &&
-> +	    !i915_request_started(rq))
->   		intel_rps_boost(rq);
->   
->   	wait.tsk = current;
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 0ac55b2e4223..3cc00e8254dc 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -445,6 +445,7 @@ long i915_request_wait(struct i915_request *rq,
->   #define I915_WAIT_INTERRUPTIBLE	BIT(0)
->   #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
->   #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
-> +#define I915_WAITBOOST_DISABLE	BIT(3) /* used by i915_gem_object_wait() */
->   
->   void i915_request_show(struct drm_printer *m,
->   		       const struct i915_request *rq,
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 7000e5910a1d..4adee70e39cf 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1928,6 +1928,7 @@ struct drm_i915_gem_wait {
->   	/** Handle of BO we shall wait on */
->   	__u32 bo_handle;
->   	__u32 flags;
-> +#define I915_GEM_WAITBOOST_DISABLE      (1u<<0)
+Co-developed-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Ian Ray <ian.ray@ge.com>
+---
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   | 57 ++++------------------
+ 1 file changed, 9 insertions(+), 48 deletions(-)
 
-Probably would be good to avoid mentioning waitboost in the uapi since 
-so far it wasn't an explicit feature/contract. Something like 
-I915_GEM_WAIT_BACKGROUND_PRIORITY? Low priority?
+diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+index 460db3c..e93083b 100644
+--- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
++++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+@@ -65,12 +65,11 @@ struct ge_b850v3_lvds {
+ 
+ static struct ge_b850v3_lvds *ge_b850v3_lvds_ptr;
+ 
+-static u8 *stdp2690_get_edid(struct i2c_client *client)
++static int stdp2690_read_block(void *context, u8 *buf, unsigned int block, size_t len)
+ {
++	struct i2c_client *client = context;
+ 	struct i2c_adapter *adapter = client->adapter;
+-	unsigned char start = 0x00;
+-	unsigned int total_size;
+-	u8 *block = kmalloc(EDID_LENGTH, GFP_KERNEL);
++	unsigned char start = block * EDID_LENGTH;
+ 
+ 	struct i2c_msg msgs[] = {
+ 		{
+@@ -81,53 +80,15 @@ static u8 *stdp2690_get_edid(struct i2c_client *client)
+ 		}, {
+ 			.addr	= client->addr,
+ 			.flags	= I2C_M_RD,
+-			.len	= EDID_LENGTH,
+-			.buf	= block,
++			.len	= len,
++			.buf	= buf,
+ 		}
+ 	};
+ 
+-	if (!block)
+-		return NULL;
++	if (i2c_transfer(adapter, msgs, 2) != 2)
++		return -1;
+ 
+-	if (i2c_transfer(adapter, msgs, 2) != 2) {
+-		DRM_ERROR("Unable to read EDID.\n");
+-		goto err;
+-	}
+-
+-	if (!drm_edid_block_valid(block, 0, false, NULL)) {
+-		DRM_ERROR("Invalid EDID data\n");
+-		goto err;
+-	}
+-
+-	total_size = (block[EDID_EXT_BLOCK_CNT] + 1) * EDID_LENGTH;
+-	if (total_size > EDID_LENGTH) {
+-		kfree(block);
+-		block = kmalloc(total_size, GFP_KERNEL);
+-		if (!block)
+-			return NULL;
+-
+-		/* Yes, read the entire buffer, and do not skip the first
+-		 * EDID_LENGTH bytes.
+-		 */
+-		start = 0x00;
+-		msgs[1].len = total_size;
+-		msgs[1].buf = block;
+-
+-		if (i2c_transfer(adapter, msgs, 2) != 2) {
+-			DRM_ERROR("Unable to read EDID extension blocks.\n");
+-			goto err;
+-		}
+-		if (!drm_edid_block_valid(block, 1, false, NULL)) {
+-			DRM_ERROR("Invalid EDID data\n");
+-			goto err;
+-		}
+-	}
+-
+-	return block;
+-
+-err:
+-	kfree(block);
+-	return NULL;
++	return 0;
+ }
+ 
+ static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
+@@ -137,7 +98,7 @@ static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
+ 
+ 	client = ge_b850v3_lvds_ptr->stdp2690_i2c;
+ 
+-	return (struct edid *)stdp2690_get_edid(client);
++	return drm_do_get_edid(connector, stdp2690_read_block, client);
+ }
+ 
+ static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
+-- 
+2.10.1
 
-I also wonder if there could be a possible angle to help Rob (+cc) 
-upstream the syncobj/fence deadline code if our media driver might make 
-use of that somehow.
-
-Like if either we could wire up the deadline into GEM_WAIT (in a 
-backward compatible manner), or if media could use sync fd wait instead. 
-Assuming they have an out fence already, which may not be true.
-
-Regards,
-
-Tvrtko
-
->   	/** Number of nanoseconds to wait, Returns time remaining. */
->   	__s64 timeout_ns;
->   };
