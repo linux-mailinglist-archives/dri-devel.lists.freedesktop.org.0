@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD257A9270
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:00:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCABC7A9285
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:12:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBE110E5A2;
-	Thu, 21 Sep 2023 08:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D662710E0C6;
+	Thu, 21 Sep 2023 08:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE7C10E59B;
- Thu, 21 Sep 2023 08:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695283217; x=1726819217;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=4loMBAspTpubHwAc615FO7TZxrNZ2EsMN2Tx+B1Y+MQ=;
- b=X2XQJuxF4PJl1nnEjNPf97AXHUPYg+6C2GUppBsdBGiVcjbYxlcvNjNm
- 2gE0qeh5asSyVvQ3pLYSvwqkOOqZsVSPmYWJVY8X38u6kPYOCuh7qtoSM
- oNVmP1n2V114n0NhczEoAzzrrxbrnk66SFvSU4lb3fqewkNiSds4qyNAS
- oetiiB8zUyGNeqyNTCVVvFae9a/CqFF22Dey00G3Sk5hSZZrYJq5f784k
- cIyBBshUZKgZaAileaZDYL/x4HBy0iZ20+uzYN6yMZQsMgfa7Sw63qZGb
- ARSYyvr3qdoiVeD7XftLyQvEMXuEMhy0TgXk+aUn+JTgf8iT6KI6ruG1t w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466758882"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="466758882"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 01:00:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862370664"
-X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="862370664"
-Received: from idubinov-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.52.72])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 01:00:14 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 7/8] drm/i915/dsc: Add debugfs entry to validate DSC
- fractional bpp
-In-Reply-To: <20230913060606.1105349-8-mitulkumar.ajitkumar.golani@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
- <20230913060606.1105349-8-mitulkumar.ajitkumar.golani@intel.com>
-Date: Thu, 21 Sep 2023 11:00:12 +0300
-Message-ID: <8734z8q7lf.fsf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63AD10E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:12:32 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id DCDCECE1689;
+ Thu, 21 Sep 2023 08:12:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF65BC116B4;
+ Thu, 21 Sep 2023 08:12:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695283948;
+ bh=KlK68PiRYmNjDZ522KXFD15kcxu9BDel8MdfKGOwXpE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Q5ielep+830ry6o1O39pwOmhlA5Dd3vzUZcRQoBZJURr/+cc5DnJGolJiIRGB3lTJ
+ iWNjjS21c6r62YsrVzhW0MSOAQ6USouYky4eccKL6sMLbjkBTrt+m+3jyvSN1Zafbi
+ BOAcYc4p0z80XbHapFdPWD35auDsgaTgejgzPCkRx4t3O2+pK6bywzePrw7JZUQcVm
+ 9GeO+E6zQV9frsiN8hyVHpuBXSjha7sFejhkqK4QbfugMrnEsRomrpEsF8RXwfmlB0
+ mUHjG9RzU2vUghmNAXZ43wF+IHJDZs8kabj0yg9bfiRPBtdItnHB4tq4rtRSoLS8lv
+ SAxdKepsipABg==
+Date: Thu, 21 Sep 2023 10:12:24 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
+ drm_*_helper_funcs callbacks
+Message-ID: <2p53aei56tlr7k6w5oawlwpmv2k7agpbb6wfwpxcg3rqyueyrx@2as7tijrgnh4>
+References: <20230914195138.1518065-1-javierm@redhat.com>
+ <f5620d32-2705-498b-a65c-7dc663340a6d@suse.de>
+ <87wmwo3q50.fsf@minerva.mail-host-address-is-not-set>
+ <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
+ <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4d2dwrs5mcu6fwes"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,180 +59,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com,
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- ankit.k.nautiyal@intel.com, swati2.sharma@intel.com
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Sep 2023, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
-> From: Swati Sharma <swati2.sharma@intel.com>
->
-> DSC_Sink_BPP_Precision entry is added to i915_dsc_fec_support_show
-> to depict sink's precision.
-> Also, new debugfs entry is created to enforce fractional bpp.
-> If Force_DSC_Fractional_BPP_en is set then while iterating over
-> output bpp with fractional step size we will continue if output_bpp is
-> computed as integer. With this approach, we will be able to validate
-> DSC with fractional bpp.
->
-> v2:
-> Add drm_modeset_unlock to new line(Suraj)
->
-> Signed-off-by: Swati Sharma <swati2.sharma@intel.com>
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
->  .../drm/i915/display/intel_display_debugfs.c  | 83 +++++++++++++++++++
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  2 files changed, 84 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> index f05b52381a83..776ab96def1f 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> @@ -1244,6 +1244,8 @@ static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
->  								      DP_DSC_YCbCr420_Native)),
->  			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
->  								      DP_DSC_YCbCr444)));
-> +		seq_printf(m, "DSC_Sink_BPP_Precision: %d\n",
-> +			   drm_dp_dsc_sink_bpp_incr(intel_dp->dsc_dpcd));
->  		seq_printf(m, "Force_DSC_Enable: %s\n",
->  			   str_yes_no(intel_dp->force_dsc_en));
->  		if (!intel_dp_is_edp(intel_dp))
-> @@ -1436,6 +1438,84 @@ static const struct file_operations i915_dsc_output_format_fops = {
->  	.write = i915_dsc_output_format_write
->  };
->  
-> +static int i915_dsc_fractional_bpp_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_connector *connector = m->private;
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_crtc *crtc;
-> +	struct intel_dp *intel_dp;
-> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-> +	int ret;
-> +
-> +	if (!encoder)
-> +		return -ENODEV;
-> +
-> +	ret = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
-> +	if (ret)
-> +		return ret;
-> +
-> +	crtc = connector->state->crtc;
-> +	if (connector->status != connector_status_connected || !crtc) {
-> +		ret = -ENODEV;
-> +		goto out;
-> +	}
-> +
-> +	intel_dp = intel_attached_dp(to_intel_connector(connector));
-> +	seq_printf(m, "Force_DSC_Fractional_BPP_Enable: %s\n",
-> +		   str_yes_no(intel_dp->force_dsc_fractional_bpp_en));
 
-Why "Force_DSC_Fractional_BPP_Enable" in the output?
+--4d2dwrs5mcu6fwes
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Usually debugfs files, like sysfs files, for stuff like this should be
-attributes, one thing per file. Why print a long name for it, if the
-name of the debugfs file is the name of the attribute?
+On Thu, Sep 21, 2023 at 09:57:22AM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Thu, Sep 21, 2023 at 9:44=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > On Mon, Sep 18, 2023 at 09:19:07AM +0200, Javier Martinez Canillas wrot=
+e:
+> > > Thomas Zimmermann <tzimmermann@suse.de> writes:
+> > > > Am 14.09.23 um 21:51 schrieb Javier Martinez Canillas:
+> > > >> The driver uses a naming convention where functions for struct drm=
+_*_funcs
+> > > >> callbacks are named ssd130x_$object_$operation, while the callback=
+s for
+> > > >> struct drm_*_helper_funcs are named ssd130x_$object_helper_$operat=
+ion.
+> > > >>
+> > > >> The idea is that this helper_ prefix in the function names denote =
+that are
+> > > >> for struct drm_*_helper_funcs callbacks. This convention was copie=
+d from
+> > > >> other drivers, when ssd130x was written but Maxime pointed out tha=
+t is the
+> > > >> exception rather than the norm.
+> > > >
+> > > > I guess you found this in my code. I want to point out that I use t=
+he
+> > > > _helper infix to signal that these are callback for
+> > > > drm_primary_plane_helper_funcs and *not* drm_primary_plane_funcs. T=
+he
+> > > > naming is intentional.
+> > >
+> > > Yes, that's what tried to say in the commit message and indeed I got =
+the
+> > > convention from drivers in drivers/gpu/drm/tiny. In fact I believe th=
+ese
+> > > function names are since first iteration of the driver, when was mean=
+t to
+> > > be a tiny driver.
+> > >
+> > > According to Maxime it's the exception rather than the rule and sugge=
+sted
+> > > to change it, I don't really have a strong opinion on either naming T=
+BH.
+> >
+> > Maybe that's just me, but the helper in the name indeed throws me off. =
+In my
+> > mind, it's supposed to be used only for helpers, not functions implemen=
+ting the
+> > helpers hooks.
+>=20
+> With several callbacks using the same (field) name, it is very helpful
+> to name the actual implementation by combining the struct type name
+> and the field name.
 
-And even if you print it for humans, why the underscores?
+I can't think of any (at least for a given object). Which one do you have in
+mind?
 
-> +
-> +out:
-> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t i915_dsc_fractional_bpp_write(struct file *file,
-> +					     const char __user *ubuf,
-> +					     size_t len, loff_t *offp)
-> +{
-> +	struct drm_connector *connector =
-> +		((struct seq_file *)file->private_data)->private;
+> Anything else confuses the casual reader. Perhaps the real question is wh=
+ether
+> the structures should have "helper" in their name in the first place?
 
-I know this is copy-pasted from elsewhere, but really it's nicer to
-avoid the cast, and copy-paste from the places that get this right:
+Those structures are meant for functions used by the helpers, they are not
+helper functions.
 
-	struct seq_file *m = file->private_data;
-        struct drm_connector *connector = m->private;
+Maxime
 
-> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-> +	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-> +	bool dsc_fractional_bpp_enable = false;
-> +	int ret;
-> +
-> +	if (len == 0)
-> +		return 0;
+--4d2dwrs5mcu6fwes
+Content-Type: application/pgp-signature; name="signature.asc"
 
-kstrtobool_from_user() has this covered.
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +	drm_dbg(&i915->drm,
-> +		"Copied %zu bytes from user to force fractional bpp for DSC\n", len);
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQv66AAKCRDj7w1vZxhR
+xaUuAP49Dk5XZHDwOEMvFpUNAd5qO3W2XesVv7Vgkx9mVzpbiAD9Fd8QBcyq7FrB
+lGErmbmSM6/2LttSu9BDRi/YKeTRbws=
+=fnWn
+-----END PGP SIGNATURE-----
 
-That's useless.
-
-> +
-> +	ret = kstrtobool_from_user(ubuf, len, &dsc_fractional_bpp_enable);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	drm_dbg(&i915->drm, "Got %s for DSC Fractional BPP Enable\n",
-> +		(dsc_fractional_bpp_enable) ? "true" : "false");
-
-Is this useful?
-
-> +	intel_dp->force_dsc_fractional_bpp_en = dsc_fractional_bpp_enable;
-> +
-> +	*offp += len;
-> +
-> +	return len;
-> +}
-> +
-> +static int i915_dsc_fractional_bpp_open(struct inode *inode,
-> +					struct file *file)
-> +{
-> +	return single_open(file, i915_dsc_fractional_bpp_show, inode->i_private);
-> +}
-> +
-> +static const struct file_operations i915_dsc_fractional_bpp_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = i915_dsc_fractional_bpp_open,
-> +	.read = seq_read,
-> +	.llseek = seq_lseek,
-> +	.release = single_release,
-> +	.write = i915_dsc_fractional_bpp_write
-> +};
-> +
->  /*
->   * Returns the Current CRTC's bpc.
->   * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
-> @@ -1513,6 +1593,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
->  
->  		debugfs_create_file("i915_dsc_output_format", 0644, root,
->  				    connector, &i915_dsc_output_format_fops);
-> +
-> +		debugfs_create_file("i915_dsc_fractional_bpp", 0644, root,
-> +				    connector, &i915_dsc_fractional_bpp_fops);
->  	}
->  
->  	if (connector->connector_type == DRM_MODE_CONNECTOR_DSI ||
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 69bcabec4a29..27b31cb4c7b4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1797,6 +1797,7 @@ struct intel_dp {
->  	/* Display stream compression testing */
->  	bool force_dsc_en;
->  	int force_dsc_output_format;
-> +	bool force_dsc_fractional_bpp_en;
->  	int force_dsc_bpc;
->  
->  	bool hobl_failed;
-
--- 
-Jani Nikula, Intel
+--4d2dwrs5mcu6fwes--
