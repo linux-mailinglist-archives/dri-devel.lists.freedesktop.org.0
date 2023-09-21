@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DC97A9D25
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A09D57A9D29
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3A010E5FA;
-	Thu, 21 Sep 2023 19:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4D110E602;
+	Thu, 21 Sep 2023 19:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A15EB10E5FE
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:47 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1c328b53aeaso11710205ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:47 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE7F10E5FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:50 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1c4586b12feso11087745ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695324526; x=1695929326;
+ d=chromium.org; s=google; t=1695324529; x=1695929329;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vNE7U3MRFdvHzy3AatqQxrB+Rii45BA8np0vc2lW0nQ=;
- b=TwNBy3PHbyw/XT5wPpPP7CoWwJWOeUiTVuVk3S4L3JEmhXShC9pw8O2f2pzWwTvwNN
- Idc6hdW463V1aqoxxM5dUFfhtsNE5BIE3BEypTtVKMIzzrV4P0Pgtg4W3Levwq18okZC
- KUoE4L7HIDIzUb0acTDETL/XhkJoAgxDUspz0=
+ bh=6yWq/C0tGEFLQw6PZcuzFNMM1hDy2t48whBia8F49Jg=;
+ b=AoIiSue3XWZTYqbaDx+xgbyTpQkTu/QPaBojtZ+UGpjBxx9muDoKy2THCzitzxAl8S
+ 77YyPm+hAtXoQt1OgGSQchdghNvHgsbYXMSINIt46R1XjOGW5QZQ6T2jFS2TpQGIrS/b
+ MbOpQ2V1VtismH/4IHHuSkWDzlPfr68BA/O1U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695324526; x=1695929326;
+ d=1e100.net; s=20230601; t=1695324529; x=1695929329;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vNE7U3MRFdvHzy3AatqQxrB+Rii45BA8np0vc2lW0nQ=;
- b=JKQoaCz4Z0nAa94+OcFf8rgA/Y6HuOl2NLoxUgbIIwO5gac2c31gEuw6jk4ffWunPE
- KLKQ99qgQg3ulyvKS/uUSE0Klubpe+mnuqJuxRpGwAXQ300lEmHi4/IJusWyW6lANCYY
- yH7ULXNfp4kprgLOdzmmAdcbhh7aPh9c83b0L51M99NETRNy79R4COxN7X2r1qCHyna4
- c1nw9PJwvWZ9XKcsk2dI3Invvt1jUAJi8comjDkdl54/3pku2HBmlDkndYZ6Lz3qqgJO
- X7vH/qYXADZJxOTlC+FGOSwn/ORYA1jEBaV06hs4Bn7OKIlff2GGWHO65nI9qbX7NLZN
- 2HVQ==
-X-Gm-Message-State: AOJu0YxE23AFDJ+hxmQIhKpb4WNEeLpezutxqs5rvXtymx8ADyEfSQ9H
- /kDcbzlF18b/6+R1GImy9FH5JjvZV1Bw+mcm+fxS9RUB
-X-Google-Smtp-Source: AGHT+IFvUfNdgD3M025ie0SSfztu5G0EGA1WZyW9KYEx3xmH/xP1cMH0WFKYaDRfvGODLOGFhzZm+g==
-X-Received: by 2002:a17:902:7fce:b0:1bf:27a2:b52b with SMTP id
- t14-20020a1709027fce00b001bf27a2b52bmr5978389plb.58.1695324526019; 
- Thu, 21 Sep 2023 12:28:46 -0700 (PDT)
+ bh=6yWq/C0tGEFLQw6PZcuzFNMM1hDy2t48whBia8F49Jg=;
+ b=N1RCaZVWi/+o5vDMwqGu9yjSJ2RJBEjHTJhXgPBU2xRbyDONFRFp6bWn8uRFqImkEG
+ tn1AIg09epOekpGtJ3UHEGdaP+wTrBM924RxXNx1HXb1C3ym8ikMYezwrziANRCLq4G1
+ 7IAZ7+2dzA1qGnxCpV8eIjjJbX9V5yW/Y7PssWYbBFWKho6mSQeE3ZoVmIZEKsaRUGb5
+ S+PdL+hRFR7TenokQ09zCgNR8vBhYqf3LPwWy5EBZXpjyLdlZdzLYVXo0Mj7Ca9j0CHg
+ SiyfTcbbtQMN3lfPjHnc0dmHEKvEKGj13Dkze7EDnkyli/XXPdaYWCKeufnGHh2mVeB6
+ YHzA==
+X-Gm-Message-State: AOJu0Yy8m1NAaI5EBxAy1mD5JOv2/8iQDKuJ6lo9SiHyFo8faVeejENY
+ +LhAs/yPLiYS5aIg1cpEZyA3bpcjx7vLRRU/Ogp13IVs
+X-Google-Smtp-Source: AGHT+IG2w0WDLRZHyuJ2LAJ89ZhWzmeDvnFDIDFpOKHgPfnwnQMLnbx8TB6Jh7P+yKBv1bgwE5yOVg==
+X-Received: by 2002:a17:902:c409:b0:1c4:4a4d:cda with SMTP id
+ k9-20020a170902c40900b001c44a4d0cdamr7404355plk.15.1695324528913; 
+ Thu, 21 Sep 2023 12:28:48 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:e6ed:6d49:f262:8041])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.44
+ w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 12:28:45 -0700 (PDT)
+ Thu, 21 Sep 2023 12:28:47 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFT PATCH v2 11/12] drm/radeon: Call drm_helper_force_disable_all()
- at shutdown/remove time
-Date: Thu, 21 Sep 2023 12:26:54 -0700
-Message-ID: <20230921122641.RFT.v2.11.I022cfc2dcd30e77d4f7005a2d912dd7ab76c0338@changeid>
+Subject: [RFT PATCH v2 12/12] drm/renesas/shmobile: Call
+ drm_helper_force_disable_all() at shutdown/remove time
+Date: Thu, 21 Sep 2023 12:26:55 -0700
+Message-ID: <20230921122641.RFT.v2.12.Iaf638a1d4c8b3c307a6192efabb4cbb06b195f15@changeid>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 In-Reply-To: <20230921192749.1542462-1-dianders@chromium.org>
 References: <20230921192749.1542462-1-dianders@chromium.org>
@@ -74,9 +74,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Douglas Anderson <dianders@chromium.org>,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: paul@crapouillou.net, tzimmermann@suse.de,
+ Geert Uytterhoeven <geert+renesas@glider.be>, sam@ravnborg.org,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com, biju.das.jz@bp.renesas.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -94,56 +96,67 @@ case the non-atomic equivalent drm_helper_force_disable_all(), in the
 case of OS shutdown/restart comes straight out of the kernel doc
 "driver instance overview" in drm_drv.c.
 
-NOTE: in order to get things inserted in the right place, I had to
-replace the old/deprecated drm_put_dev() function with the equivalent
-new calls.
-
 Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-I honestly have no idea if I got this patch right. The shutdown()
-function already had some special case logic for PPC, Loongson, and
-VMs and I don't 100% for sure know how this interacts with
-those. Everything here is just compile tested.
+This commit is only compile-time tested.
 
-(no changes since v1)
+As Geert pointed out in response to v1 [1], this patch conflicts with
+the patches doing atomic conversion [2]. Since those patches don't
+appear to be landed yet, I'm simply reposting v1. If those patches
+land, I'm more than happy to re-post this one. I'm also more than
+happy if someone wants to incorporate these changes into a different
+patch.
 
- drivers/gpu/drm/radeon/radeon_drv.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+[1] https://lore.kernel.org/r/CAMuHMdWOB7d-KE3F7aeZvVimNuy_U30uk=PND7=tWmPzCd7_eg@mail.gmail.com
+[2] https://lore.kernel.org/dri-devel/fd7a6702490bd431f314d6591551bb39e77e3304.1692178020.git.geert+renesas@glider.be/
 
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index 39cdede460b5..67995ea24852 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -38,6 +38,7 @@
- #include <linux/pci.h>
+Changes in v2:
+- Rebased and resolved conflicts.
+
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+index e5db4e0095ba..8c4c9d17a79e 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+@@ -15,6 +15,7 @@
+ #include <linux/pm.h>
+ #include <linux/slab.h>
  
- #include <drm/drm_aperture.h>
 +#include <drm/drm_crtc_helper.h>
  #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
-@@ -357,7 +358,9 @@ radeon_pci_remove(struct pci_dev *pdev)
- {
- 	struct drm_device *dev = pci_get_drvdata(pdev);
+ #include <drm/drm_fbdev_generic.h>
+ #include <drm/drm_gem_dma_helper.h>
+@@ -179,10 +180,18 @@ static void shmob_drm_remove(struct platform_device *pdev)
  
--	drm_put_dev(dev);
-+	drm_dev_unregister(dev);
-+	drm_helper_force_disable_all(dev);
-+	drm_dev_put(dev);
+ 	drm_dev_unregister(ddev);
+ 	drm_kms_helper_poll_fini(ddev);
++	drm_helper_force_disable_all(ddev);
+ 	free_irq(sdev->irq, ddev);
+ 	drm_dev_put(ddev);
  }
  
- static void
-@@ -368,6 +371,8 @@ radeon_pci_shutdown(struct pci_dev *pdev)
- 	 */
- 	if (radeon_device_is_virtual())
- 		radeon_pci_remove(pdev);
-+	else
-+		drm_helper_force_disable_all(pci_get_drvdata(pdev));
- 
- #if defined(CONFIG_PPC64) || defined(CONFIG_MACH_LOONGSON64)
- 	/*
++static void shmob_drm_shutdown(struct platform_device *pdev)
++{
++	struct shmob_drm_device *sdev = platform_get_drvdata(pdev);
++
++	drm_helper_force_disable_all(sdev->ddev);
++}
++
+ static int shmob_drm_probe(struct platform_device *pdev)
+ {
+ 	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
+@@ -287,6 +296,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ static struct platform_driver shmob_drm_platform_driver = {
+ 	.probe		= shmob_drm_probe,
+ 	.remove_new	= shmob_drm_remove,
++	.shutdown	= shmob_drm_shutdown,
+ 	.driver		= {
+ 		.name	= "shmob-drm",
+ 		.pm	= pm_sleep_ptr(&shmob_drm_pm_ops),
 -- 
 2.42.0.515.g380fc7ccd1-goog
 
