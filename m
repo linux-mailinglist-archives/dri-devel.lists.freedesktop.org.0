@@ -2,33 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0067A9E93
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 22:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D969B7A9E90
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 22:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F6010E617;
-	Thu, 21 Sep 2023 20:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B5F10E60F;
+	Thu, 21 Sep 2023 20:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE5110E610
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407B810E611
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 20:03:15 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qjPtI-0000P1-Pe; Thu, 21 Sep 2023 22:03:12 +0200
+ id 1qjPtI-0000P2-Pe; Thu, 21 Sep 2023 22:03:12 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qjPtI-00804q-71; Thu, 21 Sep 2023 22:03:12 +0200
+ id 1qjPtI-00804q-9s; Thu, 21 Sep 2023 22:03:12 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>,
 	Liu Ying <victor.liu@nxp.com>
-Subject: [PATCH v2 1/6] drm: lcdif: improve burst size configuration comment
-Date: Thu, 21 Sep 2023 22:03:07 +0200
-Message-Id: <20230921200312.3989073-1-l.stach@pengutronix.de>
+Subject: [PATCH v2 2/6] drm: lcdif: don't clear unrelated bits in CTRLDESCL0_5
+ when setting up format
+Date: Thu, 21 Sep 2023 22:03:08 +0200
+Message-Id: <20230921200312.3989073-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230921200312.3989073-1-l.stach@pengutronix.de>
+References: <20230921200312.3989073-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -54,39 +57,108 @@ Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The comment regarding AXI bust size configuration is a bit hard
-to read. Improve the wording somewhat.
+The CTRLDESCL0_5 register also holds other bits that are not related to the
+format, which should not be overwritten when the format is set up. Use a
+proper RMW access in lcdif_set_formats().
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-Reviewed-by: Marek Vasut <marex@denx.de>
 ---
-v2: Some more rewording.
+v2: new patch
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 40 +++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index 2541d2de4e45..07e343e01f3e 100644
+index 07e343e01f3e..e277592e5fa5 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -329,12 +329,12 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
- 	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
+@@ -166,6 +166,7 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
+ 	const u32 format = plane_state->fb->format->format;
+ 	bool in_yuv = false;
+ 	bool out_yuv = false;
++	u32 ctrl_desc_5;
  
+ 	switch (bus_format) {
+ 	case MEDIA_BUS_FMT_RGB565_1X16:
+@@ -186,52 +187,49 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
+ 		break;
+ 	}
+ 
++	ctrl_desc_5 = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5) &
++		      ~(CTRLDESCL0_5_BPP_MASK | CTRLDESCL0_5_YUV_FORMAT_MASK);
++
+ 	switch (format) {
+ 	/* RGB Formats */
+ 	case DRM_FORMAT_RGB565:
+-		writel(CTRLDESCL0_5_BPP_16_RGB565,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_16_RGB565;
+ 		break;
+ 	case DRM_FORMAT_RGB888:
+-		writel(CTRLDESCL0_5_BPP_24_RGB888,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_24_RGB888;
+ 		break;
+ 	case DRM_FORMAT_XRGB1555:
+-		writel(CTRLDESCL0_5_BPP_16_ARGB1555,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_16_ARGB1555;
+ 		break;
+ 	case DRM_FORMAT_XRGB4444:
+-		writel(CTRLDESCL0_5_BPP_16_ARGB4444,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_16_ARGB4444;
+ 		break;
+ 	case DRM_FORMAT_XBGR8888:
+-		writel(CTRLDESCL0_5_BPP_32_ABGR8888,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_32_ABGR8888;
+ 		break;
+ 	case DRM_FORMAT_XRGB8888:
+-		writel(CTRLDESCL0_5_BPP_32_ARGB8888,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_32_ARGB8888;
+ 		break;
+ 
+ 	/* YUV Formats */
+ 	case DRM_FORMAT_YUYV:
+-		writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_VY2UY1,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_YCbCr422 |
++			       CTRLDESCL0_5_YUV_FORMAT_VY2UY1;
+ 		in_yuv = true;
+ 		break;
+ 	case DRM_FORMAT_YVYU:
+-		writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_UY2VY1,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_YCbCr422 |
++			       CTRLDESCL0_5_YUV_FORMAT_UY2VY1;
+ 		in_yuv = true;
+ 		break;
+ 	case DRM_FORMAT_UYVY:
+-		writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_Y2VY1U,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_YCbCr422 |
++			       CTRLDESCL0_5_YUV_FORMAT_Y2VY1U;
+ 		in_yuv = true;
+ 		break;
+ 	case DRM_FORMAT_VYUY:
+-		writel(CTRLDESCL0_5_BPP_YCbCr422 | CTRLDESCL0_5_YUV_FORMAT_Y2UY1V,
+-		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
++		ctrl_desc_5 |= CTRLDESCL0_5_BPP_YCbCr422 |
++			       CTRLDESCL0_5_YUV_FORMAT_Y2UY1V;
+ 		in_yuv = true;
+ 		break;
+ 
+@@ -240,6 +238,8 @@ static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
+ 		break;
+ 	}
+ 
++	writel(ctrl_desc_5, lcdif->base + LCDC_V8_CTRLDESCL0_5);
++
  	/*
--	 * Undocumented P_SIZE and T_SIZE register but those written in the
--	 * downstream kernel those registers control the AXI burst size. As of
--	 * now there are two known values:
-+	 * The P_SIZE and T_SIZE bitfields are only documented in the
-+	 * downstream driver. Those bitfields control the AXI burst size.
-+	 * As of now there are two known values:
- 	 *  1 - 128Byte
- 	 *  2 - 256Byte
--	 * Downstream set it to 256B burst size to improve the memory
-+	 * Downstream sets this to 256B burst size to improve the memory access
- 	 * efficiency so set it here too.
- 	 */
- 	ctrl = CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
+ 	 * The CSC differentiates between "YCbCr" and "YUV", but the reference
+ 	 * manual doesn't detail how they differ. Experiments showed that the
 -- 
 2.39.2
 
