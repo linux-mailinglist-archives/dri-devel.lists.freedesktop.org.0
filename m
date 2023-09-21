@@ -1,73 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA797A9398
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:40:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1782A7A939E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E793510E5AB;
-	Thu, 21 Sep 2023 10:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0483E10E5AE;
+	Thu, 21 Sep 2023 10:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0BD10E5AB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:39:54 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1c09673b006so6111245ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 03:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695292794; x=1695897594; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KWjgE64FXbMtpQjNRk3X7/IDUHdZZUKwN8Xv8RgnYfI=;
- b=P3kL+OKQ9OVLFKtQHmd+L0q8wXs/xNIryAnRwI89/sgj8Kl+TzW95sjjIoP4PJ3ZAN
- 8HXa7MOtVdYTRi1dileeez2hadl07NcJUrx6dDBbCXb5+sFm+nSZeoZl47ITLukjPyQe
- BNBPv9aZooLQUKYdItcyNoEigovS4HWHMw3Kzltr6TpID5+Ydu6ERsMlmAPqw0JZjExL
- iPfO5UzQRyOA5RPdK76/T6ZmSCdijV7XrljVeVoUzOG9ATQHZYOaGrpVSIBi1zJZXEoW
- wLA/a47pAeodfiHWEIffYhwYy0v6MSu5pXpf5pcNJHHlogFr8qX/2y7qainJ9p7sgrGi
- Ks2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695292794; x=1695897594;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KWjgE64FXbMtpQjNRk3X7/IDUHdZZUKwN8Xv8RgnYfI=;
- b=EBktisLjd70296caOwjEHtJJJ9qIrlg7N7Gt2K+3d7rC5IpnIUx4i6JOmldqe+LRzu
- +thSj1EGKDPUMnXNIrzFRUtX68b9o92aHk0PGsnRpE02VYeIlPrW7ubEgV5y/B0Dpvux
- ysoQSv7UiCS161EgTZaNbO+X9hrhpCe7HiOZztaZTxoiAh8tvOiX+L7nwDTefjnkMJEi
- +OUCzc6eh3qfjAx+2Or/w52O9gvYk+fnvfJ5s8jS61N500SAF58u5546eZj4AK+pvciu
- LdJ881jdJCjeYvNqm6m4DkVeYs4gHM+ZRxXNWJbvjE0Xy3xSFbJVFy+nSXoaERkpn+1j
- SMBQ==
-X-Gm-Message-State: AOJu0YyM7Wc7/HVTNKgzEJfZebDwMZtigDV4OMJqg367A4CG89/A1DuM
- 4TmTEDkkD5t/QeruNe92YaY=
-X-Google-Smtp-Source: AGHT+IHywJP3wF0zI2uf76M2aH0c/XRLkyoDwDsQ6aF/SadOTPY4tI0zY9ia+w33T6wf8amtnrSprA==
-X-Received: by 2002:a17:902:c409:b0:1c4:4a4d:cda with SMTP id
- k9-20020a170902c40900b001c44a4d0cdamr5669955plk.15.1695292794057; 
- Thu, 21 Sep 2023 03:39:54 -0700 (PDT)
-Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- ju12-20020a170903428c00b001b87d3e845bsm1127698plb.149.2023.09.21.03.39.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 03:39:53 -0700 (PDT)
-Date: Thu, 21 Sep 2023 12:39:48 +0200
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: MAINTAINERS: Update drm-misc entry to match all drivers
-Message-ID: <x7oa5g4vnjgyh6pppwy5xre6nmnta73hug3f2qjl3lqr2t25ck@5kclm2ngpvqp>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>, 
- suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, 
- Paul Cercueil <paul@crapouillou.net>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Daniel Vetter <daniel.vetter@intel.com>
-References: <20230919131235.759959-1-mripard@kernel.org>
- <afc3da23-81ce-edcf-6ea6-8fd8711e17b0@loongson.cn>
- <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4772A10E5AE;
+ Thu, 21 Sep 2023 10:41:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695292888; x=1726828888;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9MzcViTHAM5U1tyZ+NUKjht9mv61PUUT1hTlte9VqAA=;
+ b=ZYTFWlB4lCMznbXj3WqTf/QlqbGinNqgW77tpB0LiPhambNQdq47OqW7
+ /oQeTgnp/a9Z/QsHXbm1w8J10WZpRakqKWwA8tzG34dOoPqNTSgsw21I2
+ vjqHnwRuJdhfTjd4lu/zVmn3937K+JYruI+a1RsqJr7Dx3VRP4MgfK5qe
+ ZlkbwU2UiQlcGm7gdV/6crC0PMllmkG+lHeob7j7lut3Maw0ZVa1CgqHx
+ z+PEqvi9YMnauffDREGHBj05yJwCMpzV2QIMB2sX9tNzIOjEeOXbyhig4
+ RkYfXFP3S0FP7yR6oiYykgwM2L8eP1+PG9tol4PRgqTRZKntbjhHQClQL w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="379369578"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="379369578"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 03:41:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="696686481"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="696686481"
+Received: from asilke-mobl2.ger.corp.intel.com (HELO [10.213.199.249])
+ ([10.213.199.249])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 03:41:25 -0700
+Message-ID: <5f7f3950-bc9b-06cf-611c-46c360bb90e9@linux.intel.com>
+Date: Thu, 21 Sep 2023 11:41:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gem: Allow users to disable waitboost
+Content-Language: en-US
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230920215624.3482244-1-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,103 +63,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 21, 2023 at 10:47:58AM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> Adding Paul in Cc
-> 
-> On Thu, Sep 21, 2023 at 04:25:50PM +0800, suijingfeng wrote:
-> > On 2023/9/19 21:12, Maxime Ripard wrote:
-> > > We've had a number of times when a patch slipped through and we couldn't
-> > > pick them up either because our MAINTAINERS entry only covers the
-> > > framework and thus we weren't Cc'd.
-> > > 
-> > > Let's take another approach where we match everything, and remove all
-> > > the drivers that are not maintained through drm-misc.
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> > > ---
-> > >   MAINTAINERS | 23 ++++++++++++++++++++---
-> > >   1 file changed, 20 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 90f13281d297..757d4f33e158 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -6860,12 +6860,29 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
-> > >   S:	Maintained
-> > >   W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
-> > >   T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > > +F:	Documentation/devicetree/bindings/display/
-> > > +F:	Documentation/devicetree/bindings/gpu/
-> > >   F:	Documentation/gpu/
-> > > -F:	drivers/gpu/drm/*
-> > > +F:	drivers/gpu/drm/
-> > >   F:	drivers/gpu/vga/
-> > > -F:	include/drm/drm*
-> > > +F:	include/drm/drm
-> > >   F:	include/linux/vga*
-> > > -F:	include/uapi/drm/drm*
-> > > +F:	include/uapi/drm/
-> > > +X:	drivers/gpu/drm/amd/
-> > > +X:	drivers/gpu/drm/armada/
-> > > +X:	drivers/gpu/drm/etnaviv/
-> > > +X:	drivers/gpu/drm/exynos/
-> > > +X:	drivers/gpu/drm/gma500/
-> > > +X:	drivers/gpu/drm/i915/
-> > > +X:	drivers/gpu/drm/imx/
-> > > +X:	drivers/gpu/drm/ingenic/
-> > > +X:	drivers/gpu/drm/kmb/
-> > > +X:	drivers/gpu/drm/mediatek/
-> > > +X:	drivers/gpu/drm/msm/
-> > > +X:	drivers/gpu/drm/nouveau/
-> > > +X:	drivers/gpu/drm/radeon/
-> > > +X:	drivers/gpu/drm/renesas/
-> > > +X:	drivers/gpu/drm/tegra/
-> > >   DRM DRIVERS FOR ALLWINNER A10
-> > >   M:	Maxime Ripard <mripard@kernel.org>
-> > 
-> > 
-> > Nice patch!
-> > 
-> > Well, I'm just curious about why the drm/ingenic and drm/gma500 are not maintained through drm-misc?
-> > 
-> > As far as I know:
-> > 1) the drm/ingenic driver don't have a "T" annotation (location of the link).
-> 
-> Yeah, I wasn't sure about that one indeed. I remained conservative since it's a
-> sensitive topic for some.
-> 
-> Paul, is drm/ingenic supposed to be maintained through drm-misc? Either way,
-> could you clarify which git tree is supposed to merge those patches in
-> MAINTAINERS?
-> 
-> > 2) the "T" of drm/gma500 is "git git://github.com/patjak/drm-gma500", but the
->   code for this link is not up to date.
-> 
-> For gma500, I think it's mostly historical since it was there before drm-misc
-> was a thing.
 
-Yes, that's the reason. I used do PRs from my github before we had
-drm-misc but now everything gma500 related goes through drm-misc.
+On 20/09/2023 22:56, Vinay Belgaumkar wrote:
+> Provide a bit to disable waitboost while waiting on a gem object.
+> Waitboost results in increased power consumption by requesting RP0
+> while waiting for the request to complete. Add a bit in the gem_wait()
+> IOCTL where this can be disabled.
+> 
+> This is related to the libva API change here -
+> Link: https://github.com/XinfengZhang/libva/commit/3d90d18c67609a73121bb71b20ee4776b54b61a7
+
+This link does not appear to lead to userspace code using this uapi?
 
 > 
-> > I think at least the drm/ingenic and drm/gma500 drivers are *actually*
-> > maintained through drm-misc, So perhaps, these two drivers should not be
-> > excluded. Am I correct?
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 9 ++++++---
+>   drivers/gpu/drm/i915/i915_request.c      | 3 ++-
+>   drivers/gpu/drm/i915/i915_request.h      | 1 +
+>   include/uapi/drm/i915_drm.h              | 1 +
+>   4 files changed, 10 insertions(+), 4 deletions(-)
 > 
-> It's likely :)
-> 
-> Either way, I think it can be solved/clarified later on
-> 
-> Maxime
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index d4b918fb11ce..955885ec859d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -72,7 +72,8 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>   	struct dma_fence *fence;
+>   	long ret = timeout ?: 1;
+>   
+> -	i915_gem_object_boost(resv, flags);
+> +	if (!(flags & I915_WAITBOOST_DISABLE))
+> +		i915_gem_object_boost(resv, flags);
+>   
+>   	dma_resv_iter_begin(&cursor, resv,
+>   			    dma_resv_usage_rw(flags & I915_WAIT_ALL));
+> @@ -236,7 +237,7 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>   	ktime_t start;
+>   	long ret;
+>   
+> -	if (args->flags != 0)
+> +	if (args->flags != 0 || args->flags != I915_GEM_WAITBOOST_DISABLE)
+>   		return -EINVAL;
+>   
+>   	obj = i915_gem_object_lookup(file, args->bo_handle);
+> @@ -248,7 +249,9 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>   	ret = i915_gem_object_wait(obj,
+>   				   I915_WAIT_INTERRUPTIBLE |
+>   				   I915_WAIT_PRIORITY |
+> -				   I915_WAIT_ALL,
+> +				   I915_WAIT_ALL |
+> +				   (args->flags & I915_GEM_WAITBOOST_DISABLE ?
+> +				    I915_WAITBOOST_DISABLE : 0),
+>   				   to_wait_timeout(args->timeout_ns));
+>   
+>   	if (args->timeout_ns > 0) {
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index f59081066a19..2957409b4b2a 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -2044,7 +2044,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
+>   	 * but at a cost of spending more power processing the workload
+>   	 * (bad for battery).
+>   	 */
+> -	if (flags & I915_WAIT_PRIORITY && !i915_request_started(rq))
+> +	if (!(flags & I915_WAITBOOST_DISABLE) && (flags & I915_WAIT_PRIORITY) &&
+> +	    !i915_request_started(rq))
+>   		intel_rps_boost(rq);
+>   
+>   	wait.tsk = current;
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> index 0ac55b2e4223..3cc00e8254dc 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -445,6 +445,7 @@ long i915_request_wait(struct i915_request *rq,
+>   #define I915_WAIT_INTERRUPTIBLE	BIT(0)
+>   #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
+>   #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
+> +#define I915_WAITBOOST_DISABLE	BIT(3) /* used by i915_gem_object_wait() */
+>   
+>   void i915_request_show(struct drm_printer *m,
+>   		       const struct i915_request *rq,
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 7000e5910a1d..4adee70e39cf 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -1928,6 +1928,7 @@ struct drm_i915_gem_wait {
+>   	/** Handle of BO we shall wait on */
+>   	__u32 bo_handle;
+>   	__u32 flags;
+> +#define I915_GEM_WAITBOOST_DISABLE      (1u<<0)
 
+Probably would be good to avoid mentioning waitboost in the uapi since 
+so far it wasn't an explicit feature/contract. Something like 
+I915_GEM_WAIT_BACKGROUND_PRIORITY? Low priority?
 
+I also wonder if there could be a possible angle to help Rob (+cc) 
+upstream the syncobj/fence deadline code if our media driver might make 
+use of that somehow.
+
+Like if either we could wire up the deadline into GEM_WAIT (in a 
+backward compatible manner), or if media could use sync fd wait instead. 
+Assuming they have an out fence already, which may not be true.
+
+Regards,
+
+Tvrtko
+
+>   	/** Number of nanoseconds to wait, Returns time remaining. */
+>   	__s64 timeout_ns;
+>   };
