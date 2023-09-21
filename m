@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C002D7AA2B9
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 23:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CF07AA52A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 00:38:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1879C10E61A;
-	Thu, 21 Sep 2023 21:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B29710E023;
+	Thu, 21 Sep 2023 22:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFA1610E61A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 21:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695331999; x=1726867999;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=B3NF89Ap9PsrlaAMkAw5YbXb0M806OUO1GxY05QCtr4=;
- b=ZbiOgHQ6dLuepTA88qD6yjG1BeBXqG0NrculeFxNQKgA/xxZAscwRd9l
- ZXGkrOVjv0l2UX20ejeV/iHDi9B/6G7kk82Hlm0OzeMRvBhLA0UIddLg7
- 7OKd0JjievnTgbZ1MQPouKMKJChXwV1XRI6XUu09gXL+1soubp7+o7yUd
- W9yUq4F3dGO8MlHF44lSgDpHL8L96rRuzOEQzXSh4ue9Ohdj3zbV9UsxL
- mPmKL8h+ttBoQICqJyZ2BaI1E0w/+3DA8AeSaWA/4yWM/HKQZFgCjVr4g
- RtFXgYOlG/B2R1/46zvWrWYv5eVr0VM/APIBJekauLPL+ghLUT9AERxKN g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="447150760"
-X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; d="scan'208";a="447150760"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 14:33:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="747293905"
-X-IronPort-AV: E=Sophos;i="6.03,166,1694761200"; d="scan'208";a="747293905"
-Received: from lkp-server02.sh.intel.com (HELO b77866e22201) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 21 Sep 2023 14:33:00 -0700
-Received: from kbuild by b77866e22201 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qjRIA-0000Qg-27;
- Thu, 21 Sep 2023 21:32:58 +0000
-Date: Fri, 22 Sep 2023 05:32:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lucas Stach <l.stach@pengutronix.de>, Marek Vasut <marex@denx.de>,
- Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the
- atomic commit
-Message-ID: <202309220530.84SlbdTU-lkp@intel.com>
-References: <20230921200312.3989073-3-l.stach@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5732010E023
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 70AAA62127
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 432ABC43391
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695335884;
+ bh=f96GvyahMMT8QV5ifpzovkrTHmyGKuq14hgCEJCZx1o=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=hJgOb6njdrKgmip055t0lxdJ0qinyyfm/fRczYcu0szLiE8GMu3G2HN34JoVCNqUM
+ brXAAgXIE3qiuwmOMnZR7ER4Sq5arCbhvZ0AHA3+P/Ub7g6yzI5oT0Hvk5ikiCMA3b
+ +Y6dHzUNtOzTuVozrQhLx3rJGTIFwvHp/6U6IOmhJThEsvlODJNwdn5D+q+9fqwoFH
+ WxIv2AsTngEpebPF7UL/yZKR9dHDwP6ue7wj9cbBaWrJGezhgTOSS5mQ2baG4JaSY0
+ tLJgWGDSN48yH1rriaitbg8iamVj0N4ZsG+27dMk0rfj9O80BlwyYoQPA0QbsgaMxC
+ lAlZGpcV6a5Kw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 342F1C53BD0; Thu, 21 Sep 2023 22:38:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Thu, 21 Sep 2023 22:38:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: graham.oconnor@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-DenzN76pLf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230921200312.3989073-3-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,67 +72,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-kernel test robot noticed the following build warnings:
+G OConnor (graham.oconnor@gmail.com) changed:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.6-rc2 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |graham.oconnor@gmail.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Stach/drm-lcdif-don-t-clear-unrelated-bits-in-CTRLDESCL0_5-when-setting-up-format/20230922-040438
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230921200312.3989073-3-l.stach%40pengutronix.de
-patch subject: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the atomic commit
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230922/202309220530.84SlbdTU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230922/202309220530.84SlbdTU-lkp@intel.com/reproduce)
+--- Comment #90 from G OConnor (graham.oconnor@gmail.com) ---
+AMD Ryzen 3700U APU (Vega 10)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309220530.84SlbdTU-lkp@intel.com/
+This issue has recently started happening, mostly when firing up games or
+graphically intensive tasks. One case of lockup during normal desktop use.
 
-All warnings (new ones prefixed by >>):
+Worked fine on 6.4.X series (currently running on 6.4.12). However, all ker=
+nels
+in the 6.5 series cause the following:
 
->> drivers/gpu/drm/mxsfb/lcdif_drv.c:39:6: warning: no previous prototype for 'lcdif_commit_tail' [-Wmissing-prototypes]
-      39 | void lcdif_commit_tail(struct drm_atomic_state *old_state)
-         |      ^~~~~~~~~~~~~~~~~
+[  112.727138] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx_low time=
+out,
+signaled seq=3D9861, emitted seq=3D9863
+[  112.728214] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process Xwayland pid 919 thread Xwayland:cs0 pid 928
+[  112.729270] amdgpu 0000:04:00.0: amdgpu: GPU reset begin!
+[  112.885652] amdgpu 0000:04:00.0: amdgpu: MODE2 reset
+[  112.885709] amdgpu 0000:04:00.0: amdgpu: GPU reset succeeded, trying to
+resume
+[  112.886024] [drm] PCIE GART of 1024M enabled.
+[  112.886027] [drm] PTB located at 0x000000F400A00000
+[  112.886143] [drm] PSP is resuming...
+[  112.906168] [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
+[  112.985033] amdgpu 0000:04:00.0: amdgpu: RAS: optional ras ta ucode is n=
+ot
+available
+[  112.992320] amdgpu 0000:04:00.0: amdgpu: RAP: optional rap ta ucode is n=
+ot
+available
+[  113.733685] [drm] kiq ring mec 2 pipe 1 q 0
+[  113.998619] amdgpu 0000:04:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
+*ERROR* ring gfx test failed (-110)
+[  113.999249] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
+ of
+IP block <gfx_v9_0> failed -110
+[  113.999957] amdgpu 0000:04:00.0: amdgpu: GPU reset(2) failed
+[  114.000006] amdgpu 0000:04:00.0: amdgpu: GPU reset end with ret =3D -110
+[  114.000010] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* GPU Recovery Fail=
+ed:
+-110
 
+--=20
+You may reply to this email to add a comment.
 
-vim +/lcdif_commit_tail +39 drivers/gpu/drm/mxsfb/lcdif_drv.c
-
-    38	
-  > 39	void lcdif_commit_tail(struct drm_atomic_state *old_state)
-    40	{
-    41		struct drm_device *drm = old_state->dev;
-    42	
-    43		pm_runtime_get_sync(drm->dev);
-    44	
-    45		drm_atomic_helper_commit_modeset_disables(drm, old_state);
-    46		drm_atomic_helper_commit_planes(drm, old_state,
-    47						DRM_PLANE_COMMIT_ACTIVE_ONLY);
-    48		drm_atomic_helper_commit_modeset_enables(drm, old_state);
-    49	
-    50		drm_atomic_helper_fake_vblank(old_state);
-    51		drm_atomic_helper_commit_hw_done(old_state);
-    52		drm_atomic_helper_wait_for_vblanks(drm, old_state);
-    53	
-    54		pm_runtime_put(drm->dev);
-    55	
-    56		drm_atomic_helper_cleanup_planes(drm, old_state);
-    57	}
-    58	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You are receiving this mail because:
+You are watching the assignee of the bug.=
