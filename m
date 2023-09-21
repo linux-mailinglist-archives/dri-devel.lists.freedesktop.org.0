@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831547A9475
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 14:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A30A7A9489
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 15:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D5110E0C3;
-	Thu, 21 Sep 2023 12:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF7110E0C1;
+	Thu, 21 Sep 2023 13:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2578F10E0C3;
- Thu, 21 Sep 2023 12:59:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695301184; x=1726837184;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=C0cMiLCxhuyyFnBlhqvbB0+DumxSriijnnQi2lMIRLw=;
- b=g7P4fEDxKhdaf8myuoJaiqdj9gP+GL3jqIeAyGUKu+bzTDNQdyqhqE4W
- 0DoioWwuCNK12HctpF8PnERtlXifNEclodhY0CexybvCnt8uNTefJu+hY
- wYL5eyvXixuz1eb6iWjXbzZPbQs8n6FAZAVLBIHsxcnmHSlqkZJNC3rHy
- t95gn8OndAyWkmAvH+/MdyQ1Z2oQp8ttNziN57B9oV1F7JkvpGH/7RaxH
- 2fqE5UNDCEkLUsNCQFOOjsAiWBAi4yHP5VYLBTz786QHHD2S1AZubsZXy
- RHmAlvxxvq6il2QX29h817B3sf6jwRyLoeZYAJsfvwtqo8yhHZHtk89q4 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="379395928"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="379395928"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 05:59:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="782146886"
-X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="782146886"
-Received: from swatish2-mobl2.gar.corp.intel.com (HELO [10.213.77.101])
- ([10.213.77.101])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2023 05:59:40 -0700
-Message-ID: <81bd6bdf-6a83-5365-b360-3d2574b8fea1@intel.com>
-Date: Thu, 21 Sep 2023 18:29:36 +0530
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D3B3110E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 13:10:56 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxLOvdQAxl8ooqAA--.10922S3;
+ Thu, 21 Sep 2023 21:10:53 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dxnd7MQAxlS0cNAA--.28996S3; 
+ Thu, 21 Sep 2023 21:10:45 +0800 (CST)
+Message-ID: <cab7d157-946e-6b8f-1b29-5618a0ac0da6@loongson.cn>
+Date: Thu, 21 Sep 2023 21:10:36 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 7/8] drm/i915/dsc: Add debugfs entry to validate DSC
- fractional bpp
+Subject: Re: [PATCH 5.4 000/367] 5.4.257-rc1 review
+To: Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20230920112858.471730572@linuxfoundation.org>
+ <CA+G9fYsM0Lr8TNQJxsZFDZwcH-rEzkVV+y+x5FX18oH5wm5dRg@mail.gmail.com>
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>,
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
- <20230913060606.1105349-8-mitulkumar.ajitkumar.golani@intel.com>
- <8734z8q7lf.fsf@intel.com> <00f0441f-98e5-6d09-8f33-9c69e764b153@intel.com>
- <87il83pvta.fsf@intel.com>
-From: "Sharma, Swati2" <swati2.sharma@intel.com>
-In-Reply-To: <87il83pvta.fsf@intel.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <CA+G9fYsM0Lr8TNQJxsZFDZwcH-rEzkVV+y+x5FX18oH5wm5dRg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dxnd7MQAxlS0cNAA--.28996S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7CF17WryktFWxtFWfXFy8tFc_yoW8uFW5pF
+ W5t34Yyr4jyr47tan7Zr1Sva4Yyan3J3y7Wr1DWry3uF1UWF4xKw1v9rZIvF9rWFWkKa1U
+ tr4qga4jva109rbCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+ Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+ Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48J
+ MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8loGPUUUU
+ U==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,238 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, ankit.k.nautiyal@intel.com
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, f.fainelli@gmail.com,
+ rwarsow@gmx.de, pavel@denx.de, conor@kernel.org, shuah@kernel.org,
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lkft-triage@lists.linaro.org, srw@sladewatkins.net, patches@kernelci.org,
+ akpm@linux-foundation.org, jonathanh@nvidia.com, torvalds@linux-foundation.org,
+ sudipm.mukherjee@gmail.com, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21-Sep-23 5:44 PM, Jani Nikula wrote:
-> On Thu, 21 Sep 2023, "Sharma, Swati2" <swati2.sharma@intel.com> wrote:
->> On 21-Sep-23 1:30 PM, Jani Nikula wrote:
->>> On Wed, 13 Sep 2023, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
->>>> From: Swati Sharma <swati2.sharma@intel.com>
->>>>
->>>> DSC_Sink_BPP_Precision entry is added to i915_dsc_fec_support_show
->>>> to depict sink's precision.
->>>> Also, new debugfs entry is created to enforce fractional bpp.
->>>> If Force_DSC_Fractional_BPP_en is set then while iterating over
->>>> output bpp with fractional step size we will continue if output_bpp is
->>>> computed as integer. With this approach, we will be able to validate
->>>> DSC with fractional bpp.
->>>>
->>>> v2:
->>>> Add drm_modeset_unlock to new line(Suraj)
->>>>
->>>> Signed-off-by: Swati Sharma <swati2.sharma@intel.com>
->>>> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->>>> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
->>>> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
->>>> ---
->>>>    .../drm/i915/display/intel_display_debugfs.c  | 83 +++++++++++++++++++
->>>>    .../drm/i915/display/intel_display_types.h    |  1 +
->>>>    2 files changed, 84 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> index f05b52381a83..776ab96def1f 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> @@ -1244,6 +1244,8 @@ static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
->>>>    								      DP_DSC_YCbCr420_Native)),
->>>>    			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
->>>>    								      DP_DSC_YCbCr444)));
->>>> +		seq_printf(m, "DSC_Sink_BPP_Precision: %d\n",
->>>> +			   drm_dp_dsc_sink_bpp_incr(intel_dp->dsc_dpcd));
->>>>    		seq_printf(m, "Force_DSC_Enable: %s\n",
->>>>    			   str_yes_no(intel_dp->force_dsc_en));
->>>>    		if (!intel_dp_is_edp(intel_dp))
->>>> @@ -1436,6 +1438,84 @@ static const struct file_operations i915_dsc_output_format_fops = {
->>>>    	.write = i915_dsc_output_format_write
->>>>    };
->>>>    
->>>> +static int i915_dsc_fractional_bpp_show(struct seq_file *m, void *data)
->>>> +{
->>>> +	struct drm_connector *connector = m->private;
->>>> +	struct drm_device *dev = connector->dev;
->>>> +	struct drm_crtc *crtc;
->>>> +	struct intel_dp *intel_dp;
->>>> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
->>>> +	int ret;
->>>> +
->>>> +	if (!encoder)
->>>> +		return -ENODEV;
->>>> +
->>>> +	ret = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	crtc = connector->state->crtc;
->>>> +	if (connector->status != connector_status_connected || !crtc) {
->>>> +		ret = -ENODEV;
->>>> +		goto out;
->>>> +	}
->>>> +
->>>> +	intel_dp = intel_attached_dp(to_intel_connector(connector));
->>>> +	seq_printf(m, "Force_DSC_Fractional_BPP_Enable: %s\n",
->>>> +		   str_yes_no(intel_dp->force_dsc_fractional_bpp_en));
->>>
->>> Why "Force_DSC_Fractional_BPP_Enable" in the output?
->>>
->>> Usually debugfs files, like sysfs files, for stuff like this should be
->>> attributes, one thing per file. Why print a long name for it, if the
->>> name of the debugfs file is the name of the attribute?
->>>
->>> And even if you print it for humans, why the underscores?
->>
->> Hi Jani,
->> Followed same strategy as we are doing for other dsc scenarios like
->> force_dsc.
->> Even naming convention followed same as other dsc stuff like
->> Force_DSC_Enable, etc.
->> All DSC related enteries have underscores in its naming convention.
-> 
-> There's value in that, though maybe my comment highlights I'm not fond
-> of the existing stuff. ;)
+Hi,
 
-Sure, I can work on cleanup part later.
 
-> 
->> May be i can consolidate other dsc debugfs enteries into
->> one as a cleanup task later. But it will impact IGT aswell. And i'm not
->> sure if we can break compatibility but since IGT (intel as only vendor)
->> is the only consumer, may be we change at both places and clean it up.
-> 
-> We can do what we want with debugfs, as long as we change both the
-> driver and igt.
+On 2023/9/21 20:08, Naresh Kamboju wrote:
+> On Wed, 20 Sept 2023 at 14:25, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+>> This is the start of the stable review cycle for the 5.4.257 release.
+>> There are 367 patches in this series, all will be posted as a response
+>> to this one.  If anyone has any issues with these being applied, please
+>> let me know.
+>>
+>> Responses should be made by Fri, 22 Sep 2023 11:28:09 +0000.
+>> Anything received after that time might be too late.
+>>
+>> The whole patch series can be found in one patch at:
+>>          https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.257-rc1.gz
+>> or in the git tree and branch at:
+>>          git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+>> and the diffstat can be found below.
+>>
+>> thanks,
+>>
+>> greg k-h
+> Following build warnings noticed while building arm64 with allmodconfig
+> on stable-rc 5.4 with gcc-8 and gcc-12 toolchains.
+>
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>
+> drivers/gpu/drm/mediatek/mtk_drm_gem.c: In function 'mtk_drm_gem_prime_vmap':
+> drivers/gpu/drm/mediatek/mtk_drm_gem.c:273:10: warning: returning
+> 'int' from a function with return type 'void *' makes pointer from
+> integer without a cast [-Wint-conversion]
+>     return -ENOMEM;
+>            ^
 
-Sure, will make corresponding changes in both IGT and KMD.
 
-> 
->>
->>>
->>>> +
->>>> +out:
->>>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>> +static ssize_t i915_dsc_fractional_bpp_write(struct file *file,
->>>> +					     const char __user *ubuf,
->>>> +					     size_t len, loff_t *offp)
->>>> +{
->>>> +	struct drm_connector *connector =
->>>> +		((struct seq_file *)file->private_data)->private;
->>>
->>> I know this is copy-pasted from elsewhere, but really it's nicer to
->>> avoid the cast, and copy-paste from the places that get this right:
->>>
->>> 	struct seq_file *m = file->private_data;
->>>           struct drm_connector *connector = m->private;
->>
->> Done.
->>
->>>
->>>> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
->>>> +	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
->>>> +	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
->>>> +	bool dsc_fractional_bpp_enable = false;
->>>> +	int ret;
->>>> +
->>>> +	if (len == 0)
->>>> +		return 0;
->>>
->>> kstrtobool_from_user() has this covered.
->>
->> Done.
->>
->>>
->>>> +
->>>> +	drm_dbg(&i915->drm,
->>>> +		"Copied %zu bytes from user to force fractional bpp for DSC\n", len);
->>>
->>> That's useless.
->>
->> Done.
->>
->>>
->>>> +
->>>> +	ret = kstrtobool_from_user(ubuf, len, &dsc_fractional_bpp_enable);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	drm_dbg(&i915->drm, "Got %s for DSC Fractional BPP Enable\n",
->>>> +		(dsc_fractional_bpp_enable) ? "true" : "false");
->>>
->>> Is this useful?
->>
->> Yes, to know when fractional bpp is enabled.
-> 
-> I think it would be more useful to debug log this at the use site, not
-> when you're setting the debugfs knob.
+Well, this is easy to solve.
+For the Linux-5.4 kernel, we should use "return -ERR_PTR(-ENOMEM)" instead of "return -ENOMEM".
+Since, newer version kernel prefer to return error code instead of error pointer.
+See below commit for more information.
 
-We already have those in IGT. Like said, to maintain consitency with 
-other dsc func() like fec_support_write(), this debug print is added 
-here. I can drop and will drop from fec_support_write() too during cleanup.
+commit <7e542ff8b463>  ("drm/mediatek: Use struct dma_buf_map in GEM 
+vmap ops")
+commit <49a3f51dfeee> ("drm/gem: Use struct dma_buf_map in GEM vmap ops 
+and convert GEM backends")
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
-> 
->>
->>>
->>>> +	intel_dp->force_dsc_fractional_bpp_en = dsc_fractional_bpp_enable;
->>>> +
->>>> +	*offp += len;
->>>> +
->>>> +	return len;
->>>> +}
->>>> +
->>>> +static int i915_dsc_fractional_bpp_open(struct inode *inode,
->>>> +					struct file *file)
->>>> +{
->>>> +	return single_open(file, i915_dsc_fractional_bpp_show, inode->i_private);
->>>> +}
->>>> +
->>>> +static const struct file_operations i915_dsc_fractional_bpp_fops = {
->>>> +	.owner = THIS_MODULE,
->>>> +	.open = i915_dsc_fractional_bpp_open,
->>>> +	.read = seq_read,
->>>> +	.llseek = seq_lseek,
->>>> +	.release = single_release,
->>>> +	.write = i915_dsc_fractional_bpp_write
->>>> +};
->>>> +
->>>>    /*
->>>>     * Returns the Current CRTC's bpc.
->>>>     * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
->>>> @@ -1513,6 +1593,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
->>>>    
->>>>    		debugfs_create_file("i915_dsc_output_format", 0644, root,
->>>>    				    connector, &i915_dsc_output_format_fops);
->>>> +
->>>> +		debugfs_create_file("i915_dsc_fractional_bpp", 0644, root,
->>>> +				    connector, &i915_dsc_fractional_bpp_fops);
->>>>    	}
->>>>    
->>>>    	if (connector->connector_type == DRM_MODE_CONNECTOR_DSI ||
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
->>>> index 69bcabec4a29..27b31cb4c7b4 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
->>>> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
->>>> @@ -1797,6 +1797,7 @@ struct intel_dp {
->>>>    	/* Display stream compression testing */
->>>>    	bool force_dsc_en;
->>>>    	int force_dsc_output_format;
->>>> +	bool force_dsc_fractional_bpp_en;
->>>>    	int force_dsc_bpc;
->>>>    
->>>>    	bool hobl_failed;
->>>
-> 
 
-With above KMD changes IGT is already rb'ed and validated
-https://patchwork.freedesktop.org/series/117493/#rev12
-I request if we can get ack on this. As cleanup task,
-will make changes as requested.
+> Links:
+>   - https://storage.tuxsuite.com/public/linaro/lkft/builds/2VfG47LmPH9MUEuIcMVftu6NsFy/
+>
+>
+> Following commit is causing this build warning.
+>
+> drm/mediatek: Fix potential memory leak if vmap() fail
+> [ Upstream commit 379091e0f6d179d1a084c65de90fa44583b14a70 ]
+>
+> --
+> Linaro LKFT
+> https://lkft.linaro.org
+
