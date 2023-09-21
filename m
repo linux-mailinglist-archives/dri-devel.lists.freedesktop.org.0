@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586347A9E91
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 22:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677237A9E92
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 22:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D152110E610;
-	Thu, 21 Sep 2023 20:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5E810E611;
+	Thu, 21 Sep 2023 20:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F41610E60E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F84D10E60F
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 20:03:15 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qjPtI-0000PB-Ps; Thu, 21 Sep 2023 22:03:12 +0200
+ id 1qjPtI-0000PH-R6; Thu, 21 Sep 2023 22:03:12 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qjPtI-00804q-Cn; Thu, 21 Sep 2023 22:03:12 +0200
+ id 1qjPtI-00804q-EE; Thu, 21 Sep 2023 22:03:12 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>,
 	Liu Ying <victor.liu@nxp.com>
-Subject: [PATCH v2 3/6] drm: lcdif: rework runtime PM handling in the atomic
- commit
-Date: Thu, 21 Sep 2023 22:03:09 +0200
-Message-Id: <20230921200312.3989073-3-l.stach@pengutronix.de>
+Subject: [PATCH v2 4/6] drm: lcdif: remove superfluous setup of framebuffer
+ DMA address
+Date: Thu, 21 Sep 2023 22:03:10 +0200
+Message-Id: <20230921200312.3989073-4-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230921200312.3989073-1-l.stach@pengutronix.de>
 References: <20230921200312.3989073-1-l.stach@pengutronix.de>
@@ -57,94 +57,45 @@ Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_commit_tail_rpm makes it hard for drivers to follow
-the documented encoder/bridge enable flow, as it commits all CRTC enables
-before the planes are fully set up, so drivers that can't enable the
-display link without valid plane setup either need to do the plane setup
-in the CRTC enable or violate the flow by enabling the display link after
-the planes have been set up. Neither of those options seem like a good
-idea.
-
-For devices that only do coarse-grained runtime PM for the whole display
-controller and not per CRTC, like the i.MX LCDIF, we can handle hardware
-wakeup and suspend in the atomic_commit_tail. Add a commit tail which
-follows the more conventional atomic commit flow of first diabling any
-unused CRTCs, setting up all the active plane state, then enable all
-active display pipes and also handles the device runtime PM at the
-appropriate times.
+Now that the plane state is fully programmed into the hardware before
+the scanout is started there is no need to program the plane framebuffer
+DMA address from the CRTC atomic_enable anymore.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Marek Vasut <marex@denx.de>
 ---
-v2: new patch
+v2: no changes
 ---
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 22 +++++++++++++++++++++-
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 12 ++++++++++--
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 18de2f17e249..205f6855fb1b 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -36,8 +36,28 @@ static const struct drm_mode_config_funcs lcdif_mode_config_funcs = {
- 	.atomic_commit		= drm_atomic_helper_commit,
- };
- 
-+void lcdif_commit_tail(struct drm_atomic_state *old_state)
-+{
-+	struct drm_device *drm = old_state->dev;
-+
-+	pm_runtime_get_sync(drm->dev);
-+
-+	drm_atomic_helper_commit_modeset_disables(drm, old_state);
-+	drm_atomic_helper_commit_planes(drm, old_state,
-+					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-+	drm_atomic_helper_commit_modeset_enables(drm, old_state);
-+
-+	drm_atomic_helper_fake_vblank(old_state);
-+	drm_atomic_helper_commit_hw_done(old_state);
-+	drm_atomic_helper_wait_for_vblanks(drm, old_state);
-+
-+	pm_runtime_put(drm->dev);
-+
-+	drm_atomic_helper_cleanup_planes(drm, old_state);
-+}
-+
- static const struct drm_mode_config_helper_funcs lcdif_mode_config_helpers = {
--	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-+	.atomic_commit_tail = lcdif_commit_tail,
- };
- 
- static const struct drm_encoder_funcs lcdif_encoder_funcs = {
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index e277592e5fa5..ccee5e28f236 100644
+index ccee5e28f236..4e9284b0d12e 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -540,7 +540,11 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+@@ -536,7 +536,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+ 									    crtc->primary);
+ 	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+ 	struct drm_device *drm = lcdif->drm;
+-	dma_addr_t paddr;
  
  	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
  
--	pm_runtime_get_sync(drm->dev);
-+	/*
-+	 * Update the RPM usage count, actual resume already happened in
-+	 * lcdif_commit_tail wrapping all the atomic update.
-+	 */
-+	pm_runtime_get_noresume(drm->dev);
+@@ -548,14 +547,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
  
  	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
  
-@@ -576,7 +580,11 @@ static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- 	spin_unlock_irq(&drm->event_lock);
+-	/* Write cur_buf as well to avoid an initial corrupt frame */
+-	paddr = drm_fb_dma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+-	if (paddr) {
+-		writel(lower_32_bits(paddr),
+-		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+-		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+-		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+-	}
+ 	lcdif_enable_controller(lcdif);
  
--	pm_runtime_put_sync(drm->dev);
-+	/*
-+	 * Update the RPM usage count, actual suspend happens in
-+	 * lcdif_commit_tail wrapping all the atomic update.
-+	 */
-+	pm_runtime_put(drm->dev);
- }
- 
- static void lcdif_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+ 	drm_crtc_vblank_on(crtc);
 -- 
 2.39.2
 
