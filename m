@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA727A93AD
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB9D7A93B1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 12:51:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2544610E5B2;
-	Thu, 21 Sep 2023 10:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C8D10E5B4;
+	Thu, 21 Sep 2023 10:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61AE310E5B2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:49:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 34482CE21BB;
- Thu, 21 Sep 2023 10:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 207B3C4AF6D;
- Thu, 21 Sep 2023 10:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1695293338;
- bh=VvzgHnXFUKAFfWDj0HBWMNICC2Um0tqDEaQcZ86bdF0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jCu/eYMVS3GAgRdBl9idW/+itiiupWqQ0i9/LuUb6DY+RRHRwsKYHpOUdIZMidU4a
- T5s4kdCeSq+28/drKf81DIy6K02Dyiwk5MZwgPQIBlQ0UKm1Jrexwa86JZnoNqMgqm
- L/qK7y9jls4G4H8mjiIp7vJeV9FIajkWAKiyhrAXjpNR7qzYM3RfkGLOuOrLcVvLew
- 0QJ4gCXE1soV8Ko4+QMSYr1WL0MOuiwO49nqMuwvkf09rxMEKuCQauchrlpyz2zbwH
- O5hGelwCCK0k2SpHkw2Cv3V8P76fTxgxa9IcrtbBXQhQ576PZl96gBG9IMdWmT+3A8
- mq6sjN7NwEsgg==
-Date: Thu, 21 Sep 2023 12:48:55 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: Re: MAINTAINERS: Update drm-misc entry to match all drivers
-Message-ID: <igq3k7a2bepsm6b3mke53hdb7y32im272ntulqjgn3w5jei3ls@idhmdqkzmrko>
-References: <20230919131235.759959-1-mripard@kernel.org>
- <afc3da23-81ce-edcf-6ea6-8fd8711e17b0@loongson.cn>
- <enobmyvbv5rw5uvdlcznttqxnh4d5674agh4x6aqcbrlcxvryg@vbzdomlyleyx>
- <728823a8-8892-e6e6-e004-427cfe23b233@loongson.cn>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B02910E5B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 10:51:08 +0000 (UTC)
+Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C2DBB75;
+ Thu, 21 Sep 2023 12:49:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1695293369;
+ bh=GtelloX72BG0KpOKNT08ravq8i4jklKRI0NqaQwnfmY=;
+ h=From:Date:Subject:To:Cc:From;
+ b=b3dK9v+1Zms30TB3W9ZPNRpNm5qpTHgSNMOGzHKiqCQc9UPaAsN49na3FtZvl2CjH
+ eML8+Pi15aqegXktXe3pgrCrkvQrgyR1sGcH4Y+iB84PoHQPhTb0KVb9h1P6Dfl+CH
+ xWicZQTB1agftUc9lyqIprMKP1Yv3JdarfOlwvf8=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Thu, 21 Sep 2023 13:50:32 +0300
+Subject: [PATCH] drm/mipi-dsi: Fix detach call without attach
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ckq25oa6w4yvcit5"
-Content-Disposition: inline
-In-Reply-To: <728823a8-8892-e6e6-e004-427cfe23b233@loongson.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230921-dsi-detach-fix-v1-1-d0de2d1621d9@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAPcfDGUC/x2MywqAIBAAf0X23IKPyOpXooPlmnux0Igg+vek4
+ wzMPFAoMxUYxQOZLi68pwqqEbBGlzZC9pVBS23koBX6wujpdGvEwDd21nTBurZfnIUaHZmq/of
+ T/L4ffU4YumAAAAA=
+To: "H. Nikolaus Schaller" <hns@goldelico.com>, 
+ Tony Lindgren <tony@atomide.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4464;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=GtelloX72BG0KpOKNT08ravq8i4jklKRI0NqaQwnfmY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlDCAYl+B54Nb5SeNh3o0z42dOJKO+9qwZHo/FL
+ m+U3tupsPGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZQwgGAAKCRD6PaqMvJYe
+ 9Td5D/9tSIAGMyzurWvslVtJRJCj7Dcqji/ukpDthj6E/e4KjnAasDqROAqhNno0V/nudEOMnks
+ 796BQ9cbAZ9st10LecAKAQiRWeBE8MgRR1FE4D0k7C9jKNA+3jv4auS3/UCOMyTHPFzklS/cInf
+ 5tYJMQ4Myaep6L9xUq3/SozRtMo1ZY+2CRaHI8bmUkgzW7rXWiEt5I8vXB6wn0QDNmATR2/Atia
+ sh7c55ybOSQS06kDI1+kjCmGODn9TDwlP347/doOkrFHWUuMvQzfoMoasS+VJ/Oa0Co/TtVuzcl
+ yF4Idlzf5nLo6qkn6J+pqY+rc4GKMnb45h8A5awKEeLttJ8KV0sOSgUqYbhm9atoBhkyiBj6HiL
+ TmJ9GSwqr15NQ5Jzr+jKvcEoUpH73Z6WfWgBbrFINC2olgGcyupivgUThLcHtA6HHU78bUiBy/J
+ TnrTMNvmGVQhVTphX0RpuXh0+r55Yl3+3rspSL+I0dvuLPBURTI02tm+3hcQ2tvGWZVLwzGQY2J
+ lgCn6jl3pirW0urqBk/RzdvtbIZcCNPYvz9slsZsYal+DQK1iRlqsQMSF4aW2tjwTfTt//0MxFB
+ 8JbEXyTUhUpW7fZc26ZiGFjA4CcauKylXHzOXWHwE9TfTCc7n6Qi03L9VGV9lJ5xWz3JHe8l1Dq
+ u2XpRVgTbdN4dkw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,137 +69,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+It's been reported that DSI host driver's detach can be called without
+the attach ever happening:
 
---ckq25oa6w4yvcit5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://lore.kernel.org/all/20230412073954.20601-1-tony@atomide.com/
 
-On Thu, Sep 21, 2023 at 05:09:07PM +0800, Sui Jingfeng wrote:
-> On 2023/9/21 16:47, Maxime Ripard wrote:
-> > Adding Paul in Cc
-> >=20
-> > On Thu, Sep 21, 2023 at 04:25:50PM +0800, suijingfeng wrote:
-> > > On 2023/9/19 21:12, Maxime Ripard wrote:
-> > > > We've had a number of times when a patch slipped through and we cou=
-ldn't
-> > > > pick them up either because our MAINTAINERS entry only covers the
-> > > > framework and thus we weren't Cc'd.
-> > > >=20
-> > > > Let's take another approach where we match everything, and remove a=
-ll
-> > > > the drivers that are not maintained through drm-misc.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> > > > ---
-> > > >    MAINTAINERS | 23 ++++++++++++++++++++---
-> > > >    1 file changed, 20 insertions(+), 3 deletions(-)
-> > > >=20
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index 90f13281d297..757d4f33e158 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -6860,12 +6860,29 @@ M:	Thomas Zimmermann <tzimmermann@suse.de>
-> > > >    S:	Maintained
-> > > >    W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-mi=
-sc.html
-> > > >    T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > > > +F:	Documentation/devicetree/bindings/display/
-> > > > +F:	Documentation/devicetree/bindings/gpu/
-> > > >    F:	Documentation/gpu/
-> > > > -F:	drivers/gpu/drm/*
-> > > > +F:	drivers/gpu/drm/
-> > > >    F:	drivers/gpu/vga/
-> > > > -F:	include/drm/drm*
-> > > > +F:	include/drm/drm
-> > > >    F:	include/linux/vga*
-> > > > -F:	include/uapi/drm/drm*
-> > > > +F:	include/uapi/drm/
-> > > > +X:	drivers/gpu/drm/amd/
-> > > > +X:	drivers/gpu/drm/armada/
-> > > > +X:	drivers/gpu/drm/etnaviv/
-> > > > +X:	drivers/gpu/drm/exynos/
-> > > > +X:	drivers/gpu/drm/gma500/
-> > > > +X:	drivers/gpu/drm/i915/
-> > > > +X:	drivers/gpu/drm/imx/
-> > > > +X:	drivers/gpu/drm/ingenic/
-> > > > +X:	drivers/gpu/drm/kmb/
-> > > > +X:	drivers/gpu/drm/mediatek/
-> > > > +X:	drivers/gpu/drm/msm/
-> > > > +X:	drivers/gpu/drm/nouveau/
-> > > > +X:	drivers/gpu/drm/radeon/
-> > > > +X:	drivers/gpu/drm/renesas/
-> > > > +X:	drivers/gpu/drm/tegra/
-> > > >    DRM DRIVERS FOR ALLWINNER A10
-> > > >    M:	Maxime Ripard <mripard@kernel.org>
-> > >=20
-> > > Nice patch!
-> > >=20
-> > > Well, I'm just curious about why the drm/ingenic and drm/gma500 are n=
-ot maintained through drm-misc?
-> > >=20
-> > > As far as I know:
-> > > 1) the drm/ingenic driver don't have a "T" annotation (location of th=
-e link).
-> > Yeah, I wasn't sure about that one indeed. I remained conservative sinc=
-e it's a
-> > sensitive topic for some.
-> >=20
-> > Paul, is drm/ingenic supposed to be maintained through drm-misc? Either=
- way,
-> > could you clarify which git tree is supposed to merge those patches in
-> > MAINTAINERS?
-> >=20
-> > > 2) the "T" of drm/gma500 is "git git://github.com/patjak/drm-gma500",=
- but the
-> >    code for this link is not up to date.
-> >=20
-> > For gma500, I think it's mostly historical since it was there before dr=
-m-misc
-> > was a thing.
-> >=20
-> > > I think at least the drm/ingenic and drm/gma500 drivers are *actually*
-> > > maintained through drm-misc, So perhaps, these two drivers should not=
- be
-> > > excluded. Am I correct?
-> > It's likely :)
-> >=20
-> > Either way, I think it can be solved/clarified later on
->=20
->=20
-> OK, that's sound fairly enough. I will respect you and Paul's opinion.
-> By the way, I also want to say that I think the drm/imb and various drm/i=
-mx drivers
-> are also belong to the drm-misc. They are also lack the "T" annotation.
-> Hopes someone can help to check that. Thanks.
-> Thanks for the patch.
+After reading the code, I think this is what happens:
 
-As far as I know, imx is kind of in-between at the moment. Some patches
-are going through drm-misc, but others are coming through their tree.
-For kmb (if that's what you meant), then I would expect intel to do the
-maintenance like they do for i915.
+We have a DSI host defined in the device tree and a DSI peripheral under
+that host (i.e. an i2c device using the DSI as data bus doesn't exhibit
+this behavior).
 
-But given this discussion it could be a good idea to add all the
-maintainers of those excluded drivers in Cc in the next revision.
+The host driver calls mipi_dsi_host_register(), which causes (via a few
+functions) mipi_dsi_device_add() to be called for the DSI peripheral. So
+now we have a DSI device under the host, but attach hasn't been called.
 
-Maxime
+Normally the probing of the devices continues, and eventually the DSI
+peripheral's driver will call mipi_dsi_attach(), attaching the
+peripheral.
 
---ckq25oa6w4yvcit5
-Content-Type: application/pgp-signature; name="signature.asc"
+However, if the host driver's probe encounters an error after calling
+mipi_dsi_host_register(), and before the peripheral has called
+mipi_dsi_attach(), the host driver will do cleanups and return an error
+from its probe function. The cleanups include calling
+mipi_dsi_host_unregister().
 
------BEGIN PGP SIGNATURE-----
+mipi_dsi_host_unregister() will call two functions for all its DSI
+peripheral devices: mipi_dsi_detach() and mipi_dsi_device_unregister().
+The latter makes sense, as the device exists, but the former may be
+wrong as attach has not necessarily been done.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQwflwAKCRDj7w1vZxhR
-xeVSAQC7Dd9EcpfoQlgRmtwSt/AC/lA1k6RMDlXHNq0INXIkbwD+N5bLA1m/hQuW
-R+4Dbc5ImJtrzWi2+g9pw9JPK8AXWgE=
-=uu21
------END PGP SIGNATURE-----
+To fix this, track the attached state of the peripheral, and only detach
+from mipi_dsi_host_unregister() if the peripheral was attached.
 
---ckq25oa6w4yvcit5--
+Note that I have only tested this with a board with an i2c DSI
+peripheral, not with a "pure" DSI peripheral.
+
+However, slightly related, the unregister machinery still seems broken.
+E.g. if the DSI host driver is unbound, it'll detach and unregister the
+DSI peripherals. After that, when the DSI peripheral driver unbound
+it'll call detach either directly or using the devm variant, leading to
+a crash. And probably the driver will crash if it happens, for some
+reason, to try to send a message via the DSI bus.
+
+But that's another topic.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 17 +++++++++++++++--
+ include/drm/drm_mipi_dsi.h     |  2 ++
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 14201f73aab1..843a6dbda93a 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -347,7 +347,8 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+ 
+-	mipi_dsi_detach(dsi);
++	if (dsi->attached)
++		mipi_dsi_detach(dsi);
+ 	mipi_dsi_device_unregister(dsi);
+ 
+ 	return 0;
+@@ -370,11 +371,18 @@ EXPORT_SYMBOL(mipi_dsi_host_unregister);
+ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+ {
+ 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
++	int ret;
+ 
+ 	if (!ops || !ops->attach)
+ 		return -ENOSYS;
+ 
+-	return ops->attach(dsi->host, dsi);
++	ret = ops->attach(dsi->host, dsi);
++	if (ret)
++		return ret;
++
++	dsi->attached = true;
++
++	return 0;
+ }
+ EXPORT_SYMBOL(mipi_dsi_attach);
+ 
+@@ -386,9 +394,14 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
+ {
+ 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
+ 
++	if (WARN_ON(!dsi->attached))
++		return -EINVAL;
++
+ 	if (!ops || !ops->detach)
+ 		return -ENOSYS;
+ 
++	dsi->attached = false;
++
+ 	return ops->detach(dsi->host, dsi);
+ }
+ EXPORT_SYMBOL(mipi_dsi_detach);
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index c9df0407980c..c0aec0d4d664 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -168,6 +168,7 @@ struct mipi_dsi_device_info {
+  * struct mipi_dsi_device - DSI peripheral device
+  * @host: DSI host for this peripheral
+  * @dev: driver model device node for this peripheral
++ * @attached: the DSI device has been successfully attached
+  * @name: DSI peripheral chip type
+  * @channel: virtual channel assigned to the peripheral
+  * @format: pixel format for video mode
+@@ -184,6 +185,7 @@ struct mipi_dsi_device_info {
+ struct mipi_dsi_device {
+ 	struct mipi_dsi_host *host;
+ 	struct device dev;
++	bool attached;
+ 
+ 	char name[DSI_DEV_NAME_SIZE];
+ 	unsigned int channel;
+
+---
+base-commit: 9fc75c40faa29df14ba16066be6bdfaea9f39ce4
+change-id: 20230921-dsi-detach-fix-6736f7a48ba7
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
