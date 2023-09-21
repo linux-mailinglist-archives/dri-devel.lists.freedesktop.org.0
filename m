@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA597A9D24
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB417A9D26
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 21:28:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F5B10E5FE;
-	Thu, 21 Sep 2023 19:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05FF10E5FF;
+	Thu, 21 Sep 2023 19:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD8610E5FB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:40 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-578d0d94986so937956a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:40 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4117E10E5FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 19:28:42 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1c0ecb9a075so11227875ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 12:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695324519; x=1695929319;
+ d=chromium.org; s=google; t=1695324521; x=1695929321;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pLjLrmqx+liQMxms0HfuoarLoIvQ77Y5EZxHJFXGDMo=;
- b=ifiEcVYMaj/3OKh3nYyc1Ja61p89ozZ+gh44KwYfGj0fi6U/gi6zHyVl2qkfBteM8z
- sbPHFoTJ49T01UTyfDN1VLkGgXdRTKHBY92tNqqld8lWt6Bnd52szgb6HinH3p1eAA+z
- j3Te0dsOvw1kCa91baIutbWucOJ1YfEVtL8tk=
+ bh=iA2li7ELqa/hnFznycO86SuLFz051HXi1UIFyEU+SsY=;
+ b=Lc29iVe+2y7h3ODTW3MChqgAI/Pnj9IkWZFZXAbG/huQ1B854wD18rvOL67JxvhM66
+ 0hxC37ibtZeC2Qp0c57YwYXwScoUf4Z6ImSw5mOoheuGxqXInniJ634VyrOno5rcNv+0
+ kuktwpbUI7Vl1aKmvDyjbezKDZtVO/kW4Zdfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695324519; x=1695929319;
+ d=1e100.net; s=20230601; t=1695324521; x=1695929321;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pLjLrmqx+liQMxms0HfuoarLoIvQ77Y5EZxHJFXGDMo=;
- b=jN63v/FffSDy1mtwFRM4/gA5z6YjPxStV0aVx+7dny8Lewit5jXqEon+llFflux3p+
- g65O3iaKldot/uS+M7uvrBYCHKwFX+ne7JuBkWg7dhPJdGtSfbU3+vjr29m3+1bE5pIa
- sOjSzk97CjxE+pkly0/9jlTlj7vDUrUo1nyr2nOOeEyva64AguX8PTZtbHzS8wH7Ym2q
- WgVwCpXtRBCuOxQaTjCQRpdgaIyniFI9TyabShrpgajGRcMrSdN5+JiU7LcezdIktg9l
- LpIEOBKJHffNcv61tAUhPB/jrLShK6y9beCyfpDO5dij4tLrPYTZm+5e6Zg/jAOc/mtd
- Nbgw==
-X-Gm-Message-State: AOJu0Yw338dxyoBm5HMfL9+mR5uX3wUdPxTcqFs3mNhThGWUDd55+ubV
- FN9Gtjzw+ppv9/O1+LF6dzszbsu+PPEjP2FJvQhHfwAj
-X-Google-Smtp-Source: AGHT+IEoRL+LQQb5QJ020x/RBTSHvfniX1vz+zMVAHt3qEaz0AKEABZX30JR3ZV4ZtsBNVQhvE+uKA==
-X-Received: by 2002:a05:6a20:324c:b0:148:6063:3273 with SMTP id
- hm12-20020a056a20324c00b0014860633273mr5419552pzc.29.1695324518923; 
- Thu, 21 Sep 2023 12:28:38 -0700 (PDT)
+ bh=iA2li7ELqa/hnFznycO86SuLFz051HXi1UIFyEU+SsY=;
+ b=LbbGazbPKAAGe/lUnZJV8YQufSexfn0pHt8EqILkl3VvIW5mVpp8u/pZiNU4FMjxZ0
+ hiN0+S4hhq6urhYKFVKHV2D6vAKPUCllZgY6UaLsJAfq5e0tiuUn0YqDmJQcVmFU4L6v
+ exk0YCwhDb5GUdDUeTHdkl07PHasDeDcOX8Ai/edjQlbtKvJAmS6LuBcXQu608VmSX/f
+ h/eN17UslXgAUoKyCfpy1DADNXg6ZCdESyxkiq7Syy0OpIbpkmLt9BQvKaG7+Cgf0fwC
+ P9fj4J7cmxeZlhc8EHKwsO21s9QqNVTyUPTDeuCNlFoKcsB+JWasJOkxEfKZ6ZZjaSF8
+ Vafg==
+X-Gm-Message-State: AOJu0Yz5xa7VnngNZRhwieqi8Q9akH/FKZDMaBame590kbyeQrpOJLpB
+ KsaGprAJ7zMxRXVy6CO+KEnjiztXcnq46ZTJLzJ0DXfX
+X-Google-Smtp-Source: AGHT+IGqiH8+93CjsgTzwhYDRPl823KLkGG4+0EgU7Nds+tbBUgFbUmFj98SJgfl8Opc5kzECLW4aw==
+X-Received: by 2002:a17:903:1205:b0:1c4:638:fff4 with SMTP id
+ l5-20020a170903120500b001c40638fff4mr6441686plh.17.1695324521206; 
+ Thu, 21 Sep 2023 12:28:41 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:e6ed:6d49:f262:8041])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.35
+ w8-20020a1709029a8800b001b9f032bb3dsm1892875plp.3.2023.09.21.12.28.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Sep 2023 12:28:37 -0700 (PDT)
+ Thu, 21 Sep 2023 12:28:40 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFT PATCH v2 08/12] drm/sprd: Call drm_atomic_helper_shutdown() at
- remove time
-Date: Thu, 21 Sep 2023 12:26:51 -0700
-Message-ID: <20230921122641.RFT.v2.8.I7a2dd349cb52bae53280d0a49e22cc27b923274b@changeid>
+Subject: [RFT PATCH v2 09/12] drm/exynos: Call drm_atomic_helper_shutdown() at
+ shutdown/unbind time
+Date: Thu, 21 Sep 2023 12:26:52 -0700
+Message-ID: <20230921122641.RFT.v2.9.Iea33274908b6b258955f45a8aaf6f5bba24ad6cd@changeid>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
 In-Reply-To: <20230921192749.1542462-1-dianders@chromium.org>
 References: <20230921192749.1542462-1-dianders@chromium.org>
@@ -74,24 +74,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, tzimmermann@suse.de,
- sam@ravnborg.org, Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
- zhang.lyra@gmail.com, orsonzhai@gmail.com, steven.price@arm.com
+Cc: linux-samsung-soc@vger.kernel.org, alim.akhtar@samsung.com,
+ sw0312.kim@samsung.com, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on grepping through the source code, this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at remove time. Let's
-add it.
+Based on grepping through the source code this driver appears to be
+missing a call to drm_atomic_helper_shutdown() at system shutdown time
+and at driver unbind time. Among other things, this means that if a
+panel is in use that it won't be cleanly powered off at system
+shutdown time.
 
 The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS driver remove comes straight out of the kernel doc "driver
-instance overview" in drm_drv.c.
+of OS shutdown/restart and at driver remove (or unbind) time comes
+straight out of the kernel doc "driver instance overview" in
+drm_drv.c.
 
-While at it, let's also fix it so that if the driver's bind fails or
-if a driver gets unbound that the drvdata gets set to NULL. This will
-make sure we can't get confused during a later shutdown().
+A few notes about this fix:
+- When adding drm_atomic_helper_shutdown() to the unbind path, I added
+  it after drm_kms_helper_poll_fini() since that's when other drivers
+  seemed to have it.
+- Technically with a previous patch, ("drm/atomic-helper:
+  drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
+  actually need to check to see if our "drm" pointer is NULL before
+  calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
+  though, so that this patch can land without any dependencies. It
+  could potentially be removed later.
+- This patch also makes sure to set the drvdata to NULL in the case of
+  bind errors to make sure that shutdown can't access freed data.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
@@ -101,34 +113,48 @@ This commit is only compile-time tested.
 
 (no changes since v1)
 
- drivers/gpu/drm/sprd/sprd_drm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-index 0aa39156f2fa..86a175116140 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.c
-+++ b/drivers/gpu/drm/sprd/sprd_drm.c
-@@ -114,6 +114,7 @@ static int sprd_drm_bind(struct device *dev)
- 	drm_kms_helper_poll_fini(drm);
- err_unbind_all:
- 	component_unbind_all(drm->dev, drm);
-+	platform_set_drvdata(pdev, NULL);
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+index 8399256cb5c9..5380fb6c55ae 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+@@ -300,6 +300,7 @@ static int exynos_drm_bind(struct device *dev)
+ 	drm_mode_config_cleanup(drm);
+ 	exynos_drm_cleanup_dma(drm);
+ 	kfree(private);
++	dev_set_drvdata(dev, NULL);
+ err_free_drm:
+ 	drm_dev_put(drm);
  
-@@ -122,10 +123,11 @@ static void sprd_drm_unbind(struct device *dev)
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 
+@@ -313,6 +314,7 @@ static void exynos_drm_unbind(struct device *dev)
  	drm_dev_unregister(drm);
--
+ 
  	drm_kms_helper_poll_fini(drm);
 +	drm_atomic_helper_shutdown(drm);
  
  	component_unbind_all(drm->dev, drm);
-+	dev_set_drvdata(dev, NULL);
+ 	drm_mode_config_cleanup(drm);
+@@ -350,9 +352,18 @@ static int exynos_drm_platform_remove(struct platform_device *pdev)
+ 	return 0;
  }
  
- static const struct component_master_ops drm_component_ops = {
++static void exynos_drm_platform_shutdown(struct platform_device *pdev)
++{
++	struct drm_device *drm = platform_get_drvdata(pdev);
++
++	if (drm)
++		drm_atomic_helper_shutdown(drm);
++}
++
+ static struct platform_driver exynos_drm_platform_driver = {
+ 	.probe	= exynos_drm_platform_probe,
+ 	.remove	= exynos_drm_platform_remove,
++	.shutdown = exynos_drm_platform_shutdown,
+ 	.driver	= {
+ 		.name	= "exynos-drm",
+ 		.pm	= &exynos_drm_pm_ops,
 -- 
 2.42.0.515.g380fc7ccd1-goog
 
