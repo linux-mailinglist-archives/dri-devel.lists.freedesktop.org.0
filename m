@@ -1,93 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850DA7A92DC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:55:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6BF7A92E7
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 11:01:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A583510E58D;
-	Thu, 21 Sep 2023 08:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4E310E598;
+	Thu, 21 Sep 2023 09:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19FE10E58D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 08:55:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5EC11338A1;
- Thu, 21 Sep 2023 08:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1695286505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2opG4Jd738z1u4yL12DErFg1NgQFBk92ekhEYQherNE=;
- b=YgqlQmvXig7QKQMZ1Gjl2UzqcVHlCVZLl14VlQkwvj9kguHfzf7S9k+pG94ylPS1AKwQrG
- iY217u8QjwIg9dh6XMkpoHrfVXyynWyL0WF7Td7a519TIRn7vTg9LhkvroUdqTrqDujC18
- 7mcWbFJJjbT+Z3NZsiEkd4YZUSePo74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1695286505;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2opG4Jd738z1u4yL12DErFg1NgQFBk92ekhEYQherNE=;
- b=9cMbFEJ8FqpE7vvPC49OX3udiZqd/vo3gicg4MnrjbTdXxTQxPxzehjq+KGeeSEAPQAddO
- Ul92pF+nOdMIpODQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3C7A3134B0;
- Thu, 21 Sep 2023 08:55:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8oKoDekEDGUIJwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Sep 2023 08:55:05 +0000
-Message-ID: <bee087f0-878c-480a-b72b-6b3dd69b84a6@suse.de>
-Date: Thu, 21 Sep 2023 10:55:04 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE8210E597
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 09:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695286869; x=1726822869;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ocUYw9eVkqBv2VFvJPDH0psgHV0OVSpDbQGqlku3wz4=;
+ b=TaRUC51LOdG/PYNMzm+qKkmBKtzFxZ9wbd6UZ/O3NOdpNsVo8n70LpXP
+ pgKuVmp7KXuaY+PXlrN9j60VsRwuaqQoBLMb8AuQ5n5ZOpTbODnEIuYdA
+ lhRFncvqmW8d3hqz6mFDv5CBdS+TijndkP7iwfjppaUehrFefnuf1FeYf
+ Mpz91T9HWxnVXf2tV0jkxYHbsns4+gTvKJET33FPPEKByMfVwXKS76qt6
+ 0LvdnBDTWPEO777rvTVfvr129F5WUMMg6ZKQ411CiKzAPqCkGEZsfcAua
+ Bo5etybd/krJHv38OtfZG+IFRHrAOW7wMeln4gpMIhyxbkfbJv2j5n4wq Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="383203444"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="383203444"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 01:56:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="723666415"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; d="scan'208";a="723666415"
+Received: from idubinov-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.52.72])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 01:56:11 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH RFC v2 05/37] drm/connector: hdmi: Add output BPC to the
+ connector state
+In-Reply-To: <20230921114845.7edb1d37@eldfell>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
+ <20230920-kms-hdmi-connector-state-v2-5-17932daddd7d@kernel.org>
+ <20230921114845.7edb1d37@eldfell>
+Date: Thu, 21 Sep 2023 11:56:08 +0300
+Message-ID: <87zg1fq507.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
- drm_*_helper_funcs callbacks
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <mripard@kernel.org>
-References: <20230914195138.1518065-1-javierm@redhat.com>
- <f5620d32-2705-498b-a65c-7dc663340a6d@suse.de>
- <87wmwo3q50.fsf@minerva.mail-host-address-is-not-set>
- <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
- <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
- <2p53aei56tlr7k6w5oawlwpmv2k7agpbb6wfwpxcg3rqyueyrx@2as7tijrgnh4>
- <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------URSyQjLCn3tx06YR40iVAL8Q"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,76 +61,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Emma Anholt <emma@anholt.net>, Samuel Holland <samuel@sholland.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------URSyQjLCn3tx06YR40iVAL8Q
-Content-Type: multipart/mixed; boundary="------------80bgPEWtLxdILzGnP5ci1a0a";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Message-ID: <bee087f0-878c-480a-b72b-6b3dd69b84a6@suse.de>
-Subject: Re: [PATCH] drm/ssd130x: Drop _helper prefix from struct
- drm_*_helper_funcs callbacks
-References: <20230914195138.1518065-1-javierm@redhat.com>
- <f5620d32-2705-498b-a65c-7dc663340a6d@suse.de>
- <87wmwo3q50.fsf@minerva.mail-host-address-is-not-set>
- <552hpgr7qzbjxuyei3n5m7rsn7ekwbdgzv25oe5vy6qb35gf23@q4etussk5jwl>
- <CAMuHMdUGVgj6V+N865QZaAusqD7O2f1askE544Z4MF0h4zBERg@mail.gmail.com>
- <2p53aei56tlr7k6w5oawlwpmv2k7agpbb6wfwpxcg3rqyueyrx@2as7tijrgnh4>
- <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdV9Q=F6D=FgBYazjxGL8HY1cRLJUxdfdvr8=6fwgn+EHQ@mail.gmail.com>
+On Thu, 21 Sep 2023, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> On Wed, 20 Sep 2023 16:35:20 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>
+>> We'll add automatic selection of the output BPC in a following patch,
+>> but let's add it to the HDMI connector state already.
+>> 
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+>>  drivers/gpu/drm/drm_atomic.c              |  4 +++-
+>>  drivers/gpu/drm/drm_atomic_state_helper.c |  6 +++++-
+>>  drivers/gpu/drm/drm_connector.c           | 13 ++++++++++++-
+>>  include/drm/drm_connector.h               | 13 ++++++++++++-
+>>  4 files changed, 32 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+>> index b1b56dcaa76b..8dce0a2f2ac3 100644
+>> --- a/drivers/gpu/drm/drm_atomic.c
+>> +++ b/drivers/gpu/drm/drm_atomic.c
+>> @@ -1143,9 +1143,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
+>>  	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
+>>  
+>>  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+>> -	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB)
+>> +	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
+>>  		drm_printf(p, "\tbroadcast_rgb=%s\n",
+>>  			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
+>> +		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
+>> +	}
+>>  
+>>  	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+>>  		if (state->writeback_job && state->writeback_job->fb)
+>> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+>> index 0f7e5ba555b8..2c9b52ae1b56 100644
+>> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+>> @@ -569,6 +569,9 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
+>>  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
+>>  					      struct drm_connector_state *new_state)
+>>  {
+>> +	new_state->max_bpc = 8;
+>> +	new_state->max_requested_bpc = 8;
+>> +	new_state->hdmi.output_bpc = 8;
+>
+> Hi,
+>
+> will this be forcing all drivers using these helpers to default to max bpc = 8?
+>
+> I believe at least amdgpu would disagree. The defaults were changed in
+> the recent years, IIRC to avoid extra modesets during boot-up when
+> desktops prefer highest possible bpc for a mode.
+>
+> The 'max bpc' property itself is a manual workaround for faulty
+> hardware that does not correctly indicate the max bpc it can handle. It
+> should not default to be a limiting factor.
+>
+>>  	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
+>>  }
+>>  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+>> @@ -651,7 +654,8 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>>  	struct drm_connector_state *new_state =
+>>  		drm_atomic_get_new_connector_state(state, connector);
+>>  
+>> -	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb) {
+>> +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
+>> +	    old_state->hdmi.output_bpc != new_state->hdmi.output_bpc) {
+>>  		struct drm_crtc *crtc = new_state->crtc;
+>>  		struct drm_crtc_state *crtc_state;
+>>  
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index b45471d540ac..f55f5918411c 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -459,6 +459,7 @@ EXPORT_SYMBOL(drmm_connector_init);
+>>   * @funcs: callbacks for this connector
+>>   * @connector_type: user visible type of the connector
+>>   * @ddc: optional pointer to the associated ddc adapter
+>> + * @max_bpc: Maximum bits per char the HDMI connector supports
+>>   *
+>>   * Initialises a preallocated HDMI connector. Connectors can be
+>>   * subclassed as part of driver connector objects.
+>> @@ -475,7 +476,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>  			     struct drm_connector *connector,
+>>  			     const struct drm_connector_funcs *funcs,
+>>  			     int connector_type,
+>> -			     struct i2c_adapter *ddc)
+>> +			     struct i2c_adapter *ddc,
+>> +			     unsigned int max_bpc)
+>>  {
+>>  	int ret;
+>>  
+>> @@ -487,6 +489,15 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	if (max_bpc) {
+>> +		if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
+>> +			return -EINVAL;
+>> +
+>> +		drm_connector_attach_hdr_output_metadata_property(connector);
+>> +		drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+>> +		connector->max_bpc = max_bpc;
+>> +	}
+>> +
+>>  	return 0;
+>>  }
+>>  EXPORT_SYMBOL(drmm_connector_hdmi_init);
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index fdcf64ab91a9..d0bcb835c857 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -1056,6 +1056,11 @@ struct drm_connector_state {
+>>  		 * Broadcast RGB selection value.
+>>  		 */
+>>  		enum drm_hdmi_broadcast_rgb broadcast_rgb;
+>> +
+>> +		/**
+>> +		 * @output_bpc: Bits per character to output.
+>
+> Is it not bits per channel?
 
---------------80bgPEWtLxdILzGnP5ci1a0a
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Or component. Or color. Or color channel. ;)
 
-SGkNCg0KQW0gMjEuMDkuMjMgdW0gMTA6NDYgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQpbLi4uXQ0KPiANCj4+PiBBbnl0aGluZyBlbHNlIGNvbmZ1c2VzIHRoZSBjYXN1YWwgcmVh
-ZGVyLiBQZXJoYXBzIHRoZSByZWFsIHF1ZXN0aW9uIGlzIHdoZXRoZXINCj4+PiB0aGUgc3Ry
-dWN0dXJlcyBzaG91bGQgaGF2ZSAiaGVscGVyIiBpbiB0aGVpciBuYW1lIGluIHRoZSBmaXJz
-dCBwbGFjZT8NCj4+DQo+PiBUaG9zZSBzdHJ1Y3R1cmVzIGFyZSBtZWFudCBmb3IgZnVuY3Rp
-b25zIHVzZWQgYnkgdGhlIGhlbHBlcnMsIHRoZXkgYXJlIG5vdA0KPj4gaGVscGVyIGZ1bmN0
-aW9ucy4NCj4gDQo+IFRoYXQgbWlnaHQgYmUgaG93IHRoZXkgc3RhcnRlZCwgYnV0IHRvIG1l
-IGl0IGxvb2tzIGxpa2UgYWxsIHRoZXNlIGhlbHBlcnMNCj4gYXJlIG5vIGxvbmdlciBoZWxw
-ZXJzLCBidXQgcGFydCBvZiB0aGUgY29yZS4uLg0KDQpUaGV5IGFyZSBpbiBsaWJyYXJ5IG1v
-ZHVsZXMuIFlvdSBjYW4gd3JpdGUgYSBEUk0gZHJpdmVyIHdpdGhvdXQgDQpfaGVscGVyX2Z1
-bmNzLCBzZWUgaTkxNS4gSXQncyBqdXN0IGEgcmVhbGx5IGhhcmQgc2VsbCB0byB1cHN0cmVh
-bSBub3dhZGF5cy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gR3J7b2V0amUs
-ZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoN
-Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
-U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2
-LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVy
-cywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVl
-cm5iZXJnKQ0K
+But character I've never heard.
 
---------------80bgPEWtLxdILzGnP5ci1a0a--
 
---------------URSyQjLCn3tx06YR40iVAL8Q
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+BR,
+Jani.
 
------BEGIN PGP SIGNATURE-----
+>
+>> +		 */
+>> +		unsigned int output_bpc;
+>>  	} hdmi;
+>>  };
+>>  
+>> @@ -1700,6 +1705,11 @@ struct drm_connector {
+>>  	 */
+>>  	struct drm_property_blob *path_blob_ptr;
+>>  
+>> +	/**
+>> +	 * @max_bpc: Maximum bits per character the connector supports.
+>
+> channel?
+>
+>> +	 */
+>> +	unsigned int max_bpc;
+>> +
+>>  	/**
+>>  	 * @max_bpc_property: Default connector property for the max bpc to be
+>>  	 * driven out of the connector.
+>> @@ -1939,7 +1949,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>  			     struct drm_connector *connector,
+>>  			     const struct drm_connector_funcs *funcs,
+>>  			     int connector_type,
+>> -			     struct i2c_adapter *ddc);
+>> +			     struct i2c_adapter *ddc,
+>> +			     unsigned int max_bpc);
+>>  void drm_connector_attach_edid_property(struct drm_connector *connector);
+>>  int drm_connector_register(struct drm_connector *connector);
+>>  void drm_connector_unregister(struct drm_connector *connector);
+>> 
+>
+> Thanks,
+> pq
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUMBOgFAwAAAAAACgkQlh/E3EQov+Aw
-+xAAkfKv53b/mDnrqxidripJBwicaf/LxCVrmq1B1TpVtAPjtaicPJLSmm3s7P+dO3twpbGUkn6b
-sRDnm29+xwcjCxDkT+qoKNVOG5nvQXE+6oPqTnczpeB5XwznVdjeLO3zYZfL6O1jA1UDTftDjkls
-g4E5XXWRch/40WTJIUhu75nOQtDN6ry8r0pfN2PEXkmcUO2iODHHf13Bow7f2pl9AS4OUE5oYtgT
-5wmYO/2nYbMxsLCOQUZzt0cIoQBYNK6s6ymuYL7T5XciGBZlh59/XUYJD0kw0k0qYZ/61FAd9Qwm
-qmR8OBSRfTXausEoyFw5EKzBBB5OuE0/z5M65JlY8vAVDQZZAY15px1oPmhK1claScbd8gNMKANI
-UGly0emLWHk7eY6g9bfFmV6/k+UINObw4tT6GT9py3nI0WRdThyTUcSEoJi9Ar803H30J0f99cN9
-RaP2BoJZa4hHoHpHpWhsZhY86DNCuZInEbT7h8JMmte64927rcYK09alITFaV597YV408SC0asm2
-fxzFBpYuyL6J56iSW7sGj+UuJYmaB4IfBYTqB8BoaXv+vKdLcXMoRDNbapcRqxsiL3Jf+XRyjVPH
-MG1ykW9Wq0SDNcXeB14G6R793wwj+M3UqzqauQcJO/LQMd6dhsDGJPzX6T0Gw33KP9VJrwutjJWG
-EKk=
-=khKg
------END PGP SIGNATURE-----
-
---------------URSyQjLCn3tx06YR40iVAL8Q--
+-- 
+Jani Nikula, Intel
