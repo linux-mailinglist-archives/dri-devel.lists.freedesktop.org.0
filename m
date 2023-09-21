@@ -2,40 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA367A9263
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD257A9270
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 10:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3933110E585;
-	Thu, 21 Sep 2023 07:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBE110E5A2;
+	Thu, 21 Sep 2023 08:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4734B10E587
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:59:20 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qjEaj-0008UW-Vh; Thu, 21 Sep 2023 09:59:18 +0200
-Message-ID: <7ea313d77869183975246cdaf6352713ff4253c0.camel@pengutronix.de>
-Subject: Re: [PATCH 5/5] drm: lcdif: force modeset when FB format changes
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Ying Liu <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>
-Date: Thu, 21 Sep 2023 09:59:16 +0200
-In-Reply-To: <AM7PR04MB7046B544BFB1BAEE2335E7FF98F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230920103126.2759601-1-l.stach@pengutronix.de>
- <20230920103126.2759601-6-l.stach@pengutronix.de>
- <AM7PR04MB7046B544BFB1BAEE2335E7FF98F8A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE7C10E59B;
+ Thu, 21 Sep 2023 08:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1695283217; x=1726819217;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4loMBAspTpubHwAc615FO7TZxrNZ2EsMN2Tx+B1Y+MQ=;
+ b=X2XQJuxF4PJl1nnEjNPf97AXHUPYg+6C2GUppBsdBGiVcjbYxlcvNjNm
+ 2gE0qeh5asSyVvQ3pLYSvwqkOOqZsVSPmYWJVY8X38u6kPYOCuh7qtoSM
+ oNVmP1n2V114n0NhczEoAzzrrxbrnk66SFvSU4lb3fqewkNiSds4qyNAS
+ oetiiB8zUyGNeqyNTCVVvFae9a/CqFF22Dey00G3Sk5hSZZrYJq5f784k
+ cIyBBshUZKgZaAileaZDYL/x4HBy0iZ20+uzYN6yMZQsMgfa7Sw63qZGb
+ ARSYyvr3qdoiVeD7XftLyQvEMXuEMhy0TgXk+aUn+JTgf8iT6KI6ruG1t w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="466758882"
+X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="466758882"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 01:00:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862370664"
+X-IronPort-AV: E=Sophos;i="6.03,164,1694761200"; d="scan'208";a="862370664"
+Received: from idubinov-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.52.72])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2023 01:00:14 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 7/8] drm/i915/dsc: Add debugfs entry to validate DSC
+ fractional bpp
+In-Reply-To: <20230913060606.1105349-8-mitulkumar.ajitkumar.golani@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230913060606.1105349-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20230913060606.1105349-8-mitulkumar.ajitkumar.golani@intel.com>
+Date: Thu, 21 Sep 2023 11:00:12 +0300
+Message-ID: <8734z8q7lf.fsf@intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,151 +61,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- dl-linux-imx <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "patchwork-lst@pengutronix.de" <patchwork-lst@pengutronix.de>
+Cc: suraj.kandpal@intel.com,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ ankit.k.nautiyal@intel.com, swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 21.09.2023 um 07:34 +0000 schrieb Ying Liu:
-> Hi,
->=20
-> On Wednesday, September 20, 2023 6:31 PM Lucas Stach <l.stach@pengutronix=
-.de> wrote:
-> > Force a modeset if the new FB has a different format than the
-> > currently active one. While it might be possible to change between
-> > compatible formats without a full modeset as the format control is
-> > also supposed to be double buffered, the colorspace conversion is
-> > not, so when the CSC changes we need a modeset.
-> >=20
-> > For now just always force a modeset when the FB format changes to
-> > properly reconfigure all parts of the device for the new format.
-> >=20
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/mxsfb/lcdif_drv.c | 18 +++++++++++++++++-
-> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 26 ++++++++++++++++++++------
-> >  2 files changed, 37 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > index 18de2f17e249..b74f0cf1e240 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > @@ -30,9 +30,25 @@
-> >  #include "lcdif_drv.h"
-> >  #include "lcdif_regs.h"
-> >=20
-> > +static int lcdif_atomic_check(struct drm_device *dev,
-> > +				struct drm_atomic_state *state)
->=20
-> " checkpatch.pl --strict" complains:
-> CHECK: Alignment should match open parenthesis
-> #31: FILE: drivers/gpu/drm/mxsfb/lcdif_drv.c:34:
-> +static int lcdif_atomic_check(struct drm_device *dev,
-> +                               struct drm_atomic_state *state)
->=20
-Right, I'll fix that.
+On Wed, 13 Sep 2023, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
+> From: Swati Sharma <swati2.sharma@intel.com>
+>
+> DSC_Sink_BPP_Precision entry is added to i915_dsc_fec_support_show
+> to depict sink's precision.
+> Also, new debugfs entry is created to enforce fractional bpp.
+> If Force_DSC_Fractional_BPP_en is set then while iterating over
+> output bpp with fractional step size we will continue if output_bpp is
+> computed as integer. With this approach, we will be able to validate
+> DSC with fractional bpp.
+>
+> v2:
+> Add drm_modeset_unlock to new line(Suraj)
+>
+> Signed-off-by: Swati Sharma <swati2.sharma@intel.com>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_debugfs.c  | 83 +++++++++++++++++++
+>  .../drm/i915/display/intel_display_types.h    |  1 +
+>  2 files changed, 84 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> index f05b52381a83..776ab96def1f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> @@ -1244,6 +1244,8 @@ static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
+>  								      DP_DSC_YCbCr420_Native)),
+>  			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
+>  								      DP_DSC_YCbCr444)));
+> +		seq_printf(m, "DSC_Sink_BPP_Precision: %d\n",
+> +			   drm_dp_dsc_sink_bpp_incr(intel_dp->dsc_dpcd));
+>  		seq_printf(m, "Force_DSC_Enable: %s\n",
+>  			   str_yes_no(intel_dp->force_dsc_en));
+>  		if (!intel_dp_is_edp(intel_dp))
+> @@ -1436,6 +1438,84 @@ static const struct file_operations i915_dsc_output_format_fops = {
+>  	.write = i915_dsc_output_format_write
+>  };
+>  
+> +static int i915_dsc_fractional_bpp_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_connector *connector = m->private;
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_crtc *crtc;
+> +	struct intel_dp *intel_dp;
+> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+> +	int ret;
+> +
+> +	if (!encoder)
+> +		return -ENODEV;
+> +
+> +	ret = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
+> +	if (ret)
+> +		return ret;
+> +
+> +	crtc = connector->state->crtc;
+> +	if (connector->status != connector_status_connected || !crtc) {
+> +		ret = -ENODEV;
+> +		goto out;
+> +	}
+> +
+> +	intel_dp = intel_attached_dp(to_intel_connector(connector));
+> +	seq_printf(m, "Force_DSC_Fractional_BPP_Enable: %s\n",
+> +		   str_yes_no(intel_dp->force_dsc_fractional_bpp_en));
 
-> > +{
-> > +	int ret;
-> > +
-> > +	ret =3D drm_atomic_helper_check(dev, state);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * Check modeset again in case crtc_state->mode_changed is
-> > +	 * updated in plane's ->atomic_check callback.
-> > +	 */
-> > +	return drm_atomic_helper_check_modeset(dev, state);
->=20
-> This additional check looks fine, but it's done for every commit.
-> Is it ok to move it to lcdif_plane_atomic_check() where mode_changed
-> is set for those commits in question?
+Why "Force_DSC_Fractional_BPP_Enable" in the output?
 
-Potentially yes, as we only have a single plane in the LCDIF, but it
-would be a deviation of how every other DRM driver is implementing this
-check. If there are multiple planes than this call must happen after
-all of them checked the state, so this is the most logical place to
-have this check. Doing this check on every commit doesn't seem to hurt
-other drivers, so I'm not really keen on doing things differently here.
+Usually debugfs files, like sysfs files, for stuff like this should be
+attributes, one thing per file. Why print a long name for it, if the
+name of the debugfs file is the name of the attribute?
 
-Regards,
-Lucas
-=20
->=20
-> Regards,
-> Liu Ying
->=20
-> > +}
-> > +
-> >  static const struct drm_mode_config_funcs lcdif_mode_config_funcs =3D =
-{
-> >  	.fb_create		=3D drm_gem_fb_create,
-> > -	.atomic_check		=3D drm_atomic_helper_check,
-> > +	.atomic_check		=3D lcdif_atomic_check,
-> >  	.atomic_commit		=3D drm_atomic_helper_commit,
-> >  };
-> >=20
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > index 3ebf55d06027..8167604bd3f8 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > @@ -647,18 +647,32 @@ static const struct drm_crtc_funcs lcdif_crtc_fun=
-cs
-> > =3D {
-> >  static int lcdif_plane_atomic_check(struct drm_plane *plane,
-> >  				    struct drm_atomic_state *state)
-> >  {
-> > -	struct drm_plane_state *plane_state =3D
-> > drm_atomic_get_new_plane_state(state,
-> > -
-> > plane);
-> > +	struct drm_plane_state *new_state =3D
-> > drm_atomic_get_new_plane_state(state,
-> > +
-> > plane);
-> > +	struct drm_plane_state *old_state =3D
-> > drm_atomic_get_old_plane_state(state,
-> > +
-> > plane);
-> >  	struct lcdif_drm_private *lcdif =3D to_lcdif_drm_private(plane->dev);
-> >  	struct drm_crtc_state *crtc_state;
-> > +	int ret;
-> > +
-> > +	/* always okay to disable the plane */
-> > +	if (!new_state->fb)
-> > +		return 0;
-> >=20
-> >  	crtc_state =3D drm_atomic_get_new_crtc_state(state,
-> >  						   &lcdif->crtc);
-> >=20
-> > -	return drm_atomic_helper_check_plane_state(plane_state,
-> > crtc_state,
-> > -						   DRM_PLANE_NO_SCALING,
-> > -						   DRM_PLANE_NO_SCALING,
-> > -						   false, true);
-> > +	ret =3D drm_atomic_helper_check_plane_state(new_state, crtc_state,
-> > +						  DRM_PLANE_NO_SCALING,
-> > +						  DRM_PLANE_NO_SCALING,
-> > +						  false, true);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	if (old_state->fb && new_state->fb->format !=3D old_state->fb->format=
-)
-> > +		crtc_state->mode_changed =3D true;
-> > +
-> > +	return 0;
-> >  }
-> >=20
-> >  static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
-> > --
-> > 2.39.2
->=20
+And even if you print it for humans, why the underscores?
 
+> +
+> +out:
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t i915_dsc_fractional_bpp_write(struct file *file,
+> +					     const char __user *ubuf,
+> +					     size_t len, loff_t *offp)
+> +{
+> +	struct drm_connector *connector =
+> +		((struct seq_file *)file->private_data)->private;
+
+I know this is copy-pasted from elsewhere, but really it's nicer to
+avoid the cast, and copy-paste from the places that get this right:
+
+	struct seq_file *m = file->private_data;
+        struct drm_connector *connector = m->private;
+
+> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+> +	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+> +	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+> +	bool dsc_fractional_bpp_enable = false;
+> +	int ret;
+> +
+> +	if (len == 0)
+> +		return 0;
+
+kstrtobool_from_user() has this covered.
+
+> +
+> +	drm_dbg(&i915->drm,
+> +		"Copied %zu bytes from user to force fractional bpp for DSC\n", len);
+
+That's useless.
+
+> +
+> +	ret = kstrtobool_from_user(ubuf, len, &dsc_fractional_bpp_enable);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	drm_dbg(&i915->drm, "Got %s for DSC Fractional BPP Enable\n",
+> +		(dsc_fractional_bpp_enable) ? "true" : "false");
+
+Is this useful?
+
+> +	intel_dp->force_dsc_fractional_bpp_en = dsc_fractional_bpp_enable;
+> +
+> +	*offp += len;
+> +
+> +	return len;
+> +}
+> +
+> +static int i915_dsc_fractional_bpp_open(struct inode *inode,
+> +					struct file *file)
+> +{
+> +	return single_open(file, i915_dsc_fractional_bpp_show, inode->i_private);
+> +}
+> +
+> +static const struct file_operations i915_dsc_fractional_bpp_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = i915_dsc_fractional_bpp_open,
+> +	.read = seq_read,
+> +	.llseek = seq_lseek,
+> +	.release = single_release,
+> +	.write = i915_dsc_fractional_bpp_write
+> +};
+> +
+>  /*
+>   * Returns the Current CRTC's bpc.
+>   * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
+> @@ -1513,6 +1593,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
+>  
+>  		debugfs_create_file("i915_dsc_output_format", 0644, root,
+>  				    connector, &i915_dsc_output_format_fops);
+> +
+> +		debugfs_create_file("i915_dsc_fractional_bpp", 0644, root,
+> +				    connector, &i915_dsc_fractional_bpp_fops);
+>  	}
+>  
+>  	if (connector->connector_type == DRM_MODE_CONNECTOR_DSI ||
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 69bcabec4a29..27b31cb4c7b4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1797,6 +1797,7 @@ struct intel_dp {
+>  	/* Display stream compression testing */
+>  	bool force_dsc_en;
+>  	int force_dsc_output_format;
+> +	bool force_dsc_fractional_bpp_en;
+>  	int force_dsc_bpc;
+>  
+>  	bool hobl_failed;
+
+-- 
+Jani Nikula, Intel
