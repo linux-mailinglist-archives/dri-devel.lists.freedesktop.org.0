@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513177A91E6
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4D17A91E4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Sep 2023 09:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F9E10E56F;
-	Thu, 21 Sep 2023 07:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB9210E0CD;
+	Thu, 21 Sep 2023 07:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 466 seconds by postgrey-1.36 at gabe;
+ Thu, 21 Sep 2023 07:09:30 UTC
 Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
  [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C6B10E56F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:09:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 966E010E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Sep 2023 07:09:30 +0000 (UTC)
 Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
  by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
  tls TLS_AES_256_GCM_SHA384
  (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1qjDgT-003FyF-1a; Thu, 21 Sep 2023 09:01:09 +0200
+ id 1qjDgo-003G9s-Fd; Thu, 21 Sep 2023 09:01:30 +0200
 Received: from p5b13a40a.dip0.t-ipconnect.de ([91.19.164.10]
  helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
  with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1qjDgS-0028lF-Ps; Thu, 21 Sep 2023 09:01:08 +0200
-Message-ID: <bb88a97216ed9bb5314cb215f5691013d2010f1f.camel@physik.fu-berlin.de>
+ id 1qjDgo-0028oM-87; Thu, 21 Sep 2023 09:01:30 +0200
+Message-ID: <a720e92592db824e65d0fcc03d89e20ea59b11a6.camel@physik.fu-berlin.de>
 Subject: Re: [PATCH] fbdev/sh7760fb: Depend on FB=y
 From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
  sam@ravnborg.org,  arnd@arndb.de, javierm@redhat.com, rdunlap@infradead.org
-Date: Thu, 21 Sep 2023 09:01:07 +0200
+Date: Thu, 21 Sep 2023 09:01:29 +0200
 In-Reply-To: <20230918090400.13264-1-tzimmermann@suse.de>
 References: <20230918090400.13264-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
