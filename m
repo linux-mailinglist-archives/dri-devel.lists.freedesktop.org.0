@@ -2,78 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C407AB9B4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 21:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53497AB9BA
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 21:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD32C10E6F8;
-	Fri, 22 Sep 2023 19:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF79E10E6FD;
+	Fri, 22 Sep 2023 19:01:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A31510E08D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 19:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1695409252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NE66f7DfP4/A2VOZXmvxuXHt1FmCuY2Q51yLIoHLwck=;
- b=VK9ia1C69p2AuLThkIIK0LKPkgnCxZHYupo7R9S74tkSAk8r6gwbVDQYYrsAM0Ip6iNFy9
- j4M8VDrWQznepxL1eNNSw8ofkdCPXkJuawhjH+UUt6dWoENcXeICIbyE5BfWbZ8nOwiciT
- z+uoTgfOxo+fBYy6496qiNDjRRGDQYM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-rZQqttgnO0S8PxkCWgSjdQ-1; Fri, 22 Sep 2023 15:00:51 -0400
-X-MC-Unique: rZQqttgnO0S8PxkCWgSjdQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6563871e72dso24593716d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 12:00:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695409250; x=1696014050;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=llC9/wUzzd4JVzDSD0PHMCO4lX+W74lZOeDntPKMIjc=;
- b=PxwHZTlwOL+S3vEjydSRZK+1DqsdbEz7Zo3dXE9nVIVV7u2bNao6wOO62mbUC09lDZ
- H/ek8OrYRc0iKK517dEfYDI1eCCQR+gt+YPa/i933yJDWU5dmq+gt6g7Fx7Hv2Gnz1cd
- Y14TpmtDcJFbZoPKUNkZOTjdm6JOsDLxjBSRPeh+4c0m7yDaLAFCx9Wm8NxFONslgWuK
- bA1HgslCEhymq7HBMpaYuDWDxnvsSwb+EAsKWmqycdi75ygpDB1tbQm4GHC683FKtn5C
- 2ZHoDGtjdkGb+MehvPDRBjSBf9Wffm3eZlGloXLmxYuxnoD+1hwSMeoJDRZRTwZnqSaq
- wKpA==
-X-Gm-Message-State: AOJu0YzdXzomNSDhUe31ey4HzkHfqWmNmyQUbL5LGYk5P+N4CShV+UB0
- klT9asHKaSkcAZu/sUsShN3r7RG6pZcuHhvSAEp69yBv/a9OEl3mlXL246kyTneayxlEH/xGM55
- TP3n5dsYYoso2SvQtR1omkclaDbjL
-X-Received: by 2002:a05:6214:1845:b0:655:d2c7:a9d1 with SMTP id
- d5-20020a056214184500b00655d2c7a9d1mr187780qvy.14.1695409250683; 
- Fri, 22 Sep 2023 12:00:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHcAhYi3agHEIh1mExaRpOkIAUDfxEWkbuUfbk0Y5Ex6ReRQkYaRYp/G33/F11gHisOBD3h3Q==
-X-Received: by 2002:a05:6214:1845:b0:655:d2c7:a9d1 with SMTP id
- d5-20020a056214184500b00655d2c7a9d1mr187719qvy.14.1695409250417; 
- Fri, 22 Sep 2023 12:00:50 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
- by smtp.gmail.com with ESMTPSA id
- w6-20020a0ce106000000b0064f50e2c551sm1671895qvk.1.2023.09.22.12.00.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Sep 2023 12:00:49 -0700 (PDT)
-Message-ID: <1fc22ed54041660dfff5b7f3cc69708fd4ac0472.camel@redhat.com>
-Subject: Re: [PATCH 5/9] drm/nouveau/pm: Annotate struct nvkm_perfdom with
- __counted_by
-From: Lyude Paul <lyude@redhat.com>
-To: Kees Cook <keescook@chromium.org>, David Airlie <airlied@gmail.com>
-Date: Fri, 22 Sep 2023 15:00:47 -0400
-In-Reply-To: <20230922173216.3823169-5-keescook@chromium.org>
-References: <20230922173110.work.084-kees@kernel.org>
- <20230922173216.3823169-5-keescook@chromium.org>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC72810E700;
+ Fri, 22 Sep 2023 19:01:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WHWwS73P6qEd+Hn5BcLzTc8akiH9qCIT+sLa7IsMiKCfxQ5z8q0Abo4o9JmzwH7gZt3lUFxdNfFyRIbNo15WE7KbozCT61bVMlGuFccmIE1G0wqqoDn3n6bW7sWQJU1HVWLRXVbvhuymmul0zbL8IpKjEH1cc1LPAcYoepI/N2hTa1dGY33X3lAQ0kTSh4lSl4m78ENnJICJUPQXjD1nOzwd+qsxcXbGvLrus+kqZ1BWa0pBlax5Eog4F01NFl4p9JT01g97uc1gXKZj1ThEZdYw9juLqEk9ge6Rx+i3rejgedVylK+BKptftdVNbTiuGWTdrAW/72alPLbi/AqkfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ODYJTWPLRK2impet3Gv5DoRLtqmaRQQXCGv0MjfBPJs=;
+ b=IJrI9RS3PfQA0o07djnOVNMOrhw/6EcbjdeY8rSNmiptevsAxHVzJnaop1lJSowzRAh9BCqn3lFFb0RuOmw2q7mtVWJ0nYX68zLlY3NtSXeSPzbHRqEy2xvw5DswTtFtIjpUXZWyfEgXwrtXIP2nRaXbGIziOyhRoL/oQRkEVzIxaq0IeA2ts1symmBzfUlwHCwXekNudeYCb19GADi4OkP5samA4ntiVxFcXq1oSp70J0dVPs2YjVm+752AovwkOi1JNFFdaykusRgwNjTQJItpjwJndtNMUeZLTXHIliVC/1nfXJ6kxlS2P8siQFpN6p0UtHrV5qgS18cwSpOCzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ODYJTWPLRK2impet3Gv5DoRLtqmaRQQXCGv0MjfBPJs=;
+ b=lEbcMbwlaAoD6NKMlnMniJM0zJE7MIffLkwyehkL+7MnFpQ+AItFwjI5+OUVFp2/gyasq6kBCU1ppTxqoPmO4UQx3bfIYn4P7YdIyLvil8ezb41T0ZLX2d+5IIDvOVceSThZ0GxaCJRsYBnLkuF2L0ufczrFDjh1dBIqRFwzLBI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS0PR12MB8415.namprd12.prod.outlook.com (2603:10b6:8:fc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Fri, 22 Sep
+ 2023 19:01:10 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::3e65:d396:58fb:27d4%3]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
+ 19:01:10 +0000
+Message-ID: <fa4f1a5b-5ea1-4884-aafe-36696b491654@amd.com>
+Date: Fri, 22 Sep 2023 14:01:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/15] platform/x86/amd/pmf: dump policy binary data
+Content-Language: en-US
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
+ markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
+ benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
+ <20230922175056.244940-12-Shyam-sundar.S-k@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20230922175056.244940-12-Shyam-sundar.S-k@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR16CA0042.namprd16.prod.outlook.com
+ (2603:10b6:805:ca::19) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB8415:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6f762cb-aab5-4da9-42b4-08dbbb9e4894
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n3zJnFXoMGXhLid/e+rLFPxK6HBsAncS31ZdYZyBLt2ec1zHs626e75bPo8bVApn2Xumk0kkF4JfS0UCaxWCpOOtwVAmGCNPwQXKvwIttFew+tahPhRUATSpd8TGxwefLpTHcMq9p08NLE/0rKTggauY8xjZZpnE3M3R9ADc0yYxJeHrABeUf0L/MI7b3qErW3I33pFK4PCtO1wwRfmJsNr+mZeKNKwKifecCM5RWGJNg7e0MTJUx1B7Rr/KUM+ftrZUbVtJaslUIvTrnb6YZmi5pQZtwsxU7eg5zwj1/2yzTwhO0Qp65SGWya2PFHjflUceeiRH8hJgiDtB0MOItvExTL0/fCLuH0OK1ADTWxALo/YtFDuusquY/E3SKBPq9J/YZIt6PB1m3N798pVYkYTVmrcACXP7jjE0FGiCMbuHfo/RoepWYXnDuE/1buELGngLnnzn4p6dHQpnEcm8UpwhW8ywkyyJIfYyScnanMo3AbpiaavMNt2ao27NjFf7Zv13J87avAgsI1S7LWBcrW+zmOz7DfpPMhEQgLgo7dEvAbvTEG/5z/XXuPl0loX5X0QaqkEDAahHI2CHtYfYQPvS4JR6McRgLC/8JyevlvmuQuqvRqbLcDgWy9NENM/m/LQAaky7x57JCYw114g546fR33I9qbwfq6c5XdVgZo8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(39860400002)(376002)(346002)(366004)(451199024)(186009)(1800799009)(478600001)(53546011)(8676002)(44832011)(31686004)(66946007)(66476007)(6512007)(6506007)(8936002)(6486002)(6666004)(66556008)(316002)(5660300002)(31696002)(38100700002)(36756003)(4326008)(86362001)(2906002)(7416002)(41300700001)(26005)(2616005)(921005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDlPTzM4Q0xNcWNKckZFT1ZBWlhhNFJER0R6M0ovL1YveWZTdnBaN2Z4R3NN?=
+ =?utf-8?B?UXJYaE9BUnU0RHN4dmEyNVlwRDlCNWg1V1NuWUxQZzJmV2RXWERRckRJcnNn?=
+ =?utf-8?B?a1VVZFhlUjVWdUhsZnFQMHR3M2VWeWZkeVMxdDhQNmJ4QVFiZW1xNHNwWXlU?=
+ =?utf-8?B?Qk1WN0Iwb1JJUTVvR2k0bWlHZWtBVnJVSDg4SUFPTjFPTDhFNE9BWXh6Y25M?=
+ =?utf-8?B?SitOR3NOeldYaks1QUFYVldWSXhNOG1FV0piRDZ5aHIvUkdjWWVkTXZ1SUNI?=
+ =?utf-8?B?WEJFd3l1c2NDdERDSW9NVzN2czFFcXNKQkJCaTNLdmhmSDRRNjhOZU9mMGU5?=
+ =?utf-8?B?N2d4Q3QzaDRlaUpxeEFwcG8rbjFNc2dmcldHL2ZkazkxZkxvRm9ldXZxa25p?=
+ =?utf-8?B?Yi9MK1hseXdLLzNBVU9lWm5HTEMxVUpjQ3lETW5RN0pnV2l3c0JYZkRvYmtW?=
+ =?utf-8?B?dU40Y2dVY09BelhIZWlyWVFZR0d3Zk51MVdZWHVKblIvYU5OOTczMXNsRTdw?=
+ =?utf-8?B?bksyMUFubnYrQmVveFRZNTVkS1lHYVB2Q0FBOVU1MnJlaDk1VnFnc2drQkJJ?=
+ =?utf-8?B?dUJXRnBLZ2d5TEdMbGhCUnQ1c1JWaWdkV0IvSnowTFg4SXIvZ2h2NStRbjlr?=
+ =?utf-8?B?NDh4R0Jsa050WFdCVklxdGplRzZwcWIyRXNlNVY4aW9LQS83ZEFWM0ZuTHJn?=
+ =?utf-8?B?Y1hRTUFkSU11WjlaVXVRMm8xL000ZThkb2NpV2ppR3ZyQUl0bTBwZURubWlT?=
+ =?utf-8?B?ZkNPOUxIdGhKRElZcWQyOTc4eWJDUmppc2xnSjBsQ3BQRUU0MnFGc1AyUHJo?=
+ =?utf-8?B?R0JISDdtenlGUEU1VXNQUUpKa05LVk5mY1hXN2xQZGtXRHNCaWJmSnlCUDdN?=
+ =?utf-8?B?MWEvUExMKzNaUVNjb2dlRlFCSXRuZ085TjdKaVc2NzBuL2hBQy82Q01PRitJ?=
+ =?utf-8?B?bWJXR2NKRHNkRzNKQ3hDUnBBY3RKWmI5U2FvNXVWK3hUZFNXVHo0NzdDbWQx?=
+ =?utf-8?B?YTFwUUpCVm9JelBXQ1RkUDhQTHVIN2xBY0p5WW9JQXl2R21COXFJZGdLQ1Fw?=
+ =?utf-8?B?OTVkVFZTeklqMThnb3Y5T3BhSDVDUWNXVTNUUVpTeWhHZVo2NXR0WEZkYjVY?=
+ =?utf-8?B?bWduR1pMTi9KMXlKbVNramFzdjIvQjZBNmlmak15d1RZR2VKSXFDK3RXR0NO?=
+ =?utf-8?B?cnQ1NldnMmt4a29pc3Erb0k0WjhGM1NEZXdieFFDQ1RVOGlQM0RCTjl5Sm9w?=
+ =?utf-8?B?SFd0RE9KMFA1NnI0bDhXMXdSNVRONnZTR3lMai8rYUg3cUtRTHZ2N2w0L1No?=
+ =?utf-8?B?emg4bDZNTkVIcEpzZ1dMS1lidURoM2trQjBmeW4yTHFZU0VjekQwbWRkYkRw?=
+ =?utf-8?B?a05nYzNwckJaNmxyWDlnMG41WktJYkNka1V1UXpIVUJIbitQOE85VU1kZzhz?=
+ =?utf-8?B?YjdhQXFLT0hQd1ZZNkl5Sk1mQzkvY1R0Yi9MSGNPY1htdlJzRlVCRFArbFdB?=
+ =?utf-8?B?dXRIbi9NSWZsZzAxSEN6cEszbElxbGpOQ09uaFdaWnpmRjkrWVd4ZDRTbVgy?=
+ =?utf-8?B?cXFpYUVINStmbXJRM1BhbGtMRUZnMHgrblBkTGZOZXZWYVhRWm4vU0hQZk4v?=
+ =?utf-8?B?bTFjNzdJMW5teXg5Wm1Ec0Nhd1NKWjdaQmFybTdtekZ1dm5pWTJoYjdOUlpD?=
+ =?utf-8?B?TE1lZXZlb0h2eldyS0JFQ3J5bkpFNE9qUHJ4K21XWlplb1BabEN2YmI1d2t1?=
+ =?utf-8?B?VXQ1V05RR3QvVmpwcTJsSncrMkVydkJlWWl4M0tmTllvSDZUMUhXSEVncGhI?=
+ =?utf-8?B?QlpyN2ExbnNreFRQZHVzbGZLTjUzTTlIRjFWYVE0RmJyTGhRejR3clcyWnpr?=
+ =?utf-8?B?NW1JQnZYSytaYWprYWJXWjBSTGRKa05tR0ttQ1loQXhNcXB6ckxtYzlyZzFw?=
+ =?utf-8?B?eUpqa0IxU0F4NHRxODdoSDQvcFJtWjR4ZVM3eUJwaDRFRE9PKzhSR1ZpZ0VZ?=
+ =?utf-8?B?eU1LV25NNERQVFpkWWlzT2xjWm4zZ0dvYTlzTTJrRkt5Zzdpd2V3cGR1NjhB?=
+ =?utf-8?B?bHQ1bmVvY1AzVW1hcm8xb1piRm1INXVnYzl0MmtNL1lsMEV1ZzlLdHE1dWlw?=
+ =?utf-8?Q?sshaVZPPRMqOpcfaAEFgYt5Gh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6f762cb-aab5-4da9-42b4-08dbbb9e4894
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 19:01:10.1546 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Oabk+HvPB3Th+DZSZhk9wnC/SGCq7qyuV8sKiOTKZfoosO5Y0S+5cMCWZKOvgfLNLJXGhoopTKWJzdQ3mE5prw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,86 +128,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Prike Liang <Prike.Liang@amd.com>,
- Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Matthew Brost <matthew.brost@intel.com>, Emma Anholt <emma@anholt.net>,
- Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Nathan Chancellor <nathan@kernel.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Tom Rix <trix@redhat.com>, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
- Lijo Lazar <lijo.lazar@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Kevin Wang <kevin1.wang@amd.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Melissa Wen <mwen@igalia.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Xiaojian Du <Xiaojian.Du@amd.com>, Le Ma <le.ma@amd.com>,
- freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- John Harrison <john.c.harrison@Intel.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
+ platform-driver-x86@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-Thanks!
-
-On Fri, 2023-09-22 at 10:32 -0700, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_b=
-y
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUND=
-S
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
->=20
-> As found with Coccinelle[1], add __counted_by for struct nvkm_perfdom.
->=20
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/c=
-ounted_by.cocci
->=20
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On 9/22/2023 12:50, Shyam Sundar S K wrote:
+> Sometimes policy binary retrieved from the BIOS maybe incorrect that can
+> end up in failing to enable the Smart PC solution feature.
+> 
+> Use print_hex_dump_debug() to dump the policy binary in hex, so that we
+> debug the issues related to the binary even before sending that to TA.
+> 
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 > ---
->  drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h b/drivers/gpu/=
-drm/nouveau/nvkm/engine/pm/priv.h
-> index 6ae25d3e7f45..c011227f7052 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/pm/priv.h
-> @@ -82,7 +82,7 @@ struct nvkm_perfdom {
->  =09u8  mode;
->  =09u32 clk;
->  =09u16 signal_nr;
-> -=09struct nvkm_perfsig signal[];
-> +=09struct nvkm_perfsig signal[] __counted_by(signal_nr);
->  };
-> =20
->  struct nvkm_funcdom {
+>   drivers/platform/x86/amd/pmf/tee-if.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/pmf/tee-if.c b/drivers/platform/x86/amd/pmf/tee-if.c
+> index fa37cfab2dc7..3daa122f35d5 100644
+> --- a/drivers/platform/x86/amd/pmf/tee-if.c
+> +++ b/drivers/platform/x86/amd/pmf/tee-if.c
+> @@ -290,6 +290,9 @@ static ssize_t amd_pmf_get_pb_data(struct file *filp, const char __user *buf,
+>   	if (copy_from_user(dev->policy_buf, buf, dev->policy_sz))
+>   		return -EFAULT;
+>   
+> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
+> +			     dev->policy_sz, false);
+> +
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Should this one also be guarded by CONFIG_AMD_PMF_DEBUG or no?
 
+>   	ret = amd_pmf_start_policy_engine(dev);
+>   	if (ret)
+>   		return -EINVAL;
+> @@ -329,6 +332,10 @@ static int amd_pmf_get_bios_buffer(struct amd_pmf_dev *dev)
+>   		return -ENOMEM;
+>   
+>   	memcpy(dev->policy_buf, dev->policy_base, dev->policy_sz);
+> +#ifdef CONFIG_AMD_PMF_DEBUG
+> +	print_hex_dump_debug("(pb):  ", DUMP_PREFIX_OFFSET, 16, 1, dev->policy_buf,
+> +			     dev->policy_sz, false);
+> +#endif
+>   
+>   #ifdef CONFIG_AMD_PMF_DEBUG
+>   	if (pb_side_load)
+
+It looks like you can combine the two #ifdef from the previous patches.
