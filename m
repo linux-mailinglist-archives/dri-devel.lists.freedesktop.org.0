@@ -1,123 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2A57ABAD4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 23:04:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF4B7ABAE0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 23:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15BC210E726;
-	Fri, 22 Sep 2023 21:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB36E10E70E;
+	Fri, 22 Sep 2023 21:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2068.outbound.protection.outlook.com [40.107.237.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679BF10E127;
- Fri, 22 Sep 2023 21:04:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q2W0MCD1KVZyZfNMPRJ6JchK7YNqIg9pgLFjSaK9ar/r3RVNuuXeZMMupqFjAU3Xc6LFc9mlP2YJEqoVJYGkR7NNjS1VEU3xPhEi7Uye4FbTa4GrT3a0snfJzm/c/e4rHpt5BqwxGv7qiKy92XfT3+loRVotoLOzH9a3ttRSZBDwH7eyDsN4ObqVVZoqmvKkduS7MdUDfG/B+frGa094p+y5weVnanrWr0lGo+OXEZ61UfMxAfAGLy13pR86L386i4TUWwKdkovFdxDXvvm4VZV8lfGeM3t9atHsbW+6+iy3lBW37vbVlRBI9CMZ3143DSWYymkWVaXeZZzcNw6w1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gsdek7IwP3iBPDvX/dTUw5AMnU3uQT9FB1fVkwkUMQQ=;
- b=hzK/BMOkllMtQyGIuC4Un/XJf//z/g2ISB6d3inV4C7xNgod+eRYbB5qMbL97WGaRFumFjX30gfzTck4prYSokkUaEd58j1cA7p58HqcLKJugv7BfFgaGwMXCPzj30fw1q03eR+SCrOPPEinlzbuQ4M1I6pfI3Bt24HLp05Bo5szvSlGdkbQuCX5mMOD75nVsucYlJ/A6wP+d2uQva/Je9sYxpnUge9VwtttxNrJRP8ynrVHcgq79SoiaSgI3RSAcnsLqyy+tVQZoRGm6aILj6gEERU4WE6ZcGAKPYiLpo2mA55+4lcJT6pjHX/lTy9AgfdDTBDizFcRFxNkZbCHcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gsdek7IwP3iBPDvX/dTUw5AMnU3uQT9FB1fVkwkUMQQ=;
- b=y1Y9b0GD0UNbT7FlGO67EaLv+zYMnzpA1xqnSHicO0B5H0I0nZVVTWtpvQHC70edXwZOcs9kB1XtBnI5jNMROd+ksctcVRw8/Yd0sCRxxRrjoh1oxLO2uM1q2kVn9lCAn0T3Nf2+n2SLiZRNYBVFeo6vDcmQ5ijWXuRuw9+oOMQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CH0PR12MB5299.namprd12.prod.outlook.com (2603:10b6:610:d6::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Fri, 22 Sep
- 2023 21:04:35 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::3e65:d396:58fb:27d4]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::3e65:d396:58fb:27d4%3]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
- 21:04:35 +0000
-Message-ID: <fcdd044c-07e8-4c16-bcac-14a193867816@amd.com>
-Date: Fri, 22 Sep 2023 16:04:32 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/15] platform/x86/amd/pmf: Add PMF-AMDSFH interface for
- HPD
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
- markgross@kernel.org, basavaraj.natikar@amd.com, jikos@kernel.org,
- benjamin.tissoires@redhat.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20230922175056.244940-1-Shyam-sundar.S-k@amd.com>
- <20230922175056.244940-15-Shyam-sundar.S-k@amd.com>
- <f370fd18-345a-4b7d-b074-550539e7933c@amd.com>
-In-Reply-To: <f370fd18-345a-4b7d-b074-550539e7933c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN1PR12CA0101.namprd12.prod.outlook.com
- (2603:10b6:802:21::36) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9786310E715
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 21:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1695416813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TiK6SU/dUQgkK5bkAnZqE0FIM3VmCWIn73IlrzTNcnE=;
+ b=N/07YFHu0TQEmYcATvHws8prxPGSIYYzj6oqcvKjQQsGErPJ4LseCUPpIsFyWa29VXmfQq
+ JdNpvjPaorwRekpLzknUb0cKVVs9N5BJovqSB07hGcYAaCJUcnVGraa71af2KqLlZ5A4um
+ g0G/kgiyujcIFrroiIMds8iwTw0K+ck=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-685-6Hh_uQs0Pa-67YNH5ZCKMg-1; Fri, 22 Sep 2023 17:06:52 -0400
+X-MC-Unique: 6Hh_uQs0Pa-67YNH5ZCKMg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-414e9ea97e9so30867381cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 14:06:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695416812; x=1696021612;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nbdcwv5Or6Z2+lA87iZfowKftkAW8aJRElWE3un3JwU=;
+ b=HzOpOhi9K0JoPcNAp7s1JdaCnB+GBUgrZ1F+zSwZf5I1bgkqiARuvMFDUe68VueCuN
+ zsg+iX0sWHahZ6cqKI6RlO6y6RGX+PF718uv06/ZOBi7hMDNPOPU83acY9nmK65XSYYv
+ pckOjVq2BRIizezjVZW+qpWEefrXboc02Xr57zBUSd3LOOIvKzanEKkxVasPstCuYhrZ
+ rIHI1edhJbYEcgYsXn3xyhfoPBXewW+43lfQY0b/Rkn5gb2QekDG2JrVULN1RbiSd/J4
+ 6v89H68XoL8RgsfHrGEK0AGydrfeDQvFR7MrKDtMbYXGg3jPh5C5GIRIigBIKitzgXTz
+ UdoA==
+X-Gm-Message-State: AOJu0Yx791TMhfbQZUQyntLbg9zvBuIb5AdMzfjiSQa9JRZblqlm4lTn
+ KiD5ZuwvKHsA+Fy/U5qm/1pGnj3d7zqRGR9gmq/lXbPVk9ed0jC9DYwwAE56qzK+7OHvwjUuH+p
+ be8x6UcsqwLxD7LGUJ/0qIMSLr+VBrm6xb1Cx2Nk=
+X-Received: by 2002:ac8:5fd6:0:b0:405:5b23:d0ea with SMTP id
+ k22-20020ac85fd6000000b004055b23d0eamr717405qta.16.1695416811980; 
+ Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHO77hOhRgl+P8D05v+uElLGmY0PJDkHzsfs38llOhEzF3MZ4ZCYCENWWZ4uGBMCz8o7uGGFw==
+X-Received: by 2002:ac8:5fd6:0:b0:405:5b23:d0ea with SMTP id
+ k22-20020ac85fd6000000b004055b23d0eamr717384qta.16.1695416811681; 
+ Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ t15-20020ac8738f000000b0040324785e4csm1737173qtp.13.2023.09.22.14.06.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Sep 2023 14:06:51 -0700 (PDT)
+Message-ID: <2f7fbd1b606b4d08b8c8c6eefff5898c8faa697c.camel@redhat.com>
+Subject: Re: [RFT PATCH v2 04/12] drm/nouveau: Call
+ drm_atomic_helper_shutdown() or equiv at shutdown time
+From: Lyude Paul <lyude@redhat.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org,  Maxime Ripard <mripard@kernel.org>
+Date: Fri, 22 Sep 2023 17:06:50 -0400
+In-Reply-To: <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
+References: <20230921192749.1542462-1-dianders@chromium.org>
+ <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH0PR12MB5299:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e0821c2-c412-46a3-5885-08dbbbaf86a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2K0R2/2UwgClt3y7p+kHMINf6+NTmNYJNCcJRsKva7ax6axTAt2krSuWeDHBefb0ju6Q3DRk1+aSdM1IHrxHVFplBBfgmIVxvCwKoIRVX6CcqxZbUcQNzVcLMKFKFKVu9DMJmnetlunqZ9mYLnw/T7YtOqg/TMVXUQc2f4keiUDRubsTLu341ByxPs8TmMCuIa1hUr5LAeTom0FQzLmgIOOvjP9MpJOV7Jf+UsyNRHauBYHxNc9MZhXQYKJG6I45lUiPXIk0lwnGI+4mQIxq9y5w95QPVN7sMwGIftlMz2UftRtqPWAOcdqGyoBpPdpb9QzAHmMHQ/evHggRB3A59NPgUUo9wL+UmdDBlKXiI7b2BkRKfnNJuk5PFl71g3Ssxyi/v140bVs7UNQ/dq57S+JzSccPY30UusNQT1nlRXe40LiQ5scRS+uuMK0yiWl3YpAw9igYUfQ9TtflpYlojdKXz9JVzQNjSewMvi1JimIdTmCJOlSIKIC1B+xIfjD0HbzZ48s0vvMHESOvkCKp7TLZe1DuupDzrsZg5W7x7S61f9Tb9shhcqTYJmHsNWOzBOmZ0t4+491TIYBuD3Rg41ITu0o6VWGCprZ/NvQxrSWVJa8Bf0/gJpRuf0Mx2GFjx4NJgARPZtIK9cfITHRrutODJfbcEseMmCXB2zj7Z9M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199024)(1800799009)(186009)(2906002)(7416002)(31686004)(8676002)(4326008)(8936002)(41300700001)(44832011)(5660300002)(66946007)(316002)(66476007)(66556008)(478600001)(6666004)(6486002)(53546011)(2616005)(6512007)(26005)(6506007)(83380400001)(31696002)(38100700002)(921005)(86362001)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWlQbXlGQXp4STBzNCtiRFZzWXY1aG1aYVhoSHdjb2hselV1blEycnZpTmZU?=
- =?utf-8?B?R1NDRmlHU2ZtVGpLQXZVSlMxaXVWYlB4V1dJVzBlMkx2ME9mMnJxd2V1aGVu?=
- =?utf-8?B?ZWpwdktaRVVmeFdBTnJOT0hmQW5GZFlIakdOcURPdTAvN2lhTmFvbTFWQjJ1?=
- =?utf-8?B?MXVVRmNoM1AwSmZSaHdxeE40K2lFWm13cVRBanNEb1VKMVRSVVREMkJ3YXpP?=
- =?utf-8?B?c0E0Y3ZTUStCRXNsZHNlQTRiZUNWZUYxcjl0MkhqNlcyZjZZK1phWFk3N1JW?=
- =?utf-8?B?U1RQU1d4ZThaOFkwQVk4ZjVMYnFCdXpzNU9XaWJXK01CRmxxMHUwMUptWW1W?=
- =?utf-8?B?QmZBRDFkMDk1UFN6czBxbmFCUTNYdUFEQUFSZHJ3bzNldU9VSGoyT3lyakZp?=
- =?utf-8?B?VDVxQnUzYWlRVXg2bi9CQXZ1Z1JpTC9tRzlVWVNwVkkyR1c5VmFsdDNpL1FN?=
- =?utf-8?B?b296dXFaRTcvdE9ndGJGY0x5dWJSbVRsQkIyL0ZOa2s2SVJBZzcwa2Nzc0dE?=
- =?utf-8?B?Mk5FeWd3QWt0Y0dJaTJtMWNkUjVTcXF2bnUzcXh2UjhjY3JzeS9mekxUNmNr?=
- =?utf-8?B?aTU1QXFDV1cyTHVSak4rQ21Bcm4xR0ZPbTVJV0VZYTZwc2VuNGEvOEdCZ2w0?=
- =?utf-8?B?RHVlT01mWVFvWDI5ZnFSYjVzWlordlp3ZDB0bW0vQ2JZdytZMklkdnVla0N0?=
- =?utf-8?B?ZEtNMWhJeXZvRUl2a3dPa3lObVdVblNZdHlmMmN3UEFhSzYvTmgyWHJZSFAr?=
- =?utf-8?B?WlhqWWpTcWU0Uzhqd2tuR3poTEZNTy9wYXQrMzFpV084STUwZzBWQSsvRktN?=
- =?utf-8?B?Nis2VGtrTFJ0OGpaV3pTejNhL2FycFNyWWtTL1pHZktBWCthWmhhT1c4dlky?=
- =?utf-8?B?blhQVVJ6QjFEa01WOHF4VjQ0UGFTeFVLQUVkaXB1YWo5RFFLOWsyUUVJZC9p?=
- =?utf-8?B?ZGFQaTc2VTdHMmpMRmxWaC9rZFJxSFJPdzNHT3BQYVNyekc2NGplcERNV3dE?=
- =?utf-8?B?SEtBcWpFV0JaTWxZVFdKaHV5QzY2SG1WcmVBVUVuSnFEa1hwVmc5WkxPM3Vh?=
- =?utf-8?B?TFk4UDFYTEZSc0EwS3NoYjF0Q3h6Q0RXeVlJS0RVS1BBM255YlFmcFYzbUVw?=
- =?utf-8?B?eEJTbWp5eUgwcXNZVWI3OGNtOVhna1dGL3JJNEoxUEtFdUlHVnBndE9iMmd3?=
- =?utf-8?B?VWZzdmRJR2NhaTlBSkh3TTcvN1BTenNYTEJnMEdFYkxyd0szWTVDUEcyWXFr?=
- =?utf-8?B?OUVaUS9CL0xvbHY0b1VHenVLVW4zSEloVWpsNVdTN0Z0NHZLbi9oelByNmRI?=
- =?utf-8?B?MXVuV3B5cTFxUnZVU0JjR2ZqUWptQUVyNTlnSzBNaXZHb01HejZJNXVzVE92?=
- =?utf-8?B?QWNEdmEyakVQSE5DNUdYd1VldG1NdXg2aGZldXhWQklUQm40dHArS2V4ZGVF?=
- =?utf-8?B?ZmZ1b1hSUXZ2bllHMmlhMVYxcStHVGo2bHlnOXNNOFhNaXFxMDBnaWNvWWt6?=
- =?utf-8?B?ZElKYXZxckpQNWFkbHgvU213bUxJWTJFQzlxQ2RrczBGNUhPTkg0YUdpVFdq?=
- =?utf-8?B?UTR3MXBLUTJCWlIxSlhTM3oyNmYrNWcrZ0xNbDlucVdrZUk2UitQa2tTUk5o?=
- =?utf-8?B?YTI4WkxHZHdpdVhIQmRFTS8xcmRVYXE1d1FzT1FxUkVpa1RtMzV6Tkx4U1BS?=
- =?utf-8?B?WnRocDJHQ0JZZmxLQjJPczNSMVZHdm1leXpFSTc0TUw0RElMdGdrcWw1U2tF?=
- =?utf-8?B?dDlaSlRKbVpROTFzSysrWHV5MDk2S29zSlh2MXZLZFNKNXB3UEhmSjFVNGlt?=
- =?utf-8?B?TjVoNHpmdTQyRUlrYkMyeURmWC9renhTS3k0ZVZGNkZPL1dTRDV3TUR1Y2Za?=
- =?utf-8?B?RGt2VFhvMXFBbm5aV01LbG9zM1FIRUVxYk5RZUhsNmY0NTFSZDRNcnJkRWdk?=
- =?utf-8?B?YXFBdkc4S0lJU0Z5N3JtMEZpLzRDOXp1STgrK0l1TFBQS0R1RmFnTUwyR2lK?=
- =?utf-8?B?MkVrZXFSK1lSK0hsRHVzbmpHakNVWkl4bkl0aXNBM0FhUUxPM2FNTmpTNkhz?=
- =?utf-8?B?cHlEdWpzaFBxZWxvVUNsMTY1anpiQlJyOFFNUWNaeUxpUHk1Yi9OSDJjcmo4?=
- =?utf-8?Q?bY+WsLBFmyqf4V1W/txK1jok9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e0821c2-c412-46a3-5885-08dbbbaf86a0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 21:04:35.7863 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wS3t8Er8R4quxSKxBXLgKFBFEZkbUyM2RL10hVcnWkkPn+rjMA2IbxcXa6CKW08hVy0Mdyn7e2TNgaDxEkm0Nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5299
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,276 +87,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Patil.Reddy@amd.com,
- platform-driver-x86@vger.kernel.org
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/2023 14:04, Mario Limonciello wrote:
-> On 9/22/2023 12:50, Shyam Sundar S K wrote:
->> From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>
->> AMDSFH has information about the User presence information via the Human
->> Presence Detection (HPD) sensor which is part of the AMD sensor fusion 
->> hub.
->> Add PMF and AMDSFH interface to get this information.
->>
->> Co-developed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->> ---
->>   drivers/hid/amd-sfh-hid/amd_sfh_common.h      |  5 ++++
->>   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c |  2 +-
->>   drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 11 ++++++++
->>   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.c    | 28 +++++++++++++++++++
->>   .../amd-sfh-hid/sfh1_1/amd_sfh_interface.h    |  1 +
->>   drivers/platform/x86/amd/pmf/spc.c            | 21 ++++++++++++++
->>   include/linux/amd-pmf-io.h                    | 22 ++++++++++++++-
->>   7 files changed, 88 insertions(+), 2 deletions(-)
+actually very glad to see this because I think I've seen one bug in the wil=
+d
+as a result of things not getting shut down :)
 
-Somthing else I noticed about this change.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Tested-by: Lyude Paul <lyude@redhat.com>
 
-I believe you should be adding to Kconfig:
-depends on AMD_SFH_HID
+On Thu, 2023-09-21 at 12:26 -0700, Douglas Anderson wrote:
+> Based on grepping through the source code this driver appears to be
+> missing a call to drm_atomic_helper_shutdown() (or
+> drm_helper_force_disable_all() if not using atomic) at system shutdown
+> time. Among other things, this means that if a panel is in use that it
+> won't be cleanly powered off at system shutdown time.
+>=20
+> The fact that we should call drm_atomic_helper_shutdown() in the case
+> of OS shutdown/restart comes straight out of the kernel doc "driver
+> instance overview" in drm_drv.c.
+>=20
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> This commit is only compile-time tested. I made my best guess about
+> how to fit this into the existing code. If someone wishes a different
+> style, please yell.
+>=20
+> (no changes since v1)
+>=20
+>  drivers/gpu/drm/nouveau/nouveau_display.c  |  9 +++++++++
+>  drivers/gpu/drm/nouveau/nouveau_display.h  |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_drm.c      | 13 +++++++++++++
+>  drivers/gpu/drm/nouveau/nouveau_drv.h      |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_platform.c |  6 ++++++
+>  5 files changed, 30 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/=
+nouveau/nouveau_display.c
+> index d8c92521226d..05c3688ccb76 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> @@ -642,6 +642,15 @@ nouveau_display_fini(struct drm_device *dev, bool su=
+spend, bool runtime)
+>  =09disp->fini(dev, runtime, suspend);
+>  }
+> =20
+> +void
+> +nouveau_display_shutdown(struct drm_device *dev)
+> +{
+> +=09if (drm_drv_uses_atomic_modeset(dev))
+> +=09=09drm_atomic_helper_shutdown(dev);
+> +=09else
+> +=09=09drm_helper_force_disable_all(dev);
+> +}
+> +
+>  static void
+>  nouveau_display_create_properties(struct drm_device *dev)
+>  {
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/=
+nouveau/nouveau_display.h
+> index 2ab2ddb1eadf..9df62e833cda 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_display.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_display.h
+> @@ -47,6 +47,7 @@ void nouveau_display_destroy(struct drm_device *dev);
+>  int  nouveau_display_init(struct drm_device *dev, bool resume, bool runt=
+ime);
+>  void nouveau_display_hpd_resume(struct drm_device *dev);
+>  void nouveau_display_fini(struct drm_device *dev, bool suspend, bool run=
+time);
+> +void nouveau_display_shutdown(struct drm_device *dev);
+>  int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
+>  void nouveau_display_resume(struct drm_device *dev, bool runtime);
+>  int  nouveau_display_vblank_enable(struct drm_crtc *crtc);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouv=
+eau/nouveau_drm.c
+> index 50589f982d1a..8ecfd66b7aab 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -879,6 +879,18 @@ nouveau_drm_remove(struct pci_dev *pdev)
+>  =09pci_disable_device(pdev);
+>  }
+> =20
+> +void
+> +nouveau_drm_device_shutdown(struct drm_device *dev)
+> +{
+> +=09nouveau_display_shutdown(dev);
+> +}
+> +
+> +static void
+> +nouveau_drm_shutdown(struct pci_dev *pdev)
+> +{
+> +=09nouveau_drm_device_shutdown(pci_get_drvdata(pdev));
+> +}
+> +
+>  static int
+>  nouveau_do_suspend(struct drm_device *dev, bool runtime)
+>  {
+> @@ -1346,6 +1358,7 @@ nouveau_drm_pci_driver =3D {
+>  =09.id_table =3D nouveau_drm_pci_table,
+>  =09.probe =3D nouveau_drm_probe,
+>  =09.remove =3D nouveau_drm_remove,
+> +=09.shutdown =3D nouveau_drm_shutdown,
+>  =09.driver.pm =3D &nouveau_pm_ops,
+>  };
+> =20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouv=
+eau/nouveau_drv.h
+> index 3666a7403e47..aa936cabb6cf 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> @@ -327,6 +327,7 @@ struct drm_device *
+>  nouveau_platform_device_create(const struct nvkm_device_tegra_func *,
+>  =09=09=09       struct platform_device *, struct nvkm_device **);
+>  void nouveau_drm_device_remove(struct drm_device *dev);
+> +void nouveau_drm_device_shutdown(struct drm_device *dev);
+> =20
+>  #define NV_PRINTK(l,c,f,a...) do {                                      =
+       \
+>  =09struct nouveau_cli *_cli =3D (c);                                    =
+    \
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_platform.c b/drivers/gpu/drm=
+/nouveau/nouveau_platform.c
+> index 23cd43a7fd19..b2e82a96411c 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_platform.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_platform.c
+> @@ -50,6 +50,11 @@ static int nouveau_platform_remove(struct platform_dev=
+ice *pdev)
+>  =09return 0;
+>  }
+> =20
+> +static void nouveau_platform_shutdown(struct platform_device *pdev)
+> +{
+> +=09nouveau_drm_device_shutdown(platform_get_drvdata(pdev));
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_OF)
+>  static const struct nvkm_device_tegra_func gk20a_platform_data =3D {
+>  =09.iommu_bit =3D 34,
+> @@ -94,4 +99,5 @@ struct platform_driver nouveau_platform_driver =3D {
+>  =09},
+>  =09.probe =3D nouveau_platform_probe,
+>  =09.remove =3D nouveau_platform_remove,
+> +=09.shutdown =3D nouveau_platform_shutdown,
+>  };
 
->>
->> diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_common.h 
->> b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> index 2643bb14fee2..cd57037bf217 100644
->> --- a/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> +++ b/drivers/hid/amd-sfh-hid/amd_sfh_common.h
->> @@ -37,6 +37,10 @@ struct amd_mp2_sensor_info {
->>       dma_addr_t dma_address;
->>   };
->> +struct sfh_dev_status {
->> +    bool is_hpd_present;
->> +};
->> +
->>   struct amd_mp2_dev {
->>       struct pci_dev *pdev;
->>       struct amdtp_cl_data *cl_data;
->> @@ -47,6 +51,7 @@ struct amd_mp2_dev {
->>       struct amd_input_data in_data;
->>       /* mp2 active control status */
->>       u32 mp2_acs;
->> +    struct sfh_dev_status dev_en;
->>   };
->>   struct amd_mp2_ops {
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> index 06bdcf072d10..d7467c41ad3b 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_desc.c
->> @@ -132,7 +132,7 @@ static void get_common_inputs(struct 
->> common_input_property *common, int report_i
->>       common->event_type = HID_USAGE_SENSOR_EVENT_DATA_UPDATED_ENUM;
->>   }
->> -static int float_to_int(u32 flt32_val)
->> +int float_to_int(u32 flt32_val)
->>   {
->>       int fraction, shift, mantissa, sign, exp, zeropre;
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> index e9c6413af24a..9c623456ee12 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
->> @@ -73,6 +73,12 @@ static int amd_sfh_hid_client_deinit(struct 
->> amd_mp2_dev *privdata)
->>       int i, status;
->>       for (i = 0; i < cl_data->num_hid_devices; i++) {
->> +        switch (cl_data->sensor_idx[i]) {
->> +        case HPD_IDX:
->> +            privdata->dev_en.is_hpd_present = false;
->> +            break;
->> +        }
->> +
->>           if (cl_data->sensor_sts[i] == SENSOR_ENABLED) {
->>               privdata->mp2_ops->stop(privdata, cl_data->sensor_idx[i]);
->>               status = amd_sfh_wait_for_response
->> @@ -178,6 +184,11 @@ static int amd_sfh1_1_hid_client_init(struct 
->> amd_mp2_dev *privdata)
->>               rc = amdtp_hid_probe(i, cl_data);
->>               if (rc)
->>                   goto cleanup;
->> +            switch (cl_data->sensor_idx[i]) {
->> +            case HPD_IDX:
->> +            privdata->dev_en.is_hpd_present = true;
-> 
-> Looks like this is missing a tab.
-> 
->> +                break;
->> +            }
->>           }
->>           dev_dbg(dev, "sid 0x%x (%s) status 0x%x\n",
->>               cl_data->sensor_idx[i], 
->> get_sensor_name(cl_data->sensor_idx[i]),
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> index 4f81ef2d4f56..63a5bbca5a09 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.c
->> @@ -7,11 +7,14 @@
->>    *
->>    * Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>    */
->> +#include <linux/amd-pmf-io.h>
->>   #include <linux/io-64-nonatomic-lo-hi.h>
->>   #include <linux/iopoll.h>
->>   #include "amd_sfh_interface.h"
->> +static struct amd_mp2_dev *emp2;
->> +
->>   static int amd_sfh_wait_response(struct amd_mp2_dev *mp2, u8 sid, 
->> u32 cmd_id)
->>   {
->>       struct sfh_cmd_response cmd_resp;
->> @@ -76,4 +79,29 @@ static struct amd_mp2_ops amd_sfh_ops = {
->>   void sfh_interface_init(struct amd_mp2_dev *mp2)
->>   {
->>       mp2->mp2_ops = &amd_sfh_ops;
->> +    emp2 = mp2;
->> +}
->> +
->> +static int amd_sfh_hpd_info(u8 *user_present)
->> +{
->> +    if (emp2 && emp2->dev_en.is_hpd_present) {
->> +        struct hpd_status hpdstatus;
->> +
->> +        hpdstatus.val = readl(emp2->mmio + AMD_C2P_MSG(4));
->> +        *user_present = hpdstatus.shpd.presence;
->> +        return 0;
->> +    }
->> +    return  -ENODEV;
-> 
-> Extra whitespace here.
-> 
->> +}
->> +
-
-IMO you should add some kernel doc here or in the header as good 
-practice for exported symbols.
-
->> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum 
->> sfh_message_type op)
->> +{
->> +    if (sfh_info) {
->> +        switch (op) {
->> +        case MT_HPD:
->> +            return amd_sfh_hpd_info(&sfh_info->user_present);
->> +        }
->> +    }
->> +    return -1;
-> 
-> This looks like it should probably be -EINVAL.
-> 
->>   }
->> +EXPORT_SYMBOL_GPL(amd_get_sfh_info);
->> diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h 
->> b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> index 9d31d5b510eb..8a36386e6bce 100644
->> --- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> +++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_interface.h
->> @@ -149,6 +149,7 @@ struct hpd_status {
->>       };
->>   };
->> +int float_to_int(u32 flt32_val);
->>   void sfh_interface_init(struct amd_mp2_dev *mp2);
->>   void amd_sfh1_1_set_desc_ops(struct amd_mp2_ops *mp2_ops);
->>   #endif
->> diff --git a/drivers/platform/x86/amd/pmf/spc.c 
->> b/drivers/platform/x86/amd/pmf/spc.c
->> index 5f3ab1ce09d2..97293ae25cf5 100644
->> --- a/drivers/platform/x86/amd/pmf/spc.c
->> +++ b/drivers/platform/x86/amd/pmf/spc.c
->> @@ -48,6 +48,7 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, 
->> struct ta_pmf_enact_table *
->>       dev_dbg(dev->dev, "Primary Display State : %s\n", 
->> in->ev_info.display_state ?
->>               "Connected" : "disconnected/unknown");
->>       dev_dbg(dev->dev, "LID State : %s\n", in->ev_info.lid_state ? 
->> "Close" : "Open");
->> +    dev_dbg(dev->dev, "User Presence : %s\n", 
->> in->ev_info.user_present ? "Present" : "Away");
->>       dev_dbg(dev->dev, "==== TA inputs END ====\n");
->>   }
->>   #else
->> @@ -156,6 +157,25 @@ static void amd_pmf_get_gpu_info(struct 
->> amd_pmf_dev *dev, struct ta_pmf_enact_ta
->>       in->ev_info.display_state = dev->gfx_data.con_status[0];
->>   }
->> +static void amd_pmf_get_sensor_info(struct amd_pmf_dev *dev, struct 
->> ta_pmf_enact_table *in)
->> +{
->> +    struct amd_sfh_info sfh_info;
->> +
->> +    /* get HPD data */
->> +    amd_get_sfh_info(&sfh_info, MT_HPD);
-> 
-> amd_get_sfh_info() is int.
-> 
-> Shouldn't you look for the return code here?
-> 
->> +    switch (sfh_info.user_present) {
->> +    case SFH_NOT_DETECTED:
->> +        in->ev_info.user_present = 0xff; /* assume no sensors 
->> connected */
->> +        break;
->> +    case SFH_USER_PRESENT:
->> +        in->ev_info.user_present = 1;
->> +        break;
->> +    case SFH_USER_AWAY:
->> +        in->ev_info.user_present = 0;
->> +        break;
->> +    }
->> +}
->> +
->>   void amd_pmf_populate_ta_inputs(struct amd_pmf_dev *dev, struct 
->> ta_pmf_enact_table *in)
->>   {
->>       /* TA side lid open is 1 and close is 0, hence the ! here */
->> @@ -165,4 +185,5 @@ void amd_pmf_populate_ta_inputs(struct amd_pmf_dev 
->> *dev, struct ta_pmf_enact_tab
->>       amd_pmf_get_battery_info(dev, in);
->>       amd_pmf_get_slider_info(dev, in);
->>       amd_pmf_get_gpu_info(dev, in);
->> +    amd_pmf_get_sensor_info(dev, in);
->>   }
->> diff --git a/include/linux/amd-pmf-io.h b/include/linux/amd-pmf-io.h
->> index ecae387ddaa6..4f82973f6ad2 100644
->> --- a/include/linux/amd-pmf-io.h
->> +++ b/include/linux/amd-pmf-io.h
->> @@ -5,7 +5,8 @@
->>    * Copyright (c) 2023, Advanced Micro Devices, Inc.
->>    * All Rights Reserved.
->>    *
->> - * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> + *          Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->>    */
->>   #ifndef AMD_PMF_IO_H
->> @@ -26,4 +27,23 @@ struct amd_gpu_pmf_data {
->>   int amd_pmf_get_gfx_data(struct amd_gpu_pmf_data *pmf);
->>   int amd_pmf_set_gfx_data(struct amd_gpu_pmf_data *pmf);
->> +
->> +/* amd-sfh */
->> +enum sfh_message_type {
->> +    MT_HPD,
->> +};
->> +
->> +enum hpd_info {
->> +    SFH_NOT_DETECTED,
->> +    SFH_USER_PRESENT,
->> +    SFH_USER_AWAY
->> +};
->> +
->> +struct amd_sfh_info {
->> +    u8 user_present;
->> +    /* add future caps below */
->> +};
->> +
->> +int amd_get_sfh_info(struct amd_sfh_info *sfh_info, enum 
->> sfh_message_type op);
->> +
->>   #endif
-> 
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
