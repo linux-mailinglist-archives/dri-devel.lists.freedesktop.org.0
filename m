@@ -2,68 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AA07AB4CF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBA77AB4F3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:42:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35E2010E695;
-	Fri, 22 Sep 2023 15:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 649FC10E696;
+	Fri, 22 Sep 2023 15:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CB010E696
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 15:30:11 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1d63d38c74fso1183726fac.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 08:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695396610; x=1696001410; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=4TJHGEmsDY+NAj3iBtyvpvCWy99F2/68mZJZrN4IAhk=;
- b=dzL//9gojFVjigkJubwxoPhPEurOI+PXghiSmXaCcKb19fewg7MEj/v97evXuVOUg2
- Q63t1IFzPAqa6RVJnE2sk1pujzW3QEIZOra1GsxwzjpRdLy78BJ+uMsd4LwnFpzSWlI9
- oLuqpOMUL4Lm62wp9/ixrSnUkWbnv1Fdm+Aoz/adaSTO7DkYXyTBX0atO66FzSiganqq
- gMc5S1O84QINJJqh9adAEfnX+YnuFoL2ANeyyw1rr0NGLS3BsoNUQMBKIpNF/05wtroi
- zc/JM919np+TXn1+NpLHwHTf7if9P59hSk+PQs0z9y9Ocofz7MZ8Sagd7m8In+Q7Oayj
- n1lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695396610; x=1696001410;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4TJHGEmsDY+NAj3iBtyvpvCWy99F2/68mZJZrN4IAhk=;
- b=gFe7uxJI7g5X/uPjs30Y9xkbYOUAc2GOpGAtWAOKCFH+sPOX8OYxwTRsBVa4cJXL74
- /nUKHS/SXuRlA9eXMEFO2gSytWCpkZlY/rMxpalV3yMRIltfHsGMYk0rkqG3S17zT60g
- 0/CT9UaP8l9NGkG0iLsAUP96TVKBXI+IV6lCvmGqjPkCKF9lZwgH5/cGlayPKKvS9tbP
- QZIS7/3hLxRCalb+ZgH0aXYpJQVie2Odjli72UIyII/CydzkXG9uJN0aH4f5LN80yBA9
- ndynJRrCaXdkDb44OkBvM1tvciEhq+0LlaGRp2yPMRT3El+Dydg6OXr6Gn3LYJljapxY
- x1+g==
-X-Gm-Message-State: AOJu0YyiDWpk65WRjAj2ZNotl6KgjfTXX5CXK+EetUyFUOq1TpgGOa05
- uz4YrtDvjxB3NkcE5UrDthc=
-X-Google-Smtp-Source: AGHT+IFpSNDfMbLwVAsfGTShXUDcaUIcejeAJrl4tdhrT/QF27f/mmhhBUZ++d9tBy4mUoUcC2tnuA==
-X-Received: by 2002:a05:6870:ad84:b0:1dc:86e5:ebd7 with SMTP id
- ut4-20020a056870ad8400b001dc86e5ebd7mr3924903oab.58.1695396610376; 
- Fri, 22 Sep 2023 08:30:10 -0700 (PDT)
-Received: from neuromancer. ([75.28.21.198]) by smtp.gmail.com with ESMTPSA id
- j2-20020a056870530200b001cd20f30898sm1071170oan.24.2023.09.22.08.30.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Sep 2023 08:30:09 -0700 (PDT)
-Message-ID: <650db301.050a0220.81e83.87ad@mx.google.com>
-X-Google-Original-Message-ID: <ZQ2y/d2GX9H77Ko9@neuromancer.>
-Date: Fri, 22 Sep 2023 10:30:05 -0500
-From: Chris Morgan <macroalpha82@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH V2 1/2] dt-bindings: display: newvision,nv3051d: Add
- Anbernic 351V Support
-References: <20230809153941.1172-1-macroalpha82@gmail.com>
- <20230809153941.1172-2-macroalpha82@gmail.com>
- <20230810232409.GA1548096-robh@kernel.org>
- <64d648ae.0d0a0220.531ba.5b33@mx.google.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA86610E696
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 15:42:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A1052622A9;
+ Fri, 22 Sep 2023 15:42:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C27BCC433C7;
+ Fri, 22 Sep 2023 15:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1695397350;
+ bh=5BvJFP59LWR6oDRO5gYLA3PtHEwbDC1l69qhCgYKVCw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NwsOSugG4TV4Em3gjHEeJTTBmwRPpa/KkLiCEpocihXimquuECxT7ntrra1bg34sv
+ Mn6IpapFxVVsN0FIQ22ZPXKmMRDLNHnSHrnB/7ktVv0g4D34g/2RNsW4vThxRipxSp
+ i7PIBY8Og6q/LRgorpaw+lTPueWenBahnUH44XEhz4d1SVmAPiQcLaCB0LvRrK23DK
+ 68wqByJglzf2t++qUiqD9akiPztmS/k0n89j82VOMrSpBiX5e6Wm8r3Kq5cnhg3sVo
+ siLaiwRJxNjwS/yTy16nYT/jzinn4diKN61G9ihnFg69ZQCapWeIQF+8RQM4dIXNST
+ jvXebT3Osxqhg==
+Date: Fri, 22 Sep 2023 16:42:24 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Moudy Ho <moudy.ho@mediatek.com>
+Subject: Re: [PATCH v6 03/16] dt-bindings: media: mediatek: mdp3: include
+ common properties
+Message-ID: <20230922-grope-yield-46767aa32a3d@spud>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-4-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="t3id+nrX22G9XF03"
 Content-Disposition: inline
-In-Reply-To: <64d648ae.0d0a0220.531ba.5b33@mx.google.com>
+In-Reply-To: <20230922072116.11009-4-moudy.ho@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,98 +53,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org,
- dri-devel@lists.freedesktop.org, Chris Morgan <macromorgan@hotmail.com>,
- sam@ravnborg.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 11, 2023 at 09:41:48AM -0500, Chris Morgan wrote:
-> On Thu, Aug 10, 2023 at 05:24:09PM -0600, Rob Herring wrote:
-> > On Wed, Aug 09, 2023 at 10:39:40AM -0500, Chris Morgan wrote:
-> > > From: Chris Morgan <macromorgan@hotmail.com>
-> > > 
-> > > Document the Anbernic RG351V panel, which appears to be identical to
-> > > the panel used in their 353 series except for in inclusion of an
-> > > additional DSI format flag.
-> > > 
-> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > > ---
-> > >  .../display/panel/newvision,nv3051d.yaml       | 18 ++++++++++--------
-> > >  1 file changed, 10 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> > > index 116c1b6030a2..576f3640cb33 100644
-> > > --- a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-> > > @@ -7,9 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >  title: NewVision NV3051D based LCD panel
-> > >  
-> > >  description: |
-> > > -  The NewVision NV3051D is a driver chip used to drive DSI panels. For now,
-> > > -  this driver only supports the 640x480 panels found in the Anbernic RG353
-> > > -  based devices.
-> > > +  The NewVision NV3051D is a driver chip used to drive DSI panels.
-> > >  
-> > >  maintainers:
-> > >    - Chris Morgan <macromorgan@hotmail.com>
-> > > @@ -19,11 +17,15 @@ allOf:
-> > >  
-> > >  properties:
-> > >    compatible:
-> > > -    items:
-> > > -      - enum:
-> > > -          - anbernic,rg353p-panel
-> > > -          - anbernic,rg353v-panel
-> > > -      - const: newvision,nv3051d
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - anbernic,rg353p-panel
-> > > +              - anbernic,rg353v-panel
-> > > +          - const: newvision,nv3051d
-> > > +
-> > > +      - items:
-> > > +          - const: anbernic,rg351v-panel
-> > 
-> > I don't understand. Is this panel not based on newvision,nv3051d? If 
-> > not, then it probably should be a different binding. Lot's of panel 
-> > bindings have similar properties.
-> 
-> It appears to be the same panel (or extremely similar, honestly I don't
-> know because there are no external markings on it). However, this
-> specific implementation seems to require MIPI_DSI_CLOCK_NON_CONTINUOUS,
-> not using it prevents the panel from working. As for the existing panel
-> MIPI_DSI_CLOCK_NON_CONTINUOUS stops it from working. The different
-> binding essentially determines whether or not that flag is present, but
-> otherwise everything else is identical.
-> 
-> Chris
 
-I don't want to lose sight of this, but I am not sure how to proceed.
-What I can do instead is change the compatible string inside the driver
-from newvision,nv3051d to either anbernic,rg353p-panel or 
-anbernic,rg351v-panel. Then, I can remove anbernic,rg353v-panel as an
-enum and replace it with anbernic,rg351v-panel. The gist of this is
-that we have a Newvision NV3051D panel that will still be supported by
-this driver in 2 different configurations, the 353P (which is identical
-to the 353V) and the 351V (which has different mode flags but is
-otherwise identical).
+--t3id+nrX22G9XF03
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So long story short would it work if I did this, and modified the
-driver and all in-use devicetrees accordingly? To my knowledge this
-panel is only in use on boards that I submitted so I can update all
-those and test them.
+On Fri, Sep 22, 2023 at 03:21:03PM +0800, Moudy Ho wrote:
+> To minimize duplication and standardize the document style,
+> include the common properties for MT8183 RDMA.
 
-      - enum:
-          - anbernic,rg351v-panel
-          - anbernic,rg353p-panel
-      - const: newvision,nv3051d
+Duplication that you created in the previous patch? Why not combine
+patches 2 & 3?
 
-Thank you,
-Chris.
+Cheers,
+Conor.
 
-> 
-> > 
-> > Rob
+>=20
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 43 ++-----------------
+>  1 file changed, 4 insertions(+), 39 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.y=
+aml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index 3e128733ef53..0539badc9821 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: MediaTek Read Direct Memory Access
+> +title: MediaTek MT8183 Read Direct Memory Access
+> =20
+>  maintainers:
+>    - Matthias Brugger <matthias.bgg@gmail.com>
+> @@ -18,62 +18,27 @@ description: |
+>    Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>    for details.
+> =20
+> +allOf:
+> +  - $ref: mediatek,mdp3-rdma-common.yaml#
+> +
+>  properties:
+>    compatible:
+>      items:
+>        - const: mediatek,mt8183-mdp3-rdma
+> =20
+> -  reg:
+> -    maxItems: 1
+> -
+> -  mediatek,gce-client-reg:
+> -    $ref: /schemas/types.yaml#/definitions/phandle-array
+> -    items:
+> -      items:
+> -        - description: phandle of GCE
+> -        - description: GCE subsys id
+> -        - description: register offset
+> -        - description: register size
+> -    description: The register of client driver can be configured by gce =
+with
+> -      4 arguments defined in this property. Each GCE subsys id is mappin=
+g to
+> -      a client defined in the header include/dt-bindings/gce/<chip>-gce.=
+h.
+> -
+> -  mediatek,gce-events:
+> -    description:
+> -      The event id which is mapping to the specific hardware event signal
+> -      to gce. The event id is defined in the gce header
+> -      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> -    $ref: /schemas/types.yaml#/definitions/uint32-array
+> -
+> -  power-domains:
+> -    maxItems: 1
+> -
+>    clocks:
+>      items:
+>        - description: RDMA clock
+>        - description: RSZ clock
+> =20
+> -  iommus:
+> -    maxItems: 1
+> -
+>    mboxes:
+>      items:
+>        - description: used for 1st data pipe from RDMA
+>        - description: used for 2nd data pipe from RDMA
+> =20
+> -  '#dma-cells':
+> -    const: 1
+> -
+>  required:
+>    - compatible
+> -  - reg
+> -  - mediatek,gce-client-reg
+> -  - mediatek,gce-events
+> -  - power-domains
+> -  - clocks
+> -  - iommus
+>    - mboxes
+> -  - '#dma-cells'
+> =20
+>  additionalProperties: false
+> =20
+> --=20
+> 2.18.0
+>=20
+
+--t3id+nrX22G9XF03
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQ214AAKCRB4tDGHoIJi
+0pjhAQDqYFJMcVq5Ru7Q8gVzeuDVj+gKssFalhT0d+Clke4nqQD/VPXvz8K458L1
+KJs20bZWY09DDbrl5qDCY9BMQs7IQQc=
+=F41u
+-----END PGP SIGNATURE-----
+
+--t3id+nrX22G9XF03--
