@@ -1,48 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFFE7AB320
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 15:53:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DAD7AB397
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 16:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F4A10E66C;
-	Fri, 22 Sep 2023 13:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3DF10E659;
+	Fri, 22 Sep 2023 14:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB03B10E66C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 13:53:45 +0000 (UTC)
-Received: from [192.168.68.123] (unknown [177.98.21.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 284DF66072BD;
- Fri, 22 Sep 2023 14:53:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1695390824;
- bh=WoiS3+8J2m0h7J1ZYU1c9DU2eQCub1jdA/yONAZ1bYk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QeM9MoNZ0/i5NssNN3eIMNJnh/KuVZ3GdFE4UdN3s1KKEbL+KzuAVB/ktU+FuhnJC
- 2S/z3KiEBwnQuUKfuClAANB8gx1laSJWGF+dVNjSVsQibm/e4vVN6psO7SfYGcvB/O
- wd6txqBR8BO7J0rysd5/XpgWVU0bllFaaHRtRfQPlTCUh26jiIcFReYnN2yU+gCfqI
- Xidw9JbP3gAW8YpqOY5dmlydxyvDa2VschOrDhA/e7Y/qyiCUAq9Jz5eY7R923xCAo
- tCjp4fvc2Gd6CbX0qStK2UywRUBlsIjiX4tVIc2lKtP+QikTO5Dq5xf31grl3eStWs
- 52QFxq9cMkqLQ==
-Message-ID: <26cb3404-56ad-8e23-5da5-eee94c4c4350@collabora.com>
-Date: Fri, 22 Sep 2023 10:53:35 -0300
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D3C10E642
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 07:21:28 +0000 (UTC)
+X-UUID: a198456a591811ee8051498923ad61e6-20230922
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=GwRcQkIPa0RidP1cB9AF+xbKbSI3AyGl3ep1MeePw+8=; 
+ b=hosr9nH5n6grvsKXfMxtFkKMHp7pIIfI+GvMcktLfyih7wkY2jGIpgXoP9c0YngFK3vJ0dIkIXaVlCv945fxwSBS799xEXFm0Wzd6KEW8czs5n+WzPY1u9wiiw027NDtgZeGMR0T3O+W9JdHkJ4+wgl3KhAQxSwaphRSEGeH7Ac=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32, REQID:a5367575-aaa0-4c80-a5f4-576510034ad0, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:5f78ec9, CLOUDID:f08a00f0-9a6e-4c39-b73e-f2bc08ca3dc5,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: a198456a591811ee8051498923ad61e6-20230922
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1987355008; Fri, 22 Sep 2023 15:21:22 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 22 Sep 2023 15:21:17 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 22 Sep 2023 15:21:17 +0800
+From: Moudy Ho <moudy.ho@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v6 00/16] introduce more MDP3 components in MT8195
+Date: Fri, 22 Sep 2023 15:21:00 +0800
+Message-ID: <20230922072116.11009-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 0/7] drm: ci: fixes
-Content-Language: en-US
-To: Vignesh Raman <vignesh.raman@collabora.com>, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20230914085426.883255-1-vignesh.raman@collabora.com>
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20230914085426.883255-1-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.140900-8.000000
+X-TMASE-MatchedRID: jaDo7zRnnqvsAGjS6lxxKhlckvO1m+Jc0r/qCu/cY51GL0g1nVmkYT5R
+ eTebdoC/c3vVJixkSry06j7mNfWkLhHYera7K0OLqbg9uWhLYLdkbdIIs/tC0lyXWUkr/Kkslw+
+ 39nTtEGwU+viiDxBlnQ9iGlH7LPmcxEEtnnH5KRfuykw7cfAoICoTaU3L23VCmyiLZetSf8mfop
+ 0ytGwvXiq2rl3dzGQ1XFvBhI5Hg86LT+koH7+Zhsoux4uQ/X3YXTeh+jKjqu4/s5eHgEi4ZgLRb
+ yOHU4kkeFspb5rEQuvXssLCpakOsgqhzvteG/XZoVx+33HsKxN0BNB20+SxH7f8mJY57oZddJaB
+ DYald1lvF9+X2GEIHA==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.140900-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: A77D4AEDECC94738E90500CFA5460A673A2068746427C2A25D501AD49C0ED74E2000:8
+X-MTK: N
+X-Mailman-Approved-At: Fri, 22 Sep 2023 14:28:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +85,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
- linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- david.heidelberg@collabora.com, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Moudy
+ Ho <moudy.ho@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes since v5:
+- Rebase on v6.6-rc2.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786511
+- Depends on:
+  Message ID = 20230911074233.31556-5-shawn.sung@mediatek.com
+- Split out common propertis for RDMA.
+- Split each component into independent patches.
 
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
 
-On 14/09/2023 05:54, Vignesh Raman wrote:
-> The patch series contains improvements, enabling new ci jobs which
-> enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
-> fixing issues with the ci jobs and updating the expectation files.
-> This series is intended for drm branch drm-next.
-> 
-> v2:
->    - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
->    - Reworded the commit message for enabling jobs
->    - Added a new patch in the series to use scripts/config to enable/disable configs
-> 
-> v3:
->    - New patch in the series to add device tree overlay in arch/arm64/boot/dts/qcom
->    - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
->    - New patch in the series to enable CONFIG_REGULATOR_DA9211 in defconfig
->    - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
-> 
-> v4:
->    - Drop 'enable CONFIG_REGULATOR_DA9211 in defconfig' patch as it is sent upstream as a seperate patch
->    - Use apq8016-sbc-usb-host.dtb which allows the USB controllers to work in host mode.
->      This patch depends on https://lore.kernel.org/lkml/20230911161518.650726-1-vignesh.raman@collabora.com/
+Hi,
 
-Jfyi, this patch got applied, see 
-https://lore.kernel.org/lkml/169539077994.4014786.12440074307606036817.b4-ty@kernel.org/
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
 
-Regards,
-Helen
-> 
-> Vignesh Raman (7):
->    drm: ci: igt_runner: Remove todo
->    drm: ci: Force db410c to host mode
->    drm: ci: virtio: Update ci variables
->    drm: ci: Enable regulator
->    drm: ci: Update xfails
->    drm: ci: Enable new jobs
->    drm: ci: Use scripts/config to enable/disable configs
-> 
->   drivers/gpu/drm/ci/arm64.config                  |  1 +
->   drivers/gpu/drm/ci/build.sh                      | 16 ++++++++--------
->   drivers/gpu/drm/ci/igt_runner.sh                 |  1 -
->   drivers/gpu/drm/ci/test.yml                      | 16 +++++-----------
->   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt    |  1 -
->   drivers/gpu/drm/ci/xfails/i915-cml-fails.txt     |  1 -
->   drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt    |  2 ++
->   drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt    |  1 +
->   .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt  |  2 --
->   .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt | 16 ++++++++++++++++
->   drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt |  2 ++
->   .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt |  1 +
->   .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt  |  4 ++--
->   .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt |  3 +++
->   14 files changed, 41 insertions(+), 26 deletions(-)
-> 
+Moudy Ho (16):
+  dt-bindings: media: mediatek: mdp3: correct RDMA and WROT node with
+    generic names
+  dt-bindings: media: mediatek: mdp3: split out general properties
+  dt-bindings: media: mediatek: mdp3: include common properties
+  dt-bindings: media: mediatek: mdp3: rename to MT8183 RDMA
+  dt-bindings: media: mediatek: mdp3: add support MT8195 RDMA
+  dt-bindings: media: mediatek: mdp3: add component FG for MT8195
+  dt-bindings: media: mediatek: mdp3: add component HDR for MT8195
+  dt-bindings: media: mediatek: mdp3: add component STITCH for MT8195
+  dt-bindings: media: mediatek: mdp3: add component STITCH for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TDSHP for MT8195
+  dt-bindings: display: mediatek: aal: add compatible for MT8195
+  dt-bindings: display: mediatek: color: add compatible for MT8195
+  dt-bindings: display: mediatek: merge: add compatible for MT8195
+  dt-bindings: display: mediatek: ovl: add compatible for MT8195
+  dt-bindings: display: mediatek: split: add compatible for MT8195
+  dt-bindings: display: mediatek: padding: add compatible for MT8195
+
+ .../display/mediatek/mediatek,aal.yaml        |  1 +
+ .../display/mediatek/mediatek,color.yaml      |  1 +
+ .../display/mediatek/mediatek,merge.yaml      |  1 +
+ .../display/mediatek/mediatek,ovl.yaml        |  1 +
+ .../display/mediatek/mediatek,padding.yaml    |  4 +-
+ .../display/mediatek/mediatek,split.yaml      |  1 +
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 +++++++++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     | 60 +++++++++++++++++
+ .../media/mediatek,mdp3-rdma-8183.yaml        | 65 +++++++++++++++++++
+ .../media/mediatek,mdp3-rdma-8195.yaml        | 64 ++++++++++++++++++
+ ...ma.yaml => mediatek,mdp3-rdma-common.yaml} | 49 ++++----------
+ .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 +++++++++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     | 60 +++++++++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 +++++++++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 23 ++++---
+ 15 files changed, 467 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma-8183.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma-8195.yaml
+ rename Documentation/devicetree/bindings/media/{mediatek,mdp3-rdma.yaml => mediatek,mdp3-rdma-common.yaml} (57%)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+
+-- 
+2.18.0
+
