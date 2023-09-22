@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEB37AB484
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800BB7AB490
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 17:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF28A10E691;
-	Fri, 22 Sep 2023 15:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C0A10E68B;
+	Fri, 22 Sep 2023 15:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id D565210E68B;
- Fri, 22 Sep 2023 15:12:58 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxXev0rg1l5QIrAA--.11971S3;
- Fri, 22 Sep 2023 23:12:53 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxfS_yrg1ljk8OAA--.29482S3; 
- Fri, 22 Sep 2023 23:12:52 +0800 (CST)
-Message-ID: <8356e5b1-95a6-b4e3-ee8e-5c6c46e6ce0e@loongson.cn>
-Date: Fri, 22 Sep 2023 23:12:50 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF36310E692
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 15:17:11 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 38MF0vaw026015; Fri, 22 Sep 2023 15:16:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=m7UJCN88ZLhzpJhzWOHKvOFzwA9pw03wBSOjWC2BtTI=;
+ b=m0JliVpOM0wEktLpcfj961ULImPaDM8dOrYieRk58VfpmJFBfYD2S8trzzB1rCOk7FgS
+ QbHe0cOZRWIRTuONVBW063hXJUmb5N2ZnhoE+T0+tnZpHqcB43hEHQtEM6wrWOLUX8Ih
+ Cr8jsFfceBH+4KrhtI9pfJmvP3lWJuQGQxxcUVTmE2q9ojwOPMK8YVcSqgPHxyaTw8Ap
+ X+GUowMyJhbr19QDLARcEzHxyO6ueJiMBHErYHgLKiDnUOgx86wEdncMemF+p8qAYZax
+ 1YNXFtAbMS5UFP2eunqbaP35S8pL7BumR3/OsteQmpfLCPnRC7cfnjRgUzvqXTVyRZEF Xw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8u0s285u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Sep 2023 15:16:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38MFGumJ000622
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Sep 2023 15:16:56 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 22 Sep
+ 2023 08:16:55 -0700
+Message-ID: <d6612144-02e9-62cd-3d2a-db300892e7f0@quicinc.com>
+Date: Fri, 22 Sep 2023 09:16:54 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [3/8] drm/i915/display: Consider fractional vdsc bpp while
- computing m_n values
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 7/7] accel/qaic: Add QAIC_DETACH_SLICE_BO IOCTL
 Content-Language: en-US
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20230913060606.1105349-4-mitulkumar.ajitkumar.golani@intel.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230913060606.1105349-4-mitulkumar.ajitkumar.golani@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230901172247.11410-1-quic_jhugo@quicinc.com>
+ <20230901172247.11410-8-quic_jhugo@quicinc.com>
+ <20230917085646.GB441281@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230917085646.GB441281@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxfS_yrg1ljk8OAA--.29482S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3JF47ur4xKw1xXryUKFy7twc_yoW7Xr1rpw
- 47uFyUCFyrZF1IgFW7JF4UZFW5WwsIqa43Grn8G3sI93ZrAF98JFsYka4UGFyDuFnrAF1f
- Xr97GF13Kw1jvrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
- 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
- AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
- rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtw
- CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
- 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
- 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtx
- DUUUU
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 42t9qS83isvjws99JouccDGM5BUotdj9
+X-Proofpoint-ORIG-GUID: 42t9qS83isvjws99JouccDGM5BUotdj9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-22_13,2023-09-21_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501 clxscore=1015
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309220131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +84,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, suraj.kandpal@intel.com, ankit.k.nautiyal@intel.com,
- swati2.sharma@intel.com
+Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_carlv@quicinc.com, ogabbay@kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 9/17/2023 2:56 AM, Stanislaw Gruszka wrote:
+> On Fri, Sep 01, 2023 at 11:22:47AM -0600, Jeffrey Hugo wrote:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>
+>> Once a BO is attached with slicing configuration that BO can only be used
+>> for that particular setting. With this new feature user can detach slicing
+>> configuration off an already sliced BO and attach new slicing configuration
+>> using QAIC_ATTACH_SLICE_BO.
+>>
+>> This will support BO recycling.
+>>
+>> detach_slice_bo() detaches slicing configuration from a BO. This new
+>> helper function can also be used in release_dbc() as we are doing the
+>> exact same thing.
+>>
+>> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> [jhugo: add documentation for new ioctl]
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> <snip>
+> 
+>> +	/* Check if BO is committed to H/W for DMA */
+>> +	spin_lock_irqsave(&dbc->xfer_lock, flags);
+>> +	if (bo->queued) {
+>> +		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+>> +		ret = -EBUSY;
+>> +		goto unlock_ch_srcu;
+>> +	}
+>> +	spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+> 
+> This looks like race condition. If some other thread will take the xfer_lock
+> and set bo->queued (HERE just after _unlock())  we will not return -EBUSY.
+> Something seems to be missing here or xfer_lock is not needed to protect
+> bo->queued.
 
+The other thread would also need to take the bo->lock, which is held 
+here and not released until after detach_slice_bo().  xfer_lock actually 
+protects xfer_list, but bo->queued is a quick check to see if the bo is 
+in the list, rather than iterating the list.  I can see how this is 
+misleading.  I will ponder how to improve it.
 
-On 2023/9/13 14:06, Mitul Golani wrote:
-> From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->
-> MTL+ supports fractional compressed bits_per_pixel, with precision of
-> 1/16. This compressed bpp is stored in U6.4 format.
-> Accommodate this precision while computing m_n values.
->
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
->   drivers/gpu/drm/i915/display/intel_display.c | 6 +++++-
->   drivers/gpu/drm/i915/display/intel_display.h | 2 +-
->   drivers/gpu/drm/i915/display/intel_dp.c      | 5 +++--
->   drivers/gpu/drm/i915/display/intel_dp_mst.c  | 6 ++++--
->   drivers/gpu/drm/i915/display/intel_fdi.c     | 2 +-
->   5 files changed, 14 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index afcbdd4f105a..b37aeac961f4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -2380,10 +2380,14 @@ void
->   intel_link_compute_m_n(u16 bits_per_pixel, int nlanes,
->   		       int pixel_clock, int link_clock,
->   		       struct intel_link_m_n *m_n,
-> -		       bool fec_enable)
-> +		       bool fec_enable,
-> +		       bool is_dsc_fractional_bpp)
->   {
->   	u32 data_clock = bits_per_pixel * pixel_clock;
->   
-> +	if (is_dsc_fractional_bpp)
-> +		data_clock = DIV_ROUND_UP(bits_per_pixel * pixel_clock, 16);
-> +
-
-The 'bits_per_pixel * pixel_clock' has already been computed
-and its result is stored in the 'data_clock' local variable.
-can we change it as "data_clock = DIV_ROUND_UP(data_clock, 16)" here ?
-
->   	if (fec_enable)
->   		data_clock = intel_dp_mode_to_fec_clock(data_clock);
->   
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
-> index 49ac8473b988..a4c4ca3cad65 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display.h
-> @@ -398,7 +398,7 @@ u8 intel_calc_active_pipes(struct intel_atomic_state *state,
->   void intel_link_compute_m_n(u16 bpp, int nlanes,
->   			    int pixel_clock, int link_clock,
->   			    struct intel_link_m_n *m_n,
-> -			    bool fec_enable);
-> +			    bool fec_enable, bool is_dsc_fractional_bpp);
->   u32 intel_plane_fb_max_stride(struct drm_i915_private *dev_priv,
->   			      u32 pixel_format, u64 modifier);
->   enum drm_mode_status
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index cb647bb38b12..6e09e21909a1 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2562,7 +2562,7 @@ intel_dp_drrs_compute_config(struct intel_connector *connector,
->   
->   	intel_link_compute_m_n(link_bpp, pipe_config->lane_count, pixel_clock,
->   			       pipe_config->port_clock, &pipe_config->dp_m2_n2,
-> -			       pipe_config->fec_enable);
-> +			       pipe_config->fec_enable, false);
->   
->   	/* FIXME: abstract this better */
->   	if (pipe_config->splitter.enable)
-> @@ -2741,7 +2741,8 @@ intel_dp_compute_config(struct intel_encoder *encoder,
->   			       adjusted_mode->crtc_clock,
->   			       pipe_config->port_clock,
->   			       &pipe_config->dp_m_n,
-> -			       pipe_config->fec_enable);
-> +			       pipe_config->fec_enable,
-> +			       pipe_config->dsc.compression_enable);
->   
->   	/* FIXME: abstract this better */
->   	if (pipe_config->splitter.enable)
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 7bf0b6e4ac0b..8f6bd54532cb 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -172,7 +172,8 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
->   			       adjusted_mode->crtc_clock,
->   			       crtc_state->port_clock,
->   			       &crtc_state->dp_m_n,
-> -			       crtc_state->fec_enable);
-> +			       crtc_state->fec_enable,
-> +			       false);
->   	crtc_state->dp_m_n.tu = slots;
->   
->   	return 0;
-> @@ -269,7 +270,8 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
->   			       adjusted_mode->crtc_clock,
->   			       crtc_state->port_clock,
->   			       &crtc_state->dp_m_n,
-> -			       crtc_state->fec_enable);
-> +			       crtc_state->fec_enable,
-> +			       crtc_state->dsc.compression_enable);
->   	crtc_state->dp_m_n.tu = slots;
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
-> index e12b46a84fa1..15fddabf7c2e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fdi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fdi.c
-> @@ -259,7 +259,7 @@ int ilk_fdi_compute_config(struct intel_crtc *crtc,
->   	pipe_config->fdi_lanes = lane;
->   
->   	intel_link_compute_m_n(pipe_config->pipe_bpp, lane, fdi_dotclock,
-> -			       link_bw, &pipe_config->fdi_m_n, false);
-> +			       link_bw, &pipe_config->fdi_m_n, false, false);
->   
->   	ret = ilk_check_fdi_lanes(dev, crtc->pipe, pipe_config);
->   	if (ret == -EDEADLK)
-
+-Jeff
