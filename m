@@ -1,111 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCBD7AAAF1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 09:56:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE457AAB31
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 10:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27C710E03A;
-	Fri, 22 Sep 2023 07:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C6A10E62D;
+	Fri, 22 Sep 2023 08:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-ve1eur01on2071.outbound.protection.outlook.com [40.107.14.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8306A10E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 07:56:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SWrdvVaiY8BZnsOW9CaSg82XBZaMJgWy04r6HiDFDeLdCyUU/G/ZV58RoP6SvGkCge7Nz4uUT4jmhuGeS2hBMgqmX1Z5+TGdzoUtQYeParMedj4zO3fud8c1qg4v2p95rkCWKOCFFi5fM1TeX2JLyFoY9INp67quKvZqCkaVrXJ6O1x+beTOkgZ/1vpRH//yl7BkIaEHJfagHa6Y6AWD9kefMpC1X96Lq58vGaXfAkPczOH00uctPzS9C2fBzYTzQ26YyQ+aCa+ymZWieAmi2lNXGBmR2ywbZ0CcLKwFGn3LepFNlyuFrKm1shXsFWoa2xIqnwCLQNU0D+pXQq08Rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b9PIxFHIfoyU+Y030Mm8HV/VYSC1bkAxApotiyD3YBM=;
- b=KG/RRCvdUynVDQ1XV3OYYEps86GMnZTTXLoI4yOQlldBQPNd7aoXwQLTZR8dzw5KrCteptH228zVZcqHPDdq+TpHJJJeWHvRX4Q1WwqusP7E1f/NudtspFxu5ehjtntWmMXwW5tQ+6iVp1yIsN4g76hYiE0n/80DbTx+PZHNKPz2ApoazHV05UVVMtUGw54WBIqSH2U2IpyHzF+gIMAdfMVSVP7gd8BTfrZd5KY4BW0dSIhY9NuC2fKh07dwszxEHqco0qMH4IjYqe7HyJT91riibsDeeqKwGldQDMYV+K6hVzz50YIvWdprLvKtpQ2JU7ezJWr+VDWmIEgiON8z9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9PIxFHIfoyU+Y030Mm8HV/VYSC1bkAxApotiyD3YBM=;
- b=jhS8GTtJTXGQrI/Ox1oPNOy7qn51Vd8bXv2iu/JQM4Y6KHGXK0nqQgDXkSShVpB8MhLKpyRQCMqtmsmi6F/LicHtLcBikWURqQnJ4v/zP2jvsRNyGWGps7KR0mqSYUM5bIhmtJHJNOsBbk3fkQ6bFRvIlZ80A2vPRAWHQWnukjY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
- (2603:10a6:803:22::27) by AM9PR04MB8147.eurprd04.prod.outlook.com
- (2603:10a6:20b:3e0::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.23; Fri, 22 Sep
- 2023 07:56:14 +0000
-Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
- ([fe80::ad16:42a5:193f:6396]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
- ([fe80::ad16:42a5:193f:6396%7]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
- 07:56:14 +0000
-Date: Fri, 22 Sep 2023 10:56:10 +0300
-From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [RFT PATCH v2 01/12] drm/imx/dcss: Call
- drm_atomic_helper_shutdown() at shutdown time
-Message-ID: <20230922075610.ekrzyz6hfcd3rjsm@fsr-ub1664-121.ea.freescale.net>
-References: <20230921192749.1542462-1-dianders@chromium.org>
- <20230921122641.RFT.v2.1.I134336fce7eac5a63bdac46d57b0888858fc8081@changeid>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230921122641.RFT.v2.1.I134336fce7eac5a63bdac46d57b0888858fc8081@changeid>
-X-ClientProxiedBy: AM0PR02CA0198.eurprd02.prod.outlook.com
- (2603:10a6:20b:28e::35) To VI1PR0402MB3902.eurprd04.prod.outlook.com
- (2603:10a6:803:22::27)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244EB10E62D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 08:00:35 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-405290ab4b6so86325e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 01:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1695369633; x=1695974433;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NprMZCfk8vfqkafckCULVA3+3btHCTfBpJu0SPpDVfE=;
+ b=H/JFgVWjo7zDuGgicarf6A7DC/3TEg0a3MGe1Qtn1obHSidYODhJpVkKV93ao7zCwT
+ RCr9RQXq+cgEXC8bI+htHNu0LzSPTXQ+8EYBnYcDtLv5O54t//X5GlC3OjTdGYTUJKV0
+ 7FZOBKULWjjzlo8EpmJx4XcMQi9Zd6juLvMIvk1GfGffp++b/Njde3UHZexF6XkZZW0F
+ ngtwLFMiYVma8OB12LEb2izH5VP0fsjM7ZnhjPbH2wRj8aLrquDiwgllvIdyhsygsfG4
+ jr54lr3cQRnpOhw9pTer4S+6j1/SOuO22HD2rlNEKfbgpO3Mp6isjPlSgCN8FZ923nDn
+ eqyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695369633; x=1695974433;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NprMZCfk8vfqkafckCULVA3+3btHCTfBpJu0SPpDVfE=;
+ b=wdByF5DvWTGvwtIEHM8PJh9+eBxjYg56o7PVFw2yQNK0gScvcSNkLcavbh6OF6hTbK
+ ImQ53N9op6tgEtymPTtTYyH0uv0CTCogwhxHzvmbS9eJVvrHtnf/78TDpCCyxxk4PBbr
+ RGtz/i+f5YEJuMeG9URu+S9w8JsrIgF7CG4BfvYlSKmDCwjd5Tkchn/ybTtIFqOHKXJn
+ ajfcS6is0BuIc4rjGmZDQUjFaj1ipri1hphEe229M+eWr5N14XTtHTaanWrRkMrvfS6C
+ GN9HyoT5ODRv3Brw8f/Ao2UEFui8SMaPTFuNzOtO6aaUVPOwewjYASkE/NLh05XgeCOQ
+ viGw==
+X-Gm-Message-State: AOJu0YxdKQzHKKU+iYVfVaChWOQ8l8UX0rFCe0JVoCvfhfaK4EAMaohA
+ sk0X+BnRHhy50ImeLdqisqKqPcqhEYYhzOMyj9s0tw==
+X-Google-Smtp-Source: AGHT+IGQZRhV08IW4GnVCFuKz9j5xLN7/Qte12FOb8z8jWXFkQSHP/kpUfIaPVqlQjrtdtlek15PWupfiPw1wJW9c/U=
+X-Received: by 2002:a7b:cd07:0:b0:3fe:f32f:c57f with SMTP id
+ f7-20020a7bcd07000000b003fef32fc57fmr50536wmj.0.1695369633354; Fri, 22 Sep
+ 2023 01:00:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR0402MB3902:EE_|AM9PR04MB8147:EE_
-X-MS-Office365-Filtering-Correlation-Id: 715073a6-34a6-4c01-6120-08dbbb4164ad
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 21SC9KnI88ozTPJq5QM1tacCtS1+DYlkSXKej7PEeSkqe1govmKDDSk0OcaiewlEL8bW7RLywR7Z6gqn4KjcIrATlH6wLWsAoAgy6ELsYucZs8qRIp9zaOYV74wtYTlYSR0xy72eTzPLbVbSOBPpKCaKs4+2b+PTZQfLukRSliFduSssverhysth0b7hGRW2vFIHgQt9/8NvbjYQ87/6cYA7al6wBivfXngcDCv/ICV01DYNtgUjd6wsLKemYaWFc4MXoxJ4XGDFac/IxllXpvpKYkveNuY6ZvKS9ITWKnhww6VZvpsYqidCjYFTrHQswcZzI3OXU1pxaoK5Rfrmsb7QrVM1PgkxXc7V2lOhpeAUi94UapEoxRMq4XdJqinZubtRpy7VhkKM9edf4j/s8JLMhv7DVupwCeeaz7eMSZS+U0d5jdzaupy4hKoDOxHUN6PWEu4Ba75aCAQaACLXr/q9ruqC19oFNMx5NFAEsDjTN0H7CG9RuFuJh6yTlPDuPmKf7vtpfkuMq4fV3WgX8Za3kH6YbnsBqsA91b225/t23Zs7BD7KhcZUJoonv9y0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(186009)(1800799009)(451199024)(6506007)(6512007)(6666004)(1076003)(6486002)(9686003)(26005)(66946007)(86362001)(478600001)(38100700002)(66476007)(66556008)(8676002)(8936002)(4326008)(44832011)(316002)(6916009)(54906003)(5660300002)(41300700001)(2906002)(7416002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9H5WmLzSaRkERVqqY58c6qFYSUY8nM62SBjOysUdz8pReLBk4f3KXutc0dAV?=
- =?us-ascii?Q?x0bK1l2hCm+gXagiS91UehRzS79+OmwydyT8MJeZDITxMoqwH+eTGSAOPzer?=
- =?us-ascii?Q?GzRpFO6n1zgjkjANBujBAs7Yx7AypLuXu87gLzsE7ugFLDri7VeqJVvQBqZb?=
- =?us-ascii?Q?/ADIU51dUPkg072IkY1v8lq6/HV3GfEd+kg7Ey8Lb4UssioWoZNWgsILB6EO?=
- =?us-ascii?Q?T5fisUaJT/ppYPbt3Jgtke3xcf4EBJw4yclxj90ELHGN5UfVvm9t44vk7iwd?=
- =?us-ascii?Q?cKQfdZvMA25cSlRu0bNaE7KE6o/UEuyEt3SB9utKp+rT2IlDsDoblgg4Q2pq?=
- =?us-ascii?Q?m8IIJ4s4dytB/EPX1jQcu30S/H29ix7uyOHR/YT91S7oOMdoxVo6zwTYv9y+?=
- =?us-ascii?Q?ldz8YLwdEX0dAn8j9j9NtL0LbzKvMo3+YC/uTMJu4VkTgQzkFXk58D3WPSah?=
- =?us-ascii?Q?+gyrY3STHzqKCihw5+k+S8kWDMF4lcI8PH4i+dlBe6WfzlFFzyWpinHXRHyN?=
- =?us-ascii?Q?qQUPhnQOI9GqXgCRZt5KUqs7/0Q0lsjgIiaEaB+2FR1tYkO8QCjBgeGH6HdL?=
- =?us-ascii?Q?aSTiRgBTGj5KmR1pnI8XjdxCrIuTo1YwriE0WybWyxpAskZOrrVk4IY87lR4?=
- =?us-ascii?Q?lRPhB5bYmeNna7bR8XZ8mF/6MsTVlhxqVdFdDpoyBBPLo8DZdtXWzwDvMNhl?=
- =?us-ascii?Q?CpIgdjs+s0FuSE9RUT2tjng4bc+QTOvKlE5JPz8lvOmYpCEXPu03Gt1bMvxj?=
- =?us-ascii?Q?WVafNmNIqG9HWvFudAXJUmo6mRsEw+SFVFsWBjZA4j6phCzC2nCZ93+gZ3tl?=
- =?us-ascii?Q?GodN7Oyt6bqaF52+vucUds9NOAAOF/bdY7Qj+C2LDrUca2u6JiNtbXLLcpi8?=
- =?us-ascii?Q?Uvh3Fg28+1cye3KF8oGvcBKKxDl7qJe1b8kJ5BY/8bD5oG7LQXZQh5qDWdJc?=
- =?us-ascii?Q?+9XbGSFGlJsUOJeMT0KyigHGmZ9S4brsJYQrOxWAHwjnv+hAA3q9pP/LVBis?=
- =?us-ascii?Q?HrdQyaTkLXrwhNVNoNiBwPs8vUS7z0wNxGKm3em4CochZ+YTKWoqbZx2TZBd?=
- =?us-ascii?Q?zZchJJ/Jb5Zc9g+ixh1m32eL14Eh9fb7FqD5Z7fJ1YE6qPBq2rodg7Sb48g0?=
- =?us-ascii?Q?75w2t7RNb2h5/y672uEHnY8UTh9BqPFADikzvJ9gbzhnztzDRpWYC7mDcbnu?=
- =?us-ascii?Q?4qOkYsIM684HX9uxXRfhEeuU786Mdp3F3dgdN97i/682JiGyXXESBNbiW3ql?=
- =?us-ascii?Q?GWbZUo97vrWkFdE2OuoNxl8VcjcpE5mhoY86j5SpP4hL2tQ2+u9ut3fBR8Aj?=
- =?us-ascii?Q?gP6OyKeGfkultS8epFxxiFgifz3oSoSNAzckTE592Yd7Ak6n6LjPJu1nfVbK?=
- =?us-ascii?Q?L6aecABtMBcikQslLUPoUkMDsGjn74u6vVnsxerqo3VerSdmv1JLNS5a4UAl?=
- =?us-ascii?Q?VSIadP22+Dk6WQVgCVPTKPtXrZpn36eTN7L1TwlxPoJ4lGURFfLqi8uiuqLL?=
- =?us-ascii?Q?7ifrg3Jgs1IvhU9qcnUc+YieQaxW3gXLt/3dE4XqNhhlfbeBQHD4g3W6ZBFn?=
- =?us-ascii?Q?deNnfD3EaHHu8OBDgUPjawDmn1OSVB75XLOGcPBsOsaX2i7wY+2exExu8yrJ?=
- =?us-ascii?Q?BA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 715073a6-34a6-4c01-6120-08dbbb4164ad
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 07:56:14.6480 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: POGLqPzuVkZrOnmN1sI8M0rckanxS3JHugAR2dLhajX44ucVOYHv5ezSNFW5Y/M+J8g4kmhqokDeZKgGLuZe8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8147
+References: <20230920-kunit-kasan-fixes-v1-0-1a0fc261832d@riseup.net>
+ <20230920-kunit-kasan-fixes-v1-2-1a0fc261832d@riseup.net>
+In-Reply-To: <20230920-kunit-kasan-fixes-v1-2-1a0fc261832d@riseup.net>
+From: David Gow <davidgow@google.com>
+Date: Fri, 22 Sep 2023 16:00:21 +0800
+Message-ID: <CABVgOSk6cvPHs3CsoG0FgHz9Y1OT31ZCk=eu5cCOXyg03uNpBA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kunit: Add kunit_move_action_to_top_or_reset() to
+ reorder actions
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="000000000000c9fe760605ee0000"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,100 +70,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-imx@nxp.com, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: mairacanal@riseup.net, tales.aparecida@gmail.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Brendan Higgins <brendan.higgins@linux.dev>, dri-devel@lists.freedesktop.org,
+ andrealmeid@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--000000000000c9fe760605ee0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 21, 2023 at 12:26:44PM -0700, Douglas Anderson wrote:
-> Based on grepping through the source code this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown
-> time. Among other things, this means that if a panel is in use that it
-> won't be cleanly powered off at system shutdown time.
-> 
-> The fact that we should call drm_atomic_helper_shutdown() in the case
-> of OS shutdown/restart comes straight out of the kernel doc "driver
-> instance overview" in drm_drv.c.
-> 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-
-No issues found on i.MX8MQ.
-
-Tested-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-
-Thanks,
-Laurentiu
-
+On Wed, 20 Sept 2023 at 14:12, Arthur Grillo <arthurgrillo@riseup.net> wrote:
+>
+> On Kunit, if we allocate a resource A and B on this order, with its
+> deferred actions to free them. The resource stack would be something
+> like this:
+>
+>          +---------+
+>          | free(B) |
+>          +---------+
+>          |   ...   |
+>          +---------+
+>          | free(A) |
+>          +---------+
+>
+> If the deferred action of A accesses B, this would cause a
+> use-after-free bug. To solve that, we need a way to change the order
+> of actions.
+>
+> Create a function to move an action to the top of the resource stack,
+> as shown in the diagram below.
+>
+>          +---------+    +---------+
+>          | free(B) |    | free(A) |
+>          +---------+    +---------+
+>          |   ...   | -> | free(B) |
+>          +---------+    +---------+
+>          | free(A) |    |   ...   |
+>          +---------+    +---------+
+>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
-> This commit is only compile-time tested.
-> 
-> (no changes since v1)
-> 
->  drivers/gpu/drm/imx/dcss/dcss-drv.c | 8 ++++++++
->  drivers/gpu/drm/imx/dcss/dcss-kms.c | 7 +++++++
->  drivers/gpu/drm/imx/dcss/dcss-kms.h | 1 +
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-drv.c b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-> index c68b0d93ae9e..b61cec0cc79d 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-drv.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-> @@ -92,6 +92,13 @@ static int dcss_drv_platform_remove(struct platform_device *pdev)
->  	return 0;
+
+Thanks. This is a really interesting patch: my hope was that something
+like this wouldn't be necessary, as in most cases freeing things in
+the reverse order to which they were created is the right thing to do.
+
+It looks like, from the comments on patch 3, this may no longer be
+necessary? Is that so?
+
+Otherwise, if you have a real use case for it, I've no objection to
+KUnit adding this as a feature (though I'd probably add some
+documentation suggesting that it's best avoided if you can order your
+allocations / calls better).
+
+Cheers,
+-- David
+
+>  include/kunit/resource.h | 17 +++++++++++++++++
+>  lib/kunit/resource.c     | 19 +++++++++++++++++++
+>  2 files changed, 36 insertions(+)
+>
+> diff --git a/include/kunit/resource.h b/include/kunit/resource.h
+> index c7383e90f5c9..c598b23680e3 100644
+> --- a/include/kunit/resource.h
+> +++ b/include/kunit/resource.h
+> @@ -479,4 +479,21 @@ void kunit_remove_action(struct kunit *test,
+>  void kunit_release_action(struct kunit *test,
+>                           kunit_action_t *action,
+>                           void *ctx);
+> +
+> +/**
+> + * kunit_move_action_to_top_or_reset - Move a previously added action to the top
+> + *                                    of the order of actions calls.
+> + * @test: Test case to associate the action with.
+> + * @action: The function to run on test exit
+> + * @ctx: Data passed into @func
+> + *
+> + * Reorder the action stack, by moving the desired action to the top.
+> + *
+> + * Returns:
+> + *   0 on success, an error if the action could not be inserted on the top.
+> + */
+> +int kunit_move_action_to_top_or_reset(struct kunit *test,
+> +                                     kunit_action_t *action,
+> +                                     void *ctx);
+> +
+>  #endif /* _KUNIT_RESOURCE_H */
+> diff --git a/lib/kunit/resource.c b/lib/kunit/resource.c
+> index f0209252b179..fe40a34b62a6 100644
+> --- a/lib/kunit/resource.c
+> +++ b/lib/kunit/resource.c
+> @@ -176,3 +176,22 @@ void kunit_release_action(struct kunit *test,
+>         }
 >  }
->  
-> +static void dcss_drv_platform_shutdown(struct platform_device *pdev)
+>  EXPORT_SYMBOL_GPL(kunit_release_action);
+> +
+> +int kunit_move_action_to_top_or_reset(struct kunit *test,
+> +                                     kunit_action_t *action,
+> +                                     void *ctx)
 > +{
-> +	struct dcss_drv *mdrv = dev_get_drvdata(&pdev->dev);
+> +       struct kunit_action_ctx match_ctx;
+> +       struct kunit_resource *res;
 > +
-> +	dcss_kms_shutdown(mdrv->kms);
+> +       match_ctx.func = action;
+> +       match_ctx.ctx = ctx;
+> +       res = kunit_find_resource(test, __kunit_action_match, &match_ctx);
+> +       if (res) {
+> +               kunit_remove_action(test, action, ctx);
+> +               return kunit_add_action_or_reset(test, action, ctx);
+> +       }
+> +
+
+if (!res), this doesn't call the action, so the _or_reset() part of
+this doesn't quite make sense.
+
+As I understand it, there are three cases handled here:
+1. The action already existed, and we were able to recreate it at the top.
+2. The action already existed, but we were unable to recreate it.
+3. The action did not previously exist.
+
+In this case, for (1), the action is successfully moved to the top.
+This is the "good case".
+For (2), we run the action immediately (the idea being that it's
+better to not leak memory).
+For (3), we do nothing, the action is never run.
+
+My guess, from the name ending in _or_reset, (3) should:
+- Try to defer the action. If deferring it fails, run the action immediately.
+
+Or possibly, always run the action immediately in case (3).
+
+Whatever we want, we need to decide on what happens here and document them.
+
+And of course, we can get some of those behaviours without needing to
+call kunit_find_resource() at all, just by calling
+kunit_remove_action(...)
+kunit_add_action_or_reset()
+unconditionally.
+
+> +       return 0;
 > +}
-> +
->  static struct dcss_type_data dcss_types[] = {
->  	[DCSS_IMX8MQ] = {
->  		.name = "DCSS_IMX8MQ",
-> @@ -114,6 +121,7 @@ MODULE_DEVICE_TABLE(of, dcss_of_match);
->  static struct platform_driver dcss_platform_driver = {
->  	.probe	= dcss_drv_platform_probe,
->  	.remove	= dcss_drv_platform_remove,
-> +	.shutdown = dcss_drv_platform_shutdown,
->  	.driver	= {
->  		.name = "imx-dcss",
->  		.of_match_table	= dcss_of_match,
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> index 896de946f8df..d0ea4e97cded 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> @@ -172,3 +172,10 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
->  	dcss_crtc_deinit(&kms->crtc, drm);
->  	drm->dev_private = NULL;
->  }
-> +
-> +void dcss_kms_shutdown(struct dcss_kms_dev *kms)
-> +{
-> +	struct drm_device *drm = &kms->base;
-> +
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.h b/drivers/gpu/drm/imx/dcss/dcss-kms.h
-> index dfe5dd99eea3..62521c1fd6d2 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.h
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.h
-> @@ -34,6 +34,7 @@ struct dcss_kms_dev {
->  
->  struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss);
->  void dcss_kms_detach(struct dcss_kms_dev *kms);
-> +void dcss_kms_shutdown(struct dcss_kms_dev *kms);
->  int dcss_crtc_init(struct dcss_crtc *crtc, struct drm_device *drm);
->  void dcss_crtc_deinit(struct dcss_crtc *crtc, struct drm_device *drm);
->  struct dcss_plane *dcss_plane_init(struct drm_device *drm,
-> -- 
-> 2.42.0.515.g380fc7ccd1-goog
-> 
+> +EXPORT_SYMBOL_GPL(kunit_move_action_to_top_or_reset);
+>
+> --
+> 2.41.0
+>
+
+--000000000000c9fe760605ee0000
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+ddIn9n5Jt6Z1o79zxraLMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBtHFwIgQZjer5K
+H+4Q+wns10k7qN+4wN2Uf+JsyOYjukaMEgdLErfA1wwtQ9uHkoYQZcWBuVVkQFa5hI+sqI2m1Weq
+riMCFSiU38s1tADdMX12IMfJRN60Nznhrw+nPyDRZqRhUTW24TwnHorkDnFPW8PHo7fAw4FrpI0n
+impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
+qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
+yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCD+
+HMlWgOatsOgN/fPJzVXnAZ6AjyVEpXFSTvrioFxPEzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMzA5MjIwODAwMzNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEACQ8DSLVA86tGJWUweagD
+6StfrKRZR+FPBWvOEE1Ko1pMMkLD8PN4eshle9TpruGolw3j66c8k5ATj2YjhObhycqrZWzs3Cbl
+wTIjaE4XioXindwn3ksR216BBFpTLRKAV7DjJ21o9KUzgxVgtGrXcb9uAMQakSoTtQFJrvzwNMUR
+o7CxfdX90cppIQ+5hiiwrXj36fh9CW5W8ijpLEcqAFN30zXF1IdKl/F3LUrGdUoYRQYLpAEw3q9o
+FDaZmidwyDdAW2jgiJg2JzBl6+ZI0KdNNSkc6UFT/nZF8GzrmHZKWb10cYRDXhLqRdI1kGuFGPTw
+U7SGJSRJmOnQuTKjoA==
+--000000000000c9fe760605ee0000--
