@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47227AB299
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 15:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8928A7AB2F9
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 15:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8011410E05A;
-	Fri, 22 Sep 2023 13:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535AF10E664;
+	Fri, 22 Sep 2023 13:47:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C79310E684
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 13:22:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C99A110E192;
+ Fri, 22 Sep 2023 13:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1695388944; x=1726924944;
+ t=1695390425; x=1726926425;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=nMwbxWQey/RqAbo8YUsuZsDmIdu+BEDYkU0L5nuLGWk=;
- b=JKSyaRGzHo1yRNpg0l11wPJGDWSk9pU6wCO5WvxyADZGGp5kX49dN6F+
- 1ldVD7+IMkvmZzRih7ak3Vlss3BRk3pA2rV8A7cHzDDkEIV123cnlXPQ9
- RKsF2dMsPIQdzLZejqZrwvqBcNwPsWBScgzsuO+h8A/HsPC0+vL70Acki
- 9u7fVwzm+x5J38u/bgLV1k4yBBA1FZntLNAAMpUCwwwgqREbqtmQS3eiw
- d66cvIPIL9l3G9CDAnSJxYxQWoIQ4wTyjnbj4FZ9vpjlG+b7ZM3+J0ak+
- iPAgPp7jrz2iPW3PnPUCjNTOccEI17HWD+ILGetEEB2ICI2XFKzpM0Al6 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447303486"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="447303486"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 06:22:10 -0700
+ bh=G47JHRJss6dSpMrMkut5fqi9gVM7nfssHFaWHIPEHdY=;
+ b=Xe44oPJLFKzdy2lakP7m+4KZI4ak5ijaKwI2X1/gJFIJUh6EA4zKRnjA
+ dzZYyMsoWebJBOhTqatFhnhdQCu7xfpxKv0XMAlgA2Wi41ooJBjmb6LUU
+ gpYnRlm6t78lbGrYBQlYrhBs5qj2kJG9ONfG2xrFzsKaD5BUI59mC+8Sf
+ Xj7Xg4yKeYW/psAHFhPJ4/axLBGfX7FNeh0nQIpYHMgcDRrvSSHSCxHrE
+ Fpdrdk3/UvGZAJgMlVhnV5Inc5zd82Sxt43hF4buBX9n8tuG/2UkJC25r
+ u2I0wHm95Rh+gftTD7jzg+8nh6R+5hFjsFZRbaOL5vLoGeDgMHn+m+ae5 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="467126577"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="467126577"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2023 06:47:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="776846286"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="776846286"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2023 06:22:08 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/ivpu: Add Arrow Lake pci id
-Date: Fri, 22 Sep 2023 15:22:06 +0200
-Message-Id: <20230922132206.812817-1-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="1078376213"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; d="scan'208";a="1078376213"
+Received: from placki-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.200.149])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2023 06:47:03 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/6] fdinfo memory stats
+Date: Fri, 22 Sep 2023 14:46:54 +0100
+Message-Id: <20230922134700.235039-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,57 +58,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable VPU on Arrow Lake CPUs.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Reviewed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_drv.c | 1 +
- drivers/accel/ivpu/ivpu_drv.h | 2 ++
- 2 files changed, 3 insertions(+)
+A short series to enable fdinfo memory stats for i915.
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index ba79f397c9e8..aa7314fdbc0f 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -634,6 +634,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
- 
- static struct pci_device_id ivpu_pci_ids[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_MTL) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_ARL) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_LNL) },
- 	{ }
- };
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 9e8c075fe9ef..03b3d6532fb6 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -23,6 +23,7 @@
- #define DRIVER_DATE "20230117"
- 
- #define PCI_DEVICE_ID_MTL   0x7d1d
-+#define PCI_DEVICE_ID_ARL   0xad1d
- #define PCI_DEVICE_ID_LNL   0x643e
- 
- #define IVPU_HW_37XX	37
-@@ -165,6 +166,7 @@ static inline int ivpu_hw_gen(struct ivpu_device *vdev)
- {
- 	switch (ivpu_device_id(vdev)) {
- 	case PCI_DEVICE_ID_MTL:
-+	case PCI_DEVICE_ID_ARL:
- 		return IVPU_HW_37XX;
- 	case PCI_DEVICE_ID_LNL:
- 		return IVPU_HW_40XX;
+I added tracking of most classes of objects (user objects, page tables, context
+state, ring buffers) which contribute to client's memory footprint and am
+accouting their memory use along the similar lines as in Rob's msm code, just
+that with i915 specific code we can show a memory region breakdown and so
+support discrete and multi-tile GPUs properly. And also reflect that our objects
+can have multiple allowed backing stores.
+
+The existing helper Rob added is then used to dump the per memory region stats
+to fdinfo.
+
+The basic objects-per-client infrastructure can later be extended to cover all
+objects and so avoid needing to walk the IDR under the client's file table lock,
+which would further avoid distburbing the running clients by parallel fdinfo
+readers.
+
+Example fdinfo format:
+
+# cat /proc/1383/fdinfo/8
+pos:    0
+flags:  02100002
+mnt_id: 21
+ino:    397
+drm-driver:     i915
+drm-client-id:  18
+drm-pdev:       0000:00:02.0
+drm-total-system:       125 MiB
+drm-shared-system:      16 MiB
+drm-active-system:      110 MiB
+drm-resident-system:    125 MiB
+drm-purgeable-system:   2 MiB
+drm-total-stolen-system:        0
+drm-shared-stolen-system:       0
+drm-active-stolen-system:       0
+drm-resident-stolen-system:     0
+drm-purgeable-stolen-system:    0
+drm-engine-render:      25662044495 ns
+drm-engine-copy:        0 ns
+drm-engine-video:       0 ns
+drm-engine-video-enhance:       0 ns
+
+Example gputop output:
+
+DRM minor 0
+ PID     SMEM  SMEMRSS   render     copy     video    NAME
+1233     124M     124M |████████||        ||        ||        | neverball
+1130      59M      59M |█▌      ||        ||        ||        | Xorg
+1207      12M      12M |        ||        ||        ||        | xfwm4
+
+Or with Wayland:
+
+DRM minor 0
+ PID      MEM      RSS    render        copy         video    video-enhance NAME
+2093     191M     191M |▊          ||           ||           ||           | gnome-shell
+DRM minor 128
+ PID      MEM      RSS    render        copy         video    video-enhance NAME
+2551      71M      71M |██▉        ||           ||           ||           | neverball
+2553      50M      50M |           ||           ||           ||           | Xwayland
+
+Example intel_gpu_top output, aggregated mode:
+
+intel-gpu-top: Intel Dg1 (Gen12) @ /dev/dri/card1 -   21/ 577 MHz;  71% RC6
+          8 irqs/s
+
+         ENGINES     BUSY                                   MI_SEMA MI_WAIT
+       Render/3D    2.80% |▉                              |      0%      0%
+         Blitter    0.01% |▏                              |      0%      0%
+           Video    0.00% |                               |      0%      0%
+    VideoEnhance    0.00% |                               |      0%      0%
+
+  PID      MEM      RSS Render/3D  Blitter    Video    NAME
+50783     109M     107M |▎       ||        ||        ||        | neverball
+
+Region breakdown mode (needs more width for best experience):
+
+intel-gpu-top: Intel Dg1 (Gen12) @ /dev/dri/card1 -   18/ 555 MHz;  65% RC6
+          8 irqs/s
+
+         ENGINES     BUSY                                   MI_SEMA MI_WAIT
+       Render/3D    2.52% |▉                              |      0%      0%
+         Blitter    0.00% |                               |      0%      0%
+           Video    0.00% |                               |      0%      0%
+    VideoEnhance    0.00% |                               |      0%      0%
+
+  PID      RAM      RSS     VRAM     VRSS Video NAME
+50783      34M      32M      75M      75M |▏  ||   ||   ||   | neverball
+
+v2:
+ * Now actually per client.
+
+v3:
+ * Track imported dma-buf objects.
+
+v4:
+ * Rely on DRM GEM handles for tracking user objects.
+ * Fix internal object accounting (no placements).
+
+v5:
+ * Fixed brain fart of overwriting the loop cursor.
+ * Fixed object destruction racing with fdinfo reads.
+ * Take reference to GEM context while using it.
+
+v6:
+ * Rebase, cover letter update.
+
+v7:
+ * New patch in series for making region names consistent and stable.
+
+Test-with: 20230922134437.234888-1-tvrtko.ursulin@linux.intel.com
+
+Tvrtko Ursulin (6):
+  drm/i915: Add ability for tracking buffer objects per client
+  drm/i915: Record which client owns a VM
+  drm/i915: Track page table backing store usage
+  drm/i915: Account ring buffer and context state storage
+  drm/i915: Add stable memory region names
+  drm/i915: Implement fdinfo memory stats printing
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  11 +-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  13 ++-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  12 ++
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   4 +-
+ drivers/gpu/drm/i915/gt/intel_context.c       |  14 +++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   6 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   1 +
+ drivers/gpu/drm/i915/i915_drm_client.c        | 110 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drm_client.h        |  41 +++++++
+ drivers/gpu/drm/i915/intel_memory_region.c    |  19 +++
+ drivers/gpu/drm/i915/intel_memory_region.h    |   1 +
+ 12 files changed, 227 insertions(+), 8 deletions(-)
+
 -- 
-2.25.1
+2.39.2
 
