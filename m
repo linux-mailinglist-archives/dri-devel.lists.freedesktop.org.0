@@ -2,80 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EAD7AB7EB
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6A87AB7E3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Sep 2023 19:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5BD10E07E;
-	Fri, 22 Sep 2023 17:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0D710E6CF;
+	Fri, 22 Sep 2023 17:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD2910E6CD
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 17:42:14 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1c3d8fb23d9so20926895ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Sep 2023 10:42:14 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C0910E6AF;
+ Fri, 22 Sep 2023 17:42:03 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1dc619817a2so1261503fac.3; 
+ Fri, 22 Sep 2023 10:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1695404534; x=1696009334;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1695404522; x=1696009322; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gDHDeV42Frwj7XYTpJqGl5ND8N8KbUFLGf1moqK0weE=;
- b=H5rVU7q3a9U9oXDmRl+d4VRrSAcCrDJaXnwoic3MiG7AKklx3GvFvVKfJS4Znw7Jle
- cC5YG31DUO5iRxLKEXjLTeR8U572/gXy2wyZgk0KYjfnD3SrWq1yxNGQrEraQyL8sZ9a
- TDppsBoeyOotkj2xUVrdfONhDK1YgxlrVGGhg=
+ bh=XekgGSaX3ptkpR/7Vl4AaE79EkIJG3ApSeSAmfaaNYY=;
+ b=GtbuBROBMrN4y5T0lVffBwfY0eQYi8A5i7rrvYOv5WeG8sScYHFL4KTL4jQKkC67hY
+ bMRbbmgIObg0NDeMkXKPHcvC4TTC1xHsQ85O4nzSQqqLG9FvUbcYDg0/epQomaqvYPWZ
+ CskjkaBPd6K0Mhc/pXtpCnuINjfIWsXBAwAjzsHkVr5FhQuMQyuooALmQZweObY4aw9L
+ 6qDfiGhecnWwfmEp7PKp8wKSXZx7EyNh3JHjkdNLrMFOqKgJ5FmdT8/WCI/XpTbGU/Hw
+ 2MpaSEdrlf9n6D77/Lx6FOxMmh5jxUtoUp4FY8C+at1FrGU0Uh7HWgHf7FKWXz2d6MX/
+ 9xmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695404534; x=1696009334;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1695404522; x=1696009322;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gDHDeV42Frwj7XYTpJqGl5ND8N8KbUFLGf1moqK0weE=;
- b=hGBp7Rf29Fzahpe4AnamppnMQSNFnyvLe3XklsNeMX16j22msFfmKJLV64JKFBkUHs
- tSZZT4rmr+MPImggcDwHwpm40E96xfxZkPSTzatpBaMaoFTDjhteRydIBYFjsddHv9mT
- 0Fj3o23MKaAOPBceyGQAsvrzkTn4JG32FMiH7ALlY6IYdGenVqiTv8yMR/bg0emhJj5q
- e2V9UcOm2NiW/nrTmC4FU4BOA1jH/tTKJZARoMGHmnYTBKXYLbNNs/iwg5PXaURbqXFS
- XzrZvi2dk93jiaCHmJe9qm99u5cvlCCe+l3kewpsIEpkV16f5/GMFK76cnZ29Ft0lnNj
- Z5ew==
-X-Gm-Message-State: AOJu0YwznNtT2OanFtrxt36vtgPf0o73DdjTNNeLIjCqb8GiIgPP24uU
- LO/jl+bIqVEDPEMUj5v1Ip7LcQ==
-X-Google-Smtp-Source: AGHT+IGrotoWlyQLkbK6Whf4OiNGUyhA4I63WbY8Ewuxyx3hCVqXIcaVt+Ft6DWt7mPQfxETuKi2Cg==
-X-Received: by 2002:a17:902:f812:b0:1c5:6f3c:94fe with SMTP id
- ix18-20020a170902f81200b001c56f3c94femr128683plb.69.1695404533773; 
- Fri, 22 Sep 2023 10:42:13 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- e3-20020a170902b78300b001bdd68b3f4bsm3751544pls.295.2023.09.22.10.42.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Sep 2023 10:42:13 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: David Airlie <airlied@gmail.com>
-Subject: [PATCH 9/9] drm/v3d: Annotate struct v3d_perfmon with __counted_by
-Date: Fri, 22 Sep 2023 10:32:14 -0700
-Message-Id: <20230922173216.3823169-9-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230922173110.work.084-kees@kernel.org>
-References: <20230922173110.work.084-kees@kernel.org>
+ bh=XekgGSaX3ptkpR/7Vl4AaE79EkIJG3ApSeSAmfaaNYY=;
+ b=B6ejQilBZIr1o6BkC81qLrtZFc0DvvA69eNjB/fHPmbX6CTQcWgw4QTRKEwnugmz3a
+ WXuBEq9TQGjXK+MwTzRGItRQxENzxQCe/1NNIvAtRkwahNtlC274seX0fssXFC4TEVhm
+ btFX/h/Q7ysDBH1fqPnmkOAmfBf7s9cVQY94AYBJF0bd7oNfUWu2TZhFvgb33Wa1JoWQ
+ v7xUmLGeioFkwUc0/jaC9KPbZjLnZHZ1etdCZOdfx9U7KDkCtelR/3K7ojV8QKGEIkmB
+ JhpgnSUlov8jfQt9w5X8rkhALhjsJ+WnXSNOYNEdGVbBiHoeeWchdhlKA72p9AInuC/L
+ LXog==
+X-Gm-Message-State: AOJu0YyF/jBDrax5xx+on202aMI1RXUu2PSVYsdwVVPg1FHJI7Le8/4t
+ 8vSmNLsCmZ/WUbQ7aVN19jWelER6REO11+9494E=
+X-Google-Smtp-Source: AGHT+IG39K8OoDMaCogRuGeRtHy4kPLjYTbpmj4vuvYl6iT+u3RXeJQ2kVCIXH4X5mx+L+1FvNpYYUZbI2a21sY0YAA=
+X-Received: by 2002:a05:6870:f689:b0:1d5:b9e1:d35e with SMTP id
+ el9-20020a056870f68900b001d5b9e1d35emr103462oab.41.1695404522615; Fri, 22 Sep
+ 2023 10:42:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1250; i=keescook@chromium.org; 
- h=from:subject;
- bh=SnNIrp1FHi4lB0nFNYirvVw5/7/jvEw6i/lP/RJRA6A=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDc+e3L4G5PZF7SaBMxHwj62ZCFc4FzMHTqhT9
- tfDr8MgF6uJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3PngAKCRCJcvTf3G3A
- JnkWEACXtjUq16fS873Hx8yyB8djpvoH6XVS+/OuSPCo2t7GIoIpy1zBkPiH2Ei14JMNlHdMGGy
- 8yOKrl1rGoQOP3jjY04cxJWy1h5uFFHAxW6VGYIBsbbFRIqAXuVC4UKEN+qYZ97MTJmwc0eHVdX
- Z441sTRctCLNHoMhSAQn6O3TWU2+/QOV8cz2Ls8cuKVLErRruCIa6OzHgGSnhC5Rq1OWXZyJNiQ
- 1aWVoVn67WL0VqIe3RW1cZvMnlWNTbgZP1DUee1eLb7MmfT7XMLkW6Jz/8rTfAeSUSsLhxKbIcO
- ZpXIWrrfcefYP4Dz3BMU6z9OLUAHdpdLEnnvQyDviUPLmbRyS5mdJpKrC9XT7FTANcayQSTonRu
- M12CaA8ASNf3ak1iu7o4DhTMZeHyb2Wpz2kwj4Nyg6YzYpRNC2gtRkBRdxIJn60r90kd27Yxl7Y
- Hb+w/DnzIvunJlaIiKWIEE9lJfyZWF2fgi9gcXtI26HlMj/Jn9jmdHnLwh96IqxloMmooRdvULL
- NK01ICP7mB/XJ36KSBZv5ss3B5LUV9OwyC4T2xpvqKmG/iSr65/EUsg0AYInGQ5v0STKkN7TYFV
- abYOWvuq0o/pltuNX+Gpbsn9+VvBaxhF2CeSHtOP8ARhgkctRhQJ2+OhqQ35i3SIQBBSkeCOxlL
- 2y59f7fhlJo6LCg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20230922173110.work.084-kees@kernel.org>
+ <20230922173216.3823169-1-keescook@chromium.org>
+In-Reply-To: <20230922173216.3823169-1-keescook@chromium.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 22 Sep 2023 13:41:51 -0400
+Message-ID: <CADnq5_P2p3bmczci=pU+pG6f9+hqn=-xp1EynP2345CJZRW08w@mail.gmail.com>
+Subject: Re: [PATCH 1/9] drm/amd/pm: Annotate struct
+ smu10_voltage_dependency_table with __counted_by
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>, Emma Anholt <emma@anholt.net>,
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, Karol Herbst <kherbst@redhat.com>,
  Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
  dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
  Prike Liang <Prike.Liang@amd.com>, Huang Rui <ray.huang@amd.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Matthew Brost <matthew.brost@intel.com>, Karol Herbst <kherbst@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Nathan Chancellor <nathan@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Evan Quan <evan.quan@amd.com>,
+ Emma Anholt <emma@anholt.net>, amd-gfx@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
  VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
  Ben Skeggs <bskeggs@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
  nouveau@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org, linux-hardening@vger.kernel.org,
- Lijo Lazar <lijo.lazar@amd.com>, Kees Cook <keescook@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
  Yifan Zhang <yifan1.zhang@amd.com>, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, Kevin Wang <kevin1.wang@amd.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Evan Quan <evan.quan@amd.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Xiaojian Du <Xiaojian.Du@amd.com>, Le Ma <le.ma@amd.com>,
- freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- John Harrison <john.c.harrison@Intel.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ Nathan Chancellor <nathan@kernel.org>, Le Ma <le.ma@amd.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ virtualization@lists.linux-foundation.org, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Xiaojian Du <Xiaojian.Du@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>, Bjorn Andersson <andersson@kernel.org>,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Nirmoy Das <nirmoy.das@intel.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ John Harrison <john.c.harrison@intel.com>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare for the coming implementation by GCC and Clang of the __counted_by
-attribute. Flexible array members annotated with __counted_by can have
-their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-functions).
+On Fri, Sep 22, 2023 at 1:32=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> Prepare for the coming implementation by GCC and Clang of the __counted_b=
+y
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUND=
+S
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+>
+> As found with Coccinelle[1], add __counted_by for struct smu10_voltage_de=
+pendency_table.
+>
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/c=
+ounted_by.cocci
+>
+> Cc: Evan Quan <evan.quan@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Xiaojian Du <Xiaojian.Du@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: Kevin Wang <kevin1.wang@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-As found with Coccinelle[1], add __counted_by for struct v3d_perfmon.
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-
-Cc: Emma Anholt <emma@anholt.net>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/gpu/drm/v3d/v3d_drv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 7f664a4b2a75..106454f28956 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -59,7 +59,7 @@ struct v3d_perfmon {
- 	 * values can't be reset, but you can fake a reset by
- 	 * destroying the perfmon and creating a new one.
- 	 */
--	u64 values[];
-+	u64 values[] __counted_by(ncounters);
- };
- 
- struct v3d_dev {
--- 
-2.34.1
-
+> ---
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h b/drive=
+rs/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
+> index 808e0ecbe1f0..42adc2a3dcbc 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
+> @@ -192,7 +192,7 @@ struct smu10_clock_voltage_dependency_record {
+>
+>  struct smu10_voltage_dependency_table {
+>         uint32_t count;
+> -       struct smu10_clock_voltage_dependency_record entries[];
+> +       struct smu10_clock_voltage_dependency_record entries[] __counted_=
+by(count);
+>  };
+>
+>  struct smu10_clock_voltage_information {
+> --
+> 2.34.1
+>
